@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11delete",
-    "filterText": "delete:\n      ",
+    "filterText": "delete:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 4
         }
       },
-      "newText": "delete:\n      "
+      "newText": "delete:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11get",
-    "filterText": "get:\n      ",
+    "filterText": "get:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +113,7 @@
           "character": 4
         }
       },
-      "newText": "get:\n      "
+      "newText": "get:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11head",
-    "filterText": "head:\n      ",
+    "filterText": "head:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -143,7 +143,7 @@
           "character": 4
         }
       },
-      "newText": "head:\n      "
+      "newText": "head:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11is",
-    "filterText": "is:\n      ",
+    "filterText": "is:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -173,7 +173,7 @@
           "character": 4
         }
       },
-      "newText": "is:\n      "
+      "newText": "is:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11options",
-    "filterText": "options:\n      ",
+    "filterText": "options:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -203,7 +203,7 @@
           "character": 4
         }
       },
-      "newText": "options:\n      "
+      "newText": "options:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -217,7 +217,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11patch",
-    "filterText": "patch:\n      ",
+    "filterText": "patch:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -233,7 +233,7 @@
           "character": 4
         }
       },
-      "newText": "patch:\n      "
+      "newText": "patch:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -247,7 +247,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11post",
-    "filterText": "post:\n      ",
+    "filterText": "post:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -263,7 +263,7 @@
           "character": 4
         }
       },
-      "newText": "post:\n      "
+      "newText": "post:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -277,7 +277,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11put",
-    "filterText": "put:\n      ",
+    "filterText": "put:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -293,7 +293,7 @@
           "character": 4
         }
       },
-      "newText": "put:\n      "
+      "newText": "put:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -337,7 +337,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11type",
-    "filterText": "type:\n      ",
+    "filterText": "type:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -353,7 +353,7 @@
           "character": 4
         }
       },
-      "newText": "type:\n      "
+      "newText": "type:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -367,7 +367,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11uriParameters",
-    "filterText": "uriParameters:\n      ",
+    "filterText": "uriParameters:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -383,7 +383,7 @@
           "character": 4
         }
       },
-      "newText": "uriParameters:\n      "
+      "newText": "uriParameters:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

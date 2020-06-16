@@ -12,7 +12,7 @@ case class YamlSuggestionStyler(override val params: StylerParams) extends Sugge
 
   private def fixEmptyMap(rendered: String): String =
     if (rendered.endsWith("{}"))
-      rendered.stripSuffix(" {}") + "\n" + (" " * tabSize) + stringIndentation
+      rendered.stripSuffix(" {}") + "\n" + (" " * tabSize)
     else rendered
 
   private def fixPrefix(prefix: String, text: String) =

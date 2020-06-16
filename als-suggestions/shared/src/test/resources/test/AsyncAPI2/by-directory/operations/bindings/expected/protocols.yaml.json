@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11amqp",
-    "filterText": "amqp:\n          ",
+    "filterText": "amqp:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 8
         }
       },
-      "newText": "amqp:\n          "
+      "newText": "amqp:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11amqp1",
-    "filterText": "amqp1:\n          ",
+    "filterText": "amqp1:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -53,7 +53,7 @@
           "character": 8
         }
       },
-      "newText": "amqp1:\n          "
+      "newText": "amqp1:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11http",
-    "filterText": "http:\n          ",
+    "filterText": "http:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -83,7 +83,7 @@
           "character": 8
         }
       },
-      "newText": "http:\n          "
+      "newText": "http:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11jms",
-    "filterText": "jms:\n          ",
+    "filterText": "jms:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +113,7 @@
           "character": 8
         }
       },
-      "newText": "jms:\n          "
+      "newText": "jms:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11kafka",
-    "filterText": "kafka:\n          ",
+    "filterText": "kafka:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -143,7 +143,7 @@
           "character": 8
         }
       },
-      "newText": "kafka:\n          "
+      "newText": "kafka:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11mqtt",
-    "filterText": "mqtt:\n          ",
+    "filterText": "mqtt:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -173,7 +173,7 @@
           "character": 8
         }
       },
-      "newText": "mqtt:\n          "
+      "newText": "mqtt:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11mqtt5",
-    "filterText": "mqtt5:\n          ",
+    "filterText": "mqtt5:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -203,7 +203,7 @@
           "character": 8
         }
       },
-      "newText": "mqtt5:\n          "
+      "newText": "mqtt5:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -217,7 +217,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11nats",
-    "filterText": "nats:\n          ",
+    "filterText": "nats:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -233,7 +233,7 @@
           "character": 8
         }
       },
-      "newText": "nats:\n          "
+      "newText": "nats:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -247,7 +247,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11redis",
-    "filterText": "redis:\n          ",
+    "filterText": "redis:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -263,7 +263,7 @@
           "character": 8
         }
       },
-      "newText": "redis:\n          "
+      "newText": "redis:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -277,7 +277,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11sns",
-    "filterText": "sns:\n          ",
+    "filterText": "sns:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -293,7 +293,7 @@
           "character": 8
         }
       },
-      "newText": "sns:\n          "
+      "newText": "sns:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -307,7 +307,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11sqs",
-    "filterText": "sqs:\n          ",
+    "filterText": "sqs:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -323,7 +323,7 @@
           "character": 8
         }
       },
-      "newText": "sqs:\n          "
+      "newText": "sqs:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -337,7 +337,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11stomp",
-    "filterText": "stomp:\n          ",
+    "filterText": "stomp:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -353,7 +353,7 @@
           "character": 8
         }
       },
-      "newText": "stomp:\n          "
+      "newText": "stomp:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -367,7 +367,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11ws",
-    "filterText": "ws:\n          ",
+    "filterText": "ws:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -383,7 +383,7 @@
           "character": 8
         }
       },
-      "newText": "ws:\n          "
+      "newText": "ws:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

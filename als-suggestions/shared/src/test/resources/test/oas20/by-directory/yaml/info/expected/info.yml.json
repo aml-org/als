@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11contact",
-    "filterText": "contact:\n    ",
+    "filterText": "contact:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 2
         }
       },
-      "newText": "contact:\n    "
+      "newText": "contact:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11license",
-    "filterText": "license:\n    ",
+    "filterText": "license:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -83,7 +83,7 @@
           "character": 2
         }
       },
-      "newText": "license:\n    "
+      "newText": "license:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

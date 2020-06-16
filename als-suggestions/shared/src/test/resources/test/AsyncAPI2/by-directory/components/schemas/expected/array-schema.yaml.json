@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11additionalItems",
-    "filterText": "additionalItems:\n        ",
+    "filterText": "additionalItems:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 6
         }
       },
-      "newText": "additionalItems:\n        "
+      "newText": "additionalItems:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11allOf",
-    "filterText": "allOf:\n        ",
+    "filterText": "allOf:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -53,7 +53,7 @@
           "character": 6
         }
       },
-      "newText": "allOf:\n        "
+      "newText": "allOf:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11anyOf",
-    "filterText": "anyOf:\n        ",
+    "filterText": "anyOf:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -83,7 +83,7 @@
           "character": 6
         }
       },
-      "newText": "anyOf:\n        "
+      "newText": "anyOf:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11contains",
-    "filterText": "contains:\n        ",
+    "filterText": "contains:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -143,7 +143,7 @@
           "character": 6
         }
       },
-      "newText": "contains:\n        "
+      "newText": "contains:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -247,7 +247,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11else",
-    "filterText": "else:\n        ",
+    "filterText": "else:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -263,7 +263,7 @@
           "character": 6
         }
       },
-      "newText": "else:\n        "
+      "newText": "else:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -277,7 +277,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11enum",
-    "filterText": "enum:\n        ",
+    "filterText": "enum:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -293,7 +293,7 @@
           "character": 6
         }
       },
-      "newText": "enum:\n        "
+      "newText": "enum:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -307,7 +307,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11examples",
-    "filterText": "examples:\n        ",
+    "filterText": "examples:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -323,7 +323,7 @@
           "character": 6
         }
       },
-      "newText": "examples:\n        "
+      "newText": "examples:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -337,7 +337,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11externalDocs",
-    "filterText": "externalDocs:\n        ",
+    "filterText": "externalDocs:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -353,7 +353,7 @@
           "character": 6
         }
       },
-      "newText": "externalDocs:\n        "
+      "newText": "externalDocs:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -397,7 +397,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11if",
-    "filterText": "if:\n        ",
+    "filterText": "if:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -413,7 +413,7 @@
           "character": 6
         }
       },
-      "newText": "if:\n        "
+      "newText": "if:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -427,7 +427,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11items",
-    "filterText": "items:\n        ",
+    "filterText": "items:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -443,7 +443,7 @@
           "character": 6
         }
       },
-      "newText": "items:\n        "
+      "newText": "items:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -517,7 +517,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11not",
-    "filterText": "not:\n        ",
+    "filterText": "not:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -533,7 +533,7 @@
           "character": 6
         }
       },
-      "newText": "not:\n        "
+      "newText": "not:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -547,7 +547,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11oneOf",
-    "filterText": "oneOf:\n        ",
+    "filterText": "oneOf:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -563,7 +563,7 @@
           "character": 6
         }
       },
-      "newText": "oneOf:\n        "
+      "newText": "oneOf:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -637,7 +637,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11then",
-    "filterText": "then:\n        ",
+    "filterText": "then:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -653,7 +653,7 @@
           "character": 6
         }
       },
-      "newText": "then:\n        "
+      "newText": "then:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

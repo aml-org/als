@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11describedBy",
-    "filterText": "describedBy:\n      ",
+    "filterText": "describedBy:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 4
         }
       },
-      "newText": "describedBy:\n      "
+      "newText": "describedBy:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11settings",
-    "filterText": "settings:\n      ",
+    "filterText": "settings:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +113,7 @@
           "character": 4
         }
       },
-      "newText": "settings:\n      "
+      "newText": "settings:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

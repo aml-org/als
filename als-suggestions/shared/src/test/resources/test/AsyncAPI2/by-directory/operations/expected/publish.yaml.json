@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11bindings",
-    "filterText": "bindings:\n        ",
+    "filterText": "bindings:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 6
         }
       },
-      "newText": "bindings:\n        "
+      "newText": "bindings:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11message",
-    "filterText": "message:\n        ",
+    "filterText": "message:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +113,7 @@
           "character": 6
         }
       },
-      "newText": "message:\n        "
+      "newText": "message:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

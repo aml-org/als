@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11headers",
-    "filterText": "headers:\n        ",
+    "filterText": "headers:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 6
         }
       },
-      "newText": "headers:\n        "
+      "newText": "headers:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11queryParameters",
-    "filterText": "queryParameters:\n        ",
+    "filterText": "queryParameters:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -53,7 +53,7 @@
           "character": 6
         }
       },
-      "newText": "queryParameters:\n        "
+      "newText": "queryParameters:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11queryString",
-    "filterText": "queryString:\n        ",
+    "filterText": "queryString:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -83,7 +83,7 @@
           "character": 6
         }
       },
-      "newText": "queryString:\n        "
+      "newText": "queryString:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11responses",
-    "filterText": "responses:\n        ",
+    "filterText": "responses:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +113,7 @@
           "character": 6
         }
       },
-      "newText": "responses:\n        "
+      "newText": "responses:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

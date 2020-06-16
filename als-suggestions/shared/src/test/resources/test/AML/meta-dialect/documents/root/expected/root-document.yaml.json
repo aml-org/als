@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11declares",
-    "filterText": "declares:\n      ",
+    "filterText": "declares:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 4
         }
       },
-      "newText": "declares:\n      "
+      "newText": "declares:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
