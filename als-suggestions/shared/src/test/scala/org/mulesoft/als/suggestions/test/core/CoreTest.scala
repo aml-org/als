@@ -5,6 +5,7 @@ import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import amf.plugins.document.vocabularies.AMLPlugin
+import org.mulesoft.als.common.PlatformDirectoryResolver
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
@@ -86,8 +87,9 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets {
 
   def runTestForCustomDialect(path: String, dialectPath: String, originalSuggestions: Set[String]): Future[Assertion] = {
     val p             = filePath(dialectPath)
-    val configuration = AmfInstance.default
-    val s             = Suggestions.default
+    val env           = Environment()
+    val configuration = AmfInstance(platform, env)
+    val s             = new Suggestions(platform, env, new PlatformDirectoryResolver(platform), configuration)
     s.init(InitOptions.AllProfiles)
       .flatMap(_ => configuration.parse(p))
       .flatMap(_ =>

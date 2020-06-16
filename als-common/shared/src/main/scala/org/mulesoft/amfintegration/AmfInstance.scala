@@ -46,11 +46,11 @@ class AmfInstance(plugins: Seq[AMFPlugin], platform: Platform, environment: Envi
     }
   }
 
-  override def modelBuiler(): ModelBuilder[AmfParseResult, Environment] = parserHelper
+  override def modelBuilder(): ModelBuilder[AmfParseResult, Environment] = parserHelper
 }
 
 object AmfInstance extends PlatformSecrets {
   def apply(environment: Environment): AmfInstance                     = apply(platform, environment)
   def apply(platform: Platform, environment: Environment): AmfInstance = new AmfInstance(Nil, platform, environment)
-  val default: AmfInstance                                             = new AmfInstance(Nil, platform, Environment())
+  val default: AmfInstance                                             = new AmfInstance(Nil, platform, Environment.empty())
 }

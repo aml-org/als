@@ -4,7 +4,7 @@ import scala.concurrent.Future
 
 trait CompilerEnvironment[T, E] {
 
-  def modelBuiler(): ModelBuilder[T, E]
+  def modelBuilder(): ModelBuilder[T, E]
   def init(): Future[Unit]
 }
 

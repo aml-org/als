@@ -1,7 +1,9 @@
 package org.mulesoft.als.suggestions.test.core.aml
 
 import amf.core.remote.Aml
+import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.AMLPlugin
+import org.mulesoft.als.common.PlatformDirectoryResolver
 import org.mulesoft.als.suggestions.CompletionsPluginHandler
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.test.core.{CoreTest, DummyPlugins}
@@ -30,8 +32,10 @@ class BasicCoreTestsAML extends CoreTest with DummyPlugins {
 
   test("Custom Plugins completion Dummy") {
     val p             = filePath("dialect.yaml")
-    val configuration = AmfInstance.default
-    val s             = Suggestions.default
+    val env           = Environment()
+    val configuration = AmfInstance(platform, env)
+    val s             = new Suggestions(platform, env, new PlatformDirectoryResolver(platform), configuration)
+
     for {
       dialect <- configuration.parse(p).map(_.baseUnit)
       _       <- s.init(InitOptions.AllProfiles)

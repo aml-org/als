@@ -65,16 +65,18 @@ class ParserHelper(val platform: Platform, amfInit: Future[Unit])
   }
 
   def indexDialect(url: String, content: Option[String]): Future[Unit] = {
-    val env = content.fold(Environment())(c => {
-      Environment().add(new ResourceLoader {
+    val env = content.fold(Environment.empty())(c => {
+      Environment
+        .empty()
+        .add(new ResourceLoader {
 
-        /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
-        override def fetch(resource: String): Future[Content] =
-          Future(new Content(c, resource))
+          /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
+          override def fetch(resource: String): Future[Content] =
+            Future(new Content(c, resource))
 
-        /** Accepts specified resource. */
-        override def accepts(resource: String): Boolean = resource == url
-      })
+          /** Accepts specified resource. */
+          override def accepts(resource: String): Boolean = resource == url
+        })
     })
 
     for {
@@ -118,7 +120,7 @@ class ParserHelper(val platform: Platform, amfInit: Future[Unit])
   }
 
   override def parse(uri: String): Future[AmfParseResult] =
-    parse(uri, Environment())
+    parse(uri, Environment.empty())
 }
 
 object ParserHelper {

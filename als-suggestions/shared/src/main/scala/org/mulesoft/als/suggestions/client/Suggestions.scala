@@ -128,7 +128,8 @@ class Suggestions(platform: Platform,
 }
 
 object Suggestions extends PlatformSecrets {
-  val default = new Suggestions(platform, Environment(), new PlatformDirectoryResolver(platform), AmfInstance.default)
+  val default =
+    new Suggestions(platform, Environment.empty(), new PlatformDirectoryResolver(platform), AmfInstance.default)
 }
 
 trait SuggestionsHelper {
