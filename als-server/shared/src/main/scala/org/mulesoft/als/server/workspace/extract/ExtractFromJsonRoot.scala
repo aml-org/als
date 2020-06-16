@@ -34,10 +34,11 @@ object ExchangeConfigReader extends ConfigReader {
   override protected def buildConfig(content: String,
                                      path: String,
                                      platform: Platform,
+                                     environment: Environment,
                                      logger: Logger): Option[Future[WorkspaceConf]] =
     new ExtractFromJsonRoot(content).getMain.map { m =>
       try {
-        getSubList(platform.fs.syncFile(path), platform).map { dependencies =>
+        getSubList(platform.fs.syncFile(path), platform, environment).map { dependencies =>
           // the encoding should be handled by each config reader plugin? or in general?
           // How to know if a config file already encoded the main file?
           WorkspaceConf(path, platform.encodeURI(m), dependencies, Some(this))
@@ -51,15 +52,17 @@ object ExchangeConfigReader extends ConfigReader {
       }
     }
 
-  private def getSubList(dir: SyncFile, platform: Platform): Future[Set[String]] =
+  private def getSubList(dir: SyncFile, platform: Platform, environment: Environment): Future[Set[String]] =
     if (dir.list != null && dir.list.nonEmpty)
-      findDependencies(dir.list.map(l => platform.fs.syncFile(dir.path + "/" + l)).filter(_.isDirectory), platform)
+      findDependencies(dir.list.map(l => platform.fs.syncFile(dir.path + "/" + l)).filter(_.isDirectory),
+                       platform,
+                       environment)
     else
       Future.successful(Set.empty)
 
   private def findDependencies(subDirs: Array[SyncFile],
                                platform: Platform,
-                               environment: Environment = Environment()): Future[Set[String]] =
+                               environment: Environment): Future[Set[String]] =
     if (subDirs.nonEmpty) {
       val (dependencies, others) = subDirs.partition(_.list.contains(configFileName))
       val mains: Future[Seq[String]] =

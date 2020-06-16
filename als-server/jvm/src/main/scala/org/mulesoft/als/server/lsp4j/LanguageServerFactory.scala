@@ -20,7 +20,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 // todo: standarize in one only converter (js and jvm) with generics
 class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecrets {
-
   private var serialization: JvmSerializationProps               = EmptyJvmSerializationProps
   private var logger: Logger                                     = PrintLnLogger
   private var givenPlatform: Platform                            = platform

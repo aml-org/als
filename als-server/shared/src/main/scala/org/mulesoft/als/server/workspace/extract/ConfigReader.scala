@@ -13,11 +13,11 @@ trait ConfigReader {
 
   def readRoot(rootPath: String,
                platform: Platform,
-               environment: Environment = Environment(),
+               environment: Environment,
                logger: Logger): Future[Option[WorkspaceConf]] =
     readFile(appendFileToUri(rootPath).toAmfUri(platform), platform, environment).flatMap {
       case Some(content) =>
-        buildConfig(content, rootPath.toPath(platform), platform, logger) match {
+        buildConfig(content, rootPath.toPath(platform), platform, environment, logger) match {
           case Some(f) =>
             f.map(Some(_))
           case _ =>
@@ -46,5 +46,6 @@ trait ConfigReader {
   protected def buildConfig(content: String,
                             path: String,
                             platform: Platform,
+                            environment: Environment,
                             logger: Logger): Option[Future[WorkspaceConf]]
 }
