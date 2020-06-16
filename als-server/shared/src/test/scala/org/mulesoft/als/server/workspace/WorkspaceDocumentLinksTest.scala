@@ -114,7 +114,7 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
       documentLinksManager.documentLinks(filePath(path), "")
   }
 
-  override def buildServer(): LanguageServer =
+  def buildServer(): LanguageServer =
     new LanguageServerBuilder(factory.documentManager,
                               factory.workspaceManager,
                               factory.configurationManager,

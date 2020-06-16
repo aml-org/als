@@ -5,35 +5,12 @@ import java.util.{List => JList}
 import org.eclipse.lsp4j
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
 import org.mulesoft.als.configuration.{AlsConfiguration, AlsFormattingOptions}
+import org.mulesoft.als.server.feature.configuration.{UpdateConfigurationParams, UpdateFormatOptionsParams}
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeParams}
 import org.mulesoft.als.server.feature.fileusage.FileUsageClientCapabilities
-import org.mulesoft.als.server.feature.serialization.{
-  ConversionClientCapabilities,
-  ConversionConfig,
-  ConversionParams,
-  SerializationClientCapabilities,
-  SerializationParams
-}
-import org.mulesoft.als.server.protocol.configuration.{
-  AlsClientCapabilities,
-  AlsInitializeParams,
-  AlsInitializeResult,
-  AlsServerCapabilities
-}
-import org.mulesoft.lsp.LspConversions.{
-  completionOptions,
-  documentLinkOptions,
-  eitherCodeActionProviderOptions,
-  eitherRenameOptions,
-  staticRegistrationOptions,
-  textDocumentClientCapabilities,
-  textDocumentSyncKind,
-  textDocumentSyncOptions,
-  traceKind,
-  workspaceClientCapabilities,
-  workspaceFolder,
-  workspaceServerCapabilities
-}
+import org.mulesoft.als.server.feature.serialization.{ConversionClientCapabilities, ConversionConfig, ConversionParams, SerializationClientCapabilities, SerializationParams}
+import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams, AlsInitializeResult, AlsServerCapabilities}
+import org.mulesoft.lsp.LspConversions.{completionOptions, documentLinkOptions, eitherCodeActionProviderOptions, eitherRenameOptions, staticRegistrationOptions, textDocumentClientCapabilities, textDocumentSyncKind, textDocumentSyncOptions, traceKind, workspaceClientCapabilities, workspaceFolder, workspaceServerCapabilities}
 
 import scala.collection.JavaConverters._
 import org.mulesoft.lsp.LspConversions.textDocumentIdentifier
