@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11consumes",
-    "filterText": "consumes:\n        - ",
+    "filterText": "consumes:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 6
         }
       },
-      "newText": "consumes:\n        - "
+      "newText": "consumes:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11parameters",
-    "filterText": "parameters:\n        - ",
+    "filterText": "parameters:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -173,7 +173,7 @@
           "character": 6
         }
       },
-      "newText": "parameters:\n        - "
+      "newText": "parameters:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11produces",
-    "filterText": "produces:\n        - ",
+    "filterText": "produces:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -203,7 +203,7 @@
           "character": 6
         }
       },
-      "newText": "produces:\n        - "
+      "newText": "produces:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -247,7 +247,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11schemes",
-    "filterText": "schemes:\n        - ",
+    "filterText": "schemes:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -263,7 +263,7 @@
           "character": 6
         }
       },
-      "newText": "schemes:\n        - "
+      "newText": "schemes:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -277,7 +277,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11security",
-    "filterText": "security:\n        - ",
+    "filterText": "security:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -293,7 +293,7 @@
           "character": 6
         }
       },
-      "newText": "security:\n        - "
+      "newText": "security:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -337,7 +337,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11tags",
-    "filterText": "tags:\n        - ",
+    "filterText": "tags:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -353,7 +353,7 @@
           "character": 6
         }
       },
-      "newText": "tags:\n        - "
+      "newText": "tags:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

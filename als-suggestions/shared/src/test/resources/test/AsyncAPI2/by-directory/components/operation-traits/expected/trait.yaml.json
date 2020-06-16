@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11externalDocs",
-    "filterText": "externalDocs:\n        - ",
+    "filterText": "externalDocs:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +113,7 @@
           "character": 6
         }
       },
-      "newText": "externalDocs:\n        - "
+      "newText": "externalDocs:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11tags",
-    "filterText": "tags:\n        - ",
+    "filterText": "tags:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -173,7 +173,7 @@
           "character": 6
         }
       },
-      "newText": "tags:\n        - "
+      "newText": "tags:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

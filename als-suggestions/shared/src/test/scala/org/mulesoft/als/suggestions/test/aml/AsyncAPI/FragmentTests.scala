@@ -17,7 +17,7 @@ class FragmentTests extends AMLSuggestionsTest {
       Set(
         "pattern: ",
         "maxItems: ",
-        "required:\n    - ",
+        "required:\n  - ",
         "items:\n  ",
         "exclusiveMaximum: ",
         "$schema: ",
@@ -64,7 +64,7 @@ class FragmentTests extends AMLSuggestionsTest {
       Set(
         "pattern: ",
         "maxItems: ",
-        "required:\n    - ",
+        "required:\n  - ",
         "items:\n  ",
         "exclusiveMaximum: ",
         "$schema: ",

@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11enum",
-    "filterText": "enum:\n          - ",
+    "filterText": "enum:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -53,7 +53,7 @@
           "character": 8
         }
       },
-      "newText": "enum:\n          - "
+      "newText": "enum:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -397,7 +397,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11typeDiscriminator",
-    "filterText": "typeDiscriminator:\n          - ",
+    "filterText": "typeDiscriminator:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -413,7 +413,7 @@
           "character": 8
         }
       },
-      "newText": "typeDiscriminator:\n          - "
+      "newText": "typeDiscriminator:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -427,7 +427,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11typeDiscriminatorName",
-    "filterText": "typeDiscriminatorName:\n          - ",
+    "filterText": "typeDiscriminatorName:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -443,7 +443,7 @@
           "character": 8
         }
       },
-      "newText": "typeDiscriminatorName:\n          - "
+      "newText": "typeDiscriminatorName:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

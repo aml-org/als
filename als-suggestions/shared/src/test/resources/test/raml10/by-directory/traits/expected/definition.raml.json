@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11is",
-    "filterText": "is:\n      - ",
+    "filterText": "is:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -143,7 +143,7 @@
           "character": 4
         }
       },
-      "newText": "is:\n      - "
+      "newText": "is:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11protocols",
-    "filterText": "protocols:\n      - ",
+    "filterText": "protocols:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -173,7 +173,7 @@
           "character": 4
         }
       },
-      "newText": "protocols:\n      - "
+      "newText": "protocols:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -277,7 +277,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11securedBy",
-    "filterText": "securedBy:\n      - ",
+    "filterText": "securedBy:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -293,7 +293,7 @@
           "character": 4
         }
       },
-      "newText": "securedBy:\n      - "
+      "newText": "securedBy:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

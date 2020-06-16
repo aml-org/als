@@ -337,7 +337,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11tags",
-    "filterText": "tags:\n          - ",
+    "filterText": "tags:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -353,7 +353,7 @@
           "character": 8
         }
       },
-      "newText": "tags:\n          - "
+      "newText": "tags:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -397,7 +397,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11traits",
-    "filterText": "traits:\n          - ",
+    "filterText": "traits:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -413,7 +413,7 @@
           "character": 8
         }
       },
-      "newText": "traits:\n          - "
+      "newText": "traits:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

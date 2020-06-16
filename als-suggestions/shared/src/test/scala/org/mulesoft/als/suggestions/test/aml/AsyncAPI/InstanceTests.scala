@@ -35,7 +35,7 @@ class InstanceTests extends AMLSuggestionsTest {
 
   test("test006") {
     runSuggestionTest("instance/test006.yaml",
-                      Set("externalDocs:\n  ", "headers:\n  ", "tags:\n        - ", "simpleMap:\n  "))
+                      Set("externalDocs:\n  ", "headers:\n  ", "tags:\n  - ", "simpleMap:\n  "))
   }
 
   test("test007") {

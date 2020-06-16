@@ -337,7 +337,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11securedBy",
-    "filterText": "securedBy:\n      - ",
+    "filterText": "securedBy:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -353,7 +353,7 @@
           "character": 4
         }
       },
-      "newText": "securedBy:\n      - "
+      "newText": "securedBy:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11dependencies",
-    "filterText": "dependencies:\n            - ",
+    "filterText": "dependencies:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -173,7 +173,7 @@
           "character": 10
         }
       },
-      "newText": "dependencies:\n            - "
+      "newText": "dependencies:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

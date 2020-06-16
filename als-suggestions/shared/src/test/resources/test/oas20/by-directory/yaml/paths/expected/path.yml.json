@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11parameters",
-    "filterText": "parameters:\n      - ",
+    "filterText": "parameters:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -173,7 +173,7 @@
           "character": 4
         }
       },
-      "newText": "parameters:\n      - "
+      "newText": "parameters:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

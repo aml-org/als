@@ -25,11 +25,8 @@ case class YamlSuggestionStyler(override val params: StylerParams) extends Sugge
       if (!options.isKey && ((options.isArray && !params.yPartBranch.isInArray) || options.isObject)) // never will suggest object in value as is not key. Suggestions should be empty
         "\n"
       else ""
-    val ast = builder.ast
-    val indentation = ast match {
-      case n: YNode if n.value.isInstanceOf[YSequence] => initialIndentationSize * tabSize + 2
-      case _                                           => initialIndentationSize * tabSize
-    }
+    val ast         = builder.ast
+    val indentation = 0 // We always want to indent relative to the parent node
     fixPrefix(prefix, fixEmptyMap(YamlRender.render(ast, indentation, buildYamlRenderOptions)))
   }
 

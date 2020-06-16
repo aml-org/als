@@ -247,7 +247,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11union",
-    "filterText": "union:\n      - ",
+    "filterText": "union:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -263,7 +263,7 @@
           "character": 4
         }
       },
-      "newText": "union:\n      - "
+      "newText": "union:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

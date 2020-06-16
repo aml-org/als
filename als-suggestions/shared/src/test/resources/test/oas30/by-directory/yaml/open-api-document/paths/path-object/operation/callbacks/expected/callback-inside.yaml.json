@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11parameters",
-    "filterText": "parameters:\n              - ",
+    "filterText": "parameters:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -203,7 +203,7 @@
           "character": 12
         }
       },
-      "newText": "parameters:\n              - "
+      "newText": "parameters:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -307,7 +307,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11servers",
-    "filterText": "servers:\n              - ",
+    "filterText": "servers:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -323,7 +323,7 @@
           "character": 12
         }
       },
-      "newText": "servers:\n              - "
+      "newText": "servers:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

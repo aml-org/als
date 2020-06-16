@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11allowedTargets",
-    "filterText": "allowedTargets:\n      - ",
+    "filterText": "allowedTargets:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 4
         }
       },
-      "newText": "allowedTargets:\n      - "
+      "newText": "allowedTargets:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11enum",
-    "filterText": "enum:\n      - ",
+    "filterText": "enum:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -143,7 +143,7 @@
           "character": 4
         }
       },
-      "newText": "enum:\n      - "
+      "newText": "enum:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

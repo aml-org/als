@@ -12,7 +12,7 @@ class LibraryTests extends AMLSuggestionsTest {
 
   test("test002") {
     this.runSuggestionTest("library/test002.yaml",
-                           Set("externalDocs:\n  ", "description: ", "headers:\n  ", "tags:\n      - "))
+                           Set("externalDocs:\n  ", "description: ", "headers:\n  ", "tags:\n  - "))
   }
 
   test("test003") {
@@ -36,7 +36,7 @@ class LibraryTests extends AMLSuggestionsTest {
       Set(
         "pattern: ",
         "maxItems: ",
-        "required:\n        - ",
+        "required:\n  - ",
         "items:\n  ",
         "exclusiveMaximum: ",
         "$schema: ",

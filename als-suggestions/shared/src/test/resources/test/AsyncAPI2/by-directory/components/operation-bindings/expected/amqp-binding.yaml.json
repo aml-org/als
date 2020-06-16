@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11bcc",
-    "filterText": "bcc:\n            - ",
+    "filterText": "bcc:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -53,7 +53,7 @@
           "character": 10
         }
       },
-      "newText": "bcc:\n            - "
+      "newText": "bcc:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11cc",
-    "filterText": "cc:\n            - ",
+    "filterText": "cc:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +113,7 @@
           "character": 10
         }
       },
-      "newText": "cc:\n            - "
+      "newText": "cc:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11mandatory",
-    "filterText": "mandatory:\n            - ",
+    "filterText": "mandatory:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -203,7 +203,7 @@
           "character": 10
         }
       },
-      "newText": "mandatory:\n            - "
+      "newText": "mandatory:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
