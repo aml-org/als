@@ -19,7 +19,7 @@ import org.mulesoft.lsp.feature.definition.{
   DefinitionParams,
   DefinitionRequestType
 }
-import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
+import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -47,21 +47,34 @@ class GoToDefinitionManager(val workspace: WorkspaceManager,
   override def applyConfig(config: Option[DefinitionClientCapabilities]): Unit =
     conf = config
 
-  def goToDefinition(uri: String, position: Position): Future[Either[Seq[Location], Seq[LocationLink]]] = {
+  private def goToDefinition(uri: String, position: Position): Future[Either[Seq[Location], Seq[LocationLink]]] = {
     val uuid = UUID.randomUUID().toString
-    for {
-      workspaceDefinitions <- FindDefinition
-        .getDefinition(uri,
-                       position,
-                       workspace.getRelationships(uri, uuid),
-                       workspace.getAliases(uri, uuid),
-                       workspace.getLastUnit(uri, uuid).map(_.unit),
-                       platform)
-      dialectDefinitions <- DialectDefinitions
-        .getDefinition(uri, position, workspace.getLastUnit(uri, uuid).map(_.unit), platform)
-    } yield {
-      Right(workspaceDefinitions ++ dialectDefinitions)
+
+    def innerGoToDefinition(): Future[Either[Seq[Location], Seq[LocationLink]]] = {
+      for {
+        workspaceDefinitions <- FindDefinition
+          .getDefinition(uri,
+                         position,
+                         workspace.getRelationships(uri, uuid),
+                         workspace.getAliases(uri, uuid),
+                         workspace.getLastUnit(uri, uuid).map(_.unit),
+                         platform)
+        dialectDefinitions <- DialectDefinitions
+          .getDefinition(uri, position, workspace.getLastUnit(uri, uuid).map(_.unit), platform)
+      } yield {
+        Right(workspaceDefinitions ++ dialectDefinitions)
+      }
     }
+
+    telemetryProvider.timeProcess(
+      "Get Go to definition",
+      MessageTypes.BEGIN_GOTO_DEF,
+      MessageTypes.END_GOTO_DEF,
+      s"request for go to definition on $uri",
+      uri,
+      innerGoToDefinition,
+      uuid
+    )
   }
 
   override def initialize(): Future[Unit] = Future.successful()

@@ -16,7 +16,7 @@ import org.mulesoft.lsp.feature.reference.{
   ReferenceParams,
   ReferenceRequestType
 }
-import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
+import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -46,12 +46,24 @@ class FindReferenceManager(val workspace: WorkspaceManager,
 
   def findReference(uri: String, position: Position): Future[Seq[Location]] = {
     val uuid = UUID.randomUUID().toString
-    workspace
-      .getLastUnit(uri, uuid)
-      .flatMap(_.getLast)
-      .flatMap(_ => {
-        FindReferences.getReferences(uri, position, workspace.getRelationships(uri, uuid)).map(_.map(_.source))
-      })
+
+    def innerFindReferences() =
+      workspace
+        .getLastUnit(uri, uuid)
+        .flatMap(_.getLast)
+        .flatMap(_ => {
+          FindReferences.getReferences(uri, position, workspace.getRelationships(uri, uuid)).map(_.map(_.source))
+        })
+
+    telemetryProvider.timeProcess(
+      "Get references",
+      MessageTypes.BEGIN_FIND_REF,
+      MessageTypes.END_FIND_REF,
+      s"request for references on $uri",
+      uri,
+      innerFindReferences,
+      uuid
+    )
   }
 
   override def initialize(): Future[Unit] =

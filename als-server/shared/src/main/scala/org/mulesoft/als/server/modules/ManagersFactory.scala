@@ -58,7 +58,7 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Log
     new TelemetryManager(clientNotifier, logger)
 
   def serializationManager[S](sp: SerializationProps[S]): SerializationManager[S] = {
-    val s = new SerializationManager(amfConfig, sp, logger)
+    val s = new SerializationManager(telemetryManager, amfConfig, sp, logger)
     resolutionDependencies += s
     s
   }
@@ -100,7 +100,7 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
   val container: TextDocumentContainer =
     TextDocumentContainer(environment, platform, amfConfiguration)
 
-  val cleanDiagnosticManager = new CleanDiagnosticTreeManager(container, logger)
+  val cleanDiagnosticManager = new CleanDiagnosticTreeManager(telemetryManager, container, logger)
 
   val resolutionTaskManager = new ResolutionTaskManager(
     telemetryManager,

@@ -36,8 +36,8 @@ class ParseDiagnosticManager(override protected val telemetryProvider: Telemetry
     val uri = parsedResult.location
     telemetryProvider.timeProcess(
       "Start report",
-      MessageTypes.BEGIN_DIAGNOSTIC,
-      MessageTypes.END_DIAGNOSTIC,
+      MessageTypes.BEGIN_DIAGNOSTIC_PARSE,
+      MessageTypes.END_DIAGNOSTIC_PARSE,
       "ParseDiagnosticManager : onNewAst",
       uri,
       innerGatherValidations(uuid, parsedResult, references, uri),

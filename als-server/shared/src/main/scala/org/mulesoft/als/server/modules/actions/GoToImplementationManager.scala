@@ -20,7 +20,7 @@ import org.mulesoft.lsp.feature.implementation.{
   ImplementationParams,
   ImplementationRequestType
 }
-import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
+import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -54,20 +54,32 @@ class GoToImplementationManager(val workspace: WorkspaceManager,
 
   def goToImplementation(uri: String, position: Position): Future[Either[Seq[Location], Seq[LocationLink]]] = {
     val uuid = UUID.randomUUID().toString
-    workspace
-      .getLastUnit(uri, uuid)
-      .flatMap(_.getLast)
-      .flatMap(bu => {
-        FindReferences
-          .getReferences(uri,
-                         position,
-                         workspace
-                           .getRelationships(uri, uuid)
-                           .map(_.filter(_.linkType == LinkTypes.TRAITRESOURCES)))
-          .map(_.map(_.source))
+    def innerGoToImplementation() = {
+      workspace
+        .getLastUnit(uri, uuid)
+        .flatMap(_.getLast)
+        .flatMap(bu => {
+          FindReferences
+            .getReferences(uri,
+                           position,
+                           workspace
+                             .getRelationships(uri, uuid)
+                             .map(_.filter(_.linkType == LinkTypes.TRAITRESOURCES)))
+            .map(_.map(_.source))
 
-      })
-      .map(Left(_))
+        })
+        .map(Left(_))
+    }
+
+    telemetryProvider.timeProcess(
+      "Get Go to implementation",
+      MessageTypes.BEGIN_GOTO_IMPL,
+      MessageTypes.END_GOTO_IMPL,
+      s"request for go to implementation on $uri",
+      uri,
+      innerGoToImplementation,
+      uuid
+    )
   }
 
   override def initialize(): Future[Unit] = Future.successful()

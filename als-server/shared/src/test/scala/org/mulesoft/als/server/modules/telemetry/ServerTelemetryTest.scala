@@ -98,10 +98,10 @@ class ServerTelemetryTest extends LanguageServerBaseTest {
 
   private def diagnosticTelemetryMessages(reportsQty: Int) = {
     Seq(
-      MessageTypes.BEGIN_DIAGNOSTIC,
+      MessageTypes.BEGIN_DIAGNOSTIC_PARSE,
       MessageTypes.BEGIN_REPORT,
       MessageTypes.END_REPORT,
-      MessageTypes.END_DIAGNOSTIC
+      MessageTypes.END_DIAGNOSTIC_PARSE
     )
   }
 

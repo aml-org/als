@@ -13,13 +13,17 @@ import org.mulesoft.amfintegration.{AmfInstance, AmfResolvedUnit}
 import org.mulesoft.amfmanager.AmfImplicits._
 import org.mulesoft.amfmanager.ParserHelper
 import org.mulesoft.lsp.feature.RequestHandler
+import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import org.yaml.builder.DocBuilder
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
 import scala.util.{Failure, Success}
 
-class SerializationManager[S](amfConf: AmfInstance, props: SerializationProps[S], override val logger: Logger)
+class SerializationManager[S](telemetryProvider: TelemetryProvider,
+                              amfConf: AmfInstance,
+                              props: SerializationProps[S],
+                              override val logger: Logger)
     extends ClientNotifierModule[SerializationClientCapabilities, SerializationServerOptions]
     with ResolvedUnitListener
     with RequestModule[SerializationClientCapabilities, SerializationServerOptions] {
@@ -71,7 +75,8 @@ class SerializationManager[S](amfConf: AmfInstance, props: SerializationProps[S]
       case Some(ua) =>
         ua.getLastUnit(uri, UUID.randomUUID().toString)
           .flatMap { r =>
-            if (r.originalUnit.isInstanceOf[Extension] || r.originalUnit.isInstanceOf[Overlay])
+            if (r.originalUnit.isInstanceOf[Extension] || r.originalUnit
+                  .isInstanceOf[Overlay])
               r.latestBU
             else r.latestBU.map(getUnitFromResolved(_, uri))
           }
@@ -94,7 +99,15 @@ class SerializationManager[S](amfConf: AmfInstance, props: SerializationProps[S]
       override def `type`: props.requestType.type = props.requestType
 
       override def apply(params: SerializationParams): Future[SerializationResult[S]] =
-        processRequest(params.textDocument.uri)
+        telemetryProvider.timeProcess(
+          "Request Serialization",
+          MessageTypes.BEGIN_SERIALIZATION,
+          MessageTypes.END_SERIALIZATION,
+          s"Serialization request for ${params.textDocument.uri}",
+          params.textDocument.uri,
+          () => processRequest(params.textDocument.uri)
+        )
+
     }
   )
 
@@ -115,17 +128,29 @@ class SerializationManager[S](amfConf: AmfInstance, props: SerializationProps[S]
     def run(): Promise[Unit] = {
       val promise = Promise[Unit]()
 
-      serialize(ast, uuid) andThen {
-        case Success(report) => promise.success(report)
+      def innerSerialize() =
+        serialize(ast, uuid) andThen {
+          case Success(report) => promise.success(report)
 
-        case Failure(error) => promise.failure(error)
-      }
+          case Failure(error) => promise.failure(error)
+        }
+      telemetryProvider.timeProcess(
+        "Serialize notification",
+        MessageTypes.BEGIN_SERIALIZATION,
+        MessageTypes.END_SERIALIZATION,
+        s"Scheduled Serialize notification for ${ast.originalUnit.identifier}",
+        ast.originalUnit.identifier,
+        innerSerialize,
+        uuid
+      )
 
       promise
     }
 
     def conflicts(other: Runnable[Any]): Boolean =
-      other.asInstanceOf[SerializationRunnable].kind == kind && uri == other.asInstanceOf[SerializationRunnable].uri
+      other.asInstanceOf[SerializationRunnable].kind == kind && uri == other
+        .asInstanceOf[SerializationRunnable]
+        .uri
 
     def cancel() {
       canceled = true

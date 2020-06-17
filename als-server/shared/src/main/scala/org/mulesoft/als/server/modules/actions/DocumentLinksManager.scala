@@ -9,7 +9,7 @@ import org.mulesoft.als.server.workspace.UnitWorkspaceManager
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.link._
-import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
+import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.Future
 
@@ -24,7 +24,8 @@ class DocumentLinksManager(val workspaceManager: UnitWorkspaceManager,
 
   override val getRequestHandlers: Seq[RequestHandler[_, _]] = Seq(
     new RequestHandler[DocumentLinkParams, Seq[DocumentLink]] {
-      override def `type`: DocumentLinkRequestType.type = DocumentLinkRequestType
+      override def `type`: DocumentLinkRequestType.type =
+        DocumentLinkRequestType
 
       override def apply(params: DocumentLinkParams): Future[Seq[DocumentLink]] =
         documentLinks(params.textDocument.uri)
@@ -36,8 +37,18 @@ class DocumentLinksManager(val workspaceManager: UnitWorkspaceManager,
 
   val onDocumentLinks: String => Future[Seq[DocumentLink]] = documentLinks
 
-  def documentLinks(uri: String): Future[Seq[DocumentLink]] =
-    workspaceManager.getDocumentLinks(uri, UUID.randomUUID().toString)
+  def documentLinks(uri: String): Future[Seq[DocumentLink]] = {
+    val uuid = UUID.randomUUID().toString
+    telemetryProvider.timeProcess(
+      "Get Document Links",
+      MessageTypes.BEGIN_DOCUMENT_LINK,
+      MessageTypes.END_DOCUMENT_LINK,
+      s"request for document links on $uri",
+      uri,
+      () => workspaceManager.getDocumentLinks(uri, uuid),
+      uuid
+    )
+  }
 
   override def initialize(): Future[Unit] = Future.successful()
 

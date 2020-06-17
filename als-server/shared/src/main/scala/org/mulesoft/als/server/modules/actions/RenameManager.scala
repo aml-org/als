@@ -11,7 +11,7 @@ import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.edit.WorkspaceEdit
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.rename._
-import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
+import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import org.mulesoft.lsp.feature.common.Range
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -50,25 +50,46 @@ class RenameManager(val workspace: WorkspaceManager,
 
   def rename(uri: String, position: Position, newName: String): Future[WorkspaceEdit] = {
     val uuid = UUID.randomUUID().toString
-    workspace
-      .getLastUnit(uri, uuid)
-      .flatMap(_.getLast)
-      .flatMap(_ => {
-        FindRenameLocations.changeDeclaredName(uri, position, newName, workspace.getRelationships(uri, uuid))
-      })
+    def innerRename() =
+      workspace
+        .getLastUnit(uri, uuid)
+        .flatMap(_.getLast)
+        .flatMap(_ => {
+          FindRenameLocations.changeDeclaredName(uri, position, newName, workspace.getRelationships(uri, uuid))
+        })
+
+    telemetryProvider.timeProcess(
+      "Rename",
+      MessageTypes.BEGIN_RENAME,
+      MessageTypes.END_RENAME,
+      s"request for renaming on $uri",
+      uri,
+      innerRename,
+      uuid
+    )
   }
 
   def prepareRename(uri: String, position: Position): Future[Option[Either[Range, PrepareRenameResult]]] = {
     val uuid = UUID.randomUUID().toString
-    workspace
-      .getLastUnit(uri, uuid)
-      .flatMap(_.getLast)
-      .flatMap(_ => {
-        FindRenameLocations.canChangeDeclaredName(uri, position, workspace.getRelationships(uri, uuid))
-      }.map(_.map(r => Left(r))))
+    def innerPrepareRename() =
+      workspace
+        .getLastUnit(uri, uuid)
+        .flatMap(_.getLast)
+        .flatMap(_ => {
+          FindRenameLocations.canChangeDeclaredName(uri, position, workspace.getRelationships(uri, uuid))
+        }.map(_.map(r => Left(r))))
+
+    telemetryProvider.timeProcess(
+      "Prepare rename",
+      MessageTypes.BEGIN_PREP_RENAME,
+      MessageTypes.END_PREP_RENAME,
+      s"request for prepare renaming on $uri",
+      uri,
+      innerPrepareRename,
+      uuid
+    )
   }
 
   override def initialize(): Future[Unit] =
     Future.successful()
-
 }

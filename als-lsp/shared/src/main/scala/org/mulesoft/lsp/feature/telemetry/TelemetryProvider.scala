@@ -9,21 +9,41 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 object MessageTypes extends Enumeration {
   type MessageTypes = String
-  val BEGIN_PARSE         = "BEGIN_PARSE"
-  val END_PARSE           = "END_PARSE"
-  val BEGIN_PARSE_PATCHED = "BEGIN_PARSE_PATCHED"
-  val END_PARSE_PATCHED   = "END_PARSE_PATCHED"
-  val BEGIN_REPORT        = "BEGIN_REPORT"
-  val END_REPORT          = "END_REPORT"
-  val BEGIN_COMPLETION    = "BEGIN_COMPLETION"
-  val END_COMPLETION      = "END_COMPLETION"
-  val BEGIN_STRUCTURE     = "BEGIN_STRUCTURE"
-  val END_STRUCTURE       = "END_STRUCTURE"
-  val BEGIN_DIAGNOSTIC    = "BEGIN_DIAGNOSTIC"
-  val END_DIAGNOSTIC      = "END_DIAGNOSTIC"
-  val INDEX_DIALECT       = "INDEX_DIALECT"
-  val BEGIN_RESOLUTION    = "BEGIN_RESOLUTION"
-  val END_RESOLUTION      = "END_RESOLUTION"
+  val BEGIN_PARSE               = "BEGIN_PARSE"
+  val END_PARSE                 = "END_PARSE"
+  val BEGIN_PARSE_PATCHED       = "BEGIN_PARSE_PATCHED"
+  val END_PARSE_PATCHED         = "END_PARSE_PATCHED"
+  val BEGIN_REPORT              = "BEGIN_REPORT"
+  val END_REPORT                = "END_REPORT"
+  val BEGIN_COMPLETION          = "BEGIN_COMPLETION"
+  val END_COMPLETION            = "END_COMPLETION"
+  val BEGIN_STRUCTURE           = "BEGIN_STRUCTURE"
+  val END_STRUCTURE             = "END_STRUCTURE"
+  val BEGIN_DIAGNOSTIC_PARSE    = "BEGIN_DIAGNOSTIC_PARSE"
+  val END_DIAGNOSTIC_PARSE      = "END_DIAGNOSTIC_PARSE"
+  val BEGIN_DIAGNOSTIC_RESOLVED = "BEGIN_DIAGNOSTIC_RESOLVED"
+  val END_DIAGNOSTIC_RESOLVED   = "END_DIAGNOSTIC_RESOLVED"
+  val INDEX_DIALECT             = "INDEX_DIALECT"
+  val BEGIN_RESOLUTION          = "BEGIN_RESOLUTION"
+  val END_RESOLUTION            = "END_RESOLUTION"
+  val BEGIN_DOCUMENT_LINK       = "BEGIN_DOCUMENT_LINK"
+  val END_DOCUMENT_LINK         = "END_DOCUMENT_LINK"
+  val BEGIN_GOTO_DEF            = "BEGIN_GOTO_DEF"
+  val END_GOTO_DEF              = "END_GOTO_DEF"
+  val BEGIN_GOTO_IMPL           = "BEGIN_GOTO_IMPL"
+  val END_GOTO_IMPL             = "END_GOTO_IMPL"
+  val BEGIN_GOTO_T_DEF          = "BEGIN_GOTO_T_DEF"
+  val END_GOTO_T_DEF            = "END_GOTO_T_DEF"
+  val BEGIN_FIND_REF            = "BEGIN_FIND_REF"
+  val END_FIND_REF              = "END_FIND_REF"
+  val BEGIN_PREP_RENAME         = "BEGIN_PREP_RENAME"
+  val END_PREP_RENAME           = "END_PREP_RENAME"
+  val BEGIN_RENAME              = "BEGIN_RENAME"
+  val END_RENAME                = "END_RENAME"
+  val BEGIN_SERIALIZATION       = "BEGIN_SERIALIZATION"
+  val END_SERIALIZATION         = "END_SERIALIZATION"
+  val BEGIN_CLEAN_VALIDATION    = "BEGIN_CLEAN_VALIDATION"
+  val END_CLEAN_VALIDATION      = "END_CLEAN_VALIDATION"
 }
 
 trait TelemetryProvider {
@@ -37,8 +57,12 @@ trait TelemetryProvider {
                            uri: String,
                            fn: () => Future[T],
                            uuid: String = UUID.randomUUID().toString): Future[T] = {
+    val time = System.currentTimeMillis()
     addTimedMessage(code, beginType, msg, uri, uuid)
     fn()
-      .andThen { case _ => addTimedMessage(code, endType, msg, uri, uuid) }
+      .andThen {
+        case _ =>
+          addTimedMessage(code, endType, s"$msg\n\ttook ${System.currentTimeMillis() - time} millis", uri, uuid)
+      }
   }
 }

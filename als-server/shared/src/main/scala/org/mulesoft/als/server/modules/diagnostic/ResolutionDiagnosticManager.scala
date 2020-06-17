@@ -125,13 +125,15 @@ class ResolutionDiagnosticManager(override protected val telemetryProvider: Tele
           case Failure(error) => promise.failure(error)
         }
 
-      telemetryProvider.timeProcess("End report",
-                                    MessageTypes.BEGIN_DIAGNOSTIC,
-                                    MessageTypes.END_DIAGNOSTIC,
-                                    "ResolutionDiagnosticManager : onNewAst",
-                                    uri,
-                                    innerRunGather,
-                                    uuid)
+      telemetryProvider.timeProcess(
+        "End report",
+        MessageTypes.BEGIN_DIAGNOSTIC_RESOLVED,
+        MessageTypes.END_DIAGNOSTIC_RESOLVED,
+        "ResolutionDiagnosticManager : onNewAst",
+        uri,
+        innerRunGather,
+        uuid
+      )
 
       promise
     }

@@ -10,11 +10,14 @@ import org.mulesoft.amfmanager.ParserHelper
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
+import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class CleanDiagnosticTreeManager(environmentProvider: EnvironmentProvider, logger: Logger)
+class CleanDiagnosticTreeManager(telemetryProvider: TelemetryProvider,
+                                 environmentProvider: EnvironmentProvider,
+                                 logger: Logger)
     extends RequestModule[CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeOptions] {
 
   private var enabled: Boolean = true
@@ -24,7 +27,14 @@ class CleanDiagnosticTreeManager(environmentProvider: EnvironmentProvider, logge
       override def `type`: CleanDiagnosticTreeRequestType.type = CleanDiagnosticTreeRequestType
 
       override def apply(params: CleanDiagnosticTreeParams): Future[Seq[AlsPublishDiagnosticsParams]] =
-        validate(params.textDocument.uri)
+        telemetryProvider.timeProcess(
+          "Clean validation",
+          MessageTypes.BEGIN_CLEAN_VALIDATION,
+          MessageTypes.END_CLEAN_VALIDATION,
+          s"Clean validation request for: ${params.textDocument.uri}",
+          params.textDocument.uri,
+          () => validate(params.textDocument.uri)
+        )
     }
   )
 

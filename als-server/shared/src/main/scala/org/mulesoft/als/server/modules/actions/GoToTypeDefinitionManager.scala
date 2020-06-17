@@ -14,7 +14,7 @@ import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.configuration.StaticRegistrationOptions
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.common.{Location, LocationLink, TextDocumentPositionParams}
-import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
+import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import org.mulesoft.lsp.feature.typedefinition.{
   TypeDefinitionClientCapabilities,
   TypeDefinitionConfigType,
@@ -54,18 +54,28 @@ class GoToTypeDefinitionManager(val workspace: WorkspaceManager,
 
   def goToTypeDefinition(uri: String, position: Position): Future[Either[Seq[Location], Seq[LocationLink]]] = {
     val uuid = UUID.randomUUID().toString
-    FindDefinition
-      .getDefinition(
-        uri,
-        position,
-        workspace.getRelationships(uri, uuid).map(_.filter(_.linkType == LinkTypes.TRAITRESOURCES)),
-        workspace.getAliases(uri, uuid),
-        workspace.getLastUnit(uri, uuid).map(_.unit),
-        platform
-      )
-      .map(Right(_))
+    def innerGoToTypeDefinition() =
+      FindDefinition
+        .getDefinition(
+          uri,
+          position,
+          workspace.getRelationships(uri, uuid).map(_.filter(_.linkType == LinkTypes.TRAITRESOURCES)),
+          workspace.getAliases(uri, uuid),
+          workspace.getLastUnit(uri, uuid).map(_.unit),
+          platform
+        )
+        .map(Right(_))
+
+    telemetryProvider.timeProcess(
+      "Get Go to type definition",
+      MessageTypes.BEGIN_GOTO_T_DEF,
+      MessageTypes.END_GOTO_T_DEF,
+      s"request for go to type definition on $uri",
+      uri,
+      innerGoToTypeDefinition,
+      uuid
+    )
   }
 
   override def initialize(): Future[Unit] = Future.successful()
-
 }
