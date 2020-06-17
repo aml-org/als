@@ -13,6 +13,7 @@ import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, Syntax}
 import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
+import org.mulesoft.amfmanager.AmfParseResult
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.completion._
@@ -64,71 +65,42 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
 
   protected def onDocumentCompletion(lspUri: String, position: Position): Future[Seq[CompletionItem]] = {
     val telemetryUUID: String = UUID.randomUUID().toString
-    val uri                   = lspUri.toAmfUri(editorEnvironment.platform)
-    // we need to normalize the URI encoding so we can find it both on RL and memory
 
-    logger.debug(s"Calling for completion for uri $uri and position $position",
-                 "SuggestionsManager",
-                 "onDocumentCompletion")
-    editorEnvironment.get(uri) match {
-      case Some(textDocument) =>
-        val startTime    = System.currentTimeMillis()
-        val syntax       = Syntax(textDocument.syntax)
-        val originalText = textDocument.text
-        val offset       = position.offset(originalText)
-        telemetryProvider.addTimedMessage("Begin Suggestions",
-                                          "SuggestionsManager",
-                                          "onDocumentCompletion",
-                                          MessageTypes.BEGIN_COMPLETION,
-                                          uri,
-                                          telemetryUUID)
-        telemetryProvider.addTimedMessage("Begin Patching Suggestions",
-                                          "SuggestionsManager",
-                                          "onDocumentCompletion",
-                                          MessageTypes.BEGIN_PATCHING,
-                                          uri,
-                                          telemetryUUID)
-        val patchedContent = ContentPatcher(originalText, offset, syntax).prepareContent()
-        telemetryProvider.addTimedMessage("End Patching Suggestions",
-                                          "SuggestionsManager",
-                                          "onDocumentCompletion",
-                                          MessageTypes.END_PATCHING,
-                                          uri,
-                                          telemetryUUID)
-        buildCompletionProviderAST(
-          new TextDocument(uri, textDocument.version, patchedContent.content, syntax.toString, logger),
-          originalText,
-          uri,
-          offset,
-          syntax,
-          patchedContent,
-          telemetryUUID
-        ).flatMap(provider => {
-          provider
-            .suggest()
-            .map(result => {
-              this.logger
-                .debug(s"Got ${result.length} proposals for $uri", "SuggestionsManager", "onDocumentCompletion")
-
-              val endTime = System.currentTimeMillis()
-
-              this.logger.debug(s"It took ${endTime - startTime} milliseconds to complete",
-                                "ASTSuggestionsManager",
-                                "onDocumentCompletion")
-
-              telemetryProvider.addTimedMessage("End Suggestions",
-                                                "SuggestionsManager",
-                                                "onDocumentCompletion",
-                                                MessageTypes.END_COMPLETION,
-                                                uri,
-                                                telemetryUUID)
-              result
-            })
-        })
-      case _ => Future.successful(Seq.empty)
-
+    def innerOnDocumentCompletion(): Future[Seq[CompletionItem]] = {
+      val uri = lspUri.toAmfUri(editorEnvironment.platform)
+      // we need to normalize the URI encoding so we can find it both on RL and memory
+      editorEnvironment.get(uri) match {
+        case Some(textDocument) =>
+          val syntax       = Syntax(textDocument.syntax)
+          val originalText = textDocument.text
+          val offset       = position.offset(originalText)
+          val patchedContent =
+            ContentPatcher(originalText, offset, syntax).prepareContent()
+          buildCompletionProviderAST(
+            new TextDocument(uri, textDocument.version, patchedContent.content, syntax.toString, logger),
+            originalText,
+            uri,
+            offset,
+            syntax,
+            patchedContent,
+            telemetryUUID
+          ).flatMap(provider => {
+            provider
+              .suggest()
+          })
+        case _ => Future.successful(Seq.empty)
+      }
     }
 
+    telemetryProvider.timeProcess(
+      "Completion",
+      MessageTypes.BEGIN_COMPLETION,
+      MessageTypes.END_COMPLETION,
+      "SuggestionsManager : onDocumentCompletion",
+      lspUri,
+      innerOnDocumentCompletion,
+      telemetryUUID
+    )
   }
 
   def buildCompletionProviderAST(text: TextDocument,
@@ -138,33 +110,16 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
                                  syntax: Syntax,
                                  patchedContent: PatchedContent,
                                  uuid: String): Future[CompletionProvider] = {
-    val amfRefinedUri = uri.toAmfDecodedUri(editorEnvironment.platform)
-    telemetryProvider.addTimedMessage("Start parsing for completion",
-                                      "SuggestionsManager",
-                                      "buildCompletionProviderAST",
-                                      MessageTypes.BEGIN_PARSE_PATCHED,
-                                      uri,
-                                      uuid)
-    val patchedEnvironment: TextDocumentContainer = editorEnvironment.patchUri(uri, text)
 
-    val eventualUnit =
-      workspace.getUnit(uri, uuid).flatMap { bu =>
-        editorEnvironment.amfConfiguration.parserHelper.parse(
-          amfRefinedUri,
-          patchedEnvironment.environment
-            .withResolver(CompletionReferenceResolver(bu.unit))
-            .withLoaders(patchedEnvironment.environment.loaders ++ editorEnvironment.environment.loaders)
-        )
-      }
-
-    eventualUnit.foreach { _ =>
-      telemetryProvider.addTimedMessage("End parsing for completion",
-                                        "SuggestionsManager",
-                                        "buildCompletionProviderAST",
-                                        MessageTypes.END_PARSE_PATCHED,
-                                        uri,
-                                        uuid)
-    }
+    val eventualUnit = telemetryProvider.timeProcess(
+      "Start Patched Parse",
+      MessageTypes.BEGIN_PARSE_PATCHED,
+      MessageTypes.END_PARSE_PATCHED,
+      "SuggestionsManager : buildCompletionProviderAST",
+      uri,
+      innerParsePatched(uri, text, uuid),
+      uuid
+    )
 
     suggestions.buildProviderAsync(
       eventualUnit.map(_.baseUnit),
@@ -174,5 +129,17 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
       snippetSupport,
       workspace.getProjectRootOf(uri)
     )
+  }
+  private def innerParsePatched(uri: String, text: TextDocument, uuid: String)(): Future[AmfParseResult] = {
+    val patchedEnvironment: TextDocumentContainer =
+      editorEnvironment.patchUri(uri, text)
+    workspace.getUnit(uri, uuid).flatMap { bu =>
+      editorEnvironment.amfConfiguration.parserHelper.parse(
+        uri.toAmfDecodedUri(editorEnvironment.platform),
+        patchedEnvironment.environment
+          .withResolver(CompletionReferenceResolver(bu.unit))
+          .withLoaders(patchedEnvironment.environment.loaders ++ editorEnvironment.environment.loaders)
+      )
+    }
   }
 }

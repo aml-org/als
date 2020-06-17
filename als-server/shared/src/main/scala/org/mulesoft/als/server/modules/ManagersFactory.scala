@@ -104,6 +104,7 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
 
   val resolutionTaskManager = new ResolutionTaskManager(
     telemetryManager,
+    logger,
     container,
     resolutionDependencies,
     resolutionDependencies.collect {
@@ -161,9 +162,8 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
 
   lazy val serializationManager: Option[SerializationManager[_]] =
     resolutionDependencies.collectFirst({
-      case s: SerializationManager[_] => {
+      case s: SerializationManager[_] =>
         s.withUnitAccessor(resolutionTaskManager) // is this redundant with the initialization of workspace manager?
         s
-      }
     })
 }

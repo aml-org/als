@@ -48,8 +48,6 @@ trait DiagnosticManager extends ClientNotifierModule[DiagnosticClientCapabilitie
     val msg =
       s"DiagnosticManager suffered an unexpected error while validating: $e"
     logger.warning(msg, "DiagnosticManager", "report")
-    telemetryProvider.addTimedMessage(msg, "DiagnosticManager", "report", MessageTypes.DIAGNOSTIC_ERROR, uri, uuid)
-
     Future.successful(failedReportDiagnostic(msg, baseUnit))
   }
 

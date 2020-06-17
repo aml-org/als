@@ -1,24 +1,44 @@
 package org.mulesoft.lsp.feature.telemetry
 
+import java.util.UUID
+
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
+
 object MessageTypes extends Enumeration {
-  type MessageTypes = Value
-  val BEGIN_PARSE, END_PARSE, BEGIN_PARSE_PATCHED, END_PARSE_PATCHED, BEGIN_REPORT, END_REPORT, BEGIN_PATCHING,
-  END_PATCHING, GOT_DIAGNOSTICS, BEGIN_COMPLETION, END_COMPLETION, BEGIN_STRUCTURE, END_STRUCTURE, BEGIN_DIAGNOSTIC,
-  END_DIAGNOSTIC, CHANGE_DOCUMENT, BEGIN_AMF_INIT, END_AMF_INIT, INDEX_DIALECT, DIAGNOSTIC_ERROR, BEGIN_RESOLUTION,
-  END_RESOLUTION, RESOLUTION = Value
+  type MessageTypes = String
+  val BEGIN_PARSE         = "BEGIN_PARSE"
+  val END_PARSE           = "END_PARSE"
+  val BEGIN_PARSE_PATCHED = "BEGIN_PARSE_PATCHED"
+  val END_PARSE_PATCHED   = "END_PARSE_PATCHED"
+  val BEGIN_REPORT        = "BEGIN_REPORT"
+  val END_REPORT          = "END_REPORT"
+  val BEGIN_COMPLETION    = "BEGIN_COMPLETION"
+  val END_COMPLETION      = "END_COMPLETION"
+  val BEGIN_STRUCTURE     = "BEGIN_STRUCTURE"
+  val END_STRUCTURE       = "END_STRUCTURE"
+  val BEGIN_DIAGNOSTIC    = "BEGIN_DIAGNOSTIC"
+  val END_DIAGNOSTIC      = "END_DIAGNOSTIC"
+  val INDEX_DIALECT       = "INDEX_DIALECT"
+  val BEGIN_RESOLUTION    = "BEGIN_RESOLUTION"
+  val END_RESOLUTION      = "END_RESOLUTION"
 }
 
 trait TelemetryProvider {
 
-  def addTimedMessage(code: String, messageType: MessageTypes, msg: String, uri: String, uuid: String): Unit
+  protected def addTimedMessage(code: String, messageType: MessageTypes, msg: String, uri: String, uuid: String): Unit
 
-  def addTimedMessage(msg: String,
-                      className: String,
-                      methodName: String,
-                      messageType: MessageTypes,
-                      uri: String,
-                      uuid: String): Unit =
-    addTimedMessage(s"$className : $methodName", messageType, msg, uri, uuid)
+  final def timeProcess[T](code: String,
+                           beginType: MessageTypes,
+                           endType: MessageTypes,
+                           msg: String,
+                           uri: String,
+                           fn: () => Future[T],
+                           uuid: String = UUID.randomUUID().toString): Future[T] = {
+    addTimedMessage(code, beginType, msg, uri, uuid)
+    fn()
+      .andThen { case _ => addTimedMessage(code, endType, msg, uri, uuid) }
+  }
 }

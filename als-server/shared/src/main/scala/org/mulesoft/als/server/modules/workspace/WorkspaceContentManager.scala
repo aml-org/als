@@ -153,19 +153,18 @@ class WorkspaceContentManager(val folder: String,
   }
 
   private def parse(uri: String, environment: Environment, uuid: String): Future[AmfParseResult] = {
-    telemetryProvider.addTimedMessage("Start AMF Parse",
-                                      "WorkspaceContentManager",
-                                      "parse",
-                                      MessageTypes.BEGIN_PARSE,
-                                      uri,
-                                      uuid)
-    environmentProvider.amfConfiguration.parserHelper
-      .parse(uri.toAmfDecodedUri, environment.withResolver(repository.resolverCache)) andThen {
-      case _ =>
-        telemetryProvider
-          .addTimedMessage("End AMF Parse", "WorkspaceContentManager", "parse", MessageTypes.END_PARSE, uri, uuid)
-    }
+    telemetryProvider.timeProcess("AMF Parse",
+                                  MessageTypes.BEGIN_PARSE,
+                                  MessageTypes.END_PARSE,
+                                  "WorkspaceContentManager : parse",
+                                  uri,
+                                  innerParse(uri, environment),
+                                  uuid)
   }
+
+  private def innerParse(uri: String, environment: Environment)() =
+    environmentProvider.amfConfiguration.parserHelper
+      .parse(uri.toAmfDecodedUri, environment.withResolver(repository.resolverCache))
 
   def getRelationships(uri: String): Relationships =
     Relationships(repository, () => Some(getCompilableUnit(uri.toAmfUri)))
