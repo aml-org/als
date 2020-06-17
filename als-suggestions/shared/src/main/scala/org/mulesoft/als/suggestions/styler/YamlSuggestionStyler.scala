@@ -31,7 +31,7 @@ case class YamlSuggestionStyler(override val params: StylerParams) extends Sugge
   }
 
   def buildYamlRenderOptions: YamlRenderOptions = {
-    new YamlRenderOptions().withIndentationSize(params.formattingConfiguration.tabSize)
+    new YamlRenderOptions().withIndentationSize(params.formattingConfiguration.indentationSize)
   }
 
   override def style(raw: RawSuggestion): Styled = super.style(fixTokens(raw))

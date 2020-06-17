@@ -22,10 +22,7 @@ case class JsonSuggestionStyler(override val params: StylerParams) extends Sugge
       JsonRender.render(builder.ast, params.indentation, options = buildRenderOptions)
     if (renderedJson.endsWith("{}")) {
       builder.forSnippet()
-      renderedJson.replace(
-        "{}",
-        "{\n"
-          + initialIndentation() + (if (useSpaces) " " * tabSize else "\t") + "\"$1\"\n" + initialIndentation() + "}")
+      renderedJson.replace("{}", "{\n" + (if (useSpaces) " " * tabSize else "\t") + "\"$1\"\n}")
     } else renderedJson
   }
 

@@ -10,14 +10,14 @@ import org.mulesoft.als.server.protocol.convert.LspConvertersSharedToClient._
 
 @js.native
 trait ClientUpdateConfigurationParams extends js.Object {
-  def clientUpdateFormatOptionsParams: UndefOr[ClientUpdateFormatOptionsParams] = js.native // Nullable
+  def clientAlsFormattingOptions: js.UndefOr[js.Dictionary[ClientAlsFormattingOptions]] = js.native // Nullable
 }
 
 object ClientUpdateConfigurationParams {
   def apply(internal: UpdateConfigurationParams): ClientUpdateConfigurationParams = {
     js.Dynamic
       .literal(
-        conversion = internal.updateFormatOptionsParams.map(_.toClient).orNull
+        conversion = internal.updateFormatOptionsParams.foreach(f => f.map(v => v._1.toString -> v._2.toClient))
       )
       .asInstanceOf[ClientUpdateConfigurationParams]
   }

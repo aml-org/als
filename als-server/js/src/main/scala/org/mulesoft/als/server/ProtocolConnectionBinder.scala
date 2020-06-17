@@ -10,7 +10,7 @@ import org.mulesoft.als.server.protocol.configuration.{
   ClientAlsInitializeParams,
   ClientAlsInitializeResult,
   ClientUpdateConfigurationParams,
-  ClientUpdateFormatOptionsParams
+  ClientAlsFormattingOptions
 }
 import org.mulesoft.als.server.protocol.convert.LspConvertersClientToShared._
 import org.mulesoft.als.server.protocol.convert.LspConvertersSharedToClient._

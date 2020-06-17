@@ -11,7 +11,7 @@ import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapp
 import org.mulesoft.als.common.AmfSonElementFinder._
 import org.mulesoft.als.common._
 import org.mulesoft.als.common.dtoTypes.{PositionRange, Position => DtoPosition}
-import org.mulesoft.als.configuration.AlsFormattingOptions
+import org.mulesoft.als.configuration.{AlsConfigurationReader, AlsFormattingOptions}
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.als.suggestions.styler.{SuggestionRender, SuggestionStylerBuilder}
@@ -26,7 +26,7 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
                            val platform: Platform,
                            val styler: SuggestionRender,
                            val yPartBranch: YPartBranch,
-                           val formattingConfiguration: AlsFormattingOptions,
+                           val configurationReader: AlsConfigurationReader,
                            private val objectInTree: ObjectInTree,
                            val inheritedProvider: Option[DeclarationProvider] = None,
                            val rootUri: Option[String]) {
@@ -104,7 +104,7 @@ object AmlCompletionRequestBuilder {
             patchedContent: PatchedContent,
             snippetSupport: Boolean,
             rootLocation: Option[String],
-            formattingConfiguration: AlsFormattingOptions): AmlCompletionRequest = {
+            configuration: AlsConfigurationReader): AmlCompletionRequest = {
     val yPartBranch: YPartBranch = {
       val ast = baseUnit match {
         case d: Document =>
@@ -122,7 +122,7 @@ object AmlCompletionRequestBuilder {
       patchedContent,
       dtoPosition,
       yPartBranch,
-      formattingConfiguration,
+      configuration,
       snippetSupport,
       indentation(baseUnit, dtoPosition)
     )
@@ -137,7 +137,7 @@ object AmlCompletionRequestBuilder {
       platform,
       styler,
       yPartBranch,
-      formattingConfiguration,
+      configuration,
       objectInTree,
       rootUri = rootLocation
     )
@@ -193,7 +193,7 @@ object AmlCompletionRequestBuilder {
       parent.platform,
       parent.styler,
       parent.yPartBranch,
-      parent.formattingConfiguration,
+      parent.configurationReader,
       objectInTree,
       Some(filterProvider),
       parent.rootUri

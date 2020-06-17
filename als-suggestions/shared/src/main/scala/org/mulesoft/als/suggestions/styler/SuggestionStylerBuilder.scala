@@ -2,7 +2,7 @@ package org.mulesoft.als.suggestions.styler
 
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.als.configuration.AlsFormattingOptions
+import org.mulesoft.als.configuration.{AlsConfigurationReader, AlsFormatMime, AlsFormattingOptions}
 import org.mulesoft.als.suggestions.patcher.PatchedContent
 
 object SuggestionStylerBuilder {
@@ -11,15 +11,20 @@ object SuggestionStylerBuilder {
             patchedContent: PatchedContent,
             position: Position,
             yPartBranch: YPartBranch,
-            formattingConfiguration: AlsFormattingOptions,
+            configuration: AlsConfigurationReader,
             snippetsSupport: Boolean = true,
             indentation: Int = 0): SuggestionRender = {
+
+    val formatOptions: AlsFormattingOptions = configuration.getFormattingOptions(
+      if (isYAML) AlsFormatMime.YAML else AlsFormatMime.JSON
+    )
+
     val params =
       StylerParams.apply(prefix: String,
                          patchedContent,
                          position: Position,
                          yPartBranch,
-                         formattingConfiguration,
+                         formatOptions,
                          indentation,
                          snippetsSupport)
 

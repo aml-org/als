@@ -14,7 +14,7 @@ trait SuggestionRender {
 
   lazy val stringIndentation: String   = " " * params.indentation
   lazy val initialIndentationSize: Int = params.indentation / 2
-  lazy val tabSize: Int                = params.formattingConfiguration.tabSize
+  lazy val tabSize: Int                = params.formattingConfiguration.indentationSize
 
   def patchPath(builder: CompletionItemBuilder): Unit = {
     val index =

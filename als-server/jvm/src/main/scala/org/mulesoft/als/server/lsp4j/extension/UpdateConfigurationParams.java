@@ -1,14 +1,16 @@
 package org.mulesoft.als.server.lsp4j.extension;
 
+import java.util.Map;
+
 public class UpdateConfigurationParams {
 
-    private UpdateFormatOptionsParams updateFormatOptionsParams;
+    private Map<String, AlsFormattingOptions> formattingOptions;
 
-    public UpdateConfigurationParams(UpdateFormatOptionsParams updateFormatOptionsParams) {
-        this.updateFormatOptionsParams = updateFormatOptionsParams;
+    public UpdateConfigurationParams(Map<String, AlsFormattingOptions> updateFormatOptionsParams) {
+        this.formattingOptions = updateFormatOptionsParams;
     }
 
-    public UpdateFormatOptionsParams getUpdateFormatOptionsParams() {
-        return updateFormatOptionsParams;
+    public Map<String, AlsFormattingOptions> getUpdateFormatOptionsParams() {
+        return formattingOptions;
     }
 }

@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.modules.configuration
 
-import org.mulesoft.als.configuration.{AlsConfiguration, AlsConfigurationReader, AlsFormattingOptions}
+import org.mulesoft.als.configuration.AlsFormatMime.AlsFormatMime
+import org.mulesoft.als.configuration.{AlsConfiguration, AlsConfigurationReader, AlsFormatMime, AlsFormattingOptions}
 import org.mulesoft.als.server.feature.configuration.{
   UpdateConfigurationClientCapabilities,
   UpdateConfigurationConfigType,
@@ -16,8 +17,9 @@ class ConfigurationManager
     with InitializableModule[UpdateConfigurationClientCapabilities, UpdateConfigurationServerOptions] {
 
   def update(params: UpdateConfigurationParams): Unit = {
-    params.updateFormatOptionsParams.foreach(p =>
-      configuration.updateFormattingOptions(AlsFormattingOptions(p.tabSize, p.insertSpaces)))
+    params.updateFormatOptionsParams.foreach(f => {
+      configuration.updateFormattingOptions(f)
+    })
   }
 
   def getConfiguration: AlsConfigurationReader = configuration;

@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.protocol.convert
 
-import org.mulesoft.als.server.feature.configuration.UpdateFormatOptionsParams
+import org.mulesoft.als.configuration.AlsFormattingOptions
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeOptions}
 import org.mulesoft.als.server.feature.fileusage.{FileUsageClientCapabilities, FileUsageOptions}
 import org.mulesoft.als.server.feature.serialization.{
@@ -61,9 +61,9 @@ object LspConvertersSharedToClient {
       ClientAlsClientCapabilities(v)
   }
 
-  implicit class ClientUpdateFormatOptionsParamsConverter(v: UpdateFormatOptionsParams) {
-    def toClient: ClientUpdateFormatOptionsParams =
-      ClientUpdateFormatOptionsParams(v)
+  implicit class ClientUpdateFormatOptionsParamsConverter(v: AlsFormattingOptions) {
+    def toClient: ClientAlsFormattingOptions =
+      ClientAlsFormattingOptions(v)
   }
 
   implicit class ClientFilesInProjectParamsConverter(v: FilesInProjectParams) {

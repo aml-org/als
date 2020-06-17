@@ -2,14 +2,13 @@ package org.mulesoft.als.server.lsp4j.extension;
 
 import org.eclipse.lsp4j.FormattingOptions;
 
-public class AlsConfiguration {
-    private FormattingOptions formattingOptions;
+import java.util.Map;
 
-    public FormattingOptions getFormattingOptions() {
+public class AlsConfiguration {
+    private Map<String, AlsFormattingOptions> formattingOptions;
+
+    public Map<String, AlsFormattingOptions> getFormattingOptions() {
         return formattingOptions;
     }
 
-    public void setFormattingOptions(FormattingOptions formattingOptions) {
-        this.formattingOptions = formattingOptions;
-    }
 }

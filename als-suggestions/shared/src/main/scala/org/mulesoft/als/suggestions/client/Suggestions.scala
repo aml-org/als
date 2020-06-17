@@ -126,7 +126,7 @@ class Suggestions(platform: Platform,
                patchedContent,
                snippetSupport,
                rootLocation,
-               configuration.getFormattingOptions))
+               configuration))
   }
 }
 
