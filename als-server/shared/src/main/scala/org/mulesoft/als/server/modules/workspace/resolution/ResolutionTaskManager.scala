@@ -3,6 +3,7 @@ package org.mulesoft.als.server.modules.workspace.resolution
 import java.util.UUID
 
 import amf.core.model.document.BaseUnit
+import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.workspace.{Repository, ResolverStagingArea, StagingArea}
 import org.mulesoft.als.server.textsync.EnvironmentProvider
@@ -15,6 +16,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class ResolutionTaskManager(telemetryProvider: TelemetryProvider,
+                            logger: Logger,
                             environmentProvider: EnvironmentProvider,
                             private val allSubscribers: List[ResolvedUnitListener],
                             override val dependencies: List[AccessUnits[AmfResolvedUnit]])
@@ -32,12 +34,7 @@ class ResolutionTaskManager(telemetryProvider: TelemetryProvider,
     new ResolutionRepository()
 
   override protected def log(msg: String): Unit =
-    telemetryProvider.addTimedMessage(msg,
-                                      "ResolutionTaskManager",
-                                      "log",
-                                      MessageTypes.RESOLUTION,
-                                      "",
-                                      UUID.randomUUID().toString)
+    logger.error(msg, "ResolutionTaskManager", "Processing request")
 
   override protected def disableTasks(): Future[Unit] = Future.unit
 
@@ -101,16 +98,19 @@ class ResolutionTaskManager(telemetryProvider: TelemetryProvider,
     override protected type T = AmfResolvedUnit
 
     override protected def resolvedUnitFn(): Future[BaseUnit] = {
-      val uuid = UUID.randomUUID().toString
+      telemetryProvider
+        .timeProcess("AMF RESOLVE",
+                     MessageTypes.BEGIN_RESOLUTION,
+                     MessageTypes.END_RESOLUTION,
+                     "resolving with editing pipeline",
+                     uri,
+                     innerResolveUnit)
+    }
 
-      telemetryProvider.addTimedMessage("resolve", MessageTypes.BEGIN_RESOLUTION, "begin resolution", uri, uuid)
+    private def innerResolveUnit() =
       Future(
         environmentProvider.amfConfiguration.parserHelper
-          .editingResolve(originalUnit.cloneUnit(), eh)) andThen {
-        case _ =>
-          telemetryProvider.addTimedMessage("resolve", MessageTypes.END_RESOLUTION, "end resolution", uri, uuid)
-      }
-    }
+          .editingResolve(originalUnit.cloneUnit(), eh))
 
     override def next: Option[Future[T]] = getNext(uri)
   }

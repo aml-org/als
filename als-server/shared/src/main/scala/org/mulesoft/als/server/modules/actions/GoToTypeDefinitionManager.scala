@@ -1,7 +1,5 @@
 package org.mulesoft.als.server.modules.actions
 
-import java.util.UUID
-
 import amf.core.remote.Platform
 import org.mulesoft.als.actions.common.LinkTypes
 import org.mulesoft.als.actions.definition.FindDefinition
@@ -12,9 +10,10 @@ import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.configuration.StaticRegistrationOptions
-import org.mulesoft.lsp.feature.RequestHandler
-import org.mulesoft.lsp.feature.common.{Location, LocationLink, TextDocumentPositionParams}
-import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
+import org.mulesoft.lsp.feature.TelemeteredRequestHandler
+import org.mulesoft.lsp.feature.common.{Location, LocationLink}
+import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
+import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import org.mulesoft.lsp.feature.typedefinition.{
   TypeDefinitionClientCapabilities,
   TypeDefinitionConfigType,
@@ -36,13 +35,26 @@ class GoToTypeDefinitionManager(val workspace: WorkspaceManager,
   override val `type`: ConfigType[TypeDefinitionClientCapabilities, Either[Boolean, StaticRegistrationOptions]] =
     TypeDefinitionConfigType
 
-  override val getRequestHandlers: Seq[RequestHandler[_, _]] = Seq(
-    new RequestHandler[TypeDefinitionParams, Either[Seq[Location], Seq[LocationLink]]] {
+  override val getRequestHandlers: Seq[TelemeteredRequestHandler[_, _]] = Seq(
+    new TelemeteredRequestHandler[TypeDefinitionParams, Either[Seq[Location], Seq[LocationLink]]] {
       override def `type`: TypeDefinitionRequestType.type =
         TypeDefinitionRequestType
 
-      override def apply(params: TypeDefinitionParams): Future[Either[Seq[Location], Seq[LocationLink]]] =
-        goToTypeDefinition(params.textDocument.uri, LspRangeConverter.toPosition(params.position))
+      override def task(params: TypeDefinitionParams): Future[Either[Seq[Location], Seq[LocationLink]]] =
+        goToTypeDefinition(params.textDocument.uri, LspRangeConverter.toPosition(params.position), uuid(params))
+
+      override protected def telemetry: TelemetryProvider = telemetryProvider
+
+      override protected def code(params: TypeDefinitionParams): String = "GotoTypeDefinitionManager"
+
+      override protected def beginType(params: TypeDefinitionParams): MessageTypes = MessageTypes.BEGIN_GOTO_T_DEF
+
+      override protected def endType(params: TypeDefinitionParams): MessageTypes = MessageTypes.END_GOTO_T_DEF
+
+      override protected def msg(params: TypeDefinitionParams): String =
+        s"request for go to type definition on ${params.textDocument.uri}"
+
+      override protected def uri(params: TypeDefinitionParams): String = params.textDocument.uri
     }
   )
 
@@ -52,8 +64,9 @@ class GoToTypeDefinitionManager(val workspace: WorkspaceManager,
     Left(true)
   }
 
-  def goToTypeDefinition(uri: String, position: Position): Future[Either[Seq[Location], Seq[LocationLink]]] = {
-    val uuid = UUID.randomUUID().toString
+  def goToTypeDefinition(uri: String,
+                         position: Position,
+                         uuid: String): Future[Either[Seq[Location], Seq[LocationLink]]] =
     FindDefinition
       .getDefinition(
         uri,
@@ -64,8 +77,6 @@ class GoToTypeDefinitionManager(val workspace: WorkspaceManager,
         platform
       )
       .map(Right(_))
-  }
 
   override def initialize(): Future[Unit] = Future.successful()
-
 }

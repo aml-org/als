@@ -8,6 +8,8 @@ import org.mulesoft.als.server.SerializationProps
 import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.actions._
+import org.mulesoft.als.server.modules.actions.fileUsage.FindFileUsageManager
+import org.mulesoft.als.server.modules.actions.rename.RenameManager
 import org.mulesoft.als.server.modules.ast.{AccessUnits, BaseUnitListener, ResolvedUnitListener}
 import org.mulesoft.als.server.modules.completion.SuggestionsManager
 import org.mulesoft.als.server.modules.diagnostic._
@@ -58,7 +60,7 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Log
     new TelemetryManager(clientNotifier, logger)
 
   def serializationManager[S](sp: SerializationProps[S]): SerializationManager[S] = {
-    val s = new SerializationManager(amfConfig, sp, logger)
+    val s = new SerializationManager(telemetryManager, amfConfig, sp, logger)
     resolutionDependencies += s
     s
   }
@@ -100,10 +102,11 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
   val container: TextDocumentContainer =
     TextDocumentContainer(environment, platform, amfConfiguration)
 
-  val cleanDiagnosticManager = new CleanDiagnosticTreeManager(container, logger)
+  val cleanDiagnosticManager = new CleanDiagnosticTreeManager(telemetryManager, container, logger)
 
   val resolutionTaskManager = new ResolutionTaskManager(
     telemetryManager,
+    logger,
     container,
     resolutionDependencies,
     resolutionDependencies.collect {
@@ -157,13 +160,12 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
     new RenameManager(workspaceManager, telemetryManager, logger)
 
   lazy val conversionManager =
-    new ConversionManager(workspaceManager, amfConfiguration, logger)
+    new ConversionManager(workspaceManager, telemetryManager, amfConfiguration, logger)
 
   lazy val serializationManager: Option[SerializationManager[_]] =
     resolutionDependencies.collectFirst({
-      case s: SerializationManager[_] => {
+      case s: SerializationManager[_] =>
         s.withUnitAccessor(resolutionTaskManager) // is this redundant with the initialization of workspace manager?
         s
-      }
     })
 }
