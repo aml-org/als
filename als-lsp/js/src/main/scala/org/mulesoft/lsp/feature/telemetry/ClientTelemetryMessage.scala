@@ -6,7 +6,7 @@ import scala.scalajs.js
 @js.native
 trait ClientTelemetryMessage extends js.Object {
   def event: String = js.native
-  def messageType: Int = js.native
+  def messageType: String = js.native
   def message: String = js.native
   def uri: String = js.native
   def time: String = js.native

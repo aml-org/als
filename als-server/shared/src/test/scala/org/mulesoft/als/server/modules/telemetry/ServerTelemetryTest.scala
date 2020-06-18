@@ -6,8 +6,7 @@ import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, M
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryMessage}
 
 import scala.concurrent.{ExecutionContext, Future}
-// TODO: keep each manager inside each test, instantiated with separated ClientNotifiers, which receive
-//    the expected messages and compare inside.
+
 class ServerTelemetryTest extends LanguageServerBaseTest {
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
@@ -16,8 +15,8 @@ class ServerTelemetryTest extends LanguageServerBaseTest {
   private val mockTelemetryClientNotifier = new MockTelemetryClientNotifier
 
   def buildServer(): LanguageServer = {
-    val builder = new WorkspaceManagerFactoryBuilder(mockTelemetryClientNotifier,logger)
-    val dm = builder.diagnosticManager()
+    val builder = new WorkspaceManagerFactoryBuilder(mockTelemetryClientNotifier, logger)
+    val dm      = builder.diagnosticManager()
     val factory = builder.buildWorkspaceManagerFactory()
 
     val b = new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
@@ -25,18 +24,17 @@ class ServerTelemetryTest extends LanguageServerBaseTest {
     b.build()
   }
 
-  def checkMessages(telemetryMessages: Seq[MessageTypes.Value], msgs: Seq[TelemetryMessage]): Boolean =
+  def checkMessages(telemetryMessages: Seq[String], msgs: Seq[TelemetryMessage]): Boolean =
     if (msgs.size == telemetryMessages.size &&
-        (msgs.map(_.messageType).toSet diff telemetryMessages.map(_.id).toSet).isEmpty)
+        (msgs.map(_.messageType).toSet diff telemetryMessages.toSet).isEmpty)
       true
     else {
       println(s"got: ${msgs.size}\texpected: ${telemetryMessages.size}")
-      println(msgs.map(_.messageType).toSet diff telemetryMessages.map(_.id).toSet)
+      println(msgs.map(_.messageType).toSet diff telemetryMessages.toSet)
       false
     }
 
-
-  //TODO: test again once Telemetry messaging is stable
+  // TODO: test again once Telemetry messaging is stable
   ignore("diagnostics test 001 - onFocus") {
     withServer(buildServer()) { server =>
       val mainFilePath = s"file://api.raml"
@@ -76,7 +74,7 @@ class ServerTelemetryTest extends LanguageServerBaseTest {
         withTelemetry(mockTelemetryClientNotifier)
 
       for {
-        a <- mockWithTelemetry((initMessages ++ openWithErrorTelemetryMessages(1)).size,
+        a <- mockWithTelemetry((openWithErrorTelemetryMessages(1)).size,
                                () => openFile(server)(libFilePath, libFileContent))
         b <- mockWithTelemetry(openWithErrorTelemetryMessages(2).size,
                                () => openFile(server)(mainFilePath, mainContent))
@@ -88,7 +86,7 @@ class ServerTelemetryTest extends LanguageServerBaseTest {
       } yield {
         server.shutdown()
         assert(
-          checkMessages(initMessages ++ openWithErrorTelemetryMessages(1), a) &&
+          checkMessages(openWithErrorTelemetryMessages(1), a) &&
             checkMessages(openWithErrorTelemetryMessages(2), b) &&
             checkMessages(openWithErrorTelemetryMessages(1), c) &&
             checkMessages(openWithErrorTelemetryMessages(1), d) &&
@@ -98,27 +96,20 @@ class ServerTelemetryTest extends LanguageServerBaseTest {
     }
   }
 
-  private def diagnosticTelemetryMessages(reportsQty: Int): Seq[MessageTypes.Value] = {
+  private def diagnosticTelemetryMessages(reportsQty: Int) = {
     Seq(
-      MessageTypes.BEGIN_DIAGNOSTIC,
+      MessageTypes.BEGIN_DIAGNOSTIC_PARSE,
       MessageTypes.BEGIN_REPORT,
       MessageTypes.END_REPORT,
-      MessageTypes.END_DIAGNOSTIC
+      MessageTypes.END_DIAGNOSTIC_PARSE
     )
   }
 
   private val cleanOpenTelemetryMessages = Seq(
-    MessageTypes.CHANGE_DOCUMENT,
     MessageTypes.BEGIN_PARSE,
     MessageTypes.END_PARSE
   )
 
-  private val initMessages = Seq(
-    MessageTypes.BEGIN_AMF_INIT,
-    MessageTypes.END_AMF_INIT,
-  )
-
-  private def openWithErrorTelemetryMessages(reportsQty: Int): Seq[MessageTypes.Value] =
+  private def openWithErrorTelemetryMessages(reportsQty: Int) =
     cleanOpenTelemetryMessages ++ diagnosticTelemetryMessages(reportsQty)
-
 }

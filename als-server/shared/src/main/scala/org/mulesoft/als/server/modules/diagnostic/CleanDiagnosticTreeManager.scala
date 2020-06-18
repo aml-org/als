@@ -8,23 +8,42 @@ import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.amfmanager.ParserHelper
 import org.mulesoft.lsp.ConfigType
-import org.mulesoft.lsp.feature.RequestHandler
+import org.mulesoft.lsp.feature.{RequestHandler, TelemeteredRequestHandler}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
+import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
+import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class CleanDiagnosticTreeManager(environmentProvider: EnvironmentProvider, logger: Logger)
+class CleanDiagnosticTreeManager(telemetryProvider: TelemetryProvider,
+                                 environmentProvider: EnvironmentProvider,
+                                 logger: Logger)
     extends RequestModule[CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeOptions] {
 
   private var enabled: Boolean = true
 
-  override def getRequestHandlers: Seq[RequestHandler[_, _]] = Seq(
-    new RequestHandler[CleanDiagnosticTreeParams, Seq[PublishDiagnosticsParams]] {
+  override def getRequestHandlers: Seq[TelemeteredRequestHandler[_, _]] = Seq(
+    new TelemeteredRequestHandler[CleanDiagnosticTreeParams, Seq[PublishDiagnosticsParams]] {
       override def `type`: CleanDiagnosticTreeRequestType.type = CleanDiagnosticTreeRequestType
 
-      override def apply(params: CleanDiagnosticTreeParams): Future[Seq[AlsPublishDiagnosticsParams]] =
+      override def task(params: CleanDiagnosticTreeParams): Future[Seq[AlsPublishDiagnosticsParams]] =
         validate(params.textDocument.uri)
+
+      override protected def telemetry: TelemetryProvider = telemetryProvider
+
+      override protected def code(params: CleanDiagnosticTreeParams): String = "CleanDiagnosticTreeManager"
+
+      override protected def beginType(params: CleanDiagnosticTreeParams): MessageTypes =
+        MessageTypes.BEGIN_CLEAN_VALIDATION
+
+      override protected def endType(params: CleanDiagnosticTreeParams): MessageTypes =
+        MessageTypes.END_CLEAN_VALIDATION
+
+      override protected def msg(params: CleanDiagnosticTreeParams): String =
+        s"Clean validation request for: ${params.textDocument.uri}"
+
+      override protected def uri(params: CleanDiagnosticTreeParams): String = params.textDocument.uri
     }
   )
 

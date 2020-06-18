@@ -11,8 +11,9 @@ import org.mulesoft.als.server.workspace.UnitAccessor
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureBuilder}
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.documentsymbol._
+import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
-import org.mulesoft.lsp.feature.{RequestHandler, documentsymbol}
+import org.mulesoft.lsp.feature.{RequestHandler, TelemeteredRequestHandler, documentsymbol}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -22,43 +23,49 @@ class StructureManager(val unitAccesor: UnitAccessor[CompilableUnit],
                        private val logger: Logger)
     extends RequestModule[DocumentSymbolClientCapabilities, Unit] {
 
-  override val `type`: ConfigType[DocumentSymbolClientCapabilities, Unit] = DocumentSymbolConfigType
+  override val `type`: ConfigType[DocumentSymbolClientCapabilities, Unit] =
+    DocumentSymbolConfigType
 
   override def applyConfig(config: Option[DocumentSymbolClientCapabilities]): Unit = {
     // todo: use DocumentSymbolClientCapabilities <- SymbolKindClientCapabilities to avoid sending unsupported symbols
   }
 
-  override def getRequestHandlers: Seq[RequestHandler[_, _]] = Seq(
-    new RequestHandler[DocumentSymbolParams, Either[Seq[SymbolInformation], Seq[documentsymbol.DocumentSymbol]]] {
-      override def `type`: DocumentSymbolRequestType.type = DocumentSymbolRequestType
+  override def getRequestHandlers: Seq[TelemeteredRequestHandler[_, _]] = Seq(
+    new TelemeteredRequestHandler[DocumentSymbolParams,
+                                  Either[Seq[SymbolInformation], Seq[documentsymbol.DocumentSymbol]]] {
+      override def `type`: DocumentSymbolRequestType.type =
+        DocumentSymbolRequestType
 
-      override def apply(
-          params: DocumentSymbolParams): Future[Either[Seq[SymbolInformation], Seq[documentsymbol.DocumentSymbol]]] = {
+      override def task(
+          params: DocumentSymbolParams): Future[Either[Seq[SymbolInformation], Seq[documentsymbol.DocumentSymbol]]] =
         onDocumentStructure(params.textDocument.uri)
           .map(_.map(LspConverter.toLspDocumentSymbol))
           .map(Right.apply)
-      }
+
+      override protected def telemetry: TelemetryProvider = telemetryProvider
+
+      override protected def code(params: DocumentSymbolParams): String = "StructureManager"
+
+      override protected def beginType(params: DocumentSymbolParams): MessageTypes = MessageTypes.BEGIN_STRUCTURE
+
+      override protected def endType(params: DocumentSymbolParams): MessageTypes = MessageTypes.END_STRUCTURE
+
+      override protected def msg(params: DocumentSymbolParams): String =
+        s"Requested structure for ${params.textDocument.uri}"
+
+      override protected def uri(params: DocumentSymbolParams): String = params.textDocument.uri
     }
   )
 
   val onDocumentStructureListener: String => Future[Seq[DocumentSymbol]] =
     onDocumentStructure
 
-  override def initialize(): Future[Unit] = {
+  override def initialize(): Future[Unit] =
     Future.successful()
-  }
 
   def onDocumentStructure(uri: String): Future[Seq[DocumentSymbol]] = {
     val telemetryUUID: String = UUID.randomUUID().toString
-
-    logger.debug("Asked for structure:\n" + uri, "StructureManager", "onDocumentStructure")
-    telemetryProvider.addTimedMessage("Begin Structure",
-                                      "StructureManager",
-                                      "onDocumentStructure",
-                                      MessageTypes.BEGIN_STRUCTURE,
-                                      uri,
-                                      telemetryUUID)
-    val results = unitAccesor
+    unitAccesor
       .getLastUnit(uri, telemetryUUID)
       .flatMap(_.getLast)
       .map(cu => {
@@ -73,18 +80,8 @@ class StructureManager(val unitAccesor: UnitAccessor[CompilableUnit],
             .error(s"Got error for $uri message: ${e.getMessage}", "StructureManager", "onDocumentStructure")
           Future.successful(List.empty)
       })
-
-    results.foreach(
-      _ =>
-        telemetryProvider.addTimedMessage("End Structure",
-                                          "StructureManager",
-                                          "onDocumentStructure",
-                                          MessageTypes.END_STRUCTURE,
-                                          uri,
-                                          telemetryUUID))
-    results
   }
 
-  def getStructureFromAST(ast: BaseUnit, uuid: String): List[DocumentSymbol] = StructureBuilder.listSymbols(ast)
-
+  def getStructureFromAST(ast: BaseUnit, uuid: String): List[DocumentSymbol] =
+    StructureBuilder.listSymbols(ast)
 }

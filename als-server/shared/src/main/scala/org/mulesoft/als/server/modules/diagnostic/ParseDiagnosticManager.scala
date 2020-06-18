@@ -34,33 +34,28 @@ class ParseDiagnosticManager(override protected val telemetryProvider: Telemetry
     val references   = tuple.diagnosticsBundle
     logger.debug("Got new AST:\n" + parsedResult.baseUnit.id, "ValidationManager", "newASTAvailable")
     val uri = parsedResult.location
-    telemetryProvider.addTimedMessage("Start report",
-                                      "DiagnosticManager",
-                                      "onNewAst",
-                                      MessageTypes.BEGIN_DIAGNOSTIC,
-                                      uri,
-                                      uuid)
-
-    gatherValidationErrors(parsedResult, references, uuid) andThen {
-      case Success(_) =>
-        telemetryProvider.addTimedMessage("End report",
-                                          "DiagnosticManager",
-                                          "onNewAst",
-                                          MessageTypes.END_DIAGNOSTIC,
-                                          uri,
-                                          uuid)
-
-      case Failure(exception) =>
-        telemetryProvider.addTimedMessage(s"End report: ${exception.getMessage}",
-                                          "DiagnosticManager",
-                                          "onNewAst",
-                                          MessageTypes.END_DIAGNOSTIC,
-                                          uri,
-                                          uuid)
-        logger.error("Error on validation: " + exception.toString, "ValidationManager", "newASTAvailable")
-        clientNotifier.notifyDiagnostic(ValidationReport(uri, Set.empty, ProfileNames.AMF).publishDiagnosticsParams)
-    }
+    telemetryProvider.timeProcess(
+      "Start report",
+      MessageTypes.BEGIN_DIAGNOSTIC_PARSE,
+      MessageTypes.END_DIAGNOSTIC_PARSE,
+      "ParseDiagnosticManager : onNewAst",
+      uri,
+      innerGatherValidations(uuid, parsedResult, references, uri),
+      uuid
+    )
   }
+
+  private def innerGatherValidations(uuid: String,
+                                     parsedResult: AmfParseResult,
+                                     references: Map[String, DiagnosticsBundle],
+                                     uri: String)() =
+    gatherValidationErrors(parsedResult, references, uuid) recoverWith {
+      case exception: Exception =>
+        logger.error("Error on validation: " + exception.toString, "ValidationManager", "newASTAvailable")
+        Future {
+          clientNotifier.notifyDiagnostic(ValidationReport(uri, Set.empty, ProfileNames.AMF).publishDiagnosticsParams)
+        }
+    }
 
   private def gatherValidationErrors(result: AmfParseResult,
                                      references: Map[String, DiagnosticsBundle],
