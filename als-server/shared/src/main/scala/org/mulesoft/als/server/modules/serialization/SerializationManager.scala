@@ -12,7 +12,8 @@ import org.mulesoft.als.server.{ClientNotifierModule, RequestModule, Serializati
 import org.mulesoft.amfintegration.{AmfInstance, AmfResolvedUnit}
 import org.mulesoft.amfmanager.AmfImplicits._
 import org.mulesoft.amfmanager.ParserHelper
-import org.mulesoft.lsp.feature.RequestHandler
+import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
+import org.mulesoft.lsp.feature.{RequestHandler, TelemeteredRequestHandler}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import org.yaml.builder.DocBuilder
 
@@ -94,20 +95,25 @@ class SerializationManager[S](telemetryProvider: TelemetryProvider,
 
   override def initialize(): Future[Unit] = Future.successful()
 
-  override def getRequestHandlers: Seq[RequestHandler[_, _]] = Seq(
-    new RequestHandler[SerializationParams, SerializationResult[S]] {
+  override def getRequestHandlers: Seq[TelemeteredRequestHandler[_, _]] = Seq(
+    new TelemeteredRequestHandler[SerializationParams, SerializationResult[S]] {
       override def `type`: props.requestType.type = props.requestType
 
-      override def apply(params: SerializationParams): Future[SerializationResult[S]] =
-        telemetryProvider.timeProcess(
-          "Request Serialization",
-          MessageTypes.BEGIN_SERIALIZATION,
-          MessageTypes.END_SERIALIZATION,
-          s"Serialization request for ${params.textDocument.uri}",
-          params.textDocument.uri,
-          () => processRequest(params.textDocument.uri)
-        )
+      override def task(params: SerializationParams): Future[SerializationResult[S]] =
+        processRequest(params.textDocument.uri)
 
+      override protected def telemetry: TelemetryProvider = telemetryProvider
+
+      override protected def code(params: SerializationParams): String = "SerializationManager"
+
+      override protected def beginType(params: SerializationParams): MessageTypes = MessageTypes.BEGIN_SERIALIZATION
+
+      override protected def endType(params: SerializationParams): MessageTypes = MessageTypes.END_SERIALIZATION
+
+      override protected def msg(params: SerializationParams): String =
+        s"Requested serialization for ${params.textDocument.uri}"
+
+      override protected def uri(params: SerializationParams): String = params.textDocument.uri
     }
   )
 
@@ -128,7 +134,7 @@ class SerializationManager[S](telemetryProvider: TelemetryProvider,
     def run(): Promise[Unit] = {
       val promise = Promise[Unit]()
 
-      def innerSerialize() =
+      def innerSerialize(): Future[Unit] =
         serialize(ast, uuid) andThen {
           case Success(report) => promise.success(report)
 

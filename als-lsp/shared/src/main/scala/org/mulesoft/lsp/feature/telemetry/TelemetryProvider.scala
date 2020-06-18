@@ -44,6 +44,12 @@ object MessageTypes extends Enumeration {
   val END_SERIALIZATION         = "END_SERIALIZATION"
   val BEGIN_CLEAN_VALIDATION    = "BEGIN_CLEAN_VALIDATION"
   val END_CLEAN_VALIDATION      = "END_CLEAN_VALIDATION"
+  val BEGIN_CONVERSION          = "BEGIN_CONVERSION"
+  val END_CONVERSION            = "END_CONVERSION"
+  val BEGIN_QUICK_FIX           = "BEGIN_QUICK_FIX"
+  val END_QUICK_FIX             = "END_QUICK_FIX"
+  val BEGIN_FILE_USAGE          = "BEGIN_FILE_USAGE"
+  val END_FILE_USAGE            = "END_FILE_USAGE"
 }
 
 trait TelemetryProvider {

@@ -8,6 +8,8 @@ import org.mulesoft.als.server.SerializationProps
 import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.actions._
+import org.mulesoft.als.server.modules.actions.fileUsage.FindFileUsageManager
+import org.mulesoft.als.server.modules.actions.rename.RenameManager
 import org.mulesoft.als.server.modules.ast.{AccessUnits, BaseUnitListener, ResolvedUnitListener}
 import org.mulesoft.als.server.modules.completion.SuggestionsManager
 import org.mulesoft.als.server.modules.diagnostic._
@@ -158,7 +160,7 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
     new RenameManager(workspaceManager, telemetryManager, logger)
 
   lazy val conversionManager =
-    new ConversionManager(workspaceManager, amfConfiguration, logger)
+    new ConversionManager(workspaceManager, telemetryManager, amfConfiguration, logger)
 
   lazy val serializationManager: Option[SerializationManager[_]] =
     resolutionDependencies.collectFirst({
