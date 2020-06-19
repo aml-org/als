@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.plugins.document.vocabularies.ReferenceStyles
+import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import org.mulesoft.als.common.SemanticNamedElement._
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.{PlainText, RawSuggestion, SuggestionStructure}
