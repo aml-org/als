@@ -37,6 +37,7 @@ import org.mulesoft.lsp.feature.documentsymbol.{
   SymbolKind,
   SymbolKindClientCapabilities
 }
+import org.mulesoft.lsp.feature.highlight.{DocumentHighlightCapabilities, DocumentHighlightParams}
 import org.mulesoft.lsp.feature.implementation.{ImplementationClientCapabilities, ImplementationParams}
 import org.mulesoft.lsp.feature.link.{DocumentLinkClientCapabilities, DocumentLinkOptions, DocumentLinkParams}
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
@@ -339,4 +340,11 @@ object LspConversions {
 
   implicit def documentLinkOptions(options: lsp4j.DocumentLinkOptions): DocumentLinkOptions =
     DocumentLinkOptions(Option(options.getResolveProvider))
+
+  implicit def documentHighlightCapabilities(
+      capa: lsp4j.DocumentHighlightCapabilities): DocumentHighlightCapabilities =
+    DocumentHighlightCapabilities(Option(capa.getDynamicRegistration))
+
+  implicit def documentHighlightParams(inner: lsp4j.DocumentHighlightParams): DocumentHighlightParams =
+    DocumentHighlightParams(inner.getTextDocument, inner.getPosition)
 }

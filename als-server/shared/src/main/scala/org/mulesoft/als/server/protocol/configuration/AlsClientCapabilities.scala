@@ -20,4 +20,5 @@ case class AlsClientCapabilities(workspace: Option[WorkspaceClientCapabilities] 
                                  serialization: Option[SerializationClientCapabilities] = None,
                                  cleanDiagnosticTree: Option[CleanDiagnosticTreeClientCapabilities] = None,
                                  fileUsage: Option[FileUsageClientCapabilities] = None,
-                                 conversion: Option[ConversionClientCapabilities] = None)
+                                 conversion: Option[ConversionClientCapabilities] = None,
+                                )
