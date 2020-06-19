@@ -41,8 +41,8 @@ The Server will use this information to unregister the file (which means it won�
 + Emits nothing
 
 #### [Command](https://microsoft.github.io/language-server-protocol/specification#workspace_executeCommand):
-Command is a LSP feature which allows the Client to ask the Server to execute a known instruction. We created a “OnFocus” command, which we use to trigger a regeneration of the Modeled document (using the current document as Root).
-A command support was implemented (“OnFocus”) to trigger a validations refresh.
+Command is an LSP feature which allows the Client to ask the Server to execute a known instruction. We created a “OnFocus” command, which we use to trigger a regeneration of the Modeled document (using the current document as Root).
+A command support (“OnFocus”) is implemented to trigger validation refresh.
 This will result in the Server remaking the Model, using the selected file as root.
 + Flow: Client sends request to Server
 + Trigger by:
