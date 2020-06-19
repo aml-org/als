@@ -1,14 +1,12 @@
 package org.mulesoft.als.server.modules.actions
 
-import java.util.UUID
-
 import org.mulesoft.als.actions.references.FindReferences
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.ConfigType
-import org.mulesoft.lsp.feature.{RequestHandler, TelemeteredRequestHandler}
+import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.common.Location
 import org.mulesoft.lsp.feature.reference.{
   ReferenceClientCapabilities,
@@ -37,7 +35,7 @@ class FindReferenceManager(val workspace: WorkspaceManager,
       override def `type`: ReferenceRequestType.type = ReferenceRequestType
 
       override def task(params: ReferenceParams): Future[Seq[Location]] =
-        findReference(params.textDocument.uri, Position(params.position.line, params.position.character), uuid(params))
+        findReference(params.textDocument.uri, Position(params.position), uuid(params))
 
       override protected def telemetry: TelemetryProvider = telemetryProvider
 
