@@ -2,7 +2,7 @@ package org.mulesoft.amfintegration.dialect
 
 import amf.core.model.document.BaseUnit
 import amf.core.remote._
-import amf.plugins.document.vocabularies.ReferenceStyles
+import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstanceUnit}
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
