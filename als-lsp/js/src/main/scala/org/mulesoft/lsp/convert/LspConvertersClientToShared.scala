@@ -4,19 +4,56 @@ import org.mulesoft.lsp.configuration._
 import org.mulesoft.lsp.edit._
 import org.mulesoft.lsp.feature.codeactions._
 import org.mulesoft.lsp.feature.command.{ClientCommand, Command}
-import org.mulesoft.lsp.feature.common.{ClientLocation, ClientLocationLink, ClientPosition, ClientRange, ClientTextDocumentIdentifier, ClientTextDocumentItem, ClientTextDocumentPositionParams, ClientVersionedTextDocumentIdentifier, Location, LocationLink, Position, Range, TextDocumentIdentifier, TextDocumentItem, TextDocumentPositionParams, VersionedTextDocumentIdentifier}
+import org.mulesoft.lsp.feature.common.{
+  ClientLocation,
+  ClientLocationLink,
+  ClientPosition,
+  ClientRange,
+  ClientTextDocumentIdentifier,
+  ClientTextDocumentItem,
+  ClientTextDocumentPositionParams,
+  ClientVersionedTextDocumentIdentifier,
+  Location,
+  LocationLink,
+  Position,
+  Range,
+  TextDocumentIdentifier,
+  TextDocumentItem,
+  TextDocumentPositionParams,
+  VersionedTextDocumentIdentifier
+}
 import org.mulesoft.lsp.feature.completion._
-import org.mulesoft.lsp.feature.definition.{ClientDefinitionClientCapabilities, ClientDefinitionParams, DefinitionClientCapabilities, DefinitionParams}
+import org.mulesoft.lsp.feature.definition.{
+  ClientDefinitionClientCapabilities,
+  ClientDefinitionParams,
+  DefinitionClientCapabilities,
+  DefinitionParams
+}
 import org.mulesoft.lsp.feature.diagnostic._
 import org.mulesoft.lsp.feature.documenthighlight.{ClientDocumentHighlightCapabilities, ClientDocumentHighlightParams}
 import org.mulesoft.lsp.feature.documentsymbol._
 import org.mulesoft.lsp.feature.highlight.{DocumentHighlightCapabilities, DocumentHighlightParams}
-import org.mulesoft.lsp.feature.implementation.{ClientImplementationClientCapabilities, ClientImplementationParams, ImplementationClientCapabilities, ImplementationParams}
+import org.mulesoft.lsp.feature.implementation.{
+  ClientImplementationClientCapabilities,
+  ClientImplementationParams,
+  ImplementationClientCapabilities,
+  ImplementationParams
+}
 import org.mulesoft.lsp.feature.link._
 import org.mulesoft.lsp.feature.reference._
 import org.mulesoft.lsp.feature.rename._
-import org.mulesoft.lsp.feature.telemetry.{ClientTelemetryClientCapabilities, ClientTelemetryMessage, TelemetryClientCapabilities, TelemetryMessage}
-import org.mulesoft.lsp.feature.typedefinition.{ClientTypeDefinitionClientCapabilities, ClientTypeDefinitionParams, TypeDefinitionClientCapabilities, TypeDefinitionParams}
+import org.mulesoft.lsp.feature.telemetry.{
+  ClientTelemetryClientCapabilities,
+  ClientTelemetryMessage,
+  TelemetryClientCapabilities,
+  TelemetryMessage
+}
+import org.mulesoft.lsp.feature.typedefinition.{
+  ClientTypeDefinitionClientCapabilities,
+  ClientTypeDefinitionParams,
+  TypeDefinitionClientCapabilities,
+  TypeDefinitionParams
+}
 import org.mulesoft.lsp.textsync.{TextDocumentSyncKind, _}
 import org.mulesoft.lsp.workspace._
 
@@ -494,6 +531,7 @@ object LspConvertersClientToShared {
   implicit class DocumentHighlightParamsConverter(v: ClientDocumentHighlightParams) {
     def toShared: DocumentHighlightParams =
       DocumentHighlightParams(v.textDocument.toShared, v.position.toShared)
+  }
 
   implicit class DocumentHighlightCapabilitiesConverter(v: ClientDocumentHighlightCapabilities) {
     def toShared: DocumentHighlightCapabilities =
