@@ -4,7 +4,7 @@ import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
-import org.mulesoft.als.server.SerializationProps
+import org.mulesoft.als.server.{RequestModule, SerializationProps}
 import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.actions._
@@ -161,6 +161,9 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
 
   lazy val conversionManager =
     new ConversionManager(workspaceManager, telemetryManager, amfConfiguration, logger)
+
+  lazy val documentHighlightManager =
+    new DocumentHighlightManager(workspaceManager, telemetryManager, platform, logger)
 
   lazy val serializationManager: Option[SerializationManager[_]] =
     resolutionDependencies.collectFirst({
