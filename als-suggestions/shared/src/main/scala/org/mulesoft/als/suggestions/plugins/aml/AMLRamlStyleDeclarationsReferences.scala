@@ -5,7 +5,7 @@ import amf.core.annotations.ErrorDeclaration
 import amf.core.metamodel.domain.DomainElementModel
 import amf.core.model.domain.{AmfObject, DomainElement}
 import amf.core.parser.FieldEntry
-import amf.plugins.document.vocabularies.ReferenceStyles
+import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import org.mulesoft.als.common.SemanticNamedElement._
