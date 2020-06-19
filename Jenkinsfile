@@ -129,6 +129,7 @@ pipeline {
                     branch 'rc/*'
                     branch 'support/*'
                     branch 'devel'
+                    branch 'jenkins/*'
                 }
             }
             steps {
@@ -144,6 +145,8 @@ pipeline {
                         currentBuild.status = "FAILURE"
                     } else if (env.BRANCH_NAME == 'master') {
                         slackSend color: '#00FF00', channel: "${slackChannel}", message: ":ok_hand: Master Publish OK! :ok_hand:"
+                    } else if (currentBuild.getPreviousBuild().result != null && currentBuild.getPreviousBuild().result.toString() != 'SUCCESS') {
+                        slackSend color: '#00FF00', channel: "${slackChannel}", message: ":ok_hand: Back to Green!! :ok_hand:\n\tBranch: ${env.BRANCH_NAME}\n(See ${env.BUILD_URL})\n"
                     }
                 }
             }
