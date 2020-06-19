@@ -1,7 +1,5 @@
 package org.mulesoft.als.server.modules.actions
 
-import java.util.UUID
-
 import amf.core.remote.Platform
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger

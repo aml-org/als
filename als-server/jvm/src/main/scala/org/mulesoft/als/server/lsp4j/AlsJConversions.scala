@@ -45,6 +45,11 @@ object AlsJConversions {
     result.setExperimental(capabilities.experimental)
     result.setExecuteCommandProvider(new ExecuteCommandOptions(Lists.newArrayList("didFocusChange")))
 
+    result.setDocumentHighlightProvider(capabilities.documentHighlightProvider match {
+      case Some(Left(b)) => b
+      case _             => false
+    })
+
     capabilities.fileUsage.foreach(fu => result.setFileUsage(new extension.FileUsageServerOptions(fu.supported)))
     capabilities.cleanDiagnostics.foreach(cd =>
       result.setCleanDiagnosticTree(new extension.CleanDiagnosticTreeServerOptions(cd.supported)))

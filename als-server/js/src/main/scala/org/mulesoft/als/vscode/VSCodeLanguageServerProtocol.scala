@@ -11,6 +11,7 @@ import org.mulesoft.lsp.feature.common.{
 import org.mulesoft.lsp.feature.completion.{ClientCompletionItem, ClientCompletionList, ClientCompletionParams}
 import org.mulesoft.lsp.feature.definition.ClientDefinitionParams
 import org.mulesoft.lsp.feature.diagnostic.ClientPublishDiagnosticsParams
+import org.mulesoft.lsp.feature.documenthighlight.{ClientDocumentHighlight, ClientDocumentHighlightParams}
 import org.mulesoft.lsp.feature.documentsymbol.{
   ClientDocumentSymbol,
   ClientDocumentSymbolParams,
@@ -265,6 +266,12 @@ object DocumentSymbolRequest extends js.Object {
 @JSImport("vscode-languageserver-protocol", "DocumentLinkRequest")
 object DocumentLinkRequest extends js.Object {
   val `type`: RequestType[ClientDocumentLinkParams, js.Array[ClientDocumentLink], js.Any, js.Any] = js.native
+}
+
+@js.native
+@JSImport("vscode-languageserver-protocol", "DocumentHighlightRequest")
+object DocumentHighlightRequest extends js.Object {
+  val `type`: RequestType[ClientDocumentHighlightParams, js.Array[ClientDocumentHighlight], js.Any, js.Any] = js.native
 }
 
 @js.native

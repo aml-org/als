@@ -17,6 +17,8 @@ import org.mulesoft.lsp.feature.completion.{CompletionItem, CompletionList, Comp
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticSeverity.DiagnosticSeverity
 import org.mulesoft.lsp.feature.diagnostic.{Diagnostic, DiagnosticRelatedInformation, PublishDiagnosticsParams}
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbol, SymbolInformation}
+import org.mulesoft.lsp.feature.highlight.DocumentHighlight
+import org.mulesoft.lsp.feature.highlight.DocumentHighlightKind.DocumentHighlightKind
 import org.mulesoft.lsp.feature.link.{DocumentLink, DocumentLinkOptions, DocumentLinkParams}
 import org.mulesoft.lsp.feature.rename.{PrepareRenameResult, RenameOptions}
 import org.mulesoft.lsp.textsync.{SaveOptions, TextDocumentSyncKind, TextDocumentSyncOptions}
@@ -333,4 +335,18 @@ object Lsp4JConversions {
 
   implicit def lsp4JDocumentLinkOptions(options: DocumentLinkOptions): lsp4j.DocumentLinkOptions =
     new lsp4j.DocumentLinkOptions(options.resolveProvider)
+
+  implicit def lsp4JDocumentHighlight(dh: DocumentHighlight): lsp4j.DocumentHighlight =
+    new lsp4j.DocumentHighlight(dh.range, dh.kind)
+
+  implicit def lsp4JDocumentHighlightKind(dhk: DocumentHighlightKind): lsp4j.DocumentHighlightKind =
+    dhk.id match {
+      case 1 => lsp4j.DocumentHighlightKind.Text
+      case 2 => lsp4j.DocumentHighlightKind.Read
+      case 3 => lsp4j.DocumentHighlightKind.Write
+    }
+
+  implicit def lsp4JDocumentHighlights(items: Seq[DocumentHighlight]): util.List[lsp4j.DocumentHighlight] =
+    javaList(items, lsp4JDocumentHighlight)
+
 }

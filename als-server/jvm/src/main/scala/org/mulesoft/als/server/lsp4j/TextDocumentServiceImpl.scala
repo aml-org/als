@@ -17,6 +17,8 @@ import org.eclipse.lsp4j.{
   DidCloseTextDocumentParams,
   DidOpenTextDocumentParams,
   DidSaveTextDocumentParams,
+  DocumentHighlight,
+  DocumentHighlightParams,
   DocumentLink,
   DocumentLinkParams,
   DocumentSymbol,
@@ -47,6 +49,7 @@ import org.mulesoft.lsp.feature.codeactions.CodeActionRequestType
 import org.mulesoft.lsp.feature.completion.CompletionRequestType
 import org.mulesoft.lsp.feature.definition.DefinitionRequestType
 import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolRequestType
+import org.mulesoft.lsp.feature.highlight.DocumentHighlightRequestType
 import org.mulesoft.lsp.feature.implementation.ImplementationRequestType
 import org.mulesoft.lsp.feature.link.DocumentLinkRequestType
 import org.mulesoft.lsp.feature.reference.ReferenceRequestType
@@ -117,6 +120,10 @@ class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomT
 
   override def documentLink(params: DocumentLinkParams): CompletableFuture[util.List[DocumentLink]] =
     javaFuture(resolveHandler(DocumentLinkRequestType)(params), lsp4JDocumentLinkRequestResult)
+
+  override def documentHighlight(
+      params: DocumentHighlightParams): CompletableFuture[util.List[_ <: DocumentHighlight]] =
+    javaFuture(resolveHandler(DocumentHighlightRequestType)(params), lsp4JDocumentHighlights)
 
   override def conversion(params: ConversionParams): CompletableFuture[SerializedDocument] =
     javaFuture(resolveHandler(ConversionRequestType)(params), serializedDocument)

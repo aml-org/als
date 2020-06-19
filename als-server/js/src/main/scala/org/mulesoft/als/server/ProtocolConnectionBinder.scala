@@ -41,12 +41,14 @@ import org.mulesoft.lsp.feature.completion.{
 }
 import org.mulesoft.lsp.feature.definition.{ClientDefinitionParams, DefinitionRequestType}
 import org.mulesoft.lsp.feature.diagnostic.{ClientPublishDiagnosticsParams, PublishDiagnosticsParams}
+import org.mulesoft.lsp.feature.documenthighlight.{ClientDocumentHighlight, ClientDocumentHighlightParams}
 import org.mulesoft.lsp.feature.documentsymbol.{
   ClientDocumentSymbol,
   ClientDocumentSymbolParams,
   ClientSymbolInformation,
   DocumentSymbolRequestType
 }
+import org.mulesoft.lsp.feature.highlight.DocumentHighlightRequestType
 import org.mulesoft.lsp.feature.implementation.{ClientImplementationParams, ImplementationRequestType}
 import org.mulesoft.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams, DocumentLinkRequestType}
 import org.mulesoft.lsp.feature.reference.{ClientReferenceParams, ReferenceRequestType}
@@ -228,6 +230,22 @@ object ProtocolConnectionBinder {
         .asInstanceOf[ClientRequestHandler[ClientDocumentLinkParams, js.Array[ClientDocumentLink], js.Any]]
     )
     // End DocumentLink
+
+    // DocumentHighlight
+    val onDocumentHighlightHandlerJs
+      : js.Function2[ClientDocumentHighlightParams, CancellationToken, Thenable[js.Array[ClientDocumentHighlight]]] =
+      (param: ClientDocumentHighlightParams, _: CancellationToken) =>
+        resolveHandler(DocumentHighlightRequestType)(param.toShared)
+          .map(_.map(_.toClient).toJSArray)
+          .toJSPromise
+          .asInstanceOf[Thenable[js.Array[ClientDocumentHighlight]]]
+
+    protocolConnection.onRequest(
+      DocumentHighlightRequest.`type`,
+      onDocumentHighlightHandlerJs
+        .asInstanceOf[ClientRequestHandler[ClientDocumentHighlightParams, js.Array[ClientDocumentHighlight], js.Any]]
+    )
+    // End DocumentHighlight
 
     // FindFileUsage
     val onFindFileUsageHandlerJs
