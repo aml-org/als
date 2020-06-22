@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11parameters",
-    "filterText": "\"parameters\": {\n                  \"$1\"\n                }",
+    "filterText": "\"parameters\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -143,7 +143,7 @@
           "character": 19
         }
       },
-      "newText": "\"parameters\": {\n                  \"$1\"\n                }"
+      "newText": "\"parameters\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11server",
-    "filterText": "\"server\": {\n                  \"$1\"\n                }",
+    "filterText": "\"server\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -203,7 +203,7 @@
           "character": 19
         }
       },
-      "newText": "\"server\": {\n                  \"$1\"\n                }"
+      "newText": "\"server\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

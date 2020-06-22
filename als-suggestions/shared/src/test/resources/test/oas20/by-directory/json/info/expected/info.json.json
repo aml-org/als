@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11contact",
-    "filterText": "\"contact\": {\n      \"$1\"\n    }",
+    "filterText": "\"contact\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -23,7 +23,7 @@
           "character": 7
         }
       },
-      "newText": "\"contact\": {\n      \"$1\"\n    }"
+      "newText": "\"contact\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11license",
-    "filterText": "\"license\": {\n      \"$1\"\n    }",
+    "filterText": "\"license\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -83,7 +83,7 @@
           "character": 7
         }
       },
-      "newText": "\"license\": {\n      \"$1\"\n    }"
+      "newText": "\"license\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11content",
-    "filterText": "\"content\": {\n          \"$1\"\n        }",
+    "filterText": "\"content\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -113,7 +113,7 @@
           "character": 11
         }
       },
-      "newText": "\"content\": {\n          \"$1\"\n        }"
+      "newText": "\"content\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -217,7 +217,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11examples",
-    "filterText": "\"examples\": {\n          \"$1\"\n        }",
+    "filterText": "\"examples\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -233,7 +233,7 @@
           "character": 11
         }
       },
-      "newText": "\"examples\": {\n          \"$1\"\n        }"
+      "newText": "\"examples\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -367,7 +367,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11schema",
-    "filterText": "\"schema\": {\n          \"$1\"\n        }",
+    "filterText": "\"schema\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -383,7 +383,7 @@
           "character": 11
         }
       },
-      "newText": "\"schema\": {\n          \"$1\"\n        }"
+      "newText": "\"schema\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
