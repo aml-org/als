@@ -177,6 +177,9 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
   lazy val documentHighlightManager =
     new DocumentHighlightManager(workspaceManager, telemetryManager, platform, logger)
 
+  lazy val foldingRangeManager =
+    new FoldingRangeManager(workspaceManager, telemetryManager, platform, logger)
+
   lazy val serializationManager: Option[SerializationManager[_]] =
     resolutionDependencies.collectFirst({
       case s: SerializationManager[_] =>

@@ -23,6 +23,7 @@ import org.eclipse.lsp4j.{
   DocumentLinkParams,
   DocumentSymbol,
   DocumentSymbolParams,
+  FoldingRange,
   Hover,
   ImplementationParams,
   Location,
@@ -50,6 +51,7 @@ import org.mulesoft.lsp.feature.codeactions.CodeActionRequestType
 import org.mulesoft.lsp.feature.completion.CompletionRequestType
 import org.mulesoft.lsp.feature.definition.DefinitionRequestType
 import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolRequestType
+import org.mulesoft.lsp.feature.folding.FoldingRangeRequestType
 import org.mulesoft.lsp.feature.hover.HoverRequestType
 import org.mulesoft.lsp.feature.highlight.DocumentHighlightRequestType
 import org.mulesoft.lsp.feature.implementation.ImplementationRequestType
@@ -145,5 +147,9 @@ class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomT
 
   override def hover(params: lsp4j.HoverParams): CompletableFuture[Hover] = {
     javaFuture(resolveHandler(HoverRequestType)(params), lsp4JHoverParams)
+  }
+
+  override def foldingRange(params: lsp4j.FoldingRangeRequestParams): CompletableFuture[util.List[FoldingRange]] = {
+    javaFuture(resolveHandler(FoldingRangeRequestType)(params), lsp4JFoldingRanges)
   }
 }

@@ -17,6 +17,7 @@ import org.mulesoft.lsp.feature.documentsymbol.{
   ClientDocumentSymbolParams,
   ClientSymbolInformation
 }
+import org.mulesoft.lsp.feature.folding.{ClientFoldingRange, ClientFoldingRangeParams}
 import org.mulesoft.lsp.feature.hover.{ClientHover, ClientHoverParams}
 import org.mulesoft.lsp.feature.implementation.ClientImplementationParams
 import org.mulesoft.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams}
@@ -312,6 +313,12 @@ object ReferencesRequest extends js.Object {
 @JSImport("vscode-languageserver-protocol", "HoverRequest")
 object HoverRequest extends js.Object {
   val `type`: RequestType[ClientHoverParams, ClientHover, js.Any, js.Any] = js.native
+}
+
+@js.native
+@JSImport("vscode-languageserver-protocol", "FoldingRangeRequest")
+object FoldingRangeRequest extends js.Object {
+  val `type`: RequestType[ClientFoldingRangeParams, ClientFoldingRange, js.Any, js.Any] = js.native
 }
 
 @js.native

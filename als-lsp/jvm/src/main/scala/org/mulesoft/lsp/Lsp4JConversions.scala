@@ -18,6 +18,8 @@ import org.mulesoft.lsp.feature.completion.{CompletionItem, CompletionList, Comp
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticSeverity.DiagnosticSeverity
 import org.mulesoft.lsp.feature.diagnostic.{Diagnostic, DiagnosticRelatedInformation, PublishDiagnosticsParams}
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbol, SymbolInformation}
+import org.mulesoft.lsp.feature.folding.{FoldingRange, FoldingRangeKind}
+import org.mulesoft.lsp.feature.folding.FoldingRangeKind.FoldingRangeKind
 import org.mulesoft.lsp.feature.highlight.DocumentHighlight
 import org.mulesoft.lsp.feature.highlight.DocumentHighlightKind.DocumentHighlightKind
 import org.mulesoft.lsp.feature.hover.Hover
@@ -360,4 +362,21 @@ object Lsp4JConversions {
       case _       => new lsp4j.Hover(java)
     }
   }
+  implicit def lsp4JFoldingRange(dh: FoldingRange): lsp4j.FoldingRange = {
+    val range = new lsp4j.FoldingRange(dh.startLine, dh.endLine)
+    dh.startCharacter.foreach(c => range.setStartCharacter(c))
+    dh.endCharacter.foreach(c => range.setEndCharacter(c))
+    dh.kind.foreach(c => range.setKind(lsp4JFoldingRangeKind(c)))
+    range
+  }
+
+  implicit def lsp4JFoldingRangeKind(dhk: FoldingRangeKind): String = // redundant, but to avoid any inconsistencies on the client side
+    dhk match {
+      case FoldingRangeKind.Comment => lsp4j.FoldingRangeKind.Comment
+      case FoldingRangeKind.Imports => lsp4j.FoldingRangeKind.Imports
+      case FoldingRangeKind.Region  => lsp4j.FoldingRangeKind.Region
+    }
+
+  implicit def lsp4JFoldingRanges(items: Seq[FoldingRange]): util.List[lsp4j.FoldingRange] =
+    javaList(items, lsp4JFoldingRange)
 }

@@ -33,7 +33,8 @@ trait ClientAlsServerCapabilities extends js.Object {
   def fileUsage: UndefOr[ClientFileUsageOptions]                                 = js.native
   def conversion: UndefOr[ClientConversionOptions]                               = js.native
   def documentHighlightProvider: UndefOr[Boolean]
-  def hoverProvider: UndefOr[Boolean] = js.native
+  def hoverProvider: UndefOr[Boolean]        = js.native
+  def foldingRangeProvider: UndefOr[Boolean] = js.native
 }
 
 object ClientAlsServerCapabilities {
@@ -68,7 +69,8 @@ object ClientAlsServerCapabilities {
         fileUsage = internal.fileUsage.map(_.toClient).orUndefined,
         conversion = internal.conversion.map(_.toClient).orUndefined,
         documentHighlightProvider = internal.documentHighlightProvider.orUndefined,
-        hoverProvider = internal.hoverProvider.orUndefined
+        hoverProvider = internal.hoverProvider.orUndefined,
+        foldingRangeProvider = internal.foldingRangeProvider.orUndefined
       )
       .asInstanceOf[ClientAlsServerCapabilities]
 }

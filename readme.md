@@ -37,11 +37,12 @@ Currently, we support the following LSP capabilities:
 + [Goto Type Definition](https://microsoft.github.io/language-server-protocol/specification#textDocument_typeDefinition)
 + [Goto Implementation](https://microsoft.github.io/language-server-protocol/specification#textDocument_implementation)
 + [DocumentLink](https://microsoft.github.io/language-server-protocol/specification#textDocument_documentLink)
-
-Other LSP features we plan on supporting in the near future are:
-+ [Hover](https://microsoft.github.io/language-server-protocol/specification#textDocument_hover)
 + [Document Highlight](https://microsoft.github.io/language-server-protocol/specification#textDocument_documentHighlight)
 + [Folding Range](https://microsoft.github.io/language-server-protocol/specification#textDocument_foldingRange)
++ [Hover](https://microsoft.github.io/language-server-protocol/specification#textDocument_hover)
+
+
+Other LSP features we plan on supporting in the near future are:
 + [Selection Range](https://microsoft.github.io/language-server-protocol/specification#textDocument_selectionRange)
 + [Code Action](https://microsoft.github.io/language-server-protocol/specification#textDocument_codeAction)
 

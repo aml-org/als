@@ -32,6 +32,12 @@ import org.mulesoft.lsp.feature.definition.{
 import org.mulesoft.lsp.feature.diagnostic._
 import org.mulesoft.lsp.feature.documenthighlight.{ClientDocumentHighlightCapabilities, ClientDocumentHighlightParams}
 import org.mulesoft.lsp.feature.documentsymbol._
+import org.mulesoft.lsp.feature.folding.{
+  ClientFoldingRangeCapabilities,
+  ClientFoldingRangeParams,
+  FoldingRangeCapabilities,
+  FoldingRangeParams
+}
 import org.mulesoft.lsp.feature.hover.MarkupKind.MarkupKind
 import org.mulesoft.lsp.feature.hover.{
   ClientHoverClientCapabilities,
@@ -139,6 +145,16 @@ object LspConvertersClientToShared {
   implicit class HoverParamsConverter(v: ClientHoverParams) {
     def toShared: HoverParams =
       HoverParams(v.textDocument.toShared, v.position.toShared)
+  }
+
+  implicit class FoldingRangeCapabilitiesConverter(v: ClientFoldingRangeCapabilities) {
+    def toShared: FoldingRangeCapabilities =
+      FoldingRangeCapabilities(v.dynamicRegistration.toOption, v.rangeLimit.toOption, v.lineFoldingOnly.toOption)
+  }
+
+  implicit class FoldingRangeParamsConverter(v: ClientFoldingRangeParams) {
+    def toShared: FoldingRangeParams =
+      FoldingRangeParams(v.textDocument.toShared)
   }
 
   implicit class DefinitionParamsConverter(v: ClientDefinitionParams) {

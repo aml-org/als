@@ -54,6 +54,8 @@ object MessageTypes extends Enumeration {
   val END_FILE_USAGE            = "END_FILE_USAGE"
   val BEGIN_HOVER               = "BEGIN_HOVER"
   val END_HOVER                 = "END_HOVER"
+  val BEGIN_FOLDING             = "BEGIN_FOLDING"
+  val END_FOLDING               = "END_FOLDING"
 }
 
 trait TelemetryProvider {
