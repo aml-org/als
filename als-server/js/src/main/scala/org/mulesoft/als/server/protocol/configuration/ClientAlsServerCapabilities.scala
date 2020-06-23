@@ -61,7 +61,8 @@ object ClientAlsServerCapabilities {
         serialization = internal.serialization.map(_.toClient).orUndefined,
         cleanDiagnostics = internal.cleanDiagnostics.map(_.toClient).orUndefined,
         fileUsage = internal.fileUsage.map(_.toClient).orUndefined,
-        conversion = internal.conversion.map(_.toClient).orUndefined
+        conversion = internal.conversion.map(_.toClient).orUndefined,
+        hoverProvider = Some(internal.hoverProvider).orUndefined
       )
       .asInstanceOf[ClientAlsServerCapabilities]
 }

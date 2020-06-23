@@ -1,15 +1,16 @@
 package org.mulesoft.language.outline.test
 
 import amf.client.remote.Content
+import amf.core.errorhandling.ErrorCollector
 import amf.core.model.document.BaseUnit
 import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
+import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.CompilerEnvironment
 import org.mulesoft.als.common.diff.FileAssertionTest
-import org.mulesoft.amfintegration.{AmfInstance, DialectInitializer}
-import org.mulesoft.amfmanager.{AmfParseResult, InitOptions}
+import org.mulesoft.amfintegration.AmfInstance
 import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -32,19 +33,19 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
   implicit override def executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 
-  def readDataFromAST(unit: BaseUnit, position: Int): T
+  def readDataFromAST(unit: BaseUnit, position: Int, definedBy: Option[Dialect]): T
 
   def writeDataToString(data: T): String
 
   def emptyData(): T
 
-  def runTest(path: String, jsonPath: String): Future[Assertion] = {
+  def runTest(path: String, jsonPath: String, amfInstance: Option[AmfInstance] = None): Future[Assertion] = {
 
     val fullFilePath = filePath(platform.encodeURI(path)) // filePath(path)
     val fullJsonPath = filePath(jsonPath)
-    val amfConfig    = AmfInstance.default
+    val amfConfig    = amfInstance.getOrElse(AmfInstance.default)
     for {
-      _             <- DialectInitializer.init(InitOptions.AllProfiles, amfConfig)
+      _             <- amfConfig.init()
       actualOutline <- this.getActualOutline(fullFilePath, platform, amfConfig)
       tmp           <- writeTemporaryFile(jsonPath)(writeDataToString(actualOutline))
       r             <- assertDifferences(tmp, fullJsonPath)
@@ -66,9 +67,10 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
   def getExpectedOutline(url: String): Future[String] =
     this.platform.resolve(url, Environment(this.platform.loaders)).map(_.stream.toString)
 
-  def getActualOutline(url: String,
-                       platform: Platform,
-                       compilerEnvironment: CompilerEnvironment[AmfParseResult, Environment]): Future[T] = {
+  def getActualOutline(
+      url: String,
+      platform: Platform,
+      compilerEnvironment: CompilerEnvironment[BaseUnit, ErrorCollector, Dialect, Environment]): Future[T] = {
 
     var position = 0
 
@@ -86,11 +88,11 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
         env
       })
       .flatMap(env => {
-        compilerEnvironment.modelBuiler().parse(url, env).map(_.baseUnit)
+        compilerEnvironment.modelBuilder().parse(url, env).map(cu => (cu.baseUnit, cu.definedBy))
       })
       .map {
-        case amfUnit: BaseUnit =>
-          readDataFromAST(amfUnit, position)
+        case (amfUnit, d) =>
+          readDataFromAST(amfUnit, position, d)
         case _ =>
           emptyData()
       } recoverWith {

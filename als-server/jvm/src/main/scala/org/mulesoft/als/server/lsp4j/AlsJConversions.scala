@@ -39,7 +39,7 @@ object AlsJConversions {
 
     result.setImplementationProvider(lsp4JEitherStaticregistrationOptions(capabilities.implementationProvider))
     result.setTypeDefinitionProvider(lsp4JEitherStaticregistrationOptions(capabilities.typeDefinitionProvider))
-
+    result.setHoverProvider(capabilities.hoverProvider)
     capabilities.documentLinkProvider.foreach(dlp => result.setDocumentLinkProvider(dlp))
 
     result.setExperimental(capabilities.experimental)

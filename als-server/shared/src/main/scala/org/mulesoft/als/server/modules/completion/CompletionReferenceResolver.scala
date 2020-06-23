@@ -3,7 +3,7 @@ package org.mulesoft.als.server.modules.completion
 import amf.client.resource.ResourceNotFound
 import amf.core.model.document.BaseUnit
 import amf.internal.reference.{CachedReference, ReferenceResolver}
-import org.mulesoft.amfmanager.AmfImplicits._
+import org.mulesoft.amfintegration.AmfImplicits._
 
 import scala.concurrent.Future
 

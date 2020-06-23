@@ -5,6 +5,7 @@ import java.util.concurrent.CompletableFuture
 
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
 import org.eclipse.lsp4j
+import org.eclipse.lsp4j.MarkedString
 import org.mulesoft.lsp.configuration.StaticRegistrationOptions
 import org.mulesoft.lsp.feature.command.Command
 import org.mulesoft.lsp.feature.common.{Location, LocationLink, Position, Range, VersionedTextDocumentIdentifier}
@@ -19,6 +20,7 @@ import org.mulesoft.lsp.feature.diagnostic.{Diagnostic, DiagnosticRelatedInforma
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbol, SymbolInformation}
 import org.mulesoft.lsp.feature.highlight.DocumentHighlight
 import org.mulesoft.lsp.feature.highlight.DocumentHighlightKind.DocumentHighlightKind
+import org.mulesoft.lsp.feature.hover.Hover
 import org.mulesoft.lsp.feature.link.{DocumentLink, DocumentLinkOptions, DocumentLinkParams}
 import org.mulesoft.lsp.feature.rename.{PrepareRenameResult, RenameOptions}
 import org.mulesoft.lsp.textsync.{SaveOptions, TextDocumentSyncKind, TextDocumentSyncOptions}
@@ -349,4 +351,13 @@ object Lsp4JConversions {
   implicit def lsp4JDocumentHighlights(items: Seq[DocumentHighlight]): util.List[lsp4j.DocumentHighlight] =
     javaList(items, lsp4JDocumentHighlight)
 
+
+  implicit def lsp4JHoverParams(hover: Hover): lsp4j.Hover = {
+    val java: util.List[JEither[String, lsp4j.MarkedString]] =
+      hover.contents.map(c => JEither.forLeft[String, MarkedString](c)).asJava
+    hover.range match {
+      case Some(r) => new lsp4j.Hover(java, r)
+      case _       => new lsp4j.Hover(java)
+    }
+  }
 }

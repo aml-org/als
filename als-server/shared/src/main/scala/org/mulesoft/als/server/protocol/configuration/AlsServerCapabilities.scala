@@ -45,7 +45,8 @@ case class AlsServerCapabilities(
     cleanDiagnostics: Option[CleanDiagnosticTreeOptions] = None,
     fileUsage: Option[FileUsageOptions] = None,
     conversion: Option[ConversionRequestOptions] = None,
-    documentHighlightProvider: Option[Either[Boolean, DocumentHighlightOptions]] = None)
+    documentHighlightProvider: Option[Either[Boolean, DocumentHighlightOptions]] = None,
+    hoverProvider: Boolean = false)
 
 object AlsServerCapabilities {
   def empty: AlsServerCapabilities = AlsServerCapabilities()

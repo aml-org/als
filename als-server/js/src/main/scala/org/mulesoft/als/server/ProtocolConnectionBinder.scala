@@ -53,6 +53,7 @@ import org.mulesoft.lsp.feature.documentsymbol.{
   ClientSymbolInformation,
   DocumentSymbolRequestType
 }
+import org.mulesoft.lsp.feature.hover.{ClientHover, ClientHoverParams, HoverRequestType}
 import org.mulesoft.lsp.feature.highlight.DocumentHighlightRequestType
 import org.mulesoft.lsp.feature.implementation.{ClientImplementationParams, ImplementationRequestType}
 import org.mulesoft.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams, DocumentLinkRequestType}
@@ -382,6 +383,21 @@ object ProtocolConnectionBinder {
         .asInstanceOf[ClientRequestHandler[ClientPrepareRenameParams, ClientRange | ClientPrepareRenameResult, js.Any]]
     )
     // End PrepareRename
+
+    // Hover
+    val onHoverHandler: js.Function2[ClientHoverParams, CancellationToken, Thenable[ClientHover]] =
+      (param: ClientHoverParams, _: CancellationToken) =>
+        resolveHandler(HoverRequestType)(param.toShared)
+          .map(_.toClient)
+          .toJSPromise
+          .asInstanceOf[Thenable[ClientHover]]
+
+    protocolConnection.onRequest(
+      HoverRequest.`type`,
+      onHoverHandler
+        .asInstanceOf[ClientRequestHandler[ClientHoverParams, ClientHover, js.Any]]
+    )
+    // End Hover
 
     // CleanDiagnosticTree
     val onCleanDiagnosticTreeHandlerJs: js.Function2[ClientCleanDiagnosticTreeParams,

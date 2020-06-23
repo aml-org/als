@@ -10,6 +10,7 @@ import org.mulesoft.lsp.feature.definition.{ClientDefinitionClientCapabilities, 
 import org.mulesoft.lsp.feature.diagnostic._
 import org.mulesoft.lsp.feature.documenthighlight.{ClientDocumentHighlight, ClientDocumentHighlightOptions}
 import org.mulesoft.lsp.feature.documentsymbol._
+import org.mulesoft.lsp.feature.hover.{ClientHover, ClientHoverClientCapabilities, Hover, HoverParams}
 import org.mulesoft.lsp.feature.highlight.{DocumentHighlight, DocumentHighlightOptions}
 import org.mulesoft.lsp.feature.implementation.{ClientImplementationClientCapabilities, ImplementationClientCapabilities}
 import org.mulesoft.lsp.feature.link._
@@ -251,6 +252,10 @@ object LspConvertersSharedToClient {
   implicit class ClientImplementationClientCapabilitiesConverter(v: ImplementationClientCapabilities) {
     def toClient: ClientImplementationClientCapabilities =
       ClientImplementationClientCapabilities(v)
+  }
+
+  implicit class ClientHoverConverter(v: Hover) {
+    def toClient: ClientHover = ClientHover(v)
   }
 
   implicit class ClientTypeDefinitionClientCapabilitiesConverter(v: TypeDefinitionClientCapabilities) {

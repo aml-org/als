@@ -1,0 +1,10 @@
+#%MetaHover 1.0
+rootName: name
+version: version
+son:
+  path1:
+    ki[*]nd: 1
+    description: one
+  path2:
+    kind: 2
+    description: two

@@ -4,7 +4,7 @@ import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.server.textsync.{TextDocument, TextDocumentContainer}
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.als.suggestions.patcher.PatchedContent
-import org.mulesoft.amfmanager.AmfParseResult
+import org.mulesoft.amfintegration.AmfParseResult
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemeteredTask, TelemetryProvider}
 
@@ -19,7 +19,7 @@ class TelemeteredPatchedParse(telemetryProvider: TelemetryProvider)
     val patchedEnvironment: TextDocumentContainer =
       params.editorEnvironment.patchUri(params.uri, params.text)
     params.workspace.getUnit(params.uri, params.uuid).flatMap { bu =>
-      params.editorEnvironment.amfConfiguration.parserHelper.parse(
+      params.editorEnvironment.amfConfiguration.modelBuilder().parse(
         params.uri.toAmfDecodedUri(params.editorEnvironment.platform),
         patchedEnvironment.environment
           .withResolver(CompletionReferenceResolver(bu.unit))

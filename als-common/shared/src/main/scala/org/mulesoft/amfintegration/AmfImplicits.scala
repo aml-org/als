@@ -1,12 +1,13 @@
-package org.mulesoft.amfmanager
+package org.mulesoft.amfintegration
 
 import amf.core.annotations.{LexicalInformation, ReferenceTargets, SynthesizedField}
+import amf.core.metamodel.Field
 import amf.core.model.document.BaseUnit
-import amf.core.model.domain.{AmfObject, AmfScalar}
+import amf.core.model.domain.{AmfObject, AmfScalar, DomainElement}
 import amf.core.parser
 import amf.core.parser.{Annotations, Value}
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.NodeMapping
+import amf.plugins.document.vocabularies.model.document.{Dialect, Vocabulary}
+import amf.plugins.document.vocabularies.model.domain.{ClassTerm, NodeMapping, PropertyTerm}
 import amf.plugins.domain.webapi.metamodel.AbstractModel
 
 import scala.collection.mutable
@@ -33,6 +34,11 @@ object AmfImplicits {
         case Value(scalar: AmfScalar, _) => scalar
       })
       .exists(_.toBool)
+  }
+
+  implicit class DomainElementImp(d: DomainElement) extends AmfObjectImp(d) {
+    def getLiteralProperty(f: Field): Option[Any] =
+      d.fields.getValueAsOption(f).collect({ case Value(v: AmfScalar, _) => v.value })
   }
 
   implicit class BaseUnitImp(bu: BaseUnit) {
@@ -66,5 +72,17 @@ object AmfImplicits {
         }
         .toMap
     }
+    def vocabulary(base: String): Option[Vocabulary] = {
+      d.references.collectFirst { case v: Vocabulary if v.base.option().contains(base) => v }
+    }
+  }
+
+  implicit class VocabularyImplicit(v: Vocabulary) extends BaseUnitImp(v) {
+    val properties: Seq[PropertyTerm] = v.declares.collect { case p: PropertyTerm => p }
+    val classes: Seq[ClassTerm]       = v.declares.collect { case c: ClassTerm    => c }
+
+    def getPropertyTerm(n: String): Option[PropertyTerm] = v.properties.find(p => p.name.option().contains(n))
+
+    def getClassTerm(n: String): Option[ClassTerm] = v.classes.find(p => p.name.option().contains(n))
   }
 }

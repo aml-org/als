@@ -9,7 +9,7 @@ import org.mulesoft.als.server.modules.workspace.{Repository, ResolverStagingAre
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.{UnitTaskManager, UnitsManager}
 import org.mulesoft.amfintegration.{AmfResolvedUnit, DiagnosticsBundle}
-import org.mulesoft.amfmanager.AmfImplicits._
+import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -107,11 +107,8 @@ class ResolutionTaskManager(telemetryProvider: TelemetryProvider,
                      innerResolveUnit)
     }
 
-    private def innerResolveUnit() =
-      Future(
-        environmentProvider.amfConfiguration.parserHelper
-          .editingResolve(originalUnit.cloneUnit(), eh))
-
+    private def innerResolveUnit(): Future[BaseUnit] =
+      Future(environmentProvider.amfConfiguration.modelBuilder().fullResolution(originalUnit.cloneUnit(), eh))
     override def next: Option[Future[T]] = getNext(uri)
   }
 }

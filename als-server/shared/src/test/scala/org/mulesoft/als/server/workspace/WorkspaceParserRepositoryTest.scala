@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.workspace
 
+import amf.client.parse.DefaultErrorHandler
 import amf.client.remote.Content
 import amf.core.model.document.BaseUnit
 import amf.core.unsafe.PlatformSecrets
@@ -7,8 +8,7 @@ import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.server.logger.EmptyLogger
 import org.mulesoft.als.server.modules.workspace.{ParsedUnit, WorkspaceParserRepository}
-import org.mulesoft.amfintegration.AmfInstance
-import org.mulesoft.amfmanager.AmfParseResult
+import org.mulesoft.amfintegration.{AmfInstance, AmfParseResult}
 import org.scalatest.{AsyncFunSuite, Matchers}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -85,7 +85,7 @@ class WorkspaceParserRepositoryTest extends AsyncFunSuite with Matchers with Pla
       val apiPU: ParsedUnit = getParsedUnitOrFail(r, api.uri)
       val moddedBU          = apiPU.bu.cloneUnit()
       moddedBU.withLocation("file://newLocation/api.raml")
-      r.updateUnit(moddedBU)
+      r.updateUnit(new AmfParseResult(moddedBU, new DefaultErrorHandler, None))
       val moddedPU = getParsedUnitOrFail(r, "file://newLocation/api.raml")
       assert(moddedPU.bu.id == apiPU.bu.id) // Same id, but different location
       assert(moddedPU.bu.location() != apiPU.bu.location())
@@ -181,7 +181,7 @@ class WorkspaceParserRepositoryTest extends AsyncFunSuite with Matchers with Pla
 
   case class MockFile(uri: String, content: String)
 
-  def parse(url: String, env: Environment): Future[AmfParseResult] = amfConfig.parserHelper.parse(url, env)
+  def parse(url: String, env: Environment): Future[AmfParseResult] = amfConfig.modelBuilder().parse(url, env)
 
   def buildEnvironment(files: Set[MockFile]): Environment =
     Environment().withLoaders(files.map(f => buildResourceLoaderForFile(f)).toSeq)
@@ -191,7 +191,7 @@ class WorkspaceParserRepositoryTest extends AsyncFunSuite with Matchers with Pla
     repository.setCachables(cacheables)
     val env: Environment = buildEnvironment(files)
     val futures: Set[Future[Unit]] = files.map(f => {
-      parse(f.uri, env).map(bu => repository.updateUnit(bu.baseUnit))
+      parse(f.uri, env).map(bu => repository.updateUnit(bu))
     })
     Future.sequence(futures).map(_ => repository)
   }

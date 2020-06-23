@@ -1,0 +1,41 @@
+#%Dialect 1.0
+
+dialect: MetaHover
+version: 1.0
+
+external:
+  schema-org: http://schema.org/#
+
+uses:
+  voc: vocabulary.yaml
+
+nodeMappings:
+  Root:
+    classTerm: voc.RootTerm
+    mapping:
+      rootName:
+        propertyTerm: voc.rootName
+        range: string
+      version:
+        propertyTerm: voc.version
+        range: string
+      son:
+        propertyTerm: voc.son
+        range: SonLevel
+        mapTermKey: voc.secondLevelPath
+  SonLevel:
+    classTerm: voc.SecondLevelTerm
+    mapping:
+      path:
+        propertyTerm: voc.secondLevelPath
+        range: string
+      kind:
+        propertyTerm: voc.kind
+        range: integer
+      description:
+        propertyTerm: schema-org.description
+        range: string
+
+documents:
+  root:
+    encodes: Root

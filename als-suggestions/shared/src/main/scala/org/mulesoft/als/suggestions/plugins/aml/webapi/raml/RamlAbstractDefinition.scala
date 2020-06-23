@@ -11,7 +11,7 @@ import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.AMLRefTagCompletionPlugin
 import org.mulesoft.als.suggestions.{CompletionsPluginHandler, RawSuggestion}
 import org.yaml.model.{YMap, YMapEntry, YNode}
-import org.mulesoft.amfmanager.AmfImplicits._
+import org.mulesoft.amfintegration.AmfImplicits._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -37,9 +37,10 @@ object RamlAbstractDefinition extends AMLCompletionPlugin {
           AmlCompletionRequestBuilder.forElement(info.element,
                                                  info.original,
                                                  params.declarationProvider.filterLocal(info.name, info.iri),
-                                                 params)
-        CompletionsPluginHandler
-          .pluginSuggestions(newRequest, ignoredPlugins)
+                                                 params,
+                                                 ignoredPlugins)
+        newRequest.completionsPluginHandler
+          .pluginSuggestions(newRequest)
           .map(seq => {
             if (params.branchStack.headOption.exists(_.isInstanceOf[AbstractDeclaration]) && params.yPartBranch.isKey)
               seq ++ Seq(RawSuggestion.forKey("usage", "docs", mandatory = false))
