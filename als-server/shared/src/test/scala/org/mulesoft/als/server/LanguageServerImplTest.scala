@@ -33,7 +33,10 @@ class LanguageServerImplTest extends LanguageServerBaseTest {
   }
 
   def buildServer(): LanguageServer =
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager).build()
+    new LanguageServerBuilder(factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager).build()
 
   override def rootPath: String = ""
 }

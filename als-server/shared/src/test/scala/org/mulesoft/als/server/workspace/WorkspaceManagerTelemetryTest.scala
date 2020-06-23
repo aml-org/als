@@ -88,7 +88,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
 
   def buildServer(notifier: MockTelemetryClientNotifier): LanguageServer = {
     val factory = new WorkspaceManagerFactoryBuilder(notifier, logger).buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.configurationManager, factory.resolutionTaskManager)
       .addRequestModule(factory.structureManager)
       .build()
   }

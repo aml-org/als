@@ -1,9 +1,11 @@
 package org.mulesoft.als.server.protocol.convert
 
+import org.mulesoft.als.configuration.AlsFormattingOptions
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeOptions, CleanDiagnosticTreeParams}
 import org.mulesoft.als.server.feature.fileusage.{FileUsageClientCapabilities, FileUsageOptions}
+import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
 import org.mulesoft.als.server.feature.serialization._
-import org.mulesoft.als.server.protocol.configuration._
+import org.mulesoft.als.server.protocol.configuration.{ClientAlsFormattingOptions, _}
 import org.mulesoft.als.server.protocol.diagnostic.ClientCleanDiagnosticTreeParams
 import org.mulesoft.als.server.protocol.serialization.{ClientConversionParams, ClientSerializationParams}
 import org.mulesoft.als.server.protocol.textsync.{ClientDidFocusParams, ClientIndexDialectParams, DidFocusParams, IndexDialectParams}
@@ -142,6 +144,16 @@ object LspConvertersClientToShared {
 
   implicit class ClientConversionParamsConverter(v: ClientConversionParams){
     def toShared: ConversionParams = ConversionParams(v.uri, v.target, v.syntax.toOption)
+  }
+
+  implicit class ClientAlsFormattingOptionsConverter(v: ClientAlsFormattingOptions){
+    def toShared: AlsFormattingOptions = AlsFormattingOptions(v.tabSize, v.insertSpaces)
+  }
+
+  implicit class ClientUpdateConfigurationConverter(v: ClientUpdateConfigurationParams){
+    def toShared: UpdateConfigurationParams = UpdateConfigurationParams(
+      v.clientAlsFormattingOptions.toOption.map(_.toMap.map(v => v._1 -> v._2.toShared))
+    )
   }
 
   implicit class ClientSerializationParamsConverter(v:ClientSerializationParams){

@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11authorizationGrants",
-    "filterText": "authorizationGrants:\n        - ",
+    "filterText": "authorizationGrants:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -53,7 +53,7 @@
           "character": 6
         }
       },
-      "newText": "authorizationGrants:\n        - "
+      "newText": "authorizationGrants:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11scopes",
-    "filterText": "scopes:\n        - ",
+    "filterText": "scopes:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +113,7 @@
           "character": 6
         }
       },
-      "newText": "scopes:\n        - "
+      "newText": "scopes:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

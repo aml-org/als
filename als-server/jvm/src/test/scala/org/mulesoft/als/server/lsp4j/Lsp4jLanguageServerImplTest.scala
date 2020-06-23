@@ -191,7 +191,10 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
     val managers = builder.buildWorkspaceManagerFactory()
 
     val b =
-      new LanguageServerBuilder(managers.documentManager, managers.workspaceManager, managers.resolutionTaskManager)
+      new LanguageServerBuilder(managers.documentManager,
+                                managers.workspaceManager,
+                                managers.configurationManager,
+                                managers.resolutionTaskManager)
     dm.foreach(b.addInitializableModule)
     b.build()
   }

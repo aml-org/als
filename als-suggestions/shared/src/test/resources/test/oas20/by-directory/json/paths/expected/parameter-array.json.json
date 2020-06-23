@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11externalDocs",
-    "filterText": "\"externalDocs\": {\n            \"$1\"\n          }",
+    "filterText": "\"externalDocs\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -203,7 +203,7 @@
           "character": 13
         }
       },
-      "newText": "\"externalDocs\": {\n            \"$1\"\n          }"
+      "newText": "\"externalDocs\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -517,7 +517,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11xml",
-    "filterText": "\"xml\": {\n            \"$1\"\n          }",
+    "filterText": "\"xml\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -533,7 +533,7 @@
           "character": 13
         }
       },
-      "newText": "\"xml\": {\n            \"$1\"\n          }"
+      "newText": "\"xml\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

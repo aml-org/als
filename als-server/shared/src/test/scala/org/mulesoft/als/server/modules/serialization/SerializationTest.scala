@@ -309,7 +309,10 @@ class SerializationTest extends LanguageServerBaseTest {
     val factory: WorkspaceManagerFactory =
       factoryBuilder.buildWorkspaceManagerFactory()
     val builder =
-      new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
+      new LanguageServerBuilder(factory.documentManager,
+                                factory.workspaceManager,
+                                factory.configurationManager,
+                                factory.resolutionTaskManager)
     builder.addInitializableModule(serializationManager)
     builder.addRequestModule(serializationManager)
     builder.build()

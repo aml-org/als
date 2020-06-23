@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11http",
-    "filterText": "[\n    \"http\"\n  ]",
+    "filterText": "[\n  \"http\"\n]",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 15
         }
       },
-      "newText": "[\n    \"http\"\n  ]"
+      "newText": "[\n  \"http\"\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11https",
-    "filterText": "[\n    \"https\"\n  ]",
+    "filterText": "[\n  \"https\"\n]",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -53,7 +53,7 @@
           "character": 15
         }
       },
-      "newText": "[\n    \"https\"\n  ]"
+      "newText": "[\n  \"https\"\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11ws",
-    "filterText": "[\n    \"ws\"\n  ]",
+    "filterText": "[\n  \"ws\"\n]",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -83,7 +83,7 @@
           "character": 15
         }
       },
-      "newText": "[\n    \"ws\"\n  ]"
+      "newText": "[\n  \"ws\"\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11wss",
-    "filterText": "[\n    \"wss\"\n  ]",
+    "filterText": "[\n  \"wss\"\n]",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +113,7 @@
           "character": 15
         }
       },
-      "newText": "[\n    \"wss\"\n  ]"
+      "newText": "[\n  \"wss\"\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

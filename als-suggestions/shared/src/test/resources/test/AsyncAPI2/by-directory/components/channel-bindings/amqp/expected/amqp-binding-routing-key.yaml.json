@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10exchange",
-    "filterText": "exchange:\n          ",
+    "filterText": "exchange:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 8
         }
       },
-      "newText": "exchange:\n          "
+      "newText": "exchange:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

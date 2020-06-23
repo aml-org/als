@@ -128,7 +128,10 @@ class DocumentHighlightTest extends LanguageServerBaseTest {
         .buildWorkspaceManagerFactory()
     val workspaceManager: WorkspaceManager = factory.workspaceManager
     val server =
-      new LanguageServerBuilder(factory.documentManager, workspaceManager, factory.resolutionTaskManager)
+      new LanguageServerBuilder(factory.documentManager,
+                                workspaceManager,
+                                factory.configurationManager,
+                                factory.resolutionTaskManager)
         .addRequestModule(factory.documentHighlightManager)
         .build()
 

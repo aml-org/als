@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11body",
-    "filterText": "body:\n          ",
+    "filterText": "body:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -53,7 +53,7 @@
           "character": 8
         }
       },
-      "newText": "body:\n          "
+      "newText": "body:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11headers",
-    "filterText": "headers:\n          ",
+    "filterText": "headers:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +113,7 @@
           "character": 8
         }
       },
-      "newText": "headers:\n          "
+      "newText": "headers:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

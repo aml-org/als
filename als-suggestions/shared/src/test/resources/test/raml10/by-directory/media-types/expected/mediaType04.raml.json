@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11json",
-    "filterText": "application/json:\n            ",
+    "filterText": "application/json:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 23
         }
       },
-      "newText": "application/json:\n            "
+      "newText": "application/json:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

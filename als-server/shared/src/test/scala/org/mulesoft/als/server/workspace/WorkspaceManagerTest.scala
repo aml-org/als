@@ -31,7 +31,10 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     val dm      = builder.diagnosticManager()
     val factory = builder.buildWorkspaceManagerFactory()
 
-    val b = new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
+    val b = new LanguageServerBuilder(factory.documentManager,
+                                      factory.workspaceManager,
+                                      factory.configurationManager,
+                                      factory.resolutionTaskManager)
     dm.foreach(b.addInitializableModule)
     b.addRequestModule(factory.structureManager)
     b.build()

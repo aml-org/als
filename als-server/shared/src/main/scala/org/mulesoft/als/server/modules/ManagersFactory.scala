@@ -4,6 +4,7 @@ import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
+import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.als.server.{RequestModule, SerializationProps}
 import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
 import org.mulesoft.als.server.logger.Logger
@@ -12,6 +13,7 @@ import org.mulesoft.als.server.modules.actions.fileUsage.FindFileUsageManager
 import org.mulesoft.als.server.modules.actions.rename.RenameManager
 import org.mulesoft.als.server.modules.ast.{AccessUnits, BaseUnitListener, ResolvedUnitListener}
 import org.mulesoft.als.server.modules.completion.SuggestionsManager
+import org.mulesoft.als.server.modules.configuration.ConfigurationManager
 import org.mulesoft.als.server.modules.diagnostic._
 import org.mulesoft.als.server.modules.serialization.{ConversionManager, SerializationManager}
 import org.mulesoft.als.server.modules.structure.StructureManager
@@ -129,11 +131,19 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
       logger
     )
 
+  val configurationManager: ConfigurationManager =
+    new ConfigurationManager();
+
   lazy val documentManager =
     new TextDocumentManager(container, List(workspaceManager), logger)
 
   lazy val completionManager =
-    new SuggestionsManager(container, workspaceManager, telemetryManager, directoryResolver, logger)
+    new SuggestionsManager(container,
+                           workspaceManager,
+                           telemetryManager,
+                           directoryResolver,
+                           logger,
+                           configurationManager)
 
   lazy val structureManager =
     new StructureManager(workspaceManager, telemetryManager, logger)

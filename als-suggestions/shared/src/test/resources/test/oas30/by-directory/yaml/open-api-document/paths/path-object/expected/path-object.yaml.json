@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11delete",
-    "filterText": "delete:\n      ",
+    "filterText": "delete:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -53,7 +53,7 @@
           "character": 4
         }
       },
-      "newText": "delete:\n      "
+      "newText": "delete:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11get",
-    "filterText": "get:\n      ",
+    "filterText": "get:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +113,7 @@
           "character": 4
         }
       },
-      "newText": "get:\n      "
+      "newText": "get:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11head",
-    "filterText": "head:\n      ",
+    "filterText": "head:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -143,7 +143,7 @@
           "character": 4
         }
       },
-      "newText": "head:\n      "
+      "newText": "head:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11options",
-    "filterText": "options:\n      ",
+    "filterText": "options:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -173,7 +173,7 @@
           "character": 4
         }
       },
-      "newText": "options:\n      "
+      "newText": "options:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11parameters",
-    "filterText": "parameters:\n      - ",
+    "filterText": "parameters:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -203,7 +203,7 @@
           "character": 4
         }
       },
-      "newText": "parameters:\n      - "
+      "newText": "parameters:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -217,7 +217,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11patch",
-    "filterText": "patch:\n      ",
+    "filterText": "patch:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -233,7 +233,7 @@
           "character": 4
         }
       },
-      "newText": "patch:\n      "
+      "newText": "patch:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -247,7 +247,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11post",
-    "filterText": "post:\n      ",
+    "filterText": "post:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -263,7 +263,7 @@
           "character": 4
         }
       },
-      "newText": "post:\n      "
+      "newText": "post:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -277,7 +277,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11put",
-    "filterText": "put:\n      ",
+    "filterText": "put:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -293,7 +293,7 @@
           "character": 4
         }
       },
-      "newText": "put:\n      "
+      "newText": "put:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -307,7 +307,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11servers",
-    "filterText": "servers:\n      - ",
+    "filterText": "servers:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -323,7 +323,7 @@
           "character": 4
         }
       },
-      "newText": "servers:\n      - "
+      "newText": "servers:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -367,7 +367,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11trace",
-    "filterText": "trace:\n      ",
+    "filterText": "trace:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -383,7 +383,7 @@
           "character": 4
         }
       },
-      "newText": "trace:\n      "
+      "newText": "trace:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

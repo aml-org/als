@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11formParameters",
-    "filterText": "formParameters:\n              ",
+    "filterText": "formParameters:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 12
         }
       },
-      "newText": "formParameters:\n              "
+      "newText": "formParameters:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

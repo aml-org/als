@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "21rt",
-    "filterText": "rt:\n      param1: $1\n      param2: $2",
+    "filterText": "rt:\n  param1: $1\n  param2: $2",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -23,7 +23,7 @@
           "character": 4
         }
       },
-      "newText": "rt:\n      param1: $1\n      param2: $2"
+      "newText": "rt:\n  param1: $1\n  param2: $2"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

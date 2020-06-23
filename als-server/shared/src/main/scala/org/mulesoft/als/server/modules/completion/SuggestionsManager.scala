@@ -6,6 +6,7 @@ import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.server.modules.configuration.ConfigurationProvider
 import org.mulesoft.als.server.textsync.{TextDocument, TextDocumentContainer}
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.als.suggestions.client.Suggestions
@@ -24,13 +25,15 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
                          val workspace: WorkspaceManager,
                          private val telemetryProvider: TelemetryProvider,
                          val directoryResolver: DirectoryResolver,
-                         private val logger: Logger)
+                         private val logger: Logger,
+                         private val configurationProvider: ConfigurationProvider)
     extends RequestModule[CompletionClientCapabilities, CompletionOptions] {
 
   private var conf: Option[CompletionClientCapabilities] = None
 
   private val suggestions = new Suggestions(editorEnvironment.platform,
                                             editorEnvironment.environment,
+                                            configurationProvider.getConfiguration,
                                             directoryResolver,
                                             editorEnvironment.amfConfiguration)
   private def snippetSupport =
