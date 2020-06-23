@@ -10,6 +10,7 @@ import org.mulesoft.lsp.feature.definition.{ClientDefinitionClientCapabilities, 
 import org.mulesoft.lsp.feature.diagnostic._
 import org.mulesoft.lsp.feature.documenthighlight.ClientDocumentHighlight
 import org.mulesoft.lsp.feature.documentsymbol._
+import org.mulesoft.lsp.feature.folding.{ClientFoldingRange, FoldingRange}
 import org.mulesoft.lsp.feature.highlight.DocumentHighlight
 import org.mulesoft.lsp.feature.hover.{ClientHover, Hover}
 import org.mulesoft.lsp.feature.implementation.{ClientImplementationClientCapabilities, ImplementationClientCapabilities}
@@ -23,7 +24,7 @@ import org.mulesoft.lsp.workspace._
 
 import scala.language.implicitConversions
 import scala.scalajs.js
-import scala.scalajs.js.JSConverters._
+import scala.scalajs.js.JSConverters.{JSRichGenIterable, _}
 import scala.scalajs.js.|
 
 object LspConvertersSharedToClient {
@@ -256,6 +257,14 @@ object LspConvertersSharedToClient {
 
   implicit class ClientHoverConverter(v: Hover) {
     def toClient: ClientHover = ClientHover(v)
+  }
+
+  implicit class ClientFoldingRangeConverter(v: FoldingRange) {
+    def toClient: ClientFoldingRange = ClientFoldingRange(v)
+  }
+
+  implicit class ClientFoldingRangesConverter(v: Seq[FoldingRange]) {
+    def toClient: js.Array[ClientFoldingRange] = v.map(ClientFoldingRange(_)).toJSArray
   }
 
   implicit class ClientTypeDefinitionClientCapabilitiesConverter(v: TypeDefinitionClientCapabilities) {

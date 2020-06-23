@@ -58,6 +58,7 @@ object AlsJConversions {
             .map(s => new extension.ConversionConf(s.from, s.to))
             .asJava))
     }
+    capabilities.foldingRangeProvider.foreach(p => result.setFoldingRangeProvider(p))
     result
   }
 

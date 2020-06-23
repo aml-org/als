@@ -1,14 +1,15 @@
 package org.mulesoft.amfintegration
 
-import amf.core.annotations.{LexicalInformation, ReferenceTargets, SynthesizedField}
+import amf.core.annotations.{LexicalInformation, ReferenceTargets, SourceAST, SynthesizedField}
 import amf.core.metamodel.Field
-import amf.core.model.document.BaseUnit
+import amf.core.model.document.{BaseUnit, EncodesModel}
 import amf.core.model.domain.{AmfObject, AmfScalar, DomainElement}
 import amf.core.parser
 import amf.core.parser.{Annotations, Value}
 import amf.plugins.document.vocabularies.model.document.{Dialect, Vocabulary}
 import amf.plugins.document.vocabularies.model.domain.{ClassTerm, NodeMapping, PropertyTerm}
 import amf.plugins.domain.webapi.metamodel.AbstractModel
+import org.yaml.model.YPart
 
 import scala.collection.mutable
 
@@ -17,12 +18,19 @@ object AmfImplicits {
   implicit class AmfAnnotationsImp(ann: Annotations) {
     def range(): Option[parser.Range] = ann.find(classOf[LexicalInformation]).map(_.range)
 
+    def ast(): Option[YPart] = ann.find(classOf[SourceAST]).map(_.ast)
+
     def isSynthesized: Boolean = ann.contains(classOf[SynthesizedField])
 
     def targets(): Map[String, parser.Range] = ann.find(classOf[ReferenceTargets]).map(_.targets).getOrElse(Map.empty)
   }
 
   implicit class AmfObjectImp(amfObject: AmfObject) {
+//    def objWithAST: Option[AmfObject] =
+//      amfObject.annotations
+//        .ast()
+//        .map(_ => amfObject)
+
     def metaURIs: List[String] = amfObject.meta.`type` match {
       case head :: tail if isAbstract => (head.iri() + "Abstract") +: (tail.map(_.iri()))
       case l                          => l.map(_.iri())
@@ -41,7 +49,18 @@ object AmfImplicits {
       d.fields.getValueAsOption(f).collect({ case Value(v: AmfScalar, _) => v.value })
   }
 
-  implicit class BaseUnitImp(bu: BaseUnit) {
+  implicit class BaseUnitImp(bu: BaseUnit) extends AmfObjectImp(bu) {
+    def objWithAST: Option[AmfObject] =
+      bu.annotations
+        .ast()
+        .map(_ => bu)
+        .orElse(
+          bu match {
+            case e: EncodesModel if e.encodes.annotations.ast().isDefined => Some(e.encodes)
+            case _                                                        => None
+          }
+        )
+
     def flatRefs: Seq[BaseUnit] = {
       val set: mutable.Set[BaseUnit] = mutable.Set.empty
 

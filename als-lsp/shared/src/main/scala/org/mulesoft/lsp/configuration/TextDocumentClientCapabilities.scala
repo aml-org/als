@@ -5,6 +5,7 @@ import org.mulesoft.lsp.feature.completion.CompletionClientCapabilities
 import org.mulesoft.lsp.feature.definition.DefinitionClientCapabilities
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticClientCapabilities
 import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolClientCapabilities
+import org.mulesoft.lsp.feature.folding.FoldingRangeCapabilities
 import org.mulesoft.lsp.feature.hover.HoverClientCapabilities
 import org.mulesoft.lsp.feature.highlight.DocumentHighlightCapabilities
 import org.mulesoft.lsp.feature.implementation.ImplementationClientCapabilities
@@ -29,4 +30,5 @@ case class TextDocumentClientCapabilities(synchronization: Option[Synchronizatio
                                           codeActionCapabilities: Option[CodeActionCapabilities] = None,
                                           documentLink: Option[DocumentLinkClientCapabilities] = None,
                                           hover: Option[HoverClientCapabilities] = None,
-                                          documentHighlight: Option[DocumentHighlightCapabilities] = None)
+                                          documentHighlight: Option[DocumentHighlightCapabilities] = None,
+                                          foldingRange: Option[FoldingRangeCapabilities] = None)

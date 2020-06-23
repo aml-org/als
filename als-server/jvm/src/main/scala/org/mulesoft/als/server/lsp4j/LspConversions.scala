@@ -114,7 +114,8 @@ object LspConversions {
           .flatMap(eitherCodeActionProviderOptions),
         Option(result.getDocumentLinkProvider),
         Option(result.getWorkspace),
-        Option(result.getExperimental)
+        Option(result.getExperimental),
+        foldingRangeProvider = Option(result.getFoldingRangeProvider).map(_.getLeft)
       )
 
   private def conversionClientCapabilities(
