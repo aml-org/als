@@ -123,17 +123,8 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   val defaultWorkspace =
     new WorkspaceContentManager("", environmentProvider, telemetryProvider, logger, subscribers)
 
-  override def getRootOf(uri: String): Option[String] =
-    getWorkspace(uri).workspaceConfiguration
-      .map(c => s"${c.rootFolder}/") // todo: check if the workspace config comes with trailing slash or not (or either way)
-
-  private def stripToLastFolder(uri: String): String =
-    uri.substring(0, (uri.lastIndexOf('/') + 1).min(uri.length))
-
   override def getProjectRootOf(uri: String): Option[String] =
-    getWorkspace(uri).mainFileUri
-      .map(stripToLastFolder)
-      .orElse(getRootOf(uri))
+    getWorkspace(uri).getRootFolderFor(uri)
 
   override def initialize(workspaceFolders: List[WorkspaceFolder]): Future[Unit] = {
     // Drop all old workspaces

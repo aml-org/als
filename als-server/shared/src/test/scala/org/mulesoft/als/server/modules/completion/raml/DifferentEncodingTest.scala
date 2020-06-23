@@ -121,6 +121,29 @@ class DifferentEncodingTest extends RAMLSuggestionTestServer {
             |type: string""".stripMargin
       ),
       Set("exchange.json", "root (1)/")
+    ),
+    TestEntry( // Isolated path in a workspace which contains a Project
+      "file:///r/t.raml",
+      Set(("file:///r/t.raml", "file:///r/t.raml")),
+      Position(2, 15),
+      Map(
+        "file:///r/exchange.json" -> """{"main": "root (1)/api.raml"}""",
+        "file:///r/root%20(1)/api.raml" ->
+          """#%RAML 1.0
+            |types:
+            |  t: !include ../""".stripMargin,
+        "file:///r/root%20(1)/t.raml" ->
+          """#%RAML 1.0 DataType
+            |type: string""".stripMargin,
+        "file:///r/root%20(1)/sub%20(1)/t.raml" ->
+          """#%RAML 1.0 DataType
+            |type: string""".stripMargin,
+        "file:///r/t.raml" ->
+          """#%RAML 1.0
+            |types:
+            |  t: !include /""".stripMargin
+      ),
+      Set("/exchange.json", "/root (1)/")
     )
   )
 
@@ -155,7 +178,8 @@ class DifferentEncodingTest extends RAMLSuggestionTestServer {
         }
       }
     } yield {
-      assert(results.forall(t => t._1.map(_.label).toSet == t._2))
+      results.foreach(t => assert(t._1.map(_.label).toSet == t._2))
+      succeed
     }
   }
 
