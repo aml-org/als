@@ -13,10 +13,11 @@ object SuggestionStylerBuilder {
             yPartBranch: YPartBranch,
             configuration: AlsConfigurationReader,
             snippetsSupport: Boolean = true,
+            mimeType: Option[String] = None,
             indentation: Int = 0): SuggestionRender = {
 
     val formatOptions: AlsFormattingOptions = configuration.getFormattingOptions(
-      if (isYAML) AlsFormatMime.YAML else AlsFormatMime.JSON
+      mimeType.map(t => AlsFormatMime(t)).getOrElse(AlsFormatMime.DEFAULT)
     )
 
     val params =

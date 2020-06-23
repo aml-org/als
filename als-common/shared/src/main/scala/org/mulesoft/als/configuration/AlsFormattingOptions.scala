@@ -22,8 +22,6 @@ object DefaultAlsFormattingOptions extends AlsFormattingOptions(2, true)
 object AlsFormatMime extends Enumeration {
   type AlsFormatMime = Value
 
-  val YAML    = Value("yaml")
-  val JSON    = Value("json")
   val DEFAULT = Value("default")
 
   def apply(x: String): AlsFormatMime = {

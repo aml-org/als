@@ -124,6 +124,8 @@ object AmlCompletionRequestBuilder {
       yPartBranch,
       configuration,
       snippetSupport,
+      if (baseUnit.location().isDefined) platform.mimeFromExtension(platform.extension(baseUnit.location().get).get)
+      else None,
       indentation(baseUnit, dtoPosition)
     )
     val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position)
