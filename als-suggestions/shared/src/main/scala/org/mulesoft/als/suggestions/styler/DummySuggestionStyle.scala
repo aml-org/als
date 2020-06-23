@@ -2,7 +2,7 @@ package org.mulesoft.als.suggestions.styler
 
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.als.configuration.{AlsConfiguration, AlsFormatMime}
+import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.als.suggestions.styler.astbuilder.{AstRawBuilder, DummyAstRawBuilder}
 import org.mulesoft.als.suggestions.{RawSuggestion, SuggestionStructure}
@@ -15,7 +15,7 @@ case class DummySuggestionStyle(prefix: String, position: Position) extends Sugg
       PatchedContent("", "", Nil),
       position,
       YPartBranch(YMap.empty, position.toAmfPosition, Nil, isJson = false),
-      AlsConfiguration().getFormattingOptions(AlsFormatMime.DEFAULT)
+      AlsConfiguration().getFormattingOptions("")
     )
 
   override protected def render(options: SuggestionStructure, builder: AstRawBuilder): String = builder.ast.toString

@@ -4,8 +4,7 @@ import java.util.{List => JList}
 
 import org.eclipse.lsp4j
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
-import org.mulesoft.als.configuration.AlsFormatMime.AlsFormatMime
-import org.mulesoft.als.configuration.{AlsConfiguration, AlsFormatMime, AlsFormattingOptions}
+import org.mulesoft.als.configuration.{AlsConfiguration, AlsFormattingOptions}
 import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeParams}
 import org.mulesoft.als.server.feature.fileusage.FileUsageClientCapabilities
@@ -77,7 +76,7 @@ object LspConversions {
     if (alsConfiguration == null) AlsConfiguration()
     else
       AlsConfiguration(
-        alsConfiguration.getFormattingOptions.asScala.toMap.map(a => (AlsFormatMime(a._1) -> formattingOptions(a._2)))
+        alsConfiguration.getFormattingOptions.asScala.toMap.map(a => (a._1 -> formattingOptions(a._2)))
       )
   }
 
@@ -142,8 +141,8 @@ object LspConversions {
   }
 
   implicit def stringFormatMapToMimeFormatMap(
-      v: Map[String, extension.AlsFormattingOptions]): Map[AlsFormatMime, AlsFormattingOptions] = {
-    v.map(v => (AlsFormatMime(v._1) -> formattingOptions(v._2)))
+      v: Map[String, extension.AlsFormattingOptions]): Map[String, AlsFormattingOptions] = {
+    v.map(v => (v._1 -> formattingOptions(v._2)))
   }
 
   implicit def jvmCleanDiagnosticTreeParams(result: extension.CleanDiagnosticTreeParams): CleanDiagnosticTreeParams = {

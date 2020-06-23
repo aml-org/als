@@ -1,19 +1,14 @@
 package org.mulesoft.als.configuration
 
-import org.mulesoft.als.configuration.AlsFormatMime.AlsFormatMime
-
-case class AlsConfiguration(private var formattingOptions: Map[AlsFormatMime, AlsFormattingOptions] = Map())
+case class AlsConfiguration(private var formattingOptions: Map[String, AlsFormattingOptions] = Map())
     extends AlsConfigurationReader {
 
   private var enableUpdateFormatOptions = true;
 
-  def getFormattingOptions(alsFormatMime: AlsFormatMime): AlsFormattingOptions =
-    formattingOptions
-      .get(alsFormatMime)
-      .orElse(formattingOptions.get(AlsFormatMime.DEFAULT))
-      .getOrElse(DefaultAlsFormattingOptions)
+  def getFormattingOptions(mimeType: String): AlsFormatOptions =
+    formattingOptions.getOrElse(mimeType, DefaultAlsFormattingOptions)
 
-  def updateFormattingOptions(options: Map[AlsFormatMime, AlsFormattingOptions]): Unit =
+  def updateFormattingOptions(options: Map[String, AlsFormattingOptions]): Unit =
     if (enableUpdateFormatOptions)
       options.foreach(pair => {
         this.formattingOptions + pair

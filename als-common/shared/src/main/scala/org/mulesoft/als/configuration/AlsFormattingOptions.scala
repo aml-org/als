@@ -1,7 +1,5 @@
 package org.mulesoft.als.configuration
 
-import org.mulesoft.als.configuration.AlsFormatMime.AlsFormatMime
-
 /**
   * Value-object describing what options formatting should use.
   *
@@ -11,20 +9,34 @@ import org.mulesoft.als.configuration.AlsFormatMime.AlsFormatMime
   * @param insertFinalNewline Insert a newline character at the end of the file if one does not exist.
   * @param trimFinalNewlines Trim all newlines after the final newline at the end of the file.
   */
-case class AlsFormattingOptions(indentationSize: Int,
-                                insertSpaces: Boolean,
-                                trimTrailingWhitespace: Option[Boolean] = None,
-                                insertFinalNewline: Option[Boolean] = None,
-                                trimFinalNewlines: Option[Boolean] = None)
+case class AlsFormattingOptions(override val indentationSize: Int,
+                                override val insertSpaces: Boolean,
+                                private val trimTrailingWhitespace: Option[Boolean] = None,
+                                private val insertFinalNewline: Option[Boolean] = None,
+                                private val trimFinalNewlines: Option[Boolean] = None)
+    extends AlsFormatOptions {
+  override def getTrimTrailingWhitespace: Boolean =
+    this.trimTrailingWhitespace.getOrElse(DefaultAlsFormattingOptions.getTrimTrailingWhitespace)
 
-object DefaultAlsFormattingOptions extends AlsFormattingOptions(2, true)
+  override def getInsertFinalNewline: Boolean =
+    this.insertFinalNewline.getOrElse(DefaultAlsFormattingOptions.getInsertFinalNewline)
 
-object AlsFormatMime extends Enumeration {
-  type AlsFormatMime = Value
+  override def getTrimFinalNewlines: Boolean =
+    this.trimFinalNewlines.getOrElse(DefaultAlsFormattingOptions.getTrimFinalNewlines)
+}
 
-  val DEFAULT = Value("default")
+trait AlsFormatOptions {
+  val indentationSize: Int
+  val insertSpaces: Boolean
+  def getTrimTrailingWhitespace: Boolean
+  def getInsertFinalNewline: Boolean
+  def getTrimFinalNewlines: Boolean
+}
 
-  def apply(x: String): AlsFormatMime = {
-    Value(x)
-  }
+object DefaultAlsFormattingOptions extends AlsFormatOptions {
+  override val indentationSize: Int               = 2
+  override val insertSpaces: Boolean              = true
+  override def getTrimTrailingWhitespace: Boolean = true
+  override def getInsertFinalNewline: Boolean     = false
+  override def getTrimFinalNewlines: Boolean      = true
 }

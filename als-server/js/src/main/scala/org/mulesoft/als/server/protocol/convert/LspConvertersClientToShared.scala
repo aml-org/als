@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.protocol.convert
 
-import org.mulesoft.als.configuration.{AlsFormatMime, AlsFormattingOptions}
+import org.mulesoft.als.configuration.AlsFormattingOptions
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeOptions, CleanDiagnosticTreeParams}
 import org.mulesoft.als.server.feature.fileusage.{FileUsageClientCapabilities, FileUsageOptions}
 import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
@@ -152,7 +152,7 @@ object LspConvertersClientToShared {
 
   implicit class ClientUpdateConfigurationConverter(v: ClientUpdateConfigurationParams){
     def toShared: UpdateConfigurationParams = UpdateConfigurationParams(
-      v.clientAlsFormattingOptions.toOption.map(_.toMap.map(v => AlsFormatMime(v._1) -> v._2.toShared))
+      v.clientAlsFormattingOptions.toOption.map(_.toMap.map(v => v._1 -> v._2.toShared))
     )
   }
 

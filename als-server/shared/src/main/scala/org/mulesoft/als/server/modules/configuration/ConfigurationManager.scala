@@ -1,7 +1,6 @@
 package org.mulesoft.als.server.modules.configuration
 
-import org.mulesoft.als.configuration.AlsFormatMime.AlsFormatMime
-import org.mulesoft.als.configuration.{AlsConfiguration, AlsConfigurationReader, AlsFormatMime, AlsFormattingOptions}
+import org.mulesoft.als.configuration.{AlsConfiguration, AlsConfigurationReader}
 import org.mulesoft.als.server.feature.configuration.{
   UpdateConfigurationClientCapabilities,
   UpdateConfigurationConfigType,
