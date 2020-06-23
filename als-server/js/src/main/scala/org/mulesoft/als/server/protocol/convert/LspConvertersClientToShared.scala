@@ -120,7 +120,8 @@ object LspConvertersClientToShared {
         v.fileUsage.toOption.map(_.toShared),
         v.conversion.toOption.map(_.toShared),
         v.documentHighlightProvider.toOption,
-        v.hoverProvider.toOption
+        v.hoverProvider.toOption,
+        v.foldingRangeProvider.toOption
       )
   }
 

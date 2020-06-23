@@ -7,10 +7,10 @@ import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.client.{AlsLanguageClient, AlsLanguageClientAware}
 import org.mulesoft.als.server.protocol.configuration.{
+  ClientAlsFormattingOptions,
   ClientAlsInitializeParams,
   ClientAlsInitializeResult,
-  ClientUpdateConfigurationParams,
-  ClientAlsFormattingOptions
+  ClientUpdateConfigurationParams
 }
 import org.mulesoft.als.server.protocol.convert.LspConvertersClientToShared._
 import org.mulesoft.als.server.protocol.convert.LspConvertersSharedToClient._
@@ -53,6 +53,7 @@ import org.mulesoft.lsp.feature.documentsymbol.{
   ClientSymbolInformation,
   DocumentSymbolRequestType
 }
+import org.mulesoft.lsp.feature.folding.{ClientFoldingRange, ClientFoldingRangeParams, FoldingRangeRequestType}
 import org.mulesoft.lsp.feature.hover.{ClientHover, ClientHoverParams, HoverRequestType}
 import org.mulesoft.lsp.feature.highlight.DocumentHighlightRequestType
 import org.mulesoft.lsp.feature.implementation.{ClientImplementationParams, ImplementationRequestType}
@@ -398,6 +399,22 @@ object ProtocolConnectionBinder {
         .asInstanceOf[ClientRequestHandler[ClientHoverParams, ClientHover, js.Any]]
     )
     // End Hover
+
+    // FoldingRange
+    val onFoldingRangeHandler
+      : js.Function2[ClientFoldingRangeParams, CancellationToken, Thenable[ClientFoldingRange]] =
+      (param: ClientFoldingRangeParams, _: CancellationToken) =>
+        resolveHandler(FoldingRangeRequestType)(param.toShared)
+          .map(_.toClient)
+          .toJSPromise
+          .asInstanceOf[Thenable[ClientFoldingRange]]
+
+    protocolConnection.onRequest(
+      FoldingRangeRequest.`type`,
+      onFoldingRangeHandler
+        .asInstanceOf[ClientRequestHandler[ClientFoldingRangeParams, ClientFoldingRange, js.Any]]
+    )
+    // End FoldingRange
 
     // CleanDiagnosticTree
     val onCleanDiagnosticTreeHandlerJs: js.Function2[ClientCleanDiagnosticTreeParams,

@@ -38,6 +38,7 @@ import org.mulesoft.lsp.feature.documentsymbol.{
   SymbolKindClientCapabilities
 }
 import org.mulesoft.lsp.feature.hover.{HoverClientCapabilities, HoverParams, MarkupKind}
+import org.mulesoft.lsp.feature.folding.{FoldingRangeCapabilities, FoldingRangeParams}
 import org.mulesoft.lsp.feature.highlight.{DocumentHighlightCapabilities, DocumentHighlightParams}
 import org.mulesoft.lsp.feature.implementation.{ImplementationClientCapabilities, ImplementationParams}
 import org.mulesoft.lsp.feature.link.{DocumentLinkClientCapabilities, DocumentLinkOptions, DocumentLinkParams}
@@ -147,7 +148,9 @@ object LspConversions {
       Option(capabilities.getRename).map(renameClientCapabilities),
       Option(capabilities.getCodeAction).flatMap(_ => None), // TODO: CodeAction
       Option(capabilities.getDocumentLink).map(documentLinkClientCapabilities),
-      Option(capabilities.getHover).map(clientHoverCapabilities)
+      Option(capabilities.getHover).map(clientHoverCapabilities),
+      Option(capabilities.getDocumentHighlight).map(documentHighlightCapabilities),
+      Option(capabilities.getFoldingRange).map(foldingRangeCapabilities)
     )
 
   def workspaceEditClientCapabilities(c: WorkspaceEditCapabilities): WorkspaceEditClientCapabilities =
@@ -357,4 +360,12 @@ object LspConversions {
 
   implicit def documentHighlightParams(inner: lsp4j.DocumentHighlightParams): DocumentHighlightParams =
     DocumentHighlightParams(inner.getTextDocument, inner.getPosition)
+
+  implicit def foldingRangeCapabilities(capa: lsp4j.FoldingRangeCapabilities): FoldingRangeCapabilities =
+    FoldingRangeCapabilities(Option(capa.getDynamicRegistration),
+                             Option(capa.getRangeLimit),
+                             Option(capa.getLineFoldingOnly))
+
+  implicit def foldingRangeParams(inner: lsp4j.FoldingRangeRequestParams): FoldingRangeParams =
+    FoldingRangeParams(inner.getTextDocument)
 }
