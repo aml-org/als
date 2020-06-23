@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11basePath",
-    "filterText": "basePath:\n              ",
+    "filterText": "basePath:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 12
         }
       },
-      "newText": "basePath:\n              "
+      "newText": "basePath:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11port",
-    "filterText": "port:\n              ",
+    "filterText": "port:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -53,7 +53,7 @@
           "character": 12
         }
       },
-      "newText": "port:\n              "
+      "newText": "port:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11username",
-    "filterText": "username:\n              ",
+    "filterText": "username:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -83,7 +83,7 @@
           "character": 12
         }
       },
-      "newText": "username:\n              "
+      "newText": "username:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

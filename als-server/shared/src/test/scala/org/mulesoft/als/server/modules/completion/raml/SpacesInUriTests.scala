@@ -7,6 +7,6 @@ class SpacesInUriTests extends RAMLSuggestionTestServer {
   override implicit val executionContext = ExecutionContext.Implicits.global
 
   test("test01") {
-    runTest("spaces in folder/api.raml", Set("responses:\n      "))
+    runTest("spaces in folder/api.raml", Set("responses:\n  "))
   }
 }

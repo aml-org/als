@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11enum",
-    "filterText": "enum:\n          - ",
+    "filterText": "enum:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -83,7 +83,7 @@
           "character": 8
         }
       },
-      "newText": "enum:\n          - "
+      "newText": "enum:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11examples",
-    "filterText": "examples:\n          - ",
+    "filterText": "examples:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +113,7 @@
           "character": 8
         }
       },
-      "newText": "examples:\n          - "
+      "newText": "examples:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

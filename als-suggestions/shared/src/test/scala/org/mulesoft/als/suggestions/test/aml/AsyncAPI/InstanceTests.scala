@@ -15,7 +15,7 @@ class InstanceTests extends AMLSuggestionsTest {
 
   test("test002") {
     runSuggestionTest("instance/test002.yaml",
-                      Set("termsOfService: ", "contact:\n    ", "description: ", "title: ", "license:\n    "))
+                      Set("termsOfService: ", "contact:\n  ", "description: ", "title: ", "license:\n  "))
   }
 
   test("test003") {
@@ -34,9 +34,8 @@ class InstanceTests extends AMLSuggestionsTest {
   }
 
   test("test006") {
-    runSuggestionTest(
-      "instance/test006.yaml",
-      Set("externalDocs:\n        ", "headers:\n        ", "tags:\n        - ", "simpleMap:\n        "))
+    runSuggestionTest("instance/test006.yaml",
+                      Set("externalDocs:\n  ", "headers:\n  ", "tags:\n  - ", "simpleMap:\n  "))
   }
 
   test("test007") {
@@ -94,7 +93,7 @@ class InstanceTests extends AMLSuggestionsTest {
   test("test declaration suggestions in component key") {
     withDialect(
       "instance/suggestions-in-component-key.yaml",
-      Set("schemas:\n    ", "messages:\n    ", "securitySchemes:\n    "),
+      Set("schemas:\n  ", "messages:\n  ", "securitySchemes:\n  "),
       "dialect10.yaml",
       ProfileName("AsyncAPI 1.0")
     )

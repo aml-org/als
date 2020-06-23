@@ -6,6 +6,7 @@ import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import amf.plugins.document.vocabularies.AMLPlugin
 import org.mulesoft.als.common.PlatformDirectoryResolver
+import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
@@ -48,7 +49,7 @@ trait BaseSuggestionsForTest extends PlatformSecrets {
         position = markerInfo.position
 
         val environment = this.buildEnvironment(url, markerInfo.patchedContent.original, mime)
-        new Suggestions(platform, environment, dr, AmfInstance(platform, environment))
+        new Suggestions(platform, environment, AlsConfiguration(), dr, AmfInstance(platform, environment))
       }
       _           <- s.init(InitOptions.AllProfiles.withCustomDialects(customDialect.toSeq))
       suggestions <- s.suggest(url, position, snippetsSupport = true, None)

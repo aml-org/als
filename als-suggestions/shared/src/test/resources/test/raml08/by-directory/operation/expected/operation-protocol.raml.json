@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11HTTP",
-    "filterText": "\n      - HTTP",
+    "filterText": "\n- HTTP",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 15
         }
       },
-      "newText": "\n      - HTTP"
+      "newText": "\n- HTTP"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11HTTPS",
-    "filterText": "\n      - HTTPS",
+    "filterText": "\n- HTTPS",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -53,7 +53,7 @@
           "character": 15
         }
       },
-      "newText": "\n      - HTTPS"
+      "newText": "\n- HTTPS"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

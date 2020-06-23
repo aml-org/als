@@ -9,7 +9,7 @@ class EnumTest extends AMLSuggestionsTest {
   test("AllowMultiple Enum - Single Value") {
     withDialect(
       "instances/testArraysInstance02.yaml",
-      Set("\n  - First", "\n  - Second", "\n  - Third", "\n  - Fourth"),
+      Set("\n- First", "\n- Second", "\n- Third", "\n- Fourth"),
       "dialects/testArraysDialect.yaml",
       ProfileName("Test Array 1.0")
     )
@@ -22,7 +22,7 @@ class EnumTest extends AMLSuggestionsTest {
   }
   test("AllowMultiple Enum - Single Value w/prefix") {
     withDialect("instances/testArraysInstance03.yaml",
-                Set("\n  - First", "\n  - Fourth"),
+                Set("\n- First", "\n- Fourth"),
                 "dialects/testArraysDialect.yaml",
                 ProfileName("Test Array 1.0"))
   }

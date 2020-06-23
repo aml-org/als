@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11delete",
-    "filterText": "\"delete\": {\n            \"$1\"\n          }",
+    "filterText": "\"delete\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -53,7 +53,7 @@
           "character": 13
         }
       },
-      "newText": "\"delete\": {\n            \"$1\"\n          }"
+      "newText": "\"delete\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11get",
-    "filterText": "\"get\": {\n            \"$1\"\n          }",
+    "filterText": "\"get\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -113,7 +113,7 @@
           "character": 13
         }
       },
-      "newText": "\"get\": {\n            \"$1\"\n          }"
+      "newText": "\"get\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11head",
-    "filterText": "\"head\": {\n            \"$1\"\n          }",
+    "filterText": "\"head\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -143,7 +143,7 @@
           "character": 13
         }
       },
-      "newText": "\"head\": {\n            \"$1\"\n          }"
+      "newText": "\"head\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11options",
-    "filterText": "\"options\": {\n            \"$1\"\n          }",
+    "filterText": "\"options\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -173,7 +173,7 @@
           "character": 13
         }
       },
-      "newText": "\"options\": {\n            \"$1\"\n          }"
+      "newText": "\"options\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11parameters",
-    "filterText": "\"parameters\": [\n            \"$1\"\n          ]",
+    "filterText": "\"parameters\": [\n  \"$1\"\n]",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -203,7 +203,7 @@
           "character": 13
         }
       },
-      "newText": "\"parameters\": [\n            \"$1\"\n          ]"
+      "newText": "\"parameters\": [\n  \"$1\"\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -217,7 +217,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11patch",
-    "filterText": "\"patch\": {\n            \"$1\"\n          }",
+    "filterText": "\"patch\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -233,7 +233,7 @@
           "character": 13
         }
       },
-      "newText": "\"patch\": {\n            \"$1\"\n          }"
+      "newText": "\"patch\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -247,7 +247,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11post",
-    "filterText": "\"post\": {\n            \"$1\"\n          }",
+    "filterText": "\"post\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -263,7 +263,7 @@
           "character": 13
         }
       },
-      "newText": "\"post\": {\n            \"$1\"\n          }"
+      "newText": "\"post\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -277,7 +277,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11put",
-    "filterText": "\"put\": {\n            \"$1\"\n          }",
+    "filterText": "\"put\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -293,7 +293,7 @@
           "character": 13
         }
       },
-      "newText": "\"put\": {\n            \"$1\"\n          }"
+      "newText": "\"put\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -307,7 +307,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11servers",
-    "filterText": "\"servers\": [\n            \"$1\"\n          ]",
+    "filterText": "\"servers\": [\n  \"$1\"\n]",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -323,7 +323,7 @@
           "character": 13
         }
       },
-      "newText": "\"servers\": [\n            \"$1\"\n          ]"
+      "newText": "\"servers\": [\n  \"$1\"\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -367,7 +367,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11trace",
-    "filterText": "\"trace\": {\n            \"$1\"\n          }",
+    "filterText": "\"trace\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -383,7 +383,7 @@
           "character": 13
         }
       },
-      "newText": "\"trace\": {\n            \"$1\"\n          }"
+      "newText": "\"trace\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

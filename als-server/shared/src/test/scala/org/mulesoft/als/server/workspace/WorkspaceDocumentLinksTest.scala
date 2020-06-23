@@ -115,7 +115,10 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
   }
 
   def buildServer(): LanguageServer =
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
+    new LanguageServerBuilder(factory.documentManager,
+                              factory.workspaceManager,
+                              factory.configurationManager,
+                              factory.resolutionTaskManager)
       .addRequestModule(factory.structureManager)
       .build()
 

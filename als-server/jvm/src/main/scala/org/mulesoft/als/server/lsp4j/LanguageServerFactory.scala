@@ -81,7 +81,10 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecr
     val builders = factory.buildWorkspaceManagerFactory()
 
     val languageBuilder =
-      new LanguageServerBuilder(builders.documentManager, builders.workspaceManager, builders.resolutionTaskManager)
+      new LanguageServerBuilder(builders.documentManager,
+                                builders.workspaceManager,
+                                builders.configurationManager,
+                                builders.resolutionTaskManager)
         .addInitializable(builders.workspaceManager)
         .addInitializable(builders.resolutionTaskManager)
         .addInitializableModule(sm)

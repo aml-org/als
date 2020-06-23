@@ -8,6 +8,7 @@ import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.common.dtoTypes.{Position => DtoPosition}
 import org.mulesoft.als.common.{DirectoryResolver, EnvironmentPatcher, PlatformDirectoryResolver}
+import org.mulesoft.als.configuration.{AlsConfiguration, AlsConfigurationReader}
 import org.mulesoft.als.suggestions._
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequestBuilder
 import org.mulesoft.als.suggestions.interfaces.Syntax._
@@ -23,6 +24,7 @@ import scala.concurrent.Future
 
 class Suggestions(platform: Platform,
                   environment: Environment,
+                  configuration: AlsConfigurationReader,
                   directoryResolver: DirectoryResolver,
                   amfInstance: AmfInstance)
     extends SuggestionsHelper {
@@ -123,12 +125,19 @@ class Suggestions(platform: Platform,
                platform,
                patchedContent,
                snippetSupport,
-               rootLocation))
+               rootLocation,
+               configuration))
   }
 }
 
 object Suggestions extends PlatformSecrets {
-  val default = new Suggestions(platform, Environment(), new PlatformDirectoryResolver(platform), AmfInstance.default)
+  // platform: Platform, environment: Environment, configuration: AlsConfiguration, directoryResolver: DirectoryResolver,
+
+  val default = new Suggestions(platform,
+                                Environment(),
+                                AlsConfiguration(),
+                                new PlatformDirectoryResolver(platform),
+                                AmfInstance.default)
 }
 
 trait SuggestionsHelper {

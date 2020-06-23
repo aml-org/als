@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10schema",
-    "filterText": "\"schema\": {\n        \"$1\"\n      }",
+    "filterText": "\"schema\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -113,7 +113,7 @@
           "character": 9
         }
       },
-      "newText": "\"schema\": {\n        \"$1\"\n      }"
+      "newText": "\"schema\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
