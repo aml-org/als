@@ -3,6 +3,7 @@ package org.mulesoft.als.suggestions.test.core.aml
 import amf.core.remote.Aml
 import amf.plugins.document.vocabularies.AMLPlugin
 import org.mulesoft.als.common.PlatformDirectoryResolver
+import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.test.core.{CoreTest, DummyPlugins}
 import org.mulesoft.amfintegration.{AmfInstance, InitOptions}
@@ -45,7 +46,11 @@ class BasicCoreTestsAML extends CoreTest with DummyPlugins {
             (this.buildEnvironment(url, markerInfo.patchedContent.original, content.mime), markerInfo.position)
           }
           suggestions <- {
-            val suggestions = new Suggestions(platform, env, new PlatformDirectoryResolver(platform), configuration)
+            val suggestions = new Suggestions(platform,
+                                              env,
+                                              AlsConfiguration(),
+                                              new PlatformDirectoryResolver(platform),
+                                              configuration)
               .initialized()
             suggestions.completionsPluginHandler.cleanIndex()
             suggestions.completionsPluginHandler

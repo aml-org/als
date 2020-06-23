@@ -4,13 +4,12 @@ import amf.client.remote.Content
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
-import amf.plugins.document.vocabularies.AMLPlugin
 import org.mulesoft.als.common.PlatformDirectoryResolver
+import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.als.suggestions.client.Suggestions
-import org.mulesoft.als.suggestions.client.Suggestions.platform
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
-import org.mulesoft.amfintegration.{AmfInstance, InitOptions}
+import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.lsp.feature.completion.CompletionItem
 import org.scalatest.{Assertion, AsyncFunSuite}
 
@@ -39,7 +38,7 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets {
         (this.buildEnvironment(url, markerInfo.patchedContent.original, content.mime), markerInfo.position)
       }
       suggestions <- {
-        new Suggestions(platform, env, new PlatformDirectoryResolver(platform), amfInstance)
+        new Suggestions(platform, env, AlsConfiguration(), new PlatformDirectoryResolver(platform), amfInstance)
           .initialized()
           .suggest(url, position, snippetsSupport = true, None)
       }

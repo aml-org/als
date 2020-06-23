@@ -107,8 +107,12 @@ class ResolutionTaskManager(telemetryProvider: TelemetryProvider,
                      innerResolveUnit)
     }
 
-    private def innerResolveUnit(): Future[BaseUnit] =
-      Future(environmentProvider.amfConfiguration.modelBuilder().fullResolution(originalUnit.cloneUnit(), eh))
+    private def innerResolveUnit() =
+      Future(
+        environmentProvider.amfConfiguration
+          .modelBuilder()
+          .fullResolution(originalUnit.cloneUnit(), eh))
+
     override def next: Option[Future[T]] = getNext(uri)
   }
 }
