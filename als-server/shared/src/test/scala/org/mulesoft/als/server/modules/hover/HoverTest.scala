@@ -2,18 +2,12 @@ package org.mulesoft.als.server.modules.hover
 
 import amf.plugins.domain.webapi.metamodel.{EndPointModel, WebApiModel}
 import org.mulesoft.als.convert.LspRangeConverter
+import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.reference.MarkerInfo
-import org.mulesoft.als.server.modules.{WorkspaceManagerFactoryBuilder, reference}
-import org.mulesoft.als.server.{
-  LanguageServerBaseTest,
-  LanguageServerBuilder,
-  MockDiagnosticClientNotifier,
-  ServerWithMarkerTest
-}
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.lsp.feature.common.{LocationLink, Position, Range, TextDocumentIdentifier}
+import org.mulesoft.als.server.{LanguageServerBuilder, MockDiagnosticClientNotifier, ServerWithMarkerTest}
+import org.mulesoft.lsp.feature.common.{Position, Range, TextDocumentIdentifier}
 import org.mulesoft.lsp.feature.hover.{Hover, HoverParams, HoverRequestType}
-import org.scalatest.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -27,7 +21,10 @@ class HoverTest extends ServerWithMarkerTest[Hover] {
 
     val factory =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
+    new LanguageServerBuilder(factory.documentManager,
+                              factory.workspaceManager,
+                              factory.configurationManager,
+                              factory.resolutionTaskManager)
       .addRequestModule(factory.hoverManager)
       .build()
   }

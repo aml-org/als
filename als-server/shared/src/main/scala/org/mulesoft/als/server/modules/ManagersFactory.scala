@@ -157,7 +157,7 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
   lazy val typeDefinitionManager =
     new GoToTypeDefinitionManager(workspaceManager, platform, telemetryManager, logger)
 
-  lazy val hoverManager = new HoverManager(workspaceManager, amfConfiguration)
+  lazy val hoverManager = new HoverManager(workspaceManager, amfConfiguration, telemetryManager)
 
   lazy val referenceManager =
     new FindReferenceManager(workspaceManager, telemetryManager, logger)

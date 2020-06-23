@@ -46,7 +46,7 @@ trait BaseSuggestionsForTest extends PlatformSecrets {
       _ <- instance.init()
       s <- {
         dialect.map(d => instance.alsAmlPlugin.registry.registerDialect(d)).getOrElse(Future.unit).map { _ =>
-          new Suggestions(platform, environment,, AlsConfiguration(), dr, instance).initialized()
+          new Suggestions(platform, environment, AlsConfiguration(), dr, instance).initialized()
         }
       }
       suggestions <- s.suggest(url, position, snippetsSupport = true, None)
