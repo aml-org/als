@@ -41,6 +41,22 @@ class WorkspaceContentManager(val folder: String,
   def mainFileUri: Option[String] =
     mainFile.map(mf => s"${trailSlash(folder)}$mf".toAmfUri) // TODO: Analyze if we really need knowledge of both paths and uris (maybe set all to URI)
 
+  def getRootFolderFor(uri: String): Option[String] =
+    if (repository.inTree(uri))
+      mainFileUri
+        .map(stripToLastFolder)
+        .orElse(getRootOf(uri))
+    else None
+
+  private def stripToLastFolder(uri: String): String =
+    uri.substring(0, (uri.lastIndexOf('/') + 1).min(uri.length))
+
+  private def getRootOf(uri: String): Option[String] =
+    if (this.repository.inTree(uri))
+      workspaceConfiguration
+        .map(c => s"${c.rootFolder}/")
+    else None
+
   private def trailSlash(f: String): String =
     if (f.endsWith("/")) f else s"$f/"
 
