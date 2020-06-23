@@ -1,56 +1,69 @@
 package org.mulesoft.amfintegration
 
-import amf.Core.platform
 import amf.client.convert.CoreRegister
-import amf.client.plugins.AMFPlugin
+import amf.client.plugins.{AMFDocumentPlugin, AMFPlugin}
 import amf.core.AMF
+import amf.core.errorhandling.ErrorCollector
+import amf.core.model.document.BaseUnit
+import amf.core.registries.AMFPluginsRegistry
 import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
-import amf.plugins.document.{Vocabularies, WebApi}
-import amf.plugins.document.vocabularies.{AMLPlugin, DialectsRegistry}
+import amf.plugins.document.WebApi
+import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
-import amf.plugins.document.webapi.{Async20Plugin, Oas20Plugin, Oas30Plugin, Raml08Plugin, Raml10Plugin}
+import amf.plugins.domain.VocabulariesRegister
 import amf.plugins.features.AMFValidation
-import amf.plugins.features.validation.AMFValidatorPlugin
-import org.mulesoft.als.{CompilerEnvironment, ModelBuilder}
-import org.mulesoft.amfmanager.{AmfParseResult, ParserHelper}
+import org.mulesoft.als.CompilerEnvironment
+import org.mulesoft.amfintegration.vocabularies.SchemaOrgVocabulary
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits.global
 
 // todo: move to another module
 class AmfInstance(plugins: Seq[AMFPlugin], platform: Platform, environment: Environment)
-    extends CompilerEnvironment[AmfParseResult, Environment] {
+    extends CompilerEnvironment[BaseUnit, ErrorCollector, Dialect, Environment] {
 
-  def parserHelper                               = new ParserHelper(platform, init())
-  def parse(uri: String): Future[AmfParseResult] = parserHelper.parse(uri, environment)
+  def parse(uri: String): Future[AmfParseResult] =
+    modelBuilder().parse(uri, environment)
+
+  val alsAmlPlugin: ALSAMLPlugin = ALSAMLPlugin()
 
   private var initialization: Option[Future[Unit]] = None
-
-  override def init(): Future[Unit] = synchronized {
-    initialization match {
-      case Some(f) => f
-      case _ =>
-        WebApi.register(platform.defaultExecutionEnvironment)
-        Vocabularies.register()
-        AMFValidation.register()
-        amf.Core.registerPlugin(PayloadValidatorPlugin)
-        CoreRegister.register(platform)
-        plugins.foreach(amf.core.AMF.registerPlugin)
-        WebApi.register()
-        val f = AMF.init()
-        initialization = Some(f)
-        f
+  override def init(profile: InitOptions = InitOptions.AllProfiles): Future[Unit] =
+    synchronized {
+      initialization match {
+        case Some(f) => f
+        case _ =>
+          WebApi.register(platform.defaultExecutionEnvironment)
+          if (AMFPluginsRegistry.documentPluginForID(alsAmlPlugin.ID).isDefined) // hack for static amf registry
+            AMFPluginsRegistry.unregisterDocumentPlugin(alsAmlPlugin)
+          amf.Core.registerPlugin(alsAmlPlugin) // todo: two servers in same jvm would break this
+          VocabulariesRegister.register(platform)
+          AMFValidation.register()
+          amf.Core.registerPlugin(PayloadValidatorPlugin)
+          CoreRegister.register(platform)
+          plugins.foreach(amf.core.AMF.registerPlugin)
+          WebApi.register()
+          alsAmlPlugin.vocabularyRegistry.index(SchemaOrgVocabulary()) // parametrize voc initializations
+          val f = AMF.init().andThen {
+            case _ =>
+              profile.vendors.foreach { v =>
+                alsAmlPlugin.registerWebApiDialect(v)
+              }
+          }
+          initialization = Some(f)
+          f
+      }
     }
-  }
 
-  override def modelBuiler(): ModelBuilder[AmfParseResult, Environment] = parserHelper
+  override def modelBuilder(): ParserHelper = new ParserHelper(platform, this)
 }
 
 object AmfInstance extends PlatformSecrets {
-  def apply(environment: Environment): AmfInstance                     = apply(platform, environment)
-  def apply(platform: Platform, environment: Environment): AmfInstance = new AmfInstance(Nil, platform, environment)
-  val default: AmfInstance                                             = new AmfInstance(Nil, platform, Environment())
+  def apply(environment: Environment): AmfInstance =
+    apply(platform, environment)
+  def apply(platform: Platform, environment: Environment): AmfInstance =
+    new AmfInstance(Nil, platform, environment)
+  def default: AmfInstance = new AmfInstance(Nil, platform, Environment())
 }

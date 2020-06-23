@@ -9,11 +9,10 @@ import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast.ResolvedUnitListener
 import org.mulesoft.als.server.modules.common.reconciler.Runnable
 import org.mulesoft.als.server.{ClientNotifierModule, RequestModule, SerializationProps}
-import org.mulesoft.amfintegration.{AmfInstance, AmfResolvedUnit}
-import org.mulesoft.amfmanager.AmfImplicits._
-import org.mulesoft.amfmanager.ParserHelper
+import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.{AmfInstance, AmfResolvedUnit, ParserHelper}
+import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
-import org.mulesoft.lsp.feature.{RequestHandler, TelemeteredRequestHandler}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import org.yaml.builder.DocBuilder
 

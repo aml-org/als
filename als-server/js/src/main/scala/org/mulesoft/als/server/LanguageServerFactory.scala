@@ -82,6 +82,7 @@ object LanguageServerFactory {
         .addRequestModule(factory.structureManager)
         .addRequestModule(factory.definitionManager)
         .addRequestModule(factory.typeDefinitionManager)
+        .addRequestModule(factory.hoverManager)
         .addRequestModule(factory.implementationManager)
         .addRequestModule(factory.referenceManager)
         .addRequestModule(factory.fileUsageManager)

@@ -6,7 +6,7 @@ import amf.core.parser.FieldEntry
 import amf.plugins.domain.shapes.metamodel.ExampleModel
 import amf.plugins.domain.shapes.metamodel.common.ExamplesField
 import amf.plugins.domain.shapes.models.Example
-import org.mulesoft.amfmanager.AmfImplicits.AmfAnnotationsImp
+import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.ArrayFieldTypeSymbolBuilderCompanion
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{

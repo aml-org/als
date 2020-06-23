@@ -1,10 +1,8 @@
 package org.mulesoft.als.suggestions.test
 
-import amf.ProfileName
 import amf.core.model.document.BaseUnit
 import amf.internal.environment.Environment
 import org.mulesoft.amfintegration.AmfInstance
-import org.mulesoft.amfmanager.CustomDialects
 import org.mulesoft.lsp.feature.completion.CompletionItem
 import org.scalatest.{Assertion, AsyncFunSuite}
 
@@ -82,22 +80,15 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
                         label: String = "*",
                         cut: Boolean = false,
                         labels: Array[String] = Array("*"),
-                        customDialect: Option[CustomDialects] = None): Future[Assertion] =
+                        dialect: Option[String] = None): Future[Assertion] =
     this
-      .suggest(path, label, cut, labels, customDialect)
+      .suggest(path, label, cut, labels, dialect)
       .map(r =>
         assert(path, r.flatMap(s => s.textEdit.map(_.newText).orElse(s.insertText)).toSet, originalSuggestions))
 
-  def withDialect(path: String,
-                  originalSuggestions: Set[String],
-                  dialectPath: String,
-                  dialectProfile: ProfileName): Future[Assertion] = {
-    platform.resolve(filePath(dialectPath)).flatMap { c =>
-      runSuggestionTest(path,
-                        originalSuggestions,
-                        cut = false,
-                        customDialect = Some(CustomDialects(dialectProfile, c.url, c.stream.toString)))
-    }
+  def withDialect(path: String, originalSuggestions: Set[String], dialectPath: String): Future[Assertion] = {
+    runSuggestionTest(path, originalSuggestions, cut = false, dialect = Some(filePath(dialectPath)))
+
   }
 
   def rootPath: String
@@ -106,14 +97,18 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
               label: String,
               cutTail: Boolean,
               labels: Array[String],
-              customDialect: Option[CustomDialects] = None): Future[Seq[CompletionItem]] = {
-    super.suggest(filePath(path), customDialect)
+              dialect: Option[String] = None): Future[Seq[CompletionItem]] = {
+    dialect match {
+      case Some(d) => platform.resolve(d).flatMap(c => super.suggest(filePath(path), Some(c.stream.toString)))
+      case _       => super.suggest(filePath(path), None)
+    }
+
   }
 
   case class ModelResult(u: BaseUnit, url: String, position: Int, originalContent: Option[String])
 
   def parseAMF(path: String, env: Environment = Environment()): Future[BaseUnit] =
-    AmfInstance.default.parserHelper.parse(path, env).map(_.baseUnit)
+    AmfInstance.default.modelBuilder().parse(path, env).map(_.baseUnit)
 
   def filePath(path: String): String = {
     var result =

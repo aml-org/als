@@ -1,12 +1,14 @@
 package org.mulesoft.als.server.workspace.command
 
 import amf.core.parser._
+import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.protocol.textsync.IndexDialectParams
 import org.mulesoft.amfintegration.AmfInstance
 import org.yaml.model.YMap
 
 import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class IndexDialectCommandExecutor(val logger: Logger, amfConfiguration: AmfInstance)
     extends CommandExecutor[IndexDialectParams, Unit] {
@@ -19,6 +21,6 @@ class IndexDialectCommandExecutor(val logger: Logger, amfConfiguration: AmfInsta
   }
 
   override protected def runCommand(param: IndexDialectParams): Future[Unit] = {
-    amfConfiguration.parserHelper.indexDialect(param.uri, param.content)
+    amfConfiguration.modelBuilder().indexMetadata(param.uri, param.content).map(_ => Unit)
   }
 }

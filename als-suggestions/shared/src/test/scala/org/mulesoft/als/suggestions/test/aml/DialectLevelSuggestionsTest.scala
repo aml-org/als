@@ -4,7 +4,6 @@ import amf.client.remote.Content
 import amf.core.lexer.CharSequenceStream
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.DomainElement
-import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstance}
 import amf.plugins.document.vocabularies.model.domain.{DocumentMapping, NodeMapping, PropertyMapping}
@@ -13,8 +12,6 @@ import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.als.suggestions.test.SuggestionsTest
-import org.mulesoft.amfintegration.AmfInstance
-import org.scalatest.exceptions.TestFailedException
 
 import scala.concurrent.Future
 
@@ -45,27 +42,10 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
     } else propertyMapping.name().value() + ": "
   }
 
-  private def suggestFromParsed(bu: BaseUnit,
-                                url: String,
-                                patchedContent: PatchedContent,
-                                position: Int): Future[Seq[String]] = {
-    new Suggestions(platform,
-                    Environment(),
-                    AlsConfiguration(),
-                    new PlatformDirectoryResolver(platform),
-                    AmfInstance.default)
-      .buildProvider(bu, position, url, patchedContent, snippetSupport = true, None)
-      .suggest()
-      .map(suggestions =>
-        suggestions.flatMap(suggestion => {
-          suggestion.textEdit.map(_.newText)
-        }))
-  }
-
   private def getGoldenDialect(nodeName: Option[String], level: Int = 1, bu: BaseUnit): Set[String] = {
     bu match {
       case d: DialectInstance =>
-        AMLPlugin.registry.dialectFor(d) match {
+        AMLPlugin().registry.dialectFor(d) match {
           case Some(d: Dialect) =>
             nodeName match {
               case Some(n) => getPropertiesByPath(d, n).map(addPropTrailingSpaces(_, level)).toSet
@@ -89,21 +69,6 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
       .declaredNodes()
       .map(_.name().value() + ":\n" + (" " * 2)) ++ // declared cannot be scalars??
       Seq("uses" + ":\n" + (" " * 2))
-  }
-
-  protected def assertCases(bu: BaseUnit, cases: Seq[PositionResult], content: Content): Future[Seq[Result]] = {
-
-    Future.sequence(cases.map { c =>
-      suggestFromParsed(bu, content.url, c.patchedContent, c.position)
-        .map { suggested =>
-          try {
-            val (s, m) = assert(suggested.toSet, getGoldenDialect(c.dialectClass, c.level, bu))
-            Result(succeed = s, c.dialectClass.getOrElse("Root"), m)
-          } catch {
-            case e: TestFailedException => Result(succeed = false, c.dialectClass.getOrElse("Root"), e.message)
-          }
-        }
-    })
   }
 
   protected def adaptContent(path: String, cases: Seq[TestCaseLabel]): Future[(Content, Seq[PositionResult])] = {

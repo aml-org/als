@@ -10,7 +10,7 @@ import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.UnitTaskManager
 import org.mulesoft.als.server.workspace.extract.{WorkspaceConf, WorkspaceConfigurationProvider}
-import org.mulesoft.amfmanager.AmfParseResult
+import org.mulesoft.amfintegration.AmfParseResult
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -116,7 +116,7 @@ class WorkspaceContentManager(val folder: String,
     stagingArea.dequeue(Set(file))
     parse(file, environment, uuid)
       .map { bu =>
-        repository.updateUnit(bu.baseUnit)
+        repository.updateUnit(bu)
         subscribers.foreach(_.onNewAst(BaseUnitListenerParams(bu, Map.empty, tree = false), uuid))
       }
   }
@@ -179,7 +179,7 @@ class WorkspaceContentManager(val folder: String,
   }
 
   private def innerParse(uri: String, environment: Environment)() =
-    environmentProvider.amfConfiguration.parserHelper
+    environmentProvider.amfConfiguration.modelBuilder()
       .parse(uri.toAmfDecodedUri, environment.withResolver(repository.resolverCache))
 
   def getRelationships(uri: String): Relationships =

@@ -1,17 +1,20 @@
 package org.mulesoft.als.server.modules.diagnostic
 
+import amf.client.remote.Content
 import amf.core.errorhandling.ErrorCollector
 import amf.core.metamodel.Obj
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.AmfObject
 import amf.core.parser.{Annotations, Fields}
+import amf.internal.environment.Environment
+import amf.internal.resource.ResourceLoader
 import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.ast.BaseUnitListenerParams
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.textsync.TextDocumentContainer
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.amfmanager.AmfParseResult
+import org.mulesoft.amfintegration.AmfParseResult
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -195,7 +198,7 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
     val amfBaseUnit: BaseUnit = new MockDialectInstance(new Fields())
 
     val eh                             = new ErrorCollector {}
-    val amfParseResult: AmfParseResult = new AmfParseResult(amfBaseUnit, eh)
+    val amfParseResult: AmfParseResult = new AmfParseResult(amfBaseUnit, eh, None)
 
     for {
       _ <- Future {

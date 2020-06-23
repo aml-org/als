@@ -78,7 +78,7 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
     CompletionOptions(None, Some(Set('[')))
   }
 
-  override def initialize(): Future[Unit] = suggestions.init()
+  override def initialize(): Future[Unit] = Future { suggestions.initialized() }
 
   protected def onDocumentCompletion(lspUri: String,
                                      position: Position,
@@ -112,7 +112,7 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
                                  patchedContent: PatchedContent,
                                  uuid: String): Future[CompletionProvider] =
     suggestions.buildProviderAsync(
-      patchedParse(text, uri, position, patchedContent, uuid).map(_.baseUnit),
+      patchedParse(text, uri, position, patchedContent, uuid),
       position,
       uri,
       patchedContent,

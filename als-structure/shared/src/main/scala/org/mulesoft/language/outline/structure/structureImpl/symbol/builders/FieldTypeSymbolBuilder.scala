@@ -2,8 +2,9 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.builders
 
 import amf.core.model.domain.AmfElement
 import amf.core.parser.{FieldEntry, Range}
-import org.mulesoft.amfmanager.AmfImplicits.AmfAnnotationsImp
+import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.language.outline.structure.structureImpl.StructureContext
+
 trait FieldTypeSymbolBuilder[ElementType <: AmfElement] extends FieldSymbolBuilder {
   val value: ElementType
 

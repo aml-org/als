@@ -217,27 +217,14 @@ lazy val nodeClient =  project
     artifactPath in(Test, fastOptJS) := baseDirectory.value / "node-package" / "tmp" / "als-node-client.js",
   )
 /** ALS build tasks */
-
-// Suggestions
-
-val buildSuggestionsJS = TaskKey[Unit]("buildSuggestionsJS", "Build suggestions library")
-
-buildSuggestionsJS := {
-  (fastOptJS in Compile in suggestionsJS).value
-  (fullOptJS in Compile in suggestionsJS).value
-  Process(
-    "./build-package.sh",
-    new File("./als-suggestions/js/node-package/")
-  ) !
-}
-
+  
 // Server library
 
 val buildJsServerLibrary = TaskKey[Unit]("buildJsServerLibrary", "Build server library")
 
 buildJsServerLibrary := {
   (fastOptJS in Compile in serverJS).value
-  (fullOptJS in Compile in serverJS).value
+  (fullOptJS in Compile in serverJS).valueAlsServerCapabilities
   (installJsDependencies in serverJS).value
   Process(
     "./scripts/build.sh",

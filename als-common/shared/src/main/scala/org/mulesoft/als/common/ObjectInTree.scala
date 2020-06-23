@@ -7,9 +7,10 @@ import AmfSonElementFinder._
 import amf.core.annotations.{LexicalInformation, SynthesizedField}
 import amf.core.metamodel.document.BaseUnitModel
 import amf.core.parser.FieldEntry
+import org.mulesoft.amfintegration.FieldEntryOrdering
 
-case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject]) {
-  def getFieldEntry: (AmfPosition, Ordering[FieldEntry]) => Option[FieldEntry] = ObjectInTree.getFieldEntry(this, _, _)
+case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfPosition) {
+  lazy val fieldEntry: Option[FieldEntry] = ObjectInTree.getFieldEntry(this, amfPosition, FieldEntryOrdering)
 }
 
 object ObjectInTree {
@@ -41,11 +42,11 @@ object ObjectInTreeBuilder {
 
   def fromUnit(bu: BaseUnit, position: AmfPosition): ObjectInTree = {
     val (obj, stack) = bu.findSonWithStack(position, Seq((f: FieldEntry) => f.field != BaseUnitModel.References))
-    ObjectInTree(obj, stack)
+    ObjectInTree(obj, stack, position)
   }
 
   def fromSubTree(element: DomainElement, position: AmfPosition, previousStack: Seq[AmfObject]): ObjectInTree = {
     val (obj, stack) = element.findSonWithStack(position, Seq.empty)
-    ObjectInTree(obj, stack ++ previousStack)
+    ObjectInTree(obj, stack ++ previousStack, position)
   }
 }

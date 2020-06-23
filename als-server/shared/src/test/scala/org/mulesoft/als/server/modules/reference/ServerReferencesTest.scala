@@ -4,7 +4,12 @@ import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.als.server.{
+  LanguageServerBaseTest,
+  LanguageServerBuilder,
+  MockDiagnosticClientNotifier,
+  ServerWithMarkerTest
+}
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
 import org.mulesoft.lsp.feature.common.{Location, TextDocumentIdentifier}
@@ -14,7 +19,7 @@ import org.scalatest.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait ServerReferencesTest extends LanguageServerBaseTest {
+trait ServerReferencesTest extends ServerWithMarkerTest[Seq[Location]] {
 
   override implicit val executionContext: ExecutionContext =
     ExecutionContext.Implicits.global
@@ -43,7 +48,7 @@ trait ServerReferencesTest extends LanguageServerBaseTest {
           val fileContentsStr = content.stream.toString
           val markerInfo      = this.findMarker(fileContentsStr)
 
-          getServerReferences(resolved, server, markerInfo)
+          getAction(resolved, server, markerInfo)
         }
       } yield {
         assert(definitions.toSet == expectedDefinitions)
@@ -66,22 +71,6 @@ trait ServerReferencesTest extends LanguageServerBaseTest {
       }
     }
 
-  def getServerReferences(filePath: String, server: LanguageServer, markerInfo: MarkerInfo): Future[Seq[Location]] = {
-
-    openFile(server)(filePath, markerInfo.patchedContent.original)
-
-    val referenceHandler = server.resolveHandler(ReferenceRequestType).value
-
-    referenceHandler(
-      ReferenceParams(TextDocumentIdentifier(filePath),
-                      LspRangeConverter.toLspPosition(markerInfo.position),
-                      ReferenceContext(false)))
-      .map(references => {
-        closeFile(server)(filePath)
-        references
-      })
-  }
-
   def getServerImplementations(filePath: String,
                                server: LanguageServer,
                                markerInfo: MarkerInfo): Future[Seq[Location]] = {
@@ -97,19 +86,6 @@ trait ServerReferencesTest extends LanguageServerBaseTest {
         implementations
       })
       .map(_.left.getOrElse(Nil))
-  }
-
-  def findMarker(str: String, label: String = "[*]", cut: Boolean = true): MarkerInfo = {
-    val offset = str.indexOf(label)
-
-    if (offset < 0)
-      new MarkerInfo(PatchedContent(str, str, Nil), Position(str.length, str))
-    else {
-      val rawContent = str.substring(0, offset) + str.substring(offset + label.length)
-      val preparedContent =
-        ContentPatcher(rawContent, offset, YAML).prepareContent()
-      new MarkerInfo(preparedContent, Position(offset, str))
-    }
   }
 }
 
