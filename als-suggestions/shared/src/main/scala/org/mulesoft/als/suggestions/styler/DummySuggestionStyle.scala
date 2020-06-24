@@ -15,7 +15,7 @@ case class DummySuggestionStyle(prefix: String, position: Position) extends Sugg
       PatchedContent("", "", Nil),
       position,
       YPartBranch(YMap.empty, position.toAmfPosition, Nil, isJson = false),
-      AlsConfiguration().getFormattingOptions("")
+      AlsConfiguration().getFormatOptionForMime("")
     )
 
   override protected def render(options: SuggestionStructure, builder: AstRawBuilder): String = builder.ast.toString
