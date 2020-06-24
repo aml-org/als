@@ -18,7 +18,9 @@ class LanguageServerImpl(val textDocumentSyncConsumer: AlsTextDocumentSyncConsum
                          private val requestHandlerMap: RequestMap)
     extends LanguageServer {
 
-  override def initialize(params: AlsInitializeParams): Future[AlsInitializeResult] =
+  override def initialize(params: AlsInitializeParams): Future[AlsInitializeResult] = {
+    params.alsConfiguration.foreach(c => updateConfiguration(UpdateConfigurationParams(Option(c.getFormatOptions))))
+
     languageServerInitializer.initialize(params).flatMap { p =>
       val root: Option[String]                   = params.rootUri.orElse(params.rootPath)
       val workspaceFolders: Seq[WorkspaceFolder] = params.workspaceFolders.getOrElse(List())
@@ -26,6 +28,7 @@ class LanguageServerImpl(val textDocumentSyncConsumer: AlsTextDocumentSyncConsum
         .initialize((workspaceFolders :+ WorkspaceFolder(root, None)).toList)
         .map(_ => p)
     }
+  }
 
   override def initialized(): Unit = {
     // no further actions
