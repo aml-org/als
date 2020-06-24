@@ -6,7 +6,6 @@ import org.mulesoft.als.server.feature.serialization.{ConversionRequestOptions, 
 import org.mulesoft.lsp.configuration.{StaticRegistrationOptions, WorkspaceServerCapabilities}
 import org.mulesoft.lsp.feature.codeactions.CodeActionOptions
 import org.mulesoft.lsp.feature.completion.CompletionOptions
-import org.mulesoft.lsp.feature.highlight.DocumentHighlightOptions
 import org.mulesoft.lsp.feature.link.DocumentLinkOptions
 import org.mulesoft.lsp.feature.rename.RenameOptions
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
@@ -45,8 +44,8 @@ case class AlsServerCapabilities(
     cleanDiagnostics: Option[CleanDiagnosticTreeOptions] = None,
     fileUsage: Option[FileUsageOptions] = None,
     conversion: Option[ConversionRequestOptions] = None,
-    documentHighlightProvider: Option[Either[Boolean, DocumentHighlightOptions]] = None,
-    hoverProvider: Boolean = false)
+    documentHighlightProvider: Option[Boolean] = None,
+    hoverProvider: Option[Boolean] = None)
 
 object AlsServerCapabilities {
   def empty: AlsServerCapabilities = AlsServerCapabilities()

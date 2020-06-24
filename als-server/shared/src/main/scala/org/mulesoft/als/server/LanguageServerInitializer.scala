@@ -49,7 +49,7 @@ class LanguageServerInitializer(private val configMap: ConfigMap, private val in
       applyConfig(FileUsageConfigType, clientCapabilities.fileUsage),
       applyConfig(ConversionConfigType, clientCapabilities.conversion),
       applyConfig(DocumentHighlightConfigType, textDocument.flatMap(_.documentHighlight)),
-      applyConfig(HoverConfigType, textDocument.flatMap(_.hover)).getOrElse(false)
+      applyConfig(HoverConfigType, textDocument.flatMap(_.hover))
     )
   }
 
