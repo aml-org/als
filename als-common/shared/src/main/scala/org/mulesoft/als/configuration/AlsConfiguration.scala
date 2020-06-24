@@ -5,7 +5,7 @@ case class AlsConfiguration(private var formattingOptions: Map[String, AlsFormat
 
   private var enableUpdateFormatOptions = true;
 
-  def getFormattingOptions(mimeType: String): AlsFormatOptions =
+  def getFormatOptionForMime(mimeType: String): AlsFormatOptions =
     formattingOptions.getOrElse(mimeType, DefaultAlsFormattingOptions)
 
   def updateFormattingOptions(options: Map[String, AlsFormattingOptions]): Unit =
@@ -17,6 +17,8 @@ case class AlsConfiguration(private var formattingOptions: Map[String, AlsFormat
   def setUpdateFormatOptions(enableUpdateFormatOptions: Boolean): Unit = {
     this.enableUpdateFormatOptions = enableUpdateFormatOptions;
   }
+
+  def getFormatOptions: Map[String, AlsFormattingOptions] = formattingOptions
 
   def updateFormatOptionsIsEnabled(): Boolean = enableUpdateFormatOptions;
 

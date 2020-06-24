@@ -16,7 +16,7 @@ object SuggestionStylerBuilder {
             mimeType: Option[String] = None,
             indentation: Int = 0): SuggestionRender = {
 
-    val formatOptions: AlsFormatOptions = configuration.getFormattingOptions(
+    val formatOptions: AlsFormatOptions = configuration.getFormatOptionForMime(
       mimeType.getOrElse("default")
     )
 
