@@ -4,7 +4,7 @@ import amf.core.model.domain.AmfArray
 import amf.core.parser.{FieldEntry, Range}
 import amf.plugins.domain.webapi.metamodel.ResponseModel
 import amf.plugins.domain.webapi.models.Payload
-import org.mulesoft.amfmanager.AmfImplicits.AmfAnnotationsImp
+import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.ArrayFieldTypeSymbolBuilderCompanion
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{

@@ -69,7 +69,7 @@ class StructureManager(val unitAccesor: UnitAccessor[CompilableUnit],
       .getLastUnit(uri, telemetryUUID)
       .flatMap(_.getLast)
       .map(cu => {
-        val r = getStructureFromAST(cu.unit, telemetryUUID) // todo: if isn't resolved yet map future
+        val r = getStructureFromAST(cu, telemetryUUID) // todo: if isn't resolved yet map future
         logger
           .debug(s"Got result for url $uri of size ${r.size}", "StructureManager", "onDocumentStructure")
         r
@@ -82,6 +82,7 @@ class StructureManager(val unitAccesor: UnitAccessor[CompilableUnit],
       })
   }
 
-  def getStructureFromAST(ast: BaseUnit, uuid: String): List[DocumentSymbol] =
-    StructureBuilder.listSymbols(ast)
+  def getStructureFromAST(cu: CompilableUnit, uuid: String): List[DocumentSymbol] =
+    StructureBuilder.listSymbols(cu.unit, cu.definedBy)
+
 }

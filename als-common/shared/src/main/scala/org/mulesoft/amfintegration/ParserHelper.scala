@@ -1,4 +1,4 @@
-package org.mulesoft.amfmanager
+package org.mulesoft.amfintegration
 
 import amf.client.commands.CommandHelper
 import amf.client.parse.DefaultParserErrorHandler
@@ -16,31 +16,34 @@ import amf.core.validation.{AMFValidationReport, AMFValidationResult}
 import amf.core.{AMFSerializer, CompilerContextBuilder}
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
-import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstanceUnit, DialectLibrary}
 import amf.{ProfileName, ProfileNames}
-import org.mulesoft.als.ModelBuilder
-import org.mulesoft.amfmanager.AmfImplicits._
+import org.mulesoft.als.{CompilerResult, ModelBuilder}
+import org.mulesoft.amfintegration.AmfImplicits._
 import org.yaml.builder.DocBuilder
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class AmfParseResult(val baseUnit: BaseUnit, val eh: ErrorCollector) {
+class AmfParseResult(override val baseUnit: BaseUnit,
+                     override val eh: ErrorCollector,
+                     override val definedBy: Option[Dialect])
+    extends CompilerResult[BaseUnit, ErrorCollector, Dialect] {
 
   val location: String = baseUnit.location().getOrElse(baseUnit.id)
 
   def groupedErrors: Map[String, List[AMFValidationResult]] =
     eh.getErrors.groupBy(e => e.location.getOrElse(location))
 
-  lazy val tree: Set[String] = baseUnit.flatRefs
+  override lazy val tree: Set[String] = baseUnit.flatRefs
     .map(bu => bu.location().getOrElse(bu.id))
     .toSet + baseUnit.location().getOrElse(baseUnit.id)
 }
 
-class ParserHelper(val platform: Platform, amfInit: Future[Unit])
+class ParserHelper(val platform: Platform, amfInstance: AmfInstance)
     extends CommandHelper
-    with ModelBuilder[AmfParseResult, Environment] {
+    with ModelBuilder[BaseUnit, ErrorCollector, Environment, Dialect] {
 
+  override type CR = AmfParseResult
   private def parseInput(url: String, env: Environment, plat: Option[Platform]): Future[AmfParseResult] = {
     val eh        = DefaultParserErrorHandler()
     val inputFile = ensureUrl(url)
@@ -54,17 +57,17 @@ class ParserHelper(val platform: Platform, amfInit: Future[Unit])
         None,
         UnspecifiedReference
       )
-      .map(m => new AmfParseResult(m, eh))
+      .map(m => new AmfParseResult(m, eh, amfInstance.alsAmlPlugin.dialectFor(m)))
   }
 
-  def parse(url: String, env: Environment): Future[AmfParseResult] = {
+  override def parse(url: String, env: Environment): Future[AmfParseResult] = {
     for {
-      _     <- amfInit
+      _     <- amfInstance.init()
       model <- parseInput(url, env, None)
     } yield model
   }
 
-  def indexDialect(url: String, content: Option[String]): Future[Unit] = {
+  override def indexMetadata(url: String, content: Option[String]): Future[Dialect] = {
     val env = content.fold(Environment())(c => {
       Environment().add(new ResourceLoader {
 
@@ -78,16 +81,9 @@ class ParserHelper(val platform: Platform, amfInit: Future[Unit])
     })
 
     for {
-      _     <- amfInit
-      model <- AMLPlugin.registry.registerDialect(url, env)
-    } yield { Unit }
-  }
-
-  def editingResolve(model: BaseUnit, eh: ErrorCollector): BaseUnit = {
-    RuntimeResolver.resolve(ParserHelper.vendor(model).map(_.name).getOrElse(Amf.name),
-                            model,
-                            ResolutionPipeline.EDITING_PIPELINE,
-                            eh)
+      _     <- amfInstance.init()
+      model <- amfInstance.alsAmlPlugin.registry.registerDialect(url, env)
+    } yield { model }
   }
 
   def compatibilityResolve(model: BaseUnit, target: String): BaseUnit = {
@@ -119,6 +115,13 @@ class ParserHelper(val platform: Platform, amfInit: Future[Unit])
 
   override def parse(uri: String): Future[AmfParseResult] =
     parse(uri, Environment())
+
+  override def fullResolution(unit: BaseUnit, eh: ErrorCollector): BaseUnit = {
+    RuntimeResolver.resolve(ParserHelper.vendor(unit).map(_.name).getOrElse(Amf.name),
+                            unit,
+                            ResolutionPipeline.EDITING_PIPELINE,
+                            eh)
+  }
 }
 
 object ParserHelper {

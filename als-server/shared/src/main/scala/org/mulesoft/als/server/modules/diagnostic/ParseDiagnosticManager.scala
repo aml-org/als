@@ -5,8 +5,7 @@ import amf.internal.environment.Environment
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
-import org.mulesoft.amfintegration.DiagnosticsBundle
-import org.mulesoft.amfmanager.AmfParseResult
+import org.mulesoft.amfintegration.{AmfParseResult, DiagnosticsBundle}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.ExecutionContext.Implicits.global

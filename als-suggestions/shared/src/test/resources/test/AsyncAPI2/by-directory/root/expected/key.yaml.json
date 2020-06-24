@@ -1,35 +1,5 @@
 [
   {
-    "label": "#%AsyncAPI 0.6",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "Define a %AsyncAPI 0.6 file",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11#%AsyncAPI 0.6",
-    "filterText": "#%AsyncAPI 0.6",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 0,
-          "character": 0
-        },
-        "end": {
-          "line": 0,
-          "character": 0
-        }
-      },
-      "newText": "#%AsyncAPI 0.6"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "#%Dialect 1.0",
     "kind": [],
     "detail": "unknown",
@@ -54,36 +24,6 @@
         }
       },
       "newText": "#%Dialect 1.0"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "#%Library / AsyncAPI 0.6",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "Define a %Library / AsyncAPI 0.6 file",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11#%Library / AsyncAPI 0.6",
-    "filterText": "#%Library / AsyncAPI 0.6",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 0,
-          "character": 0
-        },
-        "end": {
-          "line": 0,
-          "character": 0
-        }
-      },
-      "newText": "#%Library / AsyncAPI 0.6"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -120,66 +60,6 @@
     "command": null
   },
   {
-    "label": "#%Message / AsyncAPI 0.6",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "Define a %Message / AsyncAPI 0.6 file",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11#%Message / AsyncAPI 0.6",
-    "filterText": "#%Message / AsyncAPI 0.6",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 0,
-          "character": 0
-        },
-        "end": {
-          "line": 0,
-          "character": 0
-        }
-      },
-      "newText": "#%Message / AsyncAPI 0.6"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "#%Patch / AsyncAPI 0.6",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "Define a %Patch / AsyncAPI 0.6 file",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11#%Patch / AsyncAPI 0.6",
-    "filterText": "#%Patch / AsyncAPI 0.6",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 0,
-          "character": 0
-        },
-        "end": {
-          "line": 0,
-          "character": 0
-        }
-      },
-      "newText": "#%Patch / AsyncAPI 0.6"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "#%Patch / Dialect 1.0",
     "kind": [],
     "detail": "unknown",
@@ -210,130 +90,10 @@
     "command": null
   },
   {
-    "label": "#%Patch / Test 1.0.0",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "Define a %Patch / Test 1.0.0 file",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11#%Patch / Test 1.0.0",
-    "filterText": "#%Patch / Test 1.0.0",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 0,
-          "character": 0
-        },
-        "end": {
-          "line": 0,
-          "character": 0
-        }
-      },
-      "newText": "#%Patch / Test 1.0.0"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "#%Schema / AsyncAPI 0.6",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "Define a %Schema / AsyncAPI 0.6 file",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11#%Schema / AsyncAPI 0.6",
-    "filterText": "#%Schema / AsyncAPI 0.6",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 0,
-          "character": 0
-        },
-        "end": {
-          "line": 0,
-          "character": 0
-        }
-      },
-      "newText": "#%Schema / AsyncAPI 0.6"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "#%SecurityScheme / AsyncAPI 0.6",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "Define a %SecurityScheme / AsyncAPI 0.6 file",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11#%SecurityScheme / AsyncAPI 0.6",
-    "filterText": "#%SecurityScheme / AsyncAPI 0.6",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 0,
-          "character": 0
-        },
-        "end": {
-          "line": 0,
-          "character": 0
-        }
-      },
-      "newText": "#%SecurityScheme / AsyncAPI 0.6"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "#%Test 1.0.0",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "Define a %Test 1.0.0 file",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11#%Test 1.0.0",
-    "filterText": "#%Test 1.0.0",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 0,
-          "character": 0
-        },
-        "end": {
-          "line": 0,
-          "character": 0
-        }
-      },
-      "newText": "#%Test 1.0.0"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "asyncapi: \"2.0.0\"",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define an AsyncApi 2.0.0 file",
+    "documentation": "Define a asyncapi 2.0.0 file",
     "deprecated": [],
     "preselect": [],
     "sortText": "11asyncapi: \"2.0.0\"",
@@ -363,7 +123,7 @@
     "label": "openapi: \"3.0.0\"",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define an OpenApi 3.0.0 file",
+    "documentation": "Define a openapi 3.0.0 file",
     "deprecated": [],
     "preselect": [],
     "sortText": "11openapi: \"3.0.0\"",
@@ -393,7 +153,7 @@
     "label": "swagger: \"2.0\"",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define an OAS 2.0 file",
+    "documentation": "Define a swagger 2.0 file",
     "deprecated": [],
     "preselect": [],
     "sortText": "11swagger: \"2.0\"",

@@ -7,8 +7,8 @@ import org.mulesoft.als.server.feature.serialization._
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.workspace.CompilableUnit
 import org.mulesoft.als.server.workspace.UnitAccessor
+import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.AmfInstance
-import org.mulesoft.amfmanager.AmfImplicits._
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
@@ -51,7 +51,8 @@ class ConversionManager(unitAccessor: UnitAccessor[CompilableUnit],
   private def onSerializationRequest(uri: String, target: String, syntax: Option[String]): Future[SerializedDocument] = {
     unitAccessor.getLastUnit(uri, UUID.randomUUID().toString).flatMap(_.getLast) flatMap { cu =>
       val clone = cu.unit.cloneUnit()
-      amfInstance.parserHelper
+      amfInstance
+        .modelBuilder()
         .convertTo(clone, target, syntax) // should check the origin?
         .map(s => SerializedDocument(clone.identifier, s))
     }

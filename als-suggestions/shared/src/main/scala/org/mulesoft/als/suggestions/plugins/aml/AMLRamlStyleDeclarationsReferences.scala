@@ -1,22 +1,20 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.core.annotations.SourceAST
-import amf.core.annotations.ErrorDeclaration
 import amf.core.metamodel.domain.DomainElementModel
-import amf.core.model.domain.{AmfObject, DomainElement}
 import amf.core.parser.FieldEntry
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
+import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import org.mulesoft.als.common.SemanticNamedElement._
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
-import org.mulesoft.als.suggestions.interfaces.{AMLCompletionPlugin, CompletionPlugin}
-import org.yaml.model.{YMap, YMapEntry, YNode, YPart}
-import amf.core.parser._
+import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.amfintegration.AmfImplicits._
+import org.yaml.model.{YMapEntry, YPart}
+
 import scala.concurrent.Future
-import org.mulesoft.amfmanager.AmfImplicits._
 class AMLRamlStyleDeclarationsReferences(nodeTypeMappings: Seq[String],
                                          prefix: String,
                                          provider: DeclarationProvider,

@@ -5,9 +5,10 @@ import amf.core.vocabulary.Namespace.XsdTypes.xsdBoolean
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.plugins.domain.webapi.metamodel.{EndPointModel, ParameterModel}
 import org.mulesoft.amfintegration.dialect.dialects.raml.RamlDialectNodes
+import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
 
 object Raml08DialectNodes extends RamlDialectNodes {
-  override protected def dialectLocation: String = Raml08Dialect.dialectLocation
+  override protected def dialectLocation: String = Raml08TypesDialect.DialectLocation
 
   protected def extendedShapeProperties(nodeId: String): Seq[PropertyMapping] =
     Seq(
@@ -32,5 +33,5 @@ object Raml08DialectNodes extends RamlDialectNodes {
   override protected def resourceNodeMappings: Seq[PropertyMapping] = extendedResourceNodeMappings
   override protected def methodNodeMappings: Seq[PropertyMapping]   = innerMethodNodeMappings
   override protected def rootMappings: Seq[PropertyMapping]         = innerRootMappings
-  override protected val implicitField: String                      = Raml08Dialect.ImplicitField
+  override protected val implicitField: String                      = Raml08TypesDialect.ImplicitField
 }

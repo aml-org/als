@@ -6,7 +6,7 @@ import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.feature.diagnostic._
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.textsync.EnvironmentProvider
-import org.mulesoft.amfmanager.ParserHelper
+import org.mulesoft.amfintegration.ParserHelper
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.{RequestHandler, TelemeteredRequestHandler}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
@@ -58,13 +58,13 @@ class CleanDiagnosticTreeManager(telemetryProvider: TelemetryProvider,
   override def initialize(): Future[Unit] = Future.successful()
 
   def validate(uri: String): Future[Seq[AlsPublishDiagnosticsParams]] = {
-    val helper     = environmentProvider.amfConfiguration.parserHelper
+    val helper     = environmentProvider.amfConfiguration.modelBuilder()
     val refinedUri = uri.toAmfDecodedUri(environmentProvider.platform)
     helper
       .parse(refinedUri, environmentProvider.environmentSnapshot())
       .flatMap(pr => {
         logger.debug(s"about to report: $uri", "RequestAMFFullValidationCommandExecutor", "runCommand")
-        val resolved = helper.editingResolve(pr.baseUnit, pr.eh)
+        val resolved = helper.fullResolution(pr.baseUnit, pr.eh)
         ParserHelper.reportResolved(resolved).map(r => (r, pr))
       })
       .map { t =>

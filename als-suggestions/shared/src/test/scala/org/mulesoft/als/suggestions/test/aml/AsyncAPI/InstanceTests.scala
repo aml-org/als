@@ -3,51 +3,51 @@ package org.mulesoft.als.suggestions.test.aml.AsyncAPI
 import amf.ProfileName
 import org.mulesoft.als.suggestions.test.aml.AMLSuggestionsTest
 
-class InstanceTests extends AMLSuggestionsTest {
+class InstanceTests extends AMLAsyncApi06SuggestionTest {
 
   def rootPath: String = "AML/AsyncAPI"
 
   test("test001") {
-    runSuggestionTest(
+    runAsyncApiTest(
       "instance/test001.yaml",
       Set("securitySchemes:\n  ", "schemas:\n  ", "uses:\n  ", "security:\n  - ", "servers:\n  - ", "simpleMap:\n  "))
   }
 
   test("test002") {
-    runSuggestionTest("instance/test002.yaml",
-                      Set("termsOfService: ", "contact:\n  ", "description: ", "title: ", "license:\n  "))
+    runAsyncApiTest("instance/test002.yaml",
+                    Set("termsOfService: ", "contact:\n  ", "description: ", "title: ", "license:\n  "))
   }
 
   test("test003") {
-    runSuggestionTest("instance/test003.yaml", Set())
+    runAsyncApiTest("instance/test003.yaml", Set())
   }
 
   test("test004") {
-    runSuggestionTest(
+    runAsyncApiTest(
       "instance/test004.yaml",
       Set("number", "string", "\"null\"", "object", "array", "boolean", "integer")
     )
   }
 
   test("test005") {
-    runSuggestionTest("instance/test005.yaml", Set("boolean", "\"null\"", "string", "array", "number", "integer"))
+    runAsyncApiTest("instance/test005.yaml", Set("boolean", "\"null\"", "string", "array", "number", "integer"))
   }
 
   test("test006") {
-    runSuggestionTest("instance/test006.yaml",
-                      Set("externalDocs:\n  ", "headers:\n  ", "tags:\n  - ", "simpleMap:\n  "))
+    runAsyncApiTest("instance/test006.yaml",
+                    Set("externalDocs:\n  ", "headers:\n  ", "tags:\n  - ", "simpleMap:\n  "))
   }
 
   test("test007") {
-    runSuggestionTest("instance/test007.yaml", Set("name: ", "description: "))
+    runAsyncApiTest("instance/test007.yaml", Set("name: ", "description: "))
   }
 
   test("test008") {
-    runSuggestionTest("instance/test008.yaml", Set("\"null\"", "string", "array", "object", "number", "integer"))
+    runAsyncApiTest("instance/test008.yaml", Set("\"null\"", "string", "array", "object", "number", "integer"))
   }
 
   test("test root level suggestions") {
-    runSuggestionTest(
+    runAsyncApiTest(
       "instance/root-suggestions.yaml",
       Set(
         "topics:\n  ",
@@ -67,7 +67,7 @@ class InstanceTests extends AMLSuggestionsTest {
   }
 
   test("empty file test") {
-    runSuggestionTest("instance/empty.yaml", Set("#%Library / AsyncAPI 0.6"))
+    runAsyncApiTest("instance/empty.yaml", Set("#%Library / AsyncAPI 0.6"))
   }
 
   test("test suggestions with component key") {
@@ -85,8 +85,7 @@ class InstanceTests extends AMLSuggestionsTest {
         "components:\n  ",
         "uses:\n  "
       ),
-      "dialect10.yaml",
-      ProfileName("AsyncAPI 1.0")
+      "dialect10.yaml"
     )
   }
 
@@ -94,8 +93,7 @@ class InstanceTests extends AMLSuggestionsTest {
     withDialect(
       "instance/suggestions-in-component-key.yaml",
       Set("schemas:\n  ", "messages:\n  ", "securitySchemes:\n  "),
-      "dialect10.yaml",
-      ProfileName("AsyncAPI 1.0")
+      "dialect10.yaml"
     )
   }
 }

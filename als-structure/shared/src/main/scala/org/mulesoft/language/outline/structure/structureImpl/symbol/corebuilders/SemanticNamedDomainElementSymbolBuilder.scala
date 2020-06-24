@@ -5,7 +5,7 @@ import amf.core.parser.{Range, Value}
 import amf.plugins.document.vocabularies.model.domain.{DialectDomainElement, NodeMapping, PropertyMapping}
 import org.mulesoft.als.common.AlsAmfElement._
 import org.mulesoft.als.common.SemanticNamedElement._
-import org.mulesoft.amfmanager.AmfImplicits.AmfAnnotationsImp
+import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.StructuredSymbolBuilder
 

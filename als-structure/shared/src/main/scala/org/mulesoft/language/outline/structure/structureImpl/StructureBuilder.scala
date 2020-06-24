@@ -9,54 +9,50 @@ import amf.core.model.document.BaseUnit
 import amf.core.model.domain._
 import amf.core.remote.{Oas, Oas30, Raml, _}
 import amf.core.vocabulary.Namespace.XsdTypes
-import amf.plugins.document.vocabularies.AMLPlugin
-import amf.plugins.document.vocabularies.model.document.{Dialect, DialectFragment, DialectInstanceUnit, DialectLibrary}
+import amf.plugins.document.vocabularies.model.document.{Dialect, DialectFragment, DialectLibrary}
 import amf.plugins.domain.shapes.metamodel._
 import amf.plugins.domain.shapes.metamodel.common.DocumentationField
 import amf.plugins.domain.shapes.models.ScalarShape
 import amf.plugins.domain.webapi.metamodel._
 import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
 import org.mulesoft.als.common.dtoTypes.PositionRange
-import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
-import org.mulesoft.amfintegration.dialect.dialects.metadialect.MetaDialect
-import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
-import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.Raml08TypesDialect
-import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
+import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
-import org.mulesoft.language.outline.structure.structureImpl.factory.amlfactory.{AmlBuilderFactory, AmlMetaDialectBuilderFactory}
-import org.mulesoft.language.outline.structure.structureImpl.factory.webapi.{Async20BuilderFactory, Oas20BuilderFactory, Oas30BuilderFactory, RamlBuilderFactory}
+import org.mulesoft.language.outline.structure.structureImpl.factory.amlfactory.{
+  AmlBuilderFactory,
+  AmlMetaDialectBuilderFactory
+}
+import org.mulesoft.language.outline.structure.structureImpl.factory.webapi.{
+  Async20BuilderFactory,
+  Oas20BuilderFactory,
+  Oas30BuilderFactory,
+  RamlBuilderFactory
+}
 
-class StructureBuilder(unit: BaseUnit) {
+class StructureBuilder(unit: BaseUnit, definedBy: Option[Dialect]) {
 
   // todo: general amf model dialect?
-  private val contextBuilder = new StructureContextBuilder(unit)
-
-  private def populateBuilder(): Unit = unit.sourceVendor match {
-    case Some(Raml08)     => contextBuilder.withDialect(Raml08TypesDialect()).withFactory(RamlBuilderFactory)
-    case Some(_: Raml)    => contextBuilder.withDialect(Raml10TypesDialect()).withFactory(RamlBuilderFactory)
-    case Some(Oas30)      => contextBuilder.withDialect(OAS30Dialect()).withFactory(Oas30BuilderFactory)
-    case Some(_: Oas)     => contextBuilder.withDialect(OAS20Dialect.dialect).withFactory(Oas20BuilderFactory)
-    case Some(AsyncApi20) => contextBuilder.withDialect(AsyncApi20Dialect()).withFactory(Async20BuilderFactory)
-    case _ if unit.isInstanceOf[Dialect] || unit.isInstanceOf[DialectLibrary] || unit.isInstanceOf[DialectFragment] =>
-      contextBuilder.withDialect(MetaDialect()).withFactory(AmlMetaDialectBuilderFactory)
-    case _ => amlBuilder
-  }
-
-  private def amlBuilder = {
-    val maybeFactory: Option[Dialect] = unit match {
-      case instance: DialectInstanceUnit => // todo: I cannot  assume that declared elements in a dialect instance will be the same that for library. Declared uris dependens on context/
-        AMLPlugin.registry.dialectFor(instance)
-      case _ => None
+  private val factory: BuilderFactory = {
+    unit.sourceVendor match {
+      case Some(Raml08)     => RamlBuilderFactory
+      case Some(_: Raml)    => RamlBuilderFactory
+      case Some(Oas30)      => Oas30BuilderFactory
+      case Some(_: Oas)     => Oas20BuilderFactory
+      case Some(AsyncApi20) => Async20BuilderFactory
+      case _
+          if unit.isInstanceOf[Dialect] || unit.isInstanceOf[DialectLibrary] || unit.isInstanceOf[DialectFragment] =>
+        AmlMetaDialectBuilderFactory
+      case _ => AmlBuilderFactory
     }
-    val d = maybeFactory.getOrElse(OAS30Dialect.dialect) // amf model  === oas 3?
-    contextBuilder.withDialect(d).withFactory(AmlBuilderFactory)
   }
 
-  def listSymbols(): List[DocumentSymbol] = {
-    populateBuilder()
-    val context = contextBuilder.build()
+  private val context = new StructureContextBuilder(unit)
+    .withDialect(definedBy.getOrElse(OAS30Dialect.dialect))
+    .withFactory(factory)
+    .build() // todo: change for default amf model dialect
+
+  def listSymbols(): List[DocumentSymbol] =
     context.factory.builderFor(unit)(context).map(_.build().toList).getOrElse(Nil)
-  }
 
   // unused?
   def fullRange(ranges: Seq[PositionRange]): PositionRange = {
@@ -67,10 +63,10 @@ class StructureBuilder(unit: BaseUnit) {
 }
 
 object StructureBuilder {
-  def apply(unit: BaseUnit): StructureBuilder = new StructureBuilder(unit)
+  def apply(unit: BaseUnit, definedBy: Option[Dialect]): StructureBuilder = new StructureBuilder(unit, definedBy)
 
-  def listSymbols(ast: BaseUnit): List[DocumentSymbol] =
-    new StructureBuilder(ast).listSymbols()
+  def listSymbols(unit: BaseUnit, definedBy: Option[Dialect]): List[DocumentSymbol] =
+    new StructureBuilder(unit, definedBy).listSymbols()
 }
 
 object KindForResultMatcher {

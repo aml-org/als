@@ -1,18 +1,17 @@
 package org.mulesoft.als.server.modules.workspace
 
-import amf.core.annotations.ReferenceTargets
 import amf.core.errorhandling.ErrorCollector
 import amf.core.model.document.{BaseUnit, ExternalFragment}
 import amf.core.validation.SeverityLevels
+import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.actions.common.{AliasInfo, RelationshipLink}
 import org.mulesoft.als.common.dtoTypes.{PositionRange, ReferenceOrigins, ReferenceStack}
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementVisitors
-import org.mulesoft.amfintegration.DiagnosticsBundle
-import org.mulesoft.amfmanager.AmfImplicits._
-import org.mulesoft.amfmanager.ParserHelper
+import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.{AmfParseResult, DiagnosticsBundle, ParserHelper}
 import org.mulesoft.lsp.feature.link.DocumentLink
-import org.mulesoft.amfmanager.AmfImplicits._
+
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -23,7 +22,8 @@ class ParsedMainFileTree(eh: ErrorCollector,
                          private val innerNodeRelationships: Seq[RelationshipLink],
                          private val innerDocumentLinks: Map[String, Seq[DocumentLink]],
                          private val innerAliases: Seq[AliasInfo],
-                         logger: Logger)
+                         logger: Logger,
+                         definedBy: Option[Dialect])
     extends MainFileTree {
 
   private val errors                               = eh.getErrors
@@ -105,7 +105,7 @@ class ParsedMainFileTree(eh: ErrorCollector,
   override def getCache: Map[String, BaseUnit] = cache.toMap
 
   override def parsedUnits: Map[String, ParsedUnit] =
-    units.map(t => t._1 -> ParsedUnit(t._2, inTree = true)).toMap
+    units.map(t => t._1 -> ParsedUnit(t._2, inTree = true, definedBy)).toMap
 
   override def references: Map[String, DiagnosticsBundle] = innerRefs.toMap
 
@@ -129,25 +129,28 @@ object ParsedMainFileTree {
             nodeRelationships: Seq[RelationshipLink],
             documentLinks: Map[String, Seq[DocumentLink]],
             aliases: Seq[AliasInfo],
-            logger: Logger): ParsedMainFileTree =
-    new ParsedMainFileTree(eh, main, cachables, nodeRelationships, documentLinks, aliases, logger)
+            logger: Logger,
+            definedBy: Option[Dialect]): ParsedMainFileTree =
+    new ParsedMainFileTree(eh, main, cachables, nodeRelationships, documentLinks, aliases, logger, definedBy)
 }
 
 object MainFileTreeBuilder {
-  def build(eh: ErrorCollector,
-            main: BaseUnit,
+  def build(amfParseResult: AmfParseResult,
             cachables: Set[String],
             visitors: AmfElementVisitors,
             logger: Logger): Future[ParsedMainFileTree] = {
 
-    visitors.applyAmfVisitors(List(main))
-    val tree = ParsedMainFileTree(eh,
-                                  main,
-                                  cachables,
-                                  visitors.getRelationshipsFromVisitors,
-                                  visitors.getDocumentLinksFromVisitors,
-                                  visitors.getAliasesFromVisitors,
-                                  logger)
+    visitors.applyAmfVisitors(List(amfParseResult.baseUnit))
+    val tree = ParsedMainFileTree(
+      amfParseResult.eh,
+      amfParseResult.baseUnit,
+      cachables,
+      visitors.getRelationshipsFromVisitors,
+      visitors.getDocumentLinksFromVisitors,
+      visitors.getAliasesFromVisitors,
+      logger,
+      amfParseResult.definedBy
+    )
     tree.index().map(_ => tree)
   }
 }

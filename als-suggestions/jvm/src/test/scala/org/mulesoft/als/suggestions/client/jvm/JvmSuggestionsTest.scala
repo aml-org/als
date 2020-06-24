@@ -8,8 +8,7 @@ import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.als.suggestions.client.Suggestions
-import org.mulesoft.amfintegration.AmfInstance
-import org.mulesoft.amfmanager.InitOptions
+import org.mulesoft.amfintegration.{AmfInstance, InitOptions}
 import org.scalatest.{AsyncFunSuite, Matchers}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -49,9 +48,8 @@ class JvmSuggestionsTest extends AsyncFunSuite with Matchers with PlatformSecret
 
   test("Custom Resource Loader test") {
     val s =
-      new Suggestions(platform, environment, AlsConfiguration(), directoryResolver, AmfInstance(platform, environment))
+      new Suggestions(platform, environment, AlsConfiguration(), directoryResolver, AmfInstance(platform, environment)).initialized()
     for {
-      _           <- s.init(InitOptions.AllProfiles)
       suggestions <- s.suggest(url, 40, snippetsSupport = true, None)
     } yield {
       assert(suggestions.size == 14)

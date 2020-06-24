@@ -1,0 +1,6 @@
+swagger: '2.0'
+info:
+  tit[*]le: a title
+paths:
+  /entpoint:
+    get:

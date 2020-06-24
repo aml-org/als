@@ -82,8 +82,8 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
         })
 
     }
-
-    withServer(buildServer()) { s =>
+    val amfInstance = AmfInstance.default
+    withServer(buildServer(amfInstance)) { s =>
       val server       = new LanguageServerImpl(s)
       val mainFilePath = s"file://api.raml"
 
@@ -121,7 +121,9 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
         _ <- executeCommandIndexDialect(server)(mainFilePath, mainContent)
       } yield {
         server.shutdown()
-        assert(AMLPlugin.registry.findDialectForHeader("%Test0.1").isDefined)
+        assert(amfInstance.alsAmlPlugin.registry.findDialectForHeader("%Test0.1").isDefined)
+        assert(AMLPlugin().registry.findDialectForHeader("%Test0.1").isDefined)
+        assert(AMLPlugin.registry.findDialectForHeader("%Test0.1").isEmpty)
 
       }
     }
@@ -185,8 +187,10 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
 
   }
 
-  def buildServer(): LanguageServer = {
-    val builder  = new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
+  def buildServer(amfInstance: AmfInstance = AmfInstance.default): LanguageServer = {
+    val builder =
+      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).withAmfConfiguration(amfInstance)
+
     val dm       = builder.diagnosticManager()
     val managers = builder.buildWorkspaceManagerFactory()
 

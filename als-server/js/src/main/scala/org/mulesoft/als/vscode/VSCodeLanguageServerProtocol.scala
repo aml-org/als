@@ -17,6 +17,7 @@ import org.mulesoft.lsp.feature.documentsymbol.{
   ClientDocumentSymbolParams,
   ClientSymbolInformation
 }
+import org.mulesoft.lsp.feature.hover.{ClientHover, ClientHoverParams}
 import org.mulesoft.lsp.feature.implementation.ClientImplementationParams
 import org.mulesoft.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams}
 import org.mulesoft.lsp.feature.reference.ClientReferenceParams
@@ -305,6 +306,12 @@ object TypeDefinitionRequest extends js.Object {
 @JSImport("vscode-languageserver-protocol", "ReferencesRequest")
 object ReferencesRequest extends js.Object {
   val `type`: RequestType[ClientReferenceParams, js.Array[ClientLocation], js.Any, js.Any] = js.native
+}
+
+@js.native
+@JSImport("vscode-languageserver-protocol", "HoverRequest")
+object HoverRequest extends js.Object {
+  val `type`: RequestType[ClientHoverParams, ClientHover, js.Any, js.Any] = js.native
 }
 
 @js.native

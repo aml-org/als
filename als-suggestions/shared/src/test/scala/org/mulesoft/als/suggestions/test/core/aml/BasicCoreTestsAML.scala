@@ -2,11 +2,11 @@ package org.mulesoft.als.suggestions.test.core.aml
 
 import amf.core.remote.Aml
 import amf.plugins.document.vocabularies.AMLPlugin
-import org.mulesoft.als.suggestions.CompletionsPluginHandler
+import org.mulesoft.als.common.PlatformDirectoryResolver
+import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.test.core.{CoreTest, DummyPlugins}
-import org.mulesoft.amfintegration.AmfInstance
-import org.mulesoft.amfmanager.InitOptions
+import org.mulesoft.amfintegration.{AmfInstance, InitOptions}
 
 import scala.concurrent.Future
 
@@ -33,16 +33,34 @@ class BasicCoreTestsAML extends CoreTest with DummyPlugins {
     val configuration = AmfInstance.default
     val s             = Suggestions.default
     for {
+      _       <- configuration.init()
       dialect <- configuration.parse(p).map(_.baseUnit)
-      _       <- s.init(InitOptions.AllProfiles)
-      _ <- Future {
-        CompletionsPluginHandler.cleanIndex()
-        CompletionsPluginHandler
-          .registerPlugins(Seq(DummyCompletionPlugin(), DummyInvalidCompletionPlugin()), dialect.id)
+      result <- {
+        val url = filePath("visit01.yaml")
+        for {
+          content <- platform.resolve(url)
+          (env, position) <- Future.successful {
+            val fileContentsStr = content.stream.toString
+            val markerInfo      = this.findMarker(fileContentsStr)
+
+            (this.buildEnvironment(url, markerInfo.patchedContent.original, content.mime), markerInfo.position)
+          }
+          suggestions <- {
+            val suggestions = new Suggestions(platform,
+                                              env,
+                                              AlsConfiguration(),
+                                              new PlatformDirectoryResolver(platform),
+                                              configuration)
+              .initialized()
+            suggestions.completionsPluginHandler.cleanIndex()
+            suggestions.completionsPluginHandler
+              .registerPlugins(Seq(DummyCompletionPlugin(), DummyInvalidCompletionPlugin()), dialect.id)
+
+            suggestions.suggest(url, position, snippetsSupport = true, None)
+          }
+        } yield suggestions
       }
-      result <- suggest("visit01.yaml", suggestions = s)
     } yield {
-      AMLPlugin.registry.remove(p)
       assert(result.length == 1 && result.forall(_.documentation.getOrElse("") == "dummy description"))
     }
   }
