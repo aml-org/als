@@ -14,6 +14,7 @@ import org.mulesoft.lsp.feature.codeactions.CodeActionConfigType
 import org.mulesoft.lsp.feature.completion.CompletionConfigType
 import org.mulesoft.lsp.feature.definition.DefinitionConfigType
 import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolConfigType
+import org.mulesoft.lsp.feature.hover.HoverConfigType
 import org.mulesoft.lsp.feature.highlight.DocumentHighlightConfigType
 import org.mulesoft.lsp.feature.implementation.ImplementationConfigType
 import org.mulesoft.lsp.feature.link.DocumentLinkConfigType
@@ -47,7 +48,8 @@ class LanguageServerInitializer(private val configMap: ConfigMap, private val in
       applyConfig(CleanDiagnosticTreeConfigType, clientCapabilities.cleanDiagnosticTree),
       applyConfig(FileUsageConfigType, clientCapabilities.fileUsage),
       applyConfig(ConversionConfigType, clientCapabilities.conversion),
-      applyConfig(DocumentHighlightConfigType, textDocument.flatMap(_.documentHighlight))
+      applyConfig(DocumentHighlightConfigType, textDocument.flatMap(_.documentHighlight)),
+      applyConfig(HoverConfigType, textDocument.flatMap(_.hover))
     )
   }
 

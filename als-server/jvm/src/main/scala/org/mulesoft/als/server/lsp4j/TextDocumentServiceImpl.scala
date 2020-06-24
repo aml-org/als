@@ -23,6 +23,7 @@ import org.eclipse.lsp4j.{
   DocumentLinkParams,
   DocumentSymbol,
   DocumentSymbolParams,
+  Hover,
   ImplementationParams,
   Location,
   LocationLink,
@@ -49,6 +50,7 @@ import org.mulesoft.lsp.feature.codeactions.CodeActionRequestType
 import org.mulesoft.lsp.feature.completion.CompletionRequestType
 import org.mulesoft.lsp.feature.definition.DefinitionRequestType
 import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolRequestType
+import org.mulesoft.lsp.feature.hover.HoverRequestType
 import org.mulesoft.lsp.feature.highlight.DocumentHighlightRequestType
 import org.mulesoft.lsp.feature.implementation.ImplementationRequestType
 import org.mulesoft.lsp.feature.link.DocumentLinkRequestType
@@ -139,5 +141,9 @@ class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomT
 
   override def serialization(params: SerializationParams): CompletableFuture[SerializedDocument] = {
     javaFuture(resolveHandler(JvmSerializationRequestType)(params), serializationSerializedDocument)
+  }
+
+  override def hover(params: lsp4j.HoverParams): CompletableFuture[Hover] = {
+    javaFuture(resolveHandler(HoverRequestType)(params), lsp4JHoverParams)
   }
 }

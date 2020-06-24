@@ -118,7 +118,9 @@ object LspConvertersClientToShared {
         v.serialization.toOption.map(_.toShared),
         v.cleanDiagnostics.toOption.map(_.toShared),
         v.fileUsage.toOption.map(_.toShared),
-        v.conversion.toOption.map(_.toShared)
+        v.conversion.toOption.map(_.toShared),
+        v.documentHighlightProvider.toOption,
+        v.hoverProvider.toOption
       )
   }
 

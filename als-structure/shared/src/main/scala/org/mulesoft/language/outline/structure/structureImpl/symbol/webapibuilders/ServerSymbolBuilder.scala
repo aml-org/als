@@ -4,7 +4,7 @@ import amf.core.metamodel.Field
 import amf.core.parser.Range
 import amf.plugins.domain.webapi.metamodel.ServerModel
 import amf.plugins.domain.webapi.models.Server
-import org.mulesoft.amfmanager.AmfImplicits.AmfAnnotationsImp
+import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSimpleBuilderCompanion,

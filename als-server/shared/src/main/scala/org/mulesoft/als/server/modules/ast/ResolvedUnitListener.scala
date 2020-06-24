@@ -3,7 +3,7 @@ package org.mulesoft.als.server.modules.ast
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.common.reconciler.{Reconciler, Runnable}
 import org.mulesoft.amfintegration.AmfResolvedUnit
-import org.mulesoft.amfmanager.AmfImplicits._
+import org.mulesoft.amfintegration.AmfImplicits._
 
 import scala.util.{Failure, Success}
 import scala.concurrent.ExecutionContext.Implicits.global

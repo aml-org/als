@@ -7,7 +7,6 @@ import org.eclipse.lsp4j.ExecuteCommandOptions
 import org.mulesoft.als.server.feature.serialization.{SerializationResult, SerializedDocument}
 import org.mulesoft.als.server.protocol.configuration.{AlsInitializeResult, AlsServerCapabilities}
 import org.mulesoft.lsp.Lsp4JConversions._
-import org.mulesoft.lsp.configuration.StaticRegistrationOptions
 
 import scala.collection.JavaConverters._
 import scala.language.implicitConversions
@@ -39,16 +38,13 @@ object AlsJConversions {
 
     result.setImplementationProvider(lsp4JEitherStaticregistrationOptions(capabilities.implementationProvider))
     result.setTypeDefinitionProvider(lsp4JEitherStaticregistrationOptions(capabilities.typeDefinitionProvider))
-
+    capabilities.hoverProvider.foreach(h => result.setHoverProvider(h))
     capabilities.documentLinkProvider.foreach(dlp => result.setDocumentLinkProvider(dlp))
 
     result.setExperimental(capabilities.experimental)
     result.setExecuteCommandProvider(new ExecuteCommandOptions(Lists.newArrayList("didFocusChange")))
 
-    result.setDocumentHighlightProvider(capabilities.documentHighlightProvider match {
-      case Some(Left(b)) => b
-      case _             => false
-    })
+    capabilities.documentHighlightProvider.foreach(d => result.setDocumentHighlightProvider(d))
 
     capabilities.fileUsage.foreach(fu => result.setFileUsage(new extension.FileUsageServerOptions(fu.supported)))
     capabilities.cleanDiagnostics.foreach(cd =>

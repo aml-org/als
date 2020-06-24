@@ -4,7 +4,7 @@ import amf.core.model.domain.AmfArray
 import amf.core.parser
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.webapi.metamodel.bindings.OperationBindingsModel
-import org.mulesoft.amfmanager.AmfImplicits.AmfAnnotationsImp
+import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.ArrayFieldTypeSymbolBuilderCompanion
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldTypeSymbolBuilder,

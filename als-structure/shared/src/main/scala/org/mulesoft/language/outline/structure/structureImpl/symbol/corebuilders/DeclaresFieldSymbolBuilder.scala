@@ -2,10 +2,9 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilder
 
 import amf.core.metamodel.document.DocumentModel
 import amf.core.metamodel.domain.ShapeModel
-import amf.core.model.domain.{AmfArray, AmfObject, DomainElement, Shape}
+import amf.core.model.domain.{AmfArray, AmfObject, Shape}
 import amf.core.parser.FieldEntry
-import amf.plugins.domain.shapes.metamodel.AnyShapeModel
-import org.mulesoft.amfmanager.AmfImplicits._
+import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.language.outline.structure.structureImpl._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.{
   ArrayFieldTypeSymbolBuilder,

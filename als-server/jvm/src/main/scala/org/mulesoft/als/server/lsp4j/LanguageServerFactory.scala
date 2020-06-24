@@ -95,6 +95,7 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecr
         .addRequestModule(builders.definitionManager)
         .addRequestModule(builders.implementationManager)
         .addRequestModule(builders.typeDefinitionManager)
+        .addRequestModule(builders.hoverManager)
         .addRequestModule(builders.referenceManager)
         .addRequestModule(builders.fileUsageManager)
         .addRequestModule(builders.documentLinksManager)

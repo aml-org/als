@@ -1,15 +1,13 @@
 package org.mulesoft.als.server.modules.workspace
 
 import amf.client.resource.ResourceNotFound
-import amf.core.model.document.BaseUnit
 import amf.internal.reference.{CachedReference, ReferenceResolver}
 import org.mulesoft.als.actions.common.{AliasInfo, RelationshipLink}
 import org.mulesoft.als.common.dtoTypes.ReferenceStack
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementDefaultVisitors
-import org.mulesoft.amfintegration.DiagnosticsBundle
-import org.mulesoft.amfmanager.AmfImplicits._
-import org.mulesoft.amfmanager.AmfParseResult
+import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.{AmfParseResult, DiagnosticsBundle}
 import org.mulesoft.lsp.feature.link.DocumentLink
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -45,10 +43,10 @@ class WorkspaceParserRepository(logger: Logger) extends Repository[ParsedUnit] {
 
   def treeUnits(): Iterable[ParsedUnit] = tree.parsedUnits.values
 
-  def updateUnit(bu: BaseUnit): Unit = {
-    if (tree.contains(bu.identifier)) throw new Exception("Cannot update an unit from the tree")
-    val unit = ParsedUnit(bu, inTree = false)
-    updateUnit(bu.identifier, unit)
+  def updateUnit(result: AmfParseResult): Unit = {
+    if (tree.contains(result.baseUnit.identifier)) throw new Exception("Cannot update an unit from the tree")
+    val unit = ParsedUnit(result.baseUnit, inTree = false, result.definedBy)
+    updateUnit(result.baseUnit.identifier, unit)
   }
 
   def cleanTree(): Unit = tree = EmptyFileTree
@@ -56,7 +54,7 @@ class WorkspaceParserRepository(logger: Logger) extends Repository[ParsedUnit] {
   def newTree(result: AmfParseResult): Future[Unit] = synchronized {
     cleanTree()
     MainFileTreeBuilder
-      .build(result.eh, result.baseUnit, cachables, visitors, logger)
+      .build(result, cachables, visitors, logger)
       .map { nt =>
         tree = nt
         nt.parsedUnits.keys.foreach { removeUnit }

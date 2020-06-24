@@ -8,9 +8,10 @@ import org.mulesoft.lsp.feature.common.{ClientLocation, ClientLocationLink, Clie
 import org.mulesoft.lsp.feature.completion._
 import org.mulesoft.lsp.feature.definition.{ClientDefinitionClientCapabilities, DefinitionClientCapabilities}
 import org.mulesoft.lsp.feature.diagnostic._
-import org.mulesoft.lsp.feature.documenthighlight.{ClientDocumentHighlight, ClientDocumentHighlightOptions}
+import org.mulesoft.lsp.feature.documenthighlight.ClientDocumentHighlight
 import org.mulesoft.lsp.feature.documentsymbol._
-import org.mulesoft.lsp.feature.highlight.{DocumentHighlight, DocumentHighlightOptions}
+import org.mulesoft.lsp.feature.highlight.DocumentHighlight
+import org.mulesoft.lsp.feature.hover.{ClientHover, Hover}
 import org.mulesoft.lsp.feature.implementation.{ClientImplementationClientCapabilities, ImplementationClientCapabilities}
 import org.mulesoft.lsp.feature.link._
 import org.mulesoft.lsp.feature.reference._
@@ -253,6 +254,10 @@ object LspConvertersSharedToClient {
       ClientImplementationClientCapabilities(v)
   }
 
+  implicit class ClientHoverConverter(v: Hover) {
+    def toClient: ClientHover = ClientHover(v)
+  }
+
   implicit class ClientTypeDefinitionClientCapabilitiesConverter(v: TypeDefinitionClientCapabilities) {
     def toClient: ClientTypeDefinitionClientCapabilities =
       ClientTypeDefinitionClientCapabilities(v)
@@ -306,11 +311,6 @@ object LspConvertersSharedToClient {
   implicit class ClientDocumentLinkOptionsConverter(v: DocumentLinkOptions) {
     def toClient: ClientDocumentLinkOptions =
       ClientDocumentLinkOptions(v)
-  }
-
-  implicit class ClientDocumentHighlightOptionsConverter(v: DocumentHighlightOptions) {
-    def toClient: ClientDocumentHighlightOptions =
-      ClientDocumentHighlightOptions(v)
   }
 
   implicit class ClientDocumentLinkParamsConverter(v: DocumentLinkParams) {

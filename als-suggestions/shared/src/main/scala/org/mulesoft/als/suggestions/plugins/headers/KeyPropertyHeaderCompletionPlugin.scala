@@ -4,6 +4,7 @@ import amf.plugins.document.vocabularies.AMLPlugin
 import org.mulesoft.als.configuration.Configuration
 import org.mulesoft.als.suggestions.interfaces.HeaderCompletionPlugin
 import org.mulesoft.als.suggestions.{HeaderCompletionParams, RawSuggestion}
+import org.mulesoft.amfintegration.ALSAMLPlugin
 
 import scala.concurrent.Future
 
@@ -45,9 +46,10 @@ object KeyPropertyHeaderCompletionPlugin extends HeaderCompletionPlugin {
   private def inBrackets(text: String) =
     s"{\n${text.linesIterator.map(l => s"  $l").mkString("\n")}\n}"
 
-  private def getSuggestions(isJson: Boolean, hasBracket: Boolean = false): Seq[RawSuggestion] = {
-    AMLPlugin.registry
-      .allDialects()
+  private def getSuggestions(isJson: Boolean,
+                             hasBracket: Boolean = false,
+                             aslAmlPlugin: ALSAMLPlugin): Seq[RawSuggestion] = {
+    aslAmlPlugin.registry.amlAdnWebApiDialects
       .filter(d => Option(d.documents()).exists(_.keyProperty().value()))
       .map(d => {
         val (text, isASnippet) =
@@ -57,11 +59,13 @@ object KeyPropertyHeaderCompletionPlugin extends HeaderCompletionPlugin {
 
         new RawSuggestion(text, text, s"Define a ${d.nameAndVersion()} file", Seq(), children = Nil)
       })
-      .toSeq :+ swaggerHeader(isJson, hasBracket) :+ openApi(isJson, hasBracket) :+ asyncApi(isJson, hasBracket) // TODO: remove when OAS is added as a Dialect
+      .toSeq // TODO: remove when OAS is added as a Dialect
   }
 
   override def resolve(params: HeaderCompletionParams): Future[Seq[RawSuggestion]] =
     Future.successful(
-      getSuggestions(params.uri.endsWith(".json"), params.content.trim.startsWith("{"))
+      getSuggestions(params.uri.endsWith(".json"),
+                     params.content.trim.startsWith("{"),
+                     params.amfInstance.alsAmlPlugin)
     )
 }

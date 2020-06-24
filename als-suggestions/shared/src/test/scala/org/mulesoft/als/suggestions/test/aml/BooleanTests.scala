@@ -9,8 +9,7 @@ class BooleanTests extends AMLSuggestionsTest {
     this.withDialect(
       "instance.yaml",
       Set("true"),
-      "dialect.yaml",
-      ProfileName("Boolean 1.0")
+      "dialect.yaml"
     )
   }
 }

@@ -4,6 +4,7 @@ import amf.client.remote.Content
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.{LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.amfintegration.AmfInstance
 import org.scalatest.Assertion
@@ -16,7 +17,24 @@ class IncludeCacheTests extends RAMLSuggestionTestServer {
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
   test("test01") {
-    runTest("includes/testGroup03/api1.raml", Set("t", "l."))
+    runTest(
+      "includes/testGroup03/api1.raml",
+      Set("number",
+          "any",
+          "t",
+          "date-only",
+          "time-only",
+          "datetime",
+          "string",
+          "datetime-only",
+          "object",
+          "nil",
+          "array",
+          "boolean",
+          "file",
+          "integer",
+          "l.")
+    )
   }
 
   def buildServer(rl: ResourceLoader): LanguageServer = {
@@ -48,6 +66,7 @@ class IncludeCacheTests extends RAMLSuggestionTestServer {
 
     val resolved = filePath(platform.encodeURI(path))
     for {
+      _       <- server.initialize(AlsInitializeParams.default)
       content <- this.platform.resolve(resolved)
       (suggestions, map1) <- {
         val fileContentsStr = content.stream.toString

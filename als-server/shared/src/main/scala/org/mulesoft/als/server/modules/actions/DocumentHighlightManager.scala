@@ -20,9 +20,9 @@ class DocumentHighlightManager(val workspace: WorkspaceManager,
                                private val telemetryProvider: TelemetryProvider,
                                platform: Platform,
                                private val logger: Logger)
-    extends RequestModule[DocumentHighlightCapabilities, Either[Boolean, DocumentHighlightOptions]] {
+    extends RequestModule[DocumentHighlightCapabilities, Boolean] {
 
-  override val `type`: ConfigType[DocumentHighlightCapabilities, Either[Boolean, DocumentHighlightOptions]] =
+  override val `type`: ConfigType[DocumentHighlightCapabilities, Boolean] =
     DocumentHighlightConfigType
 
   override val getRequestHandlers: Seq[TelemeteredRequestHandler[_, _]] = Seq(
@@ -47,9 +47,9 @@ class DocumentHighlightManager(val workspace: WorkspaceManager,
     }
   )
 
-  override def applyConfig(config: Option[DocumentHighlightCapabilities]): Either[Boolean, DocumentHighlightOptions] =
+  override def applyConfig(config: Option[DocumentHighlightCapabilities]): Boolean =
+    true // check if option is defined to enabled this manager?
 //    Left(config.flatMap(_.dynamicRegistration).getOrElse(false)) // DocumentHighlightOptions not in LSP4J
-    Left(true)
 
   def documentHighlights(uri: String, position: Position, uuid: String): Future[Seq[DocumentHighlight]] =
     workspace

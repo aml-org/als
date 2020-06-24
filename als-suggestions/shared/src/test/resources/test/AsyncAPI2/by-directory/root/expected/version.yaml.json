@@ -3,7 +3,7 @@
     "label": "asyncapi: \"2.0.0\"",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define an AsyncApi 2.0.0 file",
+    "documentation": "Define a asyncapi 2.0.0 file",
     "deprecated": [],
     "preselect": [],
     "sortText": "11asyncapi: \"2.0.0\"",

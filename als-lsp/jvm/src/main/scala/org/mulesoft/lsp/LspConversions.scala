@@ -37,6 +37,7 @@ import org.mulesoft.lsp.feature.documentsymbol.{
   SymbolKind,
   SymbolKindClientCapabilities
 }
+import org.mulesoft.lsp.feature.hover.{HoverClientCapabilities, HoverParams, MarkupKind}
 import org.mulesoft.lsp.feature.highlight.{DocumentHighlightCapabilities, DocumentHighlightParams}
 import org.mulesoft.lsp.feature.implementation.{ImplementationClientCapabilities, ImplementationParams}
 import org.mulesoft.lsp.feature.link.{DocumentLinkClientCapabilities, DocumentLinkOptions, DocumentLinkParams}
@@ -145,7 +146,8 @@ object LspConversions {
       Option(capabilities.getTypeDefinition).map(typeDefinitionClientCapabilities),
       Option(capabilities.getRename).map(renameClientCapabilities),
       Option(capabilities.getCodeAction).flatMap(_ => None), // TODO: CodeAction
-      Option(capabilities.getDocumentLink).map(documentLinkClientCapabilities)
+      Option(capabilities.getDocumentLink).map(documentLinkClientCapabilities),
+      Option(capabilities.getHover).map(clientHoverCapabilities)
     )
 
   def workspaceEditClientCapabilities(c: WorkspaceEditCapabilities): WorkspaceEditClientCapabilities =
@@ -290,6 +292,14 @@ object LspConversions {
 
   implicit def implementationParams(params: lsp4j.ImplementationParams): ImplementationParams =
     ImplementationParams(params.getTextDocument, params.getPosition)
+
+  implicit def hoverParams(params: lsp4j.HoverParams): HoverParams =
+    HoverParams(params.getTextDocument, params.getPosition)
+
+  implicit def clientHoverCapabilities(params: lsp4j.HoverCapabilities): HoverClientCapabilities =
+    HoverClientCapabilities(
+      Option(params.getDynamicRegistration),
+      Option(params.getContentFormat).map(_.asScala.map(c => MarkupKind.withName(c))).getOrElse(Nil))
 
   implicit def completionParams(params: lsp4j.CompletionParams): CompletionParams =
     CompletionParams(params.getTextDocument, params.getPosition, Option(params.getContext).map(completionContext))
