@@ -20,42 +20,50 @@ object PatchedSuggestionsForDialect {
         Map("KnownValues" -> CommonHeadersValues.all.map(PatchedSuggestion(_)))
     )
 
-  private val oasCommonClasses: Map[FieldForClass, Map[String, Seq[PatchedSuggestion]]] =
-    Map(
-      FieldForClass(WebApiModel.`type`.head.iri(), WebApiModel.Accepts.value.iri()) ->
-        Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_))),
-      FieldForClass(WebApiModel.`type`.head.iri(), WebApiModel.ContentType.value.iri()) ->
-        Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_))),
-      FieldForClass(OperationModel.`type`.head.iri(), OperationModel.ContentType.value.iri()) ->
-        Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_))),
-      FieldForClass(OperationModel.`type`.head.iri(), OperationModel.Accepts.value.iri()) ->
-        Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_))),
-      FieldForClass(ExampleModel.`type`.head.iri(), ExampleModel.MediaType.value.iri()) ->
-        Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_))),
-      FieldForClass(PayloadModel.`type`.head.iri(), PayloadModel.MediaType.value.iri()) ->
-        Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_)))
-    ) ++ webApiClasses
-
   private val oas20Classes: Map[FieldForClass, Map[String, Seq[PatchedSuggestion]]] =
     Map(
+      FieldForClass(WebApiModel.`type`.head.iri(), WebApiModel.Accepts.value.iri()) ->
+        Map("KnownValues" -> Oas20CommonMediaTypes.all.map(PatchedSuggestion(_))),
+      FieldForClass(WebApiModel.`type`.head.iri(), WebApiModel.ContentType.value.iri()) ->
+        Map("KnownValues" -> Oas20CommonMediaTypes.all.map(PatchedSuggestion(_))),
+      FieldForClass(OperationModel.`type`.head.iri(), OperationModel.ContentType.value.iri()) ->
+        Map("KnownValues" -> Oas20CommonMediaTypes.all.map(PatchedSuggestion(_))),
+      FieldForClass(OperationModel.`type`.head.iri(), OperationModel.Accepts.value.iri()) ->
+        Map("KnownValues" -> Oas20CommonMediaTypes.all.map(PatchedSuggestion(_))),
+      FieldForClass(ExampleModel.`type`.head.iri(), ExampleModel.MediaType.value.iri()) ->
+        Map("KnownValues" -> Oas20CommonMediaTypes.all.map(PatchedSuggestion(_))),
+      FieldForClass(PayloadModel.`type`.head.iri(), PayloadModel.MediaType.value.iri()) ->
+        Map("KnownValues" -> Oas20CommonMediaTypes.all.map(PatchedSuggestion(_))),
       FieldForClass(ResponseModel.`type`.head.iri(), ResponseModel.StatusCode.value.iri()) ->
         Map("KnownValues" -> OasResponseCodes.all.map(PatchedSuggestion(_, isObj = true))),
       FieldForClass(ResponseModel.`type`.head.iri(), ResponseModel.Name.value.iri()) ->
         Map("KnownValues" -> OasResponseCodes.all.map(PatchedSuggestion(_, isObj = true)))
-    ) ++ oasCommonClasses
+    ) ++ webApiClasses
 
   private val oas30Classes: Map[FieldForClass, Map[String, Seq[PatchedSuggestion]]] =
     Map(
+      FieldForClass(WebApiModel.`type`.head.iri(), WebApiModel.Accepts.value.iri()) ->
+        Map("KnownValues" -> Oas30CommonMediaTypes.all.map(PatchedSuggestion(_))),
+      FieldForClass(WebApiModel.`type`.head.iri(), WebApiModel.ContentType.value.iri()) ->
+        Map("KnownValues" -> Oas30CommonMediaTypes.all.map(PatchedSuggestion(_))),
+      FieldForClass(OperationModel.`type`.head.iri(), OperationModel.ContentType.value.iri()) ->
+        Map("KnownValues" -> Oas30CommonMediaTypes.all.map(PatchedSuggestion(_))),
+      FieldForClass(OperationModel.`type`.head.iri(), OperationModel.Accepts.value.iri()) ->
+        Map("KnownValues" -> Oas30CommonMediaTypes.all.map(PatchedSuggestion(_))),
+      FieldForClass(ExampleModel.`type`.head.iri(), ExampleModel.MediaType.value.iri()) ->
+        Map("KnownValues" -> Oas30CommonMediaTypes.all.map(PatchedSuggestion(_))),
+      FieldForClass(PayloadModel.`type`.head.iri(), PayloadModel.MediaType.value.iri()) ->
+        Map("KnownValues" -> Oas30CommonMediaTypes.all.map(PatchedSuggestion(_))),
       FieldForClass(ResponseModel.`type`.head.iri(), ResponseModel.StatusCode.value.iri()) ->
         Map("KnownValues" -> Oas30ResponseCodes.all.map(PatchedSuggestion(_, isObj = true))),
       FieldForClass(ResponseModel.`type`.head.iri(), ResponseModel.Name.value.iri()) ->
         Map("KnownValues" -> Oas30ResponseCodes.all.map(PatchedSuggestion(_, isObj = true)))
-    ) ++ oasCommonClasses
+    ) ++ webApiClasses
 
   private val asyncApi20Classes: Map[FieldForClass, Map[String, Seq[PatchedSuggestion]]] = {
     Map(
       FieldForClass(PayloadModel.`type`.head.iri(), PayloadModel.MediaType.value.iri()) ->
-        Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_))))
+        Map("KnownValues" -> Oas20CommonMediaTypes.all.map(PatchedSuggestion(_))))
   }
 
   private val ramlClasses: Map[FieldForClass, Map[String, Seq[PatchedSuggestion]]] =
