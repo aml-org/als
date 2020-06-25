@@ -20,7 +20,7 @@ trait BaseCategoryRegistry {
 
   def parametersKey: String = "parameters"
 
-  def typesAndTraitsKeey: String = "schemas"
+  def typesAndTraitsKey: String = "schemas"
 
   def methodsKey: String = "methods"
 
@@ -94,7 +94,7 @@ trait BaseCategoryRegistry {
     (None, "type"),
     (Some(OperationModel.`type`.head.iri()), "is"),
     (Some(EndPointModel.`type`.head.iri()), "is"),
-  ).map(t => CategoryField(t._1, t._2, typesAndTraitsKeey))
+  ).map(t => CategoryField(t._1, t._2, typesAndTraitsKey))
 
   private val setCategoriesMethods: Set[CategoryField] = Set(
     (Some(EndPointModel.`type`.head.iri()), "types"),
@@ -160,7 +160,7 @@ trait BaseCategoryRegistry {
 object DefaultBaseCategoryRegistry extends BaseCategoryRegistry
 
 object RamlCategoryRegistry extends BaseCategoryRegistry{
-  override def typesAndTraitsKeey: String = "types and traits"
+  override def typesAndTraitsKey: String = "types and traits"
 }
 
 object CategoryRegistry{
