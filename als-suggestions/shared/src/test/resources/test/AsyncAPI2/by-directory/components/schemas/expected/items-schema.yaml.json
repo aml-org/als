@@ -542,7 +542,7 @@
   {
     "label": "type",
     "kind": [],
-    "detail": "types and traits",
+    "detail": "schemas",
     "documentation": "type",
     "deprecated": [],
     "preselect": [],

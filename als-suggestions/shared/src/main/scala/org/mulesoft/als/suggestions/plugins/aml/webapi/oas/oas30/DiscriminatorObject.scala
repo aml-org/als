@@ -1,5 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30
 
+import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.domain.shapes.metamodel.NodeShapeModel
 import amf.plugins.domain.shapes.models.NodeShape
 import org.mulesoft.als.suggestions.RawSuggestion
@@ -15,10 +16,10 @@ object DiscriminatorObject extends ExceptionPlugin {
   override def id: String = "DiscriminatorObject"
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
-    if (applies(request)) Future { suggestBody() } else emptySuggestion
+    if (applies(request)) Future { suggestBody(request.actualDialect) } else emptySuggestion
   }
 
-  private def suggestBody() = AMLDiscriminatorObject.Obj.propertiesRaw()
+  private def suggestBody(d: Dialect) = AMLDiscriminatorObject.Obj.propertiesRaw(d = d)
 
   override def applies(request: AmlCompletionRequest): Boolean =
     request.amfObject.isInstanceOf[NodeShape] && isInDiscriminator(request)
