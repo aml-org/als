@@ -3,6 +3,7 @@ package org.mulesoft.als.server.modules.diagnostic
 import amf.ProfileName
 import amf.core.annotations.LexicalInformation
 import amf.core.validation.AMFValidationResult
+import amf.plugins.features.validation.CoreValidations
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.DiagnosticsBundle
@@ -24,14 +25,18 @@ object DiagnosticConverters {
       .sortBy(_.pointOfViewUri)
   }
 
+  private val syntaxViolationIds = Seq(CoreValidations.SyamlError.id, CoreValidations.SyamlWarning.id)
   // need to search with path because location of result could be empty?
+  private def isExternalAndNotSyntax(r: AMFValidationResult, t: DiagnosticsBundle) = {
+    syntaxViolationIds.contains(r.validationId) || (!t.isExternal && t.references.nonEmpty)
+  }
   private def buildLocatedIssue(uri: String,
                                 results: Seq[AMFValidationResult],
                                 references: Map[String, DiagnosticsBundle]) = {
     results.flatMap { r =>
       references.get(uri) match {
         case Some(t)
-            if !t.isExternal && t.references.nonEmpty => // Has stack, ain't ExternalFragment todo: check if it's a syntax error?
+            if isExternalAndNotSyntax(r, t) => // Has stack, ain't ExternalFragment todo: check if it's a syntax error?
           t.references.map { stackContainer =>
             buildIssue(
               uri,
