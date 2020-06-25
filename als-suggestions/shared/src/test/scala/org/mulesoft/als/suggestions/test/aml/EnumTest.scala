@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.test.aml
 
-import org.mulesoft.als.suggestions.plugins.aml.webapi.{OasCommonMediaTypes, OasResponseCodes}
+import org.mulesoft.als.suggestions.plugins.aml.webapi.{Oas20CommonMediaTypes, OasCommonMediaTypes, OasResponseCodes}
 
 class EnumTest extends AMLSuggestionsTest {
   override def rootPath: String = "AML/enums"
@@ -36,7 +36,7 @@ class EnumTest extends AMLSuggestionsTest {
 
   ignore("Known Values - Media Types") {
     withDialect("instances/mediaTypes.yaml",
-                OasCommonMediaTypes.all.map(r => s"$r:\n      ").toSet,
+                Oas20CommonMediaTypes.all.map(r => s"$r:\n      ").toSet,
                 "dialects/knownValuesDialect.yaml")
   }
 

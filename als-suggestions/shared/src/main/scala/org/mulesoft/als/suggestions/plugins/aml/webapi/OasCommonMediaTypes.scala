@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi
 
-object OasCommonMediaTypes extends OftenKeysConfig {
+trait OasCommonMediaTypes extends OftenKeysConfig {
 
-  override val all: Seq[String] = Seq(
+  protected def mediaTypes = Seq(
     "text/plain; charset=utf-8",
     "application/json",
     "application/vnd.github+json",
@@ -17,6 +17,13 @@ object OasCommonMediaTypes extends OftenKeysConfig {
   override val quotedMark: String = "\""
 }
 
+object Oas20CommonMediaTypes extends OasCommonMediaTypes {
+  override val all: Seq[String] = mediaTypes
+}
+object Oas30CommonMediaTypes extends OasCommonMediaTypes {
+
+  override val all: Seq[String] = super.mediaTypes :+ "application/xml"
+}
 object RamlCommonMediaTypes extends OftenKeysConfig {
 
   override val all: Seq[String] = Seq(
