@@ -35,8 +35,7 @@ object DiagnosticConverters {
                                 references: Map[String, DiagnosticsBundle]) = {
     results.flatMap { r =>
       references.get(uri) match {
-        case Some(t)
-            if isExternalAndNotSyntax(r, t) => // Has stack, ain't ExternalFragment todo: check if it's a syntax error?
+        case Some(t) if isExternalAndNotSyntax(r, t) =>
           t.references.map { stackContainer =>
             buildIssue(
               uri,
