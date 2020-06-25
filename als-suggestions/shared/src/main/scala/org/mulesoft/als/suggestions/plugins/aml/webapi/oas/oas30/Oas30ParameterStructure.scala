@@ -12,6 +12,7 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml._
+import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{Oas30AMLHeaderObject, Oas30ParamObject}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -41,9 +42,9 @@ object Oas30ParameterStructure extends AMLCompletionPlugin {
       })
   }
 
-  private lazy val paramProps = Oas30ParamObject.Obj.propertiesRaw()
+  private lazy val paramProps = Oas30ParamObject.Obj.propertiesRaw(d = OAS30Dialect())
 
-  private lazy val headerProps = Oas30AMLHeaderObject.Obj.propertiesRaw()
+  private lazy val headerProps = Oas30AMLHeaderObject.Obj.propertiesRaw(d = OAS30Dialect())
 
   private def isWrittinFacet(p: Parameter, yPartBranch: YPartBranch) =
     p.name.value() != yPartBranch.stringValue && yPartBranch.isKey

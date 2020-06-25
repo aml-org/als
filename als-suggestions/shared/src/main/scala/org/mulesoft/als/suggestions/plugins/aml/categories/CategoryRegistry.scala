@@ -1,8 +1,10 @@
 package org.mulesoft.als.suggestions.plugins.aml.categories
 
 import amf.plugins.domain.shapes.metamodel.{CreativeWorkModel, XMLSerializerModel}
-import amf.plugins.domain.webapi.metamodel.security.{ApiKeySettingsModel, SecuritySchemeModel, SettingsModel}
 import amf.plugins.domain.webapi.metamodel._
+import amf.plugins.domain.webapi.metamodel.security.{ApiKeySettingsModel, SecuritySchemeModel, SettingsModel}
+import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.Raml08TypesDialect
+import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
 
 case class CategoryIndex(classTerm: String, property: String)
 
@@ -10,8 +12,27 @@ case class CategoryField(classTerm: Option[String],
                          property: String,
                          category: String)
 
-object CategoryRegistry {
-  private val setCategoriesRoot: Set[CategoryField] = Set(
+trait BaseCategoryRegistry {
+
+  def rootKey: String = "root"
+
+  def documentationKey: String = "documentation"
+
+  def parametersKey: String = "parameters"
+
+  def typesAndTraitsKeey: String = "schemas"
+
+  def methodsKey: String = "methods"
+
+  def responsesKey: String = "responses"
+
+  def schemasKey: String = "schemas"
+
+  def securityKey: String = "security"
+
+  def bodyKey: String = "body"
+
+  private def setCategoriesRoot: Set[CategoryField] = Set(
     (Some(OperationModel.`type`.head.iri()), "protocols"),
     (Some(WebApiModel.`type`.head.iri()), "swagger"),
     (Some(WebApiModel.`type`.head.iri()), "securityDefinitions"),
@@ -26,7 +47,7 @@ object CategoryRegistry {
     (Some(WebApiModel.`type`.head.iri()), "mediaType"),
     (Some(WebApiModel.`type`.head.iri()), "protocols"),
     (Some(WebApiModel.`type`.head.iri()), "title")
-  ).map(t => CategoryField(t._1, t._2, "root"))
+  ).map(t => CategoryField(t._1, t._2, rootKey))
 
   private val setCategoriesDocs: Set[CategoryField] = Set(
     (None, "externalDocs"),
@@ -42,7 +63,7 @@ object CategoryRegistry {
     (Some(OrganizationModel.`type`.head.iri()), "email"),
     (Some(CreativeWorkModel.`type`.head.iri()), "title"),
     (Some(CreativeWorkModel.`type`.head.iri()), "content"),
-    (Some(WebApiModel.`type`.head.iri()), "documentation")
+    (Some(WebApiModel.`type`.head.iri()), documentationKey)
   ).map(t => {
     CategoryField(t._1, t._2, "docs")
   })
@@ -63,7 +84,7 @@ object CategoryRegistry {
     (Some(PayloadModel.`type`.head.iri()), "name"),
     (Some(PayloadModel.`type`.head.iri()), "in"),
     (Some(ParameterModel.`type`.head.iri()), "in")
-  ).map(t => CategoryField(t._1, t._2, "parameters"))
+  ).map(t => CategoryField(t._1, t._2, parametersKey))
 
   private val setCategoriesTypesAndTraits: Set[CategoryField] = Set(
     (None, "annotationTypes"),
@@ -73,7 +94,7 @@ object CategoryRegistry {
     (None, "type"),
     (Some(OperationModel.`type`.head.iri()), "is"),
     (Some(EndPointModel.`type`.head.iri()), "is"),
-  ).map(t => CategoryField(t._1, t._2, "types and traits"))
+  ).map(t => CategoryField(t._1, t._2, typesAndTraitsKeey))
 
   private val setCategoriesMethods: Set[CategoryField] = Set(
     (Some(EndPointModel.`type`.head.iri()), "types"),
@@ -85,12 +106,12 @@ object CategoryRegistry {
     (Some(EndPointModel.`type`.head.iri()), "head"),
     (Some(EndPointModel.`type`.head.iri()), "patch"),
     (Some(EndPointModel.`type`.head.iri()), "connect")
-  ).map(t => CategoryField(t._1, t._2, "methods"))
+  ).map(t => CategoryField(t._1, t._2, methodsKey))
 
   private val setCategoriesResponses: Set[CategoryField] = Set(
     (None, "responses"),
     (Some(ResponseModel.`type`.head.iri()), "body")
-  ).map(t => CategoryField(t._1, t._2, "responses"))
+  ).map(t => CategoryField(t._1, t._2, responsesKey))
 
   private val setCategoriesSchemas: Set[CategoryField] = Set(
     (None, "allOf"),
@@ -108,7 +129,7 @@ object CategoryRegistry {
     (Some(XMLSerializerModel.`type`.head.iri()), "prefix"),
     (Some(XMLSerializerModel.`type`.head.iri()), "wrapped"),
     (Some(XMLSerializerModel.`type`.head.iri()), "attribute")
-  ).map(t => CategoryField(t._1, t._2, "schemas"))
+  ).map(t => CategoryField(t._1, t._2, schemasKey))
 
   private val setCategoriesSecurity: Set[CategoryField] = Set(
     (None, "securitySchemes"),
@@ -125,17 +146,28 @@ object CategoryRegistry {
     (Some(OperationModel.`type`.head.iri()), "securedBy"),
     (Some(EndPointModel.`type`.head.iri()), "securedBy"),
     (Some(WebApiModel.`type`.head.iri()), "securedBy")
-  ).map(t => CategoryField(t._1, t._2, "security"))
+  ).map(t => CategoryField(t._1, t._2, securityKey))
 
   private val setCategoriesBody: Set[CategoryField] = Set(
     (Some(OperationModel.`type`.head.iri()), "body")
-  ).map(t => CategoryField(t._1, t._2, "body"))
+  ).map(t => CategoryField(t._1, t._2, bodyKey))
 
-  private val allCategories = setCategoriesBody ++ setCategoriesRoot ++ setCategoriesDocs ++ setCategoriesParameters ++
+  def allCategories: Set[CategoryField] = setCategoriesBody ++ setCategoriesRoot ++ setCategoriesDocs ++ setCategoriesParameters ++
     setCategoriesSecurity ++ setCategoriesTypesAndTraits ++ setCategoriesMethods ++ setCategoriesResponses ++ setCategoriesSchemas
 
-  def apply(classTerm: String, property: String): String = {
-    val (specific, general) = allCategories
+}
+
+object DefaultBaseCategoryRegistry extends BaseCategoryRegistry
+
+object RamlCategoryRegistry extends BaseCategoryRegistry{
+  override def typesAndTraitsKeey: String = "types and traits"
+}
+
+object CategoryRegistry{
+  private val index :Map[String,BaseCategoryRegistry] = Map(Raml10TypesDialect().id -> RamlCategoryRegistry,Raml08TypesDialect().id -> RamlCategoryRegistry)
+  def apply(classTerm: String, property: String, dialect:String): String = {
+
+    val (specific, general) = index.getOrElse(dialect, DefaultBaseCategoryRegistry).allCategories
       .filter(p => p.property == property && (p.classTerm.contains(classTerm) || p.classTerm.isEmpty)).partition(_.classTerm.isDefined)
 
     specific.headOption.orElse(general.headOption)

@@ -11,6 +11,7 @@ import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml._
 import org.mulesoft.als.suggestions.plugins.aml.categories.CategoryRegistry
+import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.Oas20ParamObject
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -25,7 +26,7 @@ object Oas20ParameterStructure extends AMLCompletionPlugin {
         request.amfObject match {
           case p: Parameter if p.binding.option().contains("header") && comesFromHeader(request.yPartBranch) =>
             if (p.name.value() != request.yPartBranch.stringValue)
-              Oas20TypeFacetsCompletionPlugin.resolveShape(Option(p.schema).getOrElse(AnyShape()), Nil)
+              Oas20TypeFacetsCompletionPlugin.resolveShape(Option(p.schema).getOrElse(AnyShape()), Nil, OAS20Dialect())
             else Nil
           case p: Parameter if request.fieldEntry.isEmpty => parameterSuggestions(request, p)
           case ep: EndPoint if request.fieldEntry.exists(_.field == EndPointModel.Parameters) =>
@@ -43,7 +44,7 @@ object Oas20ParameterStructure extends AMLCompletionPlugin {
   }
 
   private def suggestions(withName: Boolean, schema: Option[Shape]) = {
-    val common = Oas20TypeFacetsCompletionPlugin.resolveShape(schema.getOrElse(ScalarShape()), Nil)
+    val common = Oas20TypeFacetsCompletionPlugin.resolveShape(schema.getOrElse(ScalarShape()), Nil, OAS20Dialect())
 
     val particular =
       if (withName) Seq(onlyBinding) else Seq(onlyBinding, nameSuggestion)
@@ -59,9 +60,9 @@ object Oas20ParameterStructure extends AMLCompletionPlugin {
   private def comesFromHeader(yPart: YPartBranch) = yPart.keys.contains("headers")
 
   private def onlyBinding =
-    Oas20ParamObject.paramBinding.toRaw(CategoryRegistry(ParameterModel.`type`.head.iri(), "in"))
+    Oas20ParamObject.paramBinding.toRaw(CategoryRegistry(ParameterModel.`type`.head.iri(), "in", OAS20Dialect().id))
 
   private def nameSuggestion: RawSuggestion =
     Oas20ParamObject.paramName.toRaw(
-      CategoryRegistry(ParameterModel.`type`.head.iri(), Oas20ParamObject.paramName.name().value()))
+      CategoryRegistry(ParameterModel.`type`.head.iri(), Oas20ParamObject.paramName.name().value(), OAS20Dialect().id))
 }

@@ -17,7 +17,9 @@ object VariableValueParam extends ExceptionPlugin {
     request.amfObject.isInstanceOf[Shape] && isParamInServer(request)
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
-    if (applies(request)) Future { Oas30VariableObject.Obj.propertiesRaw().filter(_.displayText != "name") } else
+    if (applies(request)) Future {
+      Oas30VariableObject.Obj.propertiesRaw(d = request.actualDialect).filter(_.displayText != "name")
+    } else
       emptySuggestion
 
   private def isParamInServer(request: AmlCompletionRequest) =
