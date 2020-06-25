@@ -20,7 +20,7 @@ object PatchedSuggestionsForDialect {
         Map("KnownValues" -> CommonHeadersValues.all.map(PatchedSuggestion(_)))
     )
 
-  private val oas20Classes: Map[FieldForClass, Map[String, Seq[PatchedSuggestion]]] =
+  private val oasCommonClasses: Map[FieldForClass, Map[String, Seq[PatchedSuggestion]]] =
     Map(
       FieldForClass(WebApiModel.`type`.head.iri(), WebApiModel.Accepts.value.iri()) ->
         Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_))),
@@ -33,12 +33,24 @@ object PatchedSuggestionsForDialect {
       FieldForClass(ExampleModel.`type`.head.iri(), ExampleModel.MediaType.value.iri()) ->
         Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_))),
       FieldForClass(PayloadModel.`type`.head.iri(), PayloadModel.MediaType.value.iri()) ->
-        Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_))),
+        Map("KnownValues" -> OasCommonMediaTypes.all.map(PatchedSuggestion(_)))
+    ) ++ webApiClasses
+
+  private val oas20Classes: Map[FieldForClass, Map[String, Seq[PatchedSuggestion]]] =
+    Map(
       FieldForClass(ResponseModel.`type`.head.iri(), ResponseModel.StatusCode.value.iri()) ->
         Map("KnownValues" -> OasResponseCodes.all.map(PatchedSuggestion(_, isObj = true))),
       FieldForClass(ResponseModel.`type`.head.iri(), ResponseModel.Name.value.iri()) ->
         Map("KnownValues" -> OasResponseCodes.all.map(PatchedSuggestion(_, isObj = true)))
-    ) ++ webApiClasses
+    ) ++ oasCommonClasses
+
+  private val oas30Classes: Map[FieldForClass, Map[String, Seq[PatchedSuggestion]]] =
+    Map(
+      FieldForClass(ResponseModel.`type`.head.iri(), ResponseModel.StatusCode.value.iri()) ->
+        Map("KnownValues" -> Oas30ResponseCodes.all.map(PatchedSuggestion(_, isObj = true))),
+      FieldForClass(ResponseModel.`type`.head.iri(), ResponseModel.Name.value.iri()) ->
+        Map("KnownValues" -> Oas30ResponseCodes.all.map(PatchedSuggestion(_, isObj = true)))
+    ) ++ oasCommonClasses
 
   private val asyncApi20Classes: Map[FieldForClass, Map[String, Seq[PatchedSuggestion]]] = {
     Map(
@@ -63,7 +75,7 @@ object PatchedSuggestionsForDialect {
       Raml10TypesDialect.dialect.id -> ramlClasses,
       Raml08TypesDialect.dialect.id -> ramlClasses,
       OAS20Dialect.dialect.id       -> oas20Classes,
-      OAS30Dialect.dialect.id       -> oas20Classes,
+      OAS30Dialect.dialect.id       -> oas30Classes,
       AsyncApi20Dialect.dialect.id  -> asyncApi20Classes
     )
 
