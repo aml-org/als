@@ -16,6 +16,19 @@ class FoldingRangesTests extends AsyncFlatSpec with Matchers with PlatformSecret
   override val executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 
+  val fragmentUri = "file://fragment.json"
+  val fragment: String =
+    """{
+      |	"Person": {
+      |		"type": "object",
+      |		"properties": {
+      |			"a": {
+      |				"type": "string"
+      |			}
+      |		}
+      |	}
+      |}""".stripMargin
+
   behavior of "Folding Ranges"
 
   it should "Extract range of a YAML Map" in {
@@ -73,7 +86,7 @@ class FoldingRangesTests extends AsyncFlatSpec with Matchers with PlatformSecret
     val testUri = "file://test.yaml"
     val files: Map[String, String] = Map(
       testUri ->
-        """openapi: "3.0.0"
+        s"""openapi: "3.0.0"
           |info:
           |  version: 1.0.0
           |  title: api-2
@@ -90,8 +103,10 @@ class FoldingRangesTests extends AsyncFlatSpec with Matchers with PlatformSecret
           |    Author:
           |      description: The author of an article.
           |      allOf:
-          |        - $ref: http://supermodel.io/schemaorg/Person
-          |        - $ref: "#/components/schemas/Author"""".stripMargin)
+          |        - $$ref: ${fragmentUri}#Person
+          |        - $$ref: "#/components/schemas/Author"""".stripMargin,
+      fragmentUri -> fragment
+    )
     val expected: Seq[FoldingRange] =
       Seq(
         FoldingRange(0, Some(0), 18, Some(45), None),
@@ -104,7 +119,7 @@ class FoldingRangesTests extends AsyncFlatSpec with Matchers with PlatformSecret
         FoldingRange(13, Some(10), 18, Some(45), None),
         FoldingRange(14, Some(11), 18, Some(45), None),
         FoldingRange(16, Some(12), 18, Some(45), None),
-        FoldingRange(17, Some(10), 17, Some(53), None),
+        FoldingRange(17, Some(10), 17, Some(43), None),
         FoldingRange(18, Some(10), 18, Some(45), None)
       )
     runTest(testUri, files, expected)
@@ -171,7 +186,7 @@ class FoldingRangesTests extends AsyncFlatSpec with Matchers with PlatformSecret
     val testUri = "file://test.json"
     val files: Map[String, String] = Map(
       testUri ->
-        """{
+        s"""{
           |  "openapi": "3.0.0",
           |  "info": {
           |    "version": "1.0.0",
@@ -184,16 +199,19 @@ class FoldingRangesTests extends AsyncFlatSpec with Matchers with PlatformSecret
           |        "description": "The author of an article.",
           |        "allOf": [
           |          {
-          |            "$ref": "http://supermodel.io/schemaorg/Person"
+          |            "$$ref": "${fragmentUri}#Person"
           |          },
           |          {
-          |            "$ref": "#/components/schemas/Author"
+          |            "$$ref": "#/components/schemas/Author"
           |          }
           |        ]
           |      }
           |    }
           |  }
-          |}"""".stripMargin)
+          |}"""".stripMargin,
+      fragmentUri -> fragment
+    )
+
     val expected: Seq[FoldingRange] =
       Seq(
         FoldingRange(0, Some(0), 16, Some(49), None),
@@ -203,7 +221,7 @@ class FoldingRangesTests extends AsyncFlatSpec with Matchers with PlatformSecret
         FoldingRange(8, Some(15), 16, Some(49), None),
         FoldingRange(9, Some(16), 16, Some(49), None),
         FoldingRange(11, Some(17), 16, Some(49), None),
-        FoldingRange(12, Some(10), 13, Some(59), None),
+        FoldingRange(12, Some(10), 13, Some(49), None),
         FoldingRange(15, Some(10), 16, Some(49), None)
       )
     runTest(testUri, files, expected)
