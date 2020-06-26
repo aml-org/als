@@ -54,6 +54,10 @@ class ContentPatcherTest extends AsyncFunSuite with FileAssertionTest with ListA
     assertJson("empty-value-quoted", List(QuoteToken))
   }
 
+  test("just open root map") {
+    assertJson("open-root-map", List(QuoteToken, QuoteToken, ColonToken, QuoteToken, QuoteToken, CommaToken))
+  }
+
   private def assertJson(name: String, tokenList: List[PatchToken]): Future[Assertion] =
     assert(name, "json", tokenList)
 
@@ -64,7 +68,8 @@ class ContentPatcherTest extends AsyncFunSuite with FileAssertionTest with ListA
       c <- platform.resolve(url)
       patched <- Future {
 
-        val content    = c.stream.toString
+        val con        = c.stream.toString
+        val content    = if (syntax == "json" && con.endsWith("\n")) con.stripSuffix("\n") else con // ugly hack for json files as the idea adds a \n at the end
         val offset     = content.indexOf("*")
         val rawContent = content.substring(0, offset) + content.substring(offset + 1)
         ContentPatcher(rawContent, offset, Syntax.JSON).prepareContent()
