@@ -1,4 +1,4 @@
-package org.mulesoft.amfintegration.vocabularies.propertyterms
+package org.mulesoft.amfintegration.vocabularies.propertyterms.schemaorg
 
 import org.mulesoft.amfintegration.vocabularies.PropertyTermObjectNode
 

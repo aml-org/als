@@ -1,4 +1,4 @@
-package org.mulesoft.amfintegration.vocabularies.classterms
+package org.mulesoft.amfintegration.vocabularies.classterms.schemaorg
 
 import org.mulesoft.amfintegration.vocabularies.ClassTermObjectNode
 

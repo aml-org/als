@@ -76,22 +76,23 @@ class HoverManager(wm: WorkspaceManager, amfInstance: AmfInstance, telemetryProv
         (Seq(s), f.value.annotations.range().orElse(f.value.value.annotations.range())))
     }
     private def propertyTerm(field: Field, cu: CompilableUnit): Option[String] = {
-      if (field.doc.description.nonEmpty)
-        Some(field.doc.description)
-      else
-        amfInstance.alsAmlPlugin.getSemanticDescription(field.value) // TODO: inherits from another???
+      amfInstance.alsAmlPlugin
+        .getSemanticDescription(field.value)
+        .orElse({
+          if (field.doc.description.nonEmpty) Some(field.doc.description) else None
+        })
+      // TODO: inherits from another???
     }
 
     private def classTerm(obj: AmfObject, cu: CompilableUnit): Option[(Seq[String], Option[amf.core.parser.Range])] = {
-      val objectSemantics =
-        if (obj.meta.doc.description.nonEmpty) Seq(obj.meta.doc.description)
-        else {
-          obj.meta.`type`.flatMap { v =>
-            amfInstance.alsAmlPlugin.getSemanticDescription(v)
-          }
-        }
+      val classSemantic = obj.meta.`type`.flatMap { v =>
+        amfInstance.alsAmlPlugin.getSemanticDescription(v)
+      }
+      val finalSemantics =
+        if (classSemantic.isEmpty && obj.meta.doc.description.nonEmpty) Seq(obj.meta.doc.description)
+        else classSemantic
 
-      if (objectSemantics.nonEmpty) Some((objectSemantics, obj.annotations.range()))
+      if (finalSemantics.nonEmpty) Some((finalSemantics, obj.annotations.range()))
       else None
     }
 

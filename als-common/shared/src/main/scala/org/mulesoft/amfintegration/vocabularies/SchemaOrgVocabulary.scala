@@ -1,38 +1,25 @@
 package org.mulesoft.amfintegration.vocabularies
 
-import amf.plugins.document.vocabularies.model.document.Vocabulary
-import org.mulesoft.amfintegration.vocabularies.classterms.{
+import org.mulesoft.amfintegration.vocabularies.classterms.schemaorg.{
   CorrelationIdClassTerm,
   CreativeWorkClassTerm,
   LicenseClassTerm,
   OrganizationClassTerm
 }
-import org.mulesoft.amfintegration.vocabularies.propertyterms.{
-  CommentPropertyTerm,
-  CorrelationIdPropertyTerm,
-  DeprecatedPropertyTerm,
-  DescriptionPropertyTerm,
-  DisplayNamePropertyTerm,
-  DocumentationPropertyTerm
-}
+import org.mulesoft.amfintegration.vocabularies.propertyterms.schemaorg._
 
-object SchemaOrgVocabulary {
+object SchemaOrgVocabulary extends VocabularyObject {
 
-  private val base = "http://schema.org/#"
-  def apply(): Vocabulary =
-    Vocabulary()
-      .withId(base)
-      .withBase(base)
-      .withDeclares(Seq(
-        CorrelationIdClassTerm.obj,
-        CreativeWorkClassTerm.obj,
-        LicenseClassTerm.obj,
-        OrganizationClassTerm.obj,
-        CommentPropertyTerm.obj,
-        CorrelationIdPropertyTerm.obj,
-        DeprecatedPropertyTerm.obj,
-        DescriptionPropertyTerm.obj,
-        DisplayNamePropertyTerm.obj,
-        DocumentationPropertyTerm.obj
-      ))
+  override protected def base: String = "http://schema.org/#"
+
+  override protected def classes: Seq[ClassTermObjectNode] =
+    Seq(CorrelationIdClassTerm, CreativeWorkClassTerm, LicenseClassTerm, OrganizationClassTerm)
+
+  override protected def properties: Seq[PropertyTermObjectNode] =
+    Seq(CommentPropertyTerm,
+        CorrelationIdPropertyTerm,
+        DeprecatedPropertyTerm,
+        DescriptionPropertyTerm,
+        DisplayNamePropertyTerm,
+        DocumentationPropertyTerm)
 }
