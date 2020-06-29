@@ -37,6 +37,14 @@ class HoverTest extends ServerWithMarkerTest[Hover] {
     }
   }
 
+  test("Test raml type name") {
+    runTest(buildServer(), "raml-type-name.raml").map { h =>
+      h.contents.size should be(1)
+      h.contents.head should be("Human readable name for the object") //ShaclNamePropertyTerm.description
+      h.range.get should be(Range(Position(3, 2), Position(3, 8)))
+    }
+  }
+
   test("Test hover oas web api title") {
     runTest(buildServer(), "oas-webapi-title.yaml").map { h =>
       h.contents.size should be(1)
