@@ -90,6 +90,7 @@ object LanguageServerFactory {
         .addRequestModule(factory.renameManager)
         .addRequestModule(factory.documentHighlightManager)
         .addRequestModule(factory.foldingRangeManager)
+        .addRequestModule(factory.selectionRangeManager)
         .addInitializable(factory.telemetryManager)
     diagnosticManager.foreach(builder.addInitializableModule)
     factory.serializationManager.foreach(builder.addRequestModule)
