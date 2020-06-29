@@ -39,7 +39,7 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
 
   lazy val amfObject: AmfObject = objectInTree.obj
 
-  lazy val fieldEntry: Option[FieldEntry] = objectInTree.fieldEntry
+  lazy val fieldEntry: Option[FieldEntry] = objectInTree.fieldValue
 
   def prefix: String = styler.params.prefix
 
@@ -147,7 +147,6 @@ object AmlCompletionRequestBuilder {
       objectInTree,
       rootUri = rootLocation,
       completionsPluginHandler = completionsPluginHandler
-
     )
   }
 
