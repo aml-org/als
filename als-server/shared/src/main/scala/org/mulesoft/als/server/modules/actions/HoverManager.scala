@@ -64,7 +64,7 @@ class HoverManager(wm: WorkspaceManager, amfInstance: AmfInstance, telemetryProv
         val dtoPosition = LspRangeConverter.toPosition(params.position)
         val tree        = ObjectInTreeBuilder.fromUnit(cu.unit, dtoPosition.toAmfPosition)
         val semantic: Option[(Seq[String], Option[amf.core.parser.Range])] =
-          tree.fieldEntry.flatMap(f => fieldEntry(f, cu)).orElse(classTerm(tree.obj, cu))
+          tree.fieldEntry.orElse(tree.fieldValue).flatMap(f => fieldEntry(f, cu)).orElse(classTerm(tree.obj, cu))
         semantic
           .map(s => Hover(s._1, s._2.map(r => LspRangeConverter.toLspRange(PositionRange(r))))) // if sequence, we could show all the semantic hierarchy?
           .getOrElse(Hover.empty)
