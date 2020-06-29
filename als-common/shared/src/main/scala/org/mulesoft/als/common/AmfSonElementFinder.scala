@@ -172,6 +172,12 @@ object AmfSonElementFinder {
       Range(li.range.start.line, li.range.end.line + 1)
         .contains(pos.line) && !isLastLine(pos)
 
+    def containsAtField(pos: AmfPosition): Boolean =
+      containsCompletely(pos) || isAtEmptyScalar(pos)
+
+    def isAtEmptyScalar(pos: AmfPosition): Boolean =
+      Range(li.range.start.line, li.range.end.line + 1)
+        .contains(pos.line) && !isLastLine(pos) && li.range.start == li.range.end
     def isLastLine(pos: AmfPosition): Boolean =
       li.range.end.column == 0 && pos.line == li.range.end.line
 

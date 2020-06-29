@@ -10,7 +10,31 @@ import amf.core.parser.FieldEntry
 import org.mulesoft.amfintegration.FieldEntryOrdering
 
 case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfPosition) {
-  lazy val fieldEntry: Option[FieldEntry] = ObjectInTree.getFieldEntry(this, amfPosition, FieldEntryOrdering)
+
+  /**
+    * return the first field entry for that contains the position in his value.
+    *
+    * key: value
+    * only compares against " value" range using amfelement.position
+    */
+  lazy val fieldValue: Option[FieldEntry] = ObjectInTree.getFieldEntry(this, amfPosition, FieldEntryOrdering)
+
+  /**
+    * return the first field entry for that contains the position in his entry(key or value).
+    * key: value
+    * compares against "key: value" range (all line) using field.value.position
+    */
+  lazy val fieldEntry: Option[FieldEntry] = obj.fields
+    .fields()
+    .filter(
+      f =>
+        f.value.annotations
+          .find(classOf[LexicalInformation])
+          .exists(_.containsCompletely(amfPosition)) && !f.value.value.annotations
+          .contains(classOf[SynthesizedField]))
+    .toList
+    .sorted(FieldEntryOrdering)
+    .lastOption
 }
 
 object ObjectInTree {
@@ -28,7 +52,7 @@ object ObjectInTree {
               .exists(_.containsCompletely(position))
           case v =>
             v.position()
-              .exists(_.contains(position)) && (f.value.annotations
+              .exists(_.containsAtField(position)) && (f.value.annotations
               .find(classOf[LexicalInformation])
               .forall(_.containsCompletely(position)) && !f.value.value.annotations
               .contains(classOf[SynthesizedField]))
