@@ -18,7 +18,9 @@ Also, using this representation of the API in a Model, we are able to generate a
 + [AsyncAPI2](https://github.com/asyncapi/asyncapi/blob/master/versions/2.0.0/asyncapi.md) (AsyncApi 2.0)
 
 + [Dialect](https://aml-org.github.io/aml-spec/dialects/) (AML)
- 
+
+###### playground for als-features at: https://als-playground.herokuapp.com/
+
 ### About LSP
 [Microsoft's Language Server Protocol (LSP)](https://microsoft.github.io/language-server-protocol/overview), is a tooling standardization for IDEs, which defines a Client-Server architecture used to abstract a general implementation of used language-specific smarts.
 
@@ -40,10 +42,9 @@ Currently, we support the following LSP capabilities:
 + [Document Highlight](https://microsoft.github.io/language-server-protocol/specification#textDocument_documentHighlight)
 + [Folding Range](https://microsoft.github.io/language-server-protocol/specification#textDocument_foldingRange)
 + [Hover](https://microsoft.github.io/language-server-protocol/specification#textDocument_hover)
-
++ [Selection Range](https://microsoft.github.io/language-server-protocol/specification#textDocument_selectionRange)
 
 Other LSP features we plan on supporting in the near future are:
-+ [Selection Range](https://microsoft.github.io/language-server-protocol/specification#textDocument_selectionRange)
 + [Code Action](https://microsoft.github.io/language-server-protocol/specification#textDocument_codeAction)
 
 Besides LSP Messages, we also support the following Custom operations:
@@ -125,7 +126,9 @@ During the server initialization process, it will connect to the provided Socket
 
 Through this channel, the [LSP protocol](https://microsoft.github.io/language-server-protocol/specification) is respected. Server and client exchange information about accepted actions, and notifications/request can occur
 
-#### [Features and modules](./features/features.md)
+#### [Features and modules](./documentation/features/features.md)
+#### [Navigation features](./documentation/features/navigation.md)
+#### [Eye-Candy features](./documentation/features/eyecandy.md)
 
 # Usage examples
 
