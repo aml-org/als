@@ -71,8 +71,8 @@
         "character": 4
       },
       "end": {
-        "line": 7,
-        "character": 16
+        "line": 51,
+        "character": 5
       }
     },
     "children": [
@@ -96,8 +96,8 @@
             "character": 6
           },
           "end": {
-            "line": 8,
-            "character": 12
+            "line": 50,
+            "character": 7
           }
         },
         "children": [
@@ -167,12 +167,12 @@
                     },
                     "selectionRange": {
                       "start": {
-                        "line": 11,
-                        "character": 20
+                        "line": 10,
+                        "character": 10
                       },
                       "end": {
-                        "line": 11,
-                        "character": 30
+                        "line": 48,
+                        "character": 11
                       }
                     },
                     "children": [
