@@ -17,6 +17,8 @@ import org.mulesoft.lsp.feature.implementation.{ClientImplementationClientCapabi
 import org.mulesoft.lsp.feature.link._
 import org.mulesoft.lsp.feature.reference._
 import org.mulesoft.lsp.feature.rename._
+import org.mulesoft.lsp.feature.selection.ClientSelectionRange
+import org.mulesoft.lsp.feature.selectionRange.SelectionRange
 import org.mulesoft.lsp.feature.telemetry.{ClientTelemetryClientCapabilities, ClientTelemetryMessage, TelemetryClientCapabilities, TelemetryMessage}
 import org.mulesoft.lsp.feature.typedefinition.{ClientTypeDefinitionClientCapabilities, TypeDefinitionClientCapabilities}
 import org.mulesoft.lsp.textsync._
@@ -295,6 +297,11 @@ object LspConvertersSharedToClient {
   implicit class ClientDocumentHighlightConverter(v: DocumentHighlight) {
     def toClient: ClientDocumentHighlight =
       ClientDocumentHighlight(v)
+  }
+
+  implicit class ClientSelectionRangeConverter(v: SelectionRange) {
+    def toClient: ClientSelectionRange =
+      ClientSelectionRange(v)
   }
 
   implicit class ClientReferenceClientCapabilitiesConverter(v: ReferenceClientCapabilities) {

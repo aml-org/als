@@ -13,6 +13,7 @@ import org.mulesoft.lsp.feature.selectionRange._
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.lsp.feature.common.{Position => LspPosition, Range => LspRange}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -44,7 +45,7 @@ class SelectionRangeManager(val workspace: WorkspaceManager,
         MessageTypes.END_SELECTION_RANGE
 
       override protected def msg(params: SelectionRangeParams): String =
-        s"request for document highlights on ${params.textDocument.uri} @ ${params.positions}"
+        s"request for selection range on ${params.textDocument.uri} @ ${params.positions} "
 
       override protected def uri(params: SelectionRangeParams): String = params.textDocument.uri
     })
@@ -56,8 +57,7 @@ class SelectionRangeManager(val workspace: WorkspaceManager,
       .map(_.unit.objWithAST.flatMap(_.annotations.ast()))
       .flatMap(ast => {
         Future {
-          val sq = ast.flatMap(ypart => SelectionRangeFinder.findSelectionRange(ypart, positions)).getOrElse(Seq.empty)
-          sq
+          ast.flatMap(ypart => SelectionRangeFinder.findSelectionRange(ypart, positions)).getOrElse(Seq.empty)
         }
       })
 
