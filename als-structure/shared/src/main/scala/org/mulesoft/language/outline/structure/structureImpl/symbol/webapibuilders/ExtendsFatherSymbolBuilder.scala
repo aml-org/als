@@ -24,24 +24,14 @@ trait ExtendsFatherSymbolBuilder[T <: NamedDomainElement] extends NamedElementSy
       .map(_.range)
       .orElse(element.annotations.find(classOf[EndPointTraitEntry]).map(_.range))
       .map(r => {
-        DocumentSymbol("is",
-                       KindForResultMatcher.kindForField(DomainElementModel.Extends),
-                       deprecated = false,
-                       PositionRange(r),
-                       PositionRange(r),
-                       Nil)
+        DocumentSymbol("is", KindForResultMatcher.kindForField(DomainElementModel.Extends), PositionRange(r), Nil)
       })
 
     val typeSons = element.annotations
       .find(classOf[EndPointResourceTypeEntry])
       .map(_.range)
       .map(r => {
-        DocumentSymbol("type",
-                       KindForResultMatcher.kindForField(DomainElementModel.Extends),
-                       deprecated = false,
-                       PositionRange(r),
-                       PositionRange(r),
-                       Nil)
+        DocumentSymbol("type", KindForResultMatcher.kindForField(DomainElementModel.Extends), PositionRange(r), Nil)
       })
 
     (traitSons ++ typeSons).toSeq
@@ -52,8 +42,6 @@ class OperationSymbolBuilder(override val element: Operation)(override implicit 
     extends ExtendsFatherSymbolBuilder[Operation] {
 
   override protected val optionName: Option[String] = Some(element.name.option().getOrElse(element.method.value()))
-  override protected val selectionRange: Option[Range] =
-    element.method.annotations().find(classOf[LexicalInformation]).map(l => l.range)
 }
 
 object OperationSymbolBuilderCompanion extends AmfObjectSimpleBuilderCompanion[Operation] {
