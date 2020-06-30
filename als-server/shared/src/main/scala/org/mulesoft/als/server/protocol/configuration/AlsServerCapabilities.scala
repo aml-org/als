@@ -46,7 +46,8 @@ case class AlsServerCapabilities(
     conversion: Option[ConversionRequestOptions] = None,
     documentHighlightProvider: Option[Boolean] = None,
     hoverProvider: Option[Boolean] = None,
-    foldingRangeProvider: Option[Boolean] = None)
+    foldingRangeProvider: Option[Boolean] = None,
+    selectionRange: Option[Either[Boolean, StaticRegistrationOptions]] = None)
 
 object AlsServerCapabilities {
   def empty: AlsServerCapabilities = AlsServerCapabilities()

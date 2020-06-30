@@ -56,6 +56,8 @@ import org.mulesoft.lsp.feature.implementation.{
 import org.mulesoft.lsp.feature.link._
 import org.mulesoft.lsp.feature.reference._
 import org.mulesoft.lsp.feature.rename._
+import org.mulesoft.lsp.feature.selection.{ClientSelectionRangeCapabilities, ClientSelectionRangeParams}
+import org.mulesoft.lsp.feature.selectionRange.{SelectionRangeCapabilities, SelectionRangeParams}
 import org.mulesoft.lsp.feature.telemetry.{
   ClientTelemetryClientCapabilities,
   ClientTelemetryMessage,
@@ -571,5 +573,16 @@ object LspConvertersClientToShared {
     def toShared: DocumentHighlightCapabilities =
       DocumentHighlightCapabilities(v.dynamicRegistration.toOption)
   }
+
+  implicit class SelectionRangeParamsConverter(v: ClientSelectionRangeParams) {
+    def toShared: SelectionRangeParams =
+      SelectionRangeParams(v.textDocument.toShared, v.positions.map(_.toShared).toSeq)
+  }
+
+  implicit class SelectionRangeCapabilitiesConverter(v: ClientSelectionRangeCapabilities) {
+    def toShared: SelectionRangeCapabilities =
+      SelectionRangeCapabilities(v.dynamicRegistration.toOption)
+  }
+
   // $COVERAGE-ON
 }
