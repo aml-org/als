@@ -56,7 +56,8 @@ class SelectionRangeManager(val workspace: WorkspaceManager,
       .map(_.unit.objWithAST.flatMap(_.annotations.ast()))
       .flatMap(ast => {
         Future {
-          ast.flatMap(ypart => SelectionRangeFinder.findSelectionRange(ypart, positions)).getOrElse(Seq.empty)
+          val sq = ast.flatMap(ypart => SelectionRangeFinder.findSelectionRange(ypart, positions)).getOrElse(Seq.empty)
+          sq
         }
       })
 
