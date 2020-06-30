@@ -17,8 +17,7 @@ object SelectionRangeFinder {
   }
 
   private def findSelectionRangeFor(yPart: YPart, position: Position): SelectionRange = {
-    val range = PositionRange(yPart.range)
-    println(yPart.getClass.getCanonicalName + ": " + yPart.range)
+    val range              = PositionRange(yPart.range)
     val rootSelectionRange = SelectionRange(range, None)
     findSelectionRangeFor(yPart.children, position, rootSelectionRange).getOrElse(rootSelectionRange)
   }
@@ -28,18 +27,13 @@ object SelectionRangeFinder {
                                     parent: SelectionRange): Option[SelectionRange] = {
     yPart
       .find(p => PositionRange(p.range).contains(position))
-      .flatMap(y => {
-        y match {
-          case _ @(_: YMapEntry | _: YSequence) =>
-            println(y.getClass.getCanonicalName + ": " + y.range)
-            findSelectionRangeFor(y.children, position, SelectionRange(PositionRange(y.range), Some(parent)))
-
-          case scalar: YScalar =>
-            println(scalar.getClass.getCanonicalName + ": " + scalar.range)
-            findSelectionRangeFor(scalar.children, position, SelectionRange(PositionRange(scalar.range), Some(parent)))
+      .flatMap(yPart => {
+        yPart match {
+          case _ @(_: YMapEntry | _: YSequence | _: YScalar) =>
+            findSelectionRangeFor(yPart.children, position, SelectionRange(PositionRange(yPart.range), Some(parent)))
           case _ =>
             // We skip this node
-            findSelectionRangeFor(y.children, position, parent)
+            findSelectionRangeFor(yPart.children, position, parent)
         }
       })
       .orElse(Some(parent))
