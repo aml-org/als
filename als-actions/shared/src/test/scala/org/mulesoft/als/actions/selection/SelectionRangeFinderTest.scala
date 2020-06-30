@@ -314,9 +314,7 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
         .map(_.objWithAST.flatMap(_.annotations.ast()))
         .flatMap(ast => {
           Future {
-            val sq =
-              ast.flatMap(ypart => SelectionRangeFinder.findSelectionRange(ypart, positions)).getOrElse(Seq.empty)
-            sq
+            ast.map(ypart => SelectionRangeFinder.findSelectionRange(ypart, positions)).getOrElse(Seq.empty)
           }
         })
     } yield {
