@@ -19,7 +19,7 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
   override val executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 
-  it should "Select the range on YAML map" in {
+  it should "select the range on YAML map" in {
     val testUri                  = "file://test.yaml"
     val positions: Seq[Position] = Seq(Position(1, 8))
     val files: Map[String, String] = Map(
@@ -38,7 +38,7 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
     runTest(testUri, files, expected, positions)
   }
 
-  it should "Select the range on JSON map" in {
+  it should "select the range on JSON map" in {
     val testUri                  = "file://test.yaml"
     val positions: Seq[Position] = Seq(Position(6, 18))
     val files: Map[String, String] = Map(
@@ -65,7 +65,7 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
     runTest(testUri, files, expected, positions)
   }
 
-  it should "Select the key on YAML map" in {
+  it should "select the key on YAML map" in {
     val testUri                  = "file://test.yaml"
     val positions: Seq[Position] = Seq(Position(1, 3))
     val files: Map[String, String] = Map(
@@ -84,7 +84,7 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
     runTest(testUri, files, expected, positions)
   }
 
-  it should "Select the key on JSON map" in {
+  it should "select the key on JSON map" in {
     val testUri                  = "file://test.yaml"
     val positions: Seq[Position] = Seq(Position(6, 12))
     val files: Map[String, String] = Map(
@@ -111,7 +111,7 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
     runTest(testUri, files, expected, positions)
   }
 
-  it should "Select the range on a YAML sequence" in {
+  it should "select the range on a YAML sequence" in {
     val testUri                  = "file://test.yaml"
     val positions: Seq[Position] = Seq(Position(17, 5))
     val files: Map[String, String] = Map(
@@ -149,7 +149,7 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
     runTest(testUri, files, expected, positions)
   }
 
-  it should "Select the range on a JSON sequence" in {
+  it should "select the range on a JSON sequence" in {
     val testUri                  = "file://test.yaml"
     val positions: Seq[Position] = Seq(Position(13, 8))
     val files: Map[String, String] = Map(
@@ -185,7 +185,7 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
     runTest(testUri, files, expected, positions)
   }
 
-  it should "Select the ranges on a YAML sequence with multicursor" in {
+  it should "select the ranges on a YAML sequence with multicursor" in {
     val testUri                  = "file://test.yaml"
     val positions: Seq[Position] = Seq(Position(3, 6), Position(17, 5))
     val files: Map[String, String] = Map(
@@ -228,9 +228,9 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
     runTest(testUri, files, expected, positions)
   }
 
-  it should "Select the ranges on a JSON sequence with multicursor" in {
+  it should "select the ranges on a JSON sequence with multicursor" in {
     val testUri                  = "file://test.yaml"
-    val positions: Seq[Position] = Seq(Position(13, 8), Position(6, 10))
+    val positions: Seq[Position] = Seq(Position(6, 10), Position(13, 8))
     val files: Map[String, String] = Map(
       testUri ->
         """{
@@ -256,15 +256,15 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
     val expected: Seq[SelectionRange] =
       Seq(
         SelectionRangeBuilder(0, 0, 19, 3)
-          .andThen(11, 4, 15, 5)
-          .andThen(11, 15, 15, 5)
-          .andThen(13, 6, 13, 10)
-          .build(),
-        SelectionRangeBuilder(0, 0, 19, 3)
           .andThen(2, 4, 8, 5)
           .andThen(5, 6, 7, 7)
           .andThen(6, 8, 6, 21)
           .andThen(6, 8, 6, 14)
+          .build(),
+        SelectionRangeBuilder(0, 0, 19, 3)
+          .andThen(11, 4, 15, 5)
+          .andThen(11, 15, 15, 5)
+          .andThen(13, 6, 13, 10)
           .build()
       )
     runTest(testUri, files, expected, positions)
