@@ -21,6 +21,7 @@ import org.mulesoft.lsp.feature.implementation.ImplementationConfigType
 import org.mulesoft.lsp.feature.link.DocumentLinkConfigType
 import org.mulesoft.lsp.feature.reference.ReferenceConfigType
 import org.mulesoft.lsp.feature.rename.RenameConfigType
+import org.mulesoft.lsp.feature.selectionRange.SelectionRangeConfigType
 import org.mulesoft.lsp.feature.typedefinition.TypeDefinitionConfigType
 import org.mulesoft.lsp.textsync.TextDocumentSyncConfigType
 import org.mulesoft.lsp.{ConfigType, Initializable}
@@ -51,7 +52,8 @@ class LanguageServerInitializer(private val configMap: ConfigMap, private val in
       applyConfig(ConversionConfigType, clientCapabilities.conversion),
       applyConfig(DocumentHighlightConfigType, textDocument.flatMap(_.documentHighlight)),
       applyConfig(HoverConfigType, textDocument.flatMap(_.hover)),
-      applyConfig(FoldingRangeConfigType, textDocument.flatMap(_.foldingRange))
+      applyConfig(FoldingRangeConfigType, textDocument.flatMap(_.foldingRange)),
+      applyConfig(SelectionRangeConfigType, textDocument.flatMap(_.selectionRange))
     )
   }
 

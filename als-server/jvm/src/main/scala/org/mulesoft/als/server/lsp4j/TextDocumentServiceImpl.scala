@@ -32,6 +32,7 @@ import org.eclipse.lsp4j.{
   PublishDiagnosticsParams,
   ReferenceParams,
   RenameParams,
+  SelectionRange,
   SymbolInformation,
   TypeDefinitionParams,
   WorkspaceEdit
@@ -58,6 +59,7 @@ import org.mulesoft.lsp.feature.implementation.ImplementationRequestType
 import org.mulesoft.lsp.feature.link.DocumentLinkRequestType
 import org.mulesoft.lsp.feature.reference.ReferenceRequestType
 import org.mulesoft.lsp.feature.rename.{PrepareRenameRequestType, RenameRequestType}
+import org.mulesoft.lsp.feature.selectionRange.{SelectionRangeParams, SelectionRangeRequestType}
 import org.mulesoft.lsp.feature.typedefinition.TypeDefinitionRequestType
 import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
 
@@ -151,5 +153,9 @@ class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomT
 
   override def foldingRange(params: lsp4j.FoldingRangeRequestParams): CompletableFuture[util.List[FoldingRange]] = {
     javaFuture(resolveHandler(FoldingRangeRequestType)(params), lsp4JFoldingRanges)
+  }
+
+  override def selectionRange(params: lsp4j.SelectionRangeParams): CompletableFuture[util.List[SelectionRange]] = {
+    javaFuture(resolveHandler(SelectionRangeRequestType)(params), lsp4JSelectionRanges)
   }
 }

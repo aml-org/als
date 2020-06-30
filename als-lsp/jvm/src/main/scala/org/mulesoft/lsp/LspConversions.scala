@@ -44,6 +44,7 @@ import org.mulesoft.lsp.feature.implementation.{ImplementationClientCapabilities
 import org.mulesoft.lsp.feature.link.{DocumentLinkClientCapabilities, DocumentLinkOptions, DocumentLinkParams}
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
 import org.mulesoft.lsp.feature.rename.{PrepareRenameParams, RenameClientCapabilities, RenameOptions, RenameParams}
+import org.mulesoft.lsp.feature.selectionRange.{SelectionRangeCapabilities, SelectionRangeParams}
 import org.mulesoft.lsp.feature.typedefinition.{TypeDefinitionClientCapabilities, TypeDefinitionParams}
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 import org.mulesoft.lsp.textsync._
@@ -150,7 +151,8 @@ object LspConversions {
       Option(capabilities.getDocumentLink).map(documentLinkClientCapabilities),
       Option(capabilities.getHover).map(clientHoverCapabilities),
       Option(capabilities.getDocumentHighlight).map(documentHighlightCapabilities),
-      Option(capabilities.getFoldingRange).map(foldingRangeCapabilities)
+      Option(capabilities.getFoldingRange).map(foldingRangeCapabilities),
+      Option(capabilities.getSelectionRange).map(selectionRangeCapabilities)
     )
 
   def workspaceEditClientCapabilities(c: WorkspaceEditCapabilities): WorkspaceEditClientCapabilities =
@@ -368,4 +370,10 @@ object LspConversions {
 
   implicit def foldingRangeParams(inner: lsp4j.FoldingRangeRequestParams): FoldingRangeParams =
     FoldingRangeParams(inner.getTextDocument)
+
+  implicit def selectionRangeCapabilities(c: lsp4j.SelectionRangeCapabilities): SelectionRangeCapabilities =
+    SelectionRangeCapabilities(Option(c.getDynamicRegistration))
+
+  implicit def selectionRangeParams(p: lsp4j.SelectionRangeParams): SelectionRangeParams =
+    SelectionRangeParams(p.getTextDocument, seq(p.getPositions, position))
 }

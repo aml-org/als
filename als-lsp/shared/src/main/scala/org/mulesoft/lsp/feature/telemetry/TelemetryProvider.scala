@@ -56,6 +56,8 @@ object MessageTypes extends Enumeration {
   val END_HOVER                 = "END_HOVER"
   val BEGIN_FOLDING             = "BEGIN_FOLDING"
   val END_FOLDING               = "END_FOLDING"
+  val BEGIN_SELECTION_RANGE     = "BEGIN_SELECTION_RANGE"
+  val END_SELECTION_RANGE       = "END_SELECTION_RANGE"
 }
 
 trait TelemetryProvider {

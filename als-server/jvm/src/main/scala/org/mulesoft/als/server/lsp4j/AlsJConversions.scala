@@ -38,6 +38,8 @@ object AlsJConversions {
 
     result.setImplementationProvider(lsp4JEitherStaticregistrationOptions(capabilities.implementationProvider))
     result.setTypeDefinitionProvider(lsp4JEitherStaticregistrationOptions(capabilities.typeDefinitionProvider))
+    result.setSelectionRangeProvider(lsp4JEitherStaticregistrationOptions(capabilities.selectionRange))
+
     capabilities.hoverProvider.foreach(h => result.setHoverProvider(h))
     capabilities.documentLinkProvider.foreach(dlp => result.setDocumentLinkProvider(dlp))
 

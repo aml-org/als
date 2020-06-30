@@ -25,6 +25,7 @@ import org.mulesoft.lsp.feature.highlight.DocumentHighlightKind.DocumentHighligh
 import org.mulesoft.lsp.feature.hover.Hover
 import org.mulesoft.lsp.feature.link.{DocumentLink, DocumentLinkOptions, DocumentLinkParams}
 import org.mulesoft.lsp.feature.rename.{PrepareRenameResult, RenameOptions}
+import org.mulesoft.lsp.feature.selectionRange.SelectionRange
 import org.mulesoft.lsp.textsync.{SaveOptions, TextDocumentSyncKind, TextDocumentSyncOptions}
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 
@@ -343,6 +344,13 @@ object Lsp4JConversions {
   implicit def lsp4JDocumentHighlight(dh: DocumentHighlight): lsp4j.DocumentHighlight =
     new lsp4j.DocumentHighlight(dh.range, dh.kind)
 
+  implicit def lsp4JSelectionRanges(items: Seq[SelectionRange]): util.List[lsp4j.SelectionRange] =
+    javaList(items, lsp4JSelectionRange)
+
+  implicit def lsp4JSelectionRange(sr: SelectionRange): lsp4j.SelectionRange = {
+    new lsp4j.SelectionRange(sr.range, sr.parent.map(lsp4JSelectionRange).orNull)
+  }
+
   implicit def lsp4JDocumentHighlightKind(dhk: DocumentHighlightKind): lsp4j.DocumentHighlightKind =
     dhk.id match {
       case 1 => lsp4j.DocumentHighlightKind.Text
@@ -352,7 +360,6 @@ object Lsp4JConversions {
 
   implicit def lsp4JDocumentHighlights(items: Seq[DocumentHighlight]): util.List[lsp4j.DocumentHighlight] =
     javaList(items, lsp4JDocumentHighlight)
-
 
   implicit def lsp4JHoverParams(hover: Hover): lsp4j.Hover = {
     val java: util.List[JEither[String, lsp4j.MarkedString]] =
