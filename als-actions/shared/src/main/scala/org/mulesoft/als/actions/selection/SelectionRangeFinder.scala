@@ -5,7 +5,8 @@ import org.mulesoft.als.convert.LspRangeConverter._
 import org.mulesoft.lexer.InputRange
 import org.mulesoft.lsp.feature.common
 import org.mulesoft.lsp.feature.selectionRange.SelectionRange
-import org.yaml.model.{YMapEntry, YPart, YScalar, YSequence}
+import org.yaml.model.YNode.MutRef
+import org.yaml.model.{YMapEntry, YPart, YScalar, YSequence, YTag}
 
 object SelectionRangeFinder {
 
@@ -32,7 +33,7 @@ object SelectionRangeFinder {
         yPart match {
           case _ @(_: YMapEntry | _: YSequence) =>
             findSelectionRange(yPart, position, Some(parent))
-          case _: YScalar =>
+          case _ @(_: YScalar | _: MutRef) =>
             Some(SelectionRange(PositionRange(yPart.range), Some(parent)))
           case _ =>
             // We skip this node

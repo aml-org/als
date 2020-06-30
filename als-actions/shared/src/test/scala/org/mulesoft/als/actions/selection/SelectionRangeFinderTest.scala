@@ -270,6 +270,39 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
     runTest(testUri, files, expected, positions)
   }
 
+  it should "select the range on an import" in {
+    val testUri                  = "file://test.raml"
+    val positions: Seq[Position] = Seq(Position(10, 25))
+    val files: Map[String, String] = Map(
+      testUri ->
+        """#%RAML 1.0
+          |/download/driver/{driverID}:
+          |  displayName: driver ID download
+          |  get:
+          |    is: [client-id-required]
+          |    description: get mobile ordering master by driver ID
+          |    responses:
+          |      200:
+          |        body:
+          |          application/json:
+          |            schema: !include combinedCustomerDownloadSchema.json
+          |            example: !include combinedCustomerDownloadExample.json""".stripMargin)
+    val expected: Seq[SelectionRange] =
+      Seq(
+        SelectionRangeBuilder(1, 0, 11, 66)
+          .andThen(1, 0, 11, 66)
+          .andThen(3, 2, 11, 66)
+          .andThen(6, 4, 11, 66)
+          .andThen(7, 6, 11, 66)
+          .andThen(8, 8, 11, 66)
+          .andThen(9, 10, 11, 66)
+          .andThen(10, 12, 11, 0)
+          .andThen(10, 20, 10, 64)
+          .build()
+      )
+    runTest(testUri, files, expected, positions)
+  }
+
   case class SelectionRangeBuilder(fromLine: Int, fromCol: Int, toLine: Int, toCol: Int) {
     private var internal: Option[SelectionRangeBuilder] = None
     def build(): SelectionRange = {
