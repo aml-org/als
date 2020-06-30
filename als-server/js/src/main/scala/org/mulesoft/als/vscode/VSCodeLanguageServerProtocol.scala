@@ -2,12 +2,7 @@ package org.mulesoft.als.vscode
 
 import org.mulesoft.als.server.protocol.configuration.{ClientAlsInitializeParams, ClientAlsInitializeResult}
 import org.mulesoft.lsp.edit.ClientWorkspaceEdit
-import org.mulesoft.lsp.feature.common.{
-  ClientLocation,
-  ClientLocationLink,
-  ClientRange,
-  ClientTextDocumentPositionParams
-}
+import org.mulesoft.lsp.feature.common.{ClientLocation, ClientLocationLink, ClientRange}
 import org.mulesoft.lsp.feature.completion.{ClientCompletionItem, ClientCompletionList, ClientCompletionParams}
 import org.mulesoft.lsp.feature.definition.ClientDefinitionParams
 import org.mulesoft.lsp.feature.diagnostic.ClientPublishDiagnosticsParams
@@ -23,6 +18,7 @@ import org.mulesoft.lsp.feature.implementation.ClientImplementationParams
 import org.mulesoft.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams}
 import org.mulesoft.lsp.feature.reference.ClientReferenceParams
 import org.mulesoft.lsp.feature.rename.{ClientPrepareRenameParams, ClientPrepareRenameResult, ClientRenameParams}
+import org.mulesoft.lsp.feature.selection.{ClientSelectionRange, ClientSelectionRangeParams}
 import org.mulesoft.lsp.feature.telemetry.ClientTelemetryMessage
 import org.mulesoft.lsp.feature.typedefinition.ClientTypeDefinitionParams
 import org.mulesoft.lsp.textsync.{
@@ -319,6 +315,12 @@ object HoverRequest extends js.Object {
 @JSImport("vscode-languageserver-protocol", "FoldingRangeRequest")
 object FoldingRangeRequest extends js.Object {
   val `type`: RequestType[ClientFoldingRangeParams, ClientFoldingRange, js.Any, js.Any] = js.native
+}
+
+@js.native
+@JSImport("vscode-languageserver-protocol", "SelectionRangeRequest")
+object SelectionRangeRequest extends js.Object {
+  val `type`: RequestType[ClientSelectionRangeParams, js.Array[ClientSelectionRange], js.Any, js.Any] = js.native
 }
 
 @js.native
