@@ -66,6 +66,8 @@ import org.mulesoft.lsp.feature.rename.{
   PrepareRenameRequestType,
   RenameRequestType
 }
+import org.mulesoft.lsp.feature.selection.{ClientSelectionRange, ClientSelectionRangeParams}
+import org.mulesoft.lsp.feature.selectionRange.SelectionRangeRequestType
 import org.mulesoft.lsp.feature.telemetry.{ClientTelemetryMessage, TelemetryMessage}
 import org.mulesoft.lsp.feature.typedefinition.{ClientTypeDefinitionParams, TypeDefinitionRequestType}
 import org.mulesoft.lsp.textsync.{
@@ -415,6 +417,22 @@ object ProtocolConnectionBinder {
         .asInstanceOf[ClientRequestHandler[ClientFoldingRangeParams, ClientFoldingRange, js.Any]]
     )
     // End FoldingRange
+
+    // SelectionRange
+    val onSelectionRangeHandler
+      : js.Function2[ClientSelectionRangeParams, CancellationToken, Thenable[ClientSelectionRange]] =
+      (param: ClientSelectionRangeParams, _: CancellationToken) =>
+        resolveHandler(SelectionRangeRequestType)(param.toShared)
+          .map(_.map(_.toClient).toJSArray)
+          .toJSPromise
+          .asInstanceOf[Thenable[ClientSelectionRange]]
+
+    protocolConnection.onRequest(
+      SelectionRangeRequest.`type`,
+      onSelectionRangeHandler
+        .asInstanceOf[ClientRequestHandler[ClientSelectionRangeParams, js.Array[ClientSelectionRange], js.Any]]
+    )
+    // End SelectionRange
 
     // CleanDiagnosticTree
     val onCleanDiagnosticTreeHandlerJs: js.Function2[ClientCleanDiagnosticTreeParams,
