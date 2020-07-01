@@ -185,7 +185,7 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
     runTest(testUri, files, expected, positions)
   }
 
-  it should "select the ranges on a YAML sequence with multicursor" in {
+  it should "select the ranges on YAML with multicursor" in {
     val testUri                  = "file://test.yaml"
     val positions: Seq[Position] = Seq(Position(3, 6), Position(17, 5))
     val files: Map[String, String] = Map(
@@ -228,7 +228,7 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
     runTest(testUri, files, expected, positions)
   }
 
-  it should "select the ranges on a JSON sequence with multicursor" in {
+  it should "select the ranges on JSON with multicursor" in {
     val testUri                  = "file://test.yaml"
     val positions: Seq[Position] = Seq(Position(6, 10), Position(13, 8))
     val files: Map[String, String] = Map(
@@ -265,6 +265,50 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
           .andThen(11, 4, 15, 5)
           .andThen(11, 15, 15, 5)
           .andThen(13, 6, 13, 10)
+          .build()
+      )
+    runTest(testUri, files, expected, positions)
+  }
+
+  it should "select the range on an import" in {
+    val testUri                  = "file://test.raml"
+    val positions: Seq[Position] = Seq(Position(10, 25), Position(10, 35))
+    val files: Map[String, String] = Map(
+      testUri ->
+        """#%RAML 1.0
+          |/download/driver/{driverID}:
+          |  displayName: driver ID download
+          |  get:
+          |    is: [client-id-required]
+          |    description: get mobile ordering master by driver ID
+          |    responses:
+          |      200:
+          |        body:
+          |          application/json:
+          |            schema: !include combinedCustomerDownloadSchema.json
+          |            example: !include combinedCustomerDownloadExample.json""".stripMargin)
+    val expected: Seq[SelectionRange] =
+      Seq(
+        SelectionRangeBuilder(1, 0, 11, 66)
+          .andThen(1, 0, 11, 66)
+          .andThen(3, 2, 11, 66)
+          .andThen(6, 4, 11, 66)
+          .andThen(7, 6, 11, 66)
+          .andThen(8, 8, 11, 66)
+          .andThen(9, 10, 11, 66)
+          .andThen(10, 12, 11, 0)
+          .andThen(10, 20, 10, 64)
+          .build(),
+        SelectionRangeBuilder(1, 0, 11, 66)
+          .andThen(1, 0, 11, 66)
+          .andThen(3, 2, 11, 66)
+          .andThen(6, 4, 11, 66)
+          .andThen(7, 6, 11, 66)
+          .andThen(8, 8, 11, 66)
+          .andThen(9, 10, 11, 66)
+          .andThen(10, 12, 11, 0)
+          .andThen(10, 20, 10, 64)
+          .andThen(10, 29, 10, 64)
           .build()
       )
     runTest(testUri, files, expected, positions)

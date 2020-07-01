@@ -175,6 +175,31 @@ class SelectionRangeTest extends LanguageServerBaseTest {
     }
   }
 
+  test("Should stop on MutRef") {
+    val expected: Seq[SelectionRange] =
+      Seq(
+        SelectionRangeBuilder(1, 0, 5, 0)
+          .andThen(1, 0, 5, 0)
+          .andThen(3, 2, 5, 0)
+          .andThen(4, 4, 5, 0)
+          .andThen(4, 8, 4, 29)
+          .build(),
+        SelectionRangeBuilder(1, 0, 5, 0)
+          .andThen(1, 0, 5, 0)
+          .andThen(3, 2, 5, 0)
+          .andThen(4, 4, 5, 0)
+          .andThen(4, 8, 4, 29)
+          .andThen(4, 17, 4, 29)
+          .build()
+      )
+
+    runTest(buildServer(), "import.raml", Seq(Position(4, 13), Position(4, 22))).map { result =>
+      {
+        result should be(expected)
+      }
+    }
+  }
+
   def runTest(server: LanguageServer, fileName: String, positions: Seq[Position]): Future[Seq[SelectionRange]] = {
     val fileUri = filePath(platform.encodeURI(fileName))
     for {
