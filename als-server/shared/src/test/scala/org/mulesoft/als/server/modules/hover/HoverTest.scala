@@ -1,5 +1,7 @@
 package org.mulesoft.als.server.modules.hover
 
+import amf.plugins.domain.shapes.metamodel.ExampleModel
+import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
 import amf.plugins.domain.webapi.metamodel.{EndPointModel, WebApiModel}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
@@ -75,6 +77,30 @@ class HoverTest extends ServerWithMarkerTest[Hover] {
       h.contents.size should be(1)
       h.contents.head should be(EndPointModel.Path.doc.description)
       h.range.get should be(Range(Position(3, 0), Position(3, 9)))
+    }
+  }
+
+  test("Test hover in resource type") {
+    runTest(buildServer(), "resource-type.raml").map { h =>
+      h.contents.size should be(1)
+      h.contents.head should be(ResourceTypeModel.doc.description)
+      h.range.get should be(Range(Position(3, 2), Position(6, 0)))
+    }
+  }
+
+  test("Test hover in trait") {
+    runTest(buildServer(), "trait.raml").map { h =>
+      h.contents.size should be(1)
+      h.contents.head should be(TraitModel.doc.description)
+      h.range.get should be(Range(Position(3, 2), Position(5, 0)))
+    }
+  }
+
+  test("Test hover in example value") {
+    runTest(buildServer(), "example.raml").map { h =>
+      h.contents.size should be(1)
+      h.contents.head should be(ExampleModel.doc.description)
+      h.range.get should be(Range(Position(7, 4), Position(10, 0)))
     }
   }
 
