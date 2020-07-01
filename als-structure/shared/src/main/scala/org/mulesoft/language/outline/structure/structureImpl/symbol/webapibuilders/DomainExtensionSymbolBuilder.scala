@@ -20,9 +20,6 @@ class DomainExtensionSymbolBuilder(override val element: DomainExtension)(overri
 
   override protected val children: List[DocumentSymbol] = Nil
 
-  override protected val selectionRange: Option[Range] =
-    element.annotations.find(classOf[LexicalInformation]).map(_.range)
-
 }
 
 object DomainExtensionSymbolBuilder extends AmfObjectSimpleBuilderCompanion[DomainExtension] {

@@ -97,8 +97,8 @@
         "character": 2
       },
       "end": {
-        "line": 5,
-        "character": 7
+        "line": 8,
+        "character": 30
       }
     },
     "children": [
@@ -122,8 +122,8 @@
             "character": 2
           },
           "end": {
-            "line": 5,
-            "character": 7
+            "line": 8,
+            "character": 30
           }
         },
         "children": []

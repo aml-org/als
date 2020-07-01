@@ -19,8 +19,8 @@
         "character": 2
       },
       "end": {
-        "line": 2,
-        "character": 27
+        "line": 9,
+        "character": 32
       }
     },
     "children": [
@@ -69,8 +69,8 @@
                 "character": 6
               },
               "end": {
-                "line": 4,
-                "character": 15
+                "line": 9,
+                "character": 32
               }
             },
             "children": [

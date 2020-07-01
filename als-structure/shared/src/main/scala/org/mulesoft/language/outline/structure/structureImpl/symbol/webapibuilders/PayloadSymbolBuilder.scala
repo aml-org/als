@@ -28,12 +28,6 @@ class PayloadSymbolBuilder(override val element: Payload)(implicit val ctx: Stru
 
   override protected val optionName: Option[String] =
     element.mediaType.option().orElse(element.name.option()).orElse(Some("payload"))
-  override protected val selectionRange: Option[Range] =
-    element.mediaType
-      .annotations()
-      .find(classOf[LexicalInformation])
-      .orElse(element.name.annotations().find(classOf[LexicalInformation]))
-      .map(_.range)
 
   override def build(): Seq[DocumentSymbol] = {
     if (element.annotations.contains(classOf[DefaultPayload])) children

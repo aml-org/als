@@ -13,11 +13,19 @@ trait SymbolBuilder[T] {
   implicit val ctx: StructureContext
   protected def optionName: Option[String]
   protected def children: List[DocumentSymbol]
+  private def sortedChildren = children.sortWith((ds1, ds2) => ds1.range.start < ds2.range.start)
+
   protected def kind: SymbolKind
   protected def range: Option[Range]
+
+  private def rangeFromChildren: Option[PositionRange] = sortedChildren match {
+    case head :: Nil  => Some(head.range)
+    case head :: tail => Some(PositionRange(head.range.start, tail.last.range.end))
+    case _            => None
+  }
+
   private def effectiveRange: Option[PositionRange] =
-    range.map(PositionRange(_)).orElse(children.headOption.map(_.range))
-  protected val selectionRange: Option[Range] = None
+    range.map(PositionRange(_)).orElse(rangeFromChildren)
 
   def build(): Seq[DocumentSymbol] = {
     optionName match {
@@ -28,12 +36,7 @@ trait SymbolBuilder[T] {
 
   def build(name: String): Option[DocumentSymbol] = {
     effectiveRange.map { ef =>
-      DocumentSymbol(name,
-                     kind,
-                     deprecated = false,
-                     ef,
-                     selectionRange.map(PositionRange(_)).getOrElse(ef),
-                     skipLoneChild(children, name))
+      DocumentSymbol(name, kind, ef, skipLoneChild(children, name))
     }
   }
 
