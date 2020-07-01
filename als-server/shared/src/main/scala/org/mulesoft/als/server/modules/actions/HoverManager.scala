@@ -3,10 +3,12 @@ package org.mulesoft.als.server.modules.actions
 import java.util.UUID
 
 import amf.core.metamodel.Field
-import amf.core.model.domain.AmfObject
+import amf.core.model.domain.{AmfObject, DataNode}
 import amf.core.parser
+import amf.core.parser.{Position => AmfPosition}
+
 import amf.core.parser.FieldEntry
-import org.mulesoft.als.common.ObjectInTreeBuilder
+import org.mulesoft.als.common.{ObjectInTree, ObjectInTreeBuilder}
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.RequestModule
@@ -54,7 +56,7 @@ class HoverManager(wm: WorkspaceManager, amfInstance: AmfInstance, telemetryProv
     override protected def endType(params: HoverParams): MessageTypes = MessageTypes.END_HOVER
 
     override protected def msg(params: HoverParams): String =
-      s"request for hover on ${params.textDocument.uri} and positioin ${params.position.toString}"
+      s"request for hover on ${params.textDocument.uri} and position ${params.position.toString}"
 
     override protected def uri(params: HoverParams): String = params.textDocument.uri
 
@@ -62,13 +64,28 @@ class HoverManager(wm: WorkspaceManager, amfInstance: AmfInstance, telemetryProv
       val uuid = UUID.randomUUID().toString
       wm.getLastUnit(params.textDocument.uri, uuid).map { cu =>
         val dtoPosition = LspRangeConverter.toPosition(params.position)
-        val tree        = ObjectInTreeBuilder.fromUnit(cu.unit, dtoPosition.toAmfPosition)
-        val semantic: Option[(Seq[String], Option[amf.core.parser.Range])] =
-          tree.fieldEntry.orElse(tree.fieldValue).flatMap(f => fieldEntry(f, cu)).orElse(classTerm(tree.obj, cu))
-        semantic
+
+        getSemantic(cu, dtoPosition.toAmfPosition)
           .map(s => Hover(s._1, s._2.map(r => LspRangeConverter.toLspRange(PositionRange(r))))) // if sequence, we could show all the semantic hierarchy?
           .getOrElse(Hover.empty)
+
       }
+    }
+
+    private def getSemantic(cu: CompilableUnit,
+                            amfPosition: AmfPosition): Option[(Seq[String], Option[parser.Range])] = {
+      val tree = ObjectInTreeBuilder.fromUnit(cu.unit, amfPosition)
+      if (tree.obj.isInstanceOf[DataNode]) hackFromNonDynamic(tree, cu)
+      else fromTree(tree, cu)
+    }
+
+    private def hackFromNonDynamic(tree: ObjectInTree,
+                                   cu: CompilableUnit): Option[(Seq[String], Option[parser.Range])] = {
+      tree.stack.collectFirst({ case obj if !obj.isInstanceOf[DataNode] => obj }).flatMap(classTerm(_, cu))
+    }
+
+    private def fromTree(tree: ObjectInTree, cu: CompilableUnit): Option[(Seq[String], Option[parser.Range])] = {
+      tree.fieldEntry.orElse(tree.fieldValue).flatMap(f => fieldEntry(f, cu)).orElse(classTerm(tree.obj, cu))
     }
 
     private def fieldEntry(f: FieldEntry, cu: CompilableUnit): Option[(Seq[String], Option[parser.Range])] = {
