@@ -23,7 +23,9 @@ class DeclaresFieldSymbolBuilder(override val value: AmfArray, override val elem
   private lazy val terms: Map[String, String] = ctx.dialect.declarationsMapTerms
 
   private val groupedDeclarations: Map[String, Seq[AmfObject]] = value.values
-    .collect({ case obj: AmfObject if obj.location().contains(ctx.location) => obj })
+    .collect({
+      case obj: AmfObject if obj.location().contains(ctx.location) => obj
+    })
     .groupBy(declarationName)
 
   private def getMeta(obj: AmfObject): String =
@@ -32,7 +34,8 @@ class DeclaresFieldSymbolBuilder(override val value: AmfArray, override val elem
       case _        => obj.metaURIs.head
     }
 
-  protected def builderFor(obj: AmfObject): Option[SymbolBuilder[_]] = ctx.factory.builderFor(obj)
+  protected def builderFor(obj: AmfObject): Option[SymbolBuilder[_]] =
+    ctx.factory.builderFor(obj)
 
   private def buildSymbol(name: String, elements: Seq[AmfObject]): Option[DocumentSymbol] = {
     val children: List[DocumentSymbol] = elements
@@ -42,20 +45,17 @@ class DeclaresFieldSymbolBuilder(override val value: AmfArray, override val elem
     children match {
       case Nil => None
       case head :: tail =>
-        Some(
-          DocumentSymbol(name,
-                         head.kind,
-                         deprecated = false,
-                         head.range + tail.lastOption.getOrElse(head).range,
-                         head.selectionRange,
-                         children))
+        Some(DocumentSymbol(name, head.kind, head.range + tail.lastOption.getOrElse(head).range, children))
     }
   }
 
-  protected def declarationName(obj: AmfObject): String = terms.getOrElse(getMeta(obj), "unknown")
+  protected def declarationName(obj: AmfObject): String =
+    terms.getOrElse(getMeta(obj), "unknown")
 
   override def build(): Seq[DocumentSymbol] =
-    groupedDeclarations.flatMap { case (name, elements) => buildSymbol(name, elements) }.toSeq
+    groupedDeclarations.flatMap {
+      case (name, elements) => buildSymbol(name, elements)
+    }.toSeq
   override protected val optionName: Option[String] = None
 }
 

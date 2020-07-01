@@ -3,24 +3,17 @@ package org.mulesoft.language.outline.structure.structureImpl
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
 
-case class DocumentSymbol(name: String,
-                          kind: SymbolKind,
-                          deprecated: Boolean,
-                          range: PositionRange,
-                          selectionRange: PositionRange,
-                          children: List[DocumentSymbol])
+case class DocumentSymbol private (name: String,
+                                   kind: SymbolKind,
+                                   deprecated: Boolean,
+                                   range: PositionRange,
+                                   selectionRange: PositionRange,
+                                   children: List[DocumentSymbol])
 
 object DocumentSymbol {
-  def apply(name: String,
-            kind: SymbolKind,
-            deprecated: Boolean,
-            range: PositionRange,
-            selectionRange: PositionRange,
-            children: List[DocumentSymbol]): DocumentSymbol = {
-    val intersection  = range.intersection(selectionRange)
-    val resolvedRange = intersection.getOrElse(range)
+  def apply(name: String, kind: SymbolKind, range: PositionRange, children: List[DocumentSymbol]): DocumentSymbol = {
 
-    new DocumentSymbol(name, kind, deprecated, range, resolvedRange, children)
+    new DocumentSymbol(name, kind, false, range, range, children)
   }
 }
 

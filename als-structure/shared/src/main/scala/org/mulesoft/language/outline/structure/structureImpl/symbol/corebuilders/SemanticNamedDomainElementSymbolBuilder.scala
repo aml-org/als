@@ -9,9 +9,8 @@ import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.StructuredSymbolBuilder
 
-case class SemanticNamedDomainElementSymbolBuilder(name: String,
-                                                   override protected val selectionRange: Option[Range],
-                                                   element: DomainElement)(override implicit val ctx: StructureContext)
+case class SemanticNamedDomainElementSymbolBuilder(name: String, element: DomainElement)(
+    override implicit val ctx: StructureContext)
     extends StructuredSymbolBuilder[DomainElement] {
 
   override protected val optionName: Option[String] = Some(name)
@@ -24,15 +23,8 @@ object SemanticNamedDomainElementSymbolBuilder {
       case _: NodeMapping | _: PropertyMapping =>
         element
           .namedField()
-          .flatMap(v => nameAndRange(v))
-          .map(t => SemanticNamedDomainElementSymbolBuilder(t._1, t._2, element))
+          .flatMap(v => v.value.toScalar.map(_.toString()))
+          .map(t => SemanticNamedDomainElementSymbolBuilder(t, element))
       case _ => None
     }
-
-  private def nameAndRange(value: Value): Option[(String, Option[Range])] = {
-    val maybeRange: Option[Range] = value.annotations
-      .range()
-      .orElse(value.value.annotations.range())
-    value.value.toScalar.map(s => (s.toString(), maybeRange))
-  }
 }

@@ -36,22 +36,12 @@ class OasBaseUrlFieldSymbolBuilder(override val value: AmfArray, override val el
       .map { value =>
         val basePath = value.annotations.find(classOf[BasePathLexicalInformation]).map { a =>
           val range = PositionRange(a.range)
-          DocumentSymbol("basePath",
-                         KindForResultMatcher.kindForField(ServerModel.Url),
-                         deprecated = false,
-                         range,
-                         range,
-                         Nil)
+          DocumentSymbol("basePath", KindForResultMatcher.kindForField(ServerModel.Url), range, Nil)
         }
 
         val host = value.annotations.find(classOf[HostLexicalInformation]).map { a =>
           val range = PositionRange(a.range)
-          DocumentSymbol("host",
-                         KindForResultMatcher.kindForField(ServerModel.Url),
-                         deprecated = false,
-                         range,
-                         range,
-                         Nil)
+          DocumentSymbol("host", KindForResultMatcher.kindForField(ServerModel.Url), range, Nil)
         }
 
         (basePath ++ host).toSeq

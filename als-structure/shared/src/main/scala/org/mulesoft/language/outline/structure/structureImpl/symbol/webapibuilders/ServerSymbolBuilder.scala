@@ -18,9 +18,6 @@ class ServerSymbolBuilder(override val element: Server)(override implicit val ct
   override def ignoreFields: List[Field] = super.ignoreFields
   override protected val optionName: Option[String] =
     element.name.option()
-
-  override protected val selectionRange: Option[Range] =
-    element.annotations.range()
 }
 
 object ServerSymbolBuilderCompanion extends AmfObjectSimpleBuilderCompanion[Server] {
