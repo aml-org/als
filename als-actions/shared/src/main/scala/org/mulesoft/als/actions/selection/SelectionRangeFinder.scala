@@ -6,7 +6,7 @@ import org.mulesoft.lexer.InputRange
 import org.mulesoft.lsp.feature.common
 import org.mulesoft.lsp.feature.selectionRange.SelectionRange
 import org.yaml.model.YNode.MutRef
-import org.yaml.model.{YMapEntry, YPart, YScalar, YSequence, YTag}
+import org.yaml.model.{YMapEntry, YNode, YPart, YScalar, YSequence, YTag}
 
 object SelectionRangeFinder {
 
@@ -21,20 +21,24 @@ object SelectionRangeFinder {
                                  parent: Option[SelectionRange]): Option[SelectionRange] = {
     val range              = PositionRange(yPart.range)
     val rootSelectionRange = SelectionRange(range, parent)
-    findSelectionRangeFor(yPart.children, position, rootSelectionRange).orElse(parent)
+    findSelectionRangeFor(yPart.children, position, Some(rootSelectionRange)).orElse(parent)
   }
 
   private def findSelectionRangeFor(yPart: Iterable[YPart],
                                     position: Position,
-                                    parent: SelectionRange): Option[SelectionRange] = {
+                                    parent: Option[SelectionRange]): Option[SelectionRange] = {
     yPart
       .find(p => p.range.contains(position))
       .flatMap(yPart => {
         yPart match {
+          case ref: MutRef =>
+            findSelectionRange(ref, position, parent)
           case _ @(_: YMapEntry | _: YSequence) =>
-            findSelectionRange(yPart, position, Some(parent))
-          case _ @(_: YScalar | _: MutRef) =>
-            Some(SelectionRange(PositionRange(yPart.range), Some(parent)))
+            findSelectionRange(yPart, position, parent)
+          case _: YTag =>
+            parent
+          case _ @(_: YScalar) =>
+            Some(SelectionRange(PositionRange(yPart.range), parent))
           case _ =>
             // We skip this node
             findSelectionRangeFor(yPart.children, position, parent)
