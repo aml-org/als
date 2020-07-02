@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.modules.workspace.references.visitors
 
+import amf.core.model.document.BaseUnit
 import amf.core.model.domain.AmfElement
 import amf.core.traversal.iterator.AmfElementStrategy
 import org.mulesoft.als.actions.common.{AliasInfo, RelationshipLink}
@@ -10,6 +11,7 @@ import org.mulesoft.als.server.modules.workspace.references.visitors.documentlin
 }
 import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.NodeRelationshipVisitorType
 import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.plugins.{
+  AMLDialectVisitor,
   DeclaredLinksVisitor,
   TraitLinksVisitor,
   YNodeAliasVisitor
@@ -19,11 +21,21 @@ import org.mulesoft.lsp.feature.link.DocumentLink
 import scala.reflect.ClassTag
 
 object AmfElementDefaultVisitors {
-  private val allVisitors: Seq[AmfElementVisitorFactory] = {
-    Seq(TraitLinksVisitor, DeclaredLinksVisitor, YNodeAliasVisitor, DocumentLinkVisitor, AliasesVisitor)
+  private val allVisitors: Seq[Either[AmfElementVisitorFactory, AmfElementVisitorFactoryWithBu]] = {
+    Seq(
+      Left(TraitLinksVisitor),
+      Left(DeclaredLinksVisitor),
+      Left(YNodeAliasVisitor),
+      Left(DocumentLinkVisitor),
+      Left(AliasesVisitor),
+      Right(AMLDialectVisitor)
+    )
   }
-  def build(): AmfElementVisitors = {
-    new AmfElementVisitors(allVisitors.map(_()))
+  def build(bu: BaseUnit): AmfElementVisitors = {
+    new AmfElementVisitors(allVisitors.map {
+      case Right(v: AmfElementVisitorFactoryWithBu) => v(bu)
+      case Left(f)                                  => f()
+    })
   }
 }
 
