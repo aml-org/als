@@ -10,6 +10,7 @@ import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
 import org.mulesoft.als.common.AmfSonElementFinder._
 import org.mulesoft.als.common._
+import org.mulesoft.als.common.dtoTypes.{PositionRange, TextHelper, Position => DtoPosition}
 import org.mulesoft.als.common.dtoTypes.{PositionRange, Position => DtoPosition}
 import org.mulesoft.als.configuration.{AlsConfigurationReader, AlsFormattingOptions}
 import org.mulesoft.als.suggestions.CompletionsPluginHandler
@@ -19,7 +20,7 @@ import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.als.suggestions.styler.{SuggestionRender, SuggestionStylerBuilder}
 import org.mulesoft.amfintegration.FieldEntryOrdering
 import org.yaml.model.YNode.MutRef
-import org.yaml.model.{YDocument, YNode, YType}
+import org.yaml.model.{YDocument, YNode, YSequence, YType}
 
 class AmlCompletionRequest(val baseUnit: BaseUnit,
                            val position: DtoPosition,
@@ -122,7 +123,7 @@ object AmlCompletionRequestBuilder {
     val dtoPosition = DtoPosition(position)
     val styler = SuggestionStylerBuilder.build(
       !yPartBranch.isJson,
-      prefix(yPartBranch, dtoPosition),
+      prefix(yPartBranch, dtoPosition, patchedContent.original),
       patchedContent,
       dtoPosition,
       yPartBranch,
@@ -150,7 +151,7 @@ object AmlCompletionRequestBuilder {
     )
   }
 
-  private def prefix(yPartBranch: YPartBranch, position: DtoPosition): String = {
+  private def prefix(yPartBranch: YPartBranch, position: DtoPosition, content: String): String = {
     yPartBranch.node match {
       case node: MutRef =>
         node.origValue.toString.substring(
@@ -179,7 +180,10 @@ object AmlCompletionRequestBuilder {
               } else ""
             case _ => ""
           }
-      case _ => ""
+      case seq: YSequence => ""
+      case _ =>
+        val textContent = TextHelper.linesWithSeparators(content)(position.line)
+        textContent.substring(0, position.column).trim
     }
   }
 

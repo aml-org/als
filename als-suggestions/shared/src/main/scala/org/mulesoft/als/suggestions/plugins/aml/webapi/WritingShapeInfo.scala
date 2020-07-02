@@ -8,7 +8,7 @@ trait WritingShapeInfo {
   protected def isWritingFacet(yPartBranch: YPartBranch, shape: Shape, stack: Seq[AmfObject]): Boolean =
     yPartBranch.isKey && !yPartBranch.isKeyDescendantOf("required") && !writingShapeName(shape, yPartBranch) && !writingParamName(
       stack,
-      yPartBranch)
+      yPartBranch) && !yPartBranch.parentEntryIs("properties")
 
   protected def writingShapeName(shape: Shape, yPartBranch: YPartBranch) =
     shape.name.value() == yPartBranch.stringValue
