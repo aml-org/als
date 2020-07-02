@@ -1,7 +1,6 @@
 package org.mulesoft.als.server.modules.actions
 
 import amf.core.remote.Platform
-import org.mulesoft.als.actions.common.dialect.DialectDefinitions
 import org.mulesoft.als.actions.definition.FindDefinition
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.convert.LspRangeConverter
@@ -70,10 +69,8 @@ class GoToDefinitionManager(val workspace: WorkspaceManager,
                        workspace.getAliases(uri, uuid),
                        workspace.getLastUnit(uri, uuid).map(_.unit),
                        platform)
-      dialectDefinitions <- DialectDefinitions
-        .getDefinition(uri, position, workspace.getLastUnit(uri, uuid).map(_.unit), platform)
     } yield {
-      Right(workspaceDefinitions ++ dialectDefinitions)
+      Right(workspaceDefinitions)
     }
 
   override def initialize(): Future[Unit] = Future.successful()

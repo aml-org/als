@@ -23,7 +23,7 @@ class Relationships private (private val repository: WorkspaceParserRepository,
       fcu()
         .map {
           _.map { cu => // todo: optimize in cases in which I want all references from the same BU?
-            val visitors = AmfElementDefaultVisitors.build()
+            val visitors = AmfElementDefaultVisitors.build(cu.unit)
             visitors.applyAmfVisitors(List(cu.unit))
             fallBack(visitors)
           }
