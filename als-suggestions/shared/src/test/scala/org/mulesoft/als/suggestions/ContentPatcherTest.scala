@@ -58,12 +58,20 @@ class ContentPatcherTest extends AsyncFunSuite with FileAssertionTest with ListA
     assertJson("open-root-map", List(QuoteToken, QuoteToken, ColonToken, QuoteToken, QuoteToken, CommaToken))
   }
 
+  test("patch yaml key with some quoted value under") {
+    assertYaml("quoted-value-under", List(ColonToken))
+  }
+
   private def assertJson(name: String, tokenList: List[PatchToken]): Future[Assertion] =
     assert(name, "json", tokenList)
+
+  private def assertYaml(name: String, tokenList: List[PatchToken]): Future[Assertion] =
+    assert(name, "yaml", tokenList)
 
   private def assert(name: String, syntax: String, tokenList: List[PatchToken]): Future[Assertion] = {
     val url      = basePath + s"/$name.$syntax"
     val expected = basePath + s"/$name.result.$syntax"
+    val s        = if (syntax == "yaml") Syntax.YAML else Syntax.JSON
     for {
       c <- platform.resolve(url)
       patched <- Future {
@@ -72,7 +80,7 @@ class ContentPatcherTest extends AsyncFunSuite with FileAssertionTest with ListA
         val content    = if (syntax == "json" && con.endsWith("\n")) con.stripSuffix("\n") else con // ugly hack for json files as the idea adds a \n at the end
         val offset     = content.indexOf("*")
         val rawContent = content.substring(0, offset) + content.substring(offset + 1)
-        ContentPatcher(rawContent, offset, Syntax.JSON).prepareContent()
+        ContentPatcher(rawContent, offset, s).prepareContent()
       }
       tmp <- writeTemporaryFile(expected)(patched.content)
       r   <- assertDifferences(tmp, expected)
