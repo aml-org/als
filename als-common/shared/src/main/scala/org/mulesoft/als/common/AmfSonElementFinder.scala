@@ -59,9 +59,9 @@ object AmfSonElementFinder {
           case v =>
             v.position() match {
               case Some(p) =>
-                p.contains(amfPosition) && f.value.value.annotations
-                  .lexicalInformation()
-                  .forall(_.containsCompletely(amfPosition))
+                p.contains(amfPosition) || (v.isInstanceOf[AmfObject] && f.value.annotations
+                  .find(classOf[LexicalInformation])
+                  .exists(_.contains(amfPosition)))
 
               case _ =>
                 f.value.annotations
@@ -179,7 +179,7 @@ object AmfSonElementFinder {
 
     def contains(pos: AmfPosition): Boolean =
       Range(li.range.start.line, li.range.end.line + 1)
-        .contains(pos.line) && !isLastLine(pos)
+        .contains(pos.line)
 
     def arrayContainsPosition(pos: AmfPosition): Boolean = {
       if (isSingleLine) {
@@ -206,7 +206,11 @@ object AmfSonElementFinder {
 
     def containsCompletely(pos: AmfPosition): Boolean =
       PositionRange(Position(li.range.start), Position(li.range.end))
-        .contains(Position(pos)) && !isLastLine(pos)
+        .containsNotEndObj(Position(pos)) && !isLastLine(pos)
+
+    def containsField(pos: AmfPosition): Boolean =
+      PositionRange(Position(li.range.start), Position(li.range.end))
+        .containsNotEndField(Position(pos))
   }
 
   private def arrayContainsPosition(amfArray: AmfArray,
