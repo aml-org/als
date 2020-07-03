@@ -11,9 +11,13 @@ import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapp
 import org.mulesoft.als.common.AmfSonElementFinder._
 import org.mulesoft.als.common._
 import org.mulesoft.als.common.dtoTypes.{PositionRange, Position => DtoPosition}
+import org.mulesoft.als.configuration.{AlsConfigurationReader, AlsFormattingOptions}
+import org.mulesoft.als.suggestions.CompletionsPluginHandler
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
+import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.als.suggestions.styler.{SuggestionRender, SuggestionStylerBuilder}
+import org.mulesoft.amfintegration.FieldEntryOrdering
 import org.yaml.model.YNode.MutRef
 import org.yaml.model.{YDocument, YNode, YType}
 
@@ -25,16 +29,17 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
                            val platform: Platform,
                            val styler: SuggestionRender,
                            val yPartBranch: YPartBranch,
+                           val configurationReader: AlsConfigurationReader,
                            private val objectInTree: ObjectInTree,
                            val inheritedProvider: Option[DeclarationProvider] = None,
-                           val rootUri: Option[String]) {
+                           val rootUri: Option[String],
+                           val completionsPluginHandler: CompletionsPluginHandler) {
 
   lazy val branchStack: Seq[AmfObject] = objectInTree.stack
 
   lazy val amfObject: AmfObject = objectInTree.obj
 
-  lazy val fieldEntry: Option[FieldEntry] =
-    objectInTree.getFieldEntry(position.toAmfPosition, FieldEntryOrdering)
+  lazy val fieldEntry: Option[FieldEntry] = objectInTree.fieldValue
 
   def prefix: String = styler.params.prefix
 
@@ -101,7 +106,9 @@ object AmlCompletionRequestBuilder {
             platform: Platform,
             patchedContent: PatchedContent,
             snippetSupport: Boolean,
-            rootLocation: Option[String]): AmlCompletionRequest = {
+            rootLocation: Option[String],
+            configuration: AlsConfigurationReader,
+            completionsPluginHandler: CompletionsPluginHandler): AmlCompletionRequest = {
     val yPartBranch: YPartBranch = {
       val ast = baseUnit match {
         case d: Document =>
@@ -113,25 +120,34 @@ object AmlCompletionRequestBuilder {
     }
 
     val dtoPosition = DtoPosition(position)
-    val styler = SuggestionStylerBuilder.build(!yPartBranch.isJson,
-                                               prefix(yPartBranch, dtoPosition),
-                                               patchedContent,
-                                               dtoPosition,
-                                               yPartBranch,
-                                               snippetSupport,
-                                               indentation(baseUnit, dtoPosition))
+    val styler = SuggestionStylerBuilder.build(
+      !yPartBranch.isJson,
+      prefix(yPartBranch, dtoPosition),
+      patchedContent,
+      dtoPosition,
+      yPartBranch,
+      configuration,
+      snippetSupport,
+      if (baseUnit.location().isDefined) platform.mimeFromExtension(platform.extension(baseUnit.location().get).get)
+      else None,
+      indentation(baseUnit, dtoPosition)
+    )
     val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position)
 
-    new AmlCompletionRequest(baseUnit,
-                             DtoPosition(position),
-                             dialect,
-                             environment,
-                             directoryResolver,
-                             platform,
-                             styler,
-                             yPartBranch,
-                             objectInTree,
-                             rootUri = rootLocation)
+    new AmlCompletionRequest(
+      baseUnit,
+      DtoPosition(position),
+      dialect,
+      environment,
+      directoryResolver,
+      platform,
+      styler,
+      yPartBranch,
+      configuration,
+      objectInTree,
+      rootUri = rootLocation,
+      completionsPluginHandler = completionsPluginHandler
+    )
   }
 
   private def prefix(yPartBranch: YPartBranch, position: DtoPosition): String = {
@@ -170,7 +186,8 @@ object AmlCompletionRequestBuilder {
   def forElement(element: DomainElement,
                  current: DomainElement,
                  filterProvider: DeclarationProvider,
-                 parent: AmlCompletionRequest): AmlCompletionRequest = {
+                 parent: AmlCompletionRequest,
+                 ignoredPlugins: Set[AMLCompletionPlugin]): AmlCompletionRequest = {
     val currentIndex = parent.branchStack.indexOf(current) + 1
     val newStack: Seq[AmfObject] =
       if (currentIndex < parent.branchStack.length) parent.branchStack.splitAt(currentIndex)._2 else parent.branchStack
@@ -184,9 +201,11 @@ object AmlCompletionRequestBuilder {
       parent.platform,
       parent.styler,
       parent.yPartBranch,
+      parent.configurationReader,
       objectInTree,
       Some(filterProvider),
-      parent.rootUri
+      parent.rootUri,
+      parent.completionsPluginHandler.filter(ignoredPlugins)
     )
   }
 }

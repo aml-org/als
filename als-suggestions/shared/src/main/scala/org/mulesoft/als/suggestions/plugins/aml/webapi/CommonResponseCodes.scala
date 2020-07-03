@@ -2,10 +2,10 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi
 
 trait CommonResponseCodes extends OftenKeysConfig {
 
-  protected val v100: Seq[String] = Seq("100", "101", "102")
-  protected val v200: Seq[String] = Seq("200", "201", "202", "203", "204", "205", "206", "207", "208", "226")
-  protected val v300: Seq[String] = Seq("300", "301", "302", "303", "304", "305", "306", "307", "308")
-  protected val v400: Seq[String] = Seq(
+  protected def v100: Seq[String] = Seq("100", "101", "102")
+  protected def v200: Seq[String] = Seq("200", "201", "202", "203", "204", "205", "206", "207", "208", "226")
+  protected def v300: Seq[String] = Seq("300", "301", "302", "303", "304", "305", "306", "307", "308")
+  protected def v400: Seq[String] = Seq(
     "400",
     "401",
     "402",
@@ -40,16 +40,24 @@ trait CommonResponseCodes extends OftenKeysConfig {
     "451",
     "499"
   )
-  protected val v500: Seq[String] =
+  protected def v500: Seq[String] =
     Seq("500", "501", "502", "503", "504", "505", "506", "507", "508", "509", "510", "511", "598", "599")
 
-  override val all: Seq[String] = v100 ++ v200 ++ v300 ++ v400 ++ v500
+  override lazy val all: Seq[String] = v100 ++ v200 ++ v300 ++ v400 ++ v500
 }
 
 object RamlResponseCodes extends CommonResponseCodes
 
 object OasResponseCodes extends CommonResponseCodes {
-  override val all: Seq[String] = v100 ++ v200 ++ v300 ++ v400 ++ v500 ++ Seq("default")
+  override lazy val all: Seq[String] = v100 ++ v200 ++ v300 ++ v400 ++ v500 ++ Seq("default")
+}
+
+object Oas30ResponseCodes extends CommonResponseCodes {
+  override def v100: Seq[String] = Seq("1xx") ++ super.v100
+  override def v200: Seq[String] = Seq("2xx") ++ super.v200
+  override def v300: Seq[String] = Seq("3xx") ++ super.v300
+  override def v400: Seq[String] = Seq("4xx") ++ super.v400
+  override def v500: Seq[String] = Seq("5xx") ++ super.v500
 }
 
 trait OftenKeysConfig {

@@ -8,11 +8,17 @@ import org.mulesoft.lsp.feature.common.{ClientLocation, ClientLocationLink, Clie
 import org.mulesoft.lsp.feature.completion._
 import org.mulesoft.lsp.feature.definition.{ClientDefinitionClientCapabilities, DefinitionClientCapabilities}
 import org.mulesoft.lsp.feature.diagnostic._
+import org.mulesoft.lsp.feature.documenthighlight.ClientDocumentHighlight
 import org.mulesoft.lsp.feature.documentsymbol._
+import org.mulesoft.lsp.feature.folding.{ClientFoldingRange, FoldingRange}
+import org.mulesoft.lsp.feature.highlight.DocumentHighlight
+import org.mulesoft.lsp.feature.hover.{ClientHover, Hover}
 import org.mulesoft.lsp.feature.implementation.{ClientImplementationClientCapabilities, ImplementationClientCapabilities}
 import org.mulesoft.lsp.feature.link._
 import org.mulesoft.lsp.feature.reference._
 import org.mulesoft.lsp.feature.rename._
+import org.mulesoft.lsp.feature.selection.ClientSelectionRange
+import org.mulesoft.lsp.feature.selectionRange.SelectionRange
 import org.mulesoft.lsp.feature.telemetry.{ClientTelemetryClientCapabilities, ClientTelemetryMessage, TelemetryClientCapabilities, TelemetryMessage}
 import org.mulesoft.lsp.feature.typedefinition.{ClientTypeDefinitionClientCapabilities, TypeDefinitionClientCapabilities}
 import org.mulesoft.lsp.textsync._
@@ -20,7 +26,7 @@ import org.mulesoft.lsp.workspace._
 
 import scala.language.implicitConversions
 import scala.scalajs.js
-import scala.scalajs.js.JSConverters._
+import scala.scalajs.js.JSConverters.{JSRichGenIterable, _}
 import scala.scalajs.js.|
 
 object LspConvertersSharedToClient {
@@ -251,6 +257,18 @@ object LspConvertersSharedToClient {
       ClientImplementationClientCapabilities(v)
   }
 
+  implicit class ClientHoverConverter(v: Hover) {
+    def toClient: ClientHover = ClientHover(v)
+  }
+
+  implicit class ClientFoldingRangeConverter(v: FoldingRange) {
+    def toClient: ClientFoldingRange = ClientFoldingRange(v)
+  }
+
+  implicit class ClientFoldingRangesConverter(v: Seq[FoldingRange]) {
+    def toClient: js.Array[ClientFoldingRange] = v.map(ClientFoldingRange(_)).toJSArray
+  }
+
   implicit class ClientTypeDefinitionClientCapabilitiesConverter(v: TypeDefinitionClientCapabilities) {
     def toClient: ClientTypeDefinitionClientCapabilities =
       ClientTypeDefinitionClientCapabilities(v)
@@ -274,6 +292,16 @@ object LspConvertersSharedToClient {
   implicit class ClientDocumentLinkConverter(v: DocumentLink) {
     def toClient: ClientDocumentLink =
       ClientDocumentLink(v)
+  }
+
+  implicit class ClientDocumentHighlightConverter(v: DocumentHighlight) {
+    def toClient: ClientDocumentHighlight =
+      ClientDocumentHighlight(v)
+  }
+
+  implicit class ClientSelectionRangeConverter(v: SelectionRange) {
+    def toClient: ClientSelectionRange =
+      ClientSelectionRange(v)
   }
 
   implicit class ClientReferenceClientCapabilitiesConverter(v: ReferenceClientCapabilities) {
@@ -314,6 +342,19 @@ object LspConvertersSharedToClient {
   implicit class ClientRenameOptionsConverter(v: RenameOptions) {
     def toClient: ClientRenameOptions =
       ClientRenameOptions(v)
+  }
+
+  implicit class ClientPrepareRenameCompleteResultConverter(v: Either[Range, PrepareRenameResult]) {
+    def toClient: ClientRange | ClientPrepareRenameResult =
+      v match {
+        case Right(r) => r.toClient
+        case Left(l) => l.toClient
+      }
+  }
+
+  implicit class ClientPrepareRenameResultConverter(v: PrepareRenameResult) {
+    def toClient: ClientPrepareRenameResult =
+      ClientPrepareRenameResult(v)
   }
 
   implicit class ClientRenameParamsConverter(v: RenameParams) {

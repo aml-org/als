@@ -9,8 +9,7 @@ class DemoTests extends AMLSuggestionsTest {
     this.withDialect(
       "visit04.yaml",
       Set("Pilar", "BA", "SFO", "Chicago", "Palo Alto"),
-      "dialect.yaml",
-      ProfileName("Mark Visit 1.0")
+      "dialect.yaml"
     )
   }
 
@@ -18,8 +17,7 @@ class DemoTests extends AMLSuggestionsTest {
     this.withDialect(
       "empty.yaml",
       Set("#%Mark Visit 1.0"),
-      "dialect.yaml",
-      ProfileName("Mark Visit 1.0")
+      "dialect.yaml"
     )
   }
 }

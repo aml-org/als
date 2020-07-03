@@ -83,7 +83,7 @@ lazy val lsp = crossProject(JSPlatform, JVMPlatform).settings(
   .in(file("./als-lsp"))
   .settings(settings: _*)
   .jvmSettings(
-    libraryDependencies += "org.eclipse.lsp4j" % "org.eclipse.lsp4j" % "0.7.2",
+    libraryDependencies += "org.eclipse.lsp4j" % "org.eclipse.lsp4j" % "0.9.0",
     libraryDependencies += "org.scala-lang.modules" % "scala-java8-compat_2.12" % "0.8.0"
   )
   .jsSettings(
@@ -217,20 +217,7 @@ lazy val nodeClient =  project
     artifactPath in(Test, fastOptJS) := baseDirectory.value / "node-package" / "tmp" / "als-node-client.js",
   )
 /** ALS build tasks */
-
-// Suggestions
-
-val buildSuggestionsJS = TaskKey[Unit]("buildSuggestionsJS", "Build suggestions library")
-
-buildSuggestionsJS := {
-  (fastOptJS in Compile in suggestionsJS).value
-  (fullOptJS in Compile in suggestionsJS).value
-  Process(
-    "./build-package.sh",
-    new File("./als-suggestions/js/node-package/")
-  ) !
-}
-
+  
 // Server library
 
 val buildJsServerLibrary = TaskKey[Unit]("buildJsServerLibrary", "Build server library")

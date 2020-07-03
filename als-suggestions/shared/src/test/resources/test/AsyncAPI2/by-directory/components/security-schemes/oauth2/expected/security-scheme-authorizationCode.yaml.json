@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11scopes",
-    "filterText": "scopes:\n            ",
+    "filterText": "scopes:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +113,7 @@
           "character": 10
         }
       },
-      "newText": "scopes:\n            "
+      "newText": "scopes:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -152,7 +152,7 @@
   {
     "label": "type",
     "kind": [],
-    "detail": "types and traits",
+    "detail": "schemas",
     "documentation": "type",
     "deprecated": [],
     "preselect": [],

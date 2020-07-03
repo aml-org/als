@@ -2,15 +2,15 @@ package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.core.annotations.ErrorDeclaration
 import amf.core.metamodel.domain.ShapeModel
-import amf.plugins.document.vocabularies.ReferenceStyles
+import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.NodeMapping
+import amf.plugins.document.vocabularies.plugin.ReferenceStyles
+import org.mulesoft.als.common.SemanticNamedElement._
+import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
-import org.mulesoft.als.common.SemanticNamedElement._
-import org.mulesoft.als.common.YPartBranch
-import org.yaml.model.{DoubleQuoteMark, NoMark, ScalarMark}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

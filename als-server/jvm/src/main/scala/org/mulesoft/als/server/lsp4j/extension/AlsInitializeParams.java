@@ -1,11 +1,13 @@
 package org.mulesoft.als.server.lsp4j.extension;
 
 import org.eclipse.lsp4j.ClientCapabilities;
+import org.eclipse.lsp4j.FormattingOptions;
 import org.eclipse.lsp4j.InitializeParams;
 
 public class AlsInitializeParams extends InitializeParams {
 
     private AlsClientCapabilities alsClientCapabilities;
+    private AlsConfiguration alsConfiguration;
 
     @Override
     public AlsClientCapabilities getCapabilities() {
@@ -27,5 +29,13 @@ public class AlsInitializeParams extends InitializeParams {
         acp.setWorkspace(capabilities.getWorkspace());
         acp.setExperimental(capabilities.getExperimental());
         alsClientCapabilities = acp;
+    }
+
+    public AlsConfiguration getAlsConfiguration() {
+        return alsConfiguration;
+    }
+
+    public void setAlsConfiguration(AlsConfiguration alsConfiguration) {
+        this.alsConfiguration = alsConfiguration;
     }
 }

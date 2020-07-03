@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11aScheme",
-    "filterText": "\n  - aScheme",
+    "filterText": "\n- aScheme",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 10
         }
       },
-      "newText": "\n  - aScheme"
+      "newText": "\n- aScheme"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

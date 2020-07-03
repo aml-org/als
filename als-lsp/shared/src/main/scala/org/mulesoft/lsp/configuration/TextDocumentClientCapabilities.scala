@@ -5,11 +5,15 @@ import org.mulesoft.lsp.feature.completion.CompletionClientCapabilities
 import org.mulesoft.lsp.feature.definition.DefinitionClientCapabilities
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticClientCapabilities
 import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolClientCapabilities
+import org.mulesoft.lsp.feature.folding.FoldingRangeCapabilities
+import org.mulesoft.lsp.feature.hover.HoverClientCapabilities
+import org.mulesoft.lsp.feature.highlight.DocumentHighlightCapabilities
 import org.mulesoft.lsp.feature.implementation.ImplementationClientCapabilities
 import org.mulesoft.lsp.feature.typedefinition.TypeDefinitionClientCapabilities
 import org.mulesoft.lsp.feature.link.DocumentLinkClientCapabilities
 import org.mulesoft.lsp.feature.reference.ReferenceClientCapabilities
 import org.mulesoft.lsp.feature.rename.RenameClientCapabilities
+import org.mulesoft.lsp.feature.selectionRange.SelectionRangeCapabilities
 import org.mulesoft.lsp.textsync.SynchronizationClientCapabilities
 
 /**
@@ -25,4 +29,8 @@ case class TextDocumentClientCapabilities(synchronization: Option[Synchronizatio
                                           typeDefinition: Option[TypeDefinitionClientCapabilities] = None,
                                           rename: Option[RenameClientCapabilities] = None,
                                           codeActionCapabilities: Option[CodeActionCapabilities] = None,
-                                          documentLink: Option[DocumentLinkClientCapabilities] = None)
+                                          documentLink: Option[DocumentLinkClientCapabilities] = None,
+                                          hover: Option[HoverClientCapabilities] = None,
+                                          documentHighlight: Option[DocumentHighlightCapabilities] = None,
+                                          foldingRange: Option[FoldingRangeCapabilities] = None,
+                                          selectionRange: Option[SelectionRangeCapabilities] = None)

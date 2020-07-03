@@ -7,7 +7,6 @@ import org.eclipse.lsp4j.ExecuteCommandOptions
 import org.mulesoft.als.server.feature.serialization.{SerializationResult, SerializedDocument}
 import org.mulesoft.als.server.protocol.configuration.{AlsInitializeResult, AlsServerCapabilities}
 import org.mulesoft.lsp.Lsp4JConversions._
-import org.mulesoft.lsp.configuration.StaticRegistrationOptions
 
 import scala.collection.JavaConverters._
 import scala.language.implicitConversions
@@ -39,12 +38,17 @@ object AlsJConversions {
 
     result.setImplementationProvider(lsp4JEitherStaticregistrationOptions(capabilities.implementationProvider))
     result.setTypeDefinitionProvider(lsp4JEitherStaticregistrationOptions(capabilities.typeDefinitionProvider))
+    result.setSelectionRangeProvider(lsp4JEitherStaticregistrationOptions(capabilities.selectionRange))
 
+    capabilities.hoverProvider.foreach(h => result.setHoverProvider(h))
     capabilities.documentLinkProvider.foreach(dlp => result.setDocumentLinkProvider(dlp))
 
     result.setExperimental(capabilities.experimental)
     result.setExecuteCommandProvider(new ExecuteCommandOptions(Lists.newArrayList("didFocusChange")))
 
+    capabilities.documentHighlightProvider.foreach(d => result.setDocumentHighlightProvider(d))
+
+    capabilities.fileUsage.foreach(fu => result.setFileUsage(new extension.FileUsageServerOptions(fu.supported)))
     capabilities.cleanDiagnostics.foreach(cd =>
       result.setCleanDiagnosticTree(new extension.CleanDiagnosticTreeServerOptions(cd.supported)))
     capabilities.serialization.foreach(s =>
@@ -56,6 +60,7 @@ object AlsJConversions {
             .map(s => new extension.ConversionConf(s.from, s.to))
             .asJava))
     }
+    capabilities.foldingRangeProvider.foreach(p => result.setFoldingRangeProvider(p))
     result
   }
 

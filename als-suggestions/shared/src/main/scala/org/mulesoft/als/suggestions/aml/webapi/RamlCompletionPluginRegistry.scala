@@ -1,7 +1,9 @@
 package org.mulesoft.als.suggestions.aml.webapi
 
+import amf.core.remote.{Raml10, Vendor}
+import amf.plugins.document.vocabularies.model.document.Dialect
+import org.mulesoft.als.suggestions.AMLBaseCompletionPlugins
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.{ResolveDefault, StructureCompletionPlugin}
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml._
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10._
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10.structure.ResolveShapeAndSecurity
@@ -10,10 +12,10 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.{
   SecuredByCompletionPlugin,
   WebApiKnownValueCompletionPlugin
 }
-import org.mulesoft.als.suggestions.{AMLBaseCompletionPlugins, CompletionsPluginHandler}
-import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10Dialect
+import org.mulesoft.als.suggestions.plugins.aml.{ResolveDefault, StructureCompletionPlugin}
+import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
 
-object RamlCompletionPluginRegistry {
+object RamlCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
 
   private val all: Seq[AMLCompletionPlugin] =
     AMLBaseCompletionPlugins.all :+
@@ -51,6 +53,7 @@ object RamlCompletionPluginRegistry {
       OperationRequest :+
       WebApiKnownValueCompletionPlugin
 
-  def init(): Unit =
-    CompletionsPluginHandler.registerPlugins(all, Raml10Dialect().id)
+  override def plugins: Seq[AMLCompletionPlugin] = all
+
+  override def dialect: Dialect = Raml10TypesDialect()
 }

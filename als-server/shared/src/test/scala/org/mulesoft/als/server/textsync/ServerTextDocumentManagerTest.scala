@@ -1,12 +1,15 @@
 package org.mulesoft.als.server.textsync
 
+import amf.client.remote.Content
+import amf.internal.environment.Environment
+import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.feature.common.TextDocumentIdentifier
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, DocumentSymbolRequestType}
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 
 class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
 
@@ -18,7 +21,10 @@ class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
 
     val factory =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
+    new LanguageServerBuilder(factory.documentManager,
+                              factory.workspaceManager,
+                              factory.configurationManager,
+                              factory.resolutionTaskManager)
       .addRequestModule(factory.structureManager)
       .build()
   }
@@ -89,4 +95,5 @@ class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
         })
     }
   }
+
 }

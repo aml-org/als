@@ -1,11 +1,17 @@
 package org.mulesoft.als.server
 
 import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeRequestType
+import org.mulesoft.als.server.feature.fileusage.FileUsageRequestType
 import org.mulesoft.als.server.feature.serialization.{ConversionRequestType, SerializationResult}
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.client.{AlsLanguageClient, AlsLanguageClientAware}
-import org.mulesoft.als.server.protocol.configuration.{ClientAlsInitializeParams, ClientAlsInitializeResult}
+import org.mulesoft.als.server.protocol.configuration.{
+  ClientAlsFormattingOptions,
+  ClientAlsInitializeParams,
+  ClientAlsInitializeResult,
+  ClientUpdateConfigurationParams
+}
 import org.mulesoft.als.server.protocol.convert.LspConvertersClientToShared._
 import org.mulesoft.als.server.protocol.convert.LspConvertersSharedToClient._
 import org.mulesoft.als.server.protocol.diagnostic.{
@@ -23,27 +29,47 @@ import org.mulesoft.als.vscode.{RequestHandler => ClientRequestHandler, RequestH
 import org.mulesoft.lsp.client.{LspLanguageClient, LspLanguageClientAware}
 import org.mulesoft.lsp.convert.LspConvertersClientToShared._
 import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
+import org.mulesoft.lsp.edit.ClientWorkspaceEdit
 import org.mulesoft.lsp.feature.RequestHandler
-import org.mulesoft.lsp.feature.common.{ClientLocation, ClientLocationLink, ClientTextDocumentPositionParams}
+import org.mulesoft.lsp.feature.common.{
+  ClientLocation,
+  ClientLocationLink,
+  ClientRange,
+  ClientTextDocumentIdentifier,
+  ClientTextDocumentPositionParams
+}
 import org.mulesoft.lsp.feature.completion.{
   ClientCompletionItem,
   ClientCompletionList,
   ClientCompletionParams,
   CompletionRequestType
 }
-import org.mulesoft.lsp.feature.definition.DefinitionRequestType
+import org.mulesoft.lsp.feature.definition.{ClientDefinitionParams, DefinitionRequestType}
 import org.mulesoft.lsp.feature.diagnostic.{ClientPublishDiagnosticsParams, PublishDiagnosticsParams}
+import org.mulesoft.lsp.feature.documenthighlight.{ClientDocumentHighlight, ClientDocumentHighlightParams}
 import org.mulesoft.lsp.feature.documentsymbol.{
   ClientDocumentSymbol,
   ClientDocumentSymbolParams,
   ClientSymbolInformation,
   DocumentSymbolRequestType
 }
-import org.mulesoft.lsp.feature.implementation.ImplementationRequestType
+import org.mulesoft.lsp.feature.folding.{ClientFoldingRange, ClientFoldingRangeParams, FoldingRangeRequestType}
+import org.mulesoft.lsp.feature.hover.{ClientHover, ClientHoverParams, HoverRequestType}
+import org.mulesoft.lsp.feature.highlight.DocumentHighlightRequestType
+import org.mulesoft.lsp.feature.implementation.{ClientImplementationParams, ImplementationRequestType}
 import org.mulesoft.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams, DocumentLinkRequestType}
 import org.mulesoft.lsp.feature.reference.{ClientReferenceParams, ReferenceRequestType}
+import org.mulesoft.lsp.feature.rename.{
+  ClientPrepareRenameParams,
+  ClientPrepareRenameResult,
+  ClientRenameParams,
+  PrepareRenameRequestType,
+  RenameRequestType
+}
+import org.mulesoft.lsp.feature.selection.{ClientSelectionRange, ClientSelectionRangeParams}
+import org.mulesoft.lsp.feature.selectionRange.SelectionRangeRequestType
 import org.mulesoft.lsp.feature.telemetry.{ClientTelemetryMessage, TelemetryMessage}
-import org.mulesoft.lsp.feature.typedefinition.TypeDefinitionRequestType
+import org.mulesoft.lsp.feature.typedefinition.{ClientTypeDefinitionParams, TypeDefinitionRequestType}
 import org.mulesoft.lsp.textsync.{
   ClientDidChangeTextDocumentParams,
   ClientDidCloseTextDocumentParams,
@@ -141,6 +167,14 @@ object ProtocolConnectionBinder {
       DidOpenTextDocumentNotification.`type`,
       onDidOpenHandlerJs.asInstanceOf[NotificationHandler[ClientDidOpenTextDocumentParams]])
 
+    val onUpdateClientConfigurationJs: js.Function2[ClientUpdateConfigurationParams, CancellationToken, Unit] =
+      (param: ClientUpdateConfigurationParams, _: CancellationToken) =>
+        languageServer.updateConfiguration(param.toShared)
+
+    protocolConnection.onNotification(
+      UpdateClientConfigurationNotification.`type`,
+      onUpdateClientConfigurationJs.asInstanceOf[NotificationHandler[ClientUpdateConfigurationParams]])
+
     val onDidCloseHandlerJs: js.Function2[ClientDidCloseTextDocumentParams, CancellationToken, Unit] =
       (param: ClientDidCloseTextDocumentParams, _: CancellationToken) =>
         languageServer.textDocumentSyncConsumer.didClose(param.toShared)
@@ -214,12 +248,44 @@ object ProtocolConnectionBinder {
     )
     // End DocumentLink
 
+    // DocumentHighlight
+    val onDocumentHighlightHandlerJs
+      : js.Function2[ClientDocumentHighlightParams, CancellationToken, Thenable[js.Array[ClientDocumentHighlight]]] =
+      (param: ClientDocumentHighlightParams, _: CancellationToken) =>
+        resolveHandler(DocumentHighlightRequestType)(param.toShared)
+          .map(_.map(_.toClient).toJSArray)
+          .toJSPromise
+          .asInstanceOf[Thenable[js.Array[ClientDocumentHighlight]]]
+
+    protocolConnection.onRequest(
+      DocumentHighlightRequest.`type`,
+      onDocumentHighlightHandlerJs
+        .asInstanceOf[ClientRequestHandler[ClientDocumentHighlightParams, js.Array[ClientDocumentHighlight], js.Any]]
+    )
+    // End DocumentHighlight
+
+    // FindFileUsage
+    val onFindFileUsageHandlerJs
+      : js.Function2[ClientTextDocumentIdentifier, CancellationToken, Thenable[js.Array[ClientLocation]]] =
+      (param: ClientTextDocumentIdentifier, _: CancellationToken) =>
+        resolveHandler(FileUsageRequestType)(param.toShared)
+          .map(_.map(_.toClient).toJSArray)
+          .toJSPromise
+          .asInstanceOf[Thenable[js.Array[ClientLocation]]]
+
+    protocolConnection.onRequest(
+      FileUsageRequest.`type`,
+      onFindFileUsageHandlerJs
+        .asInstanceOf[ClientRequestHandler[ClientTextDocumentIdentifier, js.Array[ClientLocation], js.Any]]
+    )
+    // End FindFileUsage
+
     // Definition
     val onDefinitionHandlerJs
-      : js.Function2[ClientTextDocumentPositionParams,
+      : js.Function2[ClientDefinitionParams,
                      CancellationToken,
                      Thenable[ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]]] =
-      (param: ClientTextDocumentPositionParams, _: CancellationToken) =>
+      (param: ClientDefinitionParams, _: CancellationToken) =>
         resolveHandler(DefinitionRequestType)(param.toShared)
           .map(_.toClient)
           .toJSPromise
@@ -228,7 +294,7 @@ object ProtocolConnectionBinder {
     protocolConnection.onRequest(
       DefinitionRequest.`type`,
       onDefinitionHandlerJs
-        .asInstanceOf[ClientRequestHandler[ClientTextDocumentPositionParams,
+        .asInstanceOf[ClientRequestHandler[ClientDefinitionParams,
                                            ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
                                            js.Any]]
     )
@@ -236,10 +302,10 @@ object ProtocolConnectionBinder {
 
     // Implementation
     val onImplementationHandlerJs
-      : js.Function2[ClientTextDocumentPositionParams,
+      : js.Function2[ClientImplementationParams,
                      CancellationToken,
                      Thenable[ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]]] =
-      (param: ClientTextDocumentPositionParams, _: CancellationToken) =>
+      (param: ClientImplementationParams, _: CancellationToken) =>
         resolveHandler(ImplementationRequestType)(param.toShared)
           .map(_.toClient)
           .toJSPromise
@@ -248,7 +314,7 @@ object ProtocolConnectionBinder {
     protocolConnection.onRequest(
       ImplementationRequest.`type`,
       onImplementationHandlerJs
-        .asInstanceOf[ClientRequestHandler[ClientTextDocumentPositionParams,
+        .asInstanceOf[ClientRequestHandler[ClientImplementationParams,
                                            ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
                                            js.Any]]
     )
@@ -256,10 +322,10 @@ object ProtocolConnectionBinder {
 
     // TypeDefinition
     val onTypeDefinitionHandlerJs
-      : js.Function2[ClientTextDocumentPositionParams,
+      : js.Function2[ClientTypeDefinitionParams,
                      CancellationToken,
                      Thenable[ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]]] =
-      (param: ClientTextDocumentPositionParams, _: CancellationToken) =>
+      (param: ClientTypeDefinitionParams, _: CancellationToken) =>
         resolveHandler(TypeDefinitionRequestType)(param.toShared)
           .map(_.toClient)
           .toJSPromise
@@ -268,7 +334,7 @@ object ProtocolConnectionBinder {
     protocolConnection.onRequest(
       TypeDefinitionRequest.`type`,
       onTypeDefinitionHandlerJs
-        .asInstanceOf[ClientRequestHandler[ClientTextDocumentPositionParams,
+        .asInstanceOf[ClientRequestHandler[ClientTypeDefinitionParams,
                                            ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
                                            js.Any]]
     )
@@ -289,6 +355,84 @@ object ProtocolConnectionBinder {
         .asInstanceOf[ClientRequestHandler[ClientReferenceParams, js.Array[ClientLocation], js.Any]]
     )
     // End References
+
+    // Rename
+    val onRenameHandlerJs: js.Function2[ClientRenameParams, CancellationToken, Thenable[ClientWorkspaceEdit]] =
+      (param: ClientRenameParams, _: CancellationToken) =>
+        resolveHandler(RenameRequestType)(param.toShared)
+          .map(_.toClient)
+          .toJSPromise
+          .asInstanceOf[Thenable[ClientWorkspaceEdit]]
+
+    protocolConnection.onRequest(
+      RenameRequest.`type`,
+      onRenameHandlerJs
+        .asInstanceOf[ClientRequestHandler[ClientRenameParams, ClientWorkspaceEdit, js.Any]]
+    )
+    // End Rename
+
+    // PrepareRename
+    val onPrepareRenameHandlerJs
+      : js.Function2[ClientPrepareRenameParams, CancellationToken, Thenable[ClientRange | ClientPrepareRenameResult]] =
+      (param: ClientPrepareRenameParams, _: CancellationToken) =>
+        resolveHandler(PrepareRenameRequestType)(param.toShared)
+          .map(_.map(_.toClient).orUndefined)
+          .toJSPromise
+          .asInstanceOf[Thenable[ClientRange | ClientPrepareRenameResult]]
+
+    protocolConnection.onRequest(
+      PrepareRenameRequest.`type`,
+      onPrepareRenameHandlerJs
+        .asInstanceOf[ClientRequestHandler[ClientPrepareRenameParams, ClientRange | ClientPrepareRenameResult, js.Any]]
+    )
+    // End PrepareRename
+
+    // Hover
+    val onHoverHandler: js.Function2[ClientHoverParams, CancellationToken, Thenable[ClientHover]] =
+      (param: ClientHoverParams, _: CancellationToken) =>
+        resolveHandler(HoverRequestType)(param.toShared)
+          .map(_.toClient)
+          .toJSPromise
+          .asInstanceOf[Thenable[ClientHover]]
+
+    protocolConnection.onRequest(
+      HoverRequest.`type`,
+      onHoverHandler
+        .asInstanceOf[ClientRequestHandler[ClientHoverParams, ClientHover, js.Any]]
+    )
+    // End Hover
+
+    // FoldingRange
+    val onFoldingRangeHandler
+      : js.Function2[ClientFoldingRangeParams, CancellationToken, Thenable[ClientFoldingRange]] =
+      (param: ClientFoldingRangeParams, _: CancellationToken) =>
+        resolveHandler(FoldingRangeRequestType)(param.toShared)
+          .map(_.toClient)
+          .toJSPromise
+          .asInstanceOf[Thenable[ClientFoldingRange]]
+
+    protocolConnection.onRequest(
+      FoldingRangeRequest.`type`,
+      onFoldingRangeHandler
+        .asInstanceOf[ClientRequestHandler[ClientFoldingRangeParams, ClientFoldingRange, js.Any]]
+    )
+    // End FoldingRange
+
+    // SelectionRange
+    val onSelectionRangeHandler
+      : js.Function2[ClientSelectionRangeParams, CancellationToken, Thenable[ClientSelectionRange]] =
+      (param: ClientSelectionRangeParams, _: CancellationToken) =>
+        resolveHandler(SelectionRangeRequestType)(param.toShared)
+          .map(_.map(_.toClient).toJSArray)
+          .toJSPromise
+          .asInstanceOf[Thenable[ClientSelectionRange]]
+
+    protocolConnection.onRequest(
+      SelectionRangeRequest.`type`,
+      onSelectionRangeHandler
+        .asInstanceOf[ClientRequestHandler[ClientSelectionRangeParams, js.Array[ClientSelectionRange], js.Any]]
+    )
+    // End SelectionRange
 
     // CleanDiagnosticTree
     val onCleanDiagnosticTreeHandlerJs: js.Function2[ClientCleanDiagnosticTreeParams,

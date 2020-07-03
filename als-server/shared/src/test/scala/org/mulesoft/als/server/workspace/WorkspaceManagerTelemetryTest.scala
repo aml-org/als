@@ -48,7 +48,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
         }
       } yield {
         notifier.promises.clear()
-        assert(allTelemetry.count(d => d.messageType == MessageTypes.BEGIN_PARSE.id) == 2)
+        assert(allTelemetry.count(d => d.messageType == MessageTypes.BEGIN_PARSE) == 2)
       }
     }
   }
@@ -81,14 +81,14 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
         s2.right.getOrElse(Nil).length should be(1)
         s1.right.getOrElse(Nil).length should be(0)
         notifier.promises.clear()
-        assert(allTelemetry.count(d => d.messageType == MessageTypes.BEGIN_PARSE.id) == 3)
+        assert(allTelemetry.count(d => d.messageType == MessageTypes.BEGIN_PARSE) == 3)
       }
     }
   }
 
   def buildServer(notifier: MockTelemetryClientNotifier): LanguageServer = {
     val factory = new WorkspaceManagerFactoryBuilder(notifier, logger).buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
+    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.configurationManager, factory.resolutionTaskManager)
       .addRequestModule(factory.structureManager)
       .build()
   }

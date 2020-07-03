@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10schema",
-    "filterText": "schema:\n      ",
+    "filterText": "schema:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +113,7 @@
           "character": 4
         }
       },
-      "newText": "schema:\n      "
+      "newText": "schema:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

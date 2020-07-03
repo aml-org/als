@@ -4,8 +4,8 @@ info:
   version: 2
 
 definitions:
-  User:
-    pr[*]operties:
+  Use[*]r:
+    properties:
       name:
         type: string
 

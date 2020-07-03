@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11discriminator",
-    "filterText": "\"discriminator\": {\n          \"$1\"\n        }",
+    "filterText": "\"discriminator\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -143,7 +143,7 @@
           "character": 11
         }
       },
-      "newText": "\"discriminator\": {\n          \"$1\"\n        }"
+      "newText": "\"discriminator\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11enum",
-    "filterText": "\"enum\": [\n          \"$1\"\n        ]",
+    "filterText": "\"enum\": [\n  \"$1\"\n]",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -173,7 +173,7 @@
           "character": 11
         }
       },
-      "newText": "\"enum\": [\n          \"$1\"\n        ]"
+      "newText": "\"enum\": [\n  \"$1\"\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -217,7 +217,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11externalDocs",
-    "filterText": "\"externalDocs\": {\n          \"$1\"\n        }",
+    "filterText": "\"externalDocs\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -233,7 +233,7 @@
           "character": 11
         }
       },
-      "newText": "\"externalDocs\": {\n          \"$1\"\n        }"
+      "newText": "\"externalDocs\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -247,7 +247,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11items",
-    "filterText": "\"items\": {\n          \"$1\"\n        }",
+    "filterText": "\"items\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -263,7 +263,7 @@
           "character": 11
         }
       },
-      "newText": "\"items\": {\n          \"$1\"\n        }"
+      "newText": "\"items\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -277,7 +277,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11not",
-    "filterText": "\"not\": {\n          \"$1\"\n        }",
+    "filterText": "\"not\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -293,7 +293,7 @@
           "character": 11
         }
       },
-      "newText": "\"not\": {\n          \"$1\"\n        }"
+      "newText": "\"not\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -337,7 +337,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11oneOf",
-    "filterText": "\"oneOf\": {\n          \"$1\"\n        }",
+    "filterText": "\"oneOf\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -353,7 +353,7 @@
           "character": 11
         }
       },
-      "newText": "\"oneOf\": {\n          \"$1\"\n        }"
+      "newText": "\"oneOf\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -367,7 +367,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11properties",
-    "filterText": "\"properties\": {\n          \"$1\"\n        }",
+    "filterText": "\"properties\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -383,7 +383,7 @@
           "character": 11
         }
       },
-      "newText": "\"properties\": {\n          \"$1\"\n        }"
+      "newText": "\"properties\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -482,7 +482,7 @@
   {
     "label": "type",
     "kind": [],
-    "detail": "types and traits",
+    "detail": "schemas",
     "documentation": "type",
     "deprecated": [],
     "preselect": [],
@@ -547,7 +547,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11xml",
-    "filterText": "\"xml\": {\n          \"$1\"\n        }",
+    "filterText": "\"xml\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -563,7 +563,7 @@
           "character": 11
         }
       },
-      "newText": "\"xml\": {\n          \"$1\"\n        }"
+      "newText": "\"xml\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

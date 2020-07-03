@@ -2,8 +2,7 @@ package org.mulesoft.als.server.modules.ast
 
 import org.mulesoft.als.server.modules.workspace.CompilableUnit
 import org.mulesoft.als.server.workspace.UnitAccessor
-import org.mulesoft.amfintegration.{AmfResolvedUnit, DiagnosticsBundle}
-import org.mulesoft.amfmanager.AmfParseResult
+import org.mulesoft.amfintegration.{AmfParseResult, DiagnosticsBundle}
 
 /**
   * AST listener

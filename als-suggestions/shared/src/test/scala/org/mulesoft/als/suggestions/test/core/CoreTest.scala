@@ -4,12 +4,12 @@ import amf.client.remote.Content
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
-import amf.plugins.document.vocabularies.AMLPlugin
+import org.mulesoft.als.common.PlatformDirectoryResolver
+import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
 import org.mulesoft.amfintegration.AmfInstance
-import org.mulesoft.amfmanager.InitOptions
 import org.mulesoft.lsp.feature.completion.CompletionItem
 import org.scalatest.{Assertion, AsyncFunSuite}
 
@@ -26,7 +26,7 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets {
               label: String = "*",
               cutTail: Boolean = false,
               labels: Array[String] = Array("*"),
-              suggestions: Suggestions): Future[Seq[CompletionItem]] = {
+              amfInstance: AmfInstance): Future[Seq[CompletionItem]] = {
 
     val url = filePath(path)
     for {
@@ -37,8 +37,11 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets {
 
         (this.buildEnvironment(url, markerInfo.patchedContent.original, content.mime), markerInfo.position)
       }
-
-      suggestions <- suggestions.suggest(url, position, snippetsSupport = true, None)
+      suggestions <- {
+        new Suggestions(platform, env, AlsConfiguration(), new PlatformDirectoryResolver(platform), amfInstance)
+          .initialized()
+          .suggest(url, position, snippetsSupport = true, None)
+      }
     } yield suggestions
   }
 
@@ -87,16 +90,16 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets {
   def runTestForCustomDialect(path: String, dialectPath: String, originalSuggestions: Set[String]): Future[Assertion] = {
     val p             = filePath(dialectPath)
     val configuration = AmfInstance.default
-    val s             = Suggestions.default
-    s.init(InitOptions.AllProfiles)
-      .flatMap(_ => configuration.parse(p))
-      .flatMap(_ =>
-        suggest(path, suggestions = s).map(suggestions => {
-          AMLPlugin.registry.remove(p)
-          assert(suggestions.map(_.label).size == originalSuggestions.size)
-          assert(suggestions.map(_.label).forall(s => originalSuggestions.contains(s)))
-          assert(originalSuggestions.forall(s => suggestions.map(_.label).contains(s)))
-        }))
+    configuration.init().flatMap { _ =>
+      configuration
+        .parse(p)
+        .flatMap(_ =>
+          suggest(path, amfInstance = configuration).map(suggestions => {
+            assert(suggestions.map(_.label).size == originalSuggestions.size)
+            assert(suggestions.map(_.label).forall(s => originalSuggestions.contains(s)))
+            assert(originalSuggestions.forall(s => suggestions.map(_.label).contains(s)))
+          }))
+    }
   }
 }
 

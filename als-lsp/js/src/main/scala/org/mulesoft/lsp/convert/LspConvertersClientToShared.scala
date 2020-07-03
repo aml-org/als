@@ -23,16 +23,41 @@ import org.mulesoft.lsp.feature.common.{
   VersionedTextDocumentIdentifier
 }
 import org.mulesoft.lsp.feature.completion._
-import org.mulesoft.lsp.feature.definition.{ClientDefinitionClientCapabilities, DefinitionClientCapabilities}
+import org.mulesoft.lsp.feature.definition.{
+  ClientDefinitionClientCapabilities,
+  ClientDefinitionParams,
+  DefinitionClientCapabilities,
+  DefinitionParams
+}
 import org.mulesoft.lsp.feature.diagnostic._
+import org.mulesoft.lsp.feature.documenthighlight.{ClientDocumentHighlightCapabilities, ClientDocumentHighlightParams}
 import org.mulesoft.lsp.feature.documentsymbol._
+import org.mulesoft.lsp.feature.folding.{
+  ClientFoldingRangeCapabilities,
+  ClientFoldingRangeParams,
+  FoldingRangeCapabilities,
+  FoldingRangeParams
+}
+import org.mulesoft.lsp.feature.hover.MarkupKind.MarkupKind
+import org.mulesoft.lsp.feature.hover.{
+  ClientHoverClientCapabilities,
+  ClientHoverParams,
+  HoverClientCapabilities,
+  HoverParams,
+  MarkupKind
+}
+import org.mulesoft.lsp.feature.highlight.{DocumentHighlightCapabilities, DocumentHighlightParams}
 import org.mulesoft.lsp.feature.implementation.{
   ClientImplementationClientCapabilities,
-  ImplementationClientCapabilities
+  ClientImplementationParams,
+  ImplementationClientCapabilities,
+  ImplementationParams
 }
 import org.mulesoft.lsp.feature.link._
 import org.mulesoft.lsp.feature.reference._
 import org.mulesoft.lsp.feature.rename._
+import org.mulesoft.lsp.feature.selection.{ClientSelectionRangeCapabilities, ClientSelectionRangeParams}
+import org.mulesoft.lsp.feature.selectionRange.{SelectionRangeCapabilities, SelectionRangeParams}
 import org.mulesoft.lsp.feature.telemetry.{
   ClientTelemetryClientCapabilities,
   ClientTelemetryMessage,
@@ -41,7 +66,9 @@ import org.mulesoft.lsp.feature.telemetry.{
 }
 import org.mulesoft.lsp.feature.typedefinition.{
   ClientTypeDefinitionClientCapabilities,
-  TypeDefinitionClientCapabilities
+  ClientTypeDefinitionParams,
+  TypeDefinitionClientCapabilities,
+  TypeDefinitionParams
 }
 import org.mulesoft.lsp.textsync.{TextDocumentSyncKind, _}
 import org.mulesoft.lsp.workspace._
@@ -105,6 +132,41 @@ object LspConvertersClientToShared {
   implicit class TextDocumentPositionParamsConverter(v: ClientTextDocumentPositionParams) {
     def toShared: TextDocumentPositionParams =
       TextDocumentPositionParams(v.textDocument.toShared, v.position.toShared)
+  }
+
+  implicit class TypeDefinitionParamsConverter(v: ClientTypeDefinitionParams) {
+    def toShared: TypeDefinitionParams =
+      TypeDefinitionParams(v.textDocument.toShared, v.position.toShared)
+  }
+
+  implicit class HoverClientCapabilitiesConverter(v: ClientHoverClientCapabilities) {
+    def toShared: HoverClientCapabilities =
+      HoverClientCapabilities(v.dynamicRegistration.toOption, v.contentFormat.toSeq.map(c => MarkupKind.withName(c)))
+  }
+
+  implicit class HoverParamsConverter(v: ClientHoverParams) {
+    def toShared: HoverParams =
+      HoverParams(v.textDocument.toShared, v.position.toShared)
+  }
+
+  implicit class FoldingRangeCapabilitiesConverter(v: ClientFoldingRangeCapabilities) {
+    def toShared: FoldingRangeCapabilities =
+      FoldingRangeCapabilities(v.dynamicRegistration.toOption, v.rangeLimit.toOption, v.lineFoldingOnly.toOption)
+  }
+
+  implicit class FoldingRangeParamsConverter(v: ClientFoldingRangeParams) {
+    def toShared: FoldingRangeParams =
+      FoldingRangeParams(v.textDocument.toShared)
+  }
+
+  implicit class DefinitionParamsConverter(v: ClientDefinitionParams) {
+    def toShared: DefinitionParams =
+      DefinitionParams(v.textDocument.toShared, v.position.toShared)
+  }
+
+  implicit class ImplementationParamsConverter(v: ClientImplementationParams) {
+    def toShared: ImplementationParams =
+      ImplementationParams(v.textDocument.toShared, v.position.toShared)
   }
 
   implicit class TextDocumentClientCapabilitiesConverter(v: ClientTextDocumentClientCapabilities) {
@@ -403,6 +465,11 @@ object LspConvertersClientToShared {
       RenameParams(v.textDocument.toShared, v.position.toShared, v.newName)
   }
 
+  implicit class PrepareRenameParamsConverter(v: ClientPrepareRenameParams) {
+    def toShared: PrepareRenameParams =
+      PrepareRenameParams(v.textDocument.toShared, v.position.toShared)
+  }
+
   implicit class TelemetryMessageConverter(v: ClientTelemetryMessage) {
     def toShared: TelemetryMessage =
       TelemetryMessage(v.event, v.messageType, v.message, v.uri, v.time.toLong, v.uuid)
@@ -496,5 +563,26 @@ object LspConvertersClientToShared {
     def toShared: WorkspaceSymbolParams =
       WorkspaceSymbolParams(v.query)
   }
+
+  implicit class DocumentHighlightParamsConverter(v: ClientDocumentHighlightParams) {
+    def toShared: DocumentHighlightParams =
+      DocumentHighlightParams(v.textDocument.toShared, v.position.toShared)
+  }
+
+  implicit class DocumentHighlightCapabilitiesConverter(v: ClientDocumentHighlightCapabilities) {
+    def toShared: DocumentHighlightCapabilities =
+      DocumentHighlightCapabilities(v.dynamicRegistration.toOption)
+  }
+
+  implicit class SelectionRangeParamsConverter(v: ClientSelectionRangeParams) {
+    def toShared: SelectionRangeParams =
+      SelectionRangeParams(v.textDocument.toShared, v.positions.map(_.toShared).toSeq)
+  }
+
+  implicit class SelectionRangeCapabilitiesConverter(v: ClientSelectionRangeCapabilities) {
+    def toShared: SelectionRangeCapabilities =
+      SelectionRangeCapabilities(v.dynamicRegistration.toOption)
+  }
+
   // $COVERAGE-ON
 }

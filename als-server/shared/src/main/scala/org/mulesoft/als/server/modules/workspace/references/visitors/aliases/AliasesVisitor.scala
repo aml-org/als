@@ -5,7 +5,7 @@ import amf.core.model.document.BaseUnit
 import amf.core.model.domain.AmfElement
 import org.mulesoft.als.actions.common.AliasInfo
 import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementVisitorFactory
-import org.mulesoft.amfmanager.AmfImplicits._
+import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.lsp.feature.common.{Location, Position, Range}
 class AliasesVisitor extends AliasesVisitorType {
   private def parserToDtoRange(core: amf.core.parser.Range): Range =

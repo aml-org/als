@@ -2,13 +2,14 @@ package org.mulesoft.als.server.workspace.extract
 
 import amf.core.remote.Platform
 import amf.internal.environment.Environment
-import org.mulesoft.als.common.FileUtils
+import org.mulesoft.als.common.URIImplicits._
+import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.common.io.SyncFile
 import org.yaml.model.{YDocument, YMap, YMapEntry}
 import org.yaml.parser.JsonParser
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 class ExtractFromJsonRoot(content: String) {
 
@@ -32,30 +33,43 @@ object ExchangeConfigReader extends ConfigReader {
 
   override protected def buildConfig(content: String,
                                      path: String,
-                                     platform: Platform): Option[Future[WorkspaceConf]] =
+                                     platform: Platform,
+                                     environment: Environment,
+                                     logger: Logger): Option[Future[WorkspaceConf]] =
     new ExtractFromJsonRoot(content).getMain.map { m =>
-      getSubList(platform.fs.syncFile(path), platform).map { dependencies =>
-        // the encoding should be handled by each config reader plugin? or in general?
-        // How to know if a config file already encoded the main file?
-        WorkspaceConf(path, platform.encodeURI(m), dependencies, Some(this))
+      try {
+        getSubList(platform.fs.syncFile(path), platform, environment).map { dependencies =>
+          // the encoding should be handled by each config reader plugin? or in general?
+          // How to know if a config file already encoded the main file?
+          WorkspaceConf(path, platform.encodeURI(m), dependencies, Some(this))
+        }
+      } catch {
+        case e: Exception =>
+          logger.error(Option(e.getMessage).getOrElse("Error while reading dependencies"),
+                       "ExtractFromJsonRoot",
+                       "buildConfig")
+          Future.successful(WorkspaceConf(path, platform.encodeURI(m), Set.empty, Some(this)))
       }
     }
 
-  private def getSubList(dir: SyncFile, platform: Platform): Future[Set[String]] =
-    if (dir.list != null)
-      findDependencies(dir.list.map(l => platform.fs.syncFile(dir.path + "/" + l)).filter(_.isDirectory), platform)
-    else Future.successful(Set.empty)
+  private def getSubList(dir: SyncFile, platform: Platform, environment: Environment): Future[Set[String]] =
+    if (dir.list != null && dir.list.nonEmpty)
+      findDependencies(dir.list.map(l => platform.fs.syncFile(dir.path + "/" + l)).filter(_.isDirectory),
+                       platform,
+                       environment)
+    else
+      Future.successful(Set.empty)
 
   private def findDependencies(subDirs: Array[SyncFile],
                                platform: Platform,
-                               environment: Environment = Environment()): Future[Set[String]] =
+                               environment: Environment): Future[Set[String]] =
     if (subDirs.nonEmpty) {
       val (dependencies, others) = subDirs.partition(_.list.contains(configFileName))
       val mains: Future[Seq[String]] =
         Future.sequence {
           dependencies.map(
             d =>
-              readFile(FileUtils.getEncodedUri(d.path + "/" + configFileName, platform), platform, environment)
+              readFile((d.path + "/" + configFileName).toAmfUri(platform), platform, environment)
                 .map(_.flatMap { c =>
                   new ExtractFromJsonRoot(c).getMain.map(m => d.path + "/" + m)
                 })) map (_.collect { case Some(c) => c })

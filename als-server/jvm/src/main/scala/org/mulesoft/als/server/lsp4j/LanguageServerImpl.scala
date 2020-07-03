@@ -8,7 +8,12 @@ import org.eclipse.lsp4j.jsonrpc.services.JsonDelegate
 import org.mulesoft.als.server.custom.CustomTextDocumentService
 import org.mulesoft.als.server.lsp4j.AlsJConversions._
 import org.mulesoft.als.server.lsp4j.LspConversions._
-import org.mulesoft.als.server.lsp4j.extension.{AlsInitializeParams, AlsInitializeResult, ExtendedLanguageServer}
+import org.mulesoft.als.server.lsp4j.extension.{
+  AlsInitializeParams,
+  AlsInitializeResult,
+  ExtendedLanguageServer,
+  UpdateConfigurationParams
+}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.lsp.Lsp4JConversions._
 
@@ -35,4 +40,6 @@ class LanguageServerImpl(private val inner: LanguageServer) extends ExtendedLang
   override def getTextDocumentService: CustomTextDocumentService = textDocumentService
 
   override def getWorkspaceService: WorkspaceServiceImpl = workspaceService
+
+  override def updateConfiguration(params: UpdateConfigurationParams): Unit = inner.updateConfiguration(params)
 }

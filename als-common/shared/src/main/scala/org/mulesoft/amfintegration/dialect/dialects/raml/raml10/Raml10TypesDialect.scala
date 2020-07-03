@@ -6,10 +6,42 @@ import amf.core.vocabulary.Namespace
 import amf.core.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdFloat, xsdInteger, xsdString}
 import Raml10DialectNodes.ExampleNode
 import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.{DocumentMapping, NodeMapping, PropertyMapping, PublicNodeMapping}
+import amf.plugins.document.vocabularies.model.domain.{
+  DocumentMapping,
+  NodeMapping,
+  PropertyMapping,
+  PublicNodeMapping
+}
 import amf.plugins.domain.shapes.metamodel._
+import org.mulesoft.amfintegration.dialect.dialects.raml.RamlDialect
 
+// use this dialect until refactor
 object Raml10TypesDialect {
+
+  final val ImplicitField: String = (Namespace.Meta + "implicit").iri()
+
+  // do not use this one
+  private object Raml10Dialect extends RamlDialect {
+
+    override val dialectLocation = "file://vocabularies/dialects/raml10.yaml"
+
+    // Dialect
+    override protected val version: String     = "1.0"
+    override protected lazy val rootId: String = Raml10DialectNodes.RootNode.id
+    override protected lazy val dialectDeclares: Seq[NodeMapping] = Seq(
+      Raml10DialectNodes.ExampleNode,
+      Raml10DialectNodes.DataTypeNode,
+      Raml10DialectNodes.DocumentationNode,
+      Raml10DialectNodes.PayloadNode,
+      Raml10DialectNodes.ResourceTypeNode,
+      Raml10DialectNodes.TraitNode,
+      Raml10DialectNodes.ResponseNode,
+      Raml10DialectNodes.MethodNode,
+      Raml10DialectNodes.ResourceNode,
+      Raml10DialectNodes.RootNode,
+      Raml10DialectNodes.XmlNode
+    )
+  }
 
   val DialectLocation = "file://parallel-als/vocabularies/dialects/raml10.yaml"
 

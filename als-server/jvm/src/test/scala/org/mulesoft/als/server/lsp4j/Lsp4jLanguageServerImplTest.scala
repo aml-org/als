@@ -82,8 +82,8 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
         })
 
     }
-
-    withServer(buildServer()) { s =>
+    val amfInstance = AmfInstance.default
+    withServer(buildServer(amfInstance)) { s =>
       val server       = new LanguageServerImpl(s)
       val mainFilePath = s"file://api.raml"
 
@@ -121,7 +121,9 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
         _ <- executeCommandIndexDialect(server)(mainFilePath, mainContent)
       } yield {
         server.shutdown()
-        assert(AMLPlugin.registry.findDialectForHeader("%Test0.1").isDefined)
+        assert(amfInstance.alsAmlPlugin.registry.findDialectForHeader("%Test0.1").isDefined)
+        assert(AMLPlugin().registry.findDialectForHeader("%Test0.1").isDefined)
+        assert(AMLPlugin.registry.findDialectForHeader("%Test0.1").isEmpty)
 
       }
     }
@@ -154,7 +156,7 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
     class TestWorkspaceManager
         extends WorkspaceManager(
           new EnvironmentProvider with PlatformSecrets {
-            override def environmentSnapshot(): Environment = ???
+            override def environmentSnapshot(): Environment = Environment()
 
             override val amfConfiguration: AmfInstance = AmfInstance.default
           },
@@ -185,13 +187,18 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
 
   }
 
-  def buildServer(): LanguageServer = {
-    val builder  = new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
+  def buildServer(amfInstance: AmfInstance = AmfInstance.default): LanguageServer = {
+    val builder =
+      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).withAmfConfiguration(amfInstance)
+
     val dm       = builder.diagnosticManager()
     val managers = builder.buildWorkspaceManagerFactory()
 
     val b =
-      new LanguageServerBuilder(managers.documentManager, managers.workspaceManager, managers.resolutionTaskManager)
+      new LanguageServerBuilder(managers.documentManager,
+                                managers.workspaceManager,
+                                managers.configurationManager,
+                                managers.resolutionTaskManager)
     dm.foreach(b.addInitializableModule)
     b.build()
   }

@@ -75,7 +75,10 @@ class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
   }
 
   def buildServer(factory: WorkspaceManagerFactory): LanguageServer =
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
+    new LanguageServerBuilder(factory.documentManager,
+                              factory.workspaceManager,
+                              factory.configurationManager,
+                              factory.resolutionTaskManager)
       .addRequestModule(factory.structureManager)
       .build()
 

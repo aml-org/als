@@ -2,20 +2,26 @@ package org.mulesoft.als.suggestions.client
 
 import amf.core.model.document.BaseUnit
 import amf.core.parser.{Position => AmfPosition}
-import amf.core.remote.Platform
+import amf.core.remote.{Aml, AsyncApi, AsyncApi20, Oas, Oas20, Oas30, Platform, Raml, Raml08, Raml10}
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.common.dtoTypes.{Position => DtoPosition}
 import org.mulesoft.als.common.{DirectoryResolver, EnvironmentPatcher, PlatformDirectoryResolver}
+import org.mulesoft.als.configuration.{AlsConfiguration, AlsConfigurationReader}
 import org.mulesoft.als.suggestions._
-import org.mulesoft.als.suggestions.aml.AmlCompletionRequestBuilder
+import org.mulesoft.als.suggestions.aml.{AmlCompletionRequestBuilder, MetaDialectPluginRegistry}
+import org.mulesoft.als.suggestions.aml.webapi.{
+  AsyncApiCompletionPluginRegistry,
+  Oas20CompletionPluginRegistry,
+  Oas30CompletionPluginRegistry,
+  Raml08CompletionPluginRegistry,
+  RamlCompletionPluginRegistry
+}
 import org.mulesoft.als.suggestions.interfaces.Syntax._
 import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, EmptyCompletionProvider, Syntax}
 import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
-import org.mulesoft.amfintegration.AmfInstance
-import org.mulesoft.amfintegration.dialect.DialectKnowledge
-import org.mulesoft.amfmanager.InitOptions
+import org.mulesoft.amfintegration.{AmfInstance, AmfParseResult, InitOptions}
 import org.mulesoft.lsp.feature.completion.CompletionItem
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -23,11 +29,31 @@ import scala.concurrent.Future
 
 class Suggestions(platform: Platform,
                   environment: Environment,
+                  configuration: AlsConfigurationReader,
                   directoryResolver: DirectoryResolver,
                   amfInstance: AmfInstance)
     extends SuggestionsHelper {
-  def init(options: InitOptions = InitOptions.WebApiProfiles): Future[Unit] =
-    Core.init(options, amfInstance)
+
+  // header plugin static?
+  val completionsPluginHandler = new CompletionsPluginHandler()
+
+  def initialized(options: InitOptions = InitOptions.AllProfiles): this.type = {
+    completionsPluginHandler.cleanIndex()
+    HeaderBaseCompletionPlugins.initAll() // TODO: inside OAS CPR?
+    if (options.contains(Oas30) || options.contains(Oas))
+      Oas30CompletionPluginRegistry.init(amfInstance, completionsPluginHandler)
+    if (options.contains(Oas20) || options.contains(Oas))
+      Oas20CompletionPluginRegistry.init(amfInstance, completionsPluginHandler)
+    if (options.contains(Raml10) || options.contains(Raml))
+      RamlCompletionPluginRegistry.init(amfInstance, completionsPluginHandler)
+    if (options.contains(Raml08) || options.contains(Raml))
+      Raml08CompletionPluginRegistry.init(amfInstance, completionsPluginHandler)
+    if (options.contains(AsyncApi20) || options.contains(AsyncApi))
+      AsyncApiCompletionPluginRegistry.init(amfInstance, completionsPluginHandler)
+    if (options.contains(Aml)) MetaDialectPluginRegistry.init(amfInstance, completionsPluginHandler)
+
+    this
+  }
 
   def suggest(url: String,
               position: Int,
@@ -48,15 +74,15 @@ class Suggestions(platform: Platform,
       }
   }
 
-  def buildProvider(bu: BaseUnit,
+  def buildProvider(result: AmfParseResult,
                     position: Int,
                     url: String,
                     patchedContent: PatchedContent,
                     snippetSupport: Boolean,
                     rootLocation: Option[String]): CompletionProvider = {
-    DialectKnowledge.dialectFor(bu) match {
+    result.definedBy match {
       case Some(d) =>
-        buildCompletionProviderAST(bu,
+        buildCompletionProviderAST(result.baseUnit,
                                    d,
                                    DtoPosition(position, patchedContent.original),
                                    patchedContent,
@@ -65,7 +91,7 @@ class Suggestions(platform: Platform,
       case _ if isHeader(position, patchedContent.original) =>
         if (!url.toLowerCase().endsWith(".raml"))
           HeaderCompletionProviderBuilder
-            .build(url, patchedContent.original, DtoPosition(position, patchedContent.original))
+            .build(url, patchedContent.original, DtoPosition(position, patchedContent.original), amfInstance)
         else
           RamlHeaderCompletionProvider
             .build(url, patchedContent.original, DtoPosition(position, patchedContent.original))
@@ -73,7 +99,7 @@ class Suggestions(platform: Platform,
     }
   }
 
-  def buildProviderAsync(unitFuture: Future[BaseUnit],
+  def buildProviderAsync(unitFuture: Future[AmfParseResult],
                          position: Int,
                          url: String,
                          patchedContent: PatchedContent,
@@ -96,7 +122,7 @@ class Suggestions(platform: Platform,
                                             snippetsSupport: Boolean,
                                             rootLocation: Option[String]): Future[Seq[CompletionItem]] = {
 
-    buildProviderAsync(amfInstance.parserHelper.parse(url, environment).map(_.baseUnit),
+    buildProviderAsync(amfInstance.modelBuilder().parse(url, environment),
                        position,
                        url,
                        patchedContent,
@@ -123,18 +149,21 @@ class Suggestions(platform: Platform,
                platform,
                patchedContent,
                snippetSupport,
-               rootLocation))
+               rootLocation,
+               configuration,
+                completionsPluginHandler))
   }
 }
 
 object Suggestions extends PlatformSecrets {
-  val default = new Suggestions(platform, Environment(), new PlatformDirectoryResolver(platform), AmfInstance.default)
+  def default = new Suggestions(platform, Environment(), AlsConfiguration(),
+    new PlatformDirectoryResolver(platform), AmfInstance.default)
 }
 
 trait SuggestionsHelper {
 
   def amfParse(url: String, amfInstance: AmfInstance, environment: Environment): Future[BaseUnit] =
-    amfInstance.parserHelper.parse(url, environment).map(_.baseUnit)
+    amfInstance.modelBuilder().parse(url, environment).map(_.baseUnit)
 
   def getMediaType(originalContent: String): Syntax = {
 

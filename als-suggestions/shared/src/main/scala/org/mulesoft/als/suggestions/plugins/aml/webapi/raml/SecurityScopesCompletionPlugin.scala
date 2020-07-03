@@ -22,13 +22,15 @@ object SecurityScopesCompletionPlugin extends AMLCompletionPlugin {
           val scopes = array.values.collect({ case s: Scope => s.name.option() }).flatten
           getParametrizedScopes(request.branchStack)
             .filter(s => !scopes.contains(s))
-            .map(
-              t =>
-                RawSuggestion(t,
-                              isAKey = false,
-                              category = CategoryRegistry(OAuth2FlowModel.`type`.head.iri(),
-                                                          OAuth2FlowModel.Scopes.value.iri()),
-                              mandatory = false))
+            .map(t =>
+              RawSuggestion(
+                t,
+                isAKey = false,
+                category = CategoryRegistry(OAuth2FlowModel.`type`.head.iri(),
+                                            OAuth2FlowModel.Scopes.value.iri(),
+                                            request.actualDialect.id),
+                mandatory = false
+            ))
         case _ => Nil
 
       }

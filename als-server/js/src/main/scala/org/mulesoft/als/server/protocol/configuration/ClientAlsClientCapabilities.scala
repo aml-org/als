@@ -20,6 +20,8 @@ trait ClientAlsClientCapabilities extends js.Object {
 
   def cleanDiagnosticTree: js.UndefOr[ClientCleanDiagnosticTreeClientCapabilities] = js.native
 
+  def fileUsage: js.UndefOr[ClientFileUsageClientCapabilities] = js.native
+
   def conversion: js.UndefOr[ClientConversionClientCapabilities] = js.native
 }
 

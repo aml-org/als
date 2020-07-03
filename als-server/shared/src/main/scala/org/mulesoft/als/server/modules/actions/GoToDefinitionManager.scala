@@ -1,7 +1,5 @@
 package org.mulesoft.als.server.modules.actions
 
-import java.util.UUID
-
 import amf.core.remote.Platform
 import org.mulesoft.als.actions.common.dialect.DialectDefinitions
 import org.mulesoft.als.actions.definition.FindDefinition
@@ -11,10 +9,16 @@ import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.ConfigType
-import org.mulesoft.lsp.feature.RequestHandler
-import org.mulesoft.lsp.feature.common.{Location, LocationLink, TextDocumentPositionParams}
-import org.mulesoft.lsp.feature.definition.{DefinitionClientCapabilities, DefinitionConfigType, DefinitionRequestType}
-import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
+import org.mulesoft.lsp.feature.TelemeteredRequestHandler
+import org.mulesoft.lsp.feature.common.{Location, LocationLink}
+import org.mulesoft.lsp.feature.definition.{
+  DefinitionClientCapabilities,
+  DefinitionConfigType,
+  DefinitionParams,
+  DefinitionRequestType
+}
+import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
+import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -30,20 +34,34 @@ class GoToDefinitionManager(val workspace: WorkspaceManager,
   override val `type`: ConfigType[DefinitionClientCapabilities, Unit] =
     DefinitionConfigType
 
-  override val getRequestHandlers: Seq[RequestHandler[_, _]] = Seq(
-    new RequestHandler[TextDocumentPositionParams, Either[Seq[Location], Seq[LocationLink]]] {
+  override val getRequestHandlers: Seq[TelemeteredRequestHandler[_, _]] = Seq(
+    new TelemeteredRequestHandler[DefinitionParams, Either[Seq[Location], Seq[LocationLink]]] {
       override def `type`: DefinitionRequestType.type = DefinitionRequestType
 
-      override def apply(params: TextDocumentPositionParams): Future[Either[Seq[Location], Seq[LocationLink]]] =
-        goToDefinition(params.textDocument.uri, LspRangeConverter.toPosition(params.position))
+      override def task(params: DefinitionParams): Future[Either[Seq[Location], Seq[LocationLink]]] =
+        goToDefinition(params.textDocument.uri, LspRangeConverter.toPosition(params.position), uuid(params))
+
+      override protected def telemetry: TelemetryProvider = telemetryProvider
+
+      override protected def code(params: DefinitionParams): String = "GotoDefinitionManager"
+
+      override protected def beginType(params: DefinitionParams): MessageTypes = MessageTypes.BEGIN_GOTO_DEF
+
+      override protected def endType(params: DefinitionParams): MessageTypes = MessageTypes.END_GOTO_DEF
+
+      override protected def msg(params: DefinitionParams): String =
+        s"Request for go to definition on ${params.textDocument.uri}"
+
+      override protected def uri(params: DefinitionParams): String = params.textDocument.uri
     }
   )
 
   override def applyConfig(config: Option[DefinitionClientCapabilities]): Unit =
     conf = config
 
-  def goToDefinition(uri: String, position: Position): Future[Either[Seq[Location], Seq[LocationLink]]] = {
-    val uuid = UUID.randomUUID().toString
+  private def goToDefinition(uri: String,
+                             position: Position,
+                             uuid: String): Future[Either[Seq[Location], Seq[LocationLink]]] =
     for {
       workspaceDefinitions <- FindDefinition
         .getDefinition(uri,
@@ -57,7 +75,6 @@ class GoToDefinitionManager(val workspace: WorkspaceManager,
     } yield {
       Right(workspaceDefinitions ++ dialectDefinitions)
     }
-  }
 
   override def initialize(): Future[Unit] = Future.successful()
 

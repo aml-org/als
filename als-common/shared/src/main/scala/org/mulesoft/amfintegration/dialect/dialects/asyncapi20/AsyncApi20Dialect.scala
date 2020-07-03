@@ -1,22 +1,15 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20
 
-import amf.plugins.document.vocabularies.ReferenceStyles
 import amf.plugins.document.vocabularies.model.domain.DocumentsModel
+import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import org.mulesoft.amfintegration.dialect.BaseDialect
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings._
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema._
-import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{
-  AMLContactObject,
-  AMLExternalDocumentationObject,
-  AMLInfoObject,
-  AMLLicenseObject,
-  AMLTagObject,
-  DialectNode
-}
-import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10Dialect
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes._
+import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
 
 object AsyncApi20Dialect extends BaseDialect {
-  private val _                        = Raml10Dialect().id // hack for ExampleNode.id
+  private val _                        = Raml10TypesDialect().id // hack for ExampleNode.id
   override def DialectLocation: String = "file://vocabularies/dialects/asyncapi20.yaml"
 
   override val declares: Seq[DialectNode] = Seq(

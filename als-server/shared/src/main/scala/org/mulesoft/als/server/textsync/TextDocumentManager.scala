@@ -1,10 +1,12 @@
 package org.mulesoft.als.server.textsync
 
+import amf.core.remote.Platform
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.protocol.textsync.{AlsTextDocumentSyncConsumer, DidFocusParams}
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 import org.mulesoft.lsp.textsync._
+import org.mulesoft.als.common.URIImplicits._
 
 import scala.concurrent.Future
 import scala.language.experimental.macros
@@ -13,6 +15,8 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
                           val dependencies: List[TextListener],
                           private val logger: Logger)
     extends AlsTextDocumentSyncConsumer {
+
+  implicit private val platform: Platform = this.uriToEditor.platform
 
   override val `type`: TextDocumentSyncConfigType.type =
     TextDocumentSyncConfigType
@@ -75,30 +79,30 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
     dependencies.foreach(_.notify(uri, CLOSE_FILE))
   }
 
-  def onChangePosition(uri: String, position: Int): Unit = uriToEditor.get(uri).foreach(_.setCursorPosition(position))
+//  def onChangePosition(uri: String, position: Int): Unit = uriToEditor.get(uri).foreach(_.setCursorPosition(position))
 
   def determineSyntax(url: String, text: String): String =
     if (text.trim.startsWith("{")) "JSON" else "YAML"
 
   override def didOpen(params: DidOpenTextDocumentParams): Unit =
-    onOpenDocument(OpenedDocument(params.textDocument.uri, params.textDocument.version, params.textDocument.text))
+    onOpenDocument(
+      OpenedDocument(params.textDocument.uri.toAmfUri, params.textDocument.version, params.textDocument.text))
 
   override def didChange(params: DidChangeTextDocumentParams): Unit = {
     val document = params.textDocument
     val version  = document.version.getOrElse(0)
     val text     = params.contentChanges.headOption.map(_.text)
 
-    documentWasChanged(ChangedDocument(document.uri, version, text, None))
+    documentWasChanged(ChangedDocument(document.uri.toAmfUri, version, text, None))
   }
 
   override def didClose(params: DidCloseTextDocumentParams): Unit =
-    onCloseDocument(params.textDocument.uri)
+    onCloseDocument(params.textDocument.uri.toAmfUri)
 
   override def didFocus(params: DidFocusParams): Unit =
     uriToEditor
-      .get(params.uri)
-      .foreach(
-        _ =>
-          dependencies
-            .foreach(_.notify(params.uri, FOCUS_FILE)))
+      .get(params.uri.toAmfUri)
+      .foreach(_ =>
+        dependencies
+          .foreach(_.notify(params.uri, FOCUS_FILE)))
 }

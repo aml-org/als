@@ -28,7 +28,7 @@ object Raml08TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin
           if isWritingFacet(params.yPartBranch, shape, params.branchStack) &&
             !isWritingKEYMediaType(params) &&
             !insideMediaType(params) =>
-        resolveShape(shape, params.branchStack)
+        resolveShape(shape, params.branchStack, params.actualDialect)
       case shape: Shape
           if isWritingFacet(params.yPartBranch, shape, params.branchStack) &&
             !isWritingKEYMediaType(params) => {

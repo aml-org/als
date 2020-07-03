@@ -1,17 +1,26 @@
 package org.mulesoft.als.vscode
 
 import org.mulesoft.als.server.protocol.configuration.{ClientAlsInitializeParams, ClientAlsInitializeResult}
-import org.mulesoft.lsp.feature.common.{ClientLocation, ClientLocationLink, ClientTextDocumentPositionParams}
+import org.mulesoft.lsp.edit.ClientWorkspaceEdit
+import org.mulesoft.lsp.feature.common.{ClientLocation, ClientLocationLink, ClientRange}
 import org.mulesoft.lsp.feature.completion.{ClientCompletionItem, ClientCompletionList, ClientCompletionParams}
+import org.mulesoft.lsp.feature.definition.ClientDefinitionParams
 import org.mulesoft.lsp.feature.diagnostic.ClientPublishDiagnosticsParams
+import org.mulesoft.lsp.feature.documenthighlight.{ClientDocumentHighlight, ClientDocumentHighlightParams}
 import org.mulesoft.lsp.feature.documentsymbol.{
   ClientDocumentSymbol,
   ClientDocumentSymbolParams,
   ClientSymbolInformation
 }
+import org.mulesoft.lsp.feature.folding.{ClientFoldingRange, ClientFoldingRangeParams}
+import org.mulesoft.lsp.feature.hover.{ClientHover, ClientHoverParams}
+import org.mulesoft.lsp.feature.implementation.ClientImplementationParams
 import org.mulesoft.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams}
 import org.mulesoft.lsp.feature.reference.ClientReferenceParams
+import org.mulesoft.lsp.feature.rename.{ClientPrepareRenameParams, ClientPrepareRenameResult, ClientRenameParams}
+import org.mulesoft.lsp.feature.selection.{ClientSelectionRange, ClientSelectionRangeParams}
 import org.mulesoft.lsp.feature.telemetry.ClientTelemetryMessage
+import org.mulesoft.lsp.feature.typedefinition.ClientTypeDefinitionParams
 import org.mulesoft.lsp.textsync.{
   ClientDidChangeTextDocumentParams,
   ClientDidCloseTextDocumentParams,
@@ -258,9 +267,15 @@ object DocumentLinkRequest extends js.Object {
 }
 
 @js.native
+@JSImport("vscode-languageserver-protocol", "DocumentHighlightRequest")
+object DocumentHighlightRequest extends js.Object {
+  val `type`: RequestType[ClientDocumentHighlightParams, js.Array[ClientDocumentHighlight], js.Any, js.Any] = js.native
+}
+
+@js.native
 @JSImport("vscode-languageserver-protocol", "DefinitionRequest")
 object DefinitionRequest extends js.Object {
-  val `type`: RequestType[ClientTextDocumentPositionParams,
+  val `type`: RequestType[ClientDefinitionParams,
                           ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
                           js.Any,
                           js.Any] = js.native
@@ -269,7 +284,7 @@ object DefinitionRequest extends js.Object {
 @js.native
 @JSImport("vscode-languageserver-protocol", "ImplementationRequest")
 object ImplementationRequest extends js.Object {
-  val `type`: RequestType[ClientTextDocumentPositionParams,
+  val `type`: RequestType[ClientImplementationParams,
                           ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
                           js.Any,
                           js.Any] = js.native
@@ -278,7 +293,7 @@ object ImplementationRequest extends js.Object {
 @js.native
 @JSImport("vscode-languageserver-protocol", "TypeDefinitionRequest")
 object TypeDefinitionRequest extends js.Object {
-  val `type`: RequestType[ClientTextDocumentPositionParams,
+  val `type`: RequestType[ClientTypeDefinitionParams,
                           ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
                           js.Any,
                           js.Any] = js.native
@@ -288,6 +303,37 @@ object TypeDefinitionRequest extends js.Object {
 @JSImport("vscode-languageserver-protocol", "ReferencesRequest")
 object ReferencesRequest extends js.Object {
   val `type`: RequestType[ClientReferenceParams, js.Array[ClientLocation], js.Any, js.Any] = js.native
+}
+
+@js.native
+@JSImport("vscode-languageserver-protocol", "HoverRequest")
+object HoverRequest extends js.Object {
+  val `type`: RequestType[ClientHoverParams, ClientHover, js.Any, js.Any] = js.native
+}
+
+@js.native
+@JSImport("vscode-languageserver-protocol", "FoldingRangeRequest")
+object FoldingRangeRequest extends js.Object {
+  val `type`: RequestType[ClientFoldingRangeParams, ClientFoldingRange, js.Any, js.Any] = js.native
+}
+
+@js.native
+@JSImport("vscode-languageserver-protocol", "SelectionRangeRequest")
+object SelectionRangeRequest extends js.Object {
+  val `type`: RequestType[ClientSelectionRangeParams, js.Array[ClientSelectionRange], js.Any, js.Any] = js.native
+}
+
+@js.native
+@JSImport("vscode-languageserver-protocol", "RenameRequest")
+object RenameRequest extends js.Object {
+  val `type`: RequestType[ClientRenameParams, ClientWorkspaceEdit, js.Any, js.Any] = js.native
+}
+
+@js.native
+@JSImport("vscode-languageserver-protocol", "PrepareRenameRequest")
+object PrepareRenameRequest extends js.Object {
+  val `type`: RequestType[ClientPrepareRenameParams, ClientRange | ClientPrepareRenameResult, js.Any, js.Any] =
+    js.native
 }
 
 @js.native

@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11100",
-    "filterText": "\"100\": {\n            \"$1\"\n          }",
+    "filterText": "\"100\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -23,7 +23,7 @@
           "character": 13
         }
       },
-      "newText": "\"100\": {\n            \"$1\"\n          }"
+      "newText": "\"100\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11101",
-    "filterText": "\"101\": {\n            \"$1\"\n          }",
+    "filterText": "\"101\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -53,7 +53,7 @@
           "character": 13
         }
       },
-      "newText": "\"101\": {\n            \"$1\"\n          }"
+      "newText": "\"101\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11102",
-    "filterText": "\"102\": {\n            \"$1\"\n          }",
+    "filterText": "\"102\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -83,7 +83,37 @@
           "character": 13
         }
       },
-      "newText": "\"102\": {\n            \"$1\"\n          }"
+      "newText": "\"102\": {\n  \"$1\"\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "1xx",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "1xx",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "111xx",
+    "filterText": "\"1xx\": {\n  \"$1\"\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 10
+        },
+        "end": {
+          "line": 6,
+          "character": 13
+        }
+      },
+      "newText": "\"1xx\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11200",
-    "filterText": "\"200\": {\n            \"$1\"\n          }",
+    "filterText": "\"200\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -113,7 +143,7 @@
           "character": 13
         }
       },
-      "newText": "\"200\": {\n            \"$1\"\n          }"
+      "newText": "\"200\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -127,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11201",
-    "filterText": "\"201\": {\n            \"$1\"\n          }",
+    "filterText": "\"201\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -143,7 +173,7 @@
           "character": 13
         }
       },
-      "newText": "\"201\": {\n            \"$1\"\n          }"
+      "newText": "\"201\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -157,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11202",
-    "filterText": "\"202\": {\n            \"$1\"\n          }",
+    "filterText": "\"202\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -173,7 +203,7 @@
           "character": 13
         }
       },
-      "newText": "\"202\": {\n            \"$1\"\n          }"
+      "newText": "\"202\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -187,7 +217,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11203",
-    "filterText": "\"203\": {\n            \"$1\"\n          }",
+    "filterText": "\"203\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -203,7 +233,7 @@
           "character": 13
         }
       },
-      "newText": "\"203\": {\n            \"$1\"\n          }"
+      "newText": "\"203\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -217,7 +247,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11204",
-    "filterText": "\"204\": {\n            \"$1\"\n          }",
+    "filterText": "\"204\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -233,7 +263,7 @@
           "character": 13
         }
       },
-      "newText": "\"204\": {\n            \"$1\"\n          }"
+      "newText": "\"204\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -247,7 +277,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11205",
-    "filterText": "\"205\": {\n            \"$1\"\n          }",
+    "filterText": "\"205\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -263,7 +293,7 @@
           "character": 13
         }
       },
-      "newText": "\"205\": {\n            \"$1\"\n          }"
+      "newText": "\"205\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -277,7 +307,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11206",
-    "filterText": "\"206\": {\n            \"$1\"\n          }",
+    "filterText": "\"206\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -293,7 +323,7 @@
           "character": 13
         }
       },
-      "newText": "\"206\": {\n            \"$1\"\n          }"
+      "newText": "\"206\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -307,7 +337,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11207",
-    "filterText": "\"207\": {\n            \"$1\"\n          }",
+    "filterText": "\"207\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -323,7 +353,7 @@
           "character": 13
         }
       },
-      "newText": "\"207\": {\n            \"$1\"\n          }"
+      "newText": "\"207\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -337,7 +367,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11208",
-    "filterText": "\"208\": {\n            \"$1\"\n          }",
+    "filterText": "\"208\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -353,7 +383,7 @@
           "character": 13
         }
       },
-      "newText": "\"208\": {\n            \"$1\"\n          }"
+      "newText": "\"208\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -367,7 +397,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11226",
-    "filterText": "\"226\": {\n            \"$1\"\n          }",
+    "filterText": "\"226\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -383,7 +413,37 @@
           "character": 13
         }
       },
-      "newText": "\"226\": {\n            \"$1\"\n          }"
+      "newText": "\"226\": {\n  \"$1\"\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "2xx",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "2xx",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "112xx",
+    "filterText": "\"2xx\": {\n  \"$1\"\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 10
+        },
+        "end": {
+          "line": 6,
+          "character": 13
+        }
+      },
+      "newText": "\"2xx\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -397,7 +457,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11300",
-    "filterText": "\"300\": {\n            \"$1\"\n          }",
+    "filterText": "\"300\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -413,7 +473,7 @@
           "character": 13
         }
       },
-      "newText": "\"300\": {\n            \"$1\"\n          }"
+      "newText": "\"300\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -427,7 +487,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11301",
-    "filterText": "\"301\": {\n            \"$1\"\n          }",
+    "filterText": "\"301\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -443,7 +503,7 @@
           "character": 13
         }
       },
-      "newText": "\"301\": {\n            \"$1\"\n          }"
+      "newText": "\"301\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -457,7 +517,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11302",
-    "filterText": "\"302\": {\n            \"$1\"\n          }",
+    "filterText": "\"302\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -473,7 +533,7 @@
           "character": 13
         }
       },
-      "newText": "\"302\": {\n            \"$1\"\n          }"
+      "newText": "\"302\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -487,7 +547,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11303",
-    "filterText": "\"303\": {\n            \"$1\"\n          }",
+    "filterText": "\"303\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -503,7 +563,7 @@
           "character": 13
         }
       },
-      "newText": "\"303\": {\n            \"$1\"\n          }"
+      "newText": "\"303\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -517,7 +577,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11304",
-    "filterText": "\"304\": {\n            \"$1\"\n          }",
+    "filterText": "\"304\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -533,7 +593,7 @@
           "character": 13
         }
       },
-      "newText": "\"304\": {\n            \"$1\"\n          }"
+      "newText": "\"304\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -547,7 +607,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11305",
-    "filterText": "\"305\": {\n            \"$1\"\n          }",
+    "filterText": "\"305\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -563,7 +623,7 @@
           "character": 13
         }
       },
-      "newText": "\"305\": {\n            \"$1\"\n          }"
+      "newText": "\"305\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -577,7 +637,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11306",
-    "filterText": "\"306\": {\n            \"$1\"\n          }",
+    "filterText": "\"306\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -593,7 +653,7 @@
           "character": 13
         }
       },
-      "newText": "\"306\": {\n            \"$1\"\n          }"
+      "newText": "\"306\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -607,7 +667,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11307",
-    "filterText": "\"307\": {\n            \"$1\"\n          }",
+    "filterText": "\"307\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -623,7 +683,7 @@
           "character": 13
         }
       },
-      "newText": "\"307\": {\n            \"$1\"\n          }"
+      "newText": "\"307\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -637,7 +697,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11308",
-    "filterText": "\"308\": {\n            \"$1\"\n          }",
+    "filterText": "\"308\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -653,7 +713,37 @@
           "character": 13
         }
       },
-      "newText": "\"308\": {\n            \"$1\"\n          }"
+      "newText": "\"308\": {\n  \"$1\"\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "3xx",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "3xx",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "113xx",
+    "filterText": "\"3xx\": {\n  \"$1\"\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 10
+        },
+        "end": {
+          "line": 6,
+          "character": 13
+        }
+      },
+      "newText": "\"3xx\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -667,7 +757,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11400",
-    "filterText": "\"400\": {\n            \"$1\"\n          }",
+    "filterText": "\"400\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -683,7 +773,7 @@
           "character": 13
         }
       },
-      "newText": "\"400\": {\n            \"$1\"\n          }"
+      "newText": "\"400\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -697,7 +787,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11401",
-    "filterText": "\"401\": {\n            \"$1\"\n          }",
+    "filterText": "\"401\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -713,7 +803,7 @@
           "character": 13
         }
       },
-      "newText": "\"401\": {\n            \"$1\"\n          }"
+      "newText": "\"401\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -727,7 +817,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11402",
-    "filterText": "\"402\": {\n            \"$1\"\n          }",
+    "filterText": "\"402\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -743,7 +833,7 @@
           "character": 13
         }
       },
-      "newText": "\"402\": {\n            \"$1\"\n          }"
+      "newText": "\"402\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -757,7 +847,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11403",
-    "filterText": "\"403\": {\n            \"$1\"\n          }",
+    "filterText": "\"403\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -773,7 +863,7 @@
           "character": 13
         }
       },
-      "newText": "\"403\": {\n            \"$1\"\n          }"
+      "newText": "\"403\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -787,7 +877,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11404",
-    "filterText": "\"404\": {\n            \"$1\"\n          }",
+    "filterText": "\"404\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -803,7 +893,7 @@
           "character": 13
         }
       },
-      "newText": "\"404\": {\n            \"$1\"\n          }"
+      "newText": "\"404\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -817,7 +907,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11405",
-    "filterText": "\"405\": {\n            \"$1\"\n          }",
+    "filterText": "\"405\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -833,7 +923,7 @@
           "character": 13
         }
       },
-      "newText": "\"405\": {\n            \"$1\"\n          }"
+      "newText": "\"405\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -847,7 +937,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11406",
-    "filterText": "\"406\": {\n            \"$1\"\n          }",
+    "filterText": "\"406\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -863,7 +953,7 @@
           "character": 13
         }
       },
-      "newText": "\"406\": {\n            \"$1\"\n          }"
+      "newText": "\"406\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -877,7 +967,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11407",
-    "filterText": "\"407\": {\n            \"$1\"\n          }",
+    "filterText": "\"407\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -893,7 +983,7 @@
           "character": 13
         }
       },
-      "newText": "\"407\": {\n            \"$1\"\n          }"
+      "newText": "\"407\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -907,7 +997,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11408",
-    "filterText": "\"408\": {\n            \"$1\"\n          }",
+    "filterText": "\"408\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -923,7 +1013,7 @@
           "character": 13
         }
       },
-      "newText": "\"408\": {\n            \"$1\"\n          }"
+      "newText": "\"408\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -937,7 +1027,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11409",
-    "filterText": "\"409\": {\n            \"$1\"\n          }",
+    "filterText": "\"409\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -953,7 +1043,7 @@
           "character": 13
         }
       },
-      "newText": "\"409\": {\n            \"$1\"\n          }"
+      "newText": "\"409\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -967,7 +1057,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11410",
-    "filterText": "\"410\": {\n            \"$1\"\n          }",
+    "filterText": "\"410\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -983,7 +1073,7 @@
           "character": 13
         }
       },
-      "newText": "\"410\": {\n            \"$1\"\n          }"
+      "newText": "\"410\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -997,7 +1087,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11411",
-    "filterText": "\"411\": {\n            \"$1\"\n          }",
+    "filterText": "\"411\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1013,7 +1103,7 @@
           "character": 13
         }
       },
-      "newText": "\"411\": {\n            \"$1\"\n          }"
+      "newText": "\"411\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1027,7 +1117,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11412",
-    "filterText": "\"412\": {\n            \"$1\"\n          }",
+    "filterText": "\"412\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1043,7 +1133,7 @@
           "character": 13
         }
       },
-      "newText": "\"412\": {\n            \"$1\"\n          }"
+      "newText": "\"412\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1057,7 +1147,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11413",
-    "filterText": "\"413\": {\n            \"$1\"\n          }",
+    "filterText": "\"413\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1073,7 +1163,7 @@
           "character": 13
         }
       },
-      "newText": "\"413\": {\n            \"$1\"\n          }"
+      "newText": "\"413\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1087,7 +1177,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11414",
-    "filterText": "\"414\": {\n            \"$1\"\n          }",
+    "filterText": "\"414\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1103,7 +1193,7 @@
           "character": 13
         }
       },
-      "newText": "\"414\": {\n            \"$1\"\n          }"
+      "newText": "\"414\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1117,7 +1207,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11415",
-    "filterText": "\"415\": {\n            \"$1\"\n          }",
+    "filterText": "\"415\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1133,7 +1223,7 @@
           "character": 13
         }
       },
-      "newText": "\"415\": {\n            \"$1\"\n          }"
+      "newText": "\"415\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1147,7 +1237,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11416",
-    "filterText": "\"416\": {\n            \"$1\"\n          }",
+    "filterText": "\"416\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1163,7 +1253,7 @@
           "character": 13
         }
       },
-      "newText": "\"416\": {\n            \"$1\"\n          }"
+      "newText": "\"416\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1177,7 +1267,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11417",
-    "filterText": "\"417\": {\n            \"$1\"\n          }",
+    "filterText": "\"417\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1193,7 +1283,7 @@
           "character": 13
         }
       },
-      "newText": "\"417\": {\n            \"$1\"\n          }"
+      "newText": "\"417\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1207,7 +1297,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11418",
-    "filterText": "\"418\": {\n            \"$1\"\n          }",
+    "filterText": "\"418\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1223,7 +1313,7 @@
           "character": 13
         }
       },
-      "newText": "\"418\": {\n            \"$1\"\n          }"
+      "newText": "\"418\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1237,7 +1327,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11420",
-    "filterText": "\"420\": {\n            \"$1\"\n          }",
+    "filterText": "\"420\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1253,7 +1343,7 @@
           "character": 13
         }
       },
-      "newText": "\"420\": {\n            \"$1\"\n          }"
+      "newText": "\"420\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1267,7 +1357,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11422",
-    "filterText": "\"422\": {\n            \"$1\"\n          }",
+    "filterText": "\"422\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1283,7 +1373,7 @@
           "character": 13
         }
       },
-      "newText": "\"422\": {\n            \"$1\"\n          }"
+      "newText": "\"422\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1297,7 +1387,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11423",
-    "filterText": "\"423\": {\n            \"$1\"\n          }",
+    "filterText": "\"423\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1313,7 +1403,7 @@
           "character": 13
         }
       },
-      "newText": "\"423\": {\n            \"$1\"\n          }"
+      "newText": "\"423\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1327,7 +1417,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11424",
-    "filterText": "\"424\": {\n            \"$1\"\n          }",
+    "filterText": "\"424\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1343,7 +1433,7 @@
           "character": 13
         }
       },
-      "newText": "\"424\": {\n            \"$1\"\n          }"
+      "newText": "\"424\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1357,7 +1447,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11425",
-    "filterText": "\"425\": {\n            \"$1\"\n          }",
+    "filterText": "\"425\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1373,7 +1463,7 @@
           "character": 13
         }
       },
-      "newText": "\"425\": {\n            \"$1\"\n          }"
+      "newText": "\"425\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1387,7 +1477,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11426",
-    "filterText": "\"426\": {\n            \"$1\"\n          }",
+    "filterText": "\"426\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1403,7 +1493,7 @@
           "character": 13
         }
       },
-      "newText": "\"426\": {\n            \"$1\"\n          }"
+      "newText": "\"426\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1417,7 +1507,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11428",
-    "filterText": "\"428\": {\n            \"$1\"\n          }",
+    "filterText": "\"428\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1433,7 +1523,7 @@
           "character": 13
         }
       },
-      "newText": "\"428\": {\n            \"$1\"\n          }"
+      "newText": "\"428\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1447,7 +1537,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11429",
-    "filterText": "\"429\": {\n            \"$1\"\n          }",
+    "filterText": "\"429\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1463,7 +1553,7 @@
           "character": 13
         }
       },
-      "newText": "\"429\": {\n            \"$1\"\n          }"
+      "newText": "\"429\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1477,7 +1567,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11431",
-    "filterText": "\"431\": {\n            \"$1\"\n          }",
+    "filterText": "\"431\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1493,7 +1583,7 @@
           "character": 13
         }
       },
-      "newText": "\"431\": {\n            \"$1\"\n          }"
+      "newText": "\"431\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1507,7 +1597,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11444",
-    "filterText": "\"444\": {\n            \"$1\"\n          }",
+    "filterText": "\"444\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1523,7 +1613,7 @@
           "character": 13
         }
       },
-      "newText": "\"444\": {\n            \"$1\"\n          }"
+      "newText": "\"444\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1537,7 +1627,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11449",
-    "filterText": "\"449\": {\n            \"$1\"\n          }",
+    "filterText": "\"449\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1553,7 +1643,7 @@
           "character": 13
         }
       },
-      "newText": "\"449\": {\n            \"$1\"\n          }"
+      "newText": "\"449\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1567,7 +1657,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11450",
-    "filterText": "\"450\": {\n            \"$1\"\n          }",
+    "filterText": "\"450\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1583,7 +1673,7 @@
           "character": 13
         }
       },
-      "newText": "\"450\": {\n            \"$1\"\n          }"
+      "newText": "\"450\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1597,7 +1687,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11451",
-    "filterText": "\"451\": {\n            \"$1\"\n          }",
+    "filterText": "\"451\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1613,7 +1703,7 @@
           "character": 13
         }
       },
-      "newText": "\"451\": {\n            \"$1\"\n          }"
+      "newText": "\"451\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1627,7 +1717,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11499",
-    "filterText": "\"499\": {\n            \"$1\"\n          }",
+    "filterText": "\"499\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1643,7 +1733,37 @@
           "character": 13
         }
       },
-      "newText": "\"499\": {\n            \"$1\"\n          }"
+      "newText": "\"499\": {\n  \"$1\"\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "4xx",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "4xx",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "114xx",
+    "filterText": "\"4xx\": {\n  \"$1\"\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 10
+        },
+        "end": {
+          "line": 6,
+          "character": 13
+        }
+      },
+      "newText": "\"4xx\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1657,7 +1777,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11500",
-    "filterText": "\"500\": {\n            \"$1\"\n          }",
+    "filterText": "\"500\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1673,7 +1793,7 @@
           "character": 13
         }
       },
-      "newText": "\"500\": {\n            \"$1\"\n          }"
+      "newText": "\"500\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1687,7 +1807,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11501",
-    "filterText": "\"501\": {\n            \"$1\"\n          }",
+    "filterText": "\"501\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1703,7 +1823,7 @@
           "character": 13
         }
       },
-      "newText": "\"501\": {\n            \"$1\"\n          }"
+      "newText": "\"501\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1717,7 +1837,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11502",
-    "filterText": "\"502\": {\n            \"$1\"\n          }",
+    "filterText": "\"502\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1733,7 +1853,7 @@
           "character": 13
         }
       },
-      "newText": "\"502\": {\n            \"$1\"\n          }"
+      "newText": "\"502\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1747,7 +1867,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11503",
-    "filterText": "\"503\": {\n            \"$1\"\n          }",
+    "filterText": "\"503\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1763,7 +1883,7 @@
           "character": 13
         }
       },
-      "newText": "\"503\": {\n            \"$1\"\n          }"
+      "newText": "\"503\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1777,7 +1897,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11504",
-    "filterText": "\"504\": {\n            \"$1\"\n          }",
+    "filterText": "\"504\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1793,7 +1913,7 @@
           "character": 13
         }
       },
-      "newText": "\"504\": {\n            \"$1\"\n          }"
+      "newText": "\"504\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1807,7 +1927,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11505",
-    "filterText": "\"505\": {\n            \"$1\"\n          }",
+    "filterText": "\"505\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1823,7 +1943,7 @@
           "character": 13
         }
       },
-      "newText": "\"505\": {\n            \"$1\"\n          }"
+      "newText": "\"505\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1837,7 +1957,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11506",
-    "filterText": "\"506\": {\n            \"$1\"\n          }",
+    "filterText": "\"506\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1853,7 +1973,7 @@
           "character": 13
         }
       },
-      "newText": "\"506\": {\n            \"$1\"\n          }"
+      "newText": "\"506\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1867,7 +1987,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11507",
-    "filterText": "\"507\": {\n            \"$1\"\n          }",
+    "filterText": "\"507\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1883,7 +2003,7 @@
           "character": 13
         }
       },
-      "newText": "\"507\": {\n            \"$1\"\n          }"
+      "newText": "\"507\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1897,7 +2017,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11508",
-    "filterText": "\"508\": {\n            \"$1\"\n          }",
+    "filterText": "\"508\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1913,7 +2033,7 @@
           "character": 13
         }
       },
-      "newText": "\"508\": {\n            \"$1\"\n          }"
+      "newText": "\"508\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1927,7 +2047,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11509",
-    "filterText": "\"509\": {\n            \"$1\"\n          }",
+    "filterText": "\"509\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1943,7 +2063,7 @@
           "character": 13
         }
       },
-      "newText": "\"509\": {\n            \"$1\"\n          }"
+      "newText": "\"509\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1957,7 +2077,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11510",
-    "filterText": "\"510\": {\n            \"$1\"\n          }",
+    "filterText": "\"510\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -1973,7 +2093,7 @@
           "character": 13
         }
       },
-      "newText": "\"510\": {\n            \"$1\"\n          }"
+      "newText": "\"510\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1987,7 +2107,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11511",
-    "filterText": "\"511\": {\n            \"$1\"\n          }",
+    "filterText": "\"511\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -2003,7 +2123,7 @@
           "character": 13
         }
       },
-      "newText": "\"511\": {\n            \"$1\"\n          }"
+      "newText": "\"511\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2017,7 +2137,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11598",
-    "filterText": "\"598\": {\n            \"$1\"\n          }",
+    "filterText": "\"598\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -2033,7 +2153,7 @@
           "character": 13
         }
       },
-      "newText": "\"598\": {\n            \"$1\"\n          }"
+      "newText": "\"598\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2047,7 +2167,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11599",
-    "filterText": "\"599\": {\n            \"$1\"\n          }",
+    "filterText": "\"599\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -2063,21 +2183,21 @@
           "character": 13
         }
       },
-      "newText": "\"599\": {\n            \"$1\"\n          }"
+      "newText": "\"599\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "default",
+    "label": "5xx",
     "kind": [],
     "detail": "unknown",
-    "documentation": "default",
+    "documentation": "5xx",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11default",
-    "filterText": "\"default\": {\n            \"$1\"\n          }",
+    "sortText": "115xx",
+    "filterText": "\"5xx\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -2093,7 +2213,7 @@
           "character": 13
         }
       },
-      "newText": "\"default\": {\n            \"$1\"\n          }"
+      "newText": "\"5xx\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

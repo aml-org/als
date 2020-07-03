@@ -1,6 +1,8 @@
 package org.mulesoft.als.server.modules.configurationfiles
 
 import amf.core.unsafe.PlatformSecrets
+import amf.internal.environment.Environment
+import org.mulesoft.als.server.logger.EmptyLogger
 import org.mulesoft.als.server.workspace.extract.WorkspaceRootHandler
 import org.scalatest.{AsyncFlatSpec, Matchers}
 
@@ -15,16 +17,16 @@ class ConfigurationFilesTests extends AsyncFlatSpec with Matchers with PlatformS
   private val okRoot = "file://als-server/shared/src/test/resources/configuration-files"
 
   it should "add a mainApi given a directory with exchange.json" in {
-    val manager = new WorkspaceRootHandler(platform)
-    manager.extractConfiguration(s"$okRoot/").map { conf =>
+    val manager = new WorkspaceRootHandler(platform, Environment())
+    manager.extractConfiguration(s"$okRoot/", EmptyLogger).map { conf =>
       conf.isDefined should be(true)
       conf.get.mainFile should be("api.raml")
     }
   }
 
   it should "Directory without exchange.json should not add any mainFile" in {
-    val manager = new WorkspaceRootHandler(platform)
-    manager.extractConfiguration(s"file://als-server/shared/src/test/resources/").map {
+    val manager = new WorkspaceRootHandler(platform, Environment())
+    manager.extractConfiguration(s"file://als-server/shared/src/test/resources/", EmptyLogger).map {
       _.isEmpty should be(true)
     }
   }

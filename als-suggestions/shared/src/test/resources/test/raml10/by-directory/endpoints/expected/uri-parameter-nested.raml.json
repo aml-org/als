@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11anotherUri",
-    "filterText": "anotherUri:\n        ",
+    "filterText": "anotherUri:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 6
         }
       },
-      "newText": "anotherUri:\n        "
+      "newText": "anotherUri:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11uri",
-    "filterText": "uri:\n        ",
+    "filterText": "uri:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -53,7 +53,7 @@
           "character": 6
         }
       },
-      "newText": "uri:\n        "
+      "newText": "uri:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

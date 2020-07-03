@@ -5,6 +5,7 @@ import amf.plugins.domain.webapi.models.{Payload, Server}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -22,9 +23,9 @@ object Async20PayloadCompletionPlugin extends AMLCompletionPlugin with AsyncMedi
           request.amfObject match {
             case s: Shape =>
               if (p.schemaMediaType.isNullOrEmpty) {
-                Async20TypeFacetsCompletionPlugin.resolveShape(s, branchStack)
+                Async20TypeFacetsCompletionPlugin.resolveShape(s, branchStack, AsyncApi20Dialect())
               } else {
-                findPluginForMediaType(p).resolveShape(s, branchStack)
+                findPluginForMediaType(p).resolveShape(s, branchStack, AsyncApi20Dialect())
               }
           }
         case _ => Seq()

@@ -27,7 +27,7 @@ import org.mulesoft.lsp.feature.codeactions.{CodeActionContext, CodeActionKind, 
 import org.mulesoft.lsp.feature.completion.CompletionItemKind.CompletionItemKind
 import org.mulesoft.lsp.feature.completion.CompletionTriggerKind.CompletionTriggerKind
 import org.mulesoft.lsp.feature.completion._
-import org.mulesoft.lsp.feature.definition.DefinitionClientCapabilities
+import org.mulesoft.lsp.feature.definition.{DefinitionClientCapabilities, DefinitionParams}
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticSeverity.DiagnosticSeverity
 import org.mulesoft.lsp.feature.diagnostic._
 import org.mulesoft.lsp.feature.documentsymbol.SymbolKind.SymbolKind
@@ -37,11 +37,15 @@ import org.mulesoft.lsp.feature.documentsymbol.{
   SymbolKind,
   SymbolKindClientCapabilities
 }
-import org.mulesoft.lsp.feature.implementation.ImplementationClientCapabilities
+import org.mulesoft.lsp.feature.hover.{HoverClientCapabilities, HoverParams, MarkupKind}
+import org.mulesoft.lsp.feature.folding.{FoldingRangeCapabilities, FoldingRangeParams}
+import org.mulesoft.lsp.feature.highlight.{DocumentHighlightCapabilities, DocumentHighlightParams}
+import org.mulesoft.lsp.feature.implementation.{ImplementationClientCapabilities, ImplementationParams}
 import org.mulesoft.lsp.feature.link.{DocumentLinkClientCapabilities, DocumentLinkOptions, DocumentLinkParams}
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
-import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
-import org.mulesoft.lsp.feature.typedefinition.TypeDefinitionClientCapabilities
+import org.mulesoft.lsp.feature.rename.{PrepareRenameParams, RenameClientCapabilities, RenameOptions, RenameParams}
+import org.mulesoft.lsp.feature.selectionRange.{SelectionRangeCapabilities, SelectionRangeParams}
+import org.mulesoft.lsp.feature.typedefinition.{TypeDefinitionClientCapabilities, TypeDefinitionParams}
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 import org.mulesoft.lsp.textsync._
 
@@ -144,7 +148,11 @@ object LspConversions {
       Option(capabilities.getTypeDefinition).map(typeDefinitionClientCapabilities),
       Option(capabilities.getRename).map(renameClientCapabilities),
       Option(capabilities.getCodeAction).flatMap(_ => None), // TODO: CodeAction
-      Option(capabilities.getDocumentLink).map(documentLinkClientCapabilities)
+      Option(capabilities.getDocumentLink).map(documentLinkClientCapabilities),
+      Option(capabilities.getHover).map(clientHoverCapabilities),
+      Option(capabilities.getDocumentHighlight).map(documentHighlightCapabilities),
+      Option(capabilities.getFoldingRange).map(foldingRangeCapabilities),
+      Option(capabilities.getSelectionRange).map(selectionRangeCapabilities)
     )
 
   def workspaceEditClientCapabilities(c: WorkspaceEditCapabilities): WorkspaceEditClientCapabilities =
@@ -281,11 +289,31 @@ object LspConversions {
   implicit def textDocumentPositionParams(params: lsp4j.TextDocumentPositionParams): TextDocumentPositionParams =
     TextDocumentPositionParams(params.getTextDocument, params.getPosition)
 
+  implicit def definitionParams(params: lsp4j.DefinitionParams): DefinitionParams =
+    DefinitionParams(params.getTextDocument, params.getPosition)
+
+  implicit def typeDefinitionParams(params: lsp4j.TypeDefinitionParams): TypeDefinitionParams =
+    TypeDefinitionParams(params.getTextDocument, params.getPosition)
+
+  implicit def implementationParams(params: lsp4j.ImplementationParams): ImplementationParams =
+    ImplementationParams(params.getTextDocument, params.getPosition)
+
+  implicit def hoverParams(params: lsp4j.HoverParams): HoverParams =
+    HoverParams(params.getTextDocument, params.getPosition)
+
+  implicit def clientHoverCapabilities(params: lsp4j.HoverCapabilities): HoverClientCapabilities =
+    HoverClientCapabilities(
+      Option(params.getDynamicRegistration),
+      Option(params.getContentFormat).map(_.asScala.map(c => MarkupKind.withName(c))).getOrElse(Nil))
+
   implicit def completionParams(params: lsp4j.CompletionParams): CompletionParams =
     CompletionParams(params.getTextDocument, params.getPosition, Option(params.getContext).map(completionContext))
 
   implicit def renameParams(params: lsp4j.RenameParams): RenameParams =
     RenameParams(params.getTextDocument, params.getPosition, params.getNewName)
+
+  implicit def prepareRenameParams(params: lsp4j.PrepareRenameParams): PrepareRenameParams =
+    PrepareRenameParams(params.getTextDocument, params.getPosition)
 
   implicit def location(location: lsp4j.Location): Location =
     Location(location.getUri, location.getRange)
@@ -301,7 +329,7 @@ object LspConversions {
       diagnostic.getRange,
       diagnostic.getMessage,
       Option(diagnostic.getSeverity).map(diagnosticSeverity),
-      Option(diagnostic.getCode),
+      either(diagnostic.getCode, (s: String) => s, (n: Number) => n.toString).toOption,
       Option(diagnostic.getSource),
       Option(diagnostic.getRelatedInformation).map(_.asScala.map(diagnosticRelatedInformation)).getOrElse(Seq())
     )
@@ -327,4 +355,25 @@ object LspConversions {
 
   implicit def documentLinkOptions(options: lsp4j.DocumentLinkOptions): DocumentLinkOptions =
     DocumentLinkOptions(Option(options.getResolveProvider))
+
+  implicit def documentHighlightCapabilities(
+      capa: lsp4j.DocumentHighlightCapabilities): DocumentHighlightCapabilities =
+    DocumentHighlightCapabilities(Option(capa.getDynamicRegistration))
+
+  implicit def documentHighlightParams(inner: lsp4j.DocumentHighlightParams): DocumentHighlightParams =
+    DocumentHighlightParams(inner.getTextDocument, inner.getPosition)
+
+  implicit def foldingRangeCapabilities(capa: lsp4j.FoldingRangeCapabilities): FoldingRangeCapabilities =
+    FoldingRangeCapabilities(Option(capa.getDynamicRegistration),
+                             Option(capa.getRangeLimit),
+                             Option(capa.getLineFoldingOnly))
+
+  implicit def foldingRangeParams(inner: lsp4j.FoldingRangeRequestParams): FoldingRangeParams =
+    FoldingRangeParams(inner.getTextDocument)
+
+  implicit def selectionRangeCapabilities(c: lsp4j.SelectionRangeCapabilities): SelectionRangeCapabilities =
+    SelectionRangeCapabilities(Option(c.getDynamicRegistration))
+
+  implicit def selectionRangeParams(p: lsp4j.SelectionRangeParams): SelectionRangeParams =
+    SelectionRangeParams(p.getTextDocument, seq(p.getPositions, position))
 }

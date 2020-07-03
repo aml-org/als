@@ -1,7 +1,9 @@
 package org.mulesoft.als.server.modules.configurationfiles
 
 import amf.core.unsafe.PlatformSecrets
+import amf.internal.environment.Environment
 import org.mulesoft.als.common.diff.ListAssertions
+import org.mulesoft.als.server.logger.EmptyLogger
 import org.mulesoft.als.server.workspace.extract.ExchangeConfigReader
 import org.scalatest.{AsyncFlatSpec, Matchers}
 
@@ -33,11 +35,12 @@ class ExchangeConfigReaderTest extends AsyncFlatSpec with PlatformSecrets with L
   fixture.foreach { testCase =>
     s"Folder ${testCase.folder}" should s"should have dependencies: ${testCase.dependencies.length}" in {
 
-      ExchangeConfigReader.readRoot("file://" + base + testCase.folder, platform).map { maybeConf =>
-        maybeConf.isDefined should be(true)
-        val config = maybeConf.get
-        config.mainFile should be(testCase.main)
-        assert(config.cachables.toList.sorted, testCase.dependencies)
+      ExchangeConfigReader.readRoot("file://" + base + testCase.folder, platform, Environment(), EmptyLogger).map {
+        maybeConf =>
+          maybeConf.isDefined should be(true)
+          val config = maybeConf.get
+          config.mainFile should be(testCase.main)
+          assert(config.cachables.toList.sorted, testCase.dependencies)
       }
     }
   }

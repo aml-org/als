@@ -1,6 +1,8 @@
 package org.mulesoft.als.server.protocol.convert
 
+import org.mulesoft.als.configuration.AlsFormattingOptions
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeOptions}
+import org.mulesoft.als.server.feature.fileusage.{FileUsageClientCapabilities, FileUsageOptions}
 import org.mulesoft.als.server.feature.serialization.{
   ConversionClientCapabilities,
   ConversionRequestOptions,
@@ -34,6 +36,11 @@ object LspConvertersSharedToClient {
       ClientSerializationClientCapabilities(v)
   }
 
+  implicit class ClientFileUsageClientCapabilitiesConverter(v: FileUsageClientCapabilities) {
+    def toClient: ClientFileUsageClientCapabilities =
+      ClientFileUsageClientCapabilities(v)
+  }
+
   implicit class ClientCleanDiagnosticTreeClientCapabilitiesConverter(v: CleanDiagnosticTreeClientCapabilities) {
     def toClient: ClientCleanDiagnosticTreeClientCapabilities =
       ClientCleanDiagnosticTreeClientCapabilities(v)
@@ -54,6 +61,11 @@ object LspConvertersSharedToClient {
       ClientAlsClientCapabilities(v)
   }
 
+  implicit class ClientUpdateFormatOptionsParamsConverter(v: AlsFormattingOptions) {
+    def toClient: ClientAlsFormattingOptions =
+      ClientAlsFormattingOptions(v)
+  }
+
   implicit class ClientFilesInProjectParamsConverter(v: FilesInProjectParams) {
     def toClient: ClientFilesInProjectParams =
       ClientFilesInProjectParams(v)
@@ -72,6 +84,11 @@ object LspConvertersSharedToClient {
   implicit class ClientInitializeResultConverter(v: AlsInitializeResult) {
     def toClient: ClientAlsInitializeResult =
       ClientAlsInitializeResult(v)
+  }
+
+  implicit class ClientFileUsageOptionsConverter(v: FileUsageOptions) {
+    def toClient: ClientFileUsageOptions =
+      ClientFileUsageOptions(v)
   }
 
   implicit class ClientCleanDiagnosticTreeOptionsConverter(v: CleanDiagnosticTreeOptions) {

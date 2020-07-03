@@ -1,30 +1,49 @@
 package org.mulesoft.als.server.modules.diagnostic
 
 import amf.core.validation.AMFValidationResult
-import org.mulesoft.als.common.FileUtils
+import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.feature.diagnostic._
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.textsync.EnvironmentProvider
-import org.mulesoft.amfmanager.ParserHelper
+import org.mulesoft.amfintegration.ParserHelper
 import org.mulesoft.lsp.ConfigType
-import org.mulesoft.lsp.feature.RequestHandler
+import org.mulesoft.lsp.feature.{RequestHandler, TelemeteredRequestHandler}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
+import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
+import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class CleanDiagnosticTreeManager(environmentProvider: EnvironmentProvider, logger: Logger)
+class CleanDiagnosticTreeManager(telemetryProvider: TelemetryProvider,
+                                 environmentProvider: EnvironmentProvider,
+                                 logger: Logger)
     extends RequestModule[CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeOptions] {
 
   private var enabled: Boolean = true
 
-  override def getRequestHandlers: Seq[RequestHandler[_, _]] = Seq(
-    new RequestHandler[CleanDiagnosticTreeParams, Seq[PublishDiagnosticsParams]] {
+  override def getRequestHandlers: Seq[TelemeteredRequestHandler[_, _]] = Seq(
+    new TelemeteredRequestHandler[CleanDiagnosticTreeParams, Seq[PublishDiagnosticsParams]] {
       override def `type`: CleanDiagnosticTreeRequestType.type = CleanDiagnosticTreeRequestType
 
-      override def apply(params: CleanDiagnosticTreeParams): Future[Seq[AlsPublishDiagnosticsParams]] =
+      override def task(params: CleanDiagnosticTreeParams): Future[Seq[AlsPublishDiagnosticsParams]] =
         validate(params.textDocument.uri)
+
+      override protected def telemetry: TelemetryProvider = telemetryProvider
+
+      override protected def code(params: CleanDiagnosticTreeParams): String = "CleanDiagnosticTreeManager"
+
+      override protected def beginType(params: CleanDiagnosticTreeParams): MessageTypes =
+        MessageTypes.BEGIN_CLEAN_VALIDATION
+
+      override protected def endType(params: CleanDiagnosticTreeParams): MessageTypes =
+        MessageTypes.END_CLEAN_VALIDATION
+
+      override protected def msg(params: CleanDiagnosticTreeParams): String =
+        s"Clean validation request for: ${params.textDocument.uri}"
+
+      override protected def uri(params: CleanDiagnosticTreeParams): String = params.textDocument.uri
     }
   )
 
@@ -39,13 +58,13 @@ class CleanDiagnosticTreeManager(environmentProvider: EnvironmentProvider, logge
   override def initialize(): Future[Unit] = Future.successful()
 
   def validate(uri: String): Future[Seq[AlsPublishDiagnosticsParams]] = {
-    val helper     = environmentProvider.amfConfiguration.parserHelper
-    val refinedUri = FileUtils.getDecodedUri(uri, environmentProvider.platform)
+    val helper     = environmentProvider.amfConfiguration.modelBuilder()
+    val refinedUri = uri.toAmfDecodedUri(environmentProvider.platform)
     helper
       .parse(refinedUri, environmentProvider.environmentSnapshot())
       .flatMap(pr => {
         logger.debug(s"about to report: $uri", "RequestAMFFullValidationCommandExecutor", "runCommand")
-        val resolved = helper.editingResolve(pr.baseUnit, pr.eh)
+        val resolved = helper.fullResolution(pr.baseUnit, pr.eh)
         ParserHelper.reportResolved(resolved).map(r => (r, pr))
       })
       .map { t =>

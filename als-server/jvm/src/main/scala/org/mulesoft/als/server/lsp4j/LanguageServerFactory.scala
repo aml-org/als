@@ -20,7 +20,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 // todo: standarize in one only converter (js and jvm) with generics
 class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecrets {
-
   private var serialization: JvmSerializationProps               = EmptyJvmSerializationProps
   private var logger: Logger                                     = PrintLnLogger
   private var givenPlatform: Platform                            = platform
@@ -81,7 +80,10 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecr
     val builders = factory.buildWorkspaceManagerFactory()
 
     val languageBuilder =
-      new LanguageServerBuilder(builders.documentManager, builders.workspaceManager, builders.resolutionTaskManager)
+      new LanguageServerBuilder(builders.documentManager,
+                                builders.workspaceManager,
+                                builders.configurationManager,
+                                builders.resolutionTaskManager)
         .addInitializable(builders.workspaceManager)
         .addInitializable(builders.resolutionTaskManager)
         .addInitializableModule(sm)
@@ -92,8 +94,14 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecr
         .addRequestModule(builders.definitionManager)
         .addRequestModule(builders.implementationManager)
         .addRequestModule(builders.typeDefinitionManager)
+        .addRequestModule(builders.hoverManager)
         .addRequestModule(builders.referenceManager)
+        .addRequestModule(builders.fileUsageManager)
         .addRequestModule(builders.documentLinksManager)
+        .addRequestModule(builders.renameManager)
+        .addRequestModule(builders.documentHighlightManager)
+        .addRequestModule(builders.foldingRangeManager)
+        .addRequestModule(builders.selectionRangeManager)
         .addInitializable(builders.telemetryManager)
     dm.foreach(languageBuilder.addInitializableModule)
     builders.serializationManager.foreach(languageBuilder.addRequestModule)

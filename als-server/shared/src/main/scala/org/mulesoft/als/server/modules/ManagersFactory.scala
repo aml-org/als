@@ -4,12 +4,16 @@ import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
-import org.mulesoft.als.server.SerializationProps
+import org.mulesoft.als.configuration.AlsConfiguration
+import org.mulesoft.als.server.{RequestModule, SerializationProps}
 import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.actions._
+import org.mulesoft.als.server.modules.actions.fileUsage.FindFileUsageManager
+import org.mulesoft.als.server.modules.actions.rename.RenameManager
 import org.mulesoft.als.server.modules.ast.{AccessUnits, BaseUnitListener, ResolvedUnitListener}
 import org.mulesoft.als.server.modules.completion.SuggestionsManager
+import org.mulesoft.als.server.modules.configuration.ConfigurationManager
 import org.mulesoft.als.server.modules.diagnostic._
 import org.mulesoft.als.server.modules.serialization.{ConversionManager, SerializationManager}
 import org.mulesoft.als.server.modules.structure.StructureManager
@@ -58,7 +62,7 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Log
     new TelemetryManager(clientNotifier, logger)
 
   def serializationManager[S](sp: SerializationProps[S]): SerializationManager[S] = {
-    val s = new SerializationManager(amfConfig, sp, logger)
+    val s = new SerializationManager(telemetryManager, amfConfig, sp, logger)
     resolutionDependencies += s
     s
   }
@@ -100,10 +104,11 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
   val container: TextDocumentContainer =
     TextDocumentContainer(environment, platform, amfConfiguration)
 
-  val cleanDiagnosticManager = new CleanDiagnosticTreeManager(container, logger)
+  val cleanDiagnosticManager = new CleanDiagnosticTreeManager(telemetryManager, container, logger)
 
   val resolutionTaskManager = new ResolutionTaskManager(
     telemetryManager,
+    logger,
     container,
     resolutionDependencies,
     resolutionDependencies.collect {
@@ -126,11 +131,19 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
       logger
     )
 
+  val configurationManager: ConfigurationManager =
+    new ConfigurationManager();
+
   lazy val documentManager =
     new TextDocumentManager(container, List(workspaceManager), logger)
 
   lazy val completionManager =
-    new SuggestionsManager(container, workspaceManager, telemetryManager, directoryResolver, logger)
+    new SuggestionsManager(container,
+                           workspaceManager,
+                           telemetryManager,
+                           directoryResolver,
+                           logger,
+                           configurationManager)
 
   lazy val structureManager =
     new StructureManager(workspaceManager, telemetryManager, logger)
@@ -144,20 +157,36 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
   lazy val typeDefinitionManager =
     new GoToTypeDefinitionManager(workspaceManager, platform, telemetryManager, logger)
 
+  lazy val hoverManager = new HoverManager(workspaceManager, amfConfiguration, telemetryManager)
+
   lazy val referenceManager =
     new FindReferenceManager(workspaceManager, telemetryManager, logger)
+
+  lazy val fileUsageManager =
+    new FindFileUsageManager(workspaceManager, telemetryManager, logger)
 
   lazy val documentLinksManager =
     new DocumentLinksManager(workspaceManager, telemetryManager, platform, logger)
 
+  lazy val renameManager =
+    new RenameManager(workspaceManager, telemetryManager, logger)
+
   lazy val conversionManager =
-    new ConversionManager(workspaceManager, amfConfiguration, logger)
+    new ConversionManager(workspaceManager, telemetryManager, amfConfiguration, logger)
+
+  lazy val documentHighlightManager =
+    new DocumentHighlightManager(workspaceManager, telemetryManager, platform, logger)
+
+  lazy val foldingRangeManager =
+    new FoldingRangeManager(workspaceManager, telemetryManager, platform, logger)
+
+  lazy val selectionRangeManager =
+    new SelectionRangeManager(workspaceManager, telemetryManager, logger)
 
   lazy val serializationManager: Option[SerializationManager[_]] =
     resolutionDependencies.collectFirst({
-      case s: SerializationManager[_] => {
+      case s: SerializationManager[_] =>
         s.withUnitAccessor(resolutionTaskManager) // is this redundant with the initialization of workspace manager?
         s
-      }
     })
 }

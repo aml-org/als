@@ -1,5 +1,7 @@
 package org.mulesoft.als.suggestions.aml.webapi
 
+import amf.core.remote.{Oas20, Oas30, Vendor}
+import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas._
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas20.structure.{ResolveParameterEndpoint, ResolveRequest}
@@ -21,9 +23,10 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.{
 }
 import org.mulesoft.als.suggestions.plugins.aml.{ResolveDefault, StructureCompletionPlugin}
 import org.mulesoft.als.suggestions.{AMLBaseCompletionPlugins, CompletionsPluginHandler}
+import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
 
-trait OasBaseCompletionRegistry {
+trait OasBaseCompletionRegistry extends WebApiCompletionPluginRegistry {
   val common: Seq[AMLCompletionPlugin] = AMLBaseCompletionPlugins.all :+
     OASRequiredObjectCompletionPlugin :+
     SecuredByCompletionPlugin :+
@@ -62,8 +65,9 @@ object Oas20CompletionPluginRegistry extends OasBaseCompletionRegistry {
     OaslikeSecurityScopesCompletionPlugin :+
     Oas20TypeFacetsCompletionPlugin
 
-  def init(): Unit =
-    CompletionsPluginHandler.registerPlugins(all, OAS20Dialect().id)
+  override def plugins: Seq[AMLCompletionPlugin] = all
+
+  override def dialect: Dialect = OAS20Dialect()
 }
 
 object Oas30CompletionPluginRegistry extends OasBaseCompletionRegistry {
@@ -84,6 +88,7 @@ object Oas30CompletionPluginRegistry extends OasBaseCompletionRegistry {
     OaslikeSecurityScopesCompletionPlugin :+
     OasRuntimeExpressionsCompletionPlugin
 
-  def init(): Unit =
-    CompletionsPluginHandler.registerPlugins(all, OAS30Dialect().id)
+  override def plugins: Seq[AMLCompletionPlugin] = all
+
+  override def dialect: Dialect = OAS30Dialect()
 }

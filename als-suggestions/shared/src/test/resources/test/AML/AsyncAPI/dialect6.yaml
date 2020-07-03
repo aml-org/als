@@ -3,13 +3,11 @@
 dialect: AsyncAPI
 version: 0.6
 
-uses:
-  async: vocabulary6.yaml
-
 external:
   schema-org: http://schema.org/
-  oas: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2#
+  oas: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1#
   json-schema: http://json-schema.org/schema#
+  async: http://www.asyncapi.com/v1/vocabulary#
 
 nodeMappings:
 
@@ -192,7 +190,6 @@ nodeMappings:
         propertyTerm: json-schema.type
         range: string
         enum: [array, boolean, integer, "null", number, object, string]
-        allowMultiple: true
       id:
         propertyTerm: json-schema.id
         range: string
@@ -238,7 +235,6 @@ nodeMappings:
       items:
         propertyTerm: json-schema.items
         range: SchemaObject
-        allowMultiple: true
       maxItems:
         propertyTerm: json-schema.maxItems
         range: boolean

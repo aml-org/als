@@ -12,7 +12,9 @@ trait SuggestionRender {
 
   def astBuilder: RawSuggestion => AstRawBuilder
 
-  lazy val stringIndentation: String = " " * params.indentation
+  lazy val stringIndentation: String   = " " * params.indentation
+  lazy val initialIndentationSize: Int = params.indentation / 2
+  lazy val tabSize: Int                = params.formattingConfiguration.indentationSize
 
   def patchPath(builder: CompletionItemBuilder): Unit = {
     val index =

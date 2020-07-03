@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11parameters",
-    "filterText": "parameters:\n                ",
+    "filterText": "parameters:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -143,7 +143,7 @@
           "character": 14
         }
       },
-      "newText": "parameters:\n                "
+      "newText": "parameters:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11server",
-    "filterText": "server:\n                ",
+    "filterText": "server:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -203,7 +203,7 @@
           "character": 14
         }
       },
-      "newText": "server:\n                "
+      "newText": "server:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

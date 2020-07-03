@@ -28,7 +28,9 @@ object OperationRequest extends AMLCompletionPlugin {
             .map(
               n =>
                 n.propertiesMapping()
-                  .map(p => p.toRaw(CategoryRegistry(OperationModel.`type`.head.iri(), p.name().value()))))
+                  .map(p =>
+                    p.toRaw(
+                      CategoryRegistry(OperationModel.`type`.head.iri(), p.name().value(), request.actualDialect.id))))
             .getOrElse(Nil) // todo use node mapping implicit when category registry is fixed.
         case _ => Nil
       }

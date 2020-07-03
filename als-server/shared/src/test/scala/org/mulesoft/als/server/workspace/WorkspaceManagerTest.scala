@@ -31,7 +31,10 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     val dm      = builder.diagnosticManager()
     val factory = builder.buildWorkspaceManagerFactory()
 
-    val b = new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
+    val b = new LanguageServerBuilder(factory.documentManager,
+                                      factory.workspaceManager,
+                                      factory.configurationManager,
+                                      factory.resolutionTaskManager)
     dm.foreach(b.addInitializableModule)
     b.addRequestModule(factory.structureManager)
     b.build()
@@ -106,7 +109,8 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
         m.diagnostics.head.relatedInformation.head.location.uri should be(s"$rootFolder/external1.yaml")
         m.diagnostics.head.relatedInformation.head.location.range should be(Range(Position(2, 5), Position(2, 28)))
         m.diagnostics.head.relatedInformation.tail.head.location.uri should be(s"$rootFolder/external2.yaml")
-        m.diagnostics.head.relatedInformation.tail.head.location.range should be(Range(Position(2, 0), Position(2, 9)))
+        m.diagnostics.head.relatedInformation.tail.head.location.range should be(
+          Range(Position(0, 6), Position(0, 16)))
       case _ => fail("No Main detected")
     }
   }
@@ -207,7 +211,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
               d.relatedInformation.head.location.uri == s"$rootFolder/external.yaml" &&
               d.relatedInformation.head.location.range == Range(Position(1, 12), Position(1, 36)) &&
               d.relatedInformation.tail.head.location.uri == s"$rootFolder/external-2.yaml" &&
-              d.relatedInformation.tail.head.location.range == Range(Position(2, 0), Position(2, 6))
+              d.relatedInformation.tail.head.location.range == Range(Position(1, 3), Position(1, 13))
             } should be(true)
 
             m.diagnostics.exists { d =>
@@ -218,7 +222,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
               d.relatedInformation.tail.head.location.uri == s"$rootFolder/external.yaml" &&
               d.relatedInformation.tail.head.location.range == Range(Position(1, 12), Position(1, 36)) &&
               d.relatedInformation.tail.tail.head.location.uri == s"$rootFolder/external-2.yaml" &&
-              d.relatedInformation.tail.tail.head.location.range == Range(Position(2, 0), Position(2, 6))
+              d.relatedInformation.tail.tail.head.location.range == Range(Position(1, 3), Position(1, 13))
             } should be(true)
 
             succeed
@@ -567,6 +571,25 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       } yield {
         server.shutdown()
         b.diagnostics.isEmpty should be(true)
+      }
+    }
+  }
+
+  test("Workspace Manager test syntax error in external fragment") {
+    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
+      assert(diagnosticClientNotifier.promises.isEmpty)
+      for {
+        _ <- server.initialize(
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("external-fragment-syntax")}")))
+        n1 <- diagnosticClientNotifier.nextCall
+        n2 <- diagnosticClientNotifier.nextCall
+      } yield {
+        server.shutdown()
+        n2.uri should endWith("file.json")
+        n2.diagnostics.size should be(1)
+        n1.uri should endWith("api.raml")
+        n1.diagnostics.isEmpty should be(true)
       }
     }
   }

@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11describedBy",
-    "filterText": "describedBy:\n      ",
+    "filterText": "describedBy:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 4
         }
       },
-      "newText": "describedBy:\n      "
+      "newText": "describedBy:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

@@ -5,6 +5,7 @@ import java.util.concurrent.CompletableFuture
 
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
 import org.eclipse.lsp4j
+import org.eclipse.lsp4j.MarkedString
 import org.mulesoft.lsp.configuration.StaticRegistrationOptions
 import org.mulesoft.lsp.feature.command.Command
 import org.mulesoft.lsp.feature.common.{Location, LocationLink, Position, Range, VersionedTextDocumentIdentifier}
@@ -17,8 +18,14 @@ import org.mulesoft.lsp.feature.completion.{CompletionItem, CompletionList, Comp
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticSeverity.DiagnosticSeverity
 import org.mulesoft.lsp.feature.diagnostic.{Diagnostic, DiagnosticRelatedInformation, PublishDiagnosticsParams}
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbol, SymbolInformation}
+import org.mulesoft.lsp.feature.folding.{FoldingRange, FoldingRangeKind}
+import org.mulesoft.lsp.feature.folding.FoldingRangeKind.FoldingRangeKind
+import org.mulesoft.lsp.feature.highlight.DocumentHighlight
+import org.mulesoft.lsp.feature.highlight.DocumentHighlightKind.DocumentHighlightKind
+import org.mulesoft.lsp.feature.hover.Hover
 import org.mulesoft.lsp.feature.link.{DocumentLink, DocumentLinkOptions, DocumentLinkParams}
-import org.mulesoft.lsp.feature.rename.RenameOptions
+import org.mulesoft.lsp.feature.rename.{PrepareRenameResult, RenameOptions}
+import org.mulesoft.lsp.feature.selectionRange.SelectionRange
 import org.mulesoft.lsp.textsync.{SaveOptions, TextDocumentSyncKind, TextDocumentSyncOptions}
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 
@@ -238,6 +245,17 @@ object Lsp4JConversions {
     result
   }
 
+  implicit def lsp4JOptionEitherRangeWithPlaceholder(
+      p: Option[Either[Range, PrepareRenameResult]]): JEither[lsp4j.Range, lsp4j.PrepareRenameResult] =
+    p.map {
+      case Left(r) =>
+        JEither.forLeft(lsp4JRange(r)): JEither[lsp4j.Range, lsp4j.PrepareRenameResult]
+      case Right(r) =>
+        JEither.forRight(new lsp4j.PrepareRenameResult(lsp4JRange(r.range), r.placeholder)): JEither[
+          lsp4j.Range,
+          lsp4j.PrepareRenameResult]
+    }.orNull
+
   implicit def lsp4JStaticRegistrationOptions(options: StaticRegistrationOptions): lsp4j.StaticRegistrationOptions = {
     val result = new lsp4j.StaticRegistrationOptions()
     options.id.foreach(result.setId)
@@ -322,4 +340,50 @@ object Lsp4JConversions {
 
   implicit def lsp4JDocumentLinkOptions(options: DocumentLinkOptions): lsp4j.DocumentLinkOptions =
     new lsp4j.DocumentLinkOptions(options.resolveProvider)
+
+  implicit def lsp4JDocumentHighlight(dh: DocumentHighlight): lsp4j.DocumentHighlight =
+    new lsp4j.DocumentHighlight(dh.range, dh.kind)
+
+  implicit def lsp4JSelectionRanges(items: Seq[SelectionRange]): util.List[lsp4j.SelectionRange] =
+    javaList(items, lsp4JSelectionRange)
+
+  implicit def lsp4JSelectionRange(sr: SelectionRange): lsp4j.SelectionRange = {
+    new lsp4j.SelectionRange(sr.range, sr.parent.map(lsp4JSelectionRange).orNull)
+  }
+
+  implicit def lsp4JDocumentHighlightKind(dhk: DocumentHighlightKind): lsp4j.DocumentHighlightKind =
+    dhk.id match {
+      case 1 => lsp4j.DocumentHighlightKind.Text
+      case 2 => lsp4j.DocumentHighlightKind.Read
+      case 3 => lsp4j.DocumentHighlightKind.Write
+    }
+
+  implicit def lsp4JDocumentHighlights(items: Seq[DocumentHighlight]): util.List[lsp4j.DocumentHighlight] =
+    javaList(items, lsp4JDocumentHighlight)
+
+  implicit def lsp4JHoverParams(hover: Hover): lsp4j.Hover = {
+    val java: util.List[JEither[String, lsp4j.MarkedString]] =
+      hover.contents.map(c => JEither.forLeft[String, MarkedString](c)).asJava
+    hover.range match {
+      case Some(r) => new lsp4j.Hover(java, r)
+      case _       => new lsp4j.Hover(java)
+    }
+  }
+  implicit def lsp4JFoldingRange(dh: FoldingRange): lsp4j.FoldingRange = {
+    val range = new lsp4j.FoldingRange(dh.startLine, dh.endLine)
+    dh.startCharacter.foreach(c => range.setStartCharacter(c))
+    dh.endCharacter.foreach(c => range.setEndCharacter(c))
+    dh.kind.foreach(c => range.setKind(lsp4JFoldingRangeKind(c)))
+    range
+  }
+
+  implicit def lsp4JFoldingRangeKind(dhk: FoldingRangeKind): String = // redundant, but to avoid any inconsistencies on the client side
+    dhk match {
+      case FoldingRangeKind.Comment => lsp4j.FoldingRangeKind.Comment
+      case FoldingRangeKind.Imports => lsp4j.FoldingRangeKind.Imports
+      case FoldingRangeKind.Region  => lsp4j.FoldingRangeKind.Region
+    }
+
+  implicit def lsp4JFoldingRanges(items: Seq[FoldingRange]): util.List[lsp4j.FoldingRange] =
+    javaList(items, lsp4JFoldingRange)
 }

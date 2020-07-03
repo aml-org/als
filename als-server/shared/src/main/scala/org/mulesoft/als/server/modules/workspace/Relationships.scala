@@ -35,6 +35,13 @@ class Relationships private (private val repository: WorkspaceParserRepository,
     getVisitorResult(uri)(() => repository.documentLinks().getOrElse(uri, Nil),
                           visitors => visitors.getDocumentLinksFromVisitors.getOrElse(uri, Nil))
 
+  /**
+    * Provides Project links for all files
+    * @return
+    */
+  def getAllDocumentLinks(): Future[Map[String, Seq[DocumentLink]]] =
+    Future.successful(repository.documentLinks())
+
   def getAliases(uri: String): Future[Seq[AliasInfo]] =
     getVisitorResult(uri)(repository.aliases, visitors => visitors.getAliasesFromVisitors)
 

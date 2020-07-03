@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11mySecurity",
-    "filterText": "\n      - mySecurity",
+    "filterText": "\n- mySecurity",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 14
         }
       },
-      "newText": "\n      - mySecurity"
+      "newText": "\n- mySecurity"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

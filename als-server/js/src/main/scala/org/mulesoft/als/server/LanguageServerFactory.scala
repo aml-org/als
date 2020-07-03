@@ -28,7 +28,7 @@ object LanguageServerFactory {
                   serializationProps: JsSerializationProps,
                   clientLoaders: js.Array[ClientResourceLoader] = js.Array(),
                   clientDirResolver: ClientDirectoryResolver = EmptyJsDirectoryResolver,
-                  logger: Logger = PrintLnLogger,
+                  logger: js.UndefOr[ClientLogger] = js.undefined,
                   withDiagnostics: Boolean = true,
                   notificationKind: js.UndefOr[DiagnosticNotificationsKind] = js.undefined,
                   amfPlugins: js.Array[ClientAMFPayloadValidationPlugin] = js.Array.apply()): LanguageServer = {
@@ -45,17 +45,19 @@ object LanguageServerFactory {
                        serializationProps: JsSerializationProps,
                        jsServerSystemConf: JsServerSystemConf = DefaultJsServerSystemConf,
                        plugins: js.Array[ClientAMFPayloadValidationPlugin] = js.Array(),
-                       logger: Logger = PrintLnLogger,
+                       logger: js.UndefOr[ClientLogger] = js.undefined,
                        withDiagnostics: Boolean = true,
                        notificationKind: js.UndefOr[DiagnosticNotificationsKind] = js.undefined): LanguageServer = {
 
-    val builders = new WorkspaceManagerFactoryBuilder(clientNotifier, logger, jsServerSystemConf.environment)
-      .withAmfConfiguration(
-        new AmfInstance(plugins.toSeq.map(ClientPayloadPluginConverter.convert),
-                        jsServerSystemConf.platform,
-                        jsServerSystemConf.environment))
-      .withPlatform(jsServerSystemConf.platform)
-      .withDirectoryResolver(jsServerSystemConf.directoryResolver)
+    val builders =
+      new WorkspaceManagerFactoryBuilder(clientNotifier,
+                                         logger.toOption.map(l => ClientLoggerAdapter(l)).getOrElse(PrintLnLogger),
+                                         jsServerSystemConf.environment)
+        .withAmfConfiguration(new AmfInstance(plugins.toSeq.map(ClientPayloadPluginConverter.convert),
+                                              jsServerSystemConf.platform,
+                                              jsServerSystemConf.environment))
+        .withPlatform(jsServerSystemConf.platform)
+        .withDirectoryResolver(jsServerSystemConf.directoryResolver)
 
     notificationKind.toOption.foreach(builders.withNotificationKind)
 
@@ -65,20 +67,30 @@ object LanguageServerFactory {
 
     val factory = builders.buildWorkspaceManagerFactory()
     val builder =
-      new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
+      new LanguageServerBuilder(factory.documentManager,
+                                factory.workspaceManager,
+                                factory.configurationManager,
+                                factory.resolutionTaskManager)
         .addInitializableModule(serializationManager)
         .addInitializableModule(filesInProjectManager)
         .addInitializable(factory.cleanDiagnosticManager)
         .addInitializable(factory.workspaceManager)
+        .addInitializable(factory.configurationManager)
         .addRequestModule(factory.cleanDiagnosticManager)
         .addRequestModule(factory.completionManager)
         .addRequestModule(factory.conversionManager)
         .addRequestModule(factory.structureManager)
         .addRequestModule(factory.definitionManager)
         .addRequestModule(factory.typeDefinitionManager)
+        .addRequestModule(factory.hoverManager)
         .addRequestModule(factory.implementationManager)
         .addRequestModule(factory.referenceManager)
+        .addRequestModule(factory.fileUsageManager)
         .addRequestModule(factory.documentLinksManager)
+        .addRequestModule(factory.renameManager)
+        .addRequestModule(factory.documentHighlightManager)
+        .addRequestModule(factory.foldingRangeManager)
+        .addRequestModule(factory.selectionRangeManager)
         .addInitializable(factory.telemetryManager)
     diagnosticManager.foreach(builder.addInitializableModule)
     factory.serializationManager.foreach(builder.addRequestModule)

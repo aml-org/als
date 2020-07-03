@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11application/json",
-    "filterText": "application/json:\n        ",
+    "filterText": "application/json:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 6
         }
       },
-      "newText": "application/json:\n        "
+      "newText": "application/json:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11application/xml",
-    "filterText": "application/xml:\n        ",
+    "filterText": "application/xml:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -53,7 +53,7 @@
           "character": 6
         }
       },
-      "newText": "application/xml:\n        "
+      "newText": "application/xml:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
