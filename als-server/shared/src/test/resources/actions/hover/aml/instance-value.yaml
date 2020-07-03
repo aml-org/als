@@ -1,0 +1,10 @@
+#%MetaHover 1.0
+rootName: name
+version: vers[*]ion
+son:
+  path1:
+    kind: 1
+    description: one
+  path2:
+    kind: 2
+    description: two

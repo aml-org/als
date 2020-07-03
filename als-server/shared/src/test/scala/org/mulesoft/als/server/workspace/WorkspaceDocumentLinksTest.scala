@@ -111,12 +111,14 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
     }
 
     def getDocumentLinks(path: String): Future[Seq[DocumentLink]] =
-      documentLinksManager.documentLinks(filePath(path))
-
+      documentLinksManager.documentLinks(filePath(path), "")
   }
 
   def buildServer(): LanguageServer =
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
+    new LanguageServerBuilder(factory.documentManager,
+                              factory.workspaceManager,
+                              factory.configurationManager,
+                              factory.resolutionTaskManager)
       .addRequestModule(factory.structureManager)
       .build()
 

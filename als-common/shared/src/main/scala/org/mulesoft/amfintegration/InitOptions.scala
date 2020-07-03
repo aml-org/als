@@ -1,34 +1,22 @@
-package org.mulesoft.amfmanager
+package org.mulesoft.amfintegration
 
-import amf.{Oas20Profile, ProfileName, Raml08Profile, Raml10Profile}
+import amf.core.remote._
 
 import scala.scalajs.js.annotation.JSExportAll
 
 @JSExportAll
-class InitOptions(val vendors: Set[ProfileName], val customDialects: Seq[CustomDialects] = Seq()) {
-  def filterClone(initialized: Set[ProfileName]) =
-    new InitOptions(vendors.filter(!initialized.contains(_)),
-                    customDialects.filter(c => !initialized.contains(c.name)))
-
-  def contains(profile: ProfileName): Boolean = vendors.contains(profile)
-
-  def withCustomDialects(dialects: Seq[CustomDialects]) = new InitOptions(vendors, dialects)
-
+class InitOptions(val vendors: Set[Vendor]) {
+  def contains(vendor: Vendor): Boolean = vendors.contains(vendor)
 }
 // todo: vendors instead of profiles?
 
 @JSExportAll
 object InitOptions {
-  val AllProfiles: InitOptions = new InitOptions(Set(Raml10Profile, Raml08Profile, Oas20Profile, AsyncAPIProfile))
+  val AllProfiles: InitOptions = new InitOptions(Set(Raml10, Raml08, Oas20, Oas30, AsyncApi20, Aml))
 
-  val WebApiProfiles: InitOptions = new InitOptions(Set(Raml10Profile, Raml08Profile, Oas20Profile))
+  val WebApiProfiles: InitOptions = new InitOptions(Set(Raml10, Raml08, Oas20, Oas30, AsyncApi20))
 
-  val RamlProfiles: InitOptions = new InitOptions(Set(Raml10Profile, Raml08Profile))
+  val RamlProfiles: InitOptions = new InitOptions(Set(Raml10, Raml08))
 
-  val OasProfile: InitOptions = new InitOptions(Set(Oas20Profile))
-
-  val AsyncProfile: InitOptions = new InitOptions(Set(AsyncAPIProfile))
+  val OasProfile: InitOptions = new InitOptions(Set(Oas20, Oas30))
 }
-
-@JSExportAll
-object AsyncAPIProfile extends ProfileName("AsyncAPI")

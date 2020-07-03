@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.protocol.configuration
 
 import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeOptions
+import org.mulesoft.als.server.feature.fileusage.FileUsageOptions
 import org.mulesoft.als.server.feature.serialization.{ConversionRequestOptions, SerializationServerOptions}
 import org.mulesoft.lsp.configuration.{StaticRegistrationOptions, WorkspaceServerCapabilities}
 import org.mulesoft.lsp.feature.codeactions.CodeActionOptions
@@ -41,7 +42,12 @@ case class AlsServerCapabilities(
     experimental: Option[AnyRef] = None,
     serialization: Option[SerializationServerOptions] = None,
     cleanDiagnostics: Option[CleanDiagnosticTreeOptions] = None,
-    conversion: Option[ConversionRequestOptions] = None)
+    fileUsage: Option[FileUsageOptions] = None,
+    conversion: Option[ConversionRequestOptions] = None,
+    documentHighlightProvider: Option[Boolean] = None,
+    hoverProvider: Option[Boolean] = None,
+    foldingRangeProvider: Option[Boolean] = None,
+    selectionRange: Option[Either[Boolean, StaticRegistrationOptions]] = None)
 
 object AlsServerCapabilities {
   def empty: AlsServerCapabilities = AlsServerCapabilities()

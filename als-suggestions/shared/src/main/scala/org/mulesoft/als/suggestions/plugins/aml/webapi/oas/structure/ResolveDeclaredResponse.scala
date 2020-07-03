@@ -7,7 +7,7 @@ import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.ResolveIfApplies
 import org.mulesoft.als.suggestions.plugins.aml._
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.Oas20ResponseObject
-import org.mulesoft.amfmanager.AmfImplicits._
+import org.mulesoft.amfintegration.AmfImplicits._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -22,7 +22,8 @@ object ResolveDeclaredResponse extends ResolveIfApplies {
 
   private def declaredResponse(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = Future {
     new AMLStructureCompletionsPlugin(
-      request.propertyMapping.filter(_.id != Oas20ResponseObject.statusCodeProperty.id))
+      request.propertyMapping.filter(_.id != Oas20ResponseObject.statusCodeProperty.id),
+      request.actualDialect)
       .resolve(request.amfObject.metaURIs.head)
   }
 }

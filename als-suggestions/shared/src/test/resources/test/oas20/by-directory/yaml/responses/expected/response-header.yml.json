@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11enum",
-    "filterText": "enum:\n                - ",
+    "filterText": "enum:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -143,7 +143,7 @@
           "character": 14
         }
       },
-      "newText": "enum:\n                - "
+      "newText": "enum:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11externalDocs",
-    "filterText": "externalDocs:\n                ",
+    "filterText": "externalDocs:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -203,7 +203,7 @@
           "character": 14
         }
       },
-      "newText": "externalDocs:\n                "
+      "newText": "externalDocs:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -302,7 +302,7 @@
   {
     "label": "type",
     "kind": [],
-    "detail": "types and traits",
+    "detail": "schemas",
     "documentation": "type",
     "deprecated": [],
     "preselect": [],
@@ -337,7 +337,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11xml",
-    "filterText": "xml:\n                ",
+    "filterText": "xml:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -353,7 +353,7 @@
           "character": 14
         }
       },
-      "newText": "xml:\n                "
+      "newText": "xml:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

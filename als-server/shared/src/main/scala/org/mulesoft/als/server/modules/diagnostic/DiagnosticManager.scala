@@ -9,11 +9,11 @@ import org.mulesoft.als.server.ClientNotifierModule
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.amfintegration.DiagnosticsBundle
-import org.mulesoft.amfmanager.ParserHelper
+import org.mulesoft.amfintegration.ParserHelper
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.diagnostic.{DiagnosticClientCapabilities, DiagnosticConfigType}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
-import org.mulesoft.amfmanager.AmfImplicits._
+import org.mulesoft.amfintegration.AmfImplicits._
 
 import scala.concurrent.Future
 
@@ -48,8 +48,6 @@ trait DiagnosticManager extends ClientNotifierModule[DiagnosticClientCapabilitie
     val msg =
       s"DiagnosticManager suffered an unexpected error while validating: $e"
     logger.warning(msg, "DiagnosticManager", "report")
-    telemetryProvider.addTimedMessage(msg, "DiagnosticManager", "report", MessageTypes.DIAGNOSTIC_ERROR, uri, uuid)
-
     Future.successful(failedReportDiagnostic(msg, baseUnit))
   }
 

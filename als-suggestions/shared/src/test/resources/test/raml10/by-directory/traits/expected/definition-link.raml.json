@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11tr2",
-    "filterText": "\n      - tr2",
+    "filterText": "\n- tr2",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 8
         }
       },
-      "newText": "\n      - tr2"
+      "newText": "\n- tr2"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

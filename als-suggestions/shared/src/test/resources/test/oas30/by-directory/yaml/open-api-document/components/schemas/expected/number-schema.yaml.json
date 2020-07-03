@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11anyOf",
-    "filterText": "anyOf:\n        ",
+    "filterText": "anyOf:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -53,7 +53,7 @@
           "character": 6
         }
       },
-      "newText": "anyOf:\n        "
+      "newText": "anyOf:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11enum",
-    "filterText": "enum:\n        - ",
+    "filterText": "enum:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -173,7 +173,7 @@
           "character": 6
         }
       },
-      "newText": "enum:\n        - "
+      "newText": "enum:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -277,7 +277,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11externalDocs",
-    "filterText": "externalDocs:\n        ",
+    "filterText": "externalDocs:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -293,7 +293,7 @@
           "character": 6
         }
       },
-      "newText": "externalDocs:\n        "
+      "newText": "externalDocs:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -427,7 +427,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11not",
-    "filterText": "not:\n        ",
+    "filterText": "not:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -443,7 +443,7 @@
           "character": 6
         }
       },
-      "newText": "not:\n        "
+      "newText": "not:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -487,7 +487,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11oneOf",
-    "filterText": "oneOf:\n        ",
+    "filterText": "oneOf:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -503,7 +503,7 @@
           "character": 6
         }
       },
-      "newText": "oneOf:\n        "
+      "newText": "oneOf:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -637,7 +637,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11xml",
-    "filterText": "xml:\n        ",
+    "filterText": "xml:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -653,7 +653,7 @@
           "character": 6
         }
       },
-      "newText": "xml:\n        "
+      "newText": "xml:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

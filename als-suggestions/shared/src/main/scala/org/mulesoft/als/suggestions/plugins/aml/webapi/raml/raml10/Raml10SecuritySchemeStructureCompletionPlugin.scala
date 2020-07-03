@@ -18,10 +18,11 @@ object Raml10SecuritySchemeStructureCompletionPlugin extends AMLCompletionPlugin
     Future {
       request.amfObject match {
         case s: SecurityScheme if request.yPartBranch.isKeyDescendantOf("describedBy") =>
-          Raml10SecuritySchemesDialect.DescribedBy.propertiesRaw()
+          Raml10SecuritySchemesDialect.DescribedBy.propertiesRaw(d = request.actualDialect)
         case s: SecurityScheme if request.fieldEntry.isEmpty && request.yPartBranch.isKey =>
           val suggestions =
-            new AMLStructureCompletionsPlugin(Raml10SecuritySchemesDialect.SecurityScheme.propertiesMapping())
+            new AMLStructureCompletionsPlugin(Raml10SecuritySchemesDialect.SecurityScheme.propertiesMapping(),
+                                              request.actualDialect)
               .resolve(Raml10SecuritySchemesDialect.SecurityScheme.nodetypeMapping.value())
           if (s.`type`
                 .option()

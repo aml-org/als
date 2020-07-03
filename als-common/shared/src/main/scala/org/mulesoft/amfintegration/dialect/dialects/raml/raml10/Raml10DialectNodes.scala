@@ -9,7 +9,7 @@ import amf.plugins.domain.webapi.metamodel.WebApiModel
 import org.mulesoft.amfintegration.dialect.dialects.raml.RamlDialectNodes
 
 object Raml10DialectNodes extends RamlDialectNodes {
-  override protected def dialectLocation: String = Raml10Dialect.dialectLocation
+  override protected def dialectLocation: String = Raml10TypesDialect.DialectLocation
 
   lazy val XmlNode: NodeMapping = NodeMapping()
     .withId(dialectLocation + "#/declarations/XmlNode")
@@ -113,5 +113,5 @@ object Raml10DialectNodes extends RamlDialectNodes {
   }
 
   override protected val resourceNodeMappings: Seq[PropertyMapping] = innerResourceNodeMappings
-  override protected val implicitField: String                      = Raml10Dialect.ImplicitField
+  override protected val implicitField: String                      = Raml10TypesDialect.ImplicitField
 }

@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.workspace
 
+import amf.core.remote.Platform
 import org.mulesoft.als.actions.common.{AliasInfo, RelationshipLink}
-import org.mulesoft.als.common.FileUtils
 import org.mulesoft.als.server.AlsWorkspaceService
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
@@ -13,6 +13,7 @@ import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, ExecuteCommandParams}
+import org.mulesoft.als.common.URIImplicits._
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -28,15 +29,17 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     with UnitsManager[CompilableUnit, BaseUnitListenerParams]
     with AlsWorkspaceService {
 
-  override def subscribers: List[BaseUnitListener]            = allSubscribers.filter(_.isActive)
-  private val rootHandler                                     = new WorkspaceRootHandler(environmentProvider.platform)
+  implicit val platform: Platform                  = environmentProvider.platform
+  override def subscribers: List[BaseUnitListener] = allSubscribers.filter(_.isActive)
+  private val rootHandler =
+    new WorkspaceRootHandler(environmentProvider.platform, environmentProvider.environmentSnapshot())
   private val workspaces: ListBuffer[WorkspaceContentManager] = ListBuffer()
 
   def getWorkspace(uri: String): WorkspaceContentManager =
     workspaces.find(ws => uri.startsWith(ws.folder)).getOrElse(defaultWorkspace)
 
   def initializeWS(root: String): Future[Unit] =
-    rootHandler.extractConfiguration(root).flatMap { mainOption =>
+    rootHandler.extractConfiguration(root, logger).flatMap { mainOption =>
       if (!workspaces.exists(w => root.startsWith(w.folder))) { // if there is an existing WS containing the new one, dont add it
         logger
           .debug("Adding workspace: " + root, "WorkspaceManager", "initializeWS")
@@ -85,7 +88,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   override def notify(uri: String, kind: NotificationKind): Unit = {
     val manager: WorkspaceContentManager = getWorkspace(uri)
     if (manager.configFile
-          .map(FileUtils.getEncodedUri(_, environmentProvider.platform))
+          .map(_.toAmfUri)
           .contains(uri)) {
       manager.withConfiguration(ReaderWorkspaceConfigurationProvider(manager))
       manager.stage(uri, CHANGE_CONFIG)
@@ -120,8 +123,8 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   val defaultWorkspace =
     new WorkspaceContentManager("", environmentProvider, telemetryProvider, logger, subscribers)
 
-  override def getRootOf(uri: String): Option[String] =
-    getWorkspace(uri).workspaceConfiguration.map(c => s"${c.rootFolder}/")
+  override def getProjectRootOf(uri: String): Option[String] =
+    getWorkspace(uri).getRootFolderFor(uri)
 
   override def initialize(workspaceFolders: List[WorkspaceFolder]): Future[Unit] = {
     // Drop all old workspaces
@@ -149,6 +152,16 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
 
   override def getDocumentLinks(uri: String, uuid: String): Future[Seq[DocumentLink]] =
     getLastUnit(uri, uuid).flatMap(_ => getWorkspace(uri).getRelationships(uri).getDocumentLinks(uri))
+
+  override def getAllDocumentLinks(uri: String, uuid: String): Future[Map[String, Seq[DocumentLink]]] = {
+    val workspace = getWorkspace(uri)
+    workspace.mainFileUri match {
+      case Some(mf) =>
+        getLastUnit(mf, uuid)
+          .flatMap(_ => workspace.getRelationships(mf).getAllDocumentLinks())
+      case _ => Future.successful(Map.empty)
+    }
+  }
 
   override def getAliases(uri: String, uuid: String): Future[Seq[AliasInfo]] =
     getLastUnit(uri, uuid).flatMap(_ => getWorkspace(uri).getRelationships(uri).getAliases(uri))

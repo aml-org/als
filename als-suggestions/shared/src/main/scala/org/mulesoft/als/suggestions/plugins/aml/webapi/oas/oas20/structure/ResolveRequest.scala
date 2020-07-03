@@ -23,7 +23,7 @@ object ResolveRequest extends ResolveIfApplies with ParameterKnowledge {
             request.actualDialect.declares
               .collect({ case n: NodeMapping => n })
               .find(_.nodetypeMapping.option().contains(OperationModel.`type`.head.iri()))
-              .map(_.propertiesRaw())
+              .map(_.propertiesRaw(d = request.actualDialect))
               .getOrElse(Nil)
           })
         else notApply

@@ -1,12 +1,12 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.plugins.document.vocabularies.ReferenceStyles
+import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import org.mulesoft.als.common.SemanticNamedElement._
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.{PlainText, RawSuggestion, SuggestionStructure}
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.amfmanager.AmfImplicits._
+import org.mulesoft.amfintegration.AmfImplicits._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

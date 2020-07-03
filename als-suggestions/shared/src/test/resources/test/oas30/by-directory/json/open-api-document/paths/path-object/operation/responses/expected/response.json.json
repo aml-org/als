@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11content",
-    "filterText": "\"content\": {\n              \"$1\"\n            }",
+    "filterText": "\"content\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -53,7 +53,7 @@
           "character": 15
         }
       },
-      "newText": "\"content\": {\n              \"$1\"\n            }"
+      "newText": "\"content\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11headers",
-    "filterText": "\"headers\": {\n              \"$1\"\n            }",
+    "filterText": "\"headers\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -113,7 +113,7 @@
           "character": 15
         }
       },
-      "newText": "\"headers\": {\n              \"$1\"\n            }"
+      "newText": "\"headers\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11links",
-    "filterText": "\"links\": {\n              \"$1\"\n            }",
+    "filterText": "\"links\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -143,7 +143,7 @@
           "character": 15
         }
       },
-      "newText": "\"links\": {\n              \"$1\"\n            }"
+      "newText": "\"links\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

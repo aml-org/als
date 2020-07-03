@@ -69,7 +69,10 @@ class CustomValidationPluginTest extends LanguageServerBaseTest {
     val builder     = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, env).withAmfConfiguration(amfInstance)
     val dm          = builder.diagnosticManager()
     val factory     = builder.buildWorkspaceManagerFactory()
-    val b           = new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
+    val b = new LanguageServerBuilder(factory.documentManager,
+                                      factory.workspaceManager,
+                                      factory.configurationManager,
+                                      factory.resolutionTaskManager)
 
     dm.foreach(b.addInitializableModule)
     b.build()

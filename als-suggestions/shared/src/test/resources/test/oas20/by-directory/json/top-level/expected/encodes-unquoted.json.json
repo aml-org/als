@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11consumes",
-    "filterText": "\"consumes\": [\n    \"$1\"\n  ],",
+    "filterText": "\"consumes\": [\n  \"$1\"\n],",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -53,7 +53,7 @@
           "character": 2
         }
       },
-      "newText": "\"consumes\": [\n    \"$1\"\n  ],"
+      "newText": "\"consumes\": [\n  \"$1\"\n],"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11definitions",
-    "filterText": "\"definitions\": {\n    \"$1\"\n  },",
+    "filterText": "\"definitions\": {\n  \"$1\"\n},",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -83,7 +83,7 @@
           "character": 2
         }
       },
-      "newText": "\"definitions\": {\n    \"$1\"\n  },"
+      "newText": "\"definitions\": {\n  \"$1\"\n},"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11externalDocs",
-    "filterText": "\"externalDocs\": {\n    \"$1\"\n  },",
+    "filterText": "\"externalDocs\": {\n  \"$1\"\n},",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -113,7 +113,7 @@
           "character": 2
         }
       },
-      "newText": "\"externalDocs\": {\n    \"$1\"\n  },"
+      "newText": "\"externalDocs\": {\n  \"$1\"\n},"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10info",
-    "filterText": "\"info\": {\n    \"$1\"\n  },",
+    "filterText": "\"info\": {\n  \"$1\"\n},",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -173,7 +173,7 @@
           "character": 2
         }
       },
-      "newText": "\"info\": {\n    \"$1\"\n  },"
+      "newText": "\"info\": {\n  \"$1\"\n},"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11parameters",
-    "filterText": "\"parameters\": {\n    \"$1\"\n  },",
+    "filterText": "\"parameters\": {\n  \"$1\"\n},",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -203,7 +203,7 @@
           "character": 2
         }
       },
-      "newText": "\"parameters\": {\n    \"$1\"\n  },"
+      "newText": "\"parameters\": {\n  \"$1\"\n},"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -217,7 +217,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10paths",
-    "filterText": "\"paths\": {\n    \"$1\"\n  },",
+    "filterText": "\"paths\": {\n  \"$1\"\n},",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -233,7 +233,7 @@
           "character": 2
         }
       },
-      "newText": "\"paths\": {\n    \"$1\"\n  },"
+      "newText": "\"paths\": {\n  \"$1\"\n},"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -247,7 +247,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11produces",
-    "filterText": "\"produces\": [\n    \"$1\"\n  ],",
+    "filterText": "\"produces\": [\n  \"$1\"\n],",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -263,7 +263,7 @@
           "character": 2
         }
       },
-      "newText": "\"produces\": [\n    \"$1\"\n  ],"
+      "newText": "\"produces\": [\n  \"$1\"\n],"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -277,7 +277,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11responses",
-    "filterText": "\"responses\": {\n    \"$1\"\n  },",
+    "filterText": "\"responses\": {\n  \"$1\"\n},",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -293,7 +293,7 @@
           "character": 2
         }
       },
-      "newText": "\"responses\": {\n    \"$1\"\n  },"
+      "newText": "\"responses\": {\n  \"$1\"\n},"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -307,7 +307,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11schemes",
-    "filterText": "\"schemes\": [\n    \"$1\"\n  ],",
+    "filterText": "\"schemes\": [\n  \"$1\"\n],",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -323,7 +323,7 @@
           "character": 2
         }
       },
-      "newText": "\"schemes\": [\n    \"$1\"\n  ],"
+      "newText": "\"schemes\": [\n  \"$1\"\n],"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -337,7 +337,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11security",
-    "filterText": "\"security\": [\n    \"$1\"\n  ],",
+    "filterText": "\"security\": [\n  \"$1\"\n],",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -353,7 +353,7 @@
           "character": 2
         }
       },
-      "newText": "\"security\": [\n    \"$1\"\n  ],"
+      "newText": "\"security\": [\n  \"$1\"\n],"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -367,7 +367,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11securityDefinitions",
-    "filterText": "\"securityDefinitions\": {\n    \"$1\"\n  },",
+    "filterText": "\"securityDefinitions\": {\n  \"$1\"\n},",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -383,7 +383,7 @@
           "character": 2
         }
       },
-      "newText": "\"securityDefinitions\": {\n    \"$1\"\n  },"
+      "newText": "\"securityDefinitions\": {\n  \"$1\"\n},"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -397,7 +397,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11tags",
-    "filterText": "\"tags\": [\n    \"$1\"\n  ],",
+    "filterText": "\"tags\": [\n  \"$1\"\n],",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -413,7 +413,7 @@
           "character": 2
         }
       },
-      "newText": "\"tags\": [\n    \"$1\"\n  ],"
+      "newText": "\"tags\": [\n  \"$1\"\n],"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

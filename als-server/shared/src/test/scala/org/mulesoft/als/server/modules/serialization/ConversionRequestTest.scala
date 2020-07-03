@@ -16,7 +16,10 @@ class ConversionRequestTest extends LanguageServerBaseTest {
     val factory =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
 
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
+    new LanguageServerBuilder(factory.documentManager,
+                              factory.workspaceManager,
+                              factory.configurationManager,
+                              factory.resolutionTaskManager)
       .addRequestModule(factory.conversionManager)
       .build()
   }

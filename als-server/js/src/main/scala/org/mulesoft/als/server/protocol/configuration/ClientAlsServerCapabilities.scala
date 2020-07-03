@@ -30,16 +30,21 @@ trait ClientAlsServerCapabilities extends js.Object {
   def experimental: UndefOr[js.Object]                                           = js.native
   def serialization: UndefOr[ClientSerializationServerOptions]                   = js.native
   def cleanDiagnostics: UndefOr[ClientCleanDiagnosticTreeOptions]                = js.native
+  def fileUsage: UndefOr[ClientFileUsageOptions]                                 = js.native
   def conversion: UndefOr[ClientConversionOptions]                               = js.native
-
+  def documentHighlightProvider: UndefOr[Boolean]
+  def hoverProvider: UndefOr[Boolean]        = js.native
+  def foldingRangeProvider: UndefOr[Boolean] = js.native
 }
 
 object ClientAlsServerCapabilities {
   def apply(internal: AlsServerCapabilities): ClientAlsServerCapabilities =
     js.Dynamic
       .literal(
-        textDocumentSync =
-          internal.textDocumentSync.map(eitherToUnionWithMapping(_.id, _.toClient)).orUndefined.asInstanceOf[js.Any],
+        textDocumentSync = internal.textDocumentSync
+          .map(eitherToUnionWithMapping(_.id, _.toClient))
+          .orUndefined
+          .asInstanceOf[js.Any],
         completionProvider = internal.completionProvider.map(_.toClient).orUndefined,
         definitionProvider = internal.definitionProvider,
         implementationProvider = internal.implementationProvider
@@ -56,10 +61,16 @@ object ClientAlsServerCapabilities {
         codeActionProvider = internal.codeActionProvider.map(_.toClient).orUndefined,
         documentLinkProvider = internal.documentLinkProvider.map(_.toClient).orUndefined,
         workspace = internal.workspace.map(_.toClient).orUndefined,
-        experimental = internal.experimental.collect { case js: js.Object => js }.orUndefined,
+        experimental = internal.experimental.collect {
+          case js: js.Object => js
+        }.orUndefined,
         serialization = internal.serialization.map(_.toClient).orUndefined,
         cleanDiagnostics = internal.cleanDiagnostics.map(_.toClient).orUndefined,
-        conversion = internal.conversion.map(_.toClient).orUndefined
+        fileUsage = internal.fileUsage.map(_.toClient).orUndefined,
+        conversion = internal.conversion.map(_.toClient).orUndefined,
+        documentHighlightProvider = internal.documentHighlightProvider.orUndefined,
+        hoverProvider = internal.hoverProvider.orUndefined,
+        foldingRangeProvider = internal.foldingRangeProvider.orUndefined
       )
       .asInstanceOf[ClientAlsServerCapabilities]
 }

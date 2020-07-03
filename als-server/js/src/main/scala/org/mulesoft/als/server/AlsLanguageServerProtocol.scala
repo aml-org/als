@@ -1,19 +1,10 @@
 package org.mulesoft.als.server
 
-import org.mulesoft.als.server.protocol.configuration.ClientAlsClientCapabilities
-import org.mulesoft.als.server.protocol.diagnostic.{
-  ClientAlsPublishDiagnosticsParams,
-  ClientCleanDiagnosticTreeParams,
-  ClientFilesInProjectParams
-}
-import org.mulesoft.als.server.protocol.serialization.{
-  ClientConversionParams,
-  ClientSerializationParams,
-  ClientSerializationResult,
-  ClientSerializedDocument
-}
+import org.mulesoft.als.server.protocol.configuration.{ClientAlsClientCapabilities, ClientUpdateConfigurationParams}
+import org.mulesoft.als.server.protocol.diagnostic.{ClientAlsPublishDiagnosticsParams, ClientCleanDiagnosticTreeParams, ClientFilesInProjectParams}
+import org.mulesoft.als.server.protocol.serialization.{ClientConversionParams, ClientSerializationParams, ClientSerializationResult, ClientSerializedDocument}
 import org.mulesoft.als.vscode.{NotificationType, RequestType}
-import org.mulesoft.lsp.feature.diagnostic.ClientPublishDiagnosticsParams
+import org.mulesoft.lsp.feature.common.{ClientLocation, ClientTextDocumentIdentifier}
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSExportTopLevel
@@ -22,6 +13,12 @@ import scala.scalajs.js.annotation.JSExportTopLevel
 object SerializationEventNotification {
   val `type`: NotificationType[ClientSerializationResult, js.Any] =
     new NotificationType[ClientSerializationResult, js.Any]("SerializeJSONLD")
+}
+
+@JSExportTopLevel("UpdateConfigurationNotification")
+object UpdateClientConfigurationNotification {
+  val `type`: NotificationType[ClientUpdateConfigurationParams, js.Any] =
+    new NotificationType[ClientUpdateConfigurationParams, js.Any]("UpdateConfiguration")
 }
 
 @JSExportTopLevel("FilesInProjectEventNotification")
@@ -41,6 +38,12 @@ object ClientCleanDiagnosticTreeRequestType {
     : RequestType[ClientCleanDiagnosticTreeParams, js.Array[ClientAlsPublishDiagnosticsParams], js.Any, js.Any] =
     new RequestType[ClientCleanDiagnosticTreeParams, js.Array[ClientAlsPublishDiagnosticsParams], js.Any, js.Any](
       "CleanDiagnosticTree")
+}
+
+@JSExportTopLevel("FileUsageRequestType")
+object FileUsageRequest {
+  val `type`: RequestType[ClientTextDocumentIdentifier, js.Array[ClientLocation], js.Any, js.Any] =
+    new RequestType[ClientTextDocumentIdentifier, js.Array[ClientLocation], js.Any, js.Any]("FileUsage")
 }
 
 @JSExportTopLevel("ConversionRequestType")

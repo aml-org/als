@@ -1,14 +1,12 @@
 package org.mulesoft.als.server.modules.actions
 
-import java.util.UUID
-
 import org.mulesoft.als.actions.references.FindReferences
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.ConfigType
-import org.mulesoft.lsp.feature.RequestHandler
+import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.common.Location
 import org.mulesoft.lsp.feature.reference.{
   ReferenceClientCapabilities,
@@ -16,7 +14,8 @@ import org.mulesoft.lsp.feature.reference.{
   ReferenceParams,
   ReferenceRequestType
 }
-import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
+import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
+import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -31,12 +30,25 @@ class FindReferenceManager(val workspace: WorkspaceManager,
   override val `type`: ConfigType[ReferenceClientCapabilities, Unit] =
     ReferenceConfigType
 
-  override val getRequestHandlers: Seq[RequestHandler[_, _]] = Seq(
-    new RequestHandler[ReferenceParams, Seq[Location]] {
+  override val getRequestHandlers: Seq[TelemeteredRequestHandler[_, _]] = Seq(
+    new TelemeteredRequestHandler[ReferenceParams, Seq[Location]] {
       override def `type`: ReferenceRequestType.type = ReferenceRequestType
 
-      override def apply(params: ReferenceParams): Future[Seq[Location]] =
-        findReference(params.textDocument.uri, Position(params.position.line, params.position.character))
+      override def task(params: ReferenceParams): Future[Seq[Location]] =
+        findReference(params.textDocument.uri, Position(params.position), uuid(params))
+
+      override protected def telemetry: TelemetryProvider = telemetryProvider
+
+      override protected def code(params: ReferenceParams): String = "FindReferenceManager"
+
+      override protected def beginType(params: ReferenceParams): MessageTypes = MessageTypes.BEGIN_FIND_REF
+
+      override protected def endType(params: ReferenceParams): MessageTypes = MessageTypes.END_FIND_REF
+
+      override protected def msg(params: ReferenceParams): String =
+        s"Request for references on ${params.textDocument.uri}"
+
+      override protected def uri(params: ReferenceParams): String = params.textDocument.uri
     }
   )
 
@@ -44,15 +56,13 @@ class FindReferenceManager(val workspace: WorkspaceManager,
     conf = config
   }
 
-  def findReference(uri: String, position: Position): Future[Seq[Location]] = {
-    val uuid = UUID.randomUUID().toString
+  def findReference(uri: String, position: Position, uuid: String): Future[Seq[Location]] =
     workspace
       .getLastUnit(uri, uuid)
       .flatMap(_.getLast)
-      .flatMap(bu => {
-        FindReferences.getReferences(bu.unit, uri, position, workspace.getRelationships(uri, uuid))
+      .flatMap(_ => {
+        FindReferences.getReferences(uri, position, workspace.getRelationships(uri, uuid)).map(_.map(_.source))
       })
-  }
 
   override def initialize(): Future[Unit] =
     Future.successful()

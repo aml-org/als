@@ -19,7 +19,54 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest {
     private val files: Map[String, String] = Map(
       "file://file%20with%20spaces.raml" ->
         """#%RAML 1.0
-        |description: this is a RAML without title""".stripMargin
+        |description: this is a RAML without title""".stripMargin,
+      "file://api.raml"        -> """#%RAML 0.8
+                             |title: GitHub API
+                             |resourceTypes:
+                             |   - collection: !include collection.raml
+                             |
+                             |traits:
+                             |   - paged: !include paged.raml
+                             |
+                             |schemas:
+                             |  - User: !include /user.raml
+                             |
+                             |securitySchemes:
+                             |  - oauth_2_0: !include /oauth_2_0.raml
+                             |
+                             |/users:
+                             |  type: collection
+                             |  securedBy: [ oauth_2_0: { scopes: [ ADMIN ] } ]
+                             |  get:
+                             |    is: [ paged ]
+                             |    responses:
+                             |        200:
+                             |          body:
+                             |            application/json:
+                             |              schema: User""".stripMargin,
+      "file://collection.raml" -> """#%RAML 1.0 ResourceType
+                                    |usage: This resourceType should be used for any collection of items
+                                    |description: The collection of <<resourcePathName>>
+                                    |get:
+                                    |  description: Get all <<resourcePathName>>, optionally filtered
+                                    |post:
+                                    |  description: Create a new <<resourcePathName | !singularize>>""".stripMargin,
+      "file://oauth_2_0.raml"  -> """#%RAML 1.0 SecurityScheme
+                                   |description: |
+                                   |  This API supports OAuth 2.0 for authenticating all API requests.
+                                   |type: OAuth 2.0
+                                   |settings:
+                                   |  accessTokenUri:   https://esboam-dev.hhq.hud.dev/openam/oauth2/access_token
+                                   |  authorizationGrants: [ client_credentials ]
+                                   |  scopes: [ ADMIN ]""".stripMargin,
+      "file://paged.raml"      -> """#%RAML 1.0 Trait
+                               |queryParameters:
+                               |  start:
+                               |    type: number""".stripMargin,
+      "file://user.raml"       -> """#%RAML 1.0 DataType
+                              |properties:
+                              |  name: string
+                              |  age?: number""".stripMargin
     )
 
     override def fetch(resource: String): Future[Content] =
@@ -40,7 +87,10 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest {
     val builder     = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, env).withAmfConfiguration(amfInstance)
     val dm          = builder.diagnosticManager()
     val factory     = builder.buildWorkspaceManagerFactory()
-    val b           = new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.resolutionTaskManager)
+    val b = new LanguageServerBuilder(factory.documentManager,
+                                      factory.workspaceManager,
+                                      factory.configurationManager,
+                                      factory.resolutionTaskManager)
     b.addRequestModule(factory.cleanDiagnosticManager)
     dm.foreach(b.addInitializableModule)
     b.build()
@@ -58,6 +108,19 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest {
       } yield {
         server.shutdown()
         assert(d.length == 1)
+      }
+    }
+  }
+
+  test("Test clean validation with invalid vendor inclusions") {
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    withServer(buildServer(diagnosticNotifier)) { server =>
+      val apiPath = s"file://api.raml"
+      for {
+        d <- requestCleanDiagnostic(server)(apiPath)
+      } yield {
+        server.shutdown()
+        assert(d.exists(_.diagnostics.nonEmpty))
       }
     }
   }

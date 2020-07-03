@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11fragments",
-    "filterText": "fragments:\n    ",
+    "filterText": "fragments:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 2
         }
       },
-      "newText": "fragments:\n    "
+      "newText": "fragments:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11library",
-    "filterText": "library:\n    ",
+    "filterText": "library:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -53,7 +53,7 @@
           "character": 2
         }
       },
-      "newText": "library:\n    "
+      "newText": "library:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11options",
-    "filterText": "options:\n    ",
+    "filterText": "options:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -83,7 +83,7 @@
           "character": 2
         }
       },
-      "newText": "options:\n    "
+      "newText": "options:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11root",
-    "filterText": "root:\n    ",
+    "filterText": "root:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +113,7 @@
           "character": 2
         }
       },
-      "newText": "root:\n    "
+      "newText": "root:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

@@ -7,11 +7,16 @@ public class AlsServerCapabilities extends ServerCapabilities {
     private SerializationServerOptions serialization;
 
     private CleanDiagnosticTreeServerOptions cleanDiagnosticTree;
+    private FileUsageServerOptions fileUsage;
 
     private ConversionServerOptions conversion;
 
     public void setSerialization(SerializationServerOptions serialization) {
         this.serialization = serialization;
+    }
+
+    public void setFileUsage(FileUsageServerOptions fileUsage) {
+        this.fileUsage = fileUsage;
     }
 
     public void setCleanDiagnosticTree(CleanDiagnosticTreeServerOptions cleanDiagnosticTree) {

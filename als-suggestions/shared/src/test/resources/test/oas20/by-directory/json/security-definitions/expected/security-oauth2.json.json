@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11scopes",
-    "filterText": "\"scopes\": {\n        \"$1\"\n      }",
+    "filterText": "\"scopes\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -113,7 +113,7 @@
           "character": 9
         }
       },
-      "newText": "\"scopes\": {\n        \"$1\"\n      }"
+      "newText": "\"scopes\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

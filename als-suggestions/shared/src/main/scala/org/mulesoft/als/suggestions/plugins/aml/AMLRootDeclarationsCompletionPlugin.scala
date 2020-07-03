@@ -8,7 +8,7 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.categories.CategoryRegistry
-import org.mulesoft.amfmanager.AmfImplicits._
+import org.mulesoft.amfintegration.AmfImplicits._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -47,7 +47,7 @@ class AMLRootDeclarationsCompletionPlugin(params: AmlCompletionRequest) {
   def resolve(classTerm: String): Future[Seq[RawSuggestion]] =
     Future {
       (getSuggestions ++ usesSuggestion())
-        .map(s => RawSuggestion.forObject(s._1, CategoryRegistry(classTerm, s._1)))
+        .map(s => RawSuggestion.forObject(s._1, CategoryRegistry(classTerm, s._1, params.actualDialect.id)))
     }
 }
 

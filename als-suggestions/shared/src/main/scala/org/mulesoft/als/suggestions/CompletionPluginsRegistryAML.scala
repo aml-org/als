@@ -12,6 +12,12 @@ import scala.concurrent.Future
 
 class CompletionPluginsRegistryAML {
 
+  def filter(ignoredPlugins: Set[AMLCompletionPlugin]): CompletionPluginsRegistryAML = {
+    val cloned = new CompletionPluginsRegistryAML()
+    pluginsSet.diff(ignoredPlugins).foreach(cloned.registerPlugin)
+    cloned
+  }
+
   private val pluginsSet: mutable.Set[AMLCompletionPlugin] = mutable.Set()
 
   def registerPlugin(plugin: AMLCompletionPlugin): CompletionPluginsRegistryAML = {
@@ -22,8 +28,7 @@ class CompletionPluginsRegistryAML {
 
   def cleanPlugins(): Unit = pluginsSet.clear()
 
-  def suggests(params: AmlCompletionRequest, ignore: Set[AMLCompletionPlugin]): Future[Seq[RawSuggestion]] =
-    suggest(params, pluginsSet.toSet.diff(ignore))
+  def suggests(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = suggest(params, pluginsSet.toSet)
 
   private def suggest(params: AmlCompletionRequest, pluginsSet: Set[AMLCompletionPlugin]): Future[Seq[RawSuggestion]] = {
     val seq: Seq[Future[Seq[RawSuggestion]]] = pluginsSet
@@ -43,15 +48,23 @@ class CompletionPluginsRegistryAML {
   }
 }
 
-object CompletionsPluginHandler {
+class CompletionsPluginHandler {
+
+  def filter(ignoredPlugins: Set[AMLCompletionPlugin]): CompletionsPluginHandler = {
+    val cloned = new CompletionsPluginHandler()
+    registries.foreach {
+      case (d, plugins) =>
+        cloned.registries.update(d, plugins.filter(ignoredPlugins))
+    }
+    cloned
+  }
 
   private val registries: mutable.Map[String, CompletionPluginsRegistryAML] =
     mutable.Map()
 
-  def pluginSuggestions(params: AmlCompletionRequest,
-                        ignore: Set[AMLCompletionPlugin] = Set.empty): Future[Seq[RawSuggestion]] =
+  def pluginSuggestions(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     getRegistryForDialect(params.actualDialect)
-      .suggests(params, ignore)
+      .suggests(params)
 
   private def getRegistryForDialect(dialect: Dialect) =
     registries
@@ -72,7 +85,7 @@ object CompletionsPluginHandler {
       registries.put(dialect, p)
   }
 
-  def cleanIndex(): Unit = registries.keys.foreach(registries.remove)
+  def cleanIndex(): Unit = registries.clear()
 }
 
 object AMLBaseCompletionPlugins {

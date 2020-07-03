@@ -3,8 +3,8 @@ package org.mulesoft.als.suggestions.plugins.headers
 import amf.plugins.document.vocabularies.AMLPlugin
 import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.configuration.Configuration
-import org.mulesoft.als.suggestions.{HeaderCompletionParams, RawSuggestion}
 import org.mulesoft.als.suggestions.interfaces.HeaderCompletionPlugin
+import org.mulesoft.als.suggestions.{HeaderCompletionParams, RawSuggestion}
 import org.mulesoft.amfintegration.dialect.dialects.metadialect.MetaDialect
 
 import scala.concurrent.Future
@@ -12,8 +12,8 @@ import scala.concurrent.Future
 object AMLHeadersCompletionPlugin extends HeaderCompletionPlugin {
   override def id: String = "AMLHeadersCompletionPlugin"
 
-  def allHeaders: Seq[String] =
-    (AMLPlugin.registry
+  def allHeaders(amlPlugin: AMLPlugin): Seq[String] =
+    (amlPlugin.registry
       .allDialects()
       .filterNot(d => Configuration.internalDialects.contains(d.id))
       .filterNot(d => Option(d.documents()).exists(_.keyProperty().value()))
@@ -24,7 +24,7 @@ object AMLHeadersCompletionPlugin extends HeaderCompletionPlugin {
   override def resolve(params: HeaderCompletionParams): Future[Seq[RawSuggestion]] =
     Future.successful(
       if (!params.uri.toLowerCase().endsWith(".json"))
-        allHeaders
+        allHeaders(params.amfInstance.alsAmlPlugin)
           .map(h => RawSuggestion.plain(h, s"Define a ${h.substring(1)} file"))
       else Seq()
     )

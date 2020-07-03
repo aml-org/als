@@ -1,0 +1,16 @@
+swagger: '2.0'
+definitions:
+  Use*r:
+    properties:
+      name:
+        type: string
+paths:
+  /users/{userId}:
+    get:
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/User'
+        404:
+          schema:
+            $ref: '#/definitions/User'

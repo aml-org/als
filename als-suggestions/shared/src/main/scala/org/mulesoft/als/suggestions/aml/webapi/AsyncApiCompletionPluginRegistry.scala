@@ -1,5 +1,7 @@
 package org.mulesoft.als.suggestions.aml.webapi
 
+import amf.core.remote.{AsyncApi20, Vendor}
+import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.SecuredByCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.async.bindings.{
@@ -21,7 +23,7 @@ import org.mulesoft.als.suggestions.plugins.aml.{ResolveDefault, StructureComple
 import org.mulesoft.als.suggestions.{AMLBaseCompletionPlugins, CompletionsPluginHandler}
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
 
-object AsyncApiCompletionPluginRegistry {
+object AsyncApiCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
   private val all: Seq[AMLCompletionPlugin] =
     AMLBaseCompletionPlugins.all :+
       SecuredByCompletionPlugin :+
@@ -49,6 +51,7 @@ object AsyncApiCompletionPluginRegistry {
       AsyncMessageContentType :+
       Async20RequiredObjectCompletionPlugin
 
-  def init(): Unit =
-    CompletionsPluginHandler.registerPlugins(all, AsyncApi20Dialect().id)
+  override def plugins: Seq[AMLCompletionPlugin] = all
+
+  override def dialect: Dialect = AsyncApi20Dialect()
 }

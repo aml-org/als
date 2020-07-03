@@ -7,12 +7,9 @@ class StructureTests extends RAMLSuggestionTestServer {
   override implicit val executionContext = ExecutionContext.Implicits.global
 
   test("test 01") {
-    runTest("structure/test01.raml", Set("responses:\n      "))
+    runTest("structure/test01.raml", Set("responses:\n  "))
   }
 
-  // TODO: tests are failing when "test 01" doesn't run first"
-  //  for example: "serverJVM/testOnly *StructureTests* -- -z "test 02"" fails,
-  //  while "serverJVM/testOnly *StructureTests* -- -z "test 01"" runs without problems
   test("test 02") {
     runTest("structure/test02.raml", Set("types:\n  "))
   }

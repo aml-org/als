@@ -17,6 +17,9 @@ public interface ExtendedLanguageServer {
     @JsonNotification
     void initialized(InitializedParams params);
 
+    @JsonNotification
+    void updateConfiguration(UpdateConfigurationParams params);
+
     @JsonRequest
     CompletableFuture<Object> shutdown();
 

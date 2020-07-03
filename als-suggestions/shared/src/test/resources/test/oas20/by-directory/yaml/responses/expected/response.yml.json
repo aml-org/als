@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11examples",
-    "filterText": "examples:\n            ",
+    "filterText": "examples:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -83,7 +83,7 @@
           "character": 10
         }
       },
-      "newText": "examples:\n            "
+      "newText": "examples:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11headers",
-    "filterText": "headers:\n            ",
+    "filterText": "headers:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +113,7 @@
           "character": 10
         }
       },
-      "newText": "headers:\n            "
+      "newText": "headers:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11schema",
-    "filterText": "schema:\n            ",
+    "filterText": "schema:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -143,7 +143,7 @@
           "character": 10
         }
       },
-      "newText": "schema:\n            "
+      "newText": "schema:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

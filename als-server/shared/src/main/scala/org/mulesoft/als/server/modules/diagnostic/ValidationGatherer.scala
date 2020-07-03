@@ -28,12 +28,6 @@ class ValidationGatherer(telemetryProvider: TelemetryProvider) {
       resultsByUnit.update(manager, mutable.Map.empty)
     val results: Map[String, Seq[AMFValidationResult]] =
       result.errors.groupBy(r => r.location.getOrElse(result.location))
-    telemetryProvider.addTimedMessage(s"Got reports: ${result.location}",
-                                      "DiagnosticManager",
-                                      "onNewAst",
-                                      MessageTypes.GOT_DIAGNOSTICS,
-                                      result.location,
-                                      uuid)
 
     result.tree.getOrElse(Set.empty).foreach { t =>
       results.get(t) match {
