@@ -24,7 +24,7 @@ class Relationships private (private val repository: WorkspaceParserRepository,
         .map {
           _.map { cu => // todo: optimize in cases in which I want all references from the same BU?
             val visitors = AmfElementDefaultVisitors.build(cu.unit)
-            visitors.applyAmfVisitors(List(cu.unit))
+            visitors.applyAmfVisitors(cu.unit)
             fallBack(visitors)
           }
         }
@@ -39,7 +39,7 @@ class Relationships private (private val repository: WorkspaceParserRepository,
     * Provides Project links for all files
     * @return
     */
-  def getAllDocumentLinks(): Future[Map[String, Seq[DocumentLink]]] =
+  def getAllDocumentLinks: Future[Map[String, Seq[DocumentLink]]] =
     Future.successful(repository.documentLinks())
 
   def getAliases(uri: String): Future[Seq[AliasInfo]] =

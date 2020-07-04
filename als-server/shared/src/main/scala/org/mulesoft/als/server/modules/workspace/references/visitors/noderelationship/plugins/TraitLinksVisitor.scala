@@ -27,14 +27,13 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
       case _ => Nil
     }
 
-  private def extractFromEntries(entries: Iterable[FieldEntry]): Seq[RelationshipLink] = {
+  private def extractFromEntries(entries: Iterable[FieldEntry]): Seq[RelationshipLink] =
     entries
       .find(fe => fe.field.value == Namespace.Document + "extends")
       .map(parametrizedDeclarationTargetsWithPosition)
       .getOrElse(Nil)
-  }
 
-  private def parametrizedDeclarationTargetsWithPosition(fe: FieldEntry): Seq[RelationshipLink] = {
+  private def parametrizedDeclarationTargetsWithPosition(fe: FieldEntry): Seq[RelationshipLink] =
     fe.value.value match {
       case array: AmfArray =>
         array.values.flatMap {
@@ -55,7 +54,6 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
         }
       case _ => Nil
     }
-  }
 
   private def fieldEntryToLocation(fe: FieldEntry,
                                    p: ParametrizedDeclaration,

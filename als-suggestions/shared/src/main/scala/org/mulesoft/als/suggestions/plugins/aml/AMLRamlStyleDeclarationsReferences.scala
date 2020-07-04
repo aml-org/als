@@ -2,7 +2,6 @@ package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.core.metamodel.domain.DomainElementModel
 import amf.core.parser.FieldEntry
-import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
@@ -42,7 +41,7 @@ class AMLRamlStyleDeclarationsReferences(nodeTypeMappings: Seq[String],
 object AMLRamlStyleDeclarationsReferences extends AMLDeclarationReferences {
   override def id: String = "AMLRamlStyleDeclarationsReferences"
 
-  override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
+  override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     Future.successful({
       if (params.yPartBranch.isValue && styleOrEmpty(params.actualDialect)) {
         val actualName = params.amfObject.elementIdentifier()
@@ -52,11 +51,9 @@ object AMLRamlStyleDeclarationsReferences extends AMLDeclarationReferences {
                                                actualName).resolve()
       } else Seq.empty
     })
-  }
 
-  private def styleOrEmpty(dialect: Dialect) = {
+  private def styleOrEmpty(dialect: Dialect) =
     dialect.documents().referenceStyle().option().forall(_ == ReferenceStyles.RAML)
-  }
 
 }
 
