@@ -30,9 +30,8 @@ object RamlAbstractDefinition extends AMLCompletionPlugin {
 
     info
       .map { info =>
-        if (params.baseUnit.isInstanceOf[Fragment]) {
+        if (params.baseUnit.isInstanceOf[Fragment])
           info.element.fields.filter(t => !(t._1 == EndPointModel.Path || t._1 == OperationModel.Method))
-        }
         val newRequest =
           AmlCompletionRequestBuilder.forElement(info.element,
                                                  info.original,
@@ -52,7 +51,7 @@ object RamlAbstractDefinition extends AMLCompletionPlugin {
 
   private case class ElementInfo(element: DomainElement, original: DomainElement, name: String, iri: String)
 
-  private def elementInfo(params: AmlCompletionRequest): Option[ElementInfo] = {
+  private def elementInfo(params: AmlCompletionRequest): Option[ElementInfo] =
     params.branchStack
       .collectFirst({ case a: AbstractDeclaration => a }) match {
       case Some(r: ResourceType) =>
@@ -74,15 +73,13 @@ object RamlAbstractDefinition extends AMLCompletionPlugin {
         Some(ElementInfo(resolved, t, t.name.value(), t.metaURIs.head))
       case _ => None
     }
-  }
 
-  private def getSourceEntry(a: AbstractDeclaration, defaultName: String) = {
+  private def getSourceEntry(a: AbstractDeclaration, defaultName: String) =
     a.annotations.find(classOf[SourceAST]).map(_.ast) match {
       case Some(m: YMap) =>
         Some(YMapEntry(YNode(a.name.option().getOrElse(defaultName)), m))
       case Some(entry: YMapEntry) => Some(entry)
       case _                      => None
     }
-  }
 
 }

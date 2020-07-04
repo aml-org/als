@@ -12,6 +12,7 @@ import org.mulesoft.als.server.modules.workspace.references.visitors.documentlin
 import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.NodeRelationshipVisitorType
 import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.plugins.{
   AMLDialectVisitor,
+  AbstractDefinitionLinksVisitor,
   DeclaredLinksVisitor,
   TraitLinksVisitor,
   YNodeAliasVisitor
@@ -24,6 +25,7 @@ object AmfElementDefaultVisitors {
   private val allVisitors: Seq[Either[AmfElementVisitorFactory, AmfElementVisitorFactoryWithBu]] = {
     Seq(
       Left(TraitLinksVisitor),
+      Left(AbstractDefinitionLinksVisitor),
       Left(DeclaredLinksVisitor),
       Left(YNodeAliasVisitor),
       Left(DocumentLinkVisitor),
@@ -42,7 +44,6 @@ object AmfElementDefaultVisitors {
 class AmfElementVisitors(allVisitors: Seq[AmfElementVisitor[_]]) {
   private def collectVisitors[R, T <: AmfElementVisitor[R]: ClassTag]: Seq[R] = {
     val clazz = implicitly[ClassTag[T]].runtimeClass
-
     allVisitors
       .collect {
         case v: T if clazz.isInstance(v) => v
@@ -50,9 +51,8 @@ class AmfElementVisitors(allVisitors: Seq[AmfElementVisitor[_]]) {
       .flatMap(_.report)
   }
 
-  final def applyAmfVisitors(elements: List[AmfElement]): Unit = {
-
-    val iterator = AmfElementStrategy.iterator(elements)
+  final def applyAmfVisitors(elements: BaseUnit): Unit = {
+    val iterator = AlsIteratorStrategy.iterator(elements)
     while (iterator.hasNext) {
       val element = iterator.next()
       allVisitors.foreach(_.visit(element))

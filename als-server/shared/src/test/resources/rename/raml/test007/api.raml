@@ -1,0 +1,18 @@
+#%RAML 1.0
+title: Example API
+
+types:
+  Us*er:
+    type: object
+    properties:
+      name: string
+      age?: number
+
+resourceTypes:
+  collection:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              type: User

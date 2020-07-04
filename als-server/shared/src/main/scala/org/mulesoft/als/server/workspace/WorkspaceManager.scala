@@ -158,7 +158,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     workspace.mainFileUri match {
       case Some(mf) =>
         getLastUnit(mf, uuid)
-          .flatMap(_ => workspace.getRelationships(mf).getAllDocumentLinks())
+          .flatMap(_ => workspace.getRelationships(mf).getAllDocumentLinks)
       case _ => Future.successful(Map.empty)
     }
   }
