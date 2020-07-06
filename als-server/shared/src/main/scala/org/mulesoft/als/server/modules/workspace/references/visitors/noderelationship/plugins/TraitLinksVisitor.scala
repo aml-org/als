@@ -27,16 +27,20 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
       case e: EndPoint =>
         extractFromEntriesExtends(e.fields.fields())
       case e: DomainExtension =>
-        e.annotations
-          .ast()
-          .map {
-            case entry: YMapEntry => entry.key
-            case o                => o
-          }
-          .flatMap(extractFromEntriesDefinedBy(e.fields.fields(), _))
-          .toSeq
+        extractAnnotations(e)
       case _ => Nil
     }
+
+  private def extractAnnotations(e: DomainExtension) = {
+    e.annotations
+      .ast()
+      .map {
+        case entry: YMapEntry => entry.key
+        case o                => o
+      }
+      .flatMap(extractFromEntriesDefinedBy(e.fields.fields(), _))
+      .toSeq
+  }
 
   private def extractFromEntriesExtends(entries: Iterable[FieldEntry]): Seq[RelationshipLink] =
     entries
