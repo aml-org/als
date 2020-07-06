@@ -1,18 +1,30 @@
 package org.mulesoft.als.server.modules.workspace.references.visitors
 
-import amf.core.model.document.BaseUnit
+import amf.core.model.document.{BaseUnit, EncodesModel}
 import amf.core.model.domain.AmfElement
+import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.plugins.domain.webapi.models.WebApi
 
 import scala.collection.mutable
 
 trait AmfElementVisitor[R] extends Visitor[AmfElement, R]
 
 trait AmfElementVisitorFactory {
-  def apply(): AmfElementVisitor[_]
+  def apply(bu: BaseUnit): Option[AmfElementVisitor[_]]
+  def applies(bu: BaseUnit): Boolean = true
 }
 
-trait AmfElementVisitorFactoryWithBu {
-  def apply(bu: BaseUnit): AmfElementVisitor[_]
+trait DialectElementVisitorFactory extends AmfElementVisitorFactory {
+  override final def applies(bu: BaseUnit): Boolean = bu.isInstanceOf[Dialect]
+}
+
+trait WebApiElementVisitorFactory extends AmfElementVisitorFactory {
+  override final def applies(bu: BaseUnit): Boolean =
+    bu match {
+      case _: WebApi       => true
+      case e: EncodesModel => e.encodes.isInstanceOf[WebApi]
+      case _               => false
+    }
 }
 
 trait Visitor[T, R] {

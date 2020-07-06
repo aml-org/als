@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.plugins
 
 import amf.core.annotations.SourceNode
+import amf.core.model.document.BaseUnit
 import amf.core.model.domain.AmfElement
 import org.mulesoft.als.actions.common.RelationshipLink
 import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementVisitorFactory
@@ -28,5 +29,5 @@ class YNodeAliasVisitor extends NodeRelationshipVisitorType {
 }
 
 object YNodeAliasVisitor extends AmfElementVisitorFactory {
-  override def apply(): YNodeAliasVisitor = new YNodeAliasVisitor()
+  override def apply(bu: BaseUnit): Option[YNodeAliasVisitor] = Some(new YNodeAliasVisitor())
 }

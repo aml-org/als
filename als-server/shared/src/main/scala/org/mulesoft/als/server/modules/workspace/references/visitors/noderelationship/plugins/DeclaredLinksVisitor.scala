@@ -1,10 +1,12 @@
 package org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.plugins
 
+import amf.core.annotations.DeclaredElement
 import amf.core.metamodel.domain.{LinkableElementModel, ShapeModel}
+import amf.core.model.document.BaseUnit
 import amf.core.model.domain.{AmfArray, AmfElement, AmfObject}
 import amf.plugins.domain.webapi.models.security.SecurityRequirement
 import org.mulesoft.als.actions.common.RelationshipLink
-import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementVisitorFactory
+import org.mulesoft.als.server.modules.workspace.references.visitors.DialectElementVisitorFactory
 import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.NodeRelationshipVisitorType
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.yaml.model._
@@ -60,8 +62,14 @@ class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
           }
           .map(source =>
             (fe.value.value match {
-              case array: AmfArray => array.values.flatMap(v => v.annotations.ast())
-              case o               => o.annotations.ast().toSeq
+              case array: AmfArray =>
+                array.values
+                  .filter(e => e.annotations.contains(classOf[DeclaredElement]))
+                  .flatMap(v => v.annotations.ast())
+              case o =>
+                if (o.annotations.contains(classOf[DeclaredElement]))
+                  o.annotations.ast().toSeq
+                else Seq.empty
             }).map(t => RelationshipLink(source, t)))
       }
       .getOrElse(Nil)
@@ -81,6 +89,6 @@ class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
   }
 }
 
-object DeclaredLinksVisitor extends AmfElementVisitorFactory {
-  override def apply(): DeclaredLinksVisitor = new DeclaredLinksVisitor()
+object DeclaredLinksVisitor extends DialectElementVisitorFactory {
+  override def apply(bu: BaseUnit): Option[DeclaredLinksVisitor] = Some(new DeclaredLinksVisitor())
 }
