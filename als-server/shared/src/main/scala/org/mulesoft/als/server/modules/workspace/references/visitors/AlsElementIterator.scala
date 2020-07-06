@@ -1,11 +1,11 @@
 package org.mulesoft.als.server.modules.workspace.references.visitors
 
+import amf.core.annotations.ErrorDeclaration
 import amf.core.model.document.BaseUnit
+import amf.core.model.domain.templates.AbstractDeclaration
 import amf.core.model.domain.{AmfArray, AmfElement, AmfObject}
 import amf.core.traversal.iterator.AmfIterator
-import amf.plugins.document.webapi.parser.spec.WebApiDeclarations.{ErrorResourceType, ErrorTrait}
-import amf.plugins.domain.webapi.models.templates.{ParametrizedResourceType, ParametrizedTrait, ResourceType, Trait}
-import amf.plugins.domain.webapi.models.{EndPoint, Operation}
+import amf.plugins.domain.webapi.models.templates.{ResourceType, Trait}
 
 import scala.collection.mutable
 
@@ -34,21 +34,25 @@ class AlsElementIterator(private val bu: BaseUnit,
       current match {
         case obj: AmfObject if visited.contains(obj.id) =>
           advance()
+        case de: AbstractDeclaration
+            if de.linkTarget.exists(_ => de.effectiveLinkTarget().isInstanceOf[ErrorDeclaration]) =>
+          visited += de.id
+          advance()
         case rt: ResourceType =>
           val obj = rt.asEndpoint(bu)
           visited += rt.id
-          buffer = (obj :: extractElements(obj).toList ++ buffer).iterator // todo: remove `extractElements`??
+          buffer = (obj :: extractElements(obj).toList ++ buffer).iterator
         case t: Trait =>
           val obj = t.asOperation(bu)
           visited += t.id
-          buffer = (obj :: extractElements(obj).toList ++ buffer).iterator // todo: remove `extractElements`??
+          buffer = (obj :: extractElements(obj).toList ++ buffer).iterator
         case obj: AmfObject =>
           visited += obj.id
           buffer = (obj :: extractElements(obj).toList ++ buffer).iterator
         case arr: AmfArray =>
           buffer = (arr :: arr.values.toList ++ buffer).iterator
-        case o =>
-          buffer = (o :: buffer.toList).iterator
+        case _ =>
+          buffer = (current :: buffer.toList).iterator
       }
     }
 
