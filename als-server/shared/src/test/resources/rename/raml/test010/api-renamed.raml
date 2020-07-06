@@ -1,0 +1,12 @@
+#%RAML 1.0
+title: Illustrating annotations
+mediaType: application/json
+
+annotationTypes:
+  RENAMED: nil
+  feedbackRequested: nil | string
+
+/users:
+  get:
+    (RENAMED):
+    (feedbackRequested): Feedback committed!
