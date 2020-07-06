@@ -1,0 +1,10 @@
+#%RAML 1.0
+title: My Sample API
+
+securitySchemes:
+  oauth*_1_0:
+    type: OAuth 1.0
+
+/users:
+  get:
+    securedBy: [ oauth_1_0 ]

@@ -3,6 +3,7 @@ package org.mulesoft.als.server.modules.workspace.references.visitors.noderelati
 import amf.core.annotations.{SourceAST, SourceNode}
 import amf.core.metamodel.domain.LinkableElementModel
 import amf.core.metamodel.domain.templates.ParametrizedDeclarationModel
+import amf.core.model.domain.extensions.DomainExtension
 import amf.core.model.domain.templates.{AbstractDeclaration, ParametrizedDeclaration}
 import amf.core.model.domain.{AmfArray, AmfElement}
 import amf.core.parser.FieldEntry
@@ -12,7 +13,8 @@ import org.mulesoft.als.actions.common.LinkTypes.LinkTypes
 import org.mulesoft.als.actions.common.{LinkTypes, RelationshipLink}
 import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementVisitorFactory
 import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.NodeRelationshipVisitorType
-import org.yaml.model.YMapEntry
+import org.yaml.model.{YMapEntry, YPart}
+import org.mulesoft.amfintegration.AmfImplicits._
 
 /**
   * @test: org.mulesoft.als.server.modules.definition.files.DefinitionFilesTest - raml-test 1/2
@@ -21,17 +23,32 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
   override protected def innerVisit(element: AmfElement): Seq[RelationshipLink] =
     element match {
       case o: Operation =>
-        extractFromEntries(o.fields.fields())
+        extractFromEntriesExtends(o.fields.fields())
       case e: EndPoint =>
-        extractFromEntries(e.fields.fields())
+        extractFromEntriesExtends(e.fields.fields())
+      case e: DomainExtension =>
+        e.annotations
+          .ast()
+          .map {
+            case entry: YMapEntry => entry.key
+            case o                => o
+          }
+          .flatMap(extractFromEntriesDefinedBy(e.fields.fields(), _))
+          .toSeq
       case _ => Nil
     }
 
-  private def extractFromEntries(entries: Iterable[FieldEntry]): Seq[RelationshipLink] =
+  private def extractFromEntriesExtends(entries: Iterable[FieldEntry]): Seq[RelationshipLink] =
     entries
       .find(fe => fe.field.value == Namespace.Document + "extends")
       .map(parametrizedDeclarationTargetsWithPosition)
       .getOrElse(Nil)
+
+  private def extractFromEntriesDefinedBy(entries: Iterable[FieldEntry], source: YPart): Option[RelationshipLink] =
+    entries
+      .find(fe => fe.field.value == Namespace.Document + "definedBy")
+      .flatMap(_.value.value.annotations.ast())
+      .map(target => RelationshipLink(source, target, None, LinkTypes.TRAITRESOURCES))
 
   private def parametrizedDeclarationTargetsWithPosition(fe: FieldEntry): Seq[RelationshipLink] =
     fe.value.value match {
