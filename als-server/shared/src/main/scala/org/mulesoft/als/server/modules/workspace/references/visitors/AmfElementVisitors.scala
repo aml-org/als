@@ -1,8 +1,6 @@
 package org.mulesoft.als.server.modules.workspace.references.visitors
 
 import amf.core.model.document.BaseUnit
-import amf.core.model.domain.AmfElement
-import amf.core.traversal.iterator.AmfElementStrategy
 import org.mulesoft.als.actions.common.{AliasInfo, RelationshipLink}
 import org.mulesoft.als.server.modules.workspace.references.visitors.aliases.{AliasesVisitor, AliasesVisitorType}
 import org.mulesoft.als.server.modules.workspace.references.visitors.documentlink.{
@@ -10,34 +8,25 @@ import org.mulesoft.als.server.modules.workspace.references.visitors.documentlin
   DocumentLinkVisitorType
 }
 import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.NodeRelationshipVisitorType
-import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.plugins.{
-  AMLDialectVisitor,
-  AbstractDefinitionLinksVisitor,
-  DeclaredLinksVisitor,
-  TraitLinksVisitor,
-  YNodeAliasVisitor
-}
+import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.plugins._
 import org.mulesoft.lsp.feature.link.DocumentLink
 
 import scala.reflect.ClassTag
 
 object AmfElementDefaultVisitors {
-  private val allVisitors: Seq[Either[AmfElementVisitorFactory, AmfElementVisitorFactoryWithBu]] = {
+  private val allVisitors: Seq[AmfElementVisitorFactory] = {
     Seq(
-      Left(TraitLinksVisitor),
-      Left(AbstractDefinitionLinksVisitor),
-      Left(DeclaredLinksVisitor),
-      Left(YNodeAliasVisitor),
-      Left(DocumentLinkVisitor),
-      Left(AliasesVisitor),
-      Right(AMLDialectVisitor)
+      TraitLinksVisitor,
+      AbstractDefinitionLinksVisitor,
+      DeclaredLinksVisitor,
+      YNodeAliasVisitor,
+      DocumentLinkVisitor,
+      AliasesVisitor,
+      AMLDialectVisitor
     )
   }
   def build(bu: BaseUnit): AmfElementVisitors = {
-    new AmfElementVisitors(allVisitors.map {
-      case Right(v: AmfElementVisitorFactoryWithBu) => v(bu)
-      case Left(f)                                  => f()
-    })
+    new AmfElementVisitors(allVisitors.flatMap { _(bu) })
   }
 }
 

@@ -1,12 +1,16 @@
 package org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.plugins
 
+import amf.core.model.document.BaseUnit
 import amf.core.model.domain.templates.ParametrizedDeclaration
 import amf.core.model.domain.{AmfArray, AmfElement}
 import amf.core.parser.FieldEntry
 import amf.core.vocabulary.Namespace
 import amf.plugins.domain.webapi.models.{EndPoint, Operation}
 import org.mulesoft.als.actions.common.RelationshipLink
-import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementVisitorFactory
+import org.mulesoft.als.server.modules.workspace.references.visitors.{
+  AmfElementVisitorFactory,
+  WebApiElementVisitorFactory
+}
 import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.NodeRelationshipVisitorType
 import org.mulesoft.amfintegration.AmfImplicits._
 
@@ -41,6 +45,9 @@ class AbstractDefinitionLinksVisitor extends NodeRelationshipVisitorType {
     }
 }
 
-object AbstractDefinitionLinksVisitor extends AmfElementVisitorFactory {
-  override def apply(): AbstractDefinitionLinksVisitor = new AbstractDefinitionLinksVisitor()
+object AbstractDefinitionLinksVisitor extends WebApiElementVisitorFactory {
+  override def apply(bu: BaseUnit): Option[AbstractDefinitionLinksVisitor] =
+    if (applies(bu))
+      Some(new AbstractDefinitionLinksVisitor())
+    else None
 }
