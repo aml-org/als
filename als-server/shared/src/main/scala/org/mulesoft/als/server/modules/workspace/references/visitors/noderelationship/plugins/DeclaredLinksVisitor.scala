@@ -2,6 +2,7 @@ package org.mulesoft.als.server.modules.workspace.references.visitors.noderelati
 
 import amf.core.metamodel.domain.{LinkableElementModel, ShapeModel}
 import amf.core.model.domain.{AmfArray, AmfElement, AmfObject}
+import amf.plugins.domain.webapi.models.security.SecurityRequirement
 import org.mulesoft.als.actions.common.RelationshipLink
 import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementVisitorFactory
 import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.NodeRelationshipVisitorType
@@ -19,8 +20,17 @@ class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
         extractTarget(obj)
       case obj: AmfObject if obj.fields.entry(ShapeModel.Inherits).isDefined =>
         extractInherits(obj)
+      case sr: SecurityRequirement =>
+        extractSecuritySchemes(sr)
       case _ => Nil
     }
+
+  private def extractSecuritySchemes(sr: SecurityRequirement) =
+    sr.schemes
+      .map(_.scheme)
+      .flatMap(_.annotations.ast())
+      .flatMap(target => sr.annotations.ast().map(source => (source, target)))
+      .map(t => RelationshipLink(t._1, t._2))
 
   private def extractTarget(obj: AmfObject) =
     obj.fields
