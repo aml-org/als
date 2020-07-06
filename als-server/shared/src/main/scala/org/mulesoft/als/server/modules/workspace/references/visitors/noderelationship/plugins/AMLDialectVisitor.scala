@@ -9,21 +9,21 @@ import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{DocumentsModel, NodeMapping, PropertyMapping, UnionNodeMapping}
 import org.mulesoft.als.actions.common.RelationshipLink
 import org.mulesoft.als.common.NodeBranchBuilder
-import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementVisitorFactoryWithBu
+import org.mulesoft.als.server.modules.workspace.references.visitors.DialectElementVisitorFactory
 import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.NodeRelationshipVisitorType
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.yaml.model.{YMap, YMapEntry, YNode, YSequence}
 
-class AMLDialectVisitor(bu: BaseUnit) extends NodeRelationshipVisitorType {
+class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
 
   override protected def innerVisit(element: AmfElement): Seq[RelationshipLink] =
-    (bu, element) match {
-      case (d: Dialect, dm: DocumentsModel) =>
+    element match {
+      case dm: DocumentsModel =>
         (extractDeclarations(d, dm) :+ extractEncoded(d, dm)).flatten
-      case (d: Dialect, nm: PropertyMapping) => extractRanges(d, nm)
-      case (d: Dialect, o: UnionNodeMapping) => extractUnions(d, o)
-      case (d: Dialect, o: NodeMapping)      => extractExtends(d, o)
-      case (_, _)                            => Seq.empty
+      case nm: PropertyMapping => extractRanges(d, nm)
+      case o: UnionNodeMapping => extractUnions(d, o)
+      case o: NodeMapping      => extractExtends(d, o)
+      case _                   => Seq.empty
     }
 
   private def extractRanges(d: Dialect, nm: PropertyMapping) =
@@ -153,7 +153,9 @@ class AMLDialectVisitor(bu: BaseUnit) extends NodeRelationshipVisitorType {
 
 }
 
-object AMLDialectVisitor extends AmfElementVisitorFactoryWithBu {
-  override def apply(d: BaseUnit): AMLDialectVisitor =
-    new AMLDialectVisitor(d)
+object AMLDialectVisitor extends DialectElementVisitorFactory {
+  override def apply(bu: BaseUnit): Option[AMLDialectVisitor] =
+    if (applies(bu))
+      Some(new AMLDialectVisitor(bu.asInstanceOf[Dialect]))
+    else None
 }

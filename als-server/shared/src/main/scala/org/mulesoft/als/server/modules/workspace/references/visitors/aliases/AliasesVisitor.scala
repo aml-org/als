@@ -32,5 +32,5 @@ class AliasesVisitor extends AliasesVisitorType {
 }
 
 object AliasesVisitor extends AmfElementVisitorFactory {
-  override def apply(): AliasesVisitor = new AliasesVisitor()
+  override def apply(bu: BaseUnit): Option[AliasesVisitor] = Some(new AliasesVisitor())
 }

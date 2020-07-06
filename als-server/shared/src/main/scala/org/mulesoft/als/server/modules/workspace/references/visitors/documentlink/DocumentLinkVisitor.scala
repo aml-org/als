@@ -17,5 +17,5 @@ class DocumentLinkVisitor extends DocumentLinkVisitorType {
 }
 
 object DocumentLinkVisitor extends AmfElementVisitorFactory {
-  override def apply(): DocumentLinkVisitor = new DocumentLinkVisitor()
+  override def apply(bu: BaseUnit): Option[DocumentLinkVisitor] = Some(new DocumentLinkVisitor())
 }
