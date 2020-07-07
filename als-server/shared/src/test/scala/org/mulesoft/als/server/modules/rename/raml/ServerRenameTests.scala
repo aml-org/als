@@ -14,4 +14,7 @@ class ServerRenameTests extends RAMLRenameTest {
   test("test 010") { runTest("test010/api.raml", "RENAMED") }
   test("test 011") { runTest("test011/api.raml", "RENAMED") }
   test("test 012") { runTest("test012/api.raml", "RENAMED") }
+  test("test 013") { runTest("test013/api.raml", "RENAMED") }
+  test("test 014") { runTest("test014/api.raml", "RENAMED") }
+  test("test 015") { runTest("test015/api.raml", "RENAMED") }
 }
