@@ -1,6 +1,6 @@
 {
   "name": "@mulesoft/als-server",
-  "version": "3.1.0-SNAPSHOT-DIALECT-REF.2",
+  "version": "3.1.0-SNAPSHOT.0",
   "description": "ALS Server Library",
   "main": "lib/als-server.js",
   "types": "typescript/als-server.d.ts",
