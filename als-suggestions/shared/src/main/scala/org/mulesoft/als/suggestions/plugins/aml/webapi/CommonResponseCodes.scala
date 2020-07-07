@@ -48,16 +48,18 @@ trait CommonResponseCodes extends OftenKeysConfig {
 
 object RamlResponseCodes extends CommonResponseCodes
 
-object OasResponseCodes extends CommonResponseCodes {
-  override lazy val all: Seq[String] = v100 ++ v200 ++ v300 ++ v400 ++ v500 ++ Seq("default")
+object OasResponseCodes extends OasLikeResponseCodes
+
+trait OasLikeResponseCodes extends CommonResponseCodes {
+  override lazy val all: Seq[String] = v100 ++ v200 ++ v300 ++ v400 ++ v500 :+ "default"
 }
 
-object Oas30ResponseCodes extends CommonResponseCodes {
-  override def v100: Seq[String] = Seq("1xx") ++ super.v100
-  override def v200: Seq[String] = Seq("2xx") ++ super.v200
-  override def v300: Seq[String] = Seq("3xx") ++ super.v300
-  override def v400: Seq[String] = Seq("4xx") ++ super.v400
-  override def v500: Seq[String] = Seq("5xx") ++ super.v500
+object Oas30ResponseCodes extends OasLikeResponseCodes {
+  override def v100: Seq[String] = Seq("1XX") ++ super.v100
+  override def v200: Seq[String] = Seq("2XX") ++ super.v200
+  override def v300: Seq[String] = Seq("3XX") ++ super.v300
+  override def v400: Seq[String] = Seq("4XX") ++ super.v400
+  override def v500: Seq[String] = Seq("5XX") ++ super.v500
 }
 
 trait OftenKeysConfig {
