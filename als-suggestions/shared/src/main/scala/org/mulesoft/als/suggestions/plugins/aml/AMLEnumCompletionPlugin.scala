@@ -13,7 +13,7 @@ object AMLEnumCompletionPlugin extends AMLCompletionPlugin {
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     Future {
-      if (params.yPartBranch.isValue || params.yPartBranch.isInArray)
+      if (params.yPartBranch.isValue || params.yPartBranch.isInArray && params.fieldEntry.isDefined)
         getSuggestions(params.propertyMapping, params.yPartBranch)
       else Nil
     }

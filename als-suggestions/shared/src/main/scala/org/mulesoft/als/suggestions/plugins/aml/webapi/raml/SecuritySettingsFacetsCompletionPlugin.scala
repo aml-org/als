@@ -27,7 +27,8 @@ object SecuritySettingsFacetsCompletionPlugin extends AMLCompletionPlugin {
         case Some(_: OAuth2Settings) if fromReference =>
           Seq(RawSuggestion.arrayProp("scopes", "security"))
         case Some(_: OAuth2Settings) | Some(_: OAuth2Flow)
-            if request.fieldEntry.isEmpty || request.amfObject.isInstanceOf[DataNode] =>
+            if request.fieldEntry.isEmpty && !request.yPartBranch.isInArray || request.amfObject
+              .isInstanceOf[DataNode] =>
           oauth2Settings(request.actualDialect)
         case _ => Nil
       }

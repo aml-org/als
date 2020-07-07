@@ -46,10 +46,13 @@ object ObjectInTree {
       .fields()
       .filter(f =>
         f.value.value match {
-          case _: AmfArray =>
+          case arr: AmfArray =>
             f.value.annotations
               .find(classOf[LexicalInformation])
-              .exists(_.containsCompletely(position))
+              .exists(_.containsCompletely(position)) &&
+              arr.annotations
+                .find(classOf[LexicalInformation])
+                .forall(_.arrayContainsPosition(position))
           case v =>
             v.position()
               .exists(_.containsAtField(position)) && (f.value.annotations

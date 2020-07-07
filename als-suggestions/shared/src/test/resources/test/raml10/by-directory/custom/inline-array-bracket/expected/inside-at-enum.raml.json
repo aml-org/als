@@ -1,0 +1,62 @@
+[
+  {
+    "label": "HTTP",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "HTTP",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11HTTP",
+    "filterText": "HTTP",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 12
+        },
+        "end": {
+          "line": 2,
+          "character": 12
+        }
+      },
+      "newText": "HTTP"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "HTTPS",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "HTTPS",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11HTTPS",
+    "filterText": "HTTPS",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 12
+        },
+        "end": {
+          "line": 2,
+          "character": 12
+        }
+      },
+      "newText": "HTTPS"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
