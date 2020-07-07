@@ -16,7 +16,9 @@ import scala.collection.mutable
 object AmfImplicits {
 
   implicit class AmfAnnotationsImp(ann: Annotations) {
-    def range(): Option[parser.Range] = ann.find(classOf[LexicalInformation]).map(_.range)
+    def lexicalInformation(): Option[LexicalInformation] = ann.find(classOf[LexicalInformation])
+
+    def range(): Option[parser.Range] = ann.lexicalInformation().map(_.range)
 
     def ast(): Option[YPart] = ann.find(classOf[SourceAST]).map(_.ast)
 

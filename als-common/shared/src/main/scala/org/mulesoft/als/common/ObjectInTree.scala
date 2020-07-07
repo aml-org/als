@@ -8,6 +8,7 @@ import amf.core.annotations.{LexicalInformation, SynthesizedField}
 import amf.core.metamodel.document.BaseUnitModel
 import amf.core.parser.FieldEntry
 import org.mulesoft.amfintegration.FieldEntryOrdering
+import org.mulesoft.amfintegration.AmfImplicits._
 
 case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfPosition) {
 
@@ -29,7 +30,7 @@ case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfP
     .filter(
       f =>
         f.value.annotations
-          .find(classOf[LexicalInformation])
+          .lexicalInformation()
           .exists(_.containsCompletely(amfPosition)) && !f.value.value.annotations
           .contains(classOf[SynthesizedField]))
     .toList
@@ -48,15 +49,15 @@ object ObjectInTree {
         f.value.value match {
           case arr: AmfArray =>
             f.value.annotations
-              .find(classOf[LexicalInformation])
+              .lexicalInformation()
               .exists(_.containsCompletely(position)) &&
               arr.annotations
-                .find(classOf[LexicalInformation])
+                .lexicalInformation()
                 .forall(_.arrayContainsPosition(position))
           case v =>
             v.position()
               .exists(_.containsAtField(position)) && (f.value.annotations
-              .find(classOf[LexicalInformation])
+              .lexicalInformation()
               .forall(_.containsCompletely(position)) && !f.value.value.annotations
               .contains(classOf[SynthesizedField]))
       })

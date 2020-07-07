@@ -5,6 +5,7 @@ import amf.core.model.domain.{AmfArray, AmfElement, AmfObject}
 import amf.core.parser.FieldEntry
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import amf.core.parser.{Position => AmfPosition}
+import org.mulesoft.amfintegration.AmfImplicits._
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -18,20 +19,20 @@ object AmfSonElementFinder {
         .map(
           p =>
             p.contains(amfPosition) && f.value.annotations
-              .find(classOf[LexicalInformation])
+              .lexicalInformation()
               .forall(_.containsCompletely(amfPosition)))
         .getOrElse(
           arrayContainsPosition(arr,
                                 amfPosition,
                                 f.value.annotations
-                                  .find(classOf[LexicalInformation])))
+                                  .lexicalInformation()))
     }
 
     private def sonContainsNonVirtualPosition(amfElement: AmfElement, amfPosition: AmfPosition): Boolean =
       amfElement match {
         case amfObject: AmfObject =>
           amfObject.fields.fields().exists { f =>
-            f.value.annotations.find(classOf[LexicalInformation]).exists(_.containsCompletely(amfPosition)) ||
+            f.value.annotations.lexicalInformation().exists(_.containsCompletely(amfPosition)) ||
             (f.value.annotations.contains(classOf[VirtualObject]) && sonContainsNonVirtualPosition(f.value.value,
                                                                                                    amfPosition))
           }
@@ -56,7 +57,7 @@ object AmfSonElementFinder {
             v.position() match {
               case Some(p) =>
                 p.contains(amfPosition) && f.value.value.annotations
-                  .find(classOf[LexicalInformation])
+                  .lexicalInformation()
                   .forall(_.containsCompletely(amfPosition))
 
               case _ =>
@@ -102,7 +103,7 @@ object AmfSonElementFinder {
                 .flatMap {
                   case o: AmfObject
                       if entry.value.annotations
-                        .find(classOf[LexicalInformation])
+                        .lexicalInformation()
                         .forall(_.containsCompletely(amfPosition)) || o.annotations.contains(classOf[VirtualObject]) =>
                     Some(o)
                   case _ => None
