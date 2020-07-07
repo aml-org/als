@@ -172,6 +172,20 @@ object AmfSonElementFinder {
       Range(li.range.start.line, li.range.end.line + 1)
         .contains(pos.line) && !isLastLine(pos)
 
+    def arrayContainsPosition(pos: AmfPosition): Boolean = {
+      if (isSingleLine) {
+        inInternalRange(pos) || li.range.end.column == li.range.start.column
+      } else {
+        containsCompletely(pos)
+      }
+    }
+
+    private def inInternalRange(pos: AmfPosition): Boolean =
+      pos.column > li.range.start.column && pos.column < li.range.end.column
+
+    def isSingleLine: Boolean =
+      li.range.start.line == li.range.end.line
+
     def containsAtField(pos: AmfPosition): Boolean =
       containsCompletely(pos) || isAtEmptyScalar(pos)
 

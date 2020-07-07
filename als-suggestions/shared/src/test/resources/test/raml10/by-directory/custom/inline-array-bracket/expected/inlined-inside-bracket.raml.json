@@ -1,0 +1,62 @@
+[
+  {
+    "label": "application/json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "application/json",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11application/json",
+    "filterText": "application/json",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 12
+        },
+        "end": {
+          "line": 2,
+          "character": 12
+        }
+      },
+      "newText": "application/json"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "application/xml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "application/xml",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11application/xml",
+    "filterText": "application/xml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 12
+        },
+        "end": {
+          "line": 2,
+          "character": 12
+        }
+      },
+      "newText": "application/xml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
