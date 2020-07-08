@@ -87,8 +87,8 @@
         "character": 4
       },
       "end": {
-        "line": 6,
-        "character": 12
+        "line": 7,
+        "character": 0
       }
     },
     "selectionRange": {
@@ -97,8 +97,8 @@
         "character": 4
       },
       "end": {
-        "line": 6,
-        "character": 12
+        "line": 7,
+        "character": 0
       }
     },
     "children": [
@@ -112,8 +112,8 @@
             "character": 4
           },
           "end": {
-            "line": 6,
-            "character": 12
+            "line": 7,
+            "character": 0
           }
         },
         "selectionRange": {
@@ -122,8 +122,8 @@
             "character": 4
           },
           "end": {
-            "line": 6,
-            "character": 12
+            "line": 7,
+            "character": 0
           }
         },
         "children": []
