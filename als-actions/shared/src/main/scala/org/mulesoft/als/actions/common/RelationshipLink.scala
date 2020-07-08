@@ -14,7 +14,6 @@ case class RelationshipLink(sourceEntry: YPart,
       // the map is empty, this is probably an error with the annotations but I can save it if there is a name
       nameRange.map(_.yPartToLocation).getOrElse(targetEntry.yPartToLocation)
     else targetEntry.yPartToLocation
-  // nameRange.map(_.yPartToLocation).getOrElse(targetEntry.yPartToLocation)
 
   def source: Location = sourceEntry match {
     case e: YMapEntry => e.value.yPartToLocation
