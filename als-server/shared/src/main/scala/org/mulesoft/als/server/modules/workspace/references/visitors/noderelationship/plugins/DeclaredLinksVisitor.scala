@@ -4,9 +4,10 @@ import amf.core.annotations.DeclaredElement
 import amf.core.metamodel.domain.{LinkableElementModel, ShapeModel}
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.{AmfArray, AmfElement, AmfObject}
+import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.domain.webapi.models.security.SecurityRequirement
 import org.mulesoft.als.actions.common.RelationshipLink
-import org.mulesoft.als.server.modules.workspace.references.visitors.DialectElementVisitorFactory
+import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementVisitorFactory
 import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.NodeRelationshipVisitorType
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.yaml.model._
@@ -30,9 +31,9 @@ class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
   private def extractSecuritySchemes(sr: SecurityRequirement) =
     sr.schemes
       .map(_.scheme)
-      .flatMap(_.annotations.ast())
+      .flatMap(t => t.annotations.ast().map((t, _)))
       .flatMap(target => sr.annotations.ast().map(source => (source, target)))
-      .map(t => RelationshipLink(t._1, t._2))
+      .map(t => RelationshipLink(t._1, t._2._2, getName(t._2._1)))
 
   private def extractTarget(obj: AmfObject) =
     obj.fields
@@ -46,7 +47,7 @@ class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
                 .ast()
                 .map(checkYNodePlain)
                 .map(source => (source, target)))
-          .map(t => RelationshipLink(t._1, t._2))
+          .map(t => RelationshipLink(t._1, t._2, getName(fe.value.value)))
       }
       .toSeq
 
@@ -65,12 +66,12 @@ class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
               case array: AmfArray =>
                 array.values
                   .filter(e => e.annotations.contains(classOf[DeclaredElement]))
-                  .flatMap(v => v.annotations.ast())
+                  .flatMap(v => v.annotations.ast().map((v, _)))
               case o =>
                 if (o.annotations.contains(classOf[DeclaredElement]))
-                  o.annotations.ast().toSeq
+                  o.annotations.ast().toSeq.map((o, _))
                 else Seq.empty
-            }).map(t => RelationshipLink(source, t)))
+            }).map(t => RelationshipLink(source, t._2, getName(t._1))))
       }
       .getOrElse(Nil)
 
@@ -89,6 +90,10 @@ class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
   }
 }
 
-object DeclaredLinksVisitor extends DialectElementVisitorFactory {
-  override def apply(bu: BaseUnit): Option[DeclaredLinksVisitor] = Some(new DeclaredLinksVisitor())
+object DeclaredLinksVisitor extends AmfElementVisitorFactory {
+  override def apply(bu: BaseUnit): Option[DeclaredLinksVisitor] =
+    if (applies(bu)) Some(new DeclaredLinksVisitor())
+    else None
+  override def applies(bu: BaseUnit): Boolean =
+    !bu.isInstanceOf[Dialect] // targets are strange in Dialects, will be taken in another visitor
 }

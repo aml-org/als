@@ -32,7 +32,7 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
       case _ => Nil
     }
 
-  private def extractAnnotations(e: DomainExtension) = {
+  private def extractAnnotations(e: DomainExtension) =
     e.annotations
       .ast()
       .map {
@@ -41,7 +41,6 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
       }
       .flatMap(extractFromEntriesDefinedBy(e.fields.fields(), _))
       .toSeq
-  }
 
   private def extractFromEntriesExtends(entries: Iterable[FieldEntry]): Seq[RelationshipLink] =
     entries
@@ -52,8 +51,8 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
   private def extractFromEntriesDefinedBy(entries: Iterable[FieldEntry], source: YPart): Option[RelationshipLink] =
     entries
       .find(fe => fe.field.value == Namespace.Document + "definedBy")
-      .flatMap(_.value.value.annotations.ast())
-      .map(target => RelationshipLink(source, target, None, LinkTypes.TRAITRESOURCES))
+      .flatMap(t => t.value.value.annotations.ast().map((t, _)))
+      .map(target => RelationshipLink(source, target._2, getName(target._1.value.value), LinkTypes.TRAITRESOURCES))
 
   private def parametrizedDeclarationTargetsWithPosition(fe: FieldEntry): Seq[RelationshipLink] =
     fe.value.value match {

@@ -14,7 +14,7 @@ object FindReferences {
     references.map { refs =>
       refs
         .filter { t =>
-          containsPosition(uri, position, t.destination.uri, t.nameRange.getOrElse(PositionRange(t.targetEntry.range))) &&
+          containsPosition(uri, position, t.destination.uri, PositionRange(t.nameRange.getOrElse(t.targetEntry).range)) &&
           t.source.uri.nonEmpty
         }
     }
