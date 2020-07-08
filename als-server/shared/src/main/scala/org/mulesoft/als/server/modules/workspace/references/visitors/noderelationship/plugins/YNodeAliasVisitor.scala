@@ -16,14 +16,14 @@ class YNodeAliasVisitor extends NodeRelationshipVisitorType {
     element.annotations
       .find(classOf[SourceNode])
       .flatMap { s =>
-        aliasForNode(s.node)
+        aliasForNode(s.node, element)
       }
       .toSeq
 
-  private def aliasForNode(part: YPart): Option[RelationshipLink] =
+  private def aliasForNode(part: YPart, element: AmfElement): Option[RelationshipLink] =
     part match {
       case alias: YNode.Alias =>
-        Some(RelationshipLink(alias, alias.target))
+        Some(RelationshipLink(alias, alias.target, getName(element)))
       case _ => None
     }
 }
