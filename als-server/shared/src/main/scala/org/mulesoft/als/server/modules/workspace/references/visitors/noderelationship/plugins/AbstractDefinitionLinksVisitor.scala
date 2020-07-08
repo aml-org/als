@@ -38,7 +38,7 @@ class AbstractDefinitionLinksVisitor extends NodeRelationshipVisitorType {
             p.annotations
               .ast()
               .flatMap(source => p.target.annotations.ast().map(target => (source, target)))
-              .map(t => RelationshipLink(t._1, t._2))
+              .map(t => RelationshipLink(t._1, t._2, getName(p)))
           case _ => None
         }
       case _ => Nil
