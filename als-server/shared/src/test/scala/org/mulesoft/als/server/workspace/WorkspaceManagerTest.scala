@@ -233,7 +233,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   }
 
   test("Workspace Manager check validation Stack - No stack in error") {
-    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier()
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
       assert(diagnosticClientNotifier.promises.isEmpty)
       val rootFolder = s"${filePath("ws-error-stack-5")}"
