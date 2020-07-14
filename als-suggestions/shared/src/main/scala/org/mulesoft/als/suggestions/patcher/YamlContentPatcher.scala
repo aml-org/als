@@ -9,6 +9,9 @@ import org.mulesoft.als.suggestions.interfaces.LocationKind.{
 
 import scala.collection.mutable
 
+/* TODO:
+    when removing patcher, erase LocationKindDetectTool, LocationKind, Point, YPoint, PositionsMapper and IPositionsMapper
+ */
 class YamlContentPatcher(override val textRaw: String, override val offsetRaw: Int) extends ContentPatcher {
 
   override def prepareContent(): PatchedContent = {
