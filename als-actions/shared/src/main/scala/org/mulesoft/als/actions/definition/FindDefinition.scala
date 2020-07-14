@@ -8,6 +8,7 @@ import org.mulesoft.als.common.{NodeBranchBuilder, YamlUtils}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.common.{Location, LocationLink}
 import org.yaml.model.{YNodePlain, YPart, YScalar}
+import org.mulesoft.als.actions.common.YPartImplicits._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -25,7 +26,12 @@ object FindDefinition {
       aliases       <- allAliases
       bu            <- fbu
     } yield {
-      (findByPosition(uri, relationships.map(r => (r.source, r.destination)), aliases, position) ++
+      (findByPosition(
+        uri,
+        relationships.map(r => (r.source, r.nameYPart.yPartToLocation)),
+        aliases,
+        position
+      ) ++
         findAliases(getYBranch(position, bu).node, aliases, position))
         .map(toLocationLink)
         .sortWith(sortInner)
