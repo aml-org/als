@@ -63,9 +63,10 @@ object FindRenameLocations {
       .flatMap(_.asScalar)
 
   private def getScalarFromName(refs: Seq[RelationshipLink]) =
-    refs.flatMap(_.nameRange).headOption.flatMap {
-      case n: YNode => n.asScalar
-      case _        => None
+    refs.map(_.nameYPart).headOption.flatMap {
+      case n: YNode     => n.asScalar
+      case e: YMapEntry => e.key.asScalar
+      case _            => None
     }
 
   private def toTextEdit(renameLocation: RenameLocation): TextEdit =
