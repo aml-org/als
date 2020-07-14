@@ -93,7 +93,7 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
         val patchedContent =
           ContentPatcher(originalText, offset, syntax).prepareContent()
         buildCompletionProviderAST(
-          new TextDocument(uri, textDocument.version, patchedContent.content, syntax.toString, logger),
+          TextDocument(uri, textDocument.version, patchedContent.content, syntax.toString),
           uri,
           offset,
           patchedContent,
