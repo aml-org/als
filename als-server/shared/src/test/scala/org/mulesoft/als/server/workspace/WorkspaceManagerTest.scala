@@ -233,7 +233,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   }
 
   test("Workspace Manager check validation Stack - No stack in error") {
-    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier()
+    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(5000)
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
       assert(diagnosticClientNotifier.promises.isEmpty)
       val rootFolder = s"${filePath("ws-error-stack-5")}"
@@ -269,7 +269,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   }
 
   test("Workspace Manager check change in Config [changing exchange.json] - Should notify validations of new tree") {
-    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(5000)
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
       assert(diagnosticClientNotifier.promises.isEmpty)
       val root           = s"${filePath("ws4")}"
@@ -473,7 +473,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   }
 
   test("Workspace Manager multiworkspace support - included workspace") {
-    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
       assert(diagnosticClientNotifier.promises.isEmpty)
       val root1 = s"${filePath("multiworkspace/containedws")}"
@@ -511,7 +511,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   }
 
   test("Workspace Manager multiworkspace support - multiple included workspaces") {
-    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(5000)
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
       assert(diagnosticClientNotifier.promises.isEmpty)
       val root1      = s"${filePath("multiworkspace/ws1")}"

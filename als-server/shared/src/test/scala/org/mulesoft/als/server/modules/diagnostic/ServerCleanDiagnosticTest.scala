@@ -126,7 +126,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest {
   }
 
   test("Clean diagnostic test, compare notification against clean") {
-    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(5000)
     withServer(buildServer(diagnosticNotifier)) { s =>
       val mainFilePath = s"file://api.raml"
 
