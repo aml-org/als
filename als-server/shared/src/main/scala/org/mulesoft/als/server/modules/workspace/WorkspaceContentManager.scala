@@ -37,9 +37,9 @@ class WorkspaceContentManager(val folder: String,
     configMainFile = workspaceConf
   }
 
-  def mainFile: Option[String] = configMainFile.map(_.mainFile)
+  private def mainFile: Option[String] = configMainFile.map(_.mainFile)
   def mainFileUri: Option[String] =
-    mainFile.map(mf => s"${trailSlash(folder)}$mf".toAmfUri) // TODO: Analyze if we really need knowledge of both paths and uris (maybe set all to URI)
+    mainFile.map(mf => s"${trailSlash(folder)}$mf".toAmfUri)
 
   def getRootFolderFor(uri: String): Option[String] =
     if (repository.inTree(uri))
@@ -65,18 +65,9 @@ class WorkspaceContentManager(val folder: String,
 
   override protected val stagingArea: ParserStagingArea = new ParserStagingArea(environmentProvider, logger)
 
-  def environment: Environment                                                       = stagingArea.snapshot().environment
-  override protected val repository                                                  = new WorkspaceParserRepository(logger)
-  private var workspaceConfigurationProvider: Option[WorkspaceConfigurationProvider] = None
+  override protected val repository = new WorkspaceParserRepository(logger)
 
-  def getCompilableUnit(uri: String): Future[CompilableUnit] = {
-    val encodedUri = uri.toAmfUri
-    repository.getUnit(encodedUri) match {
-      case Some(pu) =>
-        Future.successful(toResult(encodedUri, pu))
-      case _ => getNext(encodedUri).getOrElse(fail(encodedUri))
-    }
-  }
+  private var workspaceConfigurationProvider: Option[WorkspaceConfigurationProvider] = None
 
   override protected def toResult(uri: String, pu: ParsedUnit): CompilableUnit =
     pu.toCU(getNext(uri), mainFileUri, repository.getReferenceStack(uri), state == NotAvailable)
@@ -184,7 +175,7 @@ class WorkspaceContentManager(val folder: String,
       .parse(uri.toAmfDecodedUri, environment.withResolver(repository.resolverCache))
 
   def getRelationships(uri: String): Relationships =
-    Relationships(repository, () => Some(getCompilableUnit(uri.toAmfUri)))
+    Relationships(repository, () => Some(getUnit(uri)))
 
   override protected def log(msg: String): Unit =
     logger.error(msg, "WorkspaceContentManager", "Processing request")
