@@ -78,30 +78,29 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   }
 
   override def getUnit(uri: String, uuid: String): Future[CompilableUnit] =
-    getWorkspace(uri).getCompilableUnit(uri)
+    getWorkspace(uri.toAmfUri).getUnit(uri.toAmfUri)
 
-  override def getLastUnit(uri: String, uuid: String): Future[CompilableUnit] = {
-    getUnit(uri, uuid).flatMap(cu => {
-      if (cu.isDirty) getLastUnit(uri, uuid) else Future.successful(cu)
-    })
-  }
+  override def getLastUnit(uri: String, uuid: String): Future[CompilableUnit] =
+    getUnit(uri.toAmfUri, uuid).flatMap(cu =>
+      if (cu.isDirty) getLastUnit(uri.toAmfUri, uuid) else Future.successful(cu))
+
   override def notify(uri: String, kind: NotificationKind): Unit = {
-    val manager: WorkspaceContentManager = getWorkspace(uri)
+    val manager: WorkspaceContentManager = getWorkspace(uri.toAmfUri)
     if (manager.configFile
           .map(_.toAmfUri)
-          .contains(uri)) {
+          .contains(uri.toAmfUri)) {
       manager.withConfiguration(ReaderWorkspaceConfigurationProvider(manager))
-      manager.stage(uri, CHANGE_CONFIG)
-    } else manager.stage(uri, kind)
+      manager.stage(uri.toAmfUri, CHANGE_CONFIG)
+    } else manager.stage(uri.toAmfUri, kind)
   }
 
   def contentManagerConfiguration(manager: WorkspaceContentManager,
-                                  mainUri: String,
+                                  mainSubUri: String,
                                   dependencies: Set[String],
                                   reader: Option[ConfigReader]): Unit = {
     manager
-      .withConfiguration(DefaultWorkspaceConfigurationProvider(manager, mainUri, dependencies, reader))
-      .stage(mainUri, CHANGE_CONFIG)
+      .withConfiguration(DefaultWorkspaceConfigurationProvider(manager, mainSubUri, dependencies, reader))
+      .stage(mainSubUri, CHANGE_CONFIG)
   }
 
   override def executeCommand(params: ExecuteCommandParams): Future[AnyRef] = {
@@ -151,7 +150,8 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   dependencies.foreach(d => d.withUnitAccessor(this))
 
   override def getDocumentLinks(uri: String, uuid: String): Future[Seq[DocumentLink]] =
-    getLastUnit(uri, uuid).flatMap(_ => getWorkspace(uri).getRelationships(uri).getDocumentLinks(uri))
+    getLastUnit(uri.toAmfUri, uuid).flatMap(_ =>
+      getWorkspace(uri.toAmfUri).getRelationships(uri.toAmfUri).getDocumentLinks(uri.toAmfUri))
 
   override def getAllDocumentLinks(uri: String, uuid: String): Future[Map[String, Seq[DocumentLink]]] = {
     val workspace = getWorkspace(uri)
