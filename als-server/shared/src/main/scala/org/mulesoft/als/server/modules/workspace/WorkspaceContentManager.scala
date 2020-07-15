@@ -63,7 +63,7 @@ class WorkspaceContentManager(val folder: String,
   def configFile: Option[String] =
     configMainFile.flatMap(ic => ic.configReader.map(cr => s"${ic.rootFolder}/${cr.configFileName}".toAmfUri))
 
-  override protected val stagingArea: ParserStagingArea = new ParserStagingArea(environmentProvider)
+  override protected val stagingArea: ParserStagingArea = new ParserStagingArea(environmentProvider, logger)
 
   def environment: Environment                                                       = stagingArea.snapshot().environment
   override protected val repository                                                  = new WorkspaceParserRepository(logger)
@@ -179,7 +179,8 @@ class WorkspaceContentManager(val folder: String,
   }
 
   private def innerParse(uri: String, environment: Environment)() =
-    environmentProvider.amfConfiguration.modelBuilder()
+    environmentProvider.amfConfiguration
+      .modelBuilder()
       .parse(uri.toAmfDecodedUri, environment.withResolver(repository.resolverCache))
 
   def getRelationships(uri: String): Relationships =
