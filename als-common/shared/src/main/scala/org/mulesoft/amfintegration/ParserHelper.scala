@@ -58,6 +58,7 @@ class ParserHelper(val platform: Platform, amfInstance: AmfInstance)
         UnspecifiedReference
       )
       .map(m => new AmfParseResult(m, eh, amfInstance.alsAmlPlugin.dialectFor(m)))
+
   }
 
   override def parse(url: String, env: Environment): Future[AmfParseResult] = {
