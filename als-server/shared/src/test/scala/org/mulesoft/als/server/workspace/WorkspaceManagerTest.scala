@@ -14,6 +14,7 @@ import org.mulesoft.als.server.{
 import org.mulesoft.lsp.configuration.{TraceKind, WorkspaceFolder}
 import org.mulesoft.lsp.feature.common.{Position, Range}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
+import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 import org.mulesoft.lsp.workspace.ExecuteCommandParams
 import org.scalatest.Assertion
 
@@ -41,9 +42,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   }
 
   test("Workspace Manager check validations (initializing a tree should validate instantly)") {
-    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
+      new MockDiagnosticClientNotifierWithTelemetryLog
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
-      assert(diagnosticClientNotifier.promises.isEmpty)
       for {
         _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
         a <- diagnosticClientNotifier.nextCall
@@ -58,9 +59,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   }
 
   test("Workspace Manager search by location rather than uri (workspace)") {
-    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
+      new MockDiagnosticClientNotifierWithTelemetryLog
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
-      assert(diagnosticClientNotifier.promises.isEmpty)
       for {
         _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws3")}")))
         a <- diagnosticClientNotifier.nextCall
@@ -74,9 +75,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   }
 
   test("Workspace Manager check validation Stack - Error on external fragment with indirection") {
-    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
+      new MockDiagnosticClientNotifierWithTelemetryLog
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
-      assert(diagnosticClientNotifier.promises.isEmpty)
       val rootFolder = s"${filePath("ws-error-stack-1")}"
       for {
         _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder)))
@@ -93,8 +94,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
 
   private def verifyWS1ErrorStack(rootFolder: String,
                                   allDiagnostics: Seq[PublishDiagnosticsParams],
-                                  diagnosticClientNotifier: MockDiagnosticClientNotifier) = {
-    assert(diagnosticClientNotifier.promises.isEmpty)
+                                  diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog) = {
     assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
     val main   = allDiagnostics.find(_.uri == s"$rootFolder/api.raml")
     val others = allDiagnostics.filterNot(pd => main.exists(_.uri == pd.uri))
@@ -116,9 +116,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   }
 
   test("Workspace Manager check validation Stack - Error on library") {
-    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
+      new MockDiagnosticClientNotifierWithTelemetryLog
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
-      assert(diagnosticClientNotifier.promises.isEmpty)
       val rootFolder = s"${filePath("ws-error-stack-2")}"
       for {
         _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder)))
@@ -148,9 +148,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   }
 
   test("Workspace Manager check validation Stack - Error on typed fragment") {
-    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
+      new MockDiagnosticClientNotifierWithTelemetryLog
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
-      assert(diagnosticClientNotifier.promises.isEmpty)
       val rootFolder = s"${filePath("ws-error-stack-3")}"
       for {
         _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder)))
@@ -180,9 +180,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   }
 
   test("Workspace Manager check validation Stack - Error on External with two stacks") {
-    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
+      new MockDiagnosticClientNotifierWithTelemetryLog
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
-      assert(diagnosticClientNotifier.promises.isEmpty)
       val rootFolder = s"${filePath("ws-error-stack-4")}"
       for {
         _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder)))
@@ -233,9 +233,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   }
 
   test("Workspace Manager check validation Stack - No stack in error") {
-    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(5000)
+    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
+      new MockDiagnosticClientNotifierWithTelemetryLog
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
-      assert(diagnosticClientNotifier.promises.isEmpty)
       val rootFolder = s"${filePath("ws-error-stack-5")}"
       for {
         _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder)))
@@ -269,9 +269,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   }
 
   test("Workspace Manager check change in Config [changing exchange.json] - Should notify validations of new tree") {
-    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(5000)
+    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
+      new MockDiagnosticClientNotifierWithTelemetryLog
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
-      assert(diagnosticClientNotifier.promises.isEmpty)
       val root           = s"${filePath("ws4")}"
       val changedConfig  = """{"main": "api2.raml"}"""
       val originalConfig = """{"main": "api.raml"}"""
@@ -305,9 +305,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   }
 
   test("Workspace Manager check change in Config [using Command] - Should notify validations of new tree") {
-    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
+      new MockDiagnosticClientNotifierWithTelemetryLog
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
-      assert(diagnosticClientNotifier.promises.isEmpty)
       val root        = s"${filePath("ws4")}"
       val apiRoot     = s"$root/api.raml"
       val api2Root    = s"$root/api2.raml"
@@ -346,9 +346,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   }
 
   test("Workspace Content Manager - Unit not found (when changing RAML header)") {
-    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
+      new MockDiagnosticClientNotifierWithTelemetryLog
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
-      assert(diagnosticClientNotifier.promises.isEmpty)
       val root     = s"${filePath("ws4")}"
       val title    = s"$root/fragment.raml"
       val content1 = "#%RAML 1.0 DataType\n"
@@ -375,9 +375,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   }
 
   test("Workspace Manager multiworkspace support - basic test") {
-    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
+      new MockDiagnosticClientNotifierWithTelemetryLog
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
-      assert(diagnosticClientNotifier.promises.isEmpty)
       val ws1path  = s"${filePath("multiworkspace/ws1")}"
       val filesWS1 = List(s"${ws1path}/api.raml", s"${ws1path}/sub/type.raml", s"${ws1path}/type.json")
       val ws2path  = s"${filePath("multiworkspace/ws2")}"
@@ -405,9 +405,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   }
 
   test("Workspace Manager multiworkspace support - add workspace") {
-    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
+      new MockDiagnosticClientNotifierWithTelemetryLog
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
-      assert(diagnosticClientNotifier.promises.isEmpty)
       val ws1path  = s"${filePath("multiworkspace/ws1")}"
       val filesWS1 = List(s"${ws1path}/api.raml", s"${ws1path}/sub/type.raml", s"${ws1path}/type.json")
       val ws2path  = s"${filePath("multiworkspace/ws2")}"
@@ -434,9 +434,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   }
 
   test("Workspace Manager multiworkspace support - remove workspace") {
-    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
+      new MockDiagnosticClientNotifierWithTelemetryLog
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
-      assert(diagnosticClientNotifier.promises.isEmpty)
       val root  = s"${filePath("multiworkspace/ws-error-stack-1")}"
       val file1 = s"${filePath("multiworkspace/ws-error-stack-1/api.raml")}"
       val file2 =
@@ -473,9 +473,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   }
 
   test("Workspace Manager multiworkspace support - included workspace") {
-    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
+    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
+      new MockDiagnosticClientNotifierWithTelemetryLog
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
-      assert(diagnosticClientNotifier.promises.isEmpty)
       val root1 = s"${filePath("multiworkspace/containedws")}"
       val root2 = s"${filePath("multiworkspace/containedws/ws1")}"
       val file1 = s"${filePath("multiworkspace/containedws/api.raml")}"
@@ -511,9 +511,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   }
 
   test("Workspace Manager multiworkspace support - multiple included workspaces") {
-    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(5000)
+    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
+      new MockDiagnosticClientNotifierWithTelemetryLog
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
-      assert(diagnosticClientNotifier.promises.isEmpty)
       val root1      = s"${filePath("multiworkspace/ws1")}"
       val root2      = s"${filePath("multiworkspace/ws2")}"
       val globalRoot = s"${filePath("multiworkspace")}"
@@ -560,9 +560,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       """#%RAML 1.0
         |title: test
         |""".stripMargin
-    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
+      new MockDiagnosticClientNotifierWithTelemetryLog
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
-      assert(diagnosticClientNotifier.promises.isEmpty)
       for {
         _ <- server.initialize(
           AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("for-encode")}")))
@@ -576,9 +576,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   }
 
   test("Workspace Manager test syntax error in external fragment") {
-    val diagnosticClientNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
+    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
+      new MockDiagnosticClientNotifierWithTelemetryLog
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
-      assert(diagnosticClientNotifier.promises.isEmpty)
       for {
         _ <- server.initialize(
           AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("external-fragment-syntax")}")))
@@ -592,6 +592,13 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
         n1.diagnostics.isEmpty should be(true)
       }
     }
+  }
+
+  /**
+    * Used to log cases in which timeouts occur
+    * */
+  class MockDiagnosticClientNotifierWithTelemetryLog extends MockDiagnosticClientNotifier(5000) {
+    override def notifyTelemetry(params: TelemetryMessage): Unit = println(params)
   }
 
   override def rootPath: String = "workspace"

@@ -68,5 +68,6 @@ class ParserStagingArea(environmentProvider: EnvironmentProvider, logger: Logger
     Snapshot(environment, actual)
   }
 
+  def contains(uri: String): Boolean = pending.contains(uri)
 }
 case class Snapshot(environment: Environment, files: List[(String, NotificationKind)]) {}

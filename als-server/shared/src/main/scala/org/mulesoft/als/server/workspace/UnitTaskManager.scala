@@ -21,7 +21,7 @@ import scala.concurrent.{Future, Promise}
 trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingAreaNotifications] {
 
   def getUnit(uri: String): Future[ResultUnit] = repository.getUnit(uri) match {
-    case Some(unit) => Future.successful(toResult(uri, unit))
+    case Some(unit) => Future(toResult(uri, unit))
     case _          => getNext(uri).getOrElse(fail(uri))
   }
 
@@ -61,7 +61,7 @@ trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingArea
     f.recoverWith({
         case e =>
           log(Option(e.getMessage).getOrElse(e.toString))
-          Future.successful(Unit)
+          Future.unit
       })
       .map { u =>
         current = process()
@@ -76,8 +76,9 @@ trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingArea
 
   protected def getNext(uri: String): Option[Future[ResultUnit]] =
     current match {
-      case Future.unit => None
-      case _           => Some(current.flatMap(_ => getUnit(uri)))
+      case Future.unit        => None
+      case _ if state == Idle => None
+      case _                  => Some(current.flatMap(_ => getUnit(uri)))
     }
 
   protected def fail(uri: String) = throw UnitNotFoundException(uri)
