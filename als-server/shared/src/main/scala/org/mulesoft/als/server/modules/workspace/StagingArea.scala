@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.modules.workspace
 
 import amf.internal.environment.Environment
+import org.mulesoft.als.common.SyncFunction
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast.{
   BaseUnitListenerParams,
@@ -14,26 +15,24 @@ import org.mulesoft.als.server.textsync.EnvironmentProvider
 
 import scala.collection.mutable
 
-trait StagingArea[Parameter] {
+trait StagingArea[Parameter] extends SyncFunction {
   protected val pending: mutable.Map[String, Parameter] = mutable.Map.empty
 
-  def enqueue(file: String, kind: Parameter): Unit = synchronized {
-    pending.update(file, kind)
-  }
+  def enqueue(file: String, kind: Parameter): Unit =
+    sync(() => pending.update(file, kind))
 
-  def enqueue(files: List[(String, Parameter)]): Unit = synchronized {
-    files.foreach(f => enqueue(f._1, f._2))
-  }
+  def enqueue(files: List[(String, Parameter)]): Unit =
+    sync(() => files.foreach(f => enqueue(f._1, f._2)))
 
-  def dequeue(files: Set[String]): Unit = synchronized {
-    files.foreach(pending.remove)
-  }
+  def dequeue(files: Set[String]): Unit =
+    sync(() => files.foreach(pending.remove))
 
-  def dequeue(): (String, Parameter) = synchronized {
-    val r = pending.head
-    pending.remove(r._1)
-    r
-  }
+  def dequeue(): (String, Parameter) =
+    sync(() => {
+      val r = pending.head
+      pending.remove(r._1)
+      r
+    })
 
   def shouldDie: Boolean = false
 

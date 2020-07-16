@@ -2,6 +2,7 @@ package org.mulesoft.als.server
 
 import java.io.StringWriter
 
+import org.mulesoft.als.common.SyncFunction
 import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
 import org.mulesoft.als.server.feature.serialization.SerializationResult
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
@@ -13,10 +14,8 @@ import scala.collection.mutable
 import scala.concurrent.{Future, Promise}
 import scala.concurrent.ExecutionContext.Implicits.global
 
-trait AbstractTestClientNotifier[T] {
+trait AbstractTestClientNotifier[T] extends SyncFunction {
   val promises: mutable.Queue[Promise[T]] = mutable.Queue.empty
-
-  private def sync(fn: () => Any): Any = synchronized(fn())
 
   def notify(msg: T): Unit =
     sync(
@@ -36,11 +35,13 @@ trait AbstractTestClientNotifier[T] {
     }
 }
 
-class MockCompleteClientNotifier(val timeoutMillis: Int = 1000) extends ClientNotifier with TimeoutFuture {
+class MockCompleteClientNotifier(val timeoutMillis: Int = 1000)
+    extends ClientNotifier
+    with TimeoutFuture
+    with SyncFunction {
   val promisesT: mutable.Queue[Promise[TelemetryMessage]]         = mutable.Queue.empty
   val promisesD: mutable.Queue[Promise[PublishDiagnosticsParams]] = mutable.Queue.empty
 
-  private def sync(fn: () => Any): Any = synchronized(fn())
   override def notifyDiagnostic(params: PublishDiagnosticsParams): Unit =
     sync(
       () =>
