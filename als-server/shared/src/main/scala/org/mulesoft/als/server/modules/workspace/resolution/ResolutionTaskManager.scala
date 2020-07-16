@@ -5,15 +5,16 @@ import java.util.UUID
 import amf.core.model.document.BaseUnit
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
-import org.mulesoft.als.server.modules.workspace.{Repository, ResolverStagingArea, StagingArea}
+import org.mulesoft.als.server.modules.workspace.{ProcessingFile, Repository, ResolverStagingArea, StagingArea}
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.{UnitTaskManager, UnitsManager}
-import org.mulesoft.amfintegration.{AmfResolvedUnit, DiagnosticsBundle}
 import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.{AmfResolvedUnit, DiagnosticsBundle}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.util.Failure
 
 class ResolutionTaskManager(telemetryProvider: TelemetryProvider,
                             logger: Logger,
@@ -41,6 +42,7 @@ class ResolutionTaskManager(telemetryProvider: TelemetryProvider,
   override protected def processTask(): Future[Unit] = Future {
     val uuid          = UUID.randomUUID().toString
     val (uri, params) = stagingArea.dequeue()
+    changeState(ProcessingFile(uri))
 
     val resolvedInstance =
       AmfResolvedUnitImpl(params.parseResult.baseUnit, params.diagnosticsBundle)
@@ -79,6 +81,13 @@ class ResolutionTaskManager(telemetryProvider: TelemetryProvider,
         ua.getLastUnit(uri, uuid)
           .flatMap(_.getLast)
           .flatMap(_ => getUnit(uri, uuid).flatMap(_.getLast)) // double check after resolved that last is still ua's last?
+          .andThen {
+            case Failure(value) =>
+              logger.error(
+                Option(value).flatMap(v => Option(v.getMessage)).getOrElse(s"error while getting unit $uri"),
+                "ResolutionTaskManager",
+                "getLastUnit")
+          }
       case None => getUnit(uri, uuid).flatMap(_.getLast)
     }
 

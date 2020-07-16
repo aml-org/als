@@ -21,17 +21,18 @@ class ParserStagingAreaTests extends FlatSpec with Matchers {
 
   behavior of "ParserStagingArea simple file operation"
 
+  private val uritest = "file://uritest.yaml"
   it should "enqueue a new notification" in {
     val psa = new ParserStagingArea(dummyEnvironmentProvider, new TestLogger)
     psa.hasPending should be(false)
-    psa.enqueue("file://uritest.yaml", OPEN_FILE)
-    psa.hasPending should be(true)
+    psa.enqueue(uritest, OPEN_FILE)
+    psa.contains(uritest) should be(true)
   }
 
   it should "enqueue many new notifications" in {
     val psa = new ParserStagingArea(dummyEnvironmentProvider, new TestLogger)
     val input = Set(
-      ("file://uritest.yaml", OPEN_FILE),
+      (uritest, OPEN_FILE),
       ("file://uritest1.yaml", CLOSE_FILE),
       ("file://uritest2.yaml", OPEN_FILE),
       ("file://uritest3.yaml", CHANGE_FILE),
@@ -56,7 +57,7 @@ class ParserStagingAreaTests extends FlatSpec with Matchers {
   it should "dequeue all" in {
     val psa = new ParserStagingArea(dummyEnvironmentProvider, new TestLogger)
     val input = Set(
-      ("file://uritest.yaml", OPEN_FILE),
+      (uritest, OPEN_FILE),
       ("file://uritest1.yaml", CLOSE_FILE),
       ("file://uritest2.yaml", OPEN_FILE),
       ("file://uritest3.yaml", CHANGE_FILE),
@@ -69,7 +70,7 @@ class ParserStagingAreaTests extends FlatSpec with Matchers {
   it should "have the same elements that were on the queue" in {
     val psa = new ParserStagingArea(dummyEnvironmentProvider, new TestLogger)
     val input = Set(
-      ("file://uritest.yaml", OPEN_FILE),
+      (uritest, OPEN_FILE),
       ("file://uritest1.yaml", CLOSE_FILE),
       ("file://uritest2.yaml", OPEN_FILE),
       ("file://uritest3.yaml", CHANGE_FILE),
@@ -81,14 +82,14 @@ class ParserStagingAreaTests extends FlatSpec with Matchers {
 
   it should "remove all notifications for a URI but the last if it is CloseNotification" in {
     val psa = new ParserStagingArea(dummyEnvironmentProvider, new TestLogger)
-    val lastTuple = ("file://uritest.yaml", CLOSE_FILE)
+    val lastTuple = (uritest, CLOSE_FILE)
     val otherTuple = ("file://uritest1.yaml", OPEN_FILE)
     val input = List(
-      ("file://uritest.yaml", OPEN_FILE),
+      (uritest, OPEN_FILE),
       otherTuple,
       lastTuple,
-      ("file://uritest.yaml", OPEN_FILE),
-      ("file://uritest.yaml", CHANGE_FILE),
+      (uritest, OPEN_FILE),
+      (uritest, CHANGE_FILE),
       lastTuple,
     )
     psa.enqueue(input)
@@ -99,14 +100,14 @@ class ParserStagingAreaTests extends FlatSpec with Matchers {
 
   it should "remove all notifications for a URI but the last if it is ChangeNotification" in {
     val psa = new ParserStagingArea(dummyEnvironmentProvider, new TestLogger)
-    val lastTuple = ("file://uritest.yaml", CHANGE_FILE)
+    val lastTuple = (uritest, CHANGE_FILE)
     val otherTuple = ("file://uritest1.yaml", OPEN_FILE)
     val input = List(
-      ("file://uritest.yaml", OPEN_FILE),
+      (uritest, OPEN_FILE),
       otherTuple,
       lastTuple,
-      ("file://uritest.yaml", OPEN_FILE),
-      ("file://uritest.yaml", CHANGE_FILE),
+      (uritest, OPEN_FILE),
+      (uritest, CHANGE_FILE),
       lastTuple,
     )
     psa.enqueue(input)
@@ -118,21 +119,21 @@ class ParserStagingAreaTests extends FlatSpec with Matchers {
   it should "merge a CloseNotification with the OpenNotification as a ChangeNotification" in {
     val psa = new ParserStagingArea(dummyEnvironmentProvider, new TestLogger)
     val input = List(
-      ("file://uritest.yaml", CLOSE_FILE),
-        ("file://uritest.yaml", OPEN_FILE)
+      (uritest, CLOSE_FILE),
+        (uritest, OPEN_FILE)
     )
     psa.enqueue(input)
     val snapshot = psa.snapshot()
-    snapshot.files.contains( ("file://uritest.yaml", CHANGE_FILE)) should be(true)
+    snapshot.files.contains( (uritest, CHANGE_FILE)) should be(true)
     snapshot.files.size should be(1)
   }
 
   it should "log a warning if MergeNotification is followed by OpenNotification, but keep the last one" in {
     val logger = new TestLogger
     val psa = new ParserStagingArea(dummyEnvironmentProvider, logger)
-    val lastTuple = ("file://uritest.yaml", OPEN_FILE)
+    val lastTuple = (uritest, OPEN_FILE)
     val input = List(
-      ("file://uritest.yaml", CHANGE_FILE),
+      (uritest, CHANGE_FILE),
       lastTuple
     )
     psa.enqueue(input)
@@ -144,9 +145,9 @@ class ParserStagingAreaTests extends FlatSpec with Matchers {
   it should "log a warning if CloseNotification is followed by ChangeNotification, but keep the last one" in {
     val logger = new TestLogger
     val psa = new ParserStagingArea(dummyEnvironmentProvider, logger)
-    val lastTuple = ("file://uritest.yaml", CHANGE_FILE)
+    val lastTuple = (uritest, CHANGE_FILE)
     val input = List(
-      ("file://uritest.yaml", CLOSE_FILE),
+      (uritest, CLOSE_FILE),
       lastTuple
     )
     psa.enqueue(input)

@@ -70,7 +70,15 @@ class WorkspaceContentManager(val folder: String,
   private var workspaceConfigurationProvider: Option[WorkspaceConfigurationProvider] = None
 
   override protected def toResult(uri: String, pu: ParsedUnit): CompilableUnit =
-    pu.toCU(getNext(uri), mainFileUri, repository.getReferenceStack(uri), state == NotAvailable)
+    pu.toCU(getNext(uri), mainFileUri, repository.getReferenceStack(uri), isDirty(uri))
+
+  private def isDirty(uri: String) =
+    state == ProcessingProject ||
+//    (!repository.inTree(uri) && (state == ProcessingFile(uri) || stagingArea.contains(uri))) ||
+//  TODO: check if upper statement can replace the one underneath
+//    (if a file is processing, does the rest stay on the staging area??
+      (!repository.inTree(uri) && state != Idle) ||
+      state == NotAvailable
 
   def withConfiguration(confProvider: WorkspaceConfigurationProvider): WorkspaceContentManager = {
     workspaceConfigurationProvider = Some(confProvider)
@@ -99,7 +107,7 @@ class WorkspaceContentManager(val folder: String,
 
     if (changedFiles.nonEmpty)
       processIsolated(files.head._1, environment, UUID.randomUUID().toString)
-    else Future.successful(Unit)
+    else Future.unit
   }
 
   private def processIsolated(file: String, environment: Environment, uuid: String): Future[Unit] = {
