@@ -597,8 +597,8 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   /**
     * Used to log cases in which timeouts occur
     * */
-  class MockDiagnosticClientNotifierWithTelemetryLog extends MockDiagnosticClientNotifier(5000) {
-    override def notifyTelemetry(params: TelemetryMessage): Unit = println(params)
+  class MockDiagnosticClientNotifierWithTelemetryLog extends MockDiagnosticClientNotifier(2000) {
+    override def notifyTelemetry(params: TelemetryMessage): Unit = {} // println(params)
   }
 
   override def rootPath: String = "workspace"
