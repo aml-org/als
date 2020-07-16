@@ -5,6 +5,7 @@ import org.mulesoft.amfintegration.UnitWithNextReference
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
+import scala.util.{Failure, Success}
 
 /**
   * UnitTaskManager is a template designed to keep track of a kind of unit.
@@ -20,10 +21,13 @@ import scala.concurrent.{Future, Promise}
   */
 trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingAreaNotifications] {
 
-  def getUnit(uri: String): Future[ResultUnit] = repository.getUnit(uri) match {
-    case Some(unit) => Future(toResult(uri, unit))
-    case _          => getNext(uri).getOrElse(fail(uri))
-  }
+  def getUnit(uri: String): Future[ResultUnit] =
+    repository.getUnit(uri) match {
+      case Some(unit) =>
+        Future(toResult(uri, unit))
+      case _ =>
+        getNext(uri).getOrElse(fail(uri))
+    }
 
   def disable(): Future[Unit] = {
     changeState(NotAvailable)
@@ -55,7 +59,7 @@ trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingArea
   private var current: Future[Unit] = Future.unit
   private val isDisabled            = Promise[Unit]()
 
-  private def canProcess: Boolean = state == Idle && current == Future.unit
+  private def canProcess: Boolean = state == Idle
 
   private def next(f: Future[Unit]): Future[Unit] =
     f.recoverWith({
@@ -63,9 +67,12 @@ trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingArea
           log(Option(e.getMessage).getOrElse(e.toString))
           Future.unit
       })
-      .map { u =>
-        current = process()
-        u
+      .andThen {
+        case Success(_) =>
+          current = process()
+        case Failure(e) =>
+          log(e.getMessage)
+          goIdle() // on error go idle to try saving the rest?
       }
 
   private def process(): Future[Unit] =

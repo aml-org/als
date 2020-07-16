@@ -81,8 +81,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     getWorkspace(uri.toAmfUri).getUnit(uri.toAmfUri)
 
   override def getLastUnit(uri: String, uuid: String): Future[CompilableUnit] =
-    getUnit(uri.toAmfUri, uuid).flatMap(cu =>
-      if (cu.isDirty) getLastUnit(uri.toAmfUri, uuid) else Future.successful(cu))
+    getUnit(uri.toAmfUri, uuid).flatMap(cu => if (cu.isDirty) cu.getLast else Future.successful(cu))
 
   override def notify(uri: String, kind: NotificationKind): Unit = {
     val manager: WorkspaceContentManager = getWorkspace(uri.toAmfUri)
