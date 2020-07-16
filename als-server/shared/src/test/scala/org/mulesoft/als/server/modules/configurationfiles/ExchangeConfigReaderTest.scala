@@ -8,11 +8,10 @@ import org.mulesoft.als.server.workspace.extract.ExchangeConfigReader
 import org.scalatest.{AsyncFlatSpec, Matchers}
 
 import scala.concurrent.ExecutionContext
-import scala.concurrent.ExecutionContext.Implicits.global
 
 class ExchangeConfigReaderTest extends AsyncFlatSpec with PlatformSecrets with ListAssertions with Matchers {
 
-  override val executionContext: ExecutionContext = global
+  override val executionContext: ExecutionContext = scala.concurrent.ExecutionContext.global
 
   private val base = "als-server/shared/src/test/resources/config-reader/exchange/"
 
@@ -35,13 +34,14 @@ class ExchangeConfigReaderTest extends AsyncFlatSpec with PlatformSecrets with L
   fixture.foreach { testCase =>
     s"Folder ${testCase.folder}" should s"should have dependencies: ${testCase.dependencies.length}" in {
 
-      ExchangeConfigReader.readRoot("file://" + base + testCase.folder, platform, Environment(), EmptyLogger).map {
-        maybeConf =>
+      ExchangeConfigReader
+        .readRoot("file://" + base + testCase.folder, platform, Environment(), EmptyLogger)
+        .map { maybeConf =>
           maybeConf.isDefined should be(true)
           val config = maybeConf.get
           config.mainFile should be(testCase.main)
           assert(config.cachables.toList.sorted, testCase.dependencies)
-      }
+        }(executionContext)
     }
   }
 
