@@ -81,7 +81,13 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     getWorkspace(uri.toAmfUri).getUnit(uri.toAmfUri)
 
   override def getLastUnit(uri: String, uuid: String): Future[CompilableUnit] =
-    getUnit(uri.toAmfUri, uuid).flatMap(cu => if (cu.isDirty) cu.getLast else Future.successful(cu))
+    getUnit(uri.toAmfUri, uuid).flatMap(cu => if (cu.isDirty) getLastCU(cu, uri, uuid) else Future.successful(cu))
+
+  private def getLastCU(cu: CompilableUnit, uri: String, uuid: String) =
+    cu.getLast.flatMap {
+      case cu if cu.isDirty => getLastUnit(uri, uuid)
+      case _                => Future.successful(cu)
+    }
 
   override def notify(uri: String, kind: NotificationKind): Unit = {
     val manager: WorkspaceContentManager = getWorkspace(uri.toAmfUri)
@@ -96,13 +102,12 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   def contentManagerConfiguration(manager: WorkspaceContentManager,
                                   mainSubUri: String,
                                   dependencies: Set[String],
-                                  reader: Option[ConfigReader]): Unit = {
+                                  reader: Option[ConfigReader]): Unit =
     manager
       .withConfiguration(DefaultWorkspaceConfigurationProvider(manager, mainSubUri, dependencies, reader))
       .stage(mainSubUri, CHANGE_CONFIG)
-  }
 
-  override def executeCommand(params: ExecuteCommandParams): Future[AnyRef] = {
+  override def executeCommand(params: ExecuteCommandParams): Future[AnyRef] =
     commandExecutors.get(params.command) match {
       case Some(exe) =>
         exe.runCommand(params)
@@ -110,7 +115,6 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
         logger.error(s"Command [${params.command}] not recognized", "WorkspaceManager", "executeCommand")
         Future.successful(Unit) // future failed?
     }
-  }
 
   private val commandExecutors: Map[String, CommandExecutor[_, _]] = Map(
     Commands.DID_FOCUS_CHANGE_COMMAND -> new DidFocusCommandExecutor(logger, this),
