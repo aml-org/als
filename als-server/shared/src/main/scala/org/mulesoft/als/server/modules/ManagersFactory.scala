@@ -183,6 +183,9 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
   lazy val selectionRangeManager =
     new SelectionRangeManager(workspaceManager, telemetryManager, logger)
 
+  lazy val renameFileActionManager: RenameFileActionManager =
+    new RenameFileActionManager(workspaceManager, telemetryManager, logger)
+
   lazy val serializationManager: Option[SerializationManager[_]] =
     resolutionDependencies.collectFirst({
       case s: SerializationManager[_] =>

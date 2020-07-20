@@ -1,0 +1,12 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "asd",
+    "version": "2"
+  },
+  "paths": {
+    "/get": {
+      "$ref": "get-endpoint.json#/thisEndpoint"
+    }
+  }
+}

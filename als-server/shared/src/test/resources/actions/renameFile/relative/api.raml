@@ -1,0 +1,13 @@
+#%RAML 1.0
+title: test-als-issue
+
+traits:
+  includedTrait: !include trait.raml
+  secured: !include traits/trait2.raml
+  trait: !include /traits/trait.raml
+  
+/test:
+  get:
+    is:
+      - includedTrait
+      - secured

@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.protocol.configuration
 
+import org.mulesoft.als.server.protocol.actions.ClientRenameFileActionServerOptions
 import org.mulesoft.als.server.protocol.convert.LspConvertersSharedToClient._
 import org.mulesoft.lsp.configuration.{ClientStaticRegistrationOptions, ClientWorkspaceServerCapabilities}
 import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
@@ -33,8 +34,9 @@ trait ClientAlsServerCapabilities extends js.Object {
   def fileUsage: UndefOr[ClientFileUsageOptions]                                 = js.native
   def conversion: UndefOr[ClientConversionOptions]                               = js.native
   def documentHighlightProvider: UndefOr[Boolean]
-  def hoverProvider: UndefOr[Boolean]        = js.native
-  def foldingRangeProvider: UndefOr[Boolean] = js.native
+  def hoverProvider: UndefOr[Boolean]                                = js.native
+  def foldingRangeProvider: UndefOr[Boolean]                         = js.native
+  def renameFileAction: UndefOr[ClientRenameFileActionServerOptions] = js.native
 }
 
 object ClientAlsServerCapabilities {
@@ -70,7 +72,8 @@ object ClientAlsServerCapabilities {
         conversion = internal.conversion.map(_.toClient).orUndefined,
         documentHighlightProvider = internal.documentHighlightProvider.orUndefined,
         hoverProvider = internal.hoverProvider.orUndefined,
-        foldingRangeProvider = internal.foldingRangeProvider.orUndefined
+        foldingRangeProvider = internal.foldingRangeProvider.orUndefined,
+        renameFileAction = internal.renameFileAction.map(_.toClient).orUndefined
       )
       .asInstanceOf[ClientAlsServerCapabilities]
 }
