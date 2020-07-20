@@ -23,6 +23,8 @@ class WorkspaceContentManager(val folder: String,
                               allSubscribers: List[BaseUnitListener])
     extends UnitTaskManager[ParsedUnit, CompilableUnit, NotificationKind] {
 
+  def containsFile(uri: String): Boolean = uri.startsWith(folder)
+
   implicit val platform: Platform = environmentProvider.platform // used for URI utils
 
   private val subscribers = allSubscribers.filter(_.isActive)
@@ -47,6 +49,11 @@ class WorkspaceContentManager(val folder: String,
         .map(stripToLastFolder)
         .orElse(getRootOf(uri))
     else None
+
+  def stripToRelativePath(uri: String): Option[String] =
+    mainFileUri
+      .map(stripToLastFolder)
+      .map(mfUri => "/" + uri.stripPrefix(mfUri))
 
   private def stripToLastFolder(uri: String): String =
     uri.substring(0, (uri.lastIndexOf('/') + 1).min(uri.length))

@@ -107,7 +107,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
         m.diagnostics.head.range should be(Range(Position(3, 5), Position(3, 28)))
         m.diagnostics.head.relatedInformation.size should be(2)
         m.diagnostics.head.relatedInformation.head.location.uri should be(s"$rootFolder/external1.yaml")
-        m.diagnostics.head.relatedInformation.head.location.range should be(Range(Position(2, 5), Position(2, 28)))
+        m.diagnostics.head.relatedInformation.head.location.range should be(Range(Position(2, 14), Position(2, 28)))
         m.diagnostics.head.relatedInformation.tail.head.location.uri should be(s"$rootFolder/external2.yaml")
         m.diagnostics.head.relatedInformation.tail.head.location.range should be(
           Range(Position(0, 6), Position(0, 16)))
@@ -172,7 +172,8 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
             m.diagnostics.head.range should be(Range(Position(2, 0), Position(2, 7)))
             m.diagnostics.head.relatedInformation.size should be(1)
             m.diagnostics.head.relatedInformation.head.location.uri should be(s"$rootFolder/api.raml")
-            m.diagnostics.head.relatedInformation.head.location.range should be(Range(Position(4, 5), Position(4, 27)))
+            m.diagnostics.head.relatedInformation.head.location.range should be(
+              Range(Position(4, 14), Position(4, 27)))
           case _ => fail("No Main detected")
         }
       }
@@ -209,7 +210,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
               d.range == Range(Position(7, 5), Position(7, 27)) &&
               d.relatedInformation.size == 2 &&
               d.relatedInformation.head.location.uri == s"$rootFolder/external.yaml" &&
-              d.relatedInformation.head.location.range == Range(Position(1, 12), Position(1, 36)) &&
+              d.relatedInformation.head.location.range == Range(Position(1, 21), Position(1, 36)) &&
               d.relatedInformation.tail.head.location.uri == s"$rootFolder/external-2.yaml" &&
               d.relatedInformation.tail.head.location.range == Range(Position(1, 3), Position(1, 13))
             } should be(true)
@@ -220,7 +221,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
               d.relatedInformation.head.location.uri == s"$rootFolder/library.raml" &&
               d.relatedInformation.head.location.range == Range(Position(3, 5), Position(3, 27)) &&
               d.relatedInformation.tail.head.location.uri == s"$rootFolder/external.yaml" &&
-              d.relatedInformation.tail.head.location.range == Range(Position(1, 12), Position(1, 36)) &&
+              d.relatedInformation.tail.head.location.range == Range(Position(1, 21), Position(1, 36)) &&
               d.relatedInformation.tail.tail.head.location.uri == s"$rootFolder/external-2.yaml" &&
               d.relatedInformation.tail.tail.head.location.range == Range(Position(1, 3), Position(1, 13))
             } should be(true)
