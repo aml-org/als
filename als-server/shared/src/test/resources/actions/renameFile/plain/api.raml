@@ -1,0 +1,21 @@
+#%RAML 1.0
+title: test-als-issue
+
+resourceTypes:
+  includedType: !include resourceType.raml
+  din:
+    description: asd
+
+traits:
+  includedTrait: !include trait.raml
+
+/test:
+  get:
+    is:
+      - includedTrait
+  type:
+    includedType:
+
+/anotherone:
+  type:
+    din

@@ -25,7 +25,7 @@ class FileUsageTest extends ServerFileUsageTest {
           """#%RAML 1.0 DataType
             |type: string""".stripMargin
       ),
-      Set(Location("file:///root/api.raml", Range(Position(2, 5), Position(2, 20))))
+      Set(Location("file:///root/api.raml", Range(Position(2, 14), Position(2, 20))))
     ),
     TestEntry(
       "file:///root/l.raml",

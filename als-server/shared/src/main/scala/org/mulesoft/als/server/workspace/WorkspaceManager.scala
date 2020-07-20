@@ -36,7 +36,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   private val workspaces: ListBuffer[WorkspaceContentManager] = ListBuffer()
 
   def getWorkspace(uri: String): WorkspaceContentManager =
-    workspaces.find(ws => uri.startsWith(ws.folder)).getOrElse(defaultWorkspace)
+    workspaces.find(ws => ws.containsFile(uri)).getOrElse(defaultWorkspace)
 
   def initializeWS(root: String): Future[Unit] =
     rootHandler.extractConfiguration(root, logger).flatMap { mainOption =>

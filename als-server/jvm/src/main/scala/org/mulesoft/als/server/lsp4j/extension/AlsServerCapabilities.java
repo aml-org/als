@@ -8,7 +8,7 @@ public class AlsServerCapabilities extends ServerCapabilities {
 
     private CleanDiagnosticTreeServerOptions cleanDiagnosticTree;
     private FileUsageServerOptions fileUsage;
-
+    private RenameFileActionServerOptions renameFileAction;
     private ConversionServerOptions conversion;
 
     public void setSerialization(SerializationServerOptions serialization) {
@@ -36,4 +36,12 @@ public class AlsServerCapabilities extends ServerCapabilities {
     }
 
     public ConversionServerOptions getConversion() { return conversion; }
+
+    public RenameFileActionServerOptions getRenameFileAction() {
+        return renameFileAction;
+    }
+
+    public void setRenameFileAction(RenameFileActionServerOptions renameFileAction) {
+        this.renameFileAction = renameFileAction;
+    }
 }

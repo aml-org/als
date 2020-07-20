@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.protocol.configuration
 
+import org.mulesoft.als.server.protocol.actions.ClientRenameFileActionClientCapabilities
 import org.mulesoft.als.server.protocol.convert.LspConvertersSharedToClient._
 import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
 import org.mulesoft.lsp.configuration.{ClientTextDocumentClientCapabilities, ClientWorkspaceClientCapabilities}
@@ -23,6 +24,8 @@ trait ClientAlsClientCapabilities extends js.Object {
   def fileUsage: js.UndefOr[ClientFileUsageClientCapabilities] = js.native
 
   def conversion: js.UndefOr[ClientConversionClientCapabilities] = js.native
+
+  def renameFileAction: js.UndefOr[ClientRenameFileActionClientCapabilities] = js.native
 }
 
 object ClientAlsClientCapabilities {
@@ -34,7 +37,8 @@ object ClientAlsClientCapabilities {
         experimental = internal.experimental.collect { case js: js.Object => js }.orUndefined,
         serialization = internal.serialization.map(_.toClient).orUndefined,
         cleanDiagnosticTree = internal.cleanDiagnosticTree.map(_.toClient).orUndefined,
-        conversion = internal.conversion.map(_.toClient).orUndefined
+        conversion = internal.conversion.map(_.toClient).orUndefined,
+        renameFileAction = internal.renameFileAction.map(_.toClient).orUndefined
       )
       .asInstanceOf[ClientAlsClientCapabilities]
   }
