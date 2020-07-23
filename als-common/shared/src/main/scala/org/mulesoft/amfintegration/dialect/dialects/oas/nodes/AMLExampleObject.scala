@@ -17,11 +17,6 @@ object AMLExampleObject extends DialectNode {
       .withId(DialectLocation + "#/declarations/ExampleObject/mediaType")
       .withNodePropertyMapping(ExampleModel.MediaType.value.iri())
       .withName("mediaType")
-      .withLiteralRange(xsdString.iri()),
-    PropertyMapping()
-      .withId(DialectLocation + "#/declarations/ExampleObject/raw")
-      .withNodePropertyMapping(ExampleModel.Raw.value.iri())
-      .withName("raw")
       .withLiteralRange(xsdString.iri())
   )
 }

@@ -1,27 +1,27 @@
 package org.mulesoft.als.suggestions.aml
 
 import amf.core.annotations.SourceAST
+import amf.core.metamodel.domain.common.NameFieldSchema
 import amf.core.model.document.{BaseUnit, Document}
-import amf.core.model.domain.{AmfObject, DomainElement}
-import amf.core.parser.{FieldEntry, Position => AmfPosition}
+import amf.core.model.domain.{AmfObject, AmfScalar, DomainElement, NamedDomainElement}
+import amf.core.parser.{FieldEntry, Value, Position => AmfPosition}
 import amf.core.remote.Platform
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
-import org.mulesoft.als.common.AmfSonElementFinder._
 import org.mulesoft.als.common._
 import org.mulesoft.als.common.dtoTypes.{PositionRange, TextHelper, Position => DtoPosition}
-import org.mulesoft.als.common.dtoTypes.{PositionRange, Position => DtoPosition}
-import org.mulesoft.als.configuration.{AlsConfigurationReader, AlsFormattingOptions}
+import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.als.suggestions.CompletionsPluginHandler
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.als.suggestions.styler.{SuggestionRender, SuggestionStylerBuilder}
-import org.mulesoft.amfintegration.FieldEntryOrdering
+import org.mulesoft.amfintegration.AmfImplicits.{AmfObjectImp, _}
 import org.yaml.model.YNode.MutRef
-import org.yaml.model.{YDocument, YNode, YSequence, YType}
+import org.yaml.model.{YDocument, YMap, YNode, YSequence, YType}
 
+import scala.collection.immutable
 class AmlCompletionRequest(val baseUnit: BaseUnit,
                            val position: DtoPosition,
                            val actualDialect: Dialect,
@@ -40,13 +40,27 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
 
   lazy val amfObject: AmfObject = objectInTree.obj
 
-  lazy val fieldEntry: Option[FieldEntry] = objectInTree.fieldValue
+  private val currentNode = DialectNodeFinder.find(objectInTree.obj, None, actualDialect)
+
+  private def entryAndMapping: Option[(FieldEntry, Boolean)] = {
+    objectInTree.fieldEntry
+      .map(fe => (fe, false))
+      .orElse({
+        FieldEntrySearcher(objectInTree.obj, currentNode, yPartBranch, actualDialect)
+          .search(objectInTree.stack.headOption)
+      })
+  }
+
+  lazy val (fieldEntry: Option[FieldEntry], isKeyMapping: Boolean) = entryAndMapping match {
+    case Some(value) => (Some(value._1), value._2)
+    case None        => (None, false)
+  }
 
   def prefix: String = styler.params.prefix
 
   val propertyMapping: List[PropertyMapping] = {
 
-    val mappings: List[PropertyMapping] = DialectNodeFinder.find(objectInTree.obj, fieldEntry, actualDialect) match {
+    val mappings: List[PropertyMapping] = currentNode match {
       case Some(nm: NodeMapping) =>
         PropertyMappingFilter(objectInTree, actualDialect, nm).filter().toList
       case _ => Nil
@@ -180,10 +194,18 @@ object AmlCompletionRequestBuilder {
               } else ""
             case _ => ""
           }
-      case seq: YSequence => ""
+      case _: YSequence => ""
       case _ =>
-        val textContent = TextHelper.linesWithSeparators(content)(position.line)
-        textContent.substring(0, position.column).trim
+        val line = TextHelper.linesWithSeparators(content)(position.line)
+        val textContent =
+          if (position.toAmfPosition.line == yPartBranch.node.location.lineFrom)
+            line
+              .substring(yPartBranch.node.location.columnFrom)
+              .substring(0, (position.toAmfPosition.column - yPartBranch.node.location.columnFrom))
+              .trim
+          else line.trim
+        textContent.split(Array('{', '[', ''', '"')).lastOption.getOrElse("")
+
     }
   }
 

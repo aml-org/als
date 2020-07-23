@@ -45,7 +45,7 @@ class YamlContentPatcher(override val textRaw: String, override val offsetRaw: I
         else textRaw
     }
 
-    PatchedContent(result, textRaw, tokens.toList) // add same logic that for json?
+    PatchedContent(textRaw, textRaw, tokens.toList) // add same logic that for json?
   }
 
   private def insertKWithColon(rightPart: String): (String, List[PatchToken]) = {

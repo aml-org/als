@@ -11,7 +11,7 @@ case class PositionRange(start: Position, end: Position) {
     containsNotEndObj(position) && !(end.column == 0 && position.column > 0)
 
   def containsNotEndObj(position: Position): Boolean =
-    position >= start && position <= end && !(start.line < position.line && (end.line == position.line && position.column == end.line ||
+    position >= start && position <= end && !(start.line < position.line && (end.line == position.line && position.column == end.column ||
       end.line == position.line + 1 && end.column == 0 && position.column == 0))
 
   def intersection(other: PositionRange): Option[PositionRange] =

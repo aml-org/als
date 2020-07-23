@@ -14,7 +14,8 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.structure.{
   ResolveDeclaredResponse,
   ResolveInfo,
   ResolveParameterShapes,
-  ResolveTag
+  ResolveTag,
+  ResponseExampleException
 }
 import org.mulesoft.als.suggestions.plugins.aml.webapi.{
   ObjectExamplePropertiesCompletionPlugin,
@@ -45,7 +46,8 @@ trait OasBaseCompletionRegistry extends WebApiCompletionPluginRegistry {
     ObjectExamplePropertiesCompletionPlugin :+
     OasNumberShapeFormatValues :+
     QueryParamNamesFromPath :+
-    WebApiKnownValueCompletionPlugin
+    WebApiKnownValueCompletionPlugin :+
+    ResponsesDeclarationCodes
 }
 
 object Oas20CompletionPluginRegistry extends OasBaseCompletionRegistry {
@@ -60,6 +62,7 @@ object Oas20CompletionPluginRegistry extends OasBaseCompletionRegistry {
         ResolveDeclaredResponse,
         ResolveTag,
         ResolveInfo,
+        ResponseExampleException,
         ResolveDefault
       )) :+
     OaslikeSecurityScopesCompletionPlugin :+

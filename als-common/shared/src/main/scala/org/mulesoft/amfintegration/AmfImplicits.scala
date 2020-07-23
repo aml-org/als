@@ -5,24 +5,56 @@ import amf.core.metamodel.Field
 import amf.core.model.document.{BaseUnit, EncodesModel}
 import amf.core.model.domain.{AmfObject, AmfScalar, DomainElement}
 import amf.core.parser
-import amf.core.parser.{Annotations, Value}
+import amf.core.parser.{Annotations, FieldEntry, Position => AmfPosition, Value}
 import amf.plugins.document.vocabularies.model.document.{Dialect, Vocabulary}
 import amf.plugins.document.vocabularies.model.domain.{ClassTerm, NodeMapping, PropertyTerm}
 import amf.plugins.domain.webapi.metamodel.AbstractModel
+import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.yaml.model.YPart
 
 import scala.collection.mutable
 
 object AmfImplicits {
 
+  implicit class AlsLexicalInformation(li: LexicalInformation) {
+
+    def contains(pos: AmfPosition): Boolean =
+      PositionRange(Position(li.range.start), Position(li.range.end))
+        .contains(Position(pos))
+
+    def containsAtField(pos: AmfPosition): Boolean =
+      containsCompletely(pos) || isAtEmptyScalar(pos)
+
+    def isAtEmptyScalar(pos: AmfPosition): Boolean =
+      Range(li.range.start.line, li.range.end.line + 1)
+        .contains(pos.line) && !isLastLine(pos) && li.range.start == li.range.end
+    def isLastLine(pos: AmfPosition): Boolean =
+      li.range.end.column == 0 && pos.line == li.range.end.line
+
+    def containsCompletely(pos: AmfPosition): Boolean =
+      PositionRange(Position(li.range.start), Position(li.range.end))
+        .containsNotEndObj(Position(pos)) && !isLastLine(pos)
+
+    def containsField(pos: AmfPosition): Boolean =
+      PositionRange(Position(li.range.start), Position(li.range.end))
+        .containsNotEndField(Position(pos))
+  }
+
   implicit class AmfAnnotationsImp(ann: Annotations) {
-    def range(): Option[parser.Range] = ann.find(classOf[LexicalInformation]).map(_.range)
+    def range(): Option[parser.Range] = lexicalInfo.map(_.range)
+
+    def lexicalInfo: Option[LexicalInformation] = ann.find(classOf[LexicalInformation])
 
     def ast(): Option[YPart] = ann.find(classOf[SourceAST]).map(_.ast)
 
     def isSynthesized: Boolean = ann.contains(classOf[SynthesizedField])
 
     def targets(): Map[String, parser.Range] = ann.find(classOf[ReferenceTargets]).map(_.targets).getOrElse(Map.empty)
+  }
+
+  implicit class FieldEntryImplicit(f: FieldEntry) {
+
+    def fieldContains(position: AmfPosition): Boolean = f.value.annotations.lexicalInfo.exists(_.contains(position))
   }
 
   implicit class AmfObjectImp(amfObject: AmfObject) {
@@ -42,6 +74,8 @@ object AmfImplicits {
         case Value(scalar: AmfScalar, _) => scalar
       })
       .exists(_.toBool)
+
+    def containsPosition(position: AmfPosition): Boolean = amfObject.position().exists(_.contains(position))
   }
 
   implicit class DomainElementImp(d: DomainElement) extends AmfObjectImp(d) {
@@ -77,6 +111,11 @@ object AmfImplicits {
   }
 
   implicit class DialectImplicits(d: Dialect) extends BaseUnitImp(d) {
+
+    // IdNodeMapping -> TermNodeMapping(amf object meta)
+    def termsForId: Map[String, String] =
+      d.declares.collect({ case nm: NodeMapping => nm }).map(nm => nm.id -> nm.nodetypeMapping.value()).toMap
+
     def declarationsMapTerms: Map[String, String] = {
       d.documents()
         .root()
