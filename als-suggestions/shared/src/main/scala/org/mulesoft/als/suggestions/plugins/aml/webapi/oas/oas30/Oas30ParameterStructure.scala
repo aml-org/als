@@ -5,7 +5,7 @@ import amf.core.model.domain.AmfScalar
 import amf.core.parser.Value
 import amf.plugins.domain.webapi.metamodel.{OperationModel, ParameterModel}
 import amf.plugins.domain.webapi.models.{Operation, Parameter}
-import org.mulesoft.als.common.AmfSonElementFinder.AlsLexicalInformation
+import org.mulesoft.amfintegration.AmfImplicits.AlsLexicalInformation
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.suggestions.RawSuggestion

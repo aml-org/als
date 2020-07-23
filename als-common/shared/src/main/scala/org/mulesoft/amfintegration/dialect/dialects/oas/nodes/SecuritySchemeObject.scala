@@ -1,12 +1,12 @@
 package org.mulesoft.amfintegration.dialect.dialects.oas.nodes
 
 import amf.core.vocabulary.Namespace.XsdTypes.{xsdString, xsdUri}
-import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.plugins.domain.webapi.metamodel.security._
+import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
 
-object Oas20SecuritySchemeObject extends DialectNode {
-  override def name: String            = "SecuritySchemeNode"
+object Oas20SecuritySettingsNode extends DialectNode {
+  override def name: String            = "SecuritySettingsNode"
   override def nodeTypeMapping: String = SettingsModel.`type`.head.iri()
   override def properties: Seq[PropertyMapping] = Seq(
     PropertyMapping()
@@ -20,6 +20,23 @@ object Oas20SecuritySchemeObject extends DialectNode {
           "apiKey",
           "oauth2"
         ))
+      .withLiteralRange(xsdString.iri()),
+    PropertyMapping()
+      .withId(OAS20Dialect.DialectLocation + "#/declarations/securityScheme/description")
+      .withName("description")
+      .withNodePropertyMapping(SecuritySchemeModel.Description.value.iri())
+      .withLiteralRange(xsdString.iri())
+  )
+}
+
+object Oas20SecuritySchemeObject extends DialectNode {
+  override def name: String            = "SecuritySchemeNode"
+  override def nodeTypeMapping: String = SecuritySchemeModel.`type`.head.iri()
+  override def properties: Seq[PropertyMapping] = Seq(
+    PropertyMapping()
+      .withId(OAS20Dialect.DialectLocation + "#/declarations/securityScheme/type")
+      .withName("type")
+      .withMinCount(1)
       .withLiteralRange(xsdString.iri()),
     PropertyMapping()
       .withId(OAS20Dialect.DialectLocation + "#/declarations/securityScheme/description")

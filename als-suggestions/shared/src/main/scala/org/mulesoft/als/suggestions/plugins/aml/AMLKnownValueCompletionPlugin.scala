@@ -17,7 +17,8 @@ sealed class AMLKnownValueCompletions(field: Field,
                                       classTerm: String,
                                       dialect: Dialect,
                                       isKey: Boolean,
-                                      inArray: Boolean) {
+                                      inArray: Boolean,
+                                      obj: Boolean) {
 
   private def getSuggestions: Seq[PatchedSuggestion] =
     PatchedSuggestionsForDialect
@@ -51,7 +52,7 @@ sealed class AMLKnownValueCompletions(field: Field,
   }
 
   def fieldRange(s: PatchedSuggestion): RangeKind = {
-    if (s.isObj) ObjectRange
+    if (s.isObj || obj) ObjectRange
     else if (inArray) StringScalarRange
     else
       field.`type` match {
@@ -83,7 +84,8 @@ trait AbstractKnownValueCompletionPlugin extends AMLCompletionPlugin {
       classTerm,
       params.actualDialect,
       params.yPartBranch.isKey,
-      params.yPartBranch.isArray || params.yPartBranch.isInArray
+      params.yPartBranch.isArray || params.yPartBranch.isInArray,
+      params.isKeyMapping
     ).resolve()
 }
 
