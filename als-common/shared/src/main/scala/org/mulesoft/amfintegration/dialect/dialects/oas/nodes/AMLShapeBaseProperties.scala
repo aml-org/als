@@ -121,7 +121,7 @@ trait AMLShapeBaseProperties {
       .withId(DialectLocation + s"#/declarations/SchemaObject/properties")
       .withName("properties")
       .withNodePropertyMapping(NodeShapeModel.Properties.value.iri())
-      .withMapKeyProperty(PropertyShapeModel.Name.value.iri())
+      .withMapTermKeyProperty(PropertyShapeModel.Name.value.iri())
       .withObjectRange(Seq(
         AMLSchemaBaseObject.id
       )),

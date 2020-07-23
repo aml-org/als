@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
 import amf.plugins.domain.webapi.models.WebApi
-import org.mulesoft.als.common.AmfSonElementFinder._
+import org.mulesoft.amfintegration.AmfImplicits.AlsLexicalInformation
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest

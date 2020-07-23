@@ -61,7 +61,7 @@ trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
   }
 
   private def matchPrefixPatched(params: AmlCompletionRequest) =
-    params.yPartBranch.stringValue.isEmpty || isPatchedKey(params.yPartBranch) || params.yPartBranch.stringValue
+    params.yPartBranch.stringValue.isEmpty || params.yPartBranch.isArray || isPatchedKey(params.yPartBranch) || params.yPartBranch.stringValue
       .startsWith("$")
 
   private def isInFacet(params: AmlCompletionRequest): Boolean = isKeyAlone(params) || isPatchedJson(params)

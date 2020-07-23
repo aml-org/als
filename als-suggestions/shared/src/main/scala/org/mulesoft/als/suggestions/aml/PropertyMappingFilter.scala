@@ -54,22 +54,23 @@ case class PropertyMappingFilter(objectInTree: ObjectInTree, actualDialect: Dial
 }
 
 object DialectNodeFinder {
-  def find(amfObject: AmfObject, fieldEntry: Option[FieldEntry], actualDialect: Dialect): Option[DomainElement] = {
-    amfObject.metaURIs.flatMap { v =>
-      actualDialect.declares.find {
-        case s: NodeMapping =>
-          s.nodetypeMapping.value() == v &&
-            fieldEntry.forall(f => {
-              s.propertiesMapping()
-                .find(
-                  pm =>
+  def find(amfObject: AmfObject, fieldEntry: Option[FieldEntry], actualDialect: Dialect): Option[NodeMapping] = {
+    amfObject.metaURIs
+      .flatMap { v =>
+        actualDialect.declares.find {
+          case s: NodeMapping =>
+            s.nodetypeMapping.value() == v &&
+              fieldEntry.forall(f => {
+                s.propertiesMapping()
+                  .find(pm =>
                     pm.fields
                       .fields()
                       .exists(_.value.toString == f.field.value.iri()))
-                .exists(_.mapTermKeyProperty().isNullOrEmpty)
-            })
-        case _ => false
+                  .exists(_.mapTermKeyProperty().isNullOrEmpty)
+              })
+          case _ => false
+        }
       }
-    }.headOption
+      .collectFirst({ case nm: NodeMapping => nm })
   }
 }
