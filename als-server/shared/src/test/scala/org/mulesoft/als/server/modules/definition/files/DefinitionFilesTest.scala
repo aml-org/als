@@ -56,6 +56,18 @@ class DefinitionFilesTest extends ServerDefinitionTest {
     )
   }
 
+  test("oas-ref-to-node") {
+    runTest(
+      "files/oas-ref-to-node/api.yaml",
+      Set(LocationLink(
+        "file://als-server/shared/src/test/resources/actions/definition/files/oas-ref-to-node/reference/reference.yaml",
+        LspRangeConverter.toLspRange(PositionRange(Position(6, 2), Position(6, 8))),
+        LspRangeConverter.toLspRange(PositionRange(Position(6, 2), Position(6, 8))),
+        Some(LspRangeConverter.toLspRange(PositionRange(Position(14, 22), Position(14, 68))))
+      ))
+    )
+  }
+
   test("protocol-ref") {
     runTest(
       "files/protocol-ref/api.raml",
