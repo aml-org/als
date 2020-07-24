@@ -6,6 +6,7 @@ import amf.core.model.domain.templates.AbstractDeclaration
 import amf.core.model.domain.{AmfArray, AmfElement, AmfObject}
 import amf.core.traversal.iterator.AmfIterator
 import amf.plugins.domain.webapi.models.templates.{ResourceType, Trait}
+import org.mulesoft.amfintegration.AmfImplicits._
 
 import scala.collection.mutable
 
@@ -46,6 +47,10 @@ class AlsElementIterator(private val bu: BaseUnit,
           val obj = t.asOperation(bu)
           visited += t.id
           buffer = (obj :: extractElements(obj).toList ++ buffer).iterator
+        case a: AmfObject if current.annotations.isRamlTypeExpression =>
+          // don't search for children, the whole expression will be treated as a single element
+          visited += a.id
+          buffer = (a :: buffer.toList).iterator
         case obj: AmfObject =>
           visited += obj.id
           buffer = (obj :: extractElements(obj).toList ++ buffer).iterator
