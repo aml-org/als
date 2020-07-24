@@ -4,6 +4,7 @@ import amf.core.annotations.DeclaredElement
 import amf.core.metamodel.domain.{LinkableElementModel, ShapeModel}
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.{AmfArray, AmfElement, AmfObject}
+import amf.core.parser.FieldEntry
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.domain.webapi.models.security.SecurityRequirement
 import org.mulesoft.als.actions.common.RelationshipLink
@@ -20,7 +21,10 @@ class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
   override protected def innerVisit(element: AmfElement): Seq[RelationshipLink] =
     element match {
       case obj: AmfObject if obj.fields.entry(LinkableElementModel.Target).isDefined =>
-        extractTarget(obj)
+        extractOrigin(obj)
+          .flatMap(origin => extractTarget(obj).map { (origin, _) })
+          .map(t => createRelationship(t._1, t._2))
+          .getOrElse(Nil)
       case obj: AmfObject if obj.fields.entry(ShapeModel.Inherits).isDefined =>
         extractInherits(obj)
       case sr: SecurityRequirement =>
@@ -34,22 +38,6 @@ class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
       .flatMap(t => t.annotations.ast().map((t, _)))
       .flatMap(target => sr.annotations.ast().map(source => (source, target)))
       .map(t => RelationshipLink(t._1, t._2._2, getName(t._2._1)))
-
-  private def extractTarget(obj: AmfObject) =
-    obj.fields
-      .entry(LinkableElementModel.Target)
-      .flatMap { fe =>
-        fe.value.value.annotations
-          .ast()
-          .flatMap(
-            target =>
-              obj.annotations
-                .ast()
-                .map(checkYNodePlain)
-                .map(source => (source, target)))
-          .map(t => RelationshipLink(t._1, t._2, getName(fe.value.value)))
-      }
-      .toSeq
 
   private def extractInherits(obj: AmfObject) =
     obj.fields
@@ -74,6 +62,11 @@ class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
             }).map(t => RelationshipLink(source, t._2, getName(t._1))))
       }
       .getOrElse(Nil)
+
+  private def extractOrigin(obj: AmfObject): Option[YPart] =
+    obj.annotations
+      .ast()
+      .map(checkYNodePlain)
 
   /**
     * checks for {$ref: '#declared'} style references and extracts YMapEntry of such

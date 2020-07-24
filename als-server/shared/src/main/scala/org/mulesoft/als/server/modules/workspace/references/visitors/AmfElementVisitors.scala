@@ -18,6 +18,7 @@ object AmfElementDefaultVisitors {
     Seq(
       TraitLinksVisitor,
       AbstractDefinitionLinksVisitor,
+      RamlTypeExpressionsVisitor,
       DeclaredLinksVisitor,
       YNodeAliasVisitor,
       DocumentLinkVisitor,
