@@ -1,6 +1,7 @@
 package org.mulesoft.amfintegration
 
 import amf.core.annotations.{LexicalInformation, ReferenceTargets, SourceAST, SourceLocation, SynthesizedField}
+import amf.plugins.document.webapi.annotations.ExternalJsonSchemaShape
 import amf.core.metamodel.Field
 import amf.core.model.document.{BaseUnit, EncodesModel}
 import amf.core.model.domain.{AmfObject, AmfScalar, DomainElement}
@@ -10,7 +11,7 @@ import amf.plugins.document.vocabularies.model.document.{Dialect, Vocabulary}
 import amf.plugins.document.vocabularies.model.domain.{ClassTerm, NodeMapping, PropertyTerm}
 import amf.plugins.domain.shapes.annotations.ParsedFromTypeExpression
 import amf.plugins.domain.webapi.metamodel.AbstractModel
-import org.yaml.model.YPart
+import org.yaml.model.{YMapEntry, YPart}
 
 import scala.collection.mutable
 
@@ -30,13 +31,11 @@ object AmfImplicits {
     def targets(): Map[String, parser.Range] = ann.find(classOf[ReferenceTargets]).map(_.targets).getOrElse(Map.empty)
 
     def isRamlTypeExpression: Boolean = ann.find(classOf[ParsedFromTypeExpression]).isDefined
+
+    def externalJsonSchemaShape: Option[YMapEntry] = ann.find(classOf[ExternalJsonSchemaShape]).map(_.original)
   }
 
   implicit class AmfObjectImp(amfObject: AmfObject) {
-//    def objWithAST: Option[AmfObject] =
-//      amfObject.annotations
-//        .ast()
-//        .map(_ => amfObject)
 
     def metaURIs: List[String] = amfObject.meta.`type` match {
       case head :: tail if isAbstract => (head.iri() + "Abstract") +: (tail.map(_.iri()))
@@ -98,9 +97,8 @@ object AmfImplicits {
         }
         .toMap
     }
-    def vocabulary(base: String): Option[Vocabulary] = {
+    def vocabulary(base: String): Option[Vocabulary] =
       d.references.collectFirst { case v: Vocabulary if v.base.option().contains(base) => v }
-    }
   }
 
   implicit class VocabularyImplicit(v: Vocabulary) extends BaseUnitImp(v) {
