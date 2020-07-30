@@ -121,7 +121,7 @@ object LspConvertersClientToShared {
 
   implicit class VersionedTextDocumentIdentifierConverter(v: ClientVersionedTextDocumentIdentifier) {
     def toShared: VersionedTextDocumentIdentifier =
-      VersionedTextDocumentIdentifier(v.uri, v.version.toOption)
+      VersionedTextDocumentIdentifier(v.uri, Option(v.version))
   }
 
   implicit class TextDocumentItemConverter(v: ClientTextDocumentItem) {
