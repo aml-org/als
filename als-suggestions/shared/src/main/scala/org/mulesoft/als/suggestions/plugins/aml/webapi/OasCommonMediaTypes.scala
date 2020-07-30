@@ -14,7 +14,6 @@ trait OasCommonMediaTypes extends OftenKeysConfig {
     "appxlication/vnd.github.v3.diff",
     "application/vnd.github.v3.patch"
   )
-  override val quotedMark: String = "\""
 }
 
 object Oas20CommonMediaTypes extends OasCommonMediaTypes {
@@ -30,5 +29,4 @@ object RamlCommonMediaTypes extends OftenKeysConfig {
     "application/json",
     "application/xml"
   )
-  override val quotedMark: String = "\""
 }
