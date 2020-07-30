@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "111XX",
-    "filterText": "1XX:\n  ",
+    "filterText": "\"1XX\":\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +113,7 @@
           "character": 8
         }
       },
-      "newText": "1XX:\n  "
+      "newText": "\"1XX\":\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -427,7 +427,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "112XX",
-    "filterText": "2XX:\n  ",
+    "filterText": "\"2XX\":\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -443,7 +443,7 @@
           "character": 8
         }
       },
-      "newText": "2XX:\n  "
+      "newText": "\"2XX\":\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -727,7 +727,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "113XX",
-    "filterText": "3XX:\n  ",
+    "filterText": "\"3XX\":\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -743,7 +743,7 @@
           "character": 8
         }
       },
-      "newText": "3XX:\n  "
+      "newText": "\"3XX\":\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1747,7 +1747,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "114XX",
-    "filterText": "4XX:\n  ",
+    "filterText": "\"4XX\":\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1763,7 +1763,7 @@
           "character": 8
         }
       },
-      "newText": "4XX:\n  "
+      "newText": "\"4XX\":\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2197,7 +2197,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "115XX",
-    "filterText": "5XX:\n  ",
+    "filterText": "\"5XX\":\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2213,7 +2213,7 @@
           "character": 8
         }
       },
-      "newText": "5XX:\n  "
+      "newText": "\"5XX\":\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2227,7 +2227,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11default",
-    "filterText": "default:\n  ",
+    "filterText": "\"default\":\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2243,7 +2243,7 @@
           "character": 8
         }
       },
-      "newText": "default:\n  "
+      "newText": "\"default\":\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
