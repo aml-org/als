@@ -8,7 +8,10 @@ import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dial
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.Raml08TypesDialect
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
 
-case class PatchedSuggestion(text: String, description: Option[String] = None, isObj: Boolean = false)
+case class PatchedSuggestion(text: String,
+                             description: Option[String] = None,
+                             isObj: Boolean = false,
+                             nonPlain: Boolean = false)
 
 case class FieldForClass(classTerm: String, propertyTerm: String)
 
@@ -55,9 +58,9 @@ object PatchedSuggestionsForDialect {
       FieldForClass(PayloadModel.`type`.head.iri(), PayloadModel.MediaType.value.iri()) ->
         Map("KnownValues" -> Oas30CommonMediaTypes.all.map(PatchedSuggestion(_))),
       FieldForClass(ResponseModel.`type`.head.iri(), ResponseModel.StatusCode.value.iri()) ->
-        Map("KnownValues" -> Oas30ResponseCodes.all.map(PatchedSuggestion(_, isObj = true))),
+        Map("KnownValues" -> Oas30ResponseCodes.all.map(PatchedSuggestion(_, isObj = true, nonPlain = true))),
       FieldForClass(ResponseModel.`type`.head.iri(), ResponseModel.Name.value.iri()) ->
-        Map("KnownValues" -> Oas30ResponseCodes.all.map(PatchedSuggestion(_, isObj = true)))
+        Map("KnownValues" -> Oas30ResponseCodes.all.map(PatchedSuggestion(_, isObj = true, nonPlain = true)))
     ) ++ webApiClasses
 
   private val asyncApi20Classes: Map[FieldForClass, Map[String, Seq[PatchedSuggestion]]] = {
