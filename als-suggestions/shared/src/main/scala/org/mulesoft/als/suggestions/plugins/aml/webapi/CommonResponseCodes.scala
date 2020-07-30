@@ -43,13 +43,14 @@ trait CommonResponseCodes extends OftenKeysConfig {
   protected def v500: Seq[String] =
     Seq("500", "501", "502", "503", "504", "505", "506", "507", "508", "509", "510", "511", "598", "599")
 
+  protected def default: Seq[String] = Seq("default")
   override lazy val all: Seq[String] = v100 ++ v200 ++ v300 ++ v400 ++ v500
 }
 
 object RamlResponseCodes extends CommonResponseCodes
 
 trait OasResponseCodes extends CommonResponseCodes {
-  override lazy val all: Seq[String] = v100 ++ v200 ++ v300 ++ v400 ++ v500 ++ Seq("default")
+  override lazy val all: Seq[String] = v100 ++ v200 ++ v300 ++ v400 ++ v500 ++ default
 }
 
 object OasResponseCodes extends OasResponseCodes
@@ -60,10 +61,9 @@ object Oas30ResponseCodes extends OasResponseCodes {
   override def v300: Seq[String] = Seq("3XX") ++ super.v300
   override def v400: Seq[String] = Seq("4XX") ++ super.v400
   override def v500: Seq[String] = Seq("5XX") ++ super.v500
+  val notQuoted: Seq[String]     = default
 }
 
 trait OftenKeysConfig {
   val all: Seq[String]
-  lazy val stringValue: String = s"[ ${all.map(quotedMark + _ + quotedMark).mkString(",")}]"
-  val quotedMark: String       = ""
 }
