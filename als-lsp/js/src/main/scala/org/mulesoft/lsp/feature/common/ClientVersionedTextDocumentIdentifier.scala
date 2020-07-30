@@ -14,17 +14,9 @@ trait ClientVersionedTextDocumentIdentifier extends js.Object {
 
 object ClientVersionedTextDocumentIdentifier {
   def apply(internal: VersionedTextDocumentIdentifier): ClientVersionedTextDocumentIdentifier = {
-    //noinspection ScalaStyle
-    internal.version match { // why? because scalajs things, that's why
-      case Some(i) =>
-        js.Dynamic
-          .literal(uri = internal.uri, version = i)
-          .asInstanceOf[ClientVersionedTextDocumentIdentifier]
-      case _ =>
-        js.Dynamic
-          .literal(uri = internal.uri, version = null)
-          .asInstanceOf[ClientVersionedTextDocumentIdentifier]
-    }
+    js.Dynamic
+      .literal(uri = internal.uri, version = internal.version.map(_.asInstanceOf[js.Any]).orNull)
+      .asInstanceOf[ClientVersionedTextDocumentIdentifier]
 
   }
 }
