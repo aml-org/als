@@ -57,6 +57,77 @@ class DocumentHighlightTest extends LanguageServerBaseTest {
         |  D: A""".stripMargin
   )
 
+  private val ws2 = Map(
+    "file:///root/exchange.json" -> """{"main": "api.json"}""",
+    "file:///root/api.json" ->
+      """{
+        |  "swagger": "2.0",
+        |  "definitions": {
+        |      "User": {
+        |        "$ref": "test/properties.json"
+        |      }
+        |  },
+        |  "paths": {
+        |    "/get": {
+        |        "get": {
+        |            "parameters": [
+        |                {
+        |                  "in": "body",
+        |                  "name": "user",
+        |                  "schema": {
+        |                      "$ref": "#/definitions/User"
+        |                  }
+        |                }
+        |            ]
+        |          }
+        |        }
+        |    }
+        |}""".stripMargin,
+    "file:///root/test/properties.json" ->
+      """{
+        |    "properties": {
+        |            "username": {
+        |              "type": "string"
+        |            }
+        |    }
+        |}""".stripMargin
+  )
+
+  private val ws3 = Map(
+    "file:///root/exchange.json" -> """{"main": "api.raml"}""",
+    "file:///root/api.raml" ->
+      """#%RAML 1.0
+        |title: api
+        |resourceTypes:
+        |  details: !include resourceTypes/details.raml
+        |  export: !include resourceTypes/export.raml
+        |
+        |/path:
+        |  /details:
+        |    type: details
+        |
+        |  /export:
+        |    type: export""".stripMargin,
+    "file:///root/resourceTypes/details.raml" ->
+      """#%RAML 1.0 ResourceType
+        |  responses:
+        |    200:
+        |      body:
+        |        application/json:
+        |          type: array
+        |          items:
+        |            type: string""".stripMargin,
+    "file:///root/resourceTypes/export.raml" ->
+      """get:
+        |  responses:
+        |    200:
+        |      body:
+        |        application/json:
+        |          type: array
+        |          items:
+        |            type: string""".stripMargin,
+  )
+
   val testSets: Set[TestEntry] = Set(
     TestEntry(
       "file:///root/lib.raml",
@@ -66,42 +137,64 @@ class DocumentHighlightTest extends LanguageServerBaseTest {
         DocumentHighlight(Range(Position(6, 5), Position(6, 6)), DocumentHighlightKind.Text),
         DocumentHighlight(Range(Position(7, 5), Position(7, 6)), DocumentHighlightKind.Text)
       )
+    ),
+    TestEntry(
+      "file:///root/api.json",
+      Position(3, 9),
+      ws2,
+      Set(
+        DocumentHighlight(Range(Position(15, 30), Position(15, 50)), DocumentHighlightKind.Text)
+      )
+    ),
+    TestEntry(
+      "file:///root/api.raml",
+      Position(5, 13),
+      ws3,
+      Set(
+        DocumentHighlight(Range(Position(11, 10), Position(11, 16)), DocumentHighlightKind.Text)
+      )
+    ),
+    TestEntry(
+      "file:///root/api.raml",
+      Position(5, 33),
+      ws3,
+      Set(
+        DocumentHighlight(Range(Position(11, 10), Position(11, 16)), DocumentHighlightKind.Text)
+      )
+    ),
+    TestEntry(
+      "file:///root/api.raml",
+      Position(4, 5),
+      ws3,
+      Set(
+        DocumentHighlight(Range(Position(11, 10), Position(11, 16)), DocumentHighlightKind.Text)
+      )
     )
   )
 
-  private def createWSE(edits: Seq[(String, Seq[TextEdit])]): WorkspaceEdit =
-    WorkspaceEdit(
-      edits.groupBy(_._1).mapValues(_.flatMap(_._2)),
-      edits.map(e => Left(TextDocumentEdit(VersionedTextDocumentIdentifier(e._1, None), e._2)))
-    )
-
   test("Document Highlight tests") {
-    for {
-      results <- Future.sequence {
-        testSets.map { test =>
-          for {
-            (server, _) <- buildServer(test.root, test.ws)
-            highlights <- {
-              server.textDocumentSyncConsumer.didOpen(
-                DidOpenTextDocumentParams(
-                  TextDocumentItem(
-                    test.targetUri,
-                    "",
-                    0,
-                    test.ws(test.targetUri)
-                  )))
-              val dhHandler: RequestHandler[DocumentHighlightParams, Seq[DocumentHighlight]] =
-                server.resolveHandler(DocumentHighlightRequestType).get
-              dhHandler(DocumentHighlightParams(TextDocumentIdentifier(test.targetUri), test.targetPosition))
-            }
-          } yield {
-            (highlights, test.result)
-          }
+    Future.sequence(testSets.toSeq.map { test =>
+      for {
+        (server, _) <- buildServer(test.root, test.ws)
+        highlights <- {
+          server.textDocumentSyncConsumer.didOpen(
+            DidOpenTextDocumentParams(
+              TextDocumentItem(
+                test.targetUri,
+                "",
+                0,
+                test.ws(test.targetUri)
+              )))
+          val dhHandler: RequestHandler[DocumentHighlightParams, Seq[DocumentHighlight]] =
+            server.resolveHandler(DocumentHighlightRequestType).get
+          dhHandler(DocumentHighlightParams(TextDocumentIdentifier(test.targetUri), test.targetPosition))
         }
+      } yield {
+        highlights.toSet == test.result
       }
-    } yield {
-      assert(results.forall(t => t._1.toSet == t._2))
-    }
+    }).map(set => {
+      assert(!set.contains(false) && set.size == testSets.size)
+    })
   }
 
   case class TestEntry(targetUri: String,
