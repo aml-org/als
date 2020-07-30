@@ -8,13 +8,13 @@ import scala.scalajs.js.JSConverters._
 trait ClientVersionedTextDocumentIdentifier extends js.Object {
   def uri: String = js.native
 
-  def version: js.UndefOr[Int] = js.native
+  def version: Int = js.native
 }
 
 object ClientVersionedTextDocumentIdentifier {
   def apply(internal: VersionedTextDocumentIdentifier): ClientVersionedTextDocumentIdentifier =
     js.Dynamic
-      .literal(uri = internal.uri, version = internal.version.orUndefined)
+      .literal(uri = internal.uri, version = internal.version.get)
       .asInstanceOf[ClientVersionedTextDocumentIdentifier]
 }
 
