@@ -2227,7 +2227,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11default",
-    "filterText": "\"default\":\n  ",
+    "filterText": "default:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2243,7 +2243,7 @@
           "character": 8
         }
       },
-      "newText": "\"default\":\n  "
+      "newText": "default:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
