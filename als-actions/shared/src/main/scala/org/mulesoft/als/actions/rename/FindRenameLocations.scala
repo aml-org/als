@@ -6,7 +6,7 @@ import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit, WorkspaceEdit}
 import org.mulesoft.lsp.feature.common.{Range, VersionedTextDocumentIdentifier}
-import org.yaml.model.{YMapEntry, YPart, YScalar}
+import org.yaml.model.{YMapEntry, YNode, YPart, YScalar}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -51,15 +51,23 @@ object FindRenameLocations {
         )
       }
 
-  private def getOriginKey(refs: Seq[RelationshipLink]): Option[YScalar] = {
+  private def getOriginKey(refs: Seq[RelationshipLink]): Option[YScalar] =
+    getScalarFromName(refs) orElse getScalarFromEntry(refs)
+
+  private def getScalarFromEntry(refs: Seq[RelationshipLink]) =
     refs
       .map(_.targetEntry)
       .collectFirst {
         case e: YMapEntry => e.key
-        //            case a: YNodePlain if a.anchor.isDefined => a
       }
       .flatMap(_.asScalar)
-  }
+
+  private def getScalarFromName(refs: Seq[RelationshipLink]) =
+    refs.map(_.nameYPart).headOption.flatMap {
+      case n: YNode     => n.asScalar
+      case e: YMapEntry => e.key.asScalar
+      case _            => None
+    }
 
   private def toTextEdit(renameLocation: RenameLocation): TextEdit =
     TextEdit(LspRangeConverter.toLspRange(renameLocation.replaceRange), renameLocation.newName)

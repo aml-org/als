@@ -30,22 +30,11 @@ class ObjectNodeSymbolBuilder(override val element: ObjectNode)(override implici
         case (n, Value(v: DataNode, a)) =>
           val range =
             PositionRange(a.find(classOf[LexicalInformation]).map(l => l.range).getOrElse(AmfRange(InputRange.Zero)))
-          val selectionRange = a
-            .find(classOf[SourceAST])
-            .map(_.ast)
-            .collect({ case e: YMapEntry => PositionRange(e.key.range) })
-            .getOrElse(range)
           ctx.factory
             .builderFor(v)
             .map(_.build())
             .map { r =>
-              Seq(
-                new DocumentSymbol(n.value.name.urlComponentDecoded,
-                                   KindForResultMatcher.getKind(v),
-                                   false,
-                                   range,
-                                   selectionRange,
-                                   r.toList))
+              Seq(DocumentSymbol(n.value.name.urlComponentDecoded, KindForResultMatcher.getKind(v), range, r.toList))
             }
             .getOrElse(Nil)
         case _ => Nil

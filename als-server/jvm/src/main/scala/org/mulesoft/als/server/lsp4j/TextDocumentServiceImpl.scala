@@ -40,6 +40,7 @@ import org.eclipse.lsp4j.{
 import org.mulesoft.als.server.custom.{CustomEvents, CustomTextDocumentService}
 import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeRequestType
 import org.mulesoft.als.server.feature.fileusage.FileUsageRequestType
+import org.mulesoft.als.server.feature.renameFile.RenameFileActionRequestType
 import org.mulesoft.als.server.feature.serialization.ConversionRequestType
 import org.mulesoft.als.server.lsp4j.AlsJConversions._
 import org.mulesoft.als.server.lsp4j.LspConversions._
@@ -157,5 +158,9 @@ class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomT
 
   override def selectionRange(params: lsp4j.SelectionRangeParams): CompletableFuture[util.List[SelectionRange]] = {
     javaFuture(resolveHandler(SelectionRangeRequestType)(params), lsp4JSelectionRanges)
+  }
+
+  override def renameFile(params: RenameFileActionParams): CompletableFuture[RenameFileActionResult] = {
+    javaFuture(resolveHandler(RenameFileActionRequestType)(params), renameFileActionResult)
   }
 }

@@ -71,8 +71,8 @@
         "character": 2
       },
       "end": {
-        "line": 6,
-        "character": 12
+        "line": 23,
+        "character": 47
       }
     },
     "children": [
@@ -96,8 +96,8 @@
             "character": 4
           },
           "end": {
-            "line": 9,
-            "character": 7
+            "line": 23,
+            "character": 47
           }
         },
         "children": [
@@ -146,8 +146,8 @@
                     "character": 8
                   },
                   "end": {
-                    "line": 11,
-                    "character": 11
+                    "line": 23,
+                    "character": 47
                   }
                 },
                 "children": [
@@ -196,8 +196,8 @@
                             "character": 12
                           },
                           "end": {
-                            "line": 14,
-                            "character": 16
+                            "line": 23,
+                            "character": 47
                           }
                         },
                         "children": [

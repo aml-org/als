@@ -167,7 +167,6 @@ class DifferentEncodingTest extends RAMLSuggestionTestServer {
                   h(CompletionParams(TextDocumentIdentifier(test.fileUri), test.position))
                     .map(completions => {
                       closeFile(server)(test.fileUri)
-
                       completions.left.value
                     })
                 }

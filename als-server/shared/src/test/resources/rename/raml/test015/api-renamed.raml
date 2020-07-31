@@ -1,0 +1,23 @@
+#%RAML 0.8
+title: Filesystem API
+
+schemas:
+  RENAMED: |
+          <xs:element name="shipto">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="address" type="xs:string"/>
+                <xs:element name="city" type="xs:string"/>
+                <xs:element name="country" type="xs:string"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+
+/files:
+  get:
+    responses:
+      200:
+        body:
+          application/xml:
+            schema: RENAMED

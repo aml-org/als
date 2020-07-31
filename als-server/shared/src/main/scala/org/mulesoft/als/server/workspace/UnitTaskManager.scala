@@ -5,6 +5,7 @@ import org.mulesoft.amfintegration.UnitWithNextReference
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
+import scala.util.{Failure, Success}
 
 /**
   * UnitTaskManager is a template designed to keep track of a kind of unit.
@@ -20,10 +21,13 @@ import scala.concurrent.{Future, Promise}
   */
 trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingAreaNotifications] {
 
-  def getUnit(uri: String): Future[ResultUnit] = repository.getUnit(uri) match {
-    case Some(unit) => Future.successful(toResult(uri, unit))
-    case _          => getNext(uri).getOrElse(fail(uri))
-  }
+  def getUnit(uri: String): Future[ResultUnit] =
+    repository.getUnit(uri) match {
+      case Some(unit) =>
+        Future(toResult(uri, unit))
+      case _ =>
+        getNext(uri).getOrElse(fail(uri))
+    }
 
   def disable(): Future[Unit] = {
     changeState(NotAvailable)
@@ -55,17 +59,20 @@ trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingArea
   private var current: Future[Unit] = Future.unit
   private val isDisabled            = Promise[Unit]()
 
-  private def canProcess: Boolean = state == Idle && current == Future.unit
+  private def canProcess: Boolean = state == Idle && current.isCompleted
 
   private def next(f: Future[Unit]): Future[Unit] =
     f.recoverWith({
         case e =>
           log(Option(e.getMessage).getOrElse(e.toString))
-          Future.successful(Unit)
+          Future.unit
       })
-      .map { u =>
-        current = process()
-        u
+      .andThen {
+        case Success(_) =>
+          current = process()
+        case Failure(e) =>
+          log(e.getMessage)
+          current = process()
       }
 
   private def process(): Future[Unit] =
@@ -75,14 +82,12 @@ trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingArea
     else goIdle()
 
   protected def getNext(uri: String): Option[Future[ResultUnit]] =
-    current match {
-      case Future.unit => None
-      case _           => Some(current.flatMap(_ => getUnit(uri)))
-    }
+    if (canProcess) None
+    else Some(current.flatMap(_ => getUnit(uri)))
 
   protected def fail(uri: String) = throw UnitNotFoundException(uri)
 
-  private def goIdle(): Future[Unit] = {
+  private def goIdle(): Future[Unit] = synchronized {
     changeState(Idle)
     Future.unit
   }

@@ -36,7 +36,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   private val workspaces: ListBuffer[WorkspaceContentManager] = ListBuffer()
 
   def getWorkspace(uri: String): WorkspaceContentManager =
-    workspaces.find(ws => uri.startsWith(ws.folder)).getOrElse(defaultWorkspace)
+    workspaces.find(ws => ws.containsFile(uri)).getOrElse(defaultWorkspace)
 
   def initializeWS(root: String): Future[Unit] =
     rootHandler.extractConfiguration(root, logger).flatMap { mainOption =>
@@ -78,33 +78,36 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   }
 
   override def getUnit(uri: String, uuid: String): Future[CompilableUnit] =
-    getWorkspace(uri).getCompilableUnit(uri)
+    getWorkspace(uri.toAmfUri).getUnit(uri.toAmfUri)
 
-  override def getLastUnit(uri: String, uuid: String): Future[CompilableUnit] = {
-    getUnit(uri, uuid).flatMap(cu => {
-      if (cu.isDirty) getLastUnit(uri, uuid) else Future.successful(cu)
-    })
-  }
+  override def getLastUnit(uri: String, uuid: String): Future[CompilableUnit] =
+    getUnit(uri.toAmfUri, uuid).flatMap(cu => if (cu.isDirty) getLastCU(cu, uri, uuid) else Future.successful(cu))
+
+  private def getLastCU(cu: CompilableUnit, uri: String, uuid: String) =
+    cu.getLast.flatMap {
+      case cu if cu.isDirty => getLastUnit(uri, uuid)
+      case _                => Future.successful(cu)
+    }
+
   override def notify(uri: String, kind: NotificationKind): Unit = {
-    val manager: WorkspaceContentManager = getWorkspace(uri)
+    val manager: WorkspaceContentManager = getWorkspace(uri.toAmfUri)
     if (manager.configFile
           .map(_.toAmfUri)
-          .contains(uri)) {
+          .contains(uri.toAmfUri)) {
       manager.withConfiguration(ReaderWorkspaceConfigurationProvider(manager))
-      manager.stage(uri, CHANGE_CONFIG)
-    } else manager.stage(uri, kind)
+      manager.stage(uri.toAmfUri, CHANGE_CONFIG)
+    } else manager.stage(uri.toAmfUri, kind)
   }
 
   def contentManagerConfiguration(manager: WorkspaceContentManager,
-                                  mainUri: String,
+                                  mainSubUri: String,
                                   dependencies: Set[String],
-                                  reader: Option[ConfigReader]): Unit = {
+                                  reader: Option[ConfigReader]): Unit =
     manager
-      .withConfiguration(DefaultWorkspaceConfigurationProvider(manager, mainUri, dependencies, reader))
-      .stage(mainUri, CHANGE_CONFIG)
-  }
+      .withConfiguration(DefaultWorkspaceConfigurationProvider(manager, mainSubUri, dependencies, reader))
+      .stage(mainSubUri, CHANGE_CONFIG)
 
-  override def executeCommand(params: ExecuteCommandParams): Future[AnyRef] = {
+  override def executeCommand(params: ExecuteCommandParams): Future[AnyRef] =
     commandExecutors.get(params.command) match {
       case Some(exe) =>
         exe.runCommand(params)
@@ -112,7 +115,6 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
         logger.error(s"Command [${params.command}] not recognized", "WorkspaceManager", "executeCommand")
         Future.successful(Unit) // future failed?
     }
-  }
 
   private val commandExecutors: Map[String, CommandExecutor[_, _]] = Map(
     Commands.DID_FOCUS_CHANGE_COMMAND -> new DidFocusCommandExecutor(logger, this),
@@ -151,14 +153,15 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   dependencies.foreach(d => d.withUnitAccessor(this))
 
   override def getDocumentLinks(uri: String, uuid: String): Future[Seq[DocumentLink]] =
-    getLastUnit(uri, uuid).flatMap(_ => getWorkspace(uri).getRelationships(uri).getDocumentLinks(uri))
+    getLastUnit(uri.toAmfUri, uuid).flatMap(_ =>
+      getWorkspace(uri.toAmfUri).getRelationships(uri.toAmfUri).getDocumentLinks(uri.toAmfUri))
 
   override def getAllDocumentLinks(uri: String, uuid: String): Future[Map[String, Seq[DocumentLink]]] = {
     val workspace = getWorkspace(uri)
     workspace.mainFileUri match {
       case Some(mf) =>
         getLastUnit(mf, uuid)
-          .flatMap(_ => workspace.getRelationships(mf).getAllDocumentLinks())
+          .flatMap(_ => workspace.getRelationships(mf).getAllDocumentLinks)
       case _ => Future.successful(Map.empty)
     }
   }

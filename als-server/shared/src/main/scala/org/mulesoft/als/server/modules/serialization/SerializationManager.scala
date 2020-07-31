@@ -83,11 +83,11 @@ class SerializationManager[S](telemetryProvider: TelemetryProvider,
           .recoverWith {
             case e: Exception =>
               logger.warning(e.getMessage, "SerializationManager", "RequestSerialization")
-              Future.successful(Document())
+              Future.successful(Document().withId("error"))
           }
       case _ =>
         logger.warning("Unit accessor not configured", "SerializationManager", "RequestSerialization")
-        Future.successful(Document()) // todo: this turns into a nullpointer!
+        Future.successful(Document().withId("error"))
     }
     bu.flatMap(process)
   }

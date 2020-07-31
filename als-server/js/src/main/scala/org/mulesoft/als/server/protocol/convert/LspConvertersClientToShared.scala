@@ -4,7 +4,9 @@ import org.mulesoft.als.configuration.AlsFormattingOptions
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeOptions, CleanDiagnosticTreeParams}
 import org.mulesoft.als.server.feature.fileusage.{FileUsageClientCapabilities, FileUsageOptions}
 import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
+import org.mulesoft.als.server.feature.renameFile.{RenameFileActionClientCapabilities, RenameFileActionParams}
 import org.mulesoft.als.server.feature.serialization._
+import org.mulesoft.als.server.protocol.actions.{ClientRenameFileActionClientCapabilities, ClientRenameFileActionParams}
 import org.mulesoft.als.server.protocol.configuration.{ClientAlsFormattingOptions, _}
 import org.mulesoft.als.server.protocol.diagnostic.ClientCleanDiagnosticTreeParams
 import org.mulesoft.als.server.protocol.serialization.{ClientConversionParams, ClientSerializationParams}
@@ -50,7 +52,8 @@ object LspConvertersClientToShared {
       serialization = v.serialization.map(_.toShared).toOption,
       cleanDiagnosticTree = v.cleanDiagnosticTree.map(_.toShared).toOption,
       fileUsage = v.fileUsage.map(_.toShared).toOption,
-      conversion =  v.conversion.map(_.toShared).toOption
+      conversion =  v.conversion.map(_.toShared).toOption,
+      renameFileAction = v.renameFileAction.map(_.toShared).toOption
     )
   }
 
@@ -161,6 +164,14 @@ object LspConvertersClientToShared {
 
   implicit class ClientSerializationParamsConverter(v:ClientSerializationParams){
     def toShared: SerializationParams = SerializationParams(v.documentIdentifier.toShared)
+  }
+
+  implicit class ClientRenameFileActionClientCapabilitiesConverter(i: ClientRenameFileActionClientCapabilities){
+    def toShared: RenameFileActionClientCapabilities = RenameFileActionClientCapabilities(i.enabled)
+  }
+
+  implicit class ClientRenameFileActionParamsConverter(i: ClientRenameFileActionParams){
+    def toShared: RenameFileActionParams = RenameFileActionParams(i.oldDocument.toShared, i.newDocument.toShared)
   }
   // $COVERAGE-ON
 }

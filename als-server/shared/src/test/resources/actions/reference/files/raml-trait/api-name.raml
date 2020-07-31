@@ -1,0 +1,16 @@
+#%RAML 1.0
+
+title: testtitle
+
+uses:
+    lib: library.raml
+
+traits:
+    t[*]r:
+        body:
+
+/test:
+  get:
+    is:
+      - tr
+      - lib.tr

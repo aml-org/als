@@ -11,7 +11,7 @@ case class AlsConfiguration(private var formattingOptions: Map[String, AlsFormat
   def updateFormattingOptions(options: Map[String, AlsFormattingOptions]): Unit =
     if (enableUpdateFormatOptions)
       options.foreach(pair => {
-        this.formattingOptions + pair
+        this.formattingOptions += pair
       })
 
   def setUpdateFormatOptions(enableUpdateFormatOptions: Boolean): Unit = {

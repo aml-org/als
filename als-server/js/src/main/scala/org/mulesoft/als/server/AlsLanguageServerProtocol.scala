@@ -1,8 +1,18 @@
 package org.mulesoft.als.server
 
+import org.mulesoft.als.server.protocol.actions.{ClientRenameFileActionParams, ClientRenameFileActionResult}
 import org.mulesoft.als.server.protocol.configuration.{ClientAlsClientCapabilities, ClientUpdateConfigurationParams}
-import org.mulesoft.als.server.protocol.diagnostic.{ClientAlsPublishDiagnosticsParams, ClientCleanDiagnosticTreeParams, ClientFilesInProjectParams}
-import org.mulesoft.als.server.protocol.serialization.{ClientConversionParams, ClientSerializationParams, ClientSerializationResult, ClientSerializedDocument}
+import org.mulesoft.als.server.protocol.diagnostic.{
+  ClientAlsPublishDiagnosticsParams,
+  ClientCleanDiagnosticTreeParams,
+  ClientFilesInProjectParams
+}
+import org.mulesoft.als.server.protocol.serialization.{
+  ClientConversionParams,
+  ClientSerializationParams,
+  ClientSerializationResult,
+  ClientSerializedDocument
+}
 import org.mulesoft.als.vscode.{NotificationType, RequestType}
 import org.mulesoft.lsp.feature.common.{ClientLocation, ClientTextDocumentIdentifier}
 
@@ -56,4 +66,10 @@ object ClientConversionRequestType {
 object ClientSerializationRequestType {
   val `type`: RequestType[ClientSerializationParams, ClientSerializationResult, js.Any, js.Any] =
     new RequestType[ClientSerializationParams, ClientSerializationResult, js.Any, js.Any]("Serialization")
+}
+
+@JSExportTopLevel("RenameFileActionRequestType")
+object ClientCleanRenameFileActionRequestType {
+  val `type`: RequestType[ClientRenameFileActionParams, ClientRenameFileActionResult, js.Any, js.Any] =
+    new RequestType[ClientRenameFileActionParams, ClientRenameFileActionResult, js.Any, js.Any]("RenameFile")
 }

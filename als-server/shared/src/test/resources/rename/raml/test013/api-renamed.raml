@@ -1,0 +1,13 @@
+#%RAML 0.8
+title: Filesystem API
+
+schemas:
+  RENAMED: string
+
+/files:
+  get:
+    responses:
+      200:
+        body:
+          application/xml:
+            schema: RENAMED

@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.modules.workspace
 
 import amf.client.resource.ResourceNotFound
+import amf.core.model.document.BaseUnit
 import amf.internal.reference.{CachedReference, ReferenceResolver}
 import org.mulesoft.als.actions.common.{AliasInfo, RelationshipLink}
 import org.mulesoft.als.common.dtoTypes.ReferenceStack
@@ -14,8 +15,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class WorkspaceParserRepository(logger: Logger) extends Repository[ParsedUnit] {
-  var cachables: Set[String] = Set.empty
-  private val visitors       = AmfElementDefaultVisitors.build()
+  var cachables: Set[String]         = Set.empty
+  private def visitors(bu: BaseUnit) = AmfElementDefaultVisitors.build(bu)
 
   /**
     * replaces cachable list and removes cached units which are not on the new list
@@ -54,7 +55,7 @@ class WorkspaceParserRepository(logger: Logger) extends Repository[ParsedUnit] {
   def newTree(result: AmfParseResult): Future[Unit] = synchronized {
     cleanTree()
     MainFileTreeBuilder
-      .build(result, cachables, visitors, logger)
+      .build(result, cachables, visitors(result.baseUnit), logger)
       .map { nt =>
         tree = nt
         nt.parsedUnits.keys.foreach { removeUnit }

@@ -140,7 +140,7 @@ object MainFileTreeBuilder {
             visitors: AmfElementVisitors,
             logger: Logger): Future[ParsedMainFileTree] = {
 
-    visitors.applyAmfVisitors(List(amfParseResult.baseUnit))
+    visitors.applyAmfVisitors(amfParseResult.baseUnit)
     val tree = ParsedMainFileTree(
       amfParseResult.eh,
       amfParseResult.baseUnit,

@@ -13,6 +13,8 @@ public class AlsClientCapabilities extends ClientCapabilities {
 
     private ConversionClientCapabilities conversion;
 
+    private RenameFileActionClientCapabilities renameFileAction;
+
     @Pure
     public SerializationClientCapabilities getSerialization() {
         return this.serialization;
@@ -26,6 +28,11 @@ public class AlsClientCapabilities extends ClientCapabilities {
     @Pure
     public CleanDiagnosticTreeClientCapabilities getCleanDiagnosticTree() {
         return this.cleanDiagnosticTree;
+    }
+
+    @Pure
+    public RenameFileActionClientCapabilities getRenameFileAction() {
+        return renameFileAction;
     }
 
     public void setSerialization(SerializationClientCapabilities serialization){

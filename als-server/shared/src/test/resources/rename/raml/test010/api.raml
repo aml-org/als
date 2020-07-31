@@ -1,0 +1,12 @@
+#%RAML 1.0
+title: Illustrating annotations
+mediaType: application/json
+
+annotationTypes:
+  depre*cated: nil
+  feedbackRequested: nil | string
+
+/users:
+  get:
+    (deprecated):
+    (feedbackRequested): Feedback committed!
