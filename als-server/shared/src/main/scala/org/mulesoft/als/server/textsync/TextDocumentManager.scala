@@ -41,8 +41,7 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
 
     val syntax = determineSyntax(document.uri, document.text)
 
-    this.uriToEditor + (document.uri,
-    new TextDocument(document.uri, document.version, document.text, /* language, */ syntax, logger))
+    this.uriToEditor + (document.uri, TextDocument(document.uri, document.version, document.text, syntax))
 
     this.dependencies.foreach(_.notify(document.uri, OPEN_FILE))
   }
@@ -68,8 +67,7 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
 
     val syntax = this.determineSyntax(document.uri, document.text.get)
 
-    uriToEditor + (document.uri,
-    new TextDocument(document.uri, document.version, document.text.get, /* language, */ syntax, logger))
+    uriToEditor + (document.uri, TextDocument(document.uri, document.version, document.text.get, syntax))
 
     dependencies.foreach(_.notify(document.uri, CHANGE_FILE))
   }

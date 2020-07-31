@@ -1,0 +1,14 @@
+#%RAML 0.8
+title: Filesystem API
+
+schemas:
+  A*:
+    type: string
+
+/files:
+  get:
+    responses:
+      200:
+        body:
+          application/xml:
+            schema: A

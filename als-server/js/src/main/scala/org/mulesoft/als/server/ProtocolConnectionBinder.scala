@@ -2,9 +2,11 @@ package org.mulesoft.als.server
 
 import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeRequestType
 import org.mulesoft.als.server.feature.fileusage.FileUsageRequestType
+import org.mulesoft.als.server.feature.renameFile.RenameFileActionRequestType
 import org.mulesoft.als.server.feature.serialization.{ConversionRequestType, SerializationResult}
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.protocol.actions.{ClientRenameFileActionParams, ClientRenameFileActionResult}
 import org.mulesoft.als.server.protocol.client.{AlsLanguageClient, AlsLanguageClientAware}
 import org.mulesoft.als.server.protocol.configuration.{
   ClientAlsFormattingOptions,
@@ -486,5 +488,21 @@ object ProtocolConnectionBinder {
     )
     // End SerializedJSONLD request
 
+    // RenameFileAction
+    val onRenameFileActionHandlerJs: js.Function2[ClientRenameFileActionParams,
+                                                  CancellationToken,
+                                                  Thenable[js.Array[ClientRenameFileActionResult]]] =
+      (param: ClientRenameFileActionParams, _: CancellationToken) =>
+        resolveHandler(RenameFileActionRequestType)(param.toShared)
+          .map(_.toClient)
+          .toJSPromise
+          .asInstanceOf[Thenable[js.Array[ClientRenameFileActionResult]]]
+
+    protocolConnection.onRequest(
+      ClientCleanRenameFileActionRequestType.`type`,
+      onRenameFileActionHandlerJs
+        .asInstanceOf[ClientRequestHandler[ClientRenameFileActionParams, ClientRenameFileActionResult, js.Any]]
+    )
+    // End RenameFileAction
   }
 }

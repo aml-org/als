@@ -78,6 +78,72 @@ class ReferenceTest extends ServerReferencesTest {
     )
   }
 
+  test("raml-trait name") {
+    runTestImplementations(
+      "files/raml-trait/api-name.raml",
+      Set(
+        Location(
+          "file://als-server/shared/src/test/resources/actions/reference/files/raml-trait/api-name.raml",
+          LspRangeConverter.toLspRange(PositionRange(Position(14, 8), Position(14, 10)))
+        ))
+    )
+  }
+
+  test("raml-trait name implementations") {
+    runTestImplementations(
+      "files/raml-trait/api-name.raml",
+      Set(
+        Location(
+          "file://als-server/shared/src/test/resources/actions/reference/files/raml-trait/api-name.raml",
+          LspRangeConverter.toLspRange(PositionRange(Position(14, 8), Position(14, 10)))
+        ))
+    )
+  }
+
+  test("raml-resourceType") {
+    runTestImplementations(
+      "files/raml-resourceType/api.raml",
+      Set(
+        Location(
+          "file://als-server/shared/src/test/resources/actions/reference/files/raml-resourceType/api.raml",
+          LspRangeConverter.toLspRange(PositionRange(Position(8, 4), Position(8, 16)))
+        ))
+    )
+  }
+
+  test("raml-resourceType implementations") {
+    runTestImplementations(
+      "files/raml-resourceType/api.raml",
+      Set(
+        Location(
+          "file://als-server/shared/src/test/resources/actions/reference/files/raml-resourceType/api.raml",
+          LspRangeConverter.toLspRange(PositionRange(Position(8, 4), Position(8, 16)))
+        ))
+    )
+  }
+
+  test("raml-resourceType field") {
+    runTestImplementations(
+      "files/raml-resourceType/api-value.raml",
+      Set(
+        Location(
+          "file://als-server/shared/src/test/resources/actions/reference/files/raml-resourceType/api-value.raml",
+          LspRangeConverter.toLspRange(PositionRange(Position(8, 4), Position(8, 16)))
+        ))
+    )
+  }
+
+  test("raml-resourceType field implementations") {
+    runTestImplementations(
+      "files/raml-resourceType/api-value.raml",
+      Set(
+        Location(
+          "file://als-server/shared/src/test/resources/actions/reference/files/raml-resourceType/api-value.raml",
+          LspRangeConverter.toLspRange(PositionRange(Position(8, 4), Position(8, 16)))
+        ))
+    )
+  }
+
   override def getAction(path: String, server: LanguageServer, markerInfo: MarkerInfo): Future[Seq[Location]] = {
     openFile(server)(path, markerInfo.patchedContent.original)
 

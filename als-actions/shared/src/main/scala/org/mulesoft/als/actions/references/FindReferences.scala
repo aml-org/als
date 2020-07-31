@@ -2,8 +2,6 @@ package org.mulesoft.als.actions.references
 
 import org.mulesoft.als.actions.common.RelationshipLink
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
-import org.mulesoft.lsp.feature.common.Location
-
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -14,7 +12,7 @@ object FindReferences {
     references.map { refs =>
       refs
         .filter { t =>
-          containsPosition(uri, position, t.destination.uri, t.nameRange.getOrElse(PositionRange(t.targetEntry.range))) &&
+          containsPosition(uri, position, t.destination.uri, PositionRange(t.nameYPart.range)) &&
           t.source.uri.nonEmpty
         }
     }

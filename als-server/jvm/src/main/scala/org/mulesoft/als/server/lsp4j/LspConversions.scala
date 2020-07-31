@@ -8,6 +8,7 @@ import org.mulesoft.als.configuration.{AlsConfiguration, AlsFormattingOptions}
 import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeParams}
 import org.mulesoft.als.server.feature.fileusage.FileUsageClientCapabilities
+import org.mulesoft.als.server.feature.renameFile.{RenameFileActionClientCapabilities, RenameFileActionParams}
 import org.mulesoft.als.server.feature.serialization.{
   ConversionClientCapabilities,
   ConversionConfig,
@@ -62,7 +63,8 @@ object LspConversions {
       Option(capabilities.getCleanDiagnosticTree).map(s =>
         CleanDiagnosticTreeClientCapabilities(s.getEnabledCleanDiagnostic)),
       Option(capabilities.getFileUsage).map(s => FileUsageClientCapabilities(s.getEnabledFileUsage)),
-      Option(capabilities.getConversion).map(c => conversionClientCapabilities(c))
+      Option(capabilities.getConversion).map(c => conversionClientCapabilities(c)),
+      Option(capabilities.getRenameFileAction).map(r => RenameFileActionClientCapabilities(r.getEnabled))
     )
 
   implicit def formattingOptions(formattingOptions: extension.AlsFormattingOptions): AlsFormattingOptions = {
@@ -153,4 +155,7 @@ object LspConversions {
   implicit def jvmSerializationParams(params: extension.SerializationParams): SerializationParams = {
     SerializationParams(params.getDocumentIdentifier)
   }
+
+  implicit def jvmRenameFileActionParams(params: extension.RenameFileActionParams): RenameFileActionParams =
+    RenameFileActionParams(params.getOldDocument, params.getNewDocument)
 }

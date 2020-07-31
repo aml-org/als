@@ -69,6 +69,9 @@ object Lsp4JConversions {
   implicit def lsp4JRenameFileOptions(options: NewFileOptions): lsp4j.RenameFileOptions =
     new lsp4j.RenameFileOptions(options.overwrite, options.ignoreIfExists)
 
+  implicit def lsp4JRenameFile(renameFile: RenameFile): lsp4j.RenameFile =
+    new lsp4j.RenameFile(renameFile.oldUri, renameFile.newUri, renameFile.options.map(lsp4JRenameFileOptions).orNull)
+
   implicit def lsp4JDeleteFileOptions(options: DeleteFileOptions): lsp4j.DeleteFileOptions =
     new lsp4j.DeleteFileOptions(options.recursive, options.ignoreIfNotExists)
 

@@ -1,0 +1,43 @@
+#%Dialect 1.0
+
+dialect: Movie
+version: 1.0
+
+external:
+  schema: https://schema.org/
+
+documents:
+  root:
+    encodes: MoviesNode
+    declares:
+      movies: MovieNode
+
+nodeMappings:
+  Movies*Node:
+    classTerm: schema.Movies
+    mapping:
+      movies:
+        allowMultiple: true
+        range: MovieNode
+  MovieNode:
+    classTerm: schema.Movie
+    mapping:
+      title:
+        propertyTerm: schema.name
+        range: string
+        mandatory: true
+      image:
+        propertyTerm: schema.image
+        range: anyUri
+      classification:
+        propertyTerm: schema.contentRating
+        range: string
+        enum:
+          - PG 13
+          - PG 17
+          - R
+        mandatory: true
+      datePublished:
+        propertyTerm: schema.datePublished
+        range: date
+        mandatory: true

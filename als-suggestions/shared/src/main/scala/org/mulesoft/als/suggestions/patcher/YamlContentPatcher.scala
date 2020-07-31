@@ -9,6 +9,9 @@ import org.mulesoft.als.suggestions.interfaces.LocationKind.{
 
 import scala.collection.mutable
 
+/* TODO:
+    when removing patcher, erase LocationKindDetectTool, LocationKind, Point, YPoint, PositionsMapper and IPositionsMapper
+ */
 class YamlContentPatcher(override val textRaw: String, override val offsetRaw: Int) extends ContentPatcher {
 
   override def prepareContent(): PatchedContent = {
@@ -26,7 +29,7 @@ class YamlContentPatcher(override val textRaw: String, override val offsetRaw: I
         val leftOfSentence =
           leftPart.substring(0 max leftPart.lastIndexOf('\n'), offsetRaw)
         if (colonIndex < 0) {
-          val tuple = insertKWithColon()
+          val tuple = insertKWithColon(rightPart)
           tuple._2.foreach(t => tokens += t)
           tuple._1
         } else if (colonIndex == 0) {
@@ -48,12 +51,12 @@ class YamlContentPatcher(override val textRaw: String, override val offsetRaw: I
     PatchedContent(result, textRaw, tokens.toList) // add same logic that for json?
   }
 
-  private def insertKWithColon(): (String, List[PatchToken]) = {
+  private def insertKWithColon(rightPart: String): (String, List[PatchToken]) = {
     val pre  = textRaw.substring(0, offsetRaw)
     val post = textRaw.substring(offsetRaw)
-    if (post.contains("'"))
+    if (rightPart.contains("'"))
       (pre + "k': " + post.replaceFirst("'", ""), List(ColonToken, QuoteToken))
-    else if (post.contains("\""))
+    else if (rightPart.contains("\""))
       (pre + "k\": " + post.replaceFirst("\"", ""), List(ColonToken, QuoteToken))
     else
       (pre + "k: " + post, List(ColonToken))

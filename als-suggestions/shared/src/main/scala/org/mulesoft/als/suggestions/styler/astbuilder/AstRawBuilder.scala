@@ -75,5 +75,6 @@ abstract class AstRawBuilder(raw: RawSuggestion, isSnippet: Boolean, yPartBranch
     scalar(text, yType)
   }
 
-  private def scalar(text: String, yType: YType) = YNode(YScalar(text), yType)
+  private def scalar(text: String, yType: YType) =
+    YNode(if (raw.options.nonPlain) YScalar.nonPlain(text) else YScalar(text), yType)
 }

@@ -1,0 +1,11 @@
+{
+  "thisEndpoint":{
+    "get" : {
+      "responses": {
+        "default": {
+          "description": "asd"
+        }
+      }
+    }
+  }
+}

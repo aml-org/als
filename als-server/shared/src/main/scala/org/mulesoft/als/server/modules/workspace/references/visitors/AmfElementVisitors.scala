@@ -1,7 +1,6 @@
 package org.mulesoft.als.server.modules.workspace.references.visitors
 
-import amf.core.model.domain.AmfElement
-import amf.core.traversal.iterator.AmfElementStrategy
+import amf.core.model.document.BaseUnit
 import org.mulesoft.als.actions.common.{AliasInfo, RelationshipLink}
 import org.mulesoft.als.server.modules.workspace.references.visitors.aliases.{AliasesVisitor, AliasesVisitorType}
 import org.mulesoft.als.server.modules.workspace.references.visitors.documentlink.{
@@ -9,28 +8,32 @@ import org.mulesoft.als.server.modules.workspace.references.visitors.documentlin
   DocumentLinkVisitorType
 }
 import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.NodeRelationshipVisitorType
-import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.plugins.{
-  DeclaredLinksVisitor,
-  TraitLinksVisitor,
-  YNodeAliasVisitor
-}
+import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.plugins._
 import org.mulesoft.lsp.feature.link.DocumentLink
 
 import scala.reflect.ClassTag
 
 object AmfElementDefaultVisitors {
   private val allVisitors: Seq[AmfElementVisitorFactory] = {
-    Seq(TraitLinksVisitor, DeclaredLinksVisitor, YNodeAliasVisitor, DocumentLinkVisitor, AliasesVisitor)
+    Seq(
+      TraitLinksVisitor,
+      AbstractDefinitionLinksVisitor,
+      RamlTypeExpressionsVisitor,
+      DeclaredLinksVisitor,
+      YNodeAliasVisitor,
+      DocumentLinkVisitor,
+      AliasesVisitor,
+      AMLDialectVisitor
+    )
   }
-  def build(): AmfElementVisitors = {
-    new AmfElementVisitors(allVisitors.map(_()))
+  def build(bu: BaseUnit): AmfElementVisitors = {
+    new AmfElementVisitors(allVisitors.flatMap { _(bu) })
   }
 }
 
 class AmfElementVisitors(allVisitors: Seq[AmfElementVisitor[_]]) {
   private def collectVisitors[R, T <: AmfElementVisitor[R]: ClassTag]: Seq[R] = {
     val clazz = implicitly[ClassTag[T]].runtimeClass
-
     allVisitors
       .collect {
         case v: T if clazz.isInstance(v) => v
@@ -38,9 +41,8 @@ class AmfElementVisitors(allVisitors: Seq[AmfElementVisitor[_]]) {
       .flatMap(_.report)
   }
 
-  final def applyAmfVisitors(elements: List[AmfElement]): Unit = {
-
-    val iterator = AmfElementStrategy.iterator(elements)
+  final def applyAmfVisitors(elements: BaseUnit): Unit = {
+    val iterator = AlsIteratorStrategy.iterator(elements)
     while (iterator.hasNext) {
       val element = iterator.next()
       allVisitors.foreach(_.visit(element))

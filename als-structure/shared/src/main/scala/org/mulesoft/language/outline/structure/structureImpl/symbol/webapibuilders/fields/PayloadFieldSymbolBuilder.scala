@@ -29,8 +29,6 @@ class PayloadFieldSymbolBuilder(override val element: FieldEntry, override val v
         DocumentSymbol(
           key,
           KindForResultMatcher.kindForField(ParametersFieldModel.QueryParameters),
-          deprecated = false,
-          r,
           r,
           skipLoneChild(sons, key)
         ))

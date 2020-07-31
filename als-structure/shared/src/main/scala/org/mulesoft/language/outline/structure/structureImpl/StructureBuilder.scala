@@ -1,6 +1,5 @@
 package org.mulesoft.language.outline.structure.structureImpl
 
-import amf.client.model.DataTypes
 import amf.core.metamodel.Field
 import amf.core.metamodel.Type.Scalar
 import amf.core.metamodel.domain.extensions.{CustomDomainPropertyModel, PropertyShapeModel}
@@ -8,14 +7,10 @@ import amf.core.metamodel.domain.{DomainElementModel, ShapeModel}
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain._
 import amf.core.remote.{Oas, Oas30, Raml, _}
-import amf.core.vocabulary.Namespace.XsdTypes
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectFragment, DialectLibrary}
 import amf.plugins.domain.shapes.metamodel._
-import amf.plugins.domain.shapes.metamodel.common.DocumentationField
-import amf.plugins.domain.shapes.models.ScalarShape
 import amf.plugins.domain.webapi.metamodel._
 import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
-import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
 import org.mulesoft.language.outline.structure.structureImpl.factory.amlfactory.{
@@ -53,18 +48,9 @@ class StructureBuilder(unit: BaseUnit, definedBy: Option[Dialect]) {
 
   def listSymbols(): List[DocumentSymbol] =
     context.factory.builderFor(unit)(context).map(_.build().toList).getOrElse(Nil)
-
-  // unused?
-  def fullRange(ranges: Seq[PositionRange]): PositionRange = {
-    val sortedStart = ranges.sortWith((a, b) => a.start < b.start)
-    val sortedEnd   = ranges.sortWith((a, b) => a.end < b.end)
-    PositionRange(sortedStart.head.start, sortedEnd.last.end)
-  }
 }
 
 object StructureBuilder {
-  def apply(unit: BaseUnit, definedBy: Option[Dialect]): StructureBuilder = new StructureBuilder(unit, definedBy)
-
   def listSymbols(unit: BaseUnit, definedBy: Option[Dialect]): List[DocumentSymbol] =
     new StructureBuilder(unit, definedBy).listSymbols()
 }
@@ -86,23 +72,10 @@ object KindForResultMatcher {
     WebApiModel.Version.value.iri()  -> SymbolKind.String
   )
 
-  private val documentationField: String =
-    (new DocumentationField {}).Documentation.value.iri()
-
   def getKind(element: AmfElement): SymbolKind = {
     element match {
       case _: ObjectNode => SymbolKind.Property
-      case _: ArrayNode  => SymbolKind.Array
-      case s: ScalarNode =>
-        s.dataType.option() match {
-          case Some(t) if t == XsdTypes.xsdBoolean.iri() => SymbolKind.Boolean
-          case Some(t) if t == XsdTypes.amlNumber.iri()  => SymbolKind.Number
-          case Some(t) if t == XsdTypes.xsdInteger.iri() => SymbolKind.Number
-          case Some(t) if t == XsdTypes.xsdDouble.iri()  => SymbolKind.Number
-          case Some(t) if t == XsdTypes.xsdFloat.iri()   => SymbolKind.Number
-          case _                                         => SymbolKind.String
-        }
-
+      // not showing array/scalar (check git history to bring back if needed) - 14/07/2020
       case domainElement: DomainElement =>
         domainElement.meta match {
           case ParameterModel | PayloadModel   => SymbolKind.Variable
@@ -122,23 +95,10 @@ object KindForResultMatcher {
     }
   }
 
-  def kindForScalar(scalarShape: ScalarShape): SymbolKind = {
-    scalarShape.dataType.option() match {
-      case Some(DataTypes.Boolean) => SymbolKind.Boolean
-      case Some(
-          DataTypes.Number | DataTypes.Decimal | DataTypes.Double | DataTypes.Float | DataTypes.Long |
-          DataTypes.Integer) =>
-        SymbolKind.Number
-      case Some(DataTypes.File) => SymbolKind.File
-      case _                    => SymbolKind.String
-
-    }
-  }
-
   def kindForField(f: Field): SymbolKind = irisMap.getOrElse(f.value.iri(), kindForFieldType(f))
 
   def kindForFieldType(f: Field): SymbolKind = f.`type` match {
-    case s: Scalar => SymbolKind.String
+    case _: Scalar => SymbolKind.String
     case amf.core.metamodel.Type.Int | amf.core.metamodel.Type.Float | amf.core.metamodel.Type.Double =>
       SymbolKind.Number
     case amf.core.metamodel.Type.Bool => SymbolKind.Boolean

@@ -1,0 +1,10 @@
+#%RAML 1.0
+title: test-als-issue
+
+resourceTypes:
+  includedType: !include resource type.raml
+
+/test:
+  get:
+  type:
+    includedType:

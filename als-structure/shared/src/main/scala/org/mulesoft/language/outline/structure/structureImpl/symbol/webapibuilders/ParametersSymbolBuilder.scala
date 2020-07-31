@@ -22,8 +22,6 @@ class ParametersSymbolBuilder(parameters: Seq[Parameter], range: Option[Position
             ParameterBindingLabelMapper.toLabel(k),
             KindForResultMatcher
               .kindForField(field.getOrElse(fieldFromBinding(k))), // all param fields are the same
-            deprecated = false,
-            r,
             r,
             children.toList
           )

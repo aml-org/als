@@ -3,6 +3,11 @@ package org.mulesoft.als.server.protocol.convert
 import org.mulesoft.als.configuration.AlsFormattingOptions
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeOptions}
 import org.mulesoft.als.server.feature.fileusage.{FileUsageClientCapabilities, FileUsageOptions}
+import org.mulesoft.als.server.feature.renameFile.{
+  RenameFileActionClientCapabilities,
+  RenameFileActionOptions,
+  RenameFileActionResult
+}
 import org.mulesoft.als.server.feature.serialization.{
   ConversionClientCapabilities,
   ConversionRequestOptions,
@@ -13,6 +18,11 @@ import org.mulesoft.als.server.feature.serialization.{
 }
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 import org.mulesoft.als.server.modules.diagnostic.AlsPublishDiagnosticsParams
+import org.mulesoft.als.server.protocol.actions.{
+  ClientRenameFileActionClientCapabilities,
+  ClientRenameFileActionResult,
+  ClientRenameFileActionServerOptions
+}
 import org.mulesoft.als.server.protocol.configuration._
 import org.mulesoft.als.server.protocol.diagnostic.{ClientAlsPublishDiagnosticsParams, ClientFilesInProjectParams}
 import org.mulesoft.als.server.protocol.serialization.{ClientSerializationResult, ClientSerializedDocument}
@@ -128,5 +138,20 @@ object LspConvertersSharedToClient {
   implicit class ClientAlsPublishDiagnosticsParamsConverter(v: AlsPublishDiagnosticsParams) {
     def toClient: ClientAlsPublishDiagnosticsParams =
       ClientAlsPublishDiagnosticsParams(v)
+  }
+
+  implicit class ClientRenameFileActionServerOptionsConverter(i: RenameFileActionOptions) {
+    def toClient: ClientRenameFileActionServerOptions =
+      ClientRenameFileActionServerOptions(i)
+  }
+
+  implicit class ClientRenameFileActionResultConverter(i: RenameFileActionResult) {
+    def toClient: ClientRenameFileActionResult =
+      ClientRenameFileActionResult(i)
+  }
+
+  implicit class ClientRenameFileActionClientCapabilitiesConverter(i: RenameFileActionClientCapabilities) {
+    def toClient: ClientRenameFileActionClientCapabilities =
+      ClientRenameFileActionClientCapabilities(i)
   }
 }

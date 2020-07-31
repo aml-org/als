@@ -1,0 +1,205 @@
+#%Dialect 1.0
+
+dialect: ConnectionDialect
+version: 0.1
+
+documents:
+  root:
+    encodes: ConnectionUnion
+
+uses:
+  connectivity: vocabulary.yaml
+
+external:
+  core: http://a.ml/vocabularies/core#
+
+nodeMappings:
+
+  ConnectionUnion:
+    union:
+      - UnsecuredConnection
+      - BasicAuthentication
+      - DigestAuthentication
+      - OAuthClientCredentials
+      - KerberosAuthentication
+      - CustomAuthentication
+    typeDiscriminatorName: type
+    typeDiscriminator:
+      UnsecuredConnection: UnsecuredConnection
+      BasicAuthentication: BasicAuthentication
+      DigestAuthentication: DigestAuthentication
+      OAuthClientCredentials: OAuthClientCredentials
+      KerberosAuthentication: KerberosAuthentication
+      CustomAuthentication: CustomAuthentication
+
+  UnsecuredConnection:
+    extends: Connection
+    classTerm: connectivity.UnsecuredConnection
+
+  BasicAuthentication:
+    extends: Connection
+    classTerm: connectivity.BasicAuthentication
+
+  DigestAuthentication:
+    extends: Connection
+    classTerm: connectivity.DigestAuthentication
+
+  OAuthClientCredentials:
+    extends: Connection
+    classTerm: connectivity.OAuthClientCredentials
+
+  KerberosAuthentication:
+    extends: Connection
+    classTerm: connectivity.KerberosAuthentication
+
+  CustomAuthentication:
+    extends: Connection
+    classTerm: connectivity.CustomAuthentication
+
+  Connection:
+    classTerm: connectivity.Connection
+    mapping:
+      ecosystem:
+        propertyTerm: connectivity.ecosystem
+        range: string
+      parameters:
+        propertyTerm: connectivity.parameter
+        range: ParameterUnion
+        allowMultiple: true
+
+  ParameterUnion:
+    union:
+      - ComplexParameter
+      - ProxyConfiguration
+      - TrustStore
+      - TlsContext
+      - SecretFile
+      - SecretPlain
+      - Secret
+      - Host
+      - Port
+      - Username
+      - Password
+      - ClientId
+      - ClientSecret
+      - ApiKey
+      - SecretToken
+      - TimeUnit
+      - Scalar
+    typeDiscriminatorName: type
+    typeDiscriminator:
+      # Complex parameters
+      object: ComplexParameter
+      proxyConfiguration: ProxyConfiguration
+      trustStore: TrustStore
+      tlsContext: TlsContext
+      # Secret parameters
+      secretFile: SecretFile
+      secretPlain: SecretPlain
+      secret: Secret
+      # Behavioral parameters
+      host: Host
+      port: Port
+      username: Username
+      password: Password
+      clientId: ClientId
+      clientSecret: ClientSecret
+      apiKey: ApiKey
+      secretToken: SecretToken
+      timeUnit: TimeUnit
+      # Other parameters
+      scalar: Scalar
+
+  Parame*ter:
+    classTerm: connectivity.Parameter
+    mapping:
+      name:
+        propertyTerm: core.name
+        range: string
+        unique: true
+      value:
+        range: string
+
+  # Complex parameters
+  ComplexParameter:
+    classTerm: connectivity.ComplexParameter
+    extends: Parameter
+    mapping:
+      parameters:
+        propertyTerm: connectivity.parameter
+        range: ParameterUnion
+        allowMultiple: true
+
+  TlsContext:
+    classTerm: connectivity.TlsContext
+    extends: ComplexParameter
+
+  TrustStore:
+    classTerm: connectivity.TrustStore
+    extends: ComplexParameter
+
+  ProxyConfiguration:
+    classTerm: connectivity.ProxyConfiguration
+    extends: ComplexParameter
+
+  # Secret parameters
+  Secret:
+    classTerm: connectivity.SecretParameter
+    extends: Parameter
+
+  SecretPlain:
+    classTerm: connectivity.SecretPlainParameter
+    extends: Secret
+
+  SecretFile:
+    classTerm: connectivity.SecretFileParameter
+    extends: Secret
+
+  # Behavioral parameters
+  Host:
+    classTerm: connectivity.Host
+    extends: Parameter
+
+  Port:
+    classTerm: connectivity.Port
+    extends: Parameter
+
+  Username:
+    classTerm: connectivity.Username
+    extends: Parameter
+
+  Password:
+    classTerm: connectivity.Password
+    extends: SecretPlain
+
+  ClientId:
+    classTerm: connectivity.ClientId
+    extends: Parameter
+
+  ClientSecret:
+    classTerm: connectivity.ClientSecret
+    extends: SecretPlain
+
+  ApiKey:
+    classTerm: connectivity.ApiKey
+    extends: SecretPlain
+
+  SecretToken:
+    classTerm: connectivity.SecretToken
+    extends: SecretPlain
+
+  TimeUnit:
+    classTerm: connectivity.TimeUnit
+    extends: Parameter
+
+  # Other parameters
+  Scalar:
+    classTerm: connectivity.Scalar
+    extends: Parameter
+    mapping:
+      range:
+        range: double
+        enum:
+          - string
+          - boolean
+          - integer

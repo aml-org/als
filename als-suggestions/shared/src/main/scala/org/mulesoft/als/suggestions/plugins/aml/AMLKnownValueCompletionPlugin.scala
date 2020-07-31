@@ -37,7 +37,10 @@ sealed class AMLKnownValueCompletions(field: Field,
               Seq(),
               "unknown",
               None,
-              SuggestionStructure(rangeKind = fieldRange(s), isKey = isKey && !inArray, keyRange(s.text))
+              SuggestionStructure(rangeKind = fieldRange(s),
+                                  isKey = isKey && !inArray,
+                                  keyRange(s.text),
+                                  nonPlain = s.nonPlain)
           ))
     })
 
