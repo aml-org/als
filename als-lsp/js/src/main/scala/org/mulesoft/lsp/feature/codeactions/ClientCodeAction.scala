@@ -17,6 +17,8 @@ trait ClientCodeAction extends js.Object {
 
   def diagnostics: js.UndefOr[js.Array[ClientDiagnostic]] = js.native
 
+  def isPreferred: js.UndefOr[Boolean] = js.native
+
   def edit: js.UndefOr[ClientWorkspaceEdit] = js.native
 
   def command: js.UndefOr[ClientCommand] = js.native
@@ -29,6 +31,7 @@ object ClientCodeAction {
         title = internal.title,
         kind = internal.kind.map(_.id).orUndefined,
         diagnostics = internal.diagnostics.map(a => a.map(_.toClient).toJSArray).orUndefined,
+        isPreferred = internal.isPreferred.orUndefined,
         edit = internal.edit.map(_.toClient).orUndefined,
         command = internal.command.map(_.toClient).orUndefined
       )

@@ -17,6 +17,9 @@ package org.mulesoft.lsp.edit
   *                        If a client neither supports `documentChanges` nor `workspace.workspaceEdit.resourceOperations` then
   *                        only plain `TextEdit`s using the `changes` property are supported.
   */
-
 case class WorkspaceEdit(changes: Map[String, Seq[TextEdit]],
                          documentChanges: Seq[Either[TextDocumentEdit, ResourceOperation]])
+
+object WorkspaceEdit {
+  val empty: WorkspaceEdit = WorkspaceEdit(Map.empty, Seq.empty)
+}

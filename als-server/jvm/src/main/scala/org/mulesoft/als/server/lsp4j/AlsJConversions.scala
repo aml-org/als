@@ -4,7 +4,7 @@ import java.io.StringWriter
 
 import com.google.common.collect.Lists
 import org.eclipse.lsp4j.ExecuteCommandOptions
-import org.mulesoft.als.server.feature.renameFile.RenameFileActionResult
+import org.mulesoft.als.server.feature.renamefile.RenameFileActionResult
 import org.mulesoft.als.server.feature.serialization.{SerializationResult, SerializedDocument}
 import org.mulesoft.als.server.protocol.configuration.{AlsInitializeResult, AlsServerCapabilities}
 import org.mulesoft.lsp.Lsp4JConversions._
