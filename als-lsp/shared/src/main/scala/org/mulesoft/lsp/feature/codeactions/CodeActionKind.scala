@@ -7,6 +7,11 @@ object CodeActionKind extends Enumeration {
   type CodeActionKind = Value
 
   /**
+    * Empty kind.
+    */
+  val Empty: CodeActionKind = Value("")
+
+  /**
     * Base kind for quickfix actions: "quickfix"
     */
   val QuickFix: CodeActionKind = Value("quickfix")
