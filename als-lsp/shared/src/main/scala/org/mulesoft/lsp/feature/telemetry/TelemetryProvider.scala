@@ -60,6 +60,10 @@ object MessageTypes extends Enumeration {
   val END_SELECTION_RANGE       = "END_SELECTION_RANGE"
   val BEGIN_RENAME_FILE_ACTION  = "BEGIN_RENAME_FILE_ACTION"
   val END_RENAME_FILE_ACTION    = "END_RENAME_FILE_ACTION"
+  val BEGIN_CODE_ACTION         = "BEGIN_CODE_ACTION"
+  val END_CODE_ACTION           = "END_CODE_ACTION"
+  val BEGIN_TEST_ACTION         = "BEGIN_TEST_ACTION"
+  val END_TEST_ACTION           = "END_TEST_ACTION"
 }
 
 trait TelemetryProvider {

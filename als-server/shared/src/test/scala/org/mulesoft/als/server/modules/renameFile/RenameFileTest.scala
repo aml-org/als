@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.modules.renameFile
 
-import org.mulesoft.als.server.feature.renameFile.{
+import org.mulesoft.als.server.feature.renamefile.{
   RenameFileActionParams,
   RenameFileActionRequestType,
   RenameFileActionResult

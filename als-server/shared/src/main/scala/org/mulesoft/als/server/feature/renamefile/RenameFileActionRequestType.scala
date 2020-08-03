@@ -1,4 +1,4 @@
-package org.mulesoft.als.server.feature.renameFile
+package org.mulesoft.als.server.feature.renamefile
 
 import org.mulesoft.lsp.feature.RequestType
 

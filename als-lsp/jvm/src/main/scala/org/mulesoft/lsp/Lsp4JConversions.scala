@@ -302,7 +302,7 @@ object Lsp4JConversions {
   }
 
   implicit def lsp4JCodeActionOptions(options: CodeActionOptions): lsp4j.CodeActionOptions =
-    new lsp4j.CodeActionOptions(options.codeActionKinds.map(_.asJava).orNull)
+    new lsp4j.CodeActionOptions(options.codeActionKinds.map(list => list.map(_.toString).asJava).orNull)
 
   implicit def lsp4JEitherCodeActionOptions(
       options: Option[CodeActionOptions]): JEither[java.lang.Boolean, lsp4j.CodeActionOptions] =

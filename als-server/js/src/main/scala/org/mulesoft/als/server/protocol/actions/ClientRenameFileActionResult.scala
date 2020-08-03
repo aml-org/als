@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.protocol.actions
 
-import org.mulesoft.als.server.feature.renameFile.RenameFileActionResult
+import org.mulesoft.als.server.feature.renamefile.RenameFileActionResult
 import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
 import org.mulesoft.lsp.edit.ClientWorkspaceEdit
 

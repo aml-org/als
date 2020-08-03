@@ -8,7 +8,7 @@ import org.mulesoft.als.configuration.{AlsConfiguration, AlsFormattingOptions}
 import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeParams}
 import org.mulesoft.als.server.feature.fileusage.FileUsageClientCapabilities
-import org.mulesoft.als.server.feature.renameFile.{RenameFileActionClientCapabilities, RenameFileActionParams}
+import org.mulesoft.als.server.feature.renamefile.{RenameFileActionClientCapabilities, RenameFileActionParams}
 import org.mulesoft.als.server.feature.serialization.{
   ConversionClientCapabilities,
   ConversionConfig,
