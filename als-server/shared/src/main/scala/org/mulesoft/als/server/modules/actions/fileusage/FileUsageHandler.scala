@@ -1,4 +1,4 @@
-package org.mulesoft.als.server.modules.actions.fileUsage
+package org.mulesoft.als.server.modules.actions.fileusage
 
 import org.mulesoft.als.actions.fileusage.FindFileUsages
 import org.mulesoft.als.server.feature.fileusage.FileUsageRequestType
