@@ -2,7 +2,7 @@ package org.mulesoft.als.server.protocol.configuration
 
 import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeOptions
 import org.mulesoft.als.server.feature.fileusage.FileUsageOptions
-import org.mulesoft.als.server.feature.renameFile.RenameFileActionOptions
+import org.mulesoft.als.server.feature.renamefile.RenameFileActionOptions
 import org.mulesoft.als.server.feature.serialization.{ConversionRequestOptions, SerializationServerOptions}
 import org.mulesoft.lsp.configuration.{StaticRegistrationOptions, WorkspaceServerCapabilities}
 import org.mulesoft.lsp.feature.codeactions.CodeActionOptions
