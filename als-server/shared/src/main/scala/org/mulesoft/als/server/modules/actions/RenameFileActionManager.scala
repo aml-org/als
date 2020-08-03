@@ -2,7 +2,7 @@ package org.mulesoft.als.server.modules.actions
 
 import java.util.UUID
 
-import org.mulesoft.als.actions.renameFile.RenameFileAction
+import org.mulesoft.als.actions.renamefile.RenameFileAction
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.feature.renameFile._
 import org.mulesoft.als.server.logger.Logger
