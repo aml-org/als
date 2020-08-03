@@ -15,6 +15,7 @@ import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, ExecuteCommandParams}
 import org.mulesoft.als.common.URIImplicits._
 
+import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -133,7 +134,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     workspaces.clear()
     val newWorkspaces = extractCleanURIs(workspaceFolders)
     dependencies.foreach(d => d.withUnitAccessor(this))
-    Future.sequence(newWorkspaces.map(initializeWS)) map (_ => Unit)
+    Future.sequence(newWorkspaces.map(initializeWS)) map (_ => {})
   }
 
   private def extractCleanURIs(workspaceFolders: List[WorkspaceFolder]) =
@@ -169,6 +170,17 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   override def getAliases(uri: String, uuid: String): Future[Seq[AliasInfo]] =
     getLastUnit(uri, uuid).flatMap(_ => getWorkspace(uri).getRelationships(uri).getAliases(uri))
 
+  private def filterDuplicates(links: Seq[RelationshipLink]): Seq[RelationshipLink] = {
+    val res = mutable.ListBuffer[RelationshipLink]()
+    links.foreach { l =>
+      if (!res.exists(_.relationshipIsEqual(l)))
+        res += l
+    }
+    res
+  }
+
   override def getRelationships(uri: String, uuid: String): Future[Seq[RelationshipLink]] =
-    getLastUnit(uri, uuid).flatMap(_ => getWorkspace(uri).getRelationships(uri).getRelationships(uri))
+    getLastUnit(uri, uuid)
+      .flatMap(_ => getWorkspace(uri).getRelationships(uri).getRelationships(uri))
+      .map(filterDuplicates)
 }
