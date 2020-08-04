@@ -1,15 +1,10 @@
 package org.mulesoft.als.actions.renameFile
 
-import org.mulesoft.als.actions.common.RelationshipLink
-import org.mulesoft.als.actions.fileusage.FindFileUsages
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.convert.LspRangeConverter
-import org.mulesoft.lsp.edit.{RenameFile, ResourceOperation, TextDocumentEdit, TextEdit, WorkspaceEdit}
-import org.mulesoft.lsp.feature.common.{Location, TextDocumentIdentifier, VersionedTextDocumentIdentifier}
+import org.mulesoft.lsp.edit._
+import org.mulesoft.lsp.feature.common.{TextDocumentIdentifier, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.feature.link.DocumentLink
-
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 
 object RenameFileAction {
 

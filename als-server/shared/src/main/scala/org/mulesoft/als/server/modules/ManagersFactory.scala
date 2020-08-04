@@ -9,7 +9,7 @@ import org.mulesoft.als.server.{RequestModule, SerializationProps}
 import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.actions._
-import org.mulesoft.als.server.modules.actions.fileUsage.FindFileUsageManager
+import org.mulesoft.als.server.modules.actions.fileusage.FindFileUsageManager
 import org.mulesoft.als.server.modules.actions.rename.RenameManager
 import org.mulesoft.als.server.modules.ast.{AccessUnits, BaseUnitListener, ResolvedUnitListener}
 import org.mulesoft.als.server.modules.completion.SuggestionsManager
