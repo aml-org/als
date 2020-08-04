@@ -2,15 +2,14 @@ package org.mulesoft.als.actions.rename
 
 import amf.core.model.document.BaseUnit
 import org.mulesoft.als.actions.common.RelationshipLink
-import org.mulesoft.als.actions.definition.FindDefinition
 import org.mulesoft.als.actions.references.FindReferences
 import org.mulesoft.als.common.YamlUtils
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
 import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit, WorkspaceEdit}
-import org.mulesoft.lsp.feature.common.{Range, VersionedTextDocumentIdentifier}
-import org.yaml.model.{YMapEntry, YNode, YPart, YScalar}
+import org.mulesoft.lsp.feature.common.VersionedTextDocumentIdentifier
+import org.yaml.model.{YMapEntry, YPart, YScalar}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -24,14 +23,8 @@ object FindRenameLocations {
     FindReferences
       .getReferences(uri, position, references)
       .map { refs =>
-        getOriginKey(unit, position).toSeq
-          .flatMap { origKey =>
-            refs
-              .map(_.sourceEntry)
-              .map(value)
-              .map(RenameLocation(_, newName, origKey.text)) :+
-              RenameLocation(origKey, newName, origKey.text)
-          }
+        getOriginKey(unit, position)
+          .fold(Seq[RenameLocation]())(refsToRenameLocation(newName, refs, _))
       }
       .map(_.groupBy(_.uri))
       .map { uriToLocation =>
@@ -41,6 +34,16 @@ object FindRenameLocations {
           toTextDocumentEdit(stringToEdits).map(Left(_))
         )
       }
+
+  private def refsToRenameLocation(newName: String,
+                                   refs: Seq[RelationshipLink],
+                                   origKey: YScalar): Seq[RenameLocation] = {
+    refs
+      .map(_.sourceEntry)
+      .map(value)
+      .map(RenameLocation(_, newName, origKey.text)) :+
+      RenameLocation(origKey, newName, origKey.text)
+  }
 
   private def getOriginKey(unit: BaseUnit, position: Position): Option[YScalar] =
     unit.objWithAST
