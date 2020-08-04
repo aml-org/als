@@ -1,6 +1,5 @@
 package org.mulesoft.als.server.modules.actions
 
-import amf.core.remote.Platform
 import org.mulesoft.als.actions.common.LinkTypes
 import org.mulesoft.als.actions.definition.FindDefinition
 import org.mulesoft.als.common.dtoTypes.Position
@@ -25,7 +24,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class GoToTypeDefinitionManager(val workspace: WorkspaceManager,
-                                platform: Platform,
                                 private val telemetryProvider: TelemetryProvider,
                                 private val logger: Logger)
     extends RequestModule[TypeDefinitionClientCapabilities, Either[Boolean, StaticRegistrationOptions]] {
@@ -45,16 +43,20 @@ class GoToTypeDefinitionManager(val workspace: WorkspaceManager,
 
       override protected def telemetry: TelemetryProvider = telemetryProvider
 
-      override protected def code(params: TypeDefinitionParams): String = "GotoTypeDefinitionManager"
+      override protected def code(params: TypeDefinitionParams): String =
+        "GotoTypeDefinitionManager"
 
-      override protected def beginType(params: TypeDefinitionParams): MessageTypes = MessageTypes.BEGIN_GOTO_T_DEF
+      override protected def beginType(params: TypeDefinitionParams): MessageTypes =
+        MessageTypes.BEGIN_GOTO_T_DEF
 
-      override protected def endType(params: TypeDefinitionParams): MessageTypes = MessageTypes.END_GOTO_T_DEF
+      override protected def endType(params: TypeDefinitionParams): MessageTypes =
+        MessageTypes.END_GOTO_T_DEF
 
       override protected def msg(params: TypeDefinitionParams): String =
         s"request for go to type definition on ${params.textDocument.uri}"
 
-      override protected def uri(params: TypeDefinitionParams): String = params.textDocument.uri
+      override protected def uri(params: TypeDefinitionParams): String =
+        params.textDocument.uri
     }
   )
 
@@ -67,15 +69,20 @@ class GoToTypeDefinitionManager(val workspace: WorkspaceManager,
   def goToTypeDefinition(uri: String,
                          position: Position,
                          uuid: String): Future[Either[Seq[Location], Seq[LocationLink]]] =
-    FindDefinition
-      .getDefinition(
-        uri,
-        position,
-        workspace.getRelationships(uri, uuid).map(_.filter(_.linkType == LinkTypes.TRAITRESOURCES)),
-        workspace.getAliases(uri, uuid),
-        workspace.getLastUnit(uri, uuid).map(_.unit),
-        platform
-      )
+    workspace
+      .getLastUnit(uri, uuid)
+      .flatMap(
+        unit =>
+          FindDefinition
+            .getDefinition(
+              uri,
+              position,
+              workspace
+                .getRelationships(uri, uuid)
+                .map(_.filter(_.linkType == LinkTypes.TRAITRESOURCES)),
+              workspace.getAliases(uri, uuid),
+              unit.unit
+          ))
       .map(Right(_))
 
   override def initialize(): Future[Unit] = Future.successful()

@@ -149,13 +149,13 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
     new StructureManager(workspaceManager, telemetryManager, logger)
 
   lazy val definitionManager =
-    new GoToDefinitionManager(workspaceManager, platform, telemetryManager, logger)
+    new GoToDefinitionManager(workspaceManager, telemetryManager, logger)
 
   lazy val implementationManager =
-    new GoToImplementationManager(workspaceManager, platform, telemetryManager, logger)
+    new GoToImplementationManager(workspaceManager, telemetryManager, logger)
 
   lazy val typeDefinitionManager =
-    new GoToTypeDefinitionManager(workspaceManager, platform, telemetryManager, logger)
+    new GoToTypeDefinitionManager(workspaceManager, telemetryManager, logger)
 
   lazy val hoverManager = new HoverManager(workspaceManager, amfConfiguration, telemetryManager)
 
