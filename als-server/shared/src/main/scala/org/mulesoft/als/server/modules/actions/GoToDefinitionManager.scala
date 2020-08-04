@@ -23,7 +23,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class GoToDefinitionManager(val workspace: WorkspaceManager,
-                            platform: Platform,
                             private val telemetryProvider: TelemetryProvider,
                             private val logger: Logger)
     extends RequestModule[DefinitionClientCapabilities, Unit] {
@@ -62,13 +61,13 @@ class GoToDefinitionManager(val workspace: WorkspaceManager,
                              position: Position,
                              uuid: String): Future[Either[Seq[Location], Seq[LocationLink]]] =
     for {
+      unit <- workspace.getLastUnit(uri, uuid)
       workspaceDefinitions <- FindDefinition
         .getDefinition(uri,
                        position,
                        workspace.getRelationships(uri, uuid),
                        workspace.getAliases(uri, uuid),
-                       workspace.getLastUnit(uri, uuid).map(_.unit),
-                       platform)
+                       unit.unit)
     } yield {
       Right(workspaceDefinitions)
     }

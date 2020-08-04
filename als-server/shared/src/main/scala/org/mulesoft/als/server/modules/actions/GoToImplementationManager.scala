@@ -1,6 +1,5 @@
 package org.mulesoft.als.server.modules.actions
 
-import amf.core.remote.Platform
 import org.mulesoft.als.actions.common.LinkTypes
 import org.mulesoft.als.actions.references.FindReferences
 import org.mulesoft.als.common.dtoTypes.Position
@@ -25,7 +24,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class GoToImplementationManager(val workspace: WorkspaceManager,
-                                platform: Platform,
                                 private val telemetryProvider: TelemetryProvider,
                                 private val logger: Logger)
     extends RequestModule[ImplementationClientCapabilities, Either[Boolean, StaticRegistrationOptions]] {
@@ -70,7 +68,7 @@ class GoToImplementationManager(val workspace: WorkspaceManager,
     workspace
       .getLastUnit(uri, uuid)
       .flatMap(_.getLast)
-      .flatMap(bu => {
+      .flatMap(_ => {
         FindReferences
           .getReferences(uri,
                          position,

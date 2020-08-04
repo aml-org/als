@@ -11,15 +11,12 @@ import scala.annotation.tailrec
 
 object YamlUtils {
 
-  def isKey(maybePart: Option[YPart], position: AmfPosition): Boolean =
-    maybePart.exists(part => {
-      val selected = getParent(part, position, None)
-      selected match {
-        case Some(entry: YMapEntry) =>
-          contains(entry.key.range, position)
-        case _ => false
-      }
-    })
+  def isKey(part: YPart, position: AmfPosition): Boolean =
+    getParent(part, position, None) match {
+      case Some(entry: YMapEntry) =>
+        contains(entry.key.range, position)
+      case _ => false
+    }
 
   def contains(range: InputRange, position: AmfPosition): Boolean =
     PositionRange(range)
@@ -49,6 +46,8 @@ object YamlUtils {
   @tailrec
   final def getParent(s: YPart, position: AmfPosition, parent: Option[YPart]): Option[YPart] =
     childWithPosition(s, position) match {
+      case Some(c) if s.isInstanceOf[YNode] =>
+        getParent(c, position, parent)
       case Some(c) =>
         getParent(c, position, Some(s))
       case None =>
