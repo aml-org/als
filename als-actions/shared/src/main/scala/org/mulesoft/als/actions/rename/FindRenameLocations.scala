@@ -2,6 +2,7 @@ package org.mulesoft.als.actions.rename
 
 import amf.core.model.document.BaseUnit
 import org.mulesoft.als.actions.common.RelationshipLink
+import org.mulesoft.als.actions.definition.FindDefinition
 import org.mulesoft.als.actions.references.FindReferences
 import org.mulesoft.als.common.YamlUtils
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
@@ -48,21 +49,6 @@ object FindRenameLocations {
       .collect {
         case s: YScalar => s
       }
-
-  private def getScalarFromEntry(refs: Seq[RelationshipLink]) =
-    refs
-      .map(_.targetEntry)
-      .collectFirst {
-        case e: YMapEntry => e.key
-      }
-      .flatMap(_.asScalar)
-
-  private def getScalarFromName(refs: Seq[RelationshipLink]) =
-    refs.map(_.nameYPart).headOption.flatMap {
-      case n: YNode     => n.asScalar
-      case e: YMapEntry => e.key.asScalar
-      case _            => None
-    }
 
   private def toTextEdit(renameLocation: RenameLocation): TextEdit =
     TextEdit(LspRangeConverter.toLspRange(renameLocation.replaceRange), renameLocation.newName)

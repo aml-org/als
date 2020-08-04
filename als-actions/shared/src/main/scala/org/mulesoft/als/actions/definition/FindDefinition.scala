@@ -19,12 +19,10 @@ object FindDefinition {
                     position: Position,
                     allRelationships: Future[Seq[RelationshipLink]],
                     allAliases: Future[Seq[AliasInfo]],
-                    fbu: Future[BaseUnit],
-                    platform: Platform): Future[Seq[LocationLink]] =
+                    bu: BaseUnit): Future[Seq[LocationLink]] =
     for {
       relationships <- allRelationships
       aliases       <- allAliases
-      bu            <- fbu
     } yield {
       (findByPosition(
         uri,

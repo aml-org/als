@@ -1,8 +1,11 @@
 package org.mulesoft.als.server.modules.actions.rename
 
+import org.mulesoft.als.actions.definition.FindDefinition
 import org.mulesoft.als.actions.rename.FindRenameLocations
+import org.mulesoft.als.common.YamlUtils
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.workspace.WorkspaceManager
+import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
 import org.mulesoft.lsp.edit.WorkspaceEdit
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.rename.{RenameParams, RenameRequestType}
@@ -39,6 +42,28 @@ class RenameHandler(telemetryProvider: TelemetryProvider, workspace: WorkspaceMa
       .getLastUnit(uri, uuid)
       .flatMap(_.getLast)
       .flatMap(bu => {
-        FindRenameLocations.changeDeclaredName(uri, position, newName, workspace.getRelationships(uri, uuid), bu.unit)
+        if (bu.unit.objWithAST
+              .flatMap(_.annotations.ast())
+              .exists(p => YamlUtils.isKey(p, position.toAmfPosition)))
+          FindRenameLocations
+            .changeDeclaredName(uri, position, newName, workspace.getRelationships(uri, uuid), bu.unit)
+        else {
+          FindDefinition
+            .getDefinition(uri,
+                           position,
+                           workspace.getRelationships(uri, uuid),
+                           workspace.getAliases(uri, uuid),
+                           bu.unit)
+            .flatMap(_.headOption match {
+              case Some(definition) =>
+                FindRenameLocations.changeDeclaredName(definition.targetUri,
+                                                       Position(definition.targetRange.start),
+                                                       newName,
+                                                       workspace.getRelationships(uri, uuid),
+                                                       bu.unit)
+              case None =>
+                Future.successful(WorkspaceEdit.empty)
+            })
+        }
       })
 }
