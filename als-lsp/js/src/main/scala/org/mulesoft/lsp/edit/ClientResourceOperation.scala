@@ -1,12 +1,13 @@
 package org.mulesoft.lsp.edit
 
-sealed trait ClientResourceOperation
-
 import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
 
 import scala.scalajs.js
+
 import scala.scalajs.js.JSConverters._
 // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
+
+sealed trait ClientResourceOperation extends js.Object
 
 @js.native
 trait ClientNewFileOptions extends js.Object {
@@ -22,7 +23,7 @@ object ClientNewFileOptions {
 }
 
 @js.native
-trait ClientCreateFile extends js.Object {
+trait ClientCreateFile extends ClientResourceOperation {
   def uri: String                               = js.native
   def options: js.UndefOr[ClientNewFileOptions] = js.native
 }
@@ -35,7 +36,7 @@ object ClientCreateFile {
 }
 
 @js.native
-trait ClientRenameFile extends js.Object {
+trait ClientRenameFile extends ClientResourceOperation {
   def oldUri: String                            = js.native
   def newUri: String                            = js.native
   def options: js.UndefOr[ClientNewFileOptions] = js.native
@@ -64,7 +65,7 @@ object ClientDeleteFileOptions {
 }
 
 @js.native
-trait ClientDeleteFile extends js.Object {
+trait ClientDeleteFile extends ClientResourceOperation {
   def uri: String                                  = js.native
   def options: js.UndefOr[ClientDeleteFileOptions] = js.native
 }
