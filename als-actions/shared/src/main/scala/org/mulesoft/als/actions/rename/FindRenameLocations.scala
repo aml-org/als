@@ -1,9 +1,12 @@
 package org.mulesoft.als.actions.rename
 
+import amf.core.model.document.BaseUnit
 import org.mulesoft.als.actions.common.RelationshipLink
 import org.mulesoft.als.actions.references.FindReferences
+import org.mulesoft.als.common.YamlUtils
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
+import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
 import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit, WorkspaceEdit}
 import org.mulesoft.lsp.feature.common.{Range, VersionedTextDocumentIdentifier}
 import org.yaml.model.{YMapEntry, YNode, YPart, YScalar}
@@ -12,35 +15,22 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object FindRenameLocations {
-
-  def canChangeDeclaredName(uri: String,
-                            position: Position,
-                            references: Future[Seq[RelationshipLink]]): Future[Option[Range]] =
-    FindReferences
-      .getReferences(uri, position, references)
-      .map { refs =>
-        getOriginKey(refs)
-          .map(_.range)
-          .map(PositionRange(_))
-          .map(LspRangeConverter.toLspRange)
-      }
-
   def changeDeclaredName(uri: String,
                          position: Position,
                          newName: String,
-                         references: Future[Seq[RelationshipLink]]): Future[WorkspaceEdit] =
+                         references: Future[Seq[RelationshipLink]],
+                         unit: BaseUnit): Future[WorkspaceEdit] =
     FindReferences
       .getReferences(uri, position, references)
       .map { refs =>
-        getOriginKey(refs)
-          .map { origKey =>
+        getOriginKey(unit, position).toSeq
+          .flatMap { origKey =>
             refs
               .map(_.sourceEntry)
               .map(value)
               .map(RenameLocation(_, newName, origKey.text)) :+
               RenameLocation(origKey, newName, origKey.text)
           }
-          .getOrElse(Seq.empty)
       }
       .map(_.groupBy(_.uri))
       .map { uriToLocation =>
@@ -51,8 +41,13 @@ object FindRenameLocations {
         )
       }
 
-  private def getOriginKey(refs: Seq[RelationshipLink]): Option[YScalar] =
-    getScalarFromName(refs) orElse getScalarFromEntry(refs)
+  private def getOriginKey(unit: BaseUnit, position: Position): Option[YScalar] =
+    unit.objWithAST
+      .flatMap(_.annotations.ast())
+      .map(YamlUtils.getNodeByPosition(_, position.toAmfPosition))
+      .collect {
+        case s: YScalar => s
+      }
 
   private def getScalarFromEntry(refs: Seq[RelationshipLink]) =
     refs
