@@ -2,12 +2,15 @@ package org.mulesoft.als.server.modules.actions.rename
 
 import org.mulesoft.als.actions.definition.FindDefinition
 import org.mulesoft.als.actions.rename.FindRenameLocations
+import org.mulesoft.als.actions.renameFile.RenameFileAction
 import org.mulesoft.als.common.YamlUtils
-import org.mulesoft.als.common.dtoTypes.Position
+import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.server.modules.workspace.CompilableUnit
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
 import org.mulesoft.lsp.edit.WorkspaceEdit
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
+import org.mulesoft.lsp.feature.common.TextDocumentIdentifier
 import org.mulesoft.lsp.feature.rename.{RenameParams, RenameRequestType}
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
@@ -44,26 +47,62 @@ class RenameHandler(telemetryProvider: TelemetryProvider, workspace: WorkspaceMa
       .flatMap(bu => {
         if (bu.unit.objWithAST
               .flatMap(_.annotations.ast())
-              .exists(p => YamlUtils.isKey(p, position.toAmfPosition)))
+              .exists(p => YamlUtils.isKey(p, position.toAmfPosition))) // it is in a key -> means it is a declaration
           FindRenameLocations
             .changeDeclaredName(uri, position, newName, workspace.getRelationships(uri, uuid), bu.unit)
-        else {
-          FindDefinition
-            .getDefinition(uri,
-                           position,
-                           workspace.getRelationships(uri, uuid),
-                           workspace.getAliases(uri, uuid),
-                           bu.unit)
-            .flatMap(_.headOption match {
-              case Some(definition) =>
-                FindRenameLocations.changeDeclaredName(definition.targetUri,
-                                                       Position(definition.targetRange.start),
-                                                       newName,
-                                                       workspace.getRelationships(uri, uuid),
-                                                       bu.unit)
-              case None =>
-                Future.successful(WorkspaceEdit.empty)
-            })
-        }
+        else
+          for {
+            fromLinks <- renameFromLink(uri, position, newName, uuid, bu, workspace) // if Some() then it's a link to a file
+            fromDef   <- renameFromDefinition(uri, position, newName, uuid, bu)      // if Some() then it's a reference to a declaration
+          } yield {
+            (fromLinks orElse fromDef) getOrElse WorkspaceEdit.empty // if none of the above, return empty
+          }
+      })
+  private def renameFromLink(uri: String,
+                             position: Position,
+                             newName: String,
+                             uuid: String,
+                             bu: CompilableUnit,
+                             workspaceManager: WorkspaceManager): Future[Option[WorkspaceEdit]] = {
+    for {
+      links    <- workspaceManager.getDocumentLinks(uri, uuid)
+      allLinks <- workspaceManager.getAllDocumentLinks(uri, uuid)
+    } yield {
+      links
+        .find(l => PositionRange(l.range).contains(position))
+        .map(
+          l =>
+            RenameFileAction.renameFileEdits(TextDocumentIdentifier(l.target),
+                                             TextDocumentIdentifier(getUriWithNewName(l.target, newName)),
+                                             allLinks,
+                                             None))
+    }
+  }
+
+  // todo: re-check when moving paths is available
+  private def getUriWithNewName(target: String, newName: String): String =
+    s"${splitUriName(target)._1}${splitUriName(newName)._2}"
+
+  private def splitUriName(target: String) =
+    target.splitAt(target.lastIndexOf('/') + 1)
+
+  private def renameFromDefinition(uri: String,
+                                   position: Position,
+                                   newName: String,
+                                   uuid: String,
+                                   bu: CompilableUnit): Future[Option[WorkspaceEdit]] =
+    FindDefinition
+      .getDefinition(uri, position, workspace.getRelationships(uri, uuid), workspace.getAliases(uri, uuid), bu.unit)
+      .flatMap(_.headOption match {
+        case Some(definition) =>
+          FindRenameLocations
+            .changeDeclaredName(definition.targetUri,
+                                Position(definition.targetRange.start),
+                                newName,
+                                workspace.getRelationships(uri, uuid),
+                                bu.unit)
+            .map(Some(_))
+        case _ =>
+          Future.successful(None)
       })
 }

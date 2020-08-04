@@ -75,23 +75,6 @@ class RenameTest extends LanguageServerBaseTest {
   val testSets: Set[TestEntry] = Set(
     TestEntry(
       "file:///root/lib.raml",
-      Position(2, 3),
-      "trait1",
-      ws1,
-      createWSE(
-        Seq(
-          ("file:///root/api.raml",
-           Seq(
-             TextEdit(Range(Position(6, 6), Position(6, 12)), "lib.trait1")
-           )),
-          ("file:///root/lib.raml",
-           Seq(
-             TextEdit(Range(Position(2, 2), Position(2, 4)), "trait1")
-           ))
-        ))
-    ),
-    TestEntry(
-      "file:///root/lib.raml",
       Position(5, 3),
       "type1",
       ws1,
