@@ -38,7 +38,7 @@ class RenameHandler(telemetryProvider: TelemetryProvider, workspace: WorkspaceMa
     workspace
       .getLastUnit(uri, uuid)
       .flatMap(_.getLast)
-      .flatMap(_ => {
-        FindRenameLocations.changeDeclaredName(uri, position, newName, workspace.getRelationships(uri, uuid))
+      .flatMap(bu => {
+        FindRenameLocations.changeDeclaredName(uri, position, newName, workspace.getRelationships(uri, uuid), bu.unit)
       })
 }
