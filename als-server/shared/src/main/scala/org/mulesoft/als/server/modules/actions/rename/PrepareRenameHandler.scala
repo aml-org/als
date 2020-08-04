@@ -1,8 +1,11 @@
 package org.mulesoft.als.server.modules.actions.rename
 
 import org.mulesoft.als.actions.rename.FindRenameLocations
-import org.mulesoft.als.common.dtoTypes.Position
+import org.mulesoft.als.common.YamlUtils
+import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.workspace.WorkspaceManager
+import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.common.Range
 import org.mulesoft.lsp.feature.rename.{PrepareRenameParams, PrepareRenameRequestType, PrepareRenameResult}
@@ -39,7 +42,12 @@ class PrepareRenameHandler(telemetryProvider: TelemetryProvider, workspace: Work
     workspace
       .getLastUnit(uri, uuid)
       .flatMap(_.getLast)
-      .flatMap(_ => {
-        FindRenameLocations.canChangeDeclaredName(uri, position, workspace.getRelationships(uri, uuid))
-      }.map(_.map(r => Left(r))))
+      .map(bu => {
+        // todo: check if it is a declarable?
+        bu.unit.objWithAST
+          .flatMap(_.annotations.ast())
+          .map(YamlUtils.getNodeByPosition(_, position.toAmfPosition))
+          .map(p => LspRangeConverter.toLspRange(PositionRange(p.range)))
+          .map(r => Left(r))
+      })
 }

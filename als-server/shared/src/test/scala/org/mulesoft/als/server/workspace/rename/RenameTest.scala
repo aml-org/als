@@ -150,11 +150,13 @@ class RenameTest extends LanguageServerBaseTest {
         testSets.map { test =>
           for {
             (_, wsManager) <- buildServer(test.root, test.ws)
+            cu             <- wsManager.getLastUnit(test.targetUri, "")
             renames <- FindRenameLocations
               .changeDeclaredName(test.targetUri,
                                   DtoPosition(test.targetPosition),
                                   test.newName,
-                                  wsManager.getRelationships(test.targetUri, ""))
+                                  wsManager.getRelationships(test.targetUri, ""),
+                                  cu.unit)
           } yield {
             (renames, test.result)
           }
