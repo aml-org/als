@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.modules.workspace.references.visitors
 
 import amf.core.model.document.BaseUnit
+import amf.core.model.domain.{AmfElement, AmfObject}
 import org.mulesoft.als.actions.common.{AliasInfo, RelationshipLink}
 import org.mulesoft.als.server.modules.workspace.references.visitors.aliases.{AliasesVisitor, AliasesVisitorType}
 import org.mulesoft.als.server.modules.workspace.references.visitors.documentlink.{
