@@ -59,7 +59,7 @@ object ObjectInTree {
               .exists(_.containsAtField(position)) && (f.value.annotations
               .lexicalInformation()
               .forall(_.containsCompletely(position)) && !f.value.value.annotations
-              .contains(classOf[SynthesizedField]))
+              .contains(classOf[SynthesizedField]) && objectInTree.obj.location().forall(v.location().contains(_)))
       })
       .toList
       .sorted(fieldEntryOrdering)
@@ -68,13 +68,17 @@ object ObjectInTree {
 
 object ObjectInTreeBuilder {
 
-  def fromUnit(bu: BaseUnit, position: AmfPosition): ObjectInTree = {
-    val (obj, stack) = bu.findSonWithStack(position, Seq((f: FieldEntry) => f.field != BaseUnitModel.References))
+  def fromUnit(bu: BaseUnit, position: AmfPosition, location: Option[String]): ObjectInTree = {
+    val (obj, stack) =
+      bu.findSonWithStack(position, location, Seq((f: FieldEntry) => f.field != BaseUnitModel.References))
     ObjectInTree(obj, stack, position)
   }
 
-  def fromSubTree(element: DomainElement, position: AmfPosition, previousStack: Seq[AmfObject]): ObjectInTree = {
-    val (obj, stack) = element.findSonWithStack(position, Seq.empty)
+  def fromSubTree(element: DomainElement,
+                  position: AmfPosition,
+                  location: Option[String],
+                  previousStack: Seq[AmfObject]): ObjectInTree = {
+    val (obj, stack) = element.findSonWithStack(position, location, Seq.empty)
     ObjectInTree(obj, stack ++ previousStack, position)
   }
 }

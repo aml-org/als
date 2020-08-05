@@ -1,8 +1,9 @@
 package org.mulesoft.als.server.modules.hover
 
 import amf.plugins.domain.shapes.metamodel.ExampleModel
+import amf.plugins.domain.webapi.metamodel.security.SecuritySchemeModel
 import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
-import amf.plugins.domain.webapi.metamodel.{EndPointModel, WebApiModel}
+import amf.plugins.domain.webapi.metamodel.{EndPointModel, OperationModel, WebApiModel}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.reference.MarkerInfo
@@ -133,6 +134,46 @@ class HoverTest extends ServerWithMarkerTest[Hover] {
       h.contents.size should be(1)
       h.contents.head should be("Human readable description of an element")
       h.range.get should be(Range(Position(6, 4), Position(7, 0)))
+    }
+  }
+
+  test("Test hover on name of include") {
+    runTest(buildServer(), "refs/api.raml").map { h =>
+      h.contents.size should be(1)
+      h.contents.head should be(SecuritySchemeModel.doc.description)
+      h.range.get should be(Range(Position(3, 13), Position(3, 52)))
+    }
+  }
+
+  test("Test hover on include value") {
+    runTest(buildServer(), "refs/api2.raml").map { h =>
+      h.contents.size should be(1)
+      h.contents.head should be(SecuritySchemeModel.doc.description)
+      h.range.get should be(Range(Position(3, 13), Position(3, 52)))
+    }
+  }
+
+  test("Test hover on endpoint operation with include") {
+    runTest(buildServer(), "refs/api3.raml").map { h =>
+      h.contents.size should be(1)
+      h.contents.head should be(OperationModel.Method.doc.description)
+      h.range.get should be(Range(Position(3, 4), Position(3, 7)))
+    }
+  }
+
+  test("Test hover on endpoint operation include") {
+    runTest(buildServer(), "refs/api4.raml").map { h =>
+      h.contents.size should be(1)
+      h.contents.head should be(OperationModel.doc.description)
+      h.range.get should be(Range(Position(3, 4), Position(3, 31)))
+    }
+  }
+
+  test("Test hover on endpoint operation include keyword") {
+    runTest(buildServer(), "refs/api5.raml").map { h =>
+      h.contents.size should be(1)
+      h.contents.head should be(OperationModel.doc.description)
+      h.range.get should be(Range(Position(3, 4), Position(3, 31)))
     }
   }
 
