@@ -7,10 +7,7 @@ import amf.core.parser.FieldEntry
 import amf.core.vocabulary.Namespace
 import amf.plugins.domain.webapi.models.{EndPoint, Operation}
 import org.mulesoft.als.actions.common.RelationshipLink
-import org.mulesoft.als.server.modules.workspace.references.visitors.{
-  AmfElementVisitorFactory,
-  WebApiElementVisitorFactory
-}
+import org.mulesoft.als.server.modules.workspace.references.visitors.WebApiElementVisitorFactory
 import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.NodeRelationshipVisitorType
 import org.mulesoft.amfintegration.AmfImplicits._
 
@@ -37,7 +34,7 @@ class AbstractDefinitionLinksVisitor extends NodeRelationshipVisitorType {
           case p: ParametrizedDeclaration =>
             p.annotations
               .ast()
-              .flatMap(source => p.target.annotations.ast().map(target => (source, target)))
+              .flatMap(source => Option(p.target).flatMap(t => t.annotations.ast().map(target => (source, target))))
               .map(t => RelationshipLink(t._1, t._2, getName(p)))
           case _ => None
         }
