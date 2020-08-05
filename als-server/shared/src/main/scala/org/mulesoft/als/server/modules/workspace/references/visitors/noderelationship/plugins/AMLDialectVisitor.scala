@@ -106,21 +106,24 @@ class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
     }
 
   private def extractEncoded(d: Dialect, dm: DocumentsModel): Option[RelationshipLink] =
-    (dm.root().encoded().annotations().ast(), dm.root().encoded().option()) match {
+    (Option(dm.root()).flatMap(_.encoded().annotations().ast()), Option(dm.root()).flatMap(_.encoded().option())) match {
       case (Some(entry), Some(link)) =>
         getPositionForLink(d, link).map(RelationshipLink(entry, _))
       case (_, _) => None
     }
 
   private def extractDeclarations(d: Dialect, dm: DocumentsModel): Seq[Option[RelationshipLink]] =
-    dm.root()
-      .declaredNodes()
-      .map(pnm =>
-        (pnm.mappedNode().annotations().ast(), pnm.mappedNode().option()) match {
-          case (Some(ast), Some(link)) =>
-            getPositionForLink(d, link).map(RelationshipLink(ast, _))
-          case (_, _) => None
-      })
+    Option(dm.root())
+      .map { r =>
+        r.declaredNodes()
+          .map(pnm =>
+            (pnm.mappedNode().annotations().ast(), pnm.mappedNode().option()) match {
+              case (Some(ast), Some(link)) =>
+                getPositionForLink(d, link).map(RelationshipLink(ast, _))
+              case (_, _) => None
+          })
+      }
+      .getOrElse(Nil)
 
   private def getLink(obj: AmfObject): Option[String] =
     obj.fields
