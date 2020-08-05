@@ -1,6 +1,6 @@
 {
   "name": "@mulesoft/als-server",
-  "version": "3.1.0-SNAPSHOT.6",
+  "version": "3.1.0-SNAPSHOT.8",
   "description": "ALS Server Library",
   "main": "lib/als-server.js",
   "types": "typescript/als-server.d.ts",
