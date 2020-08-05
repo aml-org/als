@@ -34,7 +34,7 @@ class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
 
   private def extractSecuritySchemes(sr: SecurityRequirement) =
     sr.schemes
-      .map(_.scheme)
+      .flatMap(s => Option(s.scheme))
       .flatMap(t => t.annotations.ast().map((t, _)))
       .flatMap(target => sr.annotations.ast().map(source => (source, target)))
       .map(t => RelationshipLink(t._1, t._2._2, getName(t._2._1)))
