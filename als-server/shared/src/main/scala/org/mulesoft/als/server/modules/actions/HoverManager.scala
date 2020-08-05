@@ -65,7 +65,7 @@ class HoverManager(wm: WorkspaceManager, amfInstance: AmfInstance, telemetryProv
       wm.getLastUnit(params.textDocument.uri, uuid).map { cu =>
         val dtoPosition = LspRangeConverter.toPosition(params.position)
 
-        getSemantic(cu, dtoPosition.toAmfPosition)
+        getSemantic(cu, dtoPosition.toAmfPosition, params.textDocument.uri)
           .map(s => Hover(s._1, s._2.map(r => LspRangeConverter.toLspRange(PositionRange(r))))) // if sequence, we could show all the semantic hierarchy?
           .getOrElse(Hover.empty)
 
@@ -73,10 +73,11 @@ class HoverManager(wm: WorkspaceManager, amfInstance: AmfInstance, telemetryProv
     }
 
     private def getSemantic(cu: CompilableUnit,
-                            amfPosition: AmfPosition): Option[(Seq[String], Option[parser.Range])] = {
-      val tree = ObjectInTreeBuilder.fromUnit(cu.unit, amfPosition)
+                            amfPosition: AmfPosition,
+                            location: String): Option[(Seq[String], Option[parser.Range])] = {
+      val tree = ObjectInTreeBuilder.fromUnit(cu.unit, amfPosition, Some(location))
       if (tree.obj.isInstanceOf[DataNode]) hackFromNonDynamic(tree, cu)
-      else fromTree(tree, cu)
+      else fromTree(tree, cu, location)
     }
 
     private def hackFromNonDynamic(tree: ObjectInTree,
@@ -84,7 +85,9 @@ class HoverManager(wm: WorkspaceManager, amfInstance: AmfInstance, telemetryProv
       tree.stack.collectFirst({ case obj if !obj.isInstanceOf[DataNode] => obj }).flatMap(classTerm(_, cu))
     }
 
-    private def fromTree(tree: ObjectInTree, cu: CompilableUnit): Option[(Seq[String], Option[parser.Range])] = {
+    private def fromTree(tree: ObjectInTree,
+                         cu: CompilableUnit,
+                         location: String): Option[(Seq[String], Option[parser.Range])] = {
       tree.fieldEntry.orElse(tree.fieldValue).flatMap(f => fieldEntry(f, cu)).orElse(classTerm(tree.obj, cu))
     }
 

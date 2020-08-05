@@ -1,0 +1,7 @@
+#%RAML 1.0
+title: API Spec
+securitySchemes:
+  oauth_[*]2_0: !include securitySchemes/oauth_2_0.raml
+
+/oauth2:
+  securedBy: oauth_2_0
