@@ -50,6 +50,19 @@ class FilesInProjectNotificationTest extends LanguageServerBaseTest {
     }
   }
 
+  test("Test empty schema in trait for visitors (NullPointerException)") {
+    val alsClient: MockFilesInClientNotifier = new MockFilesInClientNotifier
+    withServer(buildServer(alsClient)) { server =>
+      for {
+        _ <- server.initialize(
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("empty-trait-schema")}")))
+        filesInProject <- alsClient.nextCall
+      } yield {
+        filesInProject.uris.size should be(1)
+      }
+    }
+  }
+
   test("Open isolated file") {
     val alsClient: MockFilesInClientNotifier = new MockFilesInClientNotifier
     withServer(buildServer(alsClient)) { server =>
