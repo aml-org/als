@@ -81,7 +81,7 @@ trait AbstractKnownValueCompletionPlugin extends AMLCompletionPlugin {
       classTerm,
       params.actualDialect,
       params.yPartBranch.isKey,
-      params.yPartBranch.isArray || params.yPartBranch.isInArray,
+      params.yPartBranch.isArray || (params.yPartBranch.isJson && params.yPartBranch.isInArray),
       params.isKeyMapping
     ).resolve()
 }

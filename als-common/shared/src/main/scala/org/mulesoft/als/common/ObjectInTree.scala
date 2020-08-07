@@ -9,7 +9,7 @@ import org.mulesoft.als.common.AmfSonElementFinder._
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.FieldEntryOrdering
-import org.yaml.model.YMapEntry
+import org.yaml.model.{YMapEntry, YNode}
 
 case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfPosition) {
 
@@ -34,7 +34,17 @@ case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfP
       .toList
       .sorted(ordering)
       .lastOption
+      .orElse(singleLineNull())
 
+  private def singleLineNull() = {
+    obj.fields.fields().find { fe =>
+      fe.value.annotations.ast() match {
+        case Some(node: YNode) if node.isNull =>
+          node.value.range.lineFrom == node.value.range.lineTo && node.value.range.lineTo == amfPosition.line
+        case _ => false
+      }
+    }
+  }
   private def inField(f: FieldEntry) =
     f.value.annotations.find(classOf[LexicalInformation]).forall(_.contains(amfPosition))
 

@@ -29,8 +29,9 @@ object AmfSonElementFinder {
       (f: FieldEntry) => {
         f.value.value match {
           case arr: AmfArray =>
-            f.fieldContains(amfPosition) ||
-              f.value.annotations.contains(classOf[SynthesizedField]) ||
+            f.isArrayIncluded(amfPosition) ||
+              f.value.annotations
+                .contains(classOf[SynthesizedField]) || (!f.value.annotations.contains(classOf[LexicalInformation]) &&
               arr.values
                 .collectFirst({
                   case obj: AmfObject
@@ -38,7 +39,7 @@ object AmfSonElementFinder {
                         sonContainsNonVirtualPosition(obj, amfPosition)) || obj.containsPosition(amfPosition) =>
                     obj
                 })
-                .nonEmpty
+                .nonEmpty)
 
           case v =>
             v.position() match {

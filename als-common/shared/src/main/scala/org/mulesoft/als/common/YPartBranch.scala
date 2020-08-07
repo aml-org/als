@@ -210,7 +210,7 @@ object NodeBranchBuilder {
       case _ => s +: parents
     }
 
-  private def childWithPosition(ast: YPart, amfPosition: AmfPosition): Option[YPart] =
+  def childWithPosition(ast: YPart, amfPosition: AmfPosition): Option[YPart] =
     ast.children
       .filterNot(_.isInstanceOf[YNonContent])
       .filter {
