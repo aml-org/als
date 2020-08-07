@@ -15,7 +15,9 @@ trait UrlTemplateParam extends AMLCompletionPlugin {
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful {
       val params = request.amfObject match {
-        case p: Parameter if p.binding.option().contains("path") && isName(request) =>
+        case p: Parameter
+            if (p.binding.option().contains("path") && isName(request)) || request.yPartBranch.isKeyDescendantOf(
+              "variables") =>
           request.branchStack.headOption match {
             case Some(e: EndPoint) => endpointParams(e)
             case Some(s: Server)   => serverParams(s)

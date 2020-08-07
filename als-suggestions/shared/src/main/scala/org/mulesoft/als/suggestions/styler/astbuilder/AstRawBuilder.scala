@@ -67,7 +67,7 @@ abstract class AstRawBuilder(raw: RawSuggestion, isSnippet: Boolean, yPartBranch
   }
 
   private def wrapArray(options: SuggestionStructure, node: YNode): YNode =
-    if (options.isArray && !yPartBranch.isInArray) YNode(YSequence(node))
+    if (options.isArray && (options.isKey || !yPartBranch.isInArray)) YNode(YSequence(node))
     else node
 
   private def plainValue(text: String): YNode = {

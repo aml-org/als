@@ -34,6 +34,7 @@ object OAS30Dialect extends OasBaseDialect {
         Oas30ResponseObject,
         Oas30OAuth20SecurityObject,
         Oas30SecuritySchemeObject,
+        Oas30SecuritySettingsObject,
         AMLTagObject,
         XmlObject,
         Oas30FlowObject,

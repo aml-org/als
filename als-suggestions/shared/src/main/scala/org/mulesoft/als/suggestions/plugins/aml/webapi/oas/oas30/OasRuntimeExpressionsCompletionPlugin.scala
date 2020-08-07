@@ -6,6 +6,7 @@ import amf.plugins.domain.webapi.models.Callback
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.webapi.AbstractRuntimeExpressionsCompletionPlugin
 import amf.plugins.document.webapi.validation.runtimeexpression.{OAS3RuntimeExpressionParser, RuntimeExpressionParser}
+import amf.plugins.domain.shapes.models.NodeShape
 
 object OasRuntimeExpressionsCompletionPlugin extends AbstractRuntimeExpressionsCompletionPlugin {
 
@@ -14,7 +15,8 @@ object OasRuntimeExpressionsCompletionPlugin extends AbstractRuntimeExpressionsC
 
   override protected def appliesToField(request: AmlCompletionRequest): Boolean =
     request.fieldEntry match {
-      case Some(fe) => applicableFields.contains(fe.field)
+      case Some(fe) =>
+        applicableFields.contains(fe.field) && !request.branchStack.headOption.exists(_.isInstanceOf[NodeShape])
       case _ =>
         if (request.yPartBranch.isKey)
           request.branchStack.headOption match {
