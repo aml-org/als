@@ -5,14 +5,17 @@ import amf.core.metamodel.Field
 import amf.core.model.document.{BaseUnit, EncodesModel}
 import amf.core.model.domain.{AmfObject, AmfScalar, DomainElement}
 import amf.core.parser
-import amf.core.parser.{Annotations, FieldEntry, Position => AmfPosition, Value}
+import amf.core.parser.{Annotations, FieldEntry, Value, Position => AmfPosition}
 import amf.plugins.document.vocabularies.model.document.{Dialect, Vocabulary}
 import amf.plugins.document.vocabularies.model.domain.{ClassTerm, NodeMapping, PropertyTerm}
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import amf.plugins.document.webapi.annotations.{DeclarationKey, DeclarationKeys, ExternalJsonSchemaShape}
 import amf.plugins.domain.shapes.annotations.ParsedFromTypeExpression
 import amf.plugins.domain.webapi.metamodel.AbstractModel
+import org.mulesoft.als.common.NodeBranchBuilder
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.lexer.InputRange
+import org.yaml.model.{YNode, YPart, YSequence, YType}
 import org.yaml.model.YPart
 import org.yaml.model.{YMapEntry, YPart}
 
@@ -25,6 +28,10 @@ object AmfImplicits {
     def contains(pos: AmfPosition): Boolean =
       PositionRange(Position(li.range.start), Position(li.range.end))
         .contains(Position(pos))
+
+    def atEnd(pos: AmfPosition) = {
+      li.range.end.line > pos.line || (li.range.end.line == pos.line && li.range.end.column < pos.column)
+    }
 
     def containsAtField(pos: AmfPosition): Boolean =
       containsCompletely(pos) || isAtEmptyScalar(pos)
@@ -74,7 +81,24 @@ object AmfImplicits {
 
   implicit class FieldEntryImplicit(f: FieldEntry) {
 
-    def fieldContains(position: AmfPosition): Boolean = f.value.annotations.lexicalInfo.exists(_.contains(position))
+    def fieldContains(position: AmfPosition): Boolean = {
+      f.value.annotations.lexicalInfo.exists(_.contains(position))
+    }
+
+    def isArrayIncluded(position: AmfPosition): Boolean = {
+      f.value.annotations.ast() match {
+        case Some(n: YNode) if n.tagType == YType.Seq =>
+          PositionRange(n.value.range).contains(Position(position)) && isEndChar(position, n.value.range)
+        case Some(arr: YSequence) =>
+          PositionRange(arr.range).contains(Position(position)) && isEndChar(position, arr.range)
+        case Some(other) => PositionRange(other.range).contains(Position(position))
+        case _           => false
+      }
+    }
+
+    def isEndChar(position: AmfPosition, range: InputRange) = {
+      position.line < range.lineTo || (position.line == range.lineTo && position.column > range.columnTo) || range.lineFrom == range.lineTo
+    }
   }
 
   implicit class AmfObjectImp(amfObject: AmfObject) {

@@ -5,6 +5,8 @@ import amf.core.model.domain.{Linkable, Shape}
 import amf.core.parser._
 import amf.plugins.domain.shapes.metamodel.NodeShapeModel
 import amf.plugins.domain.shapes.models.NodeShape
+import amf.plugins.domain.webapi.metamodel.IriTemplateMappingModel
+import amf.plugins.domain.webapi.models.IriTemplateMapping
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.webapi.ExceptionPlugin
@@ -16,10 +18,15 @@ import scala.concurrent.Future
 object DiscriminatorMappingValue extends ExceptionPlugin {
   override def id: String = "DiscriminatorMappingValue"
 
-  override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
+  override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = Future {
     request.amfObject match {
-      case obj: NodeShape if applies(request) => Future { suggest(obj) }
-      case _                                  => emptySuggestion
+      case obj: NodeShape
+          if request.fieldEntry
+            .exists(_.field == NodeShapeModel.DiscriminatorMapping) && request.yPartBranch.isValue =>
+        suggest(obj)
+      case _: IriTemplateMapping if request.fieldEntry.exists(_.field == IriTemplateMappingModel.LinkExpression) =>
+        request.branchStack.collectFirst({ case n: NodeShape => suggest(n) }).getOrElse(Nil)
+      case _ => Nil
     }
   }
 
@@ -36,6 +43,13 @@ object DiscriminatorMappingValue extends ExceptionPlugin {
 
   private def parents(n: NodeShape): Seq[Shape] = n.xone ++ n.or ++ n.and
 
-  override def applies(request: AmlCompletionRequest): Boolean =
-    request.fieldEntry.exists(_.field == NodeShapeModel.DiscriminatorMapping) && request.yPartBranch.isValue
+  // ?????
+  override def applies(request: AmlCompletionRequest): Boolean = {
+    request.amfObject match {
+      case _: NodeShape =>
+        request.fieldEntry.exists(_.field == NodeShapeModel.DiscriminatorMapping) && request.yPartBranch.isValue
+      case _: IriTemplateMapping => true
+      case _                     => false
+    }
+  }
 }

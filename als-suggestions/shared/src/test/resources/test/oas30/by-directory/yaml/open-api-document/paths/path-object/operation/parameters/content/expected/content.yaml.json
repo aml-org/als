@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11application/json",
-    "filterText": "application/json: ",
+    "filterText": "application/json:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 12
         }
       },
-      "newText": "application/json: "
+      "newText": "application/json:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11application/vnd.github+json",
-    "filterText": "application/vnd.github+json: ",
+    "filterText": "application/vnd.github+json:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -53,7 +53,7 @@
           "character": 12
         }
       },
-      "newText": "application/vnd.github+json: "
+      "newText": "application/vnd.github+json:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11application/vnd.github.v3+json",
-    "filterText": "application/vnd.github.v3+json: ",
+    "filterText": "application/vnd.github.v3+json:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -83,7 +83,7 @@
           "character": 12
         }
       },
-      "newText": "application/vnd.github.v3+json: "
+      "newText": "application/vnd.github.v3+json:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11application/vnd.github.v3.full+json",
-    "filterText": "application/vnd.github.v3.full+json: ",
+    "filterText": "application/vnd.github.v3.full+json:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +113,7 @@
           "character": 12
         }
       },
-      "newText": "application/vnd.github.v3.full+json: "
+      "newText": "application/vnd.github.v3.full+json:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11application/vnd.github.v3.html+json",
-    "filterText": "application/vnd.github.v3.html+json: ",
+    "filterText": "application/vnd.github.v3.html+json:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -143,7 +143,7 @@
           "character": 12
         }
       },
-      "newText": "application/vnd.github.v3.html+json: "
+      "newText": "application/vnd.github.v3.html+json:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11application/vnd.github.v3.patch",
-    "filterText": "application/vnd.github.v3.patch: ",
+    "filterText": "application/vnd.github.v3.patch:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -173,7 +173,7 @@
           "character": 12
         }
       },
-      "newText": "application/vnd.github.v3.patch: "
+      "newText": "application/vnd.github.v3.patch:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11application/vnd.github.v3.raw+json",
-    "filterText": "application/vnd.github.v3.raw+json: ",
+    "filterText": "application/vnd.github.v3.raw+json:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -203,7 +203,7 @@
           "character": 12
         }
       },
-      "newText": "application/vnd.github.v3.raw+json: "
+      "newText": "application/vnd.github.v3.raw+json:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -217,7 +217,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11application/vnd.github.v3.text+json",
-    "filterText": "application/vnd.github.v3.text+json: ",
+    "filterText": "application/vnd.github.v3.text+json:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -233,7 +233,7 @@
           "character": 12
         }
       },
-      "newText": "application/vnd.github.v3.text+json: "
+      "newText": "application/vnd.github.v3.text+json:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -247,7 +247,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11application/xml",
-    "filterText": "application/xml: ",
+    "filterText": "application/xml:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -263,7 +263,7 @@
           "character": 12
         }
       },
-      "newText": "application/xml: "
+      "newText": "application/xml:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -277,7 +277,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11appxlication/vnd.github.v3.diff",
-    "filterText": "appxlication/vnd.github.v3.diff: ",
+    "filterText": "appxlication/vnd.github.v3.diff:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -293,7 +293,7 @@
           "character": 12
         }
       },
-      "newText": "appxlication/vnd.github.v3.diff: "
+      "newText": "appxlication/vnd.github.v3.diff:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -307,7 +307,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11text/plain; charset=utf-8",
-    "filterText": "text/plain; charset=utf-8: ",
+    "filterText": "text/plain; charset=utf-8:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -323,7 +323,7 @@
           "character": 12
         }
       },
-      "newText": "text/plain; charset=utf-8: "
+      "newText": "text/plain; charset=utf-8:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

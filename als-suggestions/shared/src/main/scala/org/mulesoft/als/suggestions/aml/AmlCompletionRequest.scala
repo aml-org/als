@@ -66,21 +66,17 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
       case _ => Nil
     }
 
-    fieldEntry match {
+    objectInTree.fieldEntry match {
       case Some(e) =>
-        if (e.value.value
-              .position()
-              .exists(li => li.contains(position.toAmfPosition))) {
-          val maybeMappings = mappings
-            .find(
-              pm =>
-                pm.fields
-                  .fields()
-                  .exists(f => f.value.toString == e.field.value.iri()))
-            .map(List(_))
-          maybeMappings
-            .getOrElse(mappings)
-        } else mappings
+        val maybeMappings = mappings
+          .find(
+            pm =>
+              pm.fields
+                .fields()
+                .exists(f => f.value.toString == e.field.value.iri()))
+          .map(List(_))
+        maybeMappings
+          .getOrElse(mappings)
       case _ => mappings
     }
   }

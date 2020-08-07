@@ -3,7 +3,7 @@ package org.mulesoft.als.suggestions.styler.astbuilder
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.suggestions.{RawSuggestion, SuggestionStructure}
-import org.yaml.model.{YMap, YMapEntry, YNode, YPart}
+import org.yaml.model.{YMap, YMapEntry, YNode, YPart, YSequence}
 
 class YamlAstRawBuilder(val raw: RawSuggestion, val isSnippet: Boolean, val yPartBranch: YPartBranch)
     extends AstRawBuilder(raw, isSnippet, yPartBranch) {

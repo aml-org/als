@@ -11,11 +11,13 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas20.{
 }
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30._
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.structure.{
+  IriTemplateMappingIgnore,
   ResolveDeclaredResponse,
   ResolveInfo,
   ResolveParameterShapes,
   ResolveTag,
-  ResponseExampleException
+  ResponseExampleException,
+  SchemaExampleException
 }
 import org.mulesoft.als.suggestions.plugins.aml.webapi.{
   ObjectExamplePropertiesCompletionPlugin,
@@ -38,6 +40,8 @@ trait OasBaseCompletionRegistry extends WebApiCompletionPluginRegistry {
         ResolveDeclaredResponse,
         ResolveTag,
         ResolveInfo,
+        IriTemplateMappingIgnore,
+        SchemaExampleException,
         ResolveDefault
       )) :+
     ParameterReferenceCompletionPlugin :+
