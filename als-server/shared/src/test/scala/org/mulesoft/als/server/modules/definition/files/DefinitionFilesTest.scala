@@ -239,15 +239,29 @@ class DefinitionFilesTest extends ServerDefinitionTest {
     )
   }
 
-  ignore("yaml path navigation to type") {
+  test("yaml path navigation to type") {
     runTest(
       "files/path-nav/api.yaml",
       Set(
         LocationLink(
           "file://als-server/shared/src/test/resources/actions/definition/files/path-nav/ref.yaml",
-          LspRangeConverter.toLspRange(PositionRange(Position(3, 7), Position(4, 13))),
-          LspRangeConverter.toLspRange(PositionRange(Position(3, 7), Position(4, 13))),
-          Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 8), Position(15, 14))))
+          LspRangeConverter.toLspRange(PositionRange(Position(6, 2), Position(6, 8))),
+          LspRangeConverter.toLspRange(PositionRange(Position(6, 2), Position(6, 8))),
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(14, 22), Position(14, 52))))
+        )
+      )
+    )
+  }
+
+  test("yaml path navigation to recursive type") {
+    runTest(
+      "files/yaml-recursive/api.yaml",
+      Set(
+        LocationLink(
+          "file://als-server/shared/src/test/resources/actions/definition/files/yaml-recursive/api.yaml",
+          LspRangeConverter.toLspRange(PositionRange(Position(5, 2), Position(5, 8))),
+          LspRangeConverter.toLspRange(PositionRange(Position(5, 2), Position(5, 8))),
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(13, 14), Position(13, 36))))
         )
       )
     )
