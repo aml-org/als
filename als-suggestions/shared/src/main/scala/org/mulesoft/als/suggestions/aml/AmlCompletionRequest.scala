@@ -132,7 +132,7 @@ object AmlCompletionRequestBuilder {
       else None,
       indentation(baseUnit, dtoPosition)
     )
-    val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position)
+    val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position, baseUnit.location())
 
     new AmlCompletionRequest(
       baseUnit,
@@ -191,7 +191,8 @@ object AmlCompletionRequestBuilder {
     val currentIndex = parent.branchStack.indexOf(current) + 1
     val newStack: Seq[AmfObject] =
       if (currentIndex < parent.branchStack.length) parent.branchStack.splitAt(currentIndex)._2 else parent.branchStack
-    val objectInTree = ObjectInTreeBuilder.fromSubTree(element, parent.position.toAmfPosition, newStack)
+    val objectInTree =
+      ObjectInTreeBuilder.fromSubTree(element, parent.position.toAmfPosition, parent.baseUnit.location(), newStack)
     new AmlCompletionRequest(
       parent.baseUnit,
       parent.position,
