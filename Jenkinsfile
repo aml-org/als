@@ -126,10 +126,8 @@ pipeline {
             when {
                 anyOf {
                     branch 'master'
-                    branch 'rc/*'
                     branch 'support/*'
-                    branch 'devel'
-                    branch 'jenkins/*'
+                    branch 'develop'
                 }
             }
             steps {
