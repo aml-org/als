@@ -2,11 +2,11 @@ package org.mulesoft.als.server.modules.actions
 
 import java.util.UUID
 
-import amf.core.metamodel.Field
+import amf.core.metamodel.domain.DomainElementModel
+import amf.core.metamodel.{Field, Obj}
 import amf.core.model.domain.{AmfObject, DataNode}
 import amf.core.parser
 import amf.core.parser.{Position => AmfPosition}
-
 import amf.core.parser.FieldEntry
 import org.mulesoft.als.common.{ObjectInTree, ObjectInTreeBuilder}
 import org.mulesoft.als.common.dtoTypes.PositionRange
@@ -21,6 +21,7 @@ import org.mulesoft.lsp.feature.hover._
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import org.mulesoft.lsp.feature.{RequestType, TelemeteredRequestHandler}
+import org.mulesoft.als.common.AmfSonElementFinder.AlsLexicalInformation
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -72,11 +73,25 @@ class HoverManager(wm: WorkspaceManager, amfInstance: AmfInstance, telemetryProv
       }
     }
 
+    def isInDeclarationKey(cu: CompilableUnit, amfPosition: AmfPosition): Boolean =
+      cu.unit.annotations.declarationKeys().exists(_.keyLexical.contains(amfPosition))
+
+    def fromDeclarationKey(cu: CompilableUnit, amfPosition: AmfPosition): Option[(Seq[String], Option[parser.Range])] =
+      cu.unit.annotations
+        .declarationKeys()
+        .find(_.keyLexical.contains(amfPosition))
+        .map(key => {
+          val displayName: String = key.displayName.getOrElse(
+            amfInstance.alsAmlPlugin.getDisplayName(key.model.`type`.head).getOrElse(key.model.doc.displayName))
+          (Seq(s"Holds declarations of ${displayName} objects"), Some(key.entryLexical.range))
+        })
+
     private def getSemantic(cu: CompilableUnit,
                             amfPosition: AmfPosition,
                             location: String): Option[(Seq[String], Option[parser.Range])] = {
       val tree = ObjectInTreeBuilder.fromUnit(cu.unit, amfPosition, Some(location))
       if (tree.obj.isInstanceOf[DataNode]) hackFromNonDynamic(tree, cu)
+      else if (isInDeclarationKey(cu, amfPosition)) fromDeclarationKey(cu, amfPosition)
       else fromTree(tree, cu, location)
     }
 
@@ -104,14 +119,16 @@ class HoverManager(wm: WorkspaceManager, amfInstance: AmfInstance, telemetryProv
       // TODO: inherits from another???
     }
 
-    private def classTerm(obj: AmfObject, cu: CompilableUnit): Option[(Seq[String], Option[amf.core.parser.Range])] = {
-      val classSemantic = obj.meta.`type`.flatMap { v =>
+    private def getSemanticForMeta(meta: Obj): Seq[String] = {
+      val classSemantic = meta.`type`.flatMap { v =>
         amfInstance.alsAmlPlugin.getSemanticDescription(v)
       }
-      val finalSemantics =
-        if (classSemantic.isEmpty && obj.meta.doc.description.nonEmpty) Seq(obj.meta.doc.description)
-        else classSemantic
+      if (classSemantic.isEmpty && meta.doc.description.nonEmpty) Seq(meta.doc.description)
+      else classSemantic
+    }
 
+    private def classTerm(obj: AmfObject, cu: CompilableUnit): Option[(Seq[String], Option[amf.core.parser.Range])] = {
+      val finalSemantics = getSemanticForMeta(obj.meta)
       if (finalSemantics.nonEmpty) Some((finalSemantics, obj.annotations.range()))
       else None
     }

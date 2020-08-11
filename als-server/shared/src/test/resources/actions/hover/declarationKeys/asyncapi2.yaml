@@ -1,0 +1,19 @@
+asyncapi: "2.0.0"
+components:
+  cha[*]nnelBindings:
+  corr[*]elationIds:
+  mess[*]ageBindings:
+  mess[*]ages:
+    myMessage:
+
+  mess[*]ageTraits:
+  oper[*]ationBindings:
+  oper[*]ationTraits:
+  para[*]meters:
+  schem[*]as:
+    myShape:
+      description: A fake shape
+      format: date
+  secu[*]ritySchemes:
+  serv[*]erBindings:
+
