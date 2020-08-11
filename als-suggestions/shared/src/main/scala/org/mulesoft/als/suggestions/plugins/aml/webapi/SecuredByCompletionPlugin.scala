@@ -22,7 +22,7 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
-      if (isWritingSecuredBy(request) && (!request.yPartBranch.isJson || (request.yPartBranch.isJson && request.yPartBranch.isInArray))) {
+      if (isWritingSecuredBy(request)) {
         val original = getSecurityNames(request.prefix, request.declarationProvider)
         val forKey =
           if (request.yPartBranch.isKey)

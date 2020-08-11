@@ -61,13 +61,17 @@ object AmfImplicits {
   implicit class FieldEntryImplicit(f: FieldEntry) {
 
     def fieldContains(position: AmfPosition): Boolean = {
-      f.value.annotations.lexicalInfo.exists(_.contains(position))
+      f.value.annotations.lexicalInfo.orElse(f.value.value.annotations.lexicalInfo).exists(_.contains(position))
     }
 
     def isArrayIncluded(position: AmfPosition): Boolean = {
-      f.value.annotations.ast() match {
+      f.value.annotations.ast().orElse(f.value.value.annotations.ast()) match {
         case Some(n: YNode) if n.tagType == YType.Seq =>
-          PositionRange(n.value.range).contains(Position(position)) && isEndChar(position, n.value.range)
+          PositionRange(n.value.range).contains(Position(position)) && (isEndChar(position, n.value.range) || n
+            .as[YSequence]
+            .nodes
+            .lastOption
+            .exists(isEmptyNodeLine(_, position)))
         case Some(arr: YSequence) =>
           PositionRange(arr.range).contains(Position(position)) && isEndChar(position, arr.range)
         case Some(other) => PositionRange(other.range).contains(Position(position))
@@ -77,6 +81,10 @@ object AmfImplicits {
 
     def isEndChar(position: AmfPosition, range: InputRange) = {
       position.line < range.lineTo || (position.line == range.lineTo && position.column > range.columnTo) || range.lineFrom == range.lineTo
+    }
+
+    def isEmptyNodeLine(n: YNode, position: AmfPosition): Boolean = {
+      n.isNull && n.range.lineFrom == n.range.lineTo && n.range.lineFrom == position.line
     }
   }
 

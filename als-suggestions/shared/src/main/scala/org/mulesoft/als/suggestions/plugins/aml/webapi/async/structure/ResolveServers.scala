@@ -12,10 +12,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object ResolveServers extends ResolveIfApplies {
-  override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] =
-    request.amfObject match {
-      case _: ScalarShape if request.branchStack.exists(_.isInstanceOf[Server]) && request.fieldEntry.isEmpty =>
-        applies(Future(AsyncApiVariableObject.Obj.propertiesRaw(None, request.actualDialect)))
-      case _ => notApply
-    }
+  // todo: delete?
+  override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] = notApply
 }

@@ -8,6 +8,6 @@ import org.mulesoft.als.common.YPartBranch
 object JsonExceptions {
 
   object SecuredBy {
-    def isJsonException(yPart: YPartBranch) = yPart.isInArray
+    def isJsonException(yPart: YPartBranch) = yPart.isJson && yPart.isInArray
   }
 }

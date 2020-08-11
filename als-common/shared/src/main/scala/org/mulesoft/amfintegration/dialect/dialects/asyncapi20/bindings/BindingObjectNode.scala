@@ -6,29 +6,28 @@ import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 trait BindingObjectNode extends DialectNode {
 
-  override def properties: Seq[PropertyMapping] =
-    Seq(
-      PropertyMapping()
-        .withId(location + s"#/declarations/$name/type")
-        .withName("type")
-        .withNodePropertyMapping(BindingType.Type.value.iri()) // todo: http node mappings?
-        .withObjectRange(Seq(NonPropsBindingPropertyNode.id))
-        .withEnum(
-          Seq(
-            "http",
-            "ws",
-            "kafka",
-            "amqp",
-            "amqp1",
-            "mqtt",
-            "mqtt5",
-            "nats",
-            "jms",
-            "sns",
-            "sqs",
-            "stomp",
-            "redis"
-          )))
+  val `type`: PropertyMapping = PropertyMapping()
+    .withId(location + s"#/declarations/$name/type")
+    .withName("type")
+    .withNodePropertyMapping(BindingType.Type.value.iri()) // todo: http node mappings?
+    .withObjectRange(Seq(NonPropsBindingPropertyNode.id))
+    .withEnum(
+      Seq(
+        "http",
+        "ws",
+        "kafka",
+        "amqp",
+        "amqp1",
+        "mqtt",
+        "mqtt5",
+        "nats",
+        "jms",
+        "sns",
+        "sqs",
+        "stomp",
+        "redis"
+      ))
+  override def properties: Seq[PropertyMapping] = Seq(`type`)
 }
 
 object DynamicBindingObjectNode extends BindingObjectNode {
