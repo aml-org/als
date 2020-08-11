@@ -87,7 +87,7 @@ object Oas30CompletionPluginRegistry extends OasBaseCompletionRegistry {
     OAS30RefTag :+
     RefToParameters :+
     DiscriminatorFacet :+
-    VariableValueParam :+
+    Oas3VariableValueParam :+
     DiscriminatorObject :+
     DiscriminatorMappingValue :+
     FlowNames :+

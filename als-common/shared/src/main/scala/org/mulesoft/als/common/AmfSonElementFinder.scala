@@ -1,12 +1,15 @@
 package org.mulesoft.als.common
 
 import amf.core.annotations.{LexicalInformation, SynthesizedField, VirtualObject}
-import amf.core.metamodel.ModelDefaultBuilder
+import amf.core.metamodel.{Field, ModelDefaultBuilder}
 import amf.core.metamodel.Type.ArrayLike
-import amf.core.model.domain.{AmfArray, AmfElement, AmfObject}
+import amf.core.metamodel.domain.DomainElementModel
+import amf.core.model.document.EncodesModel
+import amf.core.model.domain.{AmfArray, AmfElement, AmfObject, AmfScalar}
 import amf.core.parser.{Annotations, FieldEntry, Position => AmfPosition}
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.FieldEntryOrdering
 import org.yaml.model.{YMapEntry, YNode, YType}
 import amf.core.parser.{Position => AmfPosition}
 import org.mulesoft.amfintegration.AmfImplicits._
@@ -100,6 +103,9 @@ object AmfSonElementFinder {
                   Some(o)
                 case _ if entry.field.`type`.isInstanceOf[ArrayLike] =>
                   entry.field.`type`.asInstanceOf[ArrayLike].element match {
+                    case d: DomainElementModel
+                        if d.`type`.headOption.exists(_.iri() == DomainElementModel.`type`.head.iri()) =>
+                      e.values.collectFirst({ case o: AmfObject => o })
                     case m: ModelDefaultBuilder => Some(m.modelInstance)
                     case _                      => None
                   }
