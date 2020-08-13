@@ -67,8 +67,7 @@ class AlsDialectsRegistry extends DialectsRegistry {
 
 case class AlsVocabularyRegistry() {
   case class TermsDescription() {
-    private val termsDescription: mutable.Map[String, String]  = mutable.Map.empty
-    private val termsDisplayNames: mutable.Map[String, String] = mutable.Map.empty
+    private val termsDescription: mutable.Map[String, String] = mutable.Map.empty
     def index(element: DomainElement): Unit = {
       element.getLiteralProperty(NameFieldSchema.Name).map(_.toString).foreach(name => index(name, element))
     }
@@ -78,25 +77,16 @@ case class AlsVocabularyRegistry() {
         .getLiteralProperty(DescriptionField.Description)
         .map(_.toString)
         .foreach(d => termsDescription.update(name, d))
-      element
-        .getLiteralProperty(DisplayNameField.DisplayName)
-        .map(_.toString)
-        .foreach(d => termsDisplayNames.update(name, d))
     }
 
     def find(name: String): Option[String] = termsDescription.get(name)
 
-    def findDisplayName(name: String): Option[String] = termsDisplayNames.get(name)
   }
 
   def find(base: String): Option[TermsDescription] = bases.get(base)
 
   def getDescription(base: String, name: String): Option[String] = {
     find(base).flatMap(_.find(name))
-  }
-
-  def getDisplayName(base: String, name: String): Option[String] = {
-    find(base).flatMap(_.findDisplayName(name))
   }
 
   private val bases: mutable.Map[String, TermsDescription] = mutable.Map.empty
@@ -124,8 +114,6 @@ case class ALSAMLPlugin() extends AMLPlugin {
   override val registry = new AlsDialectsRegistry()
 
   def getSemanticDescription(v: ValueType): Option[String] = vocabularyRegistry.getDescription(v.ns.base, v.name)
-
-  def getDisplayName(v: ValueType): Option[String] = vocabularyRegistry.getDisplayName(v.ns.base, v.name)
 
   def registerWebApiDialect(vendor: Vendor, d: Dialect): Unit = registry.addWebApiDialect(d, vendor)
 

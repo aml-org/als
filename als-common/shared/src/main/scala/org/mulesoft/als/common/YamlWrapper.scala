@@ -11,6 +11,9 @@ object YamlWrapper {
     def toPositionRange =
       PositionRange(Position(AmfPosition(range.lineFrom, range.columnFrom)),
                     Position(AmfPosition(range.lineTo, range.columnTo)))
+
+    def contains(amfPosition: AmfPosition): Boolean =
+      toPositionRange.contains(Position(amfPosition))
   }
 
   implicit class AlsYPart(selectedNode: YPart) {

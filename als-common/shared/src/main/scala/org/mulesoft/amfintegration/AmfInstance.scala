@@ -15,6 +15,7 @@ import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
 import amf.plugins.domain.VocabulariesRegister
 import amf.plugins.features.AMFValidation
 import org.mulesoft.als.CompilerEnvironment
+import org.mulesoft.amfintegration.vocabularies.propertyterms.declarationKeys.AlsDeclarationKeysVocabulary
 import org.mulesoft.amfintegration.vocabularies.{SchemaOrgVocabulary, ShaclVocabulary}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -45,6 +46,7 @@ class AmfInstance(plugins: Seq[AMFPlugin], platform: Platform, environment: Envi
           CoreRegister.register(platform)
           plugins.foreach(amf.core.AMF.registerPlugin)
           WebApi.register()
+          alsAmlPlugin.vocabularyRegistry.index(AlsDeclarationKeysVocabulary())
           alsAmlPlugin.vocabularyRegistry.index(SchemaOrgVocabulary()) // parametrize voc initializations
           alsAmlPlugin.vocabularyRegistry.index(ShaclVocabulary())     // parametrize voc initializations
           val f = AMF.init().andThen {
