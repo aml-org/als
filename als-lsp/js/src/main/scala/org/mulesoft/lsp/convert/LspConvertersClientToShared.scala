@@ -235,12 +235,6 @@ object LspConvertersClientToShared {
       TextDocumentEdit(v.textDocument.toShared, v.edits.map(_.toShared).toSeq)
   }
 
-  implicit class WorkspaceEditConverter(v: ClientWorkspaceEdit) {
-    def toShared: WorkspaceEdit =
-      WorkspaceEdit(v.changes.mapValues(a => a.map(_.toShared).toSeq).toMap,
-                    v.documentChanges.map(l => Left(l.toShared)).toSeq)
-  }
-
   implicit class CompletionContextConverter(v: ClientCompletionContext) {
     def toShared: CompletionContext =
       CompletionContext(CompletionTriggerKind(v.triggerKind), v.triggerCharacter.toOption.flatMap(_.headOption))
@@ -326,18 +320,6 @@ object LspConvertersClientToShared {
   implicit class CompletionParamsConverter(v: ClientCompletionParams) {
     def toShared: CompletionParams =
       CompletionParams(v.textDocument.toShared, v.position.toShared, v.context.toOption.map(_.toShared))
-  }
-
-  implicit class CodeActionConverter(v: ClientCodeAction) {
-    def toShared: CodeAction =
-      CodeAction(
-        v.title,
-        v.kind.toOption.map(k => CodeActionKind(k)),
-        v.diagnostics.toOption.map(a => a.map(_.toShared).toSeq),
-        v.isPreferred.toOption,
-        v.edit.toOption.map(_.toShared),
-        v.command.toOption.map(_.toShared)
-      )
   }
 
   implicit class CodeActionCapabilitiesConverter(v: ClientCodeActionCapabilities) {

@@ -9,6 +9,7 @@ import amf.core.parser
 import amf.core.parser.{Annotations, Value}
 import amf.plugins.document.vocabularies.model.document.{Dialect, Vocabulary}
 import amf.plugins.document.vocabularies.model.domain.{ClassTerm, NodeMapping, PropertyTerm}
+import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import amf.plugins.domain.shapes.annotations.ParsedFromTypeExpression
 import amf.plugins.domain.webapi.metamodel.AbstractModel
 
@@ -17,7 +18,6 @@ import org.yaml.model.{YMapEntry, YPart}
 import scala.collection.mutable
 
 object AmfImplicits {
-
   implicit class AmfAnnotationsImp(ann: Annotations) {
     def lexicalInformation(): Option[LexicalInformation] = ann.find(classOf[LexicalInformation])
 
@@ -39,6 +39,11 @@ object AmfImplicits {
   }
 
   implicit class AmfObjectImp(amfObject: AmfObject) {
+    def declarableKey(dialect: Dialect): Option[String] =
+      amfObject.meta.`type`
+        .map(_.iri())
+        .flatMap(dialect.declarationsMapTerms.get(_))
+        .headOption
 
     def metaURIs: List[String] = amfObject.meta.`type` match {
       case head :: tail if isAbstract => (head.iri() + "Abstract") +: (tail.map(_.iri()))
@@ -86,6 +91,12 @@ object AmfImplicits {
   }
 
   implicit class DialectImplicits(d: Dialect) extends BaseUnitImp(d) {
+    def referenceStyle: Option[String] =
+      Option(d.documents()).flatMap(_.referenceStyle().option())
+
+    def isRamlStyle: Boolean = referenceStyle.contains(ReferenceStyles.RAML)
+    def isJsonStyle: Boolean = referenceStyle.contains(ReferenceStyles.JSONSCHEMA)
+
     def declarationsMapTerms: Map[String, String] = {
       d.documents()
         .root()

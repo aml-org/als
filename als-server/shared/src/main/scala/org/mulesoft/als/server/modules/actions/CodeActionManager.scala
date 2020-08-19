@@ -4,6 +4,7 @@ import java.util.UUID
 
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionFactory
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionParamsImpl.CodeActionParamsImpl
+import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
@@ -17,6 +18,7 @@ import scala.concurrent.Future
 
 class CodeActionManager(allActions: Seq[CodeActionFactory],
                         workspaceManager: WorkspaceManager,
+                        configuration: AlsConfigurationReader,
                         telemetryProvider: TelemetryProvider,
                         private val logger: Logger)
     extends RequestModule[CodeActionCapabilities, CodeActionOptions] {
@@ -39,12 +41,22 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
         val uuid = UUID.randomUUID().toString
         for {
           bu <- workspaceManager.getLastUnit(params.textDocument.uri, uuid)
-          results <- Future.sequence {
-            val requestParams = params.toRequestParams(bu.unit, telemetryProvider, uuid)
-            usedActions
-              .map(_(requestParams))
-              .filter(_.isApplicable)
-              .map(_.run(requestParams))
+          results <- {
+            val requestParams = params.toRequestParams(
+              bu.unit,
+              bu.tree,
+              bu.yPartBranch,
+              bu.definedBy,
+              configuration,
+              telemetryProvider,
+              uuid
+            )
+            Future.sequence {
+              usedActions
+                .map(_(requestParams))
+                .filter(_.isApplicable)
+                .map(_.run(requestParams))
+            }
           }
         } yield {
           results.flatten

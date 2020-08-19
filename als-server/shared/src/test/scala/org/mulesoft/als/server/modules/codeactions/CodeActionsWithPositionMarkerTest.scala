@@ -50,6 +50,35 @@ class CodeActionsWithPositionMarkerTest extends ServerWithMarkerTest[Seq[CodeAct
       }
   }
 
+  ignore("Should respond with the extract element to a declaration") {
+    runTest(buildServer(), "refactorextract/extract-element.raml", None)
+      .map { result =>
+        val containsExtract = result.exists(ca => ca.kind.contains(CodeActionKind.RefactorExtract))
+        containsExtract should be(true)
+      }
+  }
+
+  ignore("Should respond with the extract element to an example declaration") {
+    runTest(buildServer(), "refactorextract/extract-example.raml", None)
+      .map { result =>
+        val containsExtract = result.exists(ca => ca.kind.contains(CodeActionKind.RefactorExtract))
+        containsExtract should be(true)
+      }
+  }
+
+  override def rootPath: String = "actions/codeactions"
+
+  def buildServer(): LanguageServer = {
+    val factory =
+      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
+    new LanguageServerBuilder(factory.documentManager,
+                              factory.workspaceManager,
+                              factory.configurationManager,
+                              factory.resolutionTaskManager)
+      .addRequestModule(factory.codeActionManager)
+      .build()
+  }
+
   override def getAction(path: String, server: LanguageServer, markerInfo: MarkerInfo): Future[Seq[CodeAction]] = {
     val handler  = server.resolveHandler(CodeActionRequestType).value
     val position = LspRangeConverter.toLspPosition(markerInfo.position)
