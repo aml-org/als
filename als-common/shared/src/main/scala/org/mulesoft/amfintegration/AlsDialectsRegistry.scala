@@ -12,7 +12,7 @@ import amf.{
 }
 import amf.core.Root
 import amf.core.client.ParsingOptions
-import amf.core.metamodel.domain.common.{DescriptionField, NameFieldSchema}
+import amf.core.metamodel.domain.common.{DescriptionField, DisplayNameField, NameFieldSchema}
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.DomainElement
 import amf.core.parser.ParserContext
@@ -72,13 +72,15 @@ case class AlsVocabularyRegistry() {
       element.getLiteralProperty(NameFieldSchema.Name).map(_.toString).foreach(name => index(name, element))
     }
 
-    def index(name: String, element: DomainElement): Unit =
+    def index(name: String, element: DomainElement): Unit = {
       element
         .getLiteralProperty(DescriptionField.Description)
         .map(_.toString)
         .foreach(d => termsDescription.update(name, d))
+    }
 
     def find(name: String): Option[String] = termsDescription.get(name)
+
   }
 
   def find(base: String): Option[TermsDescription] = bases.get(base)
