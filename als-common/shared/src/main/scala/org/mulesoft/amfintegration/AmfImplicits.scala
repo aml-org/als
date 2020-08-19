@@ -1,7 +1,7 @@
 package org.mulesoft.amfintegration
 
 import amf.core.annotations.{LexicalInformation, ReferenceTargets, SourceAST, SourceLocation, SynthesizedField}
-import amf.plugins.document.webapi.annotations.ExternalJsonSchemaShape
+import amf.plugins.document.webapi.annotations.{DeclarationKey, DeclarationKeys, ExternalJsonSchemaShape}
 import amf.core.metamodel.Field
 import amf.core.model.document.{BaseUnit, EncodesModel}
 import amf.core.model.domain.{AmfObject, AmfScalar, DomainElement}
@@ -11,6 +11,7 @@ import amf.plugins.document.vocabularies.model.document.{Dialect, Vocabulary}
 import amf.plugins.document.vocabularies.model.domain.{ClassTerm, NodeMapping, PropertyTerm}
 import amf.plugins.domain.shapes.annotations.ParsedFromTypeExpression
 import amf.plugins.domain.webapi.metamodel.AbstractModel
+
 import org.yaml.model.{YMapEntry, YPart}
 
 import scala.collection.mutable
@@ -33,6 +34,8 @@ object AmfImplicits {
     def isRamlTypeExpression: Boolean = ann.find(classOf[ParsedFromTypeExpression]).isDefined
 
     def externalJsonSchemaShape: Option[YMapEntry] = ann.find(classOf[ExternalJsonSchemaShape]).map(_.original)
+
+    def declarationKeys(): List[DeclarationKey] = ann.find(classOf[DeclarationKeys]).map(_.keys).getOrElse(List.empty)
   }
 
   implicit class AmfObjectImp(amfObject: AmfObject) {

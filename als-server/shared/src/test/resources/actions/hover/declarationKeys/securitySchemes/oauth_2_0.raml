@@ -1,0 +1,13 @@
+#%RAML 1.0 SecurityScheme
+description: ""
+type: OAuth 2.0
+describedBy: 
+  headers: 
+    Authorization: 
+      description: |
+        Used to send a valid OAuth 2 access token. The token must be preceeded by the word "Bearer".
+      example: Bearer _token_
+settings: 
+  authorizationUri: https://url.com/authorize
+  accessTokenUri: https://url.com/token
+  authorizationGrants: [ authorization_code ]

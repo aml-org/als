@@ -1,0 +1,25 @@
+#%RAML 1.0
+title: Kimble API Spec
+version: V1.0
+mediaType: application/json
+protocols:
+  - HTTPS
+baseUri: https://{domain}/services
+
+securit[*]ySchemes:
+  oauth_2_0: !include securitySchemes/oauth_2_0.raml
+  tokenSchema: !include securitySchemes/tokenSchema.raml
+
+t[*]raits:
+    myTrait:
+      description: desc
+
+ty[*]pes:
+    myType:
+      description: desc
+
+ann[*]otationTypes:
+    myAnnType:
+
+resourceType[*]s:
+  projectExport: !include resourceTypes/rt.raml
