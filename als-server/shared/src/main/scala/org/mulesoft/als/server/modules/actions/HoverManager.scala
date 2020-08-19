@@ -2,30 +2,25 @@ package org.mulesoft.als.server.modules.actions
 
 import java.util.UUID
 
-import amf.core.metamodel.domain.DomainElementModel
 import amf.core.metamodel.{Field, Obj}
 import amf.core.model.domain.{AmfObject, DataNode}
 import amf.core.parser
-import amf.core.parser.{Position => AmfPosition}
-import amf.core.parser.FieldEntry
+import amf.core.parser.{FieldEntry, Range, Position => AmfPosition}
 import amf.core.vocabulary.ValueType
-import org.mulesoft.als.common.{ObjectInTree, ObjectInTreeBuilder}
+import org.mulesoft.als.common.ObjectInTree
+import org.mulesoft.als.common.YamlWrapper.AlsInputRange
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.modules.workspace.CompilableUnit
 import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
+import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, DialectImplicits}
 import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.hover._
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import org.mulesoft.lsp.feature.{RequestType, TelemeteredRequestHandler}
-import org.mulesoft.als.common.YamlWrapper.AlsInputRange
-import amf.core.parser.Range
-import amf.plugins.document.vocabularies.model.document.Dialect
-import org.mulesoft.amfintegration.AmfImplicits.DialectImplicits
 import org.yaml.model.YMapEntry
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -69,9 +64,9 @@ class HoverManager(wm: WorkspaceManager, amfInstance: AmfInstance, telemetryProv
     private def hover(params: HoverParams): Future[Hover] = {
       val uuid = UUID.randomUUID().toString
       wm.getLastUnit(params.textDocument.uri, uuid).map { cu =>
-        val dtoPosition = LspRangeConverter.toPosition(params.position)
+        val dtoPosition: Position = LspRangeConverter.toPosition(params.position)
 
-        getSemantic(cu, dtoPosition.toAmfPosition, params.textDocument.uri)
+        getSemantic(cu, dtoPosition, params.textDocument.uri)
           .map(s => Hover(s._1, s._2.map(r => LspRangeConverter.toLspRange(PositionRange(r))))) // if sequence, we could show all the semantic hierarchy?
           .getOrElse(Hover.empty)
 
@@ -104,24 +99,20 @@ class HoverManager(wm: WorkspaceManager, amfInstance: AmfInstance, telemetryProv
         })
 
     private def getSemantic(cu: CompilableUnit,
-                            amfPosition: AmfPosition,
+                            dtoPosition: Position,
                             location: String): Option[(Seq[String], Option[parser.Range])] = {
-      val tree = ObjectInTreeBuilder.fromUnit(cu.unit, amfPosition, Some(location))
+      val tree: ObjectInTree = cu.tree.getCachedOrNew((dtoPosition, location))
       if (tree.obj.isInstanceOf[DataNode]) hackFromNonDynamic(tree, cu)
-      else if (isInDeclarationKey(cu, amfPosition)) fromDeclarationKey(cu, amfPosition)
-      else fromTree(tree, cu, location)
+      else if (isInDeclarationKey(cu, dtoPosition.toAmfPosition)) fromDeclarationKey(cu, dtoPosition.toAmfPosition)
+      else fromTree(tree, cu)
     }
 
     private def hackFromNonDynamic(tree: ObjectInTree,
-                                   cu: CompilableUnit): Option[(Seq[String], Option[parser.Range])] = {
+                                   cu: CompilableUnit): Option[(Seq[String], Option[parser.Range])] =
       tree.stack.collectFirst({ case obj if !obj.isInstanceOf[DataNode] => obj }).flatMap(classTerm(_, cu))
-    }
 
-    private def fromTree(tree: ObjectInTree,
-                         cu: CompilableUnit,
-                         location: String): Option[(Seq[String], Option[parser.Range])] = {
+    private def fromTree(tree: ObjectInTree, cu: CompilableUnit): Option[(Seq[String], Option[parser.Range])] =
       tree.fieldEntry.orElse(tree.fieldValue).flatMap(f => fieldEntry(f, cu)).orElse(classTerm(tree.obj, cu))
-    }
 
     private def fieldEntry(f: FieldEntry, cu: CompilableUnit): Option[(Seq[String], Option[parser.Range])] = {
       propertyTerm(f.field, cu).map(s =>

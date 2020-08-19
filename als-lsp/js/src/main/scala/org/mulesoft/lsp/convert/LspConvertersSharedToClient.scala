@@ -131,6 +131,15 @@ object LspConvertersSharedToClient {
       ClientTextDocumentEdit(v)
   }
 
+  implicit class ClientResourceOperationConverter(v: ResourceOperation) {
+    def toClient: ClientResourceOperation =
+      v match {
+        case n: CreateFile => ClientCreateFile(n)
+        case n: DeleteFile => ClientDeleteFile(n)
+        case n: RenameFile => ClientRenameFile(n)
+      }
+  }
+
   implicit class ClientWorkspaceEditConverter(v: WorkspaceEdit) {
     def toClient: ClientWorkspaceEdit =
       ClientWorkspaceEdit(v)
