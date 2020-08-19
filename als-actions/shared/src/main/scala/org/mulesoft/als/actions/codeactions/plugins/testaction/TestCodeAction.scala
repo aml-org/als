@@ -5,6 +5,7 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionRequestParams,
   CodeActionResponsePlugin
 }
+import org.mulesoft.als.actions.codeactions.plugins.testaction.TestCodeAction.{baseCodeAction, title}
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.lsp.edit.WorkspaceEdit
 import org.mulesoft.lsp.feature.codeactions.{CodeAction, CodeActionKind}
@@ -22,7 +23,7 @@ case class TestCodeAction(params: CodeActionRequestParams, override val kind: Co
   override protected def telemetry: TelemetryProvider = params.telemetryProvider
 
   override protected def task(params: CodeActionRequestParams): Future[Seq[CodeAction]] = Future.successful {
-    Seq(CodeAction("test action", Some(kind), None, Some(false), Some(WorkspaceEdit.empty), None))
+    Seq(baseCodeAction(WorkspaceEdit.empty))
   }
 
   override protected def code(params: CodeActionRequestParams): String = "test code action"
@@ -38,7 +39,7 @@ case class TestCodeAction(params: CodeActionRequestParams, override val kind: Co
 }
 
 object TestCodeAction extends CodeActionFactory {
-  override val kind: CodeActionKind = CodeActionKind.Test
-
+  override val kind: CodeActionKind                                             = CodeActionKind.Test
+  override final val title                                                      = "test action"
   override def apply(params: CodeActionRequestParams): CodeActionResponsePlugin = TestCodeAction(params, kind)
 }

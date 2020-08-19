@@ -1,6 +1,5 @@
 package org.mulesoft.als.suggestions.aml.webapi
 
-import amf.core.remote.{Raml10, Vendor}
 import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.suggestions.AMLBaseCompletionPlugins
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
