@@ -8,6 +8,7 @@ import org.mulesoft.als.server.{
   LanguageServerBaseTest,
   LanguageServerBuilder,
   MockDiagnosticClientNotifier,
+  MockTelemetryParsingClientNotifier,
   ServerWithMarkerTest
 }
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
@@ -26,10 +27,12 @@ trait ServerReferencesTest extends ServerWithMarkerTest[Seq[Location]] {
 
   override def rootPath: String = "actions/reference"
 
+  override val notifier: MockTelemetryParsingClientNotifier = new MockTelemetryParsingClientNotifier()
+
   def buildServer(): LanguageServer = {
 
     val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
+      new WorkspaceManagerFactoryBuilder(notifier, logger).buildWorkspaceManagerFactory()
     new LanguageServerBuilder(factory.documentManager,
                               factory.workspaceManager,
                               factory.configurationManager,

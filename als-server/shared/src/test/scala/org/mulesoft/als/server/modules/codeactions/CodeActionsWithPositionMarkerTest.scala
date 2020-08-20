@@ -4,7 +4,12 @@ import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.reference.MarkerInfo
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.{LanguageServerBuilder, MockDiagnosticClientNotifier, ServerWithMarkerTest}
+import org.mulesoft.als.server.{
+  LanguageServerBuilder,
+  MockDiagnosticClientNotifier,
+  MockTelemetryParsingClientNotifier,
+  ServerWithMarkerTest
+}
 import org.mulesoft.lsp.feature.codeactions._
 import org.mulesoft.lsp.feature.common.{Range, TextDocumentIdentifier}
 
@@ -16,9 +21,11 @@ class CodeActionsWithPositionMarkerTest extends ServerWithMarkerTest[Seq[CodeAct
 
   override def rootPath: String = "actions/codeactions"
 
+  override val notifier: MockTelemetryParsingClientNotifier = new MockTelemetryParsingClientNotifier()
+
   def buildServer(): LanguageServer = {
     val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
+      new WorkspaceManagerFactoryBuilder(notifier, logger).buildWorkspaceManagerFactory()
     new LanguageServerBuilder(factory.documentManager,
                               factory.workspaceManager,
                               factory.configurationManager,

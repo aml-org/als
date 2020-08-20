@@ -5,10 +5,15 @@ import org.mulesoft.als.server.modules.reference.MarkerInfo
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
 import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
+import org.scalatest.BeforeAndAfterEach
 
 import scala.concurrent.Future
 
-abstract class ServerWithMarkerTest[Out] extends LanguageServerBaseTest {
+abstract class ServerWithMarkerTest[Out] extends LanguageServerBaseTest with BeforeAndAfterEach {
+
+  override protected def beforeEach(): Unit = notifier.promises.clear()
+
+  val notifier: MockTelemetryParsingClientNotifier
 
   def runTest(server: LanguageServer, path: String, dialect: Option[String] = None): Future[Out] =
     runTestMultipleMarkers(server, path, dialect).map(_.head)
@@ -23,10 +28,18 @@ abstract class ServerWithMarkerTest[Out] extends LanguageServerBaseTest {
         definitions <- {
           val fileContentsStr = content.stream.toString
           val markersInfo     = this.findMarkers(fileContentsStr)
-          Future.sequence(markersInfo.map(markerInfo => {
-            openFile(server)(resolved, markerInfo.patchedContent.original)
-            getAction(resolved, server, markerInfo)
-          }))
+          markersInfo.headOption
+            .map(markerInfo => {
+              openFile(server)(resolved, markerInfo.patchedContent.original)
+              notifier.nextCall.flatMap(e => {
+                val result = Future.sequence(markersInfo.map(markerInfo => {
+                  getAction(resolved, server, markerInfo)
+                }))
+                result.foreach(_ => closeFile(server)(path))
+                result
+              })
+            })
+            .getOrElse(Future.successful(Seq.empty))
         }
       } yield definitions
     }

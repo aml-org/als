@@ -90,6 +90,7 @@ class FoldingRangeTest extends LanguageServerBaseTest {
         }
       }
     } yield {
+      results.foreach(t => assert(t._1.size == t._2.size))
       results.foreach(t => assert(t._1 == t._2))
       succeed
     }
