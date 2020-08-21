@@ -24,7 +24,7 @@ class ExtractToDeclarationTest extends BaseCodeActionTests {
         Seq(
           TextEdit(Range(LspPosition(9, 17), LspPosition(11, 30)),
                    """
-            |              $ref: $1""".stripMargin),
+            |              $ref: "#/components/schemas/$1"""".stripMargin),
           TextEdit(
             Range(LspPosition(5, 0), LspPosition(5, 0)),
             """
@@ -49,10 +49,12 @@ class ExtractToDeclarationTest extends BaseCodeActionTests {
     val changes: Map[String, Seq[TextEdit]] = Map(
       "file://als-actions/shared/src/test/resources/codeactions/extract-element/schema-from-oas/schema.json" ->
         Seq(
-          TextEdit(Range(LspPosition(12, 22), LspPosition(15, 13)),
-                   """{
-              |                "$ref": "$1"
-              |              }""".stripMargin),
+          TextEdit(
+            Range(LspPosition(12, 22), LspPosition(15, 13)),
+            """{
+              |                "$ref": "#/components/schemas/$1"
+              |              }""".stripMargin
+          ),
           TextEdit(
             Range(LspPosition(6, 3), LspPosition(6, 3)),
             """
