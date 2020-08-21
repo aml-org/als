@@ -13,7 +13,7 @@ trait BaseUnitCachedElement[T] {
 
   protected def createElement(location: Location): T
 
-  final def getCachedOrNew(position: Location): T =
+  final def getCachedOrNew(position: Location): T = synchronized {
     cache.get(position) match {
       case Some(value) => value
       case None =>
@@ -21,6 +21,7 @@ trait BaseUnitCachedElement[T] {
         cache + (position -> e)
         e
     }
+  }
 
   private val cache: mutable.Map[Location, T] = mutable.Map()
 }
