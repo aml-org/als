@@ -1,8 +1,9 @@
 package org.mulesoft.als.suggestions.aml
 
 import amf.core.annotations.SourceAST
+import amf.core.metamodel.document.DocumentModel
 import amf.core.metamodel.domain.common.NameFieldSchema
-import amf.core.model.document.{BaseUnit, Document}
+import amf.core.model.document.{BaseUnit, DeclaresModel, Document, EncodesModel}
 import amf.core.model.domain.{AmfObject, AmfScalar, DomainElement, NamedDomainElement}
 import amf.core.parser.{FieldEntry, Value, Position => AmfPosition}
 import amf.core.remote.Platform
@@ -143,11 +144,10 @@ object AmlCompletionRequestBuilder {
       else None,
       indentation(baseUnit, dtoPosition)
     )
-    val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position, baseUnit.location())
 
     new AmlCompletionRequest(
       baseUnit,
-      DtoPosition(position),
+      dtoPosition,
       dialect,
       environment,
       directoryResolver,
@@ -155,10 +155,19 @@ object AmlCompletionRequestBuilder {
       styler,
       yPartBranch,
       configuration,
-      objectInTree,
+      objInTree(baseUnit, position),
       rootUri = rootLocation,
       completionsPluginHandler = completionsPluginHandler
     )
+  }
+
+  private def objInTree(baseUnit: BaseUnit, position: AmfPosition): ObjectInTree = {
+    val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position)
+    objectInTree.obj match {
+      case d: EncodesModel if d.fields.exists(DocumentModel.Encodes) =>
+        ObjectInTree(d.encodes, Seq(objectInTree.obj) ++ objectInTree.stack, position)
+      case _ => objectInTree
+    }
   }
 
   private def prefix(yPartBranch: YPartBranch, position: DtoPosition, content: String): String = {
