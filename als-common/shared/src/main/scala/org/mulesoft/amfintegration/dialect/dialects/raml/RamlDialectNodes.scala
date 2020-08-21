@@ -67,7 +67,8 @@ trait RamlDialectNodes {
         .withId(dialectLocation + s"#/declarations/$nodeId/DataType/displayName")
         .withName("examples")
         .withNodePropertyMapping(AnyShapeModel.DisplayName.value.iri())
-        .withLiteralRange(xsdString.iri()),
+        .withMapTermKeyProperty(ExampleModel.Name.value.iri())
+        .withObjectRange(Seq(ExampleNode.id)),
       PropertyMapping()
         .withId(dialectLocation + s"#/declarations/$nodeId/DataType/description")
         .withName("description")

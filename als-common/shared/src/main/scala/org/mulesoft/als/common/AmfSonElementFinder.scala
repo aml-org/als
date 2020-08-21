@@ -1,16 +1,17 @@
 package org.mulesoft.als.common
 
-import amf.core.annotations.{LexicalInformation, SynthesizedField, VirtualObject}
+import amf.core.annotations.{LexicalInformation, SourceAST, SynthesizedField, VirtualObject}
 import amf.core.metamodel.{Field, ModelDefaultBuilder}
 import amf.core.metamodel.Type.ArrayLike
-import amf.core.metamodel.domain.DomainElementModel
+import amf.core.metamodel.domain.{DataNodeModel, DomainElementModel}
 import amf.core.model.document.EncodesModel
-import amf.core.model.domain.{AmfArray, AmfElement, AmfObject, AmfScalar}
+import amf.core.model.domain.{AmfArray, AmfElement, AmfObject, AmfScalar, DataNode}
 import amf.core.parser.{Annotations, FieldEntry, Position => AmfPosition}
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.FieldEntryOrdering
 import org.yaml.model.{YMapEntry, YNode, YType}
+import YamlWrapper._
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -39,7 +40,7 @@ object AmfSonElementFinder {
                 .collectFirst({
                   case obj: AmfObject
                       if (obj.annotations.contains(classOf[VirtualObject]) &&
-                        sonContainsNonVirtualPosition(obj, amfPosition)) || obj.containsPosition(amfPosition) =>
+                        (sonContainsNonVirtualPosition(obj, amfPosition)) || obj.containsPosition(amfPosition)) =>
                     obj
                 })
                 .nonEmpty)
@@ -74,12 +75,12 @@ object AmfSonElementFinder {
           }) match {
           case Nil => None
           case list =>
-            list
+            val entries = list
               .filterNot(
                 v =>
-                  v.value.annotations.contains(classOf[VirtualObject]) || v.value.annotations.contains(
-                    classOf[SynthesizedField]))
-              .lastOption
+                  v.value.annotations.contains(classOf[VirtualObject]) || v.value.annotations
+                    .contains(classOf[SynthesizedField]))
+            entries.lastOption
               .orElse(list.lastOption)
         }
 
@@ -92,12 +93,16 @@ object AmfSonElementFinder {
             case e: AmfArray =>
               e.findSon(amfPosition, filterFns: Seq[FieldEntry => Boolean]) match {
                 case Some(o: AmfObject)
-                    if entry.value.annotations
+                    if (entry.value.annotations
                       .find(classOf[LexicalInformation])
-                      .forall(_.contains(amfPosition)) || o.annotations.contains(classOf[VirtualObject]) =>
+                      .forall(_.contains(amfPosition)) && o.containsPosition(amfPosition)) || o.annotations.contains(
+                      classOf[VirtualObject]) =>
                   Some(o)
                 case _ if entry.field.`type`.isInstanceOf[ArrayLike] =>
                   entry.field.`type`.asInstanceOf[ArrayLike].element match {
+                    case d: DomainElementModel
+                        if d.`type`.headOption.exists(_.iri() == DataNodeModel.`type`.head.iri()) =>
+                      e.values.collectFirst({ case d: DataNode => d })
                     case d: DomainElementModel
                         if d.`type`.headOption.exists(_.iri() == DomainElementModel.`type`.head.iri()) =>
                       e.values.collectFirst({ case o: AmfObject => o })
@@ -106,8 +111,8 @@ object AmfSonElementFinder {
                   }
                 case _ => None
               }
-            case e: AmfObject => Some(e)
-            case _            => None
+            case e: AmfObject if e.containsPosition(amfPosition) => Some(e)
+            case _                                               => None
         })
         a.headOption.foreach(head => {
           stack.prepend(result)

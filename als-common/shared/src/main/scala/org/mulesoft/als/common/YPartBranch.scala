@@ -7,6 +7,8 @@ import org.yaml.model._
 import org.mulesoft.als.common.dtoTypes.Position
 import amf.core.parser.{Position => AmfPosition}
 import amf.core.parser._
+import org.yaml.model
+
 import scala.annotation.tailrec
 
 case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], isJson: Boolean) {
@@ -48,7 +50,8 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
   val isKey: Boolean =
     if (isJson) stack.headOption.exists(_.isKey(position)) || node.isInstanceOf[YMap]
     else {
-      node.isInstanceOf[YMap] || node.isInstanceOf[YSequence] || (stack.headOption match {
+      node.isInstanceOf[YDocument] || node.isInstanceOf[YMap] || node
+        .isInstanceOf[YSequence] || (stack.headOption match {
         case Some(entry: YMapEntry) if entry.value == node =>
           entry.value.asScalar.isDefined &&
             node.range.columnFrom > entry.key.range.columnFrom && position.line > entry.key.range.lineFrom
@@ -66,8 +69,8 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
 
   lazy val isIncludeTagValue: Boolean = stack.headOption.exists(_.isInstanceOf[YMapEntry]) && !isKey && hasIncludeTag
 
-  val isAtRoot: Boolean = stack.count(_.isInstanceOf[YMap]) == 0 && node
-    .isInstanceOf[YMap] || (stack.count(_.isInstanceOf[YMap]) <= 1 && isJson)
+  val isAtRoot: Boolean = node.isInstanceOf[model.YDocument] || (stack.count(_.isInstanceOf[YMap]) == 0 && node
+    .isInstanceOf[YMap]) || (stack.count(_.isInstanceOf[YMap]) <= 1 && isJson)
   val isArray: Boolean = node.isArray
   lazy val isInArray: Boolean =
     getSequence.isDefined
@@ -102,6 +105,12 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
   def isValueDescendanceOf(key: String): Boolean =
     isValue && isDescendanceOf(key)
 
+  def isInBranchOf(key: String): Boolean =
+    stack.exists({
+      case e: YMapEntry => e.key.asScalar.exists(_.text == key)
+      case _            => false
+    })
+
   def isDescendanceOf(key: String): Boolean =
     ancestorOf(classOf[YMapEntry])
       .flatMap(_.key.asScalar.map(_.text))
@@ -109,6 +118,7 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
   @scala.annotation.tailrec
   private def findFirstOf[T <: YPart](clazz: Class[T], l: Seq[YPart]): Option[T] = {
     l match {
+      case Nil                                 => None
       case head :: _ if clazz.isInstance(head) => Some(head.asInstanceOf[T])
       case head :: Nil                         => None
       case _ :: tail                           => findFirstOf(clazz, tail)
@@ -201,7 +211,7 @@ object NodeBranchBuilder {
         }
       case Some(c) =>
         getStack(c, amfPosition, s +: parents)
-      case None if Some(s).collectFirst({ case e: YMapEntry if !e.value.isNull => e }).isDefined =>
+      case None if Some(s).collectFirst({ case e: YMapEntry if !isNullOrEmptyTag(e.value) => e }).isDefined =>
         parents
       case None if s.isInstanceOf[YMapEntry] =>
         getStack(s.asInstanceOf[YMapEntry].value, amfPosition, s +: parents)
@@ -210,15 +220,17 @@ object NodeBranchBuilder {
       case _ => s +: parents
     }
 
+  private def isNullOrEmptyTag(node: YNode) = {
+    node.isNull || (node.tagType.toString == "!include" && node.value.toString.isEmpty)
+  }
+
   def childWithPosition(ast: YPart, amfPosition: AmfPosition): Option[YPart] =
     ast.children
       .filterNot(_.isInstanceOf[YNonContent])
       .filter {
-        case entry: YMapEntry =>
-          entry.range.toPositionRange.contains(Position(amfPosition)) && entry.key.range.columnFrom <= amfPosition.column
-        case map: YMap =>
-          map.range.toPositionRange.contains(Position(amfPosition)) && map.entries.headOption.forall(
-            _.range.columnFrom <= amfPosition.column)
+        case entry: YMapEntry => entry.contains(amfPosition)
+        case map: YMap        => new AlsYMapOps(map).contains(amfPosition)
+
         case seq: YSequence =>
           seq.range.toPositionRange.contains(Position(amfPosition)) && seq.nodes.headOption.forall(
             _.range.columnFrom <= amfPosition.column)

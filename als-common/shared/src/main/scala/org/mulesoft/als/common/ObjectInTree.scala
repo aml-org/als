@@ -46,7 +46,7 @@ case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfP
     }
   }
   private def inField(f: FieldEntry) =
-    f.value.annotations.find(classOf[LexicalInformation]).forall(_.contains(amfPosition))
+    f.value.annotations.lexicalInfo.forall(_.contains(amfPosition))
 
   private def inValue(f: FieldEntry) = f.value.value.position().exists(_.contains(amfPosition))
 
@@ -68,7 +68,7 @@ case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfP
     */
   private def notInKeyAtEntry(e: YMapEntry) =
     !PositionRange(e.key.range)
-      .contains(Position(amfPosition)) && e.range.columnTo > e.range.columnFrom && e.value.isNull
+      .contains(Position(amfPosition)) && (e.range.columnTo > e.range.columnFrom || e.range.columnTo == 0) && e.value.isNull
 }
 
 object ObjectInTreeBuilder {

@@ -1,6 +1,6 @@
 package org.mulesoft.amfintegration
 
-import amf.core.annotations.{LexicalInformation, ReferenceTargets, SourceAST, SynthesizedField}
+import amf.core.annotations.{LexicalInformation, ReferenceTargets, SourceAST, SourceNode, SynthesizedField}
 import amf.core.metamodel.Field
 import amf.core.model.document.{BaseUnit, EncodesModel}
 import amf.core.model.domain.{AmfObject, AmfScalar, DomainElement}
@@ -12,7 +12,8 @@ import amf.plugins.domain.webapi.metamodel.AbstractModel
 import org.mulesoft.als.common.NodeBranchBuilder
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.lexer.InputRange
-import org.yaml.model.{YNode, YPart, YSequence, YType}
+import org.yaml.model.{YMapEntry, YNode, YPart, YScalar, YSequence, YType}
+import org.mulesoft.als.common.YamlWrapper._
 
 import scala.collection.mutable
 
@@ -102,7 +103,15 @@ object AmfImplicits {
       })
       .exists(_.toBool)
 
-    def containsPosition(position: AmfPosition): Boolean = amfObject.position().exists(_.contains(position))
+    def containsPosition(amfPosition: AmfPosition): Boolean = {
+      amfObject.annotations.find(classOf[SourceAST]) match {
+        case Some(SourceAST(ast: YMapEntry))                    => ast.contains(amfPosition)
+        case Some(SourceAST(ast: YNode)) if ast.isNull          => true
+        case Some(SourceAST(ast: YScalar)) if ast.value == null => true
+        case Some(SourceAST(other))                             => other.contains(amfPosition)
+        case _                                                  => false
+      }
+    }
   }
 
   implicit class DomainElementImp(d: DomainElement) extends AmfObjectImp(d) {
