@@ -22,7 +22,7 @@ class ExtractToDeclarationTest extends BaseCodeActionTests {
     val changes: Map[String, Seq[TextEdit]] = Map(
       "file://als-actions/shared/src/test/resources/codeactions/extract-element/schema-from-oas/schema.yaml" ->
         Seq(
-          TextEdit(Range(LspPosition(9, 17), LspPosition(12, 0)),
+          TextEdit(Range(LspPosition(9, 17), LspPosition(11, 30)),
                    """
             |            $ref: $1""".stripMargin),
           TextEdit(
