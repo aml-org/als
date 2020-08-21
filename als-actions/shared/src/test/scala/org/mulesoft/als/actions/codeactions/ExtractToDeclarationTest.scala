@@ -2,7 +2,7 @@ package org.mulesoft.als.actions.codeactions
 
 import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionFactory
-import org.mulesoft.als.actions.codeactions.plugins.declarations.ExtractElementCodeAction
+import org.mulesoft.als.actions.codeactions.plugins.declarations.{ExtractElementCodeAction, ExtractRAMLTypeCodeAction}
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
@@ -76,12 +76,15 @@ class ExtractToDeclarationTest extends BaseCodeActionTests {
     val elementUri                       = "extract-element/raml-type/raml-type.raml"
     val range                            = PositionRange(Position(15, 27), Position(16, 26))
     val dialect: Option[Dialect]         = Some(Raml10TypesDialect.dialect)
-    val pluginFactory: CodeActionFactory = ExtractElementCodeAction
+    val pluginFactory: CodeActionFactory = ExtractRAMLTypeCodeAction
 
     val changes: Map[String, Seq[TextEdit]] = Map(
       "file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-type/raml-type.raml" ->
         Seq(
-          TextEdit(Range(LspPosition(14, 22), LspPosition(17, 36)), " $1\n"),
+          TextEdit(Range(LspPosition(14, 22), LspPosition(17, 36)),
+                   """
+              |                          type: $1
+              |""".stripMargin),
           TextEdit(
             Range(LspPosition(8, 0), LspPosition(8, 0)),
             """
