@@ -2,6 +2,8 @@ package org.mulesoft.als.vscode
 
 import org.mulesoft.als.server.protocol.configuration.{ClientAlsInitializeParams, ClientAlsInitializeResult}
 import org.mulesoft.lsp.edit.ClientWorkspaceEdit
+import org.mulesoft.lsp.feature.codeactions.{ClientCodeAction, ClientCodeActionParams}
+import org.mulesoft.lsp.feature.command.ClientCommand
 import org.mulesoft.lsp.feature.common.{ClientLocation, ClientLocationLink, ClientRange}
 import org.mulesoft.lsp.feature.completion.{ClientCompletionItem, ClientCompletionList, ClientCompletionParams}
 import org.mulesoft.lsp.feature.definition.ClientDefinitionParams
@@ -333,6 +335,14 @@ object RenameRequest extends js.Object {
 @JSImport("vscode-languageserver-protocol", "PrepareRenameRequest")
 object PrepareRenameRequest extends js.Object {
   val `type`: RequestType[ClientPrepareRenameParams, ClientRange | ClientPrepareRenameResult, js.Any, js.Any] =
+    js.native
+}
+
+@js.native
+@JSImport("vscode-languageserver-protocol", "CodeActionRequest")
+object CodeActionRequest extends js.Object {
+  val `type`
+    : RequestType[ClientCodeActionParams, js.Array[ClientCommand] | js.Array[ClientCodeAction], js.Any, js.Any] =
     js.native
 }
 
