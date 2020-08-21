@@ -11,24 +11,18 @@ import scala.annotation.tailrec
 import scala.collection.mutable
 
 object FileRanges {
-  def ranges(yPart: YPart): Seq[FoldingRange] = {
-    val list = mutable.ListBuffer[FoldingRange]()
-    list += yPart.foldingRange(yPart)
-    yPart.children.foreach(c => collectRanges(c, list, yPart))
-    list.toList.distinct
-  }
+  def ranges(yPart: YPart): Seq[FoldingRange] = collectRanges(yPart, yPart)
 
-  private def collectRanges(yPart: YPart, list: mutable.ListBuffer[FoldingRange], parent: YPart): Unit =
+  private def collectRanges(yPart: YPart, parent: YPart): Seq[FoldingRange] =
     yPart match {
-      case _: MutRef => // ignore
+      case _: MutRef => Seq.empty
       case d: YDocument =>
-        collectRanges(d.node.value, list, yPart)
+        collectRanges(d.node.value, d.node.value)
       case _ @(_: YMapEntry | _: YNode) =>
-        yPart.children.foreach(collectRanges(_, list, yPart))
+        yPart.children.flatMap(collectRanges(_, yPart))
       case _ @(_: YMap | _: YSequence) => // just fold on maps and sequences
-        list += yPart.foldingRange(parent)
-        yPart.children.foreach(collectRanges(_, list, yPart))
-      case _ => // ignore
+        yPart.foldingRange(parent) +: yPart.children.flatMap(collectRanges(_, yPart))
+      case _ => Seq.empty
     }
 
   implicit class YPartRange(yPart: YPart) {
