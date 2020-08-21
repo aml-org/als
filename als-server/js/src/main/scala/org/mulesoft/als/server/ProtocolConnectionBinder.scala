@@ -9,7 +9,6 @@ import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.actions.{ClientRenameFileActionParams, ClientRenameFileActionResult}
 import org.mulesoft.als.server.protocol.client.{AlsLanguageClient, AlsLanguageClientAware}
 import org.mulesoft.als.server.protocol.configuration.{
-  ClientAlsFormattingOptions,
   ClientAlsInitializeParams,
   ClientAlsInitializeResult,
   ClientUpdateConfigurationParams
@@ -33,13 +32,9 @@ import org.mulesoft.lsp.convert.LspConvertersClientToShared._
 import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
 import org.mulesoft.lsp.edit.ClientWorkspaceEdit
 import org.mulesoft.lsp.feature.RequestHandler
-import org.mulesoft.lsp.feature.common.{
-  ClientLocation,
-  ClientLocationLink,
-  ClientRange,
-  ClientTextDocumentIdentifier,
-  ClientTextDocumentPositionParams
-}
+import org.mulesoft.lsp.feature.codeactions.{ClientCodeAction, ClientCodeActionParams, CodeActionRequestType}
+import org.mulesoft.lsp.feature.command.ClientCommand
+import org.mulesoft.lsp.feature.common.{ClientLocation, ClientLocationLink, ClientRange, ClientTextDocumentIdentifier}
 import org.mulesoft.lsp.feature.completion.{
   ClientCompletionItem,
   ClientCompletionList,
@@ -56,18 +51,12 @@ import org.mulesoft.lsp.feature.documentsymbol.{
   DocumentSymbolRequestType
 }
 import org.mulesoft.lsp.feature.folding.{ClientFoldingRange, ClientFoldingRangeParams, FoldingRangeRequestType}
-import org.mulesoft.lsp.feature.hover.{ClientHover, ClientHoverParams, HoverRequestType}
 import org.mulesoft.lsp.feature.highlight.DocumentHighlightRequestType
+import org.mulesoft.lsp.feature.hover.{ClientHover, ClientHoverParams, HoverRequestType}
 import org.mulesoft.lsp.feature.implementation.{ClientImplementationParams, ImplementationRequestType}
 import org.mulesoft.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams, DocumentLinkRequestType}
 import org.mulesoft.lsp.feature.reference.{ClientReferenceParams, ReferenceRequestType}
-import org.mulesoft.lsp.feature.rename.{
-  ClientPrepareRenameParams,
-  ClientPrepareRenameResult,
-  ClientRenameParams,
-  PrepareRenameRequestType,
-  RenameRequestType
-}
+import org.mulesoft.lsp.feature.rename._
 import org.mulesoft.lsp.feature.selection.{ClientSelectionRange, ClientSelectionRangeParams}
 import org.mulesoft.lsp.feature.selectionRange.SelectionRangeRequestType
 import org.mulesoft.lsp.feature.telemetry.{ClientTelemetryMessage, TelemetryMessage}
@@ -388,6 +377,24 @@ object ProtocolConnectionBinder {
         .asInstanceOf[ClientRequestHandler[ClientPrepareRenameParams, ClientRange | ClientPrepareRenameResult, js.Any]]
     )
     // End PrepareRename
+
+    // CodeAction
+    val onCodeActionHandlerJs: js.Function2[ClientCodeActionParams,
+                                            CancellationToken,
+                                            Thenable[js.Array[ClientCommand] | js.Array[ClientCodeAction]]] =
+      (param: ClientCodeActionParams, _: CancellationToken) =>
+        resolveHandler(CodeActionRequestType)(param.toShared)
+          .map(_.map(_.toClient).toJSArray)
+          .toJSPromise
+          .asInstanceOf[Thenable[js.Array[ClientCommand] | js.Array[ClientCodeAction]]]
+
+    protocolConnection.onRequest(
+      CodeActionRequest.`type`,
+      onCodeActionHandlerJs
+        .asInstanceOf[
+          ClientRequestHandler[ClientCodeActionParams, js.Array[ClientCommand] | js.Array[ClientCodeAction], js.Any]]
+    )
+    // End CodeAction
 
     // Hover
     val onHoverHandler: js.Function2[ClientHoverParams, CancellationToken, Thenable[ClientHover]] =
