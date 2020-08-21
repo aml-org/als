@@ -9,14 +9,7 @@ import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.reference.MarkerInfo
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.{LanguageServerBuilder, MockDiagnosticClientNotifier, ServerWithMarkerTest}
-import org.mulesoft.amfintegration.vocabularies.propertyterms.declarationKeys.{
-  DomainPropertyDeclarationKeyTerm,
-  MessageAbstractDeclarationKeyTerm,
-  MessageDeclarationKeyTerm,
-  OperationAbstractDeclarationKeyTerm,
-  SecuritySettingsDeclarationKeyTerm,
-  ShapeDeclarationKeyTerm
-}
+import org.mulesoft.amfintegration.vocabularies.propertyterms.declarationKeys._
 import org.mulesoft.lsp.feature.common.{Position, Range, TextDocumentIdentifier}
 import org.mulesoft.lsp.feature.hover.{Hover, HoverParams, HoverRequestType}
 
