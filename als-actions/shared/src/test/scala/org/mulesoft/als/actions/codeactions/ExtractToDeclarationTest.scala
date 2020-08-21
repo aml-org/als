@@ -24,7 +24,7 @@ class ExtractToDeclarationTest extends BaseCodeActionTests {
         Seq(
           TextEdit(Range(LspPosition(9, 17), LspPosition(11, 30)),
                    """
-            |            $ref: $1""".stripMargin),
+            |              $ref: $1""".stripMargin),
           TextEdit(
             Range(LspPosition(5, 0), LspPosition(5, 0)),
             """

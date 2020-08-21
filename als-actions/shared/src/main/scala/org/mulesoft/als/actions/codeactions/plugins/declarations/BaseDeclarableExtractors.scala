@@ -149,7 +149,9 @@ trait BaseDeclarableExtractors {
       entryRange.map(
         TextEdit(
           _,
-          JsonRender.render(renderLink.getOrElse(jsonRefEntry), entryIndentation)
+          JsonRender.render(renderLink
+                              .getOrElse(jsonRefEntry),
+                            entryIndentation)
         ))
     case Some(d) if d.isRamlStyle => // todo: extract raml
       entryRange.map(TextEdit(_, s" ${renderLink.map(YamlRender.render(_, 0)).getOrElse(newName)}\n"))
@@ -157,7 +159,9 @@ trait BaseDeclarableExtractors {
       entryRange.map(
         TextEdit(
           _,
-          s"\n${YamlRender.render(renderLink.getOrElse(jsonRefEntry), entryIndentation)}"
+          s"\n${YamlRender.render(renderLink.getOrElse(jsonRefEntry),
+                                  entryIndentation +
+                                    params.configuration.getFormatOptionForMime(Mimes.`APPLICATION/YAML`).indentationSize)}"
         ))
     case _ => None
   }
