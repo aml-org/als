@@ -50,19 +50,11 @@ class CodeActionsWithPositionMarkerTest extends ServerWithMarkerTest[Seq[CodeAct
       }
   }
 
-  ignore("Should respond with the extract element to a declaration") {
-    runTest(buildServer(), "refactorextract/extract-element.raml", None)
-      .map { result =>
-        val containsExtract = result.exists(ca => ca.kind.contains(CodeActionKind.RefactorExtract))
-        containsExtract should be(true)
-      }
-  }
-
-  ignore("Should respond with the extract element to an example declaration") {
+  test("Should NOT respond with the extract element to an example declaration") {
     runTest(buildServer(), "refactorextract/extract-example.raml", None)
       .map { result =>
         val containsExtract = result.exists(ca => ca.kind.contains(CodeActionKind.RefactorExtract))
-        containsExtract should be(true)
+        containsExtract should be(false)
       }
   }
 
