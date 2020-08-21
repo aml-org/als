@@ -40,6 +40,14 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
       }
   }
 
+  test("RAML 1 Extract type from property key, having `types` already declared") {
+    val path = "refactorextract/extract-element-with-types-declared.raml"
+    runTest(buildServer(), path, None)
+      .flatMap { result =>
+        checkGolden(path, result)
+      }
+  }
+
   private def checkGolden(path: String, result: Seq[CodeAction]): Future[Assertion] = {
     val containsExtract = result.exists(ca => ca.kind.contains(CodeActionKind.RefactorExtract))
     containsExtract should be(true)
