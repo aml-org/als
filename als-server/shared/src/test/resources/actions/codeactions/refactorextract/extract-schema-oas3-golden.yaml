@@ -21,4 +21,4 @@ paths:
           description: desc
       parameters:
         - schema:
-            $ref: $1
+            $ref: "#/components/schemas/$1"
