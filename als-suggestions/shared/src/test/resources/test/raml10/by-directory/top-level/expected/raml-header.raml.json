@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 0,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "#%RAML 1.0 AnnotationTypeDeclaration"
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 0,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "#%RAML 1.0 DataType"
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 0,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "#%RAML 1.0 DocumentationItem"
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 0,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "#%RAML 1.0 Extension"
@@ -140,7 +140,7 @@
         },
         "end": {
           "line": 0,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "#%RAML 1.0 Library"
@@ -170,7 +170,7 @@
         },
         "end": {
           "line": 0,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "#%RAML 1.0 NamedExample"
@@ -200,7 +200,7 @@
         },
         "end": {
           "line": 0,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "#%RAML 1.0 Overlay"
@@ -230,7 +230,7 @@
         },
         "end": {
           "line": 0,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "#%RAML 1.0 ResourceType"
@@ -260,7 +260,7 @@
         },
         "end": {
           "line": 0,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "#%RAML 1.0 SecurityScheme"
@@ -290,7 +290,7 @@
         },
         "end": {
           "line": 0,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "#%RAML 1.0 Trait"

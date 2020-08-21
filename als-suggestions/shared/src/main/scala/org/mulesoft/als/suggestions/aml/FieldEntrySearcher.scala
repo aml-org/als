@@ -32,7 +32,7 @@ case class FieldEntrySearcher(amfObject: AmfObject,
     refferingProperty.mapTermKeyProperty().option().flatMap(currentFieldFromTerm)
 
   private def currentFieldFromTerm(term: String) =
-    if (amfObject.fields.fields().exists(_.field.value.iri() == term))
+    if (amfObject.fields.fields().exists(_.field.value.iri() == term) && amfObject.fields.fields().nonEmpty)
       None // if value ==null anyway should be in objectInTree.FieldEntry
     else currentNode.flatMap(cn => cn.propertiesMapping().find(_.nodePropertyMapping().value() == term))
 

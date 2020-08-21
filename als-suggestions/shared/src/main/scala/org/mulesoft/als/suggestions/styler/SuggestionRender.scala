@@ -18,7 +18,7 @@ trait SuggestionRender {
 
   def patchPath(builder: CompletionItemBuilder): Unit = {
     val index =
-      params.prefix.lastIndexOf(".").max(params.prefix.lastIndexOf("/"))
+      if (params.prefix.startsWith("#")) 0 else params.prefix.lastIndexOf(".").max(params.prefix.lastIndexOf("/"))
     if (index > 0 && builder.getDisplayText.startsWith(params.prefix))
       if (index == params.prefix.length)
         builder

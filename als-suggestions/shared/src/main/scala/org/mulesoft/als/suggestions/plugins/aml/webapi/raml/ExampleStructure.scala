@@ -1,6 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
 import amf.core.model.domain.ObjectNode
+import amf.plugins.domain.shapes.metamodel.ExampleModel
 import amf.plugins.domain.shapes.models.Example
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
@@ -17,16 +18,13 @@ object ExampleStructure extends AMLCompletionPlugin {
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
       request.amfObject match {
-        case o: ObjectNode if request.branchStack.headOption.exists(_.isInstanceOf[Example]) && withoutProperties(o) =>
+        case e: Example
+            if request.fieldEntry.exists(_.field == ExampleModel.Name) && request.yPartBranch.stringValue != e.name
+              .value() && request.yPartBranch.isKey =>
           Raml10DialectNodes.ExampleNode.propertiesRaw(d = request.actualDialect)
         // ugly hack. How i can know that the only property that exists is from the k: added in the patch?
         case _ => Nil
       }
     }
-  }
-
-  private def withoutProperties(o: ObjectNode): Boolean = {
-    val names = o.allPropertiesWithName().keys
-    names.size == 1 && names.head == "k"
   }
 }

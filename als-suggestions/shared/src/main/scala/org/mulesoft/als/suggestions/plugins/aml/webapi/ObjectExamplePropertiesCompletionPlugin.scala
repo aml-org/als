@@ -4,6 +4,7 @@ import amf.core.model.domain._
 import amf.core.model.domain.extensions.PropertyShape
 import amf.core.parser.Value
 import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.plugins.domain.shapes.metamodel.ExampleModel
 import amf.plugins.domain.shapes.metamodel.common.ExamplesField
 import amf.plugins.domain.shapes.models.{AnyShape, ArrayShape, Example, NodeShape}
 import amf.plugins.domain.shapes.resolution.stages.elements.CompleteShapeTransformationPipeline
@@ -112,7 +113,9 @@ object ObjectExamplePropertiesCompletionPlugin extends AMLCompletionPlugin {
 
   private def buildPluginFromExampleObj(request: AmlCompletionRequest): Option[ShapePropertiesSuggestions] = {
     request.amfObject match {
-      case e: Example =>
+      case e: Example
+          if (request.yPartBranch.isKey || request.yPartBranch.isArray) && !e.fields.exists(
+            ExampleModel.StructuredValue) =>
         findShape(e, e +: request.branchStack).map(s => PureShapePropertiesSuggestions(s._2, request.actualDialect))
       case _ => None
     }
@@ -127,7 +130,13 @@ object ObjectExamplePropertiesCompletionPlugin extends AMLCompletionPlugin {
     request.amfObject match {
       case o: ObjectNode if request.yPartBranch.isKey => Some(o)
       case a: ArrayNode                               => Some(a)
-      case s: ScalarNode if request.branchStack.headOption.exists(_.isInstanceOf[ObjectNode]) =>
+      case s: ScalarNode if request.branchStack.headOption.exists({
+            case o: ObjectNode if o.allProperties().toList.contains(s) => true
+            case _                                                     => false
+          }) =>
+        Some(s)
+      case s: ScalarNode
+          if request.branchStack.headOption.exists(_.isInstanceOf[ObjectNode]) && request.yPartBranch.isKey =>
         request.branchStack.headOption.collectFirst({ case o: ObjectNode => o })
       case s: ScalarNode
           if request.branchStack.headOption.exists(_.isInstanceOf[ArrayNode]) || (request.yPartBranch.isJson && request.yPartBranch.stringValue == "x" && request.branchStack.headOption
