@@ -1,7 +1,10 @@
 package org.mulesoft.als.server.modules.codeactions
 
+import org.mulesoft.als.actions.codeactions.plugins.AllCodeActions
+import org.mulesoft.als.actions.codeactions.plugins.testaction.TestCodeAction
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.modules.actions.CodeActionManager
 import org.mulesoft.als.server.modules.reference.MarkerInfo
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.{
@@ -26,11 +29,17 @@ class CodeActionsWithPositionMarkerTest extends ServerWithMarkerTest[Seq[CodeAct
   def buildServer(): LanguageServer = {
     val factory =
       new WorkspaceManagerFactoryBuilder(notifier, logger).buildWorkspaceManagerFactory()
+    val codeActionManager =
+      new CodeActionManager(AllCodeActions.all :+ TestCodeAction,
+                            factory.workspaceManager,
+                            factory.configurationManager.getConfiguration,
+                            factory.telemetryManager,
+                            logger)
     new LanguageServerBuilder(factory.documentManager,
                               factory.workspaceManager,
                               factory.configurationManager,
                               factory.resolutionTaskManager)
-      .addRequestModule(factory.codeActionManager)
+      .addRequestModule(codeActionManager)
       .build()
   }
 

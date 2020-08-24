@@ -17,7 +17,8 @@ import org.yaml.render.YamlRender
 case class ExtractRAMLTypeCodeAction(params: CodeActionRequestParams, override val kind: CodeActionKind)
     extends ExtractSameFileDeclaration {
 
-  override lazy val isApplicable: Boolean = vendor.isRaml && amfObject.isDefined && yPartBranch.exists(_.isKey)
+  override lazy val isApplicable: Boolean =
+    vendor.isRaml && amfObject.isDefined && yPartBranch.exists(_.isKey) // && positionIsExtracted
 
   override protected def telemetry: TelemetryProvider = params.telemetryProvider
 
