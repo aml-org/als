@@ -5,7 +5,12 @@ import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.reference.MarkerInfo
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.{LanguageServerBuilder, MockDiagnosticClientNotifier, ServerWithMarkerTest}
+import org.mulesoft.als.server.{
+  LanguageServerBuilder,
+  MockDiagnosticClientNotifier,
+  MockTelemetryParsingClientNotifier,
+  ServerWithMarkerTest
+}
 import org.mulesoft.lsp.feature.codeactions._
 import org.mulesoft.lsp.feature.common.{Range, TextDocumentIdentifier}
 import org.scalatest.Assertion
@@ -16,7 +21,7 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
   override implicit val executionContext: ExecutionContext =
     ExecutionContext.Implicits.global
 
-  test("RAML 1.0 payload type hould respond with the extract element to a declaration") {
+  test("RAML 1.0 payload type should respond with the extract element to a declaration") {
     val path = "refactorextract/extract-element.raml"
     runTest(buildServer(), path, None)
       .flatMap { result =>
@@ -72,7 +77,7 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
 
   def buildServer(): LanguageServer = {
     val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
+      new WorkspaceManagerFactoryBuilder(notifier, logger).buildWorkspaceManagerFactory()
     new LanguageServerBuilder(factory.documentManager,
                               factory.workspaceManager,
                               factory.configurationManager,
@@ -90,4 +95,6 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
         case _ => closeFile(server)(path)
       })
   }
+
+  override val notifier: MockTelemetryParsingClientNotifier = new MockTelemetryParsingClientNotifier()
 }
