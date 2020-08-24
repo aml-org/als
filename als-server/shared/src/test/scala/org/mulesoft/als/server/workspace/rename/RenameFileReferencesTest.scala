@@ -59,7 +59,7 @@ class RenameFileReferencesTest extends LanguageServerBaseTest {
     )
   )
 
-  test("Through handler") {
+  ignore("Rename file through a reference - through handler") { // when enabling rename through references
     Future
       .sequence {
         testSets.map { test =>
@@ -81,7 +81,7 @@ class RenameFileReferencesTest extends LanguageServerBaseTest {
     } yield {
       val assertion = equalWSE(result, expectedResult)
       if (!assertion)
-        println(result)
+        println(s"result: $result\nexpected: $expectedResult")
       assertion should be(true)
     }
 
