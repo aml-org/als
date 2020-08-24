@@ -5,5 +5,5 @@ import org.mulesoft.als.actions.codeactions.plugins.declarations.{ExtractElement
 import org.mulesoft.als.actions.codeactions.plugins.testaction.TestCodeAction
 
 object AllCodeActions {
-  def all: Seq[CodeActionFactory] = Seq(ExtractElementCodeAction, ExtractRAMLTypeCodeAction, TestCodeAction)
+  def all: Seq[CodeActionFactory] = Seq(ExtractElementCodeAction, ExtractRAMLTypeCodeAction) // TestCodeAction
 }

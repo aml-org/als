@@ -15,7 +15,7 @@ import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, AmfObjectImp, BaseUnitImp, DialectImplicits}
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.common
-import org.yaml.model.{YMap, YMapEntry, YNode, YPart}
+import org.yaml.model.{YDocument, YMap, YMapEntry, YNode, YPart}
 import org.yaml.render.{JsonRender, YamlRender}
 
 import scala.annotation.tailrec
@@ -98,7 +98,11 @@ trait BaseDeclarableExtractors {
     * It must be a declarable object and a key
     */
   lazy val isApplicable: Boolean =
-    amfObject.isDefined && yPartBranch.exists(_.isKey)
+    amfObject.isDefined && yPartBranch.exists(_.isKey) &&
+      positionIsExtracted
+
+  protected def positionIsExtracted: Boolean =
+    entryRange.map(n => PositionRange(n)).exists(r => position.exists(r.contains))
 
   protected lazy val sourceName: String =
     entryAst.map(_.sourceName).getOrElse(params.uri)
@@ -174,10 +178,14 @@ trait BaseDeclarableExtractors {
   protected lazy val wrappedDeclaredEntry: Option[(YNode, Option[YMapEntry])] =
     (declaredElementNode, amfObject, params.dialect) match {
       case (Some(den), Some(fdp), Some(dialect)) =>
-        val keyPath   = Seq(fdp.declarableKey(dialect), declarationsPath).flatten
-        var fullPath  = den.withKey(newName)
-        val maybePart = params.bu.objWithAST.flatMap(_.annotations.ast()) // check what happens if in reference
-        val entries   = getExistingParts(maybePart, keyPath)
+        val keyPath  = Seq(fdp.declarableKey(dialect), declarationsPath).flatten
+        var fullPath = den.withKey(newName)
+        val maybePart = params.bu.references
+          .find(_.location().contains(params.uri))
+          .getOrElse(params.bu)
+          .objWithAST
+          .flatMap(_.annotations.ast())
+        val entries = getExistingParts(maybePart, keyPath)
         keyPath.dropRight(entries.size).foreach(k => fullPath = fullPath.withKey(k))
         Some(fullPath, entries.lastOption)
       case _ => None
@@ -185,16 +193,17 @@ trait BaseDeclarableExtractors {
 
   /**
     * Secuential list for each node in the AST that already exists for the destiny
+    *
     * @param maybePart
     * @param keys
     * @return
     */
   private def getExistingParts(maybePart: Option[YPart], keys: Seq[String]): Seq[YMapEntry] =
-    maybePart
-      .collect {
-        case n: YMap => getExistingParts(YNode(n), keys.reverse, Seq.empty)
-      }
-      .getOrElse(Seq.empty)
+    maybePart match {
+      case Some(n: YMap)      => getExistingParts(YNode(n), keys.reverse, Seq.empty)
+      case Some(d: YDocument) => getExistingParts(d.node, keys.reverse, Seq.empty)
+      case _                  => Seq.empty
+    }
 
   @tailrec
   private def getExistingParts(node: YNode, keys: Seq[String], acc: Seq[YMapEntry] = Seq.empty): Seq[YMapEntry] =
