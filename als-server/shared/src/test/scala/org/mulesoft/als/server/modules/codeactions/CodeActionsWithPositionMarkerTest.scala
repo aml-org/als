@@ -58,19 +58,6 @@ class CodeActionsWithPositionMarkerTest extends ServerWithMarkerTest[Seq[CodeAct
       }
   }
 
-  override def rootPath: String = "actions/codeactions"
-
-  def buildServer(): LanguageServer = {
-    val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(factory.documentManager,
-                              factory.workspaceManager,
-                              factory.configurationManager,
-                              factory.resolutionTaskManager)
-      .addRequestModule(factory.codeActionManager)
-      .build()
-  }
-
   override def getAction(path: String, server: LanguageServer, markerInfo: MarkerInfo): Future[Seq[CodeAction]] = {
     val handler  = server.resolveHandler(CodeActionRequestType).value
     val position = LspRangeConverter.toLspPosition(markerInfo.position)
