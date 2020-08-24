@@ -2,12 +2,10 @@ package org.mulesoft.als.server.modules.actions.rename
 
 import org.mulesoft.als.actions.definition.FindDefinition
 import org.mulesoft.als.actions.rename.FindRenameLocations
-import org.mulesoft.als.actions.renameFile.RenameFileAction
-import org.mulesoft.als.common.YamlUtils
+import org.mulesoft.als.actions.renamefile.RenameFileAction
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.server.modules.workspace.CompilableUnit
 import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
 import org.mulesoft.lsp.edit.WorkspaceEdit
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.common.TextDocumentIdentifier
@@ -19,7 +17,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class RenameHandler(telemetryProvider: TelemetryProvider, workspace: WorkspaceManager)
-    extends TelemeteredRequestHandler[RenameParams, WorkspaceEdit] {
+    extends TelemeteredRequestHandler[RenameParams, WorkspaceEdit]
+    with RenameTools {
   override def `type`: RenameRequestType.type = RenameRequestType
 
   override def task(params: RenameParams): Future[WorkspaceEdit] =
@@ -45,18 +44,16 @@ class RenameHandler(telemetryProvider: TelemetryProvider, workspace: WorkspaceMa
       .getLastUnit(uri, uuid)
       .flatMap(_.getLast)
       .flatMap(bu => {
-        if (bu.unit.objWithAST
-              .flatMap(_.annotations.ast())
-              .exists(p => YamlUtils.isKey(p, position.toAmfPosition))) // it is in a key -> means it is a declaration
+        if (isDeclarableKey(bu, position, uri))
           FindRenameLocations
             .changeDeclaredName(uri, position, newName, workspace.getRelationships(uri, uuid), bu.unit)
-        else
+        else if (renameThroughReferenceEnabled) // enable when polished, add logic to prepare rename
           for {
             fromLinks <- renameFromLink(uri, position, newName, uuid, bu, workspace) // if Some() then it's a link to a file
             fromDef   <- renameFromDefinition(uri, position, newName, uuid, bu)      // if Some() then it's a reference to a declaration
           } yield {
             (fromLinks orElse fromDef) getOrElse WorkspaceEdit.empty // if none of the above, return empty
-          }
+          } else Future.successful(WorkspaceEdit.empty)
       })
   private def renameFromLink(uri: String,
                              position: Position,

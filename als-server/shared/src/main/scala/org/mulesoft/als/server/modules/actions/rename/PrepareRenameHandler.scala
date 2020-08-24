@@ -1,11 +1,11 @@
 package org.mulesoft.als.server.modules.actions.rename
 
-import org.mulesoft.als.actions.rename.FindRenameLocations
+import amf.core.model.document.Document
 import org.mulesoft.als.common.YamlUtils
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
+import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, AmfObjectImp, BaseUnitImp}
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.common.Range
 import org.mulesoft.lsp.feature.rename.{PrepareRenameParams, PrepareRenameRequestType, PrepareRenameResult}
@@ -16,7 +16,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class PrepareRenameHandler(telemetryProvider: TelemetryProvider, workspace: WorkspaceManager)
-    extends TelemeteredRequestHandler[PrepareRenameParams, Option[Either[Range, PrepareRenameResult]]] {
+    extends TelemeteredRequestHandler[PrepareRenameParams, Option[Either[Range, PrepareRenameResult]]]
+    with RenameTools {
   override def `type`: PrepareRenameRequestType.type = PrepareRenameRequestType
 
   override def task(params: PrepareRenameParams): Future[Option[Either[Range, PrepareRenameResult]]] =
@@ -43,11 +44,12 @@ class PrepareRenameHandler(telemetryProvider: TelemetryProvider, workspace: Work
       .getLastUnit(uri, uuid)
       .flatMap(_.getLast)
       .map(bu => {
-        // todo: check if it is a declarable?
-        bu.unit.objWithAST
-          .flatMap(_.annotations.ast())
-          .map(YamlUtils.getNodeByPosition(_, position.toAmfPosition))
-          .map(p => LspRangeConverter.toLspRange(PositionRange(p.range)))
-          .map(r => Left(r))
+        if (isDeclarableKey(bu, position, uri))
+          bu.unit.objWithAST
+            .flatMap(_.annotations.ast())
+            .map(YamlUtils.getNodeByPosition(_, position.toAmfPosition))
+            .map(p => LspRangeConverter.toLspRange(PositionRange(p.range)))
+            .map(r => Left(r))
+        else None
       })
 }
