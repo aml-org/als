@@ -5,12 +5,7 @@ import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.reference.MarkerInfo
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.{
-  LanguageServerBuilder,
-  MockDiagnosticClientNotifier,
-  MockTelemetryParsingClientNotifier,
-  ServerWithMarkerTest
-}
+import org.mulesoft.als.server.{LanguageServerBuilder, MockTelemetryParsingClientNotifier, ServerWithMarkerTest}
 import org.mulesoft.lsp.feature.codeactions._
 import org.mulesoft.lsp.feature.common.{Range, TextDocumentIdentifier}
 import org.scalatest.Assertion
@@ -47,6 +42,14 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
 
   test("RAML 1 Extract type from property key, having `types` already declared") {
     val path = "refactorextract/extract-element-with-types-declared.raml"
+    runTest(buildServer(), path, None)
+      .flatMap { result =>
+        checkGolden(path, result)
+      }
+  }
+
+  test("RAML 1 Extract type from sublevel property key") {
+    val path = "refactorextract/sublevel-type.raml"
     runTest(buildServer(), path, None)
       .flatMap { result =>
         checkGolden(path, result)

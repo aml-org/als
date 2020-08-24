@@ -12,7 +12,8 @@ import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 case class ExtractElementCodeAction(params: CodeActionRequestParams, override val kind: CodeActionKind)
     extends ExtractSameFileDeclaration {
 
-  override lazy val isApplicable: Boolean             = !vendor.isRaml && amfObject.isDefined && yPartBranch.exists(_.isKey)
+  override lazy val isApplicable: Boolean =
+    !vendor.isRaml && amfObject.isDefined && yPartBranch.exists(_.isKey) // && positionIsExtracted
   override protected def telemetry: TelemetryProvider = params.telemetryProvider
 
   override protected def msg(params: CodeActionRequestParams): String =
