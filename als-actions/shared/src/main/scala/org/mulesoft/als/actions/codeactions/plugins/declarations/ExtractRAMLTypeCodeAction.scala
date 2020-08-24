@@ -6,7 +6,7 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionRequestParams,
   CodeActionResponsePlugin
 }
-import org.mulesoft.amfintegration.YPartImplicits.YNodeImplicits
+import org.mulesoft.als.common.YamlWrapper.YNodeImplicits
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.codeactions.CodeActionKind
 import org.mulesoft.lsp.feature.codeactions.CodeActionKind.CodeActionKind

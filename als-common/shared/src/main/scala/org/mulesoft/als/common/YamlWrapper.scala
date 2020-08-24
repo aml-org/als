@@ -32,4 +32,9 @@ object YamlWrapper {
         case _                => false
       }
   }
+
+  implicit class YNodeImplicits(yNode: YNode) {
+    def withKey(k: String): YNode =
+      YNode(YMap(IndexedSeq(YMapEntry(YNode(k), yNode)), yNode.sourceName))
+  }
 }
