@@ -13,7 +13,8 @@ case class ExtractElementCodeAction(params: CodeActionRequestParams, override va
     extends ExtractSameFileDeclaration {
 
   override lazy val isApplicable: Boolean =
-    !vendor.isRaml && amfObject.isDefined && yPartBranch.exists(_.isKey) // && positionIsExtracted
+    !vendor.isRaml && amfObject.isDefined && positionIsExtracted
+
   override protected def telemetry: TelemetryProvider = params.telemetryProvider
 
   override protected def msg(params: CodeActionRequestParams): String =

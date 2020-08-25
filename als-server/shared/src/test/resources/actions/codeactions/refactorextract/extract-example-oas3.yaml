@@ -18,4 +18,4 @@ paths:
       parameters:
         - schema:
             type: string
-            ex[*]ample: textplain
+            example: t[*]extplain

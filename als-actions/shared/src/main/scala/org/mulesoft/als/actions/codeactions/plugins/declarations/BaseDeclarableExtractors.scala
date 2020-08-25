@@ -64,8 +64,12 @@ trait BaseDeclarableExtractors {
     * Selected object if there is a clean match in the range and it is a declarable
     */
   protected lazy val amfObject: Option[AmfObject] =
-    tree
-      .map(_.obj)
+    extractable(tree.map(_.obj)).orElse {
+      extractable(tree.flatMap(_.stack.headOption))
+    }
+
+  private def extractable(maybeObject: Option[AmfObject]) =
+    maybeObject
       .filterNot(_.isAbstract)
       .filterNot(_.isInstanceOf[Document])
       .find(o => params.dialect.exists(o.declarableKey(_).isDefined))
@@ -93,13 +97,6 @@ trait BaseDeclarableExtractors {
     */
   protected lazy val entryIndentation: Int =
     yPartBranch.map(_.node.range.columnFrom).getOrElse(0)
-
-  /**
-    * It must be a declarable object and a key
-    */
-  lazy val isApplicable: Boolean =
-    amfObject.isDefined && yPartBranch.exists(_.isKey) &&
-      positionIsExtracted
 
   protected def positionIsExtracted: Boolean =
     entryRange.map(n => PositionRange(n)).exists(r => position.exists(r.contains))
