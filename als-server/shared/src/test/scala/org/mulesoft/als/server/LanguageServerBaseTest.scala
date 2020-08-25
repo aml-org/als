@@ -2,8 +2,8 @@ package org.mulesoft.als.server
 
 import amf.core.unsafe.PlatformSecrets
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeParams, CleanDiagnosticTreeRequestType}
+import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.logger.MessageSeverity.MessageSeverity
-import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
 import org.mulesoft.als.server.modules.diagnostic.AlsPublishDiagnosticsParams
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
@@ -19,11 +19,11 @@ import org.mulesoft.lsp.feature.documentsymbol.{
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 import org.mulesoft.lsp.textsync._
 import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, WorkspaceFoldersChangeEvent}
-import org.scalatest.{AsyncFunSuite, AsyncTestSuite, AsyncTestSuiteMixin, FutureOutcome, Matchers, OptionValues}
+import org.scalatest._
 
 import scala.collection.mutable
 import scala.concurrent.Future
-import scala.util.{Failure, Success}
+import scala.util.Failure
 
 abstract class LanguageServerBaseTest
     extends AsyncFunSuite
