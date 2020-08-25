@@ -41,6 +41,36 @@ class RenameTest extends LanguageServerBaseTest {
         |  C: A
         |  D: A""".stripMargin
   )
+  private val ws2 = Map(
+    "file:///root/exchange.json" -> """{"main": "api.raml"}""",
+    "file:///root/api.raml" ->
+      """#%RAML 1.0
+        |types:
+        |  simpleType:
+        |    properties:
+        |      name: string
+        |  ramlExpression:
+        |    properties:
+        |      reports: anotherType | anotherType[] | supertype
+        |      prop: string
+        |  anotherType:
+        |    properties:
+        |        name: anotherType[]""".stripMargin
+  )
+  private val ws3 = Map(
+    "file:///root/exchange.json" -> """{"main": "api.raml"}""",
+    "file:///root/api.raml" ->
+      """#%RAML 1.0
+        |types:
+        |  person:
+        |    properties:
+        |      name: manager[]
+        |      age?: person
+        |  manager:
+        |    properties:
+        |      reports: person
+        |""".stripMargin
+  )
 
   val testSets: Set[TestEntry] = Set(
     TestEntry(
@@ -72,6 +102,37 @@ class RenameTest extends LanguageServerBaseTest {
              TextEdit(Range(Position(6, 5), Position(6, 6)), "type1"),
              TextEdit(Range(Position(7, 5), Position(7, 6)), "type1"),
              TextEdit(Range(Position(5, 2), Position(5, 3)), "type1")
+           ))
+        ))
+    ),
+    TestEntry(
+      "file:///root/api.raml",
+      Position(9, 6),
+      "type1",
+      ws2,
+      createWSE(
+        Seq(
+          ("file:///root/api.raml",
+           Seq(
+             TextEdit(Range(Position(7, 15), Position(7, 26)), "type1"),
+             TextEdit(Range(Position(11, 14), Position(11, 25)), "type1"),
+             TextEdit(Range(Position(7, 29), Position(7, 40)), "type1"),
+             TextEdit(Range(Position(9, 2), Position(9, 13)), "type1")
+           ))
+        ))
+    ),
+    TestEntry(
+      "file:///root/api.raml",
+      Position(2, 3),
+      "RENAMED",
+      ws3,
+      createWSE(
+        Seq(
+          ("file:///root/api.raml",
+           Seq(
+             TextEdit(Range(Position(8, 15), Position(8, 21)), "RENAMED"),
+             TextEdit(Range(Position(5, 12), Position(5, 18)), "RENAMED"),
+             TextEdit(Range(Position(2, 2), Position(2, 8)), "RENAMED")
            ))
         ))
     )
