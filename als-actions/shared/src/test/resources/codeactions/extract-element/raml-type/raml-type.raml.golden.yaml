@@ -1,0 +1,27 @@
+changes:
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-type/raml-type.raml:
+    -
+      from:
+        line: 14
+        column: 22
+      to:
+        line: 17
+        column: 36
+      content: |
+        +
+
+                                  type: $1
+    -
+      from:
+        line: 8
+        column: 0
+      to:
+        line: 8
+        column: 0
+      content: |
+        +
+
+          $1:
+            type: object
+            properties:
+              B: other
