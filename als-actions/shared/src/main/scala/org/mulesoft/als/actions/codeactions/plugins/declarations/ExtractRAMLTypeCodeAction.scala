@@ -7,6 +7,7 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionResponsePlugin
 }
 import org.mulesoft.als.common.YamlWrapper.YNodeImplicits
+import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.codeactions.CodeActionKind
 import org.mulesoft.lsp.feature.codeactions.CodeActionKind.CodeActionKind
@@ -18,7 +19,8 @@ case class ExtractRAMLTypeCodeAction(params: CodeActionRequestParams, override v
     extends ExtractSameFileDeclaration {
 
   override lazy val isApplicable: Boolean =
-    vendor.isRaml && amfObject.isDefined && positionIsExtracted
+    vendor.isRaml && positionIsExtracted && amfObject.exists(o =>
+      declarationPath(o, params.dialect.getOrElse(Raml10TypesDialect.dialect)) == Seq("types"))
 
   override protected def telemetry: TelemetryProvider = params.telemetryProvider
 

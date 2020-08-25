@@ -1,0 +1,26 @@
+changes:
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-type/scalar-range.raml:
+    -
+      from:
+        line: 7
+        column: 25
+      to:
+        line: 9
+        column: 23
+      content: |
+        +
+
+                           type: $1
+    -
+      from:
+        line: 4
+        column: 0
+      to:
+        line: 4
+        column: 0
+      content: |
+        +
+
+          $1:
+            type: string
+            minLength: 5

@@ -5,6 +5,7 @@ import amf.core.errorhandling.UnhandledErrorHandler
 import amf.core.model.document.Document
 import amf.core.model.domain.{AmfObject, DomainElement, Linkable}
 import amf.core.remote.{Mimes, Vendor}
+import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.webapi.parser.spec.common.emitters.DomainElementEmitter
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionRequestParams
 import org.mulesoft.als.common.YamlUtils.isJson
@@ -175,7 +176,7 @@ trait BaseDeclarableExtractors {
   protected lazy val wrappedDeclaredEntry: Option[(YNode, Option[YMapEntry])] =
     (declaredElementNode, amfObject, params.dialect) match {
       case (Some(den), Some(fdp), Some(dialect)) =>
-        val keyPath  = Seq(fdp.declarableKey(dialect), declarationsPath).flatten
+        val keyPath  = declarationPath(fdp, dialect)
         var fullPath = den.withKey(newName)
         val maybePart = params.bu.references
           .find(_.location().contains(params.uri))
@@ -187,6 +188,9 @@ trait BaseDeclarableExtractors {
         Some(fullPath, entries.lastOption)
       case _ => None
     }
+
+  protected def declarationPath(fdp: AmfObject, dialect: Dialect): Seq[String] =
+    Seq(fdp.declarableKey(dialect), declarationsPath).flatten
 
   /**
     * Secuential list for each node in the AST that already exists for the destiny
