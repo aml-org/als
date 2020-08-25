@@ -42,7 +42,7 @@ class ExtractToDeclarationTest extends BaseCodeActionTests {
 
   it should "extract a type from RAML 1.0 inlined scalar property" in {
     val elementUri                       = "extract-element/raml-type/scalar-range.raml"
-    val range                            = PositionRange(Position(8, 20), Position(10, 23))
+    val range                            = PositionRange(Position(8, 14), Position(9, 14))
     val dialect: Option[Dialect]         = Some(Raml10TypesDialect.dialect)
     val pluginFactory: CodeActionFactory = ExtractRAMLTypeCodeAction
 
