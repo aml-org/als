@@ -36,7 +36,7 @@ trait BaseDeclarableExtractors {
     */
   protected lazy val tree: Option[ObjectInTree] = {
     val start = params.tree.getCachedOrNew(params.range.start, params.uri)
-    val end   = params.tree.getCachedOrNew(params.range.start, params.uri)
+    val end   = params.tree.getCachedOrNew(params.range.end, params.uri)
     if (start.obj == end.obj) Some(start)
     else if (start.stack.contains(end.obj)) Some(end)
     else if (end.stack.contains(start.obj)) Some(start)
@@ -71,7 +71,7 @@ trait BaseDeclarableExtractors {
 
   private def extractable(maybeObject: Option[AmfObject]) =
     maybeObject
-      .filterNot(_.isAbstract)
+//      .filterNot(_.isAbstract)
       .filterNot(_.isInstanceOf[Document])
       .find(o => params.dialect.exists(o.declarableKey(_).isDefined))
 
