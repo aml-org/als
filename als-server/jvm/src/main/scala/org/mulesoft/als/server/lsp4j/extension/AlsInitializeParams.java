@@ -31,6 +31,13 @@ public class AlsInitializeParams extends InitializeParams {
         alsClientCapabilities = acp;
     }
 
+    /**
+     * hack to clean lsp4j native des serialized capabilities.
+     */
+    public void cleanInheritedCapabilities() {
+        super.setCapabilities(null);
+    }
+    
     public AlsConfiguration getAlsConfiguration() {
         return alsConfiguration;
     }
