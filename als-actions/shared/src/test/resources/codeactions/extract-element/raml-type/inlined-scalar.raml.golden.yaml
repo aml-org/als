@@ -1,0 +1,25 @@
+changes:
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-type/inlined-scalar.raml:
+    -
+      from:
+        line: 10
+        column: 18
+      to:
+        line: 10
+        column: 24
+      content: |
+        +
+
+                            type: $1
+    -
+      from:
+        line: 4
+        column: 0
+      to:
+        line: 4
+        column: 0
+      content: |
+        +
+
+          $1:
+            type: string

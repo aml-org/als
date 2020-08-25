@@ -31,8 +31,8 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
     s"file://als-actions/shared/src/test/resources/codeactions/$element"
 
   private def assertCodeActions(result: Seq[CodeAction], goldenPath: String): Future[Assertion] = {
-    val value1   = result.head.edit.get // todo: render from code action search or all code actions?
-    val expected = toYaml(value1)
+    val value1   = result.headOption.flatMap(_.edit)
+    val expected = toYaml(value1.getOrElse(WorkspaceEdit.empty))
 
     for {
       tmp <- writeTemporaryFile(goldenPath)(expected)
@@ -71,11 +71,11 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
     eb.entry("line", position.line)
     eb.entry("column", position.character)
   }
+
   protected def runTest(elementUri: String,
                         range: PositionRange,
                         dialect: Option[Dialect],
-                        pluginFactory: CodeActionFactory,
-                        expected: Seq[CodeAction]): Future[Assertion] =
+                        pluginFactory: CodeActionFactory): Future[Assertion] =
     for {
       params <- buildParameter(elementUri, range, dialect)
       result <- {
@@ -85,6 +85,14 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
       }
       r <- assertCodeActions(result, relativeUri(elementUri + ".golden.yaml"))
     } yield r
+
+  protected def runTestNotApplicable(elementUri: String,
+                                     range: PositionRange,
+                                     dialect: Option[Dialect],
+                                     pluginFactory: CodeActionFactory): Future[Assertion] =
+    for {
+      params <- buildParameter(elementUri, range, dialect)
+    } yield pluginFactory(params).isApplicable should be(false)
 
   protected def parseElement(elementUri: String): Future[AmfParseResult] =
     new ParserHelper(platform, AmfInstance.default)

@@ -8,7 +8,7 @@ import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
 import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit, WorkspaceEdit}
 import org.mulesoft.lsp.feature.codeactions.CodeAction
-import org.mulesoft.lsp.feature.common.{Range, VersionedTextDocumentIdentifier, Position => LspPosition}
+import org.mulesoft.lsp.feature.common.VersionedTextDocumentIdentifier
 
 class ExtractToDeclarationTest extends BaseCodeActionTests {
   behavior of "Extract element to declaration"
@@ -19,25 +19,7 @@ class ExtractToDeclarationTest extends BaseCodeActionTests {
     val dialect: Option[Dialect]         = Some(OAS30Dialect.dialect)
     val pluginFactory: CodeActionFactory = ExtractElementCodeAction
 
-    val changes: Map[String, Seq[TextEdit]] = Map(
-      "file://als-actions/shared/src/test/resources/codeactions/extract-element/schema-from-oas/schema.yaml" ->
-        Seq(
-          TextEdit(Range(LspPosition(9, 17), LspPosition(11, 30)),
-                   """
-            |              $ref: "#/components/schemas/$1"""".stripMargin),
-          TextEdit(
-            Range(LspPosition(5, 0), LspPosition(5, 0)),
-            """
-              |  schemas:
-              |    $1:
-              |      type: string
-              |      example: textplain
-              |""".stripMargin
-          )
-        ))
-    val expected: Seq[CodeAction] = createResponse(pluginFactory, changes)
-
-    runTest(elementUri, range, dialect, pluginFactory, expected)
+    runTest(elementUri, range, dialect, pluginFactory)
   }
 
   it should "extract a schema from oas 3 json" in {
@@ -46,32 +28,7 @@ class ExtractToDeclarationTest extends BaseCodeActionTests {
     val dialect: Option[Dialect]         = Some(OAS30Dialect.dialect)
     val pluginFactory: CodeActionFactory = ExtractElementCodeAction
 
-    val changes: Map[String, Seq[TextEdit]] = Map(
-      "file://als-actions/shared/src/test/resources/codeactions/extract-element/schema-from-oas/schema.json" ->
-        Seq(
-          TextEdit(
-            Range(LspPosition(12, 22), LspPosition(15, 13)),
-            """{
-              |                "$ref": "#/components/schemas/$1"
-              |              }""".stripMargin
-          ),
-          TextEdit(
-            Range(LspPosition(6, 3), LspPosition(6, 3)),
-            """
-              |{
-              |      "schemas": {
-              |        "$1": {
-              |          "type": "string",
-              |          "example": "textplain"
-              |        }
-              |      }
-              |    }
-              |""".stripMargin
-          )
-        ))
-    val expected: Seq[CodeAction] = createResponse(pluginFactory, changes)
-
-    runTest(elementUri, range, dialect, pluginFactory, expected)
+    runTest(elementUri, range, dialect, pluginFactory)
   }
 
   it should "extract a type from RAML 1.0 payload" in {
@@ -80,33 +37,42 @@ class ExtractToDeclarationTest extends BaseCodeActionTests {
     val dialect: Option[Dialect]         = Some(Raml10TypesDialect.dialect)
     val pluginFactory: CodeActionFactory = ExtractRAMLTypeCodeAction
 
-    val changes: Map[String, Seq[TextEdit]] = Map(
-      "file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-type/raml-type.raml" ->
-        Seq(
-          TextEdit(Range(LspPosition(14, 22), LspPosition(17, 36)),
-                   """
-              |                          type: $1
-              |""".stripMargin),
-          TextEdit(
-            Range(LspPosition(8, 0), LspPosition(8, 0)),
-            """
-              |  $1:
-              |    type: object
-              |    properties:
-              |      B: other
-              |""".stripMargin
-          )
-        ))
-    val expected: Seq[CodeAction] = createResponse(pluginFactory, changes)
-
-    runTest(elementUri, range, dialect, pluginFactory, expected)
+    runTest(elementUri, range, dialect, pluginFactory)
   }
 
-  private def createResponse(pluginFactory: CodeActionFactory, changes: Map[String, Seq[TextEdit]]): Seq[CodeAction] =
-    Seq(
-      pluginFactory.baseCodeAction(
-        WorkspaceEdit(
-          changes,
-          changes.map(t => Left(TextDocumentEdit(VersionedTextDocumentIdentifier(t._1, None), t._2))).toList)
-      ))
+  it should "extract a type from RAML 1.0 inlined scalar property" in {
+    val elementUri                       = "extract-element/raml-type/scalar-range.raml"
+    val range                            = PositionRange(Position(8, 20), Position(10, 23))
+    val dialect: Option[Dialect]         = Some(Raml10TypesDialect.dialect)
+    val pluginFactory: CodeActionFactory = ExtractRAMLTypeCodeAction
+
+    runTest(elementUri, range, dialect, pluginFactory)
+  }
+
+  it should "DON'T extract payload from RAML" in {
+    val elementUri                       = "extract-element/raml-type/payload-range.raml"
+    val range                            = PositionRange(Position(7, 15), Position(9, 10))
+    val dialect: Option[Dialect]         = Some(Raml10TypesDialect.dialect)
+    val pluginFactory: CodeActionFactory = ExtractRAMLTypeCodeAction
+
+    runTestNotApplicable(elementUri, range, dialect, pluginFactory)
+  }
+
+  it should "extract type from RAML in range" in {
+    val elementUri                       = "extract-element/raml-type/property-range.raml"
+    val range                            = PositionRange(Position(9, 19), Position(10, 21))
+    val dialect: Option[Dialect]         = Some(Raml10TypesDialect.dialect)
+    val pluginFactory: CodeActionFactory = ExtractRAMLTypeCodeAction
+
+    runTest(elementUri, range, dialect, pluginFactory)
+  }
+
+  it should "extract inlined scalar type from RAML in range" in {
+    val elementUri                       = "extract-element/raml-type/inlined-scalar.raml"
+    val range                            = PositionRange(Position(10, 19), Position(10, 24))
+    val dialect: Option[Dialect]         = Some(Raml10TypesDialect.dialect)
+    val pluginFactory: CodeActionFactory = ExtractRAMLTypeCodeAction
+
+    runTest(elementUri, range, dialect, pluginFactory)
+  }
 }
