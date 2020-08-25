@@ -5,10 +5,9 @@ import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.common.Position
 import org.mulesoft.lsp.feature.folding.FoldingRange
 import org.yaml.model.YNode.MutRef
-import org.yaml.model.{YDocument, YMap, YMapEntry, YNode, YPart, YSequence}
+import org.yaml.model._
 
 import scala.annotation.tailrec
-import scala.collection.mutable
 
 object FileRanges {
   def ranges(yPart: YPart): Seq[FoldingRange] = collectRanges(yPart, yPart)
