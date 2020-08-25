@@ -14,6 +14,7 @@ import org.mulesoft.als.server.{
   MockTelemetryParsingClientNotifier,
   ServerWithMarkerTest
 }
+import org.mulesoft.amfintegration.vocabularies.propertyterms.aml.{ExamplesPropertyTerm, FormatPropertyTerm}
 import org.mulesoft.amfintegration.vocabularies.propertyterms.declarationKeys.{
   DomainPropertyDeclarationKeyTerm,
   MessageAbstractDeclarationKeyTerm,
@@ -22,6 +23,7 @@ import org.mulesoft.amfintegration.vocabularies.propertyterms.declarationKeys.{
   SecuritySettingsDeclarationKeyTerm,
   ShapeDeclarationKeyTerm
 }
+import org.mulesoft.amfintegration.vocabularies.propertyterms.shacl.{ShaclNamePropertyTerm, ShaclShapePropertyTerm}
 import org.mulesoft.lsp.feature.common.{Position, Range, TextDocumentIdentifier}
 import org.mulesoft.lsp.feature.hover.{Hover, HoverParams, HoverRequestType}
 
@@ -434,6 +436,72 @@ class HoverTest extends ServerWithMarkerTest[Hover] {
         h.contents.size == 1 &&
         h.contents.head == MessageAbstractDeclarationKeyTerm.description &&
         h.range.get == Range(Position(5, 2), Position(5, 16))
+      }) should be(true)
+    }
+  }
+
+  test("Test AML Vocabularies") {
+    runTestMultipleMarkers(buildServer(), "aml/amlVocabulary.yaml").map { hovers =>
+      hovers.size should be(9)
+
+      hovers.exists(h => {
+        h.contents.size == 1 &&
+        h.contents.head == FormatPropertyTerm.description &&
+        h.range.get == Range(Position(10, 10), Position(11, 0))
+      }) should be(true)
+
+      // TODO: currently on AMF the key matches as the name of the object being defined, but it should be the field of the parent object
+      hovers.exists(h => {
+        h.contents.size == 1 &&
+        h.contents.head == ShaclNamePropertyTerm.description &&
+        h.range.get == Range(Position(16, 10), Position(16, 13))
+      }) should be(true)
+
+      // TODO: currently on AMF the key matches as the name of the object being defined, but it should be the field of the parent object
+      hovers.exists(h => {
+        h.contents.size == 1 &&
+        h.contents.head == ShaclNamePropertyTerm.description &&
+        h.range.get == Range(Position(18, 10), Position(18, 12))
+      }) should be(true)
+
+      // TODO: currently on AMF the key matches as the name of the object being defined, but it should be the field of the parent object
+      hovers.exists(h => {
+        h.contents.size == 1 &&
+        h.contents.head == ShaclNamePropertyTerm.description &&
+        h.range.get == Range(Position(19, 10), Position(19, 14))
+      }) should be(true)
+
+      // TODO: currently on AMF the key matches as the name of the object being defined, but it should be the field of the parent object
+      hovers.exists(h => {
+        h.contents.size == 1 &&
+        h.contents.head == ShaclNamePropertyTerm.description &&
+        h.range.get == Range(Position(20, 10), Position(20, 14))
+      }) should be(true)
+
+      hovers.exists(h => {
+        h.contents.size == 1 &&
+        h.contents.head == ExamplesPropertyTerm.description &&
+        h.range.get == Range(Position(21, 10), Position(22, 0))
+      }) should be(true)
+
+      hovers.exists(h => {
+        h.contents.size == 1 &&
+        h.contents.head == ShaclShapePropertyTerm.description &&
+        h.range.get == Range(Position(25, 8), Position(30, 0))
+      }) should be(true)
+
+      // TODO: currently on AMF the key matches as the name of the object being defined, but it should be the field of the parent object
+      hovers.exists(h => {
+        h.contents.size == 1 &&
+        h.contents.head == ShaclNamePropertyTerm.description &&
+        h.range.get == Range(Position(28, 10), Position(28, 15))
+      }) should be(true)
+
+      // TODO: currently on AMF the key matches as the name of the object being defined, but it should be the field of the parent object
+      hovers.exists(h => {
+        h.contents.size == 1 &&
+        h.contents.head == ShaclNamePropertyTerm.description &&
+        h.range.get == Range(Position(29, 10), Position(29, 18))
       }) should be(true)
     }
   }

@@ -154,7 +154,6 @@ class ReferenceTest extends ServerReferencesTest {
                       LspRangeConverter.toLspPosition(markerInfo.position),
                       ReferenceContext(false)))
       .map(references => {
-        closeFile(server)(path)
         references
       })
   }
