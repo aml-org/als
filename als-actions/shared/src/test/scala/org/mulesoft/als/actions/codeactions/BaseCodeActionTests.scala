@@ -4,7 +4,6 @@ import amf.core.model.document.BaseUnit
 import amf.core.unsafe.PlatformSecrets
 import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.actions.codeactions.plugins.base.{CodeActionFactory, CodeActionRequestParams}
-import org.mulesoft.als.common.ObjectInTreeBuilder
 import org.mulesoft.als.common.cache.UnitWithCaches
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.configuration.AlsConfiguration
