@@ -16,7 +16,13 @@ import amf.plugins.domain.VocabulariesRegister
 import amf.plugins.features.AMFValidation
 import org.mulesoft.als.CompilerEnvironment
 import org.mulesoft.amfintegration.vocabularies.propertyterms.declarationKeys.AlsDeclarationKeysVocabulary
-import org.mulesoft.amfintegration.vocabularies.{SchemaOrgVocabulary, ShaclVocabulary}
+import org.mulesoft.amfintegration.vocabularies.{
+  AmlApiContractVocabulary,
+  AmlDataModelVocabulary,
+  AmlDataShapesVocabulary,
+  SchemaOrgVocabulary,
+  ShaclVocabulary
+}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -49,6 +55,9 @@ class AmfInstance(plugins: Seq[AMFPlugin], platform: Platform, environment: Envi
           alsAmlPlugin.vocabularyRegistry.index(AlsDeclarationKeysVocabulary())
           alsAmlPlugin.vocabularyRegistry.index(SchemaOrgVocabulary()) // parametrize voc initializations
           alsAmlPlugin.vocabularyRegistry.index(ShaclVocabulary())     // parametrize voc initializations
+          alsAmlPlugin.vocabularyRegistry.index(AmlApiContractVocabulary())
+          alsAmlPlugin.vocabularyRegistry.index(AmlDataModelVocabulary())
+          alsAmlPlugin.vocabularyRegistry.index(AmlDataShapesVocabulary())
           val f = AMF.init().andThen {
             case _ =>
               profile.vendors.foreach { v =>
