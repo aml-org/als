@@ -162,26 +162,25 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest {
              TextEdit(Range(Position(2, 2), Position(2, 8)), "RENAMED")
            ))
         ))
+    ),
+    "Test5" -> TestEntry(
+      "file:///root/library.raml",
+      Position(3, 6),
+      "RENAMED",
+      ws4,
+      createWSE(Seq(
+        ("file:///root/library.raml",
+        Seq(
+          TextEdit(Range(Position(3, 2), Position(3, 8)), "RENAMED"),
+
+        )),
+        ("file:///root/api.raml",
+          Seq(
+            TextEdit(Range(Position(12, 24), Position(12, 30)), "RENAMED"),
+
+          ))
+      ))
     )
-//    "Test5" -> TestEntry(
-//      "file:///root/library.raml",
-//      Position(3, 6),
-//      "RENAMED",
-//      ws4,
-//      createWSE(Seq(
-//        ("file:///root/library.raml",
-//        Seq(
-//          TextEdit(Range(Position(7, 10), Position(7, 16)), "RENAMED"),
-//          TextEdit(Range(Position(3, 2), Position(3, 8)), "RENAMED"),
-//
-//        )),
-//        ("file:///root/root.raml",
-//          Seq(
-//            TextEdit(Range(Position(12, 24), Position(12, 30)), "RENAMED"),
-//
-//          ))
-//      ))
-//    )
   )
 
   private def createWSE(edits: Seq[(String, Seq[TextEdit])]): WorkspaceEdit =
