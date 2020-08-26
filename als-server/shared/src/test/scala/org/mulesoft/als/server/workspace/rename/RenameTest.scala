@@ -4,6 +4,8 @@ import amf.client.remote.Content
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.actions.rename.FindRenameLocations
+import org.mulesoft.als.common.WorkspaceEditSerializer
+import org.mulesoft.als.common.diff.{Diff, FileAssertionTest, Tests}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
@@ -16,7 +18,7 @@ import org.mulesoft.als.common.dtoTypes.{Position => DtoPosition}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class RenameTest extends LanguageServerBaseTest {
+class RenameTest extends LanguageServerBaseTest with FileAssertionTest {
 
   override implicit val executionContext: ExecutionContext =
     ExecutionContext.Implicits.global
@@ -72,8 +74,50 @@ class RenameTest extends LanguageServerBaseTest {
         |""".stripMargin
   )
 
-  val testSets: Set[TestEntry] = Set(
-    TestEntry(
+  private val ws4 = Map(
+    "file:///root/exchange.json" -> """{"main": "api.raml"}""",
+    "file:///root/api.raml" ->
+      """#%RAML 1.0
+        |title: rename
+        |uses:
+        |  lib: library.raml
+        |/person:
+        |  get:
+        |    responses:
+        |      200:
+        |        body:
+        |          application/xml:
+        |            type: array
+        |            items:
+        |              type: lib.Person []""".stripMargin,
+    "file:///root/library.raml" ->
+      """#%RAML 1.0 Library
+        |
+        |types:
+        |  Person:
+        |    properties:
+        |      name: string""".stripMargin
+  )
+  val testSets: Map[String, TestEntry] = Map(
+    "Test1" ->
+      TestEntry(
+        "file:///root/lib.raml",
+        Position(2, 3),
+        "trait1",
+        ws1,
+        createWSE(
+          Seq(
+            ("file:///root/api.raml",
+             Seq(
+               TextEdit(Range(Position(6, 6), Position(6, 12)), "lib.trait1")
+             )),
+            ("file:///root/lib.raml",
+             Seq(
+               TextEdit(Range(Position(2, 2), Position(2, 4)), "trait1")
+             ))
+          ))
+      ),
+    "Test2" -> TestEntry(
       "file:///root/lib.raml",
       Position(5, 3),
       "type1",
@@ -88,7 +132,7 @@ class RenameTest extends LanguageServerBaseTest {
            ))
         ))
     ),
-    TestEntry(
+    "Test4" -> TestEntry(
       "file:///root/api.raml",
       Position(9, 6),
       "type1",
@@ -104,7 +148,7 @@ class RenameTest extends LanguageServerBaseTest {
            ))
         ))
     ),
-    TestEntry(
+    "Test4" -> TestEntry(
       "file:///root/api.raml",
       Position(2, 3),
       "RENAMED",
@@ -119,6 +163,25 @@ class RenameTest extends LanguageServerBaseTest {
            ))
         ))
     )
+//    "Test5" -> TestEntry(
+//      "file:///root/library.raml",
+//      Position(3, 6),
+//      "RENAMED",
+//      ws4,
+//      createWSE(Seq(
+//        ("file:///root/library.raml",
+//        Seq(
+//          TextEdit(Range(Position(7, 10), Position(7, 16)), "RENAMED"),
+//          TextEdit(Range(Position(3, 2), Position(3, 8)), "RENAMED"),
+//
+//        )),
+//        ("file:///root/root.raml",
+//          Seq(
+//            TextEdit(Range(Position(12, 24), Position(12, 30)), "RENAMED"),
+//
+//          ))
+//      ))
+//    )
   )
 
   private def createWSE(edits: Seq[(String, Seq[TextEdit])]): WorkspaceEdit =
@@ -127,27 +190,24 @@ class RenameTest extends LanguageServerBaseTest {
       edits.map(e => Left(TextDocumentEdit(VersionedTextDocumentIdentifier(e._1, None), e._2)))
     )
 
-  test("No handler") {
-    for {
-      results <- Future.sequence {
-        testSets.map { test =>
-          for {
-            (_, wsManager) <- buildServer(test.root, test.ws)
-            cu             <- wsManager.getLastUnit(test.targetUri, "")
-            renames <- FindRenameLocations
-              .changeDeclaredName(test.targetUri,
-                                  DtoPosition(test.targetPosition),
-                                  test.newName,
-                                  wsManager.getRelationships(test.targetUri, ""),
-                                  cu.unit)
-          } yield {
-            (renames, test.result)
-          }
-        }
+  testSets.foreach {
+    case (name, testCase) =>
+      test("No handler " + name) {
+        for {
+          (_, wsManager) <- buildServer(testCase.root, testCase.ws)
+          cu             <- wsManager.getLastUnit(testCase.targetUri, "")
+          renames <- FindRenameLocations
+            .changeDeclaredName(testCase.targetUri,
+                                DtoPosition(testCase.targetPosition),
+                                testCase.newName,
+                                wsManager.getRelationships(testCase.targetUri, ""), cu.unit)
+          actual <- (writeTemporaryFile(s"file://rename-test-$name-actual.yaml")(
+            WorkspaceEditSerializer(renames).serialize()))
+          expected <- writeTemporaryFile(s"file://rename-test-$name-expected.yaml")(
+            WorkspaceEditSerializer(testCase.result).serialize())
+          r <- Tests.checkDiff(actual, expected)
+        } yield r
       }
-    } yield {
-      assert(results.forall(t => equalWSE(t._1, t._2)))
-    }
   }
 
   private def equalWSE(a: WorkspaceEdit, b: WorkspaceEdit): Boolean =

@@ -4,7 +4,7 @@ import amf.core.model.document.BaseUnit
 import amf.core.unsafe.PlatformSecrets
 import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.actions.codeactions.plugins.base.{CodeActionFactory, CodeActionRequestParams}
-import org.mulesoft.als.common.ObjectInTreeBuilder
+import org.mulesoft.als.common.{ObjectInTreeBuilder, WorkspaceEditSerializer}
 import org.mulesoft.als.common.cache.UnitWithCaches
 import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.common.dtoTypes.PositionRange
@@ -32,44 +32,12 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
 
   private def assertCodeActions(result: Seq[CodeAction], goldenPath: String): Future[Assertion] = {
     val value1   = result.headOption.flatMap(_.edit)
-    val expected = toYaml(value1.getOrElse(WorkspaceEdit.empty))
+    val expected = WorkspaceEditSerializer(value1.getOrElse(WorkspaceEdit.empty)).serialize()
 
     for {
       tmp <- writeTemporaryFile(goldenPath)(expected)
       r   <- assertDifferences(tmp, goldenPath)
     } yield r
-  }
-
-  private def toYaml(result: WorkspaceEdit): String = {
-    val doc = YDocument.objFromBuilder(e => {
-      e.entry("changes", p => {
-        p.obj(eb => {
-          result.changes.foreach(c => emitChangeForUri(c._1, c._2)(eb))
-        })
-      })
-    })
-    YamlRender.render(doc)
-  }
-
-  private def emitChangeForUri(uri: String, textEdits: Seq[TextEdit])(eb: EntryBuilder): Unit = {
-    eb.entry(uri, pb => emitTextEdits(textEdits)(pb))
-  }
-
-  private def emitTextEdits(textEdits: Seq[TextEdit])(pb: PartBuilder): Unit = {
-    pb.list(p => {
-      textEdits.foreach(te => p.obj(emitTextEdit(te)))
-    })
-  }
-
-  private def emitTextEdit(textEdit: TextEdit)(eb: EntryBuilder): Unit = {
-    eb.entry("from", _.obj(emitPosition(textEdit.range.start)))
-    eb.entry("to", _.obj(emitPosition(textEdit.range.end)))
-    eb.entry("content", _.+=("+\n" + textEdit.newText))
-  }
-
-  private def emitPosition(position: Position)(eb: EntryBuilder): Unit = {
-    eb.entry("line", position.line)
-    eb.entry("column", position.character)
   }
 
   protected def runTest(elementUri: String,
