@@ -1,9 +1,11 @@
 package org.mulesoft.als.actions.rename
 
 import amf.core.model.document.BaseUnit
-import org.mulesoft.als.actions.common.RelationshipLink
+import org.mulesoft.als.actions.common.AliasRelationships.FullLink
+import org.mulesoft.als.actions.common.{AliasInfo, RelationshipLink}
 import org.mulesoft.als.actions.references.FindReferences
 import org.mulesoft.als.common.YamlUtils
+import org.mulesoft.als.common.cache.YPartBranchCached
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
@@ -18,10 +20,12 @@ object FindRenameLocations {
   def changeDeclaredName(uri: String,
                          position: Position,
                          newName: String,
+                         allAliases: Future[Seq[AliasInfo]],
                          references: Future[Seq[RelationshipLink]],
+                         yPartBranchCached: YPartBranchCached,
                          unit: BaseUnit): Future[WorkspaceEdit] =
     FindReferences
-      .getReferences(uri, position, references)
+      .getReferences(uri, position, allAliases, references, yPartBranchCached)
       .map { refs =>
         getOriginKey(unit, position)
           .fold(Seq[RenameLocation]())(refsToRenameLocation(newName, refs, _))
@@ -35,14 +39,10 @@ object FindRenameLocations {
         )
       }
 
-  private def refsToRenameLocation(newName: String,
-                                   refs: Seq[RelationshipLink],
-                                   origKey: YScalar): Seq[RenameLocation] = {
+  private def refsToRenameLocation(newName: String, refs: Seq[FullLink], origKey: YScalar): Seq[RenameLocation] = {
     refs
-      .map(_.sourceEntry)
-      .map(value)
-      .map(RenameLocation(_, newName, origKey.text)) :+
-      RenameLocation(origKey, newName, origKey.text)
+      .map(t => RenameLocation(t._3, t._1.uri, PositionRange(t._1.range), newName, origKey.text)) :+
+      RenameLocation(newName, origKey.location.sourceName, PositionRange(origKey.range))
   }
 
   private def getOriginKey(unit: BaseUnit, position: Position): Option[YScalar] =
@@ -71,17 +71,25 @@ object FindRenameLocations {
 case class RenameLocation(newName: String, uri: String, replaceRange: PositionRange)
 
 object RenameLocation {
-  def apply(yPart: YPart, newName: String, oldName: String): RenameLocation = {
-    val nodeContent = yPart.toString
-    val i = nodeContent
-      .lastIndexOf(oldName)
-    val completeNewName: String =
-      if (i == -1) newName
-      else {
-        val (pre, post) = nodeContent.splitAt(i)
-        s"$pre$newName${post.substring(oldName.length)}"
-      }
-    RenameLocation(completeNewName, yPart.location.sourceName, PositionRange(yPart.range))
-  }
+  def apply(maybeYPart: Option[YPart],
+            uri: String,
+            replaceRange: PositionRange,
+            newName: String,
+            oldName: String): RenameLocation =
+    maybeYPart match {
+      case Some(yPart) =>
+        val nodeContent = yPart.toString
+        val i = nodeContent
+          .lastIndexOf(oldName)
+        val completeNewName: String =
+          if (i == -1) newName
+          else {
+            val (pre, post) = nodeContent.splitAt(i)
+            s"$pre$newName${post.substring(oldName.length)}"
+          }
+        RenameLocation(completeNewName, yPart.location.sourceName, PositionRange(yPart.range))
+      case _ =>
+        new RenameLocation(newName, uri, replaceRange)
 
+    }
 }

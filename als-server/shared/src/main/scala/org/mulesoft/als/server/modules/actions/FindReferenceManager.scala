@@ -60,8 +60,14 @@ class FindReferenceManager(val workspace: WorkspaceManager,
     workspace
       .getLastUnit(uri, uuid)
       .flatMap(_.getLast)
-      .flatMap(_ => {
-        FindReferences.getReferences(uri, position, workspace.getRelationships(uri, uuid)).map(_.map(_.source))
+      .flatMap(cu => {
+        FindReferences
+          .getReferences(uri,
+                         position,
+                         workspace.getAliases(uri, uuid),
+                         workspace.getRelationships(uri, uuid),
+                         cu.yPartBranch)
+          .map(_.map(_._1))
       })
 
   override def initialize(): Future[Unit] =

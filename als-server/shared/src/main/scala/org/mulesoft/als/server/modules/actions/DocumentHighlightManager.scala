@@ -55,10 +55,14 @@ class DocumentHighlightManager(val workspace: WorkspaceManager,
     workspace
       .getLastUnit(uri, uuid)
       .flatMap(_.getLast)
-      .flatMap(_ => {
+      .flatMap(cu => {
         FindReferences
-          .getReferences(uri, position, workspace.getRelationships(uri, uuid))
-          .map(_.map(_.source))
+          .getReferences(uri,
+                         position,
+                         workspace.getAliases(uri, uuid),
+                         workspace.getRelationships(uri, uuid),
+                         cu.yPartBranch)
+          .map(_.map(_._1))
       }.map(_.filter(_.uri == uri)
         .map(toDocumentHighlight)))
 
