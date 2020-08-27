@@ -169,7 +169,7 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest {
            ))
         ))
     ),
-    "Test3" -> TestEntry(
+    "raml-expression" -> TestEntry(
       "file:///root/api.raml",
       Position(9, 6),
       "type1",
@@ -185,7 +185,7 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest {
            ))
         ))
     ),
-    "Test4" -> TestEntry(
+    "test3" -> TestEntry(
       "file:///root/api.raml",
       Position(2, 3),
       "RENAMED",
@@ -313,6 +313,20 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest {
             TextEdit(Range(Position(11, 4), Position(11, 6)), "RENAMED")
           ))
       ))
+    ),
+    "Array-expression" -> TestEntry(
+      "file:///root/api.raml",
+      Position(6, 6),
+      "RENAMED",
+      ws3,
+      createWSE(
+        Seq(
+          ("file:///root/api.raml",
+           Seq(
+             TextEdit(Range(Position(4, 12), Position(4, 19)), "RENAMED"),
+             TextEdit(Range(Position(6, 2), Position(6, 9)), "RENAMED")
+           ))
+        ))
     )
   )
 
