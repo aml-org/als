@@ -18,8 +18,10 @@ import org.mulesoft.als.CompilerEnvironment
 import org.mulesoft.amfintegration.vocabularies.propertyterms.declarationKeys.AlsDeclarationKeysVocabulary
 import org.mulesoft.amfintegration.vocabularies.{
   AmlApiContractVocabulary,
+  AmlCoreVocabulary,
   AmlDataModelVocabulary,
   AmlDataShapesVocabulary,
+  AmlDocumentVocabulary,
   SchemaOrgVocabulary,
   ShaclVocabulary
 }
@@ -58,6 +60,8 @@ class AmfInstance(plugins: Seq[AMFPlugin], platform: Platform, environment: Envi
           alsAmlPlugin.vocabularyRegistry.index(AmlApiContractVocabulary())
           alsAmlPlugin.vocabularyRegistry.index(AmlDataModelVocabulary())
           alsAmlPlugin.vocabularyRegistry.index(AmlDataShapesVocabulary())
+          alsAmlPlugin.vocabularyRegistry.index(AmlCoreVocabulary())
+          alsAmlPlugin.vocabularyRegistry.index(AmlDocumentVocabulary())
           val f = AMF.init().andThen {
             case _ =>
               profile.vendors.foreach { v =>
