@@ -81,7 +81,7 @@ class GoToTypeDefinitionManager(val workspace: WorkspaceManager,
                 .getRelationships(uri, uuid)
                 .map(_.filter(_.linkType == LinkTypes.TRAITRESOURCES)),
               workspace.getAliases(uri, uuid),
-              unit.unit
+              unit.yPartBranch
           ))
       .map(Right(_))
 

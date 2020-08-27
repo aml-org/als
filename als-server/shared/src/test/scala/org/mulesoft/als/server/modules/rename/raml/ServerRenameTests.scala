@@ -22,5 +22,4 @@ class ServerRenameTests extends RAMLRenameTest {
   test("test 018 - RAML type expressions") { runTest("test018/api.raml", "RENAMED") }
   test("test 019 - Rename without references") { runTest("test019/api.raml", "RENAMED") }
   ignore("test 020 - Rename through reference") { runTest("test020/api.raml", "RENAMED") }
-  ignore("test 021 - Rename file through reference") { runTest("test021/api.raml", "RENAMED") }
 }

@@ -68,14 +68,17 @@ class GoToImplementationManager(val workspace: WorkspaceManager,
     workspace
       .getLastUnit(uri, uuid)
       .flatMap(_.getLast)
-      .flatMap(_ => {
+      .flatMap(cu => {
         FindReferences
           .getReferences(uri,
                          position,
                          workspace
+                           .getAliases(uri, uuid),
+                         workspace
                            .getRelationships(uri, uuid)
-                           .map(_.filter(_.linkType == LinkTypes.TRAITRESOURCES)))
-          .map(_.map(_.source))
+                           .map(_.filter(_.linkType == LinkTypes.TRAITRESOURCES)),
+                         cu.yPartBranch)
+          .map(_.map(_._1))
 
       })
       .map(Left(_))
