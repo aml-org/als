@@ -1,0 +1,12 @@
+{
+  "definitions": {
+    "animal": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

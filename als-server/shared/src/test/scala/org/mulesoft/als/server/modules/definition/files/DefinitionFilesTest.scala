@@ -254,4 +254,18 @@ class DefinitionFilesTest extends ServerDefinitionTest {
       )
     )
   }
+
+  test("json path navigation to recursive type") {
+    runTest(
+      "files/json-recursive/api.json",
+      Set(
+        LocationLink(
+          "file://als-server/shared/src/test/resources/actions/definition/files/json-recursive/api.json",
+          LspRangeConverter.toLspRange(PositionRange(Position(15, 4), Position(15, 12))),
+          LspRangeConverter.toLspRange(PositionRange(Position(15, 4), Position(15, 12))),
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(25, 18), Position(25, 40))))
+        )
+      )
+    )
+  }
 }
