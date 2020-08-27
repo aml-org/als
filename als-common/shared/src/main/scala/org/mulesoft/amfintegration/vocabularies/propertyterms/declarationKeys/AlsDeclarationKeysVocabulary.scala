@@ -15,6 +15,6 @@ object AlsDeclarationKeysVocabulary extends VocabularyObject {
       OperationAbstractDeclarationKeyTerm,
       DomainPropertyDeclarationKeyTerm,
       ShapeDeclarationKeyTerm,
-      SecuritySettingsDeclarationKeyTerm
+      SecuritySettingsDeclarationKeyTerm,
     )
 }
