@@ -1,11 +1,11 @@
 package org.mulesoft.amfintegration.vocabularies
 
+import org.mulesoft.amfintegration.vocabularies.propertyterms.NamePropertyTerm
 import org.mulesoft.amfintegration.vocabularies.propertyterms.shacl.{
   ShaclDefaultValuePropertyTerm,
   ShaclElsePropertyTerm,
   ShaclIfPropertyTerm,
   ShaclInPropertyTerm,
-  ShaclNamePropertyTerm,
   ShaclNotPropertyTerm,
   ShaclOrPropertyTerm,
   ShaclPathPropertyTerm,
@@ -19,7 +19,7 @@ object ShaclVocabulary extends VocabularyObject {
 
   override protected def properties: Seq[PropertyTermObjectNode] =
     Seq(
-      ShaclNamePropertyTerm,
+      NamePropertyTerm,
       ShaclShapePropertyTerm,
       ShaclDefaultValuePropertyTerm,
       ShaclElsePropertyTerm,

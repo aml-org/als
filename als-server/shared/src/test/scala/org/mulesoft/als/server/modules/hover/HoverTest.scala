@@ -14,6 +14,8 @@ import org.mulesoft.als.server.{
   MockTelemetryParsingClientNotifier,
   ServerWithMarkerTest
 }
+import org.mulesoft.amfintegration.vocabularies.AmlCoreVocabulary
+import org.mulesoft.amfintegration.vocabularies.propertyterms.NamePropertyTerm
 import org.mulesoft.amfintegration.vocabularies.propertyterms.aml.{ExamplesPropertyTerm, FormatPropertyTerm}
 import org.mulesoft.amfintegration.vocabularies.propertyterms.declarationKeys.{
   DomainPropertyDeclarationKeyTerm,
@@ -23,7 +25,7 @@ import org.mulesoft.amfintegration.vocabularies.propertyterms.declarationKeys.{
   SecuritySettingsDeclarationKeyTerm,
   ShapeDeclarationKeyTerm
 }
-import org.mulesoft.amfintegration.vocabularies.propertyterms.shacl.{ShaclNamePropertyTerm, ShaclShapePropertyTerm}
+import org.mulesoft.amfintegration.vocabularies.propertyterms.shacl.ShaclShapePropertyTerm
 import org.mulesoft.lsp.feature.common.{Position, Range, TextDocumentIdentifier}
 import org.mulesoft.lsp.feature.hover.{Hover, HoverParams, HoverRequestType}
 
@@ -68,7 +70,7 @@ class HoverTest extends ServerWithMarkerTest[Hover] {
   test("Test hover oas web api title") {
     runTest(buildServer(), "oas-webapi-title.yaml").map { h =>
       h.contents.size should be(1)
-      h.contents.head should be(WebApiModel.Name.doc.description)
+      h.contents.head should be(NamePropertyTerm.description)
       h.range.get should be(Range(Position(2, 2), Position(3, 0)))
     }
   }
@@ -453,28 +455,28 @@ class HoverTest extends ServerWithMarkerTest[Hover] {
       // TODO: currently on AMF the key matches as the name of the object being defined, but it should be the field of the parent object
       hovers.exists(h => {
         h.contents.size == 1 &&
-        h.contents.head == ShaclNamePropertyTerm.description &&
+        h.contents.head == NamePropertyTerm.description &&
         h.range.get == Range(Position(16, 10), Position(16, 13))
       }) should be(true)
 
       // TODO: currently on AMF the key matches as the name of the object being defined, but it should be the field of the parent object
       hovers.exists(h => {
         h.contents.size == 1 &&
-        h.contents.head == ShaclNamePropertyTerm.description &&
+        h.contents.head == NamePropertyTerm.description &&
         h.range.get == Range(Position(18, 10), Position(18, 12))
       }) should be(true)
 
       // TODO: currently on AMF the key matches as the name of the object being defined, but it should be the field of the parent object
       hovers.exists(h => {
         h.contents.size == 1 &&
-        h.contents.head == ShaclNamePropertyTerm.description &&
+        h.contents.head == NamePropertyTerm.description &&
         h.range.get == Range(Position(19, 10), Position(19, 14))
       }) should be(true)
 
       // TODO: currently on AMF the key matches as the name of the object being defined, but it should be the field of the parent object
       hovers.exists(h => {
         h.contents.size == 1 &&
-        h.contents.head == ShaclNamePropertyTerm.description &&
+        h.contents.head == NamePropertyTerm.description &&
         h.range.get == Range(Position(20, 10), Position(20, 14))
       }) should be(true)
 
@@ -493,14 +495,14 @@ class HoverTest extends ServerWithMarkerTest[Hover] {
       // TODO: currently on AMF the key matches as the name of the object being defined, but it should be the field of the parent object
       hovers.exists(h => {
         h.contents.size == 1 &&
-        h.contents.head == ShaclNamePropertyTerm.description &&
+        h.contents.head == NamePropertyTerm.description &&
         h.range.get == Range(Position(28, 10), Position(28, 15))
       }) should be(true)
 
       // TODO: currently on AMF the key matches as the name of the object being defined, but it should be the field of the parent object
       hovers.exists(h => {
         h.contents.size == 1 &&
-        h.contents.head == ShaclNamePropertyTerm.description &&
+        h.contents.head == NamePropertyTerm.description &&
         h.range.get == Range(Position(29, 10), Position(29, 18))
       }) should be(true)
     }
