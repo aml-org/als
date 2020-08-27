@@ -43,10 +43,18 @@ class RenameHandler(telemetryProvider: TelemetryProvider, workspace: WorkspaceMa
     workspace
       .getLastUnit(uri, uuid)
       .flatMap(_.getLast)
-      .flatMap(bu => {
-        if (isDeclarableKey(bu, position, uri))
+      .flatMap(withIsAliases(_, uri, uuid, position, workspace))
+      .flatMap(t => {
+        val (bu, isAliasDeclaration) = t
+        if (isAliasDeclaration || isDeclarableKey(bu, position, uri))
           FindRenameLocations
-            .changeDeclaredName(uri, position, newName, workspace.getRelationships(uri, uuid), bu.unit)
+            .changeDeclaredName(uri,
+                                position,
+                                newName,
+                                workspace.getAliases(uri, uuid),
+                                workspace.getRelationships(uri, uuid),
+                                bu.yPartBranch,
+                                bu.unit)
         else if (renameThroughReferenceEnabled) // enable when polished, add logic to prepare rename
           for {
             fromLinks <- renameFromLink(uri, position, newName, uuid, bu, workspace) // if Some() then it's a link to a file
@@ -55,6 +63,7 @@ class RenameHandler(telemetryProvider: TelemetryProvider, workspace: WorkspaceMa
             (fromLinks orElse fromDef) getOrElse WorkspaceEdit.empty // if none of the above, return empty
           } else Future.successful(WorkspaceEdit.empty)
       })
+
   private def renameFromLink(uri: String,
                              position: Position,
                              newName: String,
@@ -89,15 +98,23 @@ class RenameHandler(telemetryProvider: TelemetryProvider, workspace: WorkspaceMa
                                    uuid: String,
                                    bu: CompilableUnit): Future[Option[WorkspaceEdit]] =
     FindDefinition
-      .getDefinition(uri, position, workspace.getRelationships(uri, uuid), workspace.getAliases(uri, uuid), bu.unit)
+      .getDefinition(uri,
+                     position,
+                     workspace.getRelationships(uri, uuid),
+                     workspace.getAliases(uri, uuid),
+                     bu.yPartBranch)
       .flatMap(_.headOption match {
         case Some(definition) =>
           FindRenameLocations
-            .changeDeclaredName(definition.targetUri,
-                                Position(definition.targetRange.start),
-                                newName,
-                                workspace.getRelationships(uri, uuid),
-                                bu.unit)
+            .changeDeclaredName(
+              definition.targetUri,
+              Position(definition.targetRange.start),
+              newName,
+              workspace.getAliases(uri, uuid),
+              workspace.getRelationships(uri, uuid),
+              bu.yPartBranch,
+              bu.unit
+            )
             .map(Some(_))
         case _ =>
           Future.successful(None)

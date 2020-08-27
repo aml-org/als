@@ -5,16 +5,16 @@ import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.actions.rename.FindRenameLocations
 import org.mulesoft.als.common.WorkspaceEditSerializer
-import org.mulesoft.als.common.diff.{Diff, FileAssertionTest, Tests}
+import org.mulesoft.als.common.diff.{FileAssertionTest, Tests}
+import org.mulesoft.als.common.dtoTypes.{Position => DtoPosition}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.workspace.WorkspaceManager
+import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit, WorkspaceEdit}
 import org.mulesoft.lsp.feature.common.{Position, Range, VersionedTextDocumentIdentifier}
-import org.mulesoft.als.common.dtoTypes.{Position => DtoPosition}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -98,6 +98,43 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest {
         |    properties:
         |      name: string""".stripMargin
   )
+  private val ws5 = Map(
+    "file:///root/exchange.json" -> """{"main": "api.raml"}""",
+    "file:///root/api.raml" -> """#%RAML 1.0
+                           |title: test
+                           |uses:
+                           |    lib: lib.raml
+                           |/e:
+                           |    type: lib.rt
+                           |    is:
+                           |        - lib.tr:
+                           |    securedBy:
+                           |        - lib.sc
+                           |    get:
+                           |        body:
+                           |            application/json:
+                           |                type: lib.t
+                           |                (lib.a): test annotation""".stripMargin,
+    "file:///root/lib.raml" -> """#%RAML 1.0 Library
+                           |types:
+                           |    t:
+                           |        type: object
+                           |        properties:
+                           |            n: string
+                           |resourceTypes:
+                           |    rt:
+                           |        get:
+                           |            description: test
+                           |securitySchemes:
+                           |    sc:
+                           |        describedBy:
+                           |traits:
+                           |    tr:
+                           |        description: trait test
+                           |annotationTypes:
+                           |    a:
+                           |        type: string""".stripMargin
+  )
   val testSets: Map[String, TestEntry] = Map(
     "Test1" ->
       TestEntry(
@@ -109,7 +146,7 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest {
           Seq(
             ("file:///root/api.raml",
              Seq(
-               TextEdit(Range(Position(6, 6), Position(6, 12)), "lib.trait1")
+               TextEdit(Range(Position(6, 10), Position(6, 12)), "trait1")
              )),
             ("file:///root/lib.raml",
              Seq(
@@ -132,7 +169,7 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest {
            ))
         ))
     ),
-    "Test4" -> TestEntry(
+    "Test3" -> TestEntry(
       "file:///root/api.raml",
       Position(9, 6),
       "type1",
@@ -177,7 +214,103 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest {
         ("file:///root/api.raml",
           Seq(
             TextEdit(Range(Position(12, 24), Position(12, 30)), "RENAMED"),
-
+          ))
+      ))
+    ),
+    "Test6-lib-alias-rename" -> TestEntry(
+      "file:///root/api.raml",
+      Position(3, 6),
+      "RENAMED",
+      ws5,
+      createWSE(Seq(
+        ("file:///root/api.raml",
+          Seq(
+            TextEdit(Range(Position(7, 10), Position(7, 13)), "RENAMED"),
+            TextEdit(Range(Position(5, 10), Position(5, 13)), "RENAMED"),
+            TextEdit(Range(Position(14, 17), Position(14, 20)), "RENAMED"),
+            TextEdit(Range(Position(13, 22), Position(13, 25)), "RENAMED"),
+            TextEdit(Range(Position(9, 10), Position(9, 13)), "RENAMED"),
+            TextEdit(Range(Position(3, 4), Position(3, 7)), "RENAMED")
+          ))
+      ))
+    ),
+    "Test7-lib-trait" -> TestEntry(
+      "file:///root/lib.raml",
+      Position(14, 5),
+      "RENAMED",
+      ws5,
+      createWSE(Seq(
+        ("file:///root/api.raml",
+          Seq(
+            TextEdit(Range(Position(7, 14), Position(7, 16)), "RENAMED")
+          )),
+        ("file:///root/lib.raml",
+          Seq(
+            TextEdit(Range(Position(14, 4), Position(14, 6)), "RENAMED")
+          ))
+      ))
+    ),
+    "Test7-lib-annotation" -> TestEntry(
+      "file:///root/lib.raml",
+      Position(17, 5),
+      "RENAMED",
+      ws5,
+      createWSE(Seq(
+        ("file:///root/api.raml",
+          Seq(
+            TextEdit(Range(Position(14, 21), Position(14, 22)), "RENAMED")
+          )),
+        ("file:///root/lib.raml",
+          Seq(
+            TextEdit(Range(Position(17, 4), Position(17, 5)), "RENAMED")
+          ))
+      ))
+    ),
+    "Test7-lib-type" -> TestEntry(
+      "file:///root/lib.raml",
+      Position(2, 5),
+      "RENAMED",
+      ws5,
+      createWSE(Seq(
+        ("file:///root/api.raml",
+          Seq(
+            TextEdit(Range(Position(13, 26), Position(13, 27)), "RENAMED")
+          )),
+        ("file:///root/lib.raml",
+          Seq(
+            TextEdit(Range(Position(2, 4), Position(2, 5)), "RENAMED")
+          ))
+      ))
+    ),
+    "Test7-lib-resourceType" -> TestEntry(
+      "file:///root/lib.raml",
+      Position(7, 5),
+      "RENAMED",
+      ws5,
+      createWSE(Seq(
+        ("file:///root/api.raml",
+          Seq(
+            TextEdit(Range(Position(5, 14), Position(5, 16)), "RENAMED")
+          )),
+        ("file:///root/lib.raml",
+          Seq(
+            TextEdit(Range(Position(7, 4), Position(7, 6)), "RENAMED")
+          ))
+      ))
+    ),
+    "Test7-lib-securityScheme" -> TestEntry(
+      "file:///root/lib.raml",
+      Position(11, 5),
+      "RENAMED",
+      ws5,
+      createWSE(Seq(
+        ("file:///root/api.raml",
+          Seq(
+            TextEdit(Range(Position(9, 14), Position(9, 16)), "RENAMED")
+          )),
+        ("file:///root/lib.raml",
+          Seq(
+            TextEdit(Range(Position(11, 4), Position(11, 6)), "RENAMED")
           ))
       ))
     )
@@ -199,7 +332,9 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest {
             .changeDeclaredName(testCase.targetUri,
                                 DtoPosition(testCase.targetPosition),
                                 testCase.newName,
-                                wsManager.getRelationships(testCase.targetUri, ""), cu.unit)
+                                wsManager.getAliases(testCase.targetUri, ""),
+                                wsManager.getRelationships(testCase.targetUri, ""),
+                                cu.yPartBranch, cu.unit)
           actual <- (writeTemporaryFile(s"file://rename-test-$name-actual.yaml")(
             WorkspaceEditSerializer(renames).serialize()))
           expected <- writeTemporaryFile(s"file://rename-test-$name-expected.yaml")(
