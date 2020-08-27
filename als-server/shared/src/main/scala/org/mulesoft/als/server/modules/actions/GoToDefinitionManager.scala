@@ -67,7 +67,7 @@ class GoToDefinitionManager(val workspace: WorkspaceManager,
                        position,
                        workspace.getRelationships(uri, uuid),
                        workspace.getAliases(uri, uuid),
-                       unit.unit)
+                       unit.yPartBranch)
     } yield {
       Right(workspaceDefinitions)
     }

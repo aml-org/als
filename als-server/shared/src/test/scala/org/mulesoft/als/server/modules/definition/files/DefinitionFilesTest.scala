@@ -99,7 +99,7 @@ class DefinitionFilesTest extends ServerDefinitionTest {
           "file://als-server/shared/src/test/resources/actions/definition/files/raml-trait/library.raml",
           LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 13))),
           LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 13))),
-          Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 8), Position(15, 14))))
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 12), Position(15, 14))))
         )
       )
     )
@@ -126,7 +126,7 @@ class DefinitionFilesTest extends ServerDefinitionTest {
           "file://als-server/shared/src/test/resources/actions/definition/files/raml-resource/library.raml",
           LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 12))),
           LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 12))),
-          Some(LspRangeConverter.toLspRange(PositionRange(Position(13, 6), Position(13, 18))))
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(13, 10), Position(13, 18))))
         )
       )
     )
@@ -153,7 +153,7 @@ class DefinitionFilesTest extends ServerDefinitionTest {
           "file://als-server/shared/src/test/resources/actions/definition/files/raml-trait/library.raml",
           LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 13))),
           LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 13))),
-          Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 8), Position(15, 14))))
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 12), Position(15, 14))))
         )
       )
     )
@@ -180,7 +180,7 @@ class DefinitionFilesTest extends ServerDefinitionTest {
           "file://als-server/shared/src/test/resources/actions/definition/files/raml-resource/library.raml",
           LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 12))),
           LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 12))),
-          Some(LspRangeConverter.toLspRange(PositionRange(Position(13, 6), Position(13, 18))))
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(13, 10), Position(13, 18))))
         )
       )
     )
@@ -191,16 +191,10 @@ class DefinitionFilesTest extends ServerDefinitionTest {
       "files/raml-library/api.raml",
       Set(
         LocationLink(
-          "file://als-server/shared/src/test/resources/actions/definition/files/raml-library/api.raml",
-          LspRangeConverter.toLspRange(PositionRange(Position(5, 9), Position(5, 21))),
-          LspRangeConverter.toLspRange(PositionRange(Position(5, 9), Position(5, 21))),
-          Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 8), Position(15, 14))))
-        ),
-        LocationLink(
           "file://als-server/shared/src/test/resources/actions/definition/files/raml-library/library.raml",
           LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 13))),
           LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 13))),
-          Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 8), Position(15, 14))))
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 12), Position(15, 14))))
         )
       )
     )
@@ -211,16 +205,10 @@ class DefinitionFilesTest extends ServerDefinitionTest {
       "files/raml-library/api.raml",
       Set(
         LocationLink(
-          "file://als-server/shared/src/test/resources/actions/definition/files/raml-library/api.raml",
-          LspRangeConverter.toLspRange(PositionRange(Position(5, 9), Position(5, 21))),
-          LspRangeConverter.toLspRange(PositionRange(Position(5, 9), Position(5, 21))),
-          Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 8), Position(15, 14))))
-        ),
-        LocationLink(
           "file://als-server/shared/src/test/resources/actions/definition/files/raml-library/library.raml",
           LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 13))),
           LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 13))),
-          Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 8), Position(15, 14))))
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 12), Position(15, 14))))
         )
       )
     )
