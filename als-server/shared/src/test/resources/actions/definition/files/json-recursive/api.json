@@ -1,0 +1,57 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "test-circular-references",
+    "version": "1.1.0"
+  },
+  "definitions": {
+    "pet": {
+      "type": "object",
+      "properties": {
+        "animalRef": {
+          "$ref": "ref.json#/definitions/animal"
+        }
+      }
+    },
+    "person": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "parent": {
+          "$ref": "#/definitions/person"
+        },
+        "sibling": {
+          "$ref": "#/definitions/per[*]son"
+        }
+      }
+    }
+  },
+  "paths": {
+    "/test": {
+      "get": {
+        "description": "test",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "test ok",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "pets": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/pet"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
