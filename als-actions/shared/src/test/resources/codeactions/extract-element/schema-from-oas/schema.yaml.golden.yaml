@@ -1,0 +1,27 @@
+changes:
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/schema-from-oas/schema.yaml:
+    -
+      from:
+        line: 9
+        column: 17
+      to:
+        line: 11
+        column: 30
+      content: |-
+        +
+
+                      $ref: "#/components/schemas/$1"
+    -
+      from:
+        line: 5
+        column: 0
+      to:
+        line: 5
+        column: 0
+      content: |
+        +
+
+          schemas:
+            $1:
+              type: string
+              example: textplain

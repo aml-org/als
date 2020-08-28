@@ -3,13 +3,13 @@ package org.mulesoft.als.server.modules
 import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
+import org.mulesoft.als.actions.codeactions.plugins.AllCodeActions
 import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
-import org.mulesoft.als.configuration.AlsConfiguration
-import org.mulesoft.als.server.{RequestModule, SerializationProps}
+import org.mulesoft.als.server.SerializationProps
 import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.actions._
-import org.mulesoft.als.server.modules.actions.fileUsage.FindFileUsageManager
+import org.mulesoft.als.server.modules.actions.fileusage.FindFileUsageManager
 import org.mulesoft.als.server.modules.actions.rename.RenameManager
 import org.mulesoft.als.server.modules.ast.{AccessUnits, BaseUnitListener, ResolvedUnitListener}
 import org.mulesoft.als.server.modules.completion.SuggestionsManager
@@ -149,13 +149,13 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
     new StructureManager(workspaceManager, telemetryManager, logger)
 
   lazy val definitionManager =
-    new GoToDefinitionManager(workspaceManager, platform, telemetryManager, logger)
+    new GoToDefinitionManager(workspaceManager, telemetryManager, logger)
 
   lazy val implementationManager =
-    new GoToImplementationManager(workspaceManager, platform, telemetryManager, logger)
+    new GoToImplementationManager(workspaceManager, telemetryManager, logger)
 
   lazy val typeDefinitionManager =
-    new GoToTypeDefinitionManager(workspaceManager, platform, telemetryManager, logger)
+    new GoToTypeDefinitionManager(workspaceManager, telemetryManager, logger)
 
   lazy val hoverManager = new HoverManager(workspaceManager, amfConfiguration, telemetryManager)
 
@@ -185,6 +185,13 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
 
   lazy val renameFileActionManager: RenameFileActionManager =
     new RenameFileActionManager(workspaceManager, telemetryManager, logger)
+
+  lazy val codeActionManager: CodeActionManager =
+    new CodeActionManager(AllCodeActions.all,
+                          workspaceManager,
+                          configurationManager.getConfiguration,
+                          telemetryManager,
+                          logger)
 
   lazy val serializationManager: Option[SerializationManager[_]] =
     resolutionDependencies.collectFirst({

@@ -1,12 +1,15 @@
 package org.mulesoft.lsp.edit
 
-sealed trait ClientResourceOperation
-
 import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
 
 import scala.scalajs.js
+
 import scala.scalajs.js.JSConverters._
 // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
+
+sealed trait ClientResourceOperation extends js.Object {
+  def kind: String
+}
 
 @js.native
 trait ClientNewFileOptions extends js.Object {
@@ -22,7 +25,8 @@ object ClientNewFileOptions {
 }
 
 @js.native
-trait ClientCreateFile extends js.Object {
+trait ClientCreateFile extends ClientResourceOperation {
+  override def kind: String                     = js.native
   def uri: String                               = js.native
   def options: js.UndefOr[ClientNewFileOptions] = js.native
 }
@@ -30,12 +34,13 @@ trait ClientCreateFile extends js.Object {
 object ClientCreateFile {
   def apply(internal: CreateFile): ClientCreateFile =
     js.Dynamic
-      .literal(uri = internal.uri, options = internal.options.map(_.toClient).orUndefined)
+      .literal(uri = internal.uri, options = internal.options.map(_.toClient).orUndefined, kind = "create")
       .asInstanceOf[ClientCreateFile]
 }
 
 @js.native
-trait ClientRenameFile extends js.Object {
+trait ClientRenameFile extends ClientResourceOperation {
+  override def kind: String                     = js.native
   def oldUri: String                            = js.native
   def newUri: String                            = js.native
   def options: js.UndefOr[ClientNewFileOptions] = js.native
@@ -46,7 +51,8 @@ object ClientRenameFile {
     js.Dynamic
       .literal(oldUri = internal.oldUri,
                newUri = internal.newUri,
-               options = internal.options.map(_.toClient).orUndefined)
+               options = internal.options.map(_.toClient).orUndefined,
+               kind = "rename")
       .asInstanceOf[ClientRenameFile]
 }
 
@@ -64,7 +70,8 @@ object ClientDeleteFileOptions {
 }
 
 @js.native
-trait ClientDeleteFile extends js.Object {
+trait ClientDeleteFile extends ClientResourceOperation {
+  override def kind: String                        = js.native
   def uri: String                                  = js.native
   def options: js.UndefOr[ClientDeleteFileOptions] = js.native
 }
@@ -72,7 +79,7 @@ trait ClientDeleteFile extends js.Object {
 object ClientDeleteFile {
   def apply(internal: DeleteFile): ClientDeleteFile =
     js.Dynamic
-      .literal(uri = internal.uri, options = internal.options.map(_.toClient).orUndefined)
+      .literal(uri = internal.uri, options = internal.options.map(_.toClient).orUndefined, kind = "delete")
       .asInstanceOf[ClientDeleteFile]
 }
 

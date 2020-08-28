@@ -2,7 +2,7 @@ package org.mulesoft.als.server.protocol.configuration
 
 import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeClientCapabilities
 import org.mulesoft.als.server.feature.fileusage.FileUsageClientCapabilities
-import org.mulesoft.als.server.feature.renameFile.RenameFileActionClientCapabilities
+import org.mulesoft.als.server.feature.renamefile.RenameFileActionClientCapabilities
 import org.mulesoft.als.server.feature.serialization.{ConversionClientCapabilities, SerializationClientCapabilities}
 import org.mulesoft.lsp.configuration.{TextDocumentClientCapabilities, WorkspaceClientCapabilities}
 

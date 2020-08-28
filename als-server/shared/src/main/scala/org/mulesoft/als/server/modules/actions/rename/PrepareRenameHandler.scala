@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules.actions.rename
 
-import org.mulesoft.als.actions.rename.FindRenameLocations
-import org.mulesoft.als.common.dtoTypes.Position
+import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.common.Range
@@ -13,7 +13,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class PrepareRenameHandler(telemetryProvider: TelemetryProvider, workspace: WorkspaceManager)
-    extends TelemeteredRequestHandler[PrepareRenameParams, Option[Either[Range, PrepareRenameResult]]] {
+    extends TelemeteredRequestHandler[PrepareRenameParams, Option[Either[Range, PrepareRenameResult]]]
+    with RenameTools {
   override def `type`: PrepareRenameRequestType.type = PrepareRenameRequestType
 
   override def task(params: PrepareRenameParams): Future[Option[Either[Range, PrepareRenameResult]]] =
@@ -39,7 +40,13 @@ class PrepareRenameHandler(telemetryProvider: TelemetryProvider, workspace: Work
     workspace
       .getLastUnit(uri, uuid)
       .flatMap(_.getLast)
-      .flatMap(_ => {
-        FindRenameLocations.canChangeDeclaredName(uri, position, workspace.getRelationships(uri, uuid))
-      }.map(_.map(r => Left(r))))
+      .flatMap(withIsAliases(_, uri, uuid, position, workspace))
+      .map { t =>
+        {
+          val (bu, isAliasDeclaration) = t
+          if (isAliasDeclaration || isDeclarableKey(bu, position, uri)) {
+            Some(Left(LspRangeConverter.toLspRange(keyCleanRange(uri, position, bu))))
+          } else None
+        }
+      }
 }

@@ -7,7 +7,7 @@ import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
 import org.mulesoft.als.server.feature.serialization.SerializationResult
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
-import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
+import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryMessage}
 import shapeless.|∨|
 
 import scala.collection.mutable
@@ -114,6 +114,15 @@ class MockTelemetryClientNotifier(val timeoutMillis: Int = 1000)
   override def notifyTelemetry(msg: TelemetryMessage): Unit = notify(msg)
 
   override def notifyDiagnostic(params: PublishDiagnosticsParams): Unit = {}
+}
+
+class MockTelemetryParsingClientNotifier(override val timeoutMillis: Int = 3000) extends MockTelemetryClientNotifier {
+
+  override def notifyTelemetry(msg: TelemetryMessage): Unit = msg.messageType match {
+    case MessageTypes.BEGIN_PARSE => notify(msg)
+    case _                        =>
+  }
+
 }
 
 class MockFilesInClientNotifier extends AlsClientNotifier[Any] with AbstractTestClientNotifier[FilesInProjectParams] {

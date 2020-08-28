@@ -1,0 +1,15 @@
+swagger: '2.0'
+paths:
+  /test:
+    get:
+      description: test
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: test ok
+          schema:
+            type: object
+            properties:
+              owner:
+                $ref: 'reference/reference.yaml#/definitions/per[*]son'

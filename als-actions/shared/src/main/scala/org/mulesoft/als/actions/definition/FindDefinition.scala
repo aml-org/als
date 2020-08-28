@@ -1,14 +1,10 @@
 package org.mulesoft.als.actions.definition
 
-import amf.core.model.document.BaseUnit
-import amf.core.remote.Platform
-import org.mulesoft.als.actions.common.{ActionTools, AliasInfo, RelationshipLink}
+import org.mulesoft.als.actions.common.{AliasInfo, AliasRelationships, RelationshipLink}
+import org.mulesoft.als.common.cache.YPartBranchCached
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
-import org.mulesoft.als.common.{NodeBranchBuilder, YamlUtils}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.common.{Location, LocationLink}
-import org.yaml.model.{YNodePlain, YPart, YScalar}
-import org.mulesoft.als.actions.common.YPartImplicits._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -19,50 +15,25 @@ object FindDefinition {
                     position: Position,
                     allRelationships: Future[Seq[RelationshipLink]],
                     allAliases: Future[Seq[AliasInfo]],
-                    fbu: Future[BaseUnit],
-                    platform: Platform): Future[Seq[LocationLink]] =
+                    yPartBranchCached: YPartBranchCached): Future[Seq[LocationLink]] =
     for {
       relationships <- allRelationships
       aliases       <- allAliases
-      bu            <- fbu
-    } yield {
-      (findByPosition(
-        uri,
-        relationships.map(r => (r.source, r.nameYPart.yPartToLocation)),
-        aliases,
-        position
-      ) ++
-        findAliases(getYBranch(position, bu).node, aliases, position))
+    } yield
+      findByPosition(uri,
+                     AliasRelationships.getLinks(aliases, relationships, yPartBranchCached).map(fl => (fl._1, fl._2)),
+                     position)
         .map(toLocationLink)
         .sortWith(sortInner)
-    }
 
   private def findByPosition(uri: String,
                              allRelationships: Seq[(Location, Location)],
-                             aliases: Seq[AliasInfo],
                              position: Position): Seq[(Location, Location)] =
     allRelationships.filter { s =>
       val range =
         PositionRange(LspRangeConverter.toPosition(s._1.range.start), LspRangeConverter.toPosition(s._1.range.end))
       s._1.uri == uri && range.contains(position)
     }
-
-  private def findAliases(node: YPart, aliases: Seq[AliasInfo], position: Position): Seq[(Location, Location)] =
-    aliases
-      .find { alias =>
-        node match {
-          case n: YNodePlain =>
-            (n.location.sourceName == alias.declaration.uri) &&
-              n.asScalar.exists(_.text.startsWith(s"${alias.tag}.")) &&
-              (position.toAmfPosition.column - n.range.columnFrom) <= alias.tag.length
-          case _ => false
-        }
-
-      }
-      .map { alias =>
-        (ActionTools.sourceLocationToLocation(node.location), alias.declaration)
-      }
-      .toSeq
 
   private def sortInner(l1: LocationLink, l2: LocationLink): Boolean =
     l1.originSelectionRange
@@ -77,7 +48,4 @@ object FindDefinition {
 
   private def toLocationLink(s: (Location, Location)) =
     LocationLink(s._2.uri, s._2.range, s._2.range, Some(s._1.range))
-
-  private def getYBranch(position: Position, bu: BaseUnit) =
-    NodeBranchBuilder.build(bu, position.toAmfPosition, YamlUtils.isJson(bu))
 }

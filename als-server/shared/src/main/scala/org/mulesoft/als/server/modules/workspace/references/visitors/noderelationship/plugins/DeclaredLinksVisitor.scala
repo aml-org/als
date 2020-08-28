@@ -6,6 +6,7 @@ import amf.core.model.document.BaseUnit
 import amf.core.model.domain.{AmfArray, AmfElement, AmfObject}
 import amf.core.parser.FieldEntry
 import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.plugins.domain.shapes.annotations.ParsedFromTypeExpression
 import amf.plugins.domain.webapi.models.security.SecurityRequirement
 import org.mulesoft.als.actions.common.RelationshipLink
 import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementVisitorFactory
@@ -20,7 +21,8 @@ class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
 
   override protected def innerVisit(element: AmfElement): Seq[RelationshipLink] =
     element match {
-      case obj: AmfObject if obj.fields.entry(LinkableElementModel.Target).isDefined =>
+      case obj: AmfObject
+          if obj.fields.entry(LinkableElementModel.Target).isDefined && !obj.annotations.isRamlTypeExpression =>
         extractOrigin(obj)
           .flatMap(origin => extractTarget(obj).map { (origin, _) })
           .map(t => createRelationship(t._1, t._2))

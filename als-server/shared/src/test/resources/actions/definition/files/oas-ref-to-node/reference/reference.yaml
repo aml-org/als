@@ -1,0 +1,11 @@
+definitions:
+  pet:
+    type: object
+    properties:
+      name:
+        type: string
+  person:
+    type: object
+    properties:
+      name:
+        type: string

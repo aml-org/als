@@ -2,7 +2,8 @@ package org.mulesoft.als.server
 
 import amf.core.unsafe.PlatformSecrets
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeParams, CleanDiagnosticTreeRequestType}
-import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
+import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.server.logger.MessageSeverity.MessageSeverity
 import org.mulesoft.als.server.modules.diagnostic.AlsPublishDiagnosticsParams
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
@@ -18,13 +19,18 @@ import org.mulesoft.lsp.feature.documentsymbol.{
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 import org.mulesoft.lsp.textsync._
 import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, WorkspaceFoldersChangeEvent}
-import org.scalatest.{AsyncFunSuite, Matchers, OptionValues}
+import org.scalatest._
 
+import scala.collection.mutable
 import scala.concurrent.Future
+import scala.util.Failure
 
-abstract class LanguageServerBaseTest extends AsyncFunSuite with PlatformSecrets with Matchers with OptionValues {
-
-  val logger: Logger = EmptyLogger
+abstract class LanguageServerBaseTest
+    extends AsyncFunSuite
+    with PlatformSecrets
+    with Matchers
+    with OptionValues
+    with FailedLogs {
 
   protected val initializeParams: AlsInitializeParams = AlsInitializeParams.default
 
@@ -78,6 +84,12 @@ abstract class LanguageServerBaseTest extends AsyncFunSuite with PlatformSecrets
       .flatMap(_ => {
         server.initialized()
         fn(server)
+          .andThen {
+            case Failure(exception) =>
+              // if there was an error, then print out all the logs for this test
+              while (logger.logList.nonEmpty) println(logger.logList.dequeue())
+              fail(exception)
+          }
       })
   }
 
@@ -126,4 +138,67 @@ abstract class LanguageServerBaseTest extends AsyncFunSuite with PlatformSecrets
     )
     Future.successful()
   }
+}
+
+/**
+  * mixin to clean logs in between tests
+  */
+trait FailedLogs extends AsyncTestSuiteMixin { this: AsyncTestSuite =>
+  final val logger = TestLogger()
+
+  abstract override def withFixture(test: NoArgAsyncTest): FutureOutcome = {
+    logger.logList.clear()
+    logger.logList.enqueue(s"Starting test: ${test.name}")
+    complete {
+      super.withFixture(test) // To be stackable, must call super.withFixture
+    } lastly {
+      logger.logList.clear()
+    }
+  }
+}
+
+case class TestLogger() extends Logger {
+
+  val logList: mutable.Queue[String] = mutable.Queue[String]()
+
+  /**
+    * Logs a message
+    *
+    * @param message      - message text
+    * @param severity     - message severity
+    * @param component    - component name
+    * @param subComponent - sub-component name
+    */
+  override def log(message: String, severity: MessageSeverity, component: String, subComponent: String): Unit =
+    logList += s"log\n\t$message\n\t$severity\n\t$component\n\t$subComponent"
+
+  /**
+    * Logs a DEBUG severity message.
+    *
+    * @param message      - message text
+    * @param component    - component name
+    * @param subComponent - sub-component name
+    */
+  override def debug(message: String, component: String, subComponent: String): Unit =
+    logList += s"debug\n\t$message\n\t$component\n\t$subComponent"
+
+  /**
+    * Logs a WARNING severity message.
+    *
+    * @param message      - message text
+    * @param component    - component name
+    * @param subComponent - sub-component name
+    */
+  override def warning(message: String, component: String, subComponent: String): Unit =
+    logList += s"warning\n\t$message\n\t$component\n\t$subComponent"
+
+  /**
+    * Logs an ERROR severity message.
+    *
+    * @param message      - message text
+    * @param component    - component name
+    * @param subComponent - sub-component name
+    */
+  override def error(message: String, component: String, subComponent: String): Unit =
+    logList += s"error\n\t$message\n\t$component\n\t$subComponent"
 }

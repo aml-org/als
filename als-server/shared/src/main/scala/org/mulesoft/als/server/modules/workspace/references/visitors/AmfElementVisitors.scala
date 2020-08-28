@@ -20,6 +20,7 @@ object AmfElementDefaultVisitors {
       TraitLinksVisitor,
       AbstractDefinitionLinksVisitor,
       RamlTypeExpressionsVisitor,
+      ExternalNodeReferenceVisitor,
       DeclaredLinksVisitor,
       YNodeAliasVisitor,
       DocumentLinkVisitor,
@@ -27,9 +28,8 @@ object AmfElementDefaultVisitors {
       AMLDialectVisitor
     )
   }
-  def build(bu: BaseUnit): AmfElementVisitors = {
+  def build(bu: BaseUnit): AmfElementVisitors =
     new AmfElementVisitors(allVisitors.flatMap { _(bu) })
-  }
 }
 
 class AmfElementVisitors(allVisitors: Seq[AmfElementVisitor[_]]) {

@@ -3,7 +3,6 @@ def slackChannel = '#als-bot'
 def failedStage = ""
 def color = '#FF8C00'
 def headerFlavour = "WARNING"
-
 pipeline {
     agent {
         dockerfile true
@@ -37,7 +36,7 @@ pipeline {
             when {
                 anyOf {
                     branch 'master'
-                    branch 'devel'
+                    branch 'develop'
                 }
             }
             steps {
@@ -61,7 +60,7 @@ pipeline {
             when {
                 anyOf {
                     branch 'master'
-                    branch 'devel'
+                    branch 'develop'
                 }
             }
             steps {
@@ -83,10 +82,8 @@ pipeline {
             when {
                 anyOf {
                     branch 'master'
-                    branch 'devel'
+                    branch 'develop'
                     branch 'rc/*'
-                    branch 'fat-jar-publish'
-                    branch 'support/*'
                 }
             }
             steps {
@@ -105,7 +102,7 @@ pipeline {
         stage('Trigger Dependencies') {
             when {
                 anyOf {
-                    branch 'devel'
+                    branch 'develop'
                 }
             }
             steps {
@@ -126,10 +123,8 @@ pipeline {
             when {
                 anyOf {
                     branch 'master'
-                    branch 'rc/*'
                     branch 'support/*'
-                    branch 'devel'
-                    branch 'jenkins/*'
+                    branch 'develop'
                 }
             }
             steps {
@@ -138,7 +133,7 @@ pipeline {
                         if (env.BRANCH_NAME == 'master') {
                             color = '#FF0000'
                             headerFlavour = "RED ALERT"
-                        } else if (env.BRANCH_NAME == 'devel') {
+                        } else if (env.BRANCH_NAME == 'develop') {
                             color = '#FFD700'
                         }
                         slackSend color: color, channel: "${slackChannel}", message: ":alert: ${headerFlavour}! :alert: Build failed!. \n\tBranch: ${env.BRANCH_NAME}\n\tStage:${failedStage}\n(See ${env.BUILD_URL})\n"

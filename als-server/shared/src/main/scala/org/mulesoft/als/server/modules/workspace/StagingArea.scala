@@ -37,6 +37,8 @@ trait StagingArea[Parameter] extends SyncFunction {
   def shouldDie: Boolean = false
 
   def hasPending: Boolean = pending.nonEmpty
+
+  override def toString: String = pending.toString
 }
 
 class ResolverStagingArea extends StagingArea[BaseUnitListenerParams]
