@@ -23,7 +23,13 @@ import org.mulesoft.lsp.feature.common.{
 import org.mulesoft.lsp.configuration.TraceKind.TraceKind
 import org.mulesoft.lsp.configuration._
 import org.mulesoft.lsp.feature.codeactions.CodeActionKind.CodeActionKind
-import org.mulesoft.lsp.feature.codeactions.{CodeActionContext, CodeActionKind, CodeActionOptions, CodeActionParams}
+import org.mulesoft.lsp.feature.codeactions.{
+  CodeActionContext,
+  CodeActionKind,
+  CodeActionOptions,
+  CodeActionParams,
+  CodeActionRegistrationOptions
+}
 import org.mulesoft.lsp.feature.completion.CompletionItemKind.CompletionItemKind
 import org.mulesoft.lsp.feature.completion.CompletionTriggerKind.CompletionTriggerKind
 import org.mulesoft.lsp.feature.completion._
@@ -220,7 +226,17 @@ object LspConversions {
   implicit def codeActionKind(kind: String): CodeActionKind = CodeActionKind.withName(kind)
 
   implicit def codeActionOptions(options: lsp4j.CodeActionOptions): CodeActionOptions =
-    CodeActionOptions(Option(options.getCodeActionKinds).map(_.asScala.toSeq))
+    CodeActionRegistrationOptions(
+      Option(options.getCodeActionKinds)
+        .map(kinds =>
+          kinds.asScala
+            .map(kind =>
+              try {
+                CodeActionKind.withName(kind)
+              } catch {
+                case _: NoSuchElementException =>
+                  CodeActionKind.Empty
+            })))
 
   implicit def staticRegistrationOptions(options: lsp4j.StaticRegistrationOptions): StaticRegistrationOptions =
     StaticRegistrationOptions(Option(options.getId))
@@ -228,7 +244,7 @@ object LspConversions {
   implicit def eitherCodeActionProviderOptions(
       options: JEither[java.lang.Boolean, lsp4j.CodeActionOptions]): Option[CodeActionOptions] =
     either(options, booleanOrFalse, codeActionOptions)
-      .fold(value => if (value) Some(CodeActionOptions()) else None, Some.apply)
+      .fold(value => if (value) Some(CodeActionRegistrationOptions()) else None, Some.apply)
 
   implicit def completionOptions(options: lsp4j.CompletionOptions): CompletionOptions =
     CompletionOptions(

@@ -26,7 +26,8 @@ trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingArea
       case Some(unit) =>
         Future(toResult(uri, unit))
       case _ =>
-        getNext(uri).getOrElse(fail(uri))
+        getNext(uri)
+          .getOrElse(fail(uri))
     }
 
   def disable(): Future[Unit] = {
@@ -82,10 +83,16 @@ trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingArea
     else goIdle()
 
   protected def getNext(uri: String): Option[Future[ResultUnit]] =
-    if (canProcess) None
+    if (canProcess)
+      None
     else Some(current.flatMap(_ => getUnit(uri)))
 
-  protected def fail(uri: String) = throw UnitNotFoundException(uri)
+  protected def fail(uri: String) = {
+    log(s"StagingArea: $stagingArea")
+    log(s"State: $state")
+    log(s"Repo uris: ${repository.getAllFilesUris}")
+    throw UnitNotFoundException(uri)
+  }
 
   private def goIdle(): Future[Unit] = synchronized {
     changeState(Idle)

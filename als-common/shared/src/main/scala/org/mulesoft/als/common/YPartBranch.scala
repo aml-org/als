@@ -96,6 +96,7 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
   @scala.annotation.tailrec
   private def findFirstOf[T <: YPart](clazz: Class[T], l: Seq[YPart]): Option[T] = {
     l match {
+      case Nil                                 => None
       case head :: _ if clazz.isInstance(head) => Some(head.asInstanceOf[T])
       case head :: Nil                         => None
       case _ :: tail                           => findFirstOf(clazz, tail)

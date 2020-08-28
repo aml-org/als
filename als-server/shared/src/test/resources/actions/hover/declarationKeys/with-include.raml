@@ -1,0 +1,16 @@
+#%RAML 1.0
+title: API Spec
+security[*]Schemes:
+  oauth_2_0: !include securitySchemes/oauth_2_0.raml
+
+resourceTypes:
+  export:
+    description: my desc
+
+/endpoint:
+  description: |
+    A fake endpoint
+  securedBy: oauth_2_0
+  type: export
+
+

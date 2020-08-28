@@ -38,15 +38,8 @@ import org.mulesoft.lsp.feature.folding.{
   FoldingRangeCapabilities,
   FoldingRangeParams
 }
-import org.mulesoft.lsp.feature.hover.MarkupKind.MarkupKind
-import org.mulesoft.lsp.feature.hover.{
-  ClientHoverClientCapabilities,
-  ClientHoverParams,
-  HoverClientCapabilities,
-  HoverParams,
-  MarkupKind
-}
 import org.mulesoft.lsp.feature.highlight.{DocumentHighlightCapabilities, DocumentHighlightParams}
+import org.mulesoft.lsp.feature.hover._
 import org.mulesoft.lsp.feature.implementation.{
   ClientImplementationClientCapabilities,
   ClientImplementationParams,
@@ -242,12 +235,6 @@ object LspConvertersClientToShared {
       TextDocumentEdit(v.textDocument.toShared, v.edits.map(_.toShared).toSeq)
   }
 
-  implicit class WorkspaceEditConverter(v: ClientWorkspaceEdit) {
-    def toShared: WorkspaceEdit =
-      WorkspaceEdit(v.changes.mapValues(a => a.map(_.toShared).toSeq).toMap,
-                    v.documentChanges.map(l => Left(l.toShared)).toSeq)
-  }
-
   implicit class CompletionContextConverter(v: ClientCompletionContext) {
     def toShared: CompletionContext =
       CompletionContext(CompletionTriggerKind(v.triggerKind), v.triggerCharacter.toOption.flatMap(_.headOption))
@@ -335,20 +322,11 @@ object LspConvertersClientToShared {
       CompletionParams(v.textDocument.toShared, v.position.toShared, v.context.toOption.map(_.toShared))
   }
 
-  implicit class CodeActionConverter(v: ClientCodeAction) {
-    def toShared: CodeAction =
-      CodeAction(
-        v.title,
-        v.kind.toOption.map(k => CodeActionKind(k)),
-        v.diagnostics.toOption.map(a => a.map(_.toShared).toSeq),
-        v.edit.toOption.map(_.toShared),
-        v.command.toOption.map(_.toShared)
-      )
-  }
-
   implicit class CodeActionCapabilitiesConverter(v: ClientCodeActionCapabilities) {
     def toShared: CodeActionCapabilities =
-      CodeActionCapabilities(v.dynamicRegistration.toOption, v.codeActionLiteralSupport.toShared)
+      CodeActionCapabilities(v.dynamicRegistration.toOption,
+                             v.codeActionLiteralSupport.toOption.map(_.toShared),
+                             v.isPreferredSupport.toOption)
   }
 
   implicit class CodeActionContextConverter(v: ClientCodeActionContext) {
@@ -359,8 +337,15 @@ object LspConvertersClientToShared {
 
   implicit class CodeActionKindCapabilitiesConverter(v: ClientCodeActionKindCapabilities) {
     def toShared: CodeActionKindCapabilities =
-      CodeActionKindCapabilities(v.valueSet.toList)
+      CodeActionKindCapabilities(v.valueSet.toList.map { codeActionOrEmpty })
   }
+
+  private def codeActionOrEmpty(k: String) =
+    try {
+      CodeActionKind.withName(k)
+    } catch {
+      case _: NoSuchElementException => CodeActionKind.Empty
+    }
 
   implicit class CodeActionLiteralSupportCapabilitiesConverter(v: ClientCodeActionLiteralSupportCapabilities) {
     def toShared: CodeActionLiteralSupportCapabilities =
@@ -369,7 +354,7 @@ object LspConvertersClientToShared {
 
   implicit class CodeActionOptionsConverter(v: ClientCodeActionOptions) {
     def toShared: CodeActionOptions =
-      CodeActionOptions(v.codeActionKinds.toOption.map(_.toSeq))
+      CodeActionRegistrationOptions(v.codeActionKinds.toOption.map(_.map { codeActionOrEmpty }.toSeq))
   }
 
   implicit class CodeActionParamsConverter(v: ClientCodeActionParams) {

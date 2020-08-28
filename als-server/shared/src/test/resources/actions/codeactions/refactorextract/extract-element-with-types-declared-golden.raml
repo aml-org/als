@@ -1,0 +1,20 @@
+#%RAML 1.0
+types:
+  A:
+    type: array
+
+
+  $1:
+    type: object
+    properties:
+      a:
+        type: string
+      b:
+        type: integer
+/endpoint:
+  get:
+    responses:
+      200:
+        body:
+            application/json:
+                type: $1

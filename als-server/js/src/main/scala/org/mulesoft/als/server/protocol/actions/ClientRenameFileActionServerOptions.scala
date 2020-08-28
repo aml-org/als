@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.protocol.actions
 
-import org.mulesoft.als.server.feature.renameFile.RenameFileActionOptions
+import org.mulesoft.als.server.feature.renamefile.RenameFileActionOptions
 
 import scala.scalajs.js
 

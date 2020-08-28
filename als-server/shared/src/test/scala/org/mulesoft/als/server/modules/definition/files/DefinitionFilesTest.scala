@@ -56,6 +56,18 @@ class DefinitionFilesTest extends ServerDefinitionTest {
     )
   }
 
+  test("oas-ref-to-node") {
+    runTest(
+      "files/oas-ref-to-node/api.yaml",
+      Set(LocationLink(
+        "file://als-server/shared/src/test/resources/actions/definition/files/oas-ref-to-node/reference/reference.yaml",
+        LspRangeConverter.toLspRange(PositionRange(Position(6, 2), Position(6, 8))),
+        LspRangeConverter.toLspRange(PositionRange(Position(6, 2), Position(6, 8))),
+        Some(LspRangeConverter.toLspRange(PositionRange(Position(14, 22), Position(14, 68))))
+      ))
+    )
+  }
+
   test("protocol-ref") {
     runTest(
       "files/protocol-ref/api.raml",
@@ -87,7 +99,7 @@ class DefinitionFilesTest extends ServerDefinitionTest {
           "file://als-server/shared/src/test/resources/actions/definition/files/raml-trait/library.raml",
           LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 13))),
           LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 13))),
-          Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 8), Position(15, 14))))
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 12), Position(15, 14))))
         )
       )
     )
@@ -114,7 +126,7 @@ class DefinitionFilesTest extends ServerDefinitionTest {
           "file://als-server/shared/src/test/resources/actions/definition/files/raml-resource/library.raml",
           LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 12))),
           LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 12))),
-          Some(LspRangeConverter.toLspRange(PositionRange(Position(13, 6), Position(13, 18))))
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(13, 10), Position(13, 18))))
         )
       )
     )
@@ -141,7 +153,7 @@ class DefinitionFilesTest extends ServerDefinitionTest {
           "file://als-server/shared/src/test/resources/actions/definition/files/raml-trait/library.raml",
           LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 13))),
           LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 13))),
-          Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 8), Position(15, 14))))
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 12), Position(15, 14))))
         )
       )
     )
@@ -168,7 +180,7 @@ class DefinitionFilesTest extends ServerDefinitionTest {
           "file://als-server/shared/src/test/resources/actions/definition/files/raml-resource/library.raml",
           LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 12))),
           LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 12))),
-          Some(LspRangeConverter.toLspRange(PositionRange(Position(13, 6), Position(13, 18))))
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(13, 10), Position(13, 18))))
         )
       )
     )
@@ -179,16 +191,10 @@ class DefinitionFilesTest extends ServerDefinitionTest {
       "files/raml-library/api.raml",
       Set(
         LocationLink(
-          "file://als-server/shared/src/test/resources/actions/definition/files/raml-library/api.raml",
-          LspRangeConverter.toLspRange(PositionRange(Position(5, 9), Position(5, 21))),
-          LspRangeConverter.toLspRange(PositionRange(Position(5, 9), Position(5, 21))),
-          Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 8), Position(15, 14))))
-        ),
-        LocationLink(
           "file://als-server/shared/src/test/resources/actions/definition/files/raml-library/library.raml",
           LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 13))),
           LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 13))),
-          Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 8), Position(15, 14))))
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 12), Position(15, 14))))
         )
       )
     )
@@ -199,16 +205,10 @@ class DefinitionFilesTest extends ServerDefinitionTest {
       "files/raml-library/api.raml",
       Set(
         LocationLink(
-          "file://als-server/shared/src/test/resources/actions/definition/files/raml-library/api.raml",
-          LspRangeConverter.toLspRange(PositionRange(Position(5, 9), Position(5, 21))),
-          LspRangeConverter.toLspRange(PositionRange(Position(5, 9), Position(5, 21))),
-          Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 8), Position(15, 14))))
-        ),
-        LocationLink(
           "file://als-server/shared/src/test/resources/actions/definition/files/raml-library/library.raml",
           LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 13))),
           LspRangeConverter.toLspRange(PositionRange(Position(3, 4), Position(4, 13))),
-          Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 8), Position(15, 14))))
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 12), Position(15, 14))))
         )
       )
     )
@@ -227,15 +227,43 @@ class DefinitionFilesTest extends ServerDefinitionTest {
     )
   }
 
-  ignore("yaml path navigation to type") {
+  test("yaml path navigation to type") {
     runTest(
       "files/path-nav/api.yaml",
       Set(
         LocationLink(
           "file://als-server/shared/src/test/resources/actions/definition/files/path-nav/ref.yaml",
-          LspRangeConverter.toLspRange(PositionRange(Position(3, 7), Position(4, 13))),
-          LspRangeConverter.toLspRange(PositionRange(Position(3, 7), Position(4, 13))),
-          Some(LspRangeConverter.toLspRange(PositionRange(Position(15, 8), Position(15, 14))))
+          LspRangeConverter.toLspRange(PositionRange(Position(6, 2), Position(6, 8))),
+          LspRangeConverter.toLspRange(PositionRange(Position(6, 2), Position(6, 8))),
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(14, 22), Position(14, 52))))
+        )
+      )
+    )
+  }
+
+  test("yaml path navigation to recursive type") {
+    runTest(
+      "files/yaml-recursive/api.yaml",
+      Set(
+        LocationLink(
+          "file://als-server/shared/src/test/resources/actions/definition/files/yaml-recursive/api.yaml",
+          LspRangeConverter.toLspRange(PositionRange(Position(5, 2), Position(5, 8))),
+          LspRangeConverter.toLspRange(PositionRange(Position(5, 2), Position(5, 8))),
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(13, 14), Position(13, 36))))
+        )
+      )
+    )
+  }
+
+  test("json path navigation to recursive type") {
+    runTest(
+      "files/json-recursive/api.json",
+      Set(
+        LocationLink(
+          "file://als-server/shared/src/test/resources/actions/definition/files/json-recursive/api.json",
+          LspRangeConverter.toLspRange(PositionRange(Position(15, 4), Position(15, 12))),
+          LspRangeConverter.toLspRange(PositionRange(Position(15, 4), Position(15, 12))),
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(25, 18), Position(25, 40))))
         )
       )
     )

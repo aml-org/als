@@ -1,0 +1,14 @@
+swagger: "2.0"
+de[*]finitions:
+  def:
+    description: Desc
+p[*]arameters:
+  myParam:
+    description: my param
+    maxLength: 1
+
+response[*]s:
+  200:
+    description: 200 Ok
+
+securi[*]tyDefinitions:

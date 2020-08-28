@@ -1,0 +1,30 @@
+asyncapi: 2.0.0
+info:
+  title: title
+  version: 1.0.0
+channels:
+  string:
+    subscribe:
+      message:
+        payload:
+          type: string
+          fo[*]rmat:
+  object:
+    subscribe:
+      message:
+        payload:
+          type: object
+          no[*]t:
+          properties:
+          i[*]f:
+          t[*]hen:
+          el[*]se:
+          exa[*]mples:
+  array:
+    subscribe:
+      message:
+        payload:
+          type: array
+          any[*]Of:
+          ite[*]ms:
+          con[*]tains:

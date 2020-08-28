@@ -20,6 +20,9 @@ case class RelationshipLink(sourceEntry: YPart,
     case _            => sourceEntry.yPartToLocation
   }
   def nameYPart: YPart = namePart.getOrElse(targetEntry)
+
+  def relationshipIsEqual(other: RelationshipLink): Boolean =
+    other.source == this.source && other.targetEntry == this.targetEntry
 }
 
 object LinkTypes extends Enumeration {

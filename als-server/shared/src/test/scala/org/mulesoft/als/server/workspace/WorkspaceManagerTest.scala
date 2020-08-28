@@ -252,15 +252,15 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
           case Some(m) =>
             m.diagnostics.size should be(2)
 
-            m.diagnostics.exists { d => // header
-              d.range == Range(Position(0, 8), Position(0, 14)) &&
-              d.relatedInformation.isEmpty
-            } should be(true)
+            if (!m.diagnostics.exists { d => // header
+                  d.range == Range(Position(0, 9), Position(0, 14)) &&
+                  d.relatedInformation.isEmpty
+                }) fail(s"Header is not present: ${m.diagnostics}")
 
-            m.diagnostics.exists { d => // wrong array
-              d.range == Range(Position(1, 0), Position(17, 9)) &&
-              d.relatedInformation.isEmpty
-            } should be(true)
+            if (!m.diagnostics.exists { d => // wrong array
+                  d.range == Range(Position(1, 0), Position(17, 9)) &&
+                  d.relatedInformation.isEmpty
+                }) fail(s"Wrong array: ${m.diagnostics}")
 
             succeed
           case _ => fail("No Main detected")
@@ -598,7 +598,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   /**
     * Used to log cases in which timeouts occur
     * */
-  class MockDiagnosticClientNotifierWithTelemetryLog extends MockDiagnosticClientNotifier(4000) {
+  class MockDiagnosticClientNotifierWithTelemetryLog extends MockDiagnosticClientNotifier(8000) {
     override def notifyTelemetry(params: TelemetryMessage): Unit = {} // println(params)
   }
 

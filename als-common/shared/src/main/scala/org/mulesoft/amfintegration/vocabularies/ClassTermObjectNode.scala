@@ -4,6 +4,7 @@ import amf.plugins.document.vocabularies.model.domain.{ClassTerm, ObjectProperty
 
 trait TermObjectNode {
   val name: String
+  val displayName: Option[String] = None
   val description: String
 }
 
@@ -11,7 +12,7 @@ trait PropertyTermObjectNode extends TermObjectNode {
 
   lazy val obj: PropertyTerm = ObjectPropertyTerm()
     .withName(name)
-    .withDisplayName(name)
+    .withDisplayName(displayName.getOrElse(name))
     .withDescription(description)
 }
 

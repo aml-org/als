@@ -1,0 +1,18 @@
+#%RAML 1.0
+title: alala
+
+types:
+
+
+  other:
+    type: string
+/e:
+    get:
+        body:
+            application/json:
+                type: object
+                properties:
+                    A:
+                        type: object
+                        properties:
+                            B: other

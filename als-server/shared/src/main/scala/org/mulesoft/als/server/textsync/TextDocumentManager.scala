@@ -73,6 +73,7 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
   }
 
   def onCloseDocument(uri: String): Unit = {
+    logger.debug(s"Document closed ${uri}", "EditorManager", "onCloseDocument")
     uriToEditor.remove(uri)
     dependencies.foreach(_.notify(uri, CLOSE_FILE))
   }
