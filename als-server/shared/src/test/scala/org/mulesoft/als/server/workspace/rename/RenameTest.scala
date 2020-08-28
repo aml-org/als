@@ -8,6 +8,8 @@ import org.mulesoft.als.common.WorkspaceEditSerializer
 import org.mulesoft.als.common.diff.{FileAssertionTest, Tests}
 import org.mulesoft.als.common.dtoTypes.{Position => DtoPosition}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.modules.actions.rename.RenameTools
+import org.mulesoft.als.server.modules.workspace.CompilableUnit
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.workspace.WorkspaceManager
@@ -18,7 +20,7 @@ import org.mulesoft.lsp.feature.common.{Position, Range, VersionedTextDocumentId
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class RenameTest extends LanguageServerBaseTest with FileAssertionTest {
+class RenameTest extends LanguageServerBaseTest with FileAssertionTest with RenameTools {
 
   override implicit val executionContext: ExecutionContext =
     ExecutionContext.Implicits.global
@@ -381,13 +383,15 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest {
         for {
           (_, wsManager) <- buildServer(testCase.root, testCase.ws)
           cu             <- wsManager.getLastUnit(testCase.targetUri, "")
+          position = DtoPosition(testCase.targetPosition)
           renames <- FindRenameLocations
             .changeDeclaredName(testCase.targetUri,
-                                DtoPosition(testCase.targetPosition),
+                                position,
                                 testCase.newName,
                                 wsManager.getAliases(testCase.targetUri, ""),
                                 wsManager.getRelationships(testCase.targetUri, ""),
-                                cu.yPartBranch, cu.unit)
+                                cu.yPartBranch, cu.unit,
+                                selected(testCase.targetUri, position, cu))
           actual <- (writeTemporaryFile(s"file://rename-test-$name-actual.yaml")(
             WorkspaceEditSerializer(renames).serialize()))
           expected <- writeTemporaryFile(s"file://rename-test-$name-expected.yaml")(
@@ -438,6 +442,9 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest {
       .andThen { case _ => server.initialized() }
       .map(_ => (server, workspaceManager))
   }
+
+  private def selected(uri: String, position: DtoPosition, bu: CompilableUnit) =
+    (keyCleanRange(uri, position, bu), keyCleanText(uri, position, bu))
 
   override def rootPath: String = ???
 }

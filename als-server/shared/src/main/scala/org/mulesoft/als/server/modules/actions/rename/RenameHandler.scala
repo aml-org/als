@@ -54,7 +54,8 @@ class RenameHandler(telemetryProvider: TelemetryProvider, workspace: WorkspaceMa
                                 workspace.getAliases(uri, uuid),
                                 workspace.getRelationships(uri, uuid),
                                 bu.yPartBranch,
-                                bu.unit)
+                                bu.unit,
+                                selected(uri, position, bu))
         else if (renameThroughReferenceEnabled) // enable when polished, add logic to prepare rename
           for {
             fromLinks <- renameFromLink(uri, position, newName, uuid, bu, workspace) // if Some() then it's a link to a file
@@ -63,6 +64,9 @@ class RenameHandler(telemetryProvider: TelemetryProvider, workspace: WorkspaceMa
             (fromLinks orElse fromDef) getOrElse WorkspaceEdit.empty // if none of the above, return empty
           } else Future.successful(WorkspaceEdit.empty)
       })
+
+  private def selected(uri: String, position: Position, bu: CompilableUnit) =
+    (keyCleanRange(uri, position, bu), keyCleanText(uri, position, bu))
 
   private def renameFromLink(uri: String,
                              position: Position,
@@ -113,7 +117,8 @@ class RenameHandler(telemetryProvider: TelemetryProvider, workspace: WorkspaceMa
               workspace.getAliases(uri, uuid),
               workspace.getRelationships(uri, uuid),
               bu.yPartBranch,
-              bu.unit
+              bu.unit,
+              selected(uri, position, bu)
             )
             .map(Some(_))
         case _ =>

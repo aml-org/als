@@ -23,12 +23,13 @@ object FindRenameLocations {
                          allAliases: Future[Seq[AliasInfo]],
                          references: Future[Seq[RelationshipLink]],
                          yPartBranchCached: YPartBranchCached,
-                         unit: BaseUnit): Future[WorkspaceEdit] =
+                         unit: BaseUnit,
+                         selected: (PositionRange, String)): Future[WorkspaceEdit] =
     FindReferences
       .getReferences(uri, position, allAliases, references, yPartBranchCached)
       .map { refs =>
         getOriginKey(unit, position)
-          .fold(Seq[RenameLocation]())(refsToRenameLocation(newName, refs, _))
+          .fold(Seq[RenameLocation]())(refsToRenameLocation(newName, refs, _, selected))
       }
       .map(_.groupBy(_.uri))
       .map { uriToLocation =>
@@ -39,10 +40,13 @@ object FindRenameLocations {
         )
       }
 
-  private def refsToRenameLocation(newName: String, refs: Seq[FullLink], origKey: YScalar): Seq[RenameLocation] = {
+  private def refsToRenameLocation(newName: String,
+                                   refs: Seq[FullLink],
+                                   origKey: YScalar,
+                                   selected: (PositionRange, String)): Seq[RenameLocation] = {
     refs
       .map(t => RenameLocation(t._3, t._1.uri, PositionRange(t._1.range), newName, origKey.text)) :+
-      RenameLocation(newName, origKey.location.sourceName, PositionRange(origKey.range))
+      RenameLocation(newName, origKey.location.sourceName, selected._1)
   }
 
   private def getOriginKey(unit: BaseUnit, position: Position): Option[YScalar] =
