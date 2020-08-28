@@ -37,4 +37,12 @@ object YamlWrapper {
     def withKey(k: String): YNode =
       YNode(YMap(IndexedSeq(YMapEntry(YNode(k), yNode)), yNode.sourceName))
   }
+
+  implicit class YScalarImplicit(scalar: YScalar) {
+    def unmarkedRange(): InputRange = {
+      if (scalar.mark.isInstanceOf[QuotedMark])
+        scalar.range.copy(columnFrom = scalar.range.columnFrom + 1, columnTo = scalar.range.columnTo - 1)
+      else scalar.range
+    }
+  }
 }

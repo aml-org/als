@@ -12,7 +12,7 @@ import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
 import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit, WorkspaceEdit}
 import org.mulesoft.lsp.feature.common.VersionedTextDocumentIdentifier
 import org.yaml.model.{YMapEntry, YPart, YScalar}
-
+import org.mulesoft.als.common.YamlWrapper._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -23,13 +23,12 @@ object FindRenameLocations {
                          allAliases: Future[Seq[AliasInfo]],
                          references: Future[Seq[RelationshipLink]],
                          yPartBranchCached: YPartBranchCached,
-                         unit: BaseUnit,
-                         selected: (PositionRange, String)): Future[WorkspaceEdit] =
+                         unit: BaseUnit): Future[WorkspaceEdit] =
     FindReferences
       .getReferences(uri, position, allAliases, references, yPartBranchCached)
       .map { refs =>
         getOriginKey(unit, position)
-          .fold(Seq[RenameLocation]())(refsToRenameLocation(newName, refs, _, selected))
+          .fold(Seq[RenameLocation]())(refsToRenameLocation(newName, refs, _))
       }
       .map(_.groupBy(_.uri))
       .map { uriToLocation =>
@@ -40,13 +39,10 @@ object FindRenameLocations {
         )
       }
 
-  private def refsToRenameLocation(newName: String,
-                                   refs: Seq[FullLink],
-                                   origKey: YScalar,
-                                   selected: (PositionRange, String)): Seq[RenameLocation] = {
+  private def refsToRenameLocation(newName: String, refs: Seq[FullLink], origKey: YScalar): Seq[RenameLocation] = {
     refs
       .map(t => RenameLocation(t._3, t._1.uri, PositionRange(t._1.range), newName, origKey.text)) :+
-      RenameLocation(newName, origKey.location.sourceName, selected._1)
+      RenameLocation(newName, origKey.location.sourceName, PositionRange(origKey.unmarkedRange()))
   }
 
   private def getOriginKey(unit: BaseUnit, position: Position): Option[YScalar] =
@@ -64,12 +60,6 @@ object FindRenameLocations {
     editsByUri.keys.map { uri =>
       TextDocumentEdit(VersionedTextDocumentIdentifier(uri, None), editsByUri(uri))
     }.toSeq
-
-  private def value(yPart: YPart): YPart =
-    yPart match {
-      case yMapEntry: YMapEntry => yMapEntry.value
-      case _                    => yPart
-    }
 }
 
 case class RenameLocation(newName: String, uri: String, replaceRange: PositionRange)

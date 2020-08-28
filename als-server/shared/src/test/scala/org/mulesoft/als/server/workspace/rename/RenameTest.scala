@@ -390,8 +390,7 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest with Rena
                                 testCase.newName,
                                 wsManager.getAliases(testCase.targetUri, ""),
                                 wsManager.getRelationships(testCase.targetUri, ""),
-                                cu.yPartBranch, cu.unit,
-                                selected(testCase.targetUri, position, cu))
+                                cu.yPartBranch, cu.unit)
           actual <- (writeTemporaryFile(s"file://rename-test-$name-actual.yaml")(
             WorkspaceEditSerializer(renames).serialize()))
           expected <- writeTemporaryFile(s"file://rename-test-$name-expected.yaml")(
