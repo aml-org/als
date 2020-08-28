@@ -7,7 +7,7 @@ import org.mulesoft.als.actions.common.RelationshipLink
 import org.mulesoft.als.server.modules.workspace.references.visitors.WebApiElementVisitorFactory
 import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.NodeRelationshipVisitorType
 import org.mulesoft.amfintegration.AmfImplicits._
-import org.yaml.model.YScalar
+import org.yaml.model.{YNode, YScalar}
 
 class RamlTypeExpressionsVisitor extends NodeRelationshipVisitorType {
   override protected def innerVisit(element: AmfElement): Seq[RelationshipLink] =
@@ -23,12 +23,14 @@ class RamlTypeExpressionsVisitor extends NodeRelationshipVisitorType {
         extractTarget(o)
           .flatMap { target =>
             virtualYPart(
-              rootEntry.annotations.location(),
+              o.annotations.location().orElse(rootEntry.annotations.location()),
               o.annotations.lexicalInformation(),
-              o.annotations.ramlExpression()
-//                         getName(target).collect {
-//                           case n: YScalar => n.text
-//                         }
+              o.annotations.ramlExpression().orElse {
+                getName(target).collect {
+                  case n: YScalar => n.text
+                  case n: YNode   => n.toString()
+                }
+              }
             ).map { (_, target) }
           }
           .map { t =>
