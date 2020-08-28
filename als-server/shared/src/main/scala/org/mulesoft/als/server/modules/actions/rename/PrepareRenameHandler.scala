@@ -1,12 +1,8 @@
 package org.mulesoft.als.server.modules.actions.rename
 
-import org.mulesoft.als.actions.common.AliasRelationships
-import org.mulesoft.als.common.YamlUtils
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
-import org.mulesoft.als.server.modules.workspace.CompilableUnit
 import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.common.Range
 import org.mulesoft.lsp.feature.rename.{PrepareRenameParams, PrepareRenameRequestType, PrepareRenameResult}
@@ -48,13 +44,9 @@ class PrepareRenameHandler(telemetryProvider: TelemetryProvider, workspace: Work
       .map { t =>
         {
           val (bu, isAliasDeclaration) = t
-          if (isAliasDeclaration || isDeclarableKey(bu, position, uri))
-            bu.unit.objWithAST
-              .flatMap(_.annotations.ast())
-              .map(YamlUtils.getNodeByPosition(_, position.toAmfPosition))
-              .map(p => LspRangeConverter.toLspRange(PositionRange(p.range)))
-              .map(r => Left(r))
-          else None
+          if (isAliasDeclaration || isDeclarableKey(bu, position, uri)) {
+            Some(Left(LspRangeConverter.toLspRange(keyCleanRange(uri, position, bu))))
+          } else None
         }
       }
 }

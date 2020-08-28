@@ -1,0 +1,33 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a Isbilen API",
+    "version": "1.0.0",
+    "title": "Front End API",
+    "contact": {
+      "email": "kitaec@list.ru"
+    }
+  },
+  "definitions": {
+    "A": {
+      "type": "object",
+      "properties": {
+        "Bs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RENAMED"
+          }
+        }
+      }
+    },
+    "RENAMED": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "example": 1
+        }
+      }
+    }
+  }
+}
