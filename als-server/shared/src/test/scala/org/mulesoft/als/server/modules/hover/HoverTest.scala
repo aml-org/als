@@ -199,7 +199,7 @@ class HoverTest extends ServerWithMarkerTest[Hover] {
   test("Test hover on declaration key") {
     runTest(buildServer(), "declarationKeys/with-include.raml").map { h =>
       h.contents.size should be(1)
-      h.contents.head should be("Contains declarations of reusable SecurityScheme objects")
+      h.contents.head should be("Declarations of reusable authentication mechanisms to ensure secured operations")
       h.range.get should be(Range(Position(2, 0), Position(5, 0)))
     }
   }
@@ -209,13 +209,13 @@ class HoverTest extends ServerWithMarkerTest[Hover] {
       hovers.size should be(5)
       hovers.exists(h => {
         h.contents.size == 1 &&
-        h.contents.head == "Contains declarations of reusable SecurityScheme objects" &&
+        h.contents.head == "Declarations of reusable authentication mechanisms to ensure secured operations" &&
         h.range.get == Range(Position(8, 0), Position(12, 0))
       }) should be(true)
 
       hovers.exists(h => {
         h.contents.size == 1 &&
-        h.contents.head == "Contains declarations of reusable Trait objects" &&
+        h.contents.head == "Declarations of sets of characteristics to reuse across multiple methods" &&
         h.range.get == Range(Position(12, 0), Position(16, 0))
       }) should be(true)
 
@@ -232,7 +232,7 @@ class HoverTest extends ServerWithMarkerTest[Hover] {
 
       hovers.exists(h => {
         h.contents.size == 1 &&
-        h.contents.head == "Contains declarations of reusable ResourceType objects" &&
+        h.contents.head == "Declarations of sets of characteristics to reuse across multiple resources" &&
         h.range.get == Range(Position(23, 0), Position(25, 0))
       }) should be(true)
     }
@@ -243,13 +243,13 @@ class HoverTest extends ServerWithMarkerTest[Hover] {
       hovers.size should be(4)
       hovers.exists(h => {
         h.contents.size == 1 &&
-        h.contents.head == "Contains declarations of reusable SecurityScheme objects" &&
+        h.contents.head == "Declarations of reusable authentication mechanisms to ensure secured operations" &&
         h.range.get == Range(Position(1, 0), Position(2, 0))
       }) should be(true)
 
       hovers.exists(h => {
         h.contents.size == 1 &&
-        h.contents.head == "Contains declarations of reusable Trait objects" &&
+        h.contents.head == "Declarations of sets of characteristics to reuse across multiple methods" &&
         h.range.get == Range(Position(2, 0), Position(3, 0))
       }) should be(true)
 
@@ -260,7 +260,7 @@ class HoverTest extends ServerWithMarkerTest[Hover] {
 
       hovers.exists(h => {
         h.contents.size == 1 &&
-        h.contents.head == "Contains declarations of reusable ResourceType objects" &&
+        h.contents.head == "Declarations of sets of characteristics to reuse across multiple resources" &&
         h.range.get == Range(Position(4, 0), Position(4, 14))
       }) should be(true)
     }
