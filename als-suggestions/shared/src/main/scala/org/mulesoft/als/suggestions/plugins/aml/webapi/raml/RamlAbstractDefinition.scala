@@ -22,11 +22,7 @@ object RamlAbstractDefinition extends AMLCompletionPlugin {
   private val ignoredPlugins: Set[AMLCompletionPlugin] = Set(AMLRefTagCompletionPlugin)
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
-    val info =
-      if (params.amfObject
-            .isInstanceOf[DataNode] && !params.yPartBranch.isIncludeTagValue)
-        elementInfo(params)
-      else None
+    val info = if (params.yPartBranch.isIncludeTagValue) None else elementInfo(params)
 
     info
       .map { info =>
@@ -41,7 +37,7 @@ object RamlAbstractDefinition extends AMLCompletionPlugin {
         newRequest.completionsPluginHandler
           .pluginSuggestions(newRequest)
           .map(seq => {
-            if (params.branchStack.headOption.exists(_.isInstanceOf[AbstractDeclaration]) && params.yPartBranch.isKey)
+            if (params.amfObject.isInstanceOf[AbstractDeclaration] && params.yPartBranch.isKey)
               seq ++ Seq(RawSuggestion.forKey("usage", "docs", mandatory = false))
             else seq
           })
@@ -51,9 +47,15 @@ object RamlAbstractDefinition extends AMLCompletionPlugin {
 
   private case class ElementInfo(element: DomainElement, original: DomainElement, name: String, iri: String)
 
-  private def elementInfo(params: AmlCompletionRequest): Option[ElementInfo] =
-    params.branchStack
-      .collectFirst({ case a: AbstractDeclaration => a }) match {
+  private def findAbstractDeclaration(params: AmlCompletionRequest) = {
+    params.amfObject match {
+      case a: AbstractDeclaration => Some(a)
+      case _                      => params.branchStack.collectFirst({ case a: AbstractDeclaration => a })
+    }
+  }
+
+  private def elementInfo(params: AmlCompletionRequest): Option[ElementInfo] = {
+    findAbstractDeclaration(params) match {
       case Some(r: ResourceType) =>
         val resolved = getSourceEntry(r, "resourceType").fold(
           r.asEndpoint(params.baseUnit, errorHandler = LocalIgnoreErrorHandler))(e => {
