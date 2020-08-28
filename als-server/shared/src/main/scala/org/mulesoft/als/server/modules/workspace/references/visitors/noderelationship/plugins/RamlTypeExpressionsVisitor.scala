@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.plugins
 
 import amf.core.model.document.BaseUnit
-import amf.core.model.domain.{AmfElement, AmfObject, NamedDomainElement}
+import amf.core.model.domain.{AmfElement, AmfObject, Linkable, NamedDomainElement}
 import amf.core.traversal.iterator.DomainElementStrategy
 import org.mulesoft.als.actions.common.RelationshipLink
 import org.mulesoft.als.server.modules.workspace.references.visitors.WebApiElementVisitorFactory
@@ -25,12 +25,7 @@ class RamlTypeExpressionsVisitor extends NodeRelationshipVisitorType {
             virtualYPart(
               o.annotations.location().orElse(rootEntry.annotations.location()),
               o.annotations.lexicalInformation(),
-              o.annotations.ramlExpression().orElse {
-                getName(target).collect {
-                  case n: YScalar => n.text
-                  case n: YNode   => n.toString()
-                }
-              }
+              text(rootEntry, o, target)
             ).map { (_, target) }
           }
           .map { t =>
@@ -39,6 +34,24 @@ class RamlTypeExpressionsVisitor extends NodeRelationshipVisitorType {
           .getOrElse(Nil)
       case _ => Nil
     }
+
+  private def text(rootEntry: AmfObject, o: NamedDomainElement, target: AmfElement): Option[String] =
+    o.annotations
+      .ramlExpression() // if it has the expression, prioritize
+      .orElse { // if there is no info for any expression, let's check the link label
+        rootEntry match {
+          case l: Linkable =>
+            l.linkLabel.option()
+          case _ => None
+        }
+      }
+      .orElse(o.annotations.sourceNodeText()) // if not, lets check the original node content
+      .orElse { // if nothing else found a result, let's check the original name
+        getName(target).collect {
+          case n: YScalar => n.text
+          case n: YNode   => n.toString()
+        }
+      }
 }
 
 object RamlTypeExpressionsVisitor extends WebApiElementVisitorFactory {

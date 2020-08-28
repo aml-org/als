@@ -1,6 +1,13 @@
 package org.mulesoft.amfintegration
 
-import amf.core.annotations.{LexicalInformation, ReferenceTargets, SourceAST, SourceLocation, SynthesizedField}
+import amf.core.annotations.{
+  LexicalInformation,
+  ReferenceTargets,
+  SourceAST,
+  SourceLocation,
+  SourceNode,
+  SynthesizedField
+}
 import amf.plugins.document.webapi.annotations.{DeclarationKey, DeclarationKeys, ExternalJsonSchemaShape}
 import amf.core.metamodel.Field
 import amf.core.model.document.{BaseUnit, EncodesModel}
@@ -12,7 +19,6 @@ import amf.plugins.document.vocabularies.model.domain.{ClassTerm, NodeMapping, P
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import amf.plugins.domain.shapes.annotations.ParsedFromTypeExpression
 import amf.plugins.domain.webapi.metamodel.AbstractModel
-
 import org.yaml.model.{YMapEntry, YPart}
 
 import scala.collection.mutable
@@ -34,6 +40,12 @@ object AmfImplicits {
     def isRamlTypeExpression: Boolean = ann.find(classOf[ParsedFromTypeExpression]).isDefined
 
     def ramlExpression(): Option[String] = ann.find(classOf[ParsedFromTypeExpression]).map(_.expression)
+
+    def sourceNodeText(): Option[String] =
+      ann
+        .find(classOf[SourceNode])
+        .flatMap(_.node.asScalar)
+        .map(_.text)
 
     def externalJsonSchemaShape: Option[YMapEntry] = ann.find(classOf[ExternalJsonSchemaShape]).map(_.original)
 

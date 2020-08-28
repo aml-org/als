@@ -135,6 +135,28 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest {
                            |    a:
                            |        type: string""".stripMargin
   )
+
+  private val ws6 = Map(
+    "file:///root/exchange.json" -> """{"main": "api.raml"}""",
+    "file:///root/api.raml" -> """#%RAML 1.0
+                                 |title: Test
+                                 |types:
+                                 |  T: !include type.raml
+                                 |  Ts: T []""".stripMargin,
+    "file:///root/type.raml" -> """#%RAML 1.0 DataType
+                                  |uses:
+                                  |  lib: lib.raml
+                                  |
+                                  |type: lib.A
+                                  |""".stripMargin,
+    "file:///root/lib.raml" -> """#%RAML 1.0 Library
+                                 |
+                                 |types:
+                                 |  A:
+                                 |    type: object
+                                 |    properties:
+                                 |        a: string""".stripMargin
+  )
   val testSets: Map[String, TestEntry] = Map(
     "Test1" ->
       TestEntry(
@@ -326,6 +348,23 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest {
              TextEdit(Range(Position(4, 12), Position(4, 19)), "RENAMED"),
              TextEdit(Range(Position(6, 2), Position(6, 9)), "RENAMED")
            ))
+        ))
+    ),
+    "DataType with Library" -> TestEntry(
+      "file:///root/lib.raml",
+      Position(3, 3),
+      "RENAMED",
+      ws6,
+      createWSE(
+        Seq(
+          ("file:///root/type.raml",
+            Seq(
+              TextEdit(Range(Position(4, 10), Position(4, 11)), "RENAMED")
+            )),
+          ("file:///root/lib.raml",
+            Seq(
+              TextEdit(Range(Position(3, 2), Position(3, 3)), "RENAMED")
+            ))
         ))
     )
   )
