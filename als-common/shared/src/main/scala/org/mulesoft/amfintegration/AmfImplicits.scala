@@ -148,18 +148,20 @@ object AmfImplicits {
 
   implicit class DialectImplicits(d: Dialect) extends BaseUnitImp(d) {
 
+    private val declaredTerms = d.declares.collect({ case nm: NodeMapping => nm.nodetypeMapping.value() -> nm }).toMap
     // IdNodeMapping -> TermNodeMapping(amf object meta)
     def termsForId: Map[String, String] =
       d.declares.collect({ case nm: NodeMapping => nm }).map(nm => nm.id -> nm.nodetypeMapping.value()).toMap
+
+    def findNodeMappingByTerm(term: String): Option[NodeMapping] = declaredTerms.get(term)
 
     def declarationsMapTerms: Map[String, String] = {
       d.documents()
         .root()
         .declaredNodes()
         .flatMap { pnm =>
-          d.declares
+          declaredTerms.values
             .find(_.id == pnm.mappedNode().value())
-            .collect({ case nm: NodeMapping => nm })
             .map { declared =>
               declared.nodetypeMapping.value() -> pnm.name().value()
             }
