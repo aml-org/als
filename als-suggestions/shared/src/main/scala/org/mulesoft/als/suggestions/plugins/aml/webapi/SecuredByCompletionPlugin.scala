@@ -40,7 +40,8 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
   private def isWritingSecuredBy(request: AmlCompletionRequest): Boolean = {
     request.amfObject match {
       case _: SecurityRequirement =>
-        request.fieldEntry.isEmpty && request.yPartBranch.isDescendanceOf("security") && (request.yPartBranch.isArray || request.yPartBranch.isValue || JsonExceptions.SecuredBy
+        request.fieldEntry.isEmpty && (request.yPartBranch.isDescendanceOf("security") || request.yPartBranch.isDescendanceOf(
+          "securedBy")) && (request.yPartBranch.isArray || request.yPartBranch.isValue || JsonExceptions.SecuredBy
           .isJsonException(request.yPartBranch))
       case s: Server => request.fieldEntry.exists(t => t.field == ServerModel.Security)
       case _         => false
