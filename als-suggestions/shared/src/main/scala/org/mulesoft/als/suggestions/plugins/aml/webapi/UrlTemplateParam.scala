@@ -23,6 +23,8 @@ trait UrlTemplateParam extends AMLCompletionPlugin {
             case Some(s: Server)   => serverParams(s)
             case _                 => Nil
           }
+        case endPoint: EndPoint if request.yPartBranch.isKeyDescendantOf("uriParameters") =>
+          endpointParams(endPoint)
         case _ => Nil
       }
       params.map(toRaw)
