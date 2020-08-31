@@ -31,7 +31,7 @@ trait UrlTemplateParam extends AMLCompletionPlugin {
 
   private def isName(request: AmlCompletionRequest) = request.fieldEntry.exists(_.field == ParameterModel.Name)
 
-  private def endpointParams(e: EndPoint): Seq[String] = {
+  protected def endpointParams(e: EndPoint): Seq[String] = {
     e.parameters
       .filter(p => p.binding.option().contains("path") && p.annotations.contains(classOf[SynthesizedField]))
       .flatMap(_.name.option())

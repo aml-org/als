@@ -24,6 +24,7 @@ object RamlCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
       StructureCompletionPlugin(List(
         ResolveShapeAndSecurity,
         DisplayNameExampleNode,
+        ResolveUriParameter,
         ResolveDefault
       )) :+
       Raml10BooleanPropertyValue :+
@@ -54,7 +55,8 @@ object RamlCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
       UnitDocumentationFacet :+
       DefaultVariablesAbstractDefinition :+
       OperationRequest :+
-      WebApiKnownValueCompletionPlugin
+      WebApiKnownValueCompletionPlugin :+
+      UriParameterCompletionPlugin
 
   override def plugins: Seq[AMLCompletionPlugin] = all
 
