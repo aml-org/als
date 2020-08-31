@@ -1,1 +1,32 @@
-[]
+[
+  {
+    "label": "uri",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "uri",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11uri",
+    "filterText": "uri:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      },
+      "newText": "uri:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
