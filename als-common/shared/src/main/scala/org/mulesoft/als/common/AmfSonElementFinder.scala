@@ -10,7 +10,7 @@ import amf.core.parser.{Annotations, FieldEntry, Position => AmfPosition}
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.FieldEntryOrdering
-import org.yaml.model.{YMapEntry, YNode, YType}
+import org.yaml.model.{YMapEntry, YNode, YPart, YType}
 import YamlWrapper._
 import amf.core.parser.{Position => AmfPosition}
 import org.mulesoft.amfintegration.AmfImplicits._
@@ -43,8 +43,8 @@ object AmfSonElementFinder {
               arr.values
                 .collectFirst({
                   case obj: AmfObject
-                      if (obj.annotations.contains(classOf[VirtualObject]) &&
-                        (sonContainsNonVirtualPosition(obj, amfPosition)) || obj.containsPosition(amfPosition)) =>
+                      if obj.annotations.contains(classOf[VirtualObject]) &&
+                        sonContainsNonVirtualPosition(obj, amfPosition) || obj.containsPosition(amfPosition) =>
                     obj
                 })
                 .nonEmpty)
@@ -67,6 +67,9 @@ object AmfSonElementFinder {
     def findSon(amfPosition: AmfPosition, filterFns: Seq[FieldEntry => Boolean]): AmfObject =
       findSonWithStack(amfPosition, None, filterFns)._1
 
+    private def containsAsValue(maybePart: Option[YPart], amfPosition: AmfPosition): Boolean =
+      maybePart.exists(_.isValue(amfPosition))
+
     def findSonWithStack(amfPosition: AmfPosition,
                          location: Option[String],
                          filterFns: Seq[FieldEntry => Boolean]): (AmfObject, Seq[AmfObject]) = {
@@ -78,7 +81,8 @@ object AmfSonElementFinder {
           .filter(f => {
             filterFns.forall(fn => fn(f)) && posFilter(f)
           }) match {
-          case Nil => None
+          case Nil =>
+            None
           case list =>
             val entries = list
               .filterNot(
@@ -116,8 +120,10 @@ object AmfSonElementFinder {
                   }
                 case _ => None
               }
-            case e: AmfObject if e.containsPosition(amfPosition) => Some(e)
-            case _                                               => None
+            case e: AmfObject
+                if e.containsPosition(amfPosition) || containsAsValue(entry.value.annotations.ast(), amfPosition) =>
+              Some(e)
+            case _ => None
         })
         a.headOption.foreach(head => {
           stack.prepend(result)
@@ -176,16 +182,5 @@ object AmfSonElementFinder {
         case array: AmfArray => array.findSon(position, location, filterFns)
         case _               => None
       }
-    }
   }
-
-  private def arrayContainsPosition(amfArray: AmfArray,
-                                    amfPosition: AmfPosition,
-                                    location: Option[String],
-                                    fieldLi: Option[LexicalInformation]): Boolean =
-    amfArray.values.exists(_.position() match {
-      case Some(p) =>
-        p.contains(amfPosition)
-      case _ => false
-    }) || fieldLi.exists(_.contains(amfPosition))
 }
