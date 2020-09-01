@@ -25,7 +25,7 @@ object AmfSonElementFinder {
       amfElement match {
         case amfObject: AmfObject =>
           amfObject.fields.fields().exists { f =>
-            f.value.annotations.find(classOf[LexicalInformation]).exists(_.contains(amfPosition)) ||
+            containsAsValue(f.value.annotations.ast(), amfPosition) ||
             (f.value.annotations.contains(classOf[VirtualObject]) && sonContainsNonVirtualPosition(f.value.value,
                                                                                                    amfPosition))
           }
@@ -52,10 +52,9 @@ object AmfSonElementFinder {
           case v =>
             v.position() match {
               case Some(p) =>
-                p.contains(amfPosition) || (v.isInstanceOf[AmfObject] && f.value.annotations
-                  .find(classOf[LexicalInformation])
-                  .exists(_.contains(amfPosition)))
-
+                p.contains(amfPosition) ||
+                  (v.isInstanceOf[AmfObject] &&
+                    containsAsValue(f.value.annotations.ast(), amfPosition))
               case _ =>
                 f.value.annotations
                   .contains(classOf[SynthesizedField]) || f.value.value.annotations
@@ -135,7 +134,7 @@ object AmfSonElementFinder {
   }
 
   implicit class AlsAmfArray(array: AmfArray) {
-    private def minor(left: AmfElement, right: AmfElement) = {
+    private def minor(left: AmfElement, right: AmfElement) =
       right
         .position() match {
         case Some(LexicalInformation(rightRange)) =>
@@ -147,7 +146,6 @@ object AmfSonElementFinder {
           }
         case None => left
       }
-    }
 
     @scala.annotation.tailrec
     private def findMinor(elements: List[AmfElement]): Option[AmfElement] = {
