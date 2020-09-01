@@ -44,8 +44,13 @@ object YamlWrapper {
     }
 
     private def outScalarValue(position: AmfPosition) =
-      entry.range.lineFrom < position.line && !entry.value.isNull && entry.value.asScalar.isDefined && !entry.value
+      entry.range.lineFrom < position.line && (scalarValue(position) || nullValueOutIndentation(position))
+
+    private def scalarValue(position: AmfPosition) =
+      !entry.value.isNull && entry.value.asScalar.isDefined && !entry.value
         .contains(position)
+    private def nullValueOutIndentation(position: AmfPosition) =
+      entry.value.isNull && entry.key.range.columnFrom >= position.column
 
     private def containsInValue(position: AmfPosition) = {
       entry.value.tagType match {
