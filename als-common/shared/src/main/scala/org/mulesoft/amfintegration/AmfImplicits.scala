@@ -35,6 +35,7 @@ object AmfImplicits {
     def isAtEmptyScalar(pos: AmfPosition): Boolean =
       Range(li.range.start.line, li.range.end.line + 1)
         .contains(pos.line) && !isLastLine(pos) && li.range.start == li.range.end
+
     def isLastLine(pos: AmfPosition): Boolean =
       li.range.end.column == 0 && pos.line == li.range.end.line
 
@@ -50,19 +51,23 @@ object AmfImplicits {
   implicit class AmfAnnotationsImp(ann: Annotations) {
     def range(): Option[parser.Range] = lexicalInfo.map(_.range)
 
-    def lexicalInfo: Option[LexicalInformation] = ann.find(classOf[LexicalInformation])
+    def lexicalInfo: Option[LexicalInformation] =
+      ann.find(classOf[LexicalInformation])
 
     def ast(): Option[YPart] = ann.find(classOf[SourceAST]).map(_.ast)
 
     def isSynthesized: Boolean = ann.contains(classOf[SynthesizedField])
 
-    def targets(): Map[String, parser.Range] = ann.find(classOf[ReferenceTargets]).map(_.targets).getOrElse(Map.empty)
+    def targets(): Map[String, parser.Range] =
+      ann.find(classOf[ReferenceTargets]).map(_.targets).getOrElse(Map.empty)
   }
 
   implicit class FieldEntryImplicit(f: FieldEntry) {
 
     def fieldContains(position: AmfPosition): Boolean = {
-      f.value.annotations.lexicalInfo.orElse(f.value.value.annotations.lexicalInfo).exists(_.contains(position))
+      f.value.annotations.lexicalInfo
+        .orElse(f.value.value.annotations.lexicalInfo)
+        .exists(_.contains(position))
     }
 
     def isArrayIncluded(position: AmfPosition): Boolean = {
@@ -74,26 +79,27 @@ object AmfImplicits {
             .lastOption
             .exists(isEmptyNodeLine(_, position)))
         case Some(arr: YSequence) =>
-          PositionRange(arr.range).contains(Position(position)) && isEndChar(position, arr.range)
-        case Some(other) => PositionRange(other.range).contains(Position(position))
-        case _           => false
+          PositionRange(arr.range)
+            .contains(Position(position)) && isEndChar(position, arr.range)
+        case Some(other) =>
+          PositionRange(other.range).contains(Position(position))
+        case _ => false
       }
     }
 
-    def isEndChar(position: AmfPosition, range: InputRange) = {
+    def isEndChar(position: AmfPosition, range: InputRange) =
       position.line < range.lineTo || (position.line == range.lineTo && position.column > range.columnTo) || range.lineFrom == range.lineTo
-    }
 
-    def isEmptyNodeLine(n: YNode, position: AmfPosition): Boolean = {
+    def isEmptyNodeLine(n: YNode, position: AmfPosition): Boolean =
       n.isNull && n.range.lineFrom == n.range.lineTo && n.range.lineFrom == position.line
-    }
   }
 
   implicit class AmfObjectImp(amfObject: AmfObject) {
 
     def metaURIs: List[String] = amfObject.meta.`type` match {
-      case head :: tail if isAbstract => (head.iri() + "Abstract") +: (tail.map(_.iri()))
-      case l                          => l.map(_.iri())
+      case head :: tail if isAbstract =>
+        (head.iri() + "Abstract") +: (tail.map(_.iri()))
+      case l => l.map(_.iri())
     }
 
     lazy val isAbstract: Boolean = amfObject.fields
@@ -103,20 +109,22 @@ object AmfImplicits {
       })
       .exists(_.toBool)
 
-    def containsPosition(amfPosition: AmfPosition): Boolean = {
-      amfObject.annotations.find(classOf[SourceAST]) match {
-        case Some(SourceAST(ast: YMapEntry))                    => ast.contains(amfPosition)
-        case Some(SourceAST(ast: YNode)) if ast.isNull          => true
-        case Some(SourceAST(ast: YScalar)) if ast.value == null => true
-        case Some(SourceAST(other))                             => other.contains(amfPosition)
-        case _                                                  => false
+    def containsPosition(amfPosition: AmfPosition): Boolean =
+      amfObject.annotations.ast() match {
+        case Some(ast: YMapEntry) =>
+          ast.contains(amfPosition)
+        case Some(ast: YNode) if ast.isNull          => true
+        case Some(ast: YScalar) if ast.value == null => true
+        case Some(other)                             => other.contains(amfPosition)
+        case _                                       => false
       }
-    }
   }
 
   implicit class DomainElementImp(d: DomainElement) extends AmfObjectImp(d) {
     def getLiteralProperty(f: Field): Option[Any] =
-      d.fields.getValueAsOption(f).collect({ case Value(v: AmfScalar, _) => v.value })
+      d.fields
+        .getValueAsOption(f)
+        .collect({ case Value(v: AmfScalar, _) => v.value })
   }
 
   implicit class BaseUnitImp(bu: BaseUnit) extends AmfObjectImp(bu) {
@@ -126,8 +134,9 @@ object AmfImplicits {
         .map(_ => bu)
         .orElse(
           bu match {
-            case e: EncodesModel if e.encodes.annotations.ast().isDefined => Some(e.encodes)
-            case _                                                        => None
+            case e: EncodesModel if e.encodes.annotations.ast().isDefined =>
+              Some(e.encodes)
+            case _ => None
           }
         )
 
@@ -148,12 +157,19 @@ object AmfImplicits {
 
   implicit class DialectImplicits(d: Dialect) extends BaseUnitImp(d) {
 
-    private val declaredTerms = d.declares.collect({ case nm: NodeMapping => nm.nodetypeMapping.value() -> nm }).toMap
+    private val declaredTerms = d.declares
+      .collect({ case nm: NodeMapping => nm.nodetypeMapping.value() -> nm })
+      .toMap
+
     // IdNodeMapping -> TermNodeMapping(amf object meta)
     def termsForId: Map[String, String] =
-      d.declares.collect({ case nm: NodeMapping => nm }).map(nm => nm.id -> nm.nodetypeMapping.value()).toMap
+      d.declares
+        .collect({ case nm: NodeMapping => nm })
+        .map(nm => nm.id -> nm.nodetypeMapping.value())
+        .toMap
 
-    def findNodeMappingByTerm(term: String): Option[NodeMapping] = declaredTerms.get(term)
+    def findNodeMappingByTerm(term: String): Option[NodeMapping] =
+      declaredTerms.get(term)
 
     def declarationsMapTerms: Map[String, String] = {
       d.documents()
@@ -168,17 +184,25 @@ object AmfImplicits {
         }
         .toMap
     }
+
     def vocabulary(base: String): Option[Vocabulary] = {
-      d.references.collectFirst { case v: Vocabulary if v.base.option().contains(base) => v }
+      d.references.collectFirst {
+        case v: Vocabulary if v.base.option().contains(base) => v
+      }
     }
   }
 
   implicit class VocabularyImplicit(v: Vocabulary) extends BaseUnitImp(v) {
-    val properties: Seq[PropertyTerm] = v.declares.collect { case p: PropertyTerm => p }
-    val classes: Seq[ClassTerm]       = v.declares.collect { case c: ClassTerm    => c }
+    val properties: Seq[PropertyTerm] = v.declares.collect {
+      case p: PropertyTerm => p
+    }
+    val classes: Seq[ClassTerm] = v.declares.collect { case c: ClassTerm => c }
 
-    def getPropertyTerm(n: String): Option[PropertyTerm] = v.properties.find(p => p.name.option().contains(n))
+    def getPropertyTerm(n: String): Option[PropertyTerm] =
+      v.properties.find(p => p.name.option().contains(n))
 
-    def getClassTerm(n: String): Option[ClassTerm] = v.classes.find(p => p.name.option().contains(n))
+    def getClassTerm(n: String): Option[ClassTerm] =
+      v.classes.find(p => p.name.option().contains(n))
   }
+
 }

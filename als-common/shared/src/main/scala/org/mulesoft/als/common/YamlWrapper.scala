@@ -8,7 +8,7 @@ import org.yaml.model._
 object YamlWrapper {
 
   implicit class AlsInputRange(range: InputRange) {
-    def toPositionRange =
+    def toPositionRange: PositionRange =
       PositionRange(Position(AmfPosition(range.lineFrom, range.columnFrom)),
                     Position(AmfPosition(range.lineTo, range.columnTo)))
   }
@@ -23,7 +23,8 @@ object YamlWrapper {
         case _                => false
       }
 
-    def isValue(amfPosition: AmfPosition): Boolean = selectedNode.contains(amfPosition) && !isKey(amfPosition)
+    def isValue(amfPosition: AmfPosition): Boolean =
+      contains(amfPosition) && !isKey(amfPosition)
 
     def contains(amfPosition: AmfPosition): Boolean =
       selectedNode.range.toPositionRange.contains(Position(amfPosition))
@@ -32,9 +33,8 @@ object YamlWrapper {
   implicit class YMapEntryOps(entry: YMapEntry) extends AlsYPart(entry) {
     override def isArray: Boolean = false
 
-    override def contains(position: AmfPosition): Boolean = {
-      super.contains(position) && !outScalarValue(position)
-    }
+    override def contains(position: AmfPosition): Boolean =
+      super.contains(position) && !(outScalarValue(position) || outIndentation(position))
 
     private def outScalarValue(position: AmfPosition) =
       entry.range.lineFrom < position.line && (scalarValue(position) || nullValueOutIndentation(position))
@@ -43,16 +43,10 @@ object YamlWrapper {
       !entry.value.isNull && entry.value.asScalar.isDefined && !entry.value
         .contains(position)
     private def nullValueOutIndentation(position: AmfPosition) =
-      entry.value.isNull && entry.key.range.columnFrom >= position.column
+      entry.value.isNull && outIndentation(position)
 
-    private def containsInValue(position: AmfPosition) = {
-      entry.value.tagType match {
-        case YType.Map | YType.Seq                                                                 => false
-        case YType.Null                                                                            => position.column > entry.range.columnFrom
-        case _ if entry.value.tagType.toString == "!include" && entry.value.value.toString.isEmpty => true
-      }
-    }
-
+    private def outIndentation(position: AmfPosition) =
+      entry.key.range.columnFrom >= position.column && entry.key.range.lineTo < position.line
   }
 
   implicit class AlsYMapOps(map: YMap) extends AlsYPart(map) {
@@ -64,9 +58,8 @@ object YamlWrapper {
     private def respectIndentation(amfPosition: AmfPosition) =
       map.entries.headOption.forall(_.range.columnFrom <= amfPosition.column)
 
-    private def sameLevelBefore(amfPosition: AmfPosition) = {
+    private def sameLevelBefore(amfPosition: AmfPosition) =
       map.range.lineFrom > amfPosition.line && map.range.lineTo >= amfPosition.line && map.entries.nonEmpty
-    }
   }
 
 }
