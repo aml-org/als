@@ -6,6 +6,7 @@ import amf.core.model.document.BaseUnit
 import amf.core.model.domain.{AmfObject, DomainElement}
 import amf.core.parser.{Annotations, FieldEntry, Position => AmfPosition}
 import org.mulesoft.als.common.AmfSonElementFinder._
+import org.mulesoft.als.common.YamlWrapper.AlsYPart
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.FieldEntryOrdering
