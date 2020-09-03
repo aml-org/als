@@ -16,9 +16,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with PlatformSecrets {
 
-  override val executionContext: ExecutionContext =
-    scala.concurrent.ExecutionContext.Implicits.global
-
   it should "select the range on YAML map" in {
     val testUri                  = "file://test.yaml"
     val positions: Seq[Position] = Seq(Position(1, 8))
