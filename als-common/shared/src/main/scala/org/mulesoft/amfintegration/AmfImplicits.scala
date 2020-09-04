@@ -140,8 +140,9 @@ object AmfImplicits {
         case Some(ast: YNode) if ast.isNull => true
         case Some(ast: YScalar)             => ast.contains(amfPosition)
         case Some(other)                    => other.contains(amfPosition)
-        case _                                         => false
+        case _                              => false
       }
+    }
   }
 
   implicit class DomainElementImp(d: DomainElement) extends AmfObjectImp(d) {
