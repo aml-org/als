@@ -50,7 +50,8 @@ object Raml08CompletionPluginRegistry extends WebApiCompletionPluginRegistry {
       UnitDocumentationFacet :+
       DefaultVariablesAbstractDefinition :+
       OperationRequest :+
-      Raml08KnownValueCompletionPlugin
+      Raml08KnownValueCompletionPlugin :+
+      Raml08TypeDeclarationReferenceCompletionPlugin
 
   override def plugins: Seq[AMLCompletionPlugin] = all
 
