@@ -3,7 +3,7 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 import amf.core.model.domain.{AmfArray, AmfObject}
 import amf.core.parser.{FieldEntry, Value}
 import amf.plugins.domain.webapi.metamodel.security.{OAuth2FlowModel, OAuth2SettingsModel}
-import amf.plugins.domain.webapi.models.security.{OAuth2Settings, ParametrizedSecurityScheme, Scope}
+import amf.plugins.domain.webapi.models.security.{OAuth2Flow, OAuth2Settings, ParametrizedSecurityScheme, Scope}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -17,9 +17,11 @@ object SecurityScopesCompletionPlugin extends AMLCompletionPlugin {
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     Future {
-      request.fieldEntry match {
-        case Some(FieldEntry(OAuth2FlowModel.Scopes, Value(array: AmfArray, _))) =>
-          val scopes = array.values.collect({ case s: Scope => s.name.option() }).flatten
+      request.amfObject match {
+        case _: Scope =>
+          val scopes = request.branchStack.headOption
+            .collect({ case f: OAuth2Flow => f.scopes.flatMap(_.name.option()) })
+            .getOrElse(Nil)
           getParametrizedScopes(request.branchStack)
             .filter(s => !scopes.contains(s))
             .map(t =>
@@ -31,8 +33,11 @@ object SecurityScopesCompletionPlugin extends AMLCompletionPlugin {
                                             request.actualDialect.id),
                 mandatory = false
             ))
-        case _ => Nil
+        case p: ParametrizedSecurityScheme
+            if request.fieldEntry.isEmpty && request.yPartBranch.isKey && p.scheme.`type`.value() == "OAuth 2.0" =>
+          Seq(RawSuggestion.arrayProp("scopes", "security"))
 
+        case _ => Nil
       }
     }
 

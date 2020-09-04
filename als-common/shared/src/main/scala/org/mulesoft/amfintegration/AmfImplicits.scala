@@ -100,11 +100,10 @@ object AmfImplicits {
             .lastOption
             .exists(isEmptyNodeLine(_, position)))
         case Some(arr: YSequence) =>
-          PositionRange(arr.range)
-            .contains(Position(position)) && isEndChar(position, arr.range)
-        case Some(other) =>
-          PositionRange(other.range).contains(Position(position))
-        case _ => false
+          PositionRange(arr.range).contains(Position(position)) && isEndChar(position, arr.range)
+        case Some(e: YMapEntry) => e.contains(position)
+        case Some(other)        => PositionRange(other.range).contains(Position(position))
+        case _                  => false
       }
     }
 
@@ -135,14 +134,13 @@ object AmfImplicits {
       })
       .exists(_.toBool)
 
-    def containsPosition(amfPosition: AmfPosition): Boolean =
+    def containsPosition(amfPosition: AmfPosition): Boolean = {
       amfObject.annotations.ast() match {
-        case Some(ast: YMapEntry) =>
-          ast.contains(amfPosition)
-        case Some(ast: YNode) if ast.isNull          => true
-        case Some(ast: YScalar) if ast.value == null => true
-        case Some(other)                             => other.contains(amfPosition)
-        case _                                       => false
+        case Some(ast: YMapEntry)           => ast.contains(amfPosition)
+        case Some(ast: YNode) if ast.isNull => true
+        case Some(ast: YScalar)             => ast.contains(amfPosition)
+        case Some(other)                    => other.contains(amfPosition)
+        case _                                         => false
       }
   }
 

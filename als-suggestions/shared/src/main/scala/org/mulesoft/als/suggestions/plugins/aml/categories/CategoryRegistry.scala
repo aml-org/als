@@ -58,6 +58,7 @@ trait BaseCategoryRegistry {
     (None, "displayName"),
     (None, "name"),
     (None, "url"),
+    (None, "usage"),
     (Some(WebApiModel.`type`.head.iri()), "externalDocs"),
     (Some(WebApiModel.`type`.head.iri()), "info"),
     (Some(OrganizationModel.`type`.head.iri()), "email"),

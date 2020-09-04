@@ -360,7 +360,7 @@ object Raml10TypesDialect {
           Raml10SecuritySchemesDialect.SecurityScheme,
           Raml10SecuritySchemesDialect.OAuth1Settings,
           Raml10SecuritySchemesDialect.OAuth2Settings,
-          Raml10SecuritySchemesDialect.OAuth2Flows,
+//          Raml10SecuritySchemesDialect.OAuth2Flows,
           AnnotationType
         ))
 

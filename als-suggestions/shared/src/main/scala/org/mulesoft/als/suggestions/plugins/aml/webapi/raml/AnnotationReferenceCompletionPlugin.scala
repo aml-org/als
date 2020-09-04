@@ -6,7 +6,7 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.yaml.model.YMapEntry
-
+import org.mulesoft.als.common.YamlWrapper._
 import scala.concurrent.Future
 
 object AnnotationReferenceCompletionPlugin extends AMLCompletionPlugin {
