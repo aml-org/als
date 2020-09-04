@@ -1,44 +1,18 @@
-package org.mulesoft.als.common
+package org.mulesoft.als.common.objectintree
 
-import amf.core.parser
-import amf.core.unsafe.PlatformSecrets
-import amf.internal.environment.Environment
-import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
-import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.amfintegration.AmfInstance
-import org.scalatest.{Assertion, AsyncFlatSpec, Matchers}
+import org.scalatest.AsyncFlatSpec
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 
-class ObjectInTreeTests extends AsyncFlatSpec with PlatformSecrets with Matchers with FileAssertionTest {
+class ObjectInTreeTests extends AsyncFlatSpec with ObjectInTreeBaseTest {
   override val executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
+
   behavior of "Object in Tree finder"
 
-  private def runTest(pos: Position,
-                      expectedTypeIri: String,
-                      expectedPropertyTerm: Option[String]): Future[Assertion] =
-    objectInTree.map { fn =>
-      val tree = fn(pos.toAmfPosition)
-      expectedPropertyTerm.foreach { pt =>
-        val fieldEntry = tree.fieldEntry.map(_.field.toString())
-        fieldEntry should contain(pt)
-      }
-      expectedPropertyTerm match {
-        case Some(pt) =>
-          val fieldEntry = tree.fieldEntry.map(_.field.toString())
-          fieldEntry should contain(pt)
-        case None =>
-          tree.fieldEntry should be(None)
-      }
-      tree.obj.meta match {
-        case ddem: DialectDomainElementModel =>
-          ddem.typeIri should contain(expectedTypeIri)
-        case _ => fail("Not a DialectDomainElementModel")
-      }
-    }
+  override val instanceFile: String = "instances/instance1.yaml"
+  override val dialectFile: String = "dialects/dialect1.yaml"
 
   it should "identify a correct Root" in {
     val pos                  = Position(15, 0)
@@ -49,7 +23,7 @@ class ObjectInTreeTests extends AsyncFlatSpec with PlatformSecrets with Matchers
 
   it should "identify a correct Declaration (final)" in {
     val pos                  = Position(15, 2)
-    val expectedTypeIri      = "http://internal.namespace.com/Root" // todo: fix case
+    val expectedTypeIri      = "http://internal.namespace.com/Root"
     val expectedPropertyTerm = None
     runTest(pos, expectedTypeIri, expectedPropertyTerm)
   }
@@ -148,27 +122,5 @@ class ObjectInTreeTests extends AsyncFlatSpec with PlatformSecrets with Matchers
     val expectedPropertyTerm = None
 
     runTest(pos, expectedTypeIri, expectedPropertyTerm)
-  }
-
-  private def uriTemplate(part: String) = s"file://als-common/shared/src/test/resources/aml/$part"
-
-  private val instance = AmfInstance(platform, Environment())
-  private val initDialects: Future[Unit] =
-    platform
-      .resolve(uriTemplate("dialects/dialect1.yaml"))
-      .map(_.stream.toString)
-      .flatMap(
-        dialectContent =>
-          instance
-            .init()
-            .andThen {
-              case _ => instance.alsAmlPlugin.registry.registerDialect(dialectContent)
-          })
-
-  private val objectInTree: Future[parser.Position => ObjectInTree] = for {
-    _  <- initDialects
-    bu <- instance.parse(uriTemplate("instances/instance1.yaml"))
-  } yield {
-    ObjectInTreeBuilder.fromUnit(bu.baseUnit, _)
   }
 }
