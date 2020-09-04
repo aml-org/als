@@ -36,15 +36,27 @@ object YamlWrapper {
   implicit class YMapEntryOps(entry: YMapEntry) extends AlsYPart(entry) {
     override def isArray: Boolean = false
 
-    override def contains(position: AmfPosition): Boolean =
-      super.contains(position) && !(outScalarValue(position) || outIndentation(position))
+    override def contains(position: AmfPosition): Boolean = {
+      super.contains(position) && !(outScalarValue(position)|| outIndentation(position)) && ! isFirstChar(position) && mapValueRespectsEntryKey(position)
+    }
+
+    def mapValueRespectsEntryKey(position: AmfPosition): Boolean = entry.value.tagType != YType.Map || (entry.value.tagType == YType.Map && entry.key.range.columnFrom < position.column)
+
+    def isFirstChar(position: AmfPosition): Boolean =  !isQuotedKey( entry.key) && entry.key.range.lineFrom == position.line && entry.key.range.columnFrom == position.column
+
+    def isQuotedKey(key:YNode) = {
+      key.asScalar match {
+        case Some(s) => s.mark.isInstanceOf[QuotedMark]
+        case _ => false
+      }
+    }
 
     private def outScalarValue(position: AmfPosition) =
       entry.range.lineFrom < position.line && (scalarValue(position) || nullValueOutIndentation(position))
 
     private def scalarValue(position: AmfPosition) =
-      !entry.value.isNull && entry.value.asScalar.isDefined && !entry.value
-        .contains(position)
+      !entry.value.isNull && entry.value.asScalar.isDefined && entry.value.value.range.lineTo < position.line
+
     private def nullValueOutIndentation(position: AmfPosition) =
       entry.value.isNull && outIndentation(position)
 
@@ -77,4 +89,8 @@ object YamlWrapper {
       map.range.lineFrom > amfPosition.line && map.range.lineTo >= amfPosition.line && map.entries.nonEmpty
   }
 
+  implicit class AlsYScalarOps(scalar:YScalar) extends AlsYPart(scalar){
+    override def contains(amfPosition: AmfPosition): Boolean = super.contains(amfPosition) || lineContains(amfPosition)
+    def lineContains(amfPosition: AmfPosition):Boolean = scalar.range.lineFrom <= amfPosition.line && ((scalar.range.lineTo>= amfPosition.line && scalar.range.columnFrom <= amfPosition.column) || scalar.value==null)
+  }
 }

@@ -17,16 +17,20 @@ trait SuggestionRender {
   lazy val tabSize: Int                = params.formattingConfiguration.indentationSize
 
   def patchPath(builder: CompletionItemBuilder): Unit = {
-    val index =
-      if (params.prefix.startsWith("#")) 0 else params.prefix.lastIndexOf(".").max(params.prefix.lastIndexOf("/"))
-    if (index > 0 && builder.getDisplayText.startsWith(params.prefix))
-      if (index == params.prefix.length)
-        builder
-          .withDisplayText(builder.getDisplayText.split('.').last)
-      else
-        builder
-          .withDisplayText(builder.getDisplayText.substring(index + 1))
+    if (!isHeaderSuggestion) {
+      val index =
+        params.prefix.lastIndexOf(".").max(params.prefix.lastIndexOf("/"))
+      if (index > 0 && builder.getDisplayText.startsWith(params.prefix))
+        if (index == params.prefix.length)
+          builder
+            .withDisplayText(builder.getDisplayText.split('.').last)
+        else
+          builder
+            .withDisplayText(builder.getDisplayText.substring(index + 1))
+    }
   }
+
+  private def isHeaderSuggestion: Boolean = params.position.line == 0 && params.prefix.startsWith("#%")
 
   private def keyRange: Option[PositionRange] = {
     params.yPartBranch.node match {

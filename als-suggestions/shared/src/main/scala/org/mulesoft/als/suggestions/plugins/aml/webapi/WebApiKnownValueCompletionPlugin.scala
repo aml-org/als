@@ -2,8 +2,8 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi
 
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.shapes.metamodel.ScalarShapeModel
-import amf.plugins.domain.webapi.metamodel.ParameterModel
-import amf.plugins.domain.webapi.models.Parameter
+import amf.plugins.domain.webapi.metamodel.{ParameterModel, PayloadModel}
+import amf.plugins.domain.webapi.models.{Parameter, Payload}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.AbstractKnownValueCompletionPlugin
@@ -15,15 +15,26 @@ trait WebApiKnownValueCompletionPlugin extends AbstractKnownValueCompletionPlugi
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     params.fieldEntry match {
-      case Some(fe) if isParamName(params, fe) && !isHeader(params) => emptySuggestion
-      case _                                                        => super.resolve(params)
+      case None if isHeader(params) => innerResolver(params, ParameterModel.Name, ParameterModel.`type`.head.iri())
+      case None if isPayloadName(params) =>
+        innerResolver(params, PayloadModel.MediaType, PayloadModel.`type`.head.iri())
+      case Some(fe) if isParamName(params, fe) =>
+        if (isHeader(params)) innerResolver(params, ParameterModel.Name, ParameterModel.`type`.head.iri())
+        else emptySuggestion
+      case _ => super.resolve(params)
     }
 
   protected def isHeader(params: AmlCompletionRequest): Boolean =
     params.amfObject match {
-      case p: Parameter => p.binding.option().contains("header") || params.yPartBranch.isDescendanceOf("headers")
-      case _            => false
+      case p: Parameter if p.name.option().isEmpty || (p.name.option().contains("x") && params.yPartBranch.isJson) =>
+        p.binding.option().contains("header") || params.yPartBranch.isDescendanceOf("headers")
+      case _ => false
     }
+
+  protected def isPayloadName(request: AmlCompletionRequest) = {
+    request.amfObject.isInstanceOf[Payload] && request.amfObject.fields.fields().isEmpty && request.yPartBranch
+      .isKeyDescendantOf("body")
+  }
 
   private def isParamName(params: AmlCompletionRequest, fe: FieldEntry): Boolean = isParam(params) && isName(fe)
 

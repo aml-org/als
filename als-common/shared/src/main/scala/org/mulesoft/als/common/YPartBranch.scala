@@ -206,6 +206,9 @@ object NodeBranchBuilder {
     childWithPosition(s, amfPosition) match {
       case Some(n: YNode) =>
         childWithPosition(n, amfPosition) match {
+          case None
+              if !n.isNull && n.value.range.lineFrom == amfPosition.line && n.value.range.columnFrom > amfPosition.column =>
+            n +: s +: parents // case for tag (!include)
           case None    => parents
           case Some(c) => getStack(c, amfPosition, n +: s +: parents)
         }

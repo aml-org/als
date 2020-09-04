@@ -271,7 +271,13 @@ trait RamlDialectNodes {
     .withId(dialectLocation + "#/declarations/TraitNode")
     .withName("TraitNode")
     .withNodeTypeMapping(TraitModel.`type`.head.iri())
-    .withPropertiesMapping(Seq(
+    .withPropertiesMapping(
+      Seq(
+        PropertyMapping()
+          .withId(dialectLocation + s"#/declarations/TraitNode/usage")
+          .withName("usage")
+          .withNodePropertyMapping(BaseUnitModel.Usage.value.iri())
+          .withLiteralRange(xsdString.iri())
       ))
 
   final lazy val ResponseNode: NodeMapping = NodeMapping()

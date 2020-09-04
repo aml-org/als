@@ -2,6 +2,7 @@ package org.mulesoft.als.common
 
 import amf.core.annotations.{LexicalInformation, SourceAST}
 import amf.core.metamodel.document.BaseUnitModel
+import amf.core.metamodel.domain.LinkableElementModel
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.{AmfObject, DomainElement}
 import amf.core.parser.{Annotations, FieldEntry, Position => AmfPosition}
@@ -49,7 +50,12 @@ case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfP
     }
   }
   private def inField(f: FieldEntry) =
-    f.value.annotations.lexicalInfo.forall(_.contains(amfPosition))
+    f.field != LinkableElementModel.Target && (f.value.annotations.ast() match {
+      case Some(e: YMapEntry) =>
+        e.contains(amfPosition) && !(e.key.range.lineTo == amfPosition.line && e.key.range.columnFrom == amfPosition.column) // start of the entry
+      case Some(other) => other.contains(amfPosition)
+      case _           => true //?
+    })
 
   private def inValue(f: FieldEntry) = f.value.value.position().exists(_.contains(amfPosition))
 

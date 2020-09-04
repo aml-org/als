@@ -3,11 +3,15 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 import amf.core.model.domain.{AmfObject, Shape}
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.webapi.metamodel.ParameterModel
-import amf.plugins.domain.webapi.models.Parameter
+import amf.plugins.domain.webapi.models.{Parameter, Request}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiTypeFacetsCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.webapi.{
+  CommonHeadersValues,
+  WebApiKnownValueCompletionPlugin,
+  WebApiTypeFacetsCompletionPlugin
+}
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
 
 import scala.concurrent.Future
@@ -23,7 +27,7 @@ abstract class RamlParamsCompletionPlugin(typeFacetsCompletionPlugin: WebApiType
   private def computeSuggestions(params: AmlCompletionRequest) = {
     if (params.yPartBranch.isKey) {
       params.amfObject match {
-        case param: Parameter if isNotName(params) =>
+        case param: Parameter if isNotName(params) && param.fields.getValueAsOption(ParameterModel.Schema).isDefined =>
           computeParam(param, params.branchStack, typeFacetsCompletionPlugin)
         case _: Shape if params.branchStack.headOption.exists(_.isInstanceOf[Parameter]) =>
           withOthers

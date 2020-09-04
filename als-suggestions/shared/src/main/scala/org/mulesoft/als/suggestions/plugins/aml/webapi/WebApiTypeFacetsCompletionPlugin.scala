@@ -39,6 +39,7 @@ trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin with WritingS
           case _                      => Some(stringShapeNode)
         }
       case _ =>
+        // check inherits field to suggest specific.
         val s = findMoreSpecific(shape.metaURIs, declarations)
         s
     }

@@ -8,7 +8,7 @@ import amf.plugins.domain.webapi.metamodel.{EndPointModel, OperationModel}
 import amf.plugins.domain.webapi.models.templates.{ResourceType, Trait}
 import org.mulesoft.als.suggestions.aml.{AmlCompletionRequest, AmlCompletionRequestBuilder}
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.AMLRefTagCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.{AMLRefTagCompletionPlugin, AMLRootDeclarationsCompletionPlugin}
 import org.mulesoft.als.suggestions.{CompletionsPluginHandler, RawSuggestion}
 import org.yaml.model.{YMap, YMapEntry, YNode}
 import org.mulesoft.amfintegration.AmfImplicits._
@@ -19,7 +19,8 @@ import scala.concurrent.Future
 object RamlAbstractDefinition extends AMLCompletionPlugin {
   override def id: String = "RamlAbstractDefinition"
 
-  private val ignoredPlugins: Set[AMLCompletionPlugin] = Set(AMLRefTagCompletionPlugin)
+  private val ignoredPlugins: Set[AMLCompletionPlugin] =
+    Set(AMLRefTagCompletionPlugin, AMLRootDeclarationsCompletionPlugin)
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     val info = if (params.yPartBranch.isIncludeTagValue) None else elementInfo(params)
@@ -37,7 +38,8 @@ object RamlAbstractDefinition extends AMLCompletionPlugin {
         newRequest.completionsPluginHandler
           .pluginSuggestions(newRequest)
           .map(seq => {
-            if (params.amfObject.isInstanceOf[AbstractDeclaration] && params.yPartBranch.isKey)
+            if (params.branchStack.headOption.exists(_.isInstanceOf[AbstractDeclaration]) && !params.baseUnit
+                  .isInstanceOf[Fragment] && params.yPartBranch.isKey)
               seq ++ Seq(RawSuggestion.forKey("usage", "docs", mandatory = false))
             else seq
           })
