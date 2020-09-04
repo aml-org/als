@@ -5,27 +5,31 @@ import org.scalatest.AsyncFlatSpec
 
 import scala.concurrent.ExecutionContext
 
-class ObjectInTreeTests extends AsyncFlatSpec with ObjectInTreeBaseTest {
+class ObjectInTreeArraysTests extends AsyncFlatSpec {
   override val executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 
-  behavior of "Object in Tree finder"
+  private val tester = ObjectInTreeBaseTest(
+      "instances/instance1.yaml",
+      "dialects/dialect1.yaml"
+    )
 
-  override val instanceFile: String = "instances/instance1.yaml"
-  override val dialectFile: String = "dialects/dialect1.yaml"
+  behavior of "Object in Tree finder (dialect with Arrays)"
 
   it should "identify a correct Root" in {
     val pos                  = Position(15, 0)
     val expectedTypeIri      = "http://internal.namespace.com/Root"
     val expectedPropertyTerm = None
-    runTest(pos, expectedTypeIri, expectedPropertyTerm)
+
+    tester.runTest(pos, expectedTypeIri, expectedPropertyTerm)
   }
 
   it should "identify a correct Declaration (final)" in {
     val pos                  = Position(15, 2)
     val expectedTypeIri      = "http://internal.namespace.com/Root"
     val expectedPropertyTerm = None
-    runTest(pos, expectedTypeIri, expectedPropertyTerm)
+
+    tester.runTest(pos, expectedTypeIri, expectedPropertyTerm)
   }
 
   it should "identify a correct property (final)" in {
@@ -33,7 +37,7 @@ class ObjectInTreeTests extends AsyncFlatSpec with ObjectInTreeBaseTest {
     val expectedTypeIri      = "http://internal.namespace.com/A"
     val expectedPropertyTerm = None
 
-    runTest(pos, expectedTypeIri, expectedPropertyTerm)
+    tester.runTest(pos, expectedTypeIri, expectedPropertyTerm)
   }
 
   it should "identify a correct property value (final)" in {
@@ -41,7 +45,7 @@ class ObjectInTreeTests extends AsyncFlatSpec with ObjectInTreeBaseTest {
     val expectedTypeIri      = "http://internal.namespace.com/A"
     val expectedPropertyTerm = None
 
-    runTest(pos, expectedTypeIri, expectedPropertyTerm)
+    tester.runTest(pos, expectedTypeIri, expectedPropertyTerm)
   }
 
   it should "identify a single child" in {
@@ -49,7 +53,7 @@ class ObjectInTreeTests extends AsyncFlatSpec with ObjectInTreeBaseTest {
     val expectedTypeIri      = "http://internal.namespace.com/Root"
     val expectedPropertyTerm = Some("http://internal.namespace.com/y")
 
-    runTest(pos, expectedTypeIri, expectedPropertyTerm)
+    tester.runTest(pos, expectedTypeIri, expectedPropertyTerm)
   }
 
   it should "identify a first property" in {
@@ -57,7 +61,7 @@ class ObjectInTreeTests extends AsyncFlatSpec with ObjectInTreeBaseTest {
     val expectedTypeIri      = "http://internal.namespace.com/A"
     val expectedPropertyTerm = Some("http://internal.namespace.com/a1")
 
-    runTest(pos, expectedTypeIri, expectedPropertyTerm)
+    tester.runTest(pos, expectedTypeIri, expectedPropertyTerm)
   }
 
   it should "identify a middle property" in {
@@ -65,7 +69,7 @@ class ObjectInTreeTests extends AsyncFlatSpec with ObjectInTreeBaseTest {
     val expectedTypeIri      = "http://internal.namespace.com/A"
     val expectedPropertyTerm = Some("http://internal.namespace.com/a1")
 
-    runTest(pos, expectedTypeIri, expectedPropertyTerm)
+    tester.runTest(pos, expectedTypeIri, expectedPropertyTerm)
   }
 
   it should "identify inside property value (array)" in {
@@ -73,7 +77,7 @@ class ObjectInTreeTests extends AsyncFlatSpec with ObjectInTreeBaseTest {
     val expectedTypeIri      = "http://internal.namespace.com/A"
     val expectedPropertyTerm = None
 
-    runTest(pos, expectedTypeIri, expectedPropertyTerm)
+    tester.runTest(pos, expectedTypeIri, expectedPropertyTerm)
   }
 
   it should "identify inside property value (scalar)" in {
@@ -81,7 +85,7 @@ class ObjectInTreeTests extends AsyncFlatSpec with ObjectInTreeBaseTest {
     val expectedTypeIri      = "http://internal.namespace.com/A"
     val expectedPropertyTerm = Some("http://internal.namespace.com/a1")
 
-    runTest(pos, expectedTypeIri, expectedPropertyTerm)
+    tester.runTest(pos, expectedTypeIri, expectedPropertyTerm)
   }
 
   it should "identify an array child" in {
@@ -89,7 +93,7 @@ class ObjectInTreeTests extends AsyncFlatSpec with ObjectInTreeBaseTest {
     val expectedTypeIri      = "http://internal.namespace.com/A"
     val expectedPropertyTerm = Some("http://internal.namespace.com/a1")
 
-    runTest(pos, expectedTypeIri, expectedPropertyTerm)
+    tester.runTest(pos, expectedTypeIri, expectedPropertyTerm)
   }
 
   it should "identify root property with multiple values" in {
@@ -97,7 +101,7 @@ class ObjectInTreeTests extends AsyncFlatSpec with ObjectInTreeBaseTest {
     val expectedTypeIri      = "http://internal.namespace.com/Root"
     val expectedPropertyTerm = Some("http://internal.namespace.com/z")
 
-    runTest(pos, expectedTypeIri, expectedPropertyTerm)
+    tester.runTest(pos, expectedTypeIri, expectedPropertyTerm)
   }
 
   it should "identify root property sublevel" in {
@@ -105,7 +109,7 @@ class ObjectInTreeTests extends AsyncFlatSpec with ObjectInTreeBaseTest {
     val expectedTypeIri      = "http://internal.namespace.com/A"
     val expectedPropertyTerm = Some("http://internal.namespace.com/a1")
 
-    runTest(pos, expectedTypeIri, expectedPropertyTerm)
+    tester.runTest(pos, expectedTypeIri, expectedPropertyTerm)
   }
 
   it should "identify root property sublevel with array" in {
@@ -113,7 +117,7 @@ class ObjectInTreeTests extends AsyncFlatSpec with ObjectInTreeBaseTest {
     val expectedTypeIri      = "http://internal.namespace.com/A"
     val expectedPropertyTerm = None
 
-    runTest(pos, expectedTypeIri, expectedPropertyTerm)
+    tester.runTest(pos, expectedTypeIri, expectedPropertyTerm)
   }
 
   it should "identify root property sublevel incomplete" in {
@@ -121,6 +125,6 @@ class ObjectInTreeTests extends AsyncFlatSpec with ObjectInTreeBaseTest {
     val expectedTypeIri      = "http://internal.namespace.com/A"
     val expectedPropertyTerm = None
 
-    runTest(pos, expectedTypeIri, expectedPropertyTerm)
+    tester.runTest(pos, expectedTypeIri, expectedPropertyTerm)
   }
 }

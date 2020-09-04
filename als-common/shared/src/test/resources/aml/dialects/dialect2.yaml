@@ -1,5 +1,5 @@
 #%Dialect 1.0
-dialect: ObjectInTreeArrayTest
+dialect: ObjectInTreeMapTest
 version: 1.0
 external:
   internal-ns: http://internal.namespace.com/
@@ -17,24 +17,20 @@ nodeMappings:
         propertyTerm: internal-ns.x
         range: A
         allowMultiple: true
-      y:
-        propertyTerm: internal-ns.y
-        range: string
-        enum:
-          - b1
-          - b2
-          - b3
-      z:
-        propertyTerm: internal-ns.z
-        range: A
-        allowMultiple: true
+        mapKey: a1
   A:
     classTerm: internal-ns.A
     mapping:
       a1:
         propertyTerm: internal-ns.a1
         range: string
+        mandatory: true
       a2:
         propertyTerm: internal-ns.a2
         range: A
         allowMultiple: true
+        mapKey: a1
+      a3:
+        propertyTerm: internal-ns.a3
+        range: string
+        mandatory: false
