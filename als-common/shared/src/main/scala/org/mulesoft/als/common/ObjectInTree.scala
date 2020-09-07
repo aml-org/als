@@ -6,6 +6,7 @@ import amf.core.metamodel.domain.LinkableElementModel
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.{AmfObject, DomainElement}
 import amf.core.parser.{Annotations, FieldEntry, Position => AmfPosition}
+import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.common.AmfSonElementFinder._
 import org.mulesoft.als.common.YamlWrapper.AlsYPart
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
@@ -49,15 +50,18 @@ case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfP
       }
     }
   }
-  private def inField(f: FieldEntry) =
-    f.field != LinkableElementModel.Target && (f.value.annotations.ast() match {
-      case Some(e: YMapEntry) =>
-        e.contains(amfPosition) && !(e.key.range.lineTo == amfPosition.line && e.key.range.columnFrom == amfPosition.column) // start of the entry
-      case Some(other) => other.contains(amfPosition)
-      case _           => true //?
-    })
 
-  private def inValue(f: FieldEntry) = f.value.value.position().exists(_.contains(amfPosition))
+  private def inField(f: FieldEntry) =
+    f.field != LinkableElementModel.Target &&
+      (f.value.annotations.ast() match {
+        case Some(e: YMapEntry) =>
+          e.contains(amfPosition) && !(e.key.range.lineTo == amfPosition.line && e.key.range.columnFrom == amfPosition.column) // start of the entry
+        case _ => f.value.annotations.containsPosition(amfPosition).getOrElse(true)
+      })
+
+  private def inValue(f: FieldEntry) =
+    f.value.value.position().exists(_.contains(amfPosition)) && // necessary due to AlsYMapOpts not checking for lines
+      f.value.value.annotations.containsPosition(amfPosition).getOrElse(true)
 
   private def notInKey(a: Annotations) = {
     a.find(classOf[SourceAST]) match {
@@ -82,17 +86,18 @@ case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfP
 
 object ObjectInTreeBuilder {
 
-  def fromUnit(bu: BaseUnit, position: AmfPosition, location: Option[String]): ObjectInTree = {
+  def fromUnit(bu: BaseUnit, position: AmfPosition, location:Option[String],definedBy: Dialect): ObjectInTree = {
     val (obj, stack) =
-      bu.findSonWithStack(position, location, Seq((f: FieldEntry) => f.field != BaseUnitModel.References))
+      bu.findSonWithStack(position, Seq((f: FieldEntry) => f.field != BaseUnitModel.References), definedBy)
     ObjectInTree(obj, stack, position)
   }
 
   def fromSubTree(element: DomainElement,
                   position: AmfPosition,
-                  location: Option[String],
-                  previousStack: Seq[AmfObject]): ObjectInTree = {
-    val (obj, stack) = element.findSonWithStack(position, location, Seq.empty)
+                  location:Option[String],
+                  previousStack: Seq[AmfObject],
+                  definedBy: Dialect): ObjectInTree = {
+    val (obj, stack) = element.findSonWithStack(position, Seq.empty, definedBy)
     ObjectInTree(obj, stack ++ previousStack, position)
   }
 }

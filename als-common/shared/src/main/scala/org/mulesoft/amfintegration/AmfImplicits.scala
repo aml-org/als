@@ -1,5 +1,6 @@
 package org.mulesoft.amfintegration
 
+import amf.core.annotations._
 import amf.core.annotations.{LexicalInformation, ReferenceTargets, SourceAST, SourceNode, SynthesizedField}
 import amf.core.annotations._
 import amf.core.metamodel.Field
@@ -13,9 +14,10 @@ import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import amf.plugins.document.webapi.annotations.{DeclarationKey, DeclarationKeys, ExternalJsonSchemaShape}
 import amf.plugins.domain.shapes.annotations.ParsedFromTypeExpression
 import amf.plugins.domain.webapi.metamodel.AbstractModel
-import org.mulesoft.als.common.NodeBranchBuilder
+import org.mulesoft.als.common.YamlWrapper._
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.lexer.InputRange
+import org.yaml.model._
 import org.yaml.model.{YMapEntry, YNode, YPart, YScalar, YSequence, YType}
 import org.mulesoft.als.common.YamlWrapper._
 import org.yaml.model.{YNode, YPart, YSequence, YType}
@@ -66,8 +68,24 @@ object AmfImplicits {
 
     def isSynthesized: Boolean = ann.contains(classOf[SynthesizedField])
 
-    def targets(): Map[String, parser.Range] = ann.find(classOf[ReferenceTargets]).map(_.targets).getOrElse(Map.empty)
+    def isVirtual: Boolean = ann.contains(classOf[VirtualObject])
 
+    def targets(): Map[String, parser.Range] =
+      ann.find(classOf[ReferenceTargets]).map(_.targets).getOrElse(Map.empty)
+
+    def containsPosition(amfPosition: AmfPosition): Option[Boolean] =
+      this.ast() map {
+        case ast: YMapEntry =>
+          YMapEntryOps(ast).contains(amfPosition)
+        case ast: YMap =>
+          AlsYMapOps(ast).contains(amfPosition)
+        case ast: YNode if ast.isNull =>
+          true
+        case ast: YScalar =>
+          AlsYScalarOps(ast).contains(amfPosition)
+        case other =>
+          other.contains(amfPosition)
+      }
     def isRamlTypeExpression: Boolean = ann.find(classOf[ParsedFromTypeExpression]).isDefined
 
     def ramlExpression(): Option[String] = ann.find(classOf[ParsedFromTypeExpression]).map(_.expression)
@@ -91,23 +109,27 @@ object AmfImplicits {
         .exists(_.contains(position))
     }
 
-    def isArrayIncluded(position: AmfPosition): Boolean = {
-      f.value.annotations.ast().orElse(f.value.value.annotations.ast()) match {
+    def isArrayIncluded(amfPosition: AmfPosition): Boolean =
+      f.value.annotations
+        .ast()
+        .orElse(f.value.value.annotations.ast()) match {
         case Some(n: YNode) if n.tagType == YType.Seq =>
-          PositionRange(n.value.range).contains(Position(position)) && (isEndChar(position, n.value.range) || n
+          n.value.contains(amfPosition) && (isEndChar(amfPosition, n.value.range) || n
             .as[YSequence]
             .nodes
             .lastOption
-            .exists(isEmptyNodeLine(_, position)))
+            .exists(isEmptyNodeLine(_, amfPosition)))
         case Some(arr: YSequence) =>
-          PositionRange(arr.range).contains(Position(position)) && isEndChar(position, arr.range)
-        case Some(e: YMapEntry) => e.contains(position)
-        case Some(other)        => PositionRange(other.range).contains(Position(position))
-        case _                  => false
+          PositionRange(arr.range).contains(Position(amfPosition)) && isEndChar(amfPosition, arr.range)
+        case Some(e: YMapEntry) => e.contains(amfPosition)
+        case Some(n: YNode) if n.tagType == YType.Map =>
+          n.contains(amfPosition) &&
+            AlsYMapOps(n.value.asInstanceOf[YMap]).contains(amfPosition)
+        case Some(other) => other.contains(amfPosition)
+        case _           => false
       }
-    }
 
-    def isEndChar(position: AmfPosition, range: InputRange) =
+    def isEndChar(position: AmfPosition, range: InputRange): Boolean =
       position.line < range.lineTo || (position.line == range.lineTo && position.column > range.columnTo) || range.lineFrom == range.lineTo
 
     def isEmptyNodeLine(n: YNode, position: AmfPosition): Boolean =
@@ -134,15 +156,8 @@ object AmfImplicits {
       })
       .exists(_.toBool)
 
-    def containsPosition(amfPosition: AmfPosition): Boolean = {
-      amfObject.annotations.ast() match {
-        case Some(ast: YMapEntry)           => ast.contains(amfPosition)
-        case Some(ast: YNode) if ast.isNull => true
-        case Some(ast: YScalar)             => ast.contains(amfPosition)
-        case Some(other)                    => other.contains(amfPosition)
-        case _                              => false
-      }
-    }
+    def containsPosition(amfPosition: AmfPosition): Boolean =
+      amfObject.annotations.containsPosition(amfPosition).getOrElse(false)
   }
 
   implicit class DomainElementImp(d: DomainElement) extends AmfObjectImp(d) {
