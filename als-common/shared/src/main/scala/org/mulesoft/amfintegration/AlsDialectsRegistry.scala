@@ -109,11 +109,16 @@ case class AlsVocabularyRegistry() {
   }
 }
 
-case class ALSAMLPlugin() extends AMLPlugin {
+trait SemanticDescriptionProvider {
+  def getSemanticDescription(v: ValueType): Option[String]
+}
+
+case class ALSAMLPlugin() extends AMLPlugin with SemanticDescriptionProvider {
 
   override val registry = new AlsDialectsRegistry()
 
-  def getSemanticDescription(v: ValueType): Option[String] = vocabularyRegistry.getDescription(v.ns.base, v.name)
+  override def getSemanticDescription(v: ValueType): Option[String] =
+    vocabularyRegistry.getDescription(v.ns.base, v.name)
 
   def registerWebApiDialect(vendor: Vendor, d: Dialect): Unit = registry.addWebApiDialect(d, vendor)
 

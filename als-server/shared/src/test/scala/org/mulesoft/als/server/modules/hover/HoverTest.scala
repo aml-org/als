@@ -25,6 +25,7 @@ import org.mulesoft.amfintegration.vocabularies.propertyterms.declarationKeys.{
   SecuritySettingsDeclarationKeyTerm,
   ShapeDeclarationKeyTerm
 }
+import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.oas2.Oas2InfoKeyTerm
 import org.mulesoft.amfintegration.vocabularies.propertyterms.shacl.ShaclShapePropertyTerm
 import org.mulesoft.lsp.feature.common.{Position, Range, TextDocumentIdentifier}
 import org.mulesoft.lsp.feature.hover.{Hover, HoverParams, HoverRequestType}
@@ -504,6 +505,15 @@ class HoverTest extends ServerWithMarkerTest[Hover] {
         h.contents.size == 1 &&
         h.contents.head == NamePropertyTerm.description &&
         h.range.get == Range(Position(29, 10), Position(29, 18))
+      }) should be(true)
+    }
+  }
+
+  test("OAS2 top level keys") {
+    runTestMultipleMarkers(buildServer(), "toplevel/oas2.yaml").map { hovers =>
+      hovers.size should be(4)
+      hovers.exists(h => {
+        h.contents.size == 1 && h.contents.head == Oas2InfoKeyTerm.description
       }) should be(true)
     }
   }
