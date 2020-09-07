@@ -58,7 +58,7 @@ class ContentPatcherTest extends AsyncFunSuite with FileAssertionTest with ListA
     assertJson("open-root-map", List(QuoteToken, QuoteToken, ColonToken, QuoteToken, QuoteToken, CommaToken))
   }
 
-  test("patch yaml key with some quoted value under") {
+  ignore("patch yaml key with some quoted value under") {
     assertYaml("quoted-value-under", List(ColonToken))
   }
 

@@ -4,9 +4,10 @@ import amf.core.annotations.SourceAST
 import amf.core.model.document.{BaseUnit, Document}
 import org.mulesoft.als.common.YamlWrapper._
 import org.yaml.model._
-import org.mulesoft.als.common.dtoTypes.Position
+import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import amf.core.parser.{Position => AmfPosition}
 import amf.core.parser._
+import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
 import org.yaml.model
 
 import scala.annotation.tailrec
@@ -192,14 +193,8 @@ object NodeBranchBuilder {
     build(ast.getOrElse(YDocument(IndexedSeq.empty, bu.location().getOrElse(""))), position, isJson)
   }
 
-  def astFromBaseUnit(bu: BaseUnit): Option[YPart] = {
-    val ast = bu match {
-      case d: Document =>
-        d.encodes.annotations.find(classOf[SourceAST]).map(_.ast)
-      case bu => bu.annotations.find(classOf[SourceAST]).map(_.ast)
-    }
-    ast
-  }
+  def astFromBaseUnit(bu: BaseUnit): Option[YPart] =
+    bu.objWithAST.flatMap(_.annotations.ast())
 
   @tailrec
   private def getStack(s: YPart, amfPosition: AmfPosition, parents: Seq[YPart]): Seq[YPart] =
@@ -223,21 +218,22 @@ object NodeBranchBuilder {
       case _ => s +: parents
     }
 
-  private def isNullOrEmptyTag(node: YNode) = {
+  private def isNullOrEmptyTag(node: YNode) =
     node.isNull || (node.tagType.toString == "!include" && node.value.toString.isEmpty)
-  }
 
   def childWithPosition(ast: YPart, amfPosition: AmfPosition): Option[YPart] =
     ast.children
       .filterNot(_.isInstanceOf[YNonContent])
       .filter {
-        case entry: YMapEntry => entry.contains(amfPosition)
-        case map: YMap        => new AlsYMapOps(map).contains(amfPosition)
-
+        case entry: YMapEntry =>
+          entry.contains(amfPosition)
+        case map: YMap =>
+          new AlsYMapOps(map).contains(amfPosition)
         case seq: YSequence =>
-          seq.range.toPositionRange.contains(Position(amfPosition)) && seq.nodes.headOption.forall(
+          PositionRange(seq.range).contains(Position(amfPosition)) && seq.nodes.headOption.forall(
             _.range.columnFrom <= amfPosition.column)
-        case other => other.range.toPositionRange.contains(Position(amfPosition))
+        case other =>
+          PositionRange(other.range).contains(Position(amfPosition))
       }
       .lastOption
 }

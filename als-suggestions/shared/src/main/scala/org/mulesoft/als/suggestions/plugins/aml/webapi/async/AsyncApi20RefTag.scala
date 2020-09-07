@@ -1,15 +1,13 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.async
 
-import amf.plugins.document.webapi.parser.spec.WebApiDeclarations.ErrorOperationTrait
 import amf.plugins.domain.shapes.models.ScalarShape
-import amf.plugins.domain.webapi.models.{Operation, Server}
+import amf.plugins.domain.webapi.models.Server
 import amf.plugins.domain.webapi.models.bindings.{ChannelBinding, MessageBinding, OperationBinding, ServerBinding}
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.AMLRefTagCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.IsInsideRequired
-import org.mulesoft.als.suggestions.plugins.aml.webapi.async.bindings.AsyncApiBindingsCompletionPlugin
 
 import scala.concurrent.Future
 

@@ -3,6 +3,7 @@ package org.mulesoft.als.common.objectintree
 import amf.core.parser
 import amf.core.unsafe.PlatformSecrets
 import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
+import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.common.{ObjectInTree, ObjectInTreeBuilder}
 import org.mulesoft.amfintegration.AmfInstance
@@ -16,16 +17,18 @@ case class ObjectInTreeBaseTest(instanceFile: String, dialectFile: String) exten
 
   private val instance = AmfInstance.default
 
-  private val initDialects: Future[Unit] = for {
+  private val initDialects: Future[Dialect] = for {
     dialectContent <- platform.resolve(uriTemplate(dialectFile)).map(_.stream.toString)
     _              <- instance.init()
-    _              <- instance.alsAmlPlugin.registry.registerDialect(dialectContent)
-  } yield {}
+    d              <- instance.alsAmlPlugin.registry.registerDialect(dialectContent)
+  } yield d
 
   private val eventualResult = initDialects.flatMap(_ => instance.parse(uriTemplate(instanceFile)))
 
-  private val objectInTree: Future[parser.Position => ObjectInTree] =
-    eventualResult.map(result => ObjectInTreeBuilder.fromUnit(result.baseUnit, _))
+  private val objectInTree: Future[parser.Position => ObjectInTree] = for {
+    dialect <- initDialects
+    result  <- eventualResult
+  } yield ObjectInTreeBuilder.fromUnit(result.baseUnit, _, dialect)
 
   def runTest(pos: Position, expectedTypeIri: String, expectedPropertyTerm: Option[String]): Future[Assertion] = {
     objectInTree.map { fn =>
