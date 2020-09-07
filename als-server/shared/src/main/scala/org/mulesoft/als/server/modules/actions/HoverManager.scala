@@ -7,9 +7,11 @@ import amf.core.model.domain.{AmfObject, DataNode}
 import amf.core.parser
 import amf.core.parser.{FieldEntry, Range, Position => AmfPosition}
 import amf.core.vocabulary.ValueType
-import org.mulesoft.als.common.ObjectInTree
+import amf.plugins.document.vocabularies.model.document.Dialect
+import org.mulesoft.als.actions.hover.PatchedHover
 import org.mulesoft.als.common.YamlWrapper.AlsInputRange
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.common.{ObjectInTree, YPartBranch}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.modules.workspace.CompilableUnit
@@ -28,7 +30,9 @@ import scala.concurrent.Future
 
 class HoverManager(wm: WorkspaceManager, amfInstance: AmfInstance, telemetryProvider: TelemetryProvider)
     extends RequestModule[HoverClientCapabilities, Boolean] {
-  private var active = true
+
+  private lazy val patchedHover = new PatchedHover(amfInstance.alsAmlPlugin)
+  private var active            = true
 
   override val `type`: ConfigType[HoverClientCapabilities, Boolean] =
     HoverConfigType
@@ -69,7 +73,6 @@ class HoverManager(wm: WorkspaceManager, amfInstance: AmfInstance, telemetryProv
         getSemantic(cu, dtoPosition, params.textDocument.uri)
           .map(s => Hover(s._1, s._2.map(r => LspRangeConverter.toLspRange(PositionRange(r))))) // if sequence, we could show all the semantic hierarchy?
           .getOrElse(Hover.empty)
-
       }
     }
 
@@ -98,13 +101,19 @@ class HoverManager(wm: WorkspaceManager, amfInstance: AmfInstance, telemetryProv
           (Seq(description), Some(Range(key.entry.range)))
         })
 
+    def getPatchedHover(tree: ObjectInTree,
+                        branch: YPartBranch,
+                        dialect: Option[Dialect]): Option[(Seq[String], Option[parser.Range])] =
+      dialect.flatMap(patchedHover.getHover(tree.obj, branch, _))
+
     private def getSemantic(cu: CompilableUnit,
                             dtoPosition: Position,
                             location: String): Option[(Seq[String], Option[parser.Range])] = {
       val tree: ObjectInTree = cu.tree.getCachedOrNew((dtoPosition, location))
+      val branch             = cu.yPartBranch.getCachedOrNew(dtoPosition, location)
       if (tree.obj.isInstanceOf[DataNode]) hackFromNonDynamic(tree, cu)
       else if (isInDeclarationKey(cu, dtoPosition.toAmfPosition)) fromDeclarationKey(cu, dtoPosition.toAmfPosition)
-      else fromTree(tree, cu)
+      else getPatchedHover(tree, branch, cu.definedBy).orElse(fromTree(tree, cu))
     }
 
     private def hackFromNonDynamic(tree: ObjectInTree,
