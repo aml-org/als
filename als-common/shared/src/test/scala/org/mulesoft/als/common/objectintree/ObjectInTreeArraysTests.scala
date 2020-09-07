@@ -10,9 +10,9 @@ class ObjectInTreeArraysTests extends AsyncFlatSpec {
     scala.concurrent.ExecutionContext.Implicits.global
 
   private val tester = ObjectInTreeBaseTest(
-      "instances/instance1.yaml",
-      "dialects/dialect1.yaml"
-    )
+    "instances/instance1.yaml",
+    "dialects/dialect1.yaml"
+  )
 
   behavior of "Object in Tree finder (dialect with Arrays)"
 
@@ -88,18 +88,11 @@ class ObjectInTreeArraysTests extends AsyncFlatSpec {
     tester.runTest(pos, expectedTypeIri, expectedPropertyTerm)
   }
 
-  it should "identify an array child" in {
-    val pos                  = Position(5, 13)
-    val expectedTypeIri      = "http://internal.namespace.com/A"
-    val expectedPropertyTerm = Some("http://internal.namespace.com/a1")
-
-    tester.runTest(pos, expectedTypeIri, expectedPropertyTerm)
-  }
-
   it should "identify root property with multiple values" in {
     val pos                  = Position(23, 3)
     val expectedTypeIri      = "http://internal.namespace.com/Root"
     val expectedPropertyTerm = Some("http://internal.namespace.com/z")
+    // todo: check that there is no A created
 
     tester.runTest(pos, expectedTypeIri, expectedPropertyTerm)
   }
@@ -113,9 +106,10 @@ class ObjectInTreeArraysTests extends AsyncFlatSpec {
   }
 
   it should "identify root property sublevel with array" in {
-    val pos                  = Position(26, 10)
+    val pos                  = Position(26, 8)
     val expectedTypeIri      = "http://internal.namespace.com/A"
     val expectedPropertyTerm = None
+    // todo: check this is not the declared (it's a Linkable)
 
     tester.runTest(pos, expectedTypeIri, expectedPropertyTerm)
   }

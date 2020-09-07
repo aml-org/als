@@ -16,7 +16,6 @@ nodeMappings:
       x:
         propertyTerm: internal-ns.x
         range: A
-        allowMultiple: true
         mapKey: a1
   A:
     classTerm: internal-ns.A
@@ -28,7 +27,6 @@ nodeMappings:
       a2:
         propertyTerm: internal-ns.a2
         range: A
-        allowMultiple: true
         mapKey: a1
       a3:
         propertyTerm: internal-ns.a3
