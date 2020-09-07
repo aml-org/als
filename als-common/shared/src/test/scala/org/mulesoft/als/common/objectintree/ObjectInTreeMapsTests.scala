@@ -14,6 +14,7 @@ class ObjectInTreeMapsTests extends AsyncFlatSpec {
     "dialects/dialect2.yaml"
   )
   behavior of "Object in Tree finder (dialect with Maps)"
+  // 0 based position!
 
   it should "identify a correct Root" in {
     val pos                  = Position(8, 0)
@@ -34,7 +35,8 @@ class ObjectInTreeMapsTests extends AsyncFlatSpec {
   it should "identify a parent node according to indentation (inside field)" in {
     val pos                  = Position(8, 6)
     val expectedTypeIri      = "http://internal.namespace.com/A"
-    val expectedPropertyTerm = Some("http://internal.namespace.com/a2")
+    val expectedPropertyTerm = None // it creates a virtual A inside the array (no AST)
+    // Some("http://internal.namespace.com/a2")
 
     tester.runTest(pos, expectedTypeIri, expectedPropertyTerm)
   }
@@ -55,10 +57,18 @@ class ObjectInTreeMapsTests extends AsyncFlatSpec {
     tester.runTest(pos, expectedTypeIri, expectedPropertyTerm)
   }
 
+  it should "identify a field entry, right of key (in map)" in {
+    val pos                  = Position(15, 7)
+    val expectedTypeIri      = "http://internal.namespace.com/A"
+    val expectedPropertyTerm = Some("http://internal.namespace.com/a2") // todo: check
+
+    tester.runTest(pos, expectedTypeIri, expectedPropertyTerm)
+  }
+
   it should "identify a field entry on top of children" in {
     val pos                  = Position(16, 6)
     val expectedTypeIri      = "http://internal.namespace.com/A"
-    val expectedPropertyTerm = Some("http://internal.namespace.com/a2")
+    val expectedPropertyTerm = None
 
     tester.runTest(pos, expectedTypeIri, expectedPropertyTerm)
   }
@@ -74,7 +84,8 @@ class ObjectInTreeMapsTests extends AsyncFlatSpec {
   it should "identify a field entry breaking indentation" in {
     val pos                  = Position(21, 10)
     val expectedTypeIri      = "http://internal.namespace.com/A"
-    val expectedPropertyTerm = Some("http://internal.namespace.com/a2")
+    val expectedPropertyTerm = None
+    // todo: add check to ensure which level I'm in (should not be on the same level as `a1: name`)
 
     tester.runTest(pos, expectedTypeIri, expectedPropertyTerm)
   }
