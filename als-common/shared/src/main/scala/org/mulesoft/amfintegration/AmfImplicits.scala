@@ -1,14 +1,6 @@
 package org.mulesoft.amfintegration
 
-import amf.core.annotations.{
-  LexicalInformation,
-  ReferenceTargets,
-  SourceAST,
-  SourceLocation,
-  SourceNode,
-  SynthesizedField
-}
-import amf.plugins.document.webapi.annotations.{DeclarationKey, DeclarationKeys, ExternalJsonSchemaShape}
+import amf.core.annotations._
 import amf.core.metamodel.Field
 import amf.core.model.document.{BaseUnit, EncodesModel}
 import amf.core.model.domain.{AmfObject, AmfScalar, DomainElement}
@@ -17,6 +9,7 @@ import amf.core.parser.{Annotations, Value}
 import amf.plugins.document.vocabularies.model.document.{Dialect, Vocabulary}
 import amf.plugins.document.vocabularies.model.domain.{ClassTerm, NodeMapping, PropertyTerm}
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
+import amf.plugins.document.webapi.annotations.{DeclarationKey, DeclarationKeys, ExternalJsonSchemaShape}
 import amf.plugins.domain.shapes.annotations.ParsedFromTypeExpression
 import amf.plugins.domain.webapi.metamodel.AbstractModel
 import org.yaml.model.{YMapEntry, YPart}

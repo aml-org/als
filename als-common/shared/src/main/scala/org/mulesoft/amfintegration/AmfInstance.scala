@@ -15,8 +15,9 @@ import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
 import amf.plugins.domain.VocabulariesRegister
 import amf.plugins.features.AMFValidation
 import org.mulesoft.als.CompilerEnvironment
-import org.mulesoft.amfintegration.vocabularies.propertyterms.declarationKeys.AlsDeclarationKeysVocabulary
 import org.mulesoft.amfintegration.vocabularies.{
+  AlsDeclarationKeysVocabulary,
+  AlsPatchedVocabulary,
   AmlApiContractVocabulary,
   AmlCoreVocabulary,
   AmlDataModelVocabulary,
@@ -62,6 +63,7 @@ class AmfInstance(plugins: Seq[AMFPlugin], platform: Platform, environment: Envi
           alsAmlPlugin.vocabularyRegistry.index(AmlDataShapesVocabulary())
           alsAmlPlugin.vocabularyRegistry.index(AmlCoreVocabulary())
           alsAmlPlugin.vocabularyRegistry.index(AmlDocumentVocabulary())
+          alsAmlPlugin.vocabularyRegistry.index(AlsPatchedVocabulary())
           val f = AMF.init().andThen {
             case _ =>
               profile.vendors.foreach { v =>
