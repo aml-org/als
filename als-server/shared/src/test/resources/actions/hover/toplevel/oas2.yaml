@@ -1,5 +1,7 @@
 swagger: "2.0"
-in[*]fo:
+in[*]fo:[*]
+  version: 2.0
+  title: ALS
 pat[*]hs:
 base[*]Path:
 h[*]ost:
