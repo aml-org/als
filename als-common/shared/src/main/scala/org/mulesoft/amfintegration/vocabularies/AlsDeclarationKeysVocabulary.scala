@@ -1,6 +1,6 @@
-package org.mulesoft.amfintegration.vocabularies.propertyterms.declarationKeys
+package org.mulesoft.amfintegration.vocabularies
 
-import org.mulesoft.amfintegration.vocabularies.{ClassTermObjectNode, PropertyTermObjectNode, VocabularyObject}
+import org.mulesoft.amfintegration.vocabularies.propertyterms.declarationKeys._
 
 object AlsDeclarationKeysVocabulary extends VocabularyObject {
   override protected def base: String = "http://als.declarationKeys/#"
