@@ -12,26 +12,26 @@ import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.Raml08TypesDialect
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
-import org.yaml.model.{YNodePlain, YValue}
+import org.yaml.model.{YMapEntry, YNodePlain, YValue}
 
 class PatchedHover(provider: SemanticDescriptionProvider) {
 
   def getHover(obj: AmfObject, branch: YPartBranch, dialect: Dialect): Option[(Seq[String], Option[parser.Range])] =
     obj.metaURIs.headOption.flatMap(metaUri => {
-      branch.node match {
-        case y: YNodePlain => getPatchedHover(metaUri, y.value, dialect.id)
-        case _             => None
+      branch.parentEntry match {
+        case Some(entry: YMapEntry) => getPatchedHover(metaUri, entry, dialect.id)
+        case _                      => None
       }
     })
 
   private def getPatchedHover(metaUri: String,
-                              key: YValue,
+                              entry: YMapEntry,
                               dialectId: String): Option[(Seq[String], Option[parser.Range])] = {
     val dialectName = dialectNames.getOrElse(dialectId, "unknown")
     provider
-      .getSemanticDescription(buildTerm(ValueType(metaUri), key.toString, dialectName))
+      .getSemanticDescription(buildTerm(ValueType(metaUri), entry.key.toString, dialectName))
       .map(description => {
-        (Seq(description), Some(parser.Range(key.range)))
+        (Seq(description), Some(parser.Range(entry.range)))
       })
   }
 

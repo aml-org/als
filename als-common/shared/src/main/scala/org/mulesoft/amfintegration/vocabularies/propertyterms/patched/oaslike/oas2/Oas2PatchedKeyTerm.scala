@@ -1,4 +1,4 @@
-package org.mulesoft.amfintegration.vocabularies.propertyterms.patched.oas2
+package org.mulesoft.amfintegration.vocabularies.propertyterms.patched.oaslike.oas2
 
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect
 import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.PatchedKeyTerm
