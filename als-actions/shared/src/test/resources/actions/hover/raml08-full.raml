@@ -1,0 +1,169 @@
+#%RAML 0.8
+title: GitHub API
+version: v3
+baseUri: https://api.github.com
+mediaType:  application/json
+resourceTypes:
+  - collection:
+      usage: This resourceType should be used for any collection of items
+      description: The collection of <<resourcePathName>>
+      get:
+        description: Get all <<resourcePathName>>, optionally filtered
+      post:
+        description: Create a new <<resourcePathName | !singularize>>
+traits:
+  - secured:
+      usage: Apply this to any method that needs to be secured
+      description: Some requests require authentication.
+      queryParameters:
+        access_token:
+          description: Access Token
+          type: string
+          example: ACCESS_TOKEN
+          required: true
+schemas:
+  - Scalar:
+      type: string
+      enum:
+       - a
+       - b
+      pattern: "."
+      minLength: 0
+      maxLength: 100
+  - Number:
+      type: number
+      minimum: 0
+      maximum: 100
+      example: 10
+      default: 1
+protocols: [ HTTP, HTTPS ]
+uriParameters:
+ communityDomain:
+   displayName: Community Domain
+   type: string
+ communityPath:
+   displayName: Community Path
+   type: string
+   pattern: ^[a-zA-Z0-9][-a-zA-Z0-9]*$
+   minLength: 1
+baseUriParameters:
+  bucketName:
+    description: The name of the bucket
+documentation:
+ - title: Home
+   content: |
+     Welcome to the _Zencoder API_ Documentation. The _Zencoder API_
+     allows you to connect your application to our encoding service
+     and encode videos without going through the web  interface. You
+     may also benefit from one of our
+     [integration libraries](https://app.zencoder.com/docs/faq/basics/libraries)
+     for different languages.
+/gists:
+  displayName: Gists
+  type: collection
+  is: [ secured ] # if collection defines a post method, that method is also secured
+  description: a description
+  get:
+    securedBy: [oauth_2_0, oauth_1_0]
+    is: [ secured ]
+    description: List Jobs
+    headers:
+      Zencoder-Api-Key:
+        displayName: ZEncoder API Key
+        type: string
+        required: true
+        repeat: false
+    protocols: [HTTP, HTTPS]
+    queryParameters:
+      page:
+        type: integer
+    body:
+      text/xml:
+        schema: |
+            <xs:schema attributeFormDefault="unqualified"
+                       elementFormDefault="qualified"
+                       xmlns:xs="http://www.w3.org/2001/XMLSchema">
+              <xs:element name="api-request">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="input"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:schema>
+        example: |
+            <api-request>
+              <input>s3://zencodertesting/test.mov</input>
+            </api-request>
+      application/json:
+        formParameters:
+           From:
+             description: |
+               The phone number or client identifier to use as the caller id. If
+               using a phone number, it must be a Twilio number or a Verified
+               outgoing caller id for your account.
+             type: string
+             required: true
+             pattern: (\+1|1)?([2-9]\d\d[2-9]\d{6}) # E.164 standard
+             example: +14158675309
+  /{userid}:
+    uriParameters:
+         userId:
+           displayName: User ID
+           type: integer
+    displayName: Public Gists
+    post:
+      responses:
+        200:
+          body:
+            "*/*":
+          headers:
+            X-waiting-period:
+              description: |
+                The number of seconds to wait before you can attempt to make a request again.
+              type: integer
+              required: true
+              minimum: 1
+              maximum: 3600
+              example: 34
+
+securitySchemes:
+    - oauth_2_0:
+        description: |
+            Dropbox supports OAuth 2.0 for authenticating all API requests.
+        type: OAuth 2.0
+        describedBy:
+            headers:
+                Authorization:
+                    description: |
+                       Used to send a valid OAuth 2 access token. Do not use
+                       with the "access_token" query string parameter.
+                    type: string
+            queryParameters:
+                access_token:
+                    description: |
+                       Used to send a valid OAuth 2 access token. Do not use together with
+                       the "Authorization" header
+                    type: string
+            responses:
+                401:
+                    description: |
+                        Bad or expired token. This can happen if the user or Dropbox
+                        revoked or expired an access token. To fix, you should re-
+                        authenticate the user.
+                403:
+                    description: |
+                        Bad OAuth request (wrong consumer key, bad nonce, expired
+                        timestamp...). Unfortunately, re-authenticating the user won't help here.
+        settings:
+          authorizationUri: https://www.dropbox.com/1/oauth2/authorize
+          accessTokenUri: https://api.dropbox.com/1/oauth2/token
+          authorizationGrants: [ code, token ]
+    - oauth_1_0:
+        description: |
+            OAuth 1.0 continues to be supported for all API requests, but OAuth 2.0 is now preferred.
+        type: OAuth 1.0
+        settings:
+          requestTokenUri: https://api.dropbox.com/1/oauth/request_token
+          authorizationUri: https://www.dropbox.com/1/oauth/authorize
+          tokenCredentialsUri: https://api.dropbox.com/1/oauth/access_token

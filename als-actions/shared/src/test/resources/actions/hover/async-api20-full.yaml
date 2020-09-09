@@ -1,0 +1,365 @@
+asyncapi: "2.0.0"
+id: 'urn:com:smartylighting:streetlights:server'
+info:
+  title: AsyncAPI Sample App
+  description: This is a sample server.
+  termsOfService: http://asyncapi.org/terms/
+  contact:
+    name: API Support
+    url: http://www.asyncapi.org/support
+    email: support@asyncapi.org
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.1
+servers:
+  production:
+    url: development.gigantic-server.com
+    protocol: kafka
+    protocolVersion: '1.0.0'
+    description: Development server
+    variables:
+      var:
+        enum:
+          - a
+          - b
+        default: a
+        description: a description
+        examples:
+          - a
+    security:
+      - oauth2:
+          - read:pets
+
+    bindings:
+      $ref: "#/components/serverBindings/serverBinding"
+
+channels:
+  user/signedup:
+    description: a channel
+    bindings:
+      amqp:
+        is: queue
+    publish:
+      bindings:
+        $ref: "#/components/operationBindings/oBinding"
+      description: publish
+      externalDocs:
+        description: Find more info here
+        url: https://example.com
+      message:
+        $ref: "#/components/messages/aMessage"
+      operationId: opId
+      summary: summary
+      tags:
+        - name: atag
+      traits:
+        - $ref: "#/components/operationTraits/opTr"
+    parameters:
+      aParam:
+        $ref: "#/components/parameters/aParamter"
+    subscribe:
+      bindings:
+        $ref: "#/components/operationBindings/oBinding"
+      description: subscribe
+      externalDocs:
+        description: Find more info here
+        url: https://example.com
+      message:
+        $ref: "#/components/messages/aMessage"
+      operationId: subs
+      summary: summary
+      tags:
+        - name: atag
+      traits:
+        - $ref: "#/components/operationTraits/opTr"
+tags:
+  - name: atag
+    description: User-related messages
+    externalDocs:
+      description: Find more info here
+      url: https://example.com
+externalDocs:
+  description: Find more info here
+  url: https://example.com
+
+components:
+  schemas:
+    formatSchema:
+      type: integer
+      format: int32
+    commonSchema:
+      title: a title
+      required: true
+      multipleOf: 2
+      maximum: 100
+      exclusiveMaximum: 100
+      minimum: 0
+      exclusiveMinimum: 0
+      maxLength: 100
+      minLength: 0
+      pattern: "."
+      enum:
+        - a
+        - b
+      const: 2
+      examples:
+        - a
+      if:
+        type: number
+      then:
+        type: integer
+      else:
+        type: boolean
+      readOnly: false
+      writeOnly: false
+      description: aaaa
+      default: a
+      externalDocs:
+        url: a
+      deprecated: false
+    objectSchema:
+      type: object
+      properties:
+        a:
+          type: string
+        b:
+          type: integer
+      patternProperties: a
+      additionalProperties: true
+      maxProperties: 100
+      minProperties: 0
+      propertyNames:
+        name:
+      contains:
+    arraySchema:
+      type: array
+      items:
+        type: string
+      additionalItems:
+      maxItems: 100
+      minItems: 0
+      uniqueItems: true
+    allOfSchema:
+      allOf:
+        - $ref: "#/components/schemas/objectSchema"
+        - $ref: "#/components/schemas/arraySchema"
+    anyOfSchema:
+      anyOf:
+        - $ref: "#/components/schemas/allOfSchema"
+        - $ref: "#/components/schemas/formatSchema"
+      discriminator: a
+    oneOfSchema:
+      oneOf:
+        - $ref: "#/components/schemas/arraySchema"
+        - $ref: "#/components/schemas/objectSchema"
+    notSchema:
+      not:
+        type: string
+  messages:
+    aMessage:
+      headers:
+        $ref: "#/components/schemas/allOfSchema"
+      payload:
+        description: a payload
+      correlationId:
+        $ref: "#/components/correlationIds/correlationId"
+      schemaFormat: application/vnd.aai.asyncapi+yaml;version=2.0.0
+      contentType: application/json
+      name: message
+      title: message in a bottle
+      summary: summary
+      description: a description
+      tags:
+        - name: atag
+      externalDocs:
+        url: a
+      bindings:
+        amqp:
+          bindingVersion: a
+      examples:
+        aExample: a
+      traits:
+        - $ref: "#/components/messageTraits/mT"
+  securitySchemes:
+    userPaassword:
+      type: userPassword
+      description: a description
+    apiKey:
+      type: apiKey
+      in: user
+    http:
+      type: http
+      scheme: http
+    openIdConnect:
+      type: openIdConnect
+    oauth2:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://example.com/api/oauth/dialog
+          scopes:
+            write:pets: modify pets in your account
+            read:pets: read your pets
+        password:
+          tokenUrl: aaaa
+        clientCredentials:
+          refreshUrl: aaa
+        authorizationCode:
+          authorizationUrl: https://example.com/api/oauth/dialog
+          tokenUrl: https://example.com/api/oauth/token
+          scopes:
+            write:pets: modify pets in your account
+            read:pets: read your pets
+
+  parameters:
+    aParamter:
+      description: Id of the user.
+      schema:
+        type: string
+      location: $message.payload#/user/id
+  correlationIds:
+    correlationId:
+      description: Default Correlation ID
+      location: $message.header#/correlationId
+  operationTraits:
+    opTr:
+      operationId: opTr
+      summary: summary
+      description: description
+      tags:
+        - name: atag
+      externalDocs:
+        description: Find more info here
+        url: https://example.com
+      bindings:
+        amqp:
+          ack: false
+  messageTraits:
+    mT:
+      headers:
+        type: string
+      correlationId:
+        $ref: "#/components/correlationIds/correlationId"
+      schemaFormat: application/vnd.aai.asyncapi+json;version=2.0.0
+      contentType: application/json
+      name: mT
+      title: title
+      summary: summmary
+      description: a description
+      tags:
+        - name: atag
+      externalDocs:
+        description: Find more info here
+        url: https://example.com
+      bindings:
+        amqp:
+          bindingVersion: 1
+      examples:
+        aExample: a
+  serverBindings:
+    serverBinding:
+      http: {}
+      ws: {}
+      kafka: {}
+      amqp: {}
+      amqp1: {}
+      mqtt:
+        bindingVersion: 1
+        cleanSession: false
+        clientId: a
+        keepAlive: 1
+        lastWill:
+          qos: 1
+          retain: false
+          topic: a
+      mqtt5: {}
+      nats: {}
+      jms: {}
+      sns: {}
+      sqs: {}
+      stomp: {}
+      redis: {}
+  channelBindings:
+    cBinding:
+      amqp:
+        is: queue
+      amqp1: {}
+      http: {}
+      jms: {}
+      kafka: {}
+      mqtt: {}
+      mqtt5: {}
+      nats: {}
+      redis: {}
+      sns: {}
+      sqs: {}
+      stomp: {}
+      ws:
+        bindingVersion: 1
+        headers:
+          $ref: "#/components/schemas/allOfSchema"
+        method: query
+        query:
+          type: string
+  messageBindings:
+    mBinding:
+      amqp:
+        bindingVersion: 1
+        contentEncoding: appl
+        messageType: aa
+      amqp1: {}
+      http:
+        bindingVersion: 1
+        headers:
+          $ref: "#/components/schemas/allOfSchema"
+      jms: {}
+      kafka:
+        bindingVersion: 1
+        key: a
+      mqtt:
+        bindingVersion: 1
+      mqtt5: {}
+      nats: {}
+      redis: {}
+      sns: {}
+      sqs: {}
+      stomp: {}
+      ws: {}
+  operationBindings:
+    oBinding:
+      amqp:
+        ack: false
+        bcc:
+          - a
+        bindingVersion: 1
+        cc:
+          - a
+        deliveryMode: a
+        expiration: 11
+        mandatory: true
+        priority: 1
+        replyTo: a
+        timestamp: true
+        userId: a
+      amqp1: {}
+      http:
+        bindingVersion: 1
+        method: CONNECT
+        type: request
+      jms: {}
+      kafka:
+        bindingVersion: 1
+        clientId: a
+        groupId: 1
+      mqtt:
+        bindingVersion: 1
+        qos: 1
+        retain: false
+      mqtt5: {}
+      nats: {}
+      redis: {}
+      sns: {}
+      sqs: {}
+      stomp: {}
+      ws: {}
