@@ -1,7 +1,7 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings
 
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.metamodel.bindings.{BindingType, DynamicBindingModel}
+import amf.plugins.domain.webapi.metamodel.bindings.BindingType
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 trait BindingObjectNode extends DialectNode {
@@ -33,7 +33,7 @@ trait BindingObjectNode extends DialectNode {
 object DynamicBindingObjectNode extends BindingObjectNode {
   override def name: String = "DynamicBindingObjectNode"
 
-  override def nodeTypeMapping: String = DynamicBindingModel.`type`.head.iri()
+  override def nodeTypeMapping: String = "DynamicBindingModel"
 }
 
 object NonPropsBindingPropertyNode extends DialectNode {

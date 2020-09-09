@@ -44,7 +44,6 @@ object AsyncApi20Dialect extends BaseDialect {
     ServerBindingObjectNode,
     MessageBindingObjectNode,
     OperationBindingObjectNode,
-    DynamicBindingObjectNode,
     ServerBindingsObjectNode,
     OperationBindingsObjectNode,
     ChannelBindingsObjectNode,
