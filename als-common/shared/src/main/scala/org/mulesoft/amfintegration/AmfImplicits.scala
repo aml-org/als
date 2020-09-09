@@ -82,6 +82,13 @@ object AmfImplicits {
           }
         )
 
+    def ast: Option[YPart] = {
+      bu match {
+        case e: EncodesModel if e.encodes.annotations.ast().isDefined => e.encodes.annotations.ast()
+        case _                                                        => bu.annotations.ast()
+      }
+    }
+
     def flatRefs: Seq[BaseUnit] = {
       val set: mutable.Set[BaseUnit] = mutable.Set.empty
 
