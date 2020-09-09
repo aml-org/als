@@ -42,7 +42,7 @@ case class HoverAction(bu: BaseUnit,
   }
 
   private def hackFromNonDynamic(): Option[(Seq[String], Option[parser.Range])] =
-    objectInTree.stack.collectFirst({ case obj if !obj.isInstanceOf[DataNode] => obj }).flatMap(classTerm)
+    objectInTree.stack.find(obj => !obj.isInstanceOf[DataNode]).flatMap(classTerm)
 
   private def fromTree(): Option[(Seq[String], Option[parser.Range])] =
     objectInTree.fieldEntry
