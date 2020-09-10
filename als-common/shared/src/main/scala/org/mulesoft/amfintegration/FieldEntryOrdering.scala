@@ -8,8 +8,14 @@ import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 object FieldEntryOrdering extends Ordering[FieldEntry] {
   override def compare(x: FieldEntry, y: FieldEntry): Int = {
     val tuple: Option[(parser.Range, parser.Range)] = for {
-      xRange <- x.value.annotations.lexicalInfo.orElse(x.value.value.annotations.lexicalInfo).map(_.range)
-      yRange <- y.value.annotations.lexicalInfo.orElse(x.value.value.annotations.lexicalInfo).map(_.range)
+      xRange <- x.value.annotations
+        .lexicalInformation()
+        .orElse(x.value.value.annotations.lexicalInformation())
+        .map(_.range)
+      yRange <- y.value.annotations
+        .lexicalInformation()
+        .orElse(x.value.value.annotations.lexicalInformation())
+        .map(_.range)
     } yield (xRange, yRange)
 
     tuple match {

@@ -49,7 +49,7 @@ object Raml08CompletionPluginRegistry extends WebApiCompletionPluginRegistry {
       Raml08SecuritySchemeStructureCompletionPlugin :+
       UnitDocumentationFacet :+
       DefaultVariablesAbstractDefinition :+
-      OperationRequest :+
+//      OperationRequest :+
       Raml08KnownValueCompletionPlugin :+
       Raml08TypeDeclarationReferenceCompletionPlugin
 

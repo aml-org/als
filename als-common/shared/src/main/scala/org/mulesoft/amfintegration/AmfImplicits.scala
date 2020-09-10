@@ -104,8 +104,9 @@ object AmfImplicits {
   implicit class FieldEntryImplicit(f: FieldEntry) {
 
     def fieldContains(position: AmfPosition): Boolean = {
-      f.value.annotations.lexicalInfo
-        .orElse(f.value.value.annotations.lexicalInfo)
+      f.value.annotations
+        .lexicalInformation()
+        .orElse(f.value.value.annotations.lexicalInformation())
         .exists(_.contains(position))
     }
 
@@ -208,7 +209,6 @@ object AmfImplicits {
 
     def isRamlStyle: Boolean = referenceStyle.contains(ReferenceStyles.RAML)
     def isJsonStyle: Boolean = referenceStyle.contains(ReferenceStyles.JSONSCHEMA)
-
 
     private val declaredTerms = d.declares
       .collect({ case nm: NodeMapping => nm.nodetypeMapping.value() -> nm })

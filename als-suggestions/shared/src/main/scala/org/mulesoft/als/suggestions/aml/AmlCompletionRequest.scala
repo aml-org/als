@@ -162,7 +162,7 @@ object AmlCompletionRequestBuilder {
   }
 
   private def objInTree(baseUnit: BaseUnit, position: AmfPosition, definedBy: Dialect): ObjectInTree = {
-    val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position, definedBy)
+    val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position, baseUnit.location(), definedBy)
     objectInTree.obj match {
       case d: EncodesModel if d.fields.exists(DocumentModel.Encodes) =>
         ObjectInTree(d.encodes, Seq(objectInTree.obj) ++ objectInTree.stack, position)
@@ -223,7 +223,11 @@ object AmlCompletionRequestBuilder {
     val newStack: Seq[AmfObject] =
       if (currentIndex < parent.branchStack.length) parent.branchStack.splitAt(currentIndex)._2 else parent.branchStack
     val objectInTree =
-      ObjectInTreeBuilder.fromSubTree(element, parent.position.toAmfPosition, newStack, parent.actualDialect)
+      ObjectInTreeBuilder.fromSubTree(element,
+                                      parent.position.toAmfPosition,
+                                      parent.baseUnit.location(),
+                                      newStack,
+                                      parent.actualDialect)
     new AmlCompletionRequest(
       parent.baseUnit,
       parent.position,
