@@ -9,7 +9,7 @@ import amf.core.model.domain.{AmfObject, AmfScalar, DomainElement}
 import amf.core.parser
 import amf.core.parser.{Annotations, FieldEntry, Value, Position => AmfPosition}
 import amf.plugins.document.vocabularies.model.document.{Dialect, Vocabulary}
-import amf.plugins.document.vocabularies.model.domain.{ClassTerm, NodeMapping, PropertyTerm}
+import amf.plugins.document.vocabularies.model.domain.{ClassTerm, NodeMapping, PropertyMapping, PropertyTerm}
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import amf.plugins.document.webapi.annotations.{DeclarationKey, DeclarationKeys, ExternalJsonSchemaShape}
 import amf.plugins.domain.shapes.annotations.ParsedFromTypeExpression
@@ -263,6 +263,14 @@ object AmfImplicits {
 
     def getClassTerm(n: String): Option[ClassTerm] =
       v.classes.find(p => p.name.option().contains(n))
+  }
+
+  // we have another in suggestions.aml oriented to suggestions. Could be unified?
+  implicit class NodeMappingImplicit(nodeMapping: NodeMapping) {
+
+    def findPropertyByTerm(term: String): Option[PropertyMapping] = {
+      nodeMapping.propertiesMapping().find(_.nodePropertyMapping().value() == term)
+    }
   }
 
 }

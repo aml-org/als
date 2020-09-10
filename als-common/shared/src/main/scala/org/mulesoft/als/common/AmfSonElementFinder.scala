@@ -97,7 +97,7 @@ object AmfSonElementFinder {
               e.findChild(amfPosition, location, filterFns: Seq[FieldEntry => Boolean]) match {
                 case Some(o: AmfObject) if o.containsPosition(amfPosition) || o.annotations.isVirtual =>
                   Some(o)
-                case _ if entry.field.`type`.isInstanceOf[ArrayLike] && entry.astValueArray() =>
+                case _ if entry.field.`type`.isInstanceOf[ArrayLike] && explicitArray(entry, result, definedBy) =>
                   matchInnerArrayElement(entry, e, definedBy, result)
                 case _ => None
               }
@@ -115,6 +115,19 @@ object AmfSonElementFinder {
       } while (a.nonEmpty && a.head == result)
       (result, stack)
     }
+  }
+
+  private def explicitArray(entry: FieldEntry, parent: AmfObject, definedBy: Dialect) = {
+    entry.astValueArray() && isExplicitArray(entry, parent, definedBy) || !entry.astValueArray()
+  }
+
+  private def isExplicitArray(entry: FieldEntry, parent: AmfObject, definedBy: Dialect) = {
+    definedBy
+      .findNodeMappingByTerm(parent.meta.`type`.head.iri())
+      .flatMap { nm =>
+        nm.findPropertyByTerm(entry.field.value.iri())
+      }
+      .exists(p => p.allowMultiple().value())
   }
 
   private def matchInnerArrayElement(entry: FieldEntry, e: AmfArray, definedBy: Dialect, parent: AmfObject) =
