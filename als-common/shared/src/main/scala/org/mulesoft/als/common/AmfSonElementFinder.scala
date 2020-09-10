@@ -97,7 +97,7 @@ object AmfSonElementFinder {
               e.findChild(amfPosition, location, filterFns: Seq[FieldEntry => Boolean]) match {
                 case Some(o: AmfObject) if o.containsPosition(amfPosition) || o.annotations.isVirtual =>
                   Some(o)
-                case _ if entry.field.`type`.isInstanceOf[ArrayLike] =>
+                case _ if entry.field.`type`.isInstanceOf[ArrayLike] && entry.astValueArray() =>
                   matchInnerArrayElement(entry, e, definedBy, result)
                 case _ => None
               }
