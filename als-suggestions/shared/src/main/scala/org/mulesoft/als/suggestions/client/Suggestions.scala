@@ -91,7 +91,11 @@ class Suggestions(platform: Platform,
       case _ if isHeader(position, patchedContent.original) =>
         if (!url.toLowerCase().endsWith(".raml"))
           HeaderCompletionProviderBuilder
-            .build(url, patchedContent.original, DtoPosition(position, patchedContent.original), amfInstance)
+            .build(url,
+                   patchedContent.original,
+                   DtoPosition(position, patchedContent.original),
+                   amfInstance,
+                   configuration)
         else
           RamlHeaderCompletionProvider
             .build(url, patchedContent.original, DtoPosition(position, patchedContent.original))
@@ -151,13 +155,17 @@ class Suggestions(platform: Platform,
                snippetSupport,
                rootLocation,
                configuration,
-                completionsPluginHandler))
+               completionsPluginHandler))
   }
 }
 
 object Suggestions extends PlatformSecrets {
-  def default = new Suggestions(platform, Environment(), AlsConfiguration(),
-    new PlatformDirectoryResolver(platform), AmfInstance.default)
+  def default =
+    new Suggestions(platform,
+                    Environment(),
+                    AlsConfiguration(),
+                    new PlatformDirectoryResolver(platform),
+                    AmfInstance.default)
 }
 
 trait SuggestionsHelper {
