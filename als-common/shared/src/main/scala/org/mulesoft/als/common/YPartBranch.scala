@@ -222,11 +222,18 @@ object NodeBranchBuilder {
   private def isNullOrEmptyTag(node: YNode) =
     node.isNull || (node.tagType.toString == "!include" && node.value.toString.isEmpty)
 
-  def childWithPosition(ast: YPart, amfPosition: AmfPosition): Option[YPart] =
-    ast.children
+  def childWithPosition(ast: YPart, amfPosition: AmfPosition): Option[YPart] = {
+    val parts = ast.children
       .filterNot(_.isInstanceOf[YNonContent])
       .filter { yp =>
         yp.contains(amfPosition)
       }
-      .lastOption
+    if (parts.length > 1) {
+      ast match {
+        case e: YMapEntry if e.value.isNull => Some(e.key)
+        case _                              => parts.lastOption
+      }
+    } else parts.lastOption
+  }
+
 }
