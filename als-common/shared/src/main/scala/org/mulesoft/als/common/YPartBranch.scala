@@ -7,6 +7,7 @@ import org.yaml.model._
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import amf.core.parser.{Position => AmfPosition}
 import amf.core.parser._
+import YamlWrapper._
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
 import org.yaml.model
 
@@ -224,16 +225,8 @@ object NodeBranchBuilder {
   def childWithPosition(ast: YPart, amfPosition: AmfPosition): Option[YPart] =
     ast.children
       .filterNot(_.isInstanceOf[YNonContent])
-      .filter {
-        case entry: YMapEntry =>
-          entry.contains(amfPosition)
-        case map: YMap =>
-          new AlsYMapOps(map).contains(amfPosition)
-        case seq: YSequence =>
-          PositionRange(seq.range).contains(Position(amfPosition)) && seq.nodes.headOption.forall(
-            _.range.columnFrom <= amfPosition.column)
-        case other =>
-          PositionRange(other.range).contains(Position(amfPosition))
+      .filter { yp =>
+        yp.contains(amfPosition)
       }
       .lastOption
 }

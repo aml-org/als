@@ -40,7 +40,7 @@ object AmfSonElementFinder {
         (value match {
           case arr: AmfArray =>
             f.isArrayIncluded(amfPosition) ||
-              f.value.annotations.isSynthesized || (f.value.annotations.lexicalInfo.isEmpty &&
+              f.value.annotations.isSynthesized || (f.value.annotations.lexicalInformation().isEmpty &&
               arr.values
                 .collectFirst({
                   case obj: AmfObject
@@ -56,17 +56,17 @@ object AmfSonElementFinder {
               v.annotations
                 .containsPosition(amfPosition)
                 .getOrElse(f.value.annotations.isSynthesized || f.value.value.annotations.isVirtual)
-        }
+        })
       }
 
     def findSon(amfPosition: AmfPosition, filterFns: Seq[FieldEntry => Boolean], definedBy: Dialect): AmfObject =
-      findSonWithStack(amfPosition, filterFns, definedBy)._1
+      findSonWithStack(amfPosition, None, filterFns, definedBy)._1
 
     private def containsAsValue(maybePart: Option[YPart], amfPosition: AmfPosition): Boolean =
       maybePart.exists(_.isValue(amfPosition))
 
     def findSonWithStack(amfPosition: AmfPosition,
-                         location:Option[String]
+                         location: Option[String],
                          filterFns: Seq[FieldEntry => Boolean],
                          definedBy: Dialect): (AmfObject, Seq[AmfObject]) = {
       val posFilter = positionFinderFN(amfPosition, location)
@@ -94,7 +94,7 @@ object AmfSonElementFinder {
         a = innerNode(result).flatMap(entry =>
           entry.value.value match {
             case e: AmfArray =>
-              e.findChild(amfPosition, location.filterFns: Seq[FieldEntry => Boolean]) match {
+              e.findChild(amfPosition, location, filterFns: Seq[FieldEntry => Boolean]) match {
                 case Some(o: AmfObject) if o.containsPosition(amfPosition) || o.annotations.isVirtual =>
                   Some(o)
                 case _ if entry.field.`type`.isInstanceOf[ArrayLike] =>
@@ -169,7 +169,9 @@ object AmfSonElementFinder {
           findMinor(m +: list.tail.tail)
       }
 
-    def findChild(amfPosition: AmfPosition, filterFns: Seq[FieldEntry => Boolean]): Option[AmfElement] = {
+    def findChild(amfPosition: AmfPosition,
+                  location: Option[String],
+                  filterFns: Seq[FieldEntry => Boolean]): Option[AmfElement] = {
       val children: Seq[AmfElement] = array.values.filter(v =>
         v.annotations.ast() match {
           case Some(p) if p.contains(amfPosition) =>
@@ -183,12 +185,15 @@ object AmfSonElementFinder {
 
   implicit class AlsAmfElement(element: AmfElement) {
 
-    def findSon(position: AmfPosition, filterFns: Seq[FieldEntry => Boolean], definedBy: Dialect): Option[AmfElement] = // todo: recursive with cycle control?
+    def findSon(position: AmfPosition,
+                location: Option[String],
+                filterFns: Seq[FieldEntry => Boolean],
+                definedBy: Dialect): Option[AmfElement] = // todo: recursive with cycle control?
       element match {
         case obj: AmfObject =>
           Some(obj.findSon(position, filterFns, definedBy))
         case array: AmfArray =>
-          array.findChild(position, filterFns)
+          array.findChild(position, location, filterFns)
         case _ =>
           None
       }

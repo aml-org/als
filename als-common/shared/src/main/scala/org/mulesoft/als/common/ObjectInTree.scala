@@ -60,8 +60,7 @@ case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfP
       })
 
   private def inValue(f: FieldEntry) =
-    f.value.value.position().exists(_.contains(amfPosition)) && // necessary due to AlsYMapOpts not checking for lines
-      f.value.value.annotations.containsPosition(amfPosition).getOrElse(true)
+    f.value.value.annotations.ast().exists(_.contains(amfPosition))
 
   private def notInKey(a: Annotations) = {
     a.find(classOf[SourceAST]) match {
@@ -86,18 +85,18 @@ case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfP
 
 object ObjectInTreeBuilder {
 
-  def fromUnit(bu: BaseUnit, position: AmfPosition, location:Option[String],definedBy: Dialect): ObjectInTree = {
+  def fromUnit(bu: BaseUnit, position: AmfPosition, location: Option[String], definedBy: Dialect): ObjectInTree = {
     val (obj, stack) =
-      bu.findSonWithStack(position, Seq((f: FieldEntry) => f.field != BaseUnitModel.References), definedBy)
+      bu.findSonWithStack(position, location, Seq((f: FieldEntry) => f.field != BaseUnitModel.References), definedBy)
     ObjectInTree(obj, stack, position)
   }
 
   def fromSubTree(element: DomainElement,
                   position: AmfPosition,
-                  location:Option[String],
+                  location: Option[String],
                   previousStack: Seq[AmfObject],
                   definedBy: Dialect): ObjectInTree = {
-    val (obj, stack) = element.findSonWithStack(position, Seq.empty, definedBy)
+    val (obj, stack) = element.findSonWithStack(position, location, Seq.empty, definedBy)
     ObjectInTree(obj, stack ++ previousStack, position)
   }
 }

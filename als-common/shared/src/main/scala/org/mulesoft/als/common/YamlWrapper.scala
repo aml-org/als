@@ -16,20 +16,8 @@ object YamlWrapper {
       toPositionRange.contains(Position(amfPosition))
   }
 
-  implicit class AlsYPart(selectedNode: YPart) {
-
-    def isArray: Boolean = selectedNode.isInstanceOf[YSequence]
-
-    def isKey(amfPosition: AmfPosition): Boolean =
-      selectedNode match {
-        case entry: YMapEntry => PositionRange(entry.key.range).contains(Position(amfPosition))
-        case _                => false
-      }
-
-    def isValue(amfPosition: AmfPosition): Boolean =
-      contains(amfPosition) && !isKey(amfPosition)
-
-    private val selectedPositionRange: PositionRange = PositionRange(selectedNode.range)
+  abstract class CommonPartOps(yPart: YPart) {
+    private val selectedPositionRange: PositionRange = PositionRange(yPart.range)
 
     def contains(amfPosition: AmfPosition): Boolean =
       selectedPositionRange.contains(Position(amfPosition))
@@ -46,8 +34,13 @@ object YamlWrapper {
     }
   }
 
-  implicit class YMapEntryOps(entry: YMapEntry) extends AlsYPart(entry) {
-    override def isArray: Boolean = false
+  implicit class YSequenceOps(seq: YSequence) extends CommonPartOps(seq) {
+    override def contains(amfPosition: AmfPosition): Boolean =
+      super.contains(amfPosition) && seq.nodes.headOption.forall(_.range.columnFrom <= amfPosition.column)
+  }
+
+  implicit class YMapEntryOps(entry: YMapEntry) extends CommonPartOps(entry) {
+    def isArray: Boolean = false
 
     override def contains(position: AmfPosition): Boolean =
       super.contains(position) &&
@@ -80,20 +73,13 @@ object YamlWrapper {
       entry.key.range.columnFrom >= position.column && entry.key.range.lineTo < position.line
   }
 
-  implicit class YNodeImplicits(yNode: YNode) {
+  implicit class YNodeImplicits(yNode: YNode) extends CommonPartOps(yNode) {
     def withKey(k: String): YNode =
       YNode(YMap(IndexedSeq(YMapEntry(YNode(k), yNode)), yNode.sourceName))
   }
 
-  implicit class YScalarImplicit(scalar: YScalar) {
-    def unmarkedRange(): InputRange =
-      if (scalar.mark.isInstanceOf[QuotedMark])
-        scalar.range.copy(columnFrom = scalar.range.columnFrom + 1, columnTo = scalar.range.columnTo - 1)
-      else scalar.range
-  }
-
-  implicit class AlsYMapOps(map: YMap) extends AlsYPart(map) {
-    override def isArray: Boolean = false
+  implicit class AlsYMapOps(map: YMap) extends CommonPartOps(map) {
+    def isArray: Boolean = false
 
     override def contains(amfPosition: AmfPosition): Boolean =
       (super.contains(amfPosition) || sameLevelBefore(amfPosition)) && respectIndentation(amfPosition)
@@ -105,9 +91,36 @@ object YamlWrapper {
       map.range.lineFrom > amfPosition.line && map.range.lineTo >= amfPosition.line && map.entries.nonEmpty
   }
 
-  implicit class AlsYScalarOps(scalar: YScalar) extends AlsYPart(scalar) {
+  implicit class AlsYScalarOps(scalar: YScalar) extends CommonPartOps(scalar) {
     override def contains(amfPosition: AmfPosition): Boolean = super.contains(amfPosition) || lineContains(amfPosition)
     def lineContains(amfPosition: AmfPosition): Boolean =
       scalar.range.lineFrom <= amfPosition.line && ((scalar.range.lineTo >= amfPosition.line && scalar.range.columnFrom <= amfPosition.column) || scalar.value == null)
+
+    def unmarkedRange(): InputRange =
+      if (scalar.mark.isInstanceOf[QuotedMark])
+        scalar.range.copy(columnFrom = scalar.range.columnFrom + 1, columnTo = scalar.range.columnTo - 1)
+      else scalar.range
+  }
+
+  implicit class AlsYPart(selectedNode: YPart) extends CommonPartOps(selectedNode) {
+
+    def isArray: Boolean = selectedNode.isInstanceOf[YSequence]
+
+    def isKey(amfPosition: AmfPosition): Boolean =
+      selectedNode match {
+        case entry: YMapEntry => PositionRange(entry.key.range).contains(Position(amfPosition))
+        case _                => false
+      }
+
+    override def contains(amfPosition: AmfPosition): Boolean = selectedNode match {
+      case entry: YMapEntry => entry.contains(amfPosition)
+      case map: YMap        => map.contains(amfPosition)
+      case seq: YSequence   => seq.contains(amfPosition)
+
+      case _ => super.contains(amfPosition)
+    }
+
+    def isValue(amfPosition: AmfPosition): Boolean =
+      contains(amfPosition) && !isKey(amfPosition)
   }
 }

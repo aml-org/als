@@ -1,6 +1,7 @@
 package org.mulesoft.als.common.cache
 
 import amf.core.model.document.BaseUnit
+import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.common.{NodeBranchBuilder, ObjectInTree, ObjectInTreeBuilder, YPartBranch}
 
@@ -26,9 +27,10 @@ trait BaseUnitCachedElement[T] {
   private val cache: mutable.Map[Location, T] = mutable.Map()
 }
 
-class ObjectInTreeCached(override val unit: BaseUnit) extends BaseUnitCachedElement[ObjectInTree] {
+class ObjectInTreeCached(override val unit: BaseUnit, val definedBy: Dialect)
+    extends BaseUnitCachedElement[ObjectInTree] {
   override protected def createElement(location: Location): ObjectInTree =
-    ObjectInTreeBuilder.fromUnit(unit, location._1.toAmfPosition, Some(location._2))
+    ObjectInTreeBuilder.fromUnit(unit, location._1.toAmfPosition, Some(location._2), definedBy)
 }
 
 class YPartBranchCached(override val unit: BaseUnit) extends BaseUnitCachedElement[YPartBranch] {
@@ -38,6 +40,7 @@ class YPartBranchCached(override val unit: BaseUnit) extends BaseUnitCachedEleme
 
 trait UnitWithCaches {
   protected val unit: BaseUnit
-  val tree        = new ObjectInTreeCached(unit)
+  protected val definedBy: Dialect
+  val tree        = new ObjectInTreeCached(unit, definedBy)
   val yPartBranch = new YPartBranchCached(unit)
 }

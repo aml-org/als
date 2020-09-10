@@ -77,6 +77,7 @@ object RamlAbstractDefinition extends AMLCompletionPlugin {
         Some(ElementInfo(resolved, t, t.name.value(), t.metaURIs.head))
       case _ => None
     }
+  }
 
   private def getSourceEntry(a: AbstractDeclaration, defaultName: String) =
     a.annotations.find(classOf[SourceAST]).map(_.ast) match {
