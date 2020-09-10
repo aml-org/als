@@ -113,11 +113,16 @@ object YamlWrapper {
       }
 
     override def contains(amfPosition: AmfPosition): Boolean = selectedNode match {
-      case entry: YMapEntry => entry.contains(amfPosition)
-      case map: YMap        => map.contains(amfPosition)
-      case seq: YSequence   => seq.contains(amfPosition)
-
-      case _ => super.contains(amfPosition)
+      case ast: YMapEntry =>
+        YMapEntryOps(ast).contains(amfPosition)
+      case ast: YMap =>
+        AlsYMapOps(ast).contains(amfPosition)
+      case ast: YNode if ast.isNull =>
+        true
+      case ast: YScalar =>
+        AlsYScalarOps(ast).contains(amfPosition)
+      case seq: YSequence => seq.contains(amfPosition)
+      case _              => super.contains(amfPosition)
     }
 
     def isValue(amfPosition: AmfPosition): Boolean =
