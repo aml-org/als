@@ -6,12 +6,13 @@ import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.{PlainText, RawSuggestion, SuggestionStructure}
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.NonPatchHacks
 import org.mulesoft.amfintegration.AmfImplicits._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
+trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin with NonPatchHacks {
   override def id = "AMLRefTagCompletionPlugin"
 
   private val includeSuggestion = Seq(
@@ -67,13 +68,13 @@ trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
   private def isInFacet(params: AmlCompletionRequest): Boolean = isKeyAlone(params) || isPatchedJson(params)
 
   private def isKeyAlone(params: AmlCompletionRequest): Boolean =
-    params.fieldEntry.isEmpty && params.yPartBranch.isKey
+    params.fieldEntry.isEmpty && notValue(params.yPartBranch)
 
   private def isPatchedJson(params: AmlCompletionRequest): Boolean =
     params.yPartBranch.isJson && params.yPartBranch.isInArray
 
   private def isPatchedKey(yPartBranch: YPartBranch): Boolean =
-    (!yPartBranch.isJson && yPartBranch.stringValue == "k") || (yPartBranch.isJson && yPartBranch.stringValue == "x")
+    yPartBranch.isJson && yPartBranch.stringValue == "x"
 
   protected def isExceptionCase(branch: YPartBranch): Boolean = false
 }
