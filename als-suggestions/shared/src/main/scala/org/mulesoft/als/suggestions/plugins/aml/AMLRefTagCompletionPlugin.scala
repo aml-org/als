@@ -36,30 +36,27 @@ trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin with NonPatchHacks {
   private def isDeclarable(params: AmlCompletionRequest): Boolean =
     isObjectDeclarable(params) && !params.amfObject.elementIdentifier().contains(params.yPartBranch.stringValue)
 
-  protected def isObjectDeclarable(params: AmlCompletionRequest): Boolean = {
+  protected def isObjectDeclarable(params: AmlCompletionRequest): Boolean =
     params.amfObject.metaURIs
       .exists(v => params.declarationProvider.isTermDeclarable(v))
-  }
 
-  def getSuggestion(params: AmlCompletionRequest, style: Option[String]): Seq[RawSuggestion] = {
+  def getSuggestion(params: AmlCompletionRequest, style: Option[String]): Seq[RawSuggestion] =
     style match {
       case Some(ReferenceStyles.RAML) if isRamlTag(params)       => includeSuggestion
       case Some(ReferenceStyles.JSONSCHEMA) if isJsonKey(params) => refSuggestion
       case None if isJsonKey(params)                             => refSuggestion
       case _                                                     => Nil
     }
-  }
 
   def isRamlTag(params: AmlCompletionRequest): Boolean =
     params.yPartBranch.isValue && params.prefix.startsWith("!")
 
-  def isJsonKey(params: AmlCompletionRequest): Boolean = {
+  def isJsonKey(params: AmlCompletionRequest): Boolean =
     (!params.yPartBranch.hasIncludeTag) && params.yPartBranch.brothers.isEmpty &&
-    isDeclarable(params) &&
-    isInFacet(params) &&
-    matchPrefixPatched(params) &&
-    !isExceptionCase(params.yPartBranch)
-  }
+      isDeclarable(params) &&
+      isInFacet(params) &&
+      matchPrefixPatched(params) &&
+      !isExceptionCase(params.yPartBranch)
 
   private def matchPrefixPatched(params: AmlCompletionRequest) =
     params.yPartBranch.stringValue.isEmpty || params.yPartBranch.isArray || isPatchedKey(params.yPartBranch) || params.yPartBranch.stringValue
