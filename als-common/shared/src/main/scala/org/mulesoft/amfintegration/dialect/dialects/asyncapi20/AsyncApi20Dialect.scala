@@ -26,6 +26,8 @@ object AsyncApi20Dialect extends BaseDialect {
     ChannelObject,
     CorrelationIdObjectNode,
     MessageObjectNode,
+    ResponseMessageObjectNode,
+    RequestMessageObjectNode,
     MessageTraitsObjectNode,
     OperationObject,
     OperationTraitsObjectNode,
