@@ -20,10 +20,11 @@ class JsonContentPatcher(override val textRaw: String, override val offsetRaw: I
 
     var lineEnd = text.indexOf("\n", offset)
     if (lineEnd < 0) lineEnd = text.length
-    val line       = text.substring(lineStart, lineEnd)
-    val off        = offset - lineStart
-    val lineTrim   = line.trim
-    val textEnding = text.substring((lineEnd + (if (text.endsWith("\n")) 1 else 0))).trim
+    val line     = text.substring(lineStart, lineEnd)
+    val off      = offset - lineStart
+    val lineTrim = line.trim
+    val textEnding =
+      text.substring((lineEnd + (if (text.endsWith("\n") && text.lastIndexOf('\n') != (offsetRaw - 1)) 1 else 0))).trim
     val hasComplexValueStartSameLine = lineTrim.endsWith("{") || lineTrim
       .endsWith("[")
     val hasComplexValueSameLine = hasComplexValueStartSameLine || lineTrim
