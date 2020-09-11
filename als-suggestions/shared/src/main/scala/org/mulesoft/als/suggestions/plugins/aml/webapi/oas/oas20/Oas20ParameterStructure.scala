@@ -28,7 +28,8 @@ object Oas20ParameterStructure extends AMLCompletionPlugin {
             if (p.name.value() != request.yPartBranch.stringValue)
               Oas20TypeFacetsCompletionPlugin.resolveShape(Option(p.schema).getOrElse(AnyShape()), Nil, OAS20Dialect())
             else Nil
-          case p: Parameter if request.fieldEntry.isEmpty => parameterSuggestions(request, p)
+          case p: Parameter if request.fieldEntry.isEmpty && request.yPartBranch.stringValue != p.name.value() =>
+            parameterSuggestions(request, p)
           case ep: EndPoint if request.fieldEntry.exists(_.field == EndPointModel.Parameters) =>
             suggestions(withName = false, None)
           case o: Request if request.fieldEntry.exists(_.field == RequestModel.QueryParameters) =>

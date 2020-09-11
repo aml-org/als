@@ -138,9 +138,7 @@ object ObjectExamplePropertiesCompletionPlugin extends AMLCompletionPlugin {
       case s: ScalarNode
           if request.branchStack.headOption.exists(_.isInstanceOf[ObjectNode]) && request.yPartBranch.isKey =>
         request.branchStack.headOption.collectFirst({ case o: ObjectNode => o })
-      case s: ScalarNode
-          if request.branchStack.headOption.exists(_.isInstanceOf[ArrayNode]) || (request.yPartBranch.isJson && request.yPartBranch.stringValue == "x" && request.branchStack.headOption
-            .exists(_.isInstanceOf[ArrayNode])) =>
+      case s: ScalarNode =>
         val o = ObjectNode(s.annotations)
         request.branchStack.headOption.collect({ case a: ArrayNode => a }).foreach { a =>
           a.withMembers(Seq(o))
