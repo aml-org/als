@@ -1,18 +1,15 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi
 
-import amf.core.metamodel.Type.ArrayLike
-import amf.core.model.domain.AmfObject
-import amf.plugins.domain.webapi.metamodel.{OperationModel, ServerModel, WebApiModel}
+import amf.plugins.domain.webapi.metamodel.ServerModel
 import amf.plugins.domain.webapi.metamodel.security.SecuritySchemeModel
+import amf.plugins.domain.webapi.models.Server
 import amf.plugins.domain.webapi.models.security.{ParametrizedSecurityScheme, SecurityRequirement}
-import amf.plugins.domain.webapi.models.{Operation, Server, WebApi}
-import org.mulesoft.als.common.YPartBranch
-import org.mulesoft.als.suggestions.{ArrayRange, ObjectRange, RawSuggestion}
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.AMLRamlStyleDeclarationsReferences
 import org.mulesoft.als.suggestions.plugins.aml.patched.JsonExceptions
+import org.mulesoft.als.suggestions.{ArrayRange, ObjectRange, RawSuggestion}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
