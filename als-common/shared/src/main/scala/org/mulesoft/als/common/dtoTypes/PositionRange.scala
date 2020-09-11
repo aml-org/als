@@ -27,6 +27,8 @@ case class PositionRange(start: Position, end: Position) {
     case _                 => false
   }
 
+  def contains(positionRange: PositionRange): Boolean = contains(positionRange.start) && contains(positionRange.end)
+
   override def hashCode(): Int = super.hashCode()
 
   def compareTo(other: PositionRange): Int = {

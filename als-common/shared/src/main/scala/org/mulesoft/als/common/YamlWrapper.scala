@@ -3,6 +3,7 @@ package org.mulesoft.als.common
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import amf.core.parser.{Position => AmfPosition}
 import org.mulesoft.lexer.InputRange
+import org.yaml.lexer.YamlToken
 import org.yaml.model._
 
 object YamlWrapper {
@@ -17,7 +18,7 @@ object YamlWrapper {
   }
 
   abstract class CommonPartOps(yPart: YPart) {
-    private val selectedPositionRange: PositionRange = PositionRange(yPart.range)
+    protected val selectedPositionRange: PositionRange = PositionRange(yPart.range)
 
     def contains(amfPosition: AmfPosition): Boolean =
       selectedPositionRange.contains(Position(amfPosition))
@@ -34,7 +35,30 @@ object YamlWrapper {
     }
   }
 
-  implicit class YSequenceOps(seq: YSequence) extends CommonPartOps(seq) {
+  abstract class FlowedStructure(beginFlowChar: String, endFlowChar: String, node: YValue)
+      extends CommonPartOps(node) {
+
+    val (flowBegin, flowEnd) = {
+      val tokens = node.children.flatMap({
+        case nonContent: YNonContent => nonContent.tokens
+        case _                       => Nil
+      })
+      (tokens.exists(t => t.tokenType == YamlToken.Indicator && t.text == beginFlowChar),
+       tokens.exists(t => t.tokenType == YamlToken.Indicator && t.text == endFlowChar))
+    }
+
+    private def flowedPosition = {
+      PositionRange(
+        node.range.copy(
+          columnFrom = (if (flowBegin) node.range.columnFrom + 1 else node.range.columnFrom),
+          columnTo = (if (flowEnd) node.range.columnTo - 1 else node.range.columnTo)
+        ))
+    }
+
+    override val selectedPositionRange: PositionRange = flowedPosition
+  }
+
+  implicit class YSequenceOps(seq: YSequence) extends FlowedStructure("[", "]", seq) {
     override def contains(amfPosition: AmfPosition): Boolean =
       super.contains(amfPosition) && seq.nodes.headOption.forall(_.range.columnFrom <= amfPosition.column)
   }
@@ -78,7 +102,7 @@ object YamlWrapper {
       YNode(YMap(IndexedSeq(YMapEntry(YNode(k), yNode)), yNode.sourceName))
   }
 
-  implicit class AlsYMapOps(map: YMap) extends CommonPartOps(map) {
+  implicit class AlsYMapOps(map: YMap) extends FlowedStructure("{", "}", map) {
     def isArray: Boolean = false
 
     override def contains(amfPosition: AmfPosition): Boolean =

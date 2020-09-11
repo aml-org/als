@@ -23,7 +23,7 @@ import org.mulesoft.als.common.YamlWrapper._
 import org.yaml.model.{YNode, YPart, YSequence, YType}
 import org.yaml.model.YPart
 import org.yaml.model.{YMapEntry, YPart}
-
+import org.mulesoft.als.common.YamlWrapper._
 import scala.collection.mutable
 
 object AmfImplicits {
@@ -103,6 +103,17 @@ object AmfImplicits {
   }
 
   implicit class FieldEntryImplicit(f: FieldEntry) {
+
+    // B.containsLexically(A)
+    // true=> solo cuando B.ann y A.ann y A esta dentro de B
+    def containsLexically(other: FieldEntry): Boolean = {
+      val otherRange = other.value.annotations.ast().map(a => a.range.toPositionRange)
+      val localRange = f.value.annotations.ast().map(a => a.range.toPositionRange)
+      (localRange, otherRange) match {
+        case (Some(b), Some(a)) => b.contains(a)
+        case _                  => false
+      }
+    }
 
     def fieldContains(position: AmfPosition): Boolean = {
       f.value.annotations
