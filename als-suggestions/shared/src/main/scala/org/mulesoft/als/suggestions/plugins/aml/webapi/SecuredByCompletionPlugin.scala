@@ -7,6 +7,7 @@ import amf.plugins.domain.webapi.models.security.{ParametrizedSecurityScheme, Se
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.NonPatchHacks
 import org.mulesoft.als.suggestions.plugins.aml.AMLRamlStyleDeclarationsReferences
 import org.mulesoft.als.suggestions.plugins.aml.patched.JsonExceptions
 import org.mulesoft.als.suggestions.{ArrayRange, ObjectRange, RawSuggestion}
@@ -14,7 +15,7 @@ import org.mulesoft.als.suggestions.{ArrayRange, ObjectRange, RawSuggestion}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object SecuredByCompletionPlugin extends AMLCompletionPlugin {
+object SecuredByCompletionPlugin extends AMLCompletionPlugin with NonPatchHacks {
   override def id: String = "SecuredByCompletionPlugin"
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
@@ -22,7 +23,7 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
       if (isWritingSecuredBy(request)) {
         val original = getSecurityNames(request.prefix, request.declarationProvider)
         val forKey =
-          if (request.yPartBranch.isKey || compatibleParametrizedSecurityScheme(request))
+          if (notValue(request.yPartBranch) || compatibleParametrizedSecurityScheme(request))
             original.map(r => r.copy(options = r.options.copy(isKey = true, rangeKind = ObjectRange)))
           else original
 
@@ -39,7 +40,7 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
       case _: ParametrizedSecurityScheme =>
         compatibleParametrizedSecurityScheme(request)
       case _: SecurityRequirement =>
-        request.fieldEntry.isEmpty && underSecurityKey(request) && (request.yPartBranch.isArray || request.yPartBranch.isValue || JsonExceptions.SecuredBy
+        request.fieldEntry.isEmpty && underSecurityKey(request) && (request.yPartBranch.isInArray || request.yPartBranch.isValue || JsonExceptions.SecuredBy
           .isJsonException(request.yPartBranch))
       case s: Server => request.fieldEntry.exists(t => t.field == ServerModel.Security)
       case _         => false
