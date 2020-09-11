@@ -11,7 +11,7 @@ import amf.core.parser.{Annotations, FieldEntry, Value, Position => AmfPosition}
 import amf.plugins.document.vocabularies.model.document.{Dialect, Vocabulary}
 import amf.plugins.document.vocabularies.model.domain.{ClassTerm, NodeMapping, PropertyMapping, PropertyTerm}
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
-import amf.plugins.document.webapi.annotations.{DeclarationKey, DeclarationKeys, ExternalJsonSchemaShape}
+import amf.plugins.document.webapi.annotations.{DeclarationKey, DeclarationKeys, ExternalJsonSchemaShape, Inferred}
 import amf.plugins.domain.shapes.annotations.ParsedFromTypeExpression
 import amf.plugins.domain.webapi.metamodel.AbstractModel
 import org.mulesoft.als.common.YamlWrapper._
@@ -68,7 +68,8 @@ object AmfImplicits {
 
     def isSynthesized: Boolean = ann.contains(classOf[SynthesizedField])
 
-    def isVirtual: Boolean = ann.contains(classOf[VirtualObject])
+    def isVirtual: Boolean    = ann.contains(classOf[VirtualObject])
+    def isInferred(): Boolean = ann.contains(classOf[Inferred])
 
     def targets(): Map[String, parser.Range] =
       ann.find(classOf[ReferenceTargets]).map(_.targets).getOrElse(Map.empty)
@@ -109,6 +110,8 @@ object AmfImplicits {
         .orElse(f.value.value.annotations.lexicalInformation())
         .exists(_.contains(position))
     }
+
+    def isInferred(): Boolean = f.value.annotations.isInferred()
 
     def isArrayIncluded(amfPosition: AmfPosition): Boolean =
       f.value.annotations

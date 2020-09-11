@@ -67,7 +67,7 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
       case _ => Nil
     }
 
-    objectInTree.fieldEntry match {
+    fieldEntry match {
       case Some(e) =>
         val maybeMappings = mappings
           .find(
