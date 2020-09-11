@@ -25,11 +25,11 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
       if (isWritingSecuredBy(request)) {
         val original = getSecurityNames(request.prefix, request.declarationProvider)
         val forKey =
-          if (request.yPartBranch.isKey)
+          if (request.yPartBranch.isKey || compatibleParametrizedSecurityScheme(request))
             original.map(r => r.copy(options = r.options.copy(isKey = true, rangeKind = ObjectRange)))
           else original
 
-        if (!request.yPartBranch.isArray)
+        if (!request.yPartBranch.isArray && !request.yPartBranch.isInArray)
           forKey.map(r => r.copy(options = r.options.copy(rangeKind = ArrayRange, isKey = false)))
         else forKey
 
@@ -37,15 +37,20 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
     }
   }
 
-  private def isWritingSecuredBy(request: AmlCompletionRequest): Boolean = {
+  private def isWritingSecuredBy(request: AmlCompletionRequest): Boolean =
     request.amfObject match {
+      case _: ParametrizedSecurityScheme =>
+        compatibleParametrizedSecurityScheme(request)
       case _: SecurityRequirement =>
         request.fieldEntry.isEmpty && underSecurityKey(request) && (request.yPartBranch.isArray || request.yPartBranch.isValue || JsonExceptions.SecuredBy
           .isJsonException(request.yPartBranch))
       case s: Server => request.fieldEntry.exists(t => t.field == ServerModel.Security)
       case _         => false
     }
-  }
+
+  private def compatibleParametrizedSecurityScheme(request: AmlCompletionRequest) =
+    request.yPartBranch.isInArray && underSecurityKey(request) && request.fieldEntry.isEmpty && request.amfObject
+      .isInstanceOf[ParametrizedSecurityScheme]
 
   private def getSecurityNames(prefix: String, dp: DeclarationProvider): Seq[RawSuggestion] =
     new AMLRamlStyleDeclarationsReferences(Seq(SecuritySchemeModel.`type`.head.iri()), prefix, dp, None)

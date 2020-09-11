@@ -33,7 +33,7 @@ object AmfSonElementFinder {
           }
       }
 
-    private def positionFinderFN(amfPosition: AmfPosition, location: Option[String])(): FieldEntry => Boolean =
+    private def positionFinderFN(amfPosition: AmfPosition, location: Option[String]): FieldEntry => Boolean =
       (f: FieldEntry) => {
         val value = f.value.value
         location.forall(l => value.annotations.location().isEmpty || value.annotations.location().contains(l)) &&
