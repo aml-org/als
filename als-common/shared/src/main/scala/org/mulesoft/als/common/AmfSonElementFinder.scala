@@ -5,18 +5,12 @@ import amf.core.metamodel.Type.ArrayLike
 import amf.core.metamodel.domain.{DataNodeModel, DomainElementModel, ShapeModel}
 import amf.core.model.domain.{AmfArray, AmfElement, AmfObject, DataNode}
 import amf.core.parser.{FieldEntry, Position => AmfPosition}
-import amf.core.vocabulary.Namespace
 import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.DialectDomainElement
 import org.mulesoft.als.common.YamlWrapper._
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.yaml.model.YPart
-import org.mulesoft.amfintegration.FieldEntryOrdering
-import org.yaml.model.{YMapEntry, YNode, YPart, YType}
-import YamlWrapper._
-import amf.core.parser.{Position => AmfPosition}
-import org.mulesoft.amfintegration.AmfImplicits._
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -97,7 +91,10 @@ object AmfSonElementFinder {
               e.findChild(amfPosition, location, filterFns: Seq[FieldEntry => Boolean]) match {
                 case Some(o: AmfObject) if o.containsPosition(amfPosition) || o.annotations.isVirtual =>
                   Some(o)
-                case _ if entry.field.`type`.isInstanceOf[ArrayLike] && explicitArray(entry, result, definedBy) =>
+                case _
+                    if entry.value.value.annotations.containsPosition(amfPosition).getOrElse(true) &&
+                      entry.field.`type`.isInstanceOf[ArrayLike] &&
+                      explicitArray(entry, result, definedBy) =>
                   matchInnerArrayElement(entry, e, definedBy, result)
                 case _ => None
               }
@@ -117,18 +114,16 @@ object AmfSonElementFinder {
     }
   }
 
-  private def explicitArray(entry: FieldEntry, parent: AmfObject, definedBy: Dialect) = {
+  private def explicitArray(entry: FieldEntry, parent: AmfObject, definedBy: Dialect) =
     entry.astValueArray() && isExplicitArray(entry, parent, definedBy) || !entry.astValueArray()
-  }
 
-  private def isExplicitArray(entry: FieldEntry, parent: AmfObject, definedBy: Dialect) = {
+  private def isExplicitArray(entry: FieldEntry, parent: AmfObject, definedBy: Dialect) =
     definedBy
       .findNodeMappingByTerm(parent.meta.`type`.head.iri())
       .flatMap { nm =>
         nm.findPropertyByTerm(entry.field.value.iri())
       }
       .exists(p => p.allowMultiple().value())
-  }
 
   private def matchInnerArrayElement(entry: FieldEntry, e: AmfArray, definedBy: Dialect, parent: AmfObject) =
     entry.field.`type`.asInstanceOf[ArrayLike].element match {

@@ -24,20 +24,17 @@ case class HoverAction(bu: BaseUnit,
                        amfInstance: AmfInstance,
                        definedBy: Dialect) {
 
-  private val objectInTree: ObjectInTree = tree.getCachedOrNew((dtoPosition, location))
+  private val objectInTree: ObjectInTree = tree.getCachedOrNew(dtoPosition, location)
 
-  def getHover(): Hover = {
+  def getHover(): Hover =
     getSemantic()
       .map(s => Hover(s._1, s._2.map(r => LspRangeConverter.toLspRange(PositionRange(r))))) // if sequence, we could show all the semantic hierarchy?
       .getOrElse(Hover.empty)
-  }
 
-  private def getSemantic(): Option[(Seq[String], Option[parser.Range])] = {
-
+  private def getSemantic(): Option[(Seq[String], Option[parser.Range])] =
     if (objectInTree.obj.isInstanceOf[DataNode]) hackFromNonDynamic()
     else if (isInDeclarationKey()) fromDeclarationKey()
     else fromTree()
-  }
 
   private def hackFromNonDynamic(): Option[(Seq[String], Option[parser.Range])] =
     objectInTree.stack.collectFirst({ case obj if !obj.isInstanceOf[DataNode] => obj }).flatMap(classTerm)

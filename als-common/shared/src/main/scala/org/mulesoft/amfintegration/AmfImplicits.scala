@@ -122,7 +122,7 @@ object AmfImplicits {
         .exists(_.contains(position))
     }
 
-    def isInferred(): Boolean = f.value.annotations.isInferred()
+    def isInferred: Boolean = f.value.annotations.isInferred()
 
     def isArrayIncluded(amfPosition: AmfPosition): Boolean =
       f.value.annotations
@@ -144,13 +144,14 @@ object AmfImplicits {
         case _           => false
       }
 
-    def astValueArray() = {
+    def astValueArray(): Boolean = {
       f.value.annotations.ast() match {
         case Some(e: YMapEntry) => e.value.tagType == YType.Seq
         case Some(n: YNode)     => n.tagType == YType.Seq
         case _                  => false
       }
     }
+
     def isEndChar(position: AmfPosition, range: InputRange): Boolean =
       position.line < range.lineTo || (position.line == range.lineTo && position.column > range.columnTo) || range.lineFrom == range.lineTo
 
