@@ -1,0 +1,92 @@
+[
+  {
+    "label": "\"asyncapi\": \"2.0.0\"",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define a asyncapi 2.0.0 file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11\"asyncapi\": \"2.0.0\"",
+    "filterText": "{\n    \"asyncapi\": \"2.0.0\"\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "{\n    \"asyncapi\": \"2.0.0\"\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "\"openapi\": \"3.0.0\"",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define a openapi 3.0.0 file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11\"openapi\": \"3.0.0\"",
+    "filterText": "{\n    \"openapi\": \"3.0.0\"\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "{\n    \"openapi\": \"3.0.0\"\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "\"swagger\": \"2.0\"",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define a swagger 2.0 file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11\"swagger\": \"2.0\"",
+    "filterText": "{\n    \"swagger\": \"2.0\"\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 0
+        }
+      },
+      "newText": "{\n    \"swagger\": \"2.0\"\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
