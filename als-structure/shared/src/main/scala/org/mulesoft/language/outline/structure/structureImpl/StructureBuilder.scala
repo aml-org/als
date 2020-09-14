@@ -24,7 +24,7 @@ import org.mulesoft.language.outline.structure.structureImpl.factory.webapi.{
   RamlBuilderFactory
 }
 
-class StructureBuilder(unit: BaseUnit, definedBy: Option[Dialect]) {
+class StructureBuilder(unit: BaseUnit, definedBy: Dialect) {
 
   // todo: general amf model dialect?
   private val factory: BuilderFactory = {
@@ -42,7 +42,7 @@ class StructureBuilder(unit: BaseUnit, definedBy: Option[Dialect]) {
   }
 
   private val context = new StructureContextBuilder(unit)
-    .withDialect(definedBy.getOrElse(OAS30Dialect.dialect))
+    .withDialect(definedBy)
     .withFactory(factory)
     .build() // todo: change for default amf model dialect
 
@@ -51,7 +51,7 @@ class StructureBuilder(unit: BaseUnit, definedBy: Option[Dialect]) {
 }
 
 object StructureBuilder {
-  def listSymbols(unit: BaseUnit, definedBy: Option[Dialect]): List[DocumentSymbol] =
+  def listSymbols(unit: BaseUnit, definedBy: Dialect): List[DocumentSymbol] =
     new StructureBuilder(unit, definedBy).listSymbols()
 }
 

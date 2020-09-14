@@ -13,7 +13,7 @@ case class CodeActionRequestParams(uri: String,
                                    bu: BaseUnit,
                                    tree: ObjectInTreeCached,
                                    yPartBranch: YPartBranchCached,
-                                   dialect: Option[Dialect],
+                                   dialect: Dialect,
                                    configuration: AlsConfigurationReader,
                                    telemetryProvider: TelemetryProvider,
                                    uuid: String)
@@ -23,7 +23,7 @@ object CodeActionParamsImpl {
     def toRequestParams(bu: BaseUnit,
                         tree: ObjectInTreeCached,
                         yPartBranch: YPartBranchCached,
-                        dialect: Option[Dialect],
+                        dialect: Dialect,
                         configuration: AlsConfigurationReader,
                         telemetryProvider: TelemetryProvider,
                         uuid: String): CodeActionRequestParams =

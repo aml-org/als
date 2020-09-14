@@ -6,7 +6,7 @@ import amf.core.model.document.Document
 import amf.core.model.domain.{AmfObject, DomainElement, Linkable}
 import amf.core.remote.{Mimes, Vendor}
 import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.webapi.parser.spec.common.emitters.DomainElementEmitter
+import amf.plugins.document.webapi.parser.spec.common.emitters.WebApiDomainElementEmitter
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionRequestParams
 import org.mulesoft.als.common.YamlUtils.isJson
 import org.mulesoft.als.common.YamlWrapper.YNodeImplicits
@@ -46,7 +46,8 @@ trait BaseDeclarableExtractors {
   /**
     *  Based on the chosen position from the range
     */
-  private lazy val position: Option[Position] = tree.map(_.amfPosition).map(Position(_))
+  private lazy val position: Option[Position] =
+    tree.map(_.amfPosition).map(Position(_))
 
   /**
     * Information about the AST for the chosen position
@@ -58,8 +59,7 @@ trait BaseDeclarableExtractors {
     * If the dialect groups all declarations in a specific node (like OAS 3 `components`)
     */
   protected lazy val declarationsPath: Option[String] =
-    params.dialect
-      .flatMap(d => d.documents().declarationsPath().option())
+    params.dialect.documents().declarationsPath().option()
 
   /**
     * Selected object if there is a clean match in the range and it is a declarable
@@ -73,7 +73,7 @@ trait BaseDeclarableExtractors {
     maybeObject
 //      .filterNot(_.isAbstract)
       .filterNot(_.isInstanceOf[Document])
-      .find(o => params.dialect.exists(o.declarableKey(_).isDefined))
+      .find(o => o.declarableKey(params.dialect).isDefined)
 
   /**
     * The original node with lexical info for the declared node
@@ -100,7 +100,9 @@ trait BaseDeclarableExtractors {
     yPartBranch.map(_.node.range.columnFrom).getOrElse(0)
 
   protected def positionIsExtracted: Boolean =
-    entryRange.map(n => PositionRange(n)).exists(r => position.exists(r.contains))
+    entryRange
+      .map(n => PositionRange(n))
+      .exists(r => position.exists(r.contains))
 
   protected lazy val sourceName: String =
     entryAst.map(_.sourceName).getOrElse(params.uri)
@@ -123,11 +125,12 @@ trait BaseDeclarableExtractors {
       .collect {
         case l: Linkable =>
           l.annotations += DeclaredElement()
-          DomainElementEmitter
+          WebApiDomainElementEmitter
             .emit(l.link(newName), vendor, UnhandledErrorHandler)
       }
 
-  protected lazy val vendor: Vendor = params.bu.sourceVendor.getOrElse(Vendor.AML)
+  protected lazy val vendor: Vendor =
+    params.bu.sourceVendor.getOrElse(Vendor.AML)
 
   /**
     * Emit a new domain element
@@ -135,7 +138,7 @@ trait BaseDeclarableExtractors {
     * @return
     */
   protected def emitElement(e: DomainElement): YNode = {
-    DomainElementEmitter
+    WebApiDomainElementEmitter
       .emit(e, vendor, UnhandledErrorHandler)
   } // todo: check if it is not renderable, what happens?
 
@@ -148,8 +151,8 @@ trait BaseDeclarableExtractors {
   /**
     * The entry which holds the reference for the new declaration (`{"$ref": "declaration/$1"}`)
     */
-  protected lazy val linkEntry: Option[TextEdit] = params.dialect match {
-    case _ if isJson(params.bu) =>
+  protected lazy val linkEntry: Option[TextEdit] =
+    if (isJson(params.bu)) {
       entryRange.map(
         TextEdit(
           _,
@@ -157,9 +160,9 @@ trait BaseDeclarableExtractors {
                               .getOrElse(jsonRefEntry),
                             entryIndentation)
         ))
-    case Some(d) if d.isRamlStyle => // todo: extract raml
+    } else if (params.dialect.isRamlStyle)
       entryRange.map(TextEdit(_, s" ${renderLink.map(YamlRender.render(_, 0)).getOrElse(newName)}\n"))
-    case Some(d) if d.isJsonStyle =>
+    else if (params.dialect.isJsonStyle)
       entryRange.map(
         TextEdit(
           _,
@@ -167,15 +170,14 @@ trait BaseDeclarableExtractors {
                                   entryIndentation +
                                     params.configuration.getFormatOptionForMime(Mimes.`APPLICATION/YAML`).indentationSize)}"
         ))
-    case _ => None
-  }
+    else None
 
   /**
     * The complete node and the entry where it belongs, contemplating the path for the declaration and existing AST
     */
   protected lazy val wrappedDeclaredEntry: Option[(YNode, Option[YMapEntry])] =
     (declaredElementNode, amfObject, params.dialect) match {
-      case (Some(den), Some(fdp), Some(dialect)) =>
+      case (Some(den), Some(fdp), dialect) =>
         val keyPath  = declarationPath(fdp, dialect)
         var fullPath = den.withKey(newName)
         val maybePart = params.bu.references
@@ -184,7 +186,9 @@ trait BaseDeclarableExtractors {
           .objWithAST
           .flatMap(_.annotations.ast())
         val entries = getExistingParts(maybePart, keyPath)
-        keyPath.dropRight(entries.size).foreach(k => fullPath = fullPath.withKey(k))
+        keyPath
+          .dropRight(entries.size)
+          .foreach(k => fullPath = fullPath.withKey(k))
         Some(fullPath, entries.lastOption)
       case _ => None
     }
@@ -201,9 +205,10 @@ trait BaseDeclarableExtractors {
     */
   private def getExistingParts(maybePart: Option[YPart], keys: Seq[String]): Seq[YMapEntry] =
     maybePart match {
-      case Some(n: YMap)      => getExistingParts(YNode(n), keys.reverse, Seq.empty)
-      case Some(d: YDocument) => getExistingParts(d.node, keys.reverse, Seq.empty)
-      case _                  => Seq.empty
+      case Some(n: YMap) => getExistingParts(YNode(n), keys.reverse, Seq.empty)
+      case Some(d: YDocument) =>
+        getExistingParts(d.node, keys.reverse, Seq.empty)
+      case _ => Seq.empty
     }
 
   @tailrec
@@ -213,7 +218,7 @@ trait BaseDeclarableExtractors {
         node.value match {
           case m: YMap =>
             val maybeEntry = m.entries
-              .find(_.key.contains(head))
+              .find(_.key.asScalar.exists(_.text == head))
             maybeEntry match { // with match instead of map for tailrec optimization
               case Some(v) => getExistingParts(v.value, keys.tail, acc :+ v)
               case None    => acc
@@ -249,6 +254,9 @@ trait BaseDeclarableExtractors {
     */
   private def getIndentation(mime: String, maybeParent: Option[YMapEntry]): Int =
     maybeParent
-      .map(_.key.range.columnFrom + params.configuration.getFormatOptionForMime(mime).indentationSize)
+      .map(
+        _.key.range.columnFrom + params.configuration
+          .getFormatOptionForMime(mime)
+          .indentationSize)
       .getOrElse(0)
 }

@@ -24,18 +24,25 @@ case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfP
     * key: value
     * only compares against " value" range using amfelement.position
     */
-  lazy val fieldEntry: Option[FieldEntry] = getFieldEntry(FieldEntryOrdering)
+  lazy val fieldValue: Option[FieldEntry] = getFieldEntry(justValueFn, FieldEntryOrdering)
+
+  // todo: unify this
+  lazy val fieldEntry2: Option[FieldEntry] = getFieldEntry(keyOrValueFn, FieldEntryOrdering)
+
+  private val justValueFn = (f: FieldEntry) => inField(f) && (inValue(f) || notInKey(f.value.annotations))
+
+  private val keyOrValueFn = (f: FieldEntry) => inField(f) || inValue(f)
 
   /**
     * return the first field entry for that contains the position in his entry(key or value).
     * key: value
     * compares against "key: value" range (all line) using field.value.position
     */
-  private def getFieldEntry(ordering: Ordering[FieldEntry]): Option[FieldEntry] =
+  private def getFieldEntry(filterFn: FieldEntry => Boolean, ordering: Ordering[FieldEntry]): Option[FieldEntry] =
     // todo: maybe this should be a seq and not an option
     obj.fields
       .fields()
-      .filter(f => inField(f) && (inValue(f) || notInKey(f.value.annotations)))
+      .filter(filterFn)
       .toList
       .sorted(ordering)
       .lastOption

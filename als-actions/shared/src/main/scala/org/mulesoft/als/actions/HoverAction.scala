@@ -43,7 +43,7 @@ case class HoverAction(bu: BaseUnit,
     objectInTree.stack.collectFirst({ case obj if !obj.isInstanceOf[DataNode] => obj }).flatMap(classTerm)
 
   private def fromTree(): Option[(Seq[String], Option[parser.Range])] =
-    objectInTree.fieldEntry.flatMap(f => fieldEntry(f)).orElse(classTerm(objectInTree.obj))
+    objectInTree.fieldEntry2.flatMap(f => fieldEntry(f)).orElse(classTerm(objectInTree.obj))
 
   private def fieldEntry(f: FieldEntry): Option[(Seq[String], Option[parser.Range])] = {
     propertyTerm(f.field).map(s => (Seq(s), f.value.annotations.range().orElse(f.value.value.annotations.range())))

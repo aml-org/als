@@ -44,7 +44,7 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
   private val currentNode = DialectNodeFinder.find(objectInTree.obj, None, actualDialect)
 
   private def entryAndMapping: Option[(FieldEntry, Boolean)] = {
-    objectInTree.fieldEntry
+    objectInTree.fieldValue
       .map(fe => (fe, false))
       .orElse({
         FieldEntrySearcher(objectInTree.obj, currentNode, yPartBranch, actualDialect)
