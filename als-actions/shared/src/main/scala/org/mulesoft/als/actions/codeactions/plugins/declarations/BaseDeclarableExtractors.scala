@@ -6,10 +6,12 @@ import amf.core.model.document.Document
 import amf.core.model.domain.{AmfObject, DomainElement, Linkable}
 import amf.core.remote.{Mimes, Vendor}
 import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.plugins.document.webapi.annotations.ForceEntry
 import amf.plugins.document.webapi.parser.spec.common.emitters.WebApiDomainElementEmitter
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionRequestParams
 import org.mulesoft.als.common.YamlUtils.isJson
 import org.mulesoft.als.common.YamlWrapper.YNodeImplicits
+import org.mulesoft.als.common.cache.Location
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.common.{ObjectInTree, YPartBranch}
 import org.mulesoft.als.convert.LspRangeConverter
@@ -65,6 +67,7 @@ trait BaseDeclarableExtractors {
     * Selected object if there is a clean match in the range and it is a declarable
     */
   protected lazy val amfObject: Option[AmfObject] =
+    //    extractable(tree.flatMap(_.realMatchedObj)) orElse {
     extractable(tree.map(_.obj)).orElse {
       extractable(tree.flatMap(_.stack.headOption))
     }
@@ -125,8 +128,10 @@ trait BaseDeclarableExtractors {
       .collect {
         case l: Linkable =>
           l.annotations += DeclaredElement()
+          val linkDe: DomainElement = l.link(newName)
+          linkDe.annotations += ForceEntry() // raml explicit types
           WebApiDomainElementEmitter
-            .emit(l.link(newName), vendor, UnhandledErrorHandler)
+            .emit(linkDe, vendor, UnhandledErrorHandler)
       }
 
   protected lazy val vendor: Vendor =

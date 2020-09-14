@@ -25,7 +25,7 @@ case class HoverAction(bu: BaseUnit,
                        amfInstance: AmfInstance,
                        definedBy: Dialect) {
 
-  private val objectInTree: ObjectInTree = tree.getCachedOrNew((dtoPosition, location))
+  private val objectInTree: ObjectInTree = tree.getCachedOrNew(dtoPosition, location)
 
   private val yPartBranch = yPartBranchCached.getCachedOrNew(dtoPosition, location)
 

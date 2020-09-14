@@ -23,7 +23,6 @@ case class ExtractRAMLTypeCodeAction(params: CodeActionRequestParams, override v
 
   override protected def telemetry: TelemetryProvider = params.telemetryProvider
 
-  override lazy val renderLink: Option[YNode] = Some(YNode(newName).withKey("type"))
   override lazy val linkEntry: Option[TextEdit] =
     entryRange.map(
       TextEdit(
