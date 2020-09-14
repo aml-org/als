@@ -41,14 +41,17 @@ class KeyPropertyHeaderCompletionPlugin(isJson: Boolean,
   private lazy val formattingOptions =
     configuration.getFormatOptionForMime(mimeType)
 
-  private def yamlFlavour(key: String, value: String) =
-    (s"$key: ${"\"" + value + "\""}", false)
+  private def yamlFlavour(key: String, value: String): Flavour = {
+    val yamlContent = s"$key: ${"\"" + value + "\""}"
+    Flavour(yamlContent, yamlContent, snippets = false)
+  }
 
-  private def jsonFlavour(key: String, value: String, hasBracket: Boolean, position: Position) = {
+  private def jsonFlavour(key: String, value: String, hasBracket: Boolean, position: Position): Flavour = {
+    val sc = simpleContent(key, value, position)
     if (hasBracket)
-      (simpleContent(key, value, position), false)
+      Flavour(sc, sc, snippets = false)
     else
-      (inBrackets(simpleContent(key, value, position)), Configuration.snippetsEnabled)
+      Flavour(inBrackets(sc), sc, Configuration.snippetsEnabled)
   }
 
   private def simpleContent(key: String, value: String, position: Position) =
@@ -64,13 +67,15 @@ class KeyPropertyHeaderCompletionPlugin(isJson: Boolean,
     alsAmlPlugin.registry.amlAdnWebApiDialects
       .filter(d => Option(d.documents()).exists(_.keyProperty().value()))
       .map(d => {
-        val (text, isASnippet) =
+        val Flavour(text, label, isASnippet) =
           if (isJson)
             jsonFlavour(d.name().value(), d.version().value(), hasBracket, position)
           else yamlFlavour(d.name().value(), d.version().value())
 
-        new RawSuggestion(text, text.trim, s"Define a ${d.nameAndVersion()} file", Seq(), children = Nil)
+        new RawSuggestion(text, label.trim, s"Define a ${d.nameAndVersion()} file", Seq(), children = Nil)
       })
       .toSeq // TODO: remove when OAS is added as a Dialect
   }
+
+  case class Flavour(content: String, label: String, snippets: Boolean)
 }

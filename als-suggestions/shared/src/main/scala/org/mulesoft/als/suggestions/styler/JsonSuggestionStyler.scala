@@ -26,9 +26,8 @@ case class JsonSuggestionStyler(override val params: StylerParams) extends Sugge
     } else renderedJson
   }
 
-  private def buildRenderOptions = {
+  private def buildRenderOptions =
     JsonRenderOptions().withoutNonAsciiEncode.withPreferSpaces(useSpaces).withIndentationSize(tabSize)
-  }
 
   def initialIndentation(): String = {
     if (useSpaces) " " * initialIndentationSize * tabSize
