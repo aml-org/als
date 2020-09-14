@@ -49,9 +49,9 @@ case class ObjectInTreeBaseTest(instanceFile: String, dialectFile: String) exten
   private def assertPropertyTerm(expectedPropertyTerm: Option[String], tree: ObjectInTree) =
     expectedPropertyTerm match {
       case Some(pt) =>
-        val fieldEntry = tree.fieldEntry.map(_.field.toString())
+        val fieldEntry = tree.fieldValue.map(_.field.toString())
         fieldEntry should contain(pt)
       case None =>
-        tree.fieldEntry should be(None)
+        tree.fieldValue should be(None)
     }
 }

@@ -20,13 +20,13 @@ import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstanc
 import amf.{ProfileName, ProfileNames}
 import org.mulesoft.als.{CompilerResult, ModelBuilder}
 import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
+import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect
 import org.yaml.builder.DocBuilder
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class AmfParseResult(override val baseUnit: BaseUnit,
-                     override val eh: ErrorCollector,
-                     override val definedBy: Option[Dialect])
+class AmfParseResult(override val baseUnit: BaseUnit, override val eh: ErrorCollector, override val definedBy: Dialect)
     extends CompilerResult[BaseUnit, ErrorCollector, Dialect] {
 
   val location: String = baseUnit.location().getOrElse(baseUnit.id)
@@ -57,7 +57,7 @@ class ParserHelper(val platform: Platform, amfInstance: AmfInstance)
         None,
         UnspecifiedReference
       )
-      .map(m => new AmfParseResult(m, eh, amfInstance.alsAmlPlugin.dialectFor(m)))
+      .map(m => new AmfParseResult(m, eh, amfInstance.alsAmlPlugin.dialectFor(m).getOrElse(ExternalFragmentDialect())))
 
   }
 

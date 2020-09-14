@@ -45,8 +45,7 @@ case class HoverAction(bu: BaseUnit,
     objectInTree.stack.find(obj => !obj.isInstanceOf[DataNode]).flatMap(classTerm)
 
   private def fromTree(): Option[(Seq[String], Option[parser.Range])] =
-    objectInTree.fieldEntry
-      .orElse(objectInTree.fieldValue)
+    objectInTree.fieldEntry2
       .flatMap(f => fieldEntry(f))
       .orElse(classTerm(objectInTree.obj))
 
