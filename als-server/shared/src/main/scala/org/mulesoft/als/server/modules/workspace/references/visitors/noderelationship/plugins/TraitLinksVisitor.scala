@@ -16,6 +16,7 @@ import org.mulesoft.als.server.modules.workspace.references.visitors.WebApiEleme
 import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.NodeRelationshipVisitorType
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.yaml.model.{YMapEntry, YPart}
+import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 
 /**
   * @test: org.mulesoft.als.server.modules.definition.files.DefinitionFilesTest - raml-test 1/2
@@ -86,7 +87,9 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
     fe.value.value.annotations
       .find(classOf[SourceNode])
       .flatMap { sn =>
-        locationFromObj(p)
+        p.name
+          .annotations()
+          .ast()
           .map { sourceEntry =>
             RelationshipLink(
               sourceEntry,
