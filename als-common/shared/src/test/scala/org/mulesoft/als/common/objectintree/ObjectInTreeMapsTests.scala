@@ -57,7 +57,7 @@ class ObjectInTreeMapsTests extends AsyncFlatSpec {
     tester.runTest(pos, expectedTypeIri, expectedPropertyTerm)
   }
 
-  it should "identify a field entry, right of key (in map)" in {
+  ignore should "identify a field entry, right of key (in map)" in {
     val pos                  = Position(15, 7)
     val expectedTypeIri      = "http://internal.namespace.com/A"
     val expectedPropertyTerm = Some("http://internal.namespace.com/a2") // todo: check

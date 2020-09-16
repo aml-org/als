@@ -29,8 +29,9 @@ trait SymbolBuilder[T] {
 
   def build(): Seq[DocumentSymbol] = {
     optionName match {
-      case Some(name) => build(name).toSeq
-      case _          => children
+      case Some(name) =>
+        build(name).toSeq
+      case _ => children
     }
   }
 

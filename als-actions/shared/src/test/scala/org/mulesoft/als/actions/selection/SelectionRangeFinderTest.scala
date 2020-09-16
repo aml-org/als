@@ -11,10 +11,11 @@ import org.mulesoft.lsp.feature.selectionRange.SelectionRange
 import org.scalatest.{AsyncFlatSpec, Matchers}
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.lsp.feature.common.{Position => LspPosition, Range => LspRange}
+
 import scala.concurrent.{ExecutionContext, Future}
-import scala.concurrent.ExecutionContext.Implicits.global
 
 class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with PlatformSecrets {
+  override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
   it should "select the range on YAML map" in {
     val testUri                  = "file://test.yaml"
@@ -346,9 +347,7 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
     val env: Environment = Environment().add(resourceLoader)
 
     val instance = new AmfInstance(Nil, platform, env)
-    val amfInit  = instance.init()
     for {
-      _ <- amfInit
       result <- instance
         .parse(testUri)
         .map(_.baseUnit)

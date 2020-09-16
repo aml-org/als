@@ -64,7 +64,7 @@ class ObjectInTreeArraysTests extends AsyncFlatSpec {
     tester.runTest(pos, expectedTypeIri, expectedPropertyTerm)
   }
 
-  it should "identify a middle property" in {
+  ignore should "identify a middle property" in {
     val pos                  = Position(4, 7)
     val expectedTypeIri      = "http://internal.namespace.com/A"
     val expectedPropertyTerm = Some("http://internal.namespace.com/a1")
@@ -88,7 +88,7 @@ class ObjectInTreeArraysTests extends AsyncFlatSpec {
     tester.runTest(pos, expectedTypeIri, expectedPropertyTerm)
   }
 
-  it should "identify root property with multiple values" in {
+  ignore should "identify root property with multiple values" in {
     val pos                  = Position(23, 3)
     val expectedTypeIri      = "http://internal.namespace.com/Root"
     val expectedPropertyTerm = Some("http://internal.namespace.com/z")

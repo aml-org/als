@@ -132,11 +132,11 @@ object AmfImplicits {
         .ast()
         .orElse(f.value.value.annotations.ast()) match {
         case Some(n: YNode) if n.tagType == YType.Seq =>
-          n.value.contains(amfPosition) && (isEndChar(amfPosition, n.value.range) || n
+          n.value.contains(amfPosition) || n
             .as[YSequence]
             .nodes
             .lastOption
-            .exists(isEmptyNodeLine(_, amfPosition)))
+            .exists(isEmptyNodeLine(_, amfPosition))
         case Some(arr: YSequence) =>
           PositionRange(arr.range).contains(Position(amfPosition)) && isEndChar(amfPosition, arr.range)
         case Some(e: YMapEntry) => e.contains(amfPosition)
