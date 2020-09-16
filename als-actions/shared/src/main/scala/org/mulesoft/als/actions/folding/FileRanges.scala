@@ -32,13 +32,15 @@ object FileRanges {
     }
 
     private def lastChildEnd(): Position =
-      LspRangeConverter.toLspRange(PositionRange(yPart.getLastChild().range)).end
+      LspRangeConverter.toLspRange(PositionRange(yPart.getLastChild.range)).end
 
     @tailrec
-    final def getLastChild(): YPart =
-      if (yPart.children.nonEmpty)
-        yPart.children.last.getLastChild()
+    final def getLastChild: YPart = {
+      val children = yPart.children.filter(p => !p.isInstanceOf[YNonContent])
+      if (children.nonEmpty)
+        children.last.getLastChild
       else
         yPart
+    }
   }
 }
