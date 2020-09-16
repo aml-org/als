@@ -54,7 +54,6 @@ object RamlCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
       Raml10SecuritySchemeStructureCompletionPlugin :+
       UnitDocumentationFacet :+
       DefaultVariablesAbstractDefinition :+
-//      OperationRequest :+
       WebApiKnownValueCompletionPlugin :+
       RamlEnumCompletionPlugin
 
