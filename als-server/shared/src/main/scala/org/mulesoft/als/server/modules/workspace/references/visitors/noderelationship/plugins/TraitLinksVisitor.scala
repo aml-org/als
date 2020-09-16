@@ -69,6 +69,7 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
                       a.fields
                         .entry(LinkableElementModel.Target)
                         .flatMap(fieldEntryToLocation(_, p, LinkTypes.TRAITRESOURCES))
+                        .orElse(fieldEntryToLocation(fe, p, LinkTypes.TRAITRESOURCES))
                     case _ => None
                 }
               )

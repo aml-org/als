@@ -13,7 +13,7 @@ import org.mulesoft.als.server.modules.workspace.references.visitors.DialectElem
 import org.mulesoft.als.server.modules.workspace.references.visitors.noderelationship.NodeRelationshipVisitorType
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.yaml.model.{YMap, YMapEntry, YNode, YSequence}
-
+import amf.core.parser.YNodeLikeOps
 class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
 
   override protected def innerVisit(element: AmfElement): Seq[RelationshipLink] =
@@ -93,8 +93,11 @@ class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
     o.extend.flatMap {
       case e: NodeMapping =>
         o.annotations.ast().flatMap {
-          case map: YMap =>
-            map.entries
+          case entry: YMapEntry =>
+            entry.value
+              .toOption[YMap]
+              .map(_.entries)
+              .getOrElse(Nil)
               .find(_.key.value.toString == "extends")
               .map(_.value.value)
               .flatMap(source => e.linkTarget.map(target => (source, target)))
@@ -147,12 +150,13 @@ class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
       .flatMap(e => {
         e.annotations
           .ast()
-          .flatMap(
-            ast =>
-              NodeBranchBuilder
-                .build(d, AmfPosition(ast.range.lineFrom, ast.range.columnFrom), isJson = false)
-                .parentEntry)
+          .collectFirst({ case e: YMapEntry => e })
       })
+
+  // todo: tmp hack until node mapping object contains all the entry as ast
+  private def seachNodeMapping(root: YMap, mapping: YMap) = {
+    root.entries.find(e => e.key.asScalar.map(_.text).getOrElse("") == "")
+  }
 
 }
 
