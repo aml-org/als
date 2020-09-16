@@ -83,6 +83,8 @@ object AmfImplicits {
           AlsYMapOps(ast).contains(amfPosition)
         case ast: YNode if ast.isNull =>
           true
+        case ast: YNode if ast.tagType == YType.Str =>
+          ast.contains(amfPosition) || ast.asScalar.exists(_.contains(amfPosition))
         case ast: YScalar =>
           AlsYScalarOps(ast).contains(amfPosition)
         case other =>

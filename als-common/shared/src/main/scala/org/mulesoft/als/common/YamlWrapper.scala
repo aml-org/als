@@ -116,7 +116,8 @@ object YamlWrapper {
   }
 
   implicit class AlsYScalarOps(scalar: YScalar) extends CommonPartOps(scalar) {
-    override def contains(amfPosition: AmfPosition): Boolean = super.contains(amfPosition) || lineContains(amfPosition)
+    override def contains(amfPosition: AmfPosition): Boolean =
+      super.contains(amfPosition) || (lineContains(amfPosition) && scalar.mark == NoMark)
     def lineContains(amfPosition: AmfPosition): Boolean =
       scalar.range.lineFrom <= amfPosition.line && ((scalar.range.lineTo >= amfPosition.line && scalar.range.columnFrom <= amfPosition.column) || scalar.value == null)
 
