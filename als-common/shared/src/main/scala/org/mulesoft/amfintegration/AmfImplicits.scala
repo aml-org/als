@@ -4,7 +4,7 @@ import amf.core.annotations._
 import amf.core.annotations.{LexicalInformation, ReferenceTargets, SourceAST, SourceNode, SynthesizedField}
 import amf.core.annotations._
 import amf.core.metamodel.Field
-import amf.core.model.document.{BaseUnit, EncodesModel}
+import amf.core.model.document.{BaseUnit, Document, EncodesModel}
 import amf.core.model.domain.{AmfObject, AmfScalar, DomainElement}
 import amf.core.parser
 import amf.core.parser.{Annotations, FieldEntry, Value, Position => AmfPosition}
@@ -24,6 +24,7 @@ import org.yaml.model.{YNode, YPart, YSequence, YType}
 import org.yaml.model.YPart
 import org.yaml.model.{YMapEntry, YPart}
 import org.mulesoft.als.common.YamlWrapper._
+
 import scala.collection.mutable
 
 object AmfImplicits {
@@ -205,8 +206,8 @@ object AmfImplicits {
 
     def ast: Option[YPart] = {
       bu match {
-        case e: EncodesModel if e.encodes.annotations.ast().isDefined => e.encodes.annotations.ast()
-        case _                                                        => bu.annotations.ast()
+        case e: Document if e.encodes.annotations.ast().isDefined => e.encodes.annotations.ast()
+        case _                                                    => bu.annotations.ast()
       }
     }
 

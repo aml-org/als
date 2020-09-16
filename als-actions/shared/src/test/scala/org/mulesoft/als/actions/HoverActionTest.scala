@@ -78,9 +78,9 @@ class HoverActionTest extends AsyncFunSuite with FileAssertionTest {
 
   private def getResults(r: AmfParseResult, amfInstance: AmfInstance): List[PositionedHover] = {
     val positions: List[Position] = r.baseUnit.ast.map(extract).getOrElse(List.empty)
-    val cached                    = new ObjectInTreeCached(r.baseUnit)
     val yPart                     = new YPartBranchCached(r.baseUnit)
-    val value                     = r.definedBy.get // always is going to exists in this test and if not, the exception is an advice good enough.
+    val value                     = r.definedBy // always is going to exists in this test and if not, the exception is an advice good enough.
+    val cached                    = new ObjectInTreeCached(r.baseUnit, value)
     positions.map { p =>
       val hover = HoverAction(r.baseUnit, cached, yPart, p, r.location, amfInstance, value).getHover
       PositionedHover(p, hover)
