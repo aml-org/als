@@ -42,7 +42,7 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
 
   protected def runTest(elementUri: String,
                         range: PositionRange,
-                        dialect: Option[Dialect],
+                        dialect: Dialect,
                         pluginFactory: CodeActionFactory): Future[Assertion] =
     for {
       params <- buildParameter(elementUri, range, dialect)
@@ -56,7 +56,7 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
 
   protected def runTestNotApplicable(elementUri: String,
                                      range: PositionRange,
-                                     dialect: Option[Dialect],
+                                     dialect: Dialect,
                                      pluginFactory: CodeActionFactory): Future[Assertion] =
     for {
       params <- buildParameter(elementUri, range, dialect)
@@ -68,9 +68,9 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
 
   protected def buildParameter(elementUri: String,
                                range: PositionRange,
-                               dialect: Option[Dialect]): Future[CodeActionRequestParams] =
+                               dialect: Dialect): Future[CodeActionRequestParams] =
     parseElement(elementUri)
-      .map(bu => DummyCompilableUnit(bu.baseUnit))
+      .map(bu => DummyCompilableUnit(bu.baseUnit, dialect))
       .map { cu =>
         CodeActionRequestParams(cu.unit.location().getOrElse(relativeUri(elementUri)),
                                 range,
@@ -89,4 +89,4 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
     }
 }
 
-case class DummyCompilableUnit(unit: BaseUnit) extends UnitWithCaches
+case class DummyCompilableUnit(unit: BaseUnit, override protected val definedBy: Dialect) extends UnitWithCaches
