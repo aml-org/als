@@ -122,13 +122,13 @@ object AmlCompletionRequestBuilder {
             configuration: AlsConfigurationReader,
             completionsPluginHandler: CompletionsPluginHandler): AmlCompletionRequest = {
     val yPartBranch: YPartBranch = {
-      val ast = baseUnit match {
-        case d: Document =>
-          d.encodes.annotations.find(classOf[SourceAST]).map(_.ast)
-        case bu => bu.annotations.find(classOf[SourceAST]).map(_.ast)
+      val ast = baseUnit.ast match {
+        case Some(d: YDocument) => d
+        case Some(p)            => YDocument(IndexedSeq(p), p.sourceName)
+        case None               => YDocument(IndexedSeq.empty, "")
       }
-
-      NodeBranchBuilder.build(ast.getOrElse(YDocument(IndexedSeq.empty, "")), position, YamlUtils.isJson(baseUnit))
+      NodeBranchBuilder
+        .build(ast, position, YamlUtils.isJson(baseUnit))
     }
 
     val dtoPosition = DtoPosition(position)

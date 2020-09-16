@@ -184,10 +184,11 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
 
 object NodeBranchBuilder {
 
-  def build(ast: YPart, position: AmfPosition, isJson: Boolean): YPartBranch = {
-    val actual :: stack = getStack(ast, position, Seq())
-    YPartBranch(actual, position, stack, isJson)
-  }
+  def build(ast: YPart, position: AmfPosition, isJson: Boolean): YPartBranch =
+    getStack(ast, position, Seq()) match {
+      case actual :: stack => YPartBranch(actual, position, stack, isJson)
+      case Nil             => YPartBranch(ast, position, Nil, isJson)
+    }
 
   def build(bu: BaseUnit, position: AmfPosition, isJson: Boolean): YPartBranch = {
     val ast: Option[YPart] = astFromBaseUnit(bu)
