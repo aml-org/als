@@ -608,9 +608,9 @@ hovers:
   (162,11):
     - Properties associated to this node
   (162,17):
-    - Defines a data type
+    - Properties associated to this node
   (163,8):
-    - Defines a data type
+    - Properties associated to this node
   (163,10):
     - Defines a data type
   (164,14):
@@ -681,8 +681,10 @@ hovers:
     - An object name that is used to differentiate between ambiguous types/schemas
   (180,22):
     - An object name that is used to differentiate between ambiguous types/schemas
-  (181,11): []
-  (181,16): []
+  (181,11):
+    - Mappping of acceptable values for the ndoe discriminator
+  (181,16):
+    - Mappping of acceptable values for the ndoe discriminator
   (182,11):
     - Variable defined inside an URL template
   (182,32):
@@ -736,7 +738,7 @@ hovers:
   (194,12):
     - Request information for an operation
   (195,8):
-    - Human readable name for the object
+    - Response information for an operation
   (195,14):
     - Response information for an operation
   (196,11):
@@ -746,7 +748,7 @@ hovers:
   (197,9):
     - Parameter passed as a header to an operation for communication models
   (197,14):
-    - Piece of data required or returned by an Operation
+    - Parameter passed as a header to an operation for communication models
   (198,11):
     - Human readable name for the object
   (198,16):
@@ -788,11 +790,13 @@ hovers:
   (207,21):
     - Scalar range constraining this scalar shape
   (208,13):
-    - Example value for a schema inside an API
+    - Examples for a particular element declaration
   (208,19):
     - Example value for a schema inside an API
-  (209,14): []
-  (209,19): []
+  (209,14):
+    - An array of properties and its encoding information. The key, being the property name, must exist in the schema as a property
+  (209,19):
+    - An array of properties and its encoding information. The key, being the property name, must exist in the schema as a property
   (210,19): []
   (210,28): []
   (212,19): []
@@ -830,9 +834,9 @@ hovers:
   (223,29):
     - Scalar range constraining this scalar shape
   (224,8):
-    - Templated link containing URL template and variables mapping
+    - Structural definition of links on the source data shape AST
   (224,12):
-    - Templated link containing URL template and variables mapping
+    - Structural definition of links on the source data shape AST
   (225,11):
     - Human readable name for the object
   (225,16):
@@ -846,7 +850,7 @@ hovers:
   (228,13):
     - Request information for an operation
   (229,7):
-    - Human readable name for the object
+    - Piece of data required or returned by an Operation
   (229,12):
     - Piece of data required or returned by an Operation
   (230,8):
@@ -866,7 +870,7 @@ hovers:
   (233,17):
     - Scalar range constraining this scalar shape
   (234,6):
-    - Human readable name for the object
+    - Piece of data required or returned by an Operation
   (234,10):
     - Piece of data required or returned by an Operation
   (235,8):
@@ -890,7 +894,7 @@ hovers:
   (239,17):
     - Scalar range constraining this scalar shape
   (240,7):
-    - Human readable name for the object
+    - Piece of data required or returned by an Operation
   (240,12):
     - Piece of data required or returned by an Operation
   (241,8):
@@ -912,7 +916,7 @@ hovers:
   (245,10):
     - Examples for a particular element declaration
   (245,15):
-    - Example value for a schema inside an API
+    - Examples for a particular element declaration
   (246,12):
     - Human readable name for the object
   (246,18):
@@ -922,7 +926,7 @@ hovers:
   (247,17):
     - Example value for a schema inside an API
   (248,7):
-    - Human readable name for the object
+    - Piece of data required or returned by an Operation
   (248,11):
     - Piece of data required or returned by an Operation
   (249,8):
@@ -958,7 +962,7 @@ hovers:
   (256,23):
     - Piece of data required or returned by an Operation
   (257,9):
-    - Example value for a schema inside an API
+    - Examples for a particular element declaration
   (257,15):
     - Example value for a schema inside an API
   (258,9):
@@ -974,7 +978,7 @@ hovers:
   (260,11):
     - Request information for an operation
   (261,8):
-    - Human readable name for the object
+    - Example value for a schema inside an API
   (261,13):
     - Example value for a schema inside an API
   (262,9):
@@ -990,7 +994,7 @@ hovers:
   (264,13):
     - Example value for a schema inside an API
   (265,14):
-    - Human readable name for the object
+    - Example value for a schema inside an API
   (265,25):
     - Example value for a schema inside an API
   (266,12):
@@ -998,7 +1002,7 @@ hovers:
   (266,21):
     - Raw text containing an unparsable example
   (267,9):
-    - Human readable name for the object
+    - Example value for a schema inside an API
   (267,15):
     - Example value for a schema inside an API
   (268,8):
@@ -1010,7 +1014,7 @@ hovers:
   (270,16):
     - Request information for an operation
   (271,9):
-    - Human readable name for the object
+    - Request information for an operation
   (271,15):
     - Request information for an operation
   (272,11):
@@ -1028,7 +1032,7 @@ hovers:
   (275,14):
     - Examples for a particular element declaration
   (275,19):
-    - Example value for a schema inside an API
+    - Examples for a particular element declaration
   (276,14):
     - Human readable name for the object
   (276,17):
@@ -1042,7 +1046,7 @@ hovers:
   (278,50):
     - Raw text containing an unparsable example
   (279,7):
-    - Human readable name for the object
+    - Request information for an operation
   (279,12):
     - Request information for an operation
   (280,8):
@@ -1054,7 +1058,7 @@ hovers:
   (281,10):
     - Top level element describing a HTTP API
   (282,7):
-    - Human readable name for the object
+    - Piece of data required or returned by an Operation
   (282,12):
     - Piece of data required or returned by an Operation
   (283,11):
@@ -1082,7 +1086,7 @@ hovers:
   (288,23):
     - Piece of data required or returned by an Operation
   (289,9):
-    - Example value for a schema inside an API
+    - Examples for a particular element declaration
   (289,15):
     - Example value for a schema inside an API
   (290,9):
@@ -1156,7 +1160,7 @@ hovers:
   (307,8):
     - Settings for an OAuth2 security scheme
   (307,12):
-    - Flow for an OAuth2 security scheme setting
+    - Settings for an OAuth2 security scheme
   (308,12):
     - Flow for an OAuth2 security scheme setting
   (308,17):
@@ -1171,7 +1175,8 @@ hovers:
     - Flow for an OAuth2 security scheme setting
   (311,13):
     - Flow for an OAuth2 security scheme setting
-  (311,17): []
+  (311,17):
+    - Flow for an OAuth2 security scheme setting
   (312,17):
     - Human readable name for the object
   (312,37):
@@ -1221,7 +1226,7 @@ hovers:
   (324,8):
     - Top level element describing a HTTP API
   (325,7):
-    - Human readable name for the object
+    - Templated link containing URL template and variables mapping
   (325,12):
     - Templated link containing URL template and variables mapping
   (326,11):
@@ -1229,7 +1234,7 @@ hovers:
   (326,26):
     - Identifier of the target operation
   (327,7):
-    - Human readable name for the object
+    - Templated link containing URL template and variables mapping
   (327,12):
     - Templated link containing URL template and variables mapping
   (329,12):
@@ -1238,7 +1243,8 @@ hovers:
     - Reference of the target operation
   (330,11):
     - Templated link containing URL template and variables mapping
-  (330,17): []
+  (330,17):
+    - Variable mapping for the URL template
   (332,11):
     - Variable defined inside an URL template
   (332,24):
@@ -1306,7 +1312,7 @@ hovers:
   (348,14):
     - Response data returned by the operation
   (348,20):
-    - Response information for an operation
+    - Response data returned by the operation
   (349,14):
     - Human readable name for the object
   (349,18):
@@ -1322,7 +1328,7 @@ hovers:
   (352,7):
     - Settings for an OAuth2 security scheme
   (352,11):
-    - Flow for an OAuth2 security scheme setting
+    - Settings for an OAuth2 security scheme
   (353,12):
     - Human readable name for the object
   (354,2):

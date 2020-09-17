@@ -58,7 +58,7 @@ hovers:
   (15,3):
     - server information
   (15,8):
-    - Information about the network accessible locations where the API is available
+    - server information
   (16,7):
     - Information about the network accessible locations where the API is available
   (16,13):
@@ -82,7 +82,7 @@ hovers:
   (21,8):
     - Variables in the URL for the server
   (21,14):
-    - Piece of data required or returned by an Operation
+    - Variables in the URL for the server
   (22,7):
     - Human readable name for the object
   (22,10):
@@ -112,11 +112,11 @@ hovers:
   (30,8):
     - Textual indication of the kind of security scheme used
   (30,13):
-    - Flow for an OAuth2 security scheme setting
+    - Textual indication of the kind of security scheme used
   (31,11):
     - Settings for an OAuth2 security scheme
   (31,15):
-    - Flow for an OAuth2 security scheme setting
+    - Settings for an OAuth2 security scheme
   (32,16):
     - Human readable name for the object
   (34,8): []
@@ -126,7 +126,7 @@ hovers:
   (37,4):
     - End points defined in the API
   (37,9):
-    - EndPoint in the API holding a number of executable operations
+    - End points defined in the API
   (38,8):
     - Path template for an endpoint
   (38,16):
@@ -203,7 +203,7 @@ hovers:
   (58,9):
     - EndPoint in the API holding a number of executable operations
   (58,15):
-    - Piece of data required or returned by an Operation
+    - Additional data required or returned by an operation
   (59,9):
     - Human readable name for the object
   (59,13):
@@ -329,9 +329,9 @@ hovers:
   (91,17):
     - Defines a data type
   (92,8):
-    - Human readable name for the object
+    - Defines a data type
   (92,16):
-    - Human readable name for the object
+    - Defines a data type
   (93,10):
     - Defines a data type
   (93,18):
@@ -449,9 +449,9 @@ hovers:
   (123,11):
     - Properties associated to this node
   (123,17):
-    - Defines a data type
+    - Properties associated to this node
   (124,8):
-    - Defines a data type
+    - Properties associated to this node
   (124,10):
     - Defines a data type
   (125,12):
@@ -459,7 +459,7 @@ hovers:
   (125,19):
     - Scalar range constraining this scalar shape
   (126,8):
-    - Defines a data type
+    - Properties associated to this node
   (126,10):
     - Defines a data type
   (127,12):
@@ -594,8 +594,7 @@ hovers:
     - Contains declarations of reusable Messages
   (159,11):
     - Top level element describing a HTTP API
-  (160,8):
-    - Human readable name for the object
+  (160,8): []
   (160,13): []
   (161,9):
     - Parameter passed as a header to an operation for communication models
@@ -622,10 +621,10 @@ hovers:
     - Model defining an identifier that can used for message tracing and correlation
   (167,12): []
   (167,43):
-    - Defines the format of the payload schema
+    - Encoded payload using certain media-type
   (168,11): []
   (168,27):
-    - Media types supported in the payload
+    - Encoded payload using certain media-type
   (169,8):
     - Human readable name for the term
   (169,15):
@@ -684,7 +683,7 @@ hovers:
   (184,18):
     - Top level element describing a HTTP API
   (185,10):
-    - Human readable name for the object
+    - Authentication and access control mechanism defined in an API
   (185,18):
     - Authentication and access control mechanism defined in an API
   (186,8):
@@ -749,7 +748,8 @@ hovers:
     - Flow for an OAuth2 security scheme setting
   (201,13):
     - Flow for an OAuth2 security scheme setting
-  (201,17): []
+  (201,17):
+    - Flow for an OAuth2 security scheme setting
   (202,17):
     - Human readable name for the object
   (202,37):
@@ -788,7 +788,8 @@ hovers:
     - Flow for an OAuth2 security scheme setting
   (211,13):
     - Flow for an OAuth2 security scheme setting
-  (211,17): []
+  (211,17):
+    - Flow for an OAuth2 security scheme setting
   (212,17):
     - Human readable name for the object
   (212,37):
@@ -802,7 +803,7 @@ hovers:
   (215,13):
     - Top level element describing a HTTP API
   (216,8):
-    - Human readable name for the object
+    - Piece of data required or returned by an Operation
   (216,14):
     - Piece of data required or returned by an Operation
   (217,11):
@@ -826,7 +827,7 @@ hovers:
   (221,17):
     - Top level element describing a HTTP API
   (222,10):
-    - Human readable name for the object
+    - Model defining an identifier that can used for message tracing and correlation
   (222,18):
     - Model defining an identifier that can used for message tracing and correlation
   (223,11):
@@ -890,8 +891,7 @@ hovers:
     - Contains declarations of reusable Message traits
   (238,16):
     - Top level element describing a HTTP API
-  (239,5):
-    - Human readable name for the object
+  (239,5): []
   (239,7): []
   (240,9):
     - Parameter passed as a header to an operation for communication models
@@ -911,10 +911,10 @@ hovers:
     - Model defining an identifier that can used for message tracing and correlation
   (244,12): []
   (244,43):
-    - Defines the format of the payload schema
+    - Encoded payload using certain media-type
   (245,11): []
   (245,27):
-    - Media types supported in the payload
+    - Encoded payload using certain media-type
   (246,8):
     - Human readable name for the term
   (246,13):
@@ -962,15 +962,14 @@ hovers:
     - The version of this binding
   (258,10): []
   (258,15): []
-  (259,12):
-    - Human readable name for the object
-  (259,18):
-    - Example value for a schema inside an API
+  (259,12): []
+  (259,18): []
   (260,9):
     - Contains declarations of reusable ServerBindings objects
   (260,17):
     - Top level element describing a HTTP API
-  (261,10): []
+  (261,10):
+    - Human readable name for the object
   (261,18): []
   (262,8):
     - binding for a corresponding known type
@@ -1034,7 +1033,8 @@ hovers:
     - Contains declarations of reusable ChannelBindings objects
   (283,18):
     - Top level element describing a HTTP API
-  (284,8): []
+  (284,8):
+    - Human readable name for the object
   (284,13): []
   (285,8):
     - binding for a corresponding known type
@@ -1096,7 +1096,8 @@ hovers:
     - Contains declarations of reusable MessageBindings objects
   (305,18):
     - Top level element describing a HTTP API
-  (306,8): []
+  (306,8):
+    - Human readable name for the object
   (306,13): []
   (307,8):
     - binding for a corresponding known type
@@ -1168,7 +1169,8 @@ hovers:
     - Contains declarations of reusable OperationBindings objects
   (329,20):
     - Top level element describing a HTTP API
-  (330,8): []
+  (330,8):
+    - Human readable name for the object
   (330,13): []
   (331,8):
     - binding for a corresponding known type

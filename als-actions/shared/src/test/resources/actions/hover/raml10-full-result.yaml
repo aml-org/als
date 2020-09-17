@@ -84,7 +84,7 @@ hovers:
   (29,16):
     - Top level element describing a HTTP API
   (30,6):
-    - Human readable name for the object
+    - Authentication and access control mechanism defined in an API
   (30,12):
     - Authentication and access control mechanism defined in an API
   (31,9):
@@ -102,7 +102,7 @@ hovers:
   (35,9):
     - Parameter passed as a header to an operation for communication models
   (35,14):
-    - Piece of data required or returned by an Operation
+    - Parameter passed as a header to an operation for communication models
   (36,14):
     - Schema the parameter value must validate
   (36,22):
@@ -118,7 +118,7 @@ hovers:
   (41,13):
     - Parameters associated to the communication model
   (41,22):
-    - Piece of data required or returned by an Operation
+    - Parameters associated to the communication model
   (42,14):
     - Schema the parameter value must validate
   (42,21):
@@ -134,7 +134,7 @@ hovers:
   (47,10):
     - Response associated to this security scheme
   (47,16):
-    - Response information for an operation
+    - Response associated to this security scheme
   (48,9):
     - Human readable name for the object
   (48,12):
@@ -170,7 +170,7 @@ hovers:
   (60,53):
     - Settings for an OAuth2 security scheme
   (61,6):
-    - Human readable name for the object
+    - Authentication and access control mechanism defined in an API
   (61,12):
     - Authentication and access control mechanism defined in an API
   (62,9):
@@ -198,7 +198,7 @@ hovers:
   (68,49):
     - Settings for an OAuth1 security scheme
   (70,4):
-    - Human readable name for the object
+    - Authentication and access control mechanism defined in an API
   (70,8):
     - Authentication and access control mechanism defined in an API
   (71,9):
@@ -210,7 +210,7 @@ hovers:
   (73,20):
     - Type of security scheme
   (74,5):
-    - Human readable name for the object
+    - Authentication and access control mechanism defined in an API
   (74,9):
     - Authentication and access control mechanism defined in an API
   (75,9):
@@ -222,7 +222,7 @@ hovers:
   (77,20):
     - Type of security scheme
   (78,7):
-    - Human readable name for the object
+    - Authentication and access control mechanism defined in an API
   (78,14):
     - Authentication and access control mechanism defined in an API
   (79,11):
@@ -240,7 +240,7 @@ hovers:
   (83,15):
     - Parameters associated to the communication model
   (83,24):
-    - Piece of data required or returned by an Operation
+    - Parameters associated to the communication model
   (84,12):
     - Schema the parameter value must validate
   (84,16):
@@ -252,7 +252,7 @@ hovers:
   (86,11):
     - Parameter passed as a header to an operation for communication models
   (86,16):
-    - Piece of data required or returned by an Operation
+    - Parameter passed as a header to an operation for communication models
   (87,13):
     - Schema the parameter value must validate
   (87,18):
@@ -262,7 +262,7 @@ hovers:
   (88,21):
     - Scalar range constraining this scalar shape
   (89,8):
-    - Human readable name for the object
+    - Authentication and access control mechanism defined in an API
   (89,16):
     - Authentication and access control mechanism defined in an API
   (90,11):
@@ -280,7 +280,7 @@ hovers:
   (94,11):
     - Parameter passed as a header to an operation for communication models
   (94,16):
-    - Piece of data required or returned by an Operation
+    - Parameter passed as a header to an operation for communication models
   (95,16):
     - Schema the parameter value must validate
   (95,23):
@@ -296,7 +296,7 @@ hovers:
   (99,12):
     - Response associated to this security scheme
   (99,18):
-    - Response information for an operation
+    - Response associated to this security scheme
   (100,11):
     - Human readable name for the object
   (100,14):
@@ -326,13 +326,13 @@ hovers:
   (107,13):
     - Scalar range constraining this scalar shape
   (108,7):
-    - Example value for a schema inside an API
+    - Examples for a particular element declaration
   (108,17):
     - Example value for a schema inside an API
   (109,9):
-    - Human readable name for the object
+    - Defines a data type
   (109,19):
-    - Human readable name for the object
+    - Defines a data type
   (110,9):
     - Human readable description of an element
   (110,24):
@@ -472,7 +472,7 @@ hovers:
   (142,9):
     - Properties associated to this node
   (142,15):
-    - Defines a data type
+    - Properties associated to this node
   (143,11):
     - Human readable name for the object
   (143,21):
@@ -522,9 +522,9 @@ hovers:
   (155,26):
     - Values for the discriminator property
   (156,8):
-    - Example value for a schema inside an API
+    - Examples for a particular element declaration
   (156,13):
-    - Example value for a schema inside an API
+    - Examples for a particular element declaration
   (157,7):
     - Human readable name for the object
   (157,9):
@@ -604,7 +604,7 @@ hovers:
   (174,9):
     - Properties associated to this node
   (174,15):
-    - Defines a data type
+    - Properties associated to this node
   (175,7):
     - Human readable name for the object
   (175,9):
@@ -642,7 +642,7 @@ hovers:
   (183,14):
     - Top level element describing a HTTP API
   (184,7):
-    - Human readable name for the object
+    - Type of document base unit encoding a RAML resource type
   (184,13):
     - Type of document base unit encoding a RAML resource type
   (185,6):
@@ -690,7 +690,14 @@ hovers:
   (195,24):
     - Defines a data type
   (196,10):
-    - Human readable name for the object
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (196,24):
     - |-
       Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
@@ -733,7 +740,7 @@ hovers:
   (205,9):
     - Properties associated to this node
   (205,15):
-    - Defines a data type
+    - Properties associated to this node
   (206,8):
     - Human readable name for the object
   (206,12):
@@ -779,7 +786,7 @@ hovers:
   (213,7):
     - Top level element describing a HTTP API
   (214,3):
-    - Human readable name for the object
+    - Type of document base unit encoding a RAML trait
   (214,5):
     - Type of document base unit encoding a RAML trait
   (215,6):
@@ -862,9 +869,9 @@ hovers:
       The DomainPropertySchema might have an associated Data Shape that must validate the extension nested graph.
       They are parsed as RDF graphs using a default transformation from a set of nested records into RDF.
   (232,11):
-    - Piece of data required or returned by an Operation
+    - Parameters associated to the communication model
   (232,20):
-    - Piece of data required or returned by an Operation
+    - Parameters associated to the communication model
   (233,7):
     - Defines a data type
   (233,10):
@@ -882,7 +889,7 @@ hovers:
   (236,17):
     - Scalar range constraining this scalar shape
   (237,11):
-    - Example value for a schema inside an API
+    - Examples for a particular element declaration
   (237,21):
     - Example value for a schema inside an API
   (238,13):
@@ -934,9 +941,9 @@ hovers:
   (252,12):
     - Defines a data type
   (253,7):
-    - Piece of data required or returned by an Operation
+    - Parameter passed as a header to an operation for communication models
   (253,12):
-    - Piece of data required or returned by an Operation
+    - Parameter passed as a header to an operation for communication models
   (254,7):
     - Defines a data type
   (254,9):
@@ -954,7 +961,7 @@ hovers:
   (257,17):
     - Scalar range constraining this scalar shape
   (258,11):
-    - Example value for a schema inside an API
+    - Examples for a particular element declaration
   (258,21):
     - Example value for a schema inside an API
   (259,13):
@@ -1080,7 +1087,7 @@ hovers:
   (295,8):
     - Response data returned by the operation
   (295,14):
-    - Response information for an operation
+    - Response data returned by the operation
   (296,7):
     - Human readable name for the object
   (296,10):
@@ -1102,9 +1109,9 @@ hovers:
       The DomainPropertySchema might have an associated Data Shape that must validate the extension nested graph.
       They are parsed as RDF graphs using a default transformation from a set of nested records into RDF.
   (299,11):
-    - Piece of data required or returned by an Operation
+    - Parameter passed as a header to an operation for communication models
   (299,16):
-    - Piece of data required or returned by an Operation
+    - Parameter passed as a header to an operation for communication models
   (300,11):
     - Schema the parameter value must validate
   (300,13):
@@ -1116,7 +1123,7 @@ hovers:
   (302,10):
     - Payload for a Request/Response
   (302,13):
-    - Encoded payload using certain media-type
+    - Payload for a Request/Response
   (303,18):
     - Defines a data type
   (303,27):
@@ -1136,7 +1143,7 @@ hovers:
   (307,15):
     - Properties associated to this node
   (307,21):
-    - Defines a data type
+    - Properties associated to this node
   (308,14):
     - Human readable name for the object
   (308,18):
@@ -1152,7 +1159,7 @@ hovers:
   (311,6):
     - Payload for a Request/Response
   (311,9):
-    - Encoded payload using certain media-type
+    - Payload for a Request/Response
   (312,14):
     - Defines a data type
   (312,23):
@@ -1160,7 +1167,7 @@ hovers:
   (313,13):
     - Properties associated to this node
   (313,19):
-    - Defines a data type
+    - Properties associated to this node
   (314,14):
     - Human readable name for the object
   (314,20):
@@ -1238,7 +1245,7 @@ hovers:
   (333,8):
     - EndPoint in the API holding a number of executable operations
   (333,16):
-    - Piece of data required or returned by an Operation
+    - Additional data required or returned by an operation
   (334,6):
     - Schema the parameter value must validate
   (334,9):

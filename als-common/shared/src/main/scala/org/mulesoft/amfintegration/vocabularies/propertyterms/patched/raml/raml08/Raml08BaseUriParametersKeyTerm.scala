@@ -1,9 +1,14 @@
 package org.mulesoft.amfintegration.vocabularies.propertyterms.patched.raml.raml08
 
+import amf.plugins.domain.webapi.metamodel.ServerModel
 import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.PatchedTopLevelKeyTerm
+import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.raml.RamlBaseUriParameterKeyTerm
 
-object Raml08BaseUriParametersKeyTerm extends Raml08PatchedKeyTerm with PatchedTopLevelKeyTerm {
-  override val key: String = "baseUriParameters"
-  override val description: String =
-    "Template variables appearing in the baseURI can be further described in baseUriParameters"
+object Raml08BaseUriParametersTopLevelKeyTerm
+    extends Raml08PatchedKeyTerm
+    with RamlBaseUriParameterKeyTerm
+    with PatchedTopLevelKeyTerm
+
+object Raml08BaseUriParametersServerKeyTerm extends Raml08PatchedKeyTerm with RamlBaseUriParameterKeyTerm {
+  override val amfObjectName: String = ServerModel.`type`.head.name
 }

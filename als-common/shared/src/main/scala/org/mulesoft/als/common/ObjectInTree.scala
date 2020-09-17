@@ -24,10 +24,16 @@ case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfP
     * key: value
     * only compares against " value" range using amfelement.position
     */
-  lazy val fieldValue: Option[FieldEntry] = getFieldEntry(justValueFn, FieldEntryOrdering)
+  lazy val fieldValue: Option[FieldEntry] = getFieldEntry(justValueFn, FieldEntryOrdering, obj)
 
   // todo: unify this
-  lazy val fieldEntry2: Option[FieldEntry] = getFieldEntry(keyOrValueFn, FieldEntryOrdering)
+  lazy val fieldEntry: Option[FieldEntry] =
+    nonVirtualObj.flatMap(o => getFieldEntry(keyOrValueFn, FieldEntryOrdering, o))
+
+  lazy val nonVirtualObj: Option[AmfObject] = obj.annotations.ast() match {
+    case Some(_) => Some(obj)
+    case None    => stack.headOption
+  }
 
   private val justValueFn = (f: FieldEntry) => inField(f) && (inValue(f) || notInKey(f.value.annotations))
 
@@ -38,17 +44,18 @@ case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfP
     * key: value
     * compares against "key: value" range (all line) using field.value.position
     */
-  private def getFieldEntry(filterFn: FieldEntry => Boolean, ordering: Ordering[FieldEntry]): Option[FieldEntry] =
+  private def getFieldEntry(filterFn: FieldEntry => Boolean,
+                            ordering: Ordering[FieldEntry],
+                            o: AmfObject): Option[FieldEntry] =
     // todo: maybe this should be a seq and not an option
-    obj.fields
+    o.fields
       .fields()
       .filter(filterFn)
       .toList
       .sorted(ordering)
       .lastOption
-      .orElse(singleLineNull())
 
-  private def singleLineNull() = {
+  private def singleLineNull() =
     obj.fields.fields().find { fe =>
       fe.value.annotations.ast() match {
         case Some(node: YNode) if node.isNull =>
@@ -56,7 +63,6 @@ case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfP
         case _ => false
       }
     }
-  }
 
   private def inField(f: FieldEntry) =
     f.field != LinkableElementModel.Target &&
@@ -69,12 +75,11 @@ case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfP
   private def inValue(f: FieldEntry) =
     f.value.value.annotations.ast().exists(_.contains(amfPosition))
 
-  private def notInKey(a: Annotations) = {
+  private def notInKey(a: Annotations) =
     a.find(classOf[SourceAST]) match {
       case Some(SourceAST(e: YMapEntry)) => notInKeyAtEntry(e)
       case _                             => false
     }
-  }
 
   /**
     *   hack for new empty line. Is a new field.
