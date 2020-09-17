@@ -55,15 +55,6 @@ case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfP
       .sorted(ordering)
       .lastOption
 
-  private def singleLineNull() =
-    obj.fields.fields().find { fe =>
-      fe.value.annotations.ast() match {
-        case Some(node: YNode) if node.isNull =>
-          node.value.range.lineFrom == node.value.range.lineTo && node.value.range.lineTo == amfPosition.line
-        case _ => false
-      }
-    }
-
   private def inField(f: FieldEntry) =
     f.field != LinkableElementModel.Target &&
       (f.value.annotations.ast() match {
