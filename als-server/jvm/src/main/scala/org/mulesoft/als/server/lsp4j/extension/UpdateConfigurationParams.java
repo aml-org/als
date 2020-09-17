@@ -6,11 +6,17 @@ public class UpdateConfigurationParams {
 
     private Map<String, AlsFormattingOptions> formattingOptions;
 
+    private Map<String, Object> genericOptions;
+
     public UpdateConfigurationParams(Map<String, AlsFormattingOptions> updateFormatOptionsParams) {
         this.formattingOptions = updateFormatOptionsParams;
     }
 
     public Map<String, AlsFormattingOptions> getUpdateFormatOptionsParams() {
         return formattingOptions;
+    }
+
+    public Map<String, Object> getGenericOptions() {
+        return genericOptions;
     }
 }

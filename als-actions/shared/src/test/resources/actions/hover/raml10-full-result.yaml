@@ -104,7 +104,7 @@ hovers:
   (35,14):
     - Parameter passed as a header to an operation for communication models
   (36,14):
-    - Schema the parameter value must validate
+    - Human readable name for the object
   (36,22):
     - Schema the parameter value must validate
   (37,15):
@@ -120,7 +120,7 @@ hovers:
   (41,22):
     - Parameters associated to the communication model
   (42,14):
-    - Schema the parameter value must validate
+    - Human readable name for the object
   (42,21):
     - Schema the parameter value must validate
   (43,15):
@@ -242,7 +242,7 @@ hovers:
   (83,24):
     - Parameters associated to the communication model
   (84,12):
-    - Schema the parameter value must validate
+    - Human readable name for the object
   (84,16):
     - Schema the parameter value must validate
   (85,14):
@@ -254,7 +254,7 @@ hovers:
   (86,16):
     - Parameter passed as a header to an operation for communication models
   (87,13):
-    - Schema the parameter value must validate
+    - Human readable name for the object
   (87,18):
     - Schema the parameter value must validate
   (88,14):
@@ -282,7 +282,7 @@ hovers:
   (94,16):
     - Parameter passed as a header to an operation for communication models
   (95,16):
-    - Schema the parameter value must validate
+    - Human readable name for the object
   (95,23):
     - Schema the parameter value must validate
   (96,17):
@@ -1113,7 +1113,7 @@ hovers:
   (299,16):
     - Parameter passed as a header to an operation for communication models
   (300,11):
-    - Schema the parameter value must validate
+    - Human readable name for the object
   (300,13):
     - Schema the parameter value must validate
   (301,14):
@@ -1247,7 +1247,7 @@ hovers:
   (333,16):
     - Additional data required or returned by an operation
   (334,6):
-    - Schema the parameter value must validate
+    - Human readable name for the object
   (334,9):
     - Schema the parameter value must validate
   (335,11):

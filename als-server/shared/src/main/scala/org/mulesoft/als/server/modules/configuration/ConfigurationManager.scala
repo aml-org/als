@@ -2,11 +2,13 @@ package org.mulesoft.als.server.modules.configuration
 
 import org.mulesoft.als.configuration.{AlsConfiguration, AlsConfigurationReader}
 import org.mulesoft.als.server.feature.configuration.{
+  GenericOptionKeys,
   UpdateConfigurationClientCapabilities,
   UpdateConfigurationConfigType,
   UpdateConfigurationParams,
   UpdateConfigurationServerOptions
 }
+import org.mulesoft.amfintegration.AlsSyamlSyntaxPluginHacked
 import org.mulesoft.lsp.{ConfigType, InitializableModule}
 
 import scala.concurrent.Future
@@ -19,6 +21,11 @@ class ConfigurationManager
     params.updateFormatOptionsParams.foreach(f => {
       configuration.updateFormattingOptions(f)
     })
+    // Shall move to separated GenericOptions class?
+    params.genericOptions.get(GenericOptionKeys.KeepTokens) match {
+      case Some(b: Boolean) => AlsSyamlSyntaxPluginHacked.withKeepTokens(b)
+      case _                => // ignore
+    }
   }
 
   def getConfiguration: AlsConfigurationReader = configuration;

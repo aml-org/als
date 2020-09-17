@@ -1,5 +1,7 @@
 package org.mulesoft.als.actions
 
+import amf.core.AMFSerializer
+import amf.core.emitter.RenderOptions
 import amf.core.remote._
 import org.mulesoft.als.actions.hover.HoverAction
 import org.mulesoft.als.common.YamlWrapper

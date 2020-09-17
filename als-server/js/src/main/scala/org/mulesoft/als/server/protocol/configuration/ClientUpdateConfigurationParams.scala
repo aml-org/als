@@ -11,6 +11,7 @@ import org.mulesoft.als.server.protocol.convert.LspConvertersSharedToClient._
 @js.native
 trait ClientUpdateConfigurationParams extends js.Object {
   def clientAlsFormattingOptions: js.UndefOr[js.Dictionary[ClientAlsFormattingOptions]] = js.native // Nullable
+  def clientGenericOptions: js.Dictionary[js.Any]                                       = js.native
 }
 
 object ClientUpdateConfigurationParams {
