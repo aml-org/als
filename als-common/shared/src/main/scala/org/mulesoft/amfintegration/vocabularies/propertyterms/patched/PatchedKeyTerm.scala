@@ -1,6 +1,5 @@
 package org.mulesoft.amfintegration.vocabularies.propertyterms.patched
 
-import amf.core.vocabulary.ValueType
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.Raml08TypesDialect

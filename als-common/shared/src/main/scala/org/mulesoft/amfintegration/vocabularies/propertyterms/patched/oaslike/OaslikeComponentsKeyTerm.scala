@@ -1,7 +1,6 @@
 package org.mulesoft.amfintegration.vocabularies.propertyterms.patched.oaslike
 
-import amf.plugins.domain.webapi.metamodel.WebApiModel
-import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.{PatchedKeyTerm, PatchedTopLevelKeyTerm}
+import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.PatchedTopLevelKeyTerm
 
 trait OaslikeComponentsKeyTerm extends PatchedTopLevelKeyTerm {
   override val key: String         = "components"

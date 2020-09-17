@@ -23,11 +23,9 @@ object ExampleMediaType extends AMLCompletionPlugin {
           ExampleModel.`type`.head.iri(),
           request.actualDialect,
           request.yPartBranch.isKey,
-          request.yPartBranch.isInArray || request.yPartBranch.isArray
+          request.yPartBranch.isInArray || request.yPartBranch.isArray,
+          true
         ).resolve()
-          .map(_.map(s => {
-            s.copy(options = s.options.copy(rangeKind = ObjectRange))
-          }))
       case _ => emptySuggestion
     }
   }

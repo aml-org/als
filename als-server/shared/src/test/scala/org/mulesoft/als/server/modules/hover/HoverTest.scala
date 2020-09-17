@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.modules.hover
 
+import amf.core.metamodel.domain.LinkableElementModel
 import amf.plugins.domain.shapes.metamodel.ExampleModel
 import amf.plugins.domain.webapi.metamodel.security.SecuritySchemeModel
 import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
@@ -8,23 +9,10 @@ import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.reference.MarkerInfo
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.{
-  LanguageServerBuilder,
-  MockDiagnosticClientNotifier,
-  MockTelemetryParsingClientNotifier,
-  ServerWithMarkerTest
-}
-import org.mulesoft.amfintegration.vocabularies.AmlCoreVocabulary
+import org.mulesoft.als.server.{LanguageServerBuilder, MockTelemetryParsingClientNotifier, ServerWithMarkerTest}
 import org.mulesoft.amfintegration.vocabularies.propertyterms.NamePropertyTerm
 import org.mulesoft.amfintegration.vocabularies.propertyterms.aml.{ExamplesPropertyTerm, FormatPropertyTerm}
-import org.mulesoft.amfintegration.vocabularies.propertyterms.declarationKeys.{
-  DomainPropertyDeclarationKeyTerm,
-  MessageAbstractDeclarationKeyTerm,
-  MessageDeclarationKeyTerm,
-  OperationAbstractDeclarationKeyTerm,
-  SecuritySettingsDeclarationKeyTerm,
-  ShapeDeclarationKeyTerm
-}
+import org.mulesoft.amfintegration.vocabularies.propertyterms.declarationKeys._
 import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.oaslike.asyncapi2.{
   AsyncApi20ComponentsKeyTerm,
   AsyncApi20IdKeyTerm,
@@ -42,7 +30,7 @@ import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.oaslike.oa
   Oas3PathsKeyTerm
 }
 import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.raml.raml08.{
-  Raml08BaseUriParametersKeyTerm,
+  Raml08BaseUriParametersTopLevelKeyTerm,
   Raml08SecuredByKeyTerm
 }
 import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.raml.raml10.Raml10UsesKeyTerm
@@ -181,14 +169,14 @@ class HoverTest extends ServerWithMarkerTest[Hover] {
     runTest(buildServer(), "refs/api.raml").map { h =>
       h.contents.size should be(1)
       h.contents.head should be(SecuritySchemeModel.doc.description)
-      h.range.get should be(Range(Position(3, 13), Position(3, 52)))
+      h.range.get should be(Range(Position(3, 2), Position(5, 0)))
     }
   }
 
   test("Test hover on include value") {
     runTest(buildServer(), "refs/api2.raml").map { h =>
       h.contents.size should be(1)
-      h.contents.head should be(SecuritySchemeModel.doc.description)
+      h.contents.head should be(LinkableElementModel.Target.doc.description)
       h.range.get should be(Range(Position(3, 13), Position(3, 52)))
     }
   }
@@ -615,7 +603,7 @@ class HoverTest extends ServerWithMarkerTest[Hover] {
 
       hovers.exists(h => {
         h.contents.size == 1 &&
-        h.contents.head == Raml08BaseUriParametersKeyTerm.description &&
+        h.contents.head == Raml08BaseUriParametersTopLevelKeyTerm.description &&
         h.range.get == Range(Position(2, 0), Position(2, 18))
       }) should be(true)
     }

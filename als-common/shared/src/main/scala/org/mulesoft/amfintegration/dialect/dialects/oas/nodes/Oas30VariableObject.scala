@@ -11,7 +11,7 @@ object Oas30VariableObject extends DialectNode {
 
   override def location: String        = OAS30Dialect.DialectLocation
   override def name: String            = "VariableObject"
-  override def nodeTypeMapping: String = ParameterModel.`type`.head.iri()
+  override def nodeTypeMapping: String = "VariableObjectTerm"
   override def properties: Seq[PropertyMapping] = Seq(
     PropertyMapping()
       .withId(DialectLocation + "#/declarations/VariableObject/name")

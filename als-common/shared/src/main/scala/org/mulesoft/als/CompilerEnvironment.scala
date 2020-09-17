@@ -7,7 +7,7 @@ import scala.concurrent.Future
 trait CompilerResult[CU, EH, MetaData] {
   val baseUnit: CU
   val eh: EH
-  val definedBy: Option[MetaData]
+  val definedBy: MetaData
   def tree: Set[String]
 }
 

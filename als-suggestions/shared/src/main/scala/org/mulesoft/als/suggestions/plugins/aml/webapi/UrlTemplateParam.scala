@@ -15,12 +15,16 @@ trait UrlTemplateParam extends AMLCompletionPlugin {
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful {
       val params = request.amfObject match {
-        case p: Parameter if p.binding.option().contains("path") && isName(request) =>
+        case p: Parameter
+            if (p.binding.option().contains("path") && isName(request)) || request.yPartBranch.isKeyDescendantOf(
+              "variables") =>
           request.branchStack.headOption match {
             case Some(e: EndPoint) => endpointParams(e)
             case Some(s: Server)   => serverParams(s)
             case _                 => Nil
           }
+        case endPoint: EndPoint if request.yPartBranch.isKeyDescendantOf("uriParameters") =>
+          endpointParams(endPoint)
         case _ => Nil
       }
       params.map(toRaw)
@@ -29,7 +33,7 @@ trait UrlTemplateParam extends AMLCompletionPlugin {
 
   private def isName(request: AmlCompletionRequest) = request.fieldEntry.exists(_.field == ParameterModel.Name)
 
-  private def endpointParams(e: EndPoint): Seq[String] = {
+  protected def endpointParams(e: EndPoint): Seq[String] = {
     e.parameters
       .filter(p => p.binding.option().contains("path") && p.annotations.contains(classOf[SynthesizedField]))
       .flatMap(_.name.option())

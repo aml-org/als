@@ -12,19 +12,19 @@ import scala.concurrent.Future
 object MapLabelInPropertyMappingCompletionPlugin extends AMLCompletionPlugin {
   override def id: String = "MapLabelInPropertyMappingCompletionPlugin"
 
-  override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
+  override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     request.amfObject match {
       case pm: PropertyMapping if isMapKeyOrValue(request.yPartBranch) => resolveLabels(pm, request.baseUnit)
       case _                                                           => emptySuggestion
     }
-  }
 
   private def resolveLabels(pm: PropertyMapping, bu: BaseUnit) = Future {
     pm.objectRange().head.option().map(getLabels(_, bu)).getOrElse(Nil).map(RawSuggestion(_, isAKey = false))
   }
+
   private def isMapKeyOrValue(yPart: YPartBranch) = yPart.parentEntryIs("mapKey") || yPart.parentEntryIs("mapValue")
 
-  private def getLabels(uri: String, bu: BaseUnit) = {
+  private def getLabels(uri: String, bu: BaseUnit) =
     bu match {
       case d: DeclaresModel =>
         d.declares
@@ -34,5 +34,4 @@ object MapLabelInPropertyMappingCompletionPlugin extends AMLCompletionPlugin {
           .getOrElse(Nil)
       case _ => Nil
     }
-  }
 }

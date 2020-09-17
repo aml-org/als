@@ -68,9 +68,8 @@ class AlsDialectsRegistry extends DialectsRegistry {
 case class AlsVocabularyRegistry() {
   case class TermsDescription() {
     private val termsDescription: mutable.Map[String, String] = mutable.Map.empty
-    def index(element: DomainElement): Unit = {
+    def index(element: DomainElement): Unit =
       element.getLiteralProperty(NameFieldSchema.Name).map(_.toString).foreach(name => index(name, element))
-    }
 
     def index(name: String, element: DomainElement): Unit = {
       element
@@ -85,9 +84,8 @@ case class AlsVocabularyRegistry() {
 
   def find(base: String): Option[TermsDescription] = bases.get(base)
 
-  def getDescription(base: String, name: String): Option[String] = {
+  def getDescription(base: String, name: String): Option[String] =
     find(base).flatMap(_.find(name))
-  }
 
   private val bases: mutable.Map[String, TermsDescription] = mutable.Map.empty
 

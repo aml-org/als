@@ -8,7 +8,7 @@ import amf.plugins.domain.webapi.metamodel.{EndPointModel, OperationModel}
 import amf.plugins.domain.webapi.models.templates.{ResourceType, Trait}
 import org.mulesoft.als.suggestions.aml.{AmlCompletionRequest, AmlCompletionRequestBuilder}
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.AMLRefTagCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.{AMLRefTagCompletionPlugin, AMLRootDeclarationsCompletionPlugin}
 import org.mulesoft.als.suggestions.{CompletionsPluginHandler, RawSuggestion}
 import org.yaml.model.{YMap, YMapEntry, YNode}
 import org.mulesoft.amfintegration.AmfImplicits._
@@ -19,14 +19,11 @@ import scala.concurrent.Future
 object RamlAbstractDefinition extends AMLCompletionPlugin {
   override def id: String = "RamlAbstractDefinition"
 
-  private val ignoredPlugins: Set[AMLCompletionPlugin] = Set(AMLRefTagCompletionPlugin)
+  private val ignoredPlugins: Set[AMLCompletionPlugin] =
+    Set(AMLRefTagCompletionPlugin, AMLRootDeclarationsCompletionPlugin)
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
-    val info =
-      if (params.amfObject
-            .isInstanceOf[DataNode] && !params.yPartBranch.isIncludeTagValue)
-        elementInfo(params)
-      else None
+    val info = if (params.yPartBranch.isIncludeTagValue) None else elementInfo(params)
 
     info
       .map { info =>
@@ -41,7 +38,8 @@ object RamlAbstractDefinition extends AMLCompletionPlugin {
         newRequest.completionsPluginHandler
           .pluginSuggestions(newRequest)
           .map(seq => {
-            if (params.branchStack.headOption.exists(_.isInstanceOf[AbstractDeclaration]) && params.yPartBranch.isKey)
+            if (params.branchStack.headOption.exists(_.isInstanceOf[AbstractDeclaration]) && !params.baseUnit
+                  .isInstanceOf[Fragment] && params.yPartBranch.isKey)
               seq ++ Seq(RawSuggestion.forKey("usage", "docs", mandatory = false))
             else seq
           })
@@ -51,9 +49,15 @@ object RamlAbstractDefinition extends AMLCompletionPlugin {
 
   private case class ElementInfo(element: DomainElement, original: DomainElement, name: String, iri: String)
 
-  private def elementInfo(params: AmlCompletionRequest): Option[ElementInfo] =
-    params.branchStack
-      .collectFirst({ case a: AbstractDeclaration => a }) match {
+  private def findAbstractDeclaration(params: AmlCompletionRequest) = {
+    params.amfObject match {
+      case a: AbstractDeclaration => Some(a)
+      case _                      => params.branchStack.collectFirst({ case a: AbstractDeclaration => a })
+    }
+  }
+
+  private def elementInfo(params: AmlCompletionRequest): Option[ElementInfo] = {
+    findAbstractDeclaration(params) match {
       case Some(r: ResourceType) =>
         val resolved = getSourceEntry(r, "resourceType").fold(
           r.asEndpoint(params.baseUnit, errorHandler = LocalIgnoreErrorHandler))(e => {
@@ -73,6 +77,7 @@ object RamlAbstractDefinition extends AMLCompletionPlugin {
         Some(ElementInfo(resolved, t, t.name.value(), t.metaURIs.head))
       case _ => None
     }
+  }
 
   private def getSourceEntry(a: AbstractDeclaration, defaultName: String) =
     a.annotations.find(classOf[SourceAST]).map(_.ast) match {

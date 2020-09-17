@@ -10,7 +10,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 object Raml10HeaderCompletionPlugin extends AMLCompletionPlugin {
   override def id: String = "Raml10HeaderCompletionPlugin"
-
+  // those headers should be defined as fragments in the dialect?
   private lazy val headers: Seq[String] = Seq("SecurityScheme",
                                               "DocumentationItem",
                                               "ResourceType",

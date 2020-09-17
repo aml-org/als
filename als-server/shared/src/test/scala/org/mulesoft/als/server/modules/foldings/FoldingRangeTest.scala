@@ -85,11 +85,26 @@ class FoldingRangeTest extends LanguageServerBaseTest {
               dhHandler(FoldingRangeParams(TextDocumentIdentifier(test.targetUri)))
             }
           } yield {
-            (folds, test.result)
+            (folds, test.result, test.targetUri)
           }
         }
       }
     } yield {
+      results.foreach { t =>
+        val (result, expected, targetUri) = t
+        val notExpected                   = result.toSet -- expected.toSet
+        val notFound                      = expected.toSet -- result.toSet
+        if (notExpected.nonEmpty) {
+          notExpected.foreach(println)
+          fail(s"Not expected for $targetUri:\n${notExpected.mkString("\n\t")}")
+        }
+        if (notFound.nonEmpty) {
+          notFound.foreach(println)
+          fail(s"Not found for $targetUri:\n${notFound.mkString("\n\t")}")
+        }
+
+      }
+
       results.foreach(t => assert(t._1.size == t._2.size))
       results.foreach(t => assert(t._1 == t._2))
       succeed

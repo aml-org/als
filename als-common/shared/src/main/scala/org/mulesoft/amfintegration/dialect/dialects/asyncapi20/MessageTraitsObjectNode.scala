@@ -12,7 +12,6 @@ import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{
 }
 
 trait MessageAbstractObjectNode extends DialectNode {
-  override def nodeTypeMapping: String = MessageModel.`type`.head.iri()
 
   val schemaFormatProp = PropertyMapping()
     .withId(location + "#/declarations/Message/schemaFormat")
@@ -94,4 +93,6 @@ object MessageTraitsObjectNode extends MessageAbstractObjectNode {
   override def name: String = "MessageTraitsObjectNode"
 
   override def isAbstract: Boolean = true
+
+  override def nodeTypeMapping: String = MessageModel.`type`.head.iri()
 }

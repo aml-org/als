@@ -1,11 +1,25 @@
 package org.mulesoft.als.common
 
-import amf.core.annotations.{LexicalInformation, SynthesizedField, VirtualObject}
-import amf.core.model.domain.{AmfArray, AmfElement, AmfObject}
-import amf.core.parser.FieldEntry
-import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
-import amf.core.parser.{Position => AmfPosition}
+import amf.core.metamodel.ModelDefaultBuilder
+import amf.core.metamodel.Type.ArrayLike
+import amf.core.metamodel.domain.{DataNodeModel, DomainElementModel, ShapeModel}
+import amf.core.model.domain.{AmfArray, AmfElement, AmfObject, DataNode}
+import amf.core.parser.{FieldEntry, Position => AmfPosition}
+import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
+import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.plugins.document.vocabularies.model.domain.DialectDomainElement
+import amf.plugins.domain.webapi.metamodel.bindings.{
+  ChannelBindingModel,
+  EmptyBindingModel,
+  MessageBindingModel,
+  OperationBindingModel,
+  OperationBindingsModel,
+  ServerBindingModel,
+  ServerBindingsModel
+}
+import org.mulesoft.als.common.YamlWrapper._
 import org.mulesoft.amfintegration.AmfImplicits._
+import org.yaml.model.YPart
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -13,86 +27,66 @@ object AmfSonElementFinder {
 
   implicit class AlsAmfObject(obj: AmfObject) {
 
-    private def positionForArray(arr: AmfArray, amfPosition: AmfPosition, location: Option[String], f: FieldEntry) = {
-      arr
-        .position()
-        .map(
-          p =>
-            p.contains(amfPosition) && f.value.annotations
-              .lexicalInformation()
-              .forall(_.containsCompletely(amfPosition)))
-        .getOrElse(
-          arrayContainsPosition(arr,
-                                amfPosition,
-                                location,
-                                f.value.annotations
-                                  .lexicalInformation()))
-    }
-
     private def sonContainsNonVirtualPosition(amfElement: AmfElement, amfPosition: AmfPosition): Boolean =
       amfElement match {
         case amfObject: AmfObject =>
           amfObject.fields.fields().exists { f =>
-            f.value.annotations.lexicalInformation().exists(_.containsCompletely(amfPosition)) ||
-            (f.value.annotations.contains(classOf[VirtualObject]) && sonContainsNonVirtualPosition(f.value.value,
-                                                                                                   amfPosition))
+            containsAsValue(f.value.annotations.ast(), amfPosition) ||
+            (f.value.annotations.isVirtual && sonContainsNonVirtualPosition(f.value.value, amfPosition))
           }
       }
 
-    private def positionFinderFN(amfPosition: AmfPosition, location: Option[String])(): FieldEntry => Boolean =
+    private def positionFinderFN(amfPosition: AmfPosition, location: Option[String]): FieldEntry => Boolean =
       (f: FieldEntry) => {
         val value = f.value.value
         location.forall(l => value.annotations.location().isEmpty || value.annotations.location().contains(l)) &&
         (value match {
           case arr: AmfArray =>
-            positionForArray(arr, amfPosition, location, f) ||
-              f.value.annotations.contains(classOf[SynthesizedField]) ||
+            f.isArrayIncluded(amfPosition) ||
+              f.value.annotations.isSynthesized || (f.value.annotations.lexicalInformation().isEmpty &&
               arr.values
                 .collectFirst({
                   case obj: AmfObject
-                      if obj.annotations.contains(classOf[VirtualObject]) &&
-                        sonContainsNonVirtualPosition(obj, amfPosition) =>
+                      if f.value.annotations.containsPosition(amfPosition).getOrElse(true) &&
+                        (obj.annotations.isVirtual &&
+                          sonContainsNonVirtualPosition(obj, amfPosition) || obj.containsPosition(amfPosition)) =>
                     obj
                 })
-                .nonEmpty
+                .nonEmpty)
 
           case v =>
-            v.position() match {
-              case Some(p) =>
-                p.contains(amfPosition) && f.value.value.annotations
-                  .lexicalInformation()
-                  .forall(_.containsCompletely(amfPosition))
-
-              case _ =>
-                f.value.annotations
-                  .contains(classOf[SynthesizedField]) || f.value.value.annotations
-                  .contains(classOf[VirtualObject])
-            }
+            f.value.annotations.containsPosition(amfPosition).getOrElse(true) &&
+              v.annotations
+                .containsPosition(amfPosition)
+                .getOrElse(f.value.annotations.isSynthesized || f.value.value.annotations.isVirtual)
         })
       }
 
-    def findSon(amfPosition: AmfPosition, filterFns: Seq[FieldEntry => Boolean]): AmfObject =
-      findSonWithStack(amfPosition, None, filterFns)._1
+    def findSon(amfPosition: AmfPosition, filterFns: Seq[FieldEntry => Boolean], definedBy: Dialect): AmfObject =
+      findSonWithStack(amfPosition, None, filterFns, definedBy)._1
+
+    private def containsAsValue(maybePart: Option[YPart], amfPosition: AmfPosition): Boolean =
+      maybePart.exists(_.isValue(amfPosition))
 
     def findSonWithStack(amfPosition: AmfPosition,
                          location: Option[String],
-                         filterFns: Seq[FieldEntry => Boolean]): (AmfObject, Seq[AmfObject]) = {
+                         filterFns: Seq[FieldEntry => Boolean],
+                         definedBy: Dialect): (AmfObject, Seq[AmfObject]) = {
       val posFilter = positionFinderFN(amfPosition, location)
 
       def innerNode(amfObject: AmfObject): Option[FieldEntry] =
         amfObject.fields
           .fields()
           .filter(f => {
-            filterFns.forall(fn => fn(f)) && posFilter(f)
+            filterFns.forall(fn => fn(f)) &&
+            posFilter(f)
           }) match {
-          case Nil => None
+          case Nil =>
+            None
           case list =>
-            list
-              .filterNot(
-                v =>
-                  v.value.annotations.contains(classOf[VirtualObject]) || v.value.annotations.contains(
-                    classOf[SynthesizedField]))
-              .lastOption
+            val entries = list
+              .filterNot(v => v.value.annotations.isVirtual || v.value.annotations.isSynthesized)
+            entries.lastOption
               .orElse(list.lastOption)
         }
 
@@ -103,44 +97,90 @@ object AmfSonElementFinder {
         a = innerNode(result).flatMap(entry =>
           entry.value.value match {
             case e: AmfArray =>
-              e.findSon(amfPosition, location, filterFns: Seq[FieldEntry => Boolean])
-                .flatMap {
-                  case o: AmfObject
-                      if entry.value.annotations
-                        .lexicalInformation()
-                        .forall(_.containsCompletely(amfPosition)) || o.annotations.contains(classOf[VirtualObject]) =>
-                    Some(o)
-                  case _ => None
-                }
-            case e: AmfObject => Some(e)
-            case _            => None
+              e.findChild(amfPosition, location, filterFns: Seq[FieldEntry => Boolean]) match {
+                case Some(o: AmfObject) if o.containsPosition(amfPosition) || o.annotations.isVirtual =>
+                  Some(o)
+                case _
+                    if entry.value.value.annotations.containsPosition(amfPosition).getOrElse(true) &&
+                      entry.field.`type`.isInstanceOf[ArrayLike] &&
+                      explicitArray(entry, result, definedBy) =>
+                  matchInnerArrayElement(entry, e, definedBy, result)
+                case _ => None
+              }
+            case e: AmfObject
+                if e.containsPosition(amfPosition) || containsAsValue(entry.value.annotations.ast(), amfPosition) =>
+              Some(e)
+            case _ => None
         })
         a.headOption.foreach(head => {
-          stack.prepend(result)
-          result = head
+          if (!stack.contains(head)) {
+            stack.prepend(result)
+            result = head
+          }
         })
-      } while (a.nonEmpty && !stack.contains(result))
+      } while (a.nonEmpty && a.head == result)
       (result, stack)
     }
   }
 
-  implicit class AlsAmfArray(array: AmfArray) {
-    private def minor(left: AmfElement, right: AmfElement) = {
-      right
-        .position() match {
-        case Some(LexicalInformation(rightRange)) =>
-          left.position() match {
-            case Some(LexicalInformation(leftRange)) =>
-              if (leftRange.contains(rightRange)) right
-              else left
-            case _ => right
-          }
-        case None => left
+  private def explicitArray(entry: FieldEntry, parent: AmfObject, definedBy: Dialect) =
+    entry.astValueArray() && isExplicitArray(entry, parent, definedBy) || !entry.astValueArray()
+
+  private def isExplicitArray(entry: FieldEntry, parent: AmfObject, definedBy: Dialect) =
+    definedBy
+      .findNodeMappingByTerm(parent.meta.`type`.head.iri())
+      .flatMap { nm =>
+        nm.findPropertyByTerm(entry.field.value.iri())
       }
+      .exists(p => p.allowMultiple().value())
+
+  private def matchInnerArrayElement(entry: FieldEntry, e: AmfArray, definedBy: Dialect, parent: AmfObject) =
+    entry.field.`type`.asInstanceOf[ArrayLike].element match {
+      case d: DialectDomainElementModel =>
+        val maybeMapping = parent match {
+          case parentDd: DialectDomainElement =>
+            parentDd.definedBy.propertiesMapping().find { pm =>
+              pm.nodePropertyMapping().option().contains(entry.field.value.iri())
+            }
+          case _ => None
+        }
+        maybeMapping
+          .flatMap(_.objectRange().headOption)
+          .flatMap(_.option())
+          .flatMap(definedBy.findNodeMapping)
+          .map { nodeMapping =>
+            DialectDomainElement()
+              .withInstanceTypes(nodeMapping.nodetypeMapping.value() +: d.`type`.map(_.iri()))
+              .withDefinedBy(nodeMapping)
+          }
+      case d: DomainElementModel if d.`type`.headOption.exists(_.iri() == DataNodeModel.`type`.head.iri()) =>
+        e.values.collectFirst({ case d: DataNode => d })
+      case d: DomainElementModel if d.`type`.headOption.exists(_.iri() == DomainElementModel.`type`.head.iri()) =>
+        e.values.collectFirst({ case o: AmfObject => o })
+      case s: ShapeModel if s.`type`.headOption.exists(_.iri() == ShapeModel.`type`.head.iri()) =>
+        e.values.collectFirst({ case o: AmfObject => o })
+      case binding
+          if binding == MessageBindingModel || binding == ChannelBindingModel || binding == ServerBindingModel || binding == OperationBindingModel =>
+        Some(EmptyBindingModel.modelInstance)
+      case m: ModelDefaultBuilder =>
+        Some(m.modelInstance)
+      case _ => None
     }
 
+  implicit class AlsAmfArray(array: AmfArray) {
+    private def minor(left: AmfElement, right: AmfElement): AmfElement =
+      (left.annotations.ast(), right.annotations.ast()) match {
+        case (Some(l), Some(r)) =>
+          if (l.contains(r.range)) right
+          else left
+        case (None, Some(_)) => right
+        //        case (Some(_), None) => left
+        case _ =>
+          left // todo: check?? (should be None?)
+      }
+
     @scala.annotation.tailrec
-    private def findMinor(elements: List[AmfElement]): Option[AmfElement] = {
+    private def findMinor(elements: List[AmfElement]): Option[AmfElement] =
       elements match {
         case Nil         => None
         case head :: Nil => Some(head)
@@ -148,17 +188,18 @@ object AmfSonElementFinder {
           val m = minor(list.head, list.tail.head)
           findMinor(m +: list.tail.tail)
       }
-    }
 
-    def findSon(amfPosition: AmfPosition,
-                location: Option[String],
-                filterFns: Seq[FieldEntry => Boolean]): Option[AmfElement] = {
-      val sons: Seq[AmfElement] = array.values.filter(v =>
-        v.position() match {
-          case Some(p) if p.contains(amfPosition) && location.forall(v.location().contains(_)) => true
-          case _                                                                               => v.annotations.contains(classOf[VirtualObject])
+    def findChild(amfPosition: AmfPosition,
+                  location: Option[String],
+                  filterFns: Seq[FieldEntry => Boolean]): Option[AmfElement] = {
+      val children: Seq[AmfElement] = array.values.filter(v =>
+        v.annotations.ast() match {
+          case Some(p) if p.contains(amfPosition) =>
+            true
+          case _ =>
+            v.annotations.isVirtual
       })
-      findMinor(sons.filter(_.annotations.contains(classOf[VirtualObject])).toList).orElse(findMinor(sons.toList))
+      findMinor(children.filter(_.annotations.isVirtual).toList).orElse(findMinor(children.toList))
     }
   }
 
@@ -166,58 +207,15 @@ object AmfSonElementFinder {
 
     def findSon(position: AmfPosition,
                 location: Option[String],
-                filterFns: Seq[FieldEntry => Boolean]): Option[AmfElement] = { // todo: recursive with cycle control?
+                filterFns: Seq[FieldEntry => Boolean],
+                definedBy: Dialect): Option[AmfElement] = // todo: recursive with cycle control?
       element match {
-        case obj: AmfObject  => Some(obj.findSon(position, filterFns))
-        case array: AmfArray => array.findSon(position, location, filterFns)
-        case _               => None
+        case obj: AmfObject =>
+          Some(obj.findSon(position, filterFns, definedBy))
+        case array: AmfArray =>
+          array.findChild(position, location, filterFns)
+        case _ =>
+          None
       }
-    }
   }
-
-  implicit class AlsLexicalInformation(li: LexicalInformation) {
-
-    def contains(pos: AmfPosition): Boolean =
-      Range(li.range.start.line, li.range.end.line + 1)
-        .contains(pos.line) && !isLastLine(pos)
-
-    def arrayContainsPosition(pos: AmfPosition): Boolean = {
-      if (isSingleLine) {
-        inInternalRange(pos) || li.range.end.column == li.range.start.column
-      } else {
-        containsCompletely(pos)
-      }
-    }
-
-    private def inInternalRange(pos: AmfPosition): Boolean =
-      pos.column > li.range.start.column && pos.column < li.range.end.column
-
-    def isSingleLine: Boolean =
-      li.range.start.line == li.range.end.line
-
-    def containsAtField(pos: AmfPosition): Boolean =
-      containsCompletely(pos) || isAtEmptyScalar(pos)
-
-    def isAtEmptyScalar(pos: AmfPosition): Boolean =
-      Range(li.range.start.line, li.range.end.line + 1)
-        .contains(pos.line) && !isLastLine(pos) && li.range.start == li.range.end
-    def isLastLine(pos: AmfPosition): Boolean =
-      li.range.end.column == 0 && pos.line == li.range.end.line
-
-    def containsCompletely(pos: AmfPosition): Boolean =
-      PositionRange(Position(li.range.start), Position(li.range.end))
-        .contains(Position(pos)) && !isLastLine(pos)
-  }
-
-  private def arrayContainsPosition(amfArray: AmfArray,
-                                    amfPosition: AmfPosition,
-                                    location: Option[String],
-                                    fieldLi: Option[LexicalInformation]): Boolean =
-    amfArray.values.exists(v =>
-      v.position() match {
-        case Some(p) =>
-          p.contains(amfPosition) && fieldLi.forall(_.containsCompletely(amfPosition)) && location.forall(
-            v.location().contains(_))
-        case _ => false
-    })
 }

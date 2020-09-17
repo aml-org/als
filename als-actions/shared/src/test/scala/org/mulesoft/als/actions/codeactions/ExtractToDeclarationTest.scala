@@ -16,7 +16,7 @@ class ExtractToDeclarationTest extends BaseCodeActionTests {
   it should "extract a schema from open api 3 parameter" in {
     val elementUri                       = "extract-element/schema-from-oas/schema.yaml"
     val range                            = PositionRange(Position(10, 15), Position(10, 16))
-    val dialect: Option[Dialect]         = Some(OAS30Dialect.dialect)
+    val dialect: Dialect                 = OAS30Dialect.dialect
     val pluginFactory: CodeActionFactory = ExtractElementCodeAction
 
     runTest(elementUri, range, dialect, pluginFactory)
@@ -25,7 +25,7 @@ class ExtractToDeclarationTest extends BaseCodeActionTests {
   it should "extract a schema from oas 3 json" in {
     val elementUri                       = "extract-element/schema-from-oas/schema.json"
     val range                            = PositionRange(Position(13, 19), Position(13, 20))
-    val dialect: Option[Dialect]         = Some(OAS30Dialect.dialect)
+    val dialect: Dialect                 = OAS30Dialect.dialect
     val pluginFactory: CodeActionFactory = ExtractElementCodeAction
 
     runTest(elementUri, range, dialect, pluginFactory)
@@ -34,7 +34,7 @@ class ExtractToDeclarationTest extends BaseCodeActionTests {
   it should "extract a type from RAML 1.0 payload" in {
     val elementUri                       = "extract-element/raml-type/raml-type.raml"
     val range                            = PositionRange(Position(15, 27), Position(16, 26))
-    val dialect: Option[Dialect]         = Some(Raml10TypesDialect.dialect)
+    val dialect: Dialect                 = Raml10TypesDialect.dialect
     val pluginFactory: CodeActionFactory = ExtractRAMLTypeCodeAction
 
     runTest(elementUri, range, dialect, pluginFactory)
@@ -43,7 +43,7 @@ class ExtractToDeclarationTest extends BaseCodeActionTests {
   it should "extract a type from RAML 1.0 inlined scalar property" in {
     val elementUri                       = "extract-element/raml-type/scalar-range.raml"
     val range                            = PositionRange(Position(8, 14), Position(9, 14))
-    val dialect: Option[Dialect]         = Some(Raml10TypesDialect.dialect)
+    val dialect: Dialect                 = Raml10TypesDialect.dialect
     val pluginFactory: CodeActionFactory = ExtractRAMLTypeCodeAction
 
     runTest(elementUri, range, dialect, pluginFactory)
@@ -52,7 +52,7 @@ class ExtractToDeclarationTest extends BaseCodeActionTests {
   it should "DON'T extract payload from RAML" in {
     val elementUri                       = "extract-element/raml-type/payload-range.raml"
     val range                            = PositionRange(Position(7, 15), Position(9, 10))
-    val dialect: Option[Dialect]         = Some(Raml10TypesDialect.dialect)
+    val dialect: Dialect                 = Raml10TypesDialect.dialect
     val pluginFactory: CodeActionFactory = ExtractRAMLTypeCodeAction
 
     runTestNotApplicable(elementUri, range, dialect, pluginFactory)
@@ -61,7 +61,7 @@ class ExtractToDeclarationTest extends BaseCodeActionTests {
   it should "extract type from RAML in range" in {
     val elementUri                       = "extract-element/raml-type/property-range.raml"
     val range                            = PositionRange(Position(9, 19), Position(10, 21))
-    val dialect: Option[Dialect]         = Some(Raml10TypesDialect.dialect)
+    val dialect: Dialect                 = Raml10TypesDialect.dialect
     val pluginFactory: CodeActionFactory = ExtractRAMLTypeCodeAction
 
     runTest(elementUri, range, dialect, pluginFactory)
@@ -70,7 +70,7 @@ class ExtractToDeclarationTest extends BaseCodeActionTests {
   it should "extract inlined scalar type from RAML in range" in {
     val elementUri                       = "extract-element/raml-type/inlined-scalar.raml"
     val range                            = PositionRange(Position(10, 19), Position(10, 24))
-    val dialect: Option[Dialect]         = Some(Raml10TypesDialect.dialect)
+    val dialect: Dialect                 = Raml10TypesDialect.dialect
     val pluginFactory: CodeActionFactory = ExtractRAMLTypeCodeAction
 
     runTest(elementUri, range, dialect, pluginFactory)

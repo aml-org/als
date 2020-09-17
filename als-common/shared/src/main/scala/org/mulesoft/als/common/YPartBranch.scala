@@ -4,9 +4,12 @@ import amf.core.annotations.SourceAST
 import amf.core.model.document.{BaseUnit, Document}
 import org.mulesoft.als.common.YamlWrapper._
 import org.yaml.model._
-import org.mulesoft.als.common.dtoTypes.Position
+import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import amf.core.parser.{Position => AmfPosition}
 import amf.core.parser._
+import YamlWrapper._
+import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
+import org.yaml.model
 
 import scala.annotation.tailrec
 
@@ -46,7 +49,18 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
     case _            => None
   }
 
-  val isKey: Boolean = stack.headOption.exists(_.isKey(position)) || (isJson && node.isInstanceOf[YMap])
+  val isKey: Boolean =
+    if (isJson) stack.headOption.exists(_.isKey(position)) || node.isInstanceOf[YMap]
+    else {
+      node.isInstanceOf[YDocument] || node.isInstanceOf[YMap] || node
+        .isInstanceOf[YSequence] || (stack.headOption match {
+        case Some(entry: YMapEntry) if entry.value == node =>
+          entry.value.asScalar.isDefined &&
+            node.range.columnFrom > entry.key.range.columnFrom && position.line > entry.key.range.lineFrom
+        case Some(entry: YMapEntry) => entry.key == node
+        case _                      => false
+      })
+    }
 
   lazy val hasIncludeTag: Boolean = node match {
     case mr: YNode.MutRef => mr.origTag.tagType == YType.Include
@@ -57,8 +71,13 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
 
   lazy val isIncludeTagValue: Boolean = stack.headOption.exists(_.isInstanceOf[YMapEntry]) && !isKey && hasIncludeTag
 
-  val isAtRoot: Boolean = stack.count(_.isInstanceOf[YMap]) <= 1
-  val isArray: Boolean  = node.isArray
+  val isAtRoot: Boolean = node.isInstanceOf[model.YDocument] || (stack.count(_.isInstanceOf[YMap]) == 0 && node
+    .isInstanceOf[YMap]) ||
+    (stack.count(_.isInstanceOf[YMap]) <= 1 &&
+      (parentEntry.exists(_.key.range.contains(position)) || // this is the case that you are in a key on root level (before colon)
+        isJson))
+
+  val isArray: Boolean = node.isArray
   lazy val isInArray: Boolean =
     getSequence.isDefined
 
@@ -81,18 +100,27 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
     if (stack.length < l) None else Some(stack(l))
 
   def ancestorOf[T <: YPart](clazz: Class[T]): Option[T] =
+    if (isJson) ancestorOfJson(clazz) else if (stack.nonEmpty) findFirstOf(clazz, stack) else None
+
+  def ancestorOfJson[T <: YPart](clazz: Class[T]): Option[T] =
     if (stack.nonEmpty) findFirstOf(clazz, stack.tail) else None
 
   def isKeyDescendantOf(key: String): Boolean =
-    isKey && ancestorOf(classOf[YMapEntry])
-      .flatMap(_.key.asScalar.map(_.text))
-      .contains(key)
+    isKey && isDescendanceOf(key)
 
   def isValueDescendanceOf(key: String): Boolean =
-    isValue && ancestorOf(classOf[YMapEntry])
+    isValue && isDescendanceOf(key)
+
+  def isInBranchOf(key: String): Boolean =
+    stack.exists({
+      case e: YMapEntry => e.key.asScalar.exists(_.text == key)
+      case _            => false
+    })
+
+  def isDescendanceOf(key: String): Boolean =
+    ancestorOf(classOf[YMapEntry])
       .flatMap(_.key.asScalar.map(_.text))
       .contains(key)
-
   @scala.annotation.tailrec
   private def findFirstOf[T <: YPart](clazz: Class[T], l: Seq[YPart]): Option[T] = {
     l match {
@@ -105,14 +133,17 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
 
   // content patch will add a { k: }, I need to get up the k node, the k: entry, and the {k: } map
   private def getSequence: Option[YSequence] = {
-    val offset = if (isKey) 4 else if (isArray) 0 else 1
-    stack.drop(offset).headOption match {
-      case Some(node: YNode) =>
-        node.value match {
-          case s: YSequence => Some(s)
-          case _            => None
-        }
-      case _ => None
+    if (isArray) Some(node).collectFirst({ case s: YSequence => s })
+    else {
+      val offset = if (isKey) 4 else 1
+      stack.drop(offset).headOption match {
+        case Some(node: YNode) =>
+          node.value match {
+            case s: YSequence => Some(s)
+            case _            => None
+          }
+        case _ => None
+      }
     }
   }
 
@@ -121,13 +152,24 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
       .map(_.nodes.flatMap(node => node.asScalar.map(_.text)))
       .getOrElse(Seq())
 
-  def brothers: Seq[YPart] = {
-    val map = stack.headOption match {
-      case Some(entry: YMapEntry) => stack.tail.headOption
-      case Some(m: YMap)          => Some(m)
-      case _                      => None
+  // todo remove
+  private def getMap(): Option[YPart] = {
+    if (isJson) {
+      stack.headOption match {
+        case Some(entry: YMapEntry) => stack.tail.headOption
+        case Some(m: YMap)          => Some(m)
+        case _                      => None
+      }
+    } else {
+      node match {
+        case m: YMap => Some(m)
+        case _       => None
+      }
     }
-    map
+  }
+
+  def brothers: Seq[YPart] = {
+    getMap()
       .map(_.children.filterNot(_.isInstanceOf[YNonContent]).filterNot {
         case e: YMapEntry => e.key == node
         case c            => c == node
@@ -146,30 +188,35 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
 
 object NodeBranchBuilder {
 
-  def build(ast: YPart, position: AmfPosition, isJson: Boolean): YPartBranch = {
-    val actual :: stack = getStack(ast, position, Seq())
-    YPartBranch(actual, position, stack, isJson)
-  }
+  def build(ast: YPart, position: AmfPosition, isJson: Boolean): YPartBranch =
+    getStack(ast, position, Seq()) match {
+      case actual :: stack => YPartBranch(actual, position, stack, isJson)
+      case Nil             => YPartBranch(ast, position, Nil, isJson)
+    }
 
   def build(bu: BaseUnit, position: AmfPosition, isJson: Boolean): YPartBranch = {
     val ast: Option[YPart] = astFromBaseUnit(bu)
     build(ast.getOrElse(YDocument(IndexedSeq.empty, bu.location().getOrElse(""))), position, isJson)
   }
 
-  def astFromBaseUnit(bu: BaseUnit): Option[YPart] = {
-    val ast = bu match {
-      case d: Document =>
-        d.encodes.annotations.find(classOf[SourceAST]).map(_.ast)
-      case bu => bu.annotations.find(classOf[SourceAST]).map(_.ast)
-    }
-    ast
-  }
+  def astFromBaseUnit(bu: BaseUnit): Option[YPart] =
+    bu.objWithAST.flatMap(_.annotations.ast())
 
   @tailrec
   private def getStack(s: YPart, amfPosition: AmfPosition, parents: Seq[YPart]): Seq[YPart] =
     childWithPosition(s, amfPosition) match {
+      case Some(n: YNode) =>
+        childWithPosition(n, amfPosition) match {
+          case None
+              if !n.isNull && n.value.range.lineFrom == amfPosition.line && n.value.range.columnFrom > amfPosition.column =>
+            n +: s +: parents // case for tag (!include)
+          case None    => parents
+          case Some(c) => getStack(c, amfPosition, n +: s +: parents)
+        }
       case Some(c) =>
         getStack(c, amfPosition, s +: parents)
+      case None if Some(s).collectFirst({ case e: YMapEntry if !isNullOrEmptyTag(e.value) => e }).isDefined =>
+        parents
       case None if s.isInstanceOf[YMapEntry] =>
         getStack(s.asInstanceOf[YMapEntry].value, amfPosition, s +: parents)
       case None if s.isInstanceOf[YScalar] =>
@@ -177,17 +224,21 @@ object NodeBranchBuilder {
       case _ => s +: parents
     }
 
-  private def childWithPosition(ast: YPart, amfPosition: AmfPosition): Option[YPart] =
-    ast.children
+  private def isNullOrEmptyTag(node: YNode) =
+    node.isNull || (node.tagType.toString == "!include" && node.value.toString.isEmpty)
+
+  def childWithPosition(ast: YPart, amfPosition: AmfPosition): Option[YPart] = {
+    val parts = ast.children
       .filterNot(_.isInstanceOf[YNonContent])
-      .filter {
-        case entry: YMapEntry =>
-          entry.range.toPositionRange.contains(Position(amfPosition))
-        case map: YMap      => map.range.toPositionRange.contains(Position(amfPosition))
-        case node: YNode    => node.range.toPositionRange.contains(Position(amfPosition))
-        case seq: YSequence => seq.range.toPositionRange.contains(Position(amfPosition))
-        case _              => false
+      .filter { yp =>
+        yp.contains(amfPosition)
       }
-      .lastOption
+    if (parts.length > 1) {
+      ast match {
+        case e: YMapEntry if e.value.isNull => Some(e.key)
+        case _                              => parts.lastOption
+      }
+    } else parts.lastOption
+  }
 
 }
