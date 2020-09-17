@@ -10,7 +10,7 @@ hovers:
   (4,3):
     - server information
   (4,20):
-    - server information
+    - Information about the network accessible locations where the API is available
   (5,4):
     - Media-types accepted in a API request
   (5,20):
@@ -22,11 +22,11 @@ hovers:
   (7,9):
     - Human readable name for the object
   (7,15):
-    - Human readable name for the object
+    - Type of document base unit encoding a RAML resource type
   (8,8):
-    - Human readable name for the object
+    - Human readable description of an element
   (8,43):
-    - Human readable name for the object
+    - Human readable description of an element
   (9,11):
     - Type of document base unit encoding a RAML resource type
   (9,38):
@@ -54,11 +54,11 @@ hovers:
   (15,7):
     - Human readable name for the object
   (15,12):
-    - Human readable name for the object
+    - Type of document base unit encoding a RAML trait
   (16,8):
-    - Human readable name for the object
+    - Human readable description of an element
   (16,37):
-    - Human readable name for the object
+    - Human readable description of an element
   (17,11):
     - Type of document base unit encoding a RAML trait
   (17,37):
@@ -136,7 +136,7 @@ hovers:
   (36,16):
     - Maximum inclusive constraint
   (37,9):
-    - Example value for a schema inside an API
+    - Defines a data type
   (37,16):
     - Example value for a schema inside an API
   (38,9):
@@ -198,9 +198,9 @@ hovers:
   (51,28):
     - Top level element describing a HTTP API
   (52,6):
-    - Documentation associated to the API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (52,14):
-    - Documentation associated to the API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (53,5):
     - Title of the item
   (53,12):
@@ -208,7 +208,7 @@ hovers:
   (54,6):
     - Human readable description of an element
   (57,0):
-    - Human readable description of an element
+    - Documentation associated to the API
   (61,3):
     - Path template for an endpoint
   (61,7):
@@ -222,7 +222,9 @@ hovers:
   (63,13):
     - EndPoint in the API holding a number of executable operations
   (64,3):
-    - RAML trait with declared parameters
+    - |-
+      Entity that is going to be extended overlaying or adding additional information
+      The type of the relationship provide the semantics about thow the referenced and referencer elements must be combined when generating the domain model from the document model.
   (64,11):
     - Human readable name for the object
   (65,7):
@@ -234,13 +236,15 @@ hovers:
   (66,6):
     - Action that can be executed using a particular HTTP invocation
   (67,8):
-    - Specifies that all methods described in the API are protected using this security scheme. Applying a security scheme to any method overrides whichever securityScheme is defined here
+    - security schemes applied to an element in the API spec
   (67,20):
     - Specifies that all methods described in the API are protected using this security scheme. Applying a security scheme to any method overrides whichever securityScheme is defined here
   (67,31):
     - Specifies that all methods described in the API are protected using this security scheme. Applying a security scheme to any method overrides whichever securityScheme is defined here
   (68,5):
-    - RAML trait with declared parameters
+    - |-
+      Entity that is going to be extended overlaying or adding additional information
+      The type of the relationship provide the semantics about thow the referenced and referencer elements must be combined when generating the domain model from the document model.
   (68,13):
     - Human readable name for the object
   (69,9):
@@ -248,9 +252,9 @@ hovers:
   (69,21):
     - Human readable description of an element
   (70,7):
-    - Parameter passed as a header to an operation for communication models
+    - Piece of data required or returned by an Operation
   (70,12):
-    - Parameter passed as a header to an operation for communication models
+    - Piece of data required or returned by an Operation
   (71,14):
     - Human readable name for the object
   (71,23):
@@ -266,7 +270,7 @@ hovers:
   (74,12):
     - Defines a data type
   (74,20):
-    - Marks the parameter as required
+    - Schema the parameter value must validate
   (75,11):
     - Defines a data type
   (75,18):
@@ -278,9 +282,9 @@ hovers:
   (76,24):
     - URI scheme for the API protocol
   (77,11):
-    - Parameters associated to the communication model
+    - Piece of data required or returned by an Operation
   (77,20):
-    - Parameters associated to the communication model
+    - Piece of data required or returned by an Operation
   (78,8):
     - Human readable name for the object
   (78,11):
@@ -292,7 +296,7 @@ hovers:
   (80,6):
     - Payload for a Request/Response
   (80,9):
-    - Payload for a Request/Response
+    - Encoded payload using certain media-type
   (81,10):
     - Human readable name for the object
   (81,15):
@@ -300,11 +304,11 @@ hovers:
   (82,11):
     - Defines a data type
   (88,0):
-    - Defines a data type
+    - Top level element describing a HTTP API
   (94,11):
-    - Example value for a schema inside an API
+    - Defines a data type
   (96,0):
-    - Raw textual information that cannot be processed for the current model semantics.
+    - Top level element describing a HTTP API
   (98,14):
     - Human readable name for the object
   (98,23):
@@ -320,7 +324,7 @@ hovers:
   (101,18):
     - Defines a data type
   (103,0):
-    - Defines a data type
+    - Top level element describing a HTTP API
   (105,15):
     - Defines a data type
   (105,22):
@@ -344,7 +348,7 @@ hovers:
   (110,10):
     - EndPoint in the API holding a number of executable operations
   (110,18):
-    - Additional data required or returned by an operation
+    - Piece of data required or returned by an Operation
   (111,12):
     - Human readable name for the object
   (111,16):
@@ -368,7 +372,7 @@ hovers:
   (116,10):
     - Response data returned by the operation
   (116,16):
-    - Response data returned by the operation
+    - Response information for an operation
   (117,9):
     - Human readable name for the object
   (117,12):
@@ -376,15 +380,15 @@ hovers:
   (118,12):
     - Payload for a Request/Response
   (118,15):
-    - Payload for a Request/Response
+    - Encoded payload using certain media-type
   (119,14):
-    - Encoded payload using certain media-type
+    - Defines a data type
   (119,18):
-    - Encoded payload using certain media-type
+    - Defines a data type
   (120,13):
-    - Parameter passed as a header to an operation for communication models
+    - Piece of data required or returned by an Operation
   (120,18):
-    - Parameter passed as a header to an operation for communication models
+    - Piece of data required or returned by an Operation
   (121,20):
     - Human readable name for the object
   (121,29):
@@ -392,7 +396,7 @@ hovers:
   (122,19):
     - Human readable description of an element
   (123,0):
-    - Human readable description of an element
+    - Top level element describing a HTTP API
   (124,16):
     - Defines a data type
   (124,23):
@@ -400,7 +404,7 @@ hovers:
   (125,18):
     - Defines a data type
   (125,26):
-    - Marks the parameter as required
+    - Schema the parameter value must validate
   (126,17):
     - Minimum inclusive constraint
   (126,23):
@@ -410,7 +414,7 @@ hovers:
   (127,25):
     - Maximum inclusive constraint
   (128,17):
-    - Example value for a schema inside an API
+    - Defines a data type
   (128,24):
     - Example value for a schema inside an API
   (130,7):
@@ -424,7 +428,7 @@ hovers:
   (132,13):
     - Human readable description of an element
   (133,0):
-    - Human readable description of an element
+    - Top level element describing a HTTP API
   (134,10):
     - Type of security scheme
   (134,18):
@@ -436,7 +440,7 @@ hovers:
   (136,15):
     - Parameter passed as a header to an operation for communication models
   (136,20):
-    - Parameter passed as a header to an operation for communication models
+    - Piece of data required or returned by an Operation
   (137,22):
     - Human readable name for the object
   (137,30):
@@ -444,7 +448,7 @@ hovers:
   (138,25):
     - Human readable description of an element
   (139,0):
-    - Human readable description of an element
+    - Top level element describing a HTTP API
   (141,22):
     - Defines a data type
   (141,29):
@@ -452,7 +456,7 @@ hovers:
   (142,19):
     - Parameters associated to the communication model
   (142,28):
-    - Parameters associated to the communication model
+    - Piece of data required or returned by an Operation
   (143,22):
     - Human readable name for the object
   (143,29):
@@ -460,7 +464,7 @@ hovers:
   (144,25):
     - Human readable description of an element
   (145,0):
-    - Human readable description of an element
+    - Top level element describing a HTTP API
   (147,22):
     - Defines a data type
   (147,29):
@@ -468,7 +472,7 @@ hovers:
   (148,16):
     - Response associated to this security scheme
   (148,22):
-    - Response associated to this security scheme
+    - Response information for an operation
   (149,17):
     - Human readable name for the object
   (149,20):
@@ -476,7 +480,7 @@ hovers:
   (150,25):
     - Human readable description of an element
   (152,0):
-    - Human readable description of an element
+    - Top level element describing a HTTP API
   (154,17):
     - Human readable name for the object
   (154,20):
@@ -484,11 +488,11 @@ hovers:
   (155,25):
     - Human readable description of an element
   (156,0):
-    - Human readable description of an element
+    - Top level element describing a HTTP API
   (158,12):
     - Security scheme settings
   (158,17):
-    - Security scheme settings
+    - Flow for an OAuth2 security scheme setting
   (159,18):
     - Flow for an OAuth2 security scheme setting
   (159,49):
@@ -498,11 +502,11 @@ hovers:
   (160,45):
     - Flow for an OAuth2 security scheme setting
   (161,19):
-    - Flow for an OAuth2 security scheme setting
+    - Settings for an OAuth2 security scheme
   (161,35):
-    - Flow for an OAuth2 security scheme setting
+    - Settings for an OAuth2 security scheme
   (161,41):
-    - Flow for an OAuth2 security scheme setting
+    - Settings for an OAuth2 security scheme
   (162,10):
     - Authentication and access control mechanism defined in an API
   (162,16):
@@ -510,7 +514,7 @@ hovers:
   (163,13):
     - Human readable description of an element
   (164,0):
-    - Human readable description of an element
+    - Top level element describing a HTTP API
   (165,10):
     - Type of security scheme
   (165,18):
@@ -518,7 +522,7 @@ hovers:
   (166,12):
     - Security scheme settings
   (166,17):
-    - Security scheme settings
+    - Settings for an OAuth1 security scheme
   (167,17):
     - Settings for an OAuth1 security scheme
   (167,49):

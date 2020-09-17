@@ -20,9 +20,9 @@ hovers:
   (5,30):
     - Terms and conditions when using the API
   (6,5):
-    - Organization providing some kind of asset or service
+    - Organization providing an good or service
   (6,10):
-    - Organization providing some kind of asset or service
+    - Organization providing an good or service
   (7,6):
     - Human readable name for the object
   (7,15):
@@ -36,9 +36,9 @@ hovers:
   (9,20):
     - Contact email for the organization
   (10,5):
-    - License for the API
+    - Licensing information for a resource
   (10,10):
-    - License for the API
+    - Licensing information for a resource
   (11,6):
     - Human readable name for the object
   (11,15):
@@ -82,15 +82,15 @@ hovers:
   (23,2):
     - Path to each declared endpoint. Relative to basePath
   (23,6):
-    - Path to each declared endpoint. Relative to basePath
+    - EndPoint in the API holding a number of executable operations
   (24,6):
-    - End points defined in the API
+    - EndPoint in the API holding a number of executable operations
   (24,11):
-    - End points defined in the API
+    - EndPoint in the API holding a number of executable operations
   (25,6):
-    - End points defined in the API
+    - EndPoint in the API holding a number of executable operations
   (25,17):
-    - End points defined in the API
+    - EndPoint in the API holding a number of executable operations
   (26,4):
     - Path template for an endpoint
   (26,8):
@@ -98,11 +98,11 @@ hovers:
   (27,5):
     - HTTP method required to invoke the operation
   (27,8):
-    - Request information for an operation
+    - Action that can be executed using a particular HTTP invocation
   (28,8):
     - Additionally custom tagged information
   (28,11):
-    - Additionally custom tagged information
+    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
   (29,12):
     - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
   (30,11):
@@ -118,9 +118,9 @@ hovers:
   (32,24):
     - Identifier of the target operation
   (33,12):
-    - Request information for an operation
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (33,19):
-    - Request information for an operation
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (34,9):
     - URL for the creative work
   (34,24):
@@ -130,15 +130,15 @@ hovers:
   (35,27):
     - Human readable description of an element
   (36,10):
-    - Request information for an operation
+    - Media-types accepted in a API request
   (36,15):
-    - Request information for an operation
+    - Media-types accepted in a API request
   (37,18):
     - Media-types accepted in a API request
   (38,10):
-    - Request information for an operation
+    - Media types returned by a API response
   (38,15):
-    - Request information for an operation
+    - Media types returned by a API response
   (39,18):
     - Media types returned by a API response
   (40,14):
@@ -176,9 +176,9 @@ hovers:
   (48,21):
     - Defines a data type
   (49,9):
-    - Request information for an operation
+    - URI scheme for the API protocol
   (49,14):
-    - Request information for an operation
+    - URI scheme for the API protocol
   (50,18):
     - URI scheme for the API protocol
   (51,18):
@@ -190,7 +190,7 @@ hovers:
   (53,10):
     - Textual indication of the kind of security scheme used
   (53,15):
-    - Textual indication of the kind of security scheme used
+    - Flow for an OAuth2 security scheme setting
   (54,16):
     - Settings for an OAuth2 security scheme
   (54,24):
@@ -202,7 +202,7 @@ hovers:
   (57,10):
     - Response data returned by the operation
   (57,16):
-    - Response data returned by the operation
+    - Response information for an operation
   (58,10):
     - Human readable name for the object
   (58,14):
@@ -294,7 +294,7 @@ hovers:
   (80,9):
     - Additional data required or returned by an operation
   (80,15):
-    - Additional data required or returned by an operation
+    - Piece of data required or returned by an Operation
   (81,10):
     - Defines a data type
   (81,15):
@@ -334,7 +334,7 @@ hovers:
   (90,2):
     - Additionally custom tagged information
   (90,5):
-    - Additionally custom tagged information
+    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
   (91,6):
     - Human readable name for the object
   (91,12):
@@ -344,9 +344,9 @@ hovers:
   (92,22):
     - Human readable description of an element
   (93,10):
-    - Documentation about the tag
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (93,17):
-    - Documentation about the tag
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (94,11):
     - Human readable description of an element
   (94,28):
@@ -364,9 +364,9 @@ hovers:
   (97,22):
     - Human readable description of an element
   (99,6):
-    - Documentation associated to the API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (99,13):
-    - Documentation associated to the API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (100,7):
     - Human readable description of an element
   (100,24):
@@ -473,9 +473,9 @@ hovers:
   (129,7):
     - Defines a data type
   (130,10):
-    - Documentation for a particular part of the model
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (130,17):
-    - Documentation for a particular part of the model
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (131,11):
     - Human readable description of an element
   (131,28):
@@ -531,9 +531,9 @@ hovers:
   (144,9):
     - Properties associated to this node
   (144,15):
-    - Properties associated to this node
+    - Defines a data type
   (145,6):
-    - Human readable name for the object
+    - Defines a data type
   (145,8):
     - Defines a data type
   (146,10):
@@ -547,7 +547,7 @@ hovers:
   (148,9):
     - information about how to serialize
   (148,12):
-    - information about how to serialize
+    - Information about how to encode into XML a particular data shape
   (149,12):
     - XML name mapping
   (149,16):
@@ -569,7 +569,7 @@ hovers:
   (153,21):
     - XML wrapped mapping flag
   (154,6):
-    - Human readable name for the object
+    - Defines a data type
   (154,8):
     - Defines a data type
   (155,10):
@@ -711,9 +711,9 @@ hovers:
   (191,11):
     - Properties associated to this node
   (191,17):
-    - Properties associated to this node
+    - Defines a data type
   (192,8):
-    - Human readable name for the object
+    - Defines a data type
   (192,10):
     - Defines a data type
   (193,12):
@@ -721,7 +721,7 @@ hovers:
   (193,19):
     - Scalar range constraining this scalar shape
   (194,8):
-    - Human readable name for the object
+    - Defines a data type
   (194,10):
     - Defines a data type
   (195,12):
@@ -745,9 +745,9 @@ hovers:
   (199,20):
     - Top level element describing a HTTP API
   (200,5):
-    - Human readable name for the object
+    - Settings for an API Key security scheme
   (200,10):
-    - Authentication and access control mechanism defined in an API
+    - Settings for an API Key security scheme
   (201,6):
     - Settings for an API Key security scheme
   (201,13):
@@ -765,9 +765,9 @@ hovers:
   (204,11):
     - Settings for an API Key security scheme
   (205,8):
-    - Human readable name for the object
+    - Flow for an OAuth2 security scheme setting
   (205,16):
-    - Authentication and access control mechanism defined in an API
+    - Flow for an OAuth2 security scheme setting
   (206,6):
     - Flow for an OAuth2 security scheme setting
   (206,13):
@@ -782,8 +782,7 @@ hovers:
     - Flow for an OAuth2 security scheme setting
   (209,7):
     - Flow for an OAuth2 security scheme setting
-  (209,11):
-    - Flow for an OAuth2 security scheme setting
+  (209,11): []
   (210,11):
     - Human readable name for the object
   (210,31):
@@ -793,9 +792,9 @@ hovers:
   (211,24):
     - Human readable description for the scope
   (212,8):
-    - Human readable name for the object
+    - Flow for an OAuth2 security scheme setting
   (212,15):
-    - Authentication and access control mechanism defined in an API
+    - Flow for an OAuth2 security scheme setting
   (213,6):
     - Flow for an OAuth2 security scheme setting
   (213,13):
