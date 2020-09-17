@@ -1189,13 +1189,9 @@ hovers:
   (319,10):
     - URI scheme for the API protocol
   (320,5):
-    - |-
-      Entity that is going to be extended overlaying or adding additional information
-      The type of the relationship provide the semantics about thow the referenced and referencer elements must be combined when generating the domain model from the document model.
+    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
   (320,7):
-    - |-
-      Entity that is going to be extended overlaying or adding additional information
-      The type of the relationship provide the semantics about thow the referenced and referencer elements must be combined when generating the domain model from the document model.
+    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
   (321,9):
     - Human readable name for the object
   (322,8):

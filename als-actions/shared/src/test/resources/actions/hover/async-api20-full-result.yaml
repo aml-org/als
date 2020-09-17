@@ -193,9 +193,9 @@ hovers:
   (55,18):
     - Human readable name for the object
   (56,9):
-    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
+    - Action that can be executed using a particular HTTP invocation
   (56,13):
-    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
+    - Action that can be executed using a particular HTTP invocation
   (57,12):
     - Action that can be executed using a particular HTTP invocation
   (57,33):
@@ -261,9 +261,9 @@ hovers:
   (73,18):
     - Human readable name for the object
   (74,9):
-    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
+    - Action that can be executed using a particular HTTP invocation
   (74,13):
-    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
+    - Action that can be executed using a particular HTTP invocation
   (75,12):
     - Action that can be executed using a particular HTTP invocation
   (75,33):
@@ -668,14 +668,10 @@ hovers:
     - The version of this binding
   (180,10): []
   (180,15): []
-  (181,12):
-    - Human readable name for the object
-  (181,18):
-    - Example value for a schema inside an API
-  (182,9):
-    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
-  (182,13):
-    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
+  (181,12): []
+  (181,18): []
+  (182,9): []
+  (182,13): []
   (183,12): []
   (183,31): []
   (184,9):
