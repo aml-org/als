@@ -2,7 +2,7 @@ package org.mulesoft.als.common
 
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import amf.core.parser.{Position => AmfPosition}
-import org.mulesoft.lexer.InputRange
+import org.mulesoft.lexer.{AstToken, InputRange}
 import org.yaml.lexer.YamlToken
 import org.yaml.model._
 
@@ -33,6 +33,9 @@ object YamlWrapper {
       selectedPositionRange.contains(positionRange.start) &&
       selectedPositionRange.contains(positionRange.end)
     }
+
+    lazy val isJson: Boolean =
+      yPart.location.sourceName.toLowerCase.endsWith(".json")
   }
 
   abstract class FlowedStructure(beginFlowChar: String, endFlowChar: String, node: YValue)
@@ -43,9 +46,12 @@ object YamlWrapper {
         case nonContent: YNonContent => nonContent.tokens
         case _                       => Nil
       })
-      (tokens.exists(t => t.tokenType == YamlToken.Indicator && t.text == beginFlowChar),
-       tokens.exists(t => t.tokenType == YamlToken.Indicator && t.text == endFlowChar))
+      (tokens.exists(t => (t.tokenType == YamlToken.Indicator || jsonIndicator(t)) && t.text == beginFlowChar),
+       tokens.exists(t => (t.tokenType == YamlToken.Indicator || jsonIndicator(t)) && t.text == endFlowChar))
     }
+
+    def jsonIndicator(t: AstToken): Boolean =
+      isJson && (t.tokenType == YamlToken.BeginMapping || t.tokenType == YamlToken.EndMapping)
 
     private def flowedPosition = {
       PositionRange(
@@ -68,8 +74,11 @@ object YamlWrapper {
 
     override def contains(position: AmfPosition): Boolean =
       super.contains(position) &&
-        !(outScalarValue(position) || outIndentation(position)) &&
         !isFirstChar(position) &&
+        (isJson || respectIndentation(position))
+
+    def respectIndentation(position: AmfPosition): Boolean =
+      !(outScalarValue(position) || outIndentation(position)) &&
         mapValueRespectsEntryKey(position)
 
     def mapValueRespectsEntryKey(position: AmfPosition): Boolean =
@@ -106,7 +115,7 @@ object YamlWrapper {
     def isArray: Boolean = false
 
     override def contains(amfPosition: AmfPosition): Boolean =
-      (super.contains(amfPosition) || sameLevelBefore(amfPosition)) && respectIndentation(amfPosition)
+      (super.contains(amfPosition) || sameLevelBefore(amfPosition)) && (isJson || respectIndentation(amfPosition))
 
     private def respectIndentation(amfPosition: AmfPosition) =
       map.entries.headOption.forall(_.range.columnFrom <= amfPosition.column)
