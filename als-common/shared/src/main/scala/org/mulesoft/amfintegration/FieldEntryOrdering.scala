@@ -14,14 +14,14 @@ object FieldEntryOrdering extends Ordering[FieldEntry] {
         .map(_.range)
       yRange <- y.value.annotations
         .lexicalInformation()
-        .orElse(x.value.value.annotations.lexicalInformation())
+        .orElse(y.value.value.annotations.lexicalInformation())
         .map(_.range)
     } yield (xRange, yRange)
 
     tuple match {
       case Some((xRange, yRange)) =>
         val start = xRange.start.compareTo(yRange.start)
-        if (start == 0) xRange.end.compareTo(yRange.end)
+        if (start == 0) yRange.end.compareTo(xRange.end)
         else start
       case _ => 0
     }

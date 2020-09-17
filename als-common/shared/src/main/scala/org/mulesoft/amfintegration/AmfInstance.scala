@@ -45,6 +45,7 @@ class AmfInstance(plugins: Seq[AMFPlugin], platform: Platform, environment: Envi
       initialization match {
         case Some(f) => f
         case _ =>
+          amf.Core.registerPlugin(AlsSyamlSyntaxPluginHacked)
           WebApi.register(platform.defaultExecutionEnvironment)
           if (AMFPluginsRegistry.documentPluginForID(alsAmlPlugin.ID).isDefined) // hack for static amf registry
             AMFPluginsRegistry.unregisterDocumentPlugin(alsAmlPlugin)
