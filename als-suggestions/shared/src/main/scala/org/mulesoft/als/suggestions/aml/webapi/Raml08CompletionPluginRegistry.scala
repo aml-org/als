@@ -18,11 +18,13 @@ object Raml08CompletionPluginRegistry extends WebApiCompletionPluginRegistry {
 
   private val all: Seq[AMLCompletionPlugin] =
     AMLBaseCompletionPlugins.all :+
-      StructureCompletionPlugin(List(
-        ResolveShapeAndSecurity,
-        ResolvePayload,
-        ResolveDefault
-      )) :+
+      StructureCompletionPlugin(
+        List(
+          ResolveShapeAndSecurity,
+          ResolveUriParameter,
+          ResolvePayload,
+          ResolveDefault
+        )) :+
       Raml08ParamsCompletionPlugin :+
       Raml08BooleanPropertyValue :+
       Raml08TypeFacetsCompletionPlugin :+
@@ -47,8 +49,9 @@ object Raml08CompletionPluginRegistry extends WebApiCompletionPluginRegistry {
       Raml08SecuritySchemeStructureCompletionPlugin :+
       UnitDocumentationFacet :+
       DefaultVariablesAbstractDefinition :+
-      OperationRequest :+
-      Raml08KnownValueCompletionPlugin
+//      OperationRequest :+
+      Raml08KnownValueCompletionPlugin :+
+      Raml08TypeDeclarationReferenceCompletionPlugin
 
   override def plugins: Seq[AMLCompletionPlugin] = all
 

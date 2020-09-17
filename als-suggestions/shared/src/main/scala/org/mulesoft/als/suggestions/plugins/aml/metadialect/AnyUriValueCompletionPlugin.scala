@@ -20,46 +20,44 @@ import scala.concurrent.Future
 object AnyUriValueCompletionPlugin extends AMLCompletionPlugin {
   override def id: String = "AnyUriValueCompletionPlugin"
 
-  override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
-    if (isInNpReference(request)) {
+  override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
+    if (isInNpReference(request))
       Future {
         val name = currentName(request.amfObject)
         nodeMappings(request.baseUnit)
           .filterNot(_ == name)
           .map(RawSuggestion.apply(_, isAKey = false)) ++ includeSuggestion
-      }
-    } else emptySuggestion
-  }
+      } else emptySuggestion
 
-  private def isInNpReference(request: AmlCompletionRequest) = {
+  private def isInNpReference(request: AmlCompletionRequest) =
     isInUriField(request.fieldEntry) || isInReferenceValueFromAst(request)
-  }
 
-  private def isInReferenceValueFromAst(request: AmlCompletionRequest) = {
+  private def isInReferenceValueFromAst(request: AmlCompletionRequest) =
     request.amfObject match {
-      case nm: NodeMappable    => request.yPartBranch.parentEntryIs("extends") && request.yPartBranch.isValue
-      case pm: PropertyMapping => request.yPartBranch.parentEntryIs("range") && request.yPartBranch.isValue
+      case _: NodeMappable    => request.yPartBranch.parentEntryIs("extends") && request.yPartBranch.isValue
+      case _: PropertyMapping => request.yPartBranch.parentEntryIs("range") && request.yPartBranch.isValue
       case pn: PublicNodeMapping =>
         request.yPartBranch.isValue && pn.mappedNode().value() == "http://amferror.com/#errorNodeMappable/"
       case dm: DocumentMapping =>
         request.yPartBranch.isValue && dm.encoded().value() == "http://amferror.com/#errorNodeMappable/"
       case _ => false
     }
-  }
+
   private def isInUriField(fieldEntry: Option[FieldEntry]) =
     fieldEntry.exists(_.field.`type`.`type`.headOption.exists(_.iri() == XsdTypes.xsdUri.iri()))
+
   private val includeSuggestion = Seq(
     RawSuggestion("!include ",
                   "!include",
                   "inclusion tag",
                   Seq(),
                   options = SuggestionStructure(rangeKind = PlainText)))
-  private def currentName(current: AmfObject) = {
+
+  private def currentName(current: AmfObject) =
     current.fields.fields().find(_.field.value.name.toLowerCase() == "name") match {
       case Some(FieldEntry(_, Value(AmfScalar(v, _), _))) => v.toString
       case _                                              => ""
     }
-  }
 
   private def nodeMappings(bu: BaseUnit) = {
     bu match {

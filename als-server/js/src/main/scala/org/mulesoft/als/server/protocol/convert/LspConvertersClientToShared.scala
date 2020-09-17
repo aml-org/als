@@ -158,7 +158,8 @@ object LspConvertersClientToShared {
 
   implicit class ClientUpdateConfigurationConverter(v: ClientUpdateConfigurationParams){
     def toShared: UpdateConfigurationParams = UpdateConfigurationParams(
-      v.clientAlsFormattingOptions.toOption.map(_.toMap.map(v => v._1 -> v._2.toShared))
+      v.clientAlsFormattingOptions.toOption.map(_.toMap.map(v => v._1 -> v._2.toShared)),
+      v.clientGenericOptions.toMap.map(v => v._1 -> v._2)
     )
   }
 

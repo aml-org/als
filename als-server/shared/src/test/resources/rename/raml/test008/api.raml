@@ -17,4 +17,4 @@ traits:
 /books:
   type: { searchableCollection: { queryParamName: title } }
   get:
-    is: [ secured: { tokenName: access_token } ]
+    is: [ { secured: { tokenName: access_token } }]

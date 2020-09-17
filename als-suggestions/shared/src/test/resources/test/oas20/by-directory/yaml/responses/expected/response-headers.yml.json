@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11A-IM",
-    "filterText": "A-IM: ",
+    "filterText": "A-IM:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 12
         }
       },
-      "newText": "A-IM: "
+      "newText": "A-IM:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11ALPN",
-    "filterText": "ALPN: ",
+    "filterText": "ALPN:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -53,7 +53,7 @@
           "character": 12
         }
       },
-      "newText": "ALPN: "
+      "newText": "ALPN:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Accept",
-    "filterText": "Accept: ",
+    "filterText": "Accept:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -83,7 +83,7 @@
           "character": 12
         }
       },
-      "newText": "Accept: "
+      "newText": "Accept:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Accept-CH",
-    "filterText": "Accept-CH: ",
+    "filterText": "Accept-CH:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +113,7 @@
           "character": 12
         }
       },
-      "newText": "Accept-CH: "
+      "newText": "Accept-CH:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Accept-Charset",
-    "filterText": "Accept-Charset: ",
+    "filterText": "Accept-Charset:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -143,7 +143,7 @@
           "character": 12
         }
       },
-      "newText": "Accept-Charset: "
+      "newText": "Accept-Charset:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Accept-Encoding",
-    "filterText": "Accept-Encoding: ",
+    "filterText": "Accept-Encoding:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -173,7 +173,7 @@
           "character": 12
         }
       },
-      "newText": "Accept-Encoding: "
+      "newText": "Accept-Encoding:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Accept-Features",
-    "filterText": "Accept-Features: ",
+    "filterText": "Accept-Features:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -203,7 +203,7 @@
           "character": 12
         }
       },
-      "newText": "Accept-Features: "
+      "newText": "Accept-Features:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -217,7 +217,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Accept-Language",
-    "filterText": "Accept-Language: ",
+    "filterText": "Accept-Language:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -233,7 +233,7 @@
           "character": 12
         }
       },
-      "newText": "Accept-Language: "
+      "newText": "Accept-Language:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -247,7 +247,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Accept-Patch",
-    "filterText": "Accept-Patch: ",
+    "filterText": "Accept-Patch:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -263,7 +263,7 @@
           "character": 12
         }
       },
-      "newText": "Accept-Patch: "
+      "newText": "Accept-Patch:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -277,7 +277,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Accept-Post",
-    "filterText": "Accept-Post: ",
+    "filterText": "Accept-Post:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -293,7 +293,7 @@
           "character": 12
         }
       },
-      "newText": "Accept-Post: "
+      "newText": "Accept-Post:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -307,7 +307,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Accept-Ranges",
-    "filterText": "Accept-Ranges: ",
+    "filterText": "Accept-Ranges:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -323,7 +323,7 @@
           "character": 12
         }
       },
-      "newText": "Accept-Ranges: "
+      "newText": "Accept-Ranges:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -337,7 +337,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Access-Control-Allow-Credentials",
-    "filterText": "Access-Control-Allow-Credentials: ",
+    "filterText": "Access-Control-Allow-Credentials:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -353,7 +353,7 @@
           "character": 12
         }
       },
-      "newText": "Access-Control-Allow-Credentials: "
+      "newText": "Access-Control-Allow-Credentials:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -367,7 +367,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Access-Control-Allow-Headers",
-    "filterText": "Access-Control-Allow-Headers: ",
+    "filterText": "Access-Control-Allow-Headers:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -383,7 +383,7 @@
           "character": 12
         }
       },
-      "newText": "Access-Control-Allow-Headers: "
+      "newText": "Access-Control-Allow-Headers:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -397,7 +397,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Access-Control-Allow-Methods",
-    "filterText": "Access-Control-Allow-Methods: ",
+    "filterText": "Access-Control-Allow-Methods:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -413,7 +413,7 @@
           "character": 12
         }
       },
-      "newText": "Access-Control-Allow-Methods: "
+      "newText": "Access-Control-Allow-Methods:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -427,7 +427,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Access-Control-Allow-Origin",
-    "filterText": "Access-Control-Allow-Origin: ",
+    "filterText": "Access-Control-Allow-Origin:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -443,7 +443,7 @@
           "character": 12
         }
       },
-      "newText": "Access-Control-Allow-Origin: "
+      "newText": "Access-Control-Allow-Origin:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -457,7 +457,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Access-Control-Expose-Headers",
-    "filterText": "Access-Control-Expose-Headers: ",
+    "filterText": "Access-Control-Expose-Headers:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -473,7 +473,7 @@
           "character": 12
         }
       },
-      "newText": "Access-Control-Expose-Headers: "
+      "newText": "Access-Control-Expose-Headers:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -487,7 +487,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Access-Control-Max-Age",
-    "filterText": "Access-Control-Max-Age: ",
+    "filterText": "Access-Control-Max-Age:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -503,7 +503,7 @@
           "character": 12
         }
       },
-      "newText": "Access-Control-Max-Age: "
+      "newText": "Access-Control-Max-Age:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -517,7 +517,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Access-Control-Request-Headers",
-    "filterText": "Access-Control-Request-Headers: ",
+    "filterText": "Access-Control-Request-Headers:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -533,7 +533,7 @@
           "character": 12
         }
       },
-      "newText": "Access-Control-Request-Headers: "
+      "newText": "Access-Control-Request-Headers:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -547,7 +547,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Access-Control-Request-Method",
-    "filterText": "Access-Control-Request-Method: ",
+    "filterText": "Access-Control-Request-Method:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -563,7 +563,7 @@
           "character": 12
         }
       },
-      "newText": "Access-Control-Request-Method: "
+      "newText": "Access-Control-Request-Method:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -577,7 +577,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Age",
-    "filterText": "Age: ",
+    "filterText": "Age:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -593,7 +593,7 @@
           "character": 12
         }
       },
-      "newText": "Age: "
+      "newText": "Age:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -607,7 +607,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Allow",
-    "filterText": "Allow: ",
+    "filterText": "Allow:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -623,7 +623,7 @@
           "character": 12
         }
       },
-      "newText": "Allow: "
+      "newText": "Allow:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -637,7 +637,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Alt-Svc",
-    "filterText": "Alt-Svc: ",
+    "filterText": "Alt-Svc:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -653,7 +653,7 @@
           "character": 12
         }
       },
-      "newText": "Alt-Svc: "
+      "newText": "Alt-Svc:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -667,7 +667,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Alternates",
-    "filterText": "Alternates: ",
+    "filterText": "Alternates:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -683,7 +683,7 @@
           "character": 12
         }
       },
-      "newText": "Alternates: "
+      "newText": "Alternates:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -697,7 +697,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Apply-To-Redirect-Ref",
-    "filterText": "Apply-To-Redirect-Ref: ",
+    "filterText": "Apply-To-Redirect-Ref:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -713,7 +713,7 @@
           "character": 12
         }
       },
-      "newText": "Apply-To-Redirect-Ref: "
+      "newText": "Apply-To-Redirect-Ref:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -727,7 +727,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Authorization",
-    "filterText": "Authorization: ",
+    "filterText": "Authorization:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -743,7 +743,7 @@
           "character": 12
         }
       },
-      "newText": "Authorization: "
+      "newText": "Authorization:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -757,7 +757,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11CH",
-    "filterText": "CH: ",
+    "filterText": "CH:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -773,7 +773,7 @@
           "character": 12
         }
       },
-      "newText": "CH: "
+      "newText": "CH:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -787,7 +787,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Cache-Control",
-    "filterText": "Cache-Control: ",
+    "filterText": "Cache-Control:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -803,7 +803,7 @@
           "character": 12
         }
       },
-      "newText": "Cache-Control: "
+      "newText": "Cache-Control:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -817,7 +817,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Content-Base",
-    "filterText": "Content-Base: ",
+    "filterText": "Content-Base:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -833,7 +833,7 @@
           "character": 12
         }
       },
-      "newText": "Content-Base: "
+      "newText": "Content-Base:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -847,7 +847,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Content-DPR",
-    "filterText": "Content-DPR: ",
+    "filterText": "Content-DPR:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -863,7 +863,7 @@
           "character": 12
         }
       },
-      "newText": "Content-DPR: "
+      "newText": "Content-DPR:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -877,7 +877,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Content-Disposition",
-    "filterText": "Content-Disposition: ",
+    "filterText": "Content-Disposition:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -893,7 +893,7 @@
           "character": 12
         }
       },
-      "newText": "Content-Disposition: "
+      "newText": "Content-Disposition:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -907,7 +907,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Content-Encoding",
-    "filterText": "Content-Encoding: ",
+    "filterText": "Content-Encoding:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -923,7 +923,7 @@
           "character": 12
         }
       },
-      "newText": "Content-Encoding: "
+      "newText": "Content-Encoding:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -937,7 +937,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Content-Language",
-    "filterText": "Content-Language: ",
+    "filterText": "Content-Language:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -953,7 +953,7 @@
           "character": 12
         }
       },
-      "newText": "Content-Language: "
+      "newText": "Content-Language:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -967,7 +967,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Content-Length",
-    "filterText": "Content-Length: ",
+    "filterText": "Content-Length:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -983,7 +983,7 @@
           "character": 12
         }
       },
-      "newText": "Content-Length: "
+      "newText": "Content-Length:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -997,7 +997,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Content-Location",
-    "filterText": "Content-Location: ",
+    "filterText": "Content-Location:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1013,7 +1013,7 @@
           "character": 12
         }
       },
-      "newText": "Content-Location: "
+      "newText": "Content-Location:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1027,7 +1027,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Content-Range",
-    "filterText": "Content-Range: ",
+    "filterText": "Content-Range:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1043,7 +1043,7 @@
           "character": 12
         }
       },
-      "newText": "Content-Range: "
+      "newText": "Content-Range:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1057,7 +1057,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Content-Security-Policy",
-    "filterText": "Content-Security-Policy: ",
+    "filterText": "Content-Security-Policy:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1073,7 +1073,7 @@
           "character": 12
         }
       },
-      "newText": "Content-Security-Policy: "
+      "newText": "Content-Security-Policy:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1087,7 +1087,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Content-Security-Policy-Report-Only",
-    "filterText": "Content-Security-Policy-Report-Only: ",
+    "filterText": "Content-Security-Policy-Report-Only:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1103,7 +1103,7 @@
           "character": 12
         }
       },
-      "newText": "Content-Security-Policy-Report-Only: "
+      "newText": "Content-Security-Policy-Report-Only:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1117,7 +1117,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Content-Type",
-    "filterText": "Content-Type: ",
+    "filterText": "Content-Type:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1133,7 +1133,7 @@
           "character": 12
         }
       },
-      "newText": "Content-Type: "
+      "newText": "Content-Type:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1147,7 +1147,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Cookie",
-    "filterText": "Cookie: ",
+    "filterText": "Cookie:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1163,7 +1163,7 @@
           "character": 12
         }
       },
-      "newText": "Cookie: "
+      "newText": "Cookie:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1177,7 +1177,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Cookie2",
-    "filterText": "Cookie2: ",
+    "filterText": "Cookie2:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1193,7 +1193,7 @@
           "character": 12
         }
       },
-      "newText": "Cookie2: "
+      "newText": "Cookie2:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1207,7 +1207,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11DASL",
-    "filterText": "DASL: ",
+    "filterText": "DASL:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1223,7 +1223,7 @@
           "character": 12
         }
       },
-      "newText": "DASL: "
+      "newText": "DASL:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1237,7 +1237,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11DAV",
-    "filterText": "DAV: ",
+    "filterText": "DAV:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1253,7 +1253,7 @@
           "character": 12
         }
       },
-      "newText": "DAV: "
+      "newText": "DAV:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1267,7 +1267,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11DNT",
-    "filterText": "DNT: ",
+    "filterText": "DNT:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1283,7 +1283,7 @@
           "character": 12
         }
       },
-      "newText": "DNT: "
+      "newText": "DNT:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1297,7 +1297,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11DPR",
-    "filterText": "DPR: ",
+    "filterText": "DPR:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1313,7 +1313,7 @@
           "character": 12
         }
       },
-      "newText": "DPR: "
+      "newText": "DPR:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1327,7 +1327,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Date",
-    "filterText": "Date: ",
+    "filterText": "Date:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1343,7 +1343,7 @@
           "character": 12
         }
       },
-      "newText": "Date: "
+      "newText": "Date:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1357,7 +1357,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Delta-Base",
-    "filterText": "Delta-Base: ",
+    "filterText": "Delta-Base:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1373,7 +1373,7 @@
           "character": 12
         }
       },
-      "newText": "Delta-Base: "
+      "newText": "Delta-Base:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1387,7 +1387,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Depth",
-    "filterText": "Depth: ",
+    "filterText": "Depth:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1403,7 +1403,7 @@
           "character": 12
         }
       },
-      "newText": "Depth: "
+      "newText": "Depth:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1417,7 +1417,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Destination",
-    "filterText": "Destination: ",
+    "filterText": "Destination:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1433,7 +1433,7 @@
           "character": 12
         }
       },
-      "newText": "Destination: "
+      "newText": "Destination:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1447,7 +1447,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11ETag",
-    "filterText": "ETag: ",
+    "filterText": "ETag:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1463,7 +1463,7 @@
           "character": 12
         }
       },
-      "newText": "ETag: "
+      "newText": "ETag:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1477,7 +1477,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Encryption",
-    "filterText": "Encryption: ",
+    "filterText": "Encryption:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1493,7 +1493,7 @@
           "character": 12
         }
       },
-      "newText": "Encryption: "
+      "newText": "Encryption:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1507,7 +1507,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Encryption-Key",
-    "filterText": "Encryption-Key: ",
+    "filterText": "Encryption-Key:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1523,7 +1523,7 @@
           "character": 12
         }
       },
-      "newText": "Encryption-Key: "
+      "newText": "Encryption-Key:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1537,7 +1537,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Expect",
-    "filterText": "Expect: ",
+    "filterText": "Expect:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1553,7 +1553,7 @@
           "character": 12
         }
       },
-      "newText": "Expect: "
+      "newText": "Expect:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1567,7 +1567,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Expires",
-    "filterText": "Expires: ",
+    "filterText": "Expires:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1583,7 +1583,7 @@
           "character": 12
         }
       },
-      "newText": "Expires: "
+      "newText": "Expires:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1597,7 +1597,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Forwarded",
-    "filterText": "Forwarded: ",
+    "filterText": "Forwarded:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1613,7 +1613,7 @@
           "character": 12
         }
       },
-      "newText": "Forwarded: "
+      "newText": "Forwarded:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1627,7 +1627,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11From",
-    "filterText": "From: ",
+    "filterText": "From:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1643,7 +1643,7 @@
           "character": 12
         }
       },
-      "newText": "From: "
+      "newText": "From:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1657,7 +1657,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11HTTP2-Settings",
-    "filterText": "HTTP2-Settings: ",
+    "filterText": "HTTP2-Settings:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1673,7 +1673,7 @@
           "character": 12
         }
       },
-      "newText": "HTTP2-Settings: "
+      "newText": "HTTP2-Settings:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1687,7 +1687,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Host",
-    "filterText": "Host: ",
+    "filterText": "Host:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1703,7 +1703,7 @@
           "character": 12
         }
       },
-      "newText": "Host: "
+      "newText": "Host:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1717,7 +1717,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11IM",
-    "filterText": "IM: ",
+    "filterText": "IM:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1733,7 +1733,7 @@
           "character": 12
         }
       },
-      "newText": "IM: "
+      "newText": "IM:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1747,7 +1747,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11If",
-    "filterText": "If: ",
+    "filterText": "If:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1763,7 +1763,7 @@
           "character": 12
         }
       },
-      "newText": "If: "
+      "newText": "If:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1777,7 +1777,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11If-Match",
-    "filterText": "If-Match: ",
+    "filterText": "If-Match:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1793,7 +1793,7 @@
           "character": 12
         }
       },
-      "newText": "If-Match: "
+      "newText": "If-Match:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1807,7 +1807,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11If-Modified-Since",
-    "filterText": "If-Modified-Since: ",
+    "filterText": "If-Modified-Since:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1823,7 +1823,7 @@
           "character": 12
         }
       },
-      "newText": "If-Modified-Since: "
+      "newText": "If-Modified-Since:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1837,7 +1837,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11If-None-Match",
-    "filterText": "If-None-Match: ",
+    "filterText": "If-None-Match:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1853,7 +1853,7 @@
           "character": 12
         }
       },
-      "newText": "If-None-Match: "
+      "newText": "If-None-Match:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1867,7 +1867,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11If-Range",
-    "filterText": "If-Range: ",
+    "filterText": "If-Range:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1883,7 +1883,7 @@
           "character": 12
         }
       },
-      "newText": "If-Range: "
+      "newText": "If-Range:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1897,7 +1897,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11If-Schedule-Tag-Match",
-    "filterText": "If-Schedule-Tag-Match: ",
+    "filterText": "If-Schedule-Tag-Match:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1913,7 +1913,7 @@
           "character": 12
         }
       },
-      "newText": "If-Schedule-Tag-Match: "
+      "newText": "If-Schedule-Tag-Match:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1927,7 +1927,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11If-Unmodified-Since",
-    "filterText": "If-Unmodified-Since: ",
+    "filterText": "If-Unmodified-Since:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1943,7 +1943,7 @@
           "character": 12
         }
       },
-      "newText": "If-Unmodified-Since: "
+      "newText": "If-Unmodified-Since:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1957,7 +1957,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Key",
-    "filterText": "Key: ",
+    "filterText": "Key:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -1973,7 +1973,7 @@
           "character": 12
         }
       },
-      "newText": "Key: "
+      "newText": "Key:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -1987,7 +1987,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Last-Event-ID",
-    "filterText": "Last-Event-ID: ",
+    "filterText": "Last-Event-ID:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2003,7 +2003,7 @@
           "character": 12
         }
       },
-      "newText": "Last-Event-ID: "
+      "newText": "Last-Event-ID:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2017,7 +2017,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Last-Modified",
-    "filterText": "Last-Modified: ",
+    "filterText": "Last-Modified:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2033,7 +2033,7 @@
           "character": 12
         }
       },
-      "newText": "Last-Modified: "
+      "newText": "Last-Modified:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2047,7 +2047,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Link",
-    "filterText": "Link: ",
+    "filterText": "Link:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2063,7 +2063,7 @@
           "character": 12
         }
       },
-      "newText": "Link: "
+      "newText": "Link:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2077,7 +2077,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Link-Template",
-    "filterText": "Link-Template: ",
+    "filterText": "Link-Template:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2093,7 +2093,7 @@
           "character": 12
         }
       },
-      "newText": "Link-Template: "
+      "newText": "Link-Template:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2107,7 +2107,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Location",
-    "filterText": "Location: ",
+    "filterText": "Location:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2123,7 +2123,7 @@
           "character": 12
         }
       },
-      "newText": "Location: "
+      "newText": "Location:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2137,7 +2137,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Lock-Token",
-    "filterText": "Lock-Token: ",
+    "filterText": "Lock-Token:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2153,7 +2153,7 @@
           "character": 12
         }
       },
-      "newText": "Lock-Token: "
+      "newText": "Lock-Token:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2167,7 +2167,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11MD",
-    "filterText": "MD: ",
+    "filterText": "MD:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2183,7 +2183,7 @@
           "character": 12
         }
       },
-      "newText": "MD: "
+      "newText": "MD:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2197,7 +2197,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Max-Forwards",
-    "filterText": "Max-Forwards: ",
+    "filterText": "Max-Forwards:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2213,7 +2213,7 @@
           "character": 12
         }
       },
-      "newText": "Max-Forwards: "
+      "newText": "Max-Forwards:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2227,7 +2227,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Negotiate",
-    "filterText": "Negotiate: ",
+    "filterText": "Negotiate:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2243,7 +2243,7 @@
           "character": 12
         }
       },
-      "newText": "Negotiate: "
+      "newText": "Negotiate:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2257,7 +2257,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Nice",
-    "filterText": "Nice: ",
+    "filterText": "Nice:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2273,7 +2273,7 @@
           "character": 12
         }
       },
-      "newText": "Nice: "
+      "newText": "Nice:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2287,7 +2287,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Origin",
-    "filterText": "Origin: ",
+    "filterText": "Origin:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2303,7 +2303,7 @@
           "character": 12
         }
       },
-      "newText": "Origin: "
+      "newText": "Origin:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2317,7 +2317,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Overwrite",
-    "filterText": "Overwrite: ",
+    "filterText": "Overwrite:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2333,7 +2333,7 @@
           "character": 12
         }
       },
-      "newText": "Overwrite: "
+      "newText": "Overwrite:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2347,7 +2347,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11POE",
-    "filterText": "POE: ",
+    "filterText": "POE:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2363,7 +2363,7 @@
           "character": 12
         }
       },
-      "newText": "POE: "
+      "newText": "POE:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2377,7 +2377,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11POE-Links",
-    "filterText": "POE-Links: ",
+    "filterText": "POE-Links:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2393,7 +2393,7 @@
           "character": 12
         }
       },
-      "newText": "POE-Links: "
+      "newText": "POE-Links:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2407,7 +2407,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Pragma",
-    "filterText": "Pragma: ",
+    "filterText": "Pragma:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2423,7 +2423,7 @@
           "character": 12
         }
       },
-      "newText": "Pragma: "
+      "newText": "Pragma:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2437,7 +2437,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Prefer",
-    "filterText": "Prefer: ",
+    "filterText": "Prefer:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2453,7 +2453,7 @@
           "character": 12
         }
       },
-      "newText": "Prefer: "
+      "newText": "Prefer:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2467,7 +2467,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Preference-Applied",
-    "filterText": "Preference-Applied: ",
+    "filterText": "Preference-Applied:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2483,7 +2483,7 @@
           "character": 12
         }
       },
-      "newText": "Preference-Applied: "
+      "newText": "Preference-Applied:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2497,7 +2497,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Proxy-Authenticate",
-    "filterText": "Proxy-Authenticate: ",
+    "filterText": "Proxy-Authenticate:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2513,7 +2513,7 @@
           "character": 12
         }
       },
-      "newText": "Proxy-Authenticate: "
+      "newText": "Proxy-Authenticate:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2527,7 +2527,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Proxy-Authorization",
-    "filterText": "Proxy-Authorization: ",
+    "filterText": "Proxy-Authorization:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2543,7 +2543,7 @@
           "character": 12
         }
       },
-      "newText": "Proxy-Authorization: "
+      "newText": "Proxy-Authorization:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2557,7 +2557,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11RW",
-    "filterText": "RW: ",
+    "filterText": "RW:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2573,7 +2573,7 @@
           "character": 12
         }
       },
-      "newText": "RW: "
+      "newText": "RW:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2587,7 +2587,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Range",
-    "filterText": "Range: ",
+    "filterText": "Range:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2603,7 +2603,7 @@
           "character": 12
         }
       },
-      "newText": "Range: "
+      "newText": "Range:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2617,7 +2617,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Redirect-Ref",
-    "filterText": "Redirect-Ref: ",
+    "filterText": "Redirect-Ref:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2633,7 +2633,7 @@
           "character": 12
         }
       },
-      "newText": "Redirect-Ref: "
+      "newText": "Redirect-Ref:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2647,7 +2647,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Referer",
-    "filterText": "Referer: ",
+    "filterText": "Referer:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2663,7 +2663,7 @@
           "character": 12
         }
       },
-      "newText": "Referer: "
+      "newText": "Referer:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2677,7 +2677,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Retry-After",
-    "filterText": "Retry-After: ",
+    "filterText": "Retry-After:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2693,7 +2693,7 @@
           "character": 12
         }
       },
-      "newText": "Retry-After: "
+      "newText": "Retry-After:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2707,7 +2707,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11SLUG",
-    "filterText": "SLUG: ",
+    "filterText": "SLUG:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2723,7 +2723,7 @@
           "character": 12
         }
       },
-      "newText": "SLUG: "
+      "newText": "SLUG:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2737,7 +2737,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Schedule-Reply",
-    "filterText": "Schedule-Reply: ",
+    "filterText": "Schedule-Reply:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2753,7 +2753,7 @@
           "character": 12
         }
       },
-      "newText": "Schedule-Reply: "
+      "newText": "Schedule-Reply:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2767,7 +2767,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Schedule-Tag",
-    "filterText": "Schedule-Tag: ",
+    "filterText": "Schedule-Tag:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2783,7 +2783,7 @@
           "character": 12
         }
       },
-      "newText": "Schedule-Tag: "
+      "newText": "Schedule-Tag:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2797,7 +2797,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Sec-WebSocket-Accept",
-    "filterText": "Sec-WebSocket-Accept: ",
+    "filterText": "Sec-WebSocket-Accept:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2813,7 +2813,7 @@
           "character": 12
         }
       },
-      "newText": "Sec-WebSocket-Accept: "
+      "newText": "Sec-WebSocket-Accept:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2827,7 +2827,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Sec-WebSocket-Extensions",
-    "filterText": "Sec-WebSocket-Extensions: ",
+    "filterText": "Sec-WebSocket-Extensions:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2843,7 +2843,7 @@
           "character": 12
         }
       },
-      "newText": "Sec-WebSocket-Extensions: "
+      "newText": "Sec-WebSocket-Extensions:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2857,7 +2857,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Sec-WebSocket-Key",
-    "filterText": "Sec-WebSocket-Key: ",
+    "filterText": "Sec-WebSocket-Key:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2873,7 +2873,7 @@
           "character": 12
         }
       },
-      "newText": "Sec-WebSocket-Key: "
+      "newText": "Sec-WebSocket-Key:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2887,7 +2887,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Sec-WebSocket-Protocol",
-    "filterText": "Sec-WebSocket-Protocol: ",
+    "filterText": "Sec-WebSocket-Protocol:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2903,7 +2903,7 @@
           "character": 12
         }
       },
-      "newText": "Sec-WebSocket-Protocol: "
+      "newText": "Sec-WebSocket-Protocol:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2917,7 +2917,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Sec-WebSocket-Version",
-    "filterText": "Sec-WebSocket-Version: ",
+    "filterText": "Sec-WebSocket-Version:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2933,7 +2933,7 @@
           "character": 12
         }
       },
-      "newText": "Sec-WebSocket-Version: "
+      "newText": "Sec-WebSocket-Version:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2947,7 +2947,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Server",
-    "filterText": "Server: ",
+    "filterText": "Server:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2963,7 +2963,7 @@
           "character": 12
         }
       },
-      "newText": "Server: "
+      "newText": "Server:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -2977,7 +2977,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Set-Cookie",
-    "filterText": "Set-Cookie: ",
+    "filterText": "Set-Cookie:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -2993,7 +2993,7 @@
           "character": 12
         }
       },
-      "newText": "Set-Cookie: "
+      "newText": "Set-Cookie:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -3007,7 +3007,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Set-Cookie2",
-    "filterText": "Set-Cookie2: ",
+    "filterText": "Set-Cookie2:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -3023,7 +3023,7 @@
           "character": 12
         }
       },
-      "newText": "Set-Cookie2: "
+      "newText": "Set-Cookie2:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -3037,7 +3037,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Status-URI",
-    "filterText": "Status-URI: ",
+    "filterText": "Status-URI:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -3053,7 +3053,7 @@
           "character": 12
         }
       },
-      "newText": "Status-URI: "
+      "newText": "Status-URI:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -3067,7 +3067,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Strict-Transport-Security",
-    "filterText": "Strict-Transport-Security: ",
+    "filterText": "Strict-Transport-Security:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -3083,7 +3083,7 @@
           "character": 12
         }
       },
-      "newText": "Strict-Transport-Security: "
+      "newText": "Strict-Transport-Security:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -3097,7 +3097,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Sunset",
-    "filterText": "Sunset: ",
+    "filterText": "Sunset:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -3113,7 +3113,7 @@
           "character": 12
         }
       },
-      "newText": "Sunset: "
+      "newText": "Sunset:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -3127,7 +3127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Surrogate-Capability",
-    "filterText": "Surrogate-Capability: ",
+    "filterText": "Surrogate-Capability:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -3143,7 +3143,7 @@
           "character": 12
         }
       },
-      "newText": "Surrogate-Capability: "
+      "newText": "Surrogate-Capability:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -3157,7 +3157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Surrogate-Control",
-    "filterText": "Surrogate-Control: ",
+    "filterText": "Surrogate-Control:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -3173,7 +3173,7 @@
           "character": 12
         }
       },
-      "newText": "Surrogate-Control: "
+      "newText": "Surrogate-Control:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -3187,7 +3187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11TCN",
-    "filterText": "TCN: ",
+    "filterText": "TCN:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -3203,7 +3203,7 @@
           "character": 12
         }
       },
-      "newText": "TCN: "
+      "newText": "TCN:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -3217,7 +3217,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11TE",
-    "filterText": "TE: ",
+    "filterText": "TE:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -3233,7 +3233,7 @@
           "character": 12
         }
       },
-      "newText": "TE: "
+      "newText": "TE:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -3247,7 +3247,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Timeout",
-    "filterText": "Timeout: ",
+    "filterText": "Timeout:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -3263,7 +3263,7 @@
           "character": 12
         }
       },
-      "newText": "Timeout: "
+      "newText": "Timeout:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -3277,7 +3277,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Tk",
-    "filterText": "Tk: ",
+    "filterText": "Tk:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -3293,7 +3293,7 @@
           "character": 12
         }
       },
-      "newText": "Tk: "
+      "newText": "Tk:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -3307,7 +3307,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Transfer-Encoding",
-    "filterText": "Transfer-Encoding: ",
+    "filterText": "Transfer-Encoding:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -3323,7 +3323,7 @@
           "character": 12
         }
       },
-      "newText": "Transfer-Encoding: "
+      "newText": "Transfer-Encoding:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -3337,7 +3337,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11User-Agent",
-    "filterText": "User-Agent: ",
+    "filterText": "User-Agent:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -3353,7 +3353,7 @@
           "character": 12
         }
       },
-      "newText": "User-Agent: "
+      "newText": "User-Agent:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -3367,7 +3367,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Variant-Vary",
-    "filterText": "Variant-Vary: ",
+    "filterText": "Variant-Vary:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -3383,7 +3383,7 @@
           "character": 12
         }
       },
-      "newText": "Variant-Vary: "
+      "newText": "Variant-Vary:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -3397,7 +3397,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Vary",
-    "filterText": "Vary: ",
+    "filterText": "Vary:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -3413,7 +3413,7 @@
           "character": 12
         }
       },
-      "newText": "Vary: "
+      "newText": "Vary:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -3427,7 +3427,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Via",
-    "filterText": "Via: ",
+    "filterText": "Via:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -3443,7 +3443,7 @@
           "character": 12
         }
       },
-      "newText": "Via: "
+      "newText": "Via:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -3457,7 +3457,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11WWW-Authenticate",
-    "filterText": "WWW-Authenticate: ",
+    "filterText": "WWW-Authenticate:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -3473,7 +3473,7 @@
           "character": 12
         }
       },
-      "newText": "WWW-Authenticate: "
+      "newText": "WWW-Authenticate:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -3487,7 +3487,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11Warning",
-    "filterText": "Warning: ",
+    "filterText": "Warning:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -3503,7 +3503,7 @@
           "character": 12
         }
       },
-      "newText": "Warning: "
+      "newText": "Warning:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -3517,7 +3517,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11X-Frame-Options",
-    "filterText": "X-Frame-Options: ",
+    "filterText": "X-Frame-Options:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -3533,7 +3533,7 @@
           "character": 12
         }
       },
-      "newText": "X-Frame-Options: "
+      "newText": "X-Frame-Options:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

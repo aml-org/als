@@ -14,14 +14,13 @@ import scala.concurrent.ExecutionContext.Implicits.global
 object NamespaceForTermCompletionPlugin extends AMLCompletionPlugin {
   override def id: String = "NamespaceForTermCompletionPlugin"
 
-  override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
+  override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     if (applies(request))
       Future {
         externals(request.baseUnit).map(RawSuggestion(_, isAKey = false))
       } else emptySuggestion
-  }
 
-  private def applies(request: AmlCompletionRequest) = {
+  private def applies(request: AmlCompletionRequest) =
     request.amfObject match {
       case _: NodeMappable =>
         request.yPartBranch.parentEntryIs("classTerm")
@@ -31,12 +30,11 @@ object NamespaceForTermCompletionPlugin extends AMLCompletionPlugin {
           request.yPartBranch.parentEntryIs("mapTermValue")
       case _ => false
     }
-  }
-  private def externals(bu: BaseUnit): Seq[String] = {
+
+  private def externals(bu: BaseUnit): Seq[String] =
     bu match {
       case d: Dialect => d.externals.collect({ case e: External => e.alias.option() }).flatten
       case _          => Nil
     }
 
-  }
 }

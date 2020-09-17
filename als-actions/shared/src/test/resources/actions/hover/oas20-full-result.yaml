@@ -20,9 +20,9 @@ hovers:
   (5,30):
     - Terms and conditions when using the API
   (6,5):
-    - Organization providing some kind of asset or service
+    - Organization providing an good or service
   (6,10):
-    - Organization providing some kind of asset or service
+    - Organization providing an good or service
   (7,6):
     - Human readable name for the object
   (7,15):
@@ -36,9 +36,9 @@ hovers:
   (9,20):
     - Contact email for the organization
   (10,5):
-    - License for the API
+    - Licensing information for a resource
   (10,10):
-    - License for the API
+    - Licensing information for a resource
   (11,6):
     - Human readable name for the object
   (11,15):
@@ -82,7 +82,7 @@ hovers:
   (23,2):
     - Path to each declared endpoint. Relative to basePath
   (23,6):
-    - Path to each declared endpoint. Relative to basePath
+    - End points defined in the API
   (24,6):
     - End points defined in the API
   (24,11):
@@ -98,7 +98,7 @@ hovers:
   (27,5):
     - HTTP method required to invoke the operation
   (27,8):
-    - Request information for an operation
+    - Action that can be executed using a particular HTTP invocation
   (28,8):
     - Additionally custom tagged information
   (28,11):
@@ -118,9 +118,9 @@ hovers:
   (32,24):
     - Identifier of the target operation
   (33,12):
-    - Request information for an operation
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (33,19):
-    - Request information for an operation
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (34,9):
     - URL for the creative work
   (34,24):
@@ -130,15 +130,15 @@ hovers:
   (35,27):
     - Human readable description of an element
   (36,10):
-    - Request information for an operation
+    - Media-types accepted in a API request
   (36,15):
-    - Request information for an operation
+    - Media-types accepted in a API request
   (37,18):
     - Media-types accepted in a API request
   (38,10):
-    - Request information for an operation
+    - Media types returned by a API response
   (38,15):
-    - Request information for an operation
+    - Media types returned by a API response
   (39,18):
     - Media types returned by a API response
   (40,14):
@@ -176,9 +176,9 @@ hovers:
   (48,21):
     - Defines a data type
   (49,9):
-    - Request information for an operation
+    - URI scheme for the API protocol
   (49,14):
-    - Request information for an operation
+    - URI scheme for the API protocol
   (50,18):
     - URI scheme for the API protocol
   (51,18):
@@ -194,7 +194,7 @@ hovers:
   (54,16):
     - Settings for an OAuth2 security scheme
   (54,24):
-    - Flow for an OAuth2 security scheme setting
+    - Settings for an OAuth2 security scheme
   (55,19):
     - Human readable name for the object
   (56,18):
@@ -334,7 +334,7 @@ hovers:
   (90,2):
     - Additionally custom tagged information
   (90,5):
-    - Additionally custom tagged information
+    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
   (91,6):
     - Human readable name for the object
   (91,12):
@@ -344,9 +344,9 @@ hovers:
   (92,22):
     - Human readable description of an element
   (93,10):
-    - Documentation about the tag
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (93,17):
-    - Documentation about the tag
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (94,11):
     - Human readable description of an element
   (94,28):
@@ -364,9 +364,9 @@ hovers:
   (97,22):
     - Human readable description of an element
   (99,6):
-    - Documentation associated to the API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (99,13):
-    - Documentation associated to the API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (100,7):
     - Human readable description of an element
   (100,24):
@@ -411,9 +411,9 @@ hovers:
   (111,9):
     - Defines a data type
   (112,6):
-    - Human readable name for the object
+    - Defines a data type
   (112,14):
-    - Human readable name for the object
+    - Defines a data type
   (113,9):
     - Human readable description of an element
   (113,23):
@@ -473,9 +473,9 @@ hovers:
   (129,7):
     - Defines a data type
   (130,10):
-    - Documentation for a particular part of the model
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (130,17):
-    - Documentation for a particular part of the model
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (131,11):
     - Human readable description of an element
   (131,28):
@@ -485,7 +485,7 @@ hovers:
   (132,20):
     - URL for the creative work
   (133,7):
-    - Example value for a schema inside an API
+    - Examples for a particular element declaration
   (133,13):
     - Example value for a schema inside an API
   (134,6):
@@ -533,7 +533,7 @@ hovers:
   (144,15):
     - Properties associated to this node
   (145,6):
-    - Human readable name for the object
+    - Properties associated to this node
   (145,8):
     - Defines a data type
   (146,10):
@@ -547,7 +547,7 @@ hovers:
   (148,9):
     - information about how to serialize
   (148,12):
-    - information about how to serialize
+    - Information about how to encode into XML a particular data shape
   (149,12):
     - XML name mapping
   (149,16):
@@ -569,7 +569,7 @@ hovers:
   (153,21):
     - XML wrapped mapping flag
   (154,6):
-    - Human readable name for the object
+    - Properties associated to this node
   (154,8):
     - Defines a data type
   (155,10):
@@ -689,7 +689,7 @@ hovers:
   (185,13):
     - Scalar range constraining this scalar shape
   (186,6):
-    - Human readable name for the object
+    - Encoded payload using certain media-type
   (186,12):
     - Encoded payload using certain media-type
   (187,6):
@@ -713,7 +713,7 @@ hovers:
   (191,17):
     - Properties associated to this node
   (192,8):
-    - Human readable name for the object
+    - Properties associated to this node
   (192,10):
     - Defines a data type
   (193,12):
@@ -721,7 +721,7 @@ hovers:
   (193,19):
     - Scalar range constraining this scalar shape
   (194,8):
-    - Human readable name for the object
+    - Properties associated to this node
   (194,10):
     - Defines a data type
   (195,12):
@@ -733,7 +733,7 @@ hovers:
   (196,10):
     - Top level element describing a HTTP API
   (197,7):
-    - Human readable name for the object
+    - Response information for an operation
   (197,13):
     - Response information for an operation
   (198,9):
@@ -745,9 +745,9 @@ hovers:
   (199,20):
     - Top level element describing a HTTP API
   (200,5):
-    - Human readable name for the object
+    - Settings for an API Key security scheme
   (200,10):
-    - Authentication and access control mechanism defined in an API
+    - Settings for an API Key security scheme
   (201,6):
     - Settings for an API Key security scheme
   (201,13):
@@ -765,9 +765,9 @@ hovers:
   (204,11):
     - Settings for an API Key security scheme
   (205,8):
-    - Human readable name for the object
+    - Flow for an OAuth2 security scheme setting
   (205,16):
-    - Authentication and access control mechanism defined in an API
+    - Flow for an OAuth2 security scheme setting
   (206,6):
     - Flow for an OAuth2 security scheme setting
   (206,13):
@@ -793,9 +793,9 @@ hovers:
   (211,24):
     - Human readable description for the scope
   (212,8):
-    - Human readable name for the object
+    - Flow for an OAuth2 security scheme setting
   (212,15):
-    - Authentication and access control mechanism defined in an API
+    - Flow for an OAuth2 security scheme setting
   (213,6):
     - Flow for an OAuth2 security scheme setting
   (213,13):

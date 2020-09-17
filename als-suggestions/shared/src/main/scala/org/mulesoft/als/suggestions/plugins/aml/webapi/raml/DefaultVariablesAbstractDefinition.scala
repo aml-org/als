@@ -45,7 +45,8 @@ object DefaultVariablesAbstractDefinition extends AMLCompletionPlugin {
       case Some(t) if t.contains("<") =>
         val (pre, content, pos) = partitionVar(t)
         val sugg = if (content.contains('|') && content.indexOf('|') < column) { // suggesting function
-          val funcPrefix = content.split('|').last
+          val strings    = content.split('|')
+          val funcPrefix = if (content.endsWith("|")) "" else strings.last
           val prefix     = content.split('|').head
           if (funcPrefix.trim.isEmpty) functions.map(f => (prefix + "|" + funcPrefix + f, f)) // empty spaces
           else functions.filter(_.startsWith(funcPrefix)).map(f => (prefix + "|" + f, f))

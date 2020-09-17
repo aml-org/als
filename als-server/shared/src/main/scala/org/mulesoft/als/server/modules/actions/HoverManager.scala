@@ -56,10 +56,7 @@ class HoverManager(wm: WorkspaceManager, amfInstance: AmfInstance, telemetryProv
       val uuid = UUID.randomUUID().toString
       wm.getLastUnit(params.textDocument.uri, uuid).map { cu =>
         val dtoPosition: Position = LspRangeConverter.toPosition(params.position)
-        cu.definedBy
-          .map(db =>
-            HoverAction(cu.unit, cu.tree, cu.yPartBranch, dtoPosition, params.textDocument.uri, amfInstance, db).getHover)
-          .getOrElse(Hover.empty)
+        HoverAction(cu.unit, cu.tree, cu.yPartBranch, dtoPosition, params.textDocument.uri, amfInstance, cu.definedBy).getHover
       // if sequence, we could show all the semantic hierarchy?
       }
     }

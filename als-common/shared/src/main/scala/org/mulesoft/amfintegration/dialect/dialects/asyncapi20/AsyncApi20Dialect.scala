@@ -14,6 +14,7 @@ object AsyncApi20Dialect extends BaseDialect {
 
   override val declares: Seq[DialectNode] = Seq(
     AsyncApi20WebApiNode,
+    AsyncApi20SecuritySettingsObject,
     AsyncApi20SecuritySchemeObject,
     AsyncAPI20ApiKeySecurityObject,
     AsyncAPI20HttpApiKeySecurityObject,
@@ -25,6 +26,8 @@ object AsyncApi20Dialect extends BaseDialect {
     ChannelObject,
     CorrelationIdObjectNode,
     MessageObjectNode,
+    ResponseMessageObjectNode,
+    RequestMessageObjectNode,
     MessageTraitsObjectNode,
     OperationObject,
     OperationTraitsObjectNode,
@@ -43,7 +46,6 @@ object AsyncApi20Dialect extends BaseDialect {
     ServerBindingObjectNode,
     MessageBindingObjectNode,
     OperationBindingObjectNode,
-    DynamicBindingObjectNode,
     ServerBindingsObjectNode,
     OperationBindingsObjectNode,
     ChannelBindingsObjectNode,

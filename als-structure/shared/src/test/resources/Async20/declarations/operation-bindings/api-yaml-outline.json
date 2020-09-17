@@ -5,8 +5,8 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 4,
-        "character": 0
+        "line": 3,
+        "character": 4
       },
       "end": {
         "line": 5,
@@ -15,8 +15,8 @@
     },
     "selectionRange": {
       "start": {
-        "line": 4,
-        "character": 0
+        "line": 3,
+        "character": 4
       },
       "end": {
         "line": 5,
@@ -30,8 +30,8 @@
         "deprecated": false,
         "range": {
           "start": {
-            "line": 4,
-            "character": 0
+            "line": 3,
+            "character": 4
           },
           "end": {
             "line": 5,
@@ -40,8 +40,8 @@
         },
         "selectionRange": {
           "start": {
-            "line": 4,
-            "character": 0
+            "line": 3,
+            "character": 4
           },
           "end": {
             "line": 5,

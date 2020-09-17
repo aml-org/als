@@ -67,7 +67,8 @@ trait RamlDialectNodes {
         .withId(dialectLocation + s"#/declarations/$nodeId/DataType/displayName")
         .withName("examples")
         .withNodePropertyMapping(AnyShapeModel.DisplayName.value.iri())
-        .withLiteralRange(xsdString.iri()),
+        .withMapTermKeyProperty(ExampleModel.Name.value.iri())
+        .withObjectRange(Seq(ExampleNode.id)),
       PropertyMapping()
         .withId(dialectLocation + s"#/declarations/$nodeId/DataType/description")
         .withName("description")
@@ -270,7 +271,13 @@ trait RamlDialectNodes {
     .withId(dialectLocation + "#/declarations/TraitNode")
     .withName("TraitNode")
     .withNodeTypeMapping(TraitModel.`type`.head.iri())
-    .withPropertiesMapping(Seq(
+    .withPropertiesMapping(
+      Seq(
+        PropertyMapping()
+          .withId(dialectLocation + s"#/declarations/TraitNode/usage")
+          .withName("usage")
+          .withNodePropertyMapping(BaseUnitModel.Usage.value.iri())
+          .withLiteralRange(xsdString.iri())
       ))
 
   final lazy val ResponseNode: NodeMapping = NodeMapping()

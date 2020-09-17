@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11application/xml",
-    "filterText": "application/xml:\n  ",
+    "filterText": "application/xml: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 6
         }
       },
-      "newText": "application/xml:\n  "
+      "newText": "application/xml: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

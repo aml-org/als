@@ -14,7 +14,7 @@ case class CompilableUnit(uri: String,
                           stack: Seq[ReferenceStack],
                           isDirty: Boolean = false,
                           private val n: Option[Future[CompilableUnit]],
-                          definedBy: Option[Dialect])
+                          override val definedBy: Dialect)
     extends UnitWithNextReference
     with UnitWithCaches {
   override protected type T = CompilableUnit

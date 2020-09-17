@@ -24,9 +24,9 @@ hovers:
   (6,31):
     - Terms and conditions when using the API
   (7,5):
-    - Organization providing some kind of asset or service
+    - Organization providing an good or service
   (7,10):
-    - Organization providing some kind of asset or service
+    - Organization providing an good or service
   (8,6):
     - Human readable name for the object
   (8,15):
@@ -40,9 +40,9 @@ hovers:
   (10,21):
     - Contact email for the organization
   (11,5):
-    - License for the API
+    - Licensing information for a resource
   (11,10):
-    - License for the API
+    - Licensing information for a resource
   (12,6):
     - Human readable name for the object
   (12,15):
@@ -60,9 +60,9 @@ hovers:
   (15,8):
     - server information
   (16,7):
-    - server information
+    - Information about the network accessible locations where the API is available
   (16,13):
-    - server information
+    - Information about the network accessible locations where the API is available
   (17,5):
     - URL (potentially a template) for the server
   (17,24):
@@ -86,7 +86,7 @@ hovers:
   (22,7):
     - Human readable name for the object
   (22,10):
-    - Piece of data required or returned by an Operation
+    - Defines a data type
   (23,10):
     - Each element should be part of the provided list to be valid
   (23,13):
@@ -116,13 +116,11 @@ hovers:
   (31,11):
     - Settings for an OAuth2 security scheme
   (31,15):
-    - Flow for an OAuth2 security scheme setting
+    - Settings for an OAuth2 security scheme
   (32,16):
     - Human readable name for the object
-  (34,8):
-    - Bindings for this server
-  (34,13):
-    - Bindings for this server
+  (34,8): []
+  (34,13): []
   (35,8): []
   (35,33): []
   (37,4):
@@ -137,10 +135,8 @@ hovers:
     - Human readable description of an element
   (39,21):
     - Human readable description of an element
-  (40,8):
-    - Bindings for this endpoint
-  (40,13):
-    - Bindings for this endpoint
+  (40,8): []
+  (40,13): []
   (41,8):
     - binding for a corresponding known type
   (41,11): []
@@ -152,10 +148,8 @@ hovers:
     - HTTP method required to invoke the operation
   (43,12):
     - Action that can be executed using a particular HTTP invocation
-  (44,10):
-    - Bindings for this operation
-  (44,15):
-    - Bindings for this operation
+  (44,10): []
+  (44,15): []
   (45,10): []
   (45,34): []
   (46,11):
@@ -163,9 +157,9 @@ hovers:
   (46,22):
     - Human readable description of an element
   (47,12):
-    - Documentation for a particular part of the model
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (47,19):
-    - Documentation for a particular part of the model
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (48,13):
     - Human readable description of an element
   (48,30):
@@ -175,9 +169,9 @@ hovers:
   (49,22):
     - URL for the creative work
   (50,9):
-    - Action that can be executed using a particular HTTP invocation
+    - Request information for an operation
   (50,14):
-    - Request information required by the operation
+    - Request information for an operation
   (51,10):
     - Request information for an operation
   (51,30):
@@ -193,15 +187,15 @@ hovers:
   (54,8):
     - Additionally custom tagged information
   (54,11):
-    - Additionally custom tagged information
+    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
   (55,12):
     - Human readable name for the object
   (55,18):
     - Human readable name for the object
   (56,9):
-    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
+    - Action that can be executed using a particular HTTP invocation
   (56,13):
-    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
+    - Action that can be executed using a particular HTTP invocation
   (57,12):
     - Action that can be executed using a particular HTTP invocation
   (57,33):
@@ -222,10 +216,8 @@ hovers:
     - HTTP method required to invoke the operation
   (61,14):
     - Action that can be executed using a particular HTTP invocation
-  (62,10):
-    - Bindings for this operation
-  (62,15):
-    - Bindings for this operation
+  (62,10): []
+  (62,15): []
   (63,10): []
   (63,34): []
   (64,11):
@@ -233,9 +225,9 @@ hovers:
   (64,23):
     - Human readable description of an element
   (65,12):
-    - Documentation for a particular part of the model
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (65,19):
-    - Documentation for a particular part of the model
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (66,13):
     - Human readable description of an element
   (66,30):
@@ -245,9 +237,9 @@ hovers:
   (67,22):
     - URL for the creative work
   (68,9):
-    - Action that can be executed using a particular HTTP invocation
+    - Response information for an operation
   (68,14):
-    - Response data returned by the operation
+    - Response information for an operation
   (69,10):
     - Response information for an operation
   (69,30):
@@ -263,15 +255,15 @@ hovers:
   (72,8):
     - Additionally custom tagged information
   (72,11):
-    - Additionally custom tagged information
+    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
   (73,12):
     - Human readable name for the object
   (73,18):
     - Human readable name for the object
   (74,9):
-    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
+    - Action that can be executed using a particular HTTP invocation
   (74,13):
-    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
+    - Action that can be executed using a particular HTTP invocation
   (75,12):
     - Action that can be executed using a particular HTTP invocation
   (75,33):
@@ -279,7 +271,7 @@ hovers:
   (76,2):
     - Additionally custom tagged information
   (76,5):
-    - Additionally custom tagged information
+    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
   (77,6):
     - Human readable name for the object
   (77,12):
@@ -289,9 +281,9 @@ hovers:
   (78,27):
     - Human readable description of an element
   (79,10):
-    - Documentation about the tag
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (79,17):
-    - Documentation about the tag
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (80,11):
     - Human readable description of an element
   (80,28):
@@ -301,9 +293,9 @@ hovers:
   (81,20):
     - URL for the creative work
   (82,6):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (82,13):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (83,7):
     - Human readable description of an element
   (83,24):
@@ -337,9 +329,9 @@ hovers:
   (91,17):
     - Defines a data type
   (92,8):
-    - Human readable name for the object
+    - Defines a data type
   (92,16):
-    - Human readable name for the object
+    - Defines a data type
   (93,10):
     - Defines a data type
   (93,18):
@@ -385,7 +377,7 @@ hovers:
   (104,10):
     - Defines a data type
   (105,8):
-    - Defines a data type
+    - Each element should be part of the provided list to be valid
   (105,13):
     - Defines a data type
   (106,10):
@@ -435,9 +427,9 @@ hovers:
   (117,15):
     - Defines a data type
   (118,12):
-    - Documentation for a particular part of the model
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (118,19):
-    - Documentation for a particular part of the model
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (119,9):
     - URL for the creative work
   (119,13):
@@ -459,7 +451,7 @@ hovers:
   (123,17):
     - Properties associated to this node
   (124,8):
-    - Human readable name for the object
+    - Properties associated to this node
   (124,10):
     - Defines a data type
   (125,12):
@@ -467,7 +459,7 @@ hovers:
   (125,19):
     - Scalar range constraining this scalar shape
   (126,8):
-    - Human readable name for the object
+    - Properties associated to this node
   (126,10):
     - Defines a data type
   (127,12):
@@ -602,20 +594,17 @@ hovers:
     - Contains declarations of reusable Messages
   (159,11):
     - Top level element describing a HTTP API
-  (160,8):
-    - Top level element describing a HTTP API
-  (160,13):
-    - Top level element describing a HTTP API
+  (160,8): []
+  (160,13): []
   (161,9):
-    - Defines a data type
+    - Parameter passed as a header to an operation for communication models
   (161,14):
     - Defines a data type
   (162,10):
     - Defines a data type
   (162,31):
     - Defines a data type
-  (163,9):
-    - Defines a data type
+  (163,9): []
   (163,14):
     - Defines a data type
   (164,13):
@@ -623,21 +612,19 @@ hovers:
   (164,25):
     - Human readable description of an element
   (165,12):
-    - an identifier that can be used for message tracing and correlation
+    - Model defining an identifier that can used for message tracing and correlation
   (165,20):
-    - an identifier that can be used for message tracing and correlation
+    - Model defining an identifier that can used for message tracing and correlation
   (166,10):
     - Model defining an identifier that can used for message tracing and correlation
   (166,35):
     - Model defining an identifier that can used for message tracing and correlation
-  (167,12):
-    - Defines the format of the payload schema
+  (167,12): []
   (167,43):
-    - Defines the format of the payload schema
-  (168,11):
-    - Media types supported in the payload
+    - Encoded payload using certain media-type
+  (168,11): []
   (168,27):
-    - Media types supported in the payload
+    - Encoded payload using certain media-type
   (169,8):
     - Human readable name for the term
   (169,15):
@@ -657,23 +644,21 @@ hovers:
   (173,8):
     - Additionally custom tagged information
   (173,11):
-    - Additionally custom tagged information
+    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
   (174,12):
     - Human readable name for the object
   (174,18):
     - Human readable name for the object
   (175,12):
-    - Documentation for a particular part of the model
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (175,19):
-    - Documentation for a particular part of the model
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (176,9):
     - URL for the creative work
   (176,13):
     - URL for the creative work
-  (177,10):
-    - Bindings for this request/response
-  (177,15):
-    - Bindings for this request/response
+  (177,10): []
+  (177,15): []
   (178,10):
     - binding for a corresponding known type
   (178,13): []
@@ -683,14 +668,10 @@ hovers:
     - The version of this binding
   (180,10): []
   (180,15): []
-  (181,12):
-    - Human readable name for the object
-  (181,18):
-    - Example value for a schema inside an API
-  (182,9):
-    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
-  (182,13):
-    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
+  (181,12): []
+  (181,18): []
+  (182,9): []
+  (182,13): []
   (183,12): []
   (183,31): []
   (184,9):
@@ -698,7 +679,7 @@ hovers:
   (184,18):
     - Top level element describing a HTTP API
   (185,10):
-    - Human readable name for the object
+    - Authentication and access control mechanism defined in an API
   (185,18):
     - Authentication and access control mechanism defined in an API
   (186,8):
@@ -710,9 +691,9 @@ hovers:
   (187,25):
     - Human readable description of an element
   (188,7):
-    - Human readable name for the object
+    - Settings for an API Key security scheme
   (188,11):
-    - Authentication and access control mechanism defined in an API
+    - Settings for an API Key security scheme
   (189,8):
     - Settings for an API Key security scheme
   (189,15):
@@ -722,9 +703,9 @@ hovers:
   (190,12):
     - Settings for an API Key security scheme
   (191,6):
-    - Human readable name for the object
+    - Settings for an HTTP security scheme
   (191,9):
-    - Authentication and access control mechanism defined in an API
+    - Settings for an HTTP security scheme
   (192,8):
     - Settings for an HTTP security scheme
   (192,14):
@@ -734,17 +715,17 @@ hovers:
   (193,16):
     - Settings for an HTTP security scheme
   (194,10):
-    - Human readable name for the object
+    - Settings for an OpenID security scheme
   (194,18):
-    - Authentication and access control mechanism defined in an API
+    - Settings for an OpenID security scheme
   (195,8):
     - Settings for an OpenID security scheme
   (195,18):
     - Settings for an OpenID security scheme
   (196,7):
-    - Human readable name for the object
+    - Settings for an OAuth2 security scheme
   (196,11):
-    - Authentication and access control mechanism defined in an API
+    - Settings for an OAuth2 security scheme
   (197,8):
     - Settings for an OAuth2 security scheme
   (197,15):
@@ -818,7 +799,7 @@ hovers:
   (215,13):
     - Top level element describing a HTTP API
   (216,8):
-    - Human readable name for the object
+    - Piece of data required or returned by an Operation
   (216,14):
     - Piece of data required or returned by an Operation
   (217,11):
@@ -842,7 +823,7 @@ hovers:
   (221,17):
     - Top level element describing a HTTP API
   (222,10):
-    - Human readable name for the object
+    - Model defining an identifier that can used for message tracing and correlation
   (222,18):
     - Model defining an identifier that can used for message tracing and correlation
   (223,11):
@@ -876,15 +857,15 @@ hovers:
   (230,8):
     - Additionally custom tagged information
   (230,11):
-    - Additionally custom tagged information
+    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
   (231,12):
     - Human readable name for the object
   (231,18):
     - Human readable name for the object
   (232,12):
-    - Documentation for a particular part of the model
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (232,19):
-    - Documentation for a particular part of the model
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (233,13):
     - Human readable description of an element
   (233,30):
@@ -893,10 +874,8 @@ hovers:
     - URL for the creative work
   (234,22):
     - URL for the creative work
-  (235,10):
-    - Bindings for this operation
-  (235,15):
-    - Bindings for this operation
+  (235,10): []
+  (235,15): []
   (236,10):
     - binding for a corresponding known type
   (236,13): []
@@ -908,12 +887,10 @@ hovers:
     - Contains declarations of reusable Message traits
   (238,16):
     - Top level element describing a HTTP API
-  (239,5):
-    - Top level element describing a HTTP API
-  (239,7):
-    - Top level element describing a HTTP API
+  (239,5): []
+  (239,7): []
   (240,9):
-    - Defines a data type
+    - Parameter passed as a header to an operation for communication models
   (240,14):
     - Defines a data type
   (241,10):
@@ -921,21 +898,19 @@ hovers:
   (241,17):
     - Scalar range constraining this scalar shape
   (242,12):
-    - an identifier that can be used for message tracing and correlation
+    - Model defining an identifier that can used for message tracing and correlation
   (242,20):
-    - an identifier that can be used for message tracing and correlation
+    - Model defining an identifier that can used for message tracing and correlation
   (243,10):
     - Model defining an identifier that can used for message tracing and correlation
   (243,35):
     - Model defining an identifier that can used for message tracing and correlation
-  (244,12):
-    - Defines the format of the payload schema
+  (244,12): []
   (244,43):
-    - Defines the format of the payload schema
-  (245,11):
-    - Media types supported in the payload
+    - Encoded payload using certain media-type
+  (245,11): []
   (245,27):
-    - Media types supported in the payload
+    - Encoded payload using certain media-type
   (246,8):
     - Human readable name for the term
   (246,13):
@@ -955,15 +930,15 @@ hovers:
   (250,8):
     - Additionally custom tagged information
   (250,11):
-    - Additionally custom tagged information
+    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
   (251,12):
     - Human readable name for the object
   (251,18):
     - Human readable name for the object
   (252,12):
-    - Documentation for a particular part of the model
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (252,19):
-    - Documentation for a particular part of the model
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (253,13):
     - Human readable description of an element
   (253,30):
@@ -972,10 +947,8 @@ hovers:
     - URL for the creative work
   (254,22):
     - URL for the creative work
-  (255,10):
-    - Bindings for this request/response
-  (255,15):
-    - Bindings for this request/response
+  (255,10): []
+  (255,15): []
   (256,10):
     - binding for a corresponding known type
   (256,13): []
@@ -985,18 +958,15 @@ hovers:
     - The version of this binding
   (258,10): []
   (258,15): []
-  (259,12):
-    - Human readable name for the object
-  (259,18):
-    - Example value for a schema inside an API
+  (259,12): []
+  (259,18): []
   (260,9):
     - Contains declarations of reusable ServerBindings objects
   (260,17):
     - Top level element describing a HTTP API
   (261,10):
-    - Top level element describing a HTTP API
-  (261,18):
-    - Top level element describing a HTTP API
+    - Human readable name for the object
+  (261,18): []
   (262,8):
     - binding for a corresponding known type
   (263,7):
@@ -1060,9 +1030,8 @@ hovers:
   (283,18):
     - Top level element describing a HTTP API
   (284,8):
-    - Top level element describing a HTTP API
-  (284,13):
-    - Top level element describing a HTTP API
+    - Human readable name for the object
+  (284,13): []
   (285,8):
     - binding for a corresponding known type
   (285,11): []
@@ -1124,9 +1093,8 @@ hovers:
   (305,18):
     - Top level element describing a HTTP API
   (306,8):
-    - Top level element describing a HTTP API
-  (306,13):
-    - Top level element describing a HTTP API
+    - Human readable name for the object
+  (306,13): []
   (307,8):
     - binding for a corresponding known type
   (307,11): []
@@ -1198,9 +1166,8 @@ hovers:
   (329,20):
     - Top level element describing a HTTP API
   (330,8):
-    - Top level element describing a HTTP API
-  (330,13):
-    - Top level element describing a HTTP API
+    - Human readable name for the object
+  (330,13): []
   (331,8):
     - binding for a corresponding known type
   (331,11): []

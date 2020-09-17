@@ -41,20 +41,11 @@ trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
                                                  None).resolve().filter(r => !siblings.contains(r.newText))
         suggestions.map { s =>
           val vars = extractChildren(params, s)
-          if (params.yPartBranch.isKey)
-            s.copy(
-              options =
-                s.options.copy(isKey = true, rangeKind = if (isArray(params.yPartBranch)) ArrayRange else ObjectRange),
-              children = vars)
-          else
-            s.copy(
-              children = vars,
-              options = s.options.copy(isKey = vars.nonEmpty,
-                                       rangeKind =
-                                         if (isArray(params.yPartBranch)) ArrayRange
-                                         else if (vars.nonEmpty) ObjectRange
-                                         else StringScalarRange)
-            )
+          s.copy(options = s.options.copy(isKey = vars.nonEmpty,
+                                          rangeKind =
+                                            if (vars.nonEmpty) ObjectRange
+                                            else StringScalarRange),
+                 children = vars)
         }
       } else Nil
     }

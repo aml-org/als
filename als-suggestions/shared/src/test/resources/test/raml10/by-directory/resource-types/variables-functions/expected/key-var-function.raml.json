@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11!lowercamelcase",
-    "filterText": "<<param | !lowercamelcase>>: ",
+    "filterText": "<<param |!lowercamelcase>>: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -16,14 +16,14 @@
       "range": {
         "start": {
           "line": 4,
-          "character": 4
+          "character": 5
         },
         "end": {
           "line": 4,
           "character": 14
         }
       },
-      "newText": "<<param | !lowercamelcase>>: "
+      "newText": "<<param |!lowercamelcase>>: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11!lowercase",
-    "filterText": "<<param | !lowercase>>: ",
+    "filterText": "<<param |!lowercase>>: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -46,14 +46,14 @@
       "range": {
         "start": {
           "line": 4,
-          "character": 4
+          "character": 5
         },
         "end": {
           "line": 4,
           "character": 14
         }
       },
-      "newText": "<<param | !lowercase>>: "
+      "newText": "<<param |!lowercase>>: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11!pluralize",
-    "filterText": "<<param | !pluralize>>: ",
+    "filterText": "<<param |!pluralize>>: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -76,14 +76,14 @@
       "range": {
         "start": {
           "line": 4,
-          "character": 4
+          "character": 5
         },
         "end": {
           "line": 4,
           "character": 14
         }
       },
-      "newText": "<<param | !pluralize>>: "
+      "newText": "<<param |!pluralize>>: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11!singularize",
-    "filterText": "<<param | !singularize>>: ",
+    "filterText": "<<param |!singularize>>: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -106,14 +106,14 @@
       "range": {
         "start": {
           "line": 4,
-          "character": 4
+          "character": 5
         },
         "end": {
           "line": 4,
           "character": 14
         }
       },
-      "newText": "<<param | !singularize>>: "
+      "newText": "<<param |!singularize>>: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11!uppercamelcase",
-    "filterText": "<<param | !uppercamelcase>>: ",
+    "filterText": "<<param |!uppercamelcase>>: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -136,14 +136,14 @@
       "range": {
         "start": {
           "line": 4,
-          "character": 4
+          "character": 5
         },
         "end": {
           "line": 4,
           "character": 14
         }
       },
-      "newText": "<<param | !uppercamelcase>>: "
+      "newText": "<<param |!uppercamelcase>>: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11!uppercase",
-    "filterText": "<<param | !uppercase>>: ",
+    "filterText": "<<param |!uppercase>>: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -166,14 +166,14 @@
       "range": {
         "start": {
           "line": 4,
-          "character": 4
+          "character": 5
         },
         "end": {
           "line": 4,
           "character": 14
         }
       },
-      "newText": "<<param | !uppercase>>: "
+      "newText": "<<param |!uppercase>>: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
