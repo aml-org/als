@@ -69,8 +69,9 @@ object AmfImplicits {
 
     def isSynthesized: Boolean = ann.contains(classOf[SynthesizedField])
 
-    def isVirtual: Boolean    = ann.contains(classOf[VirtualObject])
-    def isInferred(): Boolean = ann.contains(classOf[Inferred])
+    def isVirtual: Boolean  = ann.contains(classOf[VirtualObject])
+    def isInferred: Boolean = ann.contains(classOf[Inferred])
+    def isDeclared: Boolean = ann.contains(classOf[DeclaredElement])
 
     def targets(): Map[String, parser.Range] =
       ann.find(classOf[ReferenceTargets]).map(_.targets).getOrElse(Map.empty)
@@ -125,7 +126,7 @@ object AmfImplicits {
         .exists(_.contains(position))
     }
 
-    def isInferred: Boolean = f.value.annotations.isInferred()
+    def isInferred: Boolean = f.value.annotations.isInferred
 
     def isArrayIncluded(amfPosition: AmfPosition): Boolean =
       f.value.annotations
