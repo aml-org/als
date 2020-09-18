@@ -191,7 +191,9 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
                           workspaceManager,
                           configurationManager.getConfiguration,
                           telemetryManager,
-                          logger)
+                          amfConfiguration,
+                          logger,
+                          directoryResolver)
 
   lazy val serializationManager: Option[SerializationManager[_]] =
     resolutionDependencies.collectFirst({

@@ -10,7 +10,7 @@ changes:
       content: |
         +
 
-                     type: $1
+                   type: $1
     -
       from:
         line: 4

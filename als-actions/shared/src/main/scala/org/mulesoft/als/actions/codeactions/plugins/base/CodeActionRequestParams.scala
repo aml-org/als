@@ -3,9 +3,11 @@ package org.mulesoft.als.actions.codeactions.plugins.base
 import amf.core.model.document.BaseUnit
 import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.amfintegration.relationships.RelationshipLink
+import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.cache.{ObjectInTreeCached, YPartBranchCached}
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.configuration.AlsConfigurationReader
+import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.lsp.feature.codeactions.CodeActionParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
@@ -20,7 +22,9 @@ case class CodeActionRequestParams(uri: String,
                                    configuration: AlsConfigurationReader,
                                    allRelationships: Seq[RelationshipLink],
                                    telemetryProvider: TelemetryProvider,
-                                   uuid: String)
+                                   uuid: String,
+                                   amfInstance: AmfInstance,
+                                   directoryResolver: DirectoryResolver)
 
 object CodeActionParamsImpl {
   implicit class CodeActionParamsImpl(param: CodeActionParams) {
@@ -31,7 +35,9 @@ object CodeActionParamsImpl {
                         configuration: AlsConfigurationReader,
                         allRelationships: Seq[RelationshipLink],
                         telemetryProvider: TelemetryProvider,
-                        uuid: String): CodeActionRequestParams =
+                        uuid: String,
+                        amfInstance: AmfInstance,
+                        directoryResolver: DirectoryResolver): CodeActionRequestParams =
       CodeActionRequestParams(param.textDocument.uri,
                               PositionRange(param.range),
                               bu,
@@ -41,6 +47,8 @@ object CodeActionParamsImpl {
                               configuration,
                               allRelationships,
                               telemetryProvider,
-                              uuid)
+                              uuid,
+                              amfInstance,
+                              directoryResolver)
   }
 }

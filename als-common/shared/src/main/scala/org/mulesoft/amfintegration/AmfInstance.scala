@@ -1,7 +1,7 @@
 package org.mulesoft.amfintegration
 
 import amf.client.convert.CoreRegister
-import amf.client.plugins.{AMFDocumentPlugin, AMFPlugin}
+import amf.client.plugins.AMFPlugin
 import amf.core.AMF
 import amf.core.errorhandling.ErrorCollector
 import amf.core.model.document.BaseUnit
@@ -15,17 +15,7 @@ import amf.plugins.document.webapi.validation.PayloadValidatorPlugin
 import amf.plugins.domain.VocabulariesRegister
 import amf.plugins.features.AMFValidation
 import org.mulesoft.als.CompilerEnvironment
-import org.mulesoft.amfintegration.vocabularies.{
-  AlsDeclarationKeysVocabulary,
-  AlsPatchedVocabulary,
-  AmlApiContractVocabulary,
-  AmlCoreVocabulary,
-  AmlDataModelVocabulary,
-  AmlDataShapesVocabulary,
-  AmlDocumentVocabulary,
-  SchemaOrgVocabulary,
-  ShaclVocabulary
-}
+import org.mulesoft.amfintegration.vocabularies._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
