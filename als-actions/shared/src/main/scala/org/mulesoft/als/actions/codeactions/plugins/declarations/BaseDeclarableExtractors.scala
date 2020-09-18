@@ -19,7 +19,7 @@ import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, AmfObjectImp
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.common
 import org.yaml.model.{YDocument, YMap, YMapEntry, YNode, YPart}
-import org.yaml.render.{JsonRender, YamlRender}
+import org.yaml.render.{JsonRender, JsonRenderOptions, YamlRender, YamlRenderOptions}
 
 import scala.annotation.tailrec
 
@@ -74,7 +74,6 @@ trait BaseDeclarableExtractors {
 
   private def extractable(maybeObject: Option[AmfObject]) =
     maybeObject
-//      .filterNot(_.isAbstract)
       .filterNot(_.isInstanceOf[Document])
       .find(o => o.declarableKey(params.dialect).isDefined)
 
@@ -233,6 +232,18 @@ trait BaseDeclarableExtractors {
       case _ => acc
     }
 
+  private val jsonOptions: JsonRenderOptions = JsonRenderOptions().withIndentationSize(
+    params.configuration
+      .getFormatOptionForMime(Mimes.`APPLICATION/JSON`)
+      .indentationSize
+  )
+
+  private val yamlOptions: YamlRenderOptions = YamlRenderOptions().withIndentationSize(
+    params.configuration
+      .getFormatOptionForMime(Mimes.`APPLICATION/YAML`)
+      .indentationSize
+  )
+
   /**
     * Render for the new declaration, and the top entry on which it should be nested
     */
@@ -243,9 +254,9 @@ trait BaseDeclarableExtractors {
       .flatMap { node =>
         params.dialect match {
           case _ if isJson(params.bu) =>
-            Some(JsonRender.render(node, getIndentation(Mimes.`APPLICATION/JSON`, maybeParent)))
+            Some(JsonRender.render(node, getIndentation(Mimes.`APPLICATION/JSON`, maybeParent), jsonOptions))
           case _ =>
-            Some(YamlRender.render(node, getIndentation(Mimes.`APPLICATION/YAML`, maybeParent)))
+            Some(YamlRender.render(node, getIndentation(Mimes.`APPLICATION/YAML`, maybeParent), yamlOptions))
         }
       }
       .map((_, maybeParent))
