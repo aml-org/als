@@ -1,10 +1,9 @@
 package org.mulesoft.als.actions.codeactions
 
 import amf.core.model.document.BaseUnit
-import amf.core.unsafe.PlatformSecrets
 import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.actions.codeactions.plugins.base.{CodeActionFactory, CodeActionRequestParams}
-import org.mulesoft.als.common.{ObjectInTreeBuilder, WorkspaceEditSerializer}
+import org.mulesoft.als.common.{PlatformDirectoryResolver, WorkspaceEditSerializer}
 import org.mulesoft.als.common.cache.UnitWithCaches
 import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.common.dtoTypes.PositionRange
@@ -12,15 +11,11 @@ import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.amfintegration.relationships.RelationshipLink
 import org.mulesoft.amfintegration.visitors.AmfElementDefaultVisitors
 import org.mulesoft.amfintegration.{AmfInstance, AmfParseResult, ParserHelper}
-import org.mulesoft.lsp.edit.{TextEdit, WorkspaceEdit}
+import org.mulesoft.lsp.edit.WorkspaceEdit
 import org.mulesoft.lsp.feature.codeactions.CodeAction
-import org.mulesoft.lsp.feature.common.Position
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import org.scalatest.{Assertion, AsyncFlatSpec, Matchers}
-import org.yaml.model.YDocument.{EntryBuilder, PartBuilder}
-import org.yaml.model.{YDocument, YMap}
-import org.yaml.render.YamlRender
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
@@ -90,7 +85,9 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
         AlsConfiguration(),
         relationShip,
         dummyTelemetryProvider,
-        ""
+        "",
+        AmfInstance.default,
+        new PlatformDirectoryResolver(platform)
       )
     }
 
@@ -127,7 +124,9 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
       AlsConfiguration(),
       visitors1,
       dummyTelemetryProvider,
-      ""
+      "",
+      AmfInstance.default,
+      new PlatformDirectoryResolver(platform)
     )
   }
 
