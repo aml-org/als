@@ -201,16 +201,10 @@ object AmlCompletionRequestBuilder {
           }
       case _: YSequence => ""
       case _ =>
-        val line = TextHelper.linesWithSeparators(content)(position.line)
-        val textContent =
-          if (position.toAmfPosition.line == yPartBranch.node.location.lineFrom)
-            line
-              .substring(yPartBranch.node.location.columnFrom)
-              .substring(0, (position.toAmfPosition.column - yPartBranch.node.location.columnFrom))
-              .trim
-          else line.trim
-        textContent.split(Array('{', '[', ''', '"')).lastOption.getOrElse("")
-
+        val line        = TextHelper.linesWithSeparators(content)(position.line)
+        val textContent = line.substring(0, position.toAmfPosition.column)
+        // add trailing space to avoid checking if it ends with `{, [, `, "`
+        s"$textContent ".split(Array('{', '[', ''', '"')).lastOption.getOrElse("").trim
     }
   }
 
