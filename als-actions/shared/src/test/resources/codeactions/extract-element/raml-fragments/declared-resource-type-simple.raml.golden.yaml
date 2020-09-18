@@ -1,0 +1,24 @@
+changes:
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-fragments/declared-resource-type-simple.raml:
+    -
+      from:
+        line: 3
+        column: 5
+      to:
+        line: 4
+        column: 37
+      content: |
+        +
+        !include Resource Type.raml
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-fragments/Resource Type.raml:
+    -
+      from:
+        line: 0
+        column: 0
+      to:
+        line: 0
+        column: 0
+      content: |
+        +
+        #%RAML 1.0 ResourceType
+        description: test resource type

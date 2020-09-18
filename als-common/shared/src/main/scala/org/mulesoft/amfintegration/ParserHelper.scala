@@ -21,7 +21,6 @@ import amf.{ProfileName, ProfileNames}
 import org.mulesoft.als.{CompilerResult, ModelBuilder}
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
-import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect
 import org.yaml.builder.DocBuilder
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -98,17 +97,19 @@ class ParserHelper(val platform: Platform, amfInstance: AmfInstance)
     }
   }
 
-  private def mediaType(syntax: String) = {
+  private def mediaType(syntax: String) =
     if (syntax.toUpperCase.contains("JSON")) Mimes.`APPLICATION/JSON`
     else Mimes.`APPLICATION/YAML`
-  }
 
   def convertTo(model: BaseUnit, target: String, syntax: Option[String]): Future[String] = {
     val unit = compatibilityResolve(model, target)
     val name = ProfileName(target)
-    new AMFSerializer(unit, syntax.map(mediaType).getOrElse(syntaxFor(name)), target, RenderOptions())
-      .renderToString(ExecutionContext.Implicits.global)
+    serialize(target, syntax.getOrElse(syntaxFor(name)), unit)
   }
+
+  def serialize(target: String, syntax: String, unit: BaseUnit): Future[String] =
+    new AMFSerializer(unit, mediaType(syntax), target, RenderOptions())
+      .renderToString(ExecutionContext.Implicits.global)
 
   def printModel(model: BaseUnit, config: ParserConfig): Future[Unit] = {
     generateOutput(config, model)
