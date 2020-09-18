@@ -140,8 +140,10 @@ object LspConversions {
   }
 
   implicit def jvmUpdateFormatOptionsParams(v: extension.UpdateConfigurationParams): UpdateConfigurationParams = {
-    UpdateConfigurationParams(Option(stringFormatMapToMimeFormatMap(v.getUpdateFormatOptionsParams.asScala.toMap)),
-                              v.getGenericOptions.asScala.toMap)
+    UpdateConfigurationParams(
+      Option(stringFormatMapToMimeFormatMap(v.getUpdateFormatOptionsParams.asScala.toMap)),
+      Option(v.getGenericOptions).map(_.asScala.toMap).getOrElse(Map.empty)
+    )
   }
 
   implicit def stringFormatMapToMimeFormatMap(
