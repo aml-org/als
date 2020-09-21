@@ -68,6 +68,7 @@ class JsonContentPatcher(override val textRaw: String, override val offsetRaw: I
       val hasOpenCurlyBracket  = substr.startsWith("{")
       val hasOpenSquareBracket = substr.startsWith("[")
       newLine = line.substring(0, off)
+      needComa = false
       if (hasOpenCurlyBracket || hasOpenSquareBracket)
         substr = substr.substring(1)
       var hasOpenValueQuote = substr.startsWith("\"")
@@ -75,12 +76,19 @@ class JsonContentPatcher(override val textRaw: String, override val offsetRaw: I
         newLine = addQuote(newLine)
         hasOpenValueQuote = true
       }
+      if (!hasOpenValueQuote && hasOpenCurlyBracket) {
+        newLine = addQuote(newLine + addQuote("x"))
+        hasOpenValueQuote = true
+        needComa = true
+      }
       if (hasOpenValueQuote)
         newLine = addQuote(newLine)
-      if (hasComplexValueSameLine)
+      if (hasComplexValueSameLine && !hasOpenCurlyBracket)
         newLine += lineTrim.charAt(lineTrim.length - 1)
       if (lineTrim.endsWith(","))
         newLine += ","
+      if (needComa)
+        newLine = addComma(newLine)
     } else {
       if (line.substring(colonIndex + 1).trim.startsWith("\"")) {
         val openQuoteInd = line.indexOf("\"", colonIndex)

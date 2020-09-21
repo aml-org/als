@@ -75,11 +75,18 @@ object YamlWrapper {
     override def contains(position: AmfPosition): Boolean =
       super.contains(position) &&
         !isFirstChar(position) &&
-        (isJson || respectIndentation(position))
+        (inJsonValue(position) || (!isJson && respectIndentation(position)))
 
     def respectIndentation(position: AmfPosition): Boolean =
       !(outScalarValue(position) || outIndentation(position)) &&
         mapValueRespectsEntryKey(position)
+
+    def inJsonValue(position: AmfPosition): Boolean = {
+      entry.key.contains(position) || (entry.value.value match {
+        case map: YMap if isJson => AlsYMapOps(map).contains(position)
+        case _                   => isJson
+      })
+    }
 
     def mapValueRespectsEntryKey(position: AmfPosition): Boolean =
       entry.value.tagType != YType.Map || (entry.value.tagType == YType.Map && entry.key.range.columnFrom < position.column)
