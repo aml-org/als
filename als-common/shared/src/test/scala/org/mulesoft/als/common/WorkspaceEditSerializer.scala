@@ -8,15 +8,19 @@ import org.yaml.render.YamlRender
 
 case class WorkspaceEditSerializer(edit: WorkspaceEdit) {
 
-  def serialize(): String = toYaml(edit)
+  def serialize(): String = toYaml()
 
-  private def toYaml(result: WorkspaceEdit): String = {
-    val doc = YDocument.objFromBuilder(e => {
-      e.entry("changes", p => {
-        p.obj(eb => {
-          result.changes.foreach(c => emitChangeForUri(c._1, c._2)(eb))
-        })
+  def entryChanges(e: EntryBuilder): Unit = {
+    e.entry("changes", p => {
+      p.obj(eb => {
+        edit.changes.foreach(c => emitChangeForUri(c._1, c._2)(eb))
       })
+    })
+  }
+
+  private def toYaml(): String = {
+    val doc = YDocument.objFromBuilder(e => {
+      entryChanges(e)
 
 //      e.entry("documentChanges", p => {
 //        // todo

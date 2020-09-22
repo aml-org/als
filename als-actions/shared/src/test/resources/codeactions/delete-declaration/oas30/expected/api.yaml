@@ -1,0 +1,176 @@
+schema:
+  -
+    changes:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas30/api.yaml:
+        -
+          from:
+            line: 73
+            column: 12
+          to:
+            line: 74
+            column: 0
+          content: |
+            +
+        -
+          from:
+            line: 4
+            column: 0
+          to:
+            line: 11
+            column: 0
+          content: |
+            +
+responses:
+  -
+    changes:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas30/api.yaml:
+        -
+          from:
+            line: 76
+            column: 10
+          to:
+            line: 77
+            column: 0
+          content: |
+            +
+        -
+          from:
+            line: 16
+            column: 0
+          to:
+            line: 18
+            column: 0
+          content: |
+            +
+parameter:
+  -
+    changes:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas30/api.yaml:
+        -
+          from:
+            line: 63
+            column: 8
+          to:
+            line: 64
+            column: 0
+          content: |
+            +
+        -
+          from:
+            line: 23
+            column: 0
+          to:
+            line: 25
+            column: 0
+          content: |
+            +
+example:
+  -
+    changes:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas30/api.yaml:
+        -
+          from:
+            line: 97
+            column: 16
+          to:
+            line: 98
+            column: 0
+          content: |
+            +
+        -
+          from:
+            line: 26
+            column: 0
+          to:
+            line: 28
+            column: 0
+          content: |
+            +
+requestBody:
+  -
+    changes:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas30/api.yaml:
+        -
+          from:
+            line: 66
+            column: 8
+          to:
+            line: 67
+            column: 0
+          content: |
+            +
+        -
+          from:
+            line: 32
+            column: 0
+          to:
+            line: 35
+            column: 0
+          content: |
+            +
+headers:
+  -
+    changes:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas30/api.yaml:
+        -
+          from:
+            line: 82
+            column: 14
+          to:
+            line: 83
+            column: 0
+          content: |
+            +
+        -
+          from:
+            line: 40
+            column: 0
+          to:
+            line: 43
+            column: 0
+          content: |
+            +
+securityScheme:
+  -
+    changes:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas30/api.yaml:
+        -
+          from:
+            line: 99
+            column: 10
+          to:
+            line: 100
+            column: 0
+          content: |
+            +
+        -
+          from:
+            line: 44
+            column: 0
+          to:
+            line: 46
+            column: 0
+          content: |
+            +
+link:
+  -
+    changes:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas30/api.yaml:
+        -
+          from:
+            line: 85
+            column: 14
+          to:
+            line: 86
+            column: 0
+          content: |
+            +
+        -
+          from:
+            line: 51
+            column: 0
+          to:
+            line: 53
+            column: 0
+          content: |
+            +

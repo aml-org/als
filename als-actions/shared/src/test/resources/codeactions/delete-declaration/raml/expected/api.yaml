@@ -1,0 +1,150 @@
+annotation type:
+  -
+    changes:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/raml/api.raml:
+        -
+          from:
+            line: 78
+            column: 2
+          to:
+            line: 78
+            column: 15
+          content: |
+            +
+        -
+          from:
+            line: 4
+            column: 0
+          to:
+            line: 6
+            column: 0
+          content: |
+            +
+type:
+  -
+    changes:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/raml/api.raml:
+        -
+          from:
+            line: 54
+            column: 24
+          to:
+            line: 54
+            column: 36
+          content: |
+            +
+        -
+          from:
+            line: 60
+            column: 18
+          to:
+            line: 60
+            column: 30
+          content: |
+            +
+        -
+          from:
+            line: 15
+            column: 0
+          to:
+            line: 17
+            column: 0
+          content: |
+            +
+type expression:
+  -
+    changes:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/raml/api.raml:
+        -
+          from:
+            line: 22
+            column: 10
+          to:
+            line: 22
+            column: 21
+          content: |
+            +
+        -
+          from:
+            line: 17
+            column: 0
+          to:
+            line: 19
+            column: 0
+          content: |
+            +
+resource type:
+  -
+    changes:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/raml/api.raml:
+        -
+          from:
+            line: 68
+            column: 8
+          to:
+            line: 68
+            column: 18
+          content: |
+            +
+        -
+          from:
+            line: 28
+            column: 0
+          to:
+            line: 32
+            column: 0
+          content: |
+            +
+trait:
+  -
+    changes:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/raml/api.raml:
+        -
+          from:
+            line: 72
+            column: 6
+          to:
+            line: 72
+            column: 16
+          content: |
+            +
+        -
+          from:
+            line: 75
+            column: 8
+          to:
+            line: 75
+            column: 18
+          content: |
+            +
+        -
+          from:
+            line: 35
+            column: 0
+          to:
+            line: 40
+            column: 0
+          content: |
+            +
+security scheme:
+  -
+    changes:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/raml/api.raml:
+        -
+          from:
+            line: 48
+            column: 11
+          to:
+            line: 48
+            column: 21
+          content: |
+            +
+        -
+          from:
+            line: 44
+            column: 0
+          to:
+            line: 48
+            column: 0
+          content: |
+            +

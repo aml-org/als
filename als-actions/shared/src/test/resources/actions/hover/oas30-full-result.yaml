@@ -2,7 +2,7 @@ hovers:
   (1,3):
     - Top level element describing a HTTP API
   (1,11):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (2,2):
     - Contains general information about the defined API, such as title and version
   (2,5):
@@ -10,163 +10,163 @@ hovers:
   (3,4):
     - Human readable name for the object
   (3,19):
-    - Request information for an operation
+    - Human readable name for the object
   (4,7):
-    - Request information for an operation
+    - Human readable description of an element
   (4,35):
-    - Request information for an operation
+    - Human readable description of an element
   (5,9):
-    - Request information for an operation
+    - Terms and conditions when using the API
   (5,30):
-    - Request information for an operation
+    - Terms and conditions when using the API
   (6,5):
     - Organization providing an good or service
   (6,10):
-    - Request information for an operation
+    - Organization providing an good or service
   (7,6):
-    - Request information for an operation
+    - Human readable name for the object
   (7,15):
-    - Request information for an operation
+    - Human readable name for the object
   (8,5):
     - URL identifying the organization
   (8,24):
-    - Request information for an operation
+    - URL identifying the organization
   (9,6):
-    - Request information for an operation
+    - Contact email for the organization
   (9,20):
-    - Request information for an operation
+    - Contact email for the organization
   (10,5):
     - Licensing information for a resource
   (10,10):
-    - Request information for an operation
+    - Licensing information for a resource
   (11,6):
-    - Request information for an operation
+    - Human readable name for the object
   (11,15):
-    - Request information for an operation
+    - Human readable name for the object
   (12,5):
     - URL identifying the organization
   (12,32):
-    - Request information for an operation
+    - URL identifying the organization
   (13,5):
     - Version of the API
   (13,13):
-    - Request information for an operation
+    - Version of the API
   (14,3):
     - server information
   (14,8):
-    - Request information for an operation
+    - server information
   (15,5):
     - URL (potentially a template) for the server
   (15,30):
-    - Request information for an operation
+    - URL (potentially a template) for the server
   (16,9):
-    - Request information for an operation
+    - Human readable description of an element
   (16,26):
-    - Request information for an operation
+    - Human readable description of an element
   (17,8):
-    - Request information for an operation
+    - Variables in the URL for the server
   (17,14):
-    - Request information for an operation
+    - Variables in the URL for the server
   (18,10):
-    - Request information for an operation
+    - Human readable name for the object
   (18,15):
-    - Request information for an operation
+    - Piece of data required or returned by an Operation
   (20,10):
-    - Request information for an operation
+    - Each element should be part of the provided list to be valid
   (20,13):
-    - Request information for an operation
+    - Each element should be part of the provided list to be valid
   (21,15):
-    - Request information for an operation
+    - Defines a data type
   (22,14):
-    - Request information for an operation
+    - Defines a data type
   (23,11):
-    - Request information for an operation
+    - Defines a data type
   (23,20):
-    - Request information for an operation
+    - Defines a data type
   (24,13):
-    - Request information for an operation
+    - Human readable description of an element
   (24,63):
-    - Request information for an operation
+    - Human readable description of an element
   (26,2):
     - Path to each declared endpoint. Relative to basePath
   (26,6):
-    - Request information for an operation
+    - Path to each declared endpoint. Relative to basePath
   (27,4):
     - Path template for an endpoint
   (27,8):
-    - Request information for an operation
+    - EndPoint in the API holding a number of executable operations
   (28,7):
-    - Request information for an operation
+    - Human readable short description of the endpoint
   (28,18):
-    - Request information for an operation
+    - Human readable short description of the endpoint
   (29,9):
-    - Request information for an operation
+    - Human readable description of an element
   (29,25):
-    - Request information for an operation
+    - Human readable description of an element
   (30,5):
     - HTTP method required to invoke the operation
   (30,8):
-    - Request information for an operation
+    - Action that can be executed using a particular HTTP invocation
   (31,8):
-    - Request information for an operation
+    - Additionally custom tagged information
   (31,11):
-    - Request information for an operation
+    - Additionally custom tagged information
   (32,11):
-    - Request information for an operation
+    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
   (33,9):
-    - Request information for an operation
+    - Human readable description of the operation
   (33,35):
-    - Request information for an operation
+    - Human readable description of the operation
   (34,11):
-    - Request information for an operation
+    - Human readable description of an element
   (34,39):
-    - Request information for an operation
+    - Human readable description of an element
   (35,12):
-    - Request information for an operation
+    - Documentation for a particular part of the model
   (35,19):
-    - Request information for an operation
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (36,13):
-    - Request information for an operation
+    - Human readable description of an element
   (36,30):
-    - Request information for an operation
+    - Human readable description of an element
   (37,9):
-    - Request information for an operation
+    - URL for the creative work
   (37,22):
-    - Request information for an operation
+    - URL for the creative work
   (38,11):
-    - Request information for an operation
+    - Identifier of the target operation
   (38,27):
-    - Request information for an operation
+    - Identifier of the target operation
   (39,11):
-    - Request information for an operation
+    - Action that can be executed using a particular HTTP invocation
   (39,17):
     - Request information for an operation
   (40,12):
-    - Request information for an operation
+    - Name of a parameter
   (40,18):
-    - Request information for an operation
+    - Name of a parameter
   (41,11):
-    - Request information for an operation
+    - Part of the Request model where the parameter can be encoded (header, path, query param, etc.)
   (41,16):
-    - Request information for an operation
+    - Part of the Request model where the parameter can be encoded (header, path, query param, etc.)
   (42,15):
-    - Request information for an operation
+    - Human readable description of an element
   (42,40):
-    - Request information for an operation
+    - Human readable description of an element
   (43,14):
-    - Request information for an operation
+    - Marks the parameter as required
   (43,22):
-    - Request information for an operation
+    - Marks the parameter as required
   (44,13):
-    - Request information for an operation
+    - Defines a data type
   (44,17):
-    - Request information for an operation
+    - Defines a data type
   (45,14):
-    - Request information for an operation
+    - Scalar range constraining this scalar shape
   (45,21):
-    - Request information for an operation
+    - Scalar range constraining this scalar shape
   (46,11):
-    - Request information for an operation
+    - Human readable name for the object
   (46,18):
     - Request information for an operation
   (47,11):
@@ -174,303 +174,303 @@ hovers:
   (47,16):
     - Request information for an operation
   (48,27):
-    - Request information for an operation
+    - Media types supported in the payload
   (48,46):
-    - Request information for an operation
+    - Encoded payload using certain media-type
   (49,15):
-    - Request information for an operation
+    - Defines a data type
   (49,19):
-    - Request information for an operation
+    - Defines a data type
   (50,19):
-    - Request information for an operation
+    - Properties associated to this node
   (50,25):
-    - Request information for an operation
+    - Properties associated to this node
   (51,18):
-    - Request information for an operation
+    - Human readable name for the object
   (51,21):
-    - Request information for an operation
+    - Defines a data type
   (52,23):
-    - Request information for an operation
+    - Human readable description of an element
   (52,42):
-    - Request information for an operation
+    - Human readable description of an element
   (53,20):
-    - Request information for an operation
+    - Scalar range constraining this scalar shape
   (53,27):
-    - Request information for an operation
+    - Scalar range constraining this scalar shape
   (54,19):
-    - Request information for an operation
+    - Human readable name for the object
   (54,23):
-    - Request information for an operation
+    - Defines a data type
   (55,23):
-    - Request information for an operation
+    - Human readable description of an element
   (55,43):
-    - Request information for an operation
+    - Human readable description of an element
   (56,20):
-    - Request information for an operation
+    - Scalar range constraining this scalar shape
   (56,27):
-    - Request information for an operation
+    - Scalar range constraining this scalar shape
   (57,18):
-    - Request information for an operation
+    - Defines a data type
   (57,23):
-    - Request information for an operation
+    - Defines a data type
   (58,21):
-    - Request information for an operation
+    - Defines a data type
   (59,10):
-    - Request information for an operation
+    - Response data returned by the operation
   (59,16):
-    - Request information for an operation
+    - Response data returned by the operation
   (60,10):
-    - Request information for an operation
+    - Human readable name for the object
   (60,14):
-    - Request information for an operation
+    - Response information for an operation
   (61,15):
-    - Request information for an operation
+    - Human readable description of an element
   (61,29):
-    - Request information for an operation
+    - Human readable description of an element
   (62,13):
-    - Request information for an operation
+    - Response information for an operation
   (62,18):
-    - Request information for an operation
+    - Response information for an operation
   (63,21):
-    - Request information for an operation
+    - Media types supported in the payload
   (64,20):
-    - Request information for an operation
+    - Media types supported in the payload
   (65,10):
-    - Request information for an operation
+    - Human readable name for the object
   (65,14):
-    - Request information for an operation
+    - Response information for an operation
   (66,15):
-    - Request information for an operation
+    - Human readable description of an element
   (66,29):
-    - Request information for an operation
+    - Human readable description of an element
   (67,13):
-    - Request information for an operation
+    - Response information for an operation
   (67,18):
-    - Request information for an operation
+    - Response information for an operation
   (68,21):
-    - Request information for an operation
+    - Media types supported in the payload
   (69,20):
-    - Request information for an operation
+    - Media types supported in the payload
   (70,11):
-    - Request information for an operation
+    - Human readable name for the object
   (70,16):
-    - Request information for an operation
+    - Response information for an operation
   (71,12):
-    - Request information for an operation
+    - Response information for an operation
   (71,33):
-    - Request information for an operation
+    - Response information for an operation
   (72,10):
-    - Request information for an operation
+    - Action that can be executed using a particular HTTP invocation
   (72,16):
-    - Request information for an operation
+    - Action that can be executed using a particular HTTP invocation
   (73,13):
-    - Request information for an operation
+    - Action that can be executed using a particular HTTP invocation
   (73,20):
-    - Request information for an operation
+    - Action that can be executed using a particular HTTP invocation
   (74,12):
-    - Request information for an operation
+    - Model defining the information for a HTTP callback/ webhook
   (74,33):
-    - Request information for an operation
+    - Model defining the information for a HTTP callback/ webhook
   (75,12):
-    - Request information for an operation
+    - Action that can be executed using a particular HTTP invocation
   (75,17):
-    - Request information for an operation
+    - Action that can be executed using a particular HTTP invocation
   (76,57):
-    - Request information for an operation
+    - EndPoint in the API holding a number of executable operations
   (76,105):
-    - Request information for an operation
+    - EndPoint in the API holding a number of executable operations
   (77,14):
-    - Request information for an operation
+    - HTTP method required to invoke the operation
   (77,17):
-    - Request information for an operation
+    - Action that can be executed using a particular HTTP invocation
   (78,19):
-    - Request information for an operation
+    - Human readable name for the object
   (78,26):
     - Request information for an operation
   (79,21):
-    - Request information for an operation
+    - Human readable description of an element
   (79,37):
-    - Request information for an operation
+    - Human readable description of an element
   (80,19):
     - Request information for an operation
   (80,24):
     - Request information for an operation
   (81,27):
-    - Request information for an operation
+    - Media types supported in the payload
   (81,37):
-    - Request information for an operation
+    - Encoded payload using certain media-type
   (82,23):
-    - Request information for an operation
+    - Defines a data type
   (82,27):
-    - Request information for an operation
+    - Defines a data type
   (83,24):
-    - Request information for an operation
+    - Defines a data type
   (83,45):
-    - Request information for an operation
+    - Defines a data type
   (84,18):
-    - Request information for an operation
+    - Response data returned by the operation
   (84,24):
-    - Request information for an operation
+    - Response data returned by the operation
   (85,18):
-    - Request information for an operation
+    - Human readable name for the object
   (85,22):
-    - Request information for an operation
+    - Response information for an operation
   (86,23):
-    - Request information for an operation
+    - Human readable description of an element
   (86,62):
-    - Request information for an operation
+    - Human readable description of an element
   (87,11):
-    - Request information for an operation
+    - Marks the operation as deprecated
   (87,20):
-    - Request information for an operation
+    - Marks the operation as deprecated
   (89,10):
-    - Request information for an operation
+    - Textual indication of the kind of security scheme used
   (89,15):
-    - Request information for an operation
+    - Textual indication of the kind of security scheme used
   (90,13):
-    - Request information for an operation
+    - Settings for an OAuth2 security scheme
   (90,17):
-    - Request information for an operation
+    - Settings for an OAuth2 security scheme
   (91,19):
-    - Request information for an operation
+    - Human readable name for the object
   (92,18):
-    - Request information for an operation
+    - Human readable name for the object
   (93,9):
-    - Request information for an operation
+    - server information
   (93,14):
-    - Request information for an operation
+    - server information
   (94,11):
-    - Request information for an operation
+    - URL (potentially a template) for the server
   (94,36):
-    - Request information for an operation
+    - URL (potentially a template) for the server
   (95,15):
-    - Request information for an operation
+    - Human readable description of an element
   (95,32):
-    - Request information for an operation
+    - Human readable description of an element
   (96,5):
     - HTTP method required to invoke the operation
   (96,8):
-    - Request information for an operation
+    - Action that can be executed using a particular HTTP invocation
   (97,11):
-    - Request information for an operation
+    - Human readable description of an element
   (97,20):
-    - Request information for an operation
+    - Human readable description of an element
   (98,6):
-    - Request information for an operation
+    - HTTP method required to invoke the operation
   (98,9):
-    - Request information for an operation
+    - Action that can be executed using a particular HTTP invocation
   (99,11):
-    - Request information for an operation
+    - Human readable description of an element
   (99,21):
-    - Request information for an operation
+    - Human readable description of an element
   (100,7):
-    - Request information for an operation
+    - HTTP method required to invoke the operation
   (100,11):
-    - Request information for an operation
+    - Action that can be executed using a particular HTTP invocation
   (101,11):
-    - Request information for an operation
+    - Human readable description of an element
   (101,22):
-    - Request information for an operation
+    - Human readable description of an element
   (102,7):
-    - Request information for an operation
+    - HTTP method required to invoke the operation
   (102,12):
-    - Request information for an operation
+    - Action that can be executed using a particular HTTP invocation
   (103,11):
-    - Request information for an operation
+    - Human readable description of an element
   (103,22):
-    - Request information for an operation
+    - Human readable description of an element
   (104,6):
-    - Request information for an operation
+    - HTTP method required to invoke the operation
   (104,9):
-    - Request information for an operation
+    - Action that can be executed using a particular HTTP invocation
   (105,11):
-    - Request information for an operation
+    - Human readable description of an element
   (105,21):
-    - Request information for an operation
+    - Human readable description of an element
   (106,6):
-    - Request information for an operation
+    - HTTP method required to invoke the operation
   (106,10):
-    - Request information for an operation
+    - Action that can be executed using a particular HTTP invocation
   (107,11):
-    - Request information for an operation
+    - Human readable description of an element
   (107,21):
-    - Request information for an operation
+    - Human readable description of an element
   (108,6):
-    - Request information for an operation
+    - HTTP method required to invoke the operation
   (108,10):
-    - Request information for an operation
+    - Action that can be executed using a particular HTTP invocation
   (109,11):
-    - Request information for an operation
+    - Human readable description of an element
   (109,21):
-    - Request information for an operation
+    - Human readable description of an element
   (110,7):
-    - Request information for an operation
+    - Specific information about the server where the endpoint is accessible
   (110,12):
-    - Request information for an operation
+    - Specific information about the server where the endpoint is accessible
   (111,9):
-    - Request information for an operation
+    - URL (potentially a template) for the server
   (111,34):
-    - Request information for an operation
+    - URL (potentially a template) for the server
   (112,13):
-    - Request information for an operation
+    - Human readable description of an element
   (112,30):
-    - Request information for an operation
+    - Human readable description of an element
   (113,9):
-    - Request information for an operation
+    - Additional data required or returned by an operation
   (113,15):
-    - Request information for an operation
+    - Additional data required or returned by an operation
   (114,10):
-    - Request information for an operation
+    - Piece of data required or returned by an Operation
   (114,30):
-    - Request information for an operation
+    - Piece of data required or returned by an Operation
   (115,10):
-    - Request information for an operation
+    - Name of a parameter
   (115,16):
-    - Request information for an operation
+    - Name of a parameter
   (116,9):
-    - Request information for an operation
+    - Part of the Request model where the parameter can be encoded (header, path, query param, etc.)
   (116,15):
-    - Request information for an operation
+    - Part of the Request model where the parameter can be encoded (header, path, query param, etc.)
   (117,13):
-    - Request information for an operation
+    - Human readable description of an element
   (117,36):
-    - Request information for an operation
+    - Human readable description of an element
   (118,12):
-    - Request information for an operation
+    - Marks the parameter as required
   (118,20):
-    - Request information for an operation
+    - Marks the parameter as required
   (119,11):
-    - Request information for an operation
+    - Defines a data type
   (119,15):
-    - Request information for an operation
+    - Defines a data type
   (120,12):
-    - Request information for an operation
+    - Defines a data type
   (120,18):
-    - Request information for an operation
+    - Defines a data type
   (121,12):
-    - Request information for an operation
+    - Human readable name for the object
   (121,16):
-    - Request information for an operation
+    - Defines a data type
   (122,14):
-    - Request information for an operation
+    - Scalar range constraining this scalar shape
   (122,21):
-    - Request information for an operation
+    - Scalar range constraining this scalar shape
   (123,15):
-    - Request information for an operation
+    - Defines semantic validation for a fixed subset of values
   (123,22):
-    - Request information for an operation
+    - Defines semantic validation for a fixed subset of values
   (124,10):
-    - Request information for an operation
+    - Encoding style for the parameter information
   (124,18):
-    - Request information for an operation
+    - Encoding style for the parameter information
   (125,5):
     - Contains reusable definitions
   (125,11):
-    - Request information for an operation
+    - Contains reusable definitions
   (126,5):
     - Contains declarations of reusable Schemas
   (126,10):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (127,8):
     - Human readable name for the object
   (127,14):
@@ -480,89 +480,89 @@ hovers:
   (128,13):
     - Defines semantic validation for a fixed subset of values
   (129,7):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (129,11):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (130,8):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (130,19):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (131,11):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (131,18):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (132,9):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (132,16):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (133,14):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (133,26):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (134,9):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (134,15):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (135,14):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (135,26):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (136,10):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (136,18):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (137,10):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (137,17):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (138,9):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (138,34):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (139,8):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (139,11):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (140,10):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (141,10):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (142,8):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (142,15):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (143,11):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (143,27):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (144,9):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (144,15):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (145,10):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (145,18):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (146,12):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (146,19):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (147,13):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (147,30):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (148,9):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (148,22):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (149,9):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (149,15):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (150,11):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (150,20):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (151,9):
     - Human readable name for the object
   (151,16):
@@ -736,7 +736,7 @@ hovers:
   (194,6):
     - Contains declarations of reusable Response objects
   (194,12):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (195,8):
     - Response information for an operation
   (195,14):
@@ -848,7 +848,7 @@ hovers:
   (228,7):
     - Contains declarations of reusable Parameter objects
   (228,13):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (229,7):
     - Piece of data required or returned by an Operation
   (229,12):
@@ -976,7 +976,7 @@ hovers:
   (260,6):
     - Contains declarations of reusable Example objects
   (260,11):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (261,8):
     - Example value for a schema inside an API
   (261,13):
@@ -1012,7 +1012,7 @@ hovers:
   (270,8):
     - Contains declarations of reusable Request objects
   (270,16):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (271,9):
     - Request information for an operation
   (271,15):
@@ -1046,9 +1046,9 @@ hovers:
   (278,50):
     - Raw text containing an unparsable example
   (279,7):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (279,12):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (280,8):
     - Request information for an operation
   (280,31):
@@ -1102,9 +1102,9 @@ hovers:
   (292,18):
     - Top level element describing a HTTP API
   (293,7):
-    - Settings for an API Key security scheme
+    - Authentication and access control mechanism defined in an API
   (293,11):
-    - Settings for an API Key security scheme
+    - Authentication and access control mechanism defined in an API
   (294,11):
     - Settings for an API Key security scheme
   (294,27):
@@ -1122,9 +1122,9 @@ hovers:
   (297,13):
     - Settings for an API Key security scheme
   (298,6):
-    - Settings for an HTTP security scheme
+    - Authentication and access control mechanism defined in an API
   (298,9):
-    - Settings for an HTTP security scheme
+    - Authentication and access control mechanism defined in an API
   (299,8):
     - Settings for an HTTP security scheme
   (299,14):
@@ -1138,9 +1138,9 @@ hovers:
   (301,21):
     - Settings for an HTTP security scheme
   (302,10):
-    - Settings for an OpenID security scheme
+    - Authentication and access control mechanism defined in an API
   (302,18):
-    - Settings for an OpenID security scheme
+    - Authentication and access control mechanism defined in an API
   (303,8):
     - Settings for an OpenID security scheme
   (303,18):
@@ -1150,9 +1150,9 @@ hovers:
   (304,25):
     - Settings for an OpenID security scheme
   (305,7):
-    - Settings for an OAuth2 security scheme
+    - Authentication and access control mechanism defined in an API
   (305,11):
-    - Settings for an OAuth2 security scheme
+    - Authentication and access control mechanism defined in an API
   (306,8):
     - Settings for an OAuth2 security scheme
   (306,15):
@@ -1258,7 +1258,7 @@ hovers:
   (334,25):
     - Human readable description of an element
   (335,9):
-    - Information about the network accessible locations where the API is available
+    - Templated link containing URL template and variables mapping
   (335,13):
     - Information about the network accessible locations where the API is available
   (336,9):
@@ -1334,7 +1334,7 @@ hovers:
   (354,2):
     - Additionally custom tagged information
   (354,5):
-    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
+    - Additionally custom tagged information
   (355,6):
     - Human readable name for the object
   (355,12):
@@ -1344,7 +1344,7 @@ hovers:
   (356,23):
     - Human readable description of an element
   (357,10):
-    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+    - Documentation about the tag
   (357,17):
     - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (358,11):
@@ -1356,9 +1356,9 @@ hovers:
   (359,20):
     - URL for the creative work
   (360,6):
-    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+    - Documentation associated to the API
   (360,13):
-    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+    - Documentation associated to the API
   (361,7):
     - Human readable description of an element
   (361,24):

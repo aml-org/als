@@ -1,0 +1,40 @@
+#%RAML 1.0 Library
+
+annotationTypes:
+  annToDelete:
+    type: string
+  another:
+    type: string
+
+types:
+  aType:
+    type: object
+    properties:
+      a: string
+      b: integer
+  typeToDelete:
+    type: string
+
+resourceTypes:
+  rt1:
+    get:
+      description: an operation
+  toDeleteR2:
+    description: an endpoint
+    post:
+      body:
+  rt3:
+    description: another
+
+traits:
+  toDeleteTr:
+    description: a trait
+    body:
+
+securitySchemes:
+  s1:
+    description: a sc
+    type: Basic Authentication
+  s2ToDelete:
+    description: gonna deletee
+    type: Digest Authentication

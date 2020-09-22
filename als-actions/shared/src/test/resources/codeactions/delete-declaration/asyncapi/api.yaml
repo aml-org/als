@@ -1,0 +1,114 @@
+asyncapi: 2.0.0
+
+components:
+  schemas:
+    schema1:
+      type: string
+    toDeleteS:
+      type: string
+  messages:
+    toDeleteM:
+      contentType: application/json
+      title: todelete
+    anotherM:
+      contentType: application/json
+      title: another
+  securitySchemes:
+    scO:
+      type: apiKey
+    toDeleteSC:
+      type: http
+  parameters:
+    toDeleteP:
+      description: a param
+      schema:
+        type: string
+    anotherParam:
+      description: another
+  correlationIds:
+    first:
+      description: lives
+    toDelete:
+      description: a correlation
+    another:
+      description: safe
+  operationTraits:
+    anOperationT:
+      description: safe
+    toDeletOT:
+      description: will be removed
+  messageTraits:
+    toDeleteMT:
+      description: a message trait
+    keepMT:
+      description: safe
+  serverBindings:
+    serverBiding:
+      http:
+    toDeleteSB:
+      ws:
+  channelBindings:
+    toDeleteChannelBinding:
+      ws:
+    channelBiding:
+      http:
+  operationBindings:
+    operationBinding:
+      http:
+    toDeleteOB:
+      ws:
+  messageBindings:
+    messageBinding:
+      http:
+    toDeleteMB:
+      ws:
+
+channels:
+  aChannel:
+    parameters:
+      aParam:
+        $ref: '#/components/parameters/toDeleteP'
+      another:
+        $ref: '#/components/parameters/anotherParam'
+    subscribe:
+      bindings:
+        $ref: '#/components/operationBindings/toDeleteOB'
+      traits:
+        - $ref: '#/components/operationTraits/toDeletOT'
+        - $ref: '#/components/operationTraits/anOperationT'
+
+      message:
+        headers:
+          $ref: '#/components/schemas/toDeleteS'
+        correlationId:
+          $ref: '#/components/correlationIds/toDelete'
+        bindings:
+          $ref: '#/components/messageBindings/toDeleteMB'
+        traits:
+          - $ref: '#/components/messageTraits/toDeleteMT'
+          - $ref: '#/components/messageTraits/keepMT'
+    publish:
+      bindings:
+        another:
+          '#/components/operationBindings/operationBinding'
+      message:
+        oneOf:
+          - $ref: '#/components/messages/toDeleteM'
+          - $ref: '#/components/messages/anotherM'
+    bindings:
+      $ref: '#/components/channelBindings/toDeleteChannelBinding'
+  anotherChannel:
+    bindings:
+      $ref: '#/components/channelBindings/channelBiding'
+    subscribe:
+      message:
+        oneOf:
+          - $ref: '#/components/messages/toDeleteM'
+
+servers:
+  Aserver:
+    security:
+      - toDeleteSC: []
+      - scO: []
+    bindings:
+      $ref: '#/components/serverBindings/toDeleteSB'

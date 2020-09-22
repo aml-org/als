@@ -1,0 +1,38 @@
+openapi: 3.0.0
+
+components:
+  schemas:
+    toDelete:
+      type: object
+      properties:
+        a:
+          type: string
+        b:
+          type: integer
+  responses:
+    toDelete:
+      description: to delte
+  parameters:
+    toDelete:
+      type: string
+  examples:
+    toDelete:
+      value: a
+
+  requestBodies:
+    toDeleteRB:
+      description: a description
+      content:
+  headers:
+    toDeleteH:
+      type: string
+
+  securitySchemes:
+    toDeleteSS:
+      type: http
+  links:
+    toDeleteLink:
+      description: to delete
+  callbacks:
+    toDeleteCallback:
+      expression: $request.

@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.modules.actions
 
-import org.mulesoft.als.actions.common.LinkTypes
+import org.mulesoft.amfintegration.relationships.LinkTypes
 import org.mulesoft.als.actions.definition.FindDefinition
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.convert.LspRangeConverter
@@ -79,7 +79,7 @@ class GoToTypeDefinitionManager(val workspace: WorkspaceManager,
               position,
               workspace
                 .getRelationships(uri, uuid)
-                .map(_.filter(_.linkType == LinkTypes.TRAITRESOURCES)),
+                .map(_._2.filter(_.linkType == LinkTypes.TRAITRESOURCES)),
               workspace.getAliases(uri, uuid),
               unit.yPartBranch
           ))
