@@ -9,6 +9,8 @@ import org.mulesoft.als.common.cache.UnitWithCaches
 import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.configuration.AlsConfiguration
+import org.mulesoft.amfintegration.relationships.RelationshipLink
+import org.mulesoft.amfintegration.visitors.AmfElementDefaultVisitors
 import org.mulesoft.amfintegration.{AmfInstance, AmfParseResult, ParserHelper}
 import org.mulesoft.lsp.edit.{TextEdit, WorkspaceEdit}
 import org.mulesoft.lsp.feature.codeactions.CodeAction
@@ -42,10 +44,9 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
 
   protected def runTest(elementUri: String,
                         range: PositionRange,
-                        dialect: Dialect,
                         pluginFactory: CodeActionFactory): Future[Assertion] =
     for {
-      params <- buildParameter(elementUri, range, dialect)
+      params <- buildParameter(elementUri, range)
       result <- {
         val plugin = pluginFactory(params)
         plugin.isApplicable should be(true)
@@ -56,32 +57,79 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
 
   protected def runTestNotApplicable(elementUri: String,
                                      range: PositionRange,
-                                     dialect: Dialect,
                                      pluginFactory: CodeActionFactory): Future[Assertion] =
     for {
-      params <- buildParameter(elementUri, range, dialect)
+      params <- buildParameter(elementUri, range)
     } yield pluginFactory(params).isApplicable should be(false)
 
-  protected def parseElement(elementUri: String): Future[AmfParseResult] =
-    new ParserHelper(platform, AmfInstance.default)
-      .parse(relativeUri(elementUri))
+  protected def parseElement(elementUri: String, definedBy: Option[String] = None): Future[AmfParseResult] = {
 
-  protected def buildParameter(elementUri: String,
-                               range: PositionRange,
-                               dialect: Dialect): Future[CodeActionRequestParams] =
+    val helper = new ParserHelper(platform, AmfInstance.default)
+    for {
+
+      _ <- definedBy.fold(Future.unit)(db => helper.parse(relativeUri(db)).map(_ => Unit))
+      r <- helper.parse(relativeUri(elementUri))
+    } yield r
+
+  }
+
+  protected def buildParameter(elementUri: String, range: PositionRange): Future[CodeActionRequestParams] =
     parseElement(elementUri)
-      .map(bu => DummyCompilableUnit(bu.baseUnit, dialect))
-      .map { cu =>
-        CodeActionRequestParams(cu.unit.location().getOrElse(relativeUri(elementUri)),
-                                range,
-                                cu.unit,
-                                cu.tree,
-                                cu.yPartBranch,
-                                dialect,
-                                AlsConfiguration(),
-                                dummyTelemetryProvider,
-                                "")
-      }
+      .map(bu => buildParameter(elementUri, bu, range))
+
+  case class PreCodeActionRequestParams(amfResult: AmfParseResult, uri: String, relationShip: Seq[RelationshipLink]) {
+    def buildParam(range: PositionRange, activeFile: Option[String]): CodeActionRequestParams = {
+      val cu: DummyCompilableUnit = buildCU(activeFile)
+      CodeActionRequestParams(
+        cu.unit.location().getOrElse(relativeUri(uri)),
+        range,
+        cu.unit,
+        cu.tree,
+        cu.yPartBranch,
+        amfResult.definedBy,
+        AlsConfiguration(),
+        relationShip,
+        dummyTelemetryProvider,
+        ""
+      )
+    }
+
+    private def buildCU(activeFile: Option[String]) = {
+      activeFile
+        .flatMap { af =>
+          val relativaf = relativeUri(af)
+          amfResult.baseUnit.references.find(r => r.location().getOrElse(r.id) == relativaf).map { unit =>
+            DummyCompilableUnit(unit, amfResult.definedBy)
+          }
+        }
+        .getOrElse(DummyCompilableUnit(amfResult.baseUnit, amfResult.definedBy))
+    }
+  }
+  protected def buildPreParam(uri: String, result: AmfParseResult): PreCodeActionRequestParams = {
+    val visitors = AmfElementDefaultVisitors.build(result.baseUnit)
+    visitors.applyAmfVisitors(result.baseUnit)
+    val visitors1: Seq[RelationshipLink] = visitors.getRelationshipsFromVisitors
+    PreCodeActionRequestParams(result, uri, visitors1)
+  }
+
+  protected def buildParameter(uri: String, result: AmfParseResult, range: PositionRange): CodeActionRequestParams = {
+    val cu       = DummyCompilableUnit(result.baseUnit, result.definedBy)
+    val visitors = AmfElementDefaultVisitors.build(cu.unit)
+    visitors.applyAmfVisitors(cu.unit)
+    val visitors1: Seq[RelationshipLink] = visitors.getRelationshipsFromVisitors
+    CodeActionRequestParams(
+      cu.unit.location().getOrElse(relativeUri(uri)),
+      range,
+      cu.unit,
+      cu.tree,
+      cu.yPartBranch,
+      result.definedBy,
+      AlsConfiguration(),
+      visitors1,
+      dummyTelemetryProvider,
+      ""
+    )
+  }
 
   protected val dummyTelemetryProvider: TelemetryProvider =
     (_: String, _: MessageTypes, _: String, _: String, _: String) => {

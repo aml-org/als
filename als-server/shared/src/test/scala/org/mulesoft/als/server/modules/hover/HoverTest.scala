@@ -365,7 +365,7 @@ class HoverTest extends ServerWithMarkerTest[Hover] {
 
       hovers.exists(h => {
         h.contents.size == 1 &&
-        h.contents.head == "Contains declarations for securityDefinitions" &&
+        h.contents.head == "Declarations of reusable authentication mechanisms to ensure secured operations" &&
         h.range.get == Range(Position(13, 0), Position(14, 0))
       }) should be(true)
     }

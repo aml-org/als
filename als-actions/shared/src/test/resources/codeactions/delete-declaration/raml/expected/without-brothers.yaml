@@ -1,0 +1,65 @@
+annotation type:
+  -
+    changes:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/raml/without-brothers.raml:
+        -
+          from:
+            line: 3
+            column: 0
+          to:
+            line: 7
+            column: 0
+          content: |
+            +
+type:
+  -
+    changes:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/raml/without-brothers.raml:
+        -
+          from:
+            line: 7
+            column: 0
+          to:
+            line: 11
+            column: 0
+          content: |
+            +
+resource type:
+  -
+    changes:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/raml/without-brothers.raml:
+        -
+          from:
+            line: 11
+            column: 0
+          to:
+            line: 17
+            column: 0
+          content: |
+            +
+trait:
+  -
+    changes:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/raml/without-brothers.raml:
+        -
+          from:
+            line: 17
+            column: 0
+          to:
+            line: 22
+            column: 0
+          content: |
+            +
+security scheme:
+  -
+    changes:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/raml/without-brothers.raml:
+        -
+          from:
+            line: 22
+            column: 0
+          to:
+            line: 27
+            column: 0
+          content: |
+            +

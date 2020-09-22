@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.modules.actions
 
-import org.mulesoft.als.actions.common.LinkTypes
+import org.mulesoft.amfintegration.relationships.LinkTypes
 import org.mulesoft.als.actions.references.FindReferences
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.convert.LspRangeConverter
@@ -70,14 +70,16 @@ class GoToImplementationManager(val workspace: WorkspaceManager,
       .flatMap(_.getLast)
       .flatMap(cu => {
         FindReferences
-          .getReferences(uri,
-                         position,
-                         workspace
-                           .getAliases(uri, uuid),
-                         workspace
-                           .getRelationships(uri, uuid)
-                           .map(_.filter(_.linkType == LinkTypes.TRAITRESOURCES)),
-                         cu.yPartBranch)
+          .getReferences(
+            uri,
+            position,
+            workspace
+              .getAliases(uri, uuid),
+            workspace
+              .getRelationships(uri, uuid)
+              .map(_._2.filter(_.linkType == LinkTypes.TRAITRESOURCES)),
+            cu.yPartBranch
+          )
           .map(_.map(_._1))
 
       })

@@ -3,10 +3,10 @@ package org.mulesoft.als.server.modules.workspace
 import amf.client.resource.ResourceNotFound
 import amf.core.model.document.BaseUnit
 import amf.internal.reference.{CachedReference, ReferenceResolver}
-import org.mulesoft.als.actions.common.{AliasInfo, RelationshipLink}
+import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.als.common.dtoTypes.ReferenceStack
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.modules.workspace.references.visitors.AmfElementDefaultVisitors
+import org.mulesoft.amfintegration.visitors.AmfElementDefaultVisitors
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.{AmfParseResult, DiagnosticsBundle}
 import org.mulesoft.lsp.feature.link.DocumentLink

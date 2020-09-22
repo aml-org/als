@@ -1,0 +1,57 @@
+swagger: '2.0'
+
+definitions:
+  aType:
+    type: object
+    properties:
+      aProperty:
+        type: string
+      b:
+        type: integer
+  typeToDelete:
+    type: string
+
+parameters:
+  aParameter:
+    type: string
+  toDelete:
+    type: string
+
+responses:
+  200:
+      description: response
+  toDelete:
+      description: to delte
+  201:
+      description: another
+
+securityDefinitions:
+  toDelete:
+    type: basic
+    description: a sd
+  another:
+    type: basic
+    description: a sd
+
+security:
+  - toDelete: []
+  - another: []
+paths:
+  /apath:
+    get:
+      parameters:
+        - $ref: '#/parameters/toDelete'
+        - $ref: '#/parameters/aParameter'
+        - name: param
+          in: body
+          schema:
+            $ref: '#/definitions/typeToDelete'
+      responses:
+        200:
+          $ref: '#/responses/toDelete'
+        default:
+          $ref: '#/responses/200'
+        201:
+          schema:
+            $ref: '#/definitions/aType'
+
