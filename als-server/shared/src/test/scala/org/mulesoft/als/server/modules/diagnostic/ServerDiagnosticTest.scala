@@ -15,6 +15,7 @@ import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.textsync.TextDocumentContainer
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.amfintegration.AmfParseResult
+import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -198,7 +199,7 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
     val amfBaseUnit: BaseUnit = new MockDialectInstance(new Fields())
 
     val eh                             = new ErrorCollector {}
-    val amfParseResult: AmfParseResult = new AmfParseResult(amfBaseUnit, eh, None)
+    val amfParseResult: AmfParseResult = new AmfParseResult(amfBaseUnit, eh, ExternalFragmentDialect())
 
     for {
       _ <- Future {

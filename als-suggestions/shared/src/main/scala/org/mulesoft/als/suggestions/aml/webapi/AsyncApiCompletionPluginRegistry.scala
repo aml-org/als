@@ -17,7 +17,7 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.async.{
   Async20TypeFacetsCompletionPlugin,
   _
 }
-import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.OaslikeSecurityScopesCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.{OaslikeSecurityScopesCompletionPlugin, VariableValueParam}
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.structure.ResolveInfo
 import org.mulesoft.als.suggestions.plugins.aml.{ResolveDefault, StructureCompletionPlugin}
 import org.mulesoft.als.suggestions.{AMLBaseCompletionPlugins, CompletionsPluginHandler}
@@ -37,6 +37,8 @@ object AsyncApiCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
           ResolveResponses,
           ResolveTraits,
           ResolveInfo,
+          AsyncApiVariableValueException,
+          Async2HeadersSchema,
           ResolveDefault
         )) :+
       Async20PayloadCompletionPlugin :+
@@ -49,7 +51,10 @@ object AsyncApiCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
       Async20ShapeTypeFormatCompletionPlugin :+
       Async20EnumCompletionPlugin :+
       AsyncMessageContentType :+
-      Async20RequiredObjectCompletionPlugin
+      Async20RequiredObjectCompletionPlugin :+
+      Async2SecuritySchemeType :+
+      Async2VariableValueParam :+
+      Async2SecuredByCompletionPlugin
 
   override def plugins: Seq[AMLCompletionPlugin] = all
 

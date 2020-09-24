@@ -1,0 +1,40 @@
+#%Dialect 1.0
+dialect: ObjectInTreeArrayTest
+version: 1.0
+external:
+  internal-ns: http://internal.namespace.com/
+documents:
+  root:
+    encodes: Root
+    declares:
+      decA: A
+
+nodeMappings:
+  Root:
+    classTerm: internal-ns.Root
+    mapping:
+      x:
+        propertyTerm: internal-ns.x
+        range: A
+        allowMultiple: true
+      y:
+        propertyTerm: internal-ns.y
+        range: string
+        enum:
+          - b1
+          - b2
+          - b3
+      z:
+        propertyTerm: internal-ns.z
+        range: A
+        allowMultiple: true
+  A:
+    classTerm: internal-ns.A
+    mapping:
+      a1:
+        propertyTerm: internal-ns.a1
+        range: string
+      a2:
+        propertyTerm: internal-ns.a2
+        range: A
+        allowMultiple: true

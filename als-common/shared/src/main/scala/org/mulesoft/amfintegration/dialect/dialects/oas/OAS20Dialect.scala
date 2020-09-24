@@ -27,6 +27,7 @@ object OAS20Dialect extends OasBaseDialect {
         Oas20PathItemObject,
         Oas20BodyParameterObject,
         Oas20SecuritySchemeObject,
+        Oas20SecuritySettingsNode,
         AMLLicenseObject,
         Oas20ParamObject,
         Oas20ResponseObject,

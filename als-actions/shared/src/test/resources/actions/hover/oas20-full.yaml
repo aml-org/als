@@ -1,0 +1,215 @@
+swagger: '2.0'
+info:
+  title: Swagger Sample App
+  description: This is a sample server Petstore server.
+  termsOfService: http://swagger.io/terms/
+  contact:
+    name: API Support
+    url: http://www.swagger.io/support
+    email: support@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.1
+host: http://host.com
+basePath: myPath
+schemes:
+  - https
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /refpath:
+    $ref: '#/paths/path'
+  /path:
+    get:
+      tags:
+        - tag1
+      description: Returns pets based on ID
+      summary: Find pets by ID
+      operationId: getPetsById
+      externalDocs:
+        url: http://externaldocs.com
+        description: a description
+      consumes:
+        - appplication/json
+      produces:
+        - application/json
+        - text/html
+      parameters:
+        - $ref: '#/parameters/skipParam'
+        - name: param1
+          in: body
+          description: a param1
+          required: false
+          schema:
+            type: object
+      schemes:
+              - http
+              - https
+      deprecated: false
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
+      responses:
+        '200':
+          description: pet response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Pet'
+        default:
+          description: error payload
+          schema:
+            $ref: '#/definitions/ErrorModel'
+    put:
+      description: put
+    post:
+      description: post
+    delete:
+      description: delete
+    options:
+      description: options
+    head:
+      description: head
+    patch:
+      description: patch
+    parameters:
+      - name: id
+        in: path
+        description: ID of pet to use
+        required: true
+        type: array
+        items:
+          type: string
+        collectionFormat: csv
+      - $ref:
+tags:
+  - name: tag1
+    description: a tag test
+    externalDocs:
+      description: Find more info here
+      url: https://swagger.io
+  - name: tag2
+    description: another tag
+
+externalDocs:
+  description: Find more info here
+  url: https://swagger.io
+security:
+  - oauth2: [ scope1, scope2 ]
+
+definitions:
+  refObj:
+    $ref: '#/definitions/int32type'
+  int32Type:
+    type: integer
+    format: int32
+  common:
+    title: common
+    description: common facets
+    default: a
+    multipleOf: 2
+    maximum: 16
+    exclusiveMaximum: false
+    exclusiveMinimum: false
+    maxLength: 100
+    minLength: 0
+    pattern: "^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$"
+    enum:
+      - a
+      - b
+      - c
+      - d
+    type: string
+    allOf:
+      -
+    externalDocs:
+      description: Find more info here
+      url: https://swagger.io
+    example: a
+  arrayType:
+    type: array
+    items:
+      type: string
+    maxItems: 100
+    minItems: 0
+    uniqueItems: false
+  objType:
+    type: object
+    maxProperties: 100
+    properties:
+      a:
+        type: string
+        readOnly: true
+        xml:
+          name: a
+          namespace: http://fake.com
+          prefix: pre
+          attribute: true
+          wrapped: true
+      b:
+        type: string
+    additionalProperties: true
+    minProperties: 0
+    required:
+      - a
+      - b
+    discriminator: pepe
+
+parameters:
+  skipParam:
+    name: skip
+    in: query
+    description: number of items to skip
+    required: true
+    type: integer
+    format: int32
+    allowEmptyValue: false
+    collectionFormat: csv
+  headerParam:
+    name: headerParam
+    in: header
+    type: string
+  pathParam:
+    name: pathParam
+    in: path
+    type: string
+    required: false
+  formDataParam:
+    name: formDataParam
+    in: formData
+    type: string
+  bodyParam:
+    name: bodyParam
+    in: body
+    schema:
+      type: object
+      properties:
+        a:
+          type: string
+        b:
+          type: object
+responses:
+  myResponse:
+    description: a response
+securityDefinitions:
+  api_key:
+    type: apiKey
+    description: a description
+    name: api_key
+    in: header
+  petstore_auth:
+    type: oauth2
+    authorizationUrl: http://swagger.io/api/oauth/dialog
+    flow: implicit
+    scopes:
+      write:pets: modify pets in your account
+      read:pets: read your pets
+  passwordFlow:
+    type: oauth2
+    flow: password
+    tokenUrl: http://swagger.io/api/oauth/dialog

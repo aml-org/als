@@ -21,7 +21,8 @@ trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin with WritingS
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful(params.amfObject match {
-      case shape: Shape if isWritingFacet(params.yPartBranch, shape, params.branchStack) =>
+      case shape: Shape
+          if isWritingFacet(params.yPartBranch, shape, params.branchStack, params.actualDialect) && params.fieldEntry.isEmpty =>
         resolveShape(shape, params.branchStack, params.actualDialect)
       case _ => Nil
     })
@@ -38,6 +39,7 @@ trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin with WritingS
           case _                      => Some(stringShapeNode)
         }
       case _ =>
+        // check inherits field to suggest specific.
         val s = findMoreSpecific(shape.metaURIs, declarations)
         s
     }

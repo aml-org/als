@@ -31,7 +31,7 @@ abstract class ServerWithMarkerTest[Out] extends LanguageServerBaseTest with Bef
           markersInfo.headOption
             .map(markerInfo => {
               openFile(server)(resolved, markerInfo.patchedContent.original)
-              notifier.nextCall.flatMap(e => {
+              notifier.nextCall.flatMap(_ => {
                 val result = Future.sequence(markersInfo.map(markerInfo => {
                   getAction(resolved, server, markerInfo)
                 }))

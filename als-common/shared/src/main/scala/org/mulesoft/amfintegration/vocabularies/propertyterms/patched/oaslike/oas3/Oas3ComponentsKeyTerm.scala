@@ -1,0 +1,5 @@
+package org.mulesoft.amfintegration.vocabularies.propertyterms.patched.oaslike.oas3
+
+import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.oaslike.OaslikeComponentsKeyTerm
+
+object Oas3ComponentsKeyTerm extends OaslikeComponentsKeyTerm with Oas3PatchedKeyTerm

@@ -1,0 +1,339 @@
+#%RAML 1.0
+title: GitHub API
+description: a github api
+uses:
+  lib: library.raml
+version: v3
+baseUri: https://api.github.com/{v}
+baseUriParameters:
+  v:
+    description:
+      (displayNameAnnotation):
+      value: some kind of version.
+    type: string
+protocols:
+  - HTTP
+  - HTTPS
+mediaType:  application/json
+documentation:
+  - title: Home
+    content: |
+       Welcome to the _Zencoder API_ Documentation. The _Zencoder API_
+       allows you to connect your application to our encoding service
+       and encode videos without going through the web  interface. You
+       may also benefit from one of our
+       [integration libraries](https://app.zencoder.com/docs/faq/basics/libraries)
+       for different languages.
+  - title: Legal
+    content: a markdown
+securitySchemes:
+  oauth_2_0:
+    description: |
+      Dropbox supports OAuth 2.0 for authenticating all API requests.
+    type: OAuth 2.0
+    describedBy:
+      headers:
+        Authorization:
+          description: |
+             Used to send a valid OAuth 2 access token. Do not use
+             with the "access_token" query string parameter.
+          type: string
+      queryParameters:
+        access_token:
+          description: |
+             Used to send a valid OAuth 2 access token. Do not use with
+             the "Authorization" header.
+          type: string
+      responses:
+        401:
+          description: |
+              Bad or expired token. This can happen if the user or Dropbox
+              revoked or expired an access token. To fix, re-authenticate
+              the user.
+        403:
+          description: |
+              Bad OAuth request (wrong consumer key, bad nonce, expired
+              timestamp...). Unfortunately, re-authenticating the user won't help here.
+    settings:
+      authorizationUri: https://www.dropbox.com/1/oauth2/authorize
+      accessTokenUri: https://api.dropbox.com/1/oauth2/token
+      authorizationGrants: [ authorization_code, implicit ]
+  oauth_1_0:
+    description: |
+      OAuth 1.0 continues to be supported for all API requests, but OAuth 2.0 is now preferred.
+    type: OAuth 1.0
+    settings:
+      requestTokenUri: https://api.dropbox.com/1/oauth/request_token
+      authorizationUri: https://www.dropbox.com/1/oauth/authorize
+      tokenCredentialsUri: https://api.dropbox.com/1/oauth/access_token
+
+  basic:
+    description: |
+      This API supports Basic Authentication.
+    type: Basic Authentication
+  digest:
+    description: |
+      This API supports DigestSecurityScheme Authentication.
+    type: Digest Authentication
+  passthrough:
+      description: |
+        This API supports Pass Through Authentication.
+      type: Pass Through
+      describedBy:
+        queryParameters:
+          query:
+            type: string
+        headers:
+          api_key:
+            type: string
+  custom_scheme:
+      description: |
+        A custom security scheme for authenticating requests.
+      type: x-custom
+      describedBy:
+        headers:
+          SpecialToken:
+            description: |
+              Used to send a custom token.
+            type: string
+        responses:
+          401:
+            description: |
+              Bad token.
+          403:
+types:
+  fullT:
+    default: a
+    type: string
+    example: another a
+    displayName: aName
+    description: a type for test
+    (typeAnnotation):
+    facets:
+      aFacet: string
+    xml:
+      attribute: true
+      wrapped: true
+      name: xml
+      namespace: http://namespace.org
+      prefix: pre
+    enum:
+      - b
+      - c
+    minLength: 2
+    maxLength: 6
+    pattern: ^note\d+$
+  numberT:
+     type: number
+     minimum: 3
+     maximum: 5
+     format: int64
+     multipleOf: 4
+  fileT:
+    type: file
+    fileTypes: ['image/jpeg', 'image/png']
+    maxLength: 307200
+  unionT:
+    type: User | numberT
+  expT:
+    type: [User | numberT, fileT]
+  User:
+    type: object
+    properties:
+      firstname?: string
+      lastname:
+        type: string
+        required: true
+      age:       number
+      /^note\d+$/: # restrict any properties whose keys start with "note"
+                         # followed by a string of one or more digits
+          type: string
+    minProperties: 2
+    maxProperties: 3
+    additionalProperties: true
+    discriminator: firstname
+    discriminatorValue: Roman
+    examples:
+      e1:
+        name: "Martin"
+        age: 46
+        note1: "Palermo" # valid
+        note2: 123 # not valid as it is not a string
+        note: 123
+      e2:
+        strict: true
+        displayName: an example
+        description: i don't know
+        (exampleAnnotation):
+        value:
+          name: "JuanRoman"
+          age: 42
+          note1: "JR10" # valid
+  Employee:
+    type: Person
+    properties:
+      id:
+        type: string
+  arrayType:
+    type: array
+    items: string
+    minItems: 1
+    uniqueItems: true
+    maxItems: 100
+resourceTypes:
+  collection:
+    usage: This resourceType should be used for any collection of items
+    description: The collection of <<resourcePathName>>
+    get:
+      description: Get all <<resourcePathName>>, optionally filtered
+    post:
+      description: Create a new <<resourcePathName | !singularize>>
+    <<extraOP>>:
+annotationTypes:
+  displayNameAnnotation:
+  rootAnnotation: nil
+  typeAnnotation: nil | string
+  exampleAnnotation: string?
+  endpointAnnotation:
+    type: string
+  operationAnnotation:
+  responseAnnotation:
+    displayName: responseAnnotation
+    description: some frula
+    allowedTargets:
+      - Response
+    properties:
+      level:
+        enum: [ low, medium, high ]
+        required: true
+      signature:
+        pattern: "\\d{3}-\\w{12}"
+        required: true
+(rootAnnotation):
+traits:
+  tr:
+    usage: Apply this to any method that needs to be secured
+    description: Some requests require authentication.
+    headers:
+      access_token:
+        description: Access Token
+        example: 5757gh76
+        required: true
+
+securedBy: [ oauth_2_0 ]
+/search:
+  displayName: search
+  description: just a resource
+  (endpointAnnotation):
+  get:
+    displayName: get
+    description: The API key needed to create a new job
+    (operationAnnotation):
+    queryParameters:
+      qp1:
+        required: true
+        default: a
+        type: string
+        example: another a
+        displayName: aName
+        description: |
+          A department code to be charged.
+          Multiple of such headers are allowed.        (typeAnnotation):
+        facets:
+          aFacet: string
+        xml:
+          attribute: true
+          wrapped: true
+          name: xml
+          namespace: http://namespace.org
+          prefix: pre
+        enum:
+          - b
+          - c
+    headers:
+      h1:
+        required: true
+        default: a
+        type: string
+        example: another a
+        displayName: aName
+        description: |
+          A department code to be charged.
+          Multiple of such headers are allowed.        (typeAnnotation):
+        facets:
+          aFacet: string
+        xml:
+          attribute: true
+          wrapped: true
+          name: xml
+          namespace: http://namespace.org
+          prefix: pre
+        enum:
+          - b
+          - c
+    queryString:
+      qs1:
+        required: true
+        default: a
+        type: string
+        example: another a
+        displayName: aName
+        description: |
+          A department code to be charged.
+          Multiple of such headers are allowed.        (typeAnnotation):
+        facets:
+          aFacet: string
+        xml:
+          attribute: true
+          wrapped: true
+          name: xml
+          namespace: http://namespace.org
+          prefix: pre
+        enum:
+          - b
+          - c
+    responses:
+      200:
+        description: a 200 response
+        (responseAnnotation):
+        headers:
+          h1:
+            type: string
+        body:
+          application/json:
+            type: User
+      422:
+        body:
+          properties:
+            error:
+          example:
+            error: Amount cannot be negative
+    body:
+      application/json:
+        properties:
+          groupName:
+          deptCode:
+            type: number
+    protocols:
+      - http
+      - https
+    is:
+      - tr
+    securedBy: oauth_2_0
+  post:
+  put:
+  patch:
+  delete:
+  options:
+  head:
+  is:
+   - tr
+  type: { collection: {extraOP: put}}
+  securedBy: oauth_2_0
+  uriParameters:
+    uriP:
+      description: The id of the user
+      type: string
+  /code:
+    type: collection
+    get:

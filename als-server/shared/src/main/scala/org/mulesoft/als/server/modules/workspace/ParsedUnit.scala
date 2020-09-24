@@ -7,7 +7,7 @@ import org.mulesoft.amfintegration.AmfImplicits._
 
 import scala.concurrent.Future
 
-case class ParsedUnit(bu: BaseUnit, inTree: Boolean, definedBy: Option[Dialect]) {
+case class ParsedUnit(bu: BaseUnit, inTree: Boolean, definedBy: Dialect) {
   def toCU(next: Option[Future[CompilableUnit]],
            mf: Option[String],
            stack: Seq[ReferenceStack],

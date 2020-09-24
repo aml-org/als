@@ -11,10 +11,13 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas20.{
 }
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30._
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.structure.{
+  IriTemplateMappingIgnore,
   ResolveDeclaredResponse,
   ResolveInfo,
   ResolveParameterShapes,
-  ResolveTag
+  ResolveTag,
+  ResponseExampleException,
+  SchemaExampleException
 }
 import org.mulesoft.als.suggestions.plugins.aml.webapi.{
   ObjectExamplePropertiesCompletionPlugin,
@@ -37,6 +40,8 @@ trait OasBaseCompletionRegistry extends WebApiCompletionPluginRegistry {
         ResolveDeclaredResponse,
         ResolveTag,
         ResolveInfo,
+        IriTemplateMappingIgnore,
+        SchemaExampleException,
         ResolveDefault
       )) :+
     ParameterReferenceCompletionPlugin :+
@@ -45,7 +50,8 @@ trait OasBaseCompletionRegistry extends WebApiCompletionPluginRegistry {
     ObjectExamplePropertiesCompletionPlugin :+
     OasNumberShapeFormatValues :+
     QueryParamNamesFromPath :+
-    WebApiKnownValueCompletionPlugin
+    WebApiKnownValueCompletionPlugin :+
+    ResponsesDeclarationCodes
 }
 
 object Oas20CompletionPluginRegistry extends OasBaseCompletionRegistry {
@@ -60,6 +66,7 @@ object Oas20CompletionPluginRegistry extends OasBaseCompletionRegistry {
         ResolveDeclaredResponse,
         ResolveTag,
         ResolveInfo,
+        ResponseExampleException,
         ResolveDefault
       )) :+
     OaslikeSecurityScopesCompletionPlugin :+
@@ -80,7 +87,7 @@ object Oas30CompletionPluginRegistry extends OasBaseCompletionRegistry {
     OAS30RefTag :+
     RefToParameters :+
     DiscriminatorFacet :+
-    VariableValueParam :+
+    Oas3VariableValueParam :+
     DiscriminatorObject :+
     DiscriminatorMappingValue :+
     FlowNames :+

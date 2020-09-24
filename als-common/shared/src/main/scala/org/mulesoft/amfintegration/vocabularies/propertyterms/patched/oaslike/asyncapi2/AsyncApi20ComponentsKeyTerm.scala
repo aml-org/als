@@ -1,0 +1,5 @@
+package org.mulesoft.amfintegration.vocabularies.propertyterms.patched.oaslike.asyncapi2
+
+import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.oaslike.OaslikeComponentsKeyTerm
+
+object AsyncApi20ComponentsKeyTerm extends OaslikeComponentsKeyTerm with AsyncApi20PatchedKeyTerm
