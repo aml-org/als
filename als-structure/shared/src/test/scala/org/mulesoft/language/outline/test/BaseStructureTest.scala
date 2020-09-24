@@ -8,7 +8,7 @@ import upickle.default.write
 
 abstract class BaseStructureTest extends OutlineTest[List[DocumentSymbol]] {
 
-  override def readDataFromAST(unit: BaseUnit, position: Int, definedBy: Option[Dialect]): List[DocumentSymbol] =
+  override def readDataFromAST(unit: BaseUnit, position: Int, definedBy: Dialect): List[DocumentSymbol] =
     StructureBuilder.listSymbols(unit, definedBy)
 
   override def writeDataToString(data: List[DocumentSymbol]): String =

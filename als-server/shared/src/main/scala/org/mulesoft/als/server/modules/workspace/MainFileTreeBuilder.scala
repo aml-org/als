@@ -23,7 +23,7 @@ class ParsedMainFileTree(eh: ErrorCollector,
                          private val innerDocumentLinks: Map[String, Seq[DocumentLink]],
                          private val innerAliases: Seq[AliasInfo],
                          logger: Logger,
-                         definedBy: Option[Dialect])
+                         definedBy: Dialect)
     extends MainFileTree {
 
   private val errors                               = eh.getErrors
@@ -130,7 +130,7 @@ object ParsedMainFileTree {
             documentLinks: Map[String, Seq[DocumentLink]],
             aliases: Seq[AliasInfo],
             logger: Logger,
-            definedBy: Option[Dialect]): ParsedMainFileTree =
+            definedBy: Dialect): ParsedMainFileTree =
     new ParsedMainFileTree(eh, main, cachables, nodeRelationships, documentLinks, aliases, logger, definedBy)
 }
 

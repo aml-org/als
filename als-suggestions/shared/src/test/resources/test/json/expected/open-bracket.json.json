@@ -1,0 +1,92 @@
+[
+  {
+    "label": "\"asyncapi\": \"2.0.0\"",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define a asyncapi 2.0.0 file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11\"asyncapi\": \"2.0.0\"",
+    "filterText": "\"asyncapi\": \"2.0.0\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 1,
+          "character": 2
+        },
+        "end": {
+          "line": 1,
+          "character": 2
+        }
+      },
+      "newText": "\"asyncapi\": \"2.0.0\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "\"openapi\": \"3.0.0\"",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define a openapi 3.0.0 file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11\"openapi\": \"3.0.0\"",
+    "filterText": "\"openapi\": \"3.0.0\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 1,
+          "character": 2
+        },
+        "end": {
+          "line": 1,
+          "character": 2
+        }
+      },
+      "newText": "\"openapi\": \"3.0.0\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "\"swagger\": \"2.0\"",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define a swagger 2.0 file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11\"swagger\": \"2.0\"",
+    "filterText": "\"swagger\": \"2.0\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 1,
+          "character": 2
+        },
+        "end": {
+          "line": 1,
+          "character": 2
+        }
+      },
+      "newText": "\"swagger\": \"2.0\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

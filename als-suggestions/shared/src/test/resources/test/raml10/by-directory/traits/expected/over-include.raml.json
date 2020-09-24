@@ -330,6 +330,36 @@
     "command": null
   },
   {
+    "label": "protocols.raml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11protocols.raml",
+    "filterText": "protocols.raml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 34
+        },
+        "end": {
+          "line": 7,
+          "character": 34
+        }
+      },
+      "newText": "protocols.raml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "reference-array-variables.raml",
     "kind": [],
     "detail": "unknown",

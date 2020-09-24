@@ -8,6 +8,7 @@ import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.server.logger.EmptyLogger
 import org.mulesoft.als.server.modules.workspace.{ParsedUnit, WorkspaceParserRepository}
+import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
 import org.mulesoft.amfintegration.{AmfInstance, AmfParseResult}
 import org.scalatest.{AsyncFunSuite, Matchers}
 
@@ -85,7 +86,7 @@ class WorkspaceParserRepositoryTest extends AsyncFunSuite with Matchers with Pla
       val apiPU: ParsedUnit = getParsedUnitOrFail(r, api.uri)
       val moddedBU          = apiPU.bu.cloneUnit()
       moddedBU.withLocation("file://newLocation/api.raml")
-      r.updateUnit(new AmfParseResult(moddedBU, new DefaultErrorHandler, None))
+      r.updateUnit(new AmfParseResult(moddedBU, new DefaultErrorHandler, ExternalFragmentDialect()))
       val moddedPU = getParsedUnitOrFail(r, "file://newLocation/api.raml")
       assert(moddedPU.bu.id == apiPU.bu.id) // Same id, but different location
       assert(moddedPU.bu.location() != apiPU.bu.location())

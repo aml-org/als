@@ -21,6 +21,7 @@ import org.mulesoft.als.suggestions.aml.webapi.{
 import org.mulesoft.als.suggestions.interfaces.Syntax._
 import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, EmptyCompletionProvider, Syntax}
 import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
+import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
 import org.mulesoft.amfintegration.{AmfInstance, AmfParseResult, InitOptions}
 import org.mulesoft.lsp.feature.completion.CompletionItem
 
@@ -81,21 +82,24 @@ class Suggestions(platform: Platform,
                     snippetSupport: Boolean,
                     rootLocation: Option[String]): CompletionProvider = {
     result.definedBy match {
-      case Some(d) =>
+      case ExternalFragmentDialect.dialect if isHeader(position, patchedContent.original) =>
+        if (!url.toLowerCase().endsWith(".raml"))
+          HeaderCompletionProviderBuilder
+            .build(url,
+                   patchedContent.original,
+                   DtoPosition(position, patchedContent.original),
+                   amfInstance,
+                   configuration)
+        else
+          RamlHeaderCompletionProvider
+            .build(url, patchedContent.original, DtoPosition(position, patchedContent.original))
+      case _ =>
         buildCompletionProviderAST(result.baseUnit,
-                                   d,
+                                   result.definedBy,
                                    DtoPosition(position, patchedContent.original),
                                    patchedContent,
                                    snippetSupport,
                                    rootLocation)
-      case _ if isHeader(position, patchedContent.original) =>
-        if (!url.toLowerCase().endsWith(".raml"))
-          HeaderCompletionProviderBuilder
-            .build(url, patchedContent.original, DtoPosition(position, patchedContent.original), amfInstance)
-        else
-          RamlHeaderCompletionProvider
-            .build(url, patchedContent.original, DtoPosition(position, patchedContent.original))
-      case _ => EmptyCompletionProvider
     }
   }
 
@@ -151,13 +155,17 @@ class Suggestions(platform: Platform,
                snippetSupport,
                rootLocation,
                configuration,
-                completionsPluginHandler))
+               completionsPluginHandler))
   }
 }
 
 object Suggestions extends PlatformSecrets {
-  def default = new Suggestions(platform, Environment(), AlsConfiguration(),
-    new PlatformDirectoryResolver(platform), AmfInstance.default)
+  def default =
+    new Suggestions(platform,
+                    Environment(),
+                    AlsConfiguration(),
+                    new PlatformDirectoryResolver(platform),
+                    AmfInstance.default)
 }
 
 trait SuggestionsHelper {

@@ -6,12 +6,13 @@ import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.{PlainText, RawSuggestion, SuggestionStructure}
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.NonPatchHacks
 import org.mulesoft.amfintegration.AmfImplicits._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
+trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin with NonPatchHacks {
   override def id = "AMLRefTagCompletionPlugin"
 
   private val includeSuggestion = Seq(
@@ -35,45 +36,42 @@ trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
   private def isDeclarable(params: AmlCompletionRequest): Boolean =
     isObjectDeclarable(params) && !params.amfObject.elementIdentifier().contains(params.yPartBranch.stringValue)
 
-  protected def isObjectDeclarable(params: AmlCompletionRequest): Boolean = {
+  protected def isObjectDeclarable(params: AmlCompletionRequest): Boolean =
     params.amfObject.metaURIs
       .exists(v => params.declarationProvider.isTermDeclarable(v))
-  }
 
-  def getSuggestion(params: AmlCompletionRequest, style: Option[String]): Seq[RawSuggestion] = {
+  def getSuggestion(params: AmlCompletionRequest, style: Option[String]): Seq[RawSuggestion] =
     style match {
       case Some(ReferenceStyles.RAML) if isRamlTag(params)       => includeSuggestion
       case Some(ReferenceStyles.JSONSCHEMA) if isJsonKey(params) => refSuggestion
       case None if isJsonKey(params)                             => refSuggestion
       case _                                                     => Nil
     }
-  }
 
   def isRamlTag(params: AmlCompletionRequest): Boolean =
     params.yPartBranch.isValue && params.prefix.startsWith("!")
 
-  def isJsonKey(params: AmlCompletionRequest): Boolean = {
+  def isJsonKey(params: AmlCompletionRequest): Boolean =
     (!params.yPartBranch.hasIncludeTag) && params.yPartBranch.brothers.isEmpty &&
-    isDeclarable(params) &&
-    isInFacet(params) &&
-    matchPrefixPatched(params) &&
-    !isExceptionCase(params.yPartBranch)
-  }
+      isDeclarable(params) &&
+      isInFacet(params) &&
+      matchPrefixPatched(params) &&
+      !isExceptionCase(params.yPartBranch)
 
   private def matchPrefixPatched(params: AmlCompletionRequest) =
-    params.yPartBranch.stringValue.isEmpty || isPatchedKey(params.yPartBranch) || params.yPartBranch.stringValue
+    params.yPartBranch.stringValue.isEmpty || params.yPartBranch.isArray || isPatchedKey(params.yPartBranch) || params.yPartBranch.stringValue
       .startsWith("$")
 
   private def isInFacet(params: AmlCompletionRequest): Boolean = isKeyAlone(params) || isPatchedJson(params)
 
   private def isKeyAlone(params: AmlCompletionRequest): Boolean =
-    params.fieldEntry.isEmpty && params.yPartBranch.isKey
+    params.fieldEntry.isEmpty && notValue(params.yPartBranch)
 
   private def isPatchedJson(params: AmlCompletionRequest): Boolean =
     params.yPartBranch.isJson && params.yPartBranch.isInArray
 
   private def isPatchedKey(yPartBranch: YPartBranch): Boolean =
-    (!yPartBranch.isJson && yPartBranch.stringValue == "k") || (yPartBranch.isJson && yPartBranch.stringValue == "x")
+    yPartBranch.isJson && yPartBranch.stringValue == "x"
 
   protected def isExceptionCase(branch: YPartBranch): Boolean = false
 }

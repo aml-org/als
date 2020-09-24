@@ -1,6 +1,0 @@
-#%Dialect 1.0
-
-documents:
-  fragments:
-    encodes:
-      *

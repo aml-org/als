@@ -1,0 +1,1369 @@
+hovers:
+  (1,3):
+    - Top level element describing a HTTP API
+  (1,11):
+    - Request information for an operation
+  (2,2):
+    - Contains general information about the defined API, such as title and version
+  (2,5):
+    - Contains general information about the defined API, such as title and version
+  (3,4):
+    - Human readable name for the object
+  (3,19):
+    - Request information for an operation
+  (4,7):
+    - Request information for an operation
+  (4,35):
+    - Request information for an operation
+  (5,9):
+    - Request information for an operation
+  (5,30):
+    - Request information for an operation
+  (6,5):
+    - Organization providing an good or service
+  (6,10):
+    - Request information for an operation
+  (7,6):
+    - Request information for an operation
+  (7,15):
+    - Request information for an operation
+  (8,5):
+    - URL identifying the organization
+  (8,24):
+    - Request information for an operation
+  (9,6):
+    - Request information for an operation
+  (9,20):
+    - Request information for an operation
+  (10,5):
+    - Licensing information for a resource
+  (10,10):
+    - Request information for an operation
+  (11,6):
+    - Request information for an operation
+  (11,15):
+    - Request information for an operation
+  (12,5):
+    - URL identifying the organization
+  (12,32):
+    - Request information for an operation
+  (13,5):
+    - Version of the API
+  (13,13):
+    - Request information for an operation
+  (14,3):
+    - server information
+  (14,8):
+    - Request information for an operation
+  (15,5):
+    - URL (potentially a template) for the server
+  (15,30):
+    - Request information for an operation
+  (16,9):
+    - Request information for an operation
+  (16,26):
+    - Request information for an operation
+  (17,8):
+    - Request information for an operation
+  (17,14):
+    - Request information for an operation
+  (18,10):
+    - Request information for an operation
+  (18,15):
+    - Request information for an operation
+  (20,10):
+    - Request information for an operation
+  (20,13):
+    - Request information for an operation
+  (21,15):
+    - Request information for an operation
+  (22,14):
+    - Request information for an operation
+  (23,11):
+    - Request information for an operation
+  (23,20):
+    - Request information for an operation
+  (24,13):
+    - Request information for an operation
+  (24,63):
+    - Request information for an operation
+  (26,2):
+    - Path to each declared endpoint. Relative to basePath
+  (26,6):
+    - Request information for an operation
+  (27,4):
+    - Path template for an endpoint
+  (27,8):
+    - Request information for an operation
+  (28,7):
+    - Request information for an operation
+  (28,18):
+    - Request information for an operation
+  (29,9):
+    - Request information for an operation
+  (29,25):
+    - Request information for an operation
+  (30,5):
+    - HTTP method required to invoke the operation
+  (30,8):
+    - Request information for an operation
+  (31,8):
+    - Request information for an operation
+  (31,11):
+    - Request information for an operation
+  (32,11):
+    - Request information for an operation
+  (33,9):
+    - Request information for an operation
+  (33,35):
+    - Request information for an operation
+  (34,11):
+    - Request information for an operation
+  (34,39):
+    - Request information for an operation
+  (35,12):
+    - Request information for an operation
+  (35,19):
+    - Request information for an operation
+  (36,13):
+    - Request information for an operation
+  (36,30):
+    - Request information for an operation
+  (37,9):
+    - Request information for an operation
+  (37,22):
+    - Request information for an operation
+  (38,11):
+    - Request information for an operation
+  (38,27):
+    - Request information for an operation
+  (39,11):
+    - Request information for an operation
+  (39,17):
+    - Request information for an operation
+  (40,12):
+    - Request information for an operation
+  (40,18):
+    - Request information for an operation
+  (41,11):
+    - Request information for an operation
+  (41,16):
+    - Request information for an operation
+  (42,15):
+    - Request information for an operation
+  (42,40):
+    - Request information for an operation
+  (43,14):
+    - Request information for an operation
+  (43,22):
+    - Request information for an operation
+  (44,13):
+    - Request information for an operation
+  (44,17):
+    - Request information for an operation
+  (45,14):
+    - Request information for an operation
+  (45,21):
+    - Request information for an operation
+  (46,11):
+    - Request information for an operation
+  (46,18):
+    - Request information for an operation
+  (47,11):
+    - Request information for an operation
+  (47,16):
+    - Request information for an operation
+  (48,27):
+    - Request information for an operation
+  (48,46):
+    - Request information for an operation
+  (49,15):
+    - Request information for an operation
+  (49,19):
+    - Request information for an operation
+  (50,19):
+    - Request information for an operation
+  (50,25):
+    - Request information for an operation
+  (51,18):
+    - Request information for an operation
+  (51,21):
+    - Request information for an operation
+  (52,23):
+    - Request information for an operation
+  (52,42):
+    - Request information for an operation
+  (53,20):
+    - Request information for an operation
+  (53,27):
+    - Request information for an operation
+  (54,19):
+    - Request information for an operation
+  (54,23):
+    - Request information for an operation
+  (55,23):
+    - Request information for an operation
+  (55,43):
+    - Request information for an operation
+  (56,20):
+    - Request information for an operation
+  (56,27):
+    - Request information for an operation
+  (57,18):
+    - Request information for an operation
+  (57,23):
+    - Request information for an operation
+  (58,21):
+    - Request information for an operation
+  (59,10):
+    - Request information for an operation
+  (59,16):
+    - Request information for an operation
+  (60,10):
+    - Request information for an operation
+  (60,14):
+    - Request information for an operation
+  (61,15):
+    - Request information for an operation
+  (61,29):
+    - Request information for an operation
+  (62,13):
+    - Request information for an operation
+  (62,18):
+    - Request information for an operation
+  (63,21):
+    - Request information for an operation
+  (64,20):
+    - Request information for an operation
+  (65,10):
+    - Request information for an operation
+  (65,14):
+    - Request information for an operation
+  (66,15):
+    - Request information for an operation
+  (66,29):
+    - Request information for an operation
+  (67,13):
+    - Request information for an operation
+  (67,18):
+    - Request information for an operation
+  (68,21):
+    - Request information for an operation
+  (69,20):
+    - Request information for an operation
+  (70,11):
+    - Request information for an operation
+  (70,16):
+    - Request information for an operation
+  (71,12):
+    - Request information for an operation
+  (71,33):
+    - Request information for an operation
+  (72,10):
+    - Request information for an operation
+  (72,16):
+    - Request information for an operation
+  (73,13):
+    - Request information for an operation
+  (73,20):
+    - Request information for an operation
+  (74,12):
+    - Request information for an operation
+  (74,33):
+    - Request information for an operation
+  (75,12):
+    - Request information for an operation
+  (75,17):
+    - Request information for an operation
+  (76,57):
+    - Request information for an operation
+  (76,105):
+    - Request information for an operation
+  (77,14):
+    - Request information for an operation
+  (77,17):
+    - Request information for an operation
+  (78,19):
+    - Request information for an operation
+  (78,26):
+    - Request information for an operation
+  (79,21):
+    - Request information for an operation
+  (79,37):
+    - Request information for an operation
+  (80,19):
+    - Request information for an operation
+  (80,24):
+    - Request information for an operation
+  (81,27):
+    - Request information for an operation
+  (81,37):
+    - Request information for an operation
+  (82,23):
+    - Request information for an operation
+  (82,27):
+    - Request information for an operation
+  (83,24):
+    - Request information for an operation
+  (83,45):
+    - Request information for an operation
+  (84,18):
+    - Request information for an operation
+  (84,24):
+    - Request information for an operation
+  (85,18):
+    - Request information for an operation
+  (85,22):
+    - Request information for an operation
+  (86,23):
+    - Request information for an operation
+  (86,62):
+    - Request information for an operation
+  (87,11):
+    - Request information for an operation
+  (87,20):
+    - Request information for an operation
+  (89,10):
+    - Request information for an operation
+  (89,15):
+    - Request information for an operation
+  (90,13):
+    - Request information for an operation
+  (90,17):
+    - Request information for an operation
+  (91,19):
+    - Request information for an operation
+  (92,18):
+    - Request information for an operation
+  (93,9):
+    - Request information for an operation
+  (93,14):
+    - Request information for an operation
+  (94,11):
+    - Request information for an operation
+  (94,36):
+    - Request information for an operation
+  (95,15):
+    - Request information for an operation
+  (95,32):
+    - Request information for an operation
+  (96,5):
+    - HTTP method required to invoke the operation
+  (96,8):
+    - Request information for an operation
+  (97,11):
+    - Request information for an operation
+  (97,20):
+    - Request information for an operation
+  (98,6):
+    - Request information for an operation
+  (98,9):
+    - Request information for an operation
+  (99,11):
+    - Request information for an operation
+  (99,21):
+    - Request information for an operation
+  (100,7):
+    - Request information for an operation
+  (100,11):
+    - Request information for an operation
+  (101,11):
+    - Request information for an operation
+  (101,22):
+    - Request information for an operation
+  (102,7):
+    - Request information for an operation
+  (102,12):
+    - Request information for an operation
+  (103,11):
+    - Request information for an operation
+  (103,22):
+    - Request information for an operation
+  (104,6):
+    - Request information for an operation
+  (104,9):
+    - Request information for an operation
+  (105,11):
+    - Request information for an operation
+  (105,21):
+    - Request information for an operation
+  (106,6):
+    - Request information for an operation
+  (106,10):
+    - Request information for an operation
+  (107,11):
+    - Request information for an operation
+  (107,21):
+    - Request information for an operation
+  (108,6):
+    - Request information for an operation
+  (108,10):
+    - Request information for an operation
+  (109,11):
+    - Request information for an operation
+  (109,21):
+    - Request information for an operation
+  (110,7):
+    - Request information for an operation
+  (110,12):
+    - Request information for an operation
+  (111,9):
+    - Request information for an operation
+  (111,34):
+    - Request information for an operation
+  (112,13):
+    - Request information for an operation
+  (112,30):
+    - Request information for an operation
+  (113,9):
+    - Request information for an operation
+  (113,15):
+    - Request information for an operation
+  (114,10):
+    - Request information for an operation
+  (114,30):
+    - Request information for an operation
+  (115,10):
+    - Request information for an operation
+  (115,16):
+    - Request information for an operation
+  (116,9):
+    - Request information for an operation
+  (116,15):
+    - Request information for an operation
+  (117,13):
+    - Request information for an operation
+  (117,36):
+    - Request information for an operation
+  (118,12):
+    - Request information for an operation
+  (118,20):
+    - Request information for an operation
+  (119,11):
+    - Request information for an operation
+  (119,15):
+    - Request information for an operation
+  (120,12):
+    - Request information for an operation
+  (120,18):
+    - Request information for an operation
+  (121,12):
+    - Request information for an operation
+  (121,16):
+    - Request information for an operation
+  (122,14):
+    - Request information for an operation
+  (122,21):
+    - Request information for an operation
+  (123,15):
+    - Request information for an operation
+  (123,22):
+    - Request information for an operation
+  (124,10):
+    - Request information for an operation
+  (124,18):
+    - Request information for an operation
+  (125,5):
+    - Contains reusable definitions
+  (125,11):
+    - Request information for an operation
+  (126,5):
+    - Contains declarations of reusable Schemas
+  (126,10):
+    - Request information for an operation
+  (127,8):
+    - Human readable name for the object
+  (127,14):
+    - Defines a data type
+  (128,9):
+    - Defines semantic validation for a fixed subset of values
+  (128,13):
+    - Defines semantic validation for a fixed subset of values
+  (129,7):
+    - Request information for an operation
+  (129,11):
+    - Request information for an operation
+  (130,8):
+    - Request information for an operation
+  (130,19):
+    - Request information for an operation
+  (131,11):
+    - Request information for an operation
+  (131,18):
+    - Request information for an operation
+  (132,9):
+    - Request information for an operation
+  (132,16):
+    - Request information for an operation
+  (133,14):
+    - Request information for an operation
+  (133,26):
+    - Request information for an operation
+  (134,9):
+    - Request information for an operation
+  (134,15):
+    - Request information for an operation
+  (135,14):
+    - Request information for an operation
+  (135,26):
+    - Request information for an operation
+  (136,10):
+    - Request information for an operation
+  (136,18):
+    - Request information for an operation
+  (137,10):
+    - Request information for an operation
+  (137,17):
+    - Request information for an operation
+  (138,9):
+    - Request information for an operation
+  (138,34):
+    - Request information for an operation
+  (139,8):
+    - Request information for an operation
+  (139,11):
+    - Request information for an operation
+  (140,10):
+    - Request information for an operation
+  (141,10):
+    - Request information for an operation
+  (142,8):
+    - Request information for an operation
+  (142,15):
+    - Request information for an operation
+  (143,11):
+    - Request information for an operation
+  (143,27):
+    - Request information for an operation
+  (144,9):
+    - Request information for an operation
+  (144,15):
+    - Request information for an operation
+  (145,10):
+    - Request information for an operation
+  (145,18):
+    - Request information for an operation
+  (146,12):
+    - Request information for an operation
+  (146,19):
+    - Request information for an operation
+  (147,13):
+    - Request information for an operation
+  (147,30):
+    - Request information for an operation
+  (148,9):
+    - Request information for an operation
+  (148,22):
+    - Request information for an operation
+  (149,9):
+    - Request information for an operation
+  (149,15):
+    - Request information for an operation
+  (150,11):
+    - Request information for an operation
+  (150,20):
+    - Request information for an operation
+  (151,9):
+    - Human readable name for the object
+  (151,16):
+    - Defines a data type
+  (152,10):
+    - Minimum items count constraint
+  (152,16):
+    - Minimum items count constraint
+  (153,11):
+    - Unique items constraint
+  (153,21):
+    - Unique items constraint
+  (154,10):
+    - Maximum items count constraint
+  (154,17):
+    - Maximum items count constraint
+  (155,8):
+    - Human readable name for the object
+  (155,12):
+    - Defines a data type
+  (156,10):
+    - Scalar range constraining this scalar shape
+  (156,17):
+    - Scalar range constraining this scalar shape
+  (157,10):
+    - Human readable name for the object
+  (157,17):
+    - Defines a data type
+  (158,12):
+    - Maximum number of properties in the input node constraint
+  (158,22):
+    - Maximum number of properties in the input node constraint
+  (159,12):
+    - Minimum number of properties in the input node constraint
+  (159,21):
+    - Minimum number of properties in the input node constraint
+  (160,10):
+    - Defines a data type
+  (160,15):
+    - Defines a data type
+  (161,10):
+    - Defines a data type
+  (162,11):
+    - Properties associated to this node
+  (162,17):
+    - Properties associated to this node
+  (163,8):
+    - Properties associated to this node
+  (163,10):
+    - Defines a data type
+  (164,14):
+    - Read only property constraint
+  (164,22):
+    - Read only property constraint
+  (165,14):
+    - Write only property constraint
+  (165,23):
+    - Write only property constraint
+  (166,11):
+    - information about how to serialize
+  (166,14):
+    - Information about how to encode into XML a particular data shape
+  (167,14):
+    - XML name mapping
+  (167,18):
+    - XML name mapping
+  (168,16):
+    - XML attribute mapping
+  (168,25):
+    - XML attribute mapping
+  (169,15):
+    - XML wrapped mapping flag
+  (169,23):
+    - XML wrapped mapping flag
+  (170,16):
+    - XML namespace mapping
+  (170,39):
+    - XML namespace mapping
+  (171,15):
+    - XML prefix mapping
+  (171,23):
+    - XML prefix mapping
+  (172,16):
+    - Additional properties in the input node accepted constraint
+  (172,30):
+    - Additional properties in the input node accepted constraint
+  (173,8):
+    - Human readable name for the object
+  (173,14):
+    - Defines a data type
+  (174,8):
+    - Defines a data type
+  (174,29):
+    - Defines a data type
+  (175,9):
+    - Human readable name for the object
+  (175,16):
+    - Defines a data type
+  (176,8):
+    - Defines a data type
+  (176,12):
+    - Logical exclusive or composition of data shapes
+  (177,12):
+    - Defines a data type
+  (177,33):
+    - Defines a data type
+  (178,12):
+    - Defines a data type
+  (178,33):
+    - Defines a data type
+  (179,12):
+    - Defines a data type
+  (179,20):
+    - Defines a data type
+  (180,14):
+    - An object name that is used to differentiate between ambiguous types/schemas
+  (180,22):
+    - An object name that is used to differentiate between ambiguous types/schemas
+  (181,11):
+    - Mappping of acceptable values for the ndoe discriminator
+  (181,16):
+    - Mappping of acceptable values for the ndoe discriminator
+  (182,11):
+    - Variable defined inside an URL template
+  (182,32):
+    - OAS 3 link expression
+  (183,9):
+    - Human readable name for the object
+  (183,16):
+    - Defines a data type
+  (184,8):
+    - Defines a data type
+  (184,12):
+    - Each element should match against at least one of the elements provided
+  (185,12):
+    - Defines a data type
+  (185,33):
+    - Defines a data type
+  (186,12):
+    - Defines a data type
+  (186,33):
+    - Defines a data type
+  (187,9):
+    - Human readable name for the object
+  (187,16):
+    - Defines a data type
+  (188,8):
+    - Defines a data type
+  (188,12):
+    - Logical and composition of data shapes
+  (189,12):
+    - Defines a data type
+  (189,33):
+    - Defines a data type
+  (190,12):
+    - Defines a data type
+  (190,33):
+    - Defines a data type
+  (191,8):
+    - Human readable name for the object
+  (191,14):
+    - Defines a data type
+  (192,7):
+    - Human readable name for the object
+  (192,10):
+    - Defines a data type
+  (193,10):
+    - Scalar range constraining this scalar shape
+  (193,17):
+    - Scalar range constraining this scalar shape
+  (194,6):
+    - Contains declarations of reusable Response objects
+  (194,12):
+    - Request information for an operation
+  (195,8):
+    - Response information for an operation
+  (195,14):
+    - Response information for an operation
+  (196,11):
+    - Human readable description of an element
+  (196,24):
+    - Human readable description of an element
+  (197,9):
+    - Parameter passed as a header to an operation for communication models
+  (197,14):
+    - Parameter passed as a header to an operation for communication models
+  (198,11):
+    - Human readable name for the object
+  (198,16):
+    - Piece of data required or returned by an Operation
+  (199,15):
+    - Human readable description of an element
+  (199,49):
+    - Human readable description of an element
+  (200,13):
+    - Defines a data type
+  (200,17):
+    - Defines a data type
+  (201,14):
+    - Scalar range constraining this scalar shape
+  (201,21):
+    - Scalar range constraining this scalar shape
+  (202,10):
+    - Human readable name for the object
+  (202,13):
+    - Piece of data required or returned by an Operation
+  (203,12):
+    - Piece of data required or returned by an Operation
+  (203,31):
+    - Piece of data required or returned by an Operation
+  (204,9):
+    - Response information for an operation
+  (204,14):
+    - Response information for an operation
+  (205,16):
+    - Media types supported in the payload
+  (205,25):
+    - Encoded payload using certain media-type
+  (206,13):
+    - Defines a data type
+  (206,17):
+    - Defines a data type
+  (207,14):
+    - Scalar range constraining this scalar shape
+  (207,21):
+    - Scalar range constraining this scalar shape
+  (208,13):
+    - Examples for a particular element declaration
+  (208,19):
+    - Example value for a schema inside an API
+  (209,14):
+    - An array of properties and its encoding information. The key, being the property name, must exist in the schema as a property
+  (209,19):
+    - An array of properties and its encoding information. The key, being the property name, must exist in the schema as a property
+  (210,19): []
+  (210,28): []
+  (212,19): []
+  (212,42): []
+  (213,16):
+    - Describes how a specific property value will be serialized depending on its type.
+  (213,23):
+    - Describes how a specific property value will be serialized depending on its type.
+  (214,17): []
+  (214,25): []
+  (215,20): []
+  (215,31): []
+  (216,18): []
+  (216,25): []
+  (218,19): []
+  (218,37): []
+  (219,17):
+    - Piece of data required or returned by an Operation
+  (219,22):
+    - Piece of data required or returned by an Operation
+  (220,25):
+    - Human readable name for the object
+  (220,35):
+    - Piece of data required or returned by an Operation
+  (221,23):
+    - Human readable description of an element
+  (221,57):
+    - Human readable description of an element
+  (222,21):
+    - Defines a data type
+  (222,25):
+    - Defines a data type
+  (223,22):
+    - Scalar range constraining this scalar shape
+  (223,29):
+    - Scalar range constraining this scalar shape
+  (224,8):
+    - Structural definition of links on the source data shape AST
+  (224,12):
+    - Structural definition of links on the source data shape AST
+  (225,11):
+    - Human readable name for the object
+  (225,16):
+    - Templated link containing URL template and variables mapping
+  (226,12):
+    - Templated link containing URL template and variables mapping
+  (226,30):
+    - Templated link containing URL template and variables mapping
+  (228,7):
+    - Contains declarations of reusable Parameter objects
+  (228,13):
+    - Request information for an operation
+  (229,7):
+    - Piece of data required or returned by an Operation
+  (229,12):
+    - Piece of data required or returned by an Operation
+  (230,8):
+    - Name of a parameter
+  (230,15):
+    - Name of a parameter
+  (231,7):
+    - Part of the Request model where the parameter can be encoded (header, path, query param, etc.)
+  (231,13):
+    - Part of the Request model where the parameter can be encoded (header, path, query param, etc.)
+  (232,9):
+    - Defines a data type
+  (232,13):
+    - Defines a data type
+  (233,10):
+    - Scalar range constraining this scalar shape
+  (233,17):
+    - Scalar range constraining this scalar shape
+  (234,6):
+    - Piece of data required or returned by an Operation
+  (234,10):
+    - Piece of data required or returned by an Operation
+  (235,8):
+    - Name of a parameter
+  (235,14):
+    - Name of a parameter
+  (236,7):
+    - Part of the Request model where the parameter can be encoded (header, path, query param, etc.)
+  (236,12):
+    - Part of the Request model where the parameter can be encoded (header, path, query param, etc.)
+  (237,10):
+    - Marks the parameter as required
+  (237,18):
+    - Marks the parameter as required
+  (238,9):
+    - Defines a data type
+  (238,13):
+    - Defines a data type
+  (239,10):
+    - Scalar range constraining this scalar shape
+  (239,17):
+    - Scalar range constraining this scalar shape
+  (240,7):
+    - Piece of data required or returned by an Operation
+  (240,12):
+    - Piece of data required or returned by an Operation
+  (241,8):
+    - Name of a parameter
+  (241,15):
+    - Name of a parameter
+  (242,7):
+    - Part of the Request model where the parameter can be encoded (header, path, query param, etc.)
+  (242,13):
+    - Part of the Request model where the parameter can be encoded (header, path, query param, etc.)
+  (243,9):
+    - Defines a data type
+  (243,13):
+    - Defines a data type
+  (244,10):
+    - Scalar range constraining this scalar shape
+  (244,17):
+    - Scalar range constraining this scalar shape
+  (245,10):
+    - Examples for a particular element declaration
+  (245,15):
+    - Examples for a particular element declaration
+  (246,12):
+    - Human readable name for the object
+  (246,18):
+    - Example value for a schema inside an API
+  (247,12):
+    - Example value for a schema inside an API
+  (247,17):
+    - Example value for a schema inside an API
+  (248,7):
+    - Piece of data required or returned by an Operation
+  (248,11):
+    - Piece of data required or returned by an Operation
+  (249,8):
+    - Name of a parameter
+  (249,15):
+    - Name of a parameter
+  (250,11):
+    - Human readable description of an element
+  (250,25):
+    - Human readable description of an element
+  (251,7):
+    - Part of the Request model where the parameter can be encoded (header, path, query param, etc.)
+  (251,12):
+    - Part of the Request model where the parameter can be encoded (header, path, query param, etc.)
+  (252,11):
+    - Marks the parameter as deprecated
+  (252,20):
+    - Marks the parameter as deprecated
+  (253,13):
+    - Parameter can be passed without value
+  (253,25):
+    - Parameter can be passed without value
+  (254,8):
+    - Encoding style for the parameter information
+  (254,20):
+    - Encoding style for the parameter information
+  (255,9):
+    - Piece of data required or returned by an Operation
+  (255,17):
+    - Piece of data required or returned by an Operation
+  (256,12):
+    - Piece of data required or returned by an Operation
+  (256,23):
+    - Piece of data required or returned by an Operation
+  (257,9):
+    - Examples for a particular element declaration
+  (257,15):
+    - Example value for a schema inside an API
+  (258,9):
+    - Defines a data type
+  (258,13):
+    - Defines a data type
+  (259,10):
+    - Scalar range constraining this scalar shape
+  (259,17):
+    - Scalar range constraining this scalar shape
+  (260,6):
+    - Contains declarations of reusable Example objects
+  (260,11):
+    - Request information for an operation
+  (261,8):
+    - Example value for a schema inside an API
+  (261,13):
+    - Example value for a schema inside an API
+  (262,9):
+    - Human readable description of the example
+  (262,19):
+    - Human readable description of the example
+  (263,11):
+    - Example value for a schema inside an API
+  (263,25):
+    - Example value for a schema inside an API
+  (264,8):
+    - Example value for a schema inside an API
+  (264,13):
+    - Example value for a schema inside an API
+  (265,14):
+    - Example value for a schema inside an API
+  (265,25):
+    - Example value for a schema inside an API
+  (266,12):
+    - Raw text containing an unparsable example
+  (266,21):
+    - Raw text containing an unparsable example
+  (267,9):
+    - Example value for a schema inside an API
+  (267,15):
+    - Example value for a schema inside an API
+  (268,8):
+    - Example value for a schema inside an API
+  (268,28):
+    - Example value for a schema inside an API
+  (270,8):
+    - Contains declarations of reusable Request objects
+  (270,16):
+    - Request information for an operation
+  (271,9):
+    - Request information for an operation
+  (271,15):
+    - Request information for an operation
+  (272,11):
+    - Human readable description of an element
+  (272,25):
+    - Human readable description of an element
+  (273,9):
+    - Request information for an operation
+  (273,14):
+    - Request information for an operation
+  (274,14):
+    - Media types supported in the payload
+  (274,21):
+    - Encoded payload using certain media-type
+  (275,14):
+    - Examples for a particular element declaration
+  (275,19):
+    - Examples for a particular element declaration
+  (276,14):
+    - Human readable name for the object
+  (276,17):
+    - Example value for a schema inside an API
+  (277,17):
+    - Human readable description of the example
+  (277,39):
+    - Human readable description of the example
+  (278,20):
+    - Raw text containing an unparsable example
+  (278,50):
+    - Raw text containing an unparsable example
+  (279,7):
+    - Request information for an operation
+  (279,12):
+    - Request information for an operation
+  (280,8):
+    - Request information for an operation
+  (280,31):
+    - Request information for an operation
+  (281,5):
+    - Contains declarations for headers
+  (281,10):
+    - Top level element describing a HTTP API
+  (282,7):
+    - Piece of data required or returned by an Operation
+  (282,12):
+    - Piece of data required or returned by an Operation
+  (283,11):
+    - Human readable description of an element
+  (283,25):
+    - Human readable description of an element
+  (284,11):
+    - Marks the parameter as deprecated
+  (284,20):
+    - Marks the parameter as deprecated
+  (285,13):
+    - Parameter can be passed without value
+  (285,25):
+    - Parameter can be passed without value
+  (286,8):
+    - Encoding style for the parameter information
+  (286,20):
+    - Encoding style for the parameter information
+  (287,9):
+    - Piece of data required or returned by an Operation
+  (287,17):
+    - Piece of data required or returned by an Operation
+  (288,12):
+    - Piece of data required or returned by an Operation
+  (288,23):
+    - Piece of data required or returned by an Operation
+  (289,9):
+    - Examples for a particular element declaration
+  (289,15):
+    - Example value for a schema inside an API
+  (290,9):
+    - Defines a data type
+  (290,13):
+    - Defines a data type
+  (291,10):
+    - Scalar range constraining this scalar shape
+  (291,17):
+    - Scalar range constraining this scalar shape
+  (292,9):
+    - Declarations of reusable authentication mechanisms to ensure secured operations
+  (292,18):
+    - Top level element describing a HTTP API
+  (293,7):
+    - Settings for an API Key security scheme
+  (293,11):
+    - Settings for an API Key security scheme
+  (294,11):
+    - Settings for an API Key security scheme
+  (294,27):
+    - Settings for an API Key security scheme
+  (295,8):
+    - Settings for an API Key security scheme
+  (295,15):
+    - Settings for an API Key security scheme
+  (296,8):
+    - Human readable name for the object
+  (296,15):
+    - Human readable name for the object
+  (297,7):
+    - Settings for an API Key security scheme
+  (297,13):
+    - Settings for an API Key security scheme
+  (298,6):
+    - Settings for an HTTP security scheme
+  (298,9):
+    - Settings for an HTTP security scheme
+  (299,8):
+    - Settings for an HTTP security scheme
+  (299,14):
+    - Settings for an HTTP security scheme
+  (300,9):
+    - Settings for an HTTP security scheme
+  (300,17):
+    - Settings for an HTTP security scheme
+  (301,12):
+    - Settings for an HTTP security scheme
+  (301,21):
+    - Settings for an HTTP security scheme
+  (302,10):
+    - Settings for an OpenID security scheme
+  (302,18):
+    - Settings for an OpenID security scheme
+  (303,8):
+    - Settings for an OpenID security scheme
+  (303,18):
+    - Settings for an OpenID security scheme
+  (304,14):
+    - Settings for an OpenID security scheme
+  (304,25):
+    - Settings for an OpenID security scheme
+  (305,7):
+    - Settings for an OAuth2 security scheme
+  (305,11):
+    - Settings for an OAuth2 security scheme
+  (306,8):
+    - Settings for an OAuth2 security scheme
+  (306,15):
+    - Settings for an OAuth2 security scheme
+  (307,8):
+    - Settings for an OAuth2 security scheme
+  (307,12):
+    - Settings for an OAuth2 security scheme
+  (308,12):
+    - Flow for an OAuth2 security scheme setting
+  (308,17):
+    - Flow for an OAuth2 security scheme setting
+  (309,15):
+    - Flow for an OAuth2 security scheme setting
+  (309,40):
+    - Flow for an OAuth2 security scheme setting
+  (310,18):
+    - Flow for an OAuth2 security scheme setting
+  (310,46):
+    - Flow for an OAuth2 security scheme setting
+  (311,13):
+    - Flow for an OAuth2 security scheme setting
+  (311,17):
+    - Flow for an OAuth2 security scheme setting
+  (312,17):
+    - Human readable name for the object
+  (312,37):
+    - Human readable description for the scope
+  (313,16):
+    - Human readable name for the object
+  (313,30):
+    - Human readable description for the scope
+  (314,12):
+    - Flow for an OAuth2 security scheme setting
+  (314,17):
+    - Flow for an OAuth2 security scheme setting
+  (315,14):
+    - Flow for an OAuth2 security scheme setting
+  (315,22):
+    - Flow for an OAuth2 security scheme setting
+  (316,16):
+    - Flow for an OAuth2 security scheme setting
+  (316,26):
+    - Flow for an OAuth2 security scheme setting
+  (317,14):
+    - Flow for an OAuth2 security scheme setting
+  (317,22):
+    - Flow for an OAuth2 security scheme setting
+  (318,16):
+    - Flow for an OAuth2 security scheme setting
+  (318,26):
+    - Flow for an OAuth2 security scheme setting
+  (319,14):
+    - Flow for an OAuth2 security scheme setting
+  (319,22):
+    - Flow for an OAuth2 security scheme setting
+  (320,18):
+    - Flow for an OAuth2 security scheme setting
+  (320,46):
+    - Flow for an OAuth2 security scheme setting
+  (322,6):
+    - Top level element describing a HTTP API
+  (322,9):
+    - Authentication and access control mechanism defined in an API
+  (323,8):
+    - Authentication and access control mechanism defined in an API
+  (323,30):
+    - Authentication and access control mechanism defined in an API
+  (324,4):
+    - Contains declarations of reusable TemplatedLink objects
+  (324,8):
+    - Top level element describing a HTTP API
+  (325,7):
+    - Templated link containing URL template and variables mapping
+  (325,12):
+    - Templated link containing URL template and variables mapping
+  (326,11):
+    - Identifier of the target operation
+  (326,26):
+    - Identifier of the target operation
+  (327,7):
+    - Templated link containing URL template and variables mapping
+  (327,12):
+    - Templated link containing URL template and variables mapping
+  (329,12):
+    - Reference of the target operation
+  (329,29):
+    - Reference of the target operation
+  (330,11):
+    - Templated link containing URL template and variables mapping
+  (330,17):
+    - Variable mapping for the URL template
+  (332,11):
+    - Variable defined inside an URL template
+  (332,24):
+    - OAS 3 link expression
+  (333,11):
+    - Templated link containing URL template and variables mapping
+  (333,20):
+    - Templated link containing URL template and variables mapping
+  (334,11):
+    - Human readable description of an element
+  (334,25):
+    - Human readable description of an element
+  (335,9):
+    - Information about the network accessible locations where the API is available
+  (335,13):
+    - Information about the network accessible locations where the API is available
+  (336,9):
+    - URL (potentially a template) for the server
+  (336,34):
+    - URL (potentially a template) for the server
+  (337,13):
+    - Human readable description of an element
+  (337,30):
+    - Human readable description of an element
+  (338,6):
+    - Contains declarations of reusable Callback objects
+  (338,12):
+    - Top level element describing a HTTP API
+  (339,8):
+    - Top level element describing a HTTP API
+  (339,14):
+    - Top level element describing a HTTP API
+  (340,53):
+    - EndPoint in the API holding a number of executable operations
+  (340,101):
+    - EndPoint in the API holding a number of executable operations
+  (341,10):
+    - HTTP method required to invoke the operation
+  (341,13):
+    - Action that can be executed using a particular HTTP invocation
+  (342,15):
+    - Human readable name for the object
+  (342,22):
+    - Request information for an operation
+  (343,17):
+    - Human readable description of an element
+  (343,33):
+    - Human readable description of an element
+  (344,15):
+    - Request information for an operation
+  (344,20):
+    - Request information for an operation
+  (345,23):
+    - Media types supported in the payload
+  (345,33):
+    - Encoded payload using certain media-type
+  (346,19):
+    - Defines a data type
+  (346,23):
+    - Defines a data type
+  (347,20):
+    - Defines a data type
+  (347,41):
+    - Defines a data type
+  (348,14):
+    - Response data returned by the operation
+  (348,20):
+    - Response data returned by the operation
+  (349,14):
+    - Human readable name for the object
+  (349,18):
+    - Response information for an operation
+  (350,19):
+    - Human readable description of an element
+  (350,58):
+    - Human readable description of an element
+  (351,4):
+    - Textual indication of the kind of security scheme used
+  (351,9):
+    - Textual indication of the kind of security scheme used
+  (352,7):
+    - Settings for an OAuth2 security scheme
+  (352,11):
+    - Settings for an OAuth2 security scheme
+  (353,12):
+    - Human readable name for the object
+  (354,2):
+    - Additionally custom tagged information
+  (354,5):
+    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
+  (355,6):
+    - Human readable name for the object
+  (355,12):
+    - Human readable name for the object
+  (356,9):
+    - Human readable description of an element
+  (356,23):
+    - Human readable description of an element
+  (357,10):
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+  (357,17):
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+  (358,11):
+    - Human readable description of an element
+  (358,28):
+    - Human readable description of an element
+  (359,7):
+    - URL for the creative work
+  (359,20):
+    - URL for the creative work
+  (360,6):
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+  (360,13):
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+  (361,7):
+    - Human readable description of an element
+  (361,24):
+    - Human readable description of an element
+  (362,3):
+    - URL for the creative work
+  (362,16):
+    - URL for the creative work

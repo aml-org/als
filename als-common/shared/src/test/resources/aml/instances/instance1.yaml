@@ -1,0 +1,29 @@
+#%ObjectInTreeArrayTest 1.0
+decA:
+  testA:
+    a1: test a
+    a2:
+      - a1: sub a
+  testB:
+    a1: test b
+    a2:
+      - testA
+  testC:
+    a1: test c
+    a2:
+      - testA
+      - testB
+            #comment
+x:
+  - testA
+  - testB
+  - testC
+
+y: b1
+
+z:
+  - a1: value
+    a2:
+      - testC
+  - a1: value
+      #comment

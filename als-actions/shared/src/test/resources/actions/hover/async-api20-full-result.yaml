@@ -1,0 +1,1284 @@
+hovers:
+  (1,4):
+    - Top level element describing a HTTP API
+  (1,13):
+    - Top level element describing a HTTP API
+  (2,1):
+    - Represents the universal identifier of the application the specification is defining
+  (2,26):
+    - Represents the universal identifier of the application the specification is defining
+  (3,2):
+    - Contains general information about the defined API, such as title and version
+  (3,5):
+    - Contains general information about the defined API, such as title and version
+  (4,4):
+    - Human readable name for the object
+  (4,18):
+    - Human readable name for the object
+  (5,7):
+    - Human readable description of an element
+  (5,27):
+    - Human readable description of an element
+  (6,9):
+    - Terms and conditions when using the API
+  (6,31):
+    - Terms and conditions when using the API
+  (7,5):
+    - Organization providing an good or service
+  (7,10):
+    - Organization providing an good or service
+  (8,6):
+    - Human readable name for the object
+  (8,15):
+    - Human readable name for the object
+  (9,5):
+    - URL identifying the organization
+  (9,24):
+    - URL identifying the organization
+  (10,6):
+    - Contact email for the organization
+  (10,21):
+    - Contact email for the organization
+  (11,5):
+    - Licensing information for a resource
+  (11,10):
+    - Licensing information for a resource
+  (12,6):
+    - Human readable name for the object
+  (12,15):
+    - Human readable name for the object
+  (13,5):
+    - URL identifying the organization
+  (13,32):
+    - URL identifying the organization
+  (14,5):
+    - Version of the API
+  (14,13):
+    - Version of the API
+  (15,3):
+    - server information
+  (15,8):
+    - server information
+  (16,7):
+    - Information about the network accessible locations where the API is available
+  (16,13):
+    - Information about the network accessible locations where the API is available
+  (17,5):
+    - URL (potentially a template) for the server
+  (17,24):
+    - URL (potentially a template) for the server
+  (18,8):
+    - The protocol this URL supports for connection
+  (18,16):
+    - The protocol this URL supports for connection
+  (19,11):
+    - The version of the protocol used for connection
+  (19,24):
+    - The version of the protocol used for connection
+  (20,9):
+    - Human readable description of an element
+  (20,26):
+    - Human readable description of an element
+  (21,8):
+    - Variables in the URL for the server
+  (21,14):
+    - Variables in the URL for the server
+  (22,7):
+    - Human readable name for the object
+  (22,10):
+    - Defines a data type
+  (23,10):
+    - Each element should be part of the provided list to be valid
+  (23,13):
+    - Each element should be part of the provided list to be valid
+  (24,12):
+    - Defines a data type
+  (25,12):
+    - Defines a data type
+  (26,11):
+    - Defines a data type
+  (26,17):
+    - Defines a data type
+  (27,13):
+    - Human readable description of an element
+  (27,27):
+    - Human readable description of an element
+  (28,12):
+    - Defines a data type
+  (28,17):
+    - Defines a data type
+  (29,12):
+    - Example value for a schema inside an API
+  (30,8):
+    - Textual indication of the kind of security scheme used
+  (30,13):
+    - Textual indication of the kind of security scheme used
+  (31,11):
+    - Settings for an OAuth2 security scheme
+  (31,15):
+    - Settings for an OAuth2 security scheme
+  (32,16):
+    - Human readable name for the object
+  (34,8): []
+  (34,13): []
+  (35,8): []
+  (35,33): []
+  (37,4):
+    - End points defined in the API
+  (37,9):
+    - End points defined in the API
+  (38,8):
+    - Path template for an endpoint
+  (38,16):
+    - EndPoint in the API holding a number of executable operations
+  (39,9):
+    - Human readable description of an element
+  (39,21):
+    - Human readable description of an element
+  (40,8): []
+  (40,13): []
+  (41,8):
+    - binding for a corresponding known type
+  (41,11): []
+  (42,9):
+    - Defines what type of channel is it
+  (42,14):
+    - Defines what type of channel is it
+  (43,7):
+    - HTTP method required to invoke the operation
+  (43,12):
+    - Action that can be executed using a particular HTTP invocation
+  (44,10): []
+  (44,15): []
+  (45,10): []
+  (45,34): []
+  (46,11):
+    - Human readable description of an element
+  (46,22):
+    - Human readable description of an element
+  (47,12):
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+  (47,19):
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+  (48,13):
+    - Human readable description of an element
+  (48,30):
+    - Human readable description of an element
+  (49,9):
+    - URL for the creative work
+  (49,22):
+    - URL for the creative work
+  (50,9):
+    - Request information for an operation
+  (50,14):
+    - Request information for an operation
+  (51,10):
+    - Request information for an operation
+  (51,30):
+    - Request information for an operation
+  (52,11):
+    - Identifier of the target operation
+  (52,21):
+    - Identifier of the target operation
+  (53,9):
+    - Human readable description of the operation
+  (53,18):
+    - Human readable description of the operation
+  (54,8):
+    - Additionally custom tagged information
+  (54,11):
+    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
+  (55,12):
+    - Human readable name for the object
+  (55,18):
+    - Human readable name for the object
+  (56,9):
+    - Action that can be executed using a particular HTTP invocation
+  (56,13):
+    - Action that can be executed using a particular HTTP invocation
+  (57,12):
+    - Action that can be executed using a particular HTTP invocation
+  (57,33):
+    - Action that can be executed using a particular HTTP invocation
+  (58,9):
+    - EndPoint in the API holding a number of executable operations
+  (58,15):
+    - Additional data required or returned by an operation
+  (59,9):
+    - Human readable name for the object
+  (59,13):
+    - Piece of data required or returned by an Operation
+  (60,10):
+    - Piece of data required or returned by an Operation
+  (60,31):
+    - Piece of data required or returned by an Operation
+  (61,8):
+    - HTTP method required to invoke the operation
+  (61,14):
+    - Action that can be executed using a particular HTTP invocation
+  (62,10): []
+  (62,15): []
+  (63,10): []
+  (63,34): []
+  (64,11):
+    - Human readable description of an element
+  (64,23):
+    - Human readable description of an element
+  (65,12):
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+  (65,19):
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+  (66,13):
+    - Human readable description of an element
+  (66,30):
+    - Human readable description of an element
+  (67,9):
+    - URL for the creative work
+  (67,22):
+    - URL for the creative work
+  (68,9):
+    - Response information for an operation
+  (68,14):
+    - Response information for an operation
+  (69,10):
+    - Response information for an operation
+  (69,30):
+    - Response information for an operation
+  (70,11):
+    - Identifier of the target operation
+  (70,21):
+    - Identifier of the target operation
+  (71,9):
+    - Human readable description of the operation
+  (71,18):
+    - Human readable description of the operation
+  (72,8):
+    - Additionally custom tagged information
+  (72,11):
+    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
+  (73,12):
+    - Human readable name for the object
+  (73,18):
+    - Human readable name for the object
+  (74,9):
+    - Action that can be executed using a particular HTTP invocation
+  (74,13):
+    - Action that can be executed using a particular HTTP invocation
+  (75,12):
+    - Action that can be executed using a particular HTTP invocation
+  (75,33):
+    - Action that can be executed using a particular HTTP invocation
+  (76,2):
+    - Additionally custom tagged information
+  (76,5):
+    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
+  (77,6):
+    - Human readable name for the object
+  (77,12):
+    - Human readable name for the object
+  (78,9):
+    - Human readable description of an element
+  (78,27):
+    - Human readable description of an element
+  (79,10):
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+  (79,17):
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+  (80,11):
+    - Human readable description of an element
+  (80,28):
+    - Human readable description of an element
+  (81,7):
+    - URL for the creative work
+  (81,20):
+    - URL for the creative work
+  (82,6):
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+  (82,13):
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+  (83,7):
+    - Human readable description of an element
+  (83,24):
+    - Human readable description of an element
+  (84,3):
+    - URL for the creative work
+  (84,16):
+    - URL for the creative work
+  (86,5):
+    - Contains reusable definitions
+  (86,11):
+    - Contains reusable definitions
+  (87,5):
+    - Contains declarations of reusable Schemas
+  (87,10):
+    - Top level element describing a HTTP API
+  (88,10):
+    - Human readable name for the object
+  (88,17):
+    - Defines a data type
+  (89,8):
+    - Scalar range constraining this scalar shape
+  (89,15):
+    - Scalar range constraining this scalar shape
+  (90,9):
+    - Defines semantic validation for a fixed subset of values
+  (90,16):
+    - Defines semantic validation for a fixed subset of values
+  (91,10):
+    - Human readable name for the object
+  (91,17):
+    - Defines a data type
+  (92,8):
+    - Defines a data type
+  (92,16):
+    - Defines a data type
+  (93,10):
+    - Defines a data type
+  (93,18):
+    - Defines a data type
+  (94,11):
+    - Multiple of constraint
+  (94,18):
+    - Multiple of constraint
+  (95,9):
+    - Defines a data type
+  (95,16):
+    - Defines a data type
+  (96,14):
+    - Maximum inclusive constraint
+  (96,25):
+    - Maximum inclusive constraint
+  (97,9):
+    - Defines a data type
+  (97,15):
+    - Defines a data type
+  (98,14):
+    - Minimum inclusive constraint
+  (98,24):
+    - Minimum inclusive constraint
+  (99,10):
+    - Defines a data type
+  (99,18):
+    - Defines a data type
+  (100,10):
+    - Defines a data type
+  (100,17):
+    - Defines a data type
+  (101,9):
+    - Defines a data type
+  (101,16):
+    - Defines a data type
+  (102,8):
+    - Defines a data type
+  (102,11):
+    - Defines a data type
+  (103,10):
+    - Defines a data type
+  (104,10):
+    - Defines a data type
+  (105,8):
+    - Each element should be part of the provided list to be valid
+  (105,13):
+    - Defines a data type
+  (106,10):
+    - Examples for a particular element declaration
+  (106,15):
+    - Examples for a particular element declaration
+  (107,10):
+    - Example value for a schema inside an API
+  (108,7):
+    - Human readable name for the object
+  (108,9):
+    - Defines a data type
+  (109,10):
+    - Scalar range constraining this scalar shape
+  (109,17):
+    - Scalar range constraining this scalar shape
+  (110,8):
+    - Human readable name for the object
+  (110,11):
+    - Defines a data type
+  (111,10):
+    - Scalar range constraining this scalar shape
+  (111,17):
+    - Scalar range constraining this scalar shape
+  (112,8):
+    - Human readable name for the object
+  (112,11):
+    - Defines a data type
+  (113,10):
+    - Scalar range constraining this scalar shape
+  (113,17):
+    - Scalar range constraining this scalar shape
+  (114,10):
+    - Read only property constraint
+  (114,18):
+    - Read only property constraint
+  (115,10):
+    - Write only property constraint
+  (115,19):
+    - Write only property constraint
+  (116,11):
+    - Human readable description of an element
+  (116,21):
+    - Human readable description of an element
+  (117,9):
+    - Default value for this element
+  (117,15):
+    - Defines a data type
+  (118,12):
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+  (118,19):
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+  (119,9):
+    - URL for the creative work
+  (119,13):
+    - URL for the creative work
+  (120,11):
+    - Deprecated annotation for a property constraint
+  (120,20):
+    - Deprecated annotation for a property constraint
+  (121,10):
+    - Human readable name for the object
+  (121,17):
+    - Defines a data type
+  (122,8):
+    - Defines a data type
+  (122,15):
+    - Defines a data type
+  (123,11):
+    - Properties associated to this node
+  (123,17):
+    - Properties associated to this node
+  (124,8):
+    - Properties associated to this node
+  (124,10):
+    - Defines a data type
+  (125,12):
+    - Scalar range constraining this scalar shape
+  (125,19):
+    - Scalar range constraining this scalar shape
+  (126,8):
+    - Properties associated to this node
+  (126,10):
+    - Defines a data type
+  (127,12):
+    - Scalar range constraining this scalar shape
+  (127,19):
+    - Scalar range constraining this scalar shape
+  (128,14):
+    - Defines a data type
+  (128,25):
+    - Defines a data type
+  (129,16):
+    - Additional properties in the input node accepted constraint
+  (129,30):
+    - Additional properties in the input node accepted constraint
+  (130,12):
+    - Maximum number of properties in the input node constraint
+  (130,22):
+    - Maximum number of properties in the input node constraint
+  (131,12):
+    - Minimum number of properties in the input node constraint
+  (131,21):
+    - Minimum number of properties in the input node constraint
+  (132,12):
+    - Human readable name for the object
+  (132,20):
+    - Defines a data type
+  (133,10):
+    - Defines a data type
+  (133,13):
+    - Defines a data type
+  (134,10):
+    - Defines a data type
+  (134,15):
+    - Defines a data type
+  (135,9):
+    - Human readable name for the object
+  (135,16):
+    - Defines a data type
+  (136,8):
+    - Defines a data type
+  (136,14):
+    - Defines a data type
+  (137,8):
+    - Human readable name for the object
+  (137,12):
+    - Defines a data type
+  (138,10):
+    - Scalar range constraining this scalar shape
+  (138,17):
+    - Scalar range constraining this scalar shape
+  (139,13):
+    - Defines a data type
+  (139,22):
+    - Defines a data type
+  (140,10):
+    - Maximum items count constraint
+  (140,17):
+    - Maximum items count constraint
+  (141,10):
+    - Minimum items count constraint
+  (141,16):
+    - Minimum items count constraint
+  (142,11):
+    - Unique items constraint
+  (142,21):
+    - Unique items constraint
+  (143,9):
+    - Human readable name for the object
+  (143,16):
+    - Defines a data type
+  (144,8):
+    - Defines a data type
+  (144,12):
+    - Logical and composition of data shapes
+  (145,12):
+    - Defines a data type
+  (145,33):
+    - Defines a data type
+  (146,12):
+    - Defines a data type
+  (146,33):
+    - Defines a data type
+  (147,9):
+    - Human readable name for the object
+  (147,16):
+    - Defines a data type
+  (148,8):
+    - Defines a data type
+  (148,12):
+    - Each element should match against at least one of the elements provided
+  (149,12):
+    - Defines a data type
+  (149,33):
+    - Defines a data type
+  (150,12):
+    - Defines a data type
+  (150,33):
+    - Defines a data type
+  (151,12):
+    - An object name that is used to differentiate between ambiguous types/schemas
+  (151,21):
+    - An object name that is used to differentiate between ambiguous types/schemas
+  (152,9):
+    - Human readable name for the object
+  (152,16):
+    - Defines a data type
+  (153,8):
+    - Defines a data type
+  (153,12):
+    - Logical exclusive or composition of data shapes
+  (154,12):
+    - Defines a data type
+  (154,33):
+    - Defines a data type
+  (155,12):
+    - Defines a data type
+  (155,33):
+    - Defines a data type
+  (156,8):
+    - Human readable name for the object
+  (156,14):
+    - Defines a data type
+  (157,7):
+    - Human readable name for the object
+  (157,10):
+    - Defines a data type
+  (158,10):
+    - Scalar range constraining this scalar shape
+  (158,17):
+    - Scalar range constraining this scalar shape
+  (159,6):
+    - Contains declarations of reusable Messages
+  (159,11):
+    - Top level element describing a HTTP API
+  (160,8): []
+  (160,13): []
+  (161,9):
+    - Parameter passed as a header to an operation for communication models
+  (161,14):
+    - Defines a data type
+  (162,10):
+    - Defines a data type
+  (162,31):
+    - Defines a data type
+  (163,9): []
+  (163,14):
+    - Defines a data type
+  (164,13):
+    - Human readable description of an element
+  (164,25):
+    - Human readable description of an element
+  (165,12):
+    - Model defining an identifier that can used for message tracing and correlation
+  (165,20):
+    - Model defining an identifier that can used for message tracing and correlation
+  (166,10):
+    - Model defining an identifier that can used for message tracing and correlation
+  (166,35):
+    - Model defining an identifier that can used for message tracing and correlation
+  (167,12): []
+  (167,43):
+    - Encoded payload using certain media-type
+  (168,11): []
+  (168,27):
+    - Encoded payload using certain media-type
+  (169,8):
+    - Human readable name for the term
+  (169,15):
+    - Human readable name for the term
+  (170,8):
+    - Title of the item
+  (170,22):
+    - Title of the item
+  (171,9):
+    - Human readable short description of the request/response
+  (171,18):
+    - Human readable short description of the request/response
+  (172,11):
+    - Human readable description of an element
+  (172,25):
+    - Human readable description of an element
+  (173,8):
+    - Additionally custom tagged information
+  (173,11):
+    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
+  (174,12):
+    - Human readable name for the object
+  (174,18):
+    - Human readable name for the object
+  (175,12):
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+  (175,19):
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+  (176,9):
+    - URL for the creative work
+  (176,13):
+    - URL for the creative work
+  (177,10): []
+  (177,15): []
+  (178,10):
+    - binding for a corresponding known type
+  (178,13): []
+  (179,17):
+    - The version of this binding
+  (179,26):
+    - The version of this binding
+  (180,10): []
+  (180,15): []
+  (181,12): []
+  (181,18): []
+  (182,9): []
+  (182,13): []
+  (183,12): []
+  (183,31): []
+  (184,9):
+    - Declarations of reusable authentication mechanisms to ensure secured operations
+  (184,18):
+    - Top level element describing a HTTP API
+  (185,10):
+    - Authentication and access control mechanism defined in an API
+  (185,18):
+    - Authentication and access control mechanism defined in an API
+  (186,8):
+    - Type of security scheme
+  (186,18):
+    - Type of security scheme
+  (187,11):
+    - Human readable description of an element
+  (187,25):
+    - Human readable description of an element
+  (188,7):
+    - Settings for an API Key security scheme
+  (188,11):
+    - Settings for an API Key security scheme
+  (189,8):
+    - Settings for an API Key security scheme
+  (189,15):
+    - Settings for an API Key security scheme
+  (190,7):
+    - Settings for an API Key security scheme
+  (190,12):
+    - Settings for an API Key security scheme
+  (191,6):
+    - Settings for an HTTP security scheme
+  (191,9):
+    - Settings for an HTTP security scheme
+  (192,8):
+    - Settings for an HTTP security scheme
+  (192,14):
+    - Settings for an HTTP security scheme
+  (193,9):
+    - Settings for an HTTP security scheme
+  (193,16):
+    - Settings for an HTTP security scheme
+  (194,10):
+    - Settings for an OpenID security scheme
+  (194,18):
+    - Settings for an OpenID security scheme
+  (195,8):
+    - Settings for an OpenID security scheme
+  (195,18):
+    - Settings for an OpenID security scheme
+  (196,7):
+    - Settings for an OAuth2 security scheme
+  (196,11):
+    - Settings for an OAuth2 security scheme
+  (197,8):
+    - Settings for an OAuth2 security scheme
+  (197,15):
+    - Settings for an OAuth2 security scheme
+  (198,8):
+    - Settings for an OAuth2 security scheme
+  (198,12):
+    - Settings for an OAuth2 security scheme
+  (199,12):
+    - Flow for an OAuth2 security scheme setting
+  (199,17):
+    - Flow for an OAuth2 security scheme setting
+  (200,18):
+    - Flow for an OAuth2 security scheme setting
+  (200,46):
+    - Flow for an OAuth2 security scheme setting
+  (201,13):
+    - Flow for an OAuth2 security scheme setting
+  (201,17):
+    - Flow for an OAuth2 security scheme setting
+  (202,17):
+    - Human readable name for the object
+  (202,37):
+    - Human readable description for the scope
+  (203,16):
+    - Human readable name for the object
+  (203,30):
+    - Human readable description for the scope
+  (204,12):
+    - Flow for an OAuth2 security scheme setting
+  (204,17):
+    - Flow for an OAuth2 security scheme setting
+  (205,14):
+    - Flow for an OAuth2 security scheme setting
+  (205,22):
+    - Flow for an OAuth2 security scheme setting
+  (206,16):
+    - Flow for an OAuth2 security scheme setting
+  (206,26):
+    - Flow for an OAuth2 security scheme setting
+  (207,15):
+    - Flow for an OAuth2 security scheme setting
+  (207,23):
+    - Flow for an OAuth2 security scheme setting
+  (208,16):
+    - Flow for an OAuth2 security scheme setting
+  (208,26):
+    - Flow for an OAuth2 security scheme setting
+  (209,18):
+    - Flow for an OAuth2 security scheme setting
+  (209,46):
+    - Flow for an OAuth2 security scheme setting
+  (210,14):
+    - Flow for an OAuth2 security scheme setting
+  (210,37):
+    - Flow for an OAuth2 security scheme setting
+  (211,13):
+    - Flow for an OAuth2 security scheme setting
+  (211,17):
+    - Flow for an OAuth2 security scheme setting
+  (212,17):
+    - Human readable name for the object
+  (212,37):
+    - Human readable description for the scope
+  (213,16):
+    - Human readable name for the object
+  (213,30):
+    - Human readable description for the scope
+  (215,7):
+    - Contains declarations of reusable Parameter objects
+  (215,13):
+    - Top level element describing a HTTP API
+  (216,8):
+    - Piece of data required or returned by an Operation
+  (216,14):
+    - Piece of data required or returned by an Operation
+  (217,11):
+    - Human readable description of an element
+  (217,26):
+    - Human readable description of an element
+  (218,9):
+    - Defines a data type
+  (218,13):
+    - Defines a data type
+  (219,10):
+    - Scalar range constraining this scalar shape
+  (219,17):
+    - Scalar range constraining this scalar shape
+  (220,10):
+    - Part of the Request model where the parameter can be encoded (header, path, query param, etc.)
+  (220,28):
+    - Part of the Request model where the parameter can be encoded (header, path, query param, etc.)
+  (221,9):
+    - Contains declarations of reusable CorrelationId objects
+  (221,17):
+    - Top level element describing a HTTP API
+  (222,10):
+    - Model defining an identifier that can used for message tracing and correlation
+  (222,18):
+    - Model defining an identifier that can used for message tracing and correlation
+  (223,11):
+    - Human readable description of an element
+  (223,30):
+    - Human readable description of an element
+  (224,10):
+    - Structural location of a piece of information
+  (224,31):
+    - Structural location of a piece of information
+  (225,9):
+    - Contains declarations of reusable Operation traits
+  (225,18):
+    - Top level element describing a HTTP API
+  (226,6):
+    - HTTP method required to invoke the operation
+  (226,9):
+    - Action that can be executed using a particular HTTP invocation
+  (227,11):
+    - Identifier of the target operation
+  (227,21):
+    - Identifier of the target operation
+  (228,9):
+    - Human readable description of the operation
+  (228,18):
+    - Human readable description of the operation
+  (229,11):
+    - Human readable description of an element
+  (229,24):
+    - Human readable description of an element
+  (230,8):
+    - Additionally custom tagged information
+  (230,11):
+    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
+  (231,12):
+    - Human readable name for the object
+  (231,18):
+    - Human readable name for the object
+  (232,12):
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+  (232,19):
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+  (233,13):
+    - Human readable description of an element
+  (233,30):
+    - Human readable description of an element
+  (234,9):
+    - URL for the creative work
+  (234,22):
+    - URL for the creative work
+  (235,10): []
+  (235,15): []
+  (236,10):
+    - binding for a corresponding known type
+  (236,13): []
+  (237,11):
+    - Whether the consumer should ack the message or not
+  (237,17):
+    - Whether the consumer should ack the message or not
+  (238,8):
+    - Contains declarations of reusable Message traits
+  (238,16):
+    - Top level element describing a HTTP API
+  (239,5): []
+  (239,7): []
+  (240,9):
+    - Parameter passed as a header to an operation for communication models
+  (240,14):
+    - Defines a data type
+  (241,10):
+    - Scalar range constraining this scalar shape
+  (241,17):
+    - Scalar range constraining this scalar shape
+  (242,12):
+    - Model defining an identifier that can used for message tracing and correlation
+  (242,20):
+    - Model defining an identifier that can used for message tracing and correlation
+  (243,10):
+    - Model defining an identifier that can used for message tracing and correlation
+  (243,35):
+    - Model defining an identifier that can used for message tracing and correlation
+  (244,12): []
+  (244,43):
+    - Encoded payload using certain media-type
+  (245,11): []
+  (245,27):
+    - Encoded payload using certain media-type
+  (246,8):
+    - Human readable name for the term
+  (246,13):
+    - Human readable name for the term
+  (247,8):
+    - Title of the item
+  (247,15):
+    - Title of the item
+  (248,9):
+    - Human readable short description of the request/response
+  (248,19):
+    - Human readable short description of the request/response
+  (249,11):
+    - Human readable description of an element
+  (249,25):
+    - Human readable description of an element
+  (250,8):
+    - Additionally custom tagged information
+  (250,11):
+    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
+  (251,12):
+    - Human readable name for the object
+  (251,18):
+    - Human readable name for the object
+  (252,12):
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+  (252,19):
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+  (253,13):
+    - Human readable description of an element
+  (253,30):
+    - Human readable description of an element
+  (254,9):
+    - URL for the creative work
+  (254,22):
+    - URL for the creative work
+  (255,10): []
+  (255,15): []
+  (256,10):
+    - binding for a corresponding known type
+  (256,13): []
+  (257,17):
+    - The version of this binding
+  (257,26):
+    - The version of this binding
+  (258,10): []
+  (258,15): []
+  (259,12): []
+  (259,18): []
+  (260,9):
+    - Contains declarations of reusable ServerBindings objects
+  (260,17):
+    - Top level element describing a HTTP API
+  (261,10):
+    - Human readable name for the object
+  (261,18): []
+  (262,8):
+    - binding for a corresponding known type
+  (263,7):
+    - binding for a corresponding known type
+  (264,8):
+    - binding for a corresponding known type
+  (265,8):
+    - binding for a corresponding known type
+  (266,8):
+    - binding for a corresponding known type
+  (267,8):
+    - binding for a corresponding known type
+  (267,11): []
+  (268,15):
+    - The version of this binding
+  (268,24):
+    - The version of this binding
+  (269,14):
+    - Whether to create a persistent connection or not
+  (269,24):
+    - Whether to create a persistent connection or not
+  (270,12):
+    - The client identifier
+  (270,18):
+    - The client identifier
+  (271,12):
+    - Interval in seconds of the longest period of time the broker and the client can endure without sending a message
+  (271,19):
+    - Interval in seconds of the longest period of time the broker and the client can endure without sending a message
+  (272,12):
+    - Last Will and Testament configuration
+  (272,17): []
+  (273,11):
+    - Defines how hard the broker/client will try to ensure that the Last Will and Testament message is received
+  (273,15):
+    - Defines how hard the broker/client will try to ensure that the Last Will and Testament message is received
+  (274,13):
+    - Whether the broker should retain the Last Will and Testament message or not
+  (274,20):
+    - Whether the broker should retain the Last Will and Testament message or not
+  (275,12):
+    - The topic where the Last Will and Testament message will be sent
+  (275,17):
+    - The topic where the Last Will and Testament message will be sent
+  (276,8):
+    - binding for a corresponding known type
+  (277,8):
+    - binding for a corresponding known type
+  (278,7):
+    - binding for a corresponding known type
+  (279,7):
+    - binding for a corresponding known type
+  (280,7):
+    - binding for a corresponding known type
+  (281,8):
+    - binding for a corresponding known type
+  (282,8):
+    - binding for a corresponding known type
+  (283,9):
+    - Contains declarations of reusable ChannelBindings objects
+  (283,18):
+    - Top level element describing a HTTP API
+  (284,8):
+    - Human readable name for the object
+  (284,13): []
+  (285,8):
+    - binding for a corresponding known type
+  (285,11): []
+  (286,9):
+    - Defines what type of channel is it
+  (286,14):
+    - Defines what type of channel is it
+  (287,8):
+    - binding for a corresponding known type
+  (288,8):
+    - binding for a corresponding known type
+  (289,7):
+    - binding for a corresponding known type
+  (290,8):
+    - binding for a corresponding known type
+  (291,8):
+    - binding for a corresponding known type
+  (292,8):
+    - binding for a corresponding known type
+  (293,8):
+    - binding for a corresponding known type
+  (294,8):
+    - binding for a corresponding known type
+  (295,7):
+    - binding for a corresponding known type
+  (296,7):
+    - binding for a corresponding known type
+  (297,8):
+    - binding for a corresponding known type
+  (298,7):
+    - binding for a corresponding known type
+  (298,9): []
+  (299,15):
+    - The version of this binding
+  (299,24):
+    - The version of this binding
+  (300,11):
+    - Defines a data type
+  (300,16):
+    - Defines a data type
+  (301,12):
+    - Defines a data type
+  (301,33):
+    - Defines a data type
+  (302,11):
+    - The HTTP method to use when establishing the connection
+  (302,18):
+    - The HTTP method to use when establishing the connection
+  (303,10):
+    - Defines a data type
+  (303,14):
+    - Defines a data type
+  (304,12):
+    - Scalar range constraining this scalar shape
+  (304,19):
+    - Scalar range constraining this scalar shape
+  (305,9):
+    - Contains declarations of reusable MessageBindings objects
+  (305,18):
+    - Top level element describing a HTTP API
+  (306,8):
+    - Human readable name for the object
+  (306,13): []
+  (307,8):
+    - binding for a corresponding known type
+  (307,11): []
+  (308,15):
+    - The version of this binding
+  (308,24):
+    - The version of this binding
+  (309,15):
+    - MIME encoding for the message content
+  (309,27):
+    - MIME encoding for the message content
+  (310,13):
+    - Application-specific message type
+  (310,22):
+    - Application-specific message type
+  (311,8):
+    - binding for a corresponding known type
+  (312,8):
+    - binding for a corresponding known type
+  (312,11): []
+  (313,15):
+    - The version of this binding
+  (313,24):
+    - The version of this binding
+  (314,11):
+    - Defines a data type
+  (314,16):
+    - Defines a data type
+  (315,12):
+    - Defines a data type
+  (315,33):
+    - Defines a data type
+  (316,7):
+    - binding for a corresponding known type
+  (317,8):
+    - binding for a corresponding known type
+  (317,12): []
+  (318,15):
+    - The version of this binding
+  (318,24):
+    - The version of this binding
+  (319,9):
+    - The message key
+  (319,13):
+    - The message key
+  (320,8):
+    - binding for a corresponding known type
+  (320,11): []
+  (321,15):
+    - The version of this binding
+  (321,24):
+    - The version of this binding
+  (322,8):
+    - binding for a corresponding known type
+  (323,8):
+    - binding for a corresponding known type
+  (324,8):
+    - binding for a corresponding known type
+  (325,7):
+    - binding for a corresponding known type
+  (326,7):
+    - binding for a corresponding known type
+  (327,8):
+    - binding for a corresponding known type
+  (328,7):
+    - binding for a corresponding known type
+  (329,10):
+    - Contains declarations of reusable OperationBindings objects
+  (329,20):
+    - Top level element describing a HTTP API
+  (330,8):
+    - Human readable name for the object
+  (330,13): []
+  (331,8):
+    - binding for a corresponding known type
+  (331,11): []
+  (332,9):
+    - Whether the consumer should ack the message or not
+  (332,15):
+    - Whether the consumer should ack the message or not
+  (333,9):
+    - Like cc but consumers will not receive this information
+  (333,12):
+    - Like cc but consumers will not receive this information
+  (334,12):
+    - Like cc but consumers will not receive this information
+  (335,15):
+    - The version of this binding
+  (335,24):
+    - The version of this binding
+  (336,9):
+    - The routing keys the message should be routed to at the time of publishing
+  (336,11):
+    - The routing keys the message should be routed to at the time of publishing
+  (337,12):
+    - The routing keys the message should be routed to at the time of publishing
+  (338,14):
+    - Delivery mode of the message
+  (338,22):
+    - Delivery mode of the message
+  (339,13):
+    - TTL (Time-To-Live) for the message
+  (339,21):
+    - TTL (Time-To-Live) for the message
+  (340,12):
+    - Whether the message is mandatory or not
+  (340,21):
+    - Whether the message is mandatory or not
+  (341,12):
+    - A priority for the message
+  (341,18):
+    - A priority for the message
+  (342,11):
+    - Name of the queue where the consumer should send the response
+  (342,17):
+    - Name of the queue where the consumer should send the response
+  (343,12):
+    - Whether the message should include a timestamp or not
+  (343,21):
+    - Whether the message should include a timestamp or not
+  (344,11):
+    - Identifies the user who has sent the message
+  (344,16):
+    - Identifies the user who has sent the message
+  (345,8):
+    - binding for a corresponding known type
+  (346,8):
+    - binding for a corresponding known type
+  (346,11): []
+  (347,15):
+    - The version of this binding
+  (347,24):
+    - The version of this binding
+  (348,11):
+    - Operation binding method
+  (348,19):
+    - Operation binding method
+  (349,10):
+    - Type of operation
+  (349,17):
+    - Type of operation
+  (350,7):
+    - binding for a corresponding known type
+  (351,8):
+    - binding for a corresponding known type
+  (351,12): []
+  (352,15):
+    - The version of this binding
+  (352,24):
+    - The version of this binding
+  (353,12):
+    - Id of the consumer inside a consumer group
+  (353,18):
+    - Id of the consumer inside a consumer group
+  (354,11):
+    - Id of the consumer group
+  (354,17):
+    - Id of the consumer group
+  (355,8):
+    - binding for a corresponding known type
+  (355,11): []
+  (356,15):
+    - The version of this binding
+  (356,24):
+    - The version of this binding
+  (357,9):
+    - Defines how hard the broker/client will try to ensure that a message is received
+  (357,13):
+    - Defines how hard the broker/client will try to ensure that a message is received
+  (358,11):
+    - Whether the broker should retain the message or not
+  (358,18):
+    - Whether the broker should retain the message or not
+  (359,8):
+    - binding for a corresponding known type
+  (360,8):
+    - binding for a corresponding known type
+  (361,8):
+    - binding for a corresponding known type
+  (362,7):
+    - binding for a corresponding known type
+  (363,7):
+    - binding for a corresponding known type
+  (364,8):
+    - binding for a corresponding known type
+  (365,7):
+    - binding for a corresponding known type

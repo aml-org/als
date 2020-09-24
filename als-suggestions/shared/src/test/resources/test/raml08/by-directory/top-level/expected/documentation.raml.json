@@ -1,1 +1,62 @@
-[]
+[
+  {
+    "label": "content",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "content",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10content",
+    "filterText": "content: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 2
+        }
+      },
+      "newText": "content: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "title",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "title",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10title",
+    "filterText": "title: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 2
+        }
+      },
+      "newText": "title: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

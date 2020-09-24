@@ -318,8 +318,8 @@
             "deprecated": false,
             "range": {
               "start": {
-                "line": 33,
-                "character": 0
+                "line": 32,
+                "character": 4
               },
               "end": {
                 "line": 35,
@@ -328,8 +328,8 @@
             },
             "selectionRange": {
               "start": {
-                "line": 33,
-                "character": 0
+                "line": 32,
+                "character": 4
               },
               "end": {
                 "line": 35,

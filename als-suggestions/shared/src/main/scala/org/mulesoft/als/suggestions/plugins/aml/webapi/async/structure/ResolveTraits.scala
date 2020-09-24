@@ -1,5 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.async.structure
 
+import amf.core.model.domain.Linkable
 import amf.plugins.document.webapi.parser.spec.WebApiDeclarations.ErrorOperationTrait
 import amf.plugins.domain.webapi.models.{Message, Operation, Response}
 import org.mulesoft.als.suggestions.RawSuggestion
@@ -26,6 +27,7 @@ object ResolveTraits extends ResolveIfApplies {
             .resolve(request)
             .map(_.map(_.filterNot(rs => rs.newText == "traits" || rs.newText == "payload")))
         else applies(Future.successful(Seq()))
+      case l: Linkable if l.linkTarget.exists(_.isInstanceOf[ErrorOperationTrait]) => applies(Future(Seq()))
       case _: ErrorOperationTrait =>
         applies(Future(Seq()))
       case _ => notApply

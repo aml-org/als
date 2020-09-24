@@ -33,7 +33,7 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
   implicit override def executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 
-  def readDataFromAST(unit: BaseUnit, position: Int, definedBy: Option[Dialect]): T
+  def readDataFromAST(unit: BaseUnit, position: Int, definedBy: Dialect): T
 
   def writeDataToString(data: T): String
 

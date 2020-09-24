@@ -1,6 +1,10 @@
 package org.mulesoft.amfintegration.vocabularies
 
-import org.mulesoft.amfintegration.vocabularies.propertyterms.aml.DocumentPropertyTerm
+import org.mulesoft.amfintegration.vocabularies.propertyterms.aml.{
+  DocumentPropertyTerm,
+  ExtendsPropertyTerm,
+  ModulePropertyTerm
+}
 
 object AmlDocumentVocabulary extends VocabularyObject {
 
@@ -10,5 +14,5 @@ object AmlDocumentVocabulary extends VocabularyObject {
     Seq()
 
   override protected def properties: Seq[PropertyTermObjectNode] =
-    Seq(DocumentPropertyTerm)
+    Seq(DocumentPropertyTerm, ModulePropertyTerm, ExtendsPropertyTerm)
 }

@@ -148,20 +148,20 @@ class DocumentHighlightTest extends LanguageServerBaseTest {
     ),
     TestEntry(
       "file:///root/api.raml",
-      Position(5, 13),
+      Position(4, 5),
       ws3,
       Set(
         DocumentHighlight(Range(Position(11, 10), Position(11, 16)), DocumentHighlightKind.Text)
       )
     ),
-    TestEntry(
-      "file:///root/api.raml",
-      Position(5, 33),
-      ws3,
-      Set(
-        DocumentHighlight(Range(Position(11, 10), Position(11, 16)), DocumentHighlightKind.Text)
-      )
-    ),
+//    TestEntry(
+//      "file:///root/api.raml",
+//      Position(5, 33),
+//      ws3,
+//      Set(
+//        DocumentHighlight(Range(Position(11, 10), Position(11, 16)), DocumentHighlightKind.Text)
+//      )
+//    ),
     TestEntry(
       "file:///root/api.raml",
       Position(4, 5),

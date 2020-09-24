@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.modules.hover
 
+import amf.core.metamodel.domain.LinkableElementModel
 import amf.plugins.domain.shapes.metamodel.ExampleModel
 import amf.plugins.domain.webapi.metamodel.security.SecuritySchemeModel
 import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
@@ -8,23 +9,31 @@ import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.reference.MarkerInfo
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.{
-  LanguageServerBuilder,
-  MockDiagnosticClientNotifier,
-  MockTelemetryParsingClientNotifier,
-  ServerWithMarkerTest
-}
-import org.mulesoft.amfintegration.vocabularies.AmlCoreVocabulary
+import org.mulesoft.als.server.{LanguageServerBuilder, MockTelemetryParsingClientNotifier, ServerWithMarkerTest}
 import org.mulesoft.amfintegration.vocabularies.propertyterms.NamePropertyTerm
 import org.mulesoft.amfintegration.vocabularies.propertyterms.aml.{ExamplesPropertyTerm, FormatPropertyTerm}
-import org.mulesoft.amfintegration.vocabularies.propertyterms.declarationKeys.{
-  DomainPropertyDeclarationKeyTerm,
-  MessageAbstractDeclarationKeyTerm,
-  MessageDeclarationKeyTerm,
-  OperationAbstractDeclarationKeyTerm,
-  SecuritySettingsDeclarationKeyTerm,
-  ShapeDeclarationKeyTerm
+import org.mulesoft.amfintegration.vocabularies.propertyterms.declarationKeys._
+import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.oaslike.asyncapi2.{
+  AsyncApi20ComponentsKeyTerm,
+  AsyncApi20IdKeyTerm,
+  AsyncApi20InfoKeyTerm
 }
+import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.oaslike.oas2.{
+  Oas2BasePathKeyTerm,
+  Oas2HostKeyTerm,
+  Oas2InfoKeyTerm,
+  Oas2PathsKeyTerm
+}
+import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.oaslike.oas3.{
+  Oas3ComponentsKeyTerm,
+  Oas3InfoKeyTerm,
+  Oas3PathsKeyTerm
+}
+import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.raml.raml08.{
+  Raml08BaseUriParametersTopLevelKeyTerm,
+  Raml08SecuredByKeyTerm
+}
+import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.raml.raml10.Raml10UsesKeyTerm
 import org.mulesoft.amfintegration.vocabularies.propertyterms.shacl.ShaclShapePropertyTerm
 import org.mulesoft.lsp.feature.common.{Position, Range, TextDocumentIdentifier}
 import org.mulesoft.lsp.feature.hover.{Hover, HoverParams, HoverRequestType}
@@ -160,14 +169,14 @@ class HoverTest extends ServerWithMarkerTest[Hover] {
     runTest(buildServer(), "refs/api.raml").map { h =>
       h.contents.size should be(1)
       h.contents.head should be(SecuritySchemeModel.doc.description)
-      h.range.get should be(Range(Position(3, 13), Position(3, 52)))
+      h.range.get should be(Range(Position(3, 2), Position(5, 0)))
     }
   }
 
   test("Test hover on include value") {
     runTest(buildServer(), "refs/api2.raml").map { h =>
       h.contents.size should be(1)
-      h.contents.head should be(SecuritySchemeModel.doc.description)
+      h.contents.head should be(LinkableElementModel.Target.doc.description)
       h.range.get should be(Range(Position(3, 13), Position(3, 52)))
     }
   }
@@ -504,6 +513,109 @@ class HoverTest extends ServerWithMarkerTest[Hover] {
         h.contents.size == 1 &&
         h.contents.head == NamePropertyTerm.description &&
         h.range.get == Range(Position(29, 10), Position(29, 18))
+      }) should be(true)
+    }
+  }
+
+  test("OAS2 top level keys") {
+    runTestMultipleMarkers(buildServer(), "toplevel/oas2.yaml").map { hovers =>
+      hovers.size should be(5)
+      hovers.exists(h => {
+        h.contents.size == 1 &&
+        h.contents.head == Oas2InfoKeyTerm.description &&
+        h.range.get == Range(Position(1, 0), Position(4, 0))
+      }) should be(true)
+
+      hovers.exists(h => {
+        h.contents.size == 1 &&
+        h.contents.head == Oas2PathsKeyTerm.description &&
+        h.range.get == Range(Position(4, 0), Position(5, 0))
+      }) should be(true)
+
+      hovers.exists(h => {
+        h.contents.size == 1 &&
+        h.contents.head == Oas2BasePathKeyTerm.description &&
+        h.range.get == Range(Position(5, 0), Position(6, 0))
+      }) should be(true)
+
+      hovers.exists(h => {
+        h.contents.size == 1 &&
+        h.contents.head == Oas2HostKeyTerm.description &&
+        h.range.get == Range(Position(6, 0), Position(6, 5))
+      }) should be(true)
+    }
+  }
+
+  test("OAS3 top level keys") {
+    runTestMultipleMarkers(buildServer(), "toplevel/oas3.yaml").map { hovers =>
+      hovers.size should be(3)
+      hovers.exists(h => {
+        h.contents.size == 1 &&
+        h.contents.head == Oas3InfoKeyTerm.description &&
+        h.range.get == Range(Position(1, 0), Position(2, 0))
+      }) should be(true)
+
+      hovers.exists(h => {
+        h.contents.size == 1 &&
+        h.contents.head == Oas3ComponentsKeyTerm.description &&
+        h.range.get == Range(Position(2, 0), Position(3, 0))
+      }) should be(true)
+
+      hovers.exists(h => {
+        h.contents.size == 1 &&
+        h.contents.head == Oas3PathsKeyTerm.description &&
+        h.range.get == Range(Position(3, 0), Position(3, 6))
+      }) should be(true)
+    }
+  }
+
+  test("AsyncApi2 top level keys") {
+    runTestMultipleMarkers(buildServer(), "toplevel/asyncapi2.yaml").map { hovers =>
+      hovers.size should be(3)
+      hovers.exists(h => {
+        h.contents.size == 1 &&
+        h.contents.head == AsyncApi20InfoKeyTerm.description &&
+        h.range.get == Range(Position(1, 0), Position(2, 0))
+      }) should be(true)
+
+      hovers.exists(h => {
+        h.contents.size == 1 &&
+        h.contents.head == AsyncApi20ComponentsKeyTerm.description &&
+        h.range.get == Range(Position(2, 0), Position(3, 0))
+      }) should be(true)
+
+      hovers.exists(h => {
+        h.contents.size == 1 &&
+        h.contents.head == AsyncApi20IdKeyTerm.description &&
+        h.range.get == Range(Position(3, 0), Position(3, 3))
+      }) should be(true)
+    }
+  }
+
+  test("Raml08 top level keys") {
+    runTestMultipleMarkers(buildServer(), "toplevel/raml08.raml").map { hovers =>
+      hovers.size should be(2)
+      hovers.exists(h => {
+        h.contents.size == 1 &&
+        h.contents.head == Raml08SecuredByKeyTerm.description &&
+        h.range.get == Range(Position(1, 0), Position(2, 0))
+      }) should be(true)
+
+      hovers.exists(h => {
+        h.contents.size == 1 &&
+        h.contents.head == Raml08BaseUriParametersTopLevelKeyTerm.description &&
+        h.range.get == Range(Position(2, 0), Position(2, 18))
+      }) should be(true)
+    }
+  }
+
+  test("Raml10 top level keys") {
+    runTestMultipleMarkers(buildServer(), "toplevel/raml10.raml").map { hovers =>
+      hovers.size should be(1)
+      hovers.exists(h => {
+        h.contents.size == 1 &&
+        h.contents.head == Raml10UsesKeyTerm.description &&
+        h.range.get == Range(Position(1, 0), Position(1, 5))
       }) should be(true)
     }
   }

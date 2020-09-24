@@ -26,5 +26,6 @@ package object aml {
         val c = category.getOrElse(CategoryRegistry(nodeMapping.nodetypeMapping.value(), p.name().value(), d.id))
         p.toRaw(c)
       }
+
   }
 }

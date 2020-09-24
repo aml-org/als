@@ -1,26 +1,28 @@
 package org.mulesoft.als.suggestions.aml
 
 import amf.core.annotations.SourceAST
-import amf.core.model.document.{BaseUnit, Document}
-import amf.core.model.domain.{AmfObject, DomainElement}
-import amf.core.parser.{FieldEntry, Position => AmfPosition}
+import amf.core.metamodel.document.DocumentModel
+import amf.core.metamodel.domain.common.NameFieldSchema
+import amf.core.model.document.{BaseUnit, DeclaresModel, Document, EncodesModel}
+import amf.core.model.domain.{AmfObject, AmfScalar, DomainElement, NamedDomainElement}
+import amf.core.parser.{FieldEntry, Value, Position => AmfPosition}
 import amf.core.remote.Platform
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
-import org.mulesoft.als.common.AmfSonElementFinder._
 import org.mulesoft.als.common._
-import org.mulesoft.als.common.dtoTypes.{PositionRange, Position => DtoPosition}
-import org.mulesoft.als.configuration.{AlsConfigurationReader, AlsFormattingOptions}
+import org.mulesoft.als.common.dtoTypes.{PositionRange, TextHelper, Position => DtoPosition}
+import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.als.suggestions.CompletionsPluginHandler
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.als.suggestions.styler.{SuggestionRender, SuggestionStylerBuilder}
-import org.mulesoft.amfintegration.FieldEntryOrdering
+import org.mulesoft.amfintegration.AmfImplicits.{AmfObjectImp, _}
 import org.yaml.model.YNode.MutRef
-import org.yaml.model.{YDocument, YNode, YType}
+import org.yaml.model.{YDocument, YMap, YNode, YSequence, YType}
 
+import scala.collection.immutable
 class AmlCompletionRequest(val baseUnit: BaseUnit,
                            val position: DtoPosition,
                            val actualDialect: Dialect,
@@ -39,13 +41,27 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
 
   lazy val amfObject: AmfObject = objectInTree.obj
 
-  lazy val fieldEntry: Option[FieldEntry] = objectInTree.fieldValue
+  private val currentNode = DialectNodeFinder.find(objectInTree.obj, None, actualDialect)
+
+  private def entryAndMapping: Option[(FieldEntry, Boolean)] = {
+    objectInTree.fieldValue
+      .map(fe => (fe, false))
+      .orElse({
+        FieldEntrySearcher(objectInTree.obj, currentNode, yPartBranch, actualDialect)
+          .search(objectInTree.stack.headOption)
+      })
+  }
+
+  lazy val (fieldEntry: Option[FieldEntry], isKeyMapping: Boolean) = entryAndMapping match {
+    case Some(value) => (Some(value._1), value._2)
+    case None        => (None, false)
+  }
 
   def prefix: String = styler.params.prefix
 
   val propertyMapping: List[PropertyMapping] = {
 
-    val mappings: List[PropertyMapping] = DialectNodeFinder.find(objectInTree.obj, fieldEntry, actualDialect) match {
+    val mappings: List[PropertyMapping] = currentNode match {
       case Some(nm: NodeMapping) =>
         PropertyMappingFilter(objectInTree, actualDialect, nm).filter().toList
       case _ => Nil
@@ -53,19 +69,15 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
 
     fieldEntry match {
       case Some(e) =>
-        if (e.value.value
-              .position()
-              .exists(li => li.contains(position.toAmfPosition))) {
-          val maybeMappings = mappings
-            .find(
-              pm =>
-                pm.fields
-                  .fields()
-                  .exists(f => f.value.toString == e.field.value.iri()))
-            .map(List(_))
-          maybeMappings
-            .getOrElse(mappings)
-        } else mappings
+        val maybeMappings = mappings
+          .find(
+            pm =>
+              pm.fields
+                .fields()
+                .exists(f => f.value.toString == e.field.value.iri()))
+          .map(List(_))
+        maybeMappings
+          .getOrElse(mappings)
       case _ => mappings
     }
   }
@@ -110,19 +122,19 @@ object AmlCompletionRequestBuilder {
             configuration: AlsConfigurationReader,
             completionsPluginHandler: CompletionsPluginHandler): AmlCompletionRequest = {
     val yPartBranch: YPartBranch = {
-      val ast = baseUnit match {
-        case d: Document =>
-          d.encodes.annotations.find(classOf[SourceAST]).map(_.ast)
-        case bu => bu.annotations.find(classOf[SourceAST]).map(_.ast)
+      val ast = baseUnit.ast match {
+        case Some(d: YDocument) => d
+        case Some(p)            => YDocument(IndexedSeq(p), p.sourceName)
+        case None               => YDocument(IndexedSeq.empty, "")
       }
-
-      NodeBranchBuilder.build(ast.getOrElse(YDocument(IndexedSeq.empty, "")), position, YamlUtils.isJson(baseUnit))
+      NodeBranchBuilder
+        .build(ast, position, YamlUtils.isJson(baseUnit))
     }
 
     val dtoPosition = DtoPosition(position)
     val styler = SuggestionStylerBuilder.build(
       !yPartBranch.isJson,
-      prefix(yPartBranch, dtoPosition),
+      prefix(yPartBranch, dtoPosition, patchedContent.original),
       patchedContent,
       dtoPosition,
       yPartBranch,
@@ -132,11 +144,10 @@ object AmlCompletionRequestBuilder {
       else None,
       indentation(baseUnit, dtoPosition)
     )
-    val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position, baseUnit.location())
 
     new AmlCompletionRequest(
       baseUnit,
-      DtoPosition(position),
+      dtoPosition,
       dialect,
       environment,
       directoryResolver,
@@ -144,13 +155,22 @@ object AmlCompletionRequestBuilder {
       styler,
       yPartBranch,
       configuration,
-      objectInTree,
+      objInTree(baseUnit, position, dialect),
       rootUri = rootLocation,
       completionsPluginHandler = completionsPluginHandler
     )
   }
 
-  private def prefix(yPartBranch: YPartBranch, position: DtoPosition): String = {
+  private def objInTree(baseUnit: BaseUnit, position: AmfPosition, definedBy: Dialect): ObjectInTree = {
+    val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position, baseUnit.location(), definedBy)
+    objectInTree.obj match {
+      case d: EncodesModel if d.fields.exists(DocumentModel.Encodes) =>
+        ObjectInTree(d.encodes, Seq(objectInTree.obj) ++ objectInTree.stack, position)
+      case _ => objectInTree
+    }
+  }
+
+  private def prefix(yPartBranch: YPartBranch, position: DtoPosition, content: String): String = {
     yPartBranch.node match {
       case node: MutRef =>
         node.origValue.toString.substring(
@@ -179,7 +199,12 @@ object AmlCompletionRequestBuilder {
               } else ""
             case _ => ""
           }
-      case _ => ""
+      case _: YSequence => ""
+      case _ =>
+        val line        = TextHelper.linesWithSeparators(content)(position.line)
+        val textContent = line.substring(0, position.toAmfPosition.column)
+        // add trailing space to avoid checking if it ends with `{, [, `, "`
+        s"$textContent ".split(Array('{', '[', ''', '"')).lastOption.getOrElse("").trim
     }
   }
 
@@ -192,7 +217,11 @@ object AmlCompletionRequestBuilder {
     val newStack: Seq[AmfObject] =
       if (currentIndex < parent.branchStack.length) parent.branchStack.splitAt(currentIndex)._2 else parent.branchStack
     val objectInTree =
-      ObjectInTreeBuilder.fromSubTree(element, parent.position.toAmfPosition, parent.baseUnit.location(), newStack)
+      ObjectInTreeBuilder.fromSubTree(element,
+                                      parent.position.toAmfPosition,
+                                      parent.baseUnit.location(),
+                                      newStack,
+                                      parent.actualDialect)
     new AmlCompletionRequest(
       parent.baseUnit,
       parent.position,
