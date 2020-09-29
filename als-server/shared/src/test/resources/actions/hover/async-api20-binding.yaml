@@ -1,0 +1,10 @@
+asyncapi: "2.0.0"
+id: 'urn:com:smartylighting:streetlights:server'
+info:
+  title: AsyncAPI Sample App
+components:
+  messageBindings:
+    mBinding:
+      kafka:
+        bindingVersion: 1
+        k[*]ey: a
