@@ -76,6 +76,14 @@ class HoverTest extends ServerWithMarkerTest[Hover] {
     }
   }
 
+  test("Test async message binding key") {
+    runTest(buildServer(), "async-api20-binding.yaml").map { h =>
+      h.contents.size should be(1)
+      h.contents.head should be("Schema that defines the message key")
+      h.range.get should be(Range(Position(9, 8), Position(9, 14)))
+    }
+  }
+
   test("Test hover oas web api title") {
     runTest(buildServer(), "oas-webapi-title.yaml").map { h =>
       h.contents.size should be(1)

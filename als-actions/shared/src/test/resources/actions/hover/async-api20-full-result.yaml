@@ -1069,7 +1069,7 @@ hovers:
   (299,24):
     - The version of this binding
   (300,11):
-    - Defines a data type
+    - A Schema object containing the definitions for HTTP-specific headers
   (300,16):
     - Defines a data type
   (301,12):
@@ -1081,7 +1081,7 @@ hovers:
   (302,18):
     - The HTTP method to use when establishing the connection
   (303,10):
-    - Defines a data type
+    - A Schema object containing the definitions for each query parameter
   (303,14):
     - Defines a data type
   (304,12):
@@ -1120,7 +1120,7 @@ hovers:
   (313,24):
     - The version of this binding
   (314,11):
-    - Defines a data type
+    - A Schema object containing the definitions for HTTP-specific headers
   (314,16):
     - Defines a data type
   (315,12):
@@ -1137,9 +1137,9 @@ hovers:
   (318,24):
     - The version of this binding
   (319,9):
-    - The message key
+    - Schema that defines the message key
   (319,13):
-    - The message key
+    - Defines a data type
   (320,8):
     - binding for a corresponding known type
   (320,11): []
@@ -1246,13 +1246,13 @@ hovers:
   (352,24):
     - The version of this binding
   (353,12):
-    - Id of the consumer inside a consumer group
+    - Schema that defines the id of the consumer inside a consumer group
   (353,18):
-    - Id of the consumer inside a consumer group
+    - Defines a data type
   (354,11):
-    - Id of the consumer group
+    - Schema that defines the id of the consumer group
   (354,17):
-    - Id of the consumer group
+    - Defines a data type
   (355,8):
     - binding for a corresponding known type
   (355,11): []
