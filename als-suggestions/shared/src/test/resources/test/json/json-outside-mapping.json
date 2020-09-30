@@ -1,0 +1,27 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "testapi",
+    "version": "1.1.0"
+  },
+  "paths": {
+    "/pets": {
+      "get": {
+        "description": "Returns all pets from the system that the user has access to",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "aa",
+            "schema": {
+              "type": "integer",
+              "maximum": 10
+            }*
+          }
+        }
+      }
+    }
+  }
+
+}
