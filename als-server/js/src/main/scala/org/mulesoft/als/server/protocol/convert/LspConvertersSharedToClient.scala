@@ -118,7 +118,7 @@ object LspConvertersSharedToClient {
 
   implicit class ClientSerializationMessageConverter(v: SerializationResult[js.Any]) {
     def toClient: ClientSerializationResult =
-      ClientSerializationResult(v.model)
+      ClientSerializationResult(v)
   }
 
   implicit class ClientDidFocusParamsConverter(v: DidFocusParams) {
