@@ -1,0 +1,36 @@
+changes:
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-libraries/declared-trait-simple.raml:
+    -
+      from:
+        line: 3
+        column: 3
+      to:
+        line: 4
+        column: 37
+      content: |
+        +
+    -
+      from:
+        line: 1
+        column: 0
+      to:
+        line: 1
+        column: 0
+      content: |
+        +
+        uses:
+          lib: library.raml
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-libraries/library.raml:
+    -
+      from:
+        line: 0
+        column: 0
+      to:
+        line: 0
+        column: 0
+      content: |
+        +
+        #%RAML 1.0 Library
+        traits:
+          A:
+            description: test resource type

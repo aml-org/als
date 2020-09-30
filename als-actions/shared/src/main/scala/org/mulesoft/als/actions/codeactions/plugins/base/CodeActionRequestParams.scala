@@ -38,17 +38,19 @@ object CodeActionParamsImpl {
                         uuid: String,
                         amfInstance: AmfInstance,
                         directoryResolver: DirectoryResolver): CodeActionRequestParams =
-      CodeActionRequestParams(param.textDocument.uri,
-                              PositionRange(param.range),
-                              bu,
-                              tree,
-                              yPartBranch,
-                              dialect,
-                              configuration,
-                              allRelationships,
-                              telemetryProvider,
-                              uuid,
-                              amfInstance,
-                              directoryResolver)
+      CodeActionRequestParams(
+        param.textDocument.uri,
+        PositionRange(param.range),
+        bu,
+        tree,
+        yPartBranch,
+        dialect,
+        configuration,
+        allRelationships,
+        telemetryProvider,
+        uuid,
+        amfInstance,
+        directoryResolver
+      )
   }
 }

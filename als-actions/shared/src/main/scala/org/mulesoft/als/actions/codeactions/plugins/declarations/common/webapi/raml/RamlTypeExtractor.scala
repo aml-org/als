@@ -12,7 +12,7 @@ import org.yaml.render.{YamlRender, YamlRenderOptions}
 
 import scala.annotation.tailrec
 
-trait RamlTypeExtractor {
+object RamlTypeExtractor {
 
   /**
     *
@@ -26,14 +26,14 @@ trait RamlTypeExtractor {
     * @param yamlOptions
     * @return
     */
-  protected def linkEntry(entryRange: Option[Range],
-                          renderLink: Option[YNode],
-                          entryAst: Option[YPart],
-                          yPartBranch: Option[YPartBranch],
-                          amfObject: Option[AmfObject],
-                          configurationReader: AlsConfigurationReader,
-                          newName: String,
-                          yamlOptions: YamlRenderOptions): Option[TextEdit] =
+  def linkEntry(entryRange: Option[Range],
+                renderLink: Option[YNode],
+                entryAst: Option[YPart],
+                yPartBranch: Option[YPartBranch],
+                amfObject: Option[AmfObject],
+                configurationReader: AlsConfigurationReader,
+                newName: String,
+                yamlOptions: YamlRenderOptions): Option[TextEdit] =
     entryRange.map(TextEdit(
       _,
       s"\n${renderLink

@@ -7,7 +7,10 @@ import amf.plugins.document.webapi.annotations.ForceEntry
 import amf.plugins.document.webapi.parser.spec.common.emitters.WebApiDomainElementEmitter
 import org.mulesoft.als.actions.codeactions.plugins.CodeActionKindTitle
 import org.mulesoft.als.actions.codeactions.plugins.base.{CodeActionRequestParams, CodeActionResponsePlugin}
-import org.mulesoft.als.actions.codeactions.plugins.declarations.common.BaseDeclarableExtractors
+import org.mulesoft.als.actions.codeactions.plugins.declarations.common.{
+  BaseElementDeclarableExtractors,
+  ExtractorCommon
+}
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit, WorkspaceEdit}
@@ -23,7 +26,7 @@ import org.yaml.model.{YMapEntry, YNode, YNonContent}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with BaseDeclarableExtractors {
+trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with BaseElementDeclarableExtractors {
   protected val kindTitle: CodeActionKindTitle
 
   protected def rangeFromEntryBottom(maybeEntry: Option[YMapEntry]): Range =
@@ -35,7 +38,16 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with BaseDecla
     }
 
   private lazy val declaredElementTextEdit: Option[TextEdit] =
-    declaredEntry
+    ExtractorCommon
+      .declaredEntry(amfObject,
+                     vendor,
+                     params.dialect,
+                     params.bu,
+                     params.uri,
+                     newName,
+                     params.configuration,
+                     jsonOptions,
+                     yamlOptions)
       .map(de => TextEdit(rangeFromEntryBottom(de._2), s"\n${de._1}\n"))
 
   override protected def task(params: CodeActionRequestParams): Future[Seq[CodeAction]] =
@@ -49,7 +61,7 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with BaseDecla
         .toSeq
     }
 
-  override protected lazy val renderLink: Future[Option[YNode]] = Future {
+  override protected val renderLink: Future[Option[YNode]] = Future {
     amfObject
       .collect {
         case l: Linkable =>
