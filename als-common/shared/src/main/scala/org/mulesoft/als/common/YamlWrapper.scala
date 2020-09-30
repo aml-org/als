@@ -87,9 +87,6 @@ object YamlWrapper {
 
     override def contains(position: AmfPosition, editionMode: Boolean = false): Boolean =
       super.contains(position, editionMode) &&
-        !(outScalarValue(position) || outIndentation(position)) &&
-    override def contains(position: AmfPosition): Boolean =
-      super.contains(position) &&
         !isFirstChar(position) &&
         (inJsonValue(position) || (!isJson && respectIndentation(position)))
 
@@ -138,11 +135,9 @@ object YamlWrapper {
     def isArray: Boolean = false
 
     override def contains(amfPosition: AmfPosition, editionMode: Boolean = false): Boolean =
-      (super.contains(amfPosition, editionMode) || sameLevelBefore(amfPosition, editionMode)) && respectIndentation(
-        amfPosition)
-
-    override def contains(amfPosition: AmfPosition): Boolean =
-      (super.contains(amfPosition) || sameLevelBefore(amfPosition)) && (isJson || respectIndentation(amfPosition))
+      (super
+        .contains(amfPosition, editionMode) || sameLevelBefore(amfPosition, editionMode)) && (isJson || respectIndentation(
+        amfPosition))
 
     private def respectIndentation(amfPosition: AmfPosition): Boolean =
       map.entries.headOption.forall(_.range.columnFrom <= amfPosition.column)

@@ -56,9 +56,9 @@ hovers:
   (14,13):
     - Version of the API
   (15,3):
-    - server information
+    - Server information
   (15,8):
-    - server information
+    - Server information
   (16,7):
     - Information about the network accessible locations where the API is available
   (16,13):
@@ -140,7 +140,7 @@ hovers:
     - Bindings for this endpoint
   (40,13): []
   (41,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (41,11): []
   (42,9):
     - Defines what type of channel is it
@@ -616,7 +616,7 @@ hovers:
   (164,25):
     - Human readable description of an element
   (165,12):
-    - an identifier that can be used for message tracing and correlation
+    - An identifier that can be used for message tracing and correlation
   (165,20):
     - Model defining an identifier that can used for message tracing and correlation
   (166,10):
@@ -665,7 +665,7 @@ hovers:
     - Bindings for this request/response
   (177,15): []
   (178,10):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (178,13): []
   (179,17):
     - The version of this binding
@@ -883,7 +883,7 @@ hovers:
     - Bindings for this operation
   (235,15): []
   (236,10):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (236,13): []
   (237,11):
     - Whether the consumer should ack the message or not
@@ -904,7 +904,7 @@ hovers:
   (241,17):
     - Scalar range constraining this scalar shape
   (242,12):
-    - an identifier that can be used for message tracing and correlation
+    - An identifier that can be used for message tracing and correlation
   (242,20):
     - Model defining an identifier that can used for message tracing and correlation
   (243,10):
@@ -957,7 +957,7 @@ hovers:
     - Bindings for this request/response
   (255,15): []
   (256,10):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (256,13): []
   (257,17):
     - The version of this binding
@@ -974,17 +974,17 @@ hovers:
   (261,10): []
   (261,18): []
   (262,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (263,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (264,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (265,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (266,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (267,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (267,11): []
   (268,15):
     - The version of this binding
@@ -1018,19 +1018,19 @@ hovers:
   (275,17):
     - The topic where the Last Will and Testament message will be sent
   (276,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (277,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (278,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (279,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (280,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (281,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (282,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (283,9):
     - Contains declarations of reusable ChannelBindings objects
   (283,18):
@@ -1038,36 +1038,36 @@ hovers:
   (284,8): []
   (284,13): []
   (285,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (285,11): []
   (286,9):
     - Defines what type of channel is it
   (286,14):
     - Defines what type of channel is it
   (287,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (288,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (289,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (290,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (291,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (292,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (293,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (294,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (295,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (296,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (297,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (298,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (298,9): []
   (299,15):
     - The version of this binding
@@ -1100,7 +1100,7 @@ hovers:
   (306,8): []
   (306,13): []
   (307,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (307,11): []
   (308,15):
     - The version of this binding
@@ -1115,9 +1115,9 @@ hovers:
   (310,22):
     - Application-specific message type
   (311,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (312,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (312,11): []
   (313,15):
     - The version of this binding
@@ -1132,9 +1132,9 @@ hovers:
   (315,33):
     - Defines a data type
   (316,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (317,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (317,12): []
   (318,15):
     - The version of this binding
@@ -1145,26 +1145,26 @@ hovers:
   (319,13):
     - Defines a data type
   (320,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (320,11): []
   (321,15):
     - The version of this binding
   (321,24):
     - The version of this binding
   (322,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (323,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (324,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (325,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (326,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (327,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (328,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (329,10):
     - Contains declarations of reusable OperationBindings objects
   (329,20):
@@ -1172,7 +1172,7 @@ hovers:
   (330,8): []
   (330,13): []
   (331,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (331,11): []
   (332,9):
     - Whether the consumer should ack the message or not
@@ -1223,9 +1223,9 @@ hovers:
   (344,16):
     - Identifies the user who has sent the message
   (345,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (346,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (346,11): []
   (347,15):
     - The version of this binding
@@ -1240,9 +1240,9 @@ hovers:
   (349,17):
     - Type of operation
   (350,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (351,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (351,12): []
   (352,15):
     - The version of this binding
@@ -1257,7 +1257,7 @@ hovers:
   (354,17):
     - Defines a data type
   (355,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (355,11): []
   (356,15):
     - The version of this binding
@@ -1272,16 +1272,16 @@ hovers:
   (358,18):
     - Whether the broker should retain the message or not
   (359,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (360,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (361,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (362,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (363,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (364,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (365,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
