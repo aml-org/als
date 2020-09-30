@@ -1,15 +1,9 @@
 package org.mulesoft.als.actions.codeactions
 
-import amf.plugins.document.vocabularies.model.document.Dialect
-import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionFactory
-import org.mulesoft.als.actions.codeactions.plugins.declarations.{
-  DeleteDeclaredNodeCodeAction,
-  ExtractElementCodeAction
-}
+import org.mulesoft.als.actions.codeactions.plugins.declarations.delete.
+  DeleteDeclaredNodeCodeAction
 import org.mulesoft.als.common.WorkspaceEditSerializer
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
-import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect
-import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
 import org.mulesoft.lsp.feature.codeactions.CodeAction
 import org.scalatest.Assertion
 import org.yaml.model.YDocument

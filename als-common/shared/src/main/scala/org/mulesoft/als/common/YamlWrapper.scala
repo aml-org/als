@@ -83,6 +83,8 @@ object YamlWrapper {
   }
 
   implicit class YMapEntryOps(entry: YMapEntry) extends CommonPartOps(entry) {
+    def inMap: YNode = YNode(YMap(IndexedSeq(entry), entry.sourceName))
+
     def isArray: Boolean = false
 
     override def contains(position: AmfPosition, editionMode: Boolean = false): Boolean =
@@ -127,8 +129,9 @@ object YamlWrapper {
   }
 
   implicit class YNodeImplicits(yNode: YNode) extends CommonPartOps(yNode) {
-    def withKey(k: String): YNode =
-      YNode(YMap(IndexedSeq(YMapEntry(YNode(k), yNode)), yNode.sourceName))
+    def withKey(k: String): YNode = yNode.asEntry(k).inMap
+
+    def asEntry(k: String): YMapEntry = YMapEntry(YNode(k), yNode)
   }
 
   implicit class AlsYMapOps(map: YMap) extends FlowedStructure("{", "}", map) {
