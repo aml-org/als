@@ -1,6 +1,6 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.fragment
 
-import amf.core.annotations.{DeclaredElement, ExternalFragmentRef}
+import amf.core.annotations.ExternalFragmentRef
 import amf.core.errorhandling.UnhandledErrorHandler
 import amf.core.model.document.Fragment
 import amf.core.model.domain.{DomainElement, Linkable}
@@ -9,7 +9,7 @@ import amf.plugins.document.webapi.annotations.ForceEntry
 import amf.plugins.document.webapi.parser.spec.common.emitters.WebApiDomainElementEmitter
 import org.mulesoft.als.actions.codeactions.plugins.CodeActionKindTitle
 import org.mulesoft.als.actions.codeactions.plugins.base.{CodeActionRequestParams, CodeActionResponsePlugin}
-import org.mulesoft.als.actions.codeactions.plugins.declarations.common.BaseDeclarableExtractors
+import org.mulesoft.als.actions.codeactions.plugins.declarations.common.BaseElementDeclarableExtractors
 import org.mulesoft.als.actions.codeactions.plugins.declarations.fragment.webapi.raml.FragmentBundle
 import org.mulesoft.lsp.edit.{CreateFile, TextDocumentEdit, TextEdit, WorkspaceEdit}
 import org.mulesoft.lsp.feature.codeactions.CodeAction
@@ -24,9 +24,9 @@ import org.yaml.model.YNode
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-trait ExtractDeclarationToFragment extends CodeActionResponsePlugin with BaseDeclarableExtractors {
+trait ExtractDeclarationToFragment extends CodeActionResponsePlugin with BaseElementDeclarableExtractors {
   protected val kindTitle: CodeActionKindTitle
-  protected val fragmentBundle: Option[FragmentBundle]
+  protected def fragmentBundle: Option[FragmentBundle]
   private val plainName = "newFile"
 
   private def finalName(c: Option[Int] = None): Future[String] = {
@@ -88,7 +88,7 @@ trait ExtractDeclarationToFragment extends CodeActionResponsePlugin with BaseDec
       ))
   }
 
-  override protected lazy val renderLink: Future[Option[YNode]] = // todo: move just for inlined type/example?
+  override protected val renderLink: Future[Option[YNode]] = // todo: move just for inlined type/example?
     finalName().map { name =>
       amfObject
         .collect {

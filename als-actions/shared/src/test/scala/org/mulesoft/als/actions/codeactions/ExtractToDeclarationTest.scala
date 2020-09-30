@@ -4,7 +4,7 @@ import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionFactory
 import org.mulesoft.als.actions.codeactions.plugins.declarations.samefile.{
   ExtractElementCodeAction,
-  ExtractRAMLTypeCodeAction
+  ExtractRamlTypeCodeAction
 }
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect
@@ -32,7 +32,7 @@ class ExtractToDeclarationTest extends BaseCodeActionTests {
   it should "extract a type from RAML 1.0 payload" in {
     val elementUri                       = "extract-element/raml-type/raml-type.raml"
     val range                            = PositionRange(Position(15, 27), Position(16, 26))
-    val pluginFactory: CodeActionFactory = ExtractRAMLTypeCodeAction
+    val pluginFactory: CodeActionFactory = ExtractRamlTypeCodeAction
 
     runTest(elementUri, range, pluginFactory)
   }
@@ -40,7 +40,7 @@ class ExtractToDeclarationTest extends BaseCodeActionTests {
   it should "extract a type from RAML 1.0 inlined scalar property" in {
     val elementUri                       = "extract-element/raml-type/scalar-range.raml"
     val range                            = PositionRange(Position(8, 14), Position(9, 14))
-    val pluginFactory: CodeActionFactory = ExtractRAMLTypeCodeAction
+    val pluginFactory: CodeActionFactory = ExtractRamlTypeCodeAction
 
     runTest(elementUri, range, pluginFactory)
   }
@@ -48,7 +48,7 @@ class ExtractToDeclarationTest extends BaseCodeActionTests {
   it should "DON'T extract payload from RAML" in {
     val elementUri                       = "extract-element/raml-type/payload-range.raml"
     val range                            = PositionRange(Position(7, 15), Position(9, 10))
-    val pluginFactory: CodeActionFactory = ExtractRAMLTypeCodeAction
+    val pluginFactory: CodeActionFactory = ExtractRamlTypeCodeAction
 
     runTestNotApplicable(elementUri, range, pluginFactory)
   }
@@ -56,7 +56,7 @@ class ExtractToDeclarationTest extends BaseCodeActionTests {
   it should "extract type from RAML in range" in {
     val elementUri                       = "extract-element/raml-type/property-range.raml"
     val range                            = PositionRange(Position(9, 19), Position(10, 21))
-    val pluginFactory: CodeActionFactory = ExtractRAMLTypeCodeAction
+    val pluginFactory: CodeActionFactory = ExtractRamlTypeCodeAction
 
     runTest(elementUri, range, pluginFactory)
   }
@@ -64,7 +64,7 @@ class ExtractToDeclarationTest extends BaseCodeActionTests {
   it should "extract inlined scalar type from RAML in range" in {
     val elementUri                       = "extract-element/raml-type/inlined-scalar.raml"
     val range                            = PositionRange(Position(10, 19), Position(10, 24))
-    val pluginFactory: CodeActionFactory = ExtractRAMLTypeCodeAction
+    val pluginFactory: CodeActionFactory = ExtractRamlTypeCodeAction
 
     runTest(elementUri, range, pluginFactory)
   }

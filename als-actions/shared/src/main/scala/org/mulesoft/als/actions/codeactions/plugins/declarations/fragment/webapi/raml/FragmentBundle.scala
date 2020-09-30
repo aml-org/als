@@ -1,6 +1,7 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.fragment.webapi.raml
 
 import amf.core.metamodel.domain.DomainElementModel
+import amf.core.metamodel.domain.extensions.CustomDomainPropertyModel
 import amf.core.model.document.Fragment
 import amf.core.model.domain.AmfObject
 import amf.plugins.document.webapi.model._
@@ -32,7 +33,7 @@ object FragmentBundles {
   val DocumentationItemFragmentBundle: FragmentBundle =
     IriFragmentBundle("//creative common model?", DocumentationItemFragment(), "DocumentationItem")
   val AnnotationTypeDeclarationFragmentBundle: FragmentBundle =
-    IriFragmentBundle("", AnnotationTypeDeclarationFragment(), "AnnotationType")
+    IriFragmentBundle(CustomDomainPropertyModel, AnnotationTypeDeclarationFragment())
   val SecuritySchemeFragmentBundle: FragmentBundle =
     IriFragmentBundle(SecuritySchemeModel, SecuritySchemeFragment())
   val TraitFragmentBundle: FragmentBundle =

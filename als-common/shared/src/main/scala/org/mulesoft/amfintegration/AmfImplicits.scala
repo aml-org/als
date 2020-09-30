@@ -209,12 +209,17 @@ object AmfImplicits {
           }
         )
 
-    def ast: Option[YPart] = {
+    def ast: Option[YPart] =
       bu match {
         case e: Document if e.encodes.annotations.ast().isDefined => e.encodes.annotations.ast()
         case _                                                    => bu.annotations.ast()
       }
-    }
+
+    def definedAliases: Set[String] =
+      bu.annotations
+        .find(classOf[Aliases])
+        .map(a => a.aliases.map(_._1))
+        .getOrElse(Set.empty)
 
     def flatRefs: Seq[BaseUnit] = {
       val set: mutable.Set[BaseUnit] = mutable.Set.empty

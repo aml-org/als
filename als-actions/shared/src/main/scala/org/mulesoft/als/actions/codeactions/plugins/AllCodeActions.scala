@@ -1,17 +1,25 @@
 package org.mulesoft.als.actions.codeactions.plugins
 
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionFactory
-import org.mulesoft.als.actions.codeactions.plugins.declarations.DeleteDeclaredNodeCodeAction
-import org.mulesoft.als.actions.codeactions.plugins.declarations.fragment.{ExtractRamlDeclarationToFragmentCodeAction, ExtractRamlTypeToFragmentCodeAction}
-import org.mulesoft.als.actions.codeactions.plugins.declarations.samefile.ExtractElementCodeAction
-import org.mulesoft.als.actions.codeactions.plugins.declarations.samefile.ExtractRAMLTypeCodeAction
+import org.mulesoft.als.actions.codeactions.plugins.declarations.delete.DeleteDeclaredNodeCodeAction
+import org.mulesoft.als.actions.codeactions.plugins.declarations.fragment.{
+  ExtractRamlDeclarationToFragmentCodeAction,
+  ExtractRamlTypeToFragmentCodeAction
+}
+import org.mulesoft.als.actions.codeactions.plugins.declarations.library.ExtractRamlToLibraryCodeAction
+import org.mulesoft.als.actions.codeactions.plugins.declarations.samefile.{
+  ExtractElementCodeAction,
+  ExtractRamlTypeCodeAction
+}
 
 object AllCodeActions {
   def all: Seq[CodeActionFactory] =
-    Seq(ExtractElementCodeAction,
-        ExtractRAMLTypeCodeAction,
-        ExtractRamlDeclarationToFragmentCodeAction,
-        ExtractRamlTypeToFragmentCodeAction,
-      DeleteDeclaredNodeCodeAction
+    Seq(
+      ExtractElementCodeAction,
+      ExtractRamlTypeCodeAction,
+      ExtractRamlDeclarationToFragmentCodeAction,
+      ExtractRamlTypeToFragmentCodeAction,
+      DeleteDeclaredNodeCodeAction,
+      ExtractRamlToLibraryCodeAction
     ) // TestCodeAction
 }
