@@ -52,9 +52,9 @@ hovers:
   (13,13):
     - Version of the API
   (14,3):
-    - server information
+    - Server information
   (14,8):
-    - server information
+    - Server information
   (15,5):
     - URL (potentially a template) for the server
   (15,30):
@@ -336,9 +336,9 @@ hovers:
   (92,18):
     - Human readable name for the object
   (93,9):
-    - server information
+    - Server information
   (93,14):
-    - server information
+    - Server information
   (94,11):
     - URL (potentially a template) for the server
   (94,36):
@@ -622,7 +622,7 @@ hovers:
   (165,23):
     - Write only property constraint
   (166,11):
-    - information about how to serialize
+    - Information about how to serialize
   (166,14):
     - Information about how to encode into XML a particular data shape
   (167,14):
