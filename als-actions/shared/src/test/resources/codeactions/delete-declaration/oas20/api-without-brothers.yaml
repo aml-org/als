@@ -1,0 +1,19 @@
+swagger: '2.0'
+
+definitions:
+  typeToDelete:
+    type: string
+
+parameters:
+  toDelete:
+    type: string
+
+responses:
+  toDelete:
+      description: to delte
+
+securityDefinitions:
+  toDelete:
+    type: basic
+    description: a sd
+

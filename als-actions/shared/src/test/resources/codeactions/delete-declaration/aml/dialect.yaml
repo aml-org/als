@@ -1,0 +1,32 @@
+#%Dialect 1.0
+dialect: TestDelete
+version: 1
+
+external:
+  schema-voc: http://schema.voc#
+nodeMappings:
+  Declared:
+    classTerm: schema-voc.Declared
+    mapping:
+      name:
+        range: string
+      prop1:
+        range: string
+      prop2:
+        range: string
+
+
+  Root:
+    classTerm: schema-voc.Root
+    mapping:
+      declaresA:
+        range: Declared
+        allowMultiple: true
+      declaresK:
+        range: Declared
+        mapKey: name
+documents:
+  root:
+    encodes: Root
+    declares:
+      declarations: Declared

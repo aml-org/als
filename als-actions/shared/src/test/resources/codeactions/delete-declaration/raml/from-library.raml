@@ -1,0 +1,47 @@
+#%RAML 1.0
+title: test
+
+uses:
+  lib: library.raml
+
+types:
+  aType:
+    type: object
+    properties:
+      a: string
+      b: integer
+  typeToDelete:
+    type: lib.typeToDelete
+
+traits:
+  toDeleteTr:
+    description: a trait
+    body:
+
+
+securedBy: lib.s2ToDelete
+
+/endpoint:
+  securedBy: lib.s1
+  get:
+    body:
+      application/json: typeToDelete
+    responses:
+      200:
+        (lib.another): a
+        body:
+          application/json:
+            type: typeToDelete
+
+/another:
+  type: lib.toDeleteR2
+
+/onemore:
+  type: lib.toDeleteR2
+  is: lib.toDeleteTr
+  get:
+    is:
+      - toDeleteTr
+
+/toAnnotate:
+  (lib.annToDelete): a

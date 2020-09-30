@@ -1,0 +1,12 @@
+#%RAML 1.0
+title: test
+types:
+  toDe[*]lete:
+    type: string
+  another:
+    type: integer
+/endpoint:
+  get:
+    body:
+      application/json:
+        type: toDelete

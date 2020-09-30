@@ -1,0 +1,39 @@
+asyncapi: 2.0.0
+
+components:
+  schemas:
+    toDeleteS:
+      type: string
+  messages:
+    toDeleteM:
+      contentType: application/json
+      title: todelete
+  securitySchemes:
+    toDeleteSC:
+      type: http
+  parameters:
+    toDeleteP:
+      description: a param
+      schema:
+        type: string
+  correlationIds:
+    toDelete:
+      description: a correlation
+  operationTraits:
+    toDeletOT:
+      description: will be removed
+  messageTraits:
+    toDeleteMT:
+      description: a message trait
+  serverBindings:
+    toDeleteSB:
+      ws:
+  channelBindings:
+    toDeleteChannelBinding:
+      ws:
+  operationBindings:
+    toDeleteOB:
+      ws:
+  messageBindings:
+    toDeleteMB:
+      ws:

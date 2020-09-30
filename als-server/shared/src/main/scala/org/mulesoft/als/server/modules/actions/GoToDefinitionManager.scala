@@ -65,7 +65,7 @@ class GoToDefinitionManager(val workspace: WorkspaceManager,
       workspaceDefinitions <- FindDefinition
         .getDefinition(uri,
                        position,
-                       workspace.getRelationships(uri, uuid),
+                       workspace.getRelationships(uri, uuid).map(_._2),
                        workspace.getAliases(uri, uuid),
                        unit.yPartBranch)
     } yield {

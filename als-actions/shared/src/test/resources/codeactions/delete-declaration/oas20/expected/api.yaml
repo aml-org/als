@@ -1,0 +1,88 @@
+definition:
+  -
+    changes:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas20/api.yaml:
+        -
+          from:
+            line: 47
+            column: 12
+          to:
+            line: 48
+            column: 0
+          content: |
+            +
+        -
+          from:
+            line: 10
+            column: 0
+          to:
+            line: 13
+            column: 0
+          content: |
+            +
+parameter:
+  -
+    changes:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas20/api.yaml:
+        -
+          from:
+            line: 42
+            column: 10
+          to:
+            line: 43
+            column: 0
+          content: |
+            +
+        -
+          from:
+            line: 16
+            column: 0
+          to:
+            line: 19
+            column: 0
+          content: |
+            +
+response:
+  -
+    changes:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas20/api.yaml:
+        -
+          from:
+            line: 50
+            column: 10
+          to:
+            line: 51
+            column: 0
+          content: |
+            +
+        -
+          from:
+            line: 22
+            column: 0
+          to:
+            line: 24
+            column: 0
+          content: |
+            +
+security definition:
+  -
+    changes:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas20/api.yaml:
+        -
+          from:
+            line: 36
+            column: 4
+          to:
+            line: 37
+            column: 0
+          content: |
+            +
+        -
+          from:
+            line: 28
+            column: 0
+          to:
+            line: 31
+            column: 0
+          content: |
+            +

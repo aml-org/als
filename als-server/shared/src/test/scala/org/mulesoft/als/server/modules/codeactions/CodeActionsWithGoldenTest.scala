@@ -6,6 +6,7 @@ import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.reference.MarkerInfo
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.{LanguageServerBuilder, MockTelemetryParsingClientNotifier, ServerWithMarkerTest}
+import org.mulesoft.lsp.feature.codeactions.CodeActionKind.CodeActionKind
 import org.mulesoft.lsp.feature.codeactions._
 import org.mulesoft.lsp.feature.common.{Range, TextDocumentIdentifier}
 import org.scalatest.Assertion
@@ -20,7 +21,7 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
     val path = "refactorextract/extract-element.raml"
     runTest(buildServer(), path, None)
       .flatMap { result =>
-        checkGolden(path, result)
+        checkExtractGolden(path, result)
       }
   }
 
@@ -28,7 +29,7 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
     val path = "refactorextract/extract-schema-oas3.yaml"
     runTest(buildServer(), path, None)
       .flatMap { result =>
-        checkGolden(path, result)
+        checkExtractGolden(path, result)
       }
   }
 
@@ -36,7 +37,7 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
     val path = "refactorextract/extract-example-oas3.yaml"
     runTest(buildServer(), path, None)
       .flatMap { result =>
-        checkGolden(path, result)
+        checkExtractGolden(path, result)
       }
   }
 
@@ -44,7 +45,7 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
     val path = "refactorextract/extract-element-with-types-declared.raml"
     runTest(buildServer(), path, None)
       .flatMap { result =>
-        checkGolden(path, result)
+        checkExtractGolden(path, result)
       }
   }
 
@@ -52,12 +53,36 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
     val path = "refactorextract/sublevel-type.raml"
     runTest(buildServer(), path, None)
       .flatMap { result =>
-        checkGolden(path, result)
+        checkExtractGolden(path, result)
       }
   }
 
-  private def checkGolden(path: String, result: Seq[CodeAction]): Future[Assertion] = {
-    val containsExtract = result.exists(ca => ca.kind.contains(CodeActionKind.RefactorExtract))
+  test("RAML 1 delete type node") {
+    val path = "delete/raml-type.raml"
+    runTest(buildServer(), path, None)
+      .flatMap { result =>
+        checkRefactorGolden(path, result)
+      }
+  }
+
+  test("Oas 3 delete type node (path ref") {
+    val path = "delete/oas3-type.yaml"
+    runTest(buildServer(), path, None)
+      .flatMap { result =>
+        checkRefactorGolden(path, result)
+      }
+  }
+
+  private def checkExtractGolden(path: String, result: Seq[CodeAction]): Future[Assertion] = {
+    checkGolden(path, result, CodeActionKind.RefactorExtract)
+  }
+
+  private def checkRefactorGolden(path: String, result: Seq[CodeAction]): Future[Assertion] = {
+    checkGolden(path, result, CodeActionKind.Refactor)
+  }
+
+  private def checkGolden(path: String, result: Seq[CodeAction], kind: CodeActionKind): Future[Assertion] = {
+    val containsExtract = result.exists(ca => ca.kind.contains(kind))
     containsExtract should be(true)
     val goldenPath     = path.replace(".", "-golden.")
     val resolved       = filePath(platform.encodeURI(path))
@@ -69,7 +94,7 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
     } yield {
       val marker = findMarker(content)
       val maybeEdit = result
-        .find(ca => ca.kind.contains(CodeActionKind.RefactorExtract))
+        .find(ca => ca.kind.contains(kind))
         .flatMap(_.edit)
       maybeEdit.isDefined should be(true)
       assertWorkspaceEdits(maybeEdit.get, Some(goldenContent), Some(marker.patchedContent.content), path)

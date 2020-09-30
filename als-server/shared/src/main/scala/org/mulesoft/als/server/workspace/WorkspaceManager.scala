@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.workspace
 
 import amf.core.remote.Platform
-import org.mulesoft.als.actions.common.{AliasInfo, RelationshipLink}
+import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.als.server.AlsWorkspaceService
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
@@ -179,8 +179,13 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     res
   }
 
-  override def getRelationships(uri: String, uuid: String): Future[Seq[RelationshipLink]] =
+  // tepm until have class for all relationships from visitors result associated to CU.
+  override def getRelationships(uri: String, uuid: String): Future[(CompilableUnit, Seq[RelationshipLink])] =
     getLastUnit(uri, uuid)
-      .flatMap(_ => getWorkspace(uri).getRelationships(uri).getRelationships(uri))
-      .map(filterDuplicates)
+      .flatMap(
+        cu =>
+          getWorkspace(uri)
+            .getRelationships(uri)
+            .getRelationships(uri)
+            .map(rl => (cu, filterDuplicates(rl))))
 }

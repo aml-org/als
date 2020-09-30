@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules.workspace
 
-import org.mulesoft.als.actions.common.{AliasInfo, RelationshipLink}
-import org.mulesoft.als.server.modules.workspace.references.visitors.{AmfElementDefaultVisitors, AmfElementVisitors}
+import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
+import org.mulesoft.amfintegration.visitors.{AmfElementDefaultVisitors, AmfElementVisitors}
 import org.mulesoft.lsp.feature.link.DocumentLink
 
 import scala.concurrent.ExecutionContext.Implicits.global

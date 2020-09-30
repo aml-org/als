@@ -1,0 +1,25 @@
+#%TestDelete 1
+declarations:
+  dec1:
+    prop1: a
+    prop2: b
+  dec2:
+    prop1: c
+    prop2: d
+  dec3:
+    prop1: e
+    prop2: f
+
+  noDelete:
+    prop1: g
+    prop2: h
+
+declaresA:
+  - dec1
+  - noDelete
+  - dec3
+declaresK:
+  d1: dec2
+  nD: noDelete
+  d3: dec3
+

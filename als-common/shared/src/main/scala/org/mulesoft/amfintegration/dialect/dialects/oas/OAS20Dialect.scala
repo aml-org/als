@@ -76,7 +76,7 @@ object OAS20Dialect extends OasBaseDialect {
                 PublicNodeMapping()
                   .withId(DialectLocation + "#/documents/securityDefinitions")
                   .withName("securityDefinitions")
-                  .withMappedNode("#/declarations/BasicSecurityScheme")
+                  .withMappedNode(Oas20SecuritySchemeObject.id)
               ))
           )
       )
