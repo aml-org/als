@@ -1,6 +1,6 @@
 package org.mulesoft.als.actions.definition
 
-import org.mulesoft.als.actions.common.{AliasInfo, AliasRelationships, RelationshipLink}
+import org.mulesoft.amfintegration.relationships.{AliasInfo, AliasRelationships, RelationshipLink}
 import org.mulesoft.als.common.cache.YPartBranchCached
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter

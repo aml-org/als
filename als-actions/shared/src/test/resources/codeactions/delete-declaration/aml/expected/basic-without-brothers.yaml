@@ -1,0 +1,13 @@
+dec1:
+  -
+    changes:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/aml/basic-without-brothers.yaml:
+        -
+          from:
+            line: 2
+            column: 0
+          to:
+            line: 6
+            column: 0
+          content: |
+            +

@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.workspace
 
-import org.mulesoft.als.actions.common.{AliasInfo, RelationshipLink}
+import org.mulesoft.als.server.modules.workspace.CompilableUnit
+import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.lsp.feature.link.DocumentLink
 
 import scala.concurrent.Future
@@ -12,5 +13,5 @@ trait UnitWorkspaceManager {
   /** gets all Project document links */
   def getAllDocumentLinks(uri: String, uuid: String): Future[Map[String, Seq[DocumentLink]]]
   def getAliases(uri: String, uuid: String): Future[Seq[AliasInfo]]
-  def getRelationships(uri: String, uuid: String): Future[Seq[RelationshipLink]]
+  def getRelationships(uri: String, uuid: String): Future[(CompilableUnit, Seq[RelationshipLink])]
 }

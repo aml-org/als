@@ -57,7 +57,8 @@ object AmfSonElementFinder {
           case v =>
             f.value.annotations.containsPosition(amfPosition).getOrElse(true) &&
               v.annotations
-                .containsPosition(amfPosition)
+                .ast()
+                .map(ast => ast.contains(amfPosition, editionMode = true))
                 .getOrElse(f.value.annotations.isSynthesized || f.value.value.annotations.isVirtual)
         })
       }

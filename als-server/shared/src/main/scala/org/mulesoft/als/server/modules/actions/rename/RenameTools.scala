@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules.actions.rename
 
 import amf.core.model.document.Document
-import org.mulesoft.als.actions.common.AliasRelationships
+import org.mulesoft.amfintegration.relationships.AliasRelationships
 import org.mulesoft.als.common.YamlWrapper.AlsYScalarOps
 import org.mulesoft.als.common.{ObjectInTree, YPartBranch}
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}

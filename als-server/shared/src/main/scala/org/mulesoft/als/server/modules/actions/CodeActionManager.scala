@@ -40,7 +40,7 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
       override def task(params: CodeActionParams): Future[Seq[CodeAction]] = {
         val uuid = UUID.randomUUID().toString
         for {
-          bu <- workspaceManager.getLastUnit(params.textDocument.uri, uuid)
+          (bu, allr) <- workspaceManager.getRelationships(params.textDocument.uri, uuid)
           results <- {
             val requestParams = params.toRequestParams(
               bu.unit,
@@ -48,6 +48,7 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
               bu.yPartBranch,
               bu.definedBy,
               configuration,
+              allr,
               telemetryProvider,
               uuid
             )

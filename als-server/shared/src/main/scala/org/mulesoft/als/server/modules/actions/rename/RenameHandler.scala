@@ -52,7 +52,7 @@ class RenameHandler(telemetryProvider: TelemetryProvider, workspace: WorkspaceMa
                                 position,
                                 newName,
                                 workspace.getAliases(uri, uuid),
-                                workspace.getRelationships(uri, uuid),
+                                workspace.getRelationships(uri, uuid).map(_._2),
                                 bu.yPartBranch,
                                 bu.unit)
         else if (renameThroughReferenceEnabled) // enable when polished, add logic to prepare rename
@@ -100,7 +100,7 @@ class RenameHandler(telemetryProvider: TelemetryProvider, workspace: WorkspaceMa
     FindDefinition
       .getDefinition(uri,
                      position,
-                     workspace.getRelationships(uri, uuid),
+                     workspace.getRelationships(uri, uuid).map(_._2),
                      workspace.getAliases(uri, uuid),
                      bu.yPartBranch)
       .flatMap(_.headOption match {
@@ -111,7 +111,7 @@ class RenameHandler(telemetryProvider: TelemetryProvider, workspace: WorkspaceMa
               Position(definition.targetRange.start),
               newName,
               workspace.getAliases(uri, uuid),
-              workspace.getRelationships(uri, uuid),
+              workspace.getRelationships(uri, uuid).map(_._2),
               bu.yPartBranch,
               bu.unit
             )

@@ -1,8 +1,8 @@
 package org.mulesoft.als.actions.rename
 
 import amf.core.model.document.BaseUnit
-import org.mulesoft.als.actions.common.AliasRelationships.FullLink
-import org.mulesoft.als.actions.common.{AliasInfo, RelationshipLink}
+import org.mulesoft.amfintegration.relationships.AliasRelationships.FullLink
+import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.als.actions.references.FindReferences
 import org.mulesoft.als.common.YamlUtils
 import org.mulesoft.als.common.cache.YPartBranchCached
