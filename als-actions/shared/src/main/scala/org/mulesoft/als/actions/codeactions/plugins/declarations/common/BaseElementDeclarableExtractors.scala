@@ -38,7 +38,7 @@ trait BaseElementDeclarableExtractors {
   protected def newName: String = ExtractorCommon.nameNotInList(baseName, params.bu.declaredNames.toSet)
 
   protected val maybeTree: Option[ObjectInTree] =
-    ExtractorCommon.treeWithUpperElement(params.tree, params.range, params.uri)
+    params.tree.treeWithUpperElement(params.range, params.uri)
 
   /**
     * Based on the chosen position from the range

@@ -6,36 +6,19 @@ import amf.core.model.domain.{AmfObject, DomainElement}
 import amf.core.remote.{Mimes, Vendor}
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.webapi.parser.spec.common.emitters.WebApiDomainElementEmitter
-import org.mulesoft.als.actions.codeactions.plugins.declarations.common.ExtractorCommon.amfObject
 import org.mulesoft.als.common.YamlUtils.isJson
 import org.mulesoft.als.common.YamlWrapper.YNodeImplicits
-import org.mulesoft.als.common.{ObjectInTree, YPartBranch}
 import org.mulesoft.als.common.cache.ObjectInTreeCached
 import org.mulesoft.als.common.dtoTypes.PositionRange
+import org.mulesoft.als.common.{ObjectInTree, YPartBranch}
 import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, AmfObjectImp, BaseUnitImp}
-import org.mulesoft.lexer.InputRange
-import org.mulesoft.lsp.edit.TextEdit
-import org.mulesoft.lsp.feature.common.Range
-import org.yaml.model.{YDocument, YMap, YMapEntry, YNode, YPart, YType}
+import org.yaml.model._
 import org.yaml.render.{JsonRender, JsonRenderOptions, YamlRender, YamlRenderOptions}
 
 import scala.annotation.tailrec
 
 object ExtractorCommon {
-
-  /**
-    * check if the range matches with one specific element,
-    * choose the position and element which matches it
-    */
-  def treeWithUpperElement(treeCached: ObjectInTreeCached, range: PositionRange, uri: String): Option[ObjectInTree] = {
-    val start = treeCached.getCachedOrNew(range.start, uri)
-    val end   = treeCached.getCachedOrNew(range.end, uri)
-    if (start.obj == end.obj) Some(start)
-    else if (start.stack.contains(end.obj)) Some(end)
-    else if (end.stack.contains(start.obj)) Some(start)
-    else None
-  }
 
   /**
     * Selected object if there is a clean match in the range and it is a declarable, or the parents range
