@@ -1,7 +1,7 @@
 #%RAML 1.0
 
 types:
-  $1:
+  newtype:
     type: object
     properties:
       name:
@@ -12,4 +12,4 @@ types:
       200:
         body:
           application/json:
-            type: $1
+            type: newtype

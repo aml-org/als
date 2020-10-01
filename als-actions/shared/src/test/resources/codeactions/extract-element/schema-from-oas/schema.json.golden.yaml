@@ -10,7 +10,7 @@ changes:
       content: |-
         +
         {
-                        "$ref": "#/components/schemas/$1"
+                        "$ref": "#/components/schemas/newschema"
                       }
     -
       from:
@@ -24,7 +24,7 @@ changes:
 
         {
               "schemas": {
-                "$1": {
+                "newschema": {
                   "type": "string",
                   "example": "textplain"
                 }

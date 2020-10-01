@@ -10,7 +10,7 @@ changes:
       content: |-
         +
 
-                      $ref: "#/components/schemas/$1"
+                      $ref: "#/components/schemas/newschema"
     -
       from:
         line: 5
@@ -22,6 +22,6 @@ changes:
         +
 
           schemas:
-            $1:
+            newschema:
               type: string
               example: textplain
