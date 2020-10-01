@@ -76,7 +76,7 @@ trait BaseElementDeclarableExtractors {
     * The indentation for the existing node, as we already ensured it is a key, the first position gives de current indentation
     */
   protected lazy val entryIndentation: Int =
-    yPartBranch.map(_.node.range.columnFrom).getOrElse(0)
+    yPartBranch.flatMap(_.parentEntry).map(_.range.columnFrom).getOrElse(0)
 
   protected def positionIsExtracted: Boolean =
     entryRange
@@ -92,7 +92,7 @@ trait BaseElementDeclarableExtractors {
   protected lazy val jsonRefEntry: YNode =
     YNode(
       YMap(
-        IndexedSeq(YMapEntry(YNode("$ref"), YNode(s"$newName\n"))),
+        IndexedSeq(YMapEntry(YNode("$ref"), YNode(s"$newName"))),
         sourceName
       ))
 
@@ -113,17 +113,15 @@ trait BaseElementDeclarableExtractors {
         entryRange.map(
           TextEdit(
             _,
-            JsonRender.render(rl.getOrElse(jsonRefEntry), entryIndentation)
+            JsonRender.render(rl.getOrElse(jsonRefEntry), entryIndentation, jsonOptions)
           ))
       else if (params.dialect.isRamlStyle)
-        entryRange.map(TextEdit(_, s" ${rl.map(YamlRender.render(_, 0)).getOrElse(newName)}\n"))
+        entryRange.map(TextEdit(_, s" ${rl.map(YamlRender.render(_, 0, yamlOptions)).getOrElse(newName)}\n"))
       else if (params.dialect.isJsonStyle)
         entryRange.map(
           TextEdit(
             _,
-            s"\n${YamlRender.render(rl.getOrElse(jsonRefEntry),
-                                    entryIndentation +
-                                      params.configuration.getFormatOptionForMime(Mimes.`APPLICATION/YAML`).indentationSize)}"
+            s"\n${YamlRender.render(rl.getOrElse(jsonRefEntry), entryIndentation, yamlOptions)}\n"
           ))
       else None
     }
