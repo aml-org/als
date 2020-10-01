@@ -127,6 +127,44 @@ class DocumentHighlightTest extends LanguageServerBaseTest {
         |          items:
         |            type: string""".stripMargin,
   )
+  private val ws4 = Map(
+    "file:///root/exchange.json" -> """{"main": "api.raml"}""",
+    "file:///root/api.raml" ->
+      """#%RAML 1.0
+        |title: test
+        |securitySchemes:
+        |  oauth_2_0: !include securitySchemes/oauth_2_0.raml
+        |  tokenSchema: !include securitySchemes/tokenSchema.raml
+        |
+        |/get:
+        |  description: |
+        |    This endpoint retrieves all updated and newly created Project Assignments.
+        |  securedBy: tokenSchema
+        |              """.stripMargin,
+    "file:///root/securitySchemes/oauth_2_0.raml" ->
+      """#%RAML 1.0 SecurityScheme
+        |description: ""
+        |type: OAuth 2.0
+        |describedBy:
+        |  headers:
+        |    Authorization:
+        |      description: |
+        |        Used to send a valid OAuth 2 access token. The token must be preceeded by the word "Bearer".
+        |      example: Bearer _token_
+        |settings:
+        |  authorizationUri: https://login.salesforce.com/services/oauth2/authorize
+        |  accessTokenUri: https://login.salesforce.com/services/oauth2/token
+        |  authorizationGrants: [ authorization_code ]""".stripMargin,
+    "file:///root/securitySchemes/tokenSchema.raml" ->
+      """#%RAML 1.0 SecurityScheme
+        |type: x-custom
+        |describedBy:
+        |  headers:
+        |    Authorization:
+        |      description: |
+        |        Used to send a valid OAuth 2 access token. The token must be preceeded by the word "Bearer".
+        |      example: Bearer _token_""".stripMargin,
+  )
 
   val testSets: Set[TestEntry] = Set(
     TestEntry(
@@ -154,21 +192,19 @@ class DocumentHighlightTest extends LanguageServerBaseTest {
         DocumentHighlight(Range(Position(11, 10), Position(11, 16)), DocumentHighlightKind.Text)
       )
     ),
-//    TestEntry(
-//      "file:///root/api.raml",
-//      Position(5, 33),
-//      ws3,
-//      Set(
-//        DocumentHighlight(Range(Position(11, 10), Position(11, 16)), DocumentHighlightKind.Text)
-//      )
-//    ),
     TestEntry(
       "file:///root/api.raml",
-      Position(4, 5),
-      ws3,
+      Position(4,5),
+      ws4,
       Set(
-        DocumentHighlight(Range(Position(11, 10), Position(11, 16)), DocumentHighlightKind.Text)
+        DocumentHighlight(Range(Position(9, 13), Position(9, 24)), DocumentHighlightKind.Text)
       )
+    ),
+    TestEntry(
+      "file:///root/api.raml",
+      Position(3,5),
+      ws4,
+      Set()
     )
   )
 
