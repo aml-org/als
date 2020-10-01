@@ -10,7 +10,7 @@ components:
       type: string
 
 
-    $1:
+    newschema:
       type: string
       example: textplain
 paths:
@@ -21,4 +21,4 @@ paths:
           description: desc
       parameters:
         - schema:
-            $ref: "#/components/schemas/$1"
+            $ref: "#/components/schemas/newschema"

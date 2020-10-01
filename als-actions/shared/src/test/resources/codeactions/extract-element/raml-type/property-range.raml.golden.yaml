@@ -10,7 +10,7 @@ changes:
       content: |
         +
 
-                    type: $1
+                    type: newtype
     -
       from:
         line: 4
@@ -21,7 +21,7 @@ changes:
       content: |
         +
 
-          $1:
+          newtype:
             type: object
             properties:
               a:

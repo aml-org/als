@@ -3,11 +3,16 @@ package org.mulesoft.als.actions.codeactions.plugins.declarations.common
 import amf.core.model.domain.AmfObject
 import amf.core.remote.{Mimes, Vendor}
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionRequestParams
+import org.mulesoft.als.actions.codeactions.plugins.declarations.common.ExtractorCommon.singularize
+import org.mulesoft.als.actions.codeactions.plugins.declarations.fragment.webapi.raml.{
+  FragmentBundle,
+  RamlFragmentMatcher
+}
 import org.mulesoft.als.common.YamlUtils.isJson
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.common.{ObjectInTree, YPartBranch}
 import org.mulesoft.als.convert.LspRangeConverter
-import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, DialectImplicits}
+import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, AmfObjectImp, BaseUnitImp, DialectImplicits}
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.common.Range
 import org.yaml.model._
@@ -20,10 +25,17 @@ trait BaseElementDeclarableExtractors {
 
   protected val params: CodeActionRequestParams
 
+  private lazy val baseName: String =
+    amfObject
+      .flatMap(_.declarableKey(params.dialect))
+      .map(singularize)
+      .map(t => s"new$t")
+      .getOrElse("newDeclaration")
+
   /**
     * Placeholder for the new name (key and reference)
     */
-  protected def newName = "$1" // todo: extract from meta and check for collisions
+  protected def newName: String = ExtractorCommon.nameNotInList(baseName, params.bu.declaredNames.toSet)
 
   protected val maybeTree: Option[ObjectInTree] =
     ExtractorCommon.treeWithUpperElement(params.tree, params.range, params.uri)
@@ -97,13 +109,13 @@ trait BaseElementDeclarableExtractors {
     */
   protected lazy val linkEntry: Future[Option[TextEdit]] =
     renderLink.map { rl =>
-      if (isJson(params.bu)) {
+      if (isJson(params.bu))
         entryRange.map(
           TextEdit(
             _,
             JsonRender.render(rl.getOrElse(jsonRefEntry), entryIndentation)
           ))
-      } else if (params.dialect.isRamlStyle)
+      else if (params.dialect.isRamlStyle)
         entryRange.map(TextEdit(_, s" ${rl.map(YamlRender.render(_, 0)).getOrElse(newName)}\n"))
       else if (params.dialect.isJsonStyle)
         entryRange.map(
