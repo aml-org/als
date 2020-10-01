@@ -7,10 +7,10 @@ changes:
       to:
         line: 11
         column: 30
-      content: |-
+      content: |
         +
 
-                      $ref: "#/components/schemas/newschema"
+                    $ref: "#/components/schemas/newschema"
     -
       from:
         line: 5

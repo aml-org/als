@@ -16,9 +16,9 @@ import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.AmfImplicits.{FieldEntryImplicit, _}
 import org.mulesoft.amfintegration.relationships.RelationshipLink
-import org.mulesoft.lsp.edit.{TextEdit, WorkspaceEdit}
+import org.mulesoft.lsp.edit.{ResourceOperation, TextDocumentEdit, TextEdit, WorkspaceEdit}
 import org.mulesoft.lsp.feature.codeactions.CodeAction
-import org.mulesoft.lsp.feature.common.Location
+import org.mulesoft.lsp.feature.common.{Location, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.{BEGIN_DELETE_NODE_ACTION, END_DELETE_NODE_ACTION, MessageTypes}
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
@@ -33,7 +33,7 @@ class DeleteDeclaredNodeCodeAction(override val params: CodeActionRequestParams)
 
   override protected def telemetry: TelemetryProvider = params.telemetryProvider
 
-  override protected def task(params: CodeActionRequestParams): Future[Seq[CodeAction]] = {
+  override protected def task(params: CodeActionRequestParams): Future[Seq[CodeAction]] =
     Future {
       maybeTree
         .map(t => {
@@ -47,12 +47,18 @@ class DeleteDeclaredNodeCodeAction(override val params: CodeActionRequestParams)
               }
             }
             .getOrElse(referencesEdits)
-          WorkspaceEdit(stringToEdits, Nil)
+          WorkspaceEdit(stringToEdits, editsToDocumentChanges(stringToEdits))
         })
         .map(we => DeleteDeclaredNodeCodeAction.baseCodeAction(we))
         .toSeq
     }
-  }
+
+  // todo: change along with ALS-1257
+  private def editsToDocumentChanges(
+      changes: Map[String, Seq[TextEdit]]): Seq[Either[TextDocumentEdit, ResourceOperation]] =
+    changes.map { t =>
+      Left(TextDocumentEdit(VersionedTextDocumentIdentifier(t._1, None), t._2))
+    }.toSeq
 
   private def removeObj(obj: AmfObject) =
     ExtractorCommon
