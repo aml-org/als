@@ -80,4 +80,42 @@ class ExtractToLibraryTest extends BaseCodeActionTests {
 
     runTest(elementUri, range, pluginFactory)
   }
+
+  it should "remove parent key when extracting last element inside" in {
+    val elementUri                       = "extract-element/raml-libraries/multiple-with-refs.raml"
+    val range                            = PositionRange(Position(3, 4), Position(4, 9))
+    val dialect: Dialect                 = Raml10TypesDialect.dialect
+    val pluginFactory: CodeActionFactory = ExtractRamlToLibraryCodeAction
+    val golden                           = Some(s"$elementUri-last-inside.golden.yaml")
+
+    runTest(elementUri, range, pluginFactory, golden)
+  }
+
+  it should "extract different types of elements with extracted and non extracted references" in {
+    val elementUri                       = "extract-element/raml-libraries/multiple-with-refs.raml"
+    val range                            = PositionRange(Position(3, 4), Position(9, 6))
+    val dialect: Dialect                 = Raml10TypesDialect.dialect
+    val pluginFactory: CodeActionFactory = ExtractRamlToLibraryCodeAction
+    val golden                           = Some(s"$elementUri-different-elements.golden.yaml")
+
+    runTest(elementUri, range, pluginFactory, golden)
+  }
+
+  it should "generate a file which does not already exist" in {
+    val elementUri                       = "extract-element/raml-libraries/with-lib/has-libfile.raml"
+    val range                            = PositionRange(Position(5, 4), Position(5, 6))
+    val dialect: Dialect                 = Raml10TypesDialect.dialect
+    val pluginFactory: CodeActionFactory = ExtractRamlToLibraryCodeAction
+
+    runTest(elementUri, range, pluginFactory)
+  }
+
+  it should "generate an alias which does not already exist" in {
+    val elementUri                       = "extract-element/raml-libraries/with-lib/has-lib.raml"
+    val range                            = PositionRange(Position(5, 4), Position(5, 6))
+    val dialect: Dialect                 = Raml10TypesDialect.dialect
+    val pluginFactory: CodeActionFactory = ExtractRamlToLibraryCodeAction
+
+    runTest(elementUri, range, pluginFactory)
+  }
 }
