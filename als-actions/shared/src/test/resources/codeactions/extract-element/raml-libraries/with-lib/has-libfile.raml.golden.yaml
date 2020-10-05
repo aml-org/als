@@ -1,0 +1,35 @@
+changes:
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-libraries/with-lib/has-libfile.raml:
+    -
+      from:
+        line: 4
+        column: 0
+      to:
+        line: 6
+        column: 16
+      content: |
+        +
+    -
+      from:
+        line: 4
+        column: 0
+      to:
+        line: 4
+        column: 0
+      content: |
+        +
+          lib: library1.raml
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-libraries/with-lib/library1.raml:
+    -
+      from:
+        line: 0
+        column: 0
+      to:
+        line: 0
+        column: 0
+      content: |
+        +
+        #%RAML 1.0 Library
+        types:
+          t:
+            type: string
