@@ -39,7 +39,8 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
 
   protected def runTest(elementUri: String,
                         range: PositionRange,
-                        pluginFactory: CodeActionFactory): Future[Assertion] =
+                        pluginFactory: CodeActionFactory,
+                        golden: Option[String] = None): Future[Assertion] =
     for {
       params <- buildParameter(elementUri, range)
       result <- {
@@ -47,7 +48,7 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
         plugin.isApplicable should be(true)
         plugin.run(params)
       }
-      r <- assertCodeActions(result, relativeUri(elementUri + ".golden.yaml"))
+      r <- assertCodeActions(result, relativeUri(golden.getOrElse(s"$elementUri.golden.yaml")))
     } yield r
 
   protected def runTestNotApplicable(elementUri: String,
