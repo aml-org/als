@@ -14,19 +14,17 @@ changes:
                       }
     -
       from:
-        line: 6
-        column: 3
+        line: 5
+        column: 5
       to:
-        line: 6
-        column: 3
+        line: 5
+        column: 5
       content: |
         +
 
-        {
-              "schemas": {
-                "newschema": {
-                  "type": "string",
-                  "example": "textplain"
-                }
+        ,"schemas": {
+              "newschema": {
+                "type": "string",
+                "example": "textplain"
               }
             }

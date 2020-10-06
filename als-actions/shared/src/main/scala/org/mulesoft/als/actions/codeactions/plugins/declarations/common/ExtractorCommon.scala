@@ -175,19 +175,36 @@ object ExtractorCommon {
     val maybeParent: Option[YMapEntry] = wrapped.flatMap(_._2)
     wrapped
       .map(_._1)
-      .flatMap { node =>
-        dialect match {
-          case _ if isJson(bu) =>
-            Some(
-              JsonRender
-                .render(node, getIndentation(Mimes.`APPLICATION/JSON`, maybeParent, configurationReader), jsonOptions))
-          case _ =>
-            Some(
-              YamlRender
-                .render(node, getIndentation(Mimes.`APPLICATION/YAML`, maybeParent, configurationReader), yamlOptions))
+      .map { node =>
+        if (isJson(bu)) {
+          renderJson(configurationReader, jsonOptions, maybeParent, node)
+        } else {
+          val rendered = YamlRender
+            .render(node, getIndentation(Mimes.`APPLICATION/YAML`, maybeParent, configurationReader), yamlOptions)
+          (rendered, maybeParent)
         }
       }
-      .map((_, maybeParent))
+  }
+
+  private def renderJson(configurationReader: AlsConfigurationReader,
+                         jsonOptions: JsonRenderOptions,
+                         maybeParent: Option[YMapEntry],
+                         node: YNode) = {
+    val toRender = node.value match {
+      case m: YMap => m.entries.headOption.getOrElse(node)
+      case _       => node
+    }
+    val rendered = JsonRender
+      .render(toRender, getIndentation(Mimes.`APPLICATION/JSON`, maybeParent, configurationReader), jsonOptions)
+    val renderedChild = maybeParent
+      .map(_.value.value)
+      .collect {
+        case m: YMap if m.entries.nonEmpty =>
+          s",$rendered" // if I'm not the only son, I put a comma to separate from siblings
+        case m: YMap if m.entries.isEmpty => rendered // single child, no comma needed
+      }
+      .getOrElse(s"$rendered,") // if I can't ensure I will be the last son, then I fallback with a trailing comma
+    (renderedChild, maybeParent)
   }
 
   /**
