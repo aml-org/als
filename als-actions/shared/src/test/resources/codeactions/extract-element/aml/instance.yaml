@@ -1,0 +1,8 @@
+#%ALS 1.0
+alsMembers:
+  John:
+    member:
+      displayName: John Doe
+  Jane:
+    member:
+      displayName: Jane Doe
