@@ -21,9 +21,33 @@ class ExtractToDeclarationTest extends BaseCodeActionTests {
     runTest(elementUri, range, pluginFactory)
   }
 
-  it should "extract a schema from oas 3 json" in {
+  it should "extract a schema from oas 3 json (without components key)" in {
+    val elementUri                       = "extract-element/schema-from-oas/schema2.json"
+    val range                            = PositionRange(Position(10, 19), Position(10, 20))
+    val pluginFactory: CodeActionFactory = ExtractElementCodeAction
+
+    runTest(elementUri, range, pluginFactory)
+  }
+
+  it should "extract a schema from oas 3 json (with components key, no other child)" in {
+    val elementUri                       = "extract-element/schema-from-oas/schema1.json"
+    val range                            = PositionRange(Position(11, 19), Position(11, 20))
+    val pluginFactory: CodeActionFactory = ExtractElementCodeAction
+
+    runTest(elementUri, range, pluginFactory)
+  }
+
+  it should "extract a schema from oas 3 json (with componets key and one other)" in {
     val elementUri                       = "extract-element/schema-from-oas/schema.json"
     val range                            = PositionRange(Position(13, 19), Position(13, 20))
+    val pluginFactory: CodeActionFactory = ExtractElementCodeAction
+
+    runTest(elementUri, range, pluginFactory)
+  }
+
+  it should "extract a schema from oas 3 json (with componets key and one schema)" in {
+    val elementUri                       = "extract-element/schema-from-oas/schema3.json"
+    val range                            = PositionRange(Position(20, 19), Position(20, 20))
     val pluginFactory: CodeActionFactory = ExtractElementCodeAction
 
     runTest(elementUri, range, pluginFactory)

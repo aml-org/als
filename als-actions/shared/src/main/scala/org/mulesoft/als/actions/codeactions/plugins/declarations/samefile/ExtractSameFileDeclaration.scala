@@ -21,7 +21,7 @@ import org.mulesoft.lsp.feature.telemetry.MessageTypes.{
   END_EXTRACT_ELEMENT_ACTION,
   MessageTypes
 }
-import org.yaml.model.{YMapEntry, YNode, YNonContent}
+import org.yaml.model.{YMap, YMapEntry, YNode, YNonContent}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -30,7 +30,7 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with BaseEleme
   protected val kindTitle: CodeActionKindTitle
 
   protected def rangeFromEntryBottom(maybeEntry: Option[YMapEntry]): Range =
-    maybeEntry.flatMap(_.children.filterNot(_.isInstanceOf[YNonContent]).lastOption) match {
+    maybeEntry.map(_.value.value).collect { case m: YMap => m }.flatMap(_.entries.lastOption) match {
       case Some(e) =>
         val pos = PositionRange(e.range).`end`
         LspRangeConverter.toLspRange(PositionRange(pos, pos))
