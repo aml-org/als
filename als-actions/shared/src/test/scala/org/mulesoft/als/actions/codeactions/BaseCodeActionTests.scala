@@ -40,9 +40,10 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
   protected def runTest(elementUri: String,
                         range: PositionRange,
                         pluginFactory: CodeActionFactory,
-                        golden: Option[String] = None): Future[Assertion] =
+                        golden: Option[String] = None,
+                        definedBy: Option[String] = None): Future[Assertion] =
     for {
-      params <- buildParameter(elementUri, range)
+      params <- buildParameter(elementUri, range, definedBy)
       result <- {
         val plugin = pluginFactory(params)
         plugin.isApplicable should be(true)
@@ -69,8 +70,10 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
 
   }
 
-  protected def buildParameter(elementUri: String, range: PositionRange): Future[CodeActionRequestParams] =
-    parseElement(elementUri)
+  protected def buildParameter(elementUri: String,
+                               range: PositionRange,
+                               definedBy: Option[String] = None): Future[CodeActionRequestParams] =
+    parseElement(elementUri, definedBy)
       .map(bu => buildParameter(elementUri, bu, range))
 
   case class PreCodeActionRequestParams(amfResult: AmfParseResult, uri: String, relationShip: Seq[RelationshipLink]) {

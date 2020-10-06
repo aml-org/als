@@ -4,6 +4,7 @@ import amf.core.errorhandling.UnhandledErrorHandler
 import amf.core.model.document.{BaseUnit, Document}
 import amf.core.model.domain.{AmfObject, DomainElement}
 import amf.core.remote.{Mimes, Vendor}
+import amf.plugins.document.vocabularies.emitters.instances.AmlDomainElementEmitter
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.webapi.parser.spec.common.emitters.WebApiDomainElementEmitter
 import org.mulesoft.als.common.YamlUtils.isJson
@@ -80,19 +81,23 @@ object ExtractorCommon {
     * @param e DomainElement to be emitted
     * @return
     */
-  private def emitElement(e: DomainElement, vendor: Vendor): YNode =
-    WebApiDomainElementEmitter
-      .emit(e, vendor, UnhandledErrorHandler)
+  private def emitElement(e: DomainElement, vendor: Vendor, dialect: Dialect): YNode =
+    if (vendor == Vendor.AML)
+      AmlDomainElementEmitter
+        .emit(e, dialect, UnhandledErrorHandler)
+    else
+      WebApiDomainElementEmitter
+        .emit(e, vendor, UnhandledErrorHandler)
 
   /**
     * Emit declared element
     * @param amfObject
     * @return Element as YNode
     */
-  def declaredElementNode(amfObject: Option[AmfObject], vendor: Vendor): Option[YNode] =
+  def declaredElementNode(amfObject: Option[AmfObject], vendor: Vendor, dialect: Dialect): Option[YNode] =
     amfObject
       .collect {
-        case e: DomainElement => emitElement(e, vendor)
+        case e: DomainElement => emitElement(e, vendor, dialect)
       }
 
   /**
@@ -104,7 +109,7 @@ object ExtractorCommon {
                            bu: BaseUnit,
                            uri: String,
                            newName: String): Option[(YNode, Option[YMapEntry])] =
-    (declaredElementNode(amfObject, vendor), amfObject, dialect) match {
+    (declaredElementNode(amfObject, vendor, dialect), amfObject, dialect) match {
       case (Some(den), Some(fdp), dialect) =>
         val keyPath  = declarationPath(fdp, dialect)
         var fullPath = den.withKey(newName)
