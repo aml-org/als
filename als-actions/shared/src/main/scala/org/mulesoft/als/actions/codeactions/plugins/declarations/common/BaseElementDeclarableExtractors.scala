@@ -63,14 +63,26 @@ trait BaseElementDeclarableExtractors {
       case c                      => c
     }
 
+  /** gets the range for the whole value of the parent */
+  private def getRangeForAML(entryAst: YPart): Option[Range] = yPartBranch.flatMap { b =>
+    val wholeStack = b.node +: b.stack
+    val ix         = wholeStack.indexOf(entryAst)
+    wholeStack(ix + 1)
+    if (ix >= 0 && (ix + 1) < wholeStack.length)
+      Some(LspRangeConverter.toLspRange(PositionRange(wholeStack(ix + 1).range)))
+    else None
+  }
+
   /**
     * The original range info for the declared node
     */
   protected lazy val entryRange: Option[Range] =
-    entryAst
-      .map(_.range)
-      .map(PositionRange(_))
-      .map(LspRangeConverter.toLspRange)
+    if (vendor != Vendor.AML)
+      entryAst
+        .map(_.range)
+        .map(PositionRange(_))
+        .map(LspRangeConverter.toLspRange)
+    else entryAst.flatMap(getRangeForAML)
 
   /**
     * The indentation for the existing node, as we already ensured it is a key, the first position gives de current indentation
@@ -115,15 +127,16 @@ trait BaseElementDeclarableExtractors {
             _,
             JsonRender.render(rl.getOrElse(jsonRefEntry), entryIndentation, jsonOptions)
           ))
-      else if (params.dialect.isRamlStyle)
-        entryRange.map(TextEdit(_, s" ${rl.map(YamlRender.render(_, 0, yamlOptions)).getOrElse(newName)}\n"))
+//      else if (params.dialect.isRamlStyle)
+//        entryRange.map(TextEdit(_, s" ${rl.map(YamlRender.render(_, 0, yamlOptions)).getOrElse(newName)}\n"))
       else if (params.dialect.isJsonStyle)
         entryRange.map(
           TextEdit(
             _,
             s"\n${YamlRender.render(rl.getOrElse(jsonRefEntry), entryIndentation, yamlOptions)}\n"
           ))
-      else None
+      else // default as raml style if none defined
+        entryRange.map(TextEdit(_, s" ${rl.map(YamlRender.render(_, 0, yamlOptions).trim).getOrElse(newName)}\n"))
     }
 
   protected val jsonOptions: JsonRenderOptions = JsonRenderOptions().withIndentationSize(

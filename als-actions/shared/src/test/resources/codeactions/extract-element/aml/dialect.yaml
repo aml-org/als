@@ -1,0 +1,36 @@
+#%Dialect 1.0
+version: 1.0
+dialect: ALS
+external:
+  schema-org: http://schema.org/#
+nodeMappings:
+  Member:
+    classTerm: schema-org.member
+    mapping:
+      name:
+        propertyTerm: schema-org.name
+        range: string
+      displayName:
+        range: string
+        propertyTerm: schema-org.displayName
+  AlsTeamMember:
+    classTerm: schema-org.alsTeamMember
+    mapping:
+      userId:
+        propertyTerm: schema-org.name
+        range: string
+      member:
+        propertyTerm: schema-org.member
+        range: Member
+  AlsTeam:
+    classTerm: schema-org.alsTeam
+    mapping:
+      alsMembers:
+        propertyTerm: schema-org.alsMembers
+        mapKey: userId
+        range: AlsTeamMember
+documents:
+  root:
+    encodes: AlsTeam
+    declares:
+      members: Member

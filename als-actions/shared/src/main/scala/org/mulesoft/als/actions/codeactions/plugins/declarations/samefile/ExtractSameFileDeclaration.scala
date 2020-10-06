@@ -3,6 +3,8 @@ package org.mulesoft.als.actions.codeactions.plugins.declarations.samefile
 import amf.core.annotations.DeclaredElement
 import amf.core.errorhandling.UnhandledErrorHandler
 import amf.core.model.domain.{DomainElement, Linkable}
+import amf.core.remote.Vendor
+import amf.plugins.document.vocabularies.emitters.instances.AmlDomainElementEmitter
 import amf.plugins.document.webapi.annotations.ForceEntry
 import amf.plugins.document.webapi.parser.spec.common.emitters.WebApiDomainElementEmitter
 import org.mulesoft.als.actions.codeactions.plugins.CodeActionKindTitle
@@ -21,7 +23,7 @@ import org.mulesoft.lsp.feature.telemetry.MessageTypes.{
   END_EXTRACT_ELEMENT_ACTION,
   MessageTypes
 }
-import org.yaml.model.{YMap, YMapEntry, YNode, YNonContent}
+import org.yaml.model.{YMap, YMapEntry, YNode}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -68,8 +70,13 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with BaseEleme
           l.annotations += DeclaredElement()
           val linkDe: DomainElement = l.link(newName)
           linkDe.annotations += ForceEntry() // raml explicit types
-          WebApiDomainElementEmitter
-            .emit(linkDe, vendor, UnhandledErrorHandler)
+          if (vendor == Vendor.AML)
+            AmlDomainElementEmitter
+              .emit(linkDe, params.dialect, UnhandledErrorHandler)
+          else
+            WebApiDomainElementEmitter
+              .emit(linkDe, vendor, UnhandledErrorHandler)
+
       }
   }
 

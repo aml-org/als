@@ -7,8 +7,11 @@ import org.mulesoft.als.actions.codeactions.plugins.declarations.samefile.{
   ExtractRamlTypeCodeAction
 }
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.amfintegration.ParserHelper
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
+
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class ExtractToDeclarationTest extends BaseCodeActionTests {
   behavior of "Extract element to declaration"
@@ -91,5 +94,13 @@ class ExtractToDeclarationTest extends BaseCodeActionTests {
     val pluginFactory: CodeActionFactory = ExtractRamlTypeCodeAction
 
     runTest(elementUri, range, pluginFactory)
+  }
+
+  it should "extract from AML declaration" in {
+    val elementUri                       = "extract-element/aml/instance.yaml"
+    val dialectUri                       = "extract-element/aml/dialect.yaml"
+    val range                            = PositionRange(Position(7, 10), Position(7, 15))
+    val pluginFactory: CodeActionFactory = ExtractElementCodeAction
+    runTest(elementUri, range, pluginFactory, None, Some(dialectUri))
   }
 }
