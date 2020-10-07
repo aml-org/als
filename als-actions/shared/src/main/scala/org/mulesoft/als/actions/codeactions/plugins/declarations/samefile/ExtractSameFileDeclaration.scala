@@ -14,10 +14,11 @@ import org.mulesoft.als.actions.codeactions.plugins.declarations.common.{
   ExtractorCommon
 }
 import org.mulesoft.als.common.dtoTypes.PositionRange
+import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
+import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
-import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit, WorkspaceEdit}
-import org.mulesoft.lsp.feature.codeactions.CodeAction
+import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit}
 import org.mulesoft.lsp.feature.common.{Position, Range, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.{
   BEGIN_EXTRACT_ELEMENT_ACTION,
@@ -53,13 +54,13 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with BaseEleme
                      yamlOptions)
       .map(de => TextEdit(rangeFromEntryBottom(de._2), s"\n${de._1}\n"))
 
-  override protected def task(params: CodeActionRequestParams): Future[Seq[CodeAction]] =
+  override protected def task(params: CodeActionRequestParams): Future[Seq[AbstractCodeAction]] =
     linkEntry.map {
       _.flatMap(e => declaredElementTextEdit.map(Seq(e, _)))
         .map(edits => {
           kindTitle.baseCodeAction(
-            WorkspaceEdit(Map(params.uri -> edits),
-                          Seq(Left(TextDocumentEdit(VersionedTextDocumentIdentifier(params.uri, None), edits)))))
+            AbstractWorkspaceEdit(
+              Seq(Left(TextDocumentEdit(VersionedTextDocumentIdentifier(params.uri, None), edits)))))
         })
         .toSeq
     }

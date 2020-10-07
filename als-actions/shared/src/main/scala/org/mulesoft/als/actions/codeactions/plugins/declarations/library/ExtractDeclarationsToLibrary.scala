@@ -9,6 +9,8 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{CodeActionRequestParam
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.ExtractorCommon
 import org.mulesoft.als.common.YamlWrapper.{YMapEntryOps, YNodeImplicits}
 import org.mulesoft.als.common.dtoTypes.PositionRange
+import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
+import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
 import org.mulesoft.amfintegration.relationships.RelationshipLink
@@ -168,7 +170,7 @@ trait ExtractDeclarationsToLibrary extends CodeActionResponsePlugin {
       .map(range => Range(Position(range.start.line, 0), LspRangeConverter.toLspPosition(range.`end`)))
       .map(TextEdit(_, ""))
 
-  override protected def task(params: CodeActionRequestParams): Future[Seq[CodeAction]] =
+  override protected def task(params: CodeActionRequestParams): Future[Seq[AbstractCodeAction]] =
     params.bu.ast
       .map {
         linkEntry(_)
@@ -192,8 +194,7 @@ trait ExtractDeclarationsToLibrary extends CodeActionResponsePlugin {
   private def buildEdit(editUri: String, allEdited: Seq[TextEdit], newUri: String, newTextEdit: TextEdit) =
     Seq(
       kindTitle.baseCodeAction(
-        WorkspaceEdit(
-          Map(editUri -> allEdited, newUri -> Seq(newTextEdit)),
+        AbstractWorkspaceEdit(
           Seq(
             Right(CreateFile(newUri, None)),
             Left(TextDocumentEdit(VersionedTextDocumentIdentifier(editUri, None), allEdited)),

@@ -55,6 +55,7 @@ class RenameHandler(telemetryProvider: TelemetryProvider, workspace: WorkspaceMa
                                 workspace.getRelationships(uri, uuid).map(_._2),
                                 bu.yPartBranch,
                                 bu.unit)
+            .map(_.toWorkspaceEdit)
         else if (renameThroughReferenceEnabled) // enable when polished, add logic to prepare rename
           for {
             fromLinks <- renameFromLink(uri, position, newName, uuid, bu, workspace) // if Some() then it's a link to a file
@@ -115,7 +116,7 @@ class RenameHandler(telemetryProvider: TelemetryProvider, workspace: WorkspaceMa
               bu.yPartBranch,
               bu.unit
             )
-            .map(Some(_))
+            .map(a => Some(a.toWorkspaceEdit))
         case _ =>
           Future.successful(None)
       })

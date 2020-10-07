@@ -1,7 +1,12 @@
 package org.mulesoft.als.server
 
+import org.mulesoft.als.server.feature.configuration.{
+  UpdateConfigurationClientCapabilities,
+  UpdateConfigurationConfigType
+}
 import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeConfigType
 import org.mulesoft.als.server.feature.fileusage.FileUsageConfigType
+import org.mulesoft.als.server.feature.renamefile.RenameFileConfigType
 import org.mulesoft.als.server.feature.serialization.{ConversionConfigType, SerializationConfigType}
 import org.mulesoft.als.server.protocol.configuration.{
   AlsClientCapabilities,
@@ -33,6 +38,7 @@ class LanguageServerInitializer(private val configMap: ConfigMap, private val in
 
   private def applyCapabilitiesConfig(clientCapabilities: AlsClientCapabilities): AlsServerCapabilities = {
     val textDocument = clientCapabilities.textDocument
+    val workspace    = clientCapabilities.workspace
     AlsServerCapabilities(
       applyConfig(TextDocumentSyncConfigType, textDocument.flatMap(_.synchronization)),
       applyConfig(CompletionConfigType, textDocument.flatMap(_.completion)),
@@ -53,7 +59,15 @@ class LanguageServerInitializer(private val configMap: ConfigMap, private val in
       applyConfig(DocumentHighlightConfigType, textDocument.flatMap(_.documentHighlight)),
       applyConfig(HoverConfigType, textDocument.flatMap(_.hover)),
       applyConfig(FoldingRangeConfigType, textDocument.flatMap(_.foldingRange)),
-      applyConfig(SelectionRangeConfigType, textDocument.flatMap(_.selectionRange))
+      applyConfig(SelectionRangeConfigType, textDocument.flatMap(_.selectionRange)),
+      applyConfig(RenameFileConfigType, None), // todo: check client support?
+      applyConfig(
+        UpdateConfigurationConfigType,
+        Some(
+          UpdateConfigurationClientCapabilities(
+            enableUpdateFormatOptions = true,
+            supportsDocumentChanges = workspace.flatMap(_.workspaceEdit).flatMap(_.documentChanges).contains(true)))
+      )
     )
   }
 

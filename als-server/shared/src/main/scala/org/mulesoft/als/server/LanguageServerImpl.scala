@@ -19,7 +19,11 @@ class LanguageServerImpl(val textDocumentSyncConsumer: AlsTextDocumentSyncConsum
     extends LanguageServer {
 
   override def initialize(params: AlsInitializeParams): Future[AlsInitializeResult] = {
-    params.alsConfiguration.foreach(c => updateConfiguration(UpdateConfigurationParams(Option(c.getFormatOptions))))
+    params.alsConfiguration.foreach(c => {
+      updateConfiguration(UpdateConfigurationParams(Option(c.getFormatOptions)))
+      configuration.updateDocumentChangesSupport(
+        params.capabilities.workspace.flatMap(_.workspaceEdit).flatMap(_.documentChanges).contains(true))
+    })
 
     languageServerInitializer.initialize(params).flatMap { p =>
       val root: Option[String]                   = params.rootUri.orElse(params.rootPath)

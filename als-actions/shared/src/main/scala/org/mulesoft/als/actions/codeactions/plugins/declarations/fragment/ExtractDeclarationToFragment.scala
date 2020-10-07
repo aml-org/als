@@ -11,6 +11,8 @@ import org.mulesoft.als.actions.codeactions.plugins.CodeActionKindTitle
 import org.mulesoft.als.actions.codeactions.plugins.base.{CodeActionRequestParams, CodeActionResponsePlugin}
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.BaseElementDeclarableExtractors
 import org.mulesoft.als.actions.codeactions.plugins.declarations.fragment.webapi.raml.FragmentBundle
+import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
+import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
 import org.mulesoft.lsp.edit.{CreateFile, TextDocumentEdit, TextEdit, WorkspaceEdit}
 import org.mulesoft.lsp.feature.codeactions.CodeAction
 import org.mulesoft.lsp.feature.common.{Position, Range, VersionedTextDocumentIdentifier}
@@ -62,7 +64,7 @@ trait ExtractDeclarationToFragment extends CodeActionResponsePlugin with BaseEle
       uri <- wholeUri
     } yield (uri, TextEdit(Range(Position(0, 0), Position(0, 0)), r))
 
-  override protected def task(params: CodeActionRequestParams): Future[Seq[CodeAction]] =
+  override protected def task(params: CodeActionRequestParams): Future[Seq[AbstractCodeAction]] =
     linkEntry.flatMap { mle =>
       (mle, amfObject) match {
         case (Some(le), Some(de: DomainElement)) =>
@@ -77,8 +79,7 @@ trait ExtractDeclarationToFragment extends CodeActionResponsePlugin with BaseEle
   private def buildEdit(editUri: String, editTextEdit: TextEdit, newUri: String, newTextEdit: TextEdit) = {
     Seq(
       kindTitle.baseCodeAction(
-        WorkspaceEdit(
-          Map(editUri -> Seq(editTextEdit), newUri -> Seq(newTextEdit)),
+        AbstractWorkspaceEdit(
           Seq(
             Right(CreateFile(newUri, None)),
             Left(TextDocumentEdit(VersionedTextDocumentIdentifier(editUri, None), Seq(editTextEdit))),

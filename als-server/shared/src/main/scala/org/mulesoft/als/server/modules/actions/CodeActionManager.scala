@@ -5,6 +5,7 @@ import java.util.UUID
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionFactory
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionParamsImpl.CodeActionParamsImpl
 import org.mulesoft.als.common.DirectoryResolver
+import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
 import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
@@ -45,7 +46,7 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
         val uuid = UUID.randomUUID().toString
         for {
           (bu, allr) <- workspaceManager.getRelationships(params.textDocument.uri, uuid)
-          results <- {
+          results: Seq[Seq[AbstractCodeAction]] <- {
             val requestParams = params.toRequestParams(
               bu.unit,
               bu.tree,
@@ -66,7 +67,13 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
             }
           }
         } yield {
-          results.flatten
+          val flatResults = results.flatten
+          val finalResults = {
+            if (!configuration.supportsDocumentChanges)
+              flatResults.filterNot(_.needsWorkspaceEdit)
+            else flatResults
+          }
+          finalResults.map(_.toCodeAction)
         }
       }
 

@@ -85,13 +85,17 @@ object Lsp4JConversions {
   implicit def lsp4JWorkspaceEdit(workspaceEdit: WorkspaceEdit): lsp4j.WorkspaceEdit = {
     val result = new lsp4j.WorkspaceEdit()
 
-    result.setChanges(workspaceEdit.changes.mapValues(_.map(lsp4JTextEdit).asJava).asJava)
-    result.setDocumentChanges(workspaceEdit.documentChanges.map {
-      case Left(edit) =>
-        JEither.forLeft(lsp4JTextDocumentEdit(edit)): JEither[lsp4j.TextDocumentEdit, lsp4j.ResourceOperation]
-      case Right(operation) =>
-        JEither.forRight(lsp4JResourceOperation(operation)): JEither[lsp4j.TextDocumentEdit, lsp4j.ResourceOperation]
-    }.asJava)
+    result.setChanges(workspaceEdit.changes.map(_.mapValues(_.map(lsp4JTextEdit).asJava).asJava).orNull)
+    result.setDocumentChanges(
+      workspaceEdit.documentChanges
+        .map(_.map {
+          case Left(edit) =>
+            JEither.forLeft(lsp4JTextDocumentEdit(edit)): JEither[lsp4j.TextDocumentEdit, lsp4j.ResourceOperation]
+          case Right(operation) =>
+            JEither
+              .forRight(lsp4JResourceOperation(operation)): JEither[lsp4j.TextDocumentEdit, lsp4j.ResourceOperation]
+        }.asJava)
+        .orNull)
 
     result
   }

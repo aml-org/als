@@ -25,7 +25,7 @@ object RenameFileAction {
           .filterNot(_.edits.isEmpty)
           .map(Left(_))
 
-    WorkspaceEdit(Map(), documentChanges)
+    WorkspaceEdit(None, Some(documentChanges))
   }
 
   private def getTextDocumentsEdits(file: String,

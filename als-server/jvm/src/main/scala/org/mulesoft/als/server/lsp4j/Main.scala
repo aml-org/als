@@ -14,6 +14,8 @@ import org.mulesoft.als.server.protocol.client.AlsLanguageClient
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 import org.mulesoft.als.server.lsp4j.extension.SerializationParams
 
+import scala.annotation.tailrec
+
 object Main {
 
   case class Options(port: Int,
@@ -27,6 +29,7 @@ object Main {
     Options(4000, listen = false, dialectPath = None, dialectName = None, vocabularyPath = None)
 
   private def readOptions(args: Array[String]): Options = {
+    @tailrec
     def innerReadOptions(options: Options, list: List[String]): Options =
       list match {
         case Nil => options

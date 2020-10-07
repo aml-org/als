@@ -13,6 +13,8 @@ import org.mulesoft.als.actions.codeactions.plugins.declarations.common.{
 import org.mulesoft.als.common.SemanticNamedElement._
 import org.mulesoft.als.common.YamlWrapper._
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
+import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.AmfImplicits.{FieldEntryImplicit, _}
 import org.mulesoft.amfintegration.relationships.RelationshipLink
@@ -33,7 +35,7 @@ class DeleteDeclaredNodeCodeAction(override val params: CodeActionRequestParams)
 
   override protected def telemetry: TelemetryProvider = params.telemetryProvider
 
-  override protected def task(params: CodeActionRequestParams): Future[Seq[CodeAction]] =
+  override protected def task(params: CodeActionRequestParams): Future[Seq[AbstractCodeAction]] =
     Future {
       maybeTree
         .map(t => {
@@ -47,7 +49,7 @@ class DeleteDeclaredNodeCodeAction(override val params: CodeActionRequestParams)
               }
             }
             .getOrElse(referencesEdits)
-          WorkspaceEdit(stringToEdits, editsToDocumentChanges(stringToEdits))
+          AbstractWorkspaceEdit(editsToDocumentChanges(stringToEdits))
         })
         .map(we => DeleteDeclaredNodeCodeAction.baseCodeAction(we))
         .toSeq

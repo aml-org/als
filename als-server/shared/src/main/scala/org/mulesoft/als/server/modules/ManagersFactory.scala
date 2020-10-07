@@ -132,7 +132,7 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
     )
 
   val configurationManager: ConfigurationManager =
-    new ConfigurationManager();
+    new ConfigurationManager()
 
   lazy val documentManager =
     new TextDocumentManager(container, List(workspaceManager), logger)

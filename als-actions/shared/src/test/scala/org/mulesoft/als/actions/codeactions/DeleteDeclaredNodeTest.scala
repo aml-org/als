@@ -1,9 +1,9 @@
 package org.mulesoft.als.actions.codeactions
 
-import org.mulesoft.als.actions.codeactions.plugins.declarations.delete.
-  DeleteDeclaredNodeCodeAction
+import org.mulesoft.als.actions.codeactions.plugins.declarations.delete.DeleteDeclaredNodeCodeAction
 import org.mulesoft.als.common.WorkspaceEditSerializer
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
 import org.mulesoft.lsp.feature.codeactions.CodeAction
 import org.scalatest.Assertion
 import org.yaml.model.YDocument
@@ -208,15 +208,15 @@ class DeleteDeclaredNodeTest extends BaseCodeActionTests {
     runCase(elementUri, goldenUri, cases, dialectUri = dialectUri)
   }
 
-  case class DeleteResultCase(name: String, actions: Seq[CodeAction]) {
+  case class DeleteResultCase(name: String, actions: Seq[AbstractCodeAction]) {
     def ast(e: EntryBuilder): Unit = {
       e.entry(name, p => p.list(lp => actions.foreach(a => buildAction(a, lp))))
     }
 
-    private def buildAction(a: CodeAction, p: PartBuilder): Unit = {
+    private def buildAction(a: AbstractCodeAction, p: PartBuilder): Unit = {
       p.obj { eb =>
         a.edit.foreach { e =>
-          WorkspaceEditSerializer(e).entryChanges(eb)
+          WorkspaceEditSerializer(e.toWorkspaceEdit).entryChanges(eb)
         }
       }
     }
@@ -242,9 +242,10 @@ class DeleteDeclaredNodeTest extends BaseCodeActionTests {
 
     parseElement(file, defineBy).map(r => buildPreParam(file, r)).flatMap { pr =>
       val results: Seq[Future[DeleteResultCase]] = cases.map { deletecase =>
-        val params                     = pr.buildParam(deletecase.positionRange, activeFile)
-        val plugin                     = DeleteDeclaredNodeCodeAction(params)
-        val r: Future[Seq[CodeAction]] = if (plugin.isApplicable) plugin.run(params) else Future.successful(Seq.empty)
+        val params = pr.buildParam(deletecase.positionRange, activeFile)
+        val plugin = DeleteDeclaredNodeCodeAction(params)
+        val r: Future[Seq[AbstractCodeAction]] =
+          if (plugin.isApplicable) plugin.run(params) else Future.successful(Seq.empty)
         r.map(ca => DeleteResultCase(deletecase.name, ca))
       }
       Future.sequence(results).map(serializeResults)

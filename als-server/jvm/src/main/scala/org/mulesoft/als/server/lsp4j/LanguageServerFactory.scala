@@ -86,6 +86,7 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecr
                                 builders.resolutionTaskManager)
         .addInitializable(builders.workspaceManager)
         .addInitializable(builders.resolutionTaskManager)
+        .addInitializable(builders.configurationManager)
         .addInitializableModule(sm)
         .addRequestModule(builders.cleanDiagnosticManager)
         .addRequestModule(builders.conversionManager)
