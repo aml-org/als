@@ -86,7 +86,9 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
       override protected def endType(params: CodeActionParams): MessageTypes = MessageTypes.END_CODE_ACTION
 
       override protected def msg(params: CodeActionParams): String =
-        s"Requested code action for ${params.textDocument.uri} at ${params.range}"
+        s"""Requested code action for ${params.textDocument.uri} at ${params.range}
+           |availableActions: $usedActions
+           |supports documentChanges: ${configuration.supportsDocumentChanges}""".stripMargin
 
       override protected def uri(params: CodeActionParams): String = params.textDocument.uri
     }
@@ -109,6 +111,12 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
           .filter(a => c.codeActionLiteralSupport.forall(_.codeActionKind.valueSet.contains(a.kind)))
       case None => usedActions = allActions
     }
+    logger.debug(s"actions to be used:\n${usedActions.map(_.title).mkString("\n")}",
+                 "CodeActionManager",
+                 "applyConfig")
+    logger.debug(s"supports documentChanges: ${configuration.supportsDocumentChanges}",
+                 "CodeActionManager",
+                 "applyConfig")
     CodeActionRegistrationOptions(Some(allActions.map(_.kind).distinct))
   }
 

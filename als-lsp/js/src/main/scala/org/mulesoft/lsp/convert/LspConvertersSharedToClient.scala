@@ -1,6 +1,6 @@
 package org.mulesoft.lsp.convert
 
-import org.mulesoft.lsp.configuration._
+import org.mulesoft.lsp.configuration.{ClientWorkspaceEditClientCapabilities, _}
 import org.mulesoft.lsp.edit._
 import org.mulesoft.lsp.feature.codeactions._
 import org.mulesoft.lsp.feature.command.{ClientCommand, Command}
@@ -8,17 +8,17 @@ import org.mulesoft.lsp.feature.common.{ClientLocation, ClientLocationLink, Clie
 import org.mulesoft.lsp.feature.completion._
 import org.mulesoft.lsp.feature.definition.{ClientDefinitionClientCapabilities, DefinitionClientCapabilities}
 import org.mulesoft.lsp.feature.diagnostic._
-import org.mulesoft.lsp.feature.documenthighlight.ClientDocumentHighlight
+import org.mulesoft.lsp.feature.documenthighlight.{ClientDocumentHighlight, ClientDocumentHighlightCapabilities}
 import org.mulesoft.lsp.feature.documentsymbol._
-import org.mulesoft.lsp.feature.folding.{ClientFoldingRange, FoldingRange}
-import org.mulesoft.lsp.feature.highlight.DocumentHighlight
-import org.mulesoft.lsp.feature.hover.{ClientHover, Hover}
+import org.mulesoft.lsp.feature.folding.{ClientFoldingRange, ClientFoldingRangeCapabilities, FoldingRange, FoldingRangeCapabilities}
+import org.mulesoft.lsp.feature.highlight.{DocumentHighlight, DocumentHighlightCapabilities}
+import org.mulesoft.lsp.feature.hover.{ClientHover, ClientHoverClientCapabilities, Hover, HoverClientCapabilities}
 import org.mulesoft.lsp.feature.implementation.{ClientImplementationClientCapabilities, ImplementationClientCapabilities}
 import org.mulesoft.lsp.feature.link._
 import org.mulesoft.lsp.feature.reference._
 import org.mulesoft.lsp.feature.rename._
-import org.mulesoft.lsp.feature.selection.ClientSelectionRange
-import org.mulesoft.lsp.feature.selectionRange.SelectionRange
+import org.mulesoft.lsp.feature.selection.{ClientSelectionRange, ClientSelectionRangeCapabilities}
+import org.mulesoft.lsp.feature.selectionRange.{SelectionRange, SelectionRangeCapabilities}
 import org.mulesoft.lsp.feature.telemetry.{ClientTelemetryClientCapabilities, ClientTelemetryMessage, TelemetryClientCapabilities, TelemetryMessage}
 import org.mulesoft.lsp.feature.typedefinition.{ClientTypeDefinitionClientCapabilities, TypeDefinitionClientCapabilities}
 import org.mulesoft.lsp.textsync._
@@ -143,6 +143,11 @@ object LspConvertersSharedToClient {
   implicit class ClientWorkspaceEditConverter(v: WorkspaceEdit) {
     def toClient: ClientWorkspaceEdit =
       ClientWorkspaceEdit(v)
+  }
+
+  implicit class ClientWorkspaceEditClientCapabilitiesConverter(v: WorkspaceEditClientCapabilities) {
+    def toClient: ClientWorkspaceEditClientCapabilities =
+      ClientWorkspaceEditClientCapabilities(v)
   }
 
   implicit class ClientCompletionContextConverter(v: CompletionContext) {
@@ -331,6 +336,26 @@ object LspConvertersSharedToClient {
   implicit class ClientDocumentLinkClientCapabilitiesConverter(v: DocumentLinkClientCapabilities) {
     def toClient: ClientDocumentLinkClientCapabilities =
       ClientDocumentLinkClientCapabilities(v)
+  }
+
+  implicit class ClientDocumentHighlightCapabilitiesConverter(v: DocumentHighlightCapabilities) {
+    def toClient: ClientDocumentHighlightCapabilities =
+      ClientDocumentHighlightCapabilities(v)
+  }
+
+  implicit class ClientHoverClientCapabilitiesConverter(v: HoverClientCapabilities) {
+    def toClient: ClientHoverClientCapabilities =
+      ClientHoverClientCapabilities(v)
+  }
+
+  implicit class ClientFoldingRangeCapabilitiesConverter(v: FoldingRangeCapabilities) {
+    def toClient: ClientFoldingRangeCapabilities =
+      ClientFoldingRangeCapabilities(v)
+  }
+
+  implicit class ClientSelectionRangeCapabilitiesConverter(v: SelectionRangeCapabilities) {
+    def toClient: ClientSelectionRangeCapabilities =
+      ClientSelectionRangeCapabilities(v)
   }
 
   implicit class ClientDocumentLinkOptionsConverter(v: DocumentLinkOptions) {

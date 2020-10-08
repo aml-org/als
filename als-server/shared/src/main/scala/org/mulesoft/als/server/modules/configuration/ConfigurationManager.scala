@@ -18,7 +18,7 @@ class ConfigurationManager
     params.updateFormatOptionsParams.foreach(f => {
       configuration.updateFormattingOptions(f)
     })
-    // Shall move to separated GenericOptions class?
+    // Should move to separated GenericOptions class?
     params.genericOptions.get(GenericOptionKeys.KeepTokens) match {
       case Some(b: Boolean) => AlsSyamlSyntaxPluginHacked.withKeepTokens(b)
       case _                => // ignore

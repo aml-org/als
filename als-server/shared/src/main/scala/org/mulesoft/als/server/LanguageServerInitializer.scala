@@ -39,6 +39,13 @@ class LanguageServerInitializer(private val configMap: ConfigMap, private val in
   private def applyCapabilitiesConfig(clientCapabilities: AlsClientCapabilities): AlsServerCapabilities = {
     val textDocument = clientCapabilities.textDocument
     val workspace    = clientCapabilities.workspace
+    val configOptions = applyConfig(
+      UpdateConfigurationConfigType,
+      Some(
+        UpdateConfigurationClientCapabilities(
+          enableUpdateFormatOptions = true,
+          supportsDocumentChanges = workspace.flatMap(_.workspaceEdit).flatMap(_.documentChanges).contains(true)))
+    )
     AlsServerCapabilities(
       applyConfig(TextDocumentSyncConfigType, textDocument.flatMap(_.synchronization)),
       applyConfig(CompletionConfigType, textDocument.flatMap(_.completion)),
@@ -61,13 +68,7 @@ class LanguageServerInitializer(private val configMap: ConfigMap, private val in
       applyConfig(FoldingRangeConfigType, textDocument.flatMap(_.foldingRange)),
       applyConfig(SelectionRangeConfigType, textDocument.flatMap(_.selectionRange)),
       applyConfig(RenameFileConfigType, None), // todo: check client support?
-      applyConfig(
-        UpdateConfigurationConfigType,
-        Some(
-          UpdateConfigurationClientCapabilities(
-            enableUpdateFormatOptions = true,
-            supportsDocumentChanges = workspace.flatMap(_.workspaceEdit).flatMap(_.documentChanges).contains(true)))
-      )
+      configOptions
     )
   }
 
