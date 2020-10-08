@@ -1,6 +1,6 @@
 schema:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas30/api-without-brothers.yaml:
         -
           from:
@@ -13,7 +13,7 @@ schema:
             +
 responses:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas30/api-without-brothers.yaml:
         -
           from:
@@ -26,7 +26,7 @@ responses:
             +
 parameter:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas30/api-without-brothers.yaml:
         -
           from:
@@ -39,7 +39,7 @@ parameter:
             +
 example:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas30/api-without-brothers.yaml:
         -
           from:
@@ -52,7 +52,7 @@ example:
             +
 requestBody:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas30/api-without-brothers.yaml:
         -
           from:
@@ -65,7 +65,7 @@ requestBody:
             +
 headers:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas30/api-without-brothers.yaml:
         -
           from:
@@ -78,7 +78,7 @@ headers:
             +
 securityScheme:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas30/api-without-brothers.yaml:
         -
           from:
@@ -91,7 +91,7 @@ securityScheme:
             +
 link:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas30/api-without-brothers.yaml:
         -
           from:

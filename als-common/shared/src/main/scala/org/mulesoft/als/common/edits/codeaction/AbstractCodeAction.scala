@@ -10,5 +10,6 @@ case class AbstractCodeAction(title: String,
                               edit: Option[AbstractWorkspaceEdit]) {
   def needsWorkspaceEdit: Boolean = edit.exists(_.needsDocumentChanges)
 
-  def toCodeAction: CodeAction = CodeAction(title, kind, None, isPreferred, edit.map(_.toWorkspaceEdit), None)
+  def toCodeAction(supportsDC: Boolean): CodeAction =
+    CodeAction(title, kind, None, isPreferred, edit.map(_.toWorkspaceEdit(supportsDC)), None)
 }

@@ -216,7 +216,7 @@ class DeleteDeclaredNodeTest extends BaseCodeActionTests {
     private def buildAction(a: AbstractCodeAction, p: PartBuilder): Unit = {
       p.obj { eb =>
         a.edit.foreach { e =>
-          WorkspaceEditSerializer(e.toWorkspaceEdit).entryChanges(eb)
+          WorkspaceEditSerializer(e.toWorkspaceEdit(true)).entryChanges(eb)
         }
       }
     }

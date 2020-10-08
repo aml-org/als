@@ -18,8 +18,8 @@ case class AbstractWorkspaceEdit(documentChanges: Seq[Either[TextDocumentEdit, R
 
   def asChanges: WorkspaceEdit = WorkspaceEdit(Some(toChanges(documentChanges)), None)
 
-  def toWorkspaceEdit: WorkspaceEdit =
-    if (needsDocumentChanges) asDocumentChanges
+  def toWorkspaceEdit(supportsDC: Boolean): WorkspaceEdit =
+    if (supportsDC) asDocumentChanges
     else asChanges
 }
 

@@ -73,7 +73,7 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
               flatResults.filterNot(_.needsWorkspaceEdit)
             else flatResults
           }
-          finalResults.map(_.toCodeAction)
+          finalResults.map(_.toCodeAction(configuration.supportsDocumentChanges))
         }
       }
 

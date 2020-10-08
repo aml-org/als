@@ -4,6 +4,7 @@ import org.mulesoft.als.actions.definition.FindDefinition
 import org.mulesoft.als.actions.rename.FindRenameLocations
 import org.mulesoft.als.actions.renamefile.RenameFileAction
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.als.server.modules.workspace.CompilableUnit
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.edit.WorkspaceEdit
@@ -16,7 +17,9 @@ import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class RenameHandler(telemetryProvider: TelemetryProvider, workspace: WorkspaceManager)
+class RenameHandler(telemetryProvider: TelemetryProvider,
+                    workspace: WorkspaceManager,
+                    configurationReader: AlsConfigurationReader)
     extends TelemeteredRequestHandler[RenameParams, WorkspaceEdit]
     with RenameTools {
   override def `type`: RenameRequestType.type = RenameRequestType
@@ -55,7 +58,7 @@ class RenameHandler(telemetryProvider: TelemetryProvider, workspace: WorkspaceMa
                                 workspace.getRelationships(uri, uuid).map(_._2),
                                 bu.yPartBranch,
                                 bu.unit)
-            .map(_.toWorkspaceEdit)
+            .map(_.toWorkspaceEdit(configurationReader.supportsDocumentChanges))
         else if (renameThroughReferenceEnabled) // enable when polished, add logic to prepare rename
           for {
             fromLinks <- renameFromLink(uri, position, newName, uuid, bu, workspace) // if Some() then it's a link to a file
@@ -71,19 +74,21 @@ class RenameHandler(telemetryProvider: TelemetryProvider, workspace: WorkspaceMa
                              uuid: String,
                              bu: CompilableUnit,
                              workspaceManager: WorkspaceManager): Future[Option[WorkspaceEdit]] = {
-    for {
-      links    <- workspaceManager.getDocumentLinks(uri, uuid)
-      allLinks <- workspaceManager.getAllDocumentLinks(uri, uuid)
-    } yield {
-      links
-        .find(l => PositionRange(l.range).contains(position))
-        .map(
-          l =>
-            RenameFileAction.renameFileEdits(TextDocumentIdentifier(l.target),
-                                             TextDocumentIdentifier(getUriWithNewName(l.target, newName)),
-                                             allLinks,
-                                             None))
-    }
+    if (configurationReader.supportsDocumentChanges)
+      for {
+        links    <- workspaceManager.getDocumentLinks(uri, uuid)
+        allLinks <- workspaceManager.getAllDocumentLinks(uri, uuid)
+      } yield {
+        links
+          .find(l => PositionRange(l.range).contains(position))
+          .map(
+            l =>
+              RenameFileAction.renameFileEdits(TextDocumentIdentifier(l.target),
+                                               TextDocumentIdentifier(getUriWithNewName(l.target, newName)),
+                                               allLinks,
+                                               None))
+          .map(_.toWorkspaceEdit(configurationReader.supportsDocumentChanges))
+      } else Future.successful(None)
   }
 
   // todo: re-check when moving paths is available
@@ -116,7 +121,7 @@ class RenameHandler(telemetryProvider: TelemetryProvider, workspace: WorkspaceMa
               bu.yPartBranch,
               bu.unit
             )
-            .map(a => Some(a.toWorkspaceEdit))
+            .map(a => Some(a.toWorkspaceEdit(configurationReader.supportsDocumentChanges)))
         case _ =>
           Future.successful(None)
       })

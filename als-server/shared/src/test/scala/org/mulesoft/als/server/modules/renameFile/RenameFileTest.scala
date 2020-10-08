@@ -24,6 +24,7 @@ class RenameFileTest extends LanguageServerBaseTest {
   def buildServer(): LanguageServer = {
     val factory =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
+    factory.configurationManager.updateDocumentChangesSupport(true)
     new LanguageServerBuilder(factory.documentManager,
                               factory.workspaceManager,
                               factory.configurationManager,

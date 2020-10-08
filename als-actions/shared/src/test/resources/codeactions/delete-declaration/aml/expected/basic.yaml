@@ -1,6 +1,6 @@
 dec1:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/aml/basic.yaml:
         -
           from:
@@ -22,7 +22,7 @@ dec1:
             +
 dec2:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/aml/basic.yaml:
         -
           from:
@@ -44,7 +44,7 @@ dec2:
             +
 dec3:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/aml/basic.yaml:
         -
           from:
