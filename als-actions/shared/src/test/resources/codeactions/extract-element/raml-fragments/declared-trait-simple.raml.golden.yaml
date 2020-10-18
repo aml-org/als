@@ -9,6 +9,7 @@ changes:
         column: 37
       content: |
         +
+
         !include Trait.raml
   file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-fragments/Trait.raml:
     -

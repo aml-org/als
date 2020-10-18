@@ -9,8 +9,9 @@ changes:
         column: 37
       content: |
         +
-        !include Resource Type.raml
-  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-fragments/Resource Type.raml:
+
+        !include ResourceType.raml
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-fragments/ResourceType.raml:
     -
       from:
         line: 0
