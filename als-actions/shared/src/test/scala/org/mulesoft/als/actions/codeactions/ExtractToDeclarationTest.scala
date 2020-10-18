@@ -1,17 +1,11 @@
 package org.mulesoft.als.actions.codeactions
 
-import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionFactory
 import org.mulesoft.als.actions.codeactions.plugins.declarations.samefile.{
   ExtractElementCodeAction,
   ExtractRamlTypeCodeAction
 }
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
-import org.mulesoft.amfintegration.ParserHelper
-import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect
-import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
-
-import scala.concurrent.ExecutionContext.Implicits.global
 
 class ExtractToDeclarationTest extends BaseCodeActionTests {
   behavior of "Extract element to declaration"

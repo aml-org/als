@@ -41,7 +41,7 @@ class ExtractToFragmentTest extends BaseCodeActionTests {
     runTest(elementUri, range, pluginFactory)
   }
 
-  ignore should "extract declared nested type from RAML in range" in {
+  it should "extract declared nested type from RAML in range" in {
     val elementUri                       = "extract-element/raml-fragments/declared-type-nested.raml"
     val range                            = PositionRange(Position(4, 8), Position(4, 10))
     val dialect: Dialect                 = Raml10TypesDialect.dialect
@@ -59,7 +59,7 @@ class ExtractToFragmentTest extends BaseCodeActionTests {
     runTest(elementUri, range, pluginFactory)
   }
 
-  ignore should "extract declared resource type from RAML" in {
+  it should "extract declared resource type from RAML" in {
     val elementUri                       = "extract-element/raml-fragments/declared-resource-type-simple.raml"
     val range                            = PositionRange(Position(4, 9), Position(4, 15))
     val dialect: Dialect                 = Raml10TypesDialect.dialect
@@ -68,7 +68,7 @@ class ExtractToFragmentTest extends BaseCodeActionTests {
     runTest(elementUri, range, pluginFactory)
   }
 
-  ignore should "extract declared trait from RAML" in {
+  it should "extract declared trait from RAML" in {
     val elementUri                       = "extract-element/raml-fragments/declared-trait-simple.raml"
     val range                            = PositionRange(Position(4, 9), Position(4, 15))
     val dialect: Dialect                 = Raml10TypesDialect.dialect
