@@ -1,15 +1,19 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.samefile
 
 import org.mulesoft.als.actions.codeactions.plugins.CodeActionKindTitle
-import org.mulesoft.als.actions.codeactions.plugins.base.{CodeActionFactory, CodeActionRequestParams, CodeActionResponsePlugin}
+import org.mulesoft.als.actions.codeactions.plugins.base.{
+  CodeActionFactory,
+  CodeActionRequestParams,
+  CodeActionResponsePlugin
+}
+import org.mulesoft.amfintegration.dialect.dialects.metadialect.MetaDialect
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
-case class ExtractElementCodeAction(params: CodeActionRequestParams)
-    extends ExtractSameFileDeclaration {
+case class ExtractElementCodeAction(params: CodeActionRequestParams) extends ExtractSameFileDeclaration {
   override protected val kindTitle: CodeActionKindTitle = ExtractElementCodeAction
 
   override lazy val isApplicable: Boolean =
-    !vendor.isRaml && amfObject.isDefined && positionIsExtracted
+    !vendor.isRaml && amfObject.isDefined && positionIsExtracted && params.dialect != MetaDialect.dialect
 
   override protected def telemetry: TelemetryProvider = params.telemetryProvider
 

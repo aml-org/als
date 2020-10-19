@@ -1,6 +1,6 @@
 schema:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/asyncapi/one-component.yaml:
         -
           from:

@@ -1,4 +1,5 @@
-changes:
+documentChanges:
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-libraries/library.raml: create
   file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-libraries/declared-type-nested.raml:
     -
       from:

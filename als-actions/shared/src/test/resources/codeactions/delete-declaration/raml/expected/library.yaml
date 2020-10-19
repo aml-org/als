@@ -1,6 +1,6 @@
 annotation type:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/raml/from-library.raml:
         -
           from:
@@ -23,7 +23,7 @@ annotation type:
             +
 type:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/raml/from-library.raml:
         -
           from:
@@ -46,7 +46,7 @@ type:
             +
 resource type:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/raml/from-library.raml:
         -
           from:
@@ -78,7 +78,7 @@ resource type:
             +
 trait:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/raml/from-library.raml:
         -
           from:
@@ -101,7 +101,7 @@ trait:
             +
 security scheme:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/raml/from-library.raml:
         -
           from:

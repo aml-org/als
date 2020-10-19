@@ -1,6 +1,6 @@
 dec1:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/aml/basic-without-brothers.yaml:
         -
           from:

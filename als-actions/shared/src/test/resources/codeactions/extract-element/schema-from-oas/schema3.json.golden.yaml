@@ -1,4 +1,4 @@
-changes:
+documentChanges:
   file://als-actions/shared/src/test/resources/codeactions/extract-element/schema-from-oas/schema3.json:
     -
       from:

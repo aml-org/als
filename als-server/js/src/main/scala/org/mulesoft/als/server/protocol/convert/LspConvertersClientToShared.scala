@@ -60,7 +60,7 @@ object LspConvertersClientToShared {
   implicit class InitializeParamsConverter(v: ClientAlsInitializeParams) {
     def toShared: AlsInitializeParams =
       AlsInitializeParams(
-        Option(v.capabilities).map(c => new AlsClientCapabilitiesConverter(c).toShared),
+        Option(v.capabilities).map(_.toShared),
         v.trace.toOption.map(TraceKind.withName),
         v.rootUri.toOption,
         Option(v.processId),

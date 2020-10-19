@@ -6,6 +6,8 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionResponsePlugin
 }
 import org.mulesoft.als.common.dtoTypes.Position
+import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
+import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
 import org.mulesoft.lsp.edit.WorkspaceEdit
 import org.mulesoft.lsp.feature.codeactions.CodeActionKind.CodeActionKind
 import org.mulesoft.lsp.feature.codeactions.{CodeAction, CodeActionKind}
@@ -20,8 +22,8 @@ case class TestCodeAction(params: CodeActionRequestParams) extends CodeActionRes
 
   override protected def telemetry: TelemetryProvider = params.telemetryProvider
 
-  override protected def task(params: CodeActionRequestParams): Future[Seq[CodeAction]] = Future.successful {
-    Seq(TestCodeAction.baseCodeAction(WorkspaceEdit.empty))
+  override protected def task(params: CodeActionRequestParams): Future[Seq[AbstractCodeAction]] = Future.successful {
+    Seq(TestCodeAction.baseCodeAction(AbstractWorkspaceEdit.empty))
   }
 
   override protected def code(params: CodeActionRequestParams): String = "test code action"

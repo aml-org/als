@@ -1,6 +1,6 @@
 schema:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/asyncapi/api.yaml:
         -
           from:
@@ -22,7 +22,7 @@ schema:
             +
 messages:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/asyncapi/api.yaml:
         -
           from:
@@ -53,7 +53,7 @@ messages:
             +
 security schemes:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/asyncapi/api.yaml:
         -
           from:
@@ -75,7 +75,7 @@ security schemes:
             +
 parameters:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/asyncapi/api.yaml:
         -
           from:
@@ -97,7 +97,7 @@ parameters:
             +
 corrrelation ids:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/asyncapi/api.yaml:
         -
           from:
@@ -119,7 +119,7 @@ corrrelation ids:
             +
 operation traits:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/asyncapi/api.yaml:
         -
           from:
@@ -141,7 +141,7 @@ operation traits:
             +
 message traits:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/asyncapi/api.yaml:
         -
           from:
@@ -163,7 +163,7 @@ message traits:
             +
 server bindings:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/asyncapi/api.yaml:
         -
           from:
@@ -185,7 +185,7 @@ server bindings:
             +
 channel bindings:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/asyncapi/api.yaml:
         -
           from:
@@ -207,7 +207,7 @@ channel bindings:
             +
 operation bindings:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/asyncapi/api.yaml:
         -
           from:
@@ -229,7 +229,7 @@ operation bindings:
             +
 message bindings:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/asyncapi/api.yaml:
         -
           from:

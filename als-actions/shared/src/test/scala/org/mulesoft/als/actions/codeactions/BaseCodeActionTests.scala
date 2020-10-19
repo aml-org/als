@@ -49,7 +49,8 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
         plugin.isApplicable should be(true)
         plugin.run(params)
       }
-      r <- assertCodeActions(result, relativeUri(golden.getOrElse(s"$elementUri.golden.yaml")))
+      r <- assertCodeActions(result.map(_.toCodeAction(true)),
+                             relativeUri(golden.getOrElse(s"$elementUri.golden.yaml")))
     } yield r
 
   protected def runTestNotApplicable(elementUri: String,

@@ -3,6 +3,7 @@ package org.mulesoft.als.server.modules.actions
 import java.util.UUID
 
 import org.mulesoft.als.actions.renamefile.RenameFileAction
+import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.feature.renamefile._
 import org.mulesoft.als.server.logger.Logger
@@ -18,7 +19,8 @@ import scala.concurrent.Future
 
 class RenameFileActionManager(val workspace: WorkspaceManager,
                               private val telemetryProvider: TelemetryProvider,
-                              private val logger: Logger)
+                              private val logger: Logger,
+                              private val configReader: AlsConfigurationReader)
     extends RequestModule[RenameFileActionClientCapabilities, RenameFileActionOptions] {
 
   private var active = true
@@ -64,7 +66,11 @@ class RenameFileActionManager(val workspace: WorkspaceManager,
       for {
         links <- workspace.getAllDocumentLinks(oldDocument.uri, uuid)
       } yield {
-        RenameFileActionResult(RenameFileAction.renameFileEdits(oldDocument, newDocument, links, uriToNewFile))
+        val edit =
+          RenameFileAction
+            .renameFileEdits(oldDocument, newDocument, links, uriToNewFile)
+            .toWorkspaceEdit(configReader.supportsDocumentChanges)
+        RenameFileActionResult(edit)
       }
     }
   }

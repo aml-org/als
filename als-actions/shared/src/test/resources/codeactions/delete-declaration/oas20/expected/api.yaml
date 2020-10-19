@@ -1,6 +1,6 @@
 definition:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas20/api.yaml:
         -
           from:
@@ -22,7 +22,7 @@ definition:
             +
 parameter:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas20/api.yaml:
         -
           from:
@@ -44,7 +44,7 @@ parameter:
             +
 response:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas20/api.yaml:
         -
           from:
@@ -66,7 +66,7 @@ response:
             +
 security definition:
   -
-    changes:
+    documentChanges:
       file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas20/api.yaml:
         -
           from:
