@@ -1,6 +1,7 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.fragment
 
 import amf.core.model.domain.AmfObject
+import amf.core.model.domain.extensions.CustomDomainProperty
 import amf.core.remote.Vendor
 import org.mulesoft.als.actions.codeactions.plugins.CodeActionKindTitle
 import org.mulesoft.als.actions.codeactions.plugins.base.{
@@ -8,6 +9,7 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionRequestParams,
   CodeActionResponsePlugin
 }
+import org.mulesoft.als.actions.codeactions.plugins.declarations.common.ExtractorCommon
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.webapi.raml.RamlTypeExtractor
 import org.mulesoft.als.actions.codeactions.plugins.declarations.fragment.webapi.raml.{
   FragmentBundle,
@@ -23,18 +25,17 @@ case class ExtractRamlDeclarationToFragmentCodeAction(params: CodeActionRequestP
     extends ExtractDeclarationToFragment {
   override protected val kindTitle: CodeActionKindTitle = ExtractRamlTypeToFragmentCodeAction
 
-  // blocked by APIMF-2542 rendering changes (cannot render Custom Domain Properties)
-//  override lazy val amfObject: Option[AmfObject] = {
-//    val maybeObject = ExtractorCommon.amfObject(maybeTree, params.dialect)
-//    if(fragmentBundleForObject(maybeObject).isDefined)
-//      maybeObject // normal case
-//    else {
-//      val maybeParent = maybeTree.flatMap(t => t.stack.headOption).collect {
-//        case d: CustomDomainProperty => d // declared annotation type
-//      }
-//      maybeParent orElse maybeObject
-//    }
-//  }
+  override lazy val amfObject: Option[AmfObject] = {
+    val maybeObject = ExtractorCommon.amfObject(maybeTree, params.dialect)
+    if (fragmentBundleForObject(maybeObject).isDefined)
+      maybeObject // normal case
+    else {
+      val maybeParent = maybeTree.flatMap(t => t.stack.headOption).collect {
+        case d: CustomDomainProperty => d // declared annotation type
+      }
+      maybeParent orElse maybeObject
+    }
+  }
 
   override lazy val isApplicable: Boolean =
     params.bu.sourceVendor.contains(Vendor.RAML10) && positionIsExtracted &&
