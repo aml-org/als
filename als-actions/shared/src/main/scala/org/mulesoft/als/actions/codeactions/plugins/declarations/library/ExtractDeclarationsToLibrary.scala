@@ -1,5 +1,6 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.library
 
+import amf.core.annotations.DeclaredElement
 import amf.core.model.document.{BaseUnit, Document, Module}
 import amf.core.model.domain.DomainElement
 import amf.core.remote.{Mimes, Vendor}
@@ -50,7 +51,8 @@ trait ExtractDeclarationsToLibrary extends CodeActionResponsePlugin {
 
   protected def module(lde: List[DomainElement]): Future[Module] = {
     val targetModule = Module()
-    lde.foreach(targetModule.withDeclaredElement)
+    lde
+      .foreach(targetModule.withDeclaredElement)
     wholeUri.map(targetModule.withLocation)
   }
 
