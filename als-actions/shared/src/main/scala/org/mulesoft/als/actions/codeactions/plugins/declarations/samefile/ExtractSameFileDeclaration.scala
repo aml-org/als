@@ -15,6 +15,7 @@ import org.mulesoft.als.actions.codeactions.plugins.declarations.common.{
 }
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.convert.LspRangeConverter
+import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit, WorkspaceEdit}
 import org.mulesoft.lsp.feature.codeactions.CodeAction
 import org.mulesoft.lsp.feature.common.{Position, Range, VersionedTextDocumentIdentifier}
@@ -67,7 +68,7 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with BaseEleme
     amfObject
       .collect {
         case l: Linkable =>
-          if (!l.annotations.contains(classOf[DeclaredElement]))
+          if (!l.annotations.isDeclared)
             l.annotations += DeclaredElement()
           val linkDe: DomainElement = l.link(newName)
           linkDe.annotations += ForceEntry() // raml explicit types

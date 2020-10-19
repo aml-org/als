@@ -27,14 +27,11 @@ case class ExtractRamlDeclarationToFragmentCodeAction(params: CodeActionRequestP
 
   override lazy val amfObject: Option[AmfObject] = {
     val maybeObject = ExtractorCommon.amfObject(maybeTree, params.dialect)
-    if (fragmentBundleForObject(maybeObject).isDefined)
-      maybeObject // normal case
-    else {
-      val maybeParent = maybeTree.flatMap(t => t.stack.headOption).collect {
+    fragmentBundleForObject(maybeObject).fold { // if empty
+      maybeTree.flatMap(t => t.stack.headOption).collect {
         case d: CustomDomainProperty => d // declared annotation type
-      }
-      maybeParent orElse maybeObject
-    }
+      } orElse maybeObject
+    }(_ => maybeObject)
   }
 
   override lazy val isApplicable: Boolean =
