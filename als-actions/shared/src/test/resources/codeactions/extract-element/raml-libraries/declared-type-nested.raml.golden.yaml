@@ -2,8 +2,8 @@ changes:
   file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-libraries/declared-type-nested.raml:
     -
       from:
-        line: 3
-        column: 3
+        line: 2
+        column: 0
       to:
         line: 4
         column: 44

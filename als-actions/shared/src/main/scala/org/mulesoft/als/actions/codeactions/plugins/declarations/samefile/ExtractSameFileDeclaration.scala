@@ -67,7 +67,8 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with BaseEleme
     amfObject
       .collect {
         case l: Linkable =>
-          l.annotations += DeclaredElement()
+          if (!l.annotations.contains(classOf[DeclaredElement]))
+            l.annotations += DeclaredElement()
           val linkDe: DomainElement = l.link(newName)
           linkDe.annotations += ForceEntry() // raml explicit types
           if (vendor == Vendor.AML)
@@ -76,7 +77,6 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with BaseEleme
           else
             WebApiDomainElementEmitter
               .emit(linkDe, vendor, UnhandledErrorHandler)
-
       }
   }
 
