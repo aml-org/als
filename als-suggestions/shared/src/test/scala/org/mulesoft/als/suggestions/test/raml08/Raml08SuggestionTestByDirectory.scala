@@ -9,5 +9,5 @@ class Raml08SuggestionTestByDirectory extends SuggestionByDirectoryTest {
 
   override def origin: Hint = RamlYamlHint
 
-  override def fileExtension: String = ".raml"
+  override def fileExtensions: Seq[String] = Seq(".raml")
 }

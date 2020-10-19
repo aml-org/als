@@ -1,0 +1,40 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Demo API",
+    "version": "2"
+  },
+  "paths": {
+    "/path": {
+      "get": {
+        "description": "my description",
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "description": "Schema",
+              "type": "string"
+            },
+            "name": "param"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "myProp": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

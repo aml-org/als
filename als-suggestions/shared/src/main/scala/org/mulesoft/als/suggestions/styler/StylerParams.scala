@@ -2,8 +2,8 @@ package org.mulesoft.als.suggestions.styler
 
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.als.configuration.AlsFormatOptions
 import org.mulesoft.als.suggestions.patcher.PatchedContent
+import org.mulesoft.lsp.configuration.FormatOptions
 
 case class StylerParams(prefix: String,
                         yPartBranch: YPartBranch,
@@ -11,14 +11,14 @@ case class StylerParams(prefix: String,
                         position: Position,
                         supportSnippets: Boolean,
                         indentation: Int,
-                        formattingConfiguration: AlsFormatOptions) {}
+                        formattingConfiguration: FormatOptions) {}
 
 object StylerParams {
   def apply(prefix: String,
             patchedContent: PatchedContent,
             position: Position,
             yPartBranch: YPartBranch,
-            formattingConfiguration: AlsFormatOptions,
+            formattingConfiguration: FormatOptions,
             indentation: Int = 0,
             supportSnippets: Boolean = true): StylerParams = {
 

@@ -1,0 +1,7 @@
+root:
+  jet:
+    fu:
+      [ amb, g ]
+  up[*]per:
+   key: v
+   k:[*] v

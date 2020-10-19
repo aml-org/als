@@ -1,0 +1,8 @@
+key:
+  son:
+    brother:
+        k:
+              v: [*]k
+    sist[*]er: [1,2,3]
+root:
+        preserve

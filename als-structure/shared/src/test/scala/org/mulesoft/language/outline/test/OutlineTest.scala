@@ -9,6 +9,7 @@ import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.CompilerEnvironment
+import org.mulesoft.als.common.MarkerFinderTest
 import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.amfintegration.AmfInstance
 import org.scalatest.{Assertion, AsyncFunSuite}
@@ -28,7 +29,7 @@ object File {
   }
 }
 
-trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformSecrets {
+trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformSecrets with MarkerFinderTest {
 
   implicit override def executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
@@ -41,7 +42,7 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
 
   def runTest(path: String, jsonPath: String, amfInstance: Option[AmfInstance] = None): Future[Assertion] = {
 
-    val fullFilePath = filePath(platform.encodeURI(path)) // filePath(path)
+    val fullFilePath = filePath(platform.encodeURI(path))
     val fullJsonPath = filePath(jsonPath)
     val amfConfig    = amfInstance.getOrElse(AmfInstance.default)
     for {
@@ -82,9 +83,9 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
         val fileContentsStr = content.stream.toString
         val markerInfo      = this.findMarker(fileContentsStr)
 
-        position = markerInfo.position
+        position = markerInfo.offset
         contentOpt = Some(markerInfo.content)
-        var env = this.buildEnvironment(url, markerInfo.content, position, content.mime)
+        val env = this.buildEnvironment(url, markerInfo.content, position, content.mime)
         env
       })
       .flatMap(env => {
@@ -118,19 +119,4 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
     s"file://als-structure/shared/src/test/resources/$rootPath/$path".replace('\\', '/').replace("null/", "")
   }
 
-  def findMarker(str: String, label: String = "*", cut: Boolean = true): MarkerInfo = {
-
-    var position = str.indexOf(label)
-
-    if (position < 0) {
-      new MarkerInfo(str, str.length)
-    } else {
-      var rawContent = str.substring(0, position) + str.substring(position + 1)
-      new MarkerInfo(rawContent, position)
-    }
-
-  }
-
 }
-
-class MarkerInfo(val content: String, val position: Int) {}

@@ -30,6 +30,11 @@ import org.mulesoft.lsp.feature.definition.{
   DefinitionParams
 }
 import org.mulesoft.lsp.feature.diagnostic._
+import org.mulesoft.lsp.feature.documentFormatting.{DocumentFormattingClientCapabilities, DocumentFormattingParams}
+import org.mulesoft.lsp.feature.documentRangeFormatting.{
+  DocumentRangeFormattingClientCapabilities,
+  DocumentRangeFormattingParams
+}
 import org.mulesoft.lsp.feature.documenthighlight.{ClientDocumentHighlightCapabilities, ClientDocumentHighlightParams}
 import org.mulesoft.lsp.feature.documentsymbol._
 import org.mulesoft.lsp.feature.folding.{
@@ -37,6 +42,12 @@ import org.mulesoft.lsp.feature.folding.{
   ClientFoldingRangeParams,
   FoldingRangeCapabilities,
   FoldingRangeParams
+}
+import org.mulesoft.lsp.feature.formatting.{
+  ClientDocumentFormattingClientCapabilities,
+  ClientDocumentFormattingParams,
+  ClientDocumentRangeFormattingClientCapabilities,
+  ClientDocumentRangeFormattingParams
 }
 import org.mulesoft.lsp.feature.highlight.{DocumentHighlightCapabilities, DocumentHighlightParams}
 import org.mulesoft.lsp.feature.hover._
@@ -596,5 +607,29 @@ object LspConvertersClientToShared {
       SelectionRangeCapabilities(v.dynamicRegistration.toOption)
   }
 
+  implicit class FormattingOptionsConverter(v: ClientFormattingOptions) {
+    def toShared: FormattingOptions =
+      FormattingOptions(v.tabSize, v.insertSpaces)
+  }
+
+  implicit class DocumentFormattingParamsConverter(v: ClientDocumentFormattingParams) {
+    def toShared: DocumentFormattingParams =
+      DocumentFormattingParams(v.textDocument.toShared, v.formattingOptions.toShared)
+  }
+
+  implicit class DocumentFormattingClientCapabilitiesConverter(v: ClientDocumentFormattingClientCapabilities) {
+    def toShared: DocumentFormattingClientCapabilities =
+      DocumentFormattingClientCapabilities(v.dynamicRegistration.toOption)
+  }
+
+  implicit class DocumentRangeFormattingParamsConverter(v: ClientDocumentRangeFormattingParams) {
+    def toShared: DocumentRangeFormattingParams =
+      DocumentRangeFormattingParams(v.textDocument.toShared, v.range.toShared, v.formattingOptions.toShared)
+  }
+
+  implicit class DocumentRangeFormattingClientCapabilitiesConverter(v: ClientDocumentRangeFormattingClientCapabilities) {
+    def toShared: DocumentRangeFormattingClientCapabilities =
+      DocumentRangeFormattingClientCapabilities(v.dynamicRegistration.toOption)
+  }
   // $COVERAGE-ON
 }
