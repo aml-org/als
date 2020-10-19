@@ -8,13 +8,17 @@ case class AbstractWorkspaceEdit(documentChanges: Seq[Either[TextDocumentEdit, R
 
   def asDocumentChanges: WorkspaceEdit = WorkspaceEdit(None, Some(documentChanges))
 
-  def toChanges(documentChanges: Seq[Either[TextDocumentEdit, ResourceOperation]]): Map[String, Seq[TextEdit]] =
-    documentChanges
-      .collect {
-        case Left(value) => value // should contemplate an exception with any right?
-      }
-      .groupBy(_.textDocument.uri)
-      .map(t => t._1 -> t._2.flatMap(_.edits))
+  def toChanges(documentChanges: Seq[Either[TextDocumentEdit, ResourceOperation]]): Map[String, Seq[TextEdit]] = {
+    if (needsDocumentChanges) // in case we want to partially convert, then remove this condition
+      throw new Exception("Cannot convert to WorkspaceEdit.changes. Contains a Resource Operation")
+    else
+      documentChanges
+        .collect {
+          case Left(value) => value
+        }
+        .groupBy(_.textDocument.uri)
+        .map(t => t._1 -> t._2.flatMap(_.edits))
+  }
 
   def asChanges: WorkspaceEdit = WorkspaceEdit(Some(toChanges(documentChanges)), None)
 
