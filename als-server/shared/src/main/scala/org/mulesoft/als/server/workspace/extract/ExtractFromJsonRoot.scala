@@ -38,6 +38,7 @@ object ExchangeConfigReader extends ConfigReader {
                                      logger: Logger): Option[Future[WorkspaceConf]] =
     new ExtractFromJsonRoot(content).getMain.map { m =>
       try {
+        // todo: change platform.fs file reads for resolve
         getSubList(platform.fs.syncFile(path), platform, environment).map { dependencies =>
           // the encoding should be handled by each config reader plugin? or in general?
           // How to know if a config file already encoded the main file?

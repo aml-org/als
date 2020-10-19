@@ -1,6 +1,5 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.library
 
-import amf.core.annotations.DeclaredElement
 import amf.core.model.document.{BaseUnit, Document, Module}
 import amf.core.model.domain.DomainElement
 import amf.core.remote.{Mimes, Vendor}
@@ -9,11 +8,12 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{CodeActionRequestParam
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.ExtractorCommon
 import org.mulesoft.als.common.YamlWrapper.{YMapEntryOps, YNodeImplicits}
 import org.mulesoft.als.common.dtoTypes.PositionRange
+import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
+import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
 import org.mulesoft.amfintegration.relationships.RelationshipLink
-import org.mulesoft.lsp.edit.{CreateFile, TextDocumentEdit, TextEdit, WorkspaceEdit}
-import org.mulesoft.lsp.feature.codeactions.CodeAction
+import org.mulesoft.lsp.edit.{CreateFile, TextDocumentEdit, TextEdit}
 import org.mulesoft.lsp.feature.common
 import org.mulesoft.lsp.feature.common.{Position, Range, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.{
@@ -24,7 +24,6 @@ import org.mulesoft.lsp.feature.telemetry.MessageTypes.{
 import org.yaml.model.{YMap, YNode, YPart}
 import org.yaml.render.{YamlRender, YamlRenderOptions}
 
-import scala.annotation.tailrec
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -168,7 +167,7 @@ trait ExtractDeclarationsToLibrary extends CodeActionResponsePlugin {
       .map(range => Range(Position(range.start.line, 0), LspRangeConverter.toLspPosition(range.`end`)))
       .map(TextEdit(_, ""))
 
-  override protected def task(params: CodeActionRequestParams): Future[Seq[CodeAction]] =
+  override protected def task(params: CodeActionRequestParams): Future[Seq[AbstractCodeAction]] =
     params.bu.ast
       .map {
         linkEntry(_)
@@ -192,8 +191,7 @@ trait ExtractDeclarationsToLibrary extends CodeActionResponsePlugin {
   private def buildEdit(editUri: String, allEdited: Seq[TextEdit], newUri: String, newTextEdit: TextEdit) =
     Seq(
       kindTitle.baseCodeAction(
-        WorkspaceEdit(
-          Map(editUri -> allEdited, newUri -> Seq(newTextEdit)),
+        AbstractWorkspaceEdit(
           Seq(
             Right(CreateFile(newUri, None)),
             Left(TextDocumentEdit(VersionedTextDocumentIdentifier(editUri, None), allEdited)),

@@ -7,6 +7,7 @@ import org.mulesoft.als.actions.rename.FindRenameLocations
 import org.mulesoft.als.common.WorkspaceEditSerializer
 import org.mulesoft.als.common.diff.{FileAssertionTest, Tests}
 import org.mulesoft.als.common.dtoTypes.{Position => DtoPosition}
+import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.actions.rename.RenameTools
 import org.mulesoft.als.server.modules.workspace.CompilableUnit
@@ -372,10 +373,9 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest with Rena
   )
 
   private def createWSE(edits: Seq[(String, Seq[TextEdit])]): WorkspaceEdit =
-    WorkspaceEdit(
-      edits.groupBy(_._1).mapValues(_.flatMap(_._2)),
+    AbstractWorkspaceEdit(
       edits.map(e => Left(TextDocumentEdit(VersionedTextDocumentIdentifier(e._1, None), e._2)))
-    )
+    ).toWorkspaceEdit(true)
 
   testSets.foreach {
     case (name, testCase) =>
@@ -392,7 +392,7 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest with Rena
                                 wsManager.getRelationships(testCase.targetUri, "").map(_._2),
                                 cu.yPartBranch, cu.unit)
           actual <- writeTemporaryFile(s"file://rename-test-$name-actual.yaml")(
-            WorkspaceEditSerializer(renames).serialize())
+            WorkspaceEditSerializer(renames.toWorkspaceEdit(true)).serialize())
           expected <- writeTemporaryFile(s"file://rename-test-$name-expected.yaml")(
             WorkspaceEditSerializer(testCase.result).serialize())
           r <- Tests.checkDiff(actual, expected)

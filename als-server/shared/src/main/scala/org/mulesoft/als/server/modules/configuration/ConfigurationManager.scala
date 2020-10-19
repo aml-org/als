@@ -1,15 +1,9 @@
 package org.mulesoft.als.server.modules.configuration
 
 import org.mulesoft.als.configuration.{AlsConfiguration, AlsConfigurationReader}
-import org.mulesoft.als.server.feature.configuration.{
-  GenericOptionKeys,
-  UpdateConfigurationClientCapabilities,
-  UpdateConfigurationConfigType,
-  UpdateConfigurationParams,
-  UpdateConfigurationServerOptions
-}
+import org.mulesoft.als.server.feature.configuration._
 import org.mulesoft.amfintegration.AlsSyamlSyntaxPluginHacked
-import org.mulesoft.lsp.{ConfigType, InitializableModule}
+import org.mulesoft.lsp.InitializableModule
 
 import scala.concurrent.Future
 
@@ -17,28 +11,33 @@ class ConfigurationManager
     extends ConfigurationProvider
     with InitializableModule[UpdateConfigurationClientCapabilities, UpdateConfigurationServerOptions] {
 
-  def update(params: UpdateConfigurationParams): Unit = {
+  override val `type`: UpdateConfigurationConfigType.type =
+    UpdateConfigurationConfigType
+
+  def update(params: UpdateConfigurationParams): Unit = { // todo: is this not a Request?
     params.updateFormatOptionsParams.foreach(f => {
       configuration.updateFormattingOptions(f)
     })
-    // Shall move to separated GenericOptions class?
+    // Should move to separated GenericOptions class?
     params.genericOptions.get(GenericOptionKeys.KeepTokens) match {
       case Some(b: Boolean) => AlsSyamlSyntaxPluginHacked.withKeepTokens(b)
       case _                => // ignore
     }
   }
 
-  def getConfiguration: AlsConfigurationReader = configuration;
+  def updateDocumentChangesSupport(support: Boolean): Unit = configuration.supportsDocumentChanges(support)
 
-  private val configuration: AlsConfiguration = AlsConfiguration();
+  def getConfiguration: AlsConfigurationReader = configuration
+
+  private val configuration: AlsConfiguration = AlsConfiguration()
 
   override def applyConfig(config: Option[UpdateConfigurationClientCapabilities]): UpdateConfigurationServerOptions = {
-    config.foreach(c => configuration.setUpdateFormatOptions(c.enableUpdateFormatOptions))
+    config.foreach { c =>
+      configuration.setUpdateFormatOptions(c.enableUpdateFormatOptions)
+      configuration.supportsDocumentChanges(c.supportsDocumentChanges)
+    }
     UpdateConfigurationServerOptions(configuration.updateFormatOptionsIsEnabled())
   }
-
-  override val `type`: ConfigType[UpdateConfigurationClientCapabilities, UpdateConfigurationServerOptions] =
-    UpdateConfigurationConfigType
 
   override def initialize(): Future[Unit] = { Future.successful() }
 }

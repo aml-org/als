@@ -11,7 +11,7 @@ trait WorkspaceEditsTest {
                            golden: Option[String],
                            content: Option[String],
                            path: String): Assertion = {
-    val edits = workspaceEdit.changes.flatMap { case (_, textEdits) => textEdits }.toList
+    val edits = workspaceEdit.changes.getOrElse(Nil).flatMap { case (_, textEdits) => textEdits }.toList
 
     var newText = content.get
     val sortedEdits = edits

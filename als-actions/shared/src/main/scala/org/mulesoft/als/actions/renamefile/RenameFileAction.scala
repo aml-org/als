@@ -1,6 +1,7 @@
 package org.mulesoft.als.actions.renamefile
 
 import org.mulesoft.als.common.dtoTypes.PositionRange
+import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.lsp.edit._
 import org.mulesoft.lsp.feature.common.{TextDocumentIdentifier, VersionedTextDocumentIdentifier}
@@ -11,7 +12,7 @@ object RenameFileAction {
   def renameFileEdits(oldDocument: TextDocumentIdentifier,
                       newDocument: TextDocumentIdentifier,
                       links: Map[String, Seq[DocumentLink]],
-                      uriToNewFile: Option[String]): WorkspaceEdit = {
+                      uriToNewFile: Option[String]): AbstractWorkspaceEdit = {
 
     val oldFileName = oldDocument.uri.split("/").last
     val newFileName = newDocument.uri.split("/").last
@@ -25,7 +26,7 @@ object RenameFileAction {
           .filterNot(_.edits.isEmpty)
           .map(Left(_))
 
-    WorkspaceEdit(Map(), documentChanges)
+    AbstractWorkspaceEdit(documentChanges)
   }
 
   private def getTextDocumentsEdits(file: String,

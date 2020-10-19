@@ -1,4 +1,4 @@
-changes:
+documentChanges:
   file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-type/property-range.raml:
     -
       from:

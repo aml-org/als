@@ -45,16 +45,15 @@ class RenameFileReferencesTest extends LanguageServerBaseTest {
       "reference.txt",
       ws1,
       WorkspaceEdit(
-        Map(),
-        List(
-          Right(RenameFile("file:///root/ref.txt", "file:///root/reference.txt", None)),
-          Left(
-            TextDocumentEdit(VersionedTextDocumentIdentifier("file:///root/api.raml", None),
-                             List(TextEdit(Range(Position(1, 16), Position(1, 23)), "reference.txt")))),
-          Left(
-            TextDocumentEdit(VersionedTextDocumentIdentifier("file:///root/lib.raml", None),
-                             List(TextEdit(Range(Position(4, 22), Position(4, 29)), "reference.txt"))))
-        )
+        None,
+        Some(
+          List(
+            Right(RenameFile("file:///root/ref.txt", "file:///root/reference.txt", None)),
+            Left(TextDocumentEdit(VersionedTextDocumentIdentifier("file:///root/api.raml", None),
+                                  List(TextEdit(Range(Position(1, 16), Position(1, 23)), "reference.txt")))),
+            Left(TextDocumentEdit(VersionedTextDocumentIdentifier("file:///root/lib.raml", None),
+                                  List(TextEdit(Range(Position(4, 22), Position(4, 29)), "reference.txt"))))
+          ))
       )
     )
   )
@@ -95,8 +94,8 @@ class RenameFileReferencesTest extends LanguageServerBaseTest {
       .getOrElse(Future.failed(new Exception("No handler found for FileUsage")))
 
   private def equalWSE(a: WorkspaceEdit, b: WorkspaceEdit): Boolean =
-    a.changes.mapValues(_.toSet) == b.changes.mapValues(_.toSet) &&
-      a.documentChanges.map(_.left) == b.documentChanges.map(_.left)
+    a.changes.getOrElse(Map.empty).mapValues(_.toSet) == b.changes.getOrElse(Map.empty).mapValues(_.toSet) &&
+      a.documentChanges.getOrElse(Seq.empty).map(_.left) == b.documentChanges.getOrElse(Seq.empty).map(_.left)
 
   case class TestEntry(targetUri: String,
                        targetPosition: Position,
