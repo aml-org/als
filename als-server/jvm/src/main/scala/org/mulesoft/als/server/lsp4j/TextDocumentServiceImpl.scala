@@ -17,10 +17,12 @@ import org.eclipse.lsp4j.{
   DidCloseTextDocumentParams,
   DidOpenTextDocumentParams,
   DidSaveTextDocumentParams,
+  DocumentFormattingParams,
   DocumentHighlight,
   DocumentHighlightParams,
   DocumentLink,
   DocumentLinkParams,
+  DocumentRangeFormattingParams,
   DocumentSymbol,
   DocumentSymbolParams,
   FoldingRange,
@@ -34,6 +36,7 @@ import org.eclipse.lsp4j.{
   RenameParams,
   SelectionRange,
   SymbolInformation,
+  TextEdit,
   TypeDefinitionParams,
   WorkspaceEdit
 }
@@ -52,6 +55,8 @@ import org.mulesoft.lsp.LspConversions._
 import org.mulesoft.lsp.feature.codeactions.CodeActionRequestType
 import org.mulesoft.lsp.feature.completion.CompletionRequestType
 import org.mulesoft.lsp.feature.definition.DefinitionRequestType
+import org.mulesoft.lsp.feature.documentFormatting.DocumentFormattingRequestType
+import org.mulesoft.lsp.feature.documentRangeFormatting.DocumentRangeFormattingRequestType
 import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolRequestType
 import org.mulesoft.lsp.feature.folding.FoldingRangeRequestType
 import org.mulesoft.lsp.feature.hover.HoverRequestType
@@ -162,5 +167,13 @@ class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomT
 
   override def renameFile(params: RenameFileActionParams): CompletableFuture[RenameFileActionResult] = {
     javaFuture(resolveHandler(RenameFileActionRequestType)(params), renameFileActionResult)
+  }
+
+  override def formatting(params: DocumentFormattingParams): CompletableFuture[util.List[_ <: TextEdit]] = {
+    javaFuture(resolveHandler(DocumentFormattingRequestType)(params), lsp4JTextEdits)
+  }
+
+  override def rangeFormatting(params: DocumentRangeFormattingParams): CompletableFuture[util.List[_ <: TextEdit]] = {
+    javaFuture(resolveHandler(DocumentRangeFormattingRequestType)(params), lsp4JTextEdits)
   }
 }

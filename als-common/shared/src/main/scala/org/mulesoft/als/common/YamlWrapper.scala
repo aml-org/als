@@ -10,6 +10,25 @@ import org.yaml.model._
 
 object YamlWrapper {
 
+  def getIndentation(raw: String, position: Position): Int = {
+    val pos  = position
+    val left = raw.substring(0, pos.offset(raw))
+    val line =
+      if (left.contains("\n"))
+        left.substring(left.lastIndexOf("\n")).stripPrefix("\n")
+      else left
+    val first = line.headOption match {
+      case Some(c) if c == ' ' || c == '\t' => Some(c)
+      case _                                => None
+    }
+    first
+      .map(f => {
+        line.substring(0, line.takeWhile(_ == f).length)
+      })
+      .getOrElse("")
+      .length
+  }
+
   implicit class AlsInputRange(range: InputRange) {
     def toPositionRange: PositionRange =
       PositionRange(Position(AmfPosition(range.lineFrom, range.columnFrom)),

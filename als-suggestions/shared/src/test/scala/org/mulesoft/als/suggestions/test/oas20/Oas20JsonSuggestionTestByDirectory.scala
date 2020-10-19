@@ -8,5 +8,5 @@ class Oas20JsonSuggestionTestByDirectory extends SuggestionByDirectoryTest {
 
   override def origin: Hint = OasJsonHint
 
-  override def fileExtension: String = ".json"
+  override def fileExtensions: Seq[String] = Seq(".json")
 }
