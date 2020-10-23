@@ -135,7 +135,8 @@ object LspConvertersClientToShared {
 
   implicit class HoverClientCapabilitiesConverter(v: ClientHoverClientCapabilities) {
     def toShared: HoverClientCapabilities =
-      HoverClientCapabilities(v.dynamicRegistration.toOption, v.contentFormat.toSeq.map(c => MarkupKind.withName(c)))
+      HoverClientCapabilities(v.dynamicRegistration.toOption,
+                              v.contentFormat.toOption.map(_.toSeq).getOrElse(Nil).map(c => MarkupKind.withName(c)))
   }
 
   implicit class HoverParamsConverter(v: ClientHoverParams) {
@@ -165,12 +166,37 @@ object LspConvertersClientToShared {
 
   implicit class TextDocumentClientCapabilitiesConverter(v: ClientTextDocumentClientCapabilities) {
     def toShared: TextDocumentClientCapabilities =
-      TextDocumentClientCapabilities()
+      TextDocumentClientCapabilities(
+        v.synchronization.toOption.map(_.toShared),
+        v.publishDiagnostics.toOption.map(_.toShared),
+        v.completion.toOption.map(_.toShared),
+        v.references.toOption.map(_.toShared),
+        v.documentSymbol.toOption.map(_.toShared),
+        v.definition.toOption.map(_.toShared),
+        v.implementation.toOption.map(_.toShared),
+        v.typeDefinition.toOption.map(_.toShared),
+        v.rename.toOption.map(_.toShared),
+        v.codeAction.toOption.map(_.toShared),
+        v.documentLink.toOption.map(_.toShared),
+        v.hover.toOption.map(_.toShared),
+        v.documentHighlight.toOption.map(_.toShared),
+        v.foldingRange.toOption.map(_.toShared),
+        v.selectionRange.toOption.map(_.toShared)
+      )
   }
 
   implicit class WorkspaceClientCapabilitiesConverter(v: ClientWorkspaceClientCapabilities) {
     def toShared: WorkspaceClientCapabilities =
-      WorkspaceClientCapabilities()
+      WorkspaceClientCapabilities(
+        workspaceEdit = v.workspaceEdit.toOption.map(_.toShared)
+      )
+  }
+
+  implicit class WorkspaceEditClientCapabilitiesConverter(v: ClientWorkspaceEditClientCapabilities) {
+    def toShared: WorkspaceEditClientCapabilities =
+      WorkspaceEditClientCapabilities(
+        v.documentChanges.toOption
+      )
   }
 
   implicit class ClientWorkspaceFolderServerCapabilitiesConverter(v: ClientWorkspaceFolderServerCapabilities) {

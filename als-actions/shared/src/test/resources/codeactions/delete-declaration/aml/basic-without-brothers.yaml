@@ -1,0 +1,6 @@
+#%TestDelete 1
+
+declarations:
+  dec1:
+    prop1: a
+    prop2: b

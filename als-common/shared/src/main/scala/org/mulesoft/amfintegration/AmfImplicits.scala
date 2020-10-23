@@ -4,8 +4,8 @@ import amf.core.annotations._
 import amf.core.annotations.{LexicalInformation, ReferenceTargets, SourceAST, SourceNode, SynthesizedField}
 import amf.core.annotations._
 import amf.core.metamodel.Field
-import amf.core.model.document.{BaseUnit, Document, EncodesModel}
-import amf.core.model.domain.{AmfObject, AmfScalar, DomainElement}
+import amf.core.model.document.{BaseUnit, DeclaresModel, Document, EncodesModel}
+import amf.core.model.domain.{AmfObject, AmfScalar, DomainElement, NamedDomainElement}
 import amf.core.parser
 import amf.core.parser.{Annotations, FieldEntry, Value, Position => AmfPosition}
 import amf.plugins.document.vocabularies.model.document.{Dialect, Vocabulary}
@@ -161,12 +161,14 @@ object AmfImplicits {
 
     def isEmptyNodeLine(n: YNode, position: AmfPosition): Boolean =
       n.isNull && n.range.lineFrom == n.range.lineTo && n.range.lineFrom == position.line
+
+    def isSemanticName: Boolean =
+      f.field.value.name.toLowerCase == "name" || f.field.value.name.toLowerCase() == "declarationname"
   }
 
   implicit class AmfObjectImp(amfObject: AmfObject) {
     def declarableKey(dialect: Dialect): Option[String] =
-      amfObject.meta.`type`
-        .map(_.iri())
+      amfObject.metaURIs
         .flatMap(dialect.declarationsMapTerms.get(_))
         .headOption
 
@@ -207,12 +209,23 @@ object AmfImplicits {
           }
         )
 
-    def ast: Option[YPart] = {
+    def ast: Option[YPart] =
       bu match {
         case e: Document if e.encodes.annotations.ast().isDefined => e.encodes.annotations.ast()
         case _                                                    => bu.annotations.ast()
       }
-    }
+
+    def declaredNames: Seq[String] =
+      bu.declarations.flatMap {
+        case n: NamedDomainElement => Some(n.name.value())
+        case _                     => None
+      }
+
+    def definedAliases: Set[String] =
+      bu.annotations
+        .find(classOf[Aliases])
+        .map(a => a.aliases.map(_._1))
+        .getOrElse(Set.empty)
 
     def flatRefs: Seq[BaseUnit] = {
       val set: mutable.Set[BaseUnit] = mutable.Set.empty
@@ -227,6 +240,12 @@ object AmfImplicits {
     }
 
     def identifier: String = bu.location().getOrElse(bu.id)
+
+    val declarations: Seq[AmfObject] =
+      bu match {
+        case d: DeclaresModel => d.declares
+        case _                => Nil
+      }
   }
 
   implicit class DialectImplicits(d: Dialect) extends BaseUnitImp(d) {

@@ -1,0 +1,25 @@
+documentChanges:
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/aml/instance.yaml:
+    -
+      from:
+        line: 6
+        column: 11
+      to:
+        line: 7
+        column: 27
+      content: |
+        +
+         newmember
+    -
+      from:
+        line: 1
+        column: 0
+      to:
+        line: 1
+        column: 0
+      content: |
+        +
+
+        members:
+          newmember:
+            displayName: Jane Doe

@@ -10,7 +10,11 @@ import org.mulesoft.lsp.feature.reference.ClientReferenceClientCapabilities
 import org.mulesoft.lsp.feature.rename.ClientRenameClientCapabilities
 import org.mulesoft.lsp.textsync.ClientSynchronizationClientCapabilities
 import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
+import org.mulesoft.lsp.feature.documenthighlight.ClientDocumentHighlightCapabilities
+import org.mulesoft.lsp.feature.folding.ClientFoldingRangeCapabilities
+import org.mulesoft.lsp.feature.hover.ClientHoverClientCapabilities
 import org.mulesoft.lsp.feature.implementation.ClientImplementationClientCapabilities
+import org.mulesoft.lsp.feature.selection.ClientSelectionRangeCapabilities
 import org.mulesoft.lsp.feature.typedefinition.ClientTypeDefinitionClientCapabilities
 
 import scala.scalajs.js
@@ -39,9 +43,17 @@ trait ClientTextDocumentClientCapabilities extends js.Object {
 
   def rename: js.UndefOr[ClientRenameClientCapabilities] = js.native
 
-  def codeActionCapabilities: js.UndefOr[ClientCodeActionCapabilities] = js.native
+  def codeAction: js.UndefOr[ClientCodeActionCapabilities] = js.native
 
   def documentLink: js.UndefOr[ClientDocumentLinkClientCapabilities] = js.native
+
+  def documentHighlight: js.UndefOr[ClientDocumentHighlightCapabilities] = js.native
+
+  def hover: js.UndefOr[ClientHoverClientCapabilities] = js.native
+
+  def foldingRange: js.UndefOr[ClientFoldingRangeCapabilities] = js.native
+
+  def selectionRange: js.UndefOr[ClientSelectionRangeCapabilities] = js.native
 }
 
 object ClientTextDocumentClientCapabilities {
@@ -57,8 +69,12 @@ object ClientTextDocumentClientCapabilities {
         implementation = internal.implementation.map(_.toClient).orUndefined,
         typeDefinition = internal.typeDefinition.map(_.toClient).orUndefined,
         rename = internal.rename.map(_.toClient).orUndefined,
-        codeActionCapabilities = internal.codeActionCapabilities.map(_.toClient).orUndefined,
-        documentLink = internal.documentLink.map(_.toClient).orUndefined
+        codeAction = internal.codeActionCapabilities.map(_.toClient).orUndefined,
+        documentLink = internal.documentLink.map(_.toClient).orUndefined,
+        documentHighlight = internal.documentHighlight.map(_.toClient).orUndefined,
+        hover = internal.hover.map(_.toClient).orUndefined,
+        foldingRange = internal.foldingRange.map(_.toClient).orUndefined,
+        selectionRange = internal.selectionRange.map(_.toClient).orUndefined
       )
       .asInstanceOf[ClientTextDocumentClientCapabilities]
 }

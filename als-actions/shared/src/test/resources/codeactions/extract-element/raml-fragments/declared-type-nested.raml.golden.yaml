@@ -1,0 +1,26 @@
+documentChanges:
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-fragments/DataType.raml: create
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-fragments/declared-type-nested.raml:
+    -
+      from:
+        line: 3
+        column: 5
+      to:
+        line: 4
+        column: 44
+      content: |
+        +
+
+              type: !include DataType.raml
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-fragments/DataType.raml:
+    -
+      from:
+        line: 0
+        column: 0
+      to:
+        line: 0
+        column: 0
+      content: |
+        +
+        #%RAML 1.0 DataType
+        type: !include aux-files/datatype.raml

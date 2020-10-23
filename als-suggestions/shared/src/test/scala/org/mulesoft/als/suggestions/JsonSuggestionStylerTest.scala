@@ -144,7 +144,6 @@ class JsonSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
         |  "x" : ""
         |}
         |""".stripMargin
-    RawSuggestion.forObject("info", "docs", mandatory = true)
 
     val styler = JsonSuggestionStyler(
       StylerParams("",
@@ -164,34 +163,24 @@ class JsonSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
                     |  "swagger": "2.0",
                     |  "paths": {
                     |      "/path" : {
-                    |        "get": {
-                    |                  ""
-                    |                }
+                    |        ""
                     |      }
                     |    }
                     |}""".stripMargin
 
     val patchedContent = """{
-                          |  "swagger": "2.0",
-                          |  "paths": {
-                          |      "/path" : {
-                          |        "get": {
-                          |                  "x" : ""
-                          |                }
-                          |      }
-                          |    }
-                          |}""".stripMargin
-
-    RawSuggestion.forObject("info", "docs", mandatory = true)
-
-    val parts      = JsonParser(patchedContent).parse(false)
-    val node       = parts.collectFirst({ case d: YDocument => d }).get.node
-    val dummyYPart = NodeBranchBuilder.build(node, AmfPosition(5, 19), isJson = true)
+                           |  "swagger": "2.0",
+                           |  "paths": {
+                           |      "/path" : {
+                           |        "x": ""
+                           |      }
+                           |    }
+                           |}""".stripMargin
 
     val styler = JsonSuggestionStyler(
       StylerParams("",
                    PatchedContent(content, patchedContent, List(ColonToken, QuoteToken, QuoteToken)),
-                   Position(5, 19),
+                   Position(4, 9),
                    dummyYPart,
                    AlsFormattingOptions(3, insertSpaces = true)))
 

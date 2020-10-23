@@ -1,0 +1,105 @@
+schema:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas30/api-without-brothers.yaml:
+        -
+          from:
+            line: 3
+            column: 0
+          to:
+            line: 11
+            column: 0
+          content: |
+            +
+responses:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas30/api-without-brothers.yaml:
+        -
+          from:
+            line: 11
+            column: 0
+          to:
+            line: 14
+            column: 0
+          content: |
+            +
+parameter:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas30/api-without-brothers.yaml:
+        -
+          from:
+            line: 14
+            column: 0
+          to:
+            line: 17
+            column: 0
+          content: |
+            +
+example:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas30/api-without-brothers.yaml:
+        -
+          from:
+            line: 17
+            column: 0
+          to:
+            line: 21
+            column: 0
+          content: |
+            +
+requestBody:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas30/api-without-brothers.yaml:
+        -
+          from:
+            line: 21
+            column: 0
+          to:
+            line: 25
+            column: 0
+          content: |
+            +
+headers:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas30/api-without-brothers.yaml:
+        -
+          from:
+            line: 14
+            column: 0
+          to:
+            line: 17
+            column: 0
+          content: |
+            +
+securityScheme:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas30/api-without-brothers.yaml:
+        -
+          from:
+            line: 29
+            column: 0
+          to:
+            line: 32
+            column: 0
+          content: |
+            +
+link:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas30/api-without-brothers.yaml:
+        -
+          from:
+            line: 32
+            column: 0
+          to:
+            line: 35
+            column: 0
+          content: |
+            +
+callback: []

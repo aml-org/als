@@ -1,9 +1,9 @@
 package org.mulesoft.als.common
 
-import amf.core.annotations.{LexicalInformation, SourceAST}
+import amf.core.annotations.{DeclaredElement, LexicalInformation, SourceAST}
 import amf.core.metamodel.document.BaseUnitModel
 import amf.core.metamodel.domain.LinkableElementModel
-import amf.core.model.document.BaseUnit
+import amf.core.model.document.{BaseUnit, DeclaresModel}
 import amf.core.model.domain.{AmfObject, DomainElement}
 import amf.core.parser.{Annotations, FieldEntry, Position => AmfPosition}
 import amf.plugins.document.vocabularies.model.document.Dialect
@@ -84,6 +84,14 @@ case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfP
   private def notInKeyAtEntry(e: YMapEntry) =
     !PositionRange(e.key.range)
       .contains(Position(amfPosition)) && (e.range.columnTo > e.range.columnFrom || e.range.columnTo == 0) && e.value.isNull
+
+  def isDeclared(): Boolean = {
+    obj.annotations.contains(classOf[DeclaredElement]) ||
+    stack.headOption.exists({
+      case d: DeclaresModel => d.declares.contains(obj)
+      case _                => false
+    })
+  }
 }
 
 object ObjectInTreeBuilder {

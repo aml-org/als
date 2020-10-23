@@ -1,0 +1,124 @@
+annotation type:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/raml/from-library.raml:
+        -
+          from:
+            line: 46
+            column: 2
+          to:
+            line: 46
+            column: 19
+          content: |
+            +
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/raml/library.raml:
+        -
+          from:
+            line: 3
+            column: 0
+          to:
+            line: 5
+            column: 0
+          content: |
+            +
+type:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/raml/from-library.raml:
+        -
+          from:
+            line: 13
+            column: 10
+          to:
+            line: 13
+            column: 26
+          content: |
+            +
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/raml/library.raml:
+        -
+          from:
+            line: 14
+            column: 0
+          to:
+            line: 17
+            column: 0
+          content: |
+            +
+resource type:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/raml/from-library.raml:
+        -
+          from:
+            line: 36
+            column: 8
+          to:
+            line: 36
+            column: 22
+          content: |
+            +
+        -
+          from:
+            line: 39
+            column: 8
+          to:
+            line: 39
+            column: 22
+          content: |
+            +
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/raml/library.raml:
+        -
+          from:
+            line: 21
+            column: 0
+          to:
+            line: 25
+            column: 0
+          content: |
+            +
+trait:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/raml/from-library.raml:
+        -
+          from:
+            line: 40
+            column: 6
+          to:
+            line: 40
+            column: 20
+          content: |
+            +
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/raml/library.raml:
+        -
+          from:
+            line: 28
+            column: 0
+          to:
+            line: 33
+            column: 0
+          content: |
+            +
+security scheme:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/raml/from-library.raml:
+        -
+          from:
+            line: 21
+            column: 11
+          to:
+            line: 21
+            column: 25
+          content: |
+            +
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/raml/library.raml:
+        -
+          from:
+            line: 37
+            column: 0
+          to:
+            line: 40
+            column: 0
+          content: |
+            +

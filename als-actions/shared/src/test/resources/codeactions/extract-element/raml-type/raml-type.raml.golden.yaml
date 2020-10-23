@@ -1,4 +1,4 @@
-changes:
+documentChanges:
   file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-type/raml-type.raml:
     -
       from:
@@ -10,7 +10,7 @@ changes:
       content: |
         +
 
-                                  type: $1
+                                type: newtype
     -
       from:
         line: 8
@@ -21,7 +21,7 @@ changes:
       content: |
         +
 
-          $1:
+          newtype:
             type: object
             properties:
               B: other

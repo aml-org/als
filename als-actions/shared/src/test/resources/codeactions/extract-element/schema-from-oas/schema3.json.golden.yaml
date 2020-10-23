@@ -1,0 +1,33 @@
+documentChanges:
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/schema-from-oas/schema3.json:
+    -
+      from:
+        line: 16
+        column: 10
+      to:
+        line: 21
+        column: 11
+      content: |-
+        +
+        {
+                  "$ref": "#/components/parameters/newparameter"
+                }
+    -
+      from:
+        line: 10
+        column: 5
+      to:
+        line: 10
+        column: 5
+      content: |
+        +
+
+        ,"parameters": {
+              "newparameter": {
+                "schema": {
+                  "type": "string",
+                  "example": "textplain"
+                },
+                "name": "parameter_1"
+              }
+            }

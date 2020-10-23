@@ -1,0 +1,100 @@
+openapi: 3.0.0
+
+components:
+  schemas:
+    toDelete:
+      type: object
+      properties:
+        a:
+          type: string
+        b:
+          type: integer
+    another:
+      type: string
+  responses:
+    200:
+      description: response
+    toDelete:
+      description: to delte
+    201:
+      description: another
+  parameters:
+    aParameter:
+      type: string
+    toDelete:
+      type: string
+  examples:
+    toDelete:
+      value: a
+    another:
+      value: a
+
+  requestBodies:
+    toDeleteRB:
+      description: a description
+      content:
+    another:
+      description: another
+  headers:
+    aHeader:
+      type: string
+    toDeleteH:
+      type: string
+
+  securitySchemes:
+    toDeleteSS:
+      type: http
+    another:
+      type: apiKey
+  links:
+    aLink:
+      description: a link
+    toDeleteLink:
+      description: to delete
+  callbacks:
+    toDeleteCallback:
+      expression: $request.
+    another:
+      expression: $request.
+
+paths:
+  /endpoint1:
+    description: an endpoint
+    parameters:
+      - $ref: '#/components/parameters/toDelete'
+    post:
+      requestBody:
+        $ref: '#/components/requestBodies/toDeleteRB'
+    get:
+      parameters:
+        - $ref: '#/components/parameters/aParameter'
+        - name: param2
+          in: query
+          schema:
+            $ref: '#/components/schemas/toDelete'
+      responses:
+        200:
+          $ref: '#/components/responses/toDelete'
+        201:
+          $ref: '#/components/responses/200'
+        202:
+          headers:
+            aHeader:
+              $ref: '#/components/headers/toDeleteH'
+          links:
+            aLink:
+              $ref: '#/components/links/toDeleteLink'
+            another:
+              $ref: '#/components/links/aLink'
+
+      callbacks:
+        callback:
+          $ref: '#/components/callbacks/toDeleteCallback'
+      requestBody:
+        content:
+          aContent:
+            examples:
+              aExample:
+                $ref: '#/components/examples/toDelete'
+      security:
+        - toDeleteSS: []

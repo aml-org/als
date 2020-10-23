@@ -1,0 +1,75 @@
+dec1:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/aml/basic.yaml:
+        -
+          from:
+            line: 17
+            column: 4
+          to:
+            line: 17
+            column: 8
+          content: |
+            +
+        -
+          from:
+            line: 2
+            column: 0
+          to:
+            line: 5
+            column: 0
+          content: |
+            +
+dec2:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/aml/basic.yaml:
+        -
+          from:
+            line: 21
+            column: 6
+          to:
+            line: 21
+            column: 10
+          content: |
+            +
+        -
+          from:
+            line: 5
+            column: 0
+          to:
+            line: 8
+            column: 0
+          content: |
+            +
+dec3:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/aml/basic.yaml:
+        -
+          from:
+            line: 23
+            column: 6
+          to:
+            line: 23
+            column: 10
+          content: |
+            +
+        -
+          from:
+            line: 19
+            column: 4
+          to:
+            line: 19
+            column: 8
+          content: |
+            +
+        -
+          from:
+            line: 8
+            column: 0
+          to:
+            line: 12
+            column: 0
+          content: |
+            +

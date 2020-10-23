@@ -2,7 +2,7 @@ package org.mulesoft.als.common.cache
 
 import amf.core.model.document.BaseUnit
 import amf.plugins.document.vocabularies.model.document.Dialect
-import org.mulesoft.als.common.dtoTypes.Position
+import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.common.{NodeBranchBuilder, ObjectInTree, ObjectInTreeBuilder, YPartBranch}
 
 import scala.collection.mutable
@@ -35,6 +35,15 @@ class ObjectInTreeCached(override val unit: BaseUnit, val definedBy: Dialect)
     extends BaseUnitCachedElement[ObjectInTree] {
   override protected def createElement(location: Location): ObjectInTree =
     ObjectInTreeBuilder.fromUnit(unit, location.position.toAmfPosition, Some(location.uri), definedBy)
+
+  def treeWithUpperElement(range: PositionRange, uri: String): Option[ObjectInTree] = {
+    val start = getCachedOrNew(range.start, uri)
+    val end   = getCachedOrNew(range.end, uri)
+    if (start.obj == end.obj) Some(start)
+    else if (start.stack.contains(end.obj)) Some(end)
+    else if (end.stack.contains(start.obj)) Some(start)
+    else None
+  }
 }
 
 class YPartBranchCached(override val unit: BaseUnit) extends BaseUnitCachedElement[YPartBranch] {

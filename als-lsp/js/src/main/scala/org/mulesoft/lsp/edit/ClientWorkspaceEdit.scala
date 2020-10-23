@@ -9,21 +9,23 @@ import scala.scalajs.js.|
 
 @js.native
 trait ClientWorkspaceEdit extends js.Object {
-  def changes: js.Dictionary[js.Array[ClientTextEdit]]                            = js.native
-  def documentChanges: js.Array[ClientTextDocumentEdit | ClientResourceOperation] = js.native
+  def changes: js.UndefOr[js.Dictionary[js.Array[ClientTextEdit]]]                            = js.native
+  def documentChanges: js.UndefOr[js.Array[ClientTextDocumentEdit | ClientResourceOperation]] = js.native
 }
 
 object ClientWorkspaceEdit {
   def apply(internal: WorkspaceEdit): ClientWorkspaceEdit = {
-    val edits = internal.documentChanges.collect {
-      case Left(v)  => v.toClient
-      case Right(v) => v.toClient
-    }
+    val edits = internal.documentChanges
+      .map(_.collect {
+        case Left(v)  => v.toClient
+        case Right(v) => v.toClient
+      })
+      .orUndefined
 
     js.Dynamic
       .literal(
-        changes = internal.changes.mapValues(s => s.map(_.toClient).toJSArray).toJSDictionary,
-        documentChanges = edits.toJSArray
+        changes = internal.changes.map(_.mapValues(s => s.map(_.toClient).toJSArray).toJSDictionary).orUndefined,
+        documentChanges = edits.map(_.toJSArray)
       )
       .asInstanceOf[ClientWorkspaceEdit]
   }

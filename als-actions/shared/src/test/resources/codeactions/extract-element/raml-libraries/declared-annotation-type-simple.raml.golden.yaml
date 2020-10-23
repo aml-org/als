@@ -1,0 +1,37 @@
+documentChanges:
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-libraries/library.raml: create
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-libraries/declared-annotation-type-simple.raml:
+    -
+      from:
+        line: 2
+        column: 0
+      to:
+        line: 3
+        column: 12
+      content: |
+        +
+    -
+      from:
+        line: 1
+        column: 0
+      to:
+        line: 1
+        column: 0
+      content: |
+        +
+        uses:
+          lib: library.raml
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-libraries/library.raml:
+    -
+      from:
+        line: 0
+        column: 0
+      to:
+        line: 0
+        column: 0
+      content: |
+        +
+        #%RAML 1.0 Library
+        annotationTypes:
+          A:
+            type: string

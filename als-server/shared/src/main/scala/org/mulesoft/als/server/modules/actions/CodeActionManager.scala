@@ -4,10 +4,13 @@ import java.util.UUID
 
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionFactory
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionParamsImpl.CodeActionParamsImpl
+import org.mulesoft.als.common.DirectoryResolver
+import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
 import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
+import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.codeactions._
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
@@ -20,7 +23,9 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
                         workspaceManager: WorkspaceManager,
                         configuration: AlsConfigurationReader,
                         telemetryProvider: TelemetryProvider,
-                        private val logger: Logger)
+                        amfInstance: AmfInstance,
+                        private val logger: Logger,
+                        directoryResolver: DirectoryResolver)
     extends RequestModule[CodeActionCapabilities, CodeActionOptions] {
 
   /**
@@ -40,16 +45,19 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
       override def task(params: CodeActionParams): Future[Seq[CodeAction]] = {
         val uuid = UUID.randomUUID().toString
         for {
-          bu <- workspaceManager.getLastUnit(params.textDocument.uri, uuid)
-          results <- {
+          (bu, allr) <- workspaceManager.getRelationships(params.textDocument.uri, uuid)
+          results: Seq[Seq[AbstractCodeAction]] <- {
             val requestParams = params.toRequestParams(
               bu.unit,
               bu.tree,
               bu.yPartBranch,
               bu.definedBy,
               configuration,
+              allr,
               telemetryProvider,
-              uuid
+              uuid,
+              amfInstance,
+              directoryResolver
             )
             Future.sequence {
               usedActions
@@ -59,7 +67,13 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
             }
           }
         } yield {
-          results.flatten
+          val flatResults = results.flatten
+          val finalResults = {
+            if (!configuration.supportsDocumentChanges)
+              flatResults.filterNot(_.needsWorkspaceEdit)
+            else flatResults
+          }
+          finalResults.map(_.toCodeAction(configuration.supportsDocumentChanges))
         }
       }
 
@@ -72,7 +86,9 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
       override protected def endType(params: CodeActionParams): MessageTypes = MessageTypes.END_CODE_ACTION
 
       override protected def msg(params: CodeActionParams): String =
-        s"Requested code action for ${params.textDocument.uri} at ${params.range}"
+        s"""Requested code action for ${params.textDocument.uri} at ${params.range}
+           |availableActions: $usedActions
+           |supports documentChanges: ${configuration.supportsDocumentChanges}""".stripMargin
 
       override protected def uri(params: CodeActionParams): String = params.textDocument.uri
     }
@@ -95,6 +111,12 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
           .filter(a => c.codeActionLiteralSupport.forall(_.codeActionKind.valueSet.contains(a.kind)))
       case None => usedActions = allActions
     }
+    logger.debug(s"actions to be used:\n${usedActions.map(_.title).mkString("\n")}",
+                 "CodeActionManager",
+                 "applyConfig")
+    logger.debug(s"supports documentChanges: ${configuration.supportsDocumentChanges}",
+                 "CodeActionManager",
+                 "applyConfig")
     CodeActionRegistrationOptions(Some(allActions.map(_.kind).distinct))
   }
 
