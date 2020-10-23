@@ -1,0 +1,26 @@
+documentChanges:
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-fragments/CustomDomainProperty.raml: create
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-fragments/declared-annotation-type-simple.raml:
+    -
+      from:
+        line: 3
+        column: 6
+      to:
+        line: 3
+        column: 12
+      content: |
+        +
+
+        !include CustomDomainProperty.raml
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-fragments/CustomDomainProperty.raml:
+    -
+      from:
+        line: 0
+        column: 0
+      to:
+        line: 0
+        column: 0
+      content: |
+        +
+        #%RAML 1.0 AnnotationTypeDeclaration
+        type: string

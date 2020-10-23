@@ -1,4 +1,4 @@
-changes:
+documentChanges:
   file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-type/inlined-scalar.raml:
     -
       from:
@@ -10,7 +10,7 @@ changes:
       content: |
         +
 
-                            type: $1
+                         type: newtype
     -
       from:
         line: 4
@@ -21,5 +21,5 @@ changes:
       content: |
         +
 
-          $1:
+          newtype:
             type: string

@@ -3,16 +3,16 @@ package org.mulesoft.als.server.lsp4j
 import java.io.StringWriter
 import java.net.{ServerSocket, Socket}
 
-import org.eclipse.lsp4j.TextDocumentIdentifier
 import org.eclipse.lsp4j.jsonrpc.Launcher
 import org.eclipse.lsp4j.services.LanguageClient
 import org.mulesoft.als.server.JvmSerializationProps
 import org.mulesoft.als.server.client.ClientConnection
 import org.mulesoft.als.server.feature.serialization.SerializationResult
+import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 import org.mulesoft.als.server.logger.{Logger, PrintLnLogger}
 import org.mulesoft.als.server.protocol.client.AlsLanguageClient
-import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
-import org.mulesoft.als.server.lsp4j.extension.SerializationParams
+
+import scala.annotation.tailrec
 
 object Main {
 
@@ -27,6 +27,7 @@ object Main {
     Options(4000, listen = false, dialectPath = None, dialectName = None, vocabularyPath = None)
 
   private def readOptions(args: Array[String]): Options = {
+    @tailrec
     def innerReadOptions(options: Options, list: List[String]): Options =
       list match {
         case Nil => options

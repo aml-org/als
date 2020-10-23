@@ -1,0 +1,17 @@
+openapi: '3.0.0'
+info:
+  title: test
+
+components:
+  schemas:
+    toDel[*]ete:
+      type: string
+    B:
+      type: integer
+    C:
+      $ref: "#/components/schemas/toDelete"
+paths:
+  /end:
+    parameters:
+      - schema:
+          $ref: "#/components/schemas/toDelete"

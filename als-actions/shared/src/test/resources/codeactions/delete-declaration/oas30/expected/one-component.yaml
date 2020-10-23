@@ -1,0 +1,13 @@
+schema:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/oas30/one-component.yaml:
+        -
+          from:
+            line: 2
+            column: 0
+          to:
+            line: 11
+            column: 0
+          content: |
+            +

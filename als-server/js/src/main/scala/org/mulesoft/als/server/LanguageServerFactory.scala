@@ -10,7 +10,7 @@ import org.mulesoft.als.configuration.{
   JsServerSystemConf
 }
 import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
-import org.mulesoft.als.server.logger.{Logger, PrintLnLogger}
+import org.mulesoft.als.server.logger.PrintLnLogger
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticNotificationsKind
 import org.mulesoft.als.server.protocol.LanguageServer
@@ -49,7 +49,7 @@ object LanguageServerFactory {
                        withDiagnostics: Boolean = true,
                        notificationKind: js.UndefOr[DiagnosticNotificationsKind] = js.undefined): LanguageServer = {
 
-    val builders =
+    val factory =
       new WorkspaceManagerFactoryBuilder(clientNotifier,
                                          logger.toOption.map(l => ClientLoggerAdapter(l)).getOrElse(PrintLnLogger),
                                          jsServerSystemConf.environment)
@@ -59,44 +59,45 @@ object LanguageServerFactory {
         .withPlatform(jsServerSystemConf.platform)
         .withDirectoryResolver(jsServerSystemConf.directoryResolver)
 
-    notificationKind.toOption.foreach(builders.withNotificationKind)
+    notificationKind.toOption.foreach(factory.withNotificationKind)
 
-    val diagnosticManager     = builders.diagnosticManager()
-    val filesInProjectManager = builders.filesInProjectManager(serializationProps.alsClientNotifier)
-    val serializationManager  = builders.serializationManager(serializationProps)
+    val diagnosticManager     = factory.diagnosticManager()
+    val filesInProjectManager = factory.filesInProjectManager(serializationProps.alsClientNotifier)
+    val serializationManager  = factory.serializationManager(serializationProps)
 
-    val factory = builders.buildWorkspaceManagerFactory()
-    val builder =
-      new LanguageServerBuilder(factory.documentManager,
-                                factory.workspaceManager,
-                                factory.configurationManager,
-                                factory.resolutionTaskManager)
+    val builders = factory.buildWorkspaceManagerFactory()
+    val languageBuilder =
+      new LanguageServerBuilder(builders.documentManager,
+                                builders.workspaceManager,
+                                builders.configurationManager,
+                                builders.resolutionTaskManager)
         .addInitializableModule(serializationManager)
         .addInitializableModule(filesInProjectManager)
-        .addInitializable(factory.cleanDiagnosticManager)
-        .addInitializable(factory.workspaceManager)
-        .addInitializable(factory.configurationManager)
-        .addRequestModule(factory.cleanDiagnosticManager)
-        .addRequestModule(factory.completionManager)
-        .addRequestModule(factory.conversionManager)
-        .addRequestModule(factory.structureManager)
-        .addRequestModule(factory.definitionManager)
-        .addRequestModule(factory.typeDefinitionManager)
-        .addRequestModule(factory.hoverManager)
-        .addRequestModule(factory.implementationManager)
-        .addRequestModule(factory.referenceManager)
-        .addRequestModule(factory.fileUsageManager)
-        .addRequestModule(factory.documentLinksManager)
-        .addRequestModule(factory.renameManager)
-        .addRequestModule(factory.documentHighlightManager)
-        .addRequestModule(factory.foldingRangeManager)
-        .addRequestModule(factory.selectionRangeManager)
-        .addRequestModule(factory.renameFileActionManager)
-        .addRequestModule(factory.codeActionManager)
-        .addInitializable(factory.telemetryManager)
-    diagnosticManager.foreach(builder.addInitializableModule)
-    factory.serializationManager.foreach(builder.addRequestModule)
-    builder
+        .addInitializable(builders.cleanDiagnosticManager)
+        .addInitializable(builders.workspaceManager)
+        .addInitializable(builders.resolutionTaskManager)
+        .addInitializable(builders.configurationManager)
+        .addRequestModule(builders.cleanDiagnosticManager)
+        .addRequestModule(builders.completionManager)
+        .addRequestModule(builders.conversionManager)
+        .addRequestModule(builders.structureManager)
+        .addRequestModule(builders.definitionManager)
+        .addRequestModule(builders.typeDefinitionManager)
+        .addRequestModule(builders.hoverManager)
+        .addRequestModule(builders.implementationManager)
+        .addRequestModule(builders.referenceManager)
+        .addRequestModule(builders.fileUsageManager)
+        .addRequestModule(builders.documentLinksManager)
+        .addRequestModule(builders.renameManager)
+        .addRequestModule(builders.documentHighlightManager)
+        .addRequestModule(builders.foldingRangeManager)
+        .addRequestModule(builders.selectionRangeManager)
+        .addRequestModule(builders.renameFileActionManager)
+        .addRequestModule(builders.codeActionManager)
+        .addInitializable(builders.telemetryManager)
+    diagnosticManager.foreach(languageBuilder.addInitializableModule)
+    builders.serializationManager.foreach(languageBuilder.addRequestModule)
+    languageBuilder
       .build()
   }
 }

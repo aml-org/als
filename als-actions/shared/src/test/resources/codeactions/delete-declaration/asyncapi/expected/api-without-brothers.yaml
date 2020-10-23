@@ -1,0 +1,143 @@
+schema:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/asyncapi/api-without-brothers.yaml:
+        -
+          from:
+            line: 3
+            column: 0
+          to:
+            line: 6
+            column: 0
+          content: |
+            +
+messages:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/asyncapi/api-without-brothers.yaml:
+        -
+          from:
+            line: 6
+            column: 0
+          to:
+            line: 10
+            column: 0
+          content: |
+            +
+security schemes:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/asyncapi/api-without-brothers.yaml:
+        -
+          from:
+            line: 10
+            column: 0
+          to:
+            line: 13
+            column: 0
+          content: |
+            +
+parameters:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/asyncapi/api-without-brothers.yaml:
+        -
+          from:
+            line: 13
+            column: 0
+          to:
+            line: 18
+            column: 0
+          content: |
+            +
+corrrelation ids:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/asyncapi/api-without-brothers.yaml:
+        -
+          from:
+            line: 18
+            column: 0
+          to:
+            line: 21
+            column: 0
+          content: |
+            +
+operation traits:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/asyncapi/api-without-brothers.yaml:
+        -
+          from:
+            line: 21
+            column: 0
+          to:
+            line: 24
+            column: 0
+          content: |
+            +
+message traits:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/asyncapi/api-without-brothers.yaml:
+        -
+          from:
+            line: 24
+            column: 0
+          to:
+            line: 27
+            column: 0
+          content: |
+            +
+server bindings:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/asyncapi/api-without-brothers.yaml:
+        -
+          from:
+            line: 27
+            column: 0
+          to:
+            line: 30
+            column: 0
+          content: |
+            +
+channel bindings:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/asyncapi/api-without-brothers.yaml:
+        -
+          from:
+            line: 30
+            column: 0
+          to:
+            line: 33
+            column: 0
+          content: |
+            +
+operation bindings:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/asyncapi/api-without-brothers.yaml:
+        -
+          from:
+            line: 33
+            column: 0
+          to:
+            line: 36
+            column: 0
+          content: |
+            +
+message bindings:
+  -
+    documentChanges:
+      file://als-actions/shared/src/test/resources/codeactions/delete-declaration/asyncapi/api-without-brothers.yaml:
+        -
+          from:
+            line: 36
+            column: 0
+          to:
+            line: 39
+            column: 0
+          content: |
+            +

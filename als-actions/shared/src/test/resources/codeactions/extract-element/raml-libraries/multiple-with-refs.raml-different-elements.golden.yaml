@@ -1,0 +1,90 @@
+documentChanges:
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-libraries/library.raml: create
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-libraries/multiple-with-refs.raml:
+    -
+      from:
+        line: 20
+        column: 22
+      to:
+        line: 20
+        column: 22
+      content: |-
+        +
+        lib.
+    -
+      from:
+        line: 12
+        column: 10
+      to:
+        line: 12
+        column: 10
+      content: |-
+        +
+        lib.
+    -
+      from:
+        line: 16
+        column: 10
+      to:
+        line: 16
+        column: 10
+      content: |-
+        +
+        lib.
+    -
+      from:
+        line: 2
+        column: 0
+      to:
+        line: 6
+        column: 0
+      content: |
+        +
+    -
+      from:
+        line: 7
+        column: 0
+      to:
+        line: 9
+        column: 0
+      content: |
+        +
+    -
+      from:
+        line: 9
+        column: 0
+      to:
+        line: 11
+        column: 0
+      content: |
+        +
+    -
+      from:
+        line: 1
+        column: 0
+      to:
+        line: 1
+        column: 0
+      content: |
+        +
+        uses:
+          lib: library.raml
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-libraries/library.raml:
+    -
+      from:
+        line: 0
+        column: 0
+      to:
+        line: 0
+        column: 0
+      content: |
+        +
+        #%RAML 1.0 Library
+        types:
+          t1:
+            type: string
+          t2:
+            type: t1
+        traits:
+          tr:
+            description: test trait

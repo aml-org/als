@@ -1,4 +1,4 @@
-changes:
+documentChanges:
   file://als-actions/shared/src/test/resources/codeactions/extract-element/schema-from-oas/schema.json:
     -
       from:
@@ -10,23 +10,21 @@ changes:
       content: |-
         +
         {
-                        "$ref": "#/components/schemas/$1"
+                        "$ref": "#/components/schemas/newschema"
                       }
     -
       from:
-        line: 6
-        column: 3
+        line: 5
+        column: 5
       to:
-        line: 6
-        column: 3
+        line: 5
+        column: 5
       content: |
         +
 
-        {
-              "schemas": {
-                "$1": {
-                  "type": "string",
-                  "example": "textplain"
-                }
+        ,"schemas": {
+              "newschema": {
+                "type": "string",
+                "example": "textplain"
               }
             }

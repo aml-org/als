@@ -132,7 +132,7 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
     )
 
   val configurationManager: ConfigurationManager =
-    new ConfigurationManager();
+    new ConfigurationManager()
 
   lazy val documentManager =
     new TextDocumentManager(container, List(workspaceManager), logger)
@@ -169,7 +169,7 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
     new DocumentLinksManager(workspaceManager, telemetryManager, platform, logger)
 
   lazy val renameManager =
-    new RenameManager(workspaceManager, telemetryManager, logger)
+    new RenameManager(workspaceManager, telemetryManager, logger, configurationManager.getConfiguration)
 
   lazy val conversionManager =
     new ConversionManager(workspaceManager, telemetryManager, amfConfiguration, logger)
@@ -184,14 +184,16 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
     new SelectionRangeManager(workspaceManager, telemetryManager, logger)
 
   lazy val renameFileActionManager: RenameFileActionManager =
-    new RenameFileActionManager(workspaceManager, telemetryManager, logger)
+    new RenameFileActionManager(workspaceManager, telemetryManager, logger, configurationManager.getConfiguration)
 
   lazy val codeActionManager: CodeActionManager =
     new CodeActionManager(AllCodeActions.all,
                           workspaceManager,
                           configurationManager.getConfiguration,
                           telemetryManager,
-                          logger)
+                          amfConfiguration,
+                          logger,
+                          directoryResolver)
 
   lazy val serializationManager: Option[SerializationManager[_]] =
     resolutionDependencies.collectFirst({

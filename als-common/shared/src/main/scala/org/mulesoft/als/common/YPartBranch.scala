@@ -158,7 +158,12 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
       stack.headOption match {
         case Some(entry: YMapEntry) => stack.tail.headOption
         case Some(m: YMap)          => Some(m)
-        case _                      => None
+        case Some(yn: YNodePlain) =>
+          yn.value match {
+            case yMap: YMap => Some(yMap)
+            case _          => None
+          }
+        case _ => None
       }
     } else {
       node match {
@@ -231,7 +236,7 @@ object NodeBranchBuilder {
     val parts = ast.children
       .filterNot(_.isInstanceOf[YNonContent])
       .filter { yp =>
-        yp.contains(amfPosition)
+        yp.contains(amfPosition, editionMode = true)
       }
     if (parts.length > 1) {
       ast match {

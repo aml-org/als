@@ -1,0 +1,21 @@
+#%RAML 1.0
+
+traits:
+  tr:
+    description: test trait
+
+types:
+  t1:
+    type: string
+  t2:
+    type: t1
+  t3:
+    type: t1
+
+/e:
+    is:
+        - tr
+    get:
+        body:
+            application/json:
+                type: t1

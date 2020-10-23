@@ -30,11 +30,15 @@ class CodeActionsWithPositionMarkerTest extends ServerWithMarkerTest[Seq[CodeAct
     val factory =
       new WorkspaceManagerFactoryBuilder(notifier, logger).buildWorkspaceManagerFactory()
     val codeActionManager =
-      new CodeActionManager(AllCodeActions.all :+ TestCodeAction,
-                            factory.workspaceManager,
-                            factory.configurationManager.getConfiguration,
-                            factory.telemetryManager,
-                            logger)
+      new CodeActionManager(
+        AllCodeActions.all :+ TestCodeAction,
+        factory.workspaceManager,
+        factory.configurationManager.getConfiguration,
+        factory.telemetryManager,
+        factory.amfConfiguration,
+        logger,
+        factory.directoryResolver
+      )
     new LanguageServerBuilder(factory.documentManager,
                               factory.workspaceManager,
                               factory.configurationManager,

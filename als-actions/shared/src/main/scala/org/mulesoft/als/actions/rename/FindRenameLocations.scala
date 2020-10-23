@@ -1,18 +1,20 @@
 package org.mulesoft.als.actions.rename
 
 import amf.core.model.document.BaseUnit
-import org.mulesoft.als.actions.common.AliasRelationships.FullLink
-import org.mulesoft.als.actions.common.{AliasInfo, RelationshipLink}
 import org.mulesoft.als.actions.references.FindReferences
 import org.mulesoft.als.common.YamlUtils
+import org.mulesoft.als.common.YamlWrapper._
 import org.mulesoft.als.common.cache.YPartBranchCached
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
-import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit, WorkspaceEdit}
+import org.mulesoft.amfintegration.relationships.AliasRelationships.FullLink
+import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
+import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit}
 import org.mulesoft.lsp.feature.common.VersionedTextDocumentIdentifier
-import org.yaml.model.{YMapEntry, YPart, YScalar}
-import org.mulesoft.als.common.YamlWrapper._
+import org.yaml.model.{YPart, YScalar}
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -23,7 +25,7 @@ object FindRenameLocations {
                          allAliases: Future[Seq[AliasInfo]],
                          references: Future[Seq[RelationshipLink]],
                          yPartBranchCached: YPartBranchCached,
-                         unit: BaseUnit): Future[WorkspaceEdit] =
+                         unit: BaseUnit): Future[AbstractWorkspaceEdit] =
     FindReferences
       .getReferences(uri, position, allAliases, references, yPartBranchCached)
       .map { refs =>
@@ -33,8 +35,7 @@ object FindRenameLocations {
       .map(_.groupBy(_.uri))
       .map { uriToLocation =>
         val stringToEdits = uriToLocation.mapValues(_.map(toTextEdit))
-        WorkspaceEdit(
-          stringToEdits,
+        AbstractWorkspaceEdit(
           toTextDocumentEdit(stringToEdits).map(Left(_))
         )
       }

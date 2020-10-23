@@ -65,7 +65,7 @@ class FindReferenceManager(val workspace: WorkspaceManager,
           .getReferences(uri,
                          position,
                          workspace.getAliases(uri, uuid),
-                         workspace.getRelationships(uri, uuid),
+                         workspace.getRelationships(uri, uuid).map(_._2),
                          cu.yPartBranch)
           .map(_.map(_._1))
       })

@@ -56,9 +56,9 @@ hovers:
   (14,13):
     - Version of the API
   (15,3):
-    - server information
+    - Server information
   (15,8):
-    - server information
+    - Server information
   (16,7):
     - Information about the network accessible locations where the API is available
   (16,13):
@@ -86,7 +86,7 @@ hovers:
   (22,7):
     - Human readable name for the object
   (22,10):
-    - Defines a data type
+    - Piece of data required or returned by an Operation
   (23,10):
     - Each element should be part of the provided list to be valid
   (23,13):
@@ -119,7 +119,8 @@ hovers:
     - Settings for an OAuth2 security scheme
   (32,16):
     - Human readable name for the object
-  (34,8): []
+  (34,8):
+    - Bindings for this server
   (34,13): []
   (35,8): []
   (35,33): []
@@ -135,10 +136,11 @@ hovers:
     - Human readable description of an element
   (39,21):
     - Human readable description of an element
-  (40,8): []
+  (40,8):
+    - Bindings for this endpoint
   (40,13): []
   (41,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (41,11): []
   (42,9):
     - Defines what type of channel is it
@@ -148,7 +150,8 @@ hovers:
     - HTTP method required to invoke the operation
   (43,12):
     - Action that can be executed using a particular HTTP invocation
-  (44,10): []
+  (44,10):
+    - Bindings for this operation
   (44,15): []
   (45,10): []
   (45,34): []
@@ -157,7 +160,7 @@ hovers:
   (46,22):
     - Human readable description of an element
   (47,12):
-    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+    - Documentation for a particular part of the model
   (47,19):
     - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (48,13):
@@ -169,9 +172,9 @@ hovers:
   (49,22):
     - URL for the creative work
   (50,9):
-    - Request information for an operation
+    - Request information required by the operation
   (50,14):
-    - Request information for an operation
+    - Request information required by the operation
   (51,10):
     - Request information for an operation
   (51,30):
@@ -187,7 +190,7 @@ hovers:
   (54,8):
     - Additionally custom tagged information
   (54,11):
-    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
+    - Additionally custom tagged information
   (55,12):
     - Human readable name for the object
   (55,18):
@@ -216,7 +219,8 @@ hovers:
     - HTTP method required to invoke the operation
   (61,14):
     - Action that can be executed using a particular HTTP invocation
-  (62,10): []
+  (62,10):
+    - Bindings for this operation
   (62,15): []
   (63,10): []
   (63,34): []
@@ -225,7 +229,7 @@ hovers:
   (64,23):
     - Human readable description of an element
   (65,12):
-    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+    - Documentation for a particular part of the model
   (65,19):
     - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (66,13):
@@ -237,9 +241,9 @@ hovers:
   (67,22):
     - URL for the creative work
   (68,9):
-    - Response information for an operation
+    - Response data returned by the operation
   (68,14):
-    - Response information for an operation
+    - Response data returned by the operation
   (69,10):
     - Response information for an operation
   (69,30):
@@ -255,7 +259,7 @@ hovers:
   (72,8):
     - Additionally custom tagged information
   (72,11):
-    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
+    - Additionally custom tagged information
   (73,12):
     - Human readable name for the object
   (73,18):
@@ -271,7 +275,7 @@ hovers:
   (76,2):
     - Additionally custom tagged information
   (76,5):
-    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
+    - Additionally custom tagged information
   (77,6):
     - Human readable name for the object
   (77,12):
@@ -281,7 +285,7 @@ hovers:
   (78,27):
     - Human readable description of an element
   (79,10):
-    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+    - Documentation about the tag
   (79,17):
     - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (80,11):
@@ -293,9 +297,9 @@ hovers:
   (81,20):
     - URL for the creative work
   (82,6):
-    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+    - Documentation associated to the API
   (82,13):
-    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+    - Documentation associated to the API
   (83,7):
     - Human readable description of an element
   (83,24):
@@ -427,7 +431,7 @@ hovers:
   (117,15):
     - Defines a data type
   (118,12):
-    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+    - Documentation for a particular part of the model
   (118,19):
     - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (119,9):
@@ -612,7 +616,7 @@ hovers:
   (164,25):
     - Human readable description of an element
   (165,12):
-    - Model defining an identifier that can used for message tracing and correlation
+    - An identifier that can be used for message tracing and correlation
   (165,20):
     - Model defining an identifier that can used for message tracing and correlation
   (166,10):
@@ -644,23 +648,24 @@ hovers:
   (173,8):
     - Additionally custom tagged information
   (173,11):
-    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
+    - Additionally custom tagged information
   (174,12):
     - Human readable name for the object
   (174,18):
     - Human readable name for the object
   (175,12):
-    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+    - Documentation for a particular part of the model
   (175,19):
     - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (176,9):
     - URL for the creative work
   (176,13):
     - URL for the creative work
-  (177,10): []
+  (177,10):
+    - Bindings for this request/response
   (177,15): []
   (178,10):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (178,13): []
   (179,17):
     - The version of this binding
@@ -691,9 +696,9 @@ hovers:
   (187,25):
     - Human readable description of an element
   (188,7):
-    - Settings for an API Key security scheme
+    - Authentication and access control mechanism defined in an API
   (188,11):
-    - Settings for an API Key security scheme
+    - Authentication and access control mechanism defined in an API
   (189,8):
     - Settings for an API Key security scheme
   (189,15):
@@ -703,9 +708,9 @@ hovers:
   (190,12):
     - Settings for an API Key security scheme
   (191,6):
-    - Settings for an HTTP security scheme
+    - Authentication and access control mechanism defined in an API
   (191,9):
-    - Settings for an HTTP security scheme
+    - Authentication and access control mechanism defined in an API
   (192,8):
     - Settings for an HTTP security scheme
   (192,14):
@@ -715,17 +720,17 @@ hovers:
   (193,16):
     - Settings for an HTTP security scheme
   (194,10):
-    - Settings for an OpenID security scheme
+    - Authentication and access control mechanism defined in an API
   (194,18):
-    - Settings for an OpenID security scheme
+    - Authentication and access control mechanism defined in an API
   (195,8):
     - Settings for an OpenID security scheme
   (195,18):
     - Settings for an OpenID security scheme
   (196,7):
-    - Settings for an OAuth2 security scheme
+    - Authentication and access control mechanism defined in an API
   (196,11):
-    - Settings for an OAuth2 security scheme
+    - Authentication and access control mechanism defined in an API
   (197,8):
     - Settings for an OAuth2 security scheme
   (197,15):
@@ -839,7 +844,7 @@ hovers:
   (225,18):
     - Top level element describing a HTTP API
   (226,6):
-    - HTTP method required to invoke the operation
+    - Action that can be executed using a particular HTTP invocation
   (226,9):
     - Action that can be executed using a particular HTTP invocation
   (227,11):
@@ -857,13 +862,13 @@ hovers:
   (230,8):
     - Additionally custom tagged information
   (230,11):
-    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
+    - Additionally custom tagged information
   (231,12):
     - Human readable name for the object
   (231,18):
     - Human readable name for the object
   (232,12):
-    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+    - Documentation for a particular part of the model
   (232,19):
     - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (233,13):
@@ -874,10 +879,11 @@ hovers:
     - URL for the creative work
   (234,22):
     - URL for the creative work
-  (235,10): []
+  (235,10):
+    - Bindings for this operation
   (235,15): []
   (236,10):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (236,13): []
   (237,11):
     - Whether the consumer should ack the message or not
@@ -898,7 +904,7 @@ hovers:
   (241,17):
     - Scalar range constraining this scalar shape
   (242,12):
-    - Model defining an identifier that can used for message tracing and correlation
+    - An identifier that can be used for message tracing and correlation
   (242,20):
     - Model defining an identifier that can used for message tracing and correlation
   (243,10):
@@ -930,13 +936,13 @@ hovers:
   (250,8):
     - Additionally custom tagged information
   (250,11):
-    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
+    - Additionally custom tagged information
   (251,12):
     - Human readable name for the object
   (251,18):
     - Human readable name for the object
   (252,12):
-    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+    - Documentation for a particular part of the model
   (252,19):
     - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (253,13):
@@ -947,10 +953,11 @@ hovers:
     - URL for the creative work
   (254,22):
     - URL for the creative work
-  (255,10): []
+  (255,10):
+    - Bindings for this request/response
   (255,15): []
   (256,10):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (256,13): []
   (257,17):
     - The version of this binding
@@ -964,21 +971,20 @@ hovers:
     - Contains declarations of reusable ServerBindings objects
   (260,17):
     - Top level element describing a HTTP API
-  (261,10):
-    - Human readable name for the object
+  (261,10): []
   (261,18): []
   (262,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (263,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (264,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (265,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (266,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (267,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (267,11): []
   (268,15):
     - The version of this binding
@@ -1012,64 +1018,63 @@ hovers:
   (275,17):
     - The topic where the Last Will and Testament message will be sent
   (276,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (277,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (278,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (279,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (280,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (281,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (282,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (283,9):
     - Contains declarations of reusable ChannelBindings objects
   (283,18):
     - Top level element describing a HTTP API
-  (284,8):
-    - Human readable name for the object
+  (284,8): []
   (284,13): []
   (285,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (285,11): []
   (286,9):
     - Defines what type of channel is it
   (286,14):
     - Defines what type of channel is it
   (287,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (288,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (289,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (290,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (291,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (292,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (293,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (294,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (295,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (296,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (297,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (298,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (298,9): []
   (299,15):
     - The version of this binding
   (299,24):
     - The version of this binding
   (300,11):
-    - Defines a data type
+    - A Schema object containing the definitions for HTTP-specific headers
   (300,16):
     - Defines a data type
   (301,12):
@@ -1081,7 +1086,7 @@ hovers:
   (302,18):
     - The HTTP method to use when establishing the connection
   (303,10):
-    - Defines a data type
+    - A Schema object containing the definitions for each query parameter
   (303,14):
     - Defines a data type
   (304,12):
@@ -1092,11 +1097,10 @@ hovers:
     - Contains declarations of reusable MessageBindings objects
   (305,18):
     - Top level element describing a HTTP API
-  (306,8):
-    - Human readable name for the object
+  (306,8): []
   (306,13): []
   (307,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (307,11): []
   (308,15):
     - The version of this binding
@@ -1111,16 +1115,16 @@ hovers:
   (310,22):
     - Application-specific message type
   (311,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (312,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (312,11): []
   (313,15):
     - The version of this binding
   (313,24):
     - The version of this binding
   (314,11):
-    - Defines a data type
+    - A Schema object containing the definitions for HTTP-specific headers
   (314,16):
     - Defines a data type
   (315,12):
@@ -1128,48 +1132,47 @@ hovers:
   (315,33):
     - Defines a data type
   (316,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (317,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (317,12): []
   (318,15):
     - The version of this binding
   (318,24):
     - The version of this binding
   (319,9):
-    - The message key
+    - Schema that defines the message key
   (319,13):
-    - The message key
+    - Defines a data type
   (320,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (320,11): []
   (321,15):
     - The version of this binding
   (321,24):
     - The version of this binding
   (322,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (323,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (324,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (325,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (326,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (327,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (328,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (329,10):
     - Contains declarations of reusable OperationBindings objects
   (329,20):
     - Top level element describing a HTTP API
-  (330,8):
-    - Human readable name for the object
+  (330,8): []
   (330,13): []
   (331,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (331,11): []
   (332,9):
     - Whether the consumer should ack the message or not
@@ -1220,9 +1223,9 @@ hovers:
   (344,16):
     - Identifies the user who has sent the message
   (345,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (346,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (346,11): []
   (347,15):
     - The version of this binding
@@ -1237,24 +1240,24 @@ hovers:
   (349,17):
     - Type of operation
   (350,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (351,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (351,12): []
   (352,15):
     - The version of this binding
   (352,24):
     - The version of this binding
   (353,12):
-    - Id of the consumer inside a consumer group
+    - Schema that defines the id of the consumer inside a consumer group
   (353,18):
-    - Id of the consumer inside a consumer group
+    - Defines a data type
   (354,11):
-    - Id of the consumer group
+    - Schema that defines the id of the consumer group
   (354,17):
-    - Id of the consumer group
+    - Defines a data type
   (355,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (355,11): []
   (356,15):
     - The version of this binding
@@ -1269,16 +1272,16 @@ hovers:
   (358,18):
     - Whether the broker should retain the message or not
   (359,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (360,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (361,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (362,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (363,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (364,8):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type
   (365,7):
-    - binding for a corresponding known type
+    - Binding for a corresponding known type

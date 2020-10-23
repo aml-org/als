@@ -1,14 +1,7 @@
 package org.mulesoft.als.actions.codeactions.plugins.base
 
-import org.mulesoft.lsp.edit.WorkspaceEdit
-import org.mulesoft.lsp.feature.codeactions.CodeAction
-import org.mulesoft.lsp.feature.codeactions.CodeActionKind.CodeActionKind
+import org.mulesoft.als.actions.codeactions.plugins.CodeActionKindTitle
 
-trait CodeActionFactory {
-  val kind: CodeActionKind
-  val title: String
+trait CodeActionFactory extends CodeActionKindTitle {
   def apply(params: CodeActionRequestParams): CodeActionResponsePlugin
-
-  def baseCodeAction(edit: WorkspaceEdit): CodeAction =
-    CodeAction(title, Some(kind), None, Some(false), Some(edit), None)
 }

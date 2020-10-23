@@ -1,0 +1,72 @@
+documentChanges:
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-libraries/library.raml: create
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-libraries/declared-type-multiple.raml:
+    -
+      from:
+        line: 13
+        column: 9
+      to:
+        line: 13
+        column: 9
+      content: |-
+        +
+        lib.
+    -
+      from:
+        line: 3
+        column: 0
+      to:
+        line: 4
+        column: 0
+      content: |
+        +
+    -
+      from:
+        line: 4
+        column: 0
+      to:
+        line: 5
+        column: 0
+      content: |
+        +
+    -
+      from:
+        line: 5
+        column: 0
+      to:
+        line: 10
+        column: 0
+      content: |
+        +
+    -
+      from:
+        line: 1
+        column: 0
+      to:
+        line: 1
+        column: 0
+      content: |
+        +
+        uses:
+          lib: library.raml
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-libraries/library.raml:
+    -
+      from:
+        line: 0
+        column: 0
+      to:
+        line: 0
+        column: 0
+      content: |
+        +
+        #%RAML 1.0 Library
+        types:
+          A:
+            type: string
+          B:
+            type: string
+          C:
+            type: object
+            properties:
+              c:
+                type: string

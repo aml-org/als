@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.modules.workspace
 
-import org.mulesoft.als.actions.common.{AliasInfo, RelationshipLink}
+import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.lsp.feature.link.DocumentLink
 
 trait FileTree {

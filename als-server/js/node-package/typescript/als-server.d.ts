@@ -2061,6 +2061,7 @@ declare module '@mulesoft/als-server' {
   }
 
   export interface SerializationResult {
+    uri: string
     model: any
   }
 

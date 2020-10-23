@@ -7,8 +7,8 @@ import scala.scalajs.js.JSConverters._
 
 @js.native
 trait ClientHoverClientCapabilities extends js.Object {
-  def dynamicRegistration: js.UndefOr[Boolean] = js.native
-  def contentFormat: js.Array[String]          = js.native
+  def dynamicRegistration: js.UndefOr[Boolean]    = js.native
+  def contentFormat: js.UndefOr[js.Array[String]] = js.native
 }
 
 object ClientHoverClientCapabilities {
