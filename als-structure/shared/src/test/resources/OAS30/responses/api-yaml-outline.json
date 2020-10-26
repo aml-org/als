@@ -263,8 +263,8 @@
                     "deprecated": false,
                     "range": {
                       "start": {
-                        "line": 19,
-                        "character": 12
+                        "line": 18,
+                        "character": 10
                       },
                       "end": {
                         "line": 20,
@@ -273,8 +273,8 @@
                     },
                     "selectionRange": {
                       "start": {
-                        "line": 19,
-                        "character": 12
+                        "line": 18,
+                        "character": 10
                       },
                       "end": {
                         "line": 20,
@@ -449,8 +449,8 @@
                     "deprecated": false,
                     "range": {
                       "start": {
-                        "line": 30,
-                        "character": 12
+                        "line": 29,
+                        "character": 10
                       },
                       "end": {
                         "line": 31,
@@ -459,8 +459,8 @@
                     },
                     "selectionRange": {
                       "start": {
-                        "line": 30,
-                        "character": 12
+                        "line": 29,
+                        "character": 10
                       },
                       "end": {
                         "line": 31,

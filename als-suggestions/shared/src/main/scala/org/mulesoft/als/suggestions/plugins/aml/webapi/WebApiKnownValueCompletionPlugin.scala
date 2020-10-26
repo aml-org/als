@@ -3,7 +3,7 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.shapes.metamodel.ScalarShapeModel
 import amf.plugins.domain.webapi.metamodel.{ParameterModel, PayloadModel}
-import amf.plugins.domain.webapi.models.{Parameter, Payload}
+import amf.plugins.domain.webapi.models.{Parameter, Payload, Response}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.AbstractKnownValueCompletionPlugin

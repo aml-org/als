@@ -263,22 +263,22 @@
                     "deprecated": false,
                     "range": {
                       "start": {
-                        "line": 23,
-                        "character": 14
+                        "line": 22,
+                        "character": 12
                       },
                       "end": {
-                        "line": 23,
-                        "character": 26
+                        "line": 24,
+                        "character": 13
                       }
                     },
                     "selectionRange": {
                       "start": {
-                        "line": 23,
-                        "character": 14
+                        "line": 22,
+                        "character": 12
                       },
                       "end": {
-                        "line": 23,
-                        "character": 26
+                        "line": 24,
+                        "character": 13
                       }
                     },
                     "children": [
@@ -449,22 +449,22 @@
                     "deprecated": false,
                     "range": {
                       "start": {
-                        "line": 40,
-                        "character": 14
+                        "line": 39,
+                        "character": 12
                       },
                       "end": {
-                        "line": 40,
-                        "character": 26
+                        "line": 41,
+                        "character": 13
                       }
                     },
                     "selectionRange": {
                       "start": {
-                        "line": 40,
-                        "character": 14
+                        "line": 39,
+                        "character": 12
                       },
                       "end": {
-                        "line": 40,
-                        "character": 26
+                        "line": 41,
+                        "character": 13
                       }
                     },
                     "children": [
