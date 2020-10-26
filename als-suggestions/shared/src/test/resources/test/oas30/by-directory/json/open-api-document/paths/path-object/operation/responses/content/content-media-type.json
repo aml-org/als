@@ -1,0 +1,23 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "OAS3 Test"
+  },
+  "paths": {
+    "/color": {
+      "post": {
+        "operationId": "Id",
+        "description": "Desc",
+        "responses": {
+          "201": {
+            "description": "my description",
+            "content": {
+              "*"
+            }
+          }
+        }
+      }
+    }
+  }
+}
