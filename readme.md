@@ -109,7 +109,7 @@ sbt clean coverage testJVM coverageReport
 
 # Architecture
 ## ALS as a LSP Server
-Api Language Server (ALS) integrates different modules with specific objectives, in one server module which orchestrates functionalities while respecting the [Language Server Protocol (LSP)](https://microsoft.github.io/language-server-protocol/overview).
+AML Language Server (ALS) integrates different modules with specific objectives, in one server module which orchestrates functionalities while respecting the [Language Server Protocol (LSP)](https://microsoft.github.io/language-server-protocol/overview).
 
 The Server Module communicates through a socket towards the client.
 
