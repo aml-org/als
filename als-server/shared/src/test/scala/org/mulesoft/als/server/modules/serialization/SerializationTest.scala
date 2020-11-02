@@ -71,7 +71,7 @@ class SerializationTest extends LanguageServerBaseTest {
             )
         }
       } yield {
-        parsed.asInstanceOf[Document].encodes.id should be("amf://id#/web-api")
+        parsed.asInstanceOf[Document].encodes.id should be("amf://id#1")
       }
     }
   }
@@ -117,7 +117,7 @@ class SerializationTest extends LanguageServerBaseTest {
             )
         }
       } yield {
-        parsed.asInstanceOf[Document].encodes.id should be("amf://id#/web-api")
+        parsed.asInstanceOf[Document].encodes.id should be("amf://id#1")
       }
     }
   }
@@ -156,10 +156,10 @@ class SerializationTest extends LanguageServerBaseTest {
         }
         parsed4 <- parsedApi(api, s4)
       } yield {
-        parsed.asInstanceOf[Document].encodes.id should be("amf://id#/web-api")
-        parsed2.asInstanceOf[Document].encodes.id should be("amf://id#/web-api")
+        parsed.asInstanceOf[Document].encodes.id should be("amf://id#1")
+        parsed2.asInstanceOf[Document].encodes.id should be("amf://id#1")
         parsed3.isInstanceOf[Document] should be(false)
-        parsed4.asInstanceOf[Document].encodes.id should be("amf://id#/web-api")
+        parsed4.asInstanceOf[Document].encodes.id should be("amf://id#1")
 
       }
     }
@@ -231,7 +231,7 @@ class SerializationTest extends LanguageServerBaseTest {
             )
         }
       } yield {
-        parsed.asInstanceOf[Document].encodes.id should be("amf://id#/web-api")
+        parsed.asInstanceOf[Document].encodes.id should be("amf://id#1")
       }
     }
   }
@@ -294,8 +294,8 @@ class SerializationTest extends LanguageServerBaseTest {
             )
         }
       } yield {
-        parsed.asInstanceOf[Document].encodes.id should be("amf://id#/web-api")
-        parsed2.asInstanceOf[Document].encodes.id should be("amf://id#/web-api")
+        parsed.asInstanceOf[Document].encodes.id should be("amf://id#1")
+        parsed2.asInstanceOf[Document].encodes.id should be("amf://id#1")
       }
     }
   }
