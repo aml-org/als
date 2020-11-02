@@ -45,7 +45,7 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
           |    "swagger": "2.0",
           |    "info": {
           |      "version": "1.0.0",
-          |      "title": "Swagger Petstore",
+          |      "title": "OpenApi Petstore",
           |      "license": {
           |        "name": "MIT"
           |      }
@@ -91,7 +91,7 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
           |    "swagger": "2.0",
           |    "info": {
           |      "version": "1.0.0",
-          |      "title": "Swagger Petstore",
+          |      "title": "OpenApi Petstore",
           |      "license": {
           |        "name": "MIT"
           |      }
@@ -117,17 +117,17 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
         """swagger: "2.0"
           |info:
           |  version: 1.0.0
-          |  title: Swagger Petstore
+          |  title: OpenApi Petstore
           |  description: A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification
-          |  termsOfService: http://swagger.io/terms/
+          |  termsOfService: http://openapi.io/terms/
           |  contact:
-          |    name: Swagger API Team
-          |    email: apiteam@swagger.io
-          |    url: http://swagger.io
+          |    name: OpenApi API Team
+          |    email: apiteam@openapi.io
+          |    url: http://openapi.io
           |  license:
           |    name: Apache 2.0
           |    url: https://www.apache.org/licenses/LICENSE-2.0.html
-          |host: petstore.swagger.io
+          |host: petstore.openapi.io
           |basePath: /api
           |schemes:
           |  - http
@@ -156,12 +156,12 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
           |    "swagger": "2.0",
           |    "info": {
           |      "version": "1.0.0",
-          |      "title": "Swagger Petstore",
+          |      "title": "OpenApi Petstore",
           |      "license": {
           |        "name": "MIT"
           |      }
           |    },
-          |    "host": "petstore.swagger.io",
+          |    "host": "petstore.openapi.io",
           |    "basePath": "/v1",
           |    "schemes": [
           |      "http",
@@ -191,17 +191,17 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
         """swagger: "2.0"
           |info:
           |  version: 1.0.0
-          |  title: Swagger Petstore
+          |  title: OpenApi Petstore
           |  description: A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification
-          |  termsOfService: http://swagger.io/terms/
+          |  termsOfService: http://openapi.io/terms/
           |  contact:
-          |    name: Swagger API Team
-          |    email: apiteam@swagger.io
-          |    url: http://swagger.io
+          |    name: OpenApi API Team
+          |    email: apiteam@openapi.io
+          |    url: http://openapi.io
           |  license:
           |    name: Apache 2.0
           |    url: https://www.apache.org/licenses/LICENSE-2.0.html
-          |host: petstore.swagger.io
+          |host: petstore.openapi.io
           |basePath: /api
           |schemes:
           |  - http
@@ -235,12 +235,12 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
           |    "swagger": "2.0",
           |    "info": {
           |      "version": "1.0.0",
-          |      "title": "Swagger Petstore",
+          |      "title": "OpenApi Petstore",
           |      "license": {
           |        "name": "MIT"
           |      }
           |    },
-          |    "host": "petstore.swagger.io",
+          |    "host": "petstore.openapi.io",
           |    "basePath": "/v1",
           |    "schemes": [
           |      "http",

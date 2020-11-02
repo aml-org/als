@@ -2,12 +2,12 @@
 swagger: '2.0'
 info:
   version: 1.0.9-abcd
-  title: Swagger
+  title: OpenApi
   description: A sample specification
-  termsOfService: http://swagger.io/terms/
+  termsOfService: http://openapi.io/terms/
   contact:
-    name: Swagger API Team
-    url: http://swagger.io
+    name: OpenApi API Team
+    url: http://openapi.io
     email: example@somehost.com
   lice*
     name: Creative Commons
