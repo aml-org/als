@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.9-abcd",
-    "title": "Swagger Sample API"
+    "title": "OpenApi Sample API"
   },
   "definitions": {
     "Pet": {
@@ -26,7 +26,7 @@
       },
       "externalDocs": {
         "description": "Find more info here",
-        "url": "https://swagger.io"
+        "url": "https://openapi.io"
       },
       "type": "object",
       "required": true
@@ -70,7 +70,7 @@
         "operationId": "getPetsById",
         "externalDocs": {
           "description": "Find more info here",
-          "url": "https://swagger.io"
+          "url": "https://openapi.io"
         },
         "schemes": [
           "http",

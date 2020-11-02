@@ -4,10 +4,10 @@ info:
   version: 1.0.9-abcd
   titl*
   description: A sample specification
-  termsOfService: http://swagger.io/terms/
+  termsOfService: http://openapi.io/terms/
   contact:
-    name: Swagger API Team
-    url: http://swagger.io
+    name: OpenApi API Team
+    url: http://openapi.io
     email: example@somehost.com
   license:
     name: Creative Commons
