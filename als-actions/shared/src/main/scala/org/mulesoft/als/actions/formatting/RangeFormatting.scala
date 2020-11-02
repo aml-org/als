@@ -29,7 +29,7 @@ case class RangeFormatting(yPart: YPart,
         YamlRenderOptions(formattingOptions.indentationSize, applyFormatting = true)
       YamlRender
         .render(Seq(renderPart), expandReferences = false, renderOptions, initialIndentation)
-        .replaceFirst("^\\s+", "")
+        .dropWhile(_ == ' ')
 
     }
 
