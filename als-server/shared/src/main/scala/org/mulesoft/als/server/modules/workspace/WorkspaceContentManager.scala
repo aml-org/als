@@ -50,6 +50,9 @@ class WorkspaceContentManager(val folder: String,
         .orElse(getRootOf(uri))
     else None
 
+  def isIsolated(uri: String): Boolean =
+    !repository.inTree(uri)
+
   def stripToRelativePath(uri: String): Option[String] =
     mainFileUri
       .map(stripToLastFolder)
