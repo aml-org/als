@@ -99,26 +99,6 @@ pipeline {
                 }
             }
         }
-        stage('Trigger Dependencies') {
-            when {
-                anyOf {
-                    branch 'develop'
-                }
-            }
-            steps {
-                script {
-                    try {
-                        if (failedStage.isEmpty()) {
-                            sh 'curl https://jenkins-onprem.build.msap.io/generic-webhook-trigger/invoke?token=$ALSP_TOKEN'
-                            build job: 'ALS/als-client/master', wait: false
-                        }
-                    } catch (e) {
-                        failedStage = failedStage + " DEPENDENCIES "
-                        unstable "Failed dependencies"
-                    }
-                }
-            }
-        }
         stage("Report to Slack") {
             when {
                 anyOf {
