@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.modules.links
 
+import org.mulesoft.als.common.{MarkerFinderTest, MarkerInfo}
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
@@ -12,7 +13,7 @@ import org.scalatest.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait FindLinksTest extends LanguageServerBaseTest {
+trait FindLinksTest extends LanguageServerBaseTest with MarkerFinderTest {
 
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
@@ -48,7 +49,7 @@ trait FindLinksTest extends LanguageServerBaseTest {
 
   def getServerLinks(filePath: String, server: LanguageServer, markerInfo: MarkerInfo): Future[Seq[DocumentLink]] = {
 
-    openFile(server)(filePath, markerInfo.patchedContent.original)
+    openFile(server)(filePath, markerInfo.content)
 
     val linksHandler = server.resolveHandler(DocumentLinkRequestType).value
 
@@ -59,18 +60,4 @@ trait FindLinksTest extends LanguageServerBaseTest {
       })
   }
 
-  // TODO: extract MarkerInfo related to trait?
-  def findMarker(str: String, label: String = "[*]", cut: Boolean = true): MarkerInfo = {
-    val offset = str.indexOf(label)
-
-    if (offset < 0)
-      new MarkerInfo(PatchedContent(str, str, Nil), Position(str.length, str))
-    else {
-      val rawContent      = str.substring(0, offset) + str.substring(offset + label.length)
-      val preparedContent = ContentPatcher(rawContent, offset, YAML).prepareContent()
-      new MarkerInfo(preparedContent, Position(offset, str))
-    }
-  }
 }
-
-class MarkerInfo(val patchedContent: PatchedContent, val position: Position) {}

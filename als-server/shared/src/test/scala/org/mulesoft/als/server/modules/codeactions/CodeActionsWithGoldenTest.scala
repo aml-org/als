@@ -1,9 +1,9 @@
 package org.mulesoft.als.server.modules.codeactions
 
+import org.mulesoft.als.common.MarkerInfo
 import org.mulesoft.als.common.diff.WorkspaceEditsTest
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
-import org.mulesoft.als.server.modules.reference.MarkerInfo
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.{LanguageServerBuilder, MockTelemetryParsingClientNotifier, ServerWithMarkerTest}
 import org.mulesoft.lsp.feature.codeactions.CodeActionKind.CodeActionKind
@@ -97,7 +97,7 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
         .find(ca => ca.kind.contains(kind))
         .flatMap(_.edit)
       maybeEdit.isDefined should be(true)
-      assertWorkspaceEdits(maybeEdit.get, Some(goldenContent), Some(marker.patchedContent.content), path)
+      assertWorkspaceEdits(maybeEdit.get, Some(goldenContent), Some(marker.content), path)
     }
   }
 

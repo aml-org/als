@@ -36,6 +36,11 @@ import org.mulesoft.lsp.feature.completion._
 import org.mulesoft.lsp.feature.definition.{DefinitionClientCapabilities, DefinitionParams}
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticSeverity.DiagnosticSeverity
 import org.mulesoft.lsp.feature.diagnostic._
+import org.mulesoft.lsp.feature.documentFormatting.{DocumentFormattingClientCapabilities, DocumentFormattingParams}
+import org.mulesoft.lsp.feature.documentRangeFormatting.{
+  DocumentRangeFormattingClientCapabilities,
+  DocumentRangeFormattingParams
+}
 import org.mulesoft.lsp.feature.documentsymbol.SymbolKind.SymbolKind
 import org.mulesoft.lsp.feature.documentsymbol.{
   DocumentSymbolClientCapabilities,
@@ -106,6 +111,14 @@ object LspConversions {
       Option(capabilities.getContextSupport)
     )
 
+  implicit def documentFormattingClientCapabilities(
+      capabilities: lsp4j.FormattingCapabilities): DocumentFormattingClientCapabilities =
+    DocumentFormattingClientCapabilities(Some(capabilities.getDynamicRegistration))
+
+  implicit def documentRangeFormattingClientCapabilities(
+      capabilities: lsp4j.RangeFormattingCapabilities): DocumentRangeFormattingClientCapabilities =
+    DocumentRangeFormattingClientCapabilities(Some(capabilities.getDynamicRegistration))
+
   implicit def referenceClientCapabilities(capabilities: lsp4j.ReferencesCapabilities): ReferenceClientCapabilities =
     ReferenceClientCapabilities(Option(capabilities.getDynamicRegistration))
 
@@ -158,7 +171,9 @@ object LspConversions {
       Option(capabilities.getHover).map(clientHoverCapabilities),
       Option(capabilities.getDocumentHighlight).map(documentHighlightCapabilities),
       Option(capabilities.getFoldingRange).map(foldingRangeCapabilities),
-      Option(capabilities.getSelectionRange).map(selectionRangeCapabilities)
+      Option(capabilities.getSelectionRange).map(selectionRangeCapabilities),
+      Option(capabilities.getFormatting).map(documentFormattingClientCapabilities),
+      Option(capabilities.getRangeFormatting).map(documentRangeFormattingClientCapabilities)
     )
 
   def workspaceEditClientCapabilities(c: WorkspaceEditCapabilities): WorkspaceEditClientCapabilities =
@@ -392,4 +407,13 @@ object LspConversions {
 
   implicit def selectionRangeParams(p: lsp4j.SelectionRangeParams): SelectionRangeParams =
     SelectionRangeParams(p.getTextDocument, seq(p.getPositions, position))
+
+  implicit def formattingOptions(o: lsp4j.FormattingOptions): FormattingOptions =
+    FormattingOptions(o.getTabSize, o.isInsertSpaces)
+
+  implicit def documentFormattingParams(p: lsp4j.DocumentFormattingParams): DocumentFormattingParams =
+    DocumentFormattingParams(p.getTextDocument, p.getOptions)
+
+  implicit def documentRangeFormattingParams(p: lsp4j.DocumentRangeFormattingParams): DocumentRangeFormattingParams =
+    DocumentRangeFormattingParams(p.getTextDocument, p.getRange, formattingOptions(p.getOptions))
 }

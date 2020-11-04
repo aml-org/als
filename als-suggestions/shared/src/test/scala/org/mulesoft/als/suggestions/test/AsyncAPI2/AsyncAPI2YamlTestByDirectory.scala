@@ -8,5 +8,5 @@ class AsyncAPI2YamlTestByDirectory extends SuggestionByDirectoryTest {
 
   override def origin: Hint = AsyncYamlHint
 
-  override def fileExtension: String = ".yaml"
+  override def fileExtensions: Seq[String] = Seq(".yaml")
 }

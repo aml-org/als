@@ -4,7 +4,7 @@ import amf.client.remote.Content
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
-import org.mulesoft.als.common.PlatformDirectoryResolver
+import org.mulesoft.als.common.{MarkerFinderTest, PlatformDirectoryResolver}
 import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
@@ -15,27 +15,23 @@ import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait CoreTest extends AsyncFunSuite with PlatformSecrets {
+trait CoreTest extends AsyncFunSuite with PlatformSecrets with MarkerFinderTest {
 
   implicit override def executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 
   def rootPath: String
 
-  def suggest(path: String,
-              label: String = "*",
-              cutTail: Boolean = false,
-              labels: Array[String] = Array("*"),
-              amfInstance: AmfInstance): Future[Seq[CompletionItem]] = {
+  def suggest(path: String, amfInstance: AmfInstance): Future[Seq[CompletionItem]] = {
 
     val url = filePath(path)
     for {
       content <- platform.resolve(url)
       (env, position) <- Future.successful {
         val fileContentsStr = content.stream.toString
-        val markerInfo      = this.findMarker(fileContentsStr)
+        val markerInfo      = this.findMarker(fileContentsStr, "*")
 
-        (this.buildEnvironment(url, markerInfo.patchedContent.original, content.mime), markerInfo.position)
+        (this.buildEnvironment(url, markerInfo.content, content.mime), markerInfo.offset)
       }
       suggestions <- {
         new Suggestions(platform, env, AlsConfiguration(), new PlatformDirectoryResolver(platform), amfInstance)
@@ -49,30 +45,6 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets {
     s"file://als-suggestions/shared/src/test/resources/test/$rootPath/$path"
       .replace('\\', '/')
       .replace("/null", "")
-
-  def findMarker(str: String,
-                 label: String = "*",
-                 cut: Boolean = false,
-                 labels: Array[String] = Array("*")): MarkerInfo = {
-    val position = str.indexOf(label)
-
-    val str1 = {
-      if (cut && position >= 0) {
-        str.substring(0, position)
-      } else {
-        str
-      }
-    }
-
-    if (position < 0) {
-      new MarkerInfo(PatchedContent(str1, str, Nil), str1.length)
-    } else {
-      val rawContent = str1.replace(label, "")
-      val preparedContent =
-        ContentPatcher(rawContent, position, YAML).prepareContent()
-      new MarkerInfo(preparedContent, position)
-    }
-  }
 
   def buildEnvironment(fileUrl: String, content: String, mime: Option[String]): Environment = {
     var loaders: Seq[ResourceLoader] = List(new ResourceLoader {
@@ -102,5 +74,3 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets {
     }
   }
 }
-
-class MarkerInfo(val patchedContent: PatchedContent, val position: Int) {}

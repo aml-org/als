@@ -64,6 +64,9 @@ object AlsJConversions {
     capabilities.foldingRangeProvider.foreach(p => result.setFoldingRangeProvider(p))
     capabilities.renameFileAction.foreach(r =>
       result.setRenameFileAction(new extension.RenameFileActionServerOptions(r.supported)))
+
+    result.setDocumentFormattingProvider(capabilities.documentFormattingProvider)
+    result.setDocumentRangeFormattingProvider(capabilities.documentRangeFormattingProvider)
     result
   }
 

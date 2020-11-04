@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.modules.definition
 
+import org.mulesoft.als.common.{MarkerFinderTest, MarkerInfo}
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
@@ -14,7 +15,7 @@ import org.scalatest.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait ServerDefinitionTest extends LanguageServerBaseTest {
+trait ServerDefinitionTest extends LanguageServerBaseTest with MarkerFinderTest {
 
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
@@ -69,7 +70,7 @@ trait ServerDefinitionTest extends LanguageServerBaseTest {
                           server: LanguageServer,
                           markerInfo: MarkerInfo): Future[Seq[LocationLink]] = {
 
-    openFile(server)(filePath, markerInfo.patchedContent.original)
+    openFile(server)(filePath, markerInfo.content)
 
     val definitionHandler = server.resolveHandler(DefinitionRequestType).value
 
@@ -86,7 +87,7 @@ trait ServerDefinitionTest extends LanguageServerBaseTest {
                               server: LanguageServer,
                               markerInfo: MarkerInfo): Future[Seq[LocationLink]] = {
 
-    openFile(server)(filePath, markerInfo.patchedContent.original)
+    openFile(server)(filePath, markerInfo.content)
 
     val definitionHandler = server.resolveHandler(TypeDefinitionRequestType).value
 
@@ -99,17 +100,4 @@ trait ServerDefinitionTest extends LanguageServerBaseTest {
       })
   }
 
-  def findMarker(str: String, label: String = "[*]", cut: Boolean = true): MarkerInfo = {
-    val offset = str.indexOf(label)
-
-    if (offset < 0)
-      new MarkerInfo(PatchedContent(str, str, Nil), Position(str.length, str))
-    else {
-      val rawContent      = str.substring(0, offset) + str.substring(offset + label.length)
-      val preparedContent = ContentPatcher(rawContent, offset, YAML).prepareContent()
-      new MarkerInfo(preparedContent, Position(offset, str))
-    }
-  }
 }
-
-class MarkerInfo(val patchedContent: PatchedContent, val position: Position) {}

@@ -195,6 +195,12 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
                           logger,
                           directoryResolver)
 
+  lazy val documentFormattingManager: DocumentFormattingManager =
+    new DocumentFormattingManager(workspaceManager, telemetryManager, logger)
+
+  lazy val documentRangeFormattingManager: DocumentRangeFormattingManager =
+    new DocumentRangeFormattingManager(workspaceManager, telemetryManager, logger)
+
   lazy val serializationManager: Option[SerializationManager[_]] =
     resolutionDependencies.collectFirst({
       case s: SerializationManager[_] =>
