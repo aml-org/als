@@ -63,7 +63,7 @@
     "label": "\"swagger\": \"2.0\"",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define a swagger 2.0 file",
+    "documentation": "Define a openapi 2.0 file",
     "deprecated": [],
     "preselect": [],
     "sortText": "11\"swagger\": \"2.0\"",
