@@ -8,5 +8,5 @@ class MetaDialectSuggestionsByDirectoryTest extends SuggestionByDirectoryTest {
 
   override def origin: Hint = VocabularyYamlHint
 
-  override def fileExtension: String = ".yaml"
+  override def fileExtensions: Seq[String] = Seq(".yaml")
 }

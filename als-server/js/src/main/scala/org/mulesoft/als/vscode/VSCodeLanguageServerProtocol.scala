@@ -1,7 +1,7 @@
 package org.mulesoft.als.vscode
 
 import org.mulesoft.als.server.protocol.configuration.{ClientAlsInitializeParams, ClientAlsInitializeResult}
-import org.mulesoft.lsp.edit.ClientWorkspaceEdit
+import org.mulesoft.lsp.edit.{ClientTextEdit, ClientWorkspaceEdit}
 import org.mulesoft.lsp.feature.codeactions.{ClientCodeAction, ClientCodeActionParams}
 import org.mulesoft.lsp.feature.command.ClientCommand
 import org.mulesoft.lsp.feature.common.{ClientLocation, ClientLocationLink, ClientRange}
@@ -15,6 +15,7 @@ import org.mulesoft.lsp.feature.documentsymbol.{
   ClientSymbolInformation
 }
 import org.mulesoft.lsp.feature.folding.{ClientFoldingRange, ClientFoldingRangeParams}
+import org.mulesoft.lsp.feature.formatting.{ClientDocumentFormattingParams, ClientDocumentRangeFormattingParams}
 import org.mulesoft.lsp.feature.hover.{ClientHover, ClientHoverParams}
 import org.mulesoft.lsp.feature.implementation.ClientImplementationParams
 import org.mulesoft.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkParams}
@@ -362,4 +363,16 @@ object InitializeRequest extends js.Object {
 @JSImport("vscode-languageserver-protocol", "ShutdownRequest")
 object ShutdownRequest extends js.Object {
   val `type`: RequestType0[js.Any, js.Any, js.Any] = js.native
+}
+
+@js.native
+@JSImport("vscode-languageserver-protocol", "DocumentFormattingRequest")
+object DocumentFormattingRequest extends js.Object {
+  val `type`: RequestType[ClientDocumentFormattingParams, js.Array[ClientTextEdit], js.Any, js.Any] = js.native
+}
+
+@js.native
+@JSImport("vscode-languageserver-protocol", "DocumentRangeFormattingRequest")
+object DocumentRangeFormattingRequest extends js.Object {
+  val `type`: RequestType[ClientDocumentRangeFormattingParams, js.Array[ClientTextEdit], js.Any, js.Any] = js.native
 }

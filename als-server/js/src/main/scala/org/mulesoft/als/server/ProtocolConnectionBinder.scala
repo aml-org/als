@@ -30,7 +30,7 @@ import org.mulesoft.als.vscode.{RequestHandler => ClientRequestHandler, RequestH
 import org.mulesoft.lsp.client.{LspLanguageClient, LspLanguageClientAware}
 import org.mulesoft.lsp.convert.LspConvertersClientToShared._
 import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
-import org.mulesoft.lsp.edit.ClientWorkspaceEdit
+import org.mulesoft.lsp.edit.{ClientTextEdit, ClientWorkspaceEdit}
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.codeactions.{ClientCodeAction, ClientCodeActionParams, CodeActionRequestType}
 import org.mulesoft.lsp.feature.command.ClientCommand
@@ -43,6 +43,8 @@ import org.mulesoft.lsp.feature.completion.{
 }
 import org.mulesoft.lsp.feature.definition.{ClientDefinitionParams, DefinitionRequestType}
 import org.mulesoft.lsp.feature.diagnostic.{ClientPublishDiagnosticsParams, PublishDiagnosticsParams}
+import org.mulesoft.lsp.feature.documentFormatting.DocumentFormattingRequestType
+import org.mulesoft.lsp.feature.documentRangeFormatting.DocumentRangeFormattingRequestType
 import org.mulesoft.lsp.feature.documenthighlight.{ClientDocumentHighlight, ClientDocumentHighlightParams}
 import org.mulesoft.lsp.feature.documentsymbol.{
   ClientDocumentSymbol,
@@ -51,6 +53,7 @@ import org.mulesoft.lsp.feature.documentsymbol.{
   DocumentSymbolRequestType
 }
 import org.mulesoft.lsp.feature.folding.{ClientFoldingRange, ClientFoldingRangeParams, FoldingRangeRequestType}
+import org.mulesoft.lsp.feature.formatting.{ClientDocumentFormattingParams, ClientDocumentRangeFormattingParams}
 import org.mulesoft.lsp.feature.highlight.DocumentHighlightRequestType
 import org.mulesoft.lsp.feature.hover.{ClientHover, ClientHoverParams, HoverRequestType}
 import org.mulesoft.lsp.feature.implementation.{ClientImplementationParams, ImplementationRequestType}
@@ -187,6 +190,42 @@ object ProtocolConnectionBinder {
       CompletionRequest.`type`,
       onCompletionHandlerJs.asInstanceOf[
         ClientRequestHandler[ClientCompletionParams, ClientCompletionList | js.Array[ClientCompletionItem], js.Any]]
+    )
+
+    val onDocumentFormattingJs
+      : js.Function2[ClientDocumentFormattingParams, CancellationToken, Thenable[js.Array[ClientTextEdit]]] =
+      (param: ClientDocumentFormattingParams, _: CancellationToken) => {
+        println("Resolving handler")
+        println("PARAMS: " + param.textDocument.uri + " op: " + param.options)
+        val handler = resolveHandler(DocumentFormattingRequestType)
+        handler(param.toShared)
+          .map(edits => {
+            println("Got response from handler: " + edits.size)
+            edits
+          })
+          .map(_.map(_.toClient).toJSArray)
+          .toJSPromise
+          .asInstanceOf[Thenable[js.Array[ClientTextEdit]]]
+      }
+
+    protocolConnection.onRequest(
+      DocumentFormattingRequest.`type`,
+      onDocumentFormattingJs
+        .asInstanceOf[ClientRequestHandler[ClientDocumentFormattingParams, js.Array[ClientTextEdit], js.Any]]
+    )
+
+    val onDocumentRangeFormattingJs
+      : js.Function2[ClientDocumentRangeFormattingParams, CancellationToken, Thenable[js.Array[ClientTextEdit]]] =
+      (param: ClientDocumentRangeFormattingParams, _: CancellationToken) =>
+        resolveHandler(DocumentRangeFormattingRequestType)(param.toShared)
+          .map(_.map(_.toClient).toJSArray)
+          .toJSPromise
+          .asInstanceOf[Thenable[js.Array[ClientTextEdit]]]
+
+    protocolConnection.onRequest(
+      DocumentRangeFormattingRequest.`type`,
+      onDocumentRangeFormattingJs
+        .asInstanceOf[ClientRequestHandler[ClientDocumentRangeFormattingParams, js.Array[ClientTextEdit], js.Any]]
     )
 
     val onDocumentSymbolHandlerJs

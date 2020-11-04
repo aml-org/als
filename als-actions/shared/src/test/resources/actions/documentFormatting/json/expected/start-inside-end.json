@@ -1,0 +1,18 @@
+{
+  "key": {
+    "iternal": {
+      "seq": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    "higher": [
+      "a",
+      "b"
+    ]
+  },
+
+
+  "should" : {"stay":  "the same"}
+}

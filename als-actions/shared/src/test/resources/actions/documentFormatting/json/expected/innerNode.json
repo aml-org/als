@@ -1,0 +1,6 @@
+{
+  "parent": {
+    "key": "value"
+  },
+  "seq": ["a", "b", "c"]
+}

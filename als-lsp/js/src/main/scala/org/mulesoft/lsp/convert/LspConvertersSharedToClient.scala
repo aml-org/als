@@ -1,22 +1,72 @@
 package org.mulesoft.lsp.convert
 
-import org.mulesoft.lsp.configuration.{ClientWorkspaceEditClientCapabilities, _}
+import org.mulesoft.lsp.configuration._
 import org.mulesoft.lsp.edit._
 import org.mulesoft.lsp.feature.codeactions._
 import org.mulesoft.lsp.feature.command.{ClientCommand, Command}
-import org.mulesoft.lsp.feature.common.{ClientLocation, ClientLocationLink, ClientPosition, ClientRange, ClientTextDocumentIdentifier, ClientTextDocumentItem, ClientTextDocumentPositionParams, ClientVersionedTextDocumentIdentifier, Location, LocationLink, Position, Range, TextDocumentIdentifier, TextDocumentItem, TextDocumentPositionParams, VersionedTextDocumentIdentifier}
+import org.mulesoft.lsp.feature.common.{
+  ClientLocation,
+  ClientLocationLink,
+  ClientPosition,
+  ClientRange,
+  ClientTextDocumentIdentifier,
+  ClientTextDocumentItem,
+  ClientTextDocumentPositionParams,
+  ClientVersionedTextDocumentIdentifier,
+  Location,
+  LocationLink,
+  Position,
+  Range,
+  TextDocumentIdentifier,
+  TextDocumentItem,
+  TextDocumentPositionParams,
+  VersionedTextDocumentIdentifier
+}
 import org.mulesoft.lsp.feature.completion._
 import org.mulesoft.lsp.feature.definition.{ClientDefinitionClientCapabilities, DefinitionClientCapabilities}
 import org.mulesoft.lsp.feature.diagnostic._
+import org.mulesoft.lsp.feature.documentFormatting.{DocumentFormattingClientCapabilities, DocumentFormattingParams}
+import org.mulesoft.lsp.feature.documentRangeFormatting.{
+  DocumentRangeFormattingClientCapabilities,
+  DocumentRangeFormattingParams
+}
+import org.mulesoft.lsp.feature.documenthighlight.ClientDocumentHighlight
+import org.mulesoft.lsp.feature.documentRangeFormatting.{DocumentRangeFormattingClientCapabilities, DocumentRangeFormattingParams}
 import org.mulesoft.lsp.feature.documenthighlight.{ClientDocumentHighlight, ClientDocumentHighlightCapabilities}
 import org.mulesoft.lsp.feature.documentsymbol._
+import org.mulesoft.lsp.feature.folding.{ClientFoldingRange, FoldingRange}
+import org.mulesoft.lsp.feature.formatting.{
+  ClientDocumentFormattingClientCapabilities,
+  ClientDocumentFormattingParams,
+  ClientDocumentRangeFormattingClientCapabilities,
+  ClientDocumentRangeFormattingParams
+}
+import org.mulesoft.lsp.feature.highlight.DocumentHighlight
+import org.mulesoft.lsp.feature.hover.{ClientHover, Hover}
+import org.mulesoft.lsp.feature.implementation.{
+  ClientImplementationClientCapabilities,
+  ImplementationClientCapabilities
+}
 import org.mulesoft.lsp.feature.folding.{ClientFoldingRange, ClientFoldingRangeCapabilities, FoldingRange, FoldingRangeCapabilities}
+import org.mulesoft.lsp.feature.formatting.{ClientDocumentFormattingClientCapabilities, ClientDocumentFormattingParams, ClientDocumentRangeFormattingClientCapabilities, ClientDocumentRangeFormattingParams}
 import org.mulesoft.lsp.feature.highlight.{DocumentHighlight, DocumentHighlightCapabilities}
 import org.mulesoft.lsp.feature.hover.{ClientHover, ClientHoverClientCapabilities, Hover, HoverClientCapabilities}
 import org.mulesoft.lsp.feature.implementation.{ClientImplementationClientCapabilities, ImplementationClientCapabilities}
 import org.mulesoft.lsp.feature.link._
 import org.mulesoft.lsp.feature.reference._
 import org.mulesoft.lsp.feature.rename._
+import org.mulesoft.lsp.feature.selection.ClientSelectionRange
+import org.mulesoft.lsp.feature.selectionRange.SelectionRange
+import org.mulesoft.lsp.feature.telemetry.{
+  ClientTelemetryClientCapabilities,
+  ClientTelemetryMessage,
+  TelemetryClientCapabilities,
+  TelemetryMessage
+}
+import org.mulesoft.lsp.feature.typedefinition.{
+  ClientTypeDefinitionClientCapabilities,
+  TypeDefinitionClientCapabilities
+}
 import org.mulesoft.lsp.feature.selection.{ClientSelectionRange, ClientSelectionRangeCapabilities}
 import org.mulesoft.lsp.feature.selectionRange.{SelectionRange, SelectionRangeCapabilities}
 import org.mulesoft.lsp.feature.telemetry.{ClientTelemetryClientCapabilities, ClientTelemetryMessage, TelemetryClientCapabilities, TelemetryMessage}
@@ -26,7 +76,7 @@ import org.mulesoft.lsp.workspace._
 
 import scala.language.implicitConversions
 import scala.scalajs.js
-import scala.scalajs.js.JSConverters.{JSRichGenIterable, _}
+import scala.scalajs.js.JSConverters._
 import scala.scalajs.js.|
 
 object LspConvertersSharedToClient {
@@ -179,7 +229,6 @@ object LspConvertersSharedToClient {
     def toClient: ClientDiagnostic =
       ClientDiagnostic(v)
   }
-
 
   implicit class ClientPublishDiagnosticsParamsConverter(v: PublishDiagnosticsParams) {
     def toClient: ClientPublishDiagnosticsParams =
@@ -382,7 +431,7 @@ object LspConvertersSharedToClient {
     def toClient: ClientRange | ClientPrepareRenameResult =
       v match {
         case Right(r) => r.toClient
-        case Left(l) => l.toClient
+        case Left(l)  => l.toClient
       }
   }
 
@@ -394,6 +443,11 @@ object LspConvertersSharedToClient {
   implicit class ClientRenameParamsConverter(v: RenameParams) {
     def toClient: ClientRenameParams =
       ClientRenameParams(v)
+  }
+
+  implicit class ClientFormattingOptionsConverter(c: FormattingOptions) {
+    def toClient: ClientFormattingOptions =
+      ClientFormattingOptions(c)
   }
 
   implicit class ClientTelemetryMessageConverter(v: TelemetryMessage) {
@@ -481,10 +535,31 @@ object LspConvertersSharedToClient {
       ClientWorkspaceSymbolParams(v)
   }
 
+  implicit class ClientDocumentFormattingParamsConverter(v: DocumentFormattingParams) {
+    def toClient: ClientDocumentFormattingParams =
+      ClientDocumentFormattingParams(v)
+  }
+
+  implicit class ClientDocumentFormattingClientCapabilitiesConverter(v: DocumentFormattingClientCapabilities) {
+    def toClient: ClientDocumentFormattingClientCapabilities =
+      ClientDocumentFormattingClientCapabilities(v)
+  }
+
+  implicit class ClientDocumentRangeFormattingParamsConverter(v: DocumentRangeFormattingParams) {
+    def toClient: ClientDocumentRangeFormattingParams =
+      ClientDocumentRangeFormattingParams(v)
+  }
+
+  implicit class ClientDocumentRangeFormattingClientCapabilitiesConverter(v: DocumentRangeFormattingClientCapabilities) {
+    def toClient: ClientDocumentRangeFormattingClientCapabilities =
+      ClientDocumentRangeFormattingClientCapabilities(v)
+  }
+
   implicit class ClientCompletionResponseConverter(response: Either[Seq[CompletionItem], CompletionList]) {
     def toClient: ClientCompletionList | js.Array[ClientCompletionItem] = {
       if (response.isLeft)
-        |.from[js.Array[ClientCompletionItem], ClientCompletionList, js.Array[ClientCompletionItem]](response.left.get.map(_.toClient).toJSArray)
+        |.from[js.Array[ClientCompletionItem], ClientCompletionList, js.Array[ClientCompletionItem]](
+          response.left.get.map(_.toClient).toJSArray)
       else
         response.right.get.toClient
     }
@@ -493,28 +568,33 @@ object LspConvertersSharedToClient {
   implicit class ClientDocumentSymbolResponseConverter(response: Either[Seq[SymbolInformation], Seq[DocumentSymbol]]) {
     def toClient: js.Array[ClientDocumentSymbol] | js.Array[ClientSymbolInformation] = {
       if (response.isLeft)
-        |.from[js.Array[ClientSymbolInformation], js.Array[ClientDocumentSymbol], js.Array[ClientSymbolInformation]](response.left.get.map(_.toClient).toJSArray)
+        |.from[js.Array[ClientSymbolInformation], js.Array[ClientDocumentSymbol], js.Array[ClientSymbolInformation]](
+          response.left.get.map(_.toClient).toJSArray)
       else
-        |.from[js.Array[ClientDocumentSymbol], js.Array[ClientDocumentSymbol], js.Array[ClientSymbolInformation]](response.right.get.map(_.toClient).toJSArray)
+        |.from[js.Array[ClientDocumentSymbol], js.Array[ClientDocumentSymbol], js.Array[ClientSymbolInformation]](
+          response.right.get.map(_.toClient).toJSArray)
     }
   }
 
   implicit class ClientDefinitionResponseConverter(response: Either[Seq[Location], Seq[LocationLink]]) {
     def toClient: js.Array[ClientLocation] | js.Array[ClientLocationLink] = {
       if (response.isLeft)
-        |.from[js.Array[ClientLocation], js.Array[ClientLocation], js.Array[ClientLocationLink]](response.left.get.map(_.toClient).toJSArray)
+        |.from[js.Array[ClientLocation], js.Array[ClientLocation], js.Array[ClientLocationLink]](
+          response.left.get.map(_.toClient).toJSArray)
       else
-        |.from[js.Array[ClientLocationLink], js.Array[ClientLocation], js.Array[ClientLocationLink]](response.right.get.map(_.toClient).toJSArray)
+        |.from[js.Array[ClientLocationLink], js.Array[ClientLocation], js.Array[ClientLocationLink]](
+          response.right.get.map(_.toClient).toJSArray)
     }
   }
 
-  def eitherToUnion[A, B](either: Either[A, B]): A | B = either fold(
+  def eitherToUnion[A, B](either: Either[A, B]): A | B = either fold (
     a => |.from[A, A, B](a),
-    b => |.from[B, A, B](b),
+    b => |.from[B, A, B](b)
   )
 
-  def eitherToUnionWithMapping[A, B, C, D](aMapper: A => C, bMapper: B => D)(either: Either[A, B]): C | D = either fold(
-    a => |.from[C, C, D](aMapper(a)),
-    b => |.from[D, C, D](bMapper(b)),
-  )
+  def eitherToUnionWithMapping[A, B, C, D](aMapper: A => C, bMapper: B => D)(either: Either[A, B]): C | D =
+    either fold (
+      a => |.from[C, C, D](aMapper(a)),
+      b => |.from[D, C, D](bMapper(b))
+    )
 }

@@ -1,10 +1,8 @@
 package org.mulesoft.amfintegration
 
-import amf.core.annotations._
-import amf.core.annotations.{LexicalInformation, ReferenceTargets, SourceAST, SourceNode, SynthesizedField}
-import amf.core.annotations._
+import amf.core.annotations.{LexicalInformation, ReferenceTargets, SourceAST, SourceNode, SynthesizedField, _}
 import amf.core.metamodel.Field
-import amf.core.model.document.{BaseUnit, DeclaresModel, Document, EncodesModel}
+import amf.core.model.document.{BaseUnit, DeclaresModel, Document, EncodesModel, ExternalFragment}
 import amf.core.model.domain.{AmfObject, AmfScalar, DomainElement, NamedDomainElement}
 import amf.core.parser
 import amf.core.parser.{Annotations, FieldEntry, Value, Position => AmfPosition}
@@ -14,16 +12,11 @@ import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import amf.plugins.document.webapi.annotations.{DeclarationKey, DeclarationKeys, ExternalJsonSchemaShape, Inferred}
 import amf.plugins.domain.shapes.annotations.ParsedFromTypeExpression
 import amf.plugins.domain.webapi.metamodel.AbstractModel
+import org.mulesoft.als.common.YamlWrapper
 import org.mulesoft.als.common.YamlWrapper._
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.lexer.InputRange
-import org.yaml.model._
-import org.yaml.model.{YMapEntry, YNode, YPart, YScalar, YSequence, YType}
-import org.mulesoft.als.common.YamlWrapper._
-import org.yaml.model.{YNode, YPart, YSequence, YType}
-import org.yaml.model.YPart
-import org.yaml.model.{YMapEntry, YPart}
-import org.mulesoft.als.common.YamlWrapper._
+import org.yaml.model.{YMapEntry, YNode, YPart, YScalar, YSequence, YType, _}
 
 import scala.collection.mutable
 
@@ -211,8 +204,9 @@ object AmfImplicits {
 
     def ast: Option[YPart] =
       bu match {
-        case e: Document if e.encodes.annotations.ast().isDefined => e.encodes.annotations.ast()
-        case _                                                    => bu.annotations.ast()
+        case e: Document if e.encodes.annotations.ast().isDefined         => e.encodes.annotations.ast()
+        case e: ExternalFragment if e.encodes.annotations.ast().isDefined => e.encodes.annotations.ast()
+        case _                                                            => bu.annotations.ast()
       }
 
     def declaredNames: Seq[String] =
@@ -246,6 +240,14 @@ object AmfImplicits {
         case d: DeclaresModel => d.declares
         case _                => Nil
       }
+
+    def indentation(position: Position): Int =
+      bu.raw
+        .map(text => {
+          YamlWrapper.getIndentation(text, position)
+        })
+        .getOrElse(0)
+
   }
 
   implicit class DialectImplicits(d: Dialect) extends BaseUnitImp(d) {
