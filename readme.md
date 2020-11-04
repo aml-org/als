@@ -1,4 +1,4 @@
-#AML Language Server
+# AML Language Server
 [![Build Status](https://jenkins.build.msap.io/buildStatus/icon?job=ALS/als/master/)](https://jenkins.build.msap.io/job/ALS/job/als/job/master/)
 ## Overview
 ### What is ALS?
