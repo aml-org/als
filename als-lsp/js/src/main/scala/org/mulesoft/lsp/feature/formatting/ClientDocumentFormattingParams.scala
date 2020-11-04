@@ -15,7 +15,7 @@ import scala.scalajs.js
 @js.native
 trait ClientDocumentFormattingParams extends js.Object {
   def textDocument: ClientTextDocumentIdentifier = js.native
-  def formattingOptions: ClientFormattingOptions = js.native
+  def options: ClientFormattingOptions           = js.native
 }
 
 object ClientDocumentFormattingParams {
@@ -23,7 +23,7 @@ object ClientDocumentFormattingParams {
     js.Dynamic
       .literal(
         textDocument = internal.textDocument.toClient,
-        formattingOptions = internal.options.toClient
+        options = internal.options.toClient
       )
       .asInstanceOf[ClientDocumentFormattingParams]
   }

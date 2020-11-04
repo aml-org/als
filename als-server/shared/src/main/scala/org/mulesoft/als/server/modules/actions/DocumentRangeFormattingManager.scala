@@ -64,6 +64,9 @@ class DocumentRangeFormattingManager(val workspace: WorkspaceManager,
   def onDocumentRangeFormatting(params: DocumentRangeFormattingParams): Future[Seq[TextEdit]] = {
     val uuid   = UUID.randomUUID().toString
     val isJson = params.textDocument.uri.endsWith(".json")
+    logger.debug("Document formatting for " + params.textDocument.uri + " range: " + params.range,
+                 "DocumentRangeFormattingManager",
+                 "onDocumentRangeFormatting")
     workspace
       .getLastUnit(params.textDocument.uri, uuid)
       .map(w => {
