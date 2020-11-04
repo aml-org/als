@@ -12,7 +12,7 @@ buildscript {
     }
     dependencies {
         classpath "com.mulesoft:gradle-tools:0.2.6"
-        classpath files('lib//nexus-iq-cli-1.40.0-02.jar')
+        classpath files('lib/nexus-iq-cli-1.68.0-01.jar')
     }
 }
 
