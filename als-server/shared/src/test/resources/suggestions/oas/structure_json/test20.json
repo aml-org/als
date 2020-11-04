@@ -6,7 +6,7 @@
     "description": "A sample specification",
     "termsOfService": "http://openapi.io/terms/",
     "conta*": {
-      "name": "Swagger API Team",
+      "name": "Open API Team",
       "url": "http://openapi.io",
       "email": "example@somehost.com"
     },
