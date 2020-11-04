@@ -614,7 +614,7 @@ object LspConvertersClientToShared {
 
   implicit class DocumentFormattingParamsConverter(v: ClientDocumentFormattingParams) {
     def toShared: DocumentFormattingParams =
-      DocumentFormattingParams(v.textDocument.toShared, v.formattingOptions.toShared)
+      DocumentFormattingParams(v.textDocument.toShared, v.options.toShared)
   }
 
   implicit class DocumentFormattingClientCapabilitiesConverter(v: ClientDocumentFormattingClientCapabilities) {
@@ -624,7 +624,7 @@ object LspConvertersClientToShared {
 
   implicit class DocumentRangeFormattingParamsConverter(v: ClientDocumentRangeFormattingParams) {
     def toShared: DocumentRangeFormattingParams =
-      DocumentRangeFormattingParams(v.textDocument.toShared, v.range.toShared, v.formattingOptions.toShared)
+      DocumentRangeFormattingParams(v.textDocument.toShared, v.range.toShared, v.options.toShared)
   }
 
   implicit class DocumentRangeFormattingClientCapabilitiesConverter(v: ClientDocumentRangeFormattingClientCapabilities) {

@@ -17,7 +17,7 @@ import scala.scalajs.js
 trait ClientDocumentRangeFormattingParams extends js.Object {
   def textDocument: ClientTextDocumentIdentifier = js.native
   def range: ClientRange                         = js.native
-  def formattingOptions: ClientFormattingOptions = js.native
+  def options: ClientFormattingOptions           = js.native
 }
 
 object ClientDocumentRangeFormattingParams {
@@ -26,7 +26,7 @@ object ClientDocumentRangeFormattingParams {
       .literal(
         textDocument = internal.textDocument.toClient,
         range = internal.range.toClient,
-        formattingOptions = internal.options.toClient
+        options = internal.options.toClient
       )
       .asInstanceOf[ClientDocumentRangeFormattingParams]
   }
