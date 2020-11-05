@@ -368,12 +368,6 @@ class SerializationTest extends LanguageServerBaseTest {
         _ <- server.initialize(
           AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("project-overlay-mf")}")))
         _ <- platform
-          .resolve(mainUrl)
-          .map(c =>
-            server.textDocumentSyncConsumer.didOpen(
-              DidOpenTextDocumentParams(TextDocumentItem(mainUrl, "RAML", 0, c.stream.toString))))
-        mainSerialized1 <- serialized(server, mainUrl, serializationProps)
-        _ <- platform
           .resolve(overlayUrl)
           .map(c => {
             server.textDocumentSyncConsumer.didOpen(
@@ -382,7 +376,12 @@ class SerializationTest extends LanguageServerBaseTest {
           })
         overlaySerialized <- serialized(server, overlayUrl, serializationProps)
         _                 <- Future(server.textDocumentSyncConsumer.didFocus(DidFocusParams(mainUrl, 0)))
-        mainSerialized2   <- serialized(server, mainUrl, serializationProps)
+        _ <- platform
+          .resolve(mainUrl)
+          .map(c =>
+            server.textDocumentSyncConsumer.didOpen(
+              DidOpenTextDocumentParams(TextDocumentItem(mainUrl, "RAML", 0, c.stream.toString))))
+        mainSerialized1 <- serialized(server, mainUrl, serializationProps)
         _ <- platform
           .resolve(extensionUrl)
           .map(c => {
@@ -392,12 +391,11 @@ class SerializationTest extends LanguageServerBaseTest {
           })
         extensionSerialized <- serialized(server, extensionUrl, serializationProps)
         _                   <- Future(server.textDocumentSyncConsumer.didFocus(DidFocusParams(mainUrl, 0)))
-        mainSerialized3     <- serialized(server, mainUrl, serializationProps)
+        mainSerialized2     <- serialized(server, mainUrl, serializationProps)
         _                   <- Future(server.textDocumentSyncConsumer.didFocus(DidFocusParams(overlayUrl, 0)))
         overlaySerialized2  <- serialized(server, overlayUrl, serializationProps)
       } yield {
-        (mainSerialized1 == mainSerialized2) should be(true)
-        (mainSerialized2 == mainSerialized3) should be(true)
+        (mainSerialized2 == mainSerialized1) should be(true)
         (overlaySerialized == mainSerialized1) should be(true)
         (overlaySerialized2 == mainSerialized1) should be(true)
         (extensionSerialized != overlaySerialized) should be(true)
