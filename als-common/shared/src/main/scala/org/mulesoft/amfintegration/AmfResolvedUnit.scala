@@ -3,6 +3,7 @@ package org.mulesoft.amfintegration
 import amf.client.parse.DefaultErrorHandler
 import amf.core.errorhandling.ErrorCollector
 import amf.core.model.document.BaseUnit
+import amf.plugins.document.webapi.model.{Extension, Overlay}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -27,4 +28,5 @@ trait AmfResolvedUnit extends UnitWithNextReference {
 
   final def latestBU: Future[BaseUnit] =
     getLastRecursively(this).flatMap(_.resolvedUnit)
+
 }

@@ -3,11 +3,12 @@ package org.mulesoft.als.server.modules.workspace.resolution
 import java.util.UUID
 
 import amf.core.model.document.BaseUnit
+import amf.plugins.document.webapi.model.{Extension, Overlay}
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.workspace.{ProcessingFile, Repository, ResolverStagingArea, StagingArea}
 import org.mulesoft.als.server.textsync.EnvironmentProvider
-import org.mulesoft.als.server.workspace.{UnitTaskManager, UnitsManager}
+import org.mulesoft.als.server.workspace.{UnitTaskManager, UnitWorkspaceManager, UnitsManager}
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.{AmfResolvedUnit, DiagnosticsBundle}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
@@ -47,10 +48,14 @@ class ResolutionTaskManager(telemetryProvider: TelemetryProvider,
     val resolvedInstance =
       AmfResolvedUnitImpl(params.parseResult.baseUnit, params.diagnosticsBundle)
 
-    params.parseResult.tree.foreach {
-      repository
-        .updateUnit(_, resolvedInstance) // every dependency should be updated
+    if (isInMainTree(uri)) {
+      params.parseResult.tree.foreach { u =>
+        logger.debug(s"Replacing $u with unit resolved from $uri", "ResolutionTaskManager", "processTask")
+        repository
+          .updateUnit(u, resolvedInstance) // every dependency should be updated
+      }
     }
+    logger.debug(s"Updating $uri unit", "ResolutionTaskManager", "processTask")
     repository.updateUnit(uri, resolvedInstance)
     subscribers.foreach(_.onNewAst(resolvedInstance, uuid))
   }
@@ -124,4 +129,7 @@ class ResolutionTaskManager(telemetryProvider: TelemetryProvider,
 
     override def next: Option[Future[T]] = getNext(uri)
   }
+
+  override def isInMainTree(uri: String): Boolean =
+    unitAccessor.exists(_.isInMainTree(uri))
 }
