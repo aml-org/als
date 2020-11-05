@@ -29,6 +29,4 @@ trait AmfResolvedUnit extends UnitWithNextReference {
   final def latestBU: Future[BaseUnit] =
     getLastRecursively(this).flatMap(_.resolvedUnit)
 
-  def isExtensionOrOverlay: Boolean =
-    originalUnit.isInstanceOf[Extension] || originalUnit.isInstanceOf[Overlay]
 }

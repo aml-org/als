@@ -8,7 +8,7 @@ import scala.concurrent.Future
   * @tparam UnitType
   */
 trait UnitAccessor[UnitType] {
-  def isIsolatedFile(uri: String): Boolean
+  def isInMainTree(uri: String): Boolean
   def getUnit(uri: String, uuid: String): Future[UnitType]
   def getLastUnit(uri: String, uuid: String): Future[UnitType]
 }

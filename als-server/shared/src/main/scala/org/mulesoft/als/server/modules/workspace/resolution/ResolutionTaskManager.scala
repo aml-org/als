@@ -48,7 +48,7 @@ class ResolutionTaskManager(telemetryProvider: TelemetryProvider,
     val resolvedInstance =
       AmfResolvedUnitImpl(params.parseResult.baseUnit, params.diagnosticsBundle)
 
-    if (!isIsolatedFile(uri)) {
+    if (isInMainTree(uri)) {
       params.parseResult.tree.foreach { u =>
         logger.debug(s"Replacing $u with unit resolved from $uri", "ResolutionTaskManager", "processTask")
         repository
@@ -130,6 +130,6 @@ class ResolutionTaskManager(telemetryProvider: TelemetryProvider,
     override def next: Option[Future[T]] = getNext(uri)
   }
 
-  override def isIsolatedFile(uri: String): Boolean =
-    unitAccessor.exists(_.isIsolatedFile(uri))
+  override def isInMainTree(uri: String): Boolean =
+    unitAccessor.exists(_.isInMainTree(uri))
 }

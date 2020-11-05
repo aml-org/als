@@ -77,7 +77,7 @@ class SerializationManager[S](telemetryProvider: TelemetryProvider,
         ua.getLastUnit(uri, UUID.randomUUID().toString)
           .flatMap { r =>
             logger.debug(s"Serialization uri: $uri", "SerializationManager", "processRequest")
-            if (r.isExtensionOrOverlay)
+            if (r.originalUnit.isInstanceOf[Extension] || r.originalUnit.isInstanceOf[Overlay])
               r.latestBU
             else r.latestBU.map(getUnitFromResolved(_, uri))
           }
