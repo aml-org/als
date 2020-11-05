@@ -44,14 +44,14 @@ class WorkspaceContentManager(val folder: String,
     mainFile.map(mf => s"${trailSlash(folder)}$mf".toAmfUri)
 
   def getRootFolderFor(uri: String): Option[String] =
-    if (repository.inTree(uri))
+    if (isInMainTree(uri))
       mainFileUri
         .map(stripToLastFolder)
         .orElse(getRootOf(uri))
     else None
 
-  def isIsolated(uri: String): Boolean =
-    !repository.inTree(uri)
+  def isInMainTree(uri: String): Boolean =
+    repository.inTree(uri)
 
   def stripToRelativePath(uri: String): Option[String] =
     mainFileUri
@@ -62,7 +62,7 @@ class WorkspaceContentManager(val folder: String,
     uri.substring(0, (uri.lastIndexOf('/') + 1).min(uri.length))
 
   private def getRootOf(uri: String): Option[String] =
-    if (this.repository.inTree(uri))
+    if (isInMainTree(uri))
       workspaceConfiguration
         .map(c => s"${c.rootFolder}/")
     else None
@@ -87,7 +87,7 @@ class WorkspaceContentManager(val folder: String,
 //    (!repository.inTree(uri) && (state == ProcessingFile(uri) || stagingArea.contains(uri))) ||
 //  TODO: check if upper statement can replace the one underneath
 //    (if a file is processing, does the rest stay on the staging area??
-      (!repository.inTree(uri) && state != Idle) ||
+      (!isInMainTree(uri) && state != Idle) ||
       state == NotAvailable
 
   def withConfiguration(confProvider: WorkspaceConfigurationProvider): WorkspaceContentManager = {
@@ -97,7 +97,7 @@ class WorkspaceContentManager(val folder: String,
 
   override protected def processTask(): Future[Unit] = {
     val snapshot: Snapshot    = stagingArea.snapshot()
-    val (treeUnits, isolated) = snapshot.files.partition(u => repository.inTree(u._1.toAmfUri)) // what if a new file is added between the partition and the override down
+    val (treeUnits, isolated) = snapshot.files.partition(u => isInMainTree(u._1.toAmfUri)) // what if a new file is added between the partition and the override down
     val changedTreeUnits =
       treeUnits.filter(tu => tu._2 == CHANGE_FILE || tu._2 == CLOSE_FILE)
 
@@ -172,7 +172,7 @@ class WorkspaceContentManager(val folder: String,
       .flatMap { u =>
         repository.newTree(u).map { _ =>
           subscribers.foreach(_.onNewAst(BaseUnitListenerParams(u, repository.references, tree = true), uuid))
-          stagingArea.enqueue(snapshot.files.filter(t => !repository.inTree(t._1)))
+          stagingArea.enqueue(snapshot.files.filter(t => !isInMainTree(t._1)))
         }
       }
   }
