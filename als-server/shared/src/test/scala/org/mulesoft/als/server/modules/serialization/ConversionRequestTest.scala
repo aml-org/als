@@ -62,6 +62,25 @@ class ConversionRequestTest extends LanguageServerBaseTest {
         (s: SerializedDocument) => s.document should include("\"asyncapi\": \"2.0.0\""))
   }
 
+  test("OAS 2.0 json to yaml") {
+    runTest(Oas20,
+            Some("yaml"),
+            (s: SerializedDocument) => s.document should startWith("swagger: \"2.0\""),
+            Oas20JsonApi)
+  }
+
+  test("OAS 2.0 yaml to json") {
+    runTest(Oas20, Some("json"), assertions(Oas20), Oas20Api)
+  }
+
+  test("OAS 3.0 json to yaml") {
+    runTest(Oas30, Some("yaml"), assertions(Oas30), Oas30JsonApi)
+  }
+
+  test("OAS 3.0 yaml to json") {
+    run(Oas30, Oas30, Some("json"), (s: SerializedDocument) => s.document should include("\"openapi\": \"3.0.0\""))
+  }
+
   test("AsyncApi 2.0 json to yaml") {
     runTest(AsyncApi20, Some("yaml"), assertions(AsyncApi20), AsyncApi20JsonApi)
   }
@@ -112,11 +131,31 @@ class ConversionRequestTest extends LanguageServerBaseTest {
                              |  title: test""".stripMargin
   }
 
+  object Oas20JsonApi extends ApiConf {
+    override val name            = "file://api.json"
+    override val content: String = """{
+                                     |  "swagger": "2.0",
+                                     |  "info": {
+                                     |    "title": "test"
+                                     |  }
+                                     |}""".stripMargin
+  }
+
   object Oas30Api extends ApiConf {
     override val name            = "file://api.yaml"
     override val content: String = """openapi: 3.0.0
                                      |info:
                                      |  title: test""".stripMargin
+  }
+
+  object Oas30JsonApi extends ApiConf {
+    override val name            = "file://api.json"
+    override val content: String = """{
+                                     |  "openapi": "3.0.0",
+                                     |  "info": {
+                                     |    "title": "test"
+                                     |  }
+                                     |}""".stripMargin
   }
 
   object Raml10Api extends ApiConf {

@@ -36,3 +36,7 @@ object OAS30ConvesionToRAML10Config extends ConversionConfig(ProfileNames.OAS30.
 
 object AsyncApi2SyntaxConversionConfig
     extends ConversionConfig(ProfileNames.ASYNC20.profile, ProfileNames.ASYNC20.profile)
+
+object OAS20SyntaxConversionConfig extends ConversionConfig(ProfileNames.OAS20.profile, ProfileNames.OAS20.profile)
+
+object OAS30SyntaxConversionConfig extends ConversionConfig(ProfileNames.OAS30.profile, ProfileNames.OAS30.profile)
