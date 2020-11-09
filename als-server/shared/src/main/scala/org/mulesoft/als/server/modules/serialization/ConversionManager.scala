@@ -72,6 +72,7 @@ class ConversionManager(unitAccessor: UnitAccessor[CompilableUnit],
     RAML10ConvesionToOAS30Config,
     OAS20ConvesionToOAS30Config,
     OAS20ConvesionToRAML10Config,
-    OAS30ConvesionToRAML10Config
+    OAS30ConvesionToRAML10Config,
+    AsyncApi2SyntaxConversionConfig
   )
 }
