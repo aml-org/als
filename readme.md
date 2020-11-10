@@ -15,10 +15,8 @@ Also, using this representation of the API in a Model, we are able to generate a
 ##### Out of the box accepted definitions
 
 + [RAML](https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md) (0.8 and 1.0)
-+ [OpenApi2](https://github.com/OAI/OpenAPI-Specification)
-+ [OpenApi3](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md)
-+ [AsyncAPI2](https://github.com/asyncapi/asyncapi/blob/master/versions/2.0.0/asyncapi.md) (AsyncApi 2.0)
-
++ [OpenAPI](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md) (2.0 and 3.0)
++ [AsyncAPI](https://github.com/asyncapi/asyncapi/blob/master/versions/2.0.0/asyncapi.md) (AsyncApi 2.0)
 + [Dialects](https://aml-org.github.io/aml-spec/dialects/) (AML)
 
 ###### playground for als-features at: https://als-playground.herokuapp.com/
