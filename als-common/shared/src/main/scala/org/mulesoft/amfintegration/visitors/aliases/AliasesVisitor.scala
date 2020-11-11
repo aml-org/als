@@ -21,8 +21,8 @@ class AliasesVisitor extends AliasesVisitorType {
             aliases.aliases.flatMap { alias =>
               targets.get(alias._2._1).map { range =>
                 AliasInfo(alias._1,
-                                 Location(bu.location().getOrElse(bu.id), parserToDtoRange(range)),
-                                 alias._2._1)
+                          Location(bu.location().getOrElse(bu.id), parserToDtoRange(range.head)),
+                          alias._2._1)
               }
             }
           }
