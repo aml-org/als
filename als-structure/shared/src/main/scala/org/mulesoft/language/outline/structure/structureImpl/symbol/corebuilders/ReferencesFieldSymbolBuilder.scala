@@ -4,7 +4,7 @@ import amf.core.metamodel.document.DocumentModel
 import amf.core.metamodel.domain.ShapeModel
 import amf.core.parser
 import amf.core.parser.FieldEntry
-import amf.plugins.domain.webapi.metamodel.WebApiModel
+import amf.plugins.domain.webapi.metamodel.api.WebApiModel
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldSymbolBuilder,
   IriFieldSymbolBuilderCompanion,

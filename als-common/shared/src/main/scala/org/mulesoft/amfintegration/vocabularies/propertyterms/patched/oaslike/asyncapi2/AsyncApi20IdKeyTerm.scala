@@ -1,6 +1,5 @@
 package org.mulesoft.amfintegration.vocabularies.propertyterms.patched.oaslike.asyncapi2
 
-import amf.plugins.domain.webapi.metamodel.WebApiModel
 import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.PatchedTopLevelKeyTerm
 
 object AsyncApi20IdKeyTerm extends AsyncApi20PatchedKeyTerm with PatchedTopLevelKeyTerm {

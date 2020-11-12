@@ -3,8 +3,8 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuild
 import amf.core.metamodel.document.DocumentModel
 import amf.core.model.domain.{AmfObject, AmfScalar}
 import amf.core.parser.FieldEntry
-import amf.plugins.domain.webapi.metamodel.WebApiModel
-import amf.plugins.domain.webapi.models.WebApi
+import amf.plugins.domain.webapi.metamodel.api.WebApiModel
+import amf.plugins.domain.webapi.models.api.WebApi
 import org.mulesoft.language.outline.structure.structureImpl._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.ObjectFieldTypeSymbolBuilderCompanion
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{

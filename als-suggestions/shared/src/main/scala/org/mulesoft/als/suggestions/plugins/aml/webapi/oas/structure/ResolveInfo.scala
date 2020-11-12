@@ -2,6 +2,7 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.structure
 
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.domain.webapi.models._
+import amf.plugins.domain.webapi.models.api.WebApi
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.ResolveIfApplies

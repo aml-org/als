@@ -2,6 +2,7 @@ package org.mulesoft.als.suggestions.plugins.aml.categories
 
 import amf.plugins.domain.shapes.metamodel.{CreativeWorkModel, XMLSerializerModel}
 import amf.plugins.domain.webapi.metamodel._
+import amf.plugins.domain.webapi.metamodel.api.WebApiModel
 import amf.plugins.domain.webapi.metamodel.security.{ApiKeySettingsModel, SecuritySchemeModel, SettingsModel}
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.Raml08TypesDialect
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
