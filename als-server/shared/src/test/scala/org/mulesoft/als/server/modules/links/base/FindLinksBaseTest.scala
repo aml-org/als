@@ -71,4 +71,22 @@ class FindLinksBaseTest extends FindLinksTest {
       )
     )
   }
+
+  test("file included two times") {
+    runTest(
+      "files/double-include/root.raml",
+      Set(
+        DocumentLink(
+          LspRangeConverter.toLspRange(PositionRange(Position(8, 22), Position(8, 34))),
+          "file://als-server/shared/src/test/resources/actions/links/files/double-include/example.json",
+          None
+        ),
+        DocumentLink(
+          LspRangeConverter.toLspRange(PositionRange(Position(20, 30), Position(20, 42))),
+          "file://als-server/shared/src/test/resources/actions/links/files/double-include/example.json",
+          None
+        )
+      )
+    )
+  }
 }

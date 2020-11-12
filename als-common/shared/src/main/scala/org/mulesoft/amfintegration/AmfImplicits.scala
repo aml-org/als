@@ -66,7 +66,7 @@ object AmfImplicits {
     def isInferred: Boolean = ann.contains(classOf[Inferred])
     def isDeclared: Boolean = ann.contains(classOf[DeclaredElement])
 
-    def targets(): Map[String, parser.Range] =
+    def targets(): Map[String, Seq[parser.Range]] =
       ann.find(classOf[ReferenceTargets]).map(_.targets).getOrElse(Map.empty)
 
     def containsPosition(amfPosition: AmfPosition): Option[Boolean] =

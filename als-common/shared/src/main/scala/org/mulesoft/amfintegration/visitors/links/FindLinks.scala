@@ -10,9 +10,10 @@ object FindLinks {
   def getLinks(bu: BaseUnit): Seq[DocumentLink] =
     bu.annotations
       .targets()
-      .map {
+      .flatMap {
         case (targetLocation, originRange) =>
-          DocumentLink(LspRangeConverter.toLspRange(PositionRange(originRange)), targetLocation, None)
+          originRange.map(r => DocumentLink(LspRangeConverter.toLspRange(PositionRange(r)), targetLocation, None))
+
       }
       .toSeq
 }
