@@ -3,26 +3,26 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuild
 import amf.core.metamodel.document.DocumentModel
 import amf.core.model.domain.{AmfObject, AmfScalar}
 import amf.core.parser.FieldEntry
-import amf.plugins.domain.webapi.metamodel.api.WebApiModel
-import amf.plugins.domain.webapi.models.api.WebApi
+import amf.plugins.domain.webapi.metamodel.api.{AsyncApiModel, WebApiModel}
+import amf.plugins.domain.webapi.models.api.Api
 import org.mulesoft.language.outline.structure.structureImpl._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.ObjectFieldTypeSymbolBuilderCompanion
-import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
-  FieldTypeSymbolBuilder,
-  IriFieldSymbolBuilderCompanion
-}
-import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.{
-  DefaultNamedScalarTypeSymbolBuilder,
-  EncodesFieldSymbolBuilder
-}
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{FieldTypeSymbolBuilder, IriFieldSymbolBuilderCompanion}
+import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.{DefaultNamedScalarTypeSymbolBuilder, EncodesFieldSymbolBuilder}
 
-class WebApiEncodesFieldSymbolBuilder(override val value: WebApi, override val element: FieldEntry)(
+class ApiEncodesFieldSymbolBuilder(override val value: Api, override val element: FieldEntry)(
     override implicit val ctx: StructureContext)
     extends EncodesFieldSymbolBuilder(value, element) {
 
-  val titleField: Seq[DocumentSymbol] = value.fields
+  private val webApiTitle: Option[FieldEntry] = value.fields
     .fields()
     .find(_.field == WebApiModel.Name)
+
+  private val asyncApiTitle: Option[FieldEntry] = value.fields
+    .fields()
+    .find(_.field == AsyncApiModel.Name)
+
+  val titleField: Seq[DocumentSymbol] = webApiTitle.orElse(asyncApiTitle)
     .map(fe => new DefaultNamedScalarTypeSymbolBuilder(fe.value.value.asInstanceOf[AmfScalar], fe, "title").build())
     .getOrElse(Nil)
 
@@ -36,7 +36,7 @@ object WebApiEncodesFieldSymbolBuilderCompanion
 
   override def construct(element: FieldEntry, value: AmfObject)(
       implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfObject]] = value match {
-    case w: WebApi => Some(new WebApiEncodesFieldSymbolBuilder(w, element))
+    case w: Api => Some(new ApiEncodesFieldSymbolBuilder(w, element))
     case _         => Some(new EncodesFieldSymbolBuilder(value, element))
   }
 }

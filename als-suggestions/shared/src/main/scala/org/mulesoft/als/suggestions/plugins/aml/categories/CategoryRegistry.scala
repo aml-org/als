@@ -2,7 +2,7 @@ package org.mulesoft.als.suggestions.plugins.aml.categories
 
 import amf.plugins.domain.shapes.metamodel.{CreativeWorkModel, XMLSerializerModel}
 import amf.plugins.domain.webapi.metamodel._
-import amf.plugins.domain.webapi.metamodel.api.WebApiModel
+import amf.plugins.domain.webapi.metamodel.api.{AsyncApiModel, WebApiModel}
 import amf.plugins.domain.webapi.metamodel.security.{ApiKeySettingsModel, SecuritySchemeModel, SettingsModel}
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.Raml08TypesDialect
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
@@ -62,6 +62,7 @@ trait BaseCategoryRegistry {
     (None, "usage"),
     (Some(WebApiModel.`type`.head.iri()), "externalDocs"),
     (Some(WebApiModel.`type`.head.iri()), "info"),
+    (Some(AsyncApiModel.`type`.head.iri()), "info"),
     (Some(OrganizationModel.`type`.head.iri()), "email"),
     (Some(CreativeWorkModel.`type`.head.iri()), "title"),
     (Some(CreativeWorkModel.`type`.head.iri()), "content"),
