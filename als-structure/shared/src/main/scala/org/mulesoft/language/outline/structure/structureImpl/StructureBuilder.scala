@@ -10,8 +10,8 @@ import amf.core.remote.{Oas, Oas30, Raml, _}
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectFragment, DialectLibrary}
 import amf.plugins.domain.shapes.metamodel._
 import amf.plugins.domain.webapi.metamodel._
+import amf.plugins.domain.webapi.metamodel.api.WebApiModel
 import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
-import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
 import org.mulesoft.language.outline.structure.structureImpl.factory.amlfactory.{
   AmlBuilderFactory,
@@ -66,7 +66,7 @@ object KindForResultMatcher {
     OperationModel.Request.value.iri()                    -> SymbolKind.Interface,
     OperationModel.Responses.value.iri()                  -> SymbolKind.Constructor,
     DomainElementModel.CustomDomainProperties.value.iri() -> SymbolKind.Enum,
-    (new TagsModel {}).Tags.value.iri() -> SymbolKind.Package,
+    new TagsModel {}.Tags.value.iri() -> SymbolKind.Package,
     WebApiModel.Security.value.iri() -> SymbolKind.String,
     ServerModel.Url.value.iri()      -> SymbolKind.String,
     WebApiModel.Version.value.iri()  -> SymbolKind.String

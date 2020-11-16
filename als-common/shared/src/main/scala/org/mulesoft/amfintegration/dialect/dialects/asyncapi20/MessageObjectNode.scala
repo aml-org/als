@@ -1,9 +1,7 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20
 
-import amf.core.vocabulary.Namespace.XsdTypes._
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.plugins.domain.webapi.metamodel.{MessageModel, RequestModel, ResponseModel}
-import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.MessageObjectNode.location
 
 trait ConcreteMessageObjectNode extends MessageAbstractObjectNode {
 

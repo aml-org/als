@@ -10,7 +10,7 @@ object AsyncApi20SecuritySchemeObject extends DialectNode {
 
   override def nodeTypeMapping: String = SecuritySchemeModel.`type`.head.iri()
 
-  val `type` = PropertyMapping()
+  val `type`: PropertyMapping = PropertyMapping()
     .withId(AsyncApi20Dialect.DialectLocation + "#/declarations/securityScheme/type")
     .withName("type")
     .withMinCount(1)

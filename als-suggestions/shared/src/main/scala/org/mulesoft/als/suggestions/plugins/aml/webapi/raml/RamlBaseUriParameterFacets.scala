@@ -1,13 +1,13 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.plugins.domain.webapi.models.WebApi
-import org.mulesoft.amfintegration.AmfImplicits.AlsLexicalInformation
+import amf.plugins.domain.webapi.models.api.WebApi
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiTypeFacetsCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10.Raml10ParamsCompletionPlugin
+import org.mulesoft.amfintegration.AmfImplicits.AlsLexicalInformation
 import org.yaml.model.YMapEntry
 
 import scala.concurrent.ExecutionContext.Implicits.global

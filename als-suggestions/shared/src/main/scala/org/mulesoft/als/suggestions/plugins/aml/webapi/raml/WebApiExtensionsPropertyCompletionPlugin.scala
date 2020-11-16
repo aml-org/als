@@ -3,7 +3,7 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 import amf.core.model.document.ExtensionLike
 import amf.core.remote.Platform
 import amf.internal.environment.Environment
-import amf.plugins.domain.webapi.models.WebApi
+import amf.plugins.domain.webapi.models.api.WebApi
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest

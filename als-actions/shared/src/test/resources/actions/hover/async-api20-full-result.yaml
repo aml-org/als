@@ -1,8 +1,8 @@
 hovers:
   (1,4):
-    - Top level element describing a HTTP API
+    - Top level element describing a asynchronous API
   (1,13):
-    - Top level element describing a HTTP API
+    - Top level element describing a asynchronous API
   (2,1):
     - Represents the universal identifier of the application the specification is defining
   (2,26):
@@ -315,7 +315,7 @@ hovers:
   (87,5):
     - Contains declarations of reusable Schemas
   (87,10):
-    - Top level element describing a HTTP API
+    - Top level element describing a asynchronous API
   (88,10):
     - Human readable name for the object
   (88,17):
@@ -597,7 +597,7 @@ hovers:
   (159,6):
     - Contains declarations of reusable Messages
   (159,11):
-    - Top level element describing a HTTP API
+    - Top level element describing a asynchronous API
   (160,8): []
   (160,13): []
   (161,9):
@@ -682,7 +682,7 @@ hovers:
   (184,9):
     - Declarations of reusable authentication mechanisms to ensure secured operations
   (184,18):
-    - Top level element describing a HTTP API
+    - Top level element describing a asynchronous API
   (185,10):
     - Authentication and access control mechanism defined in an API
   (185,18):
@@ -802,7 +802,7 @@ hovers:
   (215,7):
     - Contains declarations of reusable Parameter objects
   (215,13):
-    - Top level element describing a HTTP API
+    - Top level element describing a asynchronous API
   (216,8):
     - Piece of data required or returned by an Operation
   (216,14):
@@ -826,7 +826,7 @@ hovers:
   (221,9):
     - Contains declarations of reusable CorrelationId objects
   (221,17):
-    - Top level element describing a HTTP API
+    - Top level element describing a asynchronous API
   (222,10):
     - Model defining an identifier that can used for message tracing and correlation
   (222,18):
@@ -842,7 +842,7 @@ hovers:
   (225,9):
     - Contains declarations of reusable Operation traits
   (225,18):
-    - Top level element describing a HTTP API
+    - Top level element describing a asynchronous API
   (226,6):
     - Action that can be executed using a particular HTTP invocation
   (226,9):
@@ -892,7 +892,7 @@ hovers:
   (238,8):
     - Contains declarations of reusable Message traits
   (238,16):
-    - Top level element describing a HTTP API
+    - Top level element describing a asynchronous API
   (239,5): []
   (239,7): []
   (240,9):
@@ -970,7 +970,7 @@ hovers:
   (260,9):
     - Contains declarations of reusable ServerBindings objects
   (260,17):
-    - Top level element describing a HTTP API
+    - Top level element describing a asynchronous API
   (261,10): []
   (261,18): []
   (262,8):
@@ -1034,7 +1034,7 @@ hovers:
   (283,9):
     - Contains declarations of reusable ChannelBindings objects
   (283,18):
-    - Top level element describing a HTTP API
+    - Top level element describing a asynchronous API
   (284,8): []
   (284,13): []
   (285,8):
@@ -1096,7 +1096,7 @@ hovers:
   (305,9):
     - Contains declarations of reusable MessageBindings objects
   (305,18):
-    - Top level element describing a HTTP API
+    - Top level element describing a asynchronous API
   (306,8): []
   (306,13): []
   (307,8):
@@ -1168,7 +1168,7 @@ hovers:
   (329,10):
     - Contains declarations of reusable OperationBindings objects
   (329,20):
-    - Top level element describing a HTTP API
+    - Top level element describing a asynchronous API
   (330,8): []
   (330,13): []
   (331,8):
