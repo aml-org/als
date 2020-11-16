@@ -22,7 +22,12 @@ class AMLRootDeclarationsCompletionPlugin(params: AmlCompletionRequest) {
   private def getSuggestions: Seq[(String, String)] =
     params.baseUnit match {
       case d: DeclaresModel if params.actualDialect.documents().declarationsPath().option().isDefined =>
-        params.actualDialect.documents().declarationsPath().option().map(v => (v, "\n  ")).toSeq
+        params.actualDialect
+          .documents()
+          .declarationsPath()
+          .option()
+          .map(v => (v, "\n  "))
+          .toSeq // todo: should this be indentation from config?
       case d: DeclaresModel =>
         params.baseUnit match {
           case _: DialectInstanceLibrary | _: Module =>

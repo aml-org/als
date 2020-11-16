@@ -2,21 +2,16 @@ package org.mulesoft.amfintegration.dialect.dialects.asyncapi20
 
 import amf.core.vocabulary.Namespace.XsdTypes.xsdString
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.metamodel.api.WebApiModel
+import amf.plugins.domain.webapi.metamodel.api.AsyncApiModel
 import amf.plugins.domain.webapi.metamodel.{EndPointModel, ServerModel}
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect.OwlSameAs
-import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{
-  AMLExternalDocumentationObject,
-  AMLInfoObject,
-  AMLTagObject,
-  DialectNode
-}
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{AMLExternalDocumentationObject, AMLInfoObject, AMLTagObject, DialectNode}
 
-object AsyncApi20WebApiNode extends DialectNode {
+object AsyncApi20ApiNode extends DialectNode {
   override val location: String = AsyncApi20Dialect.DialectLocation
   override def properties: Seq[PropertyMapping] = Seq(
     PropertyMapping()
-      .withId(location + "#/declarations/WebAPIObject/info")
+      .withId(location + "#/declarations/AsyncAPIObject/info")
       .withName("info")
       .withMinCount(1)
       .withNodePropertyMapping(OwlSameAs)
@@ -24,11 +19,11 @@ object AsyncApi20WebApiNode extends DialectNode {
         AMLInfoObject.id
       )),
     PropertyMapping()
-      .withId(location + "#/declarations/WebAPIObject/id")
+      .withId(location + "#/declarations/AsyncAPIObject/id")
       .withName("id")
       .withLiteralRange(xsdString.iri()),
     PropertyMapping()
-      .withId(location + "#/declarations/WebAPIObject/servers")
+      .withId(location + "#/declarations/AsyncAPIObject/servers")
       .withName("servers")
       .withObjectRange(
         Seq(
@@ -36,27 +31,27 @@ object AsyncApi20WebApiNode extends DialectNode {
         ))
       .withMapTermKeyProperty(ServerModel.Name.value.iri()),
     PropertyMapping()
-      .withId(location + "#/declarations/WebAPIObject/externalDocs")
+      .withId(location + "#/declarations/AsyncAPIObject/externalDocs")
       .withName("externalDocs")
       .withObjectRange(
         Seq(
           AMLExternalDocumentationObject.id
         )),
     PropertyMapping()
-      .withId(location + "#/declarations/WebAPIObject/tags")
+      .withId(location + "#/declarations/AsyncAPIObject/tags")
       .withName("tags")
-      .withNodePropertyMapping(WebApiModel.Tags.value.iri())
+      .withNodePropertyMapping(AsyncApiModel.Tags.value.iri())
       .withAllowMultiple(true)
       .withObjectRange(Seq(AMLTagObject.id)),
     PropertyMapping()
-      .withId(location + "#/declarations/WebAPIObject/channels")
+      .withId(location + "#/declarations/AsyncAPIObject/channels")
       .withName("channels")
-      .withNodePropertyMapping(WebApiModel.EndPoints.value.iri())
+      .withNodePropertyMapping(AsyncApiModel.EndPoints.value.iri())
       .withMapTermKeyProperty(EndPointModel.Path.value.iri())
       .withObjectRange(Seq(ChannelObject.id))
   )
 
-  override def name: String = "AsyncApiWebApiNode"
+  override def name: String = "AsyncApi2Node"
 
-  override def nodeTypeMapping: String = WebApiModel.`type`.head.iri()
+  override def nodeTypeMapping: String = AsyncApiModel.`type`.head.iri()
 }

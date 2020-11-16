@@ -13,7 +13,7 @@ object AsyncApi20Dialect extends BaseDialect {
   override def DialectLocation: String = "file://vocabularies/dialects/asyncapi20.yaml"
 
   override val declares: Seq[DialectNode] = Seq(
-    AsyncApi20WebApiNode,
+    AsyncApi20ApiNode,
     AsyncApi20SecuritySettingsObject,
     AsyncApi20SecuritySchemeObject,
     AsyncAPI20ApiKeySecurityObject,
@@ -80,7 +80,7 @@ object AsyncApi20Dialect extends BaseDialect {
       .withReferenceStyle(ReferenceStyles.JSONSCHEMA)
       .withDeclarationsPath("components")
 
-  override def encodes: DialectNode = AsyncApi20WebApiNode
+  override def encodes: DialectNode = AsyncApi20ApiNode
 
   override def declaredNodes: Map[String, DialectNode] = Map(
     "securitySchemes"   -> AsyncApi20SecuritySchemeObject,
