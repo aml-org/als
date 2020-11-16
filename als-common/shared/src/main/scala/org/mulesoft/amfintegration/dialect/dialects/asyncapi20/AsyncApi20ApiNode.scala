@@ -5,7 +5,11 @@ import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.plugins.domain.webapi.metamodel.api.AsyncApiModel
 import amf.plugins.domain.webapi.metamodel.{EndPointModel, ServerModel}
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect.OwlSameAs
-import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{AMLExternalDocumentationObject, AMLInfoObject, AMLTagObject, DialectNode}
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{
+  AMLExternalDocumentationObject,
+  AMLTagObject,
+  DialectNode
+}
 
 object AsyncApi20ApiNode extends DialectNode {
   override val location: String = AsyncApi20Dialect.DialectLocation
