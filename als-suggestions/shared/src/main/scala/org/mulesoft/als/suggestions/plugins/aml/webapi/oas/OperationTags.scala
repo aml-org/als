@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas
 
 import amf.core.model.document.Document
-import amf.plugins.domain.webapi.metamodel.OperationModel
-import amf.plugins.domain.webapi.models.{Operation, Tag, WebApi}
+import amf.plugins.domain.webapi.models.api.WebApi
+import amf.plugins.domain.webapi.models.{Operation, Tag}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin

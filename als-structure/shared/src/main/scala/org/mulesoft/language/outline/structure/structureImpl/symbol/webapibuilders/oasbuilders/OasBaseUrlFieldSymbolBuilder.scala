@@ -3,7 +3,8 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuild
 import amf.core.annotations.{BasePathLexicalInformation, HostLexicalInformation}
 import amf.core.model.domain.AmfArray
 import amf.core.parser.FieldEntry
-import amf.plugins.domain.webapi.metamodel.{ServerModel, WebApiModel}
+import amf.plugins.domain.webapi.metamodel.api.WebApiModel
+import amf.plugins.domain.webapi.metamodel.ServerModel
 import amf.plugins.domain.webapi.models.Server
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl._

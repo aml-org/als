@@ -1,8 +1,8 @@
 package org.mulesoft.amfintegration.vocabularies.propertyterms.patched.oaslike
 
-import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.PatchedTopLevelKeyTerm
+import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.WebApiPatchedTopLevelKeyTerm
 
-trait OaslikeComponentsKeyTerm extends PatchedTopLevelKeyTerm {
+trait OaslikeComponentsKeyTerm extends WebApiPatchedTopLevelKeyTerm {
   override val key: String         = "components"
   override val description: String = "Contains reusable definitions"
 }

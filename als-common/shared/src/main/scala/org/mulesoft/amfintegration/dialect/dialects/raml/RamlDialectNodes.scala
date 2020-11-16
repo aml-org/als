@@ -7,6 +7,7 @@ import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapp
 import amf.plugins.domain.shapes.metamodel._
 import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
 import amf.plugins.domain.webapi.metamodel._
+import amf.plugins.domain.webapi.metamodel.api.WebApiModel
 
 trait RamlDialectNodes {
   protected def scalarTypes: Seq[String] = Seq(

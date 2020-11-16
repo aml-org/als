@@ -2,8 +2,8 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuild
 
 import amf.core.model.domain.AmfObject
 import amf.core.parser.FieldEntry
-import amf.plugins.domain.webapi.metamodel.WebApiModel
-import org.mulesoft.language.outline.structure.structureImpl.{BuilderFactory, StructureContext}
+import amf.plugins.domain.webapi.metamodel.api.WebApiModel
+import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.{
   ObjectFieldTypeSymbolBuilderCompanion,
   SingleObjectFieldSymbolBuilder

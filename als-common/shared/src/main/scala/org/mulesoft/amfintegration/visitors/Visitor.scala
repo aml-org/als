@@ -3,7 +3,7 @@ package org.mulesoft.amfintegration.visitors
 import amf.core.model.document.{BaseUnit, EncodesModel}
 import amf.core.model.domain.AmfElement
 import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.domain.webapi.models.WebApi
+import amf.plugins.domain.webapi.models.api.WebApi
 
 import scala.collection.mutable
 

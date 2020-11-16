@@ -5,7 +5,7 @@ import amf.core.metamodel.domain.extensions.PropertyShapeModel
 import amf.core.vocabulary.Namespace.XsdTypes.{amlAnyNode, amlLink, xsdBoolean, xsdString}
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
 import amf.plugins.domain.shapes.metamodel.{AnyShapeModel, ArrayShapeModel, XMLSerializerModel}
-import amf.plugins.domain.webapi.metamodel.WebApiModel
+import amf.plugins.domain.webapi.metamodel.api.WebApiModel
 import org.mulesoft.amfintegration.dialect.dialects.raml.RamlDialectNodes
 
 object Raml10DialectNodes extends RamlDialectNodes {

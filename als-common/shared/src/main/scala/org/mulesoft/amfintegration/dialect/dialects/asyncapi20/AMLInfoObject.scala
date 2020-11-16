@@ -1,41 +1,42 @@
-package org.mulesoft.amfintegration.dialect.dialects.oas.nodes
+package org.mulesoft.amfintegration.dialect.dialects.asyncapi20
 
 import amf.core.vocabulary.Namespace.XsdTypes.xsdString
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.metamodel.api.WebApiModel
+import amf.plugins.domain.webapi.metamodel.api.AsyncApiModel
 import org.mulesoft.amfintegration.dialect.dialects.oas.OasBaseDialect
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{AMLContactObject, AMLLicenseObject, DialectNode}
 
 object AMLInfoObject extends DialectNode {
 
   override def name: String            = "InfoObject"
-  override def nodeTypeMapping: String = WebApiModel.`type`.head.iri()
+  override def nodeTypeMapping: String = AsyncApiModel.`type`.head.iri()
   override def properties: Seq[PropertyMapping] = Seq(
     PropertyMapping()
       .withId(OasBaseDialect.DialectLocation + "#/declarations/InfoObject/title")
       .withName("title")
       .withMinCount(1)
-      .withNodePropertyMapping(WebApiModel.Name.value.iri())
+      .withNodePropertyMapping(AsyncApiModel.Name.value.iri())
       .withLiteralRange(xsdString.iri()),
     PropertyMapping()
       .withId(OasBaseDialect.DialectLocation + "#/declarations/InfoObject/description")
       .withName("description")
-      .withNodePropertyMapping(WebApiModel.Name.value.iri())
+      .withNodePropertyMapping(AsyncApiModel.Name.value.iri())
       .withLiteralRange(xsdString.iri()),
     PropertyMapping()
       .withId(OasBaseDialect.DialectLocation + "#/declarations/InfoObject/termsOfService")
       .withName("termsOfService")
-      .withNodePropertyMapping(WebApiModel.TermsOfService.value.iri())
+      .withNodePropertyMapping(AsyncApiModel.TermsOfService.value.iri())
       .withLiteralRange(xsdString.iri()),
     PropertyMapping()
       .withId(OasBaseDialect.DialectLocation + "#/declarations/InfoObject/version")
       .withName("version")
       .withMinCount(1)
-      .withNodePropertyMapping(WebApiModel.Version.value.iri())
+      .withNodePropertyMapping(AsyncApiModel.Version.value.iri())
       .withLiteralRange(xsdString.iri()),
     PropertyMapping()
       .withId(OasBaseDialect.DialectLocation + "#/declarations/InfoObject/contact")
       .withName("contact")
-      .withNodePropertyMapping(WebApiModel.Provider.value.iri())
+      .withNodePropertyMapping(AsyncApiModel.Provider.value.iri())
       .withObjectRange(
         Seq(
           AMLContactObject.id
@@ -43,7 +44,7 @@ object AMLInfoObject extends DialectNode {
     PropertyMapping()
       .withId(OasBaseDialect.DialectLocation + "#/declarations/InfoObject/license")
       .withName("license")
-      .withNodePropertyMapping(WebApiModel.License.value.iri())
+      .withNodePropertyMapping(AsyncApiModel.License.value.iri())
       .withObjectRange(
         Seq(
           AMLLicenseObject.id
