@@ -601,13 +601,13 @@ hovers:
   (160,8): []
   (160,13): []
   (161,9):
-    - Parameter passed as a header to an operation for communication models
+    - Object Schema who's properties are headers for the message.
   (161,14):
-    - Defines a data type
+    - Object Schema who's properties are headers for the message.
   (162,10):
-    - Defines a data type
+    - Object Schema who's properties are headers for the message.
   (162,31):
-    - Defines a data type
+    - Object Schema who's properties are headers for the message.
   (163,9): []
   (163,14):
     - Defines a data type
@@ -896,13 +896,13 @@ hovers:
   (239,5): []
   (239,7): []
   (240,9):
-    - Parameter passed as a header to an operation for communication models
+    - Object Schema who's properties are headers for the message.
   (240,14):
-    - Defines a data type
+    - Object Schema who's properties are headers for the message.
   (241,10):
-    - Scalar range constraining this scalar shape
+    - Object Schema who's properties are headers for the message.
   (241,17):
-    - Scalar range constraining this scalar shape
+    - Object Schema who's properties are headers for the message.
   (242,12):
     - An identifier that can be used for message tracing and correlation
   (242,20):
