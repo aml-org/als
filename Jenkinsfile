@@ -61,6 +61,7 @@ pipeline {
                 anyOf {
                     branch 'master'
                     branch 'develop'
+                    branch 'nexus-iq/*'
                 }
             }
             steps {
