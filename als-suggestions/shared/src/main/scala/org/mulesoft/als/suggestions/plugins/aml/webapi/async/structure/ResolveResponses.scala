@@ -12,7 +12,8 @@ import scala.concurrent.Future
 object ResolveResponses extends ResolveIfApplies {
   override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] =
     request.amfObject match {
-      case _: Response if !MessageKnowledge.isRootMessageBlock(request) =>
+      case _: Response
+          if !MessageKnowledge.isRootMessageBlock(request) && !request.yPartBranch.isKeyDescendantOf("headers") =>
         applies(Future(Seq()))
       case _ => notApply
     }

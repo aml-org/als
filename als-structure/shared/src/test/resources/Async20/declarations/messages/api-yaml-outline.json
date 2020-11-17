@@ -50,8 +50,8 @@
         },
         "children": [
           {
-            "name": "Headers",
-            "kind": 2,
+            "name": "schema",
+            "kind": 5,
             "deprecated": false,
             "range": {
               "start": {
