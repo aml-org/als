@@ -4,7 +4,7 @@ import amf.core.vocabulary.Namespace.XsdTypes.xsdString
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.plugins.domain.webapi.metamodel.{MessageModel, PayloadModel}
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.MessageBindingsObjectNode
-import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.BaseShapeAsync2Node
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.{BaseShapeAsync2Node, NodeShapeAsync2Node}
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{
   AMLExternalDocumentationObject,
   AMLTagObject,
@@ -32,8 +32,8 @@ trait MessageAbstractObjectNode extends DialectNode {
     PropertyMapping()
       .withId(location + "#/declarations/Message/headers")
       .withName("headers")
-      .withNodePropertyMapping(MessageModel.Headers.value.iri())
-      .withObjectRange(Seq(BaseShapeAsync2Node.id)), // todo: schema async2 id
+      .withNodePropertyMapping(MessageModel.HeaderSchema.value.iri())
+      .withObjectRange(Seq(NodeShapeAsync2Node.id)), // todo: schema async2 id
     PropertyMapping()
       .withId(location + "#/declarations/Message/correlationId")
       .withName("correlationId")
