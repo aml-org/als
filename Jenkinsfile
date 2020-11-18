@@ -6,7 +6,7 @@ def headerFlavour = "WARNING"
 pipeline {
     agent {
         dockerfile { 
-            label 'nr'
+            label 'gn-8-16-1'
         }
     }
     environment {
