@@ -5,7 +5,9 @@ def color = '#FF8C00'
 def headerFlavour = "WARNING"
 pipeline {
     agent {
-        dockerfile true
+        dockerfile { 
+            label 'nr'
+        }
     }
     environment {
         NEXUS = credentials('exchange-nexus')
