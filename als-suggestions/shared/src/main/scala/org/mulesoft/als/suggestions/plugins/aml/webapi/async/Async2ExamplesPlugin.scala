@@ -22,8 +22,7 @@ object Async2ExamplesPlugin extends AMLCompletionPlugin with ExampleSuggestionPl
             m.payloads.headOption
               .map(_.schema)
           } else if (request.yPartBranch.isInBranchOf("headers")) {
-            m.headers.headOption
-              .map(_.schema)
+            Some(m.headerSchema)
           } else {
             None
           }
