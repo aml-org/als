@@ -59,34 +59,36 @@ Besides LSP Messages, we also support the following Custom operations:
 + Find File Usages
 + Get/Set Configurations
 
-# Get Started
+## Getting Started
+### Using ALS as a language server
+ALS can run as a standalone language server which can then be used with any IDE. Most modern IDEs either natively support LSP or provide a way to support LSP via plugin.
+The ALS server JAR can be downloaded as follows:
+```shell
+$ curl https://repository-master.mulesoft.org/nexus/content/repositories/releases/org/mule/als/als-server_2.12/3.x.x/als-server_2.12-3.x.x.jar -o als-server.jar
+```
+and then ran independently like so:
+```shell
+$ java -jar als-server.jar --port {XXXX}
+```
+#### Adapting Microsoft LSP example for VSCode
+For adapting  [Microsoft's VSCode LSP](https://github.com/microsoft/vscode-extension-samples/tree/master/lsp-sample/client) example you can follow [this](./documentation/vscode-client-example/vscode-howto.md) instructions, and have a running ALS client in VSCode.
 
-## Setup
+### How it works
+During the server initialization process, it will connect to the provided Socket `(localhost, {port})` (connection which the client should accept).
+Through this channel, the [LSP protocol](https://microsoft.github.io/language-server-protocol/specification) is respected. Server and client exchange information on accepted actions, and notifications/request can occur.
+### Features
+- [Features and modules](./documentation/features/features.md)
+- [Navigation features](./documentation/features/navigation.md)
+- [Eye-Candy features](./documentation/features/eyecandy.md)
+
+
+## Development Setup
 
 ```
 git clone https://github.com/mulesoft/als.git
 ```
 
-### Mulesoft dependency references
-
-#### Repositories
-```
-git clone https://github.com/aml-org/amf
-git clone https://github.com/aml-org/amf-aml
-git clone https://github.com/aml-org/amf-core
-git clone https://github.com/mulesoft/syaml
-git clone https://github.com/mulesoft/scala-common
-```
-
-## Build
-
-#### Compilation
-
-Launching compilation manually is optional, it is being automatically launched in artifact generation steps.
-```
-sbt compile
-```
-
+## Artifact generation
 #### JS generation
 
 Generate npm artifact as `als/als-server/js/node-package/` folder
@@ -111,9 +113,17 @@ JS server development is in process of being developed, taking advantage of Scal
 
 ## Usage examples
 
-#### [JAVA (LSP4J)](./documentation/java-client-example/client.md) sample code
+#### [VS Code](./documentation/vscode-client-example/vscode-howto.md) sample extension
+    Instructions for plugin ALS into VSCode LSP client
+    
+#### [Sublime Text 3](./documentation/sublime-3-example/st3-howto.md) sample extension
+    Instructions for plugin ALS into ST3 LSP client
+    
+#### [IntelliJ](./documentation/intellij-example/intellij-howto.md) sample extension
+    Instructions for plugin ALS into IntelliJ's LSP client
 
-#### [JS (VS Code)](./documentation/js-client-example/client.md) sample code
+#### [JAVA (LSP4J)](./documentation/java-client-example/client.md) sample code
+    Example on how you can connect to a LSP server in java using LSP4J, which you can use for connecting IDE features inside a plugin.
 
 #### Design Center example:
 ![AD Example](./images/usage-example-ad.gif)
@@ -150,6 +160,15 @@ Through this channel, the [LSP protocol](https://microsoft.github.io/language-se
 ##### [Navigation features](./documentation/features/navigation.md)
 ##### [Eye-Candy features](./documentation/features/eyecandy.md)
 
+
+#### Internal dependency references
+```
+https://github.com/aml-org/amf
+https://github.com/aml-org/amf-aml
+https://github.com/aml-org/amf-core
+https://github.com/aml-org/syaml
+https://github.com/aml-org/scala-common
+```
 
 ## Contributing
 If you are interested in contributing to this project, please make sure to read our [contributing guidelines](./documentation/CONTRIBUTING.md).
