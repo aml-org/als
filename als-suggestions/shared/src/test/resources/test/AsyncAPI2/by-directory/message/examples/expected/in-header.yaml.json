@@ -1,0 +1,32 @@
+[
+  {
+    "label": "header1",
+    "kind": [],
+    "detail": "example",
+    "documentation": "header1",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11header1",
+    "filterText": "header1: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 17,
+          "character": 14
+        },
+        "end": {
+          "line": 17,
+          "character": 14
+        }
+      },
+      "newText": "header1: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
