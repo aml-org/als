@@ -21,7 +21,7 @@ import scala.concurrent.Future
 
 case class ObjectExamplePropertiesCompletionPlugin(node: DataNode,
                                                    dialect: Dialect,
-                                                   override val shape: Shape,
+                                                   override val anyShape: AnyShape,
                                                    example: Example)
     extends ShapePropertiesSuggestions {
 
@@ -51,7 +51,7 @@ case class ObjectExamplePropertiesCompletionPlugin(node: DataNode,
 }
 
 trait ShapePropertiesSuggestions {
-  val shape: Shape
+  val anyShape: AnyShape
   protected val dialect: Dialect
   protected def shapeForObj: Option[NodeShape]
 
@@ -61,7 +61,7 @@ trait ShapePropertiesSuggestions {
     if (dialect.id == OAS20Dialect.dialect.id) ProfileNames.OAS20 else ProfileNames.RAML
 
   protected val resolved: Option[AnyShape] =
-    new CompleteShapeTransformationPipeline(shape, LocalIgnoreErrorHandler, profile).resolve() match {
+    new CompleteShapeTransformationPipeline(anyShape, LocalIgnoreErrorHandler, profile).resolve() match {
       case a: AnyShape => Some(a)
       case _           => None
     }
@@ -76,7 +76,7 @@ trait ShapePropertiesSuggestions {
   }
 }
 
-case class PureShapePropertiesSuggestions(override val shape: Shape, dialect: Dialect)
+case class PureShapePropertiesSuggestions(override val anyShape: AnyShape, dialect: Dialect)
     extends ShapePropertiesSuggestions {
   override protected def shapeForObj: Option[NodeShape] = resolved.collectFirst({ case n: NodeShape => n })
 }
@@ -107,7 +107,7 @@ trait ExampleSuggestionPluginBuilder {
   }
 
   protected def suggestionsForShape(e: Example,
-                                    anyShape: Shape,
+                                    anyShape: AnyShape,
                                     request: AmlCompletionRequest): Option[ObjectExamplePropertiesCompletionPlugin] = {
     findNode(request)
       .map(obj => new ObjectExamplePropertiesCompletionPlugin(obj, request.actualDialect, anyShape, e))

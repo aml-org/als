@@ -1,7 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.async
 
-import amf.core.model.domain.Shape
-import amf.plugins.domain.shapes.models.Example
+import amf.plugins.domain.shapes.models.{AnyShape, Example}
 import amf.plugins.domain.webapi.models.Message
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
@@ -14,13 +13,14 @@ import scala.concurrent.Future
 object Async2ExamplesPlugin extends AMLCompletionPlugin with ExampleSuggestionPluginBuilder {
   override def id: String = "ExamplesPlugin"
 
-  def extractShape(request: AmlCompletionRequest): Option[Shape] = {
+  def extractShape(request: AmlCompletionRequest): Option[AnyShape] = {
     request.branchStack
       .collectFirst({
         case m: Message =>
           if (request.yPartBranch.isInBranchOf("payload")) {
             m.payloads.headOption
               .map(_.schema)
+              .collect({ case s: AnyShape => s })
           } else if (request.yPartBranch.isInBranchOf("headers")) {
             Some(m.headerSchema)
           } else {
