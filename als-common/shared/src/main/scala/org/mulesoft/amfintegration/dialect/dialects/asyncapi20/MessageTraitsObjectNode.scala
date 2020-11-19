@@ -13,7 +13,7 @@ import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{
 
 trait MessageAbstractObjectNode extends DialectNode {
 
-  val schemaFormatProp = PropertyMapping()
+  val schemaFormatProp: PropertyMapping = PropertyMapping()
     .withId(location + "#/declarations/Message/schemaFormat")
     .withName("schemaFormat")
     .withNodePropertyMapping(PayloadModel.SchemaMediaType.value.iri())
@@ -85,7 +85,7 @@ trait MessageAbstractObjectNode extends DialectNode {
       .withId(location + "#/declarations/Message/examples")
       .withName("examples")
       .withNodePropertyMapping(MessageModel.Examples.value.iri())
-      .withObjectRange(Seq(""))
+      .withObjectRange(Seq(AsyncMessageExampleNode.id))
   )
 }
 

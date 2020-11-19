@@ -81,29 +81,14 @@ case class PureShapePropertiesSuggestions(override val anyShape: AnyShape, diale
   override protected def shapeForObj: Option[NodeShape] = resolved.collectFirst({ case n: NodeShape => n })
 }
 
-object ObjectExamplePropertiesCompletionPlugin extends AMLCompletionPlugin {
-  override def id: String = "ObjectExamplePropertiesCompletionPlugin"
-
-  override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
-    Future {
-      buildPluginFromExampleObj(request)
-        .orElse(
-          request.branchStack
-            .collectFirst({ case e: Example => e })
-            .flatMap(buildPluginFromExample(_, request)))
-        .orElse(buildPluginFromField(request))
-        .map(_.suggest())
-        .getOrElse(Nil)
-    }
-  }
-
-  private def buildPluginFromExample(e: Example, request: AmlCompletionRequest): Option[ShapePropertiesSuggestions] = {
+trait ExampleSuggestionPluginBuilder {
+  protected def buildPluginFromExample(e: Example, request: AmlCompletionRequest): Option[ShapePropertiesSuggestions] = {
     findShape(e, request.branchStack).flatMap {
       case (e: Example, s: Shape) => suggestionsForShape(e, s, request)
     }
   }
 
-  private def buildPluginFromField(request: AmlCompletionRequest): Option[ShapePropertiesSuggestions] = {
+  protected def buildPluginFromField(request: AmlCompletionRequest): Option[ShapePropertiesSuggestions] = {
     request.fieldEntry
       .filter(fe => fe.field == ExamplesField.Examples)
       .flatMap(_ => {
@@ -111,7 +96,7 @@ object ObjectExamplePropertiesCompletionPlugin extends AMLCompletionPlugin {
       })
   }
 
-  private def buildPluginFromExampleObj(request: AmlCompletionRequest): Option[ShapePropertiesSuggestions] = {
+  protected def buildPluginFromExampleObj(request: AmlCompletionRequest): Option[ShapePropertiesSuggestions] = {
     request.amfObject match {
       case e: Example
           if (request.yPartBranch.isKey || request.yPartBranch.isArray) && !e.fields.exists(
@@ -121,7 +106,9 @@ object ObjectExamplePropertiesCompletionPlugin extends AMLCompletionPlugin {
     }
   }
 
-  private def suggestionsForShape(e: Example, anyShape: AnyShape, request: AmlCompletionRequest) = {
+  protected def suggestionsForShape(e: Example,
+                                    anyShape: AnyShape,
+                                    request: AmlCompletionRequest): Option[ObjectExamplePropertiesCompletionPlugin] = {
     findNode(request)
       .map(obj => new ObjectExamplePropertiesCompletionPlugin(obj, request.actualDialect, anyShape, e))
   }
@@ -147,7 +134,8 @@ object ObjectExamplePropertiesCompletionPlugin extends AMLCompletionPlugin {
       case _ => None
     }
   }
-  private def findShape(e: Example, branch: Seq[AmfObject]): Option[(Example, AnyShape)] = {
+
+  protected def findShape(e: Example, branch: Seq[AmfObject]): Option[(Example, AnyShape)] = {
     val i = branch.indexOf(e) + 1
     isFatherShape(branch.splitAt(Math.min(i, branch.length))._2.headOption).map(a => (e, a))
   }
@@ -160,6 +148,23 @@ object ObjectExamplePropertiesCompletionPlugin extends AMLCompletionPlugin {
           .getValueAsOption(PayloadModel.Schema)
           .collect({ case Value(s: AnyShape, _) => s }) // same uri than ParameterModel.schema
       case _ => None
+    }
+  }
+}
+
+object ObjectExamplePropertiesCompletionPlugin extends AMLCompletionPlugin with ExampleSuggestionPluginBuilder {
+  override def id: String = "ObjectExamplePropertiesCompletionPlugin"
+
+  override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
+    Future {
+      buildPluginFromExampleObj(request)
+        .orElse(
+          request.branchStack
+            .collectFirst({ case e: Example => e })
+            .flatMap(buildPluginFromExample(_, request)))
+        .orElse(buildPluginFromField(request))
+        .map(_.suggest())
+        .getOrElse(Nil)
     }
   }
 }
