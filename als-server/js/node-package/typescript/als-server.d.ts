@@ -1737,9 +1737,10 @@ declare module '@mulesoft/als-server' {
 
       }
 
-      export class WebApi extends DomainElement {
+      abstract class Api extends DomainElement {
         name: StrField
         description: StrField
+        identifier: StrField
         schemes: StrField[]
         endPoints: EndPoint[]
         accepts: StrField[]
@@ -1751,42 +1752,41 @@ declare module '@mulesoft/als-server' {
         documentations: CreativeWork[]
         servers: Server[]
         security: SecurityRequirement[]
-
-        withName(name: string): this
-
-        withDescription(description: string): this
-
-        withSchemes(schemes: string[]): this
-
-        withEndPoints(endPoints: EndPoint[]): this
-
-        withAccepts(accepts: string[]): this
-
-        withContentType(contentType: string[]): this
-
-        withVersion(version: string): this
-
-        withTermsOfService(terms: string): this
-
-        withProvider(provider: Organization): this
-
-        withLicense(license: License): this
-
-        withDocumentation(documentations: CreativeWork[]): this
-
-        withServers(servers: Server[]): this
-
-        withSecurity(security: SecurityRequirement[]): this
-
         withDocumentationTitle(title: string): CreativeWork
-
         withDocumentationUrl(url: string): CreativeWork
-
         withEndPoint(path: string): EndPoint
-
         withServer(url: string): Server
-
         withDefaultServer(url: string): Server
+      }
+      export class WebApi extends Api {
+        withName(name: string): this
+        withDescription(description: string): this
+        withSchemes(schemes: string[]): this
+        withEndPoints(endPoints: EndPoint[]): this
+        withAccepts(accepts: string[]): this
+        withContentType(contentType: string[]): this
+        withVersion(version: string): this
+        withTermsOfService(terms: string): this
+        withProvider(provider: Organization): this
+        withLicense(license: License): this
+        withDocumentation(documentations: CreativeWork[]): this
+        withServers(servers: Server[]): this
+        withSecurity(security: SecurityRequirement[]): this
+      }
+      export class AsyncApi extends Api {
+        withName(name: string): this
+        withDescription(description: string): this
+        withSchemes(schemes: string[]): this
+        withEndPoints(endPoints: EndPoint[]): this
+        withAccepts(accepts: string[]): this
+        withContentType(contentType: string[]): this
+        withVersion(version: string): this
+        withTermsOfService(terms: string): this
+        withProvider(provider: Organization): this
+        withLicense(license: License): this
+        withDocumentation(documentations: CreativeWork[]): this
+        withServers(servers: Server[]): this
+        withSecurity(security: SecurityRequirement[]): this
       }
 
     }
