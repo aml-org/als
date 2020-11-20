@@ -32,4 +32,6 @@ class ServerCapabilities(val textDocumentSync: Option[Either[TextDocumentSyncKin
                          val codeActionProvider: Option[CodeActionOptions] = None,
                          val documentLinkProvider: Option[DocumentLinkOptions] = None,
                          val workspace: Option[WorkspaceServerCapabilities] = None,
+                         val documentFormattingProvider: Boolean = false,
+                         val documentRangeFormattingProvider: Boolean = false,
                          val experimental: Option[AnyRef] = None)

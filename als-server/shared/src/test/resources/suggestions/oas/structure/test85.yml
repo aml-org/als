@@ -2,7 +2,7 @@
 swagger: '2.0'
 info:
   version: 1.0.9-abcd
-  title: Swagger Sample API
+  title: OpenApi Sample API
 host: my.api.com
 basePath: "/v1"
 schemes:
@@ -43,7 +43,7 @@ definitions:
       prefix: "air"
     externalDocs:
       description: Find more info here
-      url: https://swagger.io
+      url: https://openapi.io
     type: object
     allOf:
     - required:
@@ -63,7 +63,7 @@ securityDefinitions:
         user:email and user:follow.
       user:email: Grants read access to a user’s email addresses.
     flow: implicit
-    authorizationUrl: http://petstore.swagger.io/oauth/dialog
+    authorizationUrl: http://petstore.openapi.io/oauth/dialog
   internalApiKey:
     type: apiKey
     in: header
@@ -88,15 +88,15 @@ tags:
   description: Everything you need to handle pets
   externalDocs:
     description: Find more info here
-    url: https://swagger.io
+    url: https://openapi.io
 - name: pet1
   description: Everything you need to handle pet1s
   externalDocs:
     description: Find more info here
-    url: https://swagger.io
+    url: https://openapi.io
 externalDocs:
   description: Find more info here
-  url: https://swagger.io
+  url: https://openapi.io
 x-web-api-annotation: some string value
 paths:
   "/pets/{id}":

@@ -2,7 +2,7 @@ package org.mulesoft.amfintegration.dialect.dialects.oas.nodes
 
 import amf.core.vocabulary.Namespace.XsdTypes.xsdString
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.metamodel.WebApiModel
+import amf.plugins.domain.webapi.metamodel.api.WebApiModel
 import org.mulesoft.amfintegration.dialect.dialects.oas.OasBaseDialect
 
 object AMLInfoObject extends DialectNode {

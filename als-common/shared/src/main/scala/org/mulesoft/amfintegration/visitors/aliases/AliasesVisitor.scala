@@ -19,14 +19,15 @@ class AliasesVisitor extends AliasesVisitorType {
           .map { aliases =>
             val targets = bu.annotations.targets()
             aliases.aliases.flatMap { alias =>
-              targets.get(alias._2._1).map { range =>
-                AliasInfo(alias._1,
-                                 Location(bu.location().getOrElse(bu.id), parserToDtoRange(range)),
-                                 alias._2._1)
+              targets.get(alias._2._1).map { ranges =>
+                ranges.map(r => {
+                  AliasInfo(alias._1, Location(bu.location().getOrElse(bu.id), parserToDtoRange(r)), alias._2._1)
+                })
+
               }
             }
           }
-          .map(_.toSeq)
+          .map(_.toSeq.flatten)
           .getOrElse(Nil)
       case _ => Nil
     }

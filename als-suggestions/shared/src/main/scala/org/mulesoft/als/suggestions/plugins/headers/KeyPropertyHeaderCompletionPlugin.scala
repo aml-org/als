@@ -1,6 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.headers
 
 import amf.core.remote.FileMediaType
+import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.configuration.{AlsConfigurationReader, Configuration}
 import org.mulesoft.als.suggestions.interfaces.HeaderCompletionPlugin
@@ -72,9 +73,15 @@ class KeyPropertyHeaderCompletionPlugin(isJson: Boolean,
             jsonFlavour(d.name().value(), d.version().value(), hasBracket, position)
           else yamlFlavour(d.name().value(), d.version().value())
 
-        new RawSuggestion(text, label.trim, s"Define a ${d.nameAndVersion()} file", Seq(), children = Nil)
+        new RawSuggestion(text, label.trim, s"Define a ${purgedNameAndVersion(d)} file", Seq(), children = Nil)
       })
       .toSeq // TODO: remove when OAS is added as a Dialect
+  }
+
+  private def purgedNameAndVersion(d: Dialect) = {
+    val nameAndVersion = d.nameAndVersion()
+    if (nameAndVersion == "swagger 2.0") "openapi 2.0"
+    else nameAndVersion
   }
 
   case class Flavour(content: String, label: String, snippets: Boolean)

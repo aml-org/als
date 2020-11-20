@@ -188,4 +188,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
             .getRelationships(uri)
             .getRelationships(uri)
             .map(rl => (cu, filterDuplicates(rl))))
+
+  override def isInMainTree(uri: String): Boolean =
+    getWorkspace(uri).isInMainTree(uri)
 }

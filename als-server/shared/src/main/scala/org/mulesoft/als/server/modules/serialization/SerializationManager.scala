@@ -55,6 +55,7 @@ class SerializationManager[S](telemetryProvider: TelemetryProvider,
 
   override def applyConfig(config: Option[SerializationClientCapabilities]): SerializationServerOptions = {
     config.foreach(c => enabled = c.acceptsNotification)
+    logger.debug(s"Serialization manager enabled: $enabled", "SerializationManager", "applyConfig")
     SerializationServerOptions(true)
   }
 
@@ -75,8 +76,8 @@ class SerializationManager[S](telemetryProvider: TelemetryProvider,
       case Some(ua) =>
         ua.getLastUnit(uri, UUID.randomUUID().toString)
           .flatMap { r =>
-            if (r.originalUnit.isInstanceOf[Extension] || r.originalUnit
-                  .isInstanceOf[Overlay])
+            logger.debug(s"Serialization uri: $uri", "SerializationManager", "processRequest")
+            if (r.originalUnit.isInstanceOf[Extension] || r.originalUnit.isInstanceOf[Overlay])
               r.latestBU
             else r.latestBU.map(getUnitFromResolved(_, uri))
           }

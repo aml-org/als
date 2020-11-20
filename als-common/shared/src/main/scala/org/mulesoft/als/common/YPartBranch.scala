@@ -8,7 +8,9 @@ import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import amf.core.parser.{Position => AmfPosition}
 import amf.core.parser._
 import YamlWrapper._
+import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
+import org.mulesoft.lsp.feature.common
 import org.yaml.model
 
 import scala.annotation.tailrec
@@ -192,6 +194,20 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
 }
 
 object NodeBranchBuilder {
+  def getAstForRange(ast: YPart, startPosition: AmfPosition, endPosition: AmfPosition, isJson: Boolean): YPart = {
+    val start = build(ast, startPosition, isJson)
+    val end   = build(ast, endPosition, isJson)
+
+    findMutualYMapParent(start, end, isJson).getOrElse(ast)
+
+  }
+
+  private def findMutualYMapParent(start: YPartBranch, end: YPartBranch, isJson: Boolean): Option[YPart] = {
+    start.stack
+      .filter(_.isInstanceOf[YMapEntry])
+      .find(end.stack.contains(_))
+      .map(m => if (isJson) m else m.asInstanceOf[YMapEntry].inMap)
+  }
 
   def build(ast: YPart, position: AmfPosition, isJson: Boolean): YPartBranch =
     getStack(ast, position, Seq()) match {

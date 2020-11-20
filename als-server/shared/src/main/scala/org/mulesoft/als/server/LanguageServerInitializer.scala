@@ -18,6 +18,8 @@ import org.mulesoft.lsp.configuration.DefaultWorkspaceServerCapabilities
 import org.mulesoft.lsp.feature.codeactions.CodeActionConfigType
 import org.mulesoft.lsp.feature.completion.CompletionConfigType
 import org.mulesoft.lsp.feature.definition.DefinitionConfigType
+import org.mulesoft.lsp.feature.documentFormatting.DocumentFormattingConfigType
+import org.mulesoft.lsp.feature.documentRangeFormatting.DocumentRangeFormattingConfigType
 import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolConfigType
 import org.mulesoft.lsp.feature.folding.FoldingRangeConfigType
 import org.mulesoft.lsp.feature.hover.HoverConfigType
@@ -68,7 +70,9 @@ class LanguageServerInitializer(private val configMap: ConfigMap, private val in
       applyConfig(FoldingRangeConfigType, textDocument.flatMap(_.foldingRange)),
       applyConfig(SelectionRangeConfigType, textDocument.flatMap(_.selectionRange)),
       applyConfig(RenameFileConfigType, None), // todo: check client support?
-      configOptions
+      configOptions,
+      applyConfig(DocumentFormattingConfigType, textDocument.flatMap(_.documentFormatting)).isDefined,
+      applyConfig(DocumentRangeFormattingConfigType, textDocument.flatMap(_.documentRangeFormatting)).isDefined
     )
   }
 

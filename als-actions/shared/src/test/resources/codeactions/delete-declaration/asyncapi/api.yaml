@@ -5,7 +5,7 @@ components:
     schema1:
       type: string
     toDeleteS:
-      type: string
+      type: object
   messages:
     toDeleteM:
       contentType: application/json

@@ -21,5 +21,5 @@ trait PatchedKeyTerm extends PropertyTermObjectNode {
     )
 
   private val dialectName: String      = dialectNames.getOrElse(dialectId, "unknown")
-  final override lazy val name: String = s"${dialectName}/${amfObjectName}/${key}"
+  final override lazy val name: String = s"${dialectName}/$amfObjectName/$key"
 }

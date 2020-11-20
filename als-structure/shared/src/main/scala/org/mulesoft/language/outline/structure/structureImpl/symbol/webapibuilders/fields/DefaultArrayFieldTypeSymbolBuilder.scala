@@ -5,6 +5,7 @@ import amf.core.model.domain.AmfArray
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.shapes.metamodel.NodeShapeModel
 import amf.plugins.domain.webapi.metamodel._
+import amf.plugins.domain.webapi.metamodel.api.WebApiModel
 import org.mulesoft.language.outline.structure.structureImpl._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.FieldTypeSymbolBuilder
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.DefaultArrayTypeSymbolBuilder

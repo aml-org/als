@@ -4,7 +4,7 @@ import java.util.{List => JList}
 
 import org.eclipse.lsp4j
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
-import org.mulesoft.als.configuration.{AlsConfiguration, AlsFormattingOptions}
+import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeParams}
 import org.mulesoft.als.server.feature.fileusage.FileUsageClientCapabilities
@@ -39,6 +39,7 @@ import org.mulesoft.lsp.LspConversions.{
 
 import scala.collection.JavaConverters._
 import org.mulesoft.lsp.LspConversions.textDocumentIdentifier
+import org.mulesoft.lsp.configuration.FormattingOptions
 
 import scala.language.implicitConversions
 
@@ -67,8 +68,8 @@ object LspConversions {
       Option(capabilities.getRenameFileAction).map(r => RenameFileActionClientCapabilities(r.getEnabled))
     )
 
-  implicit def formattingOptions(formattingOptions: extension.AlsFormattingOptions): AlsFormattingOptions = {
-    AlsFormattingOptions(
+  implicit def formattingOptions(formattingOptions: extension.AlsFormattingOptions): FormattingOptions = {
+    FormattingOptions(
       formattingOptions.getTabSize,
       formattingOptions.preferSpaces()
     )
@@ -117,7 +118,9 @@ object LspConversions {
         Option(result.getDocumentLinkProvider),
         Option(result.getWorkspace),
         Option(result.getExperimental),
-        foldingRangeProvider = Option(result.getFoldingRangeProvider).map(_.getLeft)
+        foldingRangeProvider = Option(result.getFoldingRangeProvider).map(_.getLeft),
+        documentFormattingProvider = result.getDocumentFormattingProvider,
+        documentRangeFormattingProvider = result.getDocumentRangeFormattingProvider
       )
 
   private def conversionClientCapabilities(
@@ -147,7 +150,7 @@ object LspConversions {
   }
 
   implicit def stringFormatMapToMimeFormatMap(
-      v: Map[String, extension.AlsFormattingOptions]): Map[String, AlsFormattingOptions] = {
+      v: Map[String, extension.AlsFormattingOptions]): Map[String, FormattingOptions] = {
     v.map(v => (v._1 -> formattingOptions(v._2)))
   }
 

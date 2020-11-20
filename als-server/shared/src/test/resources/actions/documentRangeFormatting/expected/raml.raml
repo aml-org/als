@@ -1,0 +1,59 @@
+#%RAML 1.0
+#A longer comment
+unknownKey:
+    ref:
+             innerMap:
+                 k:     v
+                 #comment
+                 seq:
+                   - a
+                   - b
+                   - c
+title: test
+
+uses:
+    lib: lib.raml
+
+securitySchemes:
+    myScheme:
+      type: OAuth 1.0
+      description: description
+
+traits:
+    myTrait:
+      body:
+          application/json:
+              description: desc
+
+resourceTypes:
+    flights:
+        description: an endpoint
+types:
+    plane:
+      type: lib.model
+    flight:
+        type: object
+        properties:
+            plane:
+                type: plane
+            capacity:
+            type:
+                type: integer
+    anotherType:
+      type: string
+    myNumber:
+      type: number
+      minimum: 3
+      maximum: 7
+      default: 6
+/flight:
+  type: flights
+  get:
+    body:
+      application/json:
+        type: flight
+    responses:
+        200:
+            body:
+                application/json:
+                    myNumber

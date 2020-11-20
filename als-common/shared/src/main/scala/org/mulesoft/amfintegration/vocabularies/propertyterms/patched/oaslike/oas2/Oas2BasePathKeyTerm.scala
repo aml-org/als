@@ -1,9 +1,8 @@
 package org.mulesoft.amfintegration.vocabularies.propertyterms.patched.oaslike.oas2
 
-import amf.plugins.domain.webapi.metamodel.WebApiModel
-import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.PatchedTopLevelKeyTerm
+import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.WebApiPatchedTopLevelKeyTerm
 
-object Oas2BasePathKeyTerm extends Oas2PatchedKeyTerm with PatchedTopLevelKeyTerm {
+object Oas2BasePathKeyTerm extends Oas2PatchedKeyTerm with WebApiPatchedTopLevelKeyTerm {
   override val key: String         = "basePath"
   override val description: String = "URL prefix to all API endpoints"
 }

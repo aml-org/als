@@ -2,17 +2,12 @@ package org.mulesoft.als.server.modules.codeactions
 
 import org.mulesoft.als.actions.codeactions.plugins.AllCodeActions
 import org.mulesoft.als.actions.codeactions.plugins.testaction.TestCodeAction
+import org.mulesoft.als.common.MarkerInfo
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.actions.CodeActionManager
-import org.mulesoft.als.server.modules.reference.MarkerInfo
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.{
-  LanguageServerBuilder,
-  MockDiagnosticClientNotifier,
-  MockTelemetryParsingClientNotifier,
-  ServerWithMarkerTest
-}
+import org.mulesoft.als.server.{LanguageServerBuilder, MockTelemetryParsingClientNotifier, ServerWithMarkerTest}
 import org.mulesoft.lsp.feature.codeactions._
 import org.mulesoft.lsp.feature.common.{Range, TextDocumentIdentifier}
 

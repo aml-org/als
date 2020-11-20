@@ -1,13 +1,12 @@
 package org.mulesoft.als.server.modules.reference.files
 
+import org.mulesoft.als.common.MarkerInfo
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
-import org.mulesoft.als.server.modules.reference.{MarkerInfo, ServerReferencesTest}
-import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.lsp.feature.common.{Location, LocationLink, TextDocumentIdentifier}
-import org.mulesoft.lsp.feature.reference.{ReferenceContext, ReferenceParams, ReferenceRequestType}
 import org.mulesoft.als.server.modules.reference.ServerReferencesTest
-import org.mulesoft.lsp.feature.common.Location
+import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.lsp.feature.common.{Location, TextDocumentIdentifier}
+import org.mulesoft.lsp.feature.reference.{ReferenceContext, ReferenceParams, ReferenceRequestType}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -145,7 +144,7 @@ class ReferenceTest extends ServerReferencesTest {
   }
 
   override def getAction(path: String, server: LanguageServer, markerInfo: MarkerInfo): Future[Seq[Location]] = {
-    openFile(server)(path, markerInfo.patchedContent.original)
+    openFile(server)(path, markerInfo.content)
 
     val referenceHandler = server.resolveHandler(ReferenceRequestType).value
 

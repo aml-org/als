@@ -65,7 +65,7 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
                       cut: Boolean = false,
                       labels: Array[String] = Array("*")): Future[Assertion] =
     this
-      .suggest(path, label, cut, labels)
+      .suggest(path, label)
       .map(r => assertCategory(path, r.toSet))
 
   /**
@@ -82,25 +82,21 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
                         labels: Array[String] = Array("*"),
                         dialect: Option[String] = None): Future[Assertion] =
     this
-      .suggest(path, label, cut, labels, dialect)
+      .suggest(path, label, dialect)
       .map(r =>
         assert(path, r.flatMap(s => s.textEdit.map(_.newText).orElse(s.insertText)).toSet, originalSuggestions))
 
   def withDialect(path: String, originalSuggestions: Set[String], dialectPath: String): Future[Assertion] = {
-    runSuggestionTest(path, originalSuggestions, cut = false, dialect = Some(filePath(dialectPath)))
+    runSuggestionTest(path, originalSuggestions, dialect = Some(filePath(dialectPath)))
 
   }
 
   def rootPath: String
 
-  def suggest(path: String,
-              label: String,
-              cutTail: Boolean,
-              labels: Array[String],
-              dialect: Option[String] = None): Future[Seq[CompletionItem]] = {
+  override def suggest(path: String, label: String, dialect: Option[String] = None): Future[Seq[CompletionItem]] = {
     dialect match {
-      case Some(d) => platform.resolve(d).flatMap(c => super.suggest(filePath(path), Some(c.stream.toString)))
-      case _       => super.suggest(filePath(path), None)
+      case Some(d) => platform.resolve(d).flatMap(c => super.suggest(filePath(path), label, Some(c.stream.toString)))
+      case _       => super.suggest(filePath(path), label, None)
     }
 
   }

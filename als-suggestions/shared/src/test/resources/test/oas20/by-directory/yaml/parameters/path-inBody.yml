@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  title: Swagger Sample API
+  title: OpenApi Sample API
 paths:
   /pets:
     parameters:
