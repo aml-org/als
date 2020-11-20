@@ -2,8 +2,9 @@ package org.mulesoft.als.suggestions.styler
 
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.als.configuration.{AlsConfigurationReader, AlsFormatOptions, AlsFormattingOptions}
+import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.als.suggestions.patcher.PatchedContent
+import org.mulesoft.lsp.configuration.FormatOptions
 
 object SuggestionStylerBuilder {
   def build(isYAML: Boolean,
@@ -16,7 +17,7 @@ object SuggestionStylerBuilder {
             mimeType: Option[String] = None,
             indentation: Int = 0): SuggestionRender = {
 
-    val formatOptions: AlsFormatOptions = configuration.getFormatOptionForMime(
+    val formatOptions: FormatOptions = configuration.getFormatOptionForMime(
       mimeType.getOrElse("default")
     )
 

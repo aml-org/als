@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.modules.reference
 
+import org.mulesoft.als.common.{MarkerFinderTest, MarkerInfo}
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
@@ -12,7 +13,7 @@ import org.scalatest.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait ServerReferencesTest extends ServerWithMarkerTest[Seq[Location]] {
+trait ServerReferencesTest extends ServerWithMarkerTest[Seq[Location]] with MarkerFinderTest {
 
   override implicit val executionContext: ExecutionContext =
     ExecutionContext.Implicits.global
@@ -70,7 +71,7 @@ trait ServerReferencesTest extends ServerWithMarkerTest[Seq[Location]] {
                                server: LanguageServer,
                                markerInfo: MarkerInfo): Future[Seq[Location]] = {
 
-    openFile(server)(filePath, markerInfo.patchedContent.original)
+    openFile(server)(filePath, markerInfo.content)
 
     val implementationsHandler = server.resolveHandler(ImplementationRequestType).value
 
@@ -83,5 +84,3 @@ trait ServerReferencesTest extends ServerWithMarkerTest[Seq[Location]] {
       .map(_.left.getOrElse(Nil))
   }
 }
-
-class MarkerInfo(val patchedContent: PatchedContent, val position: Position) {}

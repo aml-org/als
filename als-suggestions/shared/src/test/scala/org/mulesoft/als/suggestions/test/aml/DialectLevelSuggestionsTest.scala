@@ -23,10 +23,7 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
 
   protected case class Result(succeed: Boolean, dialectClass: String, message: Option[String] = None)
 
-  protected case class PositionResult(position: Int,
-                                      dialectClass: Option[String],
-                                      level: Int,
-                                      patchedContent: PatchedContent)
+  protected case class PositionResult(position: Int, dialectClass: Option[String], level: Int, content: String)
 
   private def getPropertiesByPath(d: Dialect, nodeName: String): Seq[PropertyMapping] = {
     val de: Option[DomainElement] = d.declares.find(de => de.id endsWith s"/$nodeName")
@@ -82,8 +79,8 @@ trait DialectLevelSuggestionsTest extends SuggestionsTest {
     var partialContent = content
     val results = cases.map { c =>
       val info = this.findMarker(partialContent, c.label)
-      partialContent = info.patchedContent.content
-      PositionResult(info.position, c.dialectClass, c.level, info.patchedContent)
+      partialContent = info.content
+      PositionResult(info.offset, c.dialectClass, c.level, info.content)
     }
     (partialContent, results)
   }

@@ -1,18 +1,42 @@
 package org.mulesoft.als.server.protocol.convert
 
-import org.mulesoft.als.configuration.AlsFormattingOptions
-import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeOptions, CleanDiagnosticTreeParams}
+import org.mulesoft.als.server.feature.diagnostic.{
+  CleanDiagnosticTreeClientCapabilities,
+  CleanDiagnosticTreeOptions,
+  CleanDiagnosticTreeParams
+}
 import org.mulesoft.als.server.feature.fileusage.{FileUsageClientCapabilities, FileUsageOptions}
 import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
 import org.mulesoft.als.server.feature.renamefile.{RenameFileActionClientCapabilities, RenameFileActionParams}
 import org.mulesoft.als.server.feature.serialization._
-import org.mulesoft.als.server.protocol.actions.{ClientRenameFileActionClientCapabilities, ClientRenameFileActionParams}
-import org.mulesoft.als.server.protocol.configuration.{ClientAlsFormattingOptions, _}
+import org.mulesoft.als.server.protocol.actions.{
+  ClientRenameFileActionClientCapabilities,
+  ClientRenameFileActionParams
+}
+import org.mulesoft.als.server.protocol.configuration._
 import org.mulesoft.als.server.protocol.diagnostic.ClientCleanDiagnosticTreeParams
 import org.mulesoft.als.server.protocol.serialization.{ClientConversionParams, ClientSerializationParams}
-import org.mulesoft.als.server.protocol.textsync.{ClientDidFocusParams, ClientIndexDialectParams, DidFocusParams, IndexDialectParams}
-import org.mulesoft.lsp.configuration.{ClientStaticRegistrationOptions, StaticRegistrationOptions, TraceKind}
-import org.mulesoft.lsp.convert.LspConvertersClientToShared.{ClientWorkspaceServerCapabilitiesConverter, CompletionOptionsConverter, TextDocumentClientCapabilitiesConverter, TextDocumentSyncOptionsConverter, WorkspaceClientCapabilitiesConverter, WorkspaceFolderConverter}
+import org.mulesoft.als.server.protocol.textsync.{
+  ClientDidFocusParams,
+  ClientIndexDialectParams,
+  DidFocusParams,
+  IndexDialectParams
+}
+import org.mulesoft.lsp.configuration.{
+  ClientFormattingOptions,
+  ClientStaticRegistrationOptions,
+  FormattingOptions,
+  StaticRegistrationOptions,
+  TraceKind
+}
+import org.mulesoft.lsp.convert.LspConvertersClientToShared.{
+  ClientWorkspaceServerCapabilitiesConverter,
+  CompletionOptionsConverter,
+  TextDocumentClientCapabilitiesConverter,
+  TextDocumentSyncOptionsConverter,
+  WorkspaceClientCapabilitiesConverter,
+  WorkspaceFolderConverter
+}
 import org.mulesoft.lsp.textsync.{ClientTextDocumentSyncOptions, TextDocumentSyncKind}
 import org.mulesoft.lsp.convert.LspConvertersClientToShared._
 
@@ -44,7 +68,7 @@ object LspConvertersClientToShared {
       CleanDiagnosticTreeParams(v.textDocument.toShared)
   }
 
-  implicit class AlsClientCapabilitiesConverter(v: ClientAlsClientCapabilities){
+  implicit class AlsClientCapabilitiesConverter(v: ClientAlsClientCapabilities) {
     def toShared: AlsClientCapabilities = AlsClientCapabilities(
       v.workspace.map(_.toShared).toOption,
       v.textDocument.map(_.toShared).toOption,
@@ -52,7 +76,7 @@ object LspConvertersClientToShared {
       serialization = v.serialization.map(_.toShared).toOption,
       cleanDiagnosticTree = v.cleanDiagnosticTree.map(_.toShared).toOption,
       fileUsage = v.fileUsage.map(_.toShared).toOption,
-      conversion =  v.conversion.map(_.toShared).toOption,
+      conversion = v.conversion.map(_.toShared).toOption,
       renameFileAction = v.renameFileAction.map(_.toShared).toOption
     )
   }
@@ -66,7 +90,7 @@ object LspConvertersClientToShared {
         Option(v.processId),
         Option(v.workspaceFolders).map(_.map(_.toShared).toSeq),
         v.rootPath.toOption,
-        v.initializationOptions.toOption,
+        v.initializationOptions.toOption
       )
   }
 
@@ -103,9 +127,10 @@ object LspConvertersClientToShared {
   implicit class ServerCapabilitiesConverter(v: ClientAlsServerCapabilities) {
     def toShared: AlsServerCapabilities =
       AlsServerCapabilities(
-        v.textDocumentSync.toOption.map((textDocumentSync: Any) => textDocumentSync match {
-          case value: Int => Left(TextDocumentSyncKind(value))
-          case _ => Right(textDocumentSync.asInstanceOf[ClientTextDocumentSyncOptions].toShared)
+        v.textDocumentSync.toOption.map((textDocumentSync: Any) =>
+          textDocumentSync match {
+            case value: Int => Left(TextDocumentSyncKind(value))
+            case _          => Right(textDocumentSync.asInstanceOf[ClientTextDocumentSyncOptions].toShared)
         }),
         v.completionProvider.toOption.map(_.toShared),
         v.definitionProvider,
@@ -129,7 +154,7 @@ object LspConvertersClientToShared {
   }
 
   private def staticRegistrationToShared: Any => Either[Boolean, StaticRegistrationOptions] = {
-    case value: Boolean => Left(value)
+    case value: Boolean     => Left(value)
     case staticRegistration => Right(staticRegistration.asInstanceOf[ClientStaticRegistrationOptions].toShared)
   }
 
@@ -148,30 +173,31 @@ object LspConvertersClientToShared {
       IndexDialectParams(v.uri, v.content.toOption)
   }
 
-  implicit class ClientConversionParamsConverter(v: ClientConversionParams){
+  implicit class ClientConversionParamsConverter(v: ClientConversionParams) {
     def toShared: ConversionParams = ConversionParams(v.uri, v.target, v.syntax.toOption)
   }
 
-  implicit class ClientAlsFormattingOptionsConverter(v: ClientAlsFormattingOptions){
-    def toShared: AlsFormattingOptions = AlsFormattingOptions(v.tabSize, v.insertSpaces)
+  implicit class ClientFormattingOptionsConverter(v: ClientFormattingOptions) {
+    def toShared: FormattingOptions = FormattingOptions(v.tabSize, v.insertSpaces)
   }
 
-  implicit class ClientUpdateConfigurationConverter(v: ClientUpdateConfigurationParams){
+  implicit class ClientUpdateConfigurationConverter(v: ClientUpdateConfigurationParams) {
     def toShared: UpdateConfigurationParams = UpdateConfigurationParams(
-      v.clientAlsFormattingOptions.toOption.map(_.toMap.map(v => v._1 -> v._2.toShared)),
+      v.clientAlsFormattingOptions.toOption.map(_.toMap.map(v =>
+        v._1 -> ClientFormattingOptionsConverter(v._2).toShared)),
       v.clientGenericOptions.toMap.map(v => v._1 -> v._2)
     )
   }
 
-  implicit class ClientSerializationParamsConverter(v:ClientSerializationParams){
+  implicit class ClientSerializationParamsConverter(v: ClientSerializationParams) {
     def toShared: SerializationParams = SerializationParams(v.documentIdentifier.toShared)
   }
 
-  implicit class ClientRenameFileActionClientCapabilitiesConverter(i: ClientRenameFileActionClientCapabilities){
+  implicit class ClientRenameFileActionClientCapabilitiesConverter(i: ClientRenameFileActionClientCapabilities) {
     def toShared: RenameFileActionClientCapabilities = RenameFileActionClientCapabilities(i.enabled)
   }
 
-  implicit class ClientRenameFileActionParamsConverter(i: ClientRenameFileActionParams){
+  implicit class ClientRenameFileActionParamsConverter(i: ClientRenameFileActionParams) {
     def toShared: RenameFileActionParams = RenameFileActionParams(i.oldDocument.toShared, i.newDocument.toShared)
   }
   // $COVERAGE-ON

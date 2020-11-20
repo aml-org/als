@@ -46,11 +46,11 @@ class ParsedMainFileTree(eh: ErrorCollector,
       val targets = bu.annotations.targets()
       targets
         .flatMap {
-          case (targetLocation, originRange) =>
+          case (targetLocation, ranges) =>
             bu.references.find(_.identifier == targetLocation).map { r =>
               index(
                 r,
-                stack.through(ReferenceOrigins(bu.identifier, PositionRange(originRange)))
+                stack.through(ranges.map(originRange => ReferenceOrigins(bu.identifier, PositionRange(originRange))))
               )
             }
         }

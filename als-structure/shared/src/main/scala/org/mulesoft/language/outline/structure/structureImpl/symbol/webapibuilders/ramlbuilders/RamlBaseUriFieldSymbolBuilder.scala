@@ -2,7 +2,8 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuild
 
 import amf.core.model.domain.AmfArray
 import amf.core.parser.FieldEntry
-import amf.plugins.domain.webapi.metamodel.{ServerModel, WebApiModel}
+import amf.plugins.domain.webapi.metamodel.api.WebApiModel
+import amf.plugins.domain.webapi.metamodel.ServerModel
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.{
   ArrayFieldTypeSymbolBuilderCompanion,
   NamedArrayFieldTypeSymbolBuilder

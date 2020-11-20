@@ -5,7 +5,9 @@ def color = '#FF8C00'
 def headerFlavour = "WARNING"
 pipeline {
     agent {
-        dockerfile true
+        dockerfile { 
+            label 'gn-8-16-1'
+        }
     }
     environment {
         NEXUS = credentials('exchange-nexus')
@@ -61,6 +63,7 @@ pipeline {
                 anyOf {
                     branch 'master'
                     branch 'develop'
+                    branch 'nexus-iq/*'
                 }
             }
             steps {
@@ -95,26 +98,6 @@ pipeline {
                     } catch (e) {
                         failedStage = failedStage + " PUBLISH "
                         unstable "Failed publication"
-                    }
-                }
-            }
-        }
-        stage('Trigger Dependencies') {
-            when {
-                anyOf {
-                    branch 'develop'
-                }
-            }
-            steps {
-                script {
-                    try {
-                        if (failedStage.isEmpty()) {
-                            sh 'curl https://jenkins-onprem.build.msap.io/generic-webhook-trigger/invoke?token=$ALSP_TOKEN'
-                            build job: 'ALS/als-client/master', wait: false
-                        }
-                    } catch (e) {
-                        failedStage = failedStage + " DEPENDENCIES "
-                        unstable "Failed dependencies"
                     }
                 }
             }

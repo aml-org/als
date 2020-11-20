@@ -51,7 +51,9 @@ case class AlsServerCapabilities(
     foldingRangeProvider: Option[Boolean] = None,
     selectionRange: Option[Either[Boolean, StaticRegistrationOptions]] = None,
     renameFileAction: Option[RenameFileActionOptions] = None,
-    updateConfiguration: Option[UpdateConfigurationServerOptions] = None)
+    updateConfiguration: Option[UpdateConfigurationServerOptions] = None,
+    documentFormattingProvider: Boolean = false,
+    documentRangeFormattingProvider: Boolean = false)
 
 object AlsServerCapabilities {
   def empty: AlsServerCapabilities = AlsServerCapabilities()

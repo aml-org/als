@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.modules.completion
 
+import org.mulesoft.als.common.{MarkerFinderTest, MarkerInfo}
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
@@ -13,7 +14,7 @@ import org.scalatest.{Assertion, EitherValues}
 
 import scala.concurrent.Future
 
-abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherValues {
+abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherValues with MarkerFinderTest {
 
   def buildServer(): LanguageServer = {
 
@@ -34,7 +35,7 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
         content <- this.platform.resolve(resolved)
         suggestions <- {
           val fileContentsStr = content.stream.toString
-          val markerInfo      = this.findMarker(fileContentsStr)
+          val markerInfo      = this.findMarker(fileContentsStr, "*")
 
           getServerCompletions(resolved, server, markerInfo)
         }
@@ -56,7 +57,7 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
                            server: LanguageServer,
                            markerInfo: MarkerInfo): Future[Seq[CompletionItem]] = {
 
-    openFile(server)(filePath, markerInfo.patchedContent.original)
+    openFile(server)(filePath, markerInfo.content)
 
     val completionHandler = server.resolveHandler(CompletionRequestType).value
 
@@ -69,17 +70,4 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
       })
   }
 
-  def findMarker(str: String, label: String = "*", cut: Boolean = true): MarkerInfo = {
-    val offset = str.indexOf(label)
-
-    if (offset < 0)
-      new MarkerInfo(PatchedContent(str, str, Nil), Position(str.length, str))
-    else {
-      val rawContent      = str.substring(0, offset) + str.substring(offset + 1)
-      val preparedContent = ContentPatcher(rawContent, offset, YAML).prepareContent()
-      new MarkerInfo(preparedContent, Position(offset, str))
-    }
-  }
 }
-
-class MarkerInfo(val patchedContent: PatchedContent, val position: Position) {}

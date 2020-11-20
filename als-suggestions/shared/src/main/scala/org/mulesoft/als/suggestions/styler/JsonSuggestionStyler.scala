@@ -29,10 +29,6 @@ case class JsonSuggestionStyler(override val params: StylerParams) extends Sugge
   private def buildRenderOptions =
     JsonRenderOptions().withoutNonAsciiEncode.withPreferSpaces(useSpaces).withIndentationSize(tabSize)
 
-  def initialIndentation(): String = {
-    if (useSpaces) " " * initialIndentationSize * tabSize
-    else "\t" * initialIndentationSize
-  }
   override def astBuilder: RawSuggestion => AstRawBuilder =
     (raw: RawSuggestion) => new JsonAstRawBuilder(raw, false, params.yPartBranch)
 

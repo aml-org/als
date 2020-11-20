@@ -4,26 +4,24 @@ import amf.client.remote.Content
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
-import org.mulesoft.als.common.PlatformDirectoryResolver
+import org.mulesoft.als.common.{MarkerFinderTest, PlatformDirectoryResolver}
 import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.als.suggestions.client.Suggestions
-import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
-import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
-import org.mulesoft.amfintegration.{AmfInstance, InitOptions}
+import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.lsp.feature.completion.CompletionItem
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-trait BaseSuggestionsForTest extends PlatformSecrets {
+trait BaseSuggestionsForTest extends PlatformSecrets with MarkerFinderTest {
 
   protected val dr = new PlatformDirectoryResolver(platform)
 
-  def suggest(url: String, dialectContent: Option[String]): Future[Seq[CompletionItem]] = {
+  def suggest(url: String, label: String, dialectContent: Option[String]): Future[Seq[CompletionItem]] = {
 
     for {
       content <- platform.resolve(url)
-      r       <- suggestFromFile(content.stream.toString, url, content.mime, dialectContent)
+      r       <- suggestFromFile(content.stream.toString, url, content.mime, label, dialectContent)
     } yield {
       r
     }
@@ -32,15 +30,16 @@ trait BaseSuggestionsForTest extends PlatformSecrets {
   def suggestFromFile(content: String,
                       url: String,
                       mime: Option[String],
+                      label: String,
                       dialect: Option[String]): Future[Seq[CompletionItem]] = {
 
     var position        = 0
     val fileContentsStr = content
-    val markerInfo      = this.findMarker(fileContentsStr)
+    val markerInfo      = this.findMarker(fileContentsStr, label)
 
-    position = markerInfo.position
+    position = markerInfo.offset
 
-    val environment = this.buildEnvironment(url, markerInfo.patchedContent.original, mime)
+    val environment = this.buildEnvironment(url, markerInfo.content, mime)
     val instance    = AmfInstance(platform, environment)
     for {
       _ <- instance.init()
@@ -65,30 +64,4 @@ trait BaseSuggestionsForTest extends PlatformSecrets {
 
     Environment(loaders)
   }
-
-  def findMarker(str: String,
-                 label: String = "*",
-                 cut: Boolean = false,
-                 labels: Array[String] = Array("*")): MarkerInfo = {
-    val position = str.indexOf(label)
-
-    val str1 = {
-      if (cut && position >= 0) {
-        str.substring(0, position)
-      } else
-        str
-    }
-
-    if (position < 0)
-      new MarkerInfo(PatchedContent(str1, str1, Nil), str1.length)
-    else {
-      val rawContent = str1.replace(label, "")
-
-      val preparedContent = ContentPatcher(rawContent, position, YAML).prepareContent()
-      new MarkerInfo(preparedContent, position)
-    }
-
-  }
 }
-
-class MarkerInfo(val patchedContent: PatchedContent, val position: Int) {}

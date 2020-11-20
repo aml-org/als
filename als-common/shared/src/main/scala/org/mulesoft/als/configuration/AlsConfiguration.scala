@@ -1,6 +1,8 @@
 package org.mulesoft.als.configuration
 
-case class AlsConfiguration(private var formattingOptions: Map[String, AlsFormattingOptions] = Map())
+import org.mulesoft.lsp.configuration.{FormatOptions, FormattingOptions, DefaultFormattingOptions}
+
+case class AlsConfiguration(private var formattingOptions: Map[String, FormattingOptions] = Map())
     extends AlsConfigurationReader {
 
   private var enableUpdateFormatOptions = true
@@ -9,10 +11,10 @@ case class AlsConfiguration(private var formattingOptions: Map[String, AlsFormat
   override def supportsDocumentChanges: Boolean        = this.sDocumentChanges
   def supportsDocumentChanges(supports: Boolean): Unit = this.sDocumentChanges = supports
 
-  def getFormatOptionForMime(mimeType: String): AlsFormatOptions =
-    formattingOptions.getOrElse(mimeType, DefaultAlsFormattingOptions)
+  def getFormatOptionForMime(mimeType: String): FormatOptions =
+    formattingOptions.getOrElse(mimeType, DefaultFormattingOptions)
 
-  def updateFormattingOptions(options: Map[String, AlsFormattingOptions]): Unit =
+  def updateFormattingOptions(options: Map[String, FormattingOptions]): Unit =
     if (enableUpdateFormatOptions)
       options.foreach(pair => {
         this.formattingOptions += pair
@@ -21,7 +23,7 @@ case class AlsConfiguration(private var formattingOptions: Map[String, AlsFormat
   def setUpdateFormatOptions(enableUpdateFormatOptions: Boolean): Unit =
     this.enableUpdateFormatOptions = enableUpdateFormatOptions
 
-  def getFormatOptions: Map[String, AlsFormattingOptions] = formattingOptions
+  def getFormatOptions: Map[String, FormattingOptions] = formattingOptions
 
   def updateFormatOptionsIsEnabled(): Boolean = enableUpdateFormatOptions
 

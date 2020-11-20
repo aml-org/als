@@ -8,5 +8,5 @@ class Oas20YamlSuggestionTestByDirectory extends SuggestionByDirectoryTest {
 
   override def origin: Hint = OasYamlHint
 
-  override def fileExtension: String = ".yml"
+  override def fileExtensions: Seq[String] = Seq(".yml")
 }

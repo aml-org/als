@@ -21,6 +21,7 @@ import org.mulesoft.als.suggestions.styler.{SuggestionRender, SuggestionStylerBu
 import org.mulesoft.amfintegration.AmfImplicits.{AmfObjectImp, _}
 import org.yaml.model.YNode.MutRef
 import org.yaml.model.{YDocument, YMap, YNode, YSequence, YType}
+import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 
 import scala.collection.immutable
 class AmlCompletionRequest(val baseUnit: BaseUnit,
@@ -90,26 +91,6 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
 // todo: make instance
 object AmlCompletionRequestBuilder {
 
-  private def indentation(bu: BaseUnit, position: DtoPosition): Int =
-    bu.raw
-      .flatMap(text => {
-        val pos  = position
-        val left = text.substring(0, pos.offset(text))
-        val line =
-          if (left.contains("\n"))
-            left.substring(left.lastIndexOf("\n")).stripPrefix("\n")
-          else left
-        val first = line.headOption match {
-          case Some(c) if c == ' ' || c == '\t' => Some(c)
-          case _                                => None
-        }
-        first.map(f => {
-          line.substring(0, line.takeWhile(_ == f).length)
-        })
-      })
-      .getOrElse("")
-      .length
-
   def build(baseUnit: BaseUnit,
             position: AmfPosition,
             dialect: Dialect,
@@ -142,7 +123,7 @@ object AmlCompletionRequestBuilder {
       snippetSupport,
       if (baseUnit.location().isDefined) platform.mimeFromExtension(platform.extension(baseUnit.location().get).get)
       else None,
-      indentation(baseUnit, dtoPosition)
+      baseUnit.indentation(dtoPosition)
     )
 
     new AmlCompletionRequest(

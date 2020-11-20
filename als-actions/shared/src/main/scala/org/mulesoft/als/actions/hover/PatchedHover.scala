@@ -36,7 +36,7 @@ class PatchedHover(provider: SemanticDescriptionProvider) {
   }
 
   private def buildTerm(meta: ValueType, key: String, dialectName: String): ValueType =
-    ValueType(s"http://als.patched/#${dialectName}/${meta.name}/${key}")
+    ValueType(s"http://als.patched/#$dialectName/${meta.name}/$key")
 
   private val dialectNames: Map[String, String] =
     Map(

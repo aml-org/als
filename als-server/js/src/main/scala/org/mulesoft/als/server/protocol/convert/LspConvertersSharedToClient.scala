@@ -1,6 +1,5 @@
 package org.mulesoft.als.server.protocol.convert
 
-import org.mulesoft.als.configuration.AlsFormattingOptions
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeOptions}
 import org.mulesoft.als.server.feature.fileusage.{FileUsageClientCapabilities, FileUsageOptions}
 import org.mulesoft.als.server.feature.renamefile.{
@@ -32,7 +31,7 @@ import org.mulesoft.als.server.protocol.textsync.{
   DidFocusParams,
   IndexDialectParams
 }
-import org.mulesoft.lsp.configuration._
+import org.mulesoft.lsp.configuration.{FormattingOptions, _}
 import org.mulesoft.lsp.feature.diagnostic.{ClientPublishDiagnosticsParams, PublishDiagnosticsParams}
 
 import scala.language.implicitConversions
@@ -71,9 +70,9 @@ object LspConvertersSharedToClient {
       ClientAlsClientCapabilities(v)
   }
 
-  implicit class ClientUpdateFormatOptionsParamsConverter(v: AlsFormattingOptions) {
-    def toClient: ClientAlsFormattingOptions =
-      ClientAlsFormattingOptions(v)
+  implicit class ClientUpdateFormatOptionsParamsConverter(v: FormattingOptions) {
+    def toClient: ClientFormattingOptions =
+      ClientFormattingOptions(v)
   }
 
   implicit class ClientFilesInProjectParamsConverter(v: FilesInProjectParams) {

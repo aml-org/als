@@ -2,12 +2,13 @@ package org.mulesoft.als.server.modules.hover
 
 import amf.core.metamodel.domain.LinkableElementModel
 import amf.plugins.domain.shapes.metamodel.ExampleModel
+import amf.plugins.domain.webapi.metamodel.api.WebApiModel
 import amf.plugins.domain.webapi.metamodel.security.SecuritySchemeModel
 import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
-import amf.plugins.domain.webapi.metamodel.{EndPointModel, OperationModel, WebApiModel}
+import amf.plugins.domain.webapi.metamodel.{EndPointModel, OperationModel}
+import org.mulesoft.als.common.MarkerInfo
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
-import org.mulesoft.als.server.modules.reference.MarkerInfo
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.{LanguageServerBuilder, MockTelemetryParsingClientNotifier, ServerWithMarkerTest}
 import org.mulesoft.amfintegration.vocabularies.propertyterms.NamePropertyTerm

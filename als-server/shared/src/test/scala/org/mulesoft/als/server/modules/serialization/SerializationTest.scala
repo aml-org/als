@@ -15,6 +15,7 @@ import org.mulesoft.als.server.feature.serialization.{SerializationClientCapabil
 import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams}
+import org.mulesoft.als.server.protocol.textsync.DidFocusParams
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.common.{TextDocumentIdentifier, TextDocumentItem}
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
@@ -71,7 +72,7 @@ class SerializationTest extends LanguageServerBaseTest {
             )
         }
       } yield {
-        parsed.asInstanceOf[Document].encodes.id should be("amf://id#/web-api")
+        parsed.asInstanceOf[Document].encodes.id should be("amf://id#1")
       }
     }
   }
@@ -117,7 +118,7 @@ class SerializationTest extends LanguageServerBaseTest {
             )
         }
       } yield {
-        parsed.asInstanceOf[Document].encodes.id should be("amf://id#/web-api")
+        parsed.asInstanceOf[Document].encodes.id should be("amf://id#1")
       }
     }
   }
@@ -156,10 +157,10 @@ class SerializationTest extends LanguageServerBaseTest {
         }
         parsed4 <- parsedApi(api, s4)
       } yield {
-        parsed.asInstanceOf[Document].encodes.id should be("amf://id#/web-api")
-        parsed2.asInstanceOf[Document].encodes.id should be("amf://id#/web-api")
+        parsed.asInstanceOf[Document].encodes.id should be("amf://id#1")
+        parsed2.asInstanceOf[Document].encodes.id should be("amf://id#1")
         parsed3.isInstanceOf[Document] should be(false)
-        parsed4.asInstanceOf[Document].encodes.id should be("amf://id#/web-api")
+        parsed4.asInstanceOf[Document].encodes.id should be("amf://id#1")
 
       }
     }
@@ -231,7 +232,7 @@ class SerializationTest extends LanguageServerBaseTest {
             )
         }
       } yield {
-        parsed.asInstanceOf[Document].encodes.id should be("amf://id#/web-api")
+        parsed.asInstanceOf[Document].encodes.id should be("amf://id#1")
       }
     }
   }
@@ -294,8 +295,110 @@ class SerializationTest extends LanguageServerBaseTest {
             )
         }
       } yield {
-        parsed.asInstanceOf[Document].encodes.id should be("amf://id#/web-api")
-        parsed2.asInstanceOf[Document].encodes.id should be("amf://id#/web-api")
+        parsed.asInstanceOf[Document].encodes.id should be("amf://id#1")
+        parsed2.asInstanceOf[Document].encodes.id should be("amf://id#1")
+      }
+    }
+  }
+
+  test("Files outside tree shouldn't overwrite main file cache") {
+    val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
+    val serializationProps: SerializationProps[StringWriter] =
+      new SerializationProps[StringWriter](alsClient) {
+        override def newDocBuilder(): DocBuilder[StringWriter] =
+          JsonOutputBuilder()
+      }
+    withServer(buildServer(alsClient, serializationProps)) { server =>
+      val mainUrl      = filePath("project/librarybooks.raml")
+      val extensionUrl = filePath("project/extension.raml")
+      val overlayUrl   = filePath("project/overlay.raml")
+
+      for {
+        _ <- server.initialize(
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("project")}")))
+        _ <- platform
+          .resolve(mainUrl)
+          .map(c =>
+            server.textDocumentSyncConsumer.didOpen(
+              DidOpenTextDocumentParams(TextDocumentItem(mainUrl, "RAML", 0, c.stream.toString))))
+        mainSerialized1 <- serialized(server, mainUrl, serializationProps)
+        _ <- platform
+          .resolve(extensionUrl)
+          .map(c => {
+            server.textDocumentSyncConsumer.didOpen(
+              DidOpenTextDocumentParams(TextDocumentItem(extensionUrl, "RAML", 0, c.stream.toString)))
+            server.textDocumentSyncConsumer.didFocus(DidFocusParams(extensionUrl, 0))
+          })
+        extensionSerialized <- serialized(server, extensionUrl, serializationProps)
+        _                   <- Future(server.textDocumentSyncConsumer.didFocus(DidFocusParams(mainUrl, 0)))
+        mainSerialized2     <- serialized(server, mainUrl, serializationProps)
+        _ <- platform
+          .resolve(overlayUrl)
+          .map(c => {
+            server.textDocumentSyncConsumer.didOpen(
+              DidOpenTextDocumentParams(TextDocumentItem(overlayUrl, "RAML", 0, c.stream.toString)))
+            server.textDocumentSyncConsumer.didFocus(DidFocusParams(overlayUrl, 0))
+          })
+        overlaySerialized <- serialized(server, overlayUrl, serializationProps)
+        _                 <- Future(server.textDocumentSyncConsumer.didFocus(DidFocusParams(mainUrl, 0)))
+        mainSerialized3   <- serialized(server, mainUrl, serializationProps)
+      } yield {
+        (mainSerialized1 == mainSerialized2) should be(true)
+        (mainSerialized2 == mainSerialized3) should be(true)
+        (extensionSerialized != mainSerialized1) should be(true)
+        (extensionSerialized != overlaySerialized) should be(true)
+        (overlaySerialized != mainSerialized1) should be(true)
+      }
+    }
+  }
+
+  test("Files outside tree shouldn't overwrite main file cache - overlay main file") {
+    val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
+    val serializationProps: SerializationProps[StringWriter] =
+      new SerializationProps[StringWriter](alsClient) {
+        override def newDocBuilder(): DocBuilder[StringWriter] =
+          JsonOutputBuilder()
+      }
+    withServer(buildServer(alsClient, serializationProps)) { server =>
+      val mainUrl      = filePath("project-overlay-mf/librarybooks.raml")
+      val extensionUrl = filePath("project-overlay-mf/extension.raml")
+      val overlayUrl   = filePath("project-overlay-mf/overlay.raml")
+
+      for {
+        _ <- server.initialize(
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("project-overlay-mf")}")))
+        _ <- platform
+          .resolve(overlayUrl)
+          .map(c => {
+            server.textDocumentSyncConsumer.didOpen(
+              DidOpenTextDocumentParams(TextDocumentItem(overlayUrl, "RAML", 0, c.stream.toString)))
+            server.textDocumentSyncConsumer.didFocus(DidFocusParams(overlayUrl, 0))
+          })
+        overlaySerialized <- serialized(server, overlayUrl, serializationProps)
+        _                 <- Future(server.textDocumentSyncConsumer.didFocus(DidFocusParams(mainUrl, 0)))
+        _ <- platform
+          .resolve(mainUrl)
+          .map(c =>
+            server.textDocumentSyncConsumer.didOpen(
+              DidOpenTextDocumentParams(TextDocumentItem(mainUrl, "RAML", 0, c.stream.toString))))
+        mainSerialized1 <- serialized(server, mainUrl, serializationProps)
+        _ <- platform
+          .resolve(extensionUrl)
+          .map(c => {
+            server.textDocumentSyncConsumer.didOpen(
+              DidOpenTextDocumentParams(TextDocumentItem(extensionUrl, "RAML", 0, c.stream.toString)))
+            server.textDocumentSyncConsumer.didFocus(DidFocusParams(extensionUrl, 0))
+          })
+        extensionSerialized <- serialized(server, extensionUrl, serializationProps)
+        _                   <- Future(server.textDocumentSyncConsumer.didFocus(DidFocusParams(mainUrl, 0)))
+        mainSerialized2     <- serialized(server, mainUrl, serializationProps)
+        _                   <- Future(server.textDocumentSyncConsumer.didFocus(DidFocusParams(overlayUrl, 0)))
+        overlaySerialized2  <- serialized(server, overlayUrl, serializationProps)
+      } yield {
+        (mainSerialized2 == mainSerialized1) should be(true)
+        (overlaySerialized == mainSerialized1) should be(true)
+        (overlaySerialized2 == mainSerialized1) should be(true)
+        (extensionSerialized != overlaySerialized) should be(true)
       }
     }
   }

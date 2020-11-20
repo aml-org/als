@@ -1,0 +1,32 @@
+[
+  {
+    "label": "innerProp",
+    "kind": [],
+    "detail": "example",
+    "documentation": "innerProp",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11innerProp",
+    "filterText": "innerProp: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 19,
+          "character": 16
+        },
+        "end": {
+          "line": 19,
+          "character": 16
+        }
+      },
+      "newText": "innerProp: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

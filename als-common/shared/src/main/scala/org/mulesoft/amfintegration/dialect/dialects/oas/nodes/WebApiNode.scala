@@ -2,7 +2,8 @@ package org.mulesoft.amfintegration.dialect.dialects.oas.nodes
 
 import amf.core.vocabulary.Namespace.XsdTypes.xsdString
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.metamodel.{EndPointModel, ServerModel, WebApiModel}
+import amf.plugins.domain.webapi.metamodel.api.WebApiModel
+import amf.plugins.domain.webapi.metamodel.{EndPointModel, ServerModel}
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect.OwlSameAs
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect.DialectLocation
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
