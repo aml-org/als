@@ -24,11 +24,15 @@ ALS is for anyone interested in authoring specification documents in their favor
 
 ### Using ALS as a language server
 ALS can run as a standalone language server which can then be used with any IDE. Most modern IDEs either natively support LSP or provide a way to support LSP via plugin.
+
 The ALS server JAR can be downloaded as follows:
+
 ```shell
 $ curl https://repository-master.mulesoft.org/nexus/content/repositories/releases/org/mule/als/als-server_2.12/3.x.x/als-server_2.12-3.x.x.jar -o als-server.jar
 ```
+
 and then ran independently like so:
+
 ```shell
 $ java -jar als-server.jar --port {XXXX}
 ```
@@ -53,15 +57,6 @@ The [Microsoft's VSCode LSP example](https://github.com/microsoft/vscode-extensi
 #### Visual Studio Code document symbol example (LSP):
 ![VS Code Example](./images/document-symbol-vscode.gif)
 ****
-
-### How it works
-During the server initialization process, it will connect to the provided Socket `(localhost, {port})` (connection which the client should accept).
-Through this channel, the [LSP protocol](https://microsoft.github.io/language-server-protocol/specification) is respected. Server and client exchange information on accepted actions, and notifications/request can occur.
-
-#### Features
-- [Features and modules](./documentation/features/features.md)
-- [Navigation features](./documentation/features/navigation.md)
-- [Eye-Candy features](./documentation/features/eyecandy.md)
 
 ## Other considerations
 
