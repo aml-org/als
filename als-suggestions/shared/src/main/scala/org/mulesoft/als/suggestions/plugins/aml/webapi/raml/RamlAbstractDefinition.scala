@@ -2,16 +2,17 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
 import amf.core.annotations.SourceAST
 import amf.core.model.document.Fragment
+import amf.core.model.domain.DomainElement
 import amf.core.model.domain.templates.AbstractDeclaration
-import amf.core.model.domain.{DataNode, DomainElement}
 import amf.plugins.domain.webapi.metamodel.{EndPointModel, OperationModel}
 import amf.plugins.domain.webapi.models.templates.{ResourceType, Trait}
+import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.{AmlCompletionRequest, AmlCompletionRequestBuilder}
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.{AMLRefTagCompletionPlugin, AMLRootDeclarationsCompletionPlugin}
-import org.mulesoft.als.suggestions.{CompletionsPluginHandler, RawSuggestion}
-import org.yaml.model.{YMap, YMapEntry, YNode}
 import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.LocalIgnoreErrorHandler
+import org.yaml.model.{YMap, YMapEntry, YNode}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

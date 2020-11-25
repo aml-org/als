@@ -1,0 +1,34 @@
+documentChanges:
+  file://als-actions/shared/src/test/resources/codeactions/conversions/json-schema.json: create
+  file://als-actions/shared/src/test/resources/codeactions/conversions/inlined-json.raml:
+    -
+      from:
+        line: 0
+        column: 9
+      to:
+        line: 10
+        column: 11
+      content: |
+        +
+         !include json-schema.json
+  file://als-actions/shared/src/test/resources/codeactions/conversions/json-schema.json:
+    -
+      from:
+        line: 0
+        column: 0
+      to:
+        line: 0
+        column: 0
+      content: |
+        +
+        {
+          "$schema": "http://json-schema.org/draft-03/schema",
+          "properties": {
+              "input": {
+                  "required": false,
+                  "type": "string"
+              }
+          },
+          "required": false,
+          "type": "object"
+        }

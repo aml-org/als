@@ -16,6 +16,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 case class ExtractRamlTypeToFragmentCodeAction(params: CodeActionRequestParams) extends ExtractDeclarationToFragment {
+
   override protected val kindTitle: CodeActionKindTitle = ExtractRamlTypeToFragmentCodeAction
   override def fragmentBundle: Option[FragmentBundle]   = Some(FragmentBundles.DataTypeFragmentBundle)
 

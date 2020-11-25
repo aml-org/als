@@ -13,7 +13,7 @@ import amf.{ProfileName, ProfileNames}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.LocalIgnoreErrorHandler
+import org.mulesoft.amfintegration.LocalIgnoreErrorHandler
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect
 
 import scala.concurrent.ExecutionContext.Implicits.global

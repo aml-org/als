@@ -8,6 +8,7 @@ import amf.plugins.domain.shapes.resolution.stages.elements.CompleteShapeTransfo
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.amfintegration.LocalIgnoreErrorHandler
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

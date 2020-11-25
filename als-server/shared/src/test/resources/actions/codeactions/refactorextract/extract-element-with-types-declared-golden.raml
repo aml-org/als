@@ -9,8 +9,11 @@ types:
     properties:
       a:
         type: string
+        required: true
       b:
         type: integer
+        required: true
+    additionalProperties: true
 /endpoint:
   get:
     responses:
