@@ -12,7 +12,7 @@ Supported types of documents:
 + [AsyncAPI](https://github.com/asyncapi/asyncapi/blob/master/versions/2.0.0/asyncapi.md) (2.0)
 + [Any other type of documents via AML dialect](https://aml-org.github.io/aml-spec/dialects/) (1.0)
 
-### What is ALS used for?
+### What does ALS do?
 ALS relies on the [Anything Modeling Language (AML)](https://a.ml/docbook/overview_aml.html), more specifically AML's [dialect](https://aml-org.github.io/aml-spec/dialects/) functionality. ALS uses AML to provide language server functionalities, such as validation, over documents also referred to as "instances" or "instance documents". It can also deduce possible contextual values in any given position of an instance document.
 
 Using the representation of an API in a model, it is possible to generate an outline or [Document Symbol](https://microsoft.github.io/language-server-protocol/specification#textDocument_documentSymbol) to give a more visual abstraction of an instance.
