@@ -28,7 +28,7 @@ Cloning the repo:
 $ git clone https://github.com/mulesoft/als.git
 ```
 
-Generating npm artifacts (at `als/als-server/js/node-package/`):
+Generating a npm package (at `als/als-server/js/node-package/`):
 
 ```sh
 $ sbt buildJsServerLibrary
@@ -41,9 +41,9 @@ $ sbt serverJVM/assembly
 ```
 
 **Notes:**
-- this file is the actual LSP server jar
-- to run this from the client application, you must create a local socket and provide the port as a parameter. See the [ALS as a LSP Server](../readme.md#als-as-a-lsp-server) section of the README to understand how ALS interacts with IDEs
-- JS server development is still in progress, taking advantage of ScalaJS code-reusability features, all features may not work
+- this .jar file generated above is the actual LSP server JAR
+- to run it from the client application, you must create a local socket and provide the port as a parameter, see the [ALS as a LSP Server](../readme.md#als-as-a-lsp-server) section of the README to understand how ALS interacts with IDEs
+- the Javascript server implementation of ALS is still a work-in-progress and should be considered experimental
 
 ### Version control branching
 - Always branch from `master` branch to ensure you are updated with the latest release
