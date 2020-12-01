@@ -21,7 +21,7 @@ Using the representation of an API in a model, it is possible to generate an out
 ALS is for anyone interested in authoring specification documents in their favorite IDEs, including out-of-the-box API specification documents (aka "API definitions"), but also any custom document using AML's dialect functionality. It can also be used by developers to create IDE plugins based on LSP.
 
 ### What relies on ALS today?
-Today, ALS is used in MuleSoft Anypoint Design Center to provide live feedback while authoring API definitions. You can see a [preview](#previews) below.
+Today, ALS is used in MuleSoft Anypoint Design Center as well as in [Anypoint Studio](https://www.mulesoft.com/platform/studio) to provide live feedback while authoring API definitions. You can see a [preview](#previews) below.
 
 ## Roadmap
 
