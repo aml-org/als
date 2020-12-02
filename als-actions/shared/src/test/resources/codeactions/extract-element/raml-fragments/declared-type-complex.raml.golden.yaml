@@ -26,6 +26,8 @@ documentChanges:
         type: object
         example:
           a: this is an example
+        additionalProperties: true
         properties:
           a:
             type: string
+            required: true

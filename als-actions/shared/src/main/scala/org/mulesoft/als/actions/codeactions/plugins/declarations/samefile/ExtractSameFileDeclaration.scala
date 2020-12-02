@@ -65,7 +65,7 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with BaseEleme
         .toSeq
     }
 
-  override protected val renderLink: Future[Option[YNode]] = Future {
+  override protected lazy val renderLink: Future[Option[YNode]] = Future {
     amfObject
       .collect {
         case l: Linkable =>
