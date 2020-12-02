@@ -51,7 +51,7 @@ trait ExtractDeclarationToFragment extends CodeActionResponsePlugin with FileExt
 
   override protected def task(params: CodeActionRequestParams): Future[Seq[AbstractCodeAction]] =
     linkEntry.flatMap { mle =>
-      (mle, amfObject) match {
+      (mle, resolvedAmfObject) match {
         case (Some(le), Some(de: DomainElement)) =>
           for {
             externalFragment <- externalFragment(de)
