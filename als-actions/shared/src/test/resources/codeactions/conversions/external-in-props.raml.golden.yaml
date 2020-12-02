@@ -1,0 +1,58 @@
+documentChanges:
+  file://als-actions/shared/src/test/resources/codeactions/conversions/json-schema.json: create
+  file://als-actions/shared/src/test/resources/codeactions/conversions/complex.raml:
+    -
+      from:
+        line: 28
+        column: 23
+      to:
+        line: 39
+        column: 25
+      content: |
+        +
+         !include json-schema.json
+  file://als-actions/shared/src/test/resources/codeactions/conversions/json-schema.json:
+    -
+      from:
+        line: 0
+        column: 0
+      to:
+        line: 0
+        column: 0
+      content: |
+        +
+        {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/schema",
+          "definitions": {
+            "schema": {
+              "type": "object",
+              "additionalProperties": true,
+              "required": [
+                "numberHolder"
+              ],
+              "properties": {
+                "numberHolder": {
+                  "type": "object",
+                  "example": {
+                    "max": 9,
+                    "min": "test"
+                  },
+                  "additionalProperties": true,
+                  "required": [
+                    "min",
+                    "max"
+                  ],
+                  "properties": {
+                    "min": {
+                      "type": "string"
+                    },
+                    "max": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }

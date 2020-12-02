@@ -1,0 +1,21 @@
+#%RAML 1.0
+title: test
+types:
+   A:
+      type: object
+      properties:
+        prop: string
+      example:
+        prop: this is an example
+
+/inPayload:
+  get:
+    body:
+      application/json:
+        type: object
+        properties:
+          numberHolder:
+            type: object
+            properties:
+              min: number
+              max: number

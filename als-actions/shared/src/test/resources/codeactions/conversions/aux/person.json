@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$ref": "#/definitions/Person",
+  "definitions": {
+    "Person": {
+      "type": "object",
+      "required": [
+        "name",
+        "age"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "age": {
+          "type": "number"
+        }
+      },
+      "description": "this is a schema describing person"
+    }
+  }
+}

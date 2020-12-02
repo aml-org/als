@@ -4,8 +4,8 @@ import java.util.UUID
 
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 object MessageTypes extends Enumeration {
   type MessageTypes = String
@@ -76,6 +76,8 @@ object MessageTypes extends Enumeration {
   val END_DOCUMENT_FORMATTING          = "END_DOCUMENT_FORMATTING"
   val BEGIN_DOCUMENT_RANGE_FORMATTING  = "BEGIN_DOCUMENT_RANGE_FORMATTING"
   val END_DOCUMENT_RANGE_FORMATTING    = "END_DOCUMENT_RANGE_FORMATTING"
+  val BEGIN_TYPE_TO_JSON_SCHEMA_ACTION = "BEGIN_TYPE_TO_JSON_SCHEMA_ACTION"
+  val END_TYPE_TO_JSON_SCHEMA_ACTION   = "END_TYPE_TO_JSON_SCHEMA_ACTION"
 }
 
 trait TelemetryProvider {
