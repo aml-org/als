@@ -54,16 +54,21 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with BaseEleme
                      yamlOptions)
       .map(de => TextEdit(rangeFromEntryBottom(de._2), s"\n${de._1}\n"))
 
-  override protected def task(params: CodeActionRequestParams): Future[Seq[AbstractCodeAction]] =
-    linkEntry.map {
-      _.flatMap(e => declaredElementTextEdit.map(Seq(e, _)))
-        .map(edits => {
-          kindTitle.baseCodeAction(
-            AbstractWorkspaceEdit(
-              Seq(Left(TextDocumentEdit(VersionedTextDocumentIdentifier(params.uri, None), edits)))))
-        })
-        .toSeq
-    }
+  def applies(params: CodeActionRequestParams): Boolean =
+    maybeTree.flatMap(_.objVendor).forall(params.bu.sourceVendor.contains)
+
+  override protected def task(params: CodeActionRequestParams): Future[Seq[AbstractCodeAction]] = {
+    if (applies(params))
+      linkEntry.map {
+        _.flatMap(e => declaredElementTextEdit.map(Seq(e, _)))
+          .map(edits => {
+            kindTitle.baseCodeAction(
+              AbstractWorkspaceEdit(
+                Seq(Left(TextDocumentEdit(VersionedTextDocumentIdentifier(params.uri, None), edits)))))
+          })
+          .toSeq
+      } else Future.successful(Seq.empty)
+  }
 
   override protected lazy val renderLink: Future[Option[YNode]] = Future {
     amfObject

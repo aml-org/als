@@ -1,6 +1,6 @@
 package org.mulesoft.als.common
 
-import amf.core.annotations.{DeclaredElement, SourceAST, SourceVendor}
+import amf.core.annotations.{DeclaredElement, DefinedByVendor, SourceAST, SourceVendor}
 import amf.core.metamodel.document.BaseUnitModel
 import amf.core.metamodel.domain.LinkableElementModel
 import amf.core.model.document.{BaseUnit, DeclaresModel}
@@ -18,7 +18,7 @@ import org.yaml.model.YMapEntry
 case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfPosition) {
 
   def objVendor: Option[Vendor] =
-    (obj +: stack).flatMap(_.annotations.find(classOf[SourceVendor])).headOption.map(_.vendor)
+    (obj +: stack).flatMap(_.annotations.find(classOf[DefinedByVendor])).headOption.map(_.vendor)
 
   /**
     * return the first field entry for that contains the position in his value.

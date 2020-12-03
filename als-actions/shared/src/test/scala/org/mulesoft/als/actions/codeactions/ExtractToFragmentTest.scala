@@ -1,5 +1,6 @@
 package org.mulesoft.als.actions.codeactions
 
+import amf.core.remote.Vendor
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionFactory
 import org.mulesoft.als.actions.codeactions.plugins.declarations.fragment.{
   ExtractRamlDeclarationToFragmentCodeAction,
@@ -72,6 +73,14 @@ class ExtractToFragmentTest extends BaseCodeActionTests {
     val elementUri                       = "extract-element/raml-fragments/declared-documentation-item-simple.raml"
     val range                            = PositionRange(Position(4, 9), Position(4, 9))
     val pluginFactory: CodeActionFactory = ExtractRamlDeclarationToFragmentCodeAction
+
+    runTest(elementUri, range, pluginFactory)
+  }
+
+  it should "extract inlined RAML type from Async 2 in range" in {
+    val elementUri                       = "extract-element/async-fragments/raml-type.yaml"
+    val range                            = PositionRange(Position(13, 13), Position(14, 14))
+    val pluginFactory: CodeActionFactory = ExtractRamlTypeToFragmentCodeAction
 
     runTest(elementUri, range, pluginFactory)
   }
