@@ -3,7 +3,6 @@ package org.mulesoft.als.actions.codeactions.plugins.conversions
 import amf.core.model.domain.extensions.PropertyShape
 import amf.core.parser.Annotations
 import amf.core.remote.Vendor
-import amf.plugins.document.webapi.annotations.ParsedJSONSchema
 import amf.plugins.domain.shapes.models.AnyShape
 import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionFactory,
@@ -11,9 +10,7 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionResponsePlugin
 }
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.FileExtractor
-import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
-import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.common.{Position, Range}
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.{
@@ -28,16 +25,12 @@ import scala.concurrent.Future
 
 class RamlTypeToJsonSchema(override protected val params: CodeActionRequestParams)
     extends CodeActionResponsePlugin
-    with FileExtractor {
+    with FileExtractor
+    with ShapeConverter {
 
   override protected val fallbackName: String               = "json-schema"
   override protected val extension: String                  = "json"
   override protected val additionalAnnotations: Annotations = Annotations()
-
-  lazy val maybeAnyShape: Option[AnyShape] = resolvedAmfObject.flatMap {
-    case s: AnyShape => Some(s)
-    case _           => None
-  }
 
   protected def jsonSchemaTextEdit(shape: AnyShape): Future[(String, TextEdit)] =
     for {
@@ -45,11 +38,8 @@ class RamlTypeToJsonSchema(override protected val params: CodeActionRequestParam
       uri <- wholeUri
     } yield (uri, TextEdit(Range(Position(0, 0), Position(0, 0)), r))
 
-  private def renderJsonSchema(shape: AnyShape): Future[String] = {
-    Future {
-      shape.annotations.reject(_.isInstanceOf[ParsedJSONSchema])
-      shape.toJsonSchema()
-    }
+  private def renderJsonSchema(shape: AnyShape): Future[String] = Future {
+    shape.buildJsonSchema()
   }
 
   def inProperty: Boolean =
@@ -57,18 +47,7 @@ class RamlTypeToJsonSchema(override protected val params: CodeActionRequestParam
 
   override lazy val isApplicable: Boolean =
     params.bu.sourceVendor.contains(Vendor.RAML10) && !inProperty &&
-      maybeAnyShape.isDefined && (positionIsExtracted || isInlinedJsonSchema)
-
-  lazy val isInlinedJsonSchema: Boolean =
-    maybeAnyShape
-      .map(_.annotations)
-      .exists(ann => {
-        ann.find(_.isInstanceOf[ParsedJSONSchema]).isDefined &&
-        ann
-          .lexicalInformation()
-          .map(l => PositionRange(l.range))
-          .exists(r => position.exists(r.contains))
-      })
+      maybeAnyShape.isDefined && (positionIsExtracted || maybeAnyShape.exists(isInlinedJsonSchema))
 
   protected def telemetry: TelemetryProvider = params.telemetryProvider
 
@@ -93,14 +72,14 @@ class RamlTypeToJsonSchema(override protected val params: CodeActionRequestParam
         (mle, maybeAnyShape) match {
           case (Some(le), Some(shape)) =>
             jsonSchemaTextEdit(shape).map(edits =>
-              buildEdit(params.uri, le, edits._1, edits._2).map(RamlTypeToJsonSchema.baseCodeAction))
+              buildFileEdit(params.uri, le, edits._1, edits._2).map(RamlTypeToJsonSchema.baseCodeAction))
           case _ => Future.successful(Seq.empty)
         }
       }
     }
 }
 
-object RamlTypeToJsonSchema extends CodeActionFactory with TypeToJsonSchemaKind {
+object RamlTypeToJsonSchema extends CodeActionFactory with RamlTypeToJsonSchemaKind {
   def apply(params: CodeActionRequestParams): CodeActionResponsePlugin =
     new RamlTypeToJsonSchema(params)
 }

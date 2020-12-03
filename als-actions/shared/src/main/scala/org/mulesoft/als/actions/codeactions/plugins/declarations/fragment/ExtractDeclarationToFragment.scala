@@ -7,6 +7,7 @@ import amf.core.remote.{Mimes, Vendor}
 import amf.plugins.document.webapi.annotations.ForceEntry
 import org.mulesoft.als.actions.codeactions.plugins.CodeActionKindTitle
 import org.mulesoft.als.actions.codeactions.plugins.base.{CodeActionRequestParams, CodeActionResponsePlugin}
+import org.mulesoft.als.actions.codeactions.plugins.conversions.ShapeConverter
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.FileExtractor
 import org.mulesoft.als.actions.codeactions.plugins.declarations.fragment.webapi.raml.FragmentBundle
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
@@ -21,7 +22,7 @@ import org.mulesoft.lsp.feature.telemetry.MessageTypes.{
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-trait ExtractDeclarationToFragment extends CodeActionResponsePlugin with FileExtractor {
+trait ExtractDeclarationToFragment extends CodeActionResponsePlugin with FileExtractor with ShapeConverter {
   protected val kindTitle: CodeActionKindTitle
   protected def fragmentBundle: Option[FragmentBundle]
 
@@ -56,7 +57,7 @@ trait ExtractDeclarationToFragment extends CodeActionResponsePlugin with FileExt
           for {
             externalFragment <- externalFragment(de)
             (uri, textEdit)  <- externalFragmentTextEdit(externalFragment)
-          } yield buildEdit(params.uri, le, uri, textEdit).map(kindTitle.baseCodeAction)
+          } yield buildFileEdit(params.uri, le, uri, textEdit).map(kindTitle.baseCodeAction)
         case _ => Future.successful(Seq.empty)
       }
     }

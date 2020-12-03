@@ -1,0 +1,36 @@
+documentChanges:
+  file://als-actions/shared/src/test/resources/codeactions/conversions/json-schema-to-raml-type.raml:
+    -
+      from:
+        line: 39
+        column: 27
+      to:
+        line: 73
+        column: 13
+      content: |
+        +
+
+                    description: A representation of a person, company, organization, or place
+                    type: object
+                    additionalProperties: true
+                    properties:
+                      fruits:
+                        type: array
+                        items:
+                          type: string
+                        required: false
+                      vegetables:
+                        type: array
+                        items:
+                          type: object
+                          additionalProperties: true
+                          properties:
+                            veggieName:
+                              type: string
+                              description: The name of the vegetable.
+                              required: true
+                            veggieLike:
+                              type: boolean
+                              description: Do I like this vegetable?
+                              required: true
+                        required: false

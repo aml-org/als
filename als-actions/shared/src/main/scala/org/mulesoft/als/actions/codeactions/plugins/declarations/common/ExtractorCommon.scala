@@ -9,7 +9,6 @@ import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.webapi.parser.spec.common.emitters.WebApiDomainElementEmitter
 import org.mulesoft.als.common.YamlUtils.isJson
 import org.mulesoft.als.common.YamlWrapper.YNodeImplicits
-import org.mulesoft.als.common.cache.ObjectInTreeCached
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.common.{ObjectInTree, YPartBranch}
 import org.mulesoft.als.configuration.AlsConfigurationReader
@@ -181,14 +180,23 @@ object ExtractorCommon {
     wrapped
       .map(_._1)
       .map { node =>
-        if (isJson(bu)) {
-          renderJson(configurationReader, jsonOptions, maybeParent, node)
-        } else {
-          val rendered = YamlRender
-            .render(node, getIndentation(Mimes.`APPLICATION/YAML`, maybeParent, configurationReader), yamlOptions)
-          (rendered, maybeParent)
-        }
+        renderNode(node, maybeParent, bu, configurationReader, jsonOptions, yamlOptions)
       }
+  }
+
+  def renderNode(node: YNode,
+                 maybeParent: Option[YMapEntry],
+                 bu: BaseUnit,
+                 configurationReader: AlsConfigurationReader,
+                 jsonOptions: JsonRenderOptions,
+                 yamlOptions: YamlRenderOptions): (String, Option[YMapEntry]) = {
+    if (isJson(bu)) {
+      renderJson(configurationReader, jsonOptions, maybeParent, node)
+    } else {
+      val rendered = YamlRender
+        .render(node, getIndentation(Mimes.`APPLICATION/YAML`, maybeParent, configurationReader), yamlOptions)
+      (rendered, maybeParent)
+    }
   }
 
   private def renderJson(configurationReader: AlsConfigurationReader,
