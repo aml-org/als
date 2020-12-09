@@ -37,7 +37,7 @@ object Async20TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugi
       case Some(_: PropertyShape) if params.branchStack.exists(_.isInstanceOf[Payload]) =>
         findPluginForMediaType(params.branchStack.collectFirst { case p: Payload => p }.get)
           .map(_.resolve(params))
-          .getOrElse(emptySuggestion)
+          .getOrElse(super.resolve(params))
       case _ => super.resolve(params)
     }
   }
