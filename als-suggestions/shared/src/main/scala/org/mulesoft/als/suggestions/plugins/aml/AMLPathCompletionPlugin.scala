@@ -23,9 +23,9 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
     else ""
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
-    if (DialectKnowledge.isRamlInclusion(params.yPartBranch, params.actualDialect) || DialectKnowledge.isJsonInclusion(
+    if (DialectKnowledge.isRamlInclusion(params.yPartBranch, params.nodeDialect) || DialectKnowledge.isJsonInclusion(
           params.yPartBranch,
-          params.actualDialect)) {
+          params.nodeDialect)) {
       resolveInclusion(params.baseUnit.location().getOrElse(""),
                        params.environment,
                        params.platform,

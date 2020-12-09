@@ -27,10 +27,13 @@ trait ShapeDeclarationReferenceCompletionPlugin extends AMLCompletionPlugin with
             if (s.annotations.contains(classOf[SynthesizedField]) || params.yPartBranch.isEmptyNode)
               ShapeModel.`type`.head.iri()
             else s.metaURIs.head
-          val declaredSuggestions = new AMLRamlStyleDeclarationsReferences(Seq(iri),
-                                                                           params.prefix,
-                                                                           params.declarationProvider,
-                                                                           s.name.option()).resolve()
+          val declaredSuggestions =
+            if (canUseDeclared(params))
+              new AMLRamlStyleDeclarationsReferences(Seq(iri),
+                                                     params.prefix,
+                                                     params.declarationProvider,
+                                                     s.name.option()).resolve()
+            else Seq.empty
 
           val name = params.amfObject.elementIdentifier()
           params.yPartBranch.parent
@@ -57,6 +60,11 @@ trait ShapeDeclarationReferenceCompletionPlugin extends AMLCompletionPlugin with
       }
     }
   }
+
+  // today the only case in which this applies is raml types on async2
+  // if any other case appears, check if this is still a valid mean to know if one can use declarations from other specs
+  private def canUseDeclared(params: AmlCompletionRequest) =
+    params.nodeDialect == params.actualDialect
 
   def typeProperty: PropertyMapping
 }

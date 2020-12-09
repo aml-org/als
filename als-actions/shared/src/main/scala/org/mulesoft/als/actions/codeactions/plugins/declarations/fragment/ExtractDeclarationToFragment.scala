@@ -36,7 +36,7 @@ trait ExtractDeclarationToFragment extends CodeActionResponsePlugin with FileExt
   protected def externalFragmentRendered(ef: Fragment): Future[String] =
     params.amfInstance
       .modelBuilder()
-      .serialize(params.bu.sourceVendor.map(_.name).getOrElse(Vendor.AML.name), getSyntax, ef)
+      .serialize(vendor.name, getSyntax, ef)
 
   private def getSyntax: String =
     if (yPartBranch.exists(_.isJson))

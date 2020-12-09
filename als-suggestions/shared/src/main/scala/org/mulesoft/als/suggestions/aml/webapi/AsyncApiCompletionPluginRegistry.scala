@@ -19,6 +19,7 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.async.{
 }
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.OaslikeSecurityScopesCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.structure.ResolveInfo
+import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.RamlTypeDeclarationReferenceCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.{ResolveDefault, StructureCompletionPlugin}
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
 
@@ -55,6 +56,7 @@ object AsyncApiCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
       Async2VariableValueParam :+
       Async2SecuredByCompletionPlugin :+
       Async2MessageExamplesCompletionPlugin :+
+      RamlTypeDeclarationReferenceCompletionPlugin :+
       Async2ExamplesPlugin
 
   override def plugins: Seq[AMLCompletionPlugin] = all

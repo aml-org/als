@@ -13,7 +13,7 @@ case class ExtractElementCodeAction(params: CodeActionRequestParams) extends Ext
   override protected val kindTitle: CodeActionKindTitle = ExtractElementCodeAction
 
   override lazy val isApplicable: Boolean =
-    !vendor.isRaml && amfObject.isDefined && positionIsExtracted && params.dialect != MetaDialect.dialect
+    homogeneousVendor && !vendor.isRaml && amfObject.isDefined && positionIsExtracted && params.dialect != MetaDialect.dialect
 
   override protected def telemetry: TelemetryProvider = params.telemetryProvider
 
