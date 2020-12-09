@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.modules.diagnostic
 
 import amf.client.remote.Content
+import amf.core.remote.Vendor
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
@@ -160,6 +161,27 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest {
         v1.length should be(1)
         val fileDiagnostic = v1.head
         fileDiagnostic.diagnostics.size should be(1)
+      }
+    }
+  }
+
+  test("Clean diagnostic test - ASYNC20 vendor") {
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(5000)
+    withServer(buildServer(diagnosticNotifier)) { s =>
+      val mainFilePath = s"file://async.yaml"
+
+      val mainContent =
+        """asyncapi: "2.0.0"
+          |""".stripMargin
+
+      for {
+        _ <- openFileNotification(s)(mainFilePath, mainContent)
+        _ <- diagnosticNotifier.nextCall
+        d <- requestCleanDiagnostic(s)(mainFilePath)
+      } yield {
+        s.shutdown()
+        assert(d.nonEmpty)
+        assert(d.forall(_.profile.profile == Vendor.ASYNC20.name))
       }
     }
   }
