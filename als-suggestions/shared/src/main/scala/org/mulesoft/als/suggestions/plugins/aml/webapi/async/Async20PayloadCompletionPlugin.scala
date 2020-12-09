@@ -27,7 +27,7 @@ object Async20PayloadCompletionPlugin extends AMLCompletionPlugin with AsyncMedi
               else
                 findPluginForMediaType(p)
                   .map(_.resolveShape(s, branchStack, AsyncApi20Dialect()))
-                  .getOrElse(Seq.empty)
+                  .getOrElse(Async20TypeFacetsCompletionPlugin.resolveShape(s, branchStack, AsyncApi20Dialect()))
           }
         case _ => Seq.empty
       }
