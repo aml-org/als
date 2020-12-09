@@ -97,4 +97,11 @@ class ExtractToDeclarationTest extends BaseCodeActionTests {
     val pluginFactory: CodeActionFactory = ExtractElementCodeAction
     runTest(elementUri, range, pluginFactory, None, Some(dialectUri))
   }
+
+  it should "not extract RAML Type from Async2 to declaration" in {
+    val elementUri                       = "extract-element/async-fragments/raml-type.yaml"
+    val range                            = PositionRange(Position(13, 13), Position(14, 14))
+    val pluginFactory: CodeActionFactory = ExtractElementCodeAction
+    runTestNotApplicable(elementUri, range, pluginFactory)
+  }
 }

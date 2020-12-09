@@ -1,18 +1,8 @@
 package org.mulesoft.amfintegration
 
-import amf.{
-  Async20Profile,
-  Oas20Profile,
-  Oas30Profile,
-  OasProfile,
-  ProfileName,
-  Raml08Profile,
-  Raml10Profile,
-  RamlProfile
-}
 import amf.core.Root
 import amf.core.client.ParsingOptions
-import amf.core.metamodel.domain.common.{DescriptionField, DisplayNameField, NameFieldSchema}
+import amf.core.metamodel.domain.common.{DescriptionField, NameFieldSchema}
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.DomainElement
 import amf.core.parser.ParserContext
@@ -48,6 +38,8 @@ class AlsDialectsRegistry extends DialectsRegistry {
     case diu: DialectInstanceUnit => dialectFor(diu)
     case _                        => dialectForVendor(bu)
   }
+
+  def dialectForVendor(v: Vendor): Option[Dialect] = alsDialects.get(v)
 
   def registerDialect(content: String): Future[Dialect] = {
     val loader = StringResourceLoader(nextDialectUri(), content)
@@ -140,6 +132,7 @@ case class ALSAMLPlugin() extends AMLPlugin with SemanticDescriptionProvider {
   val vocabularyRegistry: AlsVocabularyRegistry = AlsVocabularyRegistry()
 
   def dialectFor(u: BaseUnit): Option[Dialect] = registry.dialectForUnit(u)
+  def dialectFor(v: Vendor): Option[Dialect]   = registry.dialectForVendor(v)
 
   override def parse(document: Root,
                      parentContext: ParserContext,

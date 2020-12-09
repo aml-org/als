@@ -1,22 +1,24 @@
 package org.mulesoft.als.common
 
-import amf.core.annotations.{DeclaredElement, LexicalInformation, SourceAST}
+import amf.core.annotations.{DeclaredElement, DefinedByVendor, SourceAST, SourceVendor}
 import amf.core.metamodel.document.BaseUnitModel
 import amf.core.metamodel.domain.LinkableElementModel
 import amf.core.model.document.{BaseUnit, DeclaresModel}
 import amf.core.model.domain.{AmfObject, DomainElement}
 import amf.core.parser.{Annotations, FieldEntry, Position => AmfPosition}
+import amf.core.remote.Vendor
 import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.common.AmfSonElementFinder._
 import org.mulesoft.als.common.YamlWrapper.AlsYPart
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.FieldEntryOrdering
-import org.yaml.model.{YMapEntry, YNode}
 import org.yaml.model.YMapEntry
-import org.mulesoft.amfintegration.AmfImplicits._
 
 case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfPosition) {
+
+  def objVendor: Option[Vendor] =
+    (obj +: stack).flatMap(_.annotations.find(classOf[DefinedByVendor])).headOption.map(_.vendor)
 
   /**
     * return the first field entry for that contains the position in his value.

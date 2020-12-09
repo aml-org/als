@@ -110,7 +110,7 @@ trait BaseElementDeclarableExtractors {
   protected lazy val renderLink: Future[Option[YNode]] = Future.successful(None)
 
   protected lazy val vendor: Vendor =
-    params.bu.sourceVendor.getOrElse(Vendor.AML)
+    (maybeTree.flatMap(_.objVendor) orElse params.bu.sourceVendor).getOrElse(Vendor.AML)
 
   /**
     * The entry which holds the reference for the new declaration (`{"$ref": "declaration/$1"}`)

@@ -1,0 +1,32 @@
+[
+  {
+    "label": "!include",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "inclusion tag",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11!include",
+    "filterText": "!include ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 16
+        },
+        "end": {
+          "line": 7,
+          "character": 17
+        }
+      },
+      "newText": "!include "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

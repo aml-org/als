@@ -1,5 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
+import amf.core.remote.Vendor
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import org.mulesoft.als.common.SemanticNamedElement._
 import org.mulesoft.als.common.YPartBranch
@@ -30,7 +31,7 @@ trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin with NonPatchHacks {
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     Future {
-      getSuggestion(request, Option(request.actualDialect.documents()).flatMap(_.referenceStyle().option()))
+      getSuggestion(request, Option(request.nodeDialect.documents()).flatMap(_.referenceStyle().option()))
     }
 
   private def isDeclarable(params: AmlCompletionRequest): Boolean =

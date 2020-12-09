@@ -4,6 +4,7 @@ import org.mulesoft.als.actions.codeactions.plugins.declarations.delete.DeleteDe
 import org.mulesoft.als.common.WorkspaceEditSerializer
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
+import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.lsp.feature.codeactions.CodeAction
 import org.scalatest.Assertion
 import org.yaml.model.YDocument
@@ -240,16 +241,20 @@ class DeleteDeclaredNodeTest extends BaseCodeActionTests {
                                activeFile: Option[String],
                                defineBy: Option[String] = None) = {
 
-    parseElement(file, defineBy).map(r => buildPreParam(file, r)).flatMap { pr =>
-      val results: Seq[Future[DeleteResultCase]] = cases.map { deletecase =>
-        val params = pr.buildParam(deletecase.positionRange, activeFile)
-        val plugin = DeleteDeclaredNodeCodeAction(params)
-        val r: Future[Seq[AbstractCodeAction]] =
-          if (plugin.isApplicable) plugin.run(params) else Future.successful(Seq.empty)
-        r.map(ca => DeleteResultCase(deletecase.name, ca))
-      }
-      Future.sequence(results).map(serializeResults)
-    }
+    val amfInstance = AmfInstance.default
+    amfInstance
+      .init()
+      .flatMap(_ =>
+        parseElement(file, defineBy).map(r => buildPreParam(file, r)).flatMap { pr =>
+          val results: Seq[Future[DeleteResultCase]] = cases.map { deletecase =>
+            val params = pr.buildParam(deletecase.positionRange, activeFile, amfInstance)
+            val plugin = DeleteDeclaredNodeCodeAction(params)
+            val r: Future[Seq[AbstractCodeAction]] =
+              if (plugin.isApplicable) plugin.run(params) else Future.successful(Seq.empty)
+            r.map(ca => DeleteResultCase(deletecase.name, ca))
+          }
+          Future.sequence(results).map(serializeResults)
+      })
   }
 
   private def serializeResults(l: Seq[DeleteResultCase]): String = {

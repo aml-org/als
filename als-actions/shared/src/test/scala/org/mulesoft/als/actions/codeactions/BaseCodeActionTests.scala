@@ -73,12 +73,20 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
 
   protected def buildParameter(elementUri: String,
                                range: PositionRange,
-                               definedBy: Option[String] = None): Future[CodeActionRequestParams] =
-    parseElement(elementUri, definedBy)
-      .map(bu => buildParameter(elementUri, bu, range))
+                               definedBy: Option[String] = None): Future[CodeActionRequestParams] = {
+    val amfInstance = AmfInstance.default
+    amfInstance
+      .init()
+      .flatMap(
+        _ =>
+          parseElement(elementUri, definedBy)
+            .map(bu => buildParameter(elementUri, bu, range, amfInstance)))
+  }
 
   case class PreCodeActionRequestParams(amfResult: AmfParseResult, uri: String, relationShip: Seq[RelationshipLink]) {
-    def buildParam(range: PositionRange, activeFile: Option[String]): CodeActionRequestParams = {
+    def buildParam(range: PositionRange,
+                   activeFile: Option[String],
+                   amfInstance: AmfInstance): CodeActionRequestParams = {
       val cu: DummyCompilableUnit = buildCU(activeFile)
       CodeActionRequestParams(
         cu.unit.location().getOrElse(relativeUri(uri)),
@@ -91,7 +99,7 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
         relationShip,
         dummyTelemetryProvider,
         "",
-        AmfInstance.default,
+        amfInstance,
         new PlatformDirectoryResolver(platform)
       )
     }
@@ -114,7 +122,10 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
     PreCodeActionRequestParams(result, uri, visitors1)
   }
 
-  protected def buildParameter(uri: String, result: AmfParseResult, range: PositionRange): CodeActionRequestParams = {
+  protected def buildParameter(uri: String,
+                               result: AmfParseResult,
+                               range: PositionRange,
+                               amfInstance: AmfInstance): CodeActionRequestParams = {
     val cu       = DummyCompilableUnit(result.baseUnit, result.definedBy)
     val visitors = AmfElementDefaultVisitors.build(cu.unit)
     visitors.applyAmfVisitors(cu.unit)
@@ -130,7 +141,7 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
       visitors1,
       dummyTelemetryProvider,
       "",
-      AmfInstance.default,
+      amfInstance,
       new PlatformDirectoryResolver(platform)
     )
   }
