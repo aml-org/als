@@ -23,14 +23,6 @@ ALS is for anyone interested in authoring specification documents in their favor
 ### What relies on ALS today?
 Today, ALS is used in MuleSoft Anypoint Design Center as well as in [Anypoint Studio](https://www.mulesoft.com/platform/studio) to provide live feedback while authoring API definitions. You can see a [preview](#previews) below.
 
-## Roadmap
-
-A number of improvements and features are in the project's roadmap:
-
-| Improvement/Feature                                   | Target release month |
-| ----------------------------------------------------- | --------------------:|
-| JavaScript server implementation (still experimental) |         January 2020 |
-
 
 ## Getting started
 
