@@ -268,4 +268,32 @@ class DefinitionFilesTest extends ServerDefinitionTest {
       )
     )
   }
+
+  test("raml union, lib navigation") {
+    runTest(
+      "files/raml-union-lib/api.raml",
+      Set(
+        LocationLink(
+          "file://als-server/shared/src/test/resources/actions/definition/files/raml-union-lib/api.raml",
+          LspRangeConverter.toLspRange(PositionRange(Position(5, 4), Position(5, 7))),
+          LspRangeConverter.toLspRange(PositionRange(Position(5, 4), Position(5, 7))),
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(9, 13), Position(9, 16))))
+        )
+      )
+    )
+  }
+
+  test("raml union, lib type navigation") {
+    runTest(
+      "files/raml-union-lib-type/api.raml",
+      Set(
+        LocationLink(
+          "file://als-server/shared/src/test/resources/actions/definition/files/raml-union-lib-type/library.raml",
+          LspRangeConverter.toLspRange(PositionRange(Position(3, 2), Position(3, 3))),
+          LspRangeConverter.toLspRange(PositionRange(Position(3, 2), Position(3, 3))),
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(9, 17), Position(9, 18))))
+        )
+      )
+    )
+  }
 }

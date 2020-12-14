@@ -3,6 +3,7 @@ package org.mulesoft.amfintegration.visitors.noderelationship.plugins
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.{AmfElement, AmfObject, Linkable, NamedDomainElement}
 import amf.core.traversal.iterator.DomainElementStrategy
+import amf.plugins.domain.shapes.models.ScalarShape
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.relationships.RelationshipLink
 import org.mulesoft.amfintegration.visitors.WebApiElementVisitorFactory
@@ -43,6 +44,12 @@ class RamlTypeExpressionsVisitor extends NodeRelationshipVisitorType {
           case l: Linkable =>
             l.linkLabel.option()
           case _ => None
+        }
+      }
+      .orElse {
+        o match {
+          case s: ScalarShape => s.linkLabel.option()
+          case _              => None
         }
       }
       .orElse(o.annotations.sourceNodeText()) // if not, lets check the original node content
