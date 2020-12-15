@@ -5,7 +5,7 @@ import org.mulesoft.als.actions.codeactions.plugins.conversions.RamlTypeToJsonSc
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 
 class RamlTypeToJsonSchema extends BaseCodeActionTests {
-  behavior of "Type conversion to Json schema"
+  behavior of "Raml Type conversion to Json schema"
 
   it should "extract declared raml type" in {
     val elementUri                       = "conversions/declared-type.raml"

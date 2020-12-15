@@ -51,22 +51,10 @@ trait FileExtractor extends BaseElementDeclarableExtractors {
         }
     }
 
-  // We wouldn't want to override amfObject as a whole as it's used for range comparisons and such
-  protected lazy val resolvedAmfObject: Option[AmfObject] = amfObject match {
-    case Some(shape: AnyShape) => resolveShape(shape.copyShape())
-    case e                     => e
-  }
-
-  protected def resolveShape(anyShape: AnyShape): Option[AnyShape] =
-    new CompleteShapeTransformationPipeline(anyShape, LocalIgnoreErrorHandler, ProfileNames.RAML).resolve() match {
-      case a: AnyShape => Some(a)
-      case _           => None
-    }
-
-  protected def buildEdit(editUri: String,
-                          editTextEdit: TextEdit,
-                          newUri: String,
-                          newTextEdit: TextEdit): Seq[AbstractWorkspaceEdit] = {
+  protected def buildFileEdit(editUri: String,
+                              editTextEdit: TextEdit,
+                              newUri: String,
+                              newTextEdit: TextEdit): Seq[AbstractWorkspaceEdit] = {
     Seq(
       AbstractWorkspaceEdit(
         Seq(

@@ -2,7 +2,7 @@ package org.mulesoft.als.actions.codeactions.plugins.declarations.samefile
 
 import amf.core.annotations.DeclaredElement
 import amf.core.errorhandling.UnhandledErrorHandler
-import amf.core.model.domain.{DomainElement, Linkable}
+import amf.core.model.domain.{AmfObject, DomainElement, Linkable}
 import amf.core.remote.Vendor
 import amf.plugins.document.vocabularies.emitters.instances.AmlDomainElementEmitter
 import amf.plugins.document.webapi.annotations.ForceEntry
@@ -42,17 +42,20 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with BaseEleme
     }
 
   private lazy val declaredElementTextEdit: Option[TextEdit] =
+    renderDeclaredEntry(amfObject, newName)
+      .map(de => TextEdit(rangeFromEntryBottom(de._2), s"\n${de._1}\n"))
+
+  protected def renderDeclaredEntry(amfObject: Option[AmfObject], name: String): Option[(String, Option[YMapEntry])] =
     ExtractorCommon
       .declaredEntry(amfObject,
                      vendor,
                      params.dialect,
                      params.bu,
                      params.uri,
-                     newName,
+                     name,
                      params.configuration,
                      jsonOptions,
                      yamlOptions)
-      .map(de => TextEdit(rangeFromEntryBottom(de._2), s"\n${de._1}\n"))
 
   protected lazy val homogeneousVendor: Boolean =
     maybeTree.flatMap(_.objVendor).forall(params.bu.sourceVendor.contains)
