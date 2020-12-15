@@ -15,4 +15,4 @@ We will use the most specific vendor to the node, to match against the dialect a
 
 ## Consequences
 
-Suggestion differences.
+Suggestion differences when there is an inlined element from another spec (for example raml types inside AsyncAPI 2.0)
