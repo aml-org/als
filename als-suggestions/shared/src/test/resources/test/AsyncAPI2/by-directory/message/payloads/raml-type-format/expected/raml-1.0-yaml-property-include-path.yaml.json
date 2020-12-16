@@ -15,12 +15,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         },
         "end": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         }
       },
       "newText": "expected/"
@@ -45,12 +45,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         },
         "end": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         }
       },
       "newText": "raml-1.0-yaml-any.yaml"
@@ -75,12 +75,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         },
         "end": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         }
       },
       "newText": "raml-1.0-yaml-array.yaml"
@@ -105,12 +105,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         },
         "end": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         }
       },
       "newText": "raml-1.0-yaml-boolean.yaml"
@@ -135,12 +135,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         },
         "end": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         }
       },
       "newText": "raml-1.0-yaml-date.yaml"
@@ -165,12 +165,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         },
         "end": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         }
       },
       "newText": "raml-1.0-yaml-datetime-only.yaml"
@@ -195,12 +195,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         },
         "end": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         }
       },
       "newText": "raml-1.0-yaml-datetime.yaml"
@@ -225,15 +225,45 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         },
         "end": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         }
       },
       "newText": "raml-1.0-yaml-file.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "raml-1.0-yaml-include-path.yaml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11raml-1.0-yaml-include-path.yaml",
+    "filterText": "raml-1.0-yaml-include-path.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 27
+        },
+        "end": {
+          "line": 9,
+          "character": 27
+        }
+      },
+      "newText": "raml-1.0-yaml-include-path.yaml"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -255,12 +285,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         },
         "end": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         }
       },
       "newText": "raml-1.0-yaml-include-tag.yaml"
@@ -285,12 +315,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         },
         "end": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         }
       },
       "newText": "raml-1.0-yaml-integer.yaml"
@@ -315,12 +345,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         },
         "end": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         }
       },
       "newText": "raml-1.0-yaml-nil.yaml"
@@ -345,12 +375,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         },
         "end": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         }
       },
       "newText": "raml-1.0-yaml-number.yaml"
@@ -375,12 +405,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         },
         "end": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         }
       },
       "newText": "raml-1.0-yaml-object.yaml"
@@ -405,45 +435,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         },
         "end": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         }
       },
       "newText": "raml-1.0-yaml-properties.yaml"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "raml-1.0-yaml-property-include-path.yaml",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11raml-1.0-yaml-property-include-path.yaml",
-    "filterText": "raml-1.0-yaml-property-include-path.yaml",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 7,
-          "character": 25
-        },
-        "end": {
-          "line": 7,
-          "character": 25
-        }
-      },
-      "newText": "raml-1.0-yaml-property-include-path.yaml"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -465,12 +465,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         },
         "end": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         }
       },
       "newText": "raml-1.0-yaml-string.yaml"
@@ -495,12 +495,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         },
         "end": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         }
       },
       "newText": "raml-1.0-yaml-time.yaml"
@@ -525,12 +525,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         },
         "end": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         }
       },
       "newText": "raml-1.0-yaml-types.yaml"
@@ -555,12 +555,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         },
         "end": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         }
       },
       "newText": "raml-1.0-yaml-union.yaml"
@@ -585,12 +585,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         },
         "end": {
-          "line": 7,
-          "character": 25
+          "line": 9,
+          "character": 27
         }
       },
       "newText": "raml-1.0-yaml-with-declared.yaml"

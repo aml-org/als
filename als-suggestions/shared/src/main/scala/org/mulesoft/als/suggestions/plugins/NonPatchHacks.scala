@@ -7,7 +7,7 @@ trait NonPatchHacks {
     jsonHackNotValue(yPartBranch) || nonPatchNotValue(yPartBranch)
 
   private def nonPatchNotValue(yPartBranch: YPartBranch) =
-    !yPartBranch.isJson && !yPartBranch.isValue
+    !yPartBranch.isJson && (yPartBranch.isKey || yPartBranch.isInArray)
 
   private def jsonHackNotValue(yPartBranch: YPartBranch) =
     yPartBranch.isJson && yPartBranch.isKey
