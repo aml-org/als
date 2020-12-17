@@ -12,7 +12,8 @@ trait WritingShapeInfo extends NonPatchHacks {
                                shape: Shape,
                                stack: Seq[AmfObject],
                                actualDialect: Dialect): Boolean =
-    notValue(yPartBranch) && !yPartBranch.isKeyDescendantOf("required") && !writingShapeName(shape, yPartBranch) && !writingParamName(
+    notValue(yPartBranch) &&
+      !yPartBranch.isKeyDescendantOf("required") && !writingShapeName(shape, yPartBranch) && !writingParamName(
       stack,
       yPartBranch) && !yPartBranch.parentEntryIs("properties") &&
       !DialectKnowledge.isInclusion(yPartBranch, actualDialect)
