@@ -179,6 +179,10 @@ object AmlCompletionRequestBuilder {
 
                 next.substring(0, Math.max(diff, 0))
               } else ""
+            case YType.Bool =>
+              val line = node.asScalar.map(_.text).getOrElse("")
+              val diff = position.column - node.range.columnFrom
+              line.substring(0, Math.max(diff, 0))
             case _ => ""
           }
       case _: YSequence => ""
