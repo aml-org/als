@@ -16,12 +16,17 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 case class ExtractRamlTypeToFragmentCodeAction(params: CodeActionRequestParams) extends ExtractDeclarationToFragment {
+
   override protected val kindTitle: CodeActionKindTitle = ExtractRamlTypeToFragmentCodeAction
   override def fragmentBundle: Option[FragmentBundle]   = Some(FragmentBundles.DataTypeFragmentBundle)
 
   override lazy val isApplicable: Boolean =
     vendor.isRaml && positionIsExtracted &&
-      amfObject.exists(o => ExtractorCommon.declarationPath(o, params.dialect) == Seq("types"))
+      amfObject.exists(
+        o =>
+          ExtractorCommon.declarationPath(
+            o,
+            params.amfInstance.alsAmlPlugin.dialectFor(vendor).getOrElse(params.dialect)) == Seq("types"))
 
   override protected def telemetry: TelemetryProvider = params.telemetryProvider
 

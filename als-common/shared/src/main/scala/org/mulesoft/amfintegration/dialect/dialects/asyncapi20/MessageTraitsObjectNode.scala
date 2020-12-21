@@ -26,7 +26,8 @@ trait MessageAbstractObjectNode extends DialectNode {
       "application/vnd.oai.openapi+json;version=3.0.0",
       "application/vnd.oai.openapi+yaml;version=3.0.0",
       "application/schema+json;version=draft-07",
-      "application/schema+yaml;version=draft-07"
+      "application/schema+yaml;version=draft-07",
+      "application/raml+yaml;version=1.0"
     ))
   override def properties: Seq[PropertyMapping] = Seq(
     PropertyMapping()

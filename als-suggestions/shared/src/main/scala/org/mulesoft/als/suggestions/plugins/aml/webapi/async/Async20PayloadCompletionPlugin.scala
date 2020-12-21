@@ -22,13 +22,14 @@ object Async20PayloadCompletionPlugin extends AMLCompletionPlugin with AsyncMedi
               !branchStack.exists(_.isInstanceOf[Server]) =>
           request.amfObject match {
             case s: Shape =>
-              if (p.schemaMediaType.isNullOrEmpty) {
+              if (p.schemaMediaType.isNullOrEmpty)
                 Async20TypeFacetsCompletionPlugin.resolveShape(s, branchStack, AsyncApi20Dialect())
-              } else {
-                findPluginForMediaType(p).resolveShape(s, branchStack, AsyncApi20Dialect())
-              }
+              else
+                findPluginForMediaType(p)
+                  .map(_.resolveShape(s, branchStack, AsyncApi20Dialect()))
+                  .getOrElse(Async20TypeFacetsCompletionPlugin.resolveShape(s, branchStack, AsyncApi20Dialect()))
           }
-        case _ => Seq()
+        case _ => Seq.empty
       }
     }
   }

@@ -9,6 +9,7 @@ import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.lsp.feature.codeactions.CodeActionParams
+import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
 import scala.concurrent.Future

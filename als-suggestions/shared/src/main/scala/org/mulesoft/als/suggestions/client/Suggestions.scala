@@ -145,17 +145,20 @@ class Suggestions(platform: Platform,
     val amfPosition: AmfPosition = pos.toAmfPosition
     CompletionProviderAST(
       AmlCompletionRequestBuilder
-        .build(bu,
-               amfPosition,
-               dialect,
-               environment,
-               directoryResolver,
-               platform,
-               patchedContent,
-               snippetSupport,
-               rootLocation,
-               configuration,
-               completionsPluginHandler))
+        .build(
+          bu,
+          amfPosition,
+          dialect,
+          environment,
+          directoryResolver,
+          platform,
+          patchedContent,
+          snippetSupport,
+          rootLocation,
+          configuration,
+          completionsPluginHandler,
+          amfInstance
+        ))
   }
 }
 

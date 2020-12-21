@@ -18,13 +18,13 @@ trait AsyncMediaTypePluginFinder {
   val raml10Regex: Regex =
     "(application\\/raml(\\+yaml)?;?(version=1(\\.[0-9])?)?)".r
 
-  def findPluginForMediaType(payload: Payload): WebApiTypeFacetsCompletionPlugin = {
+  def findPluginForMediaType(payload: Payload): Option[WebApiTypeFacetsCompletionPlugin] = {
     payload.schemaMediaType.value() match {
-      case asyncApiRegex(_ *) => Async20TypeFacetsCompletionPlugin
-      case jsonRegex(_ *)     => JsonSchemeDraft7TypeFacetsCompletionPlugin
-      case oas3Regex(_ *)     => Oas30TypeFacetsCompletionPlugin
-      case raml10Regex(_ *)   => Raml10TypeFacetsCompletionPlugin
-      case _                  => Async20TypeFacetsCompletionPlugin
+      case asyncApiRegex(_ *) => Some(Async20TypeFacetsCompletionPlugin)
+      case jsonRegex(_ *)     => Some(JsonSchemeDraft7TypeFacetsCompletionPlugin)
+      case oas3Regex(_ *)     => Some(Oas30TypeFacetsCompletionPlugin)
+      case raml10Regex(_ *)   => Some(Raml10TypeFacetsCompletionPlugin)
+      case _                  => None
     }
   }
 }

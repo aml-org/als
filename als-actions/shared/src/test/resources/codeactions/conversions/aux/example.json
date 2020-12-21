@@ -1,0 +1,6 @@
+{
+  "aString": "string",
+  "myObject": {
+    "prop": "hello"
+  }
+}

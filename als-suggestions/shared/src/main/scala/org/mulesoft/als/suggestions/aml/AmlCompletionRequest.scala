@@ -1,11 +1,9 @@
 package org.mulesoft.als.suggestions.aml
 
-import amf.core.annotations.SourceAST
 import amf.core.metamodel.document.DocumentModel
-import amf.core.metamodel.domain.common.NameFieldSchema
-import amf.core.model.document.{BaseUnit, DeclaresModel, Document, EncodesModel}
-import amf.core.model.domain.{AmfObject, AmfScalar, DomainElement, NamedDomainElement}
-import amf.core.parser.{FieldEntry, Value, Position => AmfPosition}
+import amf.core.model.document.{BaseUnit, EncodesModel}
+import amf.core.model.domain.{AmfObject, DomainElement}
+import amf.core.parser.{FieldEntry, Position => AmfPosition}
 import amf.core.remote.Platform
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.model.document.Dialect
@@ -18,12 +16,10 @@ import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.als.suggestions.styler.{SuggestionRender, SuggestionStylerBuilder}
-import org.mulesoft.amfintegration.AmfImplicits.{AmfObjectImp, _}
-import org.yaml.model.YNode.MutRef
-import org.yaml.model.{YDocument, YMap, YNode, YSequence, YType}
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
-
-import scala.collection.immutable
+import org.mulesoft.amfintegration.AmfInstance
+import org.yaml.model.YNode.MutRef
+import org.yaml.model.{YDocument, YNode, YSequence, YType}
 class AmlCompletionRequest(val baseUnit: BaseUnit,
                            val position: DtoPosition,
                            val actualDialect: Dialect,
@@ -36,13 +32,16 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
                            private val objectInTree: ObjectInTree,
                            val inheritedProvider: Option[DeclarationProvider] = None,
                            val rootUri: Option[String],
-                           val completionsPluginHandler: CompletionsPluginHandler) {
+                           val completionsPluginHandler: CompletionsPluginHandler,
+                           val amfInstance: AmfInstance) {
 
   lazy val branchStack: Seq[AmfObject] = objectInTree.stack
 
   lazy val amfObject: AmfObject = objectInTree.obj
 
-  private val currentNode = DialectNodeFinder.find(objectInTree.obj, None, actualDialect)
+  val nodeDialect = objectInTree.objVendor.flatMap(amfInstance.alsAmlPlugin.dialectFor).getOrElse(actualDialect)
+
+  private val currentNode = DialectNodeFinder.find(objectInTree.obj, None, nodeDialect)
 
   private def entryAndMapping: Option[(FieldEntry, Boolean)] = {
     objectInTree.fieldValue
@@ -64,7 +63,7 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
 
     val mappings: List[PropertyMapping] = currentNode match {
       case Some(nm: NodeMapping) =>
-        PropertyMappingFilter(objectInTree, actualDialect, nm).filter().toList
+        PropertyMappingFilter(objectInTree, nodeDialect, nm).filter().toList
       case _ => Nil
     }
 
@@ -101,7 +100,8 @@ object AmlCompletionRequestBuilder {
             snippetSupport: Boolean,
             rootLocation: Option[String],
             configuration: AlsConfigurationReader,
-            completionsPluginHandler: CompletionsPluginHandler): AmlCompletionRequest = {
+            completionsPluginHandler: CompletionsPluginHandler,
+            amfInstance: AmfInstance): AmlCompletionRequest = {
     val yPartBranch: YPartBranch = {
       val ast = baseUnit.ast match {
         case Some(d: YDocument) => d
@@ -138,7 +138,8 @@ object AmlCompletionRequestBuilder {
       configuration,
       objInTree(baseUnit, position, dialect),
       rootUri = rootLocation,
-      completionsPluginHandler = completionsPluginHandler
+      completionsPluginHandler = completionsPluginHandler,
+      amfInstance = amfInstance
     )
   }
 
@@ -178,6 +179,10 @@ object AmlCompletionRequestBuilder {
 
                 next.substring(0, Math.max(diff, 0))
               } else ""
+            case YType.Bool =>
+              val line = node.asScalar.map(_.text).getOrElse("")
+              val diff = position.column - node.range.columnFrom
+              line.substring(0, Math.max(diff, 0))
             case _ => ""
           }
       case _: YSequence => ""
@@ -216,7 +221,8 @@ object AmlCompletionRequestBuilder {
       objectInTree,
       Some(filterProvider),
       parent.rootUri,
-      parent.completionsPluginHandler.filter(ignoredPlugins)
+      parent.completionsPluginHandler.filter(ignoredPlugins),
+      parent.amfInstance
     )
   }
 }

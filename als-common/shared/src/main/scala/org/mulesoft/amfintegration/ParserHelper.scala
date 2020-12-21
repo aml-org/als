@@ -152,14 +152,16 @@ object ParserHelper {
 
   def profile(model: BaseUnit): ProfileName = {
     vendor(model) match {
-      case Some(Raml10) => ProfileNames.RAML10
-      case Some(Raml08) => ProfileNames.RAML08
-      case Some(Raml)   => ProfileNames.RAML
-      case Some(Oas20)  => ProfileNames.OAS20
-      case Some(Oas30)  => ProfileNames.OAS30
-      case Some(Oas)    => ProfileNames.OAS
-      case Some(Aml)    => ProfileNames.AML
-      case _            => ProfileNames.AMF
+      case Some(Raml10)     => ProfileNames.RAML10
+      case Some(Raml08)     => ProfileNames.RAML08
+      case Some(Raml)       => ProfileNames.RAML
+      case Some(Oas20)      => ProfileNames.OAS20
+      case Some(Oas30)      => ProfileNames.OAS30
+      case Some(Oas)        => ProfileNames.OAS
+      case Some(AsyncApi20) => ProfileNames.ASYNC20
+      case Some(AsyncApi)   => ProfileNames.ASYNC
+      case Some(Aml)        => ProfileNames.AML
+      case _                => ProfileNames.AMF
     }
   }
 

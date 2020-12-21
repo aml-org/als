@@ -1,4 +1,4 @@
-package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
+package org.mulesoft.amfintegration
 
 import amf.core.annotations.LexicalInformation
 import amf.core.errorhandling.ErrorHandler

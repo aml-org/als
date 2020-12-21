@@ -1,8 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.async
 
-import amf.plugins.domain.shapes.models.ScalarShape
-import amf.plugins.domain.webapi.models.Server
-import amf.plugins.domain.webapi.models.bindings.{ChannelBinding, MessageBinding, OperationBinding, ServerBinding}
+import amf.plugins.domain.webapi.models.Payload
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
@@ -18,21 +16,13 @@ object AsyncApi20RefTag extends AMLRefTagCompletionPlugin with IsInsideRequired 
     super.isObjectDeclarable(params)
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
-    if (Async2ExceptionPlugins.applyAny(request)) emptySuggestion else super.resolve(request)
+    if (Async2ExceptionPlugins.applyAny(request)) emptySuggestion
+    else if (isPayloadRef(request))
+      Future.successful(refSuggestion) // hack for RAML types which would result in $ref not showing
+    else super.resolve(request)
 
-  private def isBindingAtRef(params: AmlCompletionRequest) = {
-    params.amfObject match {
-      case _: ServerBinding | _: MessageBinding | _: ChannelBinding | _: OperationBinding =>
-        params.yPartBranch.isKeyDescendantOf("bindings")
-      case _: ScalarShape => !params.branchStack.exists(_.isInstanceOf[Server])
-      case _              => true
-    }
-  }
-//
-//  private def isOperationTrait(params:AmlCompletionRequest) = {
-//    params.amfObject match {
-//      case o:OperationTrait if params.yPartBranch.isKey && o.linkTarget.exists(_.isInstanceOf[ErrorOperationTrait])
-//    }
-//  }
+  private def isPayloadRef(request: AmlCompletionRequest): Boolean =
+    request.branchStack.headOption.exists(_.isInstanceOf[Payload]) && isJsonKey(request)
+
   override def isExceptionCase(branch: YPartBranch): Boolean = isInsideRequired(branch)
 }

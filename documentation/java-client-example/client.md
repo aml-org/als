@@ -1,4 +1,35 @@
 ## Java (LSP4J)
+
+###### Server instantiation (will run in a separated thread)
+It uses the previously generated jar `sbt serverJVM/assembly`
+```Java
+/**
+ * Creates a Process with ALS running and trying to connect to the designated port
+ */
+public class ServerRunnable implements Runnable {
+    private int port;
+    public ServerRunnable(int port) {
+        this.port = port;
+    }
+
+    @Override
+    public void run() {
+        String[] args = {
+                "java",
+                "-jar",
+                getClass().getClassLoader().getResource("als-server.jar").getPath(), // Path to the generated jar
+                "--port",
+                String.valueOf(port)
+        };
+        try {
+            Process ps = Runtime.getRuntime().exec(args);
+            ps.waitFor();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
 ###### Client class with Diagnostics intercepted (for testing purposes)
 ```Java
 public class DummyClient implements LanguageClient {
@@ -33,37 +64,7 @@ public class DummyClient implements LanguageClient {
     public void logMessage(MessageParams message) {     }
 }
 ```
-###### Server instantiation (will run in a separated thread)
-It uses the previously generated jar `sbt serverJVM/assembly`
-```Java
-/**
- * Creates a Process with ALS running and trying to connect to the designated port
- */
-public class ServerRunnable implements Runnable {
-    private int port;
-    public ServerRunnable(int port) {
-        this.port = port;
-    }
 
-
-    @Override
-    public void run() {
-        String[] args = {
-                "java",
-                "-jar",
-                getClass().getClassLoader().getResource("als-server.jar").getPath(), // Path to the generated jar
-                "--port",
-                String.valueOf(port)
-        };
-        try {
-            Process ps = Runtime.getRuntime().exec(args);
-            ps.waitFor();
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-}
-```
 ###### Test suites (creates client/server, connects them, initializes them and communicates)
 ```Java
 public class ClientTest extends TestCase {

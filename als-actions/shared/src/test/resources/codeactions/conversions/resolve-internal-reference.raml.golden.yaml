@@ -1,0 +1,59 @@
+documentChanges:
+  file://als-actions/shared/src/test/resources/codeactions/conversions/json-schema.json: create
+  file://als-actions/shared/src/test/resources/codeactions/conversions/complex.raml:
+    -
+      from:
+        line: 12
+        column: 8
+      to:
+        line: 16
+        column: 0
+      content: |
+        +
+         !include json-schema.json
+  file://als-actions/shared/src/test/resources/codeactions/conversions/json-schema.json:
+    -
+      from:
+        line: 0
+        column: 0
+      to:
+        line: 0
+        column: 0
+      content: |
+        +
+        {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "$ref": "#/definitions/Board",
+          "definitions": {
+            "Board": {
+              "description": "board of directors",
+              "type": "object",
+              "additionalProperties": true,
+              "required": [
+                "members"
+              ],
+              "properties": {
+                "members": {
+                  "items": {
+                    "type": "object",
+                    "description": "my schema",
+                    "additionalProperties": true,
+                    "required": [
+                      "name",
+                      "age"
+                    ],
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "age": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          }
+        }
