@@ -41,7 +41,9 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with BaseEleme
       case None => Range(Position(1, 0), Position(1, 0))
     }
 
-  private lazy val declaredElementTextEdit: Option[TextEdit] =
+  val fallbackDeclarationKey: Option[String] = None
+
+  protected lazy val declaredElementTextEdit: Option[TextEdit] =
     renderDeclaredEntry(amfObject, newName)
       .map(de => TextEdit(rangeFromEntryBottom(de._2), s"\n${de._1}\n"))
 
@@ -55,7 +57,8 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with BaseEleme
                      name,
                      params.configuration,
                      jsonOptions,
-                     yamlOptions)
+                     yamlOptions,
+                     fallbackDeclarationKey)
 
   protected lazy val homogeneousVendor: Boolean =
     maybeTree.flatMap(_.objVendor).forall(params.bu.sourceVendor.contains)

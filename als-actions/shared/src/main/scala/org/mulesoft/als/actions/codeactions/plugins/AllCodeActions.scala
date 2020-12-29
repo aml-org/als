@@ -8,6 +8,7 @@ import org.mulesoft.als.actions.codeactions.plugins.declarations.fragment.{
   ExtractRamlTypeToFragmentCodeAction
 }
 import org.mulesoft.als.actions.codeactions.plugins.declarations.library.ExtractRamlToLibraryCodeAction
+import org.mulesoft.als.actions.codeactions.plugins.declarations.resourcetype.ExtractResourceTypeCodeAction
 import org.mulesoft.als.actions.codeactions.plugins.declarations.samefile.{
   ExtractElementCodeAction,
   ExtractRamlTypeCodeAction
@@ -23,6 +24,7 @@ object AllCodeActions {
       DeleteDeclaredNodeCodeAction,
       ExtractRamlToLibraryCodeAction,
       RamlTypeToJsonSchema,
-      JsonSchemaToRamlType
+      JsonSchemaToRamlType,
+      ExtractResourceTypeCodeAction
     ) // TestCodeAction
 }
