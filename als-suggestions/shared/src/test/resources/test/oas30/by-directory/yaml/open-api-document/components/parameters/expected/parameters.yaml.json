@@ -30,6 +30,36 @@
     "command": null
   },
   {
+    "label": "New schema",
+    "kind": [],
+    "detail": "template",
+    "documentation": "schema",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "21New schema",
+    "filterText": "schema:\n  type: $1\n  description: $2",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "schema:\n  type: $1\n  description: $2"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "allowEmptyValue",
     "kind": [],
     "detail": "unknown",

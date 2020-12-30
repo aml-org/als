@@ -1,5 +1,65 @@
 [
   {
+    "label": "New externalDocs",
+    "kind": [],
+    "detail": "template",
+    "documentation": "externalDocs",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "21New externalDocs",
+    "filterText": "externalDocs:\n  url: $1",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      },
+      "newText": "externalDocs:\n  url: $1"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New properties",
+    "kind": [],
+    "detail": "template",
+    "documentation": "properties",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "21New properties",
+    "filterText": "properties:\n  $1:\n    type: $2\n    description: $3",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 12,
+          "character": 21
+        },
+        "end": {
+          "line": 12,
+          "character": 21
+        }
+      },
+      "newText": "properties:\n  $1:\n    type: $2\n    description: $3"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "anotherPro",
     "kind": [],
     "detail": "unknown",

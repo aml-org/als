@@ -1,5 +1,35 @@
 [
   {
+    "label": "New flows",
+    "kind": [],
+    "detail": "template",
+    "documentation": "flows",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "20New flows",
+    "filterText": "flows:\n  $1:\n    authorizationUrl: $2\n    tokenUrl: $3",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 6
+        }
+      },
+      "newText": "flows:\n  $1:\n    authorizationUrl: $2\n    tokenUrl: $3"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "description",
     "kind": [],
     "detail": "docs",

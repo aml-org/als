@@ -2070,6 +2070,36 @@
     "command": null
   },
   {
+    "label": "New element",
+    "kind": [],
+    "detail": "template",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "20New element",
+    "filterText": "$1:\n  description: $2",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 9
+        },
+        "end": {
+          "line": 5,
+          "character": 9
+        }
+      },
+      "newText": "$1:\n  description: $2"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "default",
     "kind": [],
     "detail": "unknown",

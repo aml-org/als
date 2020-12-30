@@ -1,5 +1,35 @@
 [
   {
+    "label": "New documentation",
+    "kind": [],
+    "detail": "template",
+    "documentation": "documentation",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "21New documentation",
+    "filterText": "documentation:\n  - ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 0
+        },
+        "end": {
+          "line": 6,
+          "character": 0
+        }
+      },
+      "newText": "documentation:\n  - "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "annotationTypes",
     "kind": [],
     "detail": "types and traits",
