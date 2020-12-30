@@ -124,43 +124,9 @@ object LspConvertersClientToShared {
     }
   }
 
-  implicit class ServerCapabilitiesConverter(v: ClientAlsServerCapabilities) {
-    def toShared: AlsServerCapabilities =
-      AlsServerCapabilities(
-        v.textDocumentSync.toOption.map((textDocumentSync: Any) =>
-          textDocumentSync match {
-            case value: Int => Left(TextDocumentSyncKind(value))
-            case _          => Right(textDocumentSync.asInstanceOf[ClientTextDocumentSyncOptions].toShared)
-        }),
-        v.completionProvider.toOption.map(_.toShared),
-        v.definitionProvider,
-        v.implementationProvider.toOption.map(staticRegistrationToShared),
-        v.typeDefinitionProvider.toOption.map(staticRegistrationToShared),
-        v.referencesProvider,
-        v.documentSymbolProvider,
-        None,
-        None,
-        None,
-        v.workspace.toOption.map(_.toShared),
-        v.experimental.toOption,
-        v.serialization.toOption.map(_.toShared),
-        v.cleanDiagnostics.toOption.map(_.toShared),
-        v.fileUsage.toOption.map(_.toShared),
-        v.conversion.toOption.map(_.toShared),
-        v.documentHighlightProvider.toOption,
-        v.hoverProvider.toOption,
-        v.foldingRangeProvider.toOption
-      )
-  }
-
   private def staticRegistrationToShared: Any => Either[Boolean, StaticRegistrationOptions] = {
     case value: Boolean     => Left(value)
     case staticRegistration => Right(staticRegistration.asInstanceOf[ClientStaticRegistrationOptions].toShared)
-  }
-
-  implicit class InitializeResultConverter(v: ClientAlsInitializeResult) {
-    def toShared: AlsInitializeResult =
-      AlsInitializeResult(v.capabilities.toShared)
   }
 
   implicit class DidFocusParamsConverter(v: ClientDidFocusParams) {

@@ -13,7 +13,7 @@ import org.mulesoft.als.vscode.{ProtocolConnection, ServerSocketTransport}
 
 object Main {
   case class Options(port: Int)
-  val DefaultOptions = Options(4000)
+  val DefaultOptions: Options = Options(4000)
 
   def readOptions(args: Array[String]): Options = {
     def innerReadOptions(options: Options, list: List[String]): Options =
