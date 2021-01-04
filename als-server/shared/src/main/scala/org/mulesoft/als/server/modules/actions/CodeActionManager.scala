@@ -1,7 +1,6 @@
 package org.mulesoft.als.server.modules.actions
 
 import java.util.UUID
-
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionFactory
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionParamsImpl.CodeActionParamsImpl
 import org.mulesoft.als.common.DirectoryResolver

@@ -1,6 +1,6 @@
 {
   "name": "als-node-client",
-  "version": "3.0.0-SNAPSHOT.0",
+  "version": "3.3.0-SNAPSHOT",
   "description": "ALS Node Client",
   "main": "./dist/als-node-client.js",
   "author": "ALS team",
@@ -16,7 +16,7 @@
   "dependencies": {
     "amf-shacl-node": "1.1.0",
     "ajv": "6.5.2",
-    "vscode-jsonrpc": "5.0.1",
-    "vscode-languageserver-protocol": "3.15.3"
+    "vscode-jsonrpc": "6.0.0",
+    "vscode-languageserver-protocol": "3.16.0"
   }
 }

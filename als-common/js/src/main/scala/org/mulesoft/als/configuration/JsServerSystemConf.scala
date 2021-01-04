@@ -12,9 +12,10 @@ case class JsServerSystemConf(clientLoaders: js.Array[ClientResourceLoader] = js
     extends PlatformSecrets {
 
   def environment: Environment =
-    Environment(clientLoaders.map(ResourceLoaderConverter.internalResourceLoader).toSeq)
+    Environment().withLoaders(clientLoaders.map(ResourceLoaderConverter.internalResourceLoader).toSeq)
 
-  def directoryResolver: DirectoryResolver = DirectoryResolverAdapter.convert(clientDirResolver)
+  def directoryResolver: DirectoryResolver =
+    DirectoryResolverAdapter.convert(clientDirResolver)
 }
 
 object DefaultJsServerSystemConf extends JsServerSystemConf(js.Array())
