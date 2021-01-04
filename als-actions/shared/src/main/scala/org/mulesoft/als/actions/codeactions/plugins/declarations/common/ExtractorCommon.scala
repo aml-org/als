@@ -107,18 +107,12 @@ object ExtractorCommon {
                            dialect: Dialect,
                            bu: BaseUnit,
                            uri: String,
-                           newName: String,
-                           fallbackDeclarationKey: Option[String] = None): Option[(YNode, Option[YMapEntry])] =
+                           newName: String): Option[(YNode, Option[YMapEntry])] =
     (declaredElementNode(amfObject, vendor, dialect), amfObject, dialect) match {
       case (Some(den), Some(fdp), dialect) =>
-        val keyPath  = declarationPath(fdp, dialect, fallbackDeclarationKey)
-        var fullPath = den.withKey(newName)
-        val maybePart = bu.references
-          .find(_.location().contains(uri))
-          .getOrElse(bu)
-          .objWithAST
-          .flatMap(_.annotations.ast())
-        val entries = getExistingParts(maybePart, keyPath)
+        var fullPath                = den.withKey(newName)
+        val keyPath                 = declarationPath(fdp, dialect)
+        val entries: Seq[YMapEntry] = findExistingKeyPart(bu, uri, keyPath)
         keyPath
           .dropRight(entries.size)
           .foreach(k => fullPath = fullPath.withKey(k))
@@ -126,8 +120,18 @@ object ExtractorCommon {
       case _ => None
     }
 
-  def declarationPath(fdp: AmfObject, dialect: Dialect, fallbackDeclarationKey: Option[String] = None): Seq[String] =
-    Seq(fdp.declarableKey(dialect), declarationPathForDialect(dialect), fallbackDeclarationKey).flatten
+  def findExistingKeyPart(bu: BaseUnit, uri: String, keyPath: Seq[String]): Seq[YMapEntry] = {
+    val maybePart = bu.references
+      .find(_.location().contains(uri))
+      .getOrElse(bu)
+      .objWithAST
+      .flatMap(_.annotations.ast())
+    val entries = getExistingParts(maybePart, keyPath)
+    entries
+  }
+
+  def declarationPath(fdp: AmfObject, dialect: Dialect): Seq[String] =
+    Seq(fdp.declarableKey(dialect), declarationPathForDialect(dialect)).flatten
 
   def declarationPathForDialect(dialect: Dialect): Option[String] =
     dialect.documents().declarationsPath().option()
@@ -175,9 +179,8 @@ object ExtractorCommon {
                     newName: String,
                     configurationReader: AlsConfigurationReader,
                     jsonOptions: JsonRenderOptions,
-                    yamlOptions: YamlRenderOptions,
-                    fallbackDeclarationKey: Option[String] = None): Option[(String, Option[YMapEntry])] = {
-    val wrapped                        = wrappedDeclaredEntry(amfObject, vendor, dialect, bu, uri, newName, fallbackDeclarationKey)
+                    yamlOptions: YamlRenderOptions): Option[(String, Option[YMapEntry])] = {
+    val wrapped                        = wrappedDeclaredEntry(amfObject, vendor, dialect, bu, uri, newName)
     val maybeParent: Option[YMapEntry] = wrapped.flatMap(_._2)
     wrapped
       .map(_._1)
@@ -191,15 +194,12 @@ object ExtractorCommon {
                  bu: BaseUnit,
                  configurationReader: AlsConfigurationReader,
                  jsonOptions: JsonRenderOptions,
-                 yamlOptions: YamlRenderOptions,
-                 renderingValue: Boolean = true): (String, Option[YMapEntry]) = {
+                 yamlOptions: YamlRenderOptions): (String, Option[YMapEntry]) = {
     if (isJson(bu)) {
-      renderJson(configurationReader, jsonOptions, maybeParent, node, renderingValue)
+      renderJson(configurationReader, jsonOptions, maybeParent, node)
     } else {
       val rendered = YamlRender
-        .render(node,
-                getIndentation(Mimes.`APPLICATION/YAML`, maybeParent, configurationReader, renderingValue),
-                yamlOptions)
+        .render(node, getIndentation(Mimes.`APPLICATION/YAML`, maybeParent, configurationReader), yamlOptions)
       (rendered, maybeParent)
     }
   }
@@ -207,16 +207,13 @@ object ExtractorCommon {
   private def renderJson(configurationReader: AlsConfigurationReader,
                          jsonOptions: JsonRenderOptions,
                          maybeParent: Option[YMapEntry],
-                         node: YNode,
-                         renderingValue: Boolean) = {
+                         node: YNode) = {
     val toRender = node.value match {
       case m: YMap => m.entries.headOption.getOrElse(node)
       case _       => node
     }
     val rendered = JsonRender
-      .render(toRender,
-              getIndentation(Mimes.`APPLICATION/JSON`, maybeParent, configurationReader, renderingValue),
-              jsonOptions)
+      .render(toRender, getIndentation(Mimes.`APPLICATION/JSON`, maybeParent, configurationReader), jsonOptions)
     val renderedChild = maybeParent
       .map(_.value.value)
       .collect {
@@ -237,15 +234,12 @@ object ExtractorCommon {
     */
   private def getIndentation(mime: String,
                              maybeParent: Option[YMapEntry],
-                             configuration: AlsConfigurationReader,
-                             renderingValue: Boolean): Int =
+                             configuration: AlsConfigurationReader): Int =
     maybeParent
       .map(
-        _.key.range.columnFrom + (if (renderingValue)
-                                    configuration
-                                      .getFormatOptionForMime(mime)
-                                      .indentationSize
-                                  else 0))
+        _.key.range.columnFrom + configuration
+          .getFormatOptionForMime(mime)
+          .indentationSize)
       .getOrElse(0)
 
   @tailrec

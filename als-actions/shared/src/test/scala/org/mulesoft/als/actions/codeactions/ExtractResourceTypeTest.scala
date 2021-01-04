@@ -47,4 +47,12 @@ class ExtractResourceTypeTest extends BaseCodeActionTests {
     runTest(elementUri, range, pluginFactory, golden = Some("extract-element/resource-types/third.golden.yaml"))
   }
 
+  it should "append to existing rt declaration key" in {
+    val elementUri                       = "extract-element/resource-types/will-append-to-existing-declaration-key.raml"
+    val range                            = PositionRange(Position(7, 3), Position(7, 6))
+    val pluginFactory: CodeActionFactory = ExtractResourceTypeCodeAction
+
+    runTest(elementUri, range, pluginFactory)
+  }
+
 }

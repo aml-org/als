@@ -3,13 +3,13 @@ documentChanges:
     -
       from:
         line: 45
-        column: 0
+        column: 6
       to:
         line: 50
         column: 0
       content: |
         +
-        /send:
+
           type: resourceType
     -
       from:

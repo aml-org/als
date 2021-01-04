@@ -3,13 +3,13 @@ documentChanges:
     -
       from:
         line: 17
-        column: 0
+        column: 8
       to:
         line: 32
         column: 0
       content: |
         +
-          /{id}:
+
             /brother:
               get:
                 responses:

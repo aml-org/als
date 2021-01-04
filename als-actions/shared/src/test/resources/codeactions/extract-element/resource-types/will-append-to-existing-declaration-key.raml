@@ -1,0 +1,14 @@
+#%RAML 1.0
+title: Test api
+resourceTypes:
+  rt:
+   uriParameters:
+     id:
+       type: number
+/parent:
+   get:
+     protocols:
+       - HTTP
+       - HTTPS
+/user/{id}:
+  type: rt

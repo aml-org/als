@@ -3,13 +3,13 @@ documentChanges:
     -
       from:
         line: 16
-        column: 0
+        column: 8
       to:
         line: 38
         column: 0
       content: |
         +
-        /person:
+
           /{id}:
             uriParameters:
               id:

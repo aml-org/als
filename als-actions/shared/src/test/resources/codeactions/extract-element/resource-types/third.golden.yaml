@@ -3,13 +3,13 @@ documentChanges:
     -
       from:
         line: 24
-        column: 0
+        column: 13
       to:
         line: 29
         column: 0
       content: |
         +
-            /brother:
+
               type: resourceType
     -
       from:

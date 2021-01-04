@@ -3,13 +3,13 @@ documentChanges:
     -
       from:
         line: 38
-        column: 0
+        column: 14
       to:
         line: 45
         column: 0
       content: |
         +
-        /orgs/{orgId}:
+
           type: resourceType
     -
       from:
