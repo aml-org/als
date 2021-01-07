@@ -2,7 +2,6 @@ package org.mulesoft.als.actions.codeactions
 
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionFactory
 import org.mulesoft.als.actions.codeactions.plugins.declarations.`trait`.ExtractTraitCodeAction
-import org.mulesoft.als.actions.codeactions.plugins.declarations.resourcetype.ExtractResourceTypeCodeAction
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 
 class ExtractTraitTest extends BaseCodeActionTests {

@@ -1,7 +1,7 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.library
 
 import amf.core.model.document.{BaseUnit, Document, Module}
-import amf.core.model.domain.DomainElement
+import amf.core.model.domain.{DomainElement, NamedDomainElement}
 import amf.core.remote.{Mimes, Vendor}
 import org.mulesoft.als.actions.codeactions.plugins.CodeActionKindTitle
 import org.mulesoft.als.actions.codeactions.plugins.base.{CodeActionRequestParams, CodeActionResponsePlugin}
@@ -102,7 +102,11 @@ trait ExtractDeclarationsToLibrary extends CodeActionResponsePlugin {
 
   private def declaredInRange(range: PositionRange, bu: BaseUnit): Seq[DomainElement] = bu match {
     case d: Document =>
-      d.declares.filter(domainElementWithinRange(_, range))
+      d.declares.filter(domainElementWithinRange(_, range)).filter {
+        case nde: NamedDomainElement =>
+          nde.name.option().isDefined // if this tries to emit, it will explode
+        case _ => true
+      }
     case _ => Seq.empty
   }
 
