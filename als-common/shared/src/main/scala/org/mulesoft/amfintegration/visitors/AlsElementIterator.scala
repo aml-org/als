@@ -5,6 +5,7 @@ import amf.core.model.document.BaseUnit
 import amf.core.model.domain.templates.AbstractDeclaration
 import amf.core.model.domain.{AmfArray, AmfElement, AmfObject}
 import amf.core.traversal.iterator.AmfIterator
+import amf.plugins.document.webapi.parser.spec.WebApiDeclarations.ErrorResourceType
 import amf.plugins.domain.webapi.models.templates.{ResourceType, Trait}
 import org.mulesoft.amfintegration.AmfImplicits._
 
@@ -39,6 +40,8 @@ class AlsElementIterator(private val bu: BaseUnit,
             if de.linkTarget.exists(_ => de.effectiveLinkTarget().isInstanceOf[ErrorDeclaration]) =>
           visited += de.id
           advance()
+        case e: ErrorDeclaration =>
+          visited += e.id
         case rt: ResourceType =>
           val obj = rt.asEndpoint(bu)
           visited += rt.id
