@@ -1,0 +1,50 @@
+#%RAML 1.0
+title: New API
+mediaType: [ application/json, application/xml ]
+types:
+  Org:
+    type: object
+    properties:
+      Head: Person
+  Person:
+    type: object
+    properties:
+      firstname: string
+      lastname:  string
+      title?:    string
+  Another:
+    type: string
+/person:
+  /{id}:
+    uriParameters:
+      id: number
+    get:
+      responses:
+        200:
+          body: Person
+    /brother:
+       get:
+         responses:
+           200:
+             body: Person
+    /complex/{id}:
+      uriParameters:
+        id: number
+  get:
+    responses:
+      200:
+        body: Person[]
+  post:
+    description: Create a person object
+/orgs/{orgId}:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            type: Org
+/send:
+  post:
+    body:
+      application/json:
+        type: Another
