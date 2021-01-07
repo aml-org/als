@@ -70,4 +70,14 @@ object DialectNodeFinder {
       }
       .collectFirst({ case nm: NodeMapping => nm })
   }
+
+  def find(metaUri: String, actualDialect: Dialect): Option[NodeMapping] = {
+    actualDialect.declares
+      .find {
+        case s: NodeMapping =>
+          s.nodetypeMapping.value() == metaUri
+        case _ => false
+      }
+      .collectFirst({ case nm: NodeMapping => nm })
+  }
 }

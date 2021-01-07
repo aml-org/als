@@ -1,13 +1,13 @@
 [
   {
-    "label": "New externalDocs",
+    "label": "New element",
     "kind": [],
     "detail": "template",
-    "documentation": "externalDocs",
+    "documentation": "",
     "deprecated": [],
     "preselect": [],
-    "sortText": "21New externalDocs",
-    "filterText": "externalDocs:\n  url: $1",
+    "sortText": "20New element",
+    "filterText": "$1:\n  description: $2",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -23,97 +23,7 @@
           "character": 4
         }
       },
-      "newText": "externalDocs:\n  url: $1"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "New info",
-    "kind": [],
-    "detail": "template",
-    "documentation": "info",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "20New info",
-    "filterText": "info:\n  title: $1\n  version: $2",
-    "insertText": null,
-    "insertTextFormat": [
-      2
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 3,
-          "character": 4
-        },
-        "end": {
-          "line": 3,
-          "character": 4
-        }
-      },
-      "newText": "info:\n  title: $1\n  version: $2"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "New servers",
-    "kind": [],
-    "detail": "template",
-    "documentation": "servers",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "21New servers",
-    "filterText": "servers:\n  $1:\n    url: $2\n    protocol: $3\n    protocolVersion: $4",
-    "insertText": null,
-    "insertTextFormat": [
-      2
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 3,
-          "character": 4
-        },
-        "end": {
-          "line": 3,
-          "character": 4
-        }
-      },
-      "newText": "servers:\n  $1:\n    url: $2\n    protocol: $3\n    protocolVersion: $4"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "New tags",
-    "kind": [],
-    "detail": "template",
-    "documentation": "tags",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "21New tags",
-    "filterText": "tags:\n  - ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 3,
-          "character": 4
-        },
-        "end": {
-          "line": 3,
-          "character": 4
-        }
-      },
-      "newText": "tags:\n  - "
+      "newText": "$1:\n  description: $2"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

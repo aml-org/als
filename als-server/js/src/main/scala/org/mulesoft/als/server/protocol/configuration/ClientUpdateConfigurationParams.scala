@@ -11,13 +11,15 @@ import scala.scalajs.js
 trait ClientUpdateConfigurationParams extends js.Object {
   def clientAlsFormattingOptions: js.UndefOr[js.Dictionary[ClientFormattingOptions]] = js.native // Nullable
   def clientGenericOptions: js.Dictionary[js.Any]                                    = js.native
+  def disableTemplates: Boolean                                                      = js.native
 }
 
 object ClientUpdateConfigurationParams {
   def apply(internal: UpdateConfigurationParams): ClientUpdateConfigurationParams = {
     js.Dynamic
       .literal(
-        conversion = internal.updateFormatOptionsParams.foreach(f => f.map(v => v._1 -> v._2.toClient))
+        conversion = internal.updateFormatOptionsParams.foreach(f => f.map(v => v._1 -> v._2.toClient)),
+        disableTemplates = internal.disableTemplates
       )
       .asInstanceOf[ClientUpdateConfigurationParams]
   }

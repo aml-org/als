@@ -1,35 +1,5 @@
 [
   {
-    "label": "New element",
-    "kind": [],
-    "detail": "template",
-    "documentation": "",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "20New element",
-    "filterText": "\"$1\": {\n  \"required\": \"$2\",\n  \"description\": \"$3\",\n  \"in\": \"$4\"\n}",
-    "insertText": null,
-    "insertTextFormat": [
-      2
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 9,
-          "character": 14
-        },
-        "end": {
-          "line": 9,
-          "character": 17
-        }
-      },
-      "newText": "\"$1\": {\n  \"required\": \"$2\",\n  \"description\": \"$3\",\n  \"in\": \"$4\"\n}"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "basePath",
     "kind": [],
     "detail": "parameters",

@@ -2220,36 +2220,6 @@
     "command": null
   },
   {
-    "label": "New element",
-    "kind": [],
-    "detail": "template",
-    "documentation": "",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "20New element",
-    "filterText": "\"$1\": {\n  \"description\": \"$2\"\n}",
-    "insertText": null,
-    "insertTextFormat": [
-      2
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 6,
-          "character": 10
-        },
-        "end": {
-          "line": 6,
-          "character": 13
-        }
-      },
-      "newText": "\"$1\": {\n  \"description\": \"$2\"\n}"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "default",
     "kind": [],
     "detail": "unknown",

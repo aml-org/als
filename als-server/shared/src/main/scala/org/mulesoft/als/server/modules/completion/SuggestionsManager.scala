@@ -117,7 +117,8 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
       uri,
       patchedContent,
       snippetSupport,
-      workspace.getProjectRootOf(uri)
+      workspace.getProjectRootOf(uri),
+
     )
 
   private def patchedParse(text: TextDocument,

@@ -30,36 +30,6 @@
     "command": null
   },
   {
-    "label": "New externalDocs",
-    "kind": [],
-    "detail": "template",
-    "documentation": "externalDocs",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "21New externalDocs",
-    "filterText": "\"externalDocs\": {\n  \"url\": \"$1\"\n}",
-    "insertText": null,
-    "insertTextFormat": [
-      2
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 4,
-          "character": 6
-        },
-        "end": {
-          "line": 4,
-          "character": 9
-        }
-      },
-      "newText": "\"externalDocs\": {\n  \"url\": \"$1\"\n}"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "allOf",
     "kind": [],
     "detail": "schemas",

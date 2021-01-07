@@ -2,7 +2,8 @@ package org.mulesoft.als.configuration
 
 import org.mulesoft.lsp.configuration.{FormatOptions, FormattingOptions, DefaultFormattingOptions}
 
-case class AlsConfiguration(private var formattingOptions: Map[String, FormattingOptions] = Map())
+case class AlsConfiguration(private var formattingOptions: Map[String, FormattingOptions] = Map(),
+                            private var disableTemplates: Boolean = false)
     extends AlsConfigurationReader {
 
   private var enableUpdateFormatOptions = true
@@ -27,4 +28,6 @@ case class AlsConfiguration(private var formattingOptions: Map[String, Formattin
 
   def updateFormatOptionsIsEnabled(): Boolean = enableUpdateFormatOptions
 
+  override def isDisableTemplates: Boolean              = this.disableTemplates
+  def disableTemplates(disableTemplates: Boolean): Unit = this.disableTemplates = disableTemplates
 }

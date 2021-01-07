@@ -79,7 +79,8 @@ object LspConversions {
     if (alsConfiguration == null) AlsConfiguration()
     else
       AlsConfiguration(
-        alsConfiguration.getFormattingOptions.asScala.toMap.map(a => (a._1 -> formattingOptions(a._2)))
+        alsConfiguration.getFormattingOptions.asScala.toMap.map(a => a._1 -> formattingOptions(a._2)),
+        alsConfiguration.getDisableTemplates
       )
   }
 
@@ -145,7 +146,8 @@ object LspConversions {
   implicit def jvmUpdateFormatOptionsParams(v: extension.UpdateConfigurationParams): UpdateConfigurationParams = {
     UpdateConfigurationParams(
       Option(stringFormatMapToMimeFormatMap(v.getUpdateFormatOptionsParams.asScala.toMap)),
-      Option(v.getGenericOptions).map(_.asScala.toMap).getOrElse(Map.empty)
+      Option(v.getGenericOptions).map(_.asScala.toMap).getOrElse(Map.empty),
+      v.getDisableTemplates
     )
   }
 

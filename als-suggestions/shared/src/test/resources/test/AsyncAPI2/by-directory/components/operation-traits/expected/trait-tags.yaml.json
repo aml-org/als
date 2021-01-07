@@ -1,5 +1,35 @@
 [
   {
+    "label": "New externalDocs",
+    "kind": [],
+    "detail": "template",
+    "documentation": "externalDocs",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "21New externalDocs",
+    "filterText": "externalDocs:\n  url: $1",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      },
+      "newText": "externalDocs:\n  url: $1"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "description",
     "kind": [],
     "detail": "docs",
