@@ -42,7 +42,7 @@ object LanguageServerFactory {
   }
 
   def fromSystemConfig(clientNotifier: ClientNotifier,
-                       serializationProps: JsSerializationProps,
+                       serialization: JsSerializationProps,
                        jsServerSystemConf: JsServerSystemConf = DefaultJsServerSystemConf,
                        plugins: js.Array[ClientAMFPayloadValidationPlugin] = js.Array(),
                        logger: js.UndefOr[ClientLogger] = js.undefined,
@@ -61,30 +61,29 @@ object LanguageServerFactory {
 
     notificationKind.toOption.foreach(factory.withNotificationKind)
 
-    val diagnosticManager     = factory.diagnosticManager()
-    val filesInProjectManager = factory.filesInProjectManager(serializationProps.alsClientNotifier)
-    val serializationManager  = factory.serializationManager(serializationProps)
+    val dm                    = factory.diagnosticManager()
+    val sm                    = factory.serializationManager(serialization)
+    val filesInProjectManager = factory.filesInProjectManager(serialization.alsClientNotifier)
+    val builders              = factory.buildWorkspaceManagerFactory()
 
-    val builders = factory.buildWorkspaceManagerFactory()
     val languageBuilder =
       new LanguageServerBuilder(builders.documentManager,
                                 builders.workspaceManager,
                                 builders.configurationManager,
                                 builders.resolutionTaskManager)
-        .addInitializableModule(serializationManager)
+        .addInitializableModule(sm)
         .addInitializableModule(filesInProjectManager)
-        .addInitializable(builders.cleanDiagnosticManager)
         .addInitializable(builders.workspaceManager)
         .addInitializable(builders.resolutionTaskManager)
         .addInitializable(builders.configurationManager)
         .addRequestModule(builders.cleanDiagnosticManager)
-        .addRequestModule(builders.completionManager)
         .addRequestModule(builders.conversionManager)
+        .addRequestModule(builders.completionManager)
         .addRequestModule(builders.structureManager)
         .addRequestModule(builders.definitionManager)
+        .addRequestModule(builders.implementationManager)
         .addRequestModule(builders.typeDefinitionManager)
         .addRequestModule(builders.hoverManager)
-        .addRequestModule(builders.implementationManager)
         .addRequestModule(builders.referenceManager)
         .addRequestModule(builders.fileUsageManager)
         .addRequestModule(builders.documentLinksManager)
@@ -97,10 +96,9 @@ object LanguageServerFactory {
         .addRequestModule(builders.documentFormattingManager)
         .addRequestModule(builders.documentRangeFormattingManager)
         .addInitializable(builders.telemetryManager)
-    diagnosticManager.foreach(languageBuilder.addInitializableModule)
+    dm.foreach(languageBuilder.addInitializableModule)
     builders.serializationManager.foreach(languageBuilder.addRequestModule)
-    languageBuilder
-      .build()
+    languageBuilder.build()
   }
 }
 

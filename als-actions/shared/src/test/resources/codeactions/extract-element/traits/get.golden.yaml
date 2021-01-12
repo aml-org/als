@@ -1,0 +1,32 @@
+documentChanges:
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/traits/raml10.raml:
+    -
+      from:
+        line: 59
+        column: 8
+      to:
+        line: 68
+        column: 0
+      content: |
+        +
+
+              is:
+                - trait
+    -
+      from:
+        line: 43
+        column: 0
+      to:
+        line: 43
+        column: 0
+      content: |
+        +
+
+          trait:
+            protocols:
+              - HTTP
+              - HTTPS
+            responses:
+              "200":
+                body:
+                  application/json: Person

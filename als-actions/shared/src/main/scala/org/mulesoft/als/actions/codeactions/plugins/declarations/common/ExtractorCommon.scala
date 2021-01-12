@@ -80,7 +80,7 @@ object ExtractorCommon {
     * @param e DomainElement to be emitted
     * @return
     */
-  private def emitElement(e: DomainElement, vendor: Vendor, dialect: Dialect): YNode =
+  def emitElement(e: DomainElement, vendor: Vendor, dialect: Dialect): YNode =
     if (vendor == Vendor.AML)
       AmlDomainElementEmitter
         .emit(e, dialect, UnhandledErrorHandler)
@@ -110,20 +110,25 @@ object ExtractorCommon {
                            newName: String): Option[(YNode, Option[YMapEntry])] =
     (declaredElementNode(amfObject, vendor, dialect), amfObject, dialect) match {
       case (Some(den), Some(fdp), dialect) =>
-        val keyPath  = declarationPath(fdp, dialect)
-        var fullPath = den.withKey(newName)
-        val maybePart = bu.references
-          .find(_.location().contains(uri))
-          .getOrElse(bu)
-          .objWithAST
-          .flatMap(_.annotations.ast())
-        val entries = getExistingParts(maybePart, keyPath)
+        var fullPath                = den.withKey(newName)
+        val keyPath                 = declarationPath(fdp, dialect)
+        val entries: Seq[YMapEntry] = findExistingKeyPart(bu, uri, keyPath)
         keyPath
           .dropRight(entries.size)
           .foreach(k => fullPath = fullPath.withKey(k))
         Some(fullPath, entries.lastOption)
       case _ => None
     }
+
+  def findExistingKeyPart(bu: BaseUnit, uri: String, keyPath: Seq[String]): Seq[YMapEntry] = {
+    val maybePart = bu.references
+      .find(_.location().contains(uri))
+      .getOrElse(bu)
+      .objWithAST
+      .flatMap(_.annotations.ast())
+    val entries = getExistingParts(maybePart, keyPath)
+    entries
+  }
 
   def declarationPath(fdp: AmfObject, dialect: Dialect): Seq[String] =
     Seq(fdp.declarableKey(dialect), declarationPathForDialect(dialect)).flatten

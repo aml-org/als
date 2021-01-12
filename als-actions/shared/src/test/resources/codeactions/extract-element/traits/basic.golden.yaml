@@ -1,0 +1,28 @@
+documentChanges:
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/traits/raml10.raml:
+    -
+      from:
+        line: 44
+        column: 7
+      to:
+        line: 48
+        column: 0
+      content: |
+        +
+
+             is:
+               - trait
+    -
+      from:
+        line: 43
+        column: 0
+      to:
+        line: 43
+        column: 0
+      content: |
+        +
+
+          trait:
+            protocols:
+              - HTTP
+              - HTTPS

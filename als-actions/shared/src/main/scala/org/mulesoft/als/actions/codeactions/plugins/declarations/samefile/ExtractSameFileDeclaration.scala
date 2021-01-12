@@ -41,7 +41,7 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with BaseEleme
       case None => Range(Position(1, 0), Position(1, 0))
     }
 
-  private lazy val declaredElementTextEdit: Option[TextEdit] =
+  protected lazy val declaredElementTextEdit: Option[TextEdit] =
     renderDeclaredEntry(amfObject, newName)
       .map(de => TextEdit(rangeFromEntryBottom(de._2), s"\n${de._1}\n"))
 

@@ -80,24 +80,20 @@ import scala.scalajs.js.|
 case class ProtocolConnectionLanguageClient(connection: ProtocolConnection)
     extends LspLanguageClient
     with AlsLanguageClient[js.Any] {
-  override def publishDiagnostic(params: PublishDiagnosticsParams): Unit = {
-    val clientParams: ClientPublishDiagnosticsParams = params.toClient
+  override def publishDiagnostic(params: PublishDiagnosticsParams): Unit =
     connection
-      .sendNotification[ClientPublishDiagnosticsParams, js.Any](PublishDiagnosticsNotification.`type`, clientParams)
-  }
+      .sendNotification[ClientPublishDiagnosticsParams, js.Any](PublishDiagnosticsNotification.`type`, params.toClient)
 
-  override def notifyTelemetry(params: TelemetryMessage): Unit = {
+  override def notifyTelemetry(params: TelemetryMessage): Unit =
     connection.sendNotification[ClientTelemetryMessage, js.Any](TelemetryEventNotification.`type`, params.toClient)
-  }
 
   override def notifySerialization(params: SerializationResult[js.Any]): Unit =
     connection
       .sendNotification[ClientSerializationResult, js.Any](SerializationEventNotification.`type`, params.toClient)
 
-  override def notifyProjectFiles(params: FilesInProjectParams): Unit = {
+  override def notifyProjectFiles(params: FilesInProjectParams): Unit =
     connection
       .sendNotification[ClientFilesInProjectParams, js.Any](FilesInProjectEventNotification.`type`, params.toClient)
-  }
 }
 
 @JSExportAll
@@ -107,10 +103,10 @@ object ProtocolConnectionBinder {
            languageServer: LanguageServer,
            clientAware: LspLanguageClientAware with AlsLanguageClientAware[js.Any],
            serializationProps: JsSerializationProps): Unit = {
-    def resolveHandler[P, R](`type`: org.mulesoft.lsp.feature.RequestType[P, R]): RequestHandler[P, R] = {
-      val maybeHandler = languageServer.resolveHandler(`type`)
-      if (maybeHandler.isEmpty) throw new UnsupportedOperationException else maybeHandler.get
-    }
+    def resolveHandler[P, R](`type`: org.mulesoft.lsp.feature.RequestType[P, R]): RequestHandler[P, R] =
+      languageServer
+        .resolveHandler(`type`)
+        .getOrElse(throw new UnsupportedOperationException)
 
     clientAware.connect(ProtocolConnectionLanguageClient(protocolConnection))
     clientAware.connectAls(ProtocolConnectionLanguageClient(protocolConnection))
@@ -195,14 +191,8 @@ object ProtocolConnectionBinder {
     val onDocumentFormattingJs
       : js.Function2[ClientDocumentFormattingParams, CancellationToken, Thenable[js.Array[ClientTextEdit]]] =
       (param: ClientDocumentFormattingParams, _: CancellationToken) => {
-        println("Resolving handler")
-        println("PARAMS: " + param.textDocument.uri + " op: " + param.options)
         val handler = resolveHandler(DocumentFormattingRequestType)
         handler(param.toShared)
-          .map(edits => {
-            println("Got response from handler: " + edits.size)
-            edits
-          })
           .map(_.map(_.toClient).toJSArray)
           .toJSPromise
           .asInstanceOf[Thenable[js.Array[ClientTextEdit]]]

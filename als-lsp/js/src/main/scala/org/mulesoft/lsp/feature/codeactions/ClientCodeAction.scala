@@ -29,7 +29,7 @@ object ClientCodeAction {
     js.Dynamic
       .literal(
         title = internal.title,
-        kind = internal.kind.map(_.id).orUndefined,
+        kind = internal.kind.map(_.toString).orUndefined,
         diagnostics = internal.diagnostics.map(a => a.map(_.toClient).toJSArray).orUndefined,
         isPreferred = internal.isPreferred.orUndefined,
         edit = internal.edit.map(_.toClient).orUndefined,

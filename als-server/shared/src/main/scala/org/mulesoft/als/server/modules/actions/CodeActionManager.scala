@@ -1,7 +1,6 @@
 package org.mulesoft.als.server.modules.actions
 
 import java.util.UUID
-
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionFactory
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionParamsImpl.CodeActionParamsImpl
 import org.mulesoft.als.common.DirectoryResolver
@@ -63,7 +62,15 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
               usedActions
                 .map(_(requestParams))
                 .filter(_.isApplicable)
-                .map(_.run(requestParams))
+                .map(
+                  ca =>
+                    ca.run(requestParams)
+                      .recoverWith {
+                        case e: Exception =>
+                          logger.debug(s"CodeAction: ${ca.getClass}", "CodeActionManager", "task")
+                          logger.error(s"Error executing CodeAction: ${e.getMessage}", "CodeActionManager", "task")
+                          Future.successful(Seq.empty)
+                    })
             }
           }
         } yield {

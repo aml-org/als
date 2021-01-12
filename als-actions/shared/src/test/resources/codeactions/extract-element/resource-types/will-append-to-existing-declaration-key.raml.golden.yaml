@@ -1,0 +1,28 @@
+documentChanges:
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/resource-types/will-append-to-existing-declaration-key.raml:
+    -
+      from:
+        line: 7
+        column: 8
+      to:
+        line: 12
+        column: 0
+      content: |
+        +
+
+          type: resourceType
+    -
+      from:
+        line: 7
+        column: 0
+      to:
+        line: 7
+        column: 0
+      content: |
+        +
+
+          resourceType:
+            get:
+              protocols:
+                - HTTP
+                - HTTPS
