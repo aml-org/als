@@ -89,8 +89,8 @@ pipeline {
             when {
                 anyOf {
                     branch 'master'
-                    branch 'release/*'
-                    branch 'support/*'
+                    branch 'develop'
+                    branch 'rc/*'
                 }
             }
             steps {
@@ -115,8 +115,8 @@ pipeline {
             when {
                 anyOf {
                     branch 'master'
-                    branch 'release/*'
-                    branch 'support/*'
+                    branch 'develop'
+                    branch 'rc/*'
                 }
             }
             steps {
