@@ -40,7 +40,7 @@ abstract class AstRawBuilder(raw: RawSuggestion, isSnippet: Boolean, yPartBranch
     }
 
   private def emitKey(index: Int = 1): YMapEntry =
-    if (raw.children.nonEmpty && raw.newText.isEmpty) {
+    if (raw.children.nonEmpty && raw.newText.isEmpty) { // if entry has value but key is empty, user will need to fill out
       snippet = true
       YMapEntry("$" + index.toString, valueNode(index + 1))
     } else YMapEntry(scalar(raw.newText, keyTag), valueNode(index))

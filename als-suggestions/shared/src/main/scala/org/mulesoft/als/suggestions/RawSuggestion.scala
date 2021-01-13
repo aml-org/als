@@ -2,7 +2,6 @@ package org.mulesoft.als.suggestions
 
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.lsp.edit.TextEdit
-import org.mulesoft.lsp.feature.completion.InsertTextFormat
 
 case class RawSuggestion(newText: String,
                          displayText: String,
