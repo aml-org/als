@@ -158,10 +158,8 @@ object ProtocolConnectionBinder {
       onDidOpenHandlerJs.asInstanceOf[NotificationHandler[ClientDidOpenTextDocumentParams]])
 
     val onUpdateClientConfigurationJs: js.Function2[ClientUpdateConfigurationParams, CancellationToken, Unit] =
-      (param: ClientUpdateConfigurationParams, _: CancellationToken) => {
-        println(s"on update conf : ${param.disableTemplates}")
+      (param: ClientUpdateConfigurationParams, _: CancellationToken) =>
         languageServer.updateConfiguration(param.toShared)
-      }
 
     protocolConnection.onNotification(
       UpdateClientConfigurationNotification.`type`,

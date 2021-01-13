@@ -1,12 +1,12 @@
 package org.mulesoft.als.server.protocol.convert
 
+import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
 import org.mulesoft.als.server.feature.diagnostic.{
   CleanDiagnosticTreeClientCapabilities,
   CleanDiagnosticTreeOptions,
   CleanDiagnosticTreeParams
 }
 import org.mulesoft.als.server.feature.fileusage.{FileUsageClientCapabilities, FileUsageOptions}
-import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
 import org.mulesoft.als.server.feature.renamefile.{RenameFileActionClientCapabilities, RenameFileActionParams}
 import org.mulesoft.als.server.feature.serialization._
 import org.mulesoft.als.server.protocol.actions.{
@@ -22,23 +22,13 @@ import org.mulesoft.als.server.protocol.textsync.{
   DidFocusParams,
   IndexDialectParams
 }
-import org.mulesoft.lsp.configuration.{
-  ClientFormattingOptions,
-  ClientStaticRegistrationOptions,
-  FormattingOptions,
-  StaticRegistrationOptions,
-  TraceKind
-}
+import org.mulesoft.lsp.configuration._
 import org.mulesoft.lsp.convert.LspConvertersClientToShared.{
-  ClientWorkspaceServerCapabilitiesConverter,
-  CompletionOptionsConverter,
   TextDocumentClientCapabilitiesConverter,
-  TextDocumentSyncOptionsConverter,
   WorkspaceClientCapabilitiesConverter,
-  WorkspaceFolderConverter
+  WorkspaceFolderConverter,
+  _
 }
-import org.mulesoft.lsp.textsync.{ClientTextDocumentSyncOptions, TextDocumentSyncKind}
-import org.mulesoft.lsp.convert.LspConvertersClientToShared._
 
 object LspConvertersClientToShared {
   // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
@@ -144,18 +134,24 @@ object LspConvertersClientToShared {
   }
 
   implicit class ClientFormattingOptionsConverter(v: ClientFormattingOptions) {
-    def toShared: FormattingOptions = FormattingOptions(v.tabSize, v.insertSpaces)
+    def toShared: FormattingOptions =
+      FormattingOptions(v.tabSize, v.preferSpaces.orElse(v.insertSpaces).getOrElse(false))
   }
 
   implicit class ClientUpdateConfigurationConverter(v: ClientUpdateConfigurationParams) {
     def toShared: UpdateConfigurationParams = UpdateConfigurationParams(
-      v.clientAlsFormattingOptions.toOption.map(_.toMap.map(v =>
-        v._1 -> ClientFormattingOptionsConverter(v._2).toShared)),
-      v.clientGenericOptions.toMap.map(v => v._1 -> v._2),
-      v.disableTemplates
+      v.formattingOptions
+        .orElse(v.clientAlsFormattingOptions)
+        .toOption
+        .map(_.toMap.map(v => v._1 -> ClientFormattingOptionsConverter(v._2).toShared)),
+      v.genericOptions
+        .orElse(v.clientGenericOptions)
+        .toOption
+        .map(_.toMap.map(v => v._1 -> v._2))
+        .getOrElse(Map.empty),
+      v.disableTemplates.getOrElse(false)
     )
   }
-
   implicit class ClientSerializationParamsConverter(v: ClientSerializationParams) {
     def toShared: SerializationParams = SerializationParams(v.documentIdentifier.toShared)
   }
