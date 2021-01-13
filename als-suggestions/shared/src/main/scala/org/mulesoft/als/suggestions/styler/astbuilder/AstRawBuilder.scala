@@ -33,7 +33,7 @@ abstract class AstRawBuilder(raw: RawSuggestion, isSnippet: Boolean, yPartBranch
   }
 
   private def valueNode(index: Int) =
-    if (raw.options.isObject) valueObject(index)
+    if (raw.options.isObject || (raw.options.isArray && raw.children.nonEmpty)) valueObject(index)
     else {
       if (isSnippet) value(s"$$$index", raw.options)
       else emitEntryValue(raw.options)
