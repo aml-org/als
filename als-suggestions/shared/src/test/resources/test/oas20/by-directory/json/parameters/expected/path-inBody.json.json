@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "20New schema",
-    "filterText": "\"schema\": {\n  \"type\": \"$1\",\n  \"description\": \"$2\"\n}",
+    "filterText": "\"schema\": {\n  \"description\": \"$1\",\n  \"type\": \"$2\"\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -23,7 +23,7 @@
           "character": 13
         }
       },
-      "newText": "\"schema\": {\n  \"type\": \"$1\",\n  \"description\": \"$2\"\n}"
+      "newText": "\"schema\": {\n  \"description\": \"$1\",\n  \"type\": \"$2\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

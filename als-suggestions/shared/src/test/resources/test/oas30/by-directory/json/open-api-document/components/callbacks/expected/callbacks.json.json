@@ -487,7 +487,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "21New servers",
-    "filterText": "\"servers\": [\n  \"$1\"\n]",
+    "filterText": "\"servers\": [\n  {\n    \"url\": \"$1\"\n  }\n]",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -503,7 +503,7 @@
           "character": 13
         }
       },
-      "newText": "\"servers\": [\n  \"$1\"\n]"
+      "newText": "\"servers\": [\n  {\n    \"url\": \"$1\"\n  }\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

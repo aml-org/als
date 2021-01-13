@@ -36,9 +36,9 @@ class StructureTests extends RAMLSuggestionTestServer {
       Set(
         "documentation:\n  - ",
         """documentation:
-                                                                   |  -
-                                                                   |    title: $1
-                                                                   |    content: $2""".stripMargin
+           |  -
+           |    content: $1
+           |    title: $2""".stripMargin
       )
     )
   }

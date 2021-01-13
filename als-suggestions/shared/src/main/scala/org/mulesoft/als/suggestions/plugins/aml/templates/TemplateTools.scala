@@ -101,22 +101,27 @@ object TemplateTools {
       .getOrElse(Seq.empty)
 
   private def toRaw(p: PropertyMapping, prefix: String, children: Seq[RawAndIri] = Seq.empty): RawSuggestion = {
-    val name        = p.name().value()
-    val displayText = Some(s"$prefix $name")
+    val name           = p.name().value()
+    val displayText    = Some(s"$prefix $name")
+    val sortedChildren = children.sortBy(r => r.iri) // apply an order to avoid flaky tests
 
     if (p.mapTermKeyProperty().option().isDefined)
       namedSuggestion(p, children, prefix)
     else if (p.objectRange().nonEmpty || p.allowMultiple().value()) {
       if (p.allowMultiple().value() && p.mapTermKeyProperty().option().isEmpty)
-        RawSuggestion.keyOfArray(name, category, displayText, children.map(_.rawSuggestion))
+        RawSuggestion.keyOfArray(name, category, displayText, sortedChildren.map(_.rawSuggestion))
       else
-        RawSuggestion.forObject(name, category, p.minCount().value() > 0, displayText, children.map(_.rawSuggestion))
+        RawSuggestion.forObject(name,
+                                category,
+                                p.minCount().value() > 0,
+                                displayText,
+                                sortedChildren.map(_.rawSuggestion))
     } else
       RawSuggestion.forKey(name,
                            category = category,
                            p.minCount().value() > 0,
                            displayText,
-                           children.map(_.rawSuggestion))
+                           sortedChildren.map(_.rawSuggestion))
   }
 
   private def namedSuggestion(p: PropertyMapping, children: Seq[RawAndIri], prefix: String) = {

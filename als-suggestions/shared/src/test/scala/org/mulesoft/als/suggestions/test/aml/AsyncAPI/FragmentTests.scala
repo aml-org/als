@@ -5,13 +5,20 @@ class FragmentTests extends AMLAsyncApi06SuggestionTest {
   def rootPath: String = "AML/AsyncAPI"
 
   test("test001") {
-    runAsyncApiTest("fragment/test001.yaml",
-                    Set("externalDocs:\n  ",
-                        "uses:\n  ",
-                        "description: ",
-                        "headers:\n  ",
-                        "tags:\n  - ",
-                        "externalDocs:\n  url: $1"))
+    runAsyncApiTest(
+      "fragment/test001.yaml",
+      Set(
+        "externalDocs:\n  ",
+        "uses:\n  ",
+        "description: ",
+        "headers:\n  ",
+        "tags:\n  - ",
+        "externalDocs:\n  url: $1",
+        """tags:
+                      |  -
+                      |    name: $1""".stripMargin
+      )
+    )
   }
 
   test("test002") {
