@@ -8,11 +8,6 @@
 ### Document Highlight
 ![Playground Highlight1](../../images/playground/highlight.png)
 ![Playground Highlight2](../../images/playground/highlight.gif)
-###### We use our lexical information and relationship graph to highlight each referenced node inside a file for a given position.
-### Rename
-![Playground Rename1](../../images/playground/rename.gif)
-![Playground Rename2](../../images/playground/rename2.gif)
-![Playground Rename3](../../images/playground/rename3.gif)
 ###### We use our relationship graph to detect and propagate each renaming action. This can be further managed with the "prepare rename" request which we also provide.
 ### Selection Range
 ![Playground Selection](../../images/playground/selection-range.gif)

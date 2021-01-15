@@ -73,34 +73,34 @@ With this server, it's up to the client (each IDE plugin) to just understand LSP
 
 #### Currently supported LSP features
 Currently, we support the following LSP capabilities:
+##### [Basic features](./documentation/features/features.md)
 + [Completion](https://microsoft.github.io/language-server-protocol/specification#textDocument_completion)
 + [DocumentSymbol](https://microsoft.github.io/language-server-protocol/specification#textDocument_documentSymbol)
 + [Diagnostics](https://microsoft.github.io/language-server-protocol/specification#textDocument_publishDiagnostics)
-+ [PrepareRename](https://microsoft.github.io/language-server-protocol/specification#textDocument_prepareRename)
-+ [Rename](https://microsoft.github.io/language-server-protocol/specification#textDocument_rename)
+
+##### [Navigation features](./documentation/features/navigation.md)
 + [Find Reference](https://microsoft.github.io/language-server-protocol/specification#textDocument_references)
 + [Goto Definition](https://microsoft.github.io/language-server-protocol/specification#textDocument_definition)
 + [Goto Type Definition](https://microsoft.github.io/language-server-protocol/specification#textDocument_typeDefinition)
 + [Goto Implementation](https://microsoft.github.io/language-server-protocol/specification#textDocument_implementation)
 + [DocumentLink](https://microsoft.github.io/language-server-protocol/specification#textDocument_documentLink)
+
+##### [Refactor features](./documentation/features/refactor.md)
++ [PrepareRename](https://microsoft.github.io/language-server-protocol/specification#textDocument_prepareRename)
++ [Rename](https://microsoft.github.io/language-server-protocol/specification#textDocument_rename)
++ [Code Action](https://microsoft.github.io/language-server-protocol/specification#textDocument_codeAction)
++ [Formatting](https://microsoft.github.io/language-server-protocol/specification#textDocument_formatting)
++ [RangeFormatting](https://microsoft.github.io/language-server-protocol/specification#textDocument_rangeFormatting)
+
+##### [EyeCandy features](./documentation/features/eyecandy.md)
 + [Document Highlight](https://microsoft.github.io/language-server-protocol/specification#textDocument_documentHighlight)
 + [Folding Range](https://microsoft.github.io/language-server-protocol/specification#textDocument_foldingRange)
 + [Hover](https://microsoft.github.io/language-server-protocol/specification#textDocument_hover)
 + [Selection Range](https://microsoft.github.io/language-server-protocol/specification#textDocument_selectionRange)
-+ [Code Action](https://microsoft.github.io/language-server-protocol/specification#textDocument_codeAction)
-    - Extract to Declaration
-    - Extract to Fragment
-    - Extract to Library
-    - Delete declaration (cascade)
+
 
 #### Currently extended features (not defined in LSP)
-Besides LSP Messages, we also support the following Custom operations:
-+ Clean Validation
-+ Project Configuration
-+ Serialization
-+ Conversions
-+ Find File Usages
-+ Get/Set Configurations
+Besides LSP Messages, we also support other Custom operations, which are detailed [here](./documentation/features/custom-messages.md)
 
 ## Contributing
 If you are interested in contributing to this project, please make sure to read our [contributing guidelines](./documentation/CONTRIBUTING.md).
