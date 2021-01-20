@@ -17,7 +17,7 @@ class ConfigurationManager
   def update(params: UpdateConfigurationParams): Unit = { // todo: is this not a Request?
     params.updateFormatOptionsParams.foreach(f => {
       configuration.updateFormattingOptions(f)
-      configuration.setTemplateType(params.disableTemplates)
+      configuration.setTemplateType(params.templateType)
     })
     // Should move to separated GenericOptions class?
     params.genericOptions.get(GenericOptionKeys.KeepTokens) match {

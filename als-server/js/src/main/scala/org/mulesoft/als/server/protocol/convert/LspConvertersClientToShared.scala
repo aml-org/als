@@ -151,9 +151,8 @@ object LspConvertersClientToShared {
         .map(_.toMap.map(v => v._1 -> v._2))
         .getOrElse(Map.empty),
       v.templateType.getOrElse("").toUpperCase match {
-        case _ == TemplateTypes.NONE   => TemplateTypes.NONE
-        case _ == TemplateTypes.SIMPLE => TemplateTypes.SIMPLE
-        case _                         => TemplateTypes.FULL
+        case v if v == TemplateTypes.NONE || v == TemplateTypes.SIMPLE => v
+        case _                                                         => TemplateTypes.FULL
       }
     )
   }

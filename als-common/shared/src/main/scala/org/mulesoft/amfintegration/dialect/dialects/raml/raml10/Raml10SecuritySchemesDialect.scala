@@ -163,6 +163,7 @@ object Raml10SecuritySchemesDialect {
         .withId(DialectLocation + "#/declarations/SecuritySchemes/type")
         .withNodePropertyMapping(SecuritySchemeModel.Type.value.iri())
         .withName("type")
+        .withMinCount(1)
         .withEnum(
           Seq(
             "OAuth 1.0",

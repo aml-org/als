@@ -87,9 +87,8 @@ object LspConversions {
     if (templateType == null) TemplateTypes.FULL
     else
       templateType.toUpperCase match {
-        case _ == TemplateTypes.NONE   => TemplateTypes.NONE
-        case _ == TemplateTypes.SIMPLE => TemplateTypes.SIMPLE
-        case _                         => TemplateTypes.FULL
+        case v if v == TemplateTypes.NONE || v == TemplateTypes.SIMPLE => v
+        case _                                                         => TemplateTypes.FULL
       }
 
   implicit def alsInitializeParams(params: extension.AlsInitializeParams): AlsInitializeParams =
