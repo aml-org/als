@@ -4,13 +4,13 @@ import java.util.Map;
 
 public class AlsConfiguration {
 
-    private Boolean disableTemplates;
+    private String templateType;
 
     private Map<String, AlsFormattingOptions> formattingOptions;
 
-    public AlsConfiguration(Map<String, AlsFormattingOptions> formattingOptions, Boolean disableTemplates) {
+    public AlsConfiguration(Map<String, AlsFormattingOptions> formattingOptions, String templateType) {
         this.formattingOptions = formattingOptions;
-        this.disableTemplates = disableTemplates;
+        this.templateType = templateType;
     }
 
     public AlsConfiguration() {
@@ -24,11 +24,11 @@ public class AlsConfiguration {
         this.formattingOptions = formattingOptions;
     }
 
-    public Boolean getDisableTemplates() {
-        return disableTemplates ? disableTemplates : false;
+    public String getTemplateType() {
+        return templateType;
     }
 
-    public void setDisableTemplates(Boolean disableTemplates) {
-        this.disableTemplates = disableTemplates;
+    public void setTemplateType(String templateType) {
+        this.templateType = templateType;
     }
 }

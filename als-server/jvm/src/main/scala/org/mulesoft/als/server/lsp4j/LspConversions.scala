@@ -1,10 +1,9 @@
 package org.mulesoft.als.server.lsp4j
 
 import java.util.{List => JList}
-
 import org.eclipse.lsp4j
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
-import org.mulesoft.als.configuration.AlsConfiguration
+import org.mulesoft.als.configuration.{AlsConfiguration, TemplateTypes}
 import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeParams}
 import org.mulesoft.als.server.feature.fileusage.FileUsageClientCapabilities
@@ -80,9 +79,18 @@ object LspConversions {
     else
       AlsConfiguration(
         alsConfiguration.getFormattingOptions.asScala.toMap.map(a => a._1 -> formattingOptions(a._2)),
-        alsConfiguration.getDisableTemplates
+        templateTypeFromString(alsConfiguration.getTemplateType)
       )
   }
+
+  private def templateTypeFromString(templateType: String) =
+    if (templateType == null) TemplateTypes.FULL
+    else
+      templateType.toUpperCase match {
+        case _ == TemplateTypes.NONE   => TemplateTypes.NONE
+        case _ == TemplateTypes.SIMPLE => TemplateTypes.SIMPLE
+        case _                         => TemplateTypes.FULL
+      }
 
   implicit def alsInitializeParams(params: extension.AlsInitializeParams): AlsInitializeParams =
     Option(params).map { p =>
@@ -147,7 +155,7 @@ object LspConversions {
     UpdateConfigurationParams(
       Option(stringFormatMapToMimeFormatMap(v.getUpdateFormatOptionsParams.asScala.toMap)),
       Option(v.getGenericOptions).map(_.asScala.toMap).getOrElse(Map.empty),
-      v.getDisableTemplates
+      templateTypeFromString(v.getTemplateType)
     )
   }
 

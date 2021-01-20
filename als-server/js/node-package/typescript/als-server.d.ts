@@ -15,7 +15,6 @@ declare module '@mulesoft/als-server' {
 
   export class AMF {
     static init(): Promise<void>
-    static init(): Promise<void>
 
     static raml10Parser(): Raml10Parser
 

@@ -1,6 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.templates
 
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
+import org.mulesoft.als.configuration.TemplateTypes
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 
@@ -26,7 +27,14 @@ object AMLEncodedStructureTemplate {
     }
   }
 
-  private def templates(params: AmlCompletionRequest, pm: PropertyMapping) =
-    if (params.configurationReader.isDisableTemplates) Seq.empty
-    else TemplateTools.getFirstLevelTemplate(pm, params) ++ TemplateTools.getFullTemplate(pm, params)
+  private def templates(params: AmlCompletionRequest, pm: PropertyMapping) = {
+    val templateType = params.configurationReader.getTemplateType
+    if (templateType == TemplateTypes.NONE) Seq.empty
+    else
+      TemplateTools.getFirstLevelTemplate(pm, params) ++ {
+        if (templateType == TemplateTypes.FULL)
+          TemplateTools.getFullTemplate(pm, params)
+        else Seq.empty
+      }
+  }
 }

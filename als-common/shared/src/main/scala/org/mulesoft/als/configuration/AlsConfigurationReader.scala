@@ -6,5 +6,5 @@ trait AlsConfigurationReader {
   // todo: add optional "experimental" feature? (to enable beta changes)
   def getFormatOptionForMime(mimeType: String): FormatOptions
   def supportsDocumentChanges: Boolean
-  def isDisableTemplates: Boolean
+  def getTemplateType: TemplateTypes.TemplateTypes
 }

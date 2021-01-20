@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.protocol.convert
 
+import org.mulesoft.als.configuration.TemplateTypes
 import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
 import org.mulesoft.als.server.feature.diagnostic.{
   CleanDiagnosticTreeClientCapabilities,
@@ -149,7 +150,11 @@ object LspConvertersClientToShared {
         .toOption
         .map(_.toMap.map(v => v._1 -> v._2))
         .getOrElse(Map.empty),
-      v.disableTemplates.getOrElse(false)
+      v.templateType.getOrElse("").toUpperCase match {
+        case _ == TemplateTypes.NONE   => TemplateTypes.NONE
+        case _ == TemplateTypes.SIMPLE => TemplateTypes.SIMPLE
+        case _                         => TemplateTypes.FULL
+      }
     )
   }
   implicit class ClientSerializationParamsConverter(v: ClientSerializationParams) {

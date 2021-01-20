@@ -15,7 +15,7 @@ trait ClientUpdateConfigurationParams extends js.Object {
   def clientGenericOptions: js.Dictionary[js.Any]                           = js.native
   def formattingOptions: js.UndefOr[js.Dictionary[ClientFormattingOptions]] = js.native // Nullable
   def genericOptions: js.UndefOr[js.Dictionary[js.Any]]                     = js.native
-  def disableTemplates: js.UndefOr[Boolean]                                 = js.native
+  def templateType: js.UndefOr[String]                                      = js.native
 }
 
 object ClientUpdateConfigurationParams {
@@ -25,7 +25,7 @@ object ClientUpdateConfigurationParams {
         conversion = internal.updateFormatOptionsParams.foreach(f => f.map(v => v._1        -> v._2.toClient)), // deprecated
         formattingOptions = internal.updateFormatOptionsParams.foreach(f => f.map(v => v._1 -> v._2.toClient)),
         // genericOptions = js.undefined, // how should we serialize `any`?
-        disableTemplates = internal.disableTemplates
+        templateType = internal.templateType
       )
       .asInstanceOf[ClientUpdateConfigurationParams]
   }

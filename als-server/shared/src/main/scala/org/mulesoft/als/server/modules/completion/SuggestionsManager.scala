@@ -83,7 +83,9 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
   protected def onDocumentCompletion(lspUri: String,
                                      position: Position,
                                      telemetryUUID: String): Future[Seq[CompletionItem]] = {
-    logger.debug(s"Disable Templates: ${configurationProvider.getConfiguration.isDisableTemplates}", "SuggestionsManager", "onDocumentCompletion")
+    logger.debug(s"Disable Templates: ${configurationProvider.getConfiguration.getTemplateType}",
+                 "SuggestionsManager",
+                 "onDocumentCompletion")
     val uri = lspUri.toAmfUri(editorEnvironment.platform)
     // we need to normalize the URI encoding so we can find it both on RL and memory
     editorEnvironment.get(uri) match {
@@ -118,8 +120,7 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
       uri,
       patchedContent,
       snippetSupport,
-      workspace.getProjectRootOf(uri),
-
+      workspace.getProjectRootOf(uri)
     )
 
   private def patchedParse(text: TextDocument,

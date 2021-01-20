@@ -6,7 +6,7 @@ public class UpdateConfigurationParams {
 
     private Map<String, AlsFormattingOptions> formattingOptions;
 
-    private Boolean disableTemplates;
+    private String templateType;
 
     private Map<String, Object> genericOptions;
 
@@ -22,11 +22,11 @@ public class UpdateConfigurationParams {
         return genericOptions;
     }
 
-    public Boolean getDisableTemplates() {
-        return disableTemplates;
+    public String getTemplateType() {
+        return templateType;
     }
 
-    public void setDisableTemplates(Boolean disableTemplates) {
-        this.disableTemplates = disableTemplates;
+    public void setTemplateType(String templateType) {
+        this.templateType = templateType;
     }
 }

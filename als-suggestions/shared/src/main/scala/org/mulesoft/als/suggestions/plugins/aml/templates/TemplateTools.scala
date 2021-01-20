@@ -15,19 +15,13 @@ object TemplateTools {
   val category      = "template"
 
   def fullTemplateSuggestion(children: Seq[RawSuggestion]): RawSuggestion =
-    RawSuggestion
-      .forObject("", TemplateTools.category, mandatory = true, Some(s"${TemplateTools.fullPrefix} element"), children)
+    RawSuggestion.withNamedKey(children, TemplateTools.category, TemplateTools.fullPrefix)
 
   def fullTemplateSuggestion(params: AmlCompletionRequest, children: Seq[PropertyMapping]): RawSuggestion =
     fullTemplateSuggestion(children.flatMap(TemplateTools.getFullTemplate(_, params)))
 
   def firstTemplateSuggestion(children: Seq[RawSuggestion]): RawSuggestion =
-    RawSuggestion
-      .forObject("",
-                 TemplateTools.category,
-                 mandatory = true,
-                 Some(s"${TemplateTools.defaultPrefix} element"),
-                 children)
+    RawSuggestion.withNamedKey(children, TemplateTools.category, TemplateTools.defaultPrefix)
 
   def firstTemplateSuggestion(params: AmlCompletionRequest, children: Seq[PropertyMapping]): RawSuggestion =
     firstTemplateSuggestion(children.flatMap(TemplateTools.getFirstLevelTemplate(_, params)))
@@ -54,11 +48,7 @@ object TemplateTools {
       .flatMap(_.propertiesMapping().find(_.mapTermKeyProperty().option().isDefined))
 
   def iriForMapping(p: PropertyMapping): String =
-    p.fields
-      .fields()
-      .find(f => f.field.value.iri() == PropertyMappingModel.NodePropertyMapping.value.iri())
-      .map(_.value.value.toString)
-      .getOrElse("")
+    p.nodePropertyMapping().option().getOrElse("")
 
   def isInsideDeclaration(params: AmlCompletionRequest): Boolean =
     params.yPartBranch.parentEntry
@@ -79,25 +69,16 @@ object TemplateTools {
     p.fields
       .fields()
       .find(f => f.field.value.iri() == PropertyMappingModel.ObjectRange.value.iri())
-      .map {
-        _.value.value
-      }
-      .collect {
-        case AmfArray(values, _) => values
-      }
-      .flatMap(_.collectFirst {
-        case s: AmfScalar => s.toString
-      })
+      .map { _.value.value }
+      .collect { case AmfArray(values, _) => values }
+      .flatMap(_.collectFirst { case s: AmfScalar => s.toString })
       .map(mappingsForNode(_, params.actualDialect))
       .getOrElse(Seq.empty)
 
   private def mappingsForNode(nodeType: String, d: Dialect): Seq[PropertyMapping] =
     d.declares
       .find(de => de.id == nodeType)
-      .collect {
-        case nm: NodeMapping =>
-          nm.propertiesMapping()
-      }
+      .collect { case nm: NodeMapping => nm.propertiesMapping() }
       .getOrElse(Seq.empty)
 
   private def toRaw(p: PropertyMapping, prefix: String, children: Seq[RawAndIri] = Seq.empty): RawSuggestion = {
