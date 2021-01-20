@@ -137,4 +137,8 @@ class RAML10StructureTests extends RAML10StructureTest {
   test("Test trait reference") {
     this.runTest("traits/api.raml", "traits/api-outline.json")
   }
+
+  test("Test declaration keys range") {
+    this.runTest("declarations/api.raml", "declarations/api-outline.json")
+  }
 }

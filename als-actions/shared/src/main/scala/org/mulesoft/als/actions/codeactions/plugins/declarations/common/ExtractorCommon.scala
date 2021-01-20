@@ -58,7 +58,7 @@ object ExtractorCommon {
         objsByKey.iterator.flatMap { t =>
           val objsInDk = t._2
           t._1
-            .flatMap(dk => bu.annotations.declarationKeys().find(_.entry.key.asScalar.exists(_.text == dk)))
+            .flatMap(dk => bu.declarationKeys.find(_.entry.key.asScalar.exists(_.text == dk)))
             .flatMap { dk =>
               if (dk.entry.value.as[YMap].entries.size <= objsInDk.size) Some(Seq(dk.entry.range))
               else None

@@ -2,6 +2,7 @@ package org.mulesoft.amfintegration.dialect.dialects.raml
 
 import amf.core.annotations.Aliases
 import amf.core.metamodel.domain.ModelVocabularies
+import amf.core.parser.Annotations
 import amf.core.vocabulary.Namespace
 import amf.plugins.document.vocabularies.model.document.{Dialect, Vocabulary}
 import amf.plugins.document.vocabularies.model.domain._

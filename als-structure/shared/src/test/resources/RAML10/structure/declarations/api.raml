@@ -1,0 +1,39 @@
+#%RAML 1.0
+title: test
+securitySchemes:
+    sec:
+      type: Digest Authentication
+      describedBy:
+        headers:
+          A-IM: integer
+    myScheme:
+      type: OAuth 1.0
+      description: description
+resourceTypes:
+    rt1:
+        description: 1
+    rt2:
+      displayName: rt2
+      delete:
+        body:
+          application/json:
+            default: 2
+types:
+    a:
+        type: object
+        properties:
+            b:
+                properties:
+                    c:
+                      type: string
+                    d:
+                      type: string
+            e: integer
+traits:
+  tr1:
+    securedBy:
+      - myScheme:
+  tr2:
+    protocols:
+      - HTTP
+      - HTTPS
