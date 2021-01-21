@@ -2,6 +2,7 @@ package org.mulesoft.amfintegration
 
 import amf.core.annotations.{LexicalInformation, ReferenceTargets, SourceAST, SourceNode, SynthesizedField, _}
 import amf.core.metamodel.Field
+import amf.core.metamodel.document.ModuleModel
 import amf.core.model.document.{BaseUnit, DeclaresModel, Document, EncodesModel, ExternalFragment}
 import amf.core.model.domain.{AmfObject, AmfScalar, DomainElement, NamedDomainElement}
 import amf.core.parser
@@ -234,6 +235,17 @@ object AmfImplicits {
     }
 
     def identifier: String = bu.location().getOrElse(bu.id)
+
+    val declarationKeys: List[DeclarationKey] =
+      bu match {
+        case d: DeclaresModel =>
+          d.fields
+            .fields()
+            .find(t => t.field == ModuleModel.Declares)
+            .map(_.value.annotations.declarationKeys())
+            .getOrElse(List.empty)
+        case _ => List.empty
+      }
 
     val declarations: Seq[AmfObject] =
       bu match {

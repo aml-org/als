@@ -4,6 +4,8 @@ import amf.core.metamodel.document.DocumentModel
 import amf.core.metamodel.domain.ShapeModel
 import amf.core.model.domain.{AmfArray, AmfObject, Shape}
 import amf.core.parser.FieldEntry
+import amf.plugins.document.webapi.annotations.{DeclarationKey, DeclarationKeys}
+import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.language.outline.structure.structureImpl._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.{
@@ -15,6 +17,7 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   IriFieldSymbolBuilderCompanion,
   SymbolBuilder
 }
+import org.yaml.model.YNodeLike.toString
 
 class DeclaresFieldSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
     override implicit val ctx: StructureContext)
@@ -42,12 +45,22 @@ class DeclaresFieldSymbolBuilder(override val value: AmfArray, override val elem
       .flatMap(o => builderFor(o).map(_.build()).getOrElse(Nil))
       .sortWith((ds1, ds2) => ds1.range.start < ds2.range.start)
       .toList
+    val range: Option[PositionRange] = getDeclarationKeyFor(name).map(key => PositionRange(key.entry.range))
     children match {
       case Nil => None
       case head :: tail =>
-        Some(DocumentSymbol(name, head.kind, head.range + tail.lastOption.getOrElse(head).range, children))
+        Some(
+          DocumentSymbol(name,
+                         head.kind,
+                         range.getOrElse(head.range + tail.lastOption.getOrElse(head).range),
+                         children))
     }
   }
+
+  private lazy val declarationKeys = element.value.annotations.find(classOf[DeclarationKeys])
+
+  private def getDeclarationKeyFor(term: String): Option[DeclarationKey] =
+    declarationKeys.flatMap(_.keys.find(_.entry.key.toString() == term))
 
   protected def declarationName(obj: AmfObject): String =
     terms.getOrElse(getMeta(obj), "unknown")

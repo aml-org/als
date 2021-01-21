@@ -1,5 +1,6 @@
 package org.mulesoft.amfintegration.vocabularies
 
+import amf.core.parser.Annotations
 import amf.plugins.document.vocabularies.model.document.Vocabulary
 
 trait VocabularyObject {

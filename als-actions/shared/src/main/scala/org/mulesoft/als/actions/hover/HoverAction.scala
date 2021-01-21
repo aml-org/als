@@ -108,14 +108,13 @@ case class HoverAction(bu: BaseUnit,
       })
 
   def isInDeclarationKey: Boolean =
-    bu.annotations.declarationKeys().exists(k => k.entry.key.range.contains(dtoPosition.toAmfPosition))
+    bu.declarationKeys.exists(k => k.entry.key.range.contains(dtoPosition.toAmfPosition))
 
   private def buildDeclarationKeyUri(name: String): ValueType =
     ValueType(s"http://als.declarationKeys/#${name}DeclarationKey")
 
   def fromDeclarationKey(): Option[(Seq[String], Option[parser.Range])] =
-    bu.annotations
-      .declarationKeys()
+    bu.declarationKeys
       .find(k => k.entry.key.range.contains(dtoPosition.toAmfPosition))
       .map(key => {
         val valueType = getDeclarationValueType(key.entry)

@@ -57,8 +57,8 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 4,
-        "character": 2
+        "line": 3,
+        "character": 0
       },
       "end": {
         "line": 28,
@@ -67,8 +67,8 @@
     },
     "selectionRange": {
       "start": {
-        "line": 4,
-        "character": 2
+        "line": 3,
+        "character": 0
       },
       "end": {
         "line": 28,
