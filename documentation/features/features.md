@@ -21,7 +21,7 @@ Used by the client to inform the content of an unregistered file to the Server.
 The Server will use this information to keep track of each file and it’s contents
 + Flow: Client sends notification to Server
 + Triggered by:
-  + [DidOpen](https://microsoft.github.io/language-server-protocol/specification#textDocument_didOpen) (from Client to Server)
+  + [Did Open](https://microsoft.github.io/language-server-protocol/specification#textDocument_didOpen) (from Client to Server)
 + Emits nothing
 
 #### Change a File:
@@ -29,7 +29,7 @@ Used by the client to inform the content of a registered file to the Server.
 The Server will use this information to update of each file content
 + Flow: Client sends notification to Server
 + Triggered by:
-  + [DidChange](https://microsoft.github.io/language-server-protocol/specification#textDocument_didChange) (from Client to Server)
+  + [Did Change](https://microsoft.github.io/language-server-protocol/specification#textDocument_didChange) (from Client to Server)
 + Emits nothing
 
 #### Close a File:
@@ -37,7 +37,7 @@ Used by the client to inform the Server that a file has been closed.
 The Server will use this information to unregister the file (which means it won’t keep track of the content). In case this file is referenced, the content will be read from the source as with any other file.
 + Flow: Client sends notification to Server
 + Triggered by:
-  + [DidClose](https://microsoft.github.io/language-server-protocol/specification#textDocument_didClose) (from Client to Server)
+  + [Did Close](https://microsoft.github.io/language-server-protocol/specification#textDocument_didClose) (from Client to Server)
 + Emits nothing
 
 #### [Command](https://microsoft.github.io/language-server-protocol/specification#workspace_executeCommand):
