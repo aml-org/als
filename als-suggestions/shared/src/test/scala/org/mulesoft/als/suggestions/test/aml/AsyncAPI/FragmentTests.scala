@@ -1,14 +1,24 @@
 package org.mulesoft.als.suggestions.test.aml.AsyncAPI
 
-import org.mulesoft.als.suggestions.test.aml.AMLSuggestionsTest
-
 class FragmentTests extends AMLAsyncApi06SuggestionTest {
 
   def rootPath: String = "AML/AsyncAPI"
 
   test("test001") {
-    runAsyncApiTest("fragment/test001.yaml",
-                    Set("externalDocs:\n  ", "uses:\n  ", "description: ", "headers:\n  ", "tags:\n  - "))
+    runAsyncApiTest(
+      "fragment/test001.yaml",
+      Set(
+        "externalDocs:\n  ",
+        "uses:\n  ",
+        "description: ",
+        "headers:\n  ",
+        "tags:\n  - ",
+        "externalDocs:\n  url: $1",
+        """tags:
+                      |  -
+                      |    name: $1""".stripMargin
+      )
+    )
   }
 
   test("test002") {

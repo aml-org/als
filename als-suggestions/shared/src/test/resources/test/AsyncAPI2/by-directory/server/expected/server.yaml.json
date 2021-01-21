@@ -1,5 +1,35 @@
 [
   {
+    "label": "New someServer",
+    "kind": [],
+    "detail": "template",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "20New someServer",
+    "filterText": "$1:\n  url: $2\n  protocol: $3\n  protocolVersion: $4",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "$1:\n  url: $2\n  protocol: $3\n  protocolVersion: $4"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "bindings",
     "kind": [],
     "detail": "unknown",

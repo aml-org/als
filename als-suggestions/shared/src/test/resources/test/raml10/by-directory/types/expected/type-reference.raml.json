@@ -36,7 +36,7 @@
     "documentation": "any",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11any",
+    "sortText": "10any",
     "filterText": "any",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "array",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11array",
+    "sortText": "10array",
     "filterText": "array",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "boolean",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11boolean",
+    "sortText": "10boolean",
     "filterText": "boolean",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "date-only",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11date-only",
+    "sortText": "10date-only",
     "filterText": "date-only",
     "insertText": null,
     "insertTextFormat": [
@@ -156,7 +156,7 @@
     "documentation": "datetime",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11datetime",
+    "sortText": "10datetime",
     "filterText": "datetime",
     "insertText": null,
     "insertTextFormat": [
@@ -186,7 +186,7 @@
     "documentation": "datetime-only",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11datetime-only",
+    "sortText": "10datetime-only",
     "filterText": "datetime-only",
     "insertText": null,
     "insertTextFormat": [
@@ -216,7 +216,7 @@
     "documentation": "file",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11file",
+    "sortText": "10file",
     "filterText": "file",
     "insertText": null,
     "insertTextFormat": [
@@ -246,7 +246,7 @@
     "documentation": "integer",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11integer",
+    "sortText": "10integer",
     "filterText": "integer",
     "insertText": null,
     "insertTextFormat": [
@@ -276,7 +276,7 @@
     "documentation": "nil",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11nil",
+    "sortText": "10nil",
     "filterText": "nil",
     "insertText": null,
     "insertTextFormat": [
@@ -306,7 +306,7 @@
     "documentation": "number",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11number",
+    "sortText": "10number",
     "filterText": "number",
     "insertText": null,
     "insertTextFormat": [
@@ -336,7 +336,7 @@
     "documentation": "object",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11object",
+    "sortText": "10object",
     "filterText": "object",
     "insertText": null,
     "insertTextFormat": [
@@ -366,7 +366,7 @@
     "documentation": "string",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11string",
+    "sortText": "10string",
     "filterText": "string",
     "insertText": null,
     "insertTextFormat": [
@@ -396,7 +396,7 @@
     "documentation": "time-only",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11time-only",
+    "sortText": "10time-only",
     "filterText": "time-only",
     "insertText": null,
     "insertTextFormat": [

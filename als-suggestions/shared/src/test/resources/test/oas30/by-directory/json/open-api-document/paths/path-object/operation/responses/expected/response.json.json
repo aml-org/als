@@ -30,6 +30,36 @@
     "command": null
   },
   {
+    "label": "New response",
+    "kind": [],
+    "detail": "template",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "20New response",
+    "filterText": "\"$1\": {\n  \"description\": \"$2\"\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 12
+        },
+        "end": {
+          "line": 7,
+          "character": 15
+        }
+      },
+      "newText": "\"$1\": {\n  \"description\": \"$2\"\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "content",
     "kind": [],
     "detail": "unknown",

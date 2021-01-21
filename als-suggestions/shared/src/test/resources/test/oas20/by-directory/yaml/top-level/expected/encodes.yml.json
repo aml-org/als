@@ -1,5 +1,95 @@
 [
   {
+    "label": "New externalDocs",
+    "kind": [],
+    "detail": "template",
+    "documentation": "externalDocs",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "21New externalDocs",
+    "filterText": "externalDocs:\n  url: $1",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      },
+      "newText": "externalDocs:\n  url: $1"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New info",
+    "kind": [],
+    "detail": "template",
+    "documentation": "info",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "20New info",
+    "filterText": "info:\n  title: $1\n  version: $2",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      },
+      "newText": "info:\n  title: $1\n  version: $2"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New tags",
+    "kind": [],
+    "detail": "template",
+    "documentation": "tags",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "21New tags",
+    "filterText": "tags:\n  -\n    name: $1",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      },
+      "newText": "tags:\n  -\n    name: $1"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "basePath",
     "kind": [],
     "detail": "root",

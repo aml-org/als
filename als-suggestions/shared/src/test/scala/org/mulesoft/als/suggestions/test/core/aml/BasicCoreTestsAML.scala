@@ -17,11 +17,11 @@ class BasicCoreTestsAML extends CoreTest with DummyPlugins {
   def format: String = Aml.toString
 
   test("full root structure") {
-    runTestForCustomDialect("visit01.yaml", "dialect.yaml", Set("office", "date", "meetings"))
+    runTestForCustomDialect("visit01.yaml", "dialect.yaml", Set("office", "date", "meetings", "New meetings"))
   }
 
   test("some root structure") {
-    runTestForCustomDialect("visit02.yaml", "dialect.yaml", Set("date", "meetings"))
+    runTestForCustomDialect("visit02.yaml", "dialect.yaml", Set("date", "meetings", "New meetings"))
   }
 
   test("root structure with prefix") {

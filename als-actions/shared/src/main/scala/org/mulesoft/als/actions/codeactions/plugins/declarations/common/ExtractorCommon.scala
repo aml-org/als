@@ -249,10 +249,4 @@ object ExtractorCommon {
       nameNotInList(baseName, existing, Some(c.getOrElse(0) + 1))
     else maybeName
   }
-
-  private val pluralPattern = "(.*)[s|S]".r
-  def singularize(s: String): String = s match {
-    case pluralPattern(c) => c
-    case _                => s
-  }
 }

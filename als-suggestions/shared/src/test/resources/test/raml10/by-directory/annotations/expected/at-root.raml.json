@@ -30,6 +30,36 @@
     "command": null
   },
   {
+    "label": "New documentation",
+    "kind": [],
+    "detail": "template",
+    "documentation": "documentation",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "21New documentation",
+    "filterText": "documentation:\n  -\n    content: $1\n    title: $2",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 0
+        },
+        "end": {
+          "line": 4,
+          "character": 0
+        }
+      },
+      "newText": "documentation:\n  -\n    content: $1\n    title: $2"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "baseUri",
     "kind": [],
     "detail": "root",

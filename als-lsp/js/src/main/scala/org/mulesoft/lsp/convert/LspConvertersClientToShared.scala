@@ -609,7 +609,7 @@ object LspConvertersClientToShared {
 
   implicit class FormattingOptionsConverter(v: ClientFormattingOptions) {
     def toShared: FormattingOptions =
-      FormattingOptions(v.tabSize, v.insertSpaces)
+      FormattingOptions(v.tabSize, v.preferSpaces.orElse(v.insertSpaces).getOrElse(false))
   }
 
   implicit class DocumentFormattingParamsConverter(v: ClientDocumentFormattingParams) {

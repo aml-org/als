@@ -16,17 +16,15 @@ case class FieldEntrySearcher(amfObject: AmfObject,
   val currentIds: immutable.Seq[String] =
     amfObject.metaURIs.flatMap(uri => actualDialect.termsForId.find(_._2 == uri).map(_._1))
 
-  private def findRefferingProperty(mappings: Seq[PropertyMapping]) = {
+  private def findReferringProperty(mappings: Seq[PropertyMapping]) =
     mappings.filter(np => currentIds.exists(np.objectRange().map(_.value()).contains)) match {
       case Nil         => filterByName(mappings)
       case head :: Nil => Some(head)
       case many        => filterByName(many).orElse(many.headOption)
     }
-  }
 
-  private def filterByName(mappings: Seq[PropertyMapping]) = {
+  private def filterByName(mappings: Seq[PropertyMapping]) =
     mappings.find(_.name().value() == yPartBranch.parentEntry.flatMap(_.key.asScalar.map(_.text)).getOrElse(""))
-  }
 
   private def findValueFromTerm(refferingProperty: PropertyMapping) =
     refferingProperty.mapTermKeyProperty().option().flatMap(currentFieldFromTerm)
@@ -40,7 +38,7 @@ case class FieldEntrySearcher(amfObject: AmfObject,
     for {
       parent <- father
       nm     <- DialectNodeFinder.find(parent, None, actualDialect)
-      rp     <- findRefferingProperty(nm.propertiesMapping())
+      rp     <- findReferringProperty(nm.propertiesMapping())
       mm     <- findValueFromTerm(rp)
     } yield (FieldEntry(mm.toField, Value(AmfScalar(""), amfObject.annotations)), true)
   }
