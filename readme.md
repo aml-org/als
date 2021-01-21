@@ -75,7 +75,7 @@ With this server, it's up to the client (each IDE plugin) to just understand LSP
 Currently, we support the following LSP capabilities:
 ##### [Basic features](./documentation/features/features.md)
 + [Completion](https://microsoft.github.io/language-server-protocol/specification#textDocument_completion)
-+ [DocumentSymbol](https://microsoft.github.io/language-server-protocol/specification#textDocument_documentSymbol)
++ [Document Symbol](https://microsoft.github.io/language-server-protocol/specification#textDocument_documentSymbol)
 + [Diagnostics](https://microsoft.github.io/language-server-protocol/specification#textDocument_publishDiagnostics)
 
 ##### [Navigation features](./documentation/features/navigation.md)
@@ -83,14 +83,14 @@ Currently, we support the following LSP capabilities:
 + [Goto Definition](https://microsoft.github.io/language-server-protocol/specification#textDocument_definition)
 + [Goto Type Definition](https://microsoft.github.io/language-server-protocol/specification#textDocument_typeDefinition)
 + [Goto Implementation](https://microsoft.github.io/language-server-protocol/specification#textDocument_implementation)
-+ [DocumentLink](https://microsoft.github.io/language-server-protocol/specification#textDocument_documentLink)
++ [Document Link](https://microsoft.github.io/language-server-protocol/specification#textDocument_documentLink)
 
 ##### [Refactor features](./documentation/features/refactor.md)
-+ [PrepareRename](https://microsoft.github.io/language-server-protocol/specification#textDocument_prepareRename)
++ [Prepare Rename](https://microsoft.github.io/language-server-protocol/specification#textDocument_prepareRename)
 + [Rename](https://microsoft.github.io/language-server-protocol/specification#textDocument_rename)
 + [Code Action](https://microsoft.github.io/language-server-protocol/specification#textDocument_codeAction)
 + [Formatting](https://microsoft.github.io/language-server-protocol/specification#textDocument_formatting)
-+ [RangeFormatting](https://microsoft.github.io/language-server-protocol/specification#textDocument_rangeFormatting)
++ [Range Formatting](https://microsoft.github.io/language-server-protocol/specification#textDocument_rangeFormatting)
 
 ##### [EyeCandy features](./documentation/features/eyecandy.md)
 + [Document Highlight](https://microsoft.github.io/language-server-protocol/specification#textDocument_documentHighlight)

@@ -1,10 +1,10 @@
 # Features and modules
 ## Refactor features
 ##### We currently support the following refactor features: Formatting, Text Formatting, And an increasing variety of Code Actions
-### Formatting
+### [Formatting](https://microsoft.github.io/language-server-protocol/specification#textDocument_formatting)
 ![Formatting](../../images/vscode/formatting.gif)
 
-### Range Formatting
+### [Range Formatting](https://microsoft.github.io/language-server-protocol/specification#textDocument_rangeFormatting)
 ![Range Formatting](../../images/vscode/range-formatting.gif)
 
 ### [Rename](https://microsoft.github.io/language-server-protocol/specification#textDocument_rename)
