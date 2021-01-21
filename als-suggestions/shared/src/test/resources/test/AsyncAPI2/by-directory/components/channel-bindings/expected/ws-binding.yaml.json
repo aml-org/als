@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "21New headers",
-    "filterText": "headers:\n  description: $1",
+    "filterText": "headers:\n  description: $1\n  type: $2",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -23,7 +23,7 @@
           "character": 8
         }
       },
-      "newText": "headers:\n  description: $1"
+      "newText": "headers:\n  description: $1\n  type: $2"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "21New query",
-    "filterText": "query:\n  description: $1",
+    "filterText": "query:\n  description: $1\n  type: $2",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -53,7 +53,7 @@
           "character": 8
         }
       },
-      "newText": "query:\n  description: $1"
+      "newText": "query:\n  description: $1\n  type: $2"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

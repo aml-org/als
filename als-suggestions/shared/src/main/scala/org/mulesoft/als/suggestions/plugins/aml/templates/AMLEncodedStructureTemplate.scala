@@ -16,8 +16,8 @@ object AMLEncodedStructureTemplate {
         val parent = usedMappings.find(m => TemplateTools.iriForMapping(m) == key)
         val children =
           usedMappings.filterNot(m => TemplateTools.iriForMapping(m) == key).filter(_.minCount().value() > 0)
-        (parent.map(_ => TemplateTools.firstTemplateSuggestion(params, children)).toSeq ++
-          parent.map(_ => TemplateTools.fullTemplateSuggestion(params, children)).toSeq)
+        (parent.map(_ => TemplateTools.firstTemplateSuggestionPM(params, children)).toSeq ++
+          parent.map(_ => TemplateTools.fullTemplateSuggestionPM(params, children)).toSeq)
           .filter(_.children.nonEmpty)
       case None =>
         usedMappings.flatMap(pm => {

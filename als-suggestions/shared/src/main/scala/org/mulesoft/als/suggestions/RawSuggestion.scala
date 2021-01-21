@@ -166,7 +166,7 @@ object RawSuggestion {
   def valueInArray(text: String, description: String, category: String, isKey: Boolean): RawSuggestion =
     new RawSuggestion(text, text, text, Seq.empty, category, None, SuggestionStructure(ArrayRange, isKey = isKey))
 
-  def withNamedKey(children: Seq[RawSuggestion], category: String, prefix: String) =
+  def withNamedKey(children: Seq[RawSuggestion], category: String, prefix: String, name: String): RawSuggestion =
     RawSuggestion
-      .forObject("", category, mandatory = true, Some(s"$prefix element"), children)
+      .forObject("", category, mandatory = true, Some(s"$prefix $name"), children)
 }

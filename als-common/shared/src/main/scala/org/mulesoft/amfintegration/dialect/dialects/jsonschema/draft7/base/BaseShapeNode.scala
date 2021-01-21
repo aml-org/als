@@ -24,6 +24,7 @@ trait BaseShapeNode extends DialectNode{
       .withId(location + "#/declarations/ShapeNode/inherits")
       .withNodePropertyMapping(ShapeModel.Inherits.value.iri())
       .withName("type")
+      .withMinCount(1)
       .withEnum(
         Seq(
           "string",

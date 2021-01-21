@@ -21,7 +21,7 @@ object AMLDeclaredStructureTemplate {
       usedMappings.flatMap(TemplateTools.getFirstLevelTemplate(_, params)) match {
         case Nil => Seq.empty
         case children =>
-          Seq(TemplateTools.firstTemplateSuggestion(children))
+          Seq(TemplateTools.firstTemplateSuggestionRaw(params, children))
       }
     } else Seq.empty
 }

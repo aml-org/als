@@ -1,12 +1,12 @@
 [
   {
-    "label": "New element",
+    "label": "New type",
     "kind": [],
     "detail": "template",
     "documentation": "",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20New element",
+    "sortText": "20New type",
     "filterText": "$1:\n  type: $2",
     "insertText": null,
     "insertTextFormat": [

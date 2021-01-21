@@ -1,30 +1,41 @@
 package org.mulesoft.als.suggestions.plugins.aml.templates
 
-import amf.core.model.domain.{AmfArray, AmfScalar}
+import amf.core.model.domain.{AmfArray, AmfObject, AmfScalar}
+import amf.core.utils.InflectorBase.Inflector
 import amf.plugins.document.vocabularies.metamodel.domain.PropertyMappingModel
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.{AmlCompletionRequest, DialectNodeFinder}
-import org.mulesoft.amfintegration.AmfImplicits.DialectImplicits
+import org.mulesoft.amfintegration.AmfImplicits.{AmfObjectImp, DialectImplicits}
 import org.yaml.model.YMapEntry
 
 object TemplateTools {
-  val fullPrefix    = "New full"
-  val defaultPrefix = "New"
-  val category      = "template"
+  val fullPrefix          = "New full"
+  val defaultPrefix       = "New"
+  val category            = "template"
+  private val defaultName = "element"
 
-  def fullTemplateSuggestion(children: Seq[RawSuggestion]): RawSuggestion =
-    RawSuggestion.withNamedKey(children, TemplateTools.category, TemplateTools.fullPrefix)
+  private def maybeDeclarableName(amfObject: AmfObject, dialect: Dialect): Option[String] =
+    amfObject.declarableKey(dialect)
 
-  def fullTemplateSuggestion(params: AmlCompletionRequest, children: Seq[PropertyMapping]): RawSuggestion =
-    fullTemplateSuggestion(children.flatMap(TemplateTools.getFullTemplate(_, params)))
+  private def getName(params: AmlCompletionRequest) =
+    maybeDeclarableName(params.amfObject, params.nodeDialect)
+      .orElse(params.yPartBranch.parentEntry.flatMap(_.key.asScalar).map(_.text))
+      .map(_.singularize)
+      .getOrElse(defaultName)
 
-  def firstTemplateSuggestion(children: Seq[RawSuggestion]): RawSuggestion =
-    RawSuggestion.withNamedKey(children, TemplateTools.category, TemplateTools.defaultPrefix)
+  def fullTemplateSuggestionRaw(params: AmlCompletionRequest, children: Seq[RawSuggestion]): RawSuggestion =
+    RawSuggestion.withNamedKey(children, TemplateTools.category, TemplateTools.fullPrefix, getName(params))
 
-  def firstTemplateSuggestion(params: AmlCompletionRequest, children: Seq[PropertyMapping]): RawSuggestion =
-    firstTemplateSuggestion(children.flatMap(TemplateTools.getFirstLevelTemplate(_, params)))
+  def fullTemplateSuggestionPM(params: AmlCompletionRequest, children: Seq[PropertyMapping]): RawSuggestion =
+    fullTemplateSuggestionRaw(params, children.flatMap(TemplateTools.getFullTemplate(_, params)))
+
+  def firstTemplateSuggestionRaw(params: AmlCompletionRequest, children: Seq[RawSuggestion]): RawSuggestion =
+    RawSuggestion.withNamedKey(children, TemplateTools.category, TemplateTools.defaultPrefix, getName(params))
+
+  def firstTemplateSuggestionPM(params: AmlCompletionRequest, children: Seq[PropertyMapping]): RawSuggestion =
+    firstTemplateSuggestionRaw(params, children.flatMap(TemplateTools.getFirstLevelTemplate(_, params)))
 
   def getFirstLevelTemplate(p: PropertyMapping, params: AmlCompletionRequest): Seq[RawSuggestion] =
     Seq(

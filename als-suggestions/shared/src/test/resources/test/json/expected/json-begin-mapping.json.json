@@ -1,12 +1,12 @@
 [
   {
-    "label": "New element",
+    "label": "New response",
     "kind": [],
     "detail": "template",
     "documentation": "",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20New element",
+    "sortText": "20New response",
     "filterText": "\"$1\": {\n  \"description\": \"$2\"\n},",
     "insertText": null,
     "insertTextFormat": [

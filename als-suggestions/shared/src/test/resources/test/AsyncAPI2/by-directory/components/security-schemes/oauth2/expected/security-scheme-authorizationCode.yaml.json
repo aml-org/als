@@ -1,12 +1,12 @@
 [
   {
-    "label": "New element",
+    "label": "New authorizationCode",
     "kind": [],
     "detail": "template",
     "documentation": "",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20New element",
+    "sortText": "20New authorizationCode",
     "filterText": "$1:\n  type: $2",
     "insertText": null,
     "insertTextFormat": [
