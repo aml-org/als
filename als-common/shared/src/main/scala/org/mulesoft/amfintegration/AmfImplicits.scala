@@ -240,10 +240,8 @@ object AmfImplicits {
       bu match {
         case d: DeclaresModel =>
           d.fields
-            .copy()
-            .filter(t => t._1 == ModuleModel.Declares)
             .fields()
-            .headOption
+            .find(t => t.field == ModuleModel.Declares)
             .map(_.value.annotations.declarationKeys())
             .getOrElse(List.empty)
         case _ => List.empty
