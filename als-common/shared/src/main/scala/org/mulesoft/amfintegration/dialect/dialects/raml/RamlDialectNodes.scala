@@ -437,6 +437,7 @@ trait RamlDialectNodes {
     PropertyMapping()
       .withId(dialectLocation + "#/declarations/ResourceNode/is")
       .withName("is")
+      .withAllowMultiple(true)
       .withNodePropertyMapping(EndPointModel.Extends.value.iri())
       .withObjectRange(Seq(TraitNode.id)),
     PropertyMapping()
