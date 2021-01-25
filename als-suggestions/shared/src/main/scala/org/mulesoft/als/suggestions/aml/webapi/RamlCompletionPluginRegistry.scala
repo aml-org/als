@@ -11,6 +11,7 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10.structure.{
 }
 import org.mulesoft.als.suggestions.plugins.aml.webapi.{
   ObjectExamplePropertiesCompletionPlugin,
+  RamlParametersCompletionPlugin,
   SecuredByCompletionPlugin,
   WebApiKnownValueCompletionPlugin
 }
@@ -31,6 +32,7 @@ object RamlCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
       Raml10ParamsCompletionPlugin :+
       Raml10TypeFacetsCompletionPlugin :+
       RamlTypeDeclarationReferenceCompletionPlugin :+
+      RamlParametersCompletionPlugin :+
       RamlCustomFacetsCompletionPlugin :+
       AnnotationReferenceCompletionPlugin :+
       RamlResourceTypeReference :+
