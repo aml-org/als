@@ -12,7 +12,7 @@
 
 
 ### SerializeJSONLD
-When initialized, provides notifications with the JSONLD when available (updates with changes)
+When initialized, provides notifications with the JSONLD when   available (updates with changes)
 Notification message from server to client:
 ```json
 {
