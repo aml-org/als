@@ -58,7 +58,7 @@ case class PathNavigation(fullUrl: String, platform: Platform, env: Environment,
   }
 
   def resolveRootNode(): Future[Option[YNode]] = {
-    platform.resolve(filePath, env).map { c =>
+    platform.fetchContent(filePath, env).map { c =>
       val mime = c.mime.orElse(
         platform
           .extension(filePath)
