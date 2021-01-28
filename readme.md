@@ -5,7 +5,7 @@
 This section explains what is ALS, how does it work, who should use it, and how is ALS used today.
 
 ### What is ALS?
-The AML Language Server (ALS) is an implementation of the [Microsoft Language Server Protocol (LSP)](https://microsoft.github.io/language-server-protocol) with a primary focus towards API tooling and API specifications, such as RAML, OpenAPI and AsyncAPI. The objective of the ALS is to simplify API development by relying on the LSP to support API specifications in as many integrated development environments (IDEs) as possible. Besides API tooling and API specifications, you can extend the ALS to support any type of documents.
+The AML Language Server (ALS) is an implementation of the [Microsoft Language Server Protocol (LSP)](https://microsoft.github.io/language-server-protocol) with a primary focus towards API tooling and API specifications, such as RAML, OpenAPI, and AsyncAPI. The objective of the ALS is to simplify API development by relying on the LSP to support API specifications in as many integrated development environments (IDEs) as possible. Besides API tooling and API specifications, you can extend the ALS to support any type of documents.
 
 The supported types of documents include:
 + [RAML](https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md) (0.8 and 1.0)
@@ -14,7 +14,7 @@ The supported types of documents include:
 + [Any other type of documents via AML dialect](https://aml-org.github.io/aml-spec/dialects/) (1.0)
 
 ### What does ALS do?
-The ALS relies on the [Anything Modeling Language (AML)](https://a.ml/docbook/overview_aml.html), more specifically on AML's [dialect](https://aml-org.github.io/aml-spec/dialects/) functionality. The ALS uses the AML to provide language server functionalities, such as validation, for documents (also referred to as "instances" or "instance documents"). The ALS can also deduce possible contextual values in any given position (location? occurrence?) of an instance document.
+The ALS relies on the [Anything Modeling Language (AML)](https://a.ml/docbook/overview_aml.html), more specifically on AML's [dialect](https://aml-org.github.io/aml-spec/dialects/) functionality. The ALS uses the AML to provide language server functionalities, such as validation, for the documents (also referred to as "instances" or "instance documents"). The ALS can also deduce possible contextual values in any given position (location? occurrence?) of an instance document.
 
 Using the representation of an API in a model, you can generate an outline or [document symbol](https://microsoft.github.io/language-server-protocol/specification#textDocument_documentSymbol) to render a more visual abstraction of an instance.
 
@@ -22,7 +22,7 @@ Using the representation of an API in a model, you can generate an outline or [d
 The ALS is the answer for you if you are interested in authoring specification documents, including out-of-the-box API specification documents (API definitions) or any custom document that implements the AML's dialect functionality, using your favorite IDE. Additionally, developers can use the ALS to create IDE plugins based on the LSP.
 
 ### What relies on ALS today?
-Today, the ALS is used in MuleSoft Anypoint Design Center as well as in [Anypoint Studio](https://www.mulesoft.com/platform/studio) to provide feedback when authoring API definitions. You can see a [preview](#previews) in the following section.
+Today, the ALS is used in MuleSoft Anypoint Design Center and in [Anypoint Studio](https://www.mulesoft.com/platform/studio) to provide feedback when authoring API definitions. You can see a [preview](#previews) in the following section.
 
 
 ## Getting started
@@ -54,7 +54,7 @@ Here are some examples of how to use the ALS with other IDEs:
 - [Java LSP4J](./documentation/java-client-example/client.md): example on how to connect to a LSP server in Java using LSP4J, which can then be used for connecting IDE features to a plugin
 
 ### Previews
-This sections illustrates the example preview for different IDEs.
+This sections illustrates previews of different IDEs.
 
 #### Anypoint Design Center example:
 ![AD Example](./images/usage-example-ad.gif)
@@ -67,10 +67,10 @@ This sections illustrates the example preview for different IDEs.
 ****
 
 ## Other considerations
-This sextion explains how the LSP us supported in ALS.
+This section explains how the LSP is supported in ALS.
 
 ### LSP support in ALS
-The [Language Server Protocol (LSP)](https://microsoft.github.io/language-server-protocol/overview) is a tooling standardization for IDEs that defines a client-server architecture used to abstract a general implementation of used language-specific smarts. (not sure what used language-specific smarts means. IS this correct?)
+The [Language Server Protocol (LSP)](https://microsoft.github.io/language-server-protocol/overview) is a tooling standardization for IDEs that defines a client-server architecture used to abstract a general implementation of used language-specific smarts. (not sure what "used language-specific smarts" means. IS this correct?)
 
 In this client-server architecture, the server works as a standalone (write once with consistent behaviour) functionality provider. With this server, the client (each IDE plugin) independently understands the LSP messaging and communication, agnostic of the server implementation.
 
