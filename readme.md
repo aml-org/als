@@ -4,7 +4,7 @@
 ## Overview
 
 ### What is ALS?
-AML Language Server (ALS for short), is an implementation of [Microsoft's Language Server Protocol (LSP)](https://microsoft.github.io/language-server-protoco) with a primary focus towards API tooling and API specifications such as RAML, OpenAPI and AsyncAPI. The objective is to ease API development by relying on LSP to support those API specifications in as many IDEs as possible. That being said, ALS can be extended to support any type of documents, beyong API tooling and API specifications.
+AML Language Server (ALS) is an implementation of [Microsoft's Language Server Protocol (LSP)](https://microsoft.github.io/language-server-protoco) with a primary focus towards API tooling and API specifications such as RAML, OpenAPI and AsyncAPI. The objective is to ease API development by relying on LSP to support those API specifications in as many IDEs as possible. That being said, ALS can be extended to support any type of documents, beyong API tooling and API specifications.
 
 Supported types of documents:
 + [RAML](https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md) (0.8 and 1.0)
