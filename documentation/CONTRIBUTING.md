@@ -82,7 +82,7 @@ The AML Language Server (ALS) integrates different modules with specific objecti
 
 ![Modules](../images/LSP-diagram.png)
 
-The Server module communicates through a socket towards the client. To achieve this, the client must create a server socket and provide the selected port at the server initialization.
+The server module communicates through a socket towards the client. To achieve this, the client must create a server socket and provide the selected port at the server initialization.
 
 ![Modules](../images/LSP-complete-diagram.png)
 
