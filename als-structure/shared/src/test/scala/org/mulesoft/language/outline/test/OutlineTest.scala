@@ -66,7 +66,7 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
   }
 
   def getExpectedOutline(url: String): Future[String] =
-    this.platform.resolve(url, Environment(this.platform.loaders)).map(_.stream.toString)
+    this.platform.fetchContent(url, Environment(this.platform.loaders)).map(_.stream.toString)
 
   def getActualOutline(
       url: String,
