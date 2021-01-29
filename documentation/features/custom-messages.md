@@ -1,6 +1,6 @@
 # Features and modules
 ## Custom messages
-##### We currently support the following custom features:
+##### Currently the following custom features are supported:
 - SerializeJSONLD
 - UpdateConfiguration
 - FilesInProject
