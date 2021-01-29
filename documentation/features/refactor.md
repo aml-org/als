@@ -1,6 +1,6 @@
 # Features and modules
 ## Refactor features
-##### We currently support the following refactor features: Formatting, Text Formatting, And an increasing variety of Code Actions
+##### The refactor features currently supported include: Formatting, Text Formatting, and a variety of Code Actions.
 ### [Formatting](https://microsoft.github.io/language-server-protocol/specification#textDocument_formatting)
 ![Formatting](../../images/vscode/formatting.gif)
 
@@ -13,7 +13,7 @@
 ![Playground Rename3](../../images/playground/rename3.gif)
 
 ### [File Rename](./custom-messages.md#renamefile)
-This is a [custom method](./custom-messages.md) for ALS. Using this method you can rename a file and all it's references inside the project.
+This is a [custom method](./custom-messages.md) for ALS. Using this method, you can rename a file and all its references inside the project.
 ![File Rename](../../images/vscode/file_rename.gif)
 
 ### [Code Action](https://microsoft.github.io/language-server-protocol/specification#textDocument_codeAction)
