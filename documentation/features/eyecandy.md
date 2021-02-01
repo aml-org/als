@@ -1,7 +1,9 @@
 # Features and modules
 ## Eye-Candy features
+###### The eye-candy classification refers to features that are focused on adding visual information or modifying the way the content is being viewed but doesn't change the actual content"
+
 ##### The following features are supported for eye-candy: Hover, Folding Ranges, and Rename.
-//Is eye-candy a technical term in this case? Or do you mean something else?
+
 ### [Hover](https://microsoft.github.io/language-server-protocol/specification#textDocument_hover)
 ![Playground Hover1](../../images/playground/hover1.png)
 ![Playground Hover2](../../images/playground/hover2.png)

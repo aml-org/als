@@ -14,12 +14,12 @@ The supported types of documents include:
 + [Any other type of documents via AML dialect](https://aml-org.github.io/aml-spec/dialects/) (1.0)
 
 ### What does ALS do?
-The ALS relies on the [Anything Modeling Language (AML)](https://a.ml/docbook/overview_aml.html), more specifically on AML's [dialect](https://aml-org.github.io/aml-spec/dialects/) functionality. The ALS uses the AML to provide language server functionalities, such as validation, for the documents (also referred to as "instances" or "instance documents"). The ALS can also deduce possible contextual values in any given position (location? occurrence?) of an instance document.
+The ALS relies on the [Anything Modeling Language (AML)](https://a.ml/docbook/overview_aml.html), more specifically on AML's [dialect](https://aml-org.github.io/aml-spec/dialects/) functionality. The ALS uses the AML to provide language server functionalities, such as validation, for the documents (also referred to as "instances" or "instance documents"). The ALS can also deduce possible contextual values at any given position of an instance document.
 
 Using the representation of an API in a model, you can generate an outline or [Document Symbol](https://microsoft.github.io/language-server-protocol/specification#textDocument_documentSymbol) to render a more visual abstraction of an instance.
 
 ### Who should use ALS?
-The ALS is the answer for you if you are interested in authoring specification documents, including out-of-the-box API specification documents (API definitions) or any custom document that implements the AML's dialect functionality, using your favorite IDE. Additionally, developers can use the ALS to create IDE plugins based on the LSP.
+The ALS is the answer for you if you are interested in authoring specification documents, including out-of-the-box API specification documents (API definitions), but also any custom document using AML's dialect functionality, using your favorite IDE. Additionally, developers can use the ALS to create IDE plugins based on the LSP.
 
 ### What relies on ALS today?
 Today, the ALS is used in MuleSoft Anypoint Design Center and in [Anypoint Studio](https://www.mulesoft.com/platform/studio) to provide feedback when authoring API definitions. You can see a [preview](#previews) in the following section.
@@ -37,7 +37,7 @@ You can download the ALS server JAR using curl:
 $ curl https://repository-master.mulesoft.org/nexus/content/repositories/releases/org/mule/als/als-server_2.12/3.x.x/als-server_2.12-3.x.x.jar -o als-server.jar
 ```
 
-or you can download direclty: 
+and then ran independently like so:
 
 ```shell
 $ java -jar als-server.jar --port <port name>
@@ -70,7 +70,7 @@ This sections illustrates previews of different IDEs.
 This section explains how the LSP is supported in ALS.
 
 ### LSP support in ALS
-The [Language Server Protocol (LSP)](https://microsoft.github.io/language-server-protocol/overview) is a tooling standardization for IDEs that defines a client-server architecture used to abstract a general implementation of used language-specific smarts. (not sure what "used language-specific smarts" means. IS this correct?)
+The [Language Server Protocol (LSP)](https://microsoft.github.io/language-server-protocol/overview) is a tooling standardization for IDEs that defines a client-server architecture used to abstract a general implementation of used language-specific smarts.
 
 In this client-server architecture, the server works as a standalone (write once with consistent behaviour) functionality provider. With this server, the client (each IDE plugin) independently understands the LSP messaging and communication, agnostic of the server implementation.
 

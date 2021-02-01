@@ -52,7 +52,7 @@ Notification message from server to client:
 
 ### CleanDiagnosticTree
 Performs validation on a given document(without the use of cache).
-//The previous sentence was not clear at all.
+
 Request message from client to server:
 ##### request
 ```json
