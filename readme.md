@@ -16,7 +16,7 @@ The supported types of documents include:
 ### What does ALS do?
 The ALS relies on the [Anything Modeling Language (AML)](https://a.ml/docbook/overview_aml.html), more specifically on AML's [dialect](https://aml-org.github.io/aml-spec/dialects/) functionality. The ALS uses the AML to provide language server functionalities, such as validation, for the documents (also referred to as "instances" or "instance documents"). The ALS can also deduce possible contextual values in any given position (location? occurrence?) of an instance document.
 
-Using the representation of an API in a model, you can generate an outline or [document symbol](https://microsoft.github.io/language-server-protocol/specification#textDocument_documentSymbol) to render a more visual abstraction of an instance.
+Using the representation of an API in a model, you can generate an outline or [Document Symbol](https://microsoft.github.io/language-server-protocol/specification#textDocument_documentSymbol) to render a more visual abstraction of an instance.
 
 ### Who should use ALS?
 The ALS is the answer for you if you are interested in authoring specification documents, including out-of-the-box API specification documents (API definitions) or any custom document that implements the AML's dialect functionality, using your favorite IDE. Additionally, developers can use the ALS to create IDE plugins based on the LSP.

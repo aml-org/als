@@ -1,6 +1,6 @@
 # Features and modules
 ## Eye-Candy features
-##### TThe following features are supported for eye-candy: Hover, Folding Ranges, and Rename.
+##### The following features are supported for eye-candy: Hover, Folding Ranges, and Rename.
 //Is eye-candy a technical term in this case? Or do you mean something else?
 ### [Hover](https://microsoft.github.io/language-server-protocol/specification#textDocument_hover)
 ![Playground Hover1](../../images/playground/hover1.png)

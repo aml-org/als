@@ -10,7 +10,7 @@ The first message sent from the client to the server. With this request, the cli
   + Initialization Result
 
 #### [Initialized](https://microsoft.github.io/language-server-protocol/specification#initialized):
-The final message in a three-way handshake between the client and the server (Initialize Request, Initialize Response, Initialized notification).
+The final message in a three-way handshake between the client and the server (Initialize Request, Initialize Response, Initialized Notification).
 + Flow: The client sends notification to the server.
 + Triggered by:
   + Initialized notification
@@ -70,7 +70,7 @@ This feature allows the server to inform the client about an abstraction of the 
 
 #### [Completion](https://microsoft.github.io/language-server-protocol/specification#textDocument_completion) (a.k.a. Suggestions) 
 With the file and position specified, the server informs the client about possible values to insert (known structure keys, values, types, parameter names, paths, etc) 
-+ Flow: The client sends a request to the server and the server responds to the request.
++ Flow: The client sends a request to the server, and the server responds to the request.
 + Triggered by direct request from client:
   + Completion Request
 + Emits:

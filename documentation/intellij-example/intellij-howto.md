@@ -1,5 +1,5 @@
 # IntelliJ ALS-Client
-##### H=The following section demonstrates a quick example of how you can run the ALS as a pure LSP in IntelliJ
+##### The following section demonstrates a quick example of how you can run the ALS as a pure LSP in IntelliJ
 _This example requires the [ALS jar ready](../../readme.md#java-generation), Java 1.8 or newer in PATH, and [IntelliJ LSP Plugin](https://plugins.jetbrains.com/plugin/10209-lsp-support)._
 
 ### Steps

@@ -30,7 +30,7 @@ public class ServerRunnable implements Runnable {
     }
 }
 ```
-###### Client class with diagnostics intercepted (for testing purposes)
+###### Client class with Diagnostics intercepted (for testing purposes)
 ```Java
 public class DummyClient implements LanguageClient {
 
