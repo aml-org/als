@@ -1,6 +1,6 @@
 # Features and modules
 ## Custom messages
-##### We currently support the following custom features:
+##### Currently the following custom features are supported:
 - SerializeJSONLD
 - UpdateConfiguration
 - FilesInProject
@@ -12,7 +12,7 @@
 
 
 ### SerializeJSONLD
-When initialized, provides notifications with the JSONLD when available (updates with changes)
+After initialization, provides notifications with the JSONLD when available (updates with changes).
 Notification message from server to client:
 ```json
 {
@@ -22,7 +22,7 @@ Notification message from server to client:
 ```
 
 ### UpdateConfiguration
-Client notification to update ALS specific configuration
+Client notification to update the ALS-specific configuration.
 Notification message from client to server:
 ```json
 {
@@ -41,7 +41,7 @@ Notification message from client to server:
 
 
 ### FilesInProject
-When initialized, provides notifications with the files included in a project (updates with changes)
+After initialization, provides notifications about the files included in a project (updates with changes).
 Notification message from server to client:
 ```json
 {
@@ -51,7 +51,8 @@ Notification message from server to client:
 
 
 ### CleanDiagnosticTree
-This requests on a given document, will result in a clean validation (without the use of cache).
+Performs validation on a given document(without the use of cache).
+
 Request message from client to server:
 ##### request
 ```json
@@ -70,7 +71,7 @@ Request message from client to server:
 
 
 ### FileUsage
-This requests on a given document, will result in a list of every other document which references this one.
+For a given document, generates a list of other documents that reference it.
 Request message from client to server:
 ##### request
 ```json
@@ -85,7 +86,7 @@ Request message from client to server:
 
 
 ### Conversion
-This requests on a given document, will result in an AMF conversion between compatible specifications.
+For a given document, performs AMF conversion for compatible specifications.
 Request message from client to server:
 ##### request
 ```json
@@ -107,7 +108,7 @@ Request message from client to server:
 
 
 ### Serialization
-This requests on a given document, will result in an AMF serialization towards a specific model (similar to the JSONLD notifications, but on demand).
+For a given document, serializes AMF towards a specific model (similar to the JSONLD notifications, but on demand).
 Request message from client to server:
 ##### request
 ```json
@@ -125,7 +126,7 @@ Request message from client to server:
 
 
 ### RenameFile
-This requests on a given document, provide all needed changes to rename the file, and it's references inside a project.
+For a given document, provides all the requirements to rename the file and it's references inside a project.
 Request message from client to server:
 ##### request
 ```json
