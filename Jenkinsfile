@@ -115,15 +115,17 @@ pipeline {
             steps {
                 wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
                     script {
-                        sh 'sbt -mem 4096 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 buildNodeJsClient'
-                        def statusCode = 1
-                        dir("als-node-client/node-package") {
-                            echo "Publishing NPM package: ${publish_version}"
-                            statusCode = sh script:"scripts/publish.sh ${publish_version} ${NPM_TOKEN} ${env.BRANCH_NAME}", returnStatus:true
-                        }
-                        if(statusCode != 0) {
-                            failedStage = failedStage + " PUBLISH-NODE-JS "
-                            unstable "Failed Node client publication"
+                        if (failedStage.isEmpty()) {
+                            sh 'sbt -mem 4096 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 buildNodeJsClient'
+                            def statusCode = 1
+                            dir("als-node-client/node-package") {
+                                echo "Publishing NPM package: ${publish_version}"
+                                statusCode = sh script:"scripts/publish.sh ${publish_version} ${NPM_TOKEN} ${env.BRANCH_NAME}", returnStatus:true
+                            }
+                            if(statusCode != 0) {
+                                failedStage = failedStage + " PUBLISH-NODE-JS "
+                                unstable "Failed Node client publication"
+                            }
                         }
                     }
 
@@ -141,41 +143,20 @@ pipeline {
             steps {
                 wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
                     script {
-                        sh 'sbt -mem 4096 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 buildJsServerLibrary'
-                        def statusCode = 1
-                        dir("als-server/js/node-package") {
-                            echo "Publishing NPM package build: ${publish_version}."
-                            statusCode = sh script:"scripts/publish.sh ${publish_version} ${NPM_TOKEN} ${env.BRANCH_NAME}", returnStatus:true
-                        }
-                        if(statusCode != 0) {
-                            failedStage = failedStage + " PUBLISH-SERVER-JS "
-                            unstable "Failed als-server JS publication"
-                        }
-                    }
-
-                }
-            }
-        }
-
-        stage('Trigger Dependencies') {
-            when {
-                anyOf {
-                    branch 'develop'
-                    branch 'master'
-                }
-            }
-            steps {
-                script {
-                    try {
                         if (failedStage.isEmpty()) {
-                            echo "Trigger als-client ($publish_version) and als-extension ($publish_version)"
-                            build job: "ALS-New/als-client/master", parameters: [string(name: 'ALS_VERSION', value: "$publish_version")], wait: false
-                            build job: "ALS-New/als-extension/master", parameters: [string(name: 'ALS_VERSION', value: "$publish_version")], wait: false
+                            sh 'sbt -mem 4096 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 buildJsServerLibrary'
+                            def statusCode = 1
+                            dir("als-server/js/node-package") {
+                                echo "Publishing NPM package build: ${publish_version}."
+                                statusCode = sh script:"scripts/publish.sh ${publish_version} ${NPM_TOKEN} ${env.BRANCH_NAME}", returnStatus:true
+                            }
+                            if(statusCode != 0) {
+                                failedStage = failedStage + " PUBLISH-SERVER-JS "
+                                unstable "Failed als-server JS publication"
+                            }
                         }
-                    } catch (e) {
-                        failedStage = failedStage + " DEPENDENCIES "
-                        unstable "Failed dependencies"
                     }
+
                 }
             }
         }
@@ -196,6 +177,28 @@ pipeline {
                     } catch (e) {
                         failedStage = failedStage + " PUBLISH "
                         unstable "Failed publication"
+                    }
+                }
+            }
+        }
+        stage('Trigger Dependencies') {
+            when {
+                anyOf {
+                    branch 'develop'
+                    branch 'master'
+                }
+            }
+            steps {
+                script {
+                    if (failedStage.isEmpty()) {
+                        try {
+                            echo "Trigger als-client ($publish_version) and als-extension ($publish_version)"
+                            build job: "ALS-New/als-client/master", parameters: [string(name: 'ALS_VERSION', value: "$publish_version")], wait: false
+                            build job: "ALS-New/als-extension/master", parameters: [string(name: 'ALS_VERSION', value: "$publish_version")], wait: false
+                        } catch (e) {
+                            failedStage = failedStage + " DEPENDENCIES "
+                            unstable "Failed dependencies"
+                        }
                     }
                 }
             }
