@@ -23,5 +23,8 @@ documentChanges:
 
           newtype:
             type: object
+            additionalProperties: true
             properties:
-              B: other
+              B:
+                type: string
+                required: true
