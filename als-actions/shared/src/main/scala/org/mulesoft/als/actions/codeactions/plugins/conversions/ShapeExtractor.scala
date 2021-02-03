@@ -1,29 +1,33 @@
 package org.mulesoft.als.actions.codeactions.plugins.conversions
 
 import amf.ProfileNames
+import amf.core.errorhandling.ErrorHandler
+import amf.core.metamodel.document.FragmentModel
 import amf.core.model.domain.{AmfObject, Shape}
 import amf.plugins.document.webapi.annotations.{ParsedJSONSchema, SchemaIsJsonSchema}
 import amf.plugins.domain.shapes.models.AnyShape
 import amf.plugins.domain.shapes.resolution.stages.elements.CompleteShapeTransformationPipeline
-import org.mulesoft.als.actions.codeactions.plugins.declarations.common.{
-  BaseElementDeclarableExtractors,
-  FileExtractor
-}
+import org.mulesoft.als.actions.codeactions.plugins.declarations.common.{BaseElementDeclarableExtractors, FileExtractor}
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.amfintegration.LocalIgnoreErrorHandler
 
-trait ShapeConverter extends BaseElementDeclarableExtractors {
+import scala.collection.mutable
+
+trait ShapeExtractor extends BaseElementDeclarableExtractors {
+
+  private val eh: ErrorHandler = LocalIgnoreErrorHandler
 
   protected def resolveShape(anyShape: AnyShape): Option[AnyShape] =
-    new CompleteShapeTransformationPipeline(anyShape, LocalIgnoreErrorHandler, ProfileNames.RAML).resolve() match {
+    new CompleteShapeTransformationPipeline(anyShape, eh, ProfileNames.RAML).resolve() match {
       case a: AnyShape => Some(a)
       case _           => None
     }
 
   // We wouldn't want to override amfObject as a whole as it's used for range comparisons and such
   protected lazy val resolvedAmfObject: Option[AmfObject] = amfObject match {
-    case Some(shape: AnyShape) => resolveShape(shape.copyShape())
+    case Some(shape: AnyShape) =>
+      resolveShape(shape.cloneElement(mutable.Map.empty).asInstanceOf[AnyShape])
     case e                     => e
   }
 
