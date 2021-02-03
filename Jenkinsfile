@@ -3,9 +3,10 @@ def slackChannel = '#als-bot'
 def failedStage = ""
 def color = '#FF8C00'
 def headerFlavour = "WARNING"
+def publish_version
 pipeline {
     agent {
-        dockerfile { 
+        dockerfile {
             label 'gn-8-16-1'
         }
     }
@@ -16,12 +17,30 @@ pipeline {
         NPM_TOKEN = credentials('npm-mulesoft')
         NPM_CONFIG_PRODUCTION = true
         NODE_ENV = 'dev'
-        VERSION = "${env.BUILD_NUMBER}"
+        BUILD_NUMBER = "${env.BUILD_NUMBER}"
+        currentVersion = sh(script:"cat dependencies.properties | grep \"version\" | cut -d '=' -f 2", returnStdout: true)
     }
     stages {
         stage('Clean') {
             steps {
                 sh "git clean -fdx"
+                script {
+                    publish_version = "${currentVersion}".replace("\n", "")
+                    echo "$publish_version"
+                }
+            }
+        }
+        stage('Prepare version') {
+            when {
+                not {
+                    branch 'master'
+                }
+            }
+            steps {
+                script {
+                    publish_version = "${currentVersion}.${BUILD_NUMBER}".replace("\n", "")
+                    echo "$publish_version"
+                }
             }
         }
         stage('Test') {
@@ -99,8 +118,8 @@ pipeline {
                         sh 'sbt -mem 4096 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 buildNodeJsClient'
                         def statusCode = 1
                         dir("als-node-client/node-package") {
-                            echo "Publishing NPM package build: ${VERSION}."
-                            statusCode = sh script:"scripts/publish.sh ${VERSION} ${NPM_TOKEN} ${env.BRANCH_NAME}", returnStatus:true
+                            echo "Publishing NPM package: ${publish_version}"
+                            statusCode = sh script:"scripts/publish.sh ${publish_version} ${NPM_TOKEN} ${env.BRANCH_NAME}", returnStatus:true
                         }
                         if(statusCode != 0) {
                             failedStage = failedStage + " PUBLISH-NODE-JS "
@@ -125,8 +144,8 @@ pipeline {
                         sh 'sbt -mem 4096 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 buildJsServerLibrary'
                         def statusCode = 1
                         dir("als-server/js/node-package") {
-                            echo "Publishing NPM package build: ${VERSION}."
-                            statusCode = sh script:"scripts/publish.sh ${VERSION} ${NPM_TOKEN} ${env.BRANCH_NAME}", returnStatus:true
+                            echo "Publishing NPM package build: ${publish_version}."
+                            statusCode = sh script:"scripts/publish.sh ${publish_version} ${NPM_TOKEN} ${env.BRANCH_NAME}", returnStatus:true
                         }
                         if(statusCode != 0) {
                             failedStage = failedStage + " PUBLISH-SERVER-JS "
@@ -134,6 +153,29 @@ pipeline {
                         }
                     }
 
+                }
+            }
+        }
+
+        stage('Trigger Dependencies') {
+            when {
+                anyOf {
+                    branch 'develop'
+                    branch 'master'
+                }
+            }
+            steps {
+                script {
+                    try {
+                        if (failedStage.isEmpty()) {
+                            echo "Trigger als-client ($publish_version) and als-extension ($publish_version)"
+                            build job: "ALS-New/als-client/master", parameters: [string(name: 'ALS_VERSION', value: "$publish_version")], wait: false
+                            build job: "ALS-New/als-extension/master", parameters: [string(name: 'ALS_VERSION', value: "$publish_version")], wait: false
+                        }
+                    } catch (e) {
+                        failedStage = failedStage + " DEPENDENCIES "
+                        unstable "Failed dependencies"
+                    }
                 }
             }
         }

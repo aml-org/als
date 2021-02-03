@@ -3,7 +3,7 @@
 # $2 has the auth token
 # $3 contains the branch name from where the script has run
 
-BUILD_NUMBER=$1
+FULL_VERSION=$1
 NPM_TOKEN=$2
 BRANCH=$3
 
@@ -12,12 +12,6 @@ if [[ "$BRANCH" == "master" ]]; then
     IS_MASTER=true
 fi
 
-PROJECT_VERSION=$(cat ../../dependencies.properties | grep "version" | cut -d '=' -f 2)
-FULL_VERSION="$PROJECT_VERSION.$BUILD_NUMBER"
-
-if [ "$IS_MASTER" = true ] ; then
-  FULL_VERSION="$PROJECT_VERSION"
-fi
 echo "Publish version: $FULL_VERSION"
 
 DIR="$( cd "$( dirname "$0" )" && pwd )"
