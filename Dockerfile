@@ -46,6 +46,8 @@ RUN \
 RUN \
   apt-get install nodejs --assume-yes
 
+RUN export NODE_OPTIONS=--max_old_space_size=6000
+
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8

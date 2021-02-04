@@ -10,6 +10,9 @@
     "type": "git",
     "url": "https://github.com/mulesoft/als"
   },
+  "files": [
+    "dist"
+  ],
   "bin": {
     "als": "./dist/als-node-client.min.js"
   },
