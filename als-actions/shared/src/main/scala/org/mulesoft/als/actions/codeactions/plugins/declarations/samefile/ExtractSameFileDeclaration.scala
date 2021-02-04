@@ -9,6 +9,7 @@ import amf.plugins.document.webapi.annotations.ForceEntry
 import amf.plugins.document.webapi.parser.spec.common.emitters.WebApiDomainElementEmitter
 import org.mulesoft.als.actions.codeactions.plugins.CodeActionKindTitle
 import org.mulesoft.als.actions.codeactions.plugins.base.{CodeActionRequestParams, CodeActionResponsePlugin}
+import org.mulesoft.als.actions.codeactions.plugins.conversions.ShapeExtractor
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.{
   BaseElementDeclarableExtractors,
   ExtractorCommon
@@ -30,7 +31,7 @@ import org.yaml.model.{YMap, YMapEntry, YNode}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with BaseElementDeclarableExtractors {
+trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with ShapeExtractor {
   protected val kindTitle: CodeActionKindTitle
 
   protected def rangeFromEntryBottom(maybeEntry: Option[YMapEntry]): Range =
@@ -42,7 +43,7 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with BaseEleme
     }
 
   protected lazy val declaredElementTextEdit: Option[TextEdit] =
-    renderDeclaredEntry(amfObject, newName)
+    renderDeclaredEntry(resolvedAmfObject, newName)
       .map(de => TextEdit(rangeFromEntryBottom(de._2), s"\n${de._1}\n"))
 
   protected def renderDeclaredEntry(amfObject: Option[AmfObject], name: String): Option[(String, Option[YMapEntry])] =

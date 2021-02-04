@@ -38,7 +38,7 @@ import scala.concurrent.Future
 
 class JsonSchemaToRamlType(override protected val params: CodeActionRequestParams)
     extends CodeActionResponsePlugin
-    with ShapeConverter
+    with ShapeExtractor
     with ExtractSameFileDeclaration {
 
   override val isApplicable: Boolean =
