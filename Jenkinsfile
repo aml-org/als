@@ -15,7 +15,7 @@ pipeline {
         NEXUSIQ = credentials('nexus-iq')
         ALSP_TOKEN = credentials('NewALSPToken')
         NPM_TOKEN = credentials('npm-mulesoft')
-        NPM_CONFIG_PRODUCTION = true
+        NPM_CONFIG_PRODUCTION = false
         NODE_ENV = 'dev'
         BUILD_NUMBER = "${env.BUILD_NUMBER}"
         currentVersion = sh(script:"cat dependencies.properties | grep \"version\" | cut -d '=' -f 2", returnStdout: true)
