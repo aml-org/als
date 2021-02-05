@@ -4,21 +4,19 @@ import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.lsp.edit.WorkspaceEdit
 import org.scalatest.Assertion
 import org.scalatest.Matchers.{fail, succeed}
+import scala.concurrent.{ExecutionContext, Future}
 
-trait WorkspaceEditsTest {
-
-  def assertWorkspaceEdits(workspaceEdit: WorkspaceEdit,
-                           golden: Option[String],
-                           content: Option[String],
-                           path: String): Assertion = {
+trait WorkspaceEditsTest extends FileAssertionTest {
+  implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
+  def assertWorkspaceEdits(workspaceEdit: WorkspaceEdit, goldenPath: String, content: Option[String]): Assertion = {
 
     val newText = applyEdits(workspaceEdit, content)
-    val diffs   = Diff.ignoreAllSpace.diff(golden.get, newText.trim)
-    if (diffs.isEmpty) succeed
-    else {
-      println(diffs.mkString)
-      fail(s"Difference for $path: got [${newText.trim}] while expecting [${golden.get}]")
-    }
+    for {
+      tmp <- writeTemporaryFile(goldenPath)(newText)
+      r   <- assertDifferences(tmp, goldenPath)
+    } yield r
+
+    succeed
   }
 
   def applyEdits(workspaceEdit: WorkspaceEdit, content: Option[String]): String = {
