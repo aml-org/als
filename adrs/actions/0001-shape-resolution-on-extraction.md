@@ -21,6 +21,6 @@ implement our own resolution method to resolve only the local references but lea
 
 
 ## Consequences
- - Extracted shapes should be resolved.
+ - Extracted shapes won't be resolved except in some special cases.
  - Upon extraction local references not included in the extraction will be invalid.
  - The extraction will preserve the external references.
