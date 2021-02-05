@@ -11,9 +11,6 @@
     "type": "git",
     "url": "https://github.com/mulesoft/als"
   },
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "build:dist": "webpack --config ./webpack.config.js"
   },
