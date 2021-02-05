@@ -43,7 +43,7 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with ShapeExtr
     }
 
   protected lazy val declaredElementTextEdit: Option[TextEdit] =
-    renderDeclaredEntry(resolvedAmfObject, newName)
+    renderDeclaredEntry(amfObject, newName)
       .map(de => TextEdit(rangeFromEntryBottom(de._2), s"\n${de._1}\n"))
 
   protected def renderDeclaredEntry(amfObject: Option[AmfObject], name: String): Option[(String, Option[YMapEntry])] =
