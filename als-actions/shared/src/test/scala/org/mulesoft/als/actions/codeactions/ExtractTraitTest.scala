@@ -2,6 +2,7 @@ package org.mulesoft.als.actions.codeactions
 
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionFactory
 import org.mulesoft.als.actions.codeactions.plugins.declarations.`trait`.ExtractTraitCodeAction
+import org.mulesoft.als.actions.codeactions.plugins.declarations.samefile.ExtractElementCodeAction
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 
 class ExtractTraitTest extends BaseCodeActionTests {
@@ -80,6 +81,13 @@ class ExtractTraitTest extends BaseCodeActionTests {
     val pluginFactory: CodeActionFactory = ExtractTraitCodeAction
 
     runTest(elementUri, range, pluginFactory)
+  }
+
+  it should "not extract to declaration on RAML Trait fragments" in {
+    val elementUri                       = "extract-element/traits/trait-fragment.raml"
+    val range                            = PositionRange(Position(1, 2), Position(1, 3))
+    val pluginFactory: CodeActionFactory = ExtractTraitCodeAction
+    runTestNotApplicable(elementUri, range, pluginFactory)
   }
 
 }

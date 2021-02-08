@@ -2,11 +2,16 @@ package org.mulesoft.amfintegration.dialect.dialects.raml
 
 import amf.core.annotations.Aliases
 import amf.core.metamodel.domain.ModelVocabularies
+import amf.core.metamodel.domain.extensions.CustomDomainPropertyModel
 import amf.core.parser.Annotations
 import amf.core.vocabulary.Namespace
 import amf.plugins.document.vocabularies.model.document.{Dialect, Vocabulary}
 import amf.plugins.document.vocabularies.model.domain._
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
+import amf.plugins.domain.shapes.metamodel.{AnyShapeModel, CreativeWorkModel, ExampleModel}
+import amf.plugins.domain.webapi.metamodel.security.SecuritySchemeModel
+import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
+import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10DialectNodes
 
 trait RamlDialect {
 
@@ -35,7 +40,37 @@ trait RamlDialect {
             DocumentMapping()
               .withId(dialectLocation + "#/documents/root")
               .withEncoded(rootId)
-          ))
+          )
+          .withFragments(Seq(
+            DocumentMapping()
+              .withId(dialectLocation + "#/documents/fragments/datatype")
+              .withDocumentName("DataType")
+              .withEncoded(AnyShapeModel.`type`.head.iri()),
+            DocumentMapping()
+              .withId(dialectLocation + "#/documents/fragments/securityScheme")
+              .withDocumentName("SecurityScheme")
+              .withEncoded(SecuritySchemeModel.`type`.head.iri()),
+            DocumentMapping()
+              .withId(dialectLocation + "#/documents/fragments/namedExample")
+              .withDocumentName("NamedExample")
+              .withEncoded(ExampleModel.`type`.head.iri()),
+            DocumentMapping()
+              .withId(dialectLocation + "#/documents/fragments/documentationItem")
+              .withDocumentName("DocumentationItem")
+              .withEncoded(CreativeWorkModel.`type`.head.iri()),
+            DocumentMapping()
+              .withId(dialectLocation + "#/documents/fragments/annotationTypeDeclaration")
+              .withDocumentName("AnnotationTypeDeclaration")
+              .withEncoded(CustomDomainPropertyModel.`type`.head.iri()),
+            DocumentMapping()
+              .withId(dialectLocation + "#/documents/fragments/trait")
+              .withDocumentName("Trait")
+              .withEncoded(TraitModel.`type`.head.iri()),
+            DocumentMapping()
+              .withId(dialectLocation + "#/documents/fragments/resourceType")
+              .withDocumentName("ResourceType")
+              .withEncoded(ResourceTypeModel.`type`.head.iri())
+          )))
 
     d.withExternals(
       Seq(

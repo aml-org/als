@@ -2,6 +2,7 @@ package org.mulesoft.als.actions.codeactions
 
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionFactory
 import org.mulesoft.als.actions.codeactions.plugins.declarations.resourcetype.ExtractResourceTypeCodeAction
+import org.mulesoft.als.actions.codeactions.plugins.declarations.samefile.ExtractElementCodeAction
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 
 class ExtractResourceTypeTest extends BaseCodeActionTests {
@@ -53,6 +54,13 @@ class ExtractResourceTypeTest extends BaseCodeActionTests {
     val pluginFactory: CodeActionFactory = ExtractResourceTypeCodeAction
 
     runTest(elementUri, range, pluginFactory)
+  }
+
+  it should "not extract to declaration on RAML ResourceType fragments" in {
+    val elementUri                       = "extract-element/resource-types/resource-type-fragment.raml"
+    val range                            = PositionRange(Position(1, 2), Position(1, 3))
+    val pluginFactory: CodeActionFactory = ExtractResourceTypeCodeAction
+    runTestNotApplicable(elementUri, range, pluginFactory)
   }
 
 }
