@@ -1,5 +1,7 @@
 package org.mulesoft.als.nodeclient
 
+import amf.client.convert.CoreClientConverters._
+import amf.client.resource.ClientResourceLoader
 import amf.core.unsafe.PlatformSecrets
 import io.scalajs.nodejs.process
 import org.mulesoft.als.server.{
@@ -9,6 +11,8 @@ import org.mulesoft.als.server.{
   ProtocolConnectionBinder
 }
 import org.mulesoft.als.vscode.{ProtocolConnection, ServerSocketTransport}
+
+import scala.concurrent.ExecutionContext.Implicits.global
 
 // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
@@ -40,10 +44,12 @@ object Main extends PlatformSecrets {
 
       val clientConnection   = ClientNotifierFactory.createWithClientAware(logger)
       val serializationProps = JsSerializationProps(clientConnection)
-      val languageServer = LanguageServerFactory.fromLoaders(clientConnection,
-                                                             serializationProps,
-                                                             clientDirResolver =
-                                                               new ClientPlatformDirectoryResolver(platform))
+      val languageServer = LanguageServerFactory.fromLoaders(
+        clientConnection,
+        serializationProps,
+        clientLoaders = platform.loaders().asClient.asInstanceOf[ClientList[ClientResourceLoader]],
+        clientDirResolver = new ClientPlatformDirectoryResolver(platform)
+      )
 
       val transport  = ServerSocketTransport(options.port)
       val reader     = transport._1
