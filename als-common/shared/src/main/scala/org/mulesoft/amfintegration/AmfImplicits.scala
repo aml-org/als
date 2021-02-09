@@ -3,12 +3,12 @@ package org.mulesoft.amfintegration
 import amf.core.annotations.{LexicalInformation, ReferenceTargets, SourceAST, SourceNode, SynthesizedField, _}
 import amf.core.metamodel.Field
 import amf.core.metamodel.document.ModuleModel
-import amf.core.model.document.{BaseUnit, DeclaresModel, Document, EncodesModel, ExternalFragment}
+import amf.core.model.document._
 import amf.core.model.domain.{AmfObject, AmfScalar, DomainElement, NamedDomainElement}
 import amf.core.parser
 import amf.core.parser.{Annotations, FieldEntry, Value, Position => AmfPosition}
 import amf.plugins.document.vocabularies.model.document.{Dialect, Vocabulary}
-import amf.plugins.document.vocabularies.model.domain.{ClassTerm, NodeMapping, PropertyMapping, PropertyTerm}
+import amf.plugins.document.vocabularies.model.domain._
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import amf.plugins.document.webapi.annotations.{DeclarationKey, DeclarationKeys, ExternalJsonSchemaShape, Inferred}
 import amf.plugins.domain.shapes.annotations.ParsedFromTypeExpression
@@ -203,6 +203,8 @@ object AmfImplicits {
           }
         )
 
+    lazy val isFragment: Boolean = bu.isInstanceOf[Fragment]
+
     def ast: Option[YPart] =
       bu match {
         case e: Document if e.encodes.annotations.ast().isDefined         => e.encodes.annotations.ast()
@@ -259,6 +261,15 @@ object AmfImplicits {
           YamlWrapper.getIndentation(text, position)
         })
         .getOrElse(0)
+
+    def documentMapping(dialect: Dialect): Option[DocumentMapping] = bu match {
+      case fragment: Fragment            => documentForFragment(fragment, dialect)
+      case d: Document if d.root.value() => Some(dialect.documents().root())
+      case _                             => None
+    }
+
+    private def documentForFragment(fragment: Fragment, dialect: Dialect): Option[DocumentMapping] =
+      dialect.documents().fragments().find(doc => fragment.encodes.metaURIs.exists(_.equals(doc.encoded().value())))
 
   }
 
