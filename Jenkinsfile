@@ -33,7 +33,10 @@ pipeline {
         stage('Prepare version') {
             when {
                 not {
-                    branch 'master'
+                    anyOf {
+                        branch 'master'
+                        branch 'rc/*'
+                    }
                 }
             }
             steps {
