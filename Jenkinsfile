@@ -33,7 +33,10 @@ pipeline {
         stage('Prepare version') {
             when {
                 not {
-                    branch 'master'
+                    anyOf {
+                        branch 'master'
+                        branch 'rc/*'
+                    }
                 }
             }
             steps {
@@ -185,6 +188,7 @@ pipeline {
             when {
                 anyOf {
                     branch 'develop'
+                    branch 'rc/*'
                     branch 'master'
                 }
             }
@@ -208,6 +212,7 @@ pipeline {
                 anyOf {
                     branch 'master'
                     branch 'support/*'
+                    branch 'rc/*'
                     branch 'develop'
                 }
             }
@@ -222,8 +227,10 @@ pipeline {
                         }
                         slackSend color: color, channel: "${slackChannel}", message: ":alert: ${headerFlavour}! :alert: Build failed!. \n\tBranch: ${env.BRANCH_NAME}\n\tStage:${failedStage}\n(See ${env.BUILD_URL})\n"
                         currentBuild.status = "FAILURE"
+                    } else if (env.BRANCH_NAME.startsWith("rc/")) {
+                        slackSend color: '#00FF00', channel: "${slackChannel}", message: "Published RC ${publish_version}"
                     } else if (env.BRANCH_NAME == 'master') {
-                        slackSend color: '#00FF00', channel: "${slackChannel}", message: ":ok_hand: Master Publish OK! :ok_hand:"
+                        slackSend color: '#00FF00', channel: "${slackChannel}", message: ":ok_hand: Master Publish ${publish_version} OK! :ok_hand:"
                     } else if (currentBuild.getPreviousBuild().result != null && currentBuild.getPreviousBuild().result.toString() != 'SUCCESS') {
                         slackSend color: '#00FF00', channel: "${slackChannel}", message: ":ok_hand: Back to Green!! :ok_hand:\n\tBranch: ${env.BRANCH_NAME}\n(See ${env.BUILD_URL})\n"
                     }
