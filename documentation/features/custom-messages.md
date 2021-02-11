@@ -35,10 +35,13 @@ Notification message from client to server:
     "genericOptions": {
       "string": "any"
     },              
-    "disableTemplates": "boolean"
+    "templateType": "NONE|SIMPLE|FULL"
 }
 ```
-
+`templateType` values:
+- NONE: Turns templates off
+- SIMPLE: Template will only contain the first level
+- FULL: Template will contain the first level and the levels after that one too, building the whole structure required for the definition.
 
 ### FilesInProject
 After initialization, provides notifications about the files included in a project (updates with changes).
