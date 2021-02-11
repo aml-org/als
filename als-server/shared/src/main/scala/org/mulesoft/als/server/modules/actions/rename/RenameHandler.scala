@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.modules.actions.rename
 
+import amf.core.remote.Platform
 import org.mulesoft.als.actions.definition.FindDefinition
 import org.mulesoft.als.actions.rename.FindRenameLocations
 import org.mulesoft.als.actions.renamefile.RenameFileAction
@@ -19,7 +20,8 @@ import scala.concurrent.Future
 
 class RenameHandler(telemetryProvider: TelemetryProvider,
                     workspace: WorkspaceManager,
-                    configurationReader: AlsConfigurationReader)
+                    configurationReader: AlsConfigurationReader,
+                    platform: Platform)
     extends TelemeteredRequestHandler[RenameParams, WorkspaceEdit]
     with RenameTools {
   override def `type`: RenameRequestType.type = RenameRequestType
@@ -86,7 +88,7 @@ class RenameHandler(telemetryProvider: TelemetryProvider,
               RenameFileAction.renameFileEdits(TextDocumentIdentifier(l.target),
                                                TextDocumentIdentifier(getUriWithNewName(l.target, newName)),
                                                allLinks,
-                                               None))
+                                               platform))
           .map(_.toWorkspaceEdit(configurationReader.supportsDocumentChanges))
       } else Future.successful(None)
   }

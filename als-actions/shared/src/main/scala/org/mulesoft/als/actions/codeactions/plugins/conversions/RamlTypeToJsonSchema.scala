@@ -26,7 +26,7 @@ import scala.concurrent.Future
 class RamlTypeToJsonSchema(override protected val params: CodeActionRequestParams)
     extends CodeActionResponsePlugin
     with FileExtractor
-    with ShapeConverter {
+    with AmfObjectResolver {
 
   override protected val fallbackName: String               = "json-schema"
   override protected val extension: String                  = "json"

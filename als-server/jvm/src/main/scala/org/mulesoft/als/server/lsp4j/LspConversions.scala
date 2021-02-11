@@ -1,10 +1,9 @@
 package org.mulesoft.als.server.lsp4j
 
 import java.util.{List => JList}
-
 import org.eclipse.lsp4j
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
-import org.mulesoft.als.configuration.AlsConfiguration
+import org.mulesoft.als.configuration.{AlsConfiguration, TemplateTypes}
 import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeParams}
 import org.mulesoft.als.server.feature.fileusage.FileUsageClientCapabilities
@@ -79,9 +78,18 @@ object LspConversions {
     if (alsConfiguration == null) AlsConfiguration()
     else
       AlsConfiguration(
-        alsConfiguration.getFormattingOptions.asScala.toMap.map(a => (a._1 -> formattingOptions(a._2)))
+        alsConfiguration.getFormattingOptions.asScala.toMap.map(a => a._1 -> formattingOptions(a._2)),
+        templateTypeFromString(alsConfiguration.getTemplateType)
       )
   }
+
+  private def templateTypeFromString(templateType: String) =
+    if (templateType == null) TemplateTypes.FULL
+    else
+      templateType.toUpperCase match {
+        case v if v == TemplateTypes.NONE || v == TemplateTypes.SIMPLE => v
+        case _                                                         => TemplateTypes.FULL
+      }
 
   implicit def alsInitializeParams(params: extension.AlsInitializeParams): AlsInitializeParams =
     Option(params).map { p =>
@@ -145,7 +153,8 @@ object LspConversions {
   implicit def jvmUpdateFormatOptionsParams(v: extension.UpdateConfigurationParams): UpdateConfigurationParams = {
     UpdateConfigurationParams(
       Option(stringFormatMapToMimeFormatMap(v.getUpdateFormatOptionsParams.asScala.toMap)),
-      Option(v.getGenericOptions).map(_.asScala.toMap).getOrElse(Map.empty)
+      Option(v.getGenericOptions).map(_.asScala.toMap).getOrElse(Map.empty),
+      templateTypeFromString(v.getTemplateType)
     )
   }
 

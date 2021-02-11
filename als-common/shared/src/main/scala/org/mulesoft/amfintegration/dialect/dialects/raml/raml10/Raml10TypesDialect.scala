@@ -53,6 +53,7 @@ object Raml10TypesDialect {
     .withId(DialectLocation + "#/declarations/ShapeNode/inherits")
     .withNodePropertyMapping(ShapeModel.Inherits.value.iri())
     .withName("type")
+    .withMinCount(1)
     .withEnum(
       Seq(
         "string",

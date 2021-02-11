@@ -62,7 +62,7 @@ class Suggestions(platform: Platform,
               rootLocation: Option[String]): Future[Seq[CompletionItem]] = {
 
     platform
-      .resolve(url, environment)
+      .fetchContent(url, environment)
       .map(content => {
         val originalContent = content.stream.toString
         val (patched, patchedEnv) =

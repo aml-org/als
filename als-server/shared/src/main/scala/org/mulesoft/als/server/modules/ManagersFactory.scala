@@ -169,7 +169,7 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
     new DocumentLinksManager(workspaceManager, telemetryManager, platform, logger)
 
   lazy val renameManager =
-    new RenameManager(workspaceManager, telemetryManager, logger, configurationManager.getConfiguration)
+    new RenameManager(workspaceManager, telemetryManager, logger, configurationManager.getConfiguration, platform)
 
   lazy val conversionManager =
     new ConversionManager(workspaceManager, telemetryManager, amfConfiguration, logger)
@@ -184,7 +184,11 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
     new SelectionRangeManager(workspaceManager, telemetryManager, logger)
 
   lazy val renameFileActionManager: RenameFileActionManager =
-    new RenameFileActionManager(workspaceManager, telemetryManager, logger, configurationManager.getConfiguration)
+    new RenameFileActionManager(workspaceManager,
+                                telemetryManager,
+                                logger,
+                                configurationManager.getConfiguration,
+                                platform)
 
   lazy val codeActionManager: CodeActionManager =
     new CodeActionManager(AllCodeActions.all,

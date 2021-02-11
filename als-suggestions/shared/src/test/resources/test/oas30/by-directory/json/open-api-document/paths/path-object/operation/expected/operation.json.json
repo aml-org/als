@@ -1,5 +1,155 @@
 [
   {
+    "label": "New externalDocs",
+    "kind": [],
+    "detail": "template",
+    "documentation": "externalDocs",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "21New externalDocs",
+    "filterText": "\"externalDocs\": {\n  \"url\": \"$1\"\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 8
+        },
+        "end": {
+          "line": 5,
+          "character": 11
+        }
+      },
+      "newText": "\"externalDocs\": {\n  \"url\": \"$1\"\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New parameters",
+    "kind": [],
+    "detail": "template",
+    "documentation": "parameters",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "21New parameters",
+    "filterText": "\"parameters\": [\n  {\n    \"in\": \"$1\",\n    \"required\": \"$2\",\n    \"description\": \"$3\",\n    \"name\": \"$4\"\n  }\n]",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 8
+        },
+        "end": {
+          "line": 5,
+          "character": 11
+        }
+      },
+      "newText": "\"parameters\": [\n  {\n    \"in\": \"$1\",\n    \"required\": \"$2\",\n    \"description\": \"$3\",\n    \"name\": \"$4\"\n  }\n]"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New responses",
+    "kind": [],
+    "detail": "template",
+    "documentation": "responses",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "20New responses",
+    "filterText": "\"responses\": {\n  \"$1\": {\n    \"description\": \"$2\"\n  }\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 8
+        },
+        "end": {
+          "line": 5,
+          "character": 11
+        }
+      },
+      "newText": "\"responses\": {\n  \"$1\": {\n    \"description\": \"$2\"\n  }\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New security",
+    "kind": [],
+    "detail": "template",
+    "documentation": "security",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "21New security",
+    "filterText": "\"security\": [\n  {\n    \"type\": \"$1\"\n  }\n]",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 8
+        },
+        "end": {
+          "line": 5,
+          "character": 11
+        }
+      },
+      "newText": "\"security\": [\n  {\n    \"type\": \"$1\"\n  }\n]"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New servers",
+    "kind": [],
+    "detail": "template",
+    "documentation": "servers",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "21New servers",
+    "filterText": "\"servers\": [\n  {\n    \"url\": \"$1\"\n  }\n]",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 8
+        },
+        "end": {
+          "line": 5,
+          "character": 11
+        }
+      },
+      "newText": "\"servers\": [\n  {\n    \"url\": \"$1\"\n  }\n]"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "callbacks",
     "kind": [],
     "detail": "unknown",

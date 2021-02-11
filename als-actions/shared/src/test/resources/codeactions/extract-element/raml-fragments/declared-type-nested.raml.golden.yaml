@@ -23,5 +23,4 @@ documentChanges:
       content: |
         +
         #%RAML 1.0 DataType
-        description: this is a data type fragment
-        type: string
+        type: !include aux-files/datatype.raml

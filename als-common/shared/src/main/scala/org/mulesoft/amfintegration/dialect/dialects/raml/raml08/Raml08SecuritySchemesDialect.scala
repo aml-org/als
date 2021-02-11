@@ -6,7 +6,12 @@ import amf.core.vocabulary.Namespace
 import amf.core.vocabulary.Namespace.XsdTypes.xsdString
 import Raml08DialectNodes.DataTypeNodeId
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
-import amf.plugins.domain.webapi.metamodel.security.{OAuth1SettingsModel, OAuth2FlowModel, OAuth2SettingsModel, SecuritySchemeModel}
+import amf.plugins.domain.webapi.metamodel.security.{
+  OAuth1SettingsModel,
+  OAuth2FlowModel,
+  OAuth2SettingsModel,
+  SecuritySchemeModel
+}
 import amf.plugins.domain.webapi.metamodel.{OperationModel, ParameterModel, RequestModel, ResponseModel}
 import Raml08TypesDialect.{DialectLocation, ShapeNodeId}
 
@@ -71,7 +76,7 @@ object Raml08SecuritySchemesDialect {
         .withMapTermKeyProperty(ResponseModel.StatusCode.value.iri())
         .withObjectRange(Seq(
           Raml08DialectNodes.ResponseNode.id
-        )),
+        ))
     ))
 
   val OAuth1Settings: NodeMapping = NodeMapping()
@@ -80,25 +85,19 @@ object Raml08SecuritySchemesDialect {
     .withNodeTypeMapping(OAuth1SettingsModel.`type`.head.iri())
     .withPropertiesMapping(Seq(
       PropertyMapping()
-        .withId(
-          DialectLocation + "#/declarations/OAuth1Settings/requestTokenUri")
+        .withId(DialectLocation + "#/declarations/OAuth1Settings/requestTokenUri")
         .withName("requestTokenUri")
-        .withNodePropertyMapping(
-          OAuth1SettingsModel.RequestTokenUri.value.iri())
+        .withNodePropertyMapping(OAuth1SettingsModel.RequestTokenUri.value.iri())
         .withLiteralRange(xsdString.iri()),
       PropertyMapping()
-        .withId(
-          DialectLocation + "#/declarations/OAuth1Settings/authorizationUri")
+        .withId(DialectLocation + "#/declarations/OAuth1Settings/authorizationUri")
         .withName("authorizationUri")
-        .withNodePropertyMapping(
-          OAuth1SettingsModel.AuthorizationUri.value.iri())
+        .withNodePropertyMapping(OAuth1SettingsModel.AuthorizationUri.value.iri())
         .withLiteralRange(xsdString.iri()),
       PropertyMapping()
-        .withId(
-          DialectLocation + "#/declarations/OAuth1Settings/tokenCredentialsUri")
+        .withId(DialectLocation + "#/declarations/OAuth1Settings/tokenCredentialsUri")
         .withName("tokenCredentialsUri")
-        .withNodePropertyMapping(
-          OAuth1SettingsModel.TokenCredentialsUri.value.iri())
+        .withNodePropertyMapping(OAuth1SettingsModel.TokenCredentialsUri.value.iri())
         .withLiteralRange(xsdString.iri()),
       PropertyMapping()
         .withId(DialectLocation + "#/declarations/OAuth1Settings/signatures")
@@ -112,32 +111,28 @@ object Raml08SecuritySchemesDialect {
     .withId(DialectLocation + "#/declarations/OAuth2Settings")
     .withName("OAuth2Settings")
     .withNodeTypeMapping(OAuth2SettingsModel.`type`.head.iri())
-    .withPropertiesMapping(Seq(
-      PropertyMapping()
-        .withId(
-          DialectLocation + "#/declarations/OAuth2Settings/authorizationGrants")
-        .withName("authorizationGrants")
-        .withNodePropertyMapping(
-          OAuth2SettingsModel.AuthorizationGrants.value.iri())
-        .withEnum(Seq("code", "token", "owner", "credentials"))
-        .withAllowMultiple(true)
-        .withLiteralRange(xsdString.iri()),
-    ))
+    .withPropertiesMapping(
+      Seq(
+        PropertyMapping()
+          .withId(DialectLocation + "#/declarations/OAuth2Settings/authorizationGrants")
+          .withName("authorizationGrants")
+          .withNodePropertyMapping(OAuth2SettingsModel.AuthorizationGrants.value.iri())
+          .withEnum(Seq("code", "token", "owner", "credentials"))
+          .withAllowMultiple(true)
+          .withLiteralRange(xsdString.iri())
+      ))
   val OAuth2Flows: NodeMapping = NodeMapping()
     .withId(DialectLocation + "#/declarations/OAuth2Settings")
     .withName("OAuth2Settings")
     .withNodeTypeMapping(OAuth2FlowModel.`type`.head.iri())
     .withPropertiesMapping(Seq(
       PropertyMapping()
-        .withId(
-          DialectLocation + "#/declarations/OAuth2Settings/authorizationUri")
+        .withId(DialectLocation + "#/declarations/OAuth2Settings/authorizationUri")
         .withName("authorizationUri")
-        .withNodePropertyMapping(
-          OAuth2FlowModel.AuthorizationUri.value.iri())
+        .withNodePropertyMapping(OAuth2FlowModel.AuthorizationUri.value.iri())
         .withLiteralRange(xsdString.iri()),
       PropertyMapping()
-        .withId(
-          DialectLocation + "#/declarations/OAuth2Settings/accessTokenUri")
+        .withId(DialectLocation + "#/declarations/OAuth2Settings/accessTokenUri")
         .withName("accessTokenUri")
         .withNodePropertyMapping(OAuth2FlowModel.AccessTokenUri.value.iri())
         .withLiteralRange(xsdString.iri()),
@@ -158,6 +153,7 @@ object Raml08SecuritySchemesDialect {
         .withId(DialectLocation + "#/declarations/SecuritySchemes/type")
         .withNodePropertyMapping(SecuritySchemeModel.Type.value.iri())
         .withName("type")
+        .withMinCount(1)
         .withEnum(
           Seq(
             "OAuth 1.0",

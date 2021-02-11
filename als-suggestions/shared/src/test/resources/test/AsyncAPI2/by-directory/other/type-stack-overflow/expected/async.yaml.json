@@ -36,7 +36,7 @@
     "documentation": "array",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11array",
+    "sortText": "10array",
     "filterText": "array",
     "insertText": null,
     "insertTextFormat": [
@@ -66,7 +66,7 @@
     "documentation": "boolean",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11boolean",
+    "sortText": "10boolean",
     "filterText": "boolean",
     "insertText": null,
     "insertTextFormat": [
@@ -96,7 +96,7 @@
     "documentation": "integer",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11integer",
+    "sortText": "10integer",
     "filterText": "integer",
     "insertText": null,
     "insertTextFormat": [
@@ -126,7 +126,7 @@
     "documentation": "null",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11null",
+    "sortText": "10null",
     "filterText": "\"null\"",
     "insertText": null,
     "insertTextFormat": [
@@ -156,7 +156,7 @@
     "documentation": "number",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11number",
+    "sortText": "10number",
     "filterText": "number",
     "insertText": null,
     "insertTextFormat": [
@@ -186,7 +186,7 @@
     "documentation": "object",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11object",
+    "sortText": "10object",
     "filterText": "object",
     "insertText": null,
     "insertTextFormat": [
@@ -216,7 +216,7 @@
     "documentation": "string",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11string",
+    "sortText": "10string",
     "filterText": "string",
     "insertText": null,
     "insertTextFormat": [

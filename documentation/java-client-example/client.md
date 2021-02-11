@@ -1,7 +1,7 @@
 ## Java (LSP4J)
 
-###### Server instantiation (will run in a separated thread)
-It uses the previously generated jar `sbt serverJVM/assembly`
+###### Server instantiation (runs in a separate thread)
+The process uses the previously generated jar file: `sbt serverJVM/assembly`.
 ```Java
 /**
  * Creates a Process with ALS running and trying to connect to the designated port
@@ -65,7 +65,7 @@ public class DummyClient implements LanguageClient {
 }
 ```
 
-###### Test suites (creates client/server, connects them, initializes them and communicates)
+###### Test suites (creates, connects, and initializes the client/server, and communicates with them)
 ```Java
 public class ClientTest extends TestCase {
 

@@ -1,7 +1,6 @@
 package org.mulesoft.als.server.modules.actions
 
-import java.util.UUID
-
+import amf.core.remote.Platform
 import org.mulesoft.als.actions.renamefile.RenameFileAction
 import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.als.server.RequestModule
@@ -14,13 +13,15 @@ import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import org.mulesoft.lsp.feature.{RequestType, TelemeteredRequestHandler}
 
+import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class RenameFileActionManager(val workspace: WorkspaceManager,
                               private val telemetryProvider: TelemetryProvider,
                               private val logger: Logger,
-                              private val configReader: AlsConfigurationReader)
+                              private val configReader: AlsConfigurationReader,
+                              private val platform: Platform)
     extends RequestModule[RenameFileActionClientCapabilities, RenameFileActionOptions] {
 
   private var active = true
@@ -61,14 +62,13 @@ class RenameFileActionManager(val workspace: WorkspaceManager,
     def rename(oldDocument: TextDocumentIdentifier,
                newDocument: TextDocumentIdentifier): Future[RenameFileActionResult] = {
 
-      val uuid         = UUID.randomUUID().toString
-      val uriToNewFile = workspace.getWorkspace(oldDocument.uri).stripToRelativePath(newDocument.uri)
+      val uuid = UUID.randomUUID().toString
       for {
         links <- workspace.getAllDocumentLinks(oldDocument.uri, uuid)
       } yield {
         val edit =
           RenameFileAction
-            .renameFileEdits(oldDocument, newDocument, links, uriToNewFile)
+            .renameFileEdits(oldDocument, newDocument, links, platform)
             .toWorkspaceEdit(configReader.supportsDocumentChanges)
         RenameFileActionResult(edit)
       }

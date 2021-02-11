@@ -5,6 +5,7 @@ import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import org.mulesoft.als.common.DirectoryResolver
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
 
 case class JsServerSystemConf(clientLoaders: js.Array[ClientResourceLoader] = js.Array(),
@@ -12,7 +13,14 @@ case class JsServerSystemConf(clientLoaders: js.Array[ClientResourceLoader] = js
     extends PlatformSecrets {
 
   def environment: Environment =
-    Environment().withLoaders(clientLoaders.map(ResourceLoaderConverter.internalResourceLoader).toSeq)
+    Environment()
+      .withLoaders(
+        if (clientLoaders.isEmpty) {
+          platform.loaders()
+        } else {
+          clientLoaders.map(ResourceLoaderConverter.internalResourceLoader).toSeq
+        }
+      )
 
   def directoryResolver: DirectoryResolver =
     DirectoryResolverAdapter.convert(clientDirResolver)

@@ -29,20 +29,17 @@ abstract class ServerRenameTest extends LanguageServerBaseTest with WorkspaceEdi
   }
 
   def runTest(path: String, newName: String): Future[Assertion] = withServer[Assertion](buildServer()) { server =>
-    val resultPath                     = path.replace(".", "-renamed.")
-    val resolved                       = filePath(path)
-    val resolvedResultPath             = filePath(resultPath)
-    var renamedContent: Option[String] = None
-    var content: Option[String]        = None
+    val resultPath              = path.replace(".", "-renamed.")
+    val original                = filePath(path)
+    val goldenPath              = filePath(resultPath)
+    var content: Option[String] = None
 
-    Future
-      .sequence(List(platform.resolve(resolved), platform.resolve(resolvedResultPath)))
+    platform
+      .resolve(original)
       .flatMap(contents => {
 
-        val fileContentsStr        = contents.head.stream.toString
-        val renamedFileContentsStr = contents.last.stream.toString
-        renamedContent = Option(renamedFileContentsStr.trim)
-        val markerInfo = this.findMarker(fileContentsStr, "*")
+        val fileContentsStr = contents.stream.toString
+        val markerInfo      = this.findMarker(fileContentsStr, "*")
         content = Option(markerInfo.content)
         val position = markerInfo.position
 
@@ -58,7 +55,7 @@ abstract class ServerRenameTest extends LanguageServerBaseTest with WorkspaceEdi
               RenameParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(position), newName))
               .map(workspaceEdit => {
                 closeFile(server)(filePath)
-                assertWorkspaceEdits(workspaceEdit, renamedContent, content, path)
+                assertWorkspaceEdits(workspaceEdit, goldenPath, content)
               })
           }
       })

@@ -58,7 +58,7 @@ object ExtractorCommon {
         objsByKey.iterator.flatMap { t =>
           val objsInDk = t._2
           t._1
-            .flatMap(dk => bu.annotations.declarationKeys().find(_.entry.key.asScalar.exists(_.text == dk)))
+            .flatMap(dk => bu.declarationKeys.find(_.entry.key.asScalar.exists(_.text == dk)))
             .flatMap { dk =>
               if (dk.entry.value.as[YMap].entries.size <= objsInDk.size) Some(Seq(dk.entry.range))
               else None
@@ -248,11 +248,5 @@ object ExtractorCommon {
     if (existing.contains(maybeName))
       nameNotInList(baseName, existing, Some(c.getOrElse(0) + 1))
     else maybeName
-  }
-
-  private val pluralPattern = "(.*)[s|S]".r
-  def singularize(s: String): String = s match {
-    case pluralPattern(c) => c
-    case _                => s
   }
 }

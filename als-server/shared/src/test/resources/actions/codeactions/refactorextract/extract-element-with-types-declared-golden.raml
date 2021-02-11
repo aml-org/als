@@ -6,6 +6,7 @@ types:
 
   newtype:
     type: object
+    additionalProperties: true
     properties:
       a:
         type: string
@@ -13,11 +14,10 @@ types:
       b:
         type: integer
         required: true
-    additionalProperties: true
 /endpoint:
   get:
     responses:
       200:
         body:
             application/json:
-                type: newtype
+              type: newtype

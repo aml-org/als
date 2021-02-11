@@ -1,5 +1,35 @@
 [
   {
+    "label": "New schema",
+    "kind": [],
+    "detail": "template",
+    "documentation": "schema",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "20New schema",
+    "filterText": "\"schema\": {\n  \"description\": \"$1\",\n  \"type\": \"$2\"\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 6
+        },
+        "end": {
+          "line": 5,
+          "character": 9
+        }
+      },
+      "newText": "\"schema\": {\n  \"description\": \"$1\",\n  \"type\": \"$2\"\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "description",
     "kind": [],
     "detail": "docs",

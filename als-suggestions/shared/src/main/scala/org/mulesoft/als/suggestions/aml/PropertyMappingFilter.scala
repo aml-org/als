@@ -2,7 +2,7 @@ package org.mulesoft.als.suggestions.aml
 
 import amf.core.metamodel.domain.common.{NameFieldSchema, NameFieldShacl}
 import amf.core.model.document.BaseUnit
-import amf.core.model.domain.{AmfObject, DomainElement}
+import amf.core.model.domain.AmfObject
 import amf.core.parser.FieldEntry
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
@@ -19,27 +19,24 @@ case class PropertyMappingFilter(objectInTree: ObjectInTree, actualDialect: Dial
       .getOrElse(Nil)
       .filter(p => p.mapTermKeyProperty().option().isDefined)
 
-  private def isInDeclarations(nm: NodeMapping): Boolean = {
+  private def isInDeclarations(nm: NodeMapping): Boolean =
     actualDialect
       .documents()
       .root()
       .declaredNodes()
       .exists(_.mappedNode().option().contains(nm.id)) && objectInTree.stack.last.isInstanceOf[BaseUnit]
-  }
 
   private val semanticNameIris: Seq[String] = Seq(NameFieldSchema.Name.value.iri(), NameFieldShacl.Name.value.iri())
 
-  private def filterSemanticsName(props: Seq[PropertyMapping]) = {
+  private def filterSemanticsName(props: Seq[PropertyMapping]) =
     if (isInDeclarations(nm)) props.filterNot(p => semanticNameIris.contains(p.nodePropertyMapping().value()))
     else props
-  }
 
-  private def parentMappingsForTerm(nm: NodeMapping) = {
+  private def parentMappingsForTerm(nm: NodeMapping) =
     parentTermKey()
       .find(pr => pr.objectRange().exists(or => or.value() == nm.id))
       .map(p => Seq(p.mapTermKeyProperty().option(), p.mapTermValueProperty().option()).flatten)
       .getOrElse(Nil)
-  }
 
   private def filterForTerms(nm: NodeMapping): Seq[PropertyMapping] = {
     val terms = parentMappingsForTerm(nm)
@@ -73,4 +70,13 @@ object DialectNodeFinder {
       }
       .collectFirst({ case nm: NodeMapping => nm })
   }
+
+  def find(metaUri: String, actualDialect: Dialect): Option[NodeMapping] =
+    actualDialect.declares
+      .find {
+        case s: NodeMapping =>
+          s.nodetypeMapping.value() == metaUri
+        case _ => false
+      }
+      .collectFirst({ case nm: NodeMapping => nm })
 }

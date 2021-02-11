@@ -190,8 +190,8 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 5,
-        "character": 2
+        "line": 4,
+        "character": 0
       },
       "end": {
         "line": 12,
@@ -200,8 +200,8 @@
     },
     "selectionRange": {
       "start": {
-        "line": 5,
-        "character": 2
+        "line": 4,
+        "character": 0
       },
       "end": {
         "line": 12,

@@ -49,7 +49,7 @@ class RenameFileTest extends LanguageServerBaseTest {
           edit.textDocument.uri == filePath(platform.encodeURI("plain/api.raml")) &&
             edit.edits.size == 1 &&
             edit.edits.exists(e =>
-              e.newText == "/RENAMED.raml" &&
+              e.newText == "RENAMED.raml" &&
                 e.range == Range(Position(4, 25), Position(4, 42)))
         case _ => false
       }) should be(true)
@@ -73,7 +73,7 @@ class RenameFileTest extends LanguageServerBaseTest {
           edit.textDocument.uri == filePath(platform.encodeURI("encoded/api.raml")) &&
             edit.edits.size == 1 &&
             edit.edits.exists(e =>
-              e.newText == "/RENAMED.raml" &&
+              e.newText == "RENAMED.raml" &&
                 e.range == Range(Position(4, 25), Position(4, 43)))
         case _ => false
       }) should be(true)
@@ -97,7 +97,7 @@ class RenameFileTest extends LanguageServerBaseTest {
           edit.textDocument.uri == filePath(platform.encodeURI("pointer/api.json")) &&
             edit.edits.size == 1 &&
             edit.edits.exists(e =>
-              e.newText == "/RENAMED.json" &&
+              e.newText == "RENAMED.json" &&
                 e.range == Range(Position(8, 15), Position(8, 32)))
         case _ => false
       }) should be(true)
@@ -120,8 +120,8 @@ class RenameFileTest extends LanguageServerBaseTest {
           edit.textDocument.uri == filePath(platform.encodeURI("relative/traits/trait.raml")) &&
             edit.edits.size == 1 &&
             edit.edits.exists(e =>
-              e.newText == "/RENAMED.raml" &&
-                e.range == Range(Position(1, 13), Position(1, 33)))
+              e.newText == "RENAMED.raml" &&
+                e.range == Range(Position(1, 16), Position(1, 33)))
         case Right(_) => false
       }) should be(true)
 
@@ -130,8 +130,8 @@ class RenameFileTest extends LanguageServerBaseTest {
           edit.textDocument.uri == filePath(platform.encodeURI("relative/traits/trait2.raml")) &&
             edit.edits.size == 1 &&
             edit.edits.exists(e =>
-              e.newText == "/RENAMED.raml" &&
-                e.range == Range(Position(1, 13), Position(1, 33)))
+              e.newText == "RENAMED.raml" &&
+                e.range == Range(Position(1, 16), Position(1, 33)))
         case Right(_) => false
       }) should be(true)
     })

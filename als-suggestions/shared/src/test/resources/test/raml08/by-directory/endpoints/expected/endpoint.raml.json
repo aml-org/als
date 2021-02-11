@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11is",
-    "filterText": "is:\n  ",
+    "filterText": "is:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -203,7 +203,7 @@
           "character": 2
         }
       },
-      "newText": "is:\n  "
+      "newText": "is:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

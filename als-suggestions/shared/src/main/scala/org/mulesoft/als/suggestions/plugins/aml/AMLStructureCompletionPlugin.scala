@@ -11,6 +11,7 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.{AmfObjectKnowledge, DisjointCompletionPlugins, ResolveIfApplies}
 import org.mulesoft.als.suggestions.plugins.aml.categories.CategoryRegistry
+import org.mulesoft.als.suggestions.plugins.aml.templates.{AMLDeclaredStructureTemplate, AMLEncodedStructureTemplate}
 import org.mulesoft.amfintegration.AmfImplicits._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -35,8 +36,9 @@ object ResolveDefault extends ResolveIfApplies with AmfObjectKnowledge {
         val isEncoded = isEncodes(params.amfObject, params.actualDialect) && params.fieldEntry.isEmpty // params.fieldEntry.isEmpty does nothing here?
         if (((isEncoded && params.yPartBranch.isAtRoot) || !isEncoded) && params.fieldEntry.isEmpty)
           new AMLStructureCompletionsPlugin(params.propertyMapping, params.actualDialect)
-            .resolve(params.amfObject.metaURIs.head)
-        else Nil
+            .resolve(params.amfObject.metaURIs.head) ++
+            AMLEncodedStructureTemplate.resolve(params)
+        else AMLDeclaredStructureTemplate.resolve(params)
       } else resolveObjInArray(params)
     else Nil
   }

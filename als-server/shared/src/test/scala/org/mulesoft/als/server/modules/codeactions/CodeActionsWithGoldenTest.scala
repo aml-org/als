@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules.codeactions
 
 import org.mulesoft.als.common.MarkerInfo
-import org.mulesoft.als.common.diff.WorkspaceEditsTest
+import org.mulesoft.als.common.diff.{FileAssertionTest, WorkspaceEditsTest}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
@@ -89,7 +89,7 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
     val goldenResolved = filePath(platform.encodeURI(goldenPath))
 
     for {
-      goldenContent <- this.platform.resolve(goldenResolved).map(_.stream.toString)
+      goldenContent <- this.platform.resolve(goldenResolved)
       content       <- this.platform.resolve(resolved).map(_.stream.toString)
     } yield {
       val marker = findMarker(content)
@@ -97,7 +97,7 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
         .find(ca => ca.kind.contains(kind))
         .flatMap(_.edit)
       maybeEdit.isDefined should be(true)
-      assertWorkspaceEdits(maybeEdit.get, Some(goldenContent), Some(marker.content), path)
+      assertWorkspaceEdits(maybeEdit.get, goldenPath, Some(marker.content))
     }
   }
 

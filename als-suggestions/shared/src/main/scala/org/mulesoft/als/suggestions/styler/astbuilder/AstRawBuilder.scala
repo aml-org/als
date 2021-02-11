@@ -32,21 +32,24 @@ abstract class AstRawBuilder(raw: RawSuggestion, isSnippet: Boolean, yPartBranch
     case _                 => YType.Str
   }
 
-  private def valueNode(index: Int) = {
-    if (raw.options.isObject) valueObject(index)
+  private def valueNode(index: Int) =
+    if (raw.options.isObject || (raw.options.isArray && raw.children.nonEmpty)) valueObject(index)
     else {
       if (isSnippet) value(s"$$$index", raw.options)
       else emitEntryValue(raw.options)
     }
-  }
 
-  private def emitKey(index: Int = 0): YMapEntry = YMapEntry(scalar(raw.newText, keyTag), valueNode(index))
+  private def emitKey(index: Int = 1): YMapEntry =
+    if (raw.children.nonEmpty && raw.newText.isEmpty) { // if entry has value but key is empty, user will need to fill out
+      snippet = true
+      YMapEntry("$" + index.toString, valueNode(index + 1))
+    } else YMapEntry(scalar(raw.newText, keyTag), valueNode(index))
 
   private def valueObject(index: Integer): YNode = {
     val list = if (raw.children.nonEmpty) {
       snippet = true
       raw.children.zipWithIndex
-        .map(t => newInstance(t._1, true).emitKey(t._2 + 1))
+        .map(t => newInstance(t._1, true).emitKey(t._2 + index))
         .toIndexedSeq
     } else if (isSnippet) IndexedSeq(YMapEntry("$" + index.toString, ""))
     else IndexedSeq.empty

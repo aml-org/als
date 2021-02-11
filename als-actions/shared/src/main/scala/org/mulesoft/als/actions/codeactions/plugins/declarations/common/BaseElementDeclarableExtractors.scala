@@ -2,8 +2,8 @@ package org.mulesoft.als.actions.codeactions.plugins.declarations.common
 
 import amf.core.model.domain.AmfObject
 import amf.core.remote.{Mimes, Vendor}
+import amf.core.utils.InflectorBase.Inflector
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionRequestParams
-import org.mulesoft.als.actions.codeactions.plugins.declarations.common.ExtractorCommon.singularize
 import org.mulesoft.als.common.YamlUtils.isJson
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.common.{ObjectInTree, YPartBranch}
@@ -24,7 +24,7 @@ trait BaseElementDeclarableExtractors {
   private lazy val baseName: String =
     amfObject
       .flatMap(_.declarableKey(params.dialect))
-      .map(singularize)
+      .map(_.singularize)
       .map(t => s"new$t")
       .getOrElse("newDeclaration")
 

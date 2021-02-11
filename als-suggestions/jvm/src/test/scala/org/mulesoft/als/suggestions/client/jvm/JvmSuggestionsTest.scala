@@ -48,11 +48,12 @@ class JvmSuggestionsTest extends AsyncFunSuite with Matchers with PlatformSecret
 
   test("Custom Resource Loader test") {
     val s =
-      new Suggestions(platform, environment, AlsConfiguration(), directoryResolver, AmfInstance(platform, environment)).initialized()
+      new Suggestions(platform, environment, AlsConfiguration(), directoryResolver, AmfInstance(platform, environment))
+        .initialized()
     for {
       suggestions <- s.suggest(url, 40, snippetsSupport = true, None)
     } yield {
-      assert(suggestions.size == 14)
+      assert(suggestions.size == 15)
     }
   }
 }

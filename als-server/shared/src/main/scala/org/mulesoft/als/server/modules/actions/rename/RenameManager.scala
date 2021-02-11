@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.modules.actions.rename
 
+import amf.core.remote.Platform
 import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
@@ -14,7 +15,8 @@ import scala.concurrent.Future
 class RenameManager(val workspace: WorkspaceManager,
                     private val telemetryProvider: TelemetryProvider,
                     private val logger: Logger,
-                    private val configurationReader: AlsConfigurationReader)
+                    private val configurationReader: AlsConfigurationReader,
+                    private val platform: Platform)
     extends RequestModule[RenameClientCapabilities, RenameOptions] {
 
   private var conf: Option[RenameClientCapabilities] = None
@@ -23,7 +25,7 @@ class RenameManager(val workspace: WorkspaceManager,
     RenameConfigType
 
   override val getRequestHandlers: Seq[TelemeteredRequestHandler[_, _]] = Seq(
-    new RenameHandler(telemetryProvider, workspace, configurationReader),
+    new RenameHandler(telemetryProvider, workspace, configurationReader, platform),
     new PrepareRenameHandler(telemetryProvider, workspace)
   )
 

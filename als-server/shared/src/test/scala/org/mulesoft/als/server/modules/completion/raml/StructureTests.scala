@@ -31,7 +31,16 @@ class StructureTests extends RAMLSuggestionTestServer {
   }
 
   test("test 07") {
-    runTest("structure/test07.raml", Set("documentation:\n  - "))
+    runTest(
+      "structure/test07.raml",
+      Set(
+        "documentation:\n  - ",
+        """documentation:
+           |  -
+           |    content: $1
+           |    title: $2""".stripMargin
+      )
+    )
   }
 
   test("test 08") {

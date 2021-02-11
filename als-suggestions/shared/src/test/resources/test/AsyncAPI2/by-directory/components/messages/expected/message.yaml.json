@@ -30,6 +30,96 @@
     "command": null
   },
   {
+    "label": "New externalDocs",
+    "kind": [],
+    "detail": "template",
+    "documentation": "externalDocs",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "21New externalDocs",
+    "filterText": "externalDocs:\n  url: $1",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "externalDocs:\n  url: $1"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New headers",
+    "kind": [],
+    "detail": "template",
+    "documentation": "headers",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "21New headers",
+    "filterText": "headers:\n  description: $1\n  type: $2",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "headers:\n  description: $1\n  type: $2"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New tags",
+    "kind": [],
+    "detail": "template",
+    "documentation": "tags",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "21New tags",
+    "filterText": "tags:\n  -\n    name: $1",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "tags:\n  -\n    name: $1"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "bindings",
     "kind": [],
     "detail": "unknown",

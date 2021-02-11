@@ -1,5 +1,65 @@
 [
   {
+    "label": "New headers",
+    "kind": [],
+    "detail": "template",
+    "documentation": "headers",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "21New headers",
+    "filterText": "headers:\n  description: $1\n  type: $2",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 8
+        },
+        "end": {
+          "line": 5,
+          "character": 8
+        }
+      },
+      "newText": "headers:\n  description: $1\n  type: $2"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New query",
+    "kind": [],
+    "detail": "template",
+    "documentation": "query",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "21New query",
+    "filterText": "query:\n  description: $1\n  type: $2",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 8
+        },
+        "end": {
+          "line": 5,
+          "character": 8
+        }
+      },
+      "newText": "query:\n  description: $1\n  type: $2"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "bindingVersion",
     "kind": [],
     "detail": "unknown",

@@ -1,8 +1,8 @@
 {
-  "name": "als-node-client",
-  "version": "3.2.3",
+  "name": "@mulesoft/als-node-client",
+  "version": "3.2.4",
   "description": "ALS Node Client",
-  "main": "./dist/als-node-client.js",
+  "main": "./dist/als-node-client.min.js",
   "author": "ALS team",
   "license": "Apache-2.0",
   "homepage": "https://github.com/mulesoft/als",
@@ -11,7 +11,7 @@
     "url": "https://github.com/mulesoft/als"
   },
   "bin": {
-    "als": "./dist/als-node-client.js"
+    "als": "./dist/als-node-client.min.js"
   },
   "dependencies": {
     "amf-shacl-node": "1.1.0",

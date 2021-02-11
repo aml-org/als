@@ -1,1 +1,32 @@
-[]
+[
+  {
+    "label": "New parameter",
+    "kind": [],
+    "detail": "template",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "20New parameter",
+    "filterText": "$1:\n  name: $2\n  description: $3\n  required: $4\n  in: $5",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 2
+        }
+      },
+      "newText": "$1:\n  name: $2\n  description: $3\n  required: $4\n  in: $5"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

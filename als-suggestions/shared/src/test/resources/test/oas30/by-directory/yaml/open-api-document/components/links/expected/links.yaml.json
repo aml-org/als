@@ -30,6 +30,36 @@
     "command": null
   },
   {
+    "label": "New server",
+    "kind": [],
+    "detail": "template",
+    "documentation": "server",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "21New server",
+    "filterText": "server:\n  url: $1",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 6
+        },
+        "end": {
+          "line": 4,
+          "character": 6
+        }
+      },
+      "newText": "server:\n  url: $1"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "description",
     "kind": [],
     "detail": "docs",

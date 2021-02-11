@@ -10,7 +10,11 @@ import org.mulesoft.lsp.configuration.FormattingOptions
 import org.mulesoft.lsp.edit.{TextEdit, WorkspaceEdit}
 import org.yaml.model.{YDocument, YPart}
 
+import scala.concurrent.ExecutionContext
+
 trait RangeFormattingTest extends ByDirectoryTest with MarkerFinderTest with WorkspaceEditsTest {
+
+  override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
   def basePath: String
 

@@ -13,7 +13,7 @@ package object aml {
         if (p.allowMultiple().value() && p.mapTermKeyProperty().option().isEmpty)
           RawSuggestion.keyOfArray(p.name().value(), category)
         else
-          RawSuggestion.forObject(p.name().value(), category = category, p.minCount().value() > 0)
+          RawSuggestion.forObject(p.name().value(), category, p.minCount().value() > 0)
       else
         RawSuggestion.forKey(p.name().value(), category = category, p.minCount().value() > 0)
     }

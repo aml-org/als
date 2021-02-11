@@ -104,4 +104,46 @@ class ExtractToDeclarationTest extends BaseCodeActionTests {
     val pluginFactory: CodeActionFactory = ExtractElementCodeAction
     runTestNotApplicable(elementUri, range, pluginFactory)
   }
+
+  it should "not extract to declaration on RAML DataType fragments" in {
+    val elementUri                       = "extract-element/raml-type/datatype.raml"
+    val range                            = PositionRange(Position(2, 2), Position(3, 5))
+    val pluginFactory: CodeActionFactory = ExtractRamlTypeCodeAction
+    runTestNotApplicable(elementUri, range, pluginFactory)
+  }
+
+  it should "not extract to declaration on RAML Annotation fragments" in {
+    val elementUri                       = "extract-element/raml-fragments/annotation.raml"
+    val range                            = PositionRange(Position(1, 2), Position(1, 5))
+    val pluginFactory: CodeActionFactory = ExtractElementCodeAction
+    runTestNotApplicable(elementUri, range, pluginFactory)
+  }
+
+  it should "not extract to declaration on RAML Documentation fragments" in {
+    val elementUri                       = "extract-element/raml-fragments/documentation.raml"
+    val range                            = PositionRange(Position(1, 2), Position(1, 5))
+    val pluginFactory: CodeActionFactory = ExtractElementCodeAction
+    runTestNotApplicable(elementUri, range, pluginFactory)
+  }
+
+  it should "not extract to declaration on RAML NamedExample fragments" in {
+    val elementUri                       = "extract-element/raml-fragments/example.raml"
+    val range                            = PositionRange(Position(1, 2), Position(1, 5))
+    val pluginFactory: CodeActionFactory = ExtractElementCodeAction
+    runTestNotApplicable(elementUri, range, pluginFactory)
+  }
+
+  it should "not extract to declaration on RAML SecurityScheme fragments" in {
+    val elementUri                       = "extract-element/raml-fragments/security-scheme.raml"
+    val range                            = PositionRange(Position(1, 2), Position(1, 5))
+    val pluginFactory: CodeActionFactory = ExtractElementCodeAction
+    runTestNotApplicable(elementUri, range, pluginFactory)
+  }
+
+  it should "not extract to declaration on untyped external fragments" in {
+    val elementUri                       = "extract-element/fragment.json"
+    val range                            = PositionRange(Position(1, 2), Position(1, 3))
+    val pluginFactory: CodeActionFactory = ExtractElementCodeAction
+    runTestNotApplicable(elementUri, range, pluginFactory)
+  }
 }

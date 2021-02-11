@@ -32,7 +32,7 @@ trait SuggestionRender {
 
   private def isHeaderSuggestion: Boolean = params.position.line == 0 && params.prefix.startsWith("#%")
 
-  private def keyRange: Option[PositionRange] = {
+  private def keyRange: Option[PositionRange] =
     params.yPartBranch.node match {
       case n: YNode if n.value.isInstanceOf[YScalar] && params.yPartBranch.isJson =>
         if (params.yPartBranch.isKey) {
@@ -48,14 +48,13 @@ trait SuggestionRender {
         } else Some(PositionRange(n.range))
       case _ => None
     }
-  }
 
   private def getBuilder(suggestions: RawSuggestion): CompletionItemBuilder = {
     val styled  = style(suggestions)
     val builder = new CompletionItemBuilder(styled.replacementRange)
-    if (styled.plain) {
+    if (styled.plain)
       builder.withInsertTextFormat(InsertTextFormat.PlainText)
-    } else builder.withInsertTextFormat(InsertTextFormat.Snippet)
+    else builder.withInsertTextFormat(InsertTextFormat.Snippet)
     if (suggestions.children.nonEmpty) builder.withTemplate()
 
     builder
@@ -77,20 +76,17 @@ trait SuggestionRender {
     builder.build()
   }
 
-  def style(raw: RawSuggestion): Styled = {
-
+  def style(raw: RawSuggestion): Styled =
     if (raw.options.rangeKind == PlainText)
       Styled(raw.newText,
              plain = true,
              raw.range.getOrElse(PositionRange(params.position.moveColumn(-params.prefix.length), params.position)))
     else {
-
       val builder = astBuilder(raw)
       val text    = render(raw.options, builder)
 
       Styled(text, plain = !builder.asSnippet, suggestionRange(raw))
     }
-  }
 
   protected def suggestionRange(raw: RawSuggestion): PositionRange =
     raw.range

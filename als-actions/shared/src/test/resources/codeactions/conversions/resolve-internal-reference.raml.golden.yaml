@@ -35,8 +35,8 @@ documentChanges:
               "properties": {
                 "members": {
                   "items": {
-                    "type": "object",
                     "description": "my schema",
+                    "type": "object",
                     "additionalProperties": true,
                     "required": [
                       "name",

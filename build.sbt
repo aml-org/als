@@ -8,7 +8,7 @@ import sbtcrossproject.CrossPlugin.autoImport.crossProject
 
 import scala.sys.process.Process
 import scala.language.postfixOps
-import scala.sys.process._
+import scala.sys.process.Process
 
 name := "api-language-server"
 
@@ -31,10 +31,9 @@ lazy val amfJSRef = ProjectRef(workspaceDirectory / "amf", "clientJS")
 lazy val amfLibJVM = "com.github.amlorg" %% "amf-client" % amfVersion
 lazy val amfLibJS = "com.github.amlorg" %% "amf-client_sjs0.6" % amfVersion
 
-val settings = Common.settings ++ Common.publish ++ Seq(
+val orgSettings = Seq(
   organization := "org.mule.als",
   version := deps("version"),
-
   resolvers ++= List(
     Common.releases,
     Common.snapshots,
@@ -55,6 +54,8 @@ val settings = Common.settings ++ Common.publish ++ Seq(
     "com.lihaoyi" %%% "upickle" % "0.5.1" % Test,
   )
 )
+
+val settings = Common.settings ++ Common.publish ++ orgSettings
 
 /** ALS common */
 
@@ -199,7 +200,7 @@ lazy val nodeClient =  project
   .enablePlugins(ScalaJSPlugin)
   .settings(settings: _*)
   .disablePlugins(SonarPlugin)
-  .settings(
+  .settings(settings ++ Seq(
     name := "als-node-client",
 
     scalaJSUseMainModuleInitializer := true,
@@ -213,9 +214,12 @@ lazy val nodeClient =  project
         new File("./als-node-client/node-package/")
       ).!
     },
+
     test in Test := ((test in Test) dependsOn npmIClient).value,
     artifactPath in(Test, fastOptJS) := baseDirectory.value / "node-package" / "tmp" / "als-node-client.js",
-  )
+    artifactPath in(Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" / "als-node-client.js",
+    artifactPath in(Compile, fullOptJS) := baseDirectory.value / "target" / "artifact" / "als-node-client.js"
+  ))
 /** ALS build tasks */
   
 // Server library
@@ -233,11 +237,11 @@ buildJsServerLibrary := {
 }
 
 // Node client
-
 val buildNodeJsClient = TaskKey[Unit]("buildNodeJsClient", "Build node client")
 
 buildNodeJsClient := {
   (fastOptJS in Compile in nodeClient).value
+  (fullOptJS in Compile in nodeClient).value
   (npmIClient in nodeClient).value
   Process(
     "./scripts/build.sh",

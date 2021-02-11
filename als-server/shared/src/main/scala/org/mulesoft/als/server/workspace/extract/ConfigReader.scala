@@ -34,7 +34,7 @@ trait ConfigReader {
 
   protected def readFile(uri: String, platform: Platform, environment: Environment): Future[Option[String]] = {
     try {
-      platform.resolve(uri, environment).map { content =>
+      platform.fetchContent(uri, environment).map { content =>
         Some(content.stream.toString)
       }
     } catch {
