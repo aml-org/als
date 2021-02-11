@@ -1,6 +1,6 @@
 {
   "name": "@mulesoft/als-node-client",
-  "version": "3.3.0-RC",
+  "version": "3.2.4-RC",
   "description": "ALS Node Client",
   "main": "./dist/als-node-client.min.js",
   "author": "ALS team",
