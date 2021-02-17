@@ -8,15 +8,15 @@ import scala.concurrent.{ExecutionContext, Future}
 
 trait WorkspaceEditsTest extends FileAssertionTest {
   implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
-  def assertWorkspaceEdits(workspaceEdit: WorkspaceEdit, goldenPath: String, content: Option[String]): Assertion = {
+  def assertWorkspaceEdits(workspaceEdit: WorkspaceEdit,
+                           goldenPath: String,
+                           content: Option[String]): Future[Assertion] = {
 
     val newText = applyEdits(workspaceEdit, content)
     for {
       tmp <- writeTemporaryFile(goldenPath)(newText)
       r   <- assertDifferences(tmp, goldenPath)
     } yield r
-
-    succeed
   }
 
   def applyEdits(workspaceEdit: WorkspaceEdit, content: Option[String]): String = {

@@ -53,7 +53,7 @@ abstract class ServerRenameTest extends LanguageServerBaseTest with WorkspaceEdi
             assert(pr.isDefined) // check if the rename is actually valid
             renameHandler(
               RenameParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(position), newName))
-              .map(workspaceEdit => {
+              .flatMap(workspaceEdit => {
                 closeFile(server)(filePath)
                 assertWorkspaceEdits(workspaceEdit, goldenPath, content)
               })
