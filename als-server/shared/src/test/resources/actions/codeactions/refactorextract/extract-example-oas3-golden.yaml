@@ -22,5 +22,5 @@ paths:
       parameters:
         - schema:
             type: string
-            example:
-              $ref: "#/components/examples/newexample"
+            example: 
+            $ref: "#/components/examples/newexample"

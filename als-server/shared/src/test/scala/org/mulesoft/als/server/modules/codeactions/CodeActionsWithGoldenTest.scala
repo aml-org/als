@@ -89,16 +89,16 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
     val goldenResolved = filePath(platform.encodeURI(goldenPath))
 
     for {
-      goldenContent <- this.platform.resolve(goldenResolved)
-      content       <- this.platform.resolve(resolved).map(_.stream.toString)
-    } yield {
-      val marker = findMarker(content)
-      val maybeEdit = result
-        .find(ca => ca.kind.contains(kind))
-        .flatMap(_.edit)
-      maybeEdit.isDefined should be(true)
-      assertWorkspaceEdits(maybeEdit.get, goldenPath, Some(marker.content))
-    }
+      content <- this.platform.resolve(resolved).map(_.stream.toString)
+      assert <- {
+        val marker = findMarker(content)
+        val maybeEdit = result
+          .find(ca => ca.kind.contains(kind))
+          .flatMap(_.edit)
+        maybeEdit.isDefined should be(true)
+        assertWorkspaceEdits(maybeEdit.get, goldenResolved, Some(marker.content))
+      }
+    } yield assert
   }
 
   override def rootPath: String = "actions/codeactions"

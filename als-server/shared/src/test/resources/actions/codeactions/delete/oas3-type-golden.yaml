@@ -7,8 +7,8 @@ components:
     B:
       type: integer
     C:
-
-paths:
+      paths:
   /end:
     parameters:
       - schema:
+          
