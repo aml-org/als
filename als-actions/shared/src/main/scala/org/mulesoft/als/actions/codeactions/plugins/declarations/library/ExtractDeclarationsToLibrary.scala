@@ -5,7 +5,7 @@ import amf.core.model.domain.{DomainElement, NamedDomainElement}
 import amf.core.remote.{Mimes, Vendor}
 import org.mulesoft.als.actions.codeactions.plugins.CodeActionKindTitle
 import org.mulesoft.als.actions.codeactions.plugins.base.{CodeActionRequestParams, CodeActionResponsePlugin}
-import org.mulesoft.als.actions.codeactions.plugins.declarations.common.ExtractorCommon
+import org.mulesoft.als.actions.codeactions.plugins.declarations.common.{DeclaredElementKnowledge, ExtractorCommon}
 import org.mulesoft.als.common.YamlWrapper.{YMapEntryOps, YNodeImplicits}
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
@@ -100,25 +100,8 @@ trait ExtractDeclarationsToLibrary extends CodeActionResponsePlugin {
       .map(t => Some(TextEdit(Range(common.Position(1, 0), common.Position(1, 0)), s"$t\n")))
   }
 
-  private def declaredInRange(range: PositionRange, bu: BaseUnit): Seq[DomainElement] = bu match {
-    case d: Document =>
-      d.declares.filter(domainElementWithinRange(_, range)).filter {
-        case nde: NamedDomainElement =>
-          nde.name.option().isDefined // if this tries to emit, it will explode
-        case _ => true
-      }
-    case _ => Seq.empty
-  }
-
-  /**
-    * @param de
-    * @param range
-    * @return true if it somehow intersects with the range
-    */
-  private def domainElementWithinRange(de: DomainElement, range: PositionRange): Boolean =
-    de.annotations.ast().map(_.range).map(PositionRange(_)).flatMap(range.intersection).isDefined
-
-  protected val selectedElements: Seq[DomainElement] = declaredInRange(params.range, params.bu)
+  protected val selectedElements: Seq[DomainElement] =
+    DeclaredElementKnowledge.declaredInRange(params.range, params.bu)
 
   /**
     * Add ALIAS to all references for extracted elements

@@ -139,6 +139,14 @@ class DeleteDeclaredNodeTest extends BaseCodeActionTests {
     runCase(elementUri, goldenUri, cases)
   }
 
+  it should s"not delete node response at api oas 3.0" in {
+    val cases = Seq(DeleteDeclaredNodeRequestCase("200", ((7, 11), (7, 11))))
+
+    val elementUri = "delete-declaration/oas30/response.yaml"
+    val goldenUri  = "delete-declaration/oas30/expected/response.yaml"
+    runCase(elementUri, goldenUri, cases)
+  }
+
   it should s"delete nodes at asyncapi 2.0" in {
     val cases = Seq(
       DeleteDeclaredNodeRequestCase("schema", ((6, 9), (6, 11))),
