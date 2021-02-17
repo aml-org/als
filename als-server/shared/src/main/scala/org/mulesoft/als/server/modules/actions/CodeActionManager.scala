@@ -74,13 +74,16 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
             }
           }
         } yield {
-          val flatResults = results.flatten
+          val flatResults =
+            results.flatten
+              .filter(_.edit.exists(_.hasChanges))
           val finalResults = {
             if (!configuration.supportsDocumentChanges)
               flatResults.filterNot(_.needsWorkspaceEdit)
             else flatResults
           }
-          finalResults.map(_.toCodeAction(configuration.supportsDocumentChanges))
+          finalResults
+            .map(_.toCodeAction(configuration.supportsDocumentChanges))
         }
       }
 
