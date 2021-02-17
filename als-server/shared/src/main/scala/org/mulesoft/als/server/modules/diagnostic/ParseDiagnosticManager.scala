@@ -31,7 +31,7 @@ class ParseDiagnosticManager(override protected val telemetryProvider: Telemetry
   override def onNewAst(tuple: BaseUnitListenerParams, uuid: String): Unit = {
     val parsedResult = tuple.parseResult
     val references   = tuple.diagnosticsBundle
-    logger.debug("Got new AST:\n" + parsedResult.baseUnit.id, "ValidationManager", "newASTAvailable")
+    logger.debug("Got new AST:\n" + parsedResult.baseUnit.id, "ParseDiagnosticManager", "newASTAvailable")
     val uri = parsedResult.location
     telemetryProvider.timeProcess(
       "Start report",
@@ -50,7 +50,7 @@ class ParseDiagnosticManager(override protected val telemetryProvider: Telemetry
                                      uri: String)() =
     gatherValidationErrors(parsedResult, references, uuid) recoverWith {
       case exception: Exception =>
-        logger.error("Error on validation: " + exception.toString, "ValidationManager", "newASTAvailable")
+        logger.error("Error on validation: " + exception.toString, "ParseDiagnosticManager", "newASTAvailable")
         Future {
           clientNotifier.notifyDiagnostic(ValidationReport(uri, Set.empty, ProfileNames.AMF).publishDiagnosticsParams)
         }
@@ -71,4 +71,6 @@ class ParseDiagnosticManager(override protected val telemetryProvider: Telemetry
     validationGatherer.removeFile(uri, managerName)
     if (notifyParsing) clientNotifier.notifyDiagnostic(AlsPublishDiagnosticsParams(uri, Nil, ProfileNames.AMF))
   }
+
+  override protected val valiName: String = "ParseDiagnosticManager"
 }

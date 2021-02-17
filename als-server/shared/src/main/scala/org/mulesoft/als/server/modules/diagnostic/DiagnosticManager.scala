@@ -31,6 +31,7 @@ trait DiagnosticManager extends ClientNotifierModule[DiagnosticClientCapabilitie
   protected val optimizationKind: DiagnosticNotificationsKind = ALL_TOGETHER
   protected val notifyParsing: Boolean                        = optimizationKind == PARSING_BEFORE
   protected val logger: Logger
+  protected val valiName: String
   override def initialize(): Future[Unit] = Future.successful()
 
   protected def profileName(baseUnit: BaseUnit): ProfileName =
@@ -71,9 +72,7 @@ trait DiagnosticManager extends ClientNotifierModule[DiagnosticClientCapabilitie
         references,
         profile
       )
-    logger.debug(s"Number of ${step.name} errors is:\n" + errors.flatMap(_.issues).length,
-                 "ValidationManager",
-                 "newASTAvailable")
+    logger.debug(s"Number of ${step.name} errors is:\n" + errors.flatMap(_.issues).length, valiName, "newASTAvailable")
     errors.foreach(r => clientNotifier.notifyDiagnostic(r.publishDiagnosticsParams))
   }
 }
