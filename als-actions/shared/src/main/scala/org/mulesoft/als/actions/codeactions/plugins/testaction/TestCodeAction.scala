@@ -5,12 +5,14 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionRequestParams,
   CodeActionResponsePlugin
 }
-import org.mulesoft.als.common.dtoTypes.Position
+import org.mulesoft.als.common.dtoTypes.{EmptyPositionRange, Position, PositionRange}
 import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
-import org.mulesoft.lsp.edit.WorkspaceEdit
+import org.mulesoft.als.convert.LspRangeConverter
+import org.mulesoft.lsp.edit.{CreateFile, TextDocumentEdit, TextEdit}
+import org.mulesoft.lsp.feature.codeactions.CodeActionKind
 import org.mulesoft.lsp.feature.codeactions.CodeActionKind.CodeActionKind
-import org.mulesoft.lsp.feature.codeactions.{CodeAction, CodeActionKind}
+import org.mulesoft.lsp.feature.common.VersionedTextDocumentIdentifier
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.{BEGIN_TEST_ACTION, END_TEST_ACTION, MessageTypes}
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
@@ -23,7 +25,13 @@ case class TestCodeAction(params: CodeActionRequestParams) extends CodeActionRes
   override protected def telemetry: TelemetryProvider = params.telemetryProvider
 
   override protected def task(params: CodeActionRequestParams): Future[Seq[AbstractCodeAction]] = Future.successful {
-    Seq(TestCodeAction.baseCodeAction(AbstractWorkspaceEdit.empty))
+    Seq(
+      TestCodeAction.baseCodeAction(
+        AbstractWorkspaceEdit(
+          Seq(
+            Left(TextDocumentEdit(VersionedTextDocumentIdentifier("test://te.st", None),
+                                  Seq(TextEdit(LspRangeConverter.toLspRange(EmptyPositionRange), ""))))
+          ))))
   }
 
   override protected def code(params: CodeActionRequestParams): String = "test code action"

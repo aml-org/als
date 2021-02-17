@@ -4,6 +4,8 @@ import org.mulesoft.lsp.edit.{ResourceOperation, TextDocumentEdit, TextEdit, Wor
 
 case class AbstractWorkspaceEdit(documentChanges: Seq[Either[TextDocumentEdit, ResourceOperation]]) {
 
+  def hasChanges: Boolean = documentChanges.nonEmpty
+
   def needsDocumentChanges: Boolean = !documentChanges.forall(_.isLeft)
 
   def asDocumentChanges: WorkspaceEdit = WorkspaceEdit(None, Some(documentChanges))
