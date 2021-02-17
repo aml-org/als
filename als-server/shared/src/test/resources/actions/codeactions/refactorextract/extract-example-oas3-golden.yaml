@@ -23,4 +23,4 @@ paths:
         - schema:
             type: string
             example: 
-            $ref: "#/components/examples/newexample"
+              $ref: "#/components/examples/newexample"
