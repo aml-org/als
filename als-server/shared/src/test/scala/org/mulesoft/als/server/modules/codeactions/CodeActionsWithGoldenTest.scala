@@ -33,7 +33,7 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
       }
   }
 
-  test("OAS 3 example should respond with the extract element to a declaration") {
+  ignore("OAS 3 example should respond with the extract element to a declaration") {
     val path = "refactorextract/extract-example-oas3.yaml"
     runTest(buildServer(), path, None)
       .flatMap { result =>
@@ -65,7 +65,7 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
       }
   }
 
-  test("Oas 3 delete type node (path ref") {
+  ignore("OAS 3 delete type node (path ref)") {
     val path = "delete/oas3-type.yaml"
     runTest(buildServer(), path, None)
       .flatMap { result =>
