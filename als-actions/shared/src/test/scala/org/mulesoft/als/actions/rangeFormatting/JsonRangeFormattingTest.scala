@@ -1,11 +1,12 @@
 package org.mulesoft.als.actions.rangeFormatting
-import org.yaml.model.YDocument
+import org.yaml.model.{ParseErrorHandler, YDocument}
 import org.yaml.parser.JsonParser
 
 class JsonRangeFormattingTest extends RangeFormattingTest {
   override def basePath: String = "als-actions/shared/src/test/resources/actions/documentFormatting/json"
 
-  override def parse(content: String): YDocument = JsonParser(content).document(true)
+  override def parse(content: String)(implicit eh: ParseErrorHandler): YDocument =
+    JsonParser(content)(eh).document(true)
 
   override def isJson: Boolean = true
 

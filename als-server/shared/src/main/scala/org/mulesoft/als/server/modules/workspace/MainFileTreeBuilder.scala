@@ -105,7 +105,7 @@ class ParsedMainFileTree(eh: ErrorCollector,
   override def getCache: Map[String, BaseUnit] = cache.toMap
 
   override def parsedUnits: Map[String, ParsedUnit] =
-    units.map(t => t._1 -> ParsedUnit(t._2, inTree = true, definedBy)).toMap
+    units.map(t => t._1 -> ParsedUnit(t._2, inTree = true, definedBy, eh)).toMap
 
   override def references: Map[String, DiagnosticsBundle] = innerRefs.toMap
 
