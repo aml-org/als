@@ -9,8 +9,8 @@ import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.common.reconciler.Runnable
-import org.mulesoft.amfintegration.{AmfResolvedUnit, DiagnosticsBundle}
 import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.{AmfResolvedUnit, DiagnosticsBundle}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -26,7 +26,6 @@ class ResolutionDiagnosticManager(override protected val telemetryProvider: Tele
     with DiagnosticManager {
   type RunType = ValidationRunnable
   override val managerName: DiagnosticManagerKind = ResolutionDiagnosticKind
-  override protected val valiName: String         = "ResolutionDiagnosticManager"
   protected override def runnable(ast: AmfResolvedUnit, uuid: String) =
     new ValidationRunnable(ast.originalUnit.identifier, ast, uuid)
 

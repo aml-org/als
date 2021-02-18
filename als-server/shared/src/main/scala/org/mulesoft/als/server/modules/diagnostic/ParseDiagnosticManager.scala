@@ -10,7 +10,6 @@ import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.util.{Failure, Success}
 
 class ParseDiagnosticManager(override protected val telemetryProvider: TelemetryProvider,
                              override protected val clientNotifier: ClientNotifier,
@@ -71,6 +70,4 @@ class ParseDiagnosticManager(override protected val telemetryProvider: Telemetry
     validationGatherer.removeFile(uri, managerName)
     if (notifyParsing) clientNotifier.notifyDiagnostic(AlsPublishDiagnosticsParams(uri, Nil, ProfileNames.AMF))
   }
-
-  override protected val valiName: String = "ParseDiagnosticManager"
 }
