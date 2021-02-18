@@ -9,8 +9,8 @@ import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.common.reconciler.Runnable
-import org.mulesoft.amfintegration.{AmfResolvedUnit, DiagnosticsBundle}
 import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.{AmfResolvedUnit, DiagnosticsBundle}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -26,20 +26,19 @@ class ResolutionDiagnosticManager(override protected val telemetryProvider: Tele
     with DiagnosticManager {
   type RunType = ValidationRunnable
   override val managerName: DiagnosticManagerKind = ResolutionDiagnosticKind
-
   protected override def runnable(ast: AmfResolvedUnit, uuid: String) =
     new ValidationRunnable(ast.originalUnit.identifier, ast, uuid)
 
   protected override def onNewAstPreprocess(resolved: AmfResolvedUnit, uuid: String): Unit =
-    logger.debug("Got new AST:\n" + resolved.originalUnit.id, "ValidationManager", "newASTAvailable")
+    logger.debug("Got new AST:\n" + resolved.originalUnit.id, "ResolutionDiagnosticManager", "newASTAvailable")
 
   protected override def onFailure(uuid: String, uri: String, exception: Throwable): Unit = {
-    logger.error(s"Error on validation: ${exception.toString}", "ValidationManager", "newASTAvailable")
+    logger.error(s"Error on validation: ${exception.toString}", "ResolutionDiagnosticManager", "newASTAvailable")
     clientNotifier.notifyDiagnostic(ValidationReport(uri, Set.empty, ProfileNames.AMF).publishDiagnosticsParams)
   }
 
   protected override def onSuccess(uuid: String, uri: String): Unit =
-    logger.debug(s"End report: $uuid", "ValidationManager", "newASTAvailable")
+    logger.debug(s"End report: $uuid", "ResolutionDiagnosticManager", "newASTAvailable")
 
   private def gatherValidationErrors(uri: String,
                                      resolved: AmfResolvedUnit,
@@ -57,7 +56,7 @@ class ResolutionDiagnosticManager(override protected val telemetryProvider: Tele
         notifyReport(uri, resolved.originalUnit, references, managerName, profile)
 
         this.logger.debug(s"It took ${endTime - startTime} milliseconds to validate",
-                          "ValidationManager",
+                          "ResolutionDiagnosticManager",
                           "gatherValidationErrors")
       })
   }
@@ -76,7 +75,7 @@ class ResolutionDiagnosticManager(override protected val telemetryProvider: Tele
       "AMF report",
       MessageTypes.BEGIN_REPORT,
       MessageTypes.END_REPORT,
-      "DiagnosticManager - resolution diagnostics",
+      "ResolutionDiagnosticManager - resolution diagnostics",
       uri,
       tryValidationReport(uri, telemetryProvider, resolved, uuid, profile),
       uuid

@@ -8,12 +8,11 @@ import amf.internal.environment.Environment
 import org.mulesoft.als.server.ClientNotifierModule
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.amfintegration.DiagnosticsBundle
-import org.mulesoft.amfintegration.ParserHelper
+import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.{DiagnosticsBundle, ParserHelper}
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.diagnostic.{DiagnosticClientCapabilities, DiagnosticConfigType}
-import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
-import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
 import scala.concurrent.Future
 
