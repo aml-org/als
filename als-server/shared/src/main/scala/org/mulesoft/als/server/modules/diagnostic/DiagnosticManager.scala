@@ -8,12 +8,11 @@ import amf.internal.environment.Environment
 import org.mulesoft.als.server.ClientNotifierModule
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.amfintegration.DiagnosticsBundle
-import org.mulesoft.amfintegration.ParserHelper
+import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.{DiagnosticsBundle, ParserHelper}
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.diagnostic.{DiagnosticClientCapabilities, DiagnosticConfigType}
-import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
-import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
 import scala.concurrent.Future
 
@@ -31,7 +30,6 @@ trait DiagnosticManager extends ClientNotifierModule[DiagnosticClientCapabilitie
   protected val optimizationKind: DiagnosticNotificationsKind = ALL_TOGETHER
   protected val notifyParsing: Boolean                        = optimizationKind == PARSING_BEFORE
   protected val logger: Logger
-  protected val valiName: String
   override def initialize(): Future[Unit] = Future.successful()
 
   protected def profileName(baseUnit: BaseUnit): ProfileName =
@@ -72,7 +70,9 @@ trait DiagnosticManager extends ClientNotifierModule[DiagnosticClientCapabilitie
         references,
         profile
       )
-    logger.debug(s"Number of ${step.name} errors is:\n" + errors.flatMap(_.issues).length, valiName, "newASTAvailable")
+    logger.debug(s"Number of ${step.name} errors is:\n" + errors.flatMap(_.issues).length,
+                 "ValidationManager",
+                 "newASTAvailable")
     errors.foreach(r => clientNotifier.notifyDiagnostic(r.publishDiagnosticsParams))
   }
 }
