@@ -25,5 +25,6 @@ class ServerRenameTests extends RAMLRenameTest {
   test("test 021 - JSON") { runTest("test021/api.json", "RENAMED") }
   test("test 022 - RAML Expression with union") { runTest("test022/api.raml", "RENAMED") }
   test("test 023 - RAML Expression with triple union") { runTest("test023/api.raml", "RENAMED") }
-  ignore("test 024 - RAML Expression with simple array") { runTest("test024/api.raml", "RENAMED") }
+  test("test 024 - RAML Expression with simple array") { runTest("test024/api.raml", "RENAMED") }
+  test("test 025 - RAML Expression with union array") { runTest("test025/api.raml", "RENAMED") }
 }

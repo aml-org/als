@@ -59,7 +59,7 @@ object FindRenameLocations {
 
   private def toTextDocumentEdit(editsByUri: Map[String, Seq[TextEdit]]): Seq[TextDocumentEdit] =
     editsByUri.keys.map { uri =>
-      TextDocumentEdit(VersionedTextDocumentIdentifier(uri, None), editsByUri(uri))
+      TextDocumentEdit(VersionedTextDocumentIdentifier(uri, None), editsByUri(uri).distinct)
     }.toSeq
 }
 

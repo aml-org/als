@@ -3,13 +3,12 @@ package org.mulesoft.amfintegration.visitors.noderelationship
 import amf.core.annotations.{LexicalInformation, SourceAST}
 import amf.core.metamodel.domain.LinkableElementModel
 import amf.core.model.domain.{AmfElement, AmfObject, NamedDomainElement}
-
 import org.mulesoft.als.common.SemanticNamedElement._
 import org.mulesoft.amfintegration.visitors.AmfElementVisitor
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.VirtualYPart
 import org.mulesoft.amfintegration.relationships.RelationshipLink
-import org.yaml.model.YPart
+import org.yaml.model.{YNode, YPart, YScalar}
 
 trait NodeRelationshipVisitorType extends AmfElementVisitor[RelationshipLink] {
   protected def extractTarget(obj: AmfObject): Option[AmfElement] =
@@ -42,12 +41,15 @@ trait NodeRelationshipVisitorType extends AmfElementVisitor[RelationshipLink] {
       case _ => None
     }
 
-  protected def virtualYPart(maybeSourceName: Option[String],
-                             maybeLexical: Option[LexicalInformation],
-                             maybeLabel: Option[String]): Option[YPart] =
-    (maybeSourceName, maybeLexical, maybeLabel) match {
-      case (Some(sourceName), Some(lexical), _) =>
-        Some(VirtualYPart(sourceName, lexical, maybeLabel.getOrElse("")))
-      case _ => None
+  protected def virtualYPart(maybePart: Option[YPart],
+                             maybeLabel: Option[String],
+                             maybeLexical: Option[LexicalInformation]): Option[YPart] =
+    (maybePart, maybeLabel) match {
+      case (Some(originalPart: YScalar), Some(label)) =>
+        Some(VirtualYPart(originalPart, label, maybeLexical))
+      case (Some(originalPart: YNode), Some(label)) if originalPart.asScalar.isDefined =>
+        Some(VirtualYPart(originalPart.asScalar.get, label, maybeLexical))
+      case _ =>
+        None
     }
 }

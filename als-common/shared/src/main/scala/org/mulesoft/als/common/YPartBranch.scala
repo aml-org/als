@@ -1,17 +1,11 @@
 package org.mulesoft.als.common
 
-import amf.core.annotations.SourceAST
-import amf.core.model.document.{BaseUnit, Document}
+import amf.core.model.document.BaseUnit
+import amf.core.parser.{Position => AmfPosition, _}
 import org.mulesoft.als.common.YamlWrapper._
-import org.yaml.model._
-import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
-import amf.core.parser.{Position => AmfPosition}
-import amf.core.parser._
-import YamlWrapper._
-import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
-import org.mulesoft.lsp.feature.common
 import org.yaml.model
+import org.yaml.model._
 
 import scala.annotation.tailrec
 
