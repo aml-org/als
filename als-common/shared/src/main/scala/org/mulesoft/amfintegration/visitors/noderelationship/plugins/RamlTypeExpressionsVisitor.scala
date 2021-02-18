@@ -23,11 +23,12 @@ class RamlTypeExpressionsVisitor extends NodeRelationshipVisitorType {
       case o: NamedDomainElement =>
         extractTarget(o)
           .flatMap { target =>
-            virtualYPart(
-              o.annotations.location().orElse(rootEntry.annotations.location()),
-              o.annotations.lexicalInformation(),
-              text(rootEntry, o, target)
-            ).map { (_, target) }
+            (target match {
+              case named: NamedDomainElement =>
+                virtualYPart(o.annotations.ast(), named.name.option(), o.annotations.lexicalInformation())
+              case _ =>
+                None
+            }).map { (_, target) }
           }
           .map { t =>
             createRelationship(t._1, t._2)

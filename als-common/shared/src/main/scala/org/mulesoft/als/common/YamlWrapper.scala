@@ -1,5 +1,6 @@
 package org.mulesoft.als.common
 
+import amf.core.annotations.LexicalInformation
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import amf.core.parser.{Position => AmfPosition}
 import org.mulesoft.als.convert.LspRangeConverter
@@ -36,6 +37,12 @@ object YamlWrapper {
 
     def contains(amfPosition: AmfPosition): Boolean =
       toPositionRange.contains(Position(amfPosition))
+
+    def isEqual(li: LexicalInformation): Boolean =
+      li.range.start.column == range.columnFrom &&
+        li.range.start.line == range.lineFrom &&
+        li.range.end.column == range.columnTo &&
+        li.range.end.line == range.lineTo
   }
 
   abstract class CommonPartOps(yPart: YPart) {
