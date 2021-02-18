@@ -19,6 +19,7 @@ import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.lexer.InputRange
 import org.yaml.model.{YMapEntry, YNode, YPart, YScalar, YSequence, YType, _}
 
+import scala.annotation.tailrec
 import scala.collection.mutable
 
 object AmfImplicits {
