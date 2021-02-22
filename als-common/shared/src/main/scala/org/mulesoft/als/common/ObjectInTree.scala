@@ -1,10 +1,10 @@
 package org.mulesoft.als.common
 
-import amf.core.annotations.{DeclaredElement, DefinedByVendor, SourceAST, SourceVendor}
+import amf.core.annotations.{DeclaredElement, DefinedByVendor, SourceAST}
 import amf.core.metamodel.document.BaseUnitModel
 import amf.core.metamodel.domain.LinkableElementModel
 import amf.core.model.document.{BaseUnit, DeclaresModel}
-import amf.core.model.domain.{AmfObject, DomainElement}
+import amf.core.model.domain.{AmfArray, AmfObject, DomainElement}
 import amf.core.parser.{Annotations, FieldEntry, Position => AmfPosition}
 import amf.core.remote.Vendor
 import amf.plugins.document.vocabularies.model.document.Dialect
@@ -48,14 +48,14 @@ case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfP
     */
   private def getFieldEntry(filterFn: FieldEntry => Boolean,
                             ordering: Ordering[FieldEntry],
-                            o: AmfObject): Option[FieldEntry] =
+                            o: AmfObject): Option[FieldEntry] = {
     // todo: maybe this should be a seq and not an option
-    o.fields
-      .fields()
-      .filter(filterFn)
-      .toList
+    val fields   = o.fields.fields()
+    val filtered = fields.filter(filterFn).toList
+    filtered
       .sorted(ordering)
       .lastOption
+  }
 
   private def inField(f: FieldEntry) =
     f.field != LinkableElementModel.Target &&
@@ -66,7 +66,11 @@ case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfP
       })
 
   private def inValue(f: FieldEntry) =
-    f.value.value.annotations.ast().exists(_.contains(amfPosition))
+    f.value.value.annotations.ast().exists(_.contains(amfPosition)) ||
+      (f.value.value match {
+        case arr: AmfArray => arr.values.isEmpty
+        case _             => false
+      })
 
   private def notInKey(a: Annotations) =
     a.find(classOf[SourceAST]) match {
