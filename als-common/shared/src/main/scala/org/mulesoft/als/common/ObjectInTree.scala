@@ -52,10 +52,9 @@ case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfP
     // todo: maybe this should be a seq and not an option
     val fields   = o.fields.fields()
     val filtered = fields.filter(filterFn).toList
-    val sorted = filtered
+    filtered
       .sorted(ordering)
       .lastOption
-    sorted
   }
 
   private def inField(f: FieldEntry) =
