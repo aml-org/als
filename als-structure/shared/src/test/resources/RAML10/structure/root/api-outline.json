@@ -156,7 +156,7 @@
     },
     "children": [
       {
-        "name": "default-requirement_1",
+        "name": "schemes",
         "kind": 7,
         "deprecated": false,
         "range": {
@@ -181,7 +181,7 @@
         },
         "children": [
           {
-            "name": "schemes",
+            "name": "test",
             "kind": 7,
             "deprecated": false,
             "range": {
@@ -204,34 +204,7 @@
                 "character": 8
               }
             },
-            "children": [
-              {
-                "name": "test",
-                "kind": 7,
-                "deprecated": false,
-                "range": {
-                  "start": {
-                    "line": 11,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 11,
-                    "character": 8
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 11,
-                    "character": 4
-                  },
-                  "end": {
-                    "line": 11,
-                    "character": 8
-                  }
-                },
-                "children": []
-              }
-            ]
+            "children": []
           }
         ]
       }
