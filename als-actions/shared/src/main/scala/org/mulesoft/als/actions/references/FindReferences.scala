@@ -1,9 +1,8 @@
 package org.mulesoft.als.actions.references
 
-import org.mulesoft.amfintegration.relationships.AliasRelationships.FullLink
-import org.mulesoft.amfintegration.relationships.{AliasInfo, AliasRelationships, RelationshipLink}
 import org.mulesoft.als.common.cache.YPartBranchCached
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.amfintegration.relationships.{AliasInfo, AliasRelationships, FullLink, RelationshipLink}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -20,7 +19,7 @@ object FindReferences {
     } yield
       AliasRelationships
         .getLinks(alias, refs, yPartBranchCached)
-        .filter(r => containsPosition(uri, position, r._2.uri, PositionRange(r._2.range)))
+        .filter(r => containsPosition(uri, position, r.destination.uri, PositionRange(r.destination.range)))
 
   private def containsPosition(uri: String,
                                position: Position,

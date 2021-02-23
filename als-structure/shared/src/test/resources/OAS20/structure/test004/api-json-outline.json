@@ -75,7 +75,168 @@
         "character": 3
       }
     },
-    "children": []
+    "children": [
+      {
+        "name": "requirement_1",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 23,
+            "character": 4
+          },
+          "end": {
+            "line": 28,
+            "character": 5
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 23,
+            "character": 4
+          },
+          "end": {
+            "line": 28,
+            "character": 5
+          }
+        },
+        "children": [
+          {
+            "name": "schemes",
+            "kind": 7,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 24,
+                "character": 6
+              },
+              "end": {
+                "line": 27,
+                "character": 7
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 24,
+                "character": 6
+              },
+              "end": {
+                "line": 27,
+                "character": 7
+              }
+            },
+            "children": [
+              {
+                "name": "githubAccessCode",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 24,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 27,
+                    "character": 7
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 24,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 27,
+                    "character": 7
+                  }
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "requirement_2",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 29,
+            "character": 4
+          },
+          "end": {
+            "line": 33,
+            "character": 5
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 29,
+            "character": 4
+          },
+          "end": {
+            "line": 33,
+            "character": 5
+          }
+        },
+        "children": [
+          {
+            "name": "schemes",
+            "kind": 7,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 30,
+                "character": 6
+              },
+              "end": {
+                "line": 32,
+                "character": 7
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 30,
+                "character": 6
+              },
+              "end": {
+                "line": 32,
+                "character": 7
+              }
+            },
+            "children": [
+              {
+                "name": "internalApiKey",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 30,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 32,
+                    "character": 7
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 30,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 32,
+                    "character": 7
+                  }
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     "name": "securityDefinitions",
