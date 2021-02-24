@@ -379,7 +379,8 @@ hovers:
     - Textual indication of the kind of security scheme used
   (102,9):
     - Textual indication of the kind of security scheme used
-  (103,7): []
+  (103,7):
+    - Human readable name for the object
   (103,17): []
   (103,25): []
   (105,5):

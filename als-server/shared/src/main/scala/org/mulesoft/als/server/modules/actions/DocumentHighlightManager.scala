@@ -62,7 +62,7 @@ class DocumentHighlightManager(val workspace: WorkspaceManager,
                          workspace.getAliases(uri, uuid),
                          workspace.getRelationships(uri, uuid).map(_._2),
                          cu.yPartBranch)
-          .map(_.map(_._1))
+          .map(_.map(_.source))
       }.map(_.filter(_.uri == uri)
         .map(toDocumentHighlight)))
 
