@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.workspace
 
 import amf.core.remote.Platform
-import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
+import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.server.AlsWorkspaceService
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
@@ -9,11 +9,11 @@ import org.mulesoft.als.server.modules.workspace.{CompilableUnit, WorkspaceConte
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.command._
 import org.mulesoft.als.server.workspace.extract._
+import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, ExecuteCommandParams}
-import org.mulesoft.als.common.URIImplicits._
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
@@ -86,8 +86,8 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
 
   private def getLastCU(cu: CompilableUnit, uri: String, uuid: String) =
     cu.getLast.flatMap {
-      case cu if cu.isDirty => getLastUnit(uri, uuid)
-      case _                => Future.successful(cu)
+      case newCu if newCu.isDirty => getLastUnit(uri, uuid)
+      case newCu                  => Future.successful(newCu)
     }
 
   override def notify(uri: String, kind: NotificationKind): Unit = {
