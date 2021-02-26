@@ -7,7 +7,7 @@ import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.suggestions.patcher.{ColonToken, PatchedContent, QuoteToken}
 import org.mulesoft.als.suggestions.styler.{JsonSuggestionStyler, StylerParams}
 import org.mulesoft.lexer.{InputRange, SourceLocation}
-import org.mulesoft.lsp.configuration.{FormattingOptions, DefaultFormattingOptions}
+import org.mulesoft.lsp.configuration.{DefaultFormattingOptions, FormattingOptions}
 import org.scalatest.AsyncFunSuite
 import org.yaml.model._
 
@@ -17,7 +17,7 @@ class JsonSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
 
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
-  val dummyYPart = YPartBranch(YNode.Null, AmfPosition(0, 0), Nil, isJson = true)
+  val dummyYPart = YPartBranch(YNode.Null, AmfPosition(0, 0), Nil, isJson = true, isInFlow = true)
 
   test("should not have quotes if key and inside quotes") {
     val content =
@@ -118,7 +118,7 @@ class JsonSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
     val swaggerMap = YMapEntry(SourceLocation("swagger", InputRange(3, 3, 3, 19)), IndexedSeq(swagger, swaggerVal))
     val stack      = Seq(current, YMap(IndexedSeq(current, swaggerMap), "noname"))
 
-    val dummyYPart = YPartBranch(node, AmfPosition(2, 3), stack, isJson = true)
+    val dummyYPart = YPartBranch(node, AmfPosition(2, 3), stack, isJson = true, isInFlow = true)
 
     val styler = JsonSuggestionStyler(
       StylerParams("",

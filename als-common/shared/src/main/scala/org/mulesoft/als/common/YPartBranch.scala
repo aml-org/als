@@ -9,7 +9,7 @@ import org.yaml.model._
 
 import scala.annotation.tailrec
 
-case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], isJson: Boolean) {
+case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], isJson: Boolean, isInFlow: Boolean) {
 
   lazy val isMultiline: Boolean = node match {
     case n: YNode if n.asScalar.isDefined => n.asScalar.exists(_.mark == MultilineMark)
@@ -203,11 +203,13 @@ object NodeBranchBuilder {
       .map(m => if (isJson) m else m.asInstanceOf[YMapEntry].inMap)
   }
 
-  def build(ast: YPart, position: AmfPosition, isJson: Boolean): YPartBranch =
-    getStack(ast, position, Seq()) match {
-      case actual :: stack => YPartBranch(actual, position, stack, isJson)
-      case Nil             => YPartBranch(ast, position, Nil, isJson)
+  def build(ast: YPart, position: AmfPosition, isJson: Boolean): YPartBranch = {
+    val (stack, inFlow) = getStack(ast, position, Seq())
+    stack match {
+      case actual :: stack => YPartBranch(actual, position, stack, isJson, inFlow)
+      case Nil             => YPartBranch(ast, position, Nil, isJson, inFlow)
     }
+  }
 
   def build(bu: BaseUnit, position: AmfPosition, isJson: Boolean): YPartBranch = {
     val ast: Option[YPart] = astFromBaseUnit(bu)
@@ -217,27 +219,38 @@ object NodeBranchBuilder {
   def astFromBaseUnit(bu: BaseUnit): Option[YPart] =
     bu.objWithAST.flatMap(_.annotations.ast())
 
+  def containsFlow(s: YPart): Boolean =
+    s.children.exists({
+      case e: YNonContent => e.tokens.exists(t => t.text == "[" || t.text == "{")
+      case _              => false
+    })
+
   @tailrec
-  private def getStack(s: YPart, amfPosition: AmfPosition, parents: Seq[YPart]): Seq[YPart] =
+  private def getStack(s: YPart,
+                       amfPosition: AmfPosition,
+                       parents: Seq[YPart],
+                       isInFlow: Boolean = false): (Seq[YPart], Boolean) = {
+    val inFlow = isInFlow || containsFlow(s)
     childWithPosition(s, amfPosition) match {
       case Some(n: YNode) =>
         childWithPosition(n, amfPosition) match {
           case None
               if !n.isNull && n.value.range.lineFrom == amfPosition.line && n.value.range.columnFrom > amfPosition.column =>
-            n +: s +: parents // case for tag (!include)
-          case None    => parents
-          case Some(c) => getStack(c, amfPosition, n +: s +: parents)
+            (n +: s +: parents, inFlow) // case for tag (!include)
+          case None    => (parents, inFlow)
+          case Some(c) => getStack(c, amfPosition, n +: s +: parents, inFlow)
         }
       case Some(c) =>
-        getStack(c, amfPosition, s +: parents)
+        getStack(c, amfPosition, s +: parents, inFlow)
       case None if Some(s).collectFirst({ case e: YMapEntry if !isNullOrEmptyTag(e.value) => e }).isDefined =>
-        parents
+        (parents, inFlow)
       case None if s.isInstanceOf[YMapEntry] =>
-        getStack(s.asInstanceOf[YMapEntry].value, amfPosition, s +: parents)
+        getStack(s.asInstanceOf[YMapEntry].value, amfPosition, s +: parents, inFlow)
       case None if s.isInstanceOf[YScalar] =>
-        parents
-      case _ => s +: parents
+        (parents, inFlow)
+      case _ => (s +: parents, inFlow)
     }
+  }
 
   private def isNullOrEmptyTag(node: YNode) =
     node.isNull || (node.tagType.toString == "!include" && node.value.toString.isEmpty)

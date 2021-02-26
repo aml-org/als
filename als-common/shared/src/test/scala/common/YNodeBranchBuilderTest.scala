@@ -34,4 +34,32 @@ class YNodeBranchBuilderTest extends FunSuite with Matchers {
     assert(branch.node.isInstanceOf[YMap])
   }
 
+  test("Detect if we are inside a flow") {
+    val text = """key:
+                 |  subkey:
+                 |    - a
+                 |    - b
+                 |    - c
+                 |  subkey2: ["scalar", "scalar2"]
+                 |  subkey3: {
+                 |    key: val
+                 |  }
+                 |""".stripMargin
+
+    val root = YamlParser(text).documents(true).head.node
+
+    val inA     = AmfPosition(3, 6)
+    val aBranch = NodeBranchBuilder.build(root, inA, isJson = false)
+    aBranch.isInFlow should be(false)
+
+    val inScalar2     = AmfPosition(6, 25)
+    val scalar2Branch = NodeBranchBuilder.build(root, inScalar2, isJson = false)
+    scalar2Branch.isInFlow should be(true)
+
+    val inVal     = AmfPosition(8, 10)
+    val valBranch = NodeBranchBuilder.build(root, inVal, isJson = false)
+    valBranch.isInFlow should be(true)
+
+  }
+
 }

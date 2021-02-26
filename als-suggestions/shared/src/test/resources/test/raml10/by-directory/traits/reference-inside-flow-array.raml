@@ -1,0 +1,13 @@
+#%RAML 1.0
+title: test
+traits:
+  secured:
+    queryParameters:
+      <<tokenName>>:
+        description: A valid <<tokenName>> is required
+
+/books:
+  get:
+    is: [
+       *
+     ]

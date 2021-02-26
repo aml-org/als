@@ -4,9 +4,7 @@ import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.suggestions._
 import org.mulesoft.als.suggestions.patcher.QuoteToken
 import org.mulesoft.als.suggestions.styler.astbuilder.{AstRawBuilder, YamlAstRawBuilder}
-import org.yaml.model._
-import org.yaml.render.YamlRender
-import org.yaml.render.YamlRenderOptions
+import org.yaml.render.{YamlRender, YamlRenderOptions}
 
 case class YamlSuggestionStyler(override val params: StylerParams) extends SuggestionRender {
 
@@ -27,11 +25,19 @@ case class YamlSuggestionStyler(override val params: StylerParams) extends Sugge
       else ""
     val ast         = builder.ast
     val indentation = 0 // We always want to indent relative to the parent node
-    fixPrefix(prefix, fixEmptyMap(YamlRender.render(ast, indentation, buildYamlRenderOptions)))
+    fixPrefix(prefix,
+              fixEmptyMap(
+                yamlRenderer()
+                  .render(ast,
+                          indentation,
+                          YamlRenderOptions()
+                            .withIndentationSize(params.formattingConfiguration.indentationSize))
+              ))
   }
 
-  def buildYamlRenderOptions: YamlRenderOptions = {
-    new YamlRenderOptions().withIndentationSize(params.formattingConfiguration.indentationSize)
+  def yamlRenderer(): YamlPartRender = {
+    if (params.yPartBranch.isInFlow) FlowYamlRender
+    else YamlRender
   }
 
   override def style(raw: RawSuggestion): Styled = super.style(fixTokens(raw))
