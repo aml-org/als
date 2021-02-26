@@ -4,16 +4,12 @@ import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.suggestions._
 import org.mulesoft.als.suggestions.patcher.QuoteToken
 import org.mulesoft.als.suggestions.styler.astbuilder.{AstRawBuilder, YamlAstRawBuilder}
-import org.yaml.model._
-import org.yaml.render.YamlRender
-import org.yaml.render.YamlRenderOptions
+import org.yaml.model.{YMap, YMapEntry, YPart, YScalar}
+import org.yaml.render.{FlowYamlRender, YamlPartRender, YamlRender, YamlRenderOptions}
 
-case class YamlSuggestionStyler(override val params: StylerParams) extends SuggestionRender {
+case class YamlSuggestionStyler(override val params: StylerParams) extends FlowSuggestionRender {
 
-  private def fixEmptyMap(rendered: String): String =
-    if (rendered.endsWith("{}"))
-      rendered.stripSuffix(" {}") + "\n" + (" " * tabSize)
-    else rendered
+  override protected val useSpaces: Boolean = true
 
   private def fixPrefix(prefix: String, text: String) =
     if (prefix.isEmpty && text.startsWith(stringIndentation))
@@ -27,11 +23,16 @@ case class YamlSuggestionStyler(override val params: StylerParams) extends Sugge
       else ""
     val ast         = builder.ast
     val indentation = 0 // We always want to indent relative to the parent node
-    fixPrefix(prefix, fixEmptyMap(YamlRender.render(ast, indentation, buildYamlRenderOptions)))
+    val rendered    = yamlRenderer.render(ast, indentation, buildYamlRenderOptions)
+    fixPrefix(prefix, fix(builder, rendered))
   }
 
-  def buildYamlRenderOptions: YamlRenderOptions = {
+  def buildYamlRenderOptions: YamlRenderOptions =
     new YamlRenderOptions().withIndentationSize(params.formattingConfiguration.indentationSize)
+
+  def yamlRenderer: YamlPartRender = {
+    if (params.yPartBranch.isInFlow) FlowYamlRender
+    else YamlRender
   }
 
   override def style(raw: RawSuggestion): Styled = super.style(fixTokens(raw))

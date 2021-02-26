@@ -1,29 +1,20 @@
 package org.mulesoft.als.suggestions.styler
 
-import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.styler.astbuilder.{AstRawBuilder, JsonAstRawBuilder}
 import org.mulesoft.als.suggestions.{RawSuggestion, SuggestionStructure}
 import org.yaml.render.{JsonRender, JsonRenderOptions}
 
-case class JsonSuggestionStyler(override val params: StylerParams) extends SuggestionRender {
+case class JsonSuggestionStyler(override val params: StylerParams) extends FlowSuggestionRender {
 
-  private val useSpaces: Boolean = params.formattingConfiguration.insertSpaces
+  override protected val escapeChar: String = "\""
 
-  override protected def render(options: SuggestionStructure, builder: AstRawBuilder): String = {
-
-    val json = rawRender(builder)
-
-    if (hasBrotherAfterwards(params.yPartBranch)) json + ","
-    else json
-  }
+  override protected def render(options: SuggestionStructure, builder: AstRawBuilder): String =
+    rawRender(builder)
 
   private def rawRender(builder: AstRawBuilder) = {
     val renderedJson =
       JsonRender.render(builder.ast, 0, options = buildRenderOptions)
-    if (renderedJson.endsWith("{}")) {
-      builder.forSnippet()
-      renderedJson.replace("{}", "{\n" + (if (useSpaces) " " * tabSize else "\t") + "\"$1\"\n}")
-    } else renderedJson
+    fix(builder, renderedJson)
   }
 
   private def buildRenderOptions =
@@ -32,8 +23,4 @@ case class JsonSuggestionStyler(override val params: StylerParams) extends Sugge
   override def astBuilder: RawSuggestion => AstRawBuilder =
     (raw: RawSuggestion) => new JsonAstRawBuilder(raw, false, params.yPartBranch)
 
-  def hasBrotherAfterwards(yPartBranch: YPartBranch): Boolean = {
-    val range = yPartBranch.node.range
-    yPartBranch.brothers.exists(brother => brother.range.compareTo(range) > 0) && yPartBranch.isKey
-  }
 }

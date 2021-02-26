@@ -1,0 +1,32 @@
+[
+  {
+    "label": "secured",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "secured",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "21secured",
+    "filterText": "secured: {\n  tokenName: $1\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 11,
+          "character": 7
+        },
+        "end": {
+          "line": 11,
+          "character": 7
+        }
+      },
+      "newText": "secured: {\n  tokenName: $1\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

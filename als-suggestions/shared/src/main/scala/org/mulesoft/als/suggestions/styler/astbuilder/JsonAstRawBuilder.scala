@@ -3,13 +3,16 @@ package org.mulesoft.als.suggestions.styler.astbuilder
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.suggestions.{RawSuggestion, SuggestionStructure}
-import org.yaml.model.{YMap, YMapEntry, YNode, YPart}
+import org.yaml.model.{YMap, YNode, YPart}
+import amf.core.parser.{Position => AmfPosition}
 
 class JsonAstRawBuilder(val raw: RawSuggestion, val isSnippet: Boolean, val yPartBranch: YPartBranch)
     extends AstRawBuilder(raw, isSnippet, yPartBranch) {
   override protected def newInstance: (RawSuggestion, Boolean) => AstRawBuilder =
     (raw: RawSuggestion, isSnippet: Boolean) =>
-      new JsonAstRawBuilder(raw, isSnippet, YPartBranch(YMap.empty, Position(0, 0).toAmfPosition, Nil, isJson = true))
+      new JsonAstRawBuilder(raw,
+                            isSnippet,
+                            YPartBranch(YMap.empty, AmfPosition.ZERO, Nil, isJson = true, isInFlow = true))
 
   override def ast: YPart = {
     if (raw.options.isKey) emitRootKey

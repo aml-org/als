@@ -14,7 +14,7 @@ object RamlParametrizedDeclarationVariablesRef extends AMLCompletionPlugin {
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful(
-      getParametraizedDeclaration(params) match {
+      getParametrizedDeclaration(params) match {
         case Some(p) if p.target != null =>
           p.target.linkTarget
             .collectFirst({ case p: AbstractDeclaration => p })
@@ -27,7 +27,7 @@ object RamlParametrizedDeclarationVariablesRef extends AMLCompletionPlugin {
     )
   }
 
-  private def getParametraizedDeclaration(params: AmlCompletionRequest): Option[ParametrizedDeclaration] = {
+  private def getParametrizedDeclaration(params: AmlCompletionRequest): Option[ParametrizedDeclaration] = {
     params.amfObject match {
       case declaration: ParametrizedDeclaration if params.yPartBranch.isKey || params.yPartBranch.isArray =>
         Some(declaration)

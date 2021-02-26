@@ -3,8 +3,8 @@ package org.mulesoft.als.suggestions
 import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.{StructureCompletionPlugin, _}
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.AMLLibraryPathCompletion
+import org.mulesoft.als.suggestions.plugins.aml.{StructureCompletionPlugin, _}
 
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global

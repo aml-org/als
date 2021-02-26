@@ -3,18 +3,23 @@ package org.mulesoft.als.suggestions.styler.astbuilder
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.suggestions.{RawSuggestion, SuggestionStructure}
-import org.yaml.model.{YMap, YMapEntry, YNode, YPart, YSequence}
+import org.yaml.model.{YMap, YMapEntry, YNode, YPart}
+import amf.core.parser.{Position => AmfPosition}
 
 class YamlAstRawBuilder(val raw: RawSuggestion, val isSnippet: Boolean, val yPartBranch: YPartBranch)
     extends AstRawBuilder(raw, isSnippet, yPartBranch) {
 
-  def ast: YNode =
-    if (raw.options.isKey) YNode(YMap(IndexedSeq(emitRootKey), ""))
+  def ast: YPart =
+    if (raw.options.isKey)
+      if (yPartBranch.isInFlow) emitRootKey
+      else YNode(YMap(IndexedSeq(emitRootKey), ""))
     else value(raw.newText, raw.options)
 
   override protected def newInstance: (RawSuggestion, Boolean) => AstRawBuilder =
     (raw: RawSuggestion, isSnippet: Boolean) =>
-      new YamlAstRawBuilder(raw, isSnippet, YPartBranch(YMap.empty, Position(0, 0).toAmfPosition, Nil, isJson = false))
+      new YamlAstRawBuilder(raw,
+                            isSnippet,
+                            YPartBranch(YMap.empty, AmfPosition.ZERO, Nil, isJson = false, isInFlow = false))
 
   override def emitEntryValue(options: SuggestionStructure): YNode = value("", options)
 
