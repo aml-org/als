@@ -4,7 +4,7 @@ import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.suggestions._
 import org.mulesoft.als.suggestions.patcher.QuoteToken
 import org.mulesoft.als.suggestions.styler.astbuilder.{AstRawBuilder, YamlAstRawBuilder}
-import org.yaml.render.{YamlRender, YamlRenderOptions}
+import org.yaml.render.{FlowYamlRender, YamlPartRender, YamlRender, YamlRenderOptions}
 
 case class YamlSuggestionStyler(override val params: StylerParams) extends SuggestionRender {
 
