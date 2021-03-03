@@ -4,9 +4,10 @@ import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.suggestions.{RawSuggestion, SuggestionStructure}
 import org.yaml.model._
+import amf.core.parser.{Position => AmfPosition}
 
 class DummyAstRawBuilder(val raw: RawSuggestion)
-    extends AstRawBuilder(raw, false, YPartBranch(YMap.empty, Position(0, 0).toAmfPosition, Nil, isJson = false)) {
+    extends AstRawBuilder(raw, false, YPartBranch(YMap.empty, AmfPosition.ZERO, Nil, isJson = false, isInFlow = false)) {
 
   override protected def newInstance: (RawSuggestion, Boolean) => AstRawBuilder =
     (raw: RawSuggestion, _: Boolean) => new DummyAstRawBuilder(raw)

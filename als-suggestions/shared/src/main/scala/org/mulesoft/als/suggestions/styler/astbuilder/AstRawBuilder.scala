@@ -2,12 +2,14 @@ package org.mulesoft.als.suggestions.styler.astbuilder
 
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.{BoolScalarRange, NumberScalarRange, RawSuggestion, SuggestionStructure}
+import org.mulesoft.lexer.SourceLocation
 import org.yaml.model._
 
 abstract class AstRawBuilder(raw: RawSuggestion, isSnippet: Boolean, yPartBranch: YPartBranch) {
 
   protected def newInstance: (RawSuggestion, Boolean) => AstRawBuilder
-  protected var snippet: Boolean = false
+  protected var snippet: Boolean    = false
+  val emptyLocation: SourceLocation = SourceLocation("")
 
   def forSnippet(): Unit =
     snippet = true
@@ -54,7 +56,7 @@ abstract class AstRawBuilder(raw: RawSuggestion, isSnippet: Boolean, yPartBranch
     } else if (isSnippet) IndexedSeq(YMapEntry("$" + index.toString, ""))
     else IndexedSeq.empty
 
-    val n = YNode(YMap(list, ""))
+    val n = YNode(YMap(emptyLocation, list))
 
     wrapArray(raw.options, n)
   }
@@ -65,7 +67,7 @@ abstract class AstRawBuilder(raw: RawSuggestion, isSnippet: Boolean, yPartBranch
         plainValue(text)
       else if (text.isEmpty)
         YMap.empty
-      else YMap(IndexedSeq(YMapEntry(raw.newText, "")), "")
+      else YMap(emptyLocation, IndexedSeq(YMapEntry(raw.newText, "")))
     wrapArray(options, node)
   }
 

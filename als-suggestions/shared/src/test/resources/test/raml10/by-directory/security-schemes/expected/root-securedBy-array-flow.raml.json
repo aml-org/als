@@ -7,10 +7,10 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11oauth2",
-    "filterText": "oauth2:\n  ",
+    "filterText": "oauth2: {\n  $1\n}",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -23,7 +23,7 @@
           "character": 13
         }
       },
-      "newText": "oauth2:\n  "
+      "newText": "oauth2: {\n  $1\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,10 +37,10 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11obasic",
-    "filterText": "obasic:\n  ",
+    "filterText": "obasic: {\n  $1\n}",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -53,7 +53,7 @@
           "character": 13
         }
       },
-      "newText": "obasic:\n  "
+      "newText": "obasic: {\n  $1\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

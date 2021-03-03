@@ -14,7 +14,7 @@ case class DummySuggestionStyle(prefix: String, position: Position) extends Sugg
       prefix,
       PatchedContent("", "", Nil),
       position,
-      YPartBranch(YMap.empty, position.toAmfPosition, Nil, isJson = false),
+      YPartBranch(YMap.empty, position.toAmfPosition, Nil, isJson = false, isInFlow = false),
       AlsConfiguration().getFormatOptionForMime("")
     )
 
