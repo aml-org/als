@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules.codeactions
 
 import org.mulesoft.als.common.MarkerInfo
-import org.mulesoft.als.common.diff.{FileAssertionTest, WorkspaceEditsTest}
+import org.mulesoft.als.common.diff.WorkspaceEditsTest
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
@@ -51,6 +51,14 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
 
   test("RAML 1 Extract type from sublevel property key") {
     val path = "refactorextract/sublevel-type.raml"
+    runTest(buildServer(), path, None)
+      .flatMap { result =>
+        checkExtractGolden(path, result)
+      }
+  }
+
+  test("RAML 1 Extract type defined using Json Schema") {
+    val path = "refactorextract/json-schema-type.raml"
     runTest(buildServer(), path, None)
       .flatMap { result =>
         checkExtractGolden(path, result)

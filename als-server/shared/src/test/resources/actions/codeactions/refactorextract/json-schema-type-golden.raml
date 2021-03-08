@@ -1,0 +1,24 @@
+#%RAML 1.0
+
+types:
+  newtype:
+    type: |-
+      {
+          "$id": "https://example.com/person.schema.json",
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "required": ["firstName"],
+          "type": "object",
+          "properties": {
+          "firstName": {
+              "type": "string"
+          }
+          }
+      }
+title: Inlined JSON Schema
+mediaType: application/json
+/endpoint:
+    get:
+        responses:
+            200:
+                body:
+                    type: newtype
