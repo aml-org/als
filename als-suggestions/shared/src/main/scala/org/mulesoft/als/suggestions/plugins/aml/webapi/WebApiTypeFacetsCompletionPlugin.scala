@@ -1,5 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi
 
+import amf.core.annotations.Inferred
 import amf.core.model.DataType
 import amf.core.model.domain.extensions.PropertyShape
 import amf.core.model.domain.{AmfObject, Shape}

@@ -64,13 +64,7 @@ case class ObjectInTree(obj: AmfObject,
       })
 
   private def inValue(f: FieldEntry) =
-    f.value.value.annotations.ast().exists(_.contains(amfPosition)) ||
-      f.value.annotations.ast().exists(inAstValue)
-
-  private def inAstValue(ast: YPart): Boolean = ast match {
-    case e: YMapEntry => e.value.contains(amfPosition)
-    case _            => false
-  }
+    f.value.value.annotations.ast().exists(_.contains(amfPosition))
 
   private def notInKey(a: Annotations) =
     a.find(classOf[SourceAST]) match {
@@ -103,9 +97,9 @@ case class ObjectInTree(obj: AmfObject,
 object ObjectInTreeBuilder {
 
   def fromUnit(bu: BaseUnit, position: AmfPosition, location: String, definedBy: Dialect): ObjectInTree = {
-    val branch =
-      bu.findSon(position, location, definedBy)
-    ObjectInTree(branch.obj, branch.branch, position, branch.fe)
+    val (obj, stack) =
+      bu.findSonWithStack(position, location, Seq((f: FieldEntry) => f.field != BaseUnitModel.References), definedBy)
+    ObjectInTree(obj, stack, position)
   }
 
   def fromSubTree(element: DomainElement,
