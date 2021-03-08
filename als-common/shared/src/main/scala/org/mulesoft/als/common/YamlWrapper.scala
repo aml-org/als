@@ -105,7 +105,8 @@ object YamlWrapper {
 
   implicit class YSequenceOps(seq: YSequence) extends FlowedStructure("[", "]", seq) {
     override def contains(amfPosition: AmfPosition, editionMode: Boolean = false): Boolean =
-      super.contains(amfPosition, editionMode) && seq.nodes.headOption.forall(_.range.columnFrom <= amfPosition.column)
+      super.contains(amfPosition, editionMode) &&
+        seq.nodes.headOption.forall(_.range.columnFrom <= amfPosition.column)
   }
 
   implicit class YMapEntryOps(entry: YMapEntry) extends CommonPartOps(entry) {
@@ -172,14 +173,17 @@ object YamlWrapper {
       map.entries.headOption.forall(_.range.columnFrom <= amfPosition.column)
 
     private def sameLevelBefore(amfPosition: AmfPosition, editionMode: Boolean): Boolean =
-      (editionMode && map.range.lineFrom > amfPosition.line && map.range.lineTo >= amfPosition.line && map.entries.nonEmpty)
+      editionMode && map.range.lineFrom > amfPosition.line && map.range.lineTo >= amfPosition.line && map.entries.nonEmpty
   }
 
   implicit class AlsYScalarOps(scalar: YScalar) extends CommonPartOps(scalar) {
     override def contains(amfPosition: AmfPosition, editionMode: Boolean = false): Boolean =
-      super.contains(amfPosition, editionMode) || (lineContains(amfPosition) && scalar.mark == NoMark)
-    def lineContains(amfPosition: AmfPosition): Boolean =
-      scalar.range.lineFrom <= amfPosition.line && ((scalar.range.lineTo >= amfPosition.line && scalar.range.columnFrom <= amfPosition.column) || scalar.value == null)
+      super.contains(amfPosition, editionMode) || // (lineContains(amfPosition) && scalar.mark == NoMark)
+        (scalar.range.lineFrom <= amfPosition.line && scalar.value == null) // blind guessing, we should find a better solution
+
+//    // todo: check why such hack is necessary, sensible case:  [val1, val2, *]
+//    private def lineContains(amfPosition: AmfPosition): Boolean =
+//      scalar.range.lineFrom <= amfPosition.line && ((scalar.range.lineTo >= amfPosition.line && scalar.range.columnFrom <= amfPosition.column) || scalar.value == null)
 
     def unmarkedRange(): InputRange =
       if (scalar.mark.isInstanceOf[QuotedMark])
@@ -204,13 +208,13 @@ object YamlWrapper {
         ast.contains(amfPosition, editionMode)
       case ast: YNode if ast.isNull =>
         true
+      case ast: YNode =>
+        ast.value.contains(amfPosition)
       case ast: YScalar =>
         AlsYScalarOps(ast).contains(amfPosition, editionMode)
-      case seq: YSequence => seq.contains(amfPosition, editionMode)
-      case _              => super.contains(amfPosition, editionMode)
+      case seq: YSequence =>
+        seq.contains(amfPosition, editionMode)
+      case _ => super.contains(amfPosition, editionMode)
     }
-
-    def isValue(amfPosition: AmfPosition): Boolean =
-      contains(amfPosition) && !isKey(amfPosition)
   }
 }

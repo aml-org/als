@@ -14,13 +14,12 @@ import scala.concurrent.Future
 object DiscriminatorFacet extends AMLCompletionPlugin {
   override def id: String = "DiscriminatorFacet"
 
-  override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
+  override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     request.amfObject match {
       case s: Shape if applies(s, request.fieldEntry) && !DiscriminatorObject.applies(request) =>
         Future { Seq(discriminatorSuggestion) }
       case _ => emptySuggestion
     }
-  }
 
   private lazy val discriminatorSuggestion: RawSuggestion =
     JsonSchemas.discriminatorProperty.toRaw("schemas")

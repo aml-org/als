@@ -17,7 +17,7 @@ object Async2SecuritySchemeType extends AMLCompletionPlugin {
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     request.branchStack.headOption match {
       case Some(s: SecurityScheme)
-          if ObjectInTree(s, Nil, request.position.toAmfPosition).fieldValue
+          if ObjectInTree(s, Nil, request.position.toAmfPosition, None).fieldValue
             .exists(_.field == SecuritySchemeModel.Type) =>
         Future(AMLEnumCompletionPlugin.suggestMapping(AsyncApi20SecuritySchemeObject.`type`))
       case _ => emptySuggestion

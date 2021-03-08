@@ -25,11 +25,10 @@ trait OASLikeRequiredObjectCompletionPlugin extends AMLCompletionPlugin with IsI
     if (isInsideRequired(yPartBranch)) resolve(ns)
     else Nil
 
-  private def resolve(ns: NodeShape): Seq[RawSuggestion] = {
+  private def resolve(ns: NodeShape): Seq[RawSuggestion] =
     ns.properties
       .flatMap(_.name.option())
       .map(RawSuggestion(_, isAKey = false))
-  }
 }
 
 object OASRequiredObjectCompletionPlugin extends OASLikeRequiredObjectCompletionPlugin

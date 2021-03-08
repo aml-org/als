@@ -143,17 +143,20 @@ object AmlCompletionRequestBuilder {
       amfInstance = amfInstance
     )
   }
-
+  /*
+      objInTree knowledge could be used in other features, if we start keeping track of every branch in a Unit it could
+      be a nice idea to have general cache for a `(BaseUnit, position) -> lazy objectInTree branch` (an ObjectInTreeManager)
+   */
   private def objInTree(baseUnit: BaseUnit, position: AmfPosition, definedBy: Dialect): ObjectInTree = {
-    val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position, baseUnit.location(), definedBy)
+    val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position, baseUnit.identifier, definedBy)
     objectInTree.obj match {
       case d: EncodesModel if d.fields.exists(DocumentModel.Encodes) =>
-        ObjectInTree(d.encodes, Seq(objectInTree.obj) ++ objectInTree.stack, position)
+        ObjectInTree(d.encodes, Seq(objectInTree.obj) ++ objectInTree.stack, position, None)
       case _ => objectInTree
     }
   }
 
-  private def prefix(yPartBranch: YPartBranch, position: DtoPosition, content: String): String = {
+  private def prefix(yPartBranch: YPartBranch, position: DtoPosition, content: String): String =
     yPartBranch.node match {
       case node: MutRef =>
         node.origValue.toString.substring(
@@ -177,8 +180,9 @@ object AmlCompletionRequestBuilder {
                 val diff = position.column - node.range.columnFrom - {
                   if (node.asScalar.exists(_.mark.plain)) 0 else 1
                 } // if there is a quotation mark, adjust the range according
-
-                next.substring(0, Math.max(diff, 0))
+                if (diff > next.length)
+                  "" // todo: should not be necessary, but `contains` with scalar values inside flow arrays are faulty
+                else next.substring(0, Math.max(diff, 0))
               } else ""
             case YType.Bool =>
               val line = node.asScalar.map(_.text).getOrElse("")
@@ -193,7 +197,6 @@ object AmlCompletionRequestBuilder {
         // add trailing space to avoid checking if it ends with `{, [, `, "`
         s"$textContent ".split(Array('{', '[', ''', '"')).lastOption.getOrElse("").trim
     }
-  }
 
   def forElement(element: DomainElement,
                  current: DomainElement,
@@ -206,7 +209,7 @@ object AmlCompletionRequestBuilder {
     val objectInTree =
       ObjectInTreeBuilder.fromSubTree(element,
                                       parent.position.toAmfPosition,
-                                      parent.baseUnit.location(),
+                                      parent.baseUnit.identifier,
                                       newStack,
                                       parent.actualDialect)
     new AmlCompletionRequest(

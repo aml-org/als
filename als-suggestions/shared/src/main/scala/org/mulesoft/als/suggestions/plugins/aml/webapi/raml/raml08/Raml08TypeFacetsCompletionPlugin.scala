@@ -1,10 +1,10 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml08
 
+import amf.core.annotations.Inferred
 import amf.core.metamodel.domain.ShapeModel
 import amf.core.model.domain.Shape
 import amf.core.parser.Value
 import amf.plugins.document.vocabularies.model.domain.NodeMapping
-import amf.plugins.document.webapi.annotations.Inferred
 import amf.plugins.domain.shapes.metamodel.ScalarShapeModel
 import amf.plugins.domain.shapes.models.{AnyShape, ScalarShape}
 import amf.plugins.domain.webapi.models.Payload
