@@ -1,0 +1,38 @@
+documentChanges:
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-fragments/DataType.raml: create
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-fragments/declared-raml-json-schema-type.raml:
+    -
+      from:
+        line: 3
+        column: 10
+      to:
+        line: 16
+        column: 0
+      content: |
+        +
+
+            type: !include DataType.raml
+  file://als-actions/shared/src/test/resources/codeactions/extract-element/raml-fragments/DataType.raml:
+    -
+      from:
+        line: 0
+        column: 0
+      to:
+        line: 0
+        column: 0
+      content: |
+        +
+        #%RAML 1.0 DataType
+        type:
+          type: |-
+            {
+                "$id": "https://example.com/person.schema.json",
+                "$schema": "http://json-schema.org/draft-07/schema#",
+                "required": ["firstName"],
+                "type": "object",
+                "properties": {
+                "firstName": {
+                    "type": "string"
+                }
+                }
+            }
