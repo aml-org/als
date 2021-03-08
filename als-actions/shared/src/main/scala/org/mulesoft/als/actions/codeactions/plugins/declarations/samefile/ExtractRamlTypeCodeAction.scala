@@ -6,6 +6,7 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionRequestParams,
   CodeActionResponsePlugin
 }
+import org.mulesoft.als.actions.codeactions.plugins.declarations.ExtractRamlType
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.ExtractorCommon
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.webapi.raml.RamlTypeExtractor
 import org.mulesoft.lsp.edit.TextEdit
@@ -14,7 +15,9 @@ import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-case class ExtractRamlTypeCodeAction(params: CodeActionRequestParams) extends ExtractSameFileDeclaration {
+case class ExtractRamlTypeCodeAction(params: CodeActionRequestParams)
+    extends ExtractSameFileDeclaration
+    with ExtractRamlType {
   override protected val kindTitle: CodeActionKindTitle = ExtractRamlTypeCodeAction
 
   override lazy val isApplicable: Boolean =

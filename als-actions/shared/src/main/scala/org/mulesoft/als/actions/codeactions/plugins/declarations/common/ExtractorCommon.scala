@@ -1,16 +1,16 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.common
 
 import amf.core.errorhandling.UnhandledErrorHandler
-import amf.core.model.document.{BaseUnit, Document}
+import amf.core.model.document.BaseUnit
 import amf.core.model.domain.{AmfObject, DomainElement}
 import amf.core.remote.{Mimes, Vendor}
 import amf.plugins.document.vocabularies.emitters.instances.AmlDomainElementEmitter
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.webapi.parser.spec.common.emitters.WebApiDomainElementEmitter
+import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.common.YamlUtils.isJson
 import org.mulesoft.als.common.YamlWrapper.YNodeImplicits
 import org.mulesoft.als.common.dtoTypes.PositionRange
-import org.mulesoft.als.common.{ObjectInTree, YPartBranch}
 import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, AmfObjectImp, BaseUnitImp}
 import org.yaml.model._
@@ -19,13 +19,6 @@ import org.yaml.render.{JsonRender, JsonRenderOptions, YamlRender, YamlRenderOpt
 import scala.annotation.tailrec
 
 object ExtractorCommon {
-
-  /**
-    * Selected object if there is a clean match in the range and it is a declarable, or the parents range
-    */
-  def amfObject(maybeTree: Option[ObjectInTree], dialect: Dialect): Option[AmfObject] =
-    extractable(maybeTree.map(_.obj), dialect) orElse
-      extractable(maybeTree.flatMap(_.stack.headOption), dialect)
 
   def existAnyOtherDeclaration(objs: Seq[AmfObject], bu: BaseUnit): Boolean =
     !bu.declarations.forall(objs.contains)
@@ -68,11 +61,6 @@ object ExtractorCommon {
 
     allRanges.map(PositionRange(_)).toSeq
   }
-
-  private def extractable(maybeObject: Option[AmfObject], dialect: Dialect) =
-    maybeObject
-      .filterNot(_.isInstanceOf[Document])
-      .find(o => o.declarableKey(dialect).isDefined)
 
   /**
     * Emit a new domain element
