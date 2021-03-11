@@ -52,7 +52,8 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
     entries
       .find(fe => fe.field.value == Namespace.Document + "definedBy")
       .flatMap(t => t.value.value.annotations.ast().map((t, _)))
-      .map(target => RelationshipLink(source, target._2, getName(target._1.value.value), LinkTypes.TRAITRESOURCES))
+      .map(target =>
+        RelationshipLink(source, target._2, getName(target._1.value.value), None, LinkTypes.TRAITRESOURCES))
 
   private def parametrizedDeclarationTargetsWithPosition(fe: FieldEntry): Seq[RelationshipLink] =
     fe.value.value match {
@@ -95,6 +96,7 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
               sourceEntry,
               maybeParent.getOrElse(sn.node),
               getName(fe.value.value),
+              None,
               linkTypes
             )
           }

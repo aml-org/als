@@ -9,7 +9,6 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionRequestParams,
   CodeActionResponsePlugin
 }
-import org.mulesoft.als.actions.codeactions.plugins.declarations.common.ExtractorCommon
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.webapi.raml.RamlTypeExtractor
 import org.mulesoft.als.actions.codeactions.plugins.declarations.fragment.webapi.raml.{
   FragmentBundle,
@@ -26,7 +25,7 @@ case class ExtractRamlDeclarationToFragmentCodeAction(params: CodeActionRequestP
   override protected val kindTitle: CodeActionKindTitle = ExtractRamlTypeToFragmentCodeAction
 
   override lazy val amfObject: Option[AmfObject] = {
-    val maybeObject = ExtractorCommon.amfObject(maybeTree, params.dialect)
+    val maybeObject = extractAmfObject(maybeTree, params.dialect)
     fragmentBundleForObject(maybeObject).fold { // if empty
       maybeTree.flatMap(t => t.stack.headOption).collect {
         case d: CustomDomainProperty => d // declared annotation type

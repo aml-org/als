@@ -154,7 +154,61 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      {
+        "name": "schemes",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 11,
+            "character": 4
+          },
+          "end": {
+            "line": 11,
+            "character": 8
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 11,
+            "character": 4
+          },
+          "end": {
+            "line": 11,
+            "character": 8
+          }
+        },
+        "children": [
+          {
+            "name": "test",
+            "kind": 7,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 11,
+                "character": 4
+              },
+              "end": {
+                "line": 11,
+                "character": 8
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 11,
+                "character": 4
+              },
+              "end": {
+                "line": 11,
+                "character": 8
+              }
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
   },
   {
     "name": "documentation",

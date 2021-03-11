@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.modules.rename.raml
 
-class ServerRenameTests extends RAMLRenameTest {
+class RamlServerRenameTests extends RAMLRenameTest {
 
   test("test 001") { runTest("test001/api.raml", "MyType2") }
   test("test 002") { runTest("test002/api.yaml", "RENAMED") }
@@ -25,4 +25,7 @@ class ServerRenameTests extends RAMLRenameTest {
   test("test 021 - JSON") { runTest("test021/api.json", "RENAMED") }
   test("test 022 - RAML Expression with union") { runTest("test022/api.raml", "RENAMED") }
   test("test 023 - RAML Expression with triple union") { runTest("test023/api.raml", "RENAMED") }
+  test("test 024 - RAML Expression with simple array") { runTest("test024/api.raml", "RENAMED") }
+  test("test 025 - RAML Expression with union array") { runTest("test025/api.raml", "RENAMED") }
+  test("test 026 - RAML should be able to on the value") { runTestDisabled("test026/api.raml") }
 }

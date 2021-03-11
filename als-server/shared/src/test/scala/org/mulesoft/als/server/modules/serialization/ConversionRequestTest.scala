@@ -1,12 +1,11 @@
 package org.mulesoft.als.server.modules.serialization
 
-import amf.core.remote.{AsyncApi20, Oas, Oas20, Oas30, Raml, Raml08, Raml10, Syntax, Vendor}
+import amf.core.remote._
 import org.mulesoft.als.server.feature.serialization.{ConversionParams, ConversionRequestType, SerializedDocument}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.scalatest.Assertion
-import org.scalatest.exceptions.TestFailedException
 
 import scala.concurrent.{ExecutionContext, Future}
 

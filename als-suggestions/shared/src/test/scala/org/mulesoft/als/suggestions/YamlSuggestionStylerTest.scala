@@ -1,19 +1,19 @@
 package org.mulesoft.als.suggestions
 
 import amf.core.parser.{Position => AmfPosition}
-import org.mulesoft.als.common.{NodeBranchBuilder, YPartBranch}
-import org.scalatest.AsyncFunSuite
 import org.mulesoft.als.common.diff.FileAssertionTest
+import org.mulesoft.als.common.dtoTypes.Position
+import org.mulesoft.als.common.{NodeBranchBuilder, YPartBranch}
 import org.mulesoft.als.suggestions.patcher.{ColonToken, PatchedContent, QuoteToken}
 import org.mulesoft.als.suggestions.styler.{StylerParams, YamlSuggestionStyler}
-import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.lsp.configuration.FormattingOptions
+import org.scalatest.AsyncFunSuite
 import org.yaml.model.{YDocument, YNode}
 import org.yaml.parser.YamlParser
 
 class YamlSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
 
-  val dummyYPart = YPartBranch(YNode.Null, AmfPosition(0, 0), Nil, isJson = false)
+  val dummyYPart = YPartBranch(YNode.Null, AmfPosition(0, 0), Nil, isJson = false, isInFlow = false)
 
   test("Formatting options - indent") {
     val content =

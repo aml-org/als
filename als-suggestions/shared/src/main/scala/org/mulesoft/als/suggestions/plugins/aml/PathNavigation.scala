@@ -14,12 +14,11 @@ import scala.concurrent.Future
 case class PathNavigation(fullUrl: String, platform: Platform, env: Environment, prefix: String)
     extends PathCompletion {
 
-  private val (filePath, navPath) = {
+  private val (filePath, navPath) =
     fullUrl.split("#").toList match {
       case head :: tail => (head, tail.headOption.getOrElse(""))
       case _            => ("", "")
     }
-  }
 
   def suggest(): Future[Seq[RawSuggestion]] = {
     val prev =
@@ -31,8 +30,7 @@ case class PathNavigation(fullUrl: String, platform: Platform, env: Environment,
   }
 
   private def nodes(): Future[Seq[String]] = {
-
-    val keys = navPath.split('/').reverse
+    val keys = navPath.split('/').filterNot(_.isEmpty)
     resolveRootNode().map { n =>
       n.map(r => matchNode(keys.toList, r)).getOrElse(Nil)
     }
@@ -42,22 +40,23 @@ case class PathNavigation(fullUrl: String, platform: Platform, env: Environment,
     val map  = nodeNames(node)
     val keys = map.map(t => if (t._2.tagType == YType.Map || t._2.tagType == YType.Seq) t._1 + "/" else t._1).toSeq
     list match {
-      case Nil         => keys
-      case head :: Nil => keys
+      case Nil => keys
       case head :: tail =>
-        matchNode(tail, map(head))
+        map
+          .get(head)
+          .map(matchNode(tail, _))
+          .getOrElse(Seq.empty)
     }
   }
 
-  private def nodeNames(node: YNode): Map[String, YNode] = {
+  private def nodeNames(node: YNode): Map[String, YNode] =
     node.tagType match {
       case YType.Map => node.as[YMap].entries.flatMap(e => e.key.asScalar.map(t => (t.text, e.value))).toMap
       case YType.Seq => node.as[YSequence].nodes.zipWithIndex.map(t => (t._2.toString, t._1)).toMap
       case _         => Map.empty
     }
-  }
 
-  def resolveRootNode(): Future[Option[YNode]] = {
+  def resolveRootNode(): Future[Option[YNode]] =
     platform.fetchContent(filePath, env).map { c =>
       val mime = c.mime.orElse(
         platform
@@ -71,5 +70,4 @@ case class PathNavigation(fullUrl: String, platform: Platform, env: Environment,
         case _ => None
       }
     }
-  }
 }

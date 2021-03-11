@@ -390,6 +390,36 @@
     "command": null
   },
   {
+    "label": "reference-array-with-params.raml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11reference-array-with-params.raml",
+    "filterText": "reference-array-with-params.raml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 34
+        },
+        "end": {
+          "line": 7,
+          "character": 34
+        }
+      },
+      "newText": "reference-array-with-params.raml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "reference-array.raml",
     "kind": [],
     "detail": "unknown",
@@ -444,6 +474,36 @@
         }
       },
       "newText": "reference-endpoint.raml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "reference-inside-flow-array.raml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11reference-inside-flow-array.raml",
+    "filterText": "reference-inside-flow-array.raml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 34
+        },
+        "end": {
+          "line": 7,
+          "character": 34
+        }
+      },
+      "newText": "reference-inside-flow-array.raml"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

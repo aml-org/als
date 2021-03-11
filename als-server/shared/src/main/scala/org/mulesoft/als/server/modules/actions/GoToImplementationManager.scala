@@ -1,12 +1,12 @@
 package org.mulesoft.als.server.modules.actions
 
-import org.mulesoft.amfintegration.relationships.LinkTypes
 import org.mulesoft.als.actions.references.FindReferences
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
+import org.mulesoft.amfintegration.relationships.LinkTypes
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.configuration.StaticRegistrationOptions
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
@@ -80,7 +80,7 @@ class GoToImplementationManager(val workspace: WorkspaceManager,
               .map(_._2.filter(_.linkType == LinkTypes.TRAITRESOURCES)),
             cu.yPartBranch
           )
-          .map(_.map(_._1))
+          .map(_.map(_.source))
 
       })
       .map(Left(_))

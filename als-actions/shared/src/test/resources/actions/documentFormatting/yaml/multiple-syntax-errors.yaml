@@ -1,0 +1,12 @@
+
+array:
+  -     valid
+  -/-invalid
+- still invalid
+
+key:
+  val1:       val
+  val2:   val
+  syntax error
+  val22:  22
+

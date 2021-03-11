@@ -1,8 +1,8 @@
 package org.mulesoft.als.common.diff
 
-import java.io.{File, PrintWriter, Reader, StringWriter}
+import org.mulesoft.als.common.diff.Diff.{Delta, Equals, PathNode}
 
-import Diff.{Delta, PathNode, Equals}
+import java.io.{File, PrintWriter, Reader, StringWriter}
 
 /**
   * Diff class to compare objects.
@@ -145,7 +145,7 @@ object Diff {
     }
   }
 
-  class Delta[T](aPosition: Int, aLines: List[T], bPosition: Int, bLines: List[T]) {
+  class Delta[T](aPosition: Int, val aLines: List[T], bPosition: Int, val bLines: List[T]) {
     val t: Type = if (aLines.isEmpty) Add else if (bLines.isEmpty) Delete else Change
 
     /**

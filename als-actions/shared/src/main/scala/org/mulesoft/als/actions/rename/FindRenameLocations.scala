@@ -9,8 +9,7 @@ import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
-import org.mulesoft.amfintegration.relationships.AliasRelationships.FullLink
-import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
+import org.mulesoft.amfintegration.relationships.{AliasInfo, FullLink, RelationshipLink}
 import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit}
 import org.mulesoft.lsp.feature.common.VersionedTextDocumentIdentifier
 import org.yaml.model.{YPart, YScalar}
@@ -42,7 +41,14 @@ object FindRenameLocations {
 
   private def refsToRenameLocation(newName: String, refs: Seq[FullLink], origKey: YScalar): Seq[RenameLocation] = {
     refs
-      .map(t => RenameLocation(t._3, t._1.uri, PositionRange(t._1.range), newName, origKey.text)) :+
+      .map(
+        t =>
+          RenameLocation(t.sourceName,
+                         t.sourceValue,
+                         t.source.uri,
+                         PositionRange(t.source.range),
+                         newName,
+                         origKey.text)) :+
       RenameLocation(newName, origKey.location.sourceName, PositionRange(origKey.unmarkedRange()))
   }
 
@@ -59,19 +65,20 @@ object FindRenameLocations {
 
   private def toTextDocumentEdit(editsByUri: Map[String, Seq[TextEdit]]): Seq[TextDocumentEdit] =
     editsByUri.keys.map { uri =>
-      TextDocumentEdit(VersionedTextDocumentIdentifier(uri, None), editsByUri(uri))
+      TextDocumentEdit(VersionedTextDocumentIdentifier(uri, None), editsByUri(uri).distinct)
     }.toSeq
 }
 
 case class RenameLocation(newName: String, uri: String, replaceRange: PositionRange)
 
 object RenameLocation {
-  def apply(maybeYPart: Option[YPart],
+  def apply(nameYPart: Option[YPart],
+            valueYPart: Option[YPart],
             uri: String,
             replaceRange: PositionRange,
             newName: String,
-            oldName: String): RenameLocation =
-    maybeYPart match {
+            oldName: String): RenameLocation = {
+    nameYPart.filter(_.toString.contains(oldName)).orElse(valueYPart) match {
       case Some(yPart) =>
         val nodeContent = yPart.toString
         val i = nodeContent
@@ -87,4 +94,5 @@ object RenameLocation {
         new RenameLocation(newName, uri, replaceRange)
 
     }
+  }
 }

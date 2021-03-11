@@ -8,6 +8,7 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
 }
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.{
   BaseElementDeclarableExtractors,
+  DeclaredElementKnowledge,
   ExtractorCommon
 }
 import org.mulesoft.als.common.SemanticNamedElement._
@@ -31,7 +32,11 @@ class DeleteDeclaredNodeCodeAction(override val params: CodeActionRequestParams)
     extends CodeActionResponsePlugin
     with BaseElementDeclarableExtractors {
 
-  override val isApplicable: Boolean = maybeTree.exists(t => t.isDeclared() && t.fieldEntry.exists(_.isSemanticName))
+  override val isApplicable: Boolean =
+    maybeTree.exists(
+      t =>
+        t.isDeclared() &&
+          t.fieldEntry.exists(_.isSemanticName))
 
   override protected def telemetry: TelemetryProvider = params.telemetryProvider
 

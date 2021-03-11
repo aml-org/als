@@ -46,7 +46,7 @@ class WorkspaceParserRepository(logger: Logger) extends Repository[ParsedUnit] {
 
   def updateUnit(result: AmfParseResult): Unit = {
     if (tree.contains(result.baseUnit.identifier)) throw new Exception("Cannot update an unit from the tree")
-    val unit = ParsedUnit(result.baseUnit, inTree = false, result.definedBy)
+    val unit = ParsedUnit(result.baseUnit, inTree = false, result.definedBy, result.eh)
     updateUnit(result.baseUnit.identifier, unit)
   }
 

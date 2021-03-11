@@ -1,8 +1,7 @@
 package org.mulesoft.als.server.workspace.fileusage
 
 import org.mulesoft.als.actions.fileusage.FindFileUsages
-import org.mulesoft.lsp.feature.common.{Location, Position, Range, TextDocumentIdentifier, TextDocumentItem}
-import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
+import org.mulesoft.lsp.feature.common.{Location, Position, Range}
 import org.scalatest.Succeeded
 
 import scala.concurrent.{ExecutionContext, Future}

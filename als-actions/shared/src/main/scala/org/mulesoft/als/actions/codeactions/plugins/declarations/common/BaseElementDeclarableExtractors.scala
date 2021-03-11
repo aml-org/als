@@ -1,8 +1,10 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.common
 
+import amf.core.model.document.Document
 import amf.core.model.domain.AmfObject
 import amf.core.remote.{Mimes, Vendor}
 import amf.core.utils.InflectorBase.Inflector
+import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionRequestParams
 import org.mulesoft.als.common.YamlUtils.isJson
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
@@ -48,7 +50,20 @@ trait BaseElementDeclarableExtractors {
   protected lazy val yPartBranch: Option[YPartBranch] =
     position.map(params.yPartBranch.getCachedOrNew(_, params.uri))
 
-  protected lazy val amfObject: Option[AmfObject] = ExtractorCommon.amfObject(maybeTree, params.dialect)
+  protected lazy val amfObject: Option[AmfObject] =
+    extractAmfObject(maybeTree, params.dialect)
+
+  /**
+    * Selected object if there is a clean match in the range and it is a declarable, or the parents range
+    */
+  protected final def extractAmfObject(maybeTree: Option[ObjectInTree], dialect: Dialect): Option[AmfObject] =
+    extractable(maybeTree.map(_.obj), dialect) orElse
+      extractable(maybeTree.flatMap(_.stack.headOption), dialect)
+
+  protected def extractable(maybeObject: Option[AmfObject], dialect: Dialect): Option[AmfObject] =
+    maybeObject
+      .filterNot(_.isInstanceOf[Document])
+      .find(o => o.declarableKey(dialect).isDefined)
 
   /**
     * The original node with lexical info for the declared node

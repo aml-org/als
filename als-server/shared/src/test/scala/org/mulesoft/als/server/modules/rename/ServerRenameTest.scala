@@ -2,6 +2,7 @@ package org.mulesoft.als.server.modules.rename
 
 import org.mulesoft.als.common.MarkerFinderTest
 import org.mulesoft.als.common.diff.WorkspaceEditsTest
+import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
@@ -45,19 +46,53 @@ abstract class ServerRenameTest extends LanguageServerBaseTest with WorkspaceEdi
 
         val filePath = s"file:///$path"
         openFile(server)(filePath, markerInfo.content)
-        val renameHandler        = server.resolveHandler(RenameRequestType).value
-        val prepareRenameHandler = server.resolveHandler(PrepareRenameRequestType).value
-        prepareRenameHandler(
-          PrepareRenameParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(position)))
-          .flatMap { pr =>
-            assert(pr.isDefined) // check if the rename is actually valid
-            renameHandler(
-              RenameParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(position), newName))
-              .map(workspaceEdit => {
-                closeFile(server)(filePath)
-                assertWorkspaceEdits(workspaceEdit, goldenPath, content)
-              })
-          }
+
+        prepareRename(server, position, filePath).flatMap { pr =>
+          assert(pr.isDefined) // check if the rename is actually valid
+          doRename(newName, server, goldenPath, content, position, filePath)
+        }
+      })
+  }
+
+  def runTestDisabled(path: String): Future[Assertion] = withServer[Assertion](buildServer()) { server =>
+    val original                = filePath(path)
+    var content: Option[String] = None
+
+    platform
+      .resolve(original)
+      .flatMap(contents => {
+
+        val fileContentsStr = contents.stream.toString
+        val markerInfo      = this.findMarker(fileContentsStr, "*")
+        content = Option(markerInfo.content)
+        val position = markerInfo.position
+
+        val filePath = s"file:///$path"
+        openFile(server)(filePath, markerInfo.content)
+
+        prepareRename(server, position, filePath).flatMap { pr =>
+          assert(pr.isEmpty) // check if the rename is actually valid
+        }
+      })
+  }
+
+  private def prepareRename(server: LanguageServer, position: Position, filePath: String) = {
+    val prepareRenameHandler = server.resolveHandler(PrepareRenameRequestType).value
+    prepareRenameHandler(
+      PrepareRenameParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(position)))
+  }
+
+  private def doRename(newName: String,
+                       server: LanguageServer,
+                       goldenPath: String,
+                       content: Option[String],
+                       position: Position,
+                       filePath: String) = {
+    val renameHandler = server.resolveHandler(RenameRequestType).value
+    renameHandler(RenameParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(position), newName))
+      .flatMap(workspaceEdit => {
+        closeFile(server)(filePath)
+        assertWorkspaceEdits(workspaceEdit, goldenPath, content)
       })
   }
 

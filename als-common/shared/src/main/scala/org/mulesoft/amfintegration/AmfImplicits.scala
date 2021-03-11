@@ -10,7 +10,7 @@ import amf.core.parser.{Annotations, FieldEntry, Value, Position => AmfPosition}
 import amf.plugins.document.vocabularies.model.document.{Dialect, Vocabulary}
 import amf.plugins.document.vocabularies.model.domain._
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
-import amf.plugins.document.webapi.annotations.{DeclarationKey, DeclarationKeys, ExternalJsonSchemaShape, Inferred}
+import amf.plugins.document.webapi.annotations._
 import amf.plugins.domain.shapes.annotations.ParsedFromTypeExpression
 import amf.plugins.domain.webapi.metamodel.AbstractModel
 import org.mulesoft.als.common.YamlWrapper
@@ -29,7 +29,7 @@ object AmfImplicits {
       PositionRange(Position(li.range.start), Position(li.range.end))
         .contains(Position(pos))
 
-    def atEnd(pos: AmfPosition) = {
+    def atEnd(pos: AmfPosition): Boolean = {
       li.range.end.line > pos.line || (li.range.end.line == pos.line && li.range.end.column < pos.column)
     }
 
@@ -98,6 +98,8 @@ object AmfImplicits {
     def externalJsonSchemaShape: Option[YMapEntry] = ann.find(classOf[ExternalJsonSchemaShape]).map(_.original)
 
     def declarationKeys(): List[DeclarationKey] = ann.find(classOf[DeclarationKeys]).map(_.keys).getOrElse(List.empty)
+
+    def schemeIsJsonSchema: Boolean = ann.contains(classOf[SchemaIsJsonSchema])
   }
 
   implicit class FieldEntryImplicit(f: FieldEntry) {
@@ -168,7 +170,7 @@ object AmfImplicits {
 
     def metaURIs: List[String] = amfObject.meta.`type` match {
       case head :: tail if isAbstract =>
-        (head.iri() + "Abstract") +: (tail.map(_.iri()))
+        (head.iri() + "Abstract") +: tail.map(_.iri())
       case l => l.map(_.iri())
     }
 

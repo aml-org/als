@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules.codeactions
 
 import org.mulesoft.als.common.MarkerInfo
-import org.mulesoft.als.common.diff.{FileAssertionTest, WorkspaceEditsTest}
+import org.mulesoft.als.common.diff.WorkspaceEditsTest
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
@@ -33,7 +33,7 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
       }
   }
 
-  test("OAS 3 example should respond with the extract element to a declaration") {
+  ignore("OAS 3 example should respond with the extract element to a declaration") {
     val path = "refactorextract/extract-example-oas3.yaml"
     runTest(buildServer(), path, None)
       .flatMap { result =>
@@ -57,6 +57,14 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
       }
   }
 
+  test("RAML 1 Extract type defined using Json Schema") {
+    val path = "refactorextract/json-schema-type.raml"
+    runTest(buildServer(), path, None)
+      .flatMap { result =>
+        checkExtractGolden(path, result)
+      }
+  }
+
   test("RAML 1 delete type node") {
     val path = "delete/raml-type.raml"
     runTest(buildServer(), path, None)
@@ -65,7 +73,7 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
       }
   }
 
-  test("Oas 3 delete type node (path ref") {
+  ignore("OAS 3 delete type node (path ref)") {
     val path = "delete/oas3-type.yaml"
     runTest(buildServer(), path, None)
       .flatMap { result =>
@@ -89,16 +97,16 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
     val goldenResolved = filePath(platform.encodeURI(goldenPath))
 
     for {
-      goldenContent <- this.platform.resolve(goldenResolved)
-      content       <- this.platform.resolve(resolved).map(_.stream.toString)
-    } yield {
-      val marker = findMarker(content)
-      val maybeEdit = result
-        .find(ca => ca.kind.contains(kind))
-        .flatMap(_.edit)
-      maybeEdit.isDefined should be(true)
-      assertWorkspaceEdits(maybeEdit.get, goldenPath, Some(marker.content))
-    }
+      content <- this.platform.resolve(resolved).map(_.stream.toString)
+      assert <- {
+        val marker = findMarker(content)
+        val maybeEdit = result
+          .find(ca => ca.kind.contains(kind))
+          .flatMap(_.edit)
+        maybeEdit.isDefined should be(true)
+        assertWorkspaceEdits(maybeEdit.get, goldenResolved, Some(marker.content))
+      }
+    } yield assert
   }
 
   override def rootPath: String = "actions/codeactions"

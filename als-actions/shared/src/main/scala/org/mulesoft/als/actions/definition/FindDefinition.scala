@@ -1,9 +1,9 @@
 package org.mulesoft.als.actions.definition
 
-import org.mulesoft.amfintegration.relationships.{AliasInfo, AliasRelationships, RelationshipLink}
 import org.mulesoft.als.common.cache.YPartBranchCached
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
+import org.mulesoft.amfintegration.relationships.{AliasInfo, AliasRelationships, RelationshipLink}
 import org.mulesoft.lsp.feature.common.{Location, LocationLink}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -20,9 +20,10 @@ object FindDefinition {
       relationships <- allRelationships
       aliases       <- allAliases
     } yield
-      findByPosition(uri,
-                     AliasRelationships.getLinks(aliases, relationships, yPartBranchCached).map(fl => (fl._1, fl._2)),
-                     position)
+      findByPosition(
+        uri,
+        AliasRelationships.getLinks(aliases, relationships, yPartBranchCached).map(fl => (fl.source, fl.destination)),
+        position)
         .map(toLocationLink)
         .sortWith(sortInner)
 
