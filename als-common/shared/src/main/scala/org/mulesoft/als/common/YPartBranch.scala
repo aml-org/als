@@ -270,7 +270,8 @@ object NodeBranchBuilder {
           if (e.value.range.toPositionRange.end < Position(amfPosition))
             Some(e.value) // the position was in an YNonContent after the `key: `
           else Some(e.key)
-        case _ => parts.lastOption
+        case _ =>
+          parts.lastOption
       }
     } else
       parts.lastOption

@@ -12,7 +12,7 @@ import org.mulesoft.als.common.YamlWrapper.AlsYPart
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.FieldEntryOrdering
-import org.yaml.model.{YMapEntry, YPart}
+import org.yaml.model.{YMapEntry, YNode}
 
 case class ObjectInTree(obj: AmfObject,
                         stack: Seq[AmfObject],
@@ -98,7 +98,7 @@ object ObjectInTreeBuilder {
 
   def fromUnit(bu: BaseUnit, position: AmfPosition, location: String, definedBy: Dialect): ObjectInTree = {
     val (obj, stack) =
-      bu.findSonWithStack(position, location, Seq((f: FieldEntry) => f.field != BaseUnitModel.References), definedBy)
+      bu.findSonWithStack(position, location, definedBy)
     ObjectInTree(obj, stack, position)
   }
 
@@ -107,7 +107,7 @@ object ObjectInTreeBuilder {
                   location: String,
                   previousStack: Seq[AmfObject],
                   definedBy: Dialect): ObjectInTree = {
-    val branch = element.findSon(position, location, definedBy)
-    ObjectInTree(branch.obj, branch.branch ++ previousStack, position, branch.fe)
+    val (obj, stack) = element.findSonWithStack(position, location, definedBy)
+    ObjectInTree(obj, stack ++ previousStack, position)
   }
 }

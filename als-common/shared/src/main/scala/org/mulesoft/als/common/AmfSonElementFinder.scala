@@ -1,80 +1,28 @@
 package org.mulesoft.als.common
 
-import amf.core.metamodel.{Field, ModelDefaultBuilder}
 import amf.core.annotations.SourceAST
 import amf.core.metamodel.ModelDefaultBuilder
 import amf.core.metamodel.Type.ArrayLike
 import amf.core.metamodel.document.{BaseUnitModel, DocumentModel}
 import amf.core.metamodel.domain.{DataNodeModel, DomainElementModel, ShapeModel}
-import amf.core.model.domain._
-import amf.core.parser
+import amf.core.model.domain.{AmfArray, AmfObject, DataNode}
 import amf.core.parser.{FieldEntry, Position => AmfPosition}
 import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.DialectDomainElement
 import amf.plugins.document.webapi.annotations.DeclarationKeys
-import amf.plugins.domain.webapi.metamodel.bindings.{
-  ChannelBindingModel,
-  EmptyBindingModel,
-  MessageBindingModel,
-  OperationBindingModel,
-  OperationBindingsModel,
-  ServerBindingModel,
-  ServerBindingsModel
-}
 import amf.plugins.domain.webapi.metamodel.bindings._
 import org.mulesoft.als.common.YamlWrapper._
-import org.mulesoft.amfintegration.AmfImplicits._
-import org.yaml.model.YPart
-import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, _}
 
-import scala.language.implicitConversions
-import scala.annotation.tailrec
-import scala.collection.mutable
-import scala.collection.mutable.{ArrayBuffer, ListBuffer}
+import scala.collection.mutable.ListBuffer
 
 object AmfSonElementFinder {
 
   implicit class AlsAmfObject(obj: AmfObject) {
 
-    private def sonContainsNonVirtualPosition(amfElement: AmfElement, amfPosition: AmfPosition): Boolean =
-      amfElement match {
-        case amfObject: AmfObject =>
-          amfObject.fields.fields().exists { f =>
-            (f.value.annotations.isVirtual && sonContainsNonVirtualPosition(f.value.value, amfPosition))
-          }
-      }
-
-    private def positionFinderFN(amfPosition: AmfPosition, location: Option[String]): FieldEntry => Boolean =
-      (f: FieldEntry) => {
-        val value = f.value.value
-        location.forall(l => value.annotations.location().isEmpty || value.annotations.location().contains(l)) &&
-        (value match {
-          case arr: AmfArray =>
-            f.isArrayIncluded(amfPosition) ||
-              f.value.annotations.isSynthesized || (f.value.annotations.lexicalInformation().isEmpty &&
-              arr.values
-                .collectFirst({
-                  case obj: AmfObject
-                      if f.value.annotations.containsAstPosition(amfPosition).getOrElse(true) &&
-                        (obj.annotations.isVirtual &&
-                          sonContainsNonVirtualPosition(obj, amfPosition) || obj.containsPosition(amfPosition)) =>
-                    obj
-                })
-                .nonEmpty)
-
-          case v =>
-            f.value.annotations.containsAstPosition(amfPosition).getOrElse(true) &&
-              v.annotations
-                .ast()
-                .map(ast => ast.contains(amfPosition, editionMode = true))
-                .getOrElse(f.value.annotations.isSynthesized || f.value.value.annotations.isVirtual)
-        })
-      }
-
-    def findSon(amfPosition: AmfPosition, filterFns: Seq[FieldEntry => Boolean], definedBy: Dialect): AmfObject =
-      findSonWithStack(amfPosition, "", filterFns, definedBy)._1
+    def findSon(amfPosition: AmfPosition, definedBy: Dialect): AmfObject =
+      findSonWithStack(amfPosition, "", definedBy)._1
 
     case class SonFinder(location: String, definedBy: Dialect, amfPosition: AmfPosition) {
 
@@ -94,7 +42,7 @@ object AmfSonElementFinder {
       )
 
       // only object can have sons. Scalar and arrays are field from objects.
-      def buildStack(obj: AmfObject): Seq[(AmfObject, Option[FieldEntry])] = {
+      def buildStack(obj: AmfObject): Seq[(AmfObject, Option[FieldEntry])] =
         if (traversed.contains(obj)) Nil
         else {
           traversed += obj
@@ -104,9 +52,8 @@ object AmfSonElementFinder {
           }
           son.map(buildStack).getOrElse(Nil) :+ (obj, f)
         }
-      }
 
-      def nextObject(fe: FieldEntry, parent: AmfObject): Option[AmfObject] = {
+      def nextObject(fe: FieldEntry, parent: AmfObject): Option[AmfObject] =
         if (fe.objectSon && fe.value.value.location().forall(_ == location))
           fe.value.value match {
             case e: AmfArray =>
@@ -116,19 +63,26 @@ object AmfSonElementFinder {
             case _ =>
               None
           } else None
-      }
 
-      def buildFromMeta(parent: AmfObject, fe: FieldEntry, arr: AmfArray): Option[AmfObject] = {
+      def buildFromMeta(parent: AmfObject, fe: FieldEntry, arr: AmfArray): Option[AmfObject] =
         if (explicitArray(fe, parent, definedBy)) matchInnerArrayElement(fe, arr, definedBy, parent)
         else None
-      }
 
-      def nextObject(array: AmfArray): Option[AmfObject] = {
-        val objects = array.values.collect({ case o: AmfObject => o })
-        objects
-          .find(_.annotations.containsPosition(amfPosition))
-          .orElse(objects.find(v => v.annotations.isVirtual || v.annotations.isSynthesized))
-      }
+      def nextObject(array: AmfArray): Option[AmfObject] =
+        if (isInArray(array)) {
+          val objects = array.values.collect({ case o: AmfObject => o })
+          objects
+            .find(_.annotations.containsPosition(amfPosition))
+            .orElse(objects.find(v => v.annotations.isVirtual || v.annotations.isSynthesized))
+        } else None
+
+      private def isInArray(array: AmfArray): Boolean =
+        array.annotations
+          .find(classOf[SourceAST])
+          .map(_.ast)
+          .forall { s =>
+            s.contains(amfPosition)
+          }
 
       private def declaredPosition(fe: FieldEntry): Boolean =
         isDeclares(fe) &&
@@ -136,7 +90,7 @@ object AmfSonElementFinder {
             dk.keys.exists(k => k.entry.contains(amfPosition))
           }
 
-      def findField(amfObject: AmfObject): Option[FieldEntry] = {
+      def findField(amfObject: AmfObject): Option[FieldEntry] =
         amfObject.fields.fields().filter(f => fieldFilters.forall(fn => fn(f))) match {
           case Nil =>
             None
@@ -150,18 +104,14 @@ object AmfSonElementFinder {
               case None =>
                 entries.filterNot(isDeclares).lastOption.orElse(list.lastOption).map(f => f)
             }
-
         }
-      }
     }
 
-    def findSonWithStack(amfPosition: AmfPosition,
-                         location: String,
-                         filterFns: Seq[FieldEntry => Boolean],
-                         definedBy: Dialect): (AmfObject, Seq[AmfObject]) = {
-      val tuples  = SonFinder(location, definedBy, amfPosition).buildStack(obj)
-      val objects = tuples.map(_._1)
-//        .dropWhile(o => !o.annotations.nonEmpty) // any field without annotations should be ignored as it is clearly incomplete
+    def findSonWithStack(amfPosition: AmfPosition, location: String, definedBy: Dialect): (AmfObject, Seq[AmfObject]) = {
+      val tuples = SonFinder(location, definedBy, amfPosition).buildStack(obj)
+      val objects = tuples
+        .map(_._1)
+        .dropWhile(o => !o.annotations.nonEmpty) // any field without annotations should be ignored as it is clearly incomplete
       (objects.head, objects.tail)
     }
   }
