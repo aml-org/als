@@ -13,7 +13,6 @@ pipeline {
     environment {
         NEXUS = credentials('exchange-nexus')
         NEXUSIQ = credentials('nexus-iq')
-        ALSP_TOKEN = credentials('NewALSPToken')
         NPM_TOKEN = credentials('npm-mulesoft')
         NPM_CONFIG_PRODUCTION = false
         NODE_ENV = 'dev'
