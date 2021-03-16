@@ -2,12 +2,12 @@ package org.mulesoft.als.server.modules.completion
 
 import amf.client.resource.ResourceNotFound
 import amf.core.model.document.BaseUnit
-import amf.internal.reference.{CachedReference, ReferenceResolver}
+import amf.internal.reference.{CachedReference, UnitCache}
 import org.mulesoft.amfintegration.AmfImplicits._
 
 import scala.concurrent.Future
 
-case class CompletionReferenceResolver(unit: BaseUnit) extends ReferenceResolver {
+case class CompletionReferenceResolver(unit: BaseUnit) extends UnitCache {
 
   val cache: Map[String, BaseUnit] = allReferences(unit).groupBy(_.id).mapValues(_.head)
 

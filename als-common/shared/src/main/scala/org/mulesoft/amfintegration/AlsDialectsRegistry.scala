@@ -134,11 +134,8 @@ case class ALSAMLPlugin() extends AMLPlugin with SemanticDescriptionProvider {
   def dialectFor(u: BaseUnit): Option[Dialect] = registry.dialectForUnit(u)
   def dialectFor(v: Vendor): Option[Dialect]   = registry.dialectForVendor(v)
 
-  override def parse(document: Root,
-                     parentContext: ParserContext,
-                     platform: Platform,
-                     options: ParsingOptions): Option[BaseUnit] = {
-    super.parse(document, parentContext, platform, options).map {
+  override def parse(document: Root, parentContext: ParserContext, options: ParsingOptions): Option[BaseUnit] = {
+    super.parse(document, parentContext, options).map {
       case v: Vocabulary =>
         vocabularyRegistry.index(v)
         v

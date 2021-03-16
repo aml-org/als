@@ -2,7 +2,7 @@ package org.mulesoft.als.server.modules.workspace
 
 import amf.client.resource.ResourceNotFound
 import amf.core.model.document.BaseUnit
-import amf.internal.reference.{CachedReference, ReferenceResolver}
+import amf.internal.reference.{CachedReference, UnitCache}
 import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.als.common.dtoTypes.ReferenceStack
 import org.mulesoft.als.server.logger.Logger
@@ -65,7 +65,7 @@ class WorkspaceParserRepository(logger: Logger) extends Repository[ParsedUnit] {
   def getReferenceStack(uri: String): Seq[ReferenceStack] =
     tree.references.get(uri).map(db => db.references.toSeq).getOrElse(Nil)
 
-  def resolverCache: ReferenceResolver = { url: String =>
+  def resolverCache: UnitCache = { url: String =>
     tree.cached(url) match {
       case Some(p) => Future.successful(CachedReference(url, p, resolved = true))
       case None    => Future.failed(new ResourceNotFound("Uncached ref"))
