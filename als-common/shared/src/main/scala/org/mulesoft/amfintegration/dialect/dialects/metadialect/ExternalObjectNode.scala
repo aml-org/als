@@ -11,12 +11,12 @@ object ExternalObjectNode extends DialectNode {
 
   override def properties: Seq[PropertyMapping] = Seq(
     PropertyMapping()
-      .withId(location + s"#/declarations/$name/documents")
+      .withId(location + s"#/declarations/$name/name")
       .withNodePropertyMapping("NameExternal")
       .withName("name")
       .withLiteralRange(xsdString.iri()),
     PropertyMapping()
-      .withId(location + s"#/declarations/$name/documents")
+      .withId(location + s"#/declarations/$name/value")
       .withNodePropertyMapping("ValueExternal")
       .withName("value")
       .withLiteralRange(xsdString.iri())

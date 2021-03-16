@@ -10,7 +10,11 @@ import org.mulesoft.als.common.dtoTypes.{Position => DtoPosition}
 import org.mulesoft.als.common.{DirectoryResolver, EnvironmentPatcher, PlatformDirectoryResolver}
 import org.mulesoft.als.configuration.{AlsConfiguration, AlsConfigurationReader}
 import org.mulesoft.als.suggestions._
-import org.mulesoft.als.suggestions.aml.{AmlCompletionRequestBuilder, MetaDialectPluginRegistry}
+import org.mulesoft.als.suggestions.aml.{
+  AmlCompletionRequestBuilder,
+  MetaDialectPluginRegistry,
+  VocabularyDialectPluginRegistry
+}
 import org.mulesoft.als.suggestions.aml.webapi.{
   AsyncApiCompletionPluginRegistry,
   Oas20CompletionPluginRegistry,
@@ -51,7 +55,10 @@ class Suggestions(platform: Platform,
       Raml08CompletionPluginRegistry.init(amfInstance, completionsPluginHandler)
     if (options.contains(AsyncApi20) || options.contains(AsyncApi))
       AsyncApiCompletionPluginRegistry.init(amfInstance, completionsPluginHandler)
-    if (options.contains(Aml)) MetaDialectPluginRegistry.init(amfInstance, completionsPluginHandler)
+    if (options.contains(Aml)) {
+      MetaDialectPluginRegistry.init(amfInstance, completionsPluginHandler)
+      VocabularyDialectPluginRegistry.init(amfInstance, completionsPluginHandler)
+    }
 
     this
   }
