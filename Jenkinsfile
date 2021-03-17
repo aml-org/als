@@ -196,8 +196,8 @@ pipeline {
                     if (failedStage.isEmpty()) {
                         try {
                             echo "Trigger als-client ($publish_version) and als-extension ($publish_version)"
-                            build job: "ALS-New/als-client/master", parameters: [string(name: 'ALS_VERSION', value: "$publish_version")], wait: false
-                            build job: "ALS-New/als-extension/master", parameters: [string(name: 'ALS_VERSION', value: "$publish_version")], wait: false
+                            build job: "ALS/als-client/master", parameters: [string(name: 'ALS_VERSION', value: "$publish_version")], wait: false
+                            build job: "ALS/als-extension/master", parameters: [string(name: 'ALS_VERSION', value: "$publish_version")], wait: false
                         } catch (e) {
                             failedStage = failedStage + " DEPENDENCIES "
                             unstable "Failed dependencies"
