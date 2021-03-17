@@ -1,0 +1,12 @@
+#%Vocabulary 1.0
+propertyTerms:
+  prop1:
+    range: integer
+  prop2:
+    range: string
+
+classTerms:
+  myTerm:
+    properties:
+      - prop1
+      - *

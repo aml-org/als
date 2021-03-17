@@ -20,12 +20,13 @@ object VocabularyDialect extends BaseDialect {
   override val declares: Seq[DialectNode] = Seq(
     RootVocabularyObjectNode,
     ExternalObjectNode,
-    PropertyTermObjectNode,
+    ObjectPropertyTermNode,
+    DatatypePropertyTermNode,
     ClassTermObjectNode
   )
 
   override protected def declaredNodes: Map[String, DialectNode] = Map(
-    "propertyTerms" -> PropertyTermObjectNode,
+    "propertyTerms" -> ObjectPropertyTermNode,
     "classTerms"    -> ClassTermObjectNode
   )
 }

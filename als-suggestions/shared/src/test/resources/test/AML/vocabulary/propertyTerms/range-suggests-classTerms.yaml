@@ -1,0 +1,11 @@
+#%Vocabulary 1.0
+propertyTerms:
+  p:
+    range: *
+classTerms:
+  myTerm:
+    displayName: term
+    description: a fake term
+  fakeTerm:
+    displayName: fakeTerm
+    description: a fake term 2

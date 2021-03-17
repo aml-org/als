@@ -4,8 +4,8 @@ import amf.core.vocabulary.Namespace.XsdTypes.xsdUri
 import amf.plugins.document.vocabularies.metamodel.domain.ObjectPropertyTermModel
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 
-object PropertyTermObjectNode extends TermObjectNode {
-  override def name: String = "PropertyTermObjectNode"
+object ObjectPropertyTermNode extends TermObjectNode {
+  override def name: String = "ObjectPropertyTermNode"
 
   override def nodeTypeMapping: String = ObjectPropertyTermModel.`type`.head.iri();
 
