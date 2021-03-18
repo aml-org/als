@@ -18,7 +18,9 @@ Your issue may already be reported! Please search on Github issues before creati
 
 * **If the current behavior is a bug, please provide the minimal steps to reproduce on ALS**
 
-* **Please provide stack traces/logs if possible**
+* **Please provide stack traces/logs and the failing JSON rpc message if possible**
+
+* **File being edited (API spec/AML Document)**
 
 * **What is the expected behavior?**
 
