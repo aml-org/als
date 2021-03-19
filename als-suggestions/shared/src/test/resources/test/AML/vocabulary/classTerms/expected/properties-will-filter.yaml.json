@@ -1,0 +1,32 @@
+[
+  {
+    "label": "prop2",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "prop2",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11prop2",
+    "filterText": "prop2",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 11,
+          "character": 8
+        },
+        "end": {
+          "line": 11,
+          "character": 8
+        }
+      },
+      "newText": "prop2"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

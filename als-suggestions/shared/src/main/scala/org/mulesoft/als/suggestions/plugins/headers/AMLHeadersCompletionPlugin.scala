@@ -5,7 +5,7 @@ import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.configuration.Configuration
 import org.mulesoft.als.suggestions.interfaces.HeaderCompletionPlugin
 import org.mulesoft.als.suggestions.{HeaderCompletionParams, RawSuggestion}
-import org.mulesoft.amfintegration.dialect.dialects.metadialect.MetaDialect
+import org.mulesoft.amfintegration.dialect.dialects.metadialect.{MetaDialect, VocabularyDialect}
 
 import scala.concurrent.Future
 
@@ -17,7 +17,7 @@ object AMLHeadersCompletionPlugin extends HeaderCompletionPlugin {
       .allDialects()
       .filterNot(d => Configuration.internalDialects.contains(d.id))
       .filterNot(d => Option(d.documents()).exists(_.keyProperty().value()))
-      .toSeq :+ MetaDialect.dialect)
+      .toSeq ++ Seq(MetaDialect.dialect, VocabularyDialect.dialect))
       .flatMap(computeHeaders)
       .distinct
 

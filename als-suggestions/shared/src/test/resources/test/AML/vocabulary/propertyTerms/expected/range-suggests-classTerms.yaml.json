@@ -1,13 +1,13 @@
 [
   {
-    "label": "#%Dialect 1.0",
+    "label": "any",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define a %Dialect 1.0 file",
+    "documentation": "any",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11#%Dialect 1.0",
-    "filterText": "#%Dialect 1.0",
+    "sortText": "11any",
+    "filterText": "any",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,29 +15,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 3,
+          "character": 11
         },
         "end": {
-          "line": 0,
-          "character": 0
+          "line": 3,
+          "character": 11
         }
       },
-      "newText": "#%Dialect 1.0"
+      "newText": "any"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "#%Library / Dialect 1.0",
+    "label": "boolean",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define a %Library / Dialect 1.0 file",
+    "documentation": "boolean",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11#%Library / Dialect 1.0",
-    "filterText": "#%Library / Dialect 1.0",
+    "sortText": "11boolean",
+    "filterText": "boolean",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -45,29 +45,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 3,
+          "character": 11
         },
         "end": {
-          "line": 0,
-          "character": 0
+          "line": 3,
+          "character": 11
         }
       },
-      "newText": "#%Library / Dialect 1.0"
+      "newText": "boolean"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "#%Library / Vocabulary 1.0",
+    "label": "double",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define a %Library / Vocabulary 1.0 file",
+    "documentation": "double",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11#%Library / Vocabulary 1.0",
-    "filterText": "#%Library / Vocabulary 1.0",
+    "sortText": "11double",
+    "filterText": "double",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -75,29 +75,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 3,
+          "character": 11
         },
         "end": {
-          "line": 0,
-          "character": 0
+          "line": 3,
+          "character": 11
         }
       },
-      "newText": "#%Library / Vocabulary 1.0"
+      "newText": "double"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "#%Patch / Dialect 1.0",
+    "label": "fakeTerm",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define a %Patch / Dialect 1.0 file",
+    "documentation": "fakeTerm",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11#%Patch / Dialect 1.0",
-    "filterText": "#%Patch / Dialect 1.0",
+    "sortText": "11fakeTerm",
+    "filterText": "fakeTerm",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -105,29 +105,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 3,
+          "character": 11
         },
         "end": {
-          "line": 0,
-          "character": 0
+          "line": 3,
+          "character": 11
         }
       },
-      "newText": "#%Patch / Dialect 1.0"
+      "newText": "fakeTerm"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "#%Patch / Vocabulary 1.0",
+    "label": "float",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define a %Patch / Vocabulary 1.0 file",
+    "documentation": "float",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11#%Patch / Vocabulary 1.0",
-    "filterText": "#%Patch / Vocabulary 1.0",
+    "sortText": "11float",
+    "filterText": "float",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -135,29 +135,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 3,
+          "character": 11
         },
         "end": {
-          "line": 0,
-          "character": 0
+          "line": 3,
+          "character": 11
         }
       },
-      "newText": "#%Patch / Vocabulary 1.0"
+      "newText": "float"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "#%Vocabulary 1.0",
+    "label": "integer",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define a %Vocabulary 1.0 file",
+    "documentation": "integer",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11#%Vocabulary 1.0",
-    "filterText": "#%Vocabulary 1.0",
+    "sortText": "11integer",
+    "filterText": "integer",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -165,29 +165,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 3,
+          "character": 11
         },
         "end": {
-          "line": 0,
-          "character": 0
+          "line": 3,
+          "character": 11
         }
       },
-      "newText": "#%Vocabulary 1.0"
+      "newText": "integer"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "asyncapi: \"2.0.0\"",
+    "label": "myTerm",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define a asyncapi 2.0.0 file",
+    "documentation": "myTerm",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11asyncapi: \"2.0.0\"",
-    "filterText": "asyncapi: \"2.0.0\"",
+    "sortText": "11myTerm",
+    "filterText": "myTerm",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -195,29 +195,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 3,
+          "character": 11
         },
         "end": {
-          "line": 0,
-          "character": 0
+          "line": 3,
+          "character": 11
         }
       },
-      "newText": "asyncapi: \"2.0.0\""
+      "newText": "myTerm"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "openapi: \"3.0.0\"",
+    "label": "string",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define a openapi 3.0.0 file",
+    "documentation": "string",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11openapi: \"3.0.0\"",
-    "filterText": "openapi: \"3.0.0\"",
+    "sortText": "11string",
+    "filterText": "string",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -225,29 +225,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 3,
+          "character": 11
         },
         "end": {
-          "line": 0,
-          "character": 0
+          "line": 3,
+          "character": 11
         }
       },
-      "newText": "openapi: \"3.0.0\""
+      "newText": "string"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "swagger: \"2.0\"",
+    "label": "uri",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define a openapi 2.0 file",
+    "documentation": "uri",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11swagger: \"2.0\"",
-    "filterText": "swagger: \"2.0\"",
+    "sortText": "11uri",
+    "filterText": "uri",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -255,15 +255,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 3,
+          "character": 11
         },
         "end": {
-          "line": 0,
-          "character": 0
+          "line": 3,
+          "character": 11
         }
       },
-      "newText": "swagger: \"2.0\""
+      "newText": "uri"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

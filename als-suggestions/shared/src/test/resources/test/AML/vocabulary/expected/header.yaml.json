@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 0,
-          "character": 0
+          "character": 2
         }
       },
       "newText": "#%Dialect 1.0"
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 0,
-          "character": 0
+          "character": 2
         }
       },
       "newText": "#%Library / Dialect 1.0"
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 0,
-          "character": 0
+          "character": 2
         }
       },
       "newText": "#%Library / Vocabulary 1.0"
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 0,
-          "character": 0
+          "character": 2
         }
       },
       "newText": "#%Patch / Dialect 1.0"
@@ -140,7 +140,7 @@
         },
         "end": {
           "line": 0,
-          "character": 0
+          "character": 2
         }
       },
       "newText": "#%Patch / Vocabulary 1.0"
@@ -170,100 +170,10 @@
         },
         "end": {
           "line": 0,
-          "character": 0
+          "character": 2
         }
       },
       "newText": "#%Vocabulary 1.0"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "asyncapi: \"2.0.0\"",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "Define a asyncapi 2.0.0 file",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11asyncapi: \"2.0.0\"",
-    "filterText": "asyncapi: \"2.0.0\"",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 0,
-          "character": 0
-        },
-        "end": {
-          "line": 0,
-          "character": 0
-        }
-      },
-      "newText": "asyncapi: \"2.0.0\""
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "openapi: \"3.0.0\"",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "Define a openapi 3.0.0 file",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11openapi: \"3.0.0\"",
-    "filterText": "openapi: \"3.0.0\"",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 0,
-          "character": 0
-        },
-        "end": {
-          "line": 0,
-          "character": 0
-        }
-      },
-      "newText": "openapi: \"3.0.0\""
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "swagger: \"2.0\"",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "Define a openapi 2.0 file",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11swagger: \"2.0\"",
-    "filterText": "swagger: \"2.0\"",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 0,
-          "character": 0
-        },
-        "end": {
-          "line": 0,
-          "character": 0
-        }
-      },
-      "newText": "swagger: \"2.0\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

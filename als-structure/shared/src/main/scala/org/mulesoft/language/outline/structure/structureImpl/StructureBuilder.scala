@@ -7,7 +7,7 @@ import amf.core.metamodel.domain.{DomainElementModel, ShapeModel}
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain._
 import amf.core.remote.{Oas, Oas30, Raml, _}
-import amf.plugins.document.vocabularies.model.document.{Dialect, DialectFragment, DialectLibrary}
+import amf.plugins.document.vocabularies.model.document.{Dialect, DialectFragment, DialectLibrary, Vocabulary}
 import amf.plugins.domain.shapes.metamodel._
 import amf.plugins.domain.webapi.metamodel._
 import amf.plugins.domain.webapi.metamodel.api.WebApiModel
@@ -15,7 +15,8 @@ import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitMo
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
 import org.mulesoft.language.outline.structure.structureImpl.factory.amlfactory.{
   AmlBuilderFactory,
-  AmlMetaDialectBuilderFactory
+  AmlMetaDialectBuilderFactory,
+  AmlVocabularyBuilderFactory
 }
 import org.mulesoft.language.outline.structure.structureImpl.factory.webapi.{
   Async20BuilderFactory,
@@ -37,7 +38,8 @@ class StructureBuilder(unit: BaseUnit, definedBy: Dialect) {
       case _
           if unit.isInstanceOf[Dialect] || unit.isInstanceOf[DialectLibrary] || unit.isInstanceOf[DialectFragment] =>
         AmlMetaDialectBuilderFactory
-      case _ => AmlBuilderFactory
+      case _ if unit.isInstanceOf[Vocabulary] => AmlVocabularyBuilderFactory
+      case _                                  => AmlBuilderFactory
     }
   }
 

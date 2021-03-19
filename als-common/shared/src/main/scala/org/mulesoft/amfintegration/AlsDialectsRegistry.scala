@@ -15,7 +15,7 @@ import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstanc
 import amf.plugins.document.vocabularies.{AMLPlugin, DialectsRegistry}
 import org.mulesoft.amfintegration.AmfImplicits.DomainElementImp
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
-import org.mulesoft.amfintegration.dialect.dialects.metadialect.MetaDialect
+import org.mulesoft.amfintegration.dialect.dialects.metadialect.{MetaDialect, VocabularyDialect}
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.Raml08TypesDialect
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
@@ -35,6 +35,7 @@ class AlsDialectsRegistry extends DialectsRegistry {
 
   def dialectForUnit(bu: BaseUnit): Option[Dialect] = bu match {
     case _: Dialect               => Some(MetaDialect.dialect)
+    case _: Vocabulary            => Some(VocabularyDialect.dialect)
     case diu: DialectInstanceUnit => dialectFor(diu)
     case _                        => dialectForVendor(bu)
   }
