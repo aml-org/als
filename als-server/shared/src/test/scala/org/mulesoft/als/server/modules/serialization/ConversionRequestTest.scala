@@ -47,7 +47,9 @@ class ConversionRequestTest extends LanguageServerBaseTest {
   }
 
   test("OAS 2.0 to RAML 1.0 json syntax conversion test") {
-    run(Oas20, Raml10, Some("json"), (s: SerializedDocument) => s.document should include("\"swagger\": \"2.0\""))
+    run(Oas20, Raml10, Some("json")).recoverWith {
+      case e: Exception => e.getMessage should include("Cannot serialize domain model")
+    }
   }
 
   test("OAS 3.0 to RAML 1.0 conversion test") {
