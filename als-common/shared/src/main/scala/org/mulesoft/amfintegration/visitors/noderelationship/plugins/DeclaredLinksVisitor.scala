@@ -35,14 +35,13 @@ class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
   private def extractSecuritySchemes(sr: SecurityRequirement) =
     sr.schemes
       .flatMap(source => {
-        val target = source.scheme
-        target.annotations.ast().map(targetAST => (source, target, targetAST))
+        val optionTarget = Option(source.scheme)
+        optionTarget.flatMap(t => t.annotations.ast().map(targetAST => (source, t, targetAST)))
       })
-      .flatMap(
-        triple =>
-          triple._1.annotations
-            .ast()
-            .map(sourceAST => RelationshipLink(sourceAST, triple._3, getName(triple._2), getName(triple._1))))
+      .flatMap(triple =>
+        triple._1.annotations
+          .ast()
+          .map(sourceAST => RelationshipLink(sourceAST, triple._3, getName(triple._2), getName(triple._1))))
 
   private def extractInherits(obj: AmfObject) =
     obj.fields
