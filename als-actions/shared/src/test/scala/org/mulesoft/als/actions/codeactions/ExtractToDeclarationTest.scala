@@ -146,4 +146,11 @@ class ExtractToDeclarationTest extends BaseCodeActionTests {
     val pluginFactory: CodeActionFactory = ExtractElementCodeAction
     runTestNotApplicable(elementUri, range, pluginFactory)
   }
+
+  it should "not throw null pointer exception on null security scheme" in {
+    val elementUri                       = "extract-element/fragment.json"
+    val range                            = PositionRange(Position(12, 19), Position(12, 21))
+    val pluginFactory: CodeActionFactory = ExtractElementCodeAction
+    runTestNotApplicable(elementUri, range, pluginFactory)
+  }
 }
