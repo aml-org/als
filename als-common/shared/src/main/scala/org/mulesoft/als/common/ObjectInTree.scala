@@ -97,9 +97,9 @@ case class ObjectInTree(obj: AmfObject,
 object ObjectInTreeBuilder {
 
   def fromUnit(bu: BaseUnit, position: AmfPosition, location: String, definedBy: Dialect): ObjectInTree = {
-    val (obj, stack) =
-      bu.findSonWithStack(position, location, definedBy)
-    ObjectInTree(obj, stack, position)
+    val branch =
+      bu.findSon(position, location, definedBy)
+    ObjectInTree(branch.obj, branch.branch, position, branch.fe)
   }
 
   def fromSubTree(element: DomainElement,
@@ -107,7 +107,7 @@ object ObjectInTreeBuilder {
                   location: String,
                   previousStack: Seq[AmfObject],
                   definedBy: Dialect): ObjectInTree = {
-    val (obj, stack) = element.findSonWithStack(position, location, definedBy)
-    ObjectInTree(obj, stack ++ previousStack, position)
+    val branch = element.findSon(position, location, definedBy)
+    ObjectInTree(branch.obj, branch.branch ++ previousStack, position, branch.fe)
   }
 }

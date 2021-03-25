@@ -12,6 +12,7 @@ import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.DialectDomainElement
 import amf.plugins.document.webapi.annotations.DeclarationKeys
 import amf.plugins.domain.webapi.metamodel.bindings._
+import jdk.internal.org.objectweb.asm.tree.FieldInsnNode
 import org.mulesoft.als.common.YamlWrapper._
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, _}
 
@@ -21,40 +22,70 @@ object AmfSonElementFinder {
 
   implicit class AlsAmfObject(obj: AmfObject) {
 
-    def findSon(amfPosition: AmfPosition, definedBy: Dialect): AmfObject =
-      findSonWithStack(amfPosition, "", definedBy)._1
-
+    def findSon(amfPosition: AmfPosition, location:String, definedBy:Dialect ): SonFinder#Branch = {
+      SonFinder(location, definedBy, amfPosition).find(obj)
+    }
     case class SonFinder(location: String, definedBy: Dialect, amfPosition: AmfPosition) {
 
       val fieldAstFilter: FieldEntry => Boolean = (f: FieldEntry) =>
         f.value.annotations
           .containsAstPosition(amfPosition)
           .getOrElse(
-            f.value.annotations.isInferred || f.value.annotations.isVirtual || f.value.annotations.isSynthesized || isDeclares(
+            f.value.annotations.isInferred || f.value.annotations.isVirtual || isDeclares(
               f))
-      // why do we assume that inferred/virtual/synthetized/declared would have the position? should we not look inside? what if there is more than one such case?
+      // why do we assume that inferred/virtual/declared would have the position? should we not look inside? what if there is more than one such case?
 
-      private val traversed: ListBuffer[AmfObject] = ListBuffer()
 
       val fieldFilters: Seq[FieldEntry => Boolean] = Seq(
         (f: FieldEntry) => f.field != BaseUnitModel.References,
         fieldAstFilter
       )
 
-      // only object can have sons. Scalar and arrays are field from objects.
-      def buildStack(obj: AmfObject): Seq[(AmfObject, Option[FieldEntry])] =
-        if (traversed.contains(obj)) Nil
-        else {
-          traversed += obj
-          val f = findField(obj)
-          val son: Option[AmfObject] = f.flatMap { fe =>
-            nextObject(fe, obj)
-          }
-          son.map(buildStack).getOrElse(Nil) :+ (obj, f)
+      def find(obj: AmfObject): Branch = {
+        val entryPoint = Branch(obj, Nil,None)
+        find(entryPoint) match {
+          case Nil => entryPoint
+          case head :: Nil =>
+            head
+          case list =>
+            val l = list
+            list.reduce((a, b) => {
+              if(a.branch.contains(b.obj)) a
+              else if (b.branch.contains(a.obj)) b
+              else{
+                // check also head in case that is a builded in array element
+                a.obj.range.orElse(a.branch.headOption.flatMap(_.range)) match {
+                  case Some(r) if r.contains(b.obj.range.orElse(b.branch.headOption.flatMap(_.range)).getOrElse(amf.core.parser.Range.NONE)) => b
+                  case _ => a
+                }
+              }
+            })
         }
+      }
+
+      def find(branch: Branch): Seq[Branch] = {
+        val children: Seq[Either[AmfObject, FieldEntry]] = filterFields(branch.obj).map(fe => nextObject(fe, obj).map(Left(_)).getOrElse(Right(fe)))
+        if(children.isEmpty) Seq(branch)
+        else
+          children.flatMap { either => either match {
+            case Left(obj) =>
+              if (branch.branch.contains(obj)) Some(branch)
+              else find(branch.newLeaf(obj))
+            case Right(fe) => Some(branch.forField(fe))
+          }
+
+          }
+      }
+
+      // only object can have sons. Scalar and arrays are field from objects.
+      case class Branch(obj: AmfObject, branch: Seq[AmfObject], fe:Option[FieldEntry]) {
+        def newLeaf(leaf: AmfObject): Branch = copy(leaf, obj +: branch)
+
+        def forField(fe:FieldEntry): Branch = copy(fe = Some(fe))
+      }
 
       def nextObject(fe: FieldEntry, parent: AmfObject): Option[AmfObject] =
-        if (fe.objectSon && fe.value.value.location().forall(_ == location))
+        if (fe.objectSon && fe.value.value.location().forall(l => l.isEmpty || l == location))
           fe.value.value match {
             case e: AmfArray =>
               nextObject(e).orElse(buildFromMeta(parent, fe, e))
@@ -90,29 +121,9 @@ object AmfSonElementFinder {
             dk.keys.exists(k => k.entry.contains(amfPosition))
           }
 
-      def findField(amfObject: AmfObject): Option[FieldEntry] =
-        amfObject.fields.fields().filter(f => fieldFilters.forall(fn => fn(f))) match {
-          case Nil =>
-            None
-          case head :: Nil =>
-            Some(head)
-          case list =>
-            val entries = list.filterNot(v => v.value.annotations.isVirtual || v.value.annotations.isSynthesized)
-            entries.find(declaredPosition) match { // if the position is inside a declaration key range, then prioritize
-              case Some(declares) =>
-                Some(declares)
-              case None =>
-                entries.filterNot(isDeclares).lastOption.orElse(list.lastOption).map(f => f)
-            }
-        }
-    }
+      def filterFields(amfObject: AmfObject): Seq[FieldEntry] =
+        amfObject.fields.fields().filter(f => fieldFilters.forall(fn => fn(f))).toSeq
 
-    def findSonWithStack(amfPosition: AmfPosition, location: String, definedBy: Dialect): (AmfObject, Seq[AmfObject]) = {
-      val tuples = SonFinder(location, definedBy, amfPosition).buildStack(obj)
-      val objects = tuples
-        .map(_._1)
-        .dropWhile(o => !o.annotations.nonEmpty) // any field without annotations should be ignored as it is clearly incomplete
-      (objects.head, objects.tail)
     }
   }
 

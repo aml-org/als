@@ -267,7 +267,8 @@ object NodeBranchBuilder {
     if (parts.length > 1) {
       ast match {
         case e: YMapEntry if e.value.isNull =>
-          if (e.value.range.toPositionRange.end < Position(amfPosition))
+          val range = e.value.range.toPositionRange
+          if (range.end <= Position(amfPosition) && e.value.value.range.toPositionRange.end.line == range.start.line)
             Some(e.value) // the position was in an YNonContent after the `key: `
           else Some(e.key)
         case _ =>
