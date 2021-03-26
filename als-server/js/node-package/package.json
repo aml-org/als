@@ -15,7 +15,7 @@
     "build:dist": "webpack --config ./webpack.config.js"
   },
   "dependencies": {
-    "ajv": "^7.2.4",
+    "ajv": "6.5.2",
     "amf-shacl-node": "1.1.0",
     "vscode-jsonrpc": "5.0.1",
     "vscode-languageserver-protocol": "3.15.3"
