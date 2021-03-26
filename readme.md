@@ -107,3 +107,4 @@ Besides LSP messages, we also support other custom operations, which are detaile
 
 ## Contributing
 If you are interested in contributing to this project, ensure that you read our [contributing guidelines](./documentation/CONTRIBUTING.md).
+
