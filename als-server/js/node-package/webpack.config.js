@@ -24,7 +24,10 @@ const baseConfig = {
     globalObject: 'this'
   },
   resolve: {
-    modules: [path.resolve(__dirname, 'node_modules')]
+    modules: [path.resolve(__dirname, 'node_modules')],
+    fallback: {
+      fs: false
+    }
   },
   module: {
 
@@ -46,7 +49,6 @@ const baseConfig = {
     ],
   },
   node: {
-    fs: 'empty',
     net: 'empty',
     child_process: 'empty',
   },
