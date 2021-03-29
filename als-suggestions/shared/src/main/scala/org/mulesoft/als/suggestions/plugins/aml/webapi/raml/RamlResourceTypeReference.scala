@@ -21,5 +21,5 @@ object RamlResourceTypeReference extends RamlAbstractDeclarationReference {
 
   override val elementClass: Class[_ <: DomainElement]                       = classOf[EndPoint]
   override val abstractDeclarationClass: Class[_ <: ParametrizedDeclaration] = classOf[ParametrizedResourceType]
-  override val errorDeclarationClass: Class[_ <: ErrorDeclaration]           = classOf[ErrorResourceType]
+  override val errorDeclarationClass: Class[_ <: ErrorDeclaration[_]]        = classOf[ErrorResourceType]
 }

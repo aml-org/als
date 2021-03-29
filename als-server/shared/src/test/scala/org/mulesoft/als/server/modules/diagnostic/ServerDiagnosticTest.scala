@@ -2,10 +2,14 @@ package org.mulesoft.als.server.modules.diagnostic
 
 import amf.client.remote.Content
 import amf.core.errorhandling.ErrorCollector
-import amf.core.metamodel.Obj
+import amf.core.metamodel.{Field, Obj}
+import amf.core.metamodel.document.BaseUnitModel
+import amf.core.metamodel.document.BaseUnitModel.{DescribedBy, ModelVersion, References, Root, Usage}
 import amf.core.model.document.BaseUnit
 import amf.core.model.domain.AmfObject
 import amf.core.parser.{Annotations, Fields}
+import amf.core.vocabulary.Namespace.Document
+import amf.core.vocabulary.ValueType
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
@@ -174,13 +178,17 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
   }
 
   test("DiagnosticManager with invalid clone") {
-    class MockDialectDomainElementModel extends DialectDomainElementModel {
+    class MockDialectDomainElementModel extends BaseUnitModel {
       override def modelInstance: AmfObject = throw new Exception("should fail")
+
+      override val `type`: List[ValueType] = List(Document + "MockUnit")
+
+      override def fields: List[Field] = List(ModelVersion, References, Usage, DescribedBy, Root)
     }
 
     class MockDialectInstance(override val fields: Fields) extends BaseUnit {
 
-      override def meta: Obj = new MockDialectDomainElementModel()
+      override def meta: BaseUnitModel = new MockDialectDomainElementModel()
 
       override def references: Seq[BaseUnit] = Nil
 
