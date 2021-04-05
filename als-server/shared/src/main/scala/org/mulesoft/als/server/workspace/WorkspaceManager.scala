@@ -39,26 +39,27 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   def getWorkspace(uri: String): WorkspaceContentManager =
     workspaces.find(ws => ws.containsFile(uri)).getOrElse(defaultWorkspace)
 
-  def initializeWS(root: String): Future[Unit] =
+  def initializeWS(root: String): Future[Unit] = {
+    val workspace: WorkspaceContentManager =
+      new WorkspaceContentManager(root, environmentProvider, telemetryProvider, logger, subscribers)
+    replaceWorkspaces(root).map(_ => workspaces += workspace)
+
     rootHandler.extractConfiguration(root, logger).flatMap { mainOption =>
       if (!workspaces.exists(w => root.startsWith(w.folder))) { // if there is an existing WS containing the new one, dont add it
         logger
           .debug("Adding workspace: " + root, "WorkspaceManager", "initializeWS")
-        val workspace: WorkspaceContentManager =
-          new WorkspaceContentManager(root, environmentProvider, telemetryProvider, logger, subscribers)
-        Future.sequence {
-          replaceWorkspaces(root)
-        } map (_ => {
-          addWorkspace(mainOption, workspace)
-        })
+        Future {
+          workspace.setConfigMainFile(mainOption)
+          mainOption.foreach(
+            conf =>
+              // Already locked here, so we can call changeContentManagerConfiguration directly
+              changeContentManagerConfiguration(workspace,
+                                                conf.mainFile,
+                                                conf.cachables,
+                                                mainOption.flatMap(_.configReader)))
+        }
       } else Future.unit
     }
-
-  private def addWorkspace(mainOption: Option[WorkspaceConf], workspace: WorkspaceContentManager): Unit = {
-    workspaces += workspace
-    workspace.setConfigMainFile(mainOption)
-    mainOption.foreach(conf =>
-      contentManagerConfiguration(workspace, conf.mainFile, conf.cachables, mainOption.flatMap(_.configReader)))
   }
 
   private def replaceWorkspaces(root: String) = {
@@ -88,20 +89,76 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
       case newCu                  => Future.successful(newCu)
     }
 
-  override def notify(uri: String, kind: NotificationKind): Unit = {
-    val manager: WorkspaceContentManager = getWorkspace(uri.toAmfUri)
-    if (manager.configFile
-          .map(_.toAmfUri)
-          .contains(uri.toAmfUri)) {
-      manager.withConfiguration(ReaderWorkspaceConfigurationProvider(manager))
-      manager.stage(uri.toAmfUri, CHANGE_CONFIG)
-    } else manager.stage(uri.toAmfUri, kind)
+  override def notify(uri: String, kind: NotificationKind): Unit =
+    blocking(() => {
+      val manager: WorkspaceContentManager = getWorkspace(uri.toAmfUri)
+      logger.debug(s"Notify $uri", "WorkspaceManager", "blocking")
+      if (manager.configFile
+            .map(_.toAmfUri)
+            .contains(uri.toAmfUri)) {
+        manager.withConfiguration(ReaderWorkspaceConfigurationProvider(manager))
+        manager.stage(uri.toAmfUri, CHANGE_CONFIG)
+      } else manager.stage(uri.toAmfUri, kind)
+    })
+
+  private def blocking[T](fn: () => T): T = {
+    logger.debug("Acquiring lock", "WorkspaceManager", "blocking")
+    println("Acq. Lock")
+    val r = synchronized {
+      println("Lock acquired")
+      logger.debug("Lock acquired", "WorkspaceManager", "blocking")
+      val r = fn()
+      println("Releasing lock")
+      r
+    }
+    println("Lock released")
+    r
+  }
+
+  private def blockingWorkspaces(func: () => Future[Unit]): Future[Unit] = {
+    logger.debug("Blocking workspaces", "WorkspaceManager", "blockingWorkspaces")
+    val workspaces = this.workspaces :+ defaultWorkspace
+    println("Blocking")
+    workspaces.foreach(wcm => wcm.stage(wcm.folder, BLOCK_WORKSPACE))
+    logger.debug("Blocking workspaces - notification sent", "WorkspaceManager", "blockingWorkspaces")
+    def blockedWorkspaces(fun: () => Unit): Future[Unit] = {
+      Future
+        .sequence(workspaces.map(_.future))
+        .map(_ =>
+          if (workspaces.forall(_.isBlocked)) {
+            println("Blocked")
+            logger.debug("Workspaces blocked", "WorkspaceManager", "blockingWorkspaces")
+            fun()
+          } else {
+            println("Retry")
+            logger.debug("Workspaces not blocked, retrying", "WorkspaceManager", "blockingWorkspaces")
+            blockedWorkspaces(fun)
+        })
+    }
+
+    blockedWorkspaces(() => {
+      func().map(_ => {
+        logger.debug("Unblocking workspaces", "WorkspaceManager", "blockingWorkspaces")
+        println("Unblocking")
+        workspaces.foreach(wcm => wcm.stage(wcm.folder, UNBLOCK_WORKSPACE))
+      })
+    })
   }
 
   def contentManagerConfiguration(manager: WorkspaceContentManager,
                                   mainSubUri: String,
                                   dependencies: Set[String],
                                   reader: Option[ConfigReader]): Unit =
+    blocking(() => changeContentManagerConfiguration(manager, mainSubUri, dependencies, reader))
+
+  /**
+    * Changes the configuration of a workspace. Calling this function requires you to have locked the WorkspaceManager
+    * or else there could be sync errors
+    */
+  private def changeContentManagerConfiguration(manager: WorkspaceContentManager,
+                                                mainSubUri: String,
+                                                dependencies: Set[String],
+                                                reader: Option[ConfigReader]): Unit =
     manager
       .withConfiguration(DefaultWorkspaceConfigurationProvider(manager, mainSubUri, dependencies, reader))
       .stage(mainSubUri, CHANGE_CONFIG)
@@ -127,27 +184,33 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   override def getProjectRootOf(uri: String): Option[String] =
     getWorkspace(uri).getRootFolderFor(uri)
 
-  override def initialize(workspaceFolders: List[WorkspaceFolder]): Future[Unit] = {
-    // Drop all old workspaces
-    workspaces.clear()
-    val newWorkspaces = extractCleanURIs(workspaceFolders)
-    dependencies.foreach(d => d.withUnitAccessor(this))
-    Future.sequence(newWorkspaces.map(initializeWS)) map (_ => {})
-  }
+  override def initialize(workspaceFolders: List[WorkspaceFolder]): Future[Unit] =
+    blocking(() => {
+      // Drop all old workspaces
+      workspaces.clear()
+      val newWorkspaces = extractCleanURIs(workspaceFolders)
+      dependencies.foreach(d => d.withUnitAccessor(this))
+      blockingWorkspaces(() => {
+        Future.sequence(newWorkspaces.map(initializeWS)) map (_ => {})
+      })
+    })
 
   private def extractCleanURIs(workspaceFolders: List[WorkspaceFolder]) =
     workspaceFolders.flatMap(_.uri).sortBy(_.length).distinct
 
-  override def didChangeWorkspaceFolders(params: DidChangeWorkspaceFoldersParams): Unit = {
-    val event          = params.event
-    val deletedFolders = event.deleted.flatMap(_.uri)
+  override def didChangeWorkspaceFolders(params: DidChangeWorkspaceFoldersParams): Unit =
+    blocking(() => {
+      val event          = params.event
+      val deletedFolders = event.deleted.flatMap(_.uri)
 
-    workspaces
-      .filter(p => deletedFolders.contains(p.folder))
-      .foreach(shutdownWS)
+      workspaces
+        .filter(p => deletedFolders.contains(p.folder))
+        .foreach(shutdownWS)
 
-    event.added.flatMap(_.uri).map(initializeWS)
-  }
+      blockingWorkspaces(() => {
+        Future.sequence(event.added.flatMap(_.uri).map(initializeWS)).map(_ => {})
+      })
+    })
 
   dependencies.foreach(d => d.withUnitAccessor(this))
 
@@ -215,6 +278,12 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
       }
       this
     }
+
+    def :+(item: T): Seq[T] = internal :+ item
+
+    def foreach[U](fn: T => U): Unit = internal.foreach(fn)
+
+    def forall(fn: T => Boolean): Boolean = internal.forall(fn)
 
     def exists(fn: T => Boolean): Boolean = internal.exists(fn)
 

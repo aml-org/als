@@ -3,19 +3,13 @@ package org.mulesoft.als.server.modules.workspace
 import amf.internal.environment.Environment
 import org.mulesoft.als.common.SyncFunction
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.modules.ast.{
-  BaseUnitListenerParams,
-  CHANGE_FILE,
-  CLOSE_FILE,
-  NotificationKind,
-  OPEN_FILE,
-  WORKSPACE_TERMINATED
-}
+import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 
 import scala.collection.mutable
 
 trait StagingArea[Parameter] extends SyncFunction {
+
   protected val pending: mutable.Map[String, Parameter] = mutable.Map.empty
 
   def enqueue(file: String, kind: Parameter): Unit =
@@ -61,6 +55,10 @@ class ParserStagingArea(environmentProvider: EnvironmentProvider, logger: Logger
   }
 
   override def shouldDie: Boolean = pending.values.toList.contains(WORKSPACE_TERMINATED)
+
+  def shouldBlock: Boolean = pending.values.toList.contains(BLOCK_WORKSPACE)
+
+  def shouldUnblock: Boolean = pending.values.toList.contains(UNBLOCK_WORKSPACE)
 
   def snapshot(): Snapshot = synchronized {
     val environment                              = environmentProvider.environmentSnapshot()

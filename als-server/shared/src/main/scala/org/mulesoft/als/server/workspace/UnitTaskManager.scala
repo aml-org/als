@@ -57,10 +57,10 @@ trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingArea
     state = newState
   }
 
-  private var current: Future[Unit] = Future.unit
-  private val isDisabled            = Promise[Unit]()
+  protected var current: Future[Unit] = Future.unit
+  private val isDisabled              = Promise[Unit]()
 
-  private def canProcess: Boolean = state == Idle && current.isCompleted
+  protected def canProcess: Boolean = state == Idle && current.isCompleted
 
   private def next(f: Future[Unit]): Future[Unit] =
     f.recoverWith({
@@ -76,7 +76,7 @@ trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingArea
           current = process()
       }
 
-  private def process(): Future[Unit] =
+  protected def process(): Future[Unit] =
     if (state == NotAvailable) throw new UnavailableTaskManagerException
     else if (stagingArea.shouldDie) disable()
     else if (stagingArea.hasPending) next(processTask())
@@ -94,7 +94,7 @@ trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingArea
     throw UnitNotFoundException(uri)
   }
 
-  private def goIdle(): Future[Unit] = synchronized {
+  protected def goIdle(): Future[Unit] = synchronized {
     changeState(Idle)
     Future.unit
   }

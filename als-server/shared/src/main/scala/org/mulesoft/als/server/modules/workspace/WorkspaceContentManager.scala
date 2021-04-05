@@ -1,7 +1,5 @@
 package org.mulesoft.als.server.modules.workspace
 
-import java.util.UUID
-
 import amf.core.remote.Platform
 import amf.internal.environment.Environment
 import org.mulesoft.als.common.URIImplicits._
@@ -13,6 +11,7 @@ import org.mulesoft.als.server.workspace.extract.{WorkspaceConf, WorkspaceConfig
 import org.mulesoft.amfintegration.AmfParseResult
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
+import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -95,8 +94,39 @@ class WorkspaceContentManager(val folder: String,
     this
   }
 
-  override protected def processTask(): Future[Unit] = {
-    val snapshot: Snapshot    = stagingArea.snapshot()
+  def isBlocked: Boolean = state == Blocked
+
+  override def stage(uri: String, parameter: NotificationKind): Unit = synchronized {
+    if (state == NotAvailable) throw new UnavailableTaskManagerException
+    stagingArea.enqueue(uri, parameter)
+    println(s"${this.folder} Staging: $isBlocked , ${stagingArea.shouldUnblock}, ${parameter.kind}, $uri")
+    if (canProcess || isBlocked && stagingArea.shouldUnblock) current = process()
+  }
+  override protected def process(): Future[Unit] =
+    if (isBlocked) tryUnblock()
+    else if (stagingArea.shouldBlock) block()
+    else super.process()
+
+  private def block(): Future[Unit] = {
+    val sn       = stagingArea.snapshot()
+    val snapshot = Snapshot(sn.environment, sn.files.filterNot(f => f._2 == BLOCK_WORKSPACE))
+    processSnapshot(snapshot).map(_ => changeState(Blocked))
+  }
+
+  private def tryUnblock(): Future[Unit] =
+    if (stagingArea.shouldUnblock) {
+      state = Idle
+      process()
+    } else {
+      Future.unit
+    }
+
+  def future: Future[Unit] = current
+
+  override protected def processTask(): Future[Unit] =
+    processSnapshot(stagingArea.snapshot())
+
+  private def processSnapshot(snapshot: Snapshot): Future[Unit] = {
     val (treeUnits, isolated) = snapshot.files.partition(u => isInMainTree(u._1.toAmfUri)) // what if a new file is added between the partition and the override down
     val changedTreeUnits =
       treeUnits.filter(tu => tu._2 == CHANGE_FILE || tu._2 == CLOSE_FILE)

@@ -54,3 +54,7 @@ object CLOSE_FILE extends NotificationKind("CLOSE_FILE")
 object CHANGE_CONFIG extends NotificationKind("CHANGE_CONFIG")
 
 object WORKSPACE_TERMINATED extends NotificationKind("WORKSPACE_TERMINATED")
+
+object BLOCK_WORKSPACE extends NotificationKind("BLOCK_WORKSPACE")
+
+object UNBLOCK_WORKSPACE extends NotificationKind("UNBLOCK_WORKSPACE")
