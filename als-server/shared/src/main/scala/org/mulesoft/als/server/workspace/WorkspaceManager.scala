@@ -34,7 +34,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   override def subscribers: List[BaseUnitListener] = allSubscribers.filter(_.isActive)
   private val rootHandler =
     new WorkspaceRootHandler(environmentProvider.platform, environmentProvider.environmentSnapshot())
-  private val workspaces: ListBuffer[WorkspaceContentManager] = ListBuffer()
+  private val workspaces: SynchronizedList[WorkspaceContentManager] = new SynchronizedList()
 
   def getWorkspace(uri: String): WorkspaceContentManager =
     workspaces.find(ws => ws.containsFile(uri)).getOrElse(defaultWorkspace)
@@ -55,9 +55,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     }
 
   private def addWorkspace(mainOption: Option[WorkspaceConf], workspace: WorkspaceContentManager): Unit = {
-    this.synchronized {
-      workspaces += workspace
-    }
+    workspaces += workspace
     workspace.setConfigMainFile(mainOption)
     mainOption.foreach(conf =>
       contentManagerConfiguration(workspace, conf.mainFile, conf.cachables, mainOption.flatMap(_.configReader)))
@@ -75,7 +73,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
 
   def shutdownWS(workspace: WorkspaceContentManager): Future[Unit] = {
     logger.debug("Removing workspace: " + workspace.folder, "WorkspaceManager", "shutdownWS")
-    workspace.shutdown().map(_ => { this.synchronized { workspaces -= workspace } })
+    workspace.shutdown().map(_ => workspaces -= workspace)
   }
 
   override def getUnit(uri: String, uuid: String): Future[CompilableUnit] =
@@ -191,4 +189,36 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
 
   override def isInMainTree(uri: String): Boolean =
     getWorkspace(uri).isInMainTree(uri)
+
+  class SynchronizedList[T] {
+    private val internal: ListBuffer[T] = ListBuffer()
+
+    def filter(fn: T => Boolean): Seq[T] = internal.filter(fn)
+
+    def +=(item: T): SynchronizedList[T] = {
+      this.synchronized {
+        internal += item
+      }
+      this
+    }
+
+    def -=(item: T): SynchronizedList[T] = {
+      this.synchronized {
+        internal -= item
+      }
+      this
+    }
+
+    def clear(): SynchronizedList[T] = {
+      this.synchronized {
+        internal.clear()
+      }
+      this
+    }
+
+    def exists(fn: T => Boolean): Boolean = internal.exists(fn)
+
+    def find(fn: T => Boolean): Option[T] = internal.find(fn)
+
+  }
 }
