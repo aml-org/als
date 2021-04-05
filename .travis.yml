@@ -1,5 +1,16 @@
 language: scala
 scala:
   - 2.12.11
-sbt_args: -mem 4096 -Dfile.encoding=UTF-8
-script: sbt ++$TRAVIS_SCALA_VERSION clean test
+
+before_script:
+  # default $SBT_OPTS is irrelevant to sbt launcher
+  - unset SBT_OPTS
+  - export JAVA_OPTS="-Xms2048M -Xmx2048M -Xss6M -XX:ReservedCodeCacheSize=256M -XX:-UseGCOverheadLimit"
+
+script:
+  - sbt testJVM
+  - sbt commonJS/test
+  - sbt actionsJS/test
+  - sbt structureJS/test
+  - sbt suggestionsJS/test
+  - sbt serverJS/test
