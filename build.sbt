@@ -1,12 +1,3 @@
-import Dependencies.deps
-import org.scalajs.core.tools.linker.ModuleKind
-import org.scalajs.core.tools.linker.backend.OutputMode
-import org.scalajs.sbtplugin.ScalaJSPlugin.AutoImport.{fastOptJS, scalaJSOutputMode}
-import sbt.File
-import sbt.Keys.{libraryDependencies, mainClass, packageOptions}
-import sbtcrossproject.CrossPlugin.autoImport.crossProject
-
-import scala.sys.process.Process
 import scala.language.postfixOps
 import scala.sys.process.Process
 
@@ -243,8 +234,7 @@ buildNodeJsClient := {
   (fastOptJS in Compile in nodeClient).value
   (fullOptJS in Compile in nodeClient).value
   (npmIClient in nodeClient).value
-  Process(
-    "./scripts/build.sh",
+  Process("./scripts/build.sh",
     new File("./als-node-client/node-package/")
   ).!
 }

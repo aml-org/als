@@ -28,7 +28,12 @@ const baseConfig = {
     fallback: {
       fs: false,
       net: false,
-      child_process: false
+      child_process: false,
+      path: false,
+      os: false,
+      http: false,
+      https: false,
+      crypto: false
     }
   },
   module: {
