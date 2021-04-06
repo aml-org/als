@@ -87,21 +87,26 @@ class WorkspaceContentManager(val folder: String,
 //  TODO: check if upper statement can replace the one underneath
 //    (if a file is processing, does the rest stay on the staging area??
       (!isInMainTree(uri) && state != Idle) ||
-      state == NotAvailable
+      isTerminated
 
   def withConfiguration(confProvider: WorkspaceConfigurationProvider): WorkspaceContentManager = {
     workspaceConfigurationProvider = Some(confProvider)
     this
   }
 
+  override protected def fail(uri: String) = {
+    log(s"WorkspaceContentManager: $folder")
+    super.fail(uri)
+  }
+
   def isBlocked: Boolean = state == Blocked
 
   override def stage(uri: String, parameter: NotificationKind): Unit = synchronized {
-    if (state == NotAvailable) throw new UnavailableTaskManagerException
+    if (isTerminated) throw new UnavailableTaskManagerException
     stagingArea.enqueue(uri, parameter)
-    println(s"${this.folder} Staging: $isBlocked , ${stagingArea.shouldUnblock}, ${parameter.kind}, $uri")
     if (canProcess || isBlocked && stagingArea.shouldUnblock) current = process()
   }
+
   override protected def process(): Future[Unit] =
     if (isBlocked) tryUnblock()
     else if (stagingArea.shouldBlock) block()
@@ -110,14 +115,26 @@ class WorkspaceContentManager(val folder: String,
   private def block(): Future[Unit] = {
     val sn       = stagingArea.snapshot()
     val snapshot = Snapshot(sn.environment, sn.files.filterNot(f => f._2 == BLOCK_WORKSPACE))
-    processSnapshot(snapshot).map(_ => changeState(Blocked))
+    if (snapshot.files.nonEmpty) {
+      logger.debug("Blocking wcm with pending tasks" + folder, "WorkspaceContentManager", "block")
+      processSnapshot(snapshot)
+    } else {
+      logger.debug("Blocking wcm with no pending tasks" + folder, "WorkspaceContentManager", "block")
+      Future.unit
+    }.map(_ => {
+      logger.debug("WCM \"" + folder + "\" has been blocked", "WorkspaceContentManager", "block")
+      changeState(Blocked)
+    })
   }
 
   private def tryUnblock(): Future[Unit] =
     if (stagingArea.shouldUnblock) {
-      state = Idle
+      stagingArea.dequeue(Set(folder)) //remove unblock notification kind
+      logger.debug("Unblocking wcm " + folder, "WorkspaceContentManager", "tryUnblock")
+      changeState(Idle)
       process()
     } else {
+      logger.debug("Try to unblock wcm failed " + folder, "WorkspaceContentManager", "tryUnblock")
       Future.unit
     }
 

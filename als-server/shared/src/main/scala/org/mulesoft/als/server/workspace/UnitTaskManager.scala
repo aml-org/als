@@ -36,7 +36,7 @@ trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingArea
   }
 
   def stage(uri: String, parameter: StagingAreaNotifications): Unit = synchronized {
-    if (state == NotAvailable) throw new UnavailableTaskManagerException
+    if (isTerminated) throw new UnavailableTaskManagerException
     stagingArea.enqueue(uri, parameter)
     if (canProcess) current = process()
   }
@@ -53,12 +53,13 @@ trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingArea
   protected var state: TaskManagerState = Idle
 
   protected def changeState(newState: TaskManagerState): Unit = synchronized {
-    if (state == NotAvailable) throw new UnavailableTaskManagerException
+    if (isTerminated) throw new UnavailableTaskManagerException
     state = newState
   }
 
   protected var current: Future[Unit] = Future.unit
   private val isDisabled              = Promise[Unit]()
+  def isTerminated: Boolean           = state == NotAvailable
 
   protected def canProcess: Boolean = state == Idle && current.isCompleted
 
@@ -77,7 +78,7 @@ trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingArea
       }
 
   protected def process(): Future[Unit] =
-    if (state == NotAvailable) throw new UnavailableTaskManagerException
+    if (isTerminated) throw new UnavailableTaskManagerException
     else if (stagingArea.shouldDie) disable()
     else if (stagingArea.hasPending) next(processTask())
     else goIdle()
@@ -94,7 +95,7 @@ trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingArea
     throw UnitNotFoundException(uri)
   }
 
-  protected def goIdle(): Future[Unit] = synchronized {
+  private def goIdle(): Future[Unit] = synchronized {
     changeState(Idle)
     Future.unit
   }

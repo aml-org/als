@@ -15,10 +15,13 @@ import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, ExecuteCommandParams}
 
+import java.util.UUID
+import java.util.concurrent.Semaphore
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, Future}
 
 class WorkspaceManager(environmentProvider: EnvironmentProvider,
                        telemetryProvider: TelemetryProvider,
@@ -36,40 +39,58 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     new WorkspaceRootHandler(environmentProvider.platform, environmentProvider.environmentSnapshot())
   private val workspaces: SynchronizedList[WorkspaceContentManager] = new SynchronizedList()
 
-  def getWorkspace(uri: String): WorkspaceContentManager =
-    workspaces.find(ws => ws.containsFile(uri)).getOrElse(defaultWorkspace)
+  private val lock = new ManagerLock()
+
+  def getWorkspace(uri: String): WorkspaceContentManager = {
+    // todo: maybe implement own blocking mechanism in order to be able to ask if blocked
+    // todo: another fix to prevent the Await is making this method return a Future
+    val r = Await.result(for {
+      _ <- lock.block()
+    } yield {
+      workspaces.find(ws => ws.containsFile(uri)).getOrElse(defaultWorkspace)
+    }, Duration.Inf)
+    lock.release()
+    r
+  }
 
   def initializeWS(root: String): Future[Unit] = {
     val workspace: WorkspaceContentManager =
       new WorkspaceContentManager(root, environmentProvider, telemetryProvider, logger, subscribers)
-    replaceWorkspaces(root).map(_ => workspaces += workspace)
+    removeWorkspacesWithRoot(root).map(_ => {
+      logger
+        .debug("Adding workspace: " + root, "WorkspaceManager", "initializeWS")
+      workspaces += workspace
+    })
+
+    // should we?
+    cleanDisabledWorkspaces()
 
     rootHandler.extractConfiguration(root, logger).flatMap { mainOption =>
-      if (!workspaces.exists(w => root.startsWith(w.folder))) { // if there is an existing WS containing the new one, dont add it
-        logger
-          .debug("Adding workspace: " + root, "WorkspaceManager", "initializeWS")
-        Future {
-          workspace.setConfigMainFile(mainOption)
-          mainOption.foreach(
-            conf =>
-              // Already locked here, so we can call changeContentManagerConfiguration directly
-              changeContentManagerConfiguration(workspace,
-                                                conf.mainFile,
-                                                conf.cachables,
-                                                mainOption.flatMap(_.configReader)))
-        }
-      } else Future.unit
+      Future {
+        workspace.setConfigMainFile(mainOption)
+        mainOption.foreach(
+          conf =>
+            // Already locked here, so we can call changeContentManagerConfiguration directly
+            changeContentManagerConfiguration(workspace,
+                                              conf.mainFile,
+                                              conf.cachables,
+                                              mainOption.flatMap(_.configReader)))
+      }
     }
   }
 
-  private def replaceWorkspaces(root: String) = {
-    workspaces
-      .filter(ws => ws.folder.startsWith(root))
-      .map(w => {
-        // We remove every workspace that is a subdirectory of the one being added
-        logger.debug("Replacing Workspace: " + w.folder + " due to " + root, "WorkspaceManager", "initializeWS")
-        shutdownWS(w)
-      })
+  private def cleanDisabledWorkspaces(): Unit =
+    workspaces.filter(_.isTerminated).foreach(w => workspaces -= w)
+
+  private def removeWorkspacesWithRoot(root: String): Future[Seq[Unit]] = {
+    Future.sequence(
+      workspaces
+        .filter(ws => ws.folder.startsWith(root))
+        .map(w => {
+          // We remove every workspace that is a subdirectory of the one being added
+          logger.debug("Replacing Workspace: " + w.folder + " due to " + root, "WorkspaceManager", "initializeWS")
+          shutdownWS(w)
+        }))
   }
 
   def shutdownWS(workspace: WorkspaceContentManager): Future[Unit] = {
@@ -89,48 +110,31 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
       case newCu                  => Future.successful(newCu)
     }
 
-  override def notify(uri: String, kind: NotificationKind): Unit =
-    blocking(() => {
-      val manager: WorkspaceContentManager = getWorkspace(uri.toAmfUri)
-      logger.debug(s"Notify $uri", "WorkspaceManager", "blocking")
-      if (manager.configFile
-            .map(_.toAmfUri)
-            .contains(uri.toAmfUri)) {
-        manager.withConfiguration(ReaderWorkspaceConfigurationProvider(manager))
-        manager.stage(uri.toAmfUri, CHANGE_CONFIG)
-      } else manager.stage(uri.toAmfUri, kind)
-    })
-
-  private def blocking[T](fn: () => T): T = {
-    logger.debug("Acquiring lock", "WorkspaceManager", "blocking")
-    println("Acq. Lock")
-    val r = synchronized {
-      println("Lock acquired")
-      logger.debug("Lock acquired", "WorkspaceManager", "blocking")
-      val r = fn()
-      println("Releasing lock")
-      r
-    }
-    println("Lock released")
-    r
+  override def notify(uri: String, kind: NotificationKind): Unit = {
+    val manager: WorkspaceContentManager = getWorkspace(uri.toAmfUri)
+    logger.debug(s"Notify $uri", "WorkspaceManager", "blocking")
+    if (manager.configFile
+          .map(_.toAmfUri)
+          .contains(uri.toAmfUri)) {
+      manager.withConfiguration(ReaderWorkspaceConfigurationProvider(manager))
+      manager.stage(uri.toAmfUri, CHANGE_CONFIG)
+    } else manager.stage(uri.toAmfUri, kind)
   }
 
-  private def blockingWorkspaces(func: () => Future[Unit]): Future[Unit] = {
+  private def blockingWorkspaces[T](func: () => Future[T]): Future[Unit] = {
+    val uuid = UUID.randomUUID().toString
     logger.debug("Blocking workspaces", "WorkspaceManager", "blockingWorkspaces")
-    val workspaces = this.workspaces :+ defaultWorkspace
-    println("Blocking")
-    workspaces.foreach(wcm => wcm.stage(wcm.folder, BLOCK_WORKSPACE))
+    val workspaces = (this.workspaces :+ defaultWorkspace).filterNot(_.isTerminated)
+    workspaces.foreach(wcm => wcm.stage(wcm.folder + uuid, BLOCK_WORKSPACE))
     logger.debug("Blocking workspaces - notification sent", "WorkspaceManager", "blockingWorkspaces")
-    def blockedWorkspaces(fun: () => Unit): Future[Unit] = {
+    def blockedWorkspaces(fun: () => Future[Unit]): Future[Unit] = {
       Future
         .sequence(workspaces.map(_.future))
-        .map(_ =>
+        .flatMap(_ =>
           if (workspaces.forall(_.isBlocked)) {
-            println("Blocked")
             logger.debug("Workspaces blocked", "WorkspaceManager", "blockingWorkspaces")
             fun()
           } else {
-            println("Retry")
             logger.debug("Workspaces not blocked, retrying", "WorkspaceManager", "blockingWorkspaces")
             blockedWorkspaces(fun)
         })
@@ -139,7 +143,6 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     blockedWorkspaces(() => {
       func().map(_ => {
         logger.debug("Unblocking workspaces", "WorkspaceManager", "blockingWorkspaces")
-        println("Unblocking")
         workspaces.foreach(wcm => wcm.stage(wcm.folder, UNBLOCK_WORKSPACE))
       })
     })
@@ -148,8 +151,13 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   def contentManagerConfiguration(manager: WorkspaceContentManager,
                                   mainSubUri: String,
                                   dependencies: Set[String],
-                                  reader: Option[ConfigReader]): Unit =
-    blocking(() => changeContentManagerConfiguration(manager, mainSubUri, dependencies, reader))
+                                  reader: Option[ConfigReader]): Future[Unit] =
+    lock
+      .block()
+      .map(_ => {
+        changeContentManagerConfiguration(manager, mainSubUri, dependencies, reader)
+        lock.release()
+      })
 
   /**
     * Changes the configuration of a workspace. Calling this function requires you to have locked the WorkspaceManager
@@ -184,33 +192,43 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   override def getProjectRootOf(uri: String): Option[String] =
     getWorkspace(uri).getRootFolderFor(uri)
 
-  override def initialize(workspaceFolders: List[WorkspaceFolder]): Future[Unit] =
-    blocking(() => {
-      // Drop all old workspaces
-      workspaces.clear()
-      val newWorkspaces = extractCleanURIs(workspaceFolders)
-      dependencies.foreach(d => d.withUnitAccessor(this))
-      blockingWorkspaces(() => {
-        Future.sequence(newWorkspaces.map(initializeWS)) map (_ => {})
+  override def initialize(workspaceFolders: List[WorkspaceFolder]): Future[Unit] = {
+    // Drop all old workspaces
+    for {
+      _ <- lock.block()
+      newWorkspaces <- Future {
+        workspaces.clear()
+        val newWorkspaces = extractCleanURIs(workspaceFolders)
+        dependencies.foreach(d => d.withUnitAccessor(this))
+        newWorkspaces
+      }
+      _ <- blockingWorkspaces(() => {
+        Future.sequence(newWorkspaces.map(initializeWS))
       })
-    })
+    } yield {
+      lock.release()
+    }
+  }
 
   private def extractCleanURIs(workspaceFolders: List[WorkspaceFolder]) =
     workspaceFolders.flatMap(_.uri).sortBy(_.length).distinct
 
-  override def didChangeWorkspaceFolders(params: DidChangeWorkspaceFoldersParams): Unit =
-    blocking(() => {
-      val event          = params.event
-      val deletedFolders = event.deleted.flatMap(_.uri)
+  override def didChangeWorkspaceFolders(params: DidChangeWorkspaceFoldersParams): Unit = {
+    val event          = params.event
+    val deletedFolders = event.deleted.flatMap(_.uri)
 
-      workspaces
-        .filter(p => deletedFolders.contains(p.folder))
-        .foreach(shutdownWS)
-
-      blockingWorkspaces(() => {
-        Future.sequence(event.added.flatMap(_.uri).map(initializeWS)).map(_ => {})
+    workspaces
+      .filter(p => deletedFolders.contains(p.folder))
+      .foreach(shutdownWS)
+    for {
+      _ <- lock.block()
+      _ <- blockingWorkspaces(() => {
+        Future.sequence(event.added.flatMap(_.uri).map(initializeWS))
       })
-    })
+    } yield {
+      lock.release()
+    }
+  }
 
   dependencies.foreach(d => d.withUnitAccessor(this))
 
@@ -289,5 +307,19 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
 
     def find(fn: T => Boolean): Option[T] = internal.find(fn)
 
+  }
+
+  class ManagerLock() {
+    private val lock = new Semaphore(1, true)
+
+    def block(): Future[Unit] = {
+      Future({
+        lock.acquire()
+      })
+    }
+
+    def release(): Unit = {
+      lock.release()
+    }
   }
 }
