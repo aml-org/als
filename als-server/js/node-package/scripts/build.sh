@@ -20,3 +20,5 @@ chmod a+x als-server.min.js
 cd ..
 
 npm run build:dist
+
+exit $?
