@@ -140,7 +140,6 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
-                    branch 'testJSBuild'
                 }
             }
             steps {
@@ -155,14 +154,14 @@ pipeline {
                                 unstable "Failed als-server JS publication"
                             }
 
-//                            dir("als-server/js/node-package") {
-//                                echo "Publishing NPM package build: ${publish_version}."
-//                                statusCode = sh script:"scripts/publish.sh ${publish_version} ${NPM_TOKEN} ${env.BRANCH_NAME}", returnStatus:true
-//                            }
-//                            if(statusCode != 0) {
-//                                failedStage = failedStage + " PUBLISH-SERVER-JS "
-//                                unstable "Failed als-server JS publication"
-//                            }
+                            dir("als-server/js/node-package") {
+                                echo "Publishing NPM package build: ${publish_version}."
+                                statusCode = sh script:"scripts/publish.sh ${publish_version} ${NPM_TOKEN} ${env.BRANCH_NAME}", returnStatus:true
+                            }
+                            if(statusCode != 0) {
+                                failedStage = failedStage + " PUBLISH-SERVER-JS "
+                                unstable "Failed als-server JS publication"
+                            }
                         }
                     }
 

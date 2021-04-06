@@ -1,3 +1,12 @@
+import Dependencies.deps
+import org.scalajs.core.tools.linker.ModuleKind
+import org.scalajs.core.tools.linker.backend.OutputMode
+import org.scalajs.sbtplugin.ScalaJSPlugin.AutoImport.{fastOptJS, scalaJSOutputMode}
+import sbt.File
+import sbt.Keys.{libraryDependencies, mainClass, packageOptions}
+import sbtcrossproject.CrossPlugin.autoImport.crossProject
+
+import scala.sys.process.Process
 import scala.language.postfixOps
 import scala.sys.process.Process
 
@@ -221,10 +230,11 @@ buildJsServerLibrary := {
   (fastOptJS in Compile in serverJS).value
   (fullOptJS in Compile in serverJS).value
   (installJsDependencies in serverJS).value
-  Process(
+  val result = (Process(
     "./scripts/build.sh",
     new File("./als-server/js/node-package/")
-  ).!
+  ).!)
+  if(result != 0) throw new IllegalStateException("Node JS build.sh failed")
 }
 
 // Node client
@@ -234,9 +244,10 @@ buildNodeJsClient := {
   (fastOptJS in Compile in nodeClient).value
   (fullOptJS in Compile in nodeClient).value
   (npmIClient in nodeClient).value
-  Process("./scripts/build.sh",
+  val result = (Process("./scripts/build.sh",
     new File("./als-node-client/node-package/")
-  ).!
+  ).!)
+  if(result != 0) throw new IllegalStateException("Node JS build.sh failed")
 }
 
 // ************** SONAR *******************************
