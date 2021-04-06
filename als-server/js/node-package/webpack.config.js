@@ -1,5 +1,5 @@
 const path = require('path')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge');
 const TerserPlugin = require('terser-webpack-plugin')
 
 /** Function for ignoring a list of chunks by name or id */
@@ -26,7 +26,9 @@ const baseConfig = {
   resolve: {
     modules: [path.resolve(__dirname, 'node_modules')],
     fallback: {
-      fs: false
+      fs: false,
+      net: false,
+      child_process: false
     }
   },
   module: {
@@ -47,10 +49,6 @@ const baseConfig = {
         },
       },
     ],
-  },
-  node: {
-    net: 'empty',
-    child_process: 'empty',
   },
   optimization: {
     splitChunks: {
