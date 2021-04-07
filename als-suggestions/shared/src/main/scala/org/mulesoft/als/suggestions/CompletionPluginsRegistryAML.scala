@@ -33,16 +33,15 @@ class CompletionPluginsRegistryAML {
   private def suggest(params: AmlCompletionRequest, pluginsSet: Set[AMLCompletionPlugin]): Future[Seq[RawSuggestion]] = {
     val seq: Seq[Future[Seq[RawSuggestion]]] = pluginsSet
       .map(
-        p =>
-          p.resolve(params)
+        p => p.resolve(params)
 //      used for debug <- to check origin plugin for suggestion
-            .map(r => {
-              if (r.nonEmpty) {
-                println(s"${p.id} => ${r.length}")
-                r.foreach(s => s"${s.newText} => ${s.category}")
-              }
-              r
-            })
+//            .map(r => {
+//              if (r.nonEmpty) {
+//                println(s"${p.id} => ${r.length}")
+//                r.foreach(s => s"${s.newText} => ${s.category}")
+//              }
+//              r
+//            })
       )
       .toSeq
     Future.sequence(seq).map(_.flatten)

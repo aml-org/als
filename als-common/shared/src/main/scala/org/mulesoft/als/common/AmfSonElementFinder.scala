@@ -5,86 +5,110 @@ import amf.core.metamodel.ModelDefaultBuilder
 import amf.core.metamodel.Type.ArrayLike
 import amf.core.metamodel.document.{BaseUnitModel, DocumentModel}
 import amf.core.metamodel.domain.{DataNodeModel, DomainElementModel, ShapeModel}
-import amf.core.model.domain.{AmfArray, AmfObject, DataNode}
+import amf.core.model.domain._
+import amf.core.parser
 import amf.core.parser.{FieldEntry, Position => AmfPosition}
 import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.DialectDomainElement
-import amf.plugins.document.webapi.annotations.DeclarationKeys
 import amf.plugins.domain.webapi.metamodel.bindings._
-import jdk.internal.org.objectweb.asm.tree.FieldInsnNode
 import org.mulesoft.als.common.YamlWrapper._
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, _}
 
-import scala.collection.mutable.ListBuffer
+import scala.language.implicitConversions
 
 object AmfSonElementFinder {
 
   implicit class AlsAmfObject(obj: AmfObject) {
 
-    def findSon(amfPosition: AmfPosition, location:String, definedBy:Dialect ): SonFinder#Branch = {
+    def findSon(amfPosition: AmfPosition, location: String, definedBy: Dialect): SonFinder#Branch =
       SonFinder(location, definedBy, amfPosition).find(obj)
-    }
+
     case class SonFinder(location: String, definedBy: Dialect, amfPosition: AmfPosition) {
 
-      val fieldAstFilter: FieldEntry => Boolean = (f: FieldEntry) =>
+      private def fieldContainsInner(f: FieldEntry): Boolean =
+        elementContainsInner(f.value.value)
+
+      private def elementContainsInner(amfElement: AmfElement): Boolean = {
+        implicit def defaultFalse(predicate: Option[Boolean]): Boolean = predicate.getOrElse(false)
+
+        amfElement match {
+          case AmfArray(values, annotations) =>
+            annotations.containsAstPosition(amfPosition) ||
+              values.exists(elementContainsInner)
+          case amfObject: AmfObject =>
+            amfObject.annotations.containsAstPosition(amfPosition) ||
+              amfObject.fields.fields().exists(fieldContainsInner)
+          case AmfScalar(_, annotations) => annotations.containsAstPosition(amfPosition)
+          case _                         => false
+        }
+      }
+
+      private val fieldAstFilter: FieldEntry => Boolean = (f: FieldEntry) =>
         f.value.annotations
           .containsAstPosition(amfPosition)
           .getOrElse(
-            f.value.annotations.isInferred || f.value.annotations.isVirtual || isDeclares(
-              f))
+            ((f.value.annotations.isInferred ||
+              f.value.annotations.isVirtual) &&
+              fieldContainsInner(f)) || // todo: try to optimize this recursive search
+              isDeclares(f))
       // why do we assume that inferred/virtual/declared would have the position? should we not look inside? what if there is more than one such case?
 
-
-      val fieldFilters: Seq[FieldEntry => Boolean] = Seq(
+      private val fieldFilters: Seq[FieldEntry => Boolean] = Seq(
         (f: FieldEntry) => f.field != BaseUnitModel.References,
         fieldAstFilter
       )
 
+      private def rangeFor(a: Branch): Option[parser.Range] =
+        a.obj.range.orElse(a.branch.headOption.flatMap(_.range))
+
       def find(obj: AmfObject): Branch = {
-        val entryPoint = Branch(obj, Nil,None)
+        val entryPoint = Branch(obj, Nil, None)
         find(entryPoint) match {
           case Nil => entryPoint
           case head :: Nil =>
             head
           case list =>
-            val l = list
             list.reduce((a, b) => {
-              if(a.branch.contains(b.obj)) a
+              if (a.branch.contains(b.obj)) a
               else if (b.branch.contains(a.obj)) b
-              else{
-                // check also head in case that is a builded in array element
-                a.obj.range.orElse(a.branch.headOption.flatMap(_.range)) match {
-                  case Some(r) if r.contains(b.obj.range.orElse(b.branch.headOption.flatMap(_.range)).getOrElse(amf.core.parser.Range.NONE)) => b
-                  case _ => a
+              else if (rangeFor(b).isEmpty) a
+              else if (rangeFor(a).isEmpty) b
+              else {
+                // check also head in case that is a built in array element
+                (rangeFor(a), rangeFor(b)) match {
+                  case (Some(ra), Some(rb)) if ra.contains(rb) => b // most specific
+                  case (Some(_), Some(_))                      => a // most specific
+//                  case (Some(_), None) => a (same as default)
+                  case (None, Some(_)) => b
+                  case _               => a
                 }
               }
             })
         }
       }
 
-      def find(branch: Branch): Seq[Branch] = {
-        val children: Seq[Either[AmfObject, FieldEntry]] = filterFields(branch.obj).map(fe => nextObject(fe, obj).map(Left(_)).getOrElse(Right(fe)))
-        if(children.isEmpty) Seq(branch)
+      private def find(branch: Branch): Seq[Branch] = {
+        val children: Seq[Either[AmfObject, FieldEntry]] =
+          filterFields(branch.obj).map(fe => nextObject(fe, obj).map(Left(_)).getOrElse(Right(fe)))
+        if (children.isEmpty) Seq(branch)
         else
-          children.flatMap { either => either match {
+          children.flatMap {
             case Left(obj) =>
               if (branch.branch.contains(obj)) Some(branch)
               else find(branch.newLeaf(obj))
             case Right(fe) => Some(branch.forField(fe))
           }
-
-          }
       }
 
       // only object can have sons. Scalar and arrays are field from objects.
-      case class Branch(obj: AmfObject, branch: Seq[AmfObject], fe:Option[FieldEntry]) {
+      case class Branch(obj: AmfObject, branch: Seq[AmfObject], fe: Option[FieldEntry]) {
         def newLeaf(leaf: AmfObject): Branch = copy(leaf, obj +: branch)
 
-        def forField(fe:FieldEntry): Branch = copy(fe = Some(fe))
+        def forField(fe: FieldEntry): Branch = copy(fe = Some(fe))
       }
 
-      def nextObject(fe: FieldEntry, parent: AmfObject): Option[AmfObject] =
+      private def nextObject(fe: FieldEntry, parent: AmfObject): Option[AmfObject] =
         if (fe.objectSon && fe.value.value.location().forall(l => l.isEmpty || l == location))
           fe.value.value match {
             case e: AmfArray =>
@@ -114,12 +138,12 @@ object AmfSonElementFinder {
           .forall { s =>
             s.contains(amfPosition)
           }
-
-      private def declaredPosition(fe: FieldEntry): Boolean =
-        isDeclares(fe) &&
-          fe.value.annotations.find(classOf[DeclarationKeys]).exists { dk =>
-            dk.keys.exists(k => k.entry.contains(amfPosition))
-          }
+//
+//      private def declaredPosition(fe: FieldEntry): Boolean =
+//        isDeclares(fe) &&
+//          fe.value.annotations.find(classOf[DeclarationKeys]).exists { dk =>
+//            dk.keys.exists(k => k.entry.contains(amfPosition))
+//          }
 
       def filterFields(amfObject: AmfObject): Seq[FieldEntry] =
         amfObject.fields.fields().filter(f => fieldFilters.forall(fn => fn(f))).toSeq

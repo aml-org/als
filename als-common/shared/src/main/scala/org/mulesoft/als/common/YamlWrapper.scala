@@ -179,11 +179,12 @@ object YamlWrapper {
 
   implicit class AlsYScalarOps(scalar: YScalar) extends CommonPartOps(scalar) {
     override def contains(amfPosition: AmfPosition, editionMode: Boolean = false): Boolean =
-      super.contains(amfPosition, editionMode) || (lineContains(amfPosition) && scalar.mark == NoMark)
+      super.contains(amfPosition, editionMode) || // (lineContains(amfPosition) && scalar.mark == NoMark)
+        (scalar.range.lineFrom <= amfPosition.line && scalar.value == null) // blind guessing, we should find a better solution
 
-    // todo: check why such hack is necessary, sensible case:  [val1, val2, *]
-    private def lineContains(amfPosition: AmfPosition): Boolean =
-      scalar.range.lineFrom <= amfPosition.line && ((scalar.range.lineTo >= amfPosition.line && scalar.range.columnFrom <= amfPosition.column) || scalar.value == null)
+//    // todo: check why such hack is necessary, sensible case:  [val1, val2, *]
+//    private def lineContains(amfPosition: AmfPosition): Boolean =
+//      scalar.range.lineFrom <= amfPosition.line && ((scalar.range.lineTo >= amfPosition.line && scalar.range.columnFrom <= amfPosition.column) || scalar.value == null)
 
     def unmarkedRange(): InputRange =
       if (scalar.mark.isInstanceOf[QuotedMark])
