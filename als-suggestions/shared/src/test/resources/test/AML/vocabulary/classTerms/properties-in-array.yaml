@@ -1,0 +1,5 @@
+#%Vocabulary 1.0
+classTerms:
+  myTerm:
+    properties:
+      - *

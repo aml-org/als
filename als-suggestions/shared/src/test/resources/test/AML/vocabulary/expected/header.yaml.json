@@ -1,0 +1,182 @@
+[
+  {
+    "label": "#%Dialect 1.0",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define a %Dialect 1.0 file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11#%Dialect 1.0",
+    "filterText": "#%Dialect 1.0",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 2
+        }
+      },
+      "newText": "#%Dialect 1.0"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "#%Library / Dialect 1.0",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define a %Library / Dialect 1.0 file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11#%Library / Dialect 1.0",
+    "filterText": "#%Library / Dialect 1.0",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 2
+        }
+      },
+      "newText": "#%Library / Dialect 1.0"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "#%Library / Vocabulary 1.0",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define a %Library / Vocabulary 1.0 file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11#%Library / Vocabulary 1.0",
+    "filterText": "#%Library / Vocabulary 1.0",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 2
+        }
+      },
+      "newText": "#%Library / Vocabulary 1.0"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "#%Patch / Dialect 1.0",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define a %Patch / Dialect 1.0 file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11#%Patch / Dialect 1.0",
+    "filterText": "#%Patch / Dialect 1.0",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 2
+        }
+      },
+      "newText": "#%Patch / Dialect 1.0"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "#%Patch / Vocabulary 1.0",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define a %Patch / Vocabulary 1.0 file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11#%Patch / Vocabulary 1.0",
+    "filterText": "#%Patch / Vocabulary 1.0",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 2
+        }
+      },
+      "newText": "#%Patch / Vocabulary 1.0"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "#%Vocabulary 1.0",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define a %Vocabulary 1.0 file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11#%Vocabulary 1.0",
+    "filterText": "#%Vocabulary 1.0",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 0,
+          "character": 0
+        },
+        "end": {
+          "line": 0,
+          "character": 2
+        }
+      },
+      "newText": "#%Vocabulary 1.0"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

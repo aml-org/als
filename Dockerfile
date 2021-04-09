@@ -5,8 +5,8 @@ USER root
 
 ARG USER_HOME_DIR="/root"
 
-ENV SCALA_VERSION 2.12.10
-ENV SBT_VERSION 1.3.3
+ENV SCALA_VERSION 2.12.11
+ENV SBT_VERSION 1.3.9
 
 
 # Update the repository sources list and install dependencies
@@ -41,7 +41,7 @@ VOLUME "$USER_HOME_DIR/.sbt"
 
 # Install nodejs
 RUN \
-  curl -sL https://deb.nodesource.com/setup_8.x | bash -
+  curl -sL https://deb.nodesource.com/setup_12.x | bash -
 
 RUN \
   apt-get install nodejs --assume-yes

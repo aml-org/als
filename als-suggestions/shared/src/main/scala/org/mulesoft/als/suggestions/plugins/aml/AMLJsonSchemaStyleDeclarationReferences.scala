@@ -59,7 +59,8 @@ object AMLJsonSchemaStyleDeclarationReferences extends AMLDeclarationReferences 
   }
 
   private def errorParentName(request: AmlCompletionRequest): Option[String] = {
-    if (request.amfObject.isInstanceOf[ErrorDeclaration]) request.branchStack.headOption.flatMap(_.elementIdentifier())
+    if (request.amfObject.isInstanceOf[ErrorDeclaration[_]])
+      request.branchStack.headOption.flatMap(_.elementIdentifier())
     else None
   }
 

@@ -1,9 +1,9 @@
 const path = require('path')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge');
 const TerserPlugin = require('terser-webpack-plugin')
+const webpack = require("webpack")
 
 /** Function for ignoring a list of chunks by name or id */
-
 const createChunkFilter = chunkInfo => chunk => {
   const info = chunkInfo.find(
     info => (info.name !== undefined && info.name === chunk.name) || (info.id !== undefined && info.id === chunk.id),
@@ -24,10 +24,30 @@ const baseConfig = {
     globalObject: 'this'
   },
   resolve: {
-    modules: [path.resolve(__dirname, 'node_modules')]
+    modules: [path.resolve(__dirname, 'node_modules')],
+    alias: {
+      os: "os-browserify/browser",
+      path: "path-browserify",
+      https: "https-browserify",
+      url: "url",
+      http: "stream-http"
+    },
+    fallback: {
+      fs: false,
+      net: false,
+      child_process: false,
+      crypto: false
+    }
   },
+  plugins: [
+    new webpack.ProvidePlugin({
+      Buffer: ['buffer', 'Buffer'],
+    }),
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+    }),
+  ],
   module: {
-
     rules: [
       {
         test: /\.js$/,
@@ -45,11 +65,6 @@ const baseConfig = {
       },
     ],
   },
-  node: {
-    fs: 'empty',
-    net: 'empty',
-    child_process: 'empty',
-  },
   optimization: {
     splitChunks: {
       chunks: 'all',
@@ -65,6 +80,16 @@ const fastOptConfig = {
         path.resolve(__dirname, 'lib/als-server.js')
       ]
   },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        defaultVendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendors~als-server",
+        },
+      },
+    },
+  }
 }
 
 const fullOptIgnoredChunks = [{name: 'als-server.min'}]
@@ -82,7 +107,15 @@ const fullOptConfig = {
       extractComments: false,
       chunkFilter: createChunkFilter(fullOptIgnoredChunks),
     })],
-  },
+    splitChunks: {
+      cacheGroups: {
+        defaultVendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendors~als-server.min",
+        },
+      },
+    },
+  }
 }
 
 module.exports = [

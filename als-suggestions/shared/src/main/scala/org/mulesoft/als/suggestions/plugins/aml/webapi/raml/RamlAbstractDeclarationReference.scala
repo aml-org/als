@@ -17,7 +17,7 @@ trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
 
   protected val elementClass: Class[_ <: DomainElement]
   protected val abstractDeclarationClass: Class[_ <: ParametrizedDeclaration]
-  protected val errorDeclarationClass: Class[_ <: ErrorDeclaration]
+  protected val errorDeclarationClass: Class[_ <: ErrorDeclaration[_]]
 
   protected def entryKey: String
 

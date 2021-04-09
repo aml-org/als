@@ -1,0 +1,40 @@
+#%Vocabulary 1.0
+vocabulary: Test
+base: http://a.ml/vocabularies/test#
+usage: This is my vocabulary
+propertyTerms:
+  myTerm:
+    range: string
+  int:
+    range: double
+  full:
+    range: myClass1
+    description: full node
+    displayName: full
+    extends: myTerm
+  a:
+    range: boolean
+  uri:
+    range: uri
+  empty-prop:
+  any:
+    range: any
+
+classTerms:
+  myClass1:
+    description: my class
+    displayName: class1
+    properties:
+      - myTerm
+
+  myClass2:
+    extends: myClass1
+    description: my extended class
+    displayName: class 2
+    properties:
+      - int
+      - myTerm
+
+  empty:
+  displayName:
+    displayName: d

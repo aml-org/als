@@ -37,10 +37,10 @@ class AlsElementIterator(private val bu: BaseUnit,
         case obj: AmfObject if visited.contains(obj.id) =>
           advance()
         case de: AbstractDeclaration
-            if de.linkTarget.exists(_ => de.effectiveLinkTarget().isInstanceOf[ErrorDeclaration]) =>
+            if de.linkTarget.exists(_ => de.effectiveLinkTarget().isInstanceOf[ErrorDeclaration[_]]) =>
           visited += de.id
           advance()
-        case e: ErrorDeclaration =>
+        case e: ErrorDeclaration[_] =>
           visited += e.id
         case rt: ResourceType =>
           val obj = rt.asEndpoint(bu)
