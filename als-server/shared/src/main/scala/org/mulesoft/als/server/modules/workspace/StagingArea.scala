@@ -21,14 +21,12 @@ trait StagingArea[Parameter] extends SyncFunction {
   def dequeue(files: Set[String]): Unit =
     sync(() => files.foreach(pending.remove))
 
-  def dequeue(file: String, param: Parameter): Unit = {
-    sync(() => {
+  def dequeue(file: String, p: Parameter): Unit =
+    sync(() =>
       pending.get(file) match {
-        case Some(p) if p equals param => pending.remove(file)
-        case _                         =>
-      }
+        case Some(param) if param equals p => pending.remove(file)
+        case _                             =>
     })
-  }
 
   def dequeue(): (String, Parameter) =
     sync(() => {

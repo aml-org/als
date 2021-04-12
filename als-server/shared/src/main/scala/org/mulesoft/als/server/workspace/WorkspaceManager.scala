@@ -15,12 +15,10 @@ import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, ExecuteCommandParams}
 
-import java.util.concurrent.Semaphore
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.duration.Duration
-import scala.concurrent.{Await, Future}
+import scala.concurrent.Future
 
 class WorkspaceManager(environmentProvider: EnvironmentProvider,
                        telemetryProvider: TelemetryProvider,
@@ -38,19 +36,18 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     new WorkspaceRootHandler(environmentProvider.platform, environmentProvider.environmentSnapshot())
   private val workspaces: SynchronizedList[WorkspaceContentManager] = new SynchronizedList()
 
-  private val lock = new ManagerLock()
+  private val lock = new FutureLock()
 
-  def getWorkspace(uri: String): WorkspaceContentManager = {
-    // todo: maybe implement own blocking mechanism in order to be able to ask if blocked
-    // todo: another fix to prevent the Await is making this method return a Future
-    val r = Await.result(for {
-      _ <- lock.block()
-    } yield {
-      workspaces.find(ws => ws.containsFile(uri)).getOrElse(defaultWorkspace)
-    }, Duration.Inf)
-    lock.release()
-    r
+  def getWorkspace(uri: String): Future[WorkspaceContentManager] = {
+    if (!lock.isBlocked) Future {
+      findWorkspace(uri)
+    } else {
+      getWorkspace(uri)
+    }
   }
+
+  private def findWorkspace(uri: String): WorkspaceContentManager =
+    workspaces.find(ws => ws.containsFile(uri)).getOrElse(defaultWorkspace)
 
   def initializeWS(root: String): Future[Unit] = {
     val workspace: WorkspaceContentManager =
@@ -98,10 +95,13 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   }
 
   override def getUnit(uri: String, uuid: String): Future[CompilableUnit] =
-    getWorkspace(uri.toAmfUri).getUnit(uri.toAmfUri)
+    getWorkspace(uri.toAmfUri).flatMap(_.getUnit(uri.toAmfUri))
 
   override def getLastUnit(uri: String, uuid: String): Future[CompilableUnit] =
     getUnit(uri.toAmfUri, uuid).flatMap(cu => if (cu.isDirty) getLastCU(cu, uri, uuid) else Future.successful(cu))
+
+  def getLastUnit(workspace: WorkspaceContentManager, uri: String, uuid: String): Future[CompilableUnit] =
+    workspace.getUnit(uri.toAmfUri).flatMap(cu => if (cu.isDirty) getLastCU(cu, uri, uuid) else Future.successful(cu))
 
   private def getLastCU(cu: CompilableUnit, uri: String, uuid: String) =
     cu.getLast.flatMap {
@@ -110,7 +110,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     }
 
   override def notify(uri: String, kind: NotificationKind): Unit = {
-    val manager: WorkspaceContentManager = getWorkspace(uri.toAmfUri)
+    val manager: WorkspaceContentManager = findWorkspace(uri.toAmfUri)
     logger.debug(s"Notify $uri", "WorkspaceManager", "blocking")
     if (manager.configFile
           .map(_.toAmfUri)
@@ -146,16 +146,24 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     })
   }
 
+  private def blocking[T](fn: () => Future[T]) = {
+    for {
+      _ <- lock.block()
+      r <- fn()
+    } yield {
+      lock.release()
+      r
+    }
+  }
+
   def contentManagerConfiguration(manager: WorkspaceContentManager,
                                   mainSubUri: String,
                                   dependencies: Set[String],
                                   reader: Option[ConfigReader]): Future[Unit] =
-    lock
-      .block()
-      .map(_ => {
+    blocking(() =>
+      Future {
         changeContentManagerConfiguration(manager, mainSubUri, dependencies, reader)
-        lock.release()
-      })
+    })
 
   /**
     * Changes the configuration of a workspace. Calling this function requires you to have locked the WorkspaceManager
@@ -187,26 +195,19 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   val defaultWorkspace =
     new WorkspaceContentManager("", environmentProvider, telemetryProvider, logger, subscribers)
 
-  override def getProjectRootOf(uri: String): Option[String] =
-    getWorkspace(uri).getRootFolderFor(uri)
+  override def getProjectRootOf(uri: String): Future[Option[String]] =
+    getWorkspace(uri).map(_.getRootFolderFor(uri))
 
-  override def initialize(workspaceFolders: List[WorkspaceFolder]): Future[Unit] = {
+  override def initialize(workspaceFolders: List[WorkspaceFolder]): Future[Unit] =
     // Drop all old workspaces
-    for {
-      _ <- lock.block()
-      newWorkspaces <- Future {
-        workspaces.clear()
-        val newWorkspaces = extractCleanURIs(workspaceFolders)
-        dependencies.foreach(d => d.withUnitAccessor(this))
-        newWorkspaces
-      }
-      _ <- blockingWorkspaces(() => {
+    blocking(() => {
+      workspaces.clear()
+      val newWorkspaces = extractCleanURIs(workspaceFolders)
+      dependencies.foreach(d => d.withUnitAccessor(this))
+      blockingWorkspaces(() => {
         Future.sequence(newWorkspaces.map(initializeWS))
       })
-    } yield {
-      lock.release()
-    }
-  }
+    })
 
   private def extractCleanURIs(workspaceFolders: List[WorkspaceFolder]) =
     workspaceFolders.flatMap(_.uri).sortBy(_.length).distinct
@@ -218,34 +219,32 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     workspaces
       .filter(p => deletedFolders.contains(p.folder))
       .foreach(shutdownWS)
-    for {
-      _ <- lock.block()
-      _ <- blockingWorkspaces(() => {
+    blocking(() => {
+      blockingWorkspaces(() => {
         Future.sequence(event.added.flatMap(_.uri).map(initializeWS))
       })
-    } yield {
-      lock.release()
-    }
+    })
   }
 
   dependencies.foreach(d => d.withUnitAccessor(this))
 
   override def getDocumentLinks(uri: String, uuid: String): Future[Seq[DocumentLink]] =
     getLastUnit(uri.toAmfUri, uuid).flatMap(_ =>
-      getWorkspace(uri.toAmfUri).getRelationships(uri.toAmfUri).getDocumentLinks(uri.toAmfUri))
+      getWorkspace(uri.toAmfUri).flatMap(_.getRelationships(uri.toAmfUri).getDocumentLinks(uri.toAmfUri)))
 
-  override def getAllDocumentLinks(uri: String, uuid: String): Future[Map[String, Seq[DocumentLink]]] = {
-    val workspace = getWorkspace(uri)
-    workspace.mainFileUri match {
-      case Some(mf) =>
-        getLastUnit(mf, uuid)
-          .flatMap(_ => workspace.getRelationships(mf).getAllDocumentLinks)
-      case _ => Future.successful(Map.empty)
-    }
-  }
+  override def getAllDocumentLinks(uri: String, uuid: String): Future[Map[String, Seq[DocumentLink]]] =
+    getWorkspace(uri)
+      .flatMap(workspace => {
+        workspace.mainFileUri match {
+          case Some(mf) =>
+            getLastUnit(workspace, mf, uuid)
+              .flatMap(_ => workspace.getRelationships(mf).getAllDocumentLinks)
+          case _ => Future.successful(Map.empty)
+        }
+      })
 
   override def getAliases(uri: String, uuid: String): Future[Seq[AliasInfo]] =
-    getLastUnit(uri, uuid).flatMap(_ => getWorkspace(uri).getRelationships(uri).getAliases(uri))
+    getWorkspace(uri).flatMap(_.getRelationships(uri).getAliases(uri))
 
   private def filterDuplicates(links: Seq[RelationshipLink]): Seq[RelationshipLink] = {
     val res = mutable.ListBuffer[RelationshipLink]()
@@ -258,16 +257,18 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
 
   // tepm until have class for all relationships from visitors result associated to CU.
   override def getRelationships(uri: String, uuid: String): Future[(CompilableUnit, Seq[RelationshipLink])] =
-    getLastUnit(uri, uuid)
-      .flatMap(
-        cu =>
-          getWorkspace(uri)
-            .getRelationships(uri)
-            .getRelationships(uri)
-            .map(rl => (cu, filterDuplicates(rl))))
+    getWorkspace(uri)
+      .flatMap(workspace => {
+        getLastUnit(workspace, uri, uuid).flatMap(
+          cu =>
+            workspace
+              .getRelationships(uri)
+              .getRelationships(uri)
+              .map(rl => (cu, filterDuplicates(rl))))
+      })
 
   override def isInMainTree(uri: String): Boolean =
-    getWorkspace(uri).isInMainTree(uri)
+    findWorkspace(uri).isInMainTree(uri)
 
   class SynchronizedList[T] {
     private val internal: ListBuffer[T] = ListBuffer()
@@ -305,19 +306,5 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
 
     def find(fn: T => Boolean): Option[T] = internal.find(fn)
 
-  }
-
-  class ManagerLock() {
-    private val lock = new Semaphore(1, true)
-
-    def block(): Future[Unit] = {
-      Future({
-        lock.acquire()
-      })
-    }
-
-    def release(): Unit = {
-      lock.release()
-    }
   }
 }

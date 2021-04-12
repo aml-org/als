@@ -114,14 +114,18 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
                                  position: Int,
                                  patchedContent: PatchedContent,
                                  uuid: String): Future[CompletionProvider] =
-    suggestions.buildProviderAsync(
-      patchedParse(text, uri, position, patchedContent, uuid),
-      position,
-      uri,
-      patchedContent,
-      snippetSupport,
-      workspace.getProjectRootOf(uri)
-    )
+    workspace
+      .getProjectRootOf(uri)
+      .flatMap(rootLocation => {
+        suggestions.buildProviderAsync(
+          patchedParse(text, uri, position, patchedContent, uuid),
+          position,
+          uri,
+          patchedContent,
+          snippetSupport,
+          rootLocation
+        )
+      })
 
   private def patchedParse(text: TextDocument,
                            uri: String,

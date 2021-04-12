@@ -7,6 +7,7 @@ import org.yaml.model.YMap
 import amf.core.parser._
 import org.mulesoft.als.server.protocol.textsync.DidFocusParams
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class DidFocusCommandExecutor(val logger: Logger, wsc: WorkspaceManager)
@@ -21,8 +22,6 @@ class DidFocusCommandExecutor(val logger: Logger, wsc: WorkspaceManager)
     }
   }
 
-  override protected def runCommand(param: DidFocusParams): Future[Unit] = {
-    wsc.getWorkspace(param.uri).stage(param.uri, FOCUS_FILE)
-    Future.unit
-  }
+  override protected def runCommand(param: DidFocusParams): Future[Unit] =
+    wsc.getWorkspace(param.uri).map(_.stage(param.uri, FOCUS_FILE))
 }
