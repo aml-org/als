@@ -15,7 +15,6 @@ import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, ExecuteCommandParams}
 
-import java.util.UUID
 import java.util.concurrent.Semaphore
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
@@ -122,10 +121,9 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   }
 
   private def blockingWorkspaces[T](func: () => Future[T]): Future[Unit] = {
-    val uuid = UUID.randomUUID().toString
     logger.debug("Blocking workspaces", "WorkspaceManager", "blockingWorkspaces")
     val workspaces = (this.workspaces :+ defaultWorkspace).filterNot(_.isTerminated)
-    workspaces.foreach(wcm => wcm.stage(wcm.folder + uuid, BLOCK_WORKSPACE))
+    workspaces.foreach(wcm => wcm.stage(wcm.folder, BLOCK_WORKSPACE))
     logger.debug("Blocking workspaces - notification sent", "WorkspaceManager", "blockingWorkspaces")
     def blockedWorkspaces(fun: () => Future[Unit]): Future[Unit] = {
       Future

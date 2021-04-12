@@ -112,24 +112,15 @@ class WorkspaceContentManager(val folder: String,
     else if (stagingArea.shouldBlock) block()
     else super.process()
 
-  private def block(): Future[Unit] = {
-    val sn       = stagingArea.snapshot()
-    val snapshot = Snapshot(sn.environment, sn.files.filterNot(f => f._2 == BLOCK_WORKSPACE))
-    if (snapshot.files.nonEmpty) {
-      logger.debug("Blocking wcm with pending tasks" + folder, "WorkspaceContentManager", "block")
-      processSnapshot(snapshot)
-    } else {
-      logger.debug("Blocking wcm with no pending tasks" + folder, "WorkspaceContentManager", "block")
-      Future.unit
-    }.map(_ => {
-      logger.debug("WCM \"" + folder + "\" has been blocked", "WorkspaceContentManager", "block")
-      changeState(Blocked)
-    })
+  private def block(): Future[Unit] = Future {
+    stagingArea.dequeue(folder, BLOCK_WORKSPACE)
+    logger.debug("WCM \"" + folder + "\" has been blocked", "WorkspaceContentManager", "block")
+    changeState(Blocked)
   }
 
   private def tryUnblock(): Future[Unit] =
     if (stagingArea.shouldUnblock) {
-      stagingArea.dequeue(Set(folder)) //remove unblock notification kind
+      stagingArea.dequeue(folder, UNBLOCK_WORKSPACE)
       logger.debug("Unblocking wcm " + folder, "WorkspaceContentManager", "tryUnblock")
       changeState(Idle)
       process()
