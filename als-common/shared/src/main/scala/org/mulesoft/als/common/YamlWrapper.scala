@@ -7,6 +7,7 @@ import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.common.Location
 import org.mulesoft.lexer.{AstToken, InputRange}
 import org.yaml.lexer.YamlToken
+import org.yaml.model.YNode.MutRef
 import org.yaml.model._
 
 object YamlWrapper {
@@ -202,6 +203,8 @@ object YamlWrapper {
       }
 
     override def contains(amfPosition: AmfPosition, editionMode: Boolean = false): Boolean = selectedNode match {
+      case ast: MutRef =>
+        ast.origValue.contains(amfPosition, editionMode)
       case ast: YMapEntry =>
         YMapEntryOps(ast).contains(amfPosition, editionMode)
       case ast: YMap =>

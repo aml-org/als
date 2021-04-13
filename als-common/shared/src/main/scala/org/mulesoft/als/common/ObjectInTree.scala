@@ -1,10 +1,9 @@
 package org.mulesoft.als.common
 
 import amf.core.annotations.{DeclaredElement, DefinedByVendor, SourceAST}
-import amf.core.metamodel.document.BaseUnitModel
 import amf.core.metamodel.domain.LinkableElementModel
 import amf.core.model.document.{BaseUnit, DeclaresModel}
-import amf.core.model.domain.{AmfArray, AmfObject, DomainElement}
+import amf.core.model.domain.{AmfObject, DomainElement}
 import amf.core.parser.{Annotations, FieldEntry, Position => AmfPosition}
 import amf.core.remote.Vendor
 import amf.plugins.document.vocabularies.model.document.Dialect
@@ -13,7 +12,7 @@ import org.mulesoft.als.common.YamlWrapper.AlsYPart
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.FieldEntryOrdering
-import org.yaml.model.{YMapEntry, YNode}
+import org.yaml.model.{YMapEntry, YPart}
 
 case class ObjectInTree(obj: AmfObject,
                         stack: Seq[AmfObject],
@@ -65,7 +64,13 @@ case class ObjectInTree(obj: AmfObject,
       })
 
   private def inValue(f: FieldEntry) =
-    f.value.value.annotations.ast().exists(_.contains(amfPosition))
+    f.value.value.annotations.ast().exists(_.contains(amfPosition)) ||
+      f.value.annotations.ast().exists(inAstValue)
+
+  private def inAstValue(ast: YPart): Boolean = ast match {
+    case e: YMapEntry => e.value.contains(amfPosition)
+    case _            => false
+  }
 
   private def notInKey(a: Annotations) =
     a.find(classOf[SourceAST]) match {

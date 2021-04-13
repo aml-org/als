@@ -1,5 +1,6 @@
 package org.mulesoft.amfintegration.dialect.dialects.oas.nodes
 
+import amf.core.metamodel.domain.common.NameFieldSchema
 import amf.core.vocabulary.Namespace.XsdTypes.xsdString
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.plugins.domain.webapi.metamodel.api.WebApiModel
@@ -41,7 +42,7 @@ trait WebApiNode extends DialectNode {
       .withName("paths")
       .withMinCount(1)
       .withNodePropertyMapping(WebApiModel.EndPoints.value.iri())
-      .withMapTermKeyProperty(EndPointModel.Path.value.iri())
+      .withMapTermKeyProperty(NameFieldSchema.Name.value.iri())
       .withAllowMultiple(true)
       .withObjectRange(Seq(pathItemObjectId)),
     PropertyMapping()
