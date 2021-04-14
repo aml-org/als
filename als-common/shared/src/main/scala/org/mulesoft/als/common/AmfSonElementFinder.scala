@@ -90,14 +90,15 @@ object AmfSonElementFinder {
 
       private def find(branch: Branch): Seq[Branch] = {
         val children: Seq[Either[AmfObject, FieldEntry]] =
-          filterFields(branch.obj).map(fe => nextObject(fe, obj).map(Left(_)).getOrElse(Right(fe)))
+          filterFields(branch.obj).map(fe => nextObject(fe, branch.obj).map(Left(_)).getOrElse(Right(fe)))
         if (children.isEmpty) Seq(branch)
         else
           children.flatMap {
             case Left(obj) =>
               if (branch.branch.contains(obj)) Some(branch)
               else find(branch.newLeaf(obj))
-            case Right(fe) => Some(branch.forField(fe))
+            case Right(fe) =>
+              Some(branch.forField(fe))
           }
       }
 

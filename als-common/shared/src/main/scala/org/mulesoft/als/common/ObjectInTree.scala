@@ -37,7 +37,7 @@ case class ObjectInTree(obj: AmfObject,
 
   private val justValueFn = (f: FieldEntry) => inField(f) && (inValue(f) || notInKey(f.value.annotations))
 
-  private val keyOrValueFn = (f: FieldEntry) => f.fieldContains(amfPosition)
+//  private val keyOrValueFn = (f: FieldEntry) => f.fieldContains(amfPosition)
 
   /**
     * return the first field entry for that contains the position in his entry(key or value).
