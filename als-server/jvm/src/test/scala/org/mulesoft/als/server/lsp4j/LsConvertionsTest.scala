@@ -49,36 +49,35 @@ class LsConvertionsTest extends FunSuite {
   }
 
   test("Full Diagnostic conversion") {
-    val diagnostic = new Diagnostic()
-    diagnostic.setCode(2)
-    diagnostic.setMessage("Message")
-    diagnostic.setTags( new util.ArrayList[DiagnosticTag])
-    val start = new Position(0,1)
-    val end = new Position(1,1)
-    diagnostic.setRange(new Range(start, end))
-    diagnostic.setRelatedInformation(new util.ArrayList[DiagnosticRelatedInformation])
-    diagnostic.setSeverity(DiagnosticSeverity.Information)
-    diagnostic.setSource("Source")
-    val internalDiagnostic: InternalDiagnostic = diagnostic
+    val clientDiagnostic: Diagnostic = new Diagnostic()
+    clientDiagnostic.setCode(2)
+    clientDiagnostic.setMessage("Message")
+    clientDiagnostic.setTags(new util.ArrayList[DiagnosticTag])
+    val start = new Position(0, 1)
+    val end   = new Position(1, 1)
+    clientDiagnostic.setRange(new Range(start, end))
+    clientDiagnostic.setRelatedInformation(new util.ArrayList[DiagnosticRelatedInformation])
+    clientDiagnostic.setSeverity(DiagnosticSeverity.Information)
+    clientDiagnostic.setSource("Source")
+    val internalDiagnostic: InternalDiagnostic = clientDiagnostic
     succeed
   }
 
   test("Diagnostic Only mandatory fields conversion") {
-    val start = new Position(0,1);
-    val end = new Position(1,1);
-    val diagnostic = new Diagnostic(new Range(start, end), "Message")
-    val internalDiagnostic: InternalDiagnostic = diagnostic
+    val start                                  = new Position(0, 1);
+    val end                                    = new Position(1, 1);
+    val clientDiagnostic                       = new Diagnostic(new Range(start, end), "Message")
+    val internalDiagnostic: InternalDiagnostic = clientDiagnostic
     succeed
   }
 
-  test("Empty diagnostic conversion") {
-    val diagnostic = new Diagnostic()
-    try{
-      val internalDiagnostic: InternalDiagnostic = diagnostic
-    }
-    catch {
+  test("Empty clientDiagnostic conversion") {
+    val clientDiagnostic = new Diagnostic()
+    try {
+      val internalDiagnostic: InternalDiagnostic = clientDiagnostic
+    } catch {
       case _: NullPointerException => succeed
-      case e => fail("Unexpected error on empty diagnostic conversion test", e)
+      case e                       => fail("Unexpected error on empty clientDiagnostic conversion test", e)
     }
   }
 
