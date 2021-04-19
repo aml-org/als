@@ -1,0 +1,16 @@
+#%Dialect 1.0
+dialect: TestDilect
+version: 1
+documents:
+  root:
+    encodes: RootNode
+external:
+  v2: http://test.dialect/#
+nodeMappings:
+  RootNode:
+    classTerm: v2.Node
+    mapping:
+      a:
+        range: string
+      b:
+        range: number
