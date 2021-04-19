@@ -118,20 +118,20 @@ class WorkspaceContentManager(val folder: String,
     val (closedFiles, changedFiles) = files.partition(_._2 == CLOSE_FILE)
     cleanFiles(closedFiles)
 
-    if (changedFiles.nonEmpty)
-      processIsolated(files.head._1, environment, UUID.randomUUID().toString)
-    else Future.unit
+    if (changedFiles.nonEmpty) {
+      changeState(ProcessingFile)
+      Future
+        .sequence(changedFiles.map(t => processIsolated(t._1, environment, UUID.randomUUID().toString)))
+        .map(r => Unit) //flatten the list to comply with signature
+    } else Future.unit
   }
 
-  private def processIsolated(file: String, environment: Environment, uuid: String): Future[Unit] = {
-    changeState(ProcessingFile)
-    stagingArea.dequeue(Set(file))
+  private def processIsolated(file: String, environment: Environment, uuid: String): Future[Unit] =
     parse(file, environment, uuid)
       .map { bu =>
         repository.updateUnit(bu)
         subscribers.foreach(_.onNewAst(BaseUnitListenerParams(bu, Map.empty, tree = false), uuid))
       }
-  }
 
   private def shouldParseOnFocus(uri: String) = {
     repository.getUnit(uri) match {
