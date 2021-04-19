@@ -2,6 +2,7 @@ package org.mulesoft.amfintegration
 
 import amf.client.convert.CoreRegister
 import amf.client.plugins.AMFPlugin
+import amf.client.remod.AMFGraphConfiguration
 import amf.core.AMF
 import amf.core.errorhandling.ErrorCollector
 import amf.core.model.document.BaseUnit
@@ -30,6 +31,9 @@ class AmfInstance(plugins: Seq[AMFPlugin], platform: Platform, environment: Envi
   val alsAmlPlugin: ALSAMLPlugin = ALSAMLPlugin()
 
   private var initialization: Option[Future[Unit]] = None
+  // TODO: create a configuration based on profiles registered, dialects and resource loader(environment)
+  val amfConfiguration = AMFPluginsRegistry.obtainStaticConfig()
+
   override def init(profile: InitOptions = InitOptions.AllProfiles): Future[Unit] =
     synchronized {
       initialization match {
