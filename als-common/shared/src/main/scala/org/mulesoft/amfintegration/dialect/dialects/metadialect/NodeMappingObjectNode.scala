@@ -16,6 +16,7 @@ object NodeMappingObjectNode extends DialectNode {
         .withId(location + s"#/declarations/$name/classTerm")
         .withNodePropertyMapping(NodeMappingModel.NodeTypeMapping.value.iri())
         .withName("classTerm")
+        .withMinCount(1)
         .withLiteralRange(xsdString.iri()),
       PropertyMapping()
         .withId(location + s"#/declarations/$name/patch")
