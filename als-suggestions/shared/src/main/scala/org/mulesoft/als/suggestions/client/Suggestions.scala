@@ -69,7 +69,7 @@ class Suggestions(platform: Platform,
               rootLocation: Option[String]): Future[Seq[CompletionItem]] = {
 
     platform
-      .fetchContent(url, environment.loaders)
+      .fetchContent(url, amfInstance.amfConfiguration.withResourceLoaders(environment.loaders.toList))
       .map(content => {
         val originalContent = content.stream.toString
         val (patched, patchedEnv) =

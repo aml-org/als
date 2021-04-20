@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.workspace.extract
 
+import amf.core.registries.AMFPluginsRegistry
 import amf.core.remote.{Platform, UnsupportedUrlScheme}
 import amf.internal.environment.Environment
 import org.mulesoft.als.common.URIImplicits._
@@ -34,9 +35,11 @@ trait ConfigReader {
 
   protected def readFile(uri: String, platform: Platform, environment: Environment): Future[Option[String]] = {
     try {
-      platform.fetchContent(uri, environment.loaders).map { content =>
-        Some(content.stream.toString)
-      }
+      platform
+        .fetchContent(uri, AMFPluginsRegistry.obtainStaticConfig().withResourceLoaders(environment.loaders.toList))
+        .map { content =>
+          Some(content.stream.toString)
+        }
     } catch {
       case _: UnsupportedUrlScheme => Future.successful(None)
       case e: Exception            => Future.failed(e)

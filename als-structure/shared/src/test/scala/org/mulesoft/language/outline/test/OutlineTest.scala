@@ -3,6 +3,7 @@ package org.mulesoft.language.outline.test
 import amf.client.remote.Content
 import amf.core.errorhandling.ErrorCollector
 import amf.core.model.document.BaseUnit
+import amf.core.registries.AMFPluginsRegistry
 import amf.core.remote.Platform
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
@@ -66,7 +67,7 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
   }
 
   def getExpectedOutline(url: String): Future[String] =
-    this.platform.fetchContent(url, this.platform.loaders).map(_.stream.toString)
+    this.platform.fetchContent(url, AMFPluginsRegistry.obtainStaticConfig()).map(_.stream.toString)
 
   def getActualOutline(
       url: String,

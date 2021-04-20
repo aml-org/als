@@ -9,6 +9,7 @@ import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.amfintegration.dialect.DialectKnowledge
 
 import scala.concurrent.Future
@@ -31,7 +32,8 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
                        params.platform,
                        params.directoryResolver,
                        params.prefix,
-                       params.rootUri)
+                       params.rootUri,
+                       params.amfInstance)
     } else emptySuggestion
 
   def resolveInclusion(actualLocation: String,
@@ -39,7 +41,8 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
                        platform: Platform,
                        directoryResolver: DirectoryResolver,
                        prefix: String,
-                       rootLocation: Option[String]): Future[Seq[RawSuggestion]] = {
+                       rootLocation: Option[String],
+                       amfInstance: AmfInstance): Future[Seq[RawSuggestion]] = {
     val baseLocation: String =
       if (prefix.startsWith("/")) rootLocation.getOrElse(actualLocation)
       else actualLocation
@@ -52,7 +55,7 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
 
     if (!prefix.startsWith("#"))
       if (fullURI.contains("#") && !fullURI.startsWith("#"))
-        PathNavigation(fullURI, platform, environment, prefix).suggest()
+        PathNavigation(fullURI, platform, environment, prefix, amfInstance).suggest()
       else
         FilesEnumeration(directoryResolver, platform, actualLocation.toPath(platform), relativePath)
           .filesIn(fullURI)
