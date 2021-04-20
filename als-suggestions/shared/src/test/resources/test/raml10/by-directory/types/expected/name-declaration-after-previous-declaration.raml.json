@@ -1,13 +1,13 @@
 [
   {
-    "label": "New nodeMapping",
+    "label": "New type",
     "kind": [],
     "detail": "template",
     "documentation": "",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20New nodeMapping",
-    "filterText": "$1:\n  classTerm: $2",
+    "sortText": "20New type",
+    "filterText": "$1:\n  type: $2",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -15,15 +15,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 3,
+          "line": 2,
           "character": 2
         },
         "end": {
-          "line": 3,
+          "line": 2,
           "character": 2
         }
       },
-      "newText": "$1:\n  classTerm: $2"
+      "newText": "$1:\n  type: $2"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

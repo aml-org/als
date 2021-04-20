@@ -1,0 +1,9 @@
+#%Dialect 1.0
+
+nodeMappings:
+  myNodeMapping:
+    classTerm: v2.Node
+    mapping:
+      a:
+        range: string
+  *
