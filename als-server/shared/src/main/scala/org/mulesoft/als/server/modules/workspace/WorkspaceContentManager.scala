@@ -1,7 +1,9 @@
 package org.mulesoft.als.server.modules.workspace
 
-import java.util.UUID
+import amf.client.model.document.DialectInstance
+import amf.core.model.document.ExternalFragment
 
+import java.util.UUID
 import amf.core.remote.Platform
 import amf.internal.environment.Environment
 import org.mulesoft.als.common.URIImplicits._
@@ -99,7 +101,8 @@ class WorkspaceContentManager(val folder: String,
     val snapshot: Snapshot    = stagingArea.snapshot()
     val (treeUnits, isolated) = snapshot.files.partition(u => isInMainTree(u._1.toAmfUri)) // what if a new file is added between the partition and the override down
     val changedTreeUnits =
-      treeUnits.filter(tu => tu._2 == CHANGE_FILE || tu._2 == CLOSE_FILE)
+      treeUnits.filter(tu =>
+        tu._2 == CHANGE_FILE || tu._2 == CLOSE_FILE || (tu._2 == FOCUS_FILE && shouldParseOnFocus(tu._1)))
 
     if (hasChangedConfigFile(snapshot)) processChangeConfigChanges(snapshot)
     else if (changedTreeUnits.nonEmpty)
@@ -115,19 +118,42 @@ class WorkspaceContentManager(val folder: String,
     val (closedFiles, changedFiles) = files.partition(_._2 == CLOSE_FILE)
     cleanFiles(closedFiles)
 
-    if (changedFiles.nonEmpty)
-      processIsolated(files.head._1, environment, UUID.randomUUID().toString)
-    else Future.unit
+    if (changedFiles.nonEmpty) {
+      changeState(ProcessingFile)
+      Future
+        .sequence(changedFiles.map(t => processIsolated(t._1, environment, UUID.randomUUID().toString)))
+        .map(r => Unit) //flatten the list to comply with signature
+    } else Future.unit
   }
 
-  private def processIsolated(file: String, environment: Environment, uuid: String): Future[Unit] = {
-    changeState(ProcessingFile(file))
-    stagingArea.dequeue(Set(file))
+  private def processIsolated(file: String, environment: Environment, uuid: String): Future[Unit] =
     parse(file, environment, uuid)
       .map { bu =>
         repository.updateUnit(bu)
         subscribers.foreach(_.onNewAst(BaseUnitListenerParams(bu, Map.empty, tree = false), uuid))
       }
+
+  /**
+    * Called only for file that are part of the tree as isolated files are always parsed
+    * We should parse if:
+    * - Unit is dialect instance
+    * - Unit is external fragment and is the main file
+    * - Unit is external fragment and main file is external fragment too
+    */
+  private def shouldParseOnFocus(uri: String): Boolean = {
+
+    repository.getUnit(uri) match {
+      case Some(s) =>
+        s.bu match {
+          case s: DialectInstance => true
+          case e: ExternalFragment
+              if mainFileUri.exists(_.equals(uri)) ||
+                mainFileUri.exists(u => repository.getUnit(u).exists(_.bu.isInstanceOf[ExternalFragment])) =>
+            true
+          case _ => false
+        }
+      case None => true
+    }
   }
 
   override def shutdown(): Future[Unit] = {
