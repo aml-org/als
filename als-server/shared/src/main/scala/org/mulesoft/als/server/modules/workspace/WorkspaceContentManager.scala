@@ -133,13 +133,24 @@ class WorkspaceContentManager(val folder: String,
         subscribers.foreach(_.onNewAst(BaseUnitListenerParams(bu, Map.empty, tree = false), uuid))
       }
 
-  private def shouldParseOnFocus(uri: String) = {
+  /**
+    * Called only for file that are part of the tree as isolated files are always parsed
+    * We should parse if:
+    * - Unit is dialect instance
+    * - Unit is external fragment and is the main file
+    * - Unit is external fragment and main file is external fragment too
+    */
+  private def shouldParseOnFocus(uri: String): Boolean = {
+
     repository.getUnit(uri) match {
       case Some(s) =>
         s.bu match {
-          case s: DialectInstance  => true
-          case e: ExternalFragment => true
-          case _                   => false
+          case s: DialectInstance => true
+          case e: ExternalFragment
+              if mainFileUri.exists(_.equals(uri)) ||
+                mainFileUri.exists(u => repository.getUnit(u).exists(_.bu.isInstanceOf[ExternalFragment])) =>
+            true
+          case _ => false
         }
       case None => true
     }
