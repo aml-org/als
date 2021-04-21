@@ -62,5 +62,9 @@ class YamlStructureTest extends BaseStructureTest {
     forDir("link")
   }
 
+  test("test inner-security") {
+    forDir("inner-security")
+  }
+
   private def forDir(dir: String) = runTest(s"$dir/api.yml", s"$dir/api-yaml-outline.json")
 }
