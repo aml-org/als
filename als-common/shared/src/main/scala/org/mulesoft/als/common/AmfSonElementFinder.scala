@@ -11,6 +11,7 @@ import amf.core.parser.{FieldEntry, Position => AmfPosition}
 import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.DialectDomainElement
+import amf.plugins.domain.shapes.metamodel.AnyShapeModel
 import amf.plugins.domain.webapi.metamodel.bindings._
 import org.mulesoft.als.common.YamlWrapper._
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, _}
@@ -190,7 +191,7 @@ object AmfSonElementFinder {
       case d: DomainElementModel if d.`type`.headOption.exists(_.iri() == DomainElementModel.`type`.head.iri()) =>
         e.values.collectFirst({ case o: AmfObject => o })
       case s: ShapeModel if s.`type`.headOption.exists(_.iri() == ShapeModel.`type`.head.iri()) =>
-        e.values.collectFirst({ case o: AmfObject => o })
+        Some(AnyShapeModel.modelInstance)
       case binding
           if binding == MessageBindingModel || binding == ChannelBindingModel || binding == ServerBindingModel || binding == OperationBindingModel =>
         Some(EmptyBindingModel.modelInstance)

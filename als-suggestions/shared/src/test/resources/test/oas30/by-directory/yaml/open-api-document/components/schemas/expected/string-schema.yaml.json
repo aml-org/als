@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11anyOf",
-    "filterText": "anyOf:\n  ",
+    "filterText": "anyOf:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -53,7 +53,7 @@
           "character": 6
         }
       },
-      "newText": "anyOf:\n  "
+      "newText": "anyOf:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
