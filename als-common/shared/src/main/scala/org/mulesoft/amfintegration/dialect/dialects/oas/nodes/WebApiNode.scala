@@ -42,7 +42,7 @@ trait WebApiNode extends DialectNode {
       .withName("paths")
       .withMinCount(1)
       .withNodePropertyMapping(WebApiModel.EndPoints.value.iri())
-      .withMapTermKeyProperty(NameFieldSchema.Name.value.iri())
+      .withMapTermKeyProperty(EndPointModel.Path.value.iri())
       .withAllowMultiple(true)
       .withObjectRange(Seq(pathItemObjectId)),
     PropertyMapping()

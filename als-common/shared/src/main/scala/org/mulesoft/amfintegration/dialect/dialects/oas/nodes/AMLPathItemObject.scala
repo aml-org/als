@@ -18,7 +18,7 @@ abstract class AMLPathItemObject extends DialectNode {
   override def properties: Seq[PropertyMapping] = versionProperties ++ Seq(
     PropertyMapping()
       .withId(DialectLocation + "#/declarations/PathItem/name")
-      .withNodePropertyMapping(NameFieldSchema.Name.value.iri())
+      .withNodePropertyMapping(EndPointModel.Path.value.iri())
       .withObjectRange(Seq("null")),
     PropertyMapping()
       .withId(DialectLocation + "#/declarations/PathItem/get")
