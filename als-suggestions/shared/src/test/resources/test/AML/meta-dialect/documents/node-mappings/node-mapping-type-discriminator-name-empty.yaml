@@ -1,0 +1,25 @@
+#%Dialect 1.0
+dialect: Test Unions
+version: 1.0
+
+nodeMappings:
+  A:
+    classTerm: vocab.thing
+    mapping:
+      text:
+        propertyTerm: vocab.text
+        range: string
+  B:
+    classTerm: vocab.something
+    mapping:
+      text:
+        propertyTerm: vocab.text
+        range: string
+
+  RootNode:
+    union:
+      - A
+      - B
+    typeDiscriminatorName: kind
+    typeDiscriminator:
+      *
