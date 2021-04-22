@@ -115,7 +115,7 @@ object AmfSonElementFinder {
           fe.value.value match {
             case e: AmfArray =>
               nextObject(e).orElse(buildFromMeta(parent, fe, e))
-            case o: AmfObject if o.containsPosition(amfPosition) =>
+            case o: AmfObject if o.containsPosition(amfPosition) || o.annotations.isVirtual =>
               Some(o)
             case _ =>
               None

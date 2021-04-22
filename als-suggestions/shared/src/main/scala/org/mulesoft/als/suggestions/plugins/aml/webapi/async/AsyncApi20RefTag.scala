@@ -9,7 +9,7 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.IsInsideRequired
 
 import scala.concurrent.Future
 
-object AsyncApi20RefTag extends AMLRefTagCompletionPlugin with IsInsideRequired {
+object AsyncApi20RefTag extends AMLRefTagCompletionPlugin with IsInsideRequired with Async2PayloadExampleMatcher {
 
   // hack for bindings, has the K: will be a dynamic name. Also, when the refactor of syaml is done, is method should still works (as we will at an empty map?)
   override protected def isObjectDeclarable(params: AmlCompletionRequest): Boolean =
@@ -17,7 +17,7 @@ object AsyncApi20RefTag extends AMLRefTagCompletionPlugin with IsInsideRequired 
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     if (Async2ExceptionPlugins.applyAny(request)) emptySuggestion
-    else if (isPayloadRef(request))
+    else if (isPayloadRef(request) || isExampleAtPayload(request)) // hack for payload and header examples at response that are virtuals
       Future.successful(refSuggestion) // hack for RAML types which would result in $ref not showing
     else super.resolve(request)
 
