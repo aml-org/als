@@ -1,0 +1,32 @@
+[
+  {
+    "label": "A",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "A",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11A",
+    "filterText": "A",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 25,
+          "character": 13
+        },
+        "end": {
+          "line": 25,
+          "character": 13
+        }
+      },
+      "newText": "A"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "label": "A",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "A",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11A",
+    "filterText": "A",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 24,
+          "character": 13
+        },
+        "end": {
+          "line": 24,
+          "character": 13
+        }
+      },
+      "newText": "A"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "B",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "B",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11B",
+    "filterText": "B",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 24,
+          "character": 13
+        },
+        "end": {
+          "line": 24,
+          "character": 13
+        }
+      },
+      "newText": "B"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
