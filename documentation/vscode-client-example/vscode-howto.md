@@ -3,7 +3,7 @@
 _This example requires having the [ALS jar ready](../../readme.md#java-generation), and Java 1.8 or newer in PATH._
 ### Steps
 1. Download the LSP Client template from Microsofts github [repository](https://github.com/microsoft/vscode-extension-samples): https://github.com/microsoft/vscode-extension-samples/tree/master/lsp-sample/client
-2. Replace the server options for ALS server in `./src/extension.ts.md` (see [extension.ts.md](#extension))
+2. Replace the server options for ALS server in `./src/extension.ts.md` (see [extension.ts.md](#extension) for macOS/Linux, [extension.windows.ts.md](#extension) for Windows)
 3. Add syntaxes (in this example, we will be adding them on `./syntaxes/*` [syntaxes](#syntaxes))
 4. Add configuration file (in this example, `./raml-configuration.json` ([configuration](#configuration-file))
 5. Configure `package.json` for new extension ([package.json](#packagejson))
