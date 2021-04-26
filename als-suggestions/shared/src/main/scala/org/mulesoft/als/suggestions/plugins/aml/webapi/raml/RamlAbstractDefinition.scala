@@ -1,11 +1,14 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
+import amf.RamlProfile
 import amf.core.annotations.SourceAST
+import amf.core.errorhandling.UnhandledErrorHandler
 import amf.core.model.document.Fragment
 import amf.core.model.domain.DomainElement
 import amf.core.model.domain.templates.AbstractDeclaration
 import amf.plugins.domain.webapi.metamodel.{EndPointModel, OperationModel}
 import amf.plugins.domain.webapi.models.templates.{ResourceType, Trait}
+import amf.plugins.domain.webapi.resolution.ExtendsHelper
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.{AmlCompletionRequest, AmlCompletionRequestBuilder}
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -73,7 +76,8 @@ object RamlAbstractDefinition extends AMLCompletionPlugin {
       case Some(t: Trait) =>
         val resolved =
           getSourceEntry(t, "trait").fold(t.asOperation(params.baseUnit))(e => {
-            t.entryAsOperation(params.baseUnit, entry = e, annotations = t.annotations)
+            val extendsHelper = ExtendsHelper(RamlProfile, keepEditingInfo = false, UnhandledErrorHandler)
+            extendsHelper.parseOperation(params.baseUnit, t.name.option().getOrElse(""), id, e)
           })
         Some(ElementInfo(resolved, t, t.name.value(), t.metaURIs.head))
       case _ => None

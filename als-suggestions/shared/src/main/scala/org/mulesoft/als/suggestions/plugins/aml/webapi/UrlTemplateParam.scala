@@ -1,12 +1,11 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi
 
-import amf.core.annotations.SynthesizedField
 import amf.plugins.domain.webapi.metamodel.ParameterModel
 import amf.plugins.domain.webapi.models.{EndPoint, Parameter, Server}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-
+import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import scala.concurrent.Future
 
 trait UrlTemplateParam extends AMLCompletionPlugin {
@@ -35,7 +34,7 @@ trait UrlTemplateParam extends AMLCompletionPlugin {
 
   protected def endpointParams(e: EndPoint): Seq[String] = {
     e.parameters
-      .filter(p => p.binding.option().contains("path") && p.annotations.contains(classOf[SynthesizedField]))
+      .filter(p => p.binding.option().contains("path") && p.annotations.isVirtual)
       .flatMap(_.name.option())
       .filter(n => e.path.option().getOrElse("").contains(s"{$n}"))
   }

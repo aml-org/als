@@ -30,7 +30,8 @@ object Async2SecuredByCompletionPlugin extends AMLCompletionPlugin with NonPatch
   private def isWritingSecuredBy(request: AmlCompletionRequest): Boolean = {
     request.amfObject match {
       case _: SecurityRequirement =>
-        request.fieldEntry.isEmpty && request.yPartBranch.isDescendanceOf("security")
+        request.fieldEntry.exists(_.field == SecuritySchemeModel.Name) ||
+          request.fieldEntry.isEmpty && request.yPartBranch.isDescendanceOf("security")
       case _ => false
     }
   }

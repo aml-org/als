@@ -180,8 +180,10 @@ object AmlCompletionRequestBuilder {
                 val diff = position.column - node.range.columnFrom - {
                   if (node.asScalar.exists(_.mark.plain)) 0 else 1
                 } // if there is a quotation mark, adjust the range according
-                if (diff > next.length)
-                  "" // todo: should not be necessary, but `contains` with scalar values inside flow arrays are faulty
+                if (diff > next.length) {
+                  if (position.column - 1 == node.range.columnTo) next
+                  else ""
+                } // todo: should not be necessary, but `contains` with scalar values inside flow arrays are faulty
                 else next.substring(0, Math.max(diff, 0))
               } else ""
             case YType.Bool =>

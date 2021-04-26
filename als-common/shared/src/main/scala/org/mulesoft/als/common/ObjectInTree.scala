@@ -60,7 +60,7 @@ case class ObjectInTree(obj: AmfObject,
       (f.value.annotations.ast() match {
         case Some(e: YMapEntry) =>
           e.contains(amfPosition) && !(e.key.range.lineTo == amfPosition.line && e.key.range.columnFrom == amfPosition.column) // start of the entry
-        case _ => f.value.annotations.containsAstPosition(amfPosition).getOrElse(false)
+        case _ => f.value.annotations.containsAstPosition(amfPosition).getOrElse(f.value.annotations.isInferred)
       })
 
   private def inValue(f: FieldEntry) =

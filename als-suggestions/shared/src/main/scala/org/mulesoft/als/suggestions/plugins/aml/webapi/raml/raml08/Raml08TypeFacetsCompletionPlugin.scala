@@ -19,7 +19,7 @@ import scala.concurrent.Future
 object Raml08TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin with PayloadMediaTypeSeeker {
   override def id: String = "RamlTypeFacetsCompletionPlugin"
 
-  private val formMediaTypes: Seq[String] =
+  val formMediaTypes: Seq[String] =
     Seq("application/x-www-form-urlencoded", "multipart/form-data")
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
@@ -36,11 +36,12 @@ object Raml08TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin
           Seq(RawSuggestion.forObject("formParameters", "schemas"))
         else Seq()
       } :+ RawSuggestion("schema", isAKey = true, "schemas", mandatory = false)
-      case p: Payload
-          if formMediaTypes
-            .contains(p.mediaType.value()) =>
-        Seq(RawSuggestion.forObject("formParameters", "schemas"),
-            RawSuggestion("schema", isAKey = true, "schemas", mandatory = false))
+      case p: Payload if params.yPartBranch.isKey && p.mediaType.option().isDefined =>
+        if (formMediaTypes.contains(p.mediaType.value()))
+          Seq(RawSuggestion.forObject("formParameters", "schemas"),
+              RawSuggestion("schema", isAKey = true, "schemas", mandatory = false))
+        else
+          Seq(RawSuggestion("schema", isAKey = true, "schemas", mandatory = false))
       case _ => Nil
     })
   }

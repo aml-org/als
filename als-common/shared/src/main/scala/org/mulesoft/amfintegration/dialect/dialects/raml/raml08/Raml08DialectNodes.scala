@@ -16,7 +16,13 @@ object Raml08DialectNodes extends RamlDialectNodes {
         .withId(dialectLocation + s"#/declarations/$nodeId/DataTypeNode/repeat")
         .withName("repeat")
         .withNodePropertyMapping(PropertyShapeModel.MaxCount.value.iri())
-        .withLiteralRange(xsdBoolean.iri()))
+        .withLiteralRange(xsdBoolean.iri()),
+      PropertyMapping()
+        .withId(dialectLocation + s"#/declarations/$nodeId/DataTypeNode/required")
+        .withName("required")
+        .withNodePropertyMapping(PropertyShapeModel.MinCount.value.iri())
+        .withLiteralRange(xsdBoolean.iri())
+    )
 
   override def commonShapeProperties(nodeId: String): Seq[PropertyMapping] =
     super.commonShapeProperties(nodeId) ++ extendedShapeProperties(nodeId)

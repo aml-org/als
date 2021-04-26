@@ -9,7 +9,7 @@ import org.mulesoft.lexer.{AstToken, InputRange}
 import org.yaml.lexer.YamlToken
 import org.yaml.model.YNode.MutRef
 import org.yaml.model._
-
+import amf.core.parser.YNodeLikeOps
 object YamlWrapper {
 
   def getIndentation(raw: String, position: Position): Int = {
@@ -180,8 +180,21 @@ object YamlWrapper {
   implicit class AlsYScalarOps(scalar: YScalar) extends CommonPartOps(scalar) {
     override def contains(amfPosition: AmfPosition, editionMode: Boolean = false): Boolean =
       super.contains(amfPosition, editionMode) || // (lineContains(amfPosition) && scalar.mark == NoMark)
-        (scalar.range.lineFrom <= amfPosition.line && scalar.value == null) // blind guessing, we should find a better solution
+        (scalar.range.lineFrom <= amfPosition.line && scalar.value == null) || oneCharAfterEnd(
+        scalar.range,
+        amfPosition) // blind guessing, we should find a better solution
 
+    /**
+      * Hack for abstract declaration variables. By some reason, last empty char is trimmed, so:
+      * <<params | *
+      * will not work
+      * @param inputRange
+      * @param amfPosition
+      * @return
+      */
+    private def oneCharAfterEnd(inputRange: InputRange, amfPosition: AmfPosition) = {
+      inputRange.lineTo == amfPosition.line && inputRange.columnTo == amfPosition.column - 1
+    }
 //    // todo: check why such hack is necessary, sensible case:  [val1, val2, *]
 //    private def lineContains(amfPosition: AmfPosition): Boolean =
 //      scalar.range.lineFrom <= amfPosition.line && ((scalar.range.lineTo >= amfPosition.line && scalar.range.columnFrom <= amfPosition.column) || scalar.value == null)
@@ -212,12 +225,20 @@ object YamlWrapper {
       case ast: YNode if ast.isNull =>
         true
       case ast: YNode =>
-        ast.value.contains(amfPosition)
+        ast.value.contains(amfPosition) || (ast.contains(amfPosition) && nodeForMap(ast, amfPosition))
       case ast: YScalar =>
         AlsYScalarOps(ast).contains(amfPosition, editionMode)
       case seq: YSequence =>
         seq.contains(amfPosition, editionMode)
       case _ => super.contains(amfPosition, editionMode)
+    }
+
+    private def nodeForMap(ast: YNode, amfPosition: AmfPosition) = {
+      ast
+        .toOption[YMap]
+        .exists(p => {
+          p.entries.nonEmpty && p.entries.head.location.columnFrom == amfPosition.column
+        })
     }
   }
 }

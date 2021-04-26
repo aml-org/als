@@ -20,7 +20,8 @@ object ExampleStructure extends AMLCompletionPlugin {
       request.amfObject match {
         case e: Example
             if request.fieldEntry.exists(_.field == ExampleModel.Name) && request.yPartBranch.stringValue != e.name
-              .value() && request.yPartBranch.isKey =>
+              .option()
+              .getOrElse("") && request.yPartBranch.isKey =>
           Raml10DialectNodes.ExampleNode.propertiesRaw(d = request.actualDialect)
         // ugly hack. How i can know that the only property that exists is from the k: added in the patch?
         case _ => Nil

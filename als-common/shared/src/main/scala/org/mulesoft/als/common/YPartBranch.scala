@@ -192,6 +192,8 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
 
 object NodeBranchBuilder {
   def getAstForRange(ast: YPart, startPosition: AmfPosition, endPosition: AmfPosition, isJson: Boolean): YPart = {
+
+    // TODO: new traverse check deletion ... could we compare start and endPosition before traverse both?
     val start = build(ast, startPosition, isJson)
     val end   = build(ast, endPosition, isJson)
 
@@ -256,7 +258,7 @@ object NodeBranchBuilder {
   }
 
   private def isNullOrEmptyTag(node: YNode) =
-    node.isNull || (node.tagType.toString == "!include" && node.value.toString.isEmpty)
+    node.isNull || (node.tagType.toString == "!include")
 
   def childWithPosition(ast: YPart, amfPosition: AmfPosition): Option[YPart] = {
     val parts = ast.children
