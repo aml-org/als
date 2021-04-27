@@ -48,6 +48,11 @@ class SelectionRangeManager(val workspace: WorkspaceManager,
         s"request for selection range on ${params.textDocument.uri} @ ${params.positions} "
 
       override protected def uri(params: SelectionRangeParams): String = params.textDocument.uri
+
+      /**
+        * If Some(_), this will be sent as a response as a default for a managed exception
+        */
+      override protected val empty: Option[Seq[SelectionRange]] = Some(Seq())
     })
 
   def selectionRange(uri: String, positions: Seq[Position], uuid: String): Future[Seq[SelectionRange]] = {

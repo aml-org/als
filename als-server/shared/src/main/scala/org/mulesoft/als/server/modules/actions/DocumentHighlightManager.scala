@@ -44,6 +44,11 @@ class DocumentHighlightManager(val workspace: WorkspaceManager,
         s"request for document highlights on ${params.textDocument.uri}"
       override protected def uri(params: DocumentHighlightParams): String =
         params.textDocument.uri
+
+      /**
+        * If Some(_), this will be sent as a response as a default for a managed exception
+        */
+      override protected val empty: Option[Seq[DocumentHighlight]] = Some(Seq())
     }
   )
 

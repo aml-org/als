@@ -91,7 +91,8 @@ trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingArea
     log(s"StagingArea: $stagingArea")
     log(s"State: $state")
     log(s"Repo uris: ${repository.getAllFilesUris}")
-    throw UnitNotFoundException(uri)
+    log(s"UnitNotFoundException for: $uri")
+    throw UnitNotFoundException(uri, "async")
   }
 
   private def goIdle(): Future[Unit] = synchronized {

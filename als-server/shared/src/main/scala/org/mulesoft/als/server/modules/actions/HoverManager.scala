@@ -61,5 +61,9 @@ class HoverManager(wm: WorkspaceManager, amfInstance: AmfInstance, telemetryProv
       }
     }
 
+    /**
+      * If Some(_), this will be sent as a response as a default for a managed exception
+      */
+    override protected val empty: Option[Hover] = Some(Hover(Seq(), None))
   }
 }

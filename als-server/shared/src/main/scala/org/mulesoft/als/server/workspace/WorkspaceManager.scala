@@ -151,6 +151,8 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
     event.added.flatMap(_.uri).map(initializeWS)
   }
 
+  def getWorkspaceFolders: Seq[String] = workspaces.map(_.folder)
+
   dependencies.foreach(d => d.withUnitAccessor(this))
 
   override def getDocumentLinks(uri: String, uuid: String): Future[Seq[DocumentLink]] =

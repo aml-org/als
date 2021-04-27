@@ -66,12 +66,14 @@ object Main {
       val logger: Logger   = PrintLnLogger
       val clientConnection = ClientConnection[StringWriter](logger)
 
+      logger.debug("Building LanguageServerImpl", "Main", "main")
       val server = new LanguageServerImpl(
         new LanguageServerFactory(clientConnection)
           .withSerializationProps(JvmSerializationProps(clientConnection))
           .build()
       )
 
+      logger.debug("Launching services", "Main", "main")
       val launcher = new Launcher.Builder[LanguageClient]()
         .setLocalService(server)
         .setRemoteInterface(classOf[LanguageClient])
@@ -81,6 +83,8 @@ object Main {
 
       val client = launcher.getRemoteProxy
       clientConnection.connect(LanguageClientWrapper(client))
+
+      logger.debug("Connecting Client", "Main", "main")
 
       clientConnection.connectAls(new AlsLanguageClient[StringWriter] {
         override def notifySerialization(params: SerializationResult[StringWriter]): Unit = {}

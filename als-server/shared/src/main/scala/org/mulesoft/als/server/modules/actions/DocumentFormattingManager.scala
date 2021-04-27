@@ -52,6 +52,11 @@ class DocumentFormattingManager(val workspace: WorkspaceManager,
       override protected def uri(params: DocumentFormattingParams): String = params.textDocument.uri
 
       override def `type`: DocumentFormattingRequestType.type = DocumentFormattingRequestType
+
+      /**
+        * If Some(_), this will be sent as a response as a default for a managed exception
+        */
+      override protected val empty: Option[Seq[TextEdit]] = Some(Seq())
     })
 
   override val `type`: ConfigType[DocumentFormattingClientCapabilities, Boolean] =

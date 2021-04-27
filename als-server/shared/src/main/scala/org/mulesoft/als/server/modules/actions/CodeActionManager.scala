@@ -101,6 +101,11 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
            |supports documentChanges: ${configuration.supportsDocumentChanges}""".stripMargin
 
       override protected def uri(params: CodeActionParams): String = params.textDocument.uri
+
+      /**
+        * If Some(_), this will be sent as a response as a default for a managed exception
+        */
+      override protected val empty: Option[Seq[CodeAction]] = Some(Seq())
     }
   )
 

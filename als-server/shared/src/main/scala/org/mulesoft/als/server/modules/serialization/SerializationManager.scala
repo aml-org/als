@@ -114,6 +114,8 @@ class SerializationManager[S](telemetryProvider: TelemetryProvider,
         s"Requested serialization for ${params.textDocument.uri}"
 
       override protected def uri(params: SerializationParams): String = params.textDocument.uri
+
+      override protected val empty: Option[SerializationResult[S]] = None
     }
   )
 

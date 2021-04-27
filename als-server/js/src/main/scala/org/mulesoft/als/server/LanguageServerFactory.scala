@@ -18,6 +18,7 @@ import org.mulesoft.amfintegration.AmfInstance
 import org.yaml.builder.{DocBuilder, JsOutputBuilder}
 
 import scala.scalajs.js
+import scala.scalajs.js.UndefOr
 import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
 
 @JSExportAll
@@ -50,12 +51,11 @@ object LanguageServerFactory {
                        notificationKind: js.UndefOr[DiagnosticNotificationsKind] = js.undefined): LanguageServer = {
 
     val factory =
-      new WorkspaceManagerFactoryBuilder(clientNotifier,
-                                         logger.toOption.map(l => ClientLoggerAdapter(l)).getOrElse(PrintLnLogger),
-                                         jsServerSystemConf.environment)
-        .withAmfConfiguration(new AmfInstance(plugins.toSeq.map(ClientPayloadPluginConverter.convert),
-                                              jsServerSystemConf.platform,
-                                              jsServerSystemConf.environment))
+      new WorkspaceManagerFactoryBuilder(clientNotifier, sharedLogger(logger), jsServerSystemConf.environment)
+        .withAmfConfiguration(
+          new AmfInstance(plugins.toSeq.map(ClientPayloadPluginConverter.convert),
+                          jsServerSystemConf.platform,
+                          jsServerSystemConf.environment))
         .withPlatform(jsServerSystemConf.platform)
         .withDirectoryResolver(jsServerSystemConf.directoryResolver)
 
@@ -70,7 +70,8 @@ object LanguageServerFactory {
       new LanguageServerBuilder(builders.documentManager,
                                 builders.workspaceManager,
                                 builders.configurationManager,
-                                builders.resolutionTaskManager)
+                                builders.resolutionTaskManager,
+                                sharedLogger(logger))
         .addInitializableModule(sm)
         .addInitializableModule(filesInProjectManager)
         .addInitializable(builders.workspaceManager)
@@ -99,6 +100,10 @@ object LanguageServerFactory {
     dm.foreach(languageBuilder.addInitializableModule)
     builders.serializationManager.foreach(languageBuilder.addRequestModule)
     languageBuilder.build()
+  }
+
+  private def sharedLogger(logger: UndefOr[ClientLogger]) = {
+    logger.toOption.map(l => ClientLoggerAdapter(l)).getOrElse(PrintLnLogger)
   }
 }
 

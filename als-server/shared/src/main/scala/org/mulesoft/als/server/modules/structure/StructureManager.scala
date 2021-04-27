@@ -54,6 +54,9 @@ class StructureManager(val unitAccesor: UnitAccessor[CompilableUnit],
         s"Requested structure for ${params.textDocument.uri}"
 
       override protected def uri(params: DocumentSymbolParams): String = params.textDocument.uri
+
+      override protected val empty: Option[Either[Seq[SymbolInformation], Seq[documentsymbol.DocumentSymbol]]] =
+        Some(Right(Seq()))
     }
   )
 
