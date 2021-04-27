@@ -51,6 +51,11 @@ class GoToDefinitionManager(val workspace: WorkspaceManager,
         s"Request for go to definition on ${params.textDocument.uri}"
 
       override protected def uri(params: DefinitionParams): String = params.textDocument.uri
+
+      /**
+        * If Some(_), this will be sent as a response as a default for a managed exception
+        */
+      override protected val empty: Option[Either[Seq[Location], Seq[LocationLink]]] = Some(Right(Seq()))
     }
   )
 

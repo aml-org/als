@@ -84,7 +84,8 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecr
       new LanguageServerBuilder(builders.documentManager,
                                 builders.workspaceManager,
                                 builders.configurationManager,
-                                builders.resolutionTaskManager)
+                                builders.resolutionTaskManager,
+                                logger)
         .addInitializableModule(sm)
         .addInitializableModule(filesInProjectManager)
         .addInitializable(builders.workspaceManager)

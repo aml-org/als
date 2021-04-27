@@ -70,6 +70,11 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
 
       override protected def uri(params: CompletionParams): String =
         params.textDocument.uri
+
+      /**
+        * If Some(_), this will be sent as a response as a default for a managed exception
+        */
+      override protected val empty: Option[Either[Seq[CompletionItem], CompletionList]] = Some(Left(Seq()))
     }
   )
 

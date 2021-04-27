@@ -104,12 +104,17 @@ class MockAlsClientNotifier
   override def notifyProjectFiles(params: FilesInProjectParams): Unit = {}
 }
 
-class MockTelemetryClientNotifier(val timeoutMillis: Int = 1000)
+class MockTelemetryClientNotifier(val timeoutMillis: Int = 1000, ignoreErrors: Boolean = true)
     extends ClientNotifier
     with AbstractTestClientNotifier[TelemetryMessage]
     with TimeoutFuture {
 
-  override def nextCall: Future[TelemetryMessage] = timeoutFuture(super.nextCall, timeoutMillis)
+  override def nextCall: Future[TelemetryMessage] =
+    timeoutFuture(super.nextCall, timeoutMillis)
+      .flatMap {
+        case m if m.messageType == MessageTypes.ERROR_MESSAGE && ignoreErrors => nextCall
+        case m                                                                => Future.successful(m)
+      }
 
   override def notifyTelemetry(msg: TelemetryMessage): Unit = notify(msg)
 

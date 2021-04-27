@@ -49,4 +49,9 @@ class PrepareRenameHandler(telemetryProvider: TelemetryProvider, workspace: Work
           } else None
         }
       }
+
+  /**
+    * If Some(_), this will be sent as a response as a default for a managed exception
+    */
+  override protected val empty: Option[Option[Either[Range, PrepareRenameResult]]] = Some(None)
 }

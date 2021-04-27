@@ -3,7 +3,7 @@ package org.mulesoft.als.server.modules.telemetry
 import org.mulesoft.als.server.ClientNotifierModule
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
+import org.mulesoft.lsp.feature.telemetry.MessageTypes.{ERROR_MESSAGE, MessageTypes}
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.telemetry.{
   TelemetryClientCapabilities,
@@ -33,4 +33,7 @@ class TelemetryManager(private val clientNotifier: ClientNotifier, private val l
                                          uri: String,
                                          uuid: String): Unit =
     clientNotifier.notifyTelemetry(TelemetryMessage(code, messageType, msg, uri, System.currentTimeMillis(), uuid))
+
+  override def addErrorMessage(code: String, msg: String, uri: String, uuid: String): Unit =
+    clientNotifier.notifyTelemetry(TelemetryMessage(code, ERROR_MESSAGE, msg, uri, System.currentTimeMillis(), uuid))
 }

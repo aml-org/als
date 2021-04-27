@@ -83,20 +83,30 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
   def determineSyntax(url: String, text: String): String =
     if (text.trim.startsWith("{")) "JSON" else "YAML"
 
-  override def didOpen(params: DidOpenTextDocumentParams): Unit =
-    onOpenDocument(
-      OpenedDocument(params.textDocument.uri.toAmfUri, params.textDocument.version, params.textDocument.text))
+  override def didOpen(params: DidOpenTextDocumentParams): Unit = {
+    val uri = params.textDocument.uri
+    if (!uri.isValidFileUri)
+      logger.warning(s"Adding invalid URI file to manager: $uri", "TextDocumentManager", "didOpen")
+    onOpenDocument(OpenedDocument(uri.toAmfUri, params.textDocument.version, params.textDocument.text))
+  }
 
   override def didChange(params: DidChangeTextDocumentParams): Unit = {
     val document = params.textDocument
     val version  = document.version.getOrElse(0)
     val text     = params.contentChanges.headOption.map(_.text)
+    val uri      = document.uri
+    if (!uri.isValidFileUri)
+      logger.warning(s"Editing invalid URI file to manager: $uri", "TextDocumentManager", "didChange")
 
-    documentWasChanged(ChangedDocument(document.uri.toAmfUri, version, text, None))
+    documentWasChanged(ChangedDocument(uri.toAmfUri, version, text, None))
   }
 
-  override def didClose(params: DidCloseTextDocumentParams): Unit =
-    onCloseDocument(params.textDocument.uri.toAmfUri)
+  override def didClose(params: DidCloseTextDocumentParams): Unit = {
+    val uri = params.textDocument.uri
+    if (!uri.isValidFileUri)
+      logger.warning(s"Removing invalid URI file to manager: $uri", "TextDocumentManager", "didClose")
+    onCloseDocument(uri.toAmfUri)
+  }
 
   override def didFocus(params: DidFocusParams): Unit =
     uriToEditor

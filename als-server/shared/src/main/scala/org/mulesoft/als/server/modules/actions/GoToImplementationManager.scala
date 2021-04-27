@@ -53,6 +53,11 @@ class GoToImplementationManager(val workspace: WorkspaceManager,
         s"request for go to implementation on ${params.textDocument.uri}"
 
       override protected def uri(params: ImplementationParams): String = params.textDocument.uri
+
+      /**
+        * If Some(_), this will be sent as a response as a default for a managed exception
+        */
+      override protected val empty: Option[Either[Seq[Location], Seq[LocationLink]]] = Some(Right(Seq()))
     }
   )
 

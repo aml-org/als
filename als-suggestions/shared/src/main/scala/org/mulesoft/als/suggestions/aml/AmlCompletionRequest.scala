@@ -122,8 +122,10 @@ object AmlCompletionRequestBuilder {
       yPartBranch,
       configuration,
       snippetSupport,
-      if (baseUnit.location().isDefined) platform.mimeFromExtension(platform.extension(baseUnit.location().get).get)
-      else None,
+      baseUnit
+        .location()
+        .flatMap(platform.extension)
+        .flatMap(platform.mimeFromExtension), // should we use `yaml` as default? maybe check header for RAML?
       baseUnit.indentation(dtoPosition)
     )
 

@@ -45,6 +45,11 @@ class ConversionManager(unitAccessor: UnitAccessor[CompilableUnit],
         s"Requested conversion from ${params.uri}\n\t[${params.syntax.getOrElse(".")} -> ${params.target}]"
 
       override protected def uri(params: ConversionParams): String = params.uri
+
+      /**
+        * If Some(_), this will be sent as a response as a default for a managed exception
+        */
+      override protected val empty: Option[SerializedDocument] = None
     }
   )
 

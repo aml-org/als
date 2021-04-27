@@ -127,4 +127,9 @@ class RenameHandler(telemetryProvider: TelemetryProvider,
         case _ =>
           Future.successful(None)
       })
+
+  /**
+    * If Some(_), this will be sent as a response as a default for a managed exception
+    */
+  override protected val empty: Option[WorkspaceEdit] = Some(WorkspaceEdit(None, None))
 }

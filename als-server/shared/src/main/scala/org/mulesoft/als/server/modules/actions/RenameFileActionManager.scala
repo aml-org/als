@@ -73,5 +73,10 @@ class RenameFileActionManager(val workspace: WorkspaceManager,
         RenameFileActionResult(edit)
       }
     }
+
+    /**
+      * If Some(_), this will be sent as a response as a default for a managed exception
+      */
+    override protected val empty: Option[RenameFileActionResult] = None
   }
 }
