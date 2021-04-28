@@ -10,7 +10,7 @@ import amf.core.parser
 import amf.core.parser.{FieldEntry, Position => AmfPosition}
 import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
 import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.{DialectDomainElement, NodeMapping}
+import amf.plugins.document.vocabularies.model.domain.DialectDomainElement
 import amf.plugins.domain.shapes.metamodel.AnyShapeModel
 import amf.plugins.domain.webapi.metamodel.bindings._
 import org.mulesoft.als.common.YamlWrapper._
@@ -220,9 +220,7 @@ object AmfSonElementFinder {
             e.values.collectFirst({ case d: DataNode => d })
           case d: DomainElementModel if d.`type`.headOption.exists(_.iri() == DomainElementModel.`type`.head.iri()) =>
             e.values.collectFirst({ case o: AmfObject => o }) match {
-              case Some(_: DialectDomainElement) if isDeclares(entry) => None
-              case Some(_: NodeMapping) if isDeclares(entry) =>
-                None // should add declaration keys annotations to dialect instance to make this case match the next one
+              case Some(_: DialectDomainElement) if isDeclares(entry)  => None
               case Some(_) if isDeclares(entry) && isInDeclarationName => None
               case other                                               => other
             }

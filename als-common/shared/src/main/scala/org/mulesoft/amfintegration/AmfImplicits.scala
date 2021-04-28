@@ -6,10 +6,10 @@ import amf.core.metamodel.document.ModuleModel
 import amf.core.metamodel.{Field, Obj}
 import amf.core.model.document._
 import amf.core.model.domain.{AmfObject, AmfScalar, DomainElement, NamedDomainElement}
-import amf.core.parser.Range
-import amf.core.parser.{Annotations, FieldEntry, Value, Position => AmfPosition}
+import amf.core.parser.{Annotations, FieldEntry, Range, Value, Position => AmfPosition}
 import amf.plugins.document.vocabularies.model.document.{Dialect, Vocabulary}
 import amf.plugins.document.vocabularies.model.domain._
+import amf.plugins.document.vocabularies.parser.common.{DeclarationKey, DeclarationKeys}
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import amf.plugins.document.webapi.annotations._
 import amf.plugins.domain.shapes.annotations.ParsedFromTypeExpression
