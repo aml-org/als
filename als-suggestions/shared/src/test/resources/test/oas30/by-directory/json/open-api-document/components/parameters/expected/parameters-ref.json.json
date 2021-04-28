@@ -120,6 +120,66 @@
     "command": null
   },
   {
+    "label": "parameter-name-after-declaration.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11parameter-name-after-declaration.json",
+    "filterText": "\"parameter-name-after-declaration.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 14,
+          "character": 20
+        },
+        "end": {
+          "line": 14,
+          "character": 22
+        }
+      },
+      "newText": "\"parameter-name-after-declaration.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "parameter-name.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11parameter-name.json",
+    "filterText": "\"parameter-name.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 14,
+          "character": 20
+        },
+        "end": {
+          "line": 14,
+          "character": 22
+        }
+      },
+      "newText": "\"parameter-name.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "parameters.json",
     "kind": [],
     "detail": "unknown",

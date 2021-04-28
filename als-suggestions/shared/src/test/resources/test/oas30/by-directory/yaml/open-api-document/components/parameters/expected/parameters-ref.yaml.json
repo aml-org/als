@@ -120,6 +120,66 @@
     "command": null
   },
   {
+    "label": "parameter-name-after-declaration.yaml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11parameter-name-after-declaration.yaml",
+    "filterText": "parameter-name-after-declaration.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 10,
+          "character": 16
+        },
+        "end": {
+          "line": 10,
+          "character": 16
+        }
+      },
+      "newText": "parameter-name-after-declaration.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "parameter-name.yaml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11parameter-name.yaml",
+    "filterText": "parameter-name.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 10,
+          "character": 16
+        },
+        "end": {
+          "line": 10,
+          "character": 16
+        }
+      },
+      "newText": "parameter-name.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "parameters.yaml",
     "kind": [],
     "detail": "unknown",

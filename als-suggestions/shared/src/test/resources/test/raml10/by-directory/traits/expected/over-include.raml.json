@@ -30,6 +30,36 @@
     "command": null
   },
   {
+    "label": "definition-name-after-declaration.raml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11definition-name-after-declaration.raml",
+    "filterText": "definition-name-after-declaration.raml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 34
+        },
+        "end": {
+          "line": 7,
+          "character": 34
+        }
+      },
+      "newText": "definition-name-after-declaration.raml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "definition-name.raml",
     "kind": [],
     "detail": "unknown",

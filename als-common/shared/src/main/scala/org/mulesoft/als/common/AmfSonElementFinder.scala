@@ -10,11 +10,12 @@ import amf.core.parser
 import amf.core.parser.{FieldEntry, Position => AmfPosition}
 import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
 import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.DialectDomainElement
+import amf.plugins.document.vocabularies.model.domain.{DialectDomainElement, NodeMapping}
 import amf.plugins.domain.shapes.metamodel.AnyShapeModel
 import amf.plugins.domain.webapi.metamodel.bindings._
 import org.mulesoft.als.common.YamlWrapper._
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, _}
+import org.yaml.model.YMapEntry
 
 import scala.language.implicitConversions
 
@@ -66,6 +67,7 @@ object AmfSonElementFinder {
 
       private def appliesReduction(fe: FieldEntry) =
         (!fe.value.annotations.isInferred) || fe.value.value.annotations.containsPosition(amfPosition)
+
       def find(obj: AmfObject): Branch = {
         val entryPoint = Branch(obj, Nil, None)
         find(entryPoint) match {
@@ -219,7 +221,10 @@ object AmfSonElementFinder {
           case d: DomainElementModel if d.`type`.headOption.exists(_.iri() == DomainElementModel.`type`.head.iri()) =>
             e.values.collectFirst({ case o: AmfObject => o }) match {
               case Some(_: DialectDomainElement) if isDeclares(entry) => None
-              case other                                              => other
+              case Some(_: NodeMapping) if isDeclares(entry) =>
+                None // should add declaration keys annotations to dialect instance to make this case match the next one
+              case Some(_) if isDeclares(entry) && isInDeclarationName => None
+              case other                                               => other
             }
           case s: ShapeModel if s.`type`.headOption.exists(_.iri() == ShapeModel.`type`.head.iri()) =>
             Some(AnyShapeModel.modelInstance)
@@ -232,6 +237,16 @@ object AmfSonElementFinder {
             Some(instance)
           case _ => None
         }
+
+      private lazy val isInDeclarationName: Boolean =
+        obj.fields
+          .fields()
+          .find(_.field == DocumentModel.Declares)
+          .exists(_.value.annotations.declarationKeys().map(_.entry).exists {
+            case entry: YMapEntry =>
+              entry.value.range.contains(amfPosition) && amfPosition.column > entry.range.columnFrom
+            case _ => false
+          })
     }
   }
 
