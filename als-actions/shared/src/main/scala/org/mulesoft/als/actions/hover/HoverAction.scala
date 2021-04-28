@@ -58,8 +58,17 @@ case class HoverAction(bu: BaseUnit,
   private def hackFromNonDynamic(): Option[(Seq[String], Option[parser.Range])] =
     objectInTree.stack.find(obj => !obj.isInstanceOf[DataNode]).flatMap(classTerm)
 
-  private def fromTree(): Option[(Seq[String], Option[parser.Range])] =
+  def isLocal(f: FieldEntry): Boolean =
+    f.value.annotations.location().contains(location) &&
+      f.value.annotations.lexicalInformation().exists(_.contains(dtoPosition.toAmfPosition))
+
+  lazy val localFieldEntry: Option[FieldEntry] =
     objectInTree.fieldEntry
+      .filter(isLocal)
+      .orElse(objectInTree.obj.fields.fields().find(isLocal))
+
+  private def fromTree(): Option[(Seq[String], Option[parser.Range])] =
+    localFieldEntry
       .filterNot(isDeclaredName)
       .flatMap(fieldEntry)
       .orElse(objectInTree.nonVirtualObj.flatMap(classTerm))

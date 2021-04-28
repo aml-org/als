@@ -1,0 +1,5 @@
+hovers:
+  (10,11):
+    range: Range(common.Position[L:7,C:4],common.Position[L:10,C:0])
+    contents:
+      - Example value for a schema inside an API

@@ -27,5 +27,5 @@ class RamlServerRenameTests extends RAMLRenameTest {
   test("test 023 - RAML Expression with triple union") { runTest("test023/api.raml", "RENAMED") }
   test("test 024 - RAML Expression with simple array") { runTest("test024/api.raml", "RENAMED") }
   test("test 025 - RAML Expression with union array") { runTest("test025/api.raml", "RENAMED") }
-  test("test 026 - RAML should be able to on the value") { runTestDisabled("test026/api.raml") }
+  test("test 026 - RAML should be able to on the value") { runTest("test026/api.raml", "RENAMED") }
 }

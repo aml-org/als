@@ -1,0 +1,5 @@
+hovers:
+  (2,4):
+    range: Range(common.Position[L:1,C:0],common.Position[L:2,C:0])
+    contents:
+      - Name for the root element

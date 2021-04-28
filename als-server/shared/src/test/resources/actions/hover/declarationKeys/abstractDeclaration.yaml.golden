@@ -1,0 +1,9 @@
+hovers:
+  (3,6):
+    range: Range(common.Position[L:2,C:2],common.Position[L:5,C:0])
+    contents:
+      - Contains declarations of reusable Messages
+  (6,6):
+    range: Range(common.Position[L:5,C:2],common.Position[L:5,C:16])
+    contents:
+      - Contains declarations of reusable Message traits

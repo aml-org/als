@@ -1,25 +1,19 @@
 package org.mulesoft.als.actions
 
-import amf.core.AMFSerializer
-import amf.core.emitter.RenderOptions
 import amf.core.remote._
 import org.mulesoft.als.actions.hover.HoverAction
-import org.mulesoft.als.common.YamlWrapper
+import org.mulesoft.als.common.BaseHoverTest
 import org.mulesoft.als.common.YamlWrapper._
 import org.mulesoft.als.common.cache.{ObjectInTreeCached, YPartBranchCached}
-import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.{AmfInstance, AmfParseResult, InitOptions}
-import org.mulesoft.lsp.feature.hover.Hover
 import org.scalatest.{Assertion, AsyncFunSuite}
-import org.yaml.model.YDocument.EntryBuilder
 import org.yaml.model._
-import org.yaml.render.YamlRender
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class HoverActionTest extends AsyncFunSuite with FileAssertionTest {
+class HoverActionTest extends AsyncFunSuite with BaseHoverTest {
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
   val path                                                 = "als-actions/shared/src/test/resources/actions/hover/"
 
@@ -55,27 +49,10 @@ class HoverActionTest extends AsyncFunSuite with FileAssertionTest {
       _ <- amfInstance.init(new InitOptions(Set(vendor)))
       d <- amfInstance.parse(filePath)
       r <- Future {
-        val hovers = getResults(d, amfInstance)
-        val doc = YDocument.objFromBuilder(e => {
-          e.entry("hovers", p => {
-            p.obj(eb =>
-              hovers.foreach { hp =>
-                hp.addEntry(eb)
-            })
-          })
-        })
-        YamlRender.render(doc)
+        getResults(d, amfInstance)
       }
-      tmp <- writeTemporaryFile(goldenPath)(r)
-      r   <- assertDifferences(tmp, goldenPath)
-    } yield r
-  }
-  case class PositionedHover(position: Position, h: Hover) {
-    def addEntry(b: EntryBuilder): Unit = {
-      b.entry(position.toAmfPosition.toString, pb => {
-        pb.list(inner => h.contents.foreach(c => inner += c))
-      })
-    }
+      y <- compareResults(goldenPath, r)
+    } yield y
   }
 
   private def getResults(r: AmfParseResult, amfInstance: AmfInstance): List[PositionedHover] = {

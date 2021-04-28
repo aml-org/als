@@ -222,8 +222,8 @@ object YamlWrapper {
         YMapEntryOps(ast).contains(amfPosition, editionMode)
       case ast: YMap =>
         ast.contains(amfPosition, editionMode)
-      case ast: YNode if ast.isNull =>
-        true
+//      case ast: YNode if ast.isNull =>
+//        true
       case ast: YNode =>
         ast.value.contains(amfPosition) || (ast.contains(amfPosition) && nodeForMap(ast, amfPosition))
       case ast: YScalar =>

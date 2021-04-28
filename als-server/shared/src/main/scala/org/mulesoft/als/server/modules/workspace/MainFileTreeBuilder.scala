@@ -4,11 +4,11 @@ import amf.core.errorhandling.ErrorCollector
 import amf.core.model.document.{BaseUnit, ExternalFragment}
 import amf.core.validation.SeverityLevels
 import amf.plugins.document.vocabularies.model.document.Dialect
-import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.als.common.dtoTypes.{PositionRange, ReferenceOrigins, ReferenceStack}
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.amfintegration.visitors.AmfElementVisitors
 import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
+import org.mulesoft.amfintegration.visitors.AmfElementVisitors
 import org.mulesoft.amfintegration.{AmfParseResult, DiagnosticsBundle, ParserHelper}
 import org.mulesoft.lsp.feature.link.DocumentLink
 
@@ -77,7 +77,7 @@ class ParsedMainFileTree(eh: ErrorCollector,
     errors.exists(
       e =>
         e.location
-          .contains(unit.identifier) && e.level == SeverityLevels.VIOLATION)
+          .contains(unit.identifier) && e.severityLevel == SeverityLevels.VIOLATION)
 
   private def cache(bu: BaseUnit): Future[Unit] = {
     val eventualUnit: Future[Unit] = Future {

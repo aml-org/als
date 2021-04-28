@@ -1,0 +1,5 @@
+hovers:
+  (2,3):
+    range: Range(common.Position[L:1,C:0],common.Position[L:1,C:5])
+    contents:
+      - Imported external libraries for use within the API
