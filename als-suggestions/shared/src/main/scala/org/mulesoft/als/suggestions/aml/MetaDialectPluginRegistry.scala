@@ -7,8 +7,7 @@ import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.metadialect.{
   AnyUriValueCompletionPlugin,
   MapLabelInPropertyMappingCompletionPlugin,
-  NamespaceForTermCompletionPlugin,
-  TypeDiscriminatorCompletionPlugin
+  NamespaceForTermCompletionPlugin
 }
 import org.mulesoft.amfintegration.dialect.dialects.metadialect.MetaDialect
 
@@ -18,8 +17,7 @@ object MetaDialectPluginRegistry extends WebApiCompletionPluginRegistry {
     AMLBaseCompletionPlugins.all :+
       NamespaceForTermCompletionPlugin :+
       AnyUriValueCompletionPlugin :+
-      MapLabelInPropertyMappingCompletionPlugin :+
-      TypeDiscriminatorCompletionPlugin
+      MapLabelInPropertyMappingCompletionPlugin
 
   override def plugins: Seq[AMLCompletionPlugin] = all
 
