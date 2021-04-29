@@ -682,9 +682,9 @@ hovers:
   (180,22):
     - An object name that is used to differentiate between ambiguous types/schemas
   (181,11):
-    - Mappping of acceptable values for the node discriminator
+    - Mapping of acceptable values for the node discriminator
   (181,16):
-    - Mappping of acceptable values for the node discriminator
+    - Mapping of acceptable values for the node discriminator
   (182,11):
     - Variable defined inside an URL template
   (182,32):
