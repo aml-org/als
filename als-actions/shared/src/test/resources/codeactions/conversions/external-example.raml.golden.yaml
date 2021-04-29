@@ -26,10 +26,10 @@ documentChanges:
           "$ref": "#/definitions/schema",
           "definitions": {
             "schema": {
-              "type": "object",
               "example": {
                 "$ref": "aux/example.json"
               },
+              "type": "object",
               "additionalProperties": true,
               "required": [
                 "aString",

@@ -2,7 +2,7 @@ package org.mulesoft.als.actions
 
 import amf.core.remote._
 import org.mulesoft.als.actions.hover.HoverAction
-import org.mulesoft.als.common.BaseHoverTest
+import org.mulesoft.als.common.{BaseHoverTest, PositionedHover}
 import org.mulesoft.als.common.YamlWrapper._
 import org.mulesoft.als.common.cache.{ObjectInTreeCached, YPartBranchCached}
 import org.mulesoft.als.common.dtoTypes.Position
