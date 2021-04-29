@@ -133,7 +133,7 @@
                 "range": {
                   "start": {
                     "line": 42,
-                    "character": 21
+                    "character": 12
                   },
                   "end": {
                     "line": 44,
@@ -143,7 +143,7 @@
                 "selectionRange": {
                   "start": {
                     "line": 42,
-                    "character": 21
+                    "character": 12
                   },
                   "end": {
                     "line": 44,

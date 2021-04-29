@@ -39,6 +39,7 @@ trait AmfBuilderFactory extends BuilderFactory {
       ExampleArrayFieldCompanion +
       TagsArrayFieldSymbolBuilderCompanion +
       ProtocolsArrayFieldBuilderCompanion +
+      AbstractDeclarationDataNodeBuilderCompanion +
       ServerSymbolBuilderCompanion +
       PayloadFieldSymbolCompanion +
       ParameterLinksArrayFieldSymbolBuilderCompanion

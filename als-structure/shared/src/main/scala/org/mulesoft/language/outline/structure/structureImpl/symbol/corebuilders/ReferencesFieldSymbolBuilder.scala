@@ -2,9 +2,11 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilder
 
 import amf.core.metamodel.document.DocumentModel
 import amf.core.metamodel.domain.ShapeModel
+import amf.core.metamodel.domain.templates.AbstractDeclarationModel
 import amf.core.parser
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.webapi.metamodel.api.WebApiModel
+import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldSymbolBuilder,
   IriFieldSymbolBuilderCompanion,
@@ -47,4 +49,8 @@ object ShapeInheritsArrayFieldBuilderCompanion extends IgnoreFieldSymbolBuilderC
 
 object ProtocolsArrayFieldBuilderCompanion extends IgnoreFieldSymbolBuilderCompanion {
   override val supportedIri: String = WebApiModel.Schemes.value.iri()
+}
+
+object AbstractDeclarationDataNodeBuilderCompanion extends IgnoreFieldSymbolBuilderCompanion {
+  override val supportedIri: String = AbstractDeclarationModel.DataNode.value.iri()
 }

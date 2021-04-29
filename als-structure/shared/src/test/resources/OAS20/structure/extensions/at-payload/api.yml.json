@@ -187,7 +187,7 @@
     "deprecated": false,
     "range": {
       "start": {
-        "line": 41,
+        "line": 42,
         "character": 0
       },
       "end": {
@@ -197,7 +197,7 @@
     },
     "selectionRange": {
       "start": {
-        "line": 41,
+        "line": 42,
         "character": 0
       },
       "end": {

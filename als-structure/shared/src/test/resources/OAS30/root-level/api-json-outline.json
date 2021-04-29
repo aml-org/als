@@ -102,31 +102,5 @@
       }
     },
     "children": []
-  },
-  {
-    "name": "documentation",
-    "kind": 7,
-    "deprecated": false,
-    "range": {
-      "start": {
-        "line": 10,
-        "character": 2
-      },
-      "end": {
-        "line": 10,
-        "character": 22
-      }
-    },
-    "selectionRange": {
-      "start": {
-        "line": 10,
-        "character": 2
-      },
-      "end": {
-        "line": 10,
-        "character": 22
-      }
-    },
-    "children": []
   }
 ]

@@ -127,33 +127,34 @@
         "character": 0
       }
     },
-    "children": []
-  },
-  {
-    "name": "documentation",
-    "kind": 7,
-    "deprecated": false,
-    "range": {
-      "start": {
-        "line": 16,
-        "character": 0
-      },
-      "end": {
-        "line": 19,
-        "character": 0
+    "children": [
+      {
+        "name": "test",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 8,
+            "character": 4
+          },
+          "end": {
+            "line": 8,
+            "character": 8
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 8,
+            "character": 4
+          },
+          "end": {
+            "line": 8,
+            "character": 8
+          }
+        },
+        "children": []
       }
-    },
-    "selectionRange": {
-      "start": {
-        "line": 16,
-        "character": 0
-      },
-      "end": {
-        "line": 19,
-        "character": 0
-      }
-    },
-    "children": []
+    ]
   },
   {
     "name": "/aPath",
