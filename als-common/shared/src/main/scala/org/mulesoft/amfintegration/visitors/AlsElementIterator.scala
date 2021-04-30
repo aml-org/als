@@ -5,8 +5,8 @@ import amf.core.model.document.BaseUnit
 import amf.core.model.domain.templates.AbstractDeclaration
 import amf.core.model.domain.{AmfArray, AmfElement, AmfObject}
 import amf.core.traversal.iterator.AmfIterator
-import amf.plugins.document.webapi.parser.spec.WebApiDeclarations.ErrorResourceType
-import amf.plugins.domain.webapi.models.templates.{ResourceType, Trait}
+import amf.plugins.domain.webapi.models.{EndPoint, Operation}
+import org.mulesoft.amfintegration.AbstractDeclarationInformation
 import org.mulesoft.amfintegration.AmfImplicits._
 
 import scala.collection.mutable
@@ -42,14 +42,19 @@ class AlsElementIterator(private val bu: BaseUnit,
           advance()
         case e: ErrorDeclaration[_] =>
           visited += e.id
-        case rt: ResourceType =>
-          val obj = rt.asEndpoint(bu)
-          visited += rt.id
-          buffer = (obj :: extractElements(obj).toList ++ buffer).iterator
-        case t: Trait =>
-          val obj = t.asOperation(bu)
-          visited += t.id
-          buffer = (obj :: extractElements(obj).toList ++ buffer).iterator
+        case abstractDeclaration: AbstractDeclaration =>
+          val information = AbstractDeclarationInformation.extractInformation(abstractDeclaration, bu)
+          information.map(info => {
+            info.element match {
+              case obj: EndPoint =>
+                visited += info.original.id
+                buffer = (obj :: extractElements(obj).toList ++ buffer).iterator
+              case obj: Operation =>
+                visited += info.original.id
+                buffer = (obj :: extractElements(obj).toList ++ buffer).iterator
+              case _ => None
+            }
+          })
         case a: AmfObject if current.annotations.isRamlTypeExpression =>
           // don't search for children, the whole expression will be treated as a single element
           visited += a.id
