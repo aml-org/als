@@ -184,7 +184,7 @@ hovers:
   (50,19):
     - Defines a data type
   (50,25):
-    - Defines a data type
+    - Properties associated to this node
   (51,18):
     - Defines a data type
   (51,21):
@@ -606,7 +606,7 @@ hovers:
   (162,11):
     - Defines a data type
   (162,17):
-    - Defines a data type
+    - Properties associated to this node
   (163,8):
     - Defines a data type
   (163,10):
@@ -679,10 +679,12 @@ hovers:
     - An object name that is used to differentiate between ambiguous types/schemas
   (180,22):
     - An object name that is used to differentiate between ambiguous types/schemas
-  (181,11): []
-  (181,16): []
+  (181,11):
+    - Mapping that relates a certain discriminator value to a certain shape
+  (181,16):
+    - Mapping that relates a certain discriminator value to a certain shape
   (182,11):
-    - Variable defined inside an URL template
+    - Value given to a discriminator that identifies a target Shape
   (182,32):
     - OAS 3 link expression
   (183,9):

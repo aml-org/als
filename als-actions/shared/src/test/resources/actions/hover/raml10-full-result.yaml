@@ -584,7 +584,7 @@ hovers:
   (142,9):
     - Defines a data type
   (142,15):
-    - Defines a data type
+    - Properties associated to this node
   (143,11):
     - Defines a data type
   (143,21):
@@ -716,7 +716,7 @@ hovers:
   (174,9):
     - Defines a data type
   (174,15):
-    - Defines a data type
+    - Properties associated to this node
   (175,7):
     - Defines a data type
   (175,9):
@@ -908,7 +908,7 @@ hovers:
   (205,9):
     - Defines a data type
   (205,15):
-    - Defines a data type
+    - Properties associated to this node
   (206,8):
     - Defines a data type
   (206,12):
@@ -1311,7 +1311,7 @@ hovers:
   (307,15):
     - Defines a data type
   (307,21):
-    - Defines a data type
+    - Properties associated to this node
   (308,14):
     - Defines a data type
   (308,18):
@@ -1335,7 +1335,7 @@ hovers:
   (313,13):
     - Defines a data type
   (313,19):
-    - Defines a data type
+    - Properties associated to this node
   (314,14):
     - Defines a data type
   (314,20):

@@ -88,12 +88,10 @@ trait BaseElementDeclarableExtractors {
     * The original range info for the declared node
     */
   protected lazy val entryRange: Option[Range] =
-    if (vendor != Vendor.AML)
-      entryAst
-        .map(_.range)
-        .map(PositionRange(_))
-        .map(LspRangeConverter.toLspRange)
-    else entryAst.flatMap(getRangeForAML)
+    entryAst
+      .map(_.range)
+      .map(PositionRange(_))
+      .map(LspRangeConverter.toLspRange)
 
   /**
     * The indentation for the existing node, as we already ensured it is a key, the first position gives de current indentation
