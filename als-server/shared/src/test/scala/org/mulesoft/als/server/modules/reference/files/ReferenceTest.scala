@@ -77,25 +77,10 @@ class ReferenceTest extends ServerReferencesTest {
     )
   }
 
-  test("raml-trait name") {
+  test("raml-trait library") {
     runTestImplementations(
       "files/raml-trait/api-name.raml",
-      Set(
-        Location(
-          "file://als-server/shared/src/test/resources/actions/reference/files/raml-trait/api-name.raml",
-          LspRangeConverter.toLspRange(PositionRange(Position(14, 8), Position(14, 10)))
-        ))
-    )
-  }
-
-  test("raml-trait name implementations") {
-    runTestImplementations(
-      "files/raml-trait/api-name.raml",
-      Set(
-        Location(
-          "file://als-server/shared/src/test/resources/actions/reference/files/raml-trait/api-name.raml",
-          LspRangeConverter.toLspRange(PositionRange(Position(14, 8), Position(14, 10)))
-        ))
+      Set()
     )
   }
 
@@ -113,11 +98,7 @@ class ReferenceTest extends ServerReferencesTest {
   test("raml-resourceType field") {
     runTestImplementations(
       "files/raml-resourceType/api-value.raml",
-      Set(
-        Location(
-          "file://als-server/shared/src/test/resources/actions/reference/files/raml-resourceType/api-value.raml",
-          LspRangeConverter.toLspRange(PositionRange(Position(8, 4), Position(8, 16)))
-        ))
+      Set()
     )
   }
 
