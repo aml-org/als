@@ -1,9 +1,18 @@
 package org.mulesoft.als.server.lsp4j
 
 import java.io.StringWriter
-
 import com.google.common.collect.Lists
-import org.eclipse.lsp4j.ExecuteCommandOptions
+import org.eclipse.lsp4j.{
+  DefinitionOptions,
+  DocumentFormattingOptions,
+  DocumentRangeFormattingOptions,
+  DocumentSymbolOptions,
+  ExecuteCommandOptions,
+  ImplementationRegistrationOptions,
+  ReferenceOptions,
+  SelectionRangeRegistrationOptions,
+  TypeDefinitionRegistrationOptions
+}
 import org.mulesoft.als.server.feature.renamefile.RenameFileActionResult
 import org.mulesoft.als.server.feature.serialization.{SerializationResult, SerializedDocument}
 import org.mulesoft.als.server.protocol.configuration.{AlsInitializeResult, AlsServerCapabilities}
@@ -31,15 +40,50 @@ object AlsJConversions {
       capabilities.completionProvider
         .map(lsp4JCompletionOptions)
         .orNull)
-    result.setDefinitionProvider(capabilities.definitionProvider)
-    result.setReferencesProvider(capabilities.referencesProvider)
-    result.setDocumentSymbolProvider(capabilities.documentSymbolProvider)
+    result.setDefinitionProvider(lsp4JEitherWorkDoneProgressOptions(capabilities.definitionProvider)(opt => {
+      val ret  = new DefinitionOptions()
+      val bool = opt.workDoneProgress.getOrElse(false)
+      ret.setWorkDoneProgress(bool)
+      ret
+    }))
+
+    result.setReferencesProvider(lsp4JEitherWorkDoneProgressOptions(capabilities.referencesProvider)(opt => {
+      val ret  = new ReferenceOptions()
+      val bool = opt.workDoneProgress.getOrElse(false)
+      ret.setWorkDoneProgress(bool)
+      ret
+    }))
+
+    result.setDocumentSymbolProvider(lsp4JEitherWorkDoneProgressOptions(capabilities.documentSymbolProvider)(opt => {
+      val ret  = new DocumentSymbolOptions()
+      val bool = opt.workDoneProgress.getOrElse(false)
+      ret.setWorkDoneProgress(bool)
+      ret
+    }))
+
     result.setRenameProvider(capabilities.renameProvider)
     result.setCodeActionProvider(capabilities.codeActionProvider)
 
-    result.setImplementationProvider(lsp4JEitherStaticregistrationOptions(capabilities.implementationProvider))
-    result.setTypeDefinitionProvider(lsp4JEitherStaticregistrationOptions(capabilities.typeDefinitionProvider))
-    result.setSelectionRangeProvider(lsp4JEitherStaticregistrationOptions(capabilities.selectionRange))
+    result.setImplementationProvider(lsp4JEitherWorkDoneProgressOptions(capabilities.implementationProvider)(opt => {
+      val ret  = new ImplementationRegistrationOptions()
+      val bool = opt.workDoneProgress.getOrElse(false)
+      ret.setWorkDoneProgress(bool)
+      ret
+    }))
+
+    result.setTypeDefinitionProvider(lsp4JEitherWorkDoneProgressOptions(capabilities.typeDefinitionProvider)(opt => {
+      val ret  = new TypeDefinitionRegistrationOptions()
+      val bool = opt.workDoneProgress.getOrElse(false)
+      ret.setWorkDoneProgress(bool)
+      ret
+    }))
+
+    result.setSelectionRangeProvider(lsp4JEitherWorkDoneProgressOptions(capabilities.selectionRange)(opt => {
+      val ret  = new SelectionRangeRegistrationOptions()
+      val bool = opt.workDoneProgress.getOrElse(false)
+      ret.setWorkDoneProgress(bool)
+      ret
+    }))
 
     capabilities.hoverProvider.foreach(h => result.setHoverProvider(h))
     capabilities.documentLinkProvider.foreach(dlp => result.setDocumentLinkProvider(dlp))
@@ -65,8 +109,20 @@ object AlsJConversions {
     capabilities.renameFileAction.foreach(r =>
       result.setRenameFileAction(new extension.RenameFileActionServerOptions(r.supported)))
 
-    result.setDocumentFormattingProvider(capabilities.documentFormattingProvider)
-    result.setDocumentRangeFormattingProvider(capabilities.documentRangeFormattingProvider)
+    result.setDocumentFormattingProvider(
+      lsp4JEitherWorkDoneProgressOptions(capabilities.documentFormattingProvider)(opt => {
+        val ret  = new DocumentFormattingOptions()
+        val bool = opt.workDoneProgress.getOrElse(false)
+        ret.setWorkDoneProgress(bool)
+        ret
+      }))
+    result.setDocumentRangeFormattingProvider(
+      lsp4JEitherWorkDoneProgressOptions(capabilities.documentRangeFormattingProvider)(opt => {
+        val ret  = new DocumentRangeFormattingOptions()
+        val bool = opt.workDoneProgress.getOrElse(false)
+        ret.setWorkDoneProgress(bool)
+        ret
+      }))
     result
   }
 

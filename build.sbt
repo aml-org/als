@@ -84,7 +84,7 @@ lazy val lsp = crossProject(JSPlatform, JVMPlatform).settings(
   .in(file("./als-lsp"))
   .settings(settings: _*)
   .jvmSettings(
-    libraryDependencies += "org.eclipse.lsp4j" % "org.eclipse.lsp4j" % "0.9.0",
+    libraryDependencies += "org.eclipse.lsp4j" % "org.eclipse.lsp4j" % "0.12.0",
     libraryDependencies += "org.scala-lang.modules" % "scala-java8-compat_2.12" % "0.8.0"
   )
   .jsSettings(

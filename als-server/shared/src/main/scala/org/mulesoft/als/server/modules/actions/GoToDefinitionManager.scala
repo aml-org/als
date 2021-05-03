@@ -1,6 +1,5 @@
 package org.mulesoft.als.server.modules.actions
 
-import amf.core.remote.Platform
 import org.mulesoft.als.actions.definition.FindDefinition
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.convert.LspRangeConverter
@@ -8,6 +7,7 @@ import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.ConfigType
+import org.mulesoft.lsp.configuration.WorkDoneProgressOptions
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.common.{Location, LocationLink}
 import org.mulesoft.lsp.feature.definition.{
@@ -25,11 +25,11 @@ import scala.concurrent.Future
 class GoToDefinitionManager(val workspace: WorkspaceManager,
                             private val telemetryProvider: TelemetryProvider,
                             private val logger: Logger)
-    extends RequestModule[DefinitionClientCapabilities, Unit] {
+    extends RequestModule[DefinitionClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
 
   private var conf: Option[DefinitionClientCapabilities] = None
 
-  override val `type`: ConfigType[DefinitionClientCapabilities, Unit] =
+  override val `type`: ConfigType[DefinitionClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] =
     DefinitionConfigType
 
   override val getRequestHandlers: Seq[TelemeteredRequestHandler[_, _]] = Seq(
@@ -59,8 +59,10 @@ class GoToDefinitionManager(val workspace: WorkspaceManager,
     }
   )
 
-  override def applyConfig(config: Option[DefinitionClientCapabilities]): Unit =
+  override def applyConfig(config: Option[DefinitionClientCapabilities]): Either[Boolean, WorkDoneProgressOptions] = {
     conf = config
+    Left(true)
+  }
 
   private def goToDefinition(uri: String,
                              position: Position,

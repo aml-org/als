@@ -51,7 +51,10 @@ object ClientAlsServerCapabilities {
           .orUndefined
           .asInstanceOf[js.Any],
         completionProvider = internal.completionProvider.map(_.toClient).orUndefined,
-        definitionProvider = internal.definitionProvider,
+        definitionProvider = internal.definitionProvider
+          .map(eitherToUnionWithMapping(_.booleanValue(), _.toClient))
+          .orUndefined
+          .asInstanceOf[js.Any],
         implementationProvider = internal.implementationProvider
           .map(eitherToUnionWithMapping(_.booleanValue(), _.toClient))
           .orUndefined
@@ -60,8 +63,14 @@ object ClientAlsServerCapabilities {
           .map(eitherToUnionWithMapping(_.booleanValue(), _.toClient))
           .orUndefined
           .asInstanceOf[js.Any],
-        referencesProvider = internal.referencesProvider,
-        documentSymbolProvider = internal.documentSymbolProvider,
+        referencesProvider = internal.referencesProvider
+          .map(eitherToUnionWithMapping(_.booleanValue(), _.toClient))
+          .orUndefined
+          .asInstanceOf[js.Any],
+        documentSymbolProvider = internal.documentSymbolProvider
+          .map(eitherToUnionWithMapping(_.booleanValue(), _.toClient))
+          .orUndefined
+          .asInstanceOf[js.Any],
         renameProvider = internal.renameProvider.map(_.toClient).orUndefined,
         codeActionProvider = internal.codeActionProvider.map(_.toClient).orUndefined,
         documentLinkProvider = internal.documentLinkProvider.map(_.toClient).orUndefined,
@@ -81,8 +90,14 @@ object ClientAlsServerCapabilities {
           .map(eitherToUnionWithMapping(_.booleanValue(), _.toClient))
           .orUndefined
           .asInstanceOf[js.Any],
-        documentFormattingProvider = internal.documentFormattingProvider,
+        documentFormattingProvider = internal.documentFormattingProvider
+          .map(eitherToUnionWithMapping(_.booleanValue(), _.toClient))
+          .orUndefined
+          .asInstanceOf[js.Any],
         documentRangeFormattingProvider = internal.documentRangeFormattingProvider
+          .map(eitherToUnionWithMapping(_.booleanValue(), _.toClient))
+          .orUndefined
+          .asInstanceOf[js.Any]
       )
       .asInstanceOf[ClientAlsServerCapabilities]
 }

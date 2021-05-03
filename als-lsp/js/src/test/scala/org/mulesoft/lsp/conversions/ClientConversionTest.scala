@@ -352,19 +352,20 @@ class ClientConversionTest extends FlatSpec with Matchers {
                                             None,
                                             None,
                                             Some(InsertTextFormat(1)),
-                                            Some(te),
+                                            Some(Left(te)),
                                             Some(Seq(te)),
                                             Some(Seq('/')),
                                             None)
     val cc1: ClientCompletionItem = cc.toClient
-    val cc2: CompletionItem       = cc1.toShared
+    // completion item should not be converted to shared as it is a server to client dto
+//    val cc2: CompletionItem       = cc1.toShared
 
     val stringified =
       "{\"label\":\"label\",\"kind\":1,\"insertTextFormat\":1,\"textEdit\":{\"range\":{\"start\":{\"line\":10,\"character\":10},\"end\":{\"line\":10,\"character\":10}},\"newText\":\"text\"},\"additionalTextEdits\":[{\"range\":{\"start\":{\"line\":10,\"character\":10},\"end\":{\"line\":10,\"character\":10}},\"newText\":\"text\"}],\"commitCharacters\":[\"/\"]}"
 
     JSON.stringify(cc1) should be(stringified)
 
-    cc should be(cc2)
+//    cc should be(cc2)
   }
 
   behavior of "DocumentLink transformations"

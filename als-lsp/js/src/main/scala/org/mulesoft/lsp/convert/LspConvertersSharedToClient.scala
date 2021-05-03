@@ -30,33 +30,31 @@ import org.mulesoft.lsp.feature.documentRangeFormatting.{
   DocumentRangeFormattingClientCapabilities,
   DocumentRangeFormattingParams
 }
-import org.mulesoft.lsp.feature.documenthighlight.ClientDocumentHighlight
-import org.mulesoft.lsp.feature.documentRangeFormatting.{DocumentRangeFormattingClientCapabilities, DocumentRangeFormattingParams}
 import org.mulesoft.lsp.feature.documenthighlight.{ClientDocumentHighlight, ClientDocumentHighlightCapabilities}
 import org.mulesoft.lsp.feature.documentsymbol._
-import org.mulesoft.lsp.feature.folding.{ClientFoldingRange, FoldingRange}
+import org.mulesoft.lsp.feature.folding.{
+  ClientFoldingRange,
+  ClientFoldingRangeCapabilities,
+  FoldingRange,
+  FoldingRangeCapabilities
+}
 import org.mulesoft.lsp.feature.formatting.{
   ClientDocumentFormattingClientCapabilities,
   ClientDocumentFormattingParams,
   ClientDocumentRangeFormattingClientCapabilities,
   ClientDocumentRangeFormattingParams
 }
-import org.mulesoft.lsp.feature.highlight.DocumentHighlight
-import org.mulesoft.lsp.feature.hover.{ClientHover, Hover}
+import org.mulesoft.lsp.feature.highlight.{DocumentHighlight, DocumentHighlightCapabilities}
+import org.mulesoft.lsp.feature.hover.{ClientHover, ClientHoverClientCapabilities, Hover, HoverClientCapabilities}
 import org.mulesoft.lsp.feature.implementation.{
   ClientImplementationClientCapabilities,
   ImplementationClientCapabilities
 }
-import org.mulesoft.lsp.feature.folding.{ClientFoldingRange, ClientFoldingRangeCapabilities, FoldingRange, FoldingRangeCapabilities}
-import org.mulesoft.lsp.feature.formatting.{ClientDocumentFormattingClientCapabilities, ClientDocumentFormattingParams, ClientDocumentRangeFormattingClientCapabilities, ClientDocumentRangeFormattingParams}
-import org.mulesoft.lsp.feature.highlight.{DocumentHighlight, DocumentHighlightCapabilities}
-import org.mulesoft.lsp.feature.hover.{ClientHover, ClientHoverClientCapabilities, Hover, HoverClientCapabilities}
-import org.mulesoft.lsp.feature.implementation.{ClientImplementationClientCapabilities, ImplementationClientCapabilities}
 import org.mulesoft.lsp.feature.link._
 import org.mulesoft.lsp.feature.reference._
 import org.mulesoft.lsp.feature.rename._
-import org.mulesoft.lsp.feature.selection.ClientSelectionRange
-import org.mulesoft.lsp.feature.selectionRange.SelectionRange
+import org.mulesoft.lsp.feature.selection.{ClientSelectionRange, ClientSelectionRangeCapabilities}
+import org.mulesoft.lsp.feature.selectionRange.{SelectionRange, SelectionRangeCapabilities}
 import org.mulesoft.lsp.feature.telemetry.{
   ClientTelemetryClientCapabilities,
   ClientTelemetryMessage,
@@ -67,10 +65,6 @@ import org.mulesoft.lsp.feature.typedefinition.{
   ClientTypeDefinitionClientCapabilities,
   TypeDefinitionClientCapabilities
 }
-import org.mulesoft.lsp.feature.selection.{ClientSelectionRange, ClientSelectionRangeCapabilities}
-import org.mulesoft.lsp.feature.selectionRange.{SelectionRange, SelectionRangeCapabilities}
-import org.mulesoft.lsp.feature.telemetry.{ClientTelemetryClientCapabilities, ClientTelemetryMessage, TelemetryClientCapabilities, TelemetryMessage}
-import org.mulesoft.lsp.feature.typedefinition.{ClientTypeDefinitionClientCapabilities, TypeDefinitionClientCapabilities}
 import org.mulesoft.lsp.textsync._
 import org.mulesoft.lsp.workspace._
 
@@ -141,6 +135,11 @@ object LspConvertersSharedToClient {
       ClientStaticRegistrationOptions(v)
   }
 
+  implicit class ClientWorkDoneProgressOptionsConverter(v: WorkDoneProgressOptions) {
+    def toClient: ClientWorkDoneProgressOptions =
+      ClientWorkDoneProgressOptions(v)
+  }
+
   implicit class ClientWorkspaceFolderConverter(v: WorkspaceFolder) {
     def toClient: ClientWorkspaceFolder =
       ClientWorkspaceFolder(v)
@@ -174,6 +173,11 @@ object LspConvertersSharedToClient {
   implicit class ClientTextEditConverter(v: TextEdit) {
     def toClient: ClientTextEdit =
       ClientTextEdit(v)
+  }
+
+  implicit class ClientInsertReplaceEditConverter(v: InsertReplaceEdit) {
+    def toClient: ClientInsertReplaceEdit =
+      ClientInsertReplaceEdit(v)
   }
 
   implicit class ClientTextDocumentEditConverter(v: TextDocumentEdit) {
@@ -560,6 +564,15 @@ object LspConvertersSharedToClient {
       if (response.isLeft)
         |.from[js.Array[ClientCompletionItem], ClientCompletionList, js.Array[ClientCompletionItem]](
           response.left.get.map(_.toClient).toJSArray)
+      else
+        response.right.get.toClient
+    }
+  }
+
+  implicit class ClientEitherTextEditConverter(response: Either[TextEdit, InsertReplaceEdit]) {
+    def toClient: ClientTextEdit | ClientInsertReplaceEdit = {
+      if (response.isLeft)
+        |.from[ClientTextEdit, ClientInsertReplaceEdit, ClientTextEdit](response.left.get.toClient)
       else
         response.right.get.toClient
     }
