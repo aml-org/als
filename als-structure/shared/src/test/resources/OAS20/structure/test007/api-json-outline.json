@@ -50,5 +50,31 @@
       }
     },
     "children": []
+  },
+  {
+    "name": "documentation",
+    "kind": 7,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 6,
+        "character": 18
+      },
+      "end": {
+        "line": 9,
+        "character": 3
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 6,
+        "character": 18
+      },
+      "end": {
+        "line": 9,
+        "character": 3
+      }
+    },
+    "children": []
   }
 ]

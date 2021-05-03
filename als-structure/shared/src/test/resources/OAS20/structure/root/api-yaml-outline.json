@@ -157,6 +157,32 @@
     ]
   },
   {
+    "name": "documentation",
+    "kind": 7,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 17,
+        "character": 0
+      },
+      "end": {
+        "line": 19,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 17,
+        "character": 0
+      },
+      "end": {
+        "line": 19,
+        "character": 0
+      }
+    },
+    "children": []
+  },
+  {
     "name": "/aPath",
     "kind": 12,
     "deprecated": false,

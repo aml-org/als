@@ -102,5 +102,31 @@
       }
     },
     "children": []
+  },
+  {
+    "name": "documentation",
+    "kind": 7,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 8,
+        "character": 13
+      },
+      "end": {
+        "line": 8,
+        "character": 13
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 8,
+        "character": 13
+      },
+      "end": {
+        "line": 8,
+        "character": 13
+      }
+    },
+    "children": []
   }
 ]
