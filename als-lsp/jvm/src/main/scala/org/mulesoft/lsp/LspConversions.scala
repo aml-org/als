@@ -1,7 +1,6 @@
 package org.mulesoft.lsp
 
 import java.util.{List => JList}
-
 import org.eclipse.lsp4j
 import org.eclipse.lsp4j.{
   DidChangeConfigurationCapabilities,
@@ -10,7 +9,7 @@ import org.eclipse.lsp4j.{
   SymbolCapabilities,
   WorkspaceEditCapabilities
 }
-import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
+import org.eclipse.lsp4j.jsonrpc.messages.{Either3, Either => JEither}
 import org.mulesoft.lsp.feature.common.{
   Location,
   Position,
@@ -228,8 +227,12 @@ object LspConversions {
       Option(options.getChange).map(textDocumentSyncKind),
       Option(options.getWillSave),
       Option(options.getWillSaveWaitUntil),
-      Option(options.getSave).map(saveOptions)
+      Option(options.getSave).flatMap(eitherSaveOptions)
     )
+
+  implicit def eitherSaveOptions(options: JEither[java.lang.Boolean, lsp4j.SaveOptions]): Option[SaveOptions] =
+    either(options, booleanOrFalse, saveOptions)
+      .fold(value => Some(SaveOptions(Option(value))), Some.apply)
 
   implicit def renameOptions(options: lsp4j.RenameOptions): RenameOptions =
     RenameOptions(Option(options.getPrepareProvider))
@@ -255,6 +258,9 @@ object LspConversions {
 
   implicit def staticRegistrationOptions(options: lsp4j.StaticRegistrationOptions): StaticRegistrationOptions =
     StaticRegistrationOptions(Option(options.getId))
+
+  implicit def workDoneProgressOptions(options: lsp4j.WorkDoneProgressOptions): WorkDoneProgressOptions =
+    WorkDoneProgressOptions(Option(options.getWorkDoneProgress))
 
   implicit def eitherCodeActionProviderOptions(
       options: JEither[java.lang.Boolean, lsp4j.CodeActionOptions]): Option[CodeActionOptions] =

@@ -39,7 +39,7 @@ public class AlsInitializeResult {
         asp.setImplementationProvider(capabilities.getImplementationProvider());
         asp.setReferencesProvider(capabilities.getReferencesProvider());
         asp.setRenameProvider(capabilities.getRenameProvider());
-        asp.setSemanticHighlighting(capabilities.getSemanticHighlighting());
+        asp.setSemanticTokensProvider(capabilities.getSemanticTokensProvider());
         asp.setSignatureHelpProvider(capabilities.getSignatureHelpProvider());
         asp.setTextDocumentSync(capabilities.getTextDocumentSync());
         asp.setTypeDefinitionProvider(capabilities.getTypeDefinitionProvider());

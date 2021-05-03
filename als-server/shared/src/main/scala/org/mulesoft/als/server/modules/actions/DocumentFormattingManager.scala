@@ -7,6 +7,7 @@ import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.lsp.ConfigType
+import org.mulesoft.lsp.configuration.WorkDoneProgressOptions
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.documentFormatting.{
@@ -26,7 +27,7 @@ import scala.concurrent.Future
 class DocumentFormattingManager(val workspace: WorkspaceManager,
                                 private val telemetryProvider: TelemetryProvider,
                                 private val logger: Logger)
-    extends RequestModule[DocumentFormattingClientCapabilities, Boolean]
+    extends RequestModule[DocumentFormattingClientCapabilities, Either[Boolean, WorkDoneProgressOptions]]
     with FormattingManager {
 
   private var active = false
@@ -59,7 +60,7 @@ class DocumentFormattingManager(val workspace: WorkspaceManager,
       override protected val empty: Option[Seq[TextEdit]] = Some(Seq())
     })
 
-  override val `type`: ConfigType[DocumentFormattingClientCapabilities, Boolean] =
+  override val `type`: ConfigType[DocumentFormattingClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] =
     DocumentFormattingConfigType
 
   def onDocumentFormatting(params: DocumentFormattingParams): Future[Seq[TextEdit]] = {
@@ -86,9 +87,10 @@ class DocumentFormattingManager(val workspace: WorkspaceManager,
 
   def getParts(unit: BaseUnit): Option[YPart] = unit.ast
 
-  override def applyConfig(config: Option[DocumentFormattingClientCapabilities]): Boolean = {
+  override def applyConfig(
+      config: Option[DocumentFormattingClientCapabilities]): Either[Boolean, WorkDoneProgressOptions] = {
     active = config.isDefined
-    active
+    Left(active)
   }
 
   override def initialize(): Future[Unit] = Future.successful()

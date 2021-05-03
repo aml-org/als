@@ -1,12 +1,11 @@
 package org.mulesoft.lsp
 
-import java.util
+import java.{lang, util}
 import java.util.concurrent.CompletableFuture
-
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
 import org.eclipse.lsp4j
 import org.eclipse.lsp4j.MarkedString
-import org.mulesoft.lsp.configuration.StaticRegistrationOptions
+import org.mulesoft.lsp.configuration.{StaticRegistrationOptions, WorkDoneProgressOptions}
 import org.mulesoft.lsp.feature.command.Command
 import org.mulesoft.lsp.feature.common.{Location, LocationLink, Position, Range, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.edit._
@@ -52,6 +51,9 @@ object Lsp4JConversions {
 
   implicit def lsp4JTextEdit(textEdit: TextEdit): lsp4j.TextEdit =
     new lsp4j.TextEdit(textEdit.range, textEdit.newText)
+
+  implicit def lsp4JInsertReplaceEdit(insertReplaceEdit: InsertReplaceEdit): lsp4j.InsertReplaceEdit =
+    new lsp4j.InsertReplaceEdit(insertReplaceEdit.newText, insertReplaceEdit.insert, insertReplaceEdit.replace)
 
   implicit def lsp4JTextEdits(textEdits: Seq[TextEdit]): util.List[lsp4j.TextEdit] =
     javaList(textEdits, lsp4JTextEdit)
@@ -142,7 +144,7 @@ object Lsp4JConversions {
     result.setFilterText(item.filterText.orNull)
     result.setInsertText(item.insertText.orNull)
     result.setInsertTextFormat(item.insertTextFormat.map(lsp4JInsertTextFormat).orNull)
-    result.setTextEdit(item.textEdit.map(lsp4JTextEdit).orNull)
+    result.setTextEdit(item.textEdit.map(lsp4JTextEditEither).orNull)
     result.setAdditionalTextEdits(item.additionalTextEdits.map(javaList(_, lsp4JTextEdit)).orNull)
     result.setCommitCharacters(item.commitCharacters.map(javaList[Char, String](_, String.valueOf)).orNull)
     result.setCommand(item.command.map(lsp4JCommand).orNull)
@@ -159,6 +161,10 @@ object Lsp4JConversions {
   implicit def lsp4JCompletionEither(either: Either[Seq[CompletionItem], CompletionList])
     : JEither[util.List[lsp4j.CompletionItem], lsp4j.CompletionList] =
     jEither(either, lsp4JCompletionItems, lsp4JCompletionList)
+
+  implicit def lsp4JTextEditEither(
+      either: Either[TextEdit, InsertReplaceEdit]): JEither[lsp4j.TextEdit, lsp4j.InsertReplaceEdit] =
+    jEither(either, lsp4JTextEdit, lsp4JInsertReplaceEdit)
 
   implicit def lsp4JLocationsEither(either: Either[Seq[_ <: Location], Seq[_ <: LocationLink]])
     : JEither[util.List[_ <: lsp4j.Location], util.List[_ <: lsp4j.LocationLink]] =
@@ -287,6 +293,19 @@ object Lsp4JConversions {
           JEither.forLeft[java.lang.Boolean, lsp4j.StaticRegistrationOptions](bool)
       }
       .getOrElse(JEither.forLeft(false))
+
+  implicit def lsp4JEitherWorkDoneProgressOptions[T <: lsp4j.WorkDoneProgressOptions](
+      options: Option[Either[Boolean, WorkDoneProgressOptions]])(
+      toLsp4J: WorkDoneProgressOptions => T): JEither[java.lang.Boolean, T] = {
+    options
+      .map {
+        case Right(implementationOptions) =>
+          JEither.forRight[java.lang.Boolean, T](toLsp4J(implementationOptions))
+        case Left(bool) =>
+          JEither.forLeft[java.lang.Boolean, T](bool)
+      }
+      .getOrElse(JEither.forLeft(false))
+  }
 
   implicit def lsp4JCompletionOptions(options: CompletionOptions): lsp4j.CompletionOptions =
     new lsp4j.CompletionOptions(

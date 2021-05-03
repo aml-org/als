@@ -1,6 +1,6 @@
 {
   "name": "@mulesoft/als-server",
-  "version": "3.3.0-SNAPSHOT.2",
+  "version": "3.3.0-SNAPSHOT-LSP3160.0",
   "description": "ALS Server Library",
   "main": "lib/als-server.js",
   "types": "typescript/als-server.d.ts",
@@ -23,8 +23,8 @@
     "path-browserify": "^1.0.1",
     "stream-http": "^3.1.1",
     "url": "^0.11.0",
-    "vscode-jsonrpc": "5.0.1",
-    "vscode-languageserver-protocol": "3.15.3"
+    "vscode-jsonrpc": "6.0.0",
+    "vscode-languageserver-protocol": "3.16.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
