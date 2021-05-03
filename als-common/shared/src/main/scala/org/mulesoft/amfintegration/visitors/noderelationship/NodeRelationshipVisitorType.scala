@@ -39,9 +39,7 @@ trait NodeRelationshipVisitorType extends AmfElementVisitor[RelationshipLink] {
               case entry: YMapEntry if name.exists(_.toString == entry.key.value.toString) => Some(entry.key.value)
               case _                                                                       => None
             })
-        } else {
-          name
-        }
+        } else name
       case n: NamedDomainElement =>
         n.name
           .annotations()

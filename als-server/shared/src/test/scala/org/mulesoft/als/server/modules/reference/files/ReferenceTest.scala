@@ -110,29 +110,7 @@ class ReferenceTest extends ServerReferencesTest {
     )
   }
 
-  test("raml-resourceType implementations") {
-    runTestImplementations(
-      "files/raml-resourceType/api.raml",
-      Set(
-        Location(
-          "file://als-server/shared/src/test/resources/actions/reference/files/raml-resourceType/api.raml",
-          LspRangeConverter.toLspRange(PositionRange(Position(8, 4), Position(8, 16)))
-        ))
-    )
-  }
-
   test("raml-resourceType field") {
-    runTestImplementations(
-      "files/raml-resourceType/api-value.raml",
-      Set(
-        Location(
-          "file://als-server/shared/src/test/resources/actions/reference/files/raml-resourceType/api-value.raml",
-          LspRangeConverter.toLspRange(PositionRange(Position(8, 4), Position(8, 16)))
-        ))
-    )
-  }
-
-  test("raml-resourceType field implementations") {
     runTestImplementations(
       "files/raml-resourceType/api-value.raml",
       Set(
