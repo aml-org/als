@@ -28,32 +28,12 @@ object AmfSonElementFinder {
 
     case class SonFinder(location: String, definedBy: Dialect, amfPosition: AmfPosition) {
 
-      // TODO: new traverse check deletion
-      private def fieldContainsInner(f: FieldEntry): Boolean =
-        elementContainsInner(f.value.value)
-
-      private def elementContainsInner(amfElement: AmfElement): Boolean = {
-        implicit def defaultFalse(predicate: Option[Boolean]): Boolean = predicate.getOrElse(false)
-
-        amfElement match {
-          case AmfArray(values, annotations) =>
-            annotations.containsAstPosition(amfPosition) ||
-              values.exists(elementContainsInner)
-          case amfObject: AmfObject =>
-            amfObject.annotations.containsAstPosition(amfPosition) ||
-              amfObject.fields.fields().exists(fieldContainsInner)
-          case AmfScalar(_, annotations) => annotations.containsAstPosition(amfPosition)
-          case _                         => false
-        }
-      }
-
       private val fieldAstFilter: FieldEntry => Boolean = (f: FieldEntry) =>
         f.value.annotations
           .containsAstPosition(amfPosition)
           .getOrElse(
             ((f.value.annotations.isInferred ||
               f.value.annotations.isVirtual)) ||
-//              fieldContainsInner(f)) || // todo: try to optimize this recursive search
               isDeclares(f))
       // why do we assume that inferred/virtual/declared would have the position? should we not look inside? what if there is more than one such case?
 

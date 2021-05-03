@@ -182,7 +182,7 @@ object YamlWrapper {
       super.contains(amfPosition, editionMode) || // (lineContains(amfPosition) && scalar.mark == NoMark)
         (scalar.range.lineFrom <= amfPosition.line && scalar.value == null) || oneCharAfterEnd(
         scalar.range,
-        amfPosition) // blind guessing, we should find a better solution
+        amfPosition) //TODO: new traverse - blind guessing, we should find a better solution
 
     /**
       * Hack for abstract declaration variables. By some reason, last empty char is trimmed, so:
@@ -195,9 +195,6 @@ object YamlWrapper {
     private def oneCharAfterEnd(inputRange: InputRange, amfPosition: AmfPosition) = {
       inputRange.lineTo == amfPosition.line && inputRange.columnTo == amfPosition.column - 1
     }
-//    // todo: check why such hack is necessary, sensible case:  [val1, val2, *]
-//    private def lineContains(amfPosition: AmfPosition): Boolean =
-//      scalar.range.lineFrom <= amfPosition.line && ((scalar.range.lineTo >= amfPosition.line && scalar.range.columnFrom <= amfPosition.column) || scalar.value == null)
 
     def unmarkedRange(): InputRange =
       if (scalar.mark.isInstanceOf[QuotedMark])
@@ -222,8 +219,6 @@ object YamlWrapper {
         YMapEntryOps(ast).contains(amfPosition, editionMode)
       case ast: YMap =>
         ast.contains(amfPosition, editionMode)
-//      case ast: YNode if ast.isNull =>
-//        true
       case ast: YNode =>
         ast.value.contains(amfPosition) || (ast.contains(amfPosition) && nodeForMap(ast, amfPosition))
       case ast: YScalar =>

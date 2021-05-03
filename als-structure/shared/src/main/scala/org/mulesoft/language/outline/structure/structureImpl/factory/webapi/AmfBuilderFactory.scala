@@ -5,7 +5,6 @@ import org.mulesoft.language.outline.structure.structureImpl.companion.FieldComp
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields._
-import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.ramlbuilders.RamlSecuritySchemeSettingsFieldSymbolBuilderCompanion
 
 trait AmfBuilderFactory extends BuilderFactory {
 
@@ -42,5 +41,6 @@ trait AmfBuilderFactory extends BuilderFactory {
       AbstractDeclarationDataNodeBuilderCompanion +
       ServerSymbolBuilderCompanion +
       PayloadFieldSymbolCompanion +
-      ParameterLinksArrayFieldSymbolBuilderCompanion
+      ParameterLinksArrayFieldSymbolBuilderCompanion +
+      SecurityRequirementFieldSymbolBuilderCompanion
 }

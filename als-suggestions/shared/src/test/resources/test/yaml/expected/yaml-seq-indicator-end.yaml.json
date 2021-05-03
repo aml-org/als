@@ -67,10 +67,10 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11anyOf",
-    "filterText": "anyOf: [\n \n]",
+    "filterText": "anyOf: [\n  $1\n]",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -83,7 +83,7 @@
           "character": 59
         }
       },
-      "newText": "anyOf: [\n \n]"
+      "newText": "anyOf: [\n  $1\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -187,10 +187,10 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11enum",
-    "filterText": "enum: [\n \n]",
+    "filterText": "enum: [\n  $1\n]",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -203,7 +203,7 @@
           "character": 59
         }
       },
-      "newText": "enum: [\n \n]"
+      "newText": "enum: [\n  $1\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

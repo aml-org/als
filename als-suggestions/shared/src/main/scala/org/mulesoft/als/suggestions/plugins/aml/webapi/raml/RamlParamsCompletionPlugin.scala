@@ -16,7 +16,6 @@ import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDiale
 
 import scala.concurrent.Future
 
-// TODO: new traverse check deletion
 abstract class RamlParamsCompletionPlugin(typeFacetsCompletionPlugin: WebApiTypeFacetsCompletionPlugin,
                                           withOthers: Seq[RawSuggestion] = Nil)
     extends AMLCompletionPlugin {

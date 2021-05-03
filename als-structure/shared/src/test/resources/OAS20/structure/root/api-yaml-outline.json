@@ -127,34 +127,7 @@
         "character": 0
       }
     },
-    "children": [
-      {
-        "name": "test",
-        "kind": 7,
-        "deprecated": false,
-        "range": {
-          "start": {
-            "line": 8,
-            "character": 4
-          },
-          "end": {
-            "line": 8,
-            "character": 8
-          }
-        },
-        "selectionRange": {
-          "start": {
-            "line": 8,
-            "character": 4
-          },
-          "end": {
-            "line": 8,
-            "character": 8
-          }
-        },
-        "children": []
-      }
-    ]
+    "children": []
   },
   {
     "name": "documentation",

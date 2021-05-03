@@ -74,16 +74,6 @@ trait BaseElementDeclarableExtractors {
       case c                      => c
     }
 
-  /** gets the range for the whole value of the parent */
-  private def getRangeForAML(entryAst: YPart): Option[Range] = yPartBranch.flatMap { b =>
-    val wholeStack = b.node +: b.stack
-    val ix         = wholeStack.indexOf(entryAst)
-    wholeStack(ix + 1)
-    if (ix >= 0 && (ix + 1) < wholeStack.length)
-      Some(LspRangeConverter.toLspRange(PositionRange(wholeStack(ix + 1).range)))
-    else None
-  }
-
   /**
     * The original range info for the declared node
     */

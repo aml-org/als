@@ -193,11 +193,13 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
 object NodeBranchBuilder {
   def getAstForRange(ast: YPart, startPosition: AmfPosition, endPosition: AmfPosition, isJson: Boolean): YPart = {
 
-    // TODO: new traverse check deletion ... could we compare start and endPosition before traverse both?
     val start = build(ast, startPosition, isJson)
-    val end   = build(ast, endPosition, isJson)
+    if (startPosition == endPosition) start.node
+    else {
+      val end = build(ast, endPosition, isJson)
 
-    findMutualYMapParent(start, end, isJson).getOrElse(ast)
+      findMutualYMapParent(start, end, isJson).getOrElse(ast)
+    }
 
   }
 

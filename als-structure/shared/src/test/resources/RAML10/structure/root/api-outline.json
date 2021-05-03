@@ -154,34 +154,7 @@
         "character": 0
       }
     },
-    "children": [
-      {
-        "name": "default-requirement_1",
-        "kind": 7,
-        "deprecated": false,
-        "range": {
-          "start": {
-            "line": 11,
-            "character": 4
-          },
-          "end": {
-            "line": 11,
-            "character": 8
-          }
-        },
-        "selectionRange": {
-          "start": {
-            "line": 11,
-            "character": 4
-          },
-          "end": {
-            "line": 11,
-            "character": 8
-          }
-        },
-        "children": []
-      }
-    ]
+    "children": []
   },
   {
     "name": "documentation",

@@ -46,10 +46,7 @@ class AlsElementIterator(private val bu: BaseUnit,
           val information = AbstractDeclarationInformation.extractInformation(abstractDeclaration, bu)
           information.map(info => {
             info.element match {
-              case obj: EndPoint =>
-                visited += info.original.id
-                buffer = (obj :: extractElements(obj).toList ++ buffer).iterator
-              case obj: Operation =>
+              case obj @ (_: EndPoint | _: Operation) =>
                 visited += info.original.id
                 buffer = (obj :: extractElements(obj).toList ++ buffer).iterator
               case _ => None

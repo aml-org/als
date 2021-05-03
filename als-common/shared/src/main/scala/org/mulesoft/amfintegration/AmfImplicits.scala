@@ -101,8 +101,12 @@ object AmfImplicits {
       case arr: ArrayLike => arr.element.isInstanceOf[Obj]
       case _              => false
     }
-    // B.containsLexically(A)
-    // true=> solo cuando B.ann y A.ann y A esta dentro de B
+
+    /**
+      * @param other the other FieldEntry to compare
+      * @return B.containsLexically(A) returns true when and only when B.ann and A.ann are defined
+      * and A is included inside B
+      */
     def containsLexically(other: FieldEntry): Boolean = {
       val otherRange = other.value.annotations.ast().map(a => a.range.toPositionRange)
       val localRange = f.value.annotations.ast().map(a => a.range.toPositionRange)
