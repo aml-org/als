@@ -16,12 +16,15 @@ object AMLLibraryPathCompletion extends AMLCompletionPlugin {
     if ((request.amfObject
           .isInstanceOf[BaseUnit] || isEncodes(request.amfObject, request.actualDialect)) && request.yPartBranch
           .isInBranchOf("uses") && request.yPartBranch.isValue) {
-      AMLPathCompletionPlugin.resolveInclusion(request.baseUnit.location().getOrElse(""),
-                                               request.environment,
-                                               request.platform,
-                                               request.directoryResolver,
-                                               request.prefix,
-                                               request.rootUri)
+      AMLPathCompletionPlugin.resolveInclusion(
+        request.baseUnit.location().getOrElse(""),
+        request.environment,
+        request.platform,
+        request.directoryResolver,
+        request.prefix,
+        request.rootUri,
+        request.amfInstance
+      )
     } else emptySuggestion
   }
 }

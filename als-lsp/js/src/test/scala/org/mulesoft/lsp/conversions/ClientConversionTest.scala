@@ -1,35 +1,44 @@
-package org.mulesoft.als.client.lsp.conversions
+package org.mulesoft.lsp.conversions
 
-import org.mulesoft.als.client.convert.LspConvertersClientToShared._
-import org.mulesoft.als.client.convert.LspConvertersSharedToClient._
-import org.mulesoft.lsp.feature.command.ClientCommand
-import org.mulesoft.lsp.feature.command.common._
-import org.mulesoft.als.server.protocol.configuration.{ClientAlsClientCapabilities, ClientAlsInitializeParams, ClientAlsInitializeResult, ClientAlsServerCapabilities}
-import org.mulesoft.lsp.feature.completion.{ClientCompletionContext, ClientCompletionItem}
-import org.mulesoft.als.server.protocol.configuration.diagnostic.ClientDiagnosticRelatedInformation
-import org.mulesoft.lsp.feature.documentsymbol._
-import org.mulesoft.lsp.feature.link.{ClientDocumentLink, ClientDocumentLinkClientCapabilities, ClientDocumentLinkOptions, ClientDocumentLinkParams}
-import org.mulesoft.lsp.feature.reference.{ClientReferenceClientCapabilities, ClientReferenceContext, ClientReferenceParams}
-import org.mulesoft.lsp.feature.rename.{ClientRenameClientCapabilities, ClientRenameOptions, ClientRenameParams}
-import org.mulesoft.lsp.feature.telemetry.{ClientTelemetryClientCapabilities, ClientTelemetryMessage}
-import org.mulesoft.als.server.protocol.textsync._
-import org.mulesoft.lsp.workspace._
-import org.mulesoft.lsp.feature.command.Command
-import org.mulesoft.lsp.feature.common.{ClientLocation, ClientLocationLink, ClientPosition, ClientRange, ClientTextDocumentIdentifier, ClientTextDocumentItem, ClientTextDocumentPositionParams, ClientVersionedTextDocumentIdentifier, Location, LocationLink, Position, Range, TextDocumentIdentifier, TextDocumentItem, TextDocumentPositionParams, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.configuration._
-import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit, WorkspaceEdit}
-import org.mulesoft.lsp.feature.completion._
+import org.mulesoft.lsp.convert.LspConvertersClientToShared._
+import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
+import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit}
+import org.mulesoft.lsp.feature.command.{ClientCommand, Command}
+import org.mulesoft.lsp.feature.common.{
+  ClientLocation,
+  ClientLocationLink,
+  ClientPosition,
+  ClientRange,
+  ClientTextDocumentIdentifier,
+  ClientTextDocumentItem,
+  ClientTextDocumentPositionParams,
+  ClientVersionedTextDocumentIdentifier,
+  Location,
+  LocationLink,
+  Position,
+  Range,
+  TextDocumentIdentifier,
+  TextDocumentItem,
+  TextDocumentPositionParams,
+  VersionedTextDocumentIdentifier
+}
+import org.mulesoft.lsp.feature.completion.{ClientCompletionContext, ClientCompletionItem, _}
 import org.mulesoft.lsp.feature.diagnostic._
 import org.mulesoft.lsp.feature.documentsymbol._
-import org.mulesoft.lsp.feature.link.{DocumentLink, DocumentLinkClientCapabilities, DocumentLinkOptions, DocumentLinkParams}
-import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
-import org.mulesoft.lsp.feature.rename.{RenameClientCapabilities, RenameOptions, RenameParams}
-import org.mulesoft.lsp.feature.telemetry.{TelemetryClientCapabilities, TelemetryMessage}
+import org.mulesoft.lsp.feature.link._
+import org.mulesoft.lsp.feature.reference._
+import org.mulesoft.lsp.feature.rename._
+import org.mulesoft.lsp.feature.telemetry.{
+  ClientTelemetryClientCapabilities,
+  ClientTelemetryMessage,
+  TelemetryClientCapabilities,
+  TelemetryMessage
+}
 import org.mulesoft.lsp.textsync._
 import org.mulesoft.lsp.workspace._
 import org.scalatest.{FlatSpec, Matchers}
 
-import scala.scalajs.js
 import scala.scalajs.js.JSON
 
 class ClientConversionTest extends FlatSpec with Matchers {
@@ -148,26 +157,6 @@ class ClientConversionTest extends FlatSpec with Matchers {
 
   behavior of "Configuration transformations"
 
-  it should "transform ClientCapabilities" in {
-    val cc = AlsClientCapabilities(
-      Some(WorkspaceClientCapabilities()),
-      Some(TextDocumentClientCapabilities()),
-      None,
-      Some(SerializationClientCapabilities(true)),
-      Some(CleanDiagnosticTreeClientCapabilities(true))
-    )
-
-    val cc1 = cc.toClient
-    val cc2 = cc1.toShared
-
-    val stringified =
-      "{\"workspace\":{},\"textDocument\":{},\"serialization\":{\"acceptsNotification\":true},\"cleanDiagnosticTree\":{\"enableCleanDiagnostic\":true}}" // todo: test with textDocument parameters when ready
-
-    JSON.stringify(cc1) should be(stringified)
-
-    cc should be(cc2)
-  }
-
   it should "transform StaticRegistrationOptions" in {
     val sro  = StaticRegistrationOptions(Some("id"))
     val sro1 = sro.toClient
@@ -190,64 +179,6 @@ class ClientConversionTest extends FlatSpec with Matchers {
     JSON.stringify(wf1) should be(stringified)
 
     wf should be(wf2)
-  }
-
-  it should "transform InitializeParams" in {
-    val ip: AlsInitializeParams        = AlsInitializeParams(None, None, Some("uri"), None, Some(Seq(wf)), None, None)
-    val ip1: ClientAlsInitializeParams = ip.toClient
-    val ip2: AlsInitializeParams       = ip1.toShared
-
-    val stringified =
-      "{\"processId\":null,\"capabilities\":{},\"trace\":\"off\",\"rootUri\":\"uri\",\"workspaceFolders\":[{\"uri\":\"uri\",\"name\":\"name\"}]}"
-
-    JSON.stringify(ip1) should be(stringified)
-
-    ip.capabilities should be(ip2.capabilities)
-    ip.initializationOptions should be(ip2.initializationOptions)
-    ip.rootUri should be(ip2.rootUri)
-    ip.trace should be(ip2.trace)
-    ip.workspaceFolders should be(ip2.workspaceFolders)
-  }
-
-  it should "transform AlsClientCapabilities" in {
-    val acp: AlsClientCapabilities = AlsClientCapabilities(None,
-                                                           None,
-                                                           None,
-                                                           Some(SerializationClientCapabilities(true)),
-                                                           Some(CleanDiagnosticTreeClientCapabilities(true)))
-    val acp1: ClientAlsClientCapabilities = acp.toClient
-    val acp2: AlsClientCapabilities       = acp1.toShared
-
-    acp.serialization should be(acp2.serialization)
-    acp.cleanDiagnosticTree should be(acp2.cleanDiagnosticTree)
-    acp.serialization.get.acceptsNotification should be(acp2.serialization.get.acceptsNotification)
-    acp.cleanDiagnosticTree.get.enableCleanDiagnostic should be(acp2.cleanDiagnosticTree.get.enableCleanDiagnostic)
-  }
-
-  val sc: AlsServerCapabilities = AlsServerCapabilities(Some(Left(TextDocumentSyncKind(1))), Some(CompletionOptions()))
-  it should "transform ServerCapabilities" in {
-    val sc1: ClientAlsServerCapabilities = sc.toClient
-    val sc2: AlsServerCapabilities       = sc1.toShared
-
-    val stringified =
-      "{\"textDocumentSync\":1,\"completionProvider\":{},\"definitionProvider\":false,\"referencesProvider\":false,\"documentSymbolProvider\":false}"
-
-    JSON.stringify(sc1) should be(stringified)
-
-    sc should be(sc2)
-  }
-
-  it should "transform InitializeResult" in {
-    val ir: AlsInitializeResult        = AlsInitializeResult(sc)
-    val ir1: ClientAlsInitializeResult = ir.toClient
-    val ir2: AlsInitializeResult       = ir1.toShared
-
-    val stringified =
-      "{\"capabilities\":{\"textDocumentSync\":1,\"completionProvider\":{},\"definitionProvider\":false,\"referencesProvider\":false,\"documentSymbolProvider\":false}}"
-
-    JSON.stringify(ir1) should be(stringified)
-
-    ir should be(ir2)
   }
 
   // end of Configuration
@@ -278,19 +209,6 @@ class ClientConversionTest extends FlatSpec with Matchers {
     JSON.stringify(tde1) should be(stringified)
 
     tde should be(tde2)
-  }
-
-  it should "transform WorkspaceEdit" in {
-    val we  = WorkspaceEdit(Map("uri" -> Seq(te)), Seq(Left(tde)))
-    val we1 = we.toClient
-    val we2 = we1.toShared
-
-    val stringified =
-      "{\"changes\":{\"uri\":[{\"range\":{\"start\":{\"line\":10,\"character\":10},\"end\":{\"line\":10,\"character\":10}},\"newText\":\"text\"}]},\"documentChanges\":[{\"textDocument\":{\"uri\":\"uri\",\"version\":1},\"edits\":[{\"range\":{\"start\":{\"line\":10,\"character\":10},\"end\":{\"line\":10,\"character\":10}},\"newText\":\"text\"}]}]}"
-
-    JSON.stringify(we1) should be(stringified)
-
-    we should be(we2)
   }
 
   //end of edit
@@ -600,12 +518,12 @@ class ClientConversionTest extends FlatSpec with Matchers {
   }
 
   it should "transform TelemetryMessage" in {
-    val r: TelemetryMessage        = TelemetryMessage("event", 1, "message", "uri", 1L, "uuid")
+    val r: TelemetryMessage        = TelemetryMessage("event", "type", "message", "uri", 1L, "uuid")
     val r1: ClientTelemetryMessage = r.toClient
     val r2: TelemetryMessage       = r1.toShared
 
     val stringified =
-      "{\"event\":\"event\",\"messageType\":1,\"message\":\"message\",\"uri\":\"uri\",\"time\":\"1\",\"uuid\":\"uuid\"}"
+      "{\"event\":\"event\",\"messageType\":\"type\",\"message\":\"message\",\"uri\":\"uri\",\"time\":\"1\",\"uuid\":\"uuid\"}"
 
     JSON.stringify(r1) should be(stringified)
 
@@ -655,18 +573,6 @@ class ClientConversionTest extends FlatSpec with Matchers {
     ts should be(ts2)
   }
 
-  it should "transform DidFocusParams" in {
-    val ts: DidFocusParams        = DidFocusParams("uri", 1)
-    val ts1: ClientDidFocusParams = ts.toClient
-    val ts2: DidFocusParams       = ts1.toShared
-
-    val stringified = "{\"uri\":\"uri\",\"version\":1}"
-
-    JSON.stringify(ts1) should be(stringified)
-
-    ts should be(ts2)
-  }
-
   it should "transform DidOpenTextDocumentParams" in {
     val ts: DidOpenTextDocumentParams        = DidOpenTextDocumentParams(tdItem)
     val ts1: ClientDidOpenTextDocumentParams = ts.toClient
@@ -674,18 +580,6 @@ class ClientConversionTest extends FlatSpec with Matchers {
 
     val stringified =
       "{\"textDocument\":{\"uri\":\"uri\",\"languageId\":\"test\",\"version\":1,\"text\":\"test text\"}}"
-
-    JSON.stringify(ts1) should be(stringified)
-
-    ts should be(ts2)
-  }
-
-  it should "transform IndexDialectParams" in {
-    val ts: IndexDialectParams        = IndexDialectParams("uri", Some("content"))
-    val ts1: ClientIndexDialectParams = ts.toClient
-    val ts2: IndexDialectParams       = ts1.toShared
-
-    val stringified = "{\"uri\":\"uri\",\"content\":\"content\"}"
 
     JSON.stringify(ts1) should be(stringified)
 
@@ -834,4 +728,127 @@ class ClientConversionTest extends FlatSpec with Matchers {
   }
 
   // end of workspace
+  // custom messages
+  // todo: migrate custom message test to corresponding modules
+//
+//  it should "transform ClientCapabilities" in {
+//    val cc = AlsClientCapabilities(
+//      Some(WorkspaceClientCapabilities()),
+//      Some(TextDocumentClientCapabilities()),
+//      None,
+//      Some(SerializationClientCapabilities(true)),
+//      Some(CleanDiagnosticTreeClientCapabilities(true))
+//    )
+//
+//    val cc1 = cc.toClient
+//    val cc2 = cc1.toShared
+//
+//    val stringified =
+//      "{\"workspace\":{},\"textDocument\":{},\"serialization\":{\"acceptsNotification\":true},\"cleanDiagnosticTree\":{\"enableCleanDiagnostic\":true}}" // todo: test with textDocument parameters when ready
+//
+//    JSON.stringify(cc1) should be(stringified)
+//
+//    cc should be(cc2)
+//  }
+//
+//
+//
+//  it should "transform IndexDialectParams" in {
+//    val ts: IndexDialectParams        = IndexDialectParams("uri", Some("content"))
+//    val ts1: ClientIndexDialectParams = ts.toClient
+//    val ts2: IndexDialectParams       = ts1.toShared
+//
+//    val stringified = "{\"uri\":\"uri\",\"content\":\"content\"}"
+//
+//    JSON.stringify(ts1) should be(stringified)
+//
+//    ts should be(ts2)
+//  }
+//
+//
+//
+//  it should "transform DidFocusParams" in {
+//    val ts: DidFocusParams        = DidFocusParams("uri", 1)
+//    val ts1: ClientDidFocusParams = ts.toClient
+//    val ts2: DidFocusParams       = ts1.toShared
+//
+//    val stringified = "{\"uri\":\"uri\",\"version\":1}"
+//
+//    JSON.stringify(ts1) should be(stringified)
+//
+//    ts should be(ts2)
+//  }
+//
+//
+//
+//  it should "transform WorkspaceEdit" in {
+//    val we  = WorkspaceEdit(Map("uri" -> Seq(te)), Seq(Left(tde)))
+//    val we1 = we.toClient
+//    val we2 = we1.toShared
+//
+//    val stringified =
+//      "{\"changes\":{\"uri\":[{\"range\":{\"start\":{\"line\":10,\"character\":10},\"end\":{\"line\":10,\"character\":10}},\"newText\":\"text\"}]},\"documentChanges\":[{\"textDocument\":{\"uri\":\"uri\",\"version\":1},\"edits\":[{\"range\":{\"start\":{\"line\":10,\"character\":10},\"end\":{\"line\":10,\"character\":10}},\"newText\":\"text\"}]}]}"
+//
+//    JSON.stringify(we1) should be(stringified)
+//
+//    we should be(we2)
+//  }
+//
+//  it should "transform InitializeParams" in {
+//    val ip: AlsInitializeParams        = AlsInitializeParams(None, None, Some("uri"), None, Some(Seq(wf)), None, None)
+//    val ip1: ClientAlsInitializeParams = ip.toClient
+//    val ip2: AlsInitializeParams       = ip1.toShared
+//
+//    val stringified =
+//      "{\"processId\":null,\"capabilities\":{},\"trace\":\"off\",\"rootUri\":\"uri\",\"workspaceFolders\":[{\"uri\":\"uri\",\"name\":\"name\"}]}"
+//
+//    JSON.stringify(ip1) should be(stringified)
+//
+//    ip.capabilities should be(ip2.capabilities)
+//    ip.initializationOptions should be(ip2.initializationOptions)
+//    ip.rootUri should be(ip2.rootUri)
+//    ip.trace should be(ip2.trace)
+//    ip.workspaceFolders should be(ip2.workspaceFolders)
+//  }
+//
+//  it should "transform AlsClientCapabilities" in {
+//    val acp: AlsClientCapabilities = AlsClientCapabilities(None,
+//      None,
+//      None,
+//      Some(SerializationClientCapabilities(true)),
+//      Some(CleanDiagnosticTreeClientCapabilities(true)))
+//    val acp1: ClientAlsClientCapabilities = acp.toClient
+//    val acp2: AlsClientCapabilities       = acp1.toShared
+//
+//    acp.serialization should be(acp2.serialization)
+//    acp.cleanDiagnosticTree should be(acp2.cleanDiagnosticTree)
+//    acp.serialization.get.acceptsNotification should be(acp2.serialization.get.acceptsNotification)
+//    acp.cleanDiagnosticTree.get.enableCleanDiagnostic should be(acp2.cleanDiagnosticTree.get.enableCleanDiagnostic)
+//  }
+//
+//  val sc: AlsServerCapabilities = AlsServerCapabilities(Some(Left(TextDocumentSyncKind(1))), Some(CompletionOptions()))
+//  it should "transform ServerCapabilities" in {
+//    val sc1: ClientAlsServerCapabilities = sc.toClient
+//    val sc2: AlsServerCapabilities       = sc1.toShared
+//
+//    val stringified =
+//      "{\"textDocumentSync\":1,\"completionProvider\":{},\"definitionProvider\":false,\"referencesProvider\":false,\"documentSymbolProvider\":false}"
+//
+//    JSON.stringify(sc1) should be(stringified)
+//
+//    sc should be(sc2)
+//  }
+//
+//  it should "transform InitializeResult" in {
+//    val ir: AlsInitializeResult        = AlsInitializeResult(sc)
+//    val ir1: ClientAlsInitializeResult = ir.toClient
+//    val ir2: AlsInitializeResult       = ir1.toShared
+//
+//    val stringified =
+//      "{\"capabilities\":{\"textDocumentSync\":1,\"completionProvider\":{},\"definitionProvider\":false,\"referencesProvider\":false,\"documentSymbolProvider\":false}}"
+//
+//    JSON.stringify(ir1) should be(stringified)
+//
+//    ir should be(ir2)
+//  }
 }

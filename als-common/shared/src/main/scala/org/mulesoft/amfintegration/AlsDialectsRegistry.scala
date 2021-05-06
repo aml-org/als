@@ -47,6 +47,11 @@ class AlsDialectsRegistry extends DialectsRegistry {
     registerDialect(loader.url, Environment().add(loader))
   }
 
+  override def register(dialect: Dialect): DialectsRegistry = {
+    unregisterDialect(dialect.id)
+    super.register(dialect)
+  }
+
   private val counter = new IdCounter()
 
   private def nextUri = s"file://${counter.genId("temp-dialect")}.yaml"

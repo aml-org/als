@@ -6,12 +6,17 @@ import amf.core.parser.{ParserContext, SyamlParsedDocument}
 import amf.core.remote.Platform
 import amf.internal.environment.Environment
 import org.mulesoft.als.suggestions.RawSuggestion
+import org.mulesoft.amfintegration.AmfInstance
 import org.yaml.model.{YMap, YNode, YSequence, YType}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-case class PathNavigation(fullUrl: String, platform: Platform, env: Environment, prefix: String)
+case class PathNavigation(fullUrl: String,
+                          platform: Platform,
+                          env: Environment,
+                          prefix: String,
+                          amfInstance: AmfInstance)
     extends PathCompletion {
 
   private val (filePath, navPath) =
@@ -57,7 +62,7 @@ case class PathNavigation(fullUrl: String, platform: Platform, env: Environment,
     }
 
   def resolveRootNode(): Future[Option[YNode]] =
-    platform.fetchContent(filePath, env.loaders).map { c =>
+    platform.fetchContent(filePath, amfInstance.amfConfiguration.withResourceLoaders(env.loaders.toList)).map { c =>
       val mime = c.mime.orElse(
         platform
           .extension(filePath)

@@ -62,5 +62,9 @@ class JsonStructureTest extends BaseStructureTest {
     forDir("link")
   }
 
+  test("test inner-security") {
+    forDir("inner-security")
+  }
+
   private def forDir(dir: String) = runTest(s"$dir/api.json", s"$dir/api-json-outline.json")
 }

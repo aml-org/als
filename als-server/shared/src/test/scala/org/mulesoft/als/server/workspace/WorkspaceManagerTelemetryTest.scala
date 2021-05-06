@@ -92,14 +92,95 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
     }
   }
 
-  def buildServer(notifier: MockTelemetryClientNotifier): LanguageServer = {
-    val factory = new WorkspaceManagerFactoryBuilder(notifier, logger).buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(factory.documentManager,
-                              factory.workspaceManager,
-                              factory.configurationManager,
-                              factory.resolutionTaskManager)
+  test("Workspace Manager check parsing times (parse instance after modifying dialect)") {
+    val dialect  = s"${filePath("aml-workspace")}/dialect.yaml"
+    val instance = s"${filePath("aml-workspace")}/instance.yaml"
+
+    val notifier: MockCompleteClientNotifier = new MockCompleteClientNotifier(3000)
+    withServer[Assertion](buildServer(notifier)) { server =>
+      // open dialect -> open invalid instance -> change dialect -> focus now valid instance
+      for {
+        _                   <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), Some(filePath("aml-workspace"))))
+        dialectContent      <- this.platform.resolve(dialect).map(_.stream.toString)
+        _                   <- openFileNotification(server)(dialect, dialectContent)
+        dialectDiagnostic1  <- notifier.nextCallD
+        instanceContent     <- this.platform.resolve(instance).map(_.stream.toString)
+        _                   <- openFileNotification(server)(instance, instanceContent)
+        instanceDiagnostic1 <- notifier.nextCallD
+        _                   <- focusNotification(server)(dialect, 0)
+        _                   <- changeNotification(server)(dialect, dialectContent.replace("range: number", "range: string"), 1)
+        dialectDiagnostic2  <- notifier.nextCallD
+        _                   <- focusNotification(server)(instance, 0)
+        instanceDiagnostic2 <- notifier.nextCallD
+        allTelemetry <- Future.sequence {
+          notifier.promisesT.map(p => p.future)
+        }
+      } yield {
+        dialectDiagnostic1.uri should be(dialect)
+        dialectDiagnostic2.uri should be(dialect)
+        dialectDiagnostic1.diagnostics.size should be
+        dialectDiagnostic2.diagnostics.size should be(0)
+
+        instanceDiagnostic1.uri should be(instance)
+        instanceDiagnostic1.diagnostics.size should be(1)
+
+        instanceDiagnostic2.uri should be(instance)
+        instanceDiagnostic2.diagnostics.size should be(0)
+
+        assert(allTelemetry.count(d => d.messageType == MessageTypes.BEGIN_PARSE) == 4)
+      }
+    }
+  }
+
+  test("Workspace Manager check parsing times (will parse instance even if no change has been done)") {
+    val dialect  = s"${filePath("aml-instance-is-mf")}/dialect.yaml"
+    val instance = s"${filePath("aml-instance-is-mf")}/instance.yaml"
+
+    val notifier: MockCompleteClientNotifier = new MockCompleteClientNotifier(3000)
+    withServer[Assertion](buildServer(notifier)) { server =>
+      // open workspace (parse instance) -> open dialect (parse) -> focus dialect (parse) -> focus instance (parse)
+      for {
+        _                   <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), Some(filePath("aml-instance-is-mf"))))
+        rootDiagnostic      <- notifier.nextCallD
+        dialectContent      <- this.platform.resolve(dialect).map(_.stream.toString)
+        _                   <- openFileNotification(server)(dialect, dialectContent)
+        dialectDiagnostic1  <- notifier.nextCallD
+        instanceContent     <- this.platform.resolve(instance).map(_.stream.toString)
+        _                   <- openFileNotification(server)(instance, instanceContent)
+        _                   <- focusNotification(server)(dialect, 0)
+        dialectDiagnostic2  <- notifier.nextCallD
+        _                   <- focusNotification(server)(instance, 0)
+        instanceDiagnostic2 <- notifier.nextCallD
+        allTelemetry <- Future.sequence {
+          notifier.promisesT.map(p => p.future)
+        }
+      } yield {
+        dialectDiagnostic1.uri should be(dialect)
+        dialectDiagnostic2.uri should be(dialect)
+        dialectDiagnostic1.diagnostics.size should be
+        dialectDiagnostic2.diagnostics.size should be(0)
+
+        rootDiagnostic.uri should be(instance)
+        instanceDiagnostic2.uri should be(instance)
+        rootDiagnostic.diagnostics.size should be(0)
+        instanceDiagnostic2.diagnostics.size should be(0)
+
+        assert(allTelemetry.count(d => d.messageType == MessageTypes.BEGIN_PARSE) == 4)
+      }
+    }
+  }
+
+  def buildServer(notifier: ClientNotifier): LanguageServer = {
+    val builder = new WorkspaceManagerFactoryBuilder(notifier, logger)
+    val dm      = builder.diagnosticManager()
+    val factory = builder.buildWorkspaceManagerFactory()
+    val b = new LanguageServerBuilder(factory.documentManager,
+                                      factory.workspaceManager,
+                                      factory.configurationManager,
+                                      factory.resolutionTaskManager)
       .addRequestModule(factory.structureManager)
-      .build()
+    dm.foreach(b.addInitializableModule)
+    b.build()
   }
 
   override def rootPath: String = "workspace"

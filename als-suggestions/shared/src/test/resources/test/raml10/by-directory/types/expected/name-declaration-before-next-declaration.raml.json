@@ -1,0 +1,32 @@
+[
+  {
+    "label": "New type",
+    "kind": [],
+    "detail": "template",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "20New type",
+    "filterText": "$1:\n  type: $2",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 2
+        },
+        "end": {
+          "line": 4,
+          "character": 2
+        }
+      },
+      "newText": "$1:\n  type: $2"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

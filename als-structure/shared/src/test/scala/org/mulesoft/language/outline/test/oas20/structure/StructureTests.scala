@@ -121,4 +121,8 @@ class StructureTests extends OAS20StructureTest {
   test("test payload range with extension") {
     this.runTest("extensions/at-payload/api.yml", "extensions/at-payload/api.yml.json")
   }
+
+  test("test security json") {
+    this.runTest("inner-security/api.json", "inner-security/api.json.json")
+  }
 }

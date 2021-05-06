@@ -43,7 +43,7 @@ class ResolutionTaskManager(telemetryProvider: TelemetryProvider,
   override protected def processTask(): Future[Unit] = Future {
     val uuid          = UUID.randomUUID().toString
     val (uri, params) = stagingArea.dequeue()
-    changeState(ProcessingFile(uri))
+    changeState(ProcessingFile)
 
     val resolvedInstance =
       AmfResolvedUnitImpl(params.parseResult.baseUnit, params.diagnosticsBundle)

@@ -154,7 +154,7 @@ object TemplateTools {
           case _ => false
         }
       case _ =>
-        params.yPartBranch.stack.size <= 3 // document -> map -> entry
+        params.yPartBranch.stack.size <= 4 // document -> map -> entry -> (node of previous declaration)
     }
 
   private def declarationPathForDialect(dialect: Dialect): Option[String] =

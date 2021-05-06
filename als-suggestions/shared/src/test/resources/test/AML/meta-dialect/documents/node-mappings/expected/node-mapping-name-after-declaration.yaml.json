@@ -1,0 +1,32 @@
+[
+  {
+    "label": "New nodeMapping",
+    "kind": [],
+    "detail": "template",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "20New nodeMapping",
+    "filterText": "$1:\n  classTerm: $2",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 2
+        },
+        "end": {
+          "line": 8,
+          "character": 2
+        }
+      },
+      "newText": "$1:\n  classTerm: $2"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
