@@ -35,6 +35,7 @@ pipeline {
                     anyOf {
                         branch 'master'
                         branch 'rc/*'
+                        branch 'support/*'
                     }
                 }
             }
@@ -112,6 +113,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
+                    branch 'support/*'
                 }
             }
             steps {
@@ -140,6 +142,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
+                    branch 'support/*'
                 }
             }
             steps {
@@ -174,6 +177,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
+                    branch 'support/*'
                 }
             }
             steps {
@@ -195,6 +199,7 @@ pipeline {
                     branch 'develop'
                     branch 'rc/*'
                     branch 'master'
+                    branch 'support/*'
                 }
             }
             steps {
