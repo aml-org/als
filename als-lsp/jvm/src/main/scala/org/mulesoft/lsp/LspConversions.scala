@@ -312,7 +312,7 @@ object LspConversions {
     CompletionTriggerKind(kind.getValue)
 
   implicit def completionContext(context: lsp4j.CompletionContext): CompletionContext =
-    CompletionContext(context.getTriggerKind, Option(context.getTriggerCharacter).map(_(0)))
+    CompletionContext(context.getTriggerKind, context.getTriggerCharacter.lift(0))
 
   implicit def referenceParams(params: lsp4j.ReferenceParams): ReferenceParams =
     ReferenceParams(params.getTextDocument, params.getPosition, params.getContext)
