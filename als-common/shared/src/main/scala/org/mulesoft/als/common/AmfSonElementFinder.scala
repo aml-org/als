@@ -1,222 +1,233 @@
 package org.mulesoft.als.common
 
+import amf.core.annotations.SourceAST
 import amf.core.metamodel.ModelDefaultBuilder
 import amf.core.metamodel.Type.ArrayLike
+import amf.core.metamodel.document.{BaseUnitModel, DocumentModel}
 import amf.core.metamodel.domain.{DataNodeModel, DomainElementModel, ShapeModel}
-import amf.core.model.domain.{AmfArray, AmfElement, AmfObject, DataNode}
+import amf.core.model.domain._
+import amf.core.parser
 import amf.core.parser.{FieldEntry, Position => AmfPosition}
 import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.DialectDomainElement
-import amf.plugins.domain.webapi.metamodel.bindings.{
-  ChannelBindingModel,
-  EmptyBindingModel,
-  MessageBindingModel,
-  OperationBindingModel,
-  OperationBindingsModel,
-  ServerBindingModel,
-  ServerBindingsModel
-}
+import amf.plugins.domain.shapes.metamodel.AnyShapeModel
+import amf.plugins.domain.webapi.metamodel.bindings._
 import org.mulesoft.als.common.YamlWrapper._
-import org.mulesoft.amfintegration.AmfImplicits._
-import org.yaml.model.YPart
+import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, _}
+import org.yaml.model.YMapEntry
 
-import scala.collection.mutable.ArrayBuffer
+import scala.language.implicitConversions
 
 object AmfSonElementFinder {
 
   implicit class AlsAmfObject(obj: AmfObject) {
 
-    private def sonContainsNonVirtualPosition(amfElement: AmfElement, amfPosition: AmfPosition): Boolean =
-      amfElement match {
-        case amfObject: AmfObject =>
-          amfObject.fields.fields().exists { f =>
-            containsAsValue(f.value.annotations.ast(), amfPosition) ||
-            (f.value.annotations.isVirtual && sonContainsNonVirtualPosition(f.value.value, amfPosition))
-          }
+    def findSon(amfPosition: AmfPosition, location: String, definedBy: Dialect): SonFinder#Branch =
+      SonFinder(location, definedBy, amfPosition).find(obj)
+
+    case class SonFinder(location: String, definedBy: Dialect, amfPosition: AmfPosition) {
+
+      private val fieldAstFilter: FieldEntry => Boolean = (f: FieldEntry) =>
+        f.value.annotations
+          .containsAstPosition(amfPosition)
+          .getOrElse(
+            ((f.value.annotations.isInferred ||
+              f.value.annotations.isVirtual)) ||
+              isDeclares(f))
+      // why do we assume that inferred/virtual/declared would have the position? should we not look inside? what if there is more than one such case?
+
+      private val fieldFilters: Seq[FieldEntry => Boolean] = Seq(
+        (f: FieldEntry) => f.field != BaseUnitModel.References,
+        fieldAstFilter
+      )
+
+      private def rangeFor(a: Branch): Option[parser.Range] =
+        a.obj.range.orElse(a.branch.headOption.flatMap(_.range))
+
+      private def appliesReduction(fe: FieldEntry) =
+        (!fe.value.annotations.isInferred) || fe.value.value.annotations.containsPosition(amfPosition)
+
+      def find(obj: AmfObject): Branch = {
+        val entryPoint = Branch(obj, Nil, None)
+        find(entryPoint) match {
+          case Nil => entryPoint
+          case head :: Nil =>
+            head
+          case list => pickOne(filterCandidates(list))
+        }
       }
 
-    private def positionFinderFN(amfPosition: AmfPosition, location: Option[String]): FieldEntry => Boolean =
-      (f: FieldEntry) => {
-        val value = f.value.value
-        location.forall(l => value.annotations.location().isEmpty || value.annotations.location().contains(l)) &&
-        (value match {
-          case arr: AmfArray =>
-            f.isArrayIncluded(amfPosition) ||
-              f.value.annotations.isSynthesized || (f.value.annotations.lexicalInformation().isEmpty &&
-              arr.values
-                .collectFirst({
-                  case obj: AmfObject
-                      if f.value.annotations.containsPosition(amfPosition).getOrElse(true) &&
-                        (obj.annotations.isVirtual &&
-                          sonContainsNonVirtualPosition(obj, amfPosition) || obj.containsPosition(amfPosition)) =>
-                    obj
-                })
-                .nonEmpty)
-
-          case v =>
-            f.value.annotations.containsPosition(amfPosition).getOrElse(true) &&
-              v.annotations
-                .ast()
-                .map(ast => ast.contains(amfPosition, editionMode = true))
-                .getOrElse(f.value.annotations.isSynthesized || f.value.value.annotations.isVirtual)
+      private def filterCandidates(list: Seq[Branch]) = {
+        list.map(br => {
+          if ((br.fe.isEmpty && (br.obj.annotations.isVirtual && br.obj.range.isEmpty)) || (br.fe.nonEmpty && br.fe
+                .exists(f => !appliesReduction(f))))
+            br.unstacked()
+          else br
         })
       }
 
-    def findSon(amfPosition: AmfPosition, filterFns: Seq[FieldEntry => Boolean], definedBy: Dialect): AmfObject =
-      findSonWithStack(amfPosition, None, filterFns, definedBy)._1
+      private def pickOne(list: Seq[Branch]) = {
+        list.reduce((a, b) => {
+          if (b.fe.nonEmpty && appliesReduction(b.fe.get)) b
+          else if (a.fe.nonEmpty && appliesReduction(a.fe.get)) a
+          else if (a.branch.contains(b.obj) && !a.obj.annotations.isVirtual) a
+          else if (b.branch.contains(a.obj) && !b.obj.annotations.isVirtual) b
+          else if (rangeFor(b).isEmpty) a
+          else if (rangeFor(a).isEmpty) b
+          else {
+            // check also head in case that is a built in array element
+            (rangeFor(a), rangeFor(b)) match {
+              case (Some(ra), Some(rb)) if ra.contains(rb) => b // most specific
+              case (Some(_), Some(_)) =>
+                if (!a.obj.containsPosition(amfPosition) && b.obj.containsPosition(amfPosition)) b else a // most specific
+              //                  case (Some(_), None) => a (same as default)
+              case (None, Some(_)) => b
+              case _               => a
+            }
+          }
+        })
 
-    private def containsAsValue(maybePart: Option[YPart], amfPosition: AmfPosition): Boolean =
-      maybePart.exists(_.isValue(amfPosition))
+      }
+      private def find(branch: Branch): Seq[Branch] = {
+        val children: Seq[Either[AmfObject, FieldEntry]] =
+          filterFields(branch.obj).flatMap(fe => {
+            val seq = nextObject(fe, branch.obj).map(Left(_))
+            if (seq.nonEmpty) seq
+            else Seq(Right(fe))
+          })
+        if (children.isEmpty) Seq(branch)
+        else
+          children.flatMap {
+            case Left(obj) =>
+              if (branch.branch.contains(obj)) Some(branch)
+              else find(branch.newLeaf(obj))
+            case Right(fe)
+                if !fe.value.annotations.isInferred || fe.value.value.annotations.containsPosition(amfPosition) =>
+              Some(branch.forField(fe))
+            case _ => Some(branch)
+          }
+      }
 
-    def findSonWithStack(amfPosition: AmfPosition,
-                         location: Option[String],
-                         filterFns: Seq[FieldEntry => Boolean],
-                         definedBy: Dialect): (AmfObject, Seq[AmfObject]) = {
-      val posFilter = positionFinderFN(amfPosition, location)
-
-      def innerNode(amfObject: AmfObject): Option[FieldEntry] =
-        amfObject.fields
-          .fields()
-          .filter(f => {
-            filterFns.forall(fn => fn(f)) &&
-            posFilter(f)
-          }) match {
-          case Nil =>
-            None
-          case list =>
-            val entries = list
-              .filterNot(v => v.value.annotations.isVirtual || v.value.annotations.isSynthesized)
-            entries.lastOption
-              .orElse(list.lastOption)
+      // only object can have sons. Scalar and arrays are field from objects.
+      case class Branch(obj: AmfObject, branch: Seq[AmfObject], fe: Option[FieldEntry]) {
+        def unstacked(): Branch = {
+          if (fe.isDefined) copy(fe = None)
+          else if (branch.nonEmpty) copy(obj = branch.head, branch = branch.tail)
+          else this
         }
 
-      var a: Iterable[AmfObject]        = None // todo: recursive instead of tail recursive?
-      val stack: ArrayBuffer[AmfObject] = ArrayBuffer()
-      var result                        = obj
-      do {
-        a = innerNode(result).flatMap(entry =>
-          entry.value.value match {
-            case e: AmfArray =>
-              e.findChild(amfPosition, location, filterFns: Seq[FieldEntry => Boolean]) match {
-                case Some(o: AmfObject) if o.containsPosition(amfPosition) || o.annotations.isVirtual =>
-                  Some(o)
-                case _
-                    if entry.value.value.annotations.containsPosition(amfPosition).getOrElse(true) &&
-                      entry.field.`type`.isInstanceOf[ArrayLike] &&
-                      explicitArray(entry, result, definedBy) =>
-                  matchInnerArrayElement(entry, e, definedBy, result)
-                case _ => None
-              }
-            case e: AmfObject
-                if e.containsPosition(amfPosition) || containsAsValue(entry.value.annotations.ast(), amfPosition) =>
-              Some(e)
-            case _ => None
-        })
-        a.headOption.foreach(head => {
-          if (!stack.contains(head)) {
-            stack.prepend(result)
-            result = head
-          }
-        })
-      } while (a.nonEmpty && a.head == result)
-      (result, stack)
-    }
-  }
+        def newLeaf(leaf: AmfObject): Branch = copy(leaf, obj +: branch)
 
-  private def explicitArray(entry: FieldEntry, parent: AmfObject, definedBy: Dialect) =
-    entry.astValueArray() && isExplicitArray(entry, parent, definedBy) || !entry.astValueArray()
-
-  private def isExplicitArray(entry: FieldEntry, parent: AmfObject, definedBy: Dialect) =
-    definedBy
-      .findNodeMappingByTerm(parent.meta.`type`.head.iri())
-      .flatMap { nm =>
-        nm.findPropertyByTerm(entry.field.value.iri())
+        def forField(fe: FieldEntry): Branch = copy(fe = Some(fe))
       }
-      .exists(p => p.allowMultiple().value())
 
-  private def matchInnerArrayElement(entry: FieldEntry, e: AmfArray, definedBy: Dialect, parent: AmfObject) =
-    entry.field.`type`.asInstanceOf[ArrayLike].element match {
-      case d: DialectDomainElementModel =>
-        val maybeMapping = parent match {
-          case parentDd: DialectDomainElement =>
-            parentDd.definedBy.propertiesMapping().find { pm =>
-              pm.nodePropertyMapping().option().contains(entry.field.value.iri())
+      private def nextObject(fe: FieldEntry, parent: AmfObject): Seq[AmfObject] =
+        if (fe.objectSon && fe.value.value.location().forall(l => l.isEmpty || l == location))
+          fe.value.value match {
+            case e: AmfArray =>
+              val objects = nextObject(e)
+              if (objects.isEmpty) buildFromMeta(parent, fe, e).toSeq
+              else objects
+            case o: AmfObject if o.containsPosition(amfPosition) || o.annotations.isVirtual =>
+              Seq(o)
+            case _ =>
+              Seq.empty
+          } else Seq.empty
+
+      def buildFromMeta(parent: AmfObject, fe: FieldEntry, arr: AmfArray): Option[AmfObject] =
+        if (explicitArray(fe, parent, definedBy)) matchInnerArrayElement(fe, arr, definedBy, parent)
+        else None
+
+      def nextObject(array: AmfArray): Seq[AmfObject] =
+        if (isInArray(array)) {
+          val objects = array.values.collect({ case o: AmfObject => o })
+          val candidates = objects
+            .filter(_.annotations.containsPosition(amfPosition))
+          if (candidates.isEmpty) objects.filter(v => v.annotations.isVirtual || v.annotations.isSynthesized)
+          else candidates
+        } else Seq.empty
+
+      private def isInArray(array: AmfArray): Boolean =
+        array.annotations
+          .find(classOf[SourceAST])
+          .map(_.ast)
+          .forall { s =>
+            s.contains(amfPosition)
+          }
+//
+//      private def declaredPosition(fe: FieldEntry): Boolean =
+//        isDeclares(fe) &&
+//          fe.value.annotations.find(classOf[DeclarationKeys]).exists { dk =>
+//            dk.keys.exists(k => k.entry.contains(amfPosition))
+//          }
+
+      def filterFields(amfObject: AmfObject): Seq[FieldEntry] =
+        amfObject.fields.fields().filter(f => fieldFilters.forall(fn => fn(f))).toSeq
+
+      private def explicitArray(entry: FieldEntry, parent: AmfObject, definedBy: Dialect) =
+        (entry.astValueArray() && isExplicitArray(entry, parent, definedBy) || !entry
+          .astValueArray()) && amfPosition.column > 0
+
+      private def isExplicitArray(entry: FieldEntry, parent: AmfObject, definedBy: Dialect) =
+        definedBy
+          .findNodeMappingByTerm(parent.meta.`type`.head.iri())
+          .flatMap { nm =>
+            nm.findPropertyByTerm(entry.field.value.iri())
+          }
+          .exists(p => p.allowMultiple().value())
+
+      private def matchInnerArrayElement(entry: FieldEntry, e: AmfArray, definedBy: Dialect, parent: AmfObject) =
+        entry.field.`type`.asInstanceOf[ArrayLike].element match {
+          case d: DialectDomainElementModel =>
+            val maybeMapping = parent match {
+              case parentDd: DialectDomainElement =>
+                parentDd.definedBy.propertiesMapping().find { pm =>
+                  pm.nodePropertyMapping().option().contains(entry.field.value.iri())
+                }
+              case _ => None
             }
+            maybeMapping
+              .flatMap(_.objectRange().headOption)
+              .flatMap(_.option())
+              .flatMap(definedBy.findNodeMapping)
+              .map { nodeMapping =>
+                DialectDomainElement()
+                  .withInstanceTypes(nodeMapping.nodetypeMapping.value() +: d.`type`.map(_.iri()))
+                  .withDefinedBy(nodeMapping)
+              }
+          case d: DomainElementModel if d.`type`.headOption.exists(_.iri() == DataNodeModel.`type`.head.iri()) =>
+            e.values.collectFirst({ case d: DataNode => d })
+          case d: DomainElementModel if d.`type`.headOption.exists(_.iri() == DomainElementModel.`type`.head.iri()) =>
+            e.values.collectFirst({ case o: AmfObject => o }) match {
+              case Some(_: DialectDomainElement) if isDeclares(entry)  => None
+              case Some(_) if isDeclares(entry) && isInDeclarationName => None
+              case other                                               => other
+            }
+          case s: ShapeModel if s.`type`.headOption.exists(_.iri() == ShapeModel.`type`.head.iri()) =>
+            Some(AnyShapeModel.modelInstance)
+          case binding
+              if binding == MessageBindingModel || binding == ChannelBindingModel || binding == ServerBindingModel || binding == OperationBindingModel =>
+            Some(EmptyBindingModel.modelInstance)
+          case m: ModelDefaultBuilder =>
+            val instance = m.modelInstance
+            instance.add(e.annotations) // new instance has no annotation, so it inherits it's parents
+            Some(instance)
           case _ => None
         }
-        maybeMapping
-          .flatMap(_.objectRange().headOption)
-          .flatMap(_.option())
-          .flatMap(definedBy.findNodeMapping)
-          .map { nodeMapping =>
-            DialectDomainElement()
-              .withInstanceTypes(nodeMapping.nodetypeMapping.value() +: d.`type`.map(_.iri()))
-              .withDefinedBy(nodeMapping)
-          }
-      case d: DomainElementModel if d.`type`.headOption.exists(_.iri() == DataNodeModel.`type`.head.iri()) =>
-        e.values.collectFirst({ case d: DataNode => d })
-      case d: DomainElementModel if d.`type`.headOption.exists(_.iri() == DomainElementModel.`type`.head.iri()) =>
-        e.values.collectFirst({ case o: AmfObject => o })
-      case s: ShapeModel if s.`type`.headOption.exists(_.iri() == ShapeModel.`type`.head.iri()) =>
-        e.values.collectFirst({ case o: AmfObject => o })
-      case binding
-          if binding == MessageBindingModel || binding == ChannelBindingModel || binding == ServerBindingModel || binding == OperationBindingModel =>
-        Some(EmptyBindingModel.modelInstance)
-      case m: ModelDefaultBuilder =>
-        Some(m.modelInstance)
-      case _ => None
-    }
 
-  implicit class AlsAmfArray(array: AmfArray) {
-    private def minor(left: AmfElement, right: AmfElement): AmfElement =
-      (left.annotations.ast(), right.annotations.ast()) match {
-        case (Some(l), Some(r)) =>
-          if (l.contains(r.range)) right
-          else left
-        case (None, Some(_)) => right
-        //        case (Some(_), None) => left
-        case _ =>
-          left // todo: check?? (should be None?)
-      }
-
-    @scala.annotation.tailrec
-    private def findMinor(elements: List[AmfElement]): Option[AmfElement] =
-      elements match {
-        case Nil         => None
-        case head :: Nil => Some(head)
-        case list =>
-          val m = minor(list.head, list.tail.head)
-          findMinor(m +: list.tail.tail)
-      }
-
-    def findChild(amfPosition: AmfPosition,
-                  location: Option[String],
-                  filterFns: Seq[FieldEntry => Boolean]): Option[AmfElement] = {
-      val children: Seq[AmfElement] = array.values.filter(v =>
-        v.annotations.ast() match {
-          case Some(p) if p.contains(amfPosition) =>
-            true
-          case _ =>
-            v.annotations.isVirtual
-      })
-      findMinor(children.filter(_.annotations.isVirtual).toList).orElse(findMinor(children.toList))
+      private lazy val isInDeclarationName: Boolean =
+        obj.fields
+          .fields()
+          .find(_.field == DocumentModel.Declares)
+          .exists(_.value.annotations.declarationKeys().map(_.entry).exists {
+            case entry: YMapEntry =>
+              entry.value.range.contains(amfPosition) && amfPosition.column > entry.range.columnFrom
+            case _ => false
+          })
     }
   }
 
-  implicit class AlsAmfElement(element: AmfElement) {
-
-    def findSon(position: AmfPosition,
-                location: Option[String],
-                filterFns: Seq[FieldEntry => Boolean],
-                definedBy: Dialect): Option[AmfElement] = // todo: recursive with cycle control?
-      element match {
-        case obj: AmfObject =>
-          Some(obj.findSon(position, filterFns, definedBy))
-        case array: AmfArray =>
-          array.findChild(position, location, filterFns)
-        case _ =>
-          None
-      }
-  }
+  private def isDeclares(fe: FieldEntry) =
+    fe.field == DocumentModel.Declares
 }

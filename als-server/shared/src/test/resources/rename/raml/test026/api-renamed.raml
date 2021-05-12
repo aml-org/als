@@ -1,0 +1,12 @@
+#%RAML 1.0
+title: ALS-1227
+
+traits:
+  secured:
+    queryParameters:
+      <<tokenName>>:
+        RENAMED: A valid <<tokenName>> is required
+
+/books:
+  get:
+    is: [ {secured: {tokenName: access_token}}]

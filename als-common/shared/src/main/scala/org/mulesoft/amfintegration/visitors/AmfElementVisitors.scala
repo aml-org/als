@@ -1,7 +1,6 @@
 package org.mulesoft.amfintegration.visitors
 
 import amf.core.model.document.BaseUnit
-import amf.core.model.domain.{AmfElement, AmfObject}
 import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.amfintegration.visitors.aliases.{AliasesVisitor, AliasesVisitorType}
 import org.mulesoft.amfintegration.visitors.documentlink.{DocumentLinkVisitor, DocumentLinkVisitorType}
@@ -15,7 +14,6 @@ object AmfElementDefaultVisitors {
   private val allVisitors: Seq[AmfElementVisitorFactory] = {
     Seq(
       TraitLinksVisitor,
-      AbstractDefinitionLinksVisitor,
       RamlTypeExpressionsVisitor,
       ExternalNodeReferenceVisitor,
       DeclaredLinksVisitor,

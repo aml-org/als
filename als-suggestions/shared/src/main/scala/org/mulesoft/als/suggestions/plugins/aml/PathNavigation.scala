@@ -3,6 +3,7 @@ package org.mulesoft.als.suggestions.plugins.aml
 import amf.client.parse.DefaultParserErrorHandler
 import amf.core.client.ParsingOptions
 import amf.core.parser.{ParserContext, SyamlParsedDocument}
+import amf.core.registries.AMFPluginsRegistry
 import amf.core.remote.Platform
 import amf.internal.environment.Environment
 import org.mulesoft.als.suggestions.RawSuggestion

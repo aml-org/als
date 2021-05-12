@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11anyOf",
-    "filterText": "\"anyOf\": {\n  \"$1\"\n}",
+    "filterText": "\"anyOf\": [\n  \"$1\"\n]",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -23,7 +23,7 @@
           "character": 11
         }
       },
-      "newText": "\"anyOf\": {\n  \"$1\"\n}"
+      "newText": "\"anyOf\": [\n  \"$1\"\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

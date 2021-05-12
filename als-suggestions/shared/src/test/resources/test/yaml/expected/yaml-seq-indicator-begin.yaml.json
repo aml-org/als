@@ -90,36 +90,6 @@
     "command": null
   },
   {
-    "label": "discriminator",
-    "kind": [],
-    "detail": "schemas",
-    "documentation": "discriminator",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11discriminator",
-    "filterText": "discriminator:\n  ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 15,
-          "character": 19
-        },
-        "end": {
-          "line": 15,
-          "character": 19
-        }
-      },
-      "newText": "discriminator:\n  "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "enum",
     "kind": [],
     "detail": "parameters",

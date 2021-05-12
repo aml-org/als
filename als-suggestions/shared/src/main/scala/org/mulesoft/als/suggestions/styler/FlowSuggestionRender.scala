@@ -18,9 +18,9 @@ trait FlowSuggestionRender extends SuggestionRender {
 
     private val cursorPosition: String = escapeChar + "$1" + escapeChar
 
-    def fix(): String = collectionSeparator(fixMap())
+    def fix(): String = collectionSeparator(fixFlow())
 
-    private def fixMap(): String = {
+    private def fixFlow(): String = {
       val result = rendered.stripSuffix("\n")
       if (result.endsWith("{}")) {
         if (isFlow) {
@@ -29,6 +29,9 @@ trait FlowSuggestionRender extends SuggestionRender {
         } else {
           result.stripSuffix(" {}") + "\n" + indent
         }
+      } else if (result.endsWith("[\n \n]") && isFlow) {
+        builder.forSnippet()
+        result.replace("[\n \n]", "[\n" + indent + cursorPosition + "\n]")
       } else result
     }
 

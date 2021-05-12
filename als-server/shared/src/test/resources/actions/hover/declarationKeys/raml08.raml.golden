@@ -1,0 +1,17 @@
+hovers:
+  (2,3):
+    range: Range(common.Position[L:1,C:0],common.Position[L:2,C:0])
+    contents:
+      - Declarations of reusable authentication mechanisms to ensure secured operations
+  (3,3):
+    range: Range(common.Position[L:2,C:0],common.Position[L:3,C:0])
+    contents:
+      - Declarations of sets of characteristics to reuse across multiple methods
+  (4,3):
+    range: Range(common.Position[L:3,C:0],common.Position[L:4,C:0])
+    contents:
+      - Contains declarations of reusable Schemas
+  (5,3):
+    range: Range(common.Position[L:4,C:0],common.Position[L:4,C:14])
+    contents:
+      - Declarations of sets of characteristics to reuse across multiple resources

@@ -250,8 +250,8 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest with Rena
       createWSE(Seq(
         ("file:///root/api.raml",
           Seq(
-            TextEdit(Range(Position(7, 10), Position(7, 13)), "RENAMED"),
             TextEdit(Range(Position(5, 10), Position(5, 13)), "RENAMED"),
+            TextEdit(Range(Position(7, 10), Position(7, 13)), "RENAMED"),
             TextEdit(Range(Position(14, 17), Position(14, 20)), "RENAMED"),
             TextEdit(Range(Position(13, 22), Position(13, 25)), "RENAMED"),
             TextEdit(Range(Position(9, 10), Position(9, 13)), "RENAMED"),

@@ -1,0 +1,5 @@
+hovers:
+  (4,5):
+    range: Range(common.Position[L:3,C:2],common.Position[L:3,C:8])
+    contents:
+      - Human readable name for the object

@@ -4,7 +4,7 @@ import amf.core.metamodel.document.DocumentModel
 import amf.core.metamodel.domain.ShapeModel
 import amf.core.model.domain.{AmfArray, AmfObject, Shape}
 import amf.core.parser.FieldEntry
-import amf.plugins.document.webapi.annotations.{DeclarationKey, DeclarationKeys}
+import amf.plugins.document.vocabularies.parser.common.{DeclarationKey, DeclarationKeys}
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.language.outline.structure.structureImpl._
@@ -17,7 +17,6 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   IriFieldSymbolBuilderCompanion,
   SymbolBuilder
 }
-import org.yaml.model.YNodeLike.toString
 
 class DeclaresFieldSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
     override implicit val ctx: StructureContext)

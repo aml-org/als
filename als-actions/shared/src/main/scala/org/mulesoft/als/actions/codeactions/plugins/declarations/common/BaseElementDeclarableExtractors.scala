@@ -74,26 +74,14 @@ trait BaseElementDeclarableExtractors {
       case c                      => c
     }
 
-  /** gets the range for the whole value of the parent */
-  private def getRangeForAML(entryAst: YPart): Option[Range] = yPartBranch.flatMap { b =>
-    val wholeStack = b.node +: b.stack
-    val ix         = wholeStack.indexOf(entryAst)
-    wholeStack(ix + 1)
-    if (ix >= 0 && (ix + 1) < wholeStack.length)
-      Some(LspRangeConverter.toLspRange(PositionRange(wholeStack(ix + 1).range)))
-    else None
-  }
-
   /**
     * The original range info for the declared node
     */
   protected lazy val entryRange: Option[Range] =
-    if (vendor != Vendor.AML)
-      entryAst
-        .map(_.range)
-        .map(PositionRange(_))
-        .map(LspRangeConverter.toLspRange)
-    else entryAst.flatMap(getRangeForAML)
+    entryAst
+      .map(_.range)
+      .map(PositionRange(_))
+      .map(LspRangeConverter.toLspRange)
 
   /**
     * The indentation for the existing node, as we already ensured it is a key, the first position gives de current indentation

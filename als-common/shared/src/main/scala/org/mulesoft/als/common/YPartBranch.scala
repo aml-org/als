@@ -3,6 +3,7 @@ package org.mulesoft.als.common
 import amf.core.model.document.BaseUnit
 import amf.core.parser.{Position => AmfPosition, _}
 import org.mulesoft.als.common.YamlWrapper._
+import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
 import org.yaml.lexer.YamlCharRules
 import org.yaml.model
@@ -53,7 +54,7 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
         .isInstanceOf[YSequence] || (stack.headOption match {
         case Some(entry: YMapEntry) if entry.value == node =>
           entry.value.asScalar.isDefined &&
-            node.range.columnFrom > entry.key.range.columnFrom && position.line > entry.key.range.lineFrom
+            node.range.columnFrom > entry.key.range.columnFrom && ((position.line == entry.key.range.lineFrom && node.range.columnTo != entry.value.range.columnTo) || position.line > entry.key.range.lineFrom)
         case Some(entry: YMapEntry) => entry.key == node
         case _                      => false
       })
@@ -118,6 +119,7 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
     ancestorOf(classOf[YMapEntry])
       .flatMap(_.key.asScalar.map(_.text))
       .contains(key)
+
   @scala.annotation.tailrec
   private def findFirstOf[T <: YPart](clazz: Class[T], l: Seq[YPart]): Option[T] = {
     l match {
@@ -190,10 +192,14 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
 
 object NodeBranchBuilder {
   def getAstForRange(ast: YPart, startPosition: AmfPosition, endPosition: AmfPosition, isJson: Boolean): YPart = {
-    val start = build(ast, startPosition, isJson)
-    val end   = build(ast, endPosition, isJson)
 
-    findMutualYMapParent(start, end, isJson).getOrElse(ast)
+    val start = build(ast, startPosition, isJson)
+    if (startPosition == endPosition) start.node
+    else {
+      val end = build(ast, endPosition, isJson)
+
+      findMutualYMapParent(start, end, isJson).getOrElse(ast)
+    }
 
   }
 
@@ -254,7 +260,7 @@ object NodeBranchBuilder {
   }
 
   private def isNullOrEmptyTag(node: YNode) =
-    node.isNull || (node.tagType.toString == "!include" && node.value.toString.isEmpty)
+    node.isNull || (node.tagType.toString == "!include")
 
   def childWithPosition(ast: YPart, amfPosition: AmfPosition): Option[YPart] = {
     val parts = ast.children
@@ -264,10 +270,15 @@ object NodeBranchBuilder {
       }
     if (parts.length > 1) {
       ast match {
-        case e: YMapEntry if e.value.isNull => Some(e.key)
-        case _                              => parts.lastOption
+        case e: YMapEntry if e.value.isNull =>
+          val range = e.value.range.toPositionRange
+          if (range.end <= Position(amfPosition) && e.value.value.range.toPositionRange.end.line == range.start.line)
+            Some(e.value) // the position was in an YNonContent after the `key: `
+          else Some(e.key)
+        case _ =>
+          parts.lastOption
       }
-    } else parts.lastOption
+    } else
+      parts.lastOption
   }
-
 }

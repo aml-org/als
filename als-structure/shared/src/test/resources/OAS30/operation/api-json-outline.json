@@ -340,6 +340,32 @@
             ]
           },
           {
+            "name": "callback",
+            "kind": 7,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 31,
+                "character": 8
+              },
+              "end": {
+                "line": 33,
+                "character": 9
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 31,
+                "character": 8
+              },
+              "end": {
+                "line": 33,
+                "character": 9
+              }
+            },
+            "children": []
+          },
+          {
             "name": "servers",
             "kind": 7,
             "deprecated": false,

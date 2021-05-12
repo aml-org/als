@@ -1,10 +1,9 @@
 package org.mulesoft.als.common
 
 import amf.core.annotations.{DeclaredElement, DefinedByVendor, SourceAST}
-import amf.core.metamodel.document.BaseUnitModel
 import amf.core.metamodel.domain.LinkableElementModel
 import amf.core.model.document.{BaseUnit, DeclaresModel}
-import amf.core.model.domain.{AmfArray, AmfObject, DomainElement}
+import amf.core.model.domain.{AmfObject, DomainElement}
 import amf.core.parser.{Annotations, FieldEntry, Position => AmfPosition}
 import amf.core.remote.Vendor
 import amf.plugins.document.vocabularies.model.document.Dialect
@@ -15,7 +14,10 @@ import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.FieldEntryOrdering
 import org.yaml.model.YMapEntry
 
-case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfPosition) {
+case class ObjectInTree(obj: AmfObject,
+                        stack: Seq[AmfObject],
+                        amfPosition: AmfPosition,
+                        fieldEntry: Option[FieldEntry]) {
 
   def objVendor: Option[Vendor] =
     (obj +: stack).flatMap(_.annotations.find(classOf[DefinedByVendor])).headOption.map(_.vendor)
@@ -28,18 +30,12 @@ case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfP
     */
   lazy val fieldValue: Option[FieldEntry] = getFieldEntry(justValueFn, FieldEntryOrdering, obj)
 
-  // todo: unify this
-  lazy val fieldEntry: Option[FieldEntry] =
-    nonVirtualObj.flatMap(o => getFieldEntry(keyOrValueFn, FieldEntryOrdering, o))
-
   lazy val nonVirtualObj: Option[AmfObject] = obj.annotations.ast() match {
     case Some(_) => Some(obj)
     case None    => stack.headOption
   }
 
   private val justValueFn = (f: FieldEntry) => inField(f) && (inValue(f) || notInKey(f.value.annotations))
-
-  private val keyOrValueFn = (f: FieldEntry) => f.fieldContains(amfPosition)
 
   /**
     * return the first field entry for that contains the position in his entry(key or value).
@@ -62,15 +58,11 @@ case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfP
       (f.value.annotations.ast() match {
         case Some(e: YMapEntry) =>
           e.contains(amfPosition) && !(e.key.range.lineTo == amfPosition.line && e.key.range.columnFrom == amfPosition.column) // start of the entry
-        case _ => f.value.annotations.containsPosition(amfPosition).getOrElse(false)
+        case _ => f.value.annotations.containsAstPosition(amfPosition).getOrElse(f.value.annotations.isInferred)
       })
 
   private def inValue(f: FieldEntry) =
-    f.value.value.annotations.ast().exists(_.contains(amfPosition)) ||
-      (f.value.value match {
-        case arr: AmfArray => arr.values.isEmpty
-        case _             => false
-      })
+    f.value.value.annotations.ast().exists(_.contains(amfPosition))
 
   private def notInKey(a: Annotations) =
     a.find(classOf[SourceAST]) match {
@@ -102,18 +94,18 @@ case class ObjectInTree(obj: AmfObject, stack: Seq[AmfObject], amfPosition: AmfP
 
 object ObjectInTreeBuilder {
 
-  def fromUnit(bu: BaseUnit, position: AmfPosition, location: Option[String], definedBy: Dialect): ObjectInTree = {
-    val (obj, stack) =
-      bu.findSonWithStack(position, location, Seq((f: FieldEntry) => f.field != BaseUnitModel.References), definedBy)
-    ObjectInTree(obj, stack, position)
+  def fromUnit(bu: BaseUnit, position: AmfPosition, location: String, definedBy: Dialect): ObjectInTree = {
+    val branch =
+      bu.findSon(position, location, definedBy)
+    ObjectInTree(branch.obj, branch.branch, position, branch.fe)
   }
 
   def fromSubTree(element: DomainElement,
                   position: AmfPosition,
-                  location: Option[String],
+                  location: String,
                   previousStack: Seq[AmfObject],
                   definedBy: Dialect): ObjectInTree = {
-    val (obj, stack) = element.findSonWithStack(position, location, Seq.empty, definedBy)
-    ObjectInTree(obj, stack ++ previousStack, position)
+    val branch = element.findSon(position, location, definedBy)
+    ObjectInTree(branch.obj, branch.branch ++ previousStack, position, branch.fe)
   }
 }

@@ -1,0 +1,5 @@
+hovers:
+  (3,8):
+    range: Range(common.Position[L:2,C:0],common.Position[L:5,C:0])
+    contents:
+      - Declarations of reusable authentication mechanisms to ensure secured operations

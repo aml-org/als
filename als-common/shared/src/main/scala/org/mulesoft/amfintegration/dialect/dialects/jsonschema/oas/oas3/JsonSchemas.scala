@@ -23,7 +23,8 @@ object JsonSchemas extends JsonSchemaForOasWrapper {
         .withId(OAS30Dialect.DialectLocation + "#/declarations/SchemaObject/anyOf")
         .withName("anyOf")
         .withNodePropertyMapping(ShapeModel.Or.value.iri())
-        .withObjectRange(Seq(Oas30SchemaObject.id)),
+        .withObjectRange(Seq(Oas30SchemaObject.id))
+        .withAllowMultiple(true),
       PropertyMapping()
         .withId(OAS30Dialect.DialectLocation + "#/declarations/SchemaObject/not")
         .withName("not")

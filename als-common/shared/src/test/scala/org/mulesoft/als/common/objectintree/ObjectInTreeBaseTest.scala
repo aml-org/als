@@ -6,6 +6,7 @@ import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementMo
 import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.common.{ObjectInTree, ObjectInTreeBuilder}
+import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.AmfInstance
 import org.scalatest.{Assertion, Matchers}
 
@@ -28,7 +29,7 @@ case class ObjectInTreeBaseTest(instanceFile: String, dialectFile: String) exten
   private val objectInTree: Future[parser.Position => ObjectInTree] = for {
     dialect <- initDialects
     result  <- eventualResult
-  } yield ObjectInTreeBuilder.fromUnit(result.baseUnit, _, result.baseUnit.location(), dialect)
+  } yield ObjectInTreeBuilder.fromUnit(result.baseUnit, _, result.baseUnit.identifier, dialect)
 
   def runTest(pos: Position, expectedTypeIri: String, expectedPropertyTerm: Option[String]): Future[Assertion] = {
     objectInTree.map { fn =>

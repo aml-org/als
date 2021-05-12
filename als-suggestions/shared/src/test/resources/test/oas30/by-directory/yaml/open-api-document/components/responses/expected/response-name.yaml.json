@@ -1,0 +1,2282 @@
+[
+  {
+    "label": "100",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "100",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11100",
+    "filterText": "\"100\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"100\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "101",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "101",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11101",
+    "filterText": "\"101\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"101\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "102",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "102",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11102",
+    "filterText": "\"102\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"102\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "1XX",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "1XX",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "111XX",
+    "filterText": "\"1XX\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"1XX\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "200",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "200",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11200",
+    "filterText": "\"200\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"200\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "201",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "201",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11201",
+    "filterText": "\"201\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"201\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "202",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "202",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11202",
+    "filterText": "\"202\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"202\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "203",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "203",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11203",
+    "filterText": "\"203\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"203\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "204",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "204",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11204",
+    "filterText": "\"204\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"204\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "205",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "205",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11205",
+    "filterText": "\"205\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"205\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "206",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "206",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11206",
+    "filterText": "\"206\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"206\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "207",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "207",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11207",
+    "filterText": "\"207\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"207\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "208",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "208",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11208",
+    "filterText": "\"208\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"208\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "226",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "226",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11226",
+    "filterText": "\"226\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"226\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "2XX",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "2XX",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "112XX",
+    "filterText": "\"2XX\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"2XX\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "300",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "300",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11300",
+    "filterText": "\"300\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"300\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "301",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "301",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11301",
+    "filterText": "\"301\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"301\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "302",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "302",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11302",
+    "filterText": "\"302\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"302\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "303",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "303",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11303",
+    "filterText": "\"303\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"303\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "304",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "304",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11304",
+    "filterText": "\"304\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"304\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "305",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "305",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11305",
+    "filterText": "\"305\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"305\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "306",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "306",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11306",
+    "filterText": "\"306\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"306\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "307",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "307",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11307",
+    "filterText": "\"307\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"307\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "308",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "308",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11308",
+    "filterText": "\"308\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"308\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "3XX",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "3XX",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "113XX",
+    "filterText": "\"3XX\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"3XX\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "400",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "400",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11400",
+    "filterText": "\"400\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"400\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "401",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "401",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11401",
+    "filterText": "\"401\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"401\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "402",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "402",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11402",
+    "filterText": "\"402\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"402\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "403",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "403",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11403",
+    "filterText": "\"403\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"403\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "404",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "404",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11404",
+    "filterText": "\"404\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"404\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "405",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "405",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11405",
+    "filterText": "\"405\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"405\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "406",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "406",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11406",
+    "filterText": "\"406\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"406\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "407",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "407",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11407",
+    "filterText": "\"407\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"407\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "408",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "408",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11408",
+    "filterText": "\"408\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"408\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "409",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "409",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11409",
+    "filterText": "\"409\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"409\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "410",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "410",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11410",
+    "filterText": "\"410\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"410\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "411",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "411",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11411",
+    "filterText": "\"411\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"411\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "412",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "412",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11412",
+    "filterText": "\"412\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"412\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "413",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "413",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11413",
+    "filterText": "\"413\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"413\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "414",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "414",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11414",
+    "filterText": "\"414\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"414\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "415",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "415",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11415",
+    "filterText": "\"415\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"415\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "416",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "416",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11416",
+    "filterText": "\"416\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"416\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "417",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "417",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11417",
+    "filterText": "\"417\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"417\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "418",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "418",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11418",
+    "filterText": "\"418\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"418\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "420",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "420",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11420",
+    "filterText": "\"420\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"420\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "422",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "422",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11422",
+    "filterText": "\"422\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"422\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "423",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "423",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11423",
+    "filterText": "\"423\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"423\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "424",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "424",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11424",
+    "filterText": "\"424\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"424\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "425",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "425",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11425",
+    "filterText": "\"425\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"425\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "426",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "426",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11426",
+    "filterText": "\"426\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"426\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "428",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "428",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11428",
+    "filterText": "\"428\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"428\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "429",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "429",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11429",
+    "filterText": "\"429\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"429\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "431",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "431",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11431",
+    "filterText": "\"431\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"431\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "444",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "444",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11444",
+    "filterText": "\"444\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"444\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "449",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "449",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11449",
+    "filterText": "\"449\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"449\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "450",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "450",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11450",
+    "filterText": "\"450\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"450\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "451",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "451",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11451",
+    "filterText": "\"451\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"451\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "499",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "499",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11499",
+    "filterText": "\"499\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"499\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "4XX",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "4XX",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "114XX",
+    "filterText": "\"4XX\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"4XX\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "500",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "500",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11500",
+    "filterText": "\"500\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"500\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "501",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "501",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11501",
+    "filterText": "\"501\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"501\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "502",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "502",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11502",
+    "filterText": "\"502\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"502\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "503",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "503",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11503",
+    "filterText": "\"503\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"503\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "504",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "504",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11504",
+    "filterText": "\"504\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"504\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "505",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "505",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11505",
+    "filterText": "\"505\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"505\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "506",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "506",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11506",
+    "filterText": "\"506\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"506\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "507",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "507",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11507",
+    "filterText": "\"507\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"507\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "508",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "508",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11508",
+    "filterText": "\"508\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"508\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "509",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "509",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11509",
+    "filterText": "\"509\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"509\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "510",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "510",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11510",
+    "filterText": "\"510\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"510\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "511",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "511",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11511",
+    "filterText": "\"511\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"511\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "598",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "598",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11598",
+    "filterText": "\"598\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"598\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "599",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "599",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11599",
+    "filterText": "\"599\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"599\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "5XX",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "5XX",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "115XX",
+    "filterText": "\"5XX\":\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"5XX\":\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New response",
+    "kind": [],
+    "detail": "template",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "20New response",
+    "filterText": "$1:\n  description: $2\n  statusCode: $3",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "$1:\n  description: $2\n  statusCode: $3"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "default",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "default",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11default",
+    "filterText": "default:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "default:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

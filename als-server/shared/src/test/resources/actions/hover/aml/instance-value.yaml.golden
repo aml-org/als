@@ -1,0 +1,5 @@
+hovers:
+  (3,13):
+    range: Range(common.Position[L:2,C:0],common.Position[L:3,C:0])
+    contents:
+      - The version of the root element and the hole document

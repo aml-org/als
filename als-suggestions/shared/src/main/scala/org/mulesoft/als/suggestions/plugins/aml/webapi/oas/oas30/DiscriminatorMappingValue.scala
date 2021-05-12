@@ -1,12 +1,12 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30
 
 import amf.core.annotations.SourceNode
-import amf.core.model.domain.{AmfObject, Linkable, Shape}
+import amf.core.model.domain.{Linkable, Shape}
 import amf.core.parser._
 import amf.plugins.domain.shapes.metamodel.NodeShapeModel
-import amf.plugins.domain.shapes.models.{NodeShape, UnresolvedShape}
+import amf.plugins.domain.shapes.models.NodeShape
 import amf.plugins.domain.webapi.metamodel.IriTemplateMappingModel
-import amf.plugins.domain.webapi.models.{DiscriminatorValueMapping, IriTemplateMapping}
+import amf.plugins.domain.webapi.models.IriTemplateMapping
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.webapi.ExceptionPlugin
@@ -26,22 +26,7 @@ object DiscriminatorMappingValue extends ExceptionPlugin {
         suggest(obj)
       case _: IriTemplateMapping if request.fieldEntry.exists(_.field == IriTemplateMappingModel.LinkExpression) =>
         request.branchStack.collectFirst({ case n: NodeShape => suggest(n) }).getOrElse(Nil)
-      case _ =>
-        // TODO: new traverse - clean code after adopting new AMF version with annotations
-        request.branchStack
-          .dropWhile {
-            case _: DiscriminatorValueMapping =>
-              false
-            case _ =>
-              true
-          }
-          .drop(1)
-          .headOption
-          .map {
-            case ns: NodeShape => suggest(ns)
-            case _             => Nil
-          }
-          .getOrElse(Nil)
+      case _ => Nil
     }
   }
 

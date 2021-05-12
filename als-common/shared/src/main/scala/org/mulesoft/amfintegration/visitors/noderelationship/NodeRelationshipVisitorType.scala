@@ -3,12 +3,14 @@ package org.mulesoft.amfintegration.visitors.noderelationship
 import amf.core.annotations.{LexicalInformation, SourceAST}
 import amf.core.metamodel.domain.LinkableElementModel
 import amf.core.model.domain.{AmfElement, AmfObject, NamedDomainElement}
+import amf.plugins.domain.shapes.models.NodeShape
 import org.mulesoft.als.common.SemanticNamedElement._
-import org.mulesoft.amfintegration.visitors.AmfElementVisitor
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.VirtualYPart
 import org.mulesoft.amfintegration.relationships.RelationshipLink
-import org.yaml.model.{YNode, YPart, YScalar}
+import org.mulesoft.amfintegration.visitors.AmfElementVisitor
+import org.mulesoft.lexer.SourceLocation
+import org.yaml.model.{YMapEntry, YNode, YPart, YScalar}
 
 trait NodeRelationshipVisitorType extends AmfElementVisitor[RelationshipLink] {
   protected def extractTarget(obj: AmfObject): Option[AmfElement] =
@@ -28,6 +30,16 @@ trait NodeRelationshipVisitorType extends AmfElementVisitor[RelationshipLink] {
 
   protected def getName(a: AmfElement): Option[YPart] =
     a match {
+      case ns: NodeShape =>
+        val name = ns.name.annotations.ast()
+        if (name.exists(_.location == SourceLocation.Unknown)) {
+          ns.annotations
+            .ast()
+            .flatMap({
+              case entry: YMapEntry if name.exists(_.toString == entry.key.value.toString) => Some(entry.key.value)
+              case _                                                                       => None
+            })
+        } else name
       case n: NamedDomainElement =>
         n.name
           .annotations()

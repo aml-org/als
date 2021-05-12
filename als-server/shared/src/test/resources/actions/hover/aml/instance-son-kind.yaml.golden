@@ -1,0 +1,5 @@
+hovers:
+  (6,6):
+    range: Range(common.Position[L:5,C:4],common.Position[L:6,C:0])
+    contents:
+      - the second level kind

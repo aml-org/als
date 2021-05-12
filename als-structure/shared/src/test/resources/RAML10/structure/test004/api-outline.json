@@ -241,7 +241,7 @@
                 "range": {
                   "start": {
                     "line": 17,
-                    "character": 0
+                    "character": 6
                   },
                   "end": {
                     "line": 20,
@@ -251,7 +251,7 @@
                 "selectionRange": {
                   "start": {
                     "line": 17,
-                    "character": 0
+                    "character": 6
                   },
                   "end": {
                     "line": 20,
@@ -395,34 +395,7 @@
             "character": 0
           }
         },
-        "children": [
-          {
-            "name": "queryParameters",
-            "kind": 7,
-            "deprecated": false,
-            "range": {
-              "start": {
-                "line": 4,
-                "character": 4
-              },
-              "end": {
-                "line": 6,
-                "character": 0
-              }
-            },
-            "selectionRange": {
-              "start": {
-                "line": 4,
-                "character": 4
-              },
-              "end": {
-                "line": 6,
-                "character": 0
-              }
-            },
-            "children": []
-          }
-        ]
+        "children": []
       }
     ]
   }

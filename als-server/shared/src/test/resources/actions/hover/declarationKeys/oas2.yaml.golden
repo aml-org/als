@@ -1,0 +1,17 @@
+hovers:
+  (2,2):
+    range: Range(common.Position[L:1,C:0],common.Position[L:4,C:0])
+    contents:
+      - Contains declarations of reusable Schemas
+  (5,1):
+    range: Range(common.Position[L:4,C:0],common.Position[L:9,C:0])
+    contents:
+      - Contains declarations of reusable Parameter objects
+  (10,8):
+    range: Range(common.Position[L:9,C:0],common.Position[L:13,C:0])
+    contents:
+      - Contains declarations of reusable Response objects
+  (14,6):
+    range: Range(common.Position[L:13,C:0],common.Position[L:14,C:0])
+    contents:
+      - Declarations of reusable authentication mechanisms to ensure secured operations

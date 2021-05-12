@@ -1,10 +1,10 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml08
 
+import amf.core.annotations.Inferred
 import amf.core.metamodel.domain.ShapeModel
 import amf.core.model.domain.Shape
 import amf.core.parser.Value
 import amf.plugins.document.vocabularies.model.domain.NodeMapping
-import amf.plugins.document.webapi.annotations.Inferred
 import amf.plugins.domain.shapes.metamodel.ScalarShapeModel
 import amf.plugins.domain.shapes.models.{AnyShape, ScalarShape}
 import amf.plugins.domain.webapi.models.Payload
@@ -19,7 +19,7 @@ import scala.concurrent.Future
 object Raml08TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin with PayloadMediaTypeSeeker {
   override def id: String = "RamlTypeFacetsCompletionPlugin"
 
-  private val formMediaTypes: Seq[String] =
+  val formMediaTypes: Seq[String] =
     Seq("application/x-www-form-urlencoded", "multipart/form-data")
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
@@ -36,11 +36,12 @@ object Raml08TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin
           Seq(RawSuggestion.forObject("formParameters", "schemas"))
         else Seq()
       } :+ RawSuggestion("schema", isAKey = true, "schemas", mandatory = false)
-      case p: Payload
-          if formMediaTypes
-            .contains(p.mediaType.value()) =>
-        Seq(RawSuggestion.forObject("formParameters", "schemas"),
-            RawSuggestion("schema", isAKey = true, "schemas", mandatory = false))
+      case p: Payload if params.yPartBranch.isKey && p.mediaType.option().isDefined =>
+        if (formMediaTypes.contains(p.mediaType.value()))
+          Seq(RawSuggestion.forObject("formParameters", "schemas"),
+              RawSuggestion("schema", isAKey = true, "schemas", mandatory = false))
+        else
+          Seq(RawSuggestion("schema", isAKey = true, "schemas", mandatory = false))
       case _ => Nil
     })
   }

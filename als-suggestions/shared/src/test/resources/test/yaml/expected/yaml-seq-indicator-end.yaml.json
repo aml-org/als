@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11anyOf",
-    "filterText": "anyOf: {\n  $1\n}",
+    "filterText": "anyOf: [\n  $1\n]",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -83,7 +83,7 @@
           "character": 59
         }
       },
-      "newText": "anyOf: {\n  $1\n}"
+      "newText": "anyOf: [\n  $1\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -180,14 +180,14 @@
     "command": null
   },
   {
-    "label": "discriminator",
+    "label": "enum",
     "kind": [],
-    "detail": "schemas",
-    "documentation": "discriminator",
+    "detail": "parameters",
+    "documentation": "enum",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11discriminator",
-    "filterText": "discriminator: {\n  $1\n}",
+    "sortText": "11enum",
+    "filterText": "enum: [\n  $1\n]",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -203,37 +203,7 @@
           "character": 59
         }
       },
-      "newText": "discriminator: {\n  $1\n}"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "enum",
-    "kind": [],
-    "detail": "parameters",
-    "documentation": "enum",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11enum",
-    "filterText": "enum: [\n \n]",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 16,
-          "character": 59
-        },
-        "end": {
-          "line": 16,
-          "character": 59
-        }
-      },
-      "newText": "enum: [\n \n]"
+      "newText": "enum: [\n  $1\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
