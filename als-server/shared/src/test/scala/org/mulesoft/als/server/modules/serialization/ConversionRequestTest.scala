@@ -46,7 +46,7 @@ class ConversionRequestTest extends LanguageServerBaseTest {
     run(Oas20, Raml10)
   }
 
-  test("OAS 2.0 to RAML 1.0 json syntax conversion test") {
+  ignore("OAS 2.0 to RAML 1.0 json syntax conversion test") {
     run(Oas20, Raml10, Some("json")).recoverWith {
       case e: Exception => e.getMessage should include("Cannot serialize domain model")
     }

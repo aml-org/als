@@ -11,7 +11,12 @@ import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.UnitTaskManager
-import org.mulesoft.als.server.workspace.extract.{WorkspaceConf, WorkspaceConfigurationProvider}
+import org.mulesoft.als.server.workspace.extract.{
+  DefaultWorkspaceConfigurationProvider,
+  WorkspaceConf,
+  WorkspaceConfigurationProvider,
+  WorkspaceRootHandler
+}
 import org.mulesoft.amfintegration.AmfParseResult
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
@@ -24,6 +29,26 @@ class WorkspaceContentManager(val folder: String,
                               logger: Logger,
                               allSubscribers: List[BaseUnitListener])
     extends UnitTaskManager[ParsedUnit, CompilableUnit, NotificationKind] {
+
+  private val rootHandler =
+    new WorkspaceRootHandler(environmentProvider.platform, environmentProvider.environmentSnapshot())
+
+  override def init(): Unit =
+    rootHandler.extractConfiguration(folder, logger).map { mainOption =>
+      mainOption.foreach(
+        conf => {
+          this
+            .withConfiguration(
+              DefaultWorkspaceConfigurationProvider(this,
+                                                    conf.mainFile,
+                                                    conf.cachables,
+                                                    mainOption.flatMap(_.configReader)))
+            .stage(conf.mainFile, CHANGE_CONFIG)
+          configMainFile = Some(conf)
+        }
+      )
+      super.init()
+    }
 
   def containsFile(uri: String): Boolean = uri.startsWith(folder)
 
@@ -42,23 +67,19 @@ class WorkspaceContentManager(val folder: String,
   }
 
   private def mainFile: Option[String] = configMainFile.map(_.mainFile)
-  def mainFileUri: Option[String] =
-    mainFile.map(mf => s"${trailSlash(folder)}$mf".toAmfUri)
 
-  def getRootFolderFor(uri: String): Option[String] =
+  def mainFileUri: Future[Option[String]] =
+    isInitialized.future.map(_ => mainFile.map(mf => s"${trailSlash(folder)}$mf".toAmfUri))
+
+  def getRootFolderFor(uri: String): Future[Option[String]] =
     if (isInMainTree(uri))
-      mainFileUri
-        .map(stripToLastFolder)
-        .orElse(getRootOf(uri))
-    else None
+      mainFileUri.map(
+        _.map(stripToLastFolder)
+          .orElse(getRootOf(uri)))
+    else Future.successful(None)
 
   def isInMainTree(uri: String): Boolean =
     repository.inTree(uri)
-
-  def stripToRelativePath(uri: String): Option[String] =
-    mainFileUri
-      .map(stripToLastFolder)
-      .map(mfUri => "/" + uri.stripPrefix(mfUri))
 
   private def stripToLastFolder(uri: String): String =
     uri.substring(0, (uri.lastIndexOf('/') + 1).min(uri.length))
@@ -82,7 +103,10 @@ class WorkspaceContentManager(val folder: String,
   private var workspaceConfigurationProvider: Option[WorkspaceConfigurationProvider] = None
 
   override protected def toResult(uri: String, pu: ParsedUnit): CompilableUnit =
-    pu.toCU(getNext(uri), mainFileUri, repository.getReferenceStack(uri), isDirty(uri))
+    pu.toCU(getNext(uri),
+            mainFile.map(mf => s"${trailSlash(folder)}$mf".toAmfUri),
+            repository.getReferenceStack(uri),
+            isDirty(uri))
 
   private def isDirty(uri: String) =
     state == ProcessingProject ||
@@ -141,7 +165,7 @@ class WorkspaceContentManager(val folder: String,
     * - Unit is external fragment and main file is external fragment too
     */
   private def shouldParseOnFocus(uri: String): Boolean = {
-
+    val mainFileUri = mainFile.map(mf => s"${trailSlash(folder)}$mf".toAmfUri)
     repository.getUnit(uri) match {
       case Some(s) =>
         s.bu match {
@@ -227,4 +251,7 @@ class WorkspaceContentManager(val folder: String,
   override protected def disableTasks(): Future[Unit] = Future {
     subscribers.map(d => repository.getAllFilesUris.map(_.toAmfUri).foreach(d.onRemoveFile))
   }
+
+  // Initialize after construction
+  init()
 }

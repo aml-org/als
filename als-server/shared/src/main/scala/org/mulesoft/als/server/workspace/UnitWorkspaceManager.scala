@@ -7,7 +7,7 @@ import org.mulesoft.lsp.feature.link.DocumentLink
 import scala.concurrent.Future
 
 trait UnitWorkspaceManager {
-  def getProjectRootOf(uri: String): Option[String]
+  def getProjectRootOf(uri: String): Future[Option[String]]
   def getDocumentLinks(uri: String, uuid: String): Future[Seq[DocumentLink]]
 
   /** gets all Project document links */
