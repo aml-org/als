@@ -87,7 +87,7 @@ trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingArea
       None
     else Some(current.flatMap(_ => getUnit(uri)))
 
-  protected def fail(uri: String) = {
+  protected def fail(uri: String): Nothing = {
     log(s"StagingArea: $stagingArea")
     log(s"State: $state")
     log(s"Repo uris: ${repository.getAllFilesUris}")

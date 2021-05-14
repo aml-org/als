@@ -102,7 +102,7 @@ trait TelemetryProvider {
     fn()
       .andThen {
         case _ =>
-          addTimedMessage(code, endType, s"$msg\n\ttook ${System.currentTimeMillis() - time} millis", uri, uuid)
+          addTimedMessage(code, endType, s"$msg \n\ttook ${System.currentTimeMillis() - time} millis", uri, uuid)
       }
   }
 }

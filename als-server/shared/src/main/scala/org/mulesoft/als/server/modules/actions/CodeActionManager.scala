@@ -97,7 +97,7 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
 
       override protected def msg(params: CodeActionParams): String =
         s"""Requested code action for ${params.textDocument.uri} at ${params.range}
-           |availableActions: $usedActions
+           |availableActions: ${usedActions.size}
            |supports documentChanges: ${configuration.supportsDocumentChanges}""".stripMargin
 
       override protected def uri(params: CodeActionParams): String = params.textDocument.uri
