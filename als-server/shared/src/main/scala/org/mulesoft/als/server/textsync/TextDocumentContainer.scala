@@ -72,12 +72,14 @@ case class TextDocumentContainer(givenEnvironment: Environment,
           current.contains(resource)
       })
 
+  override def openedFiles: Seq[String] = uriToEditor.keys.toSeq
 }
 
 trait EnvironmentProvider extends Initializable {
   def environmentSnapshot(): Environment
   val amfConfiguration: AmfInstance
   val platform: Platform
+  def openedFiles: Seq[String]
 
   override def initialize(): Future[Unit] = amfConfiguration.init()
 }

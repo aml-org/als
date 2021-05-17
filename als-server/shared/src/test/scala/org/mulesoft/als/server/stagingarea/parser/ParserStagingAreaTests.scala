@@ -17,6 +17,8 @@ class ParserStagingAreaTests extends FlatSpec with Matchers {
     override def environmentSnapshot(): Environment = Environment.empty()
 
     override val amfConfiguration: AmfInstance = AmfInstance.default
+
+    override def openedFiles: Seq[String] = Seq.empty
   }
 
   behavior of "ParserStagingArea simple file operation"

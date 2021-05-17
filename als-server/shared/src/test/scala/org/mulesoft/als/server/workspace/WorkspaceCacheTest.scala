@@ -68,6 +68,8 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
       override def environmentSnapshot(): Environment = Environment(rl)
 
       override val amfConfiguration: AmfInstance = AmfInstance.default
+
+      override def openedFiles: Seq[String] = Seq.empty
     }
 
     val ws =
@@ -134,6 +136,8 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
       override def environmentSnapshot(): Environment = Environment(rl)
 
       override val amfConfiguration: AmfInstance = AmfInstance.default
+
+      override def openedFiles: Seq[String] = Seq.empty
     }
 
     val ws =
@@ -192,6 +196,8 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
       override def environmentSnapshot(): Environment = Environment(rl)
 
       override val amfConfiguration: AmfInstance = AmfInstance.default
+
+      override def openedFiles: Seq[String] = Seq.empty
     }
 
     val ws =
@@ -250,6 +256,8 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
       override def environmentSnapshot(): Environment = Environment(rl)
 
       override val amfConfiguration: AmfInstance = AmfInstance.default
+
+      override def openedFiles: Seq[String] = Seq.empty
     }
 
     val ws =
@@ -304,6 +312,8 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
 
       override def environmentSnapshot(): Environment = Environment(rl)
       override val amfConfiguration: AmfInstance      = AmfInstance.default
+
+      override def openedFiles: Seq[String] = Seq.empty
     }
 
     val ws =

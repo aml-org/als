@@ -184,10 +184,9 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
       .getOrElse(buildWorkspaceAt(uri))
 
   private def buildWorkspaceAt(uri: String): WorkspaceContentManager = {
-    val wcm = new WorkspaceContentManager(uri, environmentProvider, telemetryProvider, logger, subscribers)
-    // todo: implement
-//    val applicableFiles = environmentProvider.openedFiles.filter(_.startsWith(uri))
-//    applicableFiles.foreach(wcm.stage(_, OPEN_FILE))
+    val wcm             = new WorkspaceContentManager(uri, environmentProvider, telemetryProvider, logger, subscribers)
+    val applicableFiles = environmentProvider.openedFiles.filter(_.startsWith(uri))
+    applicableFiles.foreach(wcm.stage(_, OPEN_FILE))
     wcm
   }
 
