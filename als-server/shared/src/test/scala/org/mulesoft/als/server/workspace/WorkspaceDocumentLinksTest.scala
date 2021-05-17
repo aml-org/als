@@ -9,7 +9,9 @@ import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.textsync.TextDocumentContainer
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.amfintegration.AmfInstance
+import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.feature.link.DocumentLink
+import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, WorkspaceFoldersChangeEvent}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -63,7 +65,7 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
   }
 
   test("Starting a global workspace non-relative links should work") {
-    val workspaceLinkHandler: WorkspaceLinkHandler = new WorkspaceLinkHandler("")
+    val workspaceLinkHandler: WorkspaceLinkHandler = new WorkspaceLinkHandler("file://")
     workspaceLinkHandler
       .init()
       .flatMap(_ => {
@@ -94,8 +96,7 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
     val documentLinksManager: DocumentLinksManager =
       new DocumentLinksManager(workspaceManager, telemetryManager, platform, logger)
 
-    def init(): Future[Unit] =
-      workspaceManager.initializeWS(filePath(rootFolder))
+    def init(): Future[Unit] = workspaceManager.initialize(List(WorkspaceFolder(filePath(rootFolder))))
 
     def openFileAndGetLinks(path: String): Future[Seq[DocumentLink]] =
       openFile(path).getDocumentLinks(path)

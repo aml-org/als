@@ -9,9 +9,11 @@ import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.edit.RenameFile
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.common.{Position, Range, TextDocumentIdentifier}
+import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, WorkspaceFoldersChangeEvent}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -145,8 +147,12 @@ class RenameFileTest extends LanguageServerBaseTest {
     val oldFile          = TextDocumentIdentifier(oldFilePath)
     val newFile          = TextDocumentIdentifier(newFilePath)
     val workspaceService = server.workspaceService.asInstanceOf[WorkspaceManager]
+    workspaceService.changeWorkspaceFolders(
+      DidChangeWorkspaceFoldersParams(
+        WorkspaceFoldersChangeEvent(List(WorkspaceFolder(workspaceUri)), List())
+      )
+    )
     for {
-      _ <- workspaceService.initializeWS(workspaceUri)
       renameFileResult <- {
         val handler: RequestHandler[RenameFileActionParams, RenameFileActionResult] =
           server.resolveHandler(RenameFileActionRequestType).get
