@@ -73,8 +73,24 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
       }
   }
 
-  ignore("OAS 3 delete type node (path ref)") {
+  test("OAS 3 delete type node (path ref)") {
     val path = "delete/oas3-type.yaml"
+    runTest(buildServer(), path, None)
+      .flatMap { result =>
+        checkRefactorGolden(path, result)
+      }
+  }
+
+  test("RAML 1 delete trait node with array references") {
+    val path = "delete/raml-array-trait.raml"
+    runTest(buildServer(), path, None)
+      .flatMap { result =>
+        checkRefactorGolden(path, result)
+      }
+  }
+
+  test("RAML 1 delete type node with array references") {
+    val path = "delete/raml-array-types.raml"
     runTest(buildServer(), path, None)
       .flatMap { result =>
         checkRefactorGolden(path, result)

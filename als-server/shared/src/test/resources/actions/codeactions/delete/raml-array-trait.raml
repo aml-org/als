@@ -1,0 +1,15 @@
+#%RAML 1.0
+title: test
+version: 1
+traits:
+    t[*]r:
+        description: test
+    tr2:
+        description: test
+
+/e:
+    is:
+        - tr
+        - tr2
+/e2:
+    is: [tr, tr2]

@@ -19,8 +19,14 @@ trait WorkspaceEditsTest extends FileAssertionTest {
     } yield r
   }
 
-  def applyEdits(workspaceEdit: WorkspaceEdit, content: Option[String]): String = {
-    val edits = workspaceEdit.changes.getOrElse(Nil).flatMap { case (_, textEdits) => textEdits }.toList
+  def applyEdits(workspaceEdit: WorkspaceEdit, content: Option[String], uri: Option[String] = None): String = {
+    val edits = workspaceEdit.changes
+      .getOrElse(Nil)
+      .flatMap {
+        case (u, textEdits) if uri.forall(_ == u) => textEdits
+        case _                                    => Nil
+      }
+      .toList
 
     var newText = content.get
     val sortedEdits = edits
@@ -32,5 +38,14 @@ trait WorkspaceEditsTest extends FileAssertionTest {
             edit.newText +
             newText.substring(LspRangeConverter.toPosition(edit.range.end).offset(newText)))
     newText
+  }
+
+  def applyEdits(workspaceEdit: WorkspaceEdit, ws: Map[String, String]): Map[String, String] = {
+    var result: Map[String, String] = Map()
+    ws.foreach { a =>
+      val edit = applyEdits(workspaceEdit, Some(a._2), Some(a._1))
+      result = result + (a._1 -> edit)
+    }
+    result
   }
 }

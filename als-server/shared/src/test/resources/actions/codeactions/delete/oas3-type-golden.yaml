@@ -7,7 +7,7 @@ components:
     B:
       type: integer
     C:
-
+      
 paths:
   /end:
     parameters:
