@@ -166,8 +166,9 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
       }
     } else {
       node match {
-        case m: YMap => Some(m)
-        case _       => None
+        case m: YMap                                => Some(m)
+        case _: YNodePlain if isKey && !isEmptyNode => getAncestor(1)
+        case _                                      => None
       }
     }
   }
