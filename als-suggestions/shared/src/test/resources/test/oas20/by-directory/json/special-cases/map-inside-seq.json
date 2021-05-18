@@ -1,0 +1,13 @@
+{
+  "swagger": "2.0",
+  "paths": {
+    "/test/{id}": {
+      "parameters": [
+        {
+          "name": "idHeader",
+          "desc*"
+        }
+      ]
+    }
+  }
+}

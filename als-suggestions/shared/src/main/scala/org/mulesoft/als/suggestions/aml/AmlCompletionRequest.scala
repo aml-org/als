@@ -8,6 +8,7 @@ import amf.core.remote.Platform
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
+import org.mulesoft.als.common.YamlWrapper.{AlsInputRange, AlsYPart}
 import org.mulesoft.als.common._
 import org.mulesoft.als.common.dtoTypes.{PositionRange, TextHelper, Position => DtoPosition}
 import org.mulesoft.als.configuration.AlsConfigurationReader
@@ -18,8 +19,9 @@ import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.als.suggestions.styler.{SuggestionRender, SuggestionStylerBuilder}
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.AmfInstance
+import org.yaml.lexer.YamlToken
 import org.yaml.model.YNode.MutRef
-import org.yaml.model.{YDocument, YNode, YSequence, YType}
+import org.yaml.model.{YDocument, YNode, YNonContent, YPart, YSequence, YType}
 class AmlCompletionRequest(val baseUnit: BaseUnit,
                            val position: DtoPosition,
                            val actualDialect: Dialect,
@@ -158,6 +160,24 @@ object AmlCompletionRequestBuilder {
     }
   }
 
+  private def extractFromSeq(seq: YSequence, position: DtoPosition): String = {
+    def findInner(yPart: YPart): YPart =
+      yPart.children.find(p => p.contains(position.toAmfPosition)).getOrElse(yPart)
+    val p = findInner(seq)
+    p match {
+      case non: YNonContent =>
+        non.tokens
+          .filterNot(_.tokenType == YamlToken.Indicator) // ignore `[]`
+          .find(t => t.range.inputRange.contains(position.toAmfPosition))
+          .map { t =>
+            val diff = position.column - t.range.columnFrom
+            t.text.substring(0, Math.max(diff, 0)).trim
+          }
+          .getOrElse("")
+      case _ => p.toString
+    }
+  }
+
   private def prefix(yPartBranch: YPartBranch, position: DtoPosition, content: String): String =
     yPartBranch.node match {
       case node: MutRef =>
@@ -194,7 +214,10 @@ object AmlCompletionRequestBuilder {
               line.substring(0, Math.max(diff, 0))
             case _ => ""
           }
-      case _: YSequence => ""
+      case s: YSequence =>
+        // children may contain a `YNonContent` with some invalid text (for example writing a new key inside a map)
+        // in this cases there will be a token with an `Error`
+        extractFromSeq(s, position)
       case _ =>
         val line        = TextHelper.linesWithSeparators(content)(position.line)
         val textContent = line.substring(0, position.toAmfPosition.column)
