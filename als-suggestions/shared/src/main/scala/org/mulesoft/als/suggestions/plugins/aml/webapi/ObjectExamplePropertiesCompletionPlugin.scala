@@ -11,11 +11,13 @@ import amf.plugins.domain.shapes.resolution.stages.elements.CompleteShapeTransfo
 import amf.plugins.domain.webapi.metamodel.PayloadModel
 import amf.{ProfileName, ProfileNames}
 import org.mulesoft.als.common.YPartBranch
+import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.amfintegration.LocalIgnoreErrorHandler
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect
+import amf.core.parser.Range
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -117,9 +119,8 @@ trait ExampleSuggestionPluginBuilder {
   private def isScalarNodeValue(parent: AmfObject, yPart: YPartBranch, s: ScalarNode) = {
     parent match {
       case o: ObjectNode if o.allProperties().toList.contains(s) =>
-        !s.name.option().contains(yPart.stringValue)
-      case _ =>
-        false
+        s.position().exists(li => li.range == Range(yPart.node.range))
+      case _ => false
     }
   }
 
@@ -129,7 +130,7 @@ trait ExampleSuggestionPluginBuilder {
       case a: ArrayNode                               => Some(a)
       case s: ScalarNode if request.branchStack.headOption.exists(p => isScalarNodeValue(p, request.yPartBranch, s)) =>
         Some(s)
-      case s: ScalarNode
+      case _: ScalarNode
           if request.branchStack.headOption.exists(_.isInstanceOf[ObjectNode]) && request.yPartBranch.isKey =>
         request.branchStack.headOption.collectFirst({ case o: ObjectNode => o })
       case s: ScalarNode =>
