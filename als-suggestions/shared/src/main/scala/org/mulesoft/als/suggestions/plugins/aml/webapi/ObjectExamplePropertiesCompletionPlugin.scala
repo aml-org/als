@@ -10,6 +10,7 @@ import amf.plugins.domain.shapes.models.{AnyShape, ArrayShape, Example, NodeShap
 import amf.plugins.domain.shapes.resolution.stages.elements.CompleteShapeTransformationPipeline
 import amf.plugins.domain.webapi.metamodel.PayloadModel
 import amf.{ProfileName, ProfileNames}
+import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -113,14 +114,20 @@ trait ExampleSuggestionPluginBuilder {
       .map(obj => new ObjectExamplePropertiesCompletionPlugin(obj, request.actualDialect, anyShape, e))
   }
 
+  private def isScalarNodeValue(parent: AmfObject, yPart: YPartBranch, s: ScalarNode) = {
+    parent match {
+      case o: ObjectNode if o.allProperties().toList.contains(s) =>
+        !s.name.option().contains(yPart.stringValue)
+      case _ =>
+        false
+    }
+  }
+
   private def findNode(request: AmlCompletionRequest): Option[DataNode] = {
     request.amfObject match {
       case o: ObjectNode if request.yPartBranch.isKey => Some(o)
       case a: ArrayNode                               => Some(a)
-      case s: ScalarNode if request.branchStack.headOption.exists({
-            case o: ObjectNode if o.allProperties().toList.contains(s) => true
-            case _                                                     => false
-          }) =>
+      case s: ScalarNode if request.branchStack.headOption.exists(p => isScalarNodeValue(p, request.yPartBranch, s)) =>
         Some(s)
       case s: ScalarNode
           if request.branchStack.headOption.exists(_.isInstanceOf[ObjectNode]) && request.yPartBranch.isKey =>
