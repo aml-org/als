@@ -10,11 +10,14 @@ import amf.plugins.domain.shapes.models.{AnyShape, ArrayShape, Example, NodeShap
 import amf.plugins.domain.shapes.resolution.stages.elements.CompleteShapeTransformationPipeline
 import amf.plugins.domain.webapi.metamodel.PayloadModel
 import amf.{ProfileName, ProfileNames}
+import org.mulesoft.als.common.YPartBranch
+import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.amfintegration.LocalIgnoreErrorHandler
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect
+import amf.core.parser.Range
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -113,16 +116,21 @@ trait ExampleSuggestionPluginBuilder {
       .map(obj => new ObjectExamplePropertiesCompletionPlugin(obj, request.actualDialect, anyShape, e))
   }
 
+  private def isScalarNodeValue(parent: AmfObject, yPart: YPartBranch, s: ScalarNode) = {
+    parent match {
+      case o: ObjectNode if o.allProperties().toList.contains(s) =>
+        s.position().exists(li => li.range == Range(yPart.node.range))
+      case _ => false
+    }
+  }
+
   private def findNode(request: AmlCompletionRequest): Option[DataNode] = {
     request.amfObject match {
       case o: ObjectNode if request.yPartBranch.isKey => Some(o)
       case a: ArrayNode                               => Some(a)
-      case s: ScalarNode if request.branchStack.headOption.exists({
-            case o: ObjectNode if o.allProperties().toList.contains(s) => true
-            case _                                                     => false
-          }) =>
+      case s: ScalarNode if request.branchStack.headOption.exists(p => isScalarNodeValue(p, request.yPartBranch, s)) =>
         Some(s)
-      case s: ScalarNode
+      case _: ScalarNode
           if request.branchStack.headOption.exists(_.isInstanceOf[ObjectNode]) && request.yPartBranch.isKey =>
         request.branchStack.headOption.collectFirst({ case o: ObjectNode => o })
       case s: ScalarNode =>
