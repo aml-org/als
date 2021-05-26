@@ -77,10 +77,10 @@ object LspConvertersClientToShared {
       AlsInitializeParams(
         Option(v.capabilities).map(_.toShared),
         v.trace.toOption.map(TraceKind.withName),
-        v.rootUri.toOption,
+        v.rootUri.toOption.flatMap(Option(_)), // (it may come as `Some(null)`)
         Option(v.processId),
         Option(v.workspaceFolders).map(_.map(_.toShared).toSeq),
-        v.rootPath.toOption,
+        v.rootPath.toOption.flatMap(Option(_)), // (it may come as `Some(null)`)
         v.initializationOptions.toOption
       )
   }
