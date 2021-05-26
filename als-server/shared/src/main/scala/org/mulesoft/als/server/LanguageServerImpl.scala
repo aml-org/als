@@ -38,7 +38,7 @@ class LanguageServerImpl(val textDocumentSyncConsumer: AlsTextDocumentSyncConsum
       params.capabilities.workspace.flatMap(_.workspaceEdit).flatMap(_.documentChanges).contains(true))
 
     languageServerInitializer.initialize(params).flatMap { p =>
-      val root: Option[String]                   = params.rootUri.flatMap(rootUriIfValid).orElse(params.rootPath)
+      val root: Option[String]                   = params.rootUri.flatMap(Option(_)).flatMap(rootUriIfValid).orElse(params.rootPath)
       val workspaceFolders: Seq[WorkspaceFolder] = params.workspaceFolders.getOrElse(List())
       workspaceService
         .initialize((workspaceFolders :+ WorkspaceFolder(root, None)).toList)
