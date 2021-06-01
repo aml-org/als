@@ -7,9 +7,6 @@ import scala.concurrent.Future
 class UnionSuggestionsTest extends SuggestionsWithDialectTest {
   override def rootPath: String = "AML/union"
 
-  def runTest(file: String, dialect: String): Future[Assertion] =
-    withDialect(file, s"expected/$file.json", dialect)
-
   test("Test explicit discriminator at root level") {
     runTest("root.yaml", "dialect.yaml")
   }

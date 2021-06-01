@@ -1,0 +1,29 @@
+#%Dialect 1.0
+dialect: DialectInstance
+version: 1
+documents:
+  root:
+    encodes: CR
+external:
+  v3: http://test.com/v3#
+nodeMappings:
+  CR:
+    mapping:
+      string:
+        mandatory: true
+        range: string
+      a:
+        range: A
+      b:
+        range: B
+  A:
+    classTerm: v3.external
+    mapping:
+      str:
+        range: string
+        mandatory: true
+  B:
+    mapping:
+      str:
+        range: string
+        mandatory: true

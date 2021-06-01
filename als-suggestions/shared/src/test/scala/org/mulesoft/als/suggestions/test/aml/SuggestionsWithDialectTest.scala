@@ -8,6 +8,9 @@ import scala.concurrent.Future
 
 trait SuggestionsWithDialectTest extends SuggestionsTest with FileAssertionTest {
 
+  def runTest(file: String, dialect: String): Future[Assertion] =
+    withDialect(file, s"expected/$file.json", dialect)
+
   /**
     * @param path                URI for the API resource
     * @param goldenPath          URI for the golden file
