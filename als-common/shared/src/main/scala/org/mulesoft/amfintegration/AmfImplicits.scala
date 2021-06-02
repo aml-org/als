@@ -14,7 +14,7 @@ import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import amf.plugins.document.webapi.annotations._
 import amf.plugins.domain.shapes.annotations.ParsedFromTypeExpression
 import amf.plugins.domain.webapi.metamodel.AbstractModel
-import org.mulesoft.als.common.YamlWrapper
+import org.mulesoft.als.common.{YPartBranch, YamlWrapper}
 import org.mulesoft.als.common.YamlWrapper._
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.lexer.InputRange
@@ -63,6 +63,8 @@ object AmfImplicits {
 
     def ast(): Option[YPart] = ann.find(classOf[SourceAST]).map(_.ast)
 
+    def jsonSchema(): Option[ParsedJSONSchema] = ann.find(classOf[ParsedJSONSchema])
+
     def isSynthesized: Boolean = ann.contains(classOf[SynthesizedField])
 
     def isVirtual: Boolean  = ann.contains(classOf[VirtualElement])
@@ -72,10 +74,31 @@ object AmfImplicits {
     def targets(): Map[String, Seq[Range]] =
       ann.find(classOf[ReferenceTargets]).map(_.targets).getOrElse(Map.empty)
 
-    def containsAstPosition(amfPosition: AmfPosition): Option[Boolean] = this.ast() map { _.contains(amfPosition) }
+    def containsYPart(yPartBranch: YPartBranch): Option[Boolean] =
+      this
+        .ast()
+        .map(y => {
+          yPartBranch.node.sameContentAndLocation(y) ||
+          yPartBranch.stack.contains(y) ||
+          (yPartBranch.node match {
+            case node: YNode => node.value.sameContentAndLocation(y)
+            case _           => false
+          })
+        })
+
+    def containsJsonSchemaPosition(yPartBranch: YPartBranch): Option[Boolean] =
+      this
+        .jsonSchema()
+        .map(j => {
+          yPartBranch.node match {
+            case node: YNode if node.value.isInstanceOf[YScalar] =>
+              node.value.asInstanceOf[YScalar].text == j.value
+            case _ => false
+          }
+        })
 
     def containsPosition(amfPosition: AmfPosition): Boolean =
-      this.ast() map { _.contains(amfPosition) } getOrElse (false)
+      this.ast().map(_.contains(amfPosition)).getOrElse(false)
 
     def isRamlTypeExpression: Boolean = ann.find(classOf[ParsedFromTypeExpression]).isDefined
 
@@ -182,8 +205,9 @@ object AmfImplicits {
       })
       .exists(_.toBool)
 
-    def containsPosition(amfPosition: AmfPosition): Boolean =
-      amfObject.annotations.containsAstPosition(amfPosition).getOrElse(false)
+    def containsYPart(yPartBranch: YPartBranch): Boolean =
+      amfObject.annotations.containsYPart(yPartBranch).getOrElse(false) ||
+        amfObject.annotations.containsJsonSchemaPosition(yPartBranch).getOrElse(false)
 
     def range: Option[amf.core.parser.Range] = amfObject.position().map(_.range)
   }

@@ -1,15 +1,14 @@
 package org.mulesoft.als.common
 
 import amf.core.annotations.LexicalInformation
-import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import amf.core.parser.{Position => AmfPosition}
+import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
-import org.mulesoft.lsp.feature.common.Location
 import org.mulesoft.lexer.{AstToken, InputRange}
+import org.mulesoft.lsp.feature.common.Location
 import org.yaml.lexer.YamlToken
 import org.yaml.model.YNode.MutRef
 import org.yaml.model._
-import amf.core.parser.YNodeLikeOps
 object YamlWrapper {
 
   def getIndentation(raw: String, position: Position): Int = {
@@ -49,7 +48,7 @@ object YamlWrapper {
   abstract class CommonPartOps(yPart: YPart) {
     protected val selectedPositionRange: PositionRange = PositionRange(yPart.range)
 
-    def contains(amfPosition: AmfPosition, editionMode: Boolean = true): Boolean =
+    def contains(amfPosition: AmfPosition): Boolean =
       selectedPositionRange.contains(Position(amfPosition))
 
     /**
@@ -105,18 +104,21 @@ object YamlWrapper {
   }
 
   implicit class YSequenceOps(seq: YSequence) extends FlowedStructure("[", "]", seq) {
-    override def contains(amfPosition: AmfPosition, editionMode: Boolean = false): Boolean =
-      super.contains(amfPosition, editionMode) &&
-        seq.nodes.headOption.forall(_.range.columnFrom <= amfPosition.column)
+    override def contains(amfPosition: AmfPosition): Boolean =
+      super.contains(amfPosition) &&
+        (flowBegin || respectsIndentation(seq, amfPosition))
   }
+
+  private def respectsIndentation(seq: YSequence, amfPosition: AmfPosition) =
+    seq.nodes.headOption.forall(_.range.columnFrom <= amfPosition.column)
 
   implicit class YMapEntryOps(entry: YMapEntry) extends CommonPartOps(entry) {
     def inMap: YNode = YNode(YMap(IndexedSeq(entry), entry.sourceName))
 
     def isArray: Boolean = false
 
-    override def contains(position: AmfPosition, editionMode: Boolean = false): Boolean =
-      super.contains(position, editionMode) &&
+    override def contains(position: AmfPosition): Boolean =
+      super.contains(position) &&
         !isFirstChar(position) &&
         (inJsonValue(position) || (!isJson && respectIndentation(position)))
 
@@ -165,29 +167,36 @@ object YamlWrapper {
   implicit class AlsYMapOps(map: YMap) extends FlowedStructure("{", "}", map) {
     def isArray: Boolean = false
 
-    override def contains(amfPosition: AmfPosition, editionMode: Boolean = false): Boolean =
-      (super
-        .contains(amfPosition, editionMode) || sameLevelBefore(amfPosition, editionMode)) && (isJson || respectIndentation(
-        amfPosition))
+    override def contains(amfPosition: AmfPosition): Boolean = {
+      (super.contains(amfPosition) && (map.flowBegin || respectIndentation(amfPosition))) ||
+      (!isJson && respectIndentation(amfPosition))
+    }
 
-    private def respectIndentation(amfPosition: AmfPosition): Boolean =
-      map.entries.headOption.forall(_.range.columnFrom <= amfPosition.column)
+    def respectIndentation(amfPosition: AmfPosition): Boolean =
+      beforeFirstEntry(amfPosition: AmfPosition) && map.entries.headOption
+        .forall(e => {
+          e.range.columnFrom <= amfPosition.column
+        })
 
-    private def sameLevelBefore(amfPosition: AmfPosition, editionMode: Boolean): Boolean =
-      editionMode && map.range.lineFrom > amfPosition.line && map.range.lineTo >= amfPosition.line && map.entries.nonEmpty
+    def beforeFirstEntry(amfPosition: AmfPosition): Boolean =
+      map.range.lineTo > amfPosition.line || (map.range.lineTo == amfPosition.line && map.range.columnTo >= amfPosition.column)
+
   }
 
   implicit class AlsYScalarOps(scalar: YScalar) extends CommonPartOps(scalar) {
-    override def contains(amfPosition: AmfPosition, editionMode: Boolean = false): Boolean =
-      super.contains(amfPosition, editionMode) || // (lineContains(amfPosition) && scalar.mark == NoMark)
-        (scalar.range.lineFrom <= amfPosition.line && scalar.value == null) || oneCharAfterEnd(
-        scalar.range,
-        amfPosition) //TODO: new traverse - blind guessing, we should find a better solution
+    override def contains(amfPosition: AmfPosition): Boolean =
+      super.contains(amfPosition) || // (lineContains(amfPosition) && scalar.mark == NoMark)
+        isInsideNull(amfPosition) ||
+        oneCharAfterEnd(scalar.range, amfPosition)
+
+    private def isInsideNull(amfPosition: AmfPosition) =
+      scalar.range.lineFrom <= amfPosition.line && scalar.value == null
 
     /**
       * Hack for abstract declaration variables. By some reason, last empty char is trimmed, so:
       * <<params | *
       * will not work
+      *
       * @param inputRange
       * @param amfPosition
       * @return
@@ -212,28 +221,33 @@ object YamlWrapper {
         case _                => false
       }
 
-    override def contains(amfPosition: AmfPosition, editionMode: Boolean = false): Boolean = selectedNode match {
+    override def contains(amfPosition: AmfPosition): Boolean = selectedNode match {
       case ast: MutRef =>
-        ast.origValue.contains(amfPosition, editionMode)
+        ast.origValue.contains(amfPosition)
       case ast: YMapEntry =>
-        YMapEntryOps(ast).contains(amfPosition, editionMode)
+        YMapEntryOps(ast).contains(amfPosition)
       case ast: YMap =>
-        ast.contains(amfPosition, editionMode)
+        ast.contains(amfPosition)
       case ast: YNode =>
-        ast.value.contains(amfPosition) || (ast.contains(amfPosition) && nodeForMap(ast, amfPosition))
+        ast.value.contains(amfPosition) ||
+          valueContains(amfPosition, ast)
       case ast: YScalar =>
-        AlsYScalarOps(ast).contains(amfPosition, editionMode)
+        AlsYScalarOps(ast).contains(amfPosition)
       case seq: YSequence =>
-        seq.contains(amfPosition, editionMode)
-      case _ => super.contains(amfPosition, editionMode)
+        seq.contains(amfPosition)
+      case _ => super.contains(amfPosition)
     }
 
-    private def nodeForMap(ast: YNode, amfPosition: AmfPosition) = {
-      ast
-        .toOption[YMap]
-        .exists(p => {
-          p.entries.nonEmpty && p.entries.head.location.columnFrom == amfPosition.column
-        })
+    private def valueContains(amfPosition: AmfPosition, ast: YNode) = {
+      ast.value match {
+        case m: YMap =>
+          !isJson && m.respectIndentation(amfPosition)
+        case _ => false
+      }
+    }
+
+    def sameContentAndLocation(other: YPart): Boolean = {
+      selectedNode == other && selectedNode.location == other.location
     }
   }
 }

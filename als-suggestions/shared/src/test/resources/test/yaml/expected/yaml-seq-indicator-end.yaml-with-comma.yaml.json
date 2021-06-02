@@ -15,12 +15,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         },
         "end": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         }
       },
       "newText": "$ref:"
@@ -45,12 +45,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         },
         "end": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         }
       },
       "newText": "allOf:"
@@ -75,12 +75,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         },
         "end": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         }
       },
       "newText": "anyOf: [\n  $1\n]"
@@ -105,12 +105,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         },
         "end": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         }
       },
       "newText": "default:"
@@ -135,12 +135,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         },
         "end": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         }
       },
       "newText": "deprecated:"
@@ -165,12 +165,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         },
         "end": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         }
       },
       "newText": "description:"
@@ -195,12 +195,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         },
         "end": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         }
       },
       "newText": "enum: [\n  $1\n]"
@@ -225,12 +225,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         },
         "end": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         }
       },
       "newText": "example:"
@@ -255,12 +255,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         },
         "end": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         }
       },
       "newText": "externalDocs: {\n  $1\n}"
@@ -285,12 +285,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         },
         "end": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         }
       },
       "newText": "items: {\n  $1\n}"
@@ -315,12 +315,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         },
         "end": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         }
       },
       "newText": "not: {\n  $1\n}"
@@ -345,12 +345,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         },
         "end": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         }
       },
       "newText": "nullable:"
@@ -375,12 +375,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         },
         "end": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         }
       },
       "newText": "oneOf: {\n  $1\n}"
@@ -405,12 +405,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         },
         "end": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         }
       },
       "newText": "properties: {\n  $1\n}"
@@ -435,12 +435,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         },
         "end": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         }
       },
       "newText": "readOnly:"
@@ -465,12 +465,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         },
         "end": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         }
       },
       "newText": "required:"
@@ -495,12 +495,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         },
         "end": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         }
       },
       "newText": "title:"
@@ -525,12 +525,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         },
         "end": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         }
       },
       "newText": "type:"
@@ -555,12 +555,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         },
         "end": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         }
       },
       "newText": "writeOnly:"
@@ -585,12 +585,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         },
         "end": {
-          "line": 15,
-          "character": 19
+          "line": 16,
+          "character": 59
         }
       },
       "newText": "xml: {\n  $1\n}"

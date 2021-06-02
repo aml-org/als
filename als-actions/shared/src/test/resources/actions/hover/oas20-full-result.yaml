@@ -1,12 +1,12 @@
 hovers:
   (1,3):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (1,11):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (2,2):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (2,5):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (3,4):
     - Human readable name for the object
   (3,18):
@@ -52,13 +52,13 @@ hovers:
   (13,13):
     - Version of the API
   (14,2):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (14,13):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (15,4):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (15,13):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (16,3):
     - URI scheme for the API protocol
   (16,8):
@@ -80,7 +80,7 @@ hovers:
   (22,12):
     - Media types returned by a API response
   (23,2):
-    - EndPoint in the API holding a number of executable operations
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (23,6):
     - EndPoint in the API holding a number of executable operations
   (24,6):
@@ -120,7 +120,7 @@ hovers:
   (33,12):
     - Documentation for a particular part of the model
   (33,19):
-    - Documentation for a particular part of the model
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (34,9):
     - URL for the creative work
   (34,24):
@@ -148,9 +148,9 @@ hovers:
   (41,17):
     - Payload for a Request/Response
   (42,12):
-    - Payload for a Request/Response
+    - Piece of data required or returned by an Operation
   (42,28):
-    - Payload for a Request/Response
+    - Piece of data required or returned by an Operation
   (43,12):
     - Human readable name for the object
   (43,19):
@@ -200,7 +200,7 @@ hovers:
   (57,10):
     - Request information for an operation
   (57,16):
-    - Request information for an operation
+    - Response information for an operation
   (58,10):
     - Human readable name for the object
   (58,14):
@@ -344,7 +344,7 @@ hovers:
   (93,10):
     - Documentation about the tag
   (93,17):
-    - Documentation about the tag
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (94,11):
     - Human readable description of an element
   (94,28):
@@ -362,9 +362,9 @@ hovers:
   (97,22):
     - Human readable description of an element
   (99,6):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (99,13):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (100,7):
     - Human readable description of an element
   (100,24):
@@ -473,7 +473,7 @@ hovers:
   (130,10):
     - Documentation for a particular part of the model
   (130,17):
-    - Documentation for a particular part of the model
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (131,11):
     - Human readable description of an element
   (131,28):
@@ -529,7 +529,7 @@ hovers:
   (144,9):
     - Defines a data type
   (144,15):
-    - Properties associated to this node
+    - Defines a data type
   (145,6):
     - Defines a data type
   (145,8):
@@ -545,7 +545,7 @@ hovers:
   (148,9):
     - Information about how to serialize
   (148,12):
-    - Information about how to serialize
+    - Information about how to encode into XML a particular data shape
   (149,12):
     - XML name mapping
   (149,16):
@@ -673,7 +673,7 @@ hovers:
   (182,8):
     - Encoded payload using certain media-type
   (182,16):
-    - Encoded payload using certain media-type
+    - Defines a data type
   (183,6):
     - Encoded payload using certain media-type
   (183,16):
@@ -709,7 +709,7 @@ hovers:
   (191,11):
     - Defines a data type
   (191,17):
-    - Properties associated to this node
+    - Defines a data type
   (192,8):
     - Defines a data type
   (192,10):
@@ -745,7 +745,7 @@ hovers:
   (200,5):
     - Authentication and access control mechanism defined in an API
   (200,10):
-    - Authentication and access control mechanism defined in an API
+    - Settings for an API Key security scheme
   (201,6):
     - Type of security scheme
   (201,13):
@@ -765,7 +765,7 @@ hovers:
   (205,8):
     - Authentication and access control mechanism defined in an API
   (205,16):
-    - Authentication and access control mechanism defined in an API
+    - Flow for an OAuth2 security scheme setting
   (206,6):
     - Type of security scheme
   (206,13):
@@ -787,7 +787,7 @@ hovers:
   (212,8):
     - Authentication and access control mechanism defined in an API
   (212,15):
-    - Authentication and access control mechanism defined in an API
+    - Flow for an OAuth2 security scheme setting
   (213,6):
     - Type of security scheme
   (213,13):

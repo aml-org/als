@@ -16,8 +16,8 @@ import org.yaml.model.YMapEntry
 
 case class ObjectInTree(obj: AmfObject,
                         stack: Seq[AmfObject],
-                        amfPosition: AmfPosition,
-                        fieldEntry: Option[FieldEntry]) {
+                        fieldEntry: Option[FieldEntry],
+                        yPartBranch: YPartBranch) {
 
   def objVendor: Option[Vendor] =
     (obj +: stack).flatMap(_.annotations.find(classOf[DefinedByVendor])).headOption.map(_.vendor)
@@ -57,12 +57,12 @@ case class ObjectInTree(obj: AmfObject,
     f.field != LinkableElementModel.Target &&
       (f.value.annotations.ast() match {
         case Some(e: YMapEntry) =>
-          e.contains(amfPosition) && !(e.key.range.lineTo == amfPosition.line && e.key.range.columnFrom == amfPosition.column) // start of the entry
-        case _ => f.value.annotations.containsAstPosition(amfPosition).getOrElse(f.value.annotations.isInferred)
+          e.contains(yPartBranch.position) && !(e.key.range.lineTo == yPartBranch.position.line && e.key.range.columnFrom == yPartBranch.position.column) // start of the entry
+        case _ => f.value.annotations.containsYPart(yPartBranch).getOrElse(f.value.annotations.isInferred)
       })
 
   private def inValue(f: FieldEntry) =
-    f.value.value.annotations.ast().exists(_.contains(amfPosition))
+    f.value.value.annotations.ast().exists(_.contains(yPartBranch.position))
 
   private def notInKey(a: Annotations) =
     a.find(classOf[SourceAST]) match {
@@ -81,7 +81,7 @@ case class ObjectInTree(obj: AmfObject,
     */
   private def notInKeyAtEntry(e: YMapEntry) =
     !PositionRange(e.key.range)
-      .contains(Position(amfPosition)) && (e.range.columnTo > e.range.columnFrom || e.range.columnTo == 0) && e.value.isNull
+      .contains(Position(yPartBranch.position)) && (e.range.columnTo > e.range.columnFrom || e.range.columnTo == 0) && e.value.isNull
 
   def isDeclared(): Boolean = {
     obj.annotations.contains(classOf[DeclaredElement]) ||
@@ -94,18 +94,18 @@ case class ObjectInTree(obj: AmfObject,
 
 object ObjectInTreeBuilder {
 
-  def fromUnit(bu: BaseUnit, position: AmfPosition, location: String, definedBy: Dialect): ObjectInTree = {
+  def fromUnit(bu: BaseUnit, location: String, definedBy: Dialect, yPartBranch: YPartBranch): ObjectInTree = {
     val branch =
-      bu.findSon(position, location, definedBy)
-    ObjectInTree(branch.obj, branch.branch, position, branch.fe)
+      bu.findSon(location, definedBy, yPartBranch)
+    ObjectInTree(branch.obj, branch.branch, branch.fe, yPartBranch)
   }
 
   def fromSubTree(element: DomainElement,
-                  position: AmfPosition,
                   location: String,
                   previousStack: Seq[AmfObject],
-                  definedBy: Dialect): ObjectInTree = {
-    val branch = element.findSon(position, location, definedBy)
-    ObjectInTree(branch.obj, branch.branch ++ previousStack, position, branch.fe)
+                  definedBy: Dialect,
+                  yPartBranch: YPartBranch): ObjectInTree = {
+    val branch = element.findSon(location, definedBy, yPartBranch)
+    ObjectInTree(branch.obj, branch.branch ++ previousStack, branch.fe, yPartBranch)
   }
 }

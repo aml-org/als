@@ -24,14 +24,14 @@ object AmfSonElementFinder {
 
   implicit class AlsAmfObject(obj: AmfObject) {
 
-    def findSon(amfPosition: AmfPosition, location: String, definedBy: Dialect): SonFinder#Branch =
-      SonFinder(location, definedBy, amfPosition).find(obj, definedBy)
+    def findSon(location: String, definedBy: Dialect, yPartBranch: YPartBranch): SonFinder#Branch =
+      SonFinder(location, definedBy, yPartBranch: YPartBranch).find(obj, definedBy)
 
-    case class SonFinder(location: String, definedBy: Dialect, amfPosition: AmfPosition) {
+    case class SonFinder(location: String, definedBy: Dialect, yPartBranch: YPartBranch) {
 
       private val fieldAstFilter: FieldEntry => Boolean = (f: FieldEntry) =>
         f.value.annotations
-          .containsAstPosition(amfPosition)
+          .containsYPart(yPartBranch)
           .getOrElse(
             f.value.annotations.isInferred ||
               f.value.annotations.isVirtual ||
@@ -47,7 +47,7 @@ object AmfSonElementFinder {
         a.obj.range.orElse(a.branch.headOption.flatMap(_.range))
 
       private def appliesReduction(fe: FieldEntry) =
-        (!fe.value.annotations.isInferred) || fe.value.value.annotations.containsPosition(amfPosition)
+        (!fe.value.annotations.isInferred) || fe.value.value.annotations.containsPosition(yPartBranch.position)
 
       def find(obj: AmfObject, definedBy: Dialect): Branch = {
         val entryPoint = Branch(obj, Nil, None)
@@ -79,7 +79,7 @@ object AmfSonElementFinder {
             (rangeFor(a), rangeFor(b)) match {
               case (Some(ra), Some(rb)) if ra.contains(rb) => b // most specific
               case (Some(_), Some(_)) =>
-                if (!a.obj.containsPosition(amfPosition) && b.obj.containsPosition(amfPosition)) b else a // most specific
+                if (!a.obj.containsYPart(yPartBranch) && b.obj.containsYPart(yPartBranch)) b else a // most specific
               //                  case (Some(_), None) => a (same as default)
               case (None, Some(_)) => b
               case _               => a
@@ -101,7 +101,8 @@ object AmfSonElementFinder {
               if (branch.branch.contains(obj)) Some(branch)
               else find(branch.newLeaf(obj), definedBy)
             case Right(fe)
-                if !fe.value.annotations.isInferred || fe.value.value.annotations.containsPosition(amfPosition) =>
+                if !fe.value.annotations.isInferred || fe.value.value.annotations.containsPosition(
+                  yPartBranch.position) =>
               Some(branch.forField(fe))
             case _ => Some(branch)
           }
@@ -127,7 +128,7 @@ object AmfSonElementFinder {
               val objects = nextObject(e, definedBy)
               if (objects.isEmpty) buildFromMeta(parent, fe, e).toSeq
               else objects
-            case o: AmfObject if o.containsPosition(amfPosition) || o.annotations.isVirtual =>
+            case o: AmfObject if o.containsYPart(yPartBranch) || o.annotations.isVirtual =>
               Seq(o)
             case _ =>
               Seq.empty
@@ -158,8 +159,9 @@ object AmfSonElementFinder {
               case m: YMap => m.entries.find(_.key.asScalar.exists(_.text == "payload"))
               case _       => None
             }
-            .exists(_.contains(amfPosition))
-          val childContains = p.fields.fields().flatMap(_.element.annotations.ast()).exists(_.contains(amfPosition))
+            .exists(_.contains(yPartBranch.position))
+          val childContains =
+            p.fields.fields().flatMap(_.element.annotations.ast()).exists(_.contains(yPartBranch.position))
           !(correctAstContains || childContains) // if any other node matches, return true. If the entry with `payload` as  key matches, return false
         case _ => false
       }
@@ -168,7 +170,7 @@ object AmfSonElementFinder {
         if (isInArray(array)) {
           val objects = array.values.collect({ case o: AmfObject => o })
           val candidates = objects
-            .filter(_.annotations.containsPosition(amfPosition))
+            .filter(_.annotations.containsPosition(yPartBranch.position))
             .filterNot(exceptionCase(_, definedBy))
           if (candidates.isEmpty) objects.filter(v => v.annotations.isVirtual || v.annotations.isSynthesized)
           else candidates
@@ -179,7 +181,7 @@ object AmfSonElementFinder {
           .find(classOf[SourceAST])
           .map(_.ast)
           .forall { s =>
-            s.contains(amfPosition)
+            s.contains(yPartBranch.position)
           }
 
       def filterFields(amfObject: AmfObject): Seq[FieldEntry] =
@@ -187,7 +189,7 @@ object AmfSonElementFinder {
 
       private def explicitArray(entry: FieldEntry, parent: AmfObject, definedBy: Dialect) =
         (entry.astValueArray() && isExplicitArray(entry, parent, definedBy) || !entry
-          .astValueArray()) && amfPosition.column > 0
+          .astValueArray()) && yPartBranch.position.column > 0
 
       private def isExplicitArray(entry: FieldEntry, parent: AmfObject, definedBy: Dialect) =
         definedBy
@@ -242,7 +244,7 @@ object AmfSonElementFinder {
           .find(_.field == DocumentModel.Declares)
           .exists(_.value.annotations.declarationKeys().map(_.entry).exists {
             case entry: YMapEntry =>
-              entry.value.range.contains(amfPosition) && amfPosition.column > entry.range.columnFrom
+              entry.value.range.contains(yPartBranch.position) && yPartBranch.position.column > entry.range.columnFrom
             case _ => false
           })
     }

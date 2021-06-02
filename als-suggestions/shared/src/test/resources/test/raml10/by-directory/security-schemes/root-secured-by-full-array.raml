@@ -1,0 +1,10 @@
+#%RAML 1.0
+title: ACME Banking HTTP API
+version: 1.0
+mediaType: application/json
+securitySchemes:
+  s1:
+    type: Pass Through
+  s2:
+    type: Basic Authentication
+#securedBy: [s1: {}, s2: {}, *]

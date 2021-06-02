@@ -13,8 +13,8 @@ paths:
               schema:
                 description: asd
                 anyOf:
-                  [ $ref: "#/components/schemas/anotherSchema",
-                    $ref: "#/components/schemas/mySchema"  *]
+                  [*, $ref: "#/components/schemas/anotherSchema",
+                   $ref: "#/components/schemas/mySchema"]
 
 components:
   schemas:
