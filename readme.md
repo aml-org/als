@@ -107,4 +107,4 @@ Currently, the following LSP capabilities are supported:
 Besides LSP messages, we also support other custom operations, which are detailed [here](./documentation/features/custom-messages.md)
 
 ## Contributing
-If you are interested in contributing to this project, ensure that you read our [contributing guidelines](./documentation/CONTRIBUTING.md).
+If you are interested in contributing to this project, ensure that you read our [contributing guidelines](./documentation/CONTRIBUTING.md). 
