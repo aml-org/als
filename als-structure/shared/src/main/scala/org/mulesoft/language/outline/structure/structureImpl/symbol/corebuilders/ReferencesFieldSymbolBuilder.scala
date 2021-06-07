@@ -50,7 +50,3 @@ object ShapeInheritsArrayFieldBuilderCompanion extends IgnoreFieldSymbolBuilderC
 object ProtocolsArrayFieldBuilderCompanion extends IgnoreFieldSymbolBuilderCompanion {
   override val supportedIri: String = WebApiModel.Schemes.value.iri()
 }
-
-object AbstractDeclarationDataNodeBuilderCompanion extends IgnoreFieldSymbolBuilderCompanion {
-  override val supportedIri: String = AbstractDeclarationModel.DataNode.value.iri()
-}
