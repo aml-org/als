@@ -233,7 +233,61 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          {
+            "name": "queryParameters",
+            "kind": 7,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 7,
+                "character": 4
+              },
+              "end": {
+                "line": 12,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 7,
+                "character": 4
+              },
+              "end": {
+                "line": 12,
+                "character": 0
+              }
+            },
+            "children": [
+              {
+                "name": "get",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 8,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 12,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 8,
+                    "character": 6
+                  },
+                  "end": {
+                    "line": 12,
+                    "character": 0
+                  }
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
       }
     ]
   }
