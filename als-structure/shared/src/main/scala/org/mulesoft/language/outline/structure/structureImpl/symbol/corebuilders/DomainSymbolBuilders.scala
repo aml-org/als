@@ -29,6 +29,7 @@ object DomainElementSymbolBuilder extends AmfObjectSimpleBuilderCompanion[Domain
   override def construct(element: DomainElement)(
       implicit ctx: StructureContext): Option[SymbolBuilder[DomainElement]] =
     element match {
+      case _: ScalarNode => None
       case n: NamedDomainElement if n.name.option().isDefined =>
         NamedElementSymbolBuilder.construct(n).map(_.asInstanceOf[SymbolBuilder[DomainElement]])
       case SemanticNamedDomainElementSymbolBuilder(builder) => Some(builder)

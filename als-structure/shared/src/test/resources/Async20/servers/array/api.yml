@@ -1,0 +1,11 @@
+  @@ -0,0 +1,10 @@
+  asyncapi: 2.0.0
+  servers:
+    local:
+      variables:
+        port:
+          enum:
+            - '8883'
+            - '9001'
+            - '2345'
+          default: '8883'
