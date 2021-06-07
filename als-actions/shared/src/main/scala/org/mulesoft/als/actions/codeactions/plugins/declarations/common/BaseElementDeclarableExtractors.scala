@@ -5,6 +5,7 @@ import amf.core.model.domain.AmfObject
 import amf.core.remote.{Mimes, Vendor}
 import amf.core.utils.InflectorBase.Inflector
 import amf.plugins.document.vocabularies.model.document.Dialect
+import org.mulesoft.als.actions.codeactions.TreeKnowledge
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionRequestParams
 import org.mulesoft.als.common.YamlUtils.isJson
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
@@ -19,9 +20,7 @@ import org.yaml.render.{JsonRender, JsonRenderOptions, YamlRender, YamlRenderOpt
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-trait BaseElementDeclarableExtractors {
-
-  protected val params: CodeActionRequestParams
+trait BaseElementDeclarableExtractors extends TreeKnowledge {
 
   private lazy val baseName: String =
     amfObject
@@ -34,21 +33,6 @@ trait BaseElementDeclarableExtractors {
     * Placeholder for the new name (key and reference)
     */
   protected def newName: String = ExtractorCommon.nameNotInList(baseName, params.bu.declaredNames.toSet)
-
-  protected val maybeTree: Option[ObjectInTree] =
-    params.tree.treeWithUpperElement(params.range, params.uri)
-
-  /**
-    * Based on the chosen position from the range
-    */
-  protected lazy val position: Option[Position] =
-    maybeTree.map(_.amfPosition).map(Position(_))
-
-  /**
-    * Information about the AST for the chosen position
-    */
-  protected lazy val yPartBranch: Option[YPartBranch] =
-    position.map(params.yPartBranch.getCachedOrNew(_, params.uri))
 
   protected lazy val amfObject: Option[AmfObject] =
     extractAmfObject(maybeTree, params.dialect)
