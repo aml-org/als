@@ -2,7 +2,7 @@
 [![Build Status](https://jenkins.build.msap.io/buildStatus/icon?job=ALS/als/master/)](https://jenkins.build.msap.io/job/ALS/job/als/job/master/)
 
 ## Overview
-This section explains what is ALS, how does it work, who should use it, and how is ALS used today.
+section explains what is ALS, how does it work, who should use it, and how is ALS used today.
 
 ### What is ALS?
 The AML Language Server (ALS) is an implementation of the [Microsoft Language Server Protocol (LSP)](https://microsoft.github.io/language-server-protocol) with a primary focus towards API tooling and API specifications, such as RAML, OpenAPI, and AsyncAPI. The objective of the ALS is to simplify API development by relying on the LSP to support API specifications in as many integrated development environments (IDEs) as possible. Besides API tooling and API specifications, you can extend the ALS to support any type of documents.
