@@ -13,9 +13,10 @@ import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.DialectDomainElement
 import amf.plugins.domain.shapes.metamodel.AnyShapeModel
 import amf.plugins.domain.webapi.metamodel.bindings._
+import amf.plugins.domain.webapi.models.Payload
 import org.mulesoft.als.common.YamlWrapper._
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, _}
-import org.yaml.model.YMapEntry
+import org.yaml.model.{YMap, YMapEntry}
 
 import scala.language.implicitConversions
 
@@ -24,7 +25,7 @@ object AmfSonElementFinder {
   implicit class AlsAmfObject(obj: AmfObject) {
 
     def findSon(amfPosition: AmfPosition, location: String, definedBy: Dialect): SonFinder#Branch =
-      SonFinder(location, definedBy, amfPosition).find(obj)
+      SonFinder(location, definedBy, amfPosition).find(obj, definedBy)
 
     case class SonFinder(location: String, definedBy: Dialect, amfPosition: AmfPosition) {
 
@@ -48,13 +49,14 @@ object AmfSonElementFinder {
       private def appliesReduction(fe: FieldEntry) =
         (!fe.value.annotations.isInferred) || fe.value.value.annotations.containsPosition(amfPosition)
 
-      def find(obj: AmfObject): Branch = {
+      def find(obj: AmfObject, definedBy: Dialect): Branch = {
         val entryPoint = Branch(obj, Nil, None)
-        find(entryPoint) match {
+        find(entryPoint, definedBy) match {
           case Nil => entryPoint
           case head :: Nil =>
             head
-          case list => pickOne(filterCandidates(list))
+          case list =>
+            pickOne(filterCandidates(list))
         }
       }
 
@@ -89,10 +91,10 @@ object AmfSonElementFinder {
         })
 
       }
-      private def find(branch: Branch): Seq[Branch] = {
+      private def find(branch: Branch, definedBy: Dialect): Seq[Branch] = {
         val children: Seq[Either[AmfObject, FieldEntry]] =
           filterFields(branch.obj).flatMap(fe => {
-            val seq = nextObject(fe, branch.obj).map(Left(_))
+            val seq = nextObject(fe, branch.obj, definedBy).map(Left(_))
             if (seq.nonEmpty) seq
             else Seq(Right(fe))
           })
@@ -101,7 +103,7 @@ object AmfSonElementFinder {
           children.flatMap {
             case Left(obj) =>
               if (branch.branch.contains(obj)) Some(branch)
-              else find(branch.newLeaf(obj))
+              else find(branch.newLeaf(obj), definedBy)
             case Right(fe)
                 if !fe.value.annotations.isInferred || fe.value.value.annotations.containsPosition(amfPosition) =>
               Some(branch.forField(fe))
@@ -122,11 +124,11 @@ object AmfSonElementFinder {
         def forField(fe: FieldEntry): Branch = copy(fe = Some(fe))
       }
 
-      private def nextObject(fe: FieldEntry, parent: AmfObject): Seq[AmfObject] =
+      private def nextObject(fe: FieldEntry, parent: AmfObject, definedBy: Dialect): Seq[AmfObject] =
         if (fe.objectSon && fe.value.value.location().forall(l => l.isEmpty || l == location))
           fe.value.value match {
             case e: AmfArray =>
-              val objects = nextObject(e)
+              val objects = nextObject(e, definedBy)
               if (objects.isEmpty) buildFromMeta(parent, fe, e).toSeq
               else objects
             case o: AmfObject if o.containsPosition(amfPosition) || o.annotations.isVirtual =>
@@ -139,11 +141,39 @@ object AmfSonElementFinder {
         if (explicitArray(fe, parent, definedBy)) matchInnerArrayElement(fe, arr, definedBy, parent)
         else None
 
-      def nextObject(array: AmfArray): Seq[AmfObject] =
+      /**
+        * @param amfObject
+        * @param definedBy
+        * @return true if this object should be filtered OUT
+        */
+      private def exceptionCase(amfObject: AmfObject, definedBy: Dialect): Boolean =
+        exceptionList.exists(_(amfObject, definedBy))
+
+      private val exceptionList: Seq[(AmfObject, Dialect) => Boolean] = Seq(exceptionAsyncPayload)
+
+      /**
+        * TODO: Remove and fix annotation of Async Payload in AMF
+        */
+      private def exceptionAsyncPayload(amfObject: AmfObject, definedBy: Dialect): Boolean = amfObject match {
+        case p: Payload if definedBy.nameAndVersion() == "asyncapi 2.0.0" =>
+          val correctAstContains = p.annotations
+            .ast()
+            .flatMap {
+              case m: YMap => m.entries.find(_.key.asScalar.exists(_.text == "payload"))
+              case _       => None
+            }
+            .exists(_.contains(amfPosition))
+          val childContains = p.fields.fields().flatMap(_.element.annotations.ast()).exists(_.contains(amfPosition))
+          !(correctAstContains || childContains) // if any other node matches, return true. If the entry with `payload` as  key matches, return false
+        case _ => false
+      }
+
+      def nextObject(array: AmfArray, definedBy: Dialect): Seq[AmfObject] =
         if (isInArray(array)) {
           val objects = array.values.collect({ case o: AmfObject => o })
           val candidates = objects
             .filter(_.annotations.containsPosition(amfPosition))
+            .filterNot(exceptionCase(_, definedBy))
           if (candidates.isEmpty) objects.filter(v => v.annotations.isVirtual || v.annotations.isSynthesized)
           else candidates
         } else Seq.empty
@@ -155,12 +185,6 @@ object AmfSonElementFinder {
           .forall { s =>
             s.contains(amfPosition)
           }
-//
-//      private def declaredPosition(fe: FieldEntry): Boolean =
-//        isDeclares(fe) &&
-//          fe.value.annotations.find(classOf[DeclarationKeys]).exists { dk =>
-//            dk.keys.exists(k => k.entry.contains(amfPosition))
-//          }
 
       def filterFields(amfObject: AmfObject): Seq[FieldEntry] =
         amfObject.fields.fields().filter(f => fieldFilters.forall(fn => fn(f))).toSeq

@@ -625,12 +625,10 @@ hovers:
     - Model defining an identifier that can used for message tracing and correlation
   (166,35):
     - Model defining an identifier that can used for message tracing and correlation
-  (167,12):
-    - Defines the format of the payload schema
+  (167,12): []
   (167,43):
     - Defines the format of the payload schema
-  (168,11):
-    - Media types supported in the payload
+  (168,11): []
   (168,27):
     - Media types supported in the payload
   (169,8):
@@ -650,9 +648,9 @@ hovers:
   (172,25):
     - Human readable description of an element
   (173,8):
-    - Encoded payload using certain media-type
+    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
   (173,11):
-    - Encoded payload using certain media-type
+    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
   (174,12):
     - Human readable name for the object
   (174,18):
@@ -676,18 +674,12 @@ hovers:
     - The version of this binding
   (179,26):
     - The version of this binding
-  (180,10):
-    - Encoded payload using certain media-type
-  (180,15):
-    - Encoded payload using certain media-type
-  (181,12):
-    - Encoded payload using certain media-type
-  (181,18):
-    - Encoded payload using certain media-type
-  (182,9):
-    - Encoded payload using certain media-type
-  (182,13):
-    - Encoded payload using certain media-type
+  (180,10): []
+  (180,15): []
+  (181,12): []
+  (181,18): []
+  (182,9): []
+  (182,13): []
   (183,12): []
   (183,31): []
   (184,9):
@@ -911,12 +903,10 @@ hovers:
     - Model defining an identifier that can used for message tracing and correlation
   (243,35):
     - Model defining an identifier that can used for message tracing and correlation
-  (244,12):
-    - Defines the format of the payload schema
+  (244,12): []
   (244,43):
     - Defines the format of the payload schema
-  (245,11):
-    - Media types supported in the payload
+  (245,11): []
   (245,27):
     - Media types supported in the payload
   (246,8):
@@ -936,9 +926,9 @@ hovers:
   (249,25):
     - Human readable description of an element
   (250,8):
-    - Encoded payload using certain media-type
+    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
   (250,11):
-    - Encoded payload using certain media-type
+    - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
   (251,12):
     - Human readable name for the object
   (251,18):
@@ -966,14 +956,10 @@ hovers:
     - The version of this binding
   (257,26):
     - The version of this binding
-  (258,10):
-    - Encoded payload using certain media-type
-  (258,15):
-    - Encoded payload using certain media-type
-  (259,12):
-    - Encoded payload using certain media-type
-  (259,18):
-    - Encoded payload using certain media-type
+  (258,10): []
+  (258,15): []
+  (259,12): []
+  (259,18): []
   (260,9):
     - Contains declarations of reusable ServerBindings objects
   (260,17):

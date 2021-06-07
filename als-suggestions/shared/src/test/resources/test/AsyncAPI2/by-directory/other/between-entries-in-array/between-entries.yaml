@@ -1,0 +1,10 @@
+asyncapi: '2.0.0'
+channels:
+  /{e}:
+    publish:
+      message:
+        oneOf:
+          - summary: test
+            *
+            payload:
+              type: string
