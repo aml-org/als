@@ -1,0 +1,136 @@
+[
+  {
+    "name": "servers",
+    "kind": 7,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 2,
+        "character": 2
+      },
+      "end": {
+        "line": 10,
+        "character": 25
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 2,
+        "character": 2
+      },
+      "end": {
+        "line": 10,
+        "character": 25
+      }
+    },
+    "children": [
+      {
+        "name": "local",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 3,
+            "character": 4
+          },
+          "end": {
+            "line": 10,
+            "character": 25
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 3,
+            "character": 4
+          },
+          "end": {
+            "line": 10,
+            "character": 25
+          }
+        },
+        "children": [
+          {
+            "name": "variable",
+            "kind": 7,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 4,
+                "character": 6
+              },
+              "end": {
+                "line": 10,
+                "character": 25
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 4,
+                "character": 6
+              },
+              "end": {
+                "line": 10,
+                "character": 25
+              }
+            },
+            "children": [
+              {
+                "name": "port",
+                "kind": 13,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 5,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 10,
+                    "character": 25
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 5,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 10,
+                    "character": 25
+                  }
+                },
+                "children": [
+                  {
+                    "name": "enum",
+                    "kind": 7,
+                    "deprecated": false,
+                    "range": {
+                      "start": {
+                        "line": 6,
+                        "character": 10
+                      },
+                      "end": {
+                        "line": 10,
+                        "character": 0
+                      }
+                    },
+                    "selectionRange": {
+                      "start": {
+                        "line": 6,
+                        "character": 10
+                      },
+                      "end": {
+                        "line": 10,
+                        "character": 0
+                      }
+                    },
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

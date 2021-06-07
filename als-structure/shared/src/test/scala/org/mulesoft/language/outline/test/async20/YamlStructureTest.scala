@@ -86,5 +86,9 @@ class YamlStructureTest extends BaseStructureTest {
     forDir("declarations/server-bindings")
   }
 
+  test("test array") {
+    forDir("servers/array")
+  }
+
   private def forDir(dir: String) = runTest(s"$dir/api.yml", s"$dir/api-yaml-outline.json")
 }
