@@ -90,7 +90,7 @@ class CompletionsPluginHandler {
 
 object AMLBaseCompletionPlugins {
   val all: Seq[AMLCompletionPlugin] = Seq(
-    StructureCompletionPlugin(List(ResolveDefault)),
+    StructureCompletionPlugin(List(AMLUnionCompletionPlugin, ResolveDefault)),
     AMLEnumCompletionPlugin,
     AMLRootDeclarationsCompletionPlugin,
     AMLRamlStyleDeclarationsReferences,
@@ -100,7 +100,8 @@ object AMLBaseCompletionPlugins {
     AMLPathCompletionPlugin,
     AMLLibraryPathCompletion,
     AMLBooleanPropertyValue,
-    AMLJsonSchemaStyleDeclarationReferences
+    AMLJsonSchemaStyleDeclarationReferences,
+    AMLUnionDiscriminatorCompletionPlugin
   )
 
   val base: CompletionPluginsRegistryAML = {

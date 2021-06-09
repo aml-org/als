@@ -88,7 +88,6 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
 
   def withDialect(path: String, originalSuggestions: Set[String], dialectPath: String): Future[Assertion] = {
     runSuggestionTest(path, originalSuggestions, dialect = Some(filePath(dialectPath)))
-
   }
 
   def rootPath: String

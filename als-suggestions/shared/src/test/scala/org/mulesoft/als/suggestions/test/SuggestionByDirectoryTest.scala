@@ -26,9 +26,6 @@ trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTes
     forDirectory(dir, "")
   }
 
-  def writeDataToString(data: List[CompletionItem]): String =
-    write[List[CompletionItemNode]](data.map(CompletionItemNode.sharedToTransport), 2)
-
   override def testFile(content: String, f: SyncFile, parent: String): Unit = {
     s"Suggest over ${f.name} at dir $parent${dir.name}" in {
       val expected = f.parent + platform.fs.separatorChar + "expected" + platform.fs.separatorChar + f.name + ".json"
