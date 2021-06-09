@@ -1,0 +1,13 @@
+hovers:
+  (2,2):
+    range: Range(common.Position[L:1,C:0],common.Position[L:2,C:0])
+    contents:
+      - Contains general information about the defined API, such as title and version
+  (3,2):
+    range: Range(common.Position[L:2,C:0],common.Position[L:3,C:0])
+    contents:
+      - Contains reusable definitions
+  (4,1):
+    range: Range(common.Position[L:3,C:0],common.Position[L:3,C:3])
+    contents:
+      - Represents the universal identifier of the application the specification is defining

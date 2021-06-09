@@ -124,7 +124,7 @@ object Raml10TypesDialect {
       .withNodePropertyMapping(AnyShapeModel.Examples.value.iri())
       .withName("examples")
       .withObjectRange(Seq(ExampleNode.id))
-      .withMapTermKeyProperty(ExampleModel.DisplayName.value.iri())
+      .withMapTermKeyProperty(ExampleModel.Name.value.iri())
   ) ++ shapeProperties
 
   val AnyShapeNode: NodeMapping = NodeMapping()

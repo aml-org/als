@@ -37,6 +37,12 @@ object Oas20SecuritySchemeObject extends DialectNode {
       .withId(OAS20Dialect.DialectLocation + "#/declarations/securityScheme/type")
       .withName("type")
       .withMinCount(1)
+      .withEnum(
+        Seq(
+          "basic",
+          "apiKey",
+          "oauth2"
+        ))
       .withLiteralRange(xsdString.iri()),
     PropertyMapping()
       .withId(OAS20Dialect.DialectLocation + "#/declarations/securityScheme/description")

@@ -11,7 +11,7 @@ import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.relationships.RelationshipLink
 import org.mulesoft.amfintegration.visitors.DialectElementVisitorFactory
 import org.mulesoft.amfintegration.visitors.noderelationship.NodeRelationshipVisitorType
-import org.yaml.model.{YMap, YMapEntry, YNode, YSequence}
+import org.yaml.model.{YMap, YMapEntry, YNode, YNodePlain, YSequence, YType}
 class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
 
   override protected def innerVisit(element: AmfElement): Seq[RelationshipLink] =
@@ -23,11 +23,16 @@ class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
       case o: NodeMapping      => extractExtends(d, o)
       case _                   => Seq.empty
     }
-
   private def extractRanges(d: Dialect, nm: PropertyMapping) =
     nm.annotations
       .ast()
-      .collect { case m: YMap => m }
+      .collect {
+        case m: YMap => m
+        case ynp: YNodePlain =>
+          ynp.value match {
+            case m: YMap => m
+          }
+      }
       .map(_.entries
         .filter(e => e.key.asScalar.map(_.text).contains("range")))
       .map(

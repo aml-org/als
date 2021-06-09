@@ -1,0 +1,5 @@
+hovers:
+  (7,9):
+    range: Range(common.Position[L:6,C:4],common.Position[L:7,C:0])
+    contents:
+      - Human readable description of an element

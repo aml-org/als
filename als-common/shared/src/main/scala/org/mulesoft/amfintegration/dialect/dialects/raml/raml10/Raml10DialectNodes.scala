@@ -83,7 +83,12 @@ object Raml10DialectNodes extends RamlDialectNodes {
       .withAllowMultiple(true)
       .withObjectRange(Seq(
         Raml10DialectNodes.DataTypeNodeId
-      ))
+      )),
+    PropertyMapping()
+      .withId(dialectLocation + s"#/declarations/$nodeId/DataTypeNode/required")
+      .withName("required")
+      .withNodePropertyMapping(PropertyShapeModel.MinCount.value.iri())
+      .withLiteralRange(xsdBoolean.iri()),
   )
 
   override def commonShapeProperties(nodeId: String): Seq[PropertyMapping] =

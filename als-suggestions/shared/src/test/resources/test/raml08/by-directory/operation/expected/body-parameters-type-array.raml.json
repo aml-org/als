@@ -150,14 +150,14 @@
     "command": null
   },
   {
-    "label": "repeat",
+    "label": "properties",
     "kind": [],
     "detail": "schemas",
-    "documentation": "repeat",
+    "documentation": "properties",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11repeat",
-    "filterText": "repeat: ",
+    "sortText": "11properties",
+    "filterText": "properties:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -173,7 +173,7 @@
           "character": 14
         }
       },
-      "newText": "repeat: "
+      "newText": "properties:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

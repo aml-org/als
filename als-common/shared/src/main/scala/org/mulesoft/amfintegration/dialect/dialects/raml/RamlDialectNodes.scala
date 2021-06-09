@@ -24,11 +24,6 @@ trait RamlDialectNodes {
   protected val implicitField: String
   def commonShapeProperties(nodeId: String): Seq[PropertyMapping] = {
     Seq(
-      PropertyMapping()
-        .withId(dialectLocation + s"#/declarations/$nodeId/DataTypeNode/required")
-        .withName("required")
-        .withNodePropertyMapping(PropertyShapeModel.MinCount.value.iri())
-        .withLiteralRange(xsdBoolean.iri()),
       // Common properties
       PropertyMapping()
         .withId(dialectLocation + s"#/declarations/$nodeId/DataType/default")
@@ -197,6 +192,11 @@ trait RamlDialectNodes {
         .withNodePropertyMapping(ExampleModel.DisplayName.value.iri())
         .withLiteralRange(xsdString.iri()),
       PropertyMapping()
+        .withId(dialectLocation + s"#/declarations/ExampleNode/name")
+        .withName("name")
+        .withNodePropertyMapping(ExampleModel.Name.value.iri())
+        .withLiteralRange(xsdString.iri()),
+      PropertyMapping()
         .withId(dialectLocation + s"#/declarations/ExampleNode/description")
         .withName("description")
         .withNodePropertyMapping(ExampleModel.Description.value.iri())
@@ -218,7 +218,12 @@ trait RamlDialectNodes {
     .withId(DataTypeNodeId)
     .withName("DataTypeNode")
     .withNodeTypeMapping(ParameterModel.`type`.head.iri())
-    .withPropertiesMapping(commonShapeProperties("DataTypeNode"))
+    .withPropertiesMapping(commonShapeProperties("DataTypeNode") :+ PropertyMapping()
+      .withId(dialectLocation + s"#/declarations/DataTypeNode/DataTypeNode/required")
+      .withName("required")
+      .withNodePropertyMapping(ParameterModel.Required.value.iri())
+      .withLiteralRange(xsdBoolean.iri()),
+    )
 
   final lazy val DocumentationNode: NodeMapping = NodeMapping()
     .withId(dialectLocation + "#/declarations/DocumentationNode")

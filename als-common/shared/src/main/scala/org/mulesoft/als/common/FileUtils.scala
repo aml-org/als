@@ -8,6 +8,14 @@ private object FileUtils {
 
   val FILE_PROTOCOL: String = amf.core.remote.File.FILE_PROTOCOL
 
+  def isValidUri(uri: String): Boolean =
+    try {
+      new URI(uri)
+      true
+    } catch {
+      case _: URISyntaxException => false
+    }
+
   def getPath(iri: String, platform: Platform): String =
     if (iri.startsWith(FILE_PROTOCOL)) {
       val url =

@@ -1,0 +1,9 @@
+hovers:
+  (2,6):
+    range: Range(common.Position[L:1,C:0],common.Position[L:2,C:0])
+    contents:
+      - Specifies that all methods described in the API are protected using this security scheme. Applying a security scheme to any method overrides whichever securityScheme is defined here
+  (3,5):
+    range: Range(common.Position[L:2,C:0],common.Position[L:2,C:18])
+    contents:
+      - Template variables appearing in the baseURI can be further described in baseUriParameters

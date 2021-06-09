@@ -150,104 +150,14 @@
     "command": null
   },
   {
-    "label": "maxLength",
-    "kind": [],
-    "detail": "parameters",
-    "documentation": "maxLength",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11maxLength",
-    "filterText": "maxLength: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 7,
-          "character": 12
-        },
-        "end": {
-          "line": 7,
-          "character": 12
-        }
-      },
-      "newText": "maxLength: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "minLength",
-    "kind": [],
-    "detail": "parameters",
-    "documentation": "minLength",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11minLength",
-    "filterText": "minLength: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 7,
-          "character": 12
-        },
-        "end": {
-          "line": 7,
-          "character": 12
-        }
-      },
-      "newText": "minLength: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "pattern",
-    "kind": [],
-    "detail": "parameters",
-    "documentation": "pattern",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11pattern",
-    "filterText": "pattern: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 7,
-          "character": 12
-        },
-        "end": {
-          "line": 7,
-          "character": 12
-        }
-      },
-      "newText": "pattern: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "repeat",
+    "label": "properties",
     "kind": [],
     "detail": "schemas",
-    "documentation": "repeat",
+    "documentation": "properties",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11repeat",
-    "filterText": "repeat: ",
+    "sortText": "11properties",
+    "filterText": "properties:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -263,37 +173,7 @@
           "character": 12
         }
       },
-      "newText": "repeat: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "required",
-    "kind": [],
-    "detail": "parameters",
-    "documentation": "required",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11required",
-    "filterText": "required: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 7,
-          "character": 12
-        },
-        "end": {
-          "line": 7,
-          "character": 12
-        }
-      },
-      "newText": "required: "
+      "newText": "properties:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

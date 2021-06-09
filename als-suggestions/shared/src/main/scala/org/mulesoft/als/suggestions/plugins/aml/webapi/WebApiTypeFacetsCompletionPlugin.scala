@@ -6,7 +6,6 @@ import amf.core.model.domain.{AmfObject, Shape}
 import amf.core.parser.Value
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.NodeMapping
-import amf.plugins.document.webapi.annotations.Inferred
 import amf.plugins.domain.shapes.metamodel.ScalarShapeModel
 import amf.plugins.domain.shapes.models.{AnyShape, ScalarShape}
 import org.mulesoft.als.suggestions.RawSuggestion
@@ -76,7 +75,7 @@ trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin with WritingS
       case s: ScalarShape =>
         s.fields.getValueAsOption(ScalarShapeModel.DataType) match {
           case Some(Value(_, ann))
-              if ann.contains(classOf[Inferred]) && s
+              if (ann.isSynthesized || ann.isInferred) && s
                 .isInstanceOf[ScalarShape] =>
             defaultSuggestions
           case _ => Nil

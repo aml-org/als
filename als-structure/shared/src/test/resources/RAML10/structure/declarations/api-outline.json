@@ -207,7 +207,61 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          {
+            "name": "securedBy",
+            "kind": 7,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 33,
+                "character": 4
+              },
+              "end": {
+                "line": 35,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 33,
+                "character": 4
+              },
+              "end": {
+                "line": 35,
+                "character": 0
+              }
+            },
+            "children": [
+              {
+                "name": "securedBy",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 33,
+                    "character": 14
+                  },
+                  "end": {
+                    "line": 35,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 33,
+                    "character": 14
+                  },
+                  "end": {
+                    "line": 35,
+                    "character": 0
+                  }
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
       },
       {
         "name": "tr2",
@@ -233,7 +287,61 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          {
+            "name": "protocols",
+            "kind": 7,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 36,
+                "character": 4
+              },
+              "end": {
+                "line": 39,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 36,
+                "character": 4
+              },
+              "end": {
+                "line": 39,
+                "character": 0
+              }
+            },
+            "children": [
+              {
+                "name": "protocols",
+                "kind": 7,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 36,
+                    "character": 14
+                  },
+                  "end": {
+                    "line": 39,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 36,
+                    "character": 14
+                  },
+                  "end": {
+                    "line": 39,
+                    "character": 0
+                  }
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -294,7 +402,7 @@
             "range": {
               "start": {
                 "line": 23,
-                "character": 8
+                "character": 19
               },
               "end": {
                 "line": 31,
@@ -304,7 +412,7 @@
             "selectionRange": {
               "start": {
                 "line": 23,
-                "character": 8
+                "character": 19
               },
               "end": {
                 "line": 31,
@@ -344,7 +452,7 @@
                     "range": {
                       "start": {
                         "line": 25,
-                        "character": 16
+                        "character": 27
                       },
                       "end": {
                         "line": 30,
@@ -354,7 +462,7 @@
                     "selectionRange": {
                       "start": {
                         "line": 25,
-                        "character": 16
+                        "character": 27
                       },
                       "end": {
                         "line": 30,

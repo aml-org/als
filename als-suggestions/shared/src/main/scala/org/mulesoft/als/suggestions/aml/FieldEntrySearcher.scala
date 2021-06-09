@@ -26,8 +26,8 @@ case class FieldEntrySearcher(amfObject: AmfObject,
   private def filterByName(mappings: Seq[PropertyMapping]) =
     mappings.find(_.name().value() == yPartBranch.parentEntry.flatMap(_.key.asScalar.map(_.text)).getOrElse(""))
 
-  private def findValueFromTerm(refferingProperty: PropertyMapping) =
-    refferingProperty.mapTermKeyProperty().option().flatMap(currentFieldFromTerm)
+  private def findValueFromTerm(referringProperty: PropertyMapping) =
+    referringProperty.mapTermKeyProperty().option().flatMap(currentFieldFromTerm)
 
   private def currentFieldFromTerm(term: String) =
     if (amfObject.fields.fields().exists(_.field.value.iri() == term) && amfObject.fields.fields().nonEmpty)

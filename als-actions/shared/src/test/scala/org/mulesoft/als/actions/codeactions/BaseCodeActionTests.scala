@@ -146,10 +146,15 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
     )
   }
 
-  protected val dummyTelemetryProvider: TelemetryProvider =
-    (_: String, _: MessageTypes, _: String, _: String, _: String) => {
-      /* do nothing */
-    }
+  protected val dummyTelemetryProvider: TelemetryProvider = new TelemetryProvider {
+    override protected def addTimedMessage(code: String,
+                                           messageType: MessageTypes,
+                                           msg: String,
+                                           uri: String,
+                                           uuid: String): Unit = {} // do nothing
+
+    override def addErrorMessage(code: String, msg: String, uri: String, uuid: String): Unit = {} // do nothing
+  }
 }
 
 case class DummyCompilableUnit(unit: BaseUnit, override protected val definedBy: Dialect) extends UnitWithCaches

@@ -27,10 +27,10 @@ responses:
         -
           from:
             line: 76
-            column: 10
+            column: 16
           to:
-            line: 77
-            column: 0
+            line: 76
+            column: 49
           content: |
             +
         -
@@ -115,10 +115,10 @@ headers:
         -
           from:
             line: 82
-            column: 14
+            column: 20
           to:
-            line: 83
-            column: 0
+            line: 82
+            column: 52
           content: |
             +
         -
@@ -159,10 +159,10 @@ link:
         -
           from:
             line: 85
-            column: 14
+            column: 20
           to:
-            line: 86
-            column: 0
+            line: 85
+            column: 53
           content: |
             +
         -

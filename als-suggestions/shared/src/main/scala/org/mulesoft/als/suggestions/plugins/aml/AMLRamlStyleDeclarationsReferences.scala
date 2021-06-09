@@ -21,7 +21,7 @@ class AMLRamlStyleDeclarationsReferences(nodeTypeMappings: Seq[String],
 
   def resolve(): Seq[RawSuggestion] = {
     val values =
-      if (prefix.contains(".")) resolveAliased(prefix.split('.').head)
+      if (prefix.contains(".")) prefix.split('.').headOption.map(resolveAliased).getOrElse(Nil)
       else resolveLocal(actualName)
 
     values.map(RawSuggestion.apply(_, isAKey = false))

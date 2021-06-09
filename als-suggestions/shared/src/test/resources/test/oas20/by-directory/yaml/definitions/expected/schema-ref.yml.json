@@ -90,6 +90,66 @@
     "command": null
   },
   {
+    "label": "definition-name-after-declaration.yml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11definition-name-after-declaration.yml",
+    "filterText": "definition-name-after-declaration.yml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      },
+      "newText": "definition-name-after-declaration.yml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "definition-name.yml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11definition-name.yml",
+    "filterText": "definition-name.yml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      },
+      "newText": "definition-name.yml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "definition.yml",
     "kind": [],
     "detail": "unknown",

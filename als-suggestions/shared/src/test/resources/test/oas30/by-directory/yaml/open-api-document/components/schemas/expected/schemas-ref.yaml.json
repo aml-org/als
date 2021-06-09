@@ -480,6 +480,66 @@
     "command": null
   },
   {
+    "label": "schema-name-after-declaration.yaml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11schema-name-after-declaration.yaml",
+    "filterText": "schema-name-after-declaration.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 11,
+          "character": 18
+        },
+        "end": {
+          "line": 11,
+          "character": 18
+        }
+      },
+      "newText": "schema-name-after-declaration.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "schema-name.yaml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11schema-name.yaml",
+    "filterText": "schema-name.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 11,
+          "character": 18
+        },
+        "end": {
+          "line": 11,
+          "character": 18
+        }
+      },
+      "newText": "schema-name.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "schema-path-nav-two.yaml",
     "kind": [],
     "detail": "unknown",

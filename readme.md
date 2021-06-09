@@ -12,6 +12,7 @@ The supported types of documents include:
 + [OpenAPI](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md) (2.0 and 3.0)
 + [AsyncAPI](https://github.com/asyncapi/asyncapi/blob/master/versions/2.0.0/asyncapi.md) (2.0)
 + [Any other type of documents via AML dialect](https://aml-org.github.io/aml-spec/dialects/) (1.0)
+    - [How to register a dialect](./documentation/register-dialect.md)
 
 ### What does ALS do?
 The ALS relies on the [Anything Modeling Language (AML)](https://a.ml/docbook/overview_aml.html), more specifically on AML's [dialect](https://aml-org.github.io/aml-spec/dialects/) functionality. The ALS uses the AML to provide language server functionalities, such as validation, for the documents (also referred to as "instances" or "instance documents"). The ALS can also deduce possible contextual values at any given position of an instance document.

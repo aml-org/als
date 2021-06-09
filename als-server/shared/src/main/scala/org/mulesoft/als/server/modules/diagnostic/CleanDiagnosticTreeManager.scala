@@ -44,6 +44,11 @@ class CleanDiagnosticTreeManager(telemetryProvider: TelemetryProvider,
         s"Clean validation request for: ${params.textDocument.uri}"
 
       override protected def uri(params: CleanDiagnosticTreeParams): String = params.textDocument.uri
+
+      /**
+        * If Some(_), this will be sent as a response as a default for a managed exception
+        */
+      override protected val empty: Option[Seq[PublishDiagnosticsParams]] = None
     }
   )
 

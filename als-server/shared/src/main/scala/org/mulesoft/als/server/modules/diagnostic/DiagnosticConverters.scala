@@ -7,9 +7,8 @@ import amf.plugins.features.validation.CoreValidations
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.DiagnosticsBundle
-import org.mulesoft.lsp.feature.common.Location
+import org.mulesoft.lsp.feature.common.{Location, Range}
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticRelatedInformation
-import org.mulesoft.lsp.feature.common.Range
 
 object DiagnosticConverters {
 
@@ -69,7 +68,7 @@ object DiagnosticConverters {
                 newHead.originUri,
                 newHead.originRange,
                 r.message,
-                r.level,
+                r.severityLevel,
                 stackContainer.stack.reverse
                   .drop(1)
                   .map(s =>
@@ -93,7 +92,7 @@ object DiagnosticConverters {
                          stack: Seq[DiagnosticRelatedInformation]): ValidationIssue = {
     val position = lexicalToPosition(r.position)
     ValidationIssue(r.validationId,
-                    ValidationSeverity(r.level),
+                    ValidationSeverity(r.severityLevel),
                     r.location.getOrElse(iri),
                     r.message,
                     position,

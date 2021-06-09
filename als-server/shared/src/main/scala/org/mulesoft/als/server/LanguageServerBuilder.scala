@@ -1,5 +1,6 @@
 package org.mulesoft.als.server
 
+import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
 import org.mulesoft.als.server.modules.configuration.ConfigurationManager
 import org.mulesoft.als.server.modules.workspace.resolution.ResolutionTaskManager
 import org.mulesoft.als.server.protocol.LanguageServer
@@ -12,7 +13,8 @@ import scala.collection.mutable
 class LanguageServerBuilder(private val textDocumentSyncConsumer: AlsTextDocumentSyncConsumer,
                             private val workspaceManager: WorkspaceManager,
                             private val configurationManager: ConfigurationManager,
-                            private val resolutionTaskManager: ResolutionTaskManager) {
+                            private val resolutionTaskManager: ResolutionTaskManager,
+                            logger: Logger = EmptyLogger) {
   private val initializableModules = mutable.ListBuffer[InitializableModule[_, _]]()
   private val requestModules       = mutable.ListBuffer[RequestModule[_, _]]()
   private val initializables       = mutable.ListBuffer[Initializable]()
@@ -47,6 +49,7 @@ class LanguageServerBuilder(private val textDocumentSyncConsumer: AlsTextDocumen
                            workspaceManager,
                            configurationManager,
                            new LanguageServerInitializer(configMap, allInitializables),
-                           handlerMap)
+                           handlerMap,
+                           logger)
   }
 }

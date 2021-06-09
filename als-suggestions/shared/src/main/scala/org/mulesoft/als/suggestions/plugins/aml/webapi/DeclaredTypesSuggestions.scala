@@ -2,7 +2,7 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi
 
 import amf.core.annotations.SynthesizedField
 import amf.core.metamodel.domain.ShapeModel
-import amf.core.model.domain.{AmfObject, Shape}
+import amf.core.model.domain.{AmfObject, Linkable, Shape}
 import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 import amf.plugins.domain.shapes.models.UnresolvedShape
 import amf.plugins.domain.webapi.models.{Parameter, Payload}
@@ -50,10 +50,16 @@ trait DeclaredTypesSuggestions extends BooleanSuggestions {
     else Seq.empty
   }
   protected def extractIri(params: AmlCompletionRequest, a: AmfObject): String =
-    if (a.annotations.contains(classOf[SynthesizedField]) || params.yPartBranch.isEmptyNode)
+    if (isUnresolved(a) || params.yPartBranch.isEmptyNode)
       ShapeModel.`type`.head.iri()
     else a.metaURIs.head
 
+  protected def isUnresolved(a: AmfObject): Boolean = {
+    a match {
+      case l: Linkable => l.isUnresolved || l.effectiveLinkTarget().asInstanceOf[Linkable].isUnresolved
+      case _           => false
+    }
+  }
   // today the only case in which this applies is raml types on async2
   // if any other case appears, check if this is still a valid mean to know if one can use declarations from other specs
   protected def canUseDeclared(params: AmlCompletionRequest): Boolean =

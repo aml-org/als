@@ -420,6 +420,36 @@
     "command": null
   },
   {
+    "label": "schema-name-after-declaration.yaml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11schema-name-after-declaration.yaml",
+    "filterText": "schema-name-after-declaration.yaml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 12
+        },
+        "end": {
+          "line": 6,
+          "character": 12
+        }
+      },
+      "newText": "schema-name-after-declaration.yaml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "schema-name.yaml",
     "kind": [],
     "detail": "unknown",

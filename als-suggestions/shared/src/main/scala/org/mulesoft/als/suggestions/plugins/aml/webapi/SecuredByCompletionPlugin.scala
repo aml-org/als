@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi
 
 import amf.plugins.domain.webapi.metamodel.ServerModel
-import amf.plugins.domain.webapi.metamodel.security.SecuritySchemeModel
+import amf.plugins.domain.webapi.metamodel.security.{SecurityRequirementModel, SecuritySchemeModel}
 import amf.plugins.domain.webapi.models.Server
 import amf.plugins.domain.webapi.models.security.{ParametrizedSecurityScheme, SecurityRequirement}
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
@@ -40,7 +40,8 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin with NonPatchHacks 
       case _: ParametrizedSecurityScheme =>
         compatibleParametrizedSecurityScheme(request)
       case _: SecurityRequirement =>
-        request.fieldEntry.isEmpty && underSecurityKey(request) && (request.yPartBranch.isInArray || request.yPartBranch.isValue || JsonExceptions.SecuredBy
+        (request.fieldEntry.exists(_.field == SecurityRequirementModel.Name) || request.fieldEntry.isEmpty) && underSecurityKey(
+          request) && (request.yPartBranch.isInArray || request.yPartBranch.isValue || JsonExceptions.SecuredBy
           .isJsonException(request.yPartBranch))
       case s: Server => request.fieldEntry.exists(t => t.field == ServerModel.Security)
       case _         => false

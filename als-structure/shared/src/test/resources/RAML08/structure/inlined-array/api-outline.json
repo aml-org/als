@@ -200,34 +200,7 @@
                             "character": 45
                           }
                         },
-                        "children": [
-                          {
-                            "name": "example",
-                            "kind": 7,
-                            "deprecated": false,
-                            "range": {
-                              "start": {
-                                "line": 13,
-                                "character": 21
-                              },
-                              "end": {
-                                "line": 13,
-                                "character": 45
-                              }
-                            },
-                            "selectionRange": {
-                              "start": {
-                                "line": 13,
-                                "character": 21
-                              },
-                              "end": {
-                                "line": 13,
-                                "character": 45
-                              }
-                            },
-                            "children": []
-                          }
-                        ]
+                        "children": []
                       }
                     ]
                   }

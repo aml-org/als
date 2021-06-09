@@ -97,10 +97,15 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
 
       override protected def msg(params: CodeActionParams): String =
         s"""Requested code action for ${params.textDocument.uri} at ${params.range}
-           |availableActions: $usedActions
+           |availableActions: ${usedActions.size}
            |supports documentChanges: ${configuration.supportsDocumentChanges}""".stripMargin
 
       override protected def uri(params: CodeActionParams): String = params.textDocument.uri
+
+      /**
+        * If Some(_), this will be sent as a response as a default for a managed exception
+        */
+      override protected val empty: Option[Seq[CodeAction]] = Some(Seq())
     }
   )
 

@@ -1,0 +1,37 @@
+#%Vocabulary 1.0
+
+vocabulary: MetaData Hover
+base: http://www.als-hover.com/v1/vocabulary#
+
+classTerms:
+  RootTerm:
+    displayName: RootTerm
+    description: |
+      a root class to test the hover logic
+
+  SecondLevelTerm:
+    displayName: SecondLevel
+    description: |
+      A second level class to test sons hovers
+
+propertyTerms:
+
+  rootName:
+    displayName: name
+    description: Name for the root element
+
+  version:
+    displayName: version
+    description: The version of the root element and the hole document
+
+  son:
+    displayName: son
+    description: A son term of kind SecondLevel
+
+  secondLevelPath:
+    displayName: path
+    description: The path for heach second level
+
+  kind:
+    displayName: kind
+    description: the second level kind

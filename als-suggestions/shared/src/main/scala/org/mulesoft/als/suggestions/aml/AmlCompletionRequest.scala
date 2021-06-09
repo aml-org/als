@@ -8,6 +8,7 @@ import amf.core.remote.Platform
 import amf.internal.environment.Environment
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
+import org.mulesoft.als.common.YamlWrapper.{AlsInputRange, AlsYPart}
 import org.mulesoft.als.common._
 import org.mulesoft.als.common.dtoTypes.{PositionRange, TextHelper, Position => DtoPosition}
 import org.mulesoft.als.configuration.AlsConfigurationReader
@@ -18,8 +19,9 @@ import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.als.suggestions.styler.{SuggestionRender, SuggestionStylerBuilder}
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.AmfInstance
+import org.yaml.lexer.YamlToken
 import org.yaml.model.YNode.MutRef
-import org.yaml.model.{YDocument, YNode, YSequence, YType}
+import org.yaml.model.{YDocument, YNode, YNonContent, YPart, YSequence, YType}
 class AmlCompletionRequest(val baseUnit: BaseUnit,
                            val position: DtoPosition,
                            val actualDialect: Dialect,
@@ -122,8 +124,10 @@ object AmlCompletionRequestBuilder {
       yPartBranch,
       configuration,
       snippetSupport,
-      if (baseUnit.location().isDefined) platform.mimeFromExtension(platform.extension(baseUnit.location().get).get)
-      else None,
+      baseUnit
+        .location()
+        .flatMap(platform.extension)
+        .flatMap(platform.mimeFromExtension), // should we use `yaml` as default? maybe check header for RAML?
       baseUnit.indentation(dtoPosition)
     )
 
@@ -143,17 +147,38 @@ object AmlCompletionRequestBuilder {
       amfInstance = amfInstance
     )
   }
-
+  /*
+      objInTree knowledge could be used in other features, if we start keeping track of every branch in a Unit it could
+      be a nice idea to have general cache for a `(BaseUnit, position) -> lazy objectInTree branch` (an ObjectInTreeManager)
+   */
   private def objInTree(baseUnit: BaseUnit, position: AmfPosition, definedBy: Dialect): ObjectInTree = {
-    val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position, baseUnit.location(), definedBy)
+    val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position, baseUnit.identifier, definedBy)
     objectInTree.obj match {
       case d: EncodesModel if d.fields.exists(DocumentModel.Encodes) =>
-        ObjectInTree(d.encodes, Seq(objectInTree.obj) ++ objectInTree.stack, position)
+        ObjectInTree(d.encodes, Seq(objectInTree.obj) ++ objectInTree.stack, position, None)
       case _ => objectInTree
     }
   }
 
-  private def prefix(yPartBranch: YPartBranch, position: DtoPosition, content: String): String = {
+  private def extractFromSeq(seq: YSequence, position: DtoPosition): String = {
+    def findInner(yPart: YPart): YPart =
+      yPart.children.find(p => p.contains(position.toAmfPosition)).getOrElse(yPart)
+    val p = findInner(seq)
+    p match {
+      case non: YNonContent =>
+        non.tokens
+          .filterNot(_.tokenType == YamlToken.Indicator) // ignore `[]`
+          .find(t => t.range.inputRange.contains(position.toAmfPosition))
+          .map { t =>
+            val diff = position.column - t.range.columnFrom
+            t.text.substring(0, Math.max(diff, 0)).trim
+          }
+          .getOrElse("")
+      case _ => p.toString
+    }
+  }
+
+  private def prefix(yPartBranch: YPartBranch, position: DtoPosition, content: String): String =
     yPartBranch.node match {
       case node: MutRef =>
         node.origValue.toString.substring(
@@ -177,8 +202,11 @@ object AmlCompletionRequestBuilder {
                 val diff = position.column - node.range.columnFrom - {
                   if (node.asScalar.exists(_.mark.plain)) 0 else 1
                 } // if there is a quotation mark, adjust the range according
-
-                next.substring(0, Math.max(diff, 0))
+                if (diff > next.length) {
+                  if (position.column - 1 == node.range.columnTo) next
+                  else ""
+                } // todo: should not be necessary, but `contains` with scalar values inside flow arrays are faulty
+                else next.substring(0, Math.max(diff, 0))
               } else ""
             case YType.Bool =>
               val line = node.asScalar.map(_.text).getOrElse("")
@@ -186,14 +214,16 @@ object AmlCompletionRequestBuilder {
               line.substring(0, Math.max(diff, 0))
             case _ => ""
           }
-      case _: YSequence => ""
+      case s: YSequence =>
+        // children may contain a `YNonContent` with some invalid text (for example writing a new key inside a map)
+        // in this cases there will be a token with an `Error`
+        extractFromSeq(s, position)
       case _ =>
         val line        = TextHelper.linesWithSeparators(content)(position.line)
         val textContent = line.substring(0, position.toAmfPosition.column)
         // add trailing space to avoid checking if it ends with `{, [, `, "`
         s"$textContent ".split(Array('{', '[', ''', '"')).lastOption.getOrElse("").trim
     }
-  }
 
   def forElement(element: DomainElement,
                  current: DomainElement,
@@ -206,7 +236,7 @@ object AmlCompletionRequestBuilder {
     val objectInTree =
       ObjectInTreeBuilder.fromSubTree(element,
                                       parent.position.toAmfPosition,
-                                      parent.baseUnit.location(),
+                                      parent.baseUnit.identifier,
                                       newStack,
                                       parent.actualDialect)
     new AmlCompletionRequest(

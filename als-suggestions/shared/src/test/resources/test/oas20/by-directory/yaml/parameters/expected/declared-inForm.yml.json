@@ -180,6 +180,66 @@
     "command": null
   },
   {
+    "label": "items",
+    "kind": [],
+    "detail": "schemas",
+    "documentation": "items",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11items",
+    "filterText": "items:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      },
+      "newText": "items:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "properties",
+    "kind": [],
+    "detail": "schemas",
+    "documentation": "properties",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11properties",
+    "filterText": "properties:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      },
+      "newText": "properties:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "readOnly",
     "kind": [],
     "detail": "schemas",

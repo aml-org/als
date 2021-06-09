@@ -132,4 +132,7 @@ class ResolutionTaskManager(telemetryProvider: TelemetryProvider,
 
   override def isInMainTree(uri: String): Boolean =
     unitAccessor.exists(_.isInMainTree(uri))
+
+  // Initialize after construction
+  init()
 }

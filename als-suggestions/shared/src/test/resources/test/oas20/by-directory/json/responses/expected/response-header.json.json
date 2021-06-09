@@ -210,6 +210,66 @@
     "command": null
   },
   {
+    "label": "items",
+    "kind": [],
+    "detail": "schemas",
+    "documentation": "items",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11items",
+    "filterText": "\"items\": {\n  \"$1\"\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 16
+        },
+        "end": {
+          "line": 9,
+          "character": 19
+        }
+      },
+      "newText": "\"items\": {\n  \"$1\"\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "properties",
+    "kind": [],
+    "detail": "schemas",
+    "documentation": "properties",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11properties",
+    "filterText": "\"properties\": {\n  \"$1\"\n}",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 16
+        },
+        "end": {
+          "line": 9,
+          "character": 19
+        }
+      },
+      "newText": "\"properties\": {\n  \"$1\"\n}"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "readOnly",
     "kind": [],
     "detail": "schemas",

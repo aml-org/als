@@ -27,12 +27,9 @@ trait PayloadMediaTypeSeeker {
             if request.branchStack.collectFirst({ case p: Payload if p.mediaType.option().isEmpty => p }).isDefined =>
           inMediaType(request.yPartBranch)
         case Some(p: Payload) =>
-          p.schema.fields
-            .filter(f => f._1 != ShapeModel.Name)
-            .fields()
-            .isEmpty && (p.mediaType
+          p.mediaType
             .option()
-            .isEmpty || inMediaType(request.yPartBranch))
+            .isEmpty && inMediaType(request.yPartBranch)
         case Some(_: Operation) => inMediaType(request.yPartBranch)
         case _                  => false
       })

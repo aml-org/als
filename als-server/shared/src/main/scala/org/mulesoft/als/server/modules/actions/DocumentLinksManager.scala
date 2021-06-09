@@ -36,6 +36,11 @@ class DocumentLinksManager(val workspaceManager: UnitWorkspaceManager,
       override protected def msg(params: DocumentLinkParams): String =
         s"request for document links on ${params.textDocument.uri}"
       override protected def uri(params: DocumentLinkParams): String = params.textDocument.uri
+
+      /**
+        * If Some(_), this will be sent as a response as a default for a managed exception
+        */
+      override protected val empty: Option[Seq[DocumentLink]] = Some(Seq())
     }
   )
 

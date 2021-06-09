@@ -2,6 +2,7 @@ package org.mulesoft.als.suggestions.client
 
 import amf.core.model.document.BaseUnit
 import amf.core.parser.{Position => AmfPosition}
+import amf.core.registries.AMFPluginsRegistry
 import amf.core.remote.{Aml, AsyncApi, AsyncApi20, Oas, Oas20, Oas30, Platform, Raml, Raml08, Raml10}
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment

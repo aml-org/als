@@ -267,7 +267,7 @@
                 "range": {
                   "start": {
                     "line": 22,
-                    "character": 0
+                    "character": 6
                   },
                   "end": {
                     "line": 25,
@@ -277,7 +277,7 @@
                 "selectionRange": {
                   "start": {
                     "line": 22,
-                    "character": 0
+                    "character": 6
                   },
                   "end": {
                     "line": 25,

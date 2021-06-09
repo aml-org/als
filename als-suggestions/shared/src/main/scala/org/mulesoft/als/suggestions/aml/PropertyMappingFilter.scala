@@ -32,6 +32,9 @@ case class PropertyMappingFilter(objectInTree: ObjectInTree, actualDialect: Dial
     if (isInDeclarations(nm)) props.filterNot(p => semanticNameIris.contains(p.nodePropertyMapping().value()))
     else props
 
+  private def filterNonExplicit(props: Seq[PropertyMapping]): Seq[PropertyMapping] =
+    props.filterNot(_.name().isNullOrEmpty)
+
   private def parentMappingsForTerm(nm: NodeMapping) =
     parentTermKey()
       .find(pr => pr.objectRange().exists(or => or.value() == nm.id))
@@ -46,7 +49,7 @@ case class PropertyMappingFilter(objectInTree: ObjectInTree, actualDialect: Dial
     else nm.propertiesMapping()
   }
 
-  def filter(): Seq[PropertyMapping] = filterSemanticsName(filterForTerms(nm))
+  def filter(): Seq[PropertyMapping] = filterNonExplicit(filterSemanticsName(filterForTerms(nm)))
 
 }
 

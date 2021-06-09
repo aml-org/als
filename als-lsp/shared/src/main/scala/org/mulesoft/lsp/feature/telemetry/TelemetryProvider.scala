@@ -82,11 +82,13 @@ object MessageTypes extends Enumeration {
   val END_JSON_SCHEMA_TO_TYPE_ACTION            = "END_JSON_SCHEMA_TO_TYPE_ACTION"
   val BEGIN_EXTERNAL_JSON_SCHEMA_TO_TYPE_ACTION = "BEGIN_EXTERNAL_JSON_SCHEMA_TO_TYPE_ACTION"
   val END_EXTERNAL_JSON_SCHEMA_TO_TYPE_ACTION   = "END_EXTERNAL_JSON_SCHEMA_TO_TYPE_ACTION"
+  val ERROR_MESSAGE                             = "ERROR_MESSAGE"
 }
 
 trait TelemetryProvider {
 
   protected def addTimedMessage(code: String, messageType: MessageTypes, msg: String, uri: String, uuid: String): Unit
+  def addErrorMessage(code: String, msg: String, uri: String, uuid: String): Unit
 
   final def timeProcess[T](code: String,
                            beginType: MessageTypes,
@@ -100,7 +102,7 @@ trait TelemetryProvider {
     fn()
       .andThen {
         case _ =>
-          addTimedMessage(code, endType, s"$msg\n\ttook ${System.currentTimeMillis() - time} millis", uri, uuid)
+          addTimedMessage(code, endType, s"$msg \n\ttook ${System.currentTimeMillis() - time} millis", uri, uuid)
       }
   }
 }

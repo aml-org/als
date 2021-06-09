@@ -4,6 +4,7 @@ import amf.plugins.domain.webapi.models.Payload
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.ResolveIfApplies
+import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml08.Raml08TypeFacetsCompletionPlugin
 
 import scala.concurrent.Future
 

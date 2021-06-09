@@ -21,6 +21,23 @@ import scala.util.{Failure, Success}
   */
 trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingAreaNotifications] {
 
+  protected val stagingArea: StagingArea[StagingAreaNotifications]
+  protected val repository: Repository[UnitType]
+  protected def log(msg: String)
+  protected def disableTasks(): Future[Unit]
+  protected def processTask(): Future[Unit]
+  protected def toResult(uri: String, unit: UnitType): ResultUnit
+  protected var state: TaskManagerState      = ProcessingProject
+  private val isDisabled                     = Promise[Unit]()
+  protected val isInitialized: Promise[Unit] = Promise[Unit]()
+  private var current: Future[Unit]          = isInitialized.future
+
+  def init(): Unit = {
+    changeState(ProcessingProject)
+    current = process()
+    isInitialized.success()
+  }
+
   def getUnit(uri: String): Future[ResultUnit] =
     repository.getUnit(uri) match {
       case Some(unit) =>
@@ -43,22 +60,10 @@ trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingArea
 
   def shutdown(): Future[Unit] = isDisabled.future
 
-  protected val stagingArea: StagingArea[StagingAreaNotifications]
-  protected val repository: Repository[UnitType]
-  protected def log(msg: String)
-  protected def disableTasks(): Future[Unit]
-  protected def processTask(): Future[Unit]
-  protected def toResult(uri: String, unit: UnitType): ResultUnit
-
-  protected var state: TaskManagerState = Idle
-
   protected def changeState(newState: TaskManagerState): Unit = synchronized {
     if (state == NotAvailable) throw new UnavailableTaskManagerException
     state = newState
   }
-
-  private var current: Future[Unit] = Future.unit
-  private val isDisabled            = Promise[Unit]()
 
   private def canProcess: Boolean = state == Idle && current.isCompleted
 
@@ -87,11 +92,12 @@ trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingArea
       None
     else Some(current.flatMap(_ => getUnit(uri)))
 
-  protected def fail(uri: String) = {
+  protected def fail(uri: String): Nothing = {
     log(s"StagingArea: $stagingArea")
     log(s"State: $state")
     log(s"Repo uris: ${repository.getAllFilesUris}")
-    throw UnitNotFoundException(uri)
+    log(s"UnitNotFoundException for: $uri")
+    throw UnitNotFoundException(uri, "async")
   }
 
   private def goIdle(): Future[Unit] = synchronized {

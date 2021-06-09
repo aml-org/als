@@ -1,0 +1,6 @@
+asyncapi: 2.0.0
+components:
+  parameters:
+    other:
+      description: a parameter
+    *

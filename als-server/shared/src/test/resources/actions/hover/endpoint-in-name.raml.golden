@@ -1,0 +1,5 @@
+hovers:
+  (4,6):
+    range: Range(common.Position[L:3,C:0],common.Position[L:3,C:9])
+    contents:
+      - Path template for an endpoint

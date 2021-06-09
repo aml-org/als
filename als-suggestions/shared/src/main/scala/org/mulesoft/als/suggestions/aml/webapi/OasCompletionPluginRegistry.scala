@@ -14,6 +14,7 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.structure.{
   IriTemplateMappingIgnore,
   ResolveDeclaredResponse,
   ResolveInfo,
+  ResolveParameterInRequest,
   ResolveParameterShapes,
   ResolveTag,
   ResponseExampleException,
@@ -80,6 +81,16 @@ object Oas20CompletionPluginRegistry extends OasBaseCompletionRegistry {
 object Oas30CompletionPluginRegistry extends OasBaseCompletionRegistry {
 
   private val all = common :+
+    StructureCompletionPlugin(List(
+      ResolveParameterShapes,
+      ResolveDeclaredResponse,
+      ResolveTag,
+      ResolveInfo,
+      IriTemplateMappingIgnore,
+      SchemaExampleException,
+      ResolveParameterInRequest,
+      ResolveDefault
+    )) :+
     Oas30ParameterStructure :+
     EncodingPropertyName :+
     Oas30TypeFacetsCompletionPlugin :+

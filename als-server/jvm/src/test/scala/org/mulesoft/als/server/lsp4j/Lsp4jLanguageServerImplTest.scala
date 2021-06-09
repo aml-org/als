@@ -159,6 +159,8 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
             override def environmentSnapshot(): Environment = Environment()
 
             override val amfConfiguration: AmfInstance = AmfInstance.default
+
+            override def openedFiles: Seq[String] = Seq.empty
           },
           new DummyTelemetryProvider(),
           Nil,

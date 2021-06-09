@@ -28,4 +28,9 @@ class FileUsageHandler(telemetryProvider: TelemetryProvider, workspace: Workspac
   override protected def msg(params: TextDocumentIdentifier): String = s"Request find usage for file: ${params.uri}"
 
   override protected def uri(params: TextDocumentIdentifier): String = params.uri
+
+  /**
+    * If Some(_), this will be sent as a response as a default for a managed exception
+    */
+  override protected val empty: Option[Seq[Location]] = Some(Seq())
 }

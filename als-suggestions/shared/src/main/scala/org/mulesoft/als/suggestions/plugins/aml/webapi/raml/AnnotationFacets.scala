@@ -1,11 +1,11 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.core.model.domain.{AmfScalar, Shape}
+import amf.core.annotations.Inferred
 import amf.core.model.domain.extensions.CustomDomainProperty
+import amf.core.model.domain.{AmfScalar, Shape}
 import amf.core.parser.Annotations
-import amf.plugins.document.webapi.annotations.Inferred
 import amf.plugins.domain.shapes.metamodel.ScalarShapeModel
-import amf.plugins.domain.shapes.models.{AnyShape, ScalarShape}
+import amf.plugins.domain.shapes.models.ScalarShape
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
