@@ -1,0 +1,11 @@
+#%Dialect 1.0
+dialect: Basic
+version: 2
+documents:
+  root:
+    encodes: A
+nodeMappings:
+  A:
+    mapping:
+      text:
+        range: string

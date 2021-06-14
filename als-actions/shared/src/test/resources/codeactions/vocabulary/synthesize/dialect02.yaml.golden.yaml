@@ -1,0 +1,94 @@
+documentChanges:
+  file://als-actions/shared/src/test/resources/codeactions/vocabulary/synthesize/vocabulary1.yaml: create
+  file://als-actions/shared/src/test/resources/codeactions/vocabulary/synthesize/vocabulary1.yaml:
+    -
+      from:
+        line: 0
+        column: 0
+      to:
+        line: 0
+        column: 0
+      content: |
+        +
+        #%Vocabulary 1.0
+        base: http://a.ml/vocabulary/#
+        vocabulary: vocabulary1
+        classTerms:
+          A:
+            displayName: A
+          B:
+            displayName: B
+        propertyTerms:
+          text:
+            displayName: text
+            range: number
+          newProp:
+            displayName: newProp
+            range: A
+          iDs:
+            displayName: IDs
+            range: string
+  file://als-actions/shared/src/test/resources/codeactions/vocabulary/synthesize/dialect02.yaml:
+    -
+      from:
+        line: 3
+        column: 0
+      to:
+        line: 6
+        column: 0
+      content: "+\nuses:\n  voc: vocabulary1.yaml\n  customVoc: vocabulary.yaml\n\n"
+    -
+      from:
+        line: 11
+        column: 4
+      to:
+        line: 11
+        column: 4
+      content: |-
+        +
+        classTerm: voc.A
+           
+    -
+      from:
+        line: 18
+        column: 8
+      to:
+        line: 18
+        column: 8
+      content: |-
+        +
+        propertyTerm: voc.text
+               
+    -
+      from:
+        line: 16
+        column: 4
+      to:
+        line: 16
+        column: 4
+      content: |-
+        +
+        classTerm: voc.B
+           
+    -
+      from:
+        line: 20
+        column: 8
+      to:
+        line: 20
+        column: 8
+      content: |-
+        +
+        propertyTerm: voc.newProp
+               
+    -
+      from:
+        line: 25
+        column: 8
+      to:
+        line: 25
+        column: 8
+      content: |-
+        +
+        propertyTerm: voc.iDs
+               

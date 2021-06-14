@@ -1,0 +1,56 @@
+documentChanges:
+  file://als-actions/shared/src/test/resources/codeactions/vocabulary/synthesize/vocabulary1.yaml: create
+  file://als-actions/shared/src/test/resources/codeactions/vocabulary/synthesize/vocabulary1.yaml:
+    -
+      from:
+        line: 0
+        column: 0
+      to:
+        line: 0
+        column: 0
+      content: |
+        +
+        #%Vocabulary 1.0
+        base: http://a.ml/vocabulary/#
+        vocabulary: vocabulary1
+        classTerms:
+          A:
+            displayName: A
+        propertyTerms:
+          text:
+            displayName: text
+            range: string
+  file://als-actions/shared/src/test/resources/codeactions/vocabulary/synthesize/dialect05.yaml:
+    -
+      from:
+        line: 1
+        column: 0
+      to:
+        line: 1
+        column: 0
+      content: |-
+        +
+        uses:
+          voc: vocabulary1.yaml
+    -
+      from:
+        line: 8
+        column: 4
+      to:
+        line: 8
+        column: 4
+      content: |-
+        +
+        classTerm: voc.A
+           
+    -
+      from:
+        line: 10
+        column: 8
+      to:
+        line: 10
+        column: 8
+      content: |-
+        +
+        propertyTerm: voc.text
+               
