@@ -1,0 +1,22 @@
+#%test 0
+obj:
+    n2: 1
+arr:
+    - t
+    - e
+    - s
+    - t
+arrobj:
+    - n2: 1
+      n1: one
+map:
+    one:
+        n2: 1
+    two:
+        n2: 2
+nested:
+    newNested:
+        n2: 101
+    otherNested:
+        n2: 102
+sca: scalar

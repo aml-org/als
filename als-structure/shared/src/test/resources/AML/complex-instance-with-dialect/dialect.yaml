@@ -1,0 +1,51 @@
+#%Dialect 1.0
+dialect: test
+version: 0
+documents:
+    root:
+        encodes: Root
+        declares:
+            nested: Nested
+
+external:
+    schema: schema.org
+
+nodeMappings:
+    Nested:
+        classTerm: schema.Nested
+        mapping:
+            n1:
+                propertyTerm: schema.n1
+                range: string
+                enum:
+                    - one
+                    - two
+            n2:
+                propertyTerm: schema.n2
+                range: number
+                mandatory: true
+                maximum: 100
+                minimum: 0
+    Root:
+        classTerm: schema.Root
+        mapping:
+            sca:
+                propertyTerm: schema.sca
+                range: string
+            arr:
+                propertyTerm: schema.arr
+                range: string
+                allowMultiple: true
+                sorted: true
+                pattern: ([^az]*)
+            obj:
+                propertyTerm: schema.obj
+                range: Nested
+            arrobj:
+                propertyTerm: schema.arrobj
+                range: Nested
+                allowMultiple: true
+            map:
+                propertyTerm: schema.map
+                range: Nested
+                mapKey: n1
