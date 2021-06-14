@@ -5,5 +5,5 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.Fie
 
 trait NamedFieldSymbolBuilder[ElementType <: AmfElement] extends FieldTypeSymbolBuilder[ElementType] {
   protected def name: String
-  override protected def optionName: Option[String] = Some(name)
+  override protected def optionName: Option[String] = if (name.isEmpty) None else Some(name)
 }

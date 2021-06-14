@@ -2,6 +2,7 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilder
 
 import amf.core.model.domain.AmfArray
 import amf.core.parser.FieldEntry
+import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.language.outline.structure.structureImpl._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.FieldTypeSymbolBuilder
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.{
@@ -9,11 +10,21 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fie
   DefaultArrayTypeSymbolBuilder,
   NamedArrayFieldTypeSymbolBuilder
 }
+import org.yaml.model.{YMapEntry, YNodePlain}
 
 class DefaultArrayFieldTypeSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
     override implicit val ctx: StructureContext)
     extends NamedArrayFieldTypeSymbolBuilder {
-  override protected def name: String = element.field.value.name
+  override protected def name: String = element.field.value.name.trim match {
+    case "" => // should not show empty names
+      element.value.annotations
+        .ast()
+        .collectFirst {
+          case entry: YMapEntry => entry.key.as[String]
+        }
+        .getOrElse("") // if any such case appears, an exception must be added
+    case name => name
+  }
 }
 
 object DefaultArrayFieldTypeSymbolBuilderCompanion extends DefaultArrayTypeSymbolBuilder {
