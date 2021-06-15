@@ -1,0 +1,55 @@
+documentChanges:
+  file://als-actions/shared/src/test/resources/codeactions/vocabulary/external2local/vocabulary1.yaml: create
+  file://als-actions/shared/src/test/resources/codeactions/vocabulary/external2local/vocabulary1.yaml:
+    -
+      from:
+        line: 0
+        column: 0
+      to:
+        line: 0
+        column: 0
+      content: |
+        +
+        #%Vocabulary 1.0
+        base: http://voc.com/#
+        vocabulary: vocab
+        classTerms:
+          Union:
+            displayName: S3ResourceNode
+            properties:
+              - Identifier
+          B:
+            displayName: B
+            properties:
+              - Number
+        propertyTerms:
+          Text:
+            displayName: text
+            range: string
+          Identifier:
+            displayName: IDs
+            range: string
+          Number:
+            displayName: text
+            range: number
+  file://als-actions/shared/src/test/resources/codeactions/vocabulary/external2local/dialect01.yaml:
+    -
+      from:
+        line: 1
+        column: 0
+      to:
+        line: 1
+        column: 0
+      content: |-
+        +
+        uses:
+          vocab: vocabulary1.yaml
+    -
+      from:
+        line: 5
+        column: 0
+      to:
+        line: 7
+        column: 0
+      content: |
+        +

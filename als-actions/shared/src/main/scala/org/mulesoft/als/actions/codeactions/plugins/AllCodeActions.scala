@@ -14,7 +14,10 @@ import org.mulesoft.als.actions.codeactions.plugins.declarations.samefile.{
   ExtractElementCodeAction,
   ExtractRamlTypeCodeAction
 }
-import org.mulesoft.als.actions.codeactions.plugins.vocabulary.SynthesizeVocabularyCodeAction
+import org.mulesoft.als.actions.codeactions.plugins.vocabulary.{
+  ExternalVocabularyToLocalCodeAction,
+  SynthesizeVocabularyCodeAction
+}
 
 object AllCodeActions {
   def all: Seq[CodeActionFactory] =
@@ -29,6 +32,7 @@ object AllCodeActions {
       JsonSchemaToRamlType,
       ExtractResourceTypeCodeAction,
       ExtractTraitCodeAction,
-      SynthesizeVocabularyCodeAction
+      SynthesizeVocabularyCodeAction,
+      ExternalVocabularyToLocalCodeAction
     ) // TestCodeAction
 }
