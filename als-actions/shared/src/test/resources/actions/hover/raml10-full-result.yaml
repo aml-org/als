@@ -1057,7 +1057,7 @@ hovers:
   (236,17):
     - Scalar range constraining this scalar shape
   (237,11):
-    - Defines a data type
+    - Example value for a schema inside an API
   (237,21):
     - Example value for a schema inside an API
   (238,13):
@@ -1129,7 +1129,7 @@ hovers:
   (257,17):
     - Scalar range constraining this scalar shape
   (258,11):
-    - Defines a data type
+    - Example value for a schema inside an API
   (258,21):
     - Example value for a schema inside an API
   (259,13):
@@ -1317,9 +1317,9 @@ hovers:
   (308,18):
     - Defines a data type
   (309,13):
-    - Defines a data type
+    - Example value for a schema inside an API
   (309,18):
-    - Defines a data type
+    - Example value for a schema inside an API
   (310,14):
     - Example value for a schema inside an API
   (310,31):
