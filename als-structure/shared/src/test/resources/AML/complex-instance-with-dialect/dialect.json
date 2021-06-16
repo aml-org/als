@@ -52,6 +52,59 @@
     "children": []
   },
   {
+    "name": "externals",
+    "kind": 7,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 10,
+        "character": 4
+      },
+      "end": {
+        "line": 12,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 10,
+        "character": 4
+      },
+      "end": {
+        "line": 12,
+        "character": 0
+      }
+    },
+    "children": [
+      {
+        "name": "schema",
+        "kind": 7,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 10,
+            "character": 4
+          },
+          "end": {
+            "line": 12,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 10,
+            "character": 4
+          },
+          "end": {
+            "line": 12,
+            "character": 0
+          }
+        },
+        "children": []
+      }
+    ]
+  },
+  {
     "name": "NodeMappings",
     "kind": 7,
     "deprecated": false,
