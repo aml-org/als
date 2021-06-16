@@ -1,24 +1,21 @@
 package org.mulesoft.als.actions.codeactions.plugins.vocabulary
 
 import amf.core.annotations.Aliases
-import amf.core.remote.Mimes
 import amf.core.vocabulary.Namespace
-import amf.plugins.document.vocabularies.emitters.vocabularies.VocabularyEmitter
-import amf.plugins.document.vocabularies.model.document.{Dialect, Vocabulary}
+import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain._
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionRequestParams
-import org.mulesoft.als.actions.codeactions.plugins.declarations.common.{CreatesFileCodeAction, ExtractorCommon}
+import org.mulesoft.als.actions.codeactions.plugins.declarations.common.ExtractorCommon
 import org.mulesoft.als.common.YamlWrapper.AlsInputRange
 import org.mulesoft.als.common.dtoTypes.{PositionRange, Position => DtoPosition}
 import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
-import org.mulesoft.lsp.configuration.FormatOptions
-import org.mulesoft.lsp.edit.{CreateFile, NewFileOptions, TextDocumentEdit, TextEdit}
-import org.mulesoft.lsp.feature.common.{Position, Range, VersionedTextDocumentIdentifier}
+import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit}
+import org.mulesoft.lsp.feature.common.VersionedTextDocumentIdentifier
 import org.yaml.model.{YMap, YMapEntry, YNode, YPart}
-import org.yaml.render.{YamlRender, YamlRenderOptions}
+import org.yaml.render.YamlRender
 
 import scala.annotation.tailrec
 import scala.concurrent.ExecutionContext.Implicits.global

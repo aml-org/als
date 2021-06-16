@@ -1,6 +1,5 @@
 package org.mulesoft.als.actions.codeactions.plugins.vocabulary
 
-import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionFactory,
   CodeActionRequestParams,
@@ -18,14 +17,10 @@ import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
 import scala.concurrent.Future
 
-class SynthesizeVocabulary(protected val params: CodeActionRequestParams) extends CodeActionResponsePlugin {
+class SynthesizeVocabulary(protected override val params: CodeActionRequestParams)
+    extends DialectCodeActionResponsePlugin {
 
   override protected def telemetry: TelemetryProvider = params.telemetryProvider
-
-  val dialect: Option[Dialect] = params.bu match {
-    case d: Dialect => Some(d)
-    case _          => None
-  }
 
   override val isApplicable: Boolean = dialect.isDefined &&
     dialect.exists(_.name().annotations().range().map(_.toPositionRange).exists(_.contains(params.range)))
