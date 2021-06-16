@@ -1,0 +1,29 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "OAS30Tests_9259264980517"
+  },
+  "paths": {
+    "/color": {
+      "post": {
+        "operationId": "POST_COLORPOST_COLOR",
+        "description": "Change color",
+        "responses": {
+          "201": {
+            "description": "Color changed",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": ""
+              }
+            }
+          }
+        }
+      },
+      *
+    }
+  }
+}
