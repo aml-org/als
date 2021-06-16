@@ -141,4 +141,8 @@ class RAML10StructureTests extends RAML10StructureTest {
   test("Test declaration keys range") {
     this.runTest("declarations/api.raml", "declarations/api-outline.json")
   }
+
+  test("Test included example entry is present") {
+    this.runTest("included-example/api.raml", "included-example/structure.json")
+  }
 }

@@ -1,0 +1,13 @@
+#%RAML 1.0
+title: my api
+/myEndpoint:
+  get:
+    body:
+      application/json:
+        properties:
+          a:
+            type: string
+          b:
+            type: number
+            required: false
+        example: !include example.raml
