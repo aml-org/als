@@ -1,0 +1,37 @@
+#%Dialect 1.0
+dialect: Basic
+version: 2
+uses:
+  customVoc: vocabulary.yaml
+external:
+  vocab: http://voc.com/#
+documents:
+  root:
+    encodes: RootNode
+nodeMappings:
+  A:
+    mapping:
+      text:
+        range: string
+  B:
+    mapping:
+      text:
+        propertyTerm: customVoc.Number
+        range: number
+      newProp:
+        range: A
+  S3ResourceNode:
+    classTerm: vocab.Union
+    mapping:
+      IDs:
+        sorted: false
+        allowMultiple: false
+        range: string
+  RootNode:
+    union:
+      - A
+      - B
+    typeDiscriminatorName: kind
+    typeDiscriminator:
+      TypeA: A
+      TypeB: B

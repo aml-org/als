@@ -1,5 +1,6 @@
 package org.mulesoft.als.actions.codeactions.plugins.vocabulary
 
+import amf.plugins.document.vocabularies.model.domain.External
 import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionFactory,
   CodeActionRequestParams,
@@ -9,42 +10,44 @@ import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.amfintegration.ParserRangeImplicits.RangeImplicit
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.{
-  BEGIN_SYNTHESIZE_VOCABULARY,
-  END_SYNTHESIZE_VOCABULARY,
+  BEGIN_EXTERNAL_VOCABULARY_TO_LOCAL,
+  END_EXTERNAL_VOCABULARY_TO_LOCAL,
   MessageTypes
 }
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
 import scala.concurrent.Future
 
-class SynthesizeVocabulary(protected override val params: CodeActionRequestParams)
+class ExternalVocabularyToLocal(protected override val params: CodeActionRequestParams)
     extends DialectCodeActionResponsePlugin {
 
   override protected def telemetry: TelemetryProvider = params.telemetryProvider
 
-  override val isApplicable: Boolean = dialect.isDefined &&
-    dialect.exists(_.name().annotations().range().map(_.toPositionRange).exists(_.contains(params.range)))
+  val external: Option[External] =
+    dialect.flatMap(_.externals.find(_.annotations.range().map(_.toPositionRange).exists(_.contains(params.range))))
+
+  override val isApplicable: Boolean = dialect.isDefined && external.isDefined
 
   override protected def code(params: CodeActionRequestParams): String =
-    "Synthesize new vocabulary with missing terms"
+    "External vocabulary to local"
 
   override protected def beginType(params: CodeActionRequestParams): MessageTypes =
-    BEGIN_SYNTHESIZE_VOCABULARY
+    BEGIN_EXTERNAL_VOCABULARY_TO_LOCAL
 
   override protected def endType(params: CodeActionRequestParams): MessageTypes =
-    END_SYNTHESIZE_VOCABULARY
+    END_EXTERNAL_VOCABULARY_TO_LOCAL
 
   override protected def msg(params: CodeActionRequestParams): String =
-    s"Synthesize new vocabulary with missing terms: \n\t${params.uri}\t${params.range}"
+    s"External vocabulary to Local: \n\t${params.uri}\t${params.range}"
 
   override protected def uri(params: CodeActionRequestParams): String =
     params.uri
 
   override protected def task(params: CodeActionRequestParams): Future[Seq[AbstractCodeAction]] =
-    new SynthesizeVocabularyAction(dialect.get, params).synthesize()
+    new ExternalVocabularyToLocalAction(dialect.get, external.get, params).task()
 
 }
 
-object SynthesizeVocabularyCodeAction extends CodeActionFactory with SynthesizeVocabularyKind {
-  def apply(params: CodeActionRequestParams): CodeActionResponsePlugin = new SynthesizeVocabulary(params)
+object ExternalVocabularyToLocalCodeAction extends CodeActionFactory with ExternalVocabularyToLocalKind {
+  def apply(params: CodeActionRequestParams): CodeActionResponsePlugin = new ExternalVocabularyToLocal(params)
 }

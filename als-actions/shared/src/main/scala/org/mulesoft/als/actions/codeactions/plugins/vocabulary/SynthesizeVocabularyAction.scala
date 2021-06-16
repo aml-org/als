@@ -1,33 +1,29 @@
 package org.mulesoft.als.actions.codeactions.plugins.vocabulary
 
 import amf.core.annotations.Aliases
-import amf.core.remote.Mimes
 import amf.core.vocabulary.Namespace
-import amf.plugins.document.vocabularies.emitters.vocabularies.VocabularyEmitter
-import amf.plugins.document.vocabularies.model.document.{Dialect, Vocabulary}
+import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain._
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionRequestParams
-import org.mulesoft.als.actions.codeactions.plugins.declarations.common.{CreatesFileCodeAction, ExtractorCommon}
+import org.mulesoft.als.actions.codeactions.plugins.declarations.common.ExtractorCommon
 import org.mulesoft.als.common.YamlWrapper.AlsInputRange
 import org.mulesoft.als.common.dtoTypes.{PositionRange, Position => DtoPosition}
 import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
-import org.mulesoft.lsp.configuration.FormatOptions
-import org.mulesoft.lsp.edit.{CreateFile, NewFileOptions, TextDocumentEdit, TextEdit}
-import org.mulesoft.lsp.feature.common.{Position, Range, VersionedTextDocumentIdentifier}
+import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit}
+import org.mulesoft.lsp.feature.common.VersionedTextDocumentIdentifier
 import org.yaml.model.{YMap, YMapEntry, YNode, YPart}
-import org.yaml.render.{YamlRender, YamlRenderOptions}
+import org.yaml.render.YamlRender
 
 import scala.annotation.tailrec
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class SynthesizeVocabularyAction(dialect: Dialect, override val params: CodeActionRequestParams)
-    extends CreatesFileCodeAction {
-  val formattingOptions: FormatOptions     = params.configuration.getFormatOptionForMime(Mimes.`APPLICATION/YAML`)
-  val renderOptions: YamlRenderOptions     = YamlRenderOptions(formattingOptions.indentationSize, applyFormatting = true)
+    extends DialectActionsHelper {
+
   var knownClassTerms: Map[String, String] = Map()
   var knownPropertyTerms: Seq[String]      = Seq()
   var localTextEdits: Seq[TextEdit]        = Seq()
@@ -40,73 +36,45 @@ class SynthesizeVocabularyAction(dialect: Dialect, override val params: CodeActi
   def knownNames: Set[String] = (knownClassTerms.values ++ knownPropertyTerms).toSet
 
   def synthesize(): Future[Seq[AbstractCodeAction]] = {
-    val nodeMappings: Seq[NodeMapping] = dialect.declares.collect({
-      case nm: NodeMapping if nm.nodetypeMapping.isNullOrEmpty => nm
-    })
+    val nodeMappings: Seq[NodeMapping] = collectNodeMappings(dialect, nm => nm.nodetypeMapping.isNullOrEmpty)
 
-    val propertyMappings: Seq[PropertyMapping] = dialect.declares
-      .collect({
-        case nm: NodeMapping =>
-          nm.propertiesMapping()
-            .filter(p => {
-              missingPropertyTerm(p.nodePropertyMapping().value(), p.name().value())
-            })
-      })
-      .flatten
+    val propertyMappings: Seq[PropertyMapping] =
+      collectPropertyMappings(dialect, p => missingPropertyTerm(p.nodePropertyMapping().value(), p.name().value()))
 
     val classTerms: Seq[ClassTerm]       = createClassTerms(nodeMappings)
     val propertyTerms: Seq[PropertyTerm] = createPropertyTerms(propertyMappings)
 
-    createVocabulary(classTerms, propertyTerms).map(edits => {
+    buildEdits(classTerms, propertyTerms).map(edits => {
       Seq(SynthesizeVocabularyCodeAction.baseCodeAction(edits))
     })
   }
 
-  private def createClassTerms(mappings: Seq[NodeMapping]) = {
+  protected def createClassTerms(mappings: Seq[NodeMapping]): Seq[ClassTerm] = {
     mappings.flatMap(m => {
       val displayName = m.name.option()
       val name        = createName(m.name.option(), knownNames, "classTerm", capitalize = true)
-      val classTerm   = ClassTerm().withId(name).withDisplayName(displayName.getOrElse(name))
+      val classTerm   = createClassTerm(displayName, name)
       val textEdit    = createTextEdit("classTerm", name, m.annotations.ast())
       if (textEdit.isDefined) { // if we were able to create the edit
         knownClassTerms = knownClassTerms + (m.id -> name)
         localTextEdits = localTextEdits :+ textEdit.get
-        Some(classTerm.withName(name))
+        Some(classTerm)
       } else None
     })
   }
 
-  private def createPropertyTerms(propertyMappings: Seq[PropertyMapping]): Seq[PropertyTerm] = {
+  protected def createPropertyTerms(propertyMappings: Seq[PropertyMapping]): Seq[PropertyTerm] = {
     propertyMappings.flatMap(p => {
-      val displayName = p.name().option()
-      val name        = createName(displayName, knownNames, "propertyTerm", capitalize = false)
-      val propertyTerm = if (p.objectRange().isEmpty) {
-        datatypePropertyTerm(p)
-      } else {
-        objectRangePropertyTerm(p)
-      }
-      propertyTerm.withId(name).withDisplayName(displayName.getOrElse(name))
-      val textEdit = createTextEdit("propertyTerm", name, p.annotations.ast())
+      val displayName                = p.name().option()
+      val name                       = createName(displayName, knownNames, "propertyTerm", capitalize = false)
+      val propertyTerm: PropertyTerm = createPropertyTerm(p, displayName, name, knownClassTerms)
+      val textEdit                   = createTextEdit("propertyTerm", name, p.annotations.ast())
       if (textEdit.isDefined) { // if we were able to create the edit
         knownPropertyTerms = knownPropertyTerms :+ name
         localTextEdits = localTextEdits :+ textEdit.get
         Some(propertyTerm.withName(name))
       } else None
     })
-  }
-
-  def datatypePropertyTerm(p: PropertyMapping): PropertyTerm = {
-    val propertyTerm = DatatypePropertyTerm()
-    propertyTerm.withRange(p.literalRange().value().replace(Namespace.Xsd.base, ""))
-    propertyTerm
-  }
-
-  def objectRangePropertyTerm(p: PropertyMapping): PropertyTerm = {
-    val propertyTerm = ObjectPropertyTerm()
-    if (p.objectRange().size == 1) {
-      knownClassTerms.get(p.objectRange().head.value()).foreach(propertyTerm.withRange)
-    }
-    propertyTerm
   }
 
   def createName(maybeString: Option[String],
@@ -141,45 +109,18 @@ class SynthesizeVocabularyAction(dialect: Dialect, override val params: CodeActi
       case _                          => None
     }
 
-  def createVocabulary(classTerms: Seq[ClassTerm], propertyTerms: Seq[PropertyTerm]): Future[AbstractWorkspaceEdit] = {
-    val vocabulary = Vocabulary()
-    vocabulary.withBase("http://a.ml/vocabulary/#")
-    vocabulary.withDeclares(classTerms ++ propertyTerms)
+  def buildEdits(classTerms: Seq[ClassTerm], propertyTerms: Seq[PropertyTerm]): Future[AbstractWorkspaceEdit] = {
     val fileUri = createFileUri("vocabulary")
     fileUri.map(newUri => {
-      val vocabularyName = newUri.substring(newUri.lastIndexOf('/') + 1)
-      vocabulary.withName(vocabularyName.replace(".yaml", ""))
-
-      val vocabularyEdits = TextEdit(Range(Position(0, 0), Position(0, 0)),
-                                     YamlRender.render(VocabularyEmitter(vocabulary).emitVocabulary()))
-      val vocabularyContent     = TextDocumentEdit(VersionedTextDocumentIdentifier(newUri, None), Seq(vocabularyEdits))
-      val referenceToVocabulary = createReferenceToNewVocabulary(vocabularyName)
+      val vocabularyFileName = newUri.substring(newUri.lastIndexOf('/') + 1)
+      val vocabulary =
+        buildVocabulary("http://a.ml/vocabulary/#", vocabularyFileName.replace(".yaml", ""), classTerms, propertyTerms)
+      val referenceToVocabulary = createReferenceToNewVocabulary(vocabularyFileName, alias)
       val localEdits =
         TextDocumentEdit(VersionedTextDocumentIdentifier(params.uri, None), referenceToVocabulary +: localTextEdits)
-      val newFileOperation = CreateFile(newUri, Some(NewFileOptions(Some(false), Some(false))))
 
-      AbstractWorkspaceEdit(Seq(Right(newFileOperation), Left(vocabularyContent), Left(localEdits)))
+      AbstractWorkspaceEdit(createVocabularyFile(newUri, vocabulary) :+ Left(localEdits))
     })
-  }
-
-  def createReferenceToNewVocabulary(vocabularyName: String): TextEdit = {
-    val newEntry = YMapEntry(YNode(alias), YNode(vocabularyName))
-    val usesYMapEntry: Option[YMapEntry] = params.bu.objWithAST
-      .flatMap(_.annotations.ast())
-      .collectFirst({
-        case yMap: YMap => yMap.entries.find(_.key.asScalar.exists(_.text == "uses"))
-      })
-      .flatten
-
-    val rendered: String = usesYMapEntry.map(_.value.value).getOrElse(YMap.empty) match {
-      case map: YMap =>
-        val yMapToRender = YMap(map.location, IndexedSeq(YMapEntry(YNode("uses"), YMap(newEntry +: map.entries, ""))))
-        YamlRender.render(Seq(yMapToRender), renderOptions)
-    }
-    TextEdit(
-      LspRangeConverter.toLspRange(
-        usesYMapEntry.map(_.range.toPositionRange).getOrElse(PositionRange(DtoPosition(1, 0), DtoPosition(1, 0)))),
-      rendered)
   }
 
   def indent(n: Int): String =
