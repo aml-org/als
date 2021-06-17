@@ -28,4 +28,5 @@ class RamlServerRenameTests extends RAMLRenameTest {
   test("test 024 - RAML Expression with simple array") { runTest("test024/api.raml", "RENAMED") }
   test("test 025 - RAML Expression with union array") { runTest("test025/api.raml", "RENAMED") }
   test("test 026 - RAML should be able to on the value") { runTest("test026/api.raml", "RENAMED") }
+  test("test 027 - RAML 0.8 should be able to rename security schemes") { runTest("test027/api.raml", "RENAMED") }
 }
