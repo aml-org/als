@@ -31,27 +31,35 @@ trait NodeRelationshipVisitorType extends AmfElementVisitor[RelationshipLink] {
   protected def getName(a: AmfElement): Option[YPart] =
     a match {
       case ns: NodeShape =>
-        val name = ns.name.annotations.ast()
-        if (name.exists(_.location == SourceLocation.Unknown)) {
-          ns.annotations
-            .ast()
-            .flatMap({
-              case entry: YMapEntry if name.exists(_.toString == entry.key.value.toString) => Some(entry.key.value)
-              case _                                                                       => None
-            })
-        } else name
+        lazy val name  = ns.name.annotations.ast()
+        lazy val nsAst = ns.annotations.ast()
+        nameOrEntryKey(name, nsAst)
       case n: NamedDomainElement =>
-        n.name
+        lazy val name = n.name
           .annotations()
           .ast()
+        lazy val nAst = n.annotations.ast()
+        nameOrEntryKey(name, nAst) // security schemes in RAML 0.8 are bringing faulty name AST (unknown location)
       case o: AmfObject =>
-        o.namedField()
+        val name = o
+          .namedField()
           .flatMap(
             n =>
               n.value.annotations
                 .ast())
+        lazy val oAst = o.annotations.ast()
+        nameOrEntryKey(name, oAst)
       case _ => None
     }
+
+  private def nameOrEntryKey(name: Option[YPart], ast: Option[YPart]) =
+    if (name.exists(_.location == SourceLocation.Unknown)) {
+      ast
+        .flatMap({
+          case entry: YMapEntry if name.exists(_.toString == entry.key.value.toString) => Some(entry.key.value)
+          case _                                                                       => None
+        })
+    } else name
 
   protected def virtualYPart(maybePart: Option[YPart],
                              maybeLabel: Option[String],
