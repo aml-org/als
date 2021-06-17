@@ -34,6 +34,7 @@ pipeline {
                 not {
                     anyOf {
                         branch 'master'
+                        branch 'support/*'
                         branch 'rc/*'
                     }
                 }
@@ -63,6 +64,7 @@ pipeline {
             when {
                 anyOf {
                     branch 'master'
+                    branch 'support/*'
                     branch 'develop'
                 }
             }
@@ -87,6 +89,7 @@ pipeline {
             when {
                 anyOf {
                     branch 'master'
+                    branch 'support/*'
                     branch 'develop'
                     branch 'nexus-iq/*'
                 }
@@ -110,6 +113,7 @@ pipeline {
             when {
                 anyOf {
                     branch 'master'
+                    branch 'support/*'
                     branch 'develop'
                     branch 'rc/*'
                 }
@@ -138,6 +142,7 @@ pipeline {
             when {
                 anyOf {
                     branch 'master'
+                    branch 'support/*'
                     branch 'develop'
                     branch 'rc/*'
                 }
@@ -172,6 +177,7 @@ pipeline {
             when {
                 anyOf {
                     branch 'master'
+                    branch 'support/*'
                     branch 'develop'
                     branch 'rc/*'
                 }
@@ -193,6 +199,7 @@ pipeline {
             when {
                 anyOf {
                     branch 'develop'
+                    branch 'support/*'
                     branch 'rc/*'
                     branch 'master'
                 }
