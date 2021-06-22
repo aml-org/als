@@ -1,0 +1,62 @@
+[
+  {
+    "label": "Person",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Person",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Person",
+    "filterText": "my-voc.Person",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 22
+        }
+      },
+      "newText": "my-voc.Person"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "Plane",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Airplane",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Plane",
+    "filterText": "my-voc.Plane",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 15
+        },
+        "end": {
+          "line": 7,
+          "character": 22
+        }
+      },
+      "newText": "my-voc.Plane"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
