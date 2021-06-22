@@ -1,0 +1,12 @@
+#%Dialect 1.0
+version: 1.0
+dialect: ALS
+uses:
+  my-voc: vocabulary.yaml
+nodeMappings:
+  Member:
+    classTerm: my-voc.*
+    mapping:
+      name:
+        propertyTerm: my-voc.name
+        range: string
