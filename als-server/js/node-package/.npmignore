@@ -1,6 +1,7 @@
 # Directories
 scripts/
 tmp/
+lib/
 node_modules/
 
 # Files
