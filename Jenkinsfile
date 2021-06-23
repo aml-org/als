@@ -57,6 +57,13 @@ pipeline {
             }
         }
         stage('Test') {
+            when {
+                not {
+                    anyOf {
+                        branch 'lsp-3.16.0'
+                    }
+                }
+            }
             steps {
                 wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
                     script {
