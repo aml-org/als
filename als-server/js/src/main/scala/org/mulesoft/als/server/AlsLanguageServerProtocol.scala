@@ -22,24 +22,24 @@ import scala.scalajs.js.annotation.JSExportTopLevel
 @JSExportTopLevel("SerializationEventNotification")
 object SerializationEventNotification {
   val `type`: NotificationType[ClientSerializationResult, js.Any] =
-    new NotificationType[ClientSerializationResult, js.Any]("SerializeJSONLD")
+    new NotificationType[ClientSerializationResult, js.Any]("serializeJSONLD")
 }
 
 @JSExportTopLevel("UpdateConfigurationNotification")
 object UpdateClientConfigurationNotification {
   val `type`: NotificationType[ClientUpdateConfigurationParams, js.Any] =
-    new NotificationType[ClientUpdateConfigurationParams, js.Any]("UpdateConfiguration")
+    new NotificationType[ClientUpdateConfigurationParams, js.Any]("updateConfiguration")
 }
 
 @JSExportTopLevel("FilesInProjectEventNotification")
 object FilesInProjectEventNotification {
   val `type`: NotificationType[ClientFilesInProjectParams, js.Any] =
-    new NotificationType[ClientFilesInProjectParams, js.Any]("FilesInProject")
+    new NotificationType[ClientFilesInProjectParams, js.Any]("filesInProject")
 }
 @JSExportTopLevel("AlsCapabilitiesNotification")
 object AlsClientCapabilitiesNotification {
   val `type`: NotificationType[ClientAlsClientCapabilities, js.Any] =
-    new NotificationType[ClientAlsClientCapabilities, js.Any]("NotifyAlsClientCapabilities")
+    new NotificationType[ClientAlsClientCapabilities, js.Any]("notifyAlsClientCapabilities")
 }
 
 @JSExportTopLevel("CleanDiagnosticTreeRequestType")
@@ -47,29 +47,29 @@ object ClientCleanDiagnosticTreeRequestType {
   val `type`
     : RequestType[ClientCleanDiagnosticTreeParams, js.Array[ClientAlsPublishDiagnosticsParams], js.Any, js.Any] =
     new RequestType[ClientCleanDiagnosticTreeParams, js.Array[ClientAlsPublishDiagnosticsParams], js.Any, js.Any](
-      "CleanDiagnosticTree")
+      "cleanDiagnosticTree")
 }
 
 @JSExportTopLevel("FileUsageRequestType")
 object FileUsageRequest {
   val `type`: RequestType[ClientTextDocumentIdentifier, js.Array[ClientLocation], js.Any, js.Any] =
-    new RequestType[ClientTextDocumentIdentifier, js.Array[ClientLocation], js.Any, js.Any]("FileUsage")
+    new RequestType[ClientTextDocumentIdentifier, js.Array[ClientLocation], js.Any, js.Any]("fileUsage")
 }
 
 @JSExportTopLevel("ConversionRequestType")
 object ClientConversionRequestType {
   val `type`: RequestType[ClientConversionParams, js.Array[ClientSerializedDocument], js.Any, js.Any] =
-    new RequestType[ClientConversionParams, js.Array[ClientSerializedDocument], js.Any, js.Any]("Conversion")
+    new RequestType[ClientConversionParams, js.Array[ClientSerializedDocument], js.Any, js.Any]("conversion")
 }
 
 @JSExportTopLevel("SerializationRequestType")
 object ClientSerializationRequestType {
   val `type`: RequestType[ClientSerializationParams, ClientSerializationResult, js.Any, js.Any] =
-    new RequestType[ClientSerializationParams, ClientSerializationResult, js.Any, js.Any]("Serialization")
+    new RequestType[ClientSerializationParams, ClientSerializationResult, js.Any, js.Any]("serialization")
 }
 
 @JSExportTopLevel("RenameFileActionRequestType")
 object ClientCleanRenameFileActionRequestType {
   val `type`: RequestType[ClientRenameFileActionParams, ClientRenameFileActionResult, js.Any, js.Any] =
-    new RequestType[ClientRenameFileActionParams, ClientRenameFileActionResult, js.Any, js.Any]("RenameFile")
+    new RequestType[ClientRenameFileActionParams, ClientRenameFileActionResult, js.Any, js.Any]("renameFile")
 }
