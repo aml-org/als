@@ -9,10 +9,6 @@ import scala.scalajs.js
 
 @js.native
 trait ClientUpdateConfigurationParams extends js.Object {
-  @deprecated
-  def clientAlsFormattingOptions: js.UndefOr[js.Dictionary[ClientFormattingOptions]] = js.native // Nullable
-  @deprecated
-  def clientGenericOptions: js.Dictionary[js.Any]                           = js.native
   def formattingOptions: js.UndefOr[js.Dictionary[ClientFormattingOptions]] = js.native // Nullable
   def genericOptions: js.UndefOr[js.Dictionary[js.Any]]                     = js.native
   def templateType: js.UndefOr[String]                                      = js.native
