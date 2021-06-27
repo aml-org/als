@@ -136,18 +136,14 @@ object LspConvertersClientToShared {
 
   implicit class ClientFormattingOptionsConverter(v: ClientFormattingOptions) {
     def toShared: FormattingOptions =
-      FormattingOptions(v.tabSize, v.preferSpaces.orElse(v.insertSpaces).getOrElse(false))
+      FormattingOptions(v.tabSize, v.insertSpaces.getOrElse(false))
   }
 
   implicit class ClientUpdateConfigurationConverter(v: ClientUpdateConfigurationParams) {
     def toShared: UpdateConfigurationParams = UpdateConfigurationParams(
-      v.formattingOptions
-        .orElse(v.clientAlsFormattingOptions)
-        .toOption
+      v.formattingOptions.toOption
         .map(_.toMap.map(v => v._1 -> ClientFormattingOptionsConverter(v._2).toShared)),
-      v.genericOptions
-        .orElse(v.clientGenericOptions)
-        .toOption
+      v.genericOptions.toOption
         .map(_.toMap.map(v => v._1 -> v._2))
         .getOrElse(Map.empty),
       v.templateType.getOrElse("").toUpperCase match {

@@ -16,7 +16,7 @@ trait ClientDocumentHighlight extends js.Object {
 object ClientDocumentHighlight {
   def apply(internal: DocumentHighlight): ClientDocumentHighlight =
     js.Dynamic
-      .literal(range = internal.range.toClient, target = internal.kind.id)
+      .literal(range = internal.range.toClient, kind = internal.kind.id)
       .asInstanceOf[ClientDocumentHighlight]
 }
 // $COVERAGE-ON$

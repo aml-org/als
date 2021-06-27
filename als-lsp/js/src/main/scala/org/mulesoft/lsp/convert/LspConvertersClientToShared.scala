@@ -187,7 +187,7 @@ object LspConvertersClientToShared {
         v.implementation.toOption.map(_.toShared),
         v.typeDefinition.toOption.map(_.toShared),
         v.rename.toOption.map(_.toShared),
-        v.codeAction.toOption.map(_.toShared),
+        v.codeActionCapabilities.toOption.map(_.toShared),
         v.documentLink.toOption.map(_.toShared),
         v.hover.toOption.map(_.toShared),
         v.documentHighlight.toOption.map(_.toShared),
@@ -596,7 +596,7 @@ object LspConvertersClientToShared {
 
   implicit class FormattingOptionsConverter(v: ClientFormattingOptions) {
     def toShared: FormattingOptions =
-      FormattingOptions(v.tabSize, v.preferSpaces.orElse(v.insertSpaces).getOrElse(false))
+      FormattingOptions(v.tabSize, v.insertSpaces.getOrElse(false))
   }
 
   implicit class DocumentFormattingParamsConverter(v: ClientDocumentFormattingParams) {
