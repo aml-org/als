@@ -1,35 +1,35 @@
 package org.mulesoft.lsp
 
-import java.{lang, util}
-import java.util.concurrent.CompletableFuture
-import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
 import org.eclipse.lsp4j
 import org.eclipse.lsp4j.MarkedString
+import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
 import org.mulesoft.lsp.configuration.{StaticRegistrationOptions, WorkDoneProgressOptions}
-import org.mulesoft.lsp.feature.command.Command
-import org.mulesoft.lsp.feature.common.{Location, LocationLink, Position, Range, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.edit._
 import org.mulesoft.lsp.feature.codeactions.CodeActionKind.CodeActionKind
 import org.mulesoft.lsp.feature.codeactions.{CodeAction, CodeActionKind, CodeActionOptions}
+import org.mulesoft.lsp.feature.command.Command
+import org.mulesoft.lsp.feature.common.{Location, LocationLink, Position, Range, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.feature.completion.CompletionItemKind.CompletionItemKind
 import org.mulesoft.lsp.feature.completion.InsertTextFormat.InsertTextFormat
 import org.mulesoft.lsp.feature.completion.{CompletionItem, CompletionList, CompletionOptions}
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticSeverity.DiagnosticSeverity
 import org.mulesoft.lsp.feature.diagnostic.{Diagnostic, DiagnosticRelatedInformation, PublishDiagnosticsParams}
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbol, SymbolInformation}
-import org.mulesoft.lsp.feature.folding.{FoldingRange, FoldingRangeKind}
 import org.mulesoft.lsp.feature.folding.FoldingRangeKind.FoldingRangeKind
+import org.mulesoft.lsp.feature.folding.{FoldingRange, FoldingRangeKind}
 import org.mulesoft.lsp.feature.highlight.DocumentHighlight
 import org.mulesoft.lsp.feature.highlight.DocumentHighlightKind.DocumentHighlightKind
 import org.mulesoft.lsp.feature.hover.Hover
 import org.mulesoft.lsp.feature.link.{DocumentLink, DocumentLinkOptions, DocumentLinkParams}
 import org.mulesoft.lsp.feature.rename.{PrepareRenameResult, RenameOptions}
 import org.mulesoft.lsp.feature.selectionRange.SelectionRange
-import org.mulesoft.lsp.textsync.{SaveOptions, TextDocumentSyncKind, TextDocumentSyncOptions}
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
+import org.mulesoft.lsp.textsync.{SaveOptions, TextDocumentSyncKind, TextDocumentSyncOptions}
 
-import scala.compat.java8.FutureConverters._
+import java.util
+import java.util.concurrent.CompletableFuture
 import scala.collection.JavaConverters._
+import scala.compat.java8.FutureConverters._
 import scala.concurrent.{ExecutionContext, Future}
 import scala.language.implicitConversions
 
@@ -351,7 +351,7 @@ object Lsp4JConversions {
     )
 
     result.setRelatedInformation(javaList(diagnostic.relatedInformation, lsp4JDiagnosticRelatedInformation))
-
+    diagnostic.codeDescription.foreach(desc => result.setCodeDescription(new lsp4j.DiagnosticCodeDescription(desc)))
     result
   }
 

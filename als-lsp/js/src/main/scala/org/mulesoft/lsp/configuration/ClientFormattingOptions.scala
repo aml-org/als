@@ -13,7 +13,7 @@ object ClientFormattingOptions {
   def apply(internal: FormattingOptions): ClientFormattingOptions = {
     js.Dynamic
       .literal(
-        tabSize = internal.indentationSize,
+        tabSize = internal.tabSize,
         insertSpaces = internal.insertSpaces
       )
       .asInstanceOf[ClientFormattingOptions]

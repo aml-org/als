@@ -7,7 +7,7 @@ import org.eclipse.lsp4j.InitializeParams;
 public class AlsInitializeParams extends InitializeParams {
 
     private AlsClientCapabilities alsClientCapabilities;
-    private AlsConfiguration alsConfiguration;
+    private AlsConfiguration configuration;
 
     @Override
     public AlsClientCapabilities getCapabilities() {
@@ -38,11 +38,11 @@ public class AlsInitializeParams extends InitializeParams {
         super.setCapabilities(null);
     }
     
-    public AlsConfiguration getAlsConfiguration() {
-        return alsConfiguration;
+    public AlsConfiguration getConfiguration() {
+        return configuration;
     }
 
-    public void setAlsConfiguration(AlsConfiguration alsConfiguration) {
-        this.alsConfiguration = alsConfiguration;
+    public void setConfiguration(AlsConfiguration configuration) {
+        this.configuration = configuration;
     }
 }

@@ -123,7 +123,7 @@ trait ExtractDeclarationsToLibrary extends CodeActionResponsePlugin with Creates
   private val yamlOptions: YamlRenderOptions = YamlRenderOptions().withIndentationSize(
     params.configuration
       .getFormatOptionForMime(Mimes.`APPLICATION/YAML`)
-      .indentationSize
+      .tabSize
   )
 
   /**

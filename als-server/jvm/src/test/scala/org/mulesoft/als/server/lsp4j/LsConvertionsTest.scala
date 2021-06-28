@@ -6,8 +6,8 @@ import org.mulesoft.als.server.lsp4j.extension.{AlsClientCapabilities, AlsInitia
 import org.mulesoft.als.server.protocol.configuration
 import org.mulesoft.lsp.LspConversions._
 import org.mulesoft.lsp.configuration.{TextDocumentClientCapabilities => InternalDocumentClient}
-import org.scalatest.FunSuite
 import org.mulesoft.lsp.feature.diagnostic.{Diagnostic => InternalDiagnostic}
+import org.scalatest.FunSuite
 
 import java.util
 import scala.collection.JavaConverters._
@@ -51,6 +51,7 @@ class LsConvertionsTest extends FunSuite {
   test("Full Diagnostic conversion") {
     val clientDiagnostic: Diagnostic = new Diagnostic()
     clientDiagnostic.setCode(2)
+    clientDiagnostic.setCodeDescription(new DiagnosticCodeDescription("https://a.ml/error-codes/code/1"))
     clientDiagnostic.setMessage("Message")
     clientDiagnostic.setTags(new util.ArrayList[DiagnosticTag])
     val start = new Position(0, 1)

@@ -1,7 +1,8 @@
 package org.mulesoft.lsp.feature.diagnostic
 
-import org.mulesoft.lsp.feature.diagnostic.DiagnosticSeverity.DiagnosticSeverity
 import org.mulesoft.lsp.feature.common.Range
+import org.mulesoft.lsp.feature.diagnostic.DiagnosticSeverity.DiagnosticSeverity
+
 /** Represents a diagnostic, such as a compiler error or warning. Diagnostic objects are only valid in the scope of
   * a resource.
   *
@@ -15,10 +16,10 @@ import org.mulesoft.lsp.feature.common.Range
   * @param relatedInformation An array of related diagnostic information, e.g. when symbol-names within
   *                           a scope collide all definitions can be marked via this property.
   */
-
 case class Diagnostic(range: Range,
                       message: String,
                       severity: Option[DiagnosticSeverity] = None,
                       code: Option[String] = None,
+                      codeDescription: Option[String] = None,
                       source: Option[String] = None,
                       relatedInformation: Seq[DiagnosticRelatedInformation] = Seq())

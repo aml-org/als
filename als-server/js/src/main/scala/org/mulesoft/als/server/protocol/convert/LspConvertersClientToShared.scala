@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.protocol.convert
 
-import org.mulesoft.als.configuration.TemplateTypes
+import org.mulesoft.als.configuration.{AlsConfiguration, TemplateTypes}
 import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
 import org.mulesoft.als.server.feature.diagnostic.{
   CleanDiagnosticTreeClientCapabilities,
@@ -72,16 +72,33 @@ object LspConvertersClientToShared {
     )
   }
 
+  implicit class ClientAlsConfigurationConverter(v: ClientAlsConfiguration) {
+    def toShared: AlsConfiguration =
+      AlsConfiguration(
+        v.formattingOptions.toMap.map({
+          case (k, value) => (k -> FormattingOptionsConverter(value).toShared)
+        }),
+        v.templateType match {
+          case TemplateTypes.FULL   => TemplateTypes.FULL
+          case TemplateTypes.SIMPLE => TemplateTypes.SIMPLE
+          case TemplateTypes.NONE   => TemplateTypes.NONE
+          case _                    => TemplateTypes.FULL
+        }
+      )
+  }
+
   implicit class InitializeParamsConverter(v: ClientAlsInitializeParams) {
     def toShared: AlsInitializeParams =
       AlsInitializeParams(
         Option(v.capabilities).map(_.toShared),
         v.trace.toOption.map(TraceKind.withName),
-        v.rootUri.toOption.flatMap(Option(_)), // (it may come as `Some(null)`)
-        Option(v.processId),
-        Option(v.workspaceFolders).map(_.map(_.toShared).toSeq),
-        v.rootPath.toOption.flatMap(Option(_)), // (it may come as `Some(null)`)
-        v.initializationOptions.toOption
+        locale = v.locale.toOption.flatMap(Option(_)),
+        rootUri = v.rootUri.toOption.flatMap(Option(_)), // (it may come as `Some(null)`)
+        processId = Option(v.processId),
+        workspaceFolders = Option(v.workspaceFolders).map(_.map(_.toShared).toSeq),
+        rootPath = v.rootPath.toOption.flatMap(Option(_)), // (it may come as `Some(null)`)
+        initializationOptions = v.initializationOptions.toOption,
+        configuration = v.configuration.toOption.map(_.toShared)
       )
   }
 

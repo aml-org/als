@@ -100,7 +100,8 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
     withServer[Assertion](buildServer(notifier)) { server =>
       // open dialect -> open invalid instance -> change dialect -> focus now valid instance
       for {
-        _                   <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), Some(filePath("aml-workspace"))))
+        _ <- server.initialize(
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(filePath("aml-workspace"))))
         dialectContent      <- this.platform.resolve(dialect).map(_.stream.toString)
         _                   <- openFileNotification(server)(dialect, dialectContent)
         dialectDiagnostic1  <- notifier.nextCallD
@@ -126,8 +127,8 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
 
         instanceDiagnostic2.uri should be(instance)
         instanceDiagnostic2.diagnostics.size should be(0)
-
-        assert(allTelemetry.count(d => d.messageType == MessageTypes.BEGIN_PARSE) == 4)
+        val filtered = allTelemetry.filter(_.messageType == MessageTypes.BEGIN_PARSE)
+        assert(filtered.length == 4)
       }
     }
   }
@@ -140,7 +141,8 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
     withServer[Assertion](buildServer(notifier)) { server =>
       // open workspace (parse instance) -> open dialect (parse) -> focus dialect (parse) -> focus instance (parse)
       for {
-        _                   <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), Some(filePath("aml-instance-is-mf"))))
+        _ <- server.initialize(
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(filePath("aml-instance-is-mf"))))
         rootDiagnostic      <- notifier.nextCallD
         dialectContent      <- this.platform.resolve(dialect).map(_.stream.toString)
         _                   <- openFileNotification(server)(dialect, dialectContent)
