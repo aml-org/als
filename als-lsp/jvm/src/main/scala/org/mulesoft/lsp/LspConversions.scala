@@ -1,7 +1,7 @@
 package org.mulesoft.lsp
 
-import java.util.{List => JList}
 import org.eclipse.lsp4j
+import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
 import org.eclipse.lsp4j.{
   DidChangeConfigurationCapabilities,
   DidChangeWatchedFilesCapabilities,
@@ -9,7 +9,10 @@ import org.eclipse.lsp4j.{
   SymbolCapabilities,
   WorkspaceEditCapabilities
 }
-import org.eclipse.lsp4j.jsonrpc.messages.{Either3, Either => JEither}
+import org.mulesoft.lsp.configuration.TraceKind.TraceKind
+import org.mulesoft.lsp.configuration._
+import org.mulesoft.lsp.feature.codeactions.CodeActionKind.CodeActionKind
+import org.mulesoft.lsp.feature.codeactions._
 import org.mulesoft.lsp.feature.common.{
   Location,
   Position,
@@ -18,16 +21,6 @@ import org.mulesoft.lsp.feature.common.{
   TextDocumentItem,
   TextDocumentPositionParams,
   VersionedTextDocumentIdentifier
-}
-import org.mulesoft.lsp.configuration.TraceKind.TraceKind
-import org.mulesoft.lsp.configuration._
-import org.mulesoft.lsp.feature.codeactions.CodeActionKind.CodeActionKind
-import org.mulesoft.lsp.feature.codeactions.{
-  CodeActionContext,
-  CodeActionKind,
-  CodeActionOptions,
-  CodeActionParams,
-  CodeActionRegistrationOptions
 }
 import org.mulesoft.lsp.feature.completion.CompletionItemKind.CompletionItemKind
 import org.mulesoft.lsp.feature.completion.CompletionTriggerKind.CompletionTriggerKind
@@ -47,9 +40,9 @@ import org.mulesoft.lsp.feature.documentsymbol.{
   SymbolKind,
   SymbolKindClientCapabilities
 }
-import org.mulesoft.lsp.feature.hover.{HoverClientCapabilities, HoverParams, MarkupKind}
 import org.mulesoft.lsp.feature.folding.{FoldingRangeCapabilities, FoldingRangeParams}
 import org.mulesoft.lsp.feature.highlight.{DocumentHighlightCapabilities, DocumentHighlightParams}
+import org.mulesoft.lsp.feature.hover.{HoverClientCapabilities, HoverParams, MarkupKind}
 import org.mulesoft.lsp.feature.implementation.{ImplementationClientCapabilities, ImplementationParams}
 import org.mulesoft.lsp.feature.link.{DocumentLinkClientCapabilities, DocumentLinkOptions, DocumentLinkParams}
 import org.mulesoft.lsp.feature.reference.{ReferenceClientCapabilities, ReferenceContext, ReferenceParams}
@@ -59,6 +52,7 @@ import org.mulesoft.lsp.feature.typedefinition.{TypeDefinitionClientCapabilities
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 import org.mulesoft.lsp.textsync._
 
+import java.util.{List => JList}
 import scala.collection.JavaConverters._
 import scala.language.implicitConversions
 
@@ -367,6 +361,7 @@ object LspConversions {
       diagnostic.getMessage,
       Option(diagnostic.getSeverity).map(diagnosticSeverity),
       Option(diagnostic.getCode).flatMap(c => either(c, (s: String) => s, (n: Number) => n.toString).toOption),
+      Option(diagnostic.getCodeDescription).map(_.getHref),
       Option(diagnostic.getSource),
       Option(diagnostic.getRelatedInformation).map(_.asScala.map(diagnosticRelatedInformation)).getOrElse(Seq())
     )

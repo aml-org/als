@@ -35,32 +35,35 @@ import org.mulesoft.lsp.configuration.{TraceKind, WorkspaceFolder}
   */
 class AlsInitializeParams private (val capabilities: AlsClientCapabilities,
                                    val trace: TraceKind,
+                                   val locale: Option[String] = None,
                                    val rootUri: Option[String] = None,
                                    val processId: Option[Int] = None,
                                    val workspaceFolders: Option[Seq[WorkspaceFolder]] = None,
                                    val rootPath: Option[String] = None,
                                    val initializationOptions: Option[Any] = None,
-                                   val alsConfiguration: Option[AlsConfiguration] = None)
+                                   val configuration: Option[AlsConfiguration] = None)
 
 object AlsInitializeParams {
 
   def apply(capabilities: Option[AlsClientCapabilities],
             trace: Option[TraceKind],
+            locale: Option[String] = None,
             rootUri: Option[String] = None,
             processId: Option[Int] = None,
             workspaceFolders: Option[Seq[WorkspaceFolder]] = None,
             rootPath: Option[String] = None,
             initializationOptions: Option[Any] = None,
-            alsConfiguration: Option[AlsConfiguration] = None): AlsInitializeParams =
+            configuration: Option[AlsConfiguration] = None): AlsInitializeParams =
     new AlsInitializeParams(
       capabilities.getOrElse(AlsClientCapabilities()),
       trace.getOrElse(TraceKind.Off),
+      locale,
       rootUri,
       processId,
       workspaceFolders,
       rootPath,
       initializationOptions,
-      alsConfiguration
+      configuration
     )
 
   def default: AlsInitializeParams = apply(None, Some(TraceKind.Off))

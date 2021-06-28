@@ -304,6 +304,7 @@ object LspConvertersClientToShared {
         v.message,
         v.severity.map(s => DiagnosticSeverity(s)).toOption,
         v.code.toOption,
+        v.codeDescription.toOption.map(_.href),
         v.source.toOption,
         v.relatedInformation.map(_.toShared).toSeq
       )

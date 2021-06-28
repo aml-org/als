@@ -90,12 +90,13 @@ object LspConversions {
       AlsInitializeParams(
         Option(p.getCapabilities).map(clientCapabilities),
         Option(p.getTrace).map(traceKind),
-        Option(p.getRootUri),
-        Option(p.getProcessId),
-        Option(p.getWorkspaceFolders).map(wf => seq(wf, workspaceFolder)),
-        Option(p.getRootPath),
-        Option(p.getInitializationOptions),
-        Option(p.getAlsConfiguration)
+        locale = Option(p.getLocale),
+        rootUri = Option(p.getRootUri),
+        processId = Option(p.getProcessId),
+        workspaceFolders = Option(p.getWorkspaceFolders).map(wf => seq(wf, workspaceFolder)),
+        rootPath = Option(p.getRootPath),
+        initializationOptions = Option(p.getInitializationOptions),
+        configuration = Option(p.getConfiguration)
       )
     } getOrElse AlsInitializeParams.default
 

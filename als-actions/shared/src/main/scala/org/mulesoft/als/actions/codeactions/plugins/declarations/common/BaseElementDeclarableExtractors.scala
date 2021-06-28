@@ -123,12 +123,12 @@ trait BaseElementDeclarableExtractors extends TreeKnowledge {
   protected val jsonOptions: JsonRenderOptions = JsonRenderOptions().withIndentationSize(
     params.configuration
       .getFormatOptionForMime(Mimes.`APPLICATION/JSON`)
-      .indentationSize
+      .tabSize
   )
 
   protected val yamlOptions: YamlRenderOptions = YamlRenderOptions().withIndentationSize(
     params.configuration
       .getFormatOptionForMime(Mimes.`APPLICATION/YAML`)
-      .indentationSize
+      .tabSize
   )
 }

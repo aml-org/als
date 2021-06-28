@@ -59,7 +59,7 @@ class KeyPropertyHeaderCompletionPlugin(isJson: Boolean,
     (if (position.column == 0) jsonPrefix else "") + s"${"\"" + key + "\""}: ${"\"" + value + "\""}"
 
   private def jsonPrefix =
-    if (formattingOptions.insertSpaces) " " * formattingOptions.indentationSize else "\t"
+    if (formattingOptions.insertSpaces) " " * formattingOptions.tabSize else "\t"
 
   private def inBrackets(text: String) =
     s"{\n${text.linesIterator.map(l => s"  $l").mkString("\n")}\n}"
