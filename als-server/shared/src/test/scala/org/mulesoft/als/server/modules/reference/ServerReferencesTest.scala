@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.modules.reference
 
+import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.common.{MarkerFinderTest, MarkerInfo}
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.convert.LspRangeConverter
@@ -39,23 +40,21 @@ trait ServerReferencesTest extends ServerWithMarkerTest[Seq[Location]] with Mark
     withServer[Assertion](buildServer()) { server =>
       val resolved = filePath(platform.encodeURI(path))
       for {
-        content <- this.platform.resolve(resolved)
+        content <- this.platform.fetchContent(resolved, AMFGraphConfiguration.predefined())
         definitions <- {
           val fileContentsStr = content.stream.toString
           val markerInfo      = this.findMarker(fileContentsStr)
 
           getAction(resolved, server, markerInfo)
         }
-      } yield {
-        assert(definitions.toSet == expectedDefinitions)
-      }
+      } yield assert(definitions.toSet == expectedDefinitions)
     }
 
   def runTestImplementations(path: String, expectedDefinitions: Set[Location]): Future[Assertion] =
     withServer[Assertion](buildServer()) { server =>
       val resolved = filePath(platform.encodeURI(path))
       for {
-        content <- this.platform.resolve(resolved)
+        content <- this.platform.fetchContent(resolved, AMFGraphConfiguration.predefined())
         definitions <- {
           val fileContentsStr = content.stream.toString
           val markerInfo      = this.findMarker(fileContentsStr)

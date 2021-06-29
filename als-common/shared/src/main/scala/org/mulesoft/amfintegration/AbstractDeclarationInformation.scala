@@ -1,14 +1,15 @@
 package org.mulesoft.amfintegration
 
-import amf.RamlProfile
-import amf.core.annotations.SourceAST
-import amf.core.errorhandling.UnhandledErrorHandler
-import amf.core.model.document.BaseUnit
-import amf.core.model.domain.DomainElement
-import amf.core.model.domain.templates.AbstractDeclaration
-import amf.plugins.domain.webapi.models.templates.{ResourceType, Trait}
-import amf.plugins.domain.webapi.resolution.ExtendsHelper
+import amf.apicontract.client.scala.model.domain.templates.{ResourceType, Trait}
+import amf.apicontract.client.scala.transform.AbstractElementTransformer
+import amf.apicontract.internal.spec.common.transformation.ExtendsHelper
+import amf.core.client.scala.errorhandling.UnhandledErrorHandler
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.model.domain.DomainElement
+import amf.core.client.scala.model.domain.templates.AbstractDeclaration
+import amf.core.internal.annotations.SourceAST
 import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.amfconfiguration.ProfileMatcher.profile
 import org.yaml.model.{YMap, YMapEntry, YNode}
 
 object AbstractDeclarationInformation {
@@ -25,19 +26,16 @@ object AbstractDeclarationInformation {
     getTarget(declaration) match {
       case r: ResourceType =>
         val resolved =
-          getSourceEntry(r, "resourceType").fold(r.asEndpoint(bu, errorHandler = LocalIgnoreErrorHandler))(e => {
-            r.entryAsEndpoint(bu,
-                              node = r.dataNode,
-                              entry = e,
-                              errorHandler = LocalIgnoreErrorHandler,
-                              annotations = r.annotations)
+          getSourceEntry(r, "resourceType").fold(
+            AbstractElementTransformer.asEndpoint(bu, r, errorHandler = LocalIgnoreErrorHandler))(e => {
+            AbstractElementTransformer.entryAsEndpoint(bu, r, r.dataNode, e, LocalIgnoreErrorHandler)
           })
         Some(ElementInfo(resolved, r, r.name.value(), r.metaURIs.head))
 
       case t: Trait =>
         val resolved =
-          getSourceEntry(t, "trait").fold(t.asOperation(bu))(e => {
-            val extendsHelper = ExtendsHelper(RamlProfile, keepEditingInfo = false, UnhandledErrorHandler)
+          getSourceEntry(t, "trait").fold(AbstractElementTransformer.asOperation(bu, t))(e => {
+            val extendsHelper = ExtendsHelper(profile(bu), keepEditingInfo = false, UnhandledErrorHandler)
             extendsHelper.parseOperation(bu, t.name.option().getOrElse(""), "AbstractDeclarationInformation", e)
           })
         Some(ElementInfo(resolved, t, t.name.value(), t.metaURIs.head))

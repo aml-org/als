@@ -1,8 +1,7 @@
 package org.mulesoft.als.suggestions.test
 
-import amf.core.model.document.BaseUnit
-import amf.internal.environment.Environment
-import org.mulesoft.amfintegration.AmfInstance
+import amf.core.client.scala.model.document.BaseUnit
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.feature.completion.CompletionItem
 import org.scalatest.{Assertion, AsyncFunSuite}
 
@@ -95,18 +94,24 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
 
   def rootPath: String
 
-  override def suggest(path: String, label: String, dialect: Option[String] = None): Future[Seq[CompletionItem]] = {
+  override def suggest(url: String,
+                       label: String,
+                       dialect: Option[String] = None,
+                       amfConfiguration: AmfConfigurationWrapper): Future[Seq[CompletionItem]] = {
     dialect match {
-      case Some(d) => platform.resolve(d).flatMap(c => super.suggest(filePath(path), label, Some(c.stream.toString)))
-      case _       => super.suggest(filePath(path), label, None)
+      case Some(d) =>
+        amfConfiguration
+          .fetchContent(d)
+          .flatMap(c => super.suggest(filePath(url), label, Some(c.stream.toString), amfConfiguration))
+      case _ => super.suggest(filePath(url), label, None, amfConfiguration)
     }
 
   }
 
   case class ModelResult(u: BaseUnit, url: String, position: Int, originalContent: Option[String])
 
-  def parseAMF(path: String, env: Environment = Environment()): Future[BaseUnit] =
-    AmfInstance.default.modelBuilder().parse(path, env, None).map(_.baseUnit)
+  def parseAMF(url: String): Future[BaseUnit] =
+    AmfConfigurationWrapper().parse(url).map(_.result.baseUnit)
 
   def filePath(path: String): String = {
     var result =

@@ -3,6 +3,7 @@ package org.mulesoft.als.suggestions
 import org.mulesoft.als.common.diff.{FileAssertionTest, ListAssertions}
 import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.als.suggestions.patcher.{ColonToken, CommaToken, ContentPatcher, PatchToken, QuoteToken}
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -69,11 +70,12 @@ class ContentPatcherTest extends AsyncFunSuite with FileAssertionTest with ListA
     assert(name, "yaml", tokenList)
 
   private def assert(name: String, syntax: String, tokenList: List[PatchToken]): Future[Assertion] = {
-    val url      = basePath + s"/$name.$syntax"
-    val expected = basePath + s"/$name.result.$syntax"
-    val s        = if (syntax == "yaml") Syntax.YAML else Syntax.JSON
+    val url              = basePath + s"/$name.$syntax"
+    val expected         = basePath + s"/$name.result.$syntax"
+    val s                = if (syntax == "yaml") Syntax.YAML else Syntax.JSON
+    val amfConfiguration = AmfConfigurationWrapper()
     for {
-      c <- platform.resolve(url)
+      c <- amfConfiguration.fetchContent(url)
       patched <- Future {
 
         val con        = c.stream.toString

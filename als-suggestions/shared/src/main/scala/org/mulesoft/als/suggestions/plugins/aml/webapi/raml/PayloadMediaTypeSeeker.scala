@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.core.metamodel.domain.ShapeModel
-import amf.core.model.domain.Shape
-import amf.plugins.domain.webapi.models.{Operation, Payload}
+import amf.apicontract.client.scala.model.domain.{Operation, Payload}
+import amf.core.client.scala.model.domain.Shape
+import amf.core.internal.metamodel.domain.ShapeModel
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 

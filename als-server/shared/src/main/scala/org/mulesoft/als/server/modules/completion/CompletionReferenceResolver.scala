@@ -1,9 +1,9 @@
 package org.mulesoft.als.server.modules.completion
 
-import amf.client.resource.ResourceNotFound
-import amf.core.model.document.BaseUnit
-import amf.internal.reference.{CachedReference, UnitCache}
-import org.mulesoft.amfintegration.AmfImplicits._
+import amf.core.client.platform.resource.ResourceNotFound
+import amf.core.client.scala.config.{CachedReference, UnitCache}
+import amf.core.client.scala.model.document.BaseUnit
+import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 
 import scala.concurrent.Future
 
@@ -15,7 +15,7 @@ case class CompletionReferenceResolver(unit: BaseUnit) extends UnitCache {
 
   override def fetch(url: String): Future[CachedReference] = {
     cache.get(url) match {
-      case Some(p) => Future.successful(CachedReference(url, p, resolved = true))
+      case Some(p) => Future.successful(CachedReference(url, p))
       case None    => Future.failed(new ResourceNotFound("Uncached ref"))
     }
   }

@@ -1,6 +1,6 @@
 package org.mulesoft.als.actions.formatting
 
-import amf.core.parser.{Range => ParserRange}
+import amf.core.client.common.position.{Range => ParserRange}
 import org.mulesoft.als.common.YamlWrapper
 import org.mulesoft.als.common.YamlWrapper.AlsInputRange
 import org.mulesoft.als.convert.LspRangeConverter

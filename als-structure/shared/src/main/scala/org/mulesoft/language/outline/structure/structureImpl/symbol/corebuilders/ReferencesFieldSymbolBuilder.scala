@@ -1,16 +1,16 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 
-import amf.core.metamodel.document.DocumentModel
-import amf.core.metamodel.domain.ShapeModel
-import amf.core.parser
-import amf.core.parser.FieldEntry
-import amf.plugins.domain.webapi.metamodel.api.WebApiModel
+import amf.apicontract.internal.metamodel.domain.api.WebApiModel
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldSymbolBuilder,
   IriFieldSymbolBuilderCompanion,
   SymbolBuilder
 }
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext, SymbolKinds}
+import amf.core.client.common.position.{Range => AmfRange}
+import amf.core.internal.metamodel.document.DocumentModel
+import amf.core.internal.metamodel.domain.ShapeModel
 
 trait IgnoreFieldSymbolBuilderCompanion extends IriFieldSymbolBuilderCompanion {
   override protected def construct(element: FieldEntry)(
@@ -26,7 +26,7 @@ object IgnoreFieldSymbolBuilder extends FieldSymbolBuilder {
   override protected val optionName: Option[String]     = None
   override protected val children: List[DocumentSymbol] = Nil
   override protected val kind: SymbolKinds.SymbolKind   = SymbolKinds.Property
-  override protected val range: Option[parser.Range]    = None
+  override protected val range: Option[AmfRange]        = None
 }
 
 object ReferencesFieldSymbolBuilderCompanion extends IgnoreFieldSymbolBuilderCompanion {

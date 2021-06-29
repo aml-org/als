@@ -1,8 +1,8 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.fragment
 
-import amf.core.model.domain.AmfObject
-import amf.core.model.domain.extensions.CustomDomainProperty
-import amf.core.remote.Vendor
+import amf.core.client.scala.model.domain.AmfObject
+import amf.core.client.scala.model.domain.extensions.CustomDomainProperty
+import amf.core.internal.remote.Spec
 import org.mulesoft.als.actions.codeactions.plugins.CodeActionKindTitle
 import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionFactory,
@@ -34,7 +34,7 @@ case class ExtractRamlDeclarationToFragmentCodeAction(params: CodeActionRequestP
   }
 
   override lazy val isApplicable: Boolean =
-    params.bu.sourceVendor.contains(Vendor.RAML10) && positionIsExtracted &&
+    params.bu.sourceSpec.contains(Spec.RAML10) && positionIsExtracted &&
       fragmentBundle.isDefined
 
   override protected def telemetry: TelemetryProvider = params.telemetryProvider

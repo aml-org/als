@@ -1,12 +1,8 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.samefile
 
-import amf.core.annotations.DeclaredElement
-import amf.core.errorhandling.UnhandledErrorHandler
-import amf.core.model.domain.{AmfObject, DomainElement, Linkable}
-import amf.core.remote.Vendor
-import amf.plugins.document.vocabularies.emitters.instances.AmlDomainElementEmitter
-import amf.plugins.document.webapi.annotations.ForceEntry
-import amf.plugins.document.webapi.parser.spec.common.emitters.WebApiDomainElementEmitter
+import amf.core.client.scala.model.domain.{AmfObject, DomainElement, Linkable}
+import amf.core.internal.annotations.DeclaredElement
+import amf.shapes.internal.annotations.ForceEntry
 import org.mulesoft.als.actions.codeactions.plugins.CodeActionKindTitle
 import org.mulesoft.als.actions.codeactions.plugins.base.{CodeActionRequestParams, CodeActionResponsePlugin}
 import org.mulesoft.als.actions.codeactions.plugins.conversions.ShapeExtractor
@@ -16,6 +12,7 @@ import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit}
 import org.mulesoft.lsp.feature.common.{Position, Range, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.{
@@ -51,17 +48,17 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with ShapeExtr
   protected def renderDeclaredEntry(amfObject: Option[AmfObject], name: String): Option[(String, Option[YMapEntry])] =
     ExtractorCommon
       .declaredEntry(amfObject,
-                     vendor,
                      params.dialect,
                      params.bu,
                      params.uri,
                      name,
                      params.configuration,
                      jsonOptions,
-                     yamlOptions)
+                     yamlOptions,
+                     params.amfConfiguration)
 
   protected lazy val homogeneousVendor: Boolean =
-    maybeTree.flatMap(_.objVendor).forall(params.bu.sourceVendor.contains)
+    maybeTree.flatMap(_.objSpec).forall(params.bu.sourceSpec.contains)
 
   override protected def task(params: CodeActionRequestParams): Future[Seq[AbstractCodeAction]] =
     linkEntry.map {
@@ -82,12 +79,7 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with ShapeExtr
             l.annotations += DeclaredElement()
           val linkDe: DomainElement = l.link(newName)
           linkDe.annotations += ForceEntry() // raml explicit types
-          if (vendor == Vendor.AML)
-            AmlDomainElementEmitter
-              .emit(linkDe, params.dialect, UnhandledErrorHandler)
-          else
-            WebApiDomainElementEmitter
-              .emit(linkDe, vendor, UnhandledErrorHandler)
+          params.amfConfiguration.emit(linkDe, params.dialect)
       }
   }
 

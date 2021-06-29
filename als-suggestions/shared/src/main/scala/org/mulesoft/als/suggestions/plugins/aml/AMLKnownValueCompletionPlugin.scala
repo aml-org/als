@@ -1,15 +1,15 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.core.metamodel.Field
-import amf.core.metamodel.Type.{ArrayLike, Scalar}
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.domain.webapi.metamodel.ResponseModel
+import amf.aml.client.scala.model.document.Dialect
+import amf.apicontract.internal.metamodel.domain.ResponseModel
+import amf.core.internal.metamodel.Field
+import amf.core.internal.metamodel.Type.{ArrayLike, Scalar}
 import org.mulesoft.als.suggestions._
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.patched.{PatchedSuggestion, PatchedSuggestionsForDialect}
-import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect
 import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect
 
 import scala.concurrent.Future
 

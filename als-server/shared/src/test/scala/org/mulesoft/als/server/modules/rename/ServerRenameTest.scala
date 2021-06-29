@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.modules.rename
 
+import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.common.MarkerFinderTest
 import org.mulesoft.als.common.diff.WorkspaceEditsTest
 import org.mulesoft.als.common.dtoTypes.Position
@@ -36,7 +37,7 @@ abstract class ServerRenameTest extends LanguageServerBaseTest with WorkspaceEdi
     var content: Option[String] = None
 
     platform
-      .resolve(original)
+      .fetchContent(original, AMFGraphConfiguration.predefined())
       .flatMap(contents => {
 
         val fileContentsStr = contents.stream.toString
@@ -46,11 +47,11 @@ abstract class ServerRenameTest extends LanguageServerBaseTest with WorkspaceEdi
 
         val filePath = s"file:///$path"
         openFile(server)(filePath, markerInfo.content)
-
-        prepareRename(server, position, filePath).flatMap { pr =>
-          assert(pr.isDefined) // check if the rename is actually valid
-          doRename(newName, server, goldenPath, content, position, filePath)
-        }
+          .flatMap(_ =>
+            prepareRename(server, position, filePath).flatMap { pr =>
+              assert(pr.isDefined) // check if the rename is actually valid
+              doRename(newName, server, goldenPath, content, position, filePath)
+          })
       })
   }
 
@@ -59,7 +60,7 @@ abstract class ServerRenameTest extends LanguageServerBaseTest with WorkspaceEdi
     var content: Option[String] = None
 
     platform
-      .resolve(original)
+      .fetchContent(original, AMFGraphConfiguration.predefined())
       .flatMap(contents => {
 
         val fileContentsStr = contents.stream.toString
@@ -69,10 +70,10 @@ abstract class ServerRenameTest extends LanguageServerBaseTest with WorkspaceEdi
 
         val filePath = s"file:///$path"
         openFile(server)(filePath, markerInfo.content)
-
-        prepareRename(server, position, filePath).flatMap { pr =>
-          assert(pr.isEmpty) // check if the rename is actually valid
-        }
+          .flatMap(_ =>
+            prepareRename(server, position, filePath).flatMap { pr =>
+              assert(pr.isEmpty) // check if the rename is actually valid
+          })
       })
   }
 
@@ -92,7 +93,7 @@ abstract class ServerRenameTest extends LanguageServerBaseTest with WorkspaceEdi
     renameHandler(RenameParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(position), newName))
       .flatMap(workspaceEdit => {
         closeFile(server)(filePath)
-        assertWorkspaceEdits(workspaceEdit, goldenPath, content)
+          .flatMap(_ => assertWorkspaceEdits(workspaceEdit, goldenPath, content))
       })
   }
 

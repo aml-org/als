@@ -1,24 +1,28 @@
 package org.mulesoft.als.server.stagingarea.parser
 
-import amf.core.unsafe.PlatformSecrets
-import amf.internal.environment.Environment
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.logger.MessageSeverity.MessageSeverity
 import org.mulesoft.als.server.modules.ast.{CHANGE_FILE, CLOSE_FILE, NotificationKind, OPEN_FILE}
 import org.mulesoft.als.server.modules.workspace.ParserStagingArea
 import org.mulesoft.als.server.textsync.EnvironmentProvider
-import org.mulesoft.amfintegration.AmfInstance
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.scalatest.{FlatSpec, Matchers}
 
 import scala.collection.mutable.ListBuffer
+import scala.concurrent.Future
 
 class ParserStagingAreaTests extends FlatSpec with Matchers {
-  private val dummyEnvironmentProvider = new EnvironmentProvider with PlatformSecrets {
-    override def environmentSnapshot(): Environment = Environment.empty()
+  private val dummyEnvironmentProvider = new EnvironmentProvider{
 
-    override val amfConfiguration: AmfInstance = AmfInstance.default
+    override val amfConfiguration: AmfConfigurationWrapper = AmfConfigurationWrapper()
 
     override def openedFiles: Seq[String] = Seq.empty
+
+    override def amfConfigurationSnapshot(): AmfConfigurationWrapper = amfConfiguration.branch
+
+    override def initialize(): Future[Unit] = {Future.successful()}
+
+    override def branch: EnvironmentProvider = ???
   }
 
   behavior of "ParserStagingArea simple file operation"

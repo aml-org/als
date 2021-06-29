@@ -1,13 +1,11 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.`trait`
 
-import amf.core.metamodel.domain.DomainElementModel
-import amf.core.metamodel.domain.templates.ParametrizedDeclarationModel
-import amf.core.model.domain.DomainElement
-import amf.core.parser.{Annotations, Fields, Link}
-import amf.core.remote.Vendor
-import amf.plugins.domain.webapi.metamodel.OperationModel
-import amf.plugins.domain.webapi.models.templates.{ParametrizedTrait, Trait}
-import amf.plugins.domain.webapi.models.{EndPoint, Operation}
+import amf.apicontract.client.scala.model.domain.Operation
+import amf.apicontract.client.scala.model.domain.templates.ParametrizedTrait
+import amf.apicontract.internal.metamodel.domain.OperationModel
+import amf.core.client.scala.model.domain.DomainElement
+import amf.core.internal.parser.domain.Annotations
+import amf.core.internal.remote.Spec
 import org.mulesoft.als.actions.codeactions.plugins.CodeActionKindTitle
 import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionFactory,
@@ -16,6 +14,7 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
 }
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.{ConverterExtractor, ExtractorCommon}
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
 class ExtractTraitCodeAction(override protected val params: CodeActionRequestParams)
@@ -32,7 +31,7 @@ class ExtractTraitCodeAction(override protected val params: CodeActionRequestPar
   override protected def newName: String = ExtractorCommon.nameNotInList("trait", params.bu.declaredNames.toSet)
 
   override val isApplicable: Boolean =
-    params.bu.sourceVendor.contains(Vendor.RAML10) && original.isDefined
+    params.bu.sourceSpec.contains(Spec.RAML10) && original.isDefined
 
   override def transform(original: Operation): Operation =
     Operation(original.fields, Annotations())
@@ -52,7 +51,7 @@ class ExtractTraitCodeAction(override protected val params: CodeActionRequestPar
     val newExtends: Seq[DomainElement] = Seq(ParametrizedTrait().withName(newName))
     result.withExtends(newExtends)
 
-    val node = ExtractorCommon.emitElement(result, vendor, params.dialect)
+    val node = params.amfConfiguration.emit(result, params.dialect)
     s"\n${renderNode(node, yPartBranch.flatMap(_.parentEntry))}\n"
   }
 

@@ -1,10 +1,9 @@
 package org.mulesoft.amfintegration.dialect.dialects.oas.nodes
 
-import amf.core.metamodel.domain.common.NameFieldSchema
-import amf.core.vocabulary.Namespace.XsdTypes.xsdString
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.metamodel.api.WebApiModel
-import amf.plugins.domain.webapi.metamodel.{EndPointModel, ServerModel}
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.apicontract.internal.metamodel.domain.{EndPointModel, ServerModel}
+import amf.apicontract.internal.metamodel.domain.api.WebApiModel
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect.OwlSameAs
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect.DialectLocation
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}

@@ -1,11 +1,11 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields
 
-import amf.core.model.domain.{AmfArray, Shape}
-import amf.core.parser.FieldEntry
-import amf.plugins.document.webapi.annotations.{BodyParameter, FormBodyParameter}
-import amf.plugins.domain.shapes.models.NodeShape
-import amf.plugins.domain.webapi.metamodel.{EndPointModel, ParametersFieldModel}
-import amf.plugins.domain.webapi.models.{Parameter, Payload}
+import amf.apicontract.client.scala.model.domain.{Parameter, Payload}
+import amf.apicontract.internal.annotations.{BodyParameter, FormBodyParameter}
+import amf.apicontract.internal.metamodel.domain.{EndPointModel, ParametersFieldModel}
+import amf.core.client.scala.model.domain.{AmfArray, Shape}
+import amf.core.internal.parser.domain.FieldEntry
+import amf.shapes.client.scala.model.domain.NodeShape
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.{

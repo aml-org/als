@@ -1,8 +1,8 @@
 package org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft7.base
 
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.shapes.internal.domain.metamodel.{AnyShapeModel, ExampleModel}
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10DialectNodes.ExampleNode
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.shapes.metamodel.{AnyShapeModel, ExampleModel}
 
 trait BaseAnyShapeNode extends BaseShapeNode {
 

@@ -1,13 +1,13 @@
 package org.mulesoft.als.suggestions.plugins.aml.metadialect
 
-import amf.core.benchmark.ExecutionLog.executionContext
-import amf.plugins.document.vocabularies.metamodel.domain.UnionNodeMappingModel
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.{NodeMappable, NodeMapping, UnionNodeMapping}
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.{NodeMappable, UnionNodeMapping}
+import amf.aml.internal.metamodel.domain.UnionNodeMappingModel
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object UnionRangeCompletionPlugin extends AMLCompletionPlugin {
@@ -17,8 +17,8 @@ object UnionRangeCompletionPlugin extends AMLCompletionPlugin {
     maybeDialect.map(dialect => {
       dialect.declares
         .flatMap {
-          case nm: NodeMappable if nm.name.value() != name => Some(nm.name.value())
-          case _                                           => None
+          case nm: NodeMappable[_] if nm.name.value() != name => Some(nm.name.value())
+          case _                                              => None
         }
         .map(RawSuggestion(_, isAKey = false))
     })

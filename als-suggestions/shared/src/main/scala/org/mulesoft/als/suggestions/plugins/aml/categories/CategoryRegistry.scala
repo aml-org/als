@@ -1,9 +1,9 @@
 package org.mulesoft.als.suggestions.plugins.aml.categories
 
-import amf.plugins.domain.shapes.metamodel.{CreativeWorkModel, XMLSerializerModel}
-import amf.plugins.domain.webapi.metamodel._
-import amf.plugins.domain.webapi.metamodel.api.{AsyncApiModel, WebApiModel}
-import amf.plugins.domain.webapi.metamodel.security.{ApiKeySettingsModel, SecuritySchemeModel, SettingsModel}
+import amf.apicontract.internal.metamodel.domain.{EndPointModel, OperationModel, OrganizationModel, ParameterModel, PayloadModel, ResponseModel}
+import amf.apicontract.internal.metamodel.domain.api.{AsyncApiModel, WebApiModel}
+import amf.apicontract.internal.metamodel.domain.security.{ApiKeySettingsModel, SecuritySchemeModel, SettingsModel}
+import amf.shapes.internal.domain.metamodel.{CreativeWorkModel, XMLSerializerModel}
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.Raml08TypesDialect
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
 

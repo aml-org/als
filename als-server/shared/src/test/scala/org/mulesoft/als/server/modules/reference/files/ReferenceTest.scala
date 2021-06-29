@@ -103,16 +103,17 @@ class ReferenceTest extends ServerReferencesTest {
   }
 
   override def getAction(path: String, server: LanguageServer, markerInfo: MarkerInfo): Future[Seq[Location]] = {
-    openFile(server)(path, markerInfo.content)
 
     val referenceHandler = server.resolveHandler(ReferenceRequestType).value
 
-    referenceHandler(
-      ReferenceParams(TextDocumentIdentifier(path),
-                      LspRangeConverter.toLspPosition(markerInfo.position),
-                      ReferenceContext(false)))
-      .map(references => {
-        references
-      })
+    openFile(server)(path, markerInfo.content).flatMap(
+      _ =>
+        referenceHandler(
+          ReferenceParams(TextDocumentIdentifier(path),
+                          LspRangeConverter.toLspPosition(markerInfo.position),
+                          ReferenceContext(false)))
+          .map(references => {
+            references
+          }))
   }
 }

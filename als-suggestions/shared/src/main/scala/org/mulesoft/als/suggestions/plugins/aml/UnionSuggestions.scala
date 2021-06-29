@@ -1,9 +1,9 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.core.model.domain.{AmfObject, DomainElement}
-import amf.plugins.document.vocabularies.annotations.FromUnionNodeMapping
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping, UnionNodeMapping}
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping, UnionNodeMapping}
+import amf.aml.internal.annotations.FromUnionNodeMapping
+import amf.core.client.scala.model.domain.{AmfObject, DomainElement}
 import org.mulesoft.als.common.YPartBranch
 
 trait UnionSuggestions {

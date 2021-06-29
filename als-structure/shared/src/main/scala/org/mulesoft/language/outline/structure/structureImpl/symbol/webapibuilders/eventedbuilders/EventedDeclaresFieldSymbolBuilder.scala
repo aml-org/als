@@ -1,9 +1,9 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.eventedbuilders
 
-import amf.core.metamodel.document.DocumentModel
-import amf.core.model.domain.{AmfArray, AmfObject}
-import amf.core.parser.FieldEntry
-import amf.plugins.domain.webapi.models.{Parameter, Request}
+import amf.apicontract.client.scala.model.domain.{Parameter, Request}
+import amf.core.client.scala.model.domain.{AmfArray, AmfObject}
+import amf.core.internal.metamodel.document.DocumentModel
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.ArrayFieldTypeSymbolBuilderCompanion
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{

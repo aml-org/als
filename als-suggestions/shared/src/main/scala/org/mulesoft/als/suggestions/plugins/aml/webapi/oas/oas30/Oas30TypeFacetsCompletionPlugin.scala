@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30
 
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.domain.shapes.metamodel.NodeShapeModel
+import amf.aml.client.scala.model.document.Dialect
+import amf.shapes.internal.domain.metamodel.NodeShapeModel
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.OasTypeFacetsCompletionPlugin

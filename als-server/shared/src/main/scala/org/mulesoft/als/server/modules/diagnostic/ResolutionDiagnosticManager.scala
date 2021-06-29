@@ -1,15 +1,14 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf._
-import amf.core.model.document.BaseUnit
-import amf.core.services.RuntimeValidator
-import amf.core.validation.AMFValidationReport
-import amf.internal.environment.Environment
+import amf.core.client.common.validation.{ProfileName, ProfileNames}
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.validation.AMFValidationReport
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.common.reconciler.Runnable
 import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.amfintegration.{AmfResolvedUnit, DiagnosticsBundle}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
@@ -20,17 +19,19 @@ import scala.util.{Failure, Success}
 class ResolutionDiagnosticManager(override protected val telemetryProvider: TelemetryProvider,
                                   override protected val clientNotifier: ClientNotifier,
                                   override protected val logger: Logger,
-                                  override protected val env: Environment,
-                                  override protected val validationGatherer: ValidationGatherer)
+                                  override protected val validationGatherer: ValidationGatherer,
+                                  override protected val amfConfiguration: AmfConfigurationWrapper)
     extends ResolvedUnitListener
     with DiagnosticManager {
   type RunType = ValidationRunnable
   override val managerName: DiagnosticManagerKind = ResolutionDiagnosticKind
-  protected override def runnable(ast: AmfResolvedUnit, uuid: String) =
-    new ValidationRunnable(ast.originalUnit.identifier, ast, uuid)
+  protected override def runnable(ast: AmfResolvedUnit, uuid: String): ValidationRunnable = {
+    logger.debug(s"Add runnable ${ast.baseUnit.identifier}", "ResolutionDiagnosticManager", "runnable")
+    new ValidationRunnable(ast.baseUnit.identifier, ast, uuid)
+  }
 
   protected override def onNewAstPreprocess(resolved: AmfResolvedUnit, uuid: String): Unit =
-    logger.debug("Got new AST:\n" + resolved.originalUnit.id, "ResolutionDiagnosticManager", "newASTAvailable")
+    logger.debug("Got new AST:\n" + resolved.baseUnit.id, "ResolutionDiagnosticManager", "newASTAvailable")
 
   protected override def onFailure(uuid: String, uri: String, exception: Throwable): Unit = {
     logger.error(s"Error on validation: ${exception.toString}", "ResolutionDiagnosticManager", "newASTAvailable")
@@ -46,14 +47,14 @@ class ResolutionDiagnosticManager(override protected val telemetryProvider: Tele
                                      uuid: String): Future[Unit] = {
     val startTime = System.currentTimeMillis()
 
-    val profile = profileName(resolved.originalUnit)
+    val profile = profileName(resolved.baseUnit)
     this
       .report(uri, telemetryProvider, resolved, uuid, profile)
       .map(report => {
         val endTime = System.currentTimeMillis()
         validationGatherer
-          .indexNewReport(ErrorsWithTree(uri, report.results, Some(tree(resolved.originalUnit))), managerName, uuid)
-        notifyReport(uri, resolved.originalUnit, references, managerName, profile)
+          .indexNewReport(ErrorsWithTree(uri, report.results, Some(tree(resolved.baseUnit))), managerName, uuid)
+        notifyReport(uri, resolved.baseUnit, references, managerName, profile)
 
         this.logger.debug(s"It took ${endTime - startTime} milliseconds to validate",
                           "ResolutionDiagnosticManager",
@@ -91,17 +92,17 @@ class ResolutionDiagnosticManager(override protected val telemetryProvider: Tele
     try {
       resolved.getLast.flatMap { r =>
         r.resolvedUnit
-          .flatMap(RuntimeValidator(_, profile, resolved = true, env = env))
+          .flatMap(r.amfConfiguration.report)
           .map { vr =>
-            AMFValidationReport(vr.conforms, vr.model, vr.profile, vr.results ++ r.eh.getErrors)
+            AMFValidationReport(vr.model, vr.profile, vr.results ++ r.eh.getResults)
           }
       } recoverWith {
         case e: Exception =>
-          sendFailedClone(uri, telemetryProvider, resolved.originalUnit, uuid, e.getMessage)
+          sendFailedClone(uri, telemetryProvider, resolved.baseUnit, uuid, e.getMessage)
       }
     } catch {
       case e: Exception =>
-        sendFailedClone(uri, telemetryProvider, resolved.originalUnit, uuid, e.getMessage)
+        sendFailedClone(uri, telemetryProvider, resolved.baseUnit, uuid, e.getMessage)
     }
 
   override def onRemoveFile(uri: String): Unit = {
@@ -117,8 +118,10 @@ class ResolutionDiagnosticManager(override protected val telemetryProvider: Tele
     def run(): Promise[Unit] = {
       val promise = Promise[Unit]()
 
-      def innerRunGather() =
-        gatherValidationErrors(ast.originalUnit.identifier, ast, ast.diagnosticsBundle, uuid) andThen {
+      logger.debug("Running", "ResolutionDiagnosticManager", "run")
+
+      def innerRunGather(): Future[Unit] =
+        gatherValidationErrors(ast.baseUnit.identifier, ast, ast.diagnosticsBundle, uuid) andThen {
           case Success(report) => promise.success(report)
 
           case Failure(error) => promise.failure(error)
@@ -142,7 +145,7 @@ class ResolutionDiagnosticManager(override protected val telemetryProvider: Tele
         .asInstanceOf[ValidationRunnable]
         .uri
 
-    def cancel() {
+    def cancel(): Unit = {
       canceled = true
     }
 

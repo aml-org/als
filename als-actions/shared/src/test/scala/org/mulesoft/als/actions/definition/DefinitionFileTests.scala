@@ -1,6 +1,6 @@
 package org.mulesoft.als.actions.definition
 
-import amf.core.unsafe.PlatformSecrets
+import amf.core.internal.unsafe.PlatformSecrets
 import org.scalatest.{AsyncFlatSpec, Matchers}
 
 import scala.concurrent.ExecutionContext

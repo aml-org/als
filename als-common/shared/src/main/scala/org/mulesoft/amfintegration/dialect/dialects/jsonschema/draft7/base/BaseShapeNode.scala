@@ -1,9 +1,9 @@
 package org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft7.base
 
-import amf.core.metamodel.domain.ShapeModel
-import amf.core.metamodel.domain.extensions.PropertyShapeModel
-import amf.core.vocabulary.Namespace.XsdTypes.{xsdAnyType, _}
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{amlAnyNode, xsdAnyType, xsdBoolean, xsdString}
+import amf.core.internal.metamodel.domain.ShapeModel
+import amf.core.internal.metamodel.domain.extensions.PropertyShapeModel
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 trait BaseShapeNode extends DialectNode{

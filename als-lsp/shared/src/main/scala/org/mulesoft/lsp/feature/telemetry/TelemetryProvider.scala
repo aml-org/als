@@ -1,9 +1,8 @@
 package org.mulesoft.lsp.feature.telemetry
 
-import java.util.UUID
-
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 
+import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 

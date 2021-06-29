@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.async.structure
 
-import amf.plugins.domain.webapi.models.Response
+import amf.apicontract.client.scala.model.domain.Response
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.ResolveIfApplies

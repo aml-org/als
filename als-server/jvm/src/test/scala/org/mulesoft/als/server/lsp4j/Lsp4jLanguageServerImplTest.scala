@@ -1,11 +1,10 @@
 package org.mulesoft.als.server.lsp4j
 
+import amf.core.internal.remote.Platform
+
 import java.io._
 import java.util
-
-import amf.core.unsafe.PlatformSecrets
-import amf.internal.environment.Environment
-import amf.plugins.document.vocabularies.AMLPlugin
+import amf.core.internal.unsafe.PlatformSecrets
 import com.google.gson.{Gson, GsonBuilder}
 import org.eclipse.lsp4j.ExecuteCommandParams
 import org.mulesoft.als.server._
@@ -18,7 +17,7 @@ import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.als.server.workspace.command.{CommandExecutor, Commands, DidChangeConfigurationCommandExecutor}
-import org.mulesoft.amfintegration.AmfInstance
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 import org.mulesoft.lsp.textsync.DidChangeConfigurationNotificationParams
@@ -67,7 +66,8 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
     server.initialize(null).toScala.map(_ => succeed)
   }
 
-  test("Lsp4j LanguageServerImpl Command - Index Dialect") {
+  // todo: enable test after APIMF-3305 is adopted
+  ignore("Lsp4j LanguageServerImpl Command - Index Dialect") {
     def wrapJson(file: String, content: String, gson: Gson): String =
       s"""{"uri": "$file", "content": ${gson.toJson(content)}}"""
 
@@ -82,8 +82,8 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
         })
 
     }
-    val amfInstance = AmfInstance.default
-    withServer(buildServer(amfInstance)) { s =>
+    val wM = buildWorkspaceManager
+    withServer(buildServer(wM)) { s =>
       val server       = new LanguageServerImpl(s)
       val mainFilePath = s"file://api.raml"
 
@@ -121,10 +121,7 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
         _ <- executeCommandIndexDialect(server)(mainFilePath, mainContent)
       } yield {
         server.shutdown()
-        assert(amfInstance.alsAmlPlugin.registry.findDialectForHeader("%Test0.1").isDefined)
-        assert(AMLPlugin().registry.findDialectForHeader("%Test0.1").isDefined)
-        assert(AMLPlugin.registry.findDialectForHeader("%Test0.1").isEmpty)
-
+        assert(wM.getConfig.definitionsFor("Test0.1").isDefined)
       }
     }
   }
@@ -155,12 +152,19 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
     val p = platform
     class TestWorkspaceManager
         extends WorkspaceManager(
-          new EnvironmentProvider with PlatformSecrets {
-            override def environmentSnapshot(): Environment = Environment()
+          new EnvironmentProvider {
 
-            override val amfConfiguration: AmfInstance = AmfInstance.default
+            override def branch: EnvironmentProvider = ???
+
+            override val amfConfiguration: AmfConfigurationWrapper = AmfConfigurationWrapper()
 
             override def openedFiles: Seq[String] = Seq.empty
+
+            override def amfConfigurationSnapshot(): AmfConfigurationWrapper = amfConfiguration
+
+            override def initialize(): Future[Unit] = Future.unit
+
+            override def platform: Platform = p
           },
           new DummyTelemetryProvider(),
           Nil,
@@ -189,9 +193,11 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
 
   }
 
-  def buildServer(amfInstance: AmfInstance = AmfInstance.default): LanguageServer = {
-    val builder =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).withAmfConfiguration(amfInstance)
+  def buildServer(): LanguageServer = buildServer(buildWorkspaceManager)
+
+  def buildWorkspaceManager = new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
+
+  def buildServer(builder: WorkspaceManagerFactoryBuilder): LanguageServer = {
 
     val dm       = builder.diagnosticManager()
     val managers = builder.buildWorkspaceManagerFactory()

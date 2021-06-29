@@ -1,9 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.async.bindings
 
-import amf.core.annotations.SynthesizedField
-import amf.plugins.domain.webapi.metamodel.bindings.Amqp091ChannelBindingModel
-import amf.plugins.domain.webapi.models.bindings.amqp.Amqp091ChannelBinding
-import org.mulesoft.als.common.YPartBranch
+import amf.apicontract.client.scala.model.domain.bindings.amqp.Amqp091ChannelBinding
+import amf.apicontract.internal.metamodel.domain.bindings.Amqp091ChannelBindingModel
+import amf.core.internal.annotations.SynthesizedField
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin

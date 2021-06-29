@@ -1,9 +1,9 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields
 
-import amf.core.model.domain.AmfArray
-import amf.core.parser.{FieldEntry, Range}
-import amf.plugins.domain.webapi.metamodel.OperationModel
-import amf.plugins.domain.webapi.models.Request
+import amf.apicontract.client.scala.model.domain.Request
+import amf.apicontract.internal.metamodel.domain.OperationModel
+import amf.core.client.scala.model.domain.AmfArray
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.ArrayFieldTypeSymbolBuilderCompanion
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
@@ -11,6 +11,7 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   IriFieldSymbolBuilderCompanion
 }
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
+import amf.core.client.common.position.{Range => AmfRange}
 
 class RequestArrayFieldSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
     override implicit val ctx: StructureContext)
@@ -21,7 +22,7 @@ class RequestArrayFieldSymbolBuilder(override val value: AmfArray, override val 
   override protected val children: List[DocumentSymbol] =
     first.flatMap(o => ctx.factory.builderFor(o).map(_.build())).getOrElse(Nil).toList
 
-  override protected val range: Option[Range] = first.flatMap(_.annotations.range())
+  override protected val range: Option[AmfRange] = first.flatMap(_.annotations.range())
 }
 
 object RequestArrayFieldSymbolBuilderCompanion

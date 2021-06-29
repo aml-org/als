@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.core.model.document.Fragment
-import amf.core.model.domain.templates.AbstractDeclaration
-import amf.plugins.domain.webapi.metamodel.{EndPointModel, OperationModel}
+import amf.apicontract.internal.metamodel.domain.{EndPointModel, OperationModel}
+import amf.core.client.scala.model.document.Fragment
+import amf.core.client.scala.model.domain.templates.AbstractDeclaration
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.{AmlCompletionRequest, AmlCompletionRequestBuilder}
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin

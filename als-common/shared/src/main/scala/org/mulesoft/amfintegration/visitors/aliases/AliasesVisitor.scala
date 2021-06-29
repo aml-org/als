@@ -1,14 +1,16 @@
 package org.mulesoft.amfintegration.visitors.aliases
 
-import amf.core.annotations.Aliases
-import amf.core.model.document.BaseUnit
-import amf.core.model.domain.AmfElement
-import org.mulesoft.amfintegration.AmfImplicits._
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.model.domain.AmfElement
+import amf.core.internal.annotations.Aliases
+import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.amfintegration.relationships.AliasInfo
 import org.mulesoft.amfintegration.visitors.AmfElementVisitorFactory
 import org.mulesoft.lsp.feature.common.{Location, Position, Range}
+import amf.core.client.common.position.{Range => AmfRange}
+
 class AliasesVisitor extends AliasesVisitorType {
-  private def parserToDtoRange(core: amf.core.parser.Range): Range =
+  private def parserToDtoRange(core: AmfRange): Range =
     Range(Position(core.start.line - 1, core.start.column), Position(core.end.line - 1, core.end.column))
 
   override protected def innerVisit(element: AmfElement): Seq[AliasInfo] = {

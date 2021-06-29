@@ -1,11 +1,14 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.async.bindings
 
-import amf.core.model.domain.AmfObject
-import amf.plugins.domain.webapi.metamodel.bindings.BindingType
-import amf.plugins.domain.webapi.models.bindings.{ChannelBindings, MessageBindings, OperationBindings, ServerBindings}
+import amf.apicontract.client.scala.model.domain.bindings.{
+  ChannelBindings,
+  MessageBindings,
+  OperationBindings,
+  ServerBindings
+}
+import amf.core.client.scala.model.domain.AmfObject
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
-import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.{AMLEnumCompletionPlugin, EnumSuggestions}
+import org.mulesoft.als.suggestions.plugins.aml.EnumSuggestions
 import org.mulesoft.als.suggestions.plugins.aml.webapi.ExceptionPlugin
 import org.mulesoft.als.suggestions.{ObjectRange, RawSuggestion}
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.DynamicBindingObjectNode

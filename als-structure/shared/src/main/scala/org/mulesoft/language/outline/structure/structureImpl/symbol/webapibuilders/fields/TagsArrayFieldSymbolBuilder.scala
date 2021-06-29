@@ -1,8 +1,8 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields
 
-import amf.core.model.domain.AmfArray
-import amf.core.parser.FieldEntry
-import amf.plugins.domain.webapi.metamodel.TagsModel
+import amf.apicontract.internal.metamodel.domain.TagsModel
+import amf.core.client.scala.model.domain.AmfArray
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.ArrayFieldTypeSymbolBuilderCompanion
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldTypeSymbolBuilder,

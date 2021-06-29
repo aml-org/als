@@ -1,8 +1,8 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.amlbuilders
 
-import amf.core.model.domain.AmfElement
-import amf.plugins.document.vocabularies.metamodel.domain.DocumentsModelModel
-import amf.plugins.document.vocabularies.model.domain.DocumentsModel
+import amf.aml.client.scala.model.domain.DocumentsModel
+import amf.aml.internal.metamodel.domain.DocumentsModelModel
+import amf.core.client.scala.model.domain.AmfElement
 import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSimpleBuilderCompanion,

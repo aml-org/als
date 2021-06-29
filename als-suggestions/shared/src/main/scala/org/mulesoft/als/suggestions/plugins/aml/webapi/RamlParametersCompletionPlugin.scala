@@ -1,14 +1,10 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi
 
-import amf.core.annotations.SynthesizedField
-import amf.core.metamodel.domain.ShapeModel
-import amf.core.model.domain.Shape
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.models.Parameter
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.apicontract.client.scala.model.domain.Parameter
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
 
 import scala.concurrent.ExecutionContext.Implicits.global

@@ -1,11 +1,10 @@
 package org.mulesoft.als.actions.folding
 
-import amf.client.remote.Content
-import amf.core.unsafe.PlatformSecrets
-import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
-import org.mulesoft.amfintegration.AmfInstance
-import org.mulesoft.amfintegration.AmfImplicits._
+import amf.core.client.common.remote.Content
+import amf.core.client.scala.resource.ResourceLoader
+import amf.core.internal.unsafe.PlatformSecrets
+import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.feature.folding.FoldingRange
 import org.scalatest.{AsyncFlatSpec, Matchers}
 
@@ -238,15 +237,11 @@ class FoldingRangesTests extends AsyncFlatSpec with Matchers with PlatformSecret
         files.keySet.contains(resource)
     }
 
-    val env: Environment = Environment().add(resourceLoader)
-
-    val instance = new AmfInstance(Nil, platform, env)
-    val amfInit  = instance.init()
+    val amfConfiguration = AmfConfigurationWrapper(Seq(resourceLoader))
     for {
-      _ <- amfInit
-      result <- instance
+      result <- amfConfiguration
         .parse(testUri)
-        .map(_.baseUnit)
+        .map(_.result.baseUnit)
         .map(_.objWithAST.flatMap(_.annotations.ast()))
         .map(_.map(FileRanges.ranges)
           .getOrElse(Seq.empty))

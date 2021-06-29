@@ -1,10 +1,10 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema
 
-import amf.core.metamodel.domain.ShapeModel
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdString}
+import amf.core.internal.metamodel.domain.ShapeModel
+import amf.shapes.internal.domain.metamodel.{AnyShapeModel, NodeShapeModel, ScalarShapeModel}
 import org.mulesoft.amfintegration.dialect.dialects.dialects.dialectLocation
-import amf.core.vocabulary.Namespace.XsdTypes.{xsdBoolean, _}
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.shapes.metamodel.{AnyShapeModel, NodeShapeModel, ScalarShapeModel}
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft7.base._
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.AMLExternalDocumentationObject
 

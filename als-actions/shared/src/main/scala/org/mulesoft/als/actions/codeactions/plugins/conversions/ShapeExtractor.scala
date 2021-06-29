@@ -1,21 +1,11 @@
 package org.mulesoft.als.actions.codeactions.plugins.conversions
 
-import amf.ProfileNames
-import amf.core.errorhandling.ErrorHandler
-import amf.core.metamodel.document.FragmentModel
-import amf.core.model.domain.{AmfObject, Shape}
-import amf.plugins.document.webapi.annotations.{ParsedJSONSchema, SchemaIsJsonSchema}
-import amf.plugins.domain.shapes.models.AnyShape
-import amf.plugins.domain.shapes.resolution.stages.elements.CompleteShapeTransformationPipeline
-import org.mulesoft.als.actions.codeactions.plugins.declarations.common.{
-  BaseElementDeclarableExtractors,
-  FileExtractor
-}
+import amf.core.client.scala.model.domain.{AmfObject, Shape}
+import amf.shapes.client.scala.model.domain.AnyShape
+import amf.shapes.internal.annotations.{ParsedJSONSchema, SchemaIsJsonSchema}
+import org.mulesoft.als.actions.codeactions.plugins.declarations.common.BaseElementDeclarableExtractors
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
-import org.mulesoft.amfintegration.LocalIgnoreErrorHandler
-
-import scala.collection.mutable
 
 trait ShapeExtractor extends BaseElementDeclarableExtractors {
 

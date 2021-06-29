@@ -1,18 +1,18 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields
 
-import amf.core.model.domain.AmfArray
-import amf.core.parser
-import amf.core.parser.FieldEntry
-import amf.plugins.domain.shapes.metamodel.ExampleModel
-import amf.plugins.domain.shapes.metamodel.common.ExamplesField
-import amf.plugins.domain.shapes.models.Example
-import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
+import amf.core.client.scala.model.domain.AmfArray
+import amf.core.internal.parser.domain.FieldEntry
+import amf.shapes.internal.domain.metamodel.ExampleModel
 import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.ArrayFieldTypeSymbolBuilderCompanion
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldTypeSymbolBuilder,
   IriFieldSymbolBuilderCompanion
 }
+import amf.core.client.common.position.{Range => AmfRange}
+import amf.shapes.client.scala.model.domain.Example
+import amf.shapes.internal.domain.metamodel.common.ExamplesField
+import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 
 case class ExampleArrayFieldBuilder(override val value: AmfArray, override val element: FieldEntry)(
     override implicit val ctx: StructureContext)
@@ -20,7 +20,7 @@ case class ExampleArrayFieldBuilder(override val value: AmfArray, override val e
 
   override protected val name: String = if (isSingleExample(element)) "example" else "examples"
 
-  override protected def range: Option[parser.Range] =
+  override protected def range: Option[AmfRange] =
     super.range.orElse(value.values.headOption.flatMap(_.annotations.range()))
 
   private def isSingleExample(fe: FieldEntry) = fe.array.values.exists {

@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.modules.actions.rename
 
-import amf.core.remote.Platform
+import amf.core.internal.remote.Platform
 import org.mulesoft.als.actions.definition.FindDefinition
 import org.mulesoft.als.actions.rename.FindRenameLocations
 import org.mulesoft.als.actions.renamefile.RenameFileAction

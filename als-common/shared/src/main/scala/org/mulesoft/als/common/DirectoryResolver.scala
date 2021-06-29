@@ -1,6 +1,6 @@
 package org.mulesoft.als.common
 
-import amf.core.remote.File
+import amf.core.internal.remote.File
 
 import scala.concurrent.Future
 

@@ -1,6 +1,6 @@
 package org.mulesoft.language.outline.structure.structureImpl.companion
-import amf.core.model.domain.AmfObject
-import org.mulesoft.amfintegration.AmfImplicits._
+import amf.core.client.scala.model.domain.AmfObject
+import org.mulesoft.amfintegration.AmfImplicits.AmfObjectImp
 import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSimpleBuilderCompanion,

@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30
 
-import amf.plugins.domain.webapi.metamodel.security.OAuth2FlowModel
+import amf.apicontract.internal.metamodel.domain.security.OAuth2FlowModel
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin

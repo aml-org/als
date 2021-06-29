@@ -1,9 +1,9 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf.ProfileName
-import amf.core.annotations.LexicalInformation
-import amf.core.validation.AMFValidationResult
-import amf.plugins.features.validation.CoreValidations
+import amf.core.client.common.validation.ProfileName
+import amf.core.client.scala.validation.AMFValidationResult
+import amf.core.internal.annotations.LexicalInformation
+import amf.core.internal.validation.CoreValidations
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.DiagnosticsBundle

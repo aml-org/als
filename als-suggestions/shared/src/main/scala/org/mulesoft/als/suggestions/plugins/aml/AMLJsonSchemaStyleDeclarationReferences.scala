@@ -1,10 +1,9 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.core.annotations.ErrorDeclaration
-import amf.core.metamodel.domain.ShapeModel
-import amf.plugins.document.vocabularies.plugin.ReferenceStyles
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.NodeMapping
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.NodeMapping
+import amf.core.internal.annotations.ErrorDeclaration
+import amf.core.internal.metamodel.domain.ShapeModel
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import org.mulesoft.als.common.SemanticNamedElement._
 import org.mulesoft.als.common.YPartBranch

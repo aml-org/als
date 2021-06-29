@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi
 
-import amf.core.model.domain.{AmfObject, Shape}
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.domain.webapi.models.Parameter
+import amf.aml.client.scala.model.document.Dialect
+import amf.apicontract.client.scala.model.domain.Parameter
+import amf.core.client.scala.model.domain.{AmfObject, Shape}
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.plugins.NonPatchHacks
 import org.mulesoft.amfintegration.dialect.DialectKnowledge

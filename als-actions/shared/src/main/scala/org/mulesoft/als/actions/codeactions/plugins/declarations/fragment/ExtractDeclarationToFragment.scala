@@ -1,10 +1,10 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.fragment
 
-import amf.core.model.document.Fragment
-import amf.core.model.domain.DomainElement
-import amf.core.parser.Annotations
-import amf.core.remote.{Mimes, Vendor}
-import amf.plugins.document.webapi.annotations.ForceEntry
+import amf.core.client.scala.model.document.Fragment
+import amf.core.client.scala.model.domain.DomainElement
+import amf.core.internal.parser.domain.Annotations
+import amf.core.internal.remote.Mimes
+import amf.shapes.internal.annotations.ForceEntry
 import org.mulesoft.als.actions.codeactions.plugins.CodeActionKindTitle
 import org.mulesoft.als.actions.codeactions.plugins.base.{CodeActionRequestParams, CodeActionResponsePlugin}
 import org.mulesoft.als.actions.codeactions.plugins.conversions.ShapeExtractor
@@ -34,21 +34,16 @@ trait ExtractDeclarationToFragment extends CodeActionResponsePlugin with FileExt
   protected def externalFragment(de: DomainElement): Future[Fragment] =
     wholeUri.map(fragmentBundle.get.fragment.withEncodes(de).withLocation(_)) // if fragmentBundle is not defined, it shouldnt have reach this code
 
-  protected def externalFragmentRendered(ef: Fragment): Future[String] =
-    params.amfInstance
-      .modelBuilder()
-      .serialize(vendor.name, getSyntax, ef)
+  protected def externalFragmentRendered(ef: Fragment): String =
+    params.amfConfiguration
+      .serialize(spec, getSyntax, ef)
 
   private def getSyntax: String =
-    if (yPartBranch.exists(_.isJson))
-      Mimes.`APPLICATION/JSON`
-    else Mimes.`APPLICATION/YAML`
+    if (yPartBranch.exists(_.isJson)) Mimes.`application/json`
+    else Mimes.`application/yaml`
 
   private def externalFragmentTextEdit(ef: Fragment): Future[(String, TextEdit)] =
-    for {
-      r   <- externalFragmentRendered(ef)
-      uri <- wholeUri
-    } yield (uri, TextEdit(Range(Position(0, 0), Position(0, 0)), r))
+    wholeUri.map(uri => (uri, TextEdit(Range(Position(0, 0), Position(0, 0)), externalFragmentRendered(ef))))
 
   override protected def task(params: CodeActionRequestParams): Future[Seq[AbstractCodeAction]] =
     linkEntry.flatMap { mle =>

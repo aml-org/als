@@ -1,5 +1,6 @@
 package org.mulesoft.als.server
 
+import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.common.{MarkerFinderTest, MarkerInfo}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.scalatest.BeforeAndAfterEach
@@ -21,20 +22,22 @@ abstract class ServerWithMarkerTest[Out] extends LanguageServerBaseTest with Bef
 
       for {
         _       <- dialect.map(openDialect(_, server)).getOrElse(Future.unit)
-        content <- this.platform.resolve(resolved)
+        content <- this.platform.fetchContent(resolved, AMFGraphConfiguration.predefined())
         definitions <- {
           val fileContentsStr = content.stream.toString
           val markersInfo     = this.findMarkers(fileContentsStr)
           markersInfo.headOption
             .map(markerInfo => {
               openFile(server)(resolved, markerInfo.content)
-              notifier.nextCall.flatMap(_ => {
-                val result = Future.sequence(markersInfo.map(markerInfo => {
-                  getAction(resolved, server, markerInfo)
-                }))
-                result.foreach(_ => closeFile(server)(path))
-                result
-              })
+                .flatMap(_ =>
+                  notifier.nextCall.flatMap(_ => {
+                    val result = Future.sequence(markersInfo.map(markerInfo => {
+                      getAction(resolved, server, markerInfo)
+                    }))
+                    result
+                      .flatMap(_ => closeFile(server)(path))
+                      .flatMap(_ => result)
+                  }))
             })
             .getOrElse(Future.successful(Seq.empty))
         }
@@ -43,7 +46,9 @@ abstract class ServerWithMarkerTest[Out] extends LanguageServerBaseTest with Bef
 
   private def openDialect(path: String, server: LanguageServer): Future[Unit] = {
     val resolved = filePath(platform.encodeURI(path))
-    this.platform.resolve(resolved).map(c => openFile(server)(resolved, c.stream.toString))
+    this.platform
+      .fetchContent(resolved, AMFGraphConfiguration.predefined())
+      .flatMap(c => openFile(server)(resolved, c.stream.toString))
   }
 
   def getAction(path: String, server: LanguageServer, markerInfo: MarkerInfo): Future[Out]

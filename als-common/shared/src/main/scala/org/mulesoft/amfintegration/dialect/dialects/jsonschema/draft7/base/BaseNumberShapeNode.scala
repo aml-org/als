@@ -1,8 +1,8 @@
 package org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft7.base
 
-import amf.core.vocabulary.Namespace.XsdTypes.{xsdFloat, xsdInteger}
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.shapes.metamodel.ScalarShapeModel
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdFloat, xsdInteger}
+import amf.shapes.internal.domain.metamodel.ScalarShapeModel
 
 trait BaseNumberShapeNode extends BaseAnyShapeNode {
 

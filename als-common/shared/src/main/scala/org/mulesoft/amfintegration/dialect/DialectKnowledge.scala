@@ -1,6 +1,6 @@
 package org.mulesoft.amfintegration.dialect
 
-import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.aml.client.scala.model.document.Dialect
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import org.mulesoft.als.common.YPartBranch
 

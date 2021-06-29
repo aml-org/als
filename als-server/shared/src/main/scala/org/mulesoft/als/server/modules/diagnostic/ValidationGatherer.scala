@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf.core.validation.AMFValidationResult
-import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
+import amf.core.client.scala.validation.AMFValidationResult
+import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
 import scala.collection.mutable
 import scala.scalajs.js.annotation.JSExport

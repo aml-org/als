@@ -1,8 +1,8 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20
 
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.shapes.metamodel.ExampleModel
-import amf.plugins.domain.webapi.metamodel.MessageModel
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.apicontract.internal.metamodel.domain.MessageModel
+import amf.shapes.internal.domain.metamodel.ExampleModel
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 class AsyncMessageExampleNode extends DialectNode {

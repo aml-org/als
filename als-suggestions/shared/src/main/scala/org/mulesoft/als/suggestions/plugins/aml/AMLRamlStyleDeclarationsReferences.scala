@@ -1,9 +1,9 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.core.metamodel.domain.DomainElementModel
-import amf.core.parser.FieldEntry
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.core.internal.metamodel.domain.DomainElementModel
+import amf.core.internal.parser.domain.FieldEntry
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import org.mulesoft.als.common.SemanticNamedElement._
 import org.mulesoft.als.suggestions.RawSuggestion
