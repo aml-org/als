@@ -1,8 +1,9 @@
 package org.mulesoft.als.server
 
-import amf.client.convert.ClientPayloadPluginConverter
-import amf.client.plugins.ClientAMFPayloadValidationPlugin
-import amf.client.resource.ClientResourceLoader
+import amf.core.client.platform.resource.ClientResourceLoader
+import amf.core.client.platform.validation.payload.{AMFPayloadValidationPluginConverter, JsAMFPayloadValidationPlugin}
+import amf.core.client.scala.validation.payload.AMFShapePayloadValidationPlugin
+import amf.core.internal.convert.PayloadValidationPluginConverter.PayloadValidationPluginMatcher.asInternal
 import org.mulesoft.als.configuration.{
   ClientDirectoryResolver,
   DefaultJsServerSystemConf,
@@ -14,9 +15,9 @@ import org.mulesoft.als.server.logger.PrintLnLogger
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticNotificationsKind
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.amfintegration.AmfInstance
 import org.yaml.builder.{DocBuilder, JsOutputBuilder}
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
 import scala.scalajs.js.UndefOr
 import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
@@ -32,7 +33,7 @@ object LanguageServerFactory {
                   logger: js.UndefOr[ClientLogger] = js.undefined,
                   withDiagnostics: Boolean = true,
                   notificationKind: js.UndefOr[DiagnosticNotificationsKind] = js.undefined,
-                  amfPlugins: js.Array[ClientAMFPayloadValidationPlugin] = js.Array.apply()): LanguageServer = {
+                  amfPlugins: js.Array[JsAMFPayloadValidationPlugin] = js.Array.apply()): LanguageServer = {
     fromSystemConfig(clientNotifier,
                      serializationProps,
                      JsServerSystemConf(clientLoaders, clientDirResolver),
@@ -45,18 +46,20 @@ object LanguageServerFactory {
   def fromSystemConfig(clientNotifier: ClientNotifier,
                        serialization: JsSerializationProps,
                        jsServerSystemConf: JsServerSystemConf = DefaultJsServerSystemConf,
-                       plugins: js.Array[ClientAMFPayloadValidationPlugin] = js.Array(),
+                       plugins: js.Array[JsAMFPayloadValidationPlugin] = js.Array(),
                        logger: js.UndefOr[ClientLogger] = js.undefined,
                        withDiagnostics: Boolean = true,
                        notificationKind: js.UndefOr[DiagnosticNotificationsKind] = js.undefined): LanguageServer = {
 
+    val scalaPlugins: Seq[AMFShapePayloadValidationPlugin] =
+      plugins
+        .map(AMFPayloadValidationPluginConverter.toAMF)
+        .map(asInternal)
+
+    jsServerSystemConf.amfConfiguration.withValidators(scalaPlugins)
     val factory =
-      new WorkspaceManagerFactoryBuilder(clientNotifier, sharedLogger(logger), jsServerSystemConf.environment)
-        .withAmfConfiguration(
-          new AmfInstance(plugins.toSeq.map(ClientPayloadPluginConverter.convert),
-                          jsServerSystemConf.platform,
-                          jsServerSystemConf.environment))
-        .withPlatform(jsServerSystemConf.platform)
+      new WorkspaceManagerFactoryBuilder(clientNotifier, sharedLogger(logger))
+        .withAmfConfiguration(jsServerSystemConf.amfConfiguration)
         .withDirectoryResolver(jsServerSystemConf.directoryResolver)
 
     notificationKind.toOption.foreach(factory.withNotificationKind)

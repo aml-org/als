@@ -1,15 +1,14 @@
 package org.mulesoft.als.server.workspace
 
-import amf.client.parse.DefaultErrorHandler
-import amf.client.remote.Content
-import amf.core.model.document.BaseUnit
-import amf.core.unsafe.PlatformSecrets
-import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
+import amf.core.client.common.remote.Content
+import amf.core.client.scala.AMFResult
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.resource.ResourceLoader
+import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.server.logger.EmptyLogger
 import org.mulesoft.als.server.modules.workspace.{ParsedUnit, WorkspaceParserRepository}
+import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, AmfParseResult}
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
-import org.mulesoft.amfintegration.{AmfInstance, AmfParseResult}
 import org.scalatest.{AsyncFunSuite, Matchers}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -18,7 +17,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class WorkspaceParserRepositoryTest extends AsyncFunSuite with Matchers with PlatformSecrets {
   override val executionContext: ExecutionContext = scala.concurrent.ExecutionContext.Implicits.global
 
-  val amfConfig: AmfInstance = AmfInstance.default
+  val amfConfig: AmfConfigurationWrapper = AmfConfigurationWrapper()
   test("Basic repository test") {
 
     val cachable: MockFile = MockFile("file://fakeURI/ws/cachable.raml",
@@ -42,10 +41,10 @@ class WorkspaceParserRepositoryTest extends AsyncFunSuite with Matchers with Pla
     repository.map(r => {
       val apiPU       = getParsedUnitOrFail(r, api.uri)
       val cacheablePU = getParsedUnitOrFail(r, cachable.uri)
-      assert(apiPU.bu.id == api.uri)
-      assert(getLocationOrFail(apiPU.bu) == api.uri)
-      assert(cacheablePU.bu.id == cachable.uri)
-      assert(getLocationOrFail(cacheablePU.bu) == cachable.uri)
+      assert(apiPU.parsedResult.result.baseUnit.id == api.uri)
+      assert(getLocationOrFail(apiPU.parsedResult.result.baseUnit) == api.uri)
+      assert(cacheablePU.parsedResult.result.baseUnit.id == cachable.uri)
+      assert(getLocationOrFail(cacheablePU.parsedResult.result.baseUnit) == cachable.uri)
     })
   }
 
@@ -84,12 +83,14 @@ class WorkspaceParserRepositoryTest extends AsyncFunSuite with Matchers with Pla
     val repository: Future[WorkspaceParserRepository] = makeRepository(Set(api, traitMF))
     repository.map(r => {
       val apiPU: ParsedUnit = getParsedUnitOrFail(r, api.uri)
-      val moddedBU          = apiPU.bu.cloneUnit()
-      moddedBU.withLocation("file://newLocation/api.raml")
-      r.updateUnit(new AmfParseResult(moddedBU, new DefaultErrorHandler, ExternalFragmentDialect(), None))
+      val moddedBU: AMFResult =
+        AMFResult(apiPU.parsedResult.result.baseUnit.cloneUnit().withLocation("file://newLocation/api.raml"),
+                  apiPU.parsedResult.result.results) // this `result.result.results` looks hideous, i know
+
+      r.updateUnit(new AmfParseResult(moddedBU, ExternalFragmentDialect(), r.amfConfiguration))
       val moddedPU = getParsedUnitOrFail(r, "file://newLocation/api.raml")
-      assert(moddedPU.bu.id == apiPU.bu.id) // Same id, but different location
-      assert(moddedPU.bu.location() != apiPU.bu.location())
+      assert(moddedPU.parsedResult.result.baseUnit.id == apiPU.parsedResult.result.baseUnit.id) // Same id, but different location
+      assert(moddedPU.parsedResult.result.baseUnit.location() != apiPU.parsedResult.result.baseUnit.location())
     })
   }
 
@@ -182,30 +183,34 @@ class WorkspaceParserRepositoryTest extends AsyncFunSuite with Matchers with Pla
 
   case class MockFile(uri: String, content: String)
 
-  def parse(url: String, env: Environment): Future[AmfParseResult] = amfConfig.modelBuilder().parse(url, env, None)
-
-  def buildEnvironment(files: Set[MockFile]): Environment =
-    Environment().withLoaders(files.map(f => buildResourceLoaderForFile(f)).toSeq)
-
   def makeRepository(files: Set[MockFile], cacheables: Set[String] = Set.empty): Future[WorkspaceParserRepository] = {
-    val repository: WorkspaceParserRepository = new WorkspaceParserRepository(EmptyLogger)
+    val branchAmfConfig: AmfConfigurationWrapper = configWithRL(files)
+    val repository: WorkspaceParserRepository    = new WorkspaceParserRepository(branchAmfConfig, EmptyLogger)
     repository.setCachables(cacheables)
-    val env: Environment = buildEnvironment(files)
     val futures: Set[Future[Unit]] = files.map(f => {
-      parse(f.uri, env).map(bu => repository.updateUnit(bu))
+      branchAmfConfig.parse(f.uri).map(bu => repository.updateUnit(bu))
     })
     Future.sequence(futures).map(_ => repository)
+  }
+
+  private def configWithRL(files: Set[MockFile]) = {
+    val branchAmfConfig = amfConfig.branch
+    files.foreach(f => branchAmfConfig.withResourceLoader(buildResourceLoaderForFile(f)))
+    branchAmfConfig
   }
 
   def makeRepositoryTree(files: Set[MockFile],
                          mainFile: MockFile,
                          cacheables: Set[String] = Set.empty): Future[WorkspaceParserRepository] = {
-    val repository: WorkspaceParserRepository = new WorkspaceParserRepository(EmptyLogger)
+    val branchAmfConfig: AmfConfigurationWrapper = configWithRL(files)
+    val repository: WorkspaceParserRepository    = new WorkspaceParserRepository(branchAmfConfig, EmptyLogger)
     repository.setCachables(cacheables)
-    val env: Environment = buildEnvironment(files)
-    val future = parse(mainFile.uri, env).flatMap(bu => {
-      repository.newTree(bu)
-    })
+
+    val future = branchAmfConfig
+      .parse(mainFile.uri)
+      .flatMap(bu => {
+        repository.newTree(bu)
+      })
     future.flatMap(_ => Future(repository))
   }
 

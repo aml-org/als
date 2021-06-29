@@ -1,11 +1,11 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.core.metamodel.Field
-import amf.core.metamodel.Type.ArrayLike
-import amf.core.metamodel.domain.DomainElementModel
-import amf.core.parser.FieldEntry
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
+import amf.core.internal.metamodel.Field
+import amf.core.internal.metamodel.Type.ArrayLike
+import amf.core.internal.metamodel.domain.DomainElementModel
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest

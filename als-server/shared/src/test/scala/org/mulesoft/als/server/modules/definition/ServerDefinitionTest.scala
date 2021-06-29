@@ -1,13 +1,11 @@
 package org.mulesoft.als.server.modules.definition
 
+import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.common.{MarkerFinderTest, MarkerInfo}
-import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
-import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
 import org.mulesoft.lsp.feature.common.{LocationLink, TextDocumentIdentifier}
 import org.mulesoft.lsp.feature.definition.{DefinitionParams, DefinitionRequestType}
 import org.mulesoft.lsp.feature.typedefinition.{TypeDefinitionParams, TypeDefinitionRequestType}
@@ -38,7 +36,7 @@ trait ServerDefinitionTest extends LanguageServerBaseTest with MarkerFinderTest 
     withServer[Assertion](buildServer()) { server =>
       val resolved = filePath(platform.encodeURI(path))
       for {
-        content <- this.platform.resolve(resolved)
+        content <- this.platform.fetchContent(resolved, AMFGraphConfiguration.predefined())
         definitions <- {
           val fileContentsStr = content.stream.toString
           val markerInfo      = this.findMarker(fileContentsStr)
@@ -54,7 +52,7 @@ trait ServerDefinitionTest extends LanguageServerBaseTest with MarkerFinderTest 
     withServer[Assertion](buildServer()) { server =>
       val resolved = filePath(platform.encodeURI(path))
       for {
-        content <- this.platform.resolve(resolved)
+        content <- this.platform.fetchContent(resolved, AMFGraphConfiguration.predefined())
         definitions <- {
           val fileContentsStr = content.stream.toString
           val markerInfo      = this.findMarker(fileContentsStr)
@@ -70,34 +68,29 @@ trait ServerDefinitionTest extends LanguageServerBaseTest with MarkerFinderTest 
                           server: LanguageServer,
                           markerInfo: MarkerInfo): Future[Seq[LocationLink]] = {
 
-    openFile(server)(filePath, markerInfo.content)
-
     val definitionHandler = server.resolveHandler(DefinitionRequestType).value
-
-    definitionHandler(
-      DefinitionParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(markerInfo.position)))
-      .map(definitions => {
-        closeFile(server)(filePath)
-
-        definitions.right.getOrElse(Nil)
-      })
+    openFile(server)(filePath, markerInfo.content)
+      .flatMap(
+        _ =>
+          definitionHandler(
+            DefinitionParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(markerInfo.position)))
+            .flatMap(definitions => {
+              closeFile(server)(filePath)
+                .map(_ => definitions.right.getOrElse(Nil))
+            }))
   }
 
   def getServerTypeDefinition(filePath: String,
                               server: LanguageServer,
                               markerInfo: MarkerInfo): Future[Seq[LocationLink]] = {
-
-    openFile(server)(filePath, markerInfo.content)
-
     val definitionHandler = server.resolveHandler(TypeDefinitionRequestType).value
-
-    definitionHandler(
-      TypeDefinitionParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(markerInfo.position)))
-      .map(definitions => {
-        closeFile(server)(filePath)
-
-        definitions.right.getOrElse(Nil)
-      })
+    openFile(server)(filePath, markerInfo.content)
+      .flatMap { _ =>
+        definitionHandler(
+          TypeDefinitionParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(markerInfo.position)))
+          .flatMap(definitions => {
+            closeFile(server)(filePath).map(_ => definitions.right.getOrElse(Nil))
+          })
+      }
   }
-
 }

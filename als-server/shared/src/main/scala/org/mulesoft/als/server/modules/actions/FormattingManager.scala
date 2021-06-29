@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.modules.actions
 
-import amf.plugins.features.validation.CoreValidations
+import amf.core.internal.validation.CoreValidations
 import org.mulesoft.amfintegration.ErrorsCollected
 
 trait FormattingManager {

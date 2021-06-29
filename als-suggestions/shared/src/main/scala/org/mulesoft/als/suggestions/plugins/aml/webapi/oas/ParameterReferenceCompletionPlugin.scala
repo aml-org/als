@@ -1,14 +1,15 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas
 
-import amf.plugins.domain.webapi.metamodel.{ParameterModel, PayloadModel}
-import amf.plugins.domain.webapi.models.{EndPoint, Parameter}
+import amf.apicontract.client.scala.model.domain.Parameter
+import amf.apicontract.internal.metamodel.domain.{ParameterModel, PayloadModel}
+import org.mulesoft.als.common.SemanticNamedElement._
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.AMLJsonSchemaStyleDeclarationReferences
-import org.mulesoft.als.common.SemanticNamedElement._
-import scala.concurrent.Future
+
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 object ParameterReferenceCompletionPlugin extends AMLCompletionPlugin {
 
@@ -18,7 +19,7 @@ object ParameterReferenceCompletionPlugin extends AMLCompletionPlugin {
     Future {
       if (AMLJsonSchemaStyleDeclarationReferences.applies(request)) {
         request.amfObject match {
-          case p: Parameter =>
+          case _: Parameter =>
             new AMLJsonSchemaStyleDeclarationReferences(request.actualDialect,
                                                         paramIriMaps.keys.toSeq,
                                                         request.amfObject.elementIdentifier(),

@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.core.model.domain.AmfObject
-import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.aml.client.scala.model.document.Dialect
+import amf.core.client.scala.model.domain.AmfObject
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest

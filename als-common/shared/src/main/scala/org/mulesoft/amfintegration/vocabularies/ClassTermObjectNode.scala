@@ -1,6 +1,6 @@
 package org.mulesoft.amfintegration.vocabularies
 
-import amf.plugins.document.vocabularies.model.domain.{ClassTerm, ObjectPropertyTerm, PropertyTerm}
+import amf.aml.client.scala.model.domain.{ClassTerm, ObjectPropertyTerm, PropertyTerm}
 
 trait TermObjectNode {
   val name: String

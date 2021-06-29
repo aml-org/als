@@ -1,9 +1,8 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 
-import amf.core.model.domain.AmfObject
-import org.mulesoft.als.common.dtoTypes.PositionRange
+import amf.core.client.scala.model.domain.AmfObject
+import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.AmfObjectSymbolBuilder
-import org.mulesoft.language.outline.structure.structureImpl.{BuilderFactory, DocumentSymbol, StructureContext}
 
 case class AnonymousObjectSymbolBuilder(override val element: AmfObject)(override implicit val ctx: StructureContext)
     extends AnonymousObjectSymbolBuilderTrait[AmfObject] {}

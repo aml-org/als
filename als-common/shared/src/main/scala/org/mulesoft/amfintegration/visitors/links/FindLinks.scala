@@ -1,9 +1,9 @@
 package org.mulesoft.amfintegration.visitors.links
 
-import amf.core.model.document.BaseUnit
+import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.convert.LspRangeConverter
-import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.lsp.feature.link.DocumentLink
 
 object FindLinks {

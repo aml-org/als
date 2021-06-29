@@ -1,8 +1,8 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.ramlbuilders
 
-import amf.core.model.domain.AmfObject
-import amf.core.parser.FieldEntry
-import amf.plugins.domain.webapi.metamodel.security.SecuritySchemeModel
+import amf.apicontract.internal.metamodel.domain.security.SecuritySchemeModel
+import amf.core.client.scala.model.domain.AmfObject
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.{
   ObjectFieldTypeSymbolBuilderCompanion,

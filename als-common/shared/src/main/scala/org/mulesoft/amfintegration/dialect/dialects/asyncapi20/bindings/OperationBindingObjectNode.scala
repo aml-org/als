@@ -1,8 +1,15 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings
 
-import amf.core.vocabulary.Namespace.XsdTypes._
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.metamodel.bindings._
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.apicontract.internal.metamodel.domain.bindings.{
+  Amqp091OperationBindingModel,
+  HttpOperationBindingModel,
+  KafkaOperationBindingModel,
+  MqttOperationBindingModel,
+  OperationBindingModel,
+  OperationBindingsModel
+}
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdInteger, xsdString}
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 object OperationBindingObjectNode extends BindingObjectNode {

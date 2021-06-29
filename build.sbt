@@ -6,7 +6,6 @@ import sbt.File
 import sbt.Keys.{libraryDependencies, mainClass, packageOptions}
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
 
-import scala.sys.process.Process
 import scala.language.postfixOps
 import scala.sys.process.Process
 
@@ -26,10 +25,10 @@ lazy val workspaceDirectory: File =
 
 val amfVersion = deps("amf")
 
-lazy val amfJVMRef = ProjectRef(workspaceDirectory / "amf", "clientJVM")
-lazy val amfJSRef = ProjectRef(workspaceDirectory / "amf", "clientJS")
-lazy val amfLibJVM = "com.github.amlorg" %% "amf-client" % amfVersion
-lazy val amfLibJS = "com.github.amlorg" %% "amf-client_sjs0.6" % amfVersion
+lazy val amfJVMRef = ProjectRef(workspaceDirectory / "amf", "apiContractJVM")
+lazy val amfJSRef = ProjectRef(workspaceDirectory / "amf", "apiContractJS")
+lazy val amfLibJVM = "com.github.amlorg" %% "amf-api-contract" % amfVersion
+lazy val amfLibJS = "com.github.amlorg" %% "amf-api-contract_sjs0.6" % amfVersion
 
 val orgSettings = Seq(
   organization := "org.mule.als",
@@ -42,7 +41,6 @@ val orgSettings = Seq(
         Resolver.sonatypeRepo("snapshots")*/
   ),
   resolvers += "jitpack" at "https://jitpack.io",
-
   credentials ++= Common.credentials(),
 
   libraryDependencies ++= Seq(

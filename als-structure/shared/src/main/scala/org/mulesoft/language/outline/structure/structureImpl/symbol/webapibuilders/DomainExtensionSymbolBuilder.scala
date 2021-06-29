@@ -1,10 +1,8 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders
 
-import amf.core.annotations.LexicalInformation
-import amf.core.metamodel.domain.extensions.DomainExtensionModel
-import amf.core.model.domain.AmfElement
-import amf.core.model.domain.extensions.DomainExtension
-import amf.core.parser.Range
+import amf.core.client.scala.model.domain.AmfElement
+import amf.core.client.scala.model.domain.extensions.DomainExtension
+import amf.core.internal.metamodel.domain.extensions.DomainExtensionModel
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSimpleBuilderCompanion,
   StructuredSymbolBuilder,

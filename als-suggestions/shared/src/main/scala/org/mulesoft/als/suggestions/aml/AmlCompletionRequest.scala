@@ -1,13 +1,12 @@
 package org.mulesoft.als.suggestions.aml
 
-import amf.core.metamodel.document.DocumentModel
-import amf.core.model.document.{BaseUnit, EncodesModel}
-import amf.core.model.domain.{AmfObject, DomainElement}
-import amf.core.parser.{FieldEntry, Position => AmfPosition}
-import amf.core.remote.Platform
-import amf.internal.environment.Environment
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
+import amf.core.client.common.position.{Position => AmfPosition}
+import amf.core.client.scala.model.document.{BaseUnit, EncodesModel}
+import amf.core.client.scala.model.domain.{AmfObject, DomainElement}
+import amf.core.internal.metamodel.document.DocumentModel
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.als.common.YamlWrapper.{AlsInputRange, AlsYPart}
 import org.mulesoft.als.common._
 import org.mulesoft.als.common.dtoTypes.{PositionRange, TextHelper, Position => DtoPosition}
@@ -18,16 +17,15 @@ import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.als.suggestions.styler.{SuggestionRender, SuggestionStylerBuilder}
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
-import org.mulesoft.amfintegration.AmfInstance
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.yaml.lexer.YamlToken
 import org.yaml.model.YNode.MutRef
-import org.yaml.model.{YDocument, YNode, YNonContent, YPart, YSequence, YType}
+import org.yaml.model._
+
 class AmlCompletionRequest(val baseUnit: BaseUnit,
                            val position: DtoPosition,
                            val actualDialect: Dialect,
-                           val environment: Environment,
                            val directoryResolver: DirectoryResolver,
-                           val platform: Platform,
                            val styler: SuggestionRender,
                            val yPartBranch: YPartBranch,
                            val configurationReader: AlsConfigurationReader,
@@ -35,14 +33,14 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
                            val inheritedProvider: Option[DeclarationProvider] = None,
                            val rootUri: Option[String],
                            val completionsPluginHandler: CompletionsPluginHandler,
-                           val amfInstance: AmfInstance) {
+                           val amfConfiguration: AmfConfigurationWrapper) {
 
   lazy val branchStack: Seq[AmfObject] = objectInTree.stack
 
   lazy val amfObject: AmfObject = objectInTree.obj
 
   val nodeDialect: Dialect =
-    objectInTree.objVendor.flatMap(amfInstance.alsAmlPlugin.dialectFor).getOrElse(actualDialect)
+    objectInTree.objSpec.flatMap(amfConfiguration.definitionFor).getOrElse(actualDialect)
 
   val currentNode: Option[NodeMapping] = DialectNodeFinder.find(objectInTree.obj, None, nodeDialect)
 
@@ -96,15 +94,13 @@ object AmlCompletionRequestBuilder {
   def build(baseUnit: BaseUnit,
             position: AmfPosition,
             dialect: Dialect,
-            environment: Environment,
             directoryResolver: DirectoryResolver,
-            platform: Platform,
             patchedContent: PatchedContent,
             snippetSupport: Boolean,
             rootLocation: Option[String],
             configuration: AlsConfigurationReader,
             completionsPluginHandler: CompletionsPluginHandler,
-            amfInstance: AmfInstance): AmlCompletionRequest = {
+            amfConfiguration: AmfConfigurationWrapper): AmlCompletionRequest = {
     val yPartBranch: YPartBranch = {
       val ast = baseUnit.ast match {
         case Some(d: YDocument) => d
@@ -126,8 +122,8 @@ object AmlCompletionRequestBuilder {
       snippetSupport,
       baseUnit
         .location()
-        .flatMap(platform.extension)
-        .flatMap(platform.mimeFromExtension), // should we use `yaml` as default? maybe check header for RAML?
+        .flatMap(amfConfiguration.platform.extension)
+        .flatMap(amfConfiguration.platform.mimeFromExtension), // should we use `yaml` as default? maybe check header for RAML?
       baseUnit.indentation(dtoPosition)
     )
 
@@ -135,16 +131,14 @@ object AmlCompletionRequestBuilder {
       baseUnit,
       dtoPosition,
       dialect,
-      environment,
       directoryResolver,
-      platform,
       styler,
       yPartBranch,
       configuration,
       objInTree(baseUnit, dialect, yPartBranch),
       rootUri = rootLocation,
       completionsPluginHandler = completionsPluginHandler,
-      amfInstance = amfInstance
+      amfConfiguration = amfConfiguration
     )
   }
   /*
@@ -243,9 +237,7 @@ object AmlCompletionRequestBuilder {
       parent.baseUnit,
       parent.position,
       parent.actualDialect,
-      parent.environment,
       parent.directoryResolver,
-      parent.platform,
       parent.styler,
       parent.yPartBranch,
       parent.configurationReader,
@@ -253,7 +245,7 @@ object AmlCompletionRequestBuilder {
       Some(filterProvider),
       parent.rootUri,
       parent.completionsPluginHandler.filter(ignoredPlugins),
-      parent.amfInstance
+      parent.amfConfiguration
     )
   }
 }

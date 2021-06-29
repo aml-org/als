@@ -1,11 +1,11 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi
 
-import amf.core.annotations.SynthesizedField
-import amf.core.metamodel.domain.ShapeModel
-import amf.core.model.domain.{AmfObject, Linkable, Shape}
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.shapes.models.UnresolvedShape
-import amf.plugins.domain.webapi.models.{Parameter, Payload}
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.apicontract.client.scala.model.domain.{Parameter, Payload}
+import amf.core.client.scala.model.domain.{AmfObject, Linkable}
+import amf.core.client.scala.parse.document.UnresolvedReference
+import amf.core.internal.metamodel.domain.ShapeModel
+import amf.shapes.client.scala.model.domain.UnresolvedShape
 import org.mulesoft.als.common.SemanticNamedElement.ElementNameExtractor
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
@@ -54,12 +54,13 @@ trait DeclaredTypesSuggestions extends BooleanSuggestions {
       ShapeModel.`type`.head.iri()
     else a.metaURIs.head
 
-  protected def isUnresolved(a: AmfObject): Boolean = {
+  protected def isUnresolved(a: AmfObject): Boolean =
     a match {
-      case l: Linkable => l.isUnresolved || l.effectiveLinkTarget().asInstanceOf[Linkable].isUnresolved
-      case _           => false
+      case _ @(_: UnresolvedReference | _: UnresolvedShape)                         => true
+      case l: Linkable if l.effectiveLinkTarget().isInstanceOf[UnresolvedReference] => true
+      case _                                                                        => false
     }
-  }
+
   // today the only case in which this applies is raml types on async2
   // if any other case appears, check if this is still a valid mean to know if one can use declarations from other specs
   protected def canUseDeclared(params: AmlCompletionRequest): Boolean =

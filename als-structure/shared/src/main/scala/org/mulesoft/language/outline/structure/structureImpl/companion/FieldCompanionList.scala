@@ -1,7 +1,7 @@
 package org.mulesoft.language.outline.structure.structureImpl.companion
 
-import amf.core.model.domain.{AmfElement, AmfObject}
-import amf.core.parser.FieldEntry
+import amf.core.client.scala.model.domain.{AmfElement, AmfObject}
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.language.outline.structure.structureImpl._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders._

@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.modules.actions.rename
 
-import amf.core.remote.Platform
+import amf.core.internal.remote.Platform
 import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger

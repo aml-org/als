@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.test.json
 
-import amf.core.remote.{AmfJsonHint, Hint}
+import amf.core.internal.remote.{AmfJsonHint, Hint}
 import org.mulesoft.als.suggestions.test.SuggestionByDirectoryTest
 
 class JsonSuggestionsTest extends SuggestionByDirectoryTest {

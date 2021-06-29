@@ -1,6 +1,6 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.delete
 
-import amf.core.model.domain.AmfObject
+import amf.core.client.scala.model.domain.AmfObject
 import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionFactory,
   CodeActionRequestParams,
@@ -8,19 +8,17 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
 }
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.{
   BaseElementDeclarableExtractors,
-  DeclaredElementKnowledge,
   ExtractorCommon
 }
-import org.mulesoft.als.common.SemanticNamedElement._
+import org.mulesoft.als.common.SemanticNamedElement.ElementNameExtractor
 import org.mulesoft.als.common.YamlWrapper._
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
 import org.mulesoft.als.convert.LspRangeConverter
-import org.mulesoft.amfintegration.AmfImplicits.{FieldEntryImplicit, _}
+import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, FieldEntryImplicit}
 import org.mulesoft.amfintegration.relationships.RelationshipLink
-import org.mulesoft.lsp.edit.{ResourceOperation, TextDocumentEdit, TextEdit, WorkspaceEdit}
-import org.mulesoft.lsp.feature.codeactions.CodeAction
+import org.mulesoft.lsp.edit.{ResourceOperation, TextDocumentEdit, TextEdit}
 import org.mulesoft.lsp.feature.common.{Location, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.{BEGIN_DELETE_NODE_ACTION, END_DELETE_NODE_ACTION, MessageTypes}
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider

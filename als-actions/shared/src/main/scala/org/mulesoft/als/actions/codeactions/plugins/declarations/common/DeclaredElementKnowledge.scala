@@ -1,7 +1,7 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.common
 
-import amf.core.model.document.{BaseUnit, DeclaresModel, Document}
-import amf.core.model.domain.{AmfObject, DomainElement, NamedDomainElement}
+import amf.core.client.scala.model.document.{BaseUnit, Document}
+import amf.core.client.scala.model.domain.{DomainElement, NamedDomainElement}
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 

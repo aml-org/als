@@ -1,14 +1,13 @@
 package org.mulesoft.als.server.lsp4j
 
-import java.util
-
-import amf.ProfileNames
-import amf.core.unsafe.PlatformSecrets
+import amf.core.client.common.validation.ProfileNames
+import amf.core.internal.unsafe.PlatformSecrets
 import org.eclipse.lsp4j.ExecuteCommandParams
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 
+import java.util
 import scala.concurrent.Future
 
 class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with PlatformSecrets {

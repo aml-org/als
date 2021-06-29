@@ -1,9 +1,9 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields
 
-import amf.core.model.domain.AmfArray
-import amf.core.parser.{FieldEntry, Range}
-import amf.plugins.domain.webapi.metamodel.ResponseModel
-import amf.plugins.domain.webapi.models.Payload
+import amf.apicontract.client.scala.model.domain.Payload
+import amf.apicontract.internal.metamodel.domain.ResponseModel
+import amf.core.client.scala.model.domain.AmfArray
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.ArrayFieldTypeSymbolBuilderCompanion
@@ -11,12 +11,14 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldTypeSymbolBuilder,
   IriFieldSymbolBuilderCompanion
 }
+import amf.core.client.common.position.{Range => AmfRange}
+
 case class PayloadsArrayFieldBuilder(firstPayload: Payload,
                                      override val value: AmfArray,
                                      override val element: FieldEntry)(override implicit val ctx: StructureContext)
     extends DefaultWebApiArrayFieldTypeSymbolBuilder(value, element) {
 
-  override protected def range: Option[Range] =
+  override protected def range: Option[AmfRange] =
     firstPayload.annotations.range().orElse(super.range)
 }
 

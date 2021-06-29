@@ -1,9 +1,9 @@
 package org.mulesoft.als.common.dtoTypes
 
-import amf.core.remote.Platform
-import org.mulesoft.als.common.URIImplicits._
-import amf.core.unsafe.PlatformSecrets
+import amf.core.internal.remote.Platform
+import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.FileUtils
+import org.mulesoft.als.common.URIImplicits._
 import org.scalatest.FunSuite
 
 class FileUtilsTest extends FunSuite with PlatformSecrets {

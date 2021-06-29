@@ -46,6 +46,6 @@ trait WorkspaceService {
     * and ClientCapabilities/workspace/workspaceFolders are true; or if the server has
     * registered to receive this notification it first.
     */
-  def didChangeWorkspaceFolders(params: DidChangeWorkspaceFoldersParams) {}
+  def didChangeWorkspaceFolders(params: DidChangeWorkspaceFoldersParams): Future[Unit] = Future.unit
 
 }

@@ -1,6 +1,6 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.library
 
-import amf.core.remote.Vendor
+import amf.core.internal.remote.Spec
 import org.mulesoft.als.actions.codeactions.plugins.CodeActionKindTitle
 import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionFactory,
@@ -19,7 +19,7 @@ import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 case class ExtractRamlToLibraryCodeAction(params: CodeActionRequestParams) extends ExtractDeclarationsToLibrary {
 
   override lazy val isApplicable: Boolean =
-    params.bu.sourceVendor.contains(Vendor.RAML10) && selectedElements.nonEmpty
+    params.bu.sourceSpec.contains(Spec.RAML10) && selectedElements.nonEmpty
 
   override protected def telemetry: TelemetryProvider = params.telemetryProvider
 

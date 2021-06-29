@@ -1,13 +1,12 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.async.structure
 
-import amf.core.model.domain.Linkable
-import amf.plugins.document.webapi.parser.spec.WebApiDeclarations.ErrorOperationTrait
-import amf.plugins.domain.webapi.models.{Message, Operation, Response}
+import amf.apicontract.client.scala.model.domain.{Message, Operation}
+import amf.apicontract.internal.spec.common.WebApiDeclarations.ErrorOperationTrait
+import amf.core.client.scala.model.domain.Linkable
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.ResolveIfApplies
 import org.mulesoft.als.suggestions.plugins.aml.ResolveDefault
-import org.mulesoft.als.suggestions.plugins.aml.webapi.async.MessageKnowledge
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

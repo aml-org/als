@@ -1,7 +1,8 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.builders
 
-import amf.core.model.domain.AmfElement
-import amf.core.parser.{FieldEntry, Range}
+import amf.core.client.common.position.Range
+import amf.core.client.scala.model.domain.AmfElement
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 

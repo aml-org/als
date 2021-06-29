@@ -1,16 +1,18 @@
 package org.mulesoft.als.common
 
-import amf.core.annotations.{DeclaredElement, DefinedByVendor, SourceAST}
-import amf.core.metamodel.domain.LinkableElementModel
-import amf.core.model.document.{BaseUnit, DeclaresModel}
-import amf.core.model.domain.{AmfObject, DomainElement}
-import amf.core.parser.{Annotations, FieldEntry, Position => AmfPosition}
-import amf.core.remote.Vendor
-import amf.plugins.document.vocabularies.model.document.Dialect
-import org.mulesoft.als.common.AmfSonElementFinder._
+import amf.aml.client.scala.model.document.Dialect
+import amf.core.client.common.position.{Position => AmfPosition}
+import amf.core.internal.parser.domain.Annotations
+import amf.core.client.scala.model.document.{BaseUnit, DeclaresModel}
+import amf.core.client.scala.model.domain.{AmfObject, DomainElement}
+import amf.core.internal.annotations.{DeclaredElement, DefinedBySpec, SourceAST}
+import amf.core.internal.metamodel.domain.LinkableElementModel
+import amf.core.internal.parser.domain.FieldEntry
+import amf.core.internal.remote.Spec
+import org.mulesoft.als.common.AmfSonElementFinder.AlsAmfObject
 import org.mulesoft.als.common.YamlWrapper.AlsYPart
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
-import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.amfintegration.FieldEntryOrdering
 import org.yaml.model.YMapEntry
 
@@ -19,8 +21,8 @@ case class ObjectInTree(obj: AmfObject,
                         fieldEntry: Option[FieldEntry],
                         yPartBranch: YPartBranch) {
 
-  def objVendor: Option[Vendor] =
-    (obj +: stack).flatMap(_.annotations.find(classOf[DefinedByVendor])).headOption.map(_.vendor)
+  def objSpec: Option[Spec] =
+    (obj +: stack).flatMap(_.annotations.find(classOf[DefinedBySpec])).headOption.map(_.spec)
 
   /**
     * return the first field entry for that contains the position in his value.

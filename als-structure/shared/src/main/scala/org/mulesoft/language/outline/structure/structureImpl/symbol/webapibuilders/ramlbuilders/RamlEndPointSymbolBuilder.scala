@@ -1,6 +1,6 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.ramlbuilders
 
-import amf.plugins.domain.webapi.models.EndPoint
+import amf.apicontract.client.scala.model.domain.EndPoint
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.EndPointSymbolBuilder
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
 

@@ -1,6 +1,6 @@
 package org.mulesoft.als.actions.codeactions.plugins.vocabulary
 
-import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.aml.client.scala.model.document.Dialect
 import org.mulesoft.als.actions.codeactions.plugins.base.{CodeActionRequestParams, CodeActionResponsePlugin}
 
 abstract class DialectCodeActionResponsePlugin extends CodeActionResponsePlugin {

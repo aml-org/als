@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.aml.patched
 
-import amf.plugins.domain.shapes.metamodel.ExampleModel
-import amf.plugins.domain.webapi.metamodel._
-import amf.plugins.domain.webapi.metamodel.api.WebApiModel
+import amf.apicontract.internal.metamodel.domain.api.WebApiModel
+import amf.apicontract.internal.metamodel.domain.{OperationModel, ParameterModel, PayloadModel, ResponseModel}
+import amf.shapes.internal.domain.metamodel.ExampleModel
 import org.mulesoft.als.suggestions.plugins.aml.webapi._
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}

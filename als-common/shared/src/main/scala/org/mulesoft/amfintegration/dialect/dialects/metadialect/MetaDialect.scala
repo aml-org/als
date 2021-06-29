@@ -1,6 +1,6 @@
 package org.mulesoft.amfintegration.dialect.dialects.metadialect
 
-import amf.plugins.document.vocabularies.model.domain.{DocumentMapping, DocumentsModel}
+import amf.aml.client.scala.model.domain.{DocumentMapping, DocumentsModel}
 import org.mulesoft.amfintegration.dialect.BaseDialect
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 

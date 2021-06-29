@@ -1,13 +1,12 @@
 package org.mulesoft.als.server.workspace.extract
 
-import amf.core.remote.Platform
-import amf.internal.environment.Environment
 import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class WorkspaceRootHandler(platform: Platform, environment: Environment) {
+class WorkspaceRootHandler(amfConfiguration: AmfConfigurationWrapper) {
 
   /**
     * @key: recognized config file
@@ -21,7 +20,7 @@ class WorkspaceRootHandler(platform: Platform, environment: Environment) {
       eConf: Option[Option[WorkspaceConfig]] <- Future
         .find {
           readers.map {
-            _.readRoot(dirUri, platform, environment, logger)
+            _.readRoot(dirUri, amfConfiguration, logger)
           }
         }(_.isDefined)
     } yield {

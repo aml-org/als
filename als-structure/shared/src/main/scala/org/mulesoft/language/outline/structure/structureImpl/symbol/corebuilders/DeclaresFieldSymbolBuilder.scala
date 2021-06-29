@@ -1,10 +1,10 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 
-import amf.core.metamodel.document.DocumentModel
-import amf.core.metamodel.domain.ShapeModel
-import amf.core.model.domain.{AmfArray, AmfObject, Shape}
-import amf.core.parser.FieldEntry
-import amf.plugins.document.vocabularies.parser.common.{DeclarationKey, DeclarationKeys}
+import amf.aml.internal.parse.common.{DeclarationKey, DeclarationKeys}
+import amf.core.client.scala.model.domain.{AmfArray, AmfObject, Shape}
+import amf.core.internal.metamodel.document.DocumentModel
+import amf.core.internal.metamodel.domain.ShapeModel
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.language.outline.structure.structureImpl._

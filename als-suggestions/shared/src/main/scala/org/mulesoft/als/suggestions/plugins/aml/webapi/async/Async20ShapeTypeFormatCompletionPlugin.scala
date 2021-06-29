@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.async
 
-import amf.client.model.DataTypes
-import amf.plugins.document.vocabularies.model.domain.NodeMapping
+import amf.aml.client.scala.model.domain.NodeMapping
+import amf.core.client.platform.model.DataTypes
 import org.mulesoft.als.suggestions.plugins.aml.webapi.ShapeNumberShapeFormatValues
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.{
   AnyShapeAsync2Node,

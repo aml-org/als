@@ -1,10 +1,10 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.async
 
-import amf.core.model.domain.Shape
-import amf.core.model.domain.extensions.PropertyShape
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.NodeMapping
-import amf.plugins.domain.webapi.models.{Payload, Server}
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.NodeMapping
+import amf.apicontract.client.scala.model.domain.{Payload, Server}
+import amf.core.client.scala.model.domain.Shape
+import amf.core.client.scala.model.domain.extensions.PropertyShape
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiTypeFacetsCompletionPlugin

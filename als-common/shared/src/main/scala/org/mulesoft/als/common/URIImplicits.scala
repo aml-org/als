@@ -1,6 +1,6 @@
 package org.mulesoft.als.common
 
-import amf.core.remote.Platform
+import amf.core.internal.remote.Platform
 
 object URIImplicits {
   implicit class StringUriImplicits(uri: String) {

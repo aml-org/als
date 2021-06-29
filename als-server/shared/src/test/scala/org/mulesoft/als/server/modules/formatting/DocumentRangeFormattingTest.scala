@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.modules.formatting
 
+import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.common.MarkerFinderTest
 import org.mulesoft.als.common.diff.{FileAssertionTest, WorkspaceEditsTest}
 import org.mulesoft.als.convert.LspRangeConverter
@@ -79,11 +80,11 @@ class DocumentRangeFormattingTest
   def runTest(server: LanguageServer, fileUri: String, expectedUri: String): Future[Seq[TextEdit]] = {
     val fileId = TextDocumentIdentifier(fileUri)
     for {
-      originalContent <- platform.resolve(fileUri).map(_.stream.toString)
+      originalContent <- platform.fetchContent(fileUri, AMFGraphConfiguration.predefined()).map(_.stream.toString)
       markers         <- Future(findMarkers(originalContent))
+      _               <- openFile(server)(fileUri, markers.head.content)
       formattingResult <- {
         assert(markers.length == 2)
-        openFile(server)(fileUri, markers.head.content)
         val start = markers.head
         val end   = markers.tail.head
         val range: Range =
@@ -94,7 +95,7 @@ class DocumentRangeFormattingTest
       }
       tmp <- writeTemporaryFile(expectedUri)(
         applyEdits(WorkspaceEdit(Some(Map(fileUri -> formattingResult)), None), Option(markers.head.content)))
-      r <- assertDifferences(tmp, expectedUri)
+      _ <- assertDifferences(tmp, expectedUri)
     } yield {
       formattingResult
     }

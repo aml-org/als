@@ -1,10 +1,8 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 
-import amf.core.annotations.LexicalInformation
-import amf.core.metamodel.domain.ObjectNodeModel
-import amf.core.model.domain._
-import amf.core.parser.{Value, Range => AmfRange}
-import amf.core.utils._
+import amf.core.client.scala.model.domain.{AmfElement, DataNode, ObjectNode, ScalarNode}
+import amf.core.internal.annotations.LexicalInformation
+import amf.core.internal.parser.domain.Value
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
@@ -13,6 +11,9 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   SymbolBuilder
 }
 import org.mulesoft.lexer.InputRange
+import amf.core.client.common.position.{Range => AmfRange}
+import amf.core.internal.metamodel.domain.ObjectNodeModel
+import amf.core.internal.utils._
 
 class ObjectNodeSymbolBuilder(override val element: ObjectNode)(override implicit val ctx: StructureContext)
     extends AmfObjectSymbolBuilder[ObjectNode] {

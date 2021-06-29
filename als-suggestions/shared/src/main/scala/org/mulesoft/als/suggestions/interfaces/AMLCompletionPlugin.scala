@@ -1,12 +1,11 @@
 package org.mulesoft.als.suggestions.interfaces
 
-import amf.core.model.domain.AmfObject
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.NodeMapping
-import org.mulesoft.als.common.AmfSonElementFinder._
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.NodeMapping
+import amf.core.client.scala.model.domain.AmfObject
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
-import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.AmfImplicits.{AlsLexicalInformation, AmfObjectImp}
 
 import scala.concurrent.Future
 
