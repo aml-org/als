@@ -123,6 +123,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
+                    branch 'lsp-3.16.0'
                 }
             }
             steps {
@@ -151,6 +152,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
+                    branch 'lsp-3.16.0'
                 }
             }
             steps {
@@ -185,6 +187,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
+                    branch 'lsp-3.16.0'
                 }
             }
             steps {
