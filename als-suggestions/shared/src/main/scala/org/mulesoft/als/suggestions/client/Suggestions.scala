@@ -1,66 +1,47 @@
 package org.mulesoft.als.suggestions.client
 
-import amf.core.model.document.BaseUnit
-import amf.core.parser.{Position => AmfPosition}
-import amf.core.registries.AMFPluginsRegistry
-import amf.core.remote.{Aml, AsyncApi, AsyncApi20, Oas, Oas20, Oas30, Platform, Raml, Raml08, Raml10}
-import amf.core.unsafe.PlatformSecrets
-import amf.internal.environment.Environment
-import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.aml.client.scala.model.document.Dialect
+import amf.core.client.common.position.{Position => AmfPosition}
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.dtoTypes.{Position => DtoPosition}
-import org.mulesoft.als.common.{DirectoryResolver, EnvironmentPatcher, PlatformDirectoryResolver}
+import org.mulesoft.als.common.{AmfConfigurationPatcher, DirectoryResolver, PlatformDirectoryResolver}
 import org.mulesoft.als.configuration.{AlsConfiguration, AlsConfigurationReader}
 import org.mulesoft.als.suggestions._
+import org.mulesoft.als.suggestions.aml.webapi._
 import org.mulesoft.als.suggestions.aml.{
   AmlCompletionRequestBuilder,
   MetaDialectPluginRegistry,
   VocabularyDialectPluginRegistry
 }
-import org.mulesoft.als.suggestions.aml.webapi.{
-  AsyncApiCompletionPluginRegistry,
-  Oas20CompletionPluginRegistry,
-  Oas30CompletionPluginRegistry,
-  Raml08CompletionPluginRegistry,
-  RamlCompletionPluginRegistry
-}
 import org.mulesoft.als.suggestions.interfaces.Syntax._
-import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, EmptyCompletionProvider, Syntax}
+import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, Syntax}
 import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
+import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, AmfParseResult}
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
-import org.mulesoft.amfintegration.{AmfInstance, AmfParseResult, InitOptions}
 import org.mulesoft.lsp.feature.completion.CompletionItem
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class Suggestions(platform: Platform,
-                  environment: Environment,
-                  configuration: AlsConfigurationReader,
+class Suggestions(configuration: AlsConfigurationReader,
                   directoryResolver: DirectoryResolver,
-                  amfInstance: AmfInstance)
+                  amfConfiguration: AmfConfigurationWrapper)
     extends SuggestionsHelper {
 
   // header plugin static?
   val completionsPluginHandler = new CompletionsPluginHandler()
 
-  def initialized(options: InitOptions = InitOptions.AllProfiles): this.type = {
+  def initialized(): this.type = {
     completionsPluginHandler.cleanIndex()
-    HeaderBaseCompletionPlugins.initAll() // TODO: inside OAS CPR?
-    if (options.contains(Oas30) || options.contains(Oas))
-      Oas30CompletionPluginRegistry.init(amfInstance, completionsPluginHandler)
-    if (options.contains(Oas20) || options.contains(Oas))
-      Oas20CompletionPluginRegistry.init(amfInstance, completionsPluginHandler)
-    if (options.contains(Raml10) || options.contains(Raml))
-      RamlCompletionPluginRegistry.init(amfInstance, completionsPluginHandler)
-    if (options.contains(Raml08) || options.contains(Raml))
-      Raml08CompletionPluginRegistry.init(amfInstance, completionsPluginHandler)
-    if (options.contains(AsyncApi20) || options.contains(AsyncApi))
-      AsyncApiCompletionPluginRegistry.init(amfInstance, completionsPluginHandler)
-    if (options.contains(Aml)) {
-      MetaDialectPluginRegistry.init(amfInstance, completionsPluginHandler)
-      VocabularyDialectPluginRegistry.init(amfInstance, completionsPluginHandler)
-    }
-
+    HeaderBaseCompletionPlugins.initAll()
+    Oas30CompletionPluginRegistry.init(completionsPluginHandler)
+    Oas20CompletionPluginRegistry.init(completionsPluginHandler)
+    RamlCompletionPluginRegistry.init(completionsPluginHandler)
+    Raml08CompletionPluginRegistry.init(completionsPluginHandler)
+    AsyncApiCompletionPluginRegistry.init(completionsPluginHandler)
+    MetaDialectPluginRegistry.init(completionsPluginHandler)
+    VocabularyDialectPluginRegistry.init(completionsPluginHandler)
     this
   }
 
@@ -69,17 +50,17 @@ class Suggestions(platform: Platform,
               snippetsSupport: Boolean,
               rootLocation: Option[String]): Future[Seq[CompletionItem]] = {
 
-    platform
-      .fetchContent(url, amfInstance.amfConfiguration.withResourceLoaders(environment.loaders.toList))
+    amfConfiguration
+      .fetchContent(url)
       .map(content => {
         val originalContent = content.stream.toString
-        val (patched, patchedEnv) =
-          patchContentInEnvironment(environment, url, originalContent, position)
-        (patched, patchedEnv)
+        val (patched, patchedConf) =
+          patchContentInEnvironment(url, originalContent, position, amfConfiguration)
+        (patched, patchedConf)
       })
       .flatMap {
-        case (patchedContent, patchedEnv) =>
-          suggestWithPatchedEnvironment(url, patchedContent, position, patchedEnv, snippetsSupport, rootLocation)
+        case (patchedContent, patchedConf) =>
+          suggestWithPatchedEnvironment(url, patchedContent, position, patchedConf, snippetsSupport, rootLocation)
       }
   }
 
@@ -96,13 +77,13 @@ class Suggestions(platform: Platform,
             .build(url,
                    patchedContent.original,
                    DtoPosition(position, patchedContent.original),
-                   amfInstance,
+                   amfConfiguration,
                    configuration)
         else
           RamlHeaderCompletionProvider
             .build(url, patchedContent.original, DtoPosition(position, patchedContent.original))
       case _ =>
-        buildCompletionProviderAST(result.baseUnit,
+        buildCompletionProviderAST(result.result.baseUnit,
                                    result.definedBy,
                                    DtoPosition(position, patchedContent.original),
                                    patchedContent,
@@ -130,16 +111,11 @@ class Suggestions(platform: Platform,
   private def suggestWithPatchedEnvironment(url: String,
                                             patchedContent: PatchedContent,
                                             position: Int,
-                                            environment: Environment,
+                                            patchedConf: AmfConfigurationWrapper,
                                             snippetsSupport: Boolean,
                                             rootLocation: Option[String]): Future[Seq[CompletionItem]] = {
 
-    buildProviderAsync(amfInstance.modelBuilder().parse(url, environment, None),
-                       position,
-                       url,
-                       patchedContent,
-                       snippetsSupport,
-                       rootLocation)
+    buildProviderAsync(patchedConf.parse(url), position, url, patchedContent, snippetsSupport, rootLocation)
       .flatMap(_.suggest())
   }
 
@@ -157,32 +133,29 @@ class Suggestions(platform: Platform,
           bu,
           amfPosition,
           dialect,
-          environment,
           directoryResolver,
-          platform,
           patchedContent,
           snippetSupport,
           rootLocation,
           configuration,
           completionsPluginHandler,
-          amfInstance
+          amfConfiguration
         ))
   }
 }
 
+// is it ok to use PlatformSecrets here?
 object Suggestions extends PlatformSecrets {
-  def default =
-    new Suggestions(platform,
-                    Environment(),
-                    AlsConfiguration(),
-                    new PlatformDirectoryResolver(platform),
-                    AmfInstance.default)
+  def default: Suggestions = {
+    val amfConfiguration: AmfConfigurationWrapper = AmfConfigurationWrapper()
+    new Suggestions(AlsConfiguration(), new PlatformDirectoryResolver(platform), amfConfiguration)
+  }
 }
 
 trait SuggestionsHelper {
 
-  def amfParse(url: String, amfInstance: AmfInstance, environment: Environment): Future[BaseUnit] =
-    amfInstance.modelBuilder().parse(url, environment, None).map(_.baseUnit)
+  def amfParse(url: String, amfConfiguration: AmfConfigurationWrapper): Future[BaseUnit] =
+    amfConfiguration.parse(url).map(_.result.baseUnit)
 
   def getMediaType(originalContent: String): Syntax = {
 
@@ -191,15 +164,16 @@ trait SuggestionsHelper {
     else Syntax.YAML
   }
 
-  def patchContentInEnvironment(environment: Environment,
-                                fileUrl: String,
-                                fileContentsStr: String,
-                                position: Int): (PatchedContent, Environment) = {
+  def patchContentInEnvironment(
+      fileUrl: String,
+      fileContentsStr: String,
+      position: Int,
+      amfConfiguration: AmfConfigurationWrapper): (PatchedContent, AmfConfigurationWrapper) = {
 
     val patchedContent = ContentPatcher(fileContentsStr, position, YAML).prepareContent()
-    val envWithOverride =
-      EnvironmentPatcher.patch(environment, fileUrl, patchedContent.content)
+    val patchedConf =
+      AmfConfigurationPatcher.patch(amfConfiguration.branch, fileUrl, patchedContent.content)
 
-    (patchedContent, envWithOverride)
+    (patchedContent, patchedConf)
   }
 }

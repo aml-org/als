@@ -1,10 +1,10 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.ProfileNames
-import amf.core.model.domain.Shape
-import amf.plugins.domain.shapes.metamodel.NodeShapeModel
-import amf.plugins.domain.shapes.models.{NodeShape, ScalarShape}
-import amf.plugins.domain.shapes.resolution.stages.elements.CompleteShapeTransformationPipeline
+import amf.core.client.common.validation.ProfileNames
+import amf.core.client.scala.model.domain.Shape
+import amf.shapes.client.scala.model.domain.{NodeShape, ScalarShape}
+import amf.shapes.internal.domain.metamodel.NodeShapeModel
+import amf.shapes.internal.domain.resolution.elements.CompleteShapeTransformationPipeline
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -33,5 +33,5 @@ object NodeShapeDiscriminatorProperty extends AMLCompletionPlugin {
     }
   }
   private def resolve(s: Shape) =
-    new CompleteShapeTransformationPipeline(s, LocalIgnoreErrorHandler, ProfileNames.RAML).resolve()
+    new CompleteShapeTransformationPipeline(s, LocalIgnoreErrorHandler, ProfileNames.RAML10).resolve()
 }

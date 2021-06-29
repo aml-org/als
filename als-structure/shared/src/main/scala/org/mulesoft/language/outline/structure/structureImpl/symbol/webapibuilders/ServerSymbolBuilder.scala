@@ -1,10 +1,8 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders
 
-import amf.core.metamodel.Field
-import amf.core.parser.Range
-import amf.plugins.domain.webapi.metamodel.ServerModel
-import amf.plugins.domain.webapi.models.Server
-import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
+import amf.apicontract.client.scala.model.domain.Server
+import amf.apicontract.internal.metamodel.domain.ServerModel
+import amf.core.internal.metamodel.Field
 import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSimpleBuilderCompanion,

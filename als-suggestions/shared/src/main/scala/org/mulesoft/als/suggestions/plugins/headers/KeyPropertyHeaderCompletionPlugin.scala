@@ -1,12 +1,12 @@
 package org.mulesoft.als.suggestions.plugins.headers
 
-import amf.core.remote.FileMediaType
-import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.aml.client.scala.model.document.Dialect
+import amf.core.internal.remote.FileMediaType
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.als.configuration.{AlsConfigurationReader, Configuration}
+import org.mulesoft.als.configuration.{AlsConfigurationReader, TemplateTypes}
 import org.mulesoft.als.suggestions.interfaces.HeaderCompletionPlugin
 import org.mulesoft.als.suggestions.{HeaderCompletionParams, RawSuggestion}
-import org.mulesoft.amfintegration.ALSAMLPlugin
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 
 import scala.concurrent.Future
 
@@ -17,22 +17,22 @@ object KeyPropertyHeaderCompletionPlugin extends HeaderCompletionPlugin {
     Future.successful(
       KeyPropertyHeaderCompletionPlugin(params.uri.endsWith(".json"),
                                         params.content.trim.startsWith("{"),
-                                        params.amfInstance.alsAmlPlugin,
+                                        params.amfConfiguration,
                                         params.position,
                                         params.configuration).getSuggestions
     )
 
   def apply(isJson: Boolean,
             hasBracket: Boolean = false,
-            alsAmlPlugin: ALSAMLPlugin,
+            amfConfiguration: AmfConfigurationWrapper,
             position: Position,
             configuration: AlsConfigurationReader) =
-    new KeyPropertyHeaderCompletionPlugin(isJson, hasBracket, alsAmlPlugin, position, configuration)
+    new KeyPropertyHeaderCompletionPlugin(isJson, hasBracket, amfConfiguration, position, configuration)
 }
 
 class KeyPropertyHeaderCompletionPlugin(isJson: Boolean,
                                         hasBracket: Boolean = false,
-                                        alsAmlPlugin: ALSAMLPlugin,
+                                        amfConfiguration: AmfConfigurationWrapper,
                                         position: Position,
                                         configuration: AlsConfigurationReader) {
 
@@ -52,7 +52,7 @@ class KeyPropertyHeaderCompletionPlugin(isJson: Boolean,
     if (hasBracket)
       Flavour(sc, sc, snippets = false)
     else
-      Flavour(inBrackets(sc), sc, Configuration.snippetsEnabled)
+      Flavour(inBrackets(sc), sc, configuration.getTemplateType != TemplateTypes.NONE)
   }
 
   private def simpleContent(key: String, value: String, position: Position) =
@@ -65,7 +65,7 @@ class KeyPropertyHeaderCompletionPlugin(isJson: Boolean,
     s"{\n${text.linesIterator.map(l => s"  $l").mkString("\n")}\n}"
 
   private def getSuggestions: Seq[RawSuggestion] = {
-    alsAmlPlugin.registry.amlAdnWebApiDialects
+    amfConfiguration.dialects
       .filter(d => Option(d.documents()).exists(_.keyProperty().value()))
       .map(d => {
         val Flavour(text, label, isASnippet) =

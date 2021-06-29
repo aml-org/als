@@ -1,23 +1,21 @@
 package org.mulesoft.als.server.modules.actions
 
-import amf.core.remote.Platform
 import org.mulesoft.als.actions.folding.FileRanges
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
+import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.folding._
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
-import org.mulesoft.amfintegration.AmfImplicits._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class FoldingRangeManager(val workspace: WorkspaceManager,
                           private val telemetryProvider: TelemetryProvider,
-                          platform: Platform,
                           private val logger: Logger)
     extends RequestModule[FoldingRangeCapabilities, Boolean] {
 

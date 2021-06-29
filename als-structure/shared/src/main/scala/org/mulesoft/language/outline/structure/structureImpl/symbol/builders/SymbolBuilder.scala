@@ -1,8 +1,8 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.builders
-import amf.core.parser.Range
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKinds.SymbolKind
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
+import amf.core.client.common.position.Range
 
 /**
   * Common Symbol builder

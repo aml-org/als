@@ -1,23 +1,22 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi
 
-import amf.core.model.domain._
-import amf.core.model.domain.extensions.PropertyShape
-import amf.core.parser.Value
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.domain.shapes.metamodel.ExampleModel
-import amf.plugins.domain.shapes.metamodel.common.ExamplesField
-import amf.plugins.domain.shapes.models.{AnyShape, ArrayShape, Example, NodeShape}
-import amf.plugins.domain.shapes.resolution.stages.elements.CompleteShapeTransformationPipeline
-import amf.plugins.domain.webapi.metamodel.PayloadModel
-import amf.{ProfileName, ProfileNames}
+import amf.aml.client.scala.model.document.Dialect
+import amf.apicontract.internal.metamodel.domain.PayloadModel
+import amf.core.client.common.validation.{ProfileName, ProfileNames}
+import amf.core.client.scala.model.domain.extensions.PropertyShape
+import amf.core.client.scala.model.domain.{AmfObject, ArrayNode, DataNode, ObjectNode, ScalarNode, Shape}
+import amf.core.internal.parser.domain.Value
+import amf.shapes.client.scala.model.domain.{AnyShape, ArrayShape, Example, NodeShape}
+import amf.shapes.internal.domain.metamodel.ExampleModel
+import amf.shapes.internal.domain.metamodel.common.ExamplesField
+import amf.shapes.internal.domain.resolution.elements.CompleteShapeTransformationPipeline
 import org.mulesoft.als.common.YPartBranch
-import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.amfintegration.LocalIgnoreErrorHandler
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect
-import amf.core.parser.Range
+import amf.core.client.common.position.{Range => AmfRange}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -61,7 +60,7 @@ trait ShapePropertiesSuggestions {
   def suggest(): Seq[RawSuggestion] = shapeForObj.map(_.properties.map(propToRaw)).getOrElse(Nil)
 
   private def profile: ProfileName =
-    if (dialect.id == OAS20Dialect.dialect.id) ProfileNames.OAS20 else ProfileNames.RAML
+    if (dialect.id == OAS20Dialect.dialect.id) ProfileNames.OAS20 else ProfileNames.RAML10
 
   protected val resolved: Option[AnyShape] =
     new CompleteShapeTransformationPipeline(anyShape, LocalIgnoreErrorHandler, profile).resolve() match {
@@ -119,7 +118,7 @@ trait ExampleSuggestionPluginBuilder {
   private def isScalarNodeValue(parent: AmfObject, yPart: YPartBranch, s: ScalarNode) = {
     parent match {
       case o: ObjectNode if o.allProperties().toList.contains(s) =>
-        s.position().exists(li => li.range == Range(yPart.node.range))
+        s.position().exists(li => li.range == AmfRange(yPart.node.range))
       case _ => false
     }
   }

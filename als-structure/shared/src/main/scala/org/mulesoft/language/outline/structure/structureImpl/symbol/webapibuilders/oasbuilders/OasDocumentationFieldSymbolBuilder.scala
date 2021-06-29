@@ -1,21 +1,18 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.oasbuilders
 
-import amf.core.model.domain.AmfArray
-import amf.core.parser
-import amf.core.parser.FieldEntry
-import amf.plugins.domain.webapi.metamodel.EndPointModel
-import amf.plugins.domain.webapi.metamodel.api.WebApiModel
-import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
+import amf.apicontract.internal.metamodel.domain.api.WebApiModel
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.ArrayFieldTypeSymbolBuilderCompanion
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldTypeSymbolBuilder,
   IriFieldSymbolBuilderCompanion
 }
-import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.{
-  ArrayFieldTypeSymbolBuilder,
-  ArrayFieldTypeSymbolBuilderCompanion
-}
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.DefaultArrayFieldTypeSymbolBuilder
+import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
+import amf.core.client.common.position.{Range => AmfRange}
+import amf.core.client.scala.model.domain.AmfArray
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
+
 class OasDocumentationFieldSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
     override implicit val ctx: StructureContext)
     extends DefaultArrayFieldTypeSymbolBuilder(value, element) {
@@ -23,7 +20,7 @@ class OasDocumentationFieldSymbolBuilder(override val value: AmfArray, override 
 
   override def build(): Seq[DocumentSymbol] = super.build()
 
-  override protected def range: Option[parser.Range] = value.values.headOption.flatMap(_.annotations.range())
+  override protected def range: Option[AmfRange] = value.values.headOption.flatMap(_.annotations.range())
 }
 
 object OasDocumentationFieldSymbolBuilder

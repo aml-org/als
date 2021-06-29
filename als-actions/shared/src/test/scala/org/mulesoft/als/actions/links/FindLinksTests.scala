@@ -1,6 +1,6 @@
 package org.mulesoft.als.actions.links
 
-import amf.core.unsafe.PlatformSecrets
+import amf.core.internal.unsafe.PlatformSecrets
 import org.scalatest.{FlatSpec, Matchers}
 
 class FindLinksTests extends FlatSpec with Matchers with PlatformSecrets {

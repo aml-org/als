@@ -1,9 +1,8 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 
-import amf.core.annotations.{LexicalInformation, SourceAST}
-import amf.core.metamodel.domain.DomainElementModel
-import amf.core.model.domain._
-import amf.core.parser.{Range => AmfRange}
+import amf.core.client.scala.model.domain.{AmfElement, DomainElement, NamedDomainElement, ScalarNode}
+import amf.core.internal.annotations.SourceAST
+import amf.core.internal.metamodel.domain.DomainElementModel
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.language.outline.structure.structureImpl._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{

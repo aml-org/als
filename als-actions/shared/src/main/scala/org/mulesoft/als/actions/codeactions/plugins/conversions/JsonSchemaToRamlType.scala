@@ -1,8 +1,8 @@
 package org.mulesoft.als.actions.codeactions.plugins.conversions
 
-import amf.core.remote.Vendor
-import amf.plugins.document.webapi.annotations.ParsedJSONSchema
-import amf.plugins.domain.shapes.models.AnyShape
+import amf.core.internal.remote.Spec
+import amf.shapes.client.scala.model.domain.AnyShape
+import amf.shapes.internal.annotations.ParsedJSONSchema
 import org.mulesoft.als.actions.codeactions.plugins.CodeActionKindTitle
 import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionFactory,
@@ -39,7 +39,7 @@ class JsonSchemaToRamlType(override protected val params: CodeActionRequestParam
     with ExtractSameFileDeclaration {
 
   override val isApplicable: Boolean =
-    params.bu.sourceVendor.contains(Vendor.RAML10) &&
+    params.bu.sourceSpec.contains(Spec.RAML10) &&
       maybeAnyShape.isDefined && positionIsExtracted
 
   protected def telemetry: TelemetryProvider = params.telemetryProvider
@@ -91,7 +91,7 @@ class JsonSchemaToRamlType(override protected val params: CodeActionRequestParam
 
   private def renderRamlType(shape: AnyShape): Future[String] = Future {
     shape.annotations.reject(_.isInstanceOf[ParsedJSONSchema])
-    val node: Option[YNode] = declaredElementNode(Some(shape), vendor, params.dialect)
+    val node: Option[YNode] = declaredElementNode(Some(shape), params.dialect, params.amfConfiguration)
     val parent              = yPartBranch.flatMap(_.parentEntry)
     node
       .map(

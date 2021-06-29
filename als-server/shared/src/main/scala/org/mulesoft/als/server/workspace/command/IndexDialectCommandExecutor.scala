@@ -1,16 +1,15 @@
 package org.mulesoft.als.server.workspace.command
 
-import amf.core.parser._
-import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.core.internal.parser.YMapOps
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.protocol.textsync.IndexDialectParams
-import org.mulesoft.amfintegration.AmfInstance
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.yaml.model.YMap
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
-class IndexDialectCommandExecutor(val logger: Logger, amfConfiguration: AmfInstance)
+class IndexDialectCommandExecutor(val logger: Logger, amfConfiguration: AmfConfigurationWrapper)
     extends CommandExecutor[IndexDialectParams, Unit] {
   override protected def buildParamFromMap(ast: YMap): Option[IndexDialectParams] = {
     val content: Option[String] = ast.key("content").map(e => e.value.asScalar.map(_.text).getOrElse(e.value.toString))
@@ -21,6 +20,11 @@ class IndexDialectCommandExecutor(val logger: Logger, amfConfiguration: AmfInsta
   }
 
   override protected def runCommand(param: IndexDialectParams): Future[Unit] = {
-    amfConfiguration.modelBuilder().indexMetadata(param.uri, param.content).map(_ => Unit)
+    param.content
+      .foreach(
+        content =>
+          amfConfiguration
+            .withResourceLoader(AmfConfigurationWrapper.resourceLoaderForFile(param.uri, content)))
+    amfConfiguration.parse(param.uri).map(_ => {})
   }
 }

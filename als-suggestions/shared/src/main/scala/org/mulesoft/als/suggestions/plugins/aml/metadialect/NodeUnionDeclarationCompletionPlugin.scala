@@ -1,17 +1,17 @@
 package org.mulesoft.als.suggestions.plugins.aml.metadialect
 
-import amf.core.benchmark.ExecutionLog.executionContext
-import amf.core.model.domain.AmfObject
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping, UnionNodeMapping}
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
+import amf.core.client.scala.model.domain.AmfObject
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
-import org.mulesoft.als.suggestions.interfaces.{AMLCompletionPlugin, ResolveIfApplies}
-import org.mulesoft.als.suggestions.plugins.aml.{AMLUnionCompletionPlugin, PropertyMappingWrapper, UnionSuggestions}
+import org.mulesoft.als.suggestions.interfaces.ResolveIfApplies
+import org.mulesoft.als.suggestions.plugins.aml.{PropertyMappingWrapper, UnionSuggestions}
 import org.mulesoft.amfintegration.dialect.dialects.metadialect.{NodeMappingObjectNode, UnionMappingObjectNode}
 
 import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object NodeUnionDeclarationCompletionPlugin extends ResolveIfApplies {
   override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] =

@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas
 
-import amf.plugins.domain.webapi.models.security.Settings
-import amf.plugins.domain.webapi.models.{EndPoint, Request}
+import amf.apicontract.client.scala.model.domain.security.Settings
+import amf.apicontract.client.scala.model.domain.{EndPoint, Request}
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.AMLRefTagCompletionPlugin

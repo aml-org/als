@@ -1,6 +1,6 @@
 package org.mulesoft.amfintegration
 
-import amf.core.annotations.LexicalInformation
+import amf.core.internal.annotations.LexicalInformation
 import org.mulesoft.als.common.YamlWrapper.AlsInputRange
 import org.mulesoft.lexer.{InputRange, SourceLocation}
 import org.yaml.model.{YScalar, YValue}

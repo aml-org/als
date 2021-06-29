@@ -1,10 +1,10 @@
 package org.mulesoft.als.suggestions.plugins.aml.metadialect
 
-import amf.core.annotations.Aliases
-import amf.core.annotations.Aliases.{Alias, FullUrl, RelativeUrl}
-import amf.core.model.domain.AmfObject
-import amf.plugins.document.vocabularies.model.document.{Dialect, Vocabulary}
-import amf.plugins.document.vocabularies.model.domain.{ClassTerm, NodeMapping, PropertyMapping, PropertyTerm}
+import amf.aml.client.scala.model.document.{Dialect, Vocabulary}
+import amf.aml.client.scala.model.domain.{ClassTerm, NodeMapping, PropertyMapping, PropertyTerm}
+import amf.core.client.scala.model.domain.AmfObject
+import amf.core.internal.annotations.Aliases
+import amf.core.internal.annotations.Aliases.{Alias, FullUrl, RelativeUrl}
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest

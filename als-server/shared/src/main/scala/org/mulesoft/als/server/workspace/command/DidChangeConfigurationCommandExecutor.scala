@@ -1,12 +1,13 @@
 package org.mulesoft.als.server.workspace.command
 
-import amf.core.parser._
+import amf.core.internal.parser._
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast.CHANGE_CONFIG
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.textsync.DidChangeConfigurationNotificationParams
 import org.yaml.model.{YMap, YSequence}
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceManager)
@@ -24,10 +25,9 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
     }
   }
 
-  override protected def runCommand(param: DidChangeConfigurationNotificationParams): Future[Unit] = {
-    val manager = wsc.getWorkspace(param.mainUri)
-    if (manager.acceptsConfigUpdateByCommand)
-      wsc.contentManagerConfiguration(manager, param.mainUri, param.dependencies, None)
-    Future.unit
-  }
+  override protected def runCommand(param: DidChangeConfigurationNotificationParams): Future[Unit] =
+    wsc.getWorkspace(param.mainUri).flatMap { manager =>
+      if (manager.acceptsConfigUpdateByCommand)wsc.contentManagerConfiguration(manager, param.mainUri, param.dependencies, None)
+
+    }
 }

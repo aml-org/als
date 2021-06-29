@@ -1,8 +1,8 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders
 
-import amf.core.metamodel.Field
-import amf.plugins.domain.webapi.metamodel.{ParametersFieldModel, RequestModel}
-import amf.plugins.domain.webapi.models.Parameter
+import amf.apicontract.client.scala.model.domain.Parameter
+import amf.apicontract.internal.metamodel.domain.{ParametersFieldModel, RequestModel}
+import amf.core.internal.metamodel.Field
 import org.mulesoft.als.common.dtoTypes.{EmptyPositionRange, PositionRange}
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, KindForResultMatcher, StructureContext}
 

@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.core.model.document.BaseUnit
+import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -18,12 +18,10 @@ object AMLLibraryPathCompletion extends AMLCompletionPlugin {
           .isInBranchOf("uses") && request.yPartBranch.isValue) {
       AMLPathCompletionPlugin.resolveInclusion(
         request.baseUnit.location().getOrElse(""),
-        request.environment,
-        request.platform,
         request.directoryResolver,
         request.prefix,
         request.rootUri,
-        request.amfInstance
+        request.amfConfiguration
       )
     } else emptySuggestion
   }

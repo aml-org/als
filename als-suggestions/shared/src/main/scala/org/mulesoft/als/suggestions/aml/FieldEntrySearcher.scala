@@ -1,11 +1,11 @@
 package org.mulesoft.als.suggestions.aml
 
-import amf.core.model.domain.{AmfObject, AmfScalar}
-import amf.core.parser.{FieldEntry, Value}
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
+import amf.core.client.scala.model.domain.{AmfObject, AmfScalar}
+import amf.core.internal.parser.domain.{FieldEntry, Value}
 import org.mulesoft.als.common.YPartBranch
-import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.AmfImplicits.{AmfObjectImp, DialectImplicits}
 
 import scala.collection.immutable
 

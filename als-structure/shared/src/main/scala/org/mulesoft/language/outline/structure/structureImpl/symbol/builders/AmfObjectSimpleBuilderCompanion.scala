@@ -1,10 +1,11 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.builders
 
-import amf.core.annotations.SourceAST
-import amf.core.metamodel.domain.{DomainElementModel, LinkableElementModel}
-import amf.core.model.domain.AmfObject
-import amf.core.parser.Range
-import amf.plugins.document.webapi.annotations.InlineDefinition
+import amf.aml.internal.metamodel.domain.PropertyMappingModel
+import amf.core.client.common.position.Range
+import amf.core.client.scala.model.domain.AmfObject
+import amf.core.internal.annotations.SourceAST
+import amf.core.internal.metamodel.domain.{DomainElementModel, LinkableElementModel}
+import amf.shapes.internal.annotations.InlineDefinition
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, KindForResultMatcher, SymbolKinds}
 import org.yaml.model.YMapEntry
 
@@ -14,7 +15,7 @@ trait AmfObjectSimpleBuilderCompanion[DM <: AmfObject]
 
 trait AmfObjectSymbolBuilder[DM <: AmfObject] extends SymbolBuilder[DM] {
   def ignoreFields =
-    List(DomainElementModel.Extends, LinkableElementModel.Target)
+    List(DomainElementModel.Extends, LinkableElementModel.Target, PropertyMappingModel.ObjectRange)
 
   override protected val kind: SymbolKinds.SymbolKind = KindForResultMatcher.getKind(element)
 

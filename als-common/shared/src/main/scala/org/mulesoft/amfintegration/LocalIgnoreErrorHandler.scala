@@ -1,9 +1,9 @@
 package org.mulesoft.amfintegration
 
-import amf.core.annotations.LexicalInformation
-import amf.core.errorhandling.ErrorHandler
+import amf.core.client.scala.errorhandling.AMFErrorHandler
+import amf.core.internal.annotations.LexicalInformation
 
-object LocalIgnoreErrorHandler extends ErrorHandler {
+object LocalIgnoreErrorHandler extends AMFErrorHandler {
 
   override def reportConstraint(id: String,
                                 node: String,

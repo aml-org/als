@@ -1,6 +1,6 @@
 package org.mulesoft.als.server
 
-import amf.core.unsafe.PlatformSecrets
+import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeParams, CleanDiagnosticTreeRequestType}
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.logger.MessageSeverity.MessageSeverity
@@ -52,9 +52,8 @@ abstract class LanguageServerBaseTest
     telemetryNotifications(mockTelemetryClientNotifier)(qty - 1, Nil)
   }
 
-  def openFileNotification(server: LanguageServer)(file: String, content: String): Future[Unit] = Future.successful {
+  def openFileNotification(server: LanguageServer)(file: String, content: String): Future[Unit] =
     openFile(server)(file, content)
-  }
 
   def requestCleanDiagnostic(server: LanguageServer)(uri: String): Future[Seq[AlsPublishDiagnosticsParams]] =
     server
@@ -69,14 +68,11 @@ abstract class LanguageServerBaseTest
       .value
       .apply(DocumentSymbolParams(TextDocumentIdentifier(uri)))
 
-  def focusNotification(server: LanguageServer)(file: String, version: Int): Future[Unit] = Future.successful {
+  def focusNotification(server: LanguageServer)(file: String, version: Int): Future[Unit] =
     onFocus(server)(file, version)
-  }
 
   def changeNotification(server: LanguageServer)(file: String, content: String, version: Int): Future[Unit] =
-    Future.successful {
-      changeFile(server)(file, content, version)
-    }
+    changeFile(server)(file, content, version)
 
   def withServer[R](server: LanguageServer)(fn: LanguageServer => Future[R]): Future[R] = {
     server
@@ -93,16 +89,16 @@ abstract class LanguageServerBaseTest
       })
   }
 
-  def openFile(server: LanguageServer)(uri: String, text: String): Unit =
+  def openFile(server: LanguageServer)(uri: String, text: String): Future[Unit] =
     server.textDocumentSyncConsumer.didOpen(DidOpenTextDocumentParams(TextDocumentItem(uri, "", 0, text)))
 
-  def onFocus(server: LanguageServer)(uri: String, version: Int): Unit =
+  def onFocus(server: LanguageServer)(uri: String, version: Int): Future[Unit] =
     server.textDocumentSyncConsumer.didFocus(DidFocusParams(uri, version))
 
-  def closeFile(server: LanguageServer)(uri: String): Unit =
+  def closeFile(server: LanguageServer)(uri: String): Future[Unit] =
     server.textDocumentSyncConsumer.didClose(DidCloseTextDocumentParams(TextDocumentIdentifier(uri)))
 
-  def changeFile(server: LanguageServer)(uri: String, text: String, version: Int): Unit =
+  def changeFile(server: LanguageServer)(uri: String, text: String, version: Int): Future[Unit] =
     server.textDocumentSyncConsumer.didChange(
       DidChangeTextDocumentParams(
         VersionedTextDocumentIdentifier(uri, Some(version)),
@@ -121,14 +117,12 @@ abstract class LanguageServerBaseTest
     server.workspaceService.didChangeWorkspaceFolders(
       params = DidChangeWorkspaceFoldersParams(WorkspaceFoldersChangeEvent(List(ws), List()))
     )
-    Future.successful()
   }
 
   def removeWorkspaceFolder(server: LanguageServer)(ws: WorkspaceFolder): Future[Unit] = {
     server.workspaceService.didChangeWorkspaceFolders(
       params = DidChangeWorkspaceFoldersParams(WorkspaceFoldersChangeEvent(List(), List(ws)))
     )
-    Future.successful()
   }
 
   def didChangeWorkspaceFolders(server: LanguageServer)(added: List[WorkspaceFolder],
@@ -136,7 +130,6 @@ abstract class LanguageServerBaseTest
     server.workspaceService.didChangeWorkspaceFolders(
       params = DidChangeWorkspaceFoldersParams(WorkspaceFoldersChangeEvent(added, removed))
     )
-    Future.successful()
   }
 }
 
@@ -170,7 +163,7 @@ case class TestLogger() extends Logger {
     * @param subComponent - sub-component name
     */
   override def log(message: String, severity: MessageSeverity, component: String, subComponent: String): Unit =
-    logList += s"log\n\t$message\n\t$severity\n\t$component\n\t$subComponent"
+    synchronized(logList += s"log\n\t$message\n\t$severity\n\t$component\n\t$subComponent")
 
   /**
     * Logs a DEBUG severity message.
@@ -180,7 +173,7 @@ case class TestLogger() extends Logger {
     * @param subComponent - sub-component name
     */
   override def debug(message: String, component: String, subComponent: String): Unit =
-    logList += s"debug\n\t$message\n\t$component\n\t$subComponent"
+    synchronized(logList += s"debug\n\t$message\n\t$component\n\t$subComponent")
 
   /**
     * Logs a WARNING severity message.
@@ -190,7 +183,7 @@ case class TestLogger() extends Logger {
     * @param subComponent - sub-component name
     */
   override def warning(message: String, component: String, subComponent: String): Unit =
-    logList += s"warning\n\t$message\n\t$component\n\t$subComponent"
+    synchronized(logList += s"warning\n\t$message\n\t$component\n\t$subComponent")
 
   /**
     * Logs an ERROR severity message.
@@ -200,5 +193,5 @@ case class TestLogger() extends Logger {
     * @param subComponent - sub-component name
     */
   override def error(message: String, component: String, subComponent: String): Unit =
-    logList += s"error\n\t$message\n\t$component\n\t$subComponent"
+    synchronized(logList += s"error\n\t$message\n\t$component\n\t$subComponent")
 }

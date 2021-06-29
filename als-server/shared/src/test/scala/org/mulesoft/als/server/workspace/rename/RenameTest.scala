@@ -1,8 +1,7 @@
 package org.mulesoft.als.server.workspace.rename
 
-import amf.client.remote.Content
-import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
+import amf.core.client.common.remote.Content
+import amf.core.client.scala.resource.ResourceLoader
 import org.mulesoft.als.actions.rename.FindRenameLocations
 import org.mulesoft.als.common.WorkspaceEditSerializer
 import org.mulesoft.als.common.diff.{FileAssertionTest, Tests}
@@ -10,11 +9,11 @@ import org.mulesoft.als.common.dtoTypes.{Position => DtoPosition}
 import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.actions.rename.RenameTools
-import org.mulesoft.als.server.modules.workspace.CompilableUnit
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit, WorkspaceEdit}
 import org.mulesoft.lsp.feature.common.{Position, Range, VersionedTextDocumentIdentifier}
@@ -408,7 +407,7 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest with Rena
                        root: String = "file:///root")
 
   def buildServer(root: String, ws: Map[String, String]): Future[(LanguageServer, WorkspaceManager)] = {
-    val rs = new ResourceLoader {
+    val rl = new ResourceLoader {
       override def fetch(resource: String): Future[Content] =
         ws.get(resource)
           .map(c => new Content(c, resource))
@@ -418,10 +417,9 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest with Rena
         ws.keySet.contains(resource)
     }
 
-    val env = Environment().withLoaders(Seq(rs))
-
     val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger, env)
+      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
+        .withAmfConfiguration(AmfConfigurationWrapper(Seq(rl)))
         .buildWorkspaceManagerFactory()
     val workspaceManager: WorkspaceManager = factory.workspaceManager
     val server =

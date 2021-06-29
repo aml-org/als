@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas
 
-import amf.plugins.domain.webapi.metamodel.ResponseModel
-import amf.plugins.domain.webapi.models.api.WebApi
+import amf.apicontract.client.scala.model.domain.api.WebApi
+import amf.apicontract.internal.metamodel.domain.ResponseModel
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin

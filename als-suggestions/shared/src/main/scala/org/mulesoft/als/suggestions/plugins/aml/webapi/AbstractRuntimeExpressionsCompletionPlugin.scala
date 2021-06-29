@@ -1,9 +1,9 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi
 
+import amf.apicontract.internal.validation.runtimeexpression.{InvalidExpressionToken, RuntimeExpressionParser}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import amf.plugins.document.webapi.validation.runtimeexpression.{InvalidExpressionToken, RuntimeExpressionParser}
 import org.mulesoft.amfintegration.dialect.DialectKnowledge
 
 import scala.concurrent.ExecutionContext.Implicits.global

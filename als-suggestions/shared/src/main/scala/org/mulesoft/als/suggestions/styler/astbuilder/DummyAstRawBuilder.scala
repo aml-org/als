@@ -1,10 +1,9 @@
 package org.mulesoft.als.suggestions.styler.astbuilder
 
 import org.mulesoft.als.common.YPartBranch
-import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.suggestions.{RawSuggestion, SuggestionStructure}
 import org.yaml.model._
-import amf.core.parser.{Position => AmfPosition}
+import amf.core.client.common.position.{Position => AmfPosition}
 
 class DummyAstRawBuilder(val raw: RawSuggestion)
     extends AstRawBuilder(raw, false, YPartBranch(YMap.empty, AmfPosition.ZERO, Nil, isJson = false, isInFlow = false)) {

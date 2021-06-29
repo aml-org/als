@@ -1,9 +1,9 @@
 package org.mulesoft.amfintegration.dialect.dialects.oas.nodes
 
-import amf.core.vocabulary.Namespace.XsdTypes.xsdString
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.apicontract.internal.metamodel.domain.security.ScopeModel
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.metamodel.security.ScopeModel
 
 object Oas20ScopeObject extends DialectNode {
   override def name: String            = "ScopeObject"

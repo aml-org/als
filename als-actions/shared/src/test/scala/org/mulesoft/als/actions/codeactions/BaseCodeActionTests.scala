@@ -1,16 +1,16 @@
 package org.mulesoft.als.actions.codeactions
 
-import amf.core.model.document.BaseUnit
-import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.aml.client.scala.model.document.Dialect
+import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.actions.codeactions.plugins.base.{CodeActionFactory, CodeActionRequestParams}
-import org.mulesoft.als.common.{PlatformDirectoryResolver, WorkspaceEditSerializer}
 import org.mulesoft.als.common.cache.UnitWithCaches
 import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.common.dtoTypes.PositionRange
+import org.mulesoft.als.common.{PlatformDirectoryResolver, WorkspaceEditSerializer}
 import org.mulesoft.als.configuration.AlsConfiguration
+import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, AmfParseResult}
 import org.mulesoft.amfintegration.relationships.RelationshipLink
 import org.mulesoft.amfintegration.visitors.AmfElementDefaultVisitors
-import org.mulesoft.amfintegration.{AmfInstance, AmfParseResult, ParserHelper}
 import org.mulesoft.lsp.edit.WorkspaceEdit
 import org.mulesoft.lsp.feature.codeactions.CodeAction
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
@@ -60,13 +60,21 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
       params <- buildParameter(elementUri, range)
     } yield pluginFactory(params).isApplicable should be(false)
 
-  protected def parseElement(elementUri: String, definedBy: Option[String] = None): Future[AmfParseResult] = {
-
-    val helper = new ParserHelper(platform, AmfInstance.default)
+  protected def parseElement(elementUri: String,
+                             definedBy: Option[String] = None,
+                             amfConfiguration: AmfConfigurationWrapper): Future[AmfParseResult] = {
     for {
 
-      _ <- definedBy.fold(Future.unit)(db => helper.parse(relativeUri(db)).map(_ => Unit))
-      r <- helper.parse(relativeUri(elementUri))
+      _ <- definedBy.fold(Future.unit)(
+        db =>
+          amfConfiguration
+            .parse(relativeUri(db))
+            .map(r =>
+              r.result.baseUnit match {
+                case d: Dialect => amfConfiguration.registerDialect(d)
+                case _          => ???
+            }))
+      r <- amfConfiguration.parse(relativeUri(elementUri))
     } yield r
 
   }
@@ -74,19 +82,15 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
   protected def buildParameter(elementUri: String,
                                range: PositionRange,
                                definedBy: Option[String] = None): Future[CodeActionRequestParams] = {
-    val amfInstance = AmfInstance.default
-    amfInstance
-      .init()
-      .flatMap(
-        _ =>
-          parseElement(elementUri, definedBy)
-            .map(bu => buildParameter(elementUri, bu, range, amfInstance)))
+    val amfConfiguration = AmfConfigurationWrapper()
+    parseElement(elementUri, definedBy, amfConfiguration)
+      .map(bu => buildParameter(elementUri, bu, range, amfConfiguration))
   }
 
   case class PreCodeActionRequestParams(amfResult: AmfParseResult, uri: String, relationShip: Seq[RelationshipLink]) {
     def buildParam(range: PositionRange,
                    activeFile: Option[String],
-                   amfInstance: AmfInstance): CodeActionRequestParams = {
+                   amfConfiguration: AmfConfigurationWrapper): CodeActionRequestParams = {
       val cu: DummyCompilableUnit = buildCU(activeFile)
       CodeActionRequestParams(
         cu.unit.location().getOrElse(relativeUri(uri)),
@@ -99,7 +103,7 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
         relationShip,
         dummyTelemetryProvider,
         "",
-        amfInstance,
+        amfConfiguration,
         new PlatformDirectoryResolver(platform)
       )
     }
@@ -108,16 +112,16 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
       activeFile
         .flatMap { af =>
           val relativaf = relativeUri(af)
-          amfResult.baseUnit.references.find(r => r.location().getOrElse(r.id) == relativaf).map { unit =>
+          amfResult.result.baseUnit.references.find(r => r.location().getOrElse(r.id) == relativaf).map { unit =>
             DummyCompilableUnit(unit, amfResult.definedBy)
           }
         }
-        .getOrElse(DummyCompilableUnit(amfResult.baseUnit, amfResult.definedBy))
+        .getOrElse(DummyCompilableUnit(amfResult.result.baseUnit, amfResult.definedBy))
     }
   }
   protected def buildPreParam(uri: String, result: AmfParseResult): PreCodeActionRequestParams = {
-    val visitors = AmfElementDefaultVisitors.build(result.baseUnit)
-    visitors.applyAmfVisitors(result.baseUnit)
+    val visitors = AmfElementDefaultVisitors.build(result.result.baseUnit)
+    visitors.applyAmfVisitors(result.result.baseUnit)
     val visitors1: Seq[RelationshipLink] = visitors.getRelationshipsFromVisitors
     PreCodeActionRequestParams(result, uri, visitors1)
   }
@@ -125,8 +129,8 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
   protected def buildParameter(uri: String,
                                result: AmfParseResult,
                                range: PositionRange,
-                               amfInstance: AmfInstance): CodeActionRequestParams = {
-    val cu       = DummyCompilableUnit(result.baseUnit, result.definedBy)
+                               amfConfiguration: AmfConfigurationWrapper): CodeActionRequestParams = {
+    val cu       = DummyCompilableUnit(result.result.baseUnit, result.definedBy)
     val visitors = AmfElementDefaultVisitors.build(cu.unit)
     visitors.applyAmfVisitors(cu.unit)
     val visitors1: Seq[RelationshipLink] = visitors.getRelationshipsFromVisitors
@@ -141,7 +145,7 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
       visitors1,
       dummyTelemetryProvider,
       "",
-      amfInstance,
+      amfConfiguration,
       new PlatformDirectoryResolver(platform)
     )
   }

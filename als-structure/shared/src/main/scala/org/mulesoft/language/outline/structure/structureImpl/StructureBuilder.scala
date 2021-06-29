@@ -1,17 +1,28 @@
 package org.mulesoft.language.outline.structure.structureImpl
 
-import amf.core.metamodel.Field
-import amf.core.metamodel.Type.Scalar
-import amf.core.metamodel.domain.extensions.{CustomDomainPropertyModel, PropertyShapeModel}
-import amf.core.metamodel.domain.{DomainElementModel, ShapeModel}
-import amf.core.model.document.BaseUnit
-import amf.core.model.domain._
-import amf.core.remote.{Oas, Oas30, Raml, _}
-import amf.plugins.document.vocabularies.model.document.{Dialect, DialectFragment, DialectLibrary, Vocabulary}
-import amf.plugins.domain.shapes.metamodel._
-import amf.plugins.domain.webapi.metamodel._
-import amf.plugins.domain.webapi.metamodel.api.WebApiModel
-import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
+import amf.aml.client.scala.model.document.{Dialect, DialectFragment, DialectLibrary, Vocabulary}
+import amf.apicontract.internal.metamodel.domain.api.WebApiModel
+import amf.apicontract.internal.metamodel.domain.templates.{ResourceTypeModel, TraitModel}
+import amf.apicontract.internal.metamodel.domain.{
+  EndPointModel,
+  OperationModel,
+  ParameterModel,
+  ParametersFieldModel,
+  PayloadModel,
+  RequestModel,
+  ResponseModel,
+  ServerModel,
+  TagModel,
+  TagsModel
+}
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.model.domain.{AmfElement, DomainElement, ObjectNode}
+import amf.core.internal.metamodel.Field
+import amf.core.internal.metamodel.Type.Scalar
+import amf.core.internal.metamodel.domain.{DomainElementModel, ShapeModel}
+import amf.core.internal.metamodel.domain.extensions.{CustomDomainPropertyModel, PropertyShapeModel}
+import amf.core.internal.remote._
+import amf.shapes.internal.domain.metamodel.CreativeWorkModel
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKinds.SymbolKind
 import org.mulesoft.language.outline.structure.structureImpl.factory.amlfactory.{
   AmlBuilderFactory,
@@ -24,17 +35,18 @@ import org.mulesoft.language.outline.structure.structureImpl.factory.webapi.{
   Oas30BuilderFactory,
   RamlBuilderFactory
 }
+import amf.core.internal.metamodel.Type
 
 class StructureBuilder(unit: BaseUnit, definedBy: Dialect) {
 
   // todo: general amf model dialect?
   private val factory: BuilderFactory = {
-    unit.sourceVendor match {
-      case Some(Raml08)     => RamlBuilderFactory
-      case Some(_: Raml)    => RamlBuilderFactory
-      case Some(Oas30)      => Oas30BuilderFactory
-      case Some(_: Oas)     => Oas20BuilderFactory
-      case Some(AsyncApi20) => Async20BuilderFactory
+    unit.sourceSpec match {
+      case Some(Spec.RAML08)  => RamlBuilderFactory
+      case Some(Spec.RAML10)  => RamlBuilderFactory
+      case Some(Spec.OAS30)   => Oas30BuilderFactory
+      case Some(Spec.OAS20)   => Oas20BuilderFactory
+      case Some(Spec.ASYNC20) => Async20BuilderFactory
       case _
           if unit.isInstanceOf[Dialect] || unit.isInstanceOf[DialectLibrary] || unit.isInstanceOf[DialectFragment] =>
         AmlMetaDialectBuilderFactory
@@ -101,10 +113,10 @@ object KindForResultMatcher {
 
   def kindForFieldType(f: Field): SymbolKind = f.`type` match {
     case _: Scalar => SymbolKinds.String
-    case amf.core.metamodel.Type.Int | amf.core.metamodel.Type.Float | amf.core.metamodel.Type.Double =>
+    case Type.Int | Type.Float | Type.Double =>
       SymbolKinds.Number
-    case amf.core.metamodel.Type.Bool => SymbolKinds.Boolean
-    case _                            => SymbolKinds.Property
+    case Type.Bool => SymbolKinds.Boolean
+    case _         => SymbolKinds.Property
   }
 
 }

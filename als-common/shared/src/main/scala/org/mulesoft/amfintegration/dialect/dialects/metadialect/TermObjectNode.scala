@@ -1,8 +1,8 @@
 package org.mulesoft.amfintegration.dialect.dialects.metadialect
 
-import amf.core.vocabulary.Namespace.XsdTypes.xsdString
-import amf.plugins.document.vocabularies.metamodel.domain.DatatypePropertyTermModel
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.aml.internal.metamodel.domain.DatatypePropertyTermModel
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 trait TermObjectNode extends DialectNode{

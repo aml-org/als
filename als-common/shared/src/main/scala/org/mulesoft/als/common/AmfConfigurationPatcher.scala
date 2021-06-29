@@ -1,26 +1,27 @@
 package org.mulesoft.als.common
 
-import amf.client.remote.Content
-import amf.client.resource.ResourceNotFound
-import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
+import amf.core.client.common.remote.Content
+import amf.core.client.platform.resource.ResourceNotFound
+import amf.core.client.scala.resource.ResourceLoader
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
-object EnvironmentPatcher {
+object AmfConfigurationPatcher {
 
-  def patch(environment: Environment, uri: String, content: String): Environment = {
+  def patch(configuration: AmfConfigurationWrapper, uri: String, content: String): AmfConfigurationWrapper = {
     val patchLoader = new ResourceLoader {
       override def fetch(resource: String): Future[Content] = Future(new Content(content, resource))
 
       override def accepts(resource: String): Boolean = resource == uri
     }
 
-    environment.withLoaders(patchLoader +: environment.loaders)
+    configuration.withResourceLoader(patchLoader)
+    configuration
   }
 
-  def patch(environment: Environment, files: Map[String, String]): Environment = {
+  def patch(configuration: AmfConfigurationWrapper, files: Map[String, String]): AmfConfigurationWrapper = {
     val patchLoader = new ResourceLoader {
       override def fetch(resource: String): Future[Content] = files.get(resource) match {
         case Some(content) => Future(new Content(content, resource))
@@ -30,7 +31,8 @@ object EnvironmentPatcher {
       override def accepts(resource: String): Boolean = files.contains(resource)
     }
 
-    environment.withLoaders(patchLoader +: environment.loaders)
+    configuration.withResourceLoader(patchLoader)
+    configuration
   }
 
 }

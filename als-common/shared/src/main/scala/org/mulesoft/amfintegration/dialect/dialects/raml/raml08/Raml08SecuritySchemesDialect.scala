@@ -1,19 +1,19 @@
 package org.mulesoft.amfintegration.dialect.dialects.raml.raml08
 
-import amf.core.metamodel.domain.ShapeModel
-import amf.core.metamodel.domain.extensions.PropertyShapeModel
-import amf.core.vocabulary.Namespace
-import amf.core.vocabulary.Namespace.XsdTypes.xsdString
-import Raml08DialectNodes.DataTypeNodeId
-import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
-import amf.plugins.domain.webapi.metamodel.security.{
+import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
+import amf.apicontract.internal.metamodel.domain.security.{
   OAuth1SettingsModel,
   OAuth2FlowModel,
   OAuth2SettingsModel,
   SecuritySchemeModel
 }
-import amf.plugins.domain.webapi.metamodel.{OperationModel, ParameterModel, RequestModel, ResponseModel}
-import Raml08TypesDialect.{DialectLocation, ShapeNodeId}
+import amf.apicontract.internal.metamodel.domain.{OperationModel, ParameterModel, RequestModel, ResponseModel}
+import amf.core.client.scala.vocabulary.Namespace
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
+import amf.core.internal.metamodel.domain.ShapeModel
+import amf.core.internal.metamodel.domain.extensions.PropertyShapeModel
+import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.Raml08DialectNodes.DataTypeNodeId
+import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.Raml08TypesDialect.{DialectLocation, ShapeNodeId}
 
 object Raml08SecuritySchemesDialect {
 

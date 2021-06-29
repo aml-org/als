@@ -1,8 +1,8 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 
-import amf.core.metamodel.Field
-import amf.core.model.domain.AmfScalar
-import amf.core.parser.FieldEntry
+import amf.core.client.scala.model.domain.AmfScalar
+import amf.core.internal.metamodel.Field
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.FieldTypeSymbolBuilder
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.{

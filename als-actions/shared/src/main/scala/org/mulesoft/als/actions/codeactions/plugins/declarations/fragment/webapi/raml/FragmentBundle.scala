@@ -1,13 +1,21 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.fragment.webapi.raml
 
-import amf.core.metamodel.domain.DomainElementModel
-import amf.core.metamodel.domain.extensions.CustomDomainPropertyModel
-import amf.core.model.document.Fragment
-import amf.core.model.domain.AmfObject
-import amf.plugins.document.webapi.model._
-import amf.plugins.domain.shapes.metamodel.AnyShapeModel
-import amf.plugins.domain.webapi.metamodel.security.SecuritySchemeModel
-import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
+import amf.apicontract.client.scala.model.document.{
+  AnnotationTypeDeclarationFragment,
+  DataTypeFragment,
+  DocumentationItemFragment,
+  NamedExampleFragment,
+  ResourceTypeFragment,
+  SecuritySchemeFragment,
+  TraitFragment
+}
+import amf.apicontract.internal.metamodel.domain.security.SecuritySchemeModel
+import amf.apicontract.internal.metamodel.domain.templates.{ResourceTypeModel, TraitModel}
+import amf.core.client.scala.model.document.Fragment
+import amf.core.client.scala.model.domain.AmfObject
+import amf.core.internal.metamodel.domain.DomainElementModel
+import amf.core.internal.metamodel.domain.extensions.CustomDomainPropertyModel
+import amf.shapes.internal.domain.metamodel.AnyShapeModel
 
 trait FragmentBundle {
   val name: String

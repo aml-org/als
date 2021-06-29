@@ -1,6 +1,5 @@
 package org.mulesoft.als.server.modules.actions
 
-import amf.core.remote.Platform
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.workspace.UnitWorkspaceManager
@@ -14,7 +13,6 @@ import scala.concurrent.Future
 
 class DocumentLinksManager(val workspaceManager: UnitWorkspaceManager,
                            private val telemetryProvider: TelemetryProvider,
-                           platform: Platform,
                            private val logger: Logger)
     extends RequestModule[DocumentLinkClientCapabilities, DocumentLinkOptions] {
 

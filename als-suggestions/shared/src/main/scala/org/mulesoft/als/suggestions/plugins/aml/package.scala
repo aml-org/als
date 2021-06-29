@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins
 
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.plugins.aml.categories.CategoryRegistry
 
@@ -21,9 +21,10 @@ package object aml {
 
   implicit class NodeMappingWrapper(nodeMapping: NodeMapping) {
 
-    def propertiesRaw(category: Option[String] = None, d: Dialect): Seq[RawSuggestion] =
+    def propertiesRaw(category: Option[String] = None, fromDialect: Dialect): Seq[RawSuggestion] =
       nodeMapping.propertiesMapping().map { p =>
-        val c = category.getOrElse(CategoryRegistry(nodeMapping.nodetypeMapping.value(), p.name().value(), d.id))
+        val c =
+          category.getOrElse(CategoryRegistry(nodeMapping.nodetypeMapping.value(), p.name().value(), fromDialect.id))
         p.toRaw(c)
       }
 

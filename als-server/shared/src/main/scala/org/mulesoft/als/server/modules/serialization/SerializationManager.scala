@@ -1,26 +1,28 @@
 package org.mulesoft.als.server.modules.serialization
 
-import java.util.UUID
-import amf.core.model.document.{BaseUnit, Document}
-import amf.plugins.document.webapi.model.{Extension, Overlay}
-import org.mulesoft.als.configuration.AlsConfigurationReader
+import amf.apicontract.client.scala.model.document.{Overlay, Extension}
+import amf.core.client.scala.model.document.{BaseUnit, Document}
 import org.mulesoft.als.server.feature.serialization._
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast.ResolvedUnitListener
 import org.mulesoft.als.server.modules.common.reconciler.Runnable
 import org.mulesoft.als.server.{ClientNotifierModule, RequestModule, SerializationProps}
 import org.mulesoft.amfintegration.AmfImplicits._
-import org.mulesoft.amfintegration.{AmfInstance, AmfResolvedUnit, ParserHelper}
+import org.mulesoft.amfintegration.AmfResolvedUnit
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import org.yaml.builder.DocBuilder
+import org.mulesoft.als.configuration.AlsConfigurationReader
 
+import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
 import scala.util.{Failure, Success}
 
 class SerializationManager[S](telemetryProvider: TelemetryProvider,
+                              amfConfiguration: AmfConfigurationWrapper,
                               configurationReader: AlsConfigurationReader,
                               props: SerializationProps[S],
                               override val logger: Logger)
@@ -32,13 +34,14 @@ class SerializationManager[S](telemetryProvider: TelemetryProvider,
 
   override val `type`: SerializationConfigType.type = SerializationConfigType
 
-  private def resolveAndSerialize(resolved: BaseUnit): Future[DocBuilder[S]] = {
-    val builder = props.newDocBuilder(configurationReader.getShouldPrettyPrintSerialization)
-    ParserHelper.toJsonLD(resolved, builder).map(_ => builder)
+  private def resolveAndSerialize(resolved: BaseUnit): DocBuilder[S] = {
+    val value = props.newDocBuilder(configurationReader.getShouldPrettyPrintSerialization)
+    amfConfiguration.asJsonLD(resolved, value)
+    value
   }
 
   override protected def runnable(ast: AmfResolvedUnit, uuid: String): SerializationRunnable =
-    new SerializationRunnable(ast.originalUnit.identifier, ast, uuid)
+    new SerializationRunnable(ast.baseUnit.identifier, ast, uuid)
 
   override def isActive: Boolean = enabled
 
@@ -60,16 +63,12 @@ class SerializationManager[S](telemetryProvider: TelemetryProvider,
   }
 
   private def process(ast: BaseUnit): Future[SerializationResult[S]] =
-    resolveAndSerialize(ast).map(b => SerializationResult(ast.identifier, b.result))
+    Future { SerializationResult(ast.identifier, resolveAndSerialize(ast).result) }
 
   private def getUnitFromResolved(unit: BaseUnit, uri: String): BaseUnit =
     if (unit.identifier == uri) unit
     else
-      unit.flatRefs.find(_.identifier == uri) match {
-        case Some(u) => u
-        case None =>
-          throw new Exception(s"Unreachable code - getUnitFromResolved $uri in BaseUnit ${unit.id}")
-      }
+      throw new Exception(s"Unreachable code - getUnitFromResolved $uri in BaseUnit ${unit.location}")
 
   private def processRequest(uri: String): Future[SerializationResult[S]] = {
     val bu: Future[BaseUnit] = unitAccessor match {
@@ -77,7 +76,7 @@ class SerializationManager[S](telemetryProvider: TelemetryProvider,
         ua.getLastUnit(uri, UUID.randomUUID().toString)
           .flatMap { r =>
             logger.debug(s"Serialization uri: $uri", "SerializationManager", "processRequest")
-            if (r.originalUnit.isInstanceOf[Extension] || r.originalUnit.isInstanceOf[Overlay])
+            if (r.baseUnit.isInstanceOf[Extension] || r.baseUnit.isInstanceOf[Overlay])
               r.latestBU
             else r.latestBU.map(getUnitFromResolved(_, uri))
           }
@@ -146,8 +145,8 @@ class SerializationManager[S](telemetryProvider: TelemetryProvider,
         "Serialize notification",
         MessageTypes.BEGIN_SERIALIZATION,
         MessageTypes.END_SERIALIZATION,
-        s"Scheduled Serialize notification for ${ast.originalUnit.identifier}",
-        ast.originalUnit.identifier,
+        s"Scheduled Serialize notification for ${ast.baseUnit.identifier}",
+        ast.baseUnit.identifier,
         innerSerialize,
         uuid
       )
@@ -160,7 +159,7 @@ class SerializationManager[S](telemetryProvider: TelemetryProvider,
         .asInstanceOf[SerializationRunnable]
         .uri
 
-    def cancel() {
+    def cancel(): Unit = {
       canceled = true
     }
 

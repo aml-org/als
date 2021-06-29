@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.core.model.domain.Shape
-import amf.plugins.domain.shapes.models.NodeShape
+import amf.core.client.scala.model.domain.Shape
+import amf.shapes.client.scala.model.domain.NodeShape
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin

@@ -1,6 +1,6 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.common
 
-import amf.core.model.domain.AmfObject
+import amf.core.client.scala.model.domain.AmfObject
 import org.mulesoft.als.actions.codeactions.plugins.CodeActionKindTitle
 import org.mulesoft.als.actions.codeactions.plugins.base.{CodeActionRequestParams, CodeActionResponsePlugin}
 import org.mulesoft.als.actions.codeactions.plugins.declarations.samefile.ExtractSameFileDeclaration
@@ -33,11 +33,11 @@ trait ConverterExtractor[Original <: AmfObject, Result <: AmfObject]
                     newName,
                     params.bu,
                     params.uri,
-                    vendor,
                     params.dialect,
                     params.configuration,
                     jsonOptions,
-                    yamlOptions).map(de => TextEdit(rangeFromEntryBottom(de._2), s"\n${de._1}\n"))
+                    yamlOptions,
+                    params.amfConfiguration).map(de => TextEdit(rangeFromEntryBottom(de._2), s"\n${de._1}\n"))
 
   def modifyEntry(original: Original): String
 

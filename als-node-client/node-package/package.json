@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "ajv": "6.5.2",
-    "amf-shacl-node": "1.1.0",
     "vscode-jsonrpc": "6.0.0",
     "vscode-languageserver-protocol": "3.16.0"
   }

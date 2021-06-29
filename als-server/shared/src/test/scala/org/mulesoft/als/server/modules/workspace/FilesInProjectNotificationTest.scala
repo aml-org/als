@@ -9,9 +9,10 @@ import org.mulesoft.als.server.{
   MockDiagnosticClientNotifier,
   MockFilesInClientNotifier
 }
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.configuration.TraceKind
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 
 class FilesInProjectNotificationTest extends LanguageServerBaseTest {
 
@@ -66,10 +67,11 @@ class FilesInProjectNotificationTest extends LanguageServerBaseTest {
   test("Open isolated file") {
     val alsClient: MockFilesInClientNotifier = new MockFilesInClientNotifier
     withServer(buildServer(alsClient)) { server =>
+      val helperAmfConfiguration = AmfConfigurationWrapper()
       for {
         _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
-        _ <- platform
-          .resolve(s"${filePath("ws1/independent.raml")}")
+        _ <- helperAmfConfiguration
+          .fetchContent(s"${filePath("ws1/independent.raml")}")
           .map(c => openFile(server)(c.url, c.stream.toString))
         filesInProject <- alsClient.nextCall
       } yield {

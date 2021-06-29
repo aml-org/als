@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml.templates
 
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
+import amf.aml.client.scala.model.domain.PropertyMapping
 import org.mulesoft.als.configuration.TemplateTypes
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest

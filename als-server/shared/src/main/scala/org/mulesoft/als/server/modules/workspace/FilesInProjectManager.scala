@@ -28,8 +28,11 @@ class FilesInProjectManager(clientNotifier: AlsClientNotifier[_])
     * @param ast  - AST
     * @param uuid - telemetry UUID
     */
-  override def onNewAst(ast: BaseUnitListenerParams, uuid: String): Unit =
-    if (ast.tree) clientNotifier.notifyProjectFiles(FilesInProjectParams(ast.diagnosticsBundle.keySet))
+  override def onNewAst(ast: BaseUnitListenerParams, uuid: String): Future[Unit] = synchronized {
+    Future.successful {
+      if (ast.tree) clientNotifier.notifyProjectFiles(FilesInProjectParams(ast.diagnosticsBundle.keySet))
+    }
+  }
 
   override def onRemoveFile(uri: String): Unit = {
     /* No action required */

@@ -1,13 +1,13 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.common.webapi.raml
 
-import amf.core.model.domain.AmfObject
-import amf.core.remote.Mimes
+import amf.core.client.scala.model.domain.AmfObject
+import amf.core.internal.remote.Mimes
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.common.Range
-import org.yaml.model.{YMap, YMapEntry, YNode, YPart, YType}
+import org.yaml.model._
 import org.yaml.render.{YamlRender, YamlRenderOptions}
 
 import scala.annotation.tailrec
@@ -48,7 +48,7 @@ object RamlTypeExtractor {
     getActualIndentation(entryAst, yPartBranch) + indentIfNecessary(amfObject, configurationReader)
 
   private def indentationSize(configurationReader: AlsConfigurationReader): Int =
-    configurationReader.getFormatOptionForMime(Mimes.`APPLICATION/YAML`).tabSize
+    configurationReader.getFormatOptionForMime(Mimes.`application/yaml`).tabSize
 
   /**
     * cases for inlined types

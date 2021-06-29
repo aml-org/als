@@ -1,13 +1,11 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf.client.remote.Content
-import amf.core.remote.Vendor
-import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
+import amf.core.client.common.remote.Content
+import amf.core.client.common.validation.ProfileNames
+import amf.core.client.scala.resource.ResourceLoader
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.amfintegration.AmfInstance
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -81,13 +79,11 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest {
 
     override def accepts(resource: String): Boolean = files.keySet.contains(resource)
   }
-  val env: Environment = Environment().add(rl)
 
   def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer = {
-    val amfInstance = new AmfInstance(Nil, platform, env)
-    val builder     = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, env).withAmfConfiguration(amfInstance)
-    val dm          = builder.diagnosticManager()
-    val factory     = builder.buildWorkspaceManagerFactory()
+    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, Seq(rl))
+    val dm      = builder.diagnosticManager()
+    val factory = builder.buildWorkspaceManagerFactory()
     val b = new LanguageServerBuilder(factory.documentManager,
                                       factory.workspaceManager,
                                       factory.configurationManager,
@@ -181,7 +177,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest {
       } yield {
         s.shutdown()
         assert(d.nonEmpty)
-        assert(d.forall(_.profile.profile == Vendor.ASYNC20.name))
+        assert(d.forall(_.profile.profile == ProfileNames.ASYNC20.profile))
       }
     }
   }

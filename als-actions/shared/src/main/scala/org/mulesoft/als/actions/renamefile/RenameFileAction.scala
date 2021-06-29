@@ -1,6 +1,6 @@
 package org.mulesoft.als.actions.renamefile
 
-import amf.core.remote.Platform
+import amf.core.internal.remote.Platform
 import org.mulesoft.als.common.URIImplicits.StringUriImplicits
 import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
 import org.mulesoft.lsp.edit._

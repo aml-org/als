@@ -1,6 +1,6 @@
 package org.mulesoft.als.nodeclient
 
-import amf.core.remote.Platform
+import amf.core.internal.remote.Platform
 import org.mulesoft.als.common.PlatformDirectoryResolver
 import org.mulesoft.als.configuration.ClientDirectoryResolver
 

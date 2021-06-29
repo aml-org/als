@@ -1,18 +1,19 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi
 
-import amf.core.model.DataType
-import amf.core.model.domain.extensions.PropertyShape
-import amf.core.model.domain.{AmfObject, Shape}
-import amf.core.parser.Value
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.NodeMapping
-import amf.plugins.domain.shapes.metamodel.ScalarShapeModel
-import amf.plugins.domain.shapes.models.{AnyShape, ScalarShape}
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.NodeMapping
+import amf.core.client.scala.model.DataType
+import amf.core.client.scala.model.domain.extensions.PropertyShape
+import amf.core.client.scala.model.domain.{AmfObject, Shape}
+import amf.core.internal.parser.domain.Value
+import amf.shapes.client.scala.model.domain.{AnyShape, ScalarShape}
+import amf.shapes.internal.annotations.TypePropertyLexicalInfo
+import amf.shapes.internal.domain.metamodel.ScalarShapeModel
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml._
-import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.als.suggestions.plugins.aml.NodeMappingWrapper
+import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, AmfObjectImp}
 
 import scala.concurrent.Future
 
@@ -27,7 +28,7 @@ trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin with WritingS
     })
   }
 
-  def resolveShape(shape: Shape, branchStack: Seq[AmfObject], d: Dialect): Seq[RawSuggestion] = {
+  def resolveShape(shape: Shape, branchStack: Seq[AmfObject], dialect: Dialect): Seq[RawSuggestion] = {
 
     val node = shape match {
       case scalar: ScalarShape =>
@@ -44,13 +45,13 @@ trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin with WritingS
     }
 
     val classSuggestions =
-      node.map(n => n.propertiesRaw(d = d)).getOrElse(Nil)
+      node.map(n => n.propertiesRaw(fromDialect = dialect)).getOrElse(Nil)
 
     // corner case, property shape should suggest facets of the range PLUS required
     val finalSuggestions: Iterable[RawSuggestion] = (branchStack.headOption match {
       case Some(_: PropertyShape) =>
         (propertyShapeNode
-          .map(_.propertiesRaw(d = d))
+          .map(_.propertiesRaw(fromDialect = dialect))
           .getOrElse(Nil) ++ classSuggestions).toSet
       case _ => classSuggestions
     }) ++ defaults(shape)
@@ -80,8 +81,8 @@ trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin with WritingS
             defaultSuggestions
           case _ => Nil
         }
-      case a: AnyShape if a.isDefaultEmpty => defaultSuggestions
-      case _                               => Nil
+      case a: AnyShape if a.annotations.find(classOf[TypePropertyLexicalInfo]).isEmpty => defaultSuggestions
+      case _                                                                           => Nil
     }
 
   def stringShapeNode: NodeMapping

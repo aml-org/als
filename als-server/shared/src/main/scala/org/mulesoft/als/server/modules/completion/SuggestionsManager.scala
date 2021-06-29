@@ -31,11 +31,8 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
 
   private var conf: Option[CompletionClientCapabilities] = None
 
-  private val suggestions = new Suggestions(editorEnvironment.platform,
-                                            editorEnvironment.environment,
-                                            configurationProvider.getConfiguration,
-                                            directoryResolver,
-                                            editorEnvironment.amfConfiguration)
+  private val suggestions =
+    new Suggestions(configurationProvider.getConfiguration, directoryResolver, editorEnvironment.amfConfiguration)
   private def snippetSupport =
     conf
       .getOrElse(CompletionClientCapabilities(contextSupport = None))

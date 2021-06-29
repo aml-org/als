@@ -1,8 +1,8 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.library
 
-import amf.core.model.document.Module
-import amf.core.model.domain.DomainElement
-import amf.core.remote.{Mimes, Vendor}
+import amf.core.client.scala.model.document.Module
+import amf.core.client.scala.model.domain.DomainElement
+import amf.core.internal.remote.{Mimes, Spec}
 import org.mulesoft.als.actions.codeactions.plugins.CodeActionKindTitle
 import org.mulesoft.als.actions.codeactions.plugins.base.{CodeActionRequestParams, CodeActionResponsePlugin}
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.{
@@ -48,18 +48,15 @@ trait ExtractDeclarationsToLibrary extends CodeActionResponsePlugin with Creates
     wholeUri.map(targetModule.withLocation)
   }
 
-  protected def moduleRendered(ef: Module): Future[String] =
-    params.amfInstance
-      .modelBuilder()
-      .serialize(params.bu.sourceVendor.map(_.name).getOrElse(Vendor.AML.name), syntax, ef)
+  protected def moduleRendered(ef: Module): String =
+    params.amfConfiguration
+      .serialize(params.bu.sourceSpec.getOrElse(Spec.AML), syntax, ef)
 
-  private val syntax: String = Mimes.`APPLICATION/YAML` // if it finds declared in a RAML, I can't be JSON
+  private val syntax
+    : String = Mimes.`application/yaml` // Mimes.`APPLICATION/YAML` // if it finds declared in a RAML, I can't be JSON
 
   private def moduleTextEdit(ef: Module): Future[(String, TextEdit)] =
-    for {
-      r   <- moduleRendered(ef)
-      uri <- wholeUri
-    } yield (uri, TextEdit(Range(Position(0, 0), Position(0, 0)), r))
+    wholeUri.map(uri => (uri, TextEdit(Range(Position(0, 0), Position(0, 0)), moduleRendered(ef))))
 
   /**
     * Entry for the import of the new library
@@ -122,7 +119,7 @@ trait ExtractDeclarationsToLibrary extends CodeActionResponsePlugin with Creates
 
   private val yamlOptions: YamlRenderOptions = YamlRenderOptions().withIndentationSize(
     params.configuration
-      .getFormatOptionForMime(Mimes.`APPLICATION/YAML`)
+      .getFormatOptionForMime(Mimes.`application/yaml`)
       .tabSize
   )
 

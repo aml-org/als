@@ -1,10 +1,8 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.ramlbuilders
 
-import amf.core.annotations.LexicalInformation
-import amf.core.model.domain.AmfElement
-import amf.plugins.domain.webapi.metamodel.security.SettingsModel
-import amf.plugins.domain.webapi.models.security.Settings
-import org.mulesoft.als.common.dtoTypes.PositionRange
+import amf.apicontract.client.scala.model.domain.security.Settings
+import amf.apicontract.internal.metamodel.domain.security.SettingsModel
+import amf.core.client.scala.model.domain.AmfElement
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSimpleBuilderCompanion,
   StructuredSymbolBuilder,

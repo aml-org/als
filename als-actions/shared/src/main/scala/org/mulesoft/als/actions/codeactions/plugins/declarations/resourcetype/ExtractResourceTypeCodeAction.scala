@@ -1,14 +1,14 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.resourcetype
 
-import amf.core.emitter.SpecOrdering
-import amf.core.errorhandling.UnhandledErrorHandler
-import amf.core.parser.Annotations
-import amf.core.remote.Vendor
-import amf.plugins.document.webapi.contexts.emitter.raml.Raml10SpecEmitterContext
-import amf.plugins.document.webapi.parser.spec.domain.{Raml10EndPointEmitter, RamlEndPointEmitter}
-import amf.plugins.domain.webapi.annotations.ParentEndPoint
-import amf.plugins.domain.webapi.models.EndPoint
-import amf.plugins.domain.webapi.models.api.WebApi
+import amf.apicontract.client.scala.model.domain.EndPoint
+import amf.apicontract.client.scala.model.domain.api.WebApi
+import amf.apicontract.internal.annotations.ParentEndPoint
+import amf.apicontract.internal.spec.common.emitter.{Raml10EndPointEmitter, RamlEndPointEmitter}
+import amf.apicontract.internal.spec.raml.emitter.context.Raml10SpecEmitterContext
+import amf.core.client.scala.errorhandling.UnhandledErrorHandler
+import amf.core.internal.parser.domain.Annotations
+import amf.core.internal.remote.Spec
+import amf.core.internal.render.SpecOrdering
 import org.mulesoft.als.actions.codeactions.plugins.CodeActionKindTitle
 import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionFactory,
@@ -29,7 +29,7 @@ case class ExtractResourceTypeCodeAction(params: CodeActionRequestParams)
   override val declarationKey: String = "resourceTypes"
 
   override lazy val isApplicable: Boolean =
-    params.bu.sourceVendor.contains(Vendor.RAML10) && original.isDefined
+    params.bu.sourceSpec.contains(Spec.RAML10) && original.isDefined
 
   override protected def newName: String = ExtractorCommon.nameNotInList("resourceType", params.bu.declaredNames.toSet)
 

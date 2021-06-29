@@ -1,11 +1,10 @@
 package org.mulesoft.amfintegration.dialect.dialects.raml.raml08
 
-import amf.core.metamodel.domain.extensions.PropertyShapeModel
-import amf.core.vocabulary.Namespace.XsdTypes.xsdBoolean
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.metamodel.{EndPointModel, ParameterModel}
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.apicontract.internal.metamodel.domain.{EndPointModel, ParameterModel}
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdBoolean
+import amf.core.internal.metamodel.domain.extensions.PropertyShapeModel
 import org.mulesoft.amfintegration.dialect.dialects.raml.RamlDialectNodes
-import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
 
 object Raml08DialectNodes extends RamlDialectNodes {
   override protected def dialectLocation: String = Raml08TypesDialect.DialectLocation

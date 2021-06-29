@@ -4,7 +4,7 @@ import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.lsp.workspace.ExecuteCommandParams
 import org.yaml.model.{YDocument, YMap, YNode}
 import org.yaml.parser.JsonParser
-import amf.core.parser.YNodeLikeOps
+import amf.core.internal.parser.YNodeLikeOps
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global

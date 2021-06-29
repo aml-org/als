@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.modules.actions
 
-import amf.core.model.document.BaseUnit
+import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.actions.formatting.RangeFormatting
 import org.mulesoft.als.common.NodeBranchBuilder
 import org.mulesoft.als.convert.LspRangeConverter

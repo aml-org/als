@@ -1,16 +1,15 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10.structure
 
-import amf.core.model.domain.Shape
-import amf.plugins.document.vocabularies.model.domain.NodeMapping
-import amf.plugins.domain.webapi.metamodel.OperationModel
-import amf.plugins.domain.webapi.models.{Parameter, Payload, Request}
-import amf.plugins.domain.webapi.models.security.{SecurityScheme, Settings}
+import amf.apicontract.client.scala.model.domain.{Parameter, Payload, Request}
+import amf.apicontract.client.scala.model.domain.security.{SecurityScheme, Settings}
+import amf.apicontract.internal.metamodel.domain.OperationModel
+import amf.core.client.scala.model.domain.Shape
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.ResolveIfApplies
 import org.mulesoft.als.suggestions.plugins.aml._
-import org.mulesoft.amfintegration.dialect.dialects.raml.RamlDialectNodes
 import org.mulesoft.amfintegration.AmfImplicits._
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -25,7 +24,7 @@ object ResolveShapeAndSecurity extends ResolveIfApplies {
           Future {
             request.actualDialect
               .findNodeMappingByTerm(OperationModel.`type`.head.iri())
-              .map(n => n.propertiesRaw(d = request.actualDialect))
+              .map(n => n.propertiesRaw(fromDialect = request.actualDialect))
               .getOrElse(Nil)
           }
         )
