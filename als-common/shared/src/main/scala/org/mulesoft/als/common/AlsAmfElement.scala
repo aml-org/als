@@ -1,6 +1,6 @@
 package org.mulesoft.als.common
 
-import amf.core.model.domain.{AmfArray, AmfElement, AmfObject, AmfScalar}
+import amf.core.client.scala.model.domain.{AmfArray, AmfElement, AmfObject, AmfScalar}
 
 object AlsAmfElement {
 

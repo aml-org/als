@@ -1,7 +1,7 @@
 package org.mulesoft.amfintegration.relationships
 
-import amf.core.parser.{Position => AmfPosition}
-import amf.core.remote.Platform
+import amf.core.client.common.position.{Position => AmfPosition}
+import amf.core.internal.remote.Platform
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.lexer.SourceLocation

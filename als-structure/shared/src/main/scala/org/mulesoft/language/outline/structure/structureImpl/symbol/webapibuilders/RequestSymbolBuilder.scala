@@ -1,17 +1,13 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders
 
-import amf.plugins.domain.webapi.metamodel.RequestModel
-import amf.plugins.domain.webapi.models.Request
-import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
+import amf.apicontract.client.scala.model.domain.Request
+import amf.apicontract.internal.metamodel.domain.RequestModel
+import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSimpleBuilderCompanion,
-  AmfObjectSymbolBuilder,
   SymbolBuilder
 }
-import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.{
-  AnonymousObjectSymbolBuilder,
-  AnonymousObjectSymbolBuilderTrait
-}
+import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.AnonymousObjectSymbolBuilderTrait
 
 class RequestSymbolBuilder(override val element: Request)(override implicit val ctx: StructureContext)
     extends AnonymousObjectSymbolBuilderTrait[Request]

@@ -1,17 +1,17 @@
 package org.mulesoft.amfintegration.visitors.noderelationship.plugins
 
-import amf.core.model.StrField
-import amf.core.model.document.BaseUnit
-import amf.core.model.domain.{AmfArray, AmfElement, AmfObject, AmfScalar}
-import amf.core.parser.YNodeLikeOps
-import amf.plugins.document.vocabularies.metamodel.domain.{PropertyMappingModel, UnionNodeMappingModel}
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.{DocumentsModel, NodeMapping, PropertyMapping, UnionNodeMapping}
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.{DocumentsModel, NodeMapping, PropertyMapping, UnionNodeMapping}
+import amf.aml.internal.metamodel.domain.{PropertyMappingModel, UnionNodeMappingModel}
+import amf.core.client.scala.model.StrField
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.model.domain.{AmfArray, AmfElement, AmfObject, AmfScalar}
+import amf.core.internal.parser.YNodeLikeOps
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.relationships.RelationshipLink
 import org.mulesoft.amfintegration.visitors.DialectElementVisitorFactory
 import org.mulesoft.amfintegration.visitors.noderelationship.NodeRelationshipVisitorType
-import org.yaml.model.{YMap, YMapEntry, YNode, YNodePlain, YSequence, YType}
+import org.yaml.model.{YMap, YMapEntry, YNodePlain, YSequence}
 class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
 
   override protected def innerVisit(element: AmfElement): Seq[RelationshipLink] =
@@ -82,7 +82,7 @@ class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
           })
       case _ => None
     } match {
-      case Some(a: Seq[YNode]) =>
+      case Some(a) =>
         linkName
           .flatMap(t => {
             a.find(_.toString == t._2).map(p => (t._1, p))

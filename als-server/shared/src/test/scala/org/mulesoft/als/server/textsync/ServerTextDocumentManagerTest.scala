@@ -1,15 +1,12 @@
 package org.mulesoft.als.server.textsync
 
-import amf.client.remote.Content
-import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
-import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.feature.common.TextDocumentIdentifier
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, DocumentSymbolRequestType}
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 
 class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
 
@@ -36,17 +33,19 @@ class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
 
       val url = "file:///changeDocumentTest001.raml"
 
-      openFile(server)(url, content1)
-      changeFile(server)(url, content2, 1)
-
       val handler = server.resolveHandler(DocumentSymbolRequestType).value
-
-      handler(DocumentSymbolParams(TextDocumentIdentifier(url)))
-        .collect { case Right(symbols) => symbols }
-        .map(symbols =>
-          symbols
-            .collectFirst { case o if o.name == "title" => succeed }
-            .getOrElse(fail("Invalid outline")))
+      for {
+        _ <- openFile(server)(url, content1)
+        _ <- changeFile(server)(url, content2, 1)
+        _ <- handler(DocumentSymbolParams(TextDocumentIdentifier(url)))
+          .collect { case Right(symbols) => symbols }
+          .map(symbols =>
+            symbols
+              .collectFirst { case o if o.name == "title" => succeed }
+              .getOrElse(fail("Invalid outline")))
+      } yield {
+        succeed
+      }
     }
   }
 
@@ -58,18 +57,18 @@ class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
 
       val url = "file:///changeDocumentTest002.raml"
 
-      openFile(server)(url, content1)
-      changeFile(server)(url, content2, 1)
-      changeFile(server)(url, content3, 2)
-
       val handler = server.resolveHandler(DocumentSymbolRequestType).value
-
-      handler(DocumentSymbolParams(TextDocumentIdentifier(url)))
-        .collect { case Right(symbols) => symbols }
-        .map(symbols =>
-          symbols
-            .collectFirst { case o if o.name == "MyType" => fail("Should fail") }
-            .getOrElse(succeed))
+      for {
+        _ <- openFile(server)(url, content1)
+        _ <- changeFile(server)(url, content2, 1)
+        _ <- changeFile(server)(url, content3, 2)
+        _ <- handler(DocumentSymbolParams(TextDocumentIdentifier(url)))
+          .collect { case Right(symbols) => symbols }
+          .map(symbols =>
+            symbols
+              .collectFirst { case o if o.name == "MyType" => fail("Should fail") }
+              .getOrElse(succeed))
+      } yield succeed
     }
   }
 
@@ -81,18 +80,21 @@ class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
 
       val url = platform.encodeURI("file:///uri with spaces.raml")
 
-      openFile(server)(url, content1)
-      changeFile(server)(url, content2, 1)
-
       val handler = server.resolveHandler(DocumentSymbolRequestType).value
 
-      handler(DocumentSymbolParams(TextDocumentIdentifier(url)))
-        .collect { case Right(symbols) => symbols }
-        .map(symbols =>
-          symbols.headOption match {
-            case Some(o) => o.name should be("title")
-            case _       => fail("Missing first symbol")
-        })
+      for {
+        _ <- openFile(server)(url, content1)
+        _ <- changeFile(server)(url, content2, 1)
+        _ <- handler(DocumentSymbolParams(TextDocumentIdentifier(url)))
+          .collect { case Right(symbols) => symbols }
+          .map(symbols =>
+            symbols.headOption match {
+              case Some(o) => o.name should be("title")
+              case _       => fail("Missing first symbol")
+          })
+      } yield {
+        succeed
+      }
     }
   }
 

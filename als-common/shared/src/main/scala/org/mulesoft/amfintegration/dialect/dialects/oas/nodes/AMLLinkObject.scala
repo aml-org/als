@@ -1,9 +1,10 @@
 package org.mulesoft.amfintegration.dialect.dialects.oas.nodes
 
-import amf.core.vocabulary.Namespace.XsdTypes.xsdString
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.apicontract.internal.metamodel.domain.TemplatedLinkModel
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
+import amf.shapes.internal.domain.metamodel.IriTemplateMappingModel
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.metamodel.{IriTemplateMappingModel, TemplatedLinkModel}
 
 object AMLLinkObject extends DialectNode {
   override def name: String            = "LinkObject"

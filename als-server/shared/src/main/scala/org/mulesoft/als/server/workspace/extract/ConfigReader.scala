@@ -1,10 +1,9 @@
 package org.mulesoft.als.server.workspace.extract
 
-import amf.core.registries.AMFPluginsRegistry
-import amf.core.remote.{Platform, UnsupportedUrlScheme}
-import amf.internal.environment.Environment
+import amf.core.internal.remote.UnsupportedUrlScheme
 import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -13,19 +12,18 @@ trait ConfigReader {
   val configFileName: String
 
   def readRoot(rootUri: String,
-               platform: Platform,
-               environment: Environment,
+               amfConfiguration: AmfConfigurationWrapper,
                logger: Logger): Future[Option[WorkspaceConfig]] = {
     logger.debug(s"reading $rootUri", "ConfigReader", "readRoot")
     val fileUri      = appendFileToUri(rootUri)
-    val fileAsAmfUri = fileUri.toAmfUri(platform)
+    val fileAsAmfUri = fileUri.toAmfUri(amfConfiguration.platform)
     logger.debug(s"full URI $fileUri", "ConfigReader", "readRoot")
     logger.debug(s"full AMF URI $fileAsAmfUri", "ConfigReader", "readRoot")
-    readFile(fileAsAmfUri, platform, environment, logger).flatMap {
+    readFile(fileAsAmfUri, amfConfiguration, logger).flatMap {
       case Some(content) =>
-        val asPath = rootUri.toPath(platform)
+        val asPath = rootUri.toPath(amfConfiguration.platform)
         logger.debug(s"asPath $asPath", "ConfigReader", "readRoot")
-        buildConfig(content, asPath, platform, environment, logger) match {
+        buildConfig(content, asPath, amfConfiguration, logger) match {
           case Some(f) =>
             f.map(Some(_))
           case _ =>
@@ -42,15 +40,12 @@ trait ConfigReader {
     else s"$rootPath/$configFileName"
 
   protected def readFile(uri: String,
-                         platform: Platform,
-                         environment: Environment,
+                         amfConfiguration: AmfConfigurationWrapper,
                          logger: Logger): Future[Option[String]] = {
     try {
       logger.debug(s"reading $uri", "ConfigReader", "readFile")
-      environment.loaders
-        .foreach(l => logger.debug(s"loader accepts $uri: ${l.accepts(uri)}", "ConfigReader", "readFile"))
-      platform
-        .fetchContent(uri, AMFPluginsRegistry.obtainStaticConfig().withResourceLoaders(environment.loaders.toList))
+      amfConfiguration
+        .fetchContent(uri)
         .map { content =>
           Some(content.stream.toString)
         }
@@ -68,7 +63,6 @@ trait ConfigReader {
 
   protected def buildConfig(content: String,
                             path: String,
-                            platform: Platform,
-                            environment: Environment,
+                            amfConfiguration: AmfConfigurationWrapper,
                             logger: Logger): Option[Future[WorkspaceConfig]]
 }

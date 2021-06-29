@@ -1,10 +1,7 @@
 package org.mulesoft.als.actions.codeactions.plugins.vocabulary
 
-import amf.core.remote.Mimes
-import amf.core.vocabulary.Namespace
-import amf.plugins.document.vocabularies.emitters.vocabularies.VocabularyEmitter
-import amf.plugins.document.vocabularies.model.document.{Dialect, Vocabulary}
-import amf.plugins.document.vocabularies.model.domain.{
+import amf.aml.client.scala.model.document.{Dialect, Vocabulary}
+import amf.aml.client.scala.model.domain.{
   ClassTerm,
   DatatypePropertyTerm,
   NodeMapping,
@@ -12,20 +9,23 @@ import amf.plugins.document.vocabularies.model.domain.{
   PropertyMapping,
   PropertyTerm
 }
+import amf.aml.internal.render.emitters.vocabularies.VocabularyEmitter
+import amf.core.client.scala.vocabulary.Namespace
+import amf.core.internal.remote.Mimes
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.CreatesFileCodeAction
 import org.mulesoft.als.common.YamlWrapper.AlsInputRange
-import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.common.dtoTypes.{PositionRange, Position => DtoPosition}
+import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
 import org.mulesoft.lsp.configuration.FormatOptions
-import org.mulesoft.lsp.edit.{CreateFile, NewFileOptions, ResourceOperation, TextDocumentEdit, TextEdit}
+import org.mulesoft.lsp.edit._
 import org.mulesoft.lsp.feature.common.{Position, Range, VersionedTextDocumentIdentifier}
 import org.yaml.model.{YMap, YMapEntry, YNode}
 import org.yaml.render.{YamlRender, YamlRenderOptions}
 
 trait DialectActionsHelper extends CreatesFileCodeAction {
 
-  val formattingOptions: FormatOptions = params.configuration.getFormatOptionForMime(Mimes.`APPLICATION/YAML`)
+  val formattingOptions: FormatOptions = params.configuration.getFormatOptionForMime(Mimes.`application/yaml`)
   val renderOptions: YamlRenderOptions = YamlRenderOptions(formattingOptions.tabSize, applyFormatting = true)
 
   protected def collectNodeMappings(dialect: Dialect, condition: NodeMapping => Boolean): Seq[NodeMapping] =

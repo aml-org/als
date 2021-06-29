@@ -1,8 +1,8 @@
 package org.mulesoft.als.nodeclient
 
-import amf.client.convert.CoreClientConverters._
-import amf.client.resource.ClientResourceLoader
-import amf.core.unsafe.PlatformSecrets
+import amf.core.internal.convert.CoreClientConverters._
+import amf.core.client.platform.resource.ClientResourceLoader
+import amf.core.internal.unsafe.PlatformSecrets
 import io.scalajs.nodejs.process
 import org.mulesoft.als.server.{
   ClientNotifierFactory,

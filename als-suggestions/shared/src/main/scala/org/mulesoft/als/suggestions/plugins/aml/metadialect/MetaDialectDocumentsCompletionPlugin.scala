@@ -1,21 +1,15 @@
 package org.mulesoft.als.suggestions.plugins.aml.metadialect
 
-import amf.core.model.domain.AmfObject
-import amf.core.parser.FieldEntry
-import amf.core.vocabulary.Namespace.XsdTypes
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.{DocumentsModel, NodeMapping, PropertyMapping}
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.{DocumentsModel, NodeMapping}
+import amf.core.client.scala.model.domain.AmfObject
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.ResolveIfApplies
-import org.mulesoft.als.suggestions.plugins.aml.{
-  AMLStructureCompletionsPlugin,
-  BooleanSuggestions,
-  EnumSuggestions,
-  PropertyMappingWrapper,
-  StructureCompletionPlugin
-}
+import org.mulesoft.als.suggestions.plugins.aml.{AMLStructureCompletionsPlugin, BooleanSuggestions, EnumSuggestions}
 import org.mulesoft.amfintegration.AmfImplicits.AmfObjectImp
 import org.mulesoft.amfintegration.dialect.dialects.metadialect.{DocumentsObjectNode, MetaDialect}
 

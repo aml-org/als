@@ -147,12 +147,13 @@ class RenameFileTest extends LanguageServerBaseTest {
     val oldFile          = TextDocumentIdentifier(oldFilePath)
     val newFile          = TextDocumentIdentifier(newFilePath)
     val workspaceService = server.workspaceService.asInstanceOf[WorkspaceManager]
-    workspaceService.changeWorkspaceFolders(
-      DidChangeWorkspaceFoldersParams(
-        WorkspaceFoldersChangeEvent(List(WorkspaceFolder(workspaceUri)), List())
-      )
-    )
+
     for {
+      _ <- workspaceService.changeWorkspaceFolders(
+        DidChangeWorkspaceFoldersParams(
+          WorkspaceFoldersChangeEvent(List(WorkspaceFolder(workspaceUri)), List())
+        )
+      )
       renameFileResult <- {
         val handler: RequestHandler[RenameFileActionParams, RenameFileActionResult] =
           server.resolveHandler(RenameFileActionRequestType).get

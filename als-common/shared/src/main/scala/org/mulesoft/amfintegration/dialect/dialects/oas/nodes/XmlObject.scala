@@ -1,8 +1,8 @@
 package org.mulesoft.amfintegration.dialect.dialects.oas.nodes
 
-import amf.core.vocabulary.Namespace.XsdTypes.{amlLink, xsdBoolean, xsdString}
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.shapes.metamodel.XMLSerializerModel
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{amlLink, xsdBoolean, xsdString}
+import amf.shapes.internal.domain.metamodel.XMLSerializerModel
 import org.mulesoft.amfintegration.dialect.dialects.oas.OasBaseDialect
 
 object XmlObject extends DialectNode {

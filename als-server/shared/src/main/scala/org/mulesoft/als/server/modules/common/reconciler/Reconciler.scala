@@ -19,7 +19,7 @@ class Reconciler(logger: Logger,
   private var waitingList: ListBuffer[Runnable[Any]] = ListBuffer[Runnable[Any]]()
   private var runningList: ListBuffer[Runnable[Any]] = ListBuffer[Runnable[Any]]()
 
-  def schedule[ResultType](runnable: Runnable[ResultType]): Promise[ResultType] = {
+  def schedule[ResultType](runnable: Runnable[ResultType]): Promise[ResultType] = synchronized {
     val result = Promise[ResultType]()
 
     addToWaitingList(runnable)

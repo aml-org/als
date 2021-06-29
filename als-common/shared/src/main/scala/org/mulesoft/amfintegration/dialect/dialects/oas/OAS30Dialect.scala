@@ -1,11 +1,10 @@
 package org.mulesoft.amfintegration.dialect.dialects.oas
 
-import amf.core.annotations.Aliases
-import amf.core.metamodel.domain.ModelVocabularies
-import amf.core.vocabulary.Namespace
-import amf.plugins.document.vocabularies.plugin.ReferenceStyles
-import amf.plugins.document.vocabularies.model.document.{Dialect, Vocabulary}
-import amf.plugins.document.vocabularies.model.domain.{DocumentMapping, DocumentsModel, External, PublicNodeMapping}
+import amf.aml.client.scala.model.document.{Dialect, Vocabulary}
+import amf.aml.client.scala.model.domain.{DocumentMapping, DocumentsModel, External, PublicNodeMapping}
+import amf.core.client.scala.vocabulary.Namespace
+import amf.core.internal.annotations.Aliases
+import amf.core.internal.metamodel.domain.ModelVocabularies
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.oas.oas3.JsonSchemas
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes._

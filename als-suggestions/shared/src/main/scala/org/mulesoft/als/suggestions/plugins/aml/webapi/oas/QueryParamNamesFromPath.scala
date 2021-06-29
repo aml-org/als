@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas
 
-import amf.core.model.domain.AmfObject
-import amf.plugins.domain.webapi.models.{EndPoint, Parameter}
+import amf.apicontract.client.scala.model.domain.{EndPoint, Parameter}
+import amf.core.client.scala.model.domain.AmfObject
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin

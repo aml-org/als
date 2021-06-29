@@ -7,12 +7,7 @@ import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.workspace.command.Commands
-import org.mulesoft.als.server.{
-  LanguageServerBaseTest,
-  LanguageServerBuilder,
-  MockDiagnosticClientNotifier,
-  TimeoutFuture
-}
+import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.configuration.{TraceKind, WorkspaceFolder}
 import org.mulesoft.lsp.feature.common.{Position, Range}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
@@ -393,7 +388,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       val filesWS2 = List(s"${ws2path}/api.raml", s"${ws2path}/sub/type.raml")
       val ws1      = WorkspaceFolder(Some(ws1path), Some("ws1"))
       val ws2      = WorkspaceFolder(Some(ws2path), Some("ws2"))
-      val allFiles = (filesWS1 ++ filesWS2)
+      val allFiles = filesWS1 ++ filesWS2
       val wsList   = List(ws1, ws2)
 
       for {
@@ -527,9 +522,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       val root2      = s"${filePath("multiworkspace/ws2")}"
       val globalRoot = s"${filePath("multiworkspace")}"
 
-      val filesWS1     = Set(s"${root1}/api.raml", s"${root1}/sub/type.raml", s"${root1}/type.json")
-      val filesWS2     = Set(s"${root2}/api.raml", s"${root2}/sub/type.raml")
-      val fileGlobalWS = s"${globalRoot}/api.raml"
+      val filesWS1     = Set(s"$root1/api.raml", s"$root1/sub/type.raml", s"$root1/type.json")
+      val filesWS2     = Set(s"$root2/api.raml", s"$root2/sub/type.raml")
+      val fileGlobalWS = s"$globalRoot/api.raml"
 
       val root2WSF  = WorkspaceFolder(Some(root2), Some("ws-2"))
       val root1WSF  = WorkspaceFolder(Some(root1), Some("ws-1"))

@@ -4,6 +4,7 @@ import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManage
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.common.TextDocumentIdentifier
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, DocumentSymbolRequestType}
@@ -30,13 +31,14 @@ class WorkspaceManagerWithoutDiagnosticsTest extends LanguageServerBaseTest {
       """.stripMargin
     val fragmentUri = s"${filePath("ws2/fragment.raml")}"
     withServer[Assertion](buildServer(factory)) { server =>
+      val amfConfiguration = AmfConfigurationWrapper()
       for {
         _               <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws2")}")))
-        apiContent      <- platform.resolve(s"${filePath("ws2/api.raml")}")
-        fragmentContent <- platform.resolve(fragmentUri)
-        _               <- Future { openFile(server)(s"${filePath("ws2/api.raml")}", apiContent.stream.toString) }
-        _               <- Future { openFile(server)(fragmentUri, fragmentContent.stream.toString) }
-        _               <- Future { changeFile(server)(fragmentUri, changedFragment, 1) }
+        apiContent      <- amfConfiguration.fetchContent(s"${filePath("ws2/api.raml")}")
+        fragmentContent <- amfConfiguration.fetchContent(fragmentUri)
+        _               <- openFile(server)(s"${filePath("ws2/api.raml")}", apiContent.stream.toString)
+        _               <- openFile(server)(fragmentUri, fragmentContent.stream.toString)
+        _               <- changeFile(server)(fragmentUri, changedFragment, 1)
         r1 <- {
           val handler = server.resolveHandler(DocumentSymbolRequestType).value
 
@@ -50,9 +52,9 @@ class WorkspaceManagerWithoutDiagnosticsTest extends LanguageServerBaseTest {
                 case _ => fail("Missing first symbol")
             })
         }
+        _ <- closeFile(server)(fragmentUri)
         r2 <- {
           if (r1 == succeed) {
-            closeFile(server)(fragmentUri)
             val handler = server.resolveHandler(DocumentSymbolRequestType).value
 
             handler(DocumentSymbolParams(TextDocumentIdentifier(fragmentUri)))
@@ -71,7 +73,10 @@ class WorkspaceManagerWithoutDiagnosticsTest extends LanguageServerBaseTest {
   }
 
   def buildServer(factory: WorkspaceManagerFactory): LanguageServer =
-    new LanguageServerBuilder(factory.documentManager, factory.workspaceManager, factory.configurationManager, factory.resolutionTaskManager)
+    new LanguageServerBuilder(factory.documentManager,
+                              factory.workspaceManager,
+                              factory.configurationManager,
+                              factory.resolutionTaskManager)
       .addRequestModule(factory.structureManager)
       .build()
 

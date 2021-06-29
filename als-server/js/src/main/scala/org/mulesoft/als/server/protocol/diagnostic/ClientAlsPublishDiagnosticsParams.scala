@@ -1,12 +1,11 @@
 package org.mulesoft.als.server.protocol.diagnostic
 
-import amf.ProfileName
 import org.mulesoft.als.server.modules.diagnostic.AlsPublishDiagnosticsParams
-import org.mulesoft.lsp.feature.diagnostic.{ClientDiagnostic, ClientPublishDiagnosticsParams}
+import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
+import org.mulesoft.lsp.feature.diagnostic.ClientDiagnostic
 
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
-import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
 
 // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 

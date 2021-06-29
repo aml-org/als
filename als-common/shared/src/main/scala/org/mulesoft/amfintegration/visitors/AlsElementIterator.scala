@@ -1,13 +1,13 @@
 package org.mulesoft.amfintegration.visitors
 
-import amf.core.annotations.ErrorDeclaration
-import amf.core.model.document.BaseUnit
-import amf.core.model.domain.templates.AbstractDeclaration
-import amf.core.model.domain.{AmfArray, AmfElement, AmfObject}
-import amf.core.traversal.iterator.AmfIterator
-import amf.plugins.domain.webapi.models.{EndPoint, Operation}
+import amf.apicontract.client.scala.model.domain.{EndPoint, Operation}
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.model.domain.{AmfArray, AmfElement, AmfObject}
+import amf.core.client.scala.model.domain.templates.AbstractDeclaration
+import amf.core.client.scala.traversal.iterator.AmfIterator
+import amf.core.internal.annotations.ErrorDeclaration
 import org.mulesoft.amfintegration.AbstractDeclarationInformation
-import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 
 import scala.collection.mutable
 

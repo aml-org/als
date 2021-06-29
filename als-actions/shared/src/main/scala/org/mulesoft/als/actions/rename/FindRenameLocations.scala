@@ -1,6 +1,6 @@
 package org.mulesoft.als.actions.rename
 
-import amf.core.model.document.BaseUnit
+import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.actions.references.FindReferences
 import org.mulesoft.als.common.YamlUtils
 import org.mulesoft.als.common.YamlWrapper._

@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.modules.actions
 
-import amf.core.remote.Platform
+import amf.core.internal.remote.Platform
 import org.mulesoft.als.actions.renamefile.RenameFileAction
 import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.als.server.RequestModule

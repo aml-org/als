@@ -1,23 +1,22 @@
 package org.mulesoft.amfintegration
 
-import amf.client.parse.DefaultErrorHandler
-import amf.core.errorhandling.ErrorCollector
-import amf.core.model.document.BaseUnit
-import amf.plugins.document.webapi.model.{Extension, Overlay}
-import org.mulesoft.als.configuration.UnitWithWorkspaceConfiguration
+import amf.core.client.scala.errorhandling.{AMFErrorHandler, DefaultErrorHandler}
+import amf.core.client.scala.model.document.BaseUnit
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-trait AmfResolvedUnit extends UnitWithNextReference with UnitWithWorkspaceConfiguration {
+trait AmfResolvedUnit extends UnitWithNextReference {
   override protected type T = AmfResolvedUnit
+  val amfConfiguration: AmfConfigurationWrapper
 
   protected def resolvedUnitFn(): Future[BaseUnit]
 
   val diagnosticsBundle: Map[String, DiagnosticsBundle]
 
-  val eh: ErrorCollector = DefaultErrorHandler()
-  val originalUnit: BaseUnit
+  val eh: AMFErrorHandler = DefaultErrorHandler()
+  val baseUnit: BaseUnit
 
   final lazy val resolvedUnit: Future[BaseUnit] = resolvedUnitFn()
 
@@ -29,5 +28,4 @@ trait AmfResolvedUnit extends UnitWithNextReference with UnitWithWorkspaceConfig
 
   final def latestBU: Future[BaseUnit] =
     getLastRecursively(this).flatMap(_.resolvedUnit)
-
 }

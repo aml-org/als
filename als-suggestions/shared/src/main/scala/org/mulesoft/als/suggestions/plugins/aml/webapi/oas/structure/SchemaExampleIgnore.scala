@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.structure
 
-import amf.core.model.domain.{AmfObject, Shape}
-import amf.plugins.domain.shapes.models.Example
-import amf.plugins.domain.webapi.models.Payload
+import amf.apicontract.client.scala.model.domain.Payload
+import amf.core.client.scala.model.domain.{AmfObject, Shape}
+import amf.shapes.client.scala.model.domain.Example
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.ResolveIfApplies

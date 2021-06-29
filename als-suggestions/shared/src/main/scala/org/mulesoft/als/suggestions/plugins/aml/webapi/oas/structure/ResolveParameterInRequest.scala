@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.structure
 
-import amf.plugins.domain.webapi.metamodel.OperationModel
-import amf.plugins.domain.webapi.models.{Operation, Parameter}
-import org.mulesoft.als.common.AmfSonElementFinder._
+import amf.apicontract.client.scala.model.domain.{Operation, Parameter}
+import amf.apicontract.internal.metamodel.domain.OperationModel
+import org.mulesoft.als.common.AmfSonElementFinder.AlsAmfObject
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.ResolveIfApplies
@@ -18,8 +18,9 @@ object ResolveParameterInRequest extends ResolveIfApplies {
         val branch =
           o.request.findSon(o.location().getOrElse(""), request.actualDialect, request.yPartBranch)
         if (branch.obj.isInstanceOf[Parameter] && branch.fe.isEmpty)
-          applies(Future.successful(
-            Oas30ParamObject.Obj.propertiesRaw(d = request.actualDialect) ++ AMLRefTagCompletionPlugin.refSuggestion))
+          applies(
+            Future.successful(Oas30ParamObject.Obj
+              .propertiesRaw(fromDialect = request.actualDialect) ++ AMLRefTagCompletionPlugin.refSuggestion))
         else notApply
       case _ => notApply
     }

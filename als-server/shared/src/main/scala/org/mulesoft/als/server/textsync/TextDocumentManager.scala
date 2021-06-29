@@ -1,13 +1,14 @@
 package org.mulesoft.als.server.textsync
 
-import amf.core.remote.Platform
+import amf.core.internal.remote.Platform
+import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.protocol.textsync.{AlsTextDocumentSyncConsumer, DidFocusParams}
 import org.mulesoft.als.server.modules.ast._
+import org.mulesoft.als.server.protocol.textsync.{AlsTextDocumentSyncConsumer, DidFocusParams}
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 import org.mulesoft.lsp.textsync._
-import org.mulesoft.als.common.URIImplicits._
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.experimental.macros
 
@@ -35,7 +36,7 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
 
   override def initialize(): Future[Unit] = uriToEditor.initialize()
 
-  def onOpenDocument(document: OpenedDocument): Unit = {
+  def onOpenDocument(document: OpenedDocument): Future[Unit] = {
 
     logger.debug(s"Document is opened ${document.uri}", "EditorManager", "onOpenDocument")
 
@@ -43,10 +44,10 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
 
     this.uriToEditor + (document.uri, TextDocument(document.uri, document.version, document.text, syntax))
 
-    this.dependencies.foreach(_.notify(document.uri, OPEN_FILE))
+    Future.sequence(this.dependencies.map(_.notify(document.uri, OPEN_FILE))).flatMap(_ => Future.unit)
   }
 
-  def documentWasChanged(document: ChangedDocument) {
+  def documentWasChanged(document: ChangedDocument): Future[Unit] = {
     logger.debug(s"Document is changed ${document.uri}", "EditorManager", "onChangeDocument")
 
     uriToEditor
@@ -69,13 +70,13 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
 
     uriToEditor + (document.uri, TextDocument(document.uri, document.version, document.text.get, syntax))
 
-    dependencies.foreach(_.notify(document.uri, CHANGE_FILE))
+    Future.sequence(this.dependencies.map(_.notify(document.uri, CHANGE_FILE))).flatMap(_ => Future.unit)
   }
 
-  def onCloseDocument(uri: String): Unit = {
-    logger.debug(s"Document closed ${uri}", "EditorManager", "onCloseDocument")
+  def onCloseDocument(uri: String): Future[Unit] = {
+    logger.debug(s"Document closed $uri", "EditorManager", "onCloseDocument")
     uriToEditor.remove(uri)
-    dependencies.foreach(_.notify(uri, CLOSE_FILE))
+    Future.sequence(this.dependencies.map(_.notify(uri, CLOSE_FILE))).flatMap(_ => Future.unit)
   }
 
 //  def onChangePosition(uri: String, position: Int): Unit = uriToEditor.get(uri).foreach(_.setCursorPosition(position))
@@ -83,14 +84,14 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
   def determineSyntax(url: String, text: String): String =
     if (text.trim.startsWith("{")) "JSON" else "YAML"
 
-  override def didOpen(params: DidOpenTextDocumentParams): Unit = {
+  override def didOpen(params: DidOpenTextDocumentParams): Future[Unit] = {
     val uri = params.textDocument.uri
     if (!uri.isValidFileUri)
       logger.warning(s"Adding invalid URI file to manager: $uri", "TextDocumentManager", "didOpen")
     onOpenDocument(OpenedDocument(uri.toAmfUri, params.textDocument.version, params.textDocument.text))
   }
 
-  override def didChange(params: DidChangeTextDocumentParams): Unit = {
+  override def didChange(params: DidChangeTextDocumentParams): Future[Unit] = {
     val document = params.textDocument
     val version  = document.version.getOrElse(0)
     val text     = params.contentChanges.headOption.map(_.text)
@@ -101,17 +102,21 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
     documentWasChanged(ChangedDocument(uri.toAmfUri, version, text, None))
   }
 
-  override def didClose(params: DidCloseTextDocumentParams): Unit = {
+  override def didClose(params: DidCloseTextDocumentParams): Future[Unit] = {
     val uri = params.textDocument.uri
     if (!uri.isValidFileUri)
       logger.warning(s"Removing invalid URI file to manager: $uri", "TextDocumentManager", "didClose")
     onCloseDocument(uri.toAmfUri)
   }
 
-  override def didFocus(params: DidFocusParams): Unit =
+  override def didFocus(params: DidFocusParams): Future[Unit] =
     uriToEditor
       .get(params.uri.toAmfUri)
-      .foreach(_ =>
-        dependencies
-          .foreach(_.notify(params.uri, FOCUS_FILE)))
+      .map(
+        _ =>
+          Future
+            .sequence(dependencies
+              .map(_.notify(params.uri, FOCUS_FILE)))
+            .flatMap(_ => Future.unit))
+      .getOrElse(Future.unit)
 }

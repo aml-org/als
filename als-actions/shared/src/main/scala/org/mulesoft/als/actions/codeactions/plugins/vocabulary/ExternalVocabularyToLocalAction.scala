@@ -1,7 +1,7 @@
 package org.mulesoft.als.actions.codeactions.plugins.vocabulary
 
-import amf.plugins.document.vocabularies.model.document.{Dialect, Vocabulary}
-import amf.plugins.document.vocabularies.model.domain._
+import amf.aml.client.scala.model.document.{Dialect, Vocabulary}
+import amf.aml.client.scala.model.domain.{ClassTerm, External, NodeMapping, PropertyMapping, PropertyTerm}
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionRequestParams
 import org.mulesoft.als.common.YamlWrapper.AlsInputRange
 import org.mulesoft.als.common.dtoTypes.PositionRange

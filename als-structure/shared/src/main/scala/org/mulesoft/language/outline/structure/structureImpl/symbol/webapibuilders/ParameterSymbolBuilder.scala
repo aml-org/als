@@ -1,10 +1,10 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders
 
-import amf.core.metamodel.Field
-import amf.core.metamodel.domain.DomainElementModel
-import amf.core.model.domain.AmfElement
-import amf.plugins.domain.webapi.metamodel.ParameterModel
-import amf.plugins.domain.webapi.models.Parameter
+import amf.apicontract.client.scala.model.domain.Parameter
+import amf.apicontract.internal.metamodel.domain.ParameterModel
+import amf.core.client.scala.model.domain.AmfElement
+import amf.core.internal.metamodel.Field
+import amf.core.internal.metamodel.domain.DomainElementModel
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSimpleBuilderCompanion,
   SymbolBuilder

@@ -1,7 +1,7 @@
 package org.mulesoft.amfintegration.dialect.dialects.asyncapi20
 
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.metamodel.{MessageModel, RequestModel, ResponseModel}
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.apicontract.internal.metamodel.domain.{MessageModel, RequestModel, ResponseModel}
 
 trait ConcreteMessageObjectNode extends MessageAbstractObjectNode {
 

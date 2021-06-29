@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.async
 
-import amf.plugins.domain.shapes.models.{AnyShape, Example}
-import amf.plugins.domain.webapi.models.Message
+import amf.apicontract.client.scala.model.domain.Message
+import amf.shapes.client.scala.model.domain.{AnyShape, Example}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin

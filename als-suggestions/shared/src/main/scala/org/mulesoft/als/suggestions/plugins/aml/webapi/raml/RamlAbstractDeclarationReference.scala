@@ -1,17 +1,17 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.core.model.domain.DomainElement
-import amf.core.model.domain.templates.{AbstractDeclaration, ParametrizedDeclaration}
-import amf.core.annotations.ErrorDeclaration
+import amf.core.client.scala.model.domain.DomainElement
+import amf.core.client.scala.model.domain.templates.{AbstractDeclaration, ParametrizedDeclaration}
+import amf.core.internal.annotations.ErrorDeclaration
 import org.mulesoft.als.common.YPartBranch
-import org.mulesoft.als.suggestions.{ArrayRange, ObjectRange, RawSuggestion, StringScalarRange}
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.AMLRamlStyleDeclarationsReferences
+import org.mulesoft.als.suggestions.{ObjectRange, RawSuggestion, StringScalarRange}
 import org.yaml.model.{YMapEntry, YNode}
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
 

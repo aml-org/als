@@ -1,7 +1,7 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations
 
-import amf.core.model.domain.AmfObject
-import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.aml.client.scala.model.document.Dialect
+import amf.core.client.scala.model.domain.AmfObject
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.BaseElementDeclarableExtractors
 import org.mulesoft.als.common.ObjectInTree
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp

@@ -1,15 +1,9 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.core.model.domain.{AmfObject, DomainElement}
-import amf.plugins.document.vocabularies.annotations.DiscriminatorField
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.{
-  DialectDomainElement,
-  NodeMappable,
-  NodeMapping,
-  PropertyMapping,
-  UnionNodeMapping
-}
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.{DialectDomainElement, UnionNodeMapping}
+import amf.aml.internal.annotations.DiscriminatorField
+import amf.core.client.scala.model.domain.AmfObject
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest

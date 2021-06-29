@@ -1,15 +1,13 @@
 package org.mulesoft.als.suggestions.test.core
 
-import amf.client.remote.Content
-import amf.core.unsafe.PlatformSecrets
-import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
+import amf.aml.client.scala.model.document.Dialect
+import amf.core.client.common.remote.Content
+import amf.core.client.scala.resource.ResourceLoader
+import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.{MarkerFinderTest, PlatformDirectoryResolver}
 import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.als.suggestions.client.Suggestions
-import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
-import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
-import org.mulesoft.amfintegration.AmfInstance
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.feature.completion.CompletionItem
 import org.scalatest.{Assertion, AsyncFunSuite}
 
@@ -22,19 +20,19 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets with MarkerFinderTest 
 
   def rootPath: String
 
-  def suggest(path: String, amfInstance: AmfInstance): Future[Seq[CompletionItem]] = {
+  def suggest(path: String, amfConfiguration: AmfConfigurationWrapper): Future[Seq[CompletionItem]] = {
 
     val url = filePath(path)
     for {
-      content <- platform.resolve(url)
-      (env, position) <- Future.successful {
+      content <- amfConfiguration.fetchContent(url)
+      position <- Future.successful {
         val fileContentsStr = content.stream.toString
         val markerInfo      = this.findMarker(fileContentsStr, "*")
-
-        (this.buildEnvironment(url, markerInfo.content, content.mime), markerInfo.offset)
+        amfConfiguration.withResourceLoader(this.resourceLoader(url, markerInfo.content))
+        markerInfo.offset
       }
       suggestions <- {
-        new Suggestions(platform, env, AlsConfiguration(), new PlatformDirectoryResolver(platform), amfInstance)
+        new Suggestions(AlsConfiguration(), new PlatformDirectoryResolver(amfConfiguration.platform), amfConfiguration)
           .initialized()
           .suggest(url, position, snippetsSupport = true, None)
       }
@@ -46,31 +44,29 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets with MarkerFinderTest 
       .replace('\\', '/')
       .replace("/null", "")
 
-  def buildEnvironment(fileUrl: String, content: String, mime: Option[String]): Environment = {
-    var loaders: Seq[ResourceLoader] = List(new ResourceLoader {
-      override def accepts(resource: String): Boolean = resource == fileUrl
+  def resourceLoader(fileUrl: String, content: String): ResourceLoader = new ResourceLoader {
+    override def accepts(resource: String): Boolean = resource == fileUrl
 
-      override def fetch(resource: String): Future[Content] =
-        Future.successful(new Content(content, fileUrl))
-    })
-
-    loaders ++= platform.loaders()
-
-    Environment(loaders)
+    override def fetch(resource: String): Future[Content] =
+      Future.successful(new Content(content, fileUrl))
   }
 
   def runTestForCustomDialect(path: String, dialectPath: String, originalSuggestions: Set[String]): Future[Assertion] = {
-    val p             = filePath(dialectPath)
-    val configuration = AmfInstance.default
-    configuration.init().flatMap { _ =>
-      configuration
-        .parse(p)
-        .flatMap(_ =>
-          suggest(path, amfInstance = configuration).map(suggestions => {
-            assert(suggestions.map(_.label).size == originalSuggestions.size)
-            assert(suggestions.map(_.label).forall(s => originalSuggestions.contains(s)))
-            assert(originalSuggestions.forall(s => suggestions.map(_.label).contains(s)))
-          }))
-    }
+    val p                = filePath(dialectPath)
+    val amfConfiguration = AmfConfigurationWrapper()
+    amfConfiguration
+      .parse(p)
+      .map { r =>
+        r.result.baseUnit match {
+          case d: Dialect => amfConfiguration.registerDialect(d)
+        }
+        r
+      }
+      .flatMap(_ =>
+        suggest(path, amfConfiguration).map(suggestions => {
+          assert(suggestions.map(_.label).size == originalSuggestions.size)
+          assert(suggestions.map(_.label).forall(s => originalSuggestions.contains(s)))
+          assert(originalSuggestions.forall(s => suggestions.map(_.label).contains(s)))
+        }))
   }
 }

@@ -3,6 +3,8 @@ package org.mulesoft.lsp.textsync
 import org.mulesoft.lsp.InitializableModule
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 
+import scala.concurrent.Future
+
 trait TextDocumentSyncConsumer
     extends InitializableModule[SynchronizationClientCapabilities,
                                 Either[TextDocumentSyncKind, TextDocumentSyncOptions]] {
@@ -15,7 +17,7 @@ trait TextDocumentSyncConsumer
     *
     * Registration Options: TextDocumentRegistrationOptions
     */
-  def didOpen(params: DidOpenTextDocumentParams): Unit
+  def didOpen(params: DidOpenTextDocumentParams): Future[Unit]
 
   /**
     * The document change notification is sent from the client to the server to
@@ -23,7 +25,7 @@ trait TextDocumentSyncConsumer
     *
     * Registration Options: TextDocumentChangeRegistrationOptions
     */
-  def didChange(params: DidChangeTextDocumentParams): Unit
+  def didChange(params: DidChangeTextDocumentParams): Future[Unit]
 
   /**
     * The document close notification is sent from the client to the server
@@ -33,5 +35,5 @@ trait TextDocumentSyncConsumer
     *
     * Registration Options: TextDocumentRegistrationOptions
     */
-  def didClose(params: DidCloseTextDocumentParams): Unit
+  def didClose(params: DidCloseTextDocumentParams): Future[Unit]
 }

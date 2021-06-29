@@ -1,7 +1,7 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders
 
-import amf.core.metamodel.Field
-import amf.plugins.domain.webapi.models.EndPoint
+import amf.apicontract.client.scala.model.domain.EndPoint
+import amf.core.internal.metamodel.Field
 import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 class EndPointSymbolBuilder(override val element: EndPoint)(override implicit val ctx: StructureContext)
     extends ExtendsFatherSymbolBuilder[EndPoint] {

@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.modules.codeactions
 
+import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.common.MarkerInfo
 import org.mulesoft.als.common.diff.WorkspaceEditsTest
 import org.mulesoft.als.convert.LspRangeConverter
@@ -113,7 +114,7 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
     val goldenResolved = filePath(platform.encodeURI(goldenPath))
 
     for {
-      content <- this.platform.resolve(resolved).map(_.stream.toString)
+      content <- this.platform.fetchContent(resolved, AMFGraphConfiguration.predefined()).map(_.stream.toString)
       assert <- {
         val marker = findMarker(content)
         val maybeEdit = result

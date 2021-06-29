@@ -1,6 +1,6 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.builders
 
-import amf.core.parser.FieldEntry
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.language.outline.structure.structureImpl.{KindForResultMatcher, SymbolKinds}
 
 trait FieldSymbolBuilder extends SymbolBuilder[FieldEntry] {

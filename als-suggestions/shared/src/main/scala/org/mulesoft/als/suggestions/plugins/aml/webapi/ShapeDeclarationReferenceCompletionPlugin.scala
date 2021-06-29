@@ -1,18 +1,9 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi
 
-import amf.core.annotations.SynthesizedField
-import amf.core.metamodel.domain.ShapeModel
-import amf.core.model.domain.Shape
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.shapes.models.UnresolvedShape
-import amf.plugins.domain.webapi.models.{Parameter, Payload}
-import org.mulesoft.als.common.SemanticNamedElement._
+import amf.core.client.scala.model.domain.Shape
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.{AMLRamlStyleDeclarationsReferences, BooleanSuggestions}
-import org.yaml.model.YMapEntry
-import org.mulesoft.amfintegration.AmfImplicits._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

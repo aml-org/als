@@ -1,8 +1,8 @@
 package org.mulesoft.amfintegration.dialect.dialects.metadialect
 
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.aml.internal.metamodel.domain.DocumentsModelModel
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
-import amf.plugins.document.vocabularies.metamodel.domain.DocumentsModelModel
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 
 object DocumentsObjectNode extends DialectNode {
   override def name: String = "DocumentsObjectNode"

@@ -1,11 +1,12 @@
 package org.mulesoft.als.suggestions.plugins.aml.metadialect
 
-import amf.core.model.document.{BaseUnit, DeclaresModel}
-import amf.plugins.document.vocabularies.model.domain.{NodeMappable, NodeMapping, PropertyMapping}
+import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
+import amf.core.client.scala.model.document.{BaseUnit, DeclaresModel}
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 

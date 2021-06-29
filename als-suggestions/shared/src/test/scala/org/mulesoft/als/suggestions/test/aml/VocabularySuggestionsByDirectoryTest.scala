@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.test.aml
 
-import amf.core.remote.{Hint, VocabularyYamlHint}
+import amf.core.internal.remote.{Hint, VocabularyYamlHint}
 import org.mulesoft.als.suggestions.test.SuggestionByDirectoryTest
 
 class VocabularySuggestionsByDirectoryTest extends SuggestionByDirectoryTest {

@@ -1,9 +1,10 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.core.vocabulary.Namespace.XsdTypes
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
