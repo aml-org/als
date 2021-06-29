@@ -1,11 +1,11 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.core.annotations.Inferred
-import amf.core.model.domain.extensions.CustomDomainProperty
-import amf.core.model.domain.{AmfScalar, Shape}
-import amf.core.parser.Annotations
-import amf.plugins.domain.shapes.metamodel.ScalarShapeModel
-import amf.plugins.domain.shapes.models.ScalarShape
+import amf.core.client.scala.model.domain.{AmfScalar, Shape}
+import amf.core.client.scala.model.domain.extensions.CustomDomainProperty
+import amf.core.internal.annotations.Inferred
+import amf.core.internal.parser.domain.Annotations
+import amf.shapes.client.scala.model.domain.ScalarShape
+import amf.shapes.internal.domain.metamodel.ScalarShapeModel
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -28,7 +28,7 @@ object AnnotationFacets extends AMLCompletionPlugin {
         case s: Shape
             if request.branchStack.headOption.exists(_.isInstanceOf[CustomDomainProperty]) && isWrittingFacet(
               request) =>
-          Raml10TypesDialect.AnnotationType.propertiesRaw(d = request.actualDialect)
+          Raml10TypesDialect.AnnotationType.propertiesRaw(fromDialect = request.actualDialect)
         case _ => Nil
       }
     }

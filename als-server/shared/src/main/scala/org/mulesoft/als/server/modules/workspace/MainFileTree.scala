@@ -1,8 +1,8 @@
 package org.mulesoft.als.server.modules.workspace
 
-import amf.core.model.document.BaseUnit
-import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
+import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.amfintegration.DiagnosticsBundle
+import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.lsp.feature.link.DocumentLink
 
 trait MainFileTree extends FileTree {

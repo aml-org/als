@@ -1,13 +1,13 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas
 
-import amf.plugins.domain.shapes.metamodel.ExampleModel
-import amf.plugins.domain.webapi.metamodel.ResponseModel
-import amf.plugins.domain.webapi.models.Response
-import org.mulesoft.als.suggestions.{ObjectRange, RawSuggestion}
+import amf.apicontract.client.scala.model.domain.Response
+import amf.apicontract.internal.metamodel.domain.ResponseModel
+import amf.shapes.internal.domain.metamodel.ExampleModel
+import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.AMLKnownValueCompletions
-import scala.concurrent.ExecutionContext.Implicits.global
+
 import scala.concurrent.Future
 
 object ExampleMediaType extends AMLCompletionPlugin {

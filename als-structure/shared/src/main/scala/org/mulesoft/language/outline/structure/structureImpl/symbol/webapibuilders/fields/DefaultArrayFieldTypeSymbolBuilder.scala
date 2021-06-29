@@ -1,11 +1,17 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields
 
-import amf.core.metamodel.domain.{DomainElementModel, ShapeModel}
-import amf.core.model.domain.AmfArray
-import amf.core.parser.FieldEntry
-import amf.plugins.domain.shapes.metamodel.NodeShapeModel
-import amf.plugins.domain.webapi.metamodel._
-import amf.plugins.domain.webapi.metamodel.api.WebApiModel
+import amf.apicontract.internal.metamodel.domain.{
+  EncodingModel,
+  OperationModel,
+  RequestModel,
+  ResponseModel,
+  TemplatedLinkModel
+}
+import amf.apicontract.internal.metamodel.domain.api.WebApiModel
+import amf.core.client.scala.model.domain.AmfArray
+import amf.core.internal.metamodel.domain.{DomainElementModel, ShapeModel}
+import amf.core.internal.parser.domain.FieldEntry
+import amf.shapes.internal.domain.metamodel.NodeShapeModel
 import org.mulesoft.language.outline.structure.structureImpl._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.FieldTypeSymbolBuilder
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.DefaultArrayTypeSymbolBuilder

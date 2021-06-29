@@ -45,7 +45,7 @@ documentChanges:
                   ],
                   "properties": {
                     "min": {
-                      "type": "string"
+                      "$ref": "#/definitions/schema_1"
                     },
                     "max": {
                       "type": "number"
@@ -53,6 +53,9 @@ documentChanges:
                   }
                 }
               }
+            },
+            "schema_1": {
+              "type": "string"
             }
           }
         }

@@ -1,8 +1,7 @@
 package org.mulesoft.als.server.modules.completion.raml
 
-import amf.client.remote.Content
-import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
+import amf.core.client.common.remote.Content
+import amf.core.client.scala.resource.ResourceLoader
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
@@ -59,10 +58,8 @@ class DifferentEncodingTest extends RAMLSuggestionTestServer {
       }
     }
 
-    val env = Environment().withLoaders(Seq(rs))
-
     val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger, env)
+      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger, Seq(rs))
         .withDirectoryResolver(dr)
         .buildWorkspaceManagerFactory()
     val workspaceManager: WorkspaceManager = factory.workspaceManager

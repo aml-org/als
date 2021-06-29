@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions
 
-import amf.core.parser.{Position => AmfPosition}
+import amf.core.client.common.position.{Position => AmfPosition}
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.common.dtoTypes.Position
@@ -17,7 +17,7 @@ class JsonSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
 
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
-  val dummyYPart = YPartBranch(YNode.Null, AmfPosition(0, 0), Nil, isJson = true, isInFlow = true)
+  val dummyYPart: YPartBranch = YPartBranch(YNode.Null, AmfPosition(0, 0), Nil, isJson = true, isInFlow = true)
 
   test("should not have quotes if key and inside quotes") {
     val content =

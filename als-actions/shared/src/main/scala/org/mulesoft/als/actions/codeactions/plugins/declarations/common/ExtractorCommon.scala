@@ -1,18 +1,16 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.common
 
-import amf.core.errorhandling.UnhandledErrorHandler
-import amf.core.model.document.BaseUnit
-import amf.core.model.domain.{AmfObject, DomainElement}
-import amf.core.remote.{Mimes, Vendor}
-import amf.plugins.document.vocabularies.emitters.instances.AmlDomainElementEmitter
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.webapi.parser.spec.common.emitters.WebApiDomainElementEmitter
+import amf.aml.client.scala.model.document.Dialect
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.model.domain.{AmfObject, DomainElement}
+import amf.core.internal.remote.Mimes
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.common.YamlUtils.isJson
 import org.mulesoft.als.common.YamlWrapper.YNodeImplicits
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, AmfObjectImp, BaseUnitImp}
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.yaml.model._
 import org.yaml.render.{JsonRender, JsonRenderOptions, YamlRender, YamlRenderOptions}
 
@@ -63,40 +61,28 @@ object ExtractorCommon {
   }
 
   /**
-    * Emit a new domain element
-    *
-    * @param e DomainElement to be emitted
-    * @return
-    */
-  def emitElement(e: DomainElement, vendor: Vendor, dialect: Dialect): YNode =
-    if (vendor == Vendor.AML)
-      AmlDomainElementEmitter
-        .emit(e, dialect, UnhandledErrorHandler)
-    else
-      WebApiDomainElementEmitter
-        .emit(e, vendor, UnhandledErrorHandler)
-
-  /**
     * Emit declared element
     * @param amfObject
     * @return Element as YNode
     */
-  def declaredElementNode(amfObject: Option[AmfObject], vendor: Vendor, dialect: Dialect): Option[YNode] =
+  def declaredElementNode(amfObject: Option[AmfObject],
+                          dialect: Dialect,
+                          configWrapper: AmfConfigurationWrapper): Option[YNode] =
     amfObject
       .collect {
-        case e: DomainElement => emitElement(e, vendor, dialect)
+        case e: DomainElement => configWrapper.emit(e, dialect)
       }
 
   /**
     * The complete node and the entry where it belongs, contemplating the path for the declaration and existing AST
     */
   def wrappedDeclaredEntry(amfObject: Option[AmfObject],
-                           vendor: Vendor,
                            dialect: Dialect,
                            bu: BaseUnit,
                            uri: String,
-                           newName: String): Option[(YNode, Option[YMapEntry])] =
-    (declaredElementNode(amfObject, vendor, dialect), amfObject, dialect) match {
+                           newName: String,
+                           amfConfig: AmfConfigurationWrapper): Option[(YNode, Option[YMapEntry])] =
+    (declaredElementNode(amfObject, dialect, amfConfig), amfObject, dialect) match {
       case (Some(den), Some(fdp), dialect) =>
         var fullPath                = den.withKey(newName)
         val keyPath                 = declarationPath(fdp, dialect)
@@ -160,15 +146,15 @@ object ExtractorCommon {
     * Render for the new declaration, and the top entry on which it should be nested
     */
   def declaredEntry(amfObject: Option[AmfObject],
-                    vendor: Vendor,
                     dialect: Dialect,
                     bu: BaseUnit,
                     uri: String,
                     newName: String,
                     configurationReader: AlsConfigurationReader,
                     jsonOptions: JsonRenderOptions,
-                    yamlOptions: YamlRenderOptions): Option[(String, Option[YMapEntry])] = {
-    val wrapped                        = wrappedDeclaredEntry(amfObject, vendor, dialect, bu, uri, newName)
+                    yamlOptions: YamlRenderOptions,
+                    amfConfig: AmfConfigurationWrapper): Option[(String, Option[YMapEntry])] = {
+    val wrapped                        = wrappedDeclaredEntry(amfObject, dialect, bu, uri, newName, amfConfig)
     val maybeParent: Option[YMapEntry] = wrapped.flatMap(_._2)
     wrapped
       .map(_._1)
@@ -187,7 +173,7 @@ object ExtractorCommon {
       renderJson(configurationReader, jsonOptions, maybeParent, node)
     } else {
       val rendered = YamlRender
-        .render(node, getIndentation(Mimes.`APPLICATION/YAML`, maybeParent, configurationReader), yamlOptions)
+        .render(node, getIndentation(Mimes.`application/yaml`, maybeParent, configurationReader), yamlOptions)
       (rendered, maybeParent)
     }
   }
@@ -201,7 +187,7 @@ object ExtractorCommon {
       case _       => node
     }
     val rendered = JsonRender
-      .render(toRender, getIndentation(Mimes.`APPLICATION/JSON`, maybeParent, configurationReader), jsonOptions)
+      .render(toRender, getIndentation(Mimes.`application/json`, maybeParent, configurationReader), jsonOptions)
     val renderedChild = maybeParent
       .map(_.value.value)
       .collect {

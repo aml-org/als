@@ -1,7 +1,7 @@
 package org.mulesoft.als.common.cache
 
-import amf.core.model.document.BaseUnit
-import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.aml.client.scala.model.document.Dialect
+import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.common.{NodeBranchBuilder, ObjectInTree, ObjectInTreeBuilder, YPartBranch}
 

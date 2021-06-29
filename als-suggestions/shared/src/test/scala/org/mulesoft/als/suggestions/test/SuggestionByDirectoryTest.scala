@@ -1,15 +1,11 @@
 package org.mulesoft.als.suggestions.test
 
-import amf.core.remote.Hint
+import amf.core.internal.remote.Hint
 import org.mulesoft.als.common.ByDirectoryTest
-import org.mulesoft.als.common.diff.FileAssertionTest
-import org.mulesoft.als.suggestions.test.CompletionItemNode._
 import org.mulesoft.common.io.{Fs, SyncFile}
-import org.mulesoft.lsp.feature.completion.CompletionItem
-import org.scalatest.{Assertion, AsyncFreeSpec}
-import upickle.default.write
+import org.scalatest.AsyncFreeSpec
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 
 trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTest with ByDirectoryTest {
 
@@ -22,7 +18,7 @@ trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTes
 
   def origin: Hint
 
-  s"Suggestions test for vendor ${origin.vendor.toString} by directory" - {
+  s"Suggestions test for vendor ${origin.spec.toString} by directory" - {
     forDirectory(dir, "")
   }
 
@@ -33,7 +29,6 @@ trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTes
         s <- suggestFromFile(
           content,
           "file://" + f.path.replaceAllLiterally(platform.fs.separatorChar.toString, "/"),
-          Some("application/" + origin.syntax.extension),
           "*",
           None
         )

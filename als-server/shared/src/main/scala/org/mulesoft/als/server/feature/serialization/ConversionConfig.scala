@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.feature.serialization
 
-import amf.ProfileNames
+import amf.core.client.common.validation.ProfileNames
 
 import scala.scalajs.js.annotation.JSExportAll
 

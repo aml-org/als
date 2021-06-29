@@ -1,7 +1,7 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 
-import amf.core.metamodel.document.BaseUnitModel
-import amf.core.model.document.BaseUnit
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.internal.metamodel.document.BaseUnitModel
 import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSimpleBuilderCompanion,

@@ -1,15 +1,15 @@
 package org.mulesoft.amfintegration.visitors.noderelationship.plugins
 
-import amf.core.annotations.{SourceAST, SourceNode}
-import amf.core.metamodel.domain.LinkableElementModel
-import amf.core.metamodel.domain.templates.ParametrizedDeclarationModel
-import amf.core.model.document.BaseUnit
-import amf.core.model.domain.extensions.DomainExtension
-import amf.core.model.domain.templates.{AbstractDeclaration, ParametrizedDeclaration}
-import amf.core.model.domain.{AmfArray, AmfElement}
-import amf.core.parser.FieldEntry
-import amf.core.vocabulary.Namespace
-import amf.plugins.domain.webapi.models.{EndPoint, Operation}
+import amf.apicontract.client.scala.model.domain.{EndPoint, Operation}
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.model.domain.{AmfArray, AmfElement}
+import amf.core.client.scala.model.domain.extensions.DomainExtension
+import amf.core.client.scala.model.domain.templates.{AbstractDeclaration, ParametrizedDeclaration}
+import amf.core.client.scala.vocabulary.Namespace
+import amf.core.internal.annotations.{SourceAST, SourceNode}
+import amf.core.internal.metamodel.domain.LinkableElementModel
+import amf.core.internal.metamodel.domain.templates.ParametrizedDeclarationModel
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.amfintegration.relationships.LinkTypes.LinkTypes
 import org.mulesoft.amfintegration.relationships.{LinkTypes, RelationshipLink}

@@ -1,7 +1,6 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf.ProfileName
-import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
+import amf.core.client.common.validation.ProfileName
 
 /**
   * Validation report.

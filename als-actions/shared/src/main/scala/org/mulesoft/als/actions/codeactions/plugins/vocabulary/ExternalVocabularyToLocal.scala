@@ -1,6 +1,6 @@
 package org.mulesoft.als.actions.codeactions.plugins.vocabulary
 
-import amf.plugins.document.vocabularies.model.domain.External
+import amf.aml.client.scala.model.domain.External
 import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionFactory,
   CodeActionRequestParams,
@@ -8,13 +8,13 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
 }
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
-import org.mulesoft.amfintegration.ParserRangeImplicits.RangeImplicit
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.{
   BEGIN_EXTERNAL_VOCABULARY_TO_LOCAL,
   END_EXTERNAL_VOCABULARY_TO_LOCAL,
   MessageTypes
 }
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
+import org.mulesoft.amfintegration.ParserRangeImplicits._
 
 import scala.concurrent.Future
 

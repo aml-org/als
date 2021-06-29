@@ -1,10 +1,10 @@
 package org.mulesoft.amfintegration.dialect.dialects.oas.nodes
 
-import amf.core.vocabulary.Namespace.XsdTypes.amlAnyNode
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.apicontract.internal.metamodel.domain.PayloadModel
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.amlAnyNode
+import amf.shapes.internal.domain.metamodel.ExampleModel
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect.DialectLocation
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.shapes.metamodel.ExampleModel
-import amf.plugins.domain.webapi.metamodel.PayloadModel
 
 trait Oas30ExampleProperty {
   val example: PropertyMapping = PropertyMapping()

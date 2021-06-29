@@ -1,11 +1,12 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi
 
-import amf.plugins.domain.webapi.metamodel.ParameterModel
-import amf.plugins.domain.webapi.models.{EndPoint, Parameter, Server}
+import amf.apicontract.client.scala.model.domain.{EndPoint, Parameter, Server}
+import amf.apicontract.internal.metamodel.domain.ParameterModel
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
+
 import scala.concurrent.Future
 
 trait UrlTemplateParam extends AMLCompletionPlugin {

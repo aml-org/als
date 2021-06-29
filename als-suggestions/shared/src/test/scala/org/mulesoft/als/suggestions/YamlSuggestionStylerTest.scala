@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions
 
-import amf.core.parser.{Position => AmfPosition}
+import amf.core.client.common.position.{Position => AmfPosition}
 import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.common.{NodeBranchBuilder, YPartBranch}

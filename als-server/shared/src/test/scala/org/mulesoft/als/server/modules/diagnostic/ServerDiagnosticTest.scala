@@ -1,24 +1,19 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf.client.remote.Content
-import amf.core.errorhandling.ErrorCollector
-import amf.core.metamodel.{Field, Obj}
-import amf.core.metamodel.document.BaseUnitModel
-import amf.core.metamodel.document.BaseUnitModel.{DescribedBy, ModelVersion, References, Root, Usage}
-import amf.core.model.document.BaseUnit
-import amf.core.model.domain.AmfObject
-import amf.core.parser.{Annotations, Fields}
-import amf.core.vocabulary.Namespace.Document
-import amf.core.vocabulary.ValueType
-import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
-import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
+import amf.core.client.scala.AMFResult
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.model.domain.AmfObject
+import amf.core.client.scala.vocabulary.Namespace.{Document => DocumentNamespace}
+import amf.core.client.scala.vocabulary.ValueType
+import amf.core.internal.metamodel.Field
+import amf.core.internal.metamodel.document.BaseUnitModel
+import amf.core.internal.parser.domain.{Annotations, Fields}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.ast.BaseUnitListenerParams
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.textsync.TextDocumentContainer
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.amfintegration.AmfParseResult
+import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, AmfParseResult}
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -181,7 +176,7 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
     class MockDialectDomainElementModel extends BaseUnitModel {
       override def modelInstance: AmfObject = throw new Exception("should fail")
 
-      override val `type`: List[ValueType] = List(Document + "MockUnit")
+      override val `type`: List[ValueType] = List(DocumentNamespace + "MockUnit")
 
       override def fields: List[Field] = List(ModelVersion, References, Usage, DescribedBy, Root)
     }
@@ -206,8 +201,8 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
 
     val amfBaseUnit: BaseUnit = new MockDialectInstance(new Fields())
 
-    val eh                             = new ErrorCollector {}
-    val amfParseResult: AmfParseResult = new AmfParseResult(amfBaseUnit, eh, ExternalFragmentDialect(), None)
+    val amfParseResult: AmfParseResult =
+      new AmfParseResult(AMFResult(amfBaseUnit, Seq()), ExternalFragmentDialect(), AmfConfigurationWrapper())
 
     for {
       _ <- Future {
@@ -215,8 +210,7 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
           BaseUnitListenerParams(
             amfParseResult,
             Map.empty,
-            tree = false,
-            None
+            tree = false
           ),
           ""
         )

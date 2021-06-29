@@ -1,23 +1,16 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.client.parse.DefaultParserErrorHandler
-import amf.core.client.ParsingOptions
-import amf.core.parser.{ParserContext, SyamlParsedDocument}
-import amf.core.registries.AMFPluginsRegistry
-import amf.core.remote.Platform
-import amf.internal.environment.Environment
+import amf.core.client.scala.errorhandling.DefaultErrorHandler
+import amf.core.client.scala.parse.document.{ParserContext, SyamlParsedDocument}
+import amf.core.internal.parser.ParseConfig
 import org.mulesoft.als.suggestions.RawSuggestion
-import org.mulesoft.amfintegration.AmfInstance
-import org.yaml.model.{YMap, YNode, YSequence, YType}
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.yaml.model._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-case class PathNavigation(fullUrl: String,
-                          platform: Platform,
-                          env: Environment,
-                          prefix: String,
-                          amfInstance: AmfInstance)
+case class PathNavigation(fullUrl: String, prefix: String, amfConfiguration: AmfConfigurationWrapper)
     extends PathCompletion {
 
   private val (filePath, navPath) =
@@ -63,16 +56,21 @@ case class PathNavigation(fullUrl: String,
     }
 
   def resolveRootNode(): Future[Option[YNode]] =
-    platform.fetchContent(filePath, amfInstance.amfConfiguration.withResourceLoaders(env.loaders.toList)).map { c =>
+    amfConfiguration.fetchContent(filePath).map { c =>
       val mime = c.mime.orElse(
-        platform
+        amfConfiguration.platform
           .extension(filePath)
-          .flatMap(platform.mimeFromExtension))
+          .flatMap(amfConfiguration.platform.mimeFromExtension))
       mime.flatMap(pluginForMime) match {
         case Some(plugin) =>
           plugin
-            .parse(mime.get, c.stream, ParserContext(eh = DefaultParserErrorHandler()), ParsingOptions())
-            .collect({ case s: SyamlParsedDocument => s.document.node })
+            .parse(
+              c.stream,
+              mime.get,
+              ParserContext(config = ParseConfig(amfConfiguration.getConfiguration, DefaultErrorHandler()))) match {
+            case SyamlParsedDocument(document, _) => Some(document.node)
+            case _                                => None
+          }
         case _ => None
       }
     }

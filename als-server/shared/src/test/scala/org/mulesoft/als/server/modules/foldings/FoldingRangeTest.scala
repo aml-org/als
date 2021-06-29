@@ -1,8 +1,7 @@
 package org.mulesoft.als.server.modules.foldings
 
-import amf.client.remote.Content
-import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
+import amf.core.client.common.remote.Content
+import amf.core.client.scala.resource.ResourceLoader
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
@@ -127,10 +126,8 @@ class FoldingRangeTest extends LanguageServerBaseTest {
         ws.keySet.contains(resource)
     }
 
-    val env = Environment().withLoaders(Seq(rs))
-
     val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger, env)
+      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger, Seq(rs))
         .buildWorkspaceManagerFactory()
     val workspaceManager: WorkspaceManager = factory.workspaceManager
     val server =

@@ -1,6 +1,6 @@
 package org.mulesoft.amfintegration.vocabularies.propertyterms.patched.raml.raml08
 
-import amf.plugins.domain.webapi.metamodel.ParameterModel
+import amf.apicontract.internal.metamodel.domain.ParameterModel
 import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.WebApiPatchedTopLevelKeyTerm
 import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.raml.RamlBaseUriParameterKeyTerm
 

@@ -1,15 +1,14 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.common
 
-import amf.core.model.document.Document
-import amf.core.model.domain.AmfObject
-import amf.core.remote.{Mimes, Vendor}
-import amf.core.utils.InflectorBase.Inflector
-import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.aml.client.scala.model.document.Dialect
+import amf.core.client.scala.model.document.Document
+import amf.core.client.scala.model.domain.AmfObject
+import amf.core.internal.remote.{Mimes, Spec}
+import amf.core.internal.utils.InflectorBase.Inflector
 import org.mulesoft.als.actions.codeactions.TreeKnowledge
-import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionRequestParams
+import org.mulesoft.als.common.ObjectInTree
 import org.mulesoft.als.common.YamlUtils.isJson
-import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
-import org.mulesoft.als.common.{ObjectInTree, YPartBranch}
+import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, AmfObjectImp, BaseUnitImp, DialectImplicits}
 import org.mulesoft.lsp.edit.TextEdit
@@ -96,8 +95,8 @@ trait BaseElementDeclarableExtractors extends TreeKnowledge {
     */
   protected lazy val renderLink: Future[Option[YNode]] = Future.successful(None)
 
-  protected lazy val vendor: Vendor =
-    (maybeTree.flatMap(_.objVendor) orElse params.bu.sourceVendor).getOrElse(Vendor.AML)
+  protected lazy val spec: Spec =
+    maybeTree.flatMap(_.objSpec) getOrElse params.bu.sourceSpec.getOrElse(Spec.AML)
 
   /**
     * The entry which holds the reference for the new declaration (`{"$ref": "declaration/$1"}`)
@@ -122,13 +121,13 @@ trait BaseElementDeclarableExtractors extends TreeKnowledge {
 
   protected val jsonOptions: JsonRenderOptions = JsonRenderOptions().withIndentationSize(
     params.configuration
-      .getFormatOptionForMime(Mimes.`APPLICATION/JSON`)
+      .getFormatOptionForMime(Mimes.`application/json`)
       .tabSize
   )
 
   protected val yamlOptions: YamlRenderOptions = YamlRenderOptions().withIndentationSize(
     params.configuration
-      .getFormatOptionForMime(Mimes.`APPLICATION/YAML`)
+      .getFormatOptionForMime(Mimes.`application/yaml`)
       .tabSize
   )
 }

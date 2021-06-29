@@ -1,7 +1,7 @@
 package org.mulesoft.amfintegration.dialect.dialects.oas.nodes
 
+import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
 import org.mulesoft.amfintegration.dialect.dialects.oas.OasBaseDialect
-import amf.plugins.document.vocabularies.model.domain.{NodeMappable, NodeMapping, PropertyMapping}
 
 trait DialectNode {
 

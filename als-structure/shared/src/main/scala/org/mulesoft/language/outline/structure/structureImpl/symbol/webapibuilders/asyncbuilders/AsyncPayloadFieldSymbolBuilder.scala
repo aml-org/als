@@ -1,18 +1,20 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.asyncbuilders
 
-import amf.core.model.domain.AmfArray
-import amf.core.parser.{FieldEntry, Range}
-import amf.plugins.domain.webapi.metamodel.{EndPointModel, ParametersFieldModel, PayloadModel}
-import amf.plugins.domain.webapi.models.Payload
+import amf.apicontract.client.scala.model.domain.Payload
+import amf.apicontract.internal.metamodel.domain.{EndPointModel, ParametersFieldModel, PayloadModel}
+import amf.core.client.scala.model.domain.AmfArray
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
-import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, KindForResultMatcher, StructureContext}
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.ArrayFieldTypeSymbolBuilderCompanion
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldTypeSymbolBuilder,
   IriFieldSymbolBuilderCompanion
 }
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields.PayloadFieldSymbolBuilder
+import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, KindForResultMatcher, StructureContext}
+import amf.core.client.common.position.{Range => AmfRange}
+
 class AsyncPayloadFieldSymbolBuilder(override val element: FieldEntry, override val value: AmfArray)(
     override implicit val ctx: StructureContext)
     extends PayloadFieldSymbolBuilder(element, value) {
@@ -31,7 +33,7 @@ class AsyncPayloadFieldSymbolBuilder(override val element: FieldEntry, override 
 
   override protected val payloadsLabel      = "payload"
   override def build(): Seq[DocumentSymbol] = payloadSymbols.toSeq
-  override protected def range: Option[Range] =
+  override protected def range: Option[AmfRange] =
     value.values
       .collectFirst { case p: Payload => p }
       .flatMap(_.fields.entry(PayloadModel.Schema))

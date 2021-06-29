@@ -9,7 +9,6 @@ import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
   * @param start The range's start position.
   * @param end   The range's end position.
   */
-
 @JSExportAll
-@JSExportTopLevel("Range")
+@JSExportTopLevel("lsp.Range")
 case class Range(start: Position, end: Position)

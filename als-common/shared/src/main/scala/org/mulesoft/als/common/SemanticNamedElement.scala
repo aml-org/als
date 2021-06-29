@@ -1,9 +1,9 @@
 package org.mulesoft.als.common
 
-import amf.core.model.domain.{AmfObject, AmfScalar, NamedDomainElement}
-import amf.core.parser.Value
-import amf.core.vocabulary.Namespace
-import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
+import amf.aml.internal.metamodel.domain.DialectDomainElementModel
+import amf.core.client.scala.model.domain.{AmfObject, AmfScalar, NamedDomainElement}
+import amf.core.client.scala.vocabulary.Namespace
+import amf.core.internal.parser.domain.Value
 
 object SemanticNamedElement {
 

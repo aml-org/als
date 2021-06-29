@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.modules.serialization
 
-import amf.core.remote._
+import amf.core.internal.remote.Spec
+import amf.core.internal.remote.Spec._
 import org.mulesoft.als.server.feature.serialization.{ConversionParams, ConversionRequestType, SerializedDocument}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
@@ -10,7 +11,8 @@ import org.scalatest.Assertion
 import scala.concurrent.{ExecutionContext, Future}
 
 class ConversionRequestTest extends LanguageServerBaseTest {
-  override implicit val executionContext: ExecutionContext = scala.concurrent.ExecutionContext.Implicits.global
+  override implicit val executionContext: ExecutionContext =
+    scala.concurrent.ExecutionContext.Implicits.global
   def buildServer(): LanguageServer = {
     val factory =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
@@ -23,101 +25,98 @@ class ConversionRequestTest extends LanguageServerBaseTest {
       .build()
   }
 
-  private val assertions: Map[Vendor, SerializedDocument => Assertion] = Map(
-    Oas20      -> ((s: SerializedDocument) => s.document should include("\"swagger\": \"2.0\"")),
-    Oas30      -> ((s: SerializedDocument) => s.document should startWith("openapi: 3.0.0")),
-    Raml10     -> ((s: SerializedDocument) => s.document should startWith("#%RAML 1.0")),
-    AsyncApi20 -> ((s: SerializedDocument) => s.document should startWith("asyncapi: 2.0.0"))
+  private val assertions: Map[Spec, SerializedDocument => Assertion] = Map(
+    OAS20   -> ((s: SerializedDocument) => s.document should include("\"swagger\": \"2.0\"")),
+    OAS30   -> ((s: SerializedDocument) => s.document should startWith("openapi: 3.0.0")),
+    RAML10  -> ((s: SerializedDocument) => s.document should startWith("#%RAML 1.0")),
+    ASYNC20 -> ((s: SerializedDocument) => s.document should startWith("asyncapi: 2.0.0"))
   )
 
   test("RAML 0.8 to RAML 1.0 conversion test") {
-    run(Raml08, Raml10)
+    run(RAML08, RAML10)
   }
 
   test("RAML 1.0 to OAS 2.0 conversion test") {
-    run(Raml10, Oas20)
+    run(RAML10, OAS20)
   }
 
   test("RAML 1.0 to OAS 3.0 conversion test") {
-    run(Raml10, Oas30)
+    run(RAML10, OAS30)
   }
 
   test("OAS 2.0 to RAML 1.0 conversion test") {
-    run(Oas20, Raml10)
+    run(OAS20, RAML10)
   }
 
   ignore("OAS 2.0 to RAML 1.0 json syntax conversion test") {
-    run(Oas20, Raml10, Some("json")).recoverWith {
-      case e: Exception => e.getMessage should include("Cannot serialize domain model")
+    run(OAS20, RAML10, Some("json")).recoverWith {
+      case e: Exception =>
+        e.getMessage should include("Cannot serialize domain model")
     }
   }
 
   test("OAS 3.0 to RAML 1.0 conversion test") {
-    run(Oas30, Raml10)
+    run(OAS30, RAML10)
   }
 
   test("AsyncApi 2.0 yaml to json") {
-    run(AsyncApi20,
-        AsyncApi20,
+    run(ASYNC20,
+        ASYNC20,
         Some("json"),
         (s: SerializedDocument) => s.document should include("\"asyncapi\": \"2.0.0\""))
   }
 
   test("OAS 2.0 json to yaml") {
-    runTest(Oas20,
+    runTest(OAS20,
             Some("yaml"),
             (s: SerializedDocument) => s.document should startWith("swagger: \"2.0\""),
             Oas20JsonApi)
   }
 
   test("OAS 2.0 yaml to json") {
-    runTest(Oas20, Some("json"), assertions(Oas20), Oas20Api)
+    runTest(OAS20, Some("json"), assertions(OAS20), Oas20Api)
   }
 
   test("OAS 3.0 json to yaml") {
-    runTest(Oas30, Some("yaml"), assertions(Oas30), Oas30JsonApi)
+    runTest(OAS30, Some("yaml"), assertions(OAS30), Oas30JsonApi)
   }
 
   test("OAS 3.0 yaml to json") {
-    run(Oas30, Oas30, Some("json"), (s: SerializedDocument) => s.document should include("\"openapi\": \"3.0.0\""))
+    run(OAS30, OAS30, Some("json"), (s: SerializedDocument) => s.document should include("\"openapi\": \"3.0.0\""))
   }
 
   test("AsyncApi 2.0 json to yaml") {
-    runTest(AsyncApi20, Some("yaml"), assertions(AsyncApi20), AsyncApi20JsonApi)
+    runTest(ASYNC20, Some("yaml"), assertions(ASYNC20), AsyncApi20JsonApi)
   }
 
-  private def run(from: Vendor, to: Vendor, forcedSyntax: Option[String] = None): Future[Assertion] = {
+  private def run(from: Spec, to: Spec, forcedSyntax: Option[String] = None): Future[Assertion] = {
     run(from, to, forcedSyntax, assertions(to))
   }
 
-  private def run(from: Vendor, to: Vendor, forcedSyntax: Option[String], assertion: SerializedDocument => Assertion) = {
+  private def run(from: Spec, to: Spec, forcedSyntax: Option[String], assertion: SerializedDocument => Assertion) = {
     runTest(to, forcedSyntax, assertion, apiFromVendor(from))
   }
 
-  private def runTest(to: Vendor,
+  private def runTest(to: Spec,
                       forcedSyntax: Option[String] = None,
                       assertion: SerializedDocument => Assertion,
                       conf: ApiConf) = {
     withServer(buildServer()) { server =>
       openFile(server)(conf.name, conf.content)
-      requestConversion(server, to.name, conf.name, forcedSyntax.getOrElse(syntaxFromVendor(to)))
-        .map(assertion) // media types over vendor
+        .flatMap(_ =>
+          requestConversion(server, to.id, conf.name, forcedSyntax.getOrElse(to.mediaType.stripPrefix("application/")))
+            .map(assertion) // media types over vendor
+        )
     }
   }
 
-  private def syntaxFromVendor(to: Vendor): String =
-    to match {
-      case Oas | Oas20 => Syntax.Json.extension
-      case _           => Syntax.Yaml.extension
-    }
-
-  private def apiFromVendor(from: Vendor) =
+  private def apiFromVendor(from: Spec) =
     from match {
-      case Raml | Raml10 => Raml10Api
-      case Raml08        => Raml08Api
-      case Oas20 | Oas   => Oas20Api
-      case Oas30         => Oas30Api
-      case AsyncApi20    => AsyncApi20Api
+      case RAML10  => Raml10Api
+      case RAML08  => Raml08Api
+      case OAS20   => Oas20Api
+      case OAS30   => Oas30Api
+      case ASYNC20 => AsyncApi20Api
     }
 
   trait ApiConf {
@@ -192,7 +191,10 @@ class ConversionRequestTest extends LanguageServerBaseTest {
                                 to: String,
                                 uri: String,
                                 syntax: String): Future[SerializedDocument] = {
-    server.resolveHandler(ConversionRequestType).value.apply(ConversionParams(uri, to, Some(syntax)))
+    server
+      .resolveHandler(ConversionRequestType)
+      .value
+      .apply(ConversionParams(uri, to, Some(syntax)))
   }
 
   override def rootPath: String = ""

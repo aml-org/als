@@ -1,8 +1,8 @@
 package org.mulesoft.amfintegration.dialect.dialects.oas.nodes
 
-import amf.core.vocabulary.Namespace.XsdTypes.xsdString
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.shapes.metamodel.CreativeWorkModel
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
+import amf.shapes.internal.domain.metamodel.CreativeWorkModel
 import org.mulesoft.amfintegration.dialect.dialects.oas.OasBaseDialect
 
 object AMLExternalDocumentationObject extends DialectNode {

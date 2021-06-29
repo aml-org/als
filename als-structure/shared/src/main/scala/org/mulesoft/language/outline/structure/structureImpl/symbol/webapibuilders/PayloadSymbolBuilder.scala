@@ -1,19 +1,15 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders
 
-import amf.core.annotations.LexicalInformation
-import amf.core.metamodel.Field
-import amf.core.model.domain.AmfElement
-import amf.plugins.document.webapi.annotations.DefaultPayload
-import amf.plugins.domain.webapi.metamodel.PayloadModel
-import amf.plugins.domain.webapi.models.Payload
-import org.mulesoft.als.common.dtoTypes.PositionRange
-import org.mulesoft.amfintegration.ParserRangeImplicits._
+import amf.apicontract.client.scala.model.domain.Payload
+import amf.apicontract.internal.annotations.DefaultPayload
+import amf.apicontract.internal.metamodel.domain.PayloadModel
+import amf.core.client.scala.model.domain.AmfElement
+import amf.core.internal.metamodel.Field
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSimpleBuilderCompanion,
   StructuredSymbolBuilder,
   SymbolBuilder
 }
-import amf.core.parser.Range
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
 class PayloadSymbolBuilder(override val element: Payload)(implicit val ctx: StructureContext)
     extends StructuredSymbolBuilder[Payload] {

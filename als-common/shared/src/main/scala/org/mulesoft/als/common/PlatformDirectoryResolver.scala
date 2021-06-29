@@ -1,8 +1,8 @@
 package org.mulesoft.als.common
 
-import amf.core.remote.Platform
+import amf.core.internal.remote.Platform
 
-import scala.concurrent.ExecutionContext.Implicits._
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class PlatformDirectoryResolver(private val platform: Platform) extends DirectoryResolver {

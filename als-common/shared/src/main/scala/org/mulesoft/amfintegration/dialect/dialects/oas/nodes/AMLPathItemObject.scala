@@ -1,11 +1,10 @@
 package org.mulesoft.amfintegration.dialect.dialects.oas.nodes
 
-import amf.core.metamodel.domain.common.NameFieldSchema
-import amf.core.vocabulary.Namespace.XsdTypes.xsdString
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.apicontract.internal.metamodel.domain.EndPointModel
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect.DialectLocation
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.metamodel.EndPointModel
 
 abstract class AMLPathItemObject extends DialectNode {
 

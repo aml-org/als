@@ -1,35 +1,5 @@
 [
   {
-    "label": "New response",
-    "kind": [],
-    "detail": "template",
-    "documentation": "",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "20New response",
-    "filterText": "\"$1\": {\n  \"description\": \"$2\"\n}",
-    "insertText": null,
-    "insertTextFormat": [
-      2
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 14,
-          "character": 18
-        },
-        "end": {
-          "line": 14,
-          "character": 18
-        }
-      },
-      "newText": "\"$1\": {\n  \"description\": \"$2\"\n}"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "description",
     "kind": [],
     "detail": "docs",
@@ -37,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10description",
-    "filterText": "\"description\": \"$1\"",
+    "filterText": "\"description\": \"$1\",",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -53,7 +23,7 @@
           "character": 18
         }
       },
-      "newText": "\"description\": \"$1\""
+      "newText": "\"description\": \"$1\","
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11examples",
-    "filterText": "\"examples\": {\n  \"$1\"\n}",
+    "filterText": "\"examples\": {\n  \"$1\"\n},",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -83,7 +53,7 @@
           "character": 18
         }
       },
-      "newText": "\"examples\": {\n  \"$1\"\n}"
+      "newText": "\"examples\": {\n  \"$1\"\n},"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11headers",
-    "filterText": "\"headers\": {\n  \"$1\"\n}",
+    "filterText": "\"headers\": {\n  \"$1\"\n},",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -113,7 +83,7 @@
           "character": 18
         }
       },
-      "newText": "\"headers\": {\n  \"$1\"\n}"
+      "newText": "\"headers\": {\n  \"$1\"\n},"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -127,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11schema",
-    "filterText": "\"schema\": {\n  \"$1\"\n}",
+    "filterText": "\"schema\": {\n  \"$1\"\n},",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -143,7 +113,7 @@
           "character": 18
         }
       },
-      "newText": "\"schema\": {\n  \"$1\"\n}"
+      "newText": "\"schema\": {\n  \"$1\"\n},"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

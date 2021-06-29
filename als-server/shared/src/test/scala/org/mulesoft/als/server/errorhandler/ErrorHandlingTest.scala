@@ -24,24 +24,27 @@ class ErrorHandlingTest extends LanguageServerBaseTest {
   override def rootPath: String = "" // apis or golden files should not be necessary
 
   private val telemetryNotifier = new MockTelemetryClientNotifier(5000, false)
-  protected val factory: WorkspaceManagerFactory =
-    new WorkspaceManagerFactoryBuilder(telemetryNotifier, logger).buildWorkspaceManagerFactory()
 
-  def buildServer(): LanguageServer =
-    new LanguageServerBuilder(factory.documentManager,
-                              factory.workspaceManager,
-                              factory.configurationManager,
-                              factory.resolutionTaskManager).build()
+  def buildServer(): (LanguageServer, WorkspaceManagerFactory) = {
+    val factory: WorkspaceManagerFactory =
+      new WorkspaceManagerFactoryBuilder(telemetryNotifier, logger).buildWorkspaceManagerFactory()
+    (new LanguageServerBuilder(factory.documentManager,
+                               factory.workspaceManager,
+                               factory.configurationManager,
+                               factory.resolutionTaskManager).build(),
+     factory)
+  }
 
   private def undef(idx: Int): String = s"un:def-$idx"
 
   test("initialize with no rootUri nor rootPath") {
     val initializeParams: AlsInitializeParams = AlsInitializeParams(None, None)
-    withServer(buildServer()) { server =>
+    val servAndFactor                         = buildServer()
+    withServer(servAndFactor._1) { server =>
       for {
         _ <- server.initialize(initializeParams)
       } yield {
-        assert(factory.workspaceManager.getWorkspaceFolders.isEmpty)
+        assert(servAndFactor._2.workspaceManager.getWorkspaceFolders.isEmpty)
         server.shutdown()
         succeed
       }
@@ -51,14 +54,15 @@ class ErrorHandlingTest extends LanguageServerBaseTest {
   test("initialize with wrong rootUri") {
     val undefUri: String                      = undef(0)
     val initializeParams: AlsInitializeParams = AlsInitializeParams(None, None, rootUri = Some(undefUri))
-    withServer(buildServer()) { server =>
+    val servAndFactor                         = buildServer()
+    withServer(servAndFactor._1) { server =>
       for {
         _ <- server.initialize(initializeParams)
       } yield {
-        assert(factory.workspaceManager.getWorkspaceFolders.isEmpty)
+        assert(servAndFactor._2.workspaceManager.getWorkspaceFolders.isEmpty)
         logger.logList.exists(_.contains(s"Not recognized $undefUri as a valid Root URI"))
         server.shutdown()
-        factory.documentManager.uriToEditor.remove(undefUri.toAmfUri(platform))
+        servAndFactor._2.documentManager.uriToEditor.remove(undefUri.toAmfUri(platform))
         succeed
       }
     }
@@ -66,43 +70,46 @@ class ErrorHandlingTest extends LanguageServerBaseTest {
 
   test("did open with invalid uri") {
     val undefUri: String = undef(1)
-    withServer(buildServer()) { server =>
+    val servAndFactor    = buildServer()
+    withServer(servAndFactor._1) { server =>
       val params = DidOpenTextDocumentParams(TextDocumentItem(undefUri, "raml", 0, "test"))
       server.textDocumentSyncConsumer.didOpen(params)
-      assert(factory.documentManager.uriToEditor.exists(undefUri.toAmfUri(platform)))
-      assert(factory.documentManager.uriToEditor.uris.size == 1)
+      assert(servAndFactor._2.documentManager.uriToEditor.exists(undefUri.toAmfUri(platform)))
+      assert(servAndFactor._2.documentManager.uriToEditor.uris.size == 1)
       assert(logger.logList.exists(_.contains(s"Adding invalid URI file to manager: $undefUri")))
       server.shutdown()
-      factory.documentManager.uriToEditor.remove(undefUri.toAmfUri(platform))
+      servAndFactor._2.documentManager.uriToEditor.remove(undefUri.toAmfUri(platform))
       succeed
     }
   }
 
   test("did change with invalid uri") {
     val undefUri: String = undef(2)
-    withServer(buildServer()) { server =>
+    val servAndFactor    = buildServer()
+    withServer(servAndFactor._1) { server =>
       val params = DidChangeTextDocumentParams(VersionedTextDocumentIdentifier(undefUri, None),
                                                Seq(TextDocumentContentChangeEvent("other test")))
       server.textDocumentSyncConsumer.didChange(params)
-      assert(factory.documentManager.uriToEditor.exists(undefUri.toAmfUri(platform)))
-      assert(factory.documentManager.uriToEditor.uris.size == 1)
+      assert(servAndFactor._2.documentManager.uriToEditor.exists(undefUri.toAmfUri(platform)))
+      assert(servAndFactor._2.documentManager.uriToEditor.uris.size == 1)
       assert(logger.logList.exists(_.contains(s"Editing invalid URI file to manager: $undefUri")))
       server.shutdown()
-      factory.documentManager.uriToEditor.remove(undefUri.toAmfUri(platform))
+      servAndFactor._2.documentManager.uriToEditor.remove(undefUri.toAmfUri(platform))
       succeed
     }
   }
 
   test("did close with invalid uri") {
     val undefUri: String = undef(3)
-    withServer(buildServer()) { server =>
+    val servAndFactor    = buildServer()
+    withServer(servAndFactor._1) { server =>
       val openParams = DidOpenTextDocumentParams(TextDocumentItem(undefUri, "raml", 0, "test"))
       server.textDocumentSyncConsumer.didOpen(openParams)
-      assert(factory.documentManager.uriToEditor.exists(undefUri.toAmfUri(platform)))
+      assert(servAndFactor._2.documentManager.uriToEditor.exists(undefUri.toAmfUri(platform)))
       val closeParams = DidCloseTextDocumentParams(TextDocumentIdentifier(undefUri))
       server.textDocumentSyncConsumer.didClose(closeParams)
-      assert(!factory.documentManager.uriToEditor.exists(undefUri.toAmfUri(platform)))
-      assert(factory.documentManager.uriToEditor.uris.isEmpty)
+      assert(!servAndFactor._2.documentManager.uriToEditor.exists(undefUri.toAmfUri(platform)))
+      assert(servAndFactor._2.documentManager.uriToEditor.uris.isEmpty)
       assert(logger.logList.exists(_.contains(s"Removing invalid URI file to manager: $undefUri")))
       server.shutdown()
       succeed
@@ -111,10 +118,11 @@ class ErrorHandlingTest extends LanguageServerBaseTest {
 
   test("getLast for invalid uri") {
     val undefUri: String = undef(4)
-    withServer(buildServer()) { server =>
+    val servAndFactor    = buildServer()
+    withServer(servAndFactor._1) { server =>
       for {
         lu <- try {
-          factory.workspaceManager
+          servAndFactor._2.workspaceManager
             .getLastUnit(undefUri, "")
             .map(cu => {
               println(cu.uri)
@@ -141,25 +149,31 @@ class ErrorHandlingTest extends LanguageServerBaseTest {
     val undefUri: String             = undef(5)
     val params: DocumentSymbolParams = DocumentSymbolParams(TextDocumentIdentifier(undefUri))
     telemetryNotifier.promises.clear()
-    withServer(buildServer()) { server =>
+    val servAndFactor = buildServer()
+    withServer(servAndFactor._1) { server =>
       for {
-        c <- factory.structureManager.getRequestHandlers
+        c <- servAndFactor._2.structureManager.getRequestHandlers
           .collectFirst {
             case ch: TelemeteredRequestHandler[DocumentSymbolParams,
                                                Either[Seq[SymbolInformation], Seq[documentsymbol.DocumentSymbol]]] =>
               ch.apply(params)
           }
           .getOrElse(fail("structure request handler not found"))
-        _      <- telemetryNotifier.nextCall // begin structure
-        tError <- telemetryNotifier.nextCall // error
+        calls      <-
+          Future.sequence(Seq( // begin structure/parse, error, end parse/structure
+            telemetryNotifier.nextCall,
+            telemetryNotifier.nextCall,
+            telemetryNotifier.nextCall,
+          ))
       } yield {
         c match {
-          case Left(value)  => assert(value.isEmpty)
-          case Right(value) => assert(value.isEmpty)
+          case Left(value) => assert(value.isEmpty)
+          case Right(value) =>
+            assert(value.isEmpty)
+            calls.exists(_.message == s"Unit not found at repository for uri: ${undefUri.toAmfUri(platform)}")
+            server.shutdown()
+            succeed
         }
-        assert(tError.message == s"Unit not found at repository for uri: ${undefUri.toAmfUri(platform)}")
-        server.shutdown()
-        succeed
       }
     }
   }

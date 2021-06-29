@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.plugins.domain.webapi.metamodel.PayloadModel
+import amf.apicontract.internal.metamodel.domain.PayloadModel
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin

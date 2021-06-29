@@ -1,7 +1,7 @@
 package org.mulesoft.language.outline.structure.structureImpl
 
-import amf.core.model.document.BaseUnit
-import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.aml.client.scala.model.document.Dialect
+import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 
 class StructureContext(val location: String, val factory: BuilderFactory, val dialect: Dialect) {}

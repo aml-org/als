@@ -1,9 +1,9 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi
 
-import amf.plugins.domain.webapi.metamodel.ServerModel
-import amf.plugins.domain.webapi.metamodel.security.{SecurityRequirementModel, SecuritySchemeModel}
-import amf.plugins.domain.webapi.models.Server
-import amf.plugins.domain.webapi.models.security.{ParametrizedSecurityScheme, SecurityRequirement}
+import amf.apicontract.client.scala.model.domain.Server
+import amf.apicontract.client.scala.model.domain.security.{ParametrizedSecurityScheme, SecurityRequirement}
+import amf.apicontract.internal.metamodel.domain.ServerModel
+import amf.apicontract.internal.metamodel.domain.security.{SecurityRequirementModel, SecuritySchemeModel}
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin

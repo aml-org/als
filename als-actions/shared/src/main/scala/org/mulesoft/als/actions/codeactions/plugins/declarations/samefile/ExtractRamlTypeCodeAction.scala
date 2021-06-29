@@ -21,7 +21,7 @@ case class ExtractRamlTypeCodeAction(params: CodeActionRequestParams)
   override protected val kindTitle: CodeActionKindTitle = ExtractRamlTypeCodeAction
 
   override lazy val isApplicable: Boolean =
-    homogeneousVendor && vendor.isRaml && positionIsExtracted &&
+    homogeneousVendor && spec.isRaml && positionIsExtracted &&
       amfObject.exists(o => ExtractorCommon.declarationPath(o, params.dialect) == Seq("types")) && appliesToDocument()
 
   override protected def telemetry: TelemetryProvider = params.telemetryProvider

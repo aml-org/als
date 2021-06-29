@@ -1,11 +1,11 @@
 package org.mulesoft.amfintegration.visitors.noderelationship
 
-import amf.core.annotations.{LexicalInformation, SourceAST}
-import amf.core.metamodel.domain.LinkableElementModel
-import amf.core.model.domain.{AmfElement, AmfObject, NamedDomainElement}
-import amf.plugins.domain.shapes.models.NodeShape
-import org.mulesoft.als.common.SemanticNamedElement._
-import org.mulesoft.amfintegration.AmfImplicits._
+import amf.core.client.scala.model.domain.{AmfElement, AmfObject, NamedDomainElement}
+import amf.core.internal.annotations.{LexicalInformation, SourceAST}
+import amf.core.internal.metamodel.domain.LinkableElementModel
+import amf.shapes.client.scala.model.domain.NodeShape
+import org.mulesoft.als.common.SemanticNamedElement.ElementNameExtractor
+import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.amfintegration.VirtualYPart
 import org.mulesoft.amfintegration.relationships.RelationshipLink
 import org.mulesoft.amfintegration.visitors.AmfElementVisitor

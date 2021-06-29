@@ -1,8 +1,8 @@
 package org.mulesoft.amfintegration.dialect.dialects.oas.nodes
 
-import amf.core.vocabulary.Namespace.XsdTypes.{xsdString, xsdUri}
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.metamodel.OrganizationModel
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.apicontract.internal.metamodel.domain.OrganizationModel
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdString, xsdUri}
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS30Dialect, OasBaseDialect}
 
 object AMLContactObject extends DialectNode {

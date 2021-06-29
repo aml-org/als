@@ -1,13 +1,13 @@
 package org.mulesoft.als.server.modules.selection
 
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.feature.RequestHandler
-import org.mulesoft.lsp.feature.common.{Position, Range, TextDocumentIdentifier, TextDocumentItem}
+import org.mulesoft.lsp.feature.common.{Range, TextDocumentIdentifier, TextDocumentItem, Position => LspPosition}
 import org.mulesoft.lsp.feature.selectionRange.{SelectionRange, SelectionRangeParams, SelectionRangeRequestType}
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
-import org.mulesoft.lsp.feature.common.{Position => LspPosition, Range => LspRange}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -18,7 +18,6 @@ class SelectionRangeTest extends LanguageServerBaseTest {
   override def rootPath: String = "actions/selection"
 
   def buildServer(): LanguageServer = {
-
     val factory =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
     new LanguageServerBuilder(factory.documentManager,
@@ -37,10 +36,8 @@ class SelectionRangeTest extends LanguageServerBaseTest {
           .andThen(1, 7, 1, 11)
           .build())
 
-    runTest(buildServer(), "basic.raml", Seq(Position(1, 8))).map { result =>
-      {
-        result should be(expected)
-      }
+    runTest(buildServer(), "basic.raml", Seq(LspPosition(1, 8))).map { result =>
+      result should be(expected)
     }
   }
 
@@ -55,10 +52,8 @@ class SelectionRangeTest extends LanguageServerBaseTest {
           .build()
       )
 
-    runTest(buildServer(), "basic.json", Seq(Position(6, 18))).map { result =>
-      {
-        result should be(expected)
-      }
+    runTest(buildServer(), "basic.json", Seq(LspPosition(6, 18))).map { result =>
+      result should be(expected)
     }
   }
 
@@ -71,10 +66,8 @@ class SelectionRangeTest extends LanguageServerBaseTest {
           .build()
       )
 
-    runTest(buildServer(), "basic.raml", Seq(Position(1, 3))).map { result =>
-      {
-        result should be(expected)
-      }
+    runTest(buildServer(), "basic.raml", Seq(LspPosition(1, 3))).map { result =>
+      result should be(expected)
     }
   }
 
@@ -89,10 +82,8 @@ class SelectionRangeTest extends LanguageServerBaseTest {
           .build()
       )
 
-    runTest(buildServer(), "basic.json", Seq(Position(6, 12))).map { result =>
-      {
-        result should be(expected)
-      }
+    runTest(buildServer(), "basic.json", Seq(LspPosition(6, 12))).map { result =>
+      result should be(expected)
     }
   }
 
@@ -106,10 +97,8 @@ class SelectionRangeTest extends LanguageServerBaseTest {
           .build()
       )
 
-    runTest(buildServer(), "complex.yaml", Seq(Position(17, 5))).map { result =>
-      {
-        result should be(expected)
-      }
+    runTest(buildServer(), "complex.yaml", Seq(LspPosition(17, 5))).map { result =>
+      result should be(expected)
     }
   }
 
@@ -123,10 +112,8 @@ class SelectionRangeTest extends LanguageServerBaseTest {
           .build()
       )
 
-    runTest(buildServer(), "complex.json", Seq(Position(13, 8))).map { result =>
-      {
-        result should be(expected)
-      }
+    runTest(buildServer(), "complex.json", Seq(LspPosition(13, 8))).map { result =>
+      result should be(expected)
     }
   }
 
@@ -145,10 +132,8 @@ class SelectionRangeTest extends LanguageServerBaseTest {
           .build()
       )
 
-    runTest(buildServer(), "complex.yaml", Seq(Position(3, 6), Position(17, 5))).map { result =>
-      {
-        result should be(expected)
-      }
+    runTest(buildServer(), "complex.yaml", Seq(LspPosition(3, 6), LspPosition(17, 5))).map { result =>
+      result should be(expected)
     }
   }
 
@@ -168,10 +153,8 @@ class SelectionRangeTest extends LanguageServerBaseTest {
           .build()
       )
 
-    runTest(buildServer(), "complex.json", Seq(Position(13, 8), Position(6, 10))).map { result =>
-      {
-        result should be(expected)
-      }
+    runTest(buildServer(), "complex.json", Seq(LspPosition(13, 8), LspPosition(6, 10))).map { result =>
+      result should be(expected)
     }
   }
 
@@ -193,26 +176,25 @@ class SelectionRangeTest extends LanguageServerBaseTest {
           .build()
       )
 
-    runTest(buildServer(), "import.raml", Seq(Position(4, 13), Position(4, 22))).map { result =>
-      {
-        result should be(expected)
-      }
+    runTest(buildServer(), "import.raml", Seq(LspPosition(4, 13), LspPosition(4, 22))).map { result =>
+      result should be(expected)
     }
   }
 
-  def runTest(server: LanguageServer, fileName: String, positions: Seq[Position]): Future[Seq[SelectionRange]] = {
+  def runTest(server: LanguageServer, fileName: String, positions: Seq[LspPosition]): Future[Seq[SelectionRange]] = {
     val fileUri = filePath(platform.encodeURI(fileName))
+
     for {
-      content <- this.platform.resolve(fileUri)
+      content <- this.platform.fetchContent(fileUri, AMFGraphConfiguration.predefined())
+      _ <- server.textDocumentSyncConsumer.didOpen(
+        DidOpenTextDocumentParams(
+          TextDocumentItem(
+            filePath(fileName),
+            "",
+            0,
+            content.stream.toString
+          )))
       selectionRange <- {
-        server.textDocumentSyncConsumer.didOpen(
-          DidOpenTextDocumentParams(
-            TextDocumentItem(
-              filePath(fileName),
-              "",
-              0,
-              content.stream.toString
-            )))
         val dhHandler: RequestHandler[SelectionRangeParams, Seq[SelectionRange]] =
           server.resolveHandler(SelectionRangeRequestType).get
         dhHandler(SelectionRangeParams(TextDocumentIdentifier(fileUri), positions))
@@ -224,20 +206,16 @@ class SelectionRangeTest extends LanguageServerBaseTest {
 
   case class SelectionRangeBuilder(fromLine: Int, fromCol: Int, toLine: Int, toCol: Int) {
     private var internal: Option[SelectionRangeBuilder] = None
-    def build(): SelectionRange = {
+    def build(): SelectionRange =
       SelectionRange(Range(LspPosition(fromLine, fromCol), LspPosition(toLine, toCol)), internal.map(_.build()))
-    }
 
-    protected def setParent(selectionRangeBuilder: SelectionRangeBuilder): Unit = {
+    protected def setParent(selectionRangeBuilder: SelectionRangeBuilder): Unit =
       internal = Some(selectionRangeBuilder)
-    }
 
     def andThen(fromLine: Int, fromCol: Int, toLine: Int, toCol: Int): SelectionRangeBuilder = {
       val builder = SelectionRangeBuilder(fromLine, fromCol, toLine, toCol)
       builder.setParent(this)
       builder
     }
-
   }
-
 }

@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.aml
 
-import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.aml.client.scala.model.document.Dialect
 import org.mulesoft.als.suggestions.AMLBaseCompletionPlugins
 import org.mulesoft.als.suggestions.aml.webapi.WebApiCompletionPluginRegistry
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin

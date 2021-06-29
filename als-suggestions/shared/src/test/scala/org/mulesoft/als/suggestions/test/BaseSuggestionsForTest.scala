@@ -1,13 +1,11 @@
 package org.mulesoft.als.suggestions.test
 
-import amf.client.remote.Content
-import amf.core.unsafe.PlatformSecrets
-import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
+import amf.aml.client.scala.model.document.Dialect
+import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.{MarkerFinderTest, PlatformDirectoryResolver}
 import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.als.suggestions.client.Suggestions
-import org.mulesoft.amfintegration.AmfInstance
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.feature.completion.CompletionItem
 import upickle.default.write
 
@@ -18,14 +16,19 @@ trait BaseSuggestionsForTest extends PlatformSecrets with MarkerFinderTest {
 
   protected val dr = new PlatformDirectoryResolver(platform)
 
+  protected val defaultAmfConfiguration: AmfConfigurationWrapper = AmfConfigurationWrapper()
+
   def writeDataToString(data: List[CompletionItem]): String =
     write[List[CompletionItemNode]](data.map(CompletionItemNode.sharedToTransport), 2)
 
-  def suggest(url: String, label: String, dialectContent: Option[String]): Future[Seq[CompletionItem]] = {
+  def suggest(url: String,
+              label: String,
+              dialectContent: Option[String],
+              amfConfiguration: AmfConfigurationWrapper = defaultAmfConfiguration): Future[Seq[CompletionItem]] = {
 
     for {
-      content <- platform.resolve(url)
-      r       <- suggestFromFile(content.stream.toString, url, content.mime, label, dialectContent)
+      content <- amfConfiguration.fetchContent(url)
+      r       <- suggestFromFile(content.stream.toString, url, label, dialectContent)
     } yield {
       r
     }
@@ -33,7 +36,6 @@ trait BaseSuggestionsForTest extends PlatformSecrets with MarkerFinderTest {
 
   def suggestFromFile(content: String,
                       url: String,
-                      mime: Option[String],
                       label: String,
                       dialect: Option[String]): Future[Seq[CompletionItem]] = {
 
@@ -43,29 +45,28 @@ trait BaseSuggestionsForTest extends PlatformSecrets with MarkerFinderTest {
 
     position = markerInfo.offset
 
-    val environment = this.buildEnvironment(url, markerInfo.content, mime)
-    val instance    = AmfInstance(platform, environment)
+    val resourceLoader        = AmfConfigurationWrapper.resourceLoaderForFile(url, markerInfo.content)
+    val dialectUrl            = "file:///dialect.yaml"
+    val dialectResourceLoader = dialect.map(d => AmfConfigurationWrapper.resourceLoaderForFile(dialectUrl, d))
+    val amfConfiguration      = AmfConfigurationWrapper(Seq(resourceLoader))
     for {
-      _ <- instance.init()
       s <- {
-        dialect.map(d => instance.alsAmlPlugin.registry.registerDialect(d)).getOrElse(Future.unit).map { _ =>
-          new Suggestions(platform, environment, AlsConfiguration(), dr, instance).initialized()
-        }
+        dialectResourceLoader
+          .map(drl => {
+            amfConfiguration.withResourceLoader(drl)
+            amfConfiguration
+              .parse(dialectUrl)
+              .map(r =>
+                r.result.baseUnit match {
+                  case d: Dialect => amfConfiguration.registerDialect(d)
+              })
+          })
+          .getOrElse(Future.unit)
+          .map { _ =>
+            new Suggestions(AlsConfiguration(), dr, amfConfiguration).initialized()
+          }
       }
       suggestions <- s.suggest(url, position, snippetsSupport = true, None)
     } yield suggestions
-  }
-
-  def buildEnvironment(fileUrl: String, content: String, mime: Option[String]): Environment = {
-    var loaders: Seq[ResourceLoader] = List(new ResourceLoader {
-      override def accepts(resource: String): Boolean = resource == fileUrl
-
-      override def fetch(resource: String): Future[Content] =
-        Future.successful(new Content(content, fileUrl))
-    })
-
-    loaders ++= platform.loaders()
-
-    Environment(loaders)
   }
 }

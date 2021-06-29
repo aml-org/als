@@ -24,12 +24,11 @@ case class ExtractRamlTypeToFragmentCodeAction(params: CodeActionRequestParams)
   override def fragmentBundle: Option[FragmentBundle]   = Some(FragmentBundles.DataTypeFragmentBundle)
 
   override lazy val isApplicable: Boolean =
-    vendor.isRaml && positionIsExtracted &&
+    spec.isRaml && positionIsExtracted &&
       amfObject.exists(
         o =>
-          ExtractorCommon.declarationPath(
-            o,
-            params.amfInstance.alsAmlPlugin.dialectFor(vendor).getOrElse(params.dialect)) == Seq("types"))
+          ExtractorCommon
+            .declarationPath(o, params.amfConfiguration.definitionFor(spec).getOrElse(params.dialect)) == Seq("types"))
 
   override protected def telemetry: TelemetryProvider = params.telemetryProvider
 

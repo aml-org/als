@@ -1,7 +1,7 @@
 package org.mulesoft.amfintegration.dialect.dialects.oas
 
-import amf.core.model.domain.DomainElement
-import amf.core.vocabulary.Namespace
+import amf.core.client.scala.model.domain.DomainElement
+import amf.core.client.scala.vocabulary.Namespace
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 import scala.language.implicitConversions

@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas
 
-import amf.plugins.domain.shapes.models.NodeShape
+import amf.shapes.client.scala.model.domain.NodeShape
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest

@@ -1,12 +1,10 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30
 
-import amf.core.annotations.SourceNode
-import amf.core.model.domain.{Linkable, Shape}
-import amf.core.parser._
-import amf.plugins.domain.shapes.metamodel.NodeShapeModel
-import amf.plugins.domain.shapes.models.NodeShape
-import amf.plugins.domain.webapi.metamodel.IriTemplateMappingModel
-import amf.plugins.domain.webapi.models.IriTemplateMapping
+import amf.core.client.scala.model.domain.{Linkable, Shape}
+import amf.core.internal.annotations.SourceNode
+import amf.core.internal.parser.YNodeLikeOps
+import amf.shapes.client.scala.model.domain.{IriTemplateMapping, NodeShape}
+import amf.shapes.internal.domain.metamodel.{IriTemplateMappingModel, NodeShapeModel}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.webapi.ExceptionPlugin

@@ -1,13 +1,12 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.core.model.domain.DomainElement
-import amf.core.model.domain.templates.ParametrizedDeclaration
-import amf.core.annotations.ErrorDeclaration
-import amf.plugins.document.webapi.parser.spec.WebApiDeclarations
-import amf.plugins.document.webapi.parser.spec.WebApiDeclarations.ErrorTrait
-import amf.plugins.domain.webapi.metamodel.templates.TraitModel
-import amf.plugins.domain.webapi.models.Operation
-import amf.plugins.domain.webapi.models.templates.ParametrizedTrait
+import amf.apicontract.client.scala.model.domain.Operation
+import amf.apicontract.client.scala.model.domain.templates.ParametrizedTrait
+import amf.apicontract.internal.metamodel.domain.templates.TraitModel
+import amf.apicontract.internal.spec.common.WebApiDeclarations.ErrorTrait
+import amf.core.client.scala.model.domain.DomainElement
+import amf.core.client.scala.model.domain.templates.ParametrizedDeclaration
+import amf.core.internal.annotations.ErrorDeclaration
 import org.mulesoft.als.common.YPartBranch
 import org.yaml.model.YSequence
 

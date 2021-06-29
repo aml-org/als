@@ -5,6 +5,6 @@ import org.mulesoft.amfintegration.AmfResolvedUnit
 
 class ResolutionRepository extends Repository[AmfResolvedUnit] {
   override def updateUnit(key: String, unit: AmfResolvedUnit): Unit =
-    if (!units.get(key).exists(u => u.originalUnit.eq(unit.originalUnit)))
+    if (!units.get(key).exists(u => u.baseUnit.eq(unit.baseUnit)))
       super.updateUnit(key, unit)
 }

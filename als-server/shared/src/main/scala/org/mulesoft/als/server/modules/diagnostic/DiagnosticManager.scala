@@ -1,15 +1,15 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf._
-import amf.core.model.document.BaseUnit
-import amf.core.validation.SeverityLevels.VIOLATION
-import amf.core.validation.{AMFValidationReport, AMFValidationResult}
-import amf.internal.environment.Environment
+import amf.core.client.common.validation.ProfileName
+import amf.core.client.common.validation.SeverityLevels.VIOLATION
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.validation.{AMFValidationReport, AMFValidationResult}
 import org.mulesoft.als.server.ClientNotifierModule
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.amfintegration.AmfImplicits._
-import org.mulesoft.amfintegration.{DiagnosticsBundle, ParserHelper}
+import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
+import org.mulesoft.amfintegration.DiagnosticsBundle
+import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, ProfileMatcher}
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.diagnostic.{DiagnosticClientCapabilities, DiagnosticConfigType}
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
@@ -17,7 +17,8 @@ import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import scala.concurrent.Future
 
 trait DiagnosticManager extends ClientNotifierModule[DiagnosticClientCapabilities, Unit] {
-  protected val env: Environment
+  protected val amfConfiguration: AmfConfigurationWrapper
+
   override val `type`: ConfigType[DiagnosticClientCapabilities, Unit] =
     DiagnosticConfigType
 
@@ -33,7 +34,7 @@ trait DiagnosticManager extends ClientNotifierModule[DiagnosticClientCapabilitie
   override def initialize(): Future[Unit] = Future.successful()
 
   protected def profileName(baseUnit: BaseUnit): ProfileName =
-    ParserHelper.profile(baseUnit)
+    ProfileMatcher.profile(baseUnit)
 
   protected val clientNotifier: ClientNotifier
 
@@ -51,8 +52,7 @@ trait DiagnosticManager extends ClientNotifierModule[DiagnosticClientCapabilitie
   }
 
   private final def failedReportDiagnostic(msg: String, baseUnit: BaseUnit): AMFValidationReport =
-    AMFValidationReport(conforms = false,
-                        "",
+    AMFValidationReport("",
                         profileName(baseUnit),
                         Seq(AMFValidationResult(msg, VIOLATION, "", None, "", None, baseUnit.location(), None)))
 

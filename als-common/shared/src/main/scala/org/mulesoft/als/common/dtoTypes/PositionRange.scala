@@ -1,6 +1,6 @@
 package org.mulesoft.als.common.dtoTypes
 
-import amf.core.parser.{Range => AmfRange}
+import amf.core.client.common.position.{Range => AmfRange}
 import org.mulesoft.lexer.InputRange
 import org.mulesoft.lsp.feature.common.{Range => LspRange}
 

@@ -1,34 +1,28 @@
 package org.mulesoft.als.server.modules.workspace
 
-import amf.core.errorhandling.ErrorCollector
-import amf.core.model.document.BaseUnit
-import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.aml.client.scala.model.document.Dialect
 import org.mulesoft.als.common.dtoTypes.ReferenceStack
-import org.mulesoft.als.configuration.{UnitWithWorkspaceConfiguration, WorkspaceConfiguration}
-import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.ErrorsCollected
+import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, AmfParseResult}
 
 import scala.concurrent.Future
 
-case class ParsedUnit(bu: BaseUnit,
-                      inTree: Boolean,
-                      definedBy: Dialect,
-                      eh: ErrorCollector,
-                      override val workspaceConfiguration: Option[WorkspaceConfiguration])
-    extends UnitWithWorkspaceConfiguration {
-
+case class ParsedUnit(parsedResult: AmfParseResult, inTree: Boolean, definedBy: Dialect) {
   def toCU(next: Option[Future[CompilableUnit]],
            mf: Option[String],
            stack: Seq[ReferenceStack],
            isDirty: Boolean = false,
-           workspaceConfiguration: Option[WorkspaceConfiguration]): CompilableUnit =
-    CompilableUnit(bu.identifier,
-                   bu,
-                   if (inTree) mf else None,
-                   stack,
-                   isDirty,
-                   next,
-                   definedBy,
-                   ErrorsCollected(eh.getErrors),
-                   workspaceConfiguration)
+           amfConfiguration: AmfConfigurationWrapper): CompilableUnit =
+    CompilableUnit(
+      parsedResult.result.baseUnit.identifier,
+      parsedResult.result.baseUnit,
+      if (inTree) mf else None,
+      stack,
+      isDirty,
+      next,
+      definedBy,
+      ErrorsCollected(parsedResult.result.results.toList),
+      amfConfiguration
+    )
 }

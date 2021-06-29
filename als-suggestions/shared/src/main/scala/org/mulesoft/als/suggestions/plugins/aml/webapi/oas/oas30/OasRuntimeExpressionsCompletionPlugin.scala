@@ -1,12 +1,13 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30
 
-import amf.core.metamodel.Field
-import amf.plugins.domain.webapi.metamodel.{CallbackModel, EndPointModel, IriTemplateMappingModel, TemplatedLinkModel}
-import amf.plugins.domain.webapi.models.Callback
+import amf.apicontract.client.scala.model.domain.Callback
+import amf.apicontract.internal.metamodel.domain.{CallbackModel, EndPointModel, TemplatedLinkModel}
+import amf.apicontract.internal.validation.runtimeexpression.{OAS3RuntimeExpressionParser, RuntimeExpressionParser}
+import amf.core.internal.metamodel.Field
+import amf.shapes.client.scala.model.domain.NodeShape
+import amf.shapes.internal.domain.metamodel.IriTemplateMappingModel
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.webapi.AbstractRuntimeExpressionsCompletionPlugin
-import amf.plugins.document.webapi.validation.runtimeexpression.{OAS3RuntimeExpressionParser, RuntimeExpressionParser}
-import amf.plugins.domain.shapes.models.NodeShape
 
 object OasRuntimeExpressionsCompletionPlugin extends AbstractRuntimeExpressionsCompletionPlugin {
 

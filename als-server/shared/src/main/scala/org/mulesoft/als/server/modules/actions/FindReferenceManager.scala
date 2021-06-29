@@ -66,7 +66,6 @@ class FindReferenceManager(val workspace: WorkspaceManager,
   def findReference(uri: String, position: Position, uuid: String): Future[Seq[Location]] =
     workspace
       .getLastUnit(uri, uuid)
-      .flatMap(_.getLast)
       .flatMap(cu => {
         FindReferences
           .getReferences(uri,

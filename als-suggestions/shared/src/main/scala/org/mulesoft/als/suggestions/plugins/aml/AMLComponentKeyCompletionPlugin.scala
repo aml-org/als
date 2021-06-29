@@ -1,14 +1,14 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.core.model.domain.AmfObject
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.{NodeMappable, NodeMapping}
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.NodeMapping
+import amf.core.client.scala.model.domain.AmfObject
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.amfintegration.AmfImplicits.AmfObjectImp
 import org.yaml.model.YMapEntry
-import org.mulesoft.amfintegration.AmfImplicits._
 
 import scala.concurrent.Future
 

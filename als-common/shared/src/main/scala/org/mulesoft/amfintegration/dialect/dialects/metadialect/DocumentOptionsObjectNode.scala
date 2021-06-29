@@ -1,9 +1,9 @@
 package org.mulesoft.amfintegration.dialect.dialects.metadialect
 
-import amf.core.vocabulary.Namespace.XsdTypes._
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.aml.internal.metamodel.domain.DocumentsModelModel
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdString}
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
-import amf.plugins.document.vocabularies.metamodel.domain.DocumentsModelModel
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
 
 object DocumentOptionsObjectNode extends DialectNode {
   override def name: String = "DocumentOptionsObjectNode"

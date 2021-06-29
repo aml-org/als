@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.core.model.domain.extensions.PropertyShape
-import amf.core.vocabulary.Namespace.XsdTypes
-import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
+import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
+import amf.core.client.scala.model.domain.extensions.PropertyShape
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
