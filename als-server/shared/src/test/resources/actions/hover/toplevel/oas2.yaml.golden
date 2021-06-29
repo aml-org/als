@@ -1,21 +1,21 @@
 hovers:
   (2,2):
-    range: Range(common.Position[L:0,C:0],common.Position[L:6,C:5])
+    range: Range(common.Position[L:1,C:0],common.Position[L:4,C:0])
     contents:
-      - Top level element describing a HTTP API
+      - Contains general information about the defined API, such as title and version
   (2,5):
-    range: Range(common.Position[L:0,C:0],common.Position[L:6,C:5])
+    range: Range(common.Position[L:1,C:0],common.Position[L:4,C:0])
     contents:
-      - Top level element describing a HTTP API
+      - Contains general information about the defined API, such as title and version
   (5,3):
     range: Range(common.Position[L:4,C:6],common.Position[L:4,C:6])
     contents:
       - EndPoint in the API holding a number of executable operations
   (6,4):
-    range: Range(common.Position[L:0,C:0],common.Position[L:6,C:5])
+    range: Range(common.Position[L:5,C:0],common.Position[L:6,C:0])
     contents:
-      - Top level element describing a HTTP API
+      - URL prefix to all API endpoints
   (7,1):
-    range: Range(common.Position[L:0,C:0],common.Position[L:6,C:5])
+    range: Range(common.Position[L:6,C:0],common.Position[L:6,C:5])
     contents:
-      - Top level element describing a HTTP API
+      - The domain name or IPv4 of the server that hosts the API

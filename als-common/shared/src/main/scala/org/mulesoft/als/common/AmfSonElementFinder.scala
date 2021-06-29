@@ -53,8 +53,6 @@ object AmfSonElementFinder {
         val entryPoint = Branch(obj, Nil, None)
         find(entryPoint, definedBy) match {
           case Nil => entryPoint
-          case head :: Nil =>
-            head
           case list =>
             pickOne(filterCandidates(list))
         }
