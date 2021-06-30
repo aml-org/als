@@ -12,6 +12,8 @@ public class UpdateConfigurationParams {
 
     private Map<String, Object> genericOptions;
 
+    private boolean prettyPrintSerialization = false;
+
     public UpdateConfigurationParams(Map<String, AlsFormattingOptions> updateFormatOptionsParams) {
         this.formattingOptions = updateFormatOptionsParams;
     }
@@ -35,5 +37,13 @@ public class UpdateConfigurationParams {
 
     public void setTemplateType(String templateType) {
         this.templateType = templateType;
+    }
+
+    public boolean shouldPrettyPrintSerialization() {
+        return prettyPrintSerialization;
+    }
+
+    public void setPrettyPrintSerialization(boolean prettyPrintSerialization) {
+        this.prettyPrintSerialization = prettyPrintSerialization;
     }
 }

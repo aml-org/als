@@ -24,6 +24,7 @@ class ConfigurationManager
       case Some(b: Boolean) => AlsSyamlSyntaxPluginHacked.withKeepTokens(b)
       case _                => // ignore
     }
+    configuration.setShouldPrettyPrintSerialization(params.prettyPrintSerialization)
   }
 
   def updateDocumentChangesSupport(support: Boolean): Unit = configuration.supportsDocumentChanges(support)

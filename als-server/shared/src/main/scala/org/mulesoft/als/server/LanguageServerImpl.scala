@@ -32,7 +32,13 @@ class LanguageServerImpl(val textDocumentSyncConsumer: AlsTextDocumentSyncConsum
     logger.debug(s"capabilities: ${params.capabilities.toString}", "LanguageServerImpl", "initialize")
 
     params.configuration.foreach(c => {
-      updateConfiguration(UpdateConfigurationParams(Option(c.getFormatOptions)))
+      updateConfiguration(
+        UpdateConfigurationParams(
+          Option(c.getFormatOptions),
+          Map(),
+          c.getTemplateType,
+          c.getShouldPrettyPrintSerialization
+        ))
     })
     configuration.updateDocumentChangesSupport(
       params.capabilities.workspace.flatMap(_.workspaceEdit).flatMap(_.documentChanges).contains(true))

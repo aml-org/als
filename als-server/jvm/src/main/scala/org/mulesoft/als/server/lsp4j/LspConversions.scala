@@ -153,7 +153,8 @@ object LspConversions {
     UpdateConfigurationParams(
       Option(stringFormatMapToMimeFormatMap(v.getUpdateFormatOptionsParams.asScala.toMap)),
       Option(v.getGenericOptions).map(_.asScala.toMap).getOrElse(Map.empty),
-      templateTypeFromString(v.getTemplateType)
+      templateTypeFromString(v.getTemplateType),
+      v.shouldPrettyPrintSerialization()
     )
   }
 

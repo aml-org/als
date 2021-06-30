@@ -7,7 +7,7 @@ import org.yaml.builder.DocBuilder
 
 abstract class SerializationProps[S](val alsClientNotifier: AlsClientNotifier[S]) {
 
-  def newDocBuilder(): DocBuilder[S]
+  def newDocBuilder(prettyPrint: Boolean): DocBuilder[S]
   val requestType: RequestType[SerializationParams, SerializationResult[S]] =
     new RequestType[SerializationParams, SerializationResult[S]] {}
 }

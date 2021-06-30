@@ -12,16 +12,17 @@ trait ClientUpdateConfigurationParams extends js.Object {
   def formattingOptions: js.UndefOr[js.Dictionary[ClientFormattingOptions]] = js.native // Nullable
   def genericOptions: js.UndefOr[js.Dictionary[js.Any]]                     = js.native
   def templateType: js.UndefOr[String]                                      = js.native
+  def prettyPrintSerialization: js.UndefOr[Boolean]                         = js.native
 }
 
 object ClientUpdateConfigurationParams {
   def apply(internal: UpdateConfigurationParams): ClientUpdateConfigurationParams = {
     js.Dynamic
       .literal(
-        conversion = internal.updateFormatOptionsParams.foreach(f => f.map(v => v._1        -> v._2.toClient)), // deprecated
         formattingOptions = internal.updateFormatOptionsParams.foreach(f => f.map(v => v._1 -> v._2.toClient)),
         // genericOptions = js.undefined, // how should we serialize `any`?
-        templateType = internal.templateType
+        templateType = internal.templateType,
+        prettyPrintSerialization = internal.prettyPrintSerialization
       )
       .asInstanceOf[ClientUpdateConfigurationParams]
   }

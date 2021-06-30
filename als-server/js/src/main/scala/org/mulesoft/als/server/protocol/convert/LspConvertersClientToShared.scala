@@ -166,7 +166,8 @@ object LspConvertersClientToShared {
       v.templateType.getOrElse("").toUpperCase match {
         case v if v == TemplateTypes.NONE || v == TemplateTypes.SIMPLE => v
         case _                                                         => TemplateTypes.FULL
-      }
+      },
+      v.prettyPrintSerialization.toOption.getOrElse(false)
     )
   }
   implicit class ClientSerializationParamsConverter(v: ClientSerializationParams) {

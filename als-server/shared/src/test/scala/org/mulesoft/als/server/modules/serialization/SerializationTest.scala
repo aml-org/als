@@ -40,8 +40,8 @@ class SerializationTest extends LanguageServerBaseTest {
     val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
     val serializationProps: SerializationProps[StringWriter] =
       new SerializationProps[StringWriter](alsClient) {
-        override def newDocBuilder(): DocBuilder[StringWriter] =
-          JsonOutputBuilder()
+        override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
+          JsonOutputBuilder(prettyPrint)
       }
     withServer(buildServer(alsClient, serializationProps)) { server =>
       val content =
@@ -85,8 +85,8 @@ class SerializationTest extends LanguageServerBaseTest {
     val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
     val serializationProps: SerializationProps[StringWriter] =
       new SerializationProps[StringWriter](alsClient) {
-        override def newDocBuilder(): DocBuilder[StringWriter] =
-          JsonOutputBuilder()
+        override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
+          JsonOutputBuilder(prettyPrint)
       }
     withServer(buildServer(alsClient, serializationProps)) { server =>
       val content =
@@ -131,8 +131,8 @@ class SerializationTest extends LanguageServerBaseTest {
     val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
     val serializationProps: SerializationProps[StringWriter] =
       new SerializationProps[StringWriter](alsClient) {
-        override def newDocBuilder(): DocBuilder[StringWriter] =
-          JsonOutputBuilder()
+        override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
+          JsonOutputBuilder(prettyPrint)
       }
     withServer(buildServer(alsClient, serializationProps)) { server =>
       val content =
@@ -203,8 +203,8 @@ class SerializationTest extends LanguageServerBaseTest {
     val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
     val serializationProps: SerializationProps[StringWriter] =
       new SerializationProps[StringWriter](alsClient) {
-        override def newDocBuilder(): DocBuilder[StringWriter] =
-          JsonOutputBuilder()
+        override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
+          JsonOutputBuilder(prettyPrint)
       }
     withServer(buildServer(alsClient, serializationProps)) { server =>
       val url = filePath("raml-endpoint-sorting.raml")
@@ -245,8 +245,8 @@ class SerializationTest extends LanguageServerBaseTest {
     val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
     val serializationProps: SerializationProps[StringWriter] =
       new SerializationProps[StringWriter](alsClient) {
-        override def newDocBuilder(): DocBuilder[StringWriter] =
-          JsonOutputBuilder()
+        override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
+          JsonOutputBuilder(prettyPrint)
       }
     withServer(buildServer(alsClient, serializationProps)) { server =>
       val url = filePath("raml-endpoint-sorting.raml")
@@ -309,8 +309,8 @@ class SerializationTest extends LanguageServerBaseTest {
     val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
     val serializationProps: SerializationProps[StringWriter] =
       new SerializationProps[StringWriter](alsClient) {
-        override def newDocBuilder(): DocBuilder[StringWriter] =
-          JsonOutputBuilder()
+        override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
+          JsonOutputBuilder(prettyPrint)
       }
     withServer(buildServer(alsClient, serializationProps)) { server =>
       val mainUrl      = filePath("project/librarybooks.raml")
@@ -360,8 +360,8 @@ class SerializationTest extends LanguageServerBaseTest {
     val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
     val serializationProps: SerializationProps[StringWriter] =
       new SerializationProps[StringWriter](alsClient) {
-        override def newDocBuilder(): DocBuilder[StringWriter] =
-          JsonOutputBuilder()
+        override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
+          JsonOutputBuilder(prettyPrint)
       }
     withServer(buildServer(alsClient, serializationProps)) { server =>
       val mainUrl      = filePath("project-overlay-mf/librarybooks.raml")
