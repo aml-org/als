@@ -9,6 +9,7 @@ import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.amfintegration.AmfInstance
 import org.mulesoft.lsp.feature.completion.CompletionItem
+import upickle.default.write
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -16,6 +17,9 @@ import scala.concurrent.Future
 trait BaseSuggestionsForTest extends PlatformSecrets with MarkerFinderTest {
 
   protected val dr = new PlatformDirectoryResolver(platform)
+
+  def writeDataToString(data: List[CompletionItem]): String =
+    write[List[CompletionItemNode]](data.map(CompletionItemNode.sharedToTransport), 2)
 
   def suggest(url: String, label: String, dialectContent: Option[String]): Future[Seq[CompletionItem]] = {
 

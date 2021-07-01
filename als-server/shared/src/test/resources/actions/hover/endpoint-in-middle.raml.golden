@@ -1,5 +1,5 @@
 hovers:
   (6,2):
-    range: Range(common.Position[L:3,C:0],common.Position[L:8,C:0])
+    range: Range(common.Position[L:4,C:2],common.Position[L:6,C:0])
     contents:
-      - EndPoint in the API holding a number of executable operations
+      - Human readable description of an element

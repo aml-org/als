@@ -1,11 +1,15 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.library
 
-import amf.core.model.document.{BaseUnit, Document, Module}
-import amf.core.model.domain.{DomainElement, NamedDomainElement}
+import amf.core.model.document.Module
+import amf.core.model.domain.DomainElement
 import amf.core.remote.{Mimes, Vendor}
 import org.mulesoft.als.actions.codeactions.plugins.CodeActionKindTitle
 import org.mulesoft.als.actions.codeactions.plugins.base.{CodeActionRequestParams, CodeActionResponsePlugin}
-import org.mulesoft.als.actions.codeactions.plugins.declarations.common.{DeclaredElementKnowledge, ExtractorCommon}
+import org.mulesoft.als.actions.codeactions.plugins.declarations.common.{
+  CreatesFileCodeAction,
+  DeclaredElementKnowledge,
+  ExtractorCommon
+}
 import org.mulesoft.als.common.YamlWrapper.{YMapEntryOps, YNodeImplicits}
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
@@ -27,26 +31,15 @@ import org.yaml.render.{YamlRender, YamlRenderOptions}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-trait ExtractDeclarationsToLibrary extends CodeActionResponsePlugin {
+trait ExtractDeclarationsToLibrary extends CodeActionResponsePlugin with CreatesFileCodeAction {
   protected val kindTitle: CodeActionKindTitle
   protected val params: CodeActionRequestParams
 
-  private val plainName = "library"
-  private val aliasName = ExtractorCommon.nameNotInList("lib", params.bu.definedAliases)
+  private val plainName                    = "library"
+  override protected val extension: String = "raml"
+  private val aliasName                    = ExtractorCommon.nameNotInList("lib", params.bu.definedAliases)
 
-  private def finalName(c: Option[Int] = None): Future[String] = {
-    val maybeName = s"$plainName${c.getOrElse("")}"
-    params.directoryResolver
-      .exists(completeUri(maybeName))
-      .flatMap {
-        case false => Future.successful(maybeName)
-        case true  => finalName(Some(c.getOrElse(0) + 1))
-      }
-  }
-
-  private val relativeUri: String       = params.uri.substring(0, params.uri.lastIndexOf('/') + 1)
-  private def wholeUri: Future[String]  = finalName().map(completeUri)
-  private def completeUri(name: String) = s"$relativeUri$name.raml"
+  private def wholeUri: Future[String] = createFileUri(plainName)
 
   protected def module(lde: List[DomainElement]): Future[Module] = {
     val targetModule = Module()
@@ -79,7 +72,7 @@ trait ExtractDeclarationsToLibrary extends CodeActionResponsePlugin {
         m.entries
           .find(_.key.asScalar.map(_.text).contains("uses"))
           .map { uses =>
-            finalName()
+            finalName(plainName)
               .map(name => YNode(s"$name.raml").withKey(aliasName))
               .map(YamlRender.render(_, yamlOptions.indentationSize, yamlOptions))
               .map { n =>
@@ -94,7 +87,7 @@ trait ExtractDeclarationsToLibrary extends CodeActionResponsePlugin {
   }
 
   private def plainUses(options: YamlRenderOptions): Future[Option[TextEdit]] = {
-    finalName()
+    finalName(plainName)
       .map(name => YNode(s"$name.raml").asEntry(aliasName).inMap.withKey("uses"))
       .map(n => YamlRender.render(n, 0, options))
       .map(t => Some(TextEdit(Range(common.Position(1, 0), common.Position(1, 0)), s"$t\n")))

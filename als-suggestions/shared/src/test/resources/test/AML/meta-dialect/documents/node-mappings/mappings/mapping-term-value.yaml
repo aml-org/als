@@ -1,0 +1,12 @@
+#%Dialect 1.0
+
+external:
+  schema-org: http://schema-org.com
+uses:
+  my-voc: ../vocabulary.yaml
+nodeMappings:
+  myNodeMapping:
+    classTerm: schema-org.unreal
+    mapping:
+      myMapping:
+        propertyTerm: my-voc.*

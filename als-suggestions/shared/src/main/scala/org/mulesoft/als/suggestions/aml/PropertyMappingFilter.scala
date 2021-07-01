@@ -59,15 +59,38 @@ object DialectNodeFinder {
       .flatMap { v =>
         actualDialect.declares.find {
           case s: NodeMapping =>
-            s.nodetypeMapping.value() == v &&
-              fieldEntry.forall(f => {
-                s.propertiesMapping()
-                  .find(pm =>
-                    pm.fields
-                      .fields()
-                      .exists(_.value.toString == f.field.value.iri()))
-                  .exists(_.mapTermKeyProperty().isNullOrEmpty)
-              })
+            s.nodetypeMapping.value() == v && containsAllFields(s, fieldEntry)
+          case _ => false
+        }
+      }
+      .collectFirst({ case nm: NodeMapping => nm })
+      .orElse(findById(amfObject, fieldEntry, actualDialect))
+  }
+
+  private def containsAllFields(nodeMapping: NodeMapping, fieldEntry: Option[FieldEntry]): Boolean = {
+    fieldEntry.forall(f => {
+      nodeMapping
+        .propertiesMapping()
+        .find(
+          pm =>
+            pm.fields
+              .fields()
+              .exists(_.value.toString == f.field.value.iri()))
+        .exists(_.mapTermKeyProperty().isNullOrEmpty)
+    })
+  }
+
+  /**
+    * Handles the case where the AML definition has no classTerm defined
+    */
+  private def findById(amfObject: AmfObject,
+                       fieldEntry: Option[FieldEntry],
+                       actualDialect: Dialect): Option[NodeMapping] = {
+    amfObject.metaURIs
+      .flatMap { v =>
+        actualDialect.declares.find {
+          case s: NodeMapping =>
+            s.id == v && containsAllFields(s, fieldEntry)
           case _ => false
         }
       }

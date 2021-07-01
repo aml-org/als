@@ -71,7 +71,7 @@ object AlsJConversions {
   }
 
   implicit def serializedDocument(serializedDocument: SerializedDocument): extension.SerializedDocument =
-    new extension.SerializedDocument(serializedDocument.uri, serializedDocument.uri)
+    new extension.SerializedDocument(serializedDocument.uri, serializedDocument.document)
 
   implicit def serializationSerializedDocument(
       serializationMessage: SerializationResult[StringWriter]): extension.SerializedDocument =

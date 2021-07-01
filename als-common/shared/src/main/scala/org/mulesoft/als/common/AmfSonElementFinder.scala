@@ -33,8 +33,8 @@ object AmfSonElementFinder {
         f.value.annotations
           .containsAstPosition(amfPosition)
           .getOrElse(
-            ((f.value.annotations.isInferred ||
-              f.value.annotations.isVirtual)) ||
+            f.value.annotations.isInferred ||
+              f.value.annotations.isVirtual ||
               isDeclares(f))
       // why do we assume that inferred/virtual/declared would have the position? should we not look inside? what if there is more than one such case?
 
@@ -53,23 +53,20 @@ object AmfSonElementFinder {
         val entryPoint = Branch(obj, Nil, None)
         find(entryPoint, definedBy) match {
           case Nil => entryPoint
-          case head :: Nil =>
-            head
           case list =>
             pickOne(filterCandidates(list))
         }
       }
 
-      private def filterCandidates(list: Seq[Branch]) = {
+      private def filterCandidates(list: Seq[Branch]) =
         list.map(br => {
-          if ((br.fe.isEmpty && (br.obj.annotations.isVirtual && br.obj.range.isEmpty)) || (br.fe.nonEmpty && br.fe
+          if ((br.fe.isEmpty && ((br.obj.annotations.isInferred || br.obj.annotations.isSynthesized || br.obj.annotations.isVirtual) && br.obj.range.isEmpty)) || (br.fe.nonEmpty && br.fe
                 .exists(f => !appliesReduction(f))))
             br.unstacked()
           else br
         })
-      }
 
-      private def pickOne(list: Seq[Branch]) = {
+      private def pickOne(list: Seq[Branch]) =
         list.reduce((a, b) => {
           if (b.fe.nonEmpty && appliesReduction(b.fe.get)) b
           else if (a.fe.nonEmpty && appliesReduction(a.fe.get)) a
@@ -90,7 +87,6 @@ object AmfSonElementFinder {
           }
         })
 
-      }
       private def find(branch: Branch, definedBy: Dialect): Seq[Branch] = {
         val children: Seq[Either[AmfObject, FieldEntry]] =
           filterFields(branch.obj).flatMap(fe => {

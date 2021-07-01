@@ -1,0 +1,11 @@
+#%Vocabulary 1.0
+base: http://voc.test/#
+classTerms:
+  classT:
+    displayName: Term
+    description: description of a class term
+
+propertyTerms:
+  propTerm:
+    displayName: My prop
+    description: description of a prop term

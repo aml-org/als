@@ -1,0 +1,20 @@
+#%Vocabulary 1.0
+base: http://voc.test/#
+classTerms:
+  Person:
+    displayName: Person
+    description: A human person
+  Plane:
+    displayName: Airplane
+    description: An airplane or aeroplane is a fixed-wing aircraft.
+
+propertyTerms:
+  name:
+    displayName: Name
+    description: The name of the element
+  age:
+    displayName: Age
+    description: The age of the element
+  model:
+    displayName: Model
+    description: The model of the manufactured product

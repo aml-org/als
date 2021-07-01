@@ -43,7 +43,7 @@ object DiagnosticConverters {
                 .map(
                   s =>
                     DiagnosticRelatedInformation(Location(s.originUri, LspRangeConverter.toLspRange(s.originRange)),
-                                                 s"at ${s.originUri} ${s.originRange}"))
+                                                 s"at ${s.originUri}"))
             )
           }
         case Some(t) if t.references.nonEmpty && t.references.exists(_.stack.nonEmpty) =>
@@ -57,7 +57,7 @@ object DiagnosticConverters {
               r.location.getOrElse(""),
               range
             ),
-            s"from ${r.location.getOrElse("")} $range"
+            s"from ${r.location.getOrElse("")}"
           )
 
           t.references

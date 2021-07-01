@@ -1,35 +1,5 @@
 [
   {
-    "label": "RamlStyle",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "RamlStyle",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11RamlStyle",
-    "filterText": "RamlStyle",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 0,
-          "character": 0
-        },
-        "end": {
-          "line": 0,
-          "character": 0
-        }
-      },
-      "newText": "RamlStyle"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "JsonSchemaStyle",
     "kind": [],
     "detail": "unknown",
@@ -45,15 +15,45 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
-          "character": 0
+          "line": 4,
+          "character": 20
         },
         "end": {
-          "line": 0,
-          "character": 0
+          "line": 4,
+          "character": 20
         }
       },
       "newText": "JsonSchemaStyle"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "RamlStyle",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "RamlStyle",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11RamlStyle",
+    "filterText": "RamlStyle",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 20
+        },
+        "end": {
+          "line": 4,
+          "character": 20
+        }
+      },
+      "newText": "RamlStyle"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
