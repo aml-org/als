@@ -1,0 +1,5 @@
+#%Dialect 1.0
+
+nodeMappings:
+  node:
+    *

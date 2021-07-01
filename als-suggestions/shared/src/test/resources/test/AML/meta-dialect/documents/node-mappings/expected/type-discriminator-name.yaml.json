@@ -1,13 +1,13 @@
 [
   {
-    "label": "propertyA",
+    "label": "typeDiscriminator",
     "kind": [],
     "detail": "unknown",
-    "documentation": "propertyA",
+    "documentation": "typeDiscriminator",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10propertyA",
-    "filterText": "propertyA: ",
+    "sortText": "11typeDiscriminator",
+    "filterText": "typeDiscriminator: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,29 +15,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 2,
-          "character": 0
+          "line": 5,
+          "character": 4
         },
         "end": {
-          "line": 2,
-          "character": 0
+          "line": 5,
+          "character": 4
         }
       },
-      "newText": "propertyA: "
+      "newText": "typeDiscriminator: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "propertyB",
+    "label": "union",
     "kind": [],
     "detail": "unknown",
-    "documentation": "propertyB",
+    "documentation": "union",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11propertyB",
-    "filterText": "propertyB: ",
+    "sortText": "11union",
+    "filterText": "union:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -45,15 +45,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 2,
-          "character": 0
+          "line": 5,
+          "character": 4
         },
         "end": {
-          "line": 2,
-          "character": 0
+          "line": 5,
+          "character": 4
         }
       },
-      "newText": "propertyB: "
+      "newText": "union:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
