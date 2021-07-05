@@ -15,6 +15,7 @@ object MetaDialectPluginRegistry extends WebApiCompletionPluginRegistry {
       StructureCompletionPlugin(
         List(
           MetaDialectDocumentsCompletionPlugin,
+          NodeUnionDeclarationCompletionPlugin,
           ResolveDefault
         )) :+
       NamespaceForTermCompletionPlugin :+

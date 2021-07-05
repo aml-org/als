@@ -48,11 +48,5 @@ object NodeMappingObjectNode extends DialectNode {
         .withNodePropertyMapping(NodeMappingModel.IdTemplate.value.iri())
         .withName("idTemplate")
         .withLiteralRange(xsdUri.iri())
-//    PropertyMapping()
-//      .withId(location + s"#/declarations/$name/union") // not sure, just to be suggested when empty
-//      .withNodePropertyMapping(UnionNodeMappingModel.ObjectRange.value.iri())
-//      .withName("union")
-//      .withLiteralRange(xsdUri.iri())
-//      .withAllowMultiple(true)
-    ) ++ UnionMappingObjectNode.properties // temporally. WE should decide how to handle de union node for suggestions over union or nP
+    )
 }

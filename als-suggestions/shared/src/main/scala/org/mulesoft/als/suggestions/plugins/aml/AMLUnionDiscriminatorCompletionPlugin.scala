@@ -2,6 +2,7 @@ package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.core.model.domain.AmfObject
 import amf.plugins.document.vocabularies.model.document.Dialect
+import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -19,8 +20,9 @@ object AMLUnionDiscriminatorCompletionPlugin extends AMLCompletionPlugin {
 }
 
 class AMLUnionDiscriminatorCompletionPlugin(params: AmlCompletionRequest) extends UnionSuggestions {
-  override protected val amfObject: AmfObject = params.amfObject
-  override protected val dialect: Dialect     = params.actualDialect
+  override protected val amfObject: AmfObject     = params.amfObject
+  override protected val dialect: Dialect         = params.actualDialect
+  override protected val yPartBranch: YPartBranch = params.yPartBranch
 
   def resolve(): Seq[RawSuggestion] = {
     getUnionType.flatMap(unionMapping => {

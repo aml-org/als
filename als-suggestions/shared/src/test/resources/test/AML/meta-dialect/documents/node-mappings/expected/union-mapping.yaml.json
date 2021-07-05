@@ -1,13 +1,13 @@
 [
   {
-    "label": "propertyA",
+    "label": "typeDiscriminator",
     "kind": [],
     "detail": "unknown",
-    "documentation": "propertyA",
+    "documentation": "typeDiscriminator",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10propertyA",
-    "filterText": "propertyA: ",
+    "sortText": "11typeDiscriminator",
+    "filterText": "typeDiscriminator: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,29 +15,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 2,
-          "character": 0
+          "line": 6,
+          "character": 4
         },
         "end": {
-          "line": 2,
-          "character": 0
+          "line": 6,
+          "character": 4
         }
       },
-      "newText": "propertyA: "
+      "newText": "typeDiscriminator: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "propertyB",
+    "label": "typeDiscriminatorName",
     "kind": [],
     "detail": "unknown",
-    "documentation": "propertyB",
+    "documentation": "typeDiscriminatorName",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11propertyB",
-    "filterText": "propertyB: ",
+    "sortText": "11typeDiscriminatorName",
+    "filterText": "typeDiscriminatorName: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -45,15 +45,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 2,
-          "character": 0
+          "line": 6,
+          "character": 4
         },
         "end": {
-          "line": 2,
-          "character": 0
+          "line": 6,
+          "character": 4
         }
       },
-      "newText": "propertyB: "
+      "newText": "typeDiscriminatorName: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

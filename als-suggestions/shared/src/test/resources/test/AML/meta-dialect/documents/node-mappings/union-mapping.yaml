@@ -2,5 +2,6 @@
 
 nodeMappings:
   myNodeMapping:
-    classTerm: term
+    union:
+      - A
     *

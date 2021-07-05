@@ -32,7 +32,7 @@
   {
     "label": "newProp",
     "kind": [],
-    "detail": "",
+    "detail": "unknown",
     "documentation": "newProp",
     "deprecated": [],
     "preselect": [],
@@ -62,7 +62,7 @@
   {
     "label": "text",
     "kind": [],
-    "detail": "",
+    "detail": "unknown",
     "documentation": "text",
     "deprecated": [],
     "preselect": [],
@@ -92,7 +92,7 @@
   {
     "label": "text",
     "kind": [],
-    "detail": "",
+    "detail": "unknown",
     "documentation": "text",
     "deprecated": [],
     "preselect": [],
