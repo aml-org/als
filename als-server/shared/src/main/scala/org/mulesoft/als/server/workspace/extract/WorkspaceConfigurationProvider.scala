@@ -22,8 +22,8 @@ case class DefaultWorkspaceConfigurationProvider(manager: WorkspaceContentManage
     Future.successful(
       Some(
         WorkspaceConf(
-          manager.folder,
-          mainUri.stripPrefix(manager.folder).stripPrefix("/"), // just the file name, not the full path
+          manager.folderUri,
+          mainUri.stripPrefix(manager.folderUri).stripPrefix("/"), // just the file name, not the full path
           dependencies,
           reader
         )))
@@ -36,7 +36,7 @@ case class ReaderWorkspaceConfigurationProvider(manager: WorkspaceContentManager
                                    logger: Logger): Future[Option[WorkspaceConf]] = {
     manager.workspaceConfiguration.flatMap(_.configReader) match {
       case Some(configReader) =>
-        configReader.readRoot(manager.folder, platform, environment, logger)
+        configReader.readRoot(manager.folderUri, platform, environment, logger)
       case _ => Future.successful(None)
     }
   }

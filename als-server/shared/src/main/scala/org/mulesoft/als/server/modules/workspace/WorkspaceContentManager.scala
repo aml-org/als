@@ -23,7 +23,8 @@ import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class WorkspaceContentManager(val folder: String,
+// todo: should have companion object which creates `new WorkspaceContentManager(...).init`
+class WorkspaceContentManager(val folderUri: String,
                               environmentProvider: EnvironmentProvider,
                               telemetryProvider: TelemetryProvider,
                               logger: Logger,
@@ -33,10 +34,15 @@ class WorkspaceContentManager(val folder: String,
   private val rootHandler =
     new WorkspaceRootHandler(environmentProvider.platform, environmentProvider.environmentSnapshot())
 
+  // todo: should return a Future and be called from companion object for creation
   override def init(): Unit =
-    rootHandler.extractConfiguration(folder, logger).map { mainOption =>
+    rootHandler.extractConfiguration(folderUri, logger).map { mainOption =>
+      if (mainOption.isEmpty) logger.debug(s"no main for $folderUri", "WorkspaceContentManager", "init")
       mainOption.foreach(
         conf => {
+          logger.debug(s"folder: $folderUri", "WorkspaceContentManager", "init")
+          logger.debug(s"main file: ${conf.mainFile}", "WorkspaceContentManager", "init")
+          logger.debug(s"cachables: ${conf.cachables}", "WorkspaceContentManager", "init")
           this
             .withConfiguration(
               DefaultWorkspaceConfigurationProvider(this,
@@ -50,7 +56,10 @@ class WorkspaceContentManager(val folder: String,
       super.init()
     }
 
-  def containsFile(uri: String): Boolean = uri.startsWith(folder)
+  def containsFile(uri: String): Boolean = {
+    logger.debug(s"checking if $uri corresponds to $folderUri", "WorkspaceContentManager", "containsFile")
+    uri.startsWith(folderUri)
+  }
 
   implicit val platform: Platform = environmentProvider.platform // used for URI utils
 
@@ -60,6 +69,7 @@ class WorkspaceContentManager(val folder: String,
 
   def workspaceConfiguration: Option[WorkspaceConf] = configMainFile
 
+  // not used?
   def setConfigMainFile(workspaceConf: Option[WorkspaceConf]): Unit = {
     repository.cleanTree()
     repository.setCachables(workspaceConf.map(_.cachables.map(_.toAmfUri)).getOrElse(Set.empty))
@@ -69,7 +79,7 @@ class WorkspaceContentManager(val folder: String,
   private def mainFile: Option[String] = configMainFile.map(_.mainFile)
 
   def mainFileUri: Future[Option[String]] =
-    isInitialized.future.map(_ => mainFile.map(mf => s"${trailSlash(folder)}$mf".toAmfUri))
+    isInitialized.future.map(_ => mainFile.map(mf => s"${trailSlash(folderUri)}$mf".toAmfUri))
 
   def getRootFolderFor(uri: String): Future[Option[String]] =
     if (isInMainTree(uri))
@@ -104,7 +114,7 @@ class WorkspaceContentManager(val folder: String,
 
   override protected def toResult(uri: String, pu: ParsedUnit): CompilableUnit =
     pu.toCU(getNext(uri),
-            mainFile.map(mf => s"${trailSlash(folder)}$mf".toAmfUri),
+            mainFile.map(mf => s"${trailSlash(folderUri)}$mf".toAmfUri),
             repository.getReferenceStack(uri),
             isDirty(uri))
 
@@ -124,6 +134,11 @@ class WorkspaceContentManager(val folder: String,
   override protected def processTask(): Future[Unit] = {
     val snapshot: Snapshot    = stagingArea.snapshot()
     val (treeUnits, isolated) = snapshot.files.partition(u => isInMainTree(u._1.toAmfUri)) // what if a new file is added between the partition and the override down
+    logger.debug(s"units for main file: ${mainFile.getOrElse("[no main file]")}",
+                 "WorkspaceContentManager",
+                 "processTask")
+    treeUnits.map(_._1).foreach(tu => logger.debug(s"tree unit: $tu", "WorkspaceContentManager", "processTask"))
+    isolated.map(_._1).foreach(iu => logger.debug(s"isolated unit: $iu", "WorkspaceContentManager", "processTask"))
     val changedTreeUnits =
       treeUnits.filter(tu =>
         tu._2 == CHANGE_FILE || tu._2 == CLOSE_FILE || (tu._2 == FOCUS_FILE && shouldParseOnFocus(tu._1)))
@@ -165,12 +180,12 @@ class WorkspaceContentManager(val folder: String,
     * - Unit is external fragment and main file is external fragment too
     */
   private def shouldParseOnFocus(uri: String): Boolean = {
-    val mainFileUri = mainFile.map(mf => s"${trailSlash(folder)}$mf".toAmfUri)
+    val mainFileUri = mainFile.map(mf => s"${trailSlash(folderUri)}$mf".toAmfUri)
     repository.getUnit(uri) match {
       case Some(s) =>
         s.bu match {
-          case s: DialectInstance => true
-          case e: ExternalFragment
+          case _: DialectInstance => true
+          case _: ExternalFragment
               if mainFileUri.exists(_.equals(uri)) ||
                 mainFileUri.exists(u => repository.getUnit(u).exists(_.bu.isInstanceOf[ExternalFragment])) =>
             true
@@ -181,7 +196,7 @@ class WorkspaceContentManager(val folder: String,
   }
 
   override def shutdown(): Future[Unit] = {
-    stage(folder, WORKSPACE_TERMINATED)
+    stage(folderUri, WORKSPACE_TERMINATED)
     super.shutdown()
   }
 
@@ -218,7 +233,7 @@ class WorkspaceContentManager(val folder: String,
   private def processMFChanges(mainFile: String, snapshot: Snapshot): Future[Unit] = {
     changeState(ProcessingProject)
     val uuid = UUID.randomUUID().toString
-    parse(s"$folder/$mainFile", snapshot.environment, uuid)
+    parse(s"$folderUri/$mainFile", snapshot.environment, uuid)
       .flatMap { u =>
         repository.newTree(u).map { _ =>
           subscribers.foreach(_.onNewAst(BaseUnitListenerParams(u, repository.references, tree = true), uuid))
@@ -237,10 +252,13 @@ class WorkspaceContentManager(val folder: String,
                                   uuid)
   }
 
-  private def innerParse(uri: String, environment: Environment)() =
+  private def innerParse(uri: String, environment: Environment)(): Future[AmfParseResult] = {
+    val decodedUri = uri.toAmfDecodedUri
+    logger.debug(s"sent uri: $decodedUri", "WorkspaceContentManager", "innerParse")
     environmentProvider.amfConfiguration
       .modelBuilder()
-      .parse(uri.toAmfDecodedUri, environment.withResolver(repository.resolverCache))
+      .parse(decodedUri, environment.withResolver(repository.resolverCache))
+  }
 
   def getRelationships(uri: String): Relationships =
     Relationships(repository, () => Some(getUnit(uri)))

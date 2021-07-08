@@ -2,7 +2,6 @@ package org.mulesoft.amfintegration
 
 import amf.client.convert.CoreRegister
 import amf.client.plugins.AMFPlugin
-import amf.client.remod.AMFGraphConfiguration
 import amf.core.AMF
 import amf.core.errorhandling.ErrorCollector
 import amf.core.model.document.BaseUnit
@@ -25,6 +24,7 @@ import scala.concurrent.Future
 class AmfInstance(plugins: Seq[AMFPlugin], platform: Platform, environment: Environment)
     extends CompilerEnvironment[BaseUnit, ErrorCollector, Dialect, Environment] {
 
+  // todo: only used on tests?
   def parse(uri: String): Future[AmfParseResult] =
     modelBuilder().parse(uri, environment)
 

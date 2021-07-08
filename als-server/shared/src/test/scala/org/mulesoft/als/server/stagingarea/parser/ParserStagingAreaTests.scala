@@ -162,7 +162,8 @@ class ParserStagingAreaTests extends FlatSpec with Matchers {
     private val list = ListBuffer[(String, String)]()
     def logs: Seq[(String, String)] = list
     override def log(message: String, severity: MessageSeverity, component: String, subComponent: String): Unit = ???
-    override def debug(message: String, component: String, subComponent: String): Unit = ???
+    override def debug(message: String, component: String, subComponent: String): Unit =
+      list.append(("debug", message))
     override def warning(message: String, component: String, subComponent: String): Unit =
       list.append(("warning", message))
     override def error(message: String, component: String, subComponent: String): Unit = ???

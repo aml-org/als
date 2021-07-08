@@ -25,7 +25,7 @@ class RenameManager(val workspace: WorkspaceManager,
     RenameConfigType
 
   override val getRequestHandlers: Seq[TelemeteredRequestHandler[_, _]] = Seq(
-    new RenameHandler(telemetryProvider, workspace, configurationReader, platform),
+    new RenameHandler(telemetryProvider, workspace, configurationReader, logger, platform),
     new PrepareRenameHandler(telemetryProvider, workspace)
   )
 

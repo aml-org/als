@@ -66,6 +66,13 @@ class RenameFileActionManager(val workspace: WorkspaceManager,
       for {
         links <- workspace.getAllDocumentLinks(oldDocument.uri, uuid)
       } yield {
+        logger.debug("got the following document links", "RenameFileActionManager", "rename")
+        links.toSeq.foreach { tuple =>
+          tuple._2.map(_.target).foreach { target =>
+            logger.debug(s"${tuple._1} - $target", "RenameFileActionManager", "rename")
+          }
+        }
+
         val edit =
           RenameFileAction
             .renameFileEdits(oldDocument, newDocument, links, platform)

@@ -37,50 +37,69 @@ object ExchangeConfigReader extends ConfigReader {
                                      environment: Environment,
                                      logger: Logger): Option[Future[WorkspaceConf]] =
     new ExtractFromJsonRoot(content).getMain.map { m =>
+      val encodedUri = platform.encodeURI(m)
       try {
+        logger.debug(s"path: $path", "ExtractFromJsonRoot", "buildConfig")
+        logger.debug(s"encodedUri: $encodedUri", "ExtractFromJsonRoot", "buildConfig")
         // todo: change platform.fs file reads for resolve
-        getSubList(platform.fs.syncFile(path), platform, environment).map { dependencies =>
-          // the encoding should be handled by each config reader plugin? or in general?
+        getSubList(platform.fs.syncFile(path), platform, environment, logger).map { dependencies =>
           // How to know if a config file already encoded the main file?
-          WorkspaceConf(path, platform.encodeURI(m), dependencies, Some(this))
+          // the encoding should be handled by each config reader plugin? or in general?
+          logger.debug(s"dependencies: ${dependencies.fold("")((a, b) => s"$a\n$b")}",
+                       "ExtractFromJsonRoot",
+                       "buildConfig")
+          WorkspaceConf(path, encodedUri, dependencies, Some(this))
         }
       } catch {
         case e: Exception =>
           logger.error(Option(e.getMessage).getOrElse("Error while reading dependencies"),
                        "ExtractFromJsonRoot",
                        "buildConfig")
-          Future.successful(WorkspaceConf(path, platform.encodeURI(m), Set.empty, Some(this)))
+          Future.successful(WorkspaceConf(path, encodedUri, Set.empty, Some(this)))
       }
     }
 
-  private def getSubList(dir: SyncFile, platform: Platform, environment: Environment): Future[Set[String]] =
+  private def getSubList(dir: SyncFile,
+                         platform: Platform,
+                         environment: Environment,
+                         logger: Logger): Future[Set[String]] =
     if (dir.list != null && dir.list.nonEmpty)
-      findDependencies(dir.list.map(l => platform.fs.syncFile(dir.path + "/" + l)).filter(_.isDirectory),
-                       platform,
-                       environment)
+      findDependencies(
+        dir.list.map(l => platform.fs.syncFile(s"${dir.path}${platform.fs.separatorChar}$l")).filter(_.isDirectory),
+        platform,
+        environment,
+        logger)
     else
       Future.successful(Set.empty)
 
   private def findDependencies(subDirs: Array[SyncFile],
                                platform: Platform,
-                               environment: Environment): Future[Set[String]] =
+                               environment: Environment,
+                               logger: Logger): Future[Set[String]] =
     if (subDirs.nonEmpty) {
-      val (dependencies, others) = subDirs.partition(_.list.contains(configFileName))
+      val (dependencies, others) = subDirs.partition(_.list.exists(_.contains(configFileName)))
       val mains: Future[Seq[String]] =
         Future.sequence {
-          dependencies.map(
+          dependencies.toSeq.map(
             d =>
-              readFile((d.path + "/" + configFileName).toAmfUri(platform), platform, environment)
+              readFile(s"${d.path}${platform.fs.separatorChar}$configFileName".toAmfUri(platform),
+                       platform,
+                       environment,
+                       logger)
                 .map(_.flatMap { c =>
-                  new ExtractFromJsonRoot(c).getMain.map(m => d.path + "/" + m)
+                  new ExtractFromJsonRoot(c).getMain.map(m => s"${d.path}${platform.fs.separatorChar}$m")
                 })) map (_.collect { case Some(c) => c })
         }
 
       mains.flatMap(
         innerMains =>
           findDependencies(
-            others.flatMap(o => o.list.map(so => platform.fs.syncFile(o.path + "/" + so))).filter(_.isDirectory),
+            others
+              .flatMap(o => o.list.map(so => platform.fs.syncFile(s"${o.path}${platform.fs.separatorChar}$so")))
+              .filter(_.isDirectory),
             platform,
-            environment).map(_ ++ innerMains.toSet))
+            environment,
+            logger
+          ).map(_ ++ innerMains.toSet))
     } else Future.successful(Set.empty)
 }
