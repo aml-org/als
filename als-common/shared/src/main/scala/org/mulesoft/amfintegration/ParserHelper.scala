@@ -115,6 +115,7 @@ class ParserHelper(val platform: Platform, amfInstance: AmfInstance)
     generateOutput(config, model)
   }
 
+  // todo: only used in tests?
   override def parse(uri: String): Future[AmfParseResult] =
     parse(uri, Environment())
 

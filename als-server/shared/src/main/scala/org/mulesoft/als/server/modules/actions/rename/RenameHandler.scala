@@ -6,6 +6,7 @@ import org.mulesoft.als.actions.rename.FindRenameLocations
 import org.mulesoft.als.actions.renamefile.RenameFileAction
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.configuration.AlsConfigurationReader
+import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.workspace.CompilableUnit
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.edit.WorkspaceEdit
@@ -21,6 +22,7 @@ import scala.concurrent.Future
 class RenameHandler(telemetryProvider: TelemetryProvider,
                     workspace: WorkspaceManager,
                     configurationReader: AlsConfigurationReader,
+                    logger: Logger,
                     platform: Platform)
     extends TelemeteredRequestHandler[RenameParams, WorkspaceEdit]
     with RenameTools {
@@ -81,6 +83,10 @@ class RenameHandler(telemetryProvider: TelemetryProvider,
         links    <- workspaceManager.getDocumentLinks(uri, uuid)
         allLinks <- workspaceManager.getAllDocumentLinks(uri, uuid)
       } yield {
+        logger.debug("got the following document links", "RenameFileActionManager", "rename")
+        links.foreach { l =>
+          logger.debug(s"${l.target}", "RenameFileActionManager", "rename")
+        }
         links
           .find(l => PositionRange(l.range).contains(position))
           .map(

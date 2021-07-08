@@ -47,6 +47,7 @@ class ParserStagingArea(environmentProvider: EnvironmentProvider, logger: Logger
     extends StagingArea[NotificationKind] {
 
   override def enqueue(file: String, kind: NotificationKind): Unit = synchronized {
+    logger.debug(s"enqueueing [${kind.kind} - $file]", "ParserStagingArea", "enqueue")
     pending.get(file) match {
       case Some(CHANGE_FILE) if kind == OPEN_FILE =>
         logger.warning(s"file opened without closing $file", "ParserStagingArea", "enqueue")
