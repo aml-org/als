@@ -27,21 +27,25 @@ class ParseDiagnosticManager(override protected val telemetryProvider: Telemetry
     * @param tuple - (AST, References)
     * @param uuid  - telemetry UUID
     */
-  override def onNewAst(tuple: BaseUnitListenerParams, uuid: String): Unit = {
-    val parsedResult = tuple.parseResult
-    val references   = tuple.diagnosticsBundle
-    logger.debug("Got new AST:\n" + parsedResult.baseUnit.id, "ParseDiagnosticManager", "newASTAvailable")
-    val uri = parsedResult.location
-    telemetryProvider.timeProcess(
-      "Start report",
-      MessageTypes.BEGIN_DIAGNOSTIC_PARSE,
-      MessageTypes.END_DIAGNOSTIC_PARSE,
-      "ParseDiagnosticManager : onNewAst",
-      uri,
-      innerGatherValidations(uuid, parsedResult, references, uri),
-      uuid
-    )
-  }
+  override def onNewAst(tuple: BaseUnitListenerParams, uuid: String): Unit =
+    try {
+      val parsedResult = tuple.parseResult
+      val references   = tuple.diagnosticsBundle
+      logger.debug("Got new AST:\n" + parsedResult.baseUnit.id, "ParseDiagnosticManager", "newASTAvailable")
+      val uri = parsedResult.location
+      telemetryProvider.timeProcess(
+        "Start report",
+        MessageTypes.BEGIN_DIAGNOSTIC_PARSE,
+        MessageTypes.END_DIAGNOSTIC_PARSE,
+        "ParseDiagnosticManager : onNewAst",
+        uri,
+        innerGatherValidations(uuid, parsedResult, references, uri),
+        uuid
+      )
+    } catch {
+      case e: Exception =>
+        logger.error(e.getMessage, "ParseDiagnosticManager", "newASTAvailable")
+    }
 
   private def innerGatherValidations(uuid: String,
                                      parsedResult: AmfParseResult,
