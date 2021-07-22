@@ -21,7 +21,8 @@ object MetaDialectPluginRegistry extends WebApiCompletionPluginRegistry {
       NamespaceForTermCompletionPlugin :+
       AnyUriValueCompletionPlugin :+
       MapLabelInPropertyMappingCompletionPlugin :+
-      VocabularyTermsValueCompletionPlugin
+      VocabularyTermsValueCompletionPlugin :+
+      UnionRangeCompletionPlugin
 
   override def plugins: Seq[AMLCompletionPlugin] = all
 
