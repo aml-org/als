@@ -34,7 +34,10 @@ case class Location(position: Position, uri: String)
 class ObjectInTreeCached(override val unit: BaseUnit, val definedBy: Dialect)
     extends BaseUnitCachedElement[ObjectInTree] {
   override protected def createElement(location: Location): ObjectInTree =
-    ObjectInTreeBuilder.fromUnit(unit, location.position.toAmfPosition, location.uri, definedBy)
+    ObjectInTreeBuilder.fromUnit(unit,
+                                 location.uri,
+                                 definedBy,
+                                 NodeBranchBuilder.build(unit, location.position.toAmfPosition, isJson = false))
 
   def treeWithUpperElement(range: PositionRange, uri: String): Option[ObjectInTree] = {
     val start = getCachedOrNew(range.start, uri)

@@ -14,7 +14,7 @@ trait TreeKnowledge {
     * Based on the chosen position from the range
     */
   protected lazy val position: Option[Position] =
-    maybeTree.map(_.amfPosition).map(Position(_))
+    maybeTree.map(_.yPartBranch.position).map(Position(_))
 
   /**
     * Information about the AST for the chosen position

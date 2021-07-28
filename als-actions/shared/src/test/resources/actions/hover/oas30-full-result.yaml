@@ -1,12 +1,12 @@
 hovers:
   (1,3):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (1,11):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (2,2):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (2,5):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (3,4):
     - Human readable name for the object
   (3,19):
@@ -54,7 +54,7 @@ hovers:
   (14,3):
     - Server information
   (14,8):
-    - Server information
+    - Information about the network accessible locations where the API is available
   (15,5):
     - URL (potentially a template) for the server
   (15,30):
@@ -88,7 +88,7 @@ hovers:
   (24,63):
     - Piece of data required or returned by an Operation
   (26,2):
-    - Path to each declared endpoint. Relative to basePath
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (26,6):
     - Path to each declared endpoint. Relative to basePath
   (27,4):
@@ -124,7 +124,7 @@ hovers:
   (35,12):
     - Documentation for a particular part of the model
   (35,19):
-    - Documentation for a particular part of the model
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (36,13):
     - Human readable description of an element
   (36,30):
@@ -166,7 +166,7 @@ hovers:
   (45,21):
     - Action that can be executed using a particular HTTP invocation
   (46,11):
-    - Request information for an operation
+    - Human readable name for the object
   (46,18):
     - Request information for an operation
   (47,11):
@@ -184,7 +184,7 @@ hovers:
   (50,19):
     - Defines a data type
   (50,25):
-    - Properties associated to this node
+    - Defines a data type
   (51,18):
     - Defines a data type
   (51,21):
@@ -284,7 +284,7 @@ hovers:
   (77,17):
     - Action that can be executed using a particular HTTP invocation
   (78,19):
-    - Request information for an operation
+    - Human readable name for the object
   (78,26):
     - Request information for an operation
   (79,21):
@@ -462,13 +462,13 @@ hovers:
   (124,18):
     - Encoding style for the parameter information
   (125,5):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (125,11):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (126,5):
     - Contains declarations of reusable Schemas
   (126,10):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (127,8):
     - Human readable name for the object
   (127,14):
@@ -478,89 +478,89 @@ hovers:
   (128,13):
     - Defines semantic validation for a fixed subset of values
   (129,7):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (129,11):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (130,8):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (130,19):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (131,11):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (131,18):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (132,9):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (132,16):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (133,14):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (133,26):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (134,9):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (134,15):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (135,14):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (135,26):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (136,10):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (136,18):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (137,10):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (137,17):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (138,9):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (138,34):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (139,8):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (139,11):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (140,10):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (141,10):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (142,8):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (142,15):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (143,11):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (143,27):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (144,9):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (144,15):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (145,10):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (145,18):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (146,12):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (146,19):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (147,13):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (147,30):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (148,9):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (148,22):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (149,9):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (149,15):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (150,11):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (150,20):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (151,9):
     - Human readable name for the object
   (151,16):
@@ -606,7 +606,7 @@ hovers:
   (162,11):
     - Defines a data type
   (162,17):
-    - Properties associated to this node
+    - Defines a data type
   (163,8):
     - Defines a data type
   (163,10):
@@ -622,7 +622,7 @@ hovers:
   (166,11):
     - Information about how to serialize
   (166,14):
-    - Information about how to serialize
+    - Information about how to encode into XML a particular data shape
   (167,14):
     - XML name mapping
   (167,18):
@@ -664,13 +664,13 @@ hovers:
   (176,12):
     - Logical exclusive or composition of data shapes
   (177,12):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (177,33):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (178,12):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (178,33):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (179,12):
     - Defines a data type
   (179,20):
@@ -680,7 +680,7 @@ hovers:
   (180,22):
     - An object name that is used to differentiate between ambiguous types/schemas
   (181,11):
-    - Mapping that relates a certain discriminator value to a certain shape
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (181,16):
     - Mapping that relates a certain discriminator value to a certain shape
   (182,11):
@@ -692,17 +692,17 @@ hovers:
   (183,16):
     - Defines a data type
   (184,8):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (184,12):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (185,12):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (185,33):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (186,12):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (186,33):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (187,9):
     - Human readable name for the object
   (187,16):
@@ -712,13 +712,13 @@ hovers:
   (188,12):
     - Logical and composition of data shapes
   (189,12):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (189,33):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (190,12):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (190,33):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (191,8):
     - Human readable name for the object
   (191,14):
@@ -726,7 +726,7 @@ hovers:
   (192,7):
     - Defines a data type
   (192,10):
-    - Objects will be valid if they fail to validate successfully against the schema defined by this keyword.
+    - Defines a data type
   (193,10):
     - Scalar range constraining this scalar shape
   (193,17):
@@ -734,7 +734,7 @@ hovers:
   (194,6):
     - Contains declarations of reusable Response objects
   (194,12):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (195,8):
     - Response information for an operation
   (195,14):
@@ -844,7 +844,7 @@ hovers:
   (228,7):
     - Contains declarations of reusable Parameter objects
   (228,13):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (229,7):
     - Piece of data required or returned by an Operation
   (229,12):
@@ -972,7 +972,7 @@ hovers:
   (260,6):
     - Contains declarations of reusable Example objects
   (260,11):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (261,8):
     - Example value for a schema inside an API
   (261,13):
@@ -998,9 +998,9 @@ hovers:
   (266,21):
     - Raw text containing an unparsable example
   (267,9):
-    - Top level element describing a HTTP API
+    - Example value for a schema inside an API
   (267,15):
-    - Top level element describing a HTTP API
+    - Example value for a schema inside an API
   (268,8):
     - Example value for a schema inside an API
   (268,28):
@@ -1008,7 +1008,7 @@ hovers:
   (270,8):
     - Contains declarations of reusable Request objects
   (270,16):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (271,9):
     - Request information for an operation
   (271,15):
@@ -1026,7 +1026,7 @@ hovers:
   (274,21):
     - Encoded payload using certain media-type
   (275,14):
-    - Example value for a schema inside an API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (275,19):
     - Example value for a schema inside an API
   (276,14):
@@ -1042,9 +1042,9 @@ hovers:
   (278,50):
     - Raw text containing an unparsable example
   (279,7):
-    - Top level element describing a HTTP API
+    - Request information for an operation
   (279,12):
-    - Top level element describing a HTTP API
+    - Request information for an operation
   (280,8):
     - Request information for an operation
   (280,31):
@@ -1052,7 +1052,7 @@ hovers:
   (281,5):
     - Contains declarations for headers
   (281,10):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (282,7):
     - Piece of data required or returned by an Operation
   (282,12):
@@ -1096,11 +1096,11 @@ hovers:
   (292,9):
     - Declarations of reusable authentication mechanisms to ensure secured operations
   (292,18):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (293,7):
     - Authentication and access control mechanism defined in an API
   (293,11):
-    - Authentication and access control mechanism defined in an API
+    - Settings for an API Key security scheme
   (294,11):
     - Human readable description of an element
   (294,27):
@@ -1120,7 +1120,7 @@ hovers:
   (298,6):
     - Authentication and access control mechanism defined in an API
   (298,9):
-    - Authentication and access control mechanism defined in an API
+    - Settings for an HTTP security scheme
   (299,8):
     - Type of security scheme
   (299,14):
@@ -1136,7 +1136,7 @@ hovers:
   (302,10):
     - Authentication and access control mechanism defined in an API
   (302,18):
-    - Authentication and access control mechanism defined in an API
+    - Settings for an OpenID security scheme
   (303,8):
     - Type of security scheme
   (303,18):
@@ -1148,13 +1148,13 @@ hovers:
   (305,7):
     - Authentication and access control mechanism defined in an API
   (305,11):
-    - Authentication and access control mechanism defined in an API
+    - Settings for an OAuth2 security scheme
   (306,8):
     - Type of security scheme
   (306,15):
     - Type of security scheme
   (307,8):
-    - Flow for an OAuth2 security scheme setting
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (307,12):
     - Flow for an OAuth2 security scheme setting
   (308,12):
@@ -1169,7 +1169,8 @@ hovers:
     - Flow for an OAuth2 security scheme setting
   (310,46):
     - Flow for an OAuth2 security scheme setting
-  (311,13): []
+  (311,13):
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (311,17): []
   (312,17): []
   (312,37): []
@@ -1204,9 +1205,9 @@ hovers:
   (320,46):
     - Flow for an OAuth2 security scheme setting
   (322,6):
-    - Top level element describing a HTTP API
+    - Authentication and access control mechanism defined in an API
   (322,9):
-    - Top level element describing a HTTP API
+    - Authentication and access control mechanism defined in an API
   (323,8):
     - Authentication and access control mechanism defined in an API
   (323,30):
@@ -1214,7 +1215,7 @@ hovers:
   (324,4):
     - Contains declarations of reusable TemplatedLink objects
   (324,8):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (325,7):
     - Templated link containing URL template and variables mapping
   (325,12):
@@ -1231,7 +1232,8 @@ hovers:
     - Reference of the target operation
   (329,29):
     - Reference of the target operation
-  (330,11): []
+  (330,11):
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (330,17): []
   (332,11):
     - Variable defined inside an URL template
@@ -1248,7 +1250,7 @@ hovers:
   (335,9):
     - Templated link containing URL template and variables mapping
   (335,13):
-    - Templated link containing URL template and variables mapping
+    - Information about the network accessible locations where the API is available
   (336,9):
     - URL (potentially a template) for the server
   (336,34):
@@ -1260,11 +1262,11 @@ hovers:
   (338,6):
     - Contains declarations of reusable Callback objects
   (338,12):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (339,8):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (339,14):
-    - Top level element describing a HTTP API
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (340,53):
     - EndPoint in the API holding a number of executable operations
   (340,101):
@@ -1274,7 +1276,7 @@ hovers:
   (341,13):
     - Action that can be executed using a particular HTTP invocation
   (342,15):
-    - Request information for an operation
+    - Human readable name for the object
   (342,22):
     - Request information for an operation
   (343,17):
@@ -1333,7 +1335,7 @@ hovers:
   (357,10):
     - Documentation about the tag
   (357,17):
-    - Documentation about the tag
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (358,11):
     - Human readable description of an element
   (358,28):
@@ -1343,9 +1345,9 @@ hovers:
   (359,20):
     - URL for the creative work
   (360,6):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (360,13):
-    - Defines a data type
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (361,7):
     - Human readable description of an element
   (361,24):

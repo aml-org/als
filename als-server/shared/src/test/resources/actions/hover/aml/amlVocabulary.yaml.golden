@@ -4,25 +4,25 @@ hovers:
     contents:
       - Defines semantic validation for a fixed subset of values
   (17,12):
-    range: Range(common.Position[L:16,C:10],common.Position[L:17,C:0])
+    range: Range(common.Position[L:14,C:8],common.Position[L:22,C:0])
     contents:
       - Defines a data type
   (19,11):
-    range: Range(common.Position[L:18,C:10],common.Position[L:19,C:0])
+    range: Range(common.Position[L:14,C:8],common.Position[L:22,C:0])
     contents:
       - Defines a data type
   (20,11):
-    range: Range(common.Position[L:19,C:10],common.Position[L:20,C:0])
+    range: Range(common.Position[L:14,C:8],common.Position[L:22,C:0])
     contents:
       - Defines a data type
   (21,12):
-    range: Range(common.Position[L:20,C:10],common.Position[L:21,C:0])
+    range: Range(common.Position[L:14,C:8],common.Position[L:22,C:0])
     contents:
       - Defines a data type
   (22,13):
-    range: Range(common.Position[L:21,C:10],common.Position[L:22,C:0])
+    range: Range(common.Position[L:21,C:19],common.Position[L:21,C:19])
     contents:
-      - Examples for a particular element declaration
+      - Example value for a schema inside an API
   (28,13):
     range: Range(common.Position[L:25,C:8],common.Position[L:30,C:0])
     contents:
@@ -32,6 +32,6 @@ hovers:
     contents:
       - Defines a data type
   (30,13):
-    range: Range(common.Position[L:29,C:10],common.Position[L:30,C:0])
+    range: Range(common.Position[L:25,C:8],common.Position[L:30,C:0])
     contents:
       - Defines a data type

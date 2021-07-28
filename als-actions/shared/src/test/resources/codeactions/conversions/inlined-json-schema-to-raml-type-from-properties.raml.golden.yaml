@@ -12,6 +12,7 @@ documentChanges:
 
             displayName: Person
             type: object
+            additionalProperties: true
             properties:
               firstName:
                 type: string

@@ -12,24 +12,22 @@ class FlatAstBuilder(private val node: YNode) {
 
   private val flatCase = flatMapChildren(node)
 
-  def getNodeForPosition(position: AmfPosition, editionMode: Boolean = true): Seq[YPart] =
-    flatCase.filter(y => y.contains(position, editionMode))
+  def getNodeForPosition(position: AmfPosition): Seq[YPart] =
+    flatCase.filter(y => {
+      y.contains(position)
+    })
 
-  def size() = flatCase.size
+  def size(): Int = flatCase.size
 
-  /** compares the ast for a given position with both edition mode true and false */
-  def assertDiffEditionMode(position: AmfPosition): Boolean =
-    getNodeForPosition(position) == getNodeForPosition(position, false)
+  def getLastNode(position: AmfPosition): YPart = getNodeForPosition(position).last
 
-  def getLastNode(position: AmfPosition, editionMode: Boolean = true) = getNodeForPosition(position, editionMode).last
-
-  def assertScalarValue(position: AmfPosition, value: String, editionMode: Boolean = true) = {
-    val node = getNodeForPosition(position, editionMode).last
+  def assertScalarValue(position: AmfPosition, value: String, editionMode: Boolean = true): Boolean = {
+    val node = getNodeForPosition(position).last
     node.isInstanceOf[YScalar] && node.asInstanceOf[YScalar].value == value
   }
 
   def assertLastNode(position: AmfPosition, editionMode: Boolean = true)(condition: YPart => Boolean): Boolean = {
-    val node = getNodeForPosition(position, editionMode).last
+    val node = getNodeForPosition(position).last
     condition(node)
   }
 }
@@ -42,6 +40,6 @@ object FlatAstBuilder {
     if (isYaml)
       new FlatAstBuilder(YamlParser(rawCase).documents().head.node)
     else
-      new FlatAstBuilder(JsonParser(rawCase).documents().head.node)
+      new FlatAstBuilder(JsonParser.withSource(rawCase, "test.json").documents().head.node)
   }
 }

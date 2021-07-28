@@ -17,14 +17,7 @@ hovers:
       re-usable and generic way of achieving the same functionality.
       It can be validated using a SHACL shape
   (4,5):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (5,3):
     - |-
       Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
@@ -35,14 +28,7 @@ hovers:
       re-usable and generic way of achieving the same functionality.
       It can be validated using a SHACL shape
   (5,13):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (6,3):
     - Version of the API
   (6,10):
@@ -52,23 +38,9 @@ hovers:
   (7,22):
     - Information about the network accessible locations where the API is available
   (8,8):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (8,18):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (9,2):
     - |-
       Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
@@ -79,86 +51,23 @@ hovers:
       re-usable and generic way of achieving the same functionality.
       It can be validated using a SHACL shape
   (9,4):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (10,9):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (10,16):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (11,17):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (11,30):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (12,8):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (12,23):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (13,6):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (13,13):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (14,4):
     - URI scheme for the API protocol
   (14,10):
@@ -194,7 +103,7 @@ hovers:
   (29,7):
     - Declarations of reusable authentication mechanisms to ensure secured operations
   (29,16):
-    - Top level element describing a HTTP API
+    - Defines a data type
   (30,6):
     - Authentication and access control mechanism defined in an API
   (30,12):
@@ -212,7 +121,7 @@ hovers:
   (34,16):
     - Authentication and access control mechanism defined in an API
   (35,9):
-    - Piece of data required or returned by an Operation
+    - Defines a data type
   (35,14):
     - Piece of data required or returned by an Operation
   (36,14):
@@ -228,7 +137,7 @@ hovers:
   (40,19):
     - Scalar range constraining this scalar shape
   (41,13):
-    - Piece of data required or returned by an Operation
+    - Defines a data type
   (41,22):
     - Piece of data required or returned by an Operation
   (42,14):
@@ -244,7 +153,7 @@ hovers:
   (46,19):
     - Scalar range constraining this scalar shape
   (47,10):
-    - Response information for an operation
+    - Defines a data type
   (47,16):
     - Response information for an operation
   (48,9):
@@ -266,7 +175,7 @@ hovers:
   (57,8):
     - Security scheme settings
   (57,13):
-    - Security scheme settings
+    - Flow for an OAuth2 security scheme setting
   (58,14):
     - Flow for an OAuth2 security scheme setting
   (58,45):
@@ -296,7 +205,7 @@ hovers:
   (65,8):
     - Security scheme settings
   (65,13):
-    - Security scheme settings
+    - Settings for an OAuth1 security scheme
   (66,13):
     - Settings for an OAuth1 security scheme
   (66,45):
@@ -350,7 +259,7 @@ hovers:
   (82,18):
     - Authentication and access control mechanism defined in an API
   (83,15):
-    - Piece of data required or returned by an Operation
+    - Defines a data type
   (83,24):
     - Piece of data required or returned by an Operation
   (84,12):
@@ -362,7 +271,7 @@ hovers:
   (85,21):
     - Scalar range constraining this scalar shape
   (86,11):
-    - Piece of data required or returned by an Operation
+    - Defines a data type
   (86,16):
     - Piece of data required or returned by an Operation
   (87,13):
@@ -390,7 +299,7 @@ hovers:
   (93,18):
     - Authentication and access control mechanism defined in an API
   (94,11):
-    - Piece of data required or returned by an Operation
+    - Defines a data type
   (94,16):
     - Piece of data required or returned by an Operation
   (95,16):
@@ -406,7 +315,7 @@ hovers:
   (98,21):
     - Scalar range constraining this scalar shape
   (99,12):
-    - Response information for an operation
+    - Defines a data type
   (99,18):
     - Response information for an operation
   (100,11):
@@ -424,7 +333,7 @@ hovers:
   (104,2):
     - Contains declarations of reusable Schemas
   (104,6):
-    - Top level element describing a HTTP API
+    - Defines a data type
   (105,4):
     - Human readable name for the object
   (105,8):
@@ -472,7 +381,7 @@ hovers:
   (114,5):
     - Information about how to serialize
   (114,8):
-    - Information about how to serialize
+    - Information about how to encode into XML a particular data shape
   (115,10):
     - XML attribute mapping
   (115,19):
@@ -538,9 +447,9 @@ hovers:
   (131,17):
     - Multiple of constraint
   (132,4):
-    - Top level element describing a HTTP API
+    - Human readable name for the object
   (132,8):
-    - Top level element describing a HTTP API
+    - Defines a data type
   (133,6):
     - Defines a data type
   (133,12):
@@ -556,9 +465,9 @@ hovers:
   (135,18):
     - Maximum length constraint
   (136,5):
-    - Top level element describing a HTTP API
+    - Human readable name for the object
   (136,9):
-    - Top level element describing a HTTP API
+    - Defines a data type
   (137,6):
     - Defines a data type
   (137,17):
@@ -584,7 +493,7 @@ hovers:
   (142,9):
     - Defines a data type
   (142,15):
-    - Properties associated to this node
+    - Defines a data type
   (143,11):
     - Defines a data type
   (143,21):
@@ -592,7 +501,7 @@ hovers:
   (144,10):
     - Defines a data type
   (144,15):
-    - Range property constraint
+    - Defines a data type
   (145,10):
     - Scalar range constraining this scalar shape
   (145,17):
@@ -608,7 +517,7 @@ hovers:
   (148,11):
     - Defines a data type
   (148,18):
-    - Range property constraint
+    - Defines a data type
   (150,12):
     - Scalar range constraining this scalar shape
   (150,19):
@@ -692,7 +601,7 @@ hovers:
   (168,10):
     - Data structure containing the value of the example
   (168,14):
-    - Data structure containing the value of the example
+    - Example value for a schema inside an API
   (169,12):
     - Example value for a schema inside an API
   (169,21):
@@ -716,11 +625,11 @@ hovers:
   (174,9):
     - Defines a data type
   (174,15):
-    - Properties associated to this node
+    - Defines a data type
   (175,7):
     - Defines a data type
   (175,9):
-    - Range property constraint
+    - Defines a data type
   (176,10):
     - Scalar range constraining this scalar shape
   (176,17):
@@ -799,14 +708,7 @@ hovers:
       re-usable and generic way of achieving the same functionality.
       It can be validated using a SHACL shape
   (193,24):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (194,9):
     - |-
       Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
@@ -857,7 +759,7 @@ hovers:
       re-usable and generic way of achieving the same functionality.
       It can be validated using a SHACL shape
   (197,21):
-    - Schema for an entity
+    - Defines a data type
   (198,6):
     - Scalar range constraining this scalar shape
   (198,13):
@@ -872,14 +774,7 @@ hovers:
       re-usable and generic way of achieving the same functionality.
       It can be validated using a SHACL shape
   (199,22):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (200,11):
     - |-
       Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
@@ -890,7 +785,7 @@ hovers:
       re-usable and generic way of achieving the same functionality.
       It can be validated using a SHACL shape
   (200,21):
-    - Schema for an entity
+    - Defines a data type
   (201,9):
     - Human readable name for the object
   (201,26):
@@ -908,11 +803,11 @@ hovers:
   (205,9):
     - Defines a data type
   (205,15):
-    - Properties associated to this node
+    - Defines a data type
   (206,8):
     - Defines a data type
   (206,12):
-    - Range property constraint
+    - Defines a data type
   (207,10):
     - Defines a data type
   (207,17):
@@ -928,7 +823,7 @@ hovers:
   (209,10):
     - Defines a data type
   (209,16):
-    - Range property constraint
+    - Defines a data type
   (210,11):
     - Pattern constraint
   (210,25):
@@ -939,16 +834,22 @@ hovers:
     - Minimum count property constraint
   (212,8):
     - |-
-      Extension to the model being parsed from RAML annotation or OpenAPI extensions
-      They must be a DomainPropertySchema (only in RAML) defining them.
-      The DomainPropertySchema might have an associated Data Shape that must validate the extension nested graph.
-      They are parsed as RDF graphs using a default transformation from a set of nested records into RDF.
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (212,17):
     - |-
-      Extension to the model being parsed from RAML annotation or OpenAPI extensions
-      They must be a DomainPropertySchema (only in RAML) defining them.
-      The DomainPropertySchema might have an associated Data Shape that must validate the extension nested graph.
-      They are parsed as RDF graphs using a default transformation from a set of nested records into RDF.
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (213,3):
     - Declarations of sets of characteristics to reuse across multiple methods
   (213,7):
@@ -962,475 +863,1931 @@ hovers:
   (215,35):
     - Human readable description of an element
   (216,9):
-    - Type of document base unit encoding a RAML trait
+    - Associated dynamic structure for the declaration
   (216,35):
-    - Type of document base unit encoding a RAML trait
+    - Associated dynamic structure for the declaration
   (217,7):
-    - Type of document base unit encoding a RAML trait
+    - Associated dynamic structure for the declaration
   (217,12):
-    - Type of document base unit encoding a RAML trait
+    - Associated dynamic structure for the declaration
   (218,12):
-    - Type of document base unit encoding a RAML trait
+    - Associated dynamic structure for the declaration
   (218,19):
-    - Type of document base unit encoding a RAML trait
+    - Associated dynamic structure for the declaration
   (219,13):
-    - Type of document base unit encoding a RAML trait
+    - Associated dynamic structure for the declaration
   (219,27):
-    - Type of document base unit encoding a RAML trait
+    - Associated dynamic structure for the declaration
   (220,11):
-    - Type of document base unit encoding a RAML trait
+    - Associated dynamic structure for the declaration
   (220,21):
-    - Type of document base unit encoding a RAML trait
+    - Associated dynamic structure for the declaration
   (221,12):
-    - Type of document base unit encoding a RAML trait
+    - Associated dynamic structure for the declaration
   (221,20):
-    - Type of document base unit encoding a RAML trait
+    - Associated dynamic structure for the declaration
   (223,4):
-    - Defines a data type
-  (223,17): []
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
+  (223,17):
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (224,3):
-    - Path template for an endpoint
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (224,8):
-    - EndPoint in the API holding a number of executable operations
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (225,7):
-    - Human readable name for the object
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (225,18):
-    - Human readable name for the object
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (226,7):
-    - Human readable description of an element
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (226,22):
-    - Human readable description of an element
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (227,12):
     - |-
-      Extension to the model being parsed from RAML annotation or OpenAPI extensions
-      They must be a DomainPropertySchema (only in RAML) defining them.
-      The DomainPropertySchema might have an associated Data Shape that must validate the extension nested graph.
-      They are parsed as RDF graphs using a default transformation from a set of nested records into RDF.
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (227,23):
     - |-
-      Extension to the model being parsed from RAML annotation or OpenAPI extensions
-      They must be a DomainPropertySchema (only in RAML) defining them.
-      The DomainPropertySchema might have an associated Data Shape that must validate the extension nested graph.
-      They are parsed as RDF graphs using a default transformation from a set of nested records into RDF.
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (228,3):
-    - Action that can be executed using a particular HTTP invocation
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (228,6):
-    - Action that can be executed using a particular HTTP invocation
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (229,9):
-    - Human readable name for the object
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (229,18):
-    - Human readable name for the object
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (230,9):
-    - Human readable description of an element
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (230,36):
-    - Human readable description of an element
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (231,14):
     - |-
-      Extension to the model being parsed from RAML annotation or OpenAPI extensions
-      They must be a DomainPropertySchema (only in RAML) defining them.
-      The DomainPropertySchema might have an associated Data Shape that must validate the extension nested graph.
-      They are parsed as RDF graphs using a default transformation from a set of nested records into RDF.
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (231,26):
     - |-
-      Extension to the model being parsed from RAML annotation or OpenAPI extensions
-      They must be a DomainPropertySchema (only in RAML) defining them.
-      The DomainPropertySchema might have an associated Data Shape that must validate the extension nested graph.
-      They are parsed as RDF graphs using a default transformation from a set of nested records into RDF.
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (232,11):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (232,20):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (233,7):
-    - Schema the parameter value must validate
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (233,10):
-    - Schema the parameter value must validate
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (234,12):
-    - Marks the parameter as required
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (234,20):
-    - Marks the parameter as required
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (235,11):
-    - Default value for this element
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (235,17):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (236,10):
-    - Scalar range constraining this scalar shape
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (236,17):
-    - Scalar range constraining this scalar shape
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (237,11):
-    - Example value for a schema inside an API
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (237,21):
-    - Example value for a schema inside an API
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (238,13):
-    - Human readable name for the object
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (238,23):
-    - Human readable name for the object
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (239,13):
-    - Human readable description of an element
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (240,0):
     - Top level element describing a HTTP API
   (242,11):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (242,15):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (243,13):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (243,21):
-    - Scalar range constraining this scalar shape
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (244,9):
-    - Information about how to serialize
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (244,12):
-    - Information about how to serialize
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (245,14):
-    - XML attribute mapping
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (245,23):
-    - XML attribute mapping
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (246,13):
-    - XML wrapped mapping flag
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (246,21):
-    - XML wrapped mapping flag
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (247,12):
-    - XML name mapping
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (247,17):
-    - XML name mapping
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (248,14):
-    - XML namespace mapping
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (248,31):
-    - XML namespace mapping
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (249,13):
-    - XML prefix mapping
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (249,19):
-    - XML prefix mapping
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (250,10):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (250,13):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (251,12):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (252,12):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (253,7):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (253,12):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (254,7):
-    - Schema the parameter value must validate
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (254,9):
-    - Schema the parameter value must validate
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (255,12):
-    - Marks the parameter as required
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (255,20):
-    - Marks the parameter as required
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (256,11):
-    - Default value for this element
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (256,17):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (257,10):
-    - Scalar range constraining this scalar shape
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (257,17):
-    - Scalar range constraining this scalar shape
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (258,11):
-    - Example value for a schema inside an API
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (258,21):
-    - Example value for a schema inside an API
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (259,13):
-    - Human readable name for the object
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (259,23):
-    - Human readable name for the object
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (260,13):
-    - Human readable description of an element
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (261,0):
     - Top level element describing a HTTP API
   (263,11):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (263,15):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (264,13):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (264,21):
-    - Scalar range constraining this scalar shape
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (265,9):
-    - Information about how to serialize
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (265,12):
-    - Information about how to serialize
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (266,14):
-    - XML attribute mapping
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (266,23):
-    - XML attribute mapping
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (267,13):
-    - XML wrapped mapping flag
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (267,21):
-    - XML wrapped mapping flag
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (268,12):
-    - XML name mapping
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (268,17):
-    - XML name mapping
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (269,14):
-    - XML namespace mapping
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (269,31):
-    - XML namespace mapping
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (270,13):
-    - XML prefix mapping
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (270,19):
-    - XML prefix mapping
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (271,10):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (271,13):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (272,12):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (273,12):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (274,9):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (274,16):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (275,7):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (275,10):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (276,12):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (276,20):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (277,11):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (277,17):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (278,10):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (278,17):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (279,11):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (279,21):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (280,13):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (280,23):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (281,13):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (282,0):
     - Top level element describing a HTTP API
   (284,11):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (284,15):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (285,13):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (285,21):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (286,9):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (286,12):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (287,14):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (287,23):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (288,13):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (288,21):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (289,12):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (289,17):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (290,14):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (290,31):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (291,13):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (291,19):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (292,10):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (292,13):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (293,12):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (294,12):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (295,8):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (295,14):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (296,7):
-    - Response information for an operation
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (296,10):
-    - Response information for an operation
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (297,13):
-    - Human readable description of an element
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (297,28):
-    - Human readable description of an element
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (298,18):
     - |-
-      Extension to the model being parsed from RAML annotation or OpenAPI extensions
-      They must be a DomainPropertySchema (only in RAML) defining them.
-      The DomainPropertySchema might have an associated Data Shape that must validate the extension nested graph.
-      They are parsed as RDF graphs using a default transformation from a set of nested records into RDF.
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (298,29):
     - |-
-      Extension to the model being parsed from RAML annotation or OpenAPI extensions
-      They must be a DomainPropertySchema (only in RAML) defining them.
-      The DomainPropertySchema might have an associated Data Shape that must validate the extension nested graph.
-      They are parsed as RDF graphs using a default transformation from a set of nested records into RDF.
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (299,11):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (299,16):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (300,11):
-    - Schema the parameter value must validate
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (300,13):
-    - Schema the parameter value must validate
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (301,14):
-    - Scalar range constraining this scalar shape
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (301,21):
-    - Scalar range constraining this scalar shape
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (302,10):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (302,13):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (303,18):
-    - Encoded payload using certain media-type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (303,27):
-    - Encoded payload using certain media-type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (304,14):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (304,20):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (305,7):
-    - Response information for an operation
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (305,10):
-    - Response information for an operation
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (306,10):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (306,13):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (307,15):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (307,21):
-    - Properties associated to this node
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (308,14):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (308,18):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (309,13):
-    - Example value for a schema inside an API
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (309,18):
-    - Example value for a schema inside an API
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (310,14):
-    - Example value for a schema inside an API
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (310,31):
-    - Example value for a schema inside an API
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (311,6):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (311,9):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (312,14):
-    - Encoded payload using certain media-type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (312,23):
-    - Encoded payload using certain media-type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (313,13):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (313,19):
-    - Properties associated to this node
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (314,14):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (314,20):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (315,14):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (315,19):
-    - Range property constraint
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (316,14):
-    - Scalar range constraining this scalar shape
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (316,21):
-    - Scalar range constraining this scalar shape
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (317,8):
-    - URI scheme for the API protocol
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (317,14):
-    - URI scheme for the API protocol
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (318,10):
-    - URI scheme for the API protocol
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (319,10):
-    - URI scheme for the API protocol
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (320,5):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (320,7):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (321,9):
-    - Type of document base unit encoding a RAML trait
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (322,8):
-    - Defines a data type
-  (322,19): []
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
+  (322,19):
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (323,4):
-    - Action that can be executed using a particular HTTP invocation
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (323,7):
-    - Action that can be executed using a particular HTTP invocation
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (324,3):
-    - Action that can be executed using a particular HTTP invocation
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (324,6):
-    - Action that can be executed using a particular HTTP invocation
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (325,4):
-    - Action that can be executed using a particular HTTP invocation
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (325,8):
-    - Action that can be executed using a particular HTTP invocation
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (326,5):
-    - Action that can be executed using a particular HTTP invocation
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (326,9):
-    - Action that can be executed using a particular HTTP invocation
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (327,5):
-    - Action that can be executed using a particular HTTP invocation
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (327,10):
-    - Action that can be executed using a particular HTTP invocation
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (328,4):
-    - Action that can be executed using a particular HTTP invocation
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (328,7):
-    - Action that can be executed using a particular HTTP invocation
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (329,3):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (329,5):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (330,6):
-    - Type of document base unit encoding a RAML trait
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (331,4):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (331,15):
-    - Human readable name for the object
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (331,26):
-    - Value for a variable in a graph template
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (331,33):
-    - Value for a variable in a graph template
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (332,6):
-    - Defines a data type
-  (332,17): []
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
+  (332,17):
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (333,8):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (333,16):
-    - Defines a data type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (334,6):
-    - Schema the parameter value must validate
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (334,9):
-    - Schema the parameter value must validate
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (335,11):
-    - Human readable description of an element
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (335,28):
-    - Human readable description of an element
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (336,8):
-    - Scalar range constraining this scalar shape
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (336,15):
-    - Scalar range constraining this scalar shape
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (337,4):
-    - Path template for an endpoint
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (337,8):
-    - EndPoint in the API holding a number of executable operations
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (338,6):
-    - EndPoint in the API holding a number of executable operations
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (338,15):
-    - Type of document base unit encoding a RAML resource type
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (339,5):
-    - Action that can be executed using a particular HTTP invocation
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape
   (339,8):
-    - Action that can be executed using a particular HTTP invocation
+    - |-
+      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
+      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
+            be declared, they can just be used.
+            This should be mapped to new RDF properties declared directly in the main document or module.
+            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
+      re-usable and generic way of achieving the same functionality.
+      It can be validated using a SHACL shape

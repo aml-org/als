@@ -1,0 +1,7 @@
+swagger: '2.0'
+paths:
+  /pets/{id}:
+    parameters:
+      - name: idHeader
+        d*
+        in: body

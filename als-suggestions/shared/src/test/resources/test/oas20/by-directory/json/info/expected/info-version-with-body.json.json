@@ -1,0 +1,32 @@
+[
+  {
+    "label": "version",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "version",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10version",
+    "filterText": "\"version\": \"$1\",",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 9
+        }
+      },
+      "newText": "\"version\": \"$1\","
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

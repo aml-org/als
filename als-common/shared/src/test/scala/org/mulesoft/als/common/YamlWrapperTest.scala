@@ -1,12 +1,8 @@
 package org.mulesoft.als.common
 
-import amf.client.parse.IgnoringErrorHandler
 import amf.core.parser.{Position => AmfPosition}
-import org.scalatest.{FlatSpec, FunSuite, Matchers}
-import org.yaml.parser.{JsonParser, YamlParser}
-import org.mulesoft.als.common.YamlWrapper._
-import org.mulesoft.amfintegration.LocalIgnoreErrorHandler
-import org.yaml.model.{ParseErrorHandler, YMapEntry, YPart, YScalar}
+import org.scalatest.FlatSpec
+import org.yaml.model.YScalar
 
 class YamlWrapperTest extends FlatSpec {
 
@@ -43,7 +39,6 @@ class YamlWrapperTest extends FlatSpec {
 
   it should "identify a correct Root" in {
     val nodes: FlatAstBuilder = FlatAstBuilder(regularFlowCase)
-    assert(nodes.assertDiffEditionMode(AmfPosition(4, 6)))
     assert(nodes.size() == 61)
     assert(nodes.assertScalarValue(AmfPosition(8, 8), "entry2"))
     assert(nodes.assertScalarValue(AmfPosition(9, 13), "entry3"))
@@ -60,21 +55,18 @@ class YamlWrapperTest extends FlatSpec {
 
   ignore should "Find empty entry in array" in {
     val nodes = FlatAstBuilder(emptyScalarInflow)
-    assert(nodes.assertDiffEditionMode(AmfPosition(1, 9)))
     assert(nodes.assertScalarValue(AmfPosition(1, 9), ""))
   }
 
   ignore should "Find empty map entry inflow" in {
     val nodes = FlatAstBuilder(emptyEntryWithMapInflow)
-    assert(nodes.assertDiffEditionMode(AmfPosition(1, 6)))
     assert(nodes.assertScalarValue(AmfPosition(1, 10), "k"))
   }
 
   ignore should "Find incomplete key on map" in {
     val nodes = FlatAstBuilder(incompleteKey)
-    assert(!nodes.assertDiffEditionMode(AmfPosition(2, 5)))
     assert(nodes.getNodeForPosition(AmfPosition(2, 5)).size == 4)
-    assert(nodes.getNodeForPosition(AmfPosition(2, 5), false).size == 3)
+    assert(nodes.getNodeForPosition(AmfPosition(2, 5)).size == 3)
     assert(nodes.assertScalarValue(AmfPosition(2, 4), "sub"))
   }
 
@@ -112,7 +104,6 @@ class YamlWrapperTest extends FlatSpec {
 
   it should "Check inside array" in {
     val nodes = FlatAstBuilder(arrayCase)
-    assert(nodes.assertDiffEditionMode(AmfPosition(5, 6)))
     assert(nodes.assertScalarValue(AmfPosition(4, 6), "c"))
     assert(nodes.assertScalarValue(AmfPosition(7, 6), "f"))
     assert(nodes.assertScalarValue(AmfPosition(9, 3), "key2"))
@@ -120,14 +111,12 @@ class YamlWrapperTest extends FlatSpec {
 
   ignore should "Check inside array with invalid entry" in {
     val nodes = FlatAstBuilder(variantsArrayCase)
-    assert(nodes.assertDiffEditionMode(AmfPosition(6, 2)))
     assert(nodes.assertScalarValue(AmfPosition(4, 4), "c"))
     assert(nodes.assertScalarValue(AmfPosition(5, 2), "d"))
   }
 
   it should "Check Json array" in {
     val nodes = FlatAstBuilder(arrayCaseJson, false)
-    assert(nodes.assertDiffEditionMode(AmfPosition(2, 2)))
     assert(nodes.assertScalarValue(AmfPosition(2, 2), "a"))
   }
 
@@ -153,8 +142,7 @@ class YamlWrapperTest extends FlatSpec {
       |""".stripMargin
 
   it should "Check primitives in YAML" in {
-    val nodes = FlatAstBuilder(primitivesCase)
-    assert(nodes.assertDiffEditionMode(AmfPosition(3, 8)))
+    val nodes   = FlatAstBuilder(primitivesCase)
     val intNode = nodes.getLastNode(AmfPosition(3, 8))
     assert(intNode.isInstanceOf[YScalar] && intNode.asInstanceOf[YScalar].value == 23)
     assert(nodes.assertScalarValue(AmfPosition(2, 15), "this is a string"))
@@ -167,7 +155,6 @@ class YamlWrapperTest extends FlatSpec {
 
   it should "Check primitives Json" in {
     val nodes = FlatAstBuilder(primitivesCaseJson, false)
-    assert(nodes.assertDiffEditionMode(AmfPosition(2, 15)))
     assert(nodes.assertScalarValue(AmfPosition(2, 15), "this is a string"))
     val intNode = nodes.getLastNode(AmfPosition(3, 7))
     assert(intNode.isInstanceOf[YScalar] && intNode.asInstanceOf[YScalar].value == 23)
