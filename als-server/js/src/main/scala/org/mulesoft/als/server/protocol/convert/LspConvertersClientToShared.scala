@@ -83,7 +83,8 @@ object LspConvertersClientToShared {
           case TemplateTypes.SIMPLE => TemplateTypes.SIMPLE
           case TemplateTypes.NONE   => TemplateTypes.NONE
           case _                    => TemplateTypes.FULL
-        }
+        },
+        v.prettyPrintSerialization.toOption.getOrElse(false)
       )
   }
 
