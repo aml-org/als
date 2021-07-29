@@ -1,16 +1,16 @@
 hovers:
   (1,4):
-    - Defines a data type
+    - Top level element describing a asynchronous API
   (1,13):
-    - Defines a data type
+    - Top level element describing a asynchronous API
   (2,1):
     - Represents the universal identifier of the application the specification is defining
   (2,26):
     - Represents the universal identifier of the application the specification is defining
   (3,2):
-    - Defines a data type
+    - Contains general information about the defined API, such as title and version
   (3,5):
-    - Defines a data type
+    - Contains general information about the defined API, such as title and version
   (4,4):
     - Human readable name for the object
   (4,18):
@@ -194,9 +194,9 @@ hovers:
   (55,18):
     - Human readable name for the object
   (56,9):
-    - Action that can be executed using a particular HTTP invocation
+    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
   (56,13):
-    - Action that can be executed using a particular HTTP invocation
+    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
   (57,12):
     - Action that can be executed using a particular HTTP invocation
   (57,33):
@@ -263,9 +263,9 @@ hovers:
   (73,18):
     - Human readable name for the object
   (74,9):
-    - Action that can be executed using a particular HTTP invocation
+    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
   (74,13):
-    - Action that can be executed using a particular HTTP invocation
+    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
   (75,12):
     - Action that can be executed using a particular HTTP invocation
   (75,33):
@@ -307,9 +307,9 @@ hovers:
   (84,16):
     - URL for the creative work
   (86,5):
-    - Defines a data type
+    - Contains reusable definitions
   (86,11):
-    - Defines a data type
+    - Contains reusable definitions
   (87,5):
     - Contains declarations of reusable Schemas
   (87,10):
@@ -674,8 +674,10 @@ hovers:
   (180,15): []
   (181,12): []
   (181,18): []
-  (182,9): []
-  (182,13): []
+  (182,9):
+    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
+  (182,13):
+    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
   (183,12): []
   (183,31): []
   (184,9):

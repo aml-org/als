@@ -7,7 +7,7 @@ import amf.core.metamodel.document.{BaseUnitModel, DocumentModel}
 import amf.core.metamodel.domain.{DataNodeModel, DomainElementModel, ShapeModel}
 import amf.core.model.domain._
 import amf.core.parser
-import amf.core.parser.{FieldEntry, Position => AmfPosition}
+import amf.core.parser.FieldEntry
 import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.DialectDomainElement
@@ -60,7 +60,8 @@ object AmfSonElementFinder {
 
       private def filterCandidates(list: Seq[Branch]) =
         list.map(br => {
-          if ((br.fe.isEmpty && ((br.obj.annotations.isInferred || br.obj.annotations.isSynthesized || br.obj.annotations.isVirtual) && br.obj.range.isEmpty)) || (br.fe.nonEmpty && br.fe
+          if ((br.fe.isEmpty && ((br.obj.annotations.isInferred || br.obj.annotations.isSynthesized || br.obj.annotations.isVirtual || br.fe
+                .exists(isDeclares)) && br.obj.range.isEmpty)) || (br.fe.nonEmpty && br.fe
                 .exists(f => !appliesReduction(f))))
             br.unstacked()
           else br
@@ -189,7 +190,7 @@ object AmfSonElementFinder {
 
       private def explicitArray(entry: FieldEntry, parent: AmfObject, definedBy: Dialect) =
         (entry.astValueArray() && isExplicitArray(entry, parent, definedBy) || !entry
-          .astValueArray()) && yPartBranch.position.column > 0
+          .astValueArray()) && yPartBranch.position.column > 0 // TODO: Check why this hack (pos > 0) is necessary
 
       private def isExplicitArray(entry: FieldEntry, parent: AmfObject, definedBy: Dialect) =
         definedBy
@@ -222,9 +223,10 @@ object AmfSonElementFinder {
             e.values.collectFirst({ case d: DataNode => d })
           case d: DomainElementModel if d.`type`.headOption.exists(_.iri() == DomainElementModel.`type`.head.iri()) =>
             e.values.collectFirst({ case o: AmfObject => o }) match {
-              case Some(_: DialectDomainElement) if isDeclares(entry)  => None
-              case Some(_) if isDeclares(entry) && isInDeclarationName => None
-              case other                                               => other
+              case Some(_: DialectDomainElement) if isDeclares(entry)                           => None
+              case Some(_) if isDeclares(entry) && isInDeclarationName                          => None
+              case Some(other) if other.annotations.containsYPart(yPartBranch).getOrElse(false) => Some(other)
+              case _                                                                            => None
             }
           case s: ShapeModel if s.`type`.headOption.exists(_.iri() == ShapeModel.`type`.head.iri()) =>
             Some(AnyShapeModel.modelInstance)
