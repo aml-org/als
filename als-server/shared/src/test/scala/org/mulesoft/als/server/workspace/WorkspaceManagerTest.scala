@@ -1,5 +1,7 @@
 package org.mulesoft.als.server.workspace
 
+import org.mulesoft.als.configuration.ConfigurationStyle.COMMAND
+import org.mulesoft.als.configuration.ProjectConfigurationStyle
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
@@ -315,7 +317,13 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       val apiFragment = s"$root/fragment.raml"
 
       for {
-        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
+        _ <- server.initialize(
+          AlsInitializeParams(None,
+                              Some(TraceKind.Off),
+                              rootUri = Some(root),
+                              projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
+        content <- this.platform.resolve(apiRoot).map(_.stream.toString) // Open as single file
+        _       <- openFileNotification(server)(apiRoot, content)
         // api.raml, fragment.raml
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall

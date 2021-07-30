@@ -6,9 +6,6 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
-import org.eclipse.lsp4j.ClientCapabilities;
-import org.eclipse.lsp4j.FormattingOptions;
-import org.eclipse.lsp4j.InitializeParams;
 import org.eclipse.lsp4j.adapters.InitializeParamsTypeAdapter;
 import org.eclipse.lsp4j.generator.TypeAdapterImpl;
 
@@ -80,11 +77,17 @@ public class AlsInitializeParamsTypeAdapter extends InitializeParamsTypeAdapter 
                 case "configuration":
                     result.setConfiguration(readConfiguration(in));
                     break;
+                case "projectConfigurationType":
+                    result.setProjectConfigurationStyle(readProjectConfiguration(in));
                 default:
                     in.skipValue();
             }
         }
         in.endObject();
         return result;
+    }
+
+    private ProjectConfigurationStyle readProjectConfiguration(JsonReader in) {
+        return gson.fromJson(in, ProjectConfigurationStyle.class);
     }
 }

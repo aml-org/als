@@ -7,6 +7,8 @@ import java.util.UUID
 import amf.core.remote.Platform
 import amf.internal.environment.Environment
 import org.mulesoft.als.common.URIImplicits._
+import org.mulesoft.als.configuration.ConfigurationStyle.COMMAND
+import org.mulesoft.als.configuration.ProjectConfigurationStyle
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.textsync.EnvironmentProvider
@@ -28,11 +30,14 @@ class WorkspaceContentManager(val folderUri: String,
                               environmentProvider: EnvironmentProvider,
                               telemetryProvider: TelemetryProvider,
                               logger: Logger,
-                              allSubscribers: List[BaseUnitListener])
+                              allSubscribers: List[BaseUnitListener],
+                              projectConfigurationStyle: ProjectConfigurationStyle)
     extends UnitTaskManager[ParsedUnit, CompilableUnit, NotificationKind] {
 
   private val rootHandler =
-    new WorkspaceRootHandler(environmentProvider.platform, environmentProvider.environmentSnapshot())
+    new WorkspaceRootHandler(environmentProvider.platform,
+                             environmentProvider.environmentSnapshot(),
+                             projectConfigurationStyle)
 
   // todo: should return a Future and be called from companion object for creation
   override def init(): Unit =
@@ -60,6 +65,8 @@ class WorkspaceContentManager(val folderUri: String,
     logger.debug(s"checking if $uri corresponds to $folderUri", "WorkspaceContentManager", "containsFile")
     uri.startsWith(folderUri)
   }
+
+  def acceptsConfigUpdateByCommand: Boolean = projectConfigurationStyle.style == COMMAND
 
   implicit val platform: Platform = environmentProvider.platform // used for URI utils
 
@@ -251,7 +258,8 @@ class WorkspaceContentManager(val folderUri: String,
 
               subscribers.foreach(s =>
                 try {
-                  s.onNewAst(BaseUnitListenerParams(u, repository.references, tree = true, workspaceConfiguration), uuid)
+                  s.onNewAst(BaseUnitListenerParams(u, repository.references, tree = true, workspaceConfiguration),
+                             uuid)
                 } catch {
                   case e: Exception =>
                     logger.error(s"Error on ${s}: ${e.getMessage}", "WorkspaceContentManager", "processMFChanges")

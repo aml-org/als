@@ -8,6 +8,8 @@ import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.common.URIImplicits.StringUriImplicits
 import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
+import org.mulesoft.als.configuration.ConfigurationStyle.{COMMAND, FILE}
+import org.mulesoft.als.configuration.ProjectConfigurationStyle
 import org.mulesoft.als.server.logger.{Logger, MessageSeverity}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactory
 import org.mulesoft.als.server.modules.ast.{BaseUnitListener, ResolvedUnitListener}
@@ -93,13 +95,20 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with PlatformSec
   }
   def wrapJson(mainUri: String): String =
     s"""{"mainUri": "${mainUri.toAmfUri}", "dependencies": []}"""
+
   test("Should update the configuration by command for new Units") {
     val (factory: WorkspaceManagerFactory, parserListener) = createPatchedWorkspaceManagerFactory()
     val workspaceManager: WorkspaceManager                 = factory.workspaceManager
+    val initialArgs                                        = List(wrapJson(mainApiUri))
     val args                                               = List(wrapJson(isolatedUri))
     withServer[Assertion](buildServer(factory)) { server =>
       for {
-        _          <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"file://folder")))
+        _ <- server.initialize(
+          AlsInitializeParams(None,
+                              Some(TraceKind.Off),
+                              rootUri = Some(s"file://folder"),
+                              projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
+        _          <- workspaceManager.executeCommand(ExecuteCommandParams("didChangeConfiguration", initialArgs))
         _          <- parserListener.nextCall // parse main file
         _          <- openFileNotification(server)(isolatedUri, isolated)
         _          <- parserListener.nextCall // parse isolated
