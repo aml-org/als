@@ -102,9 +102,11 @@ const fastOptConfig = {
 const fullOptIgnoredChunks = [{name: 'als-server.min'}]
 const fullOptConfig = {
   entry: {
-    'als-server.min': ['@babel/polyfill', path.resolve(__dirname, 'lib/als-server.min.js')],
-    'vscode-jsonrpc.min': ['@babel/polyfill', 'vscode-jsonrpc'],
-    'vscode-languageserver-protocol.min': ['@babel/polyfill', 'vscode-languageserver-protocol']
+    'als-server.min': ['@babel/polyfill', path.resolve(__dirname, 'lib/als-server.min.js')]
+  },
+  externals: {
+    "vscode-jsonrpc": "AlsServer['vscode-jsonrpc']",
+    "vscode-languageserver-protocol": "AlsServer['vscode-languageserver-protocol']"
   },
   optimization: {
     minimize: true,
