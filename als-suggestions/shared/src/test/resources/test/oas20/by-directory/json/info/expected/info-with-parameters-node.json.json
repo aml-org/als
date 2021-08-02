@@ -1,0 +1,62 @@
+[
+  {
+    "label": "New info",
+    "kind": [],
+    "detail": "template",
+    "documentation": "info",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "20New info",
+    "filterText": "\"info\": {\n  \"title\": \"$1\",\n  \"version\": \"$2\"\n},",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 4
+        }
+      },
+      "newText": "\"info\": {\n  \"title\": \"$1\",\n  \"version\": \"$2\"\n},"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "info",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "info",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10info",
+    "filterText": "\"info\": {\n  \"$1\"\n},",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 2
+        },
+        "end": {
+          "line": 2,
+          "character": 4
+        }
+      },
+      "newText": "\"info\": {\n  \"$1\"\n},"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
