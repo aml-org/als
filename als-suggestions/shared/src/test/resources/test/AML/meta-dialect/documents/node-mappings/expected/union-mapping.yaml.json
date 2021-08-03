@@ -1,0 +1,62 @@
+[
+  {
+    "label": "typeDiscriminator",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "typeDiscriminator",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11typeDiscriminator",
+    "filterText": "typeDiscriminator: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 4
+        },
+        "end": {
+          "line": 6,
+          "character": 4
+        }
+      },
+      "newText": "typeDiscriminator: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "typeDiscriminatorName",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "typeDiscriminatorName",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11typeDiscriminatorName",
+    "filterText": "typeDiscriminatorName: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 4
+        },
+        "end": {
+          "line": 6,
+          "character": 4
+        }
+      },
+      "newText": "typeDiscriminatorName: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

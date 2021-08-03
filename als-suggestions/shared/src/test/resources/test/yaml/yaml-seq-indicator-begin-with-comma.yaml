@@ -1,0 +1,26 @@
+openapi: "3.0.0"
+info:
+  title: asd
+  version: 2
+paths:
+  /get:
+    get:
+      responses:
+        "200":
+          description: asd
+          content:
+            application/json:
+              schema:
+                description: asd
+                anyOf:
+                  [*, $ref: "#/components/schemas/anotherSchema",
+                   $ref: "#/components/schemas/mySchema"]
+
+components:
+  schemas:
+    mySchema:
+      type: number
+    anotherSchema:
+      type: boolean
+    yetAnotherSchema:
+      type: integer

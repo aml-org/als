@@ -15,6 +15,7 @@ object UnionMappingObjectNode extends DialectNode {
       .withNodePropertyMapping(UnionNodeMappingModel.ObjectRange.value.iri())
       .withName("union")
       .withLiteralRange(xsdString.iri())
+      .withMinCount(1)
       .withAllowMultiple(true),
     PropertyMapping()
       .withId(location + s"#/declarations/$name/typeDiscriminator")

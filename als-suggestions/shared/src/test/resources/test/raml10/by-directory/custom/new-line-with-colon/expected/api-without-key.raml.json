@@ -1,103 +1,13 @@
 [
   {
-    "label": "New documentation",
-    "kind": [],
-    "detail": "template",
-    "documentation": "documentation",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "21New documentation",
-    "filterText": "documentation:\n  -\n    content: $1\n    title: $2",
-    "insertText": null,
-    "insertTextFormat": [
-      2
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      },
-      "newText": "documentation:\n  -\n    content: $1\n    title: $2"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "annotationTypes",
-    "kind": [],
-    "detail": "types and traits",
-    "documentation": "annotationTypes",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11annotationTypes",
-    "filterText": "annotationTypes:\n  ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      },
-      "newText": "annotationTypes:\n  "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "baseUri",
-    "kind": [],
-    "detail": "root",
-    "documentation": "baseUri",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11baseUri",
-    "filterText": "baseUri: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      },
-      "newText": "baseUri: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "baseUriParameters",
+    "label": "default",
     "kind": [],
     "detail": "parameters",
-    "documentation": "baseUriParameters",
+    "documentation": "default",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11baseUriParameters",
-    "filterText": "baseUriParameters:\n  ",
+    "sortText": "11default",
+    "filterText": "default: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -106,14 +16,14 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 6
+          "character": 4
         },
         "end": {
           "line": 5,
-          "character": 6
+          "character": 4
         }
       },
-      "newText": "baseUriParameters:\n  "
+      "newText": "default: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -136,11 +46,11 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 6
+          "character": 4
         },
         "end": {
           "line": 5,
-          "character": 6
+          "character": 4
         }
       },
       "newText": "description: "
@@ -150,14 +60,14 @@
     "command": null
   },
   {
-    "label": "documentation",
+    "label": "displayName",
     "kind": [],
     "detail": "docs",
-    "documentation": "documentation",
+    "documentation": "displayName",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11documentation",
-    "filterText": "documentation:\n  - ",
+    "sortText": "11displayName",
+    "filterText": "displayName: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -166,28 +76,28 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 6
+          "character": 4
         },
         "end": {
           "line": 5,
-          "character": 6
+          "character": 4
         }
       },
-      "newText": "documentation:\n  - "
+      "newText": "displayName: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "mediaType",
+    "label": "enum",
     "kind": [],
-    "detail": "root",
-    "documentation": "mediaType",
+    "detail": "parameters",
+    "documentation": "enum",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11mediaType",
-    "filterText": "mediaType: ",
+    "sortText": "11enum",
+    "filterText": "enum:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -196,28 +106,28 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 6
+          "character": 4
         },
         "end": {
           "line": 5,
-          "character": 6
+          "character": 4
         }
       },
-      "newText": "mediaType: "
+      "newText": "enum:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "protocols",
+    "label": "example",
     "kind": [],
-    "detail": "root",
-    "documentation": "protocols",
+    "detail": "docs",
+    "documentation": "example",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11protocols",
-    "filterText": "protocols:\n  - ",
+    "sortText": "11example",
+    "filterText": "example:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -226,28 +136,28 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 6
+          "character": 4
         },
         "end": {
           "line": 5,
-          "character": 6
+          "character": 4
         }
       },
-      "newText": "protocols:\n  - "
+      "newText": "example:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "resourceTypes",
+    "label": "examples",
     "kind": [],
-    "detail": "types and traits",
-    "documentation": "resourceTypes",
+    "detail": "docs",
+    "documentation": "examples",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11resourceTypes",
-    "filterText": "resourceTypes:\n  ",
+    "sortText": "11examples",
+    "filterText": "examples:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -256,178 +166,28 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 6
+          "character": 4
         },
         "end": {
           "line": 5,
-          "character": 6
+          "character": 4
         }
       },
-      "newText": "resourceTypes:\n  "
+      "newText": "examples:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "securedBy",
-    "kind": [],
-    "detail": "security",
-    "documentation": "securedBy",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11securedBy",
-    "filterText": "securedBy:\n  - ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      },
-      "newText": "securedBy:\n  - "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "securitySchemes",
-    "kind": [],
-    "detail": "security",
-    "documentation": "securitySchemes",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11securitySchemes",
-    "filterText": "securitySchemes:\n  ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      },
-      "newText": "securitySchemes:\n  "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "title",
-    "kind": [],
-    "detail": "root",
-    "documentation": "title",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "10title",
-    "filterText": "title: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      },
-      "newText": "title: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "traits",
-    "kind": [],
-    "detail": "types and traits",
-    "documentation": "traits",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11traits",
-    "filterText": "traits:\n  ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      },
-      "newText": "traits:\n  "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "types",
-    "kind": [],
-    "detail": "types and traits",
-    "documentation": "types",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11types",
-    "filterText": "types:\n  ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      },
-      "newText": "types:\n  "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "uses",
+    "label": "facets",
     "kind": [],
     "detail": "unknown",
-    "documentation": "uses",
+    "documentation": "facets",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11uses",
-    "filterText": "uses:\n  ",
+    "sortText": "11facets",
+    "filterText": "facets:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -436,28 +196,28 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 6
+          "character": 4
         },
         "end": {
           "line": 5,
-          "character": 6
+          "character": 4
         }
       },
-      "newText": "uses:\n  "
+      "newText": "facets:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "version",
+    "label": "maxLength",
     "kind": [],
-    "detail": "root",
-    "documentation": "version",
+    "detail": "parameters",
+    "documentation": "maxLength",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11version",
-    "filterText": "version: ",
+    "sortText": "11maxLength",
+    "filterText": "maxLength: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -466,14 +226,104 @@
       "range": {
         "start": {
           "line": 5,
-          "character": 6
+          "character": 4
         },
         "end": {
           "line": 5,
-          "character": 6
+          "character": 4
         }
       },
-      "newText": "version: "
+      "newText": "maxLength: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "minLength",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "minLength",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11minLength",
+    "filterText": "minLength: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 4
+        },
+        "end": {
+          "line": 5,
+          "character": 4
+        }
+      },
+      "newText": "minLength: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "pattern",
+    "kind": [],
+    "detail": "parameters",
+    "documentation": "pattern",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11pattern",
+    "filterText": "pattern: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 4
+        },
+        "end": {
+          "line": 5,
+          "character": 4
+        }
+      },
+      "newText": "pattern: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "xml",
+    "kind": [],
+    "detail": "schemas",
+    "documentation": "xml",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11xml",
+    "filterText": "xml:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 4
+        },
+        "end": {
+          "line": 5,
+          "character": 4
+        }
+      },
+      "newText": "xml:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

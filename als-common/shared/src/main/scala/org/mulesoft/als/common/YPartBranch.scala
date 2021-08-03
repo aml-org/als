@@ -267,19 +267,25 @@ object NodeBranchBuilder {
     val parts = ast.children
       .filterNot(_.isInstanceOf[YNonContent])
       .filter { yp =>
-        yp.contains(amfPosition, editionMode = true)
+        yp.contains(amfPosition)
       }
     if (parts.length > 1) {
       ast match {
-        case e: YMapEntry if e.value.isNull =>
+        case e: YMapEntry if inKey(e, amfPosition) =>
           val range = e.value.range.toPositionRange
           if (range.end <= Position(amfPosition) && e.value.value.range.toPositionRange.end.line == range.start.line)
-            Some(e.value) // the position was in an YNonContent after the `key: `
+            Some(e.value)
           else Some(e.key)
+        // The first match will always be the node we're looking for (because of of how the respectIndentation works)
+        case _: YSequence => parts.headOption
         case _ =>
           parts.lastOption
       }
     } else
       parts.lastOption
+  }
+
+  private def inKey(e: YMapEntry, amfPosition: AmfPosition) = {
+    e.value.isNull || e.key.contains(amfPosition)
   }
 }

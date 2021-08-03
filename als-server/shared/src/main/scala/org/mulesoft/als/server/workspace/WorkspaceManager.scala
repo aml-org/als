@@ -16,7 +16,6 @@ import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, ExecuteCommandParams}
 
 import scala.collection.mutable
-import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -101,7 +100,7 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   def changeWorkspaceFolders(params: DidChangeWorkspaceFoldersParams): Unit =
     workspaces.changeWorkspaces(params.event.added.flatMap(_.uri), params.event.deleted.flatMap(_.uri))
 
-  def getWorkspaceFolders: Seq[String] = workspaces.allWorkspaces().map(_.folder)
+  def getWorkspaceFolders: Seq[String] = workspaces.allWorkspaces().map(_.folderUri)
 
   dependencies.foreach(d => d.withUnitAccessor(this))
 
@@ -156,8 +155,10 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
 
   private val workspaces: mutable.Set[WorkspaceContentManager] = new mutable.HashSet()
 
-  private val defaultWorkspace: WorkspaceContentManager =
+  private val defaultWorkspace: WorkspaceContentManager = {
+    logger.debug(s"created default WorkspaceContentManager", "WorkspaceList", "buildWorkspaceAt")
     new WorkspaceContentManager("", environmentProvider, telemetryProvider, logger, subscribers)
+  }
 
   def addWorkspace(uri: String): Unit =
     changeWorkspaces(List(uri), List.empty)
@@ -165,12 +166,13 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
   def removeWorkspace(uri: String): Unit =
     changeWorkspaces(List.empty, List(uri))
 
+  // todo: should return future
   def changeWorkspaces(added: List[String], deleted: List[String]): Unit = synchronized {
     logger.debug(s"Changing workspaces, added: $added, deleted: $deleted", "WorkspaceList", "changeWorkspace")
-    val newWorkspaces = added.filterNot(uri => workspaces.exists(_.folder == uri)).map(getOrCreateWorkspaceAt)
-    val oldWorkspaces = workspaces.filter(wcm => deleted.contains(wcm.folder)) ++
+    val newWorkspaces = added.filterNot(uri => workspaces.exists(_.folderUri == uri)).map(getOrCreateWorkspaceAt)
+    val oldWorkspaces = workspaces.filter(wcm => deleted.contains(wcm.folderUri)) ++
       workspaces.collect({
-        case wcm: WorkspaceContentManager if added.exists(uri => wcm.folder.startsWith(uri)) => wcm
+        case wcm: WorkspaceContentManager if added.exists(uri => wcm.folderUri.startsWith(uri)) => wcm
       })
     oldWorkspaces.foreach(_.shutdown())
 
@@ -180,20 +182,26 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
 
   private def getOrCreateWorkspaceAt(uri: String): WorkspaceContentManager =
     workspaces
-      .find(w => uri.startsWith(w.folder)) // if there is an existing WS containing the new one, do not create it
+      .find(w => uri.startsWith(w.folderUri)) // if there is an existing WS containing the new one, do not create it
       .getOrElse(buildWorkspaceAt(uri))
 
+  // todo: should return future
   private def buildWorkspaceAt(uri: String): WorkspaceContentManager = {
+    // todo: instead of `new WorkspaceContentManager` there should be a `WorkspaceContentManager.init(...)` which returns a future
     val wcm             = new WorkspaceContentManager(uri, environmentProvider, telemetryProvider, logger, subscribers)
     val applicableFiles = environmentProvider.openedFiles.filter(_.startsWith(uri))
     applicableFiles.foreach(wcm.stage(_, OPEN_FILE))
+    logger.debug(s"created WorkspaceContentManager for $uri", "WorkspaceList", "buildWorkspaceAt")
     wcm
   }
 
   def findWorkspace(uri: String): WorkspaceContentManager =
-    workspaces.find(ws => ws.containsFile(uri)).getOrElse(defaultWorkspace)
+    workspaces.find(ws => ws.containsFile(uri)).getOrElse {
+      logger.debug(s"getting default workspace", "WorkspaceList", "findWorkspace")
+      defaultWorkspace
+    }
 
-  def clear(): Unit = workspaces.foreach(w => removeWorkspace(w.folder))
+  def clear(): Unit = workspaces.foreach(w => removeWorkspace(w.folderUri))
 
   def allWorkspaces(): Seq[WorkspaceContentManager] = workspaces.toSeq
 }

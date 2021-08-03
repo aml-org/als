@@ -2,4 +2,5 @@
 
 nodeMappings:
   myNodeMapping:
+    classTerm: term
     *

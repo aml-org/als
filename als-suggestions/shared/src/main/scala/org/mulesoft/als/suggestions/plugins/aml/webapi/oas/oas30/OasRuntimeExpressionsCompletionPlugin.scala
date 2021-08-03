@@ -17,12 +17,12 @@ object OasRuntimeExpressionsCompletionPlugin extends AbstractRuntimeExpressionsC
     request.fieldEntry match {
       case Some(fe) =>
         (applicableFields.contains(fe.field) && !request.branchStack.headOption.exists(_.isInstanceOf[NodeShape])) ||
-          (fe.field == EndPointModel.Path && procesbyStack(request))
-      case _ => procesbyStack(request)
+          (fe.field == EndPointModel.Path && processByStack(request))
+      case _ => processByStack(request)
 
     }
   }
-  private def procesbyStack(request: AmlCompletionRequest) = {
+  private def processByStack(request: AmlCompletionRequest) = {
     if (request.yPartBranch.isKey)
       request.branchStack.headOption match {
         case Some(c: Callback) =>

@@ -141,7 +141,7 @@ object AmlCompletionRequestBuilder {
       styler,
       yPartBranch,
       configuration,
-      objInTree(baseUnit, position, dialect),
+      objInTree(baseUnit, dialect, yPartBranch),
       rootUri = rootLocation,
       completionsPluginHandler = completionsPluginHandler,
       amfInstance = amfInstance
@@ -151,11 +151,11 @@ object AmlCompletionRequestBuilder {
       objInTree knowledge could be used in other features, if we start keeping track of every branch in a Unit it could
       be a nice idea to have general cache for a `(BaseUnit, position) -> lazy objectInTree branch` (an ObjectInTreeManager)
    */
-  private def objInTree(baseUnit: BaseUnit, position: AmfPosition, definedBy: Dialect): ObjectInTree = {
-    val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, position, baseUnit.identifier, definedBy)
+  private def objInTree(baseUnit: BaseUnit, definedBy: Dialect, yPartBranch: YPartBranch): ObjectInTree = {
+    val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, baseUnit.identifier, definedBy, yPartBranch)
     objectInTree.obj match {
       case d: EncodesModel if d.fields.exists(DocumentModel.Encodes) =>
-        ObjectInTree(d.encodes, Seq(objectInTree.obj) ++ objectInTree.stack, position, None)
+        ObjectInTree(d.encodes, Seq(objectInTree.obj) ++ objectInTree.stack, None, yPartBranch)
       case _ => objectInTree
     }
   }
@@ -235,10 +235,10 @@ object AmlCompletionRequestBuilder {
       if (currentIndex < parent.branchStack.length) parent.branchStack.splitAt(currentIndex)._2 else parent.branchStack
     val objectInTree =
       ObjectInTreeBuilder.fromSubTree(element,
-                                      parent.position.toAmfPosition,
                                       parent.baseUnit.identifier,
                                       newStack,
-                                      parent.actualDialect)
+                                      parent.actualDialect,
+                                      parent.yPartBranch)
     new AmlCompletionRequest(
       parent.baseUnit,
       parent.position,

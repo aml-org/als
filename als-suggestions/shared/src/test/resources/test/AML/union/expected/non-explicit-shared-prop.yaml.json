@@ -2,7 +2,7 @@
   {
     "label": "propertyA",
     "kind": [],
-    "detail": "",
+    "detail": "unknown",
     "documentation": "propertyA",
     "deprecated": [],
     "preselect": [],
@@ -32,7 +32,7 @@
   {
     "label": "propertyB",
     "kind": [],
-    "detail": "",
+    "detail": "unknown",
     "documentation": "propertyB",
     "deprecated": [],
     "preselect": [],

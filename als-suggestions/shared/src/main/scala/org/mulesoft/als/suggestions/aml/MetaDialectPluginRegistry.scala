@@ -15,12 +15,14 @@ object MetaDialectPluginRegistry extends WebApiCompletionPluginRegistry {
       StructureCompletionPlugin(
         List(
           MetaDialectDocumentsCompletionPlugin,
+          NodeUnionDeclarationCompletionPlugin,
           ResolveDefault
         )) :+
       NamespaceForTermCompletionPlugin :+
       AnyUriValueCompletionPlugin :+
       MapLabelInPropertyMappingCompletionPlugin :+
-      VocabularyTermsValueCompletionPlugin
+      VocabularyTermsValueCompletionPlugin :+
+      UnionRangeCompletionPlugin
 
   override def plugins: Seq[AMLCompletionPlugin] = all
 

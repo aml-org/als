@@ -12,8 +12,10 @@ object FindLinks {
       .targets()
       .flatMap {
         case (targetLocation, originRange) =>
+          // todo: Move Logger to common and use throughout the project
+          // check when this method is called, seems a bit excessive to me
+//          originRange.foreach(or => println(s"FIND LINKS $targetLocation => $or"))
           originRange.map(r => DocumentLink(LspRangeConverter.toLspRange(PositionRange(r)), targetLocation, None))
-
       }
       .toSeq
 }

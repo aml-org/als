@@ -1,16 +1,16 @@
 hovers:
   (1,4):
-    - Defines a data type
+    - Top level element describing a asynchronous API
   (1,13):
-    - Defines a data type
+    - Top level element describing a asynchronous API
   (2,1):
     - Represents the universal identifier of the application the specification is defining
   (2,26):
     - Represents the universal identifier of the application the specification is defining
   (3,2):
-    - Defines a data type
+    - Contains general information about the defined API, such as title and version
   (3,5):
-    - Defines a data type
+    - Contains general information about the defined API, such as title and version
   (4,4):
     - Human readable name for the object
   (4,18):
@@ -118,8 +118,7 @@ hovers:
   (32,16): []
   (34,8):
     - Bindings for this server
-  (34,13):
-    - Bindings for this server
+  (34,13): []
   (35,8): []
   (35,33): []
   (37,4):
@@ -137,7 +136,7 @@ hovers:
   (40,8):
     - Bindings for this endpoint
   (40,13):
-    - Bindings for this endpoint
+    - Action that can be executed using a particular HTTP invocation
   (41,8):
     - Binding for a corresponding known type
   (41,11): []
@@ -151,8 +150,7 @@ hovers:
     - Action that can be executed using a particular HTTP invocation
   (44,10):
     - Bindings for this operation
-  (44,15):
-    - Bindings for this operation
+  (44,15): []
   (45,10): []
   (45,34): []
   (46,11):
@@ -162,7 +160,7 @@ hovers:
   (47,12):
     - Documentation for a particular part of the model
   (47,19):
-    - Documentation for a particular part of the model
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (48,13):
     - Human readable description of an element
   (48,30):
@@ -196,9 +194,9 @@ hovers:
   (55,18):
     - Human readable name for the object
   (56,9):
-    - Action that can be executed using a particular HTTP invocation
+    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
   (56,13):
-    - Action that can be executed using a particular HTTP invocation
+    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
   (57,12):
     - Action that can be executed using a particular HTTP invocation
   (57,33):
@@ -208,7 +206,7 @@ hovers:
   (58,15):
     - Action that can be executed using a particular HTTP invocation
   (59,9):
-    - Piece of data required or returned by an Operation
+    - Human readable name for the object
   (59,13):
     - Piece of data required or returned by an Operation
   (60,10):
@@ -221,8 +219,7 @@ hovers:
     - Action that can be executed using a particular HTTP invocation
   (62,10):
     - Bindings for this operation
-  (62,15):
-    - Bindings for this operation
+  (62,15): []
   (63,10): []
   (63,34): []
   (64,11):
@@ -232,7 +229,7 @@ hovers:
   (65,12):
     - Documentation for a particular part of the model
   (65,19):
-    - Documentation for a particular part of the model
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (66,13):
     - Human readable description of an element
   (66,30):
@@ -266,9 +263,9 @@ hovers:
   (73,18):
     - Human readable name for the object
   (74,9):
-    - Action that can be executed using a particular HTTP invocation
+    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
   (74,13):
-    - Action that can be executed using a particular HTTP invocation
+    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
   (75,12):
     - Action that can be executed using a particular HTTP invocation
   (75,33):
@@ -288,7 +285,7 @@ hovers:
   (79,10):
     - Documentation about the tag
   (79,17):
-    - Documentation about the tag
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (80,11):
     - Human readable description of an element
   (80,28):
@@ -310,9 +307,9 @@ hovers:
   (84,16):
     - URL for the creative work
   (86,5):
-    - Defines a data type
+    - Contains reusable definitions
   (86,11):
-    - Defines a data type
+    - Contains reusable definitions
   (87,5):
     - Contains declarations of reusable Schemas
   (87,10):
@@ -394,7 +391,7 @@ hovers:
   (108,7):
     - Defines a data type
   (108,9):
-    - Used to implement conditional application of a subschema. Instances will be validated againts this keyword's subschema
+    - Defines a data type
   (109,10):
     - Scalar range constraining this scalar shape
   (109,17):
@@ -402,7 +399,7 @@ hovers:
   (110,8):
     - Defines a data type
   (110,11):
-    - Composition of data shape when if data shape is valid
+    - Defines a data type
   (111,10):
     - Scalar range constraining this scalar shape
   (111,17):
@@ -410,7 +407,7 @@ hovers:
   (112,8):
     - Defines a data type
   (112,11):
-    - Used to implement conditional application of a subschema. Instances that fail to validate against the "if" keyword's subschema will be validated agains this key subschema
+    - Defines a data type
   (113,10):
     - Scalar range constraining this scalar shape
   (113,17):
@@ -434,7 +431,7 @@ hovers:
   (118,12):
     - Documentation for a particular part of the model
   (118,19):
-    - Documentation for a particular part of the model
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (119,9):
     - URL for the creative work
   (119,13):
@@ -454,7 +451,7 @@ hovers:
   (123,11):
     - Defines a data type
   (123,17):
-    - Properties associated to this node
+    - Defines a data type
   (124,8):
     - Defines a data type
   (124,10):
@@ -490,7 +487,7 @@ hovers:
   (132,12):
     - Defines a data type
   (132,20):
-    - Property names schema
+    - Defines a data type
   (133,10):
     - Defines a data type
   (133,13):
@@ -590,7 +587,7 @@ hovers:
   (157,7):
     - Defines a data type
   (157,10):
-    - Objects will be valid if they fail to validate successfully against the schema defined by this keyword.
+    - Defines a data type
   (158,10):
     - Scalar range constraining this scalar shape
   (158,17):
@@ -604,7 +601,7 @@ hovers:
   (161,9):
     - Object Schema who's properties are headers for the message.
   (161,14):
-    - Object Schema who's properties are headers for the message.
+    - Defines a data type
   (162,10):
     - Defines a data type
   (162,31):
@@ -620,7 +617,7 @@ hovers:
   (165,12):
     - An identifier that can be used for message tracing and correlation
   (165,20):
-    - An identifier that can be used for message tracing and correlation
+    - Model defining an identifier that can used for message tracing and correlation
   (166,10):
     - Model defining an identifier that can used for message tracing and correlation
   (166,35):
@@ -658,15 +655,14 @@ hovers:
   (175,12):
     - Documentation for a particular part of the model
   (175,19):
-    - Documentation for a particular part of the model
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (176,9):
     - URL for the creative work
   (176,13):
     - URL for the creative work
   (177,10):
     - Bindings for this request/response
-  (177,15):
-    - Bindings for this request/response
+  (177,15): []
   (178,10):
     - Binding for a corresponding known type
   (178,13): []
@@ -678,8 +674,10 @@ hovers:
   (180,15): []
   (181,12): []
   (181,18): []
-  (182,9): []
-  (182,13): []
+  (182,9):
+    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
+  (182,13):
+    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
   (183,12): []
   (183,31): []
   (184,9):
@@ -701,7 +699,7 @@ hovers:
   (188,7):
     - Authentication and access control mechanism defined in an API
   (188,11):
-    - Authentication and access control mechanism defined in an API
+    - Settings for an API Key security scheme
   (189,8):
     - Type of security scheme
   (189,15):
@@ -713,7 +711,7 @@ hovers:
   (191,6):
     - Authentication and access control mechanism defined in an API
   (191,9):
-    - Authentication and access control mechanism defined in an API
+    - Settings for an HTTP security scheme
   (192,8):
     - Type of security scheme
   (192,14):
@@ -725,7 +723,7 @@ hovers:
   (194,10):
     - Authentication and access control mechanism defined in an API
   (194,18):
-    - Authentication and access control mechanism defined in an API
+    - Settings for an OpenID security scheme
   (195,8):
     - Type of security scheme
   (195,18):
@@ -733,7 +731,7 @@ hovers:
   (196,7):
     - Authentication and access control mechanism defined in an API
   (196,11):
-    - Authentication and access control mechanism defined in an API
+    - Settings for an OAuth2 security scheme
   (197,8):
     - Type of security scheme
   (197,15):
@@ -741,7 +739,7 @@ hovers:
   (198,8):
     - Settings for an OAuth2 security scheme
   (198,12):
-    - Settings for an OAuth2 security scheme
+    - Flow for an OAuth2 security scheme setting
   (199,12):
     - Flow for an OAuth2 security scheme setting
   (199,17):
@@ -861,7 +859,7 @@ hovers:
   (232,12):
     - Documentation for a particular part of the model
   (232,19):
-    - Documentation for a particular part of the model
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (233,13):
     - Human readable description of an element
   (233,30):
@@ -872,8 +870,7 @@ hovers:
     - URL for the creative work
   (235,10):
     - Bindings for this operation
-  (235,15):
-    - Bindings for this operation
+  (235,15): []
   (236,10):
     - Binding for a corresponding known type
   (236,13): []
@@ -890,7 +887,7 @@ hovers:
   (240,9):
     - Object Schema who's properties are headers for the message.
   (240,14):
-    - Object Schema who's properties are headers for the message.
+    - Defines a data type
   (241,10):
     - Defines a data type
   (241,17):
@@ -898,7 +895,7 @@ hovers:
   (242,12):
     - An identifier that can be used for message tracing and correlation
   (242,20):
-    - An identifier that can be used for message tracing and correlation
+    - Model defining an identifier that can used for message tracing and correlation
   (243,10):
     - Model defining an identifier that can used for message tracing and correlation
   (243,35):
@@ -936,7 +933,7 @@ hovers:
   (252,12):
     - Documentation for a particular part of the model
   (252,19):
-    - Documentation for a particular part of the model
+    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (253,13):
     - Human readable description of an element
   (253,30):
@@ -947,8 +944,7 @@ hovers:
     - URL for the creative work
   (255,10):
     - Bindings for this request/response
-  (255,15):
-    - Bindings for this request/response
+  (255,15): []
   (256,10):
     - Binding for a corresponding known type
   (256,13): []
@@ -997,8 +993,7 @@ hovers:
     - Interval in seconds of the longest period of time the broker and the client can endure without sending a message
   (272,12):
     - Last Will and Testament configuration
-  (272,17):
-    - Last Will and Testament configuration
+  (272,17): []
   (273,11):
     - Defines how hard the broker/client will try to ensure that the Last Will and Testament message is received
   (273,15):
@@ -1070,7 +1065,7 @@ hovers:
   (300,11):
     - A Schema object containing the definitions for HTTP-specific headers
   (300,16):
-    - A Schema object containing the definitions for HTTP-specific headers
+    - Defines a data type
   (301,12):
     - Defines a data type
   (301,33):
@@ -1082,7 +1077,7 @@ hovers:
   (303,10):
     - A Schema object containing the definitions for each query parameter
   (303,14):
-    - A Schema object containing the definitions for each query parameter
+    - Defines a data type
   (304,12):
     - Scalar range constraining this scalar shape
   (304,19):
@@ -1120,7 +1115,7 @@ hovers:
   (314,11):
     - A Schema object containing the definitions for HTTP-specific headers
   (314,16):
-    - A Schema object containing the definitions for HTTP-specific headers
+    - Defines a data type
   (315,12):
     - Defines a data type
   (315,33):

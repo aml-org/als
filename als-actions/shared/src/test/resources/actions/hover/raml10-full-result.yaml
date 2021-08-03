@@ -8,41 +8,13 @@ hovers:
   (3,19):
     - Human readable description of an element
   (4,2):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Imported external libraries for use within the API
   (4,5):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (5,3):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Top level element describing a HTTP API
   (5,13):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (6,3):
     - Version of the API
   (6,10):
@@ -52,113 +24,29 @@ hovers:
   (7,22):
     - Information about the network accessible locations where the API is available
   (8,8):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (8,18):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (9,2):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Top level element describing a HTTP API
   (9,4):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (10,9):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (10,16):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (11,17):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (11,30):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (12,8):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (12,23):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (13,6):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (13,13):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (14,4):
     - URI scheme for the API protocol
   (14,10):
@@ -194,7 +82,7 @@ hovers:
   (29,7):
     - Declarations of reusable authentication mechanisms to ensure secured operations
   (29,16):
-    - Top level element describing a HTTP API
+    - Defines a data type
   (30,6):
     - Authentication and access control mechanism defined in an API
   (30,12):
@@ -212,7 +100,7 @@ hovers:
   (34,16):
     - Authentication and access control mechanism defined in an API
   (35,9):
-    - Piece of data required or returned by an Operation
+    - Defines a data type
   (35,14):
     - Piece of data required or returned by an Operation
   (36,14):
@@ -228,7 +116,7 @@ hovers:
   (40,19):
     - Scalar range constraining this scalar shape
   (41,13):
-    - Piece of data required or returned by an Operation
+    - Defines a data type
   (41,22):
     - Piece of data required or returned by an Operation
   (42,14):
@@ -244,7 +132,7 @@ hovers:
   (46,19):
     - Scalar range constraining this scalar shape
   (47,10):
-    - Response information for an operation
+    - Defines a data type
   (47,16):
     - Response information for an operation
   (48,9):
@@ -266,7 +154,7 @@ hovers:
   (57,8):
     - Security scheme settings
   (57,13):
-    - Security scheme settings
+    - Flow for an OAuth2 security scheme setting
   (58,14):
     - Flow for an OAuth2 security scheme setting
   (58,45):
@@ -296,7 +184,7 @@ hovers:
   (65,8):
     - Security scheme settings
   (65,13):
-    - Security scheme settings
+    - Settings for an OAuth1 security scheme
   (66,13):
     - Settings for an OAuth1 security scheme
   (66,45):
@@ -350,7 +238,7 @@ hovers:
   (82,18):
     - Authentication and access control mechanism defined in an API
   (83,15):
-    - Piece of data required or returned by an Operation
+    - Defines a data type
   (83,24):
     - Piece of data required or returned by an Operation
   (84,12):
@@ -362,7 +250,7 @@ hovers:
   (85,21):
     - Scalar range constraining this scalar shape
   (86,11):
-    - Piece of data required or returned by an Operation
+    - Defines a data type
   (86,16):
     - Piece of data required or returned by an Operation
   (87,13):
@@ -390,7 +278,7 @@ hovers:
   (93,18):
     - Authentication and access control mechanism defined in an API
   (94,11):
-    - Piece of data required or returned by an Operation
+    - Defines a data type
   (94,16):
     - Piece of data required or returned by an Operation
   (95,16):
@@ -406,7 +294,7 @@ hovers:
   (98,21):
     - Scalar range constraining this scalar shape
   (99,12):
-    - Response information for an operation
+    - Defines a data type
   (99,18):
     - Response information for an operation
   (100,11):
@@ -424,7 +312,7 @@ hovers:
   (104,2):
     - Contains declarations of reusable Schemas
   (104,6):
-    - Top level element describing a HTTP API
+    - Defines a data type
   (105,4):
     - Human readable name for the object
   (105,8):
@@ -472,7 +360,7 @@ hovers:
   (114,5):
     - Information about how to serialize
   (114,8):
-    - Information about how to serialize
+    - Information about how to encode into XML a particular data shape
   (115,10):
     - XML attribute mapping
   (115,19):
@@ -538,9 +426,9 @@ hovers:
   (131,17):
     - Multiple of constraint
   (132,4):
-    - Top level element describing a HTTP API
+    - Human readable name for the object
   (132,8):
-    - Top level element describing a HTTP API
+    - Defines a data type
   (133,6):
     - Defines a data type
   (133,12):
@@ -556,9 +444,9 @@ hovers:
   (135,18):
     - Maximum length constraint
   (136,5):
-    - Top level element describing a HTTP API
+    - Human readable name for the object
   (136,9):
-    - Top level element describing a HTTP API
+    - Defines a data type
   (137,6):
     - Defines a data type
   (137,17):
@@ -584,7 +472,7 @@ hovers:
   (142,9):
     - Defines a data type
   (142,15):
-    - Properties associated to this node
+    - Defines a data type
   (143,11):
     - Defines a data type
   (143,21):
@@ -592,7 +480,7 @@ hovers:
   (144,10):
     - Defines a data type
   (144,15):
-    - Range property constraint
+    - Defines a data type
   (145,10):
     - Scalar range constraining this scalar shape
   (145,17):
@@ -608,7 +496,7 @@ hovers:
   (148,11):
     - Defines a data type
   (148,18):
-    - Range property constraint
+    - Defines a data type
   (150,12):
     - Scalar range constraining this scalar shape
   (150,19):
@@ -692,7 +580,7 @@ hovers:
   (168,10):
     - Data structure containing the value of the example
   (168,14):
-    - Data structure containing the value of the example
+    - Example value for a schema inside an API
   (169,12):
     - Example value for a schema inside an API
   (169,21):
@@ -716,11 +604,11 @@ hovers:
   (174,9):
     - Defines a data type
   (174,15):
-    - Properties associated to this node
+    - Defines a data type
   (175,7):
     - Defines a data type
   (175,9):
-    - Range property constraint
+    - Defines a data type
   (176,10):
     - Scalar range constraining this scalar shape
   (176,17):
@@ -799,14 +687,7 @@ hovers:
       re-usable and generic way of achieving the same functionality.
       It can be validated using a SHACL shape
   (193,24):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (194,9):
     - |-
       Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
@@ -857,7 +738,7 @@ hovers:
       re-usable and generic way of achieving the same functionality.
       It can be validated using a SHACL shape
   (197,21):
-    - Schema for an entity
+    - Defines a data type
   (198,6):
     - Scalar range constraining this scalar shape
   (198,13):
@@ -872,14 +753,7 @@ hovers:
       re-usable and generic way of achieving the same functionality.
       It can be validated using a SHACL shape
   (199,22):
-    - |-
-      Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
-      This can be achieved by using an annotationType in RAML. In OpenAPI thy don't need to
-            be declared, they can just be used.
-            This should be mapped to new RDF properties declared directly in the main document or module.
-            Contrast this extension mechanism with the creation of a propertyTerm in a vocabulary, a more
-      re-usable and generic way of achieving the same functionality.
-      It can be validated using a SHACL shape
+    - Defines a data type
   (200,11):
     - |-
       Definition of an extension to the domain model defined directly by a user in the RAML/OpenAPI document.
@@ -890,7 +764,7 @@ hovers:
       re-usable and generic way of achieving the same functionality.
       It can be validated using a SHACL shape
   (200,21):
-    - Schema for an entity
+    - Defines a data type
   (201,9):
     - Human readable name for the object
   (201,26):
@@ -908,11 +782,11 @@ hovers:
   (205,9):
     - Defines a data type
   (205,15):
-    - Properties associated to this node
+    - Defines a data type
   (206,8):
     - Defines a data type
   (206,12):
-    - Range property constraint
+    - Defines a data type
   (207,10):
     - Defines a data type
   (207,17):
@@ -928,7 +802,7 @@ hovers:
   (209,10):
     - Defines a data type
   (209,16):
-    - Range property constraint
+    - Defines a data type
   (210,11):
     - Pattern constraint
   (210,25):
@@ -962,31 +836,31 @@ hovers:
   (215,35):
     - Human readable description of an element
   (216,9):
-    - Type of document base unit encoding a RAML trait
+    - Associated dynamic structure for the declaration
   (216,35):
-    - Type of document base unit encoding a RAML trait
+    - Associated dynamic structure for the declaration
   (217,7):
-    - Type of document base unit encoding a RAML trait
+    - Associated dynamic structure for the declaration
   (217,12):
-    - Type of document base unit encoding a RAML trait
+    - Associated dynamic structure for the declaration
   (218,12):
-    - Type of document base unit encoding a RAML trait
+    - Associated dynamic structure for the declaration
   (218,19):
-    - Type of document base unit encoding a RAML trait
+    - Associated dynamic structure for the declaration
   (219,13):
-    - Type of document base unit encoding a RAML trait
+    - Associated dynamic structure for the declaration
   (219,27):
-    - Type of document base unit encoding a RAML trait
+    - Associated dynamic structure for the declaration
   (220,11):
-    - Type of document base unit encoding a RAML trait
+    - Associated dynamic structure for the declaration
   (220,21):
-    - Type of document base unit encoding a RAML trait
+    - Associated dynamic structure for the declaration
   (221,12):
-    - Type of document base unit encoding a RAML trait
+    - Associated dynamic structure for the declaration
   (221,20):
-    - Type of document base unit encoding a RAML trait
+    - Associated dynamic structure for the declaration
   (223,4):
-    - Defines a data type
+    - Flow for an OAuth2 security scheme setting
   (223,17): []
   (224,3):
     - Path template for an endpoint
@@ -1037,9 +911,9 @@ hovers:
       The DomainPropertySchema might have an associated Data Shape that must validate the extension nested graph.
       They are parsed as RDF graphs using a default transformation from a set of nested records into RDF.
   (232,11):
-    - Defines a data type
+    - Piece of data required or returned by an Operation
   (232,20):
-    - Defines a data type
+    - Piece of data required or returned by an Operation
   (233,7):
     - Schema the parameter value must validate
   (233,10):
@@ -1079,7 +953,7 @@ hovers:
   (244,9):
     - Information about how to serialize
   (244,12):
-    - Information about how to serialize
+    - Information about how to encode into XML a particular data shape
   (245,14):
     - XML attribute mapping
   (245,23):
@@ -1109,9 +983,9 @@ hovers:
   (252,12):
     - Defines a data type
   (253,7):
-    - Defines a data type
+    - Piece of data required or returned by an Operation
   (253,12):
-    - Defines a data type
+    - Piece of data required or returned by an Operation
   (254,7):
     - Schema the parameter value must validate
   (254,9):
@@ -1151,7 +1025,7 @@ hovers:
   (265,9):
     - Information about how to serialize
   (265,12):
-    - Information about how to serialize
+    - Information about how to encode into XML a particular data shape
   (266,14):
     - XML attribute mapping
   (266,23):
@@ -1253,9 +1127,9 @@ hovers:
   (294,12):
     - Defines a data type
   (295,8):
-    - Defines a data type
+    - Response information for an operation
   (295,14):
-    - Defines a data type
+    - Response information for an operation
   (296,7):
     - Response information for an operation
   (296,10):
@@ -1277,9 +1151,9 @@ hovers:
       The DomainPropertySchema might have an associated Data Shape that must validate the extension nested graph.
       They are parsed as RDF graphs using a default transformation from a set of nested records into RDF.
   (299,11):
-    - Defines a data type
+    - Piece of data required or returned by an Operation
   (299,16):
-    - Defines a data type
+    - Piece of data required or returned by an Operation
   (300,11):
     - Schema the parameter value must validate
   (300,13):
@@ -1289,9 +1163,9 @@ hovers:
   (301,21):
     - Scalar range constraining this scalar shape
   (302,10):
-    - Defines a data type
+    - Encoded payload using certain media-type
   (302,13):
-    - Defines a data type
+    - Encoded payload using certain media-type
   (303,18):
     - Encoded payload using certain media-type
   (303,27):
@@ -1305,13 +1179,13 @@ hovers:
   (305,10):
     - Response information for an operation
   (306,10):
-    - Defines a data type
+    - Encoded payload using certain media-type
   (306,13):
     - Defines a data type
   (307,15):
     - Defines a data type
   (307,21):
-    - Properties associated to this node
+    - Defines a data type
   (308,14):
     - Defines a data type
   (308,18):
@@ -1325,9 +1199,9 @@ hovers:
   (310,31):
     - Example value for a schema inside an API
   (311,6):
-    - Defines a data type
+    - Encoded payload using certain media-type
   (311,9):
-    - Defines a data type
+    - Encoded payload using certain media-type
   (312,14):
     - Encoded payload using certain media-type
   (312,23):
@@ -1335,7 +1209,7 @@ hovers:
   (313,13):
     - Defines a data type
   (313,19):
-    - Properties associated to this node
+    - Defines a data type
   (314,14):
     - Defines a data type
   (314,20):
@@ -1343,7 +1217,7 @@ hovers:
   (315,14):
     - Defines a data type
   (315,19):
-    - Range property constraint
+    - Defines a data type
   (316,14):
     - Scalar range constraining this scalar shape
   (316,21):
@@ -1357,13 +1231,13 @@ hovers:
   (319,10):
     - URI scheme for the API protocol
   (320,5):
-    - Defines a data type
+    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
   (320,7):
-    - Defines a data type
+    - Element that is going to be extended overlaying or adding additional information. The type of the relationship determines how the properties of the element will be combined together to build the resulting element.
   (321,9):
     - Type of document base unit encoding a RAML trait
   (322,8):
-    - Defines a data type
+    - Flow for an OAuth2 security scheme setting
   (322,19): []
   (323,4):
     - Action that can be executed using a particular HTTP invocation
@@ -1390,13 +1264,13 @@ hovers:
   (328,7):
     - Action that can be executed using a particular HTTP invocation
   (329,3):
-    - Defines a data type
+    - EndPoint in the API holding a number of executable operations
   (329,5):
-    - Defines a data type
+    - EndPoint in the API holding a number of executable operations
   (330,6):
     - Type of document base unit encoding a RAML trait
   (331,4):
-    - Defines a data type
+    - EndPoint in the API holding a number of executable operations
   (331,15):
     - Human readable name for the object
   (331,26):
@@ -1404,12 +1278,12 @@ hovers:
   (331,33):
     - Value for a variable in a graph template
   (332,6):
-    - Defines a data type
+    - Flow for an OAuth2 security scheme setting
   (332,17): []
   (333,8):
-    - Defines a data type
+    - EndPoint in the API holding a number of executable operations
   (333,16):
-    - Defines a data type
+    - Piece of data required or returned by an Operation
   (334,6):
     - Schema the parameter value must validate
   (334,9):

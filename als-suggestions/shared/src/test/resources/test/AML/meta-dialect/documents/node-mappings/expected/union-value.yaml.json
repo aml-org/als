@@ -1,0 +1,62 @@
+[
+  {
+    "label": "Member",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Member",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Member",
+    "filterText": "Member",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 14,
+          "character": 8
+        },
+        "end": {
+          "line": 14,
+          "character": 8
+        }
+      },
+      "newText": "Member"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "Plane",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Plane",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11Plane",
+    "filterText": "Plane",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 14,
+          "character": 8
+        },
+        "end": {
+          "line": 14,
+          "character": 8
+        }
+      },
+      "newText": "Plane"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
