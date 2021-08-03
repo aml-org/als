@@ -1,9 +1,9 @@
 package org.mulesoft.als.server.modules.workspace.resolution
 
 import java.util.UUID
-
 import amf.core.model.document.BaseUnit
 import amf.plugins.document.webapi.model.{Extension, Overlay}
+import org.mulesoft.als.configuration.WorkspaceConfiguration
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.workspace.{ProcessingFile, Repository, ResolverStagingArea, StagingArea}
@@ -46,7 +46,7 @@ class ResolutionTaskManager(telemetryProvider: TelemetryProvider,
     changeState(ProcessingFile)
 
     val resolvedInstance =
-      AmfResolvedUnitImpl(params.parseResult.baseUnit, params.diagnosticsBundle)
+      AmfResolvedUnitImpl(params.parseResult.baseUnit, params.diagnosticsBundle, params.workspaceConfiguration)
 
     if (isInMainTree(uri)) {
       params.parseResult.tree.foreach { u =>
@@ -105,7 +105,8 @@ class ResolutionTaskManager(telemetryProvider: TelemetryProvider,
   }
 
   case class AmfResolvedUnitImpl(override val originalUnit: BaseUnit,
-                                 override val diagnosticsBundle: Map[String, DiagnosticsBundle])
+                                 override val diagnosticsBundle: Map[String, DiagnosticsBundle],
+                                 override val workspaceConfiguration: Option[WorkspaceConfiguration])
       extends AmfResolvedUnit {
     private val uri: String = originalUnit.identifier
 

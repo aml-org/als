@@ -16,9 +16,9 @@ class WorkspaceRootHandler(platform: Platform, environment: Environment) {
   private val readers: List[ConfigReader] =
     List(ExchangeConfigReader)
 
-  def extractConfiguration(dirUri: String, logger: Logger): Future[Option[WorkspaceConf]] =
+  def extractConfiguration(dirUri: String, logger: Logger): Future[Option[WorkspaceConfig]] =
     for {
-      eConf: Option[Option[WorkspaceConf]] <- Future
+      eConf: Option[Option[WorkspaceConfig]] <- Future
         .find {
           readers.map {
             _.readRoot(dirUri, platform, environment, logger)

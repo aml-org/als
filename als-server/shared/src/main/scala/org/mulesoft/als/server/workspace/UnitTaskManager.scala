@@ -38,14 +38,17 @@ trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingArea
     isInitialized.success()
   }
 
-  def getUnit(uri: String): Future[ResultUnit] =
-    repository.getUnit(uri) match {
-      case Some(unit) =>
-        Future(toResult(uri, unit))
-      case _ =>
-        getNext(uri)
-          .getOrElse(fail(uri))
-    }
+  def getUnit(uri: String): Future[ResultUnit] = {
+    isInitialized.future.flatMap(_ => {
+      repository.getUnit(uri) match {
+        case Some(unit) =>
+          Future(toResult(uri, unit))
+        case _ =>
+          getNext(uri)
+            .getOrElse(fail(uri))
+      }
+    })
+  }
 
   def disable(): Future[Unit] = {
     changeState(NotAvailable)

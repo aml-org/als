@@ -13,7 +13,7 @@ import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.UnitTaskManager
 import org.mulesoft.als.server.workspace.extract.{
   DefaultWorkspaceConfigurationProvider,
-  WorkspaceConf,
+  WorkspaceConfig,
   WorkspaceConfigurationProvider,
   WorkspaceRootHandler
 }
@@ -43,6 +43,7 @@ class WorkspaceContentManager(val folderUri: String,
           logger.debug(s"folder: $folderUri", "WorkspaceContentManager", "init")
           logger.debug(s"main file: ${conf.mainFile}", "WorkspaceContentManager", "init")
           logger.debug(s"cachables: ${conf.cachables}", "WorkspaceContentManager", "init")
+          configMainFile = Some(conf)
           this
             .withConfiguration(
               DefaultWorkspaceConfigurationProvider(this,
@@ -50,7 +51,6 @@ class WorkspaceContentManager(val folderUri: String,
                                                     conf.cachables,
                                                     mainOption.flatMap(_.configReader)))
             .stage(conf.mainFile, CHANGE_CONFIG)
-          configMainFile = Some(conf)
         }
       )
       super.init()
@@ -65,12 +65,12 @@ class WorkspaceContentManager(val folderUri: String,
 
   private val subscribers = allSubscribers.filter(_.isActive)
 
-  private var configMainFile: Option[WorkspaceConf] = None
+  private var configMainFile: Option[WorkspaceConfig] = None
 
-  def workspaceConfiguration: Option[WorkspaceConf] = configMainFile
+  def workspaceConfiguration: Option[WorkspaceConfig] = configMainFile
 
   // not used?
-  def setConfigMainFile(workspaceConf: Option[WorkspaceConf]): Unit = {
+  def setConfigMainFile(workspaceConf: Option[WorkspaceConfig]): Unit = {
     repository.cleanTree()
     repository.setCachables(workspaceConf.map(_.cachables.map(_.toAmfUri)).getOrElse(Set.empty))
     configMainFile = workspaceConf
@@ -116,7 +116,8 @@ class WorkspaceContentManager(val folderUri: String,
     pu.toCU(getNext(uri),
             mainFile.map(mf => s"${trailSlash(folderUri)}$mf".toAmfUri),
             repository.getReferenceStack(uri),
-            isDirty(uri))
+            isDirty(uri),
+            pu.workspaceConfiguration)
 
   private def isDirty(uri: String) =
     state == ProcessingProject ||
@@ -169,7 +170,8 @@ class WorkspaceContentManager(val folderUri: String,
     parse(file, environment, uuid)
       .map { bu =>
         repository.updateUnit(bu)
-        subscribers.foreach(_.onNewAst(BaseUnitListenerParams(bu, Map.empty, tree = false), uuid))
+        subscribers.foreach(
+          _.onNewAst(BaseUnitListenerParams(bu, Map.empty, tree = false, workspaceConfiguration), uuid))
       }
 
   /**
@@ -217,7 +219,7 @@ class WorkspaceContentManager(val folderUri: String,
     }
   }
 
-  private def processChangeConfig(maybeConfig: Option[WorkspaceConf]): Future[Unit] = {
+  private def processChangeConfig(maybeConfig: Option[WorkspaceConfig]): Future[Unit] = {
     configMainFile = maybeConfig
     maybeConfig match {
       case Some(conf) =>
@@ -236,7 +238,8 @@ class WorkspaceContentManager(val folderUri: String,
     parse(s"$folderUri/$mainFile", snapshot.environment, uuid)
       .flatMap { u =>
         repository.newTree(u).map { _ =>
-          subscribers.foreach(_.onNewAst(BaseUnitListenerParams(u, repository.references, tree = true), uuid))
+          subscribers.foreach(
+            _.onNewAst(BaseUnitListenerParams(u, repository.references, tree = true, workspaceConfiguration), uuid))
           stagingArea.enqueue(snapshot.files.filter(t => !isInMainTree(t._1)))
         }
       }
@@ -257,7 +260,7 @@ class WorkspaceContentManager(val folderUri: String,
     logger.debug(s"sent uri: $decodedUri", "WorkspaceContentManager", "innerParse")
     environmentProvider.amfConfiguration
       .modelBuilder()
-      .parse(decodedUri, environment.withResolver(repository.resolverCache))
+      .parse(decodedUri, environment.withResolver(repository.resolverCache), workspaceConfiguration)
   }
 
   def getRelationships(uri: String): Relationships =

@@ -18,6 +18,7 @@ import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
 import amf.plugins.document.vocabularies.model.document.{Dialect, DialectInstanceUnit, DialectLibrary}
 import amf.{ProfileName, ProfileNames}
+import org.mulesoft.als.configuration.{UnitWithWorkspaceConfiguration, WorkspaceConfiguration}
 import org.mulesoft.als.{CompilerResult, ModelBuilder}
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
@@ -25,8 +26,12 @@ import org.yaml.builder.DocBuilder
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class AmfParseResult(override val baseUnit: BaseUnit, override val eh: ErrorCollector, override val definedBy: Dialect)
-    extends CompilerResult[BaseUnit, ErrorCollector, Dialect] {
+class AmfParseResult(override val baseUnit: BaseUnit,
+                     override val eh: ErrorCollector,
+                     override val definedBy: Dialect,
+                     override val workspaceConfiguration: Option[WorkspaceConfiguration])
+    extends CompilerResult[BaseUnit, ErrorCollector, Dialect]
+    with UnitWithWorkspaceConfiguration {
 
   val location: String = baseUnit.location().getOrElse(baseUnit.id)
 
@@ -43,7 +48,10 @@ class ParserHelper(val platform: Platform, amfInstance: AmfInstance)
     with ModelBuilder[BaseUnit, ErrorCollector, Environment, Dialect] {
 
   override type CR = AmfParseResult
-  private def parseInput(url: String, env: Environment, plat: Option[Platform]): Future[AmfParseResult] = {
+  private def parseInput(url: String,
+                         env: Environment,
+                         plat: Option[Platform],
+                         workspaceConfiguration: Option[WorkspaceConfiguration]): Future[AmfParseResult] = {
     val eh        = DefaultParserErrorHandler()
     val inputFile = ensureUrl(url)
 
@@ -56,14 +64,21 @@ class ParserHelper(val platform: Platform, amfInstance: AmfInstance)
         None,
         UnspecifiedReference
       )
-      .map(m => new AmfParseResult(m, eh, amfInstance.alsAmlPlugin.dialectFor(m).getOrElse(ExternalFragmentDialect())))
+      .map(
+        m =>
+          new AmfParseResult(m,
+                             eh,
+                             amfInstance.alsAmlPlugin.dialectFor(m).getOrElse(ExternalFragmentDialect()),
+                             workspaceConfiguration))
 
   }
 
-  override def parse(url: String, env: Environment): Future[AmfParseResult] = {
+  override def parse(url: String,
+                     env: Environment,
+                     workspaceConfiguration: Option[WorkspaceConfiguration]): Future[AmfParseResult] = {
     for {
       _     <- amfInstance.init()
-      model <- parseInput(url, env, None)
+      model <- parseInput(url, env, None, workspaceConfiguration)
     } yield model
   }
 
@@ -117,7 +132,7 @@ class ParserHelper(val platform: Platform, amfInstance: AmfInstance)
 
   // todo: only used in tests?
   override def parse(uri: String): Future[AmfParseResult] =
-    parse(uri, Environment())
+    parse(uri, Environment(), None)
 
   override def fullResolution(unit: BaseUnit, eh: ErrorCollector): BaseUnit = {
     RuntimeResolver.resolve(ParserHelper.vendor(unit).map(_.name).getOrElse(Amf.name),

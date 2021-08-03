@@ -4,11 +4,12 @@ import amf.client.parse.DefaultErrorHandler
 import amf.core.errorhandling.ErrorCollector
 import amf.core.model.document.BaseUnit
 import amf.plugins.document.webapi.model.{Extension, Overlay}
+import org.mulesoft.als.configuration.UnitWithWorkspaceConfiguration
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-trait AmfResolvedUnit extends UnitWithNextReference {
+trait AmfResolvedUnit extends UnitWithNextReference with UnitWithWorkspaceConfiguration {
   override protected type T = AmfResolvedUnit
 
   protected def resolvedUnitFn(): Future[BaseUnit]

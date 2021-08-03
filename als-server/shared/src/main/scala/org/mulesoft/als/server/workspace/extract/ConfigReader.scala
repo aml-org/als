@@ -15,7 +15,7 @@ trait ConfigReader {
   def readRoot(rootUri: String,
                platform: Platform,
                environment: Environment,
-               logger: Logger): Future[Option[WorkspaceConf]] = {
+               logger: Logger): Future[Option[WorkspaceConfig]] = {
     logger.debug(s"reading $rootUri", "ConfigReader", "readRoot")
     val fileUri      = appendFileToUri(rootUri)
     val fileAsAmfUri = fileUri.toAmfUri(platform)
@@ -70,5 +70,5 @@ trait ConfigReader {
                             path: String,
                             platform: Platform,
                             environment: Environment,
-                            logger: Logger): Option[Future[WorkspaceConf]]
+                            logger: Logger): Option[Future[WorkspaceConfig]]
 }

@@ -5,6 +5,7 @@ import amf.core.model.document.{BaseUnit, ExternalFragment}
 import amf.core.validation.SeverityLevels
 import amf.plugins.document.vocabularies.model.document.Dialect
 import org.mulesoft.als.common.dtoTypes.{PositionRange, ReferenceOrigins, ReferenceStack}
+import org.mulesoft.als.configuration.WorkspaceConfiguration
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
@@ -23,7 +24,8 @@ class ParsedMainFileTree(eh: ErrorCollector,
                          private val innerDocumentLinks: Map[String, Seq[DocumentLink]],
                          private val innerAliases: Seq[AliasInfo],
                          logger: Logger,
-                         definedBy: Dialect)
+                         definedBy: Dialect,
+                         val workspaceConfiguration: Option[WorkspaceConfiguration])
     extends MainFileTree {
 
   private val errors                               = eh.getErrors
@@ -105,7 +107,7 @@ class ParsedMainFileTree(eh: ErrorCollector,
   override def getCache: Map[String, BaseUnit] = cache.toMap
 
   override def parsedUnits: Map[String, ParsedUnit] =
-    units.map(t => t._1 -> ParsedUnit(t._2, inTree = true, definedBy, eh)).toMap
+    units.map(t => t._1 -> ParsedUnit(t._2, inTree = true, definedBy, eh, workspaceConfiguration)).toMap
 
   override def references: Map[String, DiagnosticsBundle] = innerRefs.toMap
 
@@ -130,8 +132,17 @@ object ParsedMainFileTree {
             documentLinks: Map[String, Seq[DocumentLink]],
             aliases: Seq[AliasInfo],
             logger: Logger,
-            definedBy: Dialect): ParsedMainFileTree =
-    new ParsedMainFileTree(eh, main, cachables, nodeRelationships, documentLinks, aliases, logger, definedBy)
+            definedBy: Dialect,
+            workspaceConfiguration: Option[WorkspaceConfiguration]): ParsedMainFileTree =
+    new ParsedMainFileTree(eh,
+                           main,
+                           cachables,
+                           nodeRelationships,
+                           documentLinks,
+                           aliases,
+                           logger,
+                           definedBy,
+                           workspaceConfiguration)
 }
 
 object MainFileTreeBuilder {
@@ -149,7 +160,8 @@ object MainFileTreeBuilder {
       visitors.getDocumentLinksFromVisitors,
       visitors.getAliasesFromVisitors,
       logger,
-      amfParseResult.definedBy
+      amfParseResult.definedBy,
+      amfParseResult.workspaceConfiguration
     )
     tree.index().map(_ => tree)
   }
