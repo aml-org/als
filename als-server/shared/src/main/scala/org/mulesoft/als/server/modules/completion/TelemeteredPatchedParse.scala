@@ -25,7 +25,8 @@ class TelemeteredPatchedParse(telemetryProvider: TelemetryProvider)
           params.uri.toAmfDecodedUri(params.editorEnvironment.platform),
           patchedEnvironment.environment
             .withResolver(CompletionReferenceResolver(bu.unit))
-            .withLoaders(patchedEnvironment.environment.loaders ++ params.editorEnvironment.environment.loaders)
+            .withLoaders(patchedEnvironment.environment.loaders ++ params.editorEnvironment.environment.loaders),
+          bu.workspaceConfiguration
         )
     }
   }

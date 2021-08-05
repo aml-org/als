@@ -134,7 +134,7 @@ class Suggestions(platform: Platform,
                                             snippetsSupport: Boolean,
                                             rootLocation: Option[String]): Future[Seq[CompletionItem]] = {
 
-    buildProviderAsync(amfInstance.modelBuilder().parse(url, environment),
+    buildProviderAsync(amfInstance.modelBuilder().parse(url, environment, None),
                        position,
                        url,
                        patchedContent,
@@ -182,7 +182,7 @@ object Suggestions extends PlatformSecrets {
 trait SuggestionsHelper {
 
   def amfParse(url: String, amfInstance: AmfInstance, environment: Environment): Future[BaseUnit] =
-    amfInstance.modelBuilder().parse(url, environment).map(_.baseUnit)
+    amfInstance.modelBuilder().parse(url, environment, None).map(_.baseUnit)
 
   def getMediaType(originalContent: String): Syntax = {
 

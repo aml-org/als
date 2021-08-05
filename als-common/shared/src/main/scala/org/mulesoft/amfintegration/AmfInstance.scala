@@ -26,7 +26,7 @@ class AmfInstance(plugins: Seq[AMFPlugin], platform: Platform, environment: Envi
 
   // todo: only used on tests?
   def parse(uri: String): Future[AmfParseResult] =
-    modelBuilder().parse(uri, environment)
+    modelBuilder().parse(uri, environment, None)
 
   val alsAmlPlugin: ALSAMLPlugin = ALSAMLPlugin()
 

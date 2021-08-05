@@ -103,7 +103,7 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
   case class ModelResult(u: BaseUnit, url: String, position: Int, originalContent: Option[String])
 
   def parseAMF(path: String, env: Environment = Environment()): Future[BaseUnit] =
-    AmfInstance.default.modelBuilder().parse(path, env).map(_.baseUnit)
+    AmfInstance.default.modelBuilder().parse(path, env, None).map(_.baseUnit)
 
   def filePath(path: String): String = {
     var result =

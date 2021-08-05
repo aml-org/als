@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.modules.ast
 
+import org.mulesoft.als.configuration.WorkspaceConfiguration
 import org.mulesoft.als.server.modules.workspace.CompilableUnit
 import org.mulesoft.als.server.workspace.UnitAccessor
 import org.mulesoft.amfintegration.{AmfParseResult, DiagnosticsBundle}
@@ -32,7 +33,8 @@ trait AccessUnits[T] {
 
 case class BaseUnitListenerParams(parseResult: AmfParseResult,
                                   diagnosticsBundle: Map[String, DiagnosticsBundle],
-                                  tree: Boolean)
+                                  tree: Boolean,
+                                  workspaceConfiguration: Option[WorkspaceConfiguration])
 
 trait BaseUnitListener extends AstListener[BaseUnitListenerParams] with AccessUnits[CompilableUnit]
 
