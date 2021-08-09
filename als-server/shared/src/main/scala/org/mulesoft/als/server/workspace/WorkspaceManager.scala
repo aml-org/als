@@ -62,10 +62,17 @@ class WorkspaceManager protected (environmentProvider: EnvironmentProvider,
   def contentManagerConfiguration(manager: WorkspaceContentManager,
                                   mainSubUri: String,
                                   dependencies: Set[String],
-                                  reader: Option[ConfigReader]): Unit =
+                                  profiles: Set[String],
+                                  reader: Option[ConfigReader]): Unit = {
+    logger.debug(
+      s"Workspace '${manager.folderUri}' new configuration { mainFile: $mainSubUri, dependencies: $dependencies, profiles: $profiles }",
+      "WorkspaceManager",
+      "contentManagerConfiguration"
+    )
     manager
-      .withConfiguration(DefaultWorkspaceConfigurationProvider(manager, mainSubUri, dependencies, reader))
+      .withConfiguration(DefaultWorkspaceConfigurationProvider(manager, mainSubUri, dependencies, profiles, reader))
       .stage(mainSubUri, CHANGE_CONFIG)
+  }
 
   override def executeCommand(params: ExecuteCommandParams): Future[AnyRef] =
     commandExecutors.get(params.command) match {
@@ -207,9 +214,14 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
   private def buildWorkspaceAt(uri: String): Future[WorkspaceContentManager] = {
     val applicableFiles = environmentProvider.openedFiles.filter(_.startsWith(uri))
     for {
-      wcm <- WorkspaceContentManager(uri, environmentProvider.branch, telemetryProvider, logger, subscribers, configStyle)
-      _   <- Future.sequence(applicableFiles.map(wcm.stage(_, OPEN_FILE)))
-      _   <- wcm.initialized
+      wcm <- WorkspaceContentManager(uri,
+                                     environmentProvider.branch,
+                                     telemetryProvider,
+                                     logger,
+                                     subscribers,
+                                     configStyle)
+      _ <- Future.sequence(applicableFiles.map(wcm.stage(_, OPEN_FILE)))
+      _ <- wcm.initialized
     } yield {
       logger.debug(s"created WorkspaceContentManager for $uri", "WorkspaceList", "buildWorkspaceAt")
       wcm

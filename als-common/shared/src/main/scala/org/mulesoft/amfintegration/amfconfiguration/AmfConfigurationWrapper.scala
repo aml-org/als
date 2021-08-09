@@ -17,6 +17,7 @@ import amf.core.internal.remote._
 import amf.core.internal.unsafe.PlatformSecrets
 import amf.shapes.client.scala.model.domain.AnyShape
 import amf.shapes.client.scala.render.JsonSchemaShapeRenderer
+import org.mulesoft.als.configuration.WithWorkspaceConfiguration
 import org.mulesoft.amfintegration.AlsSyamlSyntaxPluginHacked
 import org.mulesoft.amfintegration.dialect.integration.BaseAlsDialectProvider
 import org.mulesoft.amfintegration.vocabularies.integration.{
@@ -42,7 +43,8 @@ class AmfConfigurationWrapper private[amfintegration] (private val initialConfig
                                                        val resourceLoaders: Seq[ResourceLoader],
                                                        amfConfigurationState: Option[AMFConfigurationStateManager] =
                                                          None)
-    extends PlatformSecrets {
+    extends PlatformSecrets
+    with WithWorkspaceConfiguration {
   private implicit var configuration: AMFConfiguration = initialConfig
 
   private var innerAmfConfigurationState: AMFConfigurationStateManager =

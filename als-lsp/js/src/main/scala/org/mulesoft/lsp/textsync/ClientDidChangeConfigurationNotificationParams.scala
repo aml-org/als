@@ -6,8 +6,9 @@ import scala.scalajs.js.JSConverters._
 
 @js.native
 trait ClientDidChangeConfigurationNotificationParams extends js.Object {
-  def mainUri: String                = js.native
-  def dependencies: js.Array[String] = js.native
+  def mainUri: String                            = js.native
+  def dependencies: js.Array[String]             = js.native
+  def customValidationProfiles: js.Array[String] = js.native
 }
 
 object ClientDidChangeConfigurationNotificationParams {
@@ -15,7 +16,8 @@ object ClientDidChangeConfigurationNotificationParams {
     js.Dynamic
       .literal(
         mainUri = internal.mainUri,
-        dependencies = internal.dependencies.toJSArray
+        dependencies = internal.dependencies.toJSArray,
+        customValidationProfiles = internal.customValidationProfiles.toJSArray
       )
       .asInstanceOf[ClientDidChangeConfigurationNotificationParams]
 }
