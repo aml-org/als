@@ -16,12 +16,14 @@
   },
   "dependencies": {
     "ajv": "6.5.2",
+    "amf-opa-validator": "0.1.0",
     "buffer": "^6.0.3",
     "https-browserify": "^1.0.0",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
     "stream-http": "^3.1.1",
     "url": "^0.11.0",
+    "util": "^0.12.4",
     "vscode-jsonrpc": "6.0.0",
     "vscode-languageserver-protocol": "3.16.0"
   },
