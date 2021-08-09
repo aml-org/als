@@ -7,25 +7,13 @@ import scala.scalajs.js.annotation.{JSGlobal, JSImport}
 
 @js.native
 @JSImport("amf-opa-validator", JSImport.Namespace)
-object AmfOpaValidator extends js.Any {
+object AmfWasmOpaValidator extends js.Any {
   def validate(profile: String,
                data: String,
                debug: Boolean,
                callback: js.Function2[UndefOr[String], UndefOr[JsError], Unit]): Unit = js.native
 
   def exit(): Unit = js.native
-}
-
-object WasmLoader {
-  type Fs2[T, S]        = js.Function2[T, Error, S]
-  type Error            = JsError
-  type ValidationResult = String
-
-  def validateWithProfile(profile: String, data: String): Future[ValidationResult] = {
-    val cb = new Callback[String]
-    AmfOpaValidator.validate(profile, data, debug = false, cb.callback)
-    cb.future
-  }
 }
 
 class Callback[T] {
