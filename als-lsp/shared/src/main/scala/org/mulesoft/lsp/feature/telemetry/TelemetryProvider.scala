@@ -86,6 +86,8 @@ object MessageTypes extends Enumeration {
   val BEGIN_EXTERNAL_VOCABULARY_TO_LOCAL        = "BEGIN_EXTERNAL_VOCABULARY_TO_LOCAL"
   val END_EXTERNAL_VOCABULARY_TO_LOCAL          = "END_EXTERNAL_VOCABULARY_TO_LOCAL"
   val ERROR_MESSAGE                             = "ERROR_MESSAGE"
+  val BEGIN_CUSTOM_DIAGNOSTIC                   = "BEGIN_CUSTOM_DIAGNOSTIC"
+  val END_CUSTOM_DIAGNOSTIC                     = "END_CUSTOM_DIAGNOSTIC"
 }
 
 trait TelemetryProvider {
