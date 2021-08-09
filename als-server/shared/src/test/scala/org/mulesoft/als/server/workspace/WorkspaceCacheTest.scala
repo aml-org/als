@@ -68,13 +68,13 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
 
     for {
       ws <- WorkspaceContentManager(folderUri,
-                                  env,
-                                  DummyTelemetryProvider,
-                                  EmptyLogger,
-                                  Nil,
-                                  DefaultProjectConfigurationStyle)
+                                    env,
+                                    DummyTelemetryProvider,
+                                    EmptyLogger,
+                                    Nil,
+                                    DefaultProjectConfigurationStyle)
       _ <- ws
-        .withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiUri, cacheUris, None))
+        .withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiUri, cacheUris, Set.empty, None))
         .stage(mainApiUri, CHANGE_CONFIG)
       counter1 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
         counter
@@ -136,13 +136,13 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
 
     for {
       ws <- WorkspaceContentManager("folder",
-                                  env,
-                                  DummyTelemetryProvider,
-                                  EmptyLogger,
-                                  Nil,
-                                  DefaultProjectConfigurationStyle)
+                                    env,
+                                    DummyTelemetryProvider,
+                                    EmptyLogger,
+                                    Nil,
+                                    DefaultProjectConfigurationStyle)
       _ <- ws
-        .withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, None))
+        .withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, Set.empty, None))
         .stage(mainApiUri, CHANGE_CONFIG)
       counter1 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
         counter
@@ -195,13 +195,13 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
 
     for {
       ws <- WorkspaceContentManager("folder",
-                                  env,
-                                  DummyTelemetryProvider,
-                                  EmptyLogger,
-                                  Nil,
-                                  DefaultProjectConfigurationStyle)
+                                    env,
+                                    DummyTelemetryProvider,
+                                    EmptyLogger,
+                                    Nil,
+                                    DefaultProjectConfigurationStyle)
       _ <- ws
-        .withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, Set.empty, None))
+        .withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, Set.empty, Set.empty, None))
         .stage(mainApiUri, CHANGE_CONFIG)
       counter1 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
         counter
@@ -255,13 +255,13 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
 
     for {
       ws <- WorkspaceContentManager(folderUri,
-                                  env,
-                                  DummyTelemetryProvider,
-                                  EmptyLogger,
-                                  Nil,
-                                  DefaultProjectConfigurationStyle)
+                                    env,
+                                    DummyTelemetryProvider,
+                                    EmptyLogger,
+                                    Nil,
+                                    DefaultProjectConfigurationStyle)
       _ <- ws
-        .withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, None))
+        .withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, Set.empty, None))
         .stage(mainApiUri, CHANGE_CONFIG)
       counter1 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
         counter
@@ -316,9 +316,14 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     val env = newProvider(rl)
 
     for {
-      ws <- WorkspaceContentManager("folder", env, DummyTelemetryProvider, EmptyLogger, Nil, DefaultProjectConfigurationStyle)
+      ws <- WorkspaceContentManager("folder",
+                                    env,
+                                    DummyTelemetryProvider,
+                                    EmptyLogger,
+                                    Nil,
+                                    DefaultProjectConfigurationStyle)
       _ <- ws
-        .withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, None))
+        .withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, Set.empty, None))
         .stage(mainApiUri, CHANGE_CONFIG)
       counter1 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
         counter
@@ -330,7 +335,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
       }
       _ <- { // remove caché
         counter = 0
-        ws.withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, Set.empty, None))
+        ws.withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, Set.empty, Set.empty, None))
           .stage(mainApiUri, CHANGE_CONFIG)
       }
       counter3 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
@@ -343,7 +348,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
       }
       _ <- { // with cache
         counter = 0
-        ws.withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, None))
+        ws.withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, Set.empty, None))
           .stage(folderUri + "/" + rootUri, CHANGE_CONFIG)
       }
       _ <- ws.stage(mainApiUri, CHANGE_FILE)
