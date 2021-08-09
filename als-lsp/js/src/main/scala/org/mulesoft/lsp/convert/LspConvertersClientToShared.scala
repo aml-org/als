@@ -487,7 +487,7 @@ object LspConvertersClientToShared {
 
   implicit class DidChangeConfigurationNotificationParamsConverter(v: ClientDidChangeConfigurationNotificationParams) {
     def toShared: DidChangeConfigurationNotificationParams =
-      DidChangeConfigurationNotificationParams(v.mainUri, v.dependencies.toSet)
+      DidChangeConfigurationNotificationParams(v.mainUri, v.dependencies.toSet, v.customValidationProfiles.toSet)
   }
 
   implicit class DidChangeTextDocumentParamsConverter(v: ClientDidChangeTextDocumentParams) {

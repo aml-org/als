@@ -2,6 +2,7 @@ package org.mulesoft.als.server.workspace
 
 import org.mulesoft.als.configuration.ConfigurationStyle.COMMAND
 import org.mulesoft.als.configuration.ProjectConfigurationStyle
+import org.mulesoft.als.configuration.WorkspaceConfiguration
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
@@ -16,6 +17,7 @@ import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 import org.mulesoft.lsp.workspace.ExecuteCommandParams
 import org.scalatest.Assertion
 
+import java.util.UUID
 import scala.concurrent.{ExecutionContext, Future}
 
 class WorkspaceManagerTest extends LanguageServerBaseTest {
@@ -346,6 +348,60 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
         assert(second.exists(c => c.uri == api2Root && c.diagnostics.nonEmpty))
         assert(third.exists(_.uri == apiRoot))
         assert(third.exists(_.uri == apiFragment))
+      }
+    }
+  }
+
+  test("Workspace Manager change custom validation profiles [using Command]") {
+    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
+      new MockDiagnosticClientNotifierWithTelemetryLog
+
+    withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
+      val root        = s"${filePath("ws4")}"
+      val apiRoot     = s"$root/api.raml"
+      val api2Root    = s"$root/api2.raml"
+      val apiFragment = s"$root/fragment.raml"
+      val wm          = server.workspaceService.asInstanceOf[WorkspaceManager]
+      for {
+        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
+        // api.raml, fragment.raml
+        _       <- diagnosticClientNotifier.nextCall
+        _       <- diagnosticClientNotifier.nextCall
+        config1 <- wm.getUnit(apiRoot, UUID.randomUUID().toString).map(_.workspaceConfiguration)
+        _ <- server.workspaceService.executeCommand(
+          ExecuteCommandParams(
+            Commands.DID_CHANGE_CONFIGURATION,
+            List(s"""{"mainUri": "$api2Root", "dependencies": [], "customValidationProfiles": ["profile1.yaml"]}""")))
+        // api2.raml
+        _       <- diagnosticClientNotifier.nextCall
+        config2 <- wm.getUnit(api2Root, UUID.randomUUID().toString).map(_.workspaceConfiguration)
+        _ <- server.workspaceService.executeCommand(
+          ExecuteCommandParams(
+            Commands.DID_CHANGE_CONFIGURATION,
+            List(s"""{"mainUri": "$api2Root", "dependencies": [], "customValidationProfiles": ["profile2.yaml"]}""")))
+        // api2.raml
+        _       <- diagnosticClientNotifier.nextCall
+        config3 <- wm.getUnit(api2Root, UUID.randomUUID().toString).map(_.workspaceConfiguration)
+        _ <- server.workspaceService.executeCommand(
+          ExecuteCommandParams(
+            Commands.DID_CHANGE_CONFIGURATION,
+            List(
+              s"""{"mainUri": "$api2Root", "dependencies": [], "customValidationProfiles": ["profile2.yaml", "profile1.yaml"]}""")
+          ))
+        // api2.raml
+        _       <- diagnosticClientNotifier.nextCall
+        config4 <- wm.getUnit(api2Root, UUID.randomUUID().toString).map(_.workspaceConfiguration)
+
+      } yield {
+        server.shutdown()
+        def assertConfig(config: WorkspaceConfiguration, mainFile: String, profiles: Set[String]) = {
+          assert(config.mainFile.contains(mainFile))
+          assert(profiles.forall(p => config.profiles.contains(p)))
+        }
+        config1.map(c => assertConfig(c, "api.raml", Set.empty)).get
+        config2.map(c => assertConfig(c, "api2.raml", Set("profile1.yaml"))).get
+        config3.map(c => assertConfig(c, "api2.raml", Set("profile2.yaml"))).get
+        config4.map(c => assertConfig(c, "api2.raml", Set("profile1.yaml", "profile2.yaml"))).get
       }
     }
   }

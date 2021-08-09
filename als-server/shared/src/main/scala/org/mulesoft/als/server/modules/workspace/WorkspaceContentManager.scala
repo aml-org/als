@@ -43,7 +43,11 @@ class WorkspaceContentManager private (val folderUri: String,
           logger.debug(s"cachables: ${conf.cachables}", "WorkspaceContentManager", "init")
           configMainFile = Some(conf)
           withConfiguration( // why do we need configMainFile and also this configuration?
-            DefaultWorkspaceConfigurationProvider(this, conf.mainFile, conf.cachables, conf.configReader))
+            DefaultWorkspaceConfigurationProvider(this,
+                                                  conf.mainFile,
+                                                  conf.cachables,
+                                                  conf.profiles,
+                                                  conf.configReader))
           super
             .init()
             .flatMap(_ => stage(conf.mainFile, CHANGE_CONFIG))
@@ -268,6 +272,7 @@ class WorkspaceContentManager private (val folderUri: String,
     val decodedUri = uri.toAmfDecodedUri
     logger.debug(s"sent uri: $decodedUri", "WorkspaceContentManager", "innerParse")
     val cacheConfig = environmentProvider.amfConfigurationSnapshot()
+    workspaceConfiguration.foreach(cacheConfig.withWorkspaceConfiguration)
     cacheConfig.useCache(repository.resolverCache)
     cacheConfig
       .parse(decodedUri)
