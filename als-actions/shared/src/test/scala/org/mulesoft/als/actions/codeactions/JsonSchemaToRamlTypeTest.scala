@@ -4,7 +4,7 @@ import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionFactory
 import org.mulesoft.als.actions.codeactions.plugins.conversions.JsonSchemaToRamlType
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 
-class JsonSchemaToRamlType extends BaseCodeActionTests {
+class JsonSchemaToRamlTypeTest extends BaseCodeActionTests {
   behavior of "Json schema conversion to Raml type"
 
   it should "convert inlined json schema" in {

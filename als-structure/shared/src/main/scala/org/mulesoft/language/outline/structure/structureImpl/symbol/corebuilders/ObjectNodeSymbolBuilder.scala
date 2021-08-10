@@ -1,6 +1,6 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 
-import amf.core.annotations.{LexicalInformation, SourceAST}
+import amf.core.annotations.LexicalInformation
 import amf.core.metamodel.domain.ObjectNodeModel
 import amf.core.model.domain._
 import amf.core.parser.{Value, Range => AmfRange}
@@ -13,7 +13,6 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   SymbolBuilder
 }
 import org.mulesoft.lexer.InputRange
-import org.yaml.model.YMapEntry
 
 class ObjectNodeSymbolBuilder(override val element: ObjectNode)(override implicit val ctx: StructureContext)
     extends AmfObjectSymbolBuilder[ObjectNode] {
@@ -45,7 +44,7 @@ class ObjectNodeSymbolBuilder(override val element: ObjectNode)(override implici
 
   override protected val optionName: Option[String] = None
 
-  override protected val kind: SymbolKind.SymbolKind = SymbolKind.Property
+  override protected val kind: SymbolKinds.SymbolKind = SymbolKinds.Property
 }
 
 object ObjectNodeSymbolBuilder extends AmfObjectSimpleBuilderCompanion[ObjectNode] {

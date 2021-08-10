@@ -78,7 +78,7 @@ class LsConvertionsTest extends FunSuite {
       val internalDiagnostic: InternalDiagnostic = clientDiagnostic
     } catch {
       case _: NullPointerException => succeed
-      case e                       => fail("Unexpected error on empty clientDiagnostic conversion test", e)
+      case e: Throwable            => fail("Unexpected error on empty clientDiagnostic conversion test", e)
     }
   }
 

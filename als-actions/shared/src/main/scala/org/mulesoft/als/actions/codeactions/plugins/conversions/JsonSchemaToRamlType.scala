@@ -1,6 +1,5 @@
 package org.mulesoft.als.actions.codeactions.plugins.conversions
 
-import amf.core.parser.Annotations
 import amf.core.remote.Vendor
 import amf.plugins.document.webapi.annotations.ParsedJSONSchema
 import amf.plugins.domain.shapes.models.AnyShape
@@ -14,15 +13,13 @@ import org.mulesoft.als.actions.codeactions.plugins.declarations.common.Extracto
   declaredElementNode,
   renderNode
 }
-import org.mulesoft.als.actions.codeactions.plugins.declarations.common.FileExtractor
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.webapi.raml.RamlTypeExtractor
 import org.mulesoft.als.actions.codeactions.plugins.declarations.samefile.ExtractSameFileDeclaration
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
-import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.als.convert.LspRangeConverter
-import org.mulesoft.lexer.InputRange
+import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit}
 import org.mulesoft.lsp.feature.common.{Range, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.{

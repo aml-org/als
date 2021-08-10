@@ -31,7 +31,9 @@ class StructureManager(val unitAccesor: UnitAccessor[CompilableUnit],
     Left(true)
   }
 
-  override def getRequestHandlers: Seq[TelemeteredRequestHandler[_, _]] = Seq(
+  override def getRequestHandlers
+    : Seq[TelemeteredRequestHandler[DocumentSymbolParams,
+                                    Either[Seq[SymbolInformation], Seq[documentsymbol.DocumentSymbol]]]] = Seq(
     new TelemeteredRequestHandler[DocumentSymbolParams,
                                   Either[Seq[SymbolInformation], Seq[documentsymbol.DocumentSymbol]]] {
       override def `type`: DocumentSymbolRequestType.type =

@@ -1,8 +1,5 @@
 package org.mulesoft.als.server.lsp4j
 
-import java.io.StringWriter
-import java.net.{ServerSocket, Socket}
-
 import org.eclipse.lsp4j.jsonrpc.Launcher
 import org.eclipse.lsp4j.services.LanguageClient
 import org.mulesoft.als.server.JvmSerializationProps
@@ -12,19 +9,16 @@ import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 import org.mulesoft.als.server.logger.{Logger, PrintLnLogger}
 import org.mulesoft.als.server.protocol.client.AlsLanguageClient
 
+import java.io.StringWriter
+import java.net.{ServerSocket, Socket}
 import scala.annotation.tailrec
 
 object Main {
 
-  case class Options(port: Int,
-                     listen: Boolean,
-                     dialectPath: Option[String],
-                     dialectName: Option[String],
-                     vocabularyPath: Option[String],
-                     systemStream: Boolean = false)
+  case class Options(port: Int, listen: Boolean, systemStream: Boolean = false)
 
   val DefaultOptions: Options =
-    Options(4000, listen = false, dialectPath = None, dialectName = None, vocabularyPath = None)
+    Options(4000, listen = false)
 
   private def readOptions(args: Array[String]): Options = {
     @tailrec
@@ -45,9 +39,9 @@ object Main {
   }
 
   def createSocket(options: Options): Socket = options match {
-    case Options(port, true, _, _, _, false) =>
+    case Options(port, true, _) =>
       new ServerSocket(port).accept()
-    case Options(port, false, _, _, _, false) =>
+    case Options(port, false, _) =>
       new Socket("localhost", port)
   }
 
