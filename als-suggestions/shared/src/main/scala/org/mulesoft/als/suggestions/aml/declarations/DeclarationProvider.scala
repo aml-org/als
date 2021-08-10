@@ -4,6 +4,7 @@ import amf.core.annotations.Aliases
 import amf.core.metamodel.domain.DomainElementModel
 import amf.core.model.document.{BaseUnit, DeclaresModel}
 import amf.core.model.domain.DomainElement
+import amf.core.remote.Vendor
 import amf.plugins.document.vocabularies.model.document.Dialect
 import amf.plugins.document.vocabularies.model.domain.NodeMapping
 import org.mulesoft.als.common.SemanticNamedElement._
@@ -62,11 +63,12 @@ class DeclarationProvider(componentId: Option[String] = None) {
   def putDeclarable(str: String): Unit =
     declarableTerms = str +: declarableTerms
 
-  def put(typeMapping: NodeTypeMapping, element: DomainElement): Unit =
+  def put(typeMapping: NodeTypeMapping, element: DomainElement, vendor: Option[Vendor]): Unit =
     declarations.get(typeMapping) match {
       case Some(set) =>
         declarations.update(typeMapping, set ++ element.elementIdentifier().map(n => (n, element)).toSet)
-      case None => declarations.put(typeMapping, element.elementIdentifier().map(n => (n, element)).toSet)
+      case None =>
+        declarations.put(typeMapping, element.elementIdentifier().map(n => (n, element)).toSet)
     }
 
   def put(alias: Alias, provider: DeclarationProvider): Unit =
@@ -95,7 +97,7 @@ object DeclarationProvider {
     populateDeclarables(d, provider)
 
     bu match {
-      case de: DeclaresModel => populateDeclares(de, provider)
+      case de: DeclaresModel => populateDeclares(de, provider, bu.sourceVendor)
       case _                 => // ignore
     }
 
@@ -144,12 +146,12 @@ object DeclarationProvider {
 
   }
 
-  private def populateDeclares(de: DeclaresModel, provider: DeclarationProvider): Unit =
+  private def populateDeclares(de: DeclaresModel, provider: DeclarationProvider, vendor: Option[Vendor]): Unit =
     de.declares.foreach { d =>
       d.metaURIs
         .filter(_ != DomainElementModel.`type`.head.iri())
         .foreach { iri =>
-          provider.put(iri, d)
+          provider.put(iri, d, vendor)
         }
     }
 }

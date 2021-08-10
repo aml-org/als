@@ -1,10 +1,15 @@
 #%RAML 1.0
-title: test
-securitySchemes:
-  name:
+title: GitHub API
+
+securitySchemes: 
+  basic: 
+    type: Basic Authentication
+  oauth_1_0:
+    type: OAuth 1.0
+  oauth_2_0:
     type: OAuth 2.0
 
-/endpoint:
-  get:
-    securedBy:
+/users/{userid}/gists: 
+  get: 
+    securedBy: 
       - *

@@ -1,13 +1,13 @@
 [
   {
-    "label": "name",
+    "label": "basic",
     "kind": [],
     "detail": "unknown",
-    "documentation": "name",
+    "documentation": "basic",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11name",
-    "filterText": "name:\n  ",
+    "sortText": "11basic",
+    "filterText": "basic:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,15 +15,105 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 9,
+          "line": 14,
           "character": 8
         },
         "end": {
-          "line": 9,
+          "line": 14,
           "character": 8
         }
       },
-      "newText": "name:\n  "
+      "newText": "basic:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "null",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "null",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11null",
+    "filterText": "null",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 14,
+          "character": 8
+        },
+        "end": {
+          "line": 14,
+          "character": 8
+        }
+      },
+      "newText": "null"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "oauth_1_0",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "oauth_1_0",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11oauth_1_0",
+    "filterText": "oauth_1_0:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 14,
+          "character": 8
+        },
+        "end": {
+          "line": 14,
+          "character": 8
+        }
+      },
+      "newText": "oauth_1_0:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "oauth_2_0",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "oauth_2_0",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11oauth_2_0",
+    "filterText": "oauth_2_0:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 14,
+          "character": 8
+        },
+        "end": {
+          "line": 14,
+          "character": 8
+        }
+      },
+      "newText": "oauth_2_0:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

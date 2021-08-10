@@ -171,7 +171,8 @@ object Raml10SecuritySchemesDialect {
             "Basic Authentication",
             "Digest Authentication",
             "Pass Through",
-            "x-"
+            "x-",
+            "null"
           ))
         .withLiteralRange(xsdString.iri()),
       PropertyMapping()
