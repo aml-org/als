@@ -31,8 +31,7 @@ object AnnotationReferenceCompletionPlugin extends AMLCompletionPlugin {
     )
   }
 
-  private def isScalar(params: AmlCompletionRequest): Boolean = {
-
+  private def isScalar(params: AmlCompletionRequest): Boolean =
     params.yPartBranch.ancestorOf(classOf[YMapEntry]) match {
       case Some(e: YMapEntry) =>
         val entryName = e.key.asScalar.map(_.text)
@@ -41,6 +40,5 @@ object AnnotationReferenceCompletionPlugin extends AMLCompletionPlugin {
           .exists(p => p.literalRange().option().isDefined && !p.allowMultiple().value())
       case _ => false
     }
-  }
 
 }

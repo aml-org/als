@@ -2,10 +2,11 @@ package org.mulesoft.als.suggestions.test
 
 import amf.core.internal.remote.Hint
 import org.mulesoft.als.common.ByDirectoryTest
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.common.io.{Fs, SyncFile}
 import org.scalatest.AsyncFreeSpec
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 
 trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTest with ByDirectoryTest {
 
@@ -22,14 +23,19 @@ trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTes
     forDirectory(dir, "")
   }
 
+  def preload(parent: String, amfConfiguration: AmfConfigurationWrapper): Future[Unit] = Future.unit
+
   override def testFile(content: String, f: SyncFile, parent: String): Unit = {
-    s"Suggest over ${f.name} at dir $parent${dir.name}" in {
-      val expected = f.parent + platform.fs.separatorChar + "expected" + platform.fs.separatorChar + f.name + ".json"
+    s"Suggest over ${f.name} at dir ${cleanDirectory(f)}" in {
+      val amfConfiguration = defaultAmfConfiguration.branch
+      val expected         = s"${f.parent}${platform.fs.separatorChar}expected${platform.fs.separatorChar}${f.name}.json"
       for {
+        _ <- preload(f.path.stripSuffix(f.name), amfConfiguration)
         s <- suggestFromFile(
           content,
           "file://" + f.path.replaceAllLiterally(platform.fs.separatorChar.toString, "/"),
           "*",
+          amfConfiguration,
           None
         )
         tmp <- writeTemporaryFile(expected)(
@@ -38,4 +44,7 @@ trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTes
       } yield r
     }
   }
+
+  private def cleanDirectory(f: SyncFile) =
+    f.path.stripPrefix("als-suggestions/shared/src/test/resources/test/").stripSuffix(f.name)
 }
