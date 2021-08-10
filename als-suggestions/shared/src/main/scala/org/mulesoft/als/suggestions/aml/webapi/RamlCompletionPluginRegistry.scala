@@ -53,7 +53,8 @@ object RamlCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
       UnitDocumentationFacet :+
       DefaultVariablesAbstractDefinition :+
       WebApiKnownValueCompletionPlugin :+
-      RamlEnumCompletionPlugin
+      RamlEnumCompletionPlugin :+
+      RamlSemanticExtensionsCompletionPlugin
 
   override def plugins: Seq[AMLCompletionPlugin] = all
 

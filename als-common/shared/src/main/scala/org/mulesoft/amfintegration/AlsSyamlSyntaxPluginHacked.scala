@@ -19,17 +19,18 @@ object AlsSyamlSyntaxPluginHacked extends AMFSyntaxParsePlugin with PlatformSecr
   def withKeepTokens(keepTokens: Boolean): Unit =
     this.keepTokens = keepTokens
 
-  override def mediaTypes(): Seq[String] = SyamlSyntaxParsePlugin.mediaTypes
+  override def mediaTypes: Seq[String] = SyamlSyntaxParsePlugin.mediaTypes
 
   override def mainMediaType: String = SyamlSyntaxParsePlugin.mainMediaType
 
   override def parse(text: CharSequence, mediaType: String, ctx: ParserContext): ParsedDocument = {
     if (text.length() == 0) SyamlParsedDocument(YDocument(YNode.Null))
-    else if ((mediaType == "application/ld+json" || mediaType == "application/json") &&
-             !ctx.parsingOptions.isAmfJsonLdSerialization &&
-             platform.rdfFramework.isDefined) {
-      platform.rdfFramework.get.syntaxToRdfModel(mediaType, text)
-    } else {
+//    else if ((mediaType == "application/ld+json" || mediaType == "application/json") &&
+//             !ctx.parsingOptions.isAmfJsonLdSerialization &&
+//             platform.rdfFramework.isDefined) {
+//      platform.rdfFramework.get.syntaxToRdfModel(mediaType, text)
+//    }
+    else {
       val parser = getFormat(mediaType) match {
         case "json" => JsonParserFactory.fromCharsWithSource(text, ctx.rootContextDocument)(ctx.eh)
         case _      => YamlParser(text, ctx.rootContextDocument)(ctx.eh).withIncludeTag("!include")
