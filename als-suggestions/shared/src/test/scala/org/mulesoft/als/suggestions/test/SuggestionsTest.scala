@@ -64,7 +64,7 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
                       cut: Boolean = false,
                       labels: Array[String] = Array("*")): Future[Assertion] =
     this
-      .suggest(path, label)
+      .suggest(path, label, None, defaultAmfConfiguration.branch)
       .map(r => assertCategory(path, r.toSet))
 
   /**
@@ -81,7 +81,7 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
                         labels: Array[String] = Array("*"),
                         dialect: Option[String] = None): Future[Assertion] =
     this
-      .suggest(path, label, dialect)
+      .suggest(path, label, dialect, defaultAmfConfiguration.branch)
       .map(
         r =>
           assert(path,

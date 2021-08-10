@@ -12,6 +12,7 @@ trait ByDirectoryTest extends AsyncFreeSpec with FileAssertionTest {
     ExecutionContext.Implicits.global
 
   def fileExtensions: Seq[String]
+  def ignoredFiles: Seq[String] = Seq(".ignore")
 
   def testFile(content: String, file: SyncFile, parent: String): Unit
 
@@ -19,7 +20,7 @@ trait ByDirectoryTest extends AsyncFreeSpec with FileAssertionTest {
     val (subDirs, files) =
       dir.list
         .filterNot(_ == "expected")
-        .map(l => Fs.syncFile(dir.path + fs.separatorChar + l))
+        .map(l => Fs.syncFile(s"${dir.path}${fs.separatorChar}$l"))
         .partition(_.isDirectory)
     val validFiles = files.filter(f =>
       fileExtensions.exists(fileExtension =>
@@ -36,7 +37,6 @@ trait ByDirectoryTest extends AsyncFreeSpec with FileAssertionTest {
               testFile(content.toString, f, parent)
             }
           } else Future.successful(succeed)
-
         }
       }
     }
