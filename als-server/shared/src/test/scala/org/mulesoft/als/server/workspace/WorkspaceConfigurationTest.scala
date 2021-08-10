@@ -9,22 +9,17 @@ import amf.internal.resource.ResourceLoader
 import org.mulesoft.als.common.URIImplicits.StringUriImplicits
 import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
 import org.mulesoft.als.server.logger.{Logger, MessageSeverity}
-import org.mulesoft.als.server.modules.ast.{BaseUnitListener, BaseUnitListenerParams, ResolvedUnitListener}
+import org.mulesoft.als.server.modules.WorkspaceManagerFactory
+import org.mulesoft.als.server.modules.ast.{BaseUnitListener, ResolvedUnitListener}
 import org.mulesoft.als.server.modules.common.reconciler.Runnable
+import org.mulesoft.als.server.modules.configuration.ConfigurationManager
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
-import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
-import org.mulesoft.als.server.{
-  AbstractTestClientNotifier,
-  LanguageServerBaseTest,
-  LanguageServerBuilder,
-  MockDiagnosticClientNotifier,
-  TimeoutFuture
-}
+import org.mulesoft.als.server._
 import org.mulesoft.amfintegration.{AmfInstance, AmfResolvedUnit}
 import org.mulesoft.lsp.configuration.TraceKind
-import org.mulesoft.lsp.workspace.{DidChangeConfigurationParams, ExecuteCommandParams}
+import org.mulesoft.lsp.workspace.ExecuteCommandParams
 import org.scalatest.Assertion
 
 import java.util.UUID
@@ -191,7 +186,8 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with PlatformSec
        platform,
        directoryResolver,
        logger,
-       AmfInstance.default
+       AmfInstance.default,
+       new ConfigurationManager()
      ),
      parserListener)
   }
