@@ -24,11 +24,11 @@ trait BaseSuggestionsForTest extends PlatformSecrets with MarkerFinderTest {
   def suggest(url: String,
               label: String,
               dialectContent: Option[String],
-              amfConfiguration: AmfConfigurationWrapper = defaultAmfConfiguration): Future[Seq[CompletionItem]] = {
+              amfConfiguration: AmfConfigurationWrapper): Future[Seq[CompletionItem]] = {
 
     for {
       content <- amfConfiguration.fetchContent(url)
-      r       <- suggestFromFile(content.stream.toString, url, label, dialectContent)
+      r       <- suggestFromFile(content.stream.toString, url, label, amfConfiguration, dialectContent)
     } yield {
       r
     }
@@ -37,6 +37,7 @@ trait BaseSuggestionsForTest extends PlatformSecrets with MarkerFinderTest {
   def suggestFromFile(content: String,
                       url: String,
                       label: String,
+                      amfConfiguration: AmfConfigurationWrapper,
                       dialect: Option[String]): Future[Seq[CompletionItem]] = {
 
     var position        = 0
@@ -48,7 +49,7 @@ trait BaseSuggestionsForTest extends PlatformSecrets with MarkerFinderTest {
     val resourceLoader        = AmfConfigurationWrapper.resourceLoaderForFile(url, markerInfo.content)
     val dialectUrl            = "file:///dialect.yaml"
     val dialectResourceLoader = dialect.map(d => AmfConfigurationWrapper.resourceLoaderForFile(dialectUrl, d))
-    val amfConfiguration      = AmfConfigurationWrapper(Seq(resourceLoader))
+    amfConfiguration.withResourceLoader(resourceLoader)
     for {
       s <- {
         dialectResourceLoader
