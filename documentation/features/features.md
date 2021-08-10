@@ -55,7 +55,8 @@ The feature allows any LS client to receive notifications about an active docume
 + Any changes triggered on the model (files or root file), can be caused by:
   + DidOpen
   + DidChange
-  + Execute Command<DidFocus>
+  + DidFocus
+  + [DEPRECATED] Execute Command<DidFocus>
 + Emits:
   + [Publish Diagnostics](https://microsoft.github.io/language-server-protocol/specification#textDocument_publishDiagnostics)
 

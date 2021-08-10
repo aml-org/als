@@ -77,8 +77,8 @@ public class AlsInitializeParamsTypeAdapter extends InitializeParamsTypeAdapter 
                 case "workspaceFolders":
                     result.setWorkspaceFolders(readWorkspaceFolders(in));
                     break;
-                case "alsConfiguration":
-                    result.setAlsConfiguration(readConfiguration(in));
+                case "configuration":
+                    result.setConfiguration(readConfiguration(in));
                     break;
                 default:
                     in.skipValue();

@@ -87,7 +87,7 @@ class CompletionItemBuilder(r: PositionRange) {
   def build(): CompletionItem =
     CompletionItem(
       displayText,
-      textEdit = textEdit(text, range),
+      textEdit = textEdit(text, range).map(Left(_)),
       detail = Some(category),
       documentation = Some(description),
       insertTextFormat = Some(insertTextFormat),

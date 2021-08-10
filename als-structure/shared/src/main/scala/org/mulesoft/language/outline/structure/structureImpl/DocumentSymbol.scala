@@ -1,7 +1,7 @@
 package org.mulesoft.language.outline.structure.structureImpl
 
 import org.mulesoft.als.common.dtoTypes.PositionRange
-import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
+import org.mulesoft.language.outline.structure.structureImpl.SymbolKinds.SymbolKind
 
 case class DocumentSymbol private (name: String,
                                    kind: SymbolKind,
@@ -17,7 +17,7 @@ object DocumentSymbol {
   }
 }
 
-object SymbolKind {
+object SymbolKinds {
   case class SymbolKind(index: Int)
   //
   object File          extends SymbolKind(1)

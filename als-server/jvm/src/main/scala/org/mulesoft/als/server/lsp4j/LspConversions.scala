@@ -1,6 +1,5 @@
 package org.mulesoft.als.server.lsp4j
 
-import java.util.{List => JList}
 import org.eclipse.lsp4j
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
 import org.mulesoft.als.configuration.{AlsConfiguration, TemplateTypes}
@@ -8,13 +7,7 @@ import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeParams}
 import org.mulesoft.als.server.feature.fileusage.FileUsageClientCapabilities
 import org.mulesoft.als.server.feature.renamefile.{RenameFileActionClientCapabilities, RenameFileActionParams}
-import org.mulesoft.als.server.feature.serialization.{
-  ConversionClientCapabilities,
-  ConversionConfig,
-  ConversionParams,
-  SerializationClientCapabilities,
-  SerializationParams
-}
+import org.mulesoft.als.server.feature.serialization._
 import org.mulesoft.als.server.protocol.configuration.{
   AlsClientCapabilities,
   AlsInitializeParams,
@@ -26,20 +19,20 @@ import org.mulesoft.lsp.LspConversions.{
   documentLinkOptions,
   eitherCodeActionProviderOptions,
   eitherRenameOptions,
-  staticRegistrationOptions,
   textDocumentClientCapabilities,
+  textDocumentIdentifier,
   textDocumentSyncKind,
   textDocumentSyncOptions,
   traceKind,
+  workDoneProgressOptions,
   workspaceClientCapabilities,
   workspaceFolder,
   workspaceServerCapabilities
 }
-
-import scala.collection.JavaConverters._
-import org.mulesoft.lsp.LspConversions.textDocumentIdentifier
 import org.mulesoft.lsp.configuration.FormattingOptions
 
+import java.util.{List => JList}
+import scala.collection.JavaConverters._
 import scala.language.implicitConversions
 
 object LspConversions {
@@ -97,12 +90,13 @@ object LspConversions {
       AlsInitializeParams(
         Option(p.getCapabilities).map(clientCapabilities),
         Option(p.getTrace).map(traceKind),
-        Option(p.getRootUri),
-        Option(p.getProcessId),
-        Option(p.getWorkspaceFolders).map(wf => seq(wf, workspaceFolder)),
-        Option(p.getRootPath),
-        Option(p.getInitializationOptions),
-        Option(p.getAlsConfiguration)
+        locale = Option(p.getLocale),
+        rootUri = Option(p.getRootUri),
+        processId = Option(p.getProcessId),
+        workspaceFolders = Option(p.getWorkspaceFolders).map(wf => seq(wf, workspaceFolder)),
+        rootPath = Option(p.getRootPath),
+        initializationOptions = Option(p.getInitializationOptions),
+        configuration = Option(p.getConfiguration)
       )
     } getOrElse AlsInitializeParams.default
 
@@ -113,13 +107,16 @@ object LspConversions {
         Option(result.getTextDocumentSync)
           .map(either(_, textDocumentSyncKind, textDocumentSyncOptions)),
         Option(result.getCompletionProvider).map(completionOptions),
-        booleanOrFalse(result.getDefinitionProvider),
+        Option(result.getDefinitionProvider)
+          .map(either(_, booleanOrFalse, workDoneProgressOptions)),
         Option(result.getImplementationProvider)
-          .map(either(_, booleanOrFalse, staticRegistrationOptions)),
+          .map(either(_, booleanOrFalse, workDoneProgressOptions)),
         Option(result.getTypeDefinitionProvider)
-          .map(either(_, booleanOrFalse, staticRegistrationOptions)),
-        booleanOrFalse(result.getReferencesProvider),
-        booleanOrFalse(result.getDocumentSymbolProvider),
+          .map(either(_, booleanOrFalse, workDoneProgressOptions)),
+        Option(result.getReferencesProvider)
+          .map(either(_, booleanOrFalse, workDoneProgressOptions)),
+        Option(result.getDocumentSymbolProvider)
+          .map(either(_, booleanOrFalse, workDoneProgressOptions)),
         Option(result.getRenameProvider).flatMap(eitherRenameOptions),
         Option(result.getCodeActionProvider)
           .flatMap(eitherCodeActionProviderOptions),
@@ -127,8 +124,10 @@ object LspConversions {
         Option(result.getWorkspace),
         Option(result.getExperimental),
         foldingRangeProvider = Option(result.getFoldingRangeProvider).map(_.getLeft),
-        documentFormattingProvider = result.getDocumentFormattingProvider,
-        documentRangeFormattingProvider = result.getDocumentRangeFormattingProvider
+        documentFormattingProvider = Option(result.getDocumentFormattingProvider)
+          .map(either(_, booleanOrFalse, workDoneProgressOptions)),
+        documentRangeFormattingProvider = Option(result.getDocumentRangeFormattingProvider)
+          .map(either(_, booleanOrFalse, workDoneProgressOptions))
       )
 
   private def conversionClientCapabilities(
@@ -154,7 +153,8 @@ object LspConversions {
     UpdateConfigurationParams(
       Option(stringFormatMapToMimeFormatMap(v.getUpdateFormatOptionsParams.asScala.toMap)),
       Option(v.getGenericOptions).map(_.asScala.toMap).getOrElse(Map.empty),
-      templateTypeFromString(v.getTemplateType)
+      templateTypeFromString(v.getTemplateType),
+      v.shouldPrettyPrintSerialization()
     )
   }
 

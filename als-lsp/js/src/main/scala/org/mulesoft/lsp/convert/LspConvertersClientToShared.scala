@@ -78,7 +78,7 @@ import org.mulesoft.lsp.textsync.{TextDocumentSyncKind, _}
 import org.mulesoft.lsp.workspace._
 
 import scala.language.implicitConversions
-import scala.scalajs.js.JSON
+import scala.scalajs.js.{JSON, |}
 
 object LspConvertersClientToShared {
   // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
@@ -187,7 +187,7 @@ object LspConvertersClientToShared {
         v.implementation.toOption.map(_.toShared),
         v.typeDefinition.toOption.map(_.toShared),
         v.rename.toOption.map(_.toShared),
-        v.codeAction.toOption.map(_.toShared),
+        v.codeActionCapabilities.toOption.map(_.toShared),
         v.documentLink.toOption.map(_.toShared),
         v.hover.toOption.map(_.toShared),
         v.documentHighlight.toOption.map(_.toShared),
@@ -267,6 +267,11 @@ object LspConvertersClientToShared {
       TextEdit(v.range.toShared, v.newText)
   }
 
+  implicit class InsertReplaceEditConverter(v: ClientInsertReplaceEdit) {
+    def toShared: InsertReplaceEdit =
+      InsertReplaceEdit(v.newText, v.insert.toShared, v.replace.toShared)
+  }
+
   implicit class TextDocumentEditConverter(v: ClientTextDocumentEdit) {
     def toShared: TextDocumentEdit =
       TextDocumentEdit(v.textDocument.toShared, v.edits.map(_.toShared).toSeq)
@@ -275,25 +280,6 @@ object LspConvertersClientToShared {
   implicit class CompletionContextConverter(v: ClientCompletionContext) {
     def toShared: CompletionContext =
       CompletionContext(CompletionTriggerKind(v.triggerKind), v.triggerCharacter.toOption.flatMap(_.headOption))
-  }
-
-  implicit class CompletionItemConverter(v: ClientCompletionItem) {
-    def toShared: CompletionItem =
-      CompletionItem(
-        v.label,
-        v.kind.toOption.map(k => CompletionItemKind(k)),
-        v.detail.toOption,
-        v.documentation.toOption,
-        v.deprecated.toOption,
-        v.preselect.toOption,
-        v.sortText.toOption,
-        v.filterText.toOption,
-        v.insertText.toOption,
-        v.insertTextFormat.toOption.map(f => InsertTextFormat(f)),
-        v.textEdit.toOption.map(_.toShared),
-        v.additionalTextEdits.toOption.map(a => a.map(_.toShared).toSeq),
-        v.commitCharacters.toOption.map(a => a.flatMap(_.headOption).toSeq)
-      )
   }
 
   implicit class LocationConverter(v: ClientLocation) {
@@ -318,6 +304,7 @@ object LspConvertersClientToShared {
         v.message,
         v.severity.map(s => DiagnosticSeverity(s)).toOption,
         v.code.toOption,
+        v.codeDescription.toOption.map(_.href),
         v.source.toOption,
         v.relatedInformation.map(_.toShared).toSeq
       )
@@ -342,11 +329,6 @@ object LspConvertersClientToShared {
                                    v.completionItem.map(_.toShared).toOption,
                                    v.completionItemKind.map(_.toShared).toOption,
                                    v.contextSupport.toOption)
-  }
-
-  implicit class CompletionListConverter(v: ClientCompletionList) {
-    def toShared: CompletionList =
-      CompletionList(v.items.map(_.toShared).toSeq, v.isIncomplete)
   }
 
   implicit class CompletionOptionsConverter(v: ClientCompletionOptions) {
@@ -542,13 +524,19 @@ object LspConvertersClientToShared {
   }
 
   implicit class TextDocumentSyncOptionsConverter(v: ClientTextDocumentSyncOptions) {
+
+    def unionToEither(value: ClientSaveOptions | Boolean): SaveOptions = value.asInstanceOf[Any] match {
+      case value: Boolean => SaveOptions(Some(value))
+      case _              => value.asInstanceOf[ClientSaveOptions].toShared
+    }
+
     def toShared: TextDocumentSyncOptions =
       TextDocumentSyncOptions(
         v.openClose.toOption,
         v.change.toOption.map(k => TextDocumentSyncKind(k)),
         v.willSave.toOption,
         v.willSaveWaitUntil.toOption,
-        v.save.toOption.map(_.toShared)
+        v.save.toOption.map(unionToEither)
       )
   }
 
@@ -609,7 +597,7 @@ object LspConvertersClientToShared {
 
   implicit class FormattingOptionsConverter(v: ClientFormattingOptions) {
     def toShared: FormattingOptions =
-      FormattingOptions(v.tabSize, v.preferSpaces.orElse(v.insertSpaces).getOrElse(false))
+      FormattingOptions(v.tabSize, v.insertSpaces.getOrElse(false))
   }
 
   implicit class DocumentFormattingParamsConverter(v: ClientDocumentFormattingParams) {

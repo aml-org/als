@@ -12,7 +12,7 @@ import org.yaml.builder.{DocBuilder, JsonOutputBuilder}
 // Default
 case class JvmSerializationProps(override val alsClientNotifier: AlsClientNotifier[StringWriter])
     extends SerializationProps[StringWriter](alsClientNotifier) {
-  override def newDocBuilder(): DocBuilder[StringWriter] = JsonOutputBuilder()
+  override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] = JsonOutputBuilder(prettyPrint)
 
   override val requestType: RequestType[SerializationParams, SerializationResult[StringWriter]] =
     JvmSerializationRequestType

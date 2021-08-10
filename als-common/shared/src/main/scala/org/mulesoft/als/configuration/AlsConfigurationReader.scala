@@ -7,4 +7,5 @@ trait AlsConfigurationReader {
   def getFormatOptionForMime(mimeType: String): FormatOptions
   def supportsDocumentChanges: Boolean
   def getTemplateType: TemplateTypes.TemplateTypes
+  def getShouldPrettyPrintSerialization: Boolean
 }

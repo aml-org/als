@@ -28,6 +28,7 @@ case class ValidationIssue(code: String,
     Some(ValidationSeverity.toDiagnosticSeverity(`type`)),
     Some(code),
     None,
+    None,
     trace
   )
 

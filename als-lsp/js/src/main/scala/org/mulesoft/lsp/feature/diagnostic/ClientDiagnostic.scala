@@ -1,7 +1,8 @@
 package org.mulesoft.lsp.feature.diagnostic
 
-import org.mulesoft.lsp.feature.common.ClientRange
 import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
+import org.mulesoft.lsp.feature.common.ClientRange
+
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
@@ -12,6 +13,7 @@ trait ClientDiagnostic extends js.Object {
   def message: String                                                  = js.native
   def severity: js.UndefOr[Int]                                        = js.native
   def code: js.UndefOr[String]                                         = js.native
+  def codeDescription: js.UndefOr[ClientDiagnosticCodeDescription]     = js.native
   def source: js.UndefOr[String]                                       = js.native
   def relatedInformation: js.Array[ClientDiagnosticRelatedInformation] = js.native
 }
@@ -24,6 +26,7 @@ object ClientDiagnostic {
         message = internal.message,
         severity = internal.severity.map(_.id).orUndefined,
         code = internal.code.orUndefined,
+        codeDescription = internal.codeDescription.map(ClientDiagnosticCodeDescription(_)).orUndefined,
         source = internal.source.orUndefined,
         relatedInformation = internal.relatedInformation.map(_.toClient).toJSArray
       )

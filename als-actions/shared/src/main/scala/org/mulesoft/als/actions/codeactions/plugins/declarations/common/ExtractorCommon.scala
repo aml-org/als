@@ -227,7 +227,7 @@ object ExtractorCommon {
       .map(
         _.key.range.columnFrom + configuration
           .getFormatOptionForMime(mime)
-          .indentationSize)
+          .tabSize)
       .getOrElse(0)
 
   @tailrec

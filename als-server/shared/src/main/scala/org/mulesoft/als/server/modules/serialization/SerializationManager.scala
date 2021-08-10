@@ -1,9 +1,9 @@
 package org.mulesoft.als.server.modules.serialization
 
 import java.util.UUID
-
 import amf.core.model.document.{BaseUnit, Document}
 import amf.plugins.document.webapi.model.{Extension, Overlay}
+import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.als.server.feature.serialization._
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast.ResolvedUnitListener
@@ -21,7 +21,7 @@ import scala.concurrent.{Future, Promise}
 import scala.util.{Failure, Success}
 
 class SerializationManager[S](telemetryProvider: TelemetryProvider,
-                              amfConf: AmfInstance,
+                              configurationReader: AlsConfigurationReader,
                               props: SerializationProps[S],
                               override val logger: Logger)
     extends ClientNotifierModule[SerializationClientCapabilities, SerializationServerOptions]
@@ -33,8 +33,8 @@ class SerializationManager[S](telemetryProvider: TelemetryProvider,
   override val `type`: SerializationConfigType.type = SerializationConfigType
 
   private def resolveAndSerialize(resolved: BaseUnit): Future[DocBuilder[S]] = {
-    val value = props.newDocBuilder()
-    ParserHelper.toJsonLD(resolved, value).map(_ => value)
+    val builder = props.newDocBuilder(configurationReader.getShouldPrettyPrintSerialization)
+    ParserHelper.toJsonLD(resolved, builder).map(_ => builder)
   }
 
   override protected def runnable(ast: AmfResolvedUnit, uuid: String): SerializationRunnable =

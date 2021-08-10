@@ -5,7 +5,7 @@ import amf.core.metamodel.domain.{DomainElementModel, LinkableElementModel}
 import amf.core.model.domain.AmfObject
 import amf.core.parser.Range
 import amf.plugins.document.webapi.annotations.InlineDefinition
-import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, KindForResultMatcher, SymbolKind}
+import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, KindForResultMatcher, SymbolKinds}
 import org.yaml.model.YMapEntry
 
 trait AmfObjectSimpleBuilderCompanion[DM <: AmfObject]
@@ -16,7 +16,7 @@ trait AmfObjectSymbolBuilder[DM <: AmfObject] extends SymbolBuilder[DM] {
   def ignoreFields =
     List(DomainElementModel.Extends, LinkableElementModel.Target)
 
-  override protected val kind: SymbolKind.SymbolKind = KindForResultMatcher.getKind(element)
+  override protected val kind: SymbolKinds.SymbolKind = KindForResultMatcher.getKind(element)
 
   protected val range: Option[Range] =
     element.annotations

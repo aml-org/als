@@ -26,13 +26,19 @@ class LanguageServerImpl(val textDocumentSyncConsumer: AlsTextDocumentSyncConsum
     logger.debug(s"rootUri: ${params.rootUri}", "LanguageServerImpl", "initialize")
     logger.debug(s"rootPath: ${params.rootPath}", "LanguageServerImpl", "initialize")
     logger.debug(s"workspaceFolders: ${params.workspaceFolders.getOrElse(Seq())}", "LanguageServerImpl", "initialize")
-    logger.debug(s"alsConfiguration: ${params.alsConfiguration.map(_.toString).getOrElse("")}",
+    logger.debug(s"configuration: ${params.configuration.map(_.toString).getOrElse("")}",
                  "LanguageServerImpl",
                  "initialize")
     logger.debug(s"capabilities: ${params.capabilities.toString}", "LanguageServerImpl", "initialize")
 
-    params.alsConfiguration.foreach(c => {
-      updateConfiguration(UpdateConfigurationParams(Option(c.getFormatOptions)))
+    params.configuration.foreach(c => {
+      updateConfiguration(
+        UpdateConfigurationParams(
+          Option(c.getFormatOptions),
+          Map(),
+          c.getTemplateType,
+          c.getShouldPrettyPrintSerialization
+        ))
     })
     configuration.updateDocumentChangesSupport(
       params.capabilities.workspace.flatMap(_.workspaceEdit).flatMap(_.documentChanges).contains(true))

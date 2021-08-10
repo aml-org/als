@@ -80,7 +80,7 @@ object CompletionItemNode {
       from.filterText.orNull,
       from.insertText.orNull,
       from.insertTextFormat.map(_.id),
-      from.textEdit.map(t => TextEditNode.sharedToTransport(t)).orNull,
+      from.textEdit.flatMap(t => t.left.toOption).map(t => TextEditNode.sharedToTransport(t)).orNull,
       from.additionalTextEdits.map(_.map(t => TextEditNode.sharedToTransport(t))).orNull,
       from.commitCharacters.orNull,
       from.command.map(c => CompletionCommand.sharedToTransport(c)).orNull

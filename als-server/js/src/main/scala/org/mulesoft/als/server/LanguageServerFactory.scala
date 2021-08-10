@@ -77,6 +77,7 @@ object LanguageServerFactory {
         .addInitializable(builders.workspaceManager)
         .addInitializable(builders.resolutionTaskManager)
         .addInitializable(builders.configurationManager)
+        .addRequestModule(sm)
         .addRequestModule(builders.cleanDiagnosticManager)
         .addRequestModule(builders.conversionManager)
         .addRequestModule(builders.completionManager)
@@ -98,7 +99,6 @@ object LanguageServerFactory {
         .addRequestModule(builders.documentRangeFormattingManager)
         .addInitializable(builders.telemetryManager)
     dm.foreach(languageBuilder.addInitializableModule)
-    builders.serializationManager.foreach(languageBuilder.addRequestModule)
     languageBuilder.build()
   }
 
@@ -111,5 +111,6 @@ object LanguageServerFactory {
 @JSExportTopLevel("JsSerializationProps")
 case class JsSerializationProps(override val alsClientNotifier: AlsClientNotifier[js.Any])
     extends SerializationProps[js.Any](alsClientNotifier) {
-  override def newDocBuilder(): DocBuilder[js.Any] = JsOutputBuilder()
+  override def newDocBuilder(prettyPrint: Boolean): DocBuilder[js.Any] =
+    JsOutputBuilder() // TODO: JsOutputBuilder with prettyPrint
 }

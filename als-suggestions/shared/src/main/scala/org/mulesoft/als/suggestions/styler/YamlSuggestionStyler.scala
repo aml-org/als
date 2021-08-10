@@ -28,7 +28,7 @@ case class YamlSuggestionStyler(override val params: StylerParams) extends FlowS
   }
 
   def buildYamlRenderOptions: YamlRenderOptions =
-    new YamlRenderOptions().withIndentationSize(params.formattingConfiguration.indentationSize)
+    new YamlRenderOptions().withIndentationSize(params.formattingConfiguration.tabSize)
 
   def yamlRenderer: YamlPartRender = {
     if (params.yPartBranch.isInFlow) FlowYamlRender

@@ -41,7 +41,7 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
         }
       } yield {
         val resultSet = suggestions
-          .map(item => item.textEdit.map(_.newText).orElse(item.insertText).value)
+          .map(item => item.textEdit.map(_.left.get.newText).orElse(item.insertText).value)
           .toSet
         val diff1 = resultSet.diff(expectedSuggestions)
         val diff2 = expectedSuggestions.diff(resultSet)

@@ -8,7 +8,7 @@ import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.ConfigType
-import org.mulesoft.lsp.configuration.StaticRegistrationOptions
+import org.mulesoft.lsp.configuration.WorkDoneProgressOptions
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.common.{Location, LocationLink}
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
@@ -26,11 +26,11 @@ import scala.concurrent.Future
 class GoToTypeDefinitionManager(val workspace: WorkspaceManager,
                                 private val telemetryProvider: TelemetryProvider,
                                 private val logger: Logger)
-    extends RequestModule[TypeDefinitionClientCapabilities, Either[Boolean, StaticRegistrationOptions]] {
+    extends RequestModule[TypeDefinitionClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
 
   private var conf: Option[TypeDefinitionClientCapabilities] = None
 
-  override val `type`: ConfigType[TypeDefinitionClientCapabilities, Either[Boolean, StaticRegistrationOptions]] =
+  override val `type`: ConfigType[TypeDefinitionClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] =
     TypeDefinitionConfigType
 
   override val getRequestHandlers: Seq[TelemeteredRequestHandler[_, _]] = Seq(
@@ -66,7 +66,7 @@ class GoToTypeDefinitionManager(val workspace: WorkspaceManager,
   )
 
   override def applyConfig(
-      config: Option[TypeDefinitionClientCapabilities]): Either[Boolean, StaticRegistrationOptions] = {
+      config: Option[TypeDefinitionClientCapabilities]): Either[Boolean, WorkDoneProgressOptions] = {
     conf = config
     Left(true)
   }

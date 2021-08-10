@@ -26,13 +26,17 @@ trait ResolvedUnitListener extends AstListener[AmfResolvedUnit] with AccessUnits
     */
   protected def onNewAstPreprocess(resolved: AmfResolvedUnit, uuid: String): Unit
 
-  override final def onNewAst(ast: AmfResolvedUnit, uuid: String): Unit = {
-    onNewAstPreprocess(ast, uuid)
-    reconciler
-      .schedule(runnable(ast, uuid))
-      .future andThen {
-      case Success(_)         => onSuccess(uuid, ast.originalUnit.identifier)
-      case Failure(exception) => onFailure(uuid, ast.originalUnit.identifier, exception)
+  override final def onNewAst(ast: AmfResolvedUnit, uuid: String): Unit =
+    try {
+      onNewAstPreprocess(ast, uuid)
+      reconciler
+        .schedule(runnable(ast, uuid))
+        .future andThen {
+        case Success(_)         => onSuccess(uuid, ast.originalUnit.identifier)
+        case Failure(exception) => onFailure(uuid, ast.originalUnit.identifier, exception)
+      }
+    } catch {
+      case e: Exception =>
+        logger.error(e.getMessage, "ResolvedUnitListener", "onNewAst")
     }
-  }
 }

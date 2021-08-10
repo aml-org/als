@@ -1,8 +1,5 @@
 package org.mulesoft.als.server.lsp4j
 
-import java.util
-import java.util.concurrent.CompletableFuture
-
 import org.eclipse.lsp4j
 import org.eclipse.lsp4j.jsonrpc.messages
 import org.eclipse.lsp4j.{
@@ -40,7 +37,7 @@ import org.eclipse.lsp4j.{
   TypeDefinitionParams,
   WorkspaceEdit
 }
-import org.mulesoft.als.server.custom.{CustomEvents, CustomTextDocumentService}
+import org.mulesoft.als.server.custom.CustomTextDocumentService
 import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeRequestType
 import org.mulesoft.als.server.feature.fileusage.FileUsageRequestType
 import org.mulesoft.als.server.feature.renamefile.RenameFileActionRequestType
@@ -59,19 +56,21 @@ import org.mulesoft.lsp.feature.documentFormatting.DocumentFormattingRequestType
 import org.mulesoft.lsp.feature.documentRangeFormatting.DocumentRangeFormattingRequestType
 import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolRequestType
 import org.mulesoft.lsp.feature.folding.FoldingRangeRequestType
-import org.mulesoft.lsp.feature.hover.HoverRequestType
 import org.mulesoft.lsp.feature.highlight.DocumentHighlightRequestType
+import org.mulesoft.lsp.feature.hover.HoverRequestType
 import org.mulesoft.lsp.feature.implementation.ImplementationRequestType
 import org.mulesoft.lsp.feature.link.DocumentLinkRequestType
 import org.mulesoft.lsp.feature.reference.ReferenceRequestType
 import org.mulesoft.lsp.feature.rename.{PrepareRenameRequestType, RenameRequestType}
-import org.mulesoft.lsp.feature.selectionRange.{SelectionRangeParams, SelectionRangeRequestType}
+import org.mulesoft.lsp.feature.selectionRange.SelectionRangeRequestType
 import org.mulesoft.lsp.feature.typedefinition.TypeDefinitionRequestType
 import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
 
+import java.util
+import java.util.concurrent.CompletableFuture
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomTextDocumentService with CustomEvents {
+class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomTextDocumentService {
 
   private val textDocumentSyncConsumer: AlsTextDocumentSyncConsumer =
     inner.textDocumentSyncConsumer

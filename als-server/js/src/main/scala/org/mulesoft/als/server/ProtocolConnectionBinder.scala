@@ -82,20 +82,19 @@ case class ProtocolConnectionLanguageClient(connection: ProtocolConnection)
     with AlsLanguageClient[js.Any] {
   override def publishDiagnostic(params: PublishDiagnosticsParams): Unit =
     connection
-      .sendNotification[ClientPublishDiagnosticsParams, js.Any](PublishDiagnosticsNotification.`type`, params.toClient)
+      .sendNotification[ClientPublishDiagnosticsParams](PublishDiagnosticsNotification.`type`, params.toClient)
 
   override def notifyTelemetry(params: TelemetryMessage): Unit =
-    connection.sendNotification[ClientTelemetryMessage, js.Any](TelemetryEventNotification.`type`, params.toClient)
+    connection.sendNotification[ClientTelemetryMessage](TelemetryEventNotification.`type`, params.toClient)
 
   override def notifySerialization(params: SerializationResult[js.Any]): Unit =
     connection
-      .sendNotification[ClientSerializationResult, js.Any](SerializationEventNotification.`type`, params.toClient)
+      .sendNotification[ClientSerializationResult](SerializationEventNotification.`type`, params.toClient)
 
   override def notifyProjectFiles(params: FilesInProjectParams): Unit =
     connection
-      .sendNotification[ClientFilesInProjectParams, js.Any](FilesInProjectEventNotification.`type`, params.toClient)
+      .sendNotification[ClientFilesInProjectParams](FilesInProjectEventNotification.`type`, params.toClient)
 }
-
 @JSExportAll
 @JSExportTopLevel("ProtocolConnectionBinder")
 object ProtocolConnectionBinder {

@@ -48,7 +48,7 @@ object RamlTypeExtractor {
     getActualIndentation(entryAst, yPartBranch) + indentIfNecessary(amfObject, configurationReader)
 
   private def indentationSize(configurationReader: AlsConfigurationReader): Int =
-    configurationReader.getFormatOptionForMime(Mimes.`APPLICATION/YAML`).indentationSize
+    configurationReader.getFormatOptionForMime(Mimes.`APPLICATION/YAML`).tabSize
 
   /**
     * cases for inlined types

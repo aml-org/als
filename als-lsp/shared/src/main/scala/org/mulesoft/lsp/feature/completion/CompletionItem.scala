@@ -1,7 +1,7 @@
 package org.mulesoft.lsp.feature.completion
 
 import org.mulesoft.lsp.feature.command.Command
-import org.mulesoft.lsp.edit.TextEdit
+import org.mulesoft.lsp.edit.{InsertReplaceEdit, TextEdit}
 import org.mulesoft.lsp.feature.completion.CompletionItemKind.CompletionItemKind
 import org.mulesoft.lsp.feature.completion.InsertTextFormat.InsertTextFormat
 
@@ -63,7 +63,7 @@ case class CompletionItem(label: String,
                           filterText: Option[String] = None,
                           insertText: Option[String] = None,
                           insertTextFormat: Option[InsertTextFormat] = None,
-                          textEdit: Option[TextEdit] = None,
+                          textEdit: Option[Either[TextEdit, InsertReplaceEdit]] = None,
                           additionalTextEdits: Option[Seq[TextEdit]] = None,
                           commitCharacters: Option[Seq[Char]] = None,
                           command: Option[Command] = None)

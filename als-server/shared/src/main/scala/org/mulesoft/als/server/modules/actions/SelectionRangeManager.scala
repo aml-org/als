@@ -6,23 +6,22 @@ import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
+import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.lsp.ConfigType
-import org.mulesoft.lsp.configuration.StaticRegistrationOptions
+import org.mulesoft.lsp.configuration.WorkDoneProgressOptions
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.selectionRange._
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
-import org.mulesoft.amfintegration.AmfImplicits._
-import org.mulesoft.lsp.feature.common.{Position => LspPosition, Range => LspRange}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 class SelectionRangeManager(val workspace: WorkspaceManager,
                             private val telemetryProvider: TelemetryProvider,
                             private val logger: Logger)
-    extends RequestModule[SelectionRangeCapabilities, Either[Boolean, StaticRegistrationOptions]] {
+    extends RequestModule[SelectionRangeCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
 
-  override val `type`: ConfigType[SelectionRangeCapabilities, Either[Boolean, StaticRegistrationOptions]] =
+  override val `type`: ConfigType[SelectionRangeCapabilities, Either[Boolean, WorkDoneProgressOptions]] =
     SelectionRangeConfigType
 
   override def getRequestHandlers: Seq[TelemeteredRequestHandler[_, _]] =
@@ -70,6 +69,6 @@ class SelectionRangeManager(val workspace: WorkspaceManager,
 
   override def initialize(): Future[Unit] = Future.successful()
 
-  override def applyConfig(config: Option[SelectionRangeCapabilities]): Either[Boolean, StaticRegistrationOptions] =
+  override def applyConfig(config: Option[SelectionRangeCapabilities]): Either[Boolean, WorkDoneProgressOptions] =
     Left(true)
 }

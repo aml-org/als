@@ -12,7 +12,7 @@ import amf.plugins.domain.shapes.metamodel._
 import amf.plugins.domain.webapi.metamodel._
 import amf.plugins.domain.webapi.metamodel.api.WebApiModel
 import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
-import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
+import org.mulesoft.language.outline.structure.structureImpl.SymbolKinds.SymbolKind
 import org.mulesoft.language.outline.structure.structureImpl.factory.amlfactory.{
   AmlBuilderFactory,
   AmlMetaDialectBuilderFactory,
@@ -60,51 +60,51 @@ object StructureBuilder {
 object KindForResultMatcher {
 
   private val irisMap = Map(
-    ParametersFieldModel.Headers.value.iri()              -> SymbolKind.Module,
-    ParametersFieldModel.QueryParameters.value.iri()      -> SymbolKind.Module,
-    ParametersFieldModel.QueryString.value.iri()          -> SymbolKind.Module,
-    ParametersFieldModel.UriParameters.value.iri()        -> SymbolKind.Module,
-    EndPointModel.Parameters.value.iri()                  -> SymbolKind.Module,
-    OperationModel.Request.value.iri()                    -> SymbolKind.Interface,
-    OperationModel.Responses.value.iri()                  -> SymbolKind.Constructor,
-    DomainElementModel.CustomDomainProperties.value.iri() -> SymbolKind.Enum,
-    new TagsModel {}.Tags.value.iri() -> SymbolKind.Package,
-    WebApiModel.Security.value.iri() -> SymbolKind.String,
-    ServerModel.Url.value.iri()      -> SymbolKind.String,
-    WebApiModel.Version.value.iri()  -> SymbolKind.String
+    ParametersFieldModel.Headers.value.iri()              -> SymbolKinds.Module,
+    ParametersFieldModel.QueryParameters.value.iri()      -> SymbolKinds.Module,
+    ParametersFieldModel.QueryString.value.iri()          -> SymbolKinds.Module,
+    ParametersFieldModel.UriParameters.value.iri()        -> SymbolKinds.Module,
+    EndPointModel.Parameters.value.iri()                  -> SymbolKinds.Module,
+    OperationModel.Request.value.iri()                    -> SymbolKinds.Interface,
+    OperationModel.Responses.value.iri()                  -> SymbolKinds.Constructor,
+    DomainElementModel.CustomDomainProperties.value.iri() -> SymbolKinds.Enum,
+    new TagsModel {}.Tags.value.iri() -> SymbolKinds.Package,
+    WebApiModel.Security.value.iri() -> SymbolKinds.String,
+    ServerModel.Url.value.iri()      -> SymbolKinds.String,
+    WebApiModel.Version.value.iri()  -> SymbolKinds.String
   )
 
   def getKind(element: AmfElement): SymbolKind = {
     element match {
-      case _: ObjectNode => SymbolKind.Property
+      case _: ObjectNode => SymbolKinds.Property
       // not showing array/scalar (check git history to bring back if needed) - 14/07/2020
       case domainElement: DomainElement =>
         domainElement.meta match {
-          case ParameterModel | PayloadModel   => SymbolKind.Variable
-          case TagModel                        => SymbolKind.Package
-          case CreativeWorkModel               => SymbolKind.Module
-          case RequestModel                    => SymbolKind.Interface
-          case ResponseModel                   => SymbolKind.Constructor
-          case CustomDomainPropertyModel       => SymbolKind.Enum
-          case _: ShapeModel                   => SymbolKind.Class
-          case EndPointModel                   => SymbolKind.Function
-          case OperationModel | OperationModel => SymbolKind.Method
-          case PropertyShapeModel              => SymbolKind.Property
-          case ResourceTypeModel | TraitModel  => SymbolKind.Interface
-          case _                               => SymbolKind.Property
+          case ParameterModel | PayloadModel   => SymbolKinds.Variable
+          case TagModel                        => SymbolKinds.Package
+          case CreativeWorkModel               => SymbolKinds.Module
+          case RequestModel                    => SymbolKinds.Interface
+          case ResponseModel                   => SymbolKinds.Constructor
+          case CustomDomainPropertyModel       => SymbolKinds.Enum
+          case _: ShapeModel                   => SymbolKinds.Class
+          case EndPointModel                   => SymbolKinds.Function
+          case OperationModel | OperationModel => SymbolKinds.Method
+          case PropertyShapeModel              => SymbolKinds.Property
+          case ResourceTypeModel | TraitModel  => SymbolKinds.Interface
+          case _                               => SymbolKinds.Property
         }
-      case _ => SymbolKind.Property // default to class?
+      case _ => SymbolKinds.Property // default to class?
     }
   }
 
   def kindForField(f: Field): SymbolKind = irisMap.getOrElse(f.value.iri(), kindForFieldType(f))
 
   def kindForFieldType(f: Field): SymbolKind = f.`type` match {
-    case _: Scalar => SymbolKind.String
+    case _: Scalar => SymbolKinds.String
     case amf.core.metamodel.Type.Int | amf.core.metamodel.Type.Float | amf.core.metamodel.Type.Double =>
-      SymbolKind.Number
-    case amf.core.metamodel.Type.Bool => SymbolKind.Boolean
-    case _                            => SymbolKind.Property
+      SymbolKinds.Number
+    case amf.core.metamodel.Type.Bool => SymbolKinds.Boolean
+    case _                            => SymbolKinds.Property
   }
 
 }
