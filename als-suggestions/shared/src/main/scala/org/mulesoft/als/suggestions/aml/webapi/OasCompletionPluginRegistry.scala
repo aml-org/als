@@ -3,6 +3,7 @@ package org.mulesoft.als.suggestions.aml.webapi
 import amf.aml.client.scala.model.document.Dialect
 import org.mulesoft.als.suggestions.AMLBaseCompletionPlugins
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.webapi.extensions.OasLikeSemanticExtensionsFlavour
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas._
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas20.structure.{ResolveParameterEndpoint, ResolveRequest}
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas20.{
@@ -41,7 +42,8 @@ trait OasBaseCompletionRegistry extends WebApiCompletionPluginRegistry {
     OasNumberShapeFormatValues :+
     QueryParamNamesFromPath :+
     WebApiKnownValueCompletionPlugin :+
-    ResponsesDeclarationCodes
+    ResponsesDeclarationCodes :+
+    OasLikeSemanticExtensionsFlavour
 }
 
 object Oas20CompletionPluginRegistry extends OasBaseCompletionRegistry {
@@ -60,7 +62,8 @@ object Oas20CompletionPluginRegistry extends OasBaseCompletionRegistry {
         ResolveDefault
       )) :+
     OaslikeSecurityScopesCompletionPlugin :+
-    Oas20TypeFacetsCompletionPlugin
+    Oas20TypeFacetsCompletionPlugin :+
+    OasLikeSemanticExtensionsFlavour
 
   override def plugins: Seq[AMLCompletionPlugin] = all
 

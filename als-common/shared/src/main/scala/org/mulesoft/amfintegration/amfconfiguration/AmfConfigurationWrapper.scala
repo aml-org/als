@@ -93,11 +93,10 @@ class AmfConfigurationWrapper private[amfintegration] (private val initialConfig
       )
     }
 
-  def report(baseUnit: BaseUnit): Future[AMFValidationReport] = {
+  def report(baseUnit: BaseUnit): Future[AMFValidationReport] =
     configForUnit(baseUnit).baseUnitClient().validate(baseUnit.cloneUnit())
-  }
 
-  def configForUnit(unit: BaseUnit, spec: Spec): AMFGraphConfiguration = {
+  def configForUnit(unit: BaseUnit, spec: Spec): AMFGraphConfiguration =
     spec match {
       case Spec.RAML10  => RAMLConfiguration.RAML10()
       case Spec.RAML08  => RAMLConfiguration.RAML08()
@@ -109,9 +108,8 @@ class AmfConfigurationWrapper private[amfintegration] (private val initialConfig
       case Spec.AML => AMLConfiguration.predefined()
       case _        => AMFGraphConfiguration.predefined()
     }
-  }
 
-  def configForSpec(spec: Spec): AMLConfiguration = {
+  def configForSpec(spec: Spec): AMLConfiguration =
     spec match {
       case Spec.RAML10  => RAMLConfiguration.RAML10()
       case Spec.RAML08  => RAMLConfiguration.RAML08()
@@ -126,9 +124,8 @@ class AmfConfigurationWrapper private[amfintegration] (private val initialConfig
           .getOrElse(AMLConfiguration.predefined())
       case _ => AMLConfiguration.predefined()
     }
-  }
 
-  def configForDialect(d: Dialect): AMLConfiguration = {
+  def configForDialect(d: Dialect): AMLConfiguration =
     ProfileMatcher.spec(d) match {
       case Some(Spec.RAML10)  => RAMLConfiguration.RAML10()
       case Some(Spec.RAML08)  => RAMLConfiguration.RAML08()
@@ -140,11 +137,9 @@ class AmfConfigurationWrapper private[amfintegration] (private val initialConfig
         APIConfiguration.API()
       case _ => AMLConfiguration.predefined().withDialect(d)
     }
-  }
 
-  def configForUnit(unit: BaseUnit): AMFGraphConfiguration = {
+  def configForUnit(unit: BaseUnit): AMFGraphConfiguration =
     configForUnit(unit, unit.sourceSpec.getOrElse(Spec.AML))
-  }
 
   def resolve(baseUnit: BaseUnit): AMFResult =
     configForUnit(baseUnit).baseUnitClient().transform(baseUnit.cloneUnit(), PipelineId.Cache)
