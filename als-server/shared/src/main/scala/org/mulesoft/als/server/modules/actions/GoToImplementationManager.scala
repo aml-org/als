@@ -8,7 +8,7 @@ import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.amfintegration.relationships.LinkTypes
 import org.mulesoft.lsp.ConfigType
-import org.mulesoft.lsp.configuration.StaticRegistrationOptions
+import org.mulesoft.lsp.configuration.WorkDoneProgressOptions
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.common.{Location, LocationLink}
 import org.mulesoft.lsp.feature.implementation.{
@@ -26,11 +26,11 @@ import scala.concurrent.Future
 class GoToImplementationManager(val workspace: WorkspaceManager,
                                 private val telemetryProvider: TelemetryProvider,
                                 private val logger: Logger)
-    extends RequestModule[ImplementationClientCapabilities, Either[Boolean, StaticRegistrationOptions]] {
+    extends RequestModule[ImplementationClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
 
   private var conf: Option[ImplementationClientCapabilities] = None
 
-  override val `type`: ConfigType[ImplementationClientCapabilities, Either[Boolean, StaticRegistrationOptions]] =
+  override val `type`: ConfigType[ImplementationClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] =
     ImplementationConfigType
 
   override val getRequestHandlers: Seq[TelemeteredRequestHandler[_, _]] = Seq(
@@ -62,7 +62,7 @@ class GoToImplementationManager(val workspace: WorkspaceManager,
   )
 
   override def applyConfig(
-      config: Option[ImplementationClientCapabilities]): Either[Boolean, StaticRegistrationOptions] = {
+      config: Option[ImplementationClientCapabilities]): Either[Boolean, WorkDoneProgressOptions] = {
     conf = config
     Left(true)
   }

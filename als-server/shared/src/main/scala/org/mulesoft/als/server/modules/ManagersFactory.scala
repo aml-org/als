@@ -35,6 +35,8 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Log
   private var directoryResolver: DirectoryResolver =
     new PlatformDirectoryResolver(platform)
 
+  val configurationManager: ConfigurationManager = new ConfigurationManager()
+
   def withAmfConfiguration(amfConfig: AmfInstance): WorkspaceManagerFactoryBuilder = {
     this.amfConfig = amfConfig
     this
@@ -62,7 +64,7 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Log
     new TelemetryManager(clientNotifier, logger)
 
   def serializationManager[S](sp: SerializationProps[S]): SerializationManager[S] = {
-    val s = new SerializationManager(telemetryManager, amfConfig, sp, logger)
+    val s = new SerializationManager(telemetryManager, configurationManager.getConfiguration, sp, logger)
     resolutionDependencies += s
     s
   }
@@ -90,7 +92,8 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Log
                             platform,
                             directoryResolver,
                             logger,
-                            amfConfig)
+                            amfConfig,
+                            configurationManager)
 }
 
 case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
@@ -100,7 +103,8 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
                                    platform: Platform,
                                    directoryResolver: DirectoryResolver,
                                    logger: Logger,
-                                   amfConfiguration: AmfInstance) {
+                                   amfConfiguration: AmfInstance,
+                                   configurationManager: ConfigurationManager) {
   val container: TextDocumentContainer =
     TextDocumentContainer(environment, platform, amfConfiguration)
 
@@ -130,9 +134,6 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
       },
       logger
     )
-
-  val configurationManager: ConfigurationManager =
-    new ConfigurationManager()
 
   lazy val documentManager =
     new TextDocumentManager(container, List(workspaceManager), logger)

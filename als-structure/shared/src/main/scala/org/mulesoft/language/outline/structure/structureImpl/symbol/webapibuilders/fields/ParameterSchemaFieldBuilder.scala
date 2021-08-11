@@ -17,10 +17,10 @@ import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, St
 class ParameterSchemaFieldBuilder(override val value: AmfObject, override val element: FieldEntry)(
     override implicit val ctx: StructureContext)
     extends ObjectFieldTypeSymbolBuilder {
-
+  private val innerCtx = ctx // prevents warning of recursive call in `inner`
   private val inner = new AmfObjectSymbolBuilder[AmfObject] {
     override val element: AmfObject             = value
-    override implicit val ctx: StructureContext = ctx
+    override implicit val ctx: StructureContext = innerCtx
 
     override protected val optionName: Option[String] = None
   }

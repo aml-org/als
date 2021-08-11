@@ -26,7 +26,7 @@ import org.yaml.render.{YamlRender, YamlRenderOptions}
 trait DialectActionsHelper extends CreatesFileCodeAction {
 
   val formattingOptions: FormatOptions = params.configuration.getFormatOptionForMime(Mimes.`APPLICATION/YAML`)
-  val renderOptions: YamlRenderOptions = YamlRenderOptions(formattingOptions.indentationSize, applyFormatting = true)
+  val renderOptions: YamlRenderOptions = YamlRenderOptions(formattingOptions.tabSize, applyFormatting = true)
 
   protected def collectNodeMappings(dialect: Dialect, condition: NodeMapping => Boolean): Seq[NodeMapping] =
     dialect.declares.collect({

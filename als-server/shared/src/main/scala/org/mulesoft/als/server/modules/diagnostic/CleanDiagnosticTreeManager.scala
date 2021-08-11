@@ -66,7 +66,7 @@ class CleanDiagnosticTreeManager(telemetryProvider: TelemetryProvider,
     val helper     = environmentProvider.amfConfiguration.modelBuilder()
     val refinedUri = uri.toAmfDecodedUri(environmentProvider.platform)
     helper
-      .parse(refinedUri, environmentProvider.environmentSnapshot())
+      .parse(refinedUri, environmentProvider.environmentSnapshot(), None)
       .flatMap(pr => {
         logger.debug(s"about to report: $uri", "RequestAMFFullValidationCommandExecutor", "runCommand")
         val resolved = helper.fullResolution(pr.baseUnit, pr.eh)

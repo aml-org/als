@@ -19,7 +19,7 @@ object WebApiExtensionsPropertyCompletionPlugin extends AMLCompletionPlugin {
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     request.baseUnit match {
-      case e: ExtensionLike[WebApi]
+      case e: ExtensionLike[_]
           if request.amfObject
             .isInstanceOf[WebApi] && request.fieldEntry.isEmpty =>
         suggestOverExtends(e,

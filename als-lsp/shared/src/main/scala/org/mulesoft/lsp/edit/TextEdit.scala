@@ -2,8 +2,6 @@ package org.mulesoft.lsp.edit
 
 import org.mulesoft.lsp.feature.common.Range
 
-import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
-
 /**
   * A textual edit applicable to a text document.
   *
@@ -12,5 +10,4 @@ import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
   * @param newText The string to be inserted. For delete operations use an
   *                empty string.
   */
-
 case class TextEdit(range: Range, newText: String)

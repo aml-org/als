@@ -1,8 +1,5 @@
 package org.mulesoft.als.server.modules.structure
 
-import java.util.UUID
-
-import amf.core.model.document.BaseUnit
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.common.LspConverter
@@ -10,27 +7,33 @@ import org.mulesoft.als.server.modules.workspace.CompilableUnit
 import org.mulesoft.als.server.workspace.UnitAccessor
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureBuilder}
 import org.mulesoft.lsp.ConfigType
+import org.mulesoft.lsp.configuration.WorkDoneProgressOptions
 import org.mulesoft.lsp.feature.documentsymbol._
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
-import org.mulesoft.lsp.feature.{RequestHandler, TelemeteredRequestHandler, documentsymbol}
+import org.mulesoft.lsp.feature.{TelemeteredRequestHandler, documentsymbol}
 
+import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class StructureManager(val unitAccesor: UnitAccessor[CompilableUnit],
                        private val telemetryProvider: TelemetryProvider,
                        private val logger: Logger)
-    extends RequestModule[DocumentSymbolClientCapabilities, Unit] {
+    extends RequestModule[DocumentSymbolClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
 
-  override val `type`: ConfigType[DocumentSymbolClientCapabilities, Unit] =
+  override val `type`: ConfigType[DocumentSymbolClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] =
     DocumentSymbolConfigType
 
-  override def applyConfig(config: Option[DocumentSymbolClientCapabilities]): Unit = {
+  override def applyConfig(
+      config: Option[DocumentSymbolClientCapabilities]): Either[Boolean, WorkDoneProgressOptions] = {
     // todo: use DocumentSymbolClientCapabilities <- SymbolKindClientCapabilities to avoid sending unsupported symbols
+    Left(true)
   }
 
-  override def getRequestHandlers: Seq[TelemeteredRequestHandler[_, _]] = Seq(
+  override def getRequestHandlers
+    : Seq[TelemeteredRequestHandler[DocumentSymbolParams,
+                                    Either[Seq[SymbolInformation], Seq[documentsymbol.DocumentSymbol]]]] = Seq(
     new TelemeteredRequestHandler[DocumentSymbolParams,
                                   Either[Seq[SymbolInformation], Seq[documentsymbol.DocumentSymbol]]] {
       override def `type`: DocumentSymbolRequestType.type =

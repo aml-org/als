@@ -1,9 +1,9 @@
 package org.mulesoft.als.server.modules.workspace.resolution
 
 import java.util.UUID
-
 import amf.core.model.document.BaseUnit
 import amf.plugins.document.webapi.model.{Extension, Overlay}
+import org.mulesoft.als.configuration.WorkspaceConfiguration
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.workspace.{ProcessingFile, Repository, ResolverStagingArea, StagingArea}
@@ -46,7 +46,7 @@ class ResolutionTaskManager(telemetryProvider: TelemetryProvider,
     changeState(ProcessingFile)
 
     val resolvedInstance =
-      AmfResolvedUnitImpl(params.parseResult.baseUnit, params.diagnosticsBundle)
+      AmfResolvedUnitImpl(params.parseResult.baseUnit, params.diagnosticsBundle, params.workspaceConfiguration)
 
     if (isInMainTree(uri)) {
       params.parseResult.tree.foreach { u =>
@@ -57,7 +57,13 @@ class ResolutionTaskManager(telemetryProvider: TelemetryProvider,
     }
     logger.debug(s"Updating $uri unit", "ResolutionTaskManager", "processTask")
     repository.updateUnit(uri, resolvedInstance)
-    subscribers.foreach(_.onNewAst(resolvedInstance, uuid))
+    subscribers.foreach(s =>
+      try {
+        s.onNewAst(resolvedInstance, uuid)
+      } catch {
+        case e: Exception =>
+          logger.error(s"subscriber $s threw ${e.getMessage}", "processTask", "ResolutionTaskManager")
+    })
   }
 
   override protected def toResult(uri: String, unit: AmfResolvedUnit): AmfResolvedUnit = unit
@@ -105,7 +111,8 @@ class ResolutionTaskManager(telemetryProvider: TelemetryProvider,
   }
 
   case class AmfResolvedUnitImpl(override val originalUnit: BaseUnit,
-                                 override val diagnosticsBundle: Map[String, DiagnosticsBundle])
+                                 override val diagnosticsBundle: Map[String, DiagnosticsBundle],
+                                 override val workspaceConfiguration: Option[WorkspaceConfiguration])
       extends AmfResolvedUnit {
     private val uri: String = originalUnit.identifier
 

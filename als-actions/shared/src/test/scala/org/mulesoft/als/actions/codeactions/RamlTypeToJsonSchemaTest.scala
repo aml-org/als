@@ -4,7 +4,7 @@ import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionFactory
 import org.mulesoft.als.actions.codeactions.plugins.conversions.RamlTypeToJsonSchema
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 
-class RamlTypeToJsonSchema extends BaseCodeActionTests {
+class RamlTypeToJsonSchemaTest extends BaseCodeActionTests {
   behavior of "Raml Type conversion to Json schema"
 
   it should "extract declared raml type" in {

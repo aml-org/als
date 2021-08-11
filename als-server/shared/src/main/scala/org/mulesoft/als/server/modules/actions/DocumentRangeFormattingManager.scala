@@ -8,6 +8,7 @@ import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.ConfigType
+import org.mulesoft.lsp.configuration.WorkDoneProgressOptions
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.common.Range
@@ -28,7 +29,7 @@ import scala.concurrent.Future
 class DocumentRangeFormattingManager(val workspace: WorkspaceManager,
                                      private val telemetryProvider: TelemetryProvider,
                                      private val logger: Logger)
-    extends RequestModule[DocumentRangeFormattingClientCapabilities, Boolean]
+    extends RequestModule[DocumentRangeFormattingClientCapabilities, Either[Boolean, WorkDoneProgressOptions]]
     with FormattingManager {
 
   private var active = false
@@ -61,7 +62,8 @@ class DocumentRangeFormattingManager(val workspace: WorkspaceManager,
       override protected val empty: Option[Seq[TextEdit]] = Some(Seq())
     })
 
-  override val `type`: ConfigType[DocumentRangeFormattingClientCapabilities, Boolean] =
+  override val `type`
+    : ConfigType[DocumentRangeFormattingClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] =
     DocumentRangeFormattingConfigType
 
   def onDocumentRangeFormatting(params: DocumentRangeFormattingParams): Future[Seq[TextEdit]] = {
@@ -97,9 +99,10 @@ class DocumentRangeFormattingManager(val workspace: WorkspaceManager,
                                            isJson))
   }
 
-  override def applyConfig(config: Option[DocumentRangeFormattingClientCapabilities]): Boolean = {
+  override def applyConfig(
+      config: Option[DocumentRangeFormattingClientCapabilities]): Either[Boolean, WorkDoneProgressOptions] = {
     active = config.isDefined
-    active
+    Left(active)
   }
 
   override def initialize(): Future[Unit] = Future.successful()

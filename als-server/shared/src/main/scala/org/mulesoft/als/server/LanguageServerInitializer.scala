@@ -51,11 +51,11 @@ class LanguageServerInitializer(private val configMap: ConfigMap, private val in
     AlsServerCapabilities(
       applyConfig(TextDocumentSyncConfigType, textDocument.flatMap(_.synchronization)),
       applyConfig(CompletionConfigType, textDocument.flatMap(_.completion)),
-      applyConfig(DefinitionConfigType, textDocument.flatMap(_.definition)).isDefined,
+      applyConfig(DefinitionConfigType, textDocument.flatMap(_.definition)),
       applyConfig(ImplementationConfigType, textDocument.flatMap(_.implementation)),
       applyConfig(TypeDefinitionConfigType, textDocument.flatMap(_.typeDefinition)),
-      applyConfig(ReferenceConfigType, textDocument.flatMap(_.references)).isDefined,
-      applyConfig(DocumentSymbolConfigType, textDocument.flatMap(_.documentSymbol)).isDefined,
+      applyConfig(ReferenceConfigType, textDocument.flatMap(_.references)),
+      applyConfig(DocumentSymbolConfigType, textDocument.flatMap(_.documentSymbol)),
       applyConfig(RenameConfigType, textDocument.flatMap(_.rename)),
       applyConfig(CodeActionConfigType, textDocument.flatMap(_.codeActionCapabilities)),
       applyConfig(DocumentLinkConfigType, textDocument.flatMap(_.documentLink)),
@@ -71,8 +71,8 @@ class LanguageServerInitializer(private val configMap: ConfigMap, private val in
       applyConfig(SelectionRangeConfigType, textDocument.flatMap(_.selectionRange)),
       applyConfig(RenameFileConfigType, None), // todo: check client support?
       configOptions,
-      applyConfig(DocumentFormattingConfigType, textDocument.flatMap(_.documentFormatting)).isDefined,
-      applyConfig(DocumentRangeFormattingConfigType, textDocument.flatMap(_.documentRangeFormatting)).isDefined
+      applyConfig(DocumentFormattingConfigType, textDocument.flatMap(_.documentFormatting)),
+      applyConfig(DocumentRangeFormattingConfigType, textDocument.flatMap(_.documentRangeFormatting))
     )
   }
 

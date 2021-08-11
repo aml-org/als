@@ -54,7 +54,7 @@ trait ProtocolConnection extends js.Object {
     * @param token An optional cancellation token.
     * @returns A promise resolving to the request's result.
     */
-  def sendRequest[R, E, RO](`type`: RequestType0[R, E, RO], token: CancellationToken): Thenable[R]
+  def sendRequest[R, E](`type`: RequestType0[R, E], token: CancellationToken): Thenable[R]
 
   /**
     * Sends a request and returns a promise resolving to the result of the request.
@@ -64,7 +64,7 @@ trait ProtocolConnection extends js.Object {
     * @param token  An optional cancellation token.
     * @returns A promise resolving to the request's result.
     */
-  def sendRequest[P, R, E, RO](`type`: RequestType[P, R, E, RO], params: P, token: CancellationToken): Thenable[R]
+  def sendRequest[P, R, E](`type`: RequestType[P, R, E], params: P, token: CancellationToken): Thenable[R]
 
   /**
     * Sends a request and returns a promise resolving to the result of the request.
@@ -91,7 +91,7 @@ trait ProtocolConnection extends js.Object {
     * @param type    The request type to install the handler for.
     * @param handler The actual handler.
     */
-  def onRequest[R, E, RO](`type`: RequestType0[R, E, RO], handler: RequestHandler0[R, E]): Unit
+  def onRequest[R, E](`type`: RequestType0[R, E], handler: RequestHandler0[R, E]): Unit
 
   /**
     * Installs a request handler.
@@ -99,7 +99,7 @@ trait ProtocolConnection extends js.Object {
     * @param type    The request type to install the handler for.
     * @param handler The actual handler.
     */
-  def onRequest[P, R, E, RO](`type`: RequestType[P, R, E, RO], handler: RequestHandler[P, R, E]): Unit
+  def onRequest[P, R, E](`type`: RequestType[P, R, E], handler: RequestHandler[P, R, E]): Unit
 
   /**
     * Installs a request handler.
@@ -122,7 +122,7 @@ trait ProtocolConnection extends js.Object {
     * @param type   the notification's type to send.
     * @param params the notification's parameters.
     */
-  def sendNotification[P, RO](`type`: NotificationType[P, RO], params: P): Unit
+  def sendNotification[P](`type`: NotificationType[P], params: P): Unit
 
   /**
     * Sends a notification.
@@ -145,7 +145,7 @@ trait ProtocolConnection extends js.Object {
     * @param type    The notification type to install the handler for.
     * @param handler The actual handler.
     */
-  def onNotification[RO](`type`: NotificationType0[RO], handler: NotificationHandler0): Unit
+  def onNotification(`type`: NotificationType0, handler: NotificationHandler0): Unit
 
   /**
     * Installs a notification handler.
@@ -153,7 +153,7 @@ trait ProtocolConnection extends js.Object {
     * @param type    The notification type to install the handler for.
     * @param handler The actual handler.
     */
-  def onNotification[P, RO](`type`: NotificationType[P, RO], handler: NotificationHandler[P]): Unit
+  def onNotification[P](`type`: NotificationType[P], handler: NotificationHandler[P]): Unit
 
   /**
     * Installs a notification handler.
@@ -206,51 +206,50 @@ trait ProtocolConnection extends js.Object {
 @js.native
 @JSImport("vscode-languageserver-protocol", "DidChangeTextDocumentNotification")
 object DidChangeTextDocumentNotification extends js.Object {
-  val `type`: NotificationType[ClientDidChangeTextDocumentParams, js.Any] = js.native
+  val `type`: NotificationType[ClientDidChangeTextDocumentParams] = js.native
 }
 
 @js.native
 @JSImport("vscode-languageserver-protocol", "DidOpenTextDocumentNotification")
 object DidOpenTextDocumentNotification extends js.Object {
-  val `type`: NotificationType[ClientDidOpenTextDocumentParams, js.Any] = js.native
+  val `type`: NotificationType[ClientDidOpenTextDocumentParams] = js.native
 }
 
 @js.native
 @JSImport("vscode-languageserver-protocol", "DidCloseTextDocumentNotification")
 object DidCloseTextDocumentNotification extends js.Object {
-  val `type`: NotificationType[ClientDidCloseTextDocumentParams, js.Any] = js.native
+  val `type`: NotificationType[ClientDidCloseTextDocumentParams] = js.native
 }
 
 @js.native
 @JSImport("vscode-languageserver-protocol", "InitializedNotification")
 object InitializedNotification extends js.Object {
-  val `type`: NotificationType[js.Any, js.Any] = js.native
+  val `type`: NotificationType[js.Any] = js.native
 }
 
 @js.native
 @JSImport("vscode-languageserver-protocol", "ExitNotification")
 object ExitNotification extends js.Object {
-  val `type`: NotificationType0[js.Any] = js.native
+  val `type`: NotificationType0 = js.native
 }
 
 @js.native
 @JSImport("vscode-languageserver-protocol", "PublishDiagnosticsNotification")
 object PublishDiagnosticsNotification extends js.Object {
-  val `type`: NotificationType[ClientPublishDiagnosticsParams, js.Any] = js.native
+  val `type`: NotificationType[ClientPublishDiagnosticsParams] = js.native
 }
 
 @js.native
 @JSImport("vscode-languageserver-protocol", "TelemetryEventNotification")
 object TelemetryEventNotification extends js.Object {
-  val `type`: NotificationType[ClientTelemetryMessage, js.Any] = js.native
+  val `type`: NotificationType[ClientTelemetryMessage] = js.native
 }
 
 /** Requests */
 @js.native
 @JSImport("vscode-languageserver-protocol", "CompletionRequest")
 object CompletionRequest extends js.Object {
-  val `type`
-    : RequestType[ClientCompletionParams, ClientCompletionList | js.Array[ClientCompletionItem], js.Any, js.Any] =
+  val `type`: RequestType[ClientCompletionParams, ClientCompletionList | js.Array[ClientCompletionItem], js.Any] =
     js.native
 }
 
@@ -259,20 +258,19 @@ object CompletionRequest extends js.Object {
 object DocumentSymbolRequest extends js.Object {
   val `type`: RequestType[ClientDocumentSymbolParams,
                           js.Array[ClientDocumentSymbol] | js.Array[ClientSymbolInformation],
-                          js.Any,
                           js.Any] = js.native
 }
 
 @js.native
 @JSImport("vscode-languageserver-protocol", "DocumentLinkRequest")
 object DocumentLinkRequest extends js.Object {
-  val `type`: RequestType[ClientDocumentLinkParams, js.Array[ClientDocumentLink], js.Any, js.Any] = js.native
+  val `type`: RequestType[ClientDocumentLinkParams, js.Array[ClientDocumentLink], js.Any] = js.native
 }
 
 @js.native
 @JSImport("vscode-languageserver-protocol", "DocumentHighlightRequest")
 object DocumentHighlightRequest extends js.Object {
-  val `type`: RequestType[ClientDocumentHighlightParams, js.Array[ClientDocumentHighlight], js.Any, js.Any] = js.native
+  val `type`: RequestType[ClientDocumentHighlightParams, js.Array[ClientDocumentHighlight], js.Any] = js.native
 }
 
 @js.native
@@ -280,7 +278,6 @@ object DocumentHighlightRequest extends js.Object {
 object DefinitionRequest extends js.Object {
   val `type`: RequestType[ClientDefinitionParams,
                           ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
-                          js.Any,
                           js.Any] = js.native
 }
 
@@ -289,7 +286,6 @@ object DefinitionRequest extends js.Object {
 object ImplementationRequest extends js.Object {
   val `type`: RequestType[ClientImplementationParams,
                           ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
-                          js.Any,
                           js.Any] = js.native
 }
 
@@ -298,81 +294,79 @@ object ImplementationRequest extends js.Object {
 object TypeDefinitionRequest extends js.Object {
   val `type`: RequestType[ClientTypeDefinitionParams,
                           ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
-                          js.Any,
                           js.Any] = js.native
 }
 
 @js.native
 @JSImport("vscode-languageserver-protocol", "ReferencesRequest")
 object ReferencesRequest extends js.Object {
-  val `type`: RequestType[ClientReferenceParams, js.Array[ClientLocation], js.Any, js.Any] = js.native
+  val `type`: RequestType[ClientReferenceParams, js.Array[ClientLocation], js.Any] = js.native
 }
 
 @js.native
 @JSImport("vscode-languageserver-protocol", "HoverRequest")
 object HoverRequest extends js.Object {
-  val `type`: RequestType[ClientHoverParams, ClientHover, js.Any, js.Any] = js.native
+  val `type`: RequestType[ClientHoverParams, ClientHover, js.Any] = js.native
 }
 
 @js.native
 @JSImport("vscode-languageserver-protocol", "FoldingRangeRequest")
 object FoldingRangeRequest extends js.Object {
-  val `type`: RequestType[ClientFoldingRangeParams, ClientFoldingRange, js.Any, js.Any] = js.native
+  val `type`: RequestType[ClientFoldingRangeParams, ClientFoldingRange, js.Any] = js.native
 }
 
 @js.native
 @JSImport("vscode-languageserver-protocol", "SelectionRangeRequest")
 object SelectionRangeRequest extends js.Object {
-  val `type`: RequestType[ClientSelectionRangeParams, js.Array[ClientSelectionRange], js.Any, js.Any] = js.native
+  val `type`: RequestType[ClientSelectionRangeParams, js.Array[ClientSelectionRange], js.Any] = js.native
 }
 
 @js.native
 @JSImport("vscode-languageserver-protocol", "RenameRequest")
 object RenameRequest extends js.Object {
-  val `type`: RequestType[ClientRenameParams, ClientWorkspaceEdit, js.Any, js.Any] = js.native
+  val `type`: RequestType[ClientRenameParams, ClientWorkspaceEdit, js.Any] = js.native
 }
 
 @js.native
 @JSImport("vscode-languageserver-protocol", "PrepareRenameRequest")
 object PrepareRenameRequest extends js.Object {
-  val `type`: RequestType[ClientPrepareRenameParams, ClientRange | ClientPrepareRenameResult, js.Any, js.Any] =
+  val `type`: RequestType[ClientPrepareRenameParams, ClientRange | ClientPrepareRenameResult, js.Any] =
     js.native
 }
 
 @js.native
 @JSImport("vscode-languageserver-protocol", "CodeActionRequest")
 object CodeActionRequest extends js.Object {
-  val `type`
-    : RequestType[ClientCodeActionParams, js.Array[ClientCommand] | js.Array[ClientCodeAction], js.Any, js.Any] =
+  val `type`: RequestType[ClientCodeActionParams, js.Array[ClientCommand] | js.Array[ClientCodeAction], js.Any] =
     js.native
 }
 
 @js.native
 @JSImport("vscode-languageserver-protocol", "ExecuteCommandRequest")
 object ExecuteCommandRequest extends js.Object {
-  val `type`: RequestType[ClientExecuteCommandParams, js.Any, js.Any, js.Any] = js.native
+  val `type`: RequestType[ClientExecuteCommandParams, js.Any, js.Any] = js.native
 }
 
 @js.native
 @JSImport("vscode-languageserver-protocol", "InitializeRequest")
 object InitializeRequest extends js.Object {
-  val `type`: RequestType[ClientAlsInitializeParams, ClientAlsInitializeResult, js.Any, js.Any] = js.native
+  val `type`: RequestType[ClientAlsInitializeParams, ClientAlsInitializeResult, js.Any] = js.native
 }
 
 @js.native
 @JSImport("vscode-languageserver-protocol", "ShutdownRequest")
 object ShutdownRequest extends js.Object {
-  val `type`: RequestType0[js.Any, js.Any, js.Any] = js.native
+  val `type`: RequestType0[js.Any, js.Any] = js.native
 }
 
 @js.native
 @JSImport("vscode-languageserver-protocol", "DocumentFormattingRequest")
 object DocumentFormattingRequest extends js.Object {
-  val `type`: RequestType[ClientDocumentFormattingParams, js.Array[ClientTextEdit], js.Any, js.Any] = js.native
+  val `type`: RequestType[ClientDocumentFormattingParams, js.Array[ClientTextEdit], js.Any] = js.native
 }
 
 @js.native
 @JSImport("vscode-languageserver-protocol", "DocumentRangeFormattingRequest")
 object DocumentRangeFormattingRequest extends js.Object {
-  val `type`: RequestType[ClientDocumentRangeFormattingParams, js.Array[ClientTextEdit], js.Any, js.Any] = js.native
+  val `type`: RequestType[ClientDocumentRangeFormattingParams, js.Array[ClientTextEdit], js.Any] = js.native
 }

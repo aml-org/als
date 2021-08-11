@@ -2,17 +2,11 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilder
 
 import amf.core.metamodel.document.BaseUnitModel
 import amf.core.model.document.BaseUnit
-import org.mulesoft.als.common.dtoTypes.PositionRange
+import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSimpleBuilderCompanion,
   AmfObjectSymbolBuilder,
   SymbolBuilder
-}
-import org.mulesoft.language.outline.structure.structureImpl.{
-  BuilderFactory,
-  DocumentSymbol,
-  StructureContext,
-  SymbolKind
 }
 
 object BaseUnitSymbolBuilderCompanion extends AmfObjectSimpleBuilderCompanion[BaseUnit] {

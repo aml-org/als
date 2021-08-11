@@ -33,6 +33,7 @@ import org.mulesoft.lsp.configuration.TraceKind.TraceKind
   */
 class InitializeParams private (val capabilities: ClientCapabilities,
                                 val trace: TraceKind,
+                                val locale: Option[String] = None,
                                 val rootUri: Option[String] = None,
                                 val processId: Option[Int] = None,
                                 val workspaceFolders: Option[Seq[WorkspaceFolder]] = None,

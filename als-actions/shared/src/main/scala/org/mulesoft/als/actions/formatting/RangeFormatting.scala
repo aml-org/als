@@ -44,11 +44,11 @@ case class RangeFormatting(parentYPart: YPart,
 
     val s: String = if (isJson) {
       val renderOptions: JsonRenderOptions =
-        JsonRenderOptions(formattingOptions.indentationSize, formattingOptions.insertSpaces, applyFormatting = true)
+        JsonRenderOptions(formattingOptions.tabSize, formattingOptions.insertSpaces, applyFormatting = true)
       JsonRender.render(renderPart, initialIndentation, renderOptions)
     } else {
       val renderOptions: YamlRenderOptions =
-        YamlRenderOptions(formattingOptions.indentationSize, applyFormatting = true)
+        YamlRenderOptions(formattingOptions.tabSize, applyFormatting = true)
       YamlRender
         .render(Seq(renderPart), expandReferences = false, renderOptions, initialIndentation)
         .dropWhile(_ == ' ')

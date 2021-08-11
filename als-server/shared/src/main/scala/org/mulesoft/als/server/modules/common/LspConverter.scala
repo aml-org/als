@@ -1,8 +1,8 @@
 package org.mulesoft.als.server.modules.common
 
-import org.mulesoft.language.outline.structure.structureImpl.DocumentSymbol
-import org.mulesoft.language.outline.structure.structureImpl.SymbolKind.SymbolKind
 import org.mulesoft.als.convert.LspRangeConverter
+import org.mulesoft.language.outline.structure.structureImpl.DocumentSymbol
+import org.mulesoft.language.outline.structure.structureImpl.SymbolKinds.SymbolKind
 import org.mulesoft.lsp.feature.documentsymbol
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbol => LspDocumentSymbol, SymbolKind => LspSymbolKind}
 

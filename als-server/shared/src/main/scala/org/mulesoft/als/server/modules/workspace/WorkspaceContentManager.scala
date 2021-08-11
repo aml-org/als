@@ -13,7 +13,7 @@ import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.UnitTaskManager
 import org.mulesoft.als.server.workspace.extract.{
   DefaultWorkspaceConfigurationProvider,
-  WorkspaceConf,
+  WorkspaceConfig,
   WorkspaceConfigurationProvider,
   WorkspaceRootHandler
 }
@@ -43,6 +43,7 @@ class WorkspaceContentManager(val folderUri: String,
           logger.debug(s"folder: $folderUri", "WorkspaceContentManager", "init")
           logger.debug(s"main file: ${conf.mainFile}", "WorkspaceContentManager", "init")
           logger.debug(s"cachables: ${conf.cachables}", "WorkspaceContentManager", "init")
+          configMainFile = Some(conf)
           this
             .withConfiguration(
               DefaultWorkspaceConfigurationProvider(this,
@@ -50,7 +51,6 @@ class WorkspaceContentManager(val folderUri: String,
                                                     conf.cachables,
                                                     mainOption.flatMap(_.configReader)))
             .stage(conf.mainFile, CHANGE_CONFIG)
-          configMainFile = Some(conf)
         }
       )
       super.init()
@@ -63,14 +63,14 @@ class WorkspaceContentManager(val folderUri: String,
 
   implicit val platform: Platform = environmentProvider.platform // used for URI utils
 
-  private val subscribers = allSubscribers.filter(_.isActive)
+  private val subscribers: Seq[BaseUnitListener] = allSubscribers.filter(_.isActive)
 
-  private var configMainFile: Option[WorkspaceConf] = None
+  private var configMainFile: Option[WorkspaceConfig] = None
 
-  def workspaceConfiguration: Option[WorkspaceConf] = configMainFile
+  def workspaceConfiguration: Option[WorkspaceConfig] = configMainFile
 
   // not used?
-  def setConfigMainFile(workspaceConf: Option[WorkspaceConf]): Unit = {
+  def setConfigMainFile(workspaceConf: Option[WorkspaceConfig]): Unit = {
     repository.cleanTree()
     repository.setCachables(workspaceConf.map(_.cachables.map(_.toAmfUri)).getOrElse(Set.empty))
     configMainFile = workspaceConf
@@ -116,7 +116,8 @@ class WorkspaceContentManager(val folderUri: String,
     pu.toCU(getNext(uri),
             mainFile.map(mf => s"${trailSlash(folderUri)}$mf".toAmfUri),
             repository.getReferenceStack(uri),
-            isDirty(uri))
+            isDirty(uri),
+            pu.workspaceConfiguration)
 
   private def isDirty(uri: String) =
     state == ProcessingProject ||
@@ -169,7 +170,13 @@ class WorkspaceContentManager(val folderUri: String,
     parse(file, environment, uuid)
       .map { bu =>
         repository.updateUnit(bu)
-        subscribers.foreach(_.onNewAst(BaseUnitListenerParams(bu, Map.empty, tree = false), uuid))
+        subscribers.foreach(s =>
+          try {
+            s.onNewAst(BaseUnitListenerParams(bu, Map.empty, tree = false, workspaceConfiguration), uuid)
+          } catch {
+            case e: Exception =>
+              logger.error(s"subscriber $s threw ${e.getMessage}", "processIsolated", "WorkspaceContentManager")
+        })
       }
 
   /**
@@ -208,6 +215,7 @@ class WorkspaceContentManager(val folderUri: String,
 
   private def processChangeConfigChanges(snapshot: Snapshot): Future[Unit] = {
     changeState(ProcessingProject)
+    logger.debug(s"Processing Config Changes", "WorkspaceContentManager", "processChangeConfigChanges")
     stagingArea.enqueue(snapshot.files.filterNot(t => t._2 == CHANGE_CONFIG))
     workspaceConfigurationProvider match {
       case Some(cp) =>
@@ -217,7 +225,7 @@ class WorkspaceContentManager(val folderUri: String,
     }
   }
 
-  private def processChangeConfig(maybeConfig: Option[WorkspaceConf]): Future[Unit] = {
+  private def processChangeConfig(maybeConfig: Option[WorkspaceConfig]): Future[Unit] = {
     configMainFile = maybeConfig
     maybeConfig match {
       case Some(conf) =>
@@ -232,13 +240,38 @@ class WorkspaceContentManager(val folderUri: String,
 
   private def processMFChanges(mainFile: String, snapshot: Snapshot): Future[Unit] = {
     changeState(ProcessingProject)
+    logger.debug(s"Processing Tree changes", "WorkspaceContentManager", "processMFChanges")
     val uuid = UUID.randomUUID().toString
     parse(s"$folderUri/$mainFile", snapshot.environment, uuid)
       .flatMap { u =>
-        repository.newTree(u).map { _ =>
-          subscribers.foreach(_.onNewAst(BaseUnitListenerParams(u, repository.references, tree = true), uuid))
-          stagingArea.enqueue(snapshot.files.filter(t => !isInMainTree(t._1)))
-        }
+        repository
+          .newTree(u)
+          .map { _ =>
+            try {
+
+              subscribers.foreach(s =>
+                try {
+                  s.onNewAst(BaseUnitListenerParams(u, repository.references, tree = true, workspaceConfiguration), uuid)
+                } catch {
+                  case e: Exception =>
+                    logger.error(s"Error on ${s}: ${e.getMessage}", "WorkspaceContentManager", "processMFChanges")
+              })
+              stagingArea.enqueue(snapshot.files.filter(t => !isInMainTree(t._1)))
+            } catch {
+              case e: Exception =>
+                logger.error(s"Error on subscribers: ${e.getMessage}", "WorkspaceContentManager", "processMFChanges")
+            }
+          }
+          .recoverWith {
+            case e: Exception =>
+              logger.error(s"Error on new Tree: ${e.getMessage}", "WorkspaceContentManager", "processMFChanges")
+              Future.unit
+          }
+      }
+      .recoverWith {
+        case e: Exception =>
+          logger.error(s"Error on parse: ${e.getMessage}", "WorkspaceContentManager", "processMFChanges")
+          Future.unit
       }
   }
 
@@ -257,7 +290,7 @@ class WorkspaceContentManager(val folderUri: String,
     logger.debug(s"sent uri: $decodedUri", "WorkspaceContentManager", "innerParse")
     environmentProvider.amfConfiguration
       .modelBuilder()
-      .parse(decodedUri, environment.withResolver(repository.resolverCache))
+      .parse(decodedUri, environment.withResolver(repository.resolverCache), workspaceConfiguration)
   }
 
   def getRelationships(uri: String): Relationships =

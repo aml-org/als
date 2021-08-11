@@ -11,7 +11,7 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldTypeSymbolBuilder,
   IriFieldSymbolBuilderCompanion
 }
-import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext, SymbolKind}
+import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
 
 class EncodesFieldSymbolBuilder(override val value: AmfObject, override val element: FieldEntry)(
     override implicit val ctx: StructureContext)

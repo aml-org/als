@@ -8,7 +8,9 @@ import org.mulesoft.als.server.modules.workspace.WorkspaceContentManager
 import scala.concurrent.Future
 
 trait WorkspaceConfigurationProvider {
-  def obtainConfiguration(platform: Platform, environment: Environment, logger: Logger): Future[Option[WorkspaceConf]]
+  def obtainConfiguration(platform: Platform,
+                          environment: Environment,
+                          logger: Logger): Future[Option[WorkspaceConfig]]
 }
 
 case class DefaultWorkspaceConfigurationProvider(manager: WorkspaceContentManager,
@@ -18,10 +20,10 @@ case class DefaultWorkspaceConfigurationProvider(manager: WorkspaceContentManage
     extends WorkspaceConfigurationProvider {
   override def obtainConfiguration(platform: Platform,
                                    environment: Environment,
-                                   logger: Logger): Future[Option[WorkspaceConf]] =
+                                   logger: Logger): Future[Option[WorkspaceConfig]] =
     Future.successful(
       Some(
-        WorkspaceConf(
+        WorkspaceConfig(
           manager.folderUri,
           mainUri.stripPrefix(manager.folderUri).stripPrefix("/"), // just the file name, not the full path
           dependencies,
@@ -33,7 +35,7 @@ case class ReaderWorkspaceConfigurationProvider(manager: WorkspaceContentManager
     extends WorkspaceConfigurationProvider {
   override def obtainConfiguration(platform: Platform,
                                    environment: Environment,
-                                   logger: Logger): Future[Option[WorkspaceConf]] = {
+                                   logger: Logger): Future[Option[WorkspaceConfig]] = {
     manager.workspaceConfiguration.flatMap(_.configReader) match {
       case Some(configReader) =>
         configReader.readRoot(manager.folderUri, platform, environment, logger)

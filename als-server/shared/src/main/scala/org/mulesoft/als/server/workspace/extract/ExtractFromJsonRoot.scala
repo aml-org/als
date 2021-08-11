@@ -35,7 +35,7 @@ object ExchangeConfigReader extends ConfigReader {
                                      path: String,
                                      platform: Platform,
                                      environment: Environment,
-                                     logger: Logger): Option[Future[WorkspaceConf]] =
+                                     logger: Logger): Option[Future[WorkspaceConfig]] =
     new ExtractFromJsonRoot(content).getMain.map { m =>
       val encodedUri = platform.encodeURI(m)
       try {
@@ -48,14 +48,14 @@ object ExchangeConfigReader extends ConfigReader {
           logger.debug(s"dependencies: ${dependencies.fold("")((a, b) => s"$a\n$b")}",
                        "ExtractFromJsonRoot",
                        "buildConfig")
-          WorkspaceConf(path, encodedUri, dependencies, Some(this))
+          WorkspaceConfig(path, encodedUri, dependencies, Some(this))
         }
       } catch {
         case e: Exception =>
           logger.error(Option(e.getMessage).getOrElse("Error while reading dependencies"),
                        "ExtractFromJsonRoot",
                        "buildConfig")
-          Future.successful(WorkspaceConf(path, encodedUri, Set.empty, Some(this)))
+          Future.successful(WorkspaceConfig(path, encodedUri, Set.empty, Some(this)))
       }
     }
 

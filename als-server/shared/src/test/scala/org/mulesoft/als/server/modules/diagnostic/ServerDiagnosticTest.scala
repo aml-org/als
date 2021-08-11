@@ -207,7 +207,7 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
     val amfBaseUnit: BaseUnit = new MockDialectInstance(new Fields())
 
     val eh                             = new ErrorCollector {}
-    val amfParseResult: AmfParseResult = new AmfParseResult(amfBaseUnit, eh, ExternalFragmentDialect())
+    val amfParseResult: AmfParseResult = new AmfParseResult(amfBaseUnit, eh, ExternalFragmentDialect(), None)
 
     for {
       _ <- Future {
@@ -215,7 +215,8 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
           BaseUnitListenerParams(
             amfParseResult,
             Map.empty,
-            tree = false
+            tree = false,
+            None
           ),
           ""
         )

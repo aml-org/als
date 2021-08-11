@@ -126,9 +126,21 @@ Request message from client to server:
   "model": "any"
 }
 ```
+### Did Focus Notification
+Sent from the client to server to notice a new focus for a file, which will trigger new parse and diagnostic on isolated files (similar to a didOpen)
+##### notification to textDocument/didFocus
 
+```json
+{
+  "uri": "string",
+  "version": "int"
+}
+```
 
+## Deprecated
+###### We strongly discourage this uses, and will remove in a later release
 ### RenameFile
+######Deprecated in favor of WillRename, which is set to be implemented in the short run
 For a given document, provides all the requirements to rename the file and it's references inside a project.
 Request message from client to server:
 ##### request
@@ -143,4 +155,25 @@ Request message from client to server:
 {
   "edits": "WorkspaceEdit"
 }
+```
+### Command Did Focus
+###### Deprecated in favor of DidFocus notification
+Command (see [here](https://microsoft.github.io/language-server-protocol/specifications/specification-current/#workspace_executeCommand) for details on how to use)
+with the following parameters:
+##### request
+
+```json
+{
+  "command": "didFocusChange",
+  "arguments": [
+    {
+      "uri": "string",
+      "version": "int"
+    }
+  ]
+}
+```
+##### response
+```json
+{}
 ```

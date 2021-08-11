@@ -5,7 +5,7 @@ import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeOptions
 import org.mulesoft.als.server.feature.fileusage.FileUsageOptions
 import org.mulesoft.als.server.feature.renamefile.RenameFileActionOptions
 import org.mulesoft.als.server.feature.serialization.{ConversionRequestOptions, SerializationServerOptions}
-import org.mulesoft.lsp.configuration.{StaticRegistrationOptions, WorkspaceServerCapabilities}
+import org.mulesoft.lsp.configuration.{WorkDoneProgressOptions, WorkspaceServerCapabilities}
 import org.mulesoft.lsp.feature.codeactions.CodeActionOptions
 import org.mulesoft.lsp.feature.completion.CompletionOptions
 import org.mulesoft.lsp.feature.link.DocumentLinkOptions
@@ -32,11 +32,11 @@ import org.mulesoft.lsp.textsync.TextDocumentSyncOptions
 case class AlsServerCapabilities(
     textDocumentSync: Option[Either[TextDocumentSyncKind, TextDocumentSyncOptions]] = None,
     completionProvider: Option[CompletionOptions] = None,
-    definitionProvider: Boolean = false,
-    implementationProvider: Option[Either[Boolean, StaticRegistrationOptions]] = None,
-    typeDefinitionProvider: Option[Either[Boolean, StaticRegistrationOptions]] = None,
-    referencesProvider: Boolean = false,
-    documentSymbolProvider: Boolean = false,
+    definitionProvider: Option[Either[Boolean, WorkDoneProgressOptions]] = None,
+    implementationProvider: Option[Either[Boolean, WorkDoneProgressOptions]] = None,
+    typeDefinitionProvider: Option[Either[Boolean, WorkDoneProgressOptions]] = None,
+    referencesProvider: Option[Either[Boolean, WorkDoneProgressOptions]] = None,
+    documentSymbolProvider: Option[Either[Boolean, WorkDoneProgressOptions]] = None,
     renameProvider: Option[RenameOptions] = None,
     codeActionProvider: Option[CodeActionOptions] = None,
     documentLinkProvider: Option[DocumentLinkOptions] = None,
@@ -49,11 +49,11 @@ case class AlsServerCapabilities(
     documentHighlightProvider: Option[Boolean] = None,
     hoverProvider: Option[Boolean] = None,
     foldingRangeProvider: Option[Boolean] = None,
-    selectionRange: Option[Either[Boolean, StaticRegistrationOptions]] = None,
+    selectionRange: Option[Either[Boolean, WorkDoneProgressOptions]] = None,
     renameFileAction: Option[RenameFileActionOptions] = None,
     updateConfiguration: Option[UpdateConfigurationServerOptions] = None,
-    documentFormattingProvider: Boolean = false,
-    documentRangeFormattingProvider: Boolean = false)
+    documentFormattingProvider: Option[Either[Boolean, WorkDoneProgressOptions]] = None,
+    documentRangeFormattingProvider: Option[Either[Boolean, WorkDoneProgressOptions]] = None)
 
 object AlsServerCapabilities {
   def empty: AlsServerCapabilities = AlsServerCapabilities()

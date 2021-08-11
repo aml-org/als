@@ -5,19 +5,16 @@ import scala.scalajs.js
 
 @js.native
 trait ClientFormattingOptions extends js.Object {
-  def tabSize: Int = js.native
-  @deprecated
+  def tabSize: Int                      = js.native
   def insertSpaces: js.UndefOr[Boolean] = js.native
-  def preferSpaces: js.UndefOr[Boolean] = js.native
 }
 
 object ClientFormattingOptions {
   def apply(internal: FormattingOptions): ClientFormattingOptions = {
     js.Dynamic
       .literal(
-        tabSize = internal.indentationSize,
-        preferSpaces = internal.insertSpaces,
-        insertSpaces = internal.insertSpaces // deprecated
+        tabSize = internal.tabSize,
+        insertSpaces = internal.insertSpaces
       )
       .asInstanceOf[ClientFormattingOptions]
   }

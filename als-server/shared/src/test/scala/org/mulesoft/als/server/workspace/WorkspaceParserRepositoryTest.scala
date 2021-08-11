@@ -86,7 +86,7 @@ class WorkspaceParserRepositoryTest extends AsyncFunSuite with Matchers with Pla
       val apiPU: ParsedUnit = getParsedUnitOrFail(r, api.uri)
       val moddedBU          = apiPU.bu.cloneUnit()
       moddedBU.withLocation("file://newLocation/api.raml")
-      r.updateUnit(new AmfParseResult(moddedBU, new DefaultErrorHandler, ExternalFragmentDialect()))
+      r.updateUnit(new AmfParseResult(moddedBU, new DefaultErrorHandler, ExternalFragmentDialect(), None))
       val moddedPU = getParsedUnitOrFail(r, "file://newLocation/api.raml")
       assert(moddedPU.bu.id == apiPU.bu.id) // Same id, but different location
       assert(moddedPU.bu.location() != apiPU.bu.location())
@@ -182,7 +182,7 @@ class WorkspaceParserRepositoryTest extends AsyncFunSuite with Matchers with Pla
 
   case class MockFile(uri: String, content: String)
 
-  def parse(url: String, env: Environment): Future[AmfParseResult] = amfConfig.modelBuilder().parse(url, env)
+  def parse(url: String, env: Environment): Future[AmfParseResult] = amfConfig.modelBuilder().parse(url, env, None)
 
   def buildEnvironment(files: Set[MockFile]): Environment =
     Environment().withLoaders(files.map(f => buildResourceLoaderForFile(f)).toSeq)

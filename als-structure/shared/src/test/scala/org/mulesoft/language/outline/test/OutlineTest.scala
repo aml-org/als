@@ -90,7 +90,7 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
         env
       })
       .flatMap(env => {
-        compilerEnvironment.modelBuilder().parse(url, env).map(cu => (cu.baseUnit, cu.definedBy))
+        compilerEnvironment.modelBuilder().parse(url, env, None).map(cu => (cu.baseUnit, cu.definedBy))
       })
       .map {
         case (amfUnit, d) =>
