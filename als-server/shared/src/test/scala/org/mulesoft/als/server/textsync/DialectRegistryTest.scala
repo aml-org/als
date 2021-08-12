@@ -30,8 +30,7 @@ class DialectRegistryTest extends LanguageServerBaseTest {
      factory.workspaceManager)
   }
 
-  // todo: enable test after APIMF-3305 is adopted
-  ignore("Remove old dialect after modifying it") {
+  test("Remove old dialect after modifying it") {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
 
     val (server, amfConfiguration, workspaceManager) = buildServer(diagnosticNotifier)
