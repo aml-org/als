@@ -105,7 +105,7 @@ object AmfImplicits {
         })
 
     def containsPosition(amfPosition: AmfPosition): Boolean =
-      this.ast().map(_.contains(amfPosition)).getOrElse(false)
+      this.ast().exists(_.contains(amfPosition))
 
     def isRamlTypeExpression: Boolean = ann.find(classOf[ParsedFromTypeExpression]).isDefined
 
@@ -146,12 +146,11 @@ object AmfImplicits {
       }
     }
 
-    def fieldContains(position: AmfPosition): Boolean = {
+    def fieldContains(position: AmfPosition): Boolean =
       f.value.annotations
         .lexicalInformation()
         .orElse(f.value.value.annotations.lexicalInformation())
         .exists(_.contains(position))
-    }
 
     def isInferred: Boolean = f.value.annotations.isInferred
 
@@ -175,13 +174,12 @@ object AmfImplicits {
         case _           => false
       }
 
-    def astValueArray(): Boolean = {
+    def astValueArray(): Boolean =
       f.value.annotations.ast() match {
         case Some(e: YMapEntry) => e.value.tagType == YType.Seq
         case Some(n: YNode)     => n.tagType == YType.Seq
         case _                  => false
       }
-    }
 
     def isEndChar(position: AmfPosition, range: InputRange): Boolean =
       position.line < range.lineTo || (position.line == range.lineTo && position.column > range.columnTo) || range.lineFrom == range.lineTo
@@ -339,7 +337,7 @@ object AmfImplicits {
     def findNodeMappingByTerm(term: String): Option[NodeMapping] =
       declaredTerms.get(term)
 
-    def declarationsMapTerms: Map[String, String] = {
+    def declarationsMapTerms: Map[String, String] =
       d.documents()
         .root()
         .declaredNodes()
@@ -351,13 +349,11 @@ object AmfImplicits {
             }
         }
         .toMap
-    }
 
-    def vocabulary(base: String): Option[Vocabulary] = {
+    def vocabulary(base: String): Option[Vocabulary] =
       d.references.collectFirst {
         case v: Vocabulary if v.base.option().contains(base) => v
       }
-    }
   }
 
   implicit class VocabularyImplicit(v: Vocabulary) extends BaseUnitImp(v) {
@@ -376,9 +372,8 @@ object AmfImplicits {
   // we have another in suggestions.aml oriented to suggestions. Could be unified?
   implicit class NodeMappingImplicit(nodeMapping: NodeMapping) {
 
-    def findPropertyByTerm(term: String): Option[PropertyMapping] = {
+    def findPropertyByTerm(term: String): Option[PropertyMapping] =
       nodeMapping.propertiesMapping().find(_.nodePropertyMapping().value() == term)
-    }
   }
 
 }
