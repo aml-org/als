@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "21(maintainer)",
-    "filterText": "(maintainer): ",
+    "filterText": "(maintainer):\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 1
         }
       },
-      "newText": "(maintainer): "
+      "newText": "(maintainer):\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

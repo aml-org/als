@@ -2,6 +2,7 @@ package org.mulesoft.amfintegration.amfconfiguration
 
 import amf.aml.client.scala.AMLConfiguration
 import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.{AnnotationMapping, SemanticExtension}
 import amf.apicontract.client.scala._
 import amf.core.client.common.remote.Content
 import amf.core.client.common.transform.PipelineId
@@ -21,11 +22,7 @@ import org.mulesoft.als.configuration.WithWorkspaceConfiguration
 import org.mulesoft.amfintegration.AlsSyamlSyntaxPluginHacked
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.dialect.integration.BaseAlsDialectProvider
-import org.mulesoft.amfintegration.vocabularies.integration.{
-  AlsVocabularyParsingPlugin,
-  AlsVocabularyRegistry,
-  DefaultVocabularies
-}
+import org.mulesoft.amfintegration.vocabularies.integration.{AlsVocabularyParsingPlugin, AlsVocabularyRegistry, DefaultVocabularies}
 import org.yaml.builder.DocBuilder
 import org.yaml.model.YNode
 
@@ -109,11 +106,35 @@ class AmfConfigurationWrapper private[amfintegration] (private val initialConfig
   def dialects: Set[Dialect] =
     configurationState.getDialects().toSet ++ alsDialectProvider.dialects
 
-  def semanticKeysFor(uri: String): Seq[String] =
+  /**
+    * @param uri
+    * @return (name, isScalar)
+    */
+  def semanticKeysFor(uri: String): Seq[(String, Boolean)] =
+    findSemanticFor(uri).toSeq
+      .flatMap(t => t._2.map(e => (t._1, e)))
+      .flatMap { t =>
+        for {
+          name              <- t._2.extensionName().option()
+          annotationMapping <- findAnnotationMappingFor(t._1, t._2)
+        } yield {
+          (name, annotationMapping.objectRange().isEmpty)
+        }
+      }
+
+  def findSemanticFor(uri: String): Map[Dialect, Seq[SemanticExtension]] =
     configurationState
       .findSemanticByTarget(uri)
-      .map(_._1)
-      .flatMap(_.extensionName().option())
+
+  // this should be provided from AML because we don't want to replicate logic on our side to choose which dialect we are referring to
+  def findAnnotationMappingFor(dialect: Dialect, extension: SemanticExtension): Option[AnnotationMapping] = {
+    extension
+      .extensionMappingDefinition()
+      .option()
+      .flatMap { mappingStr =>
+        dialect.annotationMappings().find(am => am.id == mappingStr)
+      }
+  }
 
   def definitionFor(bu: BaseUnit): Option[Dialect] = alsDialectProvider.definitionFor(bu)
   def definitionFor(spec: Spec): Option[Dialect]   = alsDialectProvider.definitionFor(spec)

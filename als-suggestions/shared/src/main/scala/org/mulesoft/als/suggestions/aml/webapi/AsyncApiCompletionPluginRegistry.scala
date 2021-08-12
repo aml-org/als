@@ -9,14 +9,7 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.async.bindings.{
   BindingsDiscreditableProperties
 }
 import org.mulesoft.als.suggestions.plugins.aml.webapi.async.structure._
-import org.mulesoft.als.suggestions.plugins.aml.webapi.async.{
-  Async20EnumCompletionPlugin,
-  Async20PayloadCompletionPlugin,
-  Async20RuntimeExpressionsCompletionPlugin,
-  Async20ShapeTypeFormatCompletionPlugin,
-  Async20TypeFacetsCompletionPlugin,
-  _
-}
+import org.mulesoft.als.suggestions.plugins.aml.webapi.async._
 import org.mulesoft.als.suggestions.plugins.aml.webapi.extensions.OasLikeSemanticExtensionsFlavour
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.OaslikeSecurityScopesCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.structure.ResolveInfo
