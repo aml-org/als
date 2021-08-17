@@ -199,7 +199,7 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
 
   def buildServer(builder: WorkspaceManagerFactoryBuilder): LanguageServer = {
 
-    val dm       = builder.diagnosticManager()
+    val dm       = builder.buildDiagnosticManagers()
     val managers = builder.buildWorkspaceManagerFactory()
 
     val b =

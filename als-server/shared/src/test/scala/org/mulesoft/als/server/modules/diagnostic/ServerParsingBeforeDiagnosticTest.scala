@@ -14,7 +14,7 @@ class ServerParsingBeforeDiagnosticTest extends LanguageServerBaseTest {
     val builder = new WorkspaceManagerFactoryBuilder(clientNotifier, logger)
       .withNotificationKind(PARSING_BEFORE)
 
-    val dm      = builder.diagnosticManager()
+    val dm      = builder.buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
 
     val b = new LanguageServerBuilder(factory.documentManager,

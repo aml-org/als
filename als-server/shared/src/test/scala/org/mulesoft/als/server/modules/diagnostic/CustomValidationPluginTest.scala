@@ -69,7 +69,7 @@ class CustomValidationPluginTest extends LanguageServerBaseTest {
     serverConfiguration.withValidators(Seq(plugin))
     val builder =
       new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger).withAmfConfiguration(serverConfiguration)
-    val dm      = builder.diagnosticManager()
+    val dm      = builder.buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
     val b = new LanguageServerBuilder(factory.documentManager,
                                       factory.workspaceManager,
