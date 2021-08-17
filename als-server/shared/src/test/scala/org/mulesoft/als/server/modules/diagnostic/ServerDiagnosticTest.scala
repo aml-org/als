@@ -29,7 +29,7 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
 
   def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer = {
     val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger)
-    val dm      = builder.diagnosticManager()
+    val dm      = builder.buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
     container = Option(factory.container)
     val b = new LanguageServerBuilder(factory.documentManager,
@@ -196,7 +196,7 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
     val builder                                          = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger)
     builder
-      .diagnosticManager()
+      .buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
 
     val amfBaseUnit: BaseUnit = new MockDialectInstance(new Fields())

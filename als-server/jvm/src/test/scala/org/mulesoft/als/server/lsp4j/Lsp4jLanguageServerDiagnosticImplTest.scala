@@ -149,7 +149,7 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
 
   def buildServer(diagnosticsClient: MockDiagnosticClientNotifier): LanguageServer = {
     val builder  = new WorkspaceManagerFactoryBuilder(diagnosticsClient, logger)
-    val dm       = builder.diagnosticManager()
+    val dm       = builder.buildDiagnosticManagers()
     val managers = builder.buildWorkspaceManagerFactory()
 
     val b =

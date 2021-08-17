@@ -62,7 +62,7 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecr
 
     directoryResolver.foreach(cdr => factory.withDirectoryResolver(DirectoryResolverAdapter.convert(cdr)))
     factory.withNotificationKind(notificationsKind) // move to initialization param
-    val dm                    = factory.diagnosticManager()
+    val dm                    = factory.buildDiagnosticManagers()
     val sm                    = factory.serializationManager(serialization)
     val filesInProjectManager = factory.filesInProjectManager(serialization.alsClientNotifier)
     val builders              = factory.buildWorkspaceManagerFactory()
