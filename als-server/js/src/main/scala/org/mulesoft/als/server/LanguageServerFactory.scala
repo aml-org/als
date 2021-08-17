@@ -13,13 +13,14 @@ import org.mulesoft.als.configuration.{
 import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
 import org.mulesoft.als.server.logger.PrintLnLogger
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
-import org.mulesoft.als.server.modules.diagnostic.DiagnosticNotificationsKind
+import org.mulesoft.als.server.modules.diagnostic.custom.AMFOpaValidator
+import org.mulesoft.als.server.modules.diagnostic.{DiagnosticNotificationsKind, JsCustomValidator}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.yaml.builder.{DocBuilder, JsOutputBuilder}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
-import scala.scalajs.js.UndefOr
+import scala.scalajs.js.{Dynamic, UndefOr, isUndefined}
 import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
 
 @JSExportAll
@@ -73,7 +74,11 @@ object LanguageServerFactory {
 
     notificationKind.toOption.foreach(factory.withNotificationKind)
 
-    val dm                    = factory.diagnosticManager()
+    // TODO: delete after ALS-1606
+    val platformValidator: Option[AMFOpaValidator] =
+      if (PlatformExplorer.isNode) Some(new JsCustomValidator(sharedLogger(logger))) else None
+
+    val dm                    = factory.buildDiagnosticManagers(platformValidator)
     val sm                    = factory.serializationManager(serialization)
     val filesInProjectManager = factory.filesInProjectManager(serialization.alsClientNotifier)
     val builders              = factory.buildWorkspaceManagerFactory()
@@ -125,4 +130,14 @@ case class JsSerializationProps(override val alsClientNotifier: AlsClientNotifie
     extends SerializationProps[js.Any](alsClientNotifier) {
   override def newDocBuilder(prettyPrint: Boolean): DocBuilder[js.Any] =
     JsOutputBuilder() // TODO: JsOutputBuilder with prettyPrint
+}
+
+object PlatformExplorer {
+  private def isDefined(a: js.Any) = !isUndefined(a)
+
+  /* Return true if js is running on node. */
+  def isNode: Boolean =
+    if (isDefined(Dynamic.global.process) && isDefined(Dynamic.global.process.versions))
+      isDefined(Dynamic.global.process.versions.node)
+    else false
 }
