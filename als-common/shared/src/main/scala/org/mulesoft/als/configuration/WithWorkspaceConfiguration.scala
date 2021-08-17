@@ -6,5 +6,5 @@ trait WithWorkspaceConfiguration {
   def withWorkspaceConfiguration(workspaceConfiguration: WorkspaceConfiguration): Unit =
     workspaceConfig = Some(workspaceConfiguration)
 
-  def workspaceConfiguration: Option[WorkspaceConfiguration] = workspaceConfiguration
+  def workspaceConfiguration: Option[WorkspaceConfiguration] = workspaceConfig
 }
