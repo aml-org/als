@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.protocol.convert
 
-import org.mulesoft.als.configuration.{AlsConfiguration, TemplateTypes}
+import org.mulesoft.als.configuration.{AlsConfiguration, ConfigurationStyle, ProjectConfigurationStyle, TemplateTypes}
 import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
 import org.mulesoft.als.server.feature.diagnostic.{
   CleanDiagnosticTreeClientCapabilities,
@@ -88,6 +88,11 @@ object LspConvertersClientToShared {
       )
   }
 
+  implicit class ClientProjectConfigurationConverter(v: ClientProjectConfigurationStyle) {
+    def toShared: ProjectConfigurationStyle =
+      ProjectConfigurationStyle(ConfigurationStyle(v.style))
+  }
+
   implicit class InitializeParamsConverter(v: ClientAlsInitializeParams) {
     def toShared: AlsInitializeParams =
       AlsInitializeParams(
@@ -99,7 +104,8 @@ object LspConvertersClientToShared {
         workspaceFolders = Option(v.workspaceFolders).map(_.map(_.toShared).toSeq),
         rootPath = v.rootPath.toOption.flatMap(Option(_)), // (it may come as `Some(null)`)
         initializationOptions = v.initializationOptions.toOption,
-        configuration = v.configuration.toOption.map(_.toShared)
+        configuration = v.configuration.toOption.map(_.toShared),
+        projectConfigurationStyle = v.projectConfigurationStyle.map(_.toShared)
       )
   }
 
