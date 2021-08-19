@@ -271,8 +271,9 @@ class WorkspaceContentManager private (val folderUri: String,
   private def innerParse(uri: String)(): Future[AmfParseResult] = {
     val decodedUri = uri.toAmfDecodedUri
     logger.debug(s"sent uri: $decodedUri", "WorkspaceContentManager", "innerParse")
-    val cacheConfig = environmentProvider.amfConfigurationSnapshot()
-    workspaceConfiguration.foreach(cacheConfig.withWorkspaceConfiguration)
+    val cacheConfig = environmentProvider
+      .amfConfigurationSnapshot()
+      .withWorkspaceConfiguration(workspaceConfiguration)
     cacheConfig.useCache(repository.resolverCache)
     cacheConfig
       .parse(decodedUri)

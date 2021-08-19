@@ -20,8 +20,8 @@ import org.yaml.builder.{DocBuilder, JsOutputBuilder}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
-import scala.scalajs.js.{Dynamic, UndefOr, isUndefined}
 import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
+import scala.scalajs.js.{Dynamic, UndefOr, isUndefined}
 
 @JSExportAll
 @JSExportTopLevel("LanguageServerFactory")
@@ -114,6 +114,7 @@ object LanguageServerFactory {
         .addRequestModule(builders.codeActionManager)
         .addRequestModule(builders.documentFormattingManager)
         .addRequestModule(builders.documentRangeFormattingManager)
+        .addRequestModule(builders.workspaceConfigurationManager)
         .addInitializable(builders.telemetryManager)
     dm.foreach(languageBuilder.addInitializableModule)
     languageBuilder.build()

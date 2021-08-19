@@ -2,6 +2,7 @@ package org.mulesoft.als.server.lsp4j
 
 import amf.core.client.platform.resource.ClientResourceLoader
 import amf.core.client.scala.resource.ResourceLoader
+import amf.core.internal.convert.CoreClientConverters._
 import amf.core.internal.remote.Platform
 import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.configuration.{ClientDirectoryResolver, DirectoryResolverAdapter}
@@ -11,7 +12,6 @@ import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.{DiagnosticNotificationsKind, PARSING_BEFORE}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.{EmptyJvmSerializationProps, JvmSerializationProps, LanguageServerBuilder}
-import amf.core.internal.convert.CoreClientConverters._
 
 import scala.collection.JavaConverters._
 import scala.concurrent.ExecutionContext
@@ -97,6 +97,7 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecr
         .addRequestModule(builders.codeActionManager)
         .addRequestModule(builders.documentFormattingManager)
         .addRequestModule(builders.documentRangeFormattingManager)
+        .addRequestModule(builders.workspaceConfigurationManager)
         .addInitializable(builders.telemetryManager)
     dm.foreach(languageBuilder.addInitializableModule)
     builders.serializationManager.foreach(languageBuilder.addRequestModule)

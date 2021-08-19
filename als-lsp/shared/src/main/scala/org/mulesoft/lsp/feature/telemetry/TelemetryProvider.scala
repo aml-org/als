@@ -88,6 +88,8 @@ object MessageTypes extends Enumeration {
   val ERROR_MESSAGE                             = "ERROR_MESSAGE"
   val BEGIN_CUSTOM_DIAGNOSTIC                   = "BEGIN_CUSTOM_DIAGNOSTIC"
   val END_CUSTOM_DIAGNOSTIC                     = "END_CUSTOM_DIAGNOSTIC"
+  val BEGIN_GET_WORKSPACE_CONFIGURATION         = "BEGIN_GET_WORKSPACE_CONFIGURATION"
+  val END_GET_WORKSPACE_CONFIGURATION           = "END_GET_WORKSPACE_CONFIGURATION"
 }
 
 trait TelemetryProvider {

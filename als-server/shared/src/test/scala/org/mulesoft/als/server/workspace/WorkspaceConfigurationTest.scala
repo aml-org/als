@@ -7,6 +7,12 @@ import amf.core.internal.remote.Platform
 import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.URIImplicits.StringUriImplicits
 import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
+import org.mulesoft.als.server._
+import org.mulesoft.als.server.feature.configuration.workspace.{
+  GetWorkspaceConfigurationParams,
+  GetWorkspaceConfigurationRequestType,
+  GetWorkspaceConfigurationResult
+}
 import org.mulesoft.als.configuration.ConfigurationStyle.{COMMAND, FILE}
 import org.mulesoft.als.configuration.ProjectConfigurationStyle
 import org.mulesoft.als.server.logger.{Logger, MessageSeverity}
@@ -17,16 +23,15 @@ import org.mulesoft.als.server.modules.configuration.ConfigurationManager
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
-import org.mulesoft.als.server._
 import org.mulesoft.amfintegration.AmfResolvedUnit
 import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.configuration.TraceKind
+import org.mulesoft.lsp.feature.common.TextDocumentIdentifier
 import org.mulesoft.lsp.workspace.ExecuteCommandParams
 import org.scalatest.Assertion
 
 import java.util.UUID
 import scala.concurrent.{ExecutionContext, Future, Promise}
-
 
 // TODO: when implemented Validation Profile and Semantic Extension, assert in tests the mutability of AmfConfiguration
 //   for example, start test, register/unregister dialect, check that the resulting unit still has the starting dialects
@@ -96,9 +101,11 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with PlatformSec
       }
     }
   }
-  def wrapJson(mainUri: String): String =
-    s"""{"mainUri": "${mainUri.toAmfUri}", "dependencies": []}"""
+  def wrapJson(mainUri: String, dependencies: Set[String] = Set.empty, profiles: Set[String] = Set.empty): String =
+    s"""{"mainUri": "${mainUri.toAmfUri}", "dependencies": [${toList(dependencies)}], "customValidationProfiles": [${toList(
+      profiles)}]}"""
 
+  def toList(s: Set[String]): String = s.map(e => s""""$e"""").mkString(",")
   test("Should update the configuration by command for new Units") {
     val (factory: WorkspaceManagerFactory, parserListener) = createPatchedWorkspaceManagerFactory()
     val workspaceManager: WorkspaceManager                 = factory.workspaceManager
@@ -140,7 +147,6 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with PlatformSec
 
   test("Should notify project dependencies the configuration used") {
     val (factory: WorkspaceManagerFactory, listener) = createPatchedWorkspaceManagerFactory()
-    val workspaceManager: WorkspaceManager           = factory.workspaceManager
     withServer[Assertion](buildServer(factory)) { server =>
       for {
         _              <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"file://folder")))
@@ -163,7 +169,6 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with PlatformSec
     val listener                              = new MockResolutionListener(logger)
     val (factory: WorkspaceManagerFactory, _) = createPatchedWorkspaceManagerFactory(List.empty, List(listener))
 
-    val workspaceManager: WorkspaceManager = factory.workspaceManager
     withServer[Assertion](buildServer(factory)) { server =>
       for {
         _              <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"file://folder")))
@@ -171,11 +176,55 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with PlatformSec
         _              <- openFileNotification(server)(isolatedUri, isolated)
         isolatedResult <- listener.nextCall
       } yield {
-        succeed
-//        assert(isolatedResult.workspaceConfiguration.exists(_.mainFile == "api.raml"))
-//
-//        assert(mainFileResult.workspaceConfiguration.isDefined)
-//        assert(mainFileResult.workspaceConfiguration.exists(_.mainFile == "api.raml"))
+        assert(isolatedResult.amfConfiguration.workspaceConfiguration.exists(_.mainFile == "api.raml"))
+        assert(mainFileResult.amfConfiguration.workspaceConfiguration.isDefined)
+        assert(mainFileResult.amfConfiguration.workspaceConfiguration.exists(_.mainFile == "api.raml"))
+      }
+    }
+  }
+
+  def getWorkspaceConfiguration(server: LanguageServer, uri: String): Future[GetWorkspaceConfigurationResult] =
+    server
+      .resolveHandler(GetWorkspaceConfigurationRequestType)
+      .get(GetWorkspaceConfigurationParams(TextDocumentIdentifier(uri)))
+
+  test("Get workspace notification request should return current configuration") {
+    val listener                              = new MockResolutionListener(logger)
+    val (factory: WorkspaceManagerFactory, _) = createPatchedWorkspaceManagerFactory(List.empty, List(listener))
+    val args                                  = List(wrapJson(isolatedUri))
+    val args2                                 = List(wrapJson(isolatedUri, Set.empty, Set("profile.yaml")))
+    val args3                                 = List(wrapJson(isolatedUri, Set("dependency.yaml")))
+    withServer[Assertion](buildServer(factory)) { server =>
+      for {
+        _       <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"file://folder")))
+        _       <- listener.nextCall
+        config1 <- getWorkspaceConfiguration(server, mainApiUri)
+        _       <- factory.workspaceManager.executeCommand(ExecuteCommandParams("didChangeConfiguration", args))
+        _       <- listener.nextCall
+        config2 <- getWorkspaceConfiguration(server, mainApiUri)
+        _       <- factory.workspaceManager.executeCommand(ExecuteCommandParams("didChangeConfiguration", args2))
+        _       <- listener.nextCall
+        config3 <- getWorkspaceConfiguration(server, mainApiUri)
+        _       <- factory.workspaceManager.executeCommand(ExecuteCommandParams("didChangeConfiguration", args3))
+        _       <- listener.nextCall
+        config4 <- getWorkspaceConfiguration(server, mainApiUri)
+      } yield {
+        assert(config1.workspace == """file://folder""")
+        assert(config2.workspace == """file://folder""")
+        assert(config3.workspace == """file://folder""")
+        assert(config4.workspace == """file://folder""")
+        assert(config1.configuration.mainUri == "api.raml")
+        assert(config2.configuration.mainUri == "isolated.raml")
+        assert(config3.configuration.mainUri == "isolated.raml")
+        assert(config4.configuration.mainUri == "isolated.raml")
+        assert(config1.configuration.customValidationProfiles.isEmpty)
+        assert(config2.configuration.customValidationProfiles.isEmpty)
+        assert(config3.configuration.customValidationProfiles.contains("profile.yaml"))
+        assert(config1.configuration.dependencies.isEmpty)
+        assert(config2.configuration.dependencies.isEmpty)
+        assert(config3.configuration.dependencies.isEmpty)
+        assert(config4.configuration.dependencies.contains("dependency.yaml"))
+
       }
     }
   }
@@ -189,14 +238,14 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with PlatformSec
     val telemetryManager: TelemetryManager   = new TelemetryManager(clientNotifier, logger)
     val directoryResolver: DirectoryResolver = new PlatformDirectoryResolver(platform)
     val parserListener                       = new MockParseListener()
-    val amfConfiguration = AmfConfigurationWrapper(Seq(resourceLoader))
+    val amfConfiguration                     = AmfConfigurationWrapper(Seq(resourceLoader))
     (WorkspaceManagerFactory(
        projectDependencies :+ parserListener,
        resolutionDependencies,
        telemetryManager,
        directoryResolver,
        logger,
-      amfConfiguration,
+       amfConfiguration,
        new ConfigurationManager()
      ),
      parserListener)
@@ -207,6 +256,7 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with PlatformSec
                               factory.workspaceManager,
                               factory.configurationManager,
                               factory.resolutionTaskManager)
+      .addRequestModule(factory.workspaceConfigurationManager)
       .build()
 
   class MockResolutionListener(override val logger: Logger)
@@ -224,12 +274,6 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with PlatformSec
     override protected def onFailure(uuid: String, uri: String, t: Throwable): Unit =
       logger.log(s"Failed: $uri, uuid: $uuid", MessageSeverity.ERROR, "MockResolutionListener", "onFailure")
 
-    /**
-      * Meant just for logging
-      *
-      * @param resolved
-      * @param uuid
-      */
     override protected def onNewAstPreprocess(resolved: AmfResolvedUnit, uuid: String): Unit =
       logger.debug("notified", "MockResolutionListener", "onNewAstPreprocess")
 
