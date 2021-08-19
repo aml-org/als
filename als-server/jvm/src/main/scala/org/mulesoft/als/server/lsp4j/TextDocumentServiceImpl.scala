@@ -38,6 +38,7 @@ import org.eclipse.lsp4j.{
   WorkspaceEdit
 }
 import org.mulesoft.als.server.custom.CustomTextDocumentService
+import org.mulesoft.als.server.feature.configuration.workspace.GetWorkspaceConfigurationRequestType
 import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeRequestType
 import org.mulesoft.als.server.feature.fileusage.FileUsageRequestType
 import org.mulesoft.als.server.feature.renamefile.RenameFileActionRequestType
@@ -175,4 +176,8 @@ class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomT
   override def rangeFormatting(params: DocumentRangeFormattingParams): CompletableFuture[util.List[_ <: TextEdit]] = {
     javaFuture(resolveHandler(DocumentRangeFormattingRequestType)(params), lsp4JTextEdits)
   }
+
+  override def getWorkspaceConfiguration(
+      params: GetWorkspaceConfigurationParams): CompletableFuture[GetWorkspaceConfigurationResult] =
+    javaFuture(resolveHandler(GetWorkspaceConfigurationRequestType)(params), getWorkspaceConfigurationResult)
 }

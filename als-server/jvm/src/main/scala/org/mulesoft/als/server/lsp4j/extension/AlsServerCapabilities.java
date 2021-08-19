@@ -10,6 +10,7 @@ public class AlsServerCapabilities extends ServerCapabilities {
     private FileUsageServerOptions fileUsage;
     private RenameFileActionServerOptions renameFileAction;
     private ConversionServerOptions conversion;
+    private WorkspaceConfigurationOptions workspaceConfiguration;
 
     public void setSerialization(SerializationServerOptions serialization) {
         this.serialization = serialization;
@@ -43,5 +44,13 @@ public class AlsServerCapabilities extends ServerCapabilities {
 
     public void setRenameFileAction(RenameFileActionServerOptions renameFileAction) {
         this.renameFileAction = renameFileAction;
+    }
+
+    public WorkspaceConfigurationOptions getWorkspaceConfiguration() {
+        return workspaceConfiguration;
+    }
+
+    public void setWorkspaceConfiguration(WorkspaceConfigurationOptions workspaceConfiguration) {
+        this.workspaceConfiguration = workspaceConfiguration;
     }
 }
