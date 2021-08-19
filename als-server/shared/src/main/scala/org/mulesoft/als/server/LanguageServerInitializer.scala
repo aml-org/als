@@ -1,5 +1,6 @@
 package org.mulesoft.als.server
 
+import org.mulesoft.als.server.feature.configuration.workspace.WorkspaceConfigurationConfigType
 import org.mulesoft.als.server.feature.configuration.{
   UpdateConfigurationClientCapabilities,
   UpdateConfigurationConfigType
@@ -22,8 +23,8 @@ import org.mulesoft.lsp.feature.documentFormatting.DocumentFormattingConfigType
 import org.mulesoft.lsp.feature.documentRangeFormatting.DocumentRangeFormattingConfigType
 import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolConfigType
 import org.mulesoft.lsp.feature.folding.FoldingRangeConfigType
-import org.mulesoft.lsp.feature.hover.HoverConfigType
 import org.mulesoft.lsp.feature.highlight.DocumentHighlightConfigType
+import org.mulesoft.lsp.feature.hover.HoverConfigType
 import org.mulesoft.lsp.feature.implementation.ImplementationConfigType
 import org.mulesoft.lsp.feature.link.DocumentLinkConfigType
 import org.mulesoft.lsp.feature.reference.ReferenceConfigType
@@ -69,10 +70,11 @@ class LanguageServerInitializer(private val configMap: ConfigMap, private val in
       applyConfig(HoverConfigType, textDocument.flatMap(_.hover)),
       applyConfig(FoldingRangeConfigType, textDocument.flatMap(_.foldingRange)),
       applyConfig(SelectionRangeConfigType, textDocument.flatMap(_.selectionRange)),
-      applyConfig(RenameFileConfigType, None), // todo: check client support?
+      applyConfig(RenameFileConfigType, clientCapabilities.renameFileAction),
       configOptions,
       applyConfig(DocumentFormattingConfigType, textDocument.flatMap(_.documentFormatting)),
-      applyConfig(DocumentRangeFormattingConfigType, textDocument.flatMap(_.documentRangeFormatting))
+      applyConfig(DocumentRangeFormattingConfigType, textDocument.flatMap(_.documentRangeFormatting)),
+      applyConfig(WorkspaceConfigurationConfigType, clientCapabilities.workspaceConfiguration)
     )
   }
 

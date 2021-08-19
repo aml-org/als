@@ -169,6 +169,7 @@ class AmfConfigurationWrapper private[amfintegration] (private val initialConfig
                                 alsDialectProvider,
                                 resourceLoaders,
                                 Some(innerAmfConfigurationState))
+      .withWorkspaceConfiguration(workspaceConfiguration)
 }
 
 object AmfConfigurationWrapper {

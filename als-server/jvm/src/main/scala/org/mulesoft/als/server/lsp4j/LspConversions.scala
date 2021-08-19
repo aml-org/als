@@ -10,6 +10,10 @@ import org.mulesoft.als.configuration.{
   TemplateTypes
 }
 import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
+import org.mulesoft.als.server.feature.configuration.workspace.{
+  GetWorkspaceConfigurationParams,
+  WorkspaceConfigurationClientCapabilities
+}
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeParams}
 import org.mulesoft.als.server.feature.fileusage.FileUsageClientCapabilities
 import org.mulesoft.als.server.feature.renamefile.{RenameFileActionClientCapabilities, RenameFileActionParams}
@@ -63,7 +67,8 @@ object LspConversions {
         CleanDiagnosticTreeClientCapabilities(s.getEnabledCleanDiagnostic)),
       Option(capabilities.getFileUsage).map(s => FileUsageClientCapabilities(s.getEnabledFileUsage)),
       Option(capabilities.getConversion).map(c => conversionClientCapabilities(c)),
-      Option(capabilities.getRenameFileAction).map(r => RenameFileActionClientCapabilities(r.getEnabled))
+      Option(capabilities.getRenameFileAction).map(r => RenameFileActionClientCapabilities(r.getEnabled)),
+      Option(capabilities.getWorkspaceConfiguration).map(r => WorkspaceConfigurationClientCapabilities(r.canGet))
     )
 
   implicit def formattingOptions(formattingOptions: extension.AlsFormattingOptions): FormattingOptions = {
@@ -189,4 +194,8 @@ object LspConversions {
 
   implicit def jvmRenameFileActionParams(params: extension.RenameFileActionParams): RenameFileActionParams =
     RenameFileActionParams(params.getOldDocument, params.getNewDocument)
+
+  implicit def jvmGetWorkspaceConfigurationParams(
+      params: extension.GetWorkspaceConfigurationParams): GetWorkspaceConfigurationParams =
+    GetWorkspaceConfigurationParams(params.getTextDocument)
 }

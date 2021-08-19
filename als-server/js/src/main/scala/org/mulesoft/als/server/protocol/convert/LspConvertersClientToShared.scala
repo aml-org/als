@@ -2,6 +2,12 @@ package org.mulesoft.als.server.protocol.convert
 
 import org.mulesoft.als.configuration.{AlsConfiguration, ConfigurationStyle, ProjectConfigurationStyle, TemplateTypes}
 import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
+import org.mulesoft.als.server.feature.configuration.workspace.{
+  GetWorkspaceConfigurationParams,
+  GetWorkspaceConfigurationResult,
+  WorkspaceConfigurationClientCapabilities,
+  WorkspaceConfigurationOptions
+}
 import org.mulesoft.als.server.feature.diagnostic.{
   CleanDiagnosticTreeClientCapabilities,
   CleanDiagnosticTreeOptions,
@@ -68,7 +74,8 @@ object LspConvertersClientToShared {
       cleanDiagnosticTree = v.cleanDiagnosticTree.map(_.toShared).toOption,
       fileUsage = v.fileUsage.map(_.toShared).toOption,
       conversion = v.conversion.map(_.toShared).toOption,
-      renameFileAction = v.renameFileAction.map(_.toShared).toOption
+      renameFileAction = v.renameFileAction.map(_.toShared).toOption,
+      workspaceConfiguration = v.workspaceConfiguration.map(_.toShared).toOption
     )
   }
 
@@ -187,6 +194,24 @@ object LspConvertersClientToShared {
 
   implicit class ClientRenameFileActionParamsConverter(i: ClientRenameFileActionParams) {
     def toShared: RenameFileActionParams = RenameFileActionParams(i.oldDocument.toShared, i.newDocument.toShared)
+  }
+
+  implicit class ClientGetWorkspaceConfigurationParamsConverter(s: ClientGetWorkspaceConfigurationParams) {
+    def toShared: GetWorkspaceConfigurationParams = GetWorkspaceConfigurationParams(s.textDocument.toShared)
+  }
+
+  implicit class GetWorkspaceConfigurationResultConverter(s: ClientGetWorkspaceConfigurationResult) {
+    def toShared: GetWorkspaceConfigurationResult =
+      GetWorkspaceConfigurationResult(s.workspace, s.configuration.toShared)
+  }
+
+  implicit class ClientWorkspaceConfigurationClientCapabilitiesConverter(
+      s: ClientWorkspaceConfigurationClientCapabilities) {
+    def toShared: WorkspaceConfigurationClientCapabilities = WorkspaceConfigurationClientCapabilities(s.get)
+  }
+
+  implicit class ClientWorkspaceConfigurationOptionsConverter(s: ClientWorkspaceConfigurationServerOptions) {
+    def toShared: WorkspaceConfigurationOptions = WorkspaceConfigurationOptions(s.supported)
   }
   // $COVERAGE-ON
 }
