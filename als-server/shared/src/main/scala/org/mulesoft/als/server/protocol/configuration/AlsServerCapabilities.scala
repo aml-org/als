@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.protocol.configuration
 
 import org.mulesoft.als.server.feature.configuration.UpdateConfigurationServerOptions
+import org.mulesoft.als.server.feature.configuration.workspace.WorkspaceConfigurationOptions
 import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeOptions
 import org.mulesoft.als.server.feature.fileusage.FileUsageOptions
 import org.mulesoft.als.server.feature.renamefile.RenameFileActionOptions
@@ -53,7 +54,8 @@ case class AlsServerCapabilities(
     renameFileAction: Option[RenameFileActionOptions] = None,
     updateConfiguration: Option[UpdateConfigurationServerOptions] = None,
     documentFormattingProvider: Option[Either[Boolean, WorkDoneProgressOptions]] = None,
-    documentRangeFormattingProvider: Option[Either[Boolean, WorkDoneProgressOptions]] = None)
+    documentRangeFormattingProvider: Option[Either[Boolean, WorkDoneProgressOptions]] = None,
+    workspaceConfiguration: Option[WorkspaceConfigurationOptions] = None)
 
 object AlsServerCapabilities {
   def empty: AlsServerCapabilities = AlsServerCapabilities()

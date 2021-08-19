@@ -17,7 +17,6 @@ import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 import org.mulesoft.lsp.workspace.ExecuteCommandParams
 import org.scalatest.Assertion
 
-import java.util.UUID
 import scala.concurrent.{ExecutionContext, Future}
 
 class WorkspaceManagerTest extends LanguageServerBaseTest {
@@ -367,21 +366,21 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
         // api.raml, fragment.raml
         _       <- diagnosticClientNotifier.nextCall
         _       <- diagnosticClientNotifier.nextCall
-        config1 <- wm.getUnit(apiRoot, UUID.randomUUID().toString).map(_.workspaceConfiguration)
+        config1 <- wm.getWorkspace(apiRoot).map(_.workspaceConfiguration)
         _ <- server.workspaceService.executeCommand(
           ExecuteCommandParams(
             Commands.DID_CHANGE_CONFIGURATION,
             List(s"""{"mainUri": "$api2Root", "dependencies": [], "customValidationProfiles": ["profile1.yaml"]}""")))
         // api2.raml
         _       <- diagnosticClientNotifier.nextCall
-        config2 <- wm.getUnit(api2Root, UUID.randomUUID().toString).map(_.workspaceConfiguration)
+        config2 <- wm.getWorkspace(api2Root).map(_.workspaceConfiguration)
         _ <- server.workspaceService.executeCommand(
           ExecuteCommandParams(
             Commands.DID_CHANGE_CONFIGURATION,
             List(s"""{"mainUri": "$api2Root", "dependencies": [], "customValidationProfiles": ["profile2.yaml"]}""")))
         // api2.raml
         _       <- diagnosticClientNotifier.nextCall
-        config3 <- wm.getUnit(api2Root, UUID.randomUUID().toString).map(_.workspaceConfiguration)
+        config3 <- wm.getWorkspace(api2Root).map(_.workspaceConfiguration)
         _ <- server.workspaceService.executeCommand(
           ExecuteCommandParams(
             Commands.DID_CHANGE_CONFIGURATION,
@@ -390,7 +389,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
           ))
         // api2.raml
         _       <- diagnosticClientNotifier.nextCall
-        config4 <- wm.getUnit(api2Root, UUID.randomUUID().toString).map(_.workspaceConfiguration)
+        config4 <- wm.getWorkspace(api2Root).map(_.workspaceConfiguration)
 
       } yield {
         server.shutdown()

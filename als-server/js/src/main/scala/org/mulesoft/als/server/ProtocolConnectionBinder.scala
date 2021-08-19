@@ -1,5 +1,6 @@
 package org.mulesoft.als.server
 
+import org.mulesoft.als.server.feature.configuration.workspace.GetWorkspaceConfigurationRequestType
 import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeRequestType
 import org.mulesoft.als.server.feature.fileusage.FileUsageRequestType
 import org.mulesoft.als.server.feature.renamefile.RenameFileActionRequestType
@@ -8,12 +9,11 @@ import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.actions.{ClientRenameFileActionParams, ClientRenameFileActionResult}
 import org.mulesoft.als.server.protocol.client.{AlsLanguageClient, AlsLanguageClientAware}
-import org.mulesoft.als.server.protocol.configuration.{
-  ClientAlsInitializeParams,
-  ClientAlsInitializeResult,
-  ClientUpdateConfigurationParams
+import org.mulesoft.als.server.protocol.configuration._
+import org.mulesoft.als.server.protocol.convert.LspConvertersClientToShared.{
+  ClientGetWorkspaceConfigurationParamsConverter,
+  _
 }
-import org.mulesoft.als.server.protocol.convert.LspConvertersClientToShared._
 import org.mulesoft.als.server.protocol.convert.LspConvertersSharedToClient._
 import org.mulesoft.als.server.protocol.diagnostic.{
   ClientAlsPublishDiagnosticsParams,
@@ -539,5 +539,23 @@ object ProtocolConnectionBinder {
         .asInstanceOf[ClientRequestHandler[ClientRenameFileActionParams, ClientRenameFileActionResult, js.Any]]
     )
     // End RenameFileAction
+
+    // Get Workspace Configuration
+    val onGetWorkspaceConfigurationRequestHandler: js.Function2[ClientGetWorkspaceConfigurationParams,
+                                                                CancellationToken,
+                                                                Thenable[ClientGetWorkspaceConfigurationResult]] =
+      (param: ClientGetWorkspaceConfigurationParams, _: CancellationToken) =>
+        resolveHandler(GetWorkspaceConfigurationRequestType)(param.toShared)
+          .map(_.toClient)
+          .toJSPromise
+          .asInstanceOf[Thenable[ClientGetWorkspaceConfigurationResult]]
+
+    protocolConnection.onRequest(
+      ClientGetWorkspaceConfigurationRequestType.`type`,
+      onGetWorkspaceConfigurationRequestHandler
+        .asInstanceOf[
+          ClientRequestHandler[ClientGetWorkspaceConfigurationParams, ClientGetWorkspaceConfigurationResult, js.Any]]
+    )
+    // End Get Workspace Configuration
   }
 }

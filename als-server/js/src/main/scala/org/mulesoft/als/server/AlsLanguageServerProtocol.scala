@@ -1,7 +1,12 @@
 package org.mulesoft.als.server
 
 import org.mulesoft.als.server.protocol.actions.{ClientRenameFileActionParams, ClientRenameFileActionResult}
-import org.mulesoft.als.server.protocol.configuration.{ClientAlsClientCapabilities, ClientUpdateConfigurationParams}
+import org.mulesoft.als.server.protocol.configuration.{
+  ClientAlsClientCapabilities,
+  ClientGetWorkspaceConfigurationParams,
+  ClientGetWorkspaceConfigurationResult,
+  ClientUpdateConfigurationParams
+}
 import org.mulesoft.als.server.protocol.diagnostic.{
   ClientAlsPublishDiagnosticsParams,
   ClientCleanDiagnosticTreeParams,
@@ -77,4 +82,12 @@ object ClientCleanRenameFileActionRequestType {
   val `type`: RequestType[ClientRenameFileActionParams, ClientRenameFileActionResult, js.Any] =
     new RequestType[ClientRenameFileActionParams, ClientRenameFileActionResult, js.Any]("renameFile",
                                                                                         ParameterStructures.auto)
+}
+
+@JSExportTopLevel("GetWorkspaceConfigurationRequestType")
+object ClientGetWorkspaceConfigurationRequestType {
+  val `type`: RequestType[ClientGetWorkspaceConfigurationParams, ClientGetWorkspaceConfigurationResult, js.Any] =
+    new RequestType[ClientGetWorkspaceConfigurationParams, ClientGetWorkspaceConfigurationResult, js.Any](
+      "getWorkspaceConfiguration",
+      ParameterStructures.auto)
 }

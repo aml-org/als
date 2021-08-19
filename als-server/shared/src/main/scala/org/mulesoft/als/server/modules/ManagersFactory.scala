@@ -12,7 +12,7 @@ import org.mulesoft.als.server.modules.actions.fileusage.FindFileUsageManager
 import org.mulesoft.als.server.modules.actions.rename.RenameManager
 import org.mulesoft.als.server.modules.ast.{AccessUnits, BaseUnitListener, ResolvedUnitListener}
 import org.mulesoft.als.server.modules.completion.SuggestionsManager
-import org.mulesoft.als.server.modules.configuration.ConfigurationManager
+import org.mulesoft.als.server.modules.configuration.{ConfigurationManager, WorkspaceConfigurationManager}
 import org.mulesoft.als.server.modules.diagnostic._
 import org.mulesoft.als.server.modules.diagnostic.custom.{AMFOpaValidator, CustomValidationManager}
 import org.mulesoft.als.server.modules.serialization.{ConversionManager, SerializationManager}
@@ -219,4 +219,8 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
         s.withUnitAccessor(resolutionTaskManager) // is this redundant with the initialization of workspace manager?
         s
     })
+
+  lazy val workspaceConfigurationManager: WorkspaceConfigurationManager =
+    new WorkspaceConfigurationManager(workspaceManager, telemetryManager, logger)
+
 }

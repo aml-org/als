@@ -15,6 +15,8 @@ public class AlsClientCapabilities extends ClientCapabilities {
 
     private RenameFileActionClientCapabilities renameFileAction;
 
+    private WorkspaceConfigurationClientCapabilities workspaceConfiguration;
+
     @Pure
     public SerializationClientCapabilities getSerialization() {
         return this.serialization;
@@ -51,8 +53,24 @@ public class AlsClientCapabilities extends ClientCapabilities {
         this.conversion = conversion;
     }
 
+    public void setRenameFileAction(RenameFileActionClientCapabilities renameFileAction) {
+        this.renameFileAction = renameFileAction;
+    }
+
     @Pure
     public ConversionClientCapabilities getConversion() {
         return conversion;
+    }
+
+    public void setConversion(ConversionClientCapabilities conversion) {
+        this.conversion = conversion;
+    }
+
+    public WorkspaceConfigurationClientCapabilities getWorkspaceConfiguration() {
+        return workspaceConfiguration;
+    }
+
+    public void setWorkspaceConfiguration(WorkspaceConfigurationClientCapabilities workspaceConfiguration) {
+        this.workspaceConfiguration = workspaceConfiguration;
     }
 }
