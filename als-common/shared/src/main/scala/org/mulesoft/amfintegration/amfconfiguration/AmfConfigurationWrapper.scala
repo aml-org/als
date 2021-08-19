@@ -3,6 +3,7 @@ package org.mulesoft.amfintegration.amfconfiguration
 import amf.aml.client.scala.AMLConfiguration
 import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.{AnnotationMapping, SemanticExtension}
+import amf.aml.client.scala.model.document.Dialect
 import amf.apicontract.client.scala._
 import amf.core.client.common.remote.Content
 import amf.core.client.common.transform.PipelineId
@@ -22,7 +23,11 @@ import org.mulesoft.als.configuration.WithWorkspaceConfiguration
 import org.mulesoft.amfintegration.AlsSyamlSyntaxPluginHacked
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.dialect.integration.BaseAlsDialectProvider
-import org.mulesoft.amfintegration.vocabularies.integration.{AlsVocabularyParsingPlugin, AlsVocabularyRegistry, DefaultVocabularies}
+import org.mulesoft.amfintegration.vocabularies.integration.{
+  AlsVocabularyParsingPlugin,
+  AlsVocabularyRegistry,
+  DefaultVocabularies
+}
 import org.yaml.builder.DocBuilder
 import org.yaml.model.YNode
 
@@ -58,7 +63,6 @@ class AmfConfigurationWrapper private[amfintegration] (private val initialConfig
     units.foreach(registerValidationProfile)
     this
   }
-
   private implicit var configuration: AMFConfiguration = initialConfig
 
   private var innerAmfConfigurationState: AMFConfigurationStateManager =
