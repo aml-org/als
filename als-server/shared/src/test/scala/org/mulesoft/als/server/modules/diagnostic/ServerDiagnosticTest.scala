@@ -164,7 +164,7 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
       } yield {
         server.shutdown()
         assert(d1.diagnostics.isEmpty && d1.uri == dialectPath)
-        assert(openInvalid.diagnostics.length == 1 && openInvalid.uri == instancePath)
+        assert(openInvalid.diagnostics.length == 2 && openInvalid.uri == instancePath)
         assert(fixed.diagnostics.isEmpty && fixed.uri == instancePath)
         assert(openInvalid == reopenInvalid)
         assert(diagnosticNotifier.promises.isEmpty)

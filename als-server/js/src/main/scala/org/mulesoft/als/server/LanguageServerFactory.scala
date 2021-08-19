@@ -56,6 +56,15 @@ object LanguageServerFactory {
         .map(AMFPayloadValidationPluginConverter.toAMF)
         .map(asInternal)
 
+    buildServer(clientNotifier, serialization, jsServerSystemConf, logger, notificationKind, scalaPlugins)
+  }
+
+  def buildServer(clientNotifier: ClientNotifier,
+                  serialization: JsSerializationProps,
+                  jsServerSystemConf: JsServerSystemConf,
+                  logger: UndefOr[ClientLogger],
+                  notificationKind: UndefOr[DiagnosticNotificationsKind],
+                  scalaPlugins: Seq[AMFShapePayloadValidationPlugin]) = {
     jsServerSystemConf.amfConfiguration.withValidators(scalaPlugins)
     val factory =
       new WorkspaceManagerFactoryBuilder(clientNotifier, sharedLogger(logger))
