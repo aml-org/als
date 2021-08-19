@@ -1,10 +1,11 @@
 package org.mulesoft.amfintegration.amfconfiguration
 
 import amf.aml.client.scala.AMLConfiguration
-import amf.aml.client.scala.model.document.{Dialect, DialectInstanceUnit}
+import amf.aml.client.scala.model.document.Dialect
 import amf.apicontract.client.scala._
 import amf.core.client.common.remote.Content
 import amf.core.client.common.transform.PipelineId
+import amf.core.client.scala.AMFResult
 import amf.core.client.scala.config.{RenderOptions, UnitCache}
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.model.domain.DomainElement
@@ -12,14 +13,17 @@ import amf.core.client.scala.parse.AMFSyntaxParsePlugin
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.client.scala.validation.AMFValidationReport
 import amf.core.client.scala.validation.payload.AMFShapePayloadValidationPlugin
-import amf.core.client.scala.{AMFGraphConfiguration, AMFResult}
 import amf.core.internal.remote._
 import amf.core.internal.unsafe.PlatformSecrets
 import amf.shapes.client.scala.model.domain.AnyShape
 import amf.shapes.client.scala.render.JsonSchemaShapeRenderer
 import org.mulesoft.amfintegration.AlsSyamlSyntaxPluginHacked
 import org.mulesoft.amfintegration.dialect.integration.BaseAlsDialectProvider
-import org.mulesoft.amfintegration.vocabularies.integration.{AlsVocabularyParsingPlugin, AlsVocabularyRegistry, DefaultVocabularies}
+import org.mulesoft.amfintegration.vocabularies.integration.{
+  AlsVocabularyParsingPlugin,
+  AlsVocabularyRegistry,
+  DefaultVocabularies
+}
 import org.yaml.builder.DocBuilder
 import org.yaml.model.YNode
 
@@ -32,21 +36,31 @@ import scala.concurrent.Future
   * @param alsDialectProvider Dialects initialized with the ALS Server
   * @param platform
   */
-class AmfConfigurationWrapper private[amfintegration] (private val initialConfig: AMFConfiguration,
-                                                       val alsVocabularyRegistry: AlsVocabularyRegistry,
-                                                       val alsDialectProvider: BaseAlsDialectProvider,
-                                                       val resourceLoaders: Seq[ResourceLoader])
+class AmfConfigurationWrapper private[amfintegration] (
+    private val initialConfig: AMFConfiguration,
+    val alsVocabularyRegistry: AlsVocabularyRegistry,
+    val alsDialectProvider: BaseAlsDialectProvider,
+    val resourceLoaders: Seq[ResourceLoader],
+    amfConfigurationStateDeltas: Option[AMFConfigurationStateManager] = None)
     extends PlatformSecrets {
   private implicit var configuration: AMFConfiguration = initialConfig
+
+  private var innerAmfConfigurationStateDeltas: AMFConfigurationStateManager =
+    amfConfigurationStateDeltas.getOrElse(
+      AMFConfigurationStateManager(Nil, Nil, configurationState.getDialects(), resourceLoaders))
 
   def buildJsonSchema(shape: AnyShape): String =
     JsonSchemaShapeRenderer.buildJsonSchema(shape, configuration)
 
-  def withValidators(plugins: Seq[AMFShapePayloadValidationPlugin]): Unit =
+  def withValidators(plugins: Seq[AMFShapePayloadValidationPlugin]): Unit = {
+    innerAmfConfigurationStateDeltas = innerAmfConfigurationStateDeltas.withValidators(plugins)
     configuration = configuration.withPlugins(plugins.toList)
+  }
 
-  def withSyntax(plugins: Seq[AMFSyntaxParsePlugin]): Unit =
+  def withSyntax(plugins: Seq[AMFSyntaxParsePlugin]): Unit = {
+    innerAmfConfigurationStateDeltas = innerAmfConfigurationStateDeltas.withSyntaxes(plugins)
     configuration = configuration.withPlugins(plugins.toList)
+  }
 
   def getConfiguration: AMFConfiguration = configuration
 
@@ -89,60 +103,17 @@ class AmfConfigurationWrapper private[amfintegration] (private val initialConfig
                          alsDialectProvider
                            .definitionFor(r.baseUnit)
                            .getOrElse(throw new NoDefinitionFoundException(r.baseUnit.id)),
-        this.branch
-      )
+                         this.branch)
     }
 
   def report(baseUnit: BaseUnit): Future[AMFValidationReport] =
-    configForUnit(baseUnit).baseUnitClient().validate(baseUnit.cloneUnit())
-
-  def configForUnit(unit: BaseUnit, spec: Spec): AMFGraphConfiguration =
-    spec match {
-      case Spec.RAML10  => RAMLConfiguration.RAML10()
-      case Spec.RAML08  => RAMLConfiguration.RAML08()
-      case Spec.OAS30   => OASConfiguration.OAS30()
-      case Spec.OAS20   => OASConfiguration.OAS20()
-      case Spec.ASYNC20 => AsyncAPIConfiguration.Async20()
-      case Spec.AML if unit.isInstanceOf[DialectInstanceUnit] => // TODO change when Dialect name and version be spec
-        definitionFor(unit).map(AMLConfiguration.predefined().withDialect).getOrElse(AMLConfiguration.predefined())
-      case Spec.AML => AMLConfiguration.predefined()
-      case _        => AMFGraphConfiguration.predefined()
-    }
-
-  def configForSpec(spec: Spec): AMLConfiguration =
-    spec match {
-      case Spec.RAML10  => RAMLConfiguration.RAML10()
-      case Spec.RAML08  => RAMLConfiguration.RAML08()
-      case Spec.OAS30   => OASConfiguration.OAS30()
-      case Spec.OAS20   => OASConfiguration.OAS20()
-      case Spec.ASYNC20 => AsyncAPIConfiguration.Async20()
-      case Spec.AML => // TODO change when Dialect name and version be spec
-        APIConfiguration.API()
-      case instanceSpec: AmlDialectSpec =>
-        definitionsFor(instanceSpec.id)
-          .map(AMLConfiguration.predefined().withDialect)
-          .getOrElse(AMLConfiguration.predefined())
-      case _ => AMLConfiguration.predefined()
-    }
-
-  def configForDialect(d: Dialect): AMLConfiguration =
-    ProfileMatcher.spec(d) match {
-      case Some(Spec.RAML10)  => RAMLConfiguration.RAML10()
-      case Some(Spec.RAML08)  => RAMLConfiguration.RAML08()
-      case Some(Spec.OAS30)   => OASConfiguration.OAS30()
-      case Some(Spec.OAS20)   => OASConfiguration.OAS20()
-      case Some(Spec.ASYNC20) => AsyncAPIConfiguration.Async20()
-      case Some(Spec.AML)
-          if d.location().contains("file://vocabularies/dialects/metadialect.yaml") => // TODO change when Dialect name and version be spec
-        APIConfiguration.API()
-      case _ => AMLConfiguration.predefined().withDialect(d)
-    }
-
-  def configForUnit(unit: BaseUnit): AMFGraphConfiguration =
-    configForUnit(unit, unit.sourceSpec.getOrElse(Spec.AML))
+    innerAmfConfigurationStateDeltas.configForUnit(baseUnit).baseUnitClient().validate(baseUnit.cloneUnit())
 
   def resolve(baseUnit: BaseUnit): AMFResult =
-    configForUnit(baseUnit).baseUnitClient().transform(baseUnit.cloneUnit(), PipelineId.Cache)
+    innerAmfConfigurationStateDeltas
+      .configForUnit(baseUnit)
+      .baseUnitClient()
+      .transform(baseUnit.cloneUnit(), PipelineId.Cache)
 
   def asJsonLD(resolved: BaseUnit,
                builder: DocBuilder[_],
@@ -153,36 +124,48 @@ class AmfConfigurationWrapper private[amfintegration] (private val initialConfig
       .renderGraphToBuilder(resolved.cloneUnit(), builder)
 
   def convertTo(model: BaseUnit, target: Spec, syntax: Option[String]): String = {
-    val client = configForUnit(model, target).baseUnitClient()
+    val client = innerAmfConfigurationStateDeltas.configForSpec(target).baseUnitClient()
     val result = client.transform(model.cloneUnit(), PipelineId.Compatibility)
     syntax.map(s => s"application/$s").fold(client.render(result.baseUnit))(s => client.render(result.baseUnit, s))
   }
 
-  def serialize(target: Spec, syntax: String, unit: BaseUnit): String = {
-    configForUnit(unit.cloneUnit(), target).baseUnitClient().render(unit, syntax)
-  }
+  def serialize(target: Spec, syntax: String, unit: BaseUnit): String =
+    innerAmfConfigurationStateDeltas.configForSpec(target).baseUnitClient().render(unit, syntax)
 
   def fullResolution(unit: BaseUnit): AMFResult =
-    configForUnit(unit).baseUnitClient().transform(unit.cloneUnit(), PipelineId.Editing)
+    innerAmfConfigurationStateDeltas
+      .configForUnit(unit)
+      .baseUnitClient()
+      .transform(unit.cloneUnit(), PipelineId.Editing)
 
   def emit(de: DomainElement, definedBy: Dialect): YNode =
-    configForDialect(definedBy).elementClient().renderElement(de)
+    innerAmfConfigurationStateDeltas.configForDialect(definedBy).elementClient().renderElement(de)
 
-  def emit(de: DomainElement, spec: Spec): YNode = configForSpec(spec).elementClient().renderElement(de)
-
-  /**
-    * mutates AMF Configuration in order to register a new dialect
-    */
-  def registerDialect(d: Dialect): Unit = configuration = configuration.withDialect(d)
+  def emit(de: DomainElement, spec: Spec): YNode =
+    innerAmfConfigurationStateDeltas.configForSpec(spec).elementClient().renderElement(de)
 
   /**
     * mutates AMF Configuration in order to register a new dialect
     */
-  def withResourceLoader(rl: ResourceLoader): Unit =
+  def registerDialect(d: Dialect): Unit = configuration = {
+    innerAmfConfigurationStateDeltas = innerAmfConfigurationStateDeltas.withDialects(Seq(d))
+    configuration.withDialect(d)
+  }
+
+  /**
+    * mutates AMF Configuration in order to register a new dialect
+    */
+  def withResourceLoader(rl: ResourceLoader): Unit = {
+    innerAmfConfigurationStateDeltas = innerAmfConfigurationStateDeltas.withResourceLoaders(Seq(rl))
     configuration = configuration.withResourceLoader(rl)
+  }
 
   def branch: AmfConfigurationWrapper =
-    new AmfConfigurationWrapper(configuration, alsVocabularyRegistry.branch, alsDialectProvider, resourceLoaders)
+    new AmfConfigurationWrapper(configuration,
+                                alsVocabularyRegistry.branch,
+                                alsDialectProvider,
+                                resourceLoaders,
+                                Some(innerAmfConfigurationStateDeltas))
 }
 
 object AmfConfigurationWrapper {
@@ -209,5 +192,64 @@ object AmfConfigurationWrapper {
 
     override def fetch(resource: String): Future[Content] =
       Future.successful(new Content(content, fileUrl))
+  }
+}
+
+case class AMFConfigurationStateManager(validators: Seq[AMFShapePayloadValidationPlugin],
+                                        syntaxes: Seq[AMFSyntaxParsePlugin],
+                                        dialects: Seq[Dialect],
+                                        resourceLoaders: Seq[ResourceLoader]) {
+
+  def withValidators(v: Seq[AMFShapePayloadValidationPlugin]): AMFConfigurationStateManager =
+    AMFConfigurationStateManager(validators ++ v, syntaxes, dialects, resourceLoaders)
+
+  def withSyntaxes(s: Seq[AMFSyntaxParsePlugin]): AMFConfigurationStateManager =
+    AMFConfigurationStateManager(validators, syntaxes ++ s, dialects, resourceLoaders)
+
+  def withDialects(d: Seq[Dialect]): AMFConfigurationStateManager =
+    AMFConfigurationStateManager(validators, syntaxes, dialects ++ d, resourceLoaders)
+
+  def withResourceLoaders(r: Seq[ResourceLoader]): AMFConfigurationStateManager =
+    AMFConfigurationStateManager(validators, syntaxes, dialects, resourceLoaders ++ r)
+
+  private def predefinedWithDialects: AMLConfiguration = {
+    var conf = AMLConfiguration.predefined()
+    dialects.foreach(d => conf = conf.withDialect(d))
+    conf
+  }
+
+  def configForSpec(spec: Spec): AMLConfiguration =
+    (spec match {
+      case Spec.RAML10  => RAMLConfiguration.RAML10()
+      case Spec.RAML08  => RAMLConfiguration.RAML08()
+      case Spec.OAS30   => OASConfiguration.OAS30()
+      case Spec.OAS20   => OASConfiguration.OAS20()
+      case Spec.ASYNC20 => AsyncAPIConfiguration.Async20()
+      case _            => predefinedWithDialects
+    }).withPlugins((syntaxes ++ validators).toList).withLoaders(resourceLoaders.toList)
+
+  def configForDialect(d: Dialect): AMLConfiguration =
+    (ProfileMatcher.spec(d) match {
+      case Some(Spec.RAML10)  => RAMLConfiguration.RAML10()
+      case Some(Spec.RAML08)  => RAMLConfiguration.RAML08()
+      case Some(Spec.OAS30)   => OASConfiguration.OAS30()
+      case Some(Spec.OAS20)   => OASConfiguration.OAS20()
+      case Some(Spec.ASYNC20) => AsyncAPIConfiguration.Async20()
+      case Some(Spec.AML)
+          if d.location().contains("file://vocabularies/dialects/metadialect.yaml") => // TODO change when Dialect name and version be spec
+        APIConfiguration.API()
+      case _ =>
+        predefinedWithDialects
+    }).withPlugins((syntaxes ++ validators).toList).withLoaders(resourceLoaders.toList)
+
+  def configForUnit(unit: BaseUnit): AMLConfiguration =
+    configForSpec(unit.sourceSpec.getOrElse(Spec.AML))
+
+  implicit class AMLConfigurationImp(c: AMLConfiguration) {
+    def withLoaders(l: Seq[ResourceLoader]): AMLConfiguration = {
+      var r = c
+      l.foreach(rl => r = r.withResourceLoader(rl))
+      r
+    }
   }
 }
