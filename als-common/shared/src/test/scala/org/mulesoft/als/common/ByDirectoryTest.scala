@@ -27,7 +27,7 @@ trait ByDirectoryTest extends AsyncFreeSpec with FileAssertionTest {
         f.name.endsWith(fileExtension) || f.name.endsWith(fileExtension + ".ignore")))
     if (subDirs.nonEmpty || validFiles.nonEmpty) {
       s"in directory: ${dir.name}" - {
-        subDirs.foreach(forDirectory(_, parent + dir.name + "/"))
+        subDirs.foreach(forDirectory(_, parent + dir.name + "/", mustHaveMarker))
         validFiles.foreach { f =>
           val content = f.read()
           if (content.toString.contains("*") || !mustHaveMarker) {

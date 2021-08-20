@@ -1,0 +1,22 @@
+#%RAML 1.0
+title: Test API
+types:
+  type:
+    type: number
+    example: "string"
+/endpoint1:
+  get:
+    queryParameters:
+      a:
+        minLength: 10
+    body:
+      application/json:
+        properties:
+          b:
+            minLength: 5
+/endpoint2:
+  get:
+    description: a
+    queryParameters:
+      c:
+        minLength: 5

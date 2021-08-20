@@ -45,8 +45,12 @@ class GetWorkspaceConfigurationRequestHandler(val workspaceManager: WorkspaceMan
         GetWorkspaceConfigurationResult(
           workspace.folderUri,
           workspace.workspaceConfiguration
-            .map(config =>
-              DidChangeConfigurationNotificationParams(config.mainFile, config.cachables, config.profiles))
+            .map(
+              config =>
+                DidChangeConfigurationNotificationParams(config.mainFile,
+                                                         Some(workspace.folderUri),
+                                                         config.cachables,
+                                                         config.profiles))
             .getOrElse(EmptyConfigurationParams)
         )
       })
@@ -70,4 +74,5 @@ class GetWorkspaceConfigurationRequestHandler(val workspaceManager: WorkspaceMan
   override protected val empty: Option[GetWorkspaceConfigurationResult] = None
 }
 
-private object EmptyConfigurationParams extends DidChangeConfigurationNotificationParams("", Set.empty, Set.empty)
+private object EmptyConfigurationParams
+    extends DidChangeConfigurationNotificationParams("", None, Set.empty, Set.empty)

@@ -1,0 +1,10 @@
+uri: file://als-server/js/src/test/resources/custom-validation/byDirectory/profile9/negative.data
+diagnostics:
+  -
+    message: maximum number of endpoints test
+    range: Range(common.Position[L:2,C:0],common.Position[L:27,C:20])
+    severity: Error
+    relatedInformation:
+      -
+        message: Unknown location for error. Could not retrieve effective location
+        location: Location(file://als-server/js/src/test/resources/custom-validation/byDirectory/profile9/negative.data,Range(common.Position[L:2,C:0],common.Position[L:27,C:20]))

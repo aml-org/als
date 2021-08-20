@@ -1,0 +1,41 @@
+#%RAML 1.0
+types:
+  type:
+    type: number
+    example: "string"
+  type:
+  a:
+    type: object
+    properties:
+      f:
+        type: string
+        required: true
+      b:
+        type: string
+        required: FALSe
+      c:
+        type: string
+      e:
+        type: nonExistent
+      d
+/endpoint1:
+  get:
+    queryParameters:
+      a:
+    body:
+      application/json:
+        properties:
+          b:
+k: string
+/endpoint2:
+  get:
+    description: a
+    queryParameters:
+      c:
+        minLength: 5
+    body:
+      application/json:
+        type: a
+        example:
+          c: 3
+          b: fal
