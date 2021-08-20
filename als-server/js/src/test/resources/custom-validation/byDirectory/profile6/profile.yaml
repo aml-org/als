@@ -1,0 +1,51 @@
+#%Validation Profile 1.0
+
+profile: Test6
+
+violation:
+  - and-or-not-rule
+
+validations:
+
+  and-or-not-rule:
+    message: GET operations must have 2xx, 4xx and 5xx status codes but no 201
+    targetClass: apiContract.Operation
+    or:
+      - not:
+          propertyConstraints:
+            apiContract.method:
+              in: [ get ]
+      - and:
+          - not:
+              propertyConstraints:
+                apiContract.returns:
+                  atLeast:
+                    count: 1
+                    validation:
+                      propertyConstraints:
+                        apiContract.statusCode:
+                          pattern: "^201$"
+          - propertyConstraints:
+              apiContract.returns:
+                atLeast:
+                  count: 1
+                  validation:
+                    propertyConstraints:
+                      apiContract.statusCode:
+                        pattern: ^2[0-9]{2}$
+          - propertyConstraints:
+              apiContract.returns:
+                atLeast:
+                  count: 1
+                  validation:
+                    propertyConstraints:
+                      apiContract.statusCode:
+                        pattern: ^4[0-9]{2}$
+          - propertyConstraints:
+              apiContract.returns:
+                atLeast:
+                  count: 1
+                  validation:
+                    propertyConstraints:
+                      apiContract.statusCode:
+                        pattern: ^5[0-9]{2}$

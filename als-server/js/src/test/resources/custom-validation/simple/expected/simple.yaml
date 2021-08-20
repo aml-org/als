@@ -1,0 +1,10 @@
+uri: file://als-server/js/src/test/resources/custom-validation/simple/api.raml
+diagnostics:
+  -
+    message: Scalars in parameters must have minLength defined
+    range: Range(common.Position[L:0,C:0],common.Position[L:0,C:0])
+    severity: Error
+    relatedInformation:
+      -
+        message: Unknown location for error. Could not retrieve effective location
+        location: Location(file://als-server/js/src/test/resources/custom-validation/simple/api.raml,Range(common.Position[L:0,C:0],common.Position[L:0,C:0]))

@@ -1,0 +1,18 @@
+uri: file://als-server/js/src/test/resources/custom-validation/byDirectory/profile1/negative.data
+diagnostics:
+  -
+    message: Scalars in parameters must have minLength defined
+    range: Range(common.Position[L:7,C:6],common.Position[L:8,C:0])
+    severity: Error
+    relatedInformation:
+      -
+        message: Unknown location for error. Could not retrieve effective location
+        location: Location(file://als-server/js/src/test/resources/custom-validation/byDirectory/profile1/negative.data,Range(common.Position[L:7,C:6],common.Position[L:8,C:0]))
+  -
+    message: Scalars in parameters must have minLength defined
+    range: Range(common.Position[L:17,C:6],common.Position[L:17,C:8])
+    severity: Error
+    relatedInformation:
+      -
+        message: Unknown location for error. Could not retrieve effective location
+        location: Location(file://als-server/js/src/test/resources/custom-validation/byDirectory/profile1/negative.data,Range(common.Position[L:17,C:6],common.Position[L:17,C:8]))
