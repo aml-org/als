@@ -13,10 +13,11 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
     extends CommandExecutor[DidChangeConfigurationNotificationParams, Unit] {
   override protected def buildParamFromMap(m: YMap): Option[DidChangeConfigurationNotificationParams] = {
     val mainUri: String           = m.key("mainUri").flatMap(e => e.value.toOption[String]).getOrElse("")
+    val folder: Option[String]    = m.key("folder").flatMap(e => e.value.toOption[String])
     val dependencies: Set[String] = m.key("dependencies").map(seqToSet).getOrElse(Set.empty)
     val profiles: Set[String]     = m.key("customValidationProfiles").map(seqToSet).getOrElse(Set.empty)
 
-    Some(DidChangeConfigurationNotificationParams(mainUri, dependencies, profiles))
+    Some(DidChangeConfigurationNotificationParams(mainUri, folder, dependencies, profiles))
   }
 
   private def seqToSet(entry: YMapEntry): Set[String] = {
@@ -27,12 +28,24 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
   }
 
   override protected def runCommand(param: DidChangeConfigurationNotificationParams): Future[Unit] =
-    wsc.getWorkspace(param.mainUri).map { manager =>
-      if (manager.acceptsConfigUpdateByCommand)
+    wsc.getWorkspace(param.folder.getOrElse(param.mainUri)).map { manager =>
+      if (manager.acceptsConfigUpdateByCommand) {
+        logger.debug(
+          s"DidChangeConfiguration for workspace @ ${manager.folderUri} (folder: ${param.folder}, mainUri:${param.mainUri})",
+          "DidChangeConfigurationCommandExecutor",
+          "runCommand"
+        )
         wsc.contentManagerConfiguration(manager,
                                         param.mainUri,
                                         param.dependencies,
                                         param.customValidationProfiles,
                                         None)
+      } else {
+        logger.warning(
+          s"Tried to change configuration of workspace `${manager.folderUri}` (folder: ${param.folder}, mainUri:${param.mainUri}) but it does not accept configuration by command",
+          "DidChangeConfigurationCommandExecutor",
+          "runCommand"
+        )
+      }
     }
 }

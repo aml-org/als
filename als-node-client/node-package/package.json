@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "ajv": "6.5.2",
+    "@aml-org/amf-custom-validator": "0.1.0-SNAPSHOT.10",
     "vscode-jsonrpc": "6.0.0",
     "vscode-languageserver-protocol": "3.16.0"
   }

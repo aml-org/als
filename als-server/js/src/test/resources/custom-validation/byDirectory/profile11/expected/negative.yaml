@@ -1,0 +1,10 @@
+uri: file://als-server/js/src/test/resources/custom-validation/byDirectory/profile11/negative.data
+diagnostics:
+  -
+    message: Validation error
+    range: Range(common.Position[L:6,C:2],common.Position[L:8,C:17])
+    severity: Error
+    relatedInformation:
+      -
+        message: Unknown location for error. Could not retrieve effective location
+        location: Location(file://als-server/js/src/test/resources/custom-validation/byDirectory/profile11/negative.data,Range(common.Position[L:6,C:2],common.Position[L:8,C:17]))

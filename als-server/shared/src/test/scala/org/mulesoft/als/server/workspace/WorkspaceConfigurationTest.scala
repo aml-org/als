@@ -4,8 +4,6 @@ import amf.core.client.common.remote.Content
 import amf.core.client.platform.resource.ResourceNotFound
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.internal.remote.Platform
-import amf.core.internal.unsafe.PlatformSecrets
-import org.mulesoft.als.common.URIImplicits.StringUriImplicits
 import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
 import org.mulesoft.als.server._
 import org.mulesoft.als.server.feature.configuration.workspace.{
@@ -35,7 +33,7 @@ import scala.concurrent.{ExecutionContext, Future, Promise}
 
 // TODO: when implemented Validation Profile and Semantic Extension, assert in tests the mutability of AmfConfiguration
 //   for example, start test, register/unregister dialect, check that the resulting unit still has the starting dialects
-class WorkspaceConfigurationTest extends LanguageServerBaseTest with PlatformSecrets {
+class WorkspaceConfigurationTest extends LanguageServerBaseTest with ChangesWorkspaceConfiguration {
   override def rootPath: String = ""
 
   implicit override def executionContext: ExecutionContext =
@@ -101,16 +99,11 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with PlatformSec
       }
     }
   }
-  def wrapJson(mainUri: String, dependencies: Set[String] = Set.empty, profiles: Set[String] = Set.empty): String =
-    s"""{"mainUri": "${mainUri.toAmfUri}", "dependencies": [${toList(dependencies)}], "customValidationProfiles": [${toList(
-      profiles)}]}"""
-
-  def toList(s: Set[String]): String = s.map(e => s""""$e"""").mkString(",")
   test("Should update the configuration by command for new Units") {
     val (factory: WorkspaceManagerFactory, parserListener) = createPatchedWorkspaceManagerFactory()
     val workspaceManager: WorkspaceManager                 = factory.workspaceManager
     val initialArgs                                        = List(wrapJson(mainApiUri))
-    val args                                               = List(wrapJson(isolatedUri))
+    val args                                               = wrapJson(isolatedUri)
     withServer[Assertion](buildServer(factory)) { server =>
       for {
         _ <- server.initialize(
@@ -123,7 +116,7 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with PlatformSec
         _          <- openFileNotification(server)(isolatedUri, isolated)
         _          <- parserListener.nextCall // parse isolated
         firstUnit  <- workspaceManager.getUnit(mainApiUri, UUID.randomUUID().toString)
-        _          <- workspaceManager.executeCommand(ExecuteCommandParams("didChangeConfiguration", args))
+        _          <- changeWorkspaceConfiguration(workspaceManager, args)
         _          <- parserListener.nextCall
         _          <- openFileNotification(server)(mainApiUri, isolated)
         _          <- parserListener.nextCall
@@ -191,21 +184,25 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with PlatformSec
   test("Get workspace notification request should return current configuration") {
     val listener                              = new MockResolutionListener(logger)
     val (factory: WorkspaceManagerFactory, _) = createPatchedWorkspaceManagerFactory(List.empty, List(listener))
-    val args                                  = List(wrapJson(isolatedUri))
-    val args2                                 = List(wrapJson(isolatedUri, Set.empty, Set("profile.yaml")))
-    val args3                                 = List(wrapJson(isolatedUri, Set("dependency.yaml")))
+    val args                                  = wrapJson(isolatedUri)
+    val args2                                 = wrapJson(isolatedUri, None, Set.empty, Set("profile.yaml"))
+    val args3                                 = wrapJson(isolatedUri, None, Set("dependency.yaml"))
+    val workspaceManager                      = factory.workspaceManager
     withServer[Assertion](buildServer(factory)) { server =>
       for {
-        _       <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"file://folder")))
-        _       <- listener.nextCall
+        _ <- server.initialize(
+          AlsInitializeParams(None,
+                              Some(TraceKind.Off),
+                              rootUri = Some(s"file://folder"),
+                              projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
         config1 <- getWorkspaceConfiguration(server, mainApiUri)
-        _       <- factory.workspaceManager.executeCommand(ExecuteCommandParams("didChangeConfiguration", args))
+        _       <- changeWorkspaceConfiguration(workspaceManager, args)
         _       <- listener.nextCall
         config2 <- getWorkspaceConfiguration(server, mainApiUri)
-        _       <- factory.workspaceManager.executeCommand(ExecuteCommandParams("didChangeConfiguration", args2))
+        _       <- changeWorkspaceConfiguration(workspaceManager, args2)
         _       <- listener.nextCall
         config3 <- getWorkspaceConfiguration(server, mainApiUri)
-        _       <- factory.workspaceManager.executeCommand(ExecuteCommandParams("didChangeConfiguration", args3))
+        _       <- changeWorkspaceConfiguration(workspaceManager, args3)
         _       <- listener.nextCall
         config4 <- getWorkspaceConfiguration(server, mainApiUri)
       } yield {
@@ -213,7 +210,7 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with PlatformSec
         assert(config2.workspace == """file://folder""")
         assert(config3.workspace == """file://folder""")
         assert(config4.workspace == """file://folder""")
-        assert(config1.configuration.mainUri == "api.raml")
+        assert(config1.configuration.mainUri == "")
         assert(config2.configuration.mainUri == "isolated.raml")
         assert(config3.configuration.mainUri == "isolated.raml")
         assert(config4.configuration.mainUri == "isolated.raml")

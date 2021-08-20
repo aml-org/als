@@ -10,10 +10,7 @@ import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.actions.{ClientRenameFileActionParams, ClientRenameFileActionResult}
 import org.mulesoft.als.server.protocol.client.{AlsLanguageClient, AlsLanguageClientAware}
 import org.mulesoft.als.server.protocol.configuration._
-import org.mulesoft.als.server.protocol.convert.LspConvertersClientToShared.{
-  ClientGetWorkspaceConfigurationParamsConverter,
-  _
-}
+import org.mulesoft.als.server.protocol.convert.LspConvertersClientToShared._
 import org.mulesoft.als.server.protocol.convert.LspConvertersSharedToClient._
 import org.mulesoft.als.server.protocol.diagnostic.{
   ClientAlsPublishDiagnosticsParams,

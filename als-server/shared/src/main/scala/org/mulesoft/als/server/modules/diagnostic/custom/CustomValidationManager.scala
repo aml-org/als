@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.modules.diagnostic.custom
 
 import amf.core.client.common.validation.{ProfileName, ProfileNames}
+import amf.core.client.scala.config.RenderOptions
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.validation.AMFValidationReport
 import amf.core.internal.remote.Spec
@@ -13,6 +14,7 @@ import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.amfintegration.{AmfResolvedUnit, DiagnosticsBundle}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
+import org.yaml.builder.JsonOutputBuilder
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
@@ -30,8 +32,8 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
 
   private def tree(baseUnit: BaseUnit): Set[String] =
     baseUnit.flatRefs
-      .map(bu => bu.location().getOrElse(bu.id))
-      .toSet + baseUnit.location().getOrElse(baseUnit.id)
+      .map(bu => bu.identifier)
+      .toSet + baseUnit.identifier
 
   private def gatherValidationErrors(uri: String,
                                      resolved: AmfResolvedUnit,
@@ -43,7 +45,9 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
         for {
           unit <- resolved.resolvedUnit
           serialized <- Future {
-            resolved.amfConfiguration.serialize(Spec.AMF, Spec.AMF.mediaType, unit)
+            val builder = JsonOutputBuilder(false)
+            resolved.amfConfiguration.asJsonLD(unit, builder, RenderOptions().withCompactUris.withSourceMaps)
+            builder.result.toString
           }
           reports <- Future.sequence(
             config.profiles.map(profile => validateWithProfile(profile, serialized, resolved.amfConfiguration)))
@@ -51,7 +55,6 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
           val results = reports.flatMap { r =>
             r.results
           }
-          results.foreach(println)
           validationGatherer
             .indexNewReport(ErrorsWithTree(uri, results.toSeq, Some(tree(resolved.baseUnit))), managerName, uuid)
           notifyReport(uri, resolved.baseUnit, references, managerName, ProfileName("CustomValidation"))
