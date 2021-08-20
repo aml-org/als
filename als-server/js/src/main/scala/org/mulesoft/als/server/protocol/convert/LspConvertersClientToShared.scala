@@ -196,7 +196,7 @@ object LspConvertersClientToShared {
     def toShared: RenameFileActionParams = RenameFileActionParams(i.oldDocument.toShared, i.newDocument.toShared)
   }
 
-  implicit class ClientGetWorkspaceConfigurationParamsConverter(s: ClientGetWorkspaceConfigurationParams) {
+  implicit class ClientGetWorkspaceConfigurationParamsConverterToShared(s: ClientGetWorkspaceConfigurationParams) {
     def toShared: GetWorkspaceConfigurationParams = GetWorkspaceConfigurationParams(s.textDocument.toShared)
   }
 

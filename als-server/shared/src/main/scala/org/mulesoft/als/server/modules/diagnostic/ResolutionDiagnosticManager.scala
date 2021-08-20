@@ -64,8 +64,8 @@ class ResolutionDiagnosticManager(override protected val telemetryProvider: Tele
 
   private def tree(baseUnit: BaseUnit): Set[String] =
     baseUnit.flatRefs
-      .map(bu => bu.location().getOrElse(bu.id))
-      .toSet + baseUnit.location().getOrElse(baseUnit.id)
+      .map(bu => bu.identifier)
+      .toSet + baseUnit.identifier
 
   private def report(uri: String,
                      telemetryProvider: TelemetryProvider,

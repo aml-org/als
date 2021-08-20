@@ -362,7 +362,15 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       val apiFragment = s"$root/fragment.raml"
       val wm          = server.workspaceService.asInstanceOf[WorkspaceManager]
       for {
-        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
+        _ <- server.initialize(
+          AlsInitializeParams(None,
+                              Some(TraceKind.Off),
+                              rootUri = Some(root),
+                              projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
+        _ <- server.workspaceService.executeCommand(
+          ExecuteCommandParams(
+            Commands.DID_CHANGE_CONFIGURATION,
+            List(s"""{"mainUri": "$apiRoot", "dependencies": [], "customValidationProfiles": []}""")))
         // api.raml, fragment.raml
         _       <- diagnosticClientNotifier.nextCall
         _       <- diagnosticClientNotifier.nextCall

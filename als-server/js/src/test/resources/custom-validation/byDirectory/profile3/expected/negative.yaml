@@ -1,0 +1,26 @@
+uri: file://als-server/js/src/test/resources/custom-validation/byDirectory/profile3/negative.data
+diagnostics:
+  -
+    message: Endpoints must have a POST method
+    range: Range(common.Position[L:4,C:0],common.Position[L:21,C:0])
+    severity: Error
+    relatedInformation:
+      -
+        message: Unknown location for error. Could not retrieve effective location
+        location: Location(file://als-server/js/src/test/resources/custom-validation/byDirectory/profile3/negative.data,Range(common.Position[L:4,C:0],common.Position[L:21,C:0]))
+  -
+    message: Endpoints must have a POST method
+    range: Range(common.Position[L:21,C:0],common.Position[L:39,C:0])
+    severity: Error
+    relatedInformation:
+      -
+        message: Unknown location for error. Could not retrieve effective location
+        location: Location(file://als-server/js/src/test/resources/custom-validation/byDirectory/profile3/negative.data,Range(common.Position[L:21,C:0],common.Position[L:39,C:0]))
+  -
+    message: Endpoints must have a POST method
+    range: Range(common.Position[L:39,C:0],common.Position[L:55,C:12])
+    severity: Error
+    relatedInformation:
+      -
+        message: Unknown location for error. Could not retrieve effective location
+        location: Location(file://als-server/js/src/test/resources/custom-validation/byDirectory/profile3/negative.data,Range(common.Position[L:39,C:0],common.Position[L:55,C:12]))

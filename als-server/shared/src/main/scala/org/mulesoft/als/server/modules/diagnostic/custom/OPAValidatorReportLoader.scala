@@ -6,21 +6,24 @@ import amf.core.client.common.validation.AmfProfile
 import amf.core.client.scala.validation.{AMFValidationReport, AMFValidationResult}
 import amf.core.internal.annotations.LexicalInformation
 import amf.core.internal.parser.YMapOps
-import org.yaml.model.{YMap, YMapEntry, YNode, YNodeLike}
-import org.yaml.parser.JsonParser
 import org.yaml.model.YNodeLike.toBoolean
+import org.yaml.model.{YMap, YMapEntry, YNode}
+import org.yaml.parser.JsonParser
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 class OPAValidatorReportLoader {
 
   implicit class URI(value: String) {
-    val SHACL_ALIAS   = "http://www.w3.org/ns/shacl#"
-    val TRACE_ALIAS   = "http://a.ml/vocabularies/validation#"
-    val AML_ALIAS     = "http://a.ml/vocabularies/amf/parser#"
-    def shacl: String = SHACL_ALIAS + value
-    def trace: String = TRACE_ALIAS + value
-    def aml: String   = AML_ALIAS + value
+    val SHACL_ALIAS        = "http://www.w3.org/ns/shacl#"
+    val TRACE_ALIAS        = "http://a.ml/vocabularies/validation#"
+    val LEXICAL_ALIAS      = "http://a.ml/vocabularies/lexical#"
+    val AML_ALIAS          = "http://a.ml/vocabularies/amf/parser#"
+    def shacl: String      = SHACL_ALIAS + value
+    def stripShacl: String = value.replace(SHACL_ALIAS, "")
+    def trace: String      = TRACE_ALIAS + value
+    def aml: String        = AML_ALIAS + value
+    def lexical: String    = LEXICAL_ALIAS + value
   }
 
   def load(report: String): Future[AMFValidationReport] = Future {
@@ -32,23 +35,29 @@ class OPAValidatorReportLoader {
   }
 
   def loadResult(map: YMap): AMFValidationResult = {
-    val node    = map.key("focusNode".shacl).flatMap(readIdValue).getOrElse("")
-    val message = map.key("resultMessage".shacl).flatMap(_.value.asScalar).map(_.text).getOrElse("")
-    val level   = map.key("resultSeverity".shacl).flatMap(readIdValue).getOrElse("Violation")
-    val lexical = map.key("trace".trace).flatMap(readTrace)
-    AMFValidationResult(message, level, node, None, "", lexical, None, null)
+    val node                = map.key("focusNode".shacl).flatMap(readIdValue).getOrElse("")
+    val message             = map.key("resultMessage".shacl).flatMap(_.value.asScalar).map(_.text).getOrElse("")
+    val level               = map.key("resultSeverity".shacl).flatMap(s => readIdValue(s).map(_.stripShacl)).getOrElse("Violation")
+    val (lexical, location) = map.key("trace".trace).map(readTrace).getOrElse((None, None))
+    AMFValidationResult(message, level, node, None, "", lexical, location, null)
 
   }
 
-  def readTrace(e: YMapEntry): Option[LexicalInformation] = {
+  def readTrace(e: YMapEntry): (Option[LexicalInformation], Option[String]) = {
     val head = e.value.as[Seq[YNode]].map(_.as[YMap]).head
-    head.key("lexicalPosition".aml).map(e => parseLexical(e.value.as[YMap])).map(LexicalInformation(_))
+    head.key("location".trace).map(e => parseLocation(e.value.as[YMap])).getOrElse((None, None))
   }
 
-  def parseLexical(m: YMap): position.Range = {
+  def parseLocation(m: YMap): (Option[LexicalInformation], Option[String]) = {
+    val position = m.key("range".lexical).map(e => parseRange(e.value.as[YMap])).map(LexicalInformation(_))
+    val location = m.key("uri".lexical).map(_.value.toString())
+    (position, if (location.contains("\"\"")) None else location)
+  }
+
+  def parseRange(m: YMap): position.Range = {
     position.Range(
-      m.key("end".aml).map(e => parsePosition(e.value.as[YMap])).getOrElse(Position.ZERO),
-      m.key("start".aml).map(e => parsePosition(e.value.as[YMap])).getOrElse(Position.ZERO)
+      m.key("start".lexical).map(e => parsePosition(e.value.as[YMap])).getOrElse(Position.ZERO),
+      m.key("end".lexical).map(e => parsePosition(e.value.as[YMap])).getOrElse(Position.ZERO)
     )
   }
 
@@ -56,7 +65,7 @@ class OPAValidatorReportLoader {
     new Position(parseNumber(m, "line").getOrElse(1), parseNumber(m, "column").getOrElse(0))
   }
 
-  def parseNumber(m: YMap, field: String): Option[Int] = m.key(field.aml).map(e => e.value.as[Int])
+  def parseNumber(m: YMap, field: String): Option[Int] = m.key(field.lexical).map(e => e.value.as[Int])
 
   def readIdValue(e: YMapEntry): Option[String] = {
     e.value.as[YMap].key("@id").flatMap(_.value.asScalar).map(_.text)

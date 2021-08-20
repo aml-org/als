@@ -1,0 +1,9 @@
+#%RAML 1.0
+
+title: Example API
+version: 1.0
+
+types:
+  Emails:
+    type: any[]
+    minItems: 40

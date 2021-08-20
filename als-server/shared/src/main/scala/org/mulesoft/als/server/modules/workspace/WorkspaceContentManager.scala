@@ -227,7 +227,7 @@ class WorkspaceContentManager private (val folderUri: String,
     maybeConfig match {
       case Some(conf) =>
         repository.setCachables(conf.cachables.map(_.toAmfUri))
-        processMFChanges(conf.mainFile, snapshot)
+        if (conf.mainFile != "") processMFChanges(conf.mainFile, snapshot) else Future(repository.cleanTree())
       case _ =>
         repository.cleanTree()
         repository.setCachables(Set.empty)

@@ -1,0 +1,159 @@
+{
+"@graph": [
+{
+"@id": "#1",
+"@type": [
+"apiContract:WebAPI",
+"apiContract:API",
+"doc:RootDomainElement",
+"doc:DomainElement"
+],
+"core:name": "API",
+"apiContract:endpoint": [
+{
+"@id": "#2"
+}
+],
+"sourcemaps:sources": [
+{
+"@id": "#1/source-map"
+}
+]
+},
+{
+"@id": "#2",
+"@type": [
+"apiContract:EndPoint",
+"doc:DomainElement"
+],
+"apiContract:path": "/invoices",
+"apiContract:supportedOperation": [
+{
+"@id": "#3"
+}
+],
+"sourcemaps:sources": [
+{
+"@id": "#2/source-map"
+}
+]
+},
+{
+"@id": "#1/source-map",
+"@type": [
+"sourcemaps:SourceMap"
+],
+"sourcemaps:source-vendor": [
+{
+"@id": "#1/source-map/source-vendor/element_0"
+}
+],
+"sourcemaps:lexical": [
+{
+"@id": "#1/source-map/lexical/element_1"
+},
+{
+"@id": "#1/source-map/lexical/element_0"
+}
+]
+},
+{
+"@id": "#3",
+"@type": [
+"apiContract:Operation",
+"doc:DomainElement"
+],
+"apiContract:method": "get",
+"core:description": "",
+"sourcemaps:sources": [
+{
+"@id": "#3/source-map"
+}
+]
+},
+{
+"@id": "#2/source-map",
+"@type": [
+"sourcemaps:SourceMap"
+],
+"sourcemaps:lexical": [
+{
+"@id": "#2/source-map/lexical/element_1"
+},
+{
+"@id": "#2/source-map/lexical/element_0"
+}
+]
+},
+{
+"@id": "#1/source-map/source-vendor/element_0",
+"sourcemaps:element": "amf://id#1",
+"sourcemaps:value": "RAML 1.0"
+},
+{
+"@id": "#1/source-map/lexical/element_1",
+"sourcemaps:element": "amf://id#1",
+"sourcemaps:value": "[(2,0)-(8,34)]"
+},
+{
+"@id": "#1/source-map/lexical/element_0",
+"sourcemaps:element": "core:name",
+"sourcemaps:value": "[(2,0)-(3,0)]"
+},
+{
+"@id": "#3/source-map",
+"@type": [
+"sourcemaps:SourceMap"
+],
+"sourcemaps:lexical": [
+{
+"@id": "#3/source-map/lexical/element_1"
+},
+{
+"@id": "#3/source-map/lexical/element_0"
+}
+]
+},
+{
+"@id": "#2/source-map/lexical/element_1",
+"sourcemaps:element": "amf://id#2",
+"sourcemaps:value": "[(3,0)-(8,34)]"
+},
+{
+"@id": "#2/source-map/lexical/element_0",
+"sourcemaps:element": "apiContract:path",
+"sourcemaps:value": "[(3,0)-(3,9)]"
+},
+{
+"@id": "#3/source-map/lexical/element_1",
+"sourcemaps:element": "amf://id#3",
+"sourcemaps:value": "[(4,2)-(8,34)]"
+},
+{
+"@id": "#3/source-map/lexical/element_0",
+"sourcemaps:element": "core:description",
+"sourcemaps:value": "[(5,4)-(6,0)]"
+},
+{
+"@id": "",
+"@type": [
+"doc:Document",
+"doc:Fragment",
+"doc:Module",
+"doc:Unit"
+],
+"doc:encodes": {
+"@id": "#1"
+},
+"doc:version": "3.1.0",
+"doc:root": true
+}
+],
+"@context": {
+"@base": "amf://id",
+"doc": "http://a.ml/vocabularies/document#",
+"apiContract": "http://a.ml/vocabularies/apiContract#",
+"core": "http://a.ml/vocabularies/core#",
+"sourcemaps": "http://a.ml/vocabularies/document-source-maps#"
+}
+}

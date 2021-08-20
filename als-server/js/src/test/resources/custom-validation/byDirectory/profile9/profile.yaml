@@ -1,0 +1,14 @@
+#%Validation Profile 1.0
+
+profile: Test9
+
+violation:
+  - max-endpoints
+
+validations:
+  max-endpoints:
+    targetClass: apiContract.WebAPI
+    message: maximum number of endpoints test
+    propertyConstraints:
+      apiContract.endpoint:
+        maxCount: 3

@@ -1,0 +1,129 @@
+{
+  "@context": {
+    "actual": {
+      "@id": "http://a.ml/vocabularies/validation#actual"
+    },
+    "argument": {
+      "@id": "http://a.ml/vocabularies/validation#argument"
+    },
+    "condition": {
+      "@id": "http://a.ml/vocabularies/validation#condition"
+    },
+    "expected": {
+      "@id": "http://a.ml/vocabularies/validation#expected"
+    },
+    "negated": {
+      "@id": "http://a.ml/vocabularies/validation#negated"
+    }
+  },
+  "@type": "http://www.w3.org/ns/shacl#ValidationReport",
+  "http://www.w3.org/ns/shacl#conforms": false,
+  "http://www.w3.org/ns/shacl#result": [
+    {
+      "@type": [
+        "http://www.w3.org/ns/shacl#ValidationResult"
+      ],
+      "http://a.ml/vocabularies/validation#sourceShapeName": "scalar-parameters",
+      "http://a.ml/vocabularies/validation#trace": [
+        {
+          "@type": [
+            "http://a.ml/vocabularies/validation#TraceMessage"
+          ],
+          "http://a.ml/vocabularies/validation#component": "minCount",
+          "http://a.ml/vocabularies/validation#location": {
+            "@type": [
+              "http://a.ml/vocabularies/lexical#Location"
+            ],
+            "http://a.ml/vocabularies/lexical#range": {
+              "@type": [
+                "http://a.ml/vocabularies/lexical#Range"
+              ],
+              "http://a.ml/vocabularies/lexical#end": {
+                "@type": [
+                  "http://a.ml/vocabularies/lexical#Position"
+                ],
+                "http://a.ml/vocabularies/lexical#column": 0,
+                "http://a.ml/vocabularies/lexical#line": 9
+              },
+              "http://a.ml/vocabularies/lexical#start": {
+                "@type": [
+                  "http://a.ml/vocabularies/lexical#Position"
+                ],
+                "http://a.ml/vocabularies/lexical#column": 2,
+                "http://a.ml/vocabularies/lexical#line": 3
+              }
+            },
+            "http://a.ml/vocabularies/lexical#uri": ""
+          },
+          "http://www.w3.org/ns/shacl#resultPath": "shapes.schema / shacl.minLength",
+          "http://www.w3.org/ns/shacl#traceValue": {
+            "actual": 0,
+            "condition": ">=",
+            "expected": 1,
+            "negated": false
+          }
+        }
+      ],
+      "http://www.w3.org/ns/shacl#focusNode": {
+        "@id": "file://test/data/integration/profile1/negative.data.raml#/web-api/end-points/%2Fendpoint1/get/request/parameter/query/a"
+      },
+      "http://www.w3.org/ns/shacl#resultMessage": "Scalars in parameters must have minLength defined",
+      "http://www.w3.org/ns/shacl#resultSeverity": {
+        "@id": "http://www.w3.org/ns/shacl#Violation"
+      }
+    },
+    {
+      "@type": [
+        "http://www.w3.org/ns/shacl#ValidationResult"
+      ],
+      "http://a.ml/vocabularies/validation#sourceShapeName": "scalar-parameters",
+      "http://a.ml/vocabularies/validation#trace": [
+        {
+          "@type": [
+            "http://a.ml/vocabularies/validation#TraceMessage"
+          ],
+          "http://a.ml/vocabularies/validation#component": "minCount",
+          "http://a.ml/vocabularies/validation#location": {
+            "@type": [
+              "http://a.ml/vocabularies/lexical#Location"
+            ],
+            "http://a.ml/vocabularies/lexical#range": {
+              "@type": [
+                "http://a.ml/vocabularies/lexical#Range"
+              ],
+              "http://a.ml/vocabularies/lexical#end": {
+                "@type": [
+                  "http://a.ml/vocabularies/lexical#Position"
+                ],
+                "http://a.ml/vocabularies/lexical#column": 8,
+                "http://a.ml/vocabularies/lexical#line": 18
+              },
+              "http://a.ml/vocabularies/lexical#start": {
+                "@type": [
+                  "http://a.ml/vocabularies/lexical#Position"
+                ],
+                "http://a.ml/vocabularies/lexical#column": 6,
+                "http://a.ml/vocabularies/lexical#line": 18
+              }
+            },
+            "http://a.ml/vocabularies/lexical#uri": ""
+          },
+          "http://www.w3.org/ns/shacl#resultPath": "shapes.schema / shacl.minLength",
+          "http://www.w3.org/ns/shacl#traceValue": {
+            "actual": 0,
+            "condition": ">=",
+            "expected": 1,
+            "negated": false
+          }
+        }
+      ],
+      "http://www.w3.org/ns/shacl#focusNode": {
+        "@id": "file://test/data/integration/profile1/negative.data.raml#/web-api/end-points/%2Fendpoint2/get/request/parameter/query/d"
+      },
+      "http://www.w3.org/ns/shacl#resultMessage": "Scalars in parameters must have minLength defined",
+      "http://www.w3.org/ns/shacl#resultSeverity": {
+        "@id": "http://www.w3.org/ns/shacl#Violation"
+      }
+    }
+  ]
+}

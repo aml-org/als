@@ -1,0 +1,16 @@
+uri: file://als-server/js/src/test/resources/custom-validation/byDirectory/profile4/negative.data
+diagnostics:
+  -
+    message: Endpoints must have a POST method
+    range: Range(common.Position[L:9,C:0],common.Position[L:15,C:0])
+    severity: Error
+    relatedInformation:
+      -
+        message: Unknown location for error. Could not retrieve effective location
+        location: Location(file://als-server/js/src/test/resources/custom-validation/byDirectory/profile4/negative.data,Range(common.Position[L:9,C:0],common.Position[L:15,C:0]))
+  -
+    message: Payload media type is mandatory
+    range: Range(common.Position[L:19,C:8],common.Position[L:19,C:20])
+    severity: Error
+    code: http://a.ml/vocabularies/amf/parser#Payload-mediaType-minCount
+    relatedInformation: []
