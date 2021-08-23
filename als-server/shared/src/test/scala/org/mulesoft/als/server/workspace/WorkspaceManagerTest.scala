@@ -8,6 +8,7 @@ import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.workspace.command.Commands
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.configuration.{TraceKind, WorkspaceFolder}
 import org.mulesoft.lsp.feature.common.{Position, Range}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
@@ -317,7 +318,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
                               Some(TraceKind.Off),
                               rootUri = Some(root),
                               projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
-        content <- this.platform.resolve(apiRoot).map(_.stream.toString) // Open as single file
+        content <- AmfConfigurationWrapper().fetchContent(apiRoot).map(_.stream.toString) // Open as single file
         _       <- openFileNotification(server)(apiRoot, content)
         // api.raml, fragment.raml
         a <- diagnosticClientNotifier.nextCall

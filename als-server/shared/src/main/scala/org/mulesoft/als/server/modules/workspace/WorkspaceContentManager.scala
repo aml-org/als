@@ -28,12 +28,11 @@ class WorkspaceContentManager private (val folderUri: String,
                                        telemetryProvider: TelemetryProvider,
                                        logger: Logger,
                                        allSubscribers: List[BaseUnitListener],
-                              projectConfigurationStyle: ProjectConfigurationStyle)
+                                       projectConfigurationStyle: ProjectConfigurationStyle)
     extends UnitTaskManager[ParsedUnit, CompilableUnit, NotificationKind] {
 
   private val rootHandler =
-    new WorkspaceRootHandler(environmentProvider.amfConfigurationSnapshot(),
-                             projectConfigurationStyle)
+    new WorkspaceRootHandler(environmentProvider.amfConfigurationSnapshot(), projectConfigurationStyle)
 
   override def init(): Future[Unit] =
     rootHandler.extractConfiguration(folderUri, logger).flatMap { mainOption =>
@@ -307,8 +306,14 @@ object WorkspaceContentManager {
             environmentProvider: EnvironmentProvider,
             telemetryProvider: TelemetryProvider,
             logger: Logger,
-            allSubscribers: List[BaseUnitListener]): Future[WorkspaceContentManager] = {
-    val wcm = new WorkspaceContentManager(folderUri, environmentProvider, telemetryProvider, logger, allSubscribers)
+            allSubscribers: List[BaseUnitListener],
+            projectConfigurationStyle: ProjectConfigurationStyle): Future[WorkspaceContentManager] = {
+    val wcm = new WorkspaceContentManager(folderUri,
+                                          environmentProvider,
+                                          telemetryProvider,
+                                          logger,
+                                          allSubscribers,
+                                          projectConfigurationStyle)
     wcm.init().map(_ => wcm)
   }
 }
