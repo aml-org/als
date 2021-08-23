@@ -2,7 +2,6 @@ package org.mulesoft.als.server.workspace.command
 
 import amf.core.internal.parser._
 import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.modules.ast.CHANGE_CONFIG
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.textsync.DidChangeConfigurationNotificationParams
 import org.yaml.model.{YMap, YSequence}
@@ -26,8 +25,8 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
   }
 
   override protected def runCommand(param: DidChangeConfigurationNotificationParams): Future[Unit] =
-    wsc.getWorkspace(param.mainUri).flatMap { manager =>
-      if (manager.acceptsConfigUpdateByCommand)wsc.contentManagerConfiguration(manager, param.mainUri, param.dependencies, None)
-
+    wsc.getWorkspace(param.mainUri).map { manager =>
+      if (manager.acceptsConfigUpdateByCommand)
+        wsc.contentManagerConfiguration(manager, param.mainUri, param.dependencies, None)
     }
 }
