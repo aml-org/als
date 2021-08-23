@@ -36,29 +36,29 @@ import scala.concurrent.Future
   * @param alsDialectProvider Dialects initialized with the ALS Server
   * @param platform
   */
-class AmfConfigurationWrapper private[amfintegration] (
-    private val initialConfig: AMFConfiguration,
-    val alsVocabularyRegistry: AlsVocabularyRegistry,
-    val alsDialectProvider: BaseAlsDialectProvider,
-    val resourceLoaders: Seq[ResourceLoader],
-    amfConfigurationStateDeltas: Option[AMFConfigurationStateManager] = None)
+class AmfConfigurationWrapper private[amfintegration] (private val initialConfig: AMFConfiguration,
+                                                       val alsVocabularyRegistry: AlsVocabularyRegistry,
+                                                       val alsDialectProvider: BaseAlsDialectProvider,
+                                                       val resourceLoaders: Seq[ResourceLoader],
+                                                       amfConfigurationState: Option[AMFConfigurationStateManager] =
+                                                         None)
     extends PlatformSecrets {
   private implicit var configuration: AMFConfiguration = initialConfig
 
-  private var innerAmfConfigurationStateDeltas: AMFConfigurationStateManager =
-    amfConfigurationStateDeltas.getOrElse(
+  private var innerAmfConfigurationState: AMFConfigurationStateManager =
+    amfConfigurationState.getOrElse(
       AMFConfigurationStateManager(Nil, Nil, configurationState.getDialects(), resourceLoaders))
 
   def buildJsonSchema(shape: AnyShape): String =
     JsonSchemaShapeRenderer.buildJsonSchema(shape, configuration)
 
   def withValidators(plugins: Seq[AMFShapePayloadValidationPlugin]): Unit = {
-    innerAmfConfigurationStateDeltas = innerAmfConfigurationStateDeltas.withValidators(plugins)
+    innerAmfConfigurationState = innerAmfConfigurationState.withValidators(plugins)
     configuration = configuration.withPlugins(plugins.toList)
   }
 
   def withSyntax(plugins: Seq[AMFSyntaxParsePlugin]): Unit = {
-    innerAmfConfigurationStateDeltas = innerAmfConfigurationStateDeltas.withSyntaxes(plugins)
+    innerAmfConfigurationState = innerAmfConfigurationState.withSyntaxes(plugins)
     configuration = configuration.withPlugins(plugins.toList)
   }
 
@@ -107,10 +107,10 @@ class AmfConfigurationWrapper private[amfintegration] (
     }
 
   def report(baseUnit: BaseUnit): Future[AMFValidationReport] =
-    innerAmfConfigurationStateDeltas.configForUnit(baseUnit).baseUnitClient().validate(baseUnit.cloneUnit())
+    innerAmfConfigurationState.configForUnit(baseUnit).baseUnitClient().validate(baseUnit.cloneUnit())
 
   def resolve(baseUnit: BaseUnit): AMFResult =
-    innerAmfConfigurationStateDeltas
+    innerAmfConfigurationState
       .configForUnit(baseUnit)
       .baseUnitClient()
       .transform(baseUnit.cloneUnit(), PipelineId.Cache)
@@ -124,39 +124,40 @@ class AmfConfigurationWrapper private[amfintegration] (
       .renderGraphToBuilder(resolved.cloneUnit(), builder)
 
   def convertTo(model: BaseUnit, target: Spec, syntax: Option[String]): String = {
-    val client = innerAmfConfigurationStateDeltas.configForSpec(target).baseUnitClient()
+    val client = innerAmfConfigurationState.configForSpec(target).baseUnitClient()
     val result = client.transform(model.cloneUnit(), PipelineId.Compatibility)
     syntax.map(s => s"application/$s").fold(client.render(result.baseUnit))(s => client.render(result.baseUnit, s))
   }
 
   def serialize(target: Spec, syntax: String, unit: BaseUnit): String =
-    innerAmfConfigurationStateDeltas.configForSpec(target).baseUnitClient().render(unit, syntax)
+    innerAmfConfigurationState.configForSpec(target).baseUnitClient().render(unit, syntax)
 
   def fullResolution(unit: BaseUnit): AMFResult =
-    innerAmfConfigurationStateDeltas
+    innerAmfConfigurationState
       .configForUnit(unit)
       .baseUnitClient()
       .transform(unit.cloneUnit(), PipelineId.Editing)
 
   def emit(de: DomainElement, definedBy: Dialect): YNode =
-    innerAmfConfigurationStateDeltas.configForDialect(definedBy).elementClient().renderElement(de)
+    innerAmfConfigurationState.configForDialect(definedBy).elementClient().renderElement(de)
 
   def emit(de: DomainElement, spec: Spec): YNode =
-    innerAmfConfigurationStateDeltas.configForSpec(spec).elementClient().renderElement(de)
+    innerAmfConfigurationState.configForSpec(spec).elementClient().renderElement(de)
 
   /**
     * mutates AMF Configuration in order to register a new dialect
     */
   def registerDialect(d: Dialect): Unit = configuration = {
-    innerAmfConfigurationStateDeltas = innerAmfConfigurationStateDeltas.withDialects(Seq(d))
-    configuration.withDialect(d)
+    val c = configuration.withDialect(d)
+    innerAmfConfigurationState = innerAmfConfigurationState.setDialects(c.configurationState().getDialects())
+    c
   }
 
   /**
     * mutates AMF Configuration in order to register a new dialect
     */
   def withResourceLoader(rl: ResourceLoader): Unit = {
-    innerAmfConfigurationStateDeltas = innerAmfConfigurationStateDeltas.withResourceLoaders(Seq(rl))
+    innerAmfConfigurationState = innerAmfConfigurationState.withResourceLoaders(Seq(rl))
     configuration = configuration.withResourceLoader(rl)
   }
 
@@ -165,7 +166,7 @@ class AmfConfigurationWrapper private[amfintegration] (
                                 alsVocabularyRegistry.branch,
                                 alsDialectProvider,
                                 resourceLoaders,
-                                Some(innerAmfConfigurationStateDeltas))
+                                Some(innerAmfConfigurationState))
 }
 
 object AmfConfigurationWrapper {
@@ -206,8 +207,11 @@ case class AMFConfigurationStateManager(validators: Seq[AMFShapePayloadValidatio
   def withSyntaxes(s: Seq[AMFSyntaxParsePlugin]): AMFConfigurationStateManager =
     AMFConfigurationStateManager(validators, syntaxes ++ s, dialects, resourceLoaders)
 
-  def withDialects(d: Seq[Dialect]): AMFConfigurationStateManager =
-    AMFConfigurationStateManager(validators, syntaxes, dialects ++ d, resourceLoaders)
+//  def withDialects(d: Seq[Dialect]): AMFConfigurationStateManager =
+//    AMFConfigurationStateManager(validators, syntaxes, dialects ++ d, resourceLoaders)
+
+  def setDialects(d: Seq[Dialect]): AMFConfigurationStateManager =
+    AMFConfigurationStateManager(validators, syntaxes, d, resourceLoaders)
 
   def withResourceLoaders(r: Seq[ResourceLoader]): AMFConfigurationStateManager =
     AMFConfigurationStateManager(validators, syntaxes, dialects, resourceLoaders ++ r)
