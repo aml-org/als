@@ -1,13 +1,13 @@
 [
   {
-    "label": "Error/",
+    "label": "Error",
     "kind": [],
     "detail": "unknown",
-    "documentation": "external.yaml#/parameters/schemas/Error/",
+    "documentation": "external.yaml#/parameters/schemas/Error",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11Error/",
-    "filterText": "external.yaml#/parameters/schemas/Error/",
+    "sortText": "11Error",
+    "filterText": "external.yaml#/parameters/schemas/Error",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,21 +23,21 @@
           "character": 42
         }
       },
-      "newText": "external.yaml#/parameters/schemas/Error/"
+      "newText": "external.yaml#/parameters/schemas/Error"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "Pet/",
+    "label": "Pet",
     "kind": [],
     "detail": "unknown",
-    "documentation": "external.yaml#/parameters/schemas/Pet/",
+    "documentation": "external.yaml#/parameters/schemas/Pet",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11Pet/",
-    "filterText": "external.yaml#/parameters/schemas/Pet/",
+    "sortText": "11Pet",
+    "filterText": "external.yaml#/parameters/schemas/Pet",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -53,7 +53,7 @@
           "character": 42
         }
       },
-      "newText": "external.yaml#/parameters/schemas/Pet/"
+      "newText": "external.yaml#/parameters/schemas/Pet"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
