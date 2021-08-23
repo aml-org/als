@@ -8,7 +8,6 @@ import org.scalatest.{AsyncFlatSpec, Matchers}
 import org.mulesoft.als.configuration.ConfigurationStyle.{COMMAND, FILE}
 import org.mulesoft.als.configuration.ProjectConfigurationStyle
 
-
 import scala.concurrent.ExecutionContext
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -35,7 +34,7 @@ class ConfigurationFilesTests extends AsyncFlatSpec with Matchers with PlatformS
   }
 
   it should "Ignore mainApi given a directory with exchange.json but configured by command" in {
-    val manager = new WorkspaceRootHandler(platform, Environment(), ProjectConfigurationStyle(COMMAND))
+    val manager = new WorkspaceRootHandler(AmfConfigurationWrapper(), ProjectConfigurationStyle(COMMAND))
     manager.extractConfiguration(s"$okRoot/", EmptyLogger).map {
       _.isEmpty should be(true)
     }
