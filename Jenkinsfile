@@ -153,7 +153,6 @@ pipeline {
                     branch 'develop'
                     branch 'rc/*'
                     branch 'adopt/amf-5-beta'
-                    branch 'amf5beta/fix-validators-js'
                 }
             }
             steps {
