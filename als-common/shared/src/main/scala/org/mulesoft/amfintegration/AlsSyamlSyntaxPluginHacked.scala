@@ -8,6 +8,7 @@ import amf.core.internal.plugins.syntax.SyamlSyntaxParsePlugin
 import amf.core.internal.unsafe.PlatformSecrets
 import org.yaml.model.{YComment, YDocument, YMap, YNode}
 import org.yaml.parser.YamlParser
+import amf.core.internal.plugins.syntax.SyamlAMFErrorHandler
 
 object AlsSyamlSyntaxPluginHacked extends AMFSyntaxParsePlugin with PlatformSecrets {
 
@@ -24,6 +25,8 @@ object AlsSyamlSyntaxPluginHacked extends AMFSyntaxParsePlugin with PlatformSecr
   override def mainMediaType: String = SyamlSyntaxParsePlugin.mainMediaType
 
   override def parse(text: CharSequence, mediaType: String, ctx: ParserContext): ParsedDocument = {
+    val syamlEH = new SyamlAMFErrorHandler(ctx.eh)
+
     if (text.length() == 0) SyamlParsedDocument(YDocument(YNode.Null))
 //    else if ((mediaType == "application/ld+json" || mediaType == "application/json") &&
 //             !ctx.parsingOptions.isAmfJsonLdSerialization &&
@@ -32,8 +35,8 @@ object AlsSyamlSyntaxPluginHacked extends AMFSyntaxParsePlugin with PlatformSecr
 //    }
     else {
       val parser = getFormat(mediaType) match {
-        case "json" => JsonParserFactory.fromCharsWithSource(text, ctx.rootContextDocument)(ctx.eh)
-        case _      => YamlParser(text, ctx.rootContextDocument)(ctx.eh).withIncludeTag("!include")
+        case "json" => JsonParserFactory.fromCharsWithSource(text, ctx.rootContextDocument)(syamlEH)
+        case _      => YamlParser(text, ctx.rootContextDocument)(syamlEH).withIncludeTag("!include")
       }
       val document1 = parser.document(keepTokens)
       val (document, comment) = document1 match {

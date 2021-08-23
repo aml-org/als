@@ -20,6 +20,7 @@ import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
 import org.yaml.builder.{DocBuilder, JsonOutputBuilder}
 import org.yaml.model.{YDocument, YMap, YSequence}
 import org.yaml.parser.YamlParser
+import amf.core.internal.plugins.syntax.SyamlAMFErrorHandler
 
 import java.io.StringWriter
 import scala.concurrent.{ExecutionContext, Future}
@@ -405,7 +406,8 @@ class SerializationTest extends LanguageServerBaseTest {
   }
 
   private def isEmptySequence(line: String): Boolean = {
-    YamlParser(line.replace(",", ""))(IgnoringErrorHandler)
+    val syamlEH = new SyamlAMFErrorHandler(IgnoringErrorHandler)
+    YamlParser(line.replace(",", ""))(syamlEH)
       .parse(false)
       .collectFirst({ case d: YDocument => d })
       .map(_.as[YMap].entries.head.value.value)

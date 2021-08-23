@@ -312,13 +312,13 @@ traits:
           description: Publish project to Api Platform (Deprecated)
           responses: 
             200: 
-/exchange/graphql: 
-  post: 
+/exchange/graphql:
+  post:
     description: Searchs raml fragments in exchange graphql
     is:
       - secured
-    body: 
-      example:  |
+    body:
+      example: |
         {
           "{  assets(query: {type: 'raml'}) {groupId    assetId    version    name    type    organizationId  }}"
         }
