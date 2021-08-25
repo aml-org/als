@@ -1,0 +1,8 @@
+uri: file://als-server/js/src/test/resources/custom-validation/byDirectory/preserve-resolution-error/positive.data
+diagnostics:
+  -
+    message: should be number
+    range: Range(common.Position[L:5,C:13],common.Position[L:5,C:21])
+    severity: Error
+    code: http://a.ml/vocabularies/amf/validation#example-validation-error
+    relatedInformation: []

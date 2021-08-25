@@ -7,13 +7,13 @@ import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import scala.concurrent.Future
 
 trait WorkspaceConfigurationProvider {
-  def obtainConfiguration(amfConfiguration: AmfConfigurationWrapper,
-                          logger: Logger): Future[Option[WorkspaceConfig]]
+  def obtainConfiguration(amfConfiguration: AmfConfigurationWrapper, logger: Logger): Future[Option[WorkspaceConfig]]
 }
 
 case class DefaultWorkspaceConfigurationProvider(manager: WorkspaceContentManager,
                                                  mainUri: String,
                                                  dependencies: Set[String],
+                                                 profiles: Set[String],
                                                  reader: Option[ConfigReader])
     extends WorkspaceConfigurationProvider {
   override def obtainConfiguration(amfConfiguration: AmfConfigurationWrapper,
@@ -24,6 +24,7 @@ case class DefaultWorkspaceConfigurationProvider(manager: WorkspaceContentManage
           manager.folderUri,
           mainUri.stripPrefix(manager.folderUri).stripPrefix("/"), // just the file name, not the full path
           dependencies,
+          profiles,
           reader
         )))
 }

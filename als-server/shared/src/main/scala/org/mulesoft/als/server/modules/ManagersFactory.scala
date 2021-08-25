@@ -12,8 +12,9 @@ import org.mulesoft.als.server.modules.actions.fileusage.FindFileUsageManager
 import org.mulesoft.als.server.modules.actions.rename.RenameManager
 import org.mulesoft.als.server.modules.ast.{AccessUnits, BaseUnitListener, ResolvedUnitListener}
 import org.mulesoft.als.server.modules.completion.SuggestionsManager
-import org.mulesoft.als.server.modules.configuration.ConfigurationManager
+import org.mulesoft.als.server.modules.configuration.{ConfigurationManager, WorkspaceConfigurationManager}
 import org.mulesoft.als.server.modules.diagnostic._
+import org.mulesoft.als.server.modules.diagnostic.custom.{AMFOpaValidator, CustomValidationManager}
 import org.mulesoft.als.server.modules.serialization.{ConversionManager, SerializationManager}
 import org.mulesoft.als.server.modules.structure.StructureManager
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
@@ -60,12 +61,13 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Log
     new TelemetryManager(clientNotifier, logger)
 
   def serializationManager[S](sp: SerializationProps[S]): SerializationManager[S] = {
-    val s = new SerializationManager(telemetryManager, amfConfiguration, configurationManager.getConfiguration, sp, logger)
+    val s =
+      new SerializationManager(telemetryManager, amfConfiguration, configurationManager.getConfiguration, sp, logger)
     resolutionDependencies += s
     s
   }
 
-  def diagnosticManager(): Seq[DiagnosticManager] = {
+  def buildDiagnosticManagers(customValidator: Option[AMFOpaValidator] = None): Seq[DiagnosticManager] = {
     val gatherer = new ValidationGatherer(telemetryManager)
     val dm =
       new ParseDiagnosticManager(telemetryManager,
@@ -75,9 +77,12 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Log
                                  gatherer,
                                  notificationKind)
     val rdm = new ResolutionDiagnosticManager(telemetryManager, clientNotifier, logger, gatherer, amfConfiguration)
+    val cvm = customValidator.map(
+      new CustomValidationManager(telemetryManager, clientNotifier, logger, gatherer, _, amfConfiguration))
+    cvm.foreach(resolutionDependencies += _)
     resolutionDependencies += rdm
     projectDependencies += dm
-    Seq(dm, rdm)
+    Seq(Some(dm), Some(rdm), cvm).flatten
   }
 
   def filesInProjectManager(alsClientNotifier: AlsClientNotifier[_]): FilesInProjectManager = {
@@ -93,7 +98,7 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Log
                             directoryResolver,
                             logger,
                             amfConfiguration,
-      configurationManager)
+                            configurationManager)
 }
 
 case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
@@ -214,4 +219,8 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
         s.withUnitAccessor(resolutionTaskManager) // is this redundant with the initialization of workspace manager?
         s
     })
+
+  lazy val workspaceConfigurationManager: WorkspaceConfigurationManager =
+    new WorkspaceConfigurationManager(workspaceManager, telemetryManager, logger)
+
 }

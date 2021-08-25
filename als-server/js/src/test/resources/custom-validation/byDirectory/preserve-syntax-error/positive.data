@@ -1,0 +1,20 @@
+#%RAML 1.0
+
+title: Test API
+/endpoint1:
+  get:
+    queryParameters:
+      a:
+        minLength: 10
+    body:
+      application/json:
+        properties:
+          b:
+            minLength: 5
+/endpoint2:
+  get:
+    description: a
+    description: b
+    queryParameters:
+      c:
+        minLength: 5

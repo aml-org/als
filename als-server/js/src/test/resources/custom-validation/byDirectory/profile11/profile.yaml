@@ -1,0 +1,15 @@
+#%Validation Profile 1.0
+
+profile: Test11
+
+violation:
+  - array-limits
+
+validations:
+
+  array-limits:
+    targetClass: shapes.ArrayShape
+    propertyConstraints:
+      shacl.minCount:
+        minInclusive: 25
+        maxExclusive: 50

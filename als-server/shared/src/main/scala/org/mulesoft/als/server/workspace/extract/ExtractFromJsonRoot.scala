@@ -46,14 +46,16 @@ object ExchangeConfigReader extends ConfigReader {
           logger.debug(s"dependencies: ${dependencies.fold("")((a, b) => s"$a\n$b")}",
                        "ExtractFromJsonRoot",
                        "buildConfig")
-          WorkspaceConfig(path, encodedUri, dependencies, Some(this))
+          //todo: read profiles
+          WorkspaceConfig(path, encodedUri, dependencies, Set.empty, Some(this))
         }
       } catch {
         case e: Exception =>
           logger.error(Option(e.getMessage).getOrElse("Error while reading dependencies"),
                        "ExtractFromJsonRoot",
                        "buildConfig")
-          Future.successful(WorkspaceConfig(path, encodedUri, Set.empty, Some(this)))
+          //todo: read profiles
+          Future.successful(WorkspaceConfig(path, encodedUri, Set.empty, Set.empty, Some(this)))
       }
     }
 

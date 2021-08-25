@@ -27,8 +27,10 @@ const baseConfig = {
       path: "path-browserify",
       https: "https-browserify",
       url: "url",
-      http: "stream-http"
+      http: "stream-http",
+      util: require.resolve("util/")
     },
+    symlinks: false,
     fallback: {
       fs: false,
       net: false,

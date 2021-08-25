@@ -39,6 +39,9 @@ public interface CustomTextDocumentService extends TextDocumentService{
         throw new UnsupportedOperationException();
     }
 
+    @JsonRequest
+    default CompletableFuture<GetWorkspaceConfigurationResult> getWorkspaceConfiguration(GetWorkspaceConfigurationParams params) {throw new UnsupportedOperationException();}
+
     @JsonNotification
     default void didFocus(DidFocusParams params) {
         throw new UnsupportedOperationException();
