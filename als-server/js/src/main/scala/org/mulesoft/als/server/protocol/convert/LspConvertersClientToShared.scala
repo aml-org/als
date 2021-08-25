@@ -105,7 +105,7 @@ object LspConvertersClientToShared {
         rootPath = v.rootPath.toOption.flatMap(Option(_)), // (it may come as `Some(null)`)
         initializationOptions = v.initializationOptions.toOption,
         configuration = v.configuration.toOption.map(_.toShared),
-        projectConfigurationStyle = v.projectConfigurationStyle.map(_.toShared)
+        projectConfigurationStyle = v.projectConfigurationStyle.map(_.toShared).toOption
       )
   }
 
