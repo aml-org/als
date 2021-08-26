@@ -74,7 +74,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
         _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}"))) // parse main with subdir
         _ <- amfConfiguration
           .fetchContent(main)
-          .map(c => openFile(server)(main, c.stream.toString)) // open main file (should not reparse)
+          .flatMap(c => openFile(server)(main, c.stream.toString)) // open main file (should not reparse)
           .flatMap(_ => waitFor(notifier, MessageTypes.BEGIN_PARSE))
         _ <- changeFile(server)(main, "#%RAML 1.0", 2)
         // Erase reference to subdir SHOULD reparse main
