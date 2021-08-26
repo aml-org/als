@@ -454,6 +454,8 @@ declare module '@mulesoft/als-server' {
     linkLabel: StrField
     extendsNode: Array<DomainElement>
 
+    link<T>(label: string): T
+
     linkCopy(): AbstractDeclaration
 
     withName(name: string): this
@@ -471,6 +473,8 @@ declare module '@mulesoft/als-server' {
     withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
+
+    link<T>(): T
 
     withLinkTarget(target: undefined): this
 
@@ -580,6 +584,10 @@ declare module '@mulesoft/als-server' {
     withLinkTarget(target: undefined): this
 
     withLinkLabel(label: string): this
+
+    link<T>(): T
+
+    link<T>(label: string): T
 
 
   }
@@ -734,6 +742,8 @@ declare module '@mulesoft/als-server' {
     extendsNode: Array<DomainElement>
     and: Array<Shape>
 
+    link<T>(label: string): T
+
     withValues(values: Array<DataNode>): this
 
     linkCopy(): Linkable
@@ -769,6 +779,8 @@ declare module '@mulesoft/als-server' {
     withWriteOnly(writeOnly: boolean): this
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
+
+    link<T>(): T
 
     withLinkTarget(target: undefined): this
 
@@ -1341,6 +1353,8 @@ declare module '@mulesoft/als-server' {
 
     constructor()
 
+    link<T>(label: string): T
+
     withHeaderSchema(schema: NodeShape): this
 
     withPayloads(payloads: Array<Payload>): this
@@ -1378,6 +1392,8 @@ declare module '@mulesoft/als-server' {
     withSummary(summary: string): this
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
+
+    link<T>(): T
 
     withLinkTarget(target: undefined): this
 
@@ -1675,6 +1691,8 @@ declare module '@mulesoft/als-server' {
 
     constructor()
 
+    link<T>(label: string): T
+
     withHeaders(headers: Array<Parameter>): this
 
     linkCopy(): SecurityScheme
@@ -1714,6 +1732,8 @@ declare module '@mulesoft/als-server' {
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
     withDefaultSettings(): Settings
+
+    link<T>(): T
 
     withLinkTarget(target: undefined): this
 
@@ -1859,6 +1879,8 @@ declare module '@mulesoft/als-server' {
 
     constructor()
 
+    link<T>(label: string): T
+
     withDeliveryMode(deliveryMode: number): this
 
     linkCopy(): Amqp091OperationBinding
@@ -1884,6 +1906,8 @@ declare module '@mulesoft/als-server' {
     withBcc(bCC: Array<string>): this
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
+
+    link<T>(): T
 
     withLinkTarget(target: undefined): this
 
@@ -1980,6 +2004,8 @@ declare module '@mulesoft/als-server' {
 
     constructor()
 
+    link<T>(label: string): T
+
     withValues(values: Array<DataNode>): this
 
     withPath(path: string): this
@@ -2021,6 +2047,8 @@ declare module '@mulesoft/als-server' {
     withWriteOnly(writeOnly: boolean): this
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
+
+    link<T>(): T
 
     withLinkTarget(target: undefined): this
 
@@ -2245,6 +2273,8 @@ declare module '@mulesoft/als-server' {
 
     constructor()
 
+    link<T>(label: string): T
+
     linkCopy(): OperationBindings
 
     withName(name: string): this
@@ -2260,6 +2290,8 @@ declare module '@mulesoft/als-server' {
     withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
+
+    link<T>(): T
 
     withLinkTarget(target: undefined): this
 
@@ -2280,7 +2312,7 @@ declare module '@mulesoft/als-server' {
     targetProperty: string
     validationId: string
     source: any
-    lexical: Range
+    position: Range
     location: undefined | string
 
     constructor(message: string, level: string, targetNode: string, targetProperty: string, validationId: string, position: Range, location: string)
@@ -2301,6 +2333,8 @@ declare module '@mulesoft/als-server' {
 
     constructor()
 
+    link<T>(label: string): T
+
     linkCopy(): MqttOperationBinding
 
     withRetain(retain: boolean): this
@@ -2316,6 +2350,8 @@ declare module '@mulesoft/als-server' {
     withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
+
+    link<T>(): T
 
     withLinkTarget(target: undefined): this
 
@@ -2765,6 +2801,8 @@ declare module '@mulesoft/als-server' {
 
     constructor()
 
+    link<T>(label: string): T
+
     withKeepAlive(keepAlive: number): this
 
     linkCopy(): MqttServerBinding
@@ -2784,6 +2822,8 @@ declare module '@mulesoft/als-server' {
     withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
+
+    link<T>(): T
 
     withLinkTarget(target: undefined): this
 
@@ -2996,6 +3036,8 @@ declare module '@mulesoft/als-server' {
 
     constructor()
 
+    link<T>(label: string): T
+
     linkCopy(): ChannelBindings
 
     withName(name: string): this
@@ -3009,6 +3051,8 @@ declare module '@mulesoft/als-server' {
     withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
+
+    link<T>(): T
 
     withLinkTarget(target: undefined): this
 
@@ -3036,7 +3080,13 @@ declare module '@mulesoft/als-server' {
 
     constructor()
 
-    setObjectProperty(propertyId: string, value: DialectDomainElement): this
+    link<T>(label: string): T
+
+    withObjectCollectionProperty(propertyId: string, value: Array<DialectDomainElement>): this
+
+    linkCopy(): DialectDomainElement
+
+    withLiteralProperty(propertyId: string, value: boolean): this
 
     isAbstract(): BoolField
 
@@ -3066,7 +3116,7 @@ declare module '@mulesoft/als-server' {
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    setLiteralProperty(propertyId: string, value: string): this
+    link<T>(): T
 
     getObjectPropertyUri(propertyId: string): Array<DialectDomainElement>
 
@@ -3099,6 +3149,8 @@ declare module '@mulesoft/als-server' {
 
     constructor()
 
+    link<T>(label: string): T
+
     linkCopy(): MessageBindings
 
     withName(name: string): this
@@ -3112,6 +3164,8 @@ declare module '@mulesoft/als-server' {
     withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
+
+    link<T>(): T
 
     withLinkTarget(target: undefined): this
 
@@ -3551,6 +3605,8 @@ declare module '@mulesoft/als-server' {
 
     constructor()
 
+    link<T>(label: string): T
+
     withValues(values: Array<DataNode>): this
 
     linkCopy(): AnyShape
@@ -3590,6 +3646,8 @@ declare module '@mulesoft/als-server' {
     withWriteOnly(writeOnly: boolean): this
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
+
+    link<T>(): T
 
     inlined(): boolean
 
@@ -3646,6 +3704,8 @@ declare module '@mulesoft/als-server' {
 
     constructor()
 
+    link<T>(label: string): T
+
     withBindings(bindings: Array<ServerBinding>): this
 
     linkCopy(): ServerBindings
@@ -3661,6 +3721,8 @@ declare module '@mulesoft/als-server' {
     withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
+
+    link<T>(): T
 
     withLinkTarget(target: undefined): this
 
@@ -4074,6 +4136,8 @@ declare module '@mulesoft/als-server' {
 
     constructor()
 
+    link<T>(label: string): T
+
     withKey(key: Shape): this
 
     linkCopy(): KafkaMessageBinding
@@ -4089,6 +4153,8 @@ declare module '@mulesoft/als-server' {
     withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
+
+    link<T>(): T
 
     withLinkTarget(target: undefined): this
 
@@ -4183,6 +4249,8 @@ declare module '@mulesoft/als-server' {
 
     constructor()
 
+    link<T>(label: string): T
+
     withIdTemplate(idTemplate: string): NodeMapping
 
     linkCopy(): NodeMapping
@@ -4200,6 +4268,8 @@ declare module '@mulesoft/als-server' {
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
     withNodeTypeMapping(nodeType: string): NodeMapping
+
+    link<T>(): T
 
     withLinkTarget(target: undefined): this
 
@@ -4244,6 +4314,8 @@ declare module '@mulesoft/als-server' {
 
     constructor()
 
+    link<T>(label: string): T
+
     linkCopy(): CustomDomainProperty
 
     withName(name: string): this
@@ -4263,6 +4335,8 @@ declare module '@mulesoft/als-server' {
     withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
+
+    link<T>(): T
 
     withLinkTarget(target: undefined): this
 
@@ -4286,6 +4360,8 @@ declare module '@mulesoft/als-server' {
 
     constructor()
 
+    link<T>(label: string): T
+
     linkCopy(): EmptyBinding
 
     graph(): Graph
@@ -4297,6 +4373,8 @@ declare module '@mulesoft/als-server' {
     withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
+
+    link<T>(): T
 
     withLinkTarget(target: undefined): this
 
@@ -4423,6 +4501,8 @@ declare module '@mulesoft/als-server' {
 
     constructor()
 
+    link<T>(label: string): T
+
     linkCopy(): KafkaOperationBinding
 
     withGroupId(groupId: Shape): this
@@ -4440,6 +4520,8 @@ declare module '@mulesoft/als-server' {
     withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
+
+    link<T>(): T
 
     withLinkTarget(target: undefined): this
 
@@ -4635,6 +4717,8 @@ declare module '@mulesoft/als-server' {
 
     constructor()
 
+    link<T>(label: string): T
+
     linkCopy(): CorrelationId
 
     withName(name: string): this
@@ -4652,6 +4736,8 @@ declare module '@mulesoft/als-server' {
     withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
+
+    link<T>(): T
 
     withLinkTarget(target: undefined): this
 
@@ -4679,6 +4765,8 @@ declare module '@mulesoft/als-server' {
 
     constructor()
 
+    link<T>(label: string): T
+
     linkCopy(): HttpMessageBinding
 
     withHeaders(headers: Shape): this
@@ -4694,6 +4782,8 @@ declare module '@mulesoft/als-server' {
     withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
+
+    link<T>(): T
 
     withLinkTarget(target: undefined): this
 
@@ -4723,6 +4813,8 @@ declare module '@mulesoft/als-server' {
 
     constructor()
 
+    link<T>(label: string): T
+
     linkCopy(): Amqp091ChannelBinding
 
     withQueue(queue: Amqp091Queue): this
@@ -4742,6 +4834,8 @@ declare module '@mulesoft/als-server' {
     withExchange(exchange: Amqp091ChannelExchange): this
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
+
+    link<T>(): T
 
     withLinkTarget(target: undefined): this
 
@@ -4813,6 +4907,8 @@ declare module '@mulesoft/als-server' {
 
     constructor()
 
+    link<T>(label: string): T
+
     linkCopy(): MqttMessageBinding
 
     graph(): Graph
@@ -4826,6 +4922,8 @@ declare module '@mulesoft/als-server' {
     withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
+
+    link<T>(): T
 
     withLinkTarget(target: undefined): this
 
@@ -4860,6 +4958,8 @@ declare module '@mulesoft/als-server' {
 
     constructor()
 
+    link<T>(label: string): T
+
     withMessageType(messageType: string): this
 
     linkCopy(): Amqp091MessageBinding
@@ -4877,6 +4977,8 @@ declare module '@mulesoft/als-server' {
     withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
+
+    link<T>(): T
 
     withLinkTarget(target: undefined): this
 
@@ -4916,6 +5018,8 @@ declare module '@mulesoft/als-server' {
 
     constructor()
 
+    link<T>(label: string): T
+
     withSecurity(security: Array<SecurityRequirement>): this
 
     linkCopy(): Operation
@@ -4945,6 +5049,8 @@ declare module '@mulesoft/als-server' {
     withSummary(summary: string): this
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
+
+    link<T>(): T
 
     withLinkTarget(target: undefined): this
 
@@ -5076,6 +5182,8 @@ declare module '@mulesoft/als-server' {
 
     constructor()
 
+    link<T>(label: string): T
+
     linkCopy(): HttpOperationBinding
 
     withMethod(method: string): this
@@ -5093,6 +5201,8 @@ declare module '@mulesoft/als-server' {
     withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
+
+    link<T>(): T
 
     withLinkTarget(target: undefined): this
 
@@ -5116,6 +5226,8 @@ declare module '@mulesoft/als-server' {
 
     constructor()
 
+    link<T>(label: string): T
+
     typeDiscriminator(): Map<string, string>
 
     linkCopy(): UnionNodeMapping
@@ -5137,6 +5249,8 @@ declare module '@mulesoft/als-server' {
     withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
+
+    link<T>(): T
 
     withLinkTarget(target: undefined): this
 
@@ -5559,6 +5673,8 @@ declare module '@mulesoft/als-server' {
 
     constructor()
 
+    link<T>(label: string): T
+
     linkCopy(): Example
 
     withName(name: string): this
@@ -5582,6 +5698,8 @@ declare module '@mulesoft/als-server' {
     withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
+
+    link<T>(): T
 
     withValue(value: string): this
 
@@ -5616,6 +5734,8 @@ declare module '@mulesoft/als-server' {
 
     constructor()
 
+    link<T>(label: string): T
+
     linkCopy(): WebSocketsChannelBinding
 
     withMethod(method: string): this
@@ -5633,6 +5753,8 @@ declare module '@mulesoft/als-server' {
     withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
+
+    link<T>(): T
 
     withLinkTarget(target: undefined): this
 
