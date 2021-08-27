@@ -15,7 +15,7 @@ import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.common.{Position, Range}
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticSeverity
 import org.scalatest.Assertion
-
+import DiagnosticImplicits.PublishDiagnosticsParamsWriter
 import scala.concurrent.{ExecutionContext, Future}
 
 class CustomValidationManagerTest
@@ -145,11 +145,16 @@ class CustomValidationManagerTest
             } yield {
               validator.calledNTimes(1)
               val firstDiagnostic =
-                diagnostics.diagnostics.find(d => d.range.start == Position(2, 2) && d.range.end == Position(8, 0))
-              assert(firstDiagnostic.isDefined)
+                diagnostics.diagnostics.find(d => d.range.start == Position(5, 6) && d.range.end == Position(6, 19))
+              if (firstDiagnostic.isEmpty) {
+                logger.error(s"Couldn't find first diagnostic:\n ${diagnostics.write}",
+                             "CustomValidationManagerTest",
+                             "Should notify errors")
+                fail("Couldn't find first diagnostic")
+              }
               val diagnostic = firstDiagnostic.get
               diagnostic.message should be("Scalars in parameters must have minLength defined")
-              diagnostic.range should be(Range(Position(2, 2), Position(8, 0)))
+              diagnostic.range should be(Range(Position(5, 6), Position(6, 19)))
               diagnostic.severity should equal(Some(DiagnosticSeverity.Error))
             }
         }
