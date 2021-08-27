@@ -12,12 +12,13 @@ import scala.concurrent.Future
 class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceManager)
     extends CommandExecutor[DidChangeConfigurationNotificationParams, Unit] {
   override protected def buildParamFromMap(m: YMap): Option[DidChangeConfigurationNotificationParams] = {
-    val mainUri: String           = m.key("mainUri").flatMap(e => e.value.toOption[String]).getOrElse("")
-    val folder: Option[String]    = m.key("folder").flatMap(e => e.value.toOption[String])
-    val dependencies: Set[String] = m.key("dependencies").map(seqToSet).getOrElse(Set.empty)
-    val profiles: Set[String]     = m.key("customValidationProfiles").map(seqToSet).getOrElse(Set.empty)
+    val mainUri: String                 = m.key("mainUri").flatMap(e => e.value.toOption[String]).getOrElse("")
+    val folder: Option[String]          = m.key("folder").flatMap(e => e.value.toOption[String])
+    val dependencies: Set[String]       = m.key("dependencies").map(seqToSet).getOrElse(Set.empty)
+    val profiles: Set[String]           = m.key("customValidationProfiles").map(seqToSet).getOrElse(Set.empty)
+    val semanticExtensions: Set[String] = m.key("semanticExtensions").map(seqToSet).getOrElse(Set.empty)
 
-    Some(DidChangeConfigurationNotificationParams(mainUri, folder, dependencies, profiles))
+    Some(DidChangeConfigurationNotificationParams(mainUri, folder, dependencies, profiles, semanticExtensions))
   }
 
   private def seqToSet(entry: YMapEntry): Set[String] = {
@@ -39,6 +40,7 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
                                         param.mainUri,
                                         param.dependencies,
                                         param.customValidationProfiles,
+                                        param.semanticExtensions,
                                         None)
       } else {
         logger.warning(

@@ -16,6 +16,7 @@ import org.mulesoft.als.server.workspace.extract.{
   WorkspaceConfigurationProvider,
   WorkspaceRootHandler
 }
+import org.mulesoft.amfintegration.AmfImplicits.DialectImplicits
 import org.mulesoft.amfintegration.amfconfiguration.AmfParseResult
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
@@ -30,6 +31,16 @@ class WorkspaceContentManager private (val folderUri: String,
                                        allSubscribers: List[BaseUnitListener],
                                        projectConfigurationStyle: ProjectConfigurationStyle)
     extends UnitTaskManager[ParsedUnit, CompilableUnit, NotificationKind] {
+
+  def registeredDialects: Set[Dialect] = environmentProvider.amfConfiguration.dialects
+
+  def getCurrentConfiguration: Future[Option[WorkspaceConfig]] =
+    sync(
+      () =>
+        if (hasChangedConfigFile(stagingArea.snapshot()) || state == ProcessingProject) // may be changing
+          current.flatMap(_ => getCurrentConfiguration)
+        else
+          Future.successful(configMainFile))
 
   private val rootHandler =
     new WorkspaceRootHandler(environmentProvider.amfConfigurationSnapshot(), projectConfigurationStyle)
@@ -47,6 +58,7 @@ class WorkspaceContentManager private (val folderUri: String,
                                                   conf.mainFile,
                                                   conf.cachables,
                                                   conf.profiles,
+                                                  conf.semanticExtensions,
                                                   conf.configReader))
           super
             .init()
@@ -227,12 +239,35 @@ class WorkspaceContentManager private (val folderUri: String,
     maybeConfig match {
       case Some(conf) =>
         repository.setCachables(conf.cachables.map(_.toAmfUri))
-        if (conf.mainFile != "") processMFChanges(conf.mainFile, snapshot) else Future(repository.cleanTree())
+        registerNewExtensions(conf)
+          .flatMap { _ =>
+            if (conf.mainFile != "") processMFChanges(conf.mainFile, snapshot) else Future(repository.cleanTree())
+          }
       case _ =>
         repository.cleanTree()
         repository.setCachables(Set.empty)
         Future.unit
     }
+  }
+
+  /**
+    * Seeks new extensions in configuration, parses and registers
+    */
+  private def registerNewExtensions(conf: WorkspaceConfig): Future[Unit] = {
+    val newExtensions = conf.semanticExtensions
+      .diff(environmentProvider.amfConfiguration.dialects.map(_.identifier))
+      .map(e => {
+        if (e.isValidUri) e // full URI received
+        else s"${trailSlash(folderUri)}$e" // if relative file from folder
+      })
+    newExtensions.foreach(e =>
+      logger.debug(s"Registering $e as extension", "WorkspaceContentManager", "registerNewExtensions"))
+    Future
+      .sequence(newExtensions.map(parse(_, UUID.randomUUID().toString)))
+      .map(_.map(_.result.baseUnit).foreach {
+        case d: Dialect => environmentProvider.amfConfiguration.registerDialect(d)
+        case _          =>
+      })
   }
 
   private def processMFChanges(mainFile: String, snapshot: Snapshot): Future[Unit] = {
