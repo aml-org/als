@@ -8,6 +8,41 @@ The first message sent from the client to the server. With this request, the cli
   + Initialization Request
 + Emits:
   + Initialization Result
+  
+##### ALS Initialize Params:
+ALS Initialize Params extends LSP's [InitializeParams](https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#initializeParams)
+<pre>
+{
+  /** Start of LSP default params**/
+  processId: integer | null;
+  clientInfo?: {
+    name: string;
+    version?: string;
+  };
+  locale?: string;
+  rootPath?: string | null;
+  rootUri: DocumentUri | null;
+  initializationOptions?: any;
+  capabilities: ClientCapabilities;
+  trace?: TraceValue;
+  workspaceFolders?: WorkspaceFolder[] | null;
+  /** End of LSP default params **/
+
+  /** ALS custom params **/
+
+  /**
+  * Project configuration style:
+  * Defines how the workspaces containing a project should be configured.
+  * "command": It will only accept configuration by `didChangeConfiguration` command.
+  * "file": It will try and read configuration from `exchange.json` file. It will ignore `didChangeConfiguration` command.
+  *
+  * Defaults to "file" configuration style.
+  */
+  projectConfigurationStyle: {
+    style?: "command" | "file";
+  }
+}
+</pre>
 
 #### [Initialized](https://microsoft.github.io/language-server-protocol/specification#initialized):
 The final message in a three-way handshake between the client and the server (Initialize Request, Initialize Response, Initialized Notification).

@@ -182,6 +182,77 @@ Notification from client to server:
 }
 </pre>
 
+
+### getWorkspaceConfiguration
+
+Request from client to server to get the Workspace Configuration applied for a specific file.
+
+Please bear in mind that the Workspace Configuration is not the same as the global Als Configuration.
+
+#### Request
+
+<pre>
+{
+  "textDocument": "<a href="https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#textDocumentIdentifier">TextDocumentIdentifier</a>" 
+}
+</pre>
+
+#### Response
+
+<pre>
+{
+  "workspace": string,
+  "configuration": {
+    "mainUri": string,
+    "folder"?: string,
+    "dependencies": string[],
+    "customValidationProfiles": string[]
+  }
+}
+</pre>
+
+Where:
+- `workspace` is the root folder of the workspace containing the file
+- `mainUri` is the main file uri of said `workspace`
+- `folder` same as `workspace` [optional]
+- `dependencies` uris of all immutable dependencies of the project
+- `customValidationProfiles` uris of all the active validation profiles on the workspace
+
+
+### didChangeConfiguration
+
+Request message from client to server's [`workspace/executeCommand`](https://microsoft.github.io/language-server-protocol/specifications/specification-current/#workspace_executeCommand), to modify a workspace configuration.
+
+Command will be ignored if ALS is not configured with `COMMAND` as `projectConfigurationStyle` see [InitializeParams](features.md) for more information.
+
+#### Request
+
+<pre>
+{
+  "command": "didChangeConfiguration",
+  "arguments": [
+    {
+      "mainUri": string,
+      "folder"?: string,
+      "dependencies": string[],
+      "customValidationProfiles": string[]
+    }
+  ]
+}
+</pre>
+
+Where:
+- `folder` the workspace for which this configuration change will be applied, if not present ALS will try to determine the workspace by path of the main file uri.  
+- `mainUri` sets the main file of the workspace.
+- `dependencies` set the uris of all immutable dependencies of the project.
+- `customValidationProfiles` a list of uris of custom validation profiles that should be used in the workspace.
+
+#### Response
+
+<pre>
+{}
+</pre>
+
 ## Deprecated
 
 > **WARNING:** The use of these custom methods is discouraged and they will be removed in future release.
