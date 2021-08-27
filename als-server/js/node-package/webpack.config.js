@@ -28,11 +28,12 @@ const baseConfig = {
       https: "https-browserify",
       url: "url",
       http: "stream-http",
+      stream: "stream-http",
+      fs: require.resolve("browserify-fs"),
       util: require.resolve("util/")
     },
     symlinks: false,
     fallback: {
-      fs: false,
       net: false,
       child_process: false,
       crypto: false
