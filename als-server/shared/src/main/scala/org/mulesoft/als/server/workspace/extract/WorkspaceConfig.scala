@@ -6,5 +6,6 @@ case class WorkspaceConfig(rootFolder: String,
                            mainFile: String,
                            cachables: Set[String],
                            profiles: Set[String],
+                           semanticExtensions: Set[String],
                            configReader: Option[ConfigReader])
     extends WorkspaceConfiguration

@@ -41,19 +41,20 @@ class GetWorkspaceConfigurationRequestHandler(val workspaceManager: WorkspaceMan
   override protected def task(params: GetWorkspaceConfigurationParams): Future[GetWorkspaceConfigurationResult] =
     workspaceManager
       .getWorkspace(params.textDocument.uri)
-      .map(workspace => {
+      .flatMap(w => w.getCurrentConfiguration.map(c => (w, c)))
+      .map(t =>
         GetWorkspaceConfigurationResult(
-          workspace.folderUri,
-          workspace.workspaceConfiguration
+          t._1.folderUri,
+          t._2
             .map(
               config =>
                 DidChangeConfigurationNotificationParams(config.mainFile,
-                                                         Some(workspace.folderUri),
+                                                         Some(t._1.folderUri),
                                                          config.cachables,
-                                                         config.profiles))
+                                                         config.profiles,
+                                                         config.semanticExtensions))
             .getOrElse(EmptyConfigurationParams)
-        )
-      })
+      ))
 
   override protected def code(params: GetWorkspaceConfigurationParams): String = "GetWorkspaceConfigurationRequest"
 
@@ -75,4 +76,4 @@ class GetWorkspaceConfigurationRequestHandler(val workspaceManager: WorkspaceMan
 }
 
 private object EmptyConfigurationParams
-    extends DidChangeConfigurationNotificationParams("", None, Set.empty, Set.empty)
+    extends DidChangeConfigurationNotificationParams("", None, Set.empty, Set.empty, Set.empty)

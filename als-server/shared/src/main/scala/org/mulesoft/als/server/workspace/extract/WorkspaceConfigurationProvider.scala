@@ -14,6 +14,7 @@ case class DefaultWorkspaceConfigurationProvider(manager: WorkspaceContentManage
                                                  mainUri: String,
                                                  dependencies: Set[String],
                                                  profiles: Set[String],
+                                                 semanticExtensions: Set[String],
                                                  reader: Option[ConfigReader])
     extends WorkspaceConfigurationProvider {
   override def obtainConfiguration(amfConfiguration: AmfConfigurationWrapper,
@@ -25,6 +26,7 @@ case class DefaultWorkspaceConfigurationProvider(manager: WorkspaceContentManage
           mainUri.stripPrefix(manager.folderUri).stripPrefix("/"), // just the file name, not the full path
           dependencies,
           profiles,
+          semanticExtensions,
           reader
         )))
 }
