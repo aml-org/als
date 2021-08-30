@@ -11,12 +11,13 @@ import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.UnitTaskManager
 import org.mulesoft.als.server.workspace.extract.{
+  ConfigReader,
   DefaultWorkspaceConfigurationProvider,
   WorkspaceConfig,
   WorkspaceConfigurationProvider,
   WorkspaceRootHandler
 }
-import org.mulesoft.amfintegration.AmfImplicits.DialectImplicits
+import org.mulesoft.amfintegration.AmfImplicits.{BaseUnitImp, DialectImplicits}
 import org.mulesoft.amfintegration.amfconfiguration.AmfParseResult
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
@@ -31,6 +32,7 @@ class WorkspaceContentManager private (val folderUri: String,
                                        allSubscribers: List[BaseUnitListener],
                                        projectConfigurationStyle: ProjectConfigurationStyle)
     extends UnitTaskManager[ParsedUnit, CompilableUnit, NotificationKind] {
+  def getConfigReader: Option[ConfigReader] = configMainFile.flatMap(_.configReader)
 
   def registeredDialects: Set[Dialect] = environmentProvider.amfConfiguration.dialects
 
@@ -81,8 +83,6 @@ class WorkspaceContentManager private (val folderUri: String,
 
   private var configMainFile: Option[WorkspaceConfig] = None
 
-  def workspaceConfiguration: Option[WorkspaceConfig] = configMainFile
-
   private def mainFile: Option[String] = configMainFile.map(_.mainFile)
 
   def mainFileUri: Future[Option[String]] =
@@ -103,7 +103,7 @@ class WorkspaceContentManager private (val folderUri: String,
 
   private def getRootOf(uri: String): Option[String] =
     if (isInMainTree(uri))
-      workspaceConfiguration
+      configMainFile
         .map(c => s"${c.rootFolder}/")
     else None
 
@@ -265,8 +265,13 @@ class WorkspaceContentManager private (val folderUri: String,
     Future
       .sequence(newExtensions.map(parse(_, UUID.randomUUID().toString)))
       .map(_.map(_.result.baseUnit).foreach {
-        case d: Dialect => environmentProvider.amfConfiguration.registerDialect(d)
-        case _          =>
+        case d: Dialect =>
+          environmentProvider.amfConfiguration
+            .registerDialect(d) // when properly implemented, check that this actually contains semantic extensions
+        case b =>
+          logger.error(s"The following extension: ${b.identifier} is not valid",
+                       "WorkspaceContentManager",
+                       "registerNewExtensions")
       })
   }
 
@@ -308,7 +313,7 @@ class WorkspaceContentManager private (val folderUri: String,
     logger.debug(s"sent uri: $decodedUri", "WorkspaceContentManager", "innerParse")
     val cacheConfig = environmentProvider
       .amfConfigurationSnapshot()
-      .withWorkspaceConfiguration(workspaceConfiguration)
+      .withWorkspaceConfiguration(configMainFile)
     cacheConfig.useCache(repository.resolverCache)
     cacheConfig
       .parse(decodedUri)

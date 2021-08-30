@@ -90,7 +90,8 @@ class MockDiagnosticClientNotifier(val timeoutMillis: Int = 1000)
 
   override def notifyTelemetry(params: TelemetryMessage): Unit = {}
 
-  override def notifyDiagnostic(msg: PublishDiagnosticsParams): Unit = notify(msg)
+  override def notifyDiagnostic(msg: PublishDiagnosticsParams): Unit =
+    notify(msg)
 }
 
 class MockAlsClientNotifier

@@ -35,7 +35,7 @@ case class ReaderWorkspaceConfigurationProvider(manager: WorkspaceContentManager
     extends WorkspaceConfigurationProvider {
   override def obtainConfiguration(amfConfiguration: AmfConfigurationWrapper,
                                    logger: Logger): Future[Option[WorkspaceConfig]] = {
-    manager.workspaceConfiguration.flatMap(_.configReader) match {
+    manager.getConfigReader match {
       case Some(configReader) =>
         configReader.readRoot(manager.folderUri, amfConfiguration, logger)
       case _ => Future.successful(None)
