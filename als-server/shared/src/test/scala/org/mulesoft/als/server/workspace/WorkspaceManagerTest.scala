@@ -374,21 +374,21 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
         // api.raml, fragment.raml
         _       <- diagnosticClientNotifier.nextCall
         _       <- diagnosticClientNotifier.nextCall
-        config1 <- wm.getWorkspace(apiRoot).map(_.workspaceConfiguration)
+        config1 <- wm.getWorkspace(apiRoot).flatMap(_.getCurrentConfiguration)
         _ <- server.workspaceService.executeCommand(
           ExecuteCommandParams(
             Commands.DID_CHANGE_CONFIGURATION,
             List(s"""{"mainUri": "$api2Root", "dependencies": [], "customValidationProfiles": ["profile1.yaml"]}""")))
         // api2.raml
         _       <- diagnosticClientNotifier.nextCall
-        config2 <- wm.getWorkspace(api2Root).map(_.workspaceConfiguration)
+        config2 <- wm.getWorkspace(api2Root).flatMap(_.getCurrentConfiguration)
         _ <- server.workspaceService.executeCommand(
           ExecuteCommandParams(
             Commands.DID_CHANGE_CONFIGURATION,
             List(s"""{"mainUri": "$api2Root", "dependencies": [], "customValidationProfiles": ["profile2.yaml"]}""")))
         // api2.raml
         _       <- diagnosticClientNotifier.nextCall
-        config3 <- wm.getWorkspace(api2Root).map(_.workspaceConfiguration)
+        config3 <- wm.getWorkspace(api2Root).flatMap(_.getCurrentConfiguration)
         _ <- server.workspaceService.executeCommand(
           ExecuteCommandParams(
             Commands.DID_CHANGE_CONFIGURATION,
@@ -397,7 +397,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
           ))
         // api2.raml
         _       <- diagnosticClientNotifier.nextCall
-        config4 <- wm.getWorkspace(api2Root).map(_.workspaceConfiguration)
+        config4 <- wm.getWorkspace(api2Root).flatMap(_.getCurrentConfiguration)
 
       } yield {
         server.shutdown()

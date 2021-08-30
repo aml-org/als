@@ -538,12 +538,16 @@ class ClientConversionTest extends FlatSpec with Matchers {
 
   it should "transform DidChangeConfigurationNotificationParams" in {
     val ts: DidChangeConfigurationNotificationParams =
-      DidChangeConfigurationNotificationParams("uri", Some("ws"), Set("dep1", "dep2"), Set("p1", "p2"))
+      DidChangeConfigurationNotificationParams("uri",
+                                               Some("ws"),
+                                               Set("dep1", "dep2"),
+                                               Set("p1", "p2"),
+                                               Set("se1", "se2"))
     val ts1: ClientDidChangeConfigurationNotificationParams = ts.toClient
     val ts2: DidChangeConfigurationNotificationParams       = ts1.toShared
 
     val stringified =
-      "{\"mainUri\":\"uri\",\"folder\":\"ws\",\"dependencies\":[\"dep1\",\"dep2\"],\"customValidationProfiles\":[\"p1\",\"p2\"]}"
+      "{\"mainUri\":\"uri\",\"folder\":\"ws\",\"dependencies\":[\"dep1\",\"dep2\"],\"customValidationProfiles\":[\"p1\",\"p2\"],\"semanticExtensions\":[\"se1\",\"se2\"]}"
 
     JSON.stringify(ts1) should be(stringified)
 

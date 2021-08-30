@@ -63,6 +63,7 @@ class WorkspaceManager protected (environmentProvider: EnvironmentProvider,
                                   mainSubUri: String,
                                   dependencies: Set[String],
                                   profiles: Set[String],
+                                  semanticExtensions: Set[String],
                                   reader: Option[ConfigReader]): Unit = {
     logger.debug(
       s"Workspace '${manager.folderUri}' new configuration { mainFile: $mainSubUri, dependencies: $dependencies, profiles: $profiles }",
@@ -70,7 +71,8 @@ class WorkspaceManager protected (environmentProvider: EnvironmentProvider,
       "contentManagerConfiguration"
     )
     manager
-      .withConfiguration(DefaultWorkspaceConfigurationProvider(manager, mainSubUri, dependencies, profiles, reader))
+      .withConfiguration(
+        DefaultWorkspaceConfigurationProvider(manager, mainSubUri, dependencies, profiles, semanticExtensions, reader))
       .stage(mainSubUri, CHANGE_CONFIG)
   }
 

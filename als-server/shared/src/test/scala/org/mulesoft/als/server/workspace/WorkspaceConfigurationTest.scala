@@ -5,14 +5,14 @@ import amf.core.client.platform.resource.ResourceNotFound
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.internal.remote.Platform
 import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
+import org.mulesoft.als.configuration.ConfigurationStyle.COMMAND
+import org.mulesoft.als.configuration.ProjectConfigurationStyle
 import org.mulesoft.als.server._
 import org.mulesoft.als.server.feature.configuration.workspace.{
   GetWorkspaceConfigurationParams,
   GetWorkspaceConfigurationRequestType,
   GetWorkspaceConfigurationResult
 }
-import org.mulesoft.als.configuration.ConfigurationStyle.{COMMAND, FILE}
-import org.mulesoft.als.configuration.ProjectConfigurationStyle
 import org.mulesoft.als.server.logger.{Logger, MessageSeverity}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactory
 import org.mulesoft.als.server.modules.ast.{BaseUnitListener, ResolvedUnitListener}
@@ -38,13 +38,53 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with ChangesWork
 
   implicit override def executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
-  implicit val p: Platform = platform
-  private val mainApiUri   = "file://folder/api.raml"
-  private val isolatedUri  = "file://folder/isolated.raml"
-  private val exchangeUri  = "file://folder/exchange.json"
-  val api                  = "#%RAML 1.0\ntitle: test\n"
-  val isolated             = "#%RAML 1.0\ntitle: test2\n"
-  val exchange             = "{\n  \"main\": \"api.raml\"\n}"
+  implicit val p: Platform     = platform
+  private val mainApiUri       = "file://folder/api.raml"
+  private val isolatedUri      = "file://folder/isolated.raml"
+  private val exchangeUri      = "file://folder/exchange.json"
+  val api                      = "#%RAML 1.0\ntitle: test\n"
+  val isolated                 = "#%RAML 1.0\ntitle: test2\n"
+  val exchange                 = "{\n  \"main\": \"api.raml\"\n}"
+  private val extensionUri     = "file://folder/extension.yaml"
+  private val extensionContent = """#%Dialect 1.0
+                                                    |dialect: Annotation mappings
+                                                    |version: 1.0
+                                                    |
+                                                    |external:
+                                                    |  aml: http://a.ml/vocab#
+                                                    |  apicontract: http://a.ml/vocabularies/apiContract#
+                                                    |
+                                                    |documents:
+                                                    |  root:
+                                                    |    encodes: string # just necessary to avoid errors, won't really do anything
+                                                    |
+                                                    |annotationMappings:
+                                                    |  RateLimitingAnnotationMapping:
+                                                    |    domain: apicontract.WebAPI
+                                                    |    propertyTerm: aml.rate-limit
+                                                    |    range: integer
+                                                    |    minimum: 0
+                                                    |    maximum: 10000
+                                                    |    mandatory: true
+                                                    |
+                                                    |  MaintainerAnnotationMapping:
+                                                    |    domain: apicontract.API
+                                                    |    propertyTerm: aml.maintainer
+                                                    |    range:  PersonNodeMapping
+                                                    |
+                                                    |nodeMappings:
+                                                    |  PersonNodeMapping:
+                                                    |    mapping:
+                                                    |      name:
+                                                    |        range: string
+                                                    |      surname:
+                                                    |        range: string
+                                                    |      email:
+                                                    |        range: string
+                                                    |
+                                                    |extensions:
+                                                    |  maintainer: MaintainerAnnotationMapping
+                                                    |  rateLimiting: RateLimitingAnnotationMapping""".stripMargin
 
   def rl(withExchangeFile: Boolean): ResourceLoader = new ResourceLoader {
 
@@ -54,6 +94,7 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with ChangesWork
         if (resource == mainApiUri) api
         else if (resource == isolatedUri) isolated
         else if (withExchangeFile && resource == exchangeUri) exchange
+        else if (resource == extensionUri) extensionContent
         else throw new ResourceNotFound("Not found: " + resource)
 
       Future.successful(new Content(content, resource))
@@ -63,7 +104,8 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with ChangesWork
     override def accepts(resource: String): Boolean =
       resource == mainApiUri ||
         (withExchangeFile && resource == exchangeUri) ||
-        resource == isolatedUri
+        resource == isolatedUri ||
+        resource == extensionUri
   }
 
   test("Unit from main tree should contain configuration") {
@@ -187,6 +229,7 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with ChangesWork
     val args                                  = wrapJson(isolatedUri)
     val args2                                 = wrapJson(isolatedUri, None, Set.empty, Set("profile.yaml"))
     val args3                                 = wrapJson(isolatedUri, None, Set("dependency.yaml"))
+    val args4                                 = wrapJson(isolatedUri, None, Set.empty, Set.empty, Set(extensionUri))
     val workspaceManager                      = factory.workspaceManager
     withServer[Assertion](buildServer(factory)) { server =>
       for {
@@ -195,16 +238,19 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with ChangesWork
                               Some(TraceKind.Off),
                               rootUri = Some(s"file://folder"),
                               projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
-        config1 <- getWorkspaceConfiguration(server, mainApiUri)
-        _       <- changeWorkspaceConfiguration(workspaceManager, args)
-        _       <- listener.nextCall
-        config2 <- getWorkspaceConfiguration(server, mainApiUri)
-        _       <- changeWorkspaceConfiguration(workspaceManager, args2)
-        _       <- listener.nextCall
-        config3 <- getWorkspaceConfiguration(server, mainApiUri)
-        _       <- changeWorkspaceConfiguration(workspaceManager, args3)
-        _       <- listener.nextCall
-        config4 <- getWorkspaceConfiguration(server, mainApiUri)
+        config1    <- getWorkspaceConfiguration(server, mainApiUri)
+        _          <- changeWorkspaceConfiguration(workspaceManager, args)
+        _          <- listener.nextCall
+        config2    <- getWorkspaceConfiguration(server, mainApiUri)
+        _          <- changeWorkspaceConfiguration(workspaceManager, args2)
+        _          <- listener.nextCall
+        config3    <- getWorkspaceConfiguration(server, mainApiUri)
+        _          <- changeWorkspaceConfiguration(workspaceManager, args3)
+        _          <- listener.nextCall
+        config4    <- getWorkspaceConfiguration(server, mainApiUri)
+        _          <- changeWorkspaceConfiguration(workspaceManager, args4)
+        config5    <- getWorkspaceConfiguration(server, mainApiUri)
+        registered <- workspaceManager.getWorkspace(mainApiUri).map(_.registeredDialects)
       } yield {
         assert(config1.workspace == """file://folder""")
         assert(config2.workspace == """file://folder""")
@@ -221,7 +267,11 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with ChangesWork
         assert(config2.configuration.dependencies.isEmpty)
         assert(config3.configuration.dependencies.isEmpty)
         assert(config4.configuration.dependencies.contains("dependency.yaml"))
-
+        assert(config1.configuration.semanticExtensions.isEmpty)
+        assert(config2.configuration.semanticExtensions.isEmpty)
+        assert(config3.configuration.semanticExtensions.isEmpty)
+        assert(config5.configuration.semanticExtensions.contains(extensionUri))
+        assert(registered.flatMap(_.location()).contains(extensionUri))
       }
     }
   }

@@ -11,6 +11,7 @@ trait ClientDidChangeConfigurationNotificationParams extends js.Object {
   def folder: UndefOr[String]                    = js.native
   def dependencies: js.Array[String]             = js.native
   def customValidationProfiles: js.Array[String] = js.native
+  def semanticExtensions: js.Array[String]       = js.native
 }
 
 object ClientDidChangeConfigurationNotificationParams {
@@ -20,7 +21,8 @@ object ClientDidChangeConfigurationNotificationParams {
         mainUri = internal.mainUri,
         folder = internal.folder.orUndefined,
         dependencies = internal.dependencies.toJSArray,
-        customValidationProfiles = internal.customValidationProfiles.toJSArray
+        customValidationProfiles = internal.customValidationProfiles.toJSArray,
+        semanticExtensions = internal.semanticExtensions.toJSArray
       )
       .asInstanceOf[ClientDidChangeConfigurationNotificationParams]
 }

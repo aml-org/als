@@ -206,7 +206,8 @@ Please bear in mind that the Workspace Configuration is not the same as the glob
     "mainUri": string,
     "folder"?: string,
     "dependencies": string[],
-    "customValidationProfiles": string[]
+    "customValidationProfiles": string[],
+    "semanticExtensions": string[]
   }
 }
 </pre>
@@ -217,6 +218,7 @@ Where:
 - `folder` same as `workspace` [optional]
 - `dependencies` uris of all immutable dependencies of the project
 - `customValidationProfiles` uris of all the active validation profiles on the workspace
+- `semanticExtensions` uris of all the active semantic extensions on the workspace  (Not yet implemented)
 
 
 ### didChangeConfiguration
@@ -236,6 +238,7 @@ Command will be ignored if ALS is not configured with `COMMAND` as `projectConfi
       "folder"?: string,
       "dependencies": string[],
       "customValidationProfiles": string[]
+      "semanticExtensions": string[]
     }
   ]
 }
@@ -246,6 +249,7 @@ Where:
 - `mainUri` sets the main file of the workspace.
 - `dependencies` set the uris of all immutable dependencies of the project.
 - `customValidationProfiles` a list of uris of custom validation profiles that should be used in the workspace.
+- `semanticExtensions` a list of uris of semantic extension dialects that should be used in the workspace. (Not yet implemented)
 
 #### Response
 
