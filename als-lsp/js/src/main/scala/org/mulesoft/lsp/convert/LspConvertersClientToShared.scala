@@ -490,7 +490,8 @@ object LspConvertersClientToShared {
       DidChangeConfigurationNotificationParams(v.mainUri,
                                                v.folder.toOption,
                                                v.dependencies.toSet,
-                                               v.customValidationProfiles.toSet)
+                                               v.customValidationProfiles.toSet,
+                                               v.semanticExtensions.toSet)
   }
 
   implicit class DidChangeTextDocumentParamsConverter(v: ClientDidChangeTextDocumentParams) {

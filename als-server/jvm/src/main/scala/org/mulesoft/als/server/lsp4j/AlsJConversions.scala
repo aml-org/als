@@ -132,7 +132,8 @@ object AlsJConversions {
       shared: DidChangeConfigurationNotificationParams): extension.WorkspaceConfigurationParams =
     new extension.WorkspaceConfigurationParams(shared.mainUri,
                                                shared.dependencies.asJava,
-                                               shared.customValidationProfiles.asJava)
+                                               shared.customValidationProfiles.asJava,
+                                               shared.semanticExtensions.asJava)
 
   implicit def getWorkspaceConfigurationResult(
       result: GetWorkspaceConfigurationResult): extension.GetWorkspaceConfigurationResult =
