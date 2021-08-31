@@ -123,7 +123,6 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
-                    branch 'adopt/amf-5-beta'
                 }
             }
             steps {
@@ -152,7 +151,6 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
-                    branch 'adopt/amf-5-beta'
                 }
             }
             steps {
@@ -187,7 +185,6 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
-                    branch 'adopt/amf-5-beta'
                 }
             }
             steps {
@@ -233,7 +230,6 @@ pipeline {
                     branch 'support/*'
                     branch 'rc/*'
                     branch 'develop'
-                    branch 'adopt/amf-5-beta'
                 }
             }
             steps {
