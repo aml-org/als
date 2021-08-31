@@ -38,15 +38,15 @@ case class PathNavigation(fullUrl: String,
   private def nodes(): Future[Seq[String]] = {
     val keys = navPath.split('/').filterNot(_.isEmpty)
     resolveRootNode().map { n =>
-      n.map(r => matchNode(keys.toList, r)).getOrElse(Nil)
+      n.map(r => matchNode(keys.toList, r))
+        .getOrElse(Nil)
     }
   }
 
   def matchNode(list: List[String], node: YNode): Seq[String] = {
-    val map  = nodeNames(node)
-    val keys = map.map(t => if (t._2.tagType == YType.Map || t._2.tagType == YType.Seq) t._1 + "/" else t._1).toSeq
+    val map = nodeNames(node)
     list match {
-      case Nil => keys
+      case Nil => map.keys.toSeq
       case head :: tail =>
         map
           .get(head)

@@ -1,34 +1,42 @@
 # Features and modules
-## Custom messages
-##### Currently the following custom features are supported:
-- SerializeJSONLD
-- UpdateConfiguration
-- FilesInProject
-- CleanDiagnosticTree
-- FileUsage
-- Conversion
-- Serialization
-- RenameFile
 
+## Custom methods
 
-### SerializeJSONLD
+Currently the following custom methods are supported:
+
+- serializeJSONLD
+- updateConfiguration
+- filesInProject
+- cleanDiagnosticTree
+- fileUsage
+- conversion
+- serialization
+- renameFile
+
+### serializeJSONLD
+
 After initialization, provides notifications with the JSONLD when available (updates with changes).
-Notification message from server to client:
-```json
-{
-  "uri": "string",
-  "model": "any"
-}
-```
 
-### UpdateConfiguration
+Notification message from server to client:
+
+<pre>
+{
+  "uri": "<a href="https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#uri">DocumentUri</a>",
+  "model": "string"
+}
+</pre>
+
+### updateConfiguration
+
 Client notification to update the ALS-specific configuration.
+
 Notification message from client to server:
-```json
+
+<pre>
 {
     "formattingOptions": {
       "string": {
-        "tabSize": "number",
+        "tabSize": "integer",
         "insertSpaces": "boolean"
       }
     },
@@ -37,143 +45,194 @@ Notification message from client to server:
     },              
     "templateType": "NONE|SIMPLE|FULL"
 }
-```
+</pre>
+
 `templateType` values:
-- NONE: Turns templates off
-- SIMPLE: Template will only contain the first level
+- NONE: Turns templates off.
+- SIMPLE: Template will only contain the first level.
 - FULL: Template will contain the first level and the levels after that one too, building the whole structure required for the definition.
 
-### FilesInProject
+### filesInProject
+
 After initialization, provides notifications about the files included in a project (updates with changes).
+
 Notification message from server to client:
-```json
+
+<pre>
 {
-    "uris": "string[]"
+    "uris": "<a href="https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#uri">DocumentUri[]</a>"
 }
-```
+</pre>
 
+### cleanDiagnosticTree
 
-### CleanDiagnosticTree
-Performs validation on a given document(without the use of cache).
+Performs validation on a given document (without the use of cache).
 
 Request message from client to server:
-##### request
-```json
+
+#### Request
+
+<pre>
 {
-  "textDocument": "TextDocumentIdentifier"
+  "textDocument": "<a href="https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#textDocumentIdentifier">TextDocumentIdentifier</a>"
 }
-```
-##### response
-```json
+</pre>
+
+#### Response
+
+<pre>
 {
-  "uri": "string",
-  "diagnostics": "Diagnostic[]",
+  "uri": "<a href="https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#uri">DocumentUri</a>",
+  "diagnostics": "<a href="https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#diagnostic">Diagnostic[]</a>",
   "profile": "string"
 }
-```
+</pre>
 
+### fileUsage
 
-### FileUsage
 For a given document, generates a list of other documents that reference it.
+
 Request message from client to server:
-##### request
-```json
+
+#### Request
+
+<pre>
 {
-  "uri": "string"
+  "uri": "<a href="https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#uri">DocumentUri</a>"
 }
-```
-##### response
-```json
-[ "Location" ]
-```
+</pre>
 
+#### Response
 
-### Conversion
+<pre>
+[ "<a href="https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#location">Location</a>" ]
+</pre>
+
+### conversion
+
 For a given document, performs AMF conversion for compatible specifications.
+
 Request message from client to server:
-##### request
-```json
+
+#### Request
+
+<pre>
 {
-  "uri": "string",
+  "uri": "<a href="https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#uri">DocumentUri</a>",
   "target": "string",          
-  "syntax": "string?"
+  "syntax?": "string"
 }
-```
-##### response
-```json
-[
-  {
-    "uri": "string",
-    "document": "string"
-  }
-]
-```
+</pre>
 
+`target` values:
+- OAS 2.0
+- OAS 3.0
+- RAML 0.8
+- RAML 1.0
+- ASYNC 2.0
+- AMF Graph
 
-### Serialization
-For a given document, serializes AMF towards a specific model (similar to the JSONLD notifications, but on demand).
+`syntax` values:
+- json
+- yaml
+- raml
+
+#### Response
+
+<pre>
+{
+  "uri": "<a href="https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#uri">DocumentUri</a>",
+  "model": "string"
+}
+</pre>
+
+### serialization
+
+For a given document, serializes AMF towards a specific model (similar to the JSONLD notifications, but on demand
+
 Request message from client to server:
-##### request
-```json
-{
-  "uri": "string"
-}
-```
-##### response
-```json
-{
-  "uri": "string",
-  "model": "any"
-}
-```
-### Did Focus Notification
-Sent from the client to server to notice a new focus for a file, which will trigger new parse and diagnostic on isolated files (similar to a didOpen)
-##### notification to textDocument/didFocus
 
-```json
+#### Request
+
+<pre>
 {
-  "uri": "string",
-  "version": "int"
+  "documentIdentifier": "<a href="https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#textDocumentIdentifier">TextDocumentIdentifier</a>"
 }
-```
+</pre>
+
+#### Response
+
+<pre>
+{
+  "uri": "<a href="https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#uri">DocumentUri</a>",
+  "model": "string"
+}
+</pre>
+
+### textDocument/didFocus
+
+Sent from the client to server to notice a new focus for a file, which will trigger new parse and diagnostic on isolated files (similar to [`textdocument/didOpen`](https://microsoft.github.io/language-server-protocol/specifications/specification-3-17/#textDocument_didOpen)).
+
+Notification from client to server:
+
+<pre>
+{
+  "uri": "<a href="https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#uri">DocumentUri</a>",
+  "version": "integer"
+}
+</pre>
 
 ## Deprecated
-###### We strongly discourage this uses, and will remove in a later release
-### RenameFile
-######Deprecated in favor of WillRename, which is set to be implemented in the short run
-For a given document, provides all the requirements to rename the file and it's references inside a project.
-Request message from client to server:
-##### request
-```json
-{
-  "oldDocument": "TextDocumentIdentifier",
-  "newDocument": "TextDocumentIdentifier"
-}
-```
-##### response
-```json
-{
-  "edits": "WorkspaceEdit"
-}
-```
-### Command Did Focus
-###### Deprecated in favor of DidFocus notification
-Command (see [here](https://microsoft.github.io/language-server-protocol/specifications/specification-current/#workspace_executeCommand) for details on how to use)
-with the following parameters:
-##### request
 
-```json
+> **WARNING:** The use of these custom methods is discouraged and they will be removed in future release.
+
+### renameFile
+
+Deprecated in favor of `willRename`, which is set to be implemented in the short run.
+
+For a given document, provides all the requirements to rename the file and it's references inside a project.
+
+Request message from client to server:
+
+#### Request
+
+<pre>
+{
+  "oldDocument": "<a href="https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#textDocumentIdentifier">TextDocumentIdentifier</a>",
+  "newDocument": "<a href="https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#textDocumentIdentifier">TextDocumentIdentifier</a>"
+}
+</pre>
+
+#### Response
+
+<pre>
+{
+  "edits": "<a href="https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#workspaceEdit">WorkspaceEdit</a>"
+}
+</pre>
+
+### didFocusChange
+
+Deprecated in favor of the [`textDocument/didFocus`](#textdocumentdidfocus) notification.
+
+Request message from client to server's [`workspace/executeCommand`](https://microsoft.github.io/language-server-protocol/specifications/specification-current/#workspace_executeCommand):
+
+#### Request
+
+<pre>
 {
   "command": "didFocusChange",
   "arguments": [
     {
-      "uri": "string",
-      "version": "int"
+      "uri": "<a href="https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#uri">DocumentUri</a>",
+      "version": "integer"
     }
   ]
 }
-```
-##### response
-```json
+</pre>
+
+#### Response
+
+<pre>
 {}
-```
+</pre>

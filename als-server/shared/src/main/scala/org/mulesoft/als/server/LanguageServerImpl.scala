@@ -1,6 +1,7 @@
 package org.mulesoft.als.server
 
 import org.mulesoft.als.common.URIImplicits.StringUriImplicits
+import org.mulesoft.als.configuration.DefaultProjectConfigurationStyle
 import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.configuration.ConfigurationManager
@@ -22,15 +23,8 @@ class LanguageServerImpl(val textDocumentSyncConsumer: AlsTextDocumentSyncConsum
     extends LanguageServer {
 
   override def initialize(params: AlsInitializeParams): Future[AlsInitializeResult] = {
-    logger.debug(s"trace: ${params.trace}", "LanguageServerImpl", "initialize")
-    logger.debug(s"rootUri: ${params.rootUri}", "LanguageServerImpl", "initialize")
-    logger.debug(s"rootPath: ${params.rootPath}", "LanguageServerImpl", "initialize")
-    logger.debug(s"workspaceFolders: ${params.workspaceFolders.getOrElse(Seq())}", "LanguageServerImpl", "initialize")
-    logger.debug(s"configuration: ${params.configuration.map(_.toString).getOrElse("")}",
-                 "LanguageServerImpl",
-                 "initialize")
-    logger.debug(s"capabilities: ${params.capabilities.toString}", "LanguageServerImpl", "initialize")
-
+    logParams(params)
+    params.projectConfigurationStyle.foreach(configuration.setProjectConfigurationStyle)
     params.configuration.foreach(c => {
       updateConfiguration(
         UpdateConfigurationParams(
@@ -47,9 +41,26 @@ class LanguageServerImpl(val textDocumentSyncConsumer: AlsTextDocumentSyncConsum
       val root: Option[String]                   = params.rootUri.flatMap(Option(_)).flatMap(rootUriIfValid).orElse(params.rootPath)
       val workspaceFolders: Seq[WorkspaceFolder] = params.workspaceFolders.getOrElse(List())
       workspaceService
-        .initialize((workspaceFolders :+ WorkspaceFolder(root, None)).toList)
+        .initialize(
+          (workspaceFolders :+ WorkspaceFolder(root, None)).toList,
+          params.projectConfigurationStyle.getOrElse(DefaultProjectConfigurationStyle)
+        )
         .map(_ => p)
     }
+  }
+
+  private def logParams(params: AlsInitializeParams) = {
+    logger.debug(s"trace: ${params.trace}", "LanguageServerImpl", "initialize")
+    logger.debug(s"rootUri: ${params.rootUri}", "LanguageServerImpl", "initialize")
+    logger.debug(s"rootPath: ${params.rootPath}", "LanguageServerImpl", "initialize")
+    logger.debug(s"workspaceFolders: ${params.workspaceFolders.getOrElse(Seq())}", "LanguageServerImpl", "initialize")
+    logger.debug(s"configuration: ${params.configuration.map(_.toString).getOrElse("")}",
+                 "LanguageServerImpl",
+                 "initialize")
+    logger.debug(s"capabilities: ${params.capabilities.toString}", "LanguageServerImpl", "initialize")
+    params.projectConfigurationStyle.foreach(config => {
+      logger.debug(s"projectConfigurationType style: ${config.style}", "LanguageServerImpl", "initialize")
+    })
   }
 
   /**

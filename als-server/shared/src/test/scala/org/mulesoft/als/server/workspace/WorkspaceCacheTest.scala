@@ -5,6 +5,7 @@ import amf.client.resource.ResourceNotFound
 import amf.core.unsafe.PlatformSecrets
 import amf.internal.environment.Environment
 import amf.internal.resource.ResourceLoader
+import org.mulesoft.als.configuration.DefaultProjectConfigurationStyle
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.logger.EmptyLogger
 import org.mulesoft.als.server.modules.ast.{CHANGE_CONFIG, CHANGE_FILE}
@@ -73,7 +74,12 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     }
 
     val ws =
-      new WorkspaceContentManager("folder", env, DummyTelemetryProvider, EmptyLogger, Nil)
+      new WorkspaceContentManager("folder",
+                                  env,
+                                  DummyTelemetryProvider,
+                                  EmptyLogger,
+                                  Nil,
+                                  DefaultProjectConfigurationStyle)
 
     ws.withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, None))
       .stage("file://folder/" + mainApiName, CHANGE_CONFIG)
@@ -141,7 +147,12 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     }
 
     val ws =
-      new WorkspaceContentManager("folder", env, DummyTelemetryProvider, EmptyLogger, Nil)
+      new WorkspaceContentManager("folder",
+                                  env,
+                                  DummyTelemetryProvider,
+                                  EmptyLogger,
+                                  Nil,
+                                  DefaultProjectConfigurationStyle)
 
     ws.withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, None))
       .stage("file://folder/" + mainApiName, CHANGE_CONFIG)
@@ -201,7 +212,12 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     }
 
     val ws =
-      new WorkspaceContentManager("folder", env, DummyTelemetryProvider, EmptyLogger, Nil)
+      new WorkspaceContentManager("folder",
+                                  env,
+                                  DummyTelemetryProvider,
+                                  EmptyLogger,
+                                  Nil,
+                                  DefaultProjectConfigurationStyle)
 
     ws.withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, Set.empty, None))
       .stage("file://folder/" + mainApiName, CHANGE_CONFIG)
@@ -261,7 +277,12 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     }
 
     val ws =
-      new WorkspaceContentManager("folder", env, DummyTelemetryProvider, EmptyLogger, Nil)
+      new WorkspaceContentManager("folder",
+                                  env,
+                                  DummyTelemetryProvider,
+                                  EmptyLogger,
+                                  Nil,
+                                  DefaultProjectConfigurationStyle)
     ws.withConfiguration(DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, None))
       .stage("file://folder/" + mainApiName, CHANGE_CONFIG)
     ws.getUnit("file://folder/" + mainApiName).flatMap(l => l.getLast).flatMap { _ =>
@@ -317,7 +338,12 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     }
 
     val ws =
-      new WorkspaceContentManager("folder", env, DummyTelemetryProvider, EmptyLogger, Nil)
+      new WorkspaceContentManager("folder",
+                                  env,
+                                  DummyTelemetryProvider,
+                                  EmptyLogger,
+                                  Nil,
+                                  DefaultProjectConfigurationStyle)
 
     for {
       _ <- Future.successful {

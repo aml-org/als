@@ -26,8 +26,8 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
 
   override protected def runCommand(param: DidChangeConfigurationNotificationParams): Future[Unit] = {
     val manager = wsc.getWorkspace(param.mainUri)
-    wsc.contentManagerConfiguration(manager, param.mainUri, param.dependencies, None)
-    manager.stage(param.mainUri, CHANGE_CONFIG)
+    if (manager.acceptsConfigUpdateByCommand)
+      wsc.contentManagerConfiguration(manager, param.mainUri, param.dependencies, None)
     Future.unit
   }
 }

@@ -1,13 +1,13 @@
 [
   {
-    "label": "Adef/",
+    "label": "Adef",
     "kind": [],
     "detail": "unknown",
-    "documentation": "jsonschema.json#/definitions/Adef/",
+    "documentation": "jsonschema.json#/definitions/Adef",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11Adef/",
-    "filterText": "\"jsonschema.json#/definitions/Adef/\"",
+    "sortText": "11Adef",
+    "filterText": "\"jsonschema.json#/definitions/Adef\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 45
         }
       },
-      "newText": "\"jsonschema.json#/definitions/Adef/\""
+      "newText": "\"jsonschema.json#/definitions/Adef\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

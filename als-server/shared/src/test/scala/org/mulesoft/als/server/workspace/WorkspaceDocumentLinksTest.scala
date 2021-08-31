@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.workspace
 
 import amf.internal.environment.Environment
+import org.mulesoft.als.configuration.DefaultProjectConfigurationStyle
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.actions.DocumentLinksManager
 import org.mulesoft.als.server.modules.ast.{CLOSE_FILE, OPEN_FILE}
@@ -96,7 +97,8 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
     val documentLinksManager: DocumentLinksManager =
       new DocumentLinksManager(workspaceManager, telemetryManager, platform, logger)
 
-    def init(): Future[Unit] = workspaceManager.initialize(List(WorkspaceFolder(filePath(rootFolder))))
+    def init(): Future[Unit] =
+      workspaceManager.initialize(List(WorkspaceFolder(filePath(rootFolder))), DefaultProjectConfigurationStyle)
 
     def openFileAndGetLinks(path: String): Future[Seq[DocumentLink]] =
       openFile(path).getDocumentLinks(path)

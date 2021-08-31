@@ -2,6 +2,7 @@ package org.mulesoft.als.server.workspace
 
 import amf.core.remote.Platform
 import org.mulesoft.als.common.URIImplicits._
+import org.mulesoft.als.configuration.{DefaultProjectConfigurationStyle, ProjectConfigurationStyle}
 import org.mulesoft.als.server.AlsWorkspaceService
 import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.modules.ast._
@@ -83,9 +84,10 @@ class WorkspaceManager(environmentProvider: EnvironmentProvider,
   override def getProjectRootOf(uri: String): Future[Option[String]] =
     getWorkspace(uri).getRootFolderFor(uri)
 
-  override def initialize(workspaceFolders: List[WorkspaceFolder]): Future[Unit] = Future {
+  override def initialize(workspaceFolders: List[WorkspaceFolder],
+                          projectConfigurationStyle: ProjectConfigurationStyle): Future[Unit] = Future {
     // Drop all old workspaces
-    workspaces.clear()
+    workspaces.reset(projectConfigurationStyle)
     val newWorkspaces = extractCleanURIs(workspaceFolders)
     dependencies.foreach(d => d.withUnitAccessor(this))
     workspaces.changeWorkspaces(newWorkspaces, List())
@@ -155,9 +157,14 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
 
   private val workspaces: mutable.Set[WorkspaceContentManager] = new mutable.HashSet()
 
+  private var projectConfigurationStyle: Option[ProjectConfigurationStyle] = None
+
+  private def configStyle: ProjectConfigurationStyle =
+    projectConfigurationStyle.getOrElse(DefaultProjectConfigurationStyle)
+
   private val defaultWorkspace: WorkspaceContentManager = {
     logger.debug(s"created default WorkspaceContentManager", "WorkspaceList", "buildWorkspaceAt")
-    new WorkspaceContentManager("", environmentProvider, telemetryProvider, logger, subscribers)
+    new WorkspaceContentManager("", environmentProvider, telemetryProvider, logger, subscribers, configStyle)
   }
 
   def addWorkspace(uri: String): Unit =
@@ -188,7 +195,8 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
   // todo: should return future
   private def buildWorkspaceAt(uri: String): WorkspaceContentManager = {
     // todo: instead of `new WorkspaceContentManager` there should be a `WorkspaceContentManager.init(...)` which returns a future
-    val wcm             = new WorkspaceContentManager(uri, environmentProvider, telemetryProvider, logger, subscribers)
+    val wcm =
+      new WorkspaceContentManager(uri, environmentProvider, telemetryProvider, logger, subscribers, configStyle)
     val applicableFiles = environmentProvider.openedFiles.filter(_.startsWith(uri))
     applicableFiles.foreach(wcm.stage(_, OPEN_FILE))
     logger.debug(s"created WorkspaceContentManager for $uri", "WorkspaceList", "buildWorkspaceAt")
@@ -201,7 +209,12 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
       defaultWorkspace
     }
 
-  def clear(): Unit = workspaces.foreach(w => removeWorkspace(w.folderUri))
+  private def clear(): Unit = workspaces.foreach(w => removeWorkspace(w.folderUri))
+
+  def reset(configuration: ProjectConfigurationStyle): Unit = {
+    projectConfigurationStyle = Some(configuration)
+    this.clear()
+  }
 
   def allWorkspaces(): Seq[WorkspaceContentManager] = workspaces.toSeq
 }
