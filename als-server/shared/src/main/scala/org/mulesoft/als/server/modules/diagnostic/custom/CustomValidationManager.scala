@@ -58,13 +58,16 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
           validationGatherer
             .indexNewReport(ErrorsWithTree(uri, results.toSeq, Some(tree(resolved.baseUnit))), managerName, uuid)
           notifyReport(uri, resolved.baseUnit, references, managerName, ProfileName("CustomValidation"))
-
           val endTime = System.currentTimeMillis()
           this.logger.debug(s"It took ${endTime - startTime} milliseconds to validate with Go env",
                             "CustomValidationDiagnosticManager",
                             "gatherValidationErrors")
         }
-      case _ => Future.successful()
+      case _ =>
+        Future.successful {
+          validationGatherer.removeFile(uri, managerName)
+          notifyReport(uri, resolved.baseUnit, references, managerName, ProfileName("CustomValidation"))
+        }
     }
   }
 

@@ -75,13 +75,16 @@ class CustomValidationManagerTest
         content <- platform.fetchContent(mainFile, AMFGraphConfiguration.predefined()).map(_.stream.toString)
         _       <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(workspacePath)))
         _       <- diagnosticNotifier.nextCall
+        _       <- diagnosticNotifier.nextCall
         _       <- changeNotification(server)(mainFile, content.replace("Not found", "Not found!"), 1)
+        _       <- diagnosticNotifier.nextCall
         _       <- diagnosticNotifier.nextCall
       } yield {
         validator.calledNTimes(0)
       }
     }
   }
+
   test("Should be called after a profile is registered") {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
     val validator                                        = new DummyAmfOpaValidator
@@ -101,7 +104,8 @@ class CustomValidationManagerTest
         _ <- changeWorkspaceConfiguration(
           workspaceManager,
           s"""{"mainUri": "$mainFile", "dependencies": [], "customValidationProfiles": []}""") // initial configuration
-        _ <- diagnosticNotifier.nextCall // api.raml
+        _ <- diagnosticNotifier.nextCall // api.raml (Resolution)
+        _ <- diagnosticNotifier.nextCall // api.raml (CustomValidations)
         _ <- Future { validator.calledNTimes(0) }
         _ <- changeWorkspaceConfiguration(workspaceManager, args) // register
         _ <- diagnosticNotifier.nextCall // Resolution diagnostic manager
@@ -109,6 +113,7 @@ class CustomValidationManagerTest
         _ <- Future { validator.calledNTimes(1) }
         _ <- changeWorkspaceConfiguration(workspaceManager, wrapJson(mainFile)) // unregister
         _ <- diagnosticNotifier.nextCall // Resolution diagnostic manager
+        _ <- diagnosticNotifier.nextCall // Custom diagnostic manager
       } yield {
         validator.calledNTimes(1)
       }
@@ -156,6 +161,57 @@ class CustomValidationManagerTest
               diagnostic.message should be("Scalars in parameters must have minLength defined")
               diagnostic.range should be(Range(Position(5, 6), Position(6, 19)))
               diagnostic.severity should equal(Some(DiagnosticSeverity.Error))
+            }
+        }
+      })
+  }
+
+  test("Should clean custom-validation errors if profile is removed") {
+    val negativeReportUri = filePath(platform.encodeURI("project/negative.report.jsonld"))
+    platform
+      .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
+      .flatMap(negativeReport => {
+        val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(13000)
+        val validator                                        = new DummyAmfOpaValidator(negativeReport.toString)
+        val workspacePath                                    = filePath(platform.encodeURI("project"))
+        val mainFile                                         = filePath(platform.encodeURI("project/api.raml"))
+        val serializedUri                                    = filePath(platform.encodeURI("project/api.raml.jsonld"))
+        val profileUri                                       = filePath(platform.encodeURI("project/profile.yaml"))
+        val (server, workspaceManager)                       = buildServer(diagnosticNotifier, validator)
+        val args                                             = wrapJson(mainFile, None, Set.empty, Set(profileUri))
+        val args2                                            = wrapJson(mainFile, None)
+
+        withServer(server) {
+          server =>
+            for {
+              _ <- server.initialize(
+                AlsInitializeParams(None,
+                                    Some(TraceKind.Off),
+                                    rootUri = Some(workspacePath),
+                                    projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
+              _               <- changeWorkspaceConfiguration(workspaceManager, args) // register
+              profile         <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
+              _               <- diagnosticNotifier.nextCall // Resolution diagnostic manager
+              diagnostics     <- diagnosticNotifier.nextCall // Custom validation manager
+              _               <- validator.called(profile, serializedUri)
+              _               <- changeWorkspaceConfiguration(workspaceManager, args2) // unregister
+              _               <- diagnosticNotifier.nextCall // Resolution diagnostic manager
+              cleanDiagnostic <- diagnosticNotifier.nextCall // Custom validation manager
+            } yield {
+              validator.calledNTimes(1)
+              val firstDiagnostic =
+                diagnostics.diagnostics.find(d => d.range.start == Position(5, 6) && d.range.end == Position(6, 19))
+              if (firstDiagnostic.isEmpty) {
+                logger.error(s"Couldn't find first diagnostic:\n ${diagnostics.write}",
+                             "CustomValidationManagerTest",
+                             "Should notify errors")
+                fail("Couldn't find first diagnostic")
+              }
+              val diagnostic = firstDiagnostic.get
+              diagnostic.message should be("Scalars in parameters must have minLength defined")
+              diagnostic.range should be(Range(Position(5, 6), Position(6, 19)))
+              cleanDiagnostic.diagnostics
+                .filter(_.message == "Scalars in parameters must have minLength defined") should be(empty)
             }
         }
       })
