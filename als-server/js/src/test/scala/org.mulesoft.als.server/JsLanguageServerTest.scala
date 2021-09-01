@@ -60,6 +60,9 @@ class JsLanguageServerTest extends LanguageServerBaseTest with PlatformSecrets {
         _ <- openFile(s)("file:///person.xml", payload)
         _ <- openFile(s)("file:///uri.raml", content)
         _ <- clientConnection.nextCall
+        _ <- clientConnection.nextCall
+        _ <- clientConnection.nextCall
+        _ <- clientConnection.nextCall // Running in node context, it will add CustomValidationManager and such we receive 2 diagnostic calls
       } yield {
         assert(flag)
       }
@@ -81,6 +84,7 @@ class JsLanguageServerTest extends LanguageServerBaseTest with PlatformSecrets {
   case class TestValidator(fn: () => Unit) extends AMFShapePayloadValidationPlugin {
     override def applies(element: ValidatePayloadRequest): Boolean = {
       fn()
+      logger.debug(s"Test validator called", "TestValidator", "applies")
       false
     }
 

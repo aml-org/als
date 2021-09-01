@@ -53,6 +53,7 @@ class NodeJsCustomValidationTest
         content     <- platform.fetchContent(mainFile, AMFGraphConfiguration.predefined()).map(_.stream.toString)
         _           <- openFile(server)(mainFile, content)
         _           <- diagnosticNotifier.nextCall
+        _           <- diagnosticNotifier.nextCall
         _           <- changeWorkspaceConfiguration(workspaceManager, args)
         _           <- diagnosticNotifier.nextCall // resolution diagnostics
         diagnostics <- diagnosticNotifier.nextCall // custom validation diagnostics
@@ -78,6 +79,7 @@ class NodeJsCustomValidationTest
                               projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
         content <- platform.fetchContent(mainFile, AMFGraphConfiguration.predefined()).map(_.stream.toString)
         _       <- openFile(server)(mainFile, content)
+        _       <- diagnosticNotifier.nextCall
         _       <- diagnosticNotifier.nextCall
         _ <- changeWorkspaceConfiguration(workspaceManager,
                                           wrapJson(mainFile, Some(workspacePath), Set.empty, Set(profile)))
@@ -116,6 +118,7 @@ class NodeJsCustomValidationTest
         content     <- platform.fetchContent(mainFile, AMFGraphConfiguration.predefined()).map(_.stream.toString)
         _           <- openFile(server)(mainFile, content)
         _           <- diagnosticNotifier.nextCall
+        _           <- diagnosticNotifier.nextCall
         _           <- changeWorkspaceConfiguration(workspaceManager, args)
         _           <- diagnosticNotifier.nextCall // resolution diagnostics
         diagnostics <- diagnosticNotifier.nextCall // custom validation diagnostics
@@ -134,12 +137,10 @@ class NodeJsCustomValidationTest
     val expected                                         = filePath(platform.encodeURI(s"multiple-profiles/expected/swap.yaml"))
     def args(p: Set[String] = Set.empty)                 = wrapJson(mainFile, Some(workspacePath), Set.empty, p)
 
-    def run(hasProfiles: Boolean = true): Future[YDocument] = {
+    def run(): Future[YDocument] = {
       for {
-        d <- diagnosticNotifier.nextCall // resolution diagnostics
-        diagnostics <- if (hasProfiles) {
-          diagnosticNotifier.nextCall // custom validation diagnostics
-        } else Future.successful(d)
+        _           <- diagnosticNotifier.nextCall // resolution diagnostics
+        diagnostics <- diagnosticNotifier.nextCall // custom validation diagnostics
       } yield {
         diagnostics.yDocument
       }
@@ -154,7 +155,7 @@ class NodeJsCustomValidationTest
                               projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
         content <- platform.fetchContent(mainFile, AMFGraphConfiguration.predefined()).map(_.stream.toString)
         _       <- openFile(server)(mainFile, content)
-        _       <- diagnosticNotifier.nextCall
+        _       <- run()
         _       <- changeWorkspaceConfiguration(workspaceManager, args(Set(profile1)))
         a       <- run()
         _       <- changeWorkspaceConfiguration(workspaceManager, args(Set(profile1, profile2)))
@@ -164,7 +165,7 @@ class NodeJsCustomValidationTest
         _       <- changeWorkspaceConfiguration(workspaceManager, args(Set(profile2, profile1)))
         d       <- run()
         _       <- changeWorkspaceConfiguration(workspaceManager, args())
-        e       <- run(hasProfiles = false)
+        e       <- run()
         result  <- Future(YamlRender.render(Seq(a, b, c, d, e)))
         tmp     <- writeTemporaryFile(expected)(result)
         r       <- assertDifferences(tmp, expected)
