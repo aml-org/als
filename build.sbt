@@ -24,6 +24,7 @@ lazy val workspaceDirectory: File =
   }
 
 val amfVersion = deps("amf")
+val amfCustomValidatorJSVersion = deps("amf.custom-validator.js")
 
 lazy val amfJVMRef = ProjectRef(workspaceDirectory / "amf", "apiContractJVM")
 lazy val amfJSRef = ProjectRef(workspaceDirectory / "amf", "apiContractJS")
@@ -174,6 +175,7 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
   )
   .jsSettings(
     installJsDependencies := {
+      Process(s"npm install @aml-org/amf-custom-validator@$amfCustomValidatorJSVersion", new File("./als-server/js/node-package")) #&&
       Process("npm install",     new File("./als-server/js/node-package")) !
     },
     test in Test := ((test in Test) dependsOn installJsDependencies).value,
@@ -207,10 +209,8 @@ lazy val nodeClient =  project
     mainClass in Compile := Some("org.mulesoft.als.nodeclient.Main"),
 
     npmIClient := {
-      Process(
-        "npm i",
-        new File("./als-node-client/node-package/")
-      ).!
+      Process(s"npm install @aml-org/amf-custom-validator@$amfCustomValidatorJSVersion", new File("./als-node-client/node-package/")) #&&
+      Process("npm i", new File("./als-node-client/node-package/")) !
     },
 
     test in Test := ((test in Test) dependsOn npmIClient).value,
