@@ -6,7 +6,7 @@ import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.validation.{AMFValidationReport, AMFValidationResult}
 import org.mulesoft.als.server.ClientNotifierModule
 import org.mulesoft.als.server.client.ClientNotifier
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.DiagnosticsBundle
 import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, ProfileMatcher}

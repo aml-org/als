@@ -3,7 +3,7 @@ package org.mulesoft.als.server.modules.serialization
 import amf.apicontract.client.scala.model.document.{Overlay, Extension}
 import amf.core.client.scala.model.document.{BaseUnit, Document}
 import org.mulesoft.als.server.feature.serialization._
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.ast.ResolvedUnitListener
 import org.mulesoft.als.server.modules.common.reconciler.Runnable
 import org.mulesoft.als.server.{ClientNotifierModule, RequestModule, SerializationProps}

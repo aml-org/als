@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.stagingarea.parser
 
-import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.logger.MessageSeverity.MessageSeverity
+import org.mulesoft.als.logger.Logger
+import org.mulesoft.als.logger.MessageSeverity.MessageSeverity
 import org.mulesoft.als.server.modules.ast.{CHANGE_FILE, CLOSE_FILE, NotificationKind, OPEN_FILE}
 import org.mulesoft.als.server.modules.workspace.ParserStagingArea
 import org.mulesoft.als.server.textsync.EnvironmentProvider
@@ -41,7 +41,7 @@ class ParserStagingAreaTests extends FlatSpec with Matchers {
       (uritest, OPEN_FILE),
       ("file://uritest1.yaml", CLOSE_FILE),
       ("file://uritest2.yaml", OPEN_FILE),
-      ("file://uritest3.yaml", CHANGE_FILE),
+      ("file://uritest3.yaml", CHANGE_FILE)
     )
     psa.enqueue(input.toList)
     val resultList = ListBuffer[(String, NotificationKind)]()

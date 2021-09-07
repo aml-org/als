@@ -4,7 +4,7 @@ import amf.core.client.scala.validation.AMFValidationResult
 import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.feature.diagnostic._
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler

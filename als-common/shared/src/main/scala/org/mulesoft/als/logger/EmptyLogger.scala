@@ -1,4 +1,4 @@
-package org.mulesoft.als.server.logger
+package org.mulesoft.als.logger
 
 /**
   * Logger that logs nothing

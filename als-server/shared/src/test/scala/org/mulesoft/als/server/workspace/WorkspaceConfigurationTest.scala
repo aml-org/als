@@ -13,7 +13,7 @@ import org.mulesoft.als.server.feature.configuration.workspace.{
   GetWorkspaceConfigurationRequestType,
   GetWorkspaceConfigurationResult
 }
-import org.mulesoft.als.server.logger.{Logger, MessageSeverity}
+import org.mulesoft.als.logger.{Logger, MessageSeverity}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactory
 import org.mulesoft.als.server.modules.ast.{BaseUnitListener, ResolvedUnitListener}
 import org.mulesoft.als.server.modules.common.reconciler.Runnable

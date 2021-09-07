@@ -3,7 +3,7 @@ package org.mulesoft.als.server
 import org.mulesoft.als.common.URIImplicits.StringUriImplicits
 import org.mulesoft.als.configuration.DefaultProjectConfigurationStyle
 import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.configuration.ConfigurationManager
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.{AlsInitializeParams, AlsInitializeResult}

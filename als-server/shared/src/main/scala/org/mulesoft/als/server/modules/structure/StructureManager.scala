@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules.structure
 
 import org.mulesoft.als.server.RequestModule
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.common.LspConverter
 import org.mulesoft.als.server.modules.workspace.CompilableUnit
 import org.mulesoft.als.server.workspace.UnitAccessor

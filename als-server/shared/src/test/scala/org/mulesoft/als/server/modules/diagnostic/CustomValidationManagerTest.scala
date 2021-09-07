@@ -4,7 +4,7 @@ import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.configuration.ConfigurationStyle.COMMAND
 import org.mulesoft.als.configuration.ProjectConfigurationStyle
-import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
+import org.mulesoft.als.logger.{EmptyLogger, Logger}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.custom.AMFOpaValidator
 import org.mulesoft.als.server.protocol.LanguageServer

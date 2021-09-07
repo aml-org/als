@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.diagnostic.custom.AMFOpaValidator
 import org.mulesoft.als.server.wasm.{AmfWasmOpaValidator, Callback}
 

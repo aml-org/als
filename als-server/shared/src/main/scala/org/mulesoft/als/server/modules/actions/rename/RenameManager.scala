@@ -3,7 +3,7 @@ package org.mulesoft.als.server.modules.actions.rename
 import amf.core.internal.remote.Platform
 import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.als.server.RequestModule
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler

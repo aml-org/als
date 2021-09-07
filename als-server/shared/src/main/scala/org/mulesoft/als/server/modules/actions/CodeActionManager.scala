@@ -6,7 +6,7 @@ import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
 import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.als.server.RequestModule
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler

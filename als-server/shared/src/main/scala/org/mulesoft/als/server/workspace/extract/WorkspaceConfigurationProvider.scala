@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.workspace.extract
 
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.workspace.WorkspaceContentManager
 import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 

@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules.workspace.resolution
 
 import amf.core.client.scala.model.document.BaseUnit
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.workspace._
 import org.mulesoft.als.server.textsync.EnvironmentProvider

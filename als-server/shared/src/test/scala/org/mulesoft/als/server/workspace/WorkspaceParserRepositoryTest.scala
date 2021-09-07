@@ -5,7 +5,7 @@ import amf.core.client.scala.AMFResult
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.internal.unsafe.PlatformSecrets
-import org.mulesoft.als.server.logger.EmptyLogger
+import org.mulesoft.als.logger.EmptyLogger
 import org.mulesoft.als.server.modules.workspace.{ParsedUnit, WorkspaceParserRepository}
 import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, AmfParseResult}
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect

@@ -8,7 +8,7 @@ import amf.core.internal.unsafe.PlatformSecrets
 import org.eclipse.lsp4j.{DidOpenTextDocumentParams, TextDocumentItem}
 import org.mulesoft.als.configuration.ResourceLoaderConverter
 import org.mulesoft.als.server.MockDiagnosticClientNotifier
-import org.mulesoft.als.server.logger.EmptyLogger
+import org.mulesoft.als.logger.EmptyLogger
 import org.mulesoft.als.server.modules.diagnostic.ALL_TOGETHER
 import org.scalatest.{AsyncFunSuite, Matchers}
 

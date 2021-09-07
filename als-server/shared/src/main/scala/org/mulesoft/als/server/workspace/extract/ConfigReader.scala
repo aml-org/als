@@ -2,7 +2,7 @@ package org.mulesoft.als.server.workspace.extract
 
 import amf.core.internal.remote.UnsupportedUrlScheme
 import org.mulesoft.als.common.URIImplicits._
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 
 import scala.concurrent.ExecutionContext.Implicits.global

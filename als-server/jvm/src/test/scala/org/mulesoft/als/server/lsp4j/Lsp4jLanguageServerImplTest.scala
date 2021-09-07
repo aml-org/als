@@ -9,7 +9,7 @@ import com.google.gson.{Gson, GsonBuilder}
 import org.eclipse.lsp4j.ExecuteCommandParams
 import org.mulesoft.als.server._
 import org.mulesoft.als.server.client.{AlsClientNotifier, ClientConnection, ClientNotifier}
-import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
+import org.mulesoft.als.logger.{EmptyLogger, Logger}
 import org.mulesoft.als.server.lsp4j.extension.AlsInitializeParams
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager

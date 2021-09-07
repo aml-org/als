@@ -5,7 +5,7 @@ import amf.core.client.common.validation.SeverityLevels
 import amf.core.client.scala.AMFResult
 import amf.core.client.scala.model.document.{BaseUnit, ExternalFragment}
 import org.mulesoft.als.common.dtoTypes.{PositionRange, ReferenceOrigins, ReferenceStack}
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
 import org.mulesoft.amfintegration.DiagnosticsBundle
 import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, AmfParseResult}
@@ -108,7 +108,8 @@ class ParsedMainFileTree(main: AMFResult,
 
   override def parsedUnits: Map[String, ParsedUnit] =
     units
-      .map(t => t._1 -> ParsedUnit(new AmfParseResult(t._2, definedBy, amfConfiguration.branch), inTree = true, definedBy))
+      .map(t =>
+        t._1 -> ParsedUnit(new AmfParseResult(t._2, definedBy, amfConfiguration.branch), inTree = true, definedBy))
       .toMap
 
   override def references: Map[String, DiagnosticsBundle] = innerRefs.toMap

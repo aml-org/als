@@ -1,6 +1,6 @@
-package org.mulesoft.als.server.logger
+package org.mulesoft.als.logger
 
-import org.mulesoft.als.server.logger.MessageSeverity.MessageSeverity
+import org.mulesoft.als.logger.MessageSeverity.MessageSeverity
 
 import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
 

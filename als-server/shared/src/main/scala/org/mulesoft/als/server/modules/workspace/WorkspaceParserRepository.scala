@@ -4,7 +4,7 @@ import amf.core.client.platform.resource.ResourceNotFound
 import amf.core.client.scala.config.{CachedReference, UnitCache}
 import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.common.dtoTypes.ReferenceStack
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.DiagnosticsBundle
 import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, AmfParseResult}
