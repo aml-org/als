@@ -58,7 +58,7 @@ class WorkspaceParserRepository(val amfConfiguration: AmfConfigurationWrapper, l
   def newTree(result: AmfParseResult): Future[Unit] = synchronized {
     cleanTree()
     MainFileTreeBuilder
-      .build(result, cachables, visitors(result.result.baseUnit), amfConfiguration, logger)
+      .build(result, cachables, visitors(result.result.baseUnit), result.amfConfiguration, logger)
       .map { nt =>
         tree = nt
         nt.parsedUnits.keys.foreach { removeUnit }

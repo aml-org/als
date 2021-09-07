@@ -10,12 +10,12 @@ import scala.concurrent.Future
 trait ChangesWorkspaceConfiguration extends PlatformSecrets {
   implicit private val Platform: Platform = platform
 
-  def wrapJson(mainUri: String,
-               folder: Option[String] = None,
-               dependencies: Set[String] = Set.empty,
-               profiles: Set[String] = Set.empty,
-               semanticExtensions: Set[String] = Set.empty): String =
-    s"""{"mainUri": "${mainUri.toAmfUri}", ${folder
+  def changeConfigArgs(mainUri: Option[String],
+                       folder: Option[String] = None,
+                       dependencies: Set[String] = Set.empty,
+                       profiles: Set[String] = Set.empty,
+                       semanticExtensions: Set[String] = Set.empty): String =
+    s"""{"mainUri": "${mainUri.map(_.toAmfUri).getOrElse("")}", ${folder
       .map(s => s""""folder":"$s",""")
       .getOrElse("")}
       "dependencies": [${toList(dependencies)}],
