@@ -2,7 +2,7 @@ package org.mulesoft.als.server.textsync
 
 import amf.core.internal.remote.Platform
 import org.mulesoft.als.common.URIImplicits._
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.protocol.textsync.{AlsTextDocumentSyncConsumer, DidFocusParams}
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind

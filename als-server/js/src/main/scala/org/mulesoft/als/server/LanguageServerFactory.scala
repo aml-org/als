@@ -11,7 +11,7 @@ import org.mulesoft.als.configuration.{
   JsServerSystemConf
 }
 import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
-import org.mulesoft.als.server.logger.PrintLnLogger
+import org.mulesoft.als.logger.PrintLnLogger
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.custom.AMFOpaValidator
 import org.mulesoft.als.server.modules.diagnostic.{DiagnosticNotificationsKind, JsCustomValidator}

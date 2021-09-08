@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.modules.ast
 
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.common.reconciler.{Reconciler, Runnable}
 import org.mulesoft.amfintegration.AmfResolvedUnit
 import org.mulesoft.amfintegration.AmfImplicits._

@@ -2,7 +2,7 @@ package org.mulesoft.als.server.modules.common.reconciler
 
 import java.util.{Timer, TimerTask}
 
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global

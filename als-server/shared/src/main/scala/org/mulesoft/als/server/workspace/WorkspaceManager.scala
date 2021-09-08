@@ -4,7 +4,7 @@ import amf.core.internal.remote.Platform
 import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.configuration.{DefaultProjectConfigurationStyle, ProjectConfigurationStyle}
 import org.mulesoft.als.server.AlsWorkspaceService
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.workspace.{CompilableUnit, WorkspaceContentManager}
 import org.mulesoft.als.server.textsync.EnvironmentProvider

@@ -6,7 +6,7 @@ import org.mulesoft.als.server.JvmSerializationProps
 import org.mulesoft.als.server.client.ClientConnection
 import org.mulesoft.als.server.feature.serialization.SerializationResult
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
-import org.mulesoft.als.server.logger.{Logger, PrintLnLogger}
+import org.mulesoft.als.logger.{Logger, PrintLnLogger}
 import org.mulesoft.als.server.protocol.client.AlsLanguageClient
 
 import java.io.StringWriter

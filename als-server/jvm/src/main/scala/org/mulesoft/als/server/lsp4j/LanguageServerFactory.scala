@@ -7,7 +7,7 @@ import amf.core.internal.remote.Platform
 import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.configuration.{ClientDirectoryResolver, DirectoryResolverAdapter}
 import org.mulesoft.als.server.client.ClientNotifier
-import org.mulesoft.als.server.logger.{Logger, PrintLnLogger}
+import org.mulesoft.als.logger.{Logger, PrintLnLogger}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.{DiagnosticNotificationsKind, PARSING_BEFORE}
 import org.mulesoft.als.server.protocol.LanguageServer

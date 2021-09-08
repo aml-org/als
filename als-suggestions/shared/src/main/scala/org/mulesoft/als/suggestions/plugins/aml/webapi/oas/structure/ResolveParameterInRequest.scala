@@ -14,7 +14,7 @@ import scala.concurrent.Future
 object ResolveParameterInRequest extends ResolveIfApplies {
   override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] = {
     request.amfObject match {
-      case o: Operation if o.graph.containsField(OperationModel.Request) =>
+      case o: Operation if o.graph.containsProperty(OperationModel.Request.value.iri()) =>
         val branch =
           o.request.findSon(o.location().getOrElse(""), request.actualDialect, request.yPartBranch)
         if (branch.obj.isInstanceOf[Parameter] && branch.fe.isEmpty)

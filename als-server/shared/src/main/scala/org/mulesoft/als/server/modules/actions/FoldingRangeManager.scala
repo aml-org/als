@@ -2,7 +2,7 @@ package org.mulesoft.als.server.modules.actions
 
 import org.mulesoft.als.actions.folding.FileRanges
 import org.mulesoft.als.server.RequestModule
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.lsp.ConfigType

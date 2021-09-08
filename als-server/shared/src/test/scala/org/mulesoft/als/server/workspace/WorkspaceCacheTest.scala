@@ -5,7 +5,7 @@ import amf.core.client.platform.resource.ResourceNotFound
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.server.client.ClientNotifier
-import org.mulesoft.als.server.logger.EmptyLogger
+import org.mulesoft.als.logger.EmptyLogger
 import org.mulesoft.als.server.modules.ast.{CHANGE_CONFIG, CHANGE_FILE}
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.modules.workspace.WorkspaceContentManager

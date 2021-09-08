@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.workspace.command
 
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.lsp.workspace.ExecuteCommandParams
 import org.yaml.model.{YDocument, YMap, YNode}
 import org.yaml.parser.JsonParser

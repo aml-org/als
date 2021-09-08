@@ -3,7 +3,7 @@ package org.mulesoft.als.server.modules.serialization
 import amf.core.internal.remote.Spec
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.feature.serialization._
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.workspace.CompilableUnit
 import org.mulesoft.als.server.workspace.UnitAccessor
 import org.mulesoft.amfintegration.AmfImplicits._

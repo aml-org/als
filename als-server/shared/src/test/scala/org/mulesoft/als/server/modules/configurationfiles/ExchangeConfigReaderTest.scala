@@ -2,7 +2,7 @@ package org.mulesoft.als.server.modules.configurationfiles
 
 import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.diff.ListAssertions
-import org.mulesoft.als.server.logger.EmptyLogger
+import org.mulesoft.als.logger.EmptyLogger
 import org.mulesoft.als.server.workspace.extract.ExchangeConfigReader
 import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.scalatest.{AsyncFlatSpec, Matchers}

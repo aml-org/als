@@ -2,8 +2,8 @@ package org.mulesoft.als.server
 
 import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeParams, CleanDiagnosticTreeRequestType}
-import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.logger.MessageSeverity.MessageSeverity
+import org.mulesoft.als.logger.Logger
+import org.mulesoft.als.logger.MessageSeverity.MessageSeverity
 import org.mulesoft.als.server.modules.diagnostic.AlsPublishDiagnosticsParams
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams

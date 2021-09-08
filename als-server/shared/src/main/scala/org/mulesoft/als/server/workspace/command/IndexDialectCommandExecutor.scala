@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.workspace.command
 
 import amf.core.internal.parser.YMapOps
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.protocol.textsync.IndexDialectParams
 import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.yaml.model.YMap

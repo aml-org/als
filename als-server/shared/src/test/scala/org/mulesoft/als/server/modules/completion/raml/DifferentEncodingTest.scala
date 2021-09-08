@@ -150,8 +150,8 @@ class DifferentEncodingTest extends RAMLSuggestionTestServer {
         testSets.map { test =>
           for {
             (server, _) <- buildServer(test.root, test.ws)
-            _ <- Future {
-              test.filesToOpen.foreach { t =>
+            _ <- Future.sequence {
+              test.filesToOpen.map { t =>
                 server.textDocumentSyncConsumer.didOpen(
                   DidOpenTextDocumentParams(TextDocumentItem(t._1, "RAML", 0, test.ws.getOrElse(t._2, "")))
                 )
@@ -162,9 +162,9 @@ class DifferentEncodingTest extends RAMLSuggestionTestServer {
                 .resolveHandler(CompletionRequestType)
                 .map { h =>
                   h(CompletionParams(TextDocumentIdentifier(test.fileUri), test.position))
-                    .map(completions => {
+                    .flatMap(completions => {
                       closeFile(server)(test.fileUri)
-                      completions.left.value
+                        .map(_ => completions.left.value)
                     })
                 }
             }.getOrElse(Future.failed(new Exception("No completion handler")))

@@ -1,8 +1,8 @@
 #%RAML 1.0
 uses: 
   lib: library.raml
-baseUri: https://mocksvc.mulesoft.com/mocks/b1da040a-7cbe-45fb-bdd5-826240cf2cf8   #   
-  # baseUri: https://anypoint.mulesoft.com/designcenter/api-designer/  
+baseUri: https://mocksvc.mulesoft.com/mocks/b1da040a-7cbe-45fb-bdd5-826240cf2cf8 # 
+# baseUri: https://anypoint.mulesoft.com/designcenter/api-designer/
 title: Api Designer Xapi
 version: 1.0
 mediaType: application/json
@@ -132,28 +132,28 @@ traits:
                 type: Files
             409: 
               description: Could not save changes
-                      # /logs:                
-                      #   get:                
-                      #     queryParameters:                
-                      #       from:                
-                      #         description: from commit, default 1.                
-                      #       size:                
-                      #         description: count of commits to be returned, default 10.                
-                      #     description: list logs of project                
-                      #     responses:                
-                      #       201:                
-                      #         body:                
-                      #           type: Logs                
-                      #           example: !include examples/logs.json                
-                        # /{commitId}:                
-                        #   get:                
-                        #     description: it returns the list of files involved in given commit                
-                        #     is: [ commonHeaders ]                
-                        #     responses:                
-                        #       200:                
-                        #         body:                
-                        #           type: files                
-                        #           example: !include examples/files.json                
+      # /logs:
+      #   get:
+      #     queryParameters:
+      #       from:
+      #         description: from commit, default 1.
+      #       size:
+      #         description: count of commits to be returned, default 10.
+      #     description: list logs of project
+      #     responses:
+      #       201:
+      #         body:
+      #           type: Logs
+      #           example: !include examples/logs.json
+        # /{commitId}:
+        #   get:
+        #     description: it returns the list of files involved in given commit
+        #     is: [ commonHeaders ]
+        #     responses:
+        #       200:
+        #         body:
+        #           type: files
+        #           example: !include examples/files.json
       /files: 
         get: 
           description: Gets a list of the structure of the file system (open project)
@@ -198,26 +198,26 @@ traits:
                   description: File not found
                 409: 
                   description: The file or folder already exists
-                              # /logs:                    
-                              #   get:                    
-                              #     queryParameters:                    
-                              #       from:                    
-                              #         description: from commit, default 1.                    
-                              #       size:                    
-                              #         description: count of commits, default 10.                    
-                              #     description: list logs of the file                    
-                              #     responses:                    
-                              #       201:                    
-                              #         body:                    
-                              #           type: Logs                    
-                              #           example: !include examples/logs.json                    
-                              #   /{commitId}:                    
-                              #     get:                    
-                              #       description: it returns the file in the given commit                    
-                              #       responses:                    
-                              #         200:                    
-                              #           body:                    
-                              #             "*/*":                    
+          # /logs:
+          #   get:
+          #     queryParameters:
+          #       from:
+          #         description: from commit, default 1.
+          #       size:
+          #         description: count of commits, default 10.
+          #     description: list logs of the file
+          #     responses:
+          #       201:
+          #         body:
+          #           type: Logs
+          #           example: !include examples/logs.json
+          #   /{commitId}:
+          #     get:
+          #       description: it returns the file in the given commit
+          #       responses:
+          #         200:
+          #           body:
+          #             "*/*":
       /acquireLock: 
         post: 
           description: Acquire lock for given project
@@ -312,13 +312,13 @@ traits:
           description: Publish project to Api Platform (Deprecated)
           responses: 
             200: 
-/exchange/graphql: 
-  post: 
+/exchange/graphql:
+  post:
     description: Searchs raml fragments in exchange graphql
     is:
       - secured
-    body: 
-      example:  |
+    body:
+      example: |
         {
           "{  assets(query: {type: 'raml'}) {groupId    assetId    version    name    type    organizationId  }}"
         }

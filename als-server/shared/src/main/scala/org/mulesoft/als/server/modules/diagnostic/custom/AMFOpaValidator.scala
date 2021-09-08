@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.modules.diagnostic.custom
 
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 
 import scala.concurrent.Future
 

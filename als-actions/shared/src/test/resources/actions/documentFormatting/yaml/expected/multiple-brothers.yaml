@@ -10,10 +10,10 @@ root:
       - 2
       - 3
 
-        # Comment      
+  # Comment
   brother3: 
     k: 
-      key:  |
+      key: |
         multiline string
     antoherK: 
       - my

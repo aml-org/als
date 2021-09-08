@@ -4,7 +4,7 @@ import amf.core.client.common.validation.{ProfileName, ProfileNames}
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.validation.AMFValidationReport
 import org.mulesoft.als.server.client.ClientNotifier
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.common.reconciler.Runnable
 import org.mulesoft.amfintegration.AmfImplicits._

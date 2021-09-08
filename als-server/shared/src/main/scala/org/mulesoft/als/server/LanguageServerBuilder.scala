@@ -1,6 +1,6 @@
 package org.mulesoft.als.server
 
-import org.mulesoft.als.server.logger.{EmptyLogger, Logger}
+import org.mulesoft.als.logger.{EmptyLogger, Logger}
 import org.mulesoft.als.server.modules.configuration.ConfigurationManager
 import org.mulesoft.als.server.modules.workspace.resolution.ResolutionTaskManager
 import org.mulesoft.als.server.protocol.LanguageServer

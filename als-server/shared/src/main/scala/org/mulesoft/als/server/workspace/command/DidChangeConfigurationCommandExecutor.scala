@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.workspace.command
 
 import amf.core.internal.parser._
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.textsync.DidChangeConfigurationNotificationParams
 import org.yaml.model.{YMap, YMapEntry, YSequence}
