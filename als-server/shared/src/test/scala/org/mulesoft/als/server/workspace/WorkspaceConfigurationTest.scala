@@ -111,92 +111,90 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with ChangesWork
   test("Unit from main tree should contain configuration") {
     val (factory: WorkspaceManagerFactory, listener) = createPatchedWorkspaceManagerFactory()
     val workspaceManager: WorkspaceManager           = factory.workspaceManager
-    withServer[Assertion](buildServer(factory)) { server =>
-      for {
-        _    <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"file://folder")))
-        _    <- listener.nextCall // parse main file
-        unit <- workspaceManager.getUnit(mainApiUri, UUID.randomUUID().toString)
-      } yield {
-        assert(unit.mainFile.contains(mainApiUri))
-//        assert(unit.workspaceConfiguration.isDefined)
-//        assert(unit.workspaceConfiguration.exists(_.mainFile == "api.raml"))
-      }
+    val server                                       = buildServer(factory)
+    for {
+      _    <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"file://folder")))
+      _    <- listener.nextCall // parse main file
+      unit <- workspaceManager.getUnit(mainApiUri, UUID.randomUUID().toString)
+    } yield {
+      assert(unit.mainFile.contains(mainApiUri))
+      assert(unit.amfConfiguration.workspaceConfiguration.isDefined)
+      assert(unit.amfConfiguration.workspaceConfiguration.exists(_.mainFile == "api.raml"))
     }
   }
 
   test("Isolated unit should contain configuration") {
     val (factory: WorkspaceManagerFactory, listener) = createPatchedWorkspaceManagerFactory()
     val workspaceManager: WorkspaceManager           = factory.workspaceManager
-    withServer[Assertion](buildServer(factory)) { server =>
-      for {
-        _    <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"file://folder")))
-        _    <- listener.nextCall // parse main file
-        _    <- openFileNotification(server)(isolatedUri, isolated)
-        _    <- listener.nextCall // parse isolated
-        unit <- workspaceManager.getUnit(isolatedUri, UUID.randomUUID().toString)
-      } yield {
-        assert(unit.mainFile.isEmpty)
-//        assert(unit.workspaceConfiguration.isDefined)
-//        assert(unit.workspaceConfiguration.exists(_.mainFile == "api.raml"))
-      }
+    val server                                       = buildServer(factory)
+    for {
+      _    <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"file://folder")))
+      _    <- listener.nextCall // parse main file
+      _    <- openFileNotification(server)(isolatedUri, isolated)
+      _    <- listener.nextCall // parse isolated
+      unit <- workspaceManager.getUnit(isolatedUri, UUID.randomUUID().toString)
+    } yield {
+      assert(unit.mainFile.isEmpty)
+      assert(unit.amfConfiguration.workspaceConfiguration.isDefined)
+      assert(unit.amfConfiguration.workspaceConfiguration.exists(_.mainFile == "api.raml"))
     }
+
   }
   test("Should update the configuration by command for new Units") {
     val (factory: WorkspaceManagerFactory, parserListener) = createPatchedWorkspaceManagerFactory()
     val workspaceManager: WorkspaceManager                 = factory.workspaceManager
-    val initialArgs                                        = List(wrapJson(mainApiUri))
-    val args                                               = wrapJson(isolatedUri)
-    withServer[Assertion](buildServer(factory)) { server =>
-      for {
-        _ <- server.initialize(
-          AlsInitializeParams(None,
-                              Some(TraceKind.Off),
-                              rootUri = Some(s"file://folder"),
-                              projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
-        _          <- workspaceManager.executeCommand(ExecuteCommandParams("didChangeConfiguration", initialArgs))
-        _          <- parserListener.nextCall // parse main file
-        _          <- openFileNotification(server)(isolatedUri, isolated)
-        _          <- parserListener.nextCall // parse isolated
-        firstUnit  <- workspaceManager.getUnit(mainApiUri, UUID.randomUUID().toString)
-        _          <- changeWorkspaceConfiguration(workspaceManager, args)
-        _          <- parserListener.nextCall
-        _          <- openFileNotification(server)(mainApiUri, isolated)
-        _          <- parserListener.nextCall
-        secondUnit <- workspaceManager.getUnit(mainApiUri, UUID.randomUUID().toString)
-        thirdUnit  <- workspaceManager.getUnit(isolatedUri, UUID.randomUUID().toString)
-      } yield {
-        assert(firstUnit.mainFile.contains(mainApiUri))
-//        assert(firstUnit.workspaceConfiguration.isDefined)
-//        assert(firstUnit.workspaceConfiguration.exists(_.mainFile == "api.raml"))
+    val initialArgs                                        = changeConfigArgs(Some(mainApiUri))
+    val args                                               = changeConfigArgs(Some(isolatedUri))
+    val server                                             = buildServer(factory)
+    for {
+      _ <- server.initialize(
+        AlsInitializeParams(None,
+                            Some(TraceKind.Off),
+                            rootUri = Some(s"file://folder"),
+                            projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
+      _          <- changeWorkspaceConfiguration(workspaceManager, initialArgs)
+      _          <- parserListener.nextCall // parse main file
+      _          <- openFileNotification(server)(isolatedUri, isolated)
+      _          <- parserListener.nextCall // parse isolated
+      firstUnit  <- workspaceManager.getUnit(mainApiUri, UUID.randomUUID().toString)
+      _          <- changeWorkspaceConfiguration(workspaceManager, args)
+      _          <- parserListener.nextCall
+      _          <- openFileNotification(server)(mainApiUri, isolated)
+      _          <- parserListener.nextCall
+      secondUnit <- workspaceManager.getUnit(mainApiUri, UUID.randomUUID().toString)
+      thirdUnit  <- workspaceManager.getUnit(isolatedUri, UUID.randomUUID().toString)
+    } yield {
+      assert(firstUnit.mainFile.contains(mainApiUri))
+      assert(firstUnit.amfConfiguration.workspaceConfiguration.isDefined)
+      assert(firstUnit.amfConfiguration.workspaceConfiguration.exists(_.mainFile == "api.raml"))
 
-        assert(secondUnit.mainFile.isEmpty)
-//        assert(secondUnit.workspaceConfiguration.isDefined)
-//        assert(secondUnit.workspaceConfiguration.exists(_.mainFile == "isolated.raml"))
+      assert(secondUnit.mainFile.isEmpty)
+      assert(secondUnit.amfConfiguration.workspaceConfiguration.isDefined)
+      assert(secondUnit.amfConfiguration.workspaceConfiguration.exists(_.mainFile == "isolated.raml"))
 
-        assert(thirdUnit.mainFile.contains(isolatedUri))
-//        assert(thirdUnit.workspaceConfiguration.isDefined)
-//        assert(thirdUnit.workspaceConfiguration.exists(_.mainFile == "isolated.raml"))
-      }
+      assert(thirdUnit.mainFile.contains(isolatedUri))
+      assert(thirdUnit.amfConfiguration.workspaceConfiguration.isDefined)
+      assert(thirdUnit.amfConfiguration.workspaceConfiguration.exists(_.mainFile == "isolated.raml"))
     }
+
   }
 
   test("Should notify project dependencies the configuration used") {
     val (factory: WorkspaceManagerFactory, listener) = createPatchedWorkspaceManagerFactory()
-    withServer[Assertion](buildServer(factory)) { server =>
-      for {
-        _              <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"file://folder")))
-        mainFileResult <- listener.nextCall
-        _              <- openFileNotification(server)(isolatedUri, isolated)
-        isolatedResult <- listener.nextCall
-      } yield {
-        assert(!isolatedResult.tree)
-//        assert(isolatedResult.workspaceConfiguration.isDefined)
-//        assert(isolatedResult.workspaceConfiguration.exists(_.mainFile == "api.raml"))
+    val server                                       = buildServer(factory)
+    for {
+      _              <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"file://folder")))
+      mainFileResult <- listener.nextCall
+      _              <- openFileNotification(server)(isolatedUri, isolated)
+      isolatedResult <- listener.nextCall
+    } yield {
+      assert(!isolatedResult.tree)
+      assert(isolatedResult.parseResult.amfConfiguration.workspaceConfiguration.isDefined)
+      assert(isolatedResult.parseResult.amfConfiguration.workspaceConfiguration.exists(_.mainFile == "api.raml"))
 
-        assert(mainFileResult.tree)
-//        assert(mainFileResult.workspaceConfiguration.isDefined)
-//        assert(mainFileResult.workspaceConfiguration.exists(_.mainFile == "api.raml"))
-      }
+      assert(mainFileResult.tree)
+      assert(mainFileResult.parseResult.amfConfiguration.workspaceConfiguration.isDefined)
+      assert(mainFileResult.parseResult.amfConfiguration.workspaceConfiguration.exists(_.mainFile == "api.raml"))
     }
   }
 
@@ -204,17 +202,16 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with ChangesWork
     val listener                              = new MockResolutionListener(logger)
     val (factory: WorkspaceManagerFactory, _) = createPatchedWorkspaceManagerFactory(List.empty, List(listener))
 
-    withServer[Assertion](buildServer(factory)) { server =>
-      for {
-        _              <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"file://folder")))
-        mainFileResult <- listener.nextCall
-        _              <- openFileNotification(server)(isolatedUri, isolated)
-        isolatedResult <- listener.nextCall
-      } yield {
-        assert(isolatedResult.amfConfiguration.workspaceConfiguration.exists(_.mainFile == "api.raml"))
-        assert(mainFileResult.amfConfiguration.workspaceConfiguration.isDefined)
-        assert(mainFileResult.amfConfiguration.workspaceConfiguration.exists(_.mainFile == "api.raml"))
-      }
+    val server = buildServer(factory)
+    for {
+      _              <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"file://folder")))
+      mainFileResult <- listener.nextCall
+      _              <- openFileNotification(server)(isolatedUri, isolated)
+      isolatedResult <- listener.nextCall
+    } yield {
+      assert(isolatedResult.amfConfiguration.workspaceConfiguration.exists(_.mainFile == "api.raml"))
+      assert(mainFileResult.amfConfiguration.workspaceConfiguration.isDefined)
+      assert(mainFileResult.amfConfiguration.workspaceConfiguration.exists(_.mainFile == "api.raml"))
     }
   }
 
@@ -226,10 +223,10 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with ChangesWork
   test("Get workspace notification request should return current configuration") {
     val listener                              = new MockResolutionListener(logger)
     val (factory: WorkspaceManagerFactory, _) = createPatchedWorkspaceManagerFactory(List.empty, List(listener))
-    val args                                  = wrapJson(isolatedUri)
-    val args2                                 = wrapJson(isolatedUri, None, Set.empty, Set("profile.yaml"))
-    val args3                                 = wrapJson(isolatedUri, None, Set("dependency.yaml"))
-    val args4                                 = wrapJson(isolatedUri, None, Set.empty, Set.empty, Set(extensionUri))
+    val args                                  = changeConfigArgs(Some(isolatedUri))
+    val args2                                 = changeConfigArgs(Some(isolatedUri), None, Set.empty, Set("profile.yaml"))
+    val args3                                 = changeConfigArgs(Some(isolatedUri), None, Set("dependency.yaml"))
+    val args4                                 = changeConfigArgs(Some(isolatedUri), None, Set.empty, Set.empty, Set(extensionUri))
     val workspaceManager                      = factory.workspaceManager
     withServer[Assertion](buildServer(factory)) { server =>
       for {

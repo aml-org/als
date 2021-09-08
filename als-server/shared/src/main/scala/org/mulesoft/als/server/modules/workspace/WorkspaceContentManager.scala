@@ -32,7 +32,7 @@ class WorkspaceContentManager private (val folderUri: String,
                                        allSubscribers: List[BaseUnitListener],
                                        projectConfigurationStyle: ProjectConfigurationStyle)
     extends UnitTaskManager[ParsedUnit, CompilableUnit, NotificationKind] {
-  def getConfigReader: Option[ConfigReader] = configMainFile.flatMap(_.configReader)
+  def getConfigReader: Option[ConfigReader] = workspaceConfiguration.flatMap(_.configReader)
 
   def registeredDialects: Set[Dialect] = environmentProvider.amfConfiguration.dialects
 
@@ -42,7 +42,7 @@ class WorkspaceContentManager private (val folderUri: String,
         if (hasChangedConfigFile(stagingArea.snapshot()) || state == ProcessingProject) // may be changing
           current.flatMap(_ => getCurrentConfiguration)
         else
-          Future.successful(configMainFile))
+          Future.successful(workspaceConfiguration))
 
   private val rootHandler =
     new WorkspaceRootHandler(environmentProvider.amfConfigurationSnapshot(), projectConfigurationStyle)
@@ -54,7 +54,7 @@ class WorkspaceContentManager private (val folderUri: String,
           logger.debug(s"folder: $folderUri", "WorkspaceContentManager", "init")
           logger.debug(s"main file: ${conf.mainFile}", "WorkspaceContentManager", "init")
           logger.debug(s"cachables: ${conf.cachables}", "WorkspaceContentManager", "init")
-          configMainFile = Some(conf)
+          workspaceConfiguration = Some(conf)
           withConfiguration( // why do we need configMainFile and also this configuration?
             DefaultWorkspaceConfigurationProvider(this,
                                                   conf.mainFile,
@@ -81,9 +81,9 @@ class WorkspaceContentManager private (val folderUri: String,
 
   private val subscribers: Seq[BaseUnitListener] = allSubscribers.filter(_.isActive)
 
-  private var configMainFile: Option[WorkspaceConfig] = None
+  private var workspaceConfiguration: Option[WorkspaceConfig] = None
 
-  private def mainFile: Option[String] = configMainFile.map(_.mainFile)
+  private def mainFile: Option[String] = workspaceConfiguration.map(_.mainFile)
 
   def mainFileUri: Future[Option[String]] =
     initialized.map(_ => mainFile.map(mf => s"${trailSlash(folderUri)}$mf".toAmfUri))
@@ -103,7 +103,7 @@ class WorkspaceContentManager private (val folderUri: String,
 
   private def getRootOf(uri: String): Option[String] =
     if (isInMainTree(uri))
-      configMainFile
+      workspaceConfiguration
         .map(c => s"${c.rootFolder}/")
     else None
 
@@ -111,7 +111,7 @@ class WorkspaceContentManager private (val folderUri: String,
     if (f.endsWith("/")) f else s"$f/"
 
   def configFile: Option[String] =
-    configMainFile.flatMap(ic => ic.configReader.map(cr => s"${ic.rootFolder}/${cr.configFileName}".toAmfUri))
+    workspaceConfiguration.flatMap(ic => ic.configReader.map(cr => s"${ic.rootFolder}/${cr.configFileName}".toAmfUri))
 
   override protected val stagingArea: ParserStagingArea = new ParserStagingArea(environmentProvider, logger)
 
@@ -193,6 +193,7 @@ class WorkspaceContentManager private (val folderUri: String,
     * - Unit is dialect instance
     * - Unit is external fragment and is the main file
     * - Unit is external fragment and main file is external fragment too
+    * - Workspace configuration has changed since las parse
     */
   private def shouldParseOnFocus(uri: String): Boolean = {
     val mainFileUri = mainFile.map(mf => s"${trailSlash(folderUri)}$mf".toAmfUri)
@@ -205,7 +206,7 @@ class WorkspaceContentManager private (val folderUri: String,
                 mainFileUri.exists(
                   u => repository.getUnit(u).exists(_.parsedResult.result.baseUnit.isInstanceOf[ExternalFragment])) =>
             true
-          case _ => false
+          case _ => s.parsedResult.amfConfiguration.workspaceConfiguration != workspaceConfiguration
         }
       case None => true
     }
@@ -235,26 +236,33 @@ class WorkspaceContentManager private (val folderUri: String,
   }
 
   private def processChangeConfig(maybeConfig: Option[WorkspaceConfig], snapshot: Snapshot): Future[Unit] = {
-    configMainFile = maybeConfig
-    maybeConfig match {
-      case Some(conf) =>
-        repository.setCachables(conf.cachables.map(_.toAmfUri))
-        registerNewExtensions(conf)
-          .flatMap { _ =>
-            if (conf.mainFile != "") processMFChanges(conf.mainFile, snapshot) else Future(repository.cleanTree())
-          }
-      case _ =>
-        repository.cleanTree()
-        repository.setCachables(Set.empty)
-        Future.unit
+    workspaceConfiguration = maybeConfig
+
+    def setCacheables(cacheables: Set[String]): Future[Unit] = {
+      Future(repository.setCachables(cacheables.map(_.toAmfUri)))
     }
+
+    def newTree(mf: Option[String]): Future[Unit] = {
+      mf match {
+        case Some(mainFile) if mainFile != "" => processMFChanges(mainFile, snapshot)
+        case _                                => Future(repository.cleanTree())
+      }
+    }
+
+    for {
+      _ <- setCacheables(maybeConfig.map(_.cachables).getOrElse(Set.empty))
+      _ <- newTree(maybeConfig.map(_.mainFile))
+      _ <- registerNewExtensions(maybeConfig.map(_.semanticExtensions).getOrElse(Set.empty))
+      r <- processNewValidationProfiles(maybeConfig.map(_.profiles).getOrElse(Set.empty))
+    } yield r
+
   }
 
   /**
     * Seeks new extensions in configuration, parses and registers
     */
-  private def registerNewExtensions(conf: WorkspaceConfig): Future[Unit] = {
-    val newExtensions = conf.semanticExtensions
+  private def registerNewExtensions(semanticExtensions: Set[String]): Future[Unit] = {
+    val newExtensions = semanticExtensions
       .diff(environmentProvider.amfConfiguration.dialects.map(_.identifier))
       .map(e => {
         if (e.isValidUri) e // full URI received
@@ -273,6 +281,27 @@ class WorkspaceContentManager private (val folderUri: String,
                        "WorkspaceContentManager",
                        "registerNewExtensions")
       })
+  }
+
+  private def processNewValidationProfiles(validationProfiles: Set[String]): Future[Unit] = {
+    val revalidateUris: List[String] = repository.getIsolatedUris.filter(uri => {
+      repository
+        .getUnit(uri)
+        .flatMap(_.parsedResult.amfConfiguration.workspaceConfiguration.map(_.profiles))
+        .getOrElse(Set.empty) != validationProfiles
+    })
+    if (revalidateUris.isEmpty) Future.successful()
+    else {
+      Future
+        .sequence(revalidateUris.map(uri => {
+          val uuid = UUID.randomUUID().toString
+          logger.debug(s"Processing isolated file ($uri) because of changes on validation profiles",
+                       "WorkspaceContentManager",
+                       "processNewValidationProfiles")
+          processIsolated(uri, uuid)
+        }))
+        .map(_ => {})
+    }
   }
 
   private def processMFChanges(mainFile: String, snapshot: Snapshot): Future[Unit] = {
@@ -313,7 +342,7 @@ class WorkspaceContentManager private (val folderUri: String,
     logger.debug(s"sent uri: $decodedUri", "WorkspaceContentManager", "innerParse")
     val cacheConfig = environmentProvider
       .amfConfigurationSnapshot()
-      .withWorkspaceConfiguration(configMainFile)
+      .withWorkspaceConfiguration(workspaceConfiguration)
     cacheConfig.useCache(repository.resolverCache)
     cacheConfig
       .parse(decodedUri)

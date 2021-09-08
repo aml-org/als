@@ -30,7 +30,7 @@ class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with Changes
   override def testFile(content: String, file: SyncFile, parent: String): Unit = {
     val workspaceFolder = s"file://${file.path.replace(file.name, "")}"
     val profileUri      = s"${workspaceFolder}profile.yaml"
-    val args            = wrapJson("", Some(workspaceFolder), Set.empty, Set(profileUri))
+    val args            = changeConfigArgs(None, Some(workspaceFolder), Set.empty, Set(profileUri))
     s"Run custom validation on ${file.parent}" - {
       s"Expect positive custom validation on ${file.parent}" in {
         runForPrefix(workspaceFolder, profileUri, args, "positive")
