@@ -40,6 +40,7 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
                                      references: Map[String, DiagnosticsBundle],
                                      uuid: String): Future[Unit] = {
     val startTime = System.currentTimeMillis()
+    logger.debug(s"Starting custom validation for $uri", "CustomValidationManager", "3")
     resolved.amfConfiguration.workspaceConfiguration match {
       case Some(config) if config.profiles.nonEmpty =>
         for {
@@ -75,6 +76,8 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
                                   serializedUnit: String,
                                   amfConfiguration: AmfConfigurationWrapper): Future[AMFValidationReport] =
     for {
+      _ <- Future(
+        logger.debug(s"Validate with profile: $profileUri", "CustomValidationManager", "validateWithProfile"))
       content   <- amfConfiguration.fetchContent(profileUri).map(_.toString())
       rawResult <- platformValidator.validateWithProfile(content, serializedUnit)
       report    <- new OPAValidatorReportLoader().load(rawResult)

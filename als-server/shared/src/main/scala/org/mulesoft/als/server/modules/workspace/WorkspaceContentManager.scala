@@ -70,10 +70,8 @@ class WorkspaceContentManager private (val folderUri: String,
         .getOrElse(super.init().map(_ => logger.debug(s"no main for $folderUri", "WorkspaceContentManager", "init")))
     }
 
-  def containsFile(uri: String): Boolean = {
-    logger.debug(s"checking if $uri corresponds to $folderUri", "WorkspaceContentManager", "containsFile")
+  def containsFile(uri: String): Boolean =
     uri.startsWith(folderUri)
-  }
 
   def acceptsConfigUpdateByCommand: Boolean = projectConfigurationStyle.style == COMMAND
 
