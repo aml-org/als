@@ -24,7 +24,7 @@ pipeline {
     environment {
         NEXUS = credentials('exchange-nexus')
         NEXUSIQ = credentials('nexus-iq')
-        NPM_TOKEN = credentials('npm-mulesoft')
+        NPM = credentials('aml-org-bot')
         NPM_CONFIG_PRODUCTION = false
         NODE_ENV = 'dev'
         BUILD_NUMBER = "${env.BUILD_NUMBER}"
@@ -51,6 +51,7 @@ pipeline {
             }
             steps {
                 script {
+                    sh "npm-cli-login -u aml-org-bot -p $NPM_PSW -e als-amf-team@mulesoft.com"
                     publish_version = "${currentVersion}.${BUILD_NUMBER}".replace("\n", "")
                     echo "$publish_version"
                 }
@@ -133,7 +134,7 @@ pipeline {
                             def statusCode = 1
                             dir("als-node-client/node-package") {
                                 echo "Publishing NPM package: ${publish_version}"
-                                statusCode = sh script:"scripts/publish.sh ${publish_version} ${NPM_TOKEN} ${env.BRANCH_NAME}", returnStatus:true
+                                statusCode = sh script:"scripts/publish.sh ${publish_version} ${env.BRANCH_NAME}", returnStatus:true
                             }
                             if(statusCode != 0) {
                                 failedStage = failedStage + " PUBLISH-NODE-JS "
@@ -167,7 +168,7 @@ pipeline {
 
                             dir("als-server/js/node-package") {
                                 echo "Publishing NPM package build: ${publish_version}."
-                                statusCode = sh script:"scripts/publish.sh ${publish_version} ${NPM_TOKEN} ${env.BRANCH_NAME}", returnStatus:true
+                                statusCode = sh script:"scripts/publish.sh ${publish_version} ${env.BRANCH_NAME}", returnStatus:true
                             }
                             if(statusCode != 0) {
                                 failedStage = failedStage + " PUBLISH-SERVER-JS "
