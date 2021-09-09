@@ -314,7 +314,7 @@ class ClientConversionTest extends FlatSpec with Matchers {
   }
 
   it should "transform Diagnostic" in {
-    val d: Diagnostic        = Diagnostic(r, "message", Some(DiagnosticSeverity(1)), None, None, None, Seq(dri))
+    val d: Diagnostic        = Diagnostic(r, "message", Some(DiagnosticSeverity(1)), None, None, None, Some(Seq(dri)))
     val d1: ClientDiagnostic = d.toClient
     val d2: Diagnostic       = d1.toShared
 

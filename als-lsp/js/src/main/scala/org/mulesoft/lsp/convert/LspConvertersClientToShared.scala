@@ -308,7 +308,7 @@ object LspConvertersClientToShared {
         v.code.toOption,
         v.codeDescription.toOption.map(_.href),
         v.source.toOption,
-        v.relatedInformation.map(_.toShared).toSeq
+        v.relatedInformation.map(_.map(_.toShared).toSeq).toOption
       )
   }
 

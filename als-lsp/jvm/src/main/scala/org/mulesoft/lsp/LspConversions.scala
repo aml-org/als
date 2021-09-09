@@ -363,7 +363,7 @@ object LspConversions {
       Option(diagnostic.getCode).flatMap(c => either(c, (s: String) => s, (n: Number) => n.toString).toOption),
       Option(diagnostic.getCodeDescription).map(_.getHref),
       Option(diagnostic.getSource),
-      Option(diagnostic.getRelatedInformation).map(_.asScala.map(diagnosticRelatedInformation)).getOrElse(Seq())
+      Option(diagnostic.getRelatedInformation).map(_.asScala.map(diagnosticRelatedInformation))
     )
 
   implicit def codeActionContext(context: lsp4j.CodeActionContext): CodeActionContext =

@@ -350,7 +350,7 @@ object Lsp4JConversions {
       diagnostic.code.orNull
     )
 
-    result.setRelatedInformation(javaList(diagnostic.relatedInformation, lsp4JDiagnosticRelatedInformation))
+    result.setRelatedInformation(javaList(diagnostic.relatedInformation.orNull, lsp4JDiagnosticRelatedInformation))
     diagnostic.codeDescription.foreach(desc => result.setCodeDescription(new lsp4j.DiagnosticCodeDescription(desc)))
     result
   }
