@@ -1,5 +1,5 @@
 {
-  "name": "@mulesoft/als-server",
+  "name": "@aml-org/als-server",
   "version": "4.1.0-SNAPSHOT",
   "description": "ALS Server Library",
   "main": "lib/als-server.js",

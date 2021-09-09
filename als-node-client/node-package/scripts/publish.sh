@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 # $1 represents the project's version that is going to be published
-# $2 has the auth token
-# $3 contains the branch name from where the script has run
+# $2 contains the branch name from where the script has run
 
 FULL_VERSION=$1
-NPM_TOKEN=$2
-BRANCH=$3
+BRANCH=$2
 
 IS_MASTER=false
 if [[ "$BRANCH" == "master" ]]; then
@@ -19,11 +17,7 @@ BASE_DIR="$( cd "${DIR}/.." && pwd )"
 DIST_DIR=$BASE_DIR
 
 cd $DIST_DIR
-echo "Connecting to MuleSoft internal registry"
-printf "@mulesoft:registry=https://nexus3.build.msap.io/repository/npm-internal/\n//nexus3.build.msap.io/repository/npm-internal/:_authToken=$NPM_TOKEN" > .npmrc
-touch .npmrc
-
-LATEST_TAG=`npm v @mulesoft/als-node-client dist-tags.releases`
+LATEST_TAG=`npm v @aml-org/als-node-client dist-tags.releases`
 
 echo "Repo latest tag: $LATEST_TAG"
 
@@ -33,10 +27,10 @@ npm version ${FULL_VERSION} --force --no-git-tag-version --allow-same-version
 echo "Publish new version"
 if [ "$IS_MASTER" = true ] ; then
   echo "Tagging as release"
-  npm publish --tag release
+  npm publish --access public --tag release
 else
   echo "Tagging as prerelease"
-  npm publish --tag prerelease
+  npm publish --access public --tag prerelease
 fi
 status=$?
 if [ $status -eq 0 ]; then

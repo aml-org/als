@@ -1,5 +1,5 @@
 {
-  "name": "@mulesoft/als-node-client",
+  "name": "@aml-org/als-node-client",
   "version": "3.3.0-SNAPSHOT",
   "description": "ALS Node Client",
   "main": "./dist/als-node-client.min.js",
