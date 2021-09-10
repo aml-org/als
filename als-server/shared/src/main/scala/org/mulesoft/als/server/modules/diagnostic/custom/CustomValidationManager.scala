@@ -49,8 +49,10 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
             resolved.amfConfiguration.asJsonLD(unit, builder, RenderOptions().withCompactUris.withSourceMaps)
             builder.result.toString
           }
-          reports <- Future.sequence(
-            config.profiles.map(profile => validateWithProfile(profile, serialized, resolved.amfConfiguration)))
+          reports <- Future.sequence(config.profiles.map(profile => {
+            logger.debug(s"Validate with profile: $profile", "CustomValidationManager", "validateWithProfile")
+            validateWithProfile(profile, serialized, resolved.amfConfiguration)
+          }))
         } yield {
           val results = reports.flatMap { r =>
             r.results
