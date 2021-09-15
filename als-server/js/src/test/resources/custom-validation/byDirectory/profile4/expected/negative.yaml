@@ -2,11 +2,15 @@ uri: file://als-server/js/src/test/resources/custom-validation/byDirectory/profi
 diagnostics:
   -
     message: Endpoints must have a POST method
-    range: Range(common.Position[L:9,C:0],common.Position[L:15,C:0])
+    range: Range(common.Position[L:10,C:2],common.Position[L:15,C:0])
     severity: Error
+    code: profile.yaml#validation1
     relatedInformation:
       -
-        message: Unknown location for error. Could not retrieve effective location
+        message: Error expected ["put","patch"] but got actual (actual=get) at apiContract.method
+        location: Location(file://als-server/js/src/test/resources/custom-validation/byDirectory/profile4/negative.data,Range(common.Position[L:10,C:2],common.Position[L:15,C:0]))
+      -
+        message: error in nested nodes under apiContract.supportedOperation
         location: Location(file://als-server/js/src/test/resources/custom-validation/byDirectory/profile4/negative.data,Range(common.Position[L:9,C:0],common.Position[L:15,C:0]))
   -
     message: Payload media type is mandatory

@@ -22,9 +22,7 @@ trait ByDirectoryTest extends AsyncFreeSpec with FileAssertionTest {
         .filterNot(_ == "expected")
         .map(l => Fs.syncFile(s"${dir.path}${fs.separatorChar}$l"))
         .partition(_.isDirectory)
-    val validFiles = files.filter(f =>
-      fileExtensions.exists(fileExtension =>
-        f.name.endsWith(fileExtension) || f.name.endsWith(fileExtension + ".ignore")))
+    val validFiles = filterValidFiles(files)
     if (subDirs.nonEmpty || validFiles.nonEmpty) {
       s"in directory: ${dir.name}" - {
         subDirs.foreach(forDirectory(_, parent + dir.name + "/", mustHaveMarker))
@@ -40,5 +38,11 @@ trait ByDirectoryTest extends AsyncFreeSpec with FileAssertionTest {
         }
       }
     }
+  }
+
+  protected def filterValidFiles(files: Array[SyncFile]): Array[SyncFile] = {
+    files.filter(f =>
+      fileExtensions.exists(fileExtension =>
+        f.name.endsWith(fileExtension) || f.name.endsWith(fileExtension + ".ignore")))
   }
 }

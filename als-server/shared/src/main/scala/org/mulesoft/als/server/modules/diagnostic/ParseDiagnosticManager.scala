@@ -7,7 +7,6 @@ import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.amfintegration.DiagnosticsBundle
 import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, AmfParseResult}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
-
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -59,9 +58,10 @@ class ParseDiagnosticManager(override protected val telemetryProvider: Telemetry
                                      references: Map[String, DiagnosticsBundle],
                                      uuid: String): Future[Unit] = {
     val profile: ProfileName = profileName(result.result.baseUnit)
-    validationGatherer.indexNewReport(ErrorsWithTree(result.location, result.result.results, Option(result.tree)),
-                                      managerName,
-                                      uuid)
+    validationGatherer.indexNewReport(
+      ErrorsWithTree(result.location, result.result.results.map(new AlsValidationResult(_)), Option(result.tree)),
+      managerName,
+      uuid)
     if (notifyParsing) notifyReport(result.location, result.result.baseUnit, references, managerName, profile)
     Future.unit
   }

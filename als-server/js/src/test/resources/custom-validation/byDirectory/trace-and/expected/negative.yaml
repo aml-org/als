@@ -1,0 +1,14 @@
+uri: file://als-server/js/src/test/resources/custom-validation/byDirectory/trace-and/negative.data
+diagnostics:
+  -
+    message: Only get oprations allowed and they should have 200 message
+    range: Range(common.Position[L:7,C:6],common.Position[L:8,C:0])
+    severity: Error
+    code: profile.yaml#trace-and
+    relatedInformation:
+      -
+        message: Error "201" unexpected at apiContract.statusCode
+        location: Location(file://als-server/js/src/test/resources/custom-validation/byDirectory/trace-and/negative.data,Range(common.Position[L:7,C:6],common.Position[L:8,C:0]))
+      -
+        message: error in nested nodes under apiContract.returns
+        location: Location(file://als-server/js/src/test/resources/custom-validation/byDirectory/trace-and/negative.data,Range(common.Position[L:4,C:2],common.Position[L:8,C:0]))

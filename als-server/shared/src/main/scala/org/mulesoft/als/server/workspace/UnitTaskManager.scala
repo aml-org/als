@@ -81,7 +81,7 @@ trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingArea
   private def next(f: Future[Unit]): Future[Unit] =
     f.recoverWith({
         case e =>
-          log(Option(e.getMessage).getOrElse(e.toString))
+          log(Option(e.getMessage).getOrElse(e.toString), isError = true)
           Future.unit
       })
       .map { _ =>

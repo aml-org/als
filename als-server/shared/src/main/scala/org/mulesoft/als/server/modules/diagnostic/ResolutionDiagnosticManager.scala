@@ -53,7 +53,10 @@ class ResolutionDiagnosticManager(override protected val telemetryProvider: Tele
       .map(report => {
         val endTime = System.currentTimeMillis()
         validationGatherer
-          .indexNewReport(ErrorsWithTree(uri, report.results, Some(tree(resolved.baseUnit))), managerName, uuid)
+          .indexNewReport(
+            ErrorsWithTree(uri, report.results.map(new AlsValidationResult(_)), Some(tree(resolved.baseUnit))),
+            managerName,
+            uuid)
         notifyReport(uri, resolved.baseUnit, references, managerName, profile)
 
         this.logger.debug(s"It took ${endTime - startTime} milliseconds to validate",

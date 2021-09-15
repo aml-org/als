@@ -281,25 +281,20 @@ class WorkspaceContentManager private (val folderUri: String,
       })
   }
 
-  private def processNewValidationProfiles(validationProfiles: Set[String]): Future[Unit] = {
+  private def processNewValidationProfiles(validationProfiles: Set[String]): Future[Unit] = Future {
     val revalidateUris: List[String] = repository.getIsolatedUris.filter(uri => {
       repository
         .getUnit(uri)
         .flatMap(_.parsedResult.amfConfiguration.workspaceConfiguration.map(_.profiles))
         .getOrElse(Set.empty) != validationProfiles
     })
-    if (revalidateUris.isEmpty) Future.successful()
-    else {
-      Future
-        .sequence(revalidateUris.map(uri => {
-          val uuid = UUID.randomUUID().toString
-          logger.debug(s"Processing isolated file ($uri) because of changes on validation profiles",
-                       "WorkspaceContentManager",
-                       "processNewValidationProfiles")
-          processIsolated(uri, uuid)
-        }))
-        .map(_ => {})
-    }
+    if (revalidateUris.nonEmpty)
+      revalidateUris.foreach(uri => {
+        logger.debug(s"Enqueuing isolated file ($uri) because of changes on validation profiles",
+                     "WorkspaceContentManager",
+                     "processNewValidationProfiles")
+        stagingArea.enqueue(uri, CHANGE_FILE)
+      })
   }
 
   private def processMFChanges(mainFile: String, snapshot: Snapshot): Future[Unit] = {

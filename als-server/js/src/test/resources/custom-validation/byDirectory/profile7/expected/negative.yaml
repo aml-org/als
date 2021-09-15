@@ -4,15 +4,23 @@ diagnostics:
     message: Scalars in parameters must have minLength defined
     range: Range(common.Position[L:9,C:6],common.Position[L:10,C:0])
     severity: Error
+    code: profile.yaml#validation1
     relatedInformation:
       -
-        message: Unknown location for error. Could not retrieve effective location
+        message: Error expected 1 >= actual (actual=0) at shacl.minLength
+        location: Location(file://als-server/js/src/test/resources/custom-validation/byDirectory/profile7/negative.data,Range(common.Position[L:9,C:6],common.Position[L:10,C:0]))
+      -
+        message: error in nested nodes under apiContract.parameter / shapes.schema
         location: Location(file://als-server/js/src/test/resources/custom-validation/byDirectory/profile7/negative.data,Range(common.Position[L:9,C:6],common.Position[L:10,C:0]))
   -
     message: Scalars in parameters must have minLength defined
     range: Range(common.Position[L:23,C:6],common.Position[L:24,C:0])
     severity: Error
+    code: profile.yaml#validation1
     relatedInformation:
       -
-        message: Unknown location for error. Could not retrieve effective location
+        message: Error expected 1 >= actual (actual=0) at shacl.minLength
+        location: Location(file://als-server/js/src/test/resources/custom-validation/byDirectory/profile7/negative.data,Range(common.Position[L:23,C:6],common.Position[L:24,C:0]))
+      -
+        message: error in nested nodes under apiContract.parameter / shapes.schema
         location: Location(file://als-server/js/src/test/resources/custom-validation/byDirectory/profile7/negative.data,Range(common.Position[L:23,C:6],common.Position[L:24,C:0]))

@@ -12,7 +12,7 @@ import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.workspace.{ChangesWorkspaceConfiguration, WorkspaceManager}
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.configuration.TraceKind
-import org.mulesoft.lsp.feature.common.{Position, Range}
+import org.mulesoft.lsp.feature.common.{Location, Position, Range}
 import org.mulesoft.lsp.feature.diagnostic.{DiagnosticSeverity, PublishDiagnosticsParams}
 import org.scalatest.Assertion
 import DiagnosticImplicits.PublishDiagnosticsParamsWriter
@@ -205,6 +205,55 @@ class CustomValidationManagerTest
               diagnostic.message should be("Scalars in parameters must have minLength defined")
               diagnostic.range should be(Range(Position(5, 6), Position(6, 19)))
               diagnostic.severity should equal(Some(DiagnosticSeverity.Error))
+            }
+        }
+      })
+  }
+
+  test("Should build traces") {
+    val negativeReportUri = filePath(platform.encodeURI("traces.report.jsonld"))
+    platform
+      .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
+      .flatMap(negativeReport => {
+        implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(13000)
+        val validator                                                 = new DummyAmfOpaValidator(negativeReport.toString)
+        val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
+        val args                                                      = changeConfigArgs(None, Some(workspacePath), Set.empty, Set(profileUri))
+
+        withServer(server) {
+          server =>
+            for {
+              _ <- server.initialize(
+                AlsInitializeParams(None,
+                                    Some(TraceKind.Off),
+                                    rootUri = Some(workspacePath),
+                                    projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
+              content     <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
+              _           <- openFile(server)(isolatedFile, content)
+              _           <- getDiagnostics
+              _           <- changeWorkspaceConfiguration(workspaceManager, args) // register
+              profile     <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
+              diagnostics <- getDiagnostics
+              _           <- validator.called(profile, serializedIsolatedUri)
+            } yield {
+              validator.calledNTimes(1)
+              val firstDiagnostic = diagnostics.diagnostics.headOption
+              if (firstDiagnostic.isEmpty) {
+                logger.error(s"Couldn't find first diagnostic:\n ${diagnostics.write}",
+                             "CustomValidationManagerTest",
+                             "Should notify errors")
+                fail("Couldn't find first diagnostic")
+              }
+              val diagnostic = firstDiagnostic.get
+              diagnostic.message should be("Min length must be less than max length must match in scalar")
+              diagnostic.range should be(Range(Position(7, 4), Position(12, 0)))
+              diagnostic.severity should equal(Some(DiagnosticSeverity.Error))
+
+              val related = diagnostic.relatedInformation.headOption.get
+              related.location should equal(
+                Location("file://als-server/shared/src/test/resources/custom-diagnostics/project/isolated.raml",
+                         Range(Position(7, 4), Position(12, 0))))
+              related.message should equal("Error expected 500 < actual (actual=100) at shacl.minLength")
             }
         }
       })

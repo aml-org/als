@@ -1,16 +1,17 @@
 uri: file://als-server/js/src/test/resources/custom-validation/byDirectory/profile8/negative.data
 diagnostics:
   -
-    message: GET operations must have 2xx, 4xx and 5xx status codes but no 201
-    range: Range(common.Position[L:2,C:0],common.Position[L:5,C:10])
-    severity: Error
-    relatedInformation:
-      -
-        message: Unknown location for error. Could not retrieve effective location
-        location: Location(file://als-server/js/src/test/resources/custom-validation/byDirectory/profile8/negative.data,Range(common.Position[L:2,C:0],common.Position[L:5,C:10]))
-  -
     message: API title is mandatory
     range: Range(common.Position[L:2,C:0],common.Position[L:5,C:10])
     severity: Error
     code: http://a.ml/vocabularies/amf/parser#WebAPI-name-minCount
     relatedInformation: []
+  -
+    message: GET operations must have 2xx, 4xx and 5xx status codes but no 201
+    range: Range(common.Position[L:2,C:0],common.Position[L:5,C:10])
+    severity: Error
+    code: profile.yaml#simple-rego
+    relatedInformation:
+      -
+        message: "Error at "
+        location: Location(file://als-server/js/src/test/resources/custom-validation/byDirectory/profile8/negative.data,Range(common.Position[L:2,C:0],common.Position[L:5,C:10]))
