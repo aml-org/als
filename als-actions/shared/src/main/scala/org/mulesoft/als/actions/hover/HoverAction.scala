@@ -141,5 +141,8 @@ case class HoverAction(bu: BaseUnit,
   def getPatchedHover: Option[(Seq[String], Option[AmfRange])] =
     patchedHover.getHover(objectInTree.obj, yPartBranch, definedBy)
 
-  private lazy val patchedHover = new PatchedHover(provider)
+  private lazy val patchedHover =
+    PatchedHover(provider, Seq(DialectTerms(bu, definedBy)))
 }
+
+sealed case class DialectTerms(bu: BaseUnit, definedBy: Dialect)

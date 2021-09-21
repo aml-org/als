@@ -7,7 +7,7 @@ import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.raml.raml0
 import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.raml.raml10.{Raml10BaseUriKeyTerm, Raml10UsesKeyTerm}
 
 object AlsPatchedVocabulary extends VocabularyObject {
-  override protected def base: String = "http://als.patched/#"
+  override def base: String = "http://als.patched/#"
 
   override protected def classes: Seq[ClassTermObjectNode] =
     Seq()

@@ -160,6 +160,10 @@ class HoverTest extends ServerWithMarkerTest[PositionedHover] with BaseHoverTest
   test("Raml10 top level keys") {
     runFor("toplevel/raml10.raml")
   }
+
+  test("Raml10 top level uses") {
+    runFor("toplevel/raml10-uses.raml")
+  }
   override protected val printRange: Boolean = true
 
   def runFor(file: String, size: Int = 1): Future[Assertion] =
