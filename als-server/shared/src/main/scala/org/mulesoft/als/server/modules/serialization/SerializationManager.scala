@@ -100,7 +100,7 @@ class SerializationManager[S](telemetryProvider: TelemetryProvider,
       override def `type`: props.requestType.type = props.requestType
 
       override def task(params: SerializationParams): Future[SerializationResult[S]] =
-        processRequest(params.textDocument.uri)
+        processRequest(params.documentIdentifier.uri)
 
       override protected def telemetry: TelemetryProvider = telemetryProvider
 
@@ -111,9 +111,9 @@ class SerializationManager[S](telemetryProvider: TelemetryProvider,
       override protected def endType(params: SerializationParams): MessageTypes = MessageTypes.END_SERIALIZATION
 
       override protected def msg(params: SerializationParams): String =
-        s"Requested serialization for ${params.textDocument.uri}"
+        s"Requested serialization for ${params.documentIdentifier.uri}"
 
-      override protected def uri(params: SerializationParams): String = params.textDocument.uri
+      override protected def uri(params: SerializationParams): String = params.documentIdentifier.uri
 
       override protected val empty: Option[SerializationResult[S]] = None
     }
