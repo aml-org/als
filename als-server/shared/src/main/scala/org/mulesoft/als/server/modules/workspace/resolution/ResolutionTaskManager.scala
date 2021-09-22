@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.modules.workspace.resolution
 
+import amf.core.client.scala.AMFResult
 import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.ast._
@@ -10,7 +11,6 @@ import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.amfintegration.{AmfResolvedUnit, DiagnosticsBundle}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
-import org.mulesoft.als.configuration.WorkspaceConfiguration
 
 import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -121,7 +121,7 @@ class ResolutionTaskManager private (telemetryProvider: TelemetryProvider,
 
     override protected type T = AmfResolvedUnit
 
-    override protected def resolvedUnitFn(): Future[BaseUnit] = {
+    override protected def resolvedUnitFn(): Future[AMFResult] = {
       telemetryProvider
         .timeProcess("AMF RESOLVE",
                      MessageTypes.BEGIN_RESOLUTION,
@@ -131,11 +131,10 @@ class ResolutionTaskManager private (telemetryProvider: TelemetryProvider,
                      innerResolveUnit)
     }
 
-    private def innerResolveUnit(): Future[BaseUnit] =
+    private def innerResolveUnit(): Future[AMFResult] =
       Future(
         environmentProvider.amfConfiguration
           .fullResolution(baseUnit))
-        .map(_.baseUnit)
 
     override def next: Option[Future[T]] = getNext(uri)
   }

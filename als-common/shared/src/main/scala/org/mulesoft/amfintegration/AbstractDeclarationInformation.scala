@@ -9,32 +9,44 @@ import amf.core.client.scala.model.domain.DomainElement
 import amf.core.client.scala.model.domain.templates.AbstractDeclaration
 import amf.core.internal.annotations.SourceAST
 import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.amfintegration.amfconfiguration.ProfileMatcher.profile
 import org.yaml.model.{YMap, YMapEntry, YNode}
 
 object AbstractDeclarationInformation {
 
-  def extractInformation(declaration: Option[AbstractDeclaration], bu: BaseUnit): Option[ElementInfo] = {
+  def extractInformation(declaration: Option[AbstractDeclaration],
+                         bu: BaseUnit,
+                         amfConfiguration: AmfConfigurationWrapper): Option[ElementInfo] = {
     declaration match {
-      case Some(value) => extractInformation(value, bu)
+      case Some(value) => extractInformation(value, bu, amfConfiguration)
       case _           => None
     }
 
   }
 
-  def extractInformation(declaration: AbstractDeclaration, bu: BaseUnit): Option[ElementInfo] = {
+  def extractInformation(declaration: AbstractDeclaration,
+                         bu: BaseUnit,
+                         amfConfiguration: AmfConfigurationWrapper): Option[ElementInfo] = {
     getTarget(declaration) match {
       case r: ResourceType =>
         val resolved =
           getSourceEntry(r, "resourceType").fold(
-            AbstractElementTransformer.asEndpoint(bu, r, errorHandler = LocalIgnoreErrorHandler))(e => {
-            AbstractElementTransformer.entryAsEndpoint(bu, r, r.dataNode, e, LocalIgnoreErrorHandler)
+            AbstractElementTransformer
+              .asEndpoint(bu, r, amfConfiguration.getConfiguration, errorHandler = LocalIgnoreErrorHandler))(e => {
+            AbstractElementTransformer.entryAsEndpoint(bu,
+                                                       r,
+                                                       r.dataNode,
+                                                       e,
+                                                       amfConfiguration.getConfiguration,
+                                                       LocalIgnoreErrorHandler)
           })
         Some(ElementInfo(resolved, r, r.name.value(), r.metaURIs.head))
 
       case t: Trait =>
         val resolved =
-          getSourceEntry(t, "trait").fold(AbstractElementTransformer.asOperation(bu, t))(e => {
+          getSourceEntry(t, "trait").fold(
+            AbstractElementTransformer.asOperation(bu, t, amfConfiguration.getConfiguration))(e => {
             val extendsHelper = ExtendsHelper(profile(bu), keepEditingInfo = false, UnhandledErrorHandler)
             extendsHelper.parseOperation(bu, t.name.option().getOrElse(""), "AbstractDeclarationInformation", e)
           })

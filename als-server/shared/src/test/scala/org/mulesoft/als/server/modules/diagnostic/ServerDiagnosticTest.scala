@@ -224,7 +224,7 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
     }
   }
 
-  test("Trait resolution with error( test resolution error handler") {
+  test("Trait resolution with error( test resolution error handler)") {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
     withServer(buildServer(diagnosticNotifier)) { server =>
       val apiPath = s"file://api.raml"
@@ -238,16 +238,13 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
           |  secured:
           |    queryParameters:
           |      access_token:
-          |        descriptionA: A valid access_token is required
+          |        invalid-key: A valid access_token is required
           |
           |/books:
           |  get:
           |    is: [ secured ]
         """.stripMargin
 
-      /*
-        register dialect -> open invalid instance -> fix -> invalid again
-       */
       for {
         _  <- openFileNotification(server)(apiPath, apiContent)
         d1 <- diagnosticNotifier.nextCall

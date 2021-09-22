@@ -11,6 +11,7 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
 }
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.FileExtractor
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.common.{Position, Range}
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.{
@@ -77,6 +78,8 @@ class RamlTypeToJsonSchema(override protected val params: CodeActionRequestParam
         }
       }
     }
+
+  override protected val amfConfiguration: AmfConfigurationWrapper = params.amfConfiguration
 }
 
 object RamlTypeToJsonSchema extends CodeActionFactory with RamlTypeToJsonSchemaKind {

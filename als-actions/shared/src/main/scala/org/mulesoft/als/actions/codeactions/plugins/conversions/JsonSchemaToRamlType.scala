@@ -38,6 +38,8 @@ class JsonSchemaToRamlType(override protected val params: CodeActionRequestParam
     with AmfObjectResolver
     with ExtractSameFileDeclaration {
 
+  override protected val amfConfiguration = params.amfConfiguration
+
   override val isApplicable: Boolean =
     params.bu.sourceSpec.contains(Spec.RAML10) &&
       maybeAnyShape.isDefined && positionIsExtracted
@@ -91,7 +93,7 @@ class JsonSchemaToRamlType(override protected val params: CodeActionRequestParam
 
   private def renderRamlType(shape: AnyShape): Future[String] = Future {
     shape.annotations.reject(_.isInstanceOf[ParsedJSONSchema])
-    val node: Option[YNode] = declaredElementNode(Some(shape), params.dialect, params.amfConfiguration)
+    val node: Option[YNode] = declaredElementNode(Some(shape), params.dialect, amfConfiguration)
     val parent              = yPartBranch.flatMap(_.parentEntry)
     node
       .map(

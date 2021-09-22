@@ -48,7 +48,7 @@ object ResolveDefault extends ResolveIfApplies with AmfObjectKnowledge {
 
   protected def objInArray(params: AmlCompletionRequest): Option[DomainElementModel] = {
     params.fieldEntry match {
-      case Some(FieldEntry(Field(t: ArrayLike, _, _, _), _))
+      case Some(FieldEntry(Field(t: ArrayLike, _, _, _, false), _))
           if t.element
             .isInstanceOf[DomainElementModel] && params.yPartBranch.isInArray =>
         Some(t.element.asInstanceOf[DomainElementModel])

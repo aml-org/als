@@ -6,15 +6,18 @@ import amf.core.client.scala.model.domain.AmfObject
 import amf.shapes.client.scala.model.domain.AnyShape
 import amf.shapes.internal.domain.resolution.elements.CompleteShapeTransformationPipeline
 import org.mulesoft.amfintegration.LocalIgnoreErrorHandler
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 
 import scala.collection.mutable
 
 trait AmfObjectResolver extends ShapeExtractor {
 
   private val eh: AMFErrorHandler = LocalIgnoreErrorHandler
+  protected val amfConfiguration: AmfConfigurationWrapper
 
   protected def resolveShape(anyShape: AnyShape): Option[AnyShape] =
-    new CompleteShapeTransformationPipeline(anyShape, eh, ProfileNames.RAML10).resolve() match {
+    new CompleteShapeTransformationPipeline(anyShape, eh, ProfileNames.RAML10)
+      .transform(amfConfiguration.getConfiguration) match {
       case a: AnyShape => Some(a)
       case _           => None
     }
