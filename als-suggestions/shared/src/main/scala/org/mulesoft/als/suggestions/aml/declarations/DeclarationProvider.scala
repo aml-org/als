@@ -104,7 +104,7 @@ object DeclarationProvider {
         .flatMap(
           l =>
             bu.references
-              .find(_.location().contains(l._2._1))
+              .find(_.location().contains(l._2.fullUrl))
               .map(r => l._1 -> r))
         .foreach { t =>
           provider.put(t._1, DeclarationProvider(t._2, None))

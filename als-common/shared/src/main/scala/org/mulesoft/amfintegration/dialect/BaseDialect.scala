@@ -4,7 +4,7 @@ import amf.aml.client.scala.model.document.{Dialect, Vocabulary}
 import amf.aml.client.scala.model.domain.{DocumentMapping, DocumentsModel, External, PublicNodeMapping}
 import amf.core.client.scala.model.domain.DomainElement
 import amf.core.client.scala.vocabulary.Namespace
-import amf.core.internal.annotations.Aliases
+import amf.core.internal.annotations.{Aliases, ReferencedInfo}
 import amf.core.internal.metamodel.domain.ModelVocabularies
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
@@ -75,7 +75,7 @@ trait BaseDialect {
       ModelVocabularies.Security
     )
     d.annotations += Aliases(vocabularies.map { vocab =>
-      (vocab.alias, (vocab.base, vocab.filename))
+      (vocab.alias, ReferencedInfo(s"fake://id/${vocab.alias}", vocab.base, vocab.filename))
     }.toSet)
 
     d.withReferences(vocabularies.map { vocab =>
