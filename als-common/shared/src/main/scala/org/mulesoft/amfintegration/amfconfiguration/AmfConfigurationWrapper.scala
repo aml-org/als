@@ -134,11 +134,18 @@ class AmfConfigurationWrapper private[amfintegration] (private val initialConfig
   def serialize(target: Spec, syntax: String, unit: BaseUnit): String =
     innerAmfConfigurationState.configForSpec(target).baseUnitClient().render(unit, syntax)
 
-  def fullResolution(unit: BaseUnit): AMFResult =
+  def fullResolution(unit: BaseUnit): AMFResult = {
     innerAmfConfigurationState
       .configForUnit(unit)
-      .baseUnitClient()
-      .transform(unit.cloneUnit(), PipelineId.Editing)
+      .baseUnitClient() match {
+      case amf: AMFBaseUnitClient =>
+        amf
+          .transform(unit.cloneUnit(), PipelineId.Editing)
+      case aml =>
+        aml
+          .transform(unit.cloneUnit(), PipelineId.Default)
+    }
+  }
 
   def emit(de: DomainElement, definedBy: Dialect): YNode =
     innerAmfConfigurationState.configForDialect(definedBy).elementClient().renderElement(de)

@@ -167,7 +167,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
 
         rootDiagnostic.uri should be(instance)
         instanceDiagnostic2.uri should be(instance)
-        rootDiagnostic.diagnostics.size should be(0)
+        rootDiagnostic.diagnostics.size should be(1)
         instanceDiagnostic2.diagnostics.size should be(0)
 
         assert(allTelemetry.count(d => d.messageType == MessageTypes.BEGIN_PARSE) == 4)
