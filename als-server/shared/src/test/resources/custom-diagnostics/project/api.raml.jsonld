@@ -3,6 +3,15 @@
 {
 "@id": "#1",
 "@type": [
+"doc:APIContractProcessingData"
+],
+"apiContract:modelVersion": "3.2.0",
+"doc:transformed": true,
+"apiContract:sourceSpec": "RAML 1.0"
+},
+{
+"@id": "#2",
+"@type": [
 "apiContract:WebAPI",
 "apiContract:API",
 "doc:RootDomainElement",
@@ -10,24 +19,6 @@
 ],
 "core:name": "API",
 "apiContract:endpoint": [
-{
-"@id": "#2"
-}
-],
-"sourcemaps:sources": [
-{
-"@id": "#1/source-map"
-}
-]
-},
-{
-"@id": "#2",
-"@type": [
-"apiContract:EndPoint",
-"doc:DomainElement"
-],
-"apiContract:path": "/invoices",
-"apiContract:supportedOperation": [
 {
 "@id": "#3"
 }
@@ -39,32 +30,17 @@
 ]
 },
 {
-"@id": "#1/source-map",
-"@type": [
-"sourcemaps:SourceMap"
-],
-"sourcemaps:source-vendor": [
-{
-"@id": "#1/source-map/source-vendor/element_0"
-}
-],
-"sourcemaps:lexical": [
-{
-"@id": "#1/source-map/lexical/element_1"
-},
-{
-"@id": "#1/source-map/lexical/element_0"
-}
-]
-},
-{
 "@id": "#3",
 "@type": [
-"apiContract:Operation",
+"apiContract:EndPoint",
 "doc:DomainElement"
 ],
-"apiContract:method": "get",
-"core:description": "",
+"apiContract:path": "/invoices",
+"apiContract:supportedOperation": [
+{
+"@id": "#4"
+}
+],
 "sourcemaps:sources": [
 {
 "@id": "#3/source-map"
@@ -76,6 +52,11 @@
 "@type": [
 "sourcemaps:SourceMap"
 ],
+"sourcemaps:source-vendor": [
+{
+"@id": "#2/source-map/source-vendor/element_0"
+}
+],
 "sourcemaps:lexical": [
 {
 "@id": "#2/source-map/lexical/element_1"
@@ -86,19 +67,18 @@
 ]
 },
 {
-"@id": "#1/source-map/source-vendor/element_0",
-"sourcemaps:element": "amf://id#1",
-"sourcemaps:value": "RAML 1.0"
-},
+"@id": "#4",
+"@type": [
+"apiContract:Operation",
+"doc:DomainElement"
+],
+"apiContract:method": "get",
+"core:description": "",
+"sourcemaps:sources": [
 {
-"@id": "#1/source-map/lexical/element_1",
-"sourcemaps:element": "amf://id#1",
-"sourcemaps:value": "[(2,0)-(8,34)]"
-},
-{
-"@id": "#1/source-map/lexical/element_0",
-"sourcemaps:element": "core:name",
-"sourcemaps:value": "[(2,0)-(3,0)]"
+"@id": "#4/source-map"
+}
+]
 },
 {
 "@id": "#3/source-map",
@@ -115,22 +95,51 @@
 ]
 },
 {
+"@id": "#2/source-map/source-vendor/element_0",
+"sourcemaps:element": "amf://id#2",
+"sourcemaps:value": "RAML 1.0"
+},
+{
 "@id": "#2/source-map/lexical/element_1",
 "sourcemaps:element": "amf://id#2",
-"sourcemaps:value": "[(3,0)-(8,34)]"
+"sourcemaps:value": "[(2,0)-(8,34)]"
 },
 {
 "@id": "#2/source-map/lexical/element_0",
-"sourcemaps:element": "apiContract:path",
-"sourcemaps:value": "[(3,0)-(3,9)]"
+"sourcemaps:element": "core:name",
+"sourcemaps:value": "[(2,0)-(3,0)]"
+},
+{
+"@id": "#4/source-map",
+"@type": [
+"sourcemaps:SourceMap"
+],
+"sourcemaps:lexical": [
+{
+"@id": "#4/source-map/lexical/element_1"
+},
+{
+"@id": "#4/source-map/lexical/element_0"
+}
+]
 },
 {
 "@id": "#3/source-map/lexical/element_1",
 "sourcemaps:element": "amf://id#3",
-"sourcemaps:value": "[(4,2)-(8,34)]"
+"sourcemaps:value": "[(3,0)-(8,34)]"
 },
 {
 "@id": "#3/source-map/lexical/element_0",
+"sourcemaps:element": "apiContract:path",
+"sourcemaps:value": "[(3,0)-(3,9)]"
+},
+{
+"@id": "#4/source-map/lexical/element_1",
+"sourcemaps:element": "amf://id#4",
+"sourcemaps:value": "[(4,2)-(8,34)]"
+},
+{
+"@id": "#4/source-map/lexical/element_0",
 "sourcemaps:element": "core:description",
 "sourcemaps:value": "[(5,4)-(6,0)]"
 },
@@ -143,10 +152,12 @@
 "doc:Unit"
 ],
 "doc:encodes": {
-"@id": "#1"
+"@id": "#2"
 },
-"doc:version": "3.1.0",
-"doc:root": true
+"doc:root": true,
+"doc:processingData": {
+"@id": "#1"
+}
 }
 ],
 "@context": {

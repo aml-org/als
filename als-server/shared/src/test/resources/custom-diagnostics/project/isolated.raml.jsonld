@@ -1,6 +1,13 @@
 {
 "@graph": [
 {
+"@id": "null/BaseUnitProcessingData",
+"@type": [
+"doc:BaseUnitProcessingData"
+],
+"doc:transformed": false
+},
+{
 "@id": "#/external",
 "@type": [
 "doc:ExternalDomainElement",
@@ -40,8 +47,10 @@
 "doc:encodes": {
 "@id": "#/external"
 },
-"doc:version": "3.1.0",
-"doc:root": true
+"doc:root": true,
+"doc:processingData": {
+"@id": "null/BaseUnitProcessingData"
+}
 }
 ],
 "@context": {
