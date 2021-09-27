@@ -98,10 +98,7 @@ class ResolutionDiagnosticManager(override protected val telemetryProvider: Tele
           .flatMap { result =>
             r.amfConfiguration
               .report(result.baseUnit)
-              .map(rep => (rep, rep.results ++ result.results))
-          }
-          .map { vr =>
-            AMFValidationReport(vr._1.model, vr._1.profile, vr._2 ++ r.eh.getResults)
+              .map(rep => AMFValidationReport(rep.model, rep.profile, rep.results ++ result.results))
           }
       } recoverWith {
         case e: Exception =>
