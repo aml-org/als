@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.modules.diagnostic
 
+import org.mulesoft.als.server.modules.diagnostic.DiagnosticImplicits.PositionComparator.compare
 import org.mulesoft.lsp.feature.diagnostic.{Diagnostic, DiagnosticRelatedInformation, PublishDiagnosticsParams}
 import org.mulesoft.lsp.feature.common.Position
 import org.yaml.model.YDocument
@@ -18,13 +19,22 @@ object DiagnosticImplicits {
         })
         e.entry("diagnostics", e => {
           e.list(b => {
-            p.diagnostics.sortBy(_.range.start)(new PositionComparator).foreach(_.entry(b))
+            p.diagnostics.sortWith(sort).foreach(_.entry(b))
           })
         })
       })
+
+    def sort(d1: Diagnostic, d2: Diagnostic): Boolean = {
+      if (compare(d1.range.start, d2.range.start) != 0) compareWith(d1.range.start, d2.range.start)
+      else if (compare(d1.range.end, d2.range.end) != 0) compareWith(d1.range.end, d2.range.end)
+      else if (d1.message.compare(d2.message) != 0) d1.message.compare(d2.message) < 0
+      else true
+    }
+
+    def compareWith(x: Position, y: Position): Boolean = compare(x, y) < 0
   }
 
-  class PositionComparator extends Ordering[Position] {
+  object PositionComparator extends Ordering[Position] {
     override def compare(x: Position, y: Position): Int = {
       if (x.line != y.line) {
         x.line - y.line

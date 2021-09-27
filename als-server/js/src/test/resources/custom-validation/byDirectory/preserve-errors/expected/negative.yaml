@@ -36,9 +36,10 @@ diagnostics:
     message: Scalars in parameters must have minLength defined
     range: Range(common.Position[L:23,C:6],common.Position[L:24,C:0])
     severity: Error
+    code: profile.yaml#scalar-parameters
     relatedInformation:
       -
-        message: Unknown location for error. Could not retrieve effective location
+        message: Error expected 1 >= actual (actual=0) at shapes.schema / shacl.minLength
         location: Location(file://als-server/js/src/test/resources/custom-validation/byDirectory/preserve-errors/negative.data,Range(common.Position[L:23,C:6],common.Position[L:24,C:0]))
   -
     message: Property 'k' not supported in a RAML 1.0 webApi node

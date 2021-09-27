@@ -1,0 +1,17 @@
+uri: file://als-server/js/src/test/resources/custom-validation/byDirectory/profile5/negative.yaml
+diagnostics:
+  -
+    message: Version is mandatory in Info object
+    range: Range(common.Position[L:0,C:0],common.Position[L:12,C:9])
+    severity: Error
+    code: http://a.ml/vocabularies/amf/parser#mandatory-api-version
+    relatedInformation: []
+  -
+    message: Min length must be less than max length must match in scalar
+    range: Range(common.Position[L:7,C:4],common.Position[L:12,C:0])
+    severity: Error
+    code: profile.yaml#test-min-length
+    relatedInformation:
+      -
+        message: Error expected 500 < actual (actual=100) at shacl.minLength
+        location: Location(file://als-server/js/src/test/resources/custom-validation/byDirectory/profile5/negative.yaml,Range(common.Position[L:7,C:4],common.Position[L:12,C:0]))

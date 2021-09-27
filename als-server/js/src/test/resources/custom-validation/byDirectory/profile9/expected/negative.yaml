@@ -4,7 +4,8 @@ diagnostics:
     message: maximum number of endpoints test
     range: Range(common.Position[L:2,C:0],common.Position[L:27,C:20])
     severity: Error
+    code: profile.yaml#max-endpoints
     relatedInformation:
       -
-        message: Unknown location for error. Could not retrieve effective location
+        message: Error expected 3 <= actual (actual=4) at apiContract.endpoint
         location: Location(file://als-server/js/src/test/resources/custom-validation/byDirectory/profile9/negative.data,Range(common.Position[L:2,C:0],common.Position[L:27,C:20]))

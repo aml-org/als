@@ -4,8 +4,8 @@ import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.common.ByDirectoryTest
 import org.mulesoft.als.configuration.ConfigurationStyle.COMMAND
 import org.mulesoft.als.configuration.ProjectConfigurationStyle
-import org.mulesoft.als.server.modules.diagnostic.DiagnosticImplicits.PublishDiagnosticsParamsWriter
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.modules.diagnostic.DiagnosticImplicits.PublishDiagnosticsParamsWriter
 import org.mulesoft.als.server.modules.diagnostic.custom.AMFOpaValidator
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
@@ -14,12 +14,11 @@ import org.mulesoft.als.server.{LanguageServerBuilder, MockDiagnosticClientNotif
 import org.mulesoft.common.io.SyncFile
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.common.TextDocumentItem
-import org.mulesoft.lsp.feature.diagnostic.{Diagnostic, PublishDiagnosticsParams}
+import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
 import org.scalatest.Assertion
 
-import scala.collection.immutable.Queue
-import scala.concurrent.{Future, Promise}
+import scala.concurrent.Future
 
 class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with ChangesWorkspaceConfiguration {
   def rootPath: String                     = "custom-validation/byDirectory"
@@ -29,20 +28,21 @@ class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with Changes
 
   override def testFile(content: String, file: SyncFile, parent: String): Unit = {
     val workspaceFolder = s"file://${file.path.replace(file.name, "")}"
+    val relativeUri     = s"${file.path.replace(file.name, "")}"
     val profileUri      = s"${workspaceFolder}profile.yaml"
-    val args            = changeConfigArgs(None, Some(workspaceFolder), Set.empty, Set(profileUri))
+
     s"Run custom validation on ${file.parent}" - {
       s"Expect positive custom validation on ${file.parent}" in {
-        runForPrefix(workspaceFolder, profileUri, args, "positive")
+        runForPrefix(workspaceFolder, relativeUri, profileUri, "positive")
       }
       s"Expect negative custom validation on ${file.parent}" in {
-        runForPrefix(workspaceFolder, profileUri, args, "negative")
+        runForPrefix(workspaceFolder, relativeUri, profileUri, "negative")
       }
     }
 
   }
 
-  private def runForPrefix(workspaceFolder: String, profileUri: String, args: String, prefix: String) = {
+  private def runForPrefix(workspaceFolder: String, relativeUri: String, profileUri: String, prefix: String) = {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(12000)
     val (server, workspaceManager)                       = buildServer(diagnosticNotifier)
     implicit val s: LanguageServer                       = server
@@ -52,16 +52,26 @@ class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with Changes
                             Some(TraceKind.Off),
                             rootUri = Some(workspaceFolder),
                             projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
-      _ <- changeWorkspaceConfiguration(workspaceManager, args) // register profile
-      r <- runFor(workspaceFolder, prefix, diagnosticNotifier)
+      _ <- changeWorkspaceConfiguration(
+        workspaceManager,
+        changeConfigArgs(None, Some(workspaceFolder), Set.empty, Set(profileUri))) // register profile
+      r <- runFor(relativeUri, workspaceFolder, prefix, diagnosticNotifier)
     } yield {
       r
     }
   }
 
-  def runFor(workspaceFolder: String, prefix: String, diagnosticNotifier: MockDiagnosticClientNotifier)(
-      implicit server: LanguageServer): Future[Assertion] = {
-    val apiUri      = s"$workspaceFolder$prefix.data"
+  private val extensions = Seq("data", "yaml", "json")
+
+  def runFor(relativeUri: String,
+             workspaceFolder: String,
+             prefix: String,
+             diagnosticNotifier: MockDiagnosticClientNotifier)(implicit server: LanguageServer): Future[Assertion] = {
+    val apiUri: String = extensions
+      .map(e => s"$prefix.$e")
+      .find(file => fs.syncFile(s"$relativeUri$file").exists)
+      .map(file => s"$workspaceFolder$file")
+      .getOrElse(fail(s"Failed to find valid file for $prefix"))
     val expectedUri = s"${workspaceFolder}expected/$prefix.yaml"
     for {
       diagnostics <- validateUri(server, diagnosticNotifier, apiUri)
@@ -110,5 +120,8 @@ class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with Changes
   s"NodeJS Custom Validation tests" - {
     forDirectory(dir, "", mustHaveMarker = false)
   }
+
+  override def filterValidFiles(files: Array[SyncFile]): Array[SyncFile] =
+    super.filterValidFiles(files).filter(_.name.contains("profile"))
 
 }

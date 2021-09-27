@@ -17,6 +17,7 @@ import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import scala.concurrent.Future
 
 trait DiagnosticManager extends ClientNotifierModule[DiagnosticClientCapabilities, Unit] {
+
   protected val amfConfiguration: AmfConfigurationWrapper
 
   override val `type`: ConfigType[DiagnosticClientCapabilities, Unit] =

@@ -1,0 +1,25 @@
+#%Validation Profile 1.0
+profile: TraceComposed
+violation:
+  - trace-composed
+validations:
+  trace-composed:
+    message: |
+      Only get with 200 and post operations are allowed
+    targetClass: apiContract.Operation
+    or:
+      - and:
+        - propertyConstraints:
+            apiContract.method:
+              in: [ get ]
+        - propertyConstraints:
+            apiContract.returns:
+              atLeast:
+                count: 1
+                validation:
+                  propertyConstraints:
+                    apiContract.statusCode:
+                      pattern: "^200$"
+      - propertyConstraints:
+          apiContract.method:
+            in: [ post ]

@@ -53,7 +53,7 @@ class GetWorkspaceConfigurationRequestHandler(val workspaceManager: WorkspaceMan
                                                          config.cachables,
                                                          config.profiles,
                                                          config.semanticExtensions))
-            .getOrElse(EmptyConfigurationParams)
+            .getOrElse(new EmptyConfigurationParams(t._1.folderUri))
       ))
 
   override protected def code(params: GetWorkspaceConfigurationParams): String = "GetWorkspaceConfigurationRequest"
@@ -75,5 +75,5 @@ class GetWorkspaceConfigurationRequestHandler(val workspaceManager: WorkspaceMan
   override protected val empty: Option[GetWorkspaceConfigurationResult] = None
 }
 
-private object EmptyConfigurationParams
-    extends DidChangeConfigurationNotificationParams("", None, Set.empty, Set.empty, Set.empty)
+private class EmptyConfigurationParams(workspaceFolder: String)
+    extends DidChangeConfigurationNotificationParams("", Some(workspaceFolder), Set.empty, Set.empty, Set.empty)

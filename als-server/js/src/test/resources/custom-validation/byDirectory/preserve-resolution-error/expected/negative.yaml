@@ -10,15 +10,17 @@ diagnostics:
     message: Scalars in parameters must have minLength defined
     range: Range(common.Position[L:9,C:6],common.Position[L:10,C:0])
     severity: Error
+    code: profile.yaml#scalar-parameters
     relatedInformation:
       -
-        message: Unknown location for error. Could not retrieve effective location
+        message: Error expected 1 >= actual (actual=0) at shapes.schema / shacl.minLength
         location: Location(file://als-server/js/src/test/resources/custom-validation/byDirectory/preserve-resolution-error/negative.data,Range(common.Position[L:9,C:6],common.Position[L:10,C:0]))
   -
     message: Scalars in parameters must have minLength defined
     range: Range(common.Position[L:20,C:6],common.Position[L:20,C:8])
     severity: Error
+    code: profile.yaml#scalar-parameters
     relatedInformation:
       -
-        message: Unknown location for error. Could not retrieve effective location
+        message: Error expected 1 >= actual (actual=0) at shapes.schema / shacl.minLength
         location: Location(file://als-server/js/src/test/resources/custom-validation/byDirectory/preserve-resolution-error/negative.data,Range(common.Position[L:20,C:6],common.Position[L:20,C:8]))

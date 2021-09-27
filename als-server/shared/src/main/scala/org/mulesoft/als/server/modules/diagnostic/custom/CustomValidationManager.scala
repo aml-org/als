@@ -48,16 +48,15 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
             resolved.amfConfiguration.asJsonLD(unit, builder, RenderOptions().withCompactUris.withSourceMaps)
             builder.result.toString
           }
-          reports <- Future.sequence(config.profiles.map(profile => {
+          results <- Future.sequence(config.profiles.toSeq.map(profile => {
             logger.debug(s"Validate with profile: $profile", "CustomValidationManager", "validateWithProfile")
-            validateWithProfile(profile, serialized, resolved.amfConfiguration)
+            validateWithProfile(profile, uri, serialized, resolved.amfConfiguration)
           }))
         } yield {
-          val results = reports.flatMap { r =>
-            r.results
-          }
-          validationGatherer
-            .indexNewReport(ErrorsWithTree(uri, results.toSeq, Some(tree(resolved.baseUnit))), managerName, uuid)
+          results.foreach(
+            r =>
+              validationGatherer
+                .indexNewReport(ErrorsWithTree(uri, r, Some(tree(resolved.baseUnit))), managerName, uuid))
           notifyReport(uri, resolved.baseUnit, references, managerName, ProfileName("CustomValidation"))
           val endTime = System.currentTimeMillis()
           this.logger.debug(s"It took ${endTime - startTime} milliseconds to validate with Go env",
@@ -73,13 +72,16 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
   }
 
   private def validateWithProfile(profileUri: String,
+                                  unitUri: String,
                                   serializedUnit: String,
-                                  amfConfiguration: AmfConfigurationWrapper): Future[AMFValidationReport] =
+                                  amfConfiguration: AmfConfigurationWrapper): Future[Seq[AlsValidationResult]] = {
+    val profileName = profileUri.substring(profileUri.lastIndexOf(amfConfiguration.platform.fs.separatorChar)) // todo: extract from profile unit?
     for {
       content   <- amfConfiguration.fetchContent(profileUri).map(_.toString())
       rawResult <- platformValidator.validateWithProfile(content, serializedUnit)
-      report    <- new OPAValidatorReportLoader().load(rawResult)
+      report    <- OPAValidatorReportLoader.load(rawResult, unitUri, profileName)
     } yield report
+  }
 
   class CustomValidationRunnable(var uri: String, ast: AmfResolvedUnit, uuid: String) extends Runnable[Unit] {
     private var canceled = false

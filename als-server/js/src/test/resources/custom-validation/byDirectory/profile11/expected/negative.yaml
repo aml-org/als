@@ -4,7 +4,8 @@ diagnostics:
     message: Validation error
     range: Range(common.Position[L:6,C:2],common.Position[L:8,C:17])
     severity: Error
+    code: profile.yaml#array-limits
     relatedInformation:
       -
-        message: Unknown location for error. Could not retrieve effective location
+        message: Error expected 50 < actual (actual=100) at shacl.minCount
         location: Location(file://als-server/js/src/test/resources/custom-validation/byDirectory/profile11/negative.data,Range(common.Position[L:6,C:2],common.Position[L:8,C:17]))

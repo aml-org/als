@@ -1,0 +1,8 @@
+uri: file://als-server/js/src/test/resources/custom-validation/byDirectory/profile5/positive.yaml
+diagnostics:
+  -
+    message: Version is mandatory in Info object
+    range: Range(common.Position[L:0,C:0],common.Position[L:12,C:9])
+    severity: Error
+    code: http://a.ml/vocabularies/amf/parser#mandatory-api-version
+    relatedInformation: []

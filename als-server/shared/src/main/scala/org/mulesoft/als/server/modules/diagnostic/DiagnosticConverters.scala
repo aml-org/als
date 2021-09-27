@@ -13,15 +13,18 @@ import org.mulesoft.lsp.feature.diagnostic.DiagnosticRelatedInformation
 object DiagnosticConverters {
 
   private val UNKNOWN_LOCATION = "Unknown location for error. Could not retrieve effective location"
-  def buildIssueResults(results: Map[String, Seq[AMFValidationResult]],
+  def buildIssueResults(results: Map[String, Seq[AlsValidationResult]],
                         references: Map[String, DiagnosticsBundle],
                         profile: ProfileName): Seq[ValidationReport] = {
 
     val issuesWithStack = buildIssues(results, references)
-    results
+    val filtered = results
+      .map(t => issuesWithStack.filter(_.filePath == t._1))
+    val r = results
       .map(t => ValidationReport(t._1, issuesWithStack.filter(_.filePath == t._1).toSet, profile))
       .toSeq
       .sortBy(_.pointOfViewUri)
+    r
   }
 
   private val syntaxViolationIds = Seq(CoreValidations.SyamlError.id, CoreValidations.SyamlWarning.id)
@@ -30,20 +33,20 @@ object DiagnosticConverters {
     syntaxViolationIds.contains(r.validationId) || (!t.isExternal && t.references.nonEmpty)
   }
   private def buildLocatedIssue(uri: String,
-                                results: Seq[AMFValidationResult],
+                                results: Seq[AlsValidationResult],
                                 references: Map[String, DiagnosticsBundle]) = {
-    results.flatMap { r =>
+    results.flatMap { s =>
+      val r = s.result
       references.get(uri) match {
         case Some(t) if isExternalAndNotSyntax(r, t) =>
           t.references.map { stackContainer =>
             buildIssue(
               uri,
               r,
-              stackContainer.stack
-                .map(
-                  s =>
-                    DiagnosticRelatedInformation(Location(s.originUri, LspRangeConverter.toLspRange(s.originRange)),
-                                                 s"at ${s.originUri}"))
+              s.stack ++ stackContainer.stack
+                .map(s =>
+                  DiagnosticRelatedInformation(Location(s.originUri, LspRangeConverter.toLspRange(s.originRange)),
+                                               s"at ${s.originUri}"))
             )
           }
         case Some(t) if t.references.nonEmpty && t.references.exists(_.stack.nonEmpty) =>
@@ -69,7 +72,7 @@ object DiagnosticConverters {
                 newHead.originRange,
                 r.message,
                 r.severityLevel,
-                stackContainer.stack.reverse
+                s.stack ++ stackContainer.stack.reverse
                   .drop(1)
                   .map(s =>
                     DiagnosticRelatedInformation(Location(s.originUri, LspRangeConverter.toLspRange(s.originRange)),
@@ -79,11 +82,11 @@ object DiagnosticConverters {
               )
             }
         case _ =>
-          Seq(buildIssue(uri, r, Nil))
+          Seq(buildIssue(uri, r, s.stack))
       }
     }
   }
-  private def buildIssues(results: Map[String, Seq[AMFValidationResult]],
+  private def buildIssues(results: Map[String, Seq[AlsValidationResult]],
                           references: Map[String, DiagnosticsBundle]): Seq[ValidationIssue] = {
     results.flatMap { case (uri, r) => buildLocatedIssue(uri, r, references) }.toSeq
   }

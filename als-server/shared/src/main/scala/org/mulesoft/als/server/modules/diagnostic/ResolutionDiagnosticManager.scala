@@ -53,7 +53,10 @@ class ResolutionDiagnosticManager(override protected val telemetryProvider: Tele
       .map(report => {
         val endTime = System.currentTimeMillis()
         validationGatherer
-          .indexNewReport(ErrorsWithTree(uri, report.results, Some(tree(resolved.baseUnit))), managerName, uuid)
+          .indexNewReport(
+            ErrorsWithTree(uri, report.results.map(new AlsValidationResult(_)), Some(tree(resolved.baseUnit))),
+            managerName,
+            uuid)
         notifyReport(uri, resolved.baseUnit, references, managerName, profile)
 
         this.logger.debug(s"It took ${endTime - startTime} milliseconds to validate",
@@ -95,10 +98,7 @@ class ResolutionDiagnosticManager(override protected val telemetryProvider: Tele
           .flatMap { result =>
             r.amfConfiguration
               .report(result.baseUnit)
-              .map(rep => (rep, rep.results ++ result.results))
-          }
-          .map { vr =>
-            AMFValidationReport(vr._1.model, vr._1.profile, vr._2 ++ r.eh.getResults)
+              .map(rep => AMFValidationReport(rep.model, rep.profile, rep.results ++ result.results))
           }
       } recoverWith {
         case e: Exception =>
