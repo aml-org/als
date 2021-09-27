@@ -6,6 +6,7 @@ import org.mulesoft.als.configuration.ConfigurationStyle.COMMAND
 import org.mulesoft.als.configuration.ProjectConfigurationStyle
 import org.mulesoft.als.logger.{EmptyLogger, Logger}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.modules.diagnostic.DiagnosticImplicits.PublishDiagnosticsParamsWriter
 import org.mulesoft.als.server.modules.diagnostic.custom.AMFOpaValidator
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
@@ -15,8 +16,6 @@ import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.common.{Location, Position, Range}
 import org.mulesoft.lsp.feature.diagnostic.{DiagnosticSeverity, PublishDiagnosticsParams}
 import org.scalatest.Assertion
-import DiagnosticImplicits.PublishDiagnosticsParamsWriter
-import org.mulesoft.als.server.client.ClientNotifier
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -237,7 +236,8 @@ class CustomValidationManagerTest
               _           <- validator.called(profile, serializedIsolatedUri)
             } yield {
               validator.calledNTimes(1)
-              val firstDiagnostic = diagnostics.diagnostics.headOption
+              val firstDiagnostic = diagnostics.diagnostics.find(
+                _.message == "Min length must be less than max length must match in scalar")
               if (firstDiagnostic.isEmpty) {
                 logger.error(s"Couldn't find first diagnostic:\n ${diagnostics.write}",
                              "CustomValidationManagerTest",
@@ -245,7 +245,6 @@ class CustomValidationManagerTest
                 fail("Couldn't find first diagnostic")
               }
               val diagnostic = firstDiagnostic.get
-              diagnostic.message should be("Min length must be less than max length must match in scalar")
               diagnostic.range should be(Range(Position(7, 4), Position(12, 0)))
               diagnostic.severity should equal(Some(DiagnosticSeverity.Error))
 
