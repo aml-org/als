@@ -9,6 +9,7 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.amfintegration.LocalIgnoreErrorHandler
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -20,18 +21,19 @@ object NodeShapeDiscriminatorProperty extends AMLCompletionPlugin {
     Future {
       request.amfObject match {
         case node: NodeShape if request.fieldEntry.exists(t => t.field == NodeShapeModel.Discriminator) =>
-          nodeProperties(node).map(RawSuggestion.apply(_, isAKey = false))
+          nodeProperties(node, request.amfConfiguration).map(RawSuggestion.apply(_, isAKey = false))
         case _ => Nil
       }
     }
   }
 
-  private def nodeProperties(n: NodeShape): Seq[String] = {
-    resolve(n) match {
+  private def nodeProperties(n: NodeShape, amfConfiguration: AmfConfigurationWrapper): Seq[String] = {
+    resolve(n, amfConfiguration) match {
       case node: NodeShape => node.properties.filter(_.range.isInstanceOf[ScalarShape]).flatMap(_.name.option())
       case _               => Nil
     }
   }
-  private def resolve(s: Shape) =
-    new CompleteShapeTransformationPipeline(s, LocalIgnoreErrorHandler, ProfileNames.RAML10).resolve()
+  private def resolve(s: Shape, amfConfiguration: AmfConfigurationWrapper) =
+    new CompleteShapeTransformationPipeline(s, LocalIgnoreErrorHandler, ProfileNames.RAML10)
+      .transform(amfConfiguration.getConfiguration)
 }

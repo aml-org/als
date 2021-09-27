@@ -121,7 +121,7 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
   }
   protected def buildPreParam(uri: String, result: AmfParseResult): PreCodeActionRequestParams = {
     val visitors = AmfElementDefaultVisitors.build(result.result.baseUnit)
-    visitors.applyAmfVisitors(result.result.baseUnit)
+    visitors.applyAmfVisitors(result.result.baseUnit, result.amfConfiguration)
     val visitors1: Seq[RelationshipLink] = visitors.getRelationshipsFromVisitors
     PreCodeActionRequestParams(result, uri, visitors1)
   }
@@ -132,7 +132,7 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
                                amfConfiguration: AmfConfigurationWrapper): CodeActionRequestParams = {
     val cu       = DummyCompilableUnit(result.result.baseUnit, result.definedBy)
     val visitors = AmfElementDefaultVisitors.build(cu.unit)
-    visitors.applyAmfVisitors(cu.unit)
+    visitors.applyAmfVisitors(cu.unit, amfConfiguration)
     val visitors1: Seq[RelationshipLink] = visitors.getRelationshipsFromVisitors
     CodeActionRequestParams(
       cu.unit.location().getOrElse(relativeUri(uri)),

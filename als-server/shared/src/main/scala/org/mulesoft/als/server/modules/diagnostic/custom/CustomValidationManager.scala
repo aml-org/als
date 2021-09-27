@@ -4,9 +4,8 @@ import amf.core.client.common.validation.{ProfileName, ProfileNames}
 import amf.core.client.scala.config.RenderOptions
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.validation.AMFValidationReport
-import amf.core.internal.remote.Spec
-import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.logger.Logger
+import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.modules.ast.ResolvedUnitListener
 import org.mulesoft.als.server.modules.common.reconciler.Runnable
 import org.mulesoft.als.server.modules.diagnostic._
@@ -43,7 +42,7 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
     resolved.amfConfiguration.workspaceConfiguration match {
       case Some(config) if config.profiles.nonEmpty =>
         for {
-          unit <- resolved.resolvedUnit
+          unit <- resolved.resolvedUnit.map(_.baseUnit)
           serialized <- Future {
             val builder = JsonOutputBuilder(false)
             resolved.amfConfiguration.asJsonLD(unit, builder, RenderOptions().withCompactUris.withSourceMaps)

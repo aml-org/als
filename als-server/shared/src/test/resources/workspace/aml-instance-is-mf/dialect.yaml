@@ -1,5 +1,5 @@
 #%Dialect 1.0
-dialect: TestDilect
+dialect: TestDialect
 version: 1
 documents:
   root:

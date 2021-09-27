@@ -49,6 +49,7 @@ class SerializationManager[S](telemetryProvider: TelemetryProvider,
 
   def serialize(ast: AmfResolvedUnit, uuid: String): Future[Unit] =
     ast.resolvedUnit
+      .map(_.baseUnit)
       .flatMap(process)
       .map(s => props.alsClientNotifier.notifySerialization(s))
 

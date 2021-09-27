@@ -3,7 +3,7 @@ package org.mulesoft.als.suggestions.plugins.aml.metadialect
 import amf.aml.client.scala.model.document.{Dialect, Vocabulary}
 import amf.aml.client.scala.model.domain.{ClassTerm, NodeMapping, PropertyMapping, PropertyTerm}
 import amf.core.client.scala.model.domain.AmfObject
-import amf.core.internal.annotations.Aliases
+import amf.core.internal.annotations.{Aliases, ReferencedInfo}
 import amf.core.internal.annotations.Aliases.{Alias, FullUrl, RelativeUrl}
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
@@ -36,7 +36,7 @@ object VocabularyTermsValueCompletionPlugin extends AMLCompletionPlugin {
     (for {
       alias      <- request.yPartBranch.stringValue.split("\\.").headOption
       dialect    <- request.branchStack.collectFirst({ case d: Dialect => d })
-      base       <- resolveAlias(dialect, alias).map(_._2._1)
+      base       <- resolveAlias(dialect, alias).map(_._2.fullUrl)
       vocabulary <- findVocabulary(dialect, base)
     } yield {
       request.amfObject match {
@@ -78,7 +78,7 @@ object VocabularyTermsValueCompletionPlugin extends AMLCompletionPlugin {
     })
   }
 
-  private def resolveAlias(dialect: Dialect, alias: Alias): Option[(Alias, (FullUrl, RelativeUrl))] =
+  private def resolveAlias(dialect: Dialect, alias: Alias): Option[(Alias, ReferencedInfo)] =
     dialect.annotations
       .find(classOf[Aliases])
       .flatMap(aliases => {

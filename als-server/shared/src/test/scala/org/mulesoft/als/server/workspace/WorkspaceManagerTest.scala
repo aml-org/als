@@ -249,7 +249,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
 
         root match {
           case Some(m) =>
-            m.diagnostics.size should be(2)
+            m.diagnostics.size should be(3)
 
             if (!m.diagnostics.exists { d => // header
                   d.range == Range(Position(0, 9), Position(0, 14)) &&

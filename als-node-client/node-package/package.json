@@ -14,7 +14,7 @@
     "als": "./dist/als-node-client.min.js"
   },
   "dependencies": {
-    "@aml-org/amf-custom-validator": "0.1.0-SNAPSHOT.16",
+    "@aml-org/amf-custom-validator": "^0.1.0-SNAPSHOT.16",
     "ajv": "6.5.2",
     "vscode-jsonrpc": "6.0.0",
     "vscode-languageserver-protocol": "3.16.0"

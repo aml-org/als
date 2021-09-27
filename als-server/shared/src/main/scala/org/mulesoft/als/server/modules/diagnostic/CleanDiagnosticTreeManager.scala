@@ -69,14 +69,14 @@ class CleanDiagnosticTreeManager(telemetryProvider: TelemetryProvider,
       .flatMap(pr => {
         logger.debug(s"about to report: $uri", "RequestAMFFullValidationCommandExecutor", "runCommand")
         val resolved = helper.fullResolution(pr.result.baseUnit)
-        helper.report(resolved.baseUnit).map(r => (r, pr))
+        helper.report(resolved.baseUnit).map(r => (r, pr, resolved.results))
       })
       .map { t =>
         val profile                                   = t._1.profile
         val list                                      = t._2.tree
         val ge: Map[String, Seq[AMFValidationResult]] = t._2.groupedErrors
         val report                                    = t._1
-        val grouped                                   = report.results.groupBy(r => r.location.getOrElse(uri))
+        val grouped                                   = (report.results ++ t._3).groupBy(r => r.location.getOrElse(uri))
 
         val merged = list.map(uri => uri -> (ge.getOrElse(uri, Nil) ++ grouped.getOrElse(uri, Nil))).toMap
         logger.debug(s"report conforms: ${report.conforms}", "RequestAMFFullValidationCommandExecutor", "runCommand")

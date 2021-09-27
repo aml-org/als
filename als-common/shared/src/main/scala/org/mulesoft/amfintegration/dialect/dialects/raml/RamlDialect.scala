@@ -5,7 +5,7 @@ import amf.aml.client.scala.model.domain.{DocumentMapping, DocumentsModel, Exter
 import amf.apicontract.internal.metamodel.domain.security.SecuritySchemeModel
 import amf.apicontract.internal.metamodel.domain.templates.{ResourceTypeModel, TraitModel}
 import amf.core.client.scala.vocabulary.Namespace
-import amf.core.internal.annotations.Aliases
+import amf.core.internal.annotations.{Aliases, ReferencedInfo}
 import amf.core.internal.metamodel.domain.ModelVocabularies
 import amf.core.internal.metamodel.domain.extensions.CustomDomainPropertyModel
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
@@ -103,7 +103,7 @@ trait RamlDialect {
       ModelVocabularies.Security
     )
     d.annotations += Aliases(vocabularies.map { vocab =>
-      (vocab.alias, (vocab.base, vocab.filename))
+      (vocab.alias, ReferencedInfo(s"fake://id/${vocab.alias}", vocab.base, vocab.filename))
     }.toSet)
 
     d.withReferences(vocabularies.map { vocab =>
