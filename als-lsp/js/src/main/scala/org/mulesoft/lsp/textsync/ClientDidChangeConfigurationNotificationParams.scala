@@ -1,17 +1,17 @@
 package org.mulesoft.lsp.textsync
 
+import org.mulesoft.lsp.convert.LspConvertersSharedToClient.ClientDependencyConfigurationConverter
+
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
-import scala.scalajs.js.UndefOr
+import scala.scalajs.js.{UndefOr, |}
 // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native
 trait ClientDidChangeConfigurationNotificationParams extends js.Object {
-  def mainUri: String                            = js.native
-  def folder: UndefOr[String]                    = js.native
-  def dependencies: js.Array[String]             = js.native
-  def customValidationProfiles: js.Array[String] = js.native
-  def semanticExtensions: js.Array[String]       = js.native
+  def mainUri: String                                                = js.native
+  def folder: UndefOr[String]                                        = js.native
+  def dependencies: js.Array[String | ClientDependencyConfiguration] = js.native
 }
 
 object ClientDidChangeConfigurationNotificationParams {
@@ -20,9 +20,10 @@ object ClientDidChangeConfigurationNotificationParams {
       .literal(
         mainUri = internal.mainUri,
         folder = internal.folder.orUndefined,
-        dependencies = internal.dependencies.toJSArray,
-        customValidationProfiles = internal.customValidationProfiles.toJSArray,
-        semanticExtensions = internal.semanticExtensions.toJSArray
+        dependencies = internal.dependencies.map {
+          case Left(value)  => value
+          case Right(value) => value.toClient
+        }.toJSArray
       )
       .asInstanceOf[ClientDidChangeConfigurationNotificationParams]
 }

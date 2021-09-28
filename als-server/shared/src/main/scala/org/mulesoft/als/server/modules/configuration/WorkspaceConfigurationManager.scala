@@ -8,7 +8,8 @@ import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import org.mulesoft.lsp.feature.{RequestType, TelemeteredRequestHandler}
-import org.mulesoft.lsp.textsync.DidChangeConfigurationNotificationParams
+import org.mulesoft.lsp.textsync.KnownDependencyScopes._
+import org.mulesoft.lsp.textsync.{DependencyConfiguration, DidChangeConfigurationNotificationParams}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -46,13 +47,14 @@ class GetWorkspaceConfigurationRequestHandler(val workspaceManager: WorkspaceMan
         GetWorkspaceConfigurationResult(
           t._1.folderUri,
           t._2
-            .map(
-              config =>
-                DidChangeConfigurationNotificationParams(config.mainFile,
-                                                         Some(t._1.folderUri),
-                                                         config.cachables,
-                                                         config.profiles,
-                                                         config.semanticExtensions))
+            .map(config =>
+              DidChangeConfigurationNotificationParams(
+                config.mainFile,
+                Some(t._1.folderUri),
+                config.cachables.map(Left(_))
+                  ++ config.profiles.map(p => Right(DependencyConfiguration(p, CUSTOM_VALIDATION)))
+                  ++ config.semanticExtensions.map(p => Right(DependencyConfiguration(p, SEMANTIC_EXTENSION)))
+            ))
             .getOrElse(new EmptyConfigurationParams(t._1.folderUri))
       ))
 
@@ -76,4 +78,4 @@ class GetWorkspaceConfigurationRequestHandler(val workspaceManager: WorkspaceMan
 }
 
 private class EmptyConfigurationParams(workspaceFolder: String)
-    extends DidChangeConfigurationNotificationParams("", Some(workspaceFolder), Set.empty, Set.empty, Set.empty)
+    extends DidChangeConfigurationNotificationParams("", Some(workspaceFolder), Set.empty)

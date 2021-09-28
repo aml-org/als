@@ -8,6 +8,9 @@ import org.mulesoft.als.server.feature.serialization.{SerializationResult, Seria
 import org.mulesoft.als.server.protocol.configuration.{AlsInitializeResult, AlsServerCapabilities}
 import org.mulesoft.lsp.Lsp4JConversions._
 import org.mulesoft.lsp.textsync.DidChangeConfigurationNotificationParams
+import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
+import org.mulesoft.als.server.lsp4j.extension.DependencyConfiguration
+import org.mulesoft.lsp.textsync
 
 import java.io.StringWriter
 import scala.collection.JavaConverters._
@@ -130,10 +133,20 @@ object AlsJConversions {
 
   implicit def workspaceConfigurationParams(
       shared: DidChangeConfigurationNotificationParams): extension.WorkspaceConfigurationParams =
-    new extension.WorkspaceConfigurationParams(shared.mainUri,
-                                               shared.dependencies.asJava,
-                                               shared.customValidationProfiles.asJava,
-                                               shared.semanticExtensions.asJava)
+    new extension.WorkspaceConfigurationParams(shared.mainUri, shared.folder.orNull, shared.dependencies.map {
+      eitherDependencyConfigurationToJava
+    }.asJava)
+
+  private def eitherDependencyConfigurationToJava(
+      e: Either[String, textsync.DependencyConfiguration]): JEither[String, extension.DependencyConfiguration] = {
+    e match {
+      case Left(str) =>
+        JEither.forLeft[String, extension.DependencyConfiguration](str)
+      case Right(dc) =>
+        JEither.forRight[String, extension.DependencyConfiguration](
+          new extension.DependencyConfiguration(dc.file, dc.scope))
+    }
+  }
 
   implicit def getWorkspaceConfigurationResult(
       result: GetWorkspaceConfigurationResult): extension.GetWorkspaceConfigurationResult =

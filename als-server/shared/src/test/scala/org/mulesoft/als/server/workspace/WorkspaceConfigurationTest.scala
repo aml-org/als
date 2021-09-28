@@ -7,13 +7,13 @@ import amf.core.internal.remote.Platform
 import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
 import org.mulesoft.als.configuration.ConfigurationStyle.COMMAND
 import org.mulesoft.als.configuration.ProjectConfigurationStyle
+import org.mulesoft.als.logger.{Logger, MessageSeverity}
 import org.mulesoft.als.server._
 import org.mulesoft.als.server.feature.configuration.workspace.{
   GetWorkspaceConfigurationParams,
   GetWorkspaceConfigurationRequestType,
   GetWorkspaceConfigurationResult
 }
-import org.mulesoft.als.logger.{Logger, MessageSeverity}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactory
 import org.mulesoft.als.server.modules.ast.{BaseUnitListener, ResolvedUnitListener}
 import org.mulesoft.als.server.modules.common.reconciler.Runnable
@@ -25,7 +25,7 @@ import org.mulesoft.amfintegration.AmfResolvedUnit
 import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.common.TextDocumentIdentifier
-import org.mulesoft.lsp.workspace.ExecuteCommandParams
+import org.mulesoft.lsp.textsync.KnownDependencyScopes.{CUSTOM_VALIDATION, SEMANTIC_EXTENSION}
 import org.scalatest.Assertion
 
 import java.util.UUID
@@ -249,6 +249,20 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with ChangesWork
         config5    <- getWorkspaceConfiguration(server, mainApiUri)
         registered <- workspaceManager.getWorkspace(mainApiUri).map(_.registeredDialects)
       } yield {
+        def customValidationProfiles(config: GetWorkspaceConfigurationResult) =
+          config.configuration.dependencies
+            .filter(f => f.isRight && f.right.exists(_.scope == CUSTOM_VALIDATION))
+            .map(_.right.get.file)
+        def semanticExtensions(config: GetWorkspaceConfigurationResult) =
+          config.configuration.dependencies
+            .filter(f => f.isRight && f.right.exists(_.scope == SEMANTIC_EXTENSION))
+            .map(_.right.get.file)
+        def dependencies(config: GetWorkspaceConfigurationResult) =
+          config.configuration.dependencies.flatMap {
+            case Left(value)                                                                       => Some(value)
+            case Right(value) if !Set(CUSTOM_VALIDATION, SEMANTIC_EXTENSION).contains(value.scope) => Some(value.file)
+            case _                                                                                 => None
+          }
         assert(config1.workspace == """file://folder""")
         assert(config2.workspace == """file://folder""")
         assert(config3.workspace == """file://folder""")
@@ -257,17 +271,17 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with ChangesWork
         assert(config2.configuration.mainUri == "isolated.raml")
         assert(config3.configuration.mainUri == "isolated.raml")
         assert(config4.configuration.mainUri == "isolated.raml")
-        assert(config1.configuration.customValidationProfiles.isEmpty)
-        assert(config2.configuration.customValidationProfiles.isEmpty)
-        assert(config3.configuration.customValidationProfiles.contains("profile.yaml"))
+        assert(customValidationProfiles(config1).isEmpty)
+        assert(customValidationProfiles(config2).isEmpty)
+        assert(customValidationProfiles(config3).contains("profile.yaml"))
         assert(config1.configuration.dependencies.isEmpty)
         assert(config2.configuration.dependencies.isEmpty)
-        assert(config3.configuration.dependencies.isEmpty)
-        assert(config4.configuration.dependencies.contains("dependency.yaml"))
-        assert(config1.configuration.semanticExtensions.isEmpty)
-        assert(config2.configuration.semanticExtensions.isEmpty)
-        assert(config3.configuration.semanticExtensions.isEmpty)
-        assert(config5.configuration.semanticExtensions.contains(extensionUri))
+        assert(dependencies(config3).isEmpty)
+        assert(dependencies(config4).contains("dependency.yaml"))
+        assert(semanticExtensions(config1).isEmpty)
+        assert(semanticExtensions(config2).isEmpty)
+        assert(semanticExtensions(config3).isEmpty)
+        assert(semanticExtensions(config5).contains(extensionUri))
         assert(registered.flatMap(_.location()).contains(extensionUri))
       }
     }
