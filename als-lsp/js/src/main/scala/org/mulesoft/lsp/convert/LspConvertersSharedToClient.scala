@@ -469,6 +469,11 @@ object LspConvertersSharedToClient {
       ClientDidChangeConfigurationNotificationParams(v)
   }
 
+  implicit class ClientDependencyConfigurationConverter(v: DependencyConfiguration) {
+    def toClient: ClientDependencyConfiguration =
+      ClientDependencyConfiguration(v)
+  }
+
   implicit class ClientDidChangeTextDocumentParamsConverter(v: DidChangeTextDocumentParams) {
     def toClient: ClientDidChangeTextDocumentParams =
       ClientDidChangeTextDocumentParams(v)

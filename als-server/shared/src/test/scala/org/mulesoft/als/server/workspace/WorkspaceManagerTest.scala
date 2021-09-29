@@ -14,6 +14,7 @@ import org.mulesoft.lsp.configuration.{TraceKind, WorkspaceFolder}
 import org.mulesoft.lsp.feature.common.{Position, Range}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
+import org.mulesoft.lsp.textsync.KnownDependencyScopes.CUSTOM_VALIDATION
 import org.mulesoft.lsp.workspace.ExecuteCommandParams
 import org.scalatest.Assertion
 
@@ -375,17 +376,17 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
         _       <- diagnosticClientNotifier.nextCall
         _       <- diagnosticClientNotifier.nextCall
         config1 <- wm.getWorkspace(apiRoot).flatMap(_.getCurrentConfiguration)
-        _ <- server.workspaceService.executeCommand(
-          ExecuteCommandParams(
-            Commands.DID_CHANGE_CONFIGURATION,
-            List(s"""{"mainUri": "$api2Root", "dependencies": [], "customValidationProfiles": ["profile1.yaml"]}""")))
+        _ <- server.workspaceService.executeCommand(ExecuteCommandParams(
+          Commands.DID_CHANGE_CONFIGURATION,
+          List(
+            s"""{"mainUri": "$api2Root", "dependencies": [{"file": "profile1.yaml", "scope": "$CUSTOM_VALIDATION"}]}""")))
         // api2.raml
         _       <- diagnosticClientNotifier.nextCall
         config2 <- wm.getWorkspace(api2Root).flatMap(_.getCurrentConfiguration)
-        _ <- server.workspaceService.executeCommand(
-          ExecuteCommandParams(
-            Commands.DID_CHANGE_CONFIGURATION,
-            List(s"""{"mainUri": "$api2Root", "dependencies": [], "customValidationProfiles": ["profile2.yaml"]}""")))
+        _ <- server.workspaceService.executeCommand(ExecuteCommandParams(
+          Commands.DID_CHANGE_CONFIGURATION,
+          List(
+            s"""{"mainUri": "$api2Root", "dependencies": [{"file": "profile2.yaml", "scope": "$CUSTOM_VALIDATION"}]}""")))
         // api2.raml
         _       <- diagnosticClientNotifier.nextCall
         config3 <- wm.getWorkspace(api2Root).flatMap(_.getCurrentConfiguration)
@@ -393,7 +394,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
           ExecuteCommandParams(
             Commands.DID_CHANGE_CONFIGURATION,
             List(
-              s"""{"mainUri": "$api2Root", "dependencies": [], "customValidationProfiles": ["profile2.yaml", "profile1.yaml"]}""")
+              s"""{"mainUri": "$api2Root", "dependencies": [{"file": "profile1.yaml", "scope": "$CUSTOM_VALIDATION"}, {"file": "profile2.yaml", "scope": "$CUSTOM_VALIDATION"}]}""")
           ))
         // api2.raml
         _       <- diagnosticClientNotifier.nextCall
