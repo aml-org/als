@@ -47,7 +47,7 @@ object ExchangeConfigReader extends ConfigReader {
                        "ExtractFromJsonRoot",
                        "buildConfig")
           //todo: read profiles
-          WorkspaceConfig(path, encodedUri, dependencies, Set.empty, Set.empty, Some(this))
+          WorkspaceConfig(path, encodedUri, dependencies, Set.empty, Set.empty, Set.empty, Some(this))
         }
       } catch {
         case e: Exception =>
@@ -55,7 +55,7 @@ object ExchangeConfigReader extends ConfigReader {
                        "ExtractFromJsonRoot",
                        "buildConfig")
           //todo: read profiles
-          Future.successful(WorkspaceConfig(path, encodedUri, Set.empty, Set.empty, Set.empty, Some(this)))
+          Future.successful(WorkspaceConfig(path, encodedUri, Set.empty, Set.empty, Set.empty, Set.empty, Some(this)))
       }
     }
 

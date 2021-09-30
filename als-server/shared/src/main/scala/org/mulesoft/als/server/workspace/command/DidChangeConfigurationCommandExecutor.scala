@@ -55,21 +55,14 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
           param.mainUri,
           param.dependencies
             .filterNot(d =>
-              d.isRight && d.right.exists(r => Set(CUSTOM_VALIDATION, SEMANTIC_EXTENSION).contains(r.scope)))
+              d.isRight && d.right.exists(r => Set(CUSTOM_VALIDATION, SEMANTIC_EXTENSION, DIALECT).contains(r.scope)))
             .map {
               case Left(v)  => v
               case Right(v) => v.file
             },
-          param.dependencies
-            .filter(d => d.isRight && d.right.exists(_.scope == CUSTOM_VALIDATION))
-            .map {
-              case Right(v) => v.file
-            },
-          param.dependencies
-            .filter(d => d.isRight && d.right.exists(_.scope == SEMANTIC_EXTENSION))
-            .map {
-              case Right(v) => v.file
-            },
+          extractPerScope(param, CUSTOM_VALIDATION),
+          extractPerScope(param, SEMANTIC_EXTENSION),
+          extractPerScope(param, DIALECT),
           None
         )
       } else {
@@ -80,4 +73,11 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
         )
       }
     }
+
+  private def extractPerScope(param: DidChangeConfigurationNotificationParams, scope: String) =
+    param.dependencies
+      .filter(d => d.isRight && d.right.exists(_.scope == scope))
+      .map {
+        case Right(v) => v.file
+      }
 }

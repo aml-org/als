@@ -75,7 +75,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
                                     DefaultProjectConfigurationStyle)
       _ <- ws
         .withConfiguration(
-          DefaultWorkspaceConfigurationProvider(ws, mainApiUri, cacheUris, Set.empty, Set.empty, None))
+          DefaultWorkspaceConfigurationProvider(ws, mainApiUri, cacheUris, Set.empty, Set.empty, Set.empty, None))
         .stage(mainApiUri, CHANGE_CONFIG)
       counter1 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
         counter
@@ -144,7 +144,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
                                     DefaultProjectConfigurationStyle)
       _ <- ws
         .withConfiguration(
-          DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, Set.empty, Set.empty, None))
+          DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, Set.empty, Set.empty, Set.empty, None))
         .stage(mainApiUri, CHANGE_CONFIG)
       counter1 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
         counter
@@ -204,7 +204,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
                                     DefaultProjectConfigurationStyle)
       _ <- ws
         .withConfiguration(
-          DefaultWorkspaceConfigurationProvider(ws, mainApiName, Set.empty, Set.empty, Set.empty, None))
+          DefaultWorkspaceConfigurationProvider(ws, mainApiName, Set.empty, Set.empty, Set.empty, Set.empty, None))
         .stage(mainApiUri, CHANGE_CONFIG)
       counter1 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
         counter
@@ -265,7 +265,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
                                     DefaultProjectConfigurationStyle)
       _ <- ws
         .withConfiguration(
-          DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, Set.empty, Set.empty, None))
+          DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, Set.empty, Set.empty, Set.empty, None))
         .stage(mainApiUri, CHANGE_CONFIG)
       counter1 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
         counter
@@ -328,7 +328,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
                                     DefaultProjectConfigurationStyle)
       _ <- ws
         .withConfiguration(
-          DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, Set.empty, Set.empty, None))
+          DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, Set.empty, Set.empty, Set.empty, None))
         .stage(mainApiUri, CHANGE_CONFIG)
       counter1 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
         counter
@@ -341,7 +341,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
       _ <- { // remove caché
         counter = 0
         ws.withConfiguration(
-            DefaultWorkspaceConfigurationProvider(ws, mainApiName, Set.empty, Set.empty, Set.empty, None))
+            DefaultWorkspaceConfigurationProvider(ws, mainApiName, Set.empty, Set.empty, Set.empty, Set.empty, None))
           .stage(mainApiUri, CHANGE_CONFIG)
       }
       counter3 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
@@ -355,7 +355,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
       _ <- { // with cache
         counter = 0
         ws.withConfiguration(
-            DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, Set.empty, Set.empty, None))
+            DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, Set.empty, Set.empty, Set.empty, None))
           .stage(folderUri + "/" + rootUri, CHANGE_CONFIG)
       }
       _ <- ws.stage(mainApiUri, CHANGE_FILE)

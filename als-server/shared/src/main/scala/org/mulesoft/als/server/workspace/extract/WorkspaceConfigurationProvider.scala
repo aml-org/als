@@ -15,6 +15,7 @@ case class DefaultWorkspaceConfigurationProvider(manager: WorkspaceContentManage
                                                  dependencies: Set[String],
                                                  profiles: Set[String],
                                                  semanticExtensions: Set[String],
+                                                 dialects: Set[String],
                                                  reader: Option[ConfigReader])
     extends WorkspaceConfigurationProvider {
   override def obtainConfiguration(amfConfiguration: AmfConfigurationWrapper,
@@ -27,6 +28,7 @@ case class DefaultWorkspaceConfigurationProvider(manager: WorkspaceContentManage
           dependencies,
           profiles,
           semanticExtensions,
+          dialects,
           reader
         )))
 }

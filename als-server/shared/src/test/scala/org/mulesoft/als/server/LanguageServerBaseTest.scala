@@ -74,9 +74,10 @@ abstract class LanguageServerBaseTest
   def changeNotification(server: LanguageServer)(file: String, content: String, version: Int): Future[Unit] =
     changeFile(server)(file, content, version)
 
-  def withServer[R](server: LanguageServer)(fn: LanguageServer => Future[R]): Future[R] = {
+  def withServer[R](server: LanguageServer, initParams: AlsInitializeParams = initializeParams)(
+      fn: LanguageServer => Future[R]): Future[R] = {
     server
-      .initialize(initializeParams)
+      .initialize(initParams)
       .flatMap(_ => {
         server.initialized()
         fn(server)

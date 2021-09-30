@@ -1,16 +1,19 @@
 package org.mulesoft.als.server.workspace
 
+import org.mulesoft.als.configuration.{ConfigurationStyle, ProjectConfigurationStyle}
 import org.mulesoft.als.server._
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
+import org.mulesoft.als.server.workspace.command.Commands
 import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.common.{TextDocumentIdentifier, TextDocumentItem}
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, DocumentSymbolRequestType}
 import org.mulesoft.lsp.feature.telemetry.MessageTypes
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
+import org.mulesoft.lsp.workspace.ExecuteCommandParams
 import org.scalatest.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -139,13 +142,23 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
     val instance = s"${filePath("aml-instance-is-mf")}/instance.yaml"
 
     val notifier: MockCompleteClientNotifier = new MockCompleteClientNotifier(3000)
-    withServer[Assertion](buildServer(notifier)) { server =>
+    withServer[Assertion](
+      buildServer(notifier),
+      AlsInitializeParams(
+        None,
+        Some(TraceKind.Off),
+        rootUri = Some(filePath("aml-instance-is-mf")),
+        projectConfigurationStyle = Some(ProjectConfigurationStyle(ConfigurationStyle.COMMAND))
+      )
+    ) { server =>
       val amfConfiguration = AmfConfigurationWrapper()
 
       // open workspace (parse instance) -> open dialect (parse) -> focus dialect (parse) -> focus instance (parse)
       for {
-        _ <- server.initialize(
-          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(filePath("aml-instance-is-mf"))))
+        _ <- server.workspaceService.executeCommand(
+          ExecuteCommandParams(
+            Commands.DID_CHANGE_CONFIGURATION,
+            List(s"""{"mainUri": "$instance", "dependencies": [{"file": "$dialect", "scope": "dialect"}]}""")))
         rootDiagnostic      <- notifier.nextCallD
         dialectContent      <- amfConfiguration.fetchContent(dialect).map(_.stream.toString)
         _                   <- openFileNotification(server)(dialect, dialectContent)
@@ -162,15 +175,14 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
       } yield {
         dialectDiagnostic1.uri should be(dialect)
         dialectDiagnostic2.uri should be(dialect)
-        dialectDiagnostic1.diagnostics.size should be
         dialectDiagnostic2.diagnostics.size should be(0)
 
         rootDiagnostic.uri should be(instance)
         instanceDiagnostic2.uri should be(instance)
-        rootDiagnostic.diagnostics.size should be(1)
+        rootDiagnostic.diagnostics.size should be(0)
         instanceDiagnostic2.diagnostics.size should be(0)
 
-        assert(allTelemetry.count(d => d.messageType == MessageTypes.BEGIN_PARSE) == 4)
+        assert(allTelemetry.count(d => d.messageType == MessageTypes.BEGIN_PARSE) == 5)
       }
     }
   }

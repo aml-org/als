@@ -18,5 +18,6 @@ case class DependencyConfiguration(file: String, scope: String)
 object KnownDependencyScopes {
   val CUSTOM_VALIDATION  = "custom-validation"
   val SEMANTIC_EXTENSION = "semantic-extension"
+  val DIALECT            = "dialect"
   val DEPENDENCY         = "dependency" // not really necessary, is default value
 }
