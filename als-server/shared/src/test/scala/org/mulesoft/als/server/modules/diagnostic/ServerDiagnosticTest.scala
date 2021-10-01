@@ -8,13 +8,18 @@ import amf.core.client.scala.vocabulary.ValueType
 import amf.core.internal.metamodel.Field
 import amf.core.internal.metamodel.document.BaseUnitModel
 import amf.core.internal.parser.domain.{Annotations, Fields}
+import org.mulesoft.als.configuration.{ConfigurationStyle, ProjectConfigurationStyle}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.ast.BaseUnitListenerParams
 import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.textsync.TextDocumentContainer
+import org.mulesoft.als.server.workspace.command.Commands
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, AmfParseResult}
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
+import org.mulesoft.lsp.configuration.TraceKind
+import org.mulesoft.lsp.workspace.ExecuteCommandParams
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -111,7 +116,12 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
 
   test("diagnostics test 002 - AML") {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
-    withServer(buildServer(diagnosticNotifier)) { server =>
+    withServer(
+      buildServer(diagnosticNotifier),
+      AlsInitializeParams(None,
+                          Some(TraceKind.Off),
+                          projectConfigurationStyle = Some(ProjectConfigurationStyle(ConfigurationStyle.COMMAND)))
+    ) { server =>
       val dialectPath  = s"file://dialect.yaml"
       val instancePath = s"file://instance.yaml"
 
@@ -153,8 +163,12 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
         register dialect -> open invalid instance -> fix -> invalid again
        */
       for {
-        _             <- openFileNotification(server)(dialectPath, dialectContent)
-        d1            <- diagnosticNotifier.nextCall
+        _  <- openFileNotification(server)(dialectPath, dialectContent)
+        d1 <- diagnosticNotifier.nextCall
+        _ <- server.workspaceService.executeCommand(
+          ExecuteCommandParams(
+            Commands.DID_CHANGE_CONFIGURATION,
+            List(s"""{"mainUri": "", "dependencies": [{"file": "$dialectPath", "scope": "dialect"}]}""")))
         _             <- openFileNotification(server)(instancePath, instanceContent1)
         openInvalid   <- diagnosticNotifier.nextCall
         _             <- openFileNotification(server)(instancePath, instanceContent2)

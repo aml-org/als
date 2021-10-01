@@ -1,10 +1,8 @@
 package org.mulesoft.als.server.modules.configuration
 
-import org.mulesoft.als.configuration.ConfigurationStyle.ConfigurationStyle
 import org.mulesoft.als.configuration.{
   AlsConfiguration,
   AlsConfigurationReader,
-  ConfigurationStyle,
   DefaultProjectConfigurationStyle,
   ProjectConfigurationStyle
 }

@@ -32,6 +32,9 @@ class WorkspaceContentManager private (val folderUri: String,
                                        allSubscribers: List[BaseUnitListener],
                                        projectConfigurationStyle: ProjectConfigurationStyle)
     extends UnitTaskManager[ParsedUnit, CompilableUnit, NotificationKind] {
+
+  private val hotReloadDialects = false
+
   def getConfigReader: Option[ConfigReader] = workspaceConfiguration.flatMap(_.configReader)
 
   def registeredDialects: Set[Dialect] = environmentProvider.amfConfiguration.dialects
@@ -61,6 +64,7 @@ class WorkspaceContentManager private (val folderUri: String,
                                                   conf.cachables,
                                                   conf.profiles,
                                                   conf.semanticExtensions,
+                                                  conf.dialects,
                                                   conf.configReader))
           super
             .init()
@@ -138,7 +142,7 @@ class WorkspaceContentManager private (val folderUri: String,
 
   override protected def processTask(): Future[Unit] = {
     val snapshot: Snapshot    = stagingArea.snapshot()
-    val (treeUnits, isolated) = snapshot.files.partition(u => isInMainTree(u._1.toAmfUri)) // what if a new file is added between the partition and the override down
+    val (treeUnits, isolated) = snapshot.files.partition(u => isInMainTree(u._1.toAmfUri) || u._2 == CHANGE_CONFIG) // what if a new file is added between the partition and the override down
     logger.debug(s"units for main file: ${mainFile.getOrElse("[no main file]")}",
                  "WorkspaceContentManager",
                  "processTask")
@@ -242,42 +246,41 @@ class WorkspaceContentManager private (val folderUri: String,
 
     def newTree(mf: Option[String]): Future[Unit] = {
       mf match {
-        case Some(mainFile) if mainFile != "" => processMFChanges(mainFile, snapshot)
-        case _                                => Future(repository.cleanTree())
+        case Some(mainFile) if mainFile.nonEmpty => processMFChanges(mainFile, snapshot)
+        case _                                   => Future(repository.cleanTree())
       }
     }
 
     for {
       _ <- setCacheables(maybeConfig.map(_.cachables).getOrElse(Set.empty))
+      _ <- registerNewDialects(maybeConfig.map(c => c.semanticExtensions ++ c.dialects).getOrElse(Set.empty))
       _ <- newTree(maybeConfig.map(_.mainFile))
-      _ <- registerNewExtensions(maybeConfig.map(_.semanticExtensions).getOrElse(Set.empty))
       r <- processNewValidationProfiles(maybeConfig.map(_.profiles).getOrElse(Set.empty))
     } yield r
-
   }
 
   /**
     * Seeks new extensions in configuration, parses and registers
     */
-  private def registerNewExtensions(semanticExtensions: Set[String]): Future[Unit] = {
-    val newExtensions = semanticExtensions
+  private def registerNewDialects(dialects: Set[String]): Future[Unit] = {
+    val newDialects = dialects
       .diff(environmentProvider.amfConfiguration.dialects.map(_.identifier))
       .map(e => {
         if (e.isValidUri) e // full URI received
         else s"${trailSlash(folderUri)}$e" // if relative file from folder
       })
-    newExtensions.foreach(e =>
-      logger.debug(s"Registering $e as extension", "WorkspaceContentManager", "registerNewExtensions"))
+    newDialects.foreach(e =>
+      logger.debug(s"Registering $e as dialect", "WorkspaceContentManager", "registerNewDialects"))
     Future
-      .sequence(newExtensions.map(parse(_, UUID.randomUUID().toString)))
+      .sequence(newDialects.map(parse(_, UUID.randomUUID().toString)))
       .map(_.map(_.result.baseUnit).foreach {
         case d: Dialect =>
           environmentProvider.amfConfiguration
             .registerDialect(d) // when properly implemented, check that this actually contains semantic extensions
         case b =>
-          logger.error(s"The following extension: ${b.identifier} is not valid",
+          logger.error(s"The following dialect: ${b.identifier} is not valid",
                        "WorkspaceContentManager",
-                       "registerNewExtensions")
+                       "registerNewDialects")
       })
   }
 
@@ -340,9 +343,8 @@ class WorkspaceContentManager private (val folderUri: String,
     cacheConfig
       .parse(decodedUri)
       .map { r =>
-        // temporal registration until new registration is implemented, this should work as with AMF 4.x.x
         r.result.baseUnit match {
-          case d: Dialect =>
+          case d: Dialect if hotReloadDialects =>
             environmentProvider.amfConfiguration.registerDialect(d)
             r
           case _ =>

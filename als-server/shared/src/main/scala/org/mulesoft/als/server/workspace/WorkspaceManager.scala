@@ -64,6 +64,7 @@ class WorkspaceManager protected (environmentProvider: EnvironmentProvider,
                                   dependencies: Set[String],
                                   profiles: Set[String],
                                   semanticExtensions: Set[String],
+                                  dialects: Set[String],
                                   reader: Option[ConfigReader]): Unit = {
     logger.debug(
       s"Workspace '${manager.folderUri}' new configuration { mainFile: $mainSubUri, dependencies: $dependencies, profiles: $profiles }",
@@ -72,7 +73,13 @@ class WorkspaceManager protected (environmentProvider: EnvironmentProvider,
     )
     manager
       .withConfiguration(
-        DefaultWorkspaceConfigurationProvider(manager, mainSubUri, dependencies, profiles, semanticExtensions, reader))
+        DefaultWorkspaceConfigurationProvider(manager,
+                                              mainSubUri,
+                                              dependencies,
+                                              profiles,
+                                              semanticExtensions,
+                                              dialects,
+                                              reader))
       .stage(mainSubUri, CHANGE_CONFIG)
   }
 
@@ -118,9 +125,7 @@ class WorkspaceManager protected (environmentProvider: EnvironmentProvider,
   def getWorkspaceFolders: Seq[String] = workspaces.allWorkspaces().map(_.folderUri)
 
   override def getDocumentLinks(uri: String, uuid: String): Future[Seq[DocumentLink]] =
-//    getLastUnit(uri.toAmfUri, uuid).flatMap(_ =>
     getWorkspace(uri.toAmfUri).flatMap(_.getRelationships(uri.toAmfUri)).map(_.getDocumentLinks(uri.toAmfUri))
-  //)
 
   override def getAllDocumentLinks(uri: String, uuid: String): Future[Map[String, Seq[DocumentLink]]] =
     for {
@@ -173,10 +178,14 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
   private def configStyle: ProjectConfigurationStyle =
     projectConfigurationStyle.getOrElse(DefaultProjectConfigurationStyle)
 
-  private val defaultWorkspace: Future[WorkspaceContentManager] = {
+  private var defaultWorkspace: Future[WorkspaceContentManager] = {
     logger.debug(s"created default WorkspaceContentManager", "WorkspaceList", "buildWorkspaceAt")
     WorkspaceContentManager("", environmentProvider, telemetryProvider, logger, subscribers, configStyle)
   }
+
+  private def resetDefaultWorkspace(): Unit =
+    defaultWorkspace =
+      WorkspaceContentManager("", environmentProvider, telemetryProvider, logger, subscribers, configStyle)
 
   def removeWorkspace(uri: String): Future[Unit] =
     changeWorkspaces(List.empty, List(uri))
@@ -242,6 +251,10 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
   def clear(): Future[Unit] =
     Future
       .sequence(workspaces.map(w => removeWorkspace(w.folderUri)))
+      .flatMap { _ =>
+        resetDefaultWorkspace()
+        defaultWorkspace.flatMap(_.initialized)
+      }
       .flatMap(_ => Future.unit)
 
   def reset(configuration: ProjectConfigurationStyle): Future[Unit] = {
