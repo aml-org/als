@@ -7,7 +7,7 @@
 ],
 "apiContract:modelVersion": "3.2.0",
 "doc:transformed": true,
-"apiContract:sourceSpec": "RAML 1.0"
+"doc:sourceSpec": "RAML 1.0"
 },
 {
 "@id": "#2",
@@ -52,11 +52,6 @@
 "@type": [
 "sourcemaps:SourceMap"
 ],
-"sourcemaps:source-vendor": [
-{
-"@id": "#2/source-map/source-vendor/element_0"
-}
-],
 "sourcemaps:lexical": [
 {
 "@id": "#2/source-map/lexical/element_1"
@@ -93,11 +88,6 @@
 "@id": "#3/source-map/lexical/element_0"
 }
 ]
-},
-{
-"@id": "#2/source-map/source-vendor/element_0",
-"sourcemaps:element": "amf://id#2",
-"sourcemaps:value": "RAML 1.0"
 },
 {
 "@id": "#2/source-map/lexical/element_1",
