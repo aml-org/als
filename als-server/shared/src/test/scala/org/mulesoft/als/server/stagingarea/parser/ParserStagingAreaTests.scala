@@ -4,7 +4,7 @@ import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.logger.MessageSeverity.MessageSeverity
 import org.mulesoft.als.server.modules.ast.{CHANGE_FILE, CLOSE_FILE, NotificationKind, OPEN_FILE}
 import org.mulesoft.als.server.modules.workspace.ParserStagingArea
-import org.mulesoft.als.server.textsync.EnvironmentProvider
+import org.mulesoft.als.server.textsync.{EnvironmentProvider, TextDocument}
 import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.scalatest.{FlatSpec, Matchers}
 
@@ -23,6 +23,8 @@ class ParserStagingAreaTests extends FlatSpec with Matchers {
     override def initialize(): Future[Unit] = {Future.successful()}
 
     override def branch: EnvironmentProvider = ???
+
+    override def filesInMemory: Map[String, TextDocument] = ???
   }
 
   behavior of "ParserStagingArea simple file operation"
