@@ -32,7 +32,7 @@ case class AlsVocabularyRegistry(initBases: Map[String, TermsDescription])
     mut
   }
 
-  private def index(base: String, terms: Seq[DomainElement]) = {
+  def index(base: String, terms: Seq[DomainElement]) = {
     bases.get(base) match {
       case Some(t) => terms.foreach(t.index)
       case None =>

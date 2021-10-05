@@ -12,7 +12,7 @@ hovers:
   (4,5):
     - Defines a data type
   (5,3):
-    - Top level element describing a HTTP API
+    - Imported external libraries for use within the API
   (5,13):
     - Defines a data type
   (6,3):
