@@ -77,6 +77,8 @@ case class TextDocumentContainer(override val amfConfiguration: AmfConfiguration
     Future.successful()
   }
 
+  override def filesInMemory: Map[String, TextDocument] = uriToEditor.toMap
+
   override def branch: EnvironmentProvider = TextDocumentContainer(amfConfigurationSnapshot(), uriToEditor)
 }
 
@@ -86,4 +88,5 @@ trait EnvironmentProvider extends Initializable {
   def platform: Platform = amfConfiguration.platform
   def openedFiles: Seq[String]
   def branch: EnvironmentProvider
+  def filesInMemory: Map[String, TextDocument]
 }

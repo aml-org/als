@@ -663,6 +663,28 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     }
   }
 
+  test("Workspace Manager check validations when opening with different content to fs") {
+    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
+      new MockDiagnosticClientNotifierWithTelemetryLog
+    withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
+      for {
+        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+        a <- diagnosticClientNotifier.nextCall
+        b <- diagnosticClientNotifier.nextCall
+        c <- diagnosticClientNotifier.nextCall // this should correspond to filesystem notifications
+        main = filePath("ws1/api.raml")
+        _ <- openFile(server)(main, "#%RAML 1.0\ninvalid")
+        d <- diagnosticClientNotifier.nextCall
+      } yield {
+        server.shutdown()
+        val allDiagnostics = Seq(a, b, c)
+        assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
+        assert(d.uri == main)
+        assert(d.diagnostics.nonEmpty)
+      }
+    }
+  }
+
   /**
     * Used to log cases in which timeouts occur
     * */

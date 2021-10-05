@@ -10,13 +10,7 @@ import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.UnitTaskManager
-import org.mulesoft.als.server.workspace.extract.{
-  ConfigReader,
-  DefaultWorkspaceConfigurationProvider,
-  WorkspaceConfig,
-  WorkspaceConfigurationProvider,
-  WorkspaceRootHandler
-}
+import org.mulesoft.als.server.workspace.extract._
 import org.mulesoft.amfintegration.AmfImplicits.{BaseUnitImp, DialectImplicits}
 import org.mulesoft.amfintegration.amfconfiguration.AmfParseResult
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
@@ -140,6 +134,14 @@ class WorkspaceContentManager private (val folderUri: String,
     this
   }
 
+  def isChanged(uri: String): Boolean = {
+    val exists = for {
+      memory     <- environmentProvider.filesInMemory.get(uri)
+      lastParsed <- repository.getUnit(uri).flatMap(_.parsedResult.result.baseUnit.raw)
+    } yield memory.text != lastParsed
+    exists.getOrElse(true)
+  }
+
   override protected def processTask(): Future[Unit] = {
     val snapshot: Snapshot    = stagingArea.snapshot()
     val (treeUnits, isolated) = snapshot.files.partition(u => isInMainTree(u._1.toAmfUri) || u._2 == CHANGE_CONFIG) // what if a new file is added between the partition and the override down
@@ -149,8 +151,12 @@ class WorkspaceContentManager private (val folderUri: String,
     treeUnits.map(_._1).foreach(tu => logger.debug(s"tree unit: $tu", "WorkspaceContentManager", "processTask"))
     isolated.map(_._1).foreach(iu => logger.debug(s"isolated unit: $iu", "WorkspaceContentManager", "processTask"))
     val changedTreeUnits =
-      treeUnits.filter(tu =>
-        tu._2 == CHANGE_FILE || tu._2 == CLOSE_FILE || (tu._2 == FOCUS_FILE && shouldParseOnFocus(tu._1)))
+      treeUnits.filter(
+        tu =>
+          ((tu._2 == CHANGE_FILE ||
+            tu._2 == OPEN_FILE) && isChanged(tu._1)) || // OPEN_FILE is used in case the IDE restarts and it reopens what was being edited
+            tu._2 == CLOSE_FILE ||
+            (tu._2 == FOCUS_FILE && shouldParseOnFocus(tu._1)))
 
     if (hasChangedConfigFile(snapshot)) processChangeConfigChanges(snapshot)
     else if (changedTreeUnits.nonEmpty)
@@ -339,15 +345,17 @@ class WorkspaceContentManager private (val folderUri: String,
     val cacheConfig = environmentProvider
       .amfConfigurationSnapshot()
       .withWorkspaceConfiguration(workspaceConfiguration)
-    cacheConfig.useCache(repository.resolverCache)
+    if (!hotReloadDialects) cacheConfig.useCache(repository.resolverCache)
     cacheConfig
       .parse(decodedUri)
       .map { r =>
         r.result.baseUnit match {
           case d: Dialect if hotReloadDialects =>
+            logger.debug(s"registering as dialect uri: $decodedUri", "WorkspaceContentManager", "innerParse")
             environmentProvider.amfConfiguration.registerDialect(d)
             r
           case _ =>
+            logger.debug(s"done with uri: $decodedUri", "WorkspaceContentManager", "innerParse")
             r
         }
       }

@@ -14,7 +14,7 @@ import org.mulesoft.als.server.lsp4j.extension.AlsInitializeParams
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.textsync.EnvironmentProvider
+import org.mulesoft.als.server.textsync.{EnvironmentProvider, TextDocument}
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.als.server.workspace.command.{CommandExecutor, Commands, DidChangeConfigurationCommandExecutor}
 import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
@@ -165,6 +165,8 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
             override def initialize(): Future[Unit] = Future.unit
 
             override def platform: Platform = p
+
+            override def filesInMemory: Map[String, TextDocument] = ???
           },
           new DummyTelemetryProvider(),
           Nil,
