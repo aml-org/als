@@ -43,7 +43,7 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
   }
 
   override protected def runCommand(param: DidChangeConfigurationNotificationParams): Future[Unit] =
-    wsc.getWorkspace(param.folder.getOrElse(param.mainUri)).map { manager =>
+    wsc.getWorkspace(param.folder.getOrElse(param.mainUri)).flatMap { manager =>
       if (manager.acceptsConfigUpdateByCommand) {
         logger.debug(
           s"DidChangeConfiguration for workspace @ ${manager.folderUri} (folder: ${param.folder}, mainUri:${param.mainUri})",
@@ -71,6 +71,7 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
           "DidChangeConfigurationCommandExecutor",
           "runCommand"
         )
+        Future.unit
       }
     }
 

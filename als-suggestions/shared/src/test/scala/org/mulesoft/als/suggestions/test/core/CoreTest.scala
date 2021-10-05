@@ -32,9 +32,9 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets with MarkerFinderTest 
         markerInfo.offset
       }
       suggestions <- {
-        new Suggestions(AlsConfiguration(), new PlatformDirectoryResolver(amfConfiguration.platform), amfConfiguration)
+        new Suggestions(AlsConfiguration(), new PlatformDirectoryResolver(amfConfiguration.platform))
           .initialized()
-          .suggest(url, position, snippetsSupport = true, None)
+          .suggest(url, position, snippetsSupport = true, None, amfConfiguration)
       }
     } yield suggestions
   }

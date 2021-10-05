@@ -64,10 +64,10 @@ trait BaseSuggestionsForTest extends PlatformSecrets with MarkerFinderTest {
           })
           .getOrElse(Future.unit)
           .map { _ =>
-            new Suggestions(AlsConfiguration(), dr, amfConfiguration).initialized()
+            new Suggestions(AlsConfiguration(), dr).initialized()
           }
       }
-      suggestions <- s.suggest(url, position, snippetsSupport = true, None)
+      suggestions <- s.suggest(url, position, snippetsSupport = true, None, amfConfiguration)
     } yield suggestions
   }
 }

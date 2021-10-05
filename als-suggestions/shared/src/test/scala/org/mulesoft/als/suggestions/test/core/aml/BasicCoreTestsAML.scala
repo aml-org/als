@@ -52,15 +52,14 @@ class BasicCoreTestsAML extends CoreTest with DummyPlugins {
             markerInfo.offset
           }
           suggestions <- {
-            val suggestions = new Suggestions(AlsConfiguration(),
-                                              new PlatformDirectoryResolver(amfConfiguration.platform),
-                                              amfConfiguration)
-              .initialized()
+            val suggestions =
+              new Suggestions(AlsConfiguration(), new PlatformDirectoryResolver(amfConfiguration.platform))
+                .initialized()
             suggestions.completionsPluginHandler.cleanIndex()
             suggestions.completionsPluginHandler
               .registerPlugins(Seq(DummyCompletionPlugin(), DummyInvalidCompletionPlugin()), dialect.id)
 
-            suggestions.suggest(url, offset, snippetsSupport = true, None)
+            suggestions.suggest(url, offset, snippetsSupport = true, None, amfConfiguration)
           }
         } yield suggestions
       }

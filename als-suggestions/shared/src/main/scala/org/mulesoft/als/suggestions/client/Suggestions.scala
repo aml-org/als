@@ -24,9 +24,7 @@ import org.mulesoft.lsp.feature.completion.CompletionItem
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class Suggestions(configuration: AlsConfigurationReader,
-                  directoryResolver: DirectoryResolver,
-                  amfConfiguration: AmfConfigurationWrapper)
+class Suggestions(configuration: AlsConfigurationReader, directoryResolver: DirectoryResolver)
     extends SuggestionsHelper {
 
   // header plugin static?
@@ -48,7 +46,8 @@ class Suggestions(configuration: AlsConfigurationReader,
   def suggest(url: String,
               position: Int,
               snippetsSupport: Boolean,
-              rootLocation: Option[String]): Future[Seq[CompletionItem]] = {
+              rootLocation: Option[String],
+              amfConfiguration: AmfConfigurationWrapper): Future[Seq[CompletionItem]] = {
 
     amfConfiguration
       .fetchContent(url)
@@ -77,18 +76,21 @@ class Suggestions(configuration: AlsConfigurationReader,
             .build(url,
                    patchedContent.original,
                    DtoPosition(position, patchedContent.original),
-                   amfConfiguration,
+                   result.amfConfiguration,
                    configuration)
         else
           RamlHeaderCompletionProvider
             .build(url, patchedContent.original, DtoPosition(position, patchedContent.original))
       case _ =>
-        buildCompletionProviderAST(result.result.baseUnit,
-                                   result.definedBy,
-                                   DtoPosition(position, patchedContent.original),
-                                   patchedContent,
-                                   snippetSupport,
-                                   rootLocation)
+        buildCompletionProviderAST(
+          result.result.baseUnit,
+          result.definedBy,
+          DtoPosition(position, patchedContent.original),
+          patchedContent,
+          snippetSupport,
+          rootLocation,
+          result.amfConfiguration
+        )
     }
   }
 
@@ -124,7 +126,8 @@ class Suggestions(configuration: AlsConfigurationReader,
                                          pos: DtoPosition,
                                          patchedContent: PatchedContent,
                                          snippetSupport: Boolean,
-                                         rootLocation: Option[String]): CompletionProviderAST = {
+                                         rootLocation: Option[String],
+                                         amfConfiguration: AmfConfigurationWrapper): CompletionProviderAST = {
 
     val amfPosition: AmfPosition = pos.toAmfPosition
     CompletionProviderAST(
@@ -146,10 +149,7 @@ class Suggestions(configuration: AlsConfigurationReader,
 
 // is it ok to use PlatformSecrets here?
 object Suggestions extends PlatformSecrets {
-  def default: Suggestions = {
-    val amfConfiguration: AmfConfigurationWrapper = AmfConfigurationWrapper()
-    new Suggestions(AlsConfiguration(), new PlatformDirectoryResolver(platform), amfConfiguration)
-  }
+  def default: Suggestions = new Suggestions(AlsConfiguration(), new PlatformDirectoryResolver(platform))
 }
 
 trait SuggestionsHelper {
