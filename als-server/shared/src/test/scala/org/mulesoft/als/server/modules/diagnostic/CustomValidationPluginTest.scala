@@ -76,7 +76,7 @@ class CustomValidationPluginTest extends LanguageServerBaseTest {
                                       factory.configurationManager,
                                       factory.resolutionTaskManager)
 
-    dm.foreach(b.addInitializableModule)
+    dm.foreach(m => b.addInitializableModule(m))
     b.build()
   }
 

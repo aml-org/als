@@ -99,7 +99,7 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecr
         .addRequestModule(builders.documentRangeFormattingManager)
         .addRequestModule(builders.workspaceConfigurationManager)
         .addInitializable(builders.telemetryManager)
-    dm.foreach(languageBuilder.addInitializableModule)
+    dm.foreach(m => languageBuilder.addInitializableModule(m))
     builders.serializationManager.foreach(languageBuilder.addRequestModule)
     languageBuilder.build()
   }

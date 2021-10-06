@@ -89,7 +89,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest {
                                       factory.configurationManager,
                                       factory.resolutionTaskManager)
     b.addRequestModule(factory.cleanDiagnosticManager)
-    dm.foreach(b.addInitializableModule)
+    dm.foreach(m => b.addInitializableModule(m))
     b.build()
   }
 

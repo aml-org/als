@@ -11,7 +11,9 @@ import org.mulesoft.als.server.feature.configuration.workspace.{
 import org.mulesoft.als.server.feature.diagnostic.{
   CleanDiagnosticTreeClientCapabilities,
   CleanDiagnosticTreeOptions,
-  CleanDiagnosticTreeParams
+  CleanDiagnosticTreeParams,
+  CustomValidationClientCapabilities,
+  CustomValidationOptions
 }
 import org.mulesoft.als.server.feature.fileusage.{FileUsageClientCapabilities, FileUsageOptions}
 import org.mulesoft.als.server.feature.renamefile.{RenameFileActionClientCapabilities, RenameFileActionParams}
@@ -21,7 +23,11 @@ import org.mulesoft.als.server.protocol.actions.{
   ClientRenameFileActionParams
 }
 import org.mulesoft.als.server.protocol.configuration._
-import org.mulesoft.als.server.protocol.diagnostic.ClientCleanDiagnosticTreeParams
+import org.mulesoft.als.server.protocol.diagnostic.{
+  ClientCleanDiagnosticTreeParams,
+  ClientCustomValidationClientCapabilities,
+  ClientCustomValidationOptions
+}
 import org.mulesoft.als.server.protocol.serialization.{ClientConversionParams, ClientSerializationParams}
 import org.mulesoft.als.server.protocol.textsync.{
   ClientDidFocusParams,
@@ -75,8 +81,18 @@ object LspConvertersClientToShared {
       fileUsage = v.fileUsage.map(_.toShared).toOption,
       conversion = v.conversion.map(_.toShared).toOption,
       renameFileAction = v.renameFileAction.map(_.toShared).toOption,
-      workspaceConfiguration = v.workspaceConfiguration.map(_.toShared).toOption
+      workspaceConfiguration = v.workspaceConfiguration.map(_.toShared).toOption,
+      customValidations = v.customValidations.map(_.toShared).toOption
     )
+  }
+
+  implicit class CustomValidationClientCapabilitiesConverter(v: ClientCustomValidationClientCapabilities) {
+    def toShared: CustomValidationClientCapabilities =
+      CustomValidationClientCapabilities(v.enabled)
+  }
+
+  implicit class CustomValidationOptionsConverter(v: ClientCustomValidationOptions) {
+    def toShared: CustomValidationOptions = CustomValidationOptions(v.enabled)
   }
 
   implicit class ClientAlsConfigurationConverter(v: ClientAlsConfiguration) {

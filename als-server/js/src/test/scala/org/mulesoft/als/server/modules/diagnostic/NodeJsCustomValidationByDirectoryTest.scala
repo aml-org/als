@@ -4,11 +4,12 @@ import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.common.ByDirectoryTest
 import org.mulesoft.als.configuration.ConfigurationStyle.COMMAND
 import org.mulesoft.als.configuration.ProjectConfigurationStyle
+import org.mulesoft.als.server.feature.diagnostic.CustomValidationClientCapabilities
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticImplicits.PublishDiagnosticsParamsWriter
 import org.mulesoft.als.server.modules.diagnostic.custom.AMFOpaValidator
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
+import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams}
 import org.mulesoft.als.server.workspace.{ChangesWorkspaceConfiguration, WorkspaceManager}
 import org.mulesoft.als.server.{LanguageServerBuilder, MockDiagnosticClientNotifier, TestLogger}
 import org.mulesoft.common.io.SyncFile
@@ -48,10 +49,12 @@ class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with Changes
     implicit val s: LanguageServer                       = server
     for {
       _ <- server.initialize(
-        AlsInitializeParams(None,
-                            Some(TraceKind.Off),
-                            rootUri = Some(workspaceFolder),
-                            projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
+        AlsInitializeParams(
+          Some(AlsClientCapabilities(customValidations = Some(CustomValidationClientCapabilities(true)))),
+          Some(TraceKind.Off),
+          rootUri = Some(workspaceFolder),
+          projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))
+        ))
       _ <- changeWorkspaceConfiguration(
         workspaceManager,
         changeConfigArgs(None, Some(workspaceFolder), Set.empty, Set(profileUri))) // register profile
@@ -102,7 +105,7 @@ class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with Changes
                                       factory.workspaceManager,
                                       factory.configurationManager,
                                       factory.resolutionTaskManager)
-    dm.foreach(b.addInitializableModule)
+    dm.foreach(m => b.addInitializableModule(m))
     (b.build(), factory.workspaceManager)
   }
 

@@ -192,7 +192,9 @@ object LspConvertersClientToShared {
         v.hover.toOption.map(_.toShared),
         v.documentHighlight.toOption.map(_.toShared),
         v.foldingRange.toOption.map(_.toShared),
-        v.selectionRange.toOption.map(_.toShared)
+        v.selectionRange.toOption.map(_.toShared),
+        v.documentFormatting.toOption.map(_.toShared),
+        v.documentRangeFormatting.toOption.map(_.toShared)
       )
   }
 

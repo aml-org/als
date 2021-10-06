@@ -23,7 +23,7 @@ class ServerTelemetryTest extends LanguageServerBaseTest {
                                       factory.workspaceManager,
                                       factory.configurationManager,
                                       factory.resolutionTaskManager)
-    dm.foreach(b.addInitializableModule)
+    dm.foreach(m => b.addInitializableModule(m))
     b.build()
   }
 

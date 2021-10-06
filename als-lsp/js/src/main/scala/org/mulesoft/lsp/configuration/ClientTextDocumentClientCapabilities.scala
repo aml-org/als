@@ -8,6 +8,10 @@ import org.mulesoft.lsp.feature.diagnostic.ClientDiagnosticClientCapabilities
 import org.mulesoft.lsp.feature.documenthighlight.ClientDocumentHighlightCapabilities
 import org.mulesoft.lsp.feature.documentsymbol.ClientDocumentSymbolClientCapabilities
 import org.mulesoft.lsp.feature.folding.ClientFoldingRangeCapabilities
+import org.mulesoft.lsp.feature.formatting.{
+  ClientDocumentFormattingClientCapabilities,
+  ClientDocumentRangeFormattingClientCapabilities
+}
 import org.mulesoft.lsp.feature.hover.ClientHoverClientCapabilities
 import org.mulesoft.lsp.feature.implementation.ClientImplementationClientCapabilities
 import org.mulesoft.lsp.feature.link.ClientDocumentLinkClientCapabilities
@@ -54,6 +58,10 @@ trait ClientTextDocumentClientCapabilities extends js.Object {
   def foldingRange: js.UndefOr[ClientFoldingRangeCapabilities] = js.native
 
   def selectionRange: js.UndefOr[ClientSelectionRangeCapabilities] = js.native
+
+  def documentFormatting: js.UndefOr[ClientDocumentFormattingClientCapabilities] = js.native
+
+  def documentRangeFormatting: js.UndefOr[ClientDocumentRangeFormattingClientCapabilities] = js.native
 }
 
 object ClientTextDocumentClientCapabilities {
@@ -74,7 +82,9 @@ object ClientTextDocumentClientCapabilities {
         documentHighlight = internal.documentHighlight.map(_.toClient).orUndefined,
         hover = internal.hover.map(_.toClient).orUndefined,
         foldingRange = internal.foldingRange.map(_.toClient).orUndefined,
-        selectionRange = internal.selectionRange.map(_.toClient).orUndefined
+        selectionRange = internal.selectionRange.map(_.toClient).orUndefined,
+        documentFormatting = internal.documentFormatting.map(_.toClient).orUndefined,
+        documentRangeFormatting = internal.documentRangeFormatting.map(_.toClient).orUndefined
       )
       .asInstanceOf[ClientTextDocumentClientCapabilities]
 }

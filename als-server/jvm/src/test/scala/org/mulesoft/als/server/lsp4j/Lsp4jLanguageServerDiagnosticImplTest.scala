@@ -158,7 +158,7 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
                                 managers.configurationManager,
                                 managers.resolutionTaskManager)
         .addRequestModule(managers.cleanDiagnosticManager)
-    dm.foreach(b.addInitializableModule)
+    dm.foreach(m => b.addInitializableModule(m))
     b.build()
   }
 

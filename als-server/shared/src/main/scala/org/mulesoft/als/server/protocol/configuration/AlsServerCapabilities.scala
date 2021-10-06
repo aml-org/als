@@ -2,7 +2,7 @@ package org.mulesoft.als.server.protocol.configuration
 
 import org.mulesoft.als.server.feature.configuration.UpdateConfigurationServerOptions
 import org.mulesoft.als.server.feature.configuration.workspace.WorkspaceConfigurationOptions
-import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeOptions
+import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeOptions, CustomValidationOptions}
 import org.mulesoft.als.server.feature.fileusage.FileUsageOptions
 import org.mulesoft.als.server.feature.renamefile.RenameFileActionOptions
 import org.mulesoft.als.server.feature.serialization.{ConversionRequestOptions, SerializationServerOptions}
@@ -55,7 +55,8 @@ case class AlsServerCapabilities(
     updateConfiguration: Option[UpdateConfigurationServerOptions] = None,
     documentFormattingProvider: Option[Either[Boolean, WorkDoneProgressOptions]] = None,
     documentRangeFormattingProvider: Option[Either[Boolean, WorkDoneProgressOptions]] = None,
-    workspaceConfiguration: Option[WorkspaceConfigurationOptions] = None)
+    workspaceConfiguration: Option[WorkspaceConfigurationOptions] = None,
+    customValidations: Option[CustomValidationOptions] = None)
 
 object AlsServerCapabilities {
   def empty: AlsServerCapabilities = AlsServerCapabilities()

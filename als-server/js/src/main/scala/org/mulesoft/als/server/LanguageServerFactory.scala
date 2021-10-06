@@ -116,7 +116,7 @@ object LanguageServerFactory {
         .addRequestModule(builders.documentRangeFormattingManager)
         .addRequestModule(builders.workspaceConfigurationManager)
         .addInitializable(builders.telemetryManager)
-    dm.foreach(languageBuilder.addInitializableModule)
+    dm.foreach(m => languageBuilder.addInitializableModule(m))
     languageBuilder.build()
   }
 

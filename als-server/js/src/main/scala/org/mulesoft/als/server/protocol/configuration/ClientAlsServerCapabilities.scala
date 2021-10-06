@@ -2,6 +2,7 @@ package org.mulesoft.als.server.protocol.configuration
 
 import org.mulesoft.als.server.protocol.actions.ClientRenameFileActionServerOptions
 import org.mulesoft.als.server.protocol.convert.LspConvertersSharedToClient._
+import org.mulesoft.als.server.protocol.diagnostic.ClientCustomValidationOptions
 import org.mulesoft.lsp.configuration.{ClientStaticRegistrationOptions, ClientWorkspaceServerCapabilities}
 import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
 import org.mulesoft.lsp.feature.codeactions.ClientCodeActionOptions
@@ -41,6 +42,7 @@ trait ClientAlsServerCapabilities extends js.Object {
   def documentFormattingProvider: UndefOr[Boolean]                               = js.native
   def documentRangeFormattingProvider: UndefOr[Boolean]                          = js.native
   def workspaceConfiguration: UndefOr[ClientWorkspaceConfigurationServerOptions] = js.native
+  def customValidations: UndefOr[ClientCustomValidationOptions]                  = js.native
 }
 
 object ClientAlsServerCapabilities {
@@ -99,7 +101,8 @@ object ClientAlsServerCapabilities {
           .map(eitherToUnionWithMapping(_.booleanValue(), _.toClient))
           .orUndefined
           .asInstanceOf[js.Any],
-        workspaceConfiguration = internal.workspaceConfiguration.map(_.toClient).orUndefined
+        workspaceConfiguration = internal.workspaceConfiguration.map(_.toClient).orUndefined,
+        customValidations = internal.customValidations.map(_.toClient).orUndefined
       )
       .asInstanceOf[ClientAlsServerCapabilities]
 }

@@ -67,7 +67,7 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Log
     s
   }
 
-  def buildDiagnosticManagers(customValidator: Option[AMFOpaValidator] = None): Seq[DiagnosticManager] = {
+  def buildDiagnosticManagers(customValidator: Option[AMFOpaValidator] = None): Seq[BasicDiagnosticManager[_, _]] = {
     val gatherer = new ValidationGatherer(telemetryManager)
     val dm =
       new ParseDiagnosticManager(telemetryManager,

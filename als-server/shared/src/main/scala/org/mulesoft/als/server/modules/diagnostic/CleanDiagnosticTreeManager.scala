@@ -1,10 +1,9 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf.core.client.scala.validation.AMFValidationResult
 import org.mulesoft.als.common.URIImplicits._
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.feature.diagnostic._
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
@@ -78,7 +77,9 @@ class CleanDiagnosticTreeManager(telemetryProvider: TelemetryProvider,
           t._2.groupedErrors.map(t => (t._1, t._2.map(new AlsValidationResult(_))))
         val report = t._1
         val grouped: Map[String, Seq[AlsValidationResult]] =
-          (report.results ++ t._3).groupBy(r => r.location.getOrElse(uri)).map(t => (t._1, t._2.map(new AlsValidationResult(_))))
+          (report.results ++ t._3)
+            .groupBy(r => r.location.getOrElse(uri))
+            .map(t => (t._1, t._2.map(new AlsValidationResult(_))))
 
         val merged = list.map(uri => uri -> (ge.getOrElse(uri, Nil) ++ grouped.getOrElse(uri, Nil))).toMap
         logger.debug(s"report conforms: ${report.conforms}", "RequestAMFFullValidationCommandExecutor", "runCommand")

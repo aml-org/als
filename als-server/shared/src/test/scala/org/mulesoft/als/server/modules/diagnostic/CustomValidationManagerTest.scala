@@ -5,11 +5,12 @@ import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.configuration.ConfigurationStyle.COMMAND
 import org.mulesoft.als.configuration.ProjectConfigurationStyle
 import org.mulesoft.als.logger.{EmptyLogger, Logger}
+import org.mulesoft.als.server.feature.diagnostic.CustomValidationClientCapabilities
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticImplicits.PublishDiagnosticsParamsWriter
 import org.mulesoft.als.server.modules.diagnostic.custom.AMFOpaValidator
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
+import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams}
 import org.mulesoft.als.server.workspace.{ChangesWorkspaceConfiguration, WorkspaceManager}
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.configuration.TraceKind
@@ -35,6 +36,17 @@ class CustomValidationManagerTest
   val serializedIsolatedUri: String = filePath(platform.encodeURI("project/isolated.raml.jsonld"))
   val profileUri: String            = filePath(platform.encodeURI("project/profile.yaml"))
 
+  def buildInitParams(workspacePath: String): AlsInitializeParams =
+    buildInitParams(Some(workspacePath))
+
+  def buildInitParams(workspacePath: Option[String] = None): AlsInitializeParams =
+    AlsInitializeParams(
+      Some(AlsClientCapabilities(customValidations = Some(CustomValidationClientCapabilities(true)))),
+      Some(TraceKind.Off),
+      rootUri = workspacePath,
+      projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))
+    )
+
   def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier,
                   validator: AMFOpaValidator): (LanguageServer, WorkspaceManager) = {
     val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger)
@@ -44,7 +56,7 @@ class CustomValidationManagerTest
                                       factory.workspaceManager,
                                       factory.configurationManager,
                                       factory.resolutionTaskManager)
-    dm.foreach(b.addInitializableModule)
+    dm.foreach(m => b.addInitializableModule(m))
     (b.build(), factory.workspaceManager)
   }
 
@@ -83,14 +95,39 @@ class CustomValidationManagerTest
     implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
     val validator                                                 = new DummyAmfOpaValidator
     val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
-    withServer(server) { server =>
+    val initialArgs                                               = changeConfigArgs(Some(mainFile), None, Set.empty, Set.empty)
+    withServer(server, buildInitParams(workspacePath)) { server =>
       for {
         content <- platform.fetchContent(mainFile, AMFGraphConfiguration.predefined()).map(_.stream.toString)
-        _       <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(workspacePath)))
+        _       <- changeWorkspaceConfiguration(workspaceManager, initialArgs)
         _       <- getDiagnostics
         _       <- changeNotification(server)(mainFile, content.replace("Not found", "Not found!"), 1)
         _       <- getDiagnostics
       } yield {
+        validator.calledNTimes(0)
+      }
+    }
+  }
+
+  test("Shouldn't even run when disabled") {
+    implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
+    val validator                                                 = new DummyAmfOpaValidator
+    val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
+    val initialArgs                                               = changeConfigArgs(Some(mainFile), None, Set.empty, Set.empty)
+    withServer(server) { server =>
+      for {
+        _ <- server.initialize(
+          AlsInitializeParams(None,
+                              Some(TraceKind.Off),
+                              rootUri = Some(workspacePath),
+                              projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
+        _       <- changeWorkspaceConfiguration(workspaceManager, initialArgs)
+        content <- platform.fetchContent(mainFile, AMFGraphConfiguration.predefined()).map(_.stream.toString)
+        _       <- diagnosticNotifier.nextCall // resolution diagnostics
+        _       <- changeNotification(server)(mainFile, content.replace("Not found", "Not found!"), 1)
+        _       <- diagnosticNotifier.nextCall // resolution diagnostics
+      } yield {
+        diagnosticNotifier.promises should be(empty)
         validator.calledNTimes(0)
       }
     }
@@ -103,13 +140,8 @@ class CustomValidationManagerTest
     val initialArgs                                               = changeConfigArgs(Some(mainFile), None, Set.empty, Set.empty)
     val args                                                      = changeConfigArgs(Some(mainFile), None, Set.empty, Set(profileUri))
 
-    withServer(server) { server =>
+    withServer(server, buildInitParams(workspacePath)) { server =>
       for {
-        _ <- server.initialize(
-          AlsInitializeParams(None,
-                              Some(TraceKind.Off),
-                              rootUri = Some(workspacePath),
-                              projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
         _ <- changeWorkspaceConfiguration(workspaceManager, initialArgs)
         _ <- getDiagnostics
         _ <- Future { validator.calledNTimes(0) }
@@ -134,14 +166,9 @@ class CustomValidationManagerTest
         val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
         val args                                                      = changeConfigArgs(Some(mainFile), None, Set.empty, Set(profileUri))
 
-        withServer(server) {
+        withServer(server, buildInitParams(workspacePath)) {
           server =>
             for {
-              _ <- server.initialize(
-                AlsInitializeParams(None,
-                                    Some(TraceKind.Off),
-                                    rootUri = Some(workspacePath),
-                                    projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
               _           <- changeWorkspaceConfiguration(workspaceManager, args) // register
               profile     <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
               diagnostics <- getDiagnostics
@@ -175,14 +202,9 @@ class CustomValidationManagerTest
         val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
         val args                                                      = changeConfigArgs(None, Some(workspacePath), Set.empty, Set(profileUri))
 
-        withServer(server) {
+        withServer(server, buildInitParams(workspacePath)) {
           server =>
             for {
-              _ <- server.initialize(
-                AlsInitializeParams(None,
-                                    Some(TraceKind.Off),
-                                    rootUri = Some(workspacePath),
-                                    projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
               content     <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
               _           <- openFile(server)(isolatedFile, content)
               _           <- getDiagnostics
@@ -219,14 +241,9 @@ class CustomValidationManagerTest
         val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
         val args                                                      = changeConfigArgs(None, Some(workspacePath), Set.empty, Set(profileUri))
 
-        withServer(server) {
+        withServer(server, buildInitParams(workspacePath)) {
           server =>
             for {
-              _ <- server.initialize(
-                AlsInitializeParams(None,
-                                    Some(TraceKind.Off),
-                                    rootUri = Some(workspacePath),
-                                    projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
               content     <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
               _           <- openFile(server)(isolatedFile, content)
               _           <- getDiagnostics
@@ -269,14 +286,9 @@ class CustomValidationManagerTest
         val initialArgs                                               = changeConfigArgs(Some(mainFile))
         val args                                                      = changeConfigArgs(Some(mainFile), None, Set.empty, Set(profileUri))
 
-        withServer(server) {
+        withServer(server, buildInitParams(workspacePath)) {
           server =>
             for {
-              _ <- server.initialize(
-                AlsInitializeParams(None,
-                                    Some(TraceKind.Off),
-                                    rootUri = Some(workspacePath),
-                                    projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
               _       <- changeWorkspaceConfiguration(workspaceManager, initialArgs) // Set main file
               content <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
               _       <- openFile(server)(isolatedFile, content)
@@ -310,14 +322,9 @@ class CustomValidationManagerTest
         val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
         val args                                                      = changeConfigArgs(None, Some(workspacePath), Set.empty, Set(profileUri))
 
-        withServer(server) {
+        withServer(server, buildInitParams(workspacePath)) {
           server =>
             for {
-              _ <- server.initialize(
-                AlsInitializeParams(None,
-                                    Some(TraceKind.Off),
-                                    rootUri = Some(workspacePath),
-                                    projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
               _           <- changeWorkspaceConfiguration(workspaceManager, args) // register
               content     <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
               _           <- openFile(server)(isolatedFile, content)
@@ -354,14 +361,9 @@ class CustomValidationManagerTest
         val args                                                      = changeConfigArgs(Some(mainFile), None, Set.empty, Set(profileUri))
         val args2                                                     = changeConfigArgs(Some(mainFile), None)
 
-        withServer(server) {
+        withServer(server, buildInitParams(workspacePath)) {
           server =>
             for {
-              _ <- server.initialize(
-                AlsInitializeParams(None,
-                                    Some(TraceKind.Off),
-                                    rootUri = Some(workspacePath),
-                                    projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
               _               <- changeWorkspaceConfiguration(workspaceManager, args) // register
               profile         <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
               diagnostics     <- getDiagnostics
@@ -399,14 +401,9 @@ class CustomValidationManagerTest
         val args                                                      = changeConfigArgs(None, Some(workspacePath), Set.empty, Set(profileUri))
         val args2                                                     = changeConfigArgs(None, Some(workspacePath))
 
-        withServer(server) {
+        withServer(server, buildInitParams(workspacePath)) {
           server =>
             for {
-              _ <- server.initialize(
-                AlsInitializeParams(None,
-                                    Some(TraceKind.Off),
-                                    rootUri = Some(workspacePath),
-                                    projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
               content         <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
               _               <- openFile(server)(isolatedFile, content)
               _               <- getDiagnostics // Open file

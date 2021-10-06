@@ -7,7 +7,12 @@ import org.mulesoft.als.server.feature.configuration.workspace.{
   WorkspaceConfigurationClientCapabilities,
   WorkspaceConfigurationOptions
 }
-import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeOptions}
+import org.mulesoft.als.server.feature.diagnostic.{
+  CleanDiagnosticTreeClientCapabilities,
+  CleanDiagnosticTreeOptions,
+  CustomValidationClientCapabilities,
+  CustomValidationOptions
+}
 import org.mulesoft.als.server.feature.fileusage.{FileUsageClientCapabilities, FileUsageOptions}
 import org.mulesoft.als.server.feature.renamefile.{
   RenameFileActionClientCapabilities,
@@ -23,7 +28,12 @@ import org.mulesoft.als.server.protocol.actions.{
   ClientRenameFileActionServerOptions
 }
 import org.mulesoft.als.server.protocol.configuration._
-import org.mulesoft.als.server.protocol.diagnostic.{ClientAlsPublishDiagnosticsParams, ClientFilesInProjectParams}
+import org.mulesoft.als.server.protocol.diagnostic.{
+  ClientAlsPublishDiagnosticsParams,
+  ClientCustomValidationClientCapabilities,
+  ClientCustomValidationOptions,
+  ClientFilesInProjectParams
+}
 import org.mulesoft.als.server.protocol.serialization.{ClientSerializationResult, ClientSerializedDocument}
 import org.mulesoft.als.server.protocol.textsync.{
   ClientDidFocusParams,
@@ -81,6 +91,11 @@ object LspConvertersSharedToClient {
   implicit class ClientUpdateFormatOptionsParamsConverter(v: FormattingOptions) {
     def toClient: ClientFormattingOptions =
       ClientFormattingOptions(v)
+  }
+
+  implicit class ClientCustomValidationClientCapabilitiesConverter(v: CustomValidationClientCapabilities) {
+    def toClient: ClientCustomValidationClientCapabilities =
+      ClientCustomValidationClientCapabilities(v)
   }
 
   implicit class ClientFilesInProjectParamsConverter(v: FilesInProjectParams) {
@@ -177,5 +192,9 @@ object LspConvertersSharedToClient {
 
   implicit class ClientClientWorkspaceConfigurationServerOptionsConverter(i: WorkspaceConfigurationOptions) {
     def toClient: ClientWorkspaceConfigurationServerOptions = ClientWorkspaceConfigurationServerOptions(i)
+  }
+
+  implicit class ClientCustomValidationOptionsConverter(i: CustomValidationOptions) {
+    def toClient: ClientCustomValidationOptions = ClientCustomValidationOptions(i)
   }
 }

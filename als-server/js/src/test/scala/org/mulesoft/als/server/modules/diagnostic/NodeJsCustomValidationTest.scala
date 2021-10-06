@@ -4,10 +4,11 @@ import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.configuration.ConfigurationStyle.COMMAND
 import org.mulesoft.als.configuration.ProjectConfigurationStyle
+import org.mulesoft.als.server.feature.diagnostic.CustomValidationClientCapabilities
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticImplicits.PublishDiagnosticsParamsWriter
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
+import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams}
 import org.mulesoft.als.server.workspace.{ChangesWorkspaceConfiguration, WorkspaceManager}
 import org.mulesoft.als.server.{JsLanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.configuration.TraceKind
@@ -31,9 +32,17 @@ class NodeJsCustomValidationTest
                                       factory.workspaceManager,
                                       factory.configurationManager,
                                       factory.resolutionTaskManager)
-    dm.foreach(b.addInitializableModule)
+    dm.foreach(m => b.addInitializableModule(m))
     (b.build(), factory.workspaceManager)
   }
+
+  def buildInitArgs(workspaceFolder: String): AlsInitializeParams =
+    AlsInitializeParams(
+      Some(AlsClientCapabilities(customValidations = Some(CustomValidationClientCapabilities(true)))),
+      Some(TraceKind.Off),
+      rootUri = Some(workspaceFolder),
+      projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))
+    )
 
   test("Should validate simple with simple profile") {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
@@ -43,13 +52,8 @@ class NodeJsCustomValidationTest
     val expected                                         = filePath(platform.encodeURI("simple/expected/simple.yaml"))
     val args                                             = changeConfigArgs(Some(mainFile), Some(workspacePath), Set.empty, Set(profile))
     val (server, workspaceManager)                       = buildServer(diagnosticNotifier)
-    withServer(server) { server =>
+    withServer(server, buildInitArgs(workspacePath)) { server =>
       for {
-        _ <- server.initialize(
-          AlsInitializeParams(None,
-                              Some(TraceKind.Off),
-                              rootUri = Some(workspacePath),
-                              projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
         content     <- platform.fetchContent(mainFile, AMFGraphConfiguration.predefined()).map(_.stream.toString)
         _           <- openFile(server)(mainFile, content)
         _           <- diagnosticNotifier.nextCall
@@ -70,13 +74,8 @@ class NodeJsCustomValidationTest
     val profile                                          = filePath(platform.encodeURI("simple/profile.yaml"))
     val expected                                         = filePath(platform.encodeURI("simple/expected/fixed.yaml"))
     val (server, workspaceManager)                       = buildServer(diagnosticNotifier)
-    withServer(server) { server =>
+    withServer(server, buildInitArgs(workspacePath)) { server =>
       for {
-        _ <- server.initialize(
-          AlsInitializeParams(None,
-                              Some(TraceKind.Off),
-                              rootUri = Some(workspacePath),
-                              projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
         content <- platform.fetchContent(mainFile, AMFGraphConfiguration.predefined()).map(_.stream.toString)
         _       <- openFile(server)(mainFile, content)
         _       <- diagnosticNotifier.nextCall
@@ -109,13 +108,8 @@ class NodeJsCustomValidationTest
     val args = changeConfigArgs(Some(mainFile), Some(workspacePath), Set.empty, Set(profile1, profile2))
 
     val (server, workspaceManager) = buildServer(diagnosticNotifier)
-    withServer(server) { server =>
+    withServer(server, buildInitArgs(workspacePath)) { server =>
       for {
-        _ <- server.initialize(
-          AlsInitializeParams(None,
-                              Some(TraceKind.Off),
-                              rootUri = Some(workspacePath),
-                              projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
         content     <- platform.fetchContent(mainFile, AMFGraphConfiguration.predefined()).map(_.stream.toString)
         _           <- openFile(server)(mainFile, content)
         _           <- diagnosticNotifier.nextCall
@@ -147,13 +141,8 @@ class NodeJsCustomValidationTest
       }
     }
     val (server, workspaceManager) = buildServer(diagnosticNotifier)
-    withServer(server) { server =>
+    withServer(server, buildInitArgs(workspacePath)) { server =>
       for {
-        _ <- server.initialize(
-          AlsInitializeParams(None,
-                              Some(TraceKind.Off),
-                              rootUri = Some(workspacePath),
-                              projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
         content <- platform.fetchContent(mainFile, AMFGraphConfiguration.predefined()).map(_.stream.toString)
         _       <- openFile(server)(mainFile, content)
         _       <- run()

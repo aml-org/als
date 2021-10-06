@@ -3,15 +3,20 @@ package org.mulesoft.als.server.modules.diagnostic.custom
 import amf.core.client.common.validation.{ProfileName, ProfileNames}
 import amf.core.client.scala.config.RenderOptions
 import amf.core.client.scala.model.document.BaseUnit
-import amf.core.client.scala.validation.AMFValidationReport
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.client.ClientNotifier
+import org.mulesoft.als.server.feature.diagnostic.{
+  CustomValidationClientCapabilities,
+  CustomValidationConfigType,
+  CustomValidationOptions
+}
 import org.mulesoft.als.server.modules.ast.ResolvedUnitListener
 import org.mulesoft.als.server.modules.common.reconciler.Runnable
 import org.mulesoft.als.server.modules.diagnostic._
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.amfintegration.{AmfResolvedUnit, DiagnosticsBundle}
+import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import org.yaml.builder.JsonOutputBuilder
 
@@ -24,10 +29,21 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
                               override protected val validationGatherer: ValidationGatherer,
                               val platformValidator: AMFOpaValidator,
                               val amfC: AmfConfigurationWrapper)
-    extends DiagnosticManager
+    extends BasicDiagnosticManager[CustomValidationClientCapabilities, CustomValidationOptions]
     with ResolvedUnitListener {
+
+  private var enabled = false;
+
   override protected val managerName: DiagnosticManagerKind = CustomDiagnosticKind
   override type RunType = CustomValidationRunnable
+
+  override val `type`: ConfigType[CustomValidationClientCapabilities, CustomValidationOptions] =
+    CustomValidationConfigType
+
+  override def applyConfig(config: Option[CustomValidationClientCapabilities]): CustomValidationOptions = {
+    enabled = config.exists(_.enabled)
+    CustomValidationOptions(enabled)
+  }
 
   private def tree(baseUnit: BaseUnit): Set[String] =
     baseUnit.flatRefs
@@ -151,4 +167,7 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
     validationGatherer.removeFile(uri, managerName)
     clientNotifier.notifyDiagnostic(AlsPublishDiagnosticsParams(uri, Nil, ProfileNames.AMF))
   }
+
+  override def onNewAst(ast: AmfResolvedUnit, uuid: String): Future[Unit] =
+    if (enabled) super.onNewAst(ast, uuid) else Future.successful()
 }
