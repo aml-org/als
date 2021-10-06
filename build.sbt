@@ -210,6 +210,7 @@ lazy val nodeClient =  project
 
     npmIClient := {
       Process(s"npm install @aml-org/amf-custom-validator@$amfCustomValidatorJSVersion", new File("./als-node-client/node-package/")) #&&
+      Process(s"cp -r ../../als-server/js/node-package/typescript/als-server.d.ts ./typescript/als-server.d.ts", new File("./als-node-client/node-package/")) #&&
       Process("npm i", new File("./als-node-client/node-package/")) !
     },
 

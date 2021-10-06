@@ -49,7 +49,7 @@ class LanguageServerImpl(val textDocumentSyncConsumer: AlsTextDocumentSyncConsum
     }
   }
 
-  private def logParams(params: AlsInitializeParams) = {
+  private def logParams(params: AlsInitializeParams): Unit = {
     logger.debug(s"trace: ${params.trace}", "LanguageServerImpl", "initialize")
     logger.debug(s"rootUri: ${params.rootUri}", "LanguageServerImpl", "initialize")
     logger.debug(s"rootPath: ${params.rootPath}", "LanguageServerImpl", "initialize")

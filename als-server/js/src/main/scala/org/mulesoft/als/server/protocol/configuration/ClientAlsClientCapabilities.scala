@@ -2,6 +2,7 @@ package org.mulesoft.als.server.protocol.configuration
 
 import org.mulesoft.als.server.protocol.actions.ClientRenameFileActionClientCapabilities
 import org.mulesoft.als.server.protocol.convert.LspConvertersSharedToClient._
+import org.mulesoft.als.server.protocol.diagnostic.ClientCustomValidationClientCapabilities
 import org.mulesoft.lsp.configuration.{ClientTextDocumentClientCapabilities, ClientWorkspaceClientCapabilities}
 import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
 
@@ -28,6 +29,8 @@ trait ClientAlsClientCapabilities extends js.Object {
   def renameFileAction: js.UndefOr[ClientRenameFileActionClientCapabilities] = js.native
 
   def workspaceConfiguration: js.UndefOr[ClientWorkspaceConfigurationClientCapabilities] = js.native
+
+  def customValidations: js.UndefOr[ClientCustomValidationClientCapabilities] = js.native
 }
 
 object ClientAlsClientCapabilities {
@@ -41,7 +44,8 @@ object ClientAlsClientCapabilities {
         cleanDiagnosticTree = internal.cleanDiagnosticTree.map(_.toClient).orUndefined,
         conversion = internal.conversion.map(_.toClient).orUndefined,
         renameFileAction = internal.renameFileAction.map(_.toClient).orUndefined,
-        workspaceConfiguration = internal.workspaceConfiguration.map(_.toClient).orUndefined
+        workspaceConfiguration = internal.workspaceConfiguration.map(_.toClient).orUndefined,
+        customValidations = internal.customValidations.map(_.toClient).orUndefined
       )
       .asInstanceOf[ClientAlsClientCapabilities]
   }

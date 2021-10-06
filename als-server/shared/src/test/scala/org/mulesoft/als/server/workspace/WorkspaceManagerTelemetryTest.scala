@@ -196,7 +196,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
                                       factory.configurationManager,
                                       factory.resolutionTaskManager)
       .addRequestModule(factory.structureManager)
-    dm.foreach(b.addInitializableModule)
+    dm.foreach(m => b.addInitializableModule(m))
     b.build()
   }
 

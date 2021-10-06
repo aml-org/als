@@ -5,7 +5,7 @@ import org.mulesoft.als.server.feature.configuration.{
   UpdateConfigurationClientCapabilities,
   UpdateConfigurationConfigType
 }
-import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeConfigType
+import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeConfigType, CustomValidationConfigType}
 import org.mulesoft.als.server.feature.fileusage.FileUsageConfigType
 import org.mulesoft.als.server.feature.renamefile.RenameFileConfigType
 import org.mulesoft.als.server.feature.serialization.{ConversionConfigType, SerializationConfigType}
@@ -74,7 +74,8 @@ class LanguageServerInitializer(private val configMap: ConfigMap, private val in
       configOptions,
       applyConfig(DocumentFormattingConfigType, textDocument.flatMap(_.documentFormatting)),
       applyConfig(DocumentRangeFormattingConfigType, textDocument.flatMap(_.documentRangeFormatting)),
-      applyConfig(WorkspaceConfigurationConfigType, clientCapabilities.workspaceConfiguration)
+      applyConfig(WorkspaceConfigurationConfigType, clientCapabilities.workspaceConfiguration),
+      applyConfig(CustomValidationConfigType, clientCapabilities.customValidations)
     )
   }
 

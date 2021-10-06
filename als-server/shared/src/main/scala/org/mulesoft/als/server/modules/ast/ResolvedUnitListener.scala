@@ -27,7 +27,7 @@ trait ResolvedUnitListener extends AstListener[AmfResolvedUnit] with AccessUnits
     */
   protected def onNewAstPreprocess(resolved: AmfResolvedUnit, uuid: String): Unit
 
-  override final def onNewAst(ast: AmfResolvedUnit, uuid: String): Future[Unit] = {
+  override def onNewAst(ast: AmfResolvedUnit, uuid: String): Future[Unit] = {
     onNewAstPreprocess(ast, uuid)
     reconciler
       .schedule(runnable(ast, uuid))

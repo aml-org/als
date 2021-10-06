@@ -1,7 +1,10 @@
 package org.mulesoft.als.server.protocol.configuration
 
 import org.mulesoft.als.server.feature.configuration.workspace.WorkspaceConfigurationClientCapabilities
-import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeClientCapabilities
+import org.mulesoft.als.server.feature.diagnostic.{
+  CleanDiagnosticTreeClientCapabilities,
+  CustomValidationClientCapabilities
+}
 import org.mulesoft.als.server.feature.fileusage.FileUsageClientCapabilities
 import org.mulesoft.als.server.feature.renamefile.RenameFileActionClientCapabilities
 import org.mulesoft.als.server.feature.serialization.{ConversionClientCapabilities, SerializationClientCapabilities}
@@ -25,4 +28,5 @@ case class AlsClientCapabilities(
     fileUsage: Option[FileUsageClientCapabilities] = None,
     conversion: Option[ConversionClientCapabilities] = None,
     renameFileAction: Option[RenameFileActionClientCapabilities] = None,
-    workspaceConfiguration: Option[WorkspaceConfigurationClientCapabilities] = None) //fixme: maybe it should be inside WorkspaceClientCapabilities?
+    workspaceConfiguration: Option[WorkspaceConfigurationClientCapabilities] = None, //fixme: maybe it should be inside WorkspaceClientCapabilities? @deprecated
+    customValidations: Option[CustomValidationClientCapabilities] = None)

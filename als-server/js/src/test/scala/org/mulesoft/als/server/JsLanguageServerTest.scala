@@ -61,8 +61,6 @@ class JsLanguageServerTest extends LanguageServerBaseTest with PlatformSecrets {
         _ <- openFile(s)("file:///uri.raml", content)
         _ <- clientConnection.nextCall
         _ <- clientConnection.nextCall
-        _ <- clientConnection.nextCall
-        _ <- clientConnection.nextCall // Running in node context, it will add CustomValidationManager and such we receive 2 diagnostic calls
       } yield {
         assert(flag)
       }

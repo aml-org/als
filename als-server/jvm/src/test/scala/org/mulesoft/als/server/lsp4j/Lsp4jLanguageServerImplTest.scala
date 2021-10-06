@@ -209,7 +209,7 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
                                 managers.workspaceManager,
                                 managers.configurationManager,
                                 managers.resolutionTaskManager)
-    dm.foreach(b.addInitializableModule)
+    dm.foreach(m => b.addInitializableModule(m))
     b.build()
   }
 

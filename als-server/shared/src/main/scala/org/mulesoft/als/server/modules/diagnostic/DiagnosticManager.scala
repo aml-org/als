@@ -10,22 +10,24 @@ import org.mulesoft.als.logger.Logger
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.DiagnosticsBundle
 import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, ProfileMatcher}
-import org.mulesoft.lsp.ConfigType
+import org.mulesoft.lsp.{ConfigHandler, ConfigType}
 import org.mulesoft.lsp.feature.diagnostic.{DiagnosticClientCapabilities, DiagnosticConfigType}
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
 import scala.concurrent.Future
 
-trait DiagnosticManager extends ClientNotifierModule[DiagnosticClientCapabilities, Unit] {
-
-  protected val amfConfiguration: AmfConfigurationWrapper
-
+trait DiagnosticManager extends BasicDiagnosticManager[DiagnosticClientCapabilities, Unit] {
   override val `type`: ConfigType[DiagnosticClientCapabilities, Unit] =
     DiagnosticConfigType
 
   override def applyConfig(config: Option[DiagnosticClientCapabilities]): Unit = {
     // not used
   }
+}
+
+trait BasicDiagnosticManager[C, S] extends ClientNotifierModule[C, S] {
+
+  protected val amfConfiguration: AmfConfigurationWrapper
 
   protected val validationGatherer: ValidationGatherer
   protected val telemetryProvider: TelemetryProvider

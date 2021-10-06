@@ -9,7 +9,7 @@ import org.mulesoft.als.server.protocol.configuration.{AlsInitializeResult, AlsS
 import org.mulesoft.lsp.Lsp4JConversions._
 import org.mulesoft.lsp.textsync.DidChangeConfigurationNotificationParams
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
-import org.mulesoft.als.server.lsp4j.extension.DependencyConfiguration
+import org.mulesoft.als.server.lsp4j.extension.{CustomValidationOptions, DependencyConfiguration}
 import org.mulesoft.lsp.textsync
 
 import java.io.StringWriter
@@ -118,6 +118,7 @@ object AlsJConversions {
         ret.setWorkDoneProgress(bool)
         ret
       }))
+    capabilities.customValidations.foreach(r => result.setCustomValidations(new CustomValidationOptions(r.enabled)))
     result
   }
 

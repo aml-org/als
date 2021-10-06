@@ -11,6 +11,7 @@ public class AlsServerCapabilities extends ServerCapabilities {
     private RenameFileActionServerOptions renameFileAction;
     private ConversionServerOptions conversion;
     private WorkspaceConfigurationOptions workspaceConfiguration;
+    private CustomValidationOptions customValidations;
 
     public void setSerialization(SerializationServerOptions serialization) {
         this.serialization = serialization;
@@ -52,5 +53,17 @@ public class AlsServerCapabilities extends ServerCapabilities {
 
     public void setWorkspaceConfiguration(WorkspaceConfigurationOptions workspaceConfiguration) {
         this.workspaceConfiguration = workspaceConfiguration;
+    }
+
+    public FileUsageServerOptions getFileUsage() {
+        return fileUsage;
+    }
+
+    public CustomValidationOptions getCustomValidations() {
+        return customValidations;
+    }
+
+    public void setCustomValidations(CustomValidationOptions customValidations) {
+        this.customValidations = customValidations;
     }
 }
