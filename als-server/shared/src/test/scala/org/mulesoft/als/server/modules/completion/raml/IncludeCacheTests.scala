@@ -48,7 +48,9 @@ class IncludeCacheTests extends RAMLSuggestionTestServer {
       .build()
   }
 
-  override def runTest(path: String, expectedSuggestions: Set[String]): Future[Assertion] = {
+  override def runTest(path: String,
+                       expectedSuggestions: Set[String],
+                       dialectPath: Option[String] = None): Future[Assertion] = {
     val hitMap: mutable.Map[String, Int] = mutable.Map()
     val dummyResourceLoader: ResourceLoader = new ResourceLoader {
       override def fetch(resource: String): Future[Content] = Future.failed(new NotImplementedError("Not implemented"))

@@ -65,7 +65,7 @@ class WorkspaceManager protected (environmentProvider: EnvironmentProvider,
                                   profiles: Set[String],
                                   semanticExtensions: Set[String],
                                   dialects: Set[String],
-                                  reader: Option[ConfigReader]): Unit = {
+                                  reader: Option[ConfigReader]): Future[Unit] = {
     logger.debug(
       s"Workspace '${manager.folderUri}' new configuration { mainFile: $mainSubUri, dependencies: $dependencies, profiles: $profiles }",
       "WorkspaceManager",
