@@ -279,7 +279,7 @@ class WorkspaceContentManager private (val folderUri: String,
       logger.debug(s"Registering $e as dialect", "WorkspaceContentManager", "registerNewDialects"))
     Future
       .sequence(newDialects.map(parse(_, UUID.randomUUID().toString)))
-      .map(_.map(_.result.baseUnit).foreach {
+      .map(_.map(_.result.baseUnit).map {
         case d: Dialect =>
           environmentProvider.amfConfiguration
             .registerDialect(d) // when properly implemented, check that this actually contains semantic extensions
