@@ -1,6 +1,7 @@
 package org.mulesoft.als.server
 
 import amf.core.internal.unsafe.PlatformSecrets
+import org.mulesoft.als.configuration.{ConfigurationStyle, ProjectConfigurationStyle}
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeParams, CleanDiagnosticTreeRequestType}
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.logger.MessageSeverity.MessageSeverity
@@ -8,7 +9,7 @@ import org.mulesoft.als.server.modules.diagnostic.AlsPublishDiagnosticsParams
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.protocol.textsync.DidFocusParams
-import org.mulesoft.lsp.configuration.WorkspaceFolder
+import org.mulesoft.lsp.configuration.{TraceKind, WorkspaceFolder}
 import org.mulesoft.lsp.feature.common.{TextDocumentIdentifier, TextDocumentItem, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.feature.documentsymbol.{
   DocumentSymbol,
@@ -33,6 +34,10 @@ abstract class LanguageServerBaseTest
     with FailedLogs {
 
   protected val initializeParams: AlsInitializeParams = AlsInitializeParams.default
+  protected val initializeParamsCommandStyle: AlsInitializeParams = AlsInitializeParams(
+    None,
+    Some(TraceKind.Off),
+    projectConfigurationStyle = Some(ProjectConfigurationStyle(ConfigurationStyle.COMMAND)))
 
   private def telemetryNotifications(mockTelemetryClientNotifier: MockTelemetryClientNotifier)(
       qty: Int,

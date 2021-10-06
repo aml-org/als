@@ -16,12 +16,12 @@ class TelemeteredPatchedParse(telemetryProvider: TelemetryProvider)
   override protected def telemetry: TelemetryProvider = telemetryProvider
 
   override protected def task(params: PatchedParseParams): Future[AmfParseResult] = {
-    val newAmfConfiguration = params.editorEnvironment.amfConfigurationSnapshot()
-
-    newAmfConfiguration.withResourceLoader(
-      AmfConfigurationWrapper.resourceLoaderForFile(params.uri, params.text.text)
-    )
     params.workspace.getUnit(params.uri, params.uuid).flatMap { bu =>
+      val newAmfConfiguration = bu.amfConfiguration.branch
+
+      newAmfConfiguration.withResourceLoader(
+        AmfConfigurationWrapper.resourceLoaderForFile(params.uri, params.text.text)
+      )
       newAmfConfiguration.useCache(CompletionReferenceResolver(bu.unit))
       newAmfConfiguration
         .parse(params.uri.toAmfDecodedUri(params.editorEnvironment.platform))

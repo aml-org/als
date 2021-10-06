@@ -5,9 +5,11 @@ import org.mulesoft.als.common.{MarkerFinderTest, MarkerInfo}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.workspace.command.Commands
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.feature.common.TextDocumentIdentifier
 import org.mulesoft.lsp.feature.completion.{CompletionItem, CompletionParams, CompletionRequestType}
+import org.mulesoft.lsp.workspace.ExecuteCommandParams
 import org.scalatest.{Assertion, EitherValues}
 
 import scala.concurrent.Future
@@ -26,8 +28,9 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
       .build()
   }
 
-  def runTest(path: String, expectedSuggestions: Set[String]): Future[Assertion] =
-    withServer[Assertion](buildServer()) { server =>
+  def runTest(path: String, expectedSuggestions: Set[String], dialectPath: Option[String] = None): Future[Assertion] =
+    withServer[Assertion](buildServer(),
+                          dialectPath.map(_ => initializeParamsCommandStyle).getOrElse(initializeParams)) { server =>
       val resolved = filePath(platform.encodeURI(path))
       for {
         content <- this.platform.fetchContent(resolved, AMFGraphConfiguration.predefined())
@@ -35,7 +38,12 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
           val fileContentsStr = content.stream.toString
           val markerInfo      = this.findMarker(fileContentsStr, "*")
 
-          getServerCompletions(resolved, server, markerInfo)
+          dialectPath
+            .map(p => filePath(platform.encodeURI(p)))
+            .map { d =>
+              commandRegisterDialect(d, server).flatMap(_ => getServerCompletions(resolved, server, markerInfo))
+            }
+            .getOrElse(getServerCompletions(resolved, server, markerInfo))
         }
       } yield {
         val resultSet = suggestions
@@ -50,6 +58,14 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
             s"Difference for $path: got [${resultSet.mkString(", ")}] while expecting [${expectedSuggestions.mkString(", ")}]")
       }
     }
+
+  def commandRegisterDialect(dialect: String, server: LanguageServer): Future[Unit] = {
+    server.workspaceService
+      .executeCommand(
+        ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION,
+                             List(s"""{"mainUri": "", "dependencies": [{"file": "$dialect", "scope": "dialect"}]}""")))
+      .flatMap(_ => Future.unit)
+  }
 
   def getServerCompletions(filePath: String,
                            server: LanguageServer,
