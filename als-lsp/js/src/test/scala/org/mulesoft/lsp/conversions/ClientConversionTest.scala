@@ -326,6 +326,21 @@ class ClientConversionTest extends FlatSpec with Matchers {
     d should be(d2)
   }
 
+  it should "transform Diagnostic with related information" in {
+    val d: Diagnostic        = Diagnostic(r, "message", Some(DiagnosticSeverity(1)), None, None, None, Some(Seq(dri)))
+    val d1: ClientDiagnostic = d.toClient
+    val d2: Diagnostic       = d1.toShared
+    d.relatedInformation should be(d2.relatedInformation)
+  }
+
+  it should "transform Diagnostic with empty related information" in {
+    val d: Diagnostic        = Diagnostic(r, "message", Some(DiagnosticSeverity(1)), None, None, None, None)
+    val d1: ClientDiagnostic = d.toClient
+    val d2: Diagnostic       = d1.toShared
+
+    d2.relatedInformation should be(None)
+  }
+
   // end of diagnostics
 
   behavior of "Completion transformations"
