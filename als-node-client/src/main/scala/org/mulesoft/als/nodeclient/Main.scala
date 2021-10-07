@@ -26,8 +26,9 @@ object Main extends PlatformSecrets {
         case Nil => options
         case "--port" :: value :: tail =>
           innerReadOptions(options.copy(port = value.toInt), tail)
-        case _ =>
-          throw new IllegalArgumentException()
+        case e :: tail =>
+          println(s"[WARN] Unrecognized option: $e")
+          innerReadOptions(options, tail)
       }
 
     innerReadOptions(DefaultOptions, args.toList)

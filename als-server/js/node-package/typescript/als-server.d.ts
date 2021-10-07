@@ -1,11 +1,11 @@
 declare module '@aml-org/als-server' {
-  import {Logger as VsCodeLogger, NotificationType, RequestType} from 'vscode-jsonrpc'
+  import { Logger as VsCodeLogger, NotificationType, RequestType } from 'vscode-jsonrpc'
   import {
-  ProtocolConnection, PublishDiagnosticsParams,
-  TextDocumentClientCapabilities,
-  WorkspaceClientCapabilities,
-  TextDocumentIdentifier, WorkspaceFolder, WorkspaceEdit
-} from 'vscode-languageserver-protocol'
+    ProtocolConnection, PublishDiagnosticsParams,
+    TextDocumentClientCapabilities,
+    WorkspaceClientCapabilities,
+    TextDocumentIdentifier, WorkspaceFolder, WorkspaceEdit
+  } from 'vscode-languageserver-protocol'
 
   /* amf-client-js */
 
@@ -6211,13 +6211,13 @@ declare module '@aml-org/als-server' {
     isDirectory(path: string): Promise<boolean>
   }
 
-  export interface LanguageServer {}
+  export interface LanguageServer { }
 
-  export interface LanguageClient {}
+  export interface LanguageClient { }
 
-  export interface AlsLanguageClient {}
+  export interface AlsLanguageClient { }
 
-  export interface ClientNotifier {}
+  export interface ClientNotifier { }
 
   export interface LanguageClientAware {
     connect(languageClient: LanguageClient): void
@@ -6227,7 +6227,7 @@ declare module '@aml-org/als-server' {
     connectAls(languageClient: AlsLanguageClient): void
   }
 
-  export interface FilesInProjectParams{
+  export interface FilesInProjectParams {
     uris: string[]
   }
 
@@ -6241,12 +6241,12 @@ declare module '@aml-org/als-server' {
     static readonly allTogether: 'ALL_TOGETHER'
   }
 
-  export interface AlsClientNotifier{
+  export interface AlsClientNotifier {
     notifyProjectFiles(params: FilesInProjectParams): void
     notifySerialization(params: SerializationResult): void
   }
 
-  export class JsSerializationProps{
+  export class JsSerializationProps {
     alsClientNotifier: AlsClientNotifier;
     newDocBuilder(): org.yaml.builder.DocBuilder<any>
   }
@@ -6269,27 +6269,33 @@ declare module '@aml-org/als-server' {
                 amfPlugins?: JsAMFPayloadValidationPlugin[]): LanguageServer
   }
 
-  export interface ClientLogger extends VsCodeLogger {}
+  export interface ClientLogger extends VsCodeLogger { }
 
   export type SerializationEventNotification = {
     type: NotificationType<SerializationResult>
   }
 
-  export interface SerializationClientCapabilities{
+  export interface SerializationClientCapabilities {
     acceptsNotification: boolean
   }
-  export interface CleanDiagnosticTreeClientCapabilities{
+  export interface CleanDiagnosticTreeClientCapabilities {
     enableCleanDiagnostic: boolean
   }
-  export interface ConversionClientCapabilities{
+  export interface ConversionClientCapabilities {
     supported: boolean
   }
+
+  type Dependency = {
+    file: string,
+    scope: string
+  }
+
+  export type AlsDependency = Dependency | string
 
   export type DidChangeConfigurationNotificationParams = {
     mainUri: string,
     folder?: string,
-    dependencies: string[],
-    customValidationProfiles: string[]
+    dependencies: AlsDependency[]
   }
 
   export type GetWorkspaceConfigurationParams = {
@@ -6326,16 +6332,11 @@ declare module '@aml-org/als-server' {
     type: NotificationType<AlsConfiguration>
   }
 
-  export enum ProjectConfigurationStyles {
-    Command = "command",
-    File = "file"
-  }
-
   export type ProjectConfigurationStyle = {
-    style: ProjectConfigurationStyles
+    style: string
   }
 
-  export interface AlsInitializeParams{
+  export interface AlsInitializeParams {
     processId: number | null
     rootPath?: string | null
     rootUri?: string | null
@@ -6367,7 +6368,7 @@ declare module '@aml-org/als-server' {
     type: NotificationType<FilesInProjectParams>
   }
 
- export type AlsCapabilitiesNotification = {
+  export type AlsCapabilitiesNotification = {
     type: NotificationType<AlsClientCapabilities>
   }
 
@@ -6375,14 +6376,14 @@ declare module '@aml-org/als-server' {
     textDocument: TextDocumentIdentifier
   }
 
- export type CleanDiagnosticTreeRequestType = {
+  export type CleanDiagnosticTreeRequestType = {
     type: RequestType<CleanDiagnosticTreeParams, AlsPublishDiagnosticsParams[], any>
   }
   export interface AlsPublishDiagnosticsParams extends PublishDiagnosticsParams {
-      profile: string
+    profile: string
   }
 
-  export interface ConversionParams{
+  export interface ConversionParams {
     uri: string
     target: string
     syntax?: string
@@ -6406,15 +6407,15 @@ declare module '@aml-org/als-server' {
     type: RequestType<RenameFileActionParams, RenameFileActionResult, any>
   }
 
- export type ConversionRequestType = {
-    type: RequestType<ConversionParams, SerializedDocument[], any>
+  export type ConversionRequestType = {
+    type: RequestType<ConversionParams, SerializedDocument, any>
   }
 
   export interface SerializationParams {
     documentIdentifier: TextDocumentIdentifier
   }
 
- export type SerializationRequestType = {
+  export type SerializationRequestType = {
     type: RequestType<SerializationParams, SerializationResult, any>
   }
 
