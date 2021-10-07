@@ -265,7 +265,7 @@ class CustomValidationManagerTest
               diagnostic.range should be(Range(Position(7, 4), Position(12, 0)))
               diagnostic.severity should equal(Some(DiagnosticSeverity.Error))
 
-              val related = diagnostic.relatedInformation.headOption.get
+              val related = diagnostic.relatedInformation.get.headOption.get
               related.location should equal(
                 Location("file://als-server/shared/src/test/resources/custom-diagnostics/project/isolated.raml",
                          Range(Position(7, 4), Position(12, 0))))

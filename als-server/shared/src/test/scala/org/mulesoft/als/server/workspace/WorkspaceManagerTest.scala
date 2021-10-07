@@ -105,12 +105,12 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       case Some(m) =>
         m.diagnostics.size should be(1)
         m.diagnostics.head.range should be(Range(Position(3, 14), Position(3, 28)))
-        m.diagnostics.head.relatedInformation.size should be(2)
-        m.diagnostics.head.relatedInformation.head.location.uri should be(s"$rootFolder/external1.yaml")
-        m.diagnostics.head.relatedInformation.head.location.range should be(Range(Position(2, 14), Position(2, 28)))
-        m.diagnostics.head.relatedInformation.tail.head.location.uri should be(s"$rootFolder/external2.yaml")
-        m.diagnostics.head.relatedInformation.tail.head.location.range should be(
-          Range(Position(0, 6), Position(0, 16)))
+        val information = m.diagnostics.head.relatedInformation.getOrElse(Seq())
+        information.size should be(2)
+        information.head.location.uri should be(s"$rootFolder/external1.yaml")
+        information.head.location.range should be(Range(Position(2, 14), Position(2, 28)))
+        information.tail.head.location.uri should be(s"$rootFolder/external2.yaml")
+        information.tail.head.location.range should be(Range(Position(0, 6), Position(0, 16)))
       case _ => fail("No Main detected")
     }
   }
@@ -138,9 +138,10 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
           case Some(m) =>
             m.diagnostics.size should be(1)
             m.diagnostics.head.range should be(Range(Position(3, 0), Position(3, 6)))
-            m.diagnostics.head.relatedInformation.size should be(1)
-            m.diagnostics.head.relatedInformation.head.location.uri should be(s"$rootFolder/api.raml")
-            m.diagnostics.head.relatedInformation.head.location.range should be(Range(Position(4, 7), Position(4, 19)))
+            val information = m.diagnostics.head.relatedInformation.getOrElse(Seq())
+            information.size should be(1)
+            information.head.location.uri should be(s"$rootFolder/api.raml")
+            information.head.location.range should be(Range(Position(4, 7), Position(4, 19)))
           case _ => fail("No Main detected")
         }
       }
@@ -170,10 +171,10 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
           case Some(m) =>
             m.diagnostics.size should be(1)
             m.diagnostics.head.range should be(Range(Position(2, 0), Position(2, 7)))
-            m.diagnostics.head.relatedInformation.size should be(1)
-            m.diagnostics.head.relatedInformation.head.location.uri should be(s"$rootFolder/api.raml")
-            m.diagnostics.head.relatedInformation.head.location.range should be(
-              Range(Position(4, 14), Position(4, 27)))
+            val information = m.diagnostics.head.relatedInformation.getOrElse(Seq())
+            information.size should be(1)
+            information.head.location.uri should be(s"$rootFolder/api.raml")
+            information.head.location.range should be(Range(Position(4, 14), Position(4, 27)))
           case _ => fail("No Main detected")
         }
       }
@@ -207,23 +208,25 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
             m.diagnostics.size should be(2)
 
             m.diagnostics.exists { d =>
+              val information = d.relatedInformation.getOrElse(Seq())
               d.range == Range(Position(7, 14), Position(7, 27)) &&
-              d.relatedInformation.size == 2 &&
-              d.relatedInformation.head.location.uri == s"$rootFolder/external.yaml" &&
-              d.relatedInformation.head.location.range == Range(Position(1, 21), Position(1, 36)) &&
-              d.relatedInformation.tail.head.location.uri == s"$rootFolder/external-2.yaml" &&
-              d.relatedInformation.tail.head.location.range == Range(Position(1, 3), Position(1, 13))
+              information.size == 2 &&
+              information.head.location.uri == s"$rootFolder/external.yaml" &&
+              information.head.location.range == Range(Position(1, 21), Position(1, 36)) &&
+              information.tail.head.location.uri == s"$rootFolder/external-2.yaml" &&
+              information.tail.head.location.range == Range(Position(1, 3), Position(1, 13))
             } should be(true)
 
             m.diagnostics.exists { d =>
               d.range == Range(Position(4, 7), Position(4, 19))
-              d.relatedInformation.size == 3
-              d.relatedInformation.head.location.uri == s"$rootFolder/library.raml" &&
-              d.relatedInformation.head.location.range == Range(Position(3, 14), Position(3, 27)) &&
-              d.relatedInformation.tail.head.location.uri == s"$rootFolder/external.yaml" &&
-              d.relatedInformation.tail.head.location.range == Range(Position(1, 21), Position(1, 36)) &&
-              d.relatedInformation.tail.tail.head.location.uri == s"$rootFolder/external-2.yaml" &&
-              d.relatedInformation.tail.tail.head.location.range == Range(Position(1, 3), Position(1, 13))
+              val information = d.relatedInformation.getOrElse(Seq())
+              information.size == 3
+              information.head.location.uri == s"$rootFolder/library.raml" &&
+              information.head.location.range == Range(Position(3, 14), Position(3, 27)) &&
+              information.tail.head.location.uri == s"$rootFolder/external.yaml" &&
+              information.tail.head.location.range == Range(Position(1, 21), Position(1, 36)) &&
+              information.tail.tail.head.location.uri == s"$rootFolder/external-2.yaml" &&
+              information.tail.tail.head.location.range == Range(Position(1, 3), Position(1, 13))
             } should be(true)
 
             succeed
@@ -254,12 +257,12 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
 
             if (!m.diagnostics.exists { d => // header
                   d.range == Range(Position(0, 9), Position(0, 14)) &&
-                  d.relatedInformation.isEmpty
+                  d.relatedInformation.forall(_.isEmpty)
                 }) fail(s"Header is not present: ${m.diagnostics}")
 
             if (!m.diagnostics.exists { d => // wrong array
                   d.range == Range(Position(1, 0), Position(17, 9)) &&
-                  d.relatedInformation.isEmpty
+                  d.relatedInformation.forall(_.isEmpty)
                 }) fail(s"Wrong array: ${m.diagnostics}")
 
             succeed

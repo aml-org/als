@@ -29,7 +29,7 @@ case class ValidationIssue(code: String,
     if (code.isEmpty) None else Some(code),
     None,
     None,
-    trace
+    Some(trace)
   )
 
   override def equals(obj: Any): Boolean = {

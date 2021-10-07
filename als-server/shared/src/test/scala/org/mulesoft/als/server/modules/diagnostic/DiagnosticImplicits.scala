@@ -55,7 +55,7 @@ object DiagnosticImplicits {
         d.source.foreach(c => obj.entry("source", c))
         obj.entry("relatedInformation", e => {
           e.list(b => {
-            d.relatedInformation.foreach(_.entry(b))
+            d.relatedInformation.map(ri => ri.foreach(_.entry(b)))
           })
         })
       })

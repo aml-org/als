@@ -22,4 +22,4 @@ case class Diagnostic(range: Range,
                       code: Option[String] = None,
                       codeDescription: Option[String] = None,
                       source: Option[String] = None,
-                      relatedInformation: Seq[DiagnosticRelatedInformation] = Seq())
+                      relatedInformation: Option[Seq[DiagnosticRelatedInformation]] = None)
