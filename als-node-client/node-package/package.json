@@ -3,7 +3,7 @@
   "version": "3.3.0-SNAPSHOT",
   "description": "ALS Node Client",
   "main": "./dist/als-node-client.min.js",
-  "types": "typescript/als-server.d.ts",
+  "types": "typescript/als-node-client.d.ts",
   "author": "ALS team",
   "license": "Apache-2.0",
   "homepage": "https://github.com/mulesoft/als",
