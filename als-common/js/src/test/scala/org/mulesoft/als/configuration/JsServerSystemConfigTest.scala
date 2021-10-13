@@ -25,7 +25,7 @@ class JsServerSystemConfigTest extends FlatSpec with Matchers with PlatformSecre
   it should "have platform loaders as default" in {
     val jsServerSystemConf: JsServerSystemConf = JsServerSystemConf()
     val loaders                                = jsServerSystemConf.amfConfiguration.resourceLoaders
-    loaders.size should be(2)
+    loaders.size should be(3)
     loaders should contain allElementsOf platfromLoaders
   }
 

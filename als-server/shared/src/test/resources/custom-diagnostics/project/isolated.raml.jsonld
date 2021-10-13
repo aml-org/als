@@ -1,62 +1,397 @@
 {
 "@graph": [
 {
-"@id": "#/BaseUnitProcessingData",
+"@id": "/BaseUnitProcessingData",
 "@type": [
-"doc:BaseUnitProcessingData"
+"doc:DialectInstanceProcessingData"
 ],
-"doc:transformed": true
+"meta:definedBy": [
+{
+"@id": "file://als/dialects/memory/validation-profile.yaml"
+}
+],
+"doc:transformed": true,
+"doc:sourceSpec": "Validation Profile 1.0"
 },
 {
-"@id": "#/external",
+"@id": "#/encodes",
 "@type": [
-"doc:ExternalDomainElement",
+"validation:Profile",
+"file://als/dialects/memory/validation-profile.yaml#/declarations/profileNode",
+"meta:DialectDomainElement",
 "doc:DomainElement"
 ],
-"doc:raw": "#%Validation Profile 1.0\nprofile: Test profile 1\nviolation:\n  - validation1\nvalidations:\n  validation1:\n    message: Endpoints must have a POST method\n    targetClass: apiContract.EndPoint\n    propertyConstraints:\n      apiContract.supportedOperation:\n        atLeast:\n          count: 1\n          validation:\n            propertyConstraints:\n              apiContract.method:\n                in: [ post ]",
-"core:mediaType": "application/yaml",
+"schema-org:name": "Test profile 1",
+"validation:setSeverityViolation": [
+"validation1"
+],
+"validation:validations": [
+{
+"@id": "#/encodes/validations/validation1"
+}
+],
 "sourcemaps:sources": [
 {
-"@id": "#/external/source-map"
+"@id": "#/encodes/source-map"
 }
 ]
 },
 {
-"@id": "#/external/source-map",
+"@id": "#/encodes/validations/validation1",
+"@type": [
+"validation:ShapeValidation",
+"file://als/dialects/memory/validation-profile.yaml#/declarations/shapeValidationNode",
+"meta:DialectDomainElement",
+"doc:DomainElement"
+],
+"sh:message": "Endpoints must have a POST method",
+"validation:ramlClassId": [
+"apiContract.EndPoint"
+],
+"schema-org:name": "validation1",
+"sh:property": [
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation"
+}
+],
+"sourcemaps:sources": [
+{
+"@id": "#/encodes/validations/validation1/source-map"
+}
+]
+},
+{
+"@id": "#/encodes/source-map",
 "@type": [
 "sourcemaps:SourceMap"
 ],
 "sourcemaps:lexical": [
 {
-"@id": "#/external/source-map/lexical/element_0"
+"@id": "#/encodes/source-map/lexical/element_3"
+},
+{
+"@id": "#/encodes/source-map/lexical/element_1"
+},
+{
+"@id": "#/encodes/source-map/lexical/element_0"
+},
+{
+"@id": "#/encodes/source-map/lexical/element_2"
 }
 ]
 },
 {
-"@id": "#/external/source-map/lexical/element_0",
-"sourcemaps:element": "file://als-server/shared/src/test/resources/custom-diagnostics/project/isolated.raml#/external",
-"sourcemaps:value": "[(1,0)-(16,28)]"
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation",
+"@type": [
+"sh:PropertyShape",
+"file://als/dialects/memory/validation-profile.yaml#/declarations/propertyConstraintNode",
+"meta:DialectDomainElement",
+"doc:DomainElement"
+],
+"sh:atLeastNode": {
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast"
+},
+"validation:ramlPropertyId": "apiContract.supportedOperation",
+"sourcemaps:sources": [
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/source-map"
+}
+]
+},
+{
+"@id": "#/encodes/validations/validation1/source-map",
+"@type": [
+"sourcemaps:SourceMap"
+],
+"sourcemaps:lexical": [
+{
+"@id": "#/encodes/validations/validation1/source-map/lexical/element_4"
+},
+{
+"@id": "#/encodes/validations/validation1/source-map/lexical/element_2"
+},
+{
+"@id": "#/encodes/validations/validation1/source-map/lexical/element_0"
+},
+{
+"@id": "#/encodes/validations/validation1/source-map/lexical/element_1"
+},
+{
+"@id": "#/encodes/validations/validation1/source-map/lexical/element_3"
+}
+]
+},
+{
+"@id": "#/encodes/source-map/lexical/element_3",
+"sourcemaps:element": "validation:setSeverityViolation",
+"sourcemaps:value": "[(3,0)-(5,0)]"
+},
+{
+"@id": "#/encodes/source-map/lexical/element_1",
+"sourcemaps:element": "schema-org:name",
+"sourcemaps:value": "[(2,0)-(3,0)]"
+},
+{
+"@id": "#/encodes/source-map/lexical/element_0",
+"sourcemaps:element": "validation:validations",
+"sourcemaps:value": "[(5,0)-(16,28)]"
+},
+{
+"@id": "#/encodes/source-map/lexical/element_2",
+"sourcemaps:element": "file://als-server/shared/src/test/resources/custom-diagnostics/project/isolated.raml#/encodes",
+"sourcemaps:value": "[(2,0)-(16,28)]"
+},
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast",
+"@type": [
+"validation:QualifiedShapevalidationNode",
+"file://als/dialects/memory/validation-profile.yaml#/declarations/qualifiedShapeValidationNode",
+"meta:DialectDomainElement",
+"doc:DomainElement"
+],
+"sh:count": 1,
+"sh:valueShape": {
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/validation"
+},
+"sourcemaps:sources": [
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/source-map"
+}
+]
+},
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/source-map",
+"@type": [
+"sourcemaps:SourceMap"
+],
+"sourcemaps:lexical": [
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/source-map/lexical/element_2"
+},
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/source-map/lexical/element_0"
+},
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/source-map/lexical/element_1"
+}
+]
+},
+{
+"@id": "#/encodes/validations/validation1/source-map/lexical/element_4",
+"sourcemaps:element": "schema-org:name",
+"sourcemaps:value": "[(6,2)-(6,13)]"
+},
+{
+"@id": "#/encodes/validations/validation1/source-map/lexical/element_2",
+"sourcemaps:element": "file://als-server/shared/src/test/resources/custom-diagnostics/project/isolated.raml#/encodes/validations/validation1",
+"sourcemaps:value": "[(7,0)-(16,28)]"
+},
+{
+"@id": "#/encodes/validations/validation1/source-map/lexical/element_0",
+"sourcemaps:element": "sh:property",
+"sourcemaps:value": "[(9,4)-(16,28)]"
+},
+{
+"@id": "#/encodes/validations/validation1/source-map/lexical/element_1",
+"sourcemaps:element": "validation:ramlClassId",
+"sourcemaps:value": "[(8,4)-(9,0)]"
+},
+{
+"@id": "#/encodes/validations/validation1/source-map/lexical/element_3",
+"sourcemaps:element": "sh:message",
+"sourcemaps:value": "[(7,4)-(8,0)]"
+},
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/validation",
+"@type": [
+"validation:ShapeValidation",
+"file://als/dialects/memory/validation-profile.yaml#/declarations/shapeValidationNode",
+"meta:DialectDomainElement",
+"doc:DomainElement"
+],
+"sh:property": [
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/validation/propertyConstraints/apiContract.method"
+}
+],
+"sourcemaps:sources": [
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/validation/source-map"
+}
+]
+},
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/source-map",
+"@type": [
+"sourcemaps:SourceMap"
+],
+"sourcemaps:lexical": [
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/source-map/lexical/element_2"
+},
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/source-map/lexical/element_0"
+},
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/source-map/lexical/element_1"
+}
+]
+},
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/source-map/lexical/element_2",
+"sourcemaps:element": "sh:atLeastNode",
+"sourcemaps:value": "[(11,8)-(16,28)]"
+},
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/source-map/lexical/element_0",
+"sourcemaps:element": "validation:ramlPropertyId",
+"sourcemaps:value": "[(10,6)-(10,36)]"
+},
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/source-map/lexical/element_1",
+"sourcemaps:element": "file://als-server/shared/src/test/resources/custom-diagnostics/project/isolated.raml#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation",
+"sourcemaps:value": "[(10,37)-(16,28)]"
+},
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/validation/propertyConstraints/apiContract.method",
+"@type": [
+"sh:PropertyShape",
+"file://als/dialects/memory/validation-profile.yaml#/declarations/propertyConstraintNode",
+"meta:DialectDomainElement",
+"doc:DomainElement"
+],
+"validation:ramlPropertyId": "apiContract.method",
+"sh:in": [
+"post"
+],
+"sourcemaps:sources": [
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/validation/propertyConstraints/apiContract.method/source-map"
+}
+]
+},
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/validation/source-map",
+"@type": [
+"sourcemaps:SourceMap"
+],
+"sourcemaps:lexical": [
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/validation/source-map/lexical/element_1"
+},
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/validation/source-map/lexical/element_0"
+}
+]
+},
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/source-map/lexical/element_2",
+"sourcemaps:element": "sh:count",
+"sourcemaps:value": "[(12,10)-(13,0)]"
+},
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/source-map/lexical/element_0",
+"sourcemaps:element": "sh:valueShape",
+"sourcemaps:value": "[(13,10)-(16,28)]"
+},
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/source-map/lexical/element_1",
+"sourcemaps:element": "file://als-server/shared/src/test/resources/custom-diagnostics/project/isolated.raml#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast",
+"sourcemaps:value": "[(11,16)-(16,28)]"
+},
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/validation/propertyConstraints/apiContract.method/source-map",
+"@type": [
+"sourcemaps:SourceMap"
+],
+"sourcemaps:lexical": [
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/validation/propertyConstraints/apiContract.method/source-map/lexical/element_2"
+},
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/validation/propertyConstraints/apiContract.method/source-map/lexical/element_0"
+},
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/validation/propertyConstraints/apiContract.method/source-map/lexical/element_1"
+}
+]
+},
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/validation/source-map/lexical/element_1",
+"sourcemaps:element": "file://als-server/shared/src/test/resources/custom-diagnostics/project/isolated.raml#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/validation",
+"sourcemaps:value": "[(14,0)-(16,28)]"
+},
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/validation/source-map/lexical/element_0",
+"sourcemaps:element": "sh:property",
+"sourcemaps:value": "[(14,12)-(16,28)]"
+},
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/validation/propertyConstraints/apiContract.method/source-map/lexical/element_2",
+"sourcemaps:element": "validation:ramlPropertyId",
+"sourcemaps:value": "[(15,14)-(15,32)]"
+},
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/validation/propertyConstraints/apiContract.method/source-map/lexical/element_0",
+"sourcemaps:element": "sh:in",
+"sourcemaps:value": "[(16,16)-(16,28)]"
+},
+{
+"@id": "#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/validation/propertyConstraints/apiContract.method/source-map/lexical/element_1",
+"sourcemaps:element": "file://als-server/shared/src/test/resources/custom-diagnostics/project/isolated.raml#/encodes/validations/validation1/propertyConstraints/apiContract.supportedOperation/atLeast/validation/propertyConstraints/apiContract.method",
+"sourcemaps:value": "[(15,33)-(16,28)]"
 },
 {
 "@id": "",
 "@type": [
-"doc:ExternalFragment",
+"meta:DialectInstance",
+"doc:Document",
 "doc:Fragment",
+"doc:Module",
 "doc:Unit"
 ],
+"meta:definedBy": [
+{
+"@id": "file://als/dialects/memory/validation-profile.yaml"
+}
+],
 "doc:encodes": {
-"@id": "#/external"
+"@id": "#/encodes"
 },
 "doc:root": true,
 "doc:processingData": {
-"@id": "#/BaseUnitProcessingData"
+"@id": "/BaseUnitProcessingData"
+},
+"sourcemaps:sources": [
+{
+"@id": "#/source-map"
 }
+]
+},
+{
+"@id": "#/source-map",
+"@type": [
+"sourcemaps:SourceMap"
+],
+"sourcemaps:lexical": [
+{
+"@id": "#/source-map/lexical/element_0"
+}
+]
+},
+{
+"@id": "#/source-map/lexical/element_0",
+"sourcemaps:element": "file://als-server/shared/src/test/resources/custom-diagnostics/project/isolated.raml",
+"sourcemaps:value": "[(2,0)-(16,28)]"
 }
 ],
 "@context": {
 "@base": "file://als-server/shared/src/test/resources/custom-diagnostics/project/isolated.raml",
 "doc": "http://a.ml/vocabularies/document#",
-"core": "http://a.ml/vocabularies/core#",
-"sourcemaps": "http://a.ml/vocabularies/document-source-maps#"
+"sourcemaps": "http://a.ml/vocabularies/document-source-maps#",
+"meta": "http://a.ml/vocabularies/meta#",
+"schema-org": "http://schema.org/",
+"validation": "http://a.ml/vocabularies/amf-validation#",
+"sh": "http://www.w3.org/ns/shacl#"
 }
 }

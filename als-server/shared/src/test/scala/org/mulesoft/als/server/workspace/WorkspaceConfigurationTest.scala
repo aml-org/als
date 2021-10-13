@@ -38,15 +38,17 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with ChangesWork
 
   implicit override def executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
-  implicit val p: Platform     = platform
-  private val mainApiUri       = "file://folder/api.raml"
-  private val isolatedUri      = "file://folder/isolated.raml"
-  private val exchangeUri      = "file://folder/exchange.json"
-  val api                      = "#%RAML 1.0\ntitle: test\n"
-  val isolated                 = "#%RAML 1.0\ntitle: test2\n"
-  val exchange                 = "{\n  \"main\": \"api.raml\"\n}"
-  private val extensionUri     = "file://folder/extension.yaml"
-  private val extensionContent = """#%Dialect 1.0
+  implicit val p: Platform         = platform
+  private val mainApiUri           = "file://folder/api.raml"
+  private val isolatedUri          = "file://folder/isolated.raml"
+  private val exchangeUri          = "file://folder/exchange.json"
+  private val validationProfileUri = "file://folder/profile.yaml"
+  val api                          = "#%RAML 1.0\ntitle: test\n"
+  val isolated                     = "#%RAML 1.0\ntitle: test2\n"
+  val validationProfile            = "#%Validation Profile 1.0\nprofile: MyProfile"
+  val exchange                     = "{\n  \"main\": \"api.raml\"\n}"
+  private val extensionUri         = "file://folder/extension.yaml"
+  private val extensionContent     = """#%Dialect 1.0
                                                     |dialect: Annotation mappings
                                                     |version: 1.0
                                                     |
@@ -93,6 +95,7 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with ChangesWork
       val content =
         if (resource == mainApiUri) api
         else if (resource == isolatedUri) isolated
+        else if (resource == validationProfileUri) validationProfile
         else if (withExchangeFile && resource == exchangeUri) exchange
         else if (resource == extensionUri) extensionContent
         else throw new ResourceNotFound("Not found: " + resource)
@@ -105,7 +108,8 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with ChangesWork
       resource == mainApiUri ||
         (withExchangeFile && resource == exchangeUri) ||
         resource == isolatedUri ||
-        resource == extensionUri
+        resource == extensionUri ||
+        resource == validationProfileUri
   }
 
   test("Unit from main tree should contain configuration") {
@@ -224,7 +228,7 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with ChangesWork
     val listener                              = new MockResolutionListener(logger)
     val (factory: WorkspaceManagerFactory, _) = createPatchedWorkspaceManagerFactory(List.empty, List(listener))
     val args                                  = changeConfigArgs(Some(isolatedUri))
-    val args2                                 = changeConfigArgs(Some(isolatedUri), None, Set.empty, Set("profile.yaml"))
+    val args2                                 = changeConfigArgs(Some(isolatedUri), None, Set.empty, Set(validationProfileUri))
     val args3                                 = changeConfigArgs(Some(isolatedUri), None, Set("dependency.yaml"))
     val args4                                 = changeConfigArgs(Some(isolatedUri), None, Set.empty, Set.empty, Set(extensionUri))
     val workspaceManager                      = factory.workspaceManager
@@ -273,7 +277,7 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with ChangesWork
         assert(config4.configuration.mainUri == "isolated.raml")
         assert(customValidationProfiles(config1).isEmpty)
         assert(customValidationProfiles(config2).isEmpty)
-        assert(customValidationProfiles(config3).contains("profile.yaml"))
+        assert(customValidationProfiles(config3).contains(validationProfileUri))
         assert(config1.configuration.dependencies.isEmpty)
         assert(config2.configuration.dependencies.isEmpty)
         assert(dependencies(config3).isEmpty)
@@ -337,7 +341,7 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with ChangesWork
 
     override def onRemoveFile(uri: String): Unit = {}
 
-    override def nextCall: Future[AmfResolvedUnit] = timeoutFuture(super.nextCall, 1000)
+    override def nextCall: Future[AmfResolvedUnit] = timeoutFuture(super.nextCall, 16000)
 
     class CallbackRunnable(val uri: String, ast: AmfResolvedUnit, callback: MockResolutionListener)
         extends Runnable[Unit] {

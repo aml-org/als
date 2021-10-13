@@ -74,7 +74,7 @@ case class TextDocumentContainer(override val amfConfiguration: AmfConfiguration
 
   override def initialize(): Future[Unit] = {
     amfConfiguration.withResourceLoader(mutableResourceLoader)
-    Future.successful()
+    amfConfiguration.init().map(_ => {})
   }
 
   override def filesInMemory: Map[String, TextDocument] = uriToEditor.toMap

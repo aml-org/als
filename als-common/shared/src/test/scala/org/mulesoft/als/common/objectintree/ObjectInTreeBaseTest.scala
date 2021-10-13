@@ -23,14 +23,17 @@ case class ObjectInTreeBaseTest(instanceFile: String, dialectFile: String) exten
     */
   private val initDialects: Future[Dialect] =
     instance
-      .parse(uriTemplate(dialectFile))
-      .map(r =>
-        r.result.baseUnit match {
-          case d: Dialect =>
-            instance.registerDialect(d)
-            d
-          case _ => fail(s"Expected Dialect: ${uriTemplate(dialectFile)}")
-      })
+      .init()
+      .flatMap(
+        i =>
+          i.parse(uriTemplate(dialectFile))
+            .map(r =>
+              r.result.baseUnit match {
+                case d: Dialect =>
+                  instance.registerDialect(d)
+                  d
+                case _ => fail(s"Expected Dialect: ${uriTemplate(dialectFile)}")
+            }))
 
   private val eventualResult: Future[AmfParseResult] = initDialects
     .flatMap(_ => instance.parse(uriTemplate(instanceFile)))

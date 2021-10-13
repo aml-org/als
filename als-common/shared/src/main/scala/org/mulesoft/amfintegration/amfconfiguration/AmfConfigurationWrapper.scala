@@ -19,6 +19,7 @@ import amf.shapes.client.scala.model.domain.AnyShape
 import amf.shapes.client.scala.render.JsonSchemaShapeRenderer
 import org.mulesoft.als.configuration.WithWorkspaceConfiguration
 import org.mulesoft.amfintegration.AlsSyamlSyntaxPluginHacked
+import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.dialect.integration.BaseAlsDialectProvider
 import org.mulesoft.amfintegration.vocabularies.integration.{
   AlsVocabularyParsingPlugin,
@@ -42,9 +43,26 @@ class AmfConfigurationWrapper private[amfintegration] (private val initialConfig
                                                        val alsDialectProvider: BaseAlsDialectProvider,
                                                        val resourceLoaders: Seq[ResourceLoader],
                                                        amfConfigurationState: Option[AMFConfigurationStateManager] =
-                                                         None)
+                                                         None,
+                                                       withRawDialects: Boolean = true)
     extends PlatformSecrets
     with WithWorkspaceConfiguration {
+
+  private var customValidationProfiles: Map[String, BaseUnit] = Map()
+
+  def profiles(): Map[String, BaseUnit] = customValidationProfiles
+
+  def cleanValidationProfiles(): Unit =
+    customValidationProfiles = Map()
+
+  def registerValidationProfile(unit: BaseUnit): Unit =
+    customValidationProfiles = customValidationProfiles + ((unit.identifier, unit))
+
+  def withProfiles(units: Seq[BaseUnit]): this.type = {
+    units.foreach(registerValidationProfile)
+    this
+  }
+
   private implicit var configuration: AMFConfiguration = initialConfig
 
   private var innerAmfConfigurationState: AMFConfigurationStateManager =
@@ -67,10 +85,23 @@ class AmfConfigurationWrapper private[amfintegration] (private val initialConfig
   def getConfiguration: AMFConfiguration = configuration
 
   private val alsCustomPlugins = List(AlsSyamlSyntaxPluginHacked, AlsVocabularyParsingPlugin(alsVocabularyRegistry))
-  def init(): Unit = {
+
+  def init(): Future[AmfConfigurationWrapper] = {
     configuration = configuration
       .withPlugins(alsCustomPlugins)
-    // should init preset init dialects from DialectProvider?
+    if (withRawDialects)
+      Future
+        .sequence(alsDialectProvider.rawDialects.map(raw => {
+          innerAmfConfigurationState
+            .configForSpec(Spec.AML)
+            .baseUnitClient()
+            .parseDialect(raw.uri)
+            .map(d => registerDialect(d.dialect))
+        }))
+        .map(_ => {
+          this
+        })
+    else Future(this)
   }
 
   def useCache(cache: UnitCache): Unit =
@@ -177,15 +208,21 @@ class AmfConfigurationWrapper private[amfintegration] (private val initialConfig
                                 resourceLoaders,
                                 Some(innerAmfConfigurationState))
       .withWorkspaceConfiguration(workspaceConfiguration)
+      .withProfiles(profiles().values.toSeq)
 }
 
 object AmfConfigurationWrapper {
-  def apply(resourceLoaders: Seq[ResourceLoader] = Seq.empty): AmfConfigurationWrapper = {
+  def apply(resourceLoaders: Seq[ResourceLoader] = Seq.empty,
+            withRawDialects: Boolean = true): AmfConfigurationWrapper = {
+    val provider = BaseAlsDialectProvider()
+    val loaders  = if (withRawDialects) resourceLoaders :+ provider.rawDialectResourceLoader else resourceLoaders
     val wrapper = new AmfConfigurationWrapper(
-      createConfigurations(resourceLoaders),
+      createConfigurations(loaders),
       AlsVocabularyRegistry(DefaultVocabularies.all),
-      BaseAlsDialectProvider(),
-      resourceLoaders
+      provider,
+      loaders,
+      None,
+      withRawDialects
     )
     wrapper.init()
     wrapper
@@ -216,9 +253,6 @@ case class AMFConfigurationStateManager(validators: Seq[AMFShapePayloadValidatio
 
   def withSyntaxes(s: Seq[AMFSyntaxParsePlugin]): AMFConfigurationStateManager =
     AMFConfigurationStateManager(validators, syntaxes ++ s, dialects, resourceLoaders)
-
-//  def withDialects(d: Seq[Dialect]): AMFConfigurationStateManager =
-//    AMFConfigurationStateManager(validators, syntaxes, dialects ++ d, resourceLoaders)
 
   def setDialects(d: Seq[Dialect]): AMFConfigurationStateManager =
     AMFConfigurationStateManager(validators, syntaxes, d, resourceLoaders)

@@ -1,6 +1,6 @@
 package org.mulesoft.amfintegration
 
-import amf.aml.client.scala.model.document.{Dialect, Vocabulary}
+import amf.aml.client.scala.model.document.{Dialect, DialectInstance, Vocabulary}
 import amf.aml.client.scala.model.domain._
 import amf.aml.internal.parse.common.{DeclarationKey, DeclarationKeys}
 import amf.apicontract.internal.metamodel.domain.AbstractModel
@@ -23,6 +23,7 @@ import amf.shapes.internal.annotations.{
 import org.mulesoft.als.common.{YPartBranch, YamlWrapper}
 import org.mulesoft.als.common.YamlWrapper._
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.amfintegration.dialect.dialects.validations.RawValidationProfileDialect
 import org.mulesoft.lexer.InputRange
 import org.yaml.model.{YMapEntry, YNode, YPart, YSequence, YType, _}
 
@@ -309,6 +310,12 @@ object AmfImplicits {
     private def documentForFragment(fragment: Fragment, dialect: Dialect): Option[DocumentMapping] =
       dialect.documents().fragments().find(doc => fragment.encodes.metaURIs.exists(_.equals(doc.encoded().value())))
 
+    def isValidationProfile: Boolean =
+      bu match {
+        case instance: DialectInstance =>
+          instance.processingData.definedBy().option().contains(RawValidationProfileDialect.uri)
+        case _ => false
+      }
   }
 
   implicit class DialectImplicits(d: Dialect) extends BaseUnitImp(d) {

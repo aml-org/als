@@ -30,6 +30,7 @@ trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTes
       val amfConfiguration = defaultAmfConfiguration.branch
       val expected         = s"${f.parent}${platform.fs.separatorChar}expected${platform.fs.separatorChar}${f.name}.json"
       for {
+        _ <- amfConfiguration.init()
         _ <- preload(f.path.stripSuffix(f.name), amfConfiguration)
         s <- suggestFromFile(
           content,

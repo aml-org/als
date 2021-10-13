@@ -1,73 +1,73 @@
 [
   {
-    "label": "#%Dialect 1.0",
+    "label": "New full validations",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "Define a %Dialect 1.0 file",
+    "detail": "template",
+    "documentation": "validations",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11#%Dialect 1.0",
-    "filterText": "#%Dialect 1.0",
+    "sortText": "21New full validations",
+    "filterText": "validations:\n  $1:\n    then:\n      if:\n        if:\n          $2: \"\"\n        then:\n          $3: \"\"\n      then:\n        $3: \"\"\n    if:\n      if:\n        $3: \"\"\n      then:\n        if:\n          $4: \"\"\n        then:\n          $5: \"\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
+          "line": 1,
           "character": 0
         },
         "end": {
-          "line": 0,
+          "line": 1,
           "character": 0
         }
       },
-      "newText": "#%Dialect 1.0"
+      "newText": "validations:\n  $1:\n    then:\n      if:\n        if:\n          $2: \"\"\n        then:\n          $3: \"\"\n      then:\n        $3: \"\"\n    if:\n      if:\n        $3: \"\"\n      then:\n        if:\n          $4: \"\"\n        then:\n          $5: \"\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "#%Library / Dialect 1.0",
+    "label": "New validations",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "Define a %Library / Dialect 1.0 file",
+    "detail": "template",
+    "documentation": "validations",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11#%Library / Dialect 1.0",
-    "filterText": "#%Library / Dialect 1.0",
+    "sortText": "21New validations",
+    "filterText": "validations:\n  $1:\n    then:\n      $2: \"\"\n    if:\n      $3: \"\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
+          "line": 1,
           "character": 0
         },
         "end": {
-          "line": 0,
+          "line": 1,
           "character": 0
         }
       },
-      "newText": "#%Library / Dialect 1.0"
+      "newText": "validations:\n  $1:\n    then:\n      $2: \"\"\n    if:\n      $3: \"\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "#%Library / Validation Profile 1.0",
+    "label": "description",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "Define a %Library / Validation Profile 1.0 file",
+    "detail": "docs",
+    "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11#%Library / Validation Profile 1.0",
-    "filterText": "#%Library / Validation Profile 1.0",
+    "sortText": "11description",
+    "filterText": "description: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -75,29 +75,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
+          "line": 1,
           "character": 0
         },
         "end": {
-          "line": 0,
+          "line": 1,
           "character": 0
         }
       },
-      "newText": "#%Library / Validation Profile 1.0"
+      "newText": "description: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "#%Library / Vocabulary 1.0",
+    "label": "disabled",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define a %Library / Vocabulary 1.0 file",
+    "documentation": "disabled",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11#%Library / Vocabulary 1.0",
-    "filterText": "#%Library / Vocabulary 1.0",
+    "sortText": "11disabled",
+    "filterText": "disabled:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -105,29 +105,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
+          "line": 1,
           "character": 0
         },
         "end": {
-          "line": 0,
+          "line": 1,
           "character": 0
         }
       },
-      "newText": "#%Library / Vocabulary 1.0"
+      "newText": "disabled:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "#%Patch / Dialect 1.0",
+    "label": "extends",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define a %Patch / Dialect 1.0 file",
+    "documentation": "extends",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11#%Patch / Dialect 1.0",
-    "filterText": "#%Patch / Dialect 1.0",
+    "sortText": "11extends",
+    "filterText": "extends: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -135,29 +135,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
+          "line": 1,
           "character": 0
         },
         "end": {
-          "line": 0,
+          "line": 1,
           "character": 0
         }
       },
-      "newText": "#%Patch / Dialect 1.0"
+      "newText": "extends: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "#%Patch / Validation Profile 1.0",
+    "label": "info",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define a %Patch / Validation Profile 1.0 file",
+    "documentation": "info",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11#%Patch / Validation Profile 1.0",
-    "filterText": "#%Patch / Validation Profile 1.0",
+    "sortText": "11info",
+    "filterText": "info:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -165,29 +165,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
+          "line": 1,
           "character": 0
         },
         "end": {
-          "line": 0,
+          "line": 1,
           "character": 0
         }
       },
-      "newText": "#%Patch / Validation Profile 1.0"
+      "newText": "info:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "#%Patch / Vocabulary 1.0",
+    "label": "prefixes",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define a %Patch / Vocabulary 1.0 file",
+    "documentation": "prefixes",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11#%Patch / Vocabulary 1.0",
-    "filterText": "#%Patch / Vocabulary 1.0",
+    "sortText": "11prefixes",
+    "filterText": "prefixes:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -195,29 +195,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
+          "line": 1,
           "character": 0
         },
         "end": {
-          "line": 0,
+          "line": 1,
           "character": 0
         }
       },
-      "newText": "#%Patch / Vocabulary 1.0"
+      "newText": "prefixes:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "#%RegoValidation / Validation Profile 1.0",
+    "label": "profile",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define a %RegoValidation / Validation Profile 1.0 file",
+    "documentation": "profile",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11#%RegoValidation / Validation Profile 1.0",
-    "filterText": "#%RegoValidation / Validation Profile 1.0",
+    "sortText": "10profile",
+    "filterText": "profile: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -225,29 +225,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
+          "line": 1,
           "character": 0
         },
         "end": {
-          "line": 0,
+          "line": 1,
           "character": 0
         }
       },
-      "newText": "#%RegoValidation / Validation Profile 1.0"
+      "newText": "profile: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "#%Validation Profile 1.0",
+    "label": "uses",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define a %Validation Profile 1.0 file",
+    "documentation": "uses",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11#%Validation Profile 1.0",
-    "filterText": "#%Validation Profile 1.0",
+    "sortText": "11uses",
+    "filterText": "uses:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -255,29 +255,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
+          "line": 1,
           "character": 0
         },
         "end": {
-          "line": 0,
+          "line": 1,
           "character": 0
         }
       },
-      "newText": "#%Validation Profile 1.0"
+      "newText": "uses:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "#%Vocabulary 1.0",
+    "label": "validations",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define a %Vocabulary 1.0 file",
+    "documentation": "validations",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11#%Vocabulary 1.0",
-    "filterText": "#%Vocabulary 1.0",
+    "sortText": "11validations",
+    "filterText": "validations:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -285,29 +285,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
+          "line": 1,
           "character": 0
         },
         "end": {
-          "line": 0,
+          "line": 1,
           "character": 0
         }
       },
-      "newText": "#%Vocabulary 1.0"
+      "newText": "validations:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "asyncapi: \"2.0.0\"",
+    "label": "violation",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define a asyncapi 2.0.0 file",
+    "documentation": "violation",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11asyncapi: \"2.0.0\"",
-    "filterText": "asyncapi: \"2.0.0\"",
+    "sortText": "11violation",
+    "filterText": "violation:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -315,29 +315,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
+          "line": 1,
           "character": 0
         },
         "end": {
-          "line": 0,
+          "line": 1,
           "character": 0
         }
       },
-      "newText": "asyncapi: \"2.0.0\""
+      "newText": "violation:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "openapi: \"3.0.0\"",
+    "label": "warning",
     "kind": [],
     "detail": "unknown",
-    "documentation": "Define a openapi 3.0.0 file",
+    "documentation": "warning",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11openapi: \"3.0.0\"",
-    "filterText": "openapi: \"3.0.0\"",
+    "sortText": "11warning",
+    "filterText": "warning:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -345,45 +345,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 0,
+          "line": 1,
           "character": 0
         },
         "end": {
-          "line": 0,
+          "line": 1,
           "character": 0
         }
       },
-      "newText": "openapi: \"3.0.0\""
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "swagger: \"2.0\"",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "Define a openapi 2.0 file",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11swagger: \"2.0\"",
-    "filterText": "swagger: \"2.0\"",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 0,
-          "character": 0
-        },
-        "end": {
-          "line": 0,
-          "character": 0
-        }
-      },
-      "newText": "swagger: \"2.0\""
+      "newText": "warning:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

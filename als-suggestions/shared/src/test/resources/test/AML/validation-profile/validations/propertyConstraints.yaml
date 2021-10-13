@@ -1,0 +1,7 @@
+#%Validation Profile 1.0
+validations:
+  myValidation:
+    targetClass: apiContract.Operation
+    message: This is the message
+    propertyConstraints:
+      *

@@ -134,7 +134,7 @@ class CustomValidationManagerTest
   }
 
   test("Should be called after a profile is registered") {
-    implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
+    implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(6000)
     val validator                                                 = new DummyAmfOpaValidator
     val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
     val initialArgs                                               = changeConfigArgs(Some(mainFile), None, Set.empty, Set.empty)

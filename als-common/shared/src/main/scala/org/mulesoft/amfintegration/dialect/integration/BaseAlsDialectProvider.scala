@@ -2,22 +2,42 @@ package org.mulesoft.amfintegration.dialect.integration
 
 import amf.aml.client.scala.AMLConfigurationState
 import amf.aml.client.scala.model.document.{Dialect, DialectInstanceUnit, Vocabulary}
+import amf.core.client.common.remote.Content
+import amf.core.client.scala.lexer.CharSequenceStream
 import amf.core.client.scala.model.document.{BaseUnit, ExternalFragment}
+import amf.core.client.scala.resource.ResourceLoader
 import amf.core.internal.remote.Spec
+import amf.core.internal.resource.InternalResourceLoaderAdapter
 import org.mulesoft.amfintegration.amfconfiguration.ProfileMatcher
-import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
+import org.mulesoft.amfintegration.dialect.dialects.{ExternalFragmentDialect, RawInMemoryDialect}
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
 import org.mulesoft.amfintegration.dialect.dialects.metadialect.{MetaDialect, VocabularyDialect}
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.Raml08TypesDialect
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
+import org.mulesoft.amfintegration.dialect.dialects.validations.RawValidationProfileDialect
 
 import scala.collection.immutable
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 /**
   * @param dialects initialized with the server on startup (for example Web API dialects)
   */
 case class BaseAlsDialectProvider(dialects: Set[Dialect]) {
+
+  lazy val rawDialects: Seq[RawInMemoryDialect] = Seq(RawValidationProfileDialect)
+
+  lazy val rawDialectResourceLoader: ResourceLoader = new ResourceLoader {
+    override def fetch(resource: String): Future[Content] = Future {
+      rawDialects
+        .find(_.uri == resource)
+        .map(_.content)
+        .getOrElse(Content(new CharSequenceStream(""), resource))
+    }
+
+    override def accepts(resource: String): Boolean = rawDialects.exists(_.uri == resource)
+  }
 
   def definitionFor(bu: BaseUnit)(implicit configurationState: AMLConfigurationState): Option[Dialect] = bu match {
     case di: DialectInstanceUnit =>

@@ -17,7 +17,7 @@ case class JsServerSystemConf(clientLoaders: js.Array[ClientResourceLoader] = js
     if (clientLoaders.isEmpty) platform.loaders()
     else clientLoaders.map(ResourceLoaderConverter.internalResourceLoader).toSeq
 
-  val amfConfiguration: AmfConfigurationWrapper = AmfConfigurationWrapper(loaders)
+  val amfConfiguration: AmfConfigurationWrapper = AmfConfigurationWrapper(loaders, clientLoaders.isEmpty)
 
   def directoryResolver: DirectoryResolver =
     DirectoryResolverAdapter.convert(clientDirResolver)
