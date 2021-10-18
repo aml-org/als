@@ -3,6 +3,7 @@ package org.mulesoft.als.configuration
 import amf.core.client.platform.resource.ClientResourceLoader
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.internal.unsafe.PlatformSecrets
+import org.mulesoft.amfintegration.dialect.integration.BaseAlsDialectProvider
 import org.scalatest.{FlatSpec, Matchers}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -31,20 +32,23 @@ class JsServerSystemConfigTest extends FlatSpec with Matchers with PlatformSecre
     val loaders                                = jsServerSystemConf.amfConfiguration.resourceLoaders
     loaders.size should be(3)
     loaders should contain allElementsOf platfromLoaders
+    loaders should contain(jsServerSystemConf.amfConfiguration.alsDialectProvider.rawDialectResourceLoader)
   }
 
   it should "not have default platform loaders when given list isn't empty" in {
     val jsServerSystemConf: JsServerSystemConf = JsServerSystemConf(js.Array(fakeRL))
     val loaders                                = jsServerSystemConf.amfConfiguration.resourceLoaders
-    loaders.size should be(1)
+    loaders.size should be(2)
     loaders should contain noElementsOf platfromLoaders
+    loaders should contain(jsServerSystemConf.amfConfiguration.alsDialectProvider.rawDialectResourceLoader)
   }
 
   it should "keep platform loaders when added" in {
     val jsServerSystemConf: JsServerSystemConf =
       JsServerSystemConf(clientLoaders = (platform.loaders().map(_.toClient) :+ fakeRL).toJSArray)
     val loaders = jsServerSystemConf.amfConfiguration.resourceLoaders
-    loaders.size should be(3)
+    loaders.size should be(4)
+    loaders should contain(jsServerSystemConf.amfConfiguration.alsDialectProvider.rawDialectResourceLoader)
   }
 
   implicit class nativeRLWrapper(rl: ResourceLoader) {

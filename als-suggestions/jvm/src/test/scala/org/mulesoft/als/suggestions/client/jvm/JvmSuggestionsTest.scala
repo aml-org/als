@@ -42,7 +42,7 @@ class JvmSuggestionsTest extends AsyncFunSuite with Matchers with PlatformSecret
     override def isDirectory(path: String): Future[Boolean] = Future { false }
   }
 
-  private val amfConfiguration: AmfConfigurationWrapper =
+  private val amfConfiguration: Future[AmfConfigurationWrapper] =
     AmfConfigurationWrapper(Seq(fileLoader))
 
   test("Custom Resource Loader test") {
@@ -50,7 +50,8 @@ class JvmSuggestionsTest extends AsyncFunSuite with Matchers with PlatformSecret
       new Suggestions(AlsConfiguration(), directoryResolver)
         .initialized()
     for {
-      suggestions <- s.suggest(url, 40, snippetsSupport = true, None, amfConfiguration)
+      amfConfig   <- amfConfiguration
+      suggestions <- s.suggest(url, 40, snippetsSupport = true, None, amfConfig)
     } yield {
       assert(suggestions.size == 15)
     }

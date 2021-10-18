@@ -14,7 +14,7 @@ import scala.concurrent.Future
 class ParserStagingAreaTests extends FlatSpec with Matchers {
   private val dummyEnvironmentProvider = new EnvironmentProvider{
 
-    override val amfConfiguration: AmfConfigurationWrapper = AmfConfigurationWrapper(Seq.empty)
+    override val amfConfiguration: AmfConfigurationWrapper = AmfConfigurationWrapper.buildSync(Seq.empty)
 
     override def openedFiles: Seq[String] = Seq.empty
 

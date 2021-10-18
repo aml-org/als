@@ -342,8 +342,8 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
         files.keySet.contains(resource)
     }
 
-    val amfConfiguration = AmfConfigurationWrapper(Seq(resourceLoader))
     for {
+      amfConfiguration <- AmfConfigurationWrapper(Seq(resourceLoader))
       result <- amfConfiguration
         .parse(testUri)
         .map(_.result.baseUnit)

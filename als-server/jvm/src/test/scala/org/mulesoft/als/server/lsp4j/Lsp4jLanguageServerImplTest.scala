@@ -150,13 +150,13 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
     }
 
     val p = platform
-    class TestWorkspaceManager
+    class TestWorkspaceManager(val amf: AmfConfigurationWrapper)
         extends WorkspaceManager(
           new EnvironmentProvider {
 
             override def branch: EnvironmentProvider = ???
 
-            override val amfConfiguration: AmfConfigurationWrapper = AmfConfigurationWrapper(Seq.empty)
+            override val amfConfiguration: AmfConfigurationWrapper = amf
 
             override def openedFiles: Seq[String] = Seq.empty
 
@@ -189,9 +189,12 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
     }
     val args = List(wrapJson("file://uri.raml", Array("dep1", "dep2"), new GsonBuilder().create()))
 
-    val ws = new TestWorkspaceManager()
-    ws.executeCommand(SharedExecuteParams(Commands.DID_CHANGE_CONFIGURATION, args))
-      .map(_ => assert(parsedOK))
+    AmfConfigurationWrapper()
+      .map(new TestWorkspaceManager(_))
+      .flatMap(ws => {
+        ws.executeCommand(SharedExecuteParams(Commands.DID_CHANGE_CONFIGURATION, args))
+          .map(_ => assert(parsedOK))
+      })
 
   }
 

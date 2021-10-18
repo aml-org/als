@@ -54,11 +54,12 @@ class PathTest extends AsyncFunSuite with PlatformSecrets {
     override def isDirectory(path: String): Future[Boolean] =
       Future.successful(!path.contains('.'))
   }
-  val amfConfiguration: AmfConfigurationWrapper = AmfConfigurationWrapper(Seq(fileLoader))
+  val futureAmfConfiguration: Future[AmfConfigurationWrapper] = AmfConfigurationWrapper(Seq(fileLoader))
 
   test("Should list files from absolute route, having '/' prefix") {
     val eventualAssertion: Future[Assertion] = for {
-      result <- AMLPathCompletionPlugin.resolveInclusion(url, directoryResolver, "/", None, amfConfiguration)
+      amfConfiguration <- futureAmfConfiguration
+      result           <- AMLPathCompletionPlugin.resolveInclusion(url, directoryResolver, "/", None, amfConfiguration)
     } yield {
       assert(result.size == 1)
     }
@@ -67,7 +68,8 @@ class PathTest extends AsyncFunSuite with PlatformSecrets {
 
   test("Should list files from absolute route, NOT having '/' prefix") {
     for {
-      result <- AMLPathCompletionPlugin.resolveInclusion(url, directoryResolver, "", None, amfConfiguration)
+      amfConfiguration <- futureAmfConfiguration
+      result           <- AMLPathCompletionPlugin.resolveInclusion(url, directoryResolver, "", None, amfConfiguration)
     } yield {
       assert(result.size == 1)
     }
@@ -75,7 +77,8 @@ class PathTest extends AsyncFunSuite with PlatformSecrets {
 
   test("Should list files from root route, having '/' prefix") {
     for {
-      result <- AMLPathCompletionPlugin.resolveInclusion(url, directoryResolver, "/", Some(urlDir), amfConfiguration)
+      amfConfiguration <- futureAmfConfiguration
+      result           <- AMLPathCompletionPlugin.resolveInclusion(url, directoryResolver, "/", Some(urlDir), amfConfiguration)
     } yield {
       assert(result.forall(r => Seq("/api.raml", "/directory/").contains(r.newText)))
     }

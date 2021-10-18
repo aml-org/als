@@ -235,10 +235,11 @@ class DocumentHighlightTest extends LanguageServerBaseTest {
         ws.keySet.contains(resource)
     }
 
-    val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
-        .withAmfConfiguration(AmfConfigurationWrapper(Seq(rs)))
-        .buildWorkspaceManagerFactory()
+    AmfConfigurationWrapper(Seq(rs)).flatMap(amfConfiguration => {
+      val factory =
+        new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
+          .withAmfConfiguration(amfConfiguration)
+          .buildWorkspaceManagerFactory()
     val workspaceManager: WorkspaceManager = factory.workspaceManager
     val server =
       new LanguageServerBuilder(factory.documentManager,
@@ -252,6 +253,7 @@ class DocumentHighlightTest extends LanguageServerBaseTest {
       .initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
       .andThen { case _ => server.initialized() }
       .map(_ => (server, workspaceManager))
+  })
   }
 
   override def rootPath: String = ???

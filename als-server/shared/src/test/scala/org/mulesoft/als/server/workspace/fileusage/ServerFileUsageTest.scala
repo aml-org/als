@@ -31,24 +31,26 @@ trait ServerFileUsageTest extends LanguageServerBaseTest {
           .getOrElse(Future.failed(new Exception("File not found on custom ResourceLoader")))
       override def accepts(resource: String): Boolean = ws.keySet.contains(resource)
     }
-    val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
-        .withAmfConfiguration(AmfConfigurationWrapper(Seq(rs)))
-        .buildWorkspaceManagerFactory()
-    val workspaceManager: WorkspaceManager = factory.workspaceManager
-    val server =
-      new LanguageServerBuilder(factory.documentManager,
-                                workspaceManager,
-                                factory.configurationManager,
-                                factory.resolutionTaskManager)
-        .addRequestModule(factory.fileUsageManager)
-        .build()
+    AmfConfigurationWrapper(Seq(rs)).flatMap(amfConfiguration => {
+      val factory =
+        new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
+          .withAmfConfiguration(amfConfiguration)
+          .buildWorkspaceManagerFactory()
+      val workspaceManager: WorkspaceManager = factory.workspaceManager
+      val server =
+        new LanguageServerBuilder(factory.documentManager,
+                                  workspaceManager,
+                                  factory.configurationManager,
+                                  factory.resolutionTaskManager)
+          .addRequestModule(factory.fileUsageManager)
+          .build()
 
-    for {
-      _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
-    } yield {
-      (server, workspaceManager)
-    }
+      for {
+        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
+      } yield {
+        (server, workspaceManager)
+      }
+    })
   }
 
   def runTest(root: String,

@@ -209,23 +209,22 @@ class AmfConfigurationWrapper private[amfintegration] (private val initialConfig
 }
 
 object AmfConfigurationWrapper {
+
+  def apply(resourceLoaders: Seq[ResourceLoader] = Seq.empty): Future[AmfConfigurationWrapper] =
+    buildSync(resourceLoaders).init()
+
   // Should only be used when something else will await the init() future (TextDocumentContainer typically)
-  def apply(resourceLoaders: Seq[ResourceLoader], withRawDialects: Boolean = true): AmfConfigurationWrapper = {
+  def buildSync(resourceLoaders: Seq[ResourceLoader] = Seq.empty): AmfConfigurationWrapper = {
     val provider = BaseAlsDialectProvider()
-    val loaders  = if (withRawDialects) resourceLoaders :+ provider.rawDialectResourceLoader else resourceLoaders
-    val wrapper = new AmfConfigurationWrapper(
+    val loaders  = resourceLoaders :+ provider.rawDialectResourceLoader
+    new AmfConfigurationWrapper(
       createConfigurations(loaders),
       AlsVocabularyRegistry(DefaultVocabularies.all),
       provider,
       loaders,
       None
     )
-    wrapper.init()
-    wrapper
   }
-
-  def apply(): Future[AmfConfigurationWrapper] =
-    apply(Seq.empty).init()
 
   private def createConfigurations(resourceLoaders: Seq[ResourceLoader]): AMFConfiguration =
     configurationWithResourceLoaders(APIConfiguration.API(), resourceLoaders)
