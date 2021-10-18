@@ -237,8 +237,8 @@ class FoldingRangesTests extends AsyncFlatSpec with Matchers with PlatformSecret
         files.keySet.contains(resource)
     }
 
-    val amfConfiguration = AmfConfigurationWrapper(Seq(resourceLoader))
     for {
+      amfConfiguration <- AmfConfigurationWrapper(Seq(resourceLoader))
       result <- amfConfiguration
         .parse(testUri)
         .map(_.result.baseUnit)

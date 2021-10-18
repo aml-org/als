@@ -27,10 +27,11 @@ trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTes
 
   override def testFile(content: String, f: SyncFile, parent: String): Unit = {
     s"Suggest over ${f.name} at dir ${cleanDirectory(f)}" in {
-      val amfConfiguration = defaultAmfConfiguration.branch
-      val expected         = s"${f.parent}${platform.fs.separatorChar}expected${platform.fs.separatorChar}${f.name}.json"
+      val expected = s"${f.parent}${platform.fs.separatorChar}expected${platform.fs.separatorChar}${f.name}.json"
       for {
-        _ <- preload(f.path.stripSuffix(f.name), amfConfiguration)
+        amfConfiguration <- defaultAmfConfiguration.map(_.branch)
+        _                <- amfConfiguration.init()
+        _                <- preload(f.path.stripSuffix(f.name), amfConfiguration)
         s <- suggestFromFile(
           content,
           "file://" + f.path.replaceAllLiterally(platform.fs.separatorChar.toString, "/"),

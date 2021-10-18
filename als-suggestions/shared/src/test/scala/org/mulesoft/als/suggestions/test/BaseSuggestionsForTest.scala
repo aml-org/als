@@ -16,7 +16,7 @@ trait BaseSuggestionsForTest extends PlatformSecrets with MarkerFinderTest {
 
   protected val dr = new PlatformDirectoryResolver(platform)
 
-  protected val defaultAmfConfiguration: AmfConfigurationWrapper = AmfConfigurationWrapper()
+  protected val defaultAmfConfiguration: Future[AmfConfigurationWrapper] = AmfConfigurationWrapper()
 
   def writeDataToString(data: List[CompletionItem]): String =
     write[List[CompletionItemNode]](data.map(CompletionItemNode.sharedToTransport), 2)
@@ -24,11 +24,12 @@ trait BaseSuggestionsForTest extends PlatformSecrets with MarkerFinderTest {
   def suggest(url: String,
               label: String,
               dialectContent: Option[String],
-              amfConfiguration: AmfConfigurationWrapper): Future[Seq[CompletionItem]] = {
+              futureAmfConfiguration: Future[AmfConfigurationWrapper]): Future[Seq[CompletionItem]] = {
 
     for {
-      content <- amfConfiguration.fetchContent(url)
-      r       <- suggestFromFile(content.stream.toString, url, label, amfConfiguration, dialectContent)
+      amfConfiguration <- futureAmfConfiguration
+      content          <- amfConfiguration.fetchContent(url)
+      r                <- suggestFromFile(content.stream.toString, url, label, amfConfiguration, dialectContent)
     } yield {
       r
     }

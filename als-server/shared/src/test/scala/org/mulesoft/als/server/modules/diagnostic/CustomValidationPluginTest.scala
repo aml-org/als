@@ -39,7 +39,7 @@ class CustomValidationPluginTest extends LanguageServerBaseTest {
 
     override def total: Int = acc
   }
-  val configuration: AmfConfigurationWrapper = AmfConfigurationWrapper(Seq(rl))
+  val configuration: AmfConfigurationWrapper = AmfConfigurationWrapper.buildSync(Seq(rl))
 
   val plugin: AMFShapePayloadValidationPlugin = new AMFShapePayloadValidationPlugin {
     override def priority: PluginPriority = NormalPriority
@@ -108,6 +108,7 @@ class CustomValidationPluginTest extends LanguageServerBaseTest {
         register dialect -> open invalid instance -> fix -> invalid again
        */
       for {
+        _ <- configuration.init()
         _ <- openFileNotification(server)(apiPath, apiContent)
         _ <- diagnosticNotifier.nextCall
       } yield {

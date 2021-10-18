@@ -25,7 +25,7 @@ trait SuggestionsWithDialectTest extends SuggestionsTest with FileAssertionTest 
                                    labels: Array[String] = Array("*"),
                                    dialect: Option[String] = None): Future[Assertion] =
     for {
-      s <- suggest(path, label, dialect, defaultAmfConfiguration.branch)
+      s <- suggest(path, label, dialect, defaultAmfConfiguration.map(_.branch))
       tmp <- writeTemporaryFile(goldenPath)(
         writeDataToString(s.sortWith((s1, s2) => s1.label.compareTo(s2.label) < 0).toList))
       r <- assertDifferences(tmp, goldenPath)

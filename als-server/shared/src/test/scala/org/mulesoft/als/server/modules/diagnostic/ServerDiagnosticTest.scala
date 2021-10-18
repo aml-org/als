@@ -215,14 +215,16 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
 
     val amfBaseUnit: BaseUnit = new MockDialectInstance(new Fields())
 
-    val amfParseResult: AmfParseResult =
-      new AmfParseResult(AMFResult(amfBaseUnit, Seq()), ExternalFragmentDialect(), AmfConfigurationWrapper())
+    val amfParseResult: Future[AmfParseResult] =
+      AmfConfigurationWrapper().map(c =>
+        new AmfParseResult(AMFResult(amfBaseUnit, Seq()), ExternalFragmentDialect(), c))
 
     for {
+      result <- amfParseResult
       _ <- Future {
         factory.resolutionTaskManager.onNewAst(
           BaseUnitListenerParams(
-            amfParseResult,
+            result,
             Map.empty,
             tree = false
           ),

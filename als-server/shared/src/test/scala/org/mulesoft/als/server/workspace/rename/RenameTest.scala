@@ -417,9 +417,10 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest with Rena
         ws.keySet.contains(resource)
     }
 
-    val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
-        .withAmfConfiguration(AmfConfigurationWrapper(Seq(rl)))
+    AmfConfigurationWrapper(Seq(rl)).flatMap(amfConfiguration => {
+      val factory =
+        new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
+          .withAmfConfiguration(amfConfiguration)
         .buildWorkspaceManagerFactory()
     val workspaceManager: WorkspaceManager = factory.workspaceManager
     val server =
@@ -434,6 +435,7 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest with Rena
       .initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
       .andThen { case _ => server.initialized() }
       .map(_ => (server, workspaceManager))
+  })
   }
 
   override def rootPath: String = ???

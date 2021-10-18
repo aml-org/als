@@ -70,12 +70,12 @@ class ContentPatcherTest extends AsyncFunSuite with FileAssertionTest with ListA
     assert(name, "yaml", tokenList)
 
   private def assert(name: String, syntax: String, tokenList: List[PatchToken]): Future[Assertion] = {
-    val url              = basePath + s"/$name.$syntax"
-    val expected         = basePath + s"/$name.result.$syntax"
-    val s                = if (syntax == "yaml") Syntax.YAML else Syntax.JSON
-    val amfConfiguration = AmfConfigurationWrapper()
+    val url      = basePath + s"/$name.$syntax"
+    val expected = basePath + s"/$name.result.$syntax"
+    val s        = if (syntax == "yaml") Syntax.YAML else Syntax.JSON
     for {
-      c <- amfConfiguration.fetchContent(url)
+      amfConfiguration <- AmfConfigurationWrapper()
+      c                <- amfConfiguration.fetchContent(url)
       patched <- Future {
 
         val con        = c.stream.toString

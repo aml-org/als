@@ -64,9 +64,8 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
         resource == cachableUri || resource == mainApiUri
     }
 
-    val env = newProvider(rl)
-
     for {
+      env <- newProvider(rl)
       ws <- WorkspaceContentManager(folderUri,
                                     env,
                                     DummyTelemetryProvider,
@@ -133,9 +132,8 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
         resource == cachableUri || resource == mainApiUri || resource == folderUri + "/cachableSon.raml"
     }
 
-    val env = newProvider(rl)
-
     for {
+      env <- newProvider(rl)
       ws <- WorkspaceContentManager("folder",
                                     env,
                                     DummyTelemetryProvider,
@@ -193,9 +191,8 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
         resource == cachableUri || resource == mainApiUri
     }
 
-    val env = newProvider(rl)
-
     for {
+      env <- newProvider(rl)
       ws <- WorkspaceContentManager("folder",
                                     env,
                                     DummyTelemetryProvider,
@@ -254,9 +251,8 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
         resource == cachableUri || resource == mainApiUri
     }
 
-    val env = newProvider(rl)
-
     for {
+      env <- newProvider(rl)
       ws <- WorkspaceContentManager(folderUri,
                                     env,
                                     DummyTelemetryProvider,
@@ -280,8 +276,8 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     }
   }
 
-  private def newProvider(rl: ResourceLoader): EnvironmentProvider =
-    TextDocumentContainer(AmfConfigurationWrapper(Seq(rl)))
+  private def newProvider(rl: ResourceLoader): Future[EnvironmentProvider] =
+    AmfConfigurationWrapper(Seq(rl)).map(TextDocumentContainer(_))
 
   test("test cache unit when changing configuration") {
     val cachable =
@@ -317,9 +313,8 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
         resource == cachableUri || resource == mainApiUri
     }
 
-    val env = newProvider(rl)
-
     for {
+      env <- newProvider(rl)
       ws <- WorkspaceContentManager("folder",
                                     env,
                                     DummyTelemetryProvider,

@@ -81,11 +81,11 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
 
   protected def buildParameter(elementUri: String,
                                range: PositionRange,
-                               definedBy: Option[String] = None): Future[CodeActionRequestParams] = {
-    val amfConfiguration = AmfConfigurationWrapper()
-    parseElement(elementUri, definedBy, amfConfiguration)
-      .map(bu => buildParameter(elementUri, bu, range, amfConfiguration))
-  }
+                               definedBy: Option[String] = None): Future[CodeActionRequestParams] =
+    AmfConfigurationWrapper().flatMap(amfConfiguration => {
+      parseElement(elementUri, definedBy, amfConfiguration)
+        .map(bu => buildParameter(elementUri, bu, range, amfConfiguration))
+    })
 
   case class PreCodeActionRequestParams(amfResult: AmfParseResult, uri: String, relationShip: Seq[RelationshipLink]) {
     def buildParam(range: PositionRange,

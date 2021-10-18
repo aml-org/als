@@ -3,6 +3,7 @@ package org.mulesoft.als.suggestions
 import amf.aml.client.scala.model.document.Dialect
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.validationprofiles.ValidationProfileTermsSuggestions
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.AMLLibraryPathCompletion
 import org.mulesoft.als.suggestions.plugins.aml.{StructureCompletionPlugin, _}
 
@@ -90,7 +91,7 @@ class CompletionsPluginHandler {
 
 object AMLBaseCompletionPlugins {
   val all: Seq[AMLCompletionPlugin] = Seq(
-    StructureCompletionPlugin(List(AMLUnionCompletionPlugin, ResolveDefault)),
+    StructureCompletionPlugin(List(AMLUnionCompletionPlugin, ValidationProfileTermsSuggestions, ResolveDefault)),
     AMLEnumCompletionPlugin,
     AMLRootDeclarationsCompletionPlugin,
     AMLRamlStyleDeclarationsReferences,

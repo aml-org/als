@@ -33,15 +33,17 @@ class ExchangeConfigReaderTest extends AsyncFlatSpec with PlatformSecrets with L
 
   fixture.foreach { testCase =>
     s"Folder ${testCase.folder}" should s"should have dependencies: ${testCase.dependencies.length}" in {
+      AmfConfigurationWrapper().flatMap(amfConfiguration => {
+        ExchangeConfigReader
+          .readRoot("file://" + base + testCase.folder, amfConfiguration, EmptyLogger)
+          .map { maybeConf =>
+            maybeConf.isDefined should be(true)
+            val config = maybeConf.get
+            config.mainFile should be(testCase.main)
+            assert(config.cachables.toList.sorted, testCase.dependencies)
+          }(executionContext)
+      })(executionContext)
 
-      ExchangeConfigReader
-        .readRoot("file://" + base + testCase.folder, AmfConfigurationWrapper(), EmptyLogger)
-        .map { maybeConf =>
-          maybeConf.isDefined should be(true)
-          val config = maybeConf.get
-          config.mainFile should be(testCase.main)
-          assert(config.cachables.toList.sorted, testCase.dependencies)
-        }(executionContext)
     }
   }
 

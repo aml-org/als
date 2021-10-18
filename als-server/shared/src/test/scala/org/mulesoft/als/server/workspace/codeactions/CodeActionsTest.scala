@@ -29,23 +29,26 @@ trait CodeActionsTest extends LanguageServerBaseTest {
       override def accepts(resource: String): Boolean = ws.keySet.contains(resource)
     }
 
-    val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
-        .withAmfConfiguration(AmfConfigurationWrapper(Seq(rs)))
-        .buildWorkspaceManagerFactory()
-    val workspaceManager: WorkspaceManager = factory.workspaceManager
-    val server =
-      new LanguageServerBuilder(factory.documentManager,
-                                workspaceManager,
-                                factory.configurationManager,
-                                factory.resolutionTaskManager)
-        .addRequestModule(factory.codeActionManager)
-        .build()
+    AmfConfigurationWrapper(Seq(rs)).flatMap(amfConfiguration => {
+      val factory =
+        new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
+          .withAmfConfiguration(amfConfiguration)
+          .buildWorkspaceManagerFactory()
+      val workspaceManager: WorkspaceManager = factory.workspaceManager
+      val server =
+        new LanguageServerBuilder(factory.documentManager,
+                                  workspaceManager,
+                                  factory.configurationManager,
+                                  factory.resolutionTaskManager)
+          .addRequestModule(factory.codeActionManager)
+          .build()
 
-    server
-      .initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
-      .andThen { case _ => server.initialized() }
-      .map(_ => (server, workspaceManager))
+      server
+        .initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
+        .andThen { case _ => server.initialized() }
+        .map(_ => (server, workspaceManager))
+    })
+
   }
 
 }

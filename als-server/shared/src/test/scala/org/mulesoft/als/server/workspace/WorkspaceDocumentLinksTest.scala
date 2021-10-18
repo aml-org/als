@@ -12,7 +12,6 @@ import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.als.configuration.DefaultProjectConfigurationStyle
 
-
 import scala.concurrent.{ExecutionContext, Future}
 
 class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
@@ -92,36 +91,45 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
   }
 
   class WorkspaceLinkHandler(rootFolder: String) {
-    val amfConfiguration                   = AmfConfigurationWrapper()
-    val clientNotifier                     = new MockDiagnosticClientNotifier()
-    val telemetryManager: TelemetryManager = new TelemetryManager(clientNotifier, logger)
-    val container: TextDocumentContainer   = TextDocumentContainer(amfConfiguration)
+    val futureAmfConfiguration: Future[AmfConfigurationWrapper] = AmfConfigurationWrapper(Seq.empty)
+    val clientNotifier                                          = new MockDiagnosticClientNotifier()
+    val telemetryManager: TelemetryManager                      = new TelemetryManager(clientNotifier, logger)
 
-    val workspaceManager: WorkspaceManager =
-      WorkspaceManager(container, telemetryManager, Nil, Nil, logger)
-    val documentLinksManager: DocumentLinksManager =
-      new DocumentLinksManager(workspaceManager, telemetryManager, logger)
+    val workspaceManager: Future[WorkspaceManager] =
+      for {
+        amfConfiguration <- futureAmfConfiguration
+        container        <- Future(TextDocumentContainer(amfConfiguration))
+      } yield WorkspaceManager(container, telemetryManager, Nil, Nil, logger)
+
+    val documentLinksManager: Future[DocumentLinksManager] =
+      workspaceManager.map(new DocumentLinksManager(_, telemetryManager, logger))
 
     def init(): Future[Unit] =
-      workspaceManager.initialize(List(WorkspaceFolder(filePath(rootFolder))), DefaultProjectConfigurationStyle)
+      for {
+        _                <- futureAmfConfiguration
+        workspaceManager <- workspaceManager
+        _                <- workspaceManager.initialize(List(WorkspaceFolder(filePath(rootFolder))), DefaultProjectConfigurationStyle)
+      } yield {}
 
     def openFileAndGetLinks(path: String): Future[Seq[DocumentLink]] =
       openFile(path) flatMap (_.getDocumentLinks(path))
 
     def openFile(path: String): Future[WorkspaceLinkHandler] = {
       workspaceManager
-        .notify(filePath(path), OPEN_FILE)
-        .map(_ => this)
+        .flatMap(
+          _.notify(filePath(path), OPEN_FILE)
+            .map(_ => this))
     }
 
     def closeFile(path: String): Future[WorkspaceLinkHandler] = {
       workspaceManager
-        .notify(filePath(path), CLOSE_FILE)
-        .map(_ => this)
+        .flatMap(
+          _.notify(filePath(path), CLOSE_FILE)
+            .map(_ => this))
     }
 
     def getDocumentLinks(path: String): Future[Seq[DocumentLink]] =
-      documentLinksManager.documentLinks(filePath(path), "")
+      documentLinksManager.flatMap(_.documentLinks(filePath(path), ""))
   }
 
   def buildServer(): LanguageServer =

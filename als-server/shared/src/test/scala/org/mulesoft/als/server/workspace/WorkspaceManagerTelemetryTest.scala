@@ -30,13 +30,13 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
     withServer[Assertion](buildServer(notifier)) { server =>
       val handler = server.resolveHandler(DocumentSymbolRequestType).value
 
-      val amfConfiguration = AmfConfigurationWrapper()
       for {
-        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
-        _ <- handler(DocumentSymbolParams(TextDocumentIdentifier(main)))
-        _ <- handler(DocumentSymbolParams(TextDocumentIdentifier(subdir)))
-        _ <- handler(DocumentSymbolParams(TextDocumentIdentifier(main)))
-        _ <- handler(DocumentSymbolParams(TextDocumentIdentifier(subdir)))
+        amfConfiguration <- AmfConfigurationWrapper()
+        _                <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+        _                <- handler(DocumentSymbolParams(TextDocumentIdentifier(main)))
+        _                <- handler(DocumentSymbolParams(TextDocumentIdentifier(subdir)))
+        _                <- handler(DocumentSymbolParams(TextDocumentIdentifier(main)))
+        _                <- handler(DocumentSymbolParams(TextDocumentIdentifier(subdir)))
         _ <- {
           amfConfiguration
             .fetchContent(independent)
@@ -71,10 +71,10 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
     val subdir   = s"${filePath("ws1")}/sub/type.raml"
     val notifier = new MockTelemetryClientNotifier(3000)
     withServer[Assertion](buildServer(notifier)) { server =>
-      val amfConfiguration = AmfConfigurationWrapper()
-      val handler          = server.resolveHandler(DocumentSymbolRequestType).value
+      val handler = server.resolveHandler(DocumentSymbolRequestType).value
       for {
-        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}"))) // parse main with subdir
+        amfConfiguration <- AmfConfigurationWrapper()
+        _                <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}"))) // parse main with subdir
         _ <- amfConfiguration
           .fetchContent(main)
           .flatMap(c => openFile(server)(main, c.stream.toString)) // open main file (should not reparse)
@@ -101,9 +101,9 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
 
     val notifier: MockCompleteClientNotifier = new MockCompleteClientNotifier(3000)
     withServer[Assertion](buildServer(notifier)) { server =>
-      val amfConfiguration = AmfConfigurationWrapper()
       // open dialect -> open invalid instance -> change dialect -> focus now valid instance
       for {
+        amfConfiguration <- AmfConfigurationWrapper()
         _ <- server.initialize(
           AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(filePath("aml-workspace"))))
         dialectContent      <- amfConfiguration.fetchContent(dialect).map(_.stream.toString)
@@ -151,10 +151,9 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
         projectConfigurationStyle = Some(ProjectConfigurationStyle(ConfigurationStyle.COMMAND))
       )
     ) { server =>
-      val amfConfiguration = AmfConfigurationWrapper()
-
       // open workspace (parse instance) -> open dialect (parse) -> focus dialect (parse) -> focus instance (parse)
       for {
+        amfConfiguration <- AmfConfigurationWrapper()
         _ <- server.workspaceService.executeCommand(
           ExecuteCommandParams(
             Commands.DID_CHANGE_CONFIGURATION,

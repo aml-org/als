@@ -115,23 +115,25 @@ class RenameFileReferencesTest extends LanguageServerBaseTest {
         ws.keySet.contains(resource)
     }
 
-    val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
-        .withAmfConfiguration(AmfConfigurationWrapper(Seq(rl)))
-        .buildWorkspaceManagerFactory()
+    AmfConfigurationWrapper(Seq(rl)).flatMap(amfConfiguration => {
+      val factory =
+        new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
+          .withAmfConfiguration(amfConfiguration)
+          .buildWorkspaceManagerFactory()
 
-    val workspaceManager: WorkspaceManager = factory.workspaceManager
-    val server =
-      new LanguageServerBuilder(factory.documentManager,
-                                workspaceManager,
-                                factory.configurationManager,
-                                factory.resolutionTaskManager)
-        .addRequestModule(factory.renameManager)
-        .build()
+      val workspaceManager: WorkspaceManager = factory.workspaceManager
+      val server =
+        new LanguageServerBuilder(factory.documentManager,
+                                  workspaceManager,
+                                  factory.configurationManager,
+                                  factory.resolutionTaskManager)
+          .addRequestModule(factory.renameManager)
+          .build()
 
-    server
-      .initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
-      .andThen { case _ => server.initialized() }
-      .map(_ => (server, workspaceManager))
+      server
+        .initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
+        .andThen { case _ => server.initialized() }
+        .map(_ => (server, workspaceManager))
+    })
   }
 }

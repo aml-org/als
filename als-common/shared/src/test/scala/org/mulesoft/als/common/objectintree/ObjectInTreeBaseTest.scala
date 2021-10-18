@@ -16,25 +16,31 @@ import scala.concurrent.Future
 case class ObjectInTreeBaseTest(instanceFile: String, dialectFile: String) extends PlatformSecrets with Matchers {
   protected def uriTemplate(part: String) = s"file://als-common/shared/src/test/resources/aml/$part"
 
-  private val instance = AmfConfigurationWrapper()
+  private val instance: Future[AmfConfigurationWrapper] = AmfConfigurationWrapper()
 
   /**
     * parses and registers a Dialect
     */
   private val initDialects: Future[Dialect] =
     instance
-      .parse(uriTemplate(dialectFile))
-      .map(r =>
-        r.result.baseUnit match {
-          case d: Dialect =>
-            instance.registerDialect(d)
-            d
-          case _ => fail(s"Expected Dialect: ${uriTemplate(dialectFile)}")
-      })
+      .flatMap(
+        i =>
+          i.parse(uriTemplate(dialectFile))
+            .map(r =>
+              r.result.baseUnit match {
+                case d: Dialect =>
+                  i.registerDialect(d)
+                  d
+                case _ => fail(s"Expected Dialect: ${uriTemplate(dialectFile)}")
+            }))
 
-  private val eventualResult: Future[AmfParseResult] = initDialects
-    .flatMap(_ => instance.parse(uriTemplate(instanceFile)))
-
+  private val eventualResult: Future[AmfParseResult] = {
+    for {
+      _      <- initDialects
+      i      <- instance
+      result <- i.parse(uriTemplate(instanceFile))
+    } yield result
+  }
   private def fn(pos: AmfPosition, result: AmfParseResult, dialect: Dialect): ObjectInTree =
     ObjectInTreeBuilder.fromUnit(result.result.baseUnit,
                                  result.result.baseUnit.identifier,

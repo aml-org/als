@@ -68,9 +68,14 @@ object TemplateTools {
       .exists(k => params.nodeDialect.declarationsMapTerms.values.to[Seq].contains(k)) &&
       hasCorrectDeclarationNesting(params)
 
-  private def getRecursiveChildren(p: PropertyMapping, params: AmlCompletionRequest): Seq[RawAndIri] =
-    requiredProperties(p, params)
-      .map(c => RawAndIri(c, fullPrefix, getRecursiveChildren(c, params)))
+  private def getRecursiveChildren(p: PropertyMapping,
+                                   params: AmlCompletionRequest,
+                                   recursiveProperties: Seq[String] = Seq.empty): Seq[RawAndIri] = {
+    if (recursiveProperties.contains(p.id)) Seq.empty
+    else
+      requiredProperties(p, params)
+        .map(c => RawAndIri(c, fullPrefix, getRecursiveChildren(c, params, recursiveProperties :+ p.id)))
+  }
 
   private def requiredProperties(p: PropertyMapping, params: AmlCompletionRequest) =
     nestedPropertyMappings(p, params)

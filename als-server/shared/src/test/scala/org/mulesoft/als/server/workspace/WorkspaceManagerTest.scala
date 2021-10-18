@@ -1,5 +1,7 @@
 package org.mulesoft.als.server.workspace
 
+import amf.core.client.common.remote.Content
+import amf.core.client.scala.resource.ResourceLoader
 import org.mulesoft.als.configuration.ConfigurationStyle.COMMAND
 import org.mulesoft.als.configuration.ProjectConfigurationStyle
 import org.mulesoft.als.configuration.WorkspaceConfiguration
@@ -25,9 +27,17 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   override implicit val executionContext: ExecutionContext =
     ExecutionContext.Implicits.global
 
+  private val profileUri: String  = "file://profile.yaml"
+  private val profileUri2: String = "file://profile.yaml"
+  val fakeRl: ResourceLoader = new ResourceLoader {
+    override def fetch(resource: String): Future[Content] =
+      Future.successful(new Content("#%Validation Profile 1.0\nprofile: MyProfile", resource))
+
+    override def accepts(resource: String): Boolean = resource == profileUri || resource == profileUri2
+  }
   def buildServer(diagnosticClientNotifier: ClientNotifier): LanguageServer = {
     val builder =
-      new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier, logger)
+      new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier, logger, Seq(fakeRl))
 
     val dm      = builder.buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
@@ -323,8 +333,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
                               Some(TraceKind.Off),
                               rootUri = Some(root),
                               projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
-        content <- AmfConfigurationWrapper().fetchContent(apiRoot).map(_.stream.toString) // Open as single file
-        _       <- openFileNotification(server)(apiRoot, content)
+        amfConfiguration <- AmfConfigurationWrapper()
+        content          <- amfConfiguration.fetchContent(apiRoot).map(_.stream.toString) // Open as single file
+        _                <- openFileNotification(server)(apiRoot, content)
         // api.raml, fragment.raml
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall
@@ -382,14 +393,14 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
         _ <- server.workspaceService.executeCommand(ExecuteCommandParams(
           Commands.DID_CHANGE_CONFIGURATION,
           List(
-            s"""{"mainUri": "$api2Root", "dependencies": [{"file": "profile1.yaml", "scope": "$CUSTOM_VALIDATION"}]}""")))
+            s"""{"mainUri": "$api2Root", "dependencies": [{"file": "$profileUri", "scope": "$CUSTOM_VALIDATION"}]}""")))
         // api2.raml
         _       <- diagnosticClientNotifier.nextCall
         config2 <- wm.getWorkspace(api2Root).flatMap(_.getCurrentConfiguration)
         _ <- server.workspaceService.executeCommand(ExecuteCommandParams(
           Commands.DID_CHANGE_CONFIGURATION,
           List(
-            s"""{"mainUri": "$api2Root", "dependencies": [{"file": "profile2.yaml", "scope": "$CUSTOM_VALIDATION"}]}""")))
+            s"""{"mainUri": "$api2Root", "dependencies": [{"file": "$profileUri2", "scope": "$CUSTOM_VALIDATION"}]}""")))
         // api2.raml
         _       <- diagnosticClientNotifier.nextCall
         config3 <- wm.getWorkspace(api2Root).flatMap(_.getCurrentConfiguration)
@@ -397,7 +408,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
           ExecuteCommandParams(
             Commands.DID_CHANGE_CONFIGURATION,
             List(
-              s"""{"mainUri": "$api2Root", "dependencies": [{"file": "profile1.yaml", "scope": "$CUSTOM_VALIDATION"}, {"file": "profile2.yaml", "scope": "$CUSTOM_VALIDATION"}]}""")
+              s"""{"mainUri": "$api2Root", "dependencies": [{"file": "$profileUri", "scope": "$CUSTOM_VALIDATION"}, {"file": "$profileUri2", "scope": "$CUSTOM_VALIDATION"}]}""")
           ))
         // api2.raml
         _       <- diagnosticClientNotifier.nextCall
@@ -410,9 +421,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
           assert(profiles.forall(p => config.profiles.contains(p)))
         }
         config1.map(c => assertConfig(c, "api.raml", Set.empty)).get
-        config2.map(c => assertConfig(c, "api2.raml", Set("profile1.yaml"))).get
-        config3.map(c => assertConfig(c, "api2.raml", Set("profile2.yaml"))).get
-        config4.map(c => assertConfig(c, "api2.raml", Set("profile1.yaml", "profile2.yaml"))).get
+        config2.map(c => assertConfig(c, "api2.raml", Set(profileUri))).get
+        config3.map(c => assertConfig(c, "api2.raml", Set(profileUri))).get
+        config4.map(c => assertConfig(c, "api2.raml", Set(profileUri, profileUri2))).get
       }
     }
   }
@@ -451,9 +462,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       new MockDiagnosticClientNotifierWithTelemetryLog
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
       val ws1path  = s"${filePath("multiworkspace/ws1")}"
-      val filesWS1 = List(s"${ws1path}/api.raml", s"${ws1path}/sub/type.raml", s"${ws1path}/type.json")
+      val filesWS1 = List(s"$ws1path/api.raml", s"$ws1path/sub/type.raml", s"$ws1path/type.json")
       val ws2path  = s"${filePath("multiworkspace/ws2")}"
-      val filesWS2 = List(s"${ws2path}/api.raml", s"${ws2path}/sub/type.raml")
+      val filesWS2 = List(s"$ws2path/api.raml", s"$ws2path/sub/type.raml")
       val ws1      = WorkspaceFolder(Some(ws1path), Some("ws1"))
       val ws2      = WorkspaceFolder(Some(ws2path), Some("ws2"))
       val allFiles = filesWS1 ++ filesWS2
@@ -481,9 +492,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       new MockDiagnosticClientNotifierWithTelemetryLog
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
       val ws1path  = s"${filePath("multiworkspace/ws1")}"
-      val filesWS1 = List(s"${ws1path}/api.raml", s"${ws1path}/sub/type.raml", s"${ws1path}/type.json")
+      val filesWS1 = List(s"$ws1path/api.raml", s"$ws1path/sub/type.raml", s"$ws1path/type.json")
       val ws2path  = s"${filePath("multiworkspace/ws2")}"
-      val filesWS2 = List(s"${ws2path}/api.raml", s"${ws2path}/sub/type.raml")
+      val filesWS2 = List(s"$ws2path/api.raml", s"$ws2path/sub/type.raml")
       val ws1      = WorkspaceFolder(Some(ws1path), Some("ws1"))
       val ws2      = WorkspaceFolder(Some(ws2path), Some("ws2"))
 

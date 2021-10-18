@@ -17,7 +17,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class WorkspaceParserRepositoryTest extends AsyncFunSuite with Matchers with PlatformSecrets {
   override val executionContext: ExecutionContext = scala.concurrent.ExecutionContext.Implicits.global
 
-  val amfConfig: AmfConfigurationWrapper = AmfConfigurationWrapper()
+  val amfConfig: Future[AmfConfigurationWrapper] = AmfConfigurationWrapper()
   test("Basic repository test") {
 
     val cachable: MockFile = MockFile("file://fakeURI/ws/cachable.raml",
@@ -184,34 +184,43 @@ class WorkspaceParserRepositoryTest extends AsyncFunSuite with Matchers with Pla
   case class MockFile(uri: String, content: String)
 
   def makeRepository(files: Set[MockFile], cacheables: Set[String] = Set.empty): Future[WorkspaceParserRepository] = {
-    val branchAmfConfig: AmfConfigurationWrapper = configWithRL(files)
-    val repository: WorkspaceParserRepository    = new WorkspaceParserRepository(branchAmfConfig, EmptyLogger)
-    repository.setCachables(cacheables)
-    val futures: Set[Future[Unit]] = files.map(f => {
-      branchAmfConfig.parse(f.uri).map(bu => repository.updateUnit(bu))
-    })
-    Future.sequence(futures).map(_ => repository)
+    for {
+      branchAmfConfig <- configWithRL(files)
+      repository <- Future {
+        val r = new WorkspaceParserRepository(branchAmfConfig, EmptyLogger)
+        r.setCachables(cacheables)
+        r
+      }
+      r <- Future
+        .sequence(files.map(f => {
+          branchAmfConfig.parse(f.uri).map(bu => repository.updateUnit(bu))
+        }))
+        .map(_ => repository)
+    } yield r
   }
 
-  private def configWithRL(files: Set[MockFile]) = {
-    val branchAmfConfig = amfConfig.branch
-    files.foreach(f => branchAmfConfig.withResourceLoader(buildResourceLoaderForFile(f)))
-    branchAmfConfig
+  private def configWithRL(files: Set[MockFile]): Future[AmfConfigurationWrapper] = {
+    for {
+      branchAmfConfig <- amfConfig.map(_.branch)
+      _               <- Future { files.foreach(f => branchAmfConfig.withResourceLoader(buildResourceLoaderForFile(f))) }
+    } yield branchAmfConfig
   }
 
   def makeRepositoryTree(files: Set[MockFile],
                          mainFile: MockFile,
                          cacheables: Set[String] = Set.empty): Future[WorkspaceParserRepository] = {
-    val branchAmfConfig: AmfConfigurationWrapper = configWithRL(files)
-    val repository: WorkspaceParserRepository    = new WorkspaceParserRepository(branchAmfConfig, EmptyLogger)
-    repository.setCachables(cacheables)
+    for {
+      branchAmfConfig <- configWithRL(files)
+      repository <- Future {
+        val r = new WorkspaceParserRepository(branchAmfConfig, EmptyLogger)
+        r.setCachables(cacheables)
+        r
+      }
+      _ <- branchAmfConfig
+        .parse(mainFile.uri)
+        .flatMap(bu => repository.newTree(bu))
+    } yield repository
 
-    val future = branchAmfConfig
-      .parse(mainFile.uri)
-      .flatMap(bu => {
-        repository.newTree(bu)
-      })
-    future.flatMap(_ => Future(repository))
   }
 
   def buildResourceLoaderForFile(mockFile: MockFile): ResourceLoader = {

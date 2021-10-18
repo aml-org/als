@@ -3,6 +3,7 @@ package org.mulesoft.als.server.modules.workspace
 import amf.aml.client.scala.model.document.{Dialect, DialectInstance}
 import amf.core.client.scala.model.document.ExternalFragment
 import amf.core.internal.remote.Platform
+import amf.core.internal.validation.core.ValidationProfile
 import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.configuration.ConfigurationStyle.COMMAND
 import org.mulesoft.als.configuration.ProjectConfigurationStyle
@@ -260,8 +261,8 @@ class WorkspaceContentManager private (val folderUri: String,
     for {
       _ <- setCacheables(maybeConfig.map(_.cachables).getOrElse(Set.empty))
       _ <- registerNewDialects(maybeConfig.map(c => c.semanticExtensions ++ c.dialects).getOrElse(Set.empty))
+      r <- registerNewValidationProfiles(maybeConfig.map(_.profiles).getOrElse(Set.empty))
       _ <- newTree(maybeConfig.map(_.mainFile))
-      r <- processNewValidationProfiles(maybeConfig.map(_.profiles).getOrElse(Set.empty))
     } yield r
   }
 
@@ -290,7 +291,31 @@ class WorkspaceContentManager private (val folderUri: String,
       })
   }
 
-  private def processNewValidationProfiles(validationProfiles: Set[String]): Future[Unit] = Future {
+  private def registerNewValidationProfiles(validationProfiles: Set[String]): Future[Unit] = {
+    environmentProvider.amfConfiguration.cleanValidationProfiles()
+    Future
+      .sequence(
+        validationProfiles.map(parse(_, UUID.randomUUID().toString))
+      )
+      .map(_.flatMap(r => {
+        if (r.result.baseUnit.isValidationProfile) {
+          val d = r.result.baseUnit
+          logger.debug("Adding validation profile: " + d.identifier,
+                       "WorkspaceContentManager",
+                       "registerNewValidationProfiles")
+          environmentProvider.amfConfiguration.registerValidationProfile(d)
+          d.location()
+        } else {
+          logger.error(s"The following validation profile: ${r.result.baseUnit.identifier} is not valid",
+                       "WorkspaceContentManager",
+                       "registerNewValidationProfiles")
+          None
+        }
+      }))
+      .flatMap(profiles => revalidateUnits(profiles))
+  }
+
+  private def revalidateUnits(validationProfiles: Set[String]): Future[Unit] = Future {
     val revalidateUris: List[String] = repository.getIsolatedUris.filter(uri => {
       repository
         .getUnit(uri)
@@ -345,6 +370,7 @@ class WorkspaceContentManager private (val folderUri: String,
     val cacheConfig = environmentProvider
       .amfConfigurationSnapshot()
       .withWorkspaceConfiguration(workspaceConfiguration)
+
     if (!hotReloadDialects) cacheConfig.useCache(repository.resolverCache)
     cacheConfig
       .parse(decodedUri)
