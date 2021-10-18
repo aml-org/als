@@ -31,14 +31,14 @@ class WorkspaceManagerWithoutDiagnosticsTest extends LanguageServerBaseTest {
       """.stripMargin
     val fragmentUri = s"${filePath("ws2/fragment.raml")}"
     withServer[Assertion](buildServer(factory)) { server =>
-      val amfConfiguration = AmfConfigurationWrapper()
       for {
-        _               <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws2")}")))
-        apiContent      <- amfConfiguration.fetchContent(s"${filePath("ws2/api.raml")}")
-        fragmentContent <- amfConfiguration.fetchContent(fragmentUri)
-        _               <- openFile(server)(s"${filePath("ws2/api.raml")}", apiContent.stream.toString)
-        _               <- openFile(server)(fragmentUri, fragmentContent.stream.toString)
-        _               <- changeFile(server)(fragmentUri, changedFragment, 1)
+        amfConfiguration <- AmfConfigurationWrapper()
+        _                <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws2")}")))
+        apiContent       <- amfConfiguration.fetchContent(s"${filePath("ws2/api.raml")}")
+        fragmentContent  <- amfConfiguration.fetchContent(fragmentUri)
+        _                <- openFile(server)(s"${filePath("ws2/api.raml")}", apiContent.stream.toString)
+        _                <- openFile(server)(fragmentUri, fragmentContent.stream.toString)
+        _                <- changeFile(server)(fragmentUri, changedFragment, 1)
         r1 <- {
           val handler = server.resolveHandler(DocumentSymbolRequestType).value
 

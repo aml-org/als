@@ -341,7 +341,7 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with ChangesWork
 
     override def onRemoveFile(uri: String): Unit = {}
 
-    override def nextCall: Future[AmfResolvedUnit] = timeoutFuture(super.nextCall, 16000)
+    override def nextCall: Future[AmfResolvedUnit] = timeoutFuture(super.nextCall, 1000)
 
     class CallbackRunnable(val uri: String, ast: AmfResolvedUnit, callback: MockResolutionListener)
         extends Runnable[Unit] {

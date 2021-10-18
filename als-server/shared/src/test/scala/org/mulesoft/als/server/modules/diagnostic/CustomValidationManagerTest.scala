@@ -355,7 +355,7 @@ class CustomValidationManagerTest
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
       .flatMap(negativeReport => {
-        implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(13000)
+        implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(6000)
         val validator                                                 = new DummyAmfOpaValidator(negativeReport.toString)
         val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
         val args                                                      = changeConfigArgs(Some(mainFile), None, Set.empty, Set(profileUri))
@@ -364,6 +364,8 @@ class CustomValidationManagerTest
         withServer(server, buildInitParams(workspacePath)) {
           server =>
             for {
+              _               <- changeWorkspaceConfiguration(workspaceManager, args2) // set mainFile
+              _               <- getDiagnostics // initial parse
               _               <- changeWorkspaceConfiguration(workspaceManager, args) // register
               profile         <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
               diagnostics     <- getDiagnostics

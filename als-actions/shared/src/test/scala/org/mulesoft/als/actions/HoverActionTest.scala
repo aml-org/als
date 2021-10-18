@@ -41,11 +41,11 @@ class HoverActionTest extends AsyncFunSuite with BaseHoverTest {
   }
 
   private def runTest(file: String, golden: String): Future[Assertion] = {
-    val filePath         = s"file://$path$file"
-    val goldenPath       = s"file://$path$golden"
-    val amfConfiguration = AmfConfigurationWrapper()
+    val filePath   = s"file://$path$file"
+    val goldenPath = s"file://$path$golden"
     for {
-      d <- amfConfiguration.parse(filePath)
+      amfConfiguration <- AmfConfigurationWrapper()
+      d                <- amfConfiguration.parse(filePath)
       r <- Future {
         getResults(d, amfConfiguration)
       }

@@ -246,21 +246,20 @@ class DeleteDeclaredNodeTest extends BaseCodeActionTests {
   private def getNodeDeletions(file: String,
                                cases: Seq[DeleteDeclaredNodeRequestCase],
                                activeFile: Option[String],
-                               defineBy: Option[String] = None) = {
-
-    val amfConfiguration = AmfConfigurationWrapper()
-
-    parseElement(file, defineBy, amfConfiguration).map(r => buildPreParam(file, r)).flatMap { pr =>
-      val results: Seq[Future[DeleteResultCase]] = cases.map { deletecase =>
-        val params = pr.buildParam(deletecase.positionRange, activeFile, amfConfiguration)
-        val plugin = DeleteDeclaredNodeCodeAction(params)
-        val r: Future[Seq[AbstractCodeAction]] =
-          if (plugin.isApplicable) plugin.run(params) else Future.successful(Seq.empty)
-        r.map(ca => DeleteResultCase(deletecase.name, ca))
+                               defineBy: Option[String] = None) =
+    AmfConfigurationWrapper().flatMap(amfConfiguration => {
+      parseElement(file, defineBy, amfConfiguration).map(r => buildPreParam(file, r)).flatMap {
+        pr =>
+          val results: Seq[Future[DeleteResultCase]] = cases.map { deletecase =>
+            val params = pr.buildParam(deletecase.positionRange, activeFile, amfConfiguration)
+            val plugin = DeleteDeclaredNodeCodeAction(params)
+            val r: Future[Seq[AbstractCodeAction]] =
+              if (plugin.isApplicable) plugin.run(params) else Future.successful(Seq.empty)
+            r.map(ca => DeleteResultCase(deletecase.name, ca))
+          }
+          Future.sequence(results).map(serializeResults)
       }
-      Future.sequence(results).map(serializeResults)
-    }
-  }
+    })
 
   private def serializeResults(l: Seq[DeleteResultCase]): String = {
     val document = YDocument.objFromBuilder(eb => {

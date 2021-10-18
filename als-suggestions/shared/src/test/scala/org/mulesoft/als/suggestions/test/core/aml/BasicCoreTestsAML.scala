@@ -29,9 +29,9 @@ class BasicCoreTestsAML extends CoreTest with DummyPlugins {
   }
 
   test("Custom Plugins completion Dummy") {
-    val p                = filePath("dialect.yaml")
-    val amfConfiguration = AmfConfigurationWrapper()
+    val p = filePath("dialect.yaml")
     for {
+      amfConfiguration <- AmfConfigurationWrapper()
       dialect <- amfConfiguration
         .parse(p)
         .map { r =>

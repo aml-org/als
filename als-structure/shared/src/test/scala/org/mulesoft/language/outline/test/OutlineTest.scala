@@ -28,13 +28,15 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
               jsonPath: String,
               configuration: Option[AmfConfigurationWrapper] = None): Future[Assertion] = {
 
-    val fullFilePath     = filePath(platform.encodeURI(path))
-    val fullJsonPath     = filePath(jsonPath)
-    val amfConfiguration = configuration.getOrElse(AmfConfigurationWrapper())
+    val fullFilePath = filePath(platform.encodeURI(path))
+    val fullJsonPath = filePath(jsonPath)
+    val futureAmfConfiguration: Future[AmfConfigurationWrapper] =
+      if (configuration.isDefined) Future(configuration.get) else AmfConfigurationWrapper()
     for {
-      actualOutline <- this.getActualOutline(fullFilePath, platform, amfConfiguration)
-      tmp           <- writeTemporaryFile(jsonPath)(writeDataToString(actualOutline))
-      r             <- assertDifferences(tmp, fullJsonPath)
+      amfConfiguration <- futureAmfConfiguration
+      actualOutline    <- this.getActualOutline(fullFilePath, platform, amfConfiguration)
+      tmp              <- writeTemporaryFile(jsonPath)(writeDataToString(actualOutline))
+      r                <- assertDifferences(tmp, fullJsonPath)
 
     } yield r
   }

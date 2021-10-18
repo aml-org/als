@@ -67,9 +67,9 @@ class FilesInProjectNotificationTest extends LanguageServerBaseTest {
   test("Open isolated file") {
     val alsClient: MockFilesInClientNotifier = new MockFilesInClientNotifier
     withServer(buildServer(alsClient)) { server =>
-      val helperAmfConfiguration = AmfConfigurationWrapper()
       for {
-        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+        helperAmfConfiguration <- AmfConfigurationWrapper()
+        _                      <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
         _ <- helperAmfConfiguration
           .fetchContent(s"${filePath("ws1/independent.raml")}")
           .map(c => openFile(server)(c.url, c.stream.toString))

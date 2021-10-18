@@ -10,18 +10,19 @@ import scala.concurrent.Future
 class DialectStructureTest extends BaseStructureTest with DialectTest {
 
   def runTest(path: String, dialectPath: String, jsonPath: String): Future[Assertion] = {
-    val fullDialectPath  = filePath(dialectPath)
-    val amfConfiguration = AmfConfigurationWrapper()
-    amfConfiguration
-      .parse(fullDialectPath)
-      .map { r =>
-        r.result.baseUnit match {
+    val fullDialectPath = filePath(dialectPath)
+    for {
+      amfConfiguration <- AmfConfigurationWrapper()
+      parsed           <- amfConfiguration.parse(fullDialectPath)
+      _ <- Future {
+        parsed.result.baseUnit match {
           case d: Dialect =>
             amfConfiguration.registerDialect(d)
         }
-        r
+        parsed
       }
-      .flatMap(_ => super.runTest(path, jsonPath, Some(amfConfiguration)))
+      result <- super.runTest(path, jsonPath, Some(amfConfiguration))
+    } yield result
   }
 
 }

@@ -12,7 +12,6 @@ import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.als.configuration.DefaultProjectConfigurationStyle
 
-
 import scala.concurrent.{ExecutionContext, Future}
 
 class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
@@ -92,7 +91,7 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
   }
 
   class WorkspaceLinkHandler(rootFolder: String) {
-    val amfConfiguration                   = AmfConfigurationWrapper()
+    val amfConfiguration                   = AmfConfigurationWrapper(Seq.empty)
     val clientNotifier                     = new MockDiagnosticClientNotifier()
     val telemetryManager: TelemetryManager = new TelemetryManager(clientNotifier, logger)
     val container: TextDocumentContainer   = TextDocumentContainer(amfConfiguration)
@@ -103,7 +102,10 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
       new DocumentLinksManager(workspaceManager, telemetryManager, logger)
 
     def init(): Future[Unit] =
-      workspaceManager.initialize(List(WorkspaceFolder(filePath(rootFolder))), DefaultProjectConfigurationStyle)
+      for {
+        _ <- amfConfiguration.init()
+        _ <- workspaceManager.initialize(List(WorkspaceFolder(filePath(rootFolder))), DefaultProjectConfigurationStyle)
+      } yield {}
 
     def openFileAndGetLinks(path: String): Future[Seq[DocumentLink]] =
       openFile(path) flatMap (_.getDocumentLinks(path))

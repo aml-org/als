@@ -333,8 +333,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
                               Some(TraceKind.Off),
                               rootUri = Some(root),
                               projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
-        content <- AmfConfigurationWrapper().fetchContent(apiRoot).map(_.stream.toString) // Open as single file
-        _       <- openFileNotification(server)(apiRoot, content)
+        amfConfiguration <- AmfConfigurationWrapper()
+        content          <- amfConfiguration.fetchContent(apiRoot).map(_.stream.toString) // Open as single file
+        _                <- openFileNotification(server)(apiRoot, content)
         // api.raml, fragment.raml
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall

@@ -52,21 +52,22 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets with MarkerFinderTest 
   }
 
   def runTestForCustomDialect(path: String, dialectPath: String, originalSuggestions: Set[String]): Future[Assertion] = {
-    val p                = filePath(dialectPath)
-    val amfConfiguration = AmfConfigurationWrapper()
-    amfConfiguration
-      .parse(p)
-      .map { r =>
-        r.result.baseUnit match {
-          case d: Dialect => amfConfiguration.registerDialect(d)
+    val p = filePath(dialectPath)
+    AmfConfigurationWrapper().flatMap(amfConfiguration => {
+      amfConfiguration
+        .parse(p)
+        .map { r =>
+          r.result.baseUnit match {
+            case d: Dialect => amfConfiguration.registerDialect(d)
+          }
+          r
         }
-        r
-      }
-      .flatMap(_ =>
-        suggest(path, amfConfiguration).map(suggestions => {
-          assert(suggestions.map(_.label).size == originalSuggestions.size)
-          assert(suggestions.map(_.label).forall(s => originalSuggestions.contains(s)))
-          assert(originalSuggestions.forall(s => suggestions.map(_.label).contains(s)))
-        }))
+        .flatMap(_ =>
+          suggest(path, amfConfiguration).map(suggestions => {
+            assert(suggestions.map(_.label).size == originalSuggestions.size)
+            assert(suggestions.map(_.label).forall(s => originalSuggestions.contains(s)))
+            assert(originalSuggestions.forall(s => suggestions.map(_.label).contains(s)))
+          }))
+    })
   }
 }

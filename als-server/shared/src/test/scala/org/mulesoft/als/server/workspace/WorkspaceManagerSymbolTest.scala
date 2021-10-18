@@ -19,10 +19,9 @@ class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
     ExecutionContext.Implicits.global
 
   private def testStructureForFile(server: LanguageServer, url: String) = {
-    val amfConfiguration = AmfConfigurationWrapper()
-
     for {
-      _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+      amfConfiguration <- AmfConfigurationWrapper()
+      _                <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
       _ <- {
         amfConfiguration.fetchContent(url).map { c =>
           server.textDocumentSyncConsumer.didOpen(DidOpenTextDocumentParams(

@@ -156,7 +156,7 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
 
             override def branch: EnvironmentProvider = ???
 
-            override val amfConfiguration: AmfConfigurationWrapper = AmfConfigurationWrapper()
+            override val amfConfiguration: AmfConfigurationWrapper = AmfConfigurationWrapper(Seq.empty)
 
             override def openedFiles: Seq[String] = Seq.empty
 
