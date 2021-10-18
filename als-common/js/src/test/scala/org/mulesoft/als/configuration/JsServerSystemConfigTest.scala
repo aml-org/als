@@ -1,24 +1,28 @@
 package org.mulesoft.als.configuration
 
-import amf.core.client.common.remote.Content
 import amf.core.client.platform.resource.ClientResourceLoader
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.internal.unsafe.PlatformSecrets
 import org.scalatest.{FlatSpec, Matchers}
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 import scala.scalajs.js
-import scala.scalajs.js.JSConverters.JSRichGenTraversableOnce
+import scala.scalajs.js.JSConverters.{JSRichGenTraversableOnce, _}
+import scala.scalajs.js.{Promise, native}
 
 class JsServerSystemConfigTest extends FlatSpec with Matchers with PlatformSecrets {
   behavior of "Js Server configuration test"
 
-  val fakeRL: ClientResourceLoader = new ResourceLoader {
-    override def fetch(resource: String): Future[Content] = Future.successful(new Content("t", "t"))
-
-    override def accepts(resource: String): Boolean = false
-  }.asInstanceOf[ClientResourceLoader]
+  val fakeRL: ClientResourceLoader = js.Dynamic
+    .literal(
+      accepts = new js.Function1[String, Boolean] {
+        override def apply(arg1: String): Boolean = false
+      },
+      fetch = new js.Function1[String, js.Promise[_]] {
+        override def apply(arg1: String): Promise[_] = js.Promise.resolve[String]("")
+      }
+    )
+    .asInstanceOf[ClientResourceLoader]
 
   val platfromLoaders: List[ResourceLoader] = platform.loaders().toList
 
@@ -37,10 +41,24 @@ class JsServerSystemConfigTest extends FlatSpec with Matchers with PlatformSecre
   }
 
   it should "keep platform loaders when added" in {
-    val jsServerSystemConf: JsServerSystemConf = JsServerSystemConf(
-      clientLoaders = (platform.loaders().map(_.asInstanceOf[ClientResourceLoader]) :+ fakeRL).toJSArray)
+    val jsServerSystemConf: JsServerSystemConf =
+      JsServerSystemConf(clientLoaders = (platform.loaders().map(_.toClient) :+ fakeRL).toJSArray)
     val loaders = jsServerSystemConf.amfConfiguration.resourceLoaders
     loaders.size should be(3)
+  }
+
+  implicit class nativeRLWrapper(rl: ResourceLoader) {
+    def toClient: ClientResourceLoader =
+      js.Dynamic
+        .literal(
+          accepts = new js.Function1[String, Boolean] {
+            override def apply(arg1: String): Boolean = rl.accepts(arg1)
+          },
+          fetch = new js.Function1[String, js.Promise[_]] {
+            override def apply(arg1: String): Promise[_] = rl.fetch(arg1).toJSPromise
+          }
+        )
+        .asInstanceOf[ClientResourceLoader]
   }
 
 }

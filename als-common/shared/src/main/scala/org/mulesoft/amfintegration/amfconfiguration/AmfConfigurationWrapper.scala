@@ -43,8 +43,7 @@ class AmfConfigurationWrapper private[amfintegration] (private val initialConfig
                                                        val alsDialectProvider: BaseAlsDialectProvider,
                                                        val resourceLoaders: Seq[ResourceLoader],
                                                        amfConfigurationState: Option[AMFConfigurationStateManager] =
-                                                         None,
-                                                       withRawDialects: Boolean = true)
+                                                         None)
     extends PlatformSecrets
     with WithWorkspaceConfiguration {
 
@@ -89,19 +88,17 @@ class AmfConfigurationWrapper private[amfintegration] (private val initialConfig
   def init(): Future[AmfConfigurationWrapper] = {
     configuration = configuration
       .withPlugins(alsCustomPlugins)
-    if (withRawDialects)
-      Future
-        .sequence(alsDialectProvider.rawDialects.map(raw => {
-          innerAmfConfigurationState
-            .configForSpec(Spec.AML)
-            .baseUnitClient()
-            .parseDialect(raw.uri)
-            .map(d => registerDialect(d.dialect))
-        }))
-        .map(_ => {
-          this
-        })
-    else Future(this)
+    Future
+      .sequence(alsDialectProvider.rawDialects.map(raw => {
+        innerAmfConfigurationState
+          .configForSpec(Spec.AML)
+          .baseUnitClient()
+          .parseDialect(raw.uri)
+          .map(d => registerDialect(d.dialect))
+      }))
+      .map(_ => {
+        this
+      })
   }
 
   def useCache(cache: UnitCache): Unit =
@@ -221,8 +218,7 @@ object AmfConfigurationWrapper {
       AlsVocabularyRegistry(DefaultVocabularies.all),
       provider,
       loaders,
-      None,
-      withRawDialects
+      None
     )
     wrapper.init()
     wrapper
