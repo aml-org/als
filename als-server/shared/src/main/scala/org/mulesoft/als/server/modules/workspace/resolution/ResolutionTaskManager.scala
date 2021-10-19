@@ -61,7 +61,8 @@ class ResolutionTaskManager private (telemetryProvider: TelemetryProvider,
       }
       logger.debug(s"Updating $uri unit", "ResolutionTaskManager", "processTask")
       repository.updateUnit(uri, resolvedInstance)
-      subscribers.foreach(_.onNewAst(resolvedInstance, uuid))
+      // prevents notifying diagnostics on dependencies
+      if (!params.isDependency) subscribers.foreach(_.onNewAst(resolvedInstance, uuid))
     }
   }
 
