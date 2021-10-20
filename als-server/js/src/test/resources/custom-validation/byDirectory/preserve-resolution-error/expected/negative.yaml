@@ -10,7 +10,7 @@ diagnostics:
     message: Scalars in parameters must have minLength defined
     range: Range(common.Position[L:9,C:6],common.Position[L:10,C:0])
     severity: Error
-    code: profile.yaml#scalar-parameters
+    code: file://als-server/js/src/test/resources/custom-validation/byDirectory/preserve-resolution-error/profile.yaml#/encodes/validations/scalar-parameters
     relatedInformation:
       -
         message: Error expected 1 >= actual (actual=0) at shapes.schema / shacl.minLength
@@ -19,7 +19,7 @@ diagnostics:
     message: Scalars in parameters must have minLength defined
     range: Range(common.Position[L:20,C:6],common.Position[L:20,C:8])
     severity: Error
-    code: profile.yaml#scalar-parameters
+    code: file://als-server/js/src/test/resources/custom-validation/byDirectory/preserve-resolution-error/profile.yaml#/encodes/validations/scalar-parameters
     relatedInformation:
       -
         message: Error expected 1 >= actual (actual=0) at shapes.schema / shacl.minLength

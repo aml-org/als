@@ -4,7 +4,7 @@ diagnostics:
     message: Scalars in parameters must have minLength defined
     range: Range(common.Position[L:9,C:6],common.Position[L:10,C:0])
     severity: Error
-    code: profile.yaml#validation1
+    code: file://als-server/js/src/test/resources/custom-validation/byDirectory/profile7/profile.yaml#/encodes/validations/validation1
     relatedInformation:
       -
         message: Error expected 1 >= actual (actual=0) at shacl.minLength
@@ -16,7 +16,7 @@ diagnostics:
     message: Scalars in parameters must have minLength defined
     range: Range(common.Position[L:23,C:6],common.Position[L:24,C:0])
     severity: Error
-    code: profile.yaml#validation1
+    code: file://als-server/js/src/test/resources/custom-validation/byDirectory/profile7/profile.yaml#/encodes/validations/validation1
     relatedInformation:
       -
         message: Error expected 1 >= actual (actual=0) at shacl.minLength

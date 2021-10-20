@@ -87,7 +87,7 @@
       "resultSeverity": {
         "@id": "http://www.w3.org/ns/shacl#Violation"
       },
-      "sourceShapeName": "test-min-length",
+      "sourceShapeName": "validation1",
       "trace": [
         {
           "@type": [

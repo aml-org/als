@@ -4,7 +4,7 @@ diagnostics:
     message: Endpoints must have a POST method
     range: Range(common.Position[L:13,C:2],common.Position[L:21,C:0])
     severity: Error
-    code: profile.yaml#validation1
+    code: file://als-server/js/src/test/resources/custom-validation/byDirectory/profile3/profile.yaml#/encodes/validations/validation1
     relatedInformation:
       -
         message: Error expected ["put","patch"] but got actual (actual=get) at apiContract.method
@@ -16,7 +16,7 @@ diagnostics:
     message: Endpoints must have a POST method
     range: Range(common.Position[L:30,C:2],common.Position[L:39,C:0])
     severity: Error
-    code: profile.yaml#validation1
+    code: file://als-server/js/src/test/resources/custom-validation/byDirectory/profile3/profile.yaml#/encodes/validations/validation1
     relatedInformation:
       -
         message: Error expected ["put","patch"] but got actual (actual=get) at apiContract.method
@@ -28,7 +28,7 @@ diagnostics:
     message: Endpoints must have a POST method
     range: Range(common.Position[L:48,C:2],common.Position[L:55,C:12])
     severity: Error
-    code: profile.yaml#validation1
+    code: file://als-server/js/src/test/resources/custom-validation/byDirectory/profile3/profile.yaml#/encodes/validations/validation1
     relatedInformation:
       -
         message: Error expected ["put","patch"] but got actual (actual=post) at apiContract.method

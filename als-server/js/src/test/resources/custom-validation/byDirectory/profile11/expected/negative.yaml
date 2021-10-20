@@ -4,7 +4,7 @@ diagnostics:
     message: Validation error
     range: Range(common.Position[L:6,C:2],common.Position[L:8,C:17])
     severity: Error
-    code: profile.yaml#array-limits
+    code: file://als-server/js/src/test/resources/custom-validation/byDirectory/profile11/profile.yaml#/encodes/validations/array-limits
     relatedInformation:
       -
         message: Error expected 50 < actual (actual=100) at shacl.minCount
