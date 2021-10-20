@@ -16,7 +16,6 @@ import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, M
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.common.{Location, Position, Range}
 import org.mulesoft.lsp.feature.diagnostic.{DiagnosticSeverity, PublishDiagnosticsParams}
-import org.scalatest.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -58,30 +57,6 @@ class CustomValidationManagerTest
                                       factory.resolutionTaskManager)
     dm.foreach(m => b.addInitializableModule(m))
     (b.build(), factory.workspaceManager)
-  }
-
-  class DummyAmfOpaValidator(val result: String = "{}") extends AMFOpaValidator {
-    override val logger: Logger = EmptyLogger
-
-    private var calls: Map[String, String] = Map.empty
-    private var callCount: Int             = 0
-
-    override def validateWithProfile(profile: String, data: String): Future[ValidationResult] = {
-      calls = calls + (profile -> data)
-      callCount = callCount + 1
-      Future.successful(result)
-    }
-
-    def called(profile: String, goldenUri: String): Future[Assertion] = {
-      val v = calls.get(profile)
-      assert(v.isDefined)
-      for {
-        tmp <- writeTemporaryFile(goldenUri)(v.get)
-        r   <- assertDifferences(tmp, goldenUri)
-      } yield r
-    }
-
-    def calledNTimes(n: Int): Assertion = assert(callCount == n)
   }
 
   def getDiagnostics(implicit diagnosticNotifier: MockDiagnosticClientNotifier): Future[PublishDiagnosticsParams] = {
@@ -134,7 +109,7 @@ class CustomValidationManagerTest
   }
 
   test("Should be called after a profile is registered") {
-    implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(6000)
+    implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
     val validator                                                 = new DummyAmfOpaValidator
     val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
     val initialArgs                                               = changeConfigArgs(Some(mainFile), None, Set.empty, Set.empty)
@@ -161,7 +136,7 @@ class CustomValidationManagerTest
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
       .flatMap(negativeReport => {
-        implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(13000)
+        implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
         val validator                                                 = new DummyAmfOpaValidator(negativeReport.toString)
         val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
         val args                                                      = changeConfigArgs(Some(mainFile), None, Set.empty, Set(profileUri))
@@ -197,7 +172,7 @@ class CustomValidationManagerTest
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
       .flatMap(negativeReport => {
-        implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(13000)
+        implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
         val validator                                                 = new DummyAmfOpaValidator(negativeReport.toString)
         val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
         val args                                                      = changeConfigArgs(None, Some(workspacePath), Set.empty, Set(profileUri))
@@ -205,7 +180,7 @@ class CustomValidationManagerTest
         withServer(server, buildInitParams(workspacePath)) {
           server =>
             for {
-              content     <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
+              content     <- platform.fetchContent(isolatedFile, AMFGraphConfiguration.predefined()).map(_.toString())
               _           <- openFile(server)(isolatedFile, content)
               _           <- getDiagnostics
               _           <- changeWorkspaceConfiguration(workspaceManager, args) // register
@@ -236,7 +211,7 @@ class CustomValidationManagerTest
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
       .flatMap(negativeReport => {
-        implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(13000)
+        implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
         val validator                                                 = new DummyAmfOpaValidator(negativeReport.toString)
         val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
         val args                                                      = changeConfigArgs(None, Some(workspacePath), Set.empty, Set(profileUri))
@@ -244,7 +219,7 @@ class CustomValidationManagerTest
         withServer(server, buildInitParams(workspacePath)) {
           server =>
             for {
-              content     <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
+              content     <- platform.fetchContent(isolatedFile, AMFGraphConfiguration.predefined()).map(_.toString())
               _           <- openFile(server)(isolatedFile, content)
               _           <- getDiagnostics
               _           <- changeWorkspaceConfiguration(workspaceManager, args) // register
@@ -280,7 +255,7 @@ class CustomValidationManagerTest
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
       .flatMap(negativeReport => {
-        implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
+        implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
         val validator                                                 = new DummyAmfOpaValidator(negativeReport.toString)
         val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
         val initialArgs                                               = changeConfigArgs(Some(mainFile))
@@ -290,7 +265,7 @@ class CustomValidationManagerTest
           server =>
             for {
               _       <- changeWorkspaceConfiguration(workspaceManager, initialArgs) // Set main file
-              content <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
+              content <- platform.fetchContent(isolatedFile, AMFGraphConfiguration.predefined()).map(_.toString())
               _       <- openFile(server)(isolatedFile, content)
               _       <- getDiagnostics // main file
               _       <- getDiagnostics // isolated file
@@ -317,7 +292,7 @@ class CustomValidationManagerTest
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
       .flatMap(negativeReport => {
-        implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(13000)
+        implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
         val validator                                                 = new DummyAmfOpaValidator(negativeReport.toString)
         val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
         val args                                                      = changeConfigArgs(None, Some(workspacePath), Set.empty, Set(profileUri))
@@ -326,7 +301,7 @@ class CustomValidationManagerTest
           server =>
             for {
               _           <- changeWorkspaceConfiguration(workspaceManager, args) // register
-              content     <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
+              content     <- platform.fetchContent(isolatedFile, AMFGraphConfiguration.predefined()).map(_.toString())
               _           <- openFile(server)(isolatedFile, content)
               profile     <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
               diagnostics <- getDiagnostics
@@ -355,7 +330,7 @@ class CustomValidationManagerTest
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
       .flatMap(negativeReport => {
-        implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(6000)
+        implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
         val validator                                                 = new DummyAmfOpaValidator(negativeReport.toString)
         val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
         val args                                                      = changeConfigArgs(Some(mainFile), None, Set.empty, Set(profileUri))
@@ -397,7 +372,7 @@ class CustomValidationManagerTest
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
       .flatMap(negativeReport => {
-        implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(13000)
+        implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
         val validator                                                 = new DummyAmfOpaValidator(negativeReport.toString)
         val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
         val args                                                      = changeConfigArgs(None, Some(workspacePath), Set.empty, Set(profileUri))
@@ -406,7 +381,7 @@ class CustomValidationManagerTest
         withServer(server, buildInitParams(workspacePath)) {
           server =>
             for {
-              content         <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
+              content         <- platform.fetchContent(isolatedFile, AMFGraphConfiguration.predefined()).map(_.toString())
               _               <- openFile(server)(isolatedFile, content)
               _               <- getDiagnostics // Open file
               _               <- changeWorkspaceConfiguration(workspaceManager, args) // register

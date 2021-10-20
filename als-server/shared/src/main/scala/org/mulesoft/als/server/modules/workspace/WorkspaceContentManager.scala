@@ -3,7 +3,6 @@ package org.mulesoft.als.server.modules.workspace
 import amf.aml.client.scala.model.document.{Dialect, DialectInstance}
 import amf.core.client.scala.model.document.ExternalFragment
 import amf.core.internal.remote.Platform
-import amf.core.internal.validation.core.ValidationProfile
 import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.configuration.ConfigurationStyle.COMMAND
 import org.mulesoft.als.configuration.ProjectConfigurationStyle
@@ -183,18 +182,22 @@ class WorkspaceContentManager private (val folderUri: String,
 
   private def processIsolated(file: String, uuid: String): Future[Unit] =
     parse(file, uuid)
-      .map { bu =>
-        repository.updateUnit(bu)
-        logger.debug(s"sending new AST from $folderUri", "WorkspaceContentManager", "processIsolated")
-
-        subscribers.foreach(s =>
-          try {
-            s.onNewAst(BaseUnitListenerParams(bu, Map.empty, tree = false), uuid)
-          } catch {
-            case e: Exception =>
-              logger.error(s"subscriber $s threw ${e.getMessage}", "processIsolated", "WorkspaceContentManager")
-        })
+      .map { result =>
+        updateUnit(uuid, result, isDependency = false)
       }
+
+  private def updateUnit(uuid: String, result: AmfParseResult, isDependency: Boolean): Unit = {
+    repository.updateUnit(result)
+    logger.debug(s"sending new AST from $folderUri", "WorkspaceContentManager", "processIsolated")
+
+    subscribers.foreach(s =>
+      try {
+        s.onNewAst(BaseUnitListenerParams(result, Map.empty, tree = false, isDependency), uuid)
+      } catch {
+        case e: Exception =>
+          logger.error(s"subscriber $s threw ${e.getMessage}", "processIsolated", "WorkspaceContentManager")
+    })
+  }
 
   /**
     * Called only for file that are part of the tree as isolated files are always parsed
@@ -230,6 +233,14 @@ class WorkspaceContentManager private (val folderUri: String,
     closedFiles.foreach { cf =>
       repository.removeUnit(cf._1)
       subscribers.foreach(_.onRemoveFile(cf._1))
+      if (workspaceConfiguration.exists(c => c.profiles.contains(cf._1))) {
+        // restore registered profile
+        val profile = environmentProvider.amfConfiguration.profiles()(cf._1)
+        repository.updateUnit(profile)
+        subscribers.foreach(
+          _.onNewAst(BaseUnitListenerParams(profile, Map.empty, tree = false, isDependency = true),
+                     UUID.randomUUID().toString))
+      }
     }
 
   private def processChangeConfigChanges(snapshot: Snapshot): Future[Unit] = {
@@ -293,17 +304,19 @@ class WorkspaceContentManager private (val folderUri: String,
 
   private def registerNewValidationProfiles(validationProfiles: Set[String]): Future[Unit] = {
     environmentProvider.amfConfiguration.cleanValidationProfiles()
+    val uuid = UUID.randomUUID().toString
     Future
       .sequence(
-        validationProfiles.map(parse(_, UUID.randomUUID().toString))
+        validationProfiles.map(parse(_, uuid))
       )
       .map(_.flatMap(r => {
         if (r.result.baseUnit.isValidationProfile) {
           val d = r.result.baseUnit
+          updateUnit(uuid, r, isDependency = true)
           logger.debug("Adding validation profile: " + d.identifier,
                        "WorkspaceContentManager",
                        "registerNewValidationProfiles")
-          environmentProvider.amfConfiguration.registerValidationProfile(d)
+          environmentProvider.amfConfiguration.registerValidationProfile(r)
           d.location()
         } else {
           logger.error(s"The following validation profile: ${r.result.baseUnit.identifier} is not valid",
@@ -316,12 +329,21 @@ class WorkspaceContentManager private (val folderUri: String,
   }
 
   private def revalidateUnits(validationProfiles: Set[String]): Future[Unit] = Future {
-    val revalidateUris: List[String] = repository.getIsolatedUris.filter(uri => {
-      repository
-        .getUnit(uri)
-        .flatMap(_.parsedResult.amfConfiguration.workspaceConfiguration.map(_.profiles))
-        .getOrElse(Set.empty) != validationProfiles
-    })
+    val revalidateUris: List[String] = repository.getIsolatedUris
+      .map(uri => (uri, repository.getUnit(uri)))
+      .filter {
+        // revalidate if previous unit wasn't validated by any of the current profiles
+        // but don't do it if it is itself a validation profile
+        case (_, Some(result)) =>
+          val requiresValidation = result.parsedResult.amfConfiguration.workspaceConfiguration
+            .map(_.profiles)
+            .getOrElse(Set.empty) != validationProfiles
+          val isProfile = result.parsedResult.result.baseUnit.isValidationProfile
+          requiresValidation && !isProfile
+        case (_, _) => true
+      }
+      .map(_._1)
+
     if (revalidateUris.nonEmpty)
       revalidateUris.foreach(uri => {
         logger.debug(s"Enqueuing isolated file ($uri) because of changes on validation profiles",

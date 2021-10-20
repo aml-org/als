@@ -7,7 +7,7 @@ import amf.core.client.scala.errorhandling.IgnoringErrorHandler
 import amf.core.client.scala.model.document.Document
 import amf.core.client.scala.resource.ResourceLoader
 import org.mulesoft.als.common.diff.Diff.makeString
-import org.mulesoft.als.common.diff.{Diff, Tests}
+import org.mulesoft.als.common.diff.{Diff, FileAssertionTest, Tests}
 import org.mulesoft.als.server._
 import org.mulesoft.als.server.feature.serialization.{SerializationClientCapabilities, SerializationParams}
 import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
@@ -21,11 +21,17 @@ import org.yaml.builder.{DocBuilder, JsonOutputBuilder}
 import org.yaml.model.{YDocument, YMap, YSequence}
 import org.yaml.parser.YamlParser
 import amf.core.internal.plugins.syntax.SyamlAMFErrorHandler
+import org.mulesoft.als.configuration.ConfigurationStyle.COMMAND
+import org.mulesoft.als.configuration.ProjectConfigurationStyle
+import org.mulesoft.als.server.client.ClientNotifier
+import org.mulesoft.als.server.modules.diagnostic.DummyAmfOpaValidator
+import org.mulesoft.als.server.workspace.{ChangesWorkspaceConfiguration, WorkspaceManager}
+import org.scalatest.Assertion
 
 import java.io.StringWriter
 import scala.concurrent.{ExecutionContext, Future}
 
-class SerializationTest extends LanguageServerBaseTest {
+class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConfiguration with FileAssertionTest {
 
   override implicit val executionContext: ExecutionContext =
     ExecutionContext.Implicits.global
@@ -41,7 +47,7 @@ class SerializationTest extends LanguageServerBaseTest {
         override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
           JsonOutputBuilder(prettyPrint)
       }
-    withServer(buildServer(alsClient, serializationProps)) { server =>
+    withServer(buildServer(serializationProps)) { server =>
       val content =
         """#%RAML 1.0
           |title: test
@@ -82,7 +88,7 @@ class SerializationTest extends LanguageServerBaseTest {
         override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
           JsonOutputBuilder(prettyPrint)
       }
-    withServer(buildServer(alsClient, serializationProps)) { server =>
+    withServer(buildServer(serializationProps)) { server =>
       val content =
         """#%RAML 1.0
           |title: test
@@ -124,7 +130,7 @@ class SerializationTest extends LanguageServerBaseTest {
         override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
           JsonOutputBuilder(prettyPrint)
       }
-    withServer(buildServer(alsClient, serializationProps)) { server =>
+    withServer(buildServer(serializationProps)) { server =>
       val content =
         """#%RAML 1.0
           |title: test
@@ -190,7 +196,7 @@ class SerializationTest extends LanguageServerBaseTest {
         override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
           JsonOutputBuilder(prettyPrint)
       }
-    withServer(buildServer(alsClient, serializationProps)) { server =>
+    withServer(buildServer(serializationProps)) { server =>
       val url = filePath("raml-endpoint-sorting.raml")
 
       for {
@@ -228,7 +234,7 @@ class SerializationTest extends LanguageServerBaseTest {
         override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
           JsonOutputBuilder(prettyPrint)
       }
-    withServer(buildServer(alsClient, serializationProps)) { server =>
+    withServer(buildServer(serializationProps)) { server =>
       val url = filePath("raml-endpoint-sorting.raml")
 
       for {
@@ -284,7 +290,7 @@ class SerializationTest extends LanguageServerBaseTest {
         override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
           JsonOutputBuilder(prettyPrint)
       }
-    withServer(buildServer(alsClient, serializationProps)) { server =>
+    withServer(buildServer(serializationProps)) { server =>
       val mainUrl      = filePath("project/librarybooks.raml")
       val extensionUrl = filePath("project/extension.raml")
       val overlayUrl   = filePath("project/overlay.raml")
@@ -335,7 +341,7 @@ class SerializationTest extends LanguageServerBaseTest {
         override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
           JsonOutputBuilder(prettyPrint)
       }
-    withServer(buildServer(alsClient, serializationProps)) { server =>
+    withServer(buildServer(serializationProps)) { server =>
       val mainUrl      = filePath("project-overlay-mf/librarybooks.raml")
       val extensionUrl = filePath("project-overlay-mf/extension.raml")
       val overlayUrl   = filePath("project-overlay-mf/overlay.raml")
@@ -417,22 +423,127 @@ class SerializationTest extends LanguageServerBaseTest {
       })
   }
 
-  def buildServer(alsClient: MockAlsClientNotifier,
-                  serializationProps: SerializationProps[StringWriter]): LanguageServer = {
-    val factoryBuilder: WorkspaceManagerFactoryBuilder =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
+  val mainUrl: String         = filePath("custom-validation/api.raml")
+  val goldenUrl: String       = filePath("custom-validation/profile-serialized-golden.jsonld")
+  val editedGoldenUrl: String = filePath("custom-validation/profile-serialized-edited-golden.jsonld")
+  val profileUrl: String      = filePath("custom-validation/profile.yaml")
+  val workspace               = s"${filePath("custom-validation")}"
+
+  test("Serialize registered validation profile") {
+    val alsClient: MockAlsClientNotifier       = new MockAlsClientNotifier
+    val notifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
+    val initialArgs: String                    = changeConfigArgs(Some(mainUrl), Some(workspace), Set.empty, Set(profileUrl))
+    implicit val serializationProps: SerializationProps[StringWriter] = {
+      new SerializationProps[StringWriter](alsClient) {
+        override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
+          JsonOutputBuilder(prettyPrint)
+      }
+    }
+    val (server, workspaceManager) =
+      buildServerWithWorkspaceManager(serializationProps, notifier, withDiagnostics = true)
+    withServer(server) { server =>
+      for {
+        _ <- server.initialize(
+          AlsInitializeParams(None,
+                              Some(TraceKind.Off),
+                              rootUri = Some(workspace),
+                              projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
+        _ <- changeWorkspaceConfiguration(workspaceManager, initialArgs)
+        _ <- notifier.nextCall
+        r <- assertSerialization(server, profileUrl, goldenUrl)
+      } yield r
+    }
+  }
+
+  test("Serialize unregistered validation profile") {
+    val workspace                              = s"${filePath("custom-validation")}"
+    val alsClient: MockAlsClientNotifier       = new MockAlsClientNotifier
+    val notifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
+    implicit val serializationProps: SerializationProps[StringWriter] = {
+      new SerializationProps[StringWriter](alsClient) {
+        override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
+          JsonOutputBuilder(prettyPrint)
+      }
+    }
+    val (server, _) = buildServerWithWorkspaceManager(serializationProps, notifier, withDiagnostics = true)
+    withServer(server) { server =>
+      for {
+        _       <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(workspace)))
+        content <- platform.fetchContent(profileUrl, AMFGraphConfiguration.predefined())
+        _       <- openFile(server)(profileUrl, content.stream.toString)
+        _       <- notifier.nextCall
+        r       <- assertSerialization(server, profileUrl, goldenUrl)
+      } yield r
+    }
+  }
+
+  test("Serialize validation profile (editing workflow)") {
+    val workspace                              = s"${filePath("custom-validation")}"
+    val alsClient: MockAlsClientNotifier       = new MockAlsClientNotifier
+    val notifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
+    val initialArgs: String                    = changeConfigArgs(Some(mainUrl), Some(workspace), Set.empty, Set(profileUrl))
+    implicit val serializationProps: SerializationProps[StringWriter] = {
+      new SerializationProps[StringWriter](alsClient) {
+        override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
+          JsonOutputBuilder(prettyPrint)
+      }
+    }
+    val (server, workspaceManager) =
+      buildServerWithWorkspaceManager(serializationProps, notifier, withDiagnostics = true)
+    withServer(server) { server =>
+      for {
+        _ <- server.initialize(
+          AlsInitializeParams(None,
+                              Some(TraceKind.Off),
+                              rootUri = Some(workspace),
+                              projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
+        _       <- changeWorkspaceConfiguration(workspaceManager, initialArgs)
+        _       <- notifier.nextCall
+        _       <- assertSerialization(server, profileUrl, goldenUrl) // Registered profile
+        content <- platform.fetchContent(profileUrl, AMFGraphConfiguration.predefined()).map(_.stream.toString)
+        _       <- openFile(server)(profileUrl, content)
+        _       <- notifier.nextCall
+        _       <- assertSerialization(server, profileUrl, goldenUrl) // Opened profile
+        _       <- changeFile(server)(profileUrl, content.replace("warning:\n  - ab", ""), 1)
+        _       <- notifier.nextCall
+        _       <- assertSerialization(server, profileUrl, editedGoldenUrl) // Edited profile
+        _       <- closeFile(server)(profileUrl)
+        r       <- assertSerialization(server, profileUrl, goldenUrl) // Closed profile (back to the registered one)
+      } yield r
+    }
+  }
+
+  def assertSerialization(server: LanguageServer, url: String, golden: String)(
+      implicit serializationProps: SerializationProps[StringWriter]): Future[Assertion] =
+    for {
+      serialized <- serialized(server, url, serializationProps)
+      tmp        <- writeTemporaryFile(golden)(serialized)
+      r          <- assertDifferences(tmp, golden)
+    } yield r
+
+  def buildServer(serializationProps: SerializationProps[StringWriter],
+                  notifier: Option[ClientNotifier] = None): LanguageServer =
+    buildServerWithWorkspaceManager(serializationProps, notifier.getOrElse(new MockDiagnosticClientNotifier))._1
+
+  def buildServerWithWorkspaceManager(serializationProps: SerializationProps[StringWriter],
+                                      notifier: ClientNotifier,
+                                      withDiagnostics: Boolean = false): (LanguageServer, WorkspaceManager) = {
+
+    val factoryBuilder: WorkspaceManagerFactoryBuilder = new WorkspaceManagerFactoryBuilder(notifier, logger)
+    val dm                                             = factoryBuilder.buildDiagnosticManagers(Some(new DummyAmfOpaValidator))
     val serializationManager: SerializationManager[StringWriter] =
       factoryBuilder.serializationManager(serializationProps)
-    val factory: WorkspaceManagerFactory =
-      factoryBuilder.buildWorkspaceManagerFactory()
+    val factory: WorkspaceManagerFactory = factoryBuilder.buildWorkspaceManagerFactory()
+
     val builder =
       new LanguageServerBuilder(factory.documentManager,
                                 factory.workspaceManager,
                                 factory.configurationManager,
                                 factory.resolutionTaskManager)
     builder.addInitializableModule(serializationManager)
+    if (withDiagnostics) dm.foreach(m => builder.addInitializableModule(m))
     builder.addRequestModule(serializationManager)
-    builder.build()
+    (builder.build(), factory.workspaceManager)
   }
 
   override def rootPath: String = "serialization"

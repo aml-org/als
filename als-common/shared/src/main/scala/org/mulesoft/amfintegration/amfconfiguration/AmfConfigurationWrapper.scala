@@ -47,17 +47,17 @@ class AmfConfigurationWrapper private[amfintegration] (private val initialConfig
     extends PlatformSecrets
     with WithWorkspaceConfiguration {
 
-  private var customValidationProfiles: Map[String, BaseUnit] = Map()
+  private var customValidationProfiles: Map[String, AmfParseResult] = Map()
 
-  def profiles(): Map[String, BaseUnit] = customValidationProfiles
+  def profiles(): Map[String, AmfParseResult] = customValidationProfiles
 
   def cleanValidationProfiles(): Unit =
     customValidationProfiles = Map()
 
-  def registerValidationProfile(unit: BaseUnit): Unit =
-    customValidationProfiles = customValidationProfiles + ((unit.identifier, unit))
+  def registerValidationProfile(result: AmfParseResult): Unit =
+    customValidationProfiles = customValidationProfiles + ((result.result.baseUnit.identifier, result))
 
-  def withProfiles(units: Seq[BaseUnit]): this.type = {
+  def withProfiles(units: Seq[AmfParseResult]): this.type = {
     units.foreach(registerValidationProfile)
     this
   }

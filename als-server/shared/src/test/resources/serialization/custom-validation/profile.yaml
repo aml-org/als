@@ -1,0 +1,38 @@
+#%Validation Profile 1.0
+profile: My Profile
+warning:
+  - ab
+violation:
+  - scalar-parameters
+validations:
+  scalar-parameters:
+    targetClass: apiContract.Parameter
+    message: Scalars in parameters must have minLength defined
+    propertyConstraints:
+      shapes.schema / shacl.minLength:
+        minCount: 1
+  ab:
+    message: |
+      Ensure API can only be accessed by the specified HTTP verbs. All other HTTP verbs should be disabled (e.g. HEAD).
+    targetClass: apiContract.Operation
+    if:
+      not:
+        propertyConstraints:
+          apiContract.returns:
+            atLeast:
+              count: 1
+              validation:
+                propertyConstraints:
+                  apiContract.statusCode:
+                    in:
+                      - "200"
+    then:
+      propertyConstraints:
+        apiContract.returns:
+          atLeast:
+            count: 1
+            validation:
+              propertyConstraints:
+                apiContract.statusCode:
+                  in:
+                    - "403"

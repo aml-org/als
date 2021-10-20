@@ -1,0 +1,20 @@
+#%RAML 1.0
+title: test
+securitySchemes:
+    sec:
+      type: Digest Authentication
+      describedBy:
+        headers:
+          A-IM: integer
+traits:
+  tr1:
+    securedBy:
+      - sec
+/endpoint:
+  description: endpoint
+  is:
+    - tr1
+  get:
+    body:
+      application/json:
+        type: string

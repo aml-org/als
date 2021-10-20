@@ -70,7 +70,7 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
               .map(t => {
                 val (profile, profileUnit) = t
                 logger.debug(s"Validate with profile: $profile", "CustomValidationManager", "validateWithProfile")
-                validateWithProfile(profile, profileUnit, uri, serialized, resolved.amfConfiguration)
+                validateWithProfile(profile, profileUnit.result.baseUnit, uri, serialized, resolved.amfConfiguration)
               }))
         } yield {
           results.foreach(
