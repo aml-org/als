@@ -36,7 +36,7 @@ diagnostics:
     message: Scalars in parameters must have minLength defined
     range: Range(common.Position[L:23,C:6],common.Position[L:24,C:0])
     severity: Error
-    code: profile.yaml#scalar-parameters
+    code: file://als-server/js/src/test/resources/custom-validation/byDirectory/preserve-errors/profile.yaml#/encodes/validations/scalar-parameters
     relatedInformation:
       -
         message: Error expected 1 >= actual (actual=0) at shapes.schema / shacl.minLength

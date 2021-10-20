@@ -4,7 +4,7 @@ diagnostics:
     message: maximum number of endpoints test
     range: Range(common.Position[L:1,C:0],common.Position[L:22,C:14])
     severity: Error
-    code: max-endpoints.yaml#max-endpoints
+    code: file://als-server/js/src/test/resources/custom-validation/multiple-profiles/max-endpoints.yaml#/encodes/validations/max-endpoints
     relatedInformation:
       -
         message: Error expected 3 <= actual (actual=4) at apiContract.endpoint

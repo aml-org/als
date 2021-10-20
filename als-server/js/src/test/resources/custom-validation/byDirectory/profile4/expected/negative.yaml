@@ -4,7 +4,7 @@ diagnostics:
     message: Endpoints must have a POST method
     range: Range(common.Position[L:10,C:2],common.Position[L:15,C:0])
     severity: Error
-    code: profile.yaml#validation1
+    code: file://als-server/js/src/test/resources/custom-validation/byDirectory/profile4/profile.yaml#/encodes/validations/validation1
     relatedInformation:
       -
         message: Error expected ["put","patch"] but got actual (actual=get) at apiContract.method

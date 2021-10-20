@@ -4,11 +4,11 @@ diagnostics:
     message: GET operations must have 2xx, 4xx and 5xx status codes but no 201
     range: Range(common.Position[L:12,C:2],common.Position[L:16,C:0])
     severity: Error
-    code: profile.yaml#and-or-not-rule
+    code: file://als-server/js/src/test/resources/custom-validation/byDirectory/profile6/profile.yaml#/encodes/validations/and-or-not-rule
     relatedInformation: []
   -
     message: GET operations must have 2xx, 4xx and 5xx status codes but no 201
     range: Range(common.Position[L:17,C:2],common.Position[L:19,C:10])
     severity: Error
-    code: profile.yaml#and-or-not-rule
+    code: file://als-server/js/src/test/resources/custom-validation/byDirectory/profile6/profile.yaml#/encodes/validations/and-or-not-rule
     relatedInformation: []

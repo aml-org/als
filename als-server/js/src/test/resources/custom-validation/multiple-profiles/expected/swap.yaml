@@ -4,13 +4,13 @@ diagnostics:
     message: GET operations must have 2xx, 4xx and 5xx status codes but no 201
     range: Range(common.Position[L:3,C:2],common.Position[L:7,C:0])
     severity: Error
-    code: profile.yaml#and-or-not-rule
+    code: file://als-server/js/src/test/resources/custom-validation/multiple-profiles/profile.yaml#/encodes/validations/and-or-not-rule
     relatedInformation: []
   -
     message: GET operations must have 2xx, 4xx and 5xx status codes but no 201
     range: Range(common.Position[L:8,C:2],common.Position[L:12,C:0])
     severity: Error
-    code: profile.yaml#and-or-not-rule
+    code: file://als-server/js/src/test/resources/custom-validation/multiple-profiles/profile.yaml#/encodes/validations/and-or-not-rule
     relatedInformation: []
   -
     message: |-
@@ -25,7 +25,7 @@ diagnostics:
     message: GET operations must have 2xx, 4xx and 5xx status codes but no 201
     range: Range(common.Position[L:20,C:2],common.Position[L:22,C:14])
     severity: Error
-    code: profile.yaml#and-or-not-rule
+    code: file://als-server/js/src/test/resources/custom-validation/multiple-profiles/profile.yaml#/encodes/validations/and-or-not-rule
     relatedInformation: []
   -
     message: Payload media type is mandatory
@@ -46,7 +46,7 @@ diagnostics:
     message: maximum number of endpoints test
     range: Range(common.Position[L:1,C:0],common.Position[L:22,C:14])
     severity: Error
-    code: max-endpoints.yaml#max-endpoints
+    code: file://als-server/js/src/test/resources/custom-validation/multiple-profiles/max-endpoints.yaml#/encodes/validations/max-endpoints
     relatedInformation:
       -
         message: Error expected 3 <= actual (actual=4) at apiContract.endpoint
@@ -79,7 +79,7 @@ diagnostics:
     message: maximum number of endpoints test
     range: Range(common.Position[L:1,C:0],common.Position[L:22,C:14])
     severity: Error
-    code: max-endpoints.yaml#max-endpoints
+    code: file://als-server/js/src/test/resources/custom-validation/multiple-profiles/max-endpoints.yaml#/encodes/validations/max-endpoints
     relatedInformation:
       -
         message: Error expected 3 <= actual (actual=4) at apiContract.endpoint
@@ -112,13 +112,13 @@ diagnostics:
     message: GET operations must have 2xx, 4xx and 5xx status codes but no 201
     range: Range(common.Position[L:3,C:2],common.Position[L:7,C:0])
     severity: Error
-    code: profile.yaml#and-or-not-rule
+    code: file://als-server/js/src/test/resources/custom-validation/multiple-profiles/profile.yaml#/encodes/validations/and-or-not-rule
     relatedInformation: []
   -
     message: GET operations must have 2xx, 4xx and 5xx status codes but no 201
     range: Range(common.Position[L:8,C:2],common.Position[L:12,C:0])
     severity: Error
-    code: profile.yaml#and-or-not-rule
+    code: file://als-server/js/src/test/resources/custom-validation/multiple-profiles/profile.yaml#/encodes/validations/and-or-not-rule
     relatedInformation: []
   -
     message: |-
@@ -133,7 +133,7 @@ diagnostics:
     message: GET operations must have 2xx, 4xx and 5xx status codes but no 201
     range: Range(common.Position[L:20,C:2],common.Position[L:22,C:14])
     severity: Error
-    code: profile.yaml#and-or-not-rule
+    code: file://als-server/js/src/test/resources/custom-validation/multiple-profiles/profile.yaml#/encodes/validations/and-or-not-rule
     relatedInformation: []
   -
     message: Payload media type is mandatory

@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.modules.diagnostic.custom
 
+import amf.aml.client.scala.model.document.DialectInstance
 import amf.core.client.common.validation.{ProfileName, ProfileNames}
 import amf.core.client.scala.config.RenderOptions
 import amf.core.client.scala.model.document.BaseUnit
@@ -70,7 +71,7 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
               .map(t => {
                 val (profile, profileUnit) = t
                 logger.debug(s"Validate with profile: $profile", "CustomValidationManager", "validateWithProfile")
-                validateWithProfile(profile, profileUnit.result.baseUnit, uri, serialized, resolved.amfConfiguration)
+                validateWithProfile(profileUnit.result.baseUnit, uri, serialized)
               }))
         } yield {
           results.foreach(
@@ -91,17 +92,22 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
     }
   }
 
-  private def validateWithProfile(profileUri: String,
-                                  profileUnit: BaseUnit,
+  private def validateWithProfile(profileUnit: BaseUnit,
                                   unitUri: String,
-                                  serializedUnit: String,
-                                  amfConfiguration: AmfConfigurationWrapper): Future[Seq[AlsValidationResult]] = {
-    val profileName = profileUri.substring(profileUri.lastIndexOf(amfConfiguration.platform.fs.separatorChar)) // todo: extract from profile unit?
+                                  serializedUnit: String): Future[Seq[AlsValidationResult]] = {
+
+    val profile: Option[ValidationProfileWrapper] = profileUnit match {
+      case instance: DialectInstance =>
+        Some(ValidationProfileWrapper(instance))
+      case _ => None
+    }
+    val profileName = profile.get.name()
+
     profileUnit.raw match {
       case Some(content) =>
         for {
           rawResult <- platformValidator.validateWithProfile(content, serializedUnit)
-          report    <- OPAValidatorReportLoader.load(rawResult, unitUri, profileName)
+          report    <- OPAValidatorReportLoader.load(rawResult, unitUri, profileName, profile)
         } yield report
       case _ => Future(Seq.empty)
     }

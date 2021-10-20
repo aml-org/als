@@ -4,7 +4,7 @@ diagnostics:
     message: Info
     range: Range(common.Position[L:7,C:6],common.Position[L:8,C:0])
     severity: Information
-    code: profile.yaml#scalar-parameters-3
+    code: file://als-server/js/src/test/resources/custom-validation/byDirectory/severities/profile.yaml#/encodes/validations/scalar-parameters-3
     relatedInformation:
       -
         message: Error expected 1 >= actual (actual=0) at shapes.schema / shacl.minLength
@@ -13,7 +13,7 @@ diagnostics:
     message: Violation
     range: Range(common.Position[L:7,C:6],common.Position[L:8,C:0])
     severity: Error
-    code: profile.yaml#scalar-parameters-1
+    code: file://als-server/js/src/test/resources/custom-validation/byDirectory/severities/profile.yaml#/encodes/validations/scalar-parameters-1
     relatedInformation:
       -
         message: Error expected 1 >= actual (actual=0) at shapes.schema / shacl.minLength
@@ -22,7 +22,7 @@ diagnostics:
     message: Warning
     range: Range(common.Position[L:7,C:6],common.Position[L:8,C:0])
     severity: Warning
-    code: profile.yaml#scalar-parameters-2
+    code: file://als-server/js/src/test/resources/custom-validation/byDirectory/severities/profile.yaml#/encodes/validations/scalar-parameters-2
     relatedInformation:
       -
         message: Error expected 1 >= actual (actual=0) at shapes.schema / shacl.minLength
@@ -31,7 +31,7 @@ diagnostics:
     message: Info
     range: Range(common.Position[L:17,C:6],common.Position[L:17,C:8])
     severity: Information
-    code: profile.yaml#scalar-parameters-3
+    code: file://als-server/js/src/test/resources/custom-validation/byDirectory/severities/profile.yaml#/encodes/validations/scalar-parameters-3
     relatedInformation:
       -
         message: Error expected 1 >= actual (actual=0) at shapes.schema / shacl.minLength
@@ -40,7 +40,7 @@ diagnostics:
     message: Violation
     range: Range(common.Position[L:17,C:6],common.Position[L:17,C:8])
     severity: Error
-    code: profile.yaml#scalar-parameters-1
+    code: file://als-server/js/src/test/resources/custom-validation/byDirectory/severities/profile.yaml#/encodes/validations/scalar-parameters-1
     relatedInformation:
       -
         message: Error expected 1 >= actual (actual=0) at shapes.schema / shacl.minLength
@@ -49,7 +49,7 @@ diagnostics:
     message: Warning
     range: Range(common.Position[L:17,C:6],common.Position[L:17,C:8])
     severity: Warning
-    code: profile.yaml#scalar-parameters-2
+    code: file://als-server/js/src/test/resources/custom-validation/byDirectory/severities/profile.yaml#/encodes/validations/scalar-parameters-2
     relatedInformation:
       -
         message: Error expected 1 >= actual (actual=0) at shapes.schema / shacl.minLength
