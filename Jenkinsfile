@@ -51,7 +51,6 @@ pipeline {
             }
             steps {
                 script {
-                    sh "npm-cli-login -u aml-org-bot -p $NPM_PSW -e als-amf-team@mulesoft.com"
                     publish_version = "${currentVersion}.${BUILD_NUMBER}".replace("\n", "")
                     echo "$publish_version"
                 }
@@ -130,6 +129,7 @@ pipeline {
                 wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
                     script {
                         if (failedStage.isEmpty()) {
+                            sh "npm-cli-login -u aml-org-bot -p $NPM_PSW -e als-amf-team@mulesoft.com"
                             sh 'sbt -mem 6000 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 buildNodeJsClient'
                             def statusCode = 1
                             dir("als-node-client/node-package") {
@@ -158,8 +158,8 @@ pipeline {
                 wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
                     script {
                         if (failedStage.isEmpty()) {
+                            sh "npm-cli-login -u aml-org-bot -p $NPM_PSW -e als-amf-team@mulesoft.com"
                             def statusCode = 1
-
                             statusCode = sh script:'sbt -mem 6000 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 buildJsServerLibrary', returnStatus: true
                             if(statusCode != 0) {
                                 failedStage = failedStage + " PUBLISH-SERVER-JS "
