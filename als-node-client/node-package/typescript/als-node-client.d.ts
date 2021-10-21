@@ -1,65 +1,65 @@
 declare module '@aml-org/als-node-client' {
-    import {Logger as VsCodeLogger, NotificationType, RequestType} from 'vscode-jsonrpc'
-    import {
-        ProtocolConnection, PublishDiagnosticsParams,
-        TextDocumentClientCapabilities,
-        WorkspaceClientCapabilities,
-        TextDocumentIdentifier, WorkspaceFolder, WorkspaceEdit
-    } from 'vscode-languageserver-protocol'
+  import {Logger as VsCodeLogger, NotificationType, RequestType} from 'vscode-jsonrpc'
+  import {
+    ProtocolConnection, PublishDiagnosticsParams,
+    TextDocumentClientCapabilities,
+    WorkspaceClientCapabilities,
+    TextDocumentIdentifier, WorkspaceFolder, WorkspaceEdit
+  } from 'vscode-languageserver-protocol'
 
-    /* amf-client-js */
+  /* amf-client-js */
 
-    export class AMFObjectResult {
-        results: Array<AMFValidationResult>
+  export class AMFObjectResult {
+    results: Array<AMFValidationResult>
 
-    }
+  }
 
-    export class FinishedRenderingSyntaxEvent {
-        unit: BaseUnit
+  export class FinishedRenderingSyntaxEvent {
+    unit: BaseUnit
 
-    }
+  }
 
-    export interface JsErrorHandler {
-        report(result: AMFValidationResult): void
+  export interface JsErrorHandler {
+    report(result: AMFValidationResult): void
 
-        getResults(): Array<AMFValidationResult>
-
-
-    }
-
-    export class BaseHttpResourceLoader implements ResourceLoader {
-        fetch(resource: string): Promise<Content>
-
-        accepts(resource: string): boolean
+    getResults(): Array<AMFValidationResult>
 
 
-    }
+  }
 
-    export interface DialectInstanceUnit extends BaseUnit {
-        processingData: DialectInstanceProcessingData
+  export class BaseHttpResourceLoader implements ResourceLoader {
+    fetch(resource: string): Promise<Content>
 
-        withProcessingData(data: DialectInstanceProcessingData): this
-
-        definedBy(): StrField
-
-        graphDependencies(): Array<StrField>
-
-        withDefinedBy(dialectId: string): this
-
-        withGraphDependencies(ids: Array<string>): this
+    accepts(resource: string): boolean
 
 
-    }
+  }
 
-    export class StartingParsingEvent {
-        url: string
+  export interface DialectInstanceUnit extends BaseUnit {
+    processingData: DialectInstanceProcessingData
 
-    }
+    withProcessingData(data: DialectInstanceProcessingData): this
 
-    export class JsonSchemaDraft7 implements JSONSchemaVersion {
-    }
+    definedBy(): StrField
 
-    export interface JsPayloadValidator {
+    graphDependencies(): Array<StrField>
+
+    withDefinedBy(dialectId: string): this
+
+    withGraphDependencies(ids: Array<string>): this
+
+
+  }
+
+  export class StartingParsingEvent {
+    url: string
+
+  }
+
+  export class JsonSchemaDraft7 implements JSONSchemaVersion {
+  }
+
+  export interface JsPayloadValidator {
     validate(payload: string): Promise<AMFValidationReport>
 
     validate(payloadFragment: PayloadFragment): Promise<AMFValidationReport>
@@ -153,31 +153,31 @@ declare module '@aml-org/als-node-client' {
   }
 
   export interface ResourceLoader {
-      fetch(resource: string): Promise<Content>
+    fetch(resource: string): Promise<Content>
 
-      accepts(resource: string): boolean
+    accepts(resource: string): boolean
 
 
   }
 
-    export class AMFConfigurationState extends AMLConfigurationState {
-    }
+  export class AMFConfigurationState extends AMLConfigurationState {
+  }
 
-    export interface ClientUnitCache {
-        fetch(url: string): Promise<CachedReference>
+  export interface ClientUnitCache {
+    fetch(url: string): Promise<CachedReference>
 
 
-    }
+  }
 
-    export class ValidatePayloadRequest {
-        shape: Shape
-        mediaType: string
-        config: ShapeValidationConfiguration
+  export class ValidatePayloadRequest {
+    shape: Shape
+    mediaType: string
+    config: ShapeValidationConfiguration
 
-    }
+  }
 
-    export interface JsAMFPlugin {
-        readonly ID: string
+  export interface JsAMFPlugin {
+    readonly ID: string
 
   }
 
@@ -222,28 +222,28 @@ declare module '@aml-org/als-node-client' {
 
     getExtensions(): Array<SemanticExtension>
 
-      findSemanticByPropertyTerm(dialect: Dialect, uri: string): Array<SemanticExtension>
+    findSemanticByPropertyTerm(dialect: Dialect, uri: string): Array<SemanticExtension>
 
-      findSemanticByTarget(dialect: Dialect, uri: string): Array<SemanticExtension>
+    findSemanticByTarget(dialect: Dialect, uri: string): Array<SemanticExtension>
 
-      findSemanticByName(dialect: Dialect, name: string): undefined | SemanticExtension
+    findSemanticByName(dialect: Dialect, name: string): undefined | SemanticExtension
 
 
   }
 
-    export class SkippedValidationPluginEvent {
-    }
+  export class SkippedValidationPluginEvent {
+  }
 
-    export class AMFConfiguration extends BaseShapesConfiguration {
-        baseUnitClient(): AMFBaseUnitClient
+  export class AMFConfiguration extends BaseShapesConfiguration {
+    baseUnitClient(): AMFBaseUnitClient
 
-        elementClient(): AMFElementClient
+    elementClient(): AMFElementClient
 
-        configurationState(): AMFConfigurationState
+    configurationState(): AMFConfigurationState
 
-        withParsingOptions(parsingOptions: ParsingOptions): AMFConfiguration
+    withParsingOptions(parsingOptions: ParsingOptions): AMFConfiguration
 
-        withResourceLoader(rl: ResourceLoader): AMFConfiguration
+    withResourceLoader(rl: ResourceLoader): AMFConfiguration
 
     withResourceLoaders(rl: Array<ResourceLoader>): AMFConfiguration
 
@@ -259,7 +259,7 @@ declare module '@aml-org/als-node-client' {
 
     withDialect(dialect: Dialect): AMFConfiguration
 
-        withDialect(url: string): Promise<AMFConfiguration>
+    withDialect(url: string): Promise<AMFConfiguration>
 
     forInstance(url: string): Promise<AMFConfiguration>
 
@@ -280,39 +280,39 @@ declare module '@aml-org/als-node-client' {
   }
 
   export interface BaseUnit {
-      id: string
-      raw: undefined | string
-      location: string
-      usage: StrField
-      modelVersion: StrField
-      sourceSpec: undefined | Spec
-      processingData: BaseUnitProcessingData
+    id: string
+    raw: undefined | string
+    location: string
+    usage: StrField
+    modelVersion: StrField
+    sourceSpec: undefined | Spec
+    processingData: BaseUnitProcessingData
 
-      references(): Array<BaseUnit>
+    references(): Array<BaseUnit>
 
-      pkg(): StrField
+    pkg(): StrField
 
-      withReferences(references: Array<BaseUnit>): this
+    withReferences(references: Array<BaseUnit>): this
 
-      withPkg(pkg: string): this
+    withPkg(pkg: string): this
 
-      withId(id: string): this
+    withId(id: string): this
 
-      withRaw(raw: string): this
+    withRaw(raw: string): this
 
-      withLocation(location: string): this
+    withLocation(location: string): this
 
-      withUsage(usage: string): this
+    withUsage(usage: string): this
 
-      findById(id: string): undefined | DomainElement
+    findById(id: string): undefined | DomainElement
 
-      findByType(typeId: string): Array<DomainElement>
+    findByType(typeId: string): Array<DomainElement>
 
-      cloneUnit(): BaseUnit
+    cloneUnit(): BaseUnit
 
-      withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
+    withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
 
-      withProcessingData(data: BaseUnitProcessingData): this
+    withProcessingData(data: BaseUnitProcessingData): this
 
 
   }
@@ -413,9 +413,9 @@ declare module '@aml-org/als-node-client' {
 
     renderGraphToBuilder<T>(baseUnit: BaseUnit, builder: org.yaml.builder.JsOutputBuilder): T
 
-      validate(baseUnit: BaseUnit): Promise<AMFValidationReport>
+    validate(baseUnit: BaseUnit): Promise<AMFValidationReport>
 
-      setBaseUri(unit: BaseUnit, base: string): void
+    setBaseUri(unit: BaseUnit, base: string): void
 
 
   }
@@ -532,61 +532,61 @@ declare module '@aml-org/als-node-client' {
 
   }
 
-    export class AMFElementClient extends BaseShapesElementClient {
-        getConfiguration(): AMFConfiguration
+  export class AMFElementClient extends BaseShapesElementClient {
+    getConfiguration(): AMFConfiguration
 
-        renderToBuilder<T>(element: DomainElement, builder: org.yaml.builder.JsOutputBuilder): void
+    renderToBuilder<T>(element: DomainElement, builder: org.yaml.builder.JsOutputBuilder): void
 
-        asEndpoint<T>(unit: T, rt: ResourceType, profile: ProfileName): EndPoint
+    asEndpoint<T>(unit: T, rt: ResourceType, profile: ProfileName): EndPoint
 
-        asOperation<T>(unit: T, tr: Trait, profile: ProfileName): Operation
-
-
-    }
-
-  export interface JsAMFPayloadValidationPlugin extends JsAMFPlugin {
-    id: string
-
-      applies(element: ValidatePayloadRequest): boolean
-
-      validator(shape: Shape, mediaType: string, config: ShapeValidationConfiguration, validationMode: ValidationMode): JsPayloadValidator
+    asOperation<T>(unit: T, tr: Trait, profile: ProfileName): Operation
 
 
   }
 
-    export class Unspecified implements JSONSchemaVersion {
-    }
+  export interface JsAMFPayloadValidationPlugin extends JsAMFPlugin {
+    id: string
 
-    export class BaseShapesConfiguration extends BaseAMLConfiguration {
-        withParsingOptions(parsingOptions: ParsingOptions): BaseShapesConfiguration
+    applies(element: ValidatePayloadRequest): boolean
 
-        withRenderOptions(renderOptions: RenderOptions): BaseShapesConfiguration
-
-        withErrorHandlerProvider(provider: ErrorHandlerProvider): BaseShapesConfiguration
-
-        withResourceLoader(rl: ResourceLoader): BaseShapesConfiguration
-
-        withResourceLoaders(rl: Array<ResourceLoader>): BaseShapesConfiguration
-
-        withUnitCache(cache: UnitCache): BaseShapesConfiguration
-
-        withTransformationPipeline(pipeline: TransformationPipeline): BaseShapesConfiguration
-
-        withEventListener(listener: AMFEventListener): BaseShapesConfiguration
-
-        withDialect(dialect: Dialect): BaseShapesConfiguration
+    validator(shape: Shape, mediaType: string, config: ShapeValidationConfiguration, validationMode: ValidationMode): JsPayloadValidator
 
 
-    }
+  }
 
-    export class BaseAMLElementClient extends AMFGraphElementClient {
-        renderToBuilder<T>(element: DomainElement, builder: org.yaml.builder.JsOutputBuilder): void
+  export class Unspecified implements JSONSchemaVersion {
+  }
+
+  export class BaseShapesConfiguration extends BaseAMLConfiguration {
+    withParsingOptions(parsingOptions: ParsingOptions): BaseShapesConfiguration
+
+    withRenderOptions(renderOptions: RenderOptions): BaseShapesConfiguration
+
+    withErrorHandlerProvider(provider: ErrorHandlerProvider): BaseShapesConfiguration
+
+    withResourceLoader(rl: ResourceLoader): BaseShapesConfiguration
+
+    withResourceLoaders(rl: Array<ResourceLoader>): BaseShapesConfiguration
+
+    withUnitCache(cache: UnitCache): BaseShapesConfiguration
+
+    withTransformationPipeline(pipeline: TransformationPipeline): BaseShapesConfiguration
+
+    withEventListener(listener: AMFEventListener): BaseShapesConfiguration
+
+    withDialect(dialect: Dialect): BaseShapesConfiguration
 
 
-    }
+  }
 
-    export interface TransformationStep {
-        transform(model: BaseUnit, errorHandler: ClientErrorHandler, configuration: AMFGraphConfiguration): BaseUnit
+  export class BaseAMLElementClient extends AMFGraphElementClient {
+    renderToBuilder<T>(element: DomainElement, builder: org.yaml.builder.JsOutputBuilder): void
+
+
+  }
+
+  export interface TransformationStep {
+    transform(model: BaseUnit, errorHandler: ClientErrorHandler, configuration: AMFGraphConfiguration): BaseUnit
 
 
   }
@@ -610,16 +610,16 @@ declare module '@aml-org/als-node-client' {
 
   }
 
-    export class AMFResult extends AMFObjectResult {
-        conforms: boolean
-        results: Array<AMFValidationResult>
-        baseUnit: BaseUnit
-        toString: string
+  export class AMFResult extends AMFObjectResult {
+    conforms: boolean
+    results: Array<AMFValidationResult>
+    baseUnit: BaseUnit
+    toString: string
 
-        merge(report: AMFValidationReport): AMFResult
+    merge(report: AMFValidationReport): AMFResult
 
 
-    }
+  }
 
   export interface ServerBinding extends DomainElement, Linkable {
   }
@@ -652,32 +652,32 @@ declare module '@aml-org/als-node-client' {
 
     value(): number
 
-      remove(): void
+    remove(): void
 
-      is(other: number): boolean
+    is(other: number): boolean
 
-      is(accepts: undefined): boolean
+    is(accepts: undefined): boolean
 
 
   }
 
-    export interface ClientResourceLoader {
-        fetch(resource: string): Promise<Content>
+  export interface ClientResourceLoader {
+    fetch(resource: string): Promise<Content>
 
-        accepts(resource: string): boolean
+    accepts(resource: string): boolean
 
 
-    }
+  }
 
-    export class Path {
-        static sep: string
-        static delimiter: string
+  export class Path {
+    static sep: string
+    static delimiter: string
 
-        static normalize(p: string): string
+    static normalize(p: string): string
 
-        static join(paths: undefined): string
+    static join(paths: undefined): string
 
-        static resolve(pathSegments: undefined): string
+    static resolve(pathSegments: undefined): string
 
     static isAbsolute(path: string): boolean
 
@@ -860,15 +860,15 @@ declare module '@aml-org/als-node-client' {
   export class FoundReferencesEvent {
   }
 
-    export class AMFGraphElementClient {
-        getConfiguration(): AMFGraphConfiguration
+  export class AMFGraphElementClient {
+    getConfiguration(): AMFGraphConfiguration
 
-        payloadValidatorFor(shape: Shape, mediaType: string, mode: ValidationMode): AMFShapePayloadValidator
+    payloadValidatorFor(shape: Shape, mediaType: string, mode: ValidationMode): AMFShapePayloadValidator
 
-        payloadValidatorFor(shape: Shape, fragment: PayloadFragment): AMFShapePayloadValidator
+    payloadValidatorFor(shape: Shape, fragment: PayloadFragment): AMFShapePayloadValidator
 
 
-    }
+  }
 
   export interface MessageBinding extends DomainElement, Linkable {
   }
@@ -939,7 +939,7 @@ declare module '@aml-org/als-node-client' {
   }
 
   export interface JsTransformationStep {
-      transform(model: BaseUnit, errorHandler: ClientErrorHandler, configuration: AMFGraphConfiguration): BaseUnit
+    transform(model: BaseUnit, errorHandler: ClientErrorHandler, configuration: AMFGraphConfiguration): BaseUnit
 
 
   }
@@ -965,9 +965,9 @@ declare module '@aml-org/als-node-client' {
     location: string
     usage: StrField
     id: string
-      raw: undefined | string
-      processingData: BaseUnitProcessingData
-      sourceSpec: undefined | Spec
+    raw: undefined | string
+    processingData: BaseUnitProcessingData
+    sourceSpec: undefined | Spec
     modelVersion: StrField
     encodes: DomainElement
 
@@ -979,42 +979,42 @@ declare module '@aml-org/als-node-client' {
 
     withRaw(raw: string): this
 
-      withUsage(usage: string): this
+    withUsage(usage: string): this
 
-      findById(id: string): undefined | DomainElement
+    findById(id: string): undefined | DomainElement
 
-      withLocation(location: string): this
+    withLocation(location: string): this
 
-      withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
+    withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
 
-      withEncodes(encoded: DomainElement): this
+    withEncodes(encoded: DomainElement): this
 
-      pkg(): StrField
+    pkg(): StrField
 
-      withPkg(pkg: string): this
+    withPkg(pkg: string): this
 
-      references(): Array<BaseUnit>
+    references(): Array<BaseUnit>
 
-      withProcessingData(data: BaseUnitProcessingData): this
+    withProcessingData(data: BaseUnitProcessingData): this
 
-      withId(id: string): this
+    withId(id: string): this
 
 
   }
 
-    export class BaseShapesElementClient extends BaseAMLElementClient {
-        toJsonSchema(element: AnyShape): string
+  export class BaseShapesElementClient extends BaseAMLElementClient {
+    toJsonSchema(element: AnyShape): string
 
-        buildJsonSchema(element: AnyShape): string
+    buildJsonSchema(element: AnyShape): string
 
-        toRamlDatatype(element: AnyShape): string
+    toRamlDatatype(element: AnyShape): string
 
-        renderExample(example: Example, mediaType: string): string
+    renderExample(example: Example, mediaType: string): string
 
-        renderToBuilder<T>(element: DomainElement, builder: org.yaml.builder.JsOutputBuilder): void
+    renderToBuilder<T>(element: DomainElement, builder: org.yaml.builder.JsOutputBuilder): void
 
 
-    }
+  }
 
   export interface DomainElement extends CustomizableElement {
     customDomainProperties: Array<DomainExtension>
@@ -1097,21 +1097,21 @@ declare module '@aml-org/als-node-client' {
   export class SelectedParsePluginEvent {
   }
 
-    export class Graph {
-        types(): Array<string>
+  export class Graph {
+    types(): Array<string>
 
-        properties(): Array<string>
+    properties(): Array<string>
 
-        containsProperty(uri: string): boolean
+    containsProperty(uri: string): boolean
 
-        getObjectByProperty(uri: string): Array<DomainElement>
+    getObjectByProperty(uri: string): Array<DomainElement>
 
-        scalarByProperty(uri: string): Array<any>
+    scalarByProperty(uri: string): Array<any>
 
-        removeField(uri: string): this
+    removeField(uri: string): this
 
 
-    }
+  }
 
   export interface TransformationPipeline {
     readonly name: string
@@ -1161,29 +1161,29 @@ declare module '@aml-org/als-node-client' {
 
   }
 
-    export class StartingValidationEvent {
-        totalPlugins: number
+  export class StartingValidationEvent {
+    totalPlugins: number
 
-    }
+  }
 
-    export class StrictValidationMode extends ValidationMode {
-    }
+  export class StrictValidationMode extends ValidationMode {
+  }
 
-    export class ShapesElementClient extends BaseShapesElementClient {
-        getConfiguration(): ShapesConfiguration
-
-
-    }
-
-    export class AbstractElementTransformer {
-        static asEndpoint<T>(unit: T, rt: ResourceType, errorHandler: ClientErrorHandler, configuration: AMFGraphConfiguration, profile: ProfileName): EndPoint
-
-        static asOperation<T>(unit: T, tr: Trait, errorHandler: ClientErrorHandler, configuration: AMFGraphConfiguration, profile: ProfileName): Operation
+  export class ShapesElementClient extends BaseShapesElementClient {
+    getConfiguration(): ShapesConfiguration
 
 
-    }
+  }
 
-    export interface ValueField<T> extends Annotable {
+  export class AbstractElementTransformer {
+    static asEndpoint<T>(unit: T, rt: ResourceType, errorHandler: ClientErrorHandler, configuration: AMFGraphConfiguration, profile: ProfileName): EndPoint
+
+    static asOperation<T>(unit: T, tr: Trait, errorHandler: ClientErrorHandler, configuration: AMFGraphConfiguration, profile: ProfileName): Operation
+
+
+  }
+
+  export interface ValueField<T> extends Annotable {
     readonly option: undefined | T
     isNull: boolean
     nonNull: boolean
@@ -1530,9 +1530,9 @@ declare module '@aml-org/als-node-client' {
     location: string
     usage: StrField
     id: string
-      raw: undefined | string
-      processingData: BaseUnitProcessingData
-      sourceSpec: undefined | Spec
+    raw: undefined | string
+    processingData: BaseUnitProcessingData
+    sourceSpec: undefined | Spec
     modelVersion: StrField
     declares: Array<DomainElement>
     externals: Array<External>
@@ -1551,29 +1551,29 @@ declare module '@aml-org/als-node-client' {
 
     withRaw(raw: string): this
 
-      withUsage(usage: string): this
+    withUsage(usage: string): this
 
-      findById(id: string): undefined | DomainElement
+    findById(id: string): undefined | DomainElement
 
-      withLocation(location: string): this
+    withLocation(location: string): this
 
-      withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
+    withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
 
-      withNodeMappings(nodeMappings: Array<NodeMapping>): DialectLibrary
+    withNodeMappings(nodeMappings: Array<NodeMapping>): DialectLibrary
 
-      pkg(): StrField
+    pkg(): StrField
 
-      withPkg(pkg: string): this
+    withPkg(pkg: string): this
 
-      withDeclares(declares: Array<DomainElement>): this
+    withDeclares(declares: Array<DomainElement>): this
 
-      nodeMappings(): Array<NodeMapping>
+    nodeMappings(): Array<NodeMapping>
 
-      references(): Array<BaseUnit>
+    references(): Array<BaseUnit>
 
-      withProcessingData(data: BaseUnitProcessingData): this
+    withProcessingData(data: BaseUnitProcessingData): this
 
-      withId(id: string): this
+    withId(id: string): this
 
 
   }
@@ -1585,44 +1585,44 @@ declare module '@aml-org/als-node-client' {
 
     constructor()
 
-      withItems(items: Array<Shape>): this
+    withItems(items: Array<Shape>): this
 
-      withClosedItems(closedItems: boolean): this
+    withClosedItems(closedItems: boolean): this
 
-      linkCopy(): TupleShape
+    linkCopy(): TupleShape
 
 
   }
 
-    export class DialectInstanceProcessingData extends BaseUnitProcessingData {
-        constructor()
+  export class DialectInstanceProcessingData extends BaseUnitProcessingData {
+    constructor()
 
-        definedBy(): StrField
+    definedBy(): StrField
 
-        graphDependencies(): Array<StrField>
+    graphDependencies(): Array<StrField>
 
-        withDefinedBy(dialectId: string): DialectInstanceProcessingData
+    withDefinedBy(dialectId: string): DialectInstanceProcessingData
 
-        withGraphDependencies(ids: Array<string>): DialectInstanceProcessingData
+    withGraphDependencies(ids: Array<string>): DialectInstanceProcessingData
 
 
-    }
+  }
 
-    export class ValidationCandidate {
-        shape: Shape
-        payload: PayloadFragment
+  export class ValidationCandidate {
+    shape: Shape
+    payload: PayloadFragment
 
-        constructor(shape: Shape, payload: PayloadFragment)
+    constructor(shape: Shape, payload: PayloadFragment)
 
-    }
+  }
 
-    export class DialectFragment implements BaseUnit, EncodesModel {
+  export class DialectFragment implements BaseUnit, EncodesModel {
     location: string
     usage: StrField
     id: string
-        raw: undefined | string
-        processingData: BaseUnitProcessingData
-        sourceSpec: undefined | Spec
+    raw: undefined | string
+    processingData: BaseUnitProcessingData
+    sourceSpec: undefined | Spec
     modelVersion: StrField
     encodes: NodeMapping
     externals: Array<External>
@@ -1641,28 +1641,28 @@ declare module '@aml-org/als-node-client' {
 
     withUsage(usage: string): this
 
-        findById(id: string): undefined | DomainElement
+    findById(id: string): undefined | DomainElement
 
-        withLocation(location: string): this
+    withLocation(location: string): this
 
-        withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
+    withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
 
-        withEncodes(encoded: DomainElement): this
+    withEncodes(encoded: DomainElement): this
 
-        withEncodes(nodeMapping: NodeMapping): DialectFragment
+    withEncodes(nodeMapping: NodeMapping): DialectFragment
 
-        pkg(): StrField
+    pkg(): StrField
 
-        withPkg(pkg: string): this
+    withPkg(pkg: string): this
 
-        references(): Array<BaseUnit>
+    references(): Array<BaseUnit>
 
-        withProcessingData(data: BaseUnitProcessingData): this
+    withProcessingData(data: BaseUnitProcessingData): this
 
-        withId(id: string): this
+    withId(id: string): this
 
 
-    }
+  }
 
   export class FileShape extends AnyShape {
     fileTypes: Array<StrField>
@@ -1801,18 +1801,18 @@ declare module '@aml-org/als-node-client' {
 
   }
 
-    export class UnionShape extends AnyShape {
-        anyOf: Array<Shape>
-        serializationSchema: Shape
+  export class UnionShape extends AnyShape {
+    anyOf: Array<Shape>
+    serializationSchema: Shape
 
-        constructor()
+    constructor()
 
-        withAnyOf(anyOf: Array<Shape>): UnionShape
+    withAnyOf(anyOf: Array<Shape>): UnionShape
 
-        withSerializationSchema(schema: Shape): this
+    withSerializationSchema(schema: Shape): this
 
 
-    }
+  }
 
   export class OpenIdConnectSettings extends Settings {
     url: StrField
@@ -1871,9 +1871,9 @@ declare module '@aml-org/als-node-client' {
     location: string
     usage: StrField
     id: string
-      raw: undefined | string
-      processingData: BaseUnitProcessingData
-      sourceSpec: undefined | Spec
+    raw: undefined | string
+    processingData: BaseUnitProcessingData
+    sourceSpec: undefined | Spec
     modelVersion: StrField
     encodes: DomainElement
     declares: Array<DomainElement>
@@ -1891,27 +1891,27 @@ declare module '@aml-org/als-node-client' {
 
     withRaw(raw: string): this
 
-      withUsage(usage: string): this
+    withUsage(usage: string): this
 
-      findById(id: string): undefined | DomainElement
+    findById(id: string): undefined | DomainElement
 
-      withLocation(location: string): this
+    withLocation(location: string): this
 
-      withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
+    withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
 
-      withEncodes(encoded: DomainElement): this
+    withEncodes(encoded: DomainElement): this
 
-      pkg(): StrField
+    pkg(): StrField
 
-      withPkg(pkg: string): this
+    withPkg(pkg: string): this
 
-      withDeclares(declares: Array<DomainElement>): this
+    withDeclares(declares: Array<DomainElement>): this
 
-      references(): Array<BaseUnit>
+    references(): Array<BaseUnit>
 
-      withProcessingData(data: BaseUnitProcessingData): this
+    withProcessingData(data: BaseUnitProcessingData): this
 
-      withId(id: string): this
+    withId(id: string): this
 
 
   }
@@ -2030,9 +2030,9 @@ declare module '@aml-org/als-node-client' {
   export class PropertyShape implements Shape {
     defaultValueStr: StrField
     displayName: StrField
-      name: StrField
-      serializationOrder: IntField
-      customDomainProperties: Array<DomainExtension>
+    name: StrField
+    serializationOrder: IntField
+    customDomainProperties: Array<DomainExtension>
     path: StrField
     xone: Array<Shape>
     readOnly: BoolField
@@ -2074,27 +2074,27 @@ declare module '@aml-org/als-node-client' {
 
     withOr(subShapes: Array<Shape>): this
 
-      withName(name: string): this
+    withName(name: string): this
 
-      withRange(range: Shape): this
+    withRange(range: Shape): this
 
-      withDescription(description: string): this
+    withDescription(description: string): this
 
-      withMaxCount(max: number): this
+    withMaxCount(max: number): this
 
-      withIf(ifShape: Shape): this
+    withIf(ifShape: Shape): this
 
-      withSerializationOrder(order: number): this
+    withSerializationOrder(order: number): this
 
-      withCustomShapePropertyDefinition(name: string): PropertyShape
+    withCustomShapePropertyDefinition(name: string): PropertyShape
 
-      graph(): Graph
+    graph(): Graph
 
-      withIsExternalLink(isExternalLink: boolean): DomainElement
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-      withLinkLabel(label: string): this
+    withLinkLabel(label: string): this
 
-      withCustomShapePropertyDefinitions(propertyDefinitions: Array<PropertyShape>): this
+    withCustomShapePropertyDefinitions(propertyDefinitions: Array<PropertyShape>): this
 
     withReadOnly(readOnly: boolean): this
 
@@ -2503,17 +2503,17 @@ declare module '@aml-org/als-node-client' {
 
   }
 
-    export class RAMLConfiguration {
-        static RAML10(): AMFConfiguration
+  export class RAMLConfiguration {
+    static RAML10(): AMFConfiguration
 
-        static RAML08(): AMFConfiguration
+    static RAML08(): AMFConfiguration
 
-        static RAML(): AMFConfiguration
+    static RAML(): AMFConfiguration
 
-        static fromSpec(spec: Spec): AMFConfiguration
+    static fromSpec(spec: Spec): AMFConfiguration
 
 
-    }
+  }
 
   export class Extension extends Document {
     constructor()
@@ -2637,8 +2637,8 @@ declare module '@aml-org/als-node-client' {
     static readonly ASYNC: ProfileName
     static readonly ASYNC20: ProfileName
     static readonly AML: ProfileName
-      static readonly PAYLOAD: ProfileName
-      static readonly GRPC: ProfileName
+    static readonly PAYLOAD: ProfileName
+    static readonly GRPC: ProfileName
 
   }
 
@@ -2693,9 +2693,9 @@ declare module '@aml-org/als-node-client' {
     location: string
     usage: StrField
     id: string
-      raw: undefined | string
-      processingData: BaseUnitProcessingData
-      sourceSpec: undefined | Spec
+    raw: undefined | string
+    processingData: BaseUnitProcessingData
+    sourceSpec: undefined | Spec
     modelVersion: StrField
     declares: Array<DomainElement>
 
@@ -2711,27 +2711,27 @@ declare module '@aml-org/als-node-client' {
 
     withRaw(raw: string): this
 
-      withUsage(usage: string): this
+    withUsage(usage: string): this
 
-      findById(id: string): undefined | DomainElement
+    findById(id: string): undefined | DomainElement
 
-      withLocation(location: string): this
+    withLocation(location: string): this
 
-      withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
+    withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
 
-      withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-      pkg(): StrField
+    pkg(): StrField
 
-      withPkg(pkg: string): this
+    withPkg(pkg: string): this
 
-      withDeclares(declares: Array<DomainElement>): this
+    withDeclares(declares: Array<DomainElement>): this
 
-      references(): Array<BaseUnit>
+    references(): Array<BaseUnit>
 
-      withProcessingData(data: BaseUnitProcessingData): this
+    withProcessingData(data: BaseUnitProcessingData): this
 
-      withId(id: string): this
+    withId(id: string): this
 
 
   }
@@ -2764,33 +2764,33 @@ declare module '@aml-org/als-node-client' {
 
   }
 
-    export class DialectInstance implements BaseUnit, EncodesModel, DeclaresModel, DialectInstanceUnit {
-        location: string
-        usage: StrField
-        id: string
-        raw: undefined | string
-        processingData: BaseUnitProcessingData
-        sourceSpec: undefined | Spec
-        modelVersion: StrField
-        encodes: DialectDomainElement
-        declares: Array<DomainElement>
-        externals: Array<External>
+  export class DialectInstance implements BaseUnit, EncodesModel, DeclaresModel, DialectInstanceUnit {
+    location: string
+    usage: StrField
+    id: string
+    raw: undefined | string
+    processingData: BaseUnitProcessingData
+    sourceSpec: undefined | Spec
+    modelVersion: StrField
+    encodes: DialectDomainElement
+    declares: Array<DomainElement>
+    externals: Array<External>
 
-        constructor()
+    constructor()
 
-        findByType(typeId: string): Array<DomainElement>
+    findByType(typeId: string): Array<DomainElement>
 
-        withProcessingData(data: DialectInstanceProcessingData): this
+    withProcessingData(data: DialectInstanceProcessingData): this
 
-        cloneUnit(): BaseUnit
+    cloneUnit(): BaseUnit
 
-        withExternals(externals: Array<External>): DialectInstance
+    withExternals(externals: Array<External>): DialectInstance
 
-        withReferences(references: Array<BaseUnit>): this
+    withReferences(references: Array<BaseUnit>): this
 
-        withDeclaredElement(declared: DomainElement): this
+    withDeclaredElement(declared: DomainElement): this
 
-        withRaw(raw: string): this
+    withRaw(raw: string): this
 
     withUsage(usage: string): this
 
@@ -2798,34 +2798,34 @@ declare module '@aml-org/als-node-client' {
 
     withLocation(location: string): this
 
-        withGraphDependencies(ids: Array<string>): this
+    withGraphDependencies(ids: Array<string>): this
 
-        withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
+    withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
 
-        graphDependencies(): Array<StrField>
+    graphDependencies(): Array<StrField>
 
-        withDefinedBy(dialectId: string): this
+    withDefinedBy(dialectId: string): this
 
-        withEncodes(encoded: DialectDomainElement): DialectInstance
+    withEncodes(encoded: DialectDomainElement): DialectInstance
 
-        withEncodes(encoded: DomainElement): this
+    withEncodes(encoded: DomainElement): this
 
-        definedBy(): StrField
+    definedBy(): StrField
 
-        pkg(): StrField
+    pkg(): StrField
 
-        withPkg(pkg: string): this
+    withPkg(pkg: string): this
 
-        withDeclares(declares: Array<DomainElement>): this
+    withDeclares(declares: Array<DomainElement>): this
 
-        references(): Array<BaseUnit>
+    references(): Array<BaseUnit>
 
-        withProcessingData(data: BaseUnitProcessingData): this
+    withProcessingData(data: BaseUnitProcessingData): this
 
-        withId(id: string): this
+    withId(id: string): this
 
 
-    }
+  }
 
   export class PipelineId {
     static readonly Default: 'default'
@@ -2914,36 +2914,36 @@ declare module '@aml-org/als-node-client' {
 
   }
 
-    export class NilShape extends AnyShape {
-        constructor()
+  export class NilShape extends AnyShape {
+    constructor()
 
-        linkCopy(): NilShape
-
-
-    }
-
-    export class APIContractProcessingData extends BaseUnitProcessingData {
-        modelVersion: StrField
-        sourceSpec: StrField
-
-        constructor()
-
-        withSourceSpec(spec: string): this
-
-        withSourceSpec(spec: Spec): this
+    linkCopy(): NilShape
 
 
-    }
+  }
 
-    export class EndPoint implements DomainElement {
-        parent: undefined | EndPoint
-        operations: Array<Operation>
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        path: StrField
-        security: Array<SecurityRequirement>
-        description: StrField
-        bindings: ChannelBindings
+  export class APIContractProcessingData extends BaseUnitProcessingData {
+    modelVersion: StrField
+    sourceSpec: StrField
+
+    constructor()
+
+    withSourceSpec(spec: string): this
+
+    withSourceSpec(spec: Spec): this
+
+
+  }
+
+  export class EndPoint implements DomainElement {
+    parent: undefined | EndPoint
+    operations: Array<Operation>
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    path: StrField
+    security: Array<SecurityRequirement>
+    description: StrField
+    bindings: ChannelBindings
     relativePath: string
     payloads: Array<Payload>
     servers: Array<Server>
@@ -3163,77 +3163,77 @@ declare module '@aml-org/als-node-client' {
 
   }
 
-    export class DialectDomainElement implements DomainElement, Linkable {
-        customDomainProperties: Array<DomainExtension>
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        declarationName: StrField
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        linkLabel: StrField
-        extendsNode: Array<DomainElement>
+  export class DialectDomainElement implements DomainElement, Linkable {
+    customDomainProperties: Array<DomainExtension>
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    declarationName: StrField
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    linkLabel: StrField
+    extendsNode: Array<DomainElement>
 
-        constructor()
+    constructor()
 
-        link<T>(label: string): T
+    link<T>(label: string): T
 
-        withObjectCollectionProperty(propertyIri: string, value: Array<DialectDomainElement>): this
+    withObjectCollectionProperty(propertyIri: string, value: Array<DialectDomainElement>): this
 
-        linkCopy(): DialectDomainElement
+    linkCopy(): DialectDomainElement
 
-        isAbstract(): BoolField
+    isAbstract(): BoolField
 
-        withAbstract(isAbstract: boolean): DialectDomainElement
+    withAbstract(isAbstract: boolean): DialectDomainElement
 
-        withDeclarationName(name: string): DialectDomainElement
+    withDeclarationName(name: string): DialectDomainElement
 
-        localRefName(): string
+    localRefName(): string
 
-        withObjectProperty(iri: string, value: DialectDomainElement): this
+    withObjectProperty(iri: string, value: DialectDomainElement): this
 
-        withLiteralProperty(propertyIri: string, value: boolean): this
+    withLiteralProperty(propertyIri: string, value: boolean): this
 
-        graph(): Graph
+    graph(): Graph
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withLinkLabel(label: string): this
+    withLinkLabel(label: string): this
 
-        getTypeIris(): Array<string>
+    getTypeIris(): Array<string>
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        containsProperty(property: PropertyMapping): boolean
+    containsProperty(property: PropertyMapping): boolean
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        link<T>(): T
+    link<T>(): T
 
-        withLinkTarget(target: undefined): this
+    withLinkTarget(target: undefined): this
 
-        withLiteralProperty(propertyIri: string, value: number): this
+    withLiteralProperty(propertyIri: string, value: number): this
 
-        withDefinedby(nodeMapping: NodeMapping): DialectDomainElement
+    withDefinedby(nodeMapping: NodeMapping): DialectDomainElement
 
-        getPropertyIris(): Array<string>
+    getPropertyIris(): Array<string>
 
-        definedBy(): NodeMapping
+    definedBy(): NodeMapping
 
-        withLiteralProperty(propertyIri: string, value: Array<any>): this
+    withLiteralProperty(propertyIri: string, value: Array<any>): this
 
-        withInstanceTypes(types: Array<string>): DialectDomainElement
+    withInstanceTypes(types: Array<string>): DialectDomainElement
 
-        getObjectByProperty(iri: string): Array<DialectDomainElement>
+    getObjectByProperty(iri: string): Array<DialectDomainElement>
 
-        includeName(): string
+    includeName(): string
 
-        withLiteralProperty(propertyIri: string, value: string): this
+    withLiteralProperty(propertyIri: string, value: string): this
 
-        withId(id: string): this
+    withId(id: string): this
 
 
-    }
+  }
 
   export class MessageBindings implements DomainElement, Linkable {
     name: StrField
@@ -3284,9 +3284,9 @@ declare module '@aml-org/als-node-client' {
     allHeaders: Array<string>
     version: StrField
     id: string
-      raw: undefined | string
-      processingData: BaseUnitProcessingData
-      fragmentHeaders: Array<string>
+    raw: undefined | string
+    processingData: BaseUnitProcessingData
+    fragmentHeaders: Array<string>
     libraryHeader: undefined | string
     header: string
     sourceSpec: undefined | Spec
@@ -3309,41 +3309,41 @@ declare module '@aml-org/als-node-client' {
 
     withDeclaredElement(declared: DomainElement): this
 
-      withRaw(raw: string): this
+    withRaw(raw: string): this
 
-      withUsage(usage: string): this
+    withUsage(usage: string): this
 
-      isLibraryHeader(header: string): boolean
+    isLibraryHeader(header: string): boolean
 
-      findById(id: string): undefined | DomainElement
+    findById(id: string): undefined | DomainElement
 
-      withLocation(location: string): this
+    withLocation(location: string): this
 
-      withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
+    withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
 
-      extensions(): Array<SemanticExtension>
+    extensions(): Array<SemanticExtension>
 
-      withDocuments(documentsMapping: DocumentsModel): Dialect
+    withDocuments(documentsMapping: DocumentsModel): Dialect
 
-      withVersion(version: string): Dialect
+    withVersion(version: string): Dialect
 
-      withEncodes(encoded: DomainElement): this
+    withEncodes(encoded: DomainElement): this
 
-      pkg(): StrField
+    pkg(): StrField
 
-      documents(): DocumentsModel
+    documents(): DocumentsModel
 
-      withPkg(pkg: string): this
+    withPkg(pkg: string): this
 
-      withDeclares(declares: Array<DomainElement>): this
+    withDeclares(declares: Array<DomainElement>): this
 
-      references(): Array<BaseUnit>
+    references(): Array<BaseUnit>
 
-      isFragmentHeader(header: string): boolean
+    isFragmentHeader(header: string): boolean
 
-      withProcessingData(data: BaseUnitProcessingData): this
+    withProcessingData(data: BaseUnitProcessingData): this
 
-      withId(id: string): this
+    withId(id: string): this
 
 
   }
@@ -3381,19 +3381,19 @@ declare module '@aml-org/als-node-client' {
 
     withExclusiveMaximum(max: boolean): this
 
-      withFormat(format: string): this
+    withFormat(format: string): this
 
-      withMultipleOf(multiple: number): this
+    withMultipleOf(multiple: number): this
 
-      withEncoding(encoding: string): this
+    withEncoding(encoding: string): this
 
-      withMediaType(mediaType: string): this
+    withMediaType(mediaType: string): this
 
-      withSchema(schema: Shape): this
+    withSchema(schema: Shape): this
 
-      withSerializationSchema(schema: Shape): this
+    withSerializationSchema(schema: Shape): this
 
-      linkCopy(): ScalarShape
+    linkCopy(): ScalarShape
 
 
   }
@@ -3543,17 +3543,17 @@ declare module '@aml-org/als-node-client' {
   export class LowPriority extends PluginPriority {
   }
 
-    export class OASConfiguration {
-        static OAS20(): AMFConfiguration
+  export class OASConfiguration {
+    static OAS20(): AMFConfiguration
 
-        static OAS30(): AMFConfiguration
+    static OAS30(): AMFConfiguration
 
-        static OAS(): AMFConfiguration
+    static OAS(): AMFConfiguration
 
-        static fromSpec(spec: Spec): AMFConfiguration
+    static fromSpec(spec: Spec): AMFConfiguration
 
 
-    }
+  }
 
   export class Content {
     constructor(stream: string, url: string)
@@ -3666,8 +3666,8 @@ declare module '@aml-org/als-node-client' {
     static readonly FinishedSyntaxRender: 'FinishedSyntaxRender'
     static readonly FoundReferences: 'FoundReferences'
     static readonly SelectedParsePlugin: 'SelectedParsePlugin'
-      static readonly DetectedSyntaxMediaType: 'DetectedSyntaxMediaType'
-      static readonly SkippedValidationPlugin: 'SkippedValidationPlugin'
+    static readonly DetectedSyntaxMediaType: 'DetectedSyntaxMediaType'
+    static readonly SkippedValidationPlugin: 'SkippedValidationPlugin'
 
   }
 
@@ -3842,9 +3842,9 @@ declare module '@aml-org/als-node-client' {
     discriminatorMapping: Array<IriTemplateMapping>
     discriminatorValueMapping: Array<DiscriminatorValueMapping>
     properties: Array<PropertyShape>
-      additionalPropertiesSchema: Shape
-      additionalPropertiesKeySchema: Shape
-      dependencies: Array<PropertyDependencies>
+    additionalPropertiesSchema: Shape
+    additionalPropertiesKeySchema: Shape
+    dependencies: Array<PropertyDependencies>
     schemaDependencies: Array<SchemaDependencies>
     propertyNames: Shape
     unevaluatedProperties: boolean
@@ -3858,27 +3858,27 @@ declare module '@aml-org/als-node-client' {
 
     withClosed(closed: boolean): this
 
-      withDiscriminator(discriminator: string): this
+    withDiscriminator(discriminator: string): this
 
-      withDiscriminatorValue(value: string): this
+    withDiscriminatorValue(value: string): this
 
-      withDiscriminatorMapping(mappings: Array<IriTemplateMapping>): this
+    withDiscriminatorMapping(mappings: Array<IriTemplateMapping>): this
 
-      withProperties(properties: Array<PropertyShape>): this
+    withProperties(properties: Array<PropertyShape>): this
 
-      withAdditionalPropertiesSchema(additionalPropertiesSchema: Shape): this
+    withAdditionalPropertiesSchema(additionalPropertiesSchema: Shape): this
 
-      withAdditionalPropertiesKeySchema(additionalPropertiesKeySchema: Shape): this
+    withAdditionalPropertiesKeySchema(additionalPropertiesKeySchema: Shape): this
 
-      withDependencies(dependencies: Array<PropertyDependencies>): this
+    withDependencies(dependencies: Array<PropertyDependencies>): this
 
-      withSchemaDependencies(dependencies: Array<SchemaDependencies>): this
+    withSchemaDependencies(dependencies: Array<SchemaDependencies>): this
 
-      withPropertyNames(propertyNames: Shape): this
+    withPropertyNames(propertyNames: Shape): this
 
-      withUnevaluatedProperties(value: boolean): this
+    withUnevaluatedProperties(value: boolean): this
 
-      withUnevaluatedPropertiesSchema(schema: Shape): this
+    withUnevaluatedPropertiesSchema(schema: Shape): this
 
     withProperty(name: string): PropertyShape
 
@@ -3893,33 +3893,33 @@ declare module '@aml-org/als-node-client' {
 
   }
 
-    export class DialectInstancePatch implements BaseUnit, EncodesModel, DeclaresModel, DialectInstanceUnit {
-        location: string
-        usage: StrField
-        id: string
-        raw: undefined | string
-        processingData: BaseUnitProcessingData
-        sourceSpec: undefined | Spec
-        modelVersion: StrField
-        encodes: DialectDomainElement
-        declares: Array<DomainElement>
-        externals: Array<External>
+  export class DialectInstancePatch implements BaseUnit, EncodesModel, DeclaresModel, DialectInstanceUnit {
+    location: string
+    usage: StrField
+    id: string
+    raw: undefined | string
+    processingData: BaseUnitProcessingData
+    sourceSpec: undefined | Spec
+    modelVersion: StrField
+    encodes: DialectDomainElement
+    declares: Array<DomainElement>
+    externals: Array<External>
 
-        constructor()
+    constructor()
 
-        findByType(typeId: string): Array<DomainElement>
+    findByType(typeId: string): Array<DomainElement>
 
-        withProcessingData(data: DialectInstanceProcessingData): this
+    withProcessingData(data: DialectInstanceProcessingData): this
 
-        cloneUnit(): BaseUnit
+    cloneUnit(): BaseUnit
 
-        withExternals(externals: Array<External>): DialectInstancePatch
+    withExternals(externals: Array<External>): DialectInstancePatch
 
-        withReferences(references: Array<BaseUnit>): this
+    withReferences(references: Array<BaseUnit>): this
 
-        withDeclaredElement(declared: DomainElement): this
+    withDeclaredElement(declared: DomainElement): this
 
-        withRaw(raw: string): this
+    withRaw(raw: string): this
 
     withUsage(usage: string): this
 
@@ -3927,34 +3927,34 @@ declare module '@aml-org/als-node-client' {
 
     withLocation(location: string): this
 
-        withGraphDependencies(ids: Array<string>): this
+    withGraphDependencies(ids: Array<string>): this
 
-        withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
+    withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
 
-        graphDependencies(): Array<StrField>
+    graphDependencies(): Array<StrField>
 
-        withDefinedBy(dialectId: string): this
+    withDefinedBy(dialectId: string): this
 
-        withEncodes(encoded: DialectDomainElement): DialectInstancePatch
+    withEncodes(encoded: DialectDomainElement): DialectInstancePatch
 
-        withEncodes(encoded: DomainElement): this
+    withEncodes(encoded: DomainElement): this
 
-        definedBy(): StrField
+    definedBy(): StrField
 
-        pkg(): StrField
+    pkg(): StrField
 
-        withPkg(pkg: string): this
+    withPkg(pkg: string): this
 
-        withDeclares(declares: Array<DomainElement>): this
+    withDeclares(declares: Array<DomainElement>): this
 
-        references(): Array<BaseUnit>
+    references(): Array<BaseUnit>
 
-        withProcessingData(data: BaseUnitProcessingData): this
+    withProcessingData(data: BaseUnitProcessingData): this
 
-        withId(id: string): this
+    withId(id: string): this
 
 
-    }
+  }
 
   export class Overlay extends Document {
     constructor()
@@ -4153,11 +4153,11 @@ declare module '@aml-org/als-node-client' {
   }
 
   export class AMFRenderer {
-      static render(baseUnit: BaseUnit, configuration: AMFGraphConfiguration): string
+    static render(baseUnit: BaseUnit, configuration: AMFGraphConfiguration): string
 
-      static render(baseUnit: BaseUnit, mediaType: string, configuration: AMFGraphConfiguration): string
+    static render(baseUnit: BaseUnit, mediaType: string, configuration: AMFGraphConfiguration): string
 
-      static renderGraphToBuilder<T>(baseUnit: BaseUnit, builder: org.yaml.builder.JsOutputBuilder, configuration: AMFGraphConfiguration): T
+    static renderGraphToBuilder<T>(baseUnit: BaseUnit, builder: org.yaml.builder.JsOutputBuilder, configuration: AMFGraphConfiguration): T
 
 
   }
@@ -4214,9 +4214,9 @@ declare module '@aml-org/als-node-client' {
   }
 
   export class Annotations {
-      isLocal: boolean
-      isTracked: boolean
-      resolvedLink: undefined | string
+    isLocal: boolean
+    isTracked: boolean
+    resolvedLink: undefined | string
     resolvedLinkTarget: undefined | string
     inheritanceProvenance: undefined | string
     inlinedElement: boolean
@@ -4268,95 +4268,95 @@ declare module '@aml-org/als-node-client' {
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-      link<T>(): T
+    link<T>(): T
 
-      withLinkTarget(target: undefined): this
+    withLinkTarget(target: undefined): this
 
-      withId(id: string): this
+    withId(id: string): this
 
 
   }
 
-    export class DefaultExecutionEnvironment {
-        static apply(): ExecutionEnvironment
+  export class DefaultExecutionEnvironment {
+    static apply(): ExecutionEnvironment
 
 
-    }
+  }
 
-    export class DialectInstanceFragment implements BaseUnit, EncodesModel, DialectInstanceUnit {
-        location: string
-        usage: StrField
-        id: string
-        raw: undefined | string
-        processingData: BaseUnitProcessingData
-        sourceSpec: undefined | Spec
-        modelVersion: StrField
-        encodes: DialectDomainElement
+  export class DialectInstanceFragment implements BaseUnit, EncodesModel, DialectInstanceUnit {
+    location: string
+    usage: StrField
+    id: string
+    raw: undefined | string
+    processingData: BaseUnitProcessingData
+    sourceSpec: undefined | Spec
+    modelVersion: StrField
+    encodes: DialectDomainElement
 
-        constructor()
+    constructor()
 
-        findByType(typeId: string): Array<DomainElement>
+    findByType(typeId: string): Array<DomainElement>
 
-        withProcessingData(data: DialectInstanceProcessingData): this
+    withProcessingData(data: DialectInstanceProcessingData): this
 
-        cloneUnit(): BaseUnit
+    cloneUnit(): BaseUnit
 
-        withReferences(references: Array<BaseUnit>): this
+    withReferences(references: Array<BaseUnit>): this
 
-        withRaw(raw: string): this
+    withRaw(raw: string): this
 
-        withUsage(usage: string): this
+    withUsage(usage: string): this
 
-        findById(id: string): undefined | DomainElement
+    findById(id: string): undefined | DomainElement
 
-        withLocation(location: string): this
+    withLocation(location: string): this
 
-        withGraphDependencies(ids: Array<string>): this
+    withGraphDependencies(ids: Array<string>): this
 
-        withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
+    withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
 
-        graphDependencies(): Array<StrField>
+    graphDependencies(): Array<StrField>
 
-        withDefinedBy(dialectId: string): this
+    withDefinedBy(dialectId: string): this
 
-        withEncodes(encoded: DialectDomainElement): DialectInstanceFragment
+    withEncodes(encoded: DialectDomainElement): DialectInstanceFragment
 
-        withEncodes(encoded: DomainElement): this
+    withEncodes(encoded: DomainElement): this
 
-        definedBy(): StrField
+    definedBy(): StrField
 
-        pkg(): StrField
+    pkg(): StrField
 
-        withPkg(pkg: string): this
+    withPkg(pkg: string): this
 
-        references(): Array<BaseUnit>
+    references(): Array<BaseUnit>
 
-        withProcessingData(data: BaseUnitProcessingData): this
+    withProcessingData(data: BaseUnitProcessingData): this
 
-        withId(id: string): this
-
-
-    }
-
-    export class BaseUnitProcessingData {
-        transformed: BoolField
-
-        constructor()
-
-        withTransformed(value: boolean): this
+    withId(id: string): this
 
 
-    }
+  }
 
-    export class LinkNode implements DataNode {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        alias: StrField
-        isExternalLink: BoolField
-        id: string
-        link: StrField
-        position: Range
-        extendsNode: Array<DomainElement>
+  export class BaseUnitProcessingData {
+    transformed: BoolField
+
+    constructor()
+
+    withTransformed(value: boolean): this
+
+
+  }
+
+  export class LinkNode implements DataNode {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    alias: StrField
+    isExternalLink: BoolField
+    id: string
+    link: StrField
+    position: Range
+    extendsNode: Array<DomainElement>
 
     constructor()
     constructor(alias: string, value: string)
@@ -4446,9 +4446,9 @@ declare module '@aml-org/als-node-client' {
 
   export class CustomDomainProperty implements DomainElement, Linkable {
     displayName: StrField
-      name: StrField
-      serializationOrder: IntField
-      customDomainProperties: Array<DomainExtension>
+    name: StrField
+    serializationOrder: IntField
+    customDomainProperties: Array<DomainExtension>
     description: StrField
     domain: Array<StrField>
     linkTarget: undefined | DomainElement
@@ -4462,27 +4462,27 @@ declare module '@aml-org/als-node-client' {
 
     constructor()
 
-      link<T>(label: string): T
+    link<T>(label: string): T
 
-      linkCopy(): CustomDomainProperty
+    linkCopy(): CustomDomainProperty
 
-      withName(name: string): this
+    withName(name: string): this
 
-      withDescription(description: string): this
+    withDescription(description: string): this
 
-      withDomain(domain: Array<string>): this
+    withDomain(domain: Array<string>): this
 
-      withSerializationOrder(order: number): this
+    withSerializationOrder(order: number): this
 
-      withSchema(schema: Shape): this
+    withSchema(schema: Shape): this
 
-      graph(): Graph
+    graph(): Graph
 
-      withIsExternalLink(isExternalLink: boolean): DomainElement
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-      withLinkLabel(label: string): this
+    withLinkLabel(label: string): this
 
-      withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
     withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
@@ -4587,9 +4587,9 @@ declare module '@aml-org/als-node-client' {
     usage: StrField
     base: StrField
     id: string
-      raw: undefined | string
-      processingData: BaseUnitProcessingData
-      sourceSpec: undefined | Spec
+    raw: undefined | string
+    processingData: BaseUnitProcessingData
+    sourceSpec: undefined | Spec
     modelVersion: StrField
     declares: Array<DomainElement>
     externals: Array<External>
@@ -4615,31 +4615,31 @@ declare module '@aml-org/als-node-client' {
 
     withUsage(usage: string): this
 
-      datatypePropertyTerms(): Array<DatatypePropertyTerm>
+    datatypePropertyTerms(): Array<DatatypePropertyTerm>
 
-      withBase(base: string): Vocabulary
+    withBase(base: string): Vocabulary
 
-      findById(id: string): undefined | DomainElement
+    findById(id: string): undefined | DomainElement
 
-      classTerms(): Array<ClassTerm>
+    classTerms(): Array<ClassTerm>
 
-      withLocation(location: string): this
+    withLocation(location: string): this
 
-      withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
+    withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
 
-      pkg(): StrField
+    pkg(): StrField
 
-      withPkg(pkg: string): this
+    withPkg(pkg: string): this
 
-      withDeclares(declares: Array<DomainElement>): this
+    withDeclares(declares: Array<DomainElement>): this
 
-      references(): Array<BaseUnit>
+    references(): Array<BaseUnit>
 
-      withImports(vocabularies: Array<VocabularyReference>): Vocabulary
+    withImports(vocabularies: Array<VocabularyReference>): Vocabulary
 
-      withProcessingData(data: BaseUnitProcessingData): this
+    withProcessingData(data: BaseUnitProcessingData): this
 
-      withId(id: string): this
+    withId(id: string): this
 
 
   }
@@ -4715,17 +4715,17 @@ declare module '@aml-org/als-node-client' {
 
   }
 
-    export class AMFParser {
-        static parse(url: string, configuration: AMFGraphConfiguration): Promise<AMFParseResult>
+  export class AMFParser {
+    static parse(url: string, configuration: AMFGraphConfiguration): Promise<AMFParseResult>
 
-        static parseContent(content: string, configuration: AMFGraphConfiguration): Promise<AMFParseResult>
+    static parseContent(content: string, configuration: AMFGraphConfiguration): Promise<AMFParseResult>
 
-        static parseContent(content: string, mediaType: string, configuration: AMFGraphConfiguration): Promise<AMFParseResult>
+    static parseContent(content: string, mediaType: string, configuration: AMFGraphConfiguration): Promise<AMFParseResult>
 
-        static parseStartingPoint(graphUrl: string, startingPoint: string, configuration: AMFGraphConfiguration): Promise<AMFObjectResult>
+    static parseStartingPoint(graphUrl: string, startingPoint: string, configuration: AMFGraphConfiguration): Promise<AMFObjectResult>
 
 
-    }
+  }
 
   export class PropertyMapping implements DomainElement {
     customDomainProperties: Array<DomainExtension>
@@ -4905,13 +4905,13 @@ declare module '@aml-org/als-node-client' {
 
   }
 
-    export class APIConfiguration {
-        static API(): AMFConfiguration
+  export class APIConfiguration {
+    static API(): AMFConfiguration
 
-        static fromSpec(spec: Spec): AMFConfiguration
+    static fromSpec(spec: Spec): AMFConfiguration
 
 
-    }
+  }
 
   export class HttpMessageBinding implements MessageBinding {
     customDomainProperties: Array<DomainExtension>
@@ -4954,7 +4954,7 @@ declare module '@aml-org/als-node-client' {
   }
 
   export class AmlDomainElementEmitter {
-      static emitToBuilder<T>(element: DomainElement, amlConfig: BaseAMLConfiguration, builder: org.yaml.builder.JsOutputBuilder): void
+    static emitToBuilder<T>(element: DomainElement, amlConfig: BaseAMLConfiguration, builder: org.yaml.builder.JsOutputBuilder): void
 
 
   }
@@ -5005,60 +5005,60 @@ declare module '@aml-org/als-node-client' {
 
   }
 
-    export class DialectInstanceLibrary implements BaseUnit, DeclaresModel, DialectInstanceUnit {
-        location: string
-        usage: StrField
-        id: string
-        raw: undefined | string
-        processingData: BaseUnitProcessingData
-        sourceSpec: undefined | Spec
-        modelVersion: StrField
-        declares: Array<DomainElement>
+  export class DialectInstanceLibrary implements BaseUnit, DeclaresModel, DialectInstanceUnit {
+    location: string
+    usage: StrField
+    id: string
+    raw: undefined | string
+    processingData: BaseUnitProcessingData
+    sourceSpec: undefined | Spec
+    modelVersion: StrField
+    declares: Array<DomainElement>
 
-        constructor()
+    constructor()
 
-        findByType(typeId: string): Array<DomainElement>
+    findByType(typeId: string): Array<DomainElement>
 
-        withProcessingData(data: DialectInstanceProcessingData): this
+    withProcessingData(data: DialectInstanceProcessingData): this
 
-        cloneUnit(): BaseUnit
+    cloneUnit(): BaseUnit
 
-        withReferences(references: Array<BaseUnit>): this
+    withReferences(references: Array<BaseUnit>): this
 
-        withDeclaredElement(declared: DomainElement): this
+    withDeclaredElement(declared: DomainElement): this
 
-        withRaw(raw: string): this
+    withRaw(raw: string): this
 
-        withUsage(usage: string): this
+    withUsage(usage: string): this
 
-        findById(id: string): undefined | DomainElement
+    findById(id: string): undefined | DomainElement
 
-        withLocation(location: string): this
+    withLocation(location: string): this
 
-        withGraphDependencies(ids: Array<string>): this
+    withGraphDependencies(ids: Array<string>): this
 
-        withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
+    withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
 
-        graphDependencies(): Array<StrField>
+    graphDependencies(): Array<StrField>
 
-        withDefinedBy(dialectId: string): this
+    withDefinedBy(dialectId: string): this
 
-        definedBy(): StrField
+    definedBy(): StrField
 
-        pkg(): StrField
+    pkg(): StrField
 
-        withPkg(pkg: string): this
+    withPkg(pkg: string): this
 
-        withDeclares(declares: Array<DomainElement>): this
+    withDeclares(declares: Array<DomainElement>): this
 
-        references(): Array<BaseUnit>
+    references(): Array<BaseUnit>
 
-        withProcessingData(data: BaseUnitProcessingData): this
+    withProcessingData(data: BaseUnitProcessingData): this
 
-        withId(id: string): this
+    withId(id: string): this
 
 
-    }
+  }
 
   export class JsServerHttpResourceLoader extends BaseHttpResourceLoader {
     constructor()
@@ -5254,28 +5254,28 @@ declare module '@aml-org/als-node-client' {
 
     withId(id: string): this
 
-      withRequest(): Request
+    withRequest(): Request
 
-      withDocumentation(documentation: CreativeWork): this
+    withDocumentation(documentation: CreativeWork): this
 
-      withDeprecated(deprecated: boolean): this
+    withDeprecated(deprecated: boolean): this
 
 
   }
 
-    export class ExecutionEnvironment {
-        constructor()
+  export class ExecutionEnvironment {
+    constructor()
 
-    }
+  }
 
-    export class External implements DomainElement {
-        customDomainProperties: Array<DomainExtension>
-        base: StrField
-        alias: StrField
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        extendsNode: Array<DomainElement>
+  export class External implements DomainElement {
+    customDomainProperties: Array<DomainExtension>
+    base: StrField
+    alias: StrField
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    extendsNode: Array<DomainElement>
 
     constructor()
 
@@ -5795,13 +5795,13 @@ declare module '@aml-org/als-node-client' {
   export class NormalPriority extends PluginPriority {
   }
 
-    export class WebAPIConfiguration {
-        static WebAPI(): AMFConfiguration
+  export class WebAPIConfiguration {
+    static WebAPI(): AMFConfiguration
 
-        static fromSpec(spec: Spec): AMFConfiguration
+    static fromSpec(spec: Spec): AMFConfiguration
 
 
-    }
+  }
 
   export class ResourceLoaderFactory {
     static create(loader: ClientResourceLoader): any
@@ -6113,8 +6113,8 @@ declare module '@aml-org/als-node-client' {
     static readonly AMF: Spec
     static readonly PAYLOAD: Spec
     static readonly AML: Spec
-      static readonly JSONSCHEMA: Spec
-      static readonly GRPC: Spec
+    static readonly JSONSCHEMA: Spec
+    static readonly GRPC: Spec
 
     static apply(name: string): Spec
 
@@ -6130,7 +6130,7 @@ declare module '@aml-org/als-node-client' {
   export class AMFGraphConfiguration {
     baseUnitClient(): AMFGraphBaseUnitClient
 
-      elementClient(): AMFGraphElementClient
+    elementClient(): AMFGraphElementClient
 
     withParsingOptions(parsingOptions: ParsingOptions): AMFGraphConfiguration
 
@@ -6148,61 +6148,61 @@ declare module '@aml-org/als-node-client' {
 
     withEventListener(listener: AMFEventListener): AMFGraphConfiguration
 
-      withShapePayloadPlugin(plugin: AMFShapePayloadValidationPlugin): AMFGraphConfiguration
+    withShapePayloadPlugin(plugin: AMFShapePayloadValidationPlugin): AMFGraphConfiguration
 
-      static empty(): AMFGraphConfiguration
+    static empty(): AMFGraphConfiguration
 
-      static predefined(): AMFGraphConfiguration
+    static predefined(): AMFGraphConfiguration
 
 
   }
 
-    export class ShapesConfiguration extends BaseShapesConfiguration {
-        baseUnitClient(): AMLBaseUnitClient
+  export class ShapesConfiguration extends BaseShapesConfiguration {
+    baseUnitClient(): AMLBaseUnitClient
 
-        elementClient(): ShapesElementClient
+    elementClient(): ShapesElementClient
 
-        configurationState(): AMLConfigurationState
+    configurationState(): AMLConfigurationState
 
-        withParsingOptions(parsingOptions: ParsingOptions): ShapesConfiguration
+    withParsingOptions(parsingOptions: ParsingOptions): ShapesConfiguration
 
-        withRenderOptions(renderOptions: RenderOptions): ShapesConfiguration
+    withRenderOptions(renderOptions: RenderOptions): ShapesConfiguration
 
-        withErrorHandlerProvider(provider: ErrorHandlerProvider): ShapesConfiguration
+    withErrorHandlerProvider(provider: ErrorHandlerProvider): ShapesConfiguration
 
-        withResourceLoader(rl: ResourceLoader): ShapesConfiguration
+    withResourceLoader(rl: ResourceLoader): ShapesConfiguration
 
-        withResourceLoaders(rl: Array<ResourceLoader>): ShapesConfiguration
+    withResourceLoaders(rl: Array<ResourceLoader>): ShapesConfiguration
 
-        withUnitCache(cache: UnitCache): ShapesConfiguration
+    withUnitCache(cache: UnitCache): ShapesConfiguration
 
-        withTransformationPipeline(pipeline: TransformationPipeline): ShapesConfiguration
+    withTransformationPipeline(pipeline: TransformationPipeline): ShapesConfiguration
 
-        withEventListener(listener: AMFEventListener): ShapesConfiguration
+    withEventListener(listener: AMFEventListener): ShapesConfiguration
 
-        withDialect(dialect: Dialect): ShapesConfiguration
+    withDialect(dialect: Dialect): ShapesConfiguration
 
-        withDialect(url: string): Promise<ShapesConfiguration>
+    withDialect(url: string): Promise<ShapesConfiguration>
 
-        forInstance(url: string): Promise<ShapesConfiguration>
+    forInstance(url: string): Promise<ShapesConfiguration>
 
-        withShapePayloadPlugin(plugin: AMFShapePayloadValidationPlugin): ShapesConfiguration
+    withShapePayloadPlugin(plugin: AMFShapePayloadValidationPlugin): ShapesConfiguration
 
-        static empty(): ShapesConfiguration
+    static empty(): ShapesConfiguration
 
-        static predefined(): ShapesConfiguration
+    static predefined(): ShapesConfiguration
 
 
-    }
+  }
 
-    export class Position {
-        isZero: boolean
-        toString: string
-        line: number
-        column: number
-        static FIRST: Position
+  export class Position {
+    isZero: boolean
+    toString: string
+    line: number
+    column: number
+    static FIRST: Position
 
-        constructor(line: number, column: number)
+    constructor(line: number, column: number)
 
     lt(o: Position): boolean
 
@@ -6333,7 +6333,7 @@ declare module '@aml-org/als-node-client' {
 
     withDialect(dialect: Dialect): AMLConfiguration
 
-      withDialect(url: string): Promise<AMLConfiguration>
+    withDialect(url: string): Promise<AMLConfiguration>
 
     forInstance(url: string): Promise<AMLConfiguration>
 
