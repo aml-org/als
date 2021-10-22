@@ -1320,6 +1320,31 @@ declare module '@aml-org/als-server' {
     }
     namespace yaml {
       namespace builder {
+        /* Not exported */
+        abstract class DocBuilder<T> {
+          result: T
+
+          isDefined: boolean
+
+          list(f: (p: DocBuilder.Part) => void): T
+
+          obj(f: (e: DocBuilder.Entry) => void): T
+
+          doc(f: (p: DocBuilder.Part) => void): T
+        }
+
+        namespace DocBuilder {
+          /* Not exported */
+          abstract class Part {
+
+          }
+
+          /* Not exported */
+          abstract class Entry {
+
+          }
+        }
+
         export class JsOutputBuilder {
           isDefined: boolean
           result: undefined
@@ -2769,7 +2794,7 @@ declare module '@aml-org/als-server' {
     usage: StrField
     id: string
     raw: undefined | string
-    processingData: BaseUnitProcessingData
+    processingData: DialectInstanceProcessingData
     sourceSpec: undefined | Spec
     modelVersion: StrField
     encodes: DialectDomainElement
@@ -3898,7 +3923,7 @@ declare module '@aml-org/als-server' {
     usage: StrField
     id: string
     raw: undefined | string
-    processingData: BaseUnitProcessingData
+    processingData: DialectInstanceProcessingData
     sourceSpec: undefined | Spec
     modelVersion: StrField
     encodes: DialectDomainElement
@@ -4288,7 +4313,7 @@ declare module '@aml-org/als-server' {
     usage: StrField
     id: string
     raw: undefined | string
-    processingData: BaseUnitProcessingData
+    processingData: DialectInstanceProcessingData
     sourceSpec: undefined | Spec
     modelVersion: StrField
     encodes: DialectDomainElement
@@ -5010,7 +5035,7 @@ declare module '@aml-org/als-server' {
     usage: StrField
     id: string
     raw: undefined | string
-    processingData: BaseUnitProcessingData
+    processingData: DialectInstanceProcessingData
     sourceSpec: undefined | Spec
     modelVersion: StrField
     declares: Array<DomainElement>
