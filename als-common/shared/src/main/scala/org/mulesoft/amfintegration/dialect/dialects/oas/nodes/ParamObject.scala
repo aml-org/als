@@ -1,9 +1,9 @@
 package org.mulesoft.amfintegration.dialect.dialects.oas.nodes
 
-import amf.core.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdString}
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.apicontract.internal.metamodel.domain.{ParameterModel, PayloadModel, RequestModel}
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdString}
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.webapi.metamodel.{ParameterModel, PayloadModel, RequestModel}
 
 trait AMLOasParamBaseObject extends AMLSchemaBaseObject {
 

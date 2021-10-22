@@ -1,0 +1,22 @@
+#%Dialect 1.0
+dialect: Boolean
+version: 1.0
+external:
+  schema: http://schema.org/
+  mock: https://github.amlorg.com/mock#
+
+nodeMappings:
+  TestNode:
+    classTerm: mock.TestNode
+    mapping:
+      date:
+        propertyTerm: schema.date
+        range: date
+        mandatory: true
+      successful:
+        propertyTerm: schema.success
+        range: boolean
+
+documents:
+  root:
+    encodes: TestNode

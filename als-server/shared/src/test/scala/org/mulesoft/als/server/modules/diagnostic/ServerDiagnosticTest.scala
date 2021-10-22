@@ -1,25 +1,25 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf.client.remote.Content
-import amf.core.errorhandling.ErrorCollector
-import amf.core.metamodel.{Field, Obj}
-import amf.core.metamodel.document.BaseUnitModel
-import amf.core.metamodel.document.BaseUnitModel.{DescribedBy, ModelVersion, References, Root, Usage}
-import amf.core.model.document.BaseUnit
-import amf.core.model.domain.AmfObject
-import amf.core.parser.{Annotations, Fields}
-import amf.core.vocabulary.Namespace.Document
-import amf.core.vocabulary.ValueType
-import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
-import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
+import amf.core.client.scala.AMFResult
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.model.domain.AmfObject
+import amf.core.client.scala.vocabulary.Namespace.{Document => DocumentNamespace}
+import amf.core.client.scala.vocabulary.ValueType
+import amf.core.internal.metamodel.Field
+import amf.core.internal.metamodel.document.BaseUnitModel
+import amf.core.internal.parser.domain.{Annotations, Fields}
+import org.mulesoft.als.configuration.{ConfigurationStyle, ProjectConfigurationStyle}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.ast.BaseUnitListenerParams
 import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.textsync.TextDocumentContainer
+import org.mulesoft.als.server.workspace.command.Commands
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.amfintegration.AmfParseResult
+import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, AmfParseResult}
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
+import org.mulesoft.lsp.configuration.TraceKind
+import org.mulesoft.lsp.workspace.ExecuteCommandParams
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -34,14 +34,14 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
 
   def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer = {
     val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger)
-    val dm      = builder.diagnosticManager()
+    val dm      = builder.buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
     container = Option(factory.container)
     val b = new LanguageServerBuilder(factory.documentManager,
                                       factory.workspaceManager,
                                       factory.configurationManager,
                                       factory.resolutionTaskManager)
-    dm.foreach(b.addInitializableModule)
+    dm.foreach(m => b.addInitializableModule(m))
     b.build()
 
   }
@@ -116,7 +116,12 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
 
   test("diagnostics test 002 - AML") {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
-    withServer(buildServer(diagnosticNotifier)) { server =>
+    withServer(
+      buildServer(diagnosticNotifier),
+      AlsInitializeParams(None,
+                          Some(TraceKind.Off),
+                          projectConfigurationStyle = Some(ProjectConfigurationStyle(ConfigurationStyle.COMMAND)))
+    ) { server =>
       val dialectPath  = s"file://dialect.yaml"
       val instancePath = s"file://instance.yaml"
 
@@ -158,8 +163,12 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
         register dialect -> open invalid instance -> fix -> invalid again
        */
       for {
-        _             <- openFileNotification(server)(dialectPath, dialectContent)
-        d1            <- diagnosticNotifier.nextCall
+        _  <- openFileNotification(server)(dialectPath, dialectContent)
+        d1 <- diagnosticNotifier.nextCall
+        _ <- server.workspaceService.executeCommand(
+          ExecuteCommandParams(
+            Commands.DID_CHANGE_CONFIGURATION,
+            List(s"""{"mainUri": "", "dependencies": [{"file": "$dialectPath", "scope": "dialect"}]}""")))
         _             <- openFileNotification(server)(instancePath, instanceContent1)
         openInvalid   <- diagnosticNotifier.nextCall
         _             <- openFileNotification(server)(instancePath, instanceContent2)
@@ -169,7 +178,7 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
       } yield {
         server.shutdown()
         assert(d1.diagnostics.isEmpty && d1.uri == dialectPath)
-        assert(openInvalid.diagnostics.length == 1 && openInvalid.uri == instancePath)
+        assert(openInvalid.diagnostics.length == 2 && openInvalid.uri == instancePath)
         assert(fixed.diagnostics.isEmpty && fixed.uri == instancePath)
         assert(openInvalid == reopenInvalid)
         assert(diagnosticNotifier.promises.isEmpty)
@@ -181,7 +190,7 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
     class MockDialectDomainElementModel extends BaseUnitModel {
       override def modelInstance: AmfObject = throw new Exception("should fail")
 
-      override val `type`: List[ValueType] = List(Document + "MockUnit")
+      override val `type`: List[ValueType] = List(DocumentNamespace + "MockUnit")
 
       override def fields: List[Field] = List(ModelVersion, References, Usage, DescribedBy, Root)
     }
@@ -201,22 +210,23 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
     val builder                                          = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger)
     builder
-      .diagnosticManager()
+      .buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
 
     val amfBaseUnit: BaseUnit = new MockDialectInstance(new Fields())
 
-    val eh                             = new ErrorCollector {}
-    val amfParseResult: AmfParseResult = new AmfParseResult(amfBaseUnit, eh, ExternalFragmentDialect(), None)
+    val amfParseResult: Future[AmfParseResult] =
+      AmfConfigurationWrapper().map(c =>
+        new AmfParseResult(AMFResult(amfBaseUnit, Seq()), ExternalFragmentDialect(), c))
 
     for {
+      result <- amfParseResult
       _ <- Future {
         factory.resolutionTaskManager.onNewAst(
           BaseUnitListenerParams(
-            amfParseResult,
+            result,
             Map.empty,
-            tree = false,
-            None
+            tree = false
           ),
           ""
         )
@@ -230,7 +240,7 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
     }
   }
 
-  test("Trait resolution with error( test resolution error handler") {
+  test("Trait resolution with error( test resolution error handler)") {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
     withServer(buildServer(diagnosticNotifier)) { server =>
       val apiPath = s"file://api.raml"
@@ -244,16 +254,13 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
           |  secured:
           |    queryParameters:
           |      access_token:
-          |        descriptionA: A valid access_token is required
+          |        invalid-key: A valid access_token is required
           |
           |/books:
           |  get:
           |    is: [ secured ]
         """.stripMargin
 
-      /*
-        register dialect -> open invalid instance -> fix -> invalid again
-       */
       for {
         _  <- openFileNotification(server)(apiPath, apiContent)
         d1 <- diagnosticNotifier.nextCall

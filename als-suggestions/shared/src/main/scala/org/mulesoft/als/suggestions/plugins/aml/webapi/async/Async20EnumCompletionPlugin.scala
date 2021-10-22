@@ -1,8 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.async
 
-import amf.core.parser.FieldEntry
-import amf.plugins.domain.shapes.metamodel.ScalarShapeModel
-import amf.plugins.domain.webapi.metamodel.PayloadModel
+import amf.apicontract.internal.metamodel.domain.PayloadModel
+import amf.core.internal.parser.domain.FieldEntry
+import amf.shapes.internal.domain.metamodel.ScalarShapeModel
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin

@@ -7,13 +7,13 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
 }
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
-import org.mulesoft.amfintegration.ParserRangeImplicits.RangeImplicit
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.{
   BEGIN_SYNTHESIZE_VOCABULARY,
   END_SYNTHESIZE_VOCABULARY,
   MessageTypes
 }
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
+import org.mulesoft.amfintegration.ParserRangeImplicits._
 
 import scala.concurrent.Future
 

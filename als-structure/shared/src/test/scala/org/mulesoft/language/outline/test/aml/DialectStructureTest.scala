@@ -1,6 +1,7 @@
 package org.mulesoft.language.outline.test.aml
 
-import org.mulesoft.amfintegration.AmfInstance
+import amf.aml.client.scala.model.document.Dialect
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.language.outline.test.BaseStructureTest
 import org.scalatest.compatible.Assertion
 
@@ -10,8 +11,18 @@ class DialectStructureTest extends BaseStructureTest with DialectTest {
 
   def runTest(path: String, dialectPath: String, jsonPath: String): Future[Assertion] = {
     val fullDialectPath = filePath(dialectPath)
-    val default         = AmfInstance.default
-    default.parse(fullDialectPath).map(_.baseUnit).flatMap(_ => super.runTest(path, jsonPath, Some(default)))
+    for {
+      amfConfiguration <- AmfConfigurationWrapper()
+      parsed           <- amfConfiguration.parse(fullDialectPath)
+      _ <- Future {
+        parsed.result.baseUnit match {
+          case d: Dialect =>
+            amfConfiguration.registerDialect(d)
+        }
+        parsed
+      }
+      result <- super.runTest(path, jsonPath, Some(amfConfiguration))
+    } yield result
   }
 
 }

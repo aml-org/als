@@ -82,4 +82,24 @@ class LsConvertionsTest extends FunSuite {
     }
   }
 
+  test("Diagnostic with empty related information") {
+    val start                                  = new Position(0, 1);
+    val end                                    = new Position(1, 1);
+    val clientDiagnostic                       = new Diagnostic(new Range(start, end), "Message")
+    val internalDiagnostic: InternalDiagnostic = clientDiagnostic
+    val relatedInformation                     = internalDiagnostic.relatedInformation
+    succeed
+  }
+
+  test("Diagnostic with related information set") {
+    val start              = new Position(0, 1);
+    val end                = new Position(1, 1);
+    val clientDiagnostic   = new Diagnostic(new Range(start, end), "Message")
+    val relatedInformation = new DiagnosticRelatedInformation(new Location("uri", new Range(start, end)), "Message")
+    clientDiagnostic.setRelatedInformation(List(relatedInformation).asJava)
+    val internalDiagnostic: InternalDiagnostic = clientDiagnostic
+    val internalRelatedInformation             = internalDiagnostic.relatedInformation
+    succeed
+  }
+
 }

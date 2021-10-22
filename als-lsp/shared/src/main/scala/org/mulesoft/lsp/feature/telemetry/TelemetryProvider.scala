@@ -1,9 +1,8 @@
 package org.mulesoft.lsp.feature.telemetry
 
-import java.util.UUID
-
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 
+import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -87,6 +86,10 @@ object MessageTypes extends Enumeration {
   val BEGIN_EXTERNAL_VOCABULARY_TO_LOCAL        = "BEGIN_EXTERNAL_VOCABULARY_TO_LOCAL"
   val END_EXTERNAL_VOCABULARY_TO_LOCAL          = "END_EXTERNAL_VOCABULARY_TO_LOCAL"
   val ERROR_MESSAGE                             = "ERROR_MESSAGE"
+  val BEGIN_CUSTOM_DIAGNOSTIC                   = "BEGIN_CUSTOM_DIAGNOSTIC"
+  val END_CUSTOM_DIAGNOSTIC                     = "END_CUSTOM_DIAGNOSTIC"
+  val BEGIN_GET_WORKSPACE_CONFIGURATION         = "BEGIN_GET_WORKSPACE_CONFIGURATION"
+  val END_GET_WORKSPACE_CONFIGURATION           = "END_GET_WORKSPACE_CONFIGURATION"
 }
 
 trait TelemetryProvider {

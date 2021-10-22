@@ -1,8 +1,8 @@
 package org.mulesoft.amfintegration.visitors.noderelationship.plugins
 
-import amf.core.annotations.SourceNode
-import amf.core.model.document.BaseUnit
-import amf.core.model.domain.AmfElement
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.model.domain.AmfElement
+import amf.core.internal.annotations.SourceNode
 import org.mulesoft.amfintegration.relationships.RelationshipLink
 import org.mulesoft.amfintegration.visitors.AmfElementVisitorFactory
 import org.mulesoft.amfintegration.visitors.noderelationship.NodeRelationshipVisitorType

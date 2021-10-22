@@ -41,12 +41,14 @@ VOLUME "$USER_HOME_DIR/.sbt"
 
 # Install nodejs
 RUN \
-  curl -sL https://deb.nodesource.com/setup_12.x | bash -
+  curl -sL https://deb.nodesource.com/setup_14.x | bash -
 
 RUN \
   apt-get install nodejs --assume-yes
 
 RUN export NODE_OPTIONS=--max_old_space_size=6000
+
+RUN npm install -g npm-cli-login
 
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en

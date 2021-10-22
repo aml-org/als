@@ -1,15 +1,15 @@
 package org.mulesoft.als.server.workspace.fileusage
 
-import amf.client.remote.Content
-import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
+import amf.core.client.common.remote.Content
+import amf.core.client.scala.resource.ResourceLoader
 import org.mulesoft.als.server.feature.fileusage.FileUsageRequestType
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.lsp.configuration.TraceKind
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.lsp.configuration.{TraceKind, WorkspaceFolder}
 import org.mulesoft.lsp.feature.common.{Location, TextDocumentIdentifier}
 import org.scalatest.Assertion
 
@@ -31,25 +31,26 @@ trait ServerFileUsageTest extends LanguageServerBaseTest {
           .getOrElse(Future.failed(new Exception("File not found on custom ResourceLoader")))
       override def accepts(resource: String): Boolean = ws.keySet.contains(resource)
     }
+    AmfConfigurationWrapper(Seq(rs)).flatMap(amfConfiguration => {
+      val factory =
+        new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
+          .withAmfConfiguration(amfConfiguration)
+          .buildWorkspaceManagerFactory()
+      val workspaceManager: WorkspaceManager = factory.workspaceManager
+      val server =
+        new LanguageServerBuilder(factory.documentManager,
+                                  workspaceManager,
+                                  factory.configurationManager,
+                                  factory.resolutionTaskManager)
+          .addRequestModule(factory.fileUsageManager)
+          .build()
 
-    val env = Environment().withLoaders(Seq(rs))
-
-    val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger, env)
-        .buildWorkspaceManagerFactory()
-    val workspaceManager: WorkspaceManager = factory.workspaceManager
-    val server =
-      new LanguageServerBuilder(factory.documentManager,
-                                workspaceManager,
-                                factory.configurationManager,
-                                factory.resolutionTaskManager)
-        .addRequestModule(factory.fileUsageManager)
-        .build()
-
-    server
-      .initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
-      .andThen { case _ => server.initialized() }
-      .map(_ => (server, workspaceManager))
+      for {
+        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
+      } yield {
+        (server, workspaceManager)
+      }
+    })
   }
 
   def runTest(root: String,

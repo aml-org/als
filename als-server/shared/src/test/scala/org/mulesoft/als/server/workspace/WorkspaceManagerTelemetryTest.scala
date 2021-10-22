@@ -1,16 +1,19 @@
 package org.mulesoft.als.server.workspace
 
+import org.mulesoft.als.configuration.{ConfigurationStyle, ProjectConfigurationStyle}
 import org.mulesoft.als.server._
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
+import org.mulesoft.als.server.workspace.command.Commands
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.common.{TextDocumentIdentifier, TextDocumentItem}
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, DocumentSymbolRequestType}
-import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
-import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryMessage}
+import org.mulesoft.lsp.feature.telemetry.MessageTypes
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
+import org.mulesoft.lsp.workspace.ExecuteCommandParams
 import org.scalatest.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -28,14 +31,15 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
       val handler = server.resolveHandler(DocumentSymbolRequestType).value
 
       for {
-        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
-        _ <- handler(DocumentSymbolParams(TextDocumentIdentifier(main)))
-        _ <- handler(DocumentSymbolParams(TextDocumentIdentifier(subdir)))
-        _ <- handler(DocumentSymbolParams(TextDocumentIdentifier(main)))
-        _ <- handler(DocumentSymbolParams(TextDocumentIdentifier(subdir)))
+        amfConfiguration <- AmfConfigurationWrapper()
+        _                <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+        _                <- handler(DocumentSymbolParams(TextDocumentIdentifier(main)))
+        _                <- handler(DocumentSymbolParams(TextDocumentIdentifier(subdir)))
+        _                <- handler(DocumentSymbolParams(TextDocumentIdentifier(main)))
+        _                <- handler(DocumentSymbolParams(TextDocumentIdentifier(subdir)))
         _ <- {
-          platform
-            .resolve(independent)
+          amfConfiguration
+            .fetchContent(independent)
             .map(c => {
               val content = c.stream.toString
               server.textDocumentSyncConsumer.didOpen(
@@ -69,20 +73,18 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
     withServer[Assertion](buildServer(notifier)) { server =>
       val handler = server.resolveHandler(DocumentSymbolRequestType).value
       for {
-        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}"))) // parse main with subdir
-        _ <- platform
-          .resolve(main)
-          .map(c => openFile(server)(main, c.stream.toString)) // open main file (should not reparse)
+        amfConfiguration <- AmfConfigurationWrapper()
+        _                <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}"))) // parse main with subdir
+        _ <- amfConfiguration
+          .fetchContent(main)
+          .flatMap(c => openFile(server)(main, c.stream.toString)) // open main file (should not reparse)
           .flatMap(_ => waitFor(notifier, MessageTypes.BEGIN_PARSE))
-        _ <- {
-          changeFile(server)(main, "#%RAML 1.0", 2)
-          waitFor(notifier, MessageTypes.BEGIN_PARSE)
-        } // Erase reference to subdir SHOULD reparse main
+        _ <- changeFile(server)(main, "#%RAML 1.0", 2)
+        // Erase reference to subdir SHOULD reparse main
         s1 <- handler(DocumentSymbolParams(TextDocumentIdentifier(main)))
-        _ <- platform
-          .resolve(subdir)
-          .map(c => openFile(server)(subdir, c.stream.toString)) // open subdir file (SHOULD reparse subdir)
-          .flatMap(_ => waitFor(notifier, MessageTypes.BEGIN_PARSE))
+        _ <- amfConfiguration
+          .fetchContent(subdir)
+          .flatMap(c => openFile(server)(subdir, c.stream.toString)) // open subdir file (SHOULD reparse subdir)
         s2 <- handler(DocumentSymbolParams(TextDocumentIdentifier(subdir)))
       } yield {
         notifier.promises.clear()
@@ -92,7 +94,8 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
     }
   }
 
-  test("Workspace Manager check parsing times (parse instance after modifying dialect)") {
+  // todo: enable test after APIMF-3305 is adopted
+  ignore("Workspace Manager check parsing times (parse instance after modifying dialect)") {
     val dialect  = s"${filePath("aml-workspace")}/dialect.yaml"
     val instance = s"${filePath("aml-workspace")}/instance.yaml"
 
@@ -100,12 +103,13 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
     withServer[Assertion](buildServer(notifier)) { server =>
       // open dialect -> open invalid instance -> change dialect -> focus now valid instance
       for {
+        amfConfiguration <- AmfConfigurationWrapper()
         _ <- server.initialize(
           AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(filePath("aml-workspace"))))
-        dialectContent      <- this.platform.resolve(dialect).map(_.stream.toString)
+        dialectContent      <- amfConfiguration.fetchContent(dialect).map(_.stream.toString)
         _                   <- openFileNotification(server)(dialect, dialectContent)
         dialectDiagnostic1  <- notifier.nextCallD
-        instanceContent     <- this.platform.resolve(instance).map(_.stream.toString)
+        instanceContent     <- amfConfiguration.fetchContent(instance).map(_.stream.toString)
         _                   <- openFileNotification(server)(instance, instanceContent)
         instanceDiagnostic1 <- notifier.nextCallD
         _                   <- focusNotification(server)(dialect, 0)
@@ -119,7 +123,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
       } yield {
         dialectDiagnostic1.uri should be(dialect)
         dialectDiagnostic2.uri should be(dialect)
-        dialectDiagnostic1.diagnostics.size should be
+        dialectDiagnostic1.diagnostics.size should be(0)
         dialectDiagnostic2.diagnostics.size should be(0)
 
         instanceDiagnostic1.uri should be(instance)
@@ -138,16 +142,27 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
     val instance = s"${filePath("aml-instance-is-mf")}/instance.yaml"
 
     val notifier: MockCompleteClientNotifier = new MockCompleteClientNotifier(3000)
-    withServer[Assertion](buildServer(notifier)) { server =>
+    withServer[Assertion](
+      buildServer(notifier),
+      AlsInitializeParams(
+        None,
+        Some(TraceKind.Off),
+        rootUri = Some(filePath("aml-instance-is-mf")),
+        projectConfigurationStyle = Some(ProjectConfigurationStyle(ConfigurationStyle.COMMAND))
+      )
+    ) { server =>
       // open workspace (parse instance) -> open dialect (parse) -> focus dialect (parse) -> focus instance (parse)
       for {
-        _ <- server.initialize(
-          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(filePath("aml-instance-is-mf"))))
+        amfConfiguration <- AmfConfigurationWrapper()
+        _ <- server.workspaceService.executeCommand(
+          ExecuteCommandParams(
+            Commands.DID_CHANGE_CONFIGURATION,
+            List(s"""{"mainUri": "$instance", "dependencies": [{"file": "$dialect", "scope": "dialect"}]}""")))
         rootDiagnostic      <- notifier.nextCallD
-        dialectContent      <- this.platform.resolve(dialect).map(_.stream.toString)
+        dialectContent      <- amfConfiguration.fetchContent(dialect).map(_.stream.toString)
         _                   <- openFileNotification(server)(dialect, dialectContent)
         dialectDiagnostic1  <- notifier.nextCallD
-        instanceContent     <- this.platform.resolve(instance).map(_.stream.toString)
+        instanceContent     <- amfConfiguration.fetchContent(instance).map(_.stream.toString)
         _                   <- openFileNotification(server)(instance, instanceContent)
         _                   <- focusNotification(server)(dialect, 0)
         dialectDiagnostic2  <- notifier.nextCallD
@@ -159,7 +174,6 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
       } yield {
         dialectDiagnostic1.uri should be(dialect)
         dialectDiagnostic2.uri should be(dialect)
-        dialectDiagnostic1.diagnostics.size should be
         dialectDiagnostic2.diagnostics.size should be(0)
 
         rootDiagnostic.uri should be(instance)
@@ -167,21 +181,21 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
         rootDiagnostic.diagnostics.size should be(0)
         instanceDiagnostic2.diagnostics.size should be(0)
 
-        assert(allTelemetry.count(d => d.messageType == MessageTypes.BEGIN_PARSE) == 4)
+        assert(allTelemetry.count(d => d.messageType == MessageTypes.BEGIN_PARSE) == 5)
       }
     }
   }
 
   def buildServer(notifier: ClientNotifier): LanguageServer = {
     val builder = new WorkspaceManagerFactoryBuilder(notifier, logger)
-    val dm      = builder.diagnosticManager()
+    val dm      = builder.buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
     val b = new LanguageServerBuilder(factory.documentManager,
                                       factory.workspaceManager,
                                       factory.configurationManager,
                                       factory.resolutionTaskManager)
       .addRequestModule(factory.structureManager)
-    dm.foreach(b.addInitializableModule)
+    dm.foreach(m => b.addInitializableModule(m))
     b.build()
   }
 

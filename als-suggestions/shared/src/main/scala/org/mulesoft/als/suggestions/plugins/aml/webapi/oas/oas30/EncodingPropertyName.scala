@@ -1,15 +1,15 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30
 
-import amf.core.model.domain.{AmfObject, Shape}
-import amf.plugins.domain.shapes.models.NodeShape
-import amf.plugins.domain.webapi.metamodel.{EncodingModel, PayloadModel}
-import amf.plugins.domain.webapi.models.{Encoding, Payload}
+import amf.apicontract.client.scala.model.domain.{Encoding, Payload}
+import amf.apicontract.internal.metamodel.domain.{EncodingModel, PayloadModel}
+import amf.core.client.scala.model.domain.{AmfObject, Shape}
+import amf.shapes.client.scala.model.domain.NodeShape
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 object EncodingPropertyName extends AMLCompletionPlugin {
   override def id: String = "EncodingPropertyName"
 

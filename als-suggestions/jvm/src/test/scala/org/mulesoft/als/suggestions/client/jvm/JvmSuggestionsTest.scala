@@ -1,14 +1,13 @@
 package org.mulesoft.als.suggestions.client.jvm
 
-import amf.client.remote.Content
-import amf.core.remote.FileNotFound
-import amf.core.unsafe.PlatformSecrets
-import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
+import amf.core.client.common.remote.Content
+import amf.core.client.scala.resource.ResourceLoader
+import amf.core.internal.remote.FileNotFound
+import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.als.suggestions.client.Suggestions
-import org.mulesoft.amfintegration.{AmfInstance, InitOptions}
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.scalatest.{AsyncFunSuite, Matchers}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -43,15 +42,16 @@ class JvmSuggestionsTest extends AsyncFunSuite with Matchers with PlatformSecret
     override def isDirectory(path: String): Future[Boolean] = Future { false }
   }
 
-  val environment
-    : Environment = Environment().add(fileLoader) // .add(new ResourceLoaderAdapter(new FileResourceLoader()))
+  private val amfConfiguration: Future[AmfConfigurationWrapper] =
+    AmfConfigurationWrapper(Seq(fileLoader))
 
   test("Custom Resource Loader test") {
     val s =
-      new Suggestions(platform, environment, AlsConfiguration(), directoryResolver, AmfInstance(platform, environment))
+      new Suggestions(AlsConfiguration(), directoryResolver)
         .initialized()
     for {
-      suggestions <- s.suggest(url, 40, snippetsSupport = true, None)
+      amfConfig   <- amfConfiguration
+      suggestions <- s.suggest(url, 40, snippetsSupport = true, None, amfConfig)
     } yield {
       assert(suggestions.size == 15)
     }

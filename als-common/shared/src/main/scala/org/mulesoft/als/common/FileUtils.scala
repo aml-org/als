@@ -1,12 +1,11 @@
 package org.mulesoft.als.common
 
+import amf.core.internal.remote.Platform
+
 import java.net.{URI, URISyntaxException}
-
-import amf.core.remote.Platform
-
 private object FileUtils {
 
-  val FILE_PROTOCOL: String = amf.core.remote.File.FILE_PROTOCOL
+  val FILE_PROTOCOL: String = amf.core.internal.remote.File.FILE_PROTOCOL
 
   def isValidUri(uri: String): Boolean =
     try {

@@ -1,6 +1,7 @@
 package org.mulesoft.amfintegration.visitors
 
-import amf.core.model.document.BaseUnit
+import amf.core.client.scala.model.document.BaseUnit
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.amfintegration.visitors.aliases.{AliasesVisitor, AliasesVisitorType}
 import org.mulesoft.amfintegration.visitors.documentlink.{DocumentLinkVisitor, DocumentLinkVisitorType}
@@ -37,8 +38,8 @@ class AmfElementVisitors(allVisitors: Seq[AmfElementVisitor[_]]) {
       .flatMap(_.report)
   }
 
-  final def applyAmfVisitors(elements: BaseUnit): Unit = {
-    val iterator = AlsIteratorStrategy.iterator(elements)
+  final def applyAmfVisitors(elements: BaseUnit, amfConfiguration: AmfConfigurationWrapper): Unit = {
+    val iterator = AlsIteratorStrategy.iterator(elements, amfConfiguration)
     while (iterator.hasNext) {
       val element = iterator.next()
       allVisitors.foreach(_.visit(element))

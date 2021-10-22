@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.async
 
-import amf.plugins.domain.webapi.metamodel.PayloadModel
-import amf.plugins.domain.webapi.models.Payload
+import amf.apicontract.client.scala.model.domain.Payload
+import amf.apicontract.internal.metamodel.domain.PayloadModel
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.AbstractKnownValueCompletionPlugin

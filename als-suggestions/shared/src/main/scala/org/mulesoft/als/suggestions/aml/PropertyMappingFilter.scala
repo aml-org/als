@@ -1,13 +1,13 @@
 package org.mulesoft.als.suggestions.aml
 
-import amf.core.metamodel.domain.common.{NameFieldSchema, NameFieldShacl}
-import amf.core.model.document.BaseUnit
-import amf.core.model.domain.AmfObject
-import amf.core.parser.FieldEntry
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.model.domain.AmfObject
+import amf.core.internal.metamodel.domain.common.{NameFieldSchema, NameFieldShacl}
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.als.common.ObjectInTree
-import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.AmfImplicits.AmfObjectImp
 
 case class PropertyMappingFilter(objectInTree: ObjectInTree, actualDialect: Dialect, nm: NodeMapping) {
 

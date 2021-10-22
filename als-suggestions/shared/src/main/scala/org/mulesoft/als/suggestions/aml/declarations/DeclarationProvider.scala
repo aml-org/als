@@ -1,13 +1,13 @@
 package org.mulesoft.als.suggestions.aml.declarations
 
-import amf.core.annotations.Aliases
-import amf.core.metamodel.domain.DomainElementModel
-import amf.core.model.document.{BaseUnit, DeclaresModel}
-import amf.core.model.domain.DomainElement
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.NodeMapping
-import org.mulesoft.als.common.SemanticNamedElement._
-import org.mulesoft.amfintegration.AmfImplicits._
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.NodeMapping
+import amf.core.client.scala.model.document.{BaseUnit, DeclaresModel}
+import amf.core.client.scala.model.domain.DomainElement
+import amf.core.internal.annotations.Aliases
+import amf.core.internal.metamodel.domain.DomainElementModel
+import org.mulesoft.als.common.SemanticNamedElement.ElementNameExtractor
+import org.mulesoft.amfintegration.AmfImplicits.AmfObjectImp
 
 import scala.collection.mutable
 
@@ -104,7 +104,7 @@ object DeclarationProvider {
         .flatMap(
           l =>
             bu.references
-              .find(_.location().contains(l._2._1))
+              .find(_.location().contains(l._2.fullUrl))
               .map(r => l._1 -> r))
         .foreach { t =>
           provider.put(t._1, DeclarationProvider(t._2, None))

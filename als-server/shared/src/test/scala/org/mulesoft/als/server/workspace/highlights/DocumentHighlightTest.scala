@@ -1,32 +1,17 @@
 package org.mulesoft.als.server.workspace.highlights
 
-import amf.client.remote.Content
-import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
-import org.mulesoft.als.actions.rename.FindRenameLocations
-import org.mulesoft.als.common.dtoTypes.{Position => DtoPosition}
+import amf.core.client.common.remote.Content
+import amf.core.client.scala.resource.ResourceLoader
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.configuration.TraceKind
-import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit, WorkspaceEdit}
 import org.mulesoft.lsp.feature.RequestHandler
-import org.mulesoft.lsp.feature.common.{
-  Position,
-  Range,
-  TextDocumentIdentifier,
-  TextDocumentItem,
-  VersionedTextDocumentIdentifier
-}
-import org.mulesoft.lsp.feature.highlight.{
-  DocumentHighlight,
-  DocumentHighlightConfigType,
-  DocumentHighlightKind,
-  DocumentHighlightParams,
-  DocumentHighlightRequestType
-}
+import org.mulesoft.lsp.feature.common.{Position, Range, TextDocumentIdentifier, TextDocumentItem}
+import org.mulesoft.lsp.feature.highlight.{DocumentHighlight, DocumentHighlightKind, DocumentHighlightParams, DocumentHighlightRequestType}
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -250,11 +235,11 @@ class DocumentHighlightTest extends LanguageServerBaseTest {
         ws.keySet.contains(resource)
     }
 
-    val env = Environment().withLoaders(Seq(rs))
-
-    val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger, env)
-        .buildWorkspaceManagerFactory()
+    AmfConfigurationWrapper(Seq(rs)).flatMap(amfConfiguration => {
+      val factory =
+        new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
+          .withAmfConfiguration(amfConfiguration)
+          .buildWorkspaceManagerFactory()
     val workspaceManager: WorkspaceManager = factory.workspaceManager
     val server =
       new LanguageServerBuilder(factory.documentManager,
@@ -268,6 +253,7 @@ class DocumentHighlightTest extends LanguageServerBaseTest {
       .initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
       .andThen { case _ => server.initialized() }
       .map(_ => (server, workspaceManager))
+  })
   }
 
   override def rootPath: String = ???

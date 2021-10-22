@@ -1,0 +1,28 @@
+#%Validation Profile 1.0
+profile: Test1
+violation:
+  - scalar-parameters-1
+warning:
+  - scalar-parameters-2
+info:
+  - scalar-parameters-3
+
+validations:
+  scalar-parameters-1:
+    targetClass: apiContract.Parameter
+    message: Violation
+    propertyConstraints:
+      shapes.schema / shacl.minLength:
+        minCount: 1
+  scalar-parameters-2:
+    targetClass: apiContract.Parameter
+    message: Warning
+    propertyConstraints:
+      shapes.schema / shacl.minLength:
+        minCount: 1
+  scalar-parameters-3:
+    targetClass: apiContract.Parameter
+    message: Info
+    propertyConstraints:
+      shapes.schema / shacl.minLength:
+        minCount: 1

@@ -1,22 +1,22 @@
 package org.mulesoft.als.server.workspace
 
+import amf.core.client.common.remote.Content
+import amf.core.client.scala.resource.ResourceLoader
 import org.mulesoft.als.configuration.ConfigurationStyle.COMMAND
 import org.mulesoft.als.configuration.ProjectConfigurationStyle
+import org.mulesoft.als.configuration.WorkspaceConfiguration
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.workspace.command.Commands
-import org.mulesoft.als.server.{
-  LanguageServerBaseTest,
-  LanguageServerBuilder,
-  MockDiagnosticClientNotifier,
-  TimeoutFuture
-}
+import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.configuration.{TraceKind, WorkspaceFolder}
 import org.mulesoft.lsp.feature.common.{Position, Range}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
+import org.mulesoft.lsp.textsync.KnownDependencyScopes.CUSTOM_VALIDATION
 import org.mulesoft.lsp.workspace.ExecuteCommandParams
 import org.scalatest.Assertion
 
@@ -27,18 +27,26 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   override implicit val executionContext: ExecutionContext =
     ExecutionContext.Implicits.global
 
+  private val profileUri: String  = "file://profile.yaml"
+  private val profileUri2: String = "file://profile.yaml"
+  val fakeRl: ResourceLoader = new ResourceLoader {
+    override def fetch(resource: String): Future[Content] =
+      Future.successful(new Content("#%Validation Profile 1.0\nprofile: MyProfile", resource))
+
+    override def accepts(resource: String): Boolean = resource == profileUri || resource == profileUri2
+  }
   def buildServer(diagnosticClientNotifier: ClientNotifier): LanguageServer = {
     val builder =
-      new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier, logger)
+      new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier, logger, Seq(fakeRl))
 
-    val dm      = builder.diagnosticManager()
+    val dm      = builder.buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
 
     val b = new LanguageServerBuilder(factory.documentManager,
                                       factory.workspaceManager,
                                       factory.configurationManager,
                                       factory.resolutionTaskManager)
-    dm.foreach(b.addInitializableModule)
+    dm.foreach(m => b.addInitializableModule(m))
     b.addRequestModule(factory.structureManager)
     b.build()
   }
@@ -107,12 +115,12 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       case Some(m) =>
         m.diagnostics.size should be(1)
         m.diagnostics.head.range should be(Range(Position(3, 14), Position(3, 28)))
-        m.diagnostics.head.relatedInformation.size should be(2)
-        m.diagnostics.head.relatedInformation.head.location.uri should be(s"$rootFolder/external1.yaml")
-        m.diagnostics.head.relatedInformation.head.location.range should be(Range(Position(2, 14), Position(2, 28)))
-        m.diagnostics.head.relatedInformation.tail.head.location.uri should be(s"$rootFolder/external2.yaml")
-        m.diagnostics.head.relatedInformation.tail.head.location.range should be(
-          Range(Position(0, 6), Position(0, 16)))
+        val information = m.diagnostics.head.relatedInformation.getOrElse(Seq())
+        information.size should be(2)
+        information.head.location.uri should be(s"$rootFolder/external1.yaml")
+        information.head.location.range should be(Range(Position(2, 14), Position(2, 28)))
+        information.tail.head.location.uri should be(s"$rootFolder/external2.yaml")
+        information.tail.head.location.range should be(Range(Position(0, 6), Position(0, 16)))
       case _ => fail("No Main detected")
     }
   }
@@ -140,9 +148,10 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
           case Some(m) =>
             m.diagnostics.size should be(1)
             m.diagnostics.head.range should be(Range(Position(3, 0), Position(3, 6)))
-            m.diagnostics.head.relatedInformation.size should be(1)
-            m.diagnostics.head.relatedInformation.head.location.uri should be(s"$rootFolder/api.raml")
-            m.diagnostics.head.relatedInformation.head.location.range should be(Range(Position(4, 7), Position(4, 19)))
+            val information = m.diagnostics.head.relatedInformation.getOrElse(Seq())
+            information.size should be(1)
+            information.head.location.uri should be(s"$rootFolder/api.raml")
+            information.head.location.range should be(Range(Position(4, 7), Position(4, 19)))
           case _ => fail("No Main detected")
         }
       }
@@ -172,10 +181,10 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
           case Some(m) =>
             m.diagnostics.size should be(1)
             m.diagnostics.head.range should be(Range(Position(2, 0), Position(2, 7)))
-            m.diagnostics.head.relatedInformation.size should be(1)
-            m.diagnostics.head.relatedInformation.head.location.uri should be(s"$rootFolder/api.raml")
-            m.diagnostics.head.relatedInformation.head.location.range should be(
-              Range(Position(4, 14), Position(4, 27)))
+            val information = m.diagnostics.head.relatedInformation.getOrElse(Seq())
+            information.size should be(1)
+            information.head.location.uri should be(s"$rootFolder/api.raml")
+            information.head.location.range should be(Range(Position(4, 14), Position(4, 27)))
           case _ => fail("No Main detected")
         }
       }
@@ -209,23 +218,25 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
             m.diagnostics.size should be(2)
 
             m.diagnostics.exists { d =>
+              val information = d.relatedInformation.getOrElse(Seq())
               d.range == Range(Position(7, 14), Position(7, 27)) &&
-              d.relatedInformation.size == 2 &&
-              d.relatedInformation.head.location.uri == s"$rootFolder/external.yaml" &&
-              d.relatedInformation.head.location.range == Range(Position(1, 21), Position(1, 36)) &&
-              d.relatedInformation.tail.head.location.uri == s"$rootFolder/external-2.yaml" &&
-              d.relatedInformation.tail.head.location.range == Range(Position(1, 3), Position(1, 13))
+              information.size == 2 &&
+              information.head.location.uri == s"$rootFolder/external.yaml" &&
+              information.head.location.range == Range(Position(1, 21), Position(1, 36)) &&
+              information.tail.head.location.uri == s"$rootFolder/external-2.yaml" &&
+              information.tail.head.location.range == Range(Position(1, 3), Position(1, 13))
             } should be(true)
 
             m.diagnostics.exists { d =>
               d.range == Range(Position(4, 7), Position(4, 19))
-              d.relatedInformation.size == 3
-              d.relatedInformation.head.location.uri == s"$rootFolder/library.raml" &&
-              d.relatedInformation.head.location.range == Range(Position(3, 14), Position(3, 27)) &&
-              d.relatedInformation.tail.head.location.uri == s"$rootFolder/external.yaml" &&
-              d.relatedInformation.tail.head.location.range == Range(Position(1, 21), Position(1, 36)) &&
-              d.relatedInformation.tail.tail.head.location.uri == s"$rootFolder/external-2.yaml" &&
-              d.relatedInformation.tail.tail.head.location.range == Range(Position(1, 3), Position(1, 13))
+              val information = d.relatedInformation.getOrElse(Seq())
+              information.size == 3
+              information.head.location.uri == s"$rootFolder/library.raml" &&
+              information.head.location.range == Range(Position(3, 14), Position(3, 27)) &&
+              information.tail.head.location.uri == s"$rootFolder/external.yaml" &&
+              information.tail.head.location.range == Range(Position(1, 21), Position(1, 36)) &&
+              information.tail.tail.head.location.uri == s"$rootFolder/external-2.yaml" &&
+              information.tail.tail.head.location.range == Range(Position(1, 3), Position(1, 13))
             } should be(true)
 
             succeed
@@ -252,16 +263,16 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
 
         root match {
           case Some(m) =>
-            m.diagnostics.size should be(2)
+            m.diagnostics.size should be(3)
 
             if (!m.diagnostics.exists { d => // header
                   d.range == Range(Position(0, 9), Position(0, 14)) &&
-                  d.relatedInformation.isEmpty
+                  d.relatedInformation.forall(_.isEmpty)
                 }) fail(s"Header is not present: ${m.diagnostics}")
 
             if (!m.diagnostics.exists { d => // wrong array
                   d.range == Range(Position(1, 0), Position(17, 9)) &&
-                  d.relatedInformation.isEmpty
+                  d.relatedInformation.forall(_.isEmpty)
                 }) fail(s"Wrong array: ${m.diagnostics}")
 
             succeed
@@ -322,8 +333,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
                               Some(TraceKind.Off),
                               rootUri = Some(root),
                               projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
-        content <- this.platform.resolve(apiRoot).map(_.stream.toString) // Open as single file
-        _       <- openFileNotification(server)(apiRoot, content)
+        amfConfiguration <- AmfConfigurationWrapper()
+        content          <- amfConfiguration.fetchContent(apiRoot).map(_.stream.toString) // Open as single file
+        _                <- openFileNotification(server)(apiRoot, content)
         // api.raml, fragment.raml
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall
@@ -350,6 +362,68 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
         assert(second.exists(c => c.uri == api2Root && c.diagnostics.nonEmpty))
         assert(third.exists(_.uri == apiRoot))
         assert(third.exists(_.uri == apiFragment))
+      }
+    }
+  }
+
+  test("Workspace Manager change custom validation profiles [using Command]") {
+    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
+      new MockDiagnosticClientNotifierWithTelemetryLog
+
+    withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
+      val root        = s"${filePath("ws4")}"
+      val apiRoot     = s"$root/api.raml"
+      val api2Root    = s"$root/api2.raml"
+      val apiFragment = s"$root/fragment.raml"
+      val wm          = server.workspaceService.asInstanceOf[WorkspaceManager]
+      for {
+        _ <- server.initialize(
+          AlsInitializeParams(None,
+                              Some(TraceKind.Off),
+                              rootUri = Some(root),
+                              projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
+        _ <- server.workspaceService.executeCommand(
+          ExecuteCommandParams(
+            Commands.DID_CHANGE_CONFIGURATION,
+            List(s"""{"mainUri": "$apiRoot", "dependencies": [], "customValidationProfiles": []}""")))
+        // api.raml, fragment.raml
+        _       <- diagnosticClientNotifier.nextCall
+        _       <- diagnosticClientNotifier.nextCall
+        config1 <- wm.getWorkspace(apiRoot).flatMap(_.getCurrentConfiguration)
+        _ <- server.workspaceService.executeCommand(ExecuteCommandParams(
+          Commands.DID_CHANGE_CONFIGURATION,
+          List(
+            s"""{"mainUri": "$api2Root", "dependencies": [{"file": "$profileUri", "scope": "$CUSTOM_VALIDATION"}]}""")))
+        // api2.raml
+        _       <- diagnosticClientNotifier.nextCall
+        config2 <- wm.getWorkspace(api2Root).flatMap(_.getCurrentConfiguration)
+        _ <- server.workspaceService.executeCommand(ExecuteCommandParams(
+          Commands.DID_CHANGE_CONFIGURATION,
+          List(
+            s"""{"mainUri": "$api2Root", "dependencies": [{"file": "$profileUri2", "scope": "$CUSTOM_VALIDATION"}]}""")))
+        // api2.raml
+        _       <- diagnosticClientNotifier.nextCall
+        config3 <- wm.getWorkspace(api2Root).flatMap(_.getCurrentConfiguration)
+        _ <- server.workspaceService.executeCommand(
+          ExecuteCommandParams(
+            Commands.DID_CHANGE_CONFIGURATION,
+            List(
+              s"""{"mainUri": "$api2Root", "dependencies": [{"file": "$profileUri", "scope": "$CUSTOM_VALIDATION"}, {"file": "$profileUri2", "scope": "$CUSTOM_VALIDATION"}]}""")
+          ))
+        // api2.raml
+        _       <- diagnosticClientNotifier.nextCall
+        config4 <- wm.getWorkspace(api2Root).flatMap(_.getCurrentConfiguration)
+
+      } yield {
+        server.shutdown()
+        def assertConfig(config: WorkspaceConfiguration, mainFile: String, profiles: Set[String]) = {
+          assert(config.mainFile.contains(mainFile))
+          assert(profiles.forall(p => config.profiles.contains(p)))
+        }
+        config1.map(c => assertConfig(c, "api.raml", Set.empty)).get
+        config2.map(c => assertConfig(c, "api2.raml", Set(profileUri))).get
+        config3.map(c => assertConfig(c, "api2.raml", Set(profileUri))).get
+        config4.map(c => assertConfig(c, "api2.raml", Set(profileUri, profileUri2))).get
       }
     }
   }
@@ -388,12 +462,12 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       new MockDiagnosticClientNotifierWithTelemetryLog
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
       val ws1path  = s"${filePath("multiworkspace/ws1")}"
-      val filesWS1 = List(s"${ws1path}/api.raml", s"${ws1path}/sub/type.raml", s"${ws1path}/type.json")
+      val filesWS1 = List(s"$ws1path/api.raml", s"$ws1path/sub/type.raml", s"$ws1path/type.json")
       val ws2path  = s"${filePath("multiworkspace/ws2")}"
-      val filesWS2 = List(s"${ws2path}/api.raml", s"${ws2path}/sub/type.raml")
+      val filesWS2 = List(s"$ws2path/api.raml", s"$ws2path/sub/type.raml")
       val ws1      = WorkspaceFolder(Some(ws1path), Some("ws1"))
       val ws2      = WorkspaceFolder(Some(ws2path), Some("ws2"))
-      val allFiles = (filesWS1 ++ filesWS2)
+      val allFiles = filesWS1 ++ filesWS2
       val wsList   = List(ws1, ws2)
 
       for {
@@ -418,9 +492,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       new MockDiagnosticClientNotifierWithTelemetryLog
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
       val ws1path  = s"${filePath("multiworkspace/ws1")}"
-      val filesWS1 = List(s"${ws1path}/api.raml", s"${ws1path}/sub/type.raml", s"${ws1path}/type.json")
+      val filesWS1 = List(s"$ws1path/api.raml", s"$ws1path/sub/type.raml", s"$ws1path/type.json")
       val ws2path  = s"${filePath("multiworkspace/ws2")}"
-      val filesWS2 = List(s"${ws2path}/api.raml", s"${ws2path}/sub/type.raml")
+      val filesWS2 = List(s"$ws2path/api.raml", s"$ws2path/sub/type.raml")
       val ws1      = WorkspaceFolder(Some(ws1path), Some("ws1"))
       val ws2      = WorkspaceFolder(Some(ws2path), Some("ws2"))
 
@@ -527,9 +601,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       val root2      = s"${filePath("multiworkspace/ws2")}"
       val globalRoot = s"${filePath("multiworkspace")}"
 
-      val filesWS1     = Set(s"${root1}/api.raml", s"${root1}/sub/type.raml", s"${root1}/type.json")
-      val filesWS2     = Set(s"${root2}/api.raml", s"${root2}/sub/type.raml")
-      val fileGlobalWS = s"${globalRoot}/api.raml"
+      val filesWS1     = Set(s"$root1/api.raml", s"$root1/sub/type.raml", s"$root1/type.json")
+      val filesWS2     = Set(s"$root2/api.raml", s"$root2/sub/type.raml")
+      val fileGlobalWS = s"$globalRoot/api.raml"
 
       val root2WSF  = WorkspaceFolder(Some(root2), Some("ws-2"))
       val root1WSF  = WorkspaceFolder(Some(root1), Some("ws-1"))
@@ -599,6 +673,28 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
         n2.diagnostics.size should be(1)
         n1.uri should endWith("api.raml")
         n1.diagnostics.isEmpty should be(true)
+      }
+    }
+  }
+
+  test("Workspace Manager check validations when opening with different content to fs") {
+    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
+      new MockDiagnosticClientNotifierWithTelemetryLog
+    withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
+      for {
+        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+        a <- diagnosticClientNotifier.nextCall
+        b <- diagnosticClientNotifier.nextCall
+        c <- diagnosticClientNotifier.nextCall // this should correspond to filesystem notifications
+        main = filePath("ws1/api.raml")
+        _ <- openFile(server)(main, "#%RAML 1.0\ninvalid")
+        d <- diagnosticClientNotifier.nextCall
+      } yield {
+        server.shutdown()
+        val allDiagnostics = Seq(a, b, c)
+        assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
+        assert(d.uri == main)
+        assert(d.diagnostics.nonEmpty)
       }
     }
   }

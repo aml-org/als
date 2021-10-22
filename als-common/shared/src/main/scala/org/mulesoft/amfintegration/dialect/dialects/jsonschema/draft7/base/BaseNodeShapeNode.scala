@@ -1,9 +1,9 @@
 package org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft7.base
 
-import amf.core.metamodel.domain.extensions.PropertyShapeModel
-import amf.core.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdInteger, xsdString}
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.shapes.metamodel.{AnyShapeModel, NodeShapeModel}
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdInteger, xsdString}
+import amf.core.internal.metamodel.domain.extensions.PropertyShapeModel
+import amf.shapes.internal.domain.metamodel.NodeShapeModel
 
 trait BaseNodeShapeNode extends BaseAnyShapeNode {
   override def properties: Seq[PropertyMapping] = super.properties ++ Seq(

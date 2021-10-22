@@ -1,8 +1,8 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.asyncbuilders
 
-import amf.core.metamodel.Field
-import amf.plugins.domain.webapi.metamodel.bindings.MessageBindingsModel
-import amf.plugins.domain.webapi.models.bindings.MessageBindings
+import amf.apicontract.client.scala.model.domain.bindings.MessageBindings
+import amf.apicontract.internal.metamodel.domain.bindings.MessageBindingsModel
+import amf.core.internal.metamodel.Field
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSimpleBuilderCompanion,
   StructuredSymbolBuilder,

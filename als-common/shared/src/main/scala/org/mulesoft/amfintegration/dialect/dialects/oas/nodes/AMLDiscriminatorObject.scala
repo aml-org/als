@@ -1,9 +1,9 @@
 package org.mulesoft.amfintegration.dialect.dialects.oas.nodes
 
-import amf.core.vocabulary.Namespace.XsdTypes.xsdString
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
+import amf.shapes.internal.domain.metamodel.NodeShapeModel
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect.DialectLocation
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
-import amf.plugins.domain.shapes.metamodel.NodeShapeModel
 
 object AMLDiscriminatorObject extends DialectNode {
   override def name: String = "DiscriminatorObject"

@@ -1,10 +1,10 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30
 
-import amf.core.annotations.SynthesizedField
-import amf.core.model.domain.AmfScalar
-import amf.core.parser.Value
-import amf.plugins.domain.webapi.metamodel.ParameterModel
-import amf.plugins.domain.webapi.models.{Parameter, Server}
+import amf.apicontract.client.scala.model.domain.{Parameter, Server}
+import amf.apicontract.internal.metamodel.domain.ParameterModel
+import amf.core.client.scala.model.domain.AmfScalar
+import amf.core.internal.annotations.SynthesizedField
+import amf.core.internal.parser.domain.Value
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
@@ -43,9 +43,9 @@ object Oas30ParameterStructure extends AMLCompletionPlugin with NonPatchHacks {
       })
   }
 
-  private lazy val paramProps = Oas30ParamObject.Obj.propertiesRaw(d = OAS30Dialect())
+  private lazy val paramProps = Oas30ParamObject.Obj.propertiesRaw(fromDialect = OAS30Dialect())
 
-  private lazy val headerProps = Oas30AMLHeaderObject.Obj.propertiesRaw(d = OAS30Dialect())
+  private lazy val headerProps = Oas30AMLHeaderObject.Obj.propertiesRaw(fromDialect = OAS30Dialect())
 
   private def isWritingFacet(p: Parameter, yPartBranch: YPartBranch) =
     (p.name.option().isEmpty || p.name.value() != yPartBranch.stringValue) && notValue(yPartBranch)

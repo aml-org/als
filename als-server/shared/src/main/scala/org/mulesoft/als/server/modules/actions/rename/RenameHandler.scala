@@ -1,12 +1,12 @@
 package org.mulesoft.als.server.modules.actions.rename
 
-import amf.core.remote.Platform
+import amf.core.internal.remote.Platform
 import org.mulesoft.als.actions.definition.FindDefinition
 import org.mulesoft.als.actions.rename.FindRenameLocations
 import org.mulesoft.als.actions.renamefile.RenameFileAction
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.configuration.AlsConfigurationReader
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.workspace.CompilableUnit
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.edit.WorkspaceEdit

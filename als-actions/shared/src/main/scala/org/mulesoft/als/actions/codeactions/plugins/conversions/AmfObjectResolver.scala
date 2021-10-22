@@ -1,21 +1,23 @@
 package org.mulesoft.als.actions.codeactions.plugins.conversions
 
-import amf.ProfileNames
-import amf.core.errorhandling.ErrorHandler
-import amf.core.model.domain.AmfObject
-import amf.plugins.domain.shapes.models.AnyShape
-import amf.plugins.domain.shapes.resolution.stages.elements.CompleteShapeTransformationPipeline
-import org.mulesoft.als.actions.codeactions.plugins.declarations.common.BaseElementDeclarableExtractors
+import amf.core.client.common.validation.ProfileNames
+import amf.core.client.scala.errorhandling.AMFErrorHandler
+import amf.core.client.scala.model.domain.AmfObject
+import amf.shapes.client.scala.model.domain.AnyShape
+import amf.shapes.internal.domain.resolution.elements.CompleteShapeTransformationPipeline
 import org.mulesoft.amfintegration.LocalIgnoreErrorHandler
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 
 import scala.collection.mutable
 
 trait AmfObjectResolver extends ShapeExtractor {
 
-  private val eh: ErrorHandler = LocalIgnoreErrorHandler
+  private val eh: AMFErrorHandler = LocalIgnoreErrorHandler
+  protected val amfConfiguration: AmfConfigurationWrapper
 
   protected def resolveShape(anyShape: AnyShape): Option[AnyShape] =
-    new CompleteShapeTransformationPipeline(anyShape, eh, ProfileNames.RAML).resolve() match {
+    new CompleteShapeTransformationPipeline(anyShape, eh, ProfileNames.RAML10)
+      .transform(amfConfiguration.getConfiguration) match {
       case a: AnyShape => Some(a)
       case _           => None
     }

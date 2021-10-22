@@ -1,0 +1,264 @@
+{
+"@graph": [
+{
+"@id": "/BaseUnitProcessingData",
+"@type": [
+"doc:DialectInstanceProcessingData"
+],
+"meta:definedBy": [
+{
+"@id": "file://als/dialects/memory/validation-profile.yaml"
+}
+],
+"doc:transformed": true,
+"doc:sourceSpec": "Validation Profile 1.0"
+},
+{
+"@id": "#/encodes",
+"@type": [
+"validation:Profile",
+"file://als/dialects/memory/validation-profile.yaml#/declarations/profileNode",
+"meta:DialectDomainElement",
+"doc:DomainElement"
+],
+"schema-org:name": "My Profile",
+"validation:setSeverityViolation": [
+"scalar-parameters"
+],
+"validation:validations": [
+{
+"@id": "#/encodes/validations/scalar-parameters"
+},
+{
+"@id": "#/encodes/validations/ab"
+}
+]
+},
+{
+"@id": "#/encodes/validations/scalar-parameters",
+"@type": [
+"validation:ShapeValidation",
+"file://als/dialects/memory/validation-profile.yaml#/declarations/shapeValidationNode",
+"meta:DialectDomainElement",
+"doc:DomainElement"
+],
+"sh:message": "Scalars in parameters must have minLength defined",
+"validation:ramlClassId": [
+"apiContract.Parameter"
+],
+"schema-org:name": "scalar-parameters",
+"sh:property": [
+{
+"@id": "#/encodes/validations/scalar-parameters/propertyConstraints/shapes.schema%2520%252F%2520shacl.minLength"
+}
+]
+},
+{
+"@id": "#/encodes/validations/ab",
+"@type": [
+"sh:RegoConstraint",
+"file://als/dialects/memory/validation-profile.yaml#/declarations/conditionalNode",
+"meta:DialectDomainElement",
+"doc:DomainElement"
+],
+"sh:message": "Ensure API can only be accessed by the specified HTTP verbs. All other HTTP verbs should be disabled (e.g. HEAD).\n",
+"validation:ramlClassId": [
+"apiContract.Operation"
+],
+"schema-org:name": "ab",
+"validation:then": {
+"@id": "#/encodes/validations/ab/then"
+},
+"validation:if": {
+"@id": "#/encodes/validations/ab/if"
+}
+},
+{
+"@id": "#/encodes/validations/scalar-parameters/propertyConstraints/shapes.schema%2520%252F%2520shacl.minLength",
+"@type": [
+"sh:PropertyShape",
+"file://als/dialects/memory/validation-profile.yaml#/declarations/propertyConstraintNode",
+"meta:DialectDomainElement",
+"doc:DomainElement"
+],
+"sh:minCount": 1,
+"validation:ramlPropertyId": "shapes.schema / shacl.minLength"
+},
+{
+"@id": "#/encodes/validations/ab/then",
+"@type": [
+"validation:ShapeValidation",
+"file://als/dialects/memory/validation-profile.yaml#/declarations/shapeValidationNode",
+"meta:DialectDomainElement",
+"doc:DomainElement"
+],
+"sh:property": [
+{
+"@id": "#/encodes/validations/ab/then/propertyConstraints/apiContract.returns"
+}
+]
+},
+{
+"@id": "#/encodes/validations/ab/if",
+"@type": [
+"validation:NotShapeValidation",
+"file://als/dialects/memory/validation-profile.yaml#/declarations/notShapeValidationNode",
+"meta:DialectDomainElement",
+"doc:DomainElement"
+],
+"sh:not": {
+"@id": "#/encodes/validations/ab/if/not"
+}
+},
+{
+"@id": "#/encodes/validations/ab/then/propertyConstraints/apiContract.returns",
+"@type": [
+"sh:PropertyShape",
+"file://als/dialects/memory/validation-profile.yaml#/declarations/propertyConstraintNode",
+"meta:DialectDomainElement",
+"doc:DomainElement"
+],
+"sh:atLeastNode": {
+"@id": "#/encodes/validations/ab/then/propertyConstraints/apiContract.returns/atLeast"
+},
+"validation:ramlPropertyId": "apiContract.returns"
+},
+{
+"@id": "#/encodes/validations/ab/if/not",
+"@type": [
+"validation:ShapeValidation",
+"file://als/dialects/memory/validation-profile.yaml#/declarations/shapeValidationNode",
+"meta:DialectDomainElement",
+"doc:DomainElement"
+],
+"sh:property": [
+{
+"@id": "#/encodes/validations/ab/if/not/propertyConstraints/apiContract.returns"
+}
+]
+},
+{
+"@id": "#/encodes/validations/ab/then/propertyConstraints/apiContract.returns/atLeast",
+"@type": [
+"validation:QualifiedShapevalidationNode",
+"file://als/dialects/memory/validation-profile.yaml#/declarations/qualifiedShapeValidationNode",
+"meta:DialectDomainElement",
+"doc:DomainElement"
+],
+"sh:count": 1,
+"sh:valueShape": {
+"@id": "#/encodes/validations/ab/then/propertyConstraints/apiContract.returns/atLeast/validation"
+}
+},
+{
+"@id": "#/encodes/validations/ab/if/not/propertyConstraints/apiContract.returns",
+"@type": [
+"sh:PropertyShape",
+"file://als/dialects/memory/validation-profile.yaml#/declarations/propertyConstraintNode",
+"meta:DialectDomainElement",
+"doc:DomainElement"
+],
+"sh:atLeastNode": {
+"@id": "#/encodes/validations/ab/if/not/propertyConstraints/apiContract.returns/atLeast"
+},
+"validation:ramlPropertyId": "apiContract.returns"
+},
+{
+"@id": "#/encodes/validations/ab/then/propertyConstraints/apiContract.returns/atLeast/validation",
+"@type": [
+"validation:ShapeValidation",
+"file://als/dialects/memory/validation-profile.yaml#/declarations/shapeValidationNode",
+"meta:DialectDomainElement",
+"doc:DomainElement"
+],
+"sh:property": [
+{
+"@id": "#/encodes/validations/ab/then/propertyConstraints/apiContract.returns/atLeast/validation/propertyConstraints/apiContract.statusCode"
+}
+]
+},
+{
+"@id": "#/encodes/validations/ab/if/not/propertyConstraints/apiContract.returns/atLeast",
+"@type": [
+"validation:QualifiedShapevalidationNode",
+"file://als/dialects/memory/validation-profile.yaml#/declarations/qualifiedShapeValidationNode",
+"meta:DialectDomainElement",
+"doc:DomainElement"
+],
+"sh:count": 1,
+"sh:valueShape": {
+"@id": "#/encodes/validations/ab/if/not/propertyConstraints/apiContract.returns/atLeast/validation"
+}
+},
+{
+"@id": "#/encodes/validations/ab/then/propertyConstraints/apiContract.returns/atLeast/validation/propertyConstraints/apiContract.statusCode",
+"@type": [
+"sh:PropertyShape",
+"file://als/dialects/memory/validation-profile.yaml#/declarations/propertyConstraintNode",
+"meta:DialectDomainElement",
+"doc:DomainElement"
+],
+"validation:ramlPropertyId": "apiContract.statusCode",
+"sh:in": [
+"403"
+]
+},
+{
+"@id": "#/encodes/validations/ab/if/not/propertyConstraints/apiContract.returns/atLeast/validation",
+"@type": [
+"validation:ShapeValidation",
+"file://als/dialects/memory/validation-profile.yaml#/declarations/shapeValidationNode",
+"meta:DialectDomainElement",
+"doc:DomainElement"
+],
+"sh:property": [
+{
+"@id": "#/encodes/validations/ab/if/not/propertyConstraints/apiContract.returns/atLeast/validation/propertyConstraints/apiContract.statusCode"
+}
+]
+},
+{
+"@id": "#/encodes/validations/ab/if/not/propertyConstraints/apiContract.returns/atLeast/validation/propertyConstraints/apiContract.statusCode",
+"@type": [
+"sh:PropertyShape",
+"file://als/dialects/memory/validation-profile.yaml#/declarations/propertyConstraintNode",
+"meta:DialectDomainElement",
+"doc:DomainElement"
+],
+"validation:ramlPropertyId": "apiContract.statusCode",
+"sh:in": [
+"200"
+]
+},
+{
+"@id": "",
+"@type": [
+"meta:DialectInstance",
+"doc:Document",
+"doc:Fragment",
+"doc:Module",
+"doc:Unit"
+],
+"meta:definedBy": [
+{
+"@id": "file://als/dialects/memory/validation-profile.yaml"
+}
+],
+"doc:encodes": {
+"@id": "#/encodes"
+},
+"doc:root": true,
+"doc:processingData": {
+"@id": "/BaseUnitProcessingData"
+}
+}
+],
+"@context": {
+"@base": "file://als-server/shared/src/test/resources/serialization/custom-validation/profile.yaml",
+"doc": "http://a.ml/vocabularies/document#",
+"meta": "http://a.ml/vocabularies/meta#",
+"schema-org": "http://schema.org/",
+"validation": "http://a.ml/vocabularies/amf-validation#",
+"sh": "http://www.w3.org/ns/shacl#"
+}
+}

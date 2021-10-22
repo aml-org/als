@@ -1,16 +1,13 @@
 package org.mulesoft.als.server.modules.serialization
 
-import amf.client.parse.IgnoringErrorHandler
-import amf.client.remote.Content
-import amf.core.CompilerContextBuilder
-import amf.core.model.document.Document
-import amf.core.parser.UnspecifiedReference
-import amf.core.remote.{Amf, Mimes}
-import amf.core.services.RuntimeCompiler
-import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
+import amf.apicontract.client.scala.WebAPIConfiguration
+import amf.core.client.common.remote.Content
+import amf.core.client.scala.AMFGraphConfiguration
+import amf.core.client.scala.errorhandling.IgnoringErrorHandler
+import amf.core.client.scala.model.document.Document
+import amf.core.client.scala.resource.ResourceLoader
 import org.mulesoft.als.common.diff.Diff.makeString
-import org.mulesoft.als.common.diff.{Diff, Tests}
+import org.mulesoft.als.common.diff.{Diff, FileAssertionTest, Tests}
 import org.mulesoft.als.server._
 import org.mulesoft.als.server.feature.serialization.{SerializationClientCapabilities, SerializationParams}
 import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
@@ -23,11 +20,18 @@ import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
 import org.yaml.builder.{DocBuilder, JsonOutputBuilder}
 import org.yaml.model.{YDocument, YMap, YSequence}
 import org.yaml.parser.YamlParser
+import amf.core.internal.plugins.syntax.SyamlAMFErrorHandler
+import org.mulesoft.als.configuration.ConfigurationStyle.COMMAND
+import org.mulesoft.als.configuration.ProjectConfigurationStyle
+import org.mulesoft.als.server.client.ClientNotifier
+import org.mulesoft.als.server.modules.diagnostic.DummyAmfOpaValidator
+import org.mulesoft.als.server.workspace.{ChangesWorkspaceConfiguration, WorkspaceManager}
+import org.scalatest.Assertion
 
 import java.io.StringWriter
 import scala.concurrent.{ExecutionContext, Future}
 
-class SerializationTest extends LanguageServerBaseTest {
+class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConfiguration with FileAssertionTest {
 
   override implicit val executionContext: ExecutionContext =
     ExecutionContext.Implicits.global
@@ -43,7 +47,7 @@ class SerializationTest extends LanguageServerBaseTest {
         override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
           JsonOutputBuilder(prettyPrint)
       }
-    withServer(buildServer(alsClient, serializationProps)) { server =>
+    withServer(buildServer(serializationProps)) { server =>
       val content =
         """#%RAML 1.0
           |title: test
@@ -56,7 +60,7 @@ class SerializationTest extends LanguageServerBaseTest {
       for {
         s <- alsClient.nextCall.map(_.model.toString)
         parsed <- {
-          val env = Environment(new ResourceLoader {
+          val rl = new ResourceLoader {
 
             /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
             override def fetch(resource: String): Future[Content] =
@@ -64,19 +68,15 @@ class SerializationTest extends LanguageServerBaseTest {
 
             /** Accepts specified resource. */
             override def accepts(resource: String): Boolean = resource == api
-          })
-          RuntimeCompiler
-            .forContext(
-              new CompilerContextBuilder(api, platform)
-                .withEnvironment(env)
-                .build(),
-              Some(Mimes.`APPLICATION/LD+JSONLD`),
-              Some(Amf.name),
-              UnspecifiedReference
-            )
+          }
+          WebAPIConfiguration
+            .WebAPI()
+            .withResourceLoader(rl)
+            .baseUnitClient()
+            .parse(api)
         }
       } yield {
-        parsed.asInstanceOf[Document].encodes.id should be("amf://id#1")
+        parsed.baseUnit.asInstanceOf[Document].encodes.id should be("amf://id#2")
       }
     }
   }
@@ -88,7 +88,7 @@ class SerializationTest extends LanguageServerBaseTest {
         override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
           JsonOutputBuilder(prettyPrint)
       }
-    withServer(buildServer(alsClient, serializationProps)) { server =>
+    withServer(buildServer(serializationProps)) { server =>
       val content =
         """#%RAML 1.0
           |title: test
@@ -102,7 +102,7 @@ class SerializationTest extends LanguageServerBaseTest {
         _ <- alsClient.nextCall.map(_.model.toString)
         s <- serialized(server, api, serializationProps)
         parsed <- {
-          val env = Environment(new ResourceLoader {
+          val rl = new ResourceLoader {
 
             /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
             override def fetch(resource: String): Future[Content] =
@@ -110,19 +110,15 @@ class SerializationTest extends LanguageServerBaseTest {
 
             /** Accepts specified resource. */
             override def accepts(resource: String): Boolean = resource == api
-          })
-          RuntimeCompiler
-            .forContext(
-              new CompilerContextBuilder(api, platform)
-                .withEnvironment(env)
-                .build(),
-              Some(Mimes.`APPLICATION/LD+JSONLD`),
-              Some(Amf.name),
-              UnspecifiedReference
-            )
+          }
+          WebAPIConfiguration
+            .WebAPI()
+            .withResourceLoader(rl)
+            .baseUnitClient()
+            .parse(api)
         }
       } yield {
-        parsed.asInstanceOf[Document].encodes.id should be("amf://id#1")
+        parsed.baseUnit.asInstanceOf[Document].encodes.id should be("amf://id#2")
       }
     }
   }
@@ -134,7 +130,7 @@ class SerializationTest extends LanguageServerBaseTest {
         override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
           JsonOutputBuilder(prettyPrint)
       }
-    withServer(buildServer(alsClient, serializationProps)) { server =>
+    withServer(buildServer(serializationProps)) { server =>
       val content =
         """#%RAML 1.0
           |title: test
@@ -150,21 +146,17 @@ class SerializationTest extends LanguageServerBaseTest {
         parsed  <- parsedApi(api, s)
         s2      <- serialized(server, api, serializationProps)
         parsed2 <- parsedApi(api, s2)
-        s3 <- {
-          changeFile(server)(api, "", 1)
-          serialized(server, api, serializationProps)
-        }
+        _       <- changeFile(server)(api, "", 1)
+        s3      <- serialized(server, api, serializationProps)
         parsed3 <- parsedApi(api, s3)
-        s4 <- {
-          changeFile(server)(api, content, 2)
-          serialized(server, api, serializationProps)
-        }
+        _       <- changeFile(server)(api, content, 2)
+        s4      <- serialized(server, api, serializationProps)
         parsed4 <- parsedApi(api, s4)
       } yield {
-        parsed.asInstanceOf[Document].encodes.id should be("amf://id#1")
-        parsed2.asInstanceOf[Document].encodes.id should be("amf://id#1")
-        parsed3.isInstanceOf[Document] should be(false)
-        parsed4.asInstanceOf[Document].encodes.id should be("amf://id#1")
+        parsed.baseUnit.asInstanceOf[Document].encodes.id should be("amf://id#2")
+        parsed2.baseUnit.asInstanceOf[Document].encodes.id should be("amf://id#2")
+        parsed3.baseUnit.isInstanceOf[Document] should be(false)
+        parsed4.baseUnit.asInstanceOf[Document].encodes.id should be("amf://id#2")
 
       }
     }
@@ -180,7 +172,7 @@ class SerializationTest extends LanguageServerBaseTest {
 
   private def parsedApi(api: String, s: String) = {
 
-    val env = Environment(new ResourceLoader {
+    val rl = new ResourceLoader {
 
       /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
       override def fetch(resource: String): Future[Content] =
@@ -188,14 +180,12 @@ class SerializationTest extends LanguageServerBaseTest {
 
       /** Accepts specified resource. */
       override def accepts(resource: String): Boolean = resource == api
-    })
-    RuntimeCompiler
-      .forContext(
-        new CompilerContextBuilder(api, platform).withEnvironment(env).build(),
-        Some(Mimes.`APPLICATION/LD+JSONLD`),
-        Some(Amf.name),
-        UnspecifiedReference
-      )
+    }
+    WebAPIConfiguration
+      .WebAPI()
+      .withResourceLoader(rl)
+      .baseUnitClient()
+      .parse(api)
 
   }
 
@@ -206,17 +196,17 @@ class SerializationTest extends LanguageServerBaseTest {
         override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
           JsonOutputBuilder(prettyPrint)
       }
-    withServer(buildServer(alsClient, serializationProps)) { server =>
+    withServer(buildServer(serializationProps)) { server =>
       val url = filePath("raml-endpoint-sorting.raml")
 
       for {
-        _ <- platform.resolve(url).map { c =>
+        _ <- platform.fetchContent(url, AMFGraphConfiguration.predefined()).flatMap { c =>
           server.textDocumentSyncConsumer.didOpen(DidOpenTextDocumentParams(
             TextDocumentItem(url, "RAML", 0, c.stream.toString))) // why clean empty lines was necessary?
         }
         s <- serialized(server, url, serializationProps)
         parsed <- {
-          val env = Environment(new ResourceLoader {
+          val rl = new ResourceLoader {
 
             /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
             override def fetch(resource: String): Future[Content] =
@@ -224,19 +214,15 @@ class SerializationTest extends LanguageServerBaseTest {
 
             /** Accepts specified resource. */
             override def accepts(resource: String): Boolean = resource == url
-          })
-          RuntimeCompiler
-            .forContext(
-              new CompilerContextBuilder(url, platform)
-                .withEnvironment(env)
-                .build(),
-              Some(Mimes.`APPLICATION/LD+JSONLD`),
-              Some(Amf.name),
-              UnspecifiedReference
-            )
+          }
+          WebAPIConfiguration
+            .WebAPI()
+            .withResourceLoader(rl)
+            .baseUnitClient()
+            .parse(url)
         }
       } yield {
-        parsed.asInstanceOf[Document].encodes.id should be("amf://id#1")
+        parsed.baseUnit.asInstanceOf[Document].encodes.id should be("amf://id#2")
       }
     }
   }
@@ -248,17 +234,17 @@ class SerializationTest extends LanguageServerBaseTest {
         override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
           JsonOutputBuilder(prettyPrint)
       }
-    withServer(buildServer(alsClient, serializationProps)) { server =>
+    withServer(buildServer(serializationProps)) { server =>
       val url = filePath("raml-endpoint-sorting.raml")
 
       for {
-        _ <- platform.resolve(url).map { c =>
+        _ <- platform.fetchContent(url, AMFGraphConfiguration.predefined()).map { c =>
           server.textDocumentSyncConsumer.didOpen(DidOpenTextDocumentParams(
             TextDocumentItem(url, "RAML", 0, c.stream.toString))) // why clean empty lines was necessary?
         }
         s <- serialized(server, url, serializationProps)
         parsed <- {
-          val env = Environment(new ResourceLoader {
+          val rl = new ResourceLoader {
 
             /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
             override def fetch(resource: String): Future[Content] =
@@ -266,41 +252,33 @@ class SerializationTest extends LanguageServerBaseTest {
 
             /** Accepts specified resource. */
             override def accepts(resource: String): Boolean = resource == url
-          })
-          RuntimeCompiler
-            .forContext(
-              new CompilerContextBuilder(url, platform)
-                .withEnvironment(env)
-                .build(),
-              Some(Mimes.`APPLICATION/LD+JSONLD`),
-              Some(Amf.name),
-              UnspecifiedReference
-            )
+          }
+          WebAPIConfiguration
+            .WebAPI()
+            .withResourceLoader(rl)
+            .baseUnitClient()
+            .parse(url)
         }
         s2 <- serialized(server, url, serializationProps)
         parsed2 <- {
-          val env = Environment(new ResourceLoader {
+          val rl = new ResourceLoader {
 
             /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
             override def fetch(resource: String): Future[Content] =
-              Future.successful(new Content(s2, url))
+              Future.successful(new Content(s, url))
 
             /** Accepts specified resource. */
             override def accepts(resource: String): Boolean = resource == url
-          })
-          RuntimeCompiler
-            .forContext(
-              new CompilerContextBuilder(url, platform)
-                .withEnvironment(env)
-                .build(),
-              Some(Mimes.`APPLICATION/LD+JSONLD`),
-              Some(Amf.name),
-              UnspecifiedReference
-            )
+          }
+          WebAPIConfiguration
+            .WebAPI()
+            .withResourceLoader(rl)
+            .baseUnitClient()
+            .parse(url)
         }
       } yield {
-        parsed.asInstanceOf[Document].encodes.id should be("amf://id#1")
-        parsed2.asInstanceOf[Document].encodes.id should be("amf://id#1")
+        parsed.baseUnit.asInstanceOf[Document].encodes.id should be("amf://id#2")
+        parsed2.baseUnit.asInstanceOf[Document].encodes.id should be("amf://id#2")
       }
     }
   }
@@ -312,7 +290,7 @@ class SerializationTest extends LanguageServerBaseTest {
         override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
           JsonOutputBuilder(prettyPrint)
       }
-    withServer(buildServer(alsClient, serializationProps)) { server =>
+    withServer(buildServer(serializationProps)) { server =>
       val mainUrl      = filePath("project/librarybooks.raml")
       val extensionUrl = filePath("project/extension.raml")
       val overlayUrl   = filePath("project/overlay.raml")
@@ -321,30 +299,30 @@ class SerializationTest extends LanguageServerBaseTest {
         _ <- server.initialize(
           AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("project")}")))
         _ <- platform
-          .resolve(mainUrl)
-          .map(c =>
+          .fetchContent(mainUrl, AMFGraphConfiguration.predefined())
+          .flatMap(c =>
             server.textDocumentSyncConsumer.didOpen(
               DidOpenTextDocumentParams(TextDocumentItem(mainUrl, "RAML", 0, c.stream.toString))))
         mainSerialized1 <- serialized(server, mainUrl, serializationProps)
         _ <- platform
-          .resolve(extensionUrl)
-          .map(c => {
-            server.textDocumentSyncConsumer.didOpen(
-              DidOpenTextDocumentParams(TextDocumentItem(extensionUrl, "RAML", 0, c.stream.toString)))
-            server.textDocumentSyncConsumer.didFocus(DidFocusParams(extensionUrl, 0))
+          .fetchContent(extensionUrl, AMFGraphConfiguration.predefined())
+          .flatMap(c => {
+            server.textDocumentSyncConsumer
+              .didOpen(DidOpenTextDocumentParams(TextDocumentItem(extensionUrl, "RAML", 0, c.stream.toString)))
+              .flatMap(_ => server.textDocumentSyncConsumer.didFocus(DidFocusParams(extensionUrl, 0)))
           })
         extensionSerialized <- serialized(server, extensionUrl, serializationProps)
-        _                   <- Future(server.textDocumentSyncConsumer.didFocus(DidFocusParams(mainUrl, 0)))
+        _                   <- server.textDocumentSyncConsumer.didFocus(DidFocusParams(mainUrl, 0))
         mainSerialized2     <- serialized(server, mainUrl, serializationProps)
         _ <- platform
-          .resolve(overlayUrl)
-          .map(c => {
-            server.textDocumentSyncConsumer.didOpen(
-              DidOpenTextDocumentParams(TextDocumentItem(overlayUrl, "RAML", 0, c.stream.toString)))
-            server.textDocumentSyncConsumer.didFocus(DidFocusParams(overlayUrl, 0))
+          .fetchContent(overlayUrl, AMFGraphConfiguration.predefined())
+          .flatMap(c => {
+            server.textDocumentSyncConsumer
+              .didOpen(DidOpenTextDocumentParams(TextDocumentItem(overlayUrl, "RAML", 0, c.stream.toString)))
+              .flatMap(_ => server.textDocumentSyncConsumer.didFocus(DidFocusParams(overlayUrl, 0)))
           })
         overlaySerialized <- serialized(server, overlayUrl, serializationProps)
-        _                 <- Future(server.textDocumentSyncConsumer.didFocus(DidFocusParams(mainUrl, 0)))
+        _                 <- server.textDocumentSyncConsumer.didFocus(DidFocusParams(mainUrl, 0))
         mainSerialized3   <- serialized(server, mainUrl, serializationProps)
       } yield {
         (mainSerialized1 == mainSerialized2) should be(true)
@@ -363,7 +341,7 @@ class SerializationTest extends LanguageServerBaseTest {
         override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
           JsonOutputBuilder(prettyPrint)
       }
-    withServer(buildServer(alsClient, serializationProps)) { server =>
+    withServer(buildServer(serializationProps)) { server =>
       val mainUrl      = filePath("project-overlay-mf/librarybooks.raml")
       val extensionUrl = filePath("project-overlay-mf/extension.raml")
       val overlayUrl   = filePath("project-overlay-mf/overlay.raml")
@@ -372,31 +350,31 @@ class SerializationTest extends LanguageServerBaseTest {
         _ <- server.initialize(
           AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("project-overlay-mf")}")))
         _ <- platform
-          .resolve(overlayUrl)
-          .map(c => {
-            server.textDocumentSyncConsumer.didOpen(
-              DidOpenTextDocumentParams(TextDocumentItem(overlayUrl, "RAML", 0, c.stream.toString)))
-            server.textDocumentSyncConsumer.didFocus(DidFocusParams(overlayUrl, 0))
+          .fetchContent(overlayUrl, AMFGraphConfiguration.predefined())
+          .flatMap(c => {
+            server.textDocumentSyncConsumer
+              .didOpen(DidOpenTextDocumentParams(TextDocumentItem(overlayUrl, "RAML", 0, c.stream.toString)))
+              .flatMap(_ => server.textDocumentSyncConsumer.didFocus(DidFocusParams(overlayUrl, 0)))
           })
         overlaySerialized <- serialized(server, overlayUrl, serializationProps)
         _                 <- Future(server.textDocumentSyncConsumer.didFocus(DidFocusParams(mainUrl, 0)))
         _ <- platform
-          .resolve(mainUrl)
-          .map(c =>
+          .fetchContent(mainUrl, AMFGraphConfiguration.predefined())
+          .flatMap(c =>
             server.textDocumentSyncConsumer.didOpen(
               DidOpenTextDocumentParams(TextDocumentItem(mainUrl, "RAML", 0, c.stream.toString))))
         mainSerialized1 <- serialized(server, mainUrl, serializationProps)
         _ <- platform
-          .resolve(extensionUrl)
-          .map(c => {
-            server.textDocumentSyncConsumer.didOpen(
-              DidOpenTextDocumentParams(TextDocumentItem(extensionUrl, "RAML", 0, c.stream.toString)))
-            server.textDocumentSyncConsumer.didFocus(DidFocusParams(extensionUrl, 0))
+          .fetchContent(extensionUrl, AMFGraphConfiguration.predefined())
+          .flatMap(c => {
+            server.textDocumentSyncConsumer
+              .didOpen(DidOpenTextDocumentParams(TextDocumentItem(extensionUrl, "RAML", 0, c.stream.toString)))
+              .flatMap(_ => server.textDocumentSyncConsumer.didFocus(DidFocusParams(extensionUrl, 0)))
           })
         extensionSerialized <- serialized(server, extensionUrl, serializationProps)
-        _                   <- Future(server.textDocumentSyncConsumer.didFocus(DidFocusParams(mainUrl, 0)))
+        _                   <- server.textDocumentSyncConsumer.didFocus(DidFocusParams(mainUrl, 0))
         mainSerialized2     <- serialized(server, mainUrl, serializationProps)
-        _                   <- Future(server.textDocumentSyncConsumer.didFocus(DidFocusParams(overlayUrl, 0)))
+        _                   <- server.textDocumentSyncConsumer.didFocus(DidFocusParams(overlayUrl, 0))
         overlaySerialized2  <- serialized(server, overlayUrl, serializationProps)
       } yield {
         Tests.checkDiff(mainSerialized2, mainSerialized1)
@@ -434,7 +412,8 @@ class SerializationTest extends LanguageServerBaseTest {
   }
 
   private def isEmptySequence(line: String): Boolean = {
-    YamlParser(line.replace(",", ""))(IgnoringErrorHandler())
+    val syamlEH = new SyamlAMFErrorHandler(IgnoringErrorHandler)
+    YamlParser(line.replace(",", ""))(syamlEH)
       .parse(false)
       .collectFirst({ case d: YDocument => d })
       .map(_.as[YMap].entries.head.value.value)
@@ -444,22 +423,127 @@ class SerializationTest extends LanguageServerBaseTest {
       })
   }
 
-  def buildServer(alsClient: MockAlsClientNotifier,
-                  serializationProps: SerializationProps[StringWriter]): LanguageServer = {
-    val factoryBuilder: WorkspaceManagerFactoryBuilder =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
+  val mainUrl: String         = filePath("custom-validation/api.raml")
+  val goldenUrl: String       = filePath("custom-validation/profile-serialized-golden.jsonld")
+  val editedGoldenUrl: String = filePath("custom-validation/profile-serialized-edited-golden.jsonld")
+  val profileUrl: String      = filePath("custom-validation/profile.yaml")
+  val workspace               = s"${filePath("custom-validation")}"
+
+  test("Serialize registered validation profile") {
+    val alsClient: MockAlsClientNotifier       = new MockAlsClientNotifier
+    val notifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
+    val initialArgs: String                    = changeConfigArgs(Some(mainUrl), Some(workspace), Set.empty, Set(profileUrl))
+    implicit val serializationProps: SerializationProps[StringWriter] = {
+      new SerializationProps[StringWriter](alsClient) {
+        override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
+          JsonOutputBuilder(prettyPrint)
+      }
+    }
+    val (server, workspaceManager) =
+      buildServerWithWorkspaceManager(serializationProps, notifier, withDiagnostics = true)
+    withServer(server) { server =>
+      for {
+        _ <- server.initialize(
+          AlsInitializeParams(None,
+                              Some(TraceKind.Off),
+                              rootUri = Some(workspace),
+                              projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
+        _ <- changeWorkspaceConfiguration(workspaceManager, initialArgs)
+        _ <- notifier.nextCall
+        r <- assertSerialization(server, profileUrl, goldenUrl)
+      } yield r
+    }
+  }
+
+  test("Serialize unregistered validation profile") {
+    val workspace                              = s"${filePath("custom-validation")}"
+    val alsClient: MockAlsClientNotifier       = new MockAlsClientNotifier
+    val notifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
+    implicit val serializationProps: SerializationProps[StringWriter] = {
+      new SerializationProps[StringWriter](alsClient) {
+        override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
+          JsonOutputBuilder(prettyPrint)
+      }
+    }
+    val (server, _) = buildServerWithWorkspaceManager(serializationProps, notifier, withDiagnostics = true)
+    withServer(server) { server =>
+      for {
+        _       <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(workspace)))
+        content <- platform.fetchContent(profileUrl, AMFGraphConfiguration.predefined())
+        _       <- openFile(server)(profileUrl, content.stream.toString)
+        _       <- notifier.nextCall
+        r       <- assertSerialization(server, profileUrl, goldenUrl)
+      } yield r
+    }
+  }
+
+  test("Serialize validation profile (editing workflow)") {
+    val workspace                              = s"${filePath("custom-validation")}"
+    val alsClient: MockAlsClientNotifier       = new MockAlsClientNotifier
+    val notifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
+    val initialArgs: String                    = changeConfigArgs(Some(mainUrl), Some(workspace), Set.empty, Set(profileUrl))
+    implicit val serializationProps: SerializationProps[StringWriter] = {
+      new SerializationProps[StringWriter](alsClient) {
+        override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
+          JsonOutputBuilder(prettyPrint)
+      }
+    }
+    val (server, workspaceManager) =
+      buildServerWithWorkspaceManager(serializationProps, notifier, withDiagnostics = true)
+    withServer(server) { server =>
+      for {
+        _ <- server.initialize(
+          AlsInitializeParams(None,
+                              Some(TraceKind.Off),
+                              rootUri = Some(workspace),
+                              projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
+        _       <- changeWorkspaceConfiguration(workspaceManager, initialArgs)
+        _       <- notifier.nextCall
+        _       <- assertSerialization(server, profileUrl, goldenUrl) // Registered profile
+        content <- platform.fetchContent(profileUrl, AMFGraphConfiguration.predefined()).map(_.stream.toString)
+        _       <- openFile(server)(profileUrl, content)
+        _       <- notifier.nextCall
+        _       <- assertSerialization(server, profileUrl, goldenUrl) // Opened profile
+        _       <- changeFile(server)(profileUrl, content.replace("warning:\n  - ab", ""), 1)
+        _       <- notifier.nextCall
+        _       <- assertSerialization(server, profileUrl, editedGoldenUrl) // Edited profile
+        _       <- closeFile(server)(profileUrl)
+        r       <- assertSerialization(server, profileUrl, goldenUrl) // Closed profile (back to the registered one)
+      } yield r
+    }
+  }
+
+  def assertSerialization(server: LanguageServer, url: String, golden: String)(
+      implicit serializationProps: SerializationProps[StringWriter]): Future[Assertion] =
+    for {
+      serialized <- serialized(server, url, serializationProps)
+      tmp        <- writeTemporaryFile(golden)(serialized)
+      r          <- assertDifferences(tmp, golden)
+    } yield r
+
+  def buildServer(serializationProps: SerializationProps[StringWriter],
+                  notifier: Option[ClientNotifier] = None): LanguageServer =
+    buildServerWithWorkspaceManager(serializationProps, notifier.getOrElse(new MockDiagnosticClientNotifier))._1
+
+  def buildServerWithWorkspaceManager(serializationProps: SerializationProps[StringWriter],
+                                      notifier: ClientNotifier,
+                                      withDiagnostics: Boolean = false): (LanguageServer, WorkspaceManager) = {
+
+    val factoryBuilder: WorkspaceManagerFactoryBuilder = new WorkspaceManagerFactoryBuilder(notifier, logger)
+    val dm                                             = factoryBuilder.buildDiagnosticManagers(Some(new DummyAmfOpaValidator))
     val serializationManager: SerializationManager[StringWriter] =
       factoryBuilder.serializationManager(serializationProps)
-    val factory: WorkspaceManagerFactory =
-      factoryBuilder.buildWorkspaceManagerFactory()
+    val factory: WorkspaceManagerFactory = factoryBuilder.buildWorkspaceManagerFactory()
+
     val builder =
       new LanguageServerBuilder(factory.documentManager,
                                 factory.workspaceManager,
                                 factory.configurationManager,
                                 factory.resolutionTaskManager)
     builder.addInitializableModule(serializationManager)
+    if (withDiagnostics) dm.foreach(m => builder.addInitializableModule(m))
     builder.addRequestModule(serializationManager)
-    builder.build()
+    (builder.build(), factory.workspaceManager)
   }
 
   override def rootPath: String = "serialization"

@@ -74,7 +74,7 @@ import org.mulesoft.lsp.feature.typedefinition.{
   TypeDefinitionClientCapabilities,
   TypeDefinitionParams
 }
-import org.mulesoft.lsp.textsync.{TextDocumentSyncKind, _}
+import org.mulesoft.lsp.textsync._
 import org.mulesoft.lsp.workspace._
 
 import scala.language.implicitConversions
@@ -192,7 +192,9 @@ object LspConvertersClientToShared {
         v.hover.toOption.map(_.toShared),
         v.documentHighlight.toOption.map(_.toShared),
         v.foldingRange.toOption.map(_.toShared),
-        v.selectionRange.toOption.map(_.toShared)
+        v.selectionRange.toOption.map(_.toShared),
+        v.documentFormatting.toOption.map(_.toShared),
+        v.documentRangeFormatting.toOption.map(_.toShared)
       )
   }
 
@@ -306,7 +308,7 @@ object LspConvertersClientToShared {
         v.code.toOption,
         v.codeDescription.toOption.map(_.href),
         v.source.toOption,
-        v.relatedInformation.map(_.toShared).toSeq
+        v.relatedInformation.map(_.map(_.toShared).toSeq).toOption
       )
   }
 
@@ -487,7 +489,21 @@ object LspConvertersClientToShared {
 
   implicit class DidChangeConfigurationNotificationParamsConverter(v: ClientDidChangeConfigurationNotificationParams) {
     def toShared: DidChangeConfigurationNotificationParams =
-      DidChangeConfigurationNotificationParams(v.mainUri, v.dependencies.toSet)
+      DidChangeConfigurationNotificationParams(
+        v.mainUri,
+        v.folder.toOption,
+        v.dependencies.map { d =>
+          d.asInstanceOf[Any] match {
+            case s: String => Left(s)
+            case _         => Right(d.asInstanceOf[ClientDependencyConfiguration].toShared)
+          }
+        }.toSet
+      )
+  }
+
+  implicit class DependencyConfigurationConverter(v: ClientDependencyConfiguration) {
+    def toShared: DependencyConfiguration =
+      DependencyConfiguration(v.file, v.scope)
   }
 
   implicit class DidChangeTextDocumentParamsConverter(v: ClientDidChangeTextDocumentParams) {

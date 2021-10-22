@@ -4,6 +4,7 @@ import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManage
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.common.{TextDocumentIdentifier, TextDocumentItem}
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, DocumentSymbolRequestType}
@@ -19,9 +20,10 @@ class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
 
   private def testStructureForFile(server: LanguageServer, url: String) = {
     for {
-      _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+      amfConfiguration <- AmfConfigurationWrapper()
+      _                <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
       _ <- {
-        platform.resolve(url).map { c =>
+        amfConfiguration.fetchContent(url).map { c =>
           server.textDocumentSyncConsumer.didOpen(DidOpenTextDocumentParams(
             TextDocumentItem(url, "RAML", 0, c.stream.toString))) // why clean empty lines was necessary?
         }

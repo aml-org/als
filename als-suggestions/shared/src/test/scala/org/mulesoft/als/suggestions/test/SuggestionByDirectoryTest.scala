@@ -1,13 +1,10 @@
 package org.mulesoft.als.suggestions.test
 
-import amf.core.remote.Hint
+import amf.core.internal.remote.Hint
 import org.mulesoft.als.common.ByDirectoryTest
-import org.mulesoft.als.common.diff.FileAssertionTest
-import org.mulesoft.als.suggestions.test.CompletionItemNode._
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.common.io.{Fs, SyncFile}
-import org.mulesoft.lsp.feature.completion.CompletionItem
-import org.scalatest.{Assertion, AsyncFreeSpec}
-import upickle.default.write
+import org.scalatest.AsyncFreeSpec
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -22,19 +19,24 @@ trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTes
 
   def origin: Hint
 
-  s"Suggestions test for vendor ${origin.vendor.toString} by directory" - {
+  s"Suggestions test for vendor ${origin.spec.toString} by directory" - {
     forDirectory(dir, "")
   }
 
+  def preload(parent: String, amfConfiguration: AmfConfigurationWrapper): Future[Unit] = Future.unit
+
   override def testFile(content: String, f: SyncFile, parent: String): Unit = {
-    s"Suggest over ${f.name} at dir $parent${dir.name}" in {
-      val expected = f.parent + platform.fs.separatorChar + "expected" + platform.fs.separatorChar + f.name + ".json"
+    s"Suggest over ${f.name} at dir ${cleanDirectory(f)}" in {
+      val expected = s"${f.parent}${platform.fs.separatorChar}expected${platform.fs.separatorChar}${f.name}.json"
       for {
+        amfConfiguration <- defaultAmfConfiguration.map(_.branch)
+        _                <- amfConfiguration.init()
+        _                <- preload(f.path.stripSuffix(f.name), amfConfiguration)
         s <- suggestFromFile(
           content,
           "file://" + f.path.replaceAllLiterally(platform.fs.separatorChar.toString, "/"),
-          Some("application/" + origin.syntax.extension),
           "*",
+          amfConfiguration,
           None
         )
         tmp <- writeTemporaryFile(expected)(
@@ -43,4 +45,7 @@ trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTes
       } yield r
     }
   }
+
+  private def cleanDirectory(f: SyncFile) =
+    f.path.stripPrefix("als-suggestions/shared/src/test/resources/test/").stripSuffix(f.name)
 }

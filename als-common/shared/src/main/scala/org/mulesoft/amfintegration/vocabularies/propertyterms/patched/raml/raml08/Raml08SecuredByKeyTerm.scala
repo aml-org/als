@@ -1,6 +1,6 @@
 package org.mulesoft.amfintegration.vocabularies.propertyterms.patched.raml.raml08
 
-import amf.plugins.domain.webapi.metamodel.security.ParametrizedSecuritySchemeModel
+import amf.apicontract.internal.metamodel.domain.security.ParametrizedSecuritySchemeModel
 
 object Raml08SecuredByKeyTerm extends Raml08PatchedKeyTerm {
   override val key: String           = "securedBy"

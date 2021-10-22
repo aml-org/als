@@ -1,20 +1,20 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.oasbuilders
 
-import amf.core.annotations.{BasePathLexicalInformation, HostLexicalInformation}
-import amf.core.model.domain.AmfArray
-import amf.core.parser.FieldEntry
-import amf.plugins.domain.webapi.metamodel.api.WebApiModel
-import amf.plugins.domain.webapi.metamodel.ServerModel
-import amf.plugins.domain.webapi.models.Server
+import amf.apicontract.client.scala.model.domain.Server
+import amf.apicontract.internal.metamodel.domain.ServerModel
+import amf.apicontract.internal.metamodel.domain.api.WebApiModel
+import amf.core.client.scala.model.domain.AmfArray
+import amf.core.internal.annotations.{BasePathLexicalInformation, HostLexicalInformation}
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl._
-import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
-  FieldTypeSymbolBuilder,
-  IriFieldSymbolBuilderCompanion
-}
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.{
   ArrayFieldTypeSymbolBuilder,
   ArrayFieldTypeSymbolBuilderCompanion
+}
+import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
+  FieldTypeSymbolBuilder,
+  IriFieldSymbolBuilderCompanion
 }
 
 object OasBaseUrlFieldSymbolBuilderCompanion

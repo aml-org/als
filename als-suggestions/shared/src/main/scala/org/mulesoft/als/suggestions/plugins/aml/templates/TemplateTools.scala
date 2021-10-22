@@ -1,14 +1,14 @@
 package org.mulesoft.als.suggestions.plugins.aml.templates
 
-import amf.core.model.domain.{AmfArray, AmfObject, AmfScalar}
-import amf.core.utils.InflectorBase.Inflector
-import amf.plugins.document.vocabularies.metamodel.domain.PropertyMappingModel
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
+import amf.aml.internal.metamodel.domain.PropertyMappingModel
+import amf.core.client.scala.model.domain.{AmfArray, AmfObject, AmfScalar}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.{AmlCompletionRequest, DialectNodeFinder}
 import org.mulesoft.amfintegration.AmfImplicits.{AmfObjectImp, DialectImplicits}
 import org.yaml.model.YMapEntry
+import amf.core.internal.utils.InflectorBase.Inflector
 
 object TemplateTools {
   val fullPrefix          = "New full"
@@ -68,9 +68,14 @@ object TemplateTools {
       .exists(k => params.nodeDialect.declarationsMapTerms.values.to[Seq].contains(k)) &&
       hasCorrectDeclarationNesting(params)
 
-  private def getRecursiveChildren(p: PropertyMapping, params: AmlCompletionRequest): Seq[RawAndIri] =
-    requiredProperties(p, params)
-      .map(c => RawAndIri(c, fullPrefix, getRecursiveChildren(c, params)))
+  private def getRecursiveChildren(p: PropertyMapping,
+                                   params: AmlCompletionRequest,
+                                   recursiveProperties: Seq[String] = Seq.empty): Seq[RawAndIri] = {
+    if (recursiveProperties.contains(p.id)) Seq.empty
+    else
+      requiredProperties(p, params)
+        .map(c => RawAndIri(c, fullPrefix, getRecursiveChildren(c, params, recursiveProperties :+ p.id)))
+  }
 
   private def requiredProperties(p: PropertyMapping, params: AmlCompletionRequest) =
     nestedPropertyMappings(p, params)

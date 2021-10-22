@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.async
 
-import amf.plugins.domain.webapi.metamodel.security.SecuritySchemeModel
-import amf.plugins.domain.webapi.models.security.SecurityScheme
+import amf.apicontract.client.scala.model.domain.security.SecurityScheme
+import amf.apicontract.internal.metamodel.domain.security.SecuritySchemeModel
 import org.mulesoft.als.common.ObjectInTree
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest

@@ -1,12 +1,11 @@
 package org.mulesoft.als.suggestions.test
 
-import amf.core.model.document.BaseUnit
-import amf.internal.environment.Environment
-import org.mulesoft.amfintegration.AmfInstance
+import amf.core.client.scala.model.document.BaseUnit
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.feature.completion.CompletionItem
 import org.scalatest.{Assertion, AsyncFunSuite}
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.{ExecutionContext, Future, future}
 
 trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
 
@@ -65,7 +64,7 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
                       cut: Boolean = false,
                       labels: Array[String] = Array("*")): Future[Assertion] =
     this
-      .suggest(path, label)
+      .suggest(path, label, None, defaultAmfConfiguration.map(_.branch))
       .map(r => assertCategory(path, r.toSet))
 
   /**
@@ -82,7 +81,7 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
                         labels: Array[String] = Array("*"),
                         dialect: Option[String] = None): Future[Assertion] =
     this
-      .suggest(path, label, dialect)
+      .suggest(path, label, dialect, defaultAmfConfiguration.map(_.branch))
       .map(
         r =>
           assert(path,
@@ -95,18 +94,25 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
 
   def rootPath: String
 
-  override def suggest(path: String, label: String, dialect: Option[String] = None): Future[Seq[CompletionItem]] = {
-    dialect match {
-      case Some(d) => platform.resolve(d).flatMap(c => super.suggest(filePath(path), label, Some(c.stream.toString)))
-      case _       => super.suggest(filePath(path), label, None)
-    }
-
+  override def suggest(url: String,
+                       label: String,
+                       dialect: Option[String] = None,
+                       futureAmfConfiguration: Future[AmfConfigurationWrapper]): Future[Seq[CompletionItem]] = {
+    futureAmfConfiguration.flatMap(amfConfiguration => {
+      dialect match {
+        case Some(d) =>
+          amfConfiguration
+            .fetchContent(d)
+            .flatMap(c => super.suggest(filePath(url), label, Some(c.stream.toString), Future(amfConfiguration)))
+        case _ => super.suggest(filePath(url), label, None, Future(amfConfiguration))
+      }
+    })
   }
 
   case class ModelResult(u: BaseUnit, url: String, position: Int, originalContent: Option[String])
 
-  def parseAMF(path: String, env: Environment = Environment()): Future[BaseUnit] =
-    AmfInstance.default.modelBuilder().parse(path, env, None).map(_.baseUnit)
+  def parseAMF(url: String): Future[BaseUnit] =
+    AmfConfigurationWrapper().flatMap(_.parse(url).map(_.result.baseUnit))
 
   def filePath(path: String): String = {
     var result =

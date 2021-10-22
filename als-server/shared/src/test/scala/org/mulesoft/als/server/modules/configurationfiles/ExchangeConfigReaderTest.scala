@@ -1,10 +1,10 @@
 package org.mulesoft.als.server.modules.configurationfiles
 
-import amf.core.unsafe.PlatformSecrets
-import amf.internal.environment.Environment
+import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.diff.ListAssertions
-import org.mulesoft.als.server.logger.EmptyLogger
+import org.mulesoft.als.logger.EmptyLogger
 import org.mulesoft.als.server.workspace.extract.ExchangeConfigReader
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.scalatest.{AsyncFlatSpec, Matchers}
 
 import scala.concurrent.ExecutionContext
@@ -33,15 +33,17 @@ class ExchangeConfigReaderTest extends AsyncFlatSpec with PlatformSecrets with L
 
   fixture.foreach { testCase =>
     s"Folder ${testCase.folder}" should s"should have dependencies: ${testCase.dependencies.length}" in {
+      AmfConfigurationWrapper().flatMap(amfConfiguration => {
+        ExchangeConfigReader
+          .readRoot("file://" + base + testCase.folder, amfConfiguration, EmptyLogger)
+          .map { maybeConf =>
+            maybeConf.isDefined should be(true)
+            val config = maybeConf.get
+            config.mainFile should be(testCase.main)
+            assert(config.cachables.toList.sorted, testCase.dependencies)
+          }(executionContext)
+      })(executionContext)
 
-      ExchangeConfigReader
-        .readRoot("file://" + base + testCase.folder, platform, Environment(), EmptyLogger)
-        .map { maybeConf =>
-          maybeConf.isDefined should be(true)
-          val config = maybeConf.get
-          config.mainFile should be(testCase.main)
-          assert(config.cachables.toList.sorted, testCase.dependencies)
-        }(executionContext)
     }
   }
 

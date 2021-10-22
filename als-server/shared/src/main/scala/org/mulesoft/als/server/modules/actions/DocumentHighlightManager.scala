@@ -1,10 +1,9 @@
 package org.mulesoft.als.server.modules.actions
 
-import amf.core.remote.Platform
 import org.mulesoft.als.actions.references.FindReferences
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.RequestModule
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
@@ -18,7 +17,6 @@ import scala.concurrent.Future
 
 class DocumentHighlightManager(val workspace: WorkspaceManager,
                                private val telemetryProvider: TelemetryProvider,
-                               platform: Platform,
                                private val logger: Logger)
     extends RequestModule[DocumentHighlightCapabilities, Boolean] {
 

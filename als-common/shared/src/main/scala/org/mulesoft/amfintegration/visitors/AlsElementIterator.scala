@@ -1,23 +1,25 @@
 package org.mulesoft.amfintegration.visitors
 
-import amf.core.annotations.ErrorDeclaration
-import amf.core.model.document.BaseUnit
-import amf.core.model.domain.templates.AbstractDeclaration
-import amf.core.model.domain.{AmfArray, AmfElement, AmfObject}
-import amf.core.traversal.iterator.AmfIterator
-import amf.plugins.domain.webapi.models.{EndPoint, Operation}
+import amf.apicontract.client.scala.model.domain.{EndPoint, Operation}
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.model.domain.{AmfArray, AmfElement, AmfObject}
+import amf.core.client.scala.model.domain.templates.AbstractDeclaration
+import amf.core.client.scala.traversal.iterator.AmfIterator
+import amf.core.internal.annotations.ErrorDeclaration
 import org.mulesoft.amfintegration.AbstractDeclarationInformation
-import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 
 import scala.collection.mutable
 
 class AlsElementIterator(private val bu: BaseUnit,
                          private var buffer: Iterator[AmfElement],
-                         visited: mutable.Set[String])
+                         visited: mutable.Set[String],
+                         amfConfiguration: AmfConfigurationWrapper)
     extends AmfIterator {
 
-  def this(bu: BaseUnit) = {
-    this(bu, Iterator(bu), mutable.Set())
+  def this(bu: BaseUnit, amfConfiguration: AmfConfigurationWrapper) = {
+    this(bu, Iterator(bu), mutable.Set(), amfConfiguration)
     advance()
   }
 
@@ -43,7 +45,8 @@ class AlsElementIterator(private val bu: BaseUnit,
         case e: ErrorDeclaration[_] =>
           visited += e.id
         case abstractDeclaration: AbstractDeclaration =>
-          val information = AbstractDeclarationInformation.extractInformation(abstractDeclaration, bu)
+          val information =
+            AbstractDeclarationInformation.extractInformation(abstractDeclaration, bu, amfConfiguration)
           information.map(info => {
             info.element match {
               case obj @ (_: EndPoint | _: Operation) =>

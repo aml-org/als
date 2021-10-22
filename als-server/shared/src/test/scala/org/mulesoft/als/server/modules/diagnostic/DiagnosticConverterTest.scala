@@ -1,21 +1,24 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf.ProfileNames
-import amf.core.validation.{AMFValidationResult, SeverityLevels}
+import amf.core.client.common.validation.{ProfileNames, SeverityLevels}
+import amf.core.client.scala.validation.AMFValidationResult
 import org.scalatest.{FunSuite, Matchers}
 
 class DiagnosticConverterTest extends FunSuite with Matchers {
 
   private val withoutLocation =
-    AMFValidationResult("A message without location", SeverityLevels.VIOLATION, "", None, "", None, None, null)
-  private val located = AMFValidationResult("LocatedMessage",
-                                            SeverityLevels.VIOLATION,
-                                            "",
-                                            None,
-                                            "",
-                                            None,
-                                            Some("file://reference.raml"),
-                                            null)
+    new AlsValidationResult(
+      AMFValidationResult("A message without location", SeverityLevels.VIOLATION, "", None, "", None, None, null))
+
+  private val located = new AlsValidationResult(
+    AMFValidationResult("LocatedMessage",
+                        SeverityLevels.VIOLATION,
+                        "",
+                        None,
+                        "",
+                        None,
+                        Some("file://reference.raml"),
+                        null))
 
   test("Test diagnostic without location") {
 

@@ -2,10 +2,18 @@ package org.mulesoft.als.server.protocol.convert
 
 import org.mulesoft.als.configuration.{AlsConfiguration, ConfigurationStyle, ProjectConfigurationStyle, TemplateTypes}
 import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
+import org.mulesoft.als.server.feature.configuration.workspace.{
+  GetWorkspaceConfigurationParams,
+  GetWorkspaceConfigurationResult,
+  WorkspaceConfigurationClientCapabilities,
+  WorkspaceConfigurationOptions
+}
 import org.mulesoft.als.server.feature.diagnostic.{
   CleanDiagnosticTreeClientCapabilities,
   CleanDiagnosticTreeOptions,
-  CleanDiagnosticTreeParams
+  CleanDiagnosticTreeParams,
+  CustomValidationClientCapabilities,
+  CustomValidationOptions
 }
 import org.mulesoft.als.server.feature.fileusage.{FileUsageClientCapabilities, FileUsageOptions}
 import org.mulesoft.als.server.feature.renamefile.{RenameFileActionClientCapabilities, RenameFileActionParams}
@@ -15,7 +23,11 @@ import org.mulesoft.als.server.protocol.actions.{
   ClientRenameFileActionParams
 }
 import org.mulesoft.als.server.protocol.configuration._
-import org.mulesoft.als.server.protocol.diagnostic.ClientCleanDiagnosticTreeParams
+import org.mulesoft.als.server.protocol.diagnostic.{
+  ClientCleanDiagnosticTreeParams,
+  ClientCustomValidationClientCapabilities,
+  ClientCustomValidationOptions
+}
 import org.mulesoft.als.server.protocol.serialization.{ClientConversionParams, ClientSerializationParams}
 import org.mulesoft.als.server.protocol.textsync.{
   ClientDidFocusParams,
@@ -68,8 +80,19 @@ object LspConvertersClientToShared {
       cleanDiagnosticTree = v.cleanDiagnosticTree.map(_.toShared).toOption,
       fileUsage = v.fileUsage.map(_.toShared).toOption,
       conversion = v.conversion.map(_.toShared).toOption,
-      renameFileAction = v.renameFileAction.map(_.toShared).toOption
+      renameFileAction = v.renameFileAction.map(_.toShared).toOption,
+      workspaceConfiguration = v.workspaceConfiguration.map(_.toShared).toOption,
+      customValidations = v.customValidations.map(_.toShared).toOption
     )
+  }
+
+  implicit class CustomValidationClientCapabilitiesConverter(v: ClientCustomValidationClientCapabilities) {
+    def toShared: CustomValidationClientCapabilities =
+      CustomValidationClientCapabilities(v.enabled)
+  }
+
+  implicit class CustomValidationOptionsConverter(v: ClientCustomValidationOptions) {
+    def toShared: CustomValidationOptions = CustomValidationOptions(v.enabled)
   }
 
   implicit class ClientAlsConfigurationConverter(v: ClientAlsConfiguration) {
@@ -187,6 +210,24 @@ object LspConvertersClientToShared {
 
   implicit class ClientRenameFileActionParamsConverter(i: ClientRenameFileActionParams) {
     def toShared: RenameFileActionParams = RenameFileActionParams(i.oldDocument.toShared, i.newDocument.toShared)
+  }
+
+  implicit class ClientGetWorkspaceConfigurationParamsConverterToShared(s: ClientGetWorkspaceConfigurationParams) {
+    def toShared: GetWorkspaceConfigurationParams = GetWorkspaceConfigurationParams(s.textDocument.toShared)
+  }
+
+  implicit class GetWorkspaceConfigurationResultConverter(s: ClientGetWorkspaceConfigurationResult) {
+    def toShared: GetWorkspaceConfigurationResult =
+      GetWorkspaceConfigurationResult(s.workspace, s.configuration.toShared)
+  }
+
+  implicit class ClientWorkspaceConfigurationClientCapabilitiesConverter(
+      s: ClientWorkspaceConfigurationClientCapabilities) {
+    def toShared: WorkspaceConfigurationClientCapabilities = WorkspaceConfigurationClientCapabilities(s.get)
+  }
+
+  implicit class ClientWorkspaceConfigurationOptionsConverter(s: ClientWorkspaceConfigurationServerOptions) {
+    def toShared: WorkspaceConfigurationOptions = WorkspaceConfigurationOptions(s.supported)
   }
   // $COVERAGE-ON
 }

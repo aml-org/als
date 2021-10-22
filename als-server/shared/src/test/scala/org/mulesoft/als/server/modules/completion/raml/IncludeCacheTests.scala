@@ -1,12 +1,12 @@
 package org.mulesoft.als.server.modules.completion.raml
 
-import amf.client.remote.Content
-import amf.internal.resource.ResourceLoader
+import amf.core.client.common.remote.Content
+import amf.core.client.scala.AMFGraphConfiguration
+import amf.core.client.scala.resource.ResourceLoader
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.{LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.amfintegration.AmfInstance
 import org.scalatest.Assertion
 
 import scala.collection.mutable
@@ -39,7 +39,6 @@ class IncludeCacheTests extends RAMLSuggestionTestServer {
 
   def buildServer(rl: ResourceLoader): LanguageServer = {
     val factory = new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
-      .withAmfConfiguration(AmfInstance.default)
       .buildWorkspaceManagerFactory()
     new LanguageServerBuilder(factory.documentManager,
                               factory.workspaceManager,
@@ -49,7 +48,9 @@ class IncludeCacheTests extends RAMLSuggestionTestServer {
       .build()
   }
 
-  override def runTest(path: String, expectedSuggestions: Set[String]): Future[Assertion] = {
+  override def runTest(path: String,
+                       expectedSuggestions: Set[String],
+                       dialectPath: Option[String] = None): Future[Assertion] = {
     val hitMap: mutable.Map[String, Int] = mutable.Map()
     val dummyResourceLoader: ResourceLoader = new ResourceLoader {
       override def fetch(resource: String): Future[Content] = Future.failed(new NotImplementedError("Not implemented"))
@@ -67,7 +68,7 @@ class IncludeCacheTests extends RAMLSuggestionTestServer {
     val resolved = filePath(platform.encodeURI(path))
     for {
       _       <- server.initialize(AlsInitializeParams.default)
-      content <- this.platform.resolve(resolved)
+      content <- this.platform.fetchContent(resolved, AMFGraphConfiguration.predefined())
       (suggestions, map1) <- {
         val fileContentsStr = content.stream.toString
         val markerInfo      = this.findMarker(fileContentsStr)

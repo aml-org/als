@@ -1,18 +1,16 @@
 package org.mulesoft.als.server
 
-import java.io.StringWriter
-
 import org.mulesoft.als.common.SyncFunction
 import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
 import org.mulesoft.als.server.feature.serialization.SerializationResult
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryMessage}
-import shapeless.|∨|
 
+import java.io.StringWriter
 import scala.collection.mutable
-import scala.concurrent.{Future, Promise}
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.{Future, Promise}
 
 trait AbstractTestClientNotifier[T] extends SyncFunction {
   val promises: mutable.Queue[Promise[T]] = mutable.Queue.empty
@@ -92,7 +90,8 @@ class MockDiagnosticClientNotifier(val timeoutMillis: Int = 1000)
 
   override def notifyTelemetry(params: TelemetryMessage): Unit = {}
 
-  override def notifyDiagnostic(msg: PublishDiagnosticsParams): Unit = notify(msg)
+  override def notifyDiagnostic(msg: PublishDiagnosticsParams): Unit =
+    notify(msg)
 }
 
 class MockAlsClientNotifier
@@ -112,8 +111,10 @@ class MockTelemetryClientNotifier(val timeoutMillis: Int = 1000, ignoreErrors: B
   override def nextCall: Future[TelemetryMessage] =
     timeoutFuture(super.nextCall, timeoutMillis)
       .flatMap {
-        case m if m.messageType == MessageTypes.ERROR_MESSAGE && ignoreErrors => nextCall
-        case m                                                                => Future.successful(m)
+        case m if m.messageType == MessageTypes.ERROR_MESSAGE && ignoreErrors =>
+          nextCall
+        case m =>
+          Future.successful(m)
       }
 
   override def notifyTelemetry(msg: TelemetryMessage): Unit = notify(msg)

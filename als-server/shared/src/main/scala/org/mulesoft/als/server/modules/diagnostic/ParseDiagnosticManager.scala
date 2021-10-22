@@ -1,20 +1,19 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf._
-import amf.internal.environment.Environment
+import amf.core.client.common.validation.{ProfileName, ProfileNames}
 import org.mulesoft.als.server.client.ClientNotifier
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.ast._
-import org.mulesoft.amfintegration.{AmfParseResult, DiagnosticsBundle}
+import org.mulesoft.amfintegration.DiagnosticsBundle
+import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, AmfParseResult}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
-
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class ParseDiagnosticManager(override protected val telemetryProvider: TelemetryProvider,
                              override protected val clientNotifier: ClientNotifier,
                              override protected val logger: Logger,
-                             override protected val env: Environment,
+                             override protected val amfConfiguration: AmfConfigurationWrapper,
                              override protected val validationGatherer: ValidationGatherer,
                              override protected val optimizationKind: DiagnosticNotificationsKind)
     extends BaseUnitListener
@@ -27,25 +26,21 @@ class ParseDiagnosticManager(override protected val telemetryProvider: Telemetry
     * @param tuple - (AST, References)
     * @param uuid  - telemetry UUID
     */
-  override def onNewAst(tuple: BaseUnitListenerParams, uuid: String): Unit =
-    try {
-      val parsedResult = tuple.parseResult
-      val references   = tuple.diagnosticsBundle
-      logger.debug("Got new AST:\n" + parsedResult.baseUnit.id, "ParseDiagnosticManager", "newASTAvailable")
-      val uri = parsedResult.location
-      telemetryProvider.timeProcess(
-        "Start report",
-        MessageTypes.BEGIN_DIAGNOSTIC_PARSE,
-        MessageTypes.END_DIAGNOSTIC_PARSE,
-        "ParseDiagnosticManager : onNewAst",
-        uri,
-        innerGatherValidations(uuid, parsedResult, references, uri),
-        uuid
-      )
-    } catch {
-      case e: Exception =>
-        logger.error(e.getMessage, "ParseDiagnosticManager", "newASTAvailable")
-    }
+  override def onNewAst(tuple: BaseUnitListenerParams, uuid: String): Future[Unit] = synchronized {
+    val parsedResult = tuple.parseResult
+    val references   = tuple.diagnosticsBundle
+    logger.debug("Got new AST:\n" + parsedResult.result.baseUnit.id, "ParseDiagnosticManager", "newASTAvailable")
+    val uri = parsedResult.location
+    telemetryProvider.timeProcess(
+      "Start report",
+      MessageTypes.BEGIN_DIAGNOSTIC_PARSE,
+      MessageTypes.END_DIAGNOSTIC_PARSE,
+      "ParseDiagnosticManager : onNewAst",
+      uri,
+      innerGatherValidations(uuid, parsedResult, references, uri),
+      uuid
+    )
+  }
 
   private def innerGatherValidations(uuid: String,
                                      parsedResult: AmfParseResult,
@@ -62,11 +57,12 @@ class ParseDiagnosticManager(override protected val telemetryProvider: Telemetry
   private def gatherValidationErrors(result: AmfParseResult,
                                      references: Map[String, DiagnosticsBundle],
                                      uuid: String): Future[Unit] = {
-    val profile: ProfileName = profileName(result.baseUnit)
-    validationGatherer.indexNewReport(ErrorsWithTree(result.location, result.eh.getErrors, Option(result.tree)),
-                                      managerName,
-                                      uuid)
-    if (notifyParsing) notifyReport(result.location, result.baseUnit, references, managerName, profile)
+    val profile: ProfileName = profileName(result.result.baseUnit)
+    validationGatherer.indexNewReport(
+      ErrorsWithTree(result.location, result.result.results.map(new AlsValidationResult(_)), Option(result.tree)),
+      managerName,
+      uuid)
+    if (notifyParsing) notifyReport(result.location, result.result.baseUnit, references, managerName, profile)
     Future.unit
   }
 

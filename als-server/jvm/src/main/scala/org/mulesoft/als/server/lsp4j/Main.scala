@@ -2,11 +2,12 @@ package org.mulesoft.als.server.lsp4j
 
 import org.eclipse.lsp4j.jsonrpc.Launcher
 import org.eclipse.lsp4j.services.LanguageClient
+import org.mulesoft.als.logger.{Logger, PrintLnLogger}
 import org.mulesoft.als.server.JvmSerializationProps
 import org.mulesoft.als.server.client.ClientConnection
 import org.mulesoft.als.server.feature.serialization.SerializationResult
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
-import org.mulesoft.als.server.logger.{Logger, PrintLnLogger}
+import org.mulesoft.als.server.lsp4j.internal.GsonConsumerBuilder
 import org.mulesoft.als.server.protocol.client.AlsLanguageClient
 
 import java.io.StringWriter
@@ -69,6 +70,7 @@ object Main {
 
       logger.debug("Launching services", "Main", "main")
       val launcher = new Launcher.Builder[LanguageClient]()
+        .configureGson(new GsonConsumerBuilder())
         .setLocalService(server)
         .setRemoteInterface(classOf[LanguageClient])
         .setInput(in)

@@ -1,11 +1,11 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.core.metamodel.Field
-import amf.core.metamodel.Type.ArrayLike
-import amf.core.metamodel.domain.DomainElementModel
-import amf.core.parser.FieldEntry
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
+import amf.core.internal.metamodel.Field
+import amf.core.internal.metamodel.Type.ArrayLike
+import amf.core.internal.metamodel.domain.DomainElementModel
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
@@ -48,7 +48,7 @@ object ResolveDefault extends ResolveIfApplies with AmfObjectKnowledge {
 
   protected def objInArray(params: AmlCompletionRequest): Option[DomainElementModel] = {
     params.fieldEntry match {
-      case Some(FieldEntry(Field(t: ArrayLike, _, _, _), _))
+      case Some(FieldEntry(Field(t: ArrayLike, _, _, _, false), _))
           if t.element
             .isInstanceOf[DomainElementModel] && params.yPartBranch.isInArray =>
         Some(t.element.asInstanceOf[DomainElementModel])

@@ -1,15 +1,15 @@
 package org.mulesoft.als.server.modules.completion
 
+import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.common.{MarkerFinderTest, MarkerInfo}
-import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.als.suggestions.interfaces.Syntax.YAML
-import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
-import org.mulesoft.lsp.feature.common.TextDocumentIdentifier
 import org.mulesoft.als.convert.LspRangeConverter
+import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.workspace.command.Commands
+import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.lsp.feature.common.TextDocumentIdentifier
 import org.mulesoft.lsp.feature.completion.{CompletionItem, CompletionParams, CompletionRequestType}
+import org.mulesoft.lsp.workspace.ExecuteCommandParams
 import org.scalatest.{Assertion, EitherValues}
 
 import scala.concurrent.Future
@@ -28,16 +28,22 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
       .build()
   }
 
-  def runTest(path: String, expectedSuggestions: Set[String]): Future[Assertion] =
-    withServer[Assertion](buildServer()) { server =>
+  def runTest(path: String, expectedSuggestions: Set[String], dialectPath: Option[String] = None): Future[Assertion] =
+    withServer[Assertion](buildServer(),
+                          dialectPath.map(_ => initializeParamsCommandStyle).getOrElse(initializeParams)) { server =>
       val resolved = filePath(platform.encodeURI(path))
       for {
-        content <- this.platform.resolve(resolved)
+        content <- this.platform.fetchContent(resolved, AMFGraphConfiguration.predefined())
         suggestions <- {
           val fileContentsStr = content.stream.toString
           val markerInfo      = this.findMarker(fileContentsStr, "*")
 
-          getServerCompletions(resolved, server, markerInfo)
+          dialectPath
+            .map(p => filePath(platform.encodeURI(p)))
+            .map { d =>
+              commandRegisterDialect(d, server).flatMap(_ => getServerCompletions(resolved, server, markerInfo))
+            }
+            .getOrElse(getServerCompletions(resolved, server, markerInfo))
         }
       } yield {
         val resultSet = suggestions
@@ -53,21 +59,30 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
       }
     }
 
+  def commandRegisterDialect(dialect: String, server: LanguageServer): Future[Unit] = {
+    server.workspaceService
+      .executeCommand(
+        ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION,
+                             List(s"""{"mainUri": "", "dependencies": [{"file": "$dialect", "scope": "dialect"}]}""")))
+      .flatMap(_ => Future.unit)
+  }
+
   def getServerCompletions(filePath: String,
                            server: LanguageServer,
                            markerInfo: MarkerInfo): Future[Seq[CompletionItem]] = {
 
     openFile(server)(filePath, markerInfo.content)
+      .flatMap { _ =>
+        val completionHandler = server.resolveHandler(CompletionRequestType).value
 
-    val completionHandler = server.resolveHandler(CompletionRequestType).value
+        completionHandler(
+          CompletionParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(markerInfo.position)))
+          .flatMap(completions => {
+            closeFile(server)(filePath)
+              .map(_ => completions.left.value)
+          })
+      }
 
-    completionHandler(
-      CompletionParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(markerInfo.position)))
-      .map(completions => {
-        closeFile(server)(filePath)
-
-        completions.left.value
-      })
   }
 
 }

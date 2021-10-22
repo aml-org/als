@@ -1,7 +1,7 @@
 package org.mulesoft.amfintegration.visitors.documentlink
 
-import amf.core.model.document.BaseUnit
-import amf.core.model.domain.AmfElement
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.model.domain.AmfElement
 import org.mulesoft.amfintegration.visitors.AmfElementVisitorFactory
 import org.mulesoft.amfintegration.visitors.links.FindLinks
 import org.mulesoft.lsp.feature.link.DocumentLink

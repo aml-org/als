@@ -1,25 +1,24 @@
 package org.mulesoft.als.server.workspace.extract
 
-import amf.core.remote.Platform
-import amf.internal.environment.Environment
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.workspace.WorkspaceContentManager
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 
 import scala.concurrent.Future
 
 trait WorkspaceConfigurationProvider {
-  def obtainConfiguration(platform: Platform,
-                          environment: Environment,
-                          logger: Logger): Future[Option[WorkspaceConfig]]
+  def obtainConfiguration(amfConfiguration: AmfConfigurationWrapper, logger: Logger): Future[Option[WorkspaceConfig]]
 }
 
 case class DefaultWorkspaceConfigurationProvider(manager: WorkspaceContentManager,
                                                  mainUri: String,
                                                  dependencies: Set[String],
+                                                 profiles: Set[String],
+                                                 semanticExtensions: Set[String],
+                                                 dialects: Set[String],
                                                  reader: Option[ConfigReader])
     extends WorkspaceConfigurationProvider {
-  override def obtainConfiguration(platform: Platform,
-                                   environment: Environment,
+  override def obtainConfiguration(amfConfiguration: AmfConfigurationWrapper,
                                    logger: Logger): Future[Option[WorkspaceConfig]] =
     Future.successful(
       Some(
@@ -27,18 +26,20 @@ case class DefaultWorkspaceConfigurationProvider(manager: WorkspaceContentManage
           manager.folderUri,
           mainUri.stripPrefix(manager.folderUri).stripPrefix("/"), // just the file name, not the full path
           dependencies,
+          profiles,
+          semanticExtensions,
+          dialects,
           reader
         )))
 }
 
 case class ReaderWorkspaceConfigurationProvider(manager: WorkspaceContentManager)
     extends WorkspaceConfigurationProvider {
-  override def obtainConfiguration(platform: Platform,
-                                   environment: Environment,
+  override def obtainConfiguration(amfConfiguration: AmfConfigurationWrapper,
                                    logger: Logger): Future[Option[WorkspaceConfig]] = {
-    manager.workspaceConfiguration.flatMap(_.configReader) match {
+    manager.getConfigReader match {
       case Some(configReader) =>
-        configReader.readRoot(manager.folderUri, platform, environment, logger)
+        configReader.readRoot(manager.folderUri, amfConfiguration, logger)
       case _ => Future.successful(None)
     }
   }

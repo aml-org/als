@@ -1,24 +1,24 @@
 package org.mulesoft.als.server.modules.serialization
 
-import java.util.UUID
-
+import amf.core.internal.remote.Spec
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.feature.serialization._
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.workspace.CompilableUnit
 import org.mulesoft.als.server.workspace.UnitAccessor
 import org.mulesoft.amfintegration.AmfImplicits._
-import org.mulesoft.amfintegration.AmfInstance
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
+import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class ConversionManager(unitAccessor: UnitAccessor[CompilableUnit],
                         telemetryProvider: TelemetryProvider,
-                        amfInstance: AmfInstance,
+                        amfConfiguration: AmfConfigurationWrapper,
                         logger: Logger)
     extends RequestModule[ConversionClientCapabilities, ConversionRequestOptions] {
 
@@ -54,18 +54,19 @@ class ConversionManager(unitAccessor: UnitAccessor[CompilableUnit],
   )
 
   private def onSerializationRequest(uri: String, target: String, syntax: Option[String]): Future[SerializedDocument] = {
-    unitAccessor.getLastUnit(uri, UUID.randomUUID().toString).flatMap(_.getLast) flatMap { cu =>
-      val clone = cu.unit.cloneUnit()
-      amfInstance
-        .modelBuilder()
-        .convertTo(clone, target, syntax) // should check the origin?
-        .map(s => SerializedDocument(clone.identifier, s))
+    unitAccessor
+      .getLastUnit(uri, UUID.randomUUID().toString)
+      .flatMap(_.getLast) map { cu => // should check the origin?
+      SerializedDocument(cu.unit.identifier,
+                         amfConfiguration
+                           .convertTo(cu.unit, Spec(target), syntax))
     }
   }
 
   override val `type`: ConversionConfigType.type = ConversionConfigType
 
-  override def initialize(): Future[Unit] = amfInstance.init()
+  override def initialize(): Future[Unit] =
+    Future.successful()
 
   override def applyConfig(config: Option[ConversionClientCapabilities]): ConversionRequestOptions = {
     config.foreach(c => enabled = c.supported)

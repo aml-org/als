@@ -1,22 +1,29 @@
 package org.mulesoft.amfintegration
 
-import amf.core.annotations.{LexicalInformation, ReferenceTargets, SourceAST, SourceNode, SynthesizedField, _}
-import amf.core.metamodel.Type.ArrayLike
-import amf.core.metamodel.document.ModuleModel
-import amf.core.metamodel.{Field, Obj}
-import amf.core.model.document._
-import amf.core.model.domain.{AmfObject, AmfScalar, DomainElement, NamedDomainElement}
-import amf.core.parser.{Annotations, FieldEntry, Range, Value, Position => AmfPosition}
-import amf.plugins.document.vocabularies.model.document.{Dialect, Vocabulary}
-import amf.plugins.document.vocabularies.model.domain._
-import amf.plugins.document.vocabularies.parser.common.{DeclarationKey, DeclarationKeys}
+import amf.aml.client.scala.model.document.{Dialect, DialectInstance, Vocabulary}
+import amf.aml.client.scala.model.domain._
+import amf.aml.internal.parse.common.{DeclarationKey, DeclarationKeys}
+import amf.apicontract.internal.metamodel.domain.AbstractModel
+import amf.core.client.common.position.{Range, Position => AmfPosition}
+import amf.core.client.scala.model.document._
+import amf.core.client.scala.model.domain.{AmfObject, AmfScalar, DomainElement, NamedDomainElement}
+import amf.core.internal.annotations._
+import amf.core.internal.metamodel.Type.ArrayLike
+import amf.core.internal.metamodel.document.ModuleModel
+import amf.core.internal.metamodel.{Field, Obj}
+import amf.core.internal.parser.domain.{Annotations, FieldEntry, Value}
+import amf.core.internal.remote.Spec
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
-import amf.plugins.document.webapi.annotations._
-import amf.plugins.domain.shapes.annotations.ParsedFromTypeExpression
-import amf.plugins.domain.webapi.metamodel.AbstractModel
+import amf.shapes.internal.annotations.{
+  ExternalJsonSchemaShape,
+  ParsedFromTypeExpression,
+  ParsedJSONSchema,
+  SchemaIsJsonSchema
+}
 import org.mulesoft.als.common.{YPartBranch, YamlWrapper}
 import org.mulesoft.als.common.YamlWrapper._
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.amfintegration.dialect.dialects.validations.RawValidationProfileDialect
 import org.mulesoft.lexer.InputRange
 import org.yaml.model.{YMapEntry, YNode, YPart, YSequence, YType, _}
 
@@ -59,7 +66,7 @@ object AmfImplicits {
 
     def location(): Option[String] = ann.find(classOf[SourceLocation]).map(_.location)
 
-    def range(): Option[amf.core.parser.Range] = ann.lexicalInformation().map(_.range)
+    def range(): Option[Range] = ann.lexicalInformation().map(_.range)
 
     def ast(): Option[YPart] = ann.find(classOf[SourceAST]).map(_.ast)
 
@@ -209,7 +216,7 @@ object AmfImplicits {
       amfObject.annotations.containsYPart(yPartBranch).getOrElse(false) ||
         amfObject.annotations.containsJsonSchemaPosition(yPartBranch).getOrElse(false)
 
-    def range: Option[amf.core.parser.Range] = amfObject.position().map(_.range)
+    def range: Option[Range] = amfObject.position().map(_.range)
   }
 
   implicit class DomainElementImp(d: DomainElement) extends AmfObjectImp(d) {
@@ -220,6 +227,9 @@ object AmfImplicits {
   }
 
   implicit class BaseUnitImp(bu: BaseUnit) extends AmfObjectImp(bu) {
+
+    def vendor: Option[Spec] = bu.sourceSpec
+
     def objWithAST: Option[AmfObject] =
       bu.annotations
         .ast()
@@ -300,6 +310,12 @@ object AmfImplicits {
     private def documentForFragment(fragment: Fragment, dialect: Dialect): Option[DocumentMapping] =
       dialect.documents().fragments().find(doc => fragment.encodes.metaURIs.exists(_.equals(doc.encoded().value())))
 
+    def isValidationProfile: Boolean =
+      bu match {
+        case instance: DialectInstance =>
+          instance.processingData.definedBy().option().contains(RawValidationProfileDialect.uri)
+        case _ => false
+      }
   }
 
   implicit class DialectImplicits(d: Dialect) extends BaseUnitImp(d) {

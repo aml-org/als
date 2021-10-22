@@ -1,13 +1,13 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.structure
 
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.domain.webapi.models.api.{AsyncApi, WebApi}
+import amf.aml.client.scala.model.document.Dialect
+import amf.apicontract.client.scala.model.domain.api.{AsyncApi, WebApi}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.ResolveIfApplies
 import org.mulesoft.als.suggestions.plugins.aml._
-import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{AMLInfoObject => WebAPIInfoObject}
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.{AMLInfoObject => AsyncInfoObject}
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{AMLInfoObject => WebAPIInfoObject}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

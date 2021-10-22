@@ -6,7 +6,6 @@ import sbt.File
 import sbt.Keys.{libraryDependencies, mainClass, packageOptions}
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
 
-import scala.sys.process.Process
 import scala.language.postfixOps
 import scala.sys.process.Process
 
@@ -25,11 +24,12 @@ lazy val workspaceDirectory: File =
   }
 
 val amfVersion = deps("amf")
+val amfCustomValidatorJSVersion = deps("amf.custom-validator.js")
 
-lazy val amfJVMRef = ProjectRef(workspaceDirectory / "amf", "clientJVM")
-lazy val amfJSRef = ProjectRef(workspaceDirectory / "amf", "clientJS")
-lazy val amfLibJVM = "com.github.amlorg" %% "amf-client" % amfVersion
-lazy val amfLibJS = "com.github.amlorg" %% "amf-client_sjs0.6" % amfVersion
+lazy val amfJVMRef = ProjectRef(workspaceDirectory / "amf", "apiContractJVM")
+lazy val amfJSRef = ProjectRef(workspaceDirectory / "amf", "apiContractJS")
+lazy val amfLibJVM = "com.github.amlorg" %% "amf-api-contract" % amfVersion
+lazy val amfLibJS = "com.github.amlorg" %% "amf-api-contract_sjs0.6" % amfVersion
 
 val orgSettings = Seq(
   organization := "org.mule.als",
@@ -42,7 +42,6 @@ val orgSettings = Seq(
         Resolver.sonatypeRepo("snapshots")*/
   ),
   resolvers += "jitpack" at "https://jitpack.io",
-
   credentials ++= Common.credentials(),
 
   libraryDependencies ++= Seq(
@@ -176,6 +175,7 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
   )
   .jsSettings(
     installJsDependencies := {
+      Process(s"npm install @aml-org/amf-custom-validator@$amfCustomValidatorJSVersion", new File("./als-server/js/node-package")) #&&
       Process("npm install",     new File("./als-server/js/node-package")) !
     },
     test in Test := ((test in Test) dependsOn installJsDependencies).value,
@@ -209,10 +209,11 @@ lazy val nodeClient =  project
     mainClass in Compile := Some("org.mulesoft.als.nodeclient.Main"),
 
     npmIClient := {
-      Process(
-        "npm i",
-        new File("./als-node-client/node-package/")
-      ).!
+      Process(s"npm install @aml-org/amf-custom-validator@$amfCustomValidatorJSVersion", new File("./als-node-client/node-package/")) #&&
+      Process(s"cp -r ../../als-server/js/node-package/typescript/als-server.d.ts ./typescript/als-node-client.d.ts", new File("./als-node-client/node-package/")) #&&
+      Process(s"sed -i.bk s/@aml-org\\/als-server/@aml-org\\/als-node-client/ als-node-client.d.ts", new File("./als-node-client/node-package/typescript/")) #&&
+      Process(s"rm als-node-client.d.ts.bk", new File("./als-node-client/node-package/typescript/")) #&&
+      Process("npm i", new File("./als-node-client/node-package/")) !
     },
 
     test in Test := ((test in Test) dependsOn npmIClient).value,

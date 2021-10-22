@@ -1,7 +1,5 @@
 package org.mulesoft.als.suggestions.test.aml
 
-import amf.ProfileName
-
 class DeclarationWithLibraryReferenceTest extends AMLSuggestionsTest {
   override def rootPath: String = "AML/declarations/with-library"
 

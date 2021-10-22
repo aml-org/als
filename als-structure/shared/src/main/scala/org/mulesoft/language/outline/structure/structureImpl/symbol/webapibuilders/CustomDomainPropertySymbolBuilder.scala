@@ -1,8 +1,8 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders
 
-import amf.core.metamodel.domain.extensions.CustomDomainPropertyModel
-import amf.core.model.domain.AmfElement
-import amf.core.model.domain.extensions.CustomDomainProperty
+import amf.core.client.scala.model.domain.AmfElement
+import amf.core.client.scala.model.domain.extensions.CustomDomainProperty
+import amf.core.internal.metamodel.domain.extensions.CustomDomainPropertyModel
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSimpleBuilderCompanion,
   SymbolBuilder

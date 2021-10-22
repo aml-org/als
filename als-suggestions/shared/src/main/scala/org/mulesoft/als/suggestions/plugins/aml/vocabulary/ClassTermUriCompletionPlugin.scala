@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.vocabulary
 
-import amf.core.model.document.{BaseUnit, DeclaresModel}
-import amf.plugins.document.vocabularies.model.domain.{ClassTerm, ObjectPropertyTerm}
+import amf.aml.client.scala.model.domain.{ClassTerm, ObjectPropertyTerm}
+import amf.core.client.scala.model.document.{BaseUnit, DeclaresModel}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin

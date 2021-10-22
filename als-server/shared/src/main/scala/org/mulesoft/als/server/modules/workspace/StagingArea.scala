@@ -1,17 +1,10 @@
 package org.mulesoft.als.server.modules.workspace
 
-import amf.internal.environment.Environment
 import org.mulesoft.als.common.SyncFunction
-import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.als.server.modules.ast.{
-  BaseUnitListenerParams,
-  CHANGE_FILE,
-  CLOSE_FILE,
-  NotificationKind,
-  OPEN_FILE,
-  WORKSPACE_TERMINATED
-}
+import org.mulesoft.als.logger.Logger
+import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.textsync.EnvironmentProvider
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 
 import scala.collection.mutable
 
@@ -46,25 +39,26 @@ class ResolverStagingArea extends StagingArea[BaseUnitListenerParams]
 class ParserStagingArea(environmentProvider: EnvironmentProvider, logger: Logger)
     extends StagingArea[NotificationKind] {
 
-  override def enqueue(file: String, kind: NotificationKind): Unit = synchronized {
-    logger.debug(s"enqueueing [${kind.kind} - $file]", "ParserStagingArea", "enqueue")
-    pending.get(file) match {
-      case Some(CHANGE_FILE) if kind == OPEN_FILE =>
-        logger.warning(s"file opened without closing $file", "ParserStagingArea", "enqueue")
-        super.enqueue(file, kind)
-      case Some(CLOSE_FILE) if kind == CHANGE_FILE =>
-        logger.warning(s"file changed after closing $file", "ParserStagingArea", "enqueue")
-        super.enqueue(file, kind)
-      case Some(CLOSE_FILE) if kind == OPEN_FILE =>
-        super.enqueue(file, CHANGE_FILE)
-      case _ => super.enqueue(file, kind)
-    }
-  }
+  override def enqueue(file: String, kind: NotificationKind): Unit =
+    sync(() => {
+      logger.debug(s"enqueueing [${kind.kind} - $file]", "ParserStagingArea", "enqueue")
+      pending.get(file) match {
+        case Some(CHANGE_FILE) if kind == OPEN_FILE =>
+          logger.warning(s"file opened without closing $file", "ParserStagingArea", "enqueue")
+          super.enqueue(file, kind)
+        case Some(CLOSE_FILE) if kind == CHANGE_FILE =>
+          logger.warning(s"file changed after closing $file", "ParserStagingArea", "enqueue")
+          super.enqueue(file, kind)
+        case Some(CLOSE_FILE) if kind == OPEN_FILE =>
+          super.enqueue(file, CHANGE_FILE)
+        case _ => super.enqueue(file, kind)
+      }
+    })
 
   override def shouldDie: Boolean = pending.values.toList.contains(WORKSPACE_TERMINATED)
 
   def snapshot(): Snapshot = synchronized {
-    val environment                              = environmentProvider.environmentSnapshot()
+    val environment                              = environmentProvider.amfConfigurationSnapshot()
     val actual: List[(String, NotificationKind)] = pending.toList
     pending.clear()
     Snapshot(environment, actual)
@@ -72,4 +66,4 @@ class ParserStagingArea(environmentProvider: EnvironmentProvider, logger: Logger
 
   def contains(uri: String): Boolean = pending.contains(uri)
 }
-case class Snapshot(environment: Environment, files: List[(String, NotificationKind)]) {}
+case class Snapshot(environment: AmfConfigurationWrapper, files: List[(String, NotificationKind)]) {}

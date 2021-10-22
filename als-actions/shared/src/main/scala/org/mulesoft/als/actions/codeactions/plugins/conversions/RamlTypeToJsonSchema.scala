@@ -1,9 +1,9 @@
 package org.mulesoft.als.actions.codeactions.plugins.conversions
 
-import amf.core.model.domain.extensions.PropertyShape
-import amf.core.parser.Annotations
-import amf.core.remote.Vendor
-import amf.plugins.domain.shapes.models.AnyShape
+import amf.core.client.scala.model.domain.extensions.PropertyShape
+import amf.core.internal.parser.domain.Annotations
+import amf.core.internal.remote.Spec
+import amf.shapes.client.scala.model.domain.AnyShape
 import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionFactory,
   CodeActionRequestParams,
@@ -11,6 +11,7 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
 }
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.FileExtractor
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.common.{Position, Range}
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.{
@@ -39,14 +40,14 @@ class RamlTypeToJsonSchema(override protected val params: CodeActionRequestParam
     } yield (uri, TextEdit(Range(Position(0, 0), Position(0, 0)), r))
 
   private def renderJsonSchema(shape: AnyShape): Future[String] = Future {
-    shape.buildJsonSchema()
+    params.amfConfiguration.buildJsonSchema(shape)
   }
 
   def inProperty: Boolean =
     maybeTree.exists(_.stack.exists(_.isInstanceOf[PropertyShape]))
 
   override lazy val isApplicable: Boolean =
-    params.bu.sourceVendor.contains(Vendor.RAML10) && !inProperty &&
+    params.bu.sourceSpec.contains(Spec.RAML10) && !inProperty &&
       maybeAnyShape.isDefined && (positionIsExtracted || maybeAnyShape.exists(isInlinedJsonSchema))
 
   protected def telemetry: TelemetryProvider = params.telemetryProvider
@@ -77,6 +78,8 @@ class RamlTypeToJsonSchema(override protected val params: CodeActionRequestParam
         }
       }
     }
+
+  override protected val amfConfiguration: AmfConfigurationWrapper = params.amfConfiguration
 }
 
 object RamlTypeToJsonSchema extends CodeActionFactory with RamlTypeToJsonSchemaKind {

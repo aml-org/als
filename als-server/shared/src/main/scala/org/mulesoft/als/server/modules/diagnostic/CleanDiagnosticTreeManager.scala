@@ -1,14 +1,12 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf.core.validation.AMFValidationResult
 import org.mulesoft.als.common.URIImplicits._
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.feature.diagnostic._
-import org.mulesoft.als.server.logger.Logger
 import org.mulesoft.als.server.textsync.EnvironmentProvider
-import org.mulesoft.amfintegration.ParserHelper
 import org.mulesoft.lsp.ConfigType
-import org.mulesoft.lsp.feature.{RequestHandler, TelemeteredRequestHandler}
+import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
@@ -63,21 +61,25 @@ class CleanDiagnosticTreeManager(telemetryProvider: TelemetryProvider,
   override def initialize(): Future[Unit] = Future.successful()
 
   def validate(uri: String): Future[Seq[AlsPublishDiagnosticsParams]] = {
-    val helper     = environmentProvider.amfConfiguration.modelBuilder()
+    val helper     = environmentProvider.amfConfiguration
     val refinedUri = uri.toAmfDecodedUri(environmentProvider.platform)
     helper
-      .parse(refinedUri, environmentProvider.environmentSnapshot(), None)
+      .parse(refinedUri)
       .flatMap(pr => {
         logger.debug(s"about to report: $uri", "RequestAMFFullValidationCommandExecutor", "runCommand")
-        val resolved = helper.fullResolution(pr.baseUnit, pr.eh)
-        ParserHelper.reportResolved(resolved).map(r => (r, pr))
+        val resolved = helper.fullResolution(pr.result.baseUnit)
+        helper.report(resolved.baseUnit).map(r => (r, pr, resolved.results))
       })
       .map { t =>
-        val profile                                    = t._1.profile
-        val list                                       = t._2.tree
-        val ge: Map[String, List[AMFValidationResult]] = t._2.groupedErrors
-        val report                                     = t._1
-        val grouped                                    = report.results.groupBy(r => r.location.getOrElse(uri))
+        val profile = t._1.profile
+        val list    = t._2.tree
+        val ge: Map[String, Seq[AlsValidationResult]] =
+          t._2.groupedErrors.map(t => (t._1, t._2.map(new AlsValidationResult(_))))
+        val report = t._1
+        val grouped: Map[String, Seq[AlsValidationResult]] =
+          (report.results ++ t._3)
+            .groupBy(r => r.location.getOrElse(uri))
+            .map(t => (t._1, t._2.map(new AlsValidationResult(_))))
 
         val merged = list.map(uri => uri -> (ge.getOrElse(uri, Nil) ++ grouped.getOrElse(uri, Nil))).toMap
         logger.debug(s"report conforms: ${report.conforms}", "RequestAMFFullValidationCommandExecutor", "runCommand")

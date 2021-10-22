@@ -2,7 +2,7 @@ package org.mulesoft.als.server.modules.common.reconciler
 
 import java.util.{Timer, TimerTask}
 
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -19,7 +19,7 @@ class Reconciler(logger: Logger,
   private var waitingList: ListBuffer[Runnable[Any]] = ListBuffer[Runnable[Any]]()
   private var runningList: ListBuffer[Runnable[Any]] = ListBuffer[Runnable[Any]]()
 
-  def schedule[ResultType](runnable: Runnable[ResultType]): Promise[ResultType] = {
+  def schedule[ResultType](runnable: Runnable[ResultType]): Promise[ResultType] = synchronized {
     val result = Promise[ResultType]()
 
     addToWaitingList(runnable)

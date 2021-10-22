@@ -1,11 +1,10 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders
 
-import amf.core.annotations.LexicalInformation
-import amf.core.metamodel.domain.DomainElementModel
-import amf.core.model.domain.{AmfElement, NamedDomainElement}
-import amf.plugins.document.webapi.annotations.{EndPointResourceTypeEntry, EndPointTraitEntry, OperationTraitEntry}
-import amf.plugins.domain.webapi.metamodel.OperationModel
-import amf.plugins.domain.webapi.models.Operation
+import amf.apicontract.client.scala.model.domain.Operation
+import amf.apicontract.internal.annotations.{EndPointResourceTypeEntry, EndPointTraitEntry, OperationTraitEntry}
+import amf.apicontract.internal.metamodel.domain.OperationModel
+import amf.core.client.scala.model.domain.{AmfElement, NamedDomainElement}
+import amf.core.internal.metamodel.domain.DomainElementModel
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
@@ -13,7 +12,6 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   SymbolBuilder
 }
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.NamedElementSymbolBuilderTrait
-import amf.core.parser.Range
 // if the annotations would be at the field, we could handle this in nwe interface
 trait ExtendsFatherSymbolBuilder[T <: NamedDomainElement] extends NamedElementSymbolBuilderTrait[T] {
   override protected def children: List[DocumentSymbol] = super.children ++ getExtendsChildren

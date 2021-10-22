@@ -35,6 +35,7 @@ import org.mulesoft.lsp.feature.telemetry.{
   TelemetryClientCapabilities,
   TelemetryMessage
 }
+import org.mulesoft.lsp.textsync.KnownDependencyScopes._
 import org.mulesoft.lsp.textsync._
 import org.mulesoft.lsp.workspace._
 import org.scalatest.{FlatSpec, Matchers}
@@ -313,7 +314,7 @@ class ClientConversionTest extends FlatSpec with Matchers {
   }
 
   it should "transform Diagnostic" in {
-    val d: Diagnostic        = Diagnostic(r, "message", Some(DiagnosticSeverity(1)), None, None, None, Seq(dri))
+    val d: Diagnostic        = Diagnostic(r, "message", Some(DiagnosticSeverity(1)), None, None, None, Some(Seq(dri)))
     val d1: ClientDiagnostic = d.toClient
     val d2: Diagnostic       = d1.toShared
 
@@ -323,6 +324,21 @@ class ClientConversionTest extends FlatSpec with Matchers {
     JSON.stringify(d1) should be(stringified)
 
     d should be(d2)
+  }
+
+  it should "transform Diagnostic with related information" in {
+    val d: Diagnostic        = Diagnostic(r, "message", Some(DiagnosticSeverity(1)), None, None, None, Some(Seq(dri)))
+    val d1: ClientDiagnostic = d.toClient
+    val d2: Diagnostic       = d1.toShared
+    d.relatedInformation should be(d2.relatedInformation)
+  }
+
+  it should "transform Diagnostic with empty related information" in {
+    val d: Diagnostic        = Diagnostic(r, "message", Some(DiagnosticSeverity(1)), None, None, None, None)
+    val d1: ClientDiagnostic = d.toClient
+    val d2: Diagnostic       = d1.toShared
+
+    d2.relatedInformation should be(None)
   }
 
   // end of diagnostics
@@ -538,12 +554,20 @@ class ClientConversionTest extends FlatSpec with Matchers {
 
   it should "transform DidChangeConfigurationNotificationParams" in {
     val ts: DidChangeConfigurationNotificationParams =
-      DidChangeConfigurationNotificationParams("uri", Set("dep1", "dep2"))
+      DidChangeConfigurationNotificationParams(
+        "uri",
+        Some("ws"),
+        Set(Left("dep1"), Right(DependencyConfiguration("dep2", DEPENDENCY)))
+          ++ Set(Right(DependencyConfiguration("p1", CUSTOM_VALIDATION)),
+                 Right(DependencyConfiguration("p2", CUSTOM_VALIDATION)))
+          ++ Set(Right(DependencyConfiguration("se1", SEMANTIC_EXTENSION)),
+                 Right(DependencyConfiguration("se2", SEMANTIC_EXTENSION)))
+      )
     val ts1: ClientDidChangeConfigurationNotificationParams = ts.toClient
     val ts2: DidChangeConfigurationNotificationParams       = ts1.toShared
 
-    val stringified = "{\"mainUri\":\"uri\",\"dependencies\":[\"dep1\",\"dep2\"]}"
-
+    val stringified =
+      """{"mainUri":"uri","folder":"ws","dependencies":[{"file":"p1","scope":"custom-validation"},{"file":"dep2","scope":"dependency"},"dep1",{"file":"p2","scope":"custom-validation"},{"file":"se2","scope":"semantic-extension"},{"file":"se1","scope":"semantic-extension"}]}"""
     JSON.stringify(ts1) should be(stringified)
 
     ts should be(ts2)

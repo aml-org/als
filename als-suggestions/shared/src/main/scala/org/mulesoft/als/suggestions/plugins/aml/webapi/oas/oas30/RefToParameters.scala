@@ -1,10 +1,10 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30
 
-import amf.core.annotations.DeclaredHeader
-import amf.core.model.domain.{DomainElement, NamedDomainElement}
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.domain.webapi.metamodel.ParameterModel
-import amf.plugins.domain.webapi.models.Parameter
+import amf.aml.client.scala.model.document.Dialect
+import amf.apicontract.client.scala.model.domain.Parameter
+import amf.apicontract.internal.metamodel.domain.ParameterModel
+import amf.core.client.scala.model.domain.{DomainElement, NamedDomainElement}
+import amf.core.internal.annotations.DeclaredHeader
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin

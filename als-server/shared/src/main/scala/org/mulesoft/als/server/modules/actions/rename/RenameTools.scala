@@ -1,18 +1,18 @@
 package org.mulesoft.als.server.modules.actions.rename
 
-import amf.core.model.document.Document
-import org.mulesoft.amfintegration.relationships.AliasRelationships
+import amf.core.client.scala.model.document.Document
 import org.mulesoft.als.common.YamlWrapper.AlsYScalarOps
-import org.mulesoft.als.common.{ObjectInTree, YPartBranch}
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.common.{ObjectInTree, YPartBranch}
 import org.mulesoft.als.server.modules.workspace.CompilableUnit
 import org.mulesoft.als.server.workspace.UnitWorkspaceManager
 import org.mulesoft.amfintegration.AmfImplicits.AmfObjectImp
 import org.mulesoft.amfintegration.dialect.dialects.metadialect.MetaDialect
+import org.mulesoft.amfintegration.relationships.AliasRelationships
 import org.yaml.model.YScalar
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 trait RenameTools {
   protected def branch(cu: CompilableUnit, position: Position, uri: String): YPartBranch =

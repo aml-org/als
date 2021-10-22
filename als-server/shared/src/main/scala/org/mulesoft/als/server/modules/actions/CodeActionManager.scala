@@ -1,20 +1,20 @@
 package org.mulesoft.als.server.modules.actions
 
-import java.util.UUID
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionFactory
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionParamsImpl.CodeActionParamsImpl
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
 import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.als.server.RequestModule
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.amfintegration.AmfInstance
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.codeactions._
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
+import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -22,7 +22,7 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
                         workspaceManager: WorkspaceManager,
                         configuration: AlsConfigurationReader,
                         telemetryProvider: TelemetryProvider,
-                        amfInstance: AmfInstance,
+                        amfConfiguration: AmfConfigurationWrapper,
                         private val logger: Logger,
                         directoryResolver: DirectoryResolver)
     extends RequestModule[CodeActionCapabilities, CodeActionOptions] {
@@ -55,7 +55,7 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
               allr,
               telemetryProvider,
               uuid,
-              amfInstance,
+              amfConfiguration,
               directoryResolver
             )
             Future.sequence {

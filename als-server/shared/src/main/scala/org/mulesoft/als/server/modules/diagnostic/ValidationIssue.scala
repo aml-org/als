@@ -26,10 +26,10 @@ case class ValidationIssue(code: String,
     toLspRange(range),
     text,
     Some(ValidationSeverity.toDiagnosticSeverity(`type`)),
-    Some(code),
+    if (code.isEmpty) None else Some(code),
     None,
     None,
-    trace
+    Some(trace)
   )
 
   override def equals(obj: Any): Boolean = {

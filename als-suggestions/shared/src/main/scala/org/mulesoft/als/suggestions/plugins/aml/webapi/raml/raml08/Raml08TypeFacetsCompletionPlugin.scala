@@ -1,13 +1,14 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml08
 
-import amf.core.annotations.Inferred
-import amf.core.metamodel.domain.ShapeModel
-import amf.core.model.domain.Shape
-import amf.core.parser.Value
-import amf.plugins.document.vocabularies.model.domain.NodeMapping
-import amf.plugins.domain.shapes.metamodel.ScalarShapeModel
-import amf.plugins.domain.shapes.models.{AnyShape, ScalarShape}
-import amf.plugins.domain.webapi.models.Payload
+import amf.aml.client.scala.model.domain.NodeMapping
+import amf.apicontract.client.scala.model.domain.Payload
+import amf.core.client.scala.model.domain.Shape
+import amf.core.internal.annotations.Inferred
+import amf.core.internal.metamodel.domain.ShapeModel
+import amf.core.internal.parser.domain.Value
+import amf.shapes.client.scala.model.domain.{AnyShape, ScalarShape}
+import amf.shapes.internal.annotations.TypePropertyLexicalInfo
+import amf.shapes.internal.domain.metamodel.ScalarShapeModel
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiTypeFacetsCompletionPlugin
@@ -56,7 +57,7 @@ object Raml08TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin
             Seq(RawSuggestion.forBoolKey("repeat", "schemas"))
           case _ => Nil
         }
-      case a: AnyShape if a.isDefaultEmpty =>
+      case a: AnyShape if a.isNotExplicit =>
         Seq(RawSuggestion.forBoolKey("repeat", "schemas"))
       case _ => Nil
     }

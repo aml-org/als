@@ -1,11 +1,11 @@
 package org.mulesoft.amfintegration.dialect.dialects.raml.raml10
 
-import amf.core.metamodel.domain.ShapeModel
-import amf.core.metamodel.domain.extensions.PropertyShapeModel
-import amf.core.vocabulary.Namespace.XsdTypes.{amlAnyNode, amlLink, xsdBoolean, xsdString}
-import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
-import amf.plugins.domain.shapes.metamodel.{AnyShapeModel, ArrayShapeModel, XMLSerializerModel}
-import amf.plugins.domain.webapi.metamodel.api.WebApiModel
+import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
+import amf.apicontract.internal.metamodel.domain.api.WebApiModel
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{amlAnyNode, amlLink, xsdBoolean, xsdString}
+import amf.core.internal.metamodel.domain.ShapeModel
+import amf.core.internal.metamodel.domain.extensions.PropertyShapeModel
+import amf.shapes.internal.domain.metamodel.{AnyShapeModel, ArrayShapeModel, XMLSerializerModel}
 import org.mulesoft.amfintegration.dialect.dialects.raml.RamlDialectNodes
 
 object Raml10DialectNodes extends RamlDialectNodes {

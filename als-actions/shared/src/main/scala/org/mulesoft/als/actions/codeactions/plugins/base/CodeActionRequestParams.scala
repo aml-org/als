@@ -1,18 +1,15 @@
 package org.mulesoft.als.actions.codeactions.plugins.base
 
-import amf.core.model.document.BaseUnit
-import amf.plugins.document.vocabularies.model.document.Dialect
-import org.mulesoft.amfintegration.relationships.RelationshipLink
+import amf.aml.client.scala.model.document.Dialect
+import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.cache.{ObjectInTreeCached, YPartBranchCached}
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.configuration.AlsConfigurationReader
-import org.mulesoft.amfintegration.AmfInstance
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.amfintegration.relationships.RelationshipLink
 import org.mulesoft.lsp.feature.codeactions.CodeActionParams
-import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
-
-import scala.concurrent.Future
 
 case class CodeActionRequestParams(uri: String,
                                    range: PositionRange,
@@ -24,7 +21,7 @@ case class CodeActionRequestParams(uri: String,
                                    allRelationships: Seq[RelationshipLink],
                                    telemetryProvider: TelemetryProvider,
                                    uuid: String,
-                                   amfInstance: AmfInstance,
+                                   amfConfiguration: AmfConfigurationWrapper,
                                    directoryResolver: DirectoryResolver)
 
 object CodeActionParamsImpl {
@@ -37,7 +34,7 @@ object CodeActionParamsImpl {
                         allRelationships: Seq[RelationshipLink],
                         telemetryProvider: TelemetryProvider,
                         uuid: String,
-                        amfInstance: AmfInstance,
+                        amfConfiguration: AmfConfigurationWrapper,
                         directoryResolver: DirectoryResolver): CodeActionRequestParams =
       CodeActionRequestParams(
         param.textDocument.uri,
@@ -50,7 +47,7 @@ object CodeActionParamsImpl {
         allRelationships,
         telemetryProvider,
         uuid,
-        amfInstance,
+        amfConfiguration,
         directoryResolver
       )
   }

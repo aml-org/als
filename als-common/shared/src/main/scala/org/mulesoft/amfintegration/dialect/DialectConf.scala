@@ -1,6 +1,6 @@
 package org.mulesoft.amfmanager.dialect
 
-import amf.ProfileName
+import amf.core.client.common.validation.ProfileName
 
 trait DialectConf {
   val files: Map[String, String]

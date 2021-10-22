@@ -4,7 +4,7 @@ import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.server.textsync.{TextDocument, TextDocumentContainer}
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.als.suggestions.patcher.PatchedContent
-import org.mulesoft.amfintegration.AmfParseResult
+import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, AmfParseResult}
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemeteredTask, TelemetryProvider}
 
@@ -16,18 +16,15 @@ class TelemeteredPatchedParse(telemetryProvider: TelemetryProvider)
   override protected def telemetry: TelemetryProvider = telemetryProvider
 
   override protected def task(params: PatchedParseParams): Future[AmfParseResult] = {
-    val patchedEnvironment: TextDocumentContainer =
-      params.editorEnvironment.patchUri(params.uri, params.text)
     params.workspace.getUnit(params.uri, params.uuid).flatMap { bu =>
-      params.editorEnvironment.amfConfiguration
-        .modelBuilder()
-        .parse(
-          params.uri.toAmfDecodedUri(params.editorEnvironment.platform),
-          patchedEnvironment.environment
-            .withResolver(CompletionReferenceResolver(bu.unit))
-            .withLoaders(patchedEnvironment.environment.loaders ++ params.editorEnvironment.environment.loaders),
-          bu.workspaceConfiguration
-        )
+      val newAmfConfiguration = bu.amfConfiguration.branch
+
+      newAmfConfiguration.withResourceLoader(
+        AmfConfigurationWrapper.resourceLoaderForFile(params.uri, params.text.text)
+      )
+      newAmfConfiguration.useCache(CompletionReferenceResolver(bu.unit))
+      newAmfConfiguration
+        .parse(params.uri.toAmfDecodedUri(params.editorEnvironment.platform))
     }
   }
 

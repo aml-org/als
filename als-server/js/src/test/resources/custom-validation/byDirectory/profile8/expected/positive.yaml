@@ -1,0 +1,8 @@
+uri: file://als-server/js/src/test/resources/custom-validation/byDirectory/profile8/positive.data
+diagnostics:
+  -
+    message: API title is mandatory
+    range: Range(common.Position[L:2,C:0],common.Position[L:7,C:10])
+    severity: Error
+    code: http://a.ml/vocabularies/amf/parser#WebAPI-name-minCount
+    relatedInformation: []

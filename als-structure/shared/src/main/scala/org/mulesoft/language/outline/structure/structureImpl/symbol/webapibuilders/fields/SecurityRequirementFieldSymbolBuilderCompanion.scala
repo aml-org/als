@@ -1,7 +1,7 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields
 
-import amf.plugins.domain.webapi.metamodel.security.SecurityRequirementModel
-import amf.plugins.domain.webapi.models.security.SecurityRequirement
+import amf.apicontract.client.scala.model.domain.security.SecurityRequirement
+import amf.apicontract.internal.metamodel.domain.security.SecurityRequirementModel
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSimpleBuilderCompanion,
   StructuredSymbolBuilder,

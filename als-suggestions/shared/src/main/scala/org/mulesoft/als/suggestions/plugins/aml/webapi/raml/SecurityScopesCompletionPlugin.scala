@@ -1,9 +1,13 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.core.model.domain.{AmfArray, AmfObject}
-import amf.core.parser.{FieldEntry, Value}
-import amf.plugins.domain.webapi.metamodel.security.{OAuth2FlowModel, OAuth2SettingsModel}
-import amf.plugins.domain.webapi.models.security.{OAuth2Flow, OAuth2Settings, ParametrizedSecurityScheme, Scope}
+import amf.apicontract.client.scala.model.domain.security.{
+  OAuth2Flow,
+  OAuth2Settings,
+  ParametrizedSecurityScheme,
+  Scope
+}
+import amf.apicontract.internal.metamodel.domain.security.OAuth2FlowModel
+import amf.core.client.scala.model.domain.AmfObject
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin

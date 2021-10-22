@@ -2,6 +2,7 @@ package org.mulesoft.als.server.protocol.configuration
 
 import org.mulesoft.als.server.protocol.actions.ClientRenameFileActionServerOptions
 import org.mulesoft.als.server.protocol.convert.LspConvertersSharedToClient._
+import org.mulesoft.als.server.protocol.diagnostic.ClientCustomValidationOptions
 import org.mulesoft.lsp.configuration.{ClientStaticRegistrationOptions, ClientWorkspaceServerCapabilities}
 import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
 import org.mulesoft.lsp.feature.codeactions.ClientCodeActionOptions
@@ -33,13 +34,15 @@ trait ClientAlsServerCapabilities extends js.Object {
   def cleanDiagnosticTree: UndefOr[ClientCleanDiagnosticTreeOptions]             = js.native
   def fileUsage: UndefOr[ClientFileUsageOptions]                                 = js.native
   def conversion: UndefOr[ClientConversionOptions]                               = js.native
-  def documentHighlightProvider: UndefOr[Boolean]
-  def hoverProvider: UndefOr[Boolean]                                = js.native
-  def foldingRangeProvider: UndefOr[Boolean]                         = js.native
-  def renameFileAction: UndefOr[ClientRenameFileActionServerOptions] = js.native
-  def selectionRangeProvider: UndefOr[Boolean]                       = js.native
-  def documentFormattingProvider: UndefOr[Boolean]                   = js.native
-  def documentRangeFormattingProvider: UndefOr[Boolean]              = js.native
+  def documentHighlightProvider: UndefOr[Boolean]                                = js.native
+  def hoverProvider: UndefOr[Boolean]                                            = js.native
+  def foldingRangeProvider: UndefOr[Boolean]                                     = js.native
+  def renameFileAction: UndefOr[ClientRenameFileActionServerOptions]             = js.native
+  def selectionRangeProvider: UndefOr[Boolean]                                   = js.native
+  def documentFormattingProvider: UndefOr[Boolean]                               = js.native
+  def documentRangeFormattingProvider: UndefOr[Boolean]                          = js.native
+  def workspaceConfiguration: UndefOr[ClientWorkspaceConfigurationServerOptions] = js.native
+  def customValidations: UndefOr[ClientCustomValidationOptions]                  = js.native
 }
 
 object ClientAlsServerCapabilities {
@@ -97,7 +100,9 @@ object ClientAlsServerCapabilities {
         documentRangeFormattingProvider = internal.documentRangeFormattingProvider
           .map(eitherToUnionWithMapping(_.booleanValue(), _.toClient))
           .orUndefined
-          .asInstanceOf[js.Any]
+          .asInstanceOf[js.Any],
+        workspaceConfiguration = internal.workspaceConfiguration.map(_.toClient).orUndefined,
+        customValidations = internal.customValidations.map(_.toClient).orUndefined
       )
       .asInstanceOf[ClientAlsServerCapabilities]
 }

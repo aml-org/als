@@ -1,6 +1,6 @@
 package org.mulesoft.als.common.diff
 
-import amf.core.unsafe.PlatformSecrets
+import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.common.io.{AsyncFile, FileSystem}
 import org.scalatest.Assertion
 
@@ -13,7 +13,8 @@ trait FileAssertionTest extends PlatformSecrets {
   protected lazy val fs: FileSystem = platform.fs
 
   protected def writeTemporaryFile(golden: String)(content: String): Future[AsyncFile] = {
-    val file   = tmp(s"${golden.stripPrefix("file://")
+    val file = tmp(s"${golden
+      .stripPrefix("file://")
       .replaceAllLiterally(fs.separatorChar.toString, "/")
       .replaceAllLiterally("/", "-")}.tmp")
     val actual = fs.asyncFile(file)

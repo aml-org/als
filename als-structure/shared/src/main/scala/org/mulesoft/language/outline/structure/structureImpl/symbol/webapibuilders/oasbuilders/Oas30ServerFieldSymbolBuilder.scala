@@ -1,10 +1,11 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.oasbuilders
 
-import amf.core.model.domain.{AmfArray, AmfObject}
-import amf.core.parser.FieldEntry
-import amf.plugins.domain.webapi.metamodel.ServerModel
-import amf.plugins.domain.webapi.metamodel.api.WebApiModel
+import amf.apicontract.internal.metamodel.domain.ServerModel
+import amf.apicontract.internal.metamodel.domain.api.WebApiModel
+import amf.core.client.scala.model.domain.{AmfArray, AmfObject}
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.language.outline.structure.structureImpl._
+import org.mulesoft.language.outline.structure.structureImpl.symbol.ChildrenCollector
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.ArrayFieldTypeSymbolBuilderCompanion
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldTypeSymbolBuilder,
@@ -24,15 +25,13 @@ object ServerArrayFieldSymbolBuilderCompanion
 
 class ServerArrayFieldSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
     override implicit val ctx: StructureContext)
-    extends DefaultArrayFieldTypeSymbolBuilder(value, element) {
+    extends DefaultArrayFieldTypeSymbolBuilder(value, element)
+    with ChildrenCollector {
   override def name: String = "servers"
 
   override protected val children: List[DocumentSymbol] =
     if (hasValueWithName(value))
-      value.values
-        .collect({ case obj: AmfObject => obj })
-        .flatMap(o => ctx.factory.builderFor(o).map(_.build()).getOrElse(Nil))
-        .toList
+      collectChildren(value)
     else Nil
 
   private def hasValueWithName(value: AmfArray): Boolean =

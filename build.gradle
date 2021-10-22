@@ -52,7 +52,7 @@ repositories {
 }
 
 dependencies {
-    compile "com.github.amlorg:amf-client_2.12:${deps.amf}"
+    compile "com.github.amlorg:amf-api-contract_2.12:${deps.amf}"
     compile "com.chuusai:shapeless_2.12:2.3.3"
 }
 

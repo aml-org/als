@@ -1,0 +1,56 @@
+#%RAML 1.0
+
+title: Test API
+
+/endpoint1:
+  patch:
+    queryParameters:
+      a:
+        minLength: 10
+    body:
+      application/json:
+        properties:
+          b:
+  get:
+    queryParameters:
+      a:
+        minLength: 10
+    body:
+      application/json:
+        properties:
+          b:
+/endpoint2:
+  put:
+    queryParameters:
+      a:
+        minLength: 10
+    body:
+      application/json:
+        properties:
+          b:
+  get:
+    queryParameters:
+      a:
+        minLength: 10
+    body:
+      application/json:
+        properties:
+          b:
+
+/endpoint3:
+  get:
+    queryParameters:
+      a:
+        minLength: 10
+    body:
+      application/json:
+        properties:
+          b:
+  post:
+    queryParameters:
+      a:
+        minLength: 10
+    body:
+      application/json:
+        properties:
+          b:

@@ -1,0 +1,20 @@
+uri: file://als-server/js/src/test/resources/custom-validation/byDirectory/profile1/negative.data
+diagnostics:
+  -
+    message: Scalars in parameters must have minLength defined
+    range: Range(common.Position[L:7,C:6],common.Position[L:8,C:0])
+    severity: Error
+    code: file://als-server/js/src/test/resources/custom-validation/byDirectory/profile1/profile.yaml#/encodes/validations/scalar-parameters
+    relatedInformation:
+      -
+        message: Error expected 1 >= actual (actual=0) at shapes.schema / shacl.minLength
+        location: Location(file://als-server/js/src/test/resources/custom-validation/byDirectory/profile1/negative.data,Range(common.Position[L:7,C:6],common.Position[L:8,C:0]))
+  -
+    message: Scalars in parameters must have minLength defined
+    range: Range(common.Position[L:17,C:6],common.Position[L:17,C:8])
+    severity: Error
+    code: file://als-server/js/src/test/resources/custom-validation/byDirectory/profile1/profile.yaml#/encodes/validations/scalar-parameters
+    relatedInformation:
+      -
+        message: Error expected 1 >= actual (actual=0) at shapes.schema / shacl.minLength
+        location: Location(file://als-server/js/src/test/resources/custom-validation/byDirectory/profile1/negative.data,Range(common.Position[L:17,C:6],common.Position[L:17,C:8]))

@@ -1,0 +1,9 @@
+uri: file://als-server/js/src/test/resources/custom-validation/byDirectory/trace-composed/negative.data
+diagnostics:
+  -
+    message: |
+      Only get with 200 and post operations are allowed
+    range: Range(common.Position[L:4,C:2],common.Position[L:8,C:0])
+    severity: Error
+    code: file://als-server/js/src/test/resources/custom-validation/byDirectory/trace-composed/profile.yaml#/encodes/validations/trace-composed
+    relatedInformation: []

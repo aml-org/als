@@ -5,7 +5,7 @@ import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.RequestModule
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.configuration.ConfigurationProvider
 import org.mulesoft.als.server.textsync.{TextDocument, TextDocumentContainer}
 import org.mulesoft.als.server.workspace.WorkspaceManager
@@ -31,11 +31,8 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
 
   private var conf: Option[CompletionClientCapabilities] = None
 
-  private val suggestions = new Suggestions(editorEnvironment.platform,
-                                            editorEnvironment.environment,
-                                            configurationProvider.getConfiguration,
-                                            directoryResolver,
-                                            editorEnvironment.amfConfiguration)
+  private val suggestions =
+    new Suggestions(configurationProvider.getConfiguration, directoryResolver)
   private def snippetSupport =
     conf
       .getOrElse(CompletionClientCapabilities(contextSupport = None))

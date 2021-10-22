@@ -1,8 +1,8 @@
 package org.mulesoft.als.common
 
-import amf.core.model.document.BaseUnit
-import amf.core.parser.{Position => AmfPosition}
-import amf.core.remote.FileMediaType
+import amf.core.client.common.position.{Position => AmfPosition}
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.internal.remote.FileMediaType
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.lexer.InputRange
 import org.yaml.model.{YMap, YMapEntry, YNode, YNonContent, YPart, YScalar}

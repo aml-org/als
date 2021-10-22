@@ -1,0 +1,133 @@
+{
+  "@context": {
+    "actual": {
+      "@id": "http://a.ml/vocabularies/validation#actual"
+    },
+    "argument": {
+      "@id": "http://a.ml/vocabularies/validation#argument"
+    },
+    "column": {
+      "@id": "http://a.ml/vocabularies/lexical#column"
+    },
+    "component": {
+      "@id": "http://a.ml/vocabularies/validation#component"
+    },
+    "condition": {
+      "@id": "http://a.ml/vocabularies/validation#condition"
+    },
+    "conforms": {
+      "@id": "http://www.w3.org/ns/shacl#conforms"
+    },
+    "end": {
+      "@id": "http://a.ml/vocabularies/lexical#end"
+    },
+    "expected": {
+      "@id": "http://a.ml/vocabularies/validation#expected"
+    },
+    "focusNode": {
+      "@id": "http://www.w3.org/ns/shacl#focusNode"
+    },
+    "lexical": "http://a.ml/vocabularies/lexical#",
+    "line": {
+      "@id": "http://a.ml/vocabularies/lexical#line"
+    },
+    "location": {
+      "@id": "http://a.ml/vocabularies/validation#location"
+    },
+    "negated": {
+      "@id": "http://a.ml/vocabularies/validation#negated"
+    },
+    "range": {
+      "@id": "http://a.ml/vocabularies/lexical#range"
+    },
+    "result": {
+      "@id": "http://www.w3.org/ns/shacl#result"
+    },
+    "resultMessage": {
+      "@id": "http://www.w3.org/ns/shacl#resultMessage"
+    },
+    "resultPath": {
+      "@id": "http://www.w3.org/ns/shacl#resultPath"
+    },
+    "resultSeverity": {
+      "@id": "http://www.w3.org/ns/shacl#resultSeverity"
+    },
+    "shacl": "http://www.w3.org/ns/shacl#",
+    "sourceShapeName": {
+      "@id": "http://a.ml/vocabularies/validation#sourceShapeName"
+    },
+    "start": {
+      "@id": "http://a.ml/vocabularies/lexical#start"
+    },
+    "subResult": {
+      "@id": "http://a.ml/vocabularies/validation#subResult"
+    },
+    "trace": {
+      "@id": "http://a.ml/vocabularies/validation#trace"
+    },
+    "traceValue": {
+      "@id": "http://www.w3.org/ns/shacl#traceValue"
+    },
+    "uri": {
+      "@id": "http://a.ml/vocabularies/lexical#uri"
+    },
+    "validation": "http://a.ml/vocabularies/validation#"
+  },
+  "@type": "shacl:ValidationReport",
+  "conforms": false,
+  "result": [
+    {
+      "@type": [
+        "shacl:ValidationResult"
+      ],
+      "focusNode": {
+        "@id": "amf://id#1"
+      },
+      "resultMessage": "Min length must be less than max length must match in scalar",
+      "resultSeverity": {
+        "@id": "http://www.w3.org/ns/shacl#Violation"
+      },
+      "sourceShapeName": "validation1",
+      "trace": [
+        {
+          "@type": [
+            "validation:TraceMessage"
+          ],
+          "component": "lessThan",
+          "location": {
+            "@type": [
+              "lexical:Location"
+            ],
+            "range": {
+              "@type": [
+                "lexical:Range"
+              ],
+              "end": {
+                "@type": [
+                  "lexical:Position"
+                ],
+                "column": 0,
+                "line": 13
+              },
+              "start": {
+                "@type": [
+                  "lexical:Position"
+                ],
+                "column": 4,
+                "line": 8
+              }
+            },
+            "uri": ""
+          },
+          "resultPath": "shacl.minLength",
+          "traceValue": {
+            "actual": 100,
+            "condition": "<",
+            "expected": 500,
+            "negated": false
+          }
+        }
+      ]
+    }
+  ]
+}

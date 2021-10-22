@@ -1,8 +1,8 @@
 package org.mulesoft.amfintegration.dialect.dialects.metadialect
 
-import amf.core.vocabulary.Namespace.XsdTypes.xsdUri
-import amf.plugins.document.vocabularies.metamodel.domain.ObjectPropertyTermModel
-import amf.plugins.document.vocabularies.model.domain.PropertyMapping
+import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.aml.internal.metamodel.domain.ObjectPropertyTermModel
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdUri
 
 object ObjectPropertyTermNode extends TermObjectNode {
   override def name: String = "ObjectPropertyTermNode"

@@ -1,0 +1,15 @@
+#%RAML 1.0
+
+title: Test API
+
+/endpoint:
+  get:
+    responses:
+      200:
+      300:
+      400:
+      401:
+      500:
+  post:
+    responses:
+      201:

@@ -35,23 +35,26 @@ documentChanges:
               "properties": {
                 "members": {
                   "items": {
-                    "description": "my schema",
-                    "type": "object",
-                    "additionalProperties": true,
-                    "required": [
-                      "name",
-                      "age"
-                    ],
-                    "properties": {
-                      "name": {
-                        "type": "string"
-                      },
-                      "age": {
-                        "type": "number"
-                      }
-                    }
+                    "$ref": "#/definitions/Person"
                   },
                   "type": "array"
+                }
+              }
+            },
+            "Person": {
+              "description": "my schema",
+              "type": "object",
+              "additionalProperties": true,
+              "required": [
+                "name",
+                "age"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "age": {
+                  "type": "number"
                 }
               }
             }

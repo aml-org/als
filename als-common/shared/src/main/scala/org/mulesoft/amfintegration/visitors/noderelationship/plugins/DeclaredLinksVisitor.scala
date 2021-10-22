@@ -1,12 +1,12 @@
 package org.mulesoft.amfintegration.visitors.noderelationship.plugins
 
-import amf.core.annotations.DeclaredElement
-import amf.core.metamodel.domain.{LinkableElementModel, ShapeModel}
-import amf.core.model.document.BaseUnit
-import amf.core.model.domain.{AmfArray, AmfElement, AmfObject}
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.domain.webapi.models.security.SecurityRequirement
-import org.mulesoft.amfintegration.AmfImplicits._
+import amf.aml.client.scala.model.document.Dialect
+import amf.apicontract.client.scala.model.domain.security.SecurityRequirement
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.model.domain.{AmfArray, AmfElement, AmfObject}
+import amf.core.internal.annotations.DeclaredElement
+import amf.core.internal.metamodel.domain.{LinkableElementModel, ShapeModel}
+import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.amfintegration.relationships.RelationshipLink
 import org.mulesoft.amfintegration.visitors.AmfElementVisitorFactory
 import org.mulesoft.amfintegration.visitors.noderelationship.NodeRelationshipVisitorType
@@ -43,7 +43,7 @@ class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
           .ast()
           .map(sourceAST => RelationshipLink(sourceAST, triple._3, getName(triple._2), getName(triple._1))))
 
-  private def extractInherits(obj: AmfObject) =
+  private def extractInherits(obj: AmfObject): Seq[RelationshipLink] =
     obj.fields
       .entry(ShapeModel.Inherits)
       .flatMap { fe =>

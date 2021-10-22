@@ -1,20 +1,20 @@
 package org.mulesoft.als.server.modules
 
-import amf.core.remote.Platform
-import amf.core.unsafe.PlatformSecrets
-import amf.internal.environment.Environment
+import amf.core.client.scala.resource.ResourceLoader
+import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.actions.codeactions.plugins.AllCodeActions
 import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
 import org.mulesoft.als.server.SerializationProps
 import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.actions._
 import org.mulesoft.als.server.modules.actions.fileusage.FindFileUsageManager
 import org.mulesoft.als.server.modules.actions.rename.RenameManager
 import org.mulesoft.als.server.modules.ast.{AccessUnits, BaseUnitListener, ResolvedUnitListener}
 import org.mulesoft.als.server.modules.completion.SuggestionsManager
-import org.mulesoft.als.server.modules.configuration.ConfigurationManager
+import org.mulesoft.als.server.modules.configuration.{ConfigurationManager, WorkspaceConfigurationManager}
 import org.mulesoft.als.server.modules.diagnostic._
+import org.mulesoft.als.server.modules.diagnostic.custom.{AMFOpaValidator, CustomValidationManager}
 import org.mulesoft.als.server.modules.serialization.{ConversionManager, SerializationManager}
 import org.mulesoft.als.server.modules.structure.StructureManager
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
@@ -22,33 +22,30 @@ import org.mulesoft.als.server.modules.workspace.resolution.ResolutionTaskManage
 import org.mulesoft.als.server.modules.workspace.{CompilableUnit, FilesInProjectManager}
 import org.mulesoft.als.server.textsync.{TextDocumentContainer, TextDocumentManager}
 import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.amfintegration.{AmfInstance, AmfResolvedUnit}
+import org.mulesoft.amfintegration.AmfResolvedUnit
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 
 import scala.collection.mutable.ListBuffer
 
-class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Logger, env: Environment = Environment())
+class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Logger, rs: Seq[ResourceLoader] = Nil)
     extends PlatformSecrets {
 
-  private var amfConfig: AmfInstance                        = AmfInstance.default
+  private var amfConfiguration: AmfConfigurationWrapper     = AmfConfigurationWrapper.buildSync(rs)
   private var notificationKind: DiagnosticNotificationsKind = ALL_TOGETHER
-  private var givenPlatform                                 = platform
   private var directoryResolver: DirectoryResolver =
     new PlatformDirectoryResolver(platform)
 
-  val configurationManager: ConfigurationManager = new ConfigurationManager()
+  def getConfig: AmfConfigurationWrapper = amfConfiguration
 
-  def withAmfConfiguration(amfConfig: AmfInstance): WorkspaceManagerFactoryBuilder = {
-    this.amfConfig = amfConfig
+  def withAmfConfiguration(amfConfig: AmfConfigurationWrapper): WorkspaceManagerFactoryBuilder = {
+    this.amfConfiguration = amfConfig
     this
   }
+
+  val configurationManager: ConfigurationManager = new ConfigurationManager()
 
   def withNotificationKind(nk: DiagnosticNotificationsKind): WorkspaceManagerFactoryBuilder = {
     notificationKind = nk
-    this
-  }
-
-  def withPlatform(p: Platform): WorkspaceManagerFactoryBuilder = {
-    givenPlatform = p
     this
   }
 
@@ -64,18 +61,28 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Log
     new TelemetryManager(clientNotifier, logger)
 
   def serializationManager[S](sp: SerializationProps[S]): SerializationManager[S] = {
-    val s = new SerializationManager(telemetryManager, configurationManager.getConfiguration, sp, logger)
+    val s =
+      new SerializationManager(telemetryManager, amfConfiguration, configurationManager.getConfiguration, sp, logger)
     resolutionDependencies += s
     s
   }
 
-  def diagnosticManager(): Seq[DiagnosticManager] = {
+  def buildDiagnosticManagers(customValidator: Option[AMFOpaValidator] = None): Seq[BasicDiagnosticManager[_, _]] = {
     val gatherer = new ValidationGatherer(telemetryManager)
-    val dm       = new ParseDiagnosticManager(telemetryManager, clientNotifier, logger, env, gatherer, notificationKind)
-    val rdm      = new ResolutionDiagnosticManager(telemetryManager, clientNotifier, logger, env, gatherer)
+    val dm =
+      new ParseDiagnosticManager(telemetryManager,
+                                 clientNotifier,
+                                 logger,
+                                 amfConfiguration,
+                                 gatherer,
+                                 notificationKind)
+    val rdm = new ResolutionDiagnosticManager(telemetryManager, clientNotifier, logger, gatherer, amfConfiguration)
+    val cvm = customValidator.map(
+      new CustomValidationManager(telemetryManager, clientNotifier, logger, gatherer, _, amfConfiguration))
+    cvm.foreach(resolutionDependencies += _)
     resolutionDependencies += rdm
     projectDependencies += dm
-    Seq(dm, rdm)
+    Seq(Some(dm), Some(rdm), cvm).flatten
   }
 
   def filesInProjectManager(alsClientNotifier: AlsClientNotifier[_]): FilesInProjectManager = {
@@ -88,29 +95,25 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Log
     WorkspaceManagerFactory(projectDependencies.toList,
                             resolutionDependencies.toList,
                             telemetryManager,
-                            env,
-                            platform,
                             directoryResolver,
                             logger,
-                            amfConfig,
+                            amfConfiguration,
                             configurationManager)
 }
 
 case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
                                    resolutionDependencies: List[ResolvedUnitListener],
                                    telemetryManager: TelemetryManager,
-                                   environment: Environment,
-                                   platform: Platform,
                                    directoryResolver: DirectoryResolver,
                                    logger: Logger,
-                                   amfConfiguration: AmfInstance,
+                                   amfConfiguration: AmfConfigurationWrapper,
                                    configurationManager: ConfigurationManager) {
   val container: TextDocumentContainer =
-    TextDocumentContainer(environment, platform, amfConfiguration)
+    TextDocumentContainer(amfConfiguration)
 
   val cleanDiagnosticManager = new CleanDiagnosticTreeManager(telemetryManager, container, logger)
 
-  val resolutionTaskManager = new ResolutionTaskManager(
+  val resolutionTaskManager: ResolutionTaskManager = ResolutionTaskManager(
     telemetryManager,
     logger,
     container,
@@ -124,7 +127,7 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
   private val dependencies: List[BaseUnitListener] = projectDependencies :+ resolutionTaskManager
 
   val workspaceManager: WorkspaceManager =
-    new WorkspaceManager(
+    WorkspaceManager(
       container,
       telemetryManager,
       dependencies,
@@ -158,7 +161,7 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
   lazy val typeDefinitionManager =
     new GoToTypeDefinitionManager(workspaceManager, telemetryManager, logger)
 
-  lazy val hoverManager = new HoverManager(workspaceManager, amfConfiguration, telemetryManager)
+  lazy val hoverManager = new HoverManager(workspaceManager, telemetryManager)
 
   lazy val referenceManager =
     new FindReferenceManager(workspaceManager, telemetryManager, logger)
@@ -167,19 +170,23 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
     new FindFileUsageManager(workspaceManager, telemetryManager, logger)
 
   lazy val documentLinksManager =
-    new DocumentLinksManager(workspaceManager, telemetryManager, platform, logger)
+    new DocumentLinksManager(workspaceManager, telemetryManager, logger)
 
   lazy val renameManager =
-    new RenameManager(workspaceManager, telemetryManager, logger, configurationManager.getConfiguration, platform)
+    new RenameManager(workspaceManager,
+                      telemetryManager,
+                      logger,
+                      configurationManager.getConfiguration,
+                      amfConfiguration.platform)
 
   lazy val conversionManager =
     new ConversionManager(workspaceManager, telemetryManager, amfConfiguration, logger)
 
   lazy val documentHighlightManager =
-    new DocumentHighlightManager(workspaceManager, telemetryManager, platform, logger)
+    new DocumentHighlightManager(workspaceManager, telemetryManager, logger)
 
   lazy val foldingRangeManager =
-    new FoldingRangeManager(workspaceManager, telemetryManager, platform, logger)
+    new FoldingRangeManager(workspaceManager, telemetryManager, logger)
 
   lazy val selectionRangeManager =
     new SelectionRangeManager(workspaceManager, telemetryManager, logger)
@@ -189,7 +196,7 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
                                 telemetryManager,
                                 logger,
                                 configurationManager.getConfiguration,
-                                platform)
+                                amfConfiguration.platform)
 
   lazy val codeActionManager: CodeActionManager =
     new CodeActionManager(AllCodeActions.all,
@@ -212,4 +219,8 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
         s.withUnitAccessor(resolutionTaskManager) // is this redundant with the initialization of workspace manager?
         s
     })
+
+  lazy val workspaceConfigurationManager: WorkspaceConfigurationManager =
+    new WorkspaceConfigurationManager(workspaceManager, telemetryManager, logger)
+
 }

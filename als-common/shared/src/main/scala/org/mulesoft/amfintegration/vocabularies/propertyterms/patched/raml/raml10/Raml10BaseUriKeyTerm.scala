@@ -1,6 +1,6 @@
 package org.mulesoft.amfintegration.vocabularies.propertyterms.patched.raml.raml10
 
-import amf.plugins.domain.webapi.metamodel.ServerModel
+import amf.apicontract.internal.metamodel.domain.ServerModel
 import org.mulesoft.amfintegration.vocabularies.propertyterms.patched.raml.RamlBaseUriParameterKeyTerm
 
 object Raml10BaseUriKeyTerm extends RamlBaseUriParameterKeyTerm with Raml10PatchedKeyTerm {

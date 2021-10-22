@@ -1,11 +1,14 @@
 package org.mulesoft.als.suggestions.aml.webapi
 
-import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.aml.client.scala.model.document.Dialect
 import org.mulesoft.als.suggestions.AMLBaseCompletionPlugins
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml._
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10._
-import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10.structure.ResolveShapeAndSecurity
+import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10.structure.{
+  ResolveShapeAndSecurity,
+  Raml10NullCompletionPlugin
+}
 import org.mulesoft.als.suggestions.plugins.aml.webapi.{
   ObjectExamplePropertiesCompletionPlugin,
   RamlParametersCompletionPlugin,
@@ -53,7 +56,9 @@ object RamlCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
       UnitDocumentationFacet :+
       DefaultVariablesAbstractDefinition :+
       WebApiKnownValueCompletionPlugin :+
-      RamlEnumCompletionPlugin
+      RamlEnumCompletionPlugin :+
+      RamlSemanticExtensionsCompletionPlugin :+
+      Raml10NullCompletionPlugin
 
   override def plugins: Seq[AMLCompletionPlugin] = all
 

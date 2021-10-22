@@ -1,14 +1,14 @@
 package org.mulesoft.amfintegration.dialect.dialects.raml.raml10
 
-import amf.core.metamodel.domain.ShapeModel
-import amf.core.metamodel.domain.extensions.PropertyShapeModel
-import amf.core.vocabulary.Namespace
-import amf.core.vocabulary.Namespace.XsdTypes.xsdString
-import Raml10DialectNodes.DataTypeNodeId
-import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
-import amf.plugins.domain.webapi.metamodel.security.{OAuth1SettingsModel, OAuth2FlowModel, OAuth2SettingsModel, SecuritySchemeModel}
-import amf.plugins.domain.webapi.metamodel.{OperationModel, ParameterModel, RequestModel, ResponseModel}
-import Raml10TypesDialect.{DialectLocation, ShapeNodeId}
+import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
+import amf.apicontract.internal.metamodel.domain.security.{OAuth1SettingsModel, OAuth2FlowModel, OAuth2SettingsModel, SecuritySchemeModel}
+import amf.apicontract.internal.metamodel.domain.{OperationModel, ParameterModel, RequestModel, ResponseModel}
+import amf.core.client.scala.vocabulary.Namespace
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
+import amf.core.internal.metamodel.domain.ShapeModel
+import amf.core.internal.metamodel.domain.extensions.PropertyShapeModel
+import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10DialectNodes.DataTypeNodeId
+import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect.{DialectLocation, ShapeNodeId}
 
 
 object Raml10SecuritySchemesDialect {
@@ -171,7 +171,8 @@ object Raml10SecuritySchemesDialect {
             "Basic Authentication",
             "Digest Authentication",
             "Pass Through",
-            "x-"
+            "x-",
+            "null"
           ))
         .withLiteralRange(xsdString.iri()),
       PropertyMapping()

@@ -1,8 +1,8 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 
-import amf.core.metamodel.document.DocumentModel
-import amf.core.model.domain.AmfObject
-import amf.core.parser.FieldEntry
+import amf.core.client.scala.model.domain.AmfObject
+import amf.core.internal.metamodel.document.DocumentModel
+import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.{
   ObjectFieldTypeSymbolBuilder,
   ObjectFieldTypeSymbolBuilderCompanion

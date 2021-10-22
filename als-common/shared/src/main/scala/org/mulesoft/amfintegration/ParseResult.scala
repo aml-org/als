@@ -1,12 +1,10 @@
-package org.mulesoft.amfmanager
+package org.mulesoft.amfintegration
 
-import amf.core.model.document.BaseUnit
-import amf.core.validation.AMFValidationReport
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.validation.AMFValidationReport
 
-class ParseResult(val unit: BaseUnit, val report:AMFValidationReport) {
-
-}
+class ParseResult(val unit: BaseUnit, val report: AMFValidationReport) {}
 
 object ParseResult {
-    def apply(unit: BaseUnit, report:AMFValidationReport) = new ParseResult(unit,report)
+  def apply(unit: BaseUnit, report: AMFValidationReport) = new ParseResult(unit, report)
 }

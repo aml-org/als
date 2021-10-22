@@ -9,13 +9,13 @@ import scala.scalajs.js.JSConverters._
 
 @js.native
 trait ClientDiagnostic extends js.Object {
-  def range: ClientRange                                               = js.native
-  def message: String                                                  = js.native
-  def severity: js.UndefOr[Int]                                        = js.native
-  def code: js.UndefOr[String]                                         = js.native
-  def codeDescription: js.UndefOr[ClientDiagnosticCodeDescription]     = js.native
-  def source: js.UndefOr[String]                                       = js.native
-  def relatedInformation: js.Array[ClientDiagnosticRelatedInformation] = js.native
+  def range: ClientRange                                                           = js.native
+  def message: String                                                              = js.native
+  def severity: js.UndefOr[Int]                                                    = js.native
+  def code: js.UndefOr[String]                                                     = js.native
+  def codeDescription: js.UndefOr[ClientDiagnosticCodeDescription]                 = js.native
+  def source: js.UndefOr[String]                                                   = js.native
+  def relatedInformation: js.UndefOr[js.Array[ClientDiagnosticRelatedInformation]] = js.native
 }
 
 object ClientDiagnostic {
@@ -28,7 +28,7 @@ object ClientDiagnostic {
         code = internal.code.orUndefined,
         codeDescription = internal.codeDescription.map(ClientDiagnosticCodeDescription(_)).orUndefined,
         source = internal.source.orUndefined,
-        relatedInformation = internal.relatedInformation.map(_.toClient).toJSArray
+        relatedInformation = internal.relatedInformation.map(_.map(_.toClient).toJSArray).orUndefined
       )
       .asInstanceOf[ClientDiagnostic]
 }

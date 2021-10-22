@@ -1,21 +1,27 @@
 package org.mulesoft.als.common
 
-import amf.core.annotations.SourceAST
-import amf.core.metamodel.ModelDefaultBuilder
-import amf.core.metamodel.Type.ArrayLike
-import amf.core.metamodel.document.{BaseUnitModel, DocumentModel}
-import amf.core.metamodel.domain.{DataNodeModel, DomainElementModel, ShapeModel}
-import amf.core.model.domain._
-import amf.core.parser
-import amf.core.parser.FieldEntry
-import amf.plugins.document.vocabularies.metamodel.domain.DialectDomainElementModel
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.DialectDomainElement
-import amf.plugins.domain.shapes.metamodel.AnyShapeModel
-import amf.plugins.domain.webapi.metamodel.bindings._
-import amf.plugins.domain.webapi.models.Payload
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.DialectDomainElement
+import amf.aml.internal.metamodel.domain.DialectDomainElementModel
+import amf.apicontract.client.scala.model.domain.Payload
+import amf.apicontract.internal.metamodel.domain.bindings._
+import amf.core.client.common.position.Range
+import amf.core.client.scala.model.domain.{AmfArray, AmfObject, DataNode}
+import amf.core.internal.annotations.SourceAST
+import amf.core.internal.metamodel.ModelDefaultBuilder
+import amf.core.internal.metamodel.Type.ArrayLike
+import amf.core.internal.metamodel.document.{BaseUnitModel, DocumentModel}
+import amf.core.internal.metamodel.domain.{DataNodeModel, DomainElementModel, ShapeModel}
+import amf.core.internal.parser.domain.FieldEntry
+import amf.shapes.internal.domain.metamodel.AnyShapeModel
 import org.mulesoft.als.common.YamlWrapper._
-import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, _}
+import org.mulesoft.amfintegration.AmfImplicits.{
+  AmfAnnotationsImp,
+  AmfObjectImp,
+  DialectImplicits,
+  FieldEntryImplicit,
+  NodeMappingImplicit
+}
 import org.yaml.model.{YMap, YMapEntry}
 
 import scala.language.implicitConversions
@@ -43,7 +49,7 @@ object AmfSonElementFinder {
         fieldAstFilter
       )
 
-      private def rangeFor(a: Branch): Option[parser.Range] =
+      private def rangeFor(a: Branch): Option[Range] =
         a.obj.range.orElse(a.branch.headOption.flatMap(_.range))
 
       private def appliesReduction(fe: FieldEntry) =

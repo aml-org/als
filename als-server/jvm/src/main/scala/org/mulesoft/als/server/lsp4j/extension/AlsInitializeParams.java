@@ -5,21 +5,17 @@ import org.eclipse.lsp4j.InitializeParams;
 
 public class AlsInitializeParams extends InitializeParams {
 
-    private AlsClientCapabilities alsClientCapabilities;
+    private AlsClientCapabilities capabilities;
     private AlsConfiguration configuration;
     private ProjectConfigurationStyle projectConfigurationStyle;
 
     @Override
     public AlsClientCapabilities getCapabilities() {
-        return alsClientCapabilities;
+        return capabilities;
     }
 
     public void setCapabilities(AlsClientCapabilities capabilities) {
-        alsClientCapabilities = capabilities;
-    }
-
-    public ClientCapabilities getClientCapabilities(){
-        return super.getCapabilities();
+        this.capabilities = capabilities;
     }
 
     @Override
@@ -28,14 +24,7 @@ public class AlsInitializeParams extends InitializeParams {
         acp.setTextDocument(capabilities.getTextDocument());
         acp.setWorkspace(capabilities.getWorkspace());
         acp.setExperimental(capabilities.getExperimental());
-        alsClientCapabilities = acp;
-    }
-
-    /**
-     * hack to clean lsp4j native des serialized capabilities.
-     */
-    public void cleanInheritedCapabilities() {
-        super.setCapabilities(null);
+        this.capabilities = acp;
     }
     
     public AlsConfiguration getConfiguration() {

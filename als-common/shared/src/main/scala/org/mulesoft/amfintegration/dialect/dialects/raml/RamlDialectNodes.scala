@@ -1,13 +1,13 @@
 package org.mulesoft.amfintegration.dialect.dialects.raml
 
-import amf.core.metamodel.document.BaseUnitModel
-import amf.core.metamodel.domain.extensions.PropertyShapeModel
-import amf.core.vocabulary.Namespace.XsdTypes._
-import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping}
-import amf.plugins.domain.shapes.metamodel._
-import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
-import amf.plugins.domain.webapi.metamodel._
-import amf.plugins.domain.webapi.metamodel.api.WebApiModel
+import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
+import amf.apicontract.internal.metamodel.domain.api.WebApiModel
+import amf.apicontract.internal.metamodel.domain.templates.{ResourceTypeModel, TraitModel}
+import amf.apicontract.internal.metamodel.domain.{EndPointModel, OperationModel, ParameterModel, PayloadModel, RequestModel, ResponseModel, ServerModel}
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{amlAnyNode, amlNumber, xsdAnyType, xsdBoolean, xsdInteger, xsdString}
+import amf.core.internal.metamodel.document.BaseUnitModel
+import amf.core.internal.metamodel.domain.extensions.PropertyShapeModel
+import amf.shapes.internal.domain.metamodel.{AnyShapeModel, ArrayShapeModel, CreativeWorkModel, ExampleModel, FileShapeModel, NodeShapeModel, ScalarShapeModel}
 
 trait RamlDialectNodes {
   protected def scalarTypes: Seq[String] = Seq(

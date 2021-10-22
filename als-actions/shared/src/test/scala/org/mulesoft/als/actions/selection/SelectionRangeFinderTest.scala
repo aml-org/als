@@ -1,16 +1,14 @@
 package org.mulesoft.als.actions.selection
 
-import amf.client.remote.Content
-import amf.core.unsafe.PlatformSecrets
-import amf.internal.environment.Environment
-import amf.internal.resource.ResourceLoader
-import org.mulesoft.lsp.feature.common.Range
+import amf.core.client.common.remote.Content
+import amf.core.client.scala.resource.ResourceLoader
+import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.amfintegration.AmfInstance
+import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.lsp.feature.common.{Range, Position => LspPosition}
 import org.mulesoft.lsp.feature.selectionRange.SelectionRange
 import org.scalatest.{AsyncFlatSpec, Matchers}
-import org.mulesoft.amfintegration.AmfImplicits._
-import org.mulesoft.lsp.feature.common.{Position => LspPosition, Range => LspRange}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -344,17 +342,15 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
         files.keySet.contains(resource)
     }
 
-    val env: Environment = Environment().add(resourceLoader)
-
-    val instance = new AmfInstance(Nil, platform, env)
     for {
-      result <- instance
+      amfConfiguration <- AmfConfigurationWrapper(Seq(resourceLoader))
+      result <- amfConfiguration
         .parse(testUri)
-        .map(_.baseUnit)
+        .map(_.result.baseUnit)
         .map(_.objWithAST.flatMap(_.annotations.ast()))
         .flatMap(ast => {
           Future {
-            ast.map(ypart => SelectionRangeFinder.findSelectionRange(ypart, positions)).getOrElse(Seq.empty)
+            ast.map(yPart => SelectionRangeFinder.findSelectionRange(yPart, positions)).getOrElse(Seq.empty)
           }
         })
     } yield {

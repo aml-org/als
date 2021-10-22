@@ -1,8 +1,10 @@
 package org.mulesoft.als.server.modules.formatting
 
+import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.common.diff.{FileAssertionTest, WorkspaceEditsTest}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.configuration.FormattingOptions
 import org.mulesoft.lsp.edit.{TextEdit, WorkspaceEdit}
@@ -77,19 +79,22 @@ class DocumentFormattingTest extends LanguageServerBaseTest with FileAssertionTe
 
   def runTest(server: LanguageServer, fileUri: String, expectedUri: String): Future[Seq[TextEdit]] = {
     val fileId = TextDocumentIdentifier(fileUri)
-    for {
-      original <- platform.resolve(fileUri)
-      formattingResult <- {
-        openFile(server)(fileUri, original.stream.toString)
-        val handler: RequestHandler[DocumentFormattingParams, Seq[TextEdit]] =
-          server.resolveHandler(DocumentFormattingRequestType).get
-        handler(DocumentFormattingParams(fileId, FormattingOptions(2, insertSpaces = true)))
+    withServer(server)(server => {
+      for {
+        original <- platform.fetchContent(fileUri, AMFGraphConfiguration.predefined())
+        _        <- openFile(server)(fileUri, original.stream.toString)
+        formattingResult <- {
+          val handler: RequestHandler[DocumentFormattingParams, Seq[TextEdit]] =
+            server.resolveHandler(DocumentFormattingRequestType).get
+          handler(DocumentFormattingParams(fileId, FormattingOptions(2, insertSpaces = true)))
+        }
+        tmp <- writeTemporaryFile(expectedUri)(
+          applyEdits(WorkspaceEdit(Some(Map(fileUri -> formattingResult)), None), Option(original.stream.toString)))
+        _ <- assertDifferences(tmp, expectedUri)
+      } yield {
+        formattingResult
       }
-      tmp <- writeTemporaryFile(expectedUri)(
-        applyEdits(WorkspaceEdit(Some(Map(fileUri -> formattingResult)), None), Option(original.stream.toString)))
-      r <- assertDifferences(tmp, expectedUri)
-    } yield {
-      formattingResult
-    }
+    })
+
   }
 }

@@ -1,7 +1,8 @@
 package org.mulesoft.als.common
 
-import amf.core.model.document.BaseUnit
-import amf.core.parser.{Position => AmfPosition, _}
+import amf.core.client.common.position.{Position => AmfPosition}
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.internal.parser.YNodeLikeOps
 import org.mulesoft.als.common.YamlWrapper._
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}

@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules.structure
 
 import org.mulesoft.als.server.RequestModule
-import org.mulesoft.als.server.logger.Logger
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.common.LspConverter
 import org.mulesoft.als.server.modules.workspace.CompilableUnit
 import org.mulesoft.als.server.workspace.UnitAccessor
@@ -63,9 +63,6 @@ class StructureManager(val unitAccesor: UnitAccessor[CompilableUnit],
     }
   )
 
-  val onDocumentStructureListener: String => Future[Seq[DocumentSymbol]] =
-    onDocumentStructure
-
   override def initialize(): Future[Unit] =
     Future.successful()
 
@@ -79,12 +76,6 @@ class StructureManager(val unitAccesor: UnitAccessor[CompilableUnit],
         logger
           .debug(s"Got result for url $uri of size ${r.size}", "StructureManager", "onDocumentStructure")
         r
-      })
-      .recoverWith({
-        case e: Exception =>
-          logger
-            .error(s"Got error for $uri message: ${e.getMessage}", "StructureManager", "onDocumentStructure")
-          Future.successful(List.empty)
       })
   }
 

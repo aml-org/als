@@ -1,0 +1,32 @@
+[
+  {
+    "label": "x-maintainer",
+    "kind": [],
+    "detail": "extensions",
+    "documentation": "x-maintainer",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11x-maintainer",
+    "filterText": "x-maintainer: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 0
+        },
+        "end": {
+          "line": 4,
+          "character": 2
+        }
+      },
+      "newText": "x-maintainer: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

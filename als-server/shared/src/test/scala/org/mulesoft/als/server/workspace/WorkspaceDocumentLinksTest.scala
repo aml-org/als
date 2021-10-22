@@ -1,7 +1,5 @@
 package org.mulesoft.als.server.workspace
 
-import amf.internal.environment.Environment
-import org.mulesoft.als.configuration.DefaultProjectConfigurationStyle
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.actions.DocumentLinksManager
 import org.mulesoft.als.server.modules.ast.{CLOSE_FILE, OPEN_FILE}
@@ -9,10 +7,10 @@ import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.textsync.TextDocumentContainer
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.amfintegration.AmfInstance
+import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.feature.link.DocumentLink
-import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, WorkspaceFoldersChangeEvent}
+import org.mulesoft.als.configuration.DefaultProjectConfigurationStyle
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -72,49 +70,66 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
       .flatMap(_ => {
         workspaceLinkHandler
           .openFile(nonWorkspaceFile)
-          .getDocumentLinks(nonWorkspaceFile)
-          .flatMap(uninitLinks => {
-            workspaceLinkHandler
-              .openFile(workspaceFile)
-              .getDocumentLinks(workspaceFile)
-              .flatMap(links => {
-                assert(uninitLinks.nonEmpty)
-                assert(uninitLinks.exists(_.target.equals(nonWorkspaceNonRelativeFilePath)))
-                assert(!uninitLinks.exists(_.target.contains(nonWorkspaceRelativeFilePath)))
-                assert(links.isEmpty)
-              })
-          })
+          .flatMap(
+            _ =>
+              workspaceLinkHandler
+                .getDocumentLinks(nonWorkspaceFile)
+                .flatMap(uninitLinks => {
+                  workspaceLinkHandler
+                    .openFile(workspaceFile)
+                    .flatMap(_ =>
+                      workspaceLinkHandler
+                        .getDocumentLinks(workspaceFile)
+                        .flatMap(links => {
+                          assert(uninitLinks.nonEmpty)
+                          assert(uninitLinks.exists(_.target.equals(nonWorkspaceNonRelativeFilePath)))
+                          assert(!uninitLinks.exists(_.target.contains(nonWorkspaceRelativeFilePath)))
+                          assert(links.isEmpty)
+                        }))
+                }))
       })
   }
 
   class WorkspaceLinkHandler(rootFolder: String) {
-    val clientNotifier                     = new MockDiagnosticClientNotifier()
-    val telemetryManager: TelemetryManager = new TelemetryManager(clientNotifier, logger)
-    val container: TextDocumentContainer   = TextDocumentContainer(Environment(), platform, AmfInstance.default)
+    val futureAmfConfiguration: Future[AmfConfigurationWrapper] = AmfConfigurationWrapper(Seq.empty)
+    val clientNotifier                                          = new MockDiagnosticClientNotifier()
+    val telemetryManager: TelemetryManager                      = new TelemetryManager(clientNotifier, logger)
 
-    val workspaceManager: WorkspaceManager =
-      new WorkspaceManager(container, telemetryManager, Nil, Nil, logger)
-    val documentLinksManager: DocumentLinksManager =
-      new DocumentLinksManager(workspaceManager, telemetryManager, platform, logger)
+    val workspaceManager: Future[WorkspaceManager] =
+      for {
+        amfConfiguration <- futureAmfConfiguration
+        container        <- Future(TextDocumentContainer(amfConfiguration))
+      } yield WorkspaceManager(container, telemetryManager, Nil, Nil, logger)
+
+    val documentLinksManager: Future[DocumentLinksManager] =
+      workspaceManager.map(new DocumentLinksManager(_, telemetryManager, logger))
 
     def init(): Future[Unit] =
-      workspaceManager.initialize(List(WorkspaceFolder(filePath(rootFolder))), DefaultProjectConfigurationStyle)
+      for {
+        _                <- futureAmfConfiguration
+        workspaceManager <- workspaceManager
+        _                <- workspaceManager.initialize(List(WorkspaceFolder(filePath(rootFolder))), DefaultProjectConfigurationStyle)
+      } yield {}
 
     def openFileAndGetLinks(path: String): Future[Seq[DocumentLink]] =
-      openFile(path).getDocumentLinks(path)
+      openFile(path) flatMap (_.getDocumentLinks(path))
 
-    def openFile(path: String): WorkspaceLinkHandler = {
-      workspaceManager.notify(filePath(path), OPEN_FILE)
-      this
+    def openFile(path: String): Future[WorkspaceLinkHandler] = {
+      workspaceManager
+        .flatMap(
+          _.notify(filePath(path), OPEN_FILE)
+            .map(_ => this))
     }
 
-    def closeFile(path: String): WorkspaceLinkHandler = {
-      workspaceManager.notify(filePath(path), CLOSE_FILE)
-      this
+    def closeFile(path: String): Future[WorkspaceLinkHandler] = {
+      workspaceManager
+        .flatMap(
+          _.notify(filePath(path), CLOSE_FILE)
+            .map(_ => this))
     }
 
     def getDocumentLinks(path: String): Future[Seq[DocumentLink]] =
-      documentLinksManager.documentLinks(filePath(path), "")
+      documentLinksManager.flatMap(_.documentLinks(filePath(path), ""))
   }
 
   def buildServer(): LanguageServer =

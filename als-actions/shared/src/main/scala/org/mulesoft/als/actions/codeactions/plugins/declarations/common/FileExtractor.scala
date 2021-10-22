@@ -1,11 +1,10 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.common
 
-import amf.core.annotations.ExternalFragmentRef
-import amf.core.errorhandling.UnhandledErrorHandler
-import amf.core.model.domain.{DomainElement, Linkable}
-import amf.core.parser.Annotations
-import amf.plugins.document.webapi.parser.spec.common.emitters.WebApiDomainElementEmitter
+import amf.core.client.scala.model.domain.{DomainElement, Linkable}
+import amf.core.internal.annotations.ExternalFragmentRef
+import amf.core.internal.parser.domain.Annotations
 import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
+import org.mulesoft.amfintegration.amfconfiguration.ProfileMatcher
 import org.mulesoft.lsp.edit.{CreateFile, TextDocumentEdit, TextEdit}
 import org.mulesoft.lsp.feature.common.VersionedTextDocumentIdentifier
 import org.yaml.model.YNode
@@ -42,8 +41,7 @@ trait FileExtractor extends BaseElementDeclarableExtractors {
             val linkDe: DomainElement = l.link(fileName)
             linkDe.annotations += ExternalFragmentRef(fileName)
             linkDe.annotations ++= additionalAnnotations
-            WebApiDomainElementEmitter
-              .emit(linkDe, vendor, UnhandledErrorHandler)
+            params.amfConfiguration.emit(linkDe, spec)
         }
     }
 

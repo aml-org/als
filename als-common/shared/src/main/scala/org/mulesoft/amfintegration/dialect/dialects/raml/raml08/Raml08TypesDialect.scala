@@ -1,14 +1,21 @@
 package org.mulesoft.amfintegration.dialect.dialects.raml.raml08
 
-import amf.core.metamodel.domain.ShapeModel
-import amf.core.metamodel.domain.extensions.PropertyShapeModel
-import amf.core.vocabulary.Namespace
-import amf.core.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdFloat, xsdInteger, xsdString}
-import Raml08DialectNodes.ExampleNode
-import amf.plugins.document.vocabularies.model.document.Dialect
-import amf.plugins.document.vocabularies.model.domain.{NodeMapping, PropertyMapping, PublicNodeMapping}
-import amf.plugins.domain.shapes.metamodel._
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping, PublicNodeMapping}
+import amf.core.client.scala.vocabulary.Namespace
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdFloat, xsdInteger, xsdString}
+import amf.core.internal.metamodel.domain.ShapeModel
+import amf.core.internal.metamodel.domain.extensions.PropertyShapeModel
+import amf.shapes.internal.domain.metamodel.{
+  AnyShapeModel,
+  FileShapeModel,
+  NilShapeModel,
+  NodeShapeModel,
+  ScalarShapeModel,
+  UnionShapeModel
+}
 import org.mulesoft.amfintegration.dialect.dialects.raml.RamlDialect
+import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.Raml08DialectNodes.ExampleNode
 
 object Raml08TypesDialect {
 

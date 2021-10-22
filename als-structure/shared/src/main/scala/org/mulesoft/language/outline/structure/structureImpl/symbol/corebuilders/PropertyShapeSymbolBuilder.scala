@@ -1,10 +1,10 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 
-import amf.core.metamodel.Field
-import amf.core.metamodel.domain.extensions.PropertyShapeModel
-import amf.core.model.domain.AmfElement
-import amf.core.model.domain.extensions.PropertyShape
-import amf.plugins.domain.shapes.models.{AnyShape, ArrayShape, NodeShape, UnionShape}
+import amf.core.client.scala.model.domain.AmfElement
+import amf.core.client.scala.model.domain.extensions.PropertyShape
+import amf.core.internal.metamodel.Field
+import amf.core.internal.metamodel.domain.extensions.PropertyShapeModel
+import amf.shapes.client.scala.model.domain.{AnyShape, ArrayShape, NodeShape, UnionShape}
 import org.mulesoft.language.outline.structure.structureImpl._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSimpleBuilderCompanion,

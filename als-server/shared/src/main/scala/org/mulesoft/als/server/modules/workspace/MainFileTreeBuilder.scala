@@ -1,58 +1,57 @@
 package org.mulesoft.als.server.modules.workspace
 
-import amf.core.errorhandling.ErrorCollector
-import amf.core.model.document.{BaseUnit, ExternalFragment}
-import amf.core.validation.SeverityLevels
-import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.aml.client.scala.model.document.Dialect
+import amf.core.client.common.validation.SeverityLevels
+import amf.core.client.scala.AMFResult
+import amf.core.client.scala.model.document.{BaseUnit, ExternalFragment}
 import org.mulesoft.als.common.dtoTypes.{PositionRange, ReferenceOrigins, ReferenceStack}
-import org.mulesoft.als.configuration.WorkspaceConfiguration
-import org.mulesoft.als.server.logger.Logger
-import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.als.logger.Logger
+import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
+import org.mulesoft.amfintegration.DiagnosticsBundle
+import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, AmfParseResult}
 import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.amfintegration.visitors.AmfElementVisitors
-import org.mulesoft.amfintegration.{AmfParseResult, DiagnosticsBundle, ParserHelper}
 import org.mulesoft.lsp.feature.link.DocumentLink
 
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class ParsedMainFileTree(eh: ErrorCollector,
-                         main: BaseUnit,
+class ParsedMainFileTree(main: AMFResult,
                          cachables: Set[String],
                          private val innerNodeRelationships: Seq[RelationshipLink],
                          private val innerDocumentLinks: Map[String, Seq[DocumentLink]],
                          private val innerAliases: Seq[AliasInfo],
                          logger: Logger,
                          definedBy: Dialect,
-                         val workspaceConfiguration: Option[WorkspaceConfiguration])
+                         amfConfiguration: AmfConfigurationWrapper)
     extends MainFileTree {
 
-  private val errors                               = eh.getErrors
-  private val cache: mutable.Map[String, BaseUnit] = mutable.Map.empty
-  private val units: mutable.Map[String, BaseUnit] = mutable.Map.empty
+  private val cache: mutable.Map[String, BaseUnit]  = mutable.Map.empty
+  private val units: mutable.Map[String, AMFResult] = mutable.Map.empty
   private val innerRefs: mutable.Map[String, DiagnosticsBundle] =
     mutable.Map.empty
 
-  private def index(bu: BaseUnit, stack: ReferenceStack): Future[Unit] = {
-    val cachedF: Future[Unit]   = checkCache(bu)
-    val refs: Seq[Future[Unit]] = extractRefs(bu, stack)
+  private def index(result: AMFResult, stack: ReferenceStack): Future[Unit] = {
+    val cachedF: Future[Unit]   = checkCache(result.baseUnit)
+    val refs: Seq[Future[Unit]] = extractRefs(result, stack)
 
     Future.sequence(cachedF +: refs).map(_ => Unit)
   }
 
-  private def extractRefs(bu: BaseUnit, stack: ReferenceStack): Seq[Future[Unit]] =
-    if (!isRecursive(stack, bu)) { // stop: recursion
-      units.put(bu.identifier, bu)
-      intoInners(bu, stack)
-      val targets = bu.annotations.targets()
+  private def extractRefs(result: AMFResult, stack: ReferenceStack): Seq[Future[Unit]] =
+    if (!isRecursive(stack, result.baseUnit)) { // stop: recursion
+      units.put(result.baseUnit.identifier, result)
+      intoInners(result.baseUnit, stack)
+      val targets = result.baseUnit.annotations.targets()
       targets
         .flatMap {
           case (targetLocation, ranges) =>
-            bu.references.find(_.identifier == targetLocation).map { r =>
+            result.baseUnit.references.find(_.identifier == targetLocation).map { r =>
               index(
-                r,
-                stack.through(ranges.map(originRange => ReferenceOrigins(bu.identifier, PositionRange(originRange))))
+                AMFResult(r, result.results),
+                stack.through(
+                  ranges.map(originRange => ReferenceOrigins(result.baseUnit.identifier, PositionRange(originRange))))
               )
             }
         }
@@ -76,22 +75,23 @@ class ParsedMainFileTree(eh: ErrorCollector,
     else Future.unit
 
   private def hasErrors(unit: BaseUnit): Boolean =
-    errors.exists(
+    main.results.exists(
       e =>
         e.location
           .contains(unit.identifier) && e.severityLevel == SeverityLevels.VIOLATION)
 
   private def cache(bu: BaseUnit): Future[Unit] = {
     val eventualUnit: Future[Unit] = Future {
-      ParserHelper.resolve(bu.cloneUnit())
-    }.flatMap(
-      resolved =>
-        ParserHelper
-          .reportResolved(resolved)
-          .map(r => {
-            if (r.conforms) cache.put(bu.identifier, resolved)
+      amfConfiguration.resolve(bu)
+    }.flatMap(resolved => {
+      if (resolved.conforms)
+        amfConfiguration
+          .report(resolved.baseUnit)
+          .map { r =>
+            if (r.conforms) cache.put(bu.identifier, resolved.baseUnit)
             Unit
-          }))
+          } else Future.unit
+    })
     eventualUnit
       .recoverWith {
         case e: Throwable => // ignore
@@ -107,7 +107,10 @@ class ParsedMainFileTree(eh: ErrorCollector,
   override def getCache: Map[String, BaseUnit] = cache.toMap
 
   override def parsedUnits: Map[String, ParsedUnit] =
-    units.map(t => t._1 -> ParsedUnit(t._2, inTree = true, definedBy, eh, workspaceConfiguration)).toMap
+    units
+      .map(t =>
+        t._1 -> ParsedUnit(new AmfParseResult(t._2, definedBy, amfConfiguration.branch), inTree = true, definedBy))
+      .toMap
 
   override def references: Map[String, DiagnosticsBundle] = innerRefs.toMap
 
@@ -125,50 +128,51 @@ class ParsedMainFileTree(eh: ErrorCollector,
 }
 
 object ParsedMainFileTree {
-  def apply(eh: ErrorCollector,
-            main: BaseUnit,
+  def apply(main: AMFResult,
             cachables: Set[String],
             nodeRelationships: Seq[RelationshipLink],
             documentLinks: Map[String, Seq[DocumentLink]],
             aliases: Seq[AliasInfo],
             logger: Logger,
             definedBy: Dialect,
-            workspaceConfiguration: Option[WorkspaceConfiguration]): ParsedMainFileTree =
-    new ParsedMainFileTree(eh,
-                           main,
+            amfConfiguration: AmfConfigurationWrapper): ParsedMainFileTree =
+    new ParsedMainFileTree(main,
                            cachables,
                            nodeRelationships,
                            documentLinks,
                            aliases,
                            logger,
                            definedBy,
-                           workspaceConfiguration)
+                           amfConfiguration)
 }
 
 object MainFileTreeBuilder {
   def build(amfParseResult: AmfParseResult,
             cachables: Set[String],
             visitors: AmfElementVisitors,
+            amfConfiguration: AmfConfigurationWrapper,
             logger: Logger): Future[ParsedMainFileTree] = {
 
-    handleVisit(visitors, logger, amfParseResult.baseUnit)
+    handleVisit(visitors, logger, amfParseResult.result.baseUnit, amfConfiguration)
     val tree = ParsedMainFileTree(
-      amfParseResult.eh,
-      amfParseResult.baseUnit,
+      amfParseResult.result,
       cachables,
       visitors.getRelationshipsFromVisitors,
       visitors.getDocumentLinksFromVisitors,
       visitors.getAliasesFromVisitors,
       logger,
       amfParseResult.definedBy,
-      amfParseResult.workspaceConfiguration
+      amfConfiguration
     )
     tree.index().map(_ => tree)
   }
 
-  private def handleVisit(visitors: AmfElementVisitors, logger: Logger, unit: BaseUnit) = {
+  private def handleVisit(visitors: AmfElementVisitors,
+                          logger: Logger,
+                          unit: BaseUnit,
+                          amfConfiguration: AmfConfigurationWrapper): Unit = {
     try {
-      visitors.applyAmfVisitors(unit)
+      visitors.applyAmfVisitors(unit, amfConfiguration)
     } catch {
       case e: Throwable =>
         logger.error(e.getMessage, "MainFileTreeBuilder", "Handle Visitors")

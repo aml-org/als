@@ -1,12 +1,12 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.core.metamodel.domain.extensions.CustomDomainPropertyModel
-import amf.core.model.domain.extensions.CustomDomainProperty
+import amf.core.client.scala.model.domain.extensions.CustomDomainProperty
+import amf.core.internal.metamodel.domain.extensions.CustomDomainPropertyModel
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.yaml.model.YMapEntry
-import org.mulesoft.als.common.YamlWrapper._
+
 import scala.concurrent.Future
 
 object AnnotationReferenceCompletionPlugin extends AMLCompletionPlugin {
@@ -31,8 +31,7 @@ object AnnotationReferenceCompletionPlugin extends AMLCompletionPlugin {
     )
   }
 
-  private def isScalar(params: AmlCompletionRequest): Boolean = {
-
+  private def isScalar(params: AmlCompletionRequest): Boolean =
     params.yPartBranch.ancestorOf(classOf[YMapEntry]) match {
       case Some(e: YMapEntry) =>
         val entryName = e.key.asScalar.map(_.text)
@@ -41,6 +40,5 @@ object AnnotationReferenceCompletionPlugin extends AMLCompletionPlugin {
           .exists(p => p.literalRange().option().isDefined && !p.allowMultiple().value())
       case _ => false
     }
-  }
 
 }

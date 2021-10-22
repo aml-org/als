@@ -1,17 +1,15 @@
 package org.mulesoft.amfintegration.dialect.dialects.raml
 
-import amf.core.annotations.Aliases
-import amf.core.metamodel.domain.ModelVocabularies
-import amf.core.metamodel.domain.extensions.CustomDomainPropertyModel
-import amf.core.parser.Annotations
-import amf.core.vocabulary.Namespace
-import amf.plugins.document.vocabularies.model.document.{Dialect, Vocabulary}
-import amf.plugins.document.vocabularies.model.domain._
+import amf.aml.client.scala.model.document.{Dialect, Vocabulary}
+import amf.aml.client.scala.model.domain.{DocumentMapping, DocumentsModel, External, NodeMapping}
+import amf.apicontract.internal.metamodel.domain.security.SecuritySchemeModel
+import amf.apicontract.internal.metamodel.domain.templates.{ResourceTypeModel, TraitModel}
+import amf.core.client.scala.vocabulary.Namespace
+import amf.core.internal.annotations.{Aliases, ReferencedInfo}
+import amf.core.internal.metamodel.domain.ModelVocabularies
+import amf.core.internal.metamodel.domain.extensions.CustomDomainPropertyModel
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
-import amf.plugins.domain.shapes.metamodel.{AnyShapeModel, CreativeWorkModel, ExampleModel}
-import amf.plugins.domain.webapi.metamodel.security.SecuritySchemeModel
-import amf.plugins.domain.webapi.metamodel.templates.{ResourceTypeModel, TraitModel}
-import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10DialectNodes
+import amf.shapes.internal.domain.metamodel.{AnyShapeModel, CreativeWorkModel, ExampleModel}
 
 trait RamlDialect {
 
@@ -105,7 +103,7 @@ trait RamlDialect {
       ModelVocabularies.Security
     )
     d.annotations += Aliases(vocabularies.map { vocab =>
-      (vocab.alias, (vocab.base, vocab.filename))
+      (vocab.alias, ReferencedInfo(s"fake://id/${vocab.alias}", vocab.base, vocab.filename))
     }.toSet)
 
     d.withReferences(vocabularies.map { vocab =>

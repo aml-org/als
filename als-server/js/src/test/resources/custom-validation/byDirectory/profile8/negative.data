@@ -1,0 +1,6 @@
+#%RAML 1.0
+
+/endpoint1:
+  get:
+    responses:
+      200:

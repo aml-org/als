@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.aml.webapi
 
-import amf.plugins.document.vocabularies.model.document.Dialect
+import amf.aml.client.scala.model.document.Dialect
 import org.mulesoft.als.suggestions.AMLBaseCompletionPlugins
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml._
@@ -51,7 +51,8 @@ object Raml08CompletionPluginRegistry extends WebApiCompletionPluginRegistry {
       DefaultVariablesAbstractDefinition :+
 //      OperationRequest :+
       Raml08KnownValueCompletionPlugin :+
-      Raml08TypeDeclarationReferenceCompletionPlugin
+      Raml08TypeDeclarationReferenceCompletionPlugin :+
+      RamlSemanticExtensionsCompletionPlugin
 
   override def plugins: Seq[AMLCompletionPlugin] = all
 
