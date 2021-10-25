@@ -170,7 +170,8 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
           new DummyTelemetryProvider(),
           Nil,
           Nil,
-          EmptyLogger
+          EmptyLogger,
+          buildWorkspaceManager.configurationManager
         ) {
 
       private val commandExecutors: Map[String, CommandExecutor[_, _]] = Map(

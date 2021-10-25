@@ -6,10 +6,10 @@
   "types": "typescript/als-node-client.d.ts",
   "author": "ALS team",
   "license": "Apache-2.0",
-  "homepage": "https://github.com/mulesoft/als",
+  "homepage": "https://github.com/aml-org/als",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mulesoft/als"
+    "url": "https://github.com/aml-org/als"
   },
   "bin": {
     "als": "./dist/als-node-client.min.js"

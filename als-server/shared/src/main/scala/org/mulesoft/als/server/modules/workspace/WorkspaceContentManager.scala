@@ -8,6 +8,7 @@ import org.mulesoft.als.configuration.ConfigurationStyle.COMMAND
 import org.mulesoft.als.configuration.ProjectConfigurationStyle
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.ast._
+import org.mulesoft.als.server.modules.configuration.{ConfigurationManager, ConfigurationProvider}
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.UnitTaskManager
 import org.mulesoft.als.server.workspace.extract._
@@ -24,10 +25,9 @@ class WorkspaceContentManager private (val folderUri: String,
                                        telemetryProvider: TelemetryProvider,
                                        logger: Logger,
                                        allSubscribers: List[BaseUnitListener],
-                                       projectConfigurationStyle: ProjectConfigurationStyle)
+                                       projectConfigurationStyle: ProjectConfigurationStyle,
+                                       hotReloadDialects: Boolean)
     extends UnitTaskManager[ParsedUnit, CompilableUnit, NotificationKind] {
-
-  private val hotReloadDialects = false
 
   def getConfigReader: Option[ConfigReader] = workspaceConfiguration.flatMap(_.configReader)
 
@@ -433,13 +433,17 @@ object WorkspaceContentManager {
             telemetryProvider: TelemetryProvider,
             logger: Logger,
             allSubscribers: List[BaseUnitListener],
-            projectConfigurationStyle: ProjectConfigurationStyle): Future[WorkspaceContentManager] = {
-    val wcm = new WorkspaceContentManager(folderUri,
-                                          environmentProvider,
-                                          telemetryProvider,
-                                          logger,
-                                          allSubscribers,
-                                          projectConfigurationStyle)
-    wcm.init().map(_ => wcm)
+            configurationProvider: ConfigurationProvider): Future[WorkspaceContentManager] = {
+    configurationProvider match {
+      case cm: ConfigurationManager =>
+        val wcm = new WorkspaceContentManager(folderUri,
+                                              environmentProvider,
+                                              telemetryProvider,
+                                              logger,
+                                              allSubscribers,
+                                              cm.getProjectConfigStyle,
+                                              cm.getHotReloadDialects)
+        wcm.init().map(_ => wcm)
+    }
   }
 }

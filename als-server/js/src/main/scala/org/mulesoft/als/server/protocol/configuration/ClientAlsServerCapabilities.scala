@@ -43,6 +43,7 @@ trait ClientAlsServerCapabilities extends js.Object {
   def documentRangeFormattingProvider: UndefOr[Boolean]                          = js.native
   def workspaceConfiguration: UndefOr[ClientWorkspaceConfigurationServerOptions] = js.native
   def customValidations: UndefOr[ClientCustomValidationOptions]                  = js.native
+  def hotReload: UndefOr[Boolean]                                                = js.native
 }
 
 object ClientAlsServerCapabilities {
@@ -102,7 +103,8 @@ object ClientAlsServerCapabilities {
           .orUndefined
           .asInstanceOf[js.Any],
         workspaceConfiguration = internal.workspaceConfiguration.map(_.toClient).orUndefined,
-        customValidations = internal.customValidations.map(_.toClient).orUndefined
+        customValidations = internal.customValidations.map(_.toClient).orUndefined,
+        hotReload = internal.hotReload.orUndefined
       )
       .asInstanceOf[ClientAlsServerCapabilities]
 }

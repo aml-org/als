@@ -8,6 +8,7 @@ public class AlsInitializeParams extends InitializeParams {
     private AlsClientCapabilities capabilities;
     private AlsConfiguration configuration;
     private ProjectConfigurationStyle projectConfigurationStyle;
+    private Boolean hotReload;
 
     @Override
     public AlsClientCapabilities getCapabilities() {
@@ -41,5 +42,13 @@ public class AlsInitializeParams extends InitializeParams {
 
     public void setProjectConfigurationStyle(ProjectConfigurationStyle projectConfigurationStyle) {
         this.projectConfigurationStyle = projectConfigurationStyle;
+    }
+
+    public Boolean getHotReload() {
+        return hotReload;
+    }
+
+    public void setHotReload(Boolean hotReload) {
+        this.hotReload = hotReload;
     }
 }

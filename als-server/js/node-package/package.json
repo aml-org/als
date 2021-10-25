@@ -6,10 +6,10 @@
   "types": "typescript/als-server.d.ts",
   "author": "als team",
   "license": "Apache-2.0",
-  "homepage": "https://github.com/mulesoft/als",
+  "homepage": "https://github.com/aml-org/als",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mulesoft/als"
+    "url": "https://github.com/aml-org/als"
   },
   "scripts": {
     "build:dist": "webpack --config ./webpack.config.js"

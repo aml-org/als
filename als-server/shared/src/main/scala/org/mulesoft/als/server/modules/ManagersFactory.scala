@@ -149,7 +149,8 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
         case t: AccessUnits[CompilableUnit] =>
           t // is this being used? is it correct to mix subscribers with this dependencies?
       },
-      logger
+      logger,
+      configurationManager
     )
 
   lazy val documentManager =
