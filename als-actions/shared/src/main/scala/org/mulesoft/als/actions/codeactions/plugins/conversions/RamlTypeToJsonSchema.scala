@@ -1,5 +1,7 @@
 package org.mulesoft.als.actions.codeactions.plugins.conversions
 
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.SemanticExtension
 import amf.core.client.scala.model.domain.extensions.PropertyShape
 import amf.core.internal.parser.domain.Annotations
 import amf.core.internal.remote.Spec
@@ -80,6 +82,9 @@ class RamlTypeToJsonSchema(override protected val params: CodeActionRequestParam
     }
 
   override protected val amfConfiguration: AmfConfigurationWrapper = params.amfConfiguration
+
+  override protected def findDialectForSemantic(name: String): Option[(SemanticExtension, Dialect)] =
+    params.amfConfiguration.findSemanticByName(name)
 }
 
 object RamlTypeToJsonSchema extends CodeActionFactory with RamlTypeToJsonSchemaKind {

@@ -4,6 +4,7 @@ version: 1.0
 
 external:
   aml: http://a.ml/vocab#
+  schema: http://schema.org#
   apicontract: http://a.ml/vocabularies/apiContract#
 
 documents:
@@ -25,14 +26,25 @@ annotationMappings:
     range:  PersonNodeMapping
 
 nodeMappings:
+  InnerNodeMapping:
+    classTerm: schema.InnerNodeMapping
+    mapping:
+        inner:
+          propertyTerm: schema.inner
+          range: boolean
   PersonNodeMapping:
+    classTerm: schema.PersonNodeMapping
     mapping:
       name:
+        propertyTerm: schema.name
         range: string
-      surname:
+      enumTest:
+        propertyTerm: schema.enumTest
         range: string
+        enum: [First, Second, Third, Fourth]
       email:
-        range: string
+        propertyTerm: schema.email
+        range: InnerNodeMapping
 
 extensions:
   maintainer: MaintainerAnnotationMapping

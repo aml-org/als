@@ -12,7 +12,6 @@ import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit}
 import org.mulesoft.lsp.feature.common.{Position, Range, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.{
@@ -58,7 +57,7 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with ShapeExtr
                      params.amfConfiguration)
 
   protected lazy val homogeneousVendor: Boolean =
-    maybeTree.flatMap(_.objSpec).forall(params.bu.sourceSpec.contains)
+    maybeTree.flatMap(_.objSpec(params.amfConfiguration.findSemanticByName)).forall(params.bu.sourceSpec.contains)
 
   override protected def task(params: CodeActionRequestParams): Future[Seq[AbstractCodeAction]] =
     linkEntry.map {
