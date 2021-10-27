@@ -1,5 +1,7 @@
 package org.mulesoft.als.actions.codeactions.plugins.conversions
 
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.SemanticExtension
 import amf.core.internal.remote.Spec
 import amf.shapes.client.scala.model.domain.AnyShape
 import amf.shapes.internal.annotations.ParsedJSONSchema
@@ -124,6 +126,9 @@ class JsonSchemaToRamlType(override protected val params: CodeActionRequestParam
         Seq(Left(TextDocumentEdit(VersionedTextDocumentIdentifier(editUri, None), Seq(editTextEdit))))))
 
   override protected val kindTitle: CodeActionKindTitle = JsonSchemaToRamlType
+
+  override protected def findDialectForSemantic(name: String): Option[(SemanticExtension, Dialect)] =
+    params.amfConfiguration.findSemanticByName(name)
 }
 
 object JsonSchemaToRamlType extends CodeActionFactory with JsonSchemaToRamlTypeKind {

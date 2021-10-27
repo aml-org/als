@@ -1,0 +1,92 @@
+[
+  {
+    "label": "email",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "email",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11email",
+    "filterText": "email:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      },
+      "newText": "email:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "enumTest",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "enumTest",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11enumTest",
+    "filterText": "enumTest: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      },
+      "newText": "enumTest: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "name",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "name",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11name",
+    "filterText": "name: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      },
+      "newText": "name: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

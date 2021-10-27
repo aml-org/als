@@ -3,7 +3,6 @@ package org.mulesoft.amfintegration.amfconfiguration
 import amf.aml.client.scala.AMLConfiguration
 import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.{AnnotationMapping, SemanticExtension}
-import amf.aml.client.scala.model.document.Dialect
 import amf.apicontract.client.scala._
 import amf.core.client.common.remote.Content
 import amf.core.client.common.transform.PipelineId
@@ -115,20 +114,23 @@ class AmfConfigurationWrapper private[amfintegration] (private val initialConfig
     * @return (name, isScalar)
     */
   def semanticKeysFor(uri: String): Seq[(String, Boolean)] =
-    findSemanticFor(uri).toSeq
-      .flatMap(t => t._2.map(e => (t._1, e)))
+    findSemanticFor(uri)
       .flatMap { t =>
         for {
-          name              <- t._2.extensionName().option()
-          annotationMapping <- findAnnotationMappingFor(t._1, t._2)
+          name              <- t._1.extensionName().option()
+          annotationMapping <- findAnnotationMappingFor(t._2, t._1)
         } yield {
           (name, annotationMapping.objectRange().isEmpty)
         }
       }
 
-  def findSemanticFor(uri: String): Map[Dialect, Seq[SemanticExtension]] =
+  def findSemanticFor(uri: String): Seq[(SemanticExtension, Dialect)] =
     configurationState
       .findSemanticByTarget(uri)
+
+  def findSemanticByName(name: String): Option[(SemanticExtension, Dialect)] =
+    configurationState
+      .findSemanticByName(name)
 
   // this should be provided from AML because we don't want to replicate logic on our side to choose which dialect we are referring to
   def findAnnotationMappingFor(dialect: Dialect, extension: SemanticExtension): Option[AnnotationMapping] = {

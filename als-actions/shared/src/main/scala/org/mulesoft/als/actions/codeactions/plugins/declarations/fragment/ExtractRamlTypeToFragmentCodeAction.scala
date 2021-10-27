@@ -1,5 +1,7 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.fragment
 
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.SemanticExtension
 import org.mulesoft.als.actions.codeactions.plugins.CodeActionKindTitle
 import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionFactory,
@@ -36,6 +38,9 @@ case class ExtractRamlTypeToFragmentCodeAction(params: CodeActionRequestParams)
     renderLink.map(
       RamlTypeExtractor
         .linkEntry(entryRange, _, entryAst, yPartBranch, amfObject, params.configuration, newName, yamlOptions))
+
+  override protected def findDialectForSemantic(name: String): Option[(SemanticExtension, Dialect)] =
+    params.amfConfiguration.findSemanticByName(name)
 }
 
 object ExtractRamlTypeToFragmentCodeAction extends CodeActionFactory with ExtractToFragmentKind {

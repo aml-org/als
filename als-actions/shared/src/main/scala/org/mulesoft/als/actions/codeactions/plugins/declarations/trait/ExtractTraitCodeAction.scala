@@ -1,5 +1,7 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.`trait`
 
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.SemanticExtension
 import amf.apicontract.client.scala.model.domain.Operation
 import amf.apicontract.client.scala.model.domain.templates.ParametrizedTrait
 import amf.apicontract.internal.metamodel.domain.OperationModel
@@ -14,7 +16,6 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
 }
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.{ConverterExtractor, ExtractorCommon}
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
 class ExtractTraitCodeAction(override protected val params: CodeActionRequestParams)
@@ -59,6 +60,9 @@ class ExtractTraitCodeAction(override protected val params: CodeActionRequestPar
 
   override protected def msg(params: CodeActionRequestParams): String =
     s"Extract trait: \n\t${params.uri}\t${params.range}"
+
+  override protected def findDialectForSemantic(name: String): Option[(SemanticExtension, Dialect)] =
+    params.amfConfiguration.findSemanticByName(name)
 }
 
 object ExtractTraitCodeAction extends CodeActionFactory with ExtractTraitKind {

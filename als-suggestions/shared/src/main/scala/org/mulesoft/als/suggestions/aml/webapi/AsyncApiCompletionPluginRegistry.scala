@@ -4,13 +4,12 @@ import amf.aml.client.scala.model.document.Dialect
 import org.mulesoft.als.suggestions.AMLBaseCompletionPlugins
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.SecuredByCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.webapi.async._
 import org.mulesoft.als.suggestions.plugins.aml.webapi.async.bindings.{
   AsyncApiBindingsCompletionPlugin,
   BindingsDiscreditableProperties
 }
 import org.mulesoft.als.suggestions.plugins.aml.webapi.async.structure._
-import org.mulesoft.als.suggestions.plugins.aml.webapi.async._
-import org.mulesoft.als.suggestions.plugins.aml.webapi.extensions.OasLikeSemanticExtensionsFlavour
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.OaslikeSecurityScopesCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.structure.ResolveInfo
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.RamlTypeDeclarationReferenceCompletionPlugin
@@ -51,8 +50,7 @@ object AsyncApiCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
       Async2SecuredByCompletionPlugin :+
       Async2MessageExamplesCompletionPlugin :+
       RamlTypeDeclarationReferenceCompletionPlugin :+
-      Async2ExamplesPlugin :+
-      OasLikeSemanticExtensionsFlavour
+      Async2ExamplesPlugin
 
   override def plugins: Seq[AMLCompletionPlugin] = all
 

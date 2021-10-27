@@ -1,5 +1,7 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.delete
 
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.SemanticExtension
 import amf.core.client.scala.model.domain.AmfObject
 import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionFactory,
@@ -34,7 +36,7 @@ class DeleteDeclaredNodeCodeAction(override val params: CodeActionRequestParams)
   override val isApplicable: Boolean =
     maybeTree.exists(
       t =>
-        t.isDeclared() &&
+        t.isDeclared &&
           t.fieldEntry.exists(_.isSemanticName))
 
   override protected def telemetry: TelemetryProvider = params.telemetryProvider
@@ -101,6 +103,9 @@ class DeleteDeclaredNodeCodeAction(override val params: CodeActionRequestParams)
     s"Delete declared node: \n\t${params.uri}\t${params.range}"
 
   override protected def uri(params: CodeActionRequestParams): String = params.uri
+
+  override protected def findDialectForSemantic(name: String): Option[(SemanticExtension, Dialect)] =
+    params.amfConfiguration.findSemanticByName(name)
 }
 
 object DeleteDeclaredNodeCodeAction extends CodeActionFactory with DeleteDeclarationKind {

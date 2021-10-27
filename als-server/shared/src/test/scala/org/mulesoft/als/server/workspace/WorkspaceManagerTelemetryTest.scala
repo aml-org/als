@@ -94,7 +94,8 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
     }
   }
 
-  test("Workspace Manager check parsing times (parse instance after modifying dialect)") {
+  // todo: enable test after APIMF-3305 is adopted
+  ignore("Workspace Manager check parsing times (parse instance after modifying dialect)") {
     val dialect  = s"${filePath("aml-workspace")}/dialect.yaml"
     val instance = s"${filePath("aml-workspace")}/instance.yaml"
 

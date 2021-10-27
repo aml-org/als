@@ -3,11 +3,13 @@ package org.mulesoft.als.server.textsync
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.workspace.WorkspaceManager
+import org.mulesoft.als.server.workspace.command.Commands
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.lsp.workspace.ExecuteCommandParams
 
 import java.util.UUID
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 
 class DialectRegistryTest extends LanguageServerBaseTest {
 
@@ -30,7 +32,8 @@ class DialectRegistryTest extends LanguageServerBaseTest {
      factory.workspaceManager)
   }
 
-  test("Remove old dialect after modifying it") {
+  // todo: enable test after APIMF-3305 is adopted
+  ignore("Remove old dialect after modifying it") {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
 
     val (server, amfConfiguration, workspaceManager) = buildServer(diagnosticNotifier)
@@ -68,6 +71,14 @@ class DialectRegistryTest extends LanguageServerBaseTest {
       }
 
     }
+  }
+
+  def commandRegisterDialect(dialect: String, server: LanguageServer): Future[Unit] = {
+    server.workspaceService
+      .executeCommand(
+        ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION,
+                             List(s"""{"mainUri": "", "dependencies": [{"file": "$dialect", "scope": "dialect"}]}""")))
+      .flatMap(_ => Future.unit)
   }
 
 }
