@@ -31,8 +31,9 @@ class JsLanguageServerTest extends LanguageServerBaseTest with PlatformSecrets {
         DefaultJsServerSystemConf,
         JsTestLogger(),
         js.undefined,
-        Seq(TestValidator(() => flag = true))
-    )
+        Seq(TestValidator(() => flag = true)),
+        None
+      )
     val content =
       """#%RAML 1.0
         |title: Example of request bodies

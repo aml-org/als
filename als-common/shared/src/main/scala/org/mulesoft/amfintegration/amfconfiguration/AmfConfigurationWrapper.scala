@@ -112,9 +112,8 @@ class AmfConfigurationWrapper private[amfintegration] (private val initialConfig
   def semanticKeysFor(uri: String): Seq[String] =
     configurationState
       .findSemanticByTarget(uri)
-      .flatMap(_._2)
+      .map(_._1)
       .flatMap(_.extensionName().option())
-      .toSeq
 
   def definitionFor(bu: BaseUnit): Option[Dialect] = alsDialectProvider.definitionFor(bu)
   def definitionFor(spec: Spec): Option[Dialect]   = alsDialectProvider.definitionFor(spec)

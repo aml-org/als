@@ -49,7 +49,8 @@ object Main extends PlatformSecrets {
         clientConnection,
         serializationProps,
         clientLoaders = platform.loaders().asClient.asInstanceOf[ClientList[ClientResourceLoader]],
-        clientDirResolver = new ClientPlatformDirectoryResolver(platform)
+        clientDirResolver = new ClientPlatformDirectoryResolver(platform),
+        amfCustomValidator = AmfCustomValidatorNode
       )
 
       val transport  = ServerSocketTransport(options.port)

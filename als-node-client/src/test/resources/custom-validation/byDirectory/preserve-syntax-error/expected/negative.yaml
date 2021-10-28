@@ -1,0 +1,26 @@
+uri: file://als-node-client/src/test/resources/custom-validation/byDirectory/preserve-syntax-error/negative.data
+diagnostics:
+  -
+    message: Scalars in parameters must have minLength defined
+    range: Range(common.Position[L:7,C:6],common.Position[L:8,C:0])
+    severity: Error
+    code: file://als-node-client/src/test/resources/custom-validation/byDirectory/preserve-syntax-error/profile.yaml#/encodes/validations/scalar-parameters
+    relatedInformation:
+      -
+        message: Error expected 1 >= actual (actual=0) at shapes.schema / shacl.minLength
+        location: Location(file://als-node-client/src/test/resources/custom-validation/byDirectory/preserve-syntax-error/negative.data,Range(common.Position[L:7,C:6],common.Position[L:8,C:0]))
+  -
+    message: "Duplicate key : 'description'"
+    range: Range(common.Position[L:15,C:4],common.Position[L:15,C:15])
+    severity: Error
+    code: http://a.ml/vocabularies/amf/core#syaml-error
+    relatedInformation: []
+  -
+    message: Scalars in parameters must have minLength defined
+    range: Range(common.Position[L:19,C:6],common.Position[L:19,C:8])
+    severity: Error
+    code: file://als-node-client/src/test/resources/custom-validation/byDirectory/preserve-syntax-error/profile.yaml#/encodes/validations/scalar-parameters
+    relatedInformation:
+      -
+        message: Error expected 1 >= actual (actual=0) at shapes.schema / shacl.minLength
+        location: Location(file://als-node-client/src/test/resources/custom-validation/byDirectory/preserve-syntax-error/negative.data,Range(common.Position[L:19,C:6],common.Position[L:19,C:8]))

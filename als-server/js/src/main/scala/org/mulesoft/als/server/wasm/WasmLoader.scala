@@ -6,8 +6,10 @@ import scala.scalajs.js.UndefOr
 import scala.scalajs.js.annotation.{JSGlobal, JSImport}
 
 @js.native
-@JSImport("@aml-org/amf-custom-validator", JSImport.Namespace)
-object AmfWasmOpaValidator extends js.Any {
+@JSImport("@aml-org/amf-custom-validator-web", JSImport.Namespace)
+object AmfCustomValidatorWeb extends AmfWasmOpaValidator
+
+trait AmfWasmOpaValidator extends js.Any {
   def validate(profile: String,
                data: String,
                debug: Boolean,
