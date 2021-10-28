@@ -67,8 +67,7 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
 
     val mappings: List[PropertyMapping] = currentNode match {
       case Some(nm: NodeMapping) =>
-        val list = PropertyMappingFilter(objectInTree, nodeDialect, nm).filter().toList
-        list
+        PropertyMappingFilter(objectInTree, nodeDialect, nm).filter().toList
       case _ => Nil
     }
 
