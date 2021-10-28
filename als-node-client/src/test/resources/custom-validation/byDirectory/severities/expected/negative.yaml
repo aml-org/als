@@ -1,0 +1,56 @@
+uri: file://als-node-client/src/test/resources/custom-validation/byDirectory/severities/negative.data
+diagnostics:
+  -
+    message: Info
+    range: Range(common.Position[L:7,C:6],common.Position[L:8,C:0])
+    severity: Information
+    code: file://als-node-client/src/test/resources/custom-validation/byDirectory/severities/profile.yaml#/encodes/validations/scalar-parameters-3
+    relatedInformation:
+      -
+        message: Error expected 1 >= actual (actual=0) at shapes.schema / shacl.minLength
+        location: Location(file://als-node-client/src/test/resources/custom-validation/byDirectory/severities/negative.data,Range(common.Position[L:7,C:6],common.Position[L:8,C:0]))
+  -
+    message: Violation
+    range: Range(common.Position[L:7,C:6],common.Position[L:8,C:0])
+    severity: Error
+    code: file://als-node-client/src/test/resources/custom-validation/byDirectory/severities/profile.yaml#/encodes/validations/scalar-parameters-1
+    relatedInformation:
+      -
+        message: Error expected 1 >= actual (actual=0) at shapes.schema / shacl.minLength
+        location: Location(file://als-node-client/src/test/resources/custom-validation/byDirectory/severities/negative.data,Range(common.Position[L:7,C:6],common.Position[L:8,C:0]))
+  -
+    message: Warning
+    range: Range(common.Position[L:7,C:6],common.Position[L:8,C:0])
+    severity: Warning
+    code: file://als-node-client/src/test/resources/custom-validation/byDirectory/severities/profile.yaml#/encodes/validations/scalar-parameters-2
+    relatedInformation:
+      -
+        message: Error expected 1 >= actual (actual=0) at shapes.schema / shacl.minLength
+        location: Location(file://als-node-client/src/test/resources/custom-validation/byDirectory/severities/negative.data,Range(common.Position[L:7,C:6],common.Position[L:8,C:0]))
+  -
+    message: Info
+    range: Range(common.Position[L:17,C:6],common.Position[L:17,C:8])
+    severity: Information
+    code: file://als-node-client/src/test/resources/custom-validation/byDirectory/severities/profile.yaml#/encodes/validations/scalar-parameters-3
+    relatedInformation:
+      -
+        message: Error expected 1 >= actual (actual=0) at shapes.schema / shacl.minLength
+        location: Location(file://als-node-client/src/test/resources/custom-validation/byDirectory/severities/negative.data,Range(common.Position[L:17,C:6],common.Position[L:17,C:8]))
+  -
+    message: Violation
+    range: Range(common.Position[L:17,C:6],common.Position[L:17,C:8])
+    severity: Error
+    code: file://als-node-client/src/test/resources/custom-validation/byDirectory/severities/profile.yaml#/encodes/validations/scalar-parameters-1
+    relatedInformation:
+      -
+        message: Error expected 1 >= actual (actual=0) at shapes.schema / shacl.minLength
+        location: Location(file://als-node-client/src/test/resources/custom-validation/byDirectory/severities/negative.data,Range(common.Position[L:17,C:6],common.Position[L:17,C:8]))
+  -
+    message: Warning
+    range: Range(common.Position[L:17,C:6],common.Position[L:17,C:8])
+    severity: Warning
+    code: file://als-node-client/src/test/resources/custom-validation/byDirectory/severities/profile.yaml#/encodes/validations/scalar-parameters-2
+    relatedInformation:
+      -
+        message: Error expected 1 >= actual (actual=0) at shapes.schema / shacl.minLength
+        location: Location(file://als-node-client/src/test/resources/custom-validation/byDirectory/severities/negative.data,Range(common.Position[L:17,C:6],common.Position[L:17,C:8]))

@@ -175,8 +175,8 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
   )
   .jsSettings(
     installJsDependencies := {
-      Process(s"npm install @aml-org/amf-custom-validator@$amfCustomValidatorJSVersion", new File("./als-server/js/node-package")) #&&
-      Process("npm install",     new File("./als-server/js/node-package")) !
+      Process(s"npm install @aml-org/amf-custom-validator-web@$amfCustomValidatorJSVersion", new File("./als-server/js/node-package")) #&&
+        Process("npm install", new File("./als-server/js/node-package")) !
     },
     test in Test := ((test in Test) dependsOn installJsDependencies).value,
     artifactPath in(Test, fastOptJS) := baseDirectory.value / "node-package" / "tmp" / "als-server.js",
@@ -194,8 +194,8 @@ lazy val serverJS = server.js.in(file("./als-server/js")).disablePlugins(SonarPl
 /** ALS node client */
 val npmIClient = TaskKey[Unit]("npmIClient", "Install npm at node client")
 
-lazy val nodeClient =  project
-  .dependsOn(serverJS)
+lazy val nodeClient = project
+  .dependsOn(serverJS % "compile->compile;test->test")
   .in(file("./als-node-client"))
   .enablePlugins(ScalaJSPlugin)
   .settings(settings: _*)
@@ -210,7 +210,8 @@ lazy val nodeClient =  project
 
     npmIClient := {
       Process(s"npm install @aml-org/amf-custom-validator@$amfCustomValidatorJSVersion", new File("./als-node-client/node-package/")) #&&
-      Process(s"cp -r ../../als-server/js/node-package/typescript/als-server.d.ts ./typescript/als-node-client.d.ts", new File("./als-node-client/node-package/")) #&&
+        Process(s"npm install @aml-org/amf-custom-validator-web@$amfCustomValidatorJSVersion", new File("./als-node-client/node-package/")) #&&
+        Process(s"cp -r ../../als-server/js/node-package/typescript/als-server.d.ts ./typescript/als-node-client.d.ts", new File("./als-node-client/node-package/")) #&&
       Process(s"sed -i.bk s/@aml-org\\/als-server/@aml-org\\/als-node-client/ als-node-client.d.ts", new File("./als-node-client/node-package/typescript/")) #&&
       Process(s"rm als-node-client.d.ts.bk", new File("./als-node-client/node-package/typescript/")) #&&
       Process("npm i", new File("./als-node-client/node-package/")) !

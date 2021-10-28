@@ -1,8 +1,0 @@
-uri: file://als-server/js/src/test/resources/custom-validation/byDirectory/preserve-syntax-error/positive.data
-diagnostics:
-  -
-    message: "Duplicate key : 'description'"
-    range: Range(common.Position[L:16,C:4],common.Position[L:16,C:15])
-    severity: Error
-    code: http://a.ml/vocabularies/amf/core#syaml-error
-    relatedInformation: []

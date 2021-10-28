@@ -16,6 +16,7 @@ import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.custom.AMFOpaValidator
 import org.mulesoft.als.server.modules.diagnostic.{DiagnosticNotificationsKind, JsCustomValidator}
 import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.wasm.{AmfCustomValidatorWeb, AmfWasmOpaValidator}
 import org.yaml.builder.{DocBuilder, JsOutputBuilder}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -34,14 +35,18 @@ object LanguageServerFactory {
                   logger: js.UndefOr[ClientLogger] = js.undefined,
                   withDiagnostics: Boolean = true,
                   notificationKind: js.UndefOr[DiagnosticNotificationsKind] = js.undefined,
-                  amfPlugins: js.Array[JsAMFPayloadValidationPlugin] = js.Array.apply()): LanguageServer = {
-    fromSystemConfig(clientNotifier,
-                     serializationProps,
-                     JsServerSystemConf(clientLoaders, clientDirResolver),
-                     amfPlugins,
-                     logger,
-                     withDiagnostics,
-                     notificationKind)
+                  amfPlugins: js.Array[JsAMFPayloadValidationPlugin] = js.Array.apply(),
+                  amfCustomValidator: AmfWasmOpaValidator = AmfCustomValidatorWeb): LanguageServer = {
+    fromSystemConfig(
+      clientNotifier,
+      serializationProps,
+      JsServerSystemConf(clientLoaders, clientDirResolver),
+      amfPlugins,
+      logger,
+      withDiagnostics,
+      notificationKind,
+      amfCustomValidator
+    )
   }
 
   def fromSystemConfig(clientNotifier: ClientNotifier,
@@ -50,14 +55,21 @@ object LanguageServerFactory {
                        plugins: js.Array[JsAMFPayloadValidationPlugin] = js.Array(),
                        logger: js.UndefOr[ClientLogger] = js.undefined,
                        withDiagnostics: Boolean = true,
-                       notificationKind: js.UndefOr[DiagnosticNotificationsKind] = js.undefined): LanguageServer = {
+                       notificationKind: js.UndefOr[DiagnosticNotificationsKind] = js.undefined,
+                       amfCustomValidator: AmfWasmOpaValidator = AmfCustomValidatorWeb): LanguageServer = {
 
     val scalaPlugins: Seq[AMFShapePayloadValidationPlugin] =
       plugins
         .map(AMFPayloadValidationPluginConverter.toAMF)
         .map(asInternal)
 
-    buildServer(clientNotifier, serialization, jsServerSystemConf, logger, notificationKind, scalaPlugins)
+    buildServer(clientNotifier,
+                serialization,
+                jsServerSystemConf,
+                logger,
+                notificationKind,
+                scalaPlugins,
+                Some(amfCustomValidator))
   }
 
   def buildServer(clientNotifier: ClientNotifier,
@@ -65,7 +77,8 @@ object LanguageServerFactory {
                   jsServerSystemConf: JsServerSystemConf,
                   logger: UndefOr[ClientLogger],
                   notificationKind: UndefOr[DiagnosticNotificationsKind],
-                  scalaPlugins: Seq[AMFShapePayloadValidationPlugin]) = {
+                  scalaPlugins: Seq[AMFShapePayloadValidationPlugin],
+                  amfCustomValidator: Option[AmfWasmOpaValidator]) = {
     jsServerSystemConf.amfConfiguration.withValidators(scalaPlugins)
     val factory =
       new WorkspaceManagerFactoryBuilder(clientNotifier, sharedLogger(logger))
@@ -74,9 +87,8 @@ object LanguageServerFactory {
 
     notificationKind.toOption.foreach(factory.withNotificationKind)
 
-    // TODO: delete after ALS-1606
     val platformValidator: Option[AMFOpaValidator] =
-      if (PlatformExplorer.isNode) Some(new JsCustomValidator(sharedLogger(logger))) else None
+      amfCustomValidator.map(new JsCustomValidator(sharedLogger(logger), _))
 
     val dm                    = factory.buildDiagnosticManagers(platformValidator)
     val sm                    = factory.serializationManager(serialization)
@@ -131,14 +143,4 @@ case class JsSerializationProps(override val alsClientNotifier: AlsClientNotifie
     extends SerializationProps[js.Any](alsClientNotifier) {
   override def newDocBuilder(prettyPrint: Boolean): DocBuilder[js.Any] =
     JsOutputBuilder() // TODO: JsOutputBuilder with prettyPrint
-}
-
-object PlatformExplorer {
-  private def isDefined(a: js.Any) = !isUndefined(a)
-
-  /* Return true if js is running on node. */
-  def isNode: Boolean =
-    if (isDefined(Dynamic.global.process) && isDefined(Dynamic.global.process.versions))
-      isDefined(Dynamic.global.process.versions.node)
-    else false
 }
