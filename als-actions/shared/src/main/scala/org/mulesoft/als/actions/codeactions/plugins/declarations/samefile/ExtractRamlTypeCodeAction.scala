@@ -33,8 +33,9 @@ case class ExtractRamlTypeCodeAction(params: CodeActionRequestParams)
       RamlTypeExtractor
         .linkEntry(entryRange, _, entryAst, yPartBranch, amfObject, params.configuration, newName, yamlOptions))
 
-  override protected def findDialectForSemantic(name: String): Option[(SemanticExtension, Dialect)] =
-    params.amfConfiguration.findSemanticByName(name)
+  override protected val findDialectForSemantic: String => Option[(SemanticExtension, Dialect)] =
+    params.findDialectForSemantic
+
 }
 
 object ExtractRamlTypeCodeAction extends CodeActionFactory with ExtractDeclarationKind {

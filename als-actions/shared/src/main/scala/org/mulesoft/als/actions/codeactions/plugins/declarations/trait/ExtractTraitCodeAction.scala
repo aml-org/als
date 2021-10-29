@@ -61,8 +61,9 @@ class ExtractTraitCodeAction(override protected val params: CodeActionRequestPar
   override protected def msg(params: CodeActionRequestParams): String =
     s"Extract trait: \n\t${params.uri}\t${params.range}"
 
-  override protected def findDialectForSemantic(name: String): Option[(SemanticExtension, Dialect)] =
-    params.amfConfiguration.findSemanticByName(name)
+  override protected val findDialectForSemantic: String => Option[(SemanticExtension, Dialect)] =
+    params.findDialectForSemantic
+
 }
 
 object ExtractTraitCodeAction extends CodeActionFactory with ExtractTraitKind {
