@@ -104,8 +104,9 @@ class DeleteDeclaredNodeCodeAction(override val params: CodeActionRequestParams)
 
   override protected def uri(params: CodeActionRequestParams): String = params.uri
 
-  override protected def findDialectForSemantic(name: String): Option[(SemanticExtension, Dialect)] =
-    params.amfConfiguration.findSemanticByName(name)
+  override protected val findDialectForSemantic: String => Option[(SemanticExtension, Dialect)] =
+    params.findDialectForSemantic
+
 }
 
 object DeleteDeclaredNodeCodeAction extends CodeActionFactory with DeleteDeclarationKind {

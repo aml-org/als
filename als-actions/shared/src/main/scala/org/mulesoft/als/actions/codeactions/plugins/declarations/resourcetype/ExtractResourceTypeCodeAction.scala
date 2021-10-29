@@ -87,8 +87,9 @@ case class ExtractResourceTypeCodeAction(params: CodeActionRequestParams)
     s"\n${renderNode(node, yPartBranch.flatMap(_.parentEntry))}\n"
   }
 
-  override protected def findDialectForSemantic(name: String): Option[(SemanticExtension, Dialect)] =
-    params.amfConfiguration.findSemanticByName(name)
+  override protected val findDialectForSemantic: String => Option[(SemanticExtension, Dialect)] =
+    params.findDialectForSemantic
+
 }
 
 object ExtractResourceTypeCodeAction extends CodeActionFactory with ExtractResourceTypeKind {

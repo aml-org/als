@@ -83,8 +83,9 @@ class RamlTypeToJsonSchema(override protected val params: CodeActionRequestParam
 
   override protected val amfConfiguration: AmfConfigurationWrapper = params.amfConfiguration
 
-  override protected def findDialectForSemantic(name: String): Option[(SemanticExtension, Dialect)] =
-    params.amfConfiguration.findSemanticByName(name)
+  override protected val findDialectForSemantic: String => Option[(SemanticExtension, Dialect)] =
+    params.findDialectForSemantic
+
 }
 
 object RamlTypeToJsonSchema extends CodeActionFactory with RamlTypeToJsonSchemaKind {

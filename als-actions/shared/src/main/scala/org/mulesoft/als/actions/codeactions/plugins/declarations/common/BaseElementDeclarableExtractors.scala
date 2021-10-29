@@ -96,7 +96,7 @@ trait BaseElementDeclarableExtractors extends TreeKnowledge {
     */
   protected lazy val renderLink: Future[Option[YNode]] = Future.successful(None)
 
-  protected def findDialectForSemantic(name: String): Option[(SemanticExtension, Dialect)]
+  protected val findDialectForSemantic: String => Option[(SemanticExtension, Dialect)]
 
   protected lazy val spec: Spec =
     maybeTree.flatMap(_.objSpec(findDialectForSemantic)) getOrElse params.bu.sourceSpec.getOrElse(Spec.AML)

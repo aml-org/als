@@ -1,6 +1,7 @@
 package org.mulesoft.als.actions.codeactions.plugins.base
 
 import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.SemanticExtension
 import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.cache.{ObjectInTreeCached, YPartBranchCached}
@@ -22,7 +23,10 @@ case class CodeActionRequestParams(uri: String,
                                    telemetryProvider: TelemetryProvider,
                                    uuid: String,
                                    amfConfiguration: AmfConfigurationWrapper,
-                                   directoryResolver: DirectoryResolver)
+                                   directoryResolver: DirectoryResolver) {
+  val findDialectForSemantic: String => Option[(SemanticExtension, Dialect)] =
+    amfConfiguration.findSemanticByName
+}
 
 object CodeActionParamsImpl {
   implicit class CodeActionParamsImpl(param: CodeActionParams) {
