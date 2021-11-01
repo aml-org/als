@@ -26,7 +26,7 @@ class CustomValidationManagerTest
   override implicit val executionContext: ExecutionContext =
     ExecutionContext.Implicits.global
 
-  override def rootPath: String = "custom-diagnostics"
+  override def rootPath: String = "diagnostics"
 
   val workspacePath: String         = filePath(platform.encodeURI("project"))
   val mainFile: String              = filePath(platform.encodeURI("project/api.raml"))
@@ -242,7 +242,7 @@ class CustomValidationManagerTest
 
               val related = diagnostic.relatedInformation.get.headOption.get
               related.location should equal(
-                Location("file://als-server/shared/src/test/resources/custom-diagnostics/project/isolated.raml",
+                Location("file://als-server/shared/src/test/resources/diagnostics/project/isolated.raml",
                          Range(Position(7, 4), Position(12, 0))))
               related.message should equal("Error expected 500 < actual (actual=100) at shacl.minLength")
             }

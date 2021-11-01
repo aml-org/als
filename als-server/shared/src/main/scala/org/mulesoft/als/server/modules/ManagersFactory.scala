@@ -34,6 +34,7 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Log
   private var notificationKind: DiagnosticNotificationsKind = ALL_TOGETHER
   private var directoryResolver: DirectoryResolver =
     new PlatformDirectoryResolver(platform)
+  private var customValidationManager: Option[CustomValidationManager] = None
 
   def getConfig: AmfConfigurationWrapper = amfConfiguration
 
@@ -77,12 +78,13 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Log
                                  gatherer,
                                  notificationKind)
     val rdm = new ResolutionDiagnosticManager(telemetryManager, clientNotifier, logger, gatherer, amfConfiguration)
-    val cvm = customValidator.map(
+    customValidationManager = customValidator.map(
       new CustomValidationManager(telemetryManager, clientNotifier, logger, gatherer, _, amfConfiguration))
-    cvm.foreach(resolutionDependencies += _)
+    customValidationManager.foreach(resolutionDependencies += _)
+    customValidationManager.foreach(resolutionDependencies += _)
     resolutionDependencies += rdm
     projectDependencies += dm
-    Seq(Some(dm), Some(rdm), cvm).flatten
+    Seq(Some(dm), Some(rdm), customValidationManager).flatten
   }
 
   def filesInProjectManager(alsClientNotifier: AlsClientNotifier[_]): FilesInProjectManager = {
@@ -92,13 +94,16 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Log
   }
 
   def buildWorkspaceManagerFactory(): WorkspaceManagerFactory =
-    WorkspaceManagerFactory(projectDependencies.toList,
-                            resolutionDependencies.toList,
-                            telemetryManager,
-                            directoryResolver,
-                            logger,
-                            amfConfiguration,
-                            configurationManager)
+    WorkspaceManagerFactory(
+      projectDependencies.toList,
+      resolutionDependencies.toList,
+      telemetryManager,
+      directoryResolver,
+      logger,
+      amfConfiguration,
+      configurationManager,
+      customValidationManager
+    )
 }
 
 case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
@@ -107,11 +112,16 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
                                    directoryResolver: DirectoryResolver,
                                    logger: Logger,
                                    amfConfiguration: AmfConfigurationWrapper,
-                                   configurationManager: ConfigurationManager) {
+                                   configurationManager: ConfigurationManager,
+                                   customValidationManager: Option[CustomValidationManager]) {
   val container: TextDocumentContainer =
     TextDocumentContainer(amfConfiguration)
 
-  val cleanDiagnosticManager = new CleanDiagnosticTreeManager(telemetryManager, container, logger)
+  lazy val cleanDiagnosticManager = new CleanDiagnosticTreeManager(telemetryManager,
+                                                                   container,
+                                                                   logger,
+                                                                   customValidationManager,
+                                                                   workspaceConfigurationManager)
 
   val resolutionTaskManager: ResolutionTaskManager = ResolutionTaskManager(
     telemetryManager,

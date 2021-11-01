@@ -1,10 +1,16 @@
 package org.mulesoft.als.server.modules.diagnostic
 
+import amf.core.client.scala.AMFResult
+import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.validation.AMFValidationReport
 import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.feature.diagnostic._
+import org.mulesoft.als.server.modules.configuration.WorkspaceConfigurationProvider
+import org.mulesoft.als.server.modules.diagnostic.custom.CustomValidationManager
 import org.mulesoft.als.server.textsync.EnvironmentProvider
+import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, AmfParseResult}
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
@@ -16,7 +22,9 @@ import scala.concurrent.Future
 
 class CleanDiagnosticTreeManager(telemetryProvider: TelemetryProvider,
                                  environmentProvider: EnvironmentProvider,
-                                 logger: Logger)
+                                 logger: Logger,
+                                 customValidationManager: Option[CustomValidationManager],
+                                 workspaceConfigProvider: WorkspaceConfigurationProvider)
     extends RequestModule[CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeOptions] {
 
   private var enabled: Boolean = true
@@ -66,25 +74,53 @@ class CleanDiagnosticTreeManager(telemetryProvider: TelemetryProvider,
     helper
       .parse(refinedUri)
       .flatMap(pr => {
-        logger.debug(s"about to report: $uri", "RequestAMFFullValidationCommandExecutor", "runCommand")
+        logger.debug(s"About to report: $uri", "CleanDiagnosticTreeManager", "validate")
         val resolved = helper.fullResolution(pr.result.baseUnit)
-        helper.report(resolved.baseUnit).map(r => (r, pr, resolved.results))
+        helper.report(resolved.baseUnit).map(r => CleanValidationPartialResult(pr, r, resolved))
       })
-      .map { t =>
-        val profile = t._1.profile
-        val list    = t._2.tree
+      .flatMap { t =>
+        {
+          runCustomValidations(uri, t.resolvedUnit.baseUnit, helper)
+            .map(r => CleanValidationPartialResult(t.parseResult, t.resolutionResult, t.resolvedUnit, r))
+        }
+      }
+      .map { partialResult =>
+        val profile = partialResult.resolutionResult.profile
+        val list    = partialResult.parseResult.tree
         val ge: Map[String, Seq[AlsValidationResult]] =
-          t._2.groupedErrors.map(t => (t._1, t._2.map(new AlsValidationResult(_))))
-        val report = t._1
+          partialResult.parseResult.groupedErrors.map(t => (t._1, t._2.map(new AlsValidationResult(_))))
+        val report = partialResult.resolutionResult
         val grouped: Map[String, Seq[AlsValidationResult]] =
-          (report.results ++ t._3)
+          (report.results ++ partialResult.resolvedUnit.results ++ partialResult.customValidationResult.map(_.result))
             .groupBy(r => r.location.getOrElse(uri))
             .map(t => (t._1, t._2.map(new AlsValidationResult(_))))
 
         val merged = list.map(uri => uri -> (ge.getOrElse(uri, Nil) ++ grouped.getOrElse(uri, Nil))).toMap
-        logger.debug(s"report conforms: ${report.conforms}", "RequestAMFFullValidationCommandExecutor", "runCommand")
+        logger.debug(s"Report conforms: ${report.conforms}", "CleanDiagnosticTreeManager", "validate")
 
         DiagnosticConverters.buildIssueResults(merged, Map.empty, profile).map(_.publishDiagnosticsParams)
       }
   }
+
+  private def runCustomValidations(uri: String,
+                                   resolvedUnit: BaseUnit,
+                                   helper: AmfConfigurationWrapper): Future[Seq[AlsValidationResult]] = {
+    for {
+      config <- workspaceConfigProvider.getWorkspaceConfiguration(uri).map(_._2)
+      profiles <- config match {
+        case Some(c) => Future.sequence(c.profiles.map(helper.parse).toSeq)
+        case _       => Future(Seq.empty)
+      }
+      result <- customValidationManager match {
+        case Some(cvm) if cvm.isActive && config.isDefined =>
+          cvm.validate(uri, resolvedUnit, helper.branch.withProfiles(profiles)).map(_.flatten)
+        case _ => Future(Seq.empty)
+      }
+    } yield result
+  }
+
+  case class CleanValidationPartialResult(parseResult: AmfParseResult,
+                                          resolutionResult: AMFValidationReport,
+                                          resolvedUnit: AMFResult,
+                                          customValidationResult: Seq[AlsValidationResult] = Seq())
 }
