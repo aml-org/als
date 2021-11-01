@@ -3,7 +3,9 @@ package org.mulesoft.als.server.modules.configuration
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.feature.configuration.workspace._
 import org.mulesoft.als.logger.Logger
+import org.mulesoft.als.server.modules.workspace.WorkspaceContentManager
 import org.mulesoft.als.server.workspace.WorkspaceManager
+import org.mulesoft.als.server.workspace.extract.WorkspaceConfig
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
@@ -17,11 +19,12 @@ import scala.concurrent.Future
 class WorkspaceConfigurationManager(val workspaceManager: WorkspaceManager,
                                     private val telemetryProvider: TelemetryProvider,
                                     private val logger: Logger)
-    extends RequestModule[WorkspaceConfigurationClientCapabilities, WorkspaceConfigurationOptions] {
+    extends RequestModule[WorkspaceConfigurationClientCapabilities, WorkspaceConfigurationOptions]
+    with WorkspaceConfigurationProvider {
 
   private var getEnabled = true
   override def getRequestHandlers: Seq[TelemeteredRequestHandler[_, _]] =
-    Seq(new GetWorkspaceConfigurationRequestHandler(workspaceManager, telemetryProvider))
+    Seq(new GetWorkspaceConfigurationRequestHandler(this, telemetryProvider))
 
   override def applyConfig(config: Option[WorkspaceConfigurationClientCapabilities]): WorkspaceConfigurationOptions = {
     getEnabled = config.forall(_.get)
@@ -31,18 +34,22 @@ class WorkspaceConfigurationManager(val workspaceManager: WorkspaceManager,
     WorkspaceConfigurationConfigType
 
   override def initialize(): Future[Unit] = Future.successful()
+
+  def getWorkspaceConfiguration(uri: String): Future[(WorkspaceContentManager, Option[WorkspaceConfig])] =
+    workspaceManager
+      .getWorkspace(uri)
+      .flatMap(w => w.getCurrentConfiguration.map(c => (w, c)))
 }
 
-class GetWorkspaceConfigurationRequestHandler(val workspaceManager: WorkspaceManager,
+class GetWorkspaceConfigurationRequestHandler(val provider: WorkspaceConfigurationProvider,
                                               private val telemetryProvider: TelemetryProvider)
     extends TelemeteredRequestHandler[GetWorkspaceConfigurationParams, GetWorkspaceConfigurationResult] {
 
   override protected def telemetry: TelemetryProvider = telemetryProvider
 
   override protected def task(params: GetWorkspaceConfigurationParams): Future[GetWorkspaceConfigurationResult] =
-    workspaceManager
-      .getWorkspace(params.textDocument.uri)
-      .flatMap(w => w.getCurrentConfiguration.map(c => (w, c)))
+    provider
+      .getWorkspaceConfiguration(params.textDocument.uri)
       .map(t =>
         GetWorkspaceConfigurationResult(
           t._1.folderUri,

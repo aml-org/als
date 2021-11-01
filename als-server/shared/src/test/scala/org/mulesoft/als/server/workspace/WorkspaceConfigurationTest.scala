@@ -322,7 +322,8 @@ class WorkspaceConfigurationTest extends LanguageServerBaseTest with ChangesWork
        directoryResolver,
        logger,
        amfConfiguration,
-       new ConfigurationManager()
+       new ConfigurationManager(),
+       None
      ),
      parserListener)
   }
