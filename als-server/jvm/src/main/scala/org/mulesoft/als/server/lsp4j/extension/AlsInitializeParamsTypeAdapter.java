@@ -75,7 +75,7 @@ public class AlsInitializeParamsTypeAdapter extends InitializeParamsTypeAdapter 
                 case "configuration":
                     result.setConfiguration(readConfiguration(in));
                     break;
-                case "projectConfigurationType":
+                case "projectConfigurationStyle":
                     result.setProjectConfigurationStyle(readProjectConfiguration(in));
                 default:
                     in.skipValue();
