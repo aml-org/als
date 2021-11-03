@@ -76,7 +76,10 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
             .parse(api)
         }
       } yield {
-        parsed.baseUnit.asInstanceOf[Document].encodes.id should be("amf://id#2")
+        parsed.baseUnit
+          .asInstanceOf[Document]
+          .encodes
+          .id should be("amf://id#3") // what are we testing with this ID? does this means anything to us?
       }
     }
   }
@@ -118,7 +121,7 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
             .parse(api)
         }
       } yield {
-        parsed.baseUnit.asInstanceOf[Document].encodes.id should be("amf://id#2")
+        parsed.baseUnit.asInstanceOf[Document].encodes.id should be("amf://id#3")
       }
     }
   }
@@ -153,10 +156,10 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
         s4      <- serialized(server, api, serializationProps)
         parsed4 <- parsedApi(api, s4)
       } yield {
-        parsed.baseUnit.asInstanceOf[Document].encodes.id should be("amf://id#2")
-        parsed2.baseUnit.asInstanceOf[Document].encodes.id should be("amf://id#2")
+        parsed.baseUnit.asInstanceOf[Document].encodes.id should be("amf://id#3")
+        parsed2.baseUnit.asInstanceOf[Document].encodes.id should be("amf://id#3")
         parsed3.baseUnit.isInstanceOf[Document] should be(false)
-        parsed4.baseUnit.asInstanceOf[Document].encodes.id should be("amf://id#2")
+        parsed4.baseUnit.asInstanceOf[Document].encodes.id should be("amf://id#3")
 
       }
     }
