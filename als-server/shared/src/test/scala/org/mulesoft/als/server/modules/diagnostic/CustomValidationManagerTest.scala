@@ -4,7 +4,6 @@ import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.configuration.ConfigurationStyle.COMMAND
 import org.mulesoft.als.configuration.ProjectConfigurationStyle
-import org.mulesoft.als.logger.{EmptyLogger, Logger}
 import org.mulesoft.als.server.feature.diagnostic.CustomValidationClientCapabilities
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticImplicits.PublishDiagnosticsParamsWriter
@@ -66,7 +65,7 @@ class CustomValidationManagerTest
     } yield diagnostics
   }
 
-  test("Should not be called when no profile is registered") {
+  ignore("Should not be called when no profile is registered") {
     implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
     val validator                                                 = new DummyAmfOpaValidator
     val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
@@ -84,7 +83,7 @@ class CustomValidationManagerTest
     }
   }
 
-  test("Shouldn't even run when disabled") {
+  ignore("Shouldn't even run when disabled") {
     implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
     val validator                                                 = new DummyAmfOpaValidator
     val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
@@ -108,7 +107,7 @@ class CustomValidationManagerTest
     }
   }
 
-  test("Should be called after a profile is registered") {
+  ignore("Should be called after a profile is registered") {
     implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
     val validator                                                 = new DummyAmfOpaValidator
     val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
@@ -131,7 +130,7 @@ class CustomValidationManagerTest
     }
   }
 
-  test("Should notify errors on main tree") {
+  ignore("Should notify errors on main tree") {
     val negativeReportUri = filePath(platform.encodeURI("project/negative.report.jsonld"))
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
@@ -167,7 +166,7 @@ class CustomValidationManagerTest
       })
   }
 
-  test("Should notify errors on isolated files") {
+  ignore("Should notify errors on isolated files") {
     val negativeReportUri = filePath(platform.encodeURI("project/negative.report.jsonld"))
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
@@ -206,7 +205,7 @@ class CustomValidationManagerTest
       })
   }
 
-  test("Should build traces") {
+  ignore("Should build traces") {
     val negativeReportUri = filePath(platform.encodeURI("traces.report.jsonld"))
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
@@ -250,7 +249,7 @@ class CustomValidationManagerTest
       })
   }
 
-  test("Should notify errors on both the main tree and isolated files") {
+  ignore("Should notify errors on both the main tree and isolated files") {
     val negativeReportUri = filePath(platform.encodeURI("project/negative.report.jsonld"))
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
@@ -287,7 +286,7 @@ class CustomValidationManagerTest
       })
   }
 
-  test("Should notify errors on isolated files if opened after profile is added") {
+  ignore("Should notify errors on isolated files if opened after profile is added") {
     val negativeReportUri = filePath(platform.encodeURI("project/negative.report.jsonld"))
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
@@ -325,7 +324,7 @@ class CustomValidationManagerTest
       })
   }
 
-  test("Should clean custom-validation errors if profile is removed") {
+  ignore("Should clean custom-validation errors if profile is removed") {
     val negativeReportUri = filePath(platform.encodeURI("project/negative.report.jsonld"))
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
@@ -367,7 +366,7 @@ class CustomValidationManagerTest
       })
   }
 
-  test("Should clean custom-validation errors if profile is removed [Isolated files]") {
+  ignore("Should clean custom-validation errors if profile is removed [Isolated files]") {
     val negativeReportUri = filePath(platform.encodeURI("project/negative.report.jsonld"))
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
