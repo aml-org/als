@@ -3,6 +3,12 @@ import sbt.{Def, config, _}
 
 object Common {
 
+  lazy val workspaceDirectory: File =
+    sys.props.get("sbt.mulesoft") match {
+      case Some(x) => file(x)
+      case _       => Path.userHome / "mulesoft"
+    }
+
   private val nexus = "https://repository-master.mulesoft.org/nexus/content/repositories"
 
   val snapshots: MavenRepository = "MuleSoft snapshots" at s"$nexus/snapshots"
