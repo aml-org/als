@@ -18,7 +18,7 @@ case class JsServerSystemConf(clientLoaders: js.Array[ClientResourceLoader] = js
     else clientLoaders.map(ResourceLoaderConverter.internalResourceLoader).toSeq
 
   val amfConfiguration: AmfConfigurationWrapper =
-    AmfConfigurationWrapper.buildSync(loaders)
+    AmfConfigurationWrapper.buildSync(loaders, withDefaultLoaders = false)
 
   def directoryResolver: DirectoryResolver =
     DirectoryResolverAdapter.convert(clientDirResolver)
