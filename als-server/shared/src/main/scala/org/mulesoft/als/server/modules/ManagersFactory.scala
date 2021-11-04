@@ -122,7 +122,7 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
     TextDocumentContainer(amfConfiguration)
 
   lazy val cleanDiagnosticManager = new CleanDiagnosticTreeManager(telemetryManager,
-                                                                   container,
+                                                                   amfConfiguration,
                                                                    logger,
                                                                    customValidationManager,
                                                                    workspaceConfigurationManager)

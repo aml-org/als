@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.modules.diagnostic
 
+import amf.aml.client.scala.model.document.Dialect
 import amf.core.client.scala.AMFResult
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.validation.AMFValidationReport
@@ -9,7 +10,8 @@ import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.feature.diagnostic._
 import org.mulesoft.als.server.modules.configuration.WorkspaceConfigurationProvider
 import org.mulesoft.als.server.modules.diagnostic.custom.CustomValidationManager
-import org.mulesoft.als.server.textsync.EnvironmentProvider
+import org.mulesoft.als.server.workspace.extract.WorkspaceConfig
+import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, AmfParseResult}
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
@@ -21,7 +23,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class CleanDiagnosticTreeManager(telemetryProvider: TelemetryProvider,
-                                 environmentProvider: EnvironmentProvider,
+                                 baseAmfConfig: AmfConfigurationWrapper,
                                  logger: Logger,
                                  customValidationManager: Option[CustomValidationManager],
                                  workspaceConfigProvider: WorkspaceConfigurationProvider)
@@ -69,44 +71,70 @@ class CleanDiagnosticTreeManager(telemetryProvider: TelemetryProvider,
   override def initialize(): Future[Unit] = Future.successful()
 
   def validate(uri: String): Future[Seq[AlsPublishDiagnosticsParams]] = {
-    val helper     = environmentProvider.amfConfiguration
-    val refinedUri = uri.toAmfDecodedUri(environmentProvider.platform)
-    helper
-      .parse(refinedUri)
-      .flatMap(pr => {
-        logger.debug(s"About to report: $uri", "CleanDiagnosticTreeManager", "validate")
-        val resolved = helper.fullResolution(pr.result.baseUnit)
-        helper.report(resolved.baseUnit).map(r => CleanValidationPartialResult(pr, r, resolved))
-      })
-      .flatMap { t =>
-        {
-          runCustomValidations(uri, t.resolvedUnit.baseUnit, helper)
-            .map(r => CleanValidationPartialResult(t.parseResult, t.resolutionResult, t.resolvedUnit, r))
-        }
-      }
-      .map { partialResult =>
-        val profile = partialResult.resolutionResult.profile
-        val list    = partialResult.parseResult.tree
-        val ge: Map[String, Seq[AlsValidationResult]] =
-          partialResult.parseResult.groupedErrors.map(t => (t._1, t._2.map(new AlsValidationResult(_))))
-        val report = partialResult.resolutionResult
-        val grouped: Map[String, Seq[AlsValidationResult]] =
-          (report.results ++ partialResult.resolvedUnit.results ++ partialResult.customValidationResult.map(_.result))
-            .groupBy(r => r.location.getOrElse(uri))
-            .map(t => (t._1, t._2.map(new AlsValidationResult(_))))
+    val helper = getCleanAmfWrapper
+    for {
+      maybeConfig   <- getWorkspaceConfig(uri)
+      _             <- maybeConfig.map(c => registerSemantics(helper, c)).getOrElse(Future.unit)
+      pr            <- doParse(uri, helper)
+      t             <- partialResultForResolved(uri, helper, pr)
+      partialResult <- partialResultForCustom(uri, helper, t)
+    } yield {
+      val profile = partialResult.resolutionResult.profile
+      val list    = partialResult.parseResult.tree
+      val ge: Map[String, Seq[AlsValidationResult]] =
+        partialResult.parseResult.groupedErrors.map(t => (t._1, t._2.map(new AlsValidationResult(_))))
+      val report = partialResult.resolutionResult
+      val grouped: Map[String, Seq[AlsValidationResult]] =
+        (report.results ++ partialResult.resolvedUnit.results ++ partialResult.customValidationResult.map(_.result))
+          .groupBy(r => r.location.getOrElse(uri))
+          .map(t => (t._1, t._2.map(new AlsValidationResult(_))))
 
-        val merged = list.map(uri => uri -> (ge.getOrElse(uri, Nil) ++ grouped.getOrElse(uri, Nil))).toMap
-        logger.debug(s"Report conforms: ${report.conforms}", "CleanDiagnosticTreeManager", "validate")
+      val merged = list.map(uri => uri -> (ge.getOrElse(uri, Nil) ++ grouped.getOrElse(uri, Nil))).toMap
+      logger.debug(s"Report conforms: ${report.conforms}", "CleanDiagnosticTreeManager", "validate")
 
-        DiagnosticConverters.buildIssueResults(merged, Map.empty, profile).map(_.publishDiagnosticsParams)
-      }
+      DiagnosticConverters.buildIssueResults(merged, Map.empty, profile).map(_.publishDiagnosticsParams)
+    }
   }
+
+  protected def getWorkspaceConfig(uri: String): Future[Option[WorkspaceConfig]] =
+    workspaceConfigProvider.getWorkspaceConfiguration(uri).map(_._2)
+
+  protected def getCleanAmfWrapper: AmfConfigurationWrapper =
+    baseAmfConfig.branch
+
+  private def partialResultForCustom(uri: String, helper: AmfConfigurationWrapper, t: CleanValidationPartialResult) =
+    runCustomValidations(uri, t.resolvedUnit.baseUnit, helper)
+      .map(r => CleanValidationPartialResult(t.parseResult, t.resolutionResult, t.resolvedUnit, r))
+
+  private def partialResultForResolved(uri: String, helper: AmfConfigurationWrapper, pr: AmfParseResult) = {
+    logger.debug(s"About to report: $uri", "CleanDiagnosticTreeManager", "validate")
+    val resolved = helper.fullResolution(pr.result.baseUnit)
+    helper.report(resolved.baseUnit).map(r => CleanValidationPartialResult(pr, r, resolved))
+  }
+
+  private def doParse(uri: String, helper: AmfConfigurationWrapper): Future[AmfParseResult] = {
+    val refinedUri = uri.toAmfDecodedUri(baseAmfConfig.platform)
+    val eventualResult = helper
+      .parse(refinedUri)
+    eventualResult
+  }
+
+  private def registerSemantics(helper: AmfConfigurationWrapper, c: WorkspaceConfig): Future[Unit] =
+    Future
+      .sequence(c.semanticExtensions.map(doParse(_, helper)) ++ c.dialects.map(doParse(_, helper)))
+      .map(_.map(_.result.baseUnit).map {
+        case d: Dialect => helper.registerDialect(d)
+        case b =>
+          logger.warning(s"tried to register invalid dialect: ${b.identifier}",
+                         "CleanDiagnosticTreeManager",
+                         "registerSemantics")
+      })
 
   private def runCustomValidations(uri: String,
                                    resolvedUnit: BaseUnit,
-                                   helper: AmfConfigurationWrapper): Future[Seq[AlsValidationResult]] = {
+                                   helper: AmfConfigurationWrapper): Future[Seq[AlsValidationResult]] =
     for {
-      config <- workspaceConfigProvider.getWorkspaceConfiguration(uri).map(_._2)
+      config <- getWorkspaceConfig(uri)
       profiles <- config match {
         case Some(c) => Future.sequence(c.profiles.map(helper.parse).toSeq)
         case _       => Future(Seq.empty)
@@ -117,7 +145,6 @@ class CleanDiagnosticTreeManager(telemetryProvider: TelemetryProvider,
         case _ => Future(Seq.empty)
       }
     } yield result
-  }
 
   case class CleanValidationPartialResult(parseResult: AmfParseResult,
                                           resolutionResult: AMFValidationReport,
