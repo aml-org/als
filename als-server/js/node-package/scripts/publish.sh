@@ -27,7 +27,7 @@ npm version ${FULL_VERSION} --force --no-git-tag-version --allow-same-version
 echo "Publish new version"
 if [ "$IS_MASTER" = true ] ; then
   echo "Tagging as release"
-  npm publish --access public --tag release
+  npm publish --access public --tag latest
 else
   echo "Tagging as prerelease"
   npm publish --access public --tag prerelease

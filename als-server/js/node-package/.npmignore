@@ -1,7 +1,7 @@
 # Directories
 scripts/
 tmp/
-lib/
+lib/**
 node_modules/
 
 # Files
