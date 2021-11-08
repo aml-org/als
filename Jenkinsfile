@@ -46,6 +46,7 @@ pipeline {
                     anyOf {
                         branch 'master'
                         branch 'rc/*'
+                        branch 'support/*'
                     }
                 }
             }
