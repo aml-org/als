@@ -14,7 +14,7 @@ import scala.language.experimental.macros
 
 class TextDocumentManager(val uriToEditor: TextDocumentContainer,
                           val dependencies: List[TextListener],
-                          private val logger: Logger)
+                          protected val logger: Logger)
     extends AlsTextDocumentSyncConsumer {
 
   implicit private val platform: Platform = this.uriToEditor.platform

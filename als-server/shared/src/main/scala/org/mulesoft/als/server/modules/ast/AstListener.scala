@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules.ast
 
 import org.mulesoft.als.server.modules.workspace.CompilableUnit
-import org.mulesoft.als.server.workspace.UnitAccessor
+import org.mulesoft.als.server.workspace.{ProjectConfiguration, UnitAccessor}
 import org.mulesoft.amfintegration.DiagnosticsBundle
 import org.mulesoft.amfintegration.amfconfiguration.AmfParseResult
 
@@ -43,6 +43,8 @@ trait BaseUnitListener extends AstListener[BaseUnitListenerParams] with AccessUn
 trait TextListener {
 
   def notify(uri: String, kind: NotificationKind): Future[Unit]
+
+  def newConfig(projectConfig: ProjectConfiguration): Future[Unit]
 }
 
 sealed case class NotificationKind(kind: String)

@@ -21,7 +21,7 @@ import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.modules.workspace.resolution.ResolutionTaskManager
 import org.mulesoft.als.server.modules.workspace.{CompilableUnit, FilesInProjectManager}
 import org.mulesoft.als.server.textsync.{TextDocumentContainer, TextDocumentManager}
-import org.mulesoft.als.server.workspace.WorkspaceManager
+import org.mulesoft.als.server.workspace.{ProjectConfigurationProvider, WorkspaceManager}
 import org.mulesoft.amfintegration.AmfResolvedUnit
 import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 
@@ -115,11 +115,11 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
                                    telemetryManager: TelemetryManager,
                                    directoryResolver: DirectoryResolver,
                                    logger: Logger,
-                                   amfConfiguration: AmfConfigurationWrapper,
                                    configurationManager: ConfigurationManager,
-                                   customValidationManager: Option[CustomValidationManager]) {
+                                   customValidationManager: Option[CustomValidationManager],
+                                   projectConfigProvider: ProjectConfigurationProvider) {
   val container: TextDocumentContainer =
-    TextDocumentContainer(amfConfiguration)
+    TextDocumentContainer(projectConfigProvider)
 
   lazy val cleanDiagnosticManager = new CleanDiagnosticTreeManager(telemetryManager,
                                                                    amfConfiguration,
