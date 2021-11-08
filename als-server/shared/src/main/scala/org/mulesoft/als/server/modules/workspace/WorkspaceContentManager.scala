@@ -155,6 +155,7 @@ class WorkspaceContentManager private (val folderUri: String,
         tu =>
           ((tu._2 == CHANGE_FILE ||
             tu._2 == OPEN_FILE) && isChanged(tu._1)) || // OPEN_FILE is used in case the IDE restarts and it reopens what was being edited
+            tu._2 == CHANGE_FILE_NEW_VERSION ||
             tu._2 == CLOSE_FILE ||
             (tu._2 == FOCUS_FILE && shouldParseOnFocus(tu._1)))
 

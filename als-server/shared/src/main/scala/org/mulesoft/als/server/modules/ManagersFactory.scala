@@ -27,10 +27,14 @@ import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 
 import scala.collection.mutable.ListBuffer
 
-class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier, logger: Logger, rs: Seq[ResourceLoader] = Nil)
+class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier,
+                                     logger: Logger,
+                                     rs: Seq[ResourceLoader] = Nil,
+                                     withDefaultLoaders: Boolean = true)
     extends PlatformSecrets {
 
-  private var amfConfiguration: AmfConfigurationWrapper     = AmfConfigurationWrapper.buildSync(rs)
+  private var amfConfiguration: AmfConfigurationWrapper =
+    AmfConfigurationWrapper.buildSync(rs, withDefaultLoaders = withDefaultLoaders)
   private var notificationKind: DiagnosticNotificationsKind = ALL_TOGETHER
   private var directoryResolver: DirectoryResolver =
     new PlatformDirectoryResolver(platform)

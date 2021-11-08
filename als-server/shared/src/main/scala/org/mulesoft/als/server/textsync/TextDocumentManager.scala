@@ -50,27 +50,29 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
   def documentWasChanged(document: ChangedDocument): Future[Unit] = {
     logger.debug(s"Document is changed ${document.uri}", "EditorManager", "onChangeDocument")
 
-    uriToEditor
-      .get(document.uri)
-      .foreach(current => {
-        val currentVersion = current.version
-        val currentText    = current.text
+    val currentDocument = uriToEditor.get(document.uri)
 
-        if (currentVersion == document.version)
-          this.logger.debug(s"Version of the reported change is equal to the previous one at ${document.uri}",
-                            "EditorManager",
-                            "onChangeDocument")
+    currentDocument.foreach(current => {
+      val currentVersion = current.version
+      val currentText    = current.text
 
-        if (document.version < currentVersion && document.text.contains(currentText))
-          this.logger.debug(s"No changes detected for ${document.uri}", "EditorManager", "onChangeDocument")
+      if (currentVersion == document.version)
+        this.logger.debug(s"Version of the reported change is equal to the previous one at ${document.uri}",
+                          "EditorManager",
+                          "onChangeDocument")
 
-      })
+      if (document.version < currentVersion && document.text.contains(currentText))
+        this.logger.debug(s"No changes detected for ${document.uri}", "EditorManager", "onChangeDocument")
+
+    })
 
     val syntax = this.determineSyntax(document.uri, document.text.get)
 
     uriToEditor + (document.uri, TextDocument(document.uri, document.version, document.text.get, syntax))
+    val notificationKind =
+      if (currentDocument.exists(c => c.version < document.version)) CHANGE_FILE_NEW_VERSION else CHANGE_FILE
 
-    Future.sequence(this.dependencies.map(_.notify(document.uri, CHANGE_FILE))).flatMap(_ => Future.unit)
+    Future.sequence(this.dependencies.map(_.notify(document.uri, notificationKind))).flatMap(_ => Future.unit)
   }
 
   def onCloseDocument(uri: String): Future[Unit] = {
