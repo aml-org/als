@@ -3,6 +3,7 @@ package org.mulesoft.als.server.textsync
 import amf.core.client.common.remote.Content
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.internal.remote.Platform
+import org.mulesoft.als.server.workspace.ProjectConfigurationProvider
 import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.Initializable
 
@@ -10,7 +11,7 @@ import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-case class TextDocumentContainer(override val amfConfiguration: AmfConfigurationWrapper,
+case class TextDocumentContainer(override val projectConfigurationProvider: ProjectConfigurationProvider,
                                  private val uriToEditor: mutable.Map[String, TextDocument] = mutable.Map())
     extends EnvironmentProvider {
 
@@ -83,8 +84,15 @@ case class TextDocumentContainer(override val amfConfiguration: AmfConfiguration
 }
 
 trait EnvironmentProvider extends Initializable {
+
   def amfConfigurationSnapshot(): AmfConfigurationWrapper
-  val amfConfiguration: AmfConfigurationWrapper
+  val projectConfigurationProvider: ProjectConfigurationProvider
+  final def getAmfConfiguration(folder: String) = {
+
+    val configuration = projectConfigurationProvider.getAMFConfiguration(folder)
+    amfConfigurationSnapshot().als
+  }
+
   def platform: Platform = amfConfiguration.platform
   def openedFiles: Seq[String]
   def branch: EnvironmentProvider

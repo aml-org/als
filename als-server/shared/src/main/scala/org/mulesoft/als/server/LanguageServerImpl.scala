@@ -16,9 +16,9 @@ import scala.concurrent.Future
 
 class LanguageServerImpl(val textDocumentSyncConsumer: AlsTextDocumentSyncConsumer,
                          val workspaceService: AlsWorkspaceService,
-                         private val configuration: ConfigurationManager,
-                         private val languageServerInitializer: LanguageServerInitializer,
-                         private val requestHandlerMap: RequestMap,
+                         protected val configuration: ConfigurationManager,
+                         protected val languageServerInitializer: LanguageServerInitializer,
+                         protected val requestHandlerMap: RequestMap,
                          logger: Logger)
     extends LanguageServer {
 
