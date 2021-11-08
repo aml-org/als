@@ -2,7 +2,7 @@ package org.mulesoft.als.server.workspace.command
 
 import amf.core.internal.parser._
 import org.mulesoft.als.logger.Logger
-import org.mulesoft.als.server.workspace.WorkspaceManager
+import org.mulesoft.als.server.workspace.{ProjectConfiguration, WorkspaceManager}
 import org.mulesoft.lsp.textsync.KnownDependencyScopes._
 import org.mulesoft.lsp.textsync.{DependencyConfiguration, DidChangeConfigurationNotificationParams}
 import org.yaml.model.{YMap, YMapEntry, YScalar, YSequence}
@@ -50,8 +50,7 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
           "DidChangeConfigurationCommandExecutor",
           "runCommand"
         )
-        wsc.contentManagerConfiguration(
-          manager,
+        val projectConfiguration = ProjectConfiguration(
           param.mainUri,
           param.dependencies
             .filterNot(d =>
@@ -62,9 +61,9 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
             },
           extractPerScope(param, CUSTOM_VALIDATION),
           extractPerScope(param, SEMANTIC_EXTENSION),
-          extractPerScope(param, DIALECT),
-          None
+          extractPerScope(param, DIALECT)
         )
+        wsc.contentManagerConfiguration(manager, projectConfiguration)
       } else {
         logger.warning(
           s"Tried to change configuration of workspace `${manager.folderUri}` (folder: ${param.folder}, mainUri:${param.mainUri}) but it does not accept configuration by command",
