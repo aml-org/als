@@ -15,6 +15,8 @@ import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
+import org.mulesoft.lsp.textsync.DidChangeConfigurationNotificationParams
+import org.mulesoft.lsp.textsync.KnownDependencyScopes.{CUSTOM_VALIDATION, DIALECT, SEMANTIC_EXTENSION}
 import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, ExecuteCommandParams}
 
 import scala.collection.mutable
@@ -62,28 +64,22 @@ class WorkspaceManager protected (environmentProvider: EnvironmentProvider,
       } else manager.stage(uri.toAmfUri, kind)
   }
 
-  def contentManagerConfiguration(manager: WorkspaceContentManager,
-                                  mainSubUri: String,
-                                  dependencies: Set[String],
-                                  profiles: Set[String],
-                                  semanticExtensions: Set[String],
-                                  dialects: Set[String],
-                                  reader: Option[ConfigReader]): Future[Unit] = {
+  def contentManagerConfiguration(manager: WorkspaceContentManager, config: ProjectConfiguration): Future[Unit] = {
     logger.debug(
-      s"Workspace '${manager.folderUri}' new configuration { mainFile: $mainSubUri, dependencies: $dependencies, profiles: $profiles }",
+      s"Workspace '${config.folderUri}' new configuration { mainFile: ${config.mainFile}, dependencies: ${config.designDependency}, profiles: ${config.validationDependency} }",
       "WorkspaceManager",
       "contentManagerConfiguration"
     )
     manager
       .withConfiguration(
         DefaultWorkspaceConfigurationProvider(manager,
-                                              mainSubUri,
-                                              dependencies,
-                                              profiles,
-                                              semanticExtensions,
-                                              dialects,
-                                              reader))
-      .stage(mainSubUri, CHANGE_CONFIG)
+                                              config.mainFile,
+                                              config.designDependency,
+                                              config.validationDependency,
+                                              config.extensionDependency,
+                                              config.metadataDependency,
+                                              None))
+      .stage(config.mainFile, CHANGE_CONFIG)
   }
 
   override def executeCommand(params: ExecuteCommandParams): Future[AnyRef] =
@@ -100,6 +96,27 @@ class WorkspaceManager protected (environmentProvider: EnvironmentProvider,
     Commands.DID_CHANGE_CONFIGURATION -> new DidChangeConfigurationCommandExecutor(logger, this),
     Commands.INDEX_DIALECT            -> new IndexDialectCommandExecutor(logger, environmentProvider.amfConfiguration)
   )
+
+  def updateProjectConfiguration(config: ProjectConfiguration): Future[Unit] = {
+
+    getWorkspace(config.mainFile).flatMap { manager =>
+      if (manager.acceptsConfigUpdateByCommand) {
+        logger.debug(
+          s"DidChangeConfiguration for workspace @ ${manager.folderUri} (folder: ${config.folderUri}, mainUri:${config.mainFile})",
+          "DidChangeConfigurationCommandExecutor",
+          "runCommand"
+        )
+        contentManagerConfiguration(manager, config)
+      } else {
+        logger.warning(
+          s"Tried to change configuration of workspace `${manager.folderUri}` (folder: ${manager.folderUri}, mainUri:${config.mainFile}) but it does not accept configuration by command",
+          "DidChangeConfigurationCommandExecutor",
+          "runCommand"
+        )
+        Future.unit
+      }
+    }
+  }
 
   override def getProjectRootOf(uri: String): Future[Option[String]] =
     getWorkspace(uri).flatMap(_.getRootFolderFor(uri))
