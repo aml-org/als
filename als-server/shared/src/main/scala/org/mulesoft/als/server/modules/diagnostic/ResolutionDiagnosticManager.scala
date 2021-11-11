@@ -3,12 +3,11 @@ package org.mulesoft.als.server.modules.diagnostic
 import amf.core.client.common.validation.{ProfileName, ProfileNames}
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.validation.AMFValidationReport
-import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.logger.Logger
+import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.common.reconciler.Runnable
 import org.mulesoft.amfintegration.AmfImplicits._
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.amfintegration.{AmfResolvedUnit, DiagnosticsBundle}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
@@ -19,8 +18,7 @@ import scala.util.{Failure, Success}
 class ResolutionDiagnosticManager(override protected val telemetryProvider: TelemetryProvider,
                                   override protected val clientNotifier: ClientNotifier,
                                   override protected val logger: Logger,
-                                  override protected val validationGatherer: ValidationGatherer,
-                                  override protected val amfConfiguration: AmfConfigurationWrapper)
+                                  override protected val validationGatherer: ValidationGatherer)
     extends ResolvedUnitListener
     with DiagnosticManager {
   type RunType = ValidationRunnable
@@ -96,7 +94,7 @@ class ResolutionDiagnosticManager(override protected val telemetryProvider: Tele
       resolved.getLast.flatMap { r =>
         r.resolvedUnit
           .flatMap { result =>
-            r.amfConfiguration
+            r.configuration
               .report(result.baseUnit)
               .map(rep => AMFValidationReport(rep.model, rep.profile, rep.results ++ result.results))
           }

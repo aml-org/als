@@ -1,6 +1,0 @@
-{
-  "main": "api.raml",
-  "name": "test-als",
-  "classifier": "raml",
-  "tags": []
-}

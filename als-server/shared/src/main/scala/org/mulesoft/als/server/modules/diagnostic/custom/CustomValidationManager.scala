@@ -15,7 +15,7 @@ import org.mulesoft.als.server.modules.ast.ResolvedUnitListener
 import org.mulesoft.als.server.modules.common.reconciler.Runnable
 import org.mulesoft.als.server.modules.diagnostic._
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.amfintegration.amfconfiguration.AMLSpecificConfiguration
 import org.mulesoft.amfintegration.{AmfResolvedUnit, DiagnosticsBundle}
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
@@ -28,8 +28,7 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
                               override protected val clientNotifier: ClientNotifier,
                               override protected val logger: Logger,
                               override protected val validationGatherer: ValidationGatherer,
-                              val platformValidator: AMFOpaValidator,
-                              val amfC: AmfConfigurationWrapper)
+                              val platformValidator: AMFOpaValidator)
     extends BasicDiagnosticManager[CustomValidationClientCapabilities, CustomValidationOptions]
     with ResolvedUnitListener {
 
@@ -57,61 +56,58 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
                                      references: Map[String, DiagnosticsBundle],
                                      uuid: String): Future[Unit] = {
     val startTime = System.currentTimeMillis()
-    resolved.amfConfiguration.workspaceConfiguration match {
-      case Some(config) if config.profiles.nonEmpty =>
-        for {
-          unit    <- resolved.resolvedUnit.map(_.baseUnit)
-          results <- validate(uri, unit, resolved.amfConfiguration)
-        } yield {
-          results.foreach(
-            r =>
-              validationGatherer
-                .indexNewReport(ErrorsWithTree(uri, r, Some(tree(resolved.baseUnit))), managerName, uuid))
-          notifyReport(uri, resolved.baseUnit, references, managerName, ProfileName("CustomValidation"))
-          val endTime = System.currentTimeMillis()
-          this.logger.debug(s"It took ${endTime - startTime} milliseconds to validate with Go env",
-                            "CustomValidationDiagnosticManager",
-                            "gatherValidationErrors")
-        }
-      case _ =>
-        Future.successful {
-          validationGatherer.removeFile(uri, managerName)
-          notifyReport(uri, resolved.baseUnit, references, managerName, ProfileName("CustomValidation"))
-        }
+    if (resolved.alsConfigurationState.profiles.nonEmpty) {
+      for {
+        unit    <- resolved.resolvedUnit.map(_.baseUnit)
+        results <- validate(uri, unit, resolved.alsConfigurationState.profiles.map(_.model), resolved.configuration)
+      } yield {
+        results.foreach(
+          r =>
+            validationGatherer
+              .indexNewReport(ErrorsWithTree(uri, r, Some(tree(resolved.baseUnit))), managerName, uuid))
+        notifyReport(uri, resolved.baseUnit, references, managerName, ProfileName("CustomValidation"))
+        val endTime = System.currentTimeMillis()
+        this.logger.debug(s"It took ${endTime - startTime} milliseconds to validate with Go env",
+                          "CustomValidationDiagnosticManager",
+                          "gatherValidationErrors")
+      }
+    } else {
+      Future.successful {
+        validationGatherer.removeFile(uri, managerName)
+        notifyReport(uri, resolved.baseUnit, references, managerName, ProfileName("CustomValidation"))
+      }
     }
   }
 
   def validate(uri: String,
                unit: BaseUnit,
-               amfConfiguration: AmfConfigurationWrapper): Future[Seq[Seq[AlsValidationResult]]] =
+               profiles: Seq[DialectInstance],
+               config: AMLSpecificConfiguration): Future[Seq[Seq[AlsValidationResult]]] =
     for {
       serialized <- Future {
         val builder = JsonOutputBuilder(false)
-        amfConfiguration.asJsonLD(unit, builder, RenderOptions().withCompactUris.withSourceMaps)
+        config.asJsonLD(unit, builder, RenderOptions().withCompactUris.withSourceMaps)
         builder.result.toString
       }
       result <- Future
         .sequence(
-          amfConfiguration
-            .profiles()
-            .map(t => {
-              val (profile, profileUnit) = t
-              logger.debug(s"Validate with profile: $profile", "CustomValidationManager", "validateWithProfile")
-              validateWithProfile(profileUnit.result.baseUnit, uri, serialized)
+          profiles
+            .map(profile => {
+              logger.debug(s"Validate with profile: ${profile.identifier}",
+                           "CustomValidationManager",
+                           "validateWithProfile")
+              validateWithProfile(profile, uri, serialized)
             }))
         .map(_.toSeq)
     } yield result
 
-  private def validateWithProfile(profileUnit: BaseUnit,
+  private def validateWithProfile(profileUnit: DialectInstance,
                                   unitUri: String,
                                   serializedUnit: String): Future[Seq[AlsValidationResult]] = {
 
-    val profile: Option[ValidationProfileWrapper] = profileUnit match {
-      case instance: DialectInstance =>
-        Some(ValidationProfileWrapper(instance))
-      case _ => None
-    }
-    val profileName = profile.get.name()
+    val profile: ValidationProfileWrapper = ValidationProfileWrapper(profileUnit)
+
+    val profileName = profile.name()
 
     profileUnit.raw match {
       case Some(content) =>
@@ -161,8 +157,6 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
 
     def isCanceled(): Boolean = canceled
   }
-
-  override protected val amfConfiguration: AmfConfigurationWrapper = amfC
 
   override protected def runnable(ast: AmfResolvedUnit, uuid: String): CustomValidationRunnable =
     new CustomValidationRunnable(ast.baseUnit.identifier, ast, uuid)

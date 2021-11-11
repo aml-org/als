@@ -17,6 +17,7 @@ import org.mulesoft.als.server.modules.diagnostic.custom.AMFOpaValidator
 import org.mulesoft.als.server.modules.diagnostic.{DiagnosticNotificationsKind, JsCustomValidator}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.wasm.{AmfCustomValidatorWeb, AmfWasmOpaValidator}
+import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.yaml.builder.{DocBuilder, JsOutputBuilder}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -33,7 +34,6 @@ object LanguageServerFactory {
                   clientLoaders: js.Array[ClientResourceLoader] = js.Array(),
                   clientDirResolver: ClientDirectoryResolver = EmptyJsDirectoryResolver,
                   logger: js.UndefOr[ClientLogger] = js.undefined,
-                  withDiagnostics: Boolean = true,
                   notificationKind: js.UndefOr[DiagnosticNotificationsKind] = js.undefined,
                   amfPlugins: js.Array[JsAMFPayloadValidationPlugin] = js.Array.apply(),
                   amfCustomValidator: AmfWasmOpaValidator = AmfCustomValidatorWeb): LanguageServer = {
@@ -43,7 +43,6 @@ object LanguageServerFactory {
       JsServerSystemConf(clientLoaders, clientDirResolver),
       amfPlugins,
       logger,
-      withDiagnostics,
       notificationKind,
       amfCustomValidator
     )
@@ -54,7 +53,6 @@ object LanguageServerFactory {
                        jsServerSystemConf: JsServerSystemConf = DefaultJsServerSystemConf,
                        plugins: js.Array[JsAMFPayloadValidationPlugin] = js.Array(),
                        logger: js.UndefOr[ClientLogger] = js.undefined,
-                       withDiagnostics: Boolean = true,
                        notificationKind: js.UndefOr[DiagnosticNotificationsKind] = js.undefined,
                        amfCustomValidator: AmfWasmOpaValidator = AmfCustomValidatorWeb): LanguageServer = {
 
@@ -79,10 +77,12 @@ object LanguageServerFactory {
                   notificationKind: UndefOr[DiagnosticNotificationsKind],
                   scalaPlugins: Seq[AMFShapePayloadValidationPlugin],
                   amfCustomValidator: Option[AmfWasmOpaValidator]) = {
-    jsServerSystemConf.amfConfiguration.withValidators(scalaPlugins)
+
+    val globalProjectConfiguration: EditorConfiguration =
+      EditorConfiguration(jsServerSystemConf.loaders, Seq.empty, scalaPlugins, sharedLogger(logger))
+
     val factory =
-      new WorkspaceManagerFactoryBuilder(clientNotifier, sharedLogger(logger))
-        .withAmfConfiguration(jsServerSystemConf.amfConfiguration)
+      new WorkspaceManagerFactoryBuilder(clientNotifier, sharedLogger(logger), globalProjectConfiguration)
         .withDirectoryResolver(jsServerSystemConf.directoryResolver)
 
     notificationKind.toOption.foreach(factory.withNotificationKind)

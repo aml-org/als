@@ -25,7 +25,7 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
       Future.successful(Unit)
     }
 
-    val diagnosticsClient: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
+    val diagnosticsClient: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
     withServer(buildServer(diagnosticsClient)) { s =>
       val server       = new LanguageServerImpl(s)
       val mainFilePath = s"file://api.raml"
@@ -90,7 +90,7 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
     def wrapJson(uri: String): String =
       s"""{"mainUri": "$uri"}"""
 
-    val diagnosticsClient: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
+    val diagnosticsClient: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
     withServer(buildServer(diagnosticsClient)) { s =>
       val mainFilePath = s"file://api.raml"
       val libFilePath  = s"file://lib1.raml"

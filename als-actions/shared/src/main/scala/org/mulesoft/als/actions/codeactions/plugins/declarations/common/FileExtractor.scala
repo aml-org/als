@@ -41,7 +41,7 @@ trait FileExtractor extends BaseElementDeclarableExtractors {
             val linkDe: DomainElement = l.link(fileName)
             linkDe.annotations += ExternalFragmentRef(fileName)
             linkDe.annotations ++= additionalAnnotations
-            params.amfConfiguration.emit(linkDe, spec)
+            params.alsConfigurationState.configForSpec(spec).emit(linkDe)
         }
     }
 

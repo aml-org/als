@@ -7,7 +7,7 @@ import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.edit.{RenameFile, TextDocumentEdit, TextEdit, WorkspaceEdit}
 import org.mulesoft.lsp.feature.common.{Position, Range, TextDocumentIdentifier, VersionedTextDocumentIdentifier}
@@ -115,25 +115,25 @@ class RenameFileReferencesTest extends LanguageServerBaseTest {
         ws.keySet.contains(resource)
     }
 
-    AmfConfigurationWrapper(Seq(rl)).flatMap(amfConfiguration => {
-      val factory =
-        new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
-          .withAmfConfiguration(amfConfiguration)
-          .buildWorkspaceManagerFactory()
+    val factory =
+      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier,
+                                         logger,
+                                         EditorConfiguration.withPlatformLoaders(Seq(rl)))
+        .buildWorkspaceManagerFactory()
 
-      val workspaceManager: WorkspaceManager = factory.workspaceManager
-      val server =
-        new LanguageServerBuilder(factory.documentManager,
-                                  workspaceManager,
-                                  factory.configurationManager,
-                                  factory.resolutionTaskManager)
-          .addRequestModule(factory.renameManager)
-          .build()
+    val workspaceManager: WorkspaceManager = factory.workspaceManager
+    val server =
+      new LanguageServerBuilder(factory.documentManager,
+                                workspaceManager,
+                                factory.configurationManager,
+                                factory.resolutionTaskManager)
+        .addRequestModule(factory.renameManager)
+        .build()
 
-      server
-        .initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
-        .andThen { case _ => server.initialized() }
-        .map(_ => (server, workspaceManager))
-    })
+    server
+      .initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
+      .andThen { case _ => server.initialized() }
+      .map(_ => (server, workspaceManager))
+
   }
 }

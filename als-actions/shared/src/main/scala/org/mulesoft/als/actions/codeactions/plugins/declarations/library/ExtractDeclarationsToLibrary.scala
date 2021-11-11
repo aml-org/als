@@ -49,8 +49,9 @@ trait ExtractDeclarationsToLibrary extends CodeActionResponsePlugin with Creates
   }
 
   protected def moduleRendered(ef: Module): String =
-    params.amfConfiguration
-      .serialize(params.bu.sourceSpec.getOrElse(Spec.AML), syntax, ef)
+    params.alsConfigurationState
+      .configForSpec(params.bu.sourceSpec.getOrElse(Spec.AML))
+      .serialize(syntax, ef)
 
   private val syntax
     : String = Mimes.`application/yaml` // Mimes.`APPLICATION/YAML` // if it finds declared in a RAML, I can't be JSON
@@ -138,7 +139,7 @@ trait ExtractDeclarationsToLibrary extends CodeActionResponsePlugin with Creates
           .map(_.start)
           .map(params.yPartBranch.getCachedOrNew(_, params.uri)),
         params.bu,
-        params.dialect
+        params.definedBy
       )
       // as it is just for RAML (ergo YAML), we will take the whole line as the entry to be erased
       .map(range => Range(Position(range.start.line, 0), LspRangeConverter.toLspPosition(range.`end`)))
