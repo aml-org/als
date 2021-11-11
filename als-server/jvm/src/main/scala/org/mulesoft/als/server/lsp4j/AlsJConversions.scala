@@ -134,7 +134,7 @@ object AlsJConversions {
 
   implicit def workspaceConfigurationParams(
       shared: DidChangeConfigurationNotificationParams): extension.WorkspaceConfigurationParams =
-    new extension.WorkspaceConfigurationParams(shared.mainUri, shared.folder.orNull, shared.dependencies.map {
+    new extension.WorkspaceConfigurationParams(shared.mainUri.getOrElse(""), shared.folder, shared.dependencies.map {
       eitherDependencyConfigurationToJava
     }.asJava)
 

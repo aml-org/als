@@ -8,7 +8,11 @@ import amf.core.internal.remote.Platform
 import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.MarkerFinderTest
 import org.mulesoft.als.common.diff.FileAssertionTest
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.amfintegration.amfconfiguration.{
+  ALSConfigurationState,
+  EditorConfiguration,
+  EmptyProjectConfigurationState
+}
 import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -24,14 +28,15 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
 
   def emptyData(): T
 
-  def runTest(path: String,
-              jsonPath: String,
-              configuration: Option[AmfConfigurationWrapper] = None): Future[Assertion] = {
+  def runTest(path: String, jsonPath: String, configuration: Option[ALSConfigurationState] = None): Future[Assertion] = {
 
     val fullFilePath = filePath(platform.encodeURI(path))
     val fullJsonPath = filePath(jsonPath)
-    val futureAmfConfiguration: Future[AmfConfigurationWrapper] =
-      if (configuration.isDefined) Future(configuration.get) else AmfConfigurationWrapper()
+    val futureAmfConfiguration: Future[ALSConfigurationState] =
+      if (configuration.isDefined) Future(configuration.get)
+      else
+        EditorConfiguration().getState.map(state =>
+          ALSConfigurationState(state, EmptyProjectConfigurationState(), None))
     for {
       amfConfiguration <- futureAmfConfiguration
       actualOutline    <- this.getActualOutline(fullFilePath, platform, amfConfiguration)
@@ -52,18 +57,15 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
     loaders
   }
 
-  def getExpectedOutline(url: String, configuration: AmfConfigurationWrapper): Future[String] =
-    configuration.fetchContent(url).map(_.stream.toString)
-
-  def getActualOutline(url: String, platform: Platform, configuration: AmfConfigurationWrapper): Future[T] = {
+  def getActualOutline(url: String, platform: Platform, configuration: ALSConfigurationState): Future[T] = {
 
     configuration
       .fetchContent(url)
       .flatMap(content => {
-        val fileContentsStr = content.stream.toString
-
         // todo: check if this resource loader is necessary
-        configuration.withResourceLoader(loader(url, fileContentsStr))
+
+        //        val fileContentsStr = content.stream.toString
+        //        configuration.withResourceLoader(loader(url, fileContentsStr))
         configuration.parse(url).map(cu => (cu.result.baseUnit, cu.definedBy))
       })
       .map {

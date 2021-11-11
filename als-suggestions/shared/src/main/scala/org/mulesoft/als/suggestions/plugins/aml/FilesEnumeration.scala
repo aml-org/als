@@ -3,30 +3,30 @@ package org.mulesoft.als.suggestions.plugins.aml
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.suggestions.RawSuggestion
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 case class FilesEnumeration(directoryResolver: DirectoryResolver,
-                            override implicit val amfConfiguration: AmfConfigurationWrapper,
+                            override implicit val alsConfiguration: ALSConfigurationState,
                             actual: String,
                             relativePath: String)
     extends PathCompletion {
 
   def filesIn(fullURI: String): Future[Seq[RawSuggestion]] =
-    directoryResolver.isDirectory(amfConfiguration.platform.resolvePath(fullURI)).flatMap { isDir =>
+    directoryResolver.isDirectory(alsConfiguration.platform.resolvePath(fullURI)).flatMap { isDir =>
       if (isDir) listDirectory(fullURI)
       else Future.successful(Nil)
     }
 
   private def listDirectory(fullURI: String): Future[Seq[RawSuggestion]] =
     directoryResolver
-      .readDir(amfConfiguration.platform.resolvePath(fullURI))
+      .readDir(alsConfiguration.platform.resolvePath(fullURI))
       .flatMap(withIsDir(_, fullURI))
       .map(s => {
         s.filter(tuple =>
-            s"${fullURI.toPath(amfConfiguration.platform)}${tuple._1}" != actual && (tuple._2 || supportedExtension(
+            s"${fullURI.toPath(alsConfiguration.platform)}${tuple._1}" != actual && (tuple._2 || supportedExtension(
               tuple._1)))
           .map(t => if (t._2) s"${t._1}/" else t._1)
           .map(toRawSuggestion)
@@ -37,8 +37,8 @@ case class FilesEnumeration(directoryResolver: DirectoryResolver,
       files.map(
         file =>
           directoryResolver
-            .isDirectory(amfConfiguration.platform.resolvePath(
-              s"${fullUri.toPath(amfConfiguration.platform)}$file".toAmfUri(amfConfiguration.platform)))
+            .isDirectory(alsConfiguration.platform.resolvePath(
+              s"${fullUri.toPath(alsConfiguration.platform)}$file".toAmfUri(alsConfiguration.platform)))
             .map(isDir => (file, isDir)))
     }
 

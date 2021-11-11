@@ -4,13 +4,13 @@ import amf.core.client.common.validation.ProfileName
 import amf.core.client.common.validation.SeverityLevels.VIOLATION
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.validation.{AMFValidationReport, AMFValidationResult}
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.ClientNotifierModule
 import org.mulesoft.als.server.client.ClientNotifier
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.DiagnosticsBundle
-import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, ProfileMatcher}
-import org.mulesoft.lsp.{ConfigHandler, ConfigType}
+import org.mulesoft.amfintegration.amfconfiguration.ProfileMatcher
+import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.diagnostic.{DiagnosticClientCapabilities, DiagnosticConfigType}
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
@@ -26,8 +26,6 @@ trait DiagnosticManager extends BasicDiagnosticManager[DiagnosticClientCapabilit
 }
 
 trait BasicDiagnosticManager[C, S] extends ClientNotifierModule[C, S] {
-
-  protected val amfConfiguration: AmfConfigurationWrapper
 
   protected val validationGatherer: ValidationGatherer
   protected val telemetryProvider: TelemetryProvider

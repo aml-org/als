@@ -16,7 +16,7 @@ import amf.core.client.scala.validation.payload.{
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -39,7 +39,6 @@ class CustomValidationPluginTest extends LanguageServerBaseTest {
 
     override def total: Int = acc
   }
-  val configuration: AmfConfigurationWrapper = AmfConfigurationWrapper.buildSync(Seq(rl))
 
   val plugin: AMFShapePayloadValidationPlugin = new AMFShapePayloadValidationPlugin {
     override def priority: PluginPriority = NormalPriority
@@ -65,10 +64,9 @@ class CustomValidationPluginTest extends LanguageServerBaseTest {
   }
 
   def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer = {
-    val serverConfiguration = configuration.branch
-    serverConfiguration.withValidators(Seq(plugin))
+    val editorConfiguration = EditorConfiguration(rl +: platform.loaders(), Seq.empty, Seq(plugin), logger)
     val builder =
-      new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger).withAmfConfiguration(serverConfiguration)
+      new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, editorConfiguration)
     val dm      = builder.buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
     val b = new LanguageServerBuilder(factory.documentManager,
@@ -84,7 +82,8 @@ class CustomValidationPluginTest extends LanguageServerBaseTest {
 
   test("Test resource loader invocation from custom plugin") {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
-    withServer(buildServer(diagnosticNotifier)) { server =>
+    val server                                           = buildServer(diagnosticNotifier)
+    withServer(server) { server =>
       val apiPath = s"file://api.raml"
 
       val apiContent =
@@ -104,11 +103,7 @@ class CustomValidationPluginTest extends LanguageServerBaseTest {
           |       </object>
         """.stripMargin
 
-      /*
-        register dialect -> open invalid instance -> fix -> invalid again
-       */
       for {
-        _ <- configuration.init()
         _ <- openFileNotification(server)(apiPath, apiContent)
         _ <- diagnosticNotifier.nextCall
       } yield {
