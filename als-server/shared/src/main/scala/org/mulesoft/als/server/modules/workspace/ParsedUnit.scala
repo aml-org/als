@@ -4,7 +4,7 @@ import amf.aml.client.scala.model.document.Dialect
 import org.mulesoft.als.common.dtoTypes.ReferenceStack
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.ErrorsCollected
-import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, AmfParseResult}
+import org.mulesoft.amfintegration.amfconfiguration.{AmfParseContext, AmfParseResult}
 
 import scala.concurrent.Future
 
@@ -13,7 +13,7 @@ case class ParsedUnit(parsedResult: AmfParseResult, inTree: Boolean, definedBy: 
            mf: Option[String],
            stack: Seq[ReferenceStack],
            isDirty: Boolean = false,
-           amfConfiguration: AmfConfigurationWrapper): CompilableUnit =
+           amfContext: AmfParseContext): CompilableUnit =
     CompilableUnit(
       parsedResult.result.baseUnit.identifier,
       parsedResult.result.baseUnit,
@@ -23,6 +23,6 @@ case class ParsedUnit(parsedResult: AmfParseResult, inTree: Boolean, definedBy: 
       next,
       definedBy,
       ErrorsCollected(parsedResult.result.results.toList),
-      amfConfiguration
+      amfContext
     )
 }

@@ -1,9 +1,9 @@
 package org.mulesoft.als.suggestions
 
+import amf.apicontract.client.scala.APIConfiguration
 import org.mulesoft.als.common.diff.{FileAssertionTest, ListAssertions}
 import org.mulesoft.als.suggestions.interfaces.Syntax
 import org.mulesoft.als.suggestions.patcher.{ColonToken, CommaToken, ContentPatcher, PatchToken, QuoteToken}
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -74,10 +74,8 @@ class ContentPatcherTest extends AsyncFunSuite with FileAssertionTest with ListA
     val expected = basePath + s"/$name.result.$syntax"
     val s        = if (syntax == "yaml") Syntax.YAML else Syntax.JSON
     for {
-      amfConfiguration <- AmfConfigurationWrapper()
-      c                <- amfConfiguration.fetchContent(url)
+      c <- platform.fetchContent(url, APIConfiguration.API())
       patched <- Future {
-
         val con        = c.stream.toString
         val content    = if (syntax == "json" && con.endsWith("\n")) con.stripSuffix("\n") else con // ugly hack for json files as the idea adds a \n at the end
         val offset     = content.indexOf("*")

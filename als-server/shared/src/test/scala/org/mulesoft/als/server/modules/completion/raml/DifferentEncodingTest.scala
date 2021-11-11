@@ -13,6 +13,7 @@ import org.mulesoft.lsp.feature.common.{Position, TextDocumentIdentifier, TextDo
 import org.mulesoft.lsp.feature.completion.{CompletionParams, CompletionRequestType}
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
 import org.mulesoft.als.common.URIImplicits._
+import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -57,9 +58,9 @@ class DifferentEncodingTest extends RAMLSuggestionTestServer {
           p.startsWith(path) && (path.endsWith("/") || p.stripPrefix(path).headOption.contains('/')))
       }
     }
-
+    val global = EditorConfiguration.withPlatformLoaders(Seq(rs))
     val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger, Seq(rs))
+      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger, global)
         .withDirectoryResolver(dr)
         .buildWorkspaceManagerFactory()
     val workspaceManager: WorkspaceManager = factory.workspaceManager
@@ -86,7 +87,6 @@ class DifferentEncodingTest extends RAMLSuggestionTestServer {
       Set(("file:///r/root%20%281%29/api.raml", "file:///r/root%20(1)/api.raml")),
       Position(2, 15),
       Map(
-        "file:///r/exchange.json" -> """{"main": "root (1)/api.raml"}""",
         "file:///r/root%20(1)/api.raml" ->
           """#%RAML 1.0
             |types:
@@ -105,7 +105,6 @@ class DifferentEncodingTest extends RAMLSuggestionTestServer {
       Set(("file:///r/root%20%281%29/api.raml", "file:///r/root%20(1)/api.raml")),
       Position(2, 17),
       Map(
-        "file:///r/exchange.json" -> """{"main": "root (1)/api.raml"}""",
         "file:///r/root%20(1)/api.raml" ->
           """#%RAML 1.0
             |types:
@@ -117,14 +116,13 @@ class DifferentEncodingTest extends RAMLSuggestionTestServer {
           """#%RAML 1.0 DataType
             |type: string""".stripMargin
       ),
-      Set("exchange.json", "root (1)/")
+      Set("root (1)/")
     ),
     TestEntry( // Isolated path in a workspace which contains a Project
       "file:///r/t.raml",
       Set(("file:///r/t.raml", "file:///r/t.raml")),
       Position(2, 15),
       Map(
-        "file:///r/exchange.json" -> """{"main": "root (1)/api.raml"}""",
         "file:///r/root%20(1)/api.raml" ->
           """#%RAML 1.0
             |types:
@@ -140,7 +138,7 @@ class DifferentEncodingTest extends RAMLSuggestionTestServer {
             |types:
             |  t: !include /""".stripMargin
       ),
-      Set("/exchange.json", "/root (1)/")
+      Set("/root (1)/")
     )
   )
 

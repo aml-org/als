@@ -53,6 +53,7 @@ object RamlAbstractDefinition extends AMLCompletionPlugin {
 
   private def elementInfo(params: AmlCompletionRequest): Option[ElementInfo] =
     findAbstractDeclaration(params).flatMap(
-      AbstractDeclarationInformation.extractInformation(_, params.baseUnit, params.amfConfiguration))
+      AbstractDeclarationInformation
+        .extractInformation(_, params.baseUnit, params.alsConfigurationState.getAmfConfig))
 
 }

@@ -9,6 +9,7 @@ import org.mulesoft.als.server.workspace.command.Commands
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.feature.common.TextDocumentIdentifier
 import org.mulesoft.lsp.feature.completion.{CompletionItem, CompletionParams, CompletionRequestType}
+import org.mulesoft.lsp.textsync.KnownDependencyScopes
 import org.mulesoft.lsp.workspace.ExecuteCommandParams
 import org.scalatest.{Assertion, EitherValues}
 
@@ -29,8 +30,7 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
   }
 
   def runTest(path: String, expectedSuggestions: Set[String], dialectPath: Option[String] = None): Future[Assertion] =
-    withServer[Assertion](buildServer(),
-                          dialectPath.map(_ => initializeParamsCommandStyle).getOrElse(initializeParams)) { server =>
+    withServer[Assertion](buildServer()) { server =>
       val resolved = filePath(platform.encodeURI(path))
       for {
         content <- this.platform.fetchContent(resolved, AMFGraphConfiguration.predefined())
@@ -41,7 +41,7 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
           dialectPath
             .map(p => filePath(platform.encodeURI(p)))
             .map { d =>
-              commandRegisterDialect(d, server).flatMap(_ => getServerCompletions(resolved, server, markerInfo))
+              commandRegisterDialect(d, d, server).flatMap(_ => getServerCompletions(resolved, server, markerInfo))
             }
             .getOrElse(getServerCompletions(resolved, server, markerInfo))
         }
@@ -59,11 +59,22 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
       }
     }
 
-  def commandRegisterDialect(dialect: String, server: LanguageServer): Future[Unit] = {
+  def commandRegisterDialect(dialect: String, folder: String, server: LanguageServer): Future[Unit] = {
     server.workspaceService
       .executeCommand(
-        ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION,
-                             List(s"""{"mainUri": "", "dependencies": [{"file": "$dialect", "scope": "dialect"}]}""")))
+        ExecuteCommandParams(
+          Commands.DID_CHANGE_CONFIGURATION,
+          List(s"""{
+               |  "folder": "$folder",
+               |  "mainUri": "",
+               |  "dependencies": [
+               |    {
+               |      "file": "$dialect",
+               |      "scope": "${KnownDependencyScopes.DIALECT}"
+               |    }
+               |  ]
+               |}""".stripMargin)
+        ))
       .flatMap(_ => Future.unit)
   }
 

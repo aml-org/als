@@ -8,7 +8,7 @@ import scala.concurrent.Future
 abstract class AMLAsyncApi06SuggestionTest extends AMLSuggestionsTest {
 
   def runAsyncApiTest(path: String, originalSuggestions: Set[String]): Future[Assertion] = {
-    runSuggestionTest(path, originalSuggestions, dialect = Some(filePath("dialect6.yaml")))
+    runSuggestionTest(filePath(path), originalSuggestions, dialect = Some(filePath("dialect6.yaml")))
   }
 
 }

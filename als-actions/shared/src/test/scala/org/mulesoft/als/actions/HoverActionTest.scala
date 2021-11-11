@@ -6,7 +6,12 @@ import org.mulesoft.als.common.cache.{ObjectInTreeCached, YPartBranchCached}
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.common.{BaseHoverTest, PositionedHover}
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
-import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, AmfParseResult}
+import org.mulesoft.amfintegration.amfconfiguration.{
+  ALSConfigurationState,
+  AmfParseResult,
+  EditorConfiguration,
+  EmptyProjectConfigurationState
+}
 import org.scalatest.{Assertion, AsyncFunSuite}
 import org.yaml.model._
 
@@ -44,23 +49,30 @@ class HoverActionTest extends AsyncFunSuite with BaseHoverTest {
     val filePath   = s"file://$path$file"
     val goldenPath = s"file://$path$golden"
     for {
-      amfConfiguration <- AmfConfigurationWrapper()
-      d                <- amfConfiguration.parse(filePath)
+      editorState <- EditorConfiguration().getState
+      global      <- Future(ALSConfigurationState(editorState, EmptyProjectConfigurationState(), None))
+      d           <- global.parse(filePath)
       r <- Future {
-        getResults(d, amfConfiguration)
+        getResults(d, global)
       }
       y <- compareResults(goldenPath, r)
     } yield y
   }
 
-  private def getResults(r: AmfParseResult, amfConfiguration: AmfConfigurationWrapper): List[PositionedHover] = {
+  private def getResults(r: AmfParseResult, alsConfigurationState: ALSConfigurationState): List[PositionedHover] = {
     val positions: List[Position] = r.result.baseUnit.ast.map(extract).getOrElse(List.empty)
     val yPart                     = new YPartBranchCached(r.result.baseUnit)
     val value                     = r.definedBy // always is going to exists in this test and if not, the exception is an advice good enough.
     val cached                    = new ObjectInTreeCached(r.result.baseUnit, value)
     positions.map { p =>
       val hover =
-        HoverAction(r.result.baseUnit, cached, yPart, p, r.location, amfConfiguration.alsVocabularyRegistry, value).getHover
+        HoverAction(r.result.baseUnit,
+                    cached,
+                    yPart,
+                    p,
+                    r.location,
+                    alsConfigurationState.editorState.vocabularyRegistry,
+                    value).getHover
       PositionedHover(p, hover)
     }
   }

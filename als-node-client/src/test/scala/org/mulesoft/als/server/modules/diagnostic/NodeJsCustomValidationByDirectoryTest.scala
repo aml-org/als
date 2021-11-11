@@ -2,8 +2,6 @@ package org.mulesoft.als.server.modules.diagnostic
 
 import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.common.ByDirectoryTest
-import org.mulesoft.als.configuration.ConfigurationStyle.COMMAND
-import org.mulesoft.als.configuration.ProjectConfigurationStyle
 import org.mulesoft.als.nodeclient.AmfCustomValidatorNode
 import org.mulesoft.als.server.feature.diagnostic.CustomValidationClientCapabilities
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
@@ -13,6 +11,7 @@ import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams}
 import org.mulesoft.als.server.workspace.{ChangesWorkspaceConfiguration, WorkspaceManager}
 import org.mulesoft.als.server.{LanguageServerBuilder, MockDiagnosticClientNotifier, TestLogger}
+import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.common.io.SyncFile
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.common.TextDocumentItem
@@ -46,7 +45,7 @@ class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with Changes
   }
 
   private def runForPrefix(workspaceFolder: String, relativeUri: String, profileUri: String, prefix: String) = {
-    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(12000)
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
     val (server, workspaceManager)                       = buildServer(diagnosticNotifier)
     implicit val s: LanguageServer                       = server
     for {
@@ -54,8 +53,7 @@ class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with Changes
         AlsInitializeParams(
           Some(AlsClientCapabilities(customValidations = Some(CustomValidationClientCapabilities(true)))),
           Some(TraceKind.Off),
-          rootUri = Some(workspaceFolder),
-          projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))
+          rootUri = Some(workspaceFolder)
         ))
       _ <- changeWorkspaceConfiguration(
         workspaceManager,
@@ -100,7 +98,7 @@ class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with Changes
     }
 
   def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): (LanguageServer, WorkspaceManager) = {
-    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger)
+    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
     val dm      = builder.buildDiagnosticManagers(Some(validator))
     val factory = builder.buildWorkspaceManagerFactory()
     val b = new LanguageServerBuilder(factory.documentManager,

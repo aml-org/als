@@ -1,8 +1,9 @@
 package org.mulesoft.als.server.workspace.command
 
 import amf.core.internal.parser._
+import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.logger.Logger
-import org.mulesoft.als.server.workspace.{ProjectConfiguration, WorkspaceManager}
+import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.textsync.KnownDependencyScopes._
 import org.mulesoft.lsp.textsync.{DependencyConfiguration, DidChangeConfigurationNotificationParams}
 import org.yaml.model.{YMap, YMapEntry, YScalar, YSequence}
@@ -14,8 +15,8 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
     extends CommandExecutor[DidChangeConfigurationNotificationParams, Unit] {
 
   override protected def buildParamFromMap(m: YMap): Option[DidChangeConfigurationNotificationParams] = {
-    val mainUri: String        = m.key("mainUri").flatMap(e => e.value.toOption[String]).getOrElse("")
-    val folder: Option[String] = m.key("folder").flatMap(e => e.value.toOption[String])
+    val mainUri: Option[String] = m.key("mainUri").flatMap(e => e.value.toOption[String])
+    val folder: String          = m.key("folder").flatMap(e => e.value.toOption[String]).getOrElse("")
     val dependencies: Set[Either[String, DependencyConfiguration]] =
       m.key("dependencies").map(seqToSet).getOrElse(Set.empty)
 
@@ -43,35 +44,27 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
   }
 
   override protected def runCommand(param: DidChangeConfigurationNotificationParams): Future[Unit] =
-    wsc.getWorkspace(param.folder.getOrElse(param.mainUri)).flatMap { manager =>
-      if (manager.acceptsConfigUpdateByCommand) {
-        logger.debug(
-          s"DidChangeConfiguration for workspace @ ${manager.folderUri} (folder: ${param.folder}, mainUri:${param.mainUri})",
-          "DidChangeConfigurationCommandExecutor",
-          "runCommand"
-        )
-        val projectConfiguration = ProjectConfiguration(
-          param.mainUri,
-          param.dependencies
-            .filterNot(d =>
-              d.isRight && d.right.exists(r => Set(CUSTOM_VALIDATION, SEMANTIC_EXTENSION, DIALECT).contains(r.scope)))
-            .map {
-              case Left(v)  => v
-              case Right(v) => v.file
-            },
-          extractPerScope(param, CUSTOM_VALIDATION),
-          extractPerScope(param, SEMANTIC_EXTENSION),
-          extractPerScope(param, DIALECT)
-        )
-        wsc.contentManagerConfiguration(manager, projectConfiguration)
-      } else {
-        logger.warning(
-          s"Tried to change configuration of workspace `${manager.folderUri}` (folder: ${param.folder}, mainUri:${param.mainUri}) but it does not accept configuration by command",
-          "DidChangeConfigurationCommandExecutor",
-          "runCommand"
-        )
-        Future.unit
-      }
+    wsc.getWorkspace(param.folder).flatMap { manager =>
+      logger.debug(
+        s"DidChangeConfiguration for workspace @ ${manager.folderUri} (folder: ${param.folder}, mainUri:${param.mainUri})",
+        "DidChangeConfigurationCommandExecutor",
+        "runCommand"
+      )
+      val projectConfiguration = new ProjectConfiguration(
+        param.folder,
+        param.mainUri,
+        param.dependencies
+          .filterNot(d =>
+            d.isRight && d.right.exists(r => Set(CUSTOM_VALIDATION, SEMANTIC_EXTENSION, DIALECT).contains(r.scope)))
+          .map {
+            case Left(v)  => v
+            case Right(v) => v.file
+          },
+        extractPerScope(param, CUSTOM_VALIDATION),
+        extractPerScope(param, SEMANTIC_EXTENSION),
+        extractPerScope(param, DIALECT)
+      )
+      wsc.contentManagerConfiguration(manager, projectConfiguration)
     }
 
   private def extractPerScope(param: DidChangeConfigurationNotificationParams, scope: String) =

@@ -5,10 +5,9 @@ import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionParamsImpl.Co
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
 import org.mulesoft.als.configuration.AlsConfigurationReader
-import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.logger.Logger
+import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.codeactions._
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
@@ -22,7 +21,6 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
                         workspaceManager: WorkspaceManager,
                         configuration: AlsConfigurationReader,
                         telemetryProvider: TelemetryProvider,
-                        amfConfiguration: AmfConfigurationWrapper,
                         private val logger: Logger,
                         directoryResolver: DirectoryResolver)
     extends RequestModule[CodeActionCapabilities, CodeActionOptions] {
@@ -45,6 +43,9 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
         val uuid = UUID.randomUUID().toString
         for {
           (bu, allr) <- workspaceManager.getRelationships(params.textDocument.uri, uuid)
+          configurationBuilder <- workspaceManager
+            .getWorkspace(params.textDocument.uri)
+            .flatMap(_.getConfigurationState)
           results: Seq[Seq[AbstractCodeAction]] <- {
             val requestParams = params.toRequestParams(
               bu.unit,
@@ -54,8 +55,8 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
               configuration,
               allr,
               telemetryProvider,
+              configurationBuilder,
               uuid,
-              amfConfiguration,
               directoryResolver
             )
             Future.sequence {

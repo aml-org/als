@@ -1,32 +1,23 @@
 package org.mulesoft.als.server.workspace.rename
 
-import amf.core.client.common.remote.Content
-import amf.core.client.scala.resource.ResourceLoader
 import org.mulesoft.als.actions.rename.FindRenameLocations
 import org.mulesoft.als.common.WorkspaceEditSerializer
 import org.mulesoft.als.common.diff.{FileAssertionTest, Tests}
 import org.mulesoft.als.common.dtoTypes.{Position => DtoPosition}
 import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
-import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.actions.rename.RenameTools
-import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
-import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
-import org.mulesoft.lsp.configuration.TraceKind
+import org.mulesoft.als.server.workspace.codeactions.CodeActionsTest
 import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit, WorkspaceEdit}
 import org.mulesoft.lsp.feature.common.{Position, Range, VersionedTextDocumentIdentifier}
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
 
-class RenameTest extends LanguageServerBaseTest with FileAssertionTest with RenameTools {
+class RenameTest extends CodeActionsTest with FileAssertionTest with RenameTools {
 
   override implicit val executionContext: ExecutionContext =
     ExecutionContext.Implicits.global
 
-  private val ws1 = Map(
-    "file:///root/exchange.json" -> """{"main": "api.raml"}""",
+  private val ws1 = WorkspaceEntry(Map(
     "file:///root/api.raml" ->
       """#%RAML 1.0
         |uses:
@@ -44,9 +35,8 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest with Rena
         |  A: string
         |  C: A
         |  D: A""".stripMargin
-  )
-  private val ws2 = Map(
-    "file:///root/exchange.json" -> """{"main": "api.raml"}""",
+  ), Some("api.raml"))
+  private val ws2 = WorkspaceEntry(Map(
     "file:///root/api.raml" ->
       """#%RAML 1.0
         |types:
@@ -60,9 +50,8 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest with Rena
         |  anotherType:
         |    properties:
         |        name: anotherType[]""".stripMargin
-  )
-  private val ws3 = Map(
-    "file:///root/exchange.json" -> """{"main": "api.raml"}""",
+  ), Some("api.raml"))
+  private val ws3 = WorkspaceEntry(Map(
     "file:///root/api.raml" ->
       """#%RAML 1.0
         |types:
@@ -74,10 +63,9 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest with Rena
         |    properties:
         |      reports: person
         |""".stripMargin
-  )
+  ), Some("api.raml"))
 
-  private val ws4 = Map(
-    "file:///root/exchange.json" -> """{"main": "api.raml"}""",
+  private val ws4 = WorkspaceEntry(Map(
     "file:///root/api.raml" ->
       """#%RAML 1.0
         |title: rename
@@ -99,9 +87,8 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest with Rena
         |  Person:
         |    properties:
         |      name: string""".stripMargin
-  )
-  private val ws5 = Map(
-    "file:///root/exchange.json" -> """{"main": "api.raml"}""",
+  ), Some("api.raml"))
+  private val ws5 = WorkspaceEntry(Map(
     "file:///root/api.raml" -> """#%RAML 1.0
                            |title: test
                            |uses:
@@ -136,10 +123,9 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest with Rena
                            |annotationTypes:
                            |    a:
                            |        type: string""".stripMargin
-  )
+  ), Some("api.raml"))
 
-  private val ws6 = Map(
-    "file:///root/exchange.json" -> """{"main": "api.raml"}""",
+  private val ws6 = WorkspaceEntry(Map(
     "file:///root/api.raml" -> """#%RAML 1.0
                                  |title: Test
                                  |types:
@@ -158,7 +144,7 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest with Rena
                                  |    type: object
                                  |    properties:
                                  |        a: string""".stripMargin
-  )
+  ), Some("api.raml"))
   val testSets: Map[String, TestEntry] = Map(
     "Test1" ->
       TestEntry(
@@ -380,7 +366,7 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest with Rena
     case (name, testCase) =>
       test("No handler " + name) {
         for {
-          (_, wsManager) <- buildServer(testCase.root, testCase.ws)
+          (_, wsManager) <- buildServer(testCase.root, testCase.workspace)
           cu             <- wsManager.getLastUnit(testCase.targetUri, "")
           position = DtoPosition(testCase.targetPosition)
           renames <- FindRenameLocations
@@ -402,41 +388,9 @@ class RenameTest extends LanguageServerBaseTest with FileAssertionTest with Rena
   case class TestEntry(targetUri: String,
                        targetPosition: Position,
                        newName: String,
-                       ws: Map[String, String],
+                       workspace: WorkspaceEntry,
                        result: WorkspaceEdit,
                        root: String = "file:///root")
-
-  def buildServer(root: String, ws: Map[String, String]): Future[(LanguageServer, WorkspaceManager)] = {
-    val rl = new ResourceLoader {
-      override def fetch(resource: String): Future[Content] =
-        ws.get(resource)
-          .map(c => new Content(c, resource))
-          .map(Future.successful)
-          .getOrElse(Future.failed(new Exception("File not found on custom ResourceLoader")))
-      override def accepts(resource: String): Boolean =
-        ws.keySet.contains(resource)
-    }
-
-    AmfConfigurationWrapper(Seq(rl)).flatMap(amfConfiguration => {
-      val factory =
-        new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
-          .withAmfConfiguration(amfConfiguration)
-        .buildWorkspaceManagerFactory()
-    val workspaceManager: WorkspaceManager = factory.workspaceManager
-    val server =
-      new LanguageServerBuilder(factory.documentManager,
-                                workspaceManager,
-                                factory.configurationManager,
-                                factory.resolutionTaskManager)
-        .addRequestModule(factory.renameManager)
-        .build()
-
-    server
-      .initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
-      .andThen { case _ => server.initialized() }
-      .map(_ => (server, workspaceManager))
-  })
-  }
 
   override def rootPath: String = ???
 }

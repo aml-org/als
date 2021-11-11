@@ -2,19 +2,22 @@ package org.mulesoft.als.server.lsp4j
 
 import amf.core.client.platform.resource.ClientResourceLoader
 import amf.core.client.scala.resource.ResourceLoader
+import amf.core.client.scala.validation.payload.AMFShapePayloadValidationPlugin
 import amf.core.internal.convert.CoreClientConverters._
 import amf.core.internal.remote.Platform
 import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.configuration.{ClientDirectoryResolver, DirectoryResolverAdapter}
-import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.logger.{Logger, PrintLnLogger}
+import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.{DiagnosticNotificationsKind, PARSING_BEFORE}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.{EmptyJvmSerializationProps, JvmSerializationProps, LanguageServerBuilder}
+import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 
 import scala.collection.JavaConverters._
 import scala.concurrent.ExecutionContext
+import scala.concurrent.ExecutionContext.Implicits.global
 
 // todo: standarize in one only converter (js and jvm) with generics
 class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecrets {
@@ -24,6 +27,7 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecr
   private var notificationsKind: DiagnosticNotificationsKind     = PARSING_BEFORE
   private var directoryResolver: Option[ClientDirectoryResolver] = None
   private var rl: Seq[ResourceLoader]                            = Seq.empty
+  private var plugins: Seq[AMFShapePayloadValidationPlugin]      = Seq.empty
 
   def withSerializationProps(serializationProps: JvmSerializationProps): LanguageServerFactory = {
     serialization = serializationProps
@@ -55,10 +59,15 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecr
     this
   }
 
+  def withAmfPlugins(plugin: Seq[AMFShapePayloadValidationPlugin]): LanguageServerFactory = {
+    plugins = plugin
+    this
+  }
+
   def build(): LanguageServer = {
-    val factory = new WorkspaceManagerFactoryBuilder(clientNotifier, logger, rl)
-//      .withAmfConfiguration(AmfConfigurationWrapper(platform))
-    // todo: how to inject previous AMLPlugins
+    val resourceLoaders     = if (rl.isEmpty) EditorConfiguration.platform.loaders() else rl
+    val editorConfiguration = new EditorConfiguration(resourceLoaders, Seq.empty, plugins, logger)
+    val factory             = new WorkspaceManagerFactoryBuilder(clientNotifier, logger, editorConfiguration)
 
     directoryResolver.foreach(cdr => factory.withDirectoryResolver(DirectoryResolverAdapter.convert(cdr)))
     factory.withNotificationKind(notificationsKind) // move to initialization param

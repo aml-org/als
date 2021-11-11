@@ -1,13 +1,16 @@
 declare module '@aml-org/als-server' {
-  import {Logger as VsCodeLogger, NotificationType, RequestType} from 'vscode-jsonrpc'
-  import {
-    ProtocolConnection, PublishDiagnosticsParams,
-    TextDocumentClientCapabilities,
-    WorkspaceClientCapabilities,
-    TextDocumentIdentifier, WorkspaceFolder, WorkspaceEdit
-  } from 'vscode-languageserver-protocol'
+    import {Logger as VsCodeLogger, NotificationType, RequestType} from 'vscode-jsonrpc'
+    import {
+        ProtocolConnection,
+        PublishDiagnosticsParams,
+        TextDocumentClientCapabilities,
+        TextDocumentIdentifier,
+        WorkspaceClientCapabilities,
+        WorkspaceEdit,
+        WorkspaceFolder
+    } from 'vscode-languageserver-protocol'
 
-  /* amf-client-js */
+    /* amf-client-js */
 
   export class AMFObjectResult {
     results: Array<AMFValidationResult>
@@ -6522,7 +6525,7 @@ declare module '@aml-org/als-server' {
 
   export type DidChangeConfigurationNotificationParams = {
     mainUri: string,
-    folder?: string,
+    folder: string,
     dependencies: AlsDependency[]
   }
 
@@ -6560,10 +6563,6 @@ declare module '@aml-org/als-server' {
     type: NotificationType<AlsConfiguration>
   }
 
-  export type ProjectConfigurationStyle = {
-    style: string
-  }
-
   export interface AlsInitializeParams {
     processId: number | null
     rootPath?: string | null
@@ -6573,7 +6572,6 @@ declare module '@aml-org/als-server' {
     trace?: string
     workspaceFolders: WorkspaceFolder[] | null
     configuration?: AlsConfiguration
-    projectConfigurationStyle?: ProjectConfigurationStyle
     hotReload?: boolean
   }
 

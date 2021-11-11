@@ -30,7 +30,6 @@ class CodeActionsWithPositionMarkerTest extends ServerWithMarkerTest[Seq[CodeAct
         factory.workspaceManager,
         factory.configurationManager.getConfiguration,
         factory.telemetryManager,
-        factory.amfConfiguration,
         logger,
         factory.directoryResolver
       )
