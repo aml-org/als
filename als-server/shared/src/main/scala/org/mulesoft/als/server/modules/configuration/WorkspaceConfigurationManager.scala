@@ -1,11 +1,11 @@
 package org.mulesoft.als.server.modules.configuration
 
+import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.feature.configuration.workspace._
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.workspace.WorkspaceContentManager
 import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.als.server.workspace.extract.WorkspaceConfig
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
@@ -35,7 +35,7 @@ class WorkspaceConfigurationManager(val workspaceManager: WorkspaceManager,
 
   override def initialize(): Future[Unit] = Future.successful()
 
-  def getWorkspaceConfiguration(uri: String): Future[(WorkspaceContentManager, Option[WorkspaceConfig])] =
+  def getWorkspaceConfiguration(uri: String): Future[(WorkspaceContentManager, Option[ProjectConfiguration])] =
     workspaceManager
       .getWorkspace(uri)
       .flatMap(w => w.getCurrentConfiguration.map(c => (w, c)))
@@ -57,10 +57,11 @@ class GetWorkspaceConfigurationRequestHandler(val provider: WorkspaceConfigurati
             .map(config =>
               DidChangeConfigurationNotificationParams(
                 config.mainFile,
-                Some(t._1.folderUri),
-                config.cachables.map(Left(_))
-                  ++ config.profiles.map(p => Right(DependencyConfiguration(p, CUSTOM_VALIDATION)))
-                  ++ config.semanticExtensions.map(p => Right(DependencyConfiguration(p, SEMANTIC_EXTENSION)))
+                t._1.folderUri,
+                // todo: missing dialects?
+                config.designDependency.map(Left(_))
+                  ++ config.validationDependency.map(p => Right(DependencyConfiguration(p, CUSTOM_VALIDATION)))
+                  ++ config.extensionDependency.map(p => Right(DependencyConfiguration(p, SEMANTIC_EXTENSION)))
             ))
             .getOrElse(new EmptyConfigurationParams(t._1.folderUri))
       ))
@@ -85,4 +86,4 @@ class GetWorkspaceConfigurationRequestHandler(val provider: WorkspaceConfigurati
 }
 
 private class EmptyConfigurationParams(workspaceFolder: String)
-    extends DidChangeConfigurationNotificationParams("", Some(workspaceFolder), Set.empty)
+    extends DidChangeConfigurationNotificationParams(None, workspaceFolder, Set.empty)

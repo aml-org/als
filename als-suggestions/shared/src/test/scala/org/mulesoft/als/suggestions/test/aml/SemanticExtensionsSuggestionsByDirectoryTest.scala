@@ -1,10 +1,9 @@
 package org.mulesoft.als.suggestions.test.aml
 
-import amf.aml.client.scala.model.document.Dialect
 import amf.core.internal.remote.{Hint, VocabularyYamlHint}
 import org.mulesoft.als.common.URIImplicits.StringUriImplicits
 import org.mulesoft.als.suggestions.test.SuggestionByDirectoryTest
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.common.io.Fs
 
 import scala.concurrent.Future
@@ -22,24 +21,18 @@ class SemanticExtensionsSuggestionsByDirectoryTest extends SuggestionByDirectory
     * @param directory
     * @return
     */
-  override def preload(directory: String, amfConfiguration: AmfConfigurationWrapper): Future[Unit] = {
+  override def preload(directory: String, editorConfiguration: EditorConfiguration): Future[Unit] = {
     val dir = Fs.syncFile(directory)
     if (dir.isDirectory) {
-      val futureRegistrations = dir.list
-        .filter(_.endsWith(semanticFileExtensions))
-        .map(smxn => s"$directory${fs.separatorChar}$smxn".toAmfUri(platform))
-        .map { extensionUri =>
-          amfConfiguration
-            .parse(extensionUri)
-            .map { r =>
-              r.result.baseUnit match {
-                case d: Dialect =>
-                  amfConfiguration.registerDialect(d)
-                case _ =>
-              }
-            }
-        }
-      Future.sequence(futureRegistrations.toSeq).flatMap(_ => Future.unit)
+      Future {
+        dir.list
+          .filter(_.endsWith(semanticFileExtensions))
+          .map(smxn => s"$directory${fs.separatorChar}$smxn".toAmfUri(platform))
+          .foreach { extensionUri =>
+            editorConfiguration
+              .withDialect(extensionUri)
+          }
+      }
     } else Future.unit
   }
 }

@@ -1,19 +1,19 @@
 package org.mulesoft.als.server.modules.diagnostic
 
 import amf.core.client.common.validation.{ProfileName, ProfileNames}
-import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.logger.Logger
+import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.amfintegration.DiagnosticsBundle
-import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, AmfParseResult}
+import org.mulesoft.amfintegration.amfconfiguration.AmfParseResult
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class ParseDiagnosticManager(override protected val telemetryProvider: TelemetryProvider,
                              override protected val clientNotifier: ClientNotifier,
                              override protected val logger: Logger,
-                             override protected val amfConfiguration: AmfConfigurationWrapper,
                              override protected val validationGatherer: ValidationGatherer,
                              override protected val optimizationKind: DiagnosticNotificationsKind)
     extends BaseUnitListener

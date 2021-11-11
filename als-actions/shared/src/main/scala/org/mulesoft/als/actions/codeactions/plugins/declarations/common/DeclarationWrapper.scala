@@ -9,7 +9,7 @@ import org.mulesoft.als.actions.codeactions.plugins.declarations.common.Extracto
 }
 import org.mulesoft.als.common.YamlWrapper.YNodeImplicits
 import org.mulesoft.als.configuration.AlsConfigurationReader
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.yaml.model.YMapEntry
 import org.yaml.render.{JsonRenderOptions, YamlRenderOptions}
 
@@ -25,9 +25,9 @@ trait DeclarationWrapper {
                       configurationReader: AlsConfigurationReader,
                       jsonOptions: JsonRenderOptions,
                       yamlOptions: YamlRenderOptions,
-                      amfConfiguration: AmfConfigurationWrapper): Option[(String, Option[YMapEntry])] = {
+                      alsConfigurationState: ALSConfigurationState): Option[(String, Option[YMapEntry])] = {
     val existingDeclaration = ExtractorCommon.findExistingKeyPart(bu, uri, Seq(declarationKey))
-    declaredElementNode(amfObject, dialect, amfConfiguration)
+    declaredElementNode(amfObject, dialect, alsConfigurationState)
       .map(node => {
         val r = node.withKey(newName)
         if (existingDeclaration.isEmpty) r.withKey(declarationKey) else r

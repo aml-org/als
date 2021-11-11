@@ -21,7 +21,7 @@ object OPAValidatorReportLoader {
   def load(report: String,
            uri: String,
            profileName: String,
-           profile: Option[ValidationProfileWrapper]): Future[Seq[AlsValidationResult]] = Future {
+           profile: ValidationProfileWrapper): Future[Seq[AlsValidationResult]] = Future {
     val doc       = JsonParser.apply(report).document()
     val map: YMap = doc.node.as[YMap]
     val conforms  = map.key("conforms").forall(n => toBoolean(n.value))
@@ -65,7 +65,7 @@ trait JsonLDReader {
   }
 }
 
-class ResultParser(map: YMap, rootUri: String, profile: Option[ValidationProfileWrapper]) extends JsonLDReader {
+class ResultParser(map: YMap, rootUri: String, profile: ValidationProfileWrapper) extends JsonLDReader {
 
   implicit class URI(value: String) {
     val SHACL_ALIAS = "http://www.w3.org/ns/shacl#"
@@ -83,11 +83,9 @@ class ResultParser(map: YMap, rootUri: String, profile: Option[ValidationProfile
     validationName
       .flatMap(name => {
         profile
-          .flatMap(
-            p =>
-              p.validations()
-                .find(v => v.name().contains(name))
-                .map(_.getId))
+          .validations()
+          .find(v => v.name().contains(name))
+          .map(_.getId)
       })
   lazy val level: String =
     map.key("resultSeverity").flatMap(s => readIdValue(s).map(_.stripShacl)).getOrElse("Violation")
@@ -121,7 +119,7 @@ class ResultParser(map: YMap, rootUri: String, profile: Option[ValidationProfile
                    position.Position(core.end.line + 1, core.end.character))
 }
 
-class TraceParser(map: YMap, rootUri: String, profile: Option[ValidationProfileWrapper]) extends JsonLDReader {
+class TraceParser(map: YMap, rootUri: String, profile: ValidationProfileWrapper) extends JsonLDReader {
 
   lazy val range: Option[position.Range] =
     map.key("location").map(e => e.value.as[YMap]).flatMap(parseRange)
@@ -154,7 +152,7 @@ class TraceParser(map: YMap, rootUri: String, profile: Option[ValidationProfileW
   }
 }
 
-class TraceValueParser(map: YMap, rootUri: String, profile: Option[ValidationProfileWrapper]) extends JsonLDReader {
+class TraceValueParser(map: YMap, rootUri: String, profile: ValidationProfileWrapper) extends JsonLDReader {
   lazy val argument: Option[String]  = map.key("argument").map(_.value.value.toString)
   lazy val negated: Boolean          = parseBoolean(map, "negated").getOrElse(false)
   lazy val actual: Option[String]    = parseString(map, "actual")

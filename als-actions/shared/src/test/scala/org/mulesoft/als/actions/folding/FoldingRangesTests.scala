@@ -4,7 +4,11 @@ import amf.core.client.common.remote.Content
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.amfintegration.amfconfiguration.{
+  ALSConfigurationState,
+  EditorConfiguration,
+  EmptyProjectConfigurationState
+}
 import org.mulesoft.lsp.feature.folding.FoldingRange
 import org.scalatest.{AsyncFlatSpec, Matchers}
 
@@ -238,8 +242,11 @@ class FoldingRangesTests extends AsyncFlatSpec with Matchers with PlatformSecret
     }
 
     for {
-      amfConfiguration <- AmfConfigurationWrapper(Seq(resourceLoader))
-      result <- amfConfiguration
+      state <- EditorConfiguration
+        .withPlatformLoaders(Seq(resourceLoader))
+        .getState
+        .map(ALSConfigurationState(_, EmptyProjectConfigurationState(), None))
+      result <- state
         .parse(testUri)
         .map(_.result.baseUnit)
         .map(_.objWithAST.flatMap(_.annotations.ast()))

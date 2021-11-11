@@ -29,26 +29,23 @@ class JsServerSystemConfigTest extends FlatSpec with Matchers with PlatformSecre
 
   it should "have platform loaders as default" in {
     val jsServerSystemConf: JsServerSystemConf = JsServerSystemConf()
-    val loaders                                = jsServerSystemConf.amfConfiguration.resourceLoaders
-    loaders.size should be(3)
+    val loaders                                = jsServerSystemConf.loaders
+    loaders.size should be(2)
     loaders should contain allElementsOf platfromLoaders
-    loaders should contain(jsServerSystemConf.amfConfiguration.alsDialectProvider.rawDialectResourceLoader)
   }
 
   it should "not have default platform loaders when given list isn't empty" in {
     val jsServerSystemConf: JsServerSystemConf = JsServerSystemConf(js.Array(fakeRL))
-    val loaders                                = jsServerSystemConf.amfConfiguration.resourceLoaders
-    loaders.size should be(2)
+    val loaders                                = jsServerSystemConf.loaders
+    loaders.size should be(1)
     loaders should contain noElementsOf platfromLoaders
-    loaders should contain(jsServerSystemConf.amfConfiguration.alsDialectProvider.rawDialectResourceLoader)
   }
 
   it should "keep platform loaders when added" in {
     val jsServerSystemConf: JsServerSystemConf =
       JsServerSystemConf(clientLoaders = (platform.loaders().map(_.toClient) :+ fakeRL).toJSArray)
-    val loaders = jsServerSystemConf.amfConfiguration.resourceLoaders
-    loaders.size should be(4)
-    loaders should contain(jsServerSystemConf.amfConfiguration.alsDialectProvider.rawDialectResourceLoader)
+    val loaders = jsServerSystemConf.loaders
+    loaders.size should be(3)
   }
 
   implicit class nativeRLWrapper(rl: ResourceLoader) {

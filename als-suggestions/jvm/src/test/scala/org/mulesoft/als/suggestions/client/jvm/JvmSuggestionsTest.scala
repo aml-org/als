@@ -7,7 +7,11 @@ import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.als.suggestions.client.Suggestions
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.amfintegration.amfconfiguration.{
+  ALSConfigurationState,
+  EditorConfiguration,
+  EmptyProjectConfigurationState
+}
 import org.scalatest.{AsyncFunSuite, Matchers}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -42,16 +46,24 @@ class JvmSuggestionsTest extends AsyncFunSuite with Matchers with PlatformSecret
     override def isDirectory(path: String): Future[Boolean] = Future { false }
   }
 
-  private val amfConfiguration: Future[AmfConfigurationWrapper] =
-    AmfConfigurationWrapper(Seq(fileLoader))
+  val alsConfiguration: Future[ALSConfigurationState] = {
+    EditorConfiguration
+      .withPlatformLoaders(Seq(fileLoader))
+      .getState
+      .map(editorState => {
+        ALSConfigurationState(editorState = editorState,
+                              projectState = EmptyProjectConfigurationState(),
+                              editorResourceLoader = None)
+      })
+  }
 
   test("Custom Resource Loader test") {
     val s =
       new Suggestions(AlsConfiguration(), directoryResolver)
         .initialized()
     for {
-      amfConfig   <- amfConfiguration
-      suggestions <- s.suggest(url, 40, snippetsSupport = true, None, amfConfig)
+      alsConfigurationState <- alsConfiguration
+      suggestions           <- s.suggest(url, 40, snippetsSupport = true, None, alsConfigurationState)
     } yield {
       assert(suggestions.size == 15)
     }

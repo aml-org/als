@@ -17,7 +17,7 @@ import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.als.suggestions.styler.{SuggestionRender, SuggestionStylerBuilder}
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.yaml.lexer.YamlToken
 import org.yaml.model.YNode.MutRef
 import org.yaml.model._
@@ -33,7 +33,7 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
                            val inheritedProvider: Option[DeclarationProvider] = None,
                            val rootUri: Option[String],
                            val completionsPluginHandler: CompletionsPluginHandler,
-                           val amfConfiguration: AmfConfigurationWrapper) {
+                           val alsConfigurationState: ALSConfigurationState) {
 
   lazy val branchStack: Seq[AmfObject] = objectInTree.stack
 
@@ -41,8 +41,8 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
 
   val nodeDialect: Dialect =
     objectInTree
-      .objSpec(amfConfiguration.findSemanticByName)
-      .flatMap(amfConfiguration.definitionFor)
+      .objSpec(alsConfigurationState.findSemanticByName)
+      .flatMap(alsConfigurationState.definitionFor)
       .getOrElse(actualDialect)
 
   val currentNode: Option[NodeMapping] = DialectNodeFinder.find(objectInTree.obj, None, nodeDialect)
@@ -103,7 +103,7 @@ object AmlCompletionRequestBuilder {
             rootLocation: Option[String],
             configuration: AlsConfigurationReader,
             completionsPluginHandler: CompletionsPluginHandler,
-            amfConfiguration: AmfConfigurationWrapper): AmlCompletionRequest = {
+            alsConfigurationState: ALSConfigurationState): AmlCompletionRequest = {
     val yPartBranch: YPartBranch = {
       val ast = baseUnit.ast match {
         case Some(d: YDocument) => d
@@ -125,8 +125,8 @@ object AmlCompletionRequestBuilder {
       snippetSupport,
       baseUnit
         .location()
-        .flatMap(amfConfiguration.platform.extension)
-        .flatMap(amfConfiguration.platform.mimeFromExtension), // should we use `yaml` as default? maybe check header for RAML?
+        .flatMap(alsConfigurationState.platform.extension)
+        .flatMap(alsConfigurationState.platform.mimeFromExtension), // should we use `yaml` as default? maybe check header for RAML?
       baseUnit.indentation(dtoPosition)
     )
 
@@ -141,7 +141,7 @@ object AmlCompletionRequestBuilder {
       objInTree(baseUnit, dialect, yPartBranch),
       rootUri = rootLocation,
       completionsPluginHandler = completionsPluginHandler,
-      amfConfiguration = amfConfiguration
+      alsConfigurationState = alsConfigurationState
     )
   }
   /*
@@ -248,7 +248,7 @@ object AmlCompletionRequestBuilder {
       Some(filterProvider),
       parent.rootUri,
       parent.completionsPluginHandler.filter(ignoredPlugins),
-      parent.amfConfiguration
+      parent.alsConfigurationState
     )
   }
 }

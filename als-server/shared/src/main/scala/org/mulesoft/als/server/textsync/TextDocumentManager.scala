@@ -79,8 +79,6 @@ class TextDocumentManager(val uriToEditor: TextDocumentContainer,
     Future.sequence(this.dependencies.map(_.notify(uri, CLOSE_FILE))).flatMap(_ => Future.unit)
   }
 
-//  def onChangePosition(uri: String, position: Int): Unit = uriToEditor.get(uri).foreach(_.setCursorPosition(position))
-
   def determineSyntax(url: String, text: String): String =
     if (text.trim.startsWith("{")) "JSON" else "YAML"
 

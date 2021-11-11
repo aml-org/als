@@ -14,8 +14,8 @@ class FileUsageTest extends ServerFileUsageTest {
   val testSets: Set[TestEntry] = Set(
     TestEntry(
       "file:///root/t.raml",
+      "api.raml",
       Map(
-        "file:///root/exchange.json" -> """{"main": "api.raml"}""",
         "file:///root/api.raml" ->
           """#%RAML 1.0
             |types:
@@ -28,8 +28,8 @@ class FileUsageTest extends ServerFileUsageTest {
     ),
     TestEntry(
       "file:///root/l.raml",
+      "api.raml",
       Map(
-        "file:///root/exchange.json" -> """{"main": "api.raml"}""",
         "file:///root/api.raml" ->
           """#%RAML 1.0
           |uses:
@@ -43,8 +43,8 @@ class FileUsageTest extends ServerFileUsageTest {
     ),
     TestEntry(
       "file:///root/t.yaml",
+      "api.yaml",
       Map(
-        "file:///root/exchange.json" -> """{"main": "api.yaml"}""",
         "file:///root/api.yaml" ->
           """asyncapi: "2.0.0"
             |
@@ -67,7 +67,7 @@ class FileUsageTest extends ServerFileUsageTest {
       results <- Future.sequence {
         testSets.map { test =>
           for {
-            (_, wsManager) <- buildServer(test.root, test.ws)
+            (_, wsManager) <- buildServer(test.root, test.ws, test.mainFile)
             links          <- FindFileUsages.getUsages(test.searchedUri, wsManager.getAllDocumentLinks(test.searchedUri, ""))
           } yield {
             (links, test.result)
@@ -83,13 +83,14 @@ class FileUsageTest extends ServerFileUsageTest {
     Future
       .sequence {
         testSets.map { test =>
-          runTest(test.root, test.ws, test.searchedUri, test.result)
+          runTest(test.root, test.mainFile, test.ws, test.searchedUri, test.result)
         }
       }
       .map(r => assert(r.forall(_ == Succeeded)))
   }
 
   case class TestEntry(searchedUri: String,
+                       mainFile: String,
                        ws: Map[String, String],
                        result: Set[Location],
                        root: String = "file:///root/")

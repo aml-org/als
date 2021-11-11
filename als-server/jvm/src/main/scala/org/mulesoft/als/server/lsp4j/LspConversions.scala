@@ -2,11 +2,7 @@ package org.mulesoft.als.server.lsp4j
 
 import org.eclipse.lsp4j
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
-import org.mulesoft.als.configuration.{
-  AlsConfiguration,
-  ConfigurationStyle,
-  DefaultProjectConfigurationStyle,
-  ProjectConfigurationStyle,
+import org.mulesoft.als.configuration.{AlsConfiguration,
   TemplateTypes
 }
 import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
@@ -92,15 +88,6 @@ object LspConversions {
       )
   }
 
-  implicit def projectConfiguration(
-      projectConfiguration: extension.ProjectConfigurationStyle): ProjectConfigurationStyle = {
-    if (projectConfiguration == null) DefaultProjectConfigurationStyle
-    else {
-      val style = ConfigurationStyle(projectConfiguration.getStyle)
-      ProjectConfigurationStyle(style)
-    }
-  }
-
   private def templateTypeFromString(templateType: String) =
     if (templateType == null) TemplateTypes.FULL
     else
@@ -121,7 +108,6 @@ object LspConversions {
         rootPath = Option(p.getRootPath),
         initializationOptions = Option(p.getInitializationOptions),
         configuration = Option(p.getConfiguration),
-        projectConfigurationStyle = Option(p.getProjectConfigurationStyle),
         hotReload = Option(p.getHotReload)
       )
     } getOrElse AlsInitializeParams.default

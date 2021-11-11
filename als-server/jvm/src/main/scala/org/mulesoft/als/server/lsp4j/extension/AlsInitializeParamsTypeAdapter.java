@@ -1,6 +1,8 @@
 package org.mulesoft.als.server.lsp4j.extension;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
+import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
@@ -75,9 +77,6 @@ public class AlsInitializeParamsTypeAdapter extends InitializeParamsTypeAdapter 
                 case "configuration":
                     result.setConfiguration(readConfiguration(in));
                     break;
-                case "projectConfigurationStyle":
-                    result.setProjectConfigurationStyle(readProjectConfiguration(in));
-                    break;
                 case "hotReload":
                     result.setHotReload(readHotReload(in));
                     break;
@@ -87,10 +86,6 @@ public class AlsInitializeParamsTypeAdapter extends InitializeParamsTypeAdapter 
         }
         in.endObject();
         return result;
-    }
-
-    private ProjectConfigurationStyle readProjectConfiguration(JsonReader in) {
-        return gson.fromJson(in, ProjectConfigurationStyle.class);
     }
 
     private Boolean readHotReload(JsonReader in) {

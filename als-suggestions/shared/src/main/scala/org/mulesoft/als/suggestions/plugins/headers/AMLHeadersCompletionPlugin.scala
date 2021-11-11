@@ -4,7 +4,7 @@ import amf.aml.client.scala.model.document.Dialect
 import org.mulesoft.als.configuration.Configuration
 import org.mulesoft.als.suggestions.interfaces.HeaderCompletionPlugin
 import org.mulesoft.als.suggestions.{HeaderCompletionParams, RawSuggestion}
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.amfintegration.amfconfiguration.AmfParseContext
 import org.mulesoft.amfintegration.dialect.dialects.metadialect.{MetaDialect, VocabularyDialect}
 
 import scala.concurrent.Future
@@ -12,18 +12,18 @@ import scala.concurrent.Future
 object AMLHeadersCompletionPlugin extends HeaderCompletionPlugin {
   override def id: String = "AMLHeadersCompletionPlugin"
 
-  def allHeaders(amfConfiguration: AmfConfigurationWrapper): Seq[String] =
-    (amfConfiguration.dialects
+  def allHeaders(amfConfiguration: AmfParseContext): Seq[String] =
+    (amfConfiguration.state.allDialects
       .filterNot(d => Configuration.internalDialects.contains(d.id))
-      .filterNot(d => Option(d.documents()).exists(_.keyProperty().value()))
-      .toSeq ++ Seq(MetaDialect.dialect, VocabularyDialect.dialect))
+      .filterNot(d => Option(d.documents()).exists(_.keyProperty().value())) ++ Seq(MetaDialect.dialect,
+                                                                                    VocabularyDialect.dialect))
       .flatMap(computeHeaders)
       .distinct
 
   override def resolve(params: HeaderCompletionParams): Future[Seq[RawSuggestion]] =
     Future.successful(
       if (!params.uri.toLowerCase().endsWith(".json"))
-        allHeaders(params.amfConfiguration)
+        allHeaders(params.parseContext)
           .map(h => RawSuggestion.plain(h, s"Define a ${h.substring(1)} file"))
       else Seq()
     )

@@ -555,8 +555,8 @@ class ClientConversionTest extends FlatSpec with Matchers {
   it should "transform DidChangeConfigurationNotificationParams" in {
     val ts: DidChangeConfigurationNotificationParams =
       DidChangeConfigurationNotificationParams(
-        "uri",
-        Some("ws"),
+        Some("uri"),
+        "ws",
         Set(Left("dep1"), Right(DependencyConfiguration("dep2", DEPENDENCY)))
           ++ Set(Right(DependencyConfiguration("p1", CUSTOM_VALIDATION)),
                  Right(DependencyConfiguration("p2", CUSTOM_VALIDATION)))
