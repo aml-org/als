@@ -27,20 +27,6 @@ ALS Initialize Params extends LSP's [InitializeParams](https://microsoft.github.
   trace?: TraceValue;
   workspaceFolders?: WorkspaceFolder[] | null;
   /** End of LSP default params **/
-
-  /** ALS custom params **/
-
-  /**
-  * Project configuration style:
-  * Defines how the workspaces containing a project should be configured.
-  * "command": It will only accept configuration by `didChangeConfiguration` command.
-  * "file": It will try and read configuration from `exchange.json` file. It will ignore `didChangeConfiguration` command.
-  *
-  * Defaults to "file" configuration style.
-  */
-  projectConfigurationStyle: {
-    style?: "command" | "file";
-  }
 }
 </pre>
 

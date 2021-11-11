@@ -2,29 +2,29 @@ package org.mulesoft.als.server.workspace
 
 import amf.core.internal.remote.Platform
 import org.mulesoft.als.common.URIImplicits._
-import org.mulesoft.als.configuration.{DefaultProjectConfigurationStyle, ProjectConfigurationStyle}
-import org.mulesoft.als.server.AlsWorkspaceService
+import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.logger.Logger
+import org.mulesoft.als.server.AlsWorkspaceService
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.configuration.{ConfigurationManager, ConfigurationProvider}
-import org.mulesoft.als.server.modules.workspace.{CompilableUnit, WorkspaceContentManager}
+import org.mulesoft.als.server.modules.workspace.{CompilableUnit, ProjectConfigurationAdapter, WorkspaceContentManager}
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.command._
-import org.mulesoft.als.server.workspace.extract._
+import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
-import org.mulesoft.lsp.textsync.DidChangeConfigurationNotificationParams
-import org.mulesoft.lsp.textsync.KnownDependencyScopes.{CUSTOM_VALIDATION, DIALECT, SEMANTIC_EXTENSION}
 import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, ExecuteCommandParams}
 
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class WorkspaceManager protected (environmentProvider: EnvironmentProvider,
+class WorkspaceManager protected (val environmentProvider: EnvironmentProvider,
                                   telemetryProvider: TelemetryProvider,
+                                  val editorConfiguration: EditorConfiguration,
+                                  projectConfigurationProvider: ProjectConfigurationProvider,
                                   val allSubscribers: List[BaseUnitListener],
                                   override val dependencies: List[AccessUnits[CompilableUnit]],
                                   logger: Logger,
@@ -34,16 +34,22 @@ class WorkspaceManager protected (environmentProvider: EnvironmentProvider,
     with UnitsManager[CompilableUnit, BaseUnitListenerParams]
     with AlsWorkspaceService {
 
-  implicit val platform: Platform                  = environmentProvider.platform
+  implicit val platform: Platform = environmentProvider.platform
+
   override def subscribers: List[BaseUnitListener] = allSubscribers.filter(_.isActive)
   private val workspaces =
-    new WorkspaceList(environmentProvider, telemetryProvider, allSubscribers, logger, configurationProvider)
+    new WorkspaceList(environmentProvider,
+                                             projectConfigurationProvider,
+                                             editorConfiguration,
+                                             telemetryProvider,
+                                             allSubscribers,
+                                             logger, configurationProvider)
 
   def getWorkspace(uri: String): Future[WorkspaceContentManager] =
     workspaces.findWorkspace(uri)
 
   override def getUnit(uri: String, uuid: String): Future[CompilableUnit] =
-    getWorkspace(uri.toAmfUri).flatMap(_.getUnit(uri.toAmfUri))
+    getWorkspace(uri.toAmfUri).flatMap(ws => ws.getUnit(uri.toAmfUri))
 
   override def getLastUnit(uri: String, uuid: String): Future[CompilableUnit] =
     getUnit(uri.toAmfUri, uuid).flatMap(cu => if (cu.isDirty) getLastCU(cu, uri, uuid) else Future.successful(cu))
@@ -56,30 +62,22 @@ class WorkspaceManager protected (environmentProvider: EnvironmentProvider,
 
   override def notify(uri: String, kind: NotificationKind): Future[Unit] = getWorkspace(uri.toAmfUri).flatMap {
     manager =>
-      if (manager.configFile
-            .map(_.toAmfUri)
-            .contains(uri.toAmfUri)) {
-        manager.withConfiguration(ReaderWorkspaceConfigurationProvider(manager))
-        manager.stage(uri.toAmfUri, CHANGE_CONFIG)
-      } else manager.stage(uri.toAmfUri, kind)
+      manager.stage(uri.toAmfUri, kind)
   }
+
+  override def newConfig(projectConfig: ProjectConfiguration): Future[Unit] =
+    workspaces
+      .findWorkspace(projectConfig.folder)
+      .map(_.withConfiguration(projectConfig))
 
   def contentManagerConfiguration(manager: WorkspaceContentManager, config: ProjectConfiguration): Future[Unit] = {
     logger.debug(
-      s"Workspace '${config.folderUri}' new configuration { mainFile: ${config.mainFile}, dependencies: ${config.designDependency}, profiles: ${config.validationDependency} }",
+      s"Workspace '${config.folder}' new configuration { mainFile: ${config.mainFile}, dependencies: ${config.designDependency}, profiles: ${config.validationDependency} }",
       "WorkspaceManager",
       "contentManagerConfiguration"
     )
     manager
-      .withConfiguration(
-        DefaultWorkspaceConfigurationProvider(manager,
-                                              config.mainFile,
-                                              config.designDependency,
-                                              config.validationDependency,
-                                              config.extensionDependency,
-                                              config.metadataDependency,
-                                              None))
-      .stage(config.mainFile, CHANGE_CONFIG)
+      .withConfiguration(config)
   }
 
   override def executeCommand(params: ExecuteCommandParams): Future[AnyRef] =
@@ -94,44 +92,35 @@ class WorkspaceManager protected (environmentProvider: EnvironmentProvider,
   private val commandExecutors: Map[String, CommandExecutor[_, _]] = Map(
     Commands.DID_FOCUS_CHANGE_COMMAND -> new DidFocusCommandExecutor(logger, this),
     Commands.DID_CHANGE_CONFIGURATION -> new DidChangeConfigurationCommandExecutor(logger, this),
-    Commands.INDEX_DIALECT            -> new IndexDialectCommandExecutor(logger, environmentProvider.amfConfiguration)
+    Commands.INDEX_DIALECT            -> new IndexDialectCommandExecutor(logger, this)
   )
 
   def updateProjectConfiguration(config: ProjectConfiguration): Future[Unit] = {
 
-    getWorkspace(config.mainFile).flatMap { manager =>
-      if (manager.acceptsConfigUpdateByCommand) {
-        logger.debug(
-          s"DidChangeConfiguration for workspace @ ${manager.folderUri} (folder: ${config.folderUri}, mainUri:${config.mainFile})",
-          "DidChangeConfigurationCommandExecutor",
-          "runCommand"
-        )
-        contentManagerConfiguration(manager, config)
-      } else {
-        logger.warning(
-          s"Tried to change configuration of workspace `${manager.folderUri}` (folder: ${manager.folderUri}, mainUri:${config.mainFile}) but it does not accept configuration by command",
-          "DidChangeConfigurationCommandExecutor",
-          "runCommand"
-        )
-        Future.unit
-      }
+    getWorkspace(config.mainFile.getOrElse(config.folder)).flatMap { manager =>
+      logger.debug(
+        s"DidChangeConfiguration for workspace @ ${manager.folderUri} (folder: ${config.folder}, mainUri:${config.mainFile})",
+        "DidChangeConfigurationCommandExecutor",
+        "runCommand"
+      )
+      contentManagerConfiguration(manager, config)
     }
   }
 
   override def getProjectRootOf(uri: String): Future[Option[String]] =
     getWorkspace(uri).flatMap(_.getRootFolderFor(uri))
 
-  override def initialize(workspaceFolders: List[WorkspaceFolder],
-                          projectConfigurationStyle: ProjectConfigurationStyle): Future[Unit] =
+  override def initialize(workspaceFolders: List[WorkspaceFolder]): Future[Unit] = {
     workspaces
-      .reset(projectConfigurationStyle)
+      .reset()
       .flatMap { _ => // Drop all old workspaces
         val newWorkspaces = extractCleanURIs(workspaceFolders)
         dependencies.foreach(d => d.withUnitAccessor(this))
         workspaces.changeWorkspaces(newWorkspaces, List())
       }
       .flatMap(_ => Future.sequence(workspaces.allWorkspaces().map(_.initialized)))
-      .flatMap(_ => Future.unit)
+      .map(_ => {})
+  }
 
   private def extractCleanURIs(workspaceFolders: List[WorkspaceFolder]) =
     workspaceFolders.flatMap(_.uri).sortBy(_.length).distinct
@@ -185,6 +174,8 @@ class WorkspaceManager protected (environmentProvider: EnvironmentProvider,
 }
 
 class WorkspaceList(environmentProvider: EnvironmentProvider,
+                    projectConfigurationProvider: ProjectConfigurationProvider,
+                    editorConfiguration: EditorConfiguration,
                     telemetryProvider: TelemetryProvider,
                     val allSubscribers: List[BaseUnitListener],
                     logger: Logger,
@@ -194,19 +185,24 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
 
   private val workspaces: mutable.Set[WorkspaceContentManager] = new mutable.HashSet()
 
-  private var projectConfigurationStyle: Option[ProjectConfigurationStyle] = None
+  private var defaultWorkspace: Future[WorkspaceContentManager] =
+    buildDefaultWorkspaceManager()
 
-  private def configStyle: ProjectConfigurationStyle =
-    projectConfigurationStyle.getOrElse(DefaultProjectConfigurationStyle)
-
-  private var defaultWorkspace: Future[WorkspaceContentManager] = {
+  def buildDefaultWorkspaceManager(): Future[WorkspaceContentManager] = {
+    projectConfigurationProvider.newProjectConfiguration("", ProjectConfiguration.empty(""))
     logger.debug(s"created default WorkspaceContentManager", "WorkspaceList", "buildWorkspaceAt")
-    WorkspaceContentManager("", environmentProvider, telemetryProvider, logger, subscribers, configurationProvider)
+    WorkspaceContentManager("",
+                            environmentProvider,
+                            telemetryProvider,
+                            logger,
+                            subscribers,
+                            buildConfigurationAdapter(""),configStyle, configurationProvider)
   }
 
-  private def resetDefaultWorkspace(): Unit =
-    defaultWorkspace =
-      WorkspaceContentManager("", environmentProvider, telemetryProvider, logger, subscribers, configurationProvider)
+  private def resetDefaultWorkspace(): Unit = {
+    projectConfigurationProvider.newProjectConfiguration("", ProjectConfiguration.empty(""))
+    defaultWorkspace = buildDefaultWorkspaceManager()
+  }
 
   def removeWorkspace(uri: String): Future[Unit] =
     changeWorkspaces(List.empty, List(uri))
@@ -247,11 +243,12 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
     val applicableFiles = environmentProvider.openedFiles.filter(_.startsWith(uri))
     for {
       wcm <- WorkspaceContentManager(uri,
-                                     environmentProvider.branch,
+                                     environmentProvider,
                                      telemetryProvider,
                                      logger,
                                      subscribers,
-                                     configurationProvider)
+                                     buildConfigurationAdapter(uri),
+                                     configurationProvider.getHotReload)
       _ <- Future.sequence(applicableFiles.map(wcm.stage(_, OPEN_FILE)))
       _ <- wcm.initialized
     } yield {
@@ -259,6 +256,14 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
       wcm
     }
   }
+
+  private def buildConfigurationAdapter(folder: String): ProjectConfigurationAdapter =
+    new ProjectConfigurationAdapter(folder,
+                                    projectConfigurationProvider,
+                                    editorConfiguration,
+                                    environmentProvider,
+                                    subscribers,
+                                    logger)
 
   def findWorkspace(uri: String): Future[WorkspaceContentManager] =
     for {
@@ -278,8 +283,7 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
       }
       .flatMap(_ => Future.unit)
 
-  def reset(configuration: ProjectConfigurationStyle): Future[Unit] = {
-    projectConfigurationStyle = Some(configuration)
+  def reset(): Future[Unit] = {
     this.clear()
   }
 
@@ -289,12 +293,16 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
 object WorkspaceManager {
   def apply(environmentProvider: EnvironmentProvider,
             telemetryProvider: TelemetryProvider,
+            editorConfiguration: EditorConfiguration,
+            projectConfigurationProvider: ProjectConfigurationProvider,
             allSubscribers: List[BaseUnitListener],
             dependencies: List[AccessUnits[CompilableUnit]],
             logger: Logger,
             configurationProvider: ConfigurationProvider): WorkspaceManager = {
     val wm = new WorkspaceManager(environmentProvider,
                                   telemetryProvider,
+                                  editorConfiguration,
+                                  projectConfigurationProvider,
                                   allSubscribers,
                                   dependencies,
                                   logger,

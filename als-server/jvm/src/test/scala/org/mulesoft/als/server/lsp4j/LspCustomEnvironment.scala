@@ -1,18 +1,18 @@
 package org.mulesoft.als.server.lsp4j
 
-import java.util.concurrent.CompletableFuture
-import amf.core.internal.convert.CoreClientConverters._
 import amf.core.client.common.remote.Content
 import amf.core.client.platform.resource.ClientResourceLoader
+import amf.core.internal.convert.CoreClientConverters._
 import amf.core.internal.unsafe.PlatformSecrets
 import org.eclipse.lsp4j.{DidOpenTextDocumentParams, TextDocumentItem}
 import org.mulesoft.als.configuration.ResourceLoaderConverter
-import org.mulesoft.als.server.MockDiagnosticClientNotifier
 import org.mulesoft.als.logger.EmptyLogger
+import org.mulesoft.als.server.MockDiagnosticClientNotifier
 import org.mulesoft.als.server.modules.diagnostic.ALL_TOGETHER
 import org.scalatest.{AsyncFunSuite, Matchers}
 
 import java.util
+import java.util.concurrent.CompletableFuture
 class LspCustomEnvironment extends AsyncFunSuite with Matchers with PlatformSecrets {
 
   test("test custom environment") {
@@ -27,7 +27,7 @@ class LspCustomEnvironment extends AsyncFunSuite with Matchers with PlatformSecr
       override def accepts(resource: String): Boolean = true
     }
 
-    val notifier = new MockDiagnosticClientNotifier()
+    val notifier = new MockDiagnosticClientNotifier(3000)
     val server = new LanguageServerImpl(
       new LanguageServerFactory(notifier)
         .withNotificationKind(ALL_TOGETHER)

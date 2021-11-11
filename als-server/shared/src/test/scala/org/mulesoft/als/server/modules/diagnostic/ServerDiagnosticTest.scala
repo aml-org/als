@@ -11,7 +11,6 @@ import amf.core.client.scala.vocabulary.ValueType
 import amf.core.internal.metamodel.Field
 import amf.core.internal.metamodel.document.BaseUnitModel
 import amf.core.internal.parser.domain.{Annotations, Fields}
-import org.mulesoft.als.configuration.{ConfigurationStyle, ProjectConfigurationStyle}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.ast.BaseUnitListenerParams
 import org.mulesoft.als.server.protocol.LanguageServer
@@ -19,7 +18,7 @@ import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.textsync.TextDocumentContainer
 import org.mulesoft.als.server.workspace.command.Commands
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, AmfParseResult}
+import org.mulesoft.amfintegration.amfconfiguration._
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.workspace.ExecuteCommandParams
@@ -36,7 +35,7 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
   var container: Option[TextDocumentContainer] = None
 
   def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer = {
-    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger)
+    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
     val dm      = builder.buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
     container = Option(factory.container)
@@ -50,7 +49,7 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
   }
 
   test("diagnostics test 001 - onFocus") {
-    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
     withServer(buildServer(diagnosticNotifier)) { server =>
       val mainFilePath = s"file://api.raml"
       val libFilePath  = s"file://lib1.raml"
@@ -118,12 +117,10 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
   }
 
   test("diagnostics test 002 - AML") {
-    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
     withServer(
       buildServer(diagnosticNotifier),
-      AlsInitializeParams(None,
-                          Some(TraceKind.Off),
-                          projectConfigurationStyle = Some(ProjectConfigurationStyle(ConfigurationStyle.COMMAND)))
+      AlsInitializeParams(None, Some(TraceKind.Off))
     ) { server =>
       val dialectPath  = s"file://dialect.yaml"
       val instancePath = s"file://instance.yaml"
@@ -210,8 +207,8 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
 
       override def location(): Option[String] = Some("location")
     }
-    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
-    val builder                                          = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger)
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
+    val builder                                          = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
     builder
       .buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
@@ -219,8 +216,12 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
     val amfBaseUnit: BaseUnit = new MockDialectInstance(new Fields())
 
     val amfParseResult: Future[AmfParseResult] =
-      AmfConfigurationWrapper().map(c =>
-        new AmfParseResult(AMFResult(amfBaseUnit, Seq()), ExternalFragmentDialect(), c))
+      EditorConfiguration().getState.map(editorState => {
+        val alsConfig = ALSConfigurationState(editorState, EmptyProjectConfigurationState(), None)
+        new AmfParseResult(AMFResult(amfBaseUnit, Seq()),
+                           ExternalFragmentDialect(),
+                           AmfParseContext(alsConfig.getAmfConfig, alsConfig))
+      })
 
     for {
       result <- amfParseResult
@@ -229,6 +230,7 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
           BaseUnitListenerParams(
             result,
             Map.empty,
+            result.context.state.configForUnit(amfBaseUnit),
             tree = false
           ),
           ""
@@ -244,7 +246,7 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
   }
 
   test("Trait resolution with error( test resolution error handler)") {
-    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
     withServer(buildServer(diagnosticNotifier)) { server =>
       val apiPath = s"file://api.raml"
 
@@ -276,7 +278,7 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
   }
 
   test("Error without location") {
-    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
     withServer(buildServer(diagnosticNotifier)) { server =>
       val apiPath = s"file://api.json"
 
@@ -305,7 +307,7 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
   }
 
   test("File not found error") {
-    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
     val content                                          = """#%RAML 1.0
                     |title: api
                     |traits:
@@ -320,7 +322,10 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
     }
 
     def build(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer = {
-      val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, Seq(CustomResourceLoader()), false)
+      val builder =
+        new WorkspaceManagerFactoryBuilder(diagnosticNotifier,
+                                           logger,
+                                           EditorConfiguration.withoutPlatformLoaders(Seq(CustomResourceLoader())))
       val dm      = builder.buildDiagnosticManagers()
       val factory = builder.buildWorkspaceManagerFactory()
       container = Option(factory.container)

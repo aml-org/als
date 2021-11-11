@@ -1,11 +1,6 @@
 package org.mulesoft.als.server.modules.configuration
 
-import org.mulesoft.als.configuration.{
-  AlsConfiguration,
-  AlsConfigurationReader,
-  DefaultProjectConfigurationStyle,
-  ProjectConfigurationStyle
-}
+import org.mulesoft.als.configuration.{AlsConfiguration, AlsConfigurationReader}
 import org.mulesoft.als.server.feature.configuration._
 import org.mulesoft.amfintegration.AlsSyamlSyntaxPluginHacked
 import org.mulesoft.lsp.InitializableModule
@@ -32,16 +27,7 @@ class ConfigurationManager
     configuration.setShouldPrettyPrintSerialization(params.prettyPrintSerialization)
   }
 
-  private var projectConfigurationStyle: ProjectConfigurationStyle = DefaultProjectConfigurationStyle
-
   private var hotReloadDialects: Boolean = false
-
-  override def getProjectConfigStyle: ProjectConfigurationStyle = projectConfigurationStyle
-
-  /**
-    * Should only be called from initialization
-    */
-  def setProjectConfigurationStyle(p: ProjectConfigurationStyle): Unit = projectConfigurationStyle = p
 
   override def getHotReloadDialects: Boolean = hotReloadDialects
 

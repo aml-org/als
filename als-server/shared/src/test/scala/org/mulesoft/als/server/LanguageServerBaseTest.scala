@@ -1,15 +1,15 @@
 package org.mulesoft.als.server
 
 import amf.core.internal.unsafe.PlatformSecrets
-import org.mulesoft.als.configuration.{ConfigurationStyle, ProjectConfigurationStyle}
-import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeParams, CleanDiagnosticTreeRequestType}
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.logger.MessageSeverity.MessageSeverity
+import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeParams, CleanDiagnosticTreeRequestType}
 import org.mulesoft.als.server.modules.diagnostic.AlsPublishDiagnosticsParams
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.protocol.textsync.DidFocusParams
-import org.mulesoft.lsp.configuration.{TraceKind, WorkspaceFolder}
+import org.mulesoft.als.server.workspace.ChangesWorkspaceConfiguration
+import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.feature.common.{TextDocumentIdentifier, TextDocumentItem, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.feature.documentsymbol.{
   DocumentSymbol,
@@ -31,13 +31,10 @@ abstract class LanguageServerBaseTest
     with PlatformSecrets
     with Matchers
     with OptionValues
-    with FailedLogs {
+    with FailedLogs
+    with ChangesWorkspaceConfiguration {
 
   protected val initializeParams: AlsInitializeParams = AlsInitializeParams.default
-  protected val initializeParamsCommandStyle: AlsInitializeParams = AlsInitializeParams(
-    None,
-    Some(TraceKind.Off),
-    projectConfigurationStyle = Some(ProjectConfigurationStyle(ConfigurationStyle.COMMAND)))
 
   private def telemetryNotifications(mockTelemetryClientNotifier: MockTelemetryClientNotifier)(
       qty: Int,
@@ -95,6 +92,9 @@ abstract class LanguageServerBaseTest
       })
   }
 
+  def setMainFile(server: LanguageServer)(workspace: String, mainFile: String): Future[AnyRef] =
+    changeWorkspaceConfiguration(server)(changeConfigArgs(Some(mainFile), Some(workspace)))
+
   def openFile(server: LanguageServer)(uri: String, text: String): Future[Unit] =
     server.textDocumentSyncConsumer.didOpen(DidOpenTextDocumentParams(TextDocumentItem(uri, "", 0, text)))
 
@@ -143,7 +143,7 @@ abstract class LanguageServerBaseTest
   * mixin to clean logs in between tests
   */
 trait FailedLogs extends AsyncTestSuiteMixin { this: AsyncTestSuite =>
-  final val logger = TestLogger()
+  val logger = TestLogger()
 
   abstract override def withFixture(test: NoArgAsyncTest): FutureOutcome = {
     logger.logList.clear()

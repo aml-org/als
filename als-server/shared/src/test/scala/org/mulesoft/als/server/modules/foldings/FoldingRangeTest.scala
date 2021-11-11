@@ -7,6 +7,7 @@ import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.common.{TextDocumentIdentifier, TextDocumentItem}
@@ -21,7 +22,6 @@ class FoldingRangeTest extends LanguageServerBaseTest {
     ExecutionContext.Implicits.global
 
   private val ws1 = Map(
-    "file:///root/exchange.json" -> """{"main": "api.raml"}""",
     "file:///root/api.raml" ->
       """#%RAML 1.0
         |uses:
@@ -125,9 +125,9 @@ class FoldingRangeTest extends LanguageServerBaseTest {
       override def accepts(resource: String): Boolean =
         ws.keySet.contains(resource)
     }
-
+    val editorConfiguration = EditorConfiguration.withPlatformLoaders(Seq(rs))
     val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger, Seq(rs))
+      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger, editorConfiguration)
         .buildWorkspaceManagerFactory()
     val workspaceManager: WorkspaceManager = factory.workspaceManager
     val server =

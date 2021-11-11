@@ -7,6 +7,7 @@ import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.{LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.scalatest.Assertion
 
 import scala.collection.mutable
@@ -38,7 +39,9 @@ class IncludeCacheTests extends RAMLSuggestionTestServer {
   }
 
   def buildServer(rl: ResourceLoader): LanguageServer = {
-    val factory = new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
+    val factory = new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier,
+                                                     logger,
+                                                     EditorConfiguration.withPlatformLoaders(Seq(rl)))
       .buildWorkspaceManagerFactory()
     new LanguageServerBuilder(factory.documentManager,
                               factory.workspaceManager,

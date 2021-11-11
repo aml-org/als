@@ -6,7 +6,11 @@ import org.mulesoft.als.common.PlatformDirectoryResolver
 import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.test.core.{CoreTest, DummyPlugins}
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.amfintegration.amfconfiguration.{
+  ALSConfigurationState,
+  EditorConfiguration,
+  EmptyProjectConfigurationState
+}
 
 import scala.concurrent.Future
 
@@ -47,22 +51,16 @@ class BasicCoreTestsAML extends CoreTest with DummyPlugins {
   }
 
   test("Custom Plugins completion Dummy") {
-    val p = filePath("dialect.yaml")
+    val p                   = filePath("dialect.yaml")
+    val editorConfiguration = EditorConfiguration().withDialect(p)
     for {
-      amfConfiguration <- AmfConfigurationWrapper()
-      dialect <- amfConfiguration
-        .parse(p)
-        .map { r =>
-          r.result.baseUnit match {
-            case d: Dialect => amfConfiguration.registerDialect(d)
-          }
-          r
-        }
-        .map(_.result.baseUnit)
+      editorConfigState <- editorConfiguration.getState
+      alsConfiguration  <- Future(ALSConfigurationState(editorConfigState, EmptyProjectConfigurationState(), None))
+      dialect           <- alsConfiguration.getAmfConfig.baseUnitClient().parseDialect(p)
       result <- {
         val url = filePath("visit01.yaml")
         for {
-          content <- amfConfiguration.fetchContent(url)
+          content <- alsConfiguration.fetchContent(url)
           offset <- Future.successful {
             val fileContentsStr = content.stream.toString
             val markerInfo      = this.findMarker(fileContentsStr)
@@ -71,13 +69,13 @@ class BasicCoreTestsAML extends CoreTest with DummyPlugins {
           }
           suggestions <- {
             val suggestions =
-              new Suggestions(AlsConfiguration(), new PlatformDirectoryResolver(amfConfiguration.platform))
+              new Suggestions(AlsConfiguration(), new PlatformDirectoryResolver(platform))
                 .initialized()
             suggestions.completionsPluginHandler.cleanIndex()
             suggestions.completionsPluginHandler
-              .registerPlugins(Seq(DummyCompletionPlugin(), DummyInvalidCompletionPlugin()), dialect.id)
+              .registerPlugins(Seq(DummyCompletionPlugin(), DummyInvalidCompletionPlugin()), dialect.dialect.id)
 
-            suggestions.suggest(url, offset, snippetsSupport = true, None, amfConfiguration)
+            suggestions.suggest(url, offset, snippetsSupport = true, None, alsConfiguration)
           }
         } yield suggestions
       }

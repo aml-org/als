@@ -13,7 +13,7 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
 }
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.FileExtractor
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.common.{Position, Range}
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.{
@@ -42,7 +42,7 @@ class RamlTypeToJsonSchema(override protected val params: CodeActionRequestParam
     } yield (uri, TextEdit(Range(Position(0, 0), Position(0, 0)), r))
 
   private def renderJsonSchema(shape: AnyShape): Future[String] = Future {
-    params.amfConfiguration.buildJsonSchema(shape)
+    params.alsConfigurationState.buildJsonSchema(shape)
   }
 
   def inProperty: Boolean =
@@ -81,7 +81,7 @@ class RamlTypeToJsonSchema(override protected val params: CodeActionRequestParam
       }
     }
 
-  override protected val amfConfiguration: AmfConfigurationWrapper = params.amfConfiguration
+  override protected val alsConfigurationState: ALSConfigurationState = params.alsConfigurationState
 
   override protected val findDialectForSemantic: String => Option[(SemanticExtension, Dialect)] =
     params.findDialectForSemantic

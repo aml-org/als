@@ -2,7 +2,7 @@ package org.mulesoft.als.server.modules.completion.aml
 
 import scala.concurrent.ExecutionContext
 
-class AMLStructureTests extends AMLSuggestionTestServer {
+class AMLSuggestionsTests extends AMLSuggestionTestServer {
 
   override implicit val executionContext = ExecutionContext.Implicits.global
 

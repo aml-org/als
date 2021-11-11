@@ -21,7 +21,7 @@ object AMLLibraryPathCompletion extends AMLCompletionPlugin {
         request.directoryResolver,
         request.prefix,
         request.rootUri,
-        request.amfConfiguration
+        request.alsConfigurationState
       )
     } else emptySuggestion
   }
