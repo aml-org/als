@@ -7,7 +7,7 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.AMLPathCompletionPlugin
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -25,8 +25,7 @@ object WebApiExtensionsPropertyCompletionPlugin extends AMLCompletionPlugin {
                            params.directoryResolver,
                            params.prefix,
                            params.rootUri,
-                           params.amfConfiguration,
-                           params.baseUnit)
+                           params.alsConfigurationState)
       case _ => emptySuggestion
     }
   }
@@ -36,13 +35,12 @@ object WebApiExtensionsPropertyCompletionPlugin extends AMLCompletionPlugin {
                                  directoryResolver: DirectoryResolver,
                                  prefix: String,
                                  rootLocation: Option[String],
-                                 amfConfiguration: AmfConfigurationWrapper,
-                                 baseUnit: BaseUnit): Future[Seq[RawSuggestion]] = {
+                                 alsConfiguration: ALSConfigurationState): Future[Seq[RawSuggestion]] = {
     if (isKey) Future { Seq(RawSuggestion.forKey("extends", mandatory = true)) } else
       AMLPathCompletionPlugin.resolveInclusion(e.location().getOrElse(""),
                                                directoryResolver,
                                                prefix,
                                                rootLocation,
-                                               amfConfiguration)
+                                               alsConfiguration)
   }
 }

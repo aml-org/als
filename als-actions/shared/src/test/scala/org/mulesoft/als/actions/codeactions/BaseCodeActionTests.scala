@@ -8,7 +8,12 @@ import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.common.{PlatformDirectoryResolver, WorkspaceEditSerializer}
 import org.mulesoft.als.configuration.AlsConfiguration
-import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, AmfParseResult}
+import org.mulesoft.amfintegration.amfconfiguration.{
+  ALSConfigurationState,
+  AmfParseResult,
+  EditorConfiguration,
+  EmptyProjectConfigurationState
+}
 import org.mulesoft.amfintegration.relationships.RelationshipLink
 import org.mulesoft.amfintegration.visitors.AmfElementDefaultVisitors
 import org.mulesoft.lsp.edit.WorkspaceEdit
@@ -62,35 +67,32 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
 
   protected def parseElement(elementUri: String,
                              definedBy: Option[String] = None,
-                             amfConfiguration: AmfConfigurationWrapper): Future[AmfParseResult] = {
+                             editorConfiguration: EditorConfiguration): Future[AmfParseResult] = {
+    definedBy.foreach(d => editorConfiguration.withDialect(relativeUri(d)))
     for {
-
-      _ <- definedBy.fold(Future.unit)(
-        db =>
-          amfConfiguration
-            .parse(relativeUri(db))
-            .map(r =>
-              r.result.baseUnit match {
-                case d: Dialect => amfConfiguration.registerDialect(d)
-                case _          => ???
-            }))
-      r <- amfConfiguration.parse(relativeUri(elementUri))
+      editor <- editorConfiguration.getState
+      state  <- Future(ALSConfigurationState(editor, EmptyProjectConfigurationState(), None))
+      r      <- state.parse(relativeUri(elementUri))
     } yield r
-
   }
 
   protected def buildParameter(elementUri: String,
                                range: PositionRange,
-                               definedBy: Option[String] = None): Future[CodeActionRequestParams] =
-    AmfConfigurationWrapper().flatMap(amfConfiguration => {
-      parseElement(elementUri, definedBy, amfConfiguration)
-        .map(bu => buildParameter(elementUri, bu, range, amfConfiguration))
-    })
+                               definedBy: Option[String] = None): Future[CodeActionRequestParams] = {
+    val configuration = EditorConfiguration()
+    for {
+      bu    <- parseElement(elementUri, definedBy, configuration)
+      state <- configuration.getState
+    } yield {
+      val alsConfigurationState = ALSConfigurationState(state, EmptyProjectConfigurationState(), None)
+      buildParameter(elementUri, bu, range, alsConfigurationState)
+    }
+  }
 
   case class PreCodeActionRequestParams(amfResult: AmfParseResult, uri: String, relationShip: Seq[RelationshipLink]) {
     def buildParam(range: PositionRange,
                    activeFile: Option[String],
-                   amfConfiguration: AmfConfigurationWrapper): CodeActionRequestParams = {
+                   alsConfigurationState: ALSConfigurationState): CodeActionRequestParams = {
       val cu: DummyCompilableUnit = buildCU(activeFile)
       CodeActionRequestParams(
         cu.unit.location().getOrElse(relativeUri(uri)),
@@ -102,8 +104,8 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
         AlsConfiguration(),
         relationShip,
         dummyTelemetryProvider,
+        alsConfigurationState,
         "",
-        amfConfiguration,
         new PlatformDirectoryResolver(platform)
       )
     }
@@ -121,7 +123,7 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
   }
   protected def buildPreParam(uri: String, result: AmfParseResult): PreCodeActionRequestParams = {
     val visitors = AmfElementDefaultVisitors.build(result.result.baseUnit)
-    visitors.applyAmfVisitors(result.result.baseUnit, result.amfConfiguration)
+    visitors.applyAmfVisitors(result.result.baseUnit, result.context)
     val visitors1: Seq[RelationshipLink] = visitors.getRelationshipsFromVisitors
     PreCodeActionRequestParams(result, uri, visitors1)
   }
@@ -129,10 +131,10 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
   protected def buildParameter(uri: String,
                                result: AmfParseResult,
                                range: PositionRange,
-                               amfConfiguration: AmfConfigurationWrapper): CodeActionRequestParams = {
+                               alsConfigurationState: ALSConfigurationState): CodeActionRequestParams = {
     val cu       = DummyCompilableUnit(result.result.baseUnit, result.definedBy)
     val visitors = AmfElementDefaultVisitors.build(cu.unit)
-    visitors.applyAmfVisitors(cu.unit, amfConfiguration)
+    visitors.applyAmfVisitors(cu.unit, alsConfigurationState.amfParseContext)
     val visitors1: Seq[RelationshipLink] = visitors.getRelationshipsFromVisitors
     CodeActionRequestParams(
       cu.unit.location().getOrElse(relativeUri(uri)),
@@ -144,8 +146,8 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
       AlsConfiguration(),
       visitors1,
       dummyTelemetryProvider,
+      alsConfigurationState,
       "",
-      amfConfiguration,
       new PlatformDirectoryResolver(platform)
     )
   }

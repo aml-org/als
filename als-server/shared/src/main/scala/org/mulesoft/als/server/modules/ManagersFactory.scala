@@ -1,12 +1,11 @@
 package org.mulesoft.als.server.modules
 
-import amf.core.client.scala.resource.ResourceLoader
 import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.actions.codeactions.plugins.AllCodeActions
 import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.SerializationProps
 import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.actions._
 import org.mulesoft.als.server.modules.actions.fileusage.FindFileUsageManager
 import org.mulesoft.als.server.modules.actions.rename.RenameManager
@@ -19,33 +18,28 @@ import org.mulesoft.als.server.modules.serialization.{ConversionManager, Seriali
 import org.mulesoft.als.server.modules.structure.StructureManager
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.modules.workspace.resolution.ResolutionTaskManager
-import org.mulesoft.als.server.modules.workspace.{CompilableUnit, FilesInProjectManager}
+import org.mulesoft.als.server.modules.workspace.{
+  CompilableUnit,
+  DefaultProjectConfigurationProvider,
+  FilesInProjectManager
+}
 import org.mulesoft.als.server.textsync.{TextDocumentContainer, TextDocumentManager}
 import org.mulesoft.als.server.workspace.{ProjectConfigurationProvider, WorkspaceManager}
 import org.mulesoft.amfintegration.AmfResolvedUnit
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 
 import scala.collection.mutable.ListBuffer
 
 class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier,
                                      logger: Logger,
-                                     rs: Seq[ResourceLoader] = Nil,
-                                     withDefaultLoaders: Boolean = true)
+                                     val editorConfiguration: EditorConfiguration = EditorConfiguration(),
+                                     projectConfigurationProvider: Option[ProjectConfigurationProvider] = None)
     extends PlatformSecrets {
 
-  private var amfConfiguration: AmfConfigurationWrapper =
-    AmfConfigurationWrapper.buildSync(rs, withDefaultLoaders = withDefaultLoaders)
   private var notificationKind: DiagnosticNotificationsKind = ALL_TOGETHER
   private var directoryResolver: DirectoryResolver =
     new PlatformDirectoryResolver(platform)
   private var customValidationManager: Option[CustomValidationManager] = None
-
-  def getConfig: AmfConfigurationWrapper = amfConfiguration
-
-  def withAmfConfiguration(amfConfig: AmfConfigurationWrapper): WorkspaceManagerFactoryBuilder = {
-    this.amfConfiguration = amfConfig
-    this
-  }
 
   val configurationManager: ConfigurationManager = new ConfigurationManager()
 
@@ -67,7 +61,11 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier,
 
   def serializationManager[S](sp: SerializationProps[S]): SerializationManager[S] = {
     val s =
-      new SerializationManager(telemetryManager, amfConfiguration, configurationManager.getConfiguration, sp, logger)
+      new SerializationManager(telemetryManager,
+                               editorConfiguration,
+                               configurationManager.getConfiguration,
+                               sp,
+                               logger)
     resolutionDependencies += s
     s
   }
@@ -75,16 +73,10 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier,
   def buildDiagnosticManagers(customValidator: Option[AMFOpaValidator] = None): Seq[BasicDiagnosticManager[_, _]] = {
     val gatherer = new ValidationGatherer(telemetryManager)
     val dm =
-      new ParseDiagnosticManager(telemetryManager,
-                                 clientNotifier,
-                                 logger,
-                                 amfConfiguration,
-                                 gatherer,
-                                 notificationKind)
-    val rdm = new ResolutionDiagnosticManager(telemetryManager, clientNotifier, logger, gatherer, amfConfiguration)
-    customValidationManager = customValidator.map(
-      new CustomValidationManager(telemetryManager, clientNotifier, logger, gatherer, _, amfConfiguration))
-    customValidationManager.foreach(resolutionDependencies += _)
+      new ParseDiagnosticManager(telemetryManager, clientNotifier, logger, gatherer, notificationKind)
+    val rdm = new ResolutionDiagnosticManager(telemetryManager, clientNotifier, logger, gatherer)
+    customValidationManager =
+      customValidator.map(new CustomValidationManager(telemetryManager, clientNotifier, logger, gatherer, _))
     customValidationManager.foreach(resolutionDependencies += _)
     resolutionDependencies += rdm
     projectDependencies += dm
@@ -104,9 +96,10 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier,
       telemetryManager,
       directoryResolver,
       logger,
-      amfConfiguration,
       configurationManager,
-      customValidationManager
+      editorConfiguration,
+      customValidationManager,
+      projectConfigurationProvider
     )
 }
 
@@ -116,21 +109,22 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
                                    directoryResolver: DirectoryResolver,
                                    logger: Logger,
                                    configurationManager: ConfigurationManager,
+                                   editorConfiguration: EditorConfiguration,
                                    customValidationManager: Option[CustomValidationManager],
-                                   projectConfigProvider: ProjectConfigurationProvider) {
+                                   projectConfigurationProvider: Option[ProjectConfigurationProvider]) {
   val container: TextDocumentContainer =
-    TextDocumentContainer(projectConfigProvider)
+    TextDocumentContainer()
 
   lazy val cleanDiagnosticManager = new CleanDiagnosticTreeManager(telemetryManager,
                                                                    amfConfiguration,
                                                                    logger,
                                                                    customValidationManager,
+                                                                   editorConfiguration,
                                                                    workspaceConfigurationManager)
 
   val resolutionTaskManager: ResolutionTaskManager = ResolutionTaskManager(
     telemetryManager,
     logger,
-    container,
     resolutionDependencies,
     resolutionDependencies.collect {
       case t: AccessUnits[AmfResolvedUnit] =>
@@ -144,6 +138,9 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
     WorkspaceManager(
       container,
       telemetryManager,
+      editorConfiguration,
+      projectConfigurationProvider.getOrElse(
+        new DefaultProjectConfigurationProvider(container, editorConfiguration, logger)),
       dependencies,
       dependencies.collect {
         case t: AccessUnits[CompilableUnit] =>
@@ -192,10 +189,10 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
                       telemetryManager,
                       logger,
                       configurationManager.getConfiguration,
-                      amfConfiguration.platform)
+                      EditorConfiguration.platform)
 
   lazy val conversionManager =
-    new ConversionManager(workspaceManager, telemetryManager, amfConfiguration, logger)
+    new ConversionManager(workspaceManager, telemetryManager, logger)
 
   lazy val documentHighlightManager =
     new DocumentHighlightManager(workspaceManager, telemetryManager, logger)
@@ -211,14 +208,13 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
                                 telemetryManager,
                                 logger,
                                 configurationManager.getConfiguration,
-                                amfConfiguration.platform)
+                                EditorConfiguration.platform)
 
   lazy val codeActionManager: CodeActionManager =
     new CodeActionManager(AllCodeActions.all,
                           workspaceManager,
                           configurationManager.getConfiguration,
                           telemetryManager,
-                          amfConfiguration,
                           logger,
                           directoryResolver)
 

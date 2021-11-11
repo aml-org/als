@@ -37,7 +37,7 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with ShapeExtr
 
   protected def appliesToDocument(): Boolean =
     !params.bu.isFragment || params.bu
-      .documentMapping(params.dialect)
+      .documentMapping(params.definedBy)
       .exists(_.declaredNodes().exists(dn => amfObject.exists(_.id == dn.mappedNode().value())))
 
   protected lazy val declaredElementTextEdit: Option[TextEdit] =
@@ -47,17 +47,19 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with ShapeExtr
   protected def renderDeclaredEntry(amfObject: Option[AmfObject], name: String): Option[(String, Option[YMapEntry])] =
     ExtractorCommon
       .declaredEntry(amfObject,
-                     params.dialect,
+                     params.definedBy,
                      params.bu,
                      params.uri,
                      name,
                      params.configuration,
                      jsonOptions,
                      yamlOptions,
-                     params.amfConfiguration)
+                     params.alsConfigurationState)
 
   protected lazy val homogeneousVendor: Boolean =
-    maybeTree.flatMap(_.objSpec(params.amfConfiguration.findSemanticByName)).forall(params.bu.sourceSpec.contains)
+    maybeTree
+      .flatMap(_.objSpec(params.alsConfigurationState.findSemanticByName))
+      .forall(params.bu.sourceSpec.contains)
 
   override protected def task(params: CodeActionRequestParams): Future[Seq[AbstractCodeAction]] =
     linkEntry.map {
@@ -78,7 +80,7 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with ShapeExtr
             l.annotations += DeclaredElement()
           val linkDe: DomainElement = l.link(newName)
           linkDe.annotations += ForceEntry() // raml explicit types
-          params.amfConfiguration.emit(linkDe, params.dialect)
+          params.alsConfigurationState.configForDialect(params.definedBy).emit(linkDe)
       }
   }
 

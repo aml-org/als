@@ -35,8 +35,9 @@ trait ExtractDeclarationToFragment extends CodeActionResponsePlugin with FileExt
     wholeUri.map(fragmentBundle.get.fragment.withEncodes(de).withLocation(_)) // if fragmentBundle is not defined, it shouldnt have reach this code
 
   protected def externalFragmentRendered(ef: Fragment): String =
-    params.amfConfiguration
-      .serialize(spec, getSyntax, ef)
+    params.alsConfigurationState
+      .configForSpec(spec)
+      .serialize(getSyntax, ef)
 
   private def getSyntax: String =
     if (yPartBranch.exists(_.isJson)) Mimes.`application/json`

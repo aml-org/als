@@ -7,7 +7,6 @@ import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.configuration.TraceKind
 
 import java.util.UUID
@@ -19,8 +18,7 @@ class DialectRegistryTest extends LanguageServerBaseTest {
 
   override def rootPath: String = ""
 
-  def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier)
-    : (LanguageServer, AmfConfigurationWrapper, WorkspaceManager) = {
+  def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): (LanguageServer, WorkspaceManager) = {
 
     val factory =
       new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger).buildWorkspaceManagerFactory()
@@ -30,14 +28,13 @@ class DialectRegistryTest extends LanguageServerBaseTest {
                                factory.resolutionTaskManager)
        .addRequestModule(factory.structureManager)
        .build(),
-     factory.amfConfiguration,
      factory.workspaceManager)
   }
 
   test("Remove old dialect after modifying it") {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
 
-    val (server, amfConfiguration, workspaceManager) = buildServer(diagnosticNotifier)
+    val (server, workspaceManager) = buildServer(diagnosticNotifier)
 
     withServer(server) { server =>
       val content =
@@ -62,14 +59,15 @@ class DialectRegistryTest extends LanguageServerBaseTest {
 
       for {
         _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), hotReload = Some(true)))
-        _ <- openFileNotification(server)(url, content)
-        _ <- workspaceManager.getUnit(url, UUID.randomUUID().toString)
-        _ <- changeNotification(server)(url, content.replace("Test", "NewTest"), 1)
-        _ <- workspaceManager.getLastUnit(url, UUID.randomUUID().toString)
+        _      <- openFileNotification(server)(url, content)
+        _      <- workspaceManager.getUnit(url, UUID.randomUUID().toString)
+        _      <- changeNotification(server)(url, content.replace("Test", "NewTest"), 1)
+        _      <- workspaceManager.getLastUnit(url, UUID.randomUUID().toString)
+        config <- workspaceManager.getWorkspace(url).flatMap(_.getConfigurationState)
       } yield {
         server.shutdown()
-        amfConfiguration.dialects.map(_.nameAndVersion()) should contain("Test 1")
-        amfConfiguration.dialects.map(_.nameAndVersion()) should contain("NewTest 1")
+        config.dialects.map(_.nameAndVersion()) should contain("Test 1")
+        config.dialects.map(_.nameAndVersion()) should contain("NewTest 1")
       }
 
     }

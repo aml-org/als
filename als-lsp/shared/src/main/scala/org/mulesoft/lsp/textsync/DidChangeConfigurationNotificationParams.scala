@@ -5,8 +5,8 @@ package org.mulesoft.lsp.textsync
   * @param folder
   * @param dependencies if just a String, then the file will be treated as a normal lazy dependency
   */
-case class DidChangeConfigurationNotificationParams(mainUri: String,
-                                                    folder: Option[String],
+case class DidChangeConfigurationNotificationParams(mainUri: Option[String],
+                                                    folder: String,
                                                     dependencies: Set[Either[String, DependencyConfiguration]])
 
 /**

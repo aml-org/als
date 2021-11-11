@@ -4,13 +4,15 @@ import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.actions.DocumentLinksManager
 import org.mulesoft.als.server.modules.ast.{CLOSE_FILE, OPEN_FILE}
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
+import org.mulesoft.als.server.modules.workspace.DefaultProjectConfigurationProvider
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.textsync.TextDocumentContainer
+import org.mulesoft.als.server.workspace.command.Commands
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.feature.link.DocumentLink
-import org.mulesoft.als.configuration.DefaultProjectConfigurationStyle
+import org.mulesoft.lsp.workspace.ExecuteCommandParams
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -19,7 +21,8 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
   private val factory =
-    new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier(), logger).buildWorkspaceManagerFactory()
+    new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier(), logger, EditorConfiguration())
+      .buildWorkspaceManagerFactory()
   private val workspaceFile                   = "ws/sub/type.raml"
   private val workspaceIncludedFilePath       = filePath("ws/includes/type.json")
   private val nonWorkspaceFile                = "uninitialized-ws/sub/non-main.raml"
@@ -27,7 +30,7 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
   private val nonWorkspaceRelativeFilePath    = filePath("fragment.raml")
 
   test("Initialized workspace links relative to main file should work") {
-    val workspaceLinkHandler: WorkspaceLinkHandler = new WorkspaceLinkHandler("ws")
+    val workspaceLinkHandler: WorkspaceLinkHandler = new WorkspaceLinkHandler("ws", Some("api.raml"))
 
     for {
       _   <- workspaceLinkHandler.init()
@@ -36,7 +39,7 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
   }
 
   test("Uninitialized workspace links relative to main file shouldn't work") {
-    val workspaceLinkHandler: WorkspaceLinkHandler = new WorkspaceLinkHandler("ws")
+    val workspaceLinkHandler: WorkspaceLinkHandler = new WorkspaceLinkHandler("ws", Some("api.raml"))
     for {
       _         <- workspaceLinkHandler.init()
       links     <- workspaceLinkHandler.openFileAndGetLinks(nonWorkspaceFile)
@@ -49,7 +52,7 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
   }
 
   test("Returning to initialized workspace from an uninitialized and relative links still work") {
-    val workspaceLinkHandler: WorkspaceLinkHandler = new WorkspaceLinkHandler("ws")
+    val workspaceLinkHandler: WorkspaceLinkHandler = new WorkspaceLinkHandler("ws", Some("api.raml"))
     for {
       _         <- workspaceLinkHandler.init()
       links     <- workspaceLinkHandler.openFileAndGetLinks(nonWorkspaceFile)
@@ -64,7 +67,7 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
   }
 
   test("Starting a global workspace non-relative links should work") {
-    val workspaceLinkHandler: WorkspaceLinkHandler = new WorkspaceLinkHandler("file://")
+    val workspaceLinkHandler: WorkspaceLinkHandler = new WorkspaceLinkHandler("file://", None)
     workspaceLinkHandler
       .init()
       .flatMap(_ => {
@@ -90,46 +93,50 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
       })
   }
 
-  class WorkspaceLinkHandler(rootFolder: String) {
-    val futureAmfConfiguration: Future[AmfConfigurationWrapper] = AmfConfigurationWrapper(Seq.empty)
-    val clientNotifier                                          = new MockDiagnosticClientNotifier()
-    val telemetryManager: TelemetryManager                      = new TelemetryManager(clientNotifier, logger)
+  class WorkspaceLinkHandler(rootFolder: String, mainFile: Option[String]) {
+    val clientNotifier                     = new MockDiagnosticClientNotifier()
+    val telemetryManager: TelemetryManager = new TelemetryManager(clientNotifier, logger)
 
-    val workspaceManager: Future[WorkspaceManager] =
-      for {
-        amfConfiguration <- futureAmfConfiguration
-        container        <- Future(TextDocumentContainer(amfConfiguration))
-      } yield WorkspaceManager(container, telemetryManager, Nil, Nil, logger, factory.configurationManager)
+    val workspaceManager: WorkspaceManager = {
+      val editorConfiguration = EditorConfiguration()
+      val container           = TextDocumentContainer()
+      val defaultProjectConfigurationProvider =
+        new DefaultProjectConfigurationProvider(container, editorConfiguration, logger)
+      WorkspaceManager(container,
+                       telemetryManager,
+                       editorConfiguration,
+                       defaultProjectConfigurationProvider,
+                       Nil,
+                       Nil,
+                       logger, factory.configurationManager)
+    }
 
-    val documentLinksManager: Future[DocumentLinksManager] =
-      workspaceManager.map(new DocumentLinksManager(_, telemetryManager, logger))
+    val documentLinksManager: DocumentLinksManager =
+      new DocumentLinksManager(workspaceManager, telemetryManager, logger)
 
     def init(): Future[Unit] =
-      for {
-        _                <- futureAmfConfiguration
-        workspaceManager <- workspaceManager
-        _                <- workspaceManager.initialize(List(WorkspaceFolder(filePath(rootFolder))), DefaultProjectConfigurationStyle)
-      } yield {}
+      workspaceManager
+        .initialize(List(WorkspaceFolder(filePath(rootFolder))))
+        .flatMap(_ => {
+          val initialArgs = changeConfigArgs(mainFile, Some(filePath(rootFolder)))
+          workspaceManager
+            .executeCommand(ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION, List(initialArgs)))
+            .map(_ => {})
+        })
 
     def openFileAndGetLinks(path: String): Future[Seq[DocumentLink]] =
-      openFile(path) flatMap (_.getDocumentLinks(path))
+      openFile(path) flatMap (_ => getDocumentLinks(path))
 
-    def openFile(path: String): Future[WorkspaceLinkHandler] = {
+    def openFile(path: String): Future[Unit] =
       workspaceManager
-        .flatMap(
-          _.notify(filePath(path), OPEN_FILE)
-            .map(_ => this))
-    }
+        .notify(filePath(path), OPEN_FILE)
 
-    def closeFile(path: String): Future[WorkspaceLinkHandler] = {
+    def closeFile(path: String): Future[Unit] =
       workspaceManager
-        .flatMap(
-          _.notify(filePath(path), CLOSE_FILE)
-            .map(_ => this))
-    }
+        .notify(filePath(path), CLOSE_FILE)
 
     def getDocumentLinks(path: String): Future[Seq[DocumentLink]] =
-      documentLinksManager.flatMap(_.documentLinks(filePath(path), ""))
+      documentLinksManager.documentLinks(filePath(path), "")
   }
 
   def buildServer(): LanguageServer =

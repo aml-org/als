@@ -11,7 +11,7 @@ trait ExtractRamlType extends BaseElementDeclarableExtractors {
   protected override lazy val amfObject: Option[AmfObject] = extractRamlType
 
   protected def extractRamlType: Option[AmfObject] =
-    extractJsonSchema(maybeTree, params.dialect) orElse extractAmfObject(maybeTree, params.dialect)
+    extractJsonSchema(maybeTree, params.definedBy) orElse extractAmfObject(maybeTree, params.definedBy)
 
   /**
     * Get the RAML type definition that encapsulates the Json schema, not the Json schema shape

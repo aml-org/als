@@ -1,9 +1,8 @@
 package org.mulesoft.als.server
 
 import org.mulesoft.als.common.URIImplicits.StringUriImplicits
-import org.mulesoft.als.configuration.DefaultProjectConfigurationStyle
-import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
 import org.mulesoft.als.logger.Logger
+import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
 import org.mulesoft.als.server.modules.configuration.ConfigurationManager
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.{AlsInitializeParams, AlsInitializeResult}
@@ -24,7 +23,6 @@ class LanguageServerImpl(val textDocumentSyncConsumer: AlsTextDocumentSyncConsum
 
   override def initialize(params: AlsInitializeParams): Future[AlsInitializeResult] = {
     logParams(params)
-    params.projectConfigurationStyle.foreach(configuration.setProjectConfigurationStyle)
     params.hotReload.foreach(configuration.setHotReloadDialects)
     params.configuration.foreach(c => {
       updateConfiguration(
@@ -42,10 +40,7 @@ class LanguageServerImpl(val textDocumentSyncConsumer: AlsTextDocumentSyncConsum
       val root: Option[String]                   = params.rootUri.flatMap(Option(_)).flatMap(rootUriIfValid).orElse(params.rootPath)
       val workspaceFolders: Seq[WorkspaceFolder] = params.workspaceFolders.getOrElse(List())
       workspaceService
-        .initialize(
-          (workspaceFolders :+ WorkspaceFolder(root, None)).toList,
-          params.projectConfigurationStyle.getOrElse(DefaultProjectConfigurationStyle)
-        )
+        .initialize((workspaceFolders :+ WorkspaceFolder(root, None)).toList)
         .map(_ => p)
     }
   }
@@ -59,9 +54,6 @@ class LanguageServerImpl(val textDocumentSyncConsumer: AlsTextDocumentSyncConsum
                  "LanguageServerImpl",
                  "initialize")
     logger.debug(s"capabilities: ${params.capabilities.toString}", "LanguageServerImpl", "initialize")
-    params.projectConfigurationStyle.foreach(config => {
-      logger.debug(s"projectConfigurationType style: ${config.style}", "LanguageServerImpl", "initialize")
-    })
     logger.debug(s"hotReload: ${params.hotReload}", "LanguageServerImpl", "initialize")
   }
 
