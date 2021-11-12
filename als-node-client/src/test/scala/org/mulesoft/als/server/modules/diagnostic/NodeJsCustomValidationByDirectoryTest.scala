@@ -23,10 +23,10 @@ import org.scalatest.Assertion
 import scala.concurrent.Future
 
 class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with ChangesWorkspaceConfiguration {
-  def rootPath: String                     = "custom-validation/byDirectory"
+  def rootPath: String = "custom-validation/byDirectory"
 
-  val logger: TestLogger = TestLogger()
-  val validator: AMFOpaValidator = new JsCustomValidator(logger, AmfCustomValidatorNode)
+  val logger: TestLogger                   = TestLogger()
+  val validator: AMFOpaValidator           = JsCustomValidator(logger, AmfCustomValidatorNode)
   override def fileExtensions: Seq[String] = Seq(".yaml")
 
   override def testFile(content: String, file: SyncFile, parent: String): Unit = {

@@ -10,8 +10,8 @@ import org.mulesoft.als.configuration.{
   EmptyJsDirectoryResolver,
   JsServerSystemConf
 }
-import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
 import org.mulesoft.als.logger.PrintLnLogger
+import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.custom.AMFOpaValidator
 import org.mulesoft.als.server.modules.diagnostic.{DiagnosticNotificationsKind, JsCustomValidator}
@@ -21,8 +21,8 @@ import org.yaml.builder.{DocBuilder, JsOutputBuilder}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
+import scala.scalajs.js.UndefOr
 import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
-import scala.scalajs.js.{Dynamic, UndefOr, isUndefined}
 
 @JSExportAll
 @JSExportTopLevel("LanguageServerFactory")
@@ -88,7 +88,7 @@ object LanguageServerFactory {
     notificationKind.toOption.foreach(factory.withNotificationKind)
 
     val platformValidator: Option[AMFOpaValidator] =
-      amfCustomValidator.map(new JsCustomValidator(sharedLogger(logger), _))
+      amfCustomValidator.map(JsCustomValidator(sharedLogger(logger), _))
 
     val dm                    = factory.buildDiagnosticManagers(platformValidator)
     val sm                    = factory.serializationManager(serialization)
