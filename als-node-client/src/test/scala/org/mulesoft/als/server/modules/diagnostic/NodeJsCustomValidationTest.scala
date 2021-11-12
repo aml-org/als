@@ -11,7 +11,7 @@ import org.mulesoft.als.server.modules.diagnostic.DiagnosticImplicits.PublishDia
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams}
 import org.mulesoft.als.server.workspace.{ChangesWorkspaceConfiguration, WorkspaceManager}
-import org.mulesoft.als.server.{JsLanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.als.server.{LanguageServerBuilder, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.configuration.TraceKind
 import org.yaml.model.YDocument
 import org.yaml.render.YamlRender
@@ -19,7 +19,7 @@ import org.yaml.render.YamlRender
 import scala.concurrent.{ExecutionContext, Future}
 
 class NodeJsCustomValidationTest
-  extends NodeJsLanguageServerBaseTest
+    extends NodeJsLanguageServerBaseTest
     with ChangesWorkspaceConfiguration
     with FileAssertionTest {
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
@@ -28,7 +28,7 @@ class NodeJsCustomValidationTest
 
   def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): (LanguageServer, WorkspaceManager) = {
     val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger)
-    val dm = builder.buildDiagnosticManagers(Some(new JsCustomValidator(logger, AmfCustomValidatorNode)))
+    val dm      = builder.buildDiagnosticManagers(Some(JsCustomValidator(logger, AmfCustomValidatorNode)))
     val factory = builder.buildWorkspaceManagerFactory()
     val b = new LanguageServerBuilder(factory.documentManager,
                                       factory.workspaceManager,
@@ -48,7 +48,7 @@ class NodeJsCustomValidationTest
 
   test("Should validate simple with simple profile") {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(4000)
-    val workspacePath = filePath(platform.encodeURI("simple"))
+    val workspacePath                                    = filePath(platform.encodeURI("simple"))
     val mainFile                                         = filePath(platform.encodeURI("simple/api.raml"))
     val profile                                          = filePath(platform.encodeURI("simple/profile.yaml"))
     val expected                                         = filePath(platform.encodeURI("simple/expected/simple.yaml"))
@@ -71,7 +71,7 @@ class NodeJsCustomValidationTest
 
   test("Should trigger validation after did change") {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(4000)
-    val workspacePath = filePath(platform.encodeURI("simple"))
+    val workspacePath                                    = filePath(platform.encodeURI("simple"))
     val mainFile                                         = filePath(platform.encodeURI("simple/api.raml"))
     val profile                                          = filePath(platform.encodeURI("simple/profile.yaml"))
     val expected                                         = filePath(platform.encodeURI("simple/expected/fixed.yaml"))
@@ -101,7 +101,7 @@ class NodeJsCustomValidationTest
 
   test("Should be able to apply multiple profiles") {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(4000)
-    val workspacePath = filePath(platform.encodeURI("multiple-profiles"))
+    val workspacePath                                    = filePath(platform.encodeURI("multiple-profiles"))
     val mainFile                                         = filePath(platform.encodeURI("multiple-profiles/api.raml"))
     val profile1                                         = filePath(platform.encodeURI("multiple-profiles/profile.yaml"))
     val profile2                                         = filePath(platform.encodeURI("multiple-profiles/max-endpoints.yaml"))
@@ -127,7 +127,7 @@ class NodeJsCustomValidationTest
 
   test("Should be able to swap multiple profiles") {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(4000)
-    val workspacePath = filePath(platform.encodeURI("multiple-profiles"))
+    val workspacePath                                    = filePath(platform.encodeURI("multiple-profiles"))
     val mainFile                                         = filePath(platform.encodeURI("multiple-profiles/api.raml"))
     val profile1                                         = filePath(platform.encodeURI("multiple-profiles/profile.yaml"))
     val profile2                                         = filePath(platform.encodeURI("multiple-profiles/max-endpoints.yaml"))
