@@ -42,7 +42,9 @@ class AlsInitializeParams private (val capabilities: AlsClientCapabilities,
                                    val rootPath: Option[String] = None,
                                    val initializationOptions: Option[Any] = None,
                                    val configuration: Option[AlsConfiguration] = None,
-                                   val projectConfigurationStyle: Option[ProjectConfigurationStyle] = None)
+                                   @deprecated(
+                                     "projectConfigurationStyle will no longer be supported, using command as only option",
+                                     "4.2.1") val projectConfigurationStyle: Option[ProjectConfigurationStyle] = None)
 
 object AlsInitializeParams {
 
