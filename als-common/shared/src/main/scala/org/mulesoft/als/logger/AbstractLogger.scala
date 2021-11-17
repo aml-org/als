@@ -71,13 +71,13 @@ trait AbstractLogger extends Logger {
   def withSettings(settings: LoggerSettings): this.type
 
   private def allowedComponent(settings: LoggerSettings, component: String): Boolean =
-    whiteList(settings, component) &&
-      blackList(settings, component)
+    allowList(settings, component) &&
+      blockList(settings, component)
 
-  private def blackList(settings: LoggerSettings, component: String): Boolean =
+  private def blockList(settings: LoggerSettings, component: String): Boolean =
     settings.deniedComponents.forall(!_.contains(component))
 
-  private def whiteList(settings: LoggerSettings, component: String): Boolean =
+  private def allowList(settings: LoggerSettings, component: String): Boolean =
     settings.allowedComponents.forall(_.contains(component))
 
   private def belowSeverity(settings: LoggerSettings, severity: MessageSeverity): Boolean =
