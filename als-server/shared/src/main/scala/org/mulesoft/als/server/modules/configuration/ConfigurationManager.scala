@@ -34,12 +34,21 @@ class ConfigurationManager
 
   private var projectConfigurationStyle: ProjectConfigurationStyle = DefaultProjectConfigurationStyle
 
-  def getProjectConfigStyle: ProjectConfigurationStyle = projectConfigurationStyle
+  private var hotReloadDialects: Boolean = false
+
+  override def getProjectConfigStyle: ProjectConfigurationStyle = projectConfigurationStyle
 
   /**
     * Should only be called from initialization
     */
   def setProjectConfigurationStyle(p: ProjectConfigurationStyle): Unit = projectConfigurationStyle = p
+
+  override def getHotReloadDialects: Boolean = hotReloadDialects
+
+  /**
+    * Should only be called from initialization
+    */
+  def setHotReloadDialects(p: Boolean): Unit = hotReloadDialects = p
 
   def updateDocumentChangesSupport(support: Boolean): Unit = configuration.supportsDocumentChanges(support)
 

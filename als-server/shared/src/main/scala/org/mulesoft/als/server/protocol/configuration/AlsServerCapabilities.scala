@@ -56,7 +56,8 @@ case class AlsServerCapabilities(
     documentFormattingProvider: Option[Either[Boolean, WorkDoneProgressOptions]] = None,
     documentRangeFormattingProvider: Option[Either[Boolean, WorkDoneProgressOptions]] = None,
     workspaceConfiguration: Option[WorkspaceConfigurationOptions] = None,
-    customValidations: Option[CustomValidationOptions] = None)
+    customValidations: Option[CustomValidationOptions] = None,
+    hotReload: Option[Boolean] = None)
 
 object AlsServerCapabilities {
   def empty: AlsServerCapabilities = AlsServerCapabilities()
