@@ -6574,6 +6574,7 @@ declare module '@aml-org/als-server' {
     workspaceFolders: WorkspaceFolder[] | null
     configuration?: AlsConfiguration
     projectConfigurationStyle?: ProjectConfigurationStyle
+    hotReload?: boolean
   }
 
   export interface AlsClientCapabilities {

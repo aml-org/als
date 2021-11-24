@@ -62,6 +62,7 @@ class LanguageServerImpl(val textDocumentSyncConsumer: AlsTextDocumentSyncConsum
     params.projectConfigurationStyle.foreach(config => {
       logger.debug(s"projectConfigurationType style: ${config.style}", "LanguageServerImpl", "initialize")
     })
+    logger.debug(s"hotReload: ${params.hotReload}", "LanguageServerImpl", "initialize")
   }
 
   /**
