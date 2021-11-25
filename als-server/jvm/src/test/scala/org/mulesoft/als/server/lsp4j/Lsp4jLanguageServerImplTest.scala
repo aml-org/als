@@ -66,8 +66,7 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
     server.initialize(null).toScala.map(_ => succeed)
   }
 
-  // todo: enable test after APIMF-3305 is adopted
-  ignore("Lsp4j LanguageServerImpl Command - Index Dialect") {
+  test("Lsp4j LanguageServerImpl Command - Index Dialect") {
     def wrapJson(file: String, content: String, gson: Gson): String =
       s"""{"uri": "$file", "content": ${gson.toJson(content)}}"""
 
@@ -121,7 +120,7 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
         _ <- executeCommandIndexDialect(server)(mainFilePath, mainContent)
       } yield {
         server.shutdown()
-        assert(wM.getConfig.definitionsFor("Test0.1").isDefined)
+        assert(wM.getConfig.dialects.map(_.id).contains("file://api.raml"))
       }
     }
   }
@@ -171,7 +170,8 @@ class Lsp4jLanguageServerImplTest extends LanguageServerBaseTest with PlatformSe
           new DummyTelemetryProvider(),
           Nil,
           Nil,
-          EmptyLogger
+          EmptyLogger,
+          buildWorkspaceManager.configurationManager
         ) {
 
       private val commandExecutors: Map[String, CommandExecutor[_, _]] = Map(

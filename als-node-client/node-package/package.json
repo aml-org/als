@@ -1,21 +1,22 @@
 {
   "name": "@aml-org/als-node-client",
-  "version": "3.3.0-SNAPSHOT",
+  "version": "4.3.0-SNAPSHOT",
   "description": "ALS Node Client",
   "main": "./dist/als-node-client.min.js",
   "types": "typescript/als-node-client.d.ts",
   "author": "ALS team",
   "license": "Apache-2.0",
-  "homepage": "https://github.com/mulesoft/als",
+  "homepage": "https://github.com/aml-org/als",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mulesoft/als"
+    "url": "https://github.com/aml-org/als"
   },
   "bin": {
     "als": "./dist/als-node-client.min.js"
   },
   "dependencies": {
-    "@aml-org/amf-custom-validator": "0.1.0-SNAPSHOT.16",
+    "@aml-org/amf-custom-validator": "0.1.0-SNAPSHOT.31",
+    "@aml-org/amf-custom-validator-web": "0.1.0-SNAPSHOT.31",
     "ajv": "6.5.2",
     "vscode-jsonrpc": "6.0.0",
     "vscode-languageserver-protocol": "3.16.0"

@@ -1,8 +1,11 @@
 package org.mulesoft.als.server.modules.diagnostic
 
+import amf.core.client.common.remote.Content
+import amf.core.client.platform.resource.ResourceNotFound
 import amf.core.client.scala.AMFResult
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.model.domain.AmfObject
+import amf.core.client.scala.resource.ResourceLoader
 import amf.core.client.scala.vocabulary.Namespace.{Document => DocumentNamespace}
 import amf.core.client.scala.vocabulary.ValueType
 import amf.core.internal.metamodel.Field
@@ -297,6 +300,46 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
         server.shutdown()
         assert(d1.diagnostics.nonEmpty && d1.uri == apiPath)
         assert(d1.diagnostics.head.relatedInformation.nonEmpty)
+      }
+    }
+  }
+
+  test("File not found error") {
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
+    val content                                          = """#%RAML 1.0
+                    |title: api
+                    |traits:
+                    |  tr: !include t.raml""".stripMargin
+
+    case class CustomResourceLoader() extends ResourceLoader {
+      override def fetch(resource: String): Future[Content] = {
+        if (resource == "file://api.raml") Future(new Content(content, resource))
+        else Future.failed(new ResourceNotFound(s"Resource not found"))
+      }
+      override def accepts(resource: String): Boolean = true
+    }
+
+    def build(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer = {
+      val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, Seq(CustomResourceLoader()), false)
+      val dm      = builder.buildDiagnosticManagers()
+      val factory = builder.buildWorkspaceManagerFactory()
+      container = Option(factory.container)
+      val b = new LanguageServerBuilder(factory.documentManager,
+                                        factory.workspaceManager,
+                                        factory.configurationManager,
+                                        factory.resolutionTaskManager)
+      dm.foreach(m => b.addInitializableModule(m))
+      b.build()
+    }
+    withServer(build(diagnosticNotifier)) { server =>
+      val apiPath = s"file://api.raml"
+      for {
+        _  <- openFileNotification(server)(apiPath, content)
+        d1 <- diagnosticNotifier.nextCall
+      } yield {
+        server.shutdown()
+        assert(d1.diagnostics.nonEmpty && d1.uri == apiPath)
+        assert(d1.diagnostics.exists(d => d.message == "Resource not found"))
       }
     }
   }

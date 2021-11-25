@@ -24,6 +24,7 @@ class LsConvertionsTest extends FunSuite {
     val folder = new WorkspaceFolder()
     clientParams.setWorkspaceFolders(List(folder).asJava)
     clientParams.setInitializationOptions(new Object())
+    clientParams.setHotReload(true)
     val internalParams: configuration.AlsInitializeParams = clientParams
     succeed
   }

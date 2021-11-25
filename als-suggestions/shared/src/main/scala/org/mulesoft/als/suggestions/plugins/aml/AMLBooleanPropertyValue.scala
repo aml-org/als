@@ -14,7 +14,8 @@ object AMLBooleanPropertyValue extends AMLCompletionPlugin with BooleanSuggestio
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
       request.propertyMapping match {
-        case head :: Nil if head.literalRange().option().contains(XsdTypes.xsdBoolean.iri()) =>
+        case head :: Nil
+            if !request.yPartBranch.isKey && head.literalRange().option().contains(XsdTypes.xsdBoolean.iri()) =>
           booleanSuggestions
         case _ => Nil
       }

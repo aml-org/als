@@ -2,6 +2,7 @@ package org.mulesoft.amfintegration.amfconfiguration
 
 import amf.aml.client.scala.AMLConfiguration
 import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.{AnnotationMapping, SemanticExtension}
 import amf.apicontract.client.scala._
 import amf.core.client.common.remote.Content
 import amf.core.client.common.transform.PipelineId
@@ -61,7 +62,6 @@ class AmfConfigurationWrapper private[amfintegration] (private val initialConfig
     units.foreach(registerValidationProfile)
     this
   }
-
   private implicit var configuration: AMFConfiguration = initialConfig
 
   private var innerAmfConfigurationState: AMFConfigurationStateManager =
@@ -109,12 +109,38 @@ class AmfConfigurationWrapper private[amfintegration] (private val initialConfig
   def dialects: Set[Dialect] =
     configurationState.getDialects().toSet ++ alsDialectProvider.dialects
 
-  def semanticKeysFor(uri: String): Seq[String] =
+  /**
+    * @param uri
+    * @return (name, isScalar)
+    */
+  def semanticKeysFor(uri: String): Seq[(String, Boolean)] =
+    findSemanticFor(uri)
+      .flatMap { t =>
+        for {
+          name              <- t._1.extensionName().option()
+          annotationMapping <- findAnnotationMappingFor(t._2, t._1)
+        } yield {
+          (name, annotationMapping.objectRange().isEmpty)
+        }
+      }
+
+  def findSemanticFor(uri: String): Seq[(SemanticExtension, Dialect)] =
     configurationState
       .findSemanticByTarget(uri)
-      .flatMap(_._2)
-      .flatMap(_.extensionName().option())
-      .toSeq
+
+  def findSemanticByName(name: String): Option[(SemanticExtension, Dialect)] =
+    configurationState
+      .findSemanticByName(name)
+
+  // this should be provided from AML because we don't want to replicate logic on our side to choose which dialect we are referring to
+  def findAnnotationMappingFor(dialect: Dialect, extension: SemanticExtension): Option[AnnotationMapping] = {
+    extension
+      .extensionMappingDefinition()
+      .option()
+      .flatMap { mappingStr =>
+        dialect.annotationMappings().find(am => am.id == mappingStr)
+      }
+  }
 
   def definitionFor(bu: BaseUnit): Option[Dialect] = alsDialectProvider.definitionFor(bu)
   def definitionFor(spec: Spec): Option[Dialect]   = alsDialectProvider.definitionFor(spec)
@@ -214,11 +240,12 @@ object AmfConfigurationWrapper {
     buildSync(resourceLoaders).init()
 
   // Should only be used when something else will await the init() future (TextDocumentContainer typically)
-  def buildSync(resourceLoaders: Seq[ResourceLoader] = Seq.empty): AmfConfigurationWrapper = {
+  def buildSync(resourceLoaders: Seq[ResourceLoader] = Seq.empty,
+                withDefaultLoaders: Boolean = true): AmfConfigurationWrapper = {
     val provider = BaseAlsDialectProvider()
     val loaders  = resourceLoaders :+ provider.rawDialectResourceLoader
     new AmfConfigurationWrapper(
-      createConfigurations(loaders),
+      createConfigurations(loaders, withDefaultLoaders),
       AlsVocabularyRegistry(DefaultVocabularies.all),
       provider,
       loaders,
@@ -226,8 +253,12 @@ object AmfConfigurationWrapper {
     )
   }
 
-  private def createConfigurations(resourceLoaders: Seq[ResourceLoader]): AMFConfiguration =
-    configurationWithResourceLoaders(APIConfiguration.API(), resourceLoaders)
+  private def createConfigurations(resourceLoaders: Seq[ResourceLoader],
+                                   withDefaultLoaders: Boolean): AMFConfiguration = {
+    val baseConfiguration =
+      if (withDefaultLoaders) APIConfiguration.API() else APIConfiguration.API().withResourceLoaders(Nil)
+    configurationWithResourceLoaders(baseConfiguration, resourceLoaders)
+  }
 
   private def configurationWithResourceLoaders(configuration: AMFConfiguration,
                                                resourceLoaders: Seq[ResourceLoader]): AMFConfiguration =

@@ -25,6 +25,7 @@ class LanguageServerImpl(val textDocumentSyncConsumer: AlsTextDocumentSyncConsum
   override def initialize(params: AlsInitializeParams): Future[AlsInitializeResult] = {
     logParams(params)
     params.projectConfigurationStyle.foreach(configuration.setProjectConfigurationStyle)
+    params.hotReload.foreach(configuration.setHotReloadDialects)
     params.configuration.foreach(c => {
       updateConfiguration(
         UpdateConfigurationParams(
@@ -61,6 +62,7 @@ class LanguageServerImpl(val textDocumentSyncConsumer: AlsTextDocumentSyncConsum
     params.projectConfigurationStyle.foreach(config => {
       logger.debug(s"projectConfigurationType style: ${config.style}", "LanguageServerImpl", "initialize")
     })
+    logger.debug(s"hotReload: ${params.hotReload}", "LanguageServerImpl", "initialize")
   }
 
   /**

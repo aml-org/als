@@ -1,5 +1,7 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.resourcetype
 
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.SemanticExtension
 import amf.apicontract.client.scala.model.domain.EndPoint
 import amf.apicontract.client.scala.model.domain.api.WebApi
 import amf.apicontract.internal.annotations.ParentEndPoint
@@ -84,6 +86,9 @@ case class ExtractResourceTypeCodeAction(params: CodeActionRequestParams)
 
     s"\n${renderNode(node, yPartBranch.flatMap(_.parentEntry))}\n"
   }
+
+  override protected val findDialectForSemantic: String => Option[(SemanticExtension, Dialect)] =
+    params.findDialectForSemantic
 
 }
 

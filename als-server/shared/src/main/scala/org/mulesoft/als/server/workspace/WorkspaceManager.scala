@@ -6,6 +6,7 @@ import org.mulesoft.als.configuration.{DefaultProjectConfigurationStyle, Project
 import org.mulesoft.als.server.AlsWorkspaceService
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.ast._
+import org.mulesoft.als.server.modules.configuration.{ConfigurationManager, ConfigurationProvider}
 import org.mulesoft.als.server.modules.workspace.{CompilableUnit, WorkspaceContentManager}
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.command._
@@ -24,7 +25,8 @@ class WorkspaceManager protected (environmentProvider: EnvironmentProvider,
                                   telemetryProvider: TelemetryProvider,
                                   val allSubscribers: List[BaseUnitListener],
                                   override val dependencies: List[AccessUnits[CompilableUnit]],
-                                  logger: Logger)
+                                  logger: Logger,
+                                  configurationProvider: ConfigurationProvider)
     extends TextListener
     with UnitWorkspaceManager
     with UnitsManager[CompilableUnit, BaseUnitListenerParams]
@@ -32,7 +34,8 @@ class WorkspaceManager protected (environmentProvider: EnvironmentProvider,
 
   implicit val platform: Platform                  = environmentProvider.platform
   override def subscribers: List[BaseUnitListener] = allSubscribers.filter(_.isActive)
-  private val workspaces                           = new WorkspaceList(environmentProvider, telemetryProvider, allSubscribers, logger)
+  private val workspaces =
+    new WorkspaceList(environmentProvider, telemetryProvider, allSubscribers, logger, configurationProvider)
 
   def getWorkspace(uri: String): Future[WorkspaceContentManager] =
     workspaces.findWorkspace(uri)
@@ -167,7 +170,8 @@ class WorkspaceManager protected (environmentProvider: EnvironmentProvider,
 class WorkspaceList(environmentProvider: EnvironmentProvider,
                     telemetryProvider: TelemetryProvider,
                     val allSubscribers: List[BaseUnitListener],
-                    logger: Logger) {
+                    logger: Logger,
+                    configurationProvider: ConfigurationProvider) {
 
   def subscribers: List[BaseUnitListener] = allSubscribers.filter(_.isActive)
 
@@ -180,12 +184,12 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
 
   private var defaultWorkspace: Future[WorkspaceContentManager] = {
     logger.debug(s"created default WorkspaceContentManager", "WorkspaceList", "buildWorkspaceAt")
-    WorkspaceContentManager("", environmentProvider, telemetryProvider, logger, subscribers, configStyle)
+    WorkspaceContentManager("", environmentProvider, telemetryProvider, logger, subscribers, configurationProvider)
   }
 
   private def resetDefaultWorkspace(): Unit =
     defaultWorkspace =
-      WorkspaceContentManager("", environmentProvider, telemetryProvider, logger, subscribers, configStyle)
+      WorkspaceContentManager("", environmentProvider, telemetryProvider, logger, subscribers, configurationProvider)
 
   def removeWorkspace(uri: String): Future[Unit] =
     changeWorkspaces(List.empty, List(uri))
@@ -230,7 +234,7 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
                                      telemetryProvider,
                                      logger,
                                      subscribers,
-                                     configStyle)
+                                     configurationProvider)
       _ <- Future.sequence(applicableFiles.map(wcm.stage(_, OPEN_FILE)))
       _ <- wcm.initialized
     } yield {
@@ -270,8 +274,14 @@ object WorkspaceManager {
             telemetryProvider: TelemetryProvider,
             allSubscribers: List[BaseUnitListener],
             dependencies: List[AccessUnits[CompilableUnit]],
-            logger: Logger): WorkspaceManager = {
-    val wm = new WorkspaceManager(environmentProvider, telemetryProvider, allSubscribers, dependencies, logger)
+            logger: Logger,
+            configurationProvider: ConfigurationProvider): WorkspaceManager = {
+    val wm = new WorkspaceManager(environmentProvider,
+                                  telemetryProvider,
+                                  allSubscribers,
+                                  dependencies,
+                                  logger,
+                                  configurationProvider)
     wm.dependencies.foreach(d => d.withUnitAccessor(wm))
     wm
   }

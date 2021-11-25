@@ -16,6 +16,7 @@ import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 import org.scalatest.{AsyncFunSuite, Matchers}
 import org.mulesoft.als.configuration.DefaultProjectConfigurationStyle
+import org.mulesoft.als.server.modules.configuration.ConfigurationManager
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -71,7 +72,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
                                     DummyTelemetryProvider,
                                     EmptyLogger,
                                     Nil,
-                                    DefaultProjectConfigurationStyle)
+                                    new ConfigurationManager())
       _ <- ws
         .withConfiguration(
           DefaultWorkspaceConfigurationProvider(ws, mainApiUri, cacheUris, Set.empty, Set.empty, Set.empty, None))
@@ -139,7 +140,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
                                     DummyTelemetryProvider,
                                     EmptyLogger,
                                     Nil,
-                                    DefaultProjectConfigurationStyle)
+                                    new ConfigurationManager())
       _ <- ws
         .withConfiguration(
           DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, Set.empty, Set.empty, Set.empty, None))
@@ -198,7 +199,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
                                     DummyTelemetryProvider,
                                     EmptyLogger,
                                     Nil,
-                                    DefaultProjectConfigurationStyle)
+                                    new ConfigurationManager())
       _ <- ws
         .withConfiguration(
           DefaultWorkspaceConfigurationProvider(ws, mainApiName, Set.empty, Set.empty, Set.empty, Set.empty, None))
@@ -258,7 +259,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
                                     DummyTelemetryProvider,
                                     EmptyLogger,
                                     Nil,
-                                    DefaultProjectConfigurationStyle)
+                                    new ConfigurationManager())
       _ <- ws
         .withConfiguration(
           DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, Set.empty, Set.empty, Set.empty, None))
@@ -320,7 +321,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
                                     DummyTelemetryProvider,
                                     EmptyLogger,
                                     Nil,
-                                    DefaultProjectConfigurationStyle)
+                                    new ConfigurationManager())
       _ <- ws
         .withConfiguration(
           DefaultWorkspaceConfigurationProvider(ws, mainApiName, cacheUris, Set.empty, Set.empty, Set.empty, None))

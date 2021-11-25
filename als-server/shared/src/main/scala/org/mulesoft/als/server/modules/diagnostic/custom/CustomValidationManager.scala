@@ -43,6 +43,7 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
 
   override def applyConfig(config: Option[CustomValidationClientCapabilities]): CustomValidationOptions = {
     enabled = config.exists(_.enabled)
+    logger.debug(s"Custom validation manager enabled? ${enabled}", "CustomValidationManager", "applyConfig")
     CustomValidationOptions(enabled)
   }
 
@@ -59,20 +60,8 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
     resolved.amfConfiguration.workspaceConfiguration match {
       case Some(config) if config.profiles.nonEmpty =>
         for {
-          unit <- resolved.resolvedUnit.map(_.baseUnit)
-          serialized <- Future {
-            val builder = JsonOutputBuilder(false)
-            resolved.amfConfiguration.asJsonLD(unit, builder, RenderOptions().withCompactUris.withSourceMaps)
-            builder.result.toString
-          }
-          results <- Future.sequence(
-            resolved.amfConfiguration
-              .profiles()
-              .map(t => {
-                val (profile, profileUnit) = t
-                logger.debug(s"Validate with profile: $profile", "CustomValidationManager", "validateWithProfile")
-                validateWithProfile(profileUnit.result.baseUnit, uri, serialized)
-              }))
+          unit    <- resolved.resolvedUnit.map(_.baseUnit)
+          results <- validate(uri, unit, resolved.amfConfiguration)
         } yield {
           results.foreach(
             r =>
@@ -91,6 +80,27 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
         }
     }
   }
+
+  def validate(uri: String,
+               unit: BaseUnit,
+               amfConfiguration: AmfConfigurationWrapper): Future[Seq[Seq[AlsValidationResult]]] =
+    for {
+      serialized <- Future {
+        val builder = JsonOutputBuilder(false)
+        amfConfiguration.asJsonLD(unit, builder, RenderOptions().withCompactUris.withSourceMaps)
+        builder.result.toString
+      }
+      result <- Future
+        .sequence(
+          amfConfiguration
+            .profiles()
+            .map(t => {
+              val (profile, profileUnit) = t
+              logger.debug(s"Validate with profile: $profile", "CustomValidationManager", "validateWithProfile")
+              validateWithProfile(profileUnit.result.baseUnit, uri, serialized)
+            }))
+        .map(_.toSeq)
+    } yield result
 
   private def validateWithProfile(profileUnit: BaseUnit,
                                   unitUri: String,

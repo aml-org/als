@@ -17,9 +17,6 @@ BASE_DIR="$( cd "${DIR}/.." && pwd )"
 DIST_DIR=$BASE_DIR
 
 cd $DIST_DIR
-LATEST_TAG=`npm v @aml-org/als-node-client dist-tags.releases`
-
-echo "Repo latest tag: $LATEST_TAG"
 
 echo "Start prerelease from scratch"
 npm version ${FULL_VERSION} --force --no-git-tag-version --allow-same-version
@@ -27,7 +24,7 @@ npm version ${FULL_VERSION} --force --no-git-tag-version --allow-same-version
 echo "Publish new version"
 if [ "$IS_MASTER" = true ] ; then
   echo "Tagging as release"
-  npm publish --access public --tag release
+  npm publish --access public --tag latest
 else
   echo "Tagging as prerelease"
   npm publish --access public --tag prerelease

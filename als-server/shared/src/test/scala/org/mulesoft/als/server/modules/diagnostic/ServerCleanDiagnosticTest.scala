@@ -2,14 +2,17 @@ package org.mulesoft.als.server.modules.diagnostic
 
 import amf.core.client.common.remote.Content
 import amf.core.client.common.validation.ProfileNames
+import amf.core.client.scala.AMFGraphConfiguration
 import amf.core.client.scala.resource.ResourceLoader
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.modules.diagnostic.custom.AMFOpaValidator
 import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.workspace.{ChangesWorkspaceConfiguration, WorkspaceManager}
 import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class ServerCleanDiagnosticTest extends LanguageServerBaseTest {
+class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorkspaceConfiguration {
 
   override implicit val executionContext = ExecutionContext.Implicits.global
 
@@ -80,9 +83,13 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest {
     override def accepts(resource: String): Boolean = files.keySet.contains(resource)
   }
 
-  def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer = {
+  def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer =
+    buildServer(diagnosticNotifier, None)._1
+
+  def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier,
+                  validator: Option[AMFOpaValidator]): (LanguageServer, WorkspaceManager) = {
     val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, Seq(rl))
-    val dm      = builder.buildDiagnosticManagers()
+    val dm      = builder.buildDiagnosticManagers(validator)
     val factory = builder.buildWorkspaceManagerFactory()
     val b = new LanguageServerBuilder(factory.documentManager,
                                       factory.workspaceManager,
@@ -90,10 +97,10 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest {
                                       factory.resolutionTaskManager)
     b.addRequestModule(factory.cleanDiagnosticManager)
     dm.foreach(m => b.addInitializableModule(m))
-    b.build()
+    (b.build(), factory.workspaceManager)
   }
 
-  override def rootPath: String = ???
+  override def rootPath: String = "diagnostics"
 
   test("Test resource loader invocation from clean diagnostic with encoded uri") {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier
@@ -180,5 +187,73 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest {
         assert(d.forall(_.profile.profile == ProfileNames.ASYNC20.profile))
       }
     }
+  }
+
+  test("Clean diagnostic with negative custom validations") {
+    val negativeReportUri = filePath(platform.encodeURI("project/negative.report.jsonld"))
+    platform
+      .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
+      .flatMap(negativeReport => {
+        val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
+        val validator                                        = new DummyAmfOpaValidator(negativeReport.toString())
+        val (server, workspaceManager)                       = buildServer(diagnosticNotifier, Some(validator))
+        withServer(server, initializeParamsCommandStyle) {
+          s =>
+            val mainFilePath       = s"file://api.raml"
+            val profileUri: String = filePath(platform.encodeURI("project/profile.yaml"))
+            val args               = changeConfigArgs(None, Some("file://"), Set.empty, Set(profileUri))
+            val mainContent =
+              """#%RAML 1.0
+                |""".stripMargin
+
+            for {
+              _ <- openFileNotification(s)(mainFilePath, mainContent)
+              _ <- diagnosticNotifier.nextCall
+              _ <- changeWorkspaceConfiguration(workspaceManager, args)
+              _ <- diagnosticNotifier.nextCall
+              d <- requestCleanDiagnostic(s)(mainFilePath)
+              _ <- validator.calledNTimes(1)
+            } yield {
+              s.shutdown()
+              assert(d.nonEmpty)
+              assert(d.forall(_.diagnostics.nonEmpty))
+              assert(
+                d.head.diagnostics.head.code
+                  .exists(_.endsWith("project/profile.yaml#/encodes/validations/validation1")))
+            }
+        }
+      })
+  }
+  test("Clean diagnostic with positive custom validations") {
+    val negativeReportUri = filePath(platform.encodeURI("project/positive.report.jsonld"))
+    platform
+      .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
+      .flatMap(negativeReport => {
+        val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
+        val validator                                        = new DummyAmfOpaValidator(negativeReport.toString())
+        val (server, workspaceManager)                       = buildServer(diagnosticNotifier, Some(validator))
+        withServer(server, initializeParamsCommandStyle) {
+          s =>
+            val mainFilePath       = s"file://api.raml"
+            val profileUri: String = filePath(platform.encodeURI("project/profile.yaml"))
+            val args               = changeConfigArgs(None, Some("file://"), Set.empty, Set(profileUri))
+            val mainContent =
+              """#%RAML 1.0
+              |""".stripMargin
+
+            for {
+              _ <- openFileNotification(s)(mainFilePath, mainContent)
+              _ <- diagnosticNotifier.nextCall
+              _ <- changeWorkspaceConfiguration(workspaceManager, args)
+              _ <- diagnosticNotifier.nextCall
+              d <- requestCleanDiagnostic(s)(mainFilePath)
+              _ <- validator.calledNTimes(1)
+            } yield {
+              s.shutdown()
+              assert(d.nonEmpty)
+              assert(d.forall(_.diagnostics.isEmpty))
+            }
+        }
+      })
   }
 }

@@ -1,0 +1,26 @@
+uri: file://als-node-client/src/test/resources/custom-validation/byDirectory/preserve-resolution-error/negative.data
+diagnostics:
+  -
+    message: should be number
+    range: Range(common.Position[L:5,C:13],common.Position[L:5,C:21])
+    severity: Error
+    code: http://a.ml/vocabularies/amf/validation#example-validation-error
+    relatedInformation: []
+  -
+    message: Scalars in parameters must have minLength defined
+    range: Range(common.Position[L:9,C:6],common.Position[L:10,C:0])
+    severity: Error
+    code: file://als-node-client/src/test/resources/custom-validation/byDirectory/preserve-resolution-error/profile.yaml#/encodes/validations/scalar-parameters
+    relatedInformation:
+      -
+        message: Error expected 1 >= actual (actual=0) at shapes.schema / shacl.minLength
+        location: Location(file://als-node-client/src/test/resources/custom-validation/byDirectory/preserve-resolution-error/negative.data,Range(common.Position[L:9,C:6],common.Position[L:10,C:0]))
+  -
+    message: Scalars in parameters must have minLength defined
+    range: Range(common.Position[L:20,C:6],common.Position[L:20,C:8])
+    severity: Error
+    code: file://als-node-client/src/test/resources/custom-validation/byDirectory/preserve-resolution-error/profile.yaml#/encodes/validations/scalar-parameters
+    relatedInformation:
+      -
+        message: Error expected 1 >= actual (actual=0) at shapes.schema / shacl.minLength
+        location: Location(file://als-node-client/src/test/resources/custom-validation/byDirectory/preserve-resolution-error/negative.data,Range(common.Position[L:20,C:6],common.Position[L:20,C:8]))

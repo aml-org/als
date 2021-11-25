@@ -1,6 +1,7 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.common
 
 import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.SemanticExtension
 import amf.core.client.scala.model.document.Document
 import amf.core.client.scala.model.domain.AmfObject
 import amf.core.internal.remote.{Mimes, Spec}
@@ -95,8 +96,10 @@ trait BaseElementDeclarableExtractors extends TreeKnowledge {
     */
   protected lazy val renderLink: Future[Option[YNode]] = Future.successful(None)
 
+  protected val findDialectForSemantic: String => Option[(SemanticExtension, Dialect)]
+
   protected lazy val spec: Spec =
-    maybeTree.flatMap(_.objSpec) getOrElse params.bu.sourceSpec.getOrElse(Spec.AML)
+    maybeTree.flatMap(_.objSpec(findDialectForSemantic)) getOrElse params.bu.sourceSpec.getOrElse(Spec.AML)
 
   /**
     * The entry which holds the reference for the new declaration (`{"$ref": "declaration/$1"}`)

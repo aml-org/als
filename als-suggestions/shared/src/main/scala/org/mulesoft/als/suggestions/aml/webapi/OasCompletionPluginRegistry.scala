@@ -42,8 +42,7 @@ trait OasBaseCompletionRegistry extends WebApiCompletionPluginRegistry {
     OasNumberShapeFormatValues :+
     QueryParamNamesFromPath :+
     WebApiKnownValueCompletionPlugin :+
-    ResponsesDeclarationCodes :+
-    OasLikeSemanticExtensionsFlavour
+    ResponsesDeclarationCodes
 }
 
 object Oas20CompletionPluginRegistry extends OasBaseCompletionRegistry {

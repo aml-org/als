@@ -1,14 +1,14 @@
 package org.mulesoft.als.common
 
 import amf.aml.client.scala.model.document.Dialect
-import amf.core.client.common.position.{Position => AmfPosition}
-import amf.core.internal.parser.domain.Annotations
+import amf.aml.client.scala.model.domain.SemanticExtension
 import amf.core.client.scala.model.document.{BaseUnit, DeclaresModel}
+import amf.core.client.scala.model.domain.extensions.DomainExtension
 import amf.core.client.scala.model.domain.{AmfObject, DomainElement}
 import amf.core.internal.annotations.{DeclaredElement, DefinedBySpec, SourceAST}
 import amf.core.internal.metamodel.domain.LinkableElementModel
-import amf.core.internal.parser.domain.FieldEntry
-import amf.core.internal.remote.Spec
+import amf.core.internal.parser.domain.{Annotations, FieldEntry}
+import amf.core.internal.remote.{AmlDialectSpec, Spec}
 import org.mulesoft.als.common.AmfSonElementFinder.AlsAmfObject
 import org.mulesoft.als.common.YamlWrapper.AlsYPart
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
@@ -20,9 +20,16 @@ case class ObjectInTree(obj: AmfObject,
                         stack: Seq[AmfObject],
                         fieldEntry: Option[FieldEntry],
                         yPartBranch: YPartBranch) {
+  def objSpec(findDialectForSemantic: String => Option[(SemanticExtension, Dialect)]): Option[Spec] = {
+    def findSpecificDefinition(objects: Seq[AmfObject]): Option[Spec] =
+      objects.flatMap {
+        case de: DomainExtension if de.name.nonEmpty =>
+          findDialectForSemantic(de.name.value()).map(t => AmlDialectSpec(t._2.id))
+        case o => o.annotations.find(classOf[DefinedBySpec]).map(_.spec)
+      }.headOption
 
-  def objSpec: Option[Spec] =
-    (obj +: stack).flatMap(_.annotations.find(classOf[DefinedBySpec])).headOption.map(_.spec)
+    findSpecificDefinition(obj +: stack)
+  }
 
   /**
     * return the first field entry for that contains the position in his value.
@@ -85,7 +92,7 @@ case class ObjectInTree(obj: AmfObject,
     !PositionRange(e.key.range)
       .contains(Position(yPartBranch.position)) && (e.range.columnTo > e.range.columnFrom || e.range.columnTo == 0) && e.value.isNull
 
-  def isDeclared(): Boolean = {
+  def isDeclared: Boolean = {
     obj.annotations.contains(classOf[DeclaredElement]) ||
     stack.headOption.exists({
       case d: DeclaresModel => d.declares.contains(obj)

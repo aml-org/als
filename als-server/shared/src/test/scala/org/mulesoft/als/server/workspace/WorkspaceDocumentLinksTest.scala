@@ -99,7 +99,7 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
       for {
         amfConfiguration <- futureAmfConfiguration
         container        <- Future(TextDocumentContainer(amfConfiguration))
-      } yield WorkspaceManager(container, telemetryManager, Nil, Nil, logger)
+      } yield WorkspaceManager(container, telemetryManager, Nil, Nil, logger, factory.configurationManager)
 
     val documentLinksManager: Future[DocumentLinksManager] =
       workspaceManager.map(new DocumentLinksManager(_, telemetryManager, logger))

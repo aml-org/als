@@ -6,18 +6,16 @@ import amf.core.client.common.remote.Content
 import amf.core.client.scala.lexer.CharSequenceStream
 import amf.core.client.scala.model.document.{BaseUnit, ExternalFragment}
 import amf.core.client.scala.resource.ResourceLoader
-import amf.core.internal.remote.Spec
-import amf.core.internal.resource.InternalResourceLoaderAdapter
+import amf.core.internal.remote.{AmlDialectSpec, Spec}
 import org.mulesoft.amfintegration.amfconfiguration.ProfileMatcher
-import org.mulesoft.amfintegration.dialect.dialects.{ExternalFragmentDialect, RawInMemoryDialect}
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
 import org.mulesoft.amfintegration.dialect.dialects.metadialect.{MetaDialect, VocabularyDialect}
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.Raml08TypesDialect
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
 import org.mulesoft.amfintegration.dialect.dialects.validations.RawValidationProfileDialect
+import org.mulesoft.amfintegration.dialect.dialects.{ExternalFragmentDialect, RawInMemoryDialect}
 
-import scala.collection.immutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -53,7 +51,11 @@ case class BaseAlsDialectProvider(dialects: Set[Dialect]) {
   }
 
   def definitionFor(spec: Spec)(implicit configurationState: AMLConfigurationState): Option[Dialect] =
-    allDialects(configurationState).find(d => ProfileMatcher.spec(d).contains(spec))
+    spec match {
+      case AmlDialectSpec(id) =>
+        allDialects(configurationState).find(_.id == id)
+      case _ => allDialects(configurationState).find(d => ProfileMatcher.spec(d).contains(spec))
+    }
 
   private def allDialects(configurationState: AMLConfigurationState) =
     configurationState.getDialects().toSet ++ dialects

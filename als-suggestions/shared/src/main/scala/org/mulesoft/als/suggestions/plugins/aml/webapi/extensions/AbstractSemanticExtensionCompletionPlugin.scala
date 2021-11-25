@@ -16,13 +16,13 @@ trait AbstractSemanticExtensionCompletionPlugin extends AMLCompletionPlugin {
         params.amfObject.meta.`type`
           .map(_.iri())
           .flatMap(params.amfConfiguration.semanticKeysFor)
-          .map(an => RawSuggestion.forKey(formatForFlavour(an), "extensions", mandatory = false))
-      else Nil
+          .map { an =>
+            if (an._2) RawSuggestion.forKey(formatForFlavour(an._1), "extensions", mandatory = false)
+            else RawSuggestion.forObject(formatForFlavour(an._1), "extensions")
+          } else Nil
     )
 
-  protected def formatForFlavour(an: String): String =
-    s"($an)"
+  protected def formatForFlavour(an: String): String
 
-  protected def isAnnotationFlavour(params: AmlCompletionRequest): Boolean =
-    params.prefix.startsWith("(")
+  protected def isAnnotationFlavour(params: AmlCompletionRequest): Boolean
 }

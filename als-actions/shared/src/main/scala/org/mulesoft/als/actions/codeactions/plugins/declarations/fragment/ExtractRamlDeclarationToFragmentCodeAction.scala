@@ -1,5 +1,7 @@
 package org.mulesoft.als.actions.codeactions.plugins.declarations.fragment
 
+import amf.aml.client.scala.model.document.Dialect
+import amf.aml.client.scala.model.domain.SemanticExtension
 import amf.core.client.scala.model.domain.AmfObject
 import amf.core.client.scala.model.domain.extensions.CustomDomainProperty
 import amf.core.internal.remote.Spec
@@ -49,6 +51,10 @@ case class ExtractRamlDeclarationToFragmentCodeAction(params: CodeActionRequestP
 
   override def fragmentBundle: Option[FragmentBundle] =
     fragmentBundleForObject(amfObject)
+
+  override protected val findDialectForSemantic: String => Option[(SemanticExtension, Dialect)] =
+    params.findDialectForSemantic
+
 }
 
 object ExtractRamlDeclarationToFragmentCodeAction extends CodeActionFactory with ExtractToFragmentKind {

@@ -40,7 +40,10 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
   lazy val amfObject: AmfObject = objectInTree.obj
 
   val nodeDialect: Dialect =
-    objectInTree.objSpec.flatMap(amfConfiguration.definitionFor).getOrElse(actualDialect)
+    objectInTree
+      .objSpec(amfConfiguration.findSemanticByName)
+      .flatMap(amfConfiguration.definitionFor)
+      .getOrElse(actualDialect)
 
   val currentNode: Option[NodeMapping] = DialectNodeFinder.find(objectInTree.obj, None, nodeDialect)
 

@@ -75,8 +75,12 @@ public class AlsInitializeParamsTypeAdapter extends InitializeParamsTypeAdapter 
                 case "configuration":
                     result.setConfiguration(readConfiguration(in));
                     break;
-                case "projectConfigurationType":
+                case "projectConfigurationStyle":
                     result.setProjectConfigurationStyle(readProjectConfiguration(in));
+                    break;
+                case "hotReload":
+                    result.setHotReload(readHotReload(in));
+                    break;
                 default:
                     in.skipValue();
             }
@@ -87,5 +91,9 @@ public class AlsInitializeParamsTypeAdapter extends InitializeParamsTypeAdapter 
 
     private ProjectConfigurationStyle readProjectConfiguration(JsonReader in) {
         return gson.fromJson(in, ProjectConfigurationStyle.class);
+    }
+
+    private Boolean readHotReload(JsonReader in) {
+        return gson.fromJson(in, Boolean.class);
     }
 }

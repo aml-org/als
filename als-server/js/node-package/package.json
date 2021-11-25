@@ -1,21 +1,21 @@
 {
   "name": "@aml-org/als-server",
-  "version": "4.1.0-SNAPSHOT",
+  "version": "4.3.0-SNAPSHOT",
   "description": "ALS Server Library",
   "main": "lib/als-server.js",
   "types": "typescript/als-server.d.ts",
   "author": "als team",
   "license": "Apache-2.0",
-  "homepage": "https://github.com/mulesoft/als",
+  "homepage": "https://github.com/aml-org/als",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mulesoft/als"
+    "url": "https://github.com/aml-org/als"
   },
   "scripts": {
     "build:dist": "webpack --config ./webpack.config.js"
   },
   "dependencies": {
-    "@aml-org/amf-custom-validator": "0.1.0-SNAPSHOT.16",
+    "@aml-org/amf-custom-validator-web": "0.1.0-SNAPSHOT.31",
     "ajv": "6.5.2",
     "browserify-fs": "^1.0.0",
     "buffer": "^6.0.3",

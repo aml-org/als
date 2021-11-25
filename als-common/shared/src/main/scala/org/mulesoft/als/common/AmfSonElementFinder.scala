@@ -153,7 +153,9 @@ object AmfSonElementFinder {
       private def exceptionCase(amfObject: AmfObject, definedBy: Dialect): Boolean =
         exceptionList.exists(_(amfObject, definedBy))
 
-      private val exceptionList: Seq[(AmfObject, Dialect) => Boolean] = Seq(exceptionAsyncPayload)
+      private val exceptionList: Seq[(AmfObject, Dialect) => Boolean] = Seq(
+        exceptionAsyncPayload
+      )
 
       /**
         * TODO: Remove and fix annotation of Async Payload in AMF

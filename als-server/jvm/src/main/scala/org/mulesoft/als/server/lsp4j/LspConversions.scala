@@ -2,15 +2,47 @@ package org.mulesoft.als.server.lsp4j
 
 import org.eclipse.lsp4j
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
-import org.mulesoft.als.configuration.{AlsConfiguration, ConfigurationStyle, DefaultProjectConfigurationStyle, ProjectConfigurationStyle, TemplateTypes}
+import org.mulesoft.als.configuration.{
+  AlsConfiguration,
+  ConfigurationStyle,
+  DefaultProjectConfigurationStyle,
+  ProjectConfigurationStyle,
+  TemplateTypes
+}
 import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
-import org.mulesoft.als.server.feature.configuration.workspace.{GetWorkspaceConfigurationParams, WorkspaceConfigurationClientCapabilities}
-import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeParams, CustomValidationClientCapabilities}
+import org.mulesoft.als.server.feature.configuration.workspace.{
+  GetWorkspaceConfigurationParams,
+  WorkspaceConfigurationClientCapabilities
+}
+import org.mulesoft.als.server.feature.diagnostic.{
+  CleanDiagnosticTreeClientCapabilities,
+  CleanDiagnosticTreeParams,
+  CustomValidationClientCapabilities
+}
 import org.mulesoft.als.server.feature.fileusage.FileUsageClientCapabilities
 import org.mulesoft.als.server.feature.renamefile.{RenameFileActionClientCapabilities, RenameFileActionParams}
 import org.mulesoft.als.server.feature.serialization._
-import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams, AlsInitializeResult, AlsServerCapabilities}
-import org.mulesoft.lsp.LspConversions.{completionOptions, documentLinkOptions, eitherCodeActionProviderOptions, eitherRenameOptions, textDocumentClientCapabilities, textDocumentIdentifier, textDocumentSyncKind, textDocumentSyncOptions, traceKind, workDoneProgressOptions, workspaceClientCapabilities, workspaceFolder, workspaceServerCapabilities}
+import org.mulesoft.als.server.protocol.configuration.{
+  AlsClientCapabilities,
+  AlsInitializeParams,
+  AlsInitializeResult,
+  AlsServerCapabilities
+}
+import org.mulesoft.lsp.LspConversions.{
+  completionOptions,
+  documentLinkOptions,
+  eitherCodeActionProviderOptions,
+  eitherRenameOptions,
+  textDocumentClientCapabilities,
+  textDocumentIdentifier,
+  textDocumentSyncKind,
+  textDocumentSyncOptions,
+  traceKind,
+  workDoneProgressOptions,
+  workspaceClientCapabilities,
+  workspaceFolder,
+  workspaceServerCapabilities
+}
 import org.mulesoft.lsp.configuration.FormattingOptions
 
 import java.util.{List => JList}
@@ -90,6 +122,7 @@ object LspConversions {
         initializationOptions = Option(p.getInitializationOptions),
         configuration = Option(p.getConfiguration),
         projectConfigurationStyle = Option(p.getProjectConfigurationStyle),
+        hotReload = Option(p.getHotReload)
       )
     } getOrElse AlsInitializeParams.default
 

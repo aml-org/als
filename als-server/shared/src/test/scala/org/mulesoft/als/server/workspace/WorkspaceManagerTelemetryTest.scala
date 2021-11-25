@@ -105,7 +105,10 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
       for {
         amfConfiguration <- AmfConfigurationWrapper()
         _ <- server.initialize(
-          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(filePath("aml-workspace"))))
+          AlsInitializeParams(None,
+                              Some(TraceKind.Off),
+                              rootUri = Some(filePath("aml-workspace")),
+                              hotReload = Some(true)))
         dialectContent      <- amfConfiguration.fetchContent(dialect).map(_.stream.toString)
         _                   <- openFileNotification(server)(dialect, dialectContent)
         dialectDiagnostic1  <- notifier.nextCallD
@@ -127,7 +130,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
         dialectDiagnostic2.diagnostics.size should be(0)
 
         instanceDiagnostic1.uri should be(instance)
-        instanceDiagnostic1.diagnostics.size should be(1)
+        instanceDiagnostic1.diagnostics.size should be(2)
 
         instanceDiagnostic2.uri should be(instance)
         instanceDiagnostic2.diagnostics.size should be(0)
