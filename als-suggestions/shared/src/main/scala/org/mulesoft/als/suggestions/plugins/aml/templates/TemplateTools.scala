@@ -57,6 +57,12 @@ object TemplateTools {
     params.branchStack.headOption
       .flatMap(DialectNodeFinder.find(_, None, params.actualDialect))
       .flatMap(_.propertiesMapping().find(_.mapTermKeyProperty().option().isDefined))
+      .filterNot(
+        pm =>
+          params.amfObject.fields
+            .fields()
+            .map(_.field.value.iri())
+            .exists(iri => pm.mapTermKeyProperty().option().contains(iri)))
 
   def iriForMapping(p: PropertyMapping): String =
     p.nodePropertyMapping().option().getOrElse("")
