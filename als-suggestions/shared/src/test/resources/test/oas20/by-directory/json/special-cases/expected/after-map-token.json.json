@@ -1,5 +1,65 @@
 [
   {
+    "label": "New headers",
+    "kind": [],
+    "detail": "template",
+    "documentation": "headers",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "21New headers",
+    "filterText": "\"headers\": {\n  \"$1\": {\n    \"description\": \"$2\",\n    \"type\": \"$3\"\n  }\n},",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 14,
+          "character": 18
+        },
+        "end": {
+          "line": 14,
+          "character": 18
+        }
+      },
+      "newText": "\"headers\": {\n  \"$1\": {\n    \"description\": \"$2\",\n    \"type\": \"$3\"\n  }\n},"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New schema",
+    "kind": [],
+    "detail": "template",
+    "documentation": "schema",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "21New schema",
+    "filterText": "\"schema\": {\n  \"description\": \"$1\",\n  \"type\": \"$2\"\n},",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 14,
+          "character": 18
+        },
+        "end": {
+          "line": 14,
+          "character": 18
+        }
+      },
+      "newText": "\"schema\": {\n  \"description\": \"$1\",\n  \"type\": \"$2\"\n},"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "description",
     "kind": [],
     "detail": "docs",
