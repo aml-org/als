@@ -19,5 +19,8 @@ class AmfResult(val result: AMFResult) {
     .toSet + location
 }
 
-class AmfParseResult(override val result: AMFResult, val definedBy: Dialect, val context: AmfParseContext)
+class AmfParseResult(override val result: AMFResult,
+                     val definedBy: Dialect,
+                     val context: AmfParseContext,
+                     val uri: String)
     extends AmfResult(result)

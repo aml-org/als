@@ -7,7 +7,6 @@ import org.mulesoft.als.logger.EmptyLogger
 import org.mulesoft.als.server.modules.workspace.{ParsedUnit, WorkspaceParserRepository}
 import org.mulesoft.amfintegration.amfconfiguration.{
   ALSConfigurationState,
-  AMLSpecificConfiguration,
   AmfParseResult,
   EditorConfiguration,
   EmptyProjectConfigurationState
@@ -15,7 +14,6 @@ import org.mulesoft.amfintegration.amfconfiguration.{
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
 import org.scalatest.{AsyncFunSuite, Matchers}
 
-import scala.concurrent.ExecutionContext.Implicits
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -91,7 +89,7 @@ class WorkspaceParserRepositoryTest extends AsyncFunSuite with Matchers with Pla
         AMFResult(apiPU.parsedResult.result.baseUnit.cloneUnit().withLocation("file://newLocation/api.raml"),
                   apiPU.parsedResult.result.results) // this `result.result.results` looks hideous, i know
 
-      r.updateUnit(new AmfParseResult(moddedBU, ExternalFragmentDialect(), apiPU.parsedResult.context))
+      r.updateUnit(new AmfParseResult(moddedBU, ExternalFragmentDialect(), apiPU.parsedResult.context, api.uri))
       val moddedPU = getParsedUnitOrFail(r, "file://newLocation/api.raml")
       assert(moddedPU.parsedResult.result.baseUnit.id == apiPU.parsedResult.result.baseUnit.id) // Same id, but different location
       assert(moddedPU.parsedResult.result.baseUnit.location() != apiPU.parsedResult.result.baseUnit.location())
@@ -176,7 +174,7 @@ class WorkspaceParserRepositoryTest extends AsyncFunSuite with Matchers with Pla
   private def configWithRL(files: Set[MockFile]): Future[ALSConfigurationState] = {
     val rls    = files.map(f => buildResourceLoaderForFile(f))
     val global = EditorConfiguration.withPlatformLoaders(rls.toSeq)
-    global.getState.map(ALSConfigurationState(_, EmptyProjectConfigurationState(), None))(executionContext)
+    global.getState.map(ALSConfigurationState(_, EmptyProjectConfigurationState, None))(executionContext)
   }
 
   def makeRepositoryTree(files: Set[MockFile], mainFile: MockFile): Future[WorkspaceParserRepository] = {

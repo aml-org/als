@@ -256,7 +256,7 @@ class DeleteDeclaredNodeTest extends BaseCodeActionTests {
       r           <- parseElement(file, defineBy, configuration)
       editorState <- configuration.getState
     } yield {
-      val state = ALSConfigurationState(editorState, EmptyProjectConfigurationState(), None)
+      val state = ALSConfigurationState(editorState, EmptyProjectConfigurationState, None)
       val pr    = buildPreParam(file, r)
       val results: Seq[Future[DeleteResultCase]] = cases.map { deleteCase =>
         val params = pr.buildParam(deleteCase.positionRange, activeFile, state)

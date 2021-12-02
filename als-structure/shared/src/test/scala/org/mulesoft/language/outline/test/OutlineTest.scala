@@ -35,8 +35,7 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
     val futureAmfConfiguration: Future[ALSConfigurationState] =
       if (configuration.isDefined) Future(configuration.get)
       else
-        EditorConfiguration().getState.map(state =>
-          ALSConfigurationState(state, EmptyProjectConfigurationState(), None))
+        EditorConfiguration().getState.map(state => ALSConfigurationState(state, EmptyProjectConfigurationState, None))
     for {
       amfConfiguration <- futureAmfConfiguration
       actualOutline    <- this.getActualOutline(fullFilePath, platform, amfConfiguration)

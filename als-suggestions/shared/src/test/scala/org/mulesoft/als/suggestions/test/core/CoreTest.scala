@@ -1,6 +1,5 @@
 package org.mulesoft.als.suggestions.test.core
 
-import amf.aml.client.scala.model.document.Dialect
 import amf.core.client.common.remote.Content
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.internal.unsafe.PlatformSecrets
@@ -63,7 +62,7 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets with MarkerFinderTest 
       .withDialect(filePath(dialectPath))
       .getState
       .flatMap(state => {
-        val alsConfiguration = ALSConfigurationState(state, EmptyProjectConfigurationState(), None)
+        val alsConfiguration = ALSConfigurationState(state, EmptyProjectConfigurationState, None)
         suggest(path, alsConfiguration).map(suggestions => {
           assert(suggestions.map(_.label).size == originalSuggestions.size)
           assert(suggestions.map(_.label).forall(s => originalSuggestions.contains(s)))
