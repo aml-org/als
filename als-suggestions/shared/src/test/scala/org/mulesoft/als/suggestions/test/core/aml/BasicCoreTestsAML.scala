@@ -1,6 +1,5 @@
 package org.mulesoft.als.suggestions.test.core.aml
 
-import amf.aml.client.scala.model.document.Dialect
 import amf.core.internal.remote.Spec
 import org.mulesoft.als.common.PlatformDirectoryResolver
 import org.mulesoft.als.configuration.AlsConfiguration
@@ -55,7 +54,7 @@ class BasicCoreTestsAML extends CoreTest with DummyPlugins {
     val editorConfiguration = EditorConfiguration().withDialect(p)
     for {
       editorConfigState <- editorConfiguration.getState
-      alsConfiguration  <- Future(ALSConfigurationState(editorConfigState, EmptyProjectConfigurationState(), None))
+      alsConfiguration  <- Future(ALSConfigurationState(editorConfigState, EmptyProjectConfigurationState, None))
       dialect           <- alsConfiguration.getAmfConfig.baseUnitClient().parseDialect(p)
       result <- {
         val url = filePath("visit01.yaml")

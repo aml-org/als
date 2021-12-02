@@ -92,17 +92,18 @@ case class ALSConfigurationState(editorState: EditorConfigurationState,
   def parse(url: String): Future[AmfParseResult] =
     parse(getAmfConfig, url)
 
-  private def parse(amfConfiguration: AMFConfiguration, url: String) = {
-    amfConfiguration.baseUnitClient().parse(url).map { r =>
-      toResult(r)
+  private def parse(amfConfiguration: AMFConfiguration, uri: String) = {
+    amfConfiguration.baseUnitClient().parse(uri).map { r =>
+      toResult(uri, r)
     }
   }
 
-  def toResult(r: AMFParsingResult): AmfParseResult = new AmfParseResult(
+  def toResult(uri: String, r: AMFParsingResult): AmfParseResult = new AmfParseResult(
     r,
     definitionFor(r.baseUnit)
       .getOrElse(throw new NoDefinitionFoundException(r.baseUnit.id)),
-    amfParseContext
+    amfParseContext,
+    uri
   )
 
   /**
