@@ -1,0 +1,32 @@
+[
+  {
+    "label": "New annotationMapping",
+    "kind": [],
+    "detail": "template",
+    "documentation": "",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "20New annotationMapping",
+    "filterText": "$1:\n  domain: $2\n  propertyTerm: $3\n  range: $4",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 2
+        },
+        "end": {
+          "line": 3,
+          "character": 2
+        }
+      },
+      "newText": "$1:\n  domain: $2\n  propertyTerm: $3\n  range: $4"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

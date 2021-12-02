@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.metadialect
 
 import amf.aml.client.scala.model.document.Dialect
-import amf.aml.client.scala.model.domain.{External, PropertyMapping}
+import amf.aml.client.scala.model.domain.{AnnotationMapping, External, PropertyMapping}
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.internal.annotations.Aliases
 import org.mulesoft.als.suggestions.RawSuggestion
@@ -24,7 +24,7 @@ object NamespaceForTermCompletionPlugin extends AMLCompletionPlugin {
     request.amfObject match {
       case x if isNodeMappable(x) =>
         request.yPartBranch.parentEntryIs("classTerm")
-      case _: PropertyMapping =>
+      case _ @(_: PropertyMapping | _: AnnotationMapping) =>
         request.yPartBranch.parentEntryIs("propertyTerm") ||
           request.yPartBranch.parentEntryIs("mapTermKey") ||
           request.yPartBranch.parentEntryIs("mapTermValue")

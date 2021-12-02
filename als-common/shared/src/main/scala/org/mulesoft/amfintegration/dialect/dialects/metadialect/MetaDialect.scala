@@ -29,10 +29,12 @@ object MetaDialect extends BaseDialect {
     PropertyMappingObjectNode,
     PublicNodeMappingObjectNode,
     RootDocumentObjectNode,
-    UnionMappingObjectNode
+    UnionMappingObjectNode,
+    AnnotationMappingObjectNode
   )
 
   override protected def declaredNodes: Map[String, DialectNode] = Map(
-    "nodeMappings" -> NodeMappingObjectNode
+    "nodeMappings"       -> NodeMappingObjectNode,
+    "annotationMappings" -> AnnotationMappingObjectNode
   )
 }

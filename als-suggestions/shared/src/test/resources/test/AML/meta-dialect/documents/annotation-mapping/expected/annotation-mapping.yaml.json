@@ -15,15 +15,45 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 10,
-          "character": 8
+          "line": 5,
+          "character": 4
         },
         "end": {
-          "line": 10,
-          "character": 8
+          "line": 5,
+          "character": 4
         }
       },
       "newText": "allowMultiple: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "domain",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "domain",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10domain",
+    "filterText": "domain: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 4
+        },
+        "end": {
+          "line": 5,
+          "character": 4
+        }
+      },
+      "newText": "domain: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -45,12 +75,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 10,
-          "character": 8
+          "line": 5,
+          "character": 4
         },
         "end": {
-          "line": 10,
-          "character": 8
+          "line": 5,
+          "character": 4
         }
       },
       "newText": "enum:\n  - "
@@ -75,135 +105,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 10,
-          "character": 8
+          "line": 5,
+          "character": 4
         },
         "end": {
-          "line": 10,
-          "character": 8
+          "line": 5,
+          "character": 4
         }
       },
       "newText": "mandatory: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "mapKey",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "mapKey",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11mapKey",
-    "filterText": "mapKey: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 8
-        },
-        "end": {
-          "line": 10,
-          "character": 8
-        }
-      },
-      "newText": "mapKey: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "mapTermKey",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "mapTermKey",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11mapTermKey",
-    "filterText": "mapTermKey: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 8
-        },
-        "end": {
-          "line": 10,
-          "character": 8
-        }
-      },
-      "newText": "mapTermKey: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "mapTermValue",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "mapTermValue",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11mapTermValue",
-    "filterText": "mapTermValue: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 8
-        },
-        "end": {
-          "line": 10,
-          "character": 8
-        }
-      },
-      "newText": "mapTermValue: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "mapValue",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "mapValue",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11mapValue",
-    "filterText": "mapValue: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 10,
-          "character": 8
-        },
-        "end": {
-          "line": 10,
-          "character": 8
-        }
-      },
-      "newText": "mapValue: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -225,12 +135,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 10,
-          "character": 8
+          "line": 5,
+          "character": 4
         },
         "end": {
-          "line": 10,
-          "character": 8
+          "line": 5,
+          "character": 4
         }
       },
       "newText": "maximum: "
@@ -255,12 +165,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 10,
-          "character": 8
+          "line": 5,
+          "character": 4
         },
         "end": {
-          "line": 10,
-          "character": 8
+          "line": 5,
+          "character": 4
         }
       },
       "newText": "minimum: "
@@ -285,12 +195,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 10,
-          "character": 8
+          "line": 5,
+          "character": 4
         },
         "end": {
-          "line": 10,
-          "character": 8
+          "line": 5,
+          "character": 4
         }
       },
       "newText": "pattern: "
@@ -300,14 +210,14 @@
     "command": null
   },
   {
-    "label": "propertyTerm",
+    "label": "range",
     "kind": [],
     "detail": "unknown",
-    "documentation": "propertyTerm",
+    "documentation": "range",
     "deprecated": [],
     "preselect": [],
-    "sortText": "10propertyTerm",
-    "filterText": "propertyTerm: ",
+    "sortText": "10range",
+    "filterText": "range: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -315,15 +225,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 10,
-          "character": 8
+          "line": 5,
+          "character": 4
         },
         "end": {
-          "line": 10,
-          "character": 8
+          "line": 5,
+          "character": 4
         }
       },
-      "newText": "propertyTerm: "
+      "newText": "range: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -345,12 +255,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 10,
-          "character": 8
+          "line": 5,
+          "character": 4
         },
         "end": {
-          "line": 10,
-          "character": 8
+          "line": 5,
+          "character": 4
         }
       },
       "newText": "sorted: "
@@ -375,12 +285,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 10,
-          "character": 8
+          "line": 5,
+          "character": 4
         },
         "end": {
-          "line": 10,
-          "character": 8
+          "line": 5,
+          "character": 4
         }
       },
       "newText": "typeDiscriminator:\n  - "
@@ -405,12 +315,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 10,
-          "character": 8
+          "line": 5,
+          "character": 4
         },
         "end": {
-          "line": 10,
-          "character": 8
+          "line": 5,
+          "character": 4
         }
       },
       "newText": "typeDiscriminatorName:\n  - "
@@ -435,12 +345,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 10,
-          "character": 8
+          "line": 5,
+          "character": 4
         },
         "end": {
-          "line": 10,
-          "character": 8
+          "line": 5,
+          "character": 4
         }
       },
       "newText": "unique: "
