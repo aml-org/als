@@ -33,7 +33,7 @@ trait SuggestionsWithDialectTest extends SuggestionsTest with FileAssertionTest 
     dialect.foreach(editorConfiguration.withDialect)
     for {
       editorState <- editorConfiguration.getState
-      s           <- suggest(path, label, ALSConfigurationState(editorState, EmptyProjectConfigurationState(), None))
+      s           <- suggest(path, label, ALSConfigurationState(editorState, EmptyProjectConfigurationState, None))
       tmp <- writeTemporaryFile(goldenPath)(
         writeDataToString(s.sortWith((s1, s2) => s1.label.compareTo(s2.label) < 0).toList))
       r <- assertDifferences(tmp, goldenPath)

@@ -71,7 +71,7 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
     definedBy.foreach(d => editorConfiguration.withDialect(relativeUri(d)))
     for {
       editor <- editorConfiguration.getState
-      state  <- Future(ALSConfigurationState(editor, EmptyProjectConfigurationState(), None))
+      state  <- Future(ALSConfigurationState(editor, EmptyProjectConfigurationState, None))
       r      <- state.parse(relativeUri(elementUri))
     } yield r
   }
@@ -84,7 +84,7 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
       bu    <- parseElement(elementUri, definedBy, configuration)
       state <- configuration.getState
     } yield {
-      val alsConfigurationState = ALSConfigurationState(state, EmptyProjectConfigurationState(), None)
+      val alsConfigurationState = ALSConfigurationState(state, EmptyProjectConfigurationState, None)
       buildParameter(elementUri, bu, range, alsConfigurationState)
     }
   }

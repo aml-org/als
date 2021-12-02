@@ -50,8 +50,7 @@ class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
     }
   }
 
-  // TODO: Why is this not returning structure??
-  ignore("Workspace Manager check Symbol - dependency") {
+  test("Workspace Manager check Symbol - dependency") {
 
     val diagnosticClientNotifier = new MockDiagnosticClientNotifier
 

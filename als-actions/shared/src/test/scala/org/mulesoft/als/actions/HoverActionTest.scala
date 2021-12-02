@@ -50,7 +50,7 @@ class HoverActionTest extends AsyncFunSuite with BaseHoverTest {
     val goldenPath = s"file://$path$golden"
     for {
       editorState <- EditorConfiguration().getState
-      global      <- Future(ALSConfigurationState(editorState, EmptyProjectConfigurationState(), None))
+      global      <- Future(ALSConfigurationState(editorState, EmptyProjectConfigurationState, None))
       d           <- global.parse(filePath)
       r <- Future {
         getResults(d, global)
