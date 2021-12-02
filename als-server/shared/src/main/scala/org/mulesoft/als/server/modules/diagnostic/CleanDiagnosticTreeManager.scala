@@ -1,6 +1,5 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.document.DialectInstance
 import amf.core.client.scala.AMFResult
 import amf.core.client.scala.model.document.BaseUnit
@@ -11,12 +10,14 @@ import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.feature.diagnostic._
 import org.mulesoft.als.server.modules.configuration.WorkspaceConfigurationProvider
 import org.mulesoft.als.server.modules.diagnostic.custom.CustomValidationManager
-import org.mulesoft.als.server.workspace.extract.WorkspaceConfig
-import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
-import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState,
+import org.mulesoft.als.server.textsync.EnvironmentProvider
+import org.mulesoft.amfintegration.amfconfiguration.{
+  ALSConfigurationState,
   AMLSpecificConfiguration,
   EditorConfiguration,
-  EmptyProjectConfigurationState, AmfResult => AmfResultWrap}
+  EmptyProjectConfigurationState,
+  AmfResult => AmfResultWrap
+}
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
@@ -27,6 +28,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class CleanDiagnosticTreeManager(telemetryProvider: TelemetryProvider,
+                                 environmentProvider: EnvironmentProvider,
                                  logger: Logger,
                                  customValidationManager: Option[CustomValidationManager],
                                  editorConfiguration: EditorConfiguration,
@@ -121,7 +123,7 @@ class CleanDiagnosticTreeManager(telemetryProvider: TelemetryProvider,
               r.baseUnit match {
                 case d: DialectInstance => Some(d)
                 case _                  => None
-              }))
+            }))
         case _ => Future(Seq.empty)
       }
       result <- customValidationManager match {
