@@ -1,0 +1,32 @@
+[
+  {
+    "label": "otherMapping",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "otherMapping",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11otherMapping",
+    "filterText": "otherMapping",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 10,
+          "character": 13
+        },
+        "end": {
+          "line": 10,
+          "character": 13
+        }
+      },
+      "newText": "otherMapping"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

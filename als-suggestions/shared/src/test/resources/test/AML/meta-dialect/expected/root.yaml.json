@@ -1,5 +1,35 @@
 [
   {
+    "label": "annotationMappings",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "annotationMappings",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11annotationMappings",
+    "filterText": "annotationMappings:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 0
+        },
+        "end": {
+          "line": 2,
+          "character": 0
+        }
+      },
+      "newText": "annotationMappings:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "dialect",
     "kind": [],
     "detail": "unknown",

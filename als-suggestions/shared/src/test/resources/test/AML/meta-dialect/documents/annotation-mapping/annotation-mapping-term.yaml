@@ -1,0 +1,8 @@
+#%Dialect 1.0
+
+external:
+  schema-org: http://schema-org.com
+
+annotationMappings:
+  myNodeMapping:
+    propertyTerm: *

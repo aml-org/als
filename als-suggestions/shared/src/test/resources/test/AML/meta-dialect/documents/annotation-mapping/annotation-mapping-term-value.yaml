@@ -1,0 +1,8 @@
+#%Dialect 1.0
+version: 1.0
+dialect: ALS
+uses:
+  my-voc: vocabulary.yaml
+annotationMappings:
+  Member:
+    propertyTerm: my-voc.*

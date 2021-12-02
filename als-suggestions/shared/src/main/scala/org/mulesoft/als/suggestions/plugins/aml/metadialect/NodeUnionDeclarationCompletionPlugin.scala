@@ -10,8 +10,8 @@ import org.mulesoft.als.suggestions.interfaces.ResolveIfApplies
 import org.mulesoft.als.suggestions.plugins.aml.{PropertyMappingWrapper, UnionSuggestions}
 import org.mulesoft.amfintegration.dialect.dialects.metadialect.{NodeMappingObjectNode, UnionMappingObjectNode}
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 object NodeUnionDeclarationCompletionPlugin extends ResolveIfApplies {
   override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] =
@@ -25,8 +25,8 @@ class NodeUnionDeclarationCompletionPlugin(params: AmlCompletionRequest) extends
 
   def applies(): Boolean = {
     params.yPartBranch.isKey && (params.amfObject match {
-      case nm: NodeMapping => true
-      case _               => false
+      case _: NodeMapping => true
+      case _              => false
     })
   }
 
