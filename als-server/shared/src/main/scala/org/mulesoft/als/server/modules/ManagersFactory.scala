@@ -116,7 +116,7 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
     TextDocumentContainer()
 
   lazy val cleanDiagnosticManager = new CleanDiagnosticTreeManager(telemetryManager,
-                                                                   amfConfiguration,
+                                                                   container,
                                                                    logger,
                                                                    customValidationManager,
                                                                    editorConfiguration,

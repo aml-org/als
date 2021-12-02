@@ -19,7 +19,6 @@ import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 import org.scalatest.{AsyncFunSuite, Matchers}
-import org.mulesoft.als.server.modules.configuration.ConfigurationManager
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -186,7 +185,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
       configAdapter <- newConfigurationAdapter(folderUri, env, rl)
       ws            <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, EmptyLogger, Nil, configAdapter)
       _ <- ws
-        .withConfiguration(ProjectConfiguration("folder", mainApiName, Set.empty))
+        .withConfiguration(ProjectConfiguration("folder", mainApiName))
       counter1 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
         counter
       }
@@ -317,7 +316,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
       }
       _ <- { // remove caché
         counter = 0
-        ws.withConfiguration(ProjectConfiguration("folder", mainApiName, Set.empty))
+        ws.withConfiguration(ProjectConfiguration("folder", mainApiName))
       }
       counter3 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
         counter
