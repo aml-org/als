@@ -64,7 +64,7 @@ class PathTest extends AsyncFunSuite with PlatformSecrets {
       .getState
       .map(editorState => {
         ALSConfigurationState(editorState = editorState,
-                              projectState = EmptyProjectConfigurationState(),
+                              projectState = EmptyProjectConfigurationState,
                               editorResourceLoader = None)
       })
   }

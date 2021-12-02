@@ -1,20 +1,25 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf.aml.client.scala.model.document.DialectInstance
+import amf.aml.client.scala.model.document.{Dialect, DialectInstance}
 import amf.core.client.scala.AMFResult
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.validation.AMFValidationReport
 import org.mulesoft.als.common.URIImplicits._
+import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.feature.diagnostic._
 import org.mulesoft.als.server.modules.configuration.WorkspaceConfigurationProvider
 import org.mulesoft.als.server.modules.diagnostic.custom.CustomValidationManager
+import org.mulesoft.als.server.modules.workspace.DefaultProjectConfiguration
 import org.mulesoft.als.server.textsync.EnvironmentProvider
+import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
+import org.mulesoft.amfintegration.ValidationProfile
 import org.mulesoft.amfintegration.amfconfiguration.{
   ALSConfigurationState,
   AMLSpecificConfiguration,
   EditorConfiguration,
+  EditorConfigurationState,
   EmptyProjectConfigurationState,
   AmfResult => AmfResultWrap
 }
@@ -79,18 +84,9 @@ class CleanDiagnosticTreeManager(telemetryProvider: TelemetryProvider,
   def validate(uri: String): Future[Seq[AlsPublishDiagnosticsParams]] = {
     val refinedUri = uri.toAmfDecodedUri(environmentProvider.platform)
     for {
-      state <- editorConfiguration.getState
-      alsConfigurationState <- Future(
-        ALSConfigurationState(state, EmptyProjectConfigurationState(), Some(environmentProvider.getResourceLoader)))
-      pr     <- AMLSpecificConfiguration(alsConfigurationState.getAmfConfig).parse(refinedUri).map(new AmfResultWrap(_))
-      helper <- Future(alsConfigurationState.configForUnit(pr.result.baseUnit))
-      resolved <- Future({
-        logger.debug(s"About to report: $uri", "CleanDiagnosticTreeManager", "validate")
-        helper.fullResolution(pr.result.baseUnit)
-      })
-      t <- helper.report(resolved.baseUnit).map(r => CleanValidationPartialResult(pr, r, resolved))
-      partialResult <- runCustomValidations(uri, t.resolvedUnit.baseUnit, helper).map(r =>
-        CleanValidationPartialResult(t.parseResult, t.resolutionResult, t.resolvedUnit, r))
+      editorState                               <- editorConfiguration.getState
+      (resolutionResult, alsConfigurationState) <- parseAndResolve(refinedUri, editorState)
+      partialResult                             <- runCustomValidations(uri, resolutionResult, alsConfigurationState)
     } yield {
       val profile = partialResult.resolutionResult.profile
       val list    = partialResult.parseResult.tree
@@ -110,28 +106,81 @@ class CleanDiagnosticTreeManager(telemetryProvider: TelemetryProvider,
     }
   }
 
-  private def runCustomValidations(uri: String,
-                                   resolvedUnit: BaseUnit,
-                                   configuration: AMLSpecificConfiguration): Future[Seq[AlsValidationResult]] = {
+  protected def getWorkspaceConfig(uri: String): Future[Option[ProjectConfiguration]] =
+    workspaceConfigProvider.getWorkspaceConfiguration(uri).map(_._2)
+
+  def buildAlsConfigurationState(uri: String, editorState: EditorConfigurationState): Future[ALSConfigurationState] = {
+    val alsEditorConfigurationState =
+      ALSConfigurationState(editorState, EmptyProjectConfigurationState, Some(environmentProvider.getResourceLoader))
     for {
-      config <- workspaceConfigProvider.getWorkspaceConfiguration(uri).map(_._2)
-      profiles <- config match {
-        case Some(c) =>
-          Future
-            .sequence(c.validationDependency.map(configuration.parse).toSeq)
-            .map(_.flatMap(r =>
-              r.baseUnit match {
-                case d: DialectInstance => Some(d)
-                case _                  => None
-            }))
-        case _ => Future(Seq.empty)
-      }
+      c <- getWorkspaceConfig(uri).map(_.getOrElse(ProjectConfiguration.empty(uri)))
+      extensions <- Future
+        .sequence(
+          c.extensionDependency.map(alsEditorConfigurationState.parse) ++ c.metadataDependency.map(
+            alsEditorConfigurationState.parse))
+        .map(_.map(_.result.baseUnit).flatMap {
+          case d: Dialect => Some(d)
+          case b =>
+            logger.warning(s"tried to register invalid dialect: ${b.identifier}",
+                           "CleanDiagnosticTreeManager",
+                           "buildAlsConfigurationState")
+            None
+        })
+      profiles <- Future
+        .sequence(c.validationDependency.map(alsEditorConfigurationState.parse).toSeq)
+        .map(_.flatMap(r =>
+          r.result.baseUnit match {
+            case d: DialectInstance => Some(ValidationProfile(r.uri, d.raw.getOrElse(""), d))
+            case _                  => None
+        }))
+    } yield
+      ALSConfigurationState(
+        editorState,
+        DefaultProjectConfiguration(extensions.toSeq,
+                                    profiles,
+                                    Seq.empty,
+                                    config = c,
+                                    environmentProvider = environmentProvider,
+                                    editorConfiguration = editorConfiguration,
+                                    logger = logger),
+        Some(environmentProvider.getResourceLoader)
+      )
+  }
+
+  def parseAndResolve(
+      refinedUri: String,
+      editorState: EditorConfigurationState): Future[(CleanValidationPartialResult, ALSConfigurationState)] =
+    for {
+      alsConfigurationState <- buildAlsConfigurationState(refinedUri, editorState)
+      pr                    <- AMLSpecificConfiguration(alsConfigurationState.getAmfConfig).parse(refinedUri).map(new AmfResultWrap(_))
+      helper                <- Future(alsConfigurationState.configForUnit(pr.result.baseUnit))
+      resolved <- Future({
+        logger.debug(s"About to report: $refinedUri", "CleanDiagnosticTreeManager", "validate")
+        helper.fullResolution(pr.result.baseUnit)
+      })
+      result <- helper.report(resolved.baseUnit).map(r => CleanValidationPartialResult(pr, r, resolved))
+    } yield (result, alsConfigurationState)
+
+  private def runCustomValidations(
+      uri: String,
+      resolutionResult: CleanValidationPartialResult,
+      alsConfigurationState: ALSConfigurationState): Future[CleanValidationPartialResult] = {
+    val resolvedUnit: BaseUnit = resolutionResult.resolvedUnit.baseUnit
+    for {
+      config <- getWorkspaceConfig(uri)
+      helper <- Future(alsConfigurationState.configForUnit(resolvedUnit))
       result <- customValidationManager match {
         case Some(cvm) if cvm.isActive && config.isDefined =>
-          cvm.validate(uri, resolvedUnit, profiles, configuration).map(_.flatten)
+          cvm.validate(uri, resolvedUnit, alsConfigurationState.profiles.map(_.model), helper).map(_.flatten)
         case _ => Future(Seq.empty)
       }
-    } yield result
+    } yield {
+      CleanValidationPartialResult(resolutionResult.parseResult,
+                                   resolutionResult.resolutionResult,
+                                   resolutionResult.resolvedUnit,
+                                   result)
+    }
+
   }
 
   case class CleanValidationPartialResult(parseResult: AmfResultWrap,

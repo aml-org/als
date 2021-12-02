@@ -27,6 +27,7 @@ class CustomValidationManagerTest
   override def rootPath: String = "diagnostics"
 
   val workspacePath: String         = filePath(platform.encodeURI("project"))
+  val mainFileName: String          = "api.raml"
   val mainFile: String              = filePath(platform.encodeURI("project/api.raml"))
   val serializedUri: String         = filePath(platform.encodeURI("project/api.raml.jsonld"))
   val isolatedFile: String          = filePath(platform.encodeURI("project/isolated.raml"))
@@ -242,7 +243,7 @@ class CustomValidationManagerTest
       })
   }
 
-  ignore("Should notify errors on both the main tree and isolated files") {
+  test("Should notify errors on both the main tree and isolated files") {
     val negativeReportUri = filePath(platform.encodeURI("project/negative.report.jsonld"))
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
@@ -250,8 +251,8 @@ class CustomValidationManagerTest
         implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
         val validator                                                 = new DummyAmfOpaValidator(negativeReport.toString)
         val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
-        val initialArgs                                               = changeConfigArgs(Some(mainFile))
-        val args                                                      = changeConfigArgs(Some(mainFile), None, Set.empty, Set(profileUri))
+        val initialArgs                                               = changeConfigArgs(Some(mainFileName), Some(workspacePath))
+        val args                                                      = changeConfigArgs(Some(mainFileName), Some(workspacePath), Set.empty, Set(profileUri))
 
         withServer(server, buildInitParams(workspacePath)) {
           server =>
