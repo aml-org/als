@@ -7,7 +7,6 @@ import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.ast._
-import org.mulesoft.als.server.modules.configuration.{ConfigurationManager, ConfigurationProvider}
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.UnitTaskManager
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
@@ -25,7 +24,7 @@ class WorkspaceContentManager private (val folderUri: String,
                                        allSubscribers: List[BaseUnitListener],
                                        override val repository: WorkspaceParserRepository,
                                        projectConfigAdapter: ProjectConfigurationAdapter,
-                                       hotReloadDialects: Boolean)
+                                       hotReload: Boolean)
     extends UnitTaskManager[ParsedUnit, CompilableUnit, NotificationKind] {
 
   def getCurrentConfiguration: Future[Option[ProjectConfiguration]] =
@@ -93,7 +92,7 @@ class WorkspaceContentManager private (val folderUri: String,
       (!isInMainTree(uri) && state != Idle) ||
       state == NotAvailable || stagingArea.hasPending
 
-  var nextProjectConfiguration: Option[ProjectConfiguration] = None
+  private var nextProjectConfiguration: Option[ProjectConfiguration] = None
 
   def withConfiguration(configuration: ProjectConfiguration): Future[Unit] = {
     nextProjectConfiguration = Some(configuration)
@@ -234,6 +233,7 @@ class WorkspaceContentManager private (val folderUri: String,
           c        <- projectConfigAdapter.newProjectConfiguration(config)
           mainFile <- Future(c.config.mainFile)
         } yield {
+          nextProjectConfiguration = None
           processChangeConfig(c, snapshot, mainFile)
         }).flatten
       case _ => Future.failed(new Exception("Expected Configuration Provider"))
@@ -310,20 +310,31 @@ class WorkspaceContentManager private (val folderUri: String,
   private def innerParse(uri: String)(): Future[AmfParseResult] = {
     val decodedUri = uri.toAmfDecodedUri
     logger.debug(s"sent uri: $decodedUri", "WorkspaceContentManager", "innerParse")
-    for {
+    (for {
       state <- projectConfigAdapter.getConfigurationState
       r     <- state.parse(decodedUri)
     } yield {
       r.result.baseUnit match {
-        case d: Dialect if hotReloadDialects =>
-          logger.debug(s"registering as dialect uri: $decodedUri", "WorkspaceContentManager", "innerParse")
-          //            environmentProvider.amfConfiguration.registerDialect(d) // todo: register hotRelaoded dialect
-          r
+        case _: Dialect if hotReload =>
+          logger.debug(s"Hot registering as dialect uri: $decodedUri", "WorkspaceContentManager", "innerParse")
+          val newConfig: ProjectConfiguration = nextProjectConfiguration
+            .orElse(projectConfigAdapter.projectConfiguration)
+            .map(
+              config =>
+                new ProjectConfiguration(config.folder,
+                                         config.mainFile,
+                                         config.designDependency,
+                                         config.validationDependency,
+                                         config.extensionDependency,
+                                         config.metadataDependency + uri))
+            .getOrElse(ProjectConfiguration(folderUri, metadataDependency = Set(uri)))
+          nextProjectConfiguration = Some(newConfig)
+          this.stage(uri, CHANGE_CONFIG).map(_ => r)
         case _ =>
           logger.debug(s"done with uri: $decodedUri", "WorkspaceContentManager", "innerParse")
-          r
+          Future(r)
       }
-    }
+    }).flatten
   }
 
   def getRelationships(uri: String): Future[Relationships] =
@@ -351,7 +362,7 @@ object WorkspaceContentManager {
             logger: Logger,
             allSubscribers: List[BaseUnitListener],
             projectConfigAdapter: ProjectConfigurationAdapter,
-            hotReload: Boolean): Future[WorkspaceContentManager] = {
+            hotReload: Boolean = false): Future[WorkspaceContentManager] = {
     val repository = new WorkspaceParserRepository(logger)
     val wcm = new WorkspaceContentManager(folderUri,
                                           environmentProvider,

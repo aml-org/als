@@ -6,7 +6,7 @@ import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.AlsWorkspaceService
 import org.mulesoft.als.server.modules.ast._
-import org.mulesoft.als.server.modules.configuration.{ConfigurationManager, ConfigurationProvider}
+import org.mulesoft.als.server.modules.configuration.ConfigurationProvider
 import org.mulesoft.als.server.modules.workspace.{CompilableUnit, ProjectConfigurationAdapter, WorkspaceContentManager}
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.command._
@@ -39,11 +39,12 @@ class WorkspaceManager protected (val environmentProvider: EnvironmentProvider,
   override def subscribers: List[BaseUnitListener] = allSubscribers.filter(_.isActive)
   private val workspaces =
     new WorkspaceList(environmentProvider,
-                                             projectConfigurationProvider,
-                                             editorConfiguration,
-                                             telemetryProvider,
-                                             allSubscribers,
-                                             logger, configurationProvider)
+                      projectConfigurationProvider,
+                      editorConfiguration,
+                      telemetryProvider,
+                      allSubscribers,
+                      logger,
+                      configurationProvider)
 
   def getWorkspace(uri: String): Future[WorkspaceContentManager] =
     workspaces.findWorkspace(uri)
@@ -196,7 +197,8 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
                             telemetryProvider,
                             logger,
                             subscribers,
-                            buildConfigurationAdapter(""),configStyle, configurationProvider)
+                            buildConfigurationAdapter(""),
+                            configurationProvider.getHotReloadDialects)
   }
 
   private def resetDefaultWorkspace(): Unit = {
@@ -248,7 +250,7 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
                                      logger,
                                      subscribers,
                                      buildConfigurationAdapter(uri),
-                                     configurationProvider.getHotReload)
+                                     configurationProvider.getHotReloadDialects)
       _ <- Future.sequence(applicableFiles.map(wcm.stage(_, OPEN_FILE)))
       _ <- wcm.initialized
     } yield {
