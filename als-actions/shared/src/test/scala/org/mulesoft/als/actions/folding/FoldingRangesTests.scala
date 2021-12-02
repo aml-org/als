@@ -245,7 +245,7 @@ class FoldingRangesTests extends AsyncFlatSpec with Matchers with PlatformSecret
       state <- EditorConfiguration
         .withPlatformLoaders(Seq(resourceLoader))
         .getState
-        .map(ALSConfigurationState(_, EmptyProjectConfigurationState(), None))
+        .map(ALSConfigurationState(_, EmptyProjectConfigurationState, None))
       result <- state
         .parse(testUri)
         .map(_.result.baseUnit)

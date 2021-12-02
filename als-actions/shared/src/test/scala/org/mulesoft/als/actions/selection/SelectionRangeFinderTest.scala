@@ -348,7 +348,7 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
 
     for {
       global <- EditorConfiguration.withPlatformLoaders(Seq(resourceLoader)).getState
-      state  <- Future(ALSConfigurationState(global, EmptyProjectConfigurationState(), None))
+      state  <- Future(ALSConfigurationState(global, EmptyProjectConfigurationState, None))
       result <- state
         .parse(testUri)
         .map(_.result.baseUnit)

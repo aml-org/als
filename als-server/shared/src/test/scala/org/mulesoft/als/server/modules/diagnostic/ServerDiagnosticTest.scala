@@ -217,10 +217,11 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
 
     val amfParseResult: Future[AmfParseResult] =
       EditorConfiguration().getState.map(editorState => {
-        val alsConfig = ALSConfigurationState(editorState, EmptyProjectConfigurationState(), None)
+        val alsConfig = ALSConfigurationState(editorState, EmptyProjectConfigurationState, None)
         new AmfParseResult(AMFResult(amfBaseUnit, Seq()),
                            ExternalFragmentDialect(),
-                           AmfParseContext(alsConfig.getAmfConfig, alsConfig))
+                           AmfParseContext(alsConfig.getAmfConfig, alsConfig),
+                           "")
       })
 
     for {

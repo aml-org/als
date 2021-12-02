@@ -52,7 +52,7 @@ class JvmSuggestionsTest extends AsyncFunSuite with Matchers with PlatformSecret
       .getState
       .map(editorState => {
         ALSConfigurationState(editorState = editorState,
-                              projectState = EmptyProjectConfigurationState(),
+                              projectState = EmptyProjectConfigurationState,
                               editorResourceLoader = None)
       })
   }

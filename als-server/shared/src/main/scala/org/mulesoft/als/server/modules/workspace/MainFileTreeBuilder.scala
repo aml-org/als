@@ -66,7 +66,7 @@ class ParsedMainFileTree(val main: AMFResult,
 
   override def parsedUnits: Map[String, ParsedUnit] =
     units
-      .map(t => t._1 -> ParsedUnit(new AmfParseResult(t._2, definedBy, parseContext), inTree = true, definedBy))
+      .map(t => t._1 -> ParsedUnit(new AmfParseResult(t._2, definedBy, parseContext, t._1), inTree = true, definedBy))
       .toMap
 
   override def references: Map[String, DiagnosticsBundle] = innerRefs.toMap

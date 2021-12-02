@@ -69,7 +69,7 @@ class ProjectConfigurationAdapter(val folder: String,
                    "notifyUnits")
       val subs = subscribers.filter(_.isActive)
       s.projectState.results
-        .map(s.toResult)
+        .map(s.toResult("", _))
         .foreach(r => {
           repository.foreach(_.updateUnit(r))
           val p =
