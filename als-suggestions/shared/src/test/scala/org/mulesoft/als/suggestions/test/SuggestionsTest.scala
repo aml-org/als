@@ -70,7 +70,7 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
                       cut: Boolean = false,
                       labels: Array[String] = Array("*")): Future[Assertion] =
     EditorConfiguration().getState
-      .map(ALSConfigurationState(_, EmptyProjectConfigurationState(), None))
+      .map(ALSConfigurationState(_, EmptyProjectConfigurationState, None))
       .flatMap(state => {
         this
           .suggest(path, label, state)
@@ -111,7 +111,7 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
       EditorConfiguration.withPlatformLoaders(dialectResourceLoader.map(Seq(_)).getOrElse(Seq.empty))
     dialect.foreach(editorConfiguration.withDialect)
     editorConfiguration.getState.flatMap(state =>
-      super.suggest(url, label, ALSConfigurationState(state, EmptyProjectConfigurationState(), None)))
+      super.suggest(url, label, ALSConfigurationState(state, EmptyProjectConfigurationState, None)))
   }
 
   case class ModelResult(u: BaseUnit, url: String, position: Int, originalContent: Option[String])

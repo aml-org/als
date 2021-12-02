@@ -23,6 +23,4 @@ case class EmptyProjectConfigurationState(folder: String)
   override val cache: Seq[BaseUnit] = Seq.empty
 }
 
-object EmptyProjectConfigurationState {
-  def apply(): EmptyProjectConfigurationState = EmptyProjectConfigurationState("")
-}
+object EmptyProjectConfigurationState extends EmptyProjectConfigurationState("") {}

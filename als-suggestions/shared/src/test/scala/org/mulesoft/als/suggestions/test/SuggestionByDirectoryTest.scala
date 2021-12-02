@@ -36,7 +36,7 @@ trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTes
         editorConfiguration <- Future(EditorConfiguration())
         _                   <- preload(f.path.stripSuffix(f.name), editorConfiguration)
         alsConfigurationState <- editorConfiguration.getState.map(
-          ALSConfigurationState(_, EmptyProjectConfigurationState(), None))
+          ALSConfigurationState(_, EmptyProjectConfigurationState, None))
         s <- suggestFromFile(
           content,
           "file://" + f.path.replaceAllLiterally(platform.fs.separatorChar.toString, "/"),

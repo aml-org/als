@@ -17,7 +17,7 @@ class DialectStructureTest extends BaseStructureTest with DialectTest {
     val editorConfiguration = EditorConfiguration().withDialect(fullDialectPath)
     for {
       alsConfiguration <- editorConfiguration.getState.map(state =>
-        ALSConfigurationState(state, EmptyProjectConfigurationState(), None))
+        ALSConfigurationState(state, EmptyProjectConfigurationState, None))
       result <- super.runTest(path, jsonPath, Some(alsConfiguration))
     } yield result
   }
