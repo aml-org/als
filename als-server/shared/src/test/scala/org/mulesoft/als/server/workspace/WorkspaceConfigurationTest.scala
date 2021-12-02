@@ -1,33 +1,5 @@
 package org.mulesoft.als.server.workspace
 
-import amf.core.client.common.remote.Content
-import amf.core.client.platform.resource.ResourceNotFound
-import amf.core.client.scala.resource.ResourceLoader
-import amf.core.internal.remote.Platform
-import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
-import org.mulesoft.als.logger.{Logger, MessageSeverity}
-import org.mulesoft.als.server._
-import org.mulesoft.als.server.feature.configuration.workspace.{
-  GetWorkspaceConfigurationParams,
-  GetWorkspaceConfigurationRequestType,
-  GetWorkspaceConfigurationResult
-}
-import org.mulesoft.als.server.modules.WorkspaceManagerFactory
-import org.mulesoft.als.server.modules.ast.{BaseUnitListener, ResolvedUnitListener}
-import org.mulesoft.als.server.modules.common.reconciler.Runnable
-import org.mulesoft.als.server.modules.configuration.ConfigurationManager
-import org.mulesoft.als.server.modules.telemetry.TelemetryManager
-import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
-import org.mulesoft.amfintegration.AmfResolvedUnit
-import org.mulesoft.lsp.configuration.TraceKind
-import org.mulesoft.lsp.feature.common.TextDocumentIdentifier
-import org.mulesoft.lsp.textsync.KnownDependencyScopes.{CUSTOM_VALIDATION, SEMANTIC_EXTENSION}
-import org.scalatest.Assertion
-
-import java.util.UUID
-import scala.concurrent.{ExecutionContext, Future, Promise}
-
 // TODO: when implemented Validation Profile and Semantic Extension, assert in tests the mutability of AmfConfiguration
 //   for example, start test, register/unregister dialect, check that the resulting unit still has the starting dialects
 //class WorkspaceConfigurationTest extends LanguageServerBaseTest with ChangesWorkspaceConfiguration {
@@ -304,7 +276,6 @@ import scala.concurrent.{ExecutionContext, Future, Promise}
 //       directoryResolver,
 //       logger,
 //       new ConfigurationManager(),
-//       GlobalAmfConfiguration(),
 //       None,
 //       None
 //     ),
