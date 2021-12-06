@@ -111,25 +111,29 @@ class WorkspaceContentManager private (val folderUri: String,
     val snapshot: Snapshot    = stagingArea.snapshot()
     val (treeUnits, isolated) = snapshot.files.partition(u => u._2 == CHANGE_CONFIG || isInMainTree(u._1.toAmfUri)) // what if a new file is added between the partition and the override down
     mainFile.flatMap(mf => {
-      logger.debug(s"units for main file: ${mf.getOrElse("[no main file]")}", "WorkspaceContentManager", "processTask")
-      treeUnits.map(_._1).foreach(tu => logger.debug(s"tree unit: $tu", "WorkspaceContentManager", "processTask"))
-      isolated.map(_._1).foreach(iu => logger.debug(s"isolated unit: $iu", "WorkspaceContentManager", "processTask"))
-      val changedTreeUnits =
-        treeUnits.filter(
-          tu =>
-            ((tu._2 == CHANGE_FILE ||
-              tu._2 == OPEN_FILE) && isChanged(tu._1)) || // OPEN_FILE is used in case the IDE restarts and it reopens what was being edited
-              tu._2 == CLOSE_FILE ||
-              (tu._2 == FOCUS_FILE && shouldParseOnFocus(tu._1, mf)))
+      projectConfigAdapter.getConfigurationState.flatMap(currentConfigurationState => {
+        logger.debug(s"units for main file: ${mf.getOrElse("[no main file]")}",
+                     "WorkspaceContentManager",
+                     "processTask")
+        treeUnits.map(_._1).foreach(tu => logger.debug(s"tree unit: $tu", "WorkspaceContentManager", "processTask"))
+        isolated.map(_._1).foreach(iu => logger.debug(s"isolated unit: $iu", "WorkspaceContentManager", "processTask"))
+        val changedTreeUnits =
+          treeUnits.filter(
+            tu =>
+              ((tu._2 == CHANGE_FILE ||
+                tu._2 == OPEN_FILE) && isChanged(tu._1)) || // OPEN_FILE is used in case the IDE restarts and it reopens what was being edited
+                tu._2 == CLOSE_FILE ||
+                (tu._2 == FOCUS_FILE && shouldParseOnFocus(tu._1, mf, currentConfigurationState)))
 
-      if (hasChangedConfigFile(snapshot)) processChangeConfigChanges(snapshot)
-      else if (changedTreeUnits.nonEmpty)
-        processMFChanges(mf.get, snapshot).recoverWith {
-          case e: Exception =>
-            logger.error(s"Error on parse: ${e.getMessage}", "WorkspaceContentManager", "processMFChanges")
-            Future.unit
-        } else
-        processIsolatedChanges(isolated)
+        if (hasChangedConfigFile(snapshot)) processChangeConfigChanges(snapshot)
+        else if (changedTreeUnits.nonEmpty)
+          processMFChanges(mf.get, snapshot).recoverWith {
+            case e: Exception =>
+              logger.error(s"Error on parse: ${e.getMessage}", "WorkspaceContentManager", "processMFChanges")
+              Future.unit
+          } else
+          processIsolatedChanges(isolated)
+      })
     })
   }
 
@@ -180,8 +184,11 @@ class WorkspaceContentManager private (val folderUri: String,
     * - Unit is external fragment and is the main file
     * - Unit is external fragment and main file is external fragment too
     * - Workspace configuration has changed since las parse
+    * - New dialect/extension registered
     */
-  private def shouldParseOnFocus(uri: String, mainFileUri: Option[String]): Boolean = {
+  private def shouldParseOnFocus(uri: String,
+                                 mainFileUri: Option[String],
+                                 configurationState: ALSConfigurationState): Boolean = {
     repository.getUnit(uri) match {
       case Some(s) =>
         s.parsedResult.result.baseUnit match {
@@ -192,7 +199,8 @@ class WorkspaceContentManager private (val folderUri: String,
                   u => repository.getUnit(u).exists(_.parsedResult.result.baseUnit.isInstanceOf[ExternalFragment])) =>
             true
           case _ =>
-            projectConfigAdapter.projectConfiguration.exists(_ != s.parsedResult.context.state.projectState.config)
+            projectConfigAdapter.projectConfiguration.exists(_ != s.parsedResult.context.state.projectState.config) ||
+              configurationState != s.parsedResult.context.state
         }
       case None => true
     }
