@@ -1,0 +1,9 @@
+#%Dialect 1.0
+
+annotationMappings:
+  myNodeMapping:
+    propertyTerm: term
+    range: string
+
+extensions:
+  otherExtension: *
