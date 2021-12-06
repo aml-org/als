@@ -1,7 +1,14 @@
 package org.mulesoft.amfintegration.visitors.noderelationship.plugins
 
 import amf.aml.client.scala.model.document.Dialect
-import amf.aml.client.scala.model.domain.{DocumentsModel, NodeMapping, PropertyMapping, UnionNodeMapping}
+import amf.aml.client.scala.model.domain.{
+  AnnotationMapping,
+  DocumentsModel,
+  NodeMapping,
+  PropertyMapping,
+  SemanticExtension,
+  UnionNodeMapping
+}
 import amf.aml.internal.metamodel.domain.{PropertyMappingModel, UnionNodeMappingModel}
 import amf.core.client.scala.model.StrField
 import amf.core.client.scala.model.document.BaseUnit
@@ -18,12 +25,26 @@ class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
     element match {
       case dm: DocumentsModel =>
         (extractDeclarations(d, dm) :+ extractEncoded(d, dm)).flatten
-      case nm: PropertyMapping => extractRanges(d, nm)
-      case o: UnionNodeMapping => extractUnions(d, o)
-      case o: NodeMapping      => extractExtends(d, o)
-      case _                   => Seq.empty
+      case nm: PropertyMapping  => extractRanges(d, nm)
+      case o: UnionNodeMapping  => extractUnions(d, o)
+      case o: NodeMapping       => extractExtends(d, o)
+      case o: AnnotationMapping => extractRanges(d, o)
+      case o: SemanticExtension => extractExtension(d, o)
+      case _                    => Seq.empty
     }
-  private def extractRanges(d: Dialect, nm: PropertyMapping) =
+
+  // TODO: Check with APIMF-3585 if this is correct or inverted
+  private def extractExtension(d: Dialect, o: SemanticExtension): Seq[RelationshipLink] = {
+    (for {
+      extensionPart     <- o.extensionMappingDefinition().annotations().ast()
+      referencedMapping <- d.annotationMappings().find(_.id == o.extensionMappingDefinition().value())
+      referencePart     <- referencedMapping.annotations.ast()
+    } yield {
+      Seq(RelationshipLink(extensionPart, referencePart))
+    }).getOrElse(Seq.empty)
+  }
+
+  private def extractRanges(d: Dialect, nm: AmfObject) =
     nm.annotations
       .ast()
       .collect {
