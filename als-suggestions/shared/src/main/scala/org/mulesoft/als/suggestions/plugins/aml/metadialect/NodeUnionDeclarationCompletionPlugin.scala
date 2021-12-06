@@ -23,17 +23,13 @@ class NodeUnionDeclarationCompletionPlugin(params: AmlCompletionRequest) extends
   override protected val dialect: Dialect         = params.actualDialect
   override protected val yPartBranch: YPartBranch = params.yPartBranch
 
-  def applies(): Boolean = {
-    params.yPartBranch.isKey && (params.amfObject match {
-      case _: NodeMapping => true
-      case _              => false
-    })
-  }
+  def applies(): Boolean =
+    params.yPartBranch.isKey && params.amfObject.isInstanceOf[NodeMapping]
 
   def resolve(): Option[Future[Seq[RawSuggestion]]] =
-    if (applies()) {
+    if (applies())
       Some(getSuggestions)
-    } else None
+    else None
 
   def getSuggestions: Future[Seq[RawSuggestion]] = Future {
     Seq(Some(UnionMappingObjectNode.Obj), Some(NodeMappingObjectNode.Obj))
