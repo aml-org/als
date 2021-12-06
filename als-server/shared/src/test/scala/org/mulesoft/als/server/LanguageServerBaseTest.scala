@@ -1,6 +1,7 @@
 package org.mulesoft.als.server
 
 import amf.core.internal.unsafe.PlatformSecrets
+import com.google.gson.{Gson, GsonBuilder}
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.logger.MessageSeverity.MessageSeverity
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeParams, CleanDiagnosticTreeRequestType}
@@ -9,6 +10,7 @@ import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.protocol.textsync.DidFocusParams
 import org.mulesoft.als.server.workspace.ChangesWorkspaceConfiguration
+import org.mulesoft.als.server.workspace.command.Commands
 import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.feature.common.{TextDocumentIdentifier, TextDocumentItem, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.feature.documentsymbol.{
@@ -19,7 +21,7 @@ import org.mulesoft.lsp.feature.documentsymbol.{
 }
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 import org.mulesoft.lsp.textsync._
-import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, WorkspaceFoldersChangeEvent}
+import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, ExecuteCommandParams, WorkspaceFoldersChangeEvent}
 import org.scalatest._
 
 import scala.collection.mutable
@@ -136,6 +138,17 @@ abstract class LanguageServerBaseTest
     server.workspaceService.didChangeWorkspaceFolders(
       params = DidChangeWorkspaceFoldersParams(WorkspaceFoldersChangeEvent(added, removed))
     )
+  }
+
+  def indexGlobalDialect(server: LanguageServer)(file: String, content: String): Future[Unit] = {
+    def wrapJson(file: String, content: String, gson: Gson): String =
+      s"""{"uri": "$file", "content": ${gson.toJson(content)}}"""
+    val args = List(wrapJson(file, content, new GsonBuilder().create()))
+    server.workspaceService
+      .executeCommand(ExecuteCommandParams(Commands.INDEX_DIALECT, args))
+      .map(_ => {
+        Unit
+      })
   }
 }
 
