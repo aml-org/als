@@ -37,6 +37,13 @@ object DialectRootEncodedNode extends DialectNode {
       .withName("external")
       .withObjectRange(Seq(ExternalObjectNode.id))
       .withMapKeyProperty("name")
+      .withMapValueProperty("value"),
+    PropertyMapping()
+      .withId(location + s"#/declarations/$name/extensions")
+      .withNodePropertyMapping(DialectModel.Extensions.value.iri())
+      .withName("extensions")
+      .withObjectRange(Seq(ExtensionsObjectNode.id))
+      .withMapKeyProperty("name")
       .withMapValueProperty("value")
   )
 }

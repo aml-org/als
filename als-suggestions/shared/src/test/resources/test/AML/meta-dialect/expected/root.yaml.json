@@ -90,6 +90,36 @@
     "command": null
   },
   {
+    "label": "extensions",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "extensions",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11extensions",
+    "filterText": "extensions:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 0
+        },
+        "end": {
+          "line": 2,
+          "character": 0
+        }
+      },
+      "newText": "extensions:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "external",
     "kind": [],
     "detail": "unknown",
