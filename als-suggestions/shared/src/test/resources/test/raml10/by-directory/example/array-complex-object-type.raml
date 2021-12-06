@@ -1,0 +1,15 @@
+#%RAML 1.0
+types:
+    a:
+        type: object
+        properties:
+            b: string
+            c: string
+            d: string
+    ar:
+        type: array
+        items:
+            type: a
+        example:
+            - b: test
+              *
