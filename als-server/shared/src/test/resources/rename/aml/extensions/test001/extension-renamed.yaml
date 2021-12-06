@@ -1,0 +1,29 @@
+#%Dialect 1.0
+dialect: Annotation mappings
+version: 1.0
+
+external:
+  aml: http://a.ml/vocab#
+  schema: http://schema.org#
+  apicontract: http://a.ml/vocabularies/apiContract#
+
+documents:
+  root:
+    encodes: RENAMED # just necessary to avoid errors, won't really do anything
+
+annotationMappings:
+  MyAnnotationMapping:
+    domain: apicontract.API
+    propertyTerm: aml.maintainer
+    range: RENAMED
+
+nodeMappings:
+  RENAMED:
+    classTerm: schema.MyNodeMapping
+    mapping:
+      inner:
+        propertyTerm: schema.mine
+        range: boolean
+
+extensions:
+  myExtension: MyAnnotationMapping
