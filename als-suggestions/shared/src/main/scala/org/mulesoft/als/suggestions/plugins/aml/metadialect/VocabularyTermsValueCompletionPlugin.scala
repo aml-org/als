@@ -20,7 +20,7 @@ object VocabularyTermsValueCompletionPlugin extends AMLCompletionPlugin {
     amfObject match {
       case _: NodeMapping if yPartBranch.isValueDescendanceOf("classTerm") && yPartBranch.stringValue.contains(".") =>
         true
-      case _ @(_: PropertyMapping | _: AnnotationMapping)
+      case _: PropertyLikeMapping[_]
           if yPartBranch.isValueDescendanceOf("propertyTerm") && yPartBranch.stringValue.contains(".") =>
         true
       case _ => false
@@ -41,7 +41,7 @@ object VocabularyTermsValueCompletionPlugin extends AMLCompletionPlugin {
     } yield {
       request.amfObject match {
         case _: NodeMapping => suggestClassTerms(vocabulary, alias)
-        case _ @(_: PropertyMapping | _: AnnotationMapping) =>
+        case _: PropertyLikeMapping[_] =>
           suggestPropertyTerms(request.branchStack, vocabulary, alias)
         case _ => Seq.empty
       }
