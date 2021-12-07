@@ -3,6 +3,9 @@ dialect: Test
 version: 2
 external:
   myExternal: http://voc.com/#
+documents:
+  root:
+    encodes: A
 nodeMappings:
   A:
     classTerm: myExternal.ExternalClass
