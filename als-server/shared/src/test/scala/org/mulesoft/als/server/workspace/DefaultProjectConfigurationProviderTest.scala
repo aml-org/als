@@ -128,7 +128,7 @@ class DefaultProjectConfigurationProviderTest extends LanguageServerBaseTest {
       p1.config.mainFile should contain("api.raml")
       p1.config.metadataDependency should contain(dialect)
       p1.config.extensionDependency should contain(extension)
-      p1.config.validationDependency should contain()
+      p1.config.validationDependency should contain(profile)
       p1.extensions.find(d => d.nameAndVersion() == "Test 2") should not be empty
       p1.extensions.find(d => d.nameAndVersion() == "Annotation mappings 1.0") should not be empty
       p1.profiles.find(p => p.path.contains("profile.yaml")) should not be empty
