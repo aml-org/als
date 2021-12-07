@@ -28,7 +28,7 @@ class IndexDialectCommandExecutor(val logger: Logger, workspaceManager: Workspac
     }
   }
 
-  def loadFromFileSystem(uri: String): Future[String] = {
+  def loadFromEnv(uri: String): Future[String] =
     platform
       .fetchContent(
         uri,
@@ -38,16 +38,14 @@ class IndexDialectCommandExecutor(val logger: Logger, workspaceManager: Workspac
             workspaceManager.environmentProvider.getResourceLoader +: workspaceManager.editorConfiguration.resourceLoaders.toList)
       )
       .map(_.toString())
-  }
 
-  override protected def runCommand(param: IndexDialectParams): Future[Unit] = {
+  override protected def runCommand(param: IndexDialectParams): Future[Unit] =
     param.content
       .map(Future(_))
-      .getOrElse(loadFromFileSystem(param.uri))
+      .getOrElse(loadFromEnv(param.uri))
       .map(content => {
         BaseAlsDialectProvider.indexDialect(param.uri, content)
         workspaceManager.editorConfiguration.withDialect(param.uri)
       })
-  }
 
 }

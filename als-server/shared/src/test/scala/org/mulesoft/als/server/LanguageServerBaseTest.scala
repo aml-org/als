@@ -140,9 +140,10 @@ abstract class LanguageServerBaseTest
     )
   }
 
-  def indexGlobalDialect(server: LanguageServer)(file: String, content: String): Future[Unit] = {
-    def wrapJson(file: String, content: String, gson: Gson): String =
-      s"""{"uri": "$file", "content": ${gson.toJson(content)}}"""
+  def indexGlobalDialect(server: LanguageServer, file: String, content: Option[String] = None): Future[Unit] = {
+    def wrapJson(file: String, content: Option[String], gson: Gson): String =
+      s"""{"uri": "$file" ${content.map(c => s""", "content": ${gson.toJson(c)}""").getOrElse("")}}"""
+
     val args = List(wrapJson(file, content, new GsonBuilder().create()))
     server.workspaceService
       .executeCommand(ExecuteCommandParams(Commands.INDEX_DIALECT, args))
@@ -150,6 +151,10 @@ abstract class LanguageServerBaseTest
         Unit
       })
   }
+
+  def indexGlobalDialect(server: LanguageServer, file: String, content: String): Future[Unit] =
+    indexGlobalDialect(server, file, Some(content))
+
 }
 
 /**
