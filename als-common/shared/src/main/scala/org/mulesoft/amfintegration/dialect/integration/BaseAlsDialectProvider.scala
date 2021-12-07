@@ -49,9 +49,8 @@ object BaseAlsDialectProvider {
   /**
     * Indexes a global dialect
     */
-  def indexDialect(uri: String, content: String): Unit = {
+  def indexDialect(uri: String, content: String): Unit =
     indexedDialects = indexedDialects + (uri -> IndexedDialect(uri, content))
-  }
 
   sealed case class IndexedDialect(override val uri: String, yaml: String) extends InMemoryDialect {
     override val name: String = uri
