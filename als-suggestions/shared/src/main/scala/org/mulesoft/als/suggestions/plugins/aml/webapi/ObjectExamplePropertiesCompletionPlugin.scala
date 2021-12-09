@@ -40,9 +40,8 @@ case class ObjectExamplePropertiesCompletionPlugin(node: DataNode,
           val propsE = o.allPropertiesWithName()
           n.properties.flatMap(p => propsE.get(p.name.value()).flatMap(v => findNode(p.range, v, node))).headOption
         }
-      case arr: ArrayNode if a.isInstanceOf[ArrayShape] =>
-        val items = a.asInstanceOf[ArrayShape].items
-        arr.members.flatMap(mem => findNode(items, mem, node)).headOption
+      case _: ArrayNode if a.isInstanceOf[ArrayShape] =>
+        Some(a.asInstanceOf[ArrayShape].items.asInstanceOf[NodeShape])
       case arr: ArrayNode if a.isInstanceOf[NodeShape] =>
         val n = a.asInstanceOf[NodeShape]
         if (arr == node) Some(n)
