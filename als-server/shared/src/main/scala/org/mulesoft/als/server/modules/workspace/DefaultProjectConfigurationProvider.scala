@@ -24,11 +24,13 @@ class ProjectConfigurationNotFound(folder: String)
 sealed class ConfigurationMap {
   var configurations: Map[String, DefaultProjectConfiguration] = Map()
 
-  def get(folder: String): Option[DefaultProjectConfiguration] =
+  def get(folder: String): Option[DefaultProjectConfiguration] = synchronized {
     configurations.get(folder)
+  }
 
-  def update(folder: String, config: DefaultProjectConfiguration): Unit =
+  def update(folder: String, config: DefaultProjectConfiguration): Unit = synchronized {
     configurations = configurations + (folder -> config)
+  }
 }
 
 class DefaultProjectConfigurationProvider(environmentProvider: EnvironmentProvider,
