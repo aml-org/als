@@ -108,8 +108,8 @@ object AmfSonElementFinder {
               if (branch.branch.contains(obj)) Some(branch)
               else find(branch.newLeaf(obj), definedBy)
             case Right(fe)
-                // todo: check this clause, I changed nonsensical "||" for "&&" and no test changed
-                if !fe.value.annotations.isInferred && fe.value.value.containsYPart(yPartBranch) =>
+                // todo: check this clause, I changed nonsensically "||" for "&&" and no test changed
+                if !fe.value.annotations.isInferred || fe.value.value.containsYPart(yPartBranch) =>
               Some(branch.forField(fe))
             case _ => Some(branch)
           }
@@ -183,10 +183,7 @@ object AmfSonElementFinder {
         if (isInArray(array)) {
           val objects = array.values.collect({ case o: AmfObject => o })
           val candidates = objects
-            .filter(
-              o =>
-                o.containsYPart(yPartBranch) ||
-                  (o.annotations.schemeIsJsonSchema && o.annotations.containsPosition(yPartBranch.position)))
+            .filter(_.containsYPart(yPartBranch))
             .filterNot(exceptionCase(_, definedBy))
           if (candidates.isEmpty) objects.filter(v => v.annotations.isVirtual || v.annotations.isSynthesized)
           else candidates
