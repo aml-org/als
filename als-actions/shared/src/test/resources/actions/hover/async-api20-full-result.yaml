@@ -128,7 +128,7 @@ hovers:
   (38,8):
     - EndPoint in the API holding a number of executable operations
   (38,16):
-    - EndPoint in the API holding a number of executable operations
+    - Action that can be executed using a particular HTTP invocation
   (39,9):
     - Human readable description of an element
   (39,21):
@@ -204,7 +204,7 @@ hovers:
   (58,9):
     - Action that can be executed using a particular HTTP invocation
   (58,15):
-    - Action that can be executed using a particular HTTP invocation
+    - Piece of data required or returned by an Operation
   (59,9):
     - Human readable name for the object
   (59,13):
@@ -465,9 +465,9 @@ hovers:
   (126,10):
     - Defines a data type
   (127,12):
-    - Scalar range constraining this scalar shape
+    - Defines a data type
   (127,19):
-    - Scalar range constraining this scalar shape
+    - Defines a data type
   (128,14):
     - Defines a data type
   (128,25):
@@ -537,13 +537,13 @@ hovers:
   (144,12):
     - Logical and composition of data shapes
   (145,12):
-    - Defines a data type
+    - Logical and composition of data shapes
   (145,33):
-    - Defines a data type
+    - Logical and composition of data shapes
   (146,12):
-    - Defines a data type
+    - Logical and composition of data shapes
   (146,33):
-    - Defines a data type
+    - Logical and composition of data shapes
   (147,9):
     - Human readable name for the object
   (147,16):
@@ -553,13 +553,13 @@ hovers:
   (148,12):
     - Each element should match against at least one of the elements provided
   (149,12):
-    - Defines a data type
+    - Each element should match against at least one of the elements provided
   (149,33):
-    - Defines a data type
+    - Each element should match against at least one of the elements provided
   (150,12):
-    - Defines a data type
+    - Each element should match against at least one of the elements provided
   (150,33):
-    - Defines a data type
+    - Each element should match against at least one of the elements provided
   (151,12):
     - An object name that is used to differentiate between ambiguous types/schemas
   (151,21):
@@ -573,13 +573,13 @@ hovers:
   (153,12):
     - Logical exclusive or composition of data shapes
   (154,12):
-    - Defines a data type
+    - Logical exclusive or composition of data shapes
   (154,33):
-    - Defines a data type
+    - Logical exclusive or composition of data shapes
   (155,12):
-    - Defines a data type
+    - Logical exclusive or composition of data shapes
   (155,33):
-    - Defines a data type
+    - Logical exclusive or composition of data shapes
   (156,8):
     - Human readable name for the object
   (156,14):

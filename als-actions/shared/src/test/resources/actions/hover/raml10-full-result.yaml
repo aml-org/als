@@ -10,11 +10,11 @@ hovers:
   (4,2):
     - Imported external libraries for use within the API
   (4,5):
-    - Defines a data type
+    - Imported external libraries for use within the API
   (5,3):
     - Imported external libraries for use within the API
   (5,13):
-    - Defines a data type
+    - Imported external libraries for use within the API
   (6,3):
     - Version of the API
   (6,10):
@@ -24,29 +24,29 @@ hovers:
   (7,22):
     - Information about the network accessible locations where the API is available
   (8,8):
-    - Defines a data type
+    - Top level element describing a HTTP API
   (8,18):
-    - Defines a data type
+    - Top level element describing a HTTP API
   (9,2):
     - Top level element describing a HTTP API
   (9,4):
-    - Defines a data type
+    - Top level element describing a HTTP API
   (10,9):
-    - Defines a data type
+    - Top level element describing a HTTP API
   (10,16):
-    - Defines a data type
+    - Top level element describing a HTTP API
   (11,17):
-    - Defines a data type
+    - Top level element describing a HTTP API
   (11,30):
-    - Defines a data type
+    - Top level element describing a HTTP API
   (12,8):
-    - Defines a data type
+    - Top level element describing a HTTP API
   (12,23):
-    - Defines a data type
+    - Top level element describing a HTTP API
   (13,6):
-    - Defines a data type
+    - Top level element describing a HTTP API
   (13,13):
-    - Defines a data type
+    - Top level element describing a HTTP API
   (14,4):
     - URI scheme for the API protocol
   (14,10):
@@ -82,7 +82,7 @@ hovers:
   (29,7):
     - Declarations of reusable authentication mechanisms to ensure secured operations
   (29,16):
-    - Defines a data type
+    - Top level element describing a HTTP API
   (30,6):
     - Authentication and access control mechanism defined in an API
   (30,12):
@@ -100,13 +100,13 @@ hovers:
   (34,16):
     - Authentication and access control mechanism defined in an API
   (35,9):
-    - Defines a data type
+    - Piece of data required or returned by an Operation
   (35,14):
     - Piece of data required or returned by an Operation
   (36,14):
     - Schema the parameter value must validate
   (36,22):
-    - Schema the parameter value must validate
+    - Defines a data type
   (37,15):
     - Human readable description of an element
   (38,0):
@@ -116,13 +116,13 @@ hovers:
   (40,19):
     - Scalar range constraining this scalar shape
   (41,13):
-    - Defines a data type
+    - Piece of data required or returned by an Operation
   (41,22):
     - Piece of data required or returned by an Operation
   (42,14):
     - Schema the parameter value must validate
   (42,21):
-    - Schema the parameter value must validate
+    - Defines a data type
   (43,15):
     - Human readable description of an element
   (44,0):
@@ -132,7 +132,7 @@ hovers:
   (46,19):
     - Scalar range constraining this scalar shape
   (47,10):
-    - Defines a data type
+    - Response information for an operation
   (47,16):
     - Response information for an operation
   (48,9):
@@ -238,25 +238,25 @@ hovers:
   (82,18):
     - Authentication and access control mechanism defined in an API
   (83,15):
-    - Defines a data type
+    - Piece of data required or returned by an Operation
   (83,24):
     - Piece of data required or returned by an Operation
   (84,12):
     - Schema the parameter value must validate
   (84,16):
-    - Schema the parameter value must validate
+    - Defines a data type
   (85,14):
     - Scalar range constraining this scalar shape
   (85,21):
     - Scalar range constraining this scalar shape
   (86,11):
-    - Defines a data type
+    - Piece of data required or returned by an Operation
   (86,16):
     - Piece of data required or returned by an Operation
   (87,13):
     - Schema the parameter value must validate
   (87,18):
-    - Schema the parameter value must validate
+    - Defines a data type
   (88,14):
     - Scalar range constraining this scalar shape
   (88,21):
@@ -278,13 +278,13 @@ hovers:
   (93,18):
     - Authentication and access control mechanism defined in an API
   (94,11):
-    - Defines a data type
+    - Piece of data required or returned by an Operation
   (94,16):
     - Piece of data required or returned by an Operation
   (95,16):
     - Schema the parameter value must validate
   (95,23):
-    - Schema the parameter value must validate
+    - Defines a data type
   (96,17):
     - Human readable description of an element
   (97,0):
@@ -294,7 +294,7 @@ hovers:
   (98,21):
     - Scalar range constraining this scalar shape
   (99,12):
-    - Defines a data type
+    - Response information for an operation
   (99,18):
     - Response information for an operation
   (100,11):
@@ -312,7 +312,7 @@ hovers:
   (104,2):
     - Contains declarations of reusable Schemas
   (104,6):
-    - Defines a data type
+    - Top level element describing a HTTP API
   (105,4):
     - Human readable name for the object
   (105,8):
@@ -836,29 +836,29 @@ hovers:
   (215,35):
     - Human readable description of an element
   (216,9):
-    - Associated dynamic structure for the declaration
+    - Type of document base unit encoding a RAML trait
   (216,35):
-    - Associated dynamic structure for the declaration
+    - Type of document base unit encoding a RAML trait
   (217,7):
-    - Associated dynamic structure for the declaration
+    - Type of document base unit encoding a RAML trait
   (217,12):
-    - Associated dynamic structure for the declaration
+    - Type of document base unit encoding a RAML trait
   (218,12):
-    - Associated dynamic structure for the declaration
+    - Type of document base unit encoding a RAML trait
   (218,19):
-    - Associated dynamic structure for the declaration
+    - Type of document base unit encoding a RAML trait
   (219,13):
-    - Associated dynamic structure for the declaration
+    - Type of document base unit encoding a RAML trait
   (219,27):
-    - Associated dynamic structure for the declaration
+    - Type of document base unit encoding a RAML trait
   (220,11):
-    - Associated dynamic structure for the declaration
+    - Type of document base unit encoding a RAML trait
   (220,21):
-    - Associated dynamic structure for the declaration
+    - Type of document base unit encoding a RAML trait
   (221,12):
-    - Associated dynamic structure for the declaration
+    - Type of document base unit encoding a RAML trait
   (221,20):
-    - Associated dynamic structure for the declaration
+    - Type of document base unit encoding a RAML trait
   (223,4):
     - Flow for an OAuth2 security scheme setting
   (223,17): []
@@ -917,7 +917,7 @@ hovers:
   (233,7):
     - Schema the parameter value must validate
   (233,10):
-    - Schema the parameter value must validate
+    - Defines a data type
   (234,12):
     - Marks the parameter as required
   (234,20):
@@ -989,7 +989,7 @@ hovers:
   (254,7):
     - Schema the parameter value must validate
   (254,9):
-    - Schema the parameter value must validate
+    - Defines a data type
   (255,12):
     - Marks the parameter as required
   (255,20):
@@ -1157,7 +1157,7 @@ hovers:
   (300,11):
     - Schema the parameter value must validate
   (300,13):
-    - Schema the parameter value must validate
+    - Defines a data type
   (301,14):
     - Scalar range constraining this scalar shape
   (301,21):
@@ -1169,7 +1169,7 @@ hovers:
   (303,18):
     - Encoded payload using certain media-type
   (303,27):
-    - Encoded payload using certain media-type
+    - Defines a data type
   (304,14):
     - Defines a data type
   (304,20):
@@ -1205,7 +1205,7 @@ hovers:
   (312,14):
     - Encoded payload using certain media-type
   (312,23):
-    - Encoded payload using certain media-type
+    - Defines a data type
   (313,13):
     - Defines a data type
   (313,19):
@@ -1287,7 +1287,7 @@ hovers:
   (334,6):
     - Schema the parameter value must validate
   (334,9):
-    - Schema the parameter value must validate
+    - Defines a data type
   (335,11):
     - Human readable description of an element
   (335,28):
