@@ -22,12 +22,12 @@ import amf.shapes.internal.annotations.{
   ParsedJSONSchema,
   SchemaIsJsonSchema
 }
-import org.mulesoft.als.common.{YPartBranch, YamlWrapper}
 import org.mulesoft.als.common.YamlWrapper._
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.common.{YPartBranch, YamlWrapper}
 import org.mulesoft.amfintegration.dialect.dialects.validations.RawValidationProfileDialect
 import org.mulesoft.lexer.InputRange
-import org.yaml.model.{YMapEntry, YNode, YPart, YSequence, YType, _}
+import org.yaml.model._
 
 import scala.collection.mutable
 
@@ -211,10 +211,6 @@ object AmfImplicits {
         case Value(scalar: AmfScalar, _) => scalar
       })
       .exists(_.toBool)
-
-    def containsYPart(yPartBranch: YPartBranch): Boolean =
-      amfObject.annotations.containsYPart(yPartBranch).getOrElse(false) ||
-        amfObject.annotations.containsJsonSchemaPosition(yPartBranch).getOrElse(false)
 
     def range: Option[Range] = amfObject.position().map(_.range)
   }

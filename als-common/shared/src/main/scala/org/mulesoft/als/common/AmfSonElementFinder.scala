@@ -7,13 +7,13 @@ import amf.apicontract.client.scala.model.domain.Payload
 import amf.apicontract.internal.metamodel.domain.bindings._
 import amf.core.client.common.position.Range
 import amf.core.client.scala.model.domain.{AmfArray, AmfObject, DataNode}
-import amf.core.internal.annotations.SourceAST
 import amf.core.internal.metamodel.ModelDefaultBuilder
 import amf.core.internal.metamodel.Type.ArrayLike
 import amf.core.internal.metamodel.document.{BaseUnitModel, DocumentModel}
 import amf.core.internal.metamodel.domain.{DataNodeModel, DomainElementModel, ShapeModel}
 import amf.core.internal.parser.domain.FieldEntry
 import amf.shapes.internal.domain.metamodel.AnyShapeModel
+import org.mulesoft.als.common.AlsAmfElement._
 import org.mulesoft.als.common.YamlWrapper._
 import org.mulesoft.amfintegration.AmfImplicits.{
   AmfAnnotationsImp,
@@ -53,7 +53,7 @@ object AmfSonElementFinder {
         a.obj.range.orElse(a.branch.headOption.flatMap(_.range))
 
       private def appliesReduction(fe: FieldEntry) =
-        (!fe.value.annotations.isInferred) || fe.value.value.annotations.containsPosition(yPartBranch.position)
+        (!fe.value.annotations.isInferred) || fe.value.value.annotations.containsYPart(yPartBranch).getOrElse(false)
 
       def find(obj: AmfObject, definedBy: Dialect): Branch = {
         val entryPoint = Branch(obj, Nil, None)
@@ -108,8 +108,8 @@ object AmfSonElementFinder {
               if (branch.branch.contains(obj)) Some(branch)
               else find(branch.newLeaf(obj), definedBy)
             case Right(fe)
-                if !fe.value.annotations.isInferred || fe.value.value.annotations.containsPosition(
-                  yPartBranch.position) =>
+                // todo: check this clause, I changed nonsensical "||" for "&&" and no test changed
+                if !fe.value.annotations.isInferred && fe.value.value.containsYPart(yPartBranch) =>
               Some(branch.forField(fe))
             case _ => Some(branch)
           }
@@ -132,6 +132,7 @@ object AmfSonElementFinder {
         if (fe.objectSon && fe.value.value.location().forall(l => l.isEmpty || l == location))
           fe.value.value match {
             case e: AmfArray =>
+              // todo: here "if e.containsYPart(yPartBranch)" is not possible because some tests depend on this matching incorrect nodes
               val objects = nextObject(e, definedBy)
               if (objects.isEmpty) buildFromMeta(parent, fe, e).toSeq
               else objects
@@ -176,10 +177,16 @@ object AmfSonElementFinder {
       }
 
       def nextObject(array: AmfArray, definedBy: Dialect): Seq[AmfObject] =
+//        if (array.containsYPart(yPartBranch)) {
+        // todo: this array comparison is rancid, we should see why the containsYPart is not sufficient
+        //  (why we expect a virtual/synthetized to always match even if no element inside does)
         if (isInArray(array)) {
           val objects = array.values.collect({ case o: AmfObject => o })
           val candidates = objects
-            .filter(_.annotations.containsPosition(yPartBranch.position))
+            .filter(
+              o =>
+                o.containsYPart(yPartBranch) ||
+                  (o.annotations.schemeIsJsonSchema && o.annotations.containsPosition(yPartBranch.position)))
             .filterNot(exceptionCase(_, definedBy))
           if (candidates.isEmpty) objects.filter(v => v.annotations.isVirtual || v.annotations.isSynthesized)
           else candidates
@@ -187,9 +194,9 @@ object AmfSonElementFinder {
 
       private def isInArray(array: AmfArray): Boolean =
         array.annotations
-          .find(classOf[SourceAST])
-          .map(_.ast)
+          .ast()
           .forall { s =>
+            // todo: should this contemplate `containsYPart`? if so, check also  what to do withVirtual/Inferred
             s.contains(yPartBranch.position)
           }
 
@@ -231,10 +238,10 @@ object AmfSonElementFinder {
             e.values.collectFirst({ case d: DataNode => d })
           case d: DomainElementModel if d.`type`.headOption.exists(_.iri() == DomainElementModel.`type`.head.iri()) =>
             e.values.collectFirst({ case o: AmfObject => o }) match {
-              case Some(_: DialectDomainElement) if isDeclares(entry)                           => None
-              case Some(_) if isDeclares(entry) && isInDeclarationName                          => None
-              case Some(other) if other.annotations.containsYPart(yPartBranch).getOrElse(false) => Some(other)
-              case _                                                                            => None
+              case Some(_: DialectDomainElement) if isDeclares(entry)  => None
+              case Some(_) if isDeclares(entry) && isInDeclarationName => None
+              case Some(other) if other.containsYPart(yPartBranch)     => Some(other)
+              case _                                                   => None
             }
           case s: ShapeModel if s.`type`.headOption.exists(_.iri() == ShapeModel.`type`.head.iri()) =>
             Some(AnyShapeModel.modelInstance)

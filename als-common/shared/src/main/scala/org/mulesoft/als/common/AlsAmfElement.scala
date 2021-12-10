@@ -1,6 +1,7 @@
 package org.mulesoft.als.common
 
 import amf.core.client.scala.model.domain.{AmfArray, AmfElement, AmfObject, AmfScalar}
+import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 
 object AlsAmfElement {
 
@@ -17,5 +18,26 @@ object AlsAmfElement {
     def toObject: Option[AmfObject] = obj
 
     def toArray: Option[AmfArray] = array
+
+    def containsYPart(yPartBranch: YPartBranch): Boolean =
+      amfElement match {
+        case AmfArray(values, annotations) =>
+          annotations
+            .containsYPart(yPartBranch)
+            .getOrElse( // look inside if some value is part of the branch
+              (annotations.isVirtual || annotations.isSynthesized) && values.exists(_.containsYPart(yPartBranch)))
+
+        case amfObject: AmfObject =>
+          (amfObject.annotations.containsYPart(yPartBranch).getOrElse(false) ||
+            amfObject.annotations.containsJsonSchemaPosition(yPartBranch).getOrElse(false)) ||
+            // look inside if some value is part of the branch
+            ((amfObject.annotations.isVirtual || amfObject.annotations.isSynthesized) &&
+              amfObject.fields.fields().exists { fe =>
+                fe.value.annotations.containsYPart(yPartBranch).getOrElse(fe.value.value.containsYPart(yPartBranch))
+              })
+        case AmfScalar(_, annotations) => annotations.containsYPart(yPartBranch).getOrElse(false)
+        case _                         => false
+      }
+
   }
 }
