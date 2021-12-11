@@ -145,4 +145,8 @@ class RAML10StructureTests extends RAML10StructureTest {
   test("Test included example entry is present") {
     this.runTest("included-example/api.raml", "included-example/structure.json")
   }
+
+  test("Test variable node is not present") {
+    this.runTest("custom/no-variable.raml", "custom/no-variable-outline.json")
+  }
 }
