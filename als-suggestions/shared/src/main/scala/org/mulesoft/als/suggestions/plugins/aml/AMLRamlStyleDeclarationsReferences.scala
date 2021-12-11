@@ -2,6 +2,7 @@ package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.PropertyMapping
+import amf.apicontract.internal.metamodel.domain.templates.{ResourceTypeModel, TraitModel}
 import amf.core.internal.metamodel.domain.DomainElementModel
 import amf.core.internal.parser.domain.FieldEntry
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
@@ -67,8 +68,15 @@ trait AMLDeclarationReferences extends AMLCompletionPlugin {
       case _ =>
         params.amfObject.metaURIs.headOption.toSeq
     }
-    candidates.filter(_ != DomainElementModel.`type`.head.iri())
+    candidates.filterNot(exceptions.contains)
   }
+
+  protected val exceptions = Seq(
+    DomainElementModel.`type`.head.iri(),
+    // handled by RamlAbstractDeclarationReference:
+    TraitModel.`type`.head.iri(),
+    ResourceTypeModel.`type`.head.iri()
+  )
 
   private def getFieldIri(fieldEntry: Option[FieldEntry],
                           propertyMapping: Seq[PropertyMapping]): Option[PropertyMapping] =
