@@ -232,34 +232,7 @@
                 "character": 0
               }
             },
-            "children": [
-              {
-                "name": "securedBy",
-                "kind": 7,
-                "deprecated": false,
-                "range": {
-                  "start": {
-                    "line": 33,
-                    "character": 14
-                  },
-                  "end": {
-                    "line": 35,
-                    "character": 0
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 33,
-                    "character": 14
-                  },
-                  "end": {
-                    "line": 35,
-                    "character": 0
-                  }
-                },
-                "children": []
-              }
-            ]
+            "children": []
           }
         ]
       },
@@ -312,34 +285,7 @@
                 "character": 0
               }
             },
-            "children": [
-              {
-                "name": "protocols",
-                "kind": 7,
-                "deprecated": false,
-                "range": {
-                  "start": {
-                    "line": 36,
-                    "character": 14
-                  },
-                  "end": {
-                    "line": 39,
-                    "character": 0
-                  }
-                },
-                "selectionRange": {
-                  "start": {
-                    "line": 36,
-                    "character": 14
-                  },
-                  "end": {
-                    "line": 39,
-                    "character": 0
-                  }
-                },
-                "children": []
-              }
-            ]
+            "children": []
           }
         ]
       }

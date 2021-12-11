@@ -28,13 +28,17 @@ class ObjectNodeSymbolBuilder(override val element: ObjectNode)(override implici
       .flatMap {
         case (_, Value(_: ScalarNode, _)) => Nil
         case (n, Value(v: DataNode, a)) =>
+          val decodedName = n.value.name.urlComponentDecoded
           val range =
             PositionRange(a.find(classOf[LexicalInformation]).map(l => l.range).getOrElse(AmfRange(InputRange.Zero)))
           ctx.factory
             .builderFor(v)
             .map(_.build())
+            .map { s => // in case a child contains the same name, merge it's childs
+              s.filterNot(ds => ds.name == decodedName) ++ s.filter(ds => ds.name == decodedName).flatMap(_.children)
+            }
             .map { r =>
-              Seq(DocumentSymbol(n.value.name.urlComponentDecoded, KindForResultMatcher.getKind(v), range, r.toList))
+              Seq(DocumentSymbol(decodedName, KindForResultMatcher.getKind(v), range, r.toList))
             }
             .getOrElse(Nil)
         case _ => Nil
