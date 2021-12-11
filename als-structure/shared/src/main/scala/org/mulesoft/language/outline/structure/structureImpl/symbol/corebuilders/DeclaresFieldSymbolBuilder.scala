@@ -41,7 +41,11 @@ class DeclaresFieldSymbolBuilder(override val value: AmfArray, override val elem
 
   private def buildSymbol(name: String, elements: Seq[AmfObject]): Option[DocumentSymbol] = {
     val children: List[DocumentSymbol] = elements
-      .flatMap(o => builderFor(o).map(_.build()).getOrElse(Nil))
+      .flatMap(
+        o =>
+          builderFor(o)
+            .map(_.build())
+            .getOrElse(Nil))
       .sortWith((ds1, ds2) => ds1.range.start < ds2.range.start)
       .toList
     val range: Option[PositionRange] = getDeclarationKeyFor(name).map(key => PositionRange(key.entry.range))

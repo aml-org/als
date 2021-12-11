@@ -15,7 +15,8 @@ trait BuilderFactory {
         DeclaresFieldSymbolBuilderCompanion,
         EncodesFieldSymbolBuilderCompanion,
         DefaultArrayFieldTypeSymbolBuilderCompanion,
-        ReferencesFieldSymbolBuilderCompanion
+        ReferencesFieldSymbolBuilderCompanion,
+        VariableFieldSymbolBuilderCompanion
       ),
       List(BaseUnitSymbolBuilderCompanion, DomainElementSymbolBuilder)
     )
