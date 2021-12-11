@@ -67,8 +67,15 @@ trait AMLDeclarationReferences extends AMLCompletionPlugin {
       case _ =>
         params.amfObject.metaURIs.headOption.toSeq
     }
-    candidates.filter(_ != DomainElementModel.`type`.head.iri())
+    candidates.filterNot(exceptions.contains)
   }
+
+  protected val exceptions = Seq(
+    DomainElementModel.`type`.head.iri(),
+    // handled by RamlAbstractDeclarationReference:
+    TraitModel.`type`.head.iri(),
+    ResourceTypeModel.`type`.head.iri()
+  )
 
   private def getFieldIri(fieldEntry: Option[FieldEntry],
                           propertyMapping: Seq[PropertyMapping]): Option[PropertyMapping] =

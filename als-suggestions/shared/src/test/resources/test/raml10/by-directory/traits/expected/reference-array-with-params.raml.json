@@ -1,12 +1,12 @@
 [
   {
-    "label": "tr",
+    "label": "New tr",
     "kind": [],
-    "detail": "unknown",
+    "detail": "template",
     "documentation": "tr",
     "deprecated": [],
     "preselect": [],
-    "sortText": "21tr",
+    "sortText": "21New tr",
     "filterText": "tr:\n  param: $1",
     "insertText": null,
     "insertTextFormat": [
