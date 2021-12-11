@@ -4,10 +4,12 @@ import amf.core.client.scala.model.domain.DomainElement
 import amf.core.client.scala.model.domain.templates.{AbstractDeclaration, ParametrizedDeclaration}
 import amf.core.internal.annotations.ErrorDeclaration
 import org.mulesoft.als.common.YPartBranch
+import org.mulesoft.als.configuration.TemplateTypes
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.AMLRamlStyleDeclarationsReferences
-import org.mulesoft.als.suggestions.{ObjectRange, RawSuggestion, StringScalarRange}
+import org.mulesoft.als.suggestions.plugins.aml.templates.TemplateTools
+import org.mulesoft.als.suggestions.{ObjectRange, RawSuggestion}
 import org.yaml.model.{YMapEntry, YNode}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -41,11 +43,15 @@ trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
                                                  None).resolve().filter(r => !siblings.contains(r.newText))
         suggestions.map { s =>
           val vars = extractChildren(params, s)
-          s.copy(options = s.options.copy(isKey = vars.nonEmpty,
-                                          rangeKind =
-                                            if (vars.nonEmpty) ObjectRange
-                                            else StringScalarRange),
-                 children = vars)
+          if (vars.nonEmpty && params.configurationReader.getTemplateType != TemplateTypes.NONE && canTemplate(
+                params.yPartBranch)) {
+            s.copy(
+              options = s.options.copy(isKey = true, rangeKind = ObjectRange),
+              children = vars,
+              displayText = s"${TemplateTools.defaultPrefix} ${s.displayText}",
+              category = TemplateTools.category
+            )
+          } else s
         }
       } else Nil
     }
@@ -87,6 +93,8 @@ trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
     */
   private def isValueInType(yPartBranch: YPartBranch) =
     isValue(yPartBranch) && yPartBranch.parentEntryIs(entryKey)
+
+  private def canTemplate(yPartBranch: YPartBranch) = yPartBranch.isKey || yPartBranch.isInArray
 
   /**
     * /endpoint:

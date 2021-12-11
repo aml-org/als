@@ -1,12 +1,12 @@
 [
   {
-    "label": "rt",
+    "label": "New rt",
     "kind": [],
-    "detail": "unknown",
+    "detail": "template",
     "documentation": "rt",
     "deprecated": [],
     "preselect": [],
-    "sortText": "21rt",
+    "sortText": "21New rt",
     "filterText": "rt:\n  param1: $1\n  param2: $2",
     "insertText": null,
     "insertTextFormat": [

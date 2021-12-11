@@ -1,0 +1,62 @@
+[
+  {
+    "label": "resourceType1",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "resourceType1",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11resourceType1",
+    "filterText": "resourceType1",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 14,
+          "character": 8
+        },
+        "end": {
+          "line": 14,
+          "character": 11
+        }
+      },
+      "newText": "resourceType1"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "resourceType2",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "resourceType2",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11resourceType2",
+    "filterText": "resourceType2",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 14,
+          "character": 8
+        },
+        "end": {
+          "line": 14,
+          "character": 11
+        }
+      },
+      "newText": "resourceType2"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
