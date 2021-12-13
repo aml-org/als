@@ -5,11 +5,16 @@ import amf.core.client.scala.model.document.ExternalFragment
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams}
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.als.server.{LanguageServerBuilder, MockDiagnosticClientNotifier, ServerIndexGlobalDialectCommand}
 import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.configuration.{TraceKind, WorkspaceFolder}
 
-class IndexGlobalDialectTest extends LanguageServerBaseTest {
+import scala.concurrent.ExecutionContext
+
+trait IndexGlobalDialectTest extends ServerIndexGlobalDialectCommand {
+
+  override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
+
   override def rootPath: String = "config-provider"
 
   val dialect: String       = """#%Dialect 1.0

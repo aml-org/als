@@ -11,9 +11,11 @@ import org.mulesoft.amfintegration.amfconfiguration.{
 }
 import org.mulesoft.amfintegration.visitors.AmfElementVisitors
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 class DefaultProjectConfigurationProviderTest extends LanguageServerBaseTest {
+
+  override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
   override def rootPath: String = "config-provider"
 
