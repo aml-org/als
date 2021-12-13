@@ -141,22 +141,22 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
       openFile(server)(api, content)
 
       for {
-        _                 <- alsClient.nextCall.map(_.model.toString)
-        s                 <- serialize(server, api, serializationProps)
-        parsed            <- parsedApi(api, s)
-        s2                <- serialize(server, api, serializationProps)
-        fromSerialization <- parsedApi(api, s2)
-        _                 <- changeFile(server)(api, "", 1)
-        s3                <- serialize(server, api, serializationProps)
-        fromJsonLD        <- parsedApi(api, s3)
-        _                 <- changeFile(server)(api, content, 2)
-        s4                <- serialize(server, api, serializationProps)
-        fromSerialization <- parsedApi(api, s4)
+        _                    <- alsClient.nextCall.map(_.model.toString)
+        s                    <- serialize(server, api, serializationProps)
+        parsed               <- parsedApi(api, s)
+        s2                   <- serialize(server, api, serializationProps)
+        fromSerialization    <- parsedApi(api, s2)
+        _                    <- changeFile(server)(api, "", 1)
+        s3                   <- serialize(server, api, serializationProps)
+        fromJsonLD           <- parsedApi(api, s3)
+        _                    <- changeFile(server)(api, content, 2)
+        s4                   <- serialize(server, api, serializationProps)
+        serializedSecondTime <- parsedApi(api, s4)
       } yield {
         assertSimpleApi(parsed.baseUnit)
         assertSimpleApi(fromSerialization.baseUnit)
         fromJsonLD.baseUnit.isInstanceOf[Document] should be(false)
-        assertSimpleApi(fromSerialization.baseUnit)
+        assertSimpleApi(serializedSecondTime.baseUnit)
 
       }
     }
