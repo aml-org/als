@@ -1,7 +1,6 @@
 package org.mulesoft.als.server
 
 import amf.core.internal.unsafe.PlatformSecrets
-import com.google.gson.{Gson, GsonBuilder}
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.logger.MessageSeverity.MessageSeverity
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeParams, CleanDiagnosticTreeRequestType}
@@ -142,11 +141,23 @@ abstract class LanguageServerBaseTest
     )
   }
 
-  def indexGlobalDialect(server: LanguageServer, file: String, content: Option[String] = None): Future[Unit] = {
-    def wrapJson(file: String, content: Option[String], gson: Gson): String =
-      s"""{"uri": "$file" ${content.map(c => s""", "content": ${gson.toJson(c)}""").getOrElse("")}}"""
+  protected def serialize(server: LanguageServer, api: String, serializationProps: SerializationProps[StringWriter]) = {
+    server
+      .resolveHandler(serializationProps.requestType)
+      .value
+      .apply(SerializationParams(TextDocumentIdentifier(api)))
+      .map(_.model.toString)
+  }
+}
 
-    val args = List(wrapJson(file, content, new GsonBuilder().create()))
+trait ServerIndexGlobalDialectCommand extends LanguageServerBaseTest {
+  def stringifyJson(str: String): String
+
+  def indexGlobalDialect(server: LanguageServer, file: String, content: Option[String] = None): Future[Unit] = {
+    def wrapJson(file: String, content: Option[String]): String =
+      s"""{"uri": "$file" ${content.map(c => s""", "content": ${stringifyJson(c)}""").getOrElse("")}}"""
+
+    val args = List(wrapJson(file, content))
     server.workspaceService
       .executeCommand(ExecuteCommandParams(Commands.INDEX_DIALECT, args))
       .map(_ => {
@@ -156,14 +167,6 @@ abstract class LanguageServerBaseTest
 
   def indexGlobalDialect(server: LanguageServer, file: String, content: String): Future[Unit] =
     indexGlobalDialect(server, file, Some(content))
-
-  protected def serialize(server: LanguageServer, api: String, serializationProps: SerializationProps[StringWriter]) = {
-    server
-      .resolveHandler(serializationProps.requestType)
-      .value
-      .apply(SerializationParams(TextDocumentIdentifier(api)))
-      .map(_.model.toString)
-  }
 
 }
 
