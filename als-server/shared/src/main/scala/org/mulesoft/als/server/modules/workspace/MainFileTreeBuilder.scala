@@ -6,7 +6,7 @@ import amf.core.client.scala.model.document.{BaseUnit, ExternalFragment}
 import org.mulesoft.als.common.dtoTypes.{PositionRange, ReferenceOrigins, ReferenceStack}
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
-import org.mulesoft.amfintegration.DiagnosticsBundle
+import org.mulesoft.amfintegration.{DiagnosticsBundle, ValidationProfile}
 import org.mulesoft.amfintegration.amfconfiguration.{AmfParseContext, AmfParseResult}
 import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.amfintegration.visitors.AmfElementVisitors
@@ -80,6 +80,14 @@ class ParsedMainFileTree(val main: AMFResult,
   override def documentLinks: Map[String, Seq[DocumentLink]] = innerDocumentLinks
 
   override def aliases: Seq[AliasInfo] = innerAliases
+
+  override val profiles: Map[String, ParsedUnit] = parseContext.state.profiles
+    .map(
+      p =>
+        p.path -> ParsedUnit(new AmfParseResult(AMFResult(p.model, Nil), p.definedBy, parseContext, p.path),
+                             false,
+                             p.definedBy))
+    .toMap
 }
 
 object ParsedMainFileTree {

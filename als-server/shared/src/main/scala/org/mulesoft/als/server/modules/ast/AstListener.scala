@@ -40,7 +40,6 @@ trait AccessUnits[T] {
 
 case class BaseUnitListenerParams(parseResult: AmfParseResult,
                                   diagnosticsBundle: Map[String, DiagnosticsBundle],
-                                  amlConfiguration: AMLSpecificConfiguration,
                                   tree: Boolean,
                                   isDependency: Boolean = false)
 

@@ -39,7 +39,7 @@ case class EditorConfiguration(resourceLoaders: Seq[ResourceLoader],
     .withPlugins(validationPlugin.toList)
 
   // laziness is necessary because APID RL uses same socket than server for comunication, init must be done for that.
-  private lazy val inMemoryDialects: Future[Seq[Dialect]] = {
+  lazy val inMemoryDialects: Future[Seq[Dialect]] = {
     val rawClient =
       AMLConfiguration
         .predefined()
@@ -85,7 +85,10 @@ case class EditorConfiguration(resourceLoaders: Seq[ResourceLoader],
                 .parseDialectInstance(uri)
                 .filter(_.dialectInstance.isValidationProfile)
                 .map(result => {
-                  ValidationProfile(uri, result.baseUnit.raw.getOrElse(""), result.dialectInstance)
+                  ValidationProfile(uri,
+                                    result.baseUnit.raw.getOrElse(""),
+                                    result.dialectInstance,
+                                    config.configurationState().findDialectFor(result.dialectInstance).get)
                 })
           )
         )
@@ -125,6 +128,12 @@ case class EditorConfigurationState(resourceLoader: Seq[ResourceLoader],
                                       DefaultVocabularies.all),
                                     syntaxPlugin: Seq[AMFSyntaxParsePlugin],
                                     validationPlugin: Seq[AMFShapePayloadValidationPlugin]) {
+
+  def getAmlConfig: AMLConfiguration = {
+    dialects
+      .foldLeft(AMLConfiguration.predefined())((c, d) => c.withDialect(d))
+      .withResourceLoaders(resourceLoader.toList)
+  }
 
   lazy val alsParsingPlugins = List(AlsSyamlSyntaxPluginHacked, AlsVocabularyParsingPlugin(vocabularyRegistry))
 
