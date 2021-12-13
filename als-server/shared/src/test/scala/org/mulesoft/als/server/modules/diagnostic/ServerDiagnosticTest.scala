@@ -231,7 +231,6 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
           BaseUnitListenerParams(
             result,
             Map.empty,
-            result.context.state.configForUnit(amfBaseUnit),
             tree = false
           ),
           ""

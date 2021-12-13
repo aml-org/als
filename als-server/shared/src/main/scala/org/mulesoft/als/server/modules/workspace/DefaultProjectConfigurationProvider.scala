@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.modules.workspace
 
+import amf.aml.client.scala.AMLDialectInstanceResult
 import amf.aml.client.scala.model.document.{Dialect, DialectInstance}
 import amf.apicontract.client.scala.{AMFConfiguration, APIConfiguration}
 import amf.core.client.common.validation.SeverityLevels
@@ -86,6 +87,12 @@ class DefaultProjectConfigurationProvider(environmentProvider: EnvironmentProvid
   // todo: log something? time the parse?
   private def parse(uri: String): Future[AMFParseResult] = amfConfiguration.flatMap(_.baseUnitClient().parse(uri))
 
+  private def parseProfile(uri: String): Future[(AMLDialectInstanceResult, Dialect)] = amfConfiguration.flatMap { c =>
+    c.baseUnitClient().parseDialectInstance(uri).map { instance =>
+      (instance, c.configurationState().findDialectFor(instance.dialectInstance).get)
+    }
+  }
+
   /**
     * Seeks new extensions in configuration, parses and registers
     */
@@ -124,21 +131,21 @@ class DefaultProjectConfigurationProvider(environmentProvider: EnvironmentProvid
       validationProfiles: Set[String]): Future[(Set[ValidationProfile], Set[AMFParseResult])] = {
     Future
       .sequence(
-        validationProfiles.map(parse)
+        validationProfiles.map(parseProfile)
       )
       .map(_.flatMap(r => {
-        if (r.baseUnit.isValidationProfile && r.conforms) {
+        if (r._1.baseUnit.isValidationProfile && r._1.conforms) {
 //          updateUnit(uuid, r, isDependency = true) //todo: cache
-          r.baseUnit match {
+          r._1.dialectInstance match {
             case instance: DialectInstance =>
               logger.debug("Adding validation profile: " + instance.identifier,
                            "DefaultProjectConfigurationProvider",
                            "registerNewValidationProfiles")
-              Some(ValidationProfile(r.baseUnit.identifier, instance.raw.getOrElse(""), instance), r)
+              Some(ValidationProfile(r._1.baseUnit.identifier, instance.raw.getOrElse(""), instance, r._2), r._1)
             case _ => None
           }
         } else {
-          logger.error(s"The following validation profile: ${r.baseUnit.identifier} is not valid",
+          logger.error(s"The following validation profile: ${r._1.baseUnit.identifier} is not valid",
                        "DefaultProjectConfigurationProvider",
                        "registerNewValidationProfiles")
           None

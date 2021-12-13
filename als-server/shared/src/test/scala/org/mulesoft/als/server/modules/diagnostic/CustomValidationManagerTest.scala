@@ -9,12 +9,20 @@ import org.mulesoft.als.server.modules.diagnostic.custom.AMFOpaValidator
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams}
 import org.mulesoft.als.server.workspace.{ChangesWorkspaceConfiguration, WorkspaceManager}
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.als.server.{
+  LanguageServerBaseTest,
+  LanguageServerBuilder,
+  MockAlsClientNotifier,
+  MockDiagnosticClientNotifier,
+  SerializationProps
+}
 import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.common.{Location, Position, Range}
 import org.mulesoft.lsp.feature.diagnostic.{DiagnosticSeverity, PublishDiagnosticsParams}
+import org.yaml.builder.{DocBuilder, JsonOutputBuilder}
 
+import java.io.StringWriter
 import scala.concurrent.{ExecutionContext, Future}
 
 class CustomValidationManagerTest
@@ -53,6 +61,23 @@ class CustomValidationManagerTest
                                       factory.workspaceManager,
                                       factory.configurationManager,
                                       factory.resolutionTaskManager)
+    dm.foreach(m => b.addInitializableModule(m))
+    (b.build(), factory.workspaceManager)
+  }
+
+  def buildServerForSerialize(diagnosticNotifier: MockDiagnosticClientNotifier,
+                              validator: AMFOpaValidator,
+                              s: SerializationProps[_]): (LanguageServer, WorkspaceManager) = {
+    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
+    val dm      = builder.buildDiagnosticManagers(Some(validator))
+    val sm      = builder.serializationManager(s)
+    val factory = builder.buildWorkspaceManagerFactory()
+    val b = new LanguageServerBuilder(factory.documentManager,
+                                      factory.workspaceManager,
+                                      factory.configurationManager,
+                                      factory.resolutionTaskManager)
+    b.addInitializableModule(sm)
+    b.addRequestModule(sm)
     dm.foreach(m => b.addInitializableModule(m))
     (b.build(), factory.workspaceManager)
   }
@@ -120,6 +145,31 @@ class CustomValidationManagerTest
         _ <- getDiagnostics
       } yield {
         succeed
+      }
+    }
+  }
+
+  test("Request serialization profile") {
+    implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
+    val alsClient: MockAlsClientNotifier                          = new MockAlsClientNotifier
+
+    val serializationProps: SerializationProps[StringWriter] =
+      new SerializationProps[StringWriter](alsClient) {
+        override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
+          JsonOutputBuilder(prettyPrint)
+      }
+
+    val validator                  = new DummyAmfOpaValidator
+    val (server, workspaceManager) = buildServerForSerialize(diagnosticNotifier, validator, serializationProps)
+    val args                       = changeConfigArgs(Some(mainFileName), Some(workspacePath), Set.empty, Set(profileUri))
+
+    withServer(server, buildInitParams(workspacePath)) { _ =>
+      for {
+        _ <- changeWorkspaceConfiguration(workspaceManager, args)
+        r <- serialize(server, profileUri, serializationProps)
+      } yield {
+        r.contains("Test profile 1") shouldBe true
+        r.contains("meta:DialectInstance") shouldBe true
       }
     }
   }
