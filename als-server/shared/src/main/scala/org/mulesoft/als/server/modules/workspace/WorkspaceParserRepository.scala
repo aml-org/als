@@ -26,7 +26,7 @@ class WorkspaceParserRepository(logger: Logger) extends Repository[ParsedUnit] {
   def getIsolatedUris: List[String] = units.values.map(_.parsedResult.result.baseUnit.identifier).toList
 
   override def getUnit(uri: String): Option[ParsedUnit] =
-    tree.parsedUnits.get(uri).orElse(units.get(uri))
+    tree.parsedUnits.get(uri).orElse(units.get(uri)).orElse(tree.profiles.get(uri))
 
   def references: Map[String, DiagnosticsBundle] = tree.references
 

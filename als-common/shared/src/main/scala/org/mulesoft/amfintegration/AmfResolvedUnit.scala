@@ -14,8 +14,8 @@ import scala.concurrent.Future
 
 trait AmfResolvedUnit extends UnitWithNextReference {
   override protected type T = AmfResolvedUnit
-  val configuration: AMLSpecificConfiguration
   val alsConfigurationState: ALSConfigurationState
+  val configuration: AMLSpecificConfiguration = AMLSpecificConfiguration(alsConfigurationState.getAmfConfig)
 
   protected def resolvedUnitFn(): Future[AMFResult]
 

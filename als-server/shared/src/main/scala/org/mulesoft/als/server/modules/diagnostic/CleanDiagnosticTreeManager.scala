@@ -130,8 +130,13 @@ class CleanDiagnosticTreeManager(telemetryProvider: TelemetryProvider,
         .sequence(c.validationDependency.map(alsEditorConfigurationState.parse).toSeq)
         .map(_.flatMap(r =>
           r.result.baseUnit match {
-            case d: DialectInstance => Some(ValidationProfile(r.uri, d.raw.getOrElse(""), d))
-            case _                  => None
+            case d: DialectInstance =>
+              Some(
+                ValidationProfile(r.uri,
+                                  d.raw.getOrElse(""),
+                                  d,
+                                  alsEditorConfigurationState.getAmfConfig.configurationState().findDialectFor(d).get))
+            case _ => None
         }))
     } yield
       ALSConfigurationState(

@@ -42,7 +42,7 @@ class WorkspaceContentManager private (val folderUri: String,
     super.init().map(_ => logger.debug(s"no main for $folderUri", "WorkspaceContentManager", "init"))
 
   def containsFile(uri: String): Boolean =
-    uri.startsWith(folderUri)
+    uri.startsWith(folderUri) || projectConfigAdapter.projectConfiguration.exists(_.containsInDependencies(uri))
 
   implicit val platform: Platform = projectConfigAdapter.platform
 
@@ -164,12 +164,7 @@ class WorkspaceContentManager private (val folderUri: String,
       logger.debug(s"sending new AST from $folderUri", "WorkspaceContentManager", "processIsolated")
       subscribers.foreach(s =>
         try {
-          s.onNewAst(BaseUnitListenerParams(result,
-                                            Map.empty,
-                                            state.configForUnit(result.result.baseUnit),
-                                            tree = false,
-                                            isDependency),
-                     uuid)
+          s.onNewAst(BaseUnitListenerParams(result, Map.empty, tree = false, isDependency), uuid)
         } catch {
           case e: Exception =>
             logger.error(s"subscriber $s threw ${e.getMessage}", "processIsolated", "WorkspaceContentManager")
@@ -285,22 +280,17 @@ class WorkspaceContentManager private (val folderUri: String,
     logger.debug(s"Processing Tree changes", "WorkspaceContentManager", "processMFChanges")
     val uuid = UUID.randomUUID().toString
     for {
-      u <- parse(
-        s"${if (folderUri != "" && !mainFile.contains(folderUri)) trailSlash(folderUri) else folderUri}$mainFile",
-        uuid)
-      _                  <- repository.newTree(u).flatMap(t => projectConfigAdapter.newTree(t))
-      configurationState <- projectConfigAdapter.getConfigurationState
+      u <- parse(s"${if (folderUri != "" && !mainFile.contains(folderUri))
+        trailSlash(folderUri)
+      else folderUri}$mainFile", uuid)
+      _ <- repository.newTree(u).flatMap(t => projectConfigAdapter.newTree(t))
     } yield {
       stagingArea.enqueue(snapshot.files.filterNot(_._2 == CHANGE_CONFIG).filter(t => !isInMainTree(t._1)))
       subscribers.foreach(s => {
         logger.debug(s"Sending new AST from ${u.result.baseUnit.location().getOrElse(folderUri)}",
                      "WorkspaceContentManager",
                      "processMFChanges")
-        s.onNewAst(BaseUnitListenerParams(u,
-                                          repository.references,
-                                          configurationState.configForUnit(u.result.baseUnit),
-                                          tree = true),
-                   uuid)
+        s.onNewAst(BaseUnitListenerParams(u, repository.references, tree = true), uuid)
       })
     }
   }

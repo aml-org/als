@@ -5,6 +5,7 @@ import com.google.gson.{Gson, GsonBuilder}
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.logger.MessageSeverity.MessageSeverity
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeParams, CleanDiagnosticTreeRequestType}
+import org.mulesoft.als.server.feature.serialization.SerializationParams
 import org.mulesoft.als.server.modules.diagnostic.AlsPublishDiagnosticsParams
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
@@ -24,6 +25,7 @@ import org.mulesoft.lsp.textsync._
 import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, ExecuteCommandParams, WorkspaceFoldersChangeEvent}
 import org.scalatest._
 
+import java.io.StringWriter
 import scala.collection.mutable
 import scala.concurrent.Future
 import scala.util.Failure
@@ -154,6 +156,14 @@ abstract class LanguageServerBaseTest
 
   def indexGlobalDialect(server: LanguageServer, file: String, content: String): Future[Unit] =
     indexGlobalDialect(server, file, Some(content))
+
+  protected def serialize(server: LanguageServer, api: String, serializationProps: SerializationProps[StringWriter]) = {
+    server
+      .resolveHandler(serializationProps.requestType)
+      .value
+      .apply(SerializationParams(TextDocumentIdentifier(api)))
+      .map(_.model.toString)
+  }
 
 }
 

@@ -1,10 +1,11 @@
 package org.mulesoft.als.server.modules.serialization
 
 import amf.apicontract.client.scala.WebAPIConfiguration
+import amf.apicontract.client.scala.model.domain.api.WebApi
 import amf.core.client.common.remote.Content
 import amf.core.client.scala.AMFGraphConfiguration
 import amf.core.client.scala.errorhandling.IgnoringErrorHandler
-import amf.core.client.scala.model.document.Document
+import amf.core.client.scala.model.document.{BaseUnit, Document}
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.internal.plugins.syntax.SyamlAMFErrorHandler
 import org.mulesoft.als.common.diff.Diff.makeString
@@ -75,10 +76,7 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
             .parse(api)
         }
       } yield {
-        parsed.baseUnit
-          .asInstanceOf[Document]
-          .encodes
-          .id should be("amf://id#2") // what are we testing with this ID? does this means anything to us?
+        assertSimpleApi(parsed.baseUnit)
       }
     }
   }
@@ -120,7 +118,7 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
             .parse(api)
         }
       } yield {
-        parsed.baseUnit.asInstanceOf[Document].encodes.id should be("amf://id#2")
+        assertSimpleApi(parsed.baseUnit)
       }
     }
   }
@@ -143,33 +141,30 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
       openFile(server)(api, content)
 
       for {
-        _       <- alsClient.nextCall.map(_.model.toString)
-        s       <- serialize(server, api, serializationProps)
-        parsed  <- parsedApi(api, s)
-        s2      <- serialize(server, api, serializationProps)
-        parsed2 <- parsedApi(api, s2)
-        _       <- changeFile(server)(api, "", 1)
-        s3      <- serialize(server, api, serializationProps)
-        parsed3 <- parsedApi(api, s3)
-        _       <- changeFile(server)(api, content, 2)
-        s4      <- serialize(server, api, serializationProps)
-        parsed4 <- parsedApi(api, s4)
+        _                    <- alsClient.nextCall.map(_.model.toString)
+        s                    <- serialize(server, api, serializationProps)
+        parsed               <- parsedApi(api, s)
+        s2                   <- serialize(server, api, serializationProps)
+        fromSerialization    <- parsedApi(api, s2)
+        _                    <- changeFile(server)(api, "", 1)
+        s3                   <- serialize(server, api, serializationProps)
+        fromJsonLD           <- parsedApi(api, s3)
+        _                    <- changeFile(server)(api, content, 2)
+        s4                   <- serialize(server, api, serializationProps)
+        serializedSecondTime <- parsedApi(api, s4)
       } yield {
-        parsed.baseUnit.asInstanceOf[Document].encodes.id should be("amf://id#2")
-        parsed2.baseUnit.asInstanceOf[Document].encodes.id should be("amf://id#2")
-        parsed3.baseUnit.isInstanceOf[Document] should be(false)
-        parsed4.baseUnit.asInstanceOf[Document].encodes.id should be("amf://id#2")
+        assertSimpleApi(parsed.baseUnit)
+        assertSimpleApi(fromSerialization.baseUnit)
+        fromJsonLD.baseUnit.isInstanceOf[Document] should be(false)
+        assertSimpleApi(serializedSecondTime.baseUnit)
 
       }
     }
   }
 
-  private def serialize(server: LanguageServer, api: String, serializationProps: SerializationProps[StringWriter]) = {
-    server
-      .resolveHandler(serializationProps.requestType)
-      .value
-      .apply(SerializationParams(TextDocumentIdentifier(api)))
-      .map(_.model.toString)
+  private def assertSimpleApi(bu: BaseUnit): Assertion = {
+    bu.isInstanceOf[Document] shouldBe true
+    bu.asInstanceOf[Document].encodes.asInstanceOf[WebApi].name.value() shouldBe "test"
   }
 
   private def parsedApi(api: String, s: String) = {
