@@ -18,7 +18,7 @@ class PropertyShapeSymbolBuilder(override val element: PropertyShape)(override i
     case n: AnyShape if n.linkTarget.isDefined => false
     case n: NodeShape                          => n.properties.nonEmpty
     case _: ArrayShape                         => true
-    case _: UnionShape                         => true
+    case _: UnionShape                         => false
     case _                                     => false
   }
   override def ignoreFields: List[Field] =

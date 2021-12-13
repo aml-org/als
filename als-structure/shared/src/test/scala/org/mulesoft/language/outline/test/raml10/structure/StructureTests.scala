@@ -153,4 +153,8 @@ class RAML10StructureTests extends RAML10StructureTest {
   test("Test avoid duplicated enum") {
     this.runTest("avoid-duplicated/enum-in-resourcetype.raml", "avoid-duplicated/enum-in-resourcetype-outline.json")
   }
+
+  test("Test avoid duplicated optional property") {
+    this.runTest("avoid-duplicated/optional-property.raml", "avoid-duplicated/optional-property-outline.json")
+  }
 }
