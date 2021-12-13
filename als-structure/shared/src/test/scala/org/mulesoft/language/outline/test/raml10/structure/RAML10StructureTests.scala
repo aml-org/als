@@ -157,4 +157,8 @@ class RAML10StructureTests extends RAML10StructureTest {
   test("Test variable node is not present") {
     this.runTest("custom/no-variable.raml", "custom/no-variable-outline.json")
   }
+
+  test("Test avoid duplicated optional property") {
+    this.runTest("avoid-duplicated/optional-property.raml", "avoid-duplicated/optional-property-outline.json")
+  }
 }
