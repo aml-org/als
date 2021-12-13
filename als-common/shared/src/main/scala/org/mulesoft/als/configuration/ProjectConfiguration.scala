@@ -7,6 +7,9 @@ case class ProjectConfiguration(folder: String,
                                 extensionDependency: Set[String],
                                 metadataDependency: Set[String]) {
   def rootUri: Option[String] = mainFile.map(m => m.substring(0, m.lastIndexOf("/")))
+
+  def containsInDependencies(uri: String): Boolean =
+    (validationDependency ++ extensionDependency ++ metadataDependency).contains(uri)
 }
 
 object ProjectConfiguration {
