@@ -66,21 +66,6 @@ class WorkspaceManager protected (val environmentProvider: EnvironmentProvider,
       manager.stage(uri.toAmfUri, kind)
   }
 
-  override def newConfig(projectConfig: ProjectConfiguration): Future[Unit] =
-    workspaces
-      .findWorkspace(projectConfig.folder)
-      .map(_.withConfiguration(projectConfig))
-
-  def contentManagerConfiguration(manager: WorkspaceContentManager, config: ProjectConfiguration): Future[Unit] = {
-    logger.debug(
-      s"Workspace '${config.folder}' new configuration { mainFile: ${config.mainFile}, dependencies: ${config.designDependency}, profiles: ${config.validationDependency} }",
-      "WorkspaceManager",
-      "contentManagerConfiguration"
-    )
-    manager
-      .withConfiguration(config)
-  }
-
   override def executeCommand(params: ExecuteCommandParams): Future[AnyRef] =
     commandExecutors.get(params.command) match {
       case Some(exe) =>
@@ -95,18 +80,6 @@ class WorkspaceManager protected (val environmentProvider: EnvironmentProvider,
     Commands.DID_CHANGE_CONFIGURATION -> new DidChangeConfigurationCommandExecutor(logger, this),
     Commands.INDEX_DIALECT            -> new IndexDialectCommandExecutor(logger, this)
   )
-
-  def updateProjectConfiguration(config: ProjectConfiguration): Future[Unit] = {
-
-    getWorkspace(config.mainFile.getOrElse(config.folder)).flatMap { manager =>
-      logger.debug(
-        s"DidChangeConfiguration for workspace @ ${manager.folderUri} (folder: ${config.folder}, mainUri:${config.mainFile})",
-        "DidChangeConfigurationCommandExecutor",
-        "runCommand"
-      )
-      contentManagerConfiguration(manager, config)
-    }
-  }
 
   override def getProjectRootOf(uri: String): Future[Option[String]] =
     getWorkspace(uri).flatMap(_.getRootFolderFor(uri))
