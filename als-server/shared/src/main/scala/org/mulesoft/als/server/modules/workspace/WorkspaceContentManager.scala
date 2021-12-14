@@ -23,7 +23,7 @@ class WorkspaceContentManager private (val folderUri: String,
                                        logger: Logger,
                                        allSubscribers: List[BaseUnitListener],
                                        override val repository: WorkspaceParserRepository,
-                                       projectConfigAdapter: ProjectConfigurationAdapter,
+                                       val projectConfigAdapter: ProjectConfigurationAdapter,
                                        hotReload: Boolean)
     extends UnitTaskManager[ParsedUnit, CompilableUnit, NotificationKind] {
 
@@ -38,8 +38,10 @@ class WorkspaceContentManager private (val folderUri: String,
   def getConfigurationState: Future[ALSConfigurationState] =
     getCurrentConfiguration.flatMap(_ => projectConfigAdapter.getConfigurationState)
 
-  override def init(): Future[Unit] =
+  override def init(): Future[Unit] = {
+    stagingArea.enqueue(folderUri, CHANGE_CONFIG)
     super.init().map(_ => logger.debug(s"no main for $folderUri", "WorkspaceContentManager", "init"))
+  }
 
   def containsFile(uri: String): Boolean =
     uri.startsWith(folderUri) || projectConfigAdapter.projectConfiguration.exists(_.containsInDependencies(uri))
@@ -92,10 +94,8 @@ class WorkspaceContentManager private (val folderUri: String,
       (!isInMainTree(uri) && state != Idle) ||
       state == NotAvailable || stagingArea.hasPending
 
-  private var nextProjectConfiguration: Option[ProjectConfiguration] = None
-
   def withConfiguration(configuration: ProjectConfiguration): Future[Unit] = {
-    nextProjectConfiguration = Some(configuration)
+    projectConfigAdapter.newProjectConfiguration(configuration)
     this.stage(configuration.folder, CHANGE_CONFIG)
   }
 
@@ -230,17 +230,14 @@ class WorkspaceContentManager private (val folderUri: String,
     changeState(ProcessingProject)
     logger.debug(s"Processing Config Changes", "WorkspaceContentManager", "processChangeConfigChanges")
     stagingArea.enqueue(snapshot.files.filterNot(t => t._2 == CHANGE_CONFIG))
-    nextProjectConfiguration match {
-      case Some(config) =>
-        (for {
-          c        <- projectConfigAdapter.newProjectConfiguration(config)
-          mainFile <- Future(c.config.mainFile)
-        } yield {
-          nextProjectConfiguration = None
-          processChangeConfig(c, snapshot, mainFile)
-        }).flatten
-      case _ => Future.failed(new Exception("Expected Configuration Provider"))
-    }
+    (for {
+      c        <- projectConfigAdapter.getConfigurationState
+      mainFile <- Future(c.projectState.config.mainFile)
+    } yield {
+
+      processChangeConfig(c.projectState, snapshot, mainFile)
+    }).flatten
+
   }
 
   private def processChangeConfig(config: ProjectConfigurationState,
@@ -315,8 +312,7 @@ class WorkspaceContentManager private (val folderUri: String,
       r.result.baseUnit match {
         case _: Dialect if hotReload =>
           logger.debug(s"Hot registering as dialect uri: $decodedUri", "WorkspaceContentManager", "innerParse")
-          val newConfig: ProjectConfiguration = nextProjectConfiguration
-            .orElse(projectConfigAdapter.projectConfiguration)
+          val newConfig: ProjectConfiguration = projectConfigAdapter.projectConfiguration
             .map(
               config =>
                 new ProjectConfiguration(config.folder,
@@ -326,8 +322,7 @@ class WorkspaceContentManager private (val folderUri: String,
                                          config.extensionDependency,
                                          config.metadataDependency + uri))
             .getOrElse(ProjectConfiguration(folderUri, metadataDependency = Set(uri)))
-          nextProjectConfiguration = Some(newConfig)
-          this.stage(uri, CHANGE_CONFIG).map(_ => r)
+          withConfiguration(newConfig).map(_ => r)
         case _ =>
           logger.debug(s"done with uri: $decodedUri", "WorkspaceContentManager", "innerParse")
           Future(r)
