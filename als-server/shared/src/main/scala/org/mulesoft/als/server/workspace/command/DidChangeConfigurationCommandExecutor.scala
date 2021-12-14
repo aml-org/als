@@ -64,7 +64,13 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
         extractPerScope(param, SEMANTIC_EXTENSION),
         extractPerScope(param, DIALECT)
       )
-      wsc.contentManagerConfiguration(manager, projectConfiguration)
+      logger.debug(
+        s"Workspace '${projectConfiguration.folder}' new configuration { mainFile: ${projectConfiguration.mainFile}, dependencies: ${projectConfiguration.designDependency}, profiles: ${projectConfiguration.validationDependency} }",
+        "WorkspaceManager",
+        "contentManagerConfiguration"
+      )
+      manager.withConfiguration(projectConfiguration)
+
     }
 
   private def extractPerScope(param: DidChangeConfigurationNotificationParams, scope: String) =
