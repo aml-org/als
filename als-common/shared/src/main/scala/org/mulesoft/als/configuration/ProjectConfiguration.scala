@@ -1,11 +1,24 @@
 package org.mulesoft.als.configuration
 
+/**
+  * @param folder workspace folder that contains the project
+  * @param mainFile optional if project is present. The root of the tree, starting point. Path ALWAYS relative to folder
+
+  * @param designDependency
+  * @param validationDependency
+  * @param extensionDependency
+  * @param metadataDependency
+  */
 case class ProjectConfiguration(folder: String,
                                 mainFile: Option[String],
                                 designDependency: Set[String],
                                 validationDependency: Set[String],
                                 extensionDependency: Set[String],
                                 metadataDependency: Set[String]) {
+
+  /**
+    * @return main file computed uri. Folder plus main file.
+    */
   def rootUri: Option[String] = mainFile.map(m => m.substring(0, m.lastIndexOf("/")))
 
   def containsInDependencies(uri: String): Boolean =

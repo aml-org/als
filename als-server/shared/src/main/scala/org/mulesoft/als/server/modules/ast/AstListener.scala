@@ -48,8 +48,6 @@ trait BaseUnitListener extends AstListener[BaseUnitListenerParams] with AccessUn
 trait TextListener {
 
   def notify(uri: String, kind: NotificationKind): Future[Unit]
-
-  def newConfig(projectConfig: ProjectConfiguration): Future[Unit]
 }
 
 sealed case class NotificationKind(kind: String)

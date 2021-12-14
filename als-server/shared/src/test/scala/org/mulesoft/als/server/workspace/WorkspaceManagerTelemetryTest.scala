@@ -116,6 +116,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
         _                   <- openFileNotification(server)(instance, instanceContent)
         instanceDiagnostic1 <- notifier.nextCallD
         _                   <- focusNotification(server)(dialect, 0)
+        _                   <- notifier.nextCallD
         _                   <- changeNotification(server)(dialect, dialectContent.replace("range: number", "range: string"), 1)
         dialectDiagnostic2  <- notifier.nextCallD
         _                   <- focusNotification(server)(instance, 0)
@@ -135,7 +136,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
         instanceDiagnostic2.uri should be(instance)
         instanceDiagnostic2.diagnostics.size should be(0)
         val filtered = allTelemetry.filter(_.messageType == MessageTypes.BEGIN_PARSE)
-        assert(filtered.length == 4)
+        assert(filtered.length == 5)
       }
     }
   }
