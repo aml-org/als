@@ -130,8 +130,8 @@ class CustomValidationManagerTest
     implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
     val validator                                                 = new DummyAmfOpaValidator
     val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
-    val initialArgs                                               = changeConfigArgs(Some(mainFile), None, Set.empty, Set.empty)
-    val args                                                      = changeConfigArgs(Some(mainFile), None, Set.empty, Set(profileUri))
+    val initialArgs                                               = changeConfigArgs(Some("api.raml"), Some(workspacePath), Set.empty, Set.empty)
+    val args                                                      = changeConfigArgs(Some("api.raml"), Some(workspacePath), Set.empty, Set(profileUri))
 
     withServer(server, buildInitParams(workspacePath)) { _ =>
       for {

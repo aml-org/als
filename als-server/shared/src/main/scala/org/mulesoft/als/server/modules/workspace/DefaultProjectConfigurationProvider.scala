@@ -23,14 +23,18 @@ class ProjectConfigurationNotFound(folder: String)
     extends Exception(s"Couldn't find configuration for folder: $folder")
 
 sealed class ConfigurationMap {
-  var configurations: Map[String, DefaultProjectConfiguration] = Map()
+  case class ConfigurationContainer(configuration: Future[DefaultProjectConfiguration],
+                                    projectConfig: ProjectConfiguration)
+  var configurations: Map[String, ConfigurationContainer] = Map()
 
-  def get(folder: String): Option[DefaultProjectConfiguration] = synchronized {
+  def get(folder: String): Option[ConfigurationContainer] = synchronized {
     configurations.get(folder)
   }
 
-  def update(folder: String, config: DefaultProjectConfiguration): Unit = synchronized {
-    configurations = configurations + (folder -> config)
+  def update(folder: String,
+             configuration: Future[DefaultProjectConfiguration],
+             projectConfiguration: ProjectConfiguration): Unit = synchronized {
+    configurations = configurations + (folder -> ConfigurationContainer(configuration, projectConfiguration))
   }
 }
 
@@ -42,36 +46,36 @@ class DefaultProjectConfigurationProvider(environmentProvider: EnvironmentProvid
   val configurationMap = new ConfigurationMap
 
   override def getProjectInfo(folder: String): Option[Future[ProjectConfigurationState]] =
-    configurationMap.get(folder).map(Future.successful)
+    configurationMap.get(folder).map(_.configuration)
 
   override def getProfiles(folder: String): Future[Seq[ValidationProfile]] =
-    Future.successful(configurationMap.get(folder).map(_.profiles).getOrElse(Nil))
+    configurationMap.get(folder).map(_.configuration.map(_.profiles)).getOrElse(Future.successful(Nil))
 
   override def getMainFile(folder: String): Option[Future[String]] =
-    configurationMap.get(folder).flatMap(_.config.mainFile).map(Future.successful)
+    configurationMap.get(folder).flatMap(_.projectConfig.mainFile).map(Future.successful)
 
   override def getProjectRoot(folder: String): Option[Future[String]] =
-    configurationMap.get(folder).flatMap(_.config.rootUri).map(Future.successful)
+    configurationMap.get(folder).flatMap(_.projectConfig.rootUri).map(Future.successful)
 
   override def newProjectConfiguration(
       folder: String,
       projectConfiguration: ProjectConfiguration): Future[ProjectConfigurationState] = {
-    for {
+    val c = for {
       (dialects, dialectParseResult) <- parseDialects(
         projectConfiguration.metadataDependency ++ projectConfiguration.extensionDependency,
         folder)
       (profiles, profilesParseResult) <- parseValidationProfiles(projectConfiguration.validationDependency)
     } yield {
-      val c = DefaultProjectConfiguration(dialects.toSeq,
-                                          profiles.toSeq,
-                                          (dialectParseResult ++ profilesParseResult).toSeq,
-                                          projectConfiguration,
-                                          environmentProvider,
-                                          editorConfiguration,
-                                          logger)
-      configurationMap.update(folder, c)
-      c
+      DefaultProjectConfiguration(dialects.toSeq,
+                                  profiles.toSeq,
+                                  (dialectParseResult ++ profilesParseResult).toSeq,
+                                  projectConfiguration,
+                                  environmentProvider,
+                                  editorConfiguration,
+                                  logger)
     }
+    configurationMap.update(folder, c, projectConfiguration)
+    c
   }
 
   private def amfConfiguration: Future[AMFConfiguration] =
@@ -159,11 +163,10 @@ class DefaultProjectConfigurationProvider(environmentProvider: EnvironmentProvid
       case tree: ParsedMainFileTree =>
         configurationMap
           .get(folder)
-          .map(_.cacheBuilder.updateCache(tree.main, tree.parsedUnits))
+          .map(_.configuration.flatMap(_.cacheBuilder.updateCache(tree.main, tree.parsedUnits)).map(_ => {}))
           .getOrElse(Future.unit)
       case _ => Future.successful()
     }
-
 }
 
 case class DefaultProjectConfiguration(override val extensions: Seq[Dialect],
