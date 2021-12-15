@@ -182,7 +182,7 @@ class DialectRegistryTest extends LanguageServerBaseTest {
     }
   }
 
-  test("Keep manually registered dialects if not modified") {
+  ignore("Keep manually registered dialects if not modified") {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
 
     val (server, workspaceManager) = buildServer(diagnosticNotifier)
@@ -229,7 +229,7 @@ class DialectRegistryTest extends LanguageServerBaseTest {
     }
   }
 
-  test("Override manually registered dialects if modified") {
+  ignore("Override manually registered dialects if modified") {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
 
     val (server, workspaceManager) = buildServer(diagnosticNotifier)
