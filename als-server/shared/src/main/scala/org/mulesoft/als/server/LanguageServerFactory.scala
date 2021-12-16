@@ -1,66 +1,59 @@
-package org.mulesoft.als.server.lsp4j
+package org.mulesoft.als.server
 
-import amf.core.client.platform.resource.ClientResourceLoader
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.client.scala.validation.payload.AMFShapePayloadValidationPlugin
-import amf.core.internal.convert.CoreClientConverters._
-import amf.core.internal.remote.Platform
-import amf.core.internal.unsafe.PlatformSecrets
-import org.mulesoft.als.configuration.{ClientDirectoryResolver, DirectoryResolverAdapter}
+import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.logger.{Logger, PrintLnLogger}
 import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.modules.diagnostic.custom.AMFOpaValidatorBuilder
 import org.mulesoft.als.server.modules.diagnostic.{DiagnosticNotificationsKind, PARSING_BEFORE}
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.{EmptyJvmSerializationProps, JvmSerializationProps, LanguageServerBuilder}
 import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 
-import scala.collection.JavaConverters._
-import scala.concurrent.ExecutionContext
 import scala.concurrent.ExecutionContext.Implicits.global
 
-// todo: standarize in one only converter (js and jvm) with generics
-class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecrets {
-  private var serialization: JvmSerializationProps               = EmptyJvmSerializationProps
+class LanguageServerFactory(clientNotifier: ClientNotifier) {
+  private var serialization: SerializationProps[_]               = new EmptySerializationProps
   private var logger: Logger                                     = PrintLnLogger
-  private var givenPlatform: Platform                            = platform
   private var notificationsKind: DiagnosticNotificationsKind     = PARSING_BEFORE
-  private var directoryResolver: Option[ClientDirectoryResolver] = None
+  private var directoryResolver: Option[DirectoryResolver]       = None
   private var rl: Seq[ResourceLoader]                            = Seq.empty
   private var plugins: Seq[AMFShapePayloadValidationPlugin]      = Seq.empty
+  private var amfCustomValidatorBuilder: Option[AMFOpaValidatorBuilder]        = None
 
-  def withSerializationProps(serializationProps: JvmSerializationProps): LanguageServerFactory = {
+  def withSerializationProps(serializationProps: SerializationProps[_]): this.type = {
     serialization = serializationProps
     this
   }
 
-  def withResourceLoaders(rl: java.util.List[ClientResourceLoader]): LanguageServerFactory = {
-    this.rl = rl.asScala.map(rl => ResourceLoaderMatcher.asInternal(rl)(ExecutionContext.Implicits.global))
+  def withResourceLoaders(rl: Seq[ResourceLoader]): this.type = {
+    this.rl = rl
     this
   }
 
-  def withLogger(logger: Logger): LanguageServerFactory = {
+  def withLogger(logger: Logger): this.type = {
     this.logger = logger
     this
   }
 
-  def withGivenPlatform(givenPlatform: Platform): LanguageServerFactory = {
-    this.givenPlatform = givenPlatform
-    this
-  }
-
-  def withNotificationKind(notificationsKind: DiagnosticNotificationsKind): LanguageServerFactory = {
+  def withNotificationKind(notificationsKind: DiagnosticNotificationsKind): this.type = {
     this.notificationsKind = notificationsKind
     this
   }
 
-  def withDirectoryResolver(dr: ClientDirectoryResolver): LanguageServerFactory = {
+  def withDirectoryResolver(dr: DirectoryResolver): this.type = {
     this.directoryResolver = Some(dr)
     this
   }
 
-  def withAmfPlugins(plugin: Seq[AMFShapePayloadValidationPlugin]): LanguageServerFactory = {
+  def withAmfPlugins(plugin: Seq[AMFShapePayloadValidationPlugin]): this.type = {
     plugins = plugin
+    this
+  }
+
+  def withAmfCustomValidator(validator: AMFOpaValidatorBuilder): this.type = {
+    amfCustomValidatorBuilder = Some(validator)
     this
   }
 
@@ -69,19 +62,19 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) extends PlatformSecr
     val editorConfiguration = new EditorConfiguration(resourceLoaders, Seq.empty, plugins, logger)
     val factory             = new WorkspaceManagerFactoryBuilder(clientNotifier, logger, editorConfiguration)
 
-    directoryResolver.foreach(cdr => factory.withDirectoryResolver(DirectoryResolverAdapter.convert(cdr)))
+    directoryResolver.foreach(cdr => factory.withDirectoryResolver(cdr))
     factory.withNotificationKind(notificationsKind) // move to initialization param
-    val dm                    = factory.buildDiagnosticManagers()
+    val dm                    = factory.buildDiagnosticManagers(amfCustomValidatorBuilder.map(_.build(logger)))
     val sm                    = factory.serializationManager(serialization)
     val filesInProjectManager = factory.filesInProjectManager(serialization.alsClientNotifier)
     val builders              = factory.buildWorkspaceManagerFactory()
 
     val languageBuilder =
       new LanguageServerBuilder(builders.documentManager,
-                                builders.workspaceManager,
-                                builders.configurationManager,
-                                builders.resolutionTaskManager,
-                                logger)
+        builders.workspaceManager,
+        builders.configurationManager,
+        builders.resolutionTaskManager,
+        logger)
         .addInitializableModule(sm)
         .addInitializableModule(filesInProjectManager)
         .addInitializable(builders.workspaceManager)

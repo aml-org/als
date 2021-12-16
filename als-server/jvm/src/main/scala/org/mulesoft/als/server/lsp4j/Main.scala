@@ -63,7 +63,7 @@ object Main {
 
       logger.debug("Building LanguageServerImpl", "Main", "main")
       val server = new LanguageServerImpl(
-        new LanguageServerFactory(clientConnection)
+        new JvmLanguageServerFactory(clientConnection)
           .withSerializationProps(JvmSerializationProps(clientConnection))
           .build()
       )

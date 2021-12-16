@@ -10,14 +10,5 @@ import scala.scalajs.js
 
 case class JsServerSystemConf(clientLoaders: js.Array[ClientResourceLoader] = js.Array(),
                               clientDirResolver: ClientDirectoryResolver = EmptyJsDirectoryResolver)
-    extends PlatformSecrets {
-
-  val loaders: Seq[ResourceLoader] =
-    if (clientLoaders.isEmpty) platform.loaders()
-    else clientLoaders.map(ResourceLoaderConverter.internalResourceLoader).toSeq
-
-  def directoryResolver: DirectoryResolver =
-    DirectoryResolverAdapter.convert(clientDirResolver)
-}
 
 object DefaultJsServerSystemConf extends JsServerSystemConf(js.Array())

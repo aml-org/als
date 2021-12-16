@@ -6,9 +6,9 @@ import org.mulesoft.als.vscode.{Logger => VsCodeLogger}
 import scala.scalajs.js
 
 @js.native
-trait ClientLogger extends VsCodeLogger {}
+trait JsClientLogger extends VsCodeLogger {}
 
-case class ClientLoggerAdapter(clientLogger: ClientLogger) extends AbstractLogger {
+case class ClientLoggerAdapter(clientLogger: JsClientLogger) extends AbstractLogger {
   override protected def executeLogging(msg: String, severity: MessageSeverity.MessageSeverity): Unit =
     severity match {
       case MessageSeverity.ERROR   => clientLogger.error(msg)
