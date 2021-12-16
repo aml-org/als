@@ -185,6 +185,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
+                    branch 'support/*'
                 }
             }
             steps {
