@@ -185,6 +185,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
+                    branch 'studio/*'
                 }
             }
             steps {
@@ -230,6 +231,7 @@ pipeline {
                     branch 'support/*'
                     branch 'rc/*'
                     branch 'develop'
+                    branch 'studio/*'
                 }
             }
             steps {
