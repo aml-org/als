@@ -29,7 +29,7 @@ class LspCustomEnvironment extends AsyncFunSuite with Matchers with PlatformSecr
 
     val notifier = new MockDiagnosticClientNotifier(3000)
     val server = new LanguageServerImpl(
-      new LanguageServerFactory(notifier)
+      new JvmLanguageServerFactory(notifier)
         .withNotificationKind(ALL_TOGETHER)
         .withLogger(EmptyLogger)
         .withResourceLoaders(util.Arrays.asList(cl))
