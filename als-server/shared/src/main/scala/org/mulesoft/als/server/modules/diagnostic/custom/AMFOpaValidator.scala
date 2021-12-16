@@ -9,3 +9,7 @@ trait AMFOpaValidator {
   val logger: Logger
   def validateWithProfile(profile: String, data: String): Future[ValidationResult]
 }
+
+trait AMFOpaValidatorBuilder {
+  def build(logger: Logger): AMFOpaValidator
+}

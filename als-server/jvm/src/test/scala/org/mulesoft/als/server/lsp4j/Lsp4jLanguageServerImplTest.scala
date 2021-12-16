@@ -47,7 +47,7 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest {
 
     val notifier: AlsClientNotifier[StringWriter] = new MockAlsClientNotifier
     val server = new LanguageServerImpl(
-      new LanguageServerFactory(clientConnection)
+      new JvmLanguageServerFactory(clientConnection)
         .withSerializationProps(JvmSerializationProps(notifier))
         .withLogger(logger)
         .build())
@@ -65,7 +65,7 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest {
     val clientConnection                          = ClientConnection(logger)
     val notifier: AlsClientNotifier[StringWriter] = new MockAlsClientNotifier
     val server = new LanguageServerImpl(
-      new LanguageServerFactory(clientConnection)
+      new JvmLanguageServerFactory(clientConnection)
         .withSerializationProps(JvmSerializationProps(notifier))
         .withLogger(logger)
         .build())
@@ -228,7 +228,7 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest {
       flag = true
     }
 
-    val server = new LanguageServerFactory(clientConnection)
+    val server = new JvmLanguageServerFactory(clientConnection)
       .withSerializationProps(JvmSerializationProps(notifier))
       .withAmfPlugins(Seq(TestValidator(fn)))
       .withLogger(logger)
