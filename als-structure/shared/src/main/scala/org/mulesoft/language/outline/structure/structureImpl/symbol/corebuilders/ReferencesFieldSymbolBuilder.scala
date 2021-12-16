@@ -2,7 +2,6 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilder
 
 import amf.core.metamodel.document.DocumentModel
 import amf.core.metamodel.domain.ShapeModel
-import amf.core.parser
 import amf.core.parser.FieldEntry
 import amf.plugins.domain.webapi.metamodel.api.WebApiModel
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
@@ -11,9 +10,8 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   SymbolBuilder
 }
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext, SymbolKinds}
-import amf.core.client.common.position.{Range => AmfRange}
-import amf.core.internal.metamodel.document.DocumentModel
-import amf.core.internal.metamodel.domain.ShapeModel
+import amf.core.parser.{Range => AmfRange}
+import amf.plugins.domain.webapi.metamodel.templates.ResourceTypeModel
 
 trait IgnoreFieldSymbolBuilderCompanion extends IriFieldSymbolBuilderCompanion {
   override protected def construct(element: FieldEntry)(
