@@ -7,7 +7,7 @@ import io.scalajs.nodejs.process
 import org.mulesoft.als.server.{
   ClientNotifierFactory,
   JsSerializationProps,
-  LanguageServerFactory,
+  JsLanguageServerFactory,
   ProtocolConnectionBinder
 }
 import org.mulesoft.als.vscode.{ProtocolConnection, ServerSocketTransport}
@@ -45,7 +45,7 @@ object Main extends PlatformSecrets {
 
       val clientConnection   = ClientNotifierFactory.createWithClientAware(logger)
       val serializationProps = JsSerializationProps(clientConnection)
-      val languageServer = LanguageServerFactory.fromLoaders(
+      val languageServer = JsLanguageServerFactory.fromLoaders(
         clientConnection,
         serializationProps,
         clientLoaders = platform.loaders().asClient.asInstanceOf[ClientList[ClientResourceLoader]],
