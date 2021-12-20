@@ -22,49 +22,6 @@ import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
 
 @JSExportAll
 @JSExportTopLevel("JsLanguageServerFactory")
-object JsLanguageServerFactory {
-
-  def fromLoaders(clientNotifier: ClientNotifier,
-                  serializationProps: JsSerializationProps,
-                  clientLoaders: js.Array[ClientResourceLoader] = js.Array(),
-                  clientDirResolver: ClientDirectoryResolver = EmptyJsDirectoryResolver,
-                  logger: js.UndefOr[JsClientLogger] = js.undefined,
-                  notificationKind: js.UndefOr[DiagnosticNotificationsKind] = js.undefined,
-                  amfPlugins: js.Array[JsAMFPayloadValidationPlugin] = js.Array.apply(),
-                  amfCustomValidator: js.UndefOr[AmfWasmOpaValidator] = js.undefined): LanguageServer = {
-    val factory = new JsLanguageServerFactory(clientNotifier)
-      .withSerializationProps(serializationProps)
-      .withResourceLoaders(clientLoaders)
-      .withDirectoryResolver(clientDirResolver)
-      .withAmfPlugins(amfPlugins)
-      .withLogger(logger)
-      .withNotificationKind(notificationKind.toOption)
-
-    amfCustomValidator.foreach(factory.withAmfCustomValidator)
-
-    factory.build()
-  }
-
-  // todo: deprecate?
-  def fromSystemConfig(clientNotifier: ClientNotifier,
-                       serializationProps: JsSerializationProps,
-                       jsServerSystemConf: JsServerSystemConf = DefaultJsServerSystemConf,
-                       amfPlugins: js.Array[JsAMFPayloadValidationPlugin] = js.Array(),
-                       logger: js.UndefOr[JsClientLogger] = js.undefined,
-                       notificationKind: js.UndefOr[DiagnosticNotificationsKind] = js.undefined,
-                       amfCustomValidator: js.UndefOr[AmfWasmOpaValidator] = js.undefined): LanguageServer =
-    fromLoaders(
-      clientNotifier,
-      serializationProps,
-      jsServerSystemConf.clientLoaders,
-      jsServerSystemConf.clientDirResolver,
-      logger,
-      notificationKind,
-      amfPlugins,
-      amfCustomValidator
-    )
-}
-
 class JsLanguageServerFactory(override val clientNotifier: ClientNotifier) extends JsPlatformLanguageServerFactory {
 
   override def convertResourceLoaders(rl: Seq[ClientResourceLoader]): Seq[ResourceLoader] =
