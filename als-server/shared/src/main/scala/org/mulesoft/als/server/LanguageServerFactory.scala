@@ -16,15 +16,15 @@ import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class LanguageServerFactory(clientNotifier: ClientNotifier) {
-  private var serialization: SerializationProps[_]                        = new EmptySerializationProps
-  private var logger: Logger                                              = PrintLnLogger
-  private var notificationsKind: DiagnosticNotificationsKind              = PARSING_BEFORE
-  private var directoryResolver: Option[DirectoryResolver]                = None
-  private var rl: Seq[ResourceLoader]                                     = Seq.empty
-  private var plugins: Seq[AMFShapePayloadValidationPlugin]               = Seq.empty
-  private var amfCustomValidatorBuilder: Option[AMFOpaValidatorBuilder]   = None
-  private var configurationProvider: Option[ProjectConfigurationProvider] = None
-  private var textDocumentSyncBuilder: Option[TextDocumentSyncBuilder]    = None
+  protected var serialization: SerializationProps[_]                        = new EmptySerializationProps
+  protected var logger: Logger                                              = PrintLnLogger
+  protected var notificationsKind: DiagnosticNotificationsKind              = PARSING_BEFORE
+  protected var directoryResolver: Option[DirectoryResolver]                = None
+  protected var rl: Seq[ResourceLoader]                                     = Seq.empty
+  protected var plugins: Seq[AMFShapePayloadValidationPlugin]               = Seq.empty
+  protected var amfCustomValidatorBuilder: Option[AMFOpaValidatorBuilder]   = None
+  protected var configurationProvider: Option[ProjectConfigurationProvider] = None
+  protected var textDocumentSyncBuilder: Option[TextDocumentSyncBuilder]    = None
 
   def withSerializationProps(serializationProps: SerializationProps[_]): this.type = {
     serialization = serializationProps
