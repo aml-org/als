@@ -3,7 +3,6 @@ package org.mulesoft.als.server
 import amf.core.client.platform.resource.ClientResourceLoader
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.client.scala.validation.payload.AMFShapePayloadValidationPlugin
-import amf.core.internal.convert.CoreClientConverters.ClientList
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.configuration.ClientDirectoryResolver
 import org.mulesoft.als.logger.Logger
@@ -11,8 +10,6 @@ import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticNotificationsKind
 import org.mulesoft.als.server.modules.diagnostic.custom.AMFOpaValidatorBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
-
-import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
 
 trait ClientLanguageServerFactory[SerializeProps, ClientLogger, ClientAMFPlugin, ClientAMFValidator] {
   protected val clientNotifier: ClientNotifier

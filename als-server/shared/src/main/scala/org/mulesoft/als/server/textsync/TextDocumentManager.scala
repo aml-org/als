@@ -12,7 +12,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.experimental.macros
 
-class TextDocumentManager(val uriToEditor: TextDocumentContainer,
+class TextDocumentManager(override val uriToEditor: TextDocumentContainer,
                           val dependencies: List[TextListener],
                           protected val logger: Logger)
     extends AlsTextDocumentSyncConsumer {
