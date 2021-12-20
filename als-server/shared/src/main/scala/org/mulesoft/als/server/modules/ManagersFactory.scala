@@ -23,7 +23,13 @@ import org.mulesoft.als.server.modules.workspace.{
   DefaultProjectConfigurationProvider,
   FilesInProjectManager
 }
-import org.mulesoft.als.server.textsync.{TextDocumentContainer, TextDocumentManager}
+import org.mulesoft.als.server.protocol.textsync.AlsTextDocumentSyncConsumer
+import org.mulesoft.als.server.textsync.{
+  DefaultTextDocumentSyncBuilder,
+  TextDocumentContainer,
+  TextDocumentManager,
+  TextDocumentSyncBuilder
+}
 import org.mulesoft.als.server.workspace.{ProjectConfigurationProvider, WorkspaceManager}
 import org.mulesoft.amfintegration.AmfResolvedUnit
 import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
@@ -33,7 +39,8 @@ import scala.collection.mutable.ListBuffer
 class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier,
                                      logger: Logger,
                                      val editorConfiguration: EditorConfiguration = EditorConfiguration(),
-                                     projectConfigurationProvider: Option[ProjectConfigurationProvider] = None)
+                                     projectConfigurationProvider: Option[ProjectConfigurationProvider] = None,
+                                     textDocumentSyncBuilder: Option[TextDocumentSyncBuilder] = None)
     extends PlatformSecrets {
 
   private var notificationKind: DiagnosticNotificationsKind = ALL_TOGETHER
@@ -52,6 +59,7 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier,
     this.directoryResolver = directoryResolver
     this
   }
+
   private val projectDependencies: ListBuffer[BaseUnitListener] = ListBuffer()
   private val resolutionDependencies: ListBuffer[ResolvedUnitListener] =
     ListBuffer()
@@ -99,7 +107,8 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier,
       configurationManager,
       editorConfiguration,
       customValidationManager,
-      projectConfigurationProvider
+      projectConfigurationProvider,
+      textDocumentSyncBuilder
     )
 }
 
@@ -111,7 +120,8 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
                                    configurationManager: ConfigurationManager,
                                    editorConfiguration: EditorConfiguration,
                                    customValidationManager: Option[CustomValidationManager],
-                                   projectConfigurationProvider: Option[ProjectConfigurationProvider]) {
+                                   projectConfigurationProvider: Option[ProjectConfigurationProvider],
+                                   textDocumentSyncBuilder: Option[TextDocumentSyncBuilder]) {
   val container: TextDocumentContainer =
     TextDocumentContainer()
 
@@ -150,8 +160,10 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
       configurationManager
     )
 
-  lazy val documentManager =
-    new TextDocumentManager(container, List(workspaceManager), logger)
+  lazy val documentManager: AlsTextDocumentSyncConsumer =
+    textDocumentSyncBuilder
+      .getOrElse(DefaultTextDocumentSyncBuilder)
+      .build(container, List(workspaceManager), logger)
 
   lazy val completionManager =
     new SuggestionsManager(container,
