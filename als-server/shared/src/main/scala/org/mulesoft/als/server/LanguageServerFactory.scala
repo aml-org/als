@@ -9,6 +9,7 @@ import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.custom.AMFOpaValidatorBuilder
 import org.mulesoft.als.server.modules.diagnostic.{DiagnosticNotificationsKind, PARSING_BEFORE}
 import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.textsync.TextDocumentSyncBuilder
 import org.mulesoft.als.server.workspace.ProjectConfigurationProvider
 import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 
@@ -23,6 +24,7 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) {
   private var plugins: Seq[AMFShapePayloadValidationPlugin]               = Seq.empty
   private var amfCustomValidatorBuilder: Option[AMFOpaValidatorBuilder]   = None
   private var configurationProvider: Option[ProjectConfigurationProvider] = None
+  private var textDocumentSyncBuilder: Option[TextDocumentSyncBuilder]    = None
 
   def withSerializationProps(serializationProps: SerializationProps[_]): this.type = {
     serialization = serializationProps
@@ -64,11 +66,20 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) {
     this
   }
 
+  def withTextDocumentSyncBuilder(givenTextDocumentSyncBuilder: TextDocumentSyncBuilder): this.type = {
+    textDocumentSyncBuilder = Some(givenTextDocumentSyncBuilder)
+    this
+  }
+
   def build(): LanguageServer = {
     val resourceLoaders     = if (rl.isEmpty) EditorConfiguration.platform.loaders() else rl
     val editorConfiguration = new EditorConfiguration(resourceLoaders, Seq.empty, plugins, logger)
     val factory =
-      new WorkspaceManagerFactoryBuilder(clientNotifier, logger, editorConfiguration, configurationProvider)
+      new WorkspaceManagerFactoryBuilder(clientNotifier,
+                                         logger,
+                                         editorConfiguration,
+                                         configurationProvider,
+                                         textDocumentSyncBuilder)
 
     directoryResolver.foreach(cdr => factory.withDirectoryResolver(cdr))
     factory.withNotificationKind(notificationsKind) // move to initialization param
