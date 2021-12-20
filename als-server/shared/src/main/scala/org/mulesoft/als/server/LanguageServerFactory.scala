@@ -9,18 +9,20 @@ import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.custom.AMFOpaValidatorBuilder
 import org.mulesoft.als.server.modules.diagnostic.{DiagnosticNotificationsKind, PARSING_BEFORE}
 import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.workspace.ProjectConfigurationProvider
 import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class LanguageServerFactory(clientNotifier: ClientNotifier) {
-  private var serialization: SerializationProps[_]               = new EmptySerializationProps
-  private var logger: Logger                                     = PrintLnLogger
-  private var notificationsKind: DiagnosticNotificationsKind     = PARSING_BEFORE
-  private var directoryResolver: Option[DirectoryResolver]       = None
-  private var rl: Seq[ResourceLoader]                            = Seq.empty
-  private var plugins: Seq[AMFShapePayloadValidationPlugin]      = Seq.empty
-  private var amfCustomValidatorBuilder: Option[AMFOpaValidatorBuilder]        = None
+  private var serialization: SerializationProps[_]                        = new EmptySerializationProps
+  private var logger: Logger                                              = PrintLnLogger
+  private var notificationsKind: DiagnosticNotificationsKind              = PARSING_BEFORE
+  private var directoryResolver: Option[DirectoryResolver]                = None
+  private var rl: Seq[ResourceLoader]                                     = Seq.empty
+  private var plugins: Seq[AMFShapePayloadValidationPlugin]               = Seq.empty
+  private var amfCustomValidatorBuilder: Option[AMFOpaValidatorBuilder]   = None
+  private var configurationProvider: Option[ProjectConfigurationProvider] = None
 
   def withSerializationProps(serializationProps: SerializationProps[_]): this.type = {
     serialization = serializationProps
@@ -57,10 +59,16 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) {
     this
   }
 
+  def withProjectConfigurationProvider(configProvider: Option[ProjectConfigurationProvider]): this.type = {
+    configurationProvider = configProvider
+    this
+  }
+
   def build(): LanguageServer = {
     val resourceLoaders     = if (rl.isEmpty) EditorConfiguration.platform.loaders() else rl
     val editorConfiguration = new EditorConfiguration(resourceLoaders, Seq.empty, plugins, logger)
-    val factory             = new WorkspaceManagerFactoryBuilder(clientNotifier, logger, editorConfiguration)
+    val factory =
+      new WorkspaceManagerFactoryBuilder(clientNotifier, logger, editorConfiguration, configurationProvider)
 
     directoryResolver.foreach(cdr => factory.withDirectoryResolver(cdr))
     factory.withNotificationKind(notificationsKind) // move to initialization param
@@ -71,10 +79,10 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) {
 
     val languageBuilder =
       new LanguageServerBuilder(builders.documentManager,
-        builders.workspaceManager,
-        builders.configurationManager,
-        builders.resolutionTaskManager,
-        logger)
+                                builders.workspaceManager,
+                                builders.configurationManager,
+                                builders.resolutionTaskManager,
+                                logger)
         .addInitializableModule(sm)
         .addInitializableModule(filesInProjectManager)
         .addInitializable(builders.workspaceManager)
