@@ -45,13 +45,13 @@ object Main extends PlatformSecrets {
 
       val clientConnection   = ClientNotifierFactory.createWithClientAware(logger)
       val serializationProps = JsSerializationProps(clientConnection)
-      val languageServer = JsLanguageServerFactory.fromLoaders(
-        clientConnection,
-        serializationProps,
-        clientLoaders = platform.loaders().asClient.asInstanceOf[ClientList[ClientResourceLoader]],
-        clientDirResolver = new ClientPlatformDirectoryResolver(platform),
-        amfCustomValidator = AmfCustomValidatorNode
-      )
+
+      val languageServer = new JsLanguageServerFactory(clientConnection)
+        .withSerializationProps(serializationProps)
+        .withDirectoryResolver(new ClientPlatformDirectoryResolver(platform))
+        .withLogger(logger)
+        .withAmfCustomValidator(AmfCustomValidatorNode)
+        .build()
 
       val transport  = ServerSocketTransport(options.port)
       val reader     = transport._1
