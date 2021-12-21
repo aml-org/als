@@ -2,6 +2,7 @@ package org.mulesoft.als.server.workspace.highlights
 
 import amf.core.client.common.remote.Content
 import amf.core.client.scala.resource.ResourceLoader
+import org.mulesoft.als.logger.EmptyLogger
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
@@ -13,10 +14,11 @@ import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.common.{Position, Range, TextDocumentIdentifier, TextDocumentItem}
 import org.mulesoft.lsp.feature.highlight.{DocumentHighlight, DocumentHighlightKind, DocumentHighlightParams, DocumentHighlightRequestType}
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
+import org.scalatest.{AsyncFreeSpec, AsyncFreeSpecLike}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class DocumentHighlightTest extends LanguageServerBaseTest {
+class DocumentHighlightTest extends AsyncFreeSpecLike {
 
   override implicit val executionContext: ExecutionContext =
     ExecutionContext.Implicits.global
@@ -151,6 +153,7 @@ class DocumentHighlightTest extends LanguageServerBaseTest {
     TestEntry(
       "file:///root/lib.raml",
       Position(5, 3),
+      "ws1",
       ws1,
       Set(
         DocumentHighlight(Range(Position(6, 5), Position(6, 6)), DocumentHighlightKind.Text),
@@ -160,6 +163,7 @@ class DocumentHighlightTest extends LanguageServerBaseTest {
     TestEntry(
       "file:///root/api.json",
       Position(3, 9),
+      "ws2",
       ws2,
       Set(
         DocumentHighlight(Range(Position(15, 30), Position(15, 50)), DocumentHighlightKind.Text)
@@ -168,6 +172,7 @@ class DocumentHighlightTest extends LanguageServerBaseTest {
     TestEntry(
       "file:///root/api.raml",
       Position(4, 5),
+      "ws3",
       ws3,
       Set(
         DocumentHighlight(Range(Position(11, 10), Position(11, 16)), DocumentHighlightKind.Text)
@@ -176,6 +181,7 @@ class DocumentHighlightTest extends LanguageServerBaseTest {
     TestEntry(
       "file:///root/api.raml",
       Position(4,5),
+      "ws4",
       ws4,
       Set(
         DocumentHighlight(Range(Position(9, 13), Position(9, 24)), DocumentHighlightKind.Text)
@@ -184,17 +190,18 @@ class DocumentHighlightTest extends LanguageServerBaseTest {
     TestEntry(
       "file:///root/api.raml",
       Position(3,5),
+      "ws4",
       ws4,
       Set()
     )
   )
 
-  test("Document Highlight tests") {
-    Future.sequence(testSets.toSeq.map { test =>
-      for {
-        (server, _) <- buildServer(test.root, test.ws)
-        highlights <- {
-          server.textDocumentSyncConsumer.didOpen(
+  "Document Highlight tests" - {
+    testSets.toSeq.map { test =>
+      s"Document highlight ${test.targetUri} @ ${test.targetPosition} (${test.wsName})" in {
+        for {
+          (server, _) <- buildServer(test.root, test.ws)
+          _ <- server.textDocumentSyncConsumer.didOpen(
             DidOpenTextDocumentParams(
               TextDocumentItem(
                 test.targetUri,
@@ -202,20 +209,21 @@ class DocumentHighlightTest extends LanguageServerBaseTest {
                 0,
                 test.ws(test.targetUri)
               )))
-          val dhHandler: RequestHandler[DocumentHighlightParams, Seq[DocumentHighlight]] =
-            server.resolveHandler(DocumentHighlightRequestType).get
-          dhHandler(DocumentHighlightParams(TextDocumentIdentifier(test.targetUri), test.targetPosition))
+          highlights <- {
+            val dhHandler: RequestHandler[DocumentHighlightParams, Seq[DocumentHighlight]] =
+              server.resolveHandler(DocumentHighlightRequestType).get
+            dhHandler(DocumentHighlightParams(TextDocumentIdentifier(test.targetUri), test.targetPosition))
+          }
+        } yield {
+          assert(highlights.toSet == test.result)
         }
-      } yield {
-        highlights.toSet == test.result
       }
-    }).map(set => {
-      assert(!set.contains(false) && set.size == testSets.size)
-    })
+    }
   }
 
   case class TestEntry(targetUri: String,
                        targetPosition: Position,
+                       wsName: String,
                        ws: Map[String, String],
                        result: Set[DocumentHighlight],
                        root: String = "file:///root")
@@ -232,7 +240,7 @@ class DocumentHighlightTest extends LanguageServerBaseTest {
     }
 
       val factory =
-        new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger, EditorConfiguration.withPlatformLoaders(Seq(rs)))
+        new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, EmptyLogger, EditorConfiguration.withPlatformLoaders(Seq(rs)))
           .buildWorkspaceManagerFactory()
     val workspaceManager: WorkspaceManager = factory.workspaceManager
     val server =
@@ -250,5 +258,4 @@ class DocumentHighlightTest extends LanguageServerBaseTest {
 
   }
 
-  override def rootPath: String = ???
 }
