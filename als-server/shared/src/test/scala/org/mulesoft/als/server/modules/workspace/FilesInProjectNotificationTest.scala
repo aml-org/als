@@ -1,15 +1,11 @@
 package org.mulesoft.als.server.modules.workspace
 
 import amf.aml.client.scala.AMLConfiguration
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
-import org.mulesoft.als.server.{
-  LanguageServerBaseTest,
-  LanguageServerBuilder,
-  MockDiagnosticClientNotifier,
-  MockFilesInClientNotifier
-}
+import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier, MockFilesInClientNotifier}
 import org.mulesoft.lsp.configuration.TraceKind
 
 import scala.concurrent.ExecutionContext

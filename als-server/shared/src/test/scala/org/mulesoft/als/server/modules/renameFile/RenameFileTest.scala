@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.modules.renameFile
 
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.feature.renamefile.{
   RenameFileActionClientCapabilities,
   RenameFileActionParams,
@@ -10,7 +11,7 @@ import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams}
 import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.configuration.{TraceKind, WorkspaceClientCapabilities, WorkspaceEditClientCapabilities}
 import org.mulesoft.lsp.edit.RenameFile
 import org.mulesoft.lsp.feature.RequestHandler

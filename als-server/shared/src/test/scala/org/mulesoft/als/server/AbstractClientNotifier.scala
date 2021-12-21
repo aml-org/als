@@ -1,7 +1,7 @@
 package org.mulesoft.als.server
 
 import org.mulesoft.als.common.SyncFunction
-import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
+import org.mulesoft.als.server.client.platform.{AlsClientNotifier, ClientNotifier}
 import org.mulesoft.als.server.feature.serialization.SerializationResult
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams

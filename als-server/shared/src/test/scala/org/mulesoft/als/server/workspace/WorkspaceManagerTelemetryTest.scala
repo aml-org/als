@@ -3,7 +3,8 @@ package org.mulesoft.als.server.workspace
 import amf.aml.client.scala.AMLConfiguration
 import amf.core.client.common.remote.Content
 import org.mulesoft.als.server._
-import org.mulesoft.als.server.client.ClientNotifier
+import org.mulesoft.als.server.client.platform.ClientNotifier
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams

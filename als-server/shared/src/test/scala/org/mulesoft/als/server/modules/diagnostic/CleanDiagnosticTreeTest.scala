@@ -5,7 +5,7 @@ import amf.core.client.scala.resource.ResourceLoader
 import org.mulesoft.als.common.AmfConfigurationPatcher
 import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.logger.EmptyLogger
-import org.mulesoft.als.server.client.ClientNotifier
+import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.modules.configuration.WorkspaceConfigurationProvider
 import org.mulesoft.als.server.modules.diagnostic.custom.CustomValidationManager
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager

@@ -11,7 +11,8 @@ import amf.core.internal.plugins.syntax.SyamlAMFErrorHandler
 import org.mulesoft.als.common.diff.Diff.makeString
 import org.mulesoft.als.common.diff.{Diff, FileAssertionTest, Tests}
 import org.mulesoft.als.server._
-import org.mulesoft.als.server.client.ClientNotifier
+import org.mulesoft.als.server.client.platform.ClientNotifier
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.feature.serialization.{SerializationClientCapabilities, SerializationParams}
 import org.mulesoft.als.server.modules.diagnostic.DummyAmfOpaValidator
 import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}

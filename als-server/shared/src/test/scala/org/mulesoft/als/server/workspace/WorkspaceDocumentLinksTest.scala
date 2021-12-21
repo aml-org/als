@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.workspace
 
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.actions.DocumentLinksManager
 import org.mulesoft.als.server.modules.ast.{CLOSE_FILE, OPEN_FILE}
@@ -8,7 +9,7 @@ import org.mulesoft.als.server.modules.workspace.DefaultProjectConfigurationProv
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.textsync.TextDocumentContainer
 import org.mulesoft.als.server.workspace.command.Commands
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier}
 import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.feature.link.DocumentLink
@@ -108,7 +109,8 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
                        defaultProjectConfigurationProvider,
                        Nil,
                        Nil,
-                       logger, factory.configurationManager)
+                       logger,
+                       factory.configurationManager)
     }
 
     val documentLinksManager: DocumentLinksManager =

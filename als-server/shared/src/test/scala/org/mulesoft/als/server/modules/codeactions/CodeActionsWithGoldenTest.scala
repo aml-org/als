@@ -4,9 +4,10 @@ import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.common.MarkerInfo
 import org.mulesoft.als.common.diff.WorkspaceEditsTest
 import org.mulesoft.als.convert.LspRangeConverter
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.{LanguageServerBuilder, MockTelemetryParsingClientNotifier, ServerWithMarkerTest}
+import org.mulesoft.als.server.{MockTelemetryParsingClientNotifier, ServerWithMarkerTest}
 import org.mulesoft.lsp.feature.codeactions.CodeActionKind.CodeActionKind
 import org.mulesoft.lsp.feature.codeactions._
 import org.mulesoft.lsp.feature.common.{Range, TextDocumentIdentifier}
