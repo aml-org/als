@@ -15,7 +15,8 @@ trait BuilderFactory {
         DeclaresFieldSymbolBuilderCompanion,
         EncodesFieldSymbolBuilderCompanion,
         DefaultArrayFieldTypeSymbolBuilderCompanion,
-        ReferencesFieldSymbolBuilderCompanion
+        ReferencesFieldSymbolBuilderCompanion,
+        VariableFieldSymbolBuilderCompanion
       ),
       List(BaseUnitSymbolBuilderCompanion, DomainElementSymbolBuilder)
     )
@@ -23,14 +24,25 @@ trait BuilderFactory {
   private lazy val companionList: FieldCompanionList = companion
 
   def builderFor(obj: AmfObject)(implicit ctx: StructureContext): Option[SymbolBuilder[_ <: AmfObject]] = {
-    if (obj.location().forall(l => l == ctx.location))
-      companionList.find(obj)
-    else None
+    if (obj.location().forall(l => l == ctx.location)) {
+      val option = companionList.find(obj)
+      //      debugBuilders(option)
+      option
+    } else None
   }
 
   def builderFor(e: FieldEntry)(implicit ctx: StructureContext): Option[SymbolBuilder[FieldEntry]] = {
-    if (e.value.value.location().forall(l => l == ctx.location))
-      companionList.find(e)
-    else None
+    if (e.value.value.location().forall(l => l == ctx.location)) {
+      val option = companionList.find(e)
+      //      debugBuilders(option)
+      option
+    } else None
   }
+
+//  private def debugBuilders(option: Option[SymbolBuilder[_]]): Unit =
+//    option.foreach{b =>
+//      println(s"${b.getClass.getName}")
+//      println(s"\t${b.build().map(_.name).mkString("\n\t")}")
+//
+//    }
 }

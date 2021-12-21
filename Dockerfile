@@ -48,7 +48,7 @@ RUN \
 
 RUN export NODE_OPTIONS=--max_old_space_size=6000
 
-RUN npm install -g npm-cli-login
+RUN npm i -g npm@8
 
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en

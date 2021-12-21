@@ -28,6 +28,24 @@ class BasicCoreTestsAML extends CoreTest with DummyPlugins {
     runTestForCustomDialect("visit03.yaml", "dialect.yaml", Set("office"))
   }
 
+  test("enum values") {
+    runTestForCustomDialect("visit04.yaml", "dialect.yaml", Set("Pilar", "BA", "SFO", "Chicago", "Palo Alto"))
+  }
+
+  // todo: when fixing ALS-1805 check if this works. If not then create corresponding ticket
+  ignore("key new meeting") {
+    runTestForCustomDialect("visit05.yaml", "dialect.yaml", Set("New meeting"))
+  }
+
+  // todo: fix in ALS-1805
+  ignore("first level meeting") {
+    runTestForCustomDialect("visit06.yaml", "dialect.yaml", Set("about", "duration"))
+  }
+
+  test("first level meeting with properties") {
+    runTestForCustomDialect("visit07.yaml", "dialect.yaml", Set("about"))
+  }
+
   test("Custom Plugins completion Dummy") {
     val p = filePath("dialect.yaml")
     for {

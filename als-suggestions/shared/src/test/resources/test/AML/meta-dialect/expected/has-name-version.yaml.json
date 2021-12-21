@@ -1,5 +1,35 @@
 [
   {
+    "label": "annotationMappings",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "annotationMappings",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11annotationMappings",
+    "filterText": "annotationMappings:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 0
+        },
+        "end": {
+          "line": 3,
+          "character": 0
+        }
+      },
+      "newText": "annotationMappings:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "documents",
     "kind": [],
     "detail": "unknown",
@@ -24,6 +54,36 @@
         }
       },
       "newText": "documents:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "extensions",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "extensions",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11extensions",
+    "filterText": "extensions:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 0
+        },
+        "end": {
+          "line": 3,
+          "character": 0
+        }
+      },
+      "newText": "extensions:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

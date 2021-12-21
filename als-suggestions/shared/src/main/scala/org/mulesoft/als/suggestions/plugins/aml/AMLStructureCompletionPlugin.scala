@@ -33,8 +33,8 @@ object ResolveDefault extends ResolveIfApplies with AmfObjectKnowledge {
   protected final def defaultStructure(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = Future {
     if (isWritingProperty(params.yPartBranch))
       if (!isInFieldValue(params)) {
-        val isEncoded = isEncodes(params.amfObject, params.actualDialect) && params.fieldEntry.isEmpty // params.fieldEntry.isEmpty does nothing here?
-        if (((isEncoded && params.yPartBranch.isAtRoot) || !isEncoded) && params.fieldEntry.isEmpty)
+        val isEncoded = isEncodes(params.amfObject, params.actualDialect) && isEmptyFieldOrPrefix(params) // params.fieldEntry.isEmpty does nothing here?
+        if (((isEncoded && params.yPartBranch.isAtRoot) || !isEncoded) && isEmptyFieldOrPrefix(params))
           new AMLStructureCompletionsPlugin(params.propertyMapping, params.actualDialect)
             .resolve(params.amfObject.metaURIs.head) ++
             AMLEncodedStructureTemplate.resolve(params)
@@ -42,6 +42,10 @@ object ResolveDefault extends ResolveIfApplies with AmfObjectKnowledge {
       } else resolveObjInArray(params)
     else Nil
   }
+
+  private def isEmptyFieldOrPrefix(params: AmlCompletionRequest) =
+    (params.prefix.isEmpty && params.fieldEntry.isEmpty) ||
+      params.prefix.nonEmpty
 
   private def isWritingProperty(yPartBranch: YPartBranch): Boolean =
     (yPartBranch.isKey || yPartBranch.isInArray) || (yPartBranch.isJson && (yPartBranch.isInArray && yPartBranch.stringValue == "x"))

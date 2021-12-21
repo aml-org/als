@@ -127,22 +127,24 @@ pipeline {
             }
             steps {
                 wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
-                    script {
-                        if (failedStage.isEmpty()) {
-                            sh "npm-cli-login -u aml-org-bot -p $NPM_PSW -e als-amf-team@mulesoft.com"
-                            sh 'sbt -mem 6000 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 buildNodeJsClient'
-                            def statusCode = 1
-                            dir("als-node-client/node-package") {
-                                echo "Publishing NPM package: ${publish_version}"
-                                statusCode = sh script:"scripts/publish.sh ${publish_version} ${env.BRANCH_NAME}", returnStatus:true
-                            }
-                            if(statusCode != 0) {
-                                failedStage = failedStage + " PUBLISH-NODE-JS "
-                                unstable "Failed Node client publication"
+                    withCredentials([string(credentialsId: 'aml-org-bot-npm-token', variable: 'NPM_TOKEN')]) {
+                        script {
+                            if (failedStage.isEmpty()) {
+                                npmLogin()
+                                sh 'sbt -mem 6000 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 buildNodeJsClient'
+                                def statusCode = 1
+                                dir("als-node-client/node-package") {
+                                    echo "Publishing NPM package: ${publish_version}"
+                                    statusCode = sh script:"scripts/publish.sh ${publish_version} ${env.BRANCH_NAME}", returnStatus:true
+                                }
+                                sh 'rm .npmrc'
+                                if(statusCode != 0) {
+                                    failedStage = failedStage + " PUBLISH-NODE-JS "
+                                    unstable "Failed Node client publication"
+                                }
                             }
                         }
                     }
-
                 }
             }
         }
@@ -156,27 +158,28 @@ pipeline {
             }
             steps {
                 wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
-                    script {
-                        if (failedStage.isEmpty()) {
-                            sh "npm-cli-login -u aml-org-bot -p $NPM_PSW -e als-amf-team@mulesoft.com"
-                            def statusCode = 1
-                            statusCode = sh script:'sbt -mem 6000 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 buildJsServerLibrary', returnStatus: true
-                            if(statusCode != 0) {
-                                failedStage = failedStage + " PUBLISH-SERVER-JS "
-                                unstable "Failed als-server JS publication"
-                            }
-
-                            dir("als-server/js/node-package") {
-                                echo "Publishing NPM package build: ${publish_version}."
-                                statusCode = sh script:"scripts/publish.sh ${publish_version} ${env.BRANCH_NAME}", returnStatus:true
-                            }
-                            if(statusCode != 0) {
-                                failedStage = failedStage + " PUBLISH-SERVER-JS "
-                                unstable "Failed als-server JS publication"
+                    withCredentials([string(credentialsId: 'aml-org-bot-npm-token', variable: 'NPM_TOKEN')]) {
+                        script {
+                            if (failedStage.isEmpty()) {
+                                npmLogin()
+                                def statusCode = 1
+                                statusCode = sh script:'sbt -mem 6000 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 buildJsServerLibrary', returnStatus: true
+                                if(statusCode != 0) {
+                                    failedStage = failedStage + " PUBLISH-SERVER-JS "
+                                    unstable "Failed als-server JS publication"
+                                }
+                                dir("als-server/js/node-package") {
+                                    echo "Publishing NPM package build: ${publish_version}."
+                                    statusCode = sh script:"scripts/publish.sh ${publish_version} ${env.BRANCH_NAME}", returnStatus:true
+                                }
+                                sh 'rm .npmrc'
+                                if(statusCode != 0) {
+                                    failedStage = failedStage + " PUBLISH-SERVER-JS "
+                                    unstable "Failed als-server JS publication"
+                                }
                             }
                         }
                     }
-
                 }
             }
         }
@@ -255,4 +258,11 @@ pipeline {
             }
         }
     }
+}
+
+void npmLogin() {
+    sh "echo //registry.npmjs.org/:_authToken=${env.NPM_TOKEN} > .npmrc"
+    sh "echo @aml-org:registry=https://registry.npmjs.org/ >> .npmrc"
+    sh 'npm config set registry https://registry.npmjs.org/'
+    sh 'npm whoami'
 }

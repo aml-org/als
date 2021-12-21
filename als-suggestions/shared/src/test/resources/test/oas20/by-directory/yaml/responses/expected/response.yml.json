@@ -30,14 +30,14 @@
     "command": null
   },
   {
-    "label": "New response",
+    "label": "New headers",
     "kind": [],
     "detail": "template",
-    "documentation": "",
+    "documentation": "headers",
     "deprecated": [],
     "preselect": [],
-    "sortText": "20New response",
-    "filterText": "$1:\n  description: $2",
+    "sortText": "21New headers",
+    "filterText": "headers:\n  $1:\n    description: $2\n    type: $3",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -53,7 +53,37 @@
           "character": 10
         }
       },
-      "newText": "$1:\n  description: $2"
+      "newText": "headers:\n  $1:\n    description: $2\n    type: $3"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "New schema",
+    "kind": [],
+    "detail": "template",
+    "documentation": "schema",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "21New schema",
+    "filterText": "schema:\n  description: $1\n  type: $2",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 9,
+          "character": 10
+        },
+        "end": {
+          "line": 9,
+          "character": 10
+        }
+      },
+      "newText": "schema:\n  description: $1\n  type: $2"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

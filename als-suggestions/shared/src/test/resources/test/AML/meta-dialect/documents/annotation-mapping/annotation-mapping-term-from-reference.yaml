@@ -1,0 +1,10 @@
+#%Dialect 1.0
+
+external:
+  schema-org: http://schema-org.com
+uses:
+  test: vocabulary.yaml
+
+annotationMappings:
+  myNodeMapping:
+    propertyTerm: *

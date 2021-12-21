@@ -1,0 +1,32 @@
+[
+  {
+    "label": "myNodeMapping",
+    "kind": [],
+    "detail": "Annotation Mapping",
+    "documentation": "myNodeMapping",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11myNodeMapping",
+    "filterText": "myNodeMapping",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 18
+        },
+        "end": {
+          "line": 8,
+          "character": 18
+        }
+      },
+      "newText": "myNodeMapping"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

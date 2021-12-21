@@ -1,10 +1,10 @@
 package org.mulesoft.als.suggestions.plugins.aml.metadialect
 
 import amf.aml.client.scala.model.document.{Dialect, Vocabulary}
-import amf.aml.client.scala.model.domain.{ClassTerm, NodeMapping, PropertyMapping, PropertyTerm}
+import amf.aml.client.scala.model.domain._
 import amf.core.client.scala.model.domain.AmfObject
+import amf.core.internal.annotations.Aliases.Alias
 import amf.core.internal.annotations.{Aliases, ReferencedInfo}
-import amf.core.internal.annotations.Aliases.{Alias, FullUrl, RelativeUrl}
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
@@ -20,7 +20,7 @@ object VocabularyTermsValueCompletionPlugin extends AMLCompletionPlugin {
     amfObject match {
       case _: NodeMapping if yPartBranch.isValueDescendanceOf("classTerm") && yPartBranch.stringValue.contains(".") =>
         true
-      case _: PropertyMapping
+      case _: PropertyLikeMapping[_]
           if yPartBranch.isValueDescendanceOf("propertyTerm") && yPartBranch.stringValue.contains(".") =>
         true
       case _ => false
@@ -40,9 +40,10 @@ object VocabularyTermsValueCompletionPlugin extends AMLCompletionPlugin {
       vocabulary <- findVocabulary(dialect, base)
     } yield {
       request.amfObject match {
-        case _: NodeMapping     => suggestClassTerms(vocabulary, alias)
-        case _: PropertyMapping => suggestPropertyTerms(request.branchStack, vocabulary, alias)
-        case _                  => Seq.empty
+        case _: NodeMapping => suggestClassTerms(vocabulary, alias)
+        case _: PropertyLikeMapping[_] =>
+          suggestPropertyTerms(request.branchStack, vocabulary, alias)
+        case _ => Seq.empty
       }
     }).getOrElse(Seq.empty)
   }

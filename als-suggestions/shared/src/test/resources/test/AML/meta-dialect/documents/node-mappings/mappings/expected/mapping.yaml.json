@@ -306,7 +306,7 @@
     "documentation": "propertyTerm",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11propertyTerm",
+    "sortText": "10propertyTerm",
     "filterText": "propertyTerm: ",
     "insertText": null,
     "insertTextFormat": [
@@ -336,7 +336,7 @@
     "documentation": "range",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11range",
+    "sortText": "10range",
     "filterText": "range: ",
     "insertText": null,
     "insertTextFormat": [

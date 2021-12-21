@@ -20,24 +20,25 @@ object PropertyMappingObjectNode extends DialectNode{
       .withId(location + s"#/declarations/$name/propertyTerm")
       .withNodePropertyMapping(PropertyMappingModel.NodePropertyMapping.value.iri())
       .withName("propertyTerm")
+      .withMinCount(1)
       .withLiteralRange(xsdString.iri()),
     PropertyMapping()
       .withId(location + s"#/declarations/$name/range")
       .withNodePropertyMapping(PropertyMappingModel.NodePropertyMapping.value.iri())
       .withName("range")
+      .withMinCount(1)
       .withLiteralRange(xsdUri.iri())
       .withEnum(Seq("string" ,
-  "integer" ,
-  "boolean" ,
-  "float" ,
-  "decimal" ,
-  "double" ,
-  "duration" ,
-  "dateTime" ,
-
+        "integer" ,
+        "boolean" ,
+        "float" ,
+        "decimal" ,
+        "double" ,
+        "duration" ,
+        "dateTime" ,
         "time" ,
-  "date" ,
-  "anyType",
+        "date" ,
+        "anyType",
         "anyUri",
         "link",
         "number",
