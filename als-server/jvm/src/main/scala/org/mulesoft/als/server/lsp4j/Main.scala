@@ -4,7 +4,8 @@ import org.eclipse.lsp4j.jsonrpc.Launcher
 import org.eclipse.lsp4j.services.LanguageClient
 import org.mulesoft.als.logger.{Logger, PrintLnLogger}
 import org.mulesoft.als.server.JvmSerializationProps
-import org.mulesoft.als.server.client.ClientConnection
+import org.mulesoft.als.server.client.platform
+import org.mulesoft.als.server.client.platform.{ClientConnection, ClientLanguageServerFactory}
 import org.mulesoft.als.server.feature.serialization.SerializationResult
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 import org.mulesoft.als.server.lsp4j.internal.GsonConsumerBuilder
@@ -59,11 +60,11 @@ object Main {
         }
 
       val logger: Logger   = PrintLnLogger
-      val clientConnection = ClientConnection[StringWriter](logger)
+      val clientConnection = platform.ClientConnection[StringWriter](logger)
 
       logger.debug("Building LanguageServerImpl", "Main", "main")
       val server = new LanguageServerImpl(
-        new JvmLanguageServerFactory(clientConnection)
+        new ClientLanguageServerFactory(clientConnection)
           .withSerializationProps(JvmSerializationProps(clientConnection))
           .build()
       )

@@ -2,6 +2,7 @@ package org.mulesoft.als.server.modules.diagnostic
 
 import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.common.diff.FileAssertionTest
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.feature.diagnostic.CustomValidationClientCapabilities
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticImplicits.PublishDiagnosticsParamsWriter
@@ -11,7 +12,6 @@ import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, Al
 import org.mulesoft.als.server.workspace.{ChangesWorkspaceConfiguration, WorkspaceManager}
 import org.mulesoft.als.server.{
   LanguageServerBaseTest,
-  LanguageServerBuilder,
   MockAlsClientNotifier,
   MockDiagnosticClientNotifier,
   SerializationProps

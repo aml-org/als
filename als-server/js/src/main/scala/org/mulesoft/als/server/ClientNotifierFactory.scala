@@ -1,6 +1,6 @@
 package org.mulesoft.als.server
 
-import org.mulesoft.als.server.client.{AlsClientNotifier, ClientConnection, ClientNotifier}
+import org.mulesoft.als.server.client.platform.{AlsClientNotifier, ClientConnection, ClientNotifier}
 import org.mulesoft.als.server.protocol.client.AlsLanguageClientAware
 import org.mulesoft.lsp.client.LspLanguageClientAware
 

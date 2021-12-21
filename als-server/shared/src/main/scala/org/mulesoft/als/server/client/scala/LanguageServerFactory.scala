@@ -1,16 +1,17 @@
-package org.mulesoft.als.server
+package org.mulesoft.als.server.client.scala
 
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.client.scala.validation.payload.AMFShapePayloadValidationPlugin
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.logger.{Logger, PrintLnLogger}
-import org.mulesoft.als.server.client.ClientNotifier
+import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.custom.AMFOpaValidatorBuilder
 import org.mulesoft.als.server.modules.diagnostic.{DiagnosticNotificationsKind, PARSING_BEFORE}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.textsync.TextDocumentSyncBuilder
 import org.mulesoft.als.server.workspace.ProjectConfigurationProvider
+import org.mulesoft.als.server.{EmptySerializationProps, SerializationProps}
 import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 
 import scala.concurrent.ExecutionContext.Implicits.global

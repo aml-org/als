@@ -5,7 +5,7 @@ import amf.core.client.common.validation.{ProfileName, ProfileNames}
 import amf.core.client.scala.config.RenderOptions
 import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.logger.Logger
-import org.mulesoft.als.server.client.ClientNotifier
+import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.feature.diagnostic.{
   CustomValidationClientCapabilities,
   CustomValidationConfigType,

@@ -7,7 +7,6 @@ import com.google.gson.{Gson, GsonBuilder}
 import org.eclipse.lsp4j.ExecuteCommandParams
 import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.logger.{EmptyLogger, Logger}
-import org.mulesoft.als.server.client.{AlsClientNotifier, ClientConnection, ClientNotifier}
 import org.mulesoft.als.server.lsp4j.extension.AlsInitializeParams
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
@@ -17,6 +16,13 @@ import org.mulesoft.als.server.textsync.{EnvironmentProvider, TextDocument}
 import org.mulesoft.als.server.workspace.command.{CommandExecutor, Commands, DidChangeConfigurationCommandExecutor}
 import org.mulesoft.als.server.workspace.{ProjectConfigurationProvider, WorkspaceManager}
 import org.mulesoft.als.server._
+import org.mulesoft.als.server.client.platform.{
+  AlsClientNotifier,
+  ClientConnection,
+  ClientLanguageServerFactory,
+  ClientNotifier
+}
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.amfintegration.ValidationProfile
 import org.mulesoft.amfintegration.amfconfiguration.{
   EditorConfiguration,
@@ -47,7 +53,7 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest {
 
     val notifier: AlsClientNotifier[StringWriter] = new MockAlsClientNotifier
     val server = new LanguageServerImpl(
-      new JvmLanguageServerFactory(clientConnection)
+      new ClientLanguageServerFactory(clientConnection)
         .withSerializationProps(JvmSerializationProps(notifier))
         .withLogger(logger)
         .build())
@@ -65,7 +71,7 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest {
     val clientConnection                          = ClientConnection(logger)
     val notifier: AlsClientNotifier[StringWriter] = new MockAlsClientNotifier
     val server = new LanguageServerImpl(
-      new JvmLanguageServerFactory(clientConnection)
+      new ClientLanguageServerFactory(clientConnection)
         .withSerializationProps(JvmSerializationProps(notifier))
         .withLogger(logger)
         .build())
@@ -228,7 +234,7 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest {
       flag = true
     }
 
-    val server = new JvmLanguageServerFactory(clientConnection)
+    val server = new ClientLanguageServerFactory(clientConnection)
       .withSerializationProps(JvmSerializationProps(notifier))
       .withAmfPlugins(Seq(TestValidator(fn)))
       .withLogger(logger)
