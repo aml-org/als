@@ -2,10 +2,11 @@ package org.mulesoft.als.server.modules.serialization
 
 import amf.core.internal.remote.Spec
 import amf.core.internal.remote.Spec._
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.feature.serialization.{ConversionParams, ConversionRequestType, SerializedDocument}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier}
 import org.scalatest.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}

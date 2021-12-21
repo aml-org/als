@@ -7,12 +7,13 @@ import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.als.server.{LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.als.server.MockDiagnosticClientNotifier
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.common.{Position, TextDocumentIdentifier, TextDocumentItem}
 import org.mulesoft.lsp.feature.completion.{CompletionParams, CompletionRequestType}
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
 import org.mulesoft.als.common.URIImplicits._
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 
 import scala.concurrent.{ExecutionContext, Future}

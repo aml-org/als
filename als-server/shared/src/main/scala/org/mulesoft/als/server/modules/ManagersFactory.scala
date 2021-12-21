@@ -5,7 +5,7 @@ import org.mulesoft.als.actions.codeactions.plugins.AllCodeActions
 import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.SerializationProps
-import org.mulesoft.als.server.client.{AlsClientNotifier, ClientNotifier}
+import org.mulesoft.als.server.client.platform.{AlsClientNotifier, ClientNotifier}
 import org.mulesoft.als.server.modules.actions._
 import org.mulesoft.als.server.modules.actions.fileusage.FindFileUsageManager
 import org.mulesoft.als.server.modules.actions.rename.RenameManager

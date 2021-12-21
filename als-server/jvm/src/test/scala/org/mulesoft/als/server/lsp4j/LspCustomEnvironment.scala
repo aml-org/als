@@ -8,10 +8,10 @@ import org.eclipse.lsp4j.{DidOpenTextDocumentParams, TextDocumentItem}
 import org.mulesoft.als.configuration.ResourceLoaderConverter
 import org.mulesoft.als.logger.EmptyLogger
 import org.mulesoft.als.server.MockDiagnosticClientNotifier
+import org.mulesoft.als.server.client.platform.ClientLanguageServerFactory
 import org.mulesoft.als.server.modules.diagnostic.ALL_TOGETHER
 import org.scalatest.{AsyncFunSuite, Matchers}
 
-import java.util
 import java.util.concurrent.CompletableFuture
 class LspCustomEnvironment extends AsyncFunSuite with Matchers with PlatformSecrets {
 
@@ -29,10 +29,10 @@ class LspCustomEnvironment extends AsyncFunSuite with Matchers with PlatformSecr
 
     val notifier = new MockDiagnosticClientNotifier(3000)
     val server = new LanguageServerImpl(
-      new JvmLanguageServerFactory(notifier)
+      new ClientLanguageServerFactory(notifier)
         .withNotificationKind(ALL_TOGETHER)
         .withLogger(EmptyLogger)
-        .withResourceLoaders(util.Arrays.asList(cl))
+        .withResourceLoaders(Seq(cl))
         .build())
     val api =
       """#%RAML 1.0

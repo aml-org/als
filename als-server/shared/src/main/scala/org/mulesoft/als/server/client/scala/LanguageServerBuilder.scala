@@ -1,4 +1,4 @@
-package org.mulesoft.als.server
+package org.mulesoft.als.server.client.scala
 
 import org.mulesoft.als.logger.{EmptyLogger, Logger}
 import org.mulesoft.als.server.modules.configuration.ConfigurationManager
@@ -6,6 +6,7 @@ import org.mulesoft.als.server.modules.workspace.resolution.ResolutionTaskManage
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.textsync.AlsTextDocumentSyncConsumer
 import org.mulesoft.als.server.workspace.WorkspaceManager
+import org.mulesoft.als.server._
 import org.mulesoft.lsp.{Initializable, InitializableModule}
 
 import scala.collection.mutable
