@@ -2,7 +2,7 @@ package org.mulesoft.als.server.modules.diagnostic
 
 import amf.core.client.common.validation.{ProfileName, ProfileNames}
 import org.mulesoft.als.logger.Logger
-import org.mulesoft.als.server.client.ClientNotifier
+import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.amfintegration.DiagnosticsBundle
 import org.mulesoft.amfintegration.amfconfiguration.AmfParseResult

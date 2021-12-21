@@ -9,7 +9,8 @@ import org.mulesoft.als.server.modules.diagnostic.DiagnosticImplicits.PublishDia
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams}
 import org.mulesoft.als.server.workspace.{ChangesWorkspaceConfiguration, WorkspaceManager}
-import org.mulesoft.als.server.{LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.als.server.MockDiagnosticClientNotifier
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.configuration.TraceKind
 import org.yaml.model.YDocument

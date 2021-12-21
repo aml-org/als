@@ -1,6 +1,6 @@
 package org.mulesoft.als.server
 
-import org.mulesoft.als.server.client.AlsClientNotifier
+import org.mulesoft.als.server.client.platform.AlsClientNotifier
 import org.mulesoft.als.server.feature.serialization.{SerializationParams, SerializationResult}
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 import org.mulesoft.lsp.feature.RequestType

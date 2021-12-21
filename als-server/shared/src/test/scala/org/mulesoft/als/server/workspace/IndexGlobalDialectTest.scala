@@ -2,10 +2,11 @@ package org.mulesoft.als.server.workspace
 
 import amf.aml.client.scala.model.document.DialectInstance
 import amf.core.client.scala.model.document.ExternalFragment
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams}
-import org.mulesoft.als.server.{LanguageServerBuilder, MockDiagnosticClientNotifier, ServerIndexGlobalDialectCommand}
+import org.mulesoft.als.server.{MockDiagnosticClientNotifier, ServerIndexGlobalDialectCommand}
 import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.configuration.{TraceKind, WorkspaceFolder}
 

@@ -4,9 +4,10 @@ import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.common.MarkerFinderTest
 import org.mulesoft.als.common.diff.{FileAssertionTest, WorkspaceEditsTest}
 import org.mulesoft.als.convert.LspRangeConverter
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.configuration.FormattingOptions
 import org.mulesoft.lsp.edit.{TextEdit, WorkspaceEdit}
 import org.mulesoft.lsp.feature.RequestHandler
