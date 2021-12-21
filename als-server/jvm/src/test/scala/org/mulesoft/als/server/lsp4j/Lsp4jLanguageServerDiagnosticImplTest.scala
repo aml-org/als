@@ -3,9 +3,10 @@ package org.mulesoft.als.server.lsp4j
 import amf.core.client.common.validation.ProfileNames
 import amf.core.internal.unsafe.PlatformSecrets
 import org.eclipse.lsp4j.ExecuteCommandParams
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier}
 
 import java.util
 import scala.concurrent.Future
