@@ -35,7 +35,7 @@ class WorkspaceConfigurationManager(val workspaceManager: WorkspaceManager,
 
   override def initialize(): Future[Unit] = Future.successful()
 
-  def getWorkspaceConfiguration(uri: String): Future[(WorkspaceContentManager, Option[ProjectConfiguration])] =
+  def getWorkspaceConfiguration(uri: String): Future[(WorkspaceContentManager, ProjectConfiguration)] =
     workspaceManager
       .getWorkspace(uri)
       .flatMap(w => w.getCurrentConfiguration.map(c => (w, c)))
@@ -50,21 +50,21 @@ class GetWorkspaceConfigurationRequestHandler(val provider: WorkspaceConfigurati
   override protected def task(params: GetWorkspaceConfigurationParams): Future[GetWorkspaceConfigurationResult] =
     provider
       .getWorkspaceConfiguration(params.textDocument.uri)
-      .map(t =>
+      .map(t => {
+        val manager = t._1
+        val config  = t._2
         GetWorkspaceConfigurationResult(
-          t._1.folderUri,
-          t._2
-            .map(config =>
-              DidChangeConfigurationNotificationParams(
-                config.mainFile,
-                t._1.folderUri,
-                // todo: missing dialects?
-                config.designDependency.map(Left(_))
-                  ++ config.validationDependency.map(p => Right(DependencyConfiguration(p, CUSTOM_VALIDATION)))
-                  ++ config.extensionDependency.map(p => Right(DependencyConfiguration(p, SEMANTIC_EXTENSION)))
-            ))
-            .getOrElse(new EmptyConfigurationParams(t._1.folderUri))
-      ))
+          manager.folderUri,
+          DidChangeConfigurationNotificationParams(
+            config.mainFile,
+            manager.folderUri,
+            // todo: missing dialects?
+            config.designDependency.map(Left(_))
+              ++ config.validationDependency.map(p => Right(DependencyConfiguration(p, CUSTOM_VALIDATION)))
+              ++ config.extensionDependency.map(p => Right(DependencyConfiguration(p, SEMANTIC_EXTENSION)))
+          )
+        )
+      })
 
   override protected def code(params: GetWorkspaceConfigurationParams): String = "GetWorkspaceConfigurationRequest"
 

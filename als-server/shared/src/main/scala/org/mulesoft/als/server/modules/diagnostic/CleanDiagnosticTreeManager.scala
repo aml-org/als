@@ -106,14 +106,14 @@ class CleanDiagnosticTreeManager(telemetryProvider: TelemetryProvider,
     }
   }
 
-  protected def getWorkspaceConfig(uri: String): Future[Option[ProjectConfiguration]] =
+  protected def getWorkspaceConfig(uri: String): Future[ProjectConfiguration] =
     workspaceConfigProvider.getWorkspaceConfiguration(uri).map(_._2)
 
   def buildAlsConfigurationState(uri: String, editorState: EditorConfigurationState): Future[ALSConfigurationState] = {
     val alsEditorConfigurationState =
       ALSConfigurationState(editorState, EmptyProjectConfigurationState, Some(environmentProvider.getResourceLoader))
     for {
-      c <- getWorkspaceConfig(uri).map(_.getOrElse(ProjectConfiguration.empty(uri)))
+      c <- getWorkspaceConfig(uri)
       extensions <- Future
         .sequence(
           c.extensionDependency.map(alsEditorConfigurationState.parse) ++ c.metadataDependency.map(
@@ -175,7 +175,7 @@ class CleanDiagnosticTreeManager(telemetryProvider: TelemetryProvider,
       config <- getWorkspaceConfig(uri)
       helper <- Future(alsConfigurationState.configForUnit(resolvedUnit))
       result <- customValidationManager match {
-        case Some(cvm) if cvm.isActive && config.isDefined =>
+        case Some(cvm) if cvm.isActive && config.validationDependency.nonEmpty =>
           cvm.validate(uri, resolvedUnit, alsConfigurationState.profiles.map(_.model), helper).map(_.flatten)
         case _ => Future(Seq.empty)
       }
