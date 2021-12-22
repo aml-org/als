@@ -163,7 +163,6 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
     buildDefaultWorkspaceManager()
 
   def buildDefaultWorkspaceManager(): Future[WorkspaceContentManager] = {
-    projectConfigurationProvider.newProjectConfiguration("", ProjectConfiguration.empty(""))
     logger.debug(s"created default WorkspaceContentManager", "WorkspaceList", "buildWorkspaceAt")
     WorkspaceContentManager("",
                             environmentProvider,
@@ -174,10 +173,7 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
                             configurationProvider.getHotReloadDialects)
   }
 
-  private def resetDefaultWorkspace(): Unit = {
-    projectConfigurationProvider.newProjectConfiguration("", ProjectConfiguration.empty(""))
-    defaultWorkspace = buildDefaultWorkspaceManager()
-  }
+  private def resetDefaultWorkspace(): Unit = defaultWorkspace = buildDefaultWorkspaceManager()
 
   def removeWorkspace(uri: String): Future[Unit] =
     changeWorkspaces(List.empty, List(uri))
