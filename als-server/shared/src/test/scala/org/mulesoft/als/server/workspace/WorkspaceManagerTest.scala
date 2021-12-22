@@ -378,10 +378,10 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
           assert(config.mainFile.contains(mainFile))
           assert(profiles.forall(p => config.validationDependency.contains(p)))
         }
-        config1.map(c => assertConfig(c, "api.raml", Set.empty)).get
-        config2.map(c => assertConfig(c, "api2.raml", Set(profileUri))).get
-        config3.map(c => assertConfig(c, "api2.raml", Set(profileUri))).get
-        config4.map(c => assertConfig(c, "api2.raml", Set(profileUri, profileUri2))).get
+        assertConfig(config1, "api.raml", Set.empty)
+        assertConfig(config2, "api2.raml", Set(profileUri))
+        assertConfig(config3, "api2.raml", Set(profileUri))
+        assertConfig(config4, "api2.raml", Set(profileUri, profileUri2))
       }
     }
   }
