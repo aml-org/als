@@ -3,6 +3,7 @@ package org.mulesoft.als.server.modules.workspace
 import amf.aml.client.scala.model.document.{Dialect, DialectInstance}
 import amf.core.client.scala.model.document.ExternalFragment
 import amf.core.internal.remote.Platform
+import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.logger.Logger
@@ -25,15 +26,16 @@ class WorkspaceContentManager private (val folderUri: String,
                                        override val repository: WorkspaceParserRepository,
                                        val projectConfigAdapter: ProjectConfigurationAdapter,
                                        hotReload: Boolean)
-    extends UnitTaskManager[ParsedUnit, CompilableUnit, NotificationKind] {
+    extends UnitTaskManager[ParsedUnit, CompilableUnit, NotificationKind]
+    with PlatformSecrets {
 
-  def getCurrentConfiguration: Future[Option[ProjectConfiguration]] =
+  def getCurrentConfiguration: Future[ProjectConfiguration] =
     sync(
       () =>
         if (stagingArea.hasPending || state == ProcessingProject) // may be changing
           current.flatMap(_ => getCurrentConfiguration)
         else
-          current.map(_ => projectConfigAdapter.projectConfiguration))
+          current.flatMap(_ => projectConfigAdapter.getProjectConfiguration))
 
   def getConfigurationState: Future[ALSConfigurationState] =
     getCurrentConfiguration.flatMap(_ => projectConfigAdapter.getConfigurationState)
@@ -43,10 +45,10 @@ class WorkspaceContentManager private (val folderUri: String,
     super.init().map(_ => logger.debug(s"no main for $folderUri", "WorkspaceContentManager", "init"))
   }
 
-  def containsFile(uri: String): Boolean =
-    uri.startsWith(folderUri) || projectConfigAdapter.projectConfiguration.exists(_.containsInDependencies(uri))
+  def containsFile(uri: String): Future[Boolean] =
+    projectConfigAdapter.getProjectConfiguration.map(_.containsInDependencies(uri) || uri.startsWith(folderUri))
 
-  implicit val platform: Platform = projectConfigAdapter.platform
+  implicit val currentPlatform: Platform = this.platform
 
   private val subscribers: Seq[BaseUnitListener] = allSubscribers.filter(_.isActive)
 
@@ -83,7 +85,7 @@ class WorkspaceContentManager private (val folderUri: String,
   override protected def toResult(uri: String, pu: ParsedUnit): CompilableUnit =
     pu.toCU(
       getNext(uri),
-      projectConfigAdapter.projectConfiguration.map(_.mainFile).map(mf => s"${trailSlash(folderUri)}$mf".toAmfUri),
+      pu.parsedResult.context.state.projectState.config.mainFile.map(mf => s"${trailSlash(folderUri)}$mf".toAmfUri),
       repository.getReferenceStack(uri),
       isDirty(uri),
       pu.parsedResult.context
@@ -110,39 +112,39 @@ class WorkspaceContentManager private (val folderUri: String,
   override protected def processTask(): Future[Unit] = {
     val snapshot: Snapshot    = stagingArea.snapshot()
     val (treeUnits, isolated) = snapshot.files.partition(u => u._2 == CHANGE_CONFIG || isInMainTree(u._1.toAmfUri)) // what if a new file is added between the partition and the override down
-    mainFile.flatMap(mf => {
-      projectConfigAdapter.getConfigurationState.flatMap(currentConfigurationState => {
-        logger.debug(s"units for main file: ${mf.getOrElse("[no main file]")}",
-                     "WorkspaceContentManager",
-                     "processTask")
-        treeUnits.map(_._1).foreach(tu => logger.debug(s"tree unit: $tu", "WorkspaceContentManager", "processTask"))
-        isolated.map(_._1).foreach(iu => logger.debug(s"isolated unit: $iu", "WorkspaceContentManager", "processTask"))
-        val changedTreeUnits =
-          treeUnits.filter(
-            tu =>
-              ((tu._2 == CHANGE_FILE ||
-                tu._2 == OPEN_FILE) && isChanged(tu._1)) || // OPEN_FILE is used in case the IDE restarts and it reopens what was being edited
-                tu._2 == CLOSE_FILE ||
-                (tu._2 == FOCUS_FILE && shouldParseOnFocus(tu._1, mf, currentConfigurationState)))
-
-        if (hasChangedConfigFile(snapshot)) processChangeConfigChanges(snapshot)
-        else if (changedTreeUnits.nonEmpty)
-          processMFChanges(mf.get, snapshot).recoverWith {
-            case e: Exception =>
-              logger.error(s"Error on parse: ${e.getMessage}", "WorkspaceContentManager", "processMFChanges")
-              Future.unit
-          } else
-          processIsolatedChanges(isolated)
-      })
-    })
+    treeUnits.map(_._1).foreach(tu => logger.debug(s"Tree unit: $tu", "WorkspaceContentManager", "processTask"))
+    isolated.map(_._1).foreach(iu => logger.debug(s"Isolated unit: $iu", "WorkspaceContentManager", "processTask"))
+    val future: Future[Future[Unit]] = for {
+      mf                        <- mainFile
+      currentConfigurationState <- projectConfigAdapter.getConfigurationState
+    } yield {
+      val changedTreeUnits =
+        treeUnits.filter(
+          tu =>
+            ((tu._2 == CHANGE_FILE ||
+              tu._2 == OPEN_FILE) && isChanged(tu._1)) || // OPEN_FILE is used in case the IDE restarts and it reopens what was being edited
+              tu._2 == CLOSE_FILE ||
+              (tu._2 == FOCUS_FILE && shouldParseOnFocus(tu._1, mf, currentConfigurationState)))
+      logger.debug(s"units for main file: ${mf.getOrElse("[no main file]")}", "WorkspaceContentManager", "processTask")
+      if (hasChangedConfigFile(snapshot)) processChangeConfigChanges(snapshot)
+      else if (changedTreeUnits.nonEmpty)
+        processMFChanges(mf.get, snapshot).recoverWith {
+          case e: Exception =>
+            logger.error(s"Error on parse: ${e.getMessage}", "WorkspaceContentManager", "processMFChanges")
+            Future.unit
+        } else
+        processIsolatedChanges(isolated, currentConfigurationState)
+    }
+    future.flatten
   }
 
   private def hasChangedConfigFile(snapshot: Snapshot) =
     snapshot.files.map(_._2).contains(CHANGE_CONFIG)
 
-  private def processIsolatedChanges(files: List[(String, NotificationKind)]): Future[Unit] = {
+  private def processIsolatedChanges(files: List[(String, NotificationKind)],
+                                     currentConfiguration: ALSConfigurationState): Future[Unit] = {
     val (closedFiles, changedFiles) = files.partition(_._2 == CLOSE_FILE)
-    cleanFiles(closedFiles).flatMap(_ => {
+    cleanFiles(closedFiles, currentConfiguration).flatMap(_ => {
       if (changedFiles.nonEmpty) {
         changeState(ProcessingFile)
         Future
@@ -194,7 +196,7 @@ class WorkspaceContentManager private (val folderUri: String,
                   u => repository.getUnit(u).exists(_.parsedResult.result.baseUnit.isInstanceOf[ExternalFragment])) =>
             true
           case _ =>
-            projectConfigAdapter.projectConfiguration.exists(_ != s.parsedResult.context.state.projectState.config) ||
+            configurationState.projectState.config != s.parsedResult.context.state.projectState.config ||
               configurationState != s.parsedResult.context.state
         }
       case None => true
@@ -206,22 +208,22 @@ class WorkspaceContentManager private (val folderUri: String,
     super.shutdown()
   }
 
-  private def cleanFiles(closedFiles: List[(String, NotificationKind)]): Future[Unit] = {
+  private def cleanFiles(closedFiles: List[(String, NotificationKind)],
+                         currentConfiguration: ALSConfigurationState): Future[Unit] = {
     closedFiles.foreach { cf =>
       repository.removeUnit(cf._1)
       subscribers.foreach(_.onRemoveFile(cf._1))
 
     }
+    val p = currentConfiguration.projectState.config
     // restore registered profile/dialect/extension
     if (closedFiles
           .map(_._1)
           .exists(
             cf =>
-              projectConfigAdapter.projectConfiguration
-                .exists(p =>
-                  p.validationDependency.contains(cf) ||
-                    p.extensionDependency.contains(cf) ||
-                    p.metadataDependency.contains(cf))))
+              p.validationDependency.contains(cf) ||
+                p.extensionDependency.contains(cf) ||
+                p.metadataDependency.contains(cf)))
       projectConfigAdapter.notifyUnits().map(_ => {})
     else Future.successful()
   }
@@ -308,20 +310,18 @@ class WorkspaceContentManager private (val folderUri: String,
     (for {
       state <- projectConfigAdapter.getConfigurationState
       r     <- state.parse(decodedUri)
+      newConfig <- projectConfigAdapter.getProjectConfiguration.map(config => {
+        new ProjectConfiguration(config.folder,
+                                 config.mainFile,
+                                 config.designDependency,
+                                 config.validationDependency,
+                                 config.extensionDependency,
+                                 config.metadataDependency + uri)
+      })
     } yield {
       r.result.baseUnit match {
         case _: Dialect if hotReload =>
           logger.debug(s"Hot registering as dialect uri: $decodedUri", "WorkspaceContentManager", "innerParse")
-          val newConfig: ProjectConfiguration = projectConfigAdapter.projectConfiguration
-            .map(
-              config =>
-                new ProjectConfiguration(config.folder,
-                                         config.mainFile,
-                                         config.designDependency,
-                                         config.validationDependency,
-                                         config.extensionDependency,
-                                         config.metadataDependency + uri))
-            .getOrElse(ProjectConfiguration(folderUri, metadataDependency = Set(uri)))
           withConfiguration(newConfig).map(_ => r)
         case _ =>
           logger.debug(s"done with uri: $decodedUri", "WorkspaceContentManager", "innerParse")

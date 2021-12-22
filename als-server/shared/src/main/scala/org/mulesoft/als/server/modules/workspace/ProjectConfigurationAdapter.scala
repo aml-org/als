@@ -1,7 +1,6 @@
 package org.mulesoft.als.server.modules.workspace
 
-import amf.core.internal.unsafe.PlatformSecrets
-import org.mulesoft.als.configuration.{ProjectConfiguration, WithProjectConfiguration}
+import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.ast.{BaseUnitListener, BaseUnitListenerParams}
 import org.mulesoft.als.server.textsync.EnvironmentProvider
@@ -17,9 +16,7 @@ class ProjectConfigurationAdapter(val folder: String,
                                   editorConfiguration: EditorConfiguration,
                                   val environmentProvider: EnvironmentProvider,
                                   subscribers: List[BaseUnitListener],
-                                  logger: Logger)
-    extends WithProjectConfiguration
-    with PlatformSecrets {
+                                  logger: Logger) {
 
   var repository: Option[WorkspaceParserRepository] = None
 
@@ -50,11 +47,16 @@ class ProjectConfigurationAdapter(val folder: String,
     case _           => Future.successful(None)
   }
 
+  def getProjectConfiguration: Future[ProjectConfiguration] =
+    projectConfigurationProvider
+      .getProjectInfo(folder)
+      .getOrElse(Future(emptyProject))
+      .map(_.config)
+
   def newProjectConfiguration(projectConfiguration: ProjectConfiguration): Future[ProjectConfigurationState] = {
     logger.debug(s"New configuration for $folder: $projectConfiguration",
                  "ProjectConfigurationAdapter",
                  "newProjectConfiguration")
-    this.withProjectConfiguration(projectConfiguration)
     projectConfigurationProvider
       .newProjectConfiguration(folder, projectConfiguration)
       .flatMap(_ => notifyUnits())
