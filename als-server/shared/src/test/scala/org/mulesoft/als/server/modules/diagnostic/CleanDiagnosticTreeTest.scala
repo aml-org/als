@@ -102,8 +102,8 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
                                          editorConfiguration,
                                          DummyConfigProvider) {
 
-    override protected def getWorkspaceConfig(uri: String): Future[Option[ProjectConfiguration]] =
-      Future(configs.get(uri))
+    override protected def getWorkspaceConfig(uri: String): Future[ProjectConfiguration] =
+      Future(configs.getOrElse(uri, ProjectConfiguration.empty(uri)))
 
     def getConfiguration(uri: String): Future[ALSConfigurationState] =
       for {
@@ -113,8 +113,7 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
   }
 
   object DummyConfigProvider extends WorkspaceConfigurationProvider {
-    override def getWorkspaceConfiguration(
-        uri: String): Future[(WorkspaceContentManager, Option[ProjectConfiguration])] =
+    override def getWorkspaceConfiguration(uri: String): Future[(WorkspaceContentManager, ProjectConfiguration)] =
       fail("getWorkspaceConfiguration should not be called from Dummy manager") // will override the specific get config
   }
 

@@ -243,8 +243,11 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
   def findWorkspace(uri: String): Future[WorkspaceContentManager] =
     for {
       _ <- Future.sequence(workspaces.map(_.initialized))
-      wcm <- workspaces.find(ws => ws.containsFile(uri)).map(Future.successful).getOrElse {
-        logger.debug(s"getting default workspace", "WorkspaceList", "findWorkspace")
+      wcmCandidate <- Future
+        .sequence(workspaces.map(ws => ws.containsFile(uri).map((ws, _))))
+        .map(set => set.find(t => t._2).map(_._1))
+      wcm <- wcmCandidate.map(Future(_)).getOrElse {
+        logger.debug(s"Getting default workspace ($uri)", "WorkspaceList", "findWorkspace")
         defaultWorkspace
       }
     } yield wcm
