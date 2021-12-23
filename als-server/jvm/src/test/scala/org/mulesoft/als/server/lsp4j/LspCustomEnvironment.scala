@@ -8,7 +8,7 @@ import org.eclipse.lsp4j.{DidOpenTextDocumentParams, TextDocumentItem}
 import org.mulesoft.als.configuration.ResourceLoaderConverter
 import org.mulesoft.als.logger.EmptyLogger
 import org.mulesoft.als.server.MockDiagnosticClientNotifier
-import org.mulesoft.als.server.client.platform.ClientLanguageServerFactory
+import org.mulesoft.als.server.client.platform.AlsLanguageServerFactory
 import org.mulesoft.als.server.modules.diagnostic.ALL_TOGETHER
 import org.scalatest.{AsyncFunSuite, Matchers}
 
@@ -29,7 +29,7 @@ class LspCustomEnvironment extends AsyncFunSuite with Matchers with PlatformSecr
 
     val notifier = new MockDiagnosticClientNotifier(3000)
     val server = new LanguageServerImpl(
-      new ClientLanguageServerFactory(notifier)
+      new AlsLanguageServerFactory(notifier)
         .withNotificationKind(ALL_TOGETHER)
         .withLogger(EmptyLogger)
         .withResourceLoaders(Seq(cl))

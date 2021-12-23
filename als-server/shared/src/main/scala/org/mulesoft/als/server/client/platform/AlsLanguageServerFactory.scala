@@ -12,18 +12,16 @@ import org.mulesoft.als.server.protocol.LanguageServer
 import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
 
 @JSExportAll
-@JSExportTopLevel("ClientLanguageServerFactory")
-class ClientLanguageServerFactory(protected val _internal: LanguageServerFactory) {
-
-  def this(clientNotifier: ClientNotifier) =
-    this(new LanguageServerFactory(clientNotifier))
+@JSExportTopLevel("AlsLanguageServerFactory")
+class AlsLanguageServerFactory(clientNotifier: ClientNotifier) {
+  private val _internal: LanguageServerFactory = new LanguageServerFactory(clientNotifier)
 
   def withSerializationProps(serializationProps: SerializationProps[_]): this.type = {
     _internal.withSerializationProps(serializationProps)
     this
   }
 
-  def withResourceLoaders(rl: Seq[ClientResourceLoader]): this.type = {
+  def withResourceLoaders(rl: ClientList[ClientResourceLoader]): this.type = {
     _internal.withResourceLoaders(rl.map(ClientResourceLoaderConverter.asInternal))
     this
   }
@@ -48,7 +46,7 @@ class ClientLanguageServerFactory(protected val _internal: LanguageServerFactory
     this
   }
 
-  def withAmfPlugins(plugins: Seq[AMFShapePayloadValidationPlugin]): this.type = {
+  def withAmfPlugins(plugins: ClientList[AMFShapePayloadValidationPlugin]): this.type = {
     _internal.withAmfPlugins(plugins)
     this
   }

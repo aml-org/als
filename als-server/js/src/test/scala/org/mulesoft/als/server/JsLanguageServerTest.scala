@@ -5,7 +5,7 @@ import amf.core.client.scala.resource.ResourceLoader
 import amf.core.internal.convert.CoreClientConverters.ClientList
 import org.mulesoft.als.configuration.{DefaultJsServerSystemConf, JsServerSystemConf, ResourceLoaderConverter}
 import org.mulesoft.als.logger.EmptyLogger
-import org.mulesoft.als.server.client.platform.{AlsClientNotifier, ClientLanguageServerFactory}
+import org.mulesoft.als.server.client.platform.{AlsClientNotifier, AlsLanguageServerFactory}
 import org.mulesoft.als.server.feature.serialization.SerializationResult
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
 import org.mulesoft.als.server.workspace.WorkspaceManager
@@ -30,7 +30,7 @@ class JsLanguageServerTest extends AMFValidatorTest {
 
   test("Test custom validators plugged from client") {
     var flag = false
-    val server = new ClientLanguageServerFactory(clientConnection)
+    val server = new AlsLanguageServerFactory(clientConnection)
       .withSerializationProps(serializationProps)
       .withResourceLoaders(systemConfig.clientLoaders)
       .withDirectoryResolver(systemConfig.clientDirResolver)
@@ -97,7 +97,7 @@ class JsLanguageServerTest extends AMFValidatorTest {
   val platfromLoaders: List[ResourceLoader] = platform.loaders().toList
 
   def getServerResourceLoaders(resourceLoaders: js.Array[ClientResourceLoader]): Seq[ResourceLoader] = {
-    (new ClientLanguageServerFactory(clientConnection)
+    (new AlsLanguageServerFactory(clientConnection)
       .withSerializationProps(serializationProps)
       .withResourceLoaders(resourceLoaders)
       .build()
