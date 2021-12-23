@@ -17,10 +17,10 @@ trait ALSClientConverter extends ALSConverters with ClientLoggerConverter {
   override def asInternal(from: ClientLogger): Logger =
     ClientLoggerAdapter(from)
 
-  override def asInternal(from: ClientAMFValidator): AMFOpaValidatorBuilder =
+  override def toInternal(from: ClientAMFValidator): AMFOpaValidatorBuilder =
     (logger: Logger) => JsCustomValidator(logger, from)
 
-  override def asInternal(from: ClientAMFPlugin): AMFShapePayloadValidationPlugin =
+  override def toInternal(from: ClientAMFPlugin): AMFShapePayloadValidationPlugin =
     PayloadValidationPluginMatcher
       .asInternal(AMFPayloadValidationPluginConverter.toAMF(from))
 
