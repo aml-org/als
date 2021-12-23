@@ -7,10 +7,20 @@ import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.AlsWorkspaceService
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.configuration.ConfigurationProvider
-import org.mulesoft.als.server.modules.workspace.{CompilableUnit, ProjectConfigurationAdapter, WorkspaceContentManager}
+import org.mulesoft.als.server.modules.workspace.{
+  CompilableUnit,
+  MainFileTree,
+  ProjectConfigurationAdapter,
+  WorkspaceContentManager
+}
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.command._
-import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
+import org.mulesoft.amfintegration.ValidationProfile
+import org.mulesoft.amfintegration.amfconfiguration.{
+  EditorConfiguration,
+  EmptyProjectConfigurationState,
+  ProjectConfigurationState
+}
 import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.feature.link.DocumentLink
@@ -164,13 +174,15 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
 
   def buildDefaultWorkspaceManager(): Future[WorkspaceContentManager] = {
     logger.debug(s"created default WorkspaceContentManager", "WorkspaceList", "buildWorkspaceAt")
-    WorkspaceContentManager("",
-                            environmentProvider,
-                            telemetryProvider,
-                            logger,
-                            subscribers,
-                            buildConfigurationAdapter(""),
-                            configurationProvider.getHotReloadDialects)
+    WorkspaceContentManager(
+      "",
+      environmentProvider,
+      telemetryProvider,
+      logger,
+      subscribers,
+      buildConfigurationAdapter("", buildDefaultConfigProvider),
+      configurationProvider.getHotReloadDialects
+    )
   }
 
   private def resetDefaultWorkspace(): Unit = defaultWorkspace = buildDefaultWorkspaceManager()
@@ -213,13 +225,15 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
   private def buildWorkspaceAt(uri: String): Future[WorkspaceContentManager] = {
     val applicableFiles = environmentProvider.openedFiles.filter(_.startsWith(uri))
     for {
-      wcm <- WorkspaceContentManager(uri,
-                                     environmentProvider,
-                                     telemetryProvider,
-                                     logger,
-                                     subscribers,
-                                     buildConfigurationAdapter(uri),
-                                     configurationProvider.getHotReloadDialects)
+      wcm <- WorkspaceContentManager(
+        uri,
+        environmentProvider,
+        telemetryProvider,
+        logger,
+        subscribers,
+        buildConfigurationAdapter(uri, projectConfigurationProvider),
+        configurationProvider.getHotReloadDialects
+      )
       _ <- Future.sequence(applicableFiles.map(wcm.stage(_, OPEN_FILE)))
       _ <- wcm.initialized
     } yield {
@@ -228,13 +242,26 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
     }
   }
 
-  private def buildConfigurationAdapter(folder: String): ProjectConfigurationAdapter =
-    new ProjectConfigurationAdapter(folder,
-                                    projectConfigurationProvider,
-                                    editorConfiguration,
-                                    environmentProvider,
-                                    subscribers,
-                                    logger)
+  //TODO: move to an object
+  private def buildDefaultConfigProvider = new ProjectConfigurationProvider {
+    override def newProjectConfiguration(
+        folder: String,
+        projectConfiguration: ProjectConfiguration): Future[ProjectConfigurationState] =
+      Future.successful(EmptyProjectConfigurationState)
+
+    override def afterNewTree(folder: String, tree: MainFileTree): Future[Unit] = Future.successful()
+
+    override def getProjectInfo(folder: String): Option[Future[ProjectConfigurationState]] = None
+
+    override def getProfiles(folder: String): Future[Seq[ValidationProfile]] = Future.successful(Nil)
+
+    override def getMainFile(folder: String): Option[Future[String]] = None
+  }
+
+  //TODO: move to an object
+  private def buildConfigurationAdapter(folder: String,
+                                        pcp: ProjectConfigurationProvider): ProjectConfigurationAdapter =
+    new ProjectConfigurationAdapter(folder, pcp, editorConfiguration, environmentProvider, subscribers, logger)
 
   def findWorkspace(uri: String): Future[WorkspaceContentManager] =
     for {

@@ -27,7 +27,7 @@ class ProjectConfigurationAdapter(val folder: String,
 
   private val emptyProject: ProjectConfigurationState = EmptyProjectConfigurationState(folder)
 
-  private def projectConfigurationState: Future[ProjectConfigurationState] =
+  def projectConfigurationState: Future[ProjectConfigurationState] =
     projectConfigurationProvider.getProjectInfo(folder).getOrElse(Future.successful(emptyProject))
 
   def getConfigurationState: Future[ALSConfigurationState] = {
