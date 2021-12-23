@@ -19,7 +19,7 @@ import org.mulesoft.als.server._
 import org.mulesoft.als.server.client.platform.{
   AlsClientNotifier,
   ClientConnection,
-  ClientLanguageServerFactory,
+  AlsLanguageServerFactory,
   ClientNotifier
 }
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
@@ -53,7 +53,7 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest {
 
     val notifier: AlsClientNotifier[StringWriter] = new MockAlsClientNotifier
     val server = new LanguageServerImpl(
-      new ClientLanguageServerFactory(clientConnection)
+      new AlsLanguageServerFactory(clientConnection)
         .withSerializationProps(JvmSerializationProps(notifier))
         .withLogger(logger)
         .build())
@@ -71,7 +71,7 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest {
     val clientConnection                          = ClientConnection(logger)
     val notifier: AlsClientNotifier[StringWriter] = new MockAlsClientNotifier
     val server = new LanguageServerImpl(
-      new ClientLanguageServerFactory(clientConnection)
+      new AlsLanguageServerFactory(clientConnection)
         .withSerializationProps(JvmSerializationProps(notifier))
         .withLogger(logger)
         .build())
@@ -234,7 +234,7 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest {
       flag = true
     }
 
-    val server = new ClientLanguageServerFactory(clientConnection)
+    val server = new AlsLanguageServerFactory(clientConnection)
       .withSerializationProps(JvmSerializationProps(notifier))
       .withAmfPlugins(Seq(TestValidator(fn)))
       .withLogger(logger)
