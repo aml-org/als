@@ -1,7 +1,6 @@
 package org.mulesoft.als.server.client.platform
 
 import amf.core.client.platform.resource.ClientResourceLoader
-import amf.core.client.scala.validation.payload.AMFShapePayloadValidationPlugin
 import org.mulesoft.als.configuration.ClientDirectoryResolver
 import org.mulesoft.als.server.ALSConverters._
 import org.mulesoft.als.server.SerializationProps
@@ -22,7 +21,7 @@ class AlsLanguageServerFactory(clientNotifier: ClientNotifier) {
   }
 
   def withResourceLoaders(rl: ClientList[ClientResourceLoader]): this.type = {
-    _internal.withResourceLoaders(rl.map(ClientResourceLoaderConverter.asInternal))
+    _internal.withResourceLoaders(rl.asInternal)
     this
   }
 
@@ -46,8 +45,8 @@ class AlsLanguageServerFactory(clientNotifier: ClientNotifier) {
     this
   }
 
-  def withAmfPlugins(plugins: ClientList[AMFShapePayloadValidationPlugin]): this.type = {
-    _internal.withAmfPlugins(plugins)
+  def withAmfPlugins(plugins: ClientList[ClientAMFPlugin]): this.type = {
+    _internal.withAmfPlugins(plugins.asInternal)
     this
   }
 

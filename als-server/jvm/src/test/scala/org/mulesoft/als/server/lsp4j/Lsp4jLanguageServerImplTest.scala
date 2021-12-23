@@ -38,6 +38,7 @@ import java.io._
 import java.util
 import scala.compat.java8.FutureConverters._
 import scala.concurrent.Future
+import scala.collection.JavaConverters._
 
 class Lsp4jLanguageServerImplTest extends AMFValidatorTest {
 
@@ -236,7 +237,7 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest {
 
     val server = new AlsLanguageServerFactory(clientConnection)
       .withSerializationProps(JvmSerializationProps(notifier))
-      .withAmfPlugins(Seq(TestValidator(fn)))
+      .withAmfPlugins(Seq(TestValidator(fn).asInstanceOf[ALSConverters.ClientAMFPlugin]).asJava)
       .withLogger(logger)
       .build()
 

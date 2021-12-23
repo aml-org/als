@@ -11,6 +11,7 @@ import org.mulesoft.als.server.MockDiagnosticClientNotifier
 import org.mulesoft.als.server.client.platform.AlsLanguageServerFactory
 import org.mulesoft.als.server.modules.diagnostic.ALL_TOGETHER
 import org.scalatest.{AsyncFunSuite, Matchers}
+import scala.collection.JavaConverters._
 
 import java.util.concurrent.CompletableFuture
 class LspCustomEnvironment extends AsyncFunSuite with Matchers with PlatformSecrets {
@@ -32,7 +33,7 @@ class LspCustomEnvironment extends AsyncFunSuite with Matchers with PlatformSecr
       new AlsLanguageServerFactory(notifier)
         .withNotificationKind(ALL_TOGETHER)
         .withLogger(EmptyLogger)
-        .withResourceLoaders(Seq(cl))
+        .withResourceLoaders(Seq(cl).asJava)
         .build())
     val api =
       """#%RAML 1.0
