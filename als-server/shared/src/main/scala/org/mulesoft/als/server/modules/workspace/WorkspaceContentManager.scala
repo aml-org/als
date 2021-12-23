@@ -35,7 +35,7 @@ class WorkspaceContentManager private (val folderUri: String,
         if (stagingArea.hasPending || state == ProcessingProject) // may be changing
           current.flatMap(_ => getCurrentConfiguration)
         else
-          current.flatMap(_ => projectConfigAdapter.getProjectConfiguration))
+          current.flatMap(_ => projectConfigAdapter.getConfigurationState.map(s => Some(s.projectState.config))))
 
   def getConfigurationState: Future[ALSConfigurationState] =
     getCurrentConfiguration.flatMap(_ => projectConfigAdapter.getConfigurationState)
