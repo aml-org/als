@@ -4,7 +4,7 @@ import amf.core.internal.convert.CoreClientConverters._
 import amf.core.client.platform.resource.ClientResourceLoader
 import amf.core.internal.unsafe.PlatformSecrets
 import io.scalajs.nodejs.process
-import org.mulesoft.als.server.client.platform.ClientLanguageServerFactory
+import org.mulesoft.als.server.client.platform.AlsLanguageServerFactory
 import org.mulesoft.als.server.{ClientNotifierFactory, JsSerializationProps, ProtocolConnectionBinder}
 import org.mulesoft.als.vscode.{ProtocolConnection, ServerSocketTransport}
 
@@ -42,7 +42,7 @@ object Main extends PlatformSecrets {
       val clientConnection   = ClientNotifierFactory.createWithClientAware(logger)
       val serializationProps = JsSerializationProps(clientConnection)
 
-      val languageServer = new ClientLanguageServerFactory(clientConnection)
+      val languageServer = new AlsLanguageServerFactory(clientConnection)
         .withSerializationProps(serializationProps)
         .withDirectoryResolver(new ClientPlatformDirectoryResolver(platform))
         .withLogger(logger)
