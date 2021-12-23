@@ -26,8 +26,17 @@ trait ALSConverters extends ApiBaseClientConverter with ClientLoggerConverter {
       ResourceLoaderConverter.internalResourceLoader(from)
   }
 
-  def asInternal(from: ClientAMFValidator): AMFOpaValidatorBuilder
-  def asInternal(from: ClientAMFPlugin): AMFShapePayloadValidationPlugin
+  def toInternal(from: ClientAMFValidator): AMFOpaValidatorBuilder
+  def toInternal(from: ClientAMFPlugin): AMFShapePayloadValidationPlugin
+
+  implicit object ClientAMFPluginConverter
+      extends ClientInternalMatcher[ClientAMFPlugin, AMFShapePayloadValidationPlugin] {
+    override def asInternal(from: ClientAMFPlugin): AMFShapePayloadValidationPlugin = toInternal(from)
+  }
+
+  implicit object ClientAMFValidatorWrapper extends ClientInternalMatcher[ClientAMFValidator, AMFOpaValidatorBuilder] {
+    override def asInternal(from: ClientAMFValidator): AMFOpaValidatorBuilder = toInternal(from)
+  }
 
 }
 
@@ -36,4 +45,4 @@ trait ClientLoggerConverter {
   def asInternal(from: ClientLogger): Logger
 }
 
-object ALSConverters extends ALSConverters with ALSClientConverter
+object ALSConverters extends ALSClientConverter with ALSConverters

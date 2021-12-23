@@ -12,7 +12,7 @@ trait ALSClientConverter extends ALSConverters with ClientLoggerConverter {
 
   override def asInternal(from: ClientLogger): Logger = from
 
-  override def asInternal(from: ClientAMFValidator): AMFOpaValidatorBuilder =
+  override def toInternal(from: ClientAMFValidator): AMFOpaValidatorBuilder =
     (log: Logger) =>
       new AMFOpaValidator {
         override val logger: Logger = log
@@ -20,5 +20,5 @@ trait ALSClientConverter extends ALSConverters with ClientLoggerConverter {
           from.validateWithProfile(profile, data)
     }
 
-  override def asInternal(from: ClientAMFPlugin): AMFShapePayloadValidationPlugin = from
+  override def toInternal(from: ClientAMFPlugin): AMFShapePayloadValidationPlugin = from
 }
