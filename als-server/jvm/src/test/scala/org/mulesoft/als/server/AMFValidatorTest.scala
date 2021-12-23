@@ -2,12 +2,7 @@ package org.mulesoft.als.server
 
 import amf.core.client.common.validation.ValidationMode
 import amf.core.client.scala.model.domain.Shape
-import amf.core.client.scala.validation.payload.{
-  AMFShapePayloadValidationPlugin,
-  AMFShapePayloadValidator,
-  ShapeValidationConfiguration,
-  ValidatePayloadRequest
-}
+import amf.core.client.scala.validation.payload.{AMFShapePayloadValidationPlugin, AMFShapePayloadValidator, ShapeValidationConfiguration, ValidatePayloadRequest}
 import amf.core.internal.unsafe.PlatformSecrets
 
 trait AMFValidatorTest extends LanguageServerBaseTest with PlatformSecrets {
@@ -25,5 +20,4 @@ trait AMFValidatorTest extends LanguageServerBaseTest with PlatformSecrets {
 
     override val id: String = "test-plugin"
   }
-
 }
