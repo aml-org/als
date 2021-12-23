@@ -13,7 +13,7 @@ import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
 @JSExportAll
 @JSExportTopLevel("AlsLanguageServerFactory")
 class AlsLanguageServerFactory(clientNotifier: ClientNotifier) {
-  private val _internal: LanguageServerFactory = new LanguageServerFactory(clientNotifier)
+  protected val _internal: LanguageServerFactory = new LanguageServerFactory(clientNotifier)
 
   def withSerializationProps(serializationProps: SerializationProps[_]): this.type = {
     _internal.withSerializationProps(serializationProps)
