@@ -49,4 +49,18 @@ class DummyAmfOpaValidator(val result: String = "{}") extends AMFOpaValidator wi
       Future.successful(succeed)
     else fail() // to many validations
   }
+
+  def calledAtLeastNTimes(n: Int): Future[Assertion] = {
+    if (callCount < n) { // still did not process N'th validation
+      val promise = Promise[Int]()
+      promises.enqueue(promise)
+      //      timeoutFuture(promise.future, 3000L)
+      promise.future
+        .flatMap(_ => calledNTimes(n))
+        .recover {
+          case _ if callCount == n => succeed
+          case _                   => fail()
+        }
+    } else Future.successful(succeed)
+  }
 }

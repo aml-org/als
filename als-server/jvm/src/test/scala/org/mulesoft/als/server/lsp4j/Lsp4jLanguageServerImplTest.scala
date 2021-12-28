@@ -14,12 +14,16 @@ import org.mulesoft.als.server.modules.workspace.MainFileTree
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.textsync.{EnvironmentProvider, TextDocument}
 import org.mulesoft.als.server.workspace.command.{CommandExecutor, Commands, DidChangeConfigurationCommandExecutor}
-import org.mulesoft.als.server.workspace.{ProjectConfigurationProvider, WorkspaceManager}
+import org.mulesoft.als.server.workspace.{
+  IgnoreProjectConfigurationAdapter,
+  ProjectConfigurationProvider,
+  WorkspaceManager
+}
 import org.mulesoft.als.server._
 import org.mulesoft.als.server.client.platform.{
   AlsClientNotifier,
-  ClientConnection,
   AlsLanguageServerFactory,
+  ClientConnection,
   ClientNotifier
 }
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
@@ -161,23 +165,6 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest {
       override def notifyTelemetry(params: TelemetryMessage): Unit = {}
     }
 
-    class DummyProjectConfigurationAdapter extends ProjectConfigurationProvider {
-      override def newProjectConfiguration(
-          folder: String,
-          projectConfiguration: ProjectConfiguration): Future[ProjectConfigurationState] =
-        Future.successful(EmptyProjectConfigurationState(folder))
-
-      override def afterNewTree(folder: String, tree: MainFileTree): Future[Unit] = Future.successful()
-
-      override def getProjectInfo(folder: String): Option[Future[ProjectConfigurationState]] = None
-
-      override def getProfiles(folder: String): Future[Seq[ValidationProfile]] = Future.successful(Seq.empty)
-
-      override def getMainFile(folder: String): Option[Future[String]] = None
-
-      override def getProjectRoot(folder: String): Option[Future[String]] = None
-    }
-
     class TestWorkspaceManager(editorConfiguration: EditorConfiguration)
         extends WorkspaceManager(
           new EnvironmentProvider {
@@ -196,7 +183,7 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest {
           },
           new DummyTelemetryProvider(),
           editorConfiguration,
-          new DummyProjectConfigurationAdapter,
+          IgnoreProjectConfigurationAdapter,
           Nil,
           Nil,
           EmptyLogger,

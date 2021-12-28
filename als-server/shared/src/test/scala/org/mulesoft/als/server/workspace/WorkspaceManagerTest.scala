@@ -293,8 +293,10 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       new MockDiagnosticClientNotifierWithTelemetryLog
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
       val root        = s"${filePath("ws4")}"
-      val apiRoot     = s"$root/api.raml"
-      val api2Root    = s"$root/api2.raml"
+      val apiName     = "api.raml"
+      val apiRoot     = s"$root/$apiName"
+      val api2Name    = s"api2.raml"
+      val api2Root    = s"$root/$api2Name"
       val apiFragment = s"$root/fragment.raml"
 
       for {
@@ -306,14 +308,10 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
         // api.raml, fragment.raml
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall
-        _ <- server.workspaceService.executeCommand(
-          ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION,
-                               List(s"""{"mainUri": "$api2Root", "dependencies": []}""")))
+        _ <- changeWorkspaceConfiguration(server)(changeConfigArgs(Some(api2Name), Some(root)))
         // api2.raml
         c1 <- diagnosticClientNotifier.nextCall
-        _ <- server.workspaceService.executeCommand(
-          ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION,
-                               List(s"""{"mainUri": "$apiRoot", "dependencies": []}""")))
+        _  <- changeWorkspaceConfiguration(server)(changeConfigArgs(Some(apiName), Some(root)))
         // api.raml, fragment.raml
         d1 <- diagnosticClientNotifier.nextCall
         d2 <- diagnosticClientNotifier.nextCall

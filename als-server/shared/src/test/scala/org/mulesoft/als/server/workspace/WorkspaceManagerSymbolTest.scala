@@ -22,6 +22,8 @@ class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
   private def testStructureForFile(server: LanguageServer, url: String) = {
     for {
       _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+      _ <- changeWorkspaceConfiguration(server)(
+        changeConfigArgs(Some(s"${filePath("ws1")}/api.raml"), Some(filePath("ws1"))))
       _ <- {
         platform.fetchContent(url, AMLConfiguration.predefined()).map { c =>
           server.textDocumentSyncConsumer.didOpen(DidOpenTextDocumentParams(
