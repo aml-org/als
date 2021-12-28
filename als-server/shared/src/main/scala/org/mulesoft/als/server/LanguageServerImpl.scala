@@ -41,20 +41,23 @@ class LanguageServerImpl(val textDocumentSyncConsumer: AlsTextDocumentSyncConsum
       val workspaceFolders: Seq[WorkspaceFolder] = params.workspaceFolders.getOrElse(List())
       workspaceService
         .initialize((workspaceFolders :+ WorkspaceFolder(root, None)).toList)
-        .map(_ => p)
+        .map(_ => {
+          logger.debug("Server initialized", "LanguageServerImpl", "initialize")
+          p
+        })
     }
   }
 
   private def logParams(params: AlsInitializeParams): Unit = {
-    logger.debug(s"trace: ${params.trace}", "LanguageServerImpl", "initialize")
-    logger.debug(s"rootUri: ${params.rootUri}", "LanguageServerImpl", "initialize")
-    logger.debug(s"rootPath: ${params.rootPath}", "LanguageServerImpl", "initialize")
-    logger.debug(s"workspaceFolders: ${params.workspaceFolders.getOrElse(Seq())}", "LanguageServerImpl", "initialize")
+    logger.debug(s"trace: ${params.trace}", "LanguageServerImpl", "logParams")
+    logger.debug(s"rootUri: ${params.rootUri}", "LanguageServerImpl", "logParams")
+    logger.debug(s"rootPath: ${params.rootPath}", "LanguageServerImpl", "logParams")
+    logger.debug(s"workspaceFolders: ${params.workspaceFolders.getOrElse(Seq())}", "LanguageServerImpl", "logParams")
     logger.debug(s"configuration: ${params.configuration.map(_.toString).getOrElse("")}",
                  "LanguageServerImpl",
-                 "initialize")
-    logger.debug(s"capabilities: ${params.capabilities.toString}", "LanguageServerImpl", "initialize")
-    logger.debug(s"hotReload: ${params.hotReload}", "LanguageServerImpl", "initialize")
+                 "logParams")
+    logger.debug(s"capabilities: ${params.capabilities.toString}", "LanguageServerImpl", "logParams")
+    logger.debug(s"hotReload: ${params.hotReload}", "LanguageServerImpl", "logParams")
   }
 
   /**

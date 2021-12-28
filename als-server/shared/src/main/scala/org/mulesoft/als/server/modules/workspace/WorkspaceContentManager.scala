@@ -41,10 +41,15 @@ class WorkspaceContentManager private (val folderUri: String,
   def getConfigurationState: Future[ALSConfigurationState] =
     getCurrentConfiguration.flatMap(_ => projectConfigAdapter.getConfigurationState)
 
-  override def init(): Future[Unit] = {
-    stagingArea.enqueue(folderUri, CHANGE_CONFIG)
-    super.init().map(_ => logger.debug(s"no main for $folderUri", "WorkspaceContentManager", "init"))
-  }
+  override def init(): Future[Unit] =
+    Future {
+      stagingArea.enqueue(folderUri, CHANGE_CONFIG)
+    }.map(_ => {
+      super
+        .init()
+        .map(_ =>
+          logger.debug(s"Finished initialization for workspace at '$folderUri'", "WorkspaceContentManager", "init"))
+    })
 
   def containsFile(uri: String): Future[Boolean] =
     projectConfigAdapter.getProjectConfiguration.map(_.containsInDependencies(uri) || uri.startsWith(folderUri))

@@ -276,14 +276,12 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
   def clear(): Future[Unit] =
     Future
       .sequence(workspaces.map(w => removeWorkspace(w.folderUri)))
-      .flatMap { _ =>
-        resetDefaultWorkspace()
-        defaultWorkspace.flatMap(_.initialized)
-      }
-      .flatMap(_ => Future.unit)
+      .map(_ => {})
 
   def reset(): Future[Unit] = {
-    this.clear()
+    this.clear().map { _ =>
+      resetDefaultWorkspace()
+    }
   }
 
   def allWorkspaces(): Seq[WorkspaceContentManager] = workspaces.toSeq
