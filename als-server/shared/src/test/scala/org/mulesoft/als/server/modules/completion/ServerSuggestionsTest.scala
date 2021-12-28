@@ -6,8 +6,10 @@ import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.workspace.command.Commands
 import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier}
+import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.common.TextDocumentIdentifier
 import org.mulesoft.lsp.feature.completion.{CompletionItem, CompletionParams, CompletionRequestType}
 import org.mulesoft.lsp.textsync.KnownDependencyScopes
@@ -31,33 +33,35 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
   }
 
   def runTest(path: String, expectedSuggestions: Set[String], dialectPath: Option[String] = None): Future[Assertion] =
-    withServer[Assertion](buildServer()) { server =>
-      val resolved = filePath(platform.encodeURI(path))
-      for {
-        content <- this.platform.fetchContent(resolved, AMFGraphConfiguration.predefined())
-        suggestions <- {
-          val fileContentsStr = content.stream.toString
-          val markerInfo      = this.findMarker(fileContentsStr, "*")
-
-          dialectPath
+    withServer[Assertion](buildServer(),
+                          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some("file://als-server"))) {
+      server =>
+        val resolved = filePath(platform.encodeURI(path))
+        for {
+          content <- this.platform.fetchContent(resolved, AMFGraphConfiguration.predefined())
+          _ <- dialectPath
             .map(p => filePath(platform.encodeURI(p)))
             .map { d =>
-              commandRegisterDialect(d, d, server).flatMap(_ => getServerCompletions(resolved, server, markerInfo))
+              commandRegisterDialect(d, d, server)
             }
-            .getOrElse(getServerCompletions(resolved, server, markerInfo))
-        }
-      } yield {
-        val resultSet = suggestions
-          .map(item => item.textEdit.map(_.left.get.newText).orElse(item.insertText).value)
-          .toSet
-        val diff1 = resultSet.diff(expectedSuggestions)
-        val diff2 = expectedSuggestions.diff(resultSet)
+            .getOrElse(Future.successful())
+          suggestions <- {
+            val fileContentsStr = content.stream.toString
+            val markerInfo      = this.findMarker(fileContentsStr, "*")
+            getServerCompletions(resolved, server, markerInfo)
+          }
+        } yield {
+          val resultSet = suggestions
+            .map(item => item.textEdit.map(_.left.get.newText).orElse(item.insertText).value)
+            .toSet
+          val diff1 = resultSet.diff(expectedSuggestions)
+          val diff2 = expectedSuggestions.diff(resultSet)
 
-        if (diff1.isEmpty && diff2.isEmpty) succeed
-        else
-          fail(
-            s"Difference for $path: got [${resultSet.mkString(", ")}] while expecting [${expectedSuggestions.mkString(", ")}]")
-      }
+          if (diff1.isEmpty && diff2.isEmpty) succeed
+          else
+            fail(
+              s"Difference for $path: got [${resultSet.mkString(", ")}] while expecting [${expectedSuggestions.mkString(", ")}]")
+        }
     }
 
   def commandRegisterDialect(dialect: String, folder: String, server: LanguageServer): Future[Unit] = {
