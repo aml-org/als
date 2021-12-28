@@ -22,6 +22,7 @@ import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNoti
 import org.mulesoft.amfintegration.amfconfiguration._
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
 import org.mulesoft.lsp.configuration.TraceKind
+import org.mulesoft.lsp.textsync.KnownDependencyScopes
 import org.mulesoft.lsp.workspace.ExecuteCommandParams
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -121,10 +122,10 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
     withServer(
       buildServer(diagnosticNotifier),
-      AlsInitializeParams(None, Some(TraceKind.Off))
+      AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some("file://test"))
     ) { server =>
-      val dialectPath  = s"file://dialect.yaml"
-      val instancePath = s"file://instance.yaml"
+      val dialectPath  = s"file://test/dialect.yaml"
+      val instancePath = s"file://test/instance.yaml"
 
       val dialectContent =
         """#%Dialect 1.0
@@ -169,7 +170,9 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
         _ <- server.workspaceService.executeCommand(
           ExecuteCommandParams(
             Commands.DID_CHANGE_CONFIGURATION,
-            List(s"""{"mainUri": "", "dependencies": [{"file": "$dialectPath", "scope": "dialect"}]}""")))
+            List(
+              s"""{"folder": "file://test", "dependencies": [{"file": "$dialectPath", "scope": "${KnownDependencyScopes.DIALECT}"}]}""")
+          ))
         _             <- openFileNotification(server)(instancePath, instanceContent1)
         openInvalid   <- diagnosticNotifier.nextCall
         _             <- openFileNotification(server)(instancePath, instanceContent2)
