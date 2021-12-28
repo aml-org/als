@@ -12,7 +12,7 @@ trait ChangesWorkspaceConfiguration extends PlatformSecrets {
   implicit private val Platform: Platform = platform
 
   def changeConfigArgs(mainUri: Option[String],
-                       folder: Option[String] = None,
+                       folder: Option[String],
                        dependencies: Set[String] = Set.empty,
                        profiles: Set[String] = Set.empty,
                        semanticExtensions: Set[String] = Set.empty,
@@ -21,7 +21,9 @@ trait ChangesWorkspaceConfiguration extends PlatformSecrets {
       profiles.map(p => s"""{"file": "$p", "scope": "$CUSTOM_VALIDATION"}""") ++
       semanticExtensions.map(s => s"""{"file": "$s", "scope": "$SEMANTIC_EXTENSION"}""") ++
       dialects.map(d => s"""{"file": "$d", "scope": "$DIALECT"}""")).mkString(",")
-    s"""{"mainUri": "${mainUri.getOrElse("")}", ${folder
+    s"""{
+        "mainUri": "${mainUri.getOrElse("")}",
+        ${folder
       .map(s => s""""folder":"$s",""")
       .getOrElse("")}
       "dependencies": [$allDeps]}

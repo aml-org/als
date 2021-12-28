@@ -16,7 +16,16 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
 
   override protected def buildParamFromMap(m: YMap): Option[DidChangeConfigurationNotificationParams] = {
     val mainUri: Option[String] = m.key("mainUri").flatMap(e => e.value.toOption[String])
-    val folder: String          = m.key("folder").flatMap(e => e.value.toOption[String]).getOrElse("")
+    val folder: String = m
+      .key("folder")
+      .flatMap(e => e.value.toOption[String])
+      .orElse(mainUri)
+      .getOrElse({
+        logger.error("Change configuration command with no folder value or mainUri",
+                     "DidChangeConfigurationCommandExecutor",
+                     "buildParamFromMap")
+        ""
+      })
     val dependencies: Set[Either[String, DependencyConfiguration]] =
       m.key("dependencies").map(seqToSet).getOrElse(Set.empty)
 
@@ -73,10 +82,10 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
 
     }
 
-  private def extractPerScope(param: DidChangeConfigurationNotificationParams, scope: String) =
+  private def extractPerScope(param: DidChangeConfigurationNotificationParams, scope: String): Set[String] =
     param.dependencies
-      .filter(d => d.isRight && d.right.exists(_.scope == scope))
-      .map {
-        case Right(v) => v.file
+      .flatMap {
+        case Right(v) if v.scope == scope => Some(v.file)
+        case Left(_)                      => None
       }
 }

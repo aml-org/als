@@ -141,7 +141,7 @@ class CustomValidationManagerTest
         _ <- changeWorkspaceConfiguration(workspaceManager, args) // register
         _ <- validator.calledNTimes(1)
         _ <- getDiagnostics
-        _ <- changeWorkspaceConfiguration(workspaceManager, changeConfigArgs(Some(mainFile))) // unregister
+        _ <- changeWorkspaceConfiguration(workspaceManager, changeConfigArgs(Some(mainFile), Some(workspacePath))) // unregister
         _ <- getDiagnostics
       } yield {
         succeed
