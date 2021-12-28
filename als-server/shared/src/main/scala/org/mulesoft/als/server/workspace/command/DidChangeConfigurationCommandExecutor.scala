@@ -86,6 +86,6 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
     param.dependencies
       .flatMap {
         case Right(v) if v.scope == scope => Some(v.file)
-        case Left(_)                      => None
+        case _                            => None
       }
 }
