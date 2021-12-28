@@ -95,14 +95,12 @@ class WorkspaceManager protected (val environmentProvider: EnvironmentProvider,
     getWorkspace(uri).flatMap(_.getRootFolderFor(uri))
 
   override def initialize(workspaceFolders: List[WorkspaceFolder]): Future[Unit] = {
+    val newWorkspaces = extractCleanURIs(workspaceFolders)
     workspaces
-      .reset()
-      .flatMap { _ => // Drop all old workspaces
-        val newWorkspaces = extractCleanURIs(workspaceFolders)
+      .initialize(newWorkspaces)
+      .map { _ => // Drop all old workspaces
         dependencies.foreach(d => d.withUnitAccessor(this))
-        workspaces.changeWorkspaces(newWorkspaces, List())
       }
-      .map(_ => {})
   }
 
   private def extractCleanURIs(workspaceFolders: List[WorkspaceFolder]) =
@@ -179,7 +177,7 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
       telemetryProvider,
       logger,
       subscribers,
-      buildConfigurationAdapter("", buildDefaultConfigProvider),
+      buildConfigurationAdapter("", IgnoreProjectConfigurationAdapter),
       configurationProvider.getHotReloadDialects
     )
   }
@@ -241,22 +239,6 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
   }
 
   //TODO: move to an object
-  private def buildDefaultConfigProvider = new ProjectConfigurationProvider {
-    override def newProjectConfiguration(
-        folder: String,
-        projectConfiguration: ProjectConfiguration): Future[ProjectConfigurationState] =
-      Future.successful(EmptyProjectConfigurationState)
-
-    override def afterNewTree(folder: String, tree: MainFileTree): Future[Unit] = Future.successful()
-
-    override def getProjectInfo(folder: String): Option[Future[ProjectConfigurationState]] = None
-
-    override def getProfiles(folder: String): Future[Seq[ValidationProfile]] = Future.successful(Nil)
-
-    override def getMainFile(folder: String): Option[Future[String]] = None
-  }
-
-  //TODO: move to an object
   private def buildConfigurationAdapter(folder: String,
                                         pcp: ProjectConfigurationProvider): ProjectConfigurationAdapter =
     new ProjectConfigurationAdapter(folder, pcp, editorConfiguration, environmentProvider, subscribers, logger)
@@ -278,8 +260,11 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
       .sequence(workspaces.map(w => removeWorkspace(w.folderUri)))
       .map(_ => {})
 
-  def reset(): Future[Unit] = {
-    this.clear().map { _ =>
+  def initialize(workspaces: List[String]): Future[Unit] = {
+    for {
+      _ <- this.clear()
+      _ <- this.changeWorkspaces(workspaces, List())
+    } yield {
       resetDefaultWorkspace()
     }
   }
