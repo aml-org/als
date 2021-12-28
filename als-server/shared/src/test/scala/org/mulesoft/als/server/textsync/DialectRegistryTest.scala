@@ -92,7 +92,8 @@ class DialectRegistryTest extends LanguageServerBaseTest {
       val url = "file:///dialect.yaml"
 
       for {
-        _  <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), hotReload = Some(true)))
+        _ <- server.initialize(
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some("file:///"), hotReload = Some(true)))
         _  <- openFileNotification(server)(url, content)
         _  <- workspaceManager.getUnit(url, UUID.randomUUID().toString)
         c1 <- workspaceManager.getWorkspace(url).flatMap(_.getConfigurationState)
@@ -129,7 +130,8 @@ class DialectRegistryTest extends LanguageServerBaseTest {
       val url = "file:///dialect1.yaml"
 
       for {
-        _        <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), hotReload = Some(true)))
+        _ <- server.initialize(
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some("file:///"), hotReload = Some(true)))
         _        <- openFileNotification(server)(url, content)
         _        <- changeNotification(server)(url, content.replace("2", "3"), 2)
         _        <- workspaceManager.getLastUnit(url, UUID.randomUUID().toString)
@@ -164,7 +166,8 @@ class DialectRegistryTest extends LanguageServerBaseTest {
       val url = "file:///dialect1.yaml"
 
       for {
-        _  <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), hotReload = Some(true)))
+        _ <- server.initialize(
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some("file:///"), hotReload = Some(true)))
         d1 <- workspaceManager.getWorkspace(url).flatMap(_.getConfigurationState).map(_.dialects)
         _  <- openFileNotification(server)(url, content)
         _  <- workspaceManager.getLastUnit(url, UUID.randomUUID().toString)
@@ -203,9 +206,11 @@ class DialectRegistryTest extends LanguageServerBaseTest {
       val url = "file:///dialect1.yaml"
 
       for {
-        _  <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), hotReload = Some(true)))
+        _ <- server.initialize(
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some("file:///"), hotReload = Some(true)))
         d1 <- workspaceManager.getWorkspace(url).flatMap(_.getConfigurationState).map(_.dialects)
-        _  <- changeWorkspaceConfiguration(server)(changeConfigArgs(None, Some(""), dialects = Set(extraDialectPath)))
+        _ <- changeWorkspaceConfiguration(server)(
+          changeConfigArgs(None, Some("file:///"), dialects = Set(extraDialectPath)))
         _  <- workspaceManager.getLastUnit(extraDialectPath, UUID.randomUUID().toString)
         d2 <- workspaceManager.getWorkspace(url).flatMap(_.getConfigurationState).map(_.dialects)
         _  <- openFileNotification(server)(url, content)
@@ -250,8 +255,10 @@ class DialectRegistryTest extends LanguageServerBaseTest {
       val url           = "file:///dialect1.yaml"
 
       for {
-        _  <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), hotReload = Some(true)))
-        _  <- changeWorkspaceConfiguration(server)(changeConfigArgs(None, Some(""), dialects = Set(extraDialectPath)))
+        _ <- server.initialize(
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some("file:///"), hotReload = Some(true)))
+        _ <- changeWorkspaceConfiguration(server)(
+          changeConfigArgs(None, Some("file:///"), dialects = Set(extraDialectPath)))
         _  <- workspaceManager.getLastUnit(extraDialectPath, UUID.randomUUID().toString)
         d1 <- workspaceManager.getWorkspace(url).flatMap(_.getConfigurationState).map(_.dialects)
         _  <- openFileNotification(server)(url, content)
