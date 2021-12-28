@@ -242,7 +242,6 @@ class WorkspaceContentManager private (val folderUri: String,
       c        <- projectConfigAdapter.getConfigurationState
       mainFile <- Future(c.projectState.config.mainFile)
     } yield {
-
       processChangeConfig(c.projectState, snapshot, mainFile)
     }).flatten
 

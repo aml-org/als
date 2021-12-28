@@ -42,7 +42,7 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
 
   override def applyConfig(config: Option[CustomValidationClientCapabilities]): CustomValidationOptions = {
     enabled = config.exists(_.enabled)
-    logger.debug(s"Custom validation manager enabled? ${enabled}", "CustomValidationManager", "applyConfig")
+    logger.debug(s"Custom validation manager enabled? $enabled", "CustomValidationManager", "applyConfig")
     CustomValidationOptions(enabled)
   }
 
