@@ -27,7 +27,7 @@ import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, ExecuteCommandParams}
 
-import scala.collection.mutable
+import scala.collection.{immutable, mutable}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -102,7 +102,6 @@ class WorkspaceManager protected (val environmentProvider: EnvironmentProvider,
         dependencies.foreach(d => d.withUnitAccessor(this))
         workspaces.changeWorkspaces(newWorkspaces, List())
       }
-      .flatMap(_ => Future.sequence(workspaces.allWorkspaces().map(_.initialized)))
       .map(_ => {})
   }
 
@@ -235,7 +234,6 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
         configurationProvider.getHotReloadDialects
       )
       _ <- Future.sequence(applicableFiles.map(wcm.stage(_, OPEN_FILE)))
-      _ <- wcm.initialized
     } yield {
       logger.debug(s"created WorkspaceContentManager for $uri", "WorkspaceList", "buildWorkspaceAt")
       wcm
