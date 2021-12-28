@@ -35,7 +35,8 @@ class WorkspaceContentManager private (val folderUri: String,
         if (stagingArea.hasPending || state == ProcessingProject) // may be changing
           current.flatMap(_ => getCurrentConfiguration)
         else
-          current.flatMap(_ => projectConfigAdapter.getConfigurationState.map(s => Some(s.projectState.config))))
+          current.flatMap(_ => projectConfigAdapter.getConfigurationState.map(s => s.projectState.config))
+    )
 
   def getConfigurationState: Future[ALSConfigurationState] =
     getCurrentConfiguration.flatMap(_ => projectConfigAdapter.getConfigurationState)
@@ -365,6 +366,7 @@ object WorkspaceContentManager {
                                           repository,
                                           projectConfigAdapter.withRepository(repository),
                                           hotReload)
-    wcm.init().map(_ => wcm)
+    wcm.init()
+    Future.successful(wcm) // TODO: ????
   }
 }
