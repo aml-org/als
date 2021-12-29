@@ -6489,15 +6489,15 @@ declare module '@aml-org/als-node-client' {
          serializationProps: JsSerializationProps): void
   }
 
-  export const LanguageServerFactory: {
-    fromLoaders(clientNotifier: ClientNotifier,
-                serializationProps: JsSerializationProps,
-                clientLoaders?: ResourceLoader[],
-                clientDirResolver?: ClientDirectoryResolver,
-                logger?: ClientLogger,
-                withDiagnostics?: boolean,
-                notificationKind?: DiagnosticNotificationsKind,
-                amfPlugins?: JsAMFPayloadValidationPlugin[]): LanguageServer
+  export class AlsLanguageServerFactory {
+    constructor(clientNotifier:ClientNotifier)
+    withSerializationProps(serializationProps: JsSerializationProps): AlsLanguageServerFactory
+    withResourceLoaders(rl: ResourceLoader[]):AlsLanguageServerFactory
+    withLogger(logger: ClientLogger): AlsLanguageServerFactory
+    withNotificationKind(notificationsKind: DiagnosticNotificationsKind): AlsLanguageServerFactory
+    withDirectoryResolver(dr: ClientDirectoryResolver): AlsLanguageServerFactory
+    withPlugin(plugin:JsAMFPayloadValidationPlugin): AlsLanguageServerFactory
+    build() : LanguageServer
   }
 
   export interface ClientLogger extends VsCodeLogger { }
