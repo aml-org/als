@@ -88,11 +88,8 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
     override def accepts(resource: String): Boolean = files.keySet.contains(resource)
   }
 
-  def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer =
-    buildServer(diagnosticNotifier, None)._1
-
   def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier,
-                  validator: Option[AMFOpaValidator]): (LanguageServer, WorkspaceManager) = {
+                  validator: Option[AMFOpaValidator] = None): LanguageServer = {
     val global  = EditorConfiguration.withPlatformLoaders(Seq(rl))
     val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, global)
     val dm      = builder.buildDiagnosticManagers(validator)
@@ -103,7 +100,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
                                       factory.resolutionTaskManager)
     b.addRequestModule(factory.cleanDiagnosticManager)
     dm.foreach(m => b.addInitializableModule(m))
-    (b.build(), factory.workspaceManager)
+    b.build()
   }
 
   override def rootPath: String = "diagnostics"
@@ -208,7 +205,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
       .flatMap(negativeReport => {
         val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
         val validator                                        = new DummyAmfOpaValidator(negativeReport.toString())
-        val (server, workspaceManager)                       = buildServer(diagnosticNotifier, Some(validator))
+        val server                                           = buildServer(diagnosticNotifier, Some(validator))
         withServer(server, customValidationInitParams) {
           s =>
             val mainFilePath       = s"file:///api.raml"
@@ -221,7 +218,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
             for {
               _ <- openFileNotification(s)(mainFilePath, mainContent)
               _ <- diagnosticNotifier.nextCall
-              _ <- changeWorkspaceConfiguration(workspaceManager, args)
+              _ <- changeWorkspaceConfiguration(server)(args)
               _ <- diagnosticNotifier.nextCall
               d <- requestCleanDiagnostic(s)(mainFilePath)
               _ <- validator.calledAtLeastNTimes(2)
@@ -243,7 +240,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
       .flatMap(negativeReport => {
         val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
         val validator                                        = new DummyAmfOpaValidator(negativeReport.toString())
-        val (server, workspaceManager)                       = buildServer(diagnosticNotifier, Some(validator))
+        val server                                           = buildServer(diagnosticNotifier, Some(validator))
         withServer(server, customValidationInitParams) {
           s =>
             val mainFilePath       = s"file:///api.raml"
@@ -256,7 +253,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
             for {
               _ <- openFileNotification(s)(mainFilePath, mainContent)
               _ <- diagnosticNotifier.nextCall
-              _ <- changeWorkspaceConfiguration(workspaceManager, args)
+              _ <- changeWorkspaceConfiguration(server)(args)
               _ <- diagnosticNotifier.nextCall
               d <- requestCleanDiagnostic(s)(mainFilePath)
               _ <- validator.calledAtLeastNTimes(2)
