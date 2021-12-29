@@ -432,7 +432,7 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
   test("Serialize registered validation profile") {
     val alsClient: MockAlsClientNotifier       = new MockAlsClientNotifier
     val notifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
-    val initialArgs: String                    = changeConfigArgs(Some(main), Some(workspace), Set.empty, Set(profileUrl))
+    val initialArgs: String                    = changeConfigArgs(Some(main), workspace, Set.empty, Set(profileUrl))
     implicit val serializationProps: SerializationProps[StringWriter] = {
       new SerializationProps[StringWriter](alsClient) {
         override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
@@ -477,7 +477,7 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
     val workspace                              = s"${filePath("custom-validation")}"
     val alsClient: MockAlsClientNotifier       = new MockAlsClientNotifier
     val notifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(6000)
-    val initialArgs: String                    = changeConfigArgs(Some(main), Some(workspace), Set.empty, Set(profileUrl))
+    val initialArgs: String                    = changeConfigArgs(Some(main), workspace, Set.empty, Set(profileUrl))
     implicit val serializationProps: SerializationProps[StringWriter] = {
       new SerializationProps[StringWriter](alsClient) {
         override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =

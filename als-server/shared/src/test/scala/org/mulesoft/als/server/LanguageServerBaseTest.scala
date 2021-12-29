@@ -96,7 +96,7 @@ abstract class LanguageServerBaseTest
   }
 
   def setMainFile(server: LanguageServer)(workspace: String, mainFile: String): Future[AnyRef] =
-    changeWorkspaceConfiguration(server)(changeConfigArgs(Some(mainFile), Some(workspace)))
+    changeWorkspaceConfiguration(server)(changeConfigArgs(Some(mainFile), workspace))
 
   def openFile(server: LanguageServer)(uri: String, text: String): Future[Unit] =
     server.textDocumentSyncConsumer.didOpen(DidOpenTextDocumentParams(TextDocumentItem(uri, "", 0, text)))

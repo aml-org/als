@@ -33,7 +33,7 @@ class WorkspaceManagerWithoutDiagnosticsTest extends LanguageServerBaseTest with
       """.stripMargin
     val fragmentUri = s"${filePath("ws2/fragment.raml")}"
     val config      = AMLConfiguration.predefined()
-    val initialArgs = changeConfigArgs(Some("api.raml"), Some(filePath("ws2")))
+    val initialArgs = changeConfigArgs(Some("api.raml"), filePath("ws2"))
     withServer[Assertion](buildServer(factory)) { server =>
       for {
         _               <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws2")}")))

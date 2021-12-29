@@ -93,7 +93,7 @@ class CustomValidationManagerTest
     implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
     val validator                                                 = new DummyAmfOpaValidator
     val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
-    val initialArgs                                               = changeConfigArgs(Some(mainFileName), Some(workspacePath), Set.empty, Set.empty)
+    val initialArgs                                               = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set.empty)
     withServer(server, buildInitParams(workspacePath)) { server =>
       for {
         content <- platform.fetchContent(mainFile, AMFGraphConfiguration.predefined()).map(_.stream.toString)
@@ -110,7 +110,7 @@ class CustomValidationManagerTest
     implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
     val validator                                                 = new DummyAmfOpaValidator
     val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
-    val initialArgs                                               = changeConfigArgs(Some(mainFileName), Some(workspacePath), Set.empty, Set.empty)
+    val initialArgs                                               = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set.empty)
     withServer(server) { _ =>
       for {
         _       <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(workspacePath)))
@@ -130,8 +130,8 @@ class CustomValidationManagerTest
     implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
     val validator                                                 = new DummyAmfOpaValidator
     val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
-    val initialArgs                                               = changeConfigArgs(Some(mainFileName), Some(workspacePath), Set.empty, Set.empty)
-    val args                                                      = changeConfigArgs(Some(mainFileName), Some(workspacePath), Set.empty, Set(profileUri))
+    val initialArgs                                               = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set.empty)
+    val args                                                      = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profileUri))
 
     withServer(server, buildInitParams(workspacePath)) { _ =>
       for {
@@ -141,7 +141,7 @@ class CustomValidationManagerTest
         _ <- changeWorkspaceConfiguration(workspaceManager, args) // register
         _ <- validator.calledNTimes(1)
         _ <- getDiagnostics
-        _ <- changeWorkspaceConfiguration(workspaceManager, changeConfigArgs(Some(mainFileName), Some(workspacePath))) // unregister
+        _ <- changeWorkspaceConfiguration(workspaceManager, changeConfigArgs(Some(mainFileName), workspacePath)) // unregister
         _ <- getDiagnostics
       } yield {
         succeed
@@ -161,7 +161,7 @@ class CustomValidationManagerTest
 
     val validator                  = new DummyAmfOpaValidator
     val (server, workspaceManager) = buildServerForSerialize(diagnosticNotifier, validator, serializationProps)
-    val args                       = changeConfigArgs(Some(mainFileName), Some(workspacePath), Set.empty, Set(profileUri))
+    val args                       = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profileUri))
 
     withServer(server, buildInitParams(workspacePath)) { _ =>
       for {
@@ -182,7 +182,7 @@ class CustomValidationManagerTest
         implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
         val validator                                                 = new DummyAmfOpaValidator(negativeReport.toString)
         val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
-        val args                                                      = changeConfigArgs(Some(mainFileName), Some(workspacePath), Set.empty, Set(profileUri))
+        val args                                                      = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profileUri))
 
         withServer(server, buildInitParams(workspacePath)) {
           _ =>
@@ -218,7 +218,7 @@ class CustomValidationManagerTest
         implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
         val validator                                                 = new DummyAmfOpaValidator(negativeReport.toString)
         val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
-        val args                                                      = changeConfigArgs(None, Some(workspacePath), Set.empty, Set(profileUri))
+        val args                                                      = changeConfigArgs(None, workspacePath, Set.empty, Set(profileUri))
 
         withServer(server, buildInitParams(workspacePath)) {
           server =>
@@ -257,7 +257,7 @@ class CustomValidationManagerTest
         implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
         val validator                                                 = new DummyAmfOpaValidator(negativeReport.toString)
         val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
-        val args                                                      = changeConfigArgs(None, Some(workspacePath), Set.empty, Set(profileUri))
+        val args                                                      = changeConfigArgs(None, workspacePath, Set.empty, Set(profileUri))
 
         withServer(server, buildInitParams(workspacePath)) {
           server =>
@@ -301,8 +301,8 @@ class CustomValidationManagerTest
         implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
         val validator                                                 = new DummyAmfOpaValidator(negativeReport.toString)
         val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
-        val initialArgs                                               = changeConfigArgs(Some(mainFileName), Some(workspacePath))
-        val args                                                      = changeConfigArgs(Some(mainFileName), Some(workspacePath), Set.empty, Set(profileUri))
+        val initialArgs                                               = changeConfigArgs(Some(mainFileName), workspacePath)
+        val args                                                      = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profileUri))
 
         withServer(server, buildInitParams(workspacePath)) {
           server =>
@@ -338,7 +338,7 @@ class CustomValidationManagerTest
         implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
         val validator                                                 = new DummyAmfOpaValidator(negativeReport.toString)
         val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
-        val args                                                      = changeConfigArgs(None, Some(workspacePath), Set.empty, Set(profileUri))
+        val args                                                      = changeConfigArgs(None, workspacePath, Set.empty, Set(profileUri))
 
         withServer(server, buildInitParams(workspacePath)) {
           server =>
@@ -376,8 +376,8 @@ class CustomValidationManagerTest
         implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
         val validator                                                 = new DummyAmfOpaValidator(negativeReport.toString)
         val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
-        val args                                                      = changeConfigArgs(Some(mainFileName), Some(workspacePath), Set.empty, Set(profileUri))
-        val args2                                                     = changeConfigArgs(Some(mainFileName), Some(workspacePath))
+        val args                                                      = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profileUri))
+        val args2                                                     = changeConfigArgs(Some(mainFileName), workspacePath)
 
         withServer(server, buildInitParams(workspacePath)) {
           _ =>
@@ -418,8 +418,8 @@ class CustomValidationManagerTest
         implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
         val validator                                                 = new DummyAmfOpaValidator(negativeReport.toString)
         val (server, workspaceManager)                                = buildServer(diagnosticNotifier, validator)
-        val args                                                      = changeConfigArgs(None, Some(workspacePath), Set.empty, Set(profileUri))
-        val args2                                                     = changeConfigArgs(None, Some(workspacePath))
+        val args                                                      = changeConfigArgs(None, workspacePath, Set.empty, Set(profileUri))
+        val args2                                                     = changeConfigArgs(None, workspacePath)
 
         withServer(server, buildInitParams(workspacePath)) {
           server =>

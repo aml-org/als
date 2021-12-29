@@ -58,7 +58,7 @@ class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with Changes
         ))
       _ <- changeWorkspaceConfiguration(
         workspaceManager,
-        changeConfigArgs(None, Some(workspaceFolder), Set.empty, Set(profileUri))) // register profile
+        changeConfigArgs(None, workspaceFolder, Set.empty, Set(profileUri))) // register profile
       r <- runFor(relativeUri, workspaceFolder, prefix, diagnosticNotifier)
     } yield {
       r
