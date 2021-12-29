@@ -1,4 +1,5 @@
 import Dependencies.deps
+import NpmOpsPlugin.autoImport.{npmDependencies, npmPackageLoc}
 import org.scalajs.core.tools.linker.ModuleKind
 import org.scalajs.core.tools.linker.backend.OutputMode
 import org.scalajs.sbtplugin.ScalaJSPlugin.AutoImport.{fastOptJS, scalaJSOutputMode}
@@ -16,6 +17,10 @@ version := deps("version")
 jsEnv := new org.scalajs.jsenv.nodejs.NodeJSEnv()
 
 publish := {}
+
+val commonNpmDependencies = List(
+  ("ajv", "6.12.6")
+)
 
 lazy val workspaceDirectory: File =
   sys.props.get("sbt.mulesoft") match {
@@ -67,7 +72,9 @@ lazy val common = crossProject(JSPlatform, JVMPlatform).settings(
   .settings(settings: _*)
   .jsSettings(
     scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
-    scalaJSModuleKind := ModuleKind.CommonJSModule
+    scalaJSModuleKind := ModuleKind.CommonJSModule,
+    npmDependencies ++= commonNpmDependencies,
+    npmPackageLoc := "als-common/js"
     //        artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
   ).disablePlugins(SonarPlugin)
 
@@ -88,7 +95,7 @@ lazy val lsp = crossProject(JSPlatform, JVMPlatform).settings(
   )
   .jsSettings(
     scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
-    scalaJSModuleKind := ModuleKind.CommonJSModule
+    scalaJSModuleKind := ModuleKind.CommonJSModule,
     //        artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
   ).disablePlugins(SonarPlugin)
 
@@ -107,7 +114,9 @@ lazy val suggestions = crossProject(JSPlatform, JVMPlatform).settings(
   .jsSettings(
     skip in packageJSDependencies := false,
     scalaJSOutputMode := OutputMode.Defaults,
-    scalaJSModuleKind := ModuleKind.CommonJSModule
+    scalaJSModuleKind := ModuleKind.CommonJSModule,
+    npmDependencies ++= commonNpmDependencies,
+    npmPackageLoc := "als-suggestions/js"
   ).disablePlugins(SonarPlugin)
 
 lazy val suggestionsJVM = suggestions.jvm.in(file("./als-suggestions/jvm"))
@@ -126,7 +135,9 @@ lazy val structure = crossProject(JSPlatform, JVMPlatform).settings(
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
     libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
     scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
-    scalaJSModuleKind := ModuleKind.CommonJSModule
+    scalaJSModuleKind := ModuleKind.CommonJSModule,
+    npmDependencies ++= commonNpmDependencies,
+    npmPackageLoc := "als-structure/js"
     //    artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"als-suggestions.js"
   ).disablePlugins(SonarPlugin)
 
@@ -144,11 +155,13 @@ lazy val actions = crossProject(JSPlatform, JVMPlatform)
   .jsSettings(
     skip in packageJSDependencies := false,
     scalaJSOutputMode := OutputMode.Defaults,
-    scalaJSModuleKind := ModuleKind.CommonJSModule
+    scalaJSModuleKind := ModuleKind.CommonJSModule,
+    npmDependencies ++= commonNpmDependencies,
+    npmPackageLoc := "als-actions/js"
   ).disablePlugins(SonarPlugin)
 
-lazy val actionsJVM = server.jvm.in(file("./als-actions/jvm"))
-lazy val actionsJS = server.js.in(file("./als-actions/js")).disablePlugins(SonarPlugin)
+lazy val actionsJVM = actions.jvm.in(file("./als-actions/jvm"))
+lazy val actionsJS = actions.js.in(file("./als-actions/js")).disablePlugins(SonarPlugin)
 
 /** ALS server */
 
@@ -184,8 +197,8 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
     scalaJSModuleKind := ModuleKind.CommonJSModule,
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
 
-    artifactPath in(Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" / "als-server.js",
-    artifactPath in(Compile, fullOptJS) := baseDirectory.value / "target" / "artifact" / "als-server.min.js"
+    Compile / fastOptJS / artifactPath := baseDirectory.value / "node-package" / "lib" / "als-server.js",
+    Compile / fullOptJS / artifactPath := baseDirectory.value / "node-package" / "lib" / "als-server.min.js"
   )
 
 lazy val serverJVM = server.jvm.in(file("./als-server/jvm"))
@@ -206,7 +219,7 @@ lazy val nodeClient = project
     scalaJSUseMainModuleInitializer := true,
     scalaJSModuleKind := ModuleKind.CommonJSModule,
     libraryDependencies += "io.scalajs" %%% "nodejs-core" % "0.4.2",
-    mainClass in Compile := Some("org.mulesoft.als.nodeclient.Main"),
+    Compile / mainClass := Some("org.mulesoft.als.nodeclient.Main"),
 
     npmIClient := {
       Process(s"npm install @aml-org/amf-custom-validator@$amfCustomValidatorJSVersion", new File("./als-node-client/node-package/")) #&&
@@ -219,11 +232,11 @@ lazy val nodeClient = project
 
     test in Test := ((test in Test) dependsOn npmIClient).value,
     artifactPath in(Test, fastOptJS) := baseDirectory.value / "node-package" / "tmp" / "als-node-client.js",
-    artifactPath in(Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" / "als-node-client.js",
-    artifactPath in(Compile, fullOptJS) := baseDirectory.value / "target" / "artifact" / "als-node-client.js"
+    Compile / fastOptJS / artifactPath := baseDirectory.value / "node-package" / "dist" / "als-node-client.js",
+    Compile / fullOptJS / artifactPath := baseDirectory.value / "node-package" / "dist" / "als-node-client.min.js"
   ))
 /** ALS build tasks */
-  
+
 // Server library
 
 val buildJsServerLibrary = TaskKey[Unit]("buildJsServerLibrary", "Build server library")
@@ -232,11 +245,6 @@ buildJsServerLibrary := {
   (fastOptJS in Compile in serverJS).value
   (fullOptJS in Compile in serverJS).value
   (installJsDependencies in serverJS).value
-  val result = (Process(
-    "./scripts/build.sh",
-    new File("./als-server/js/node-package/")
-  ).!)
-  if(result != 0) throw new IllegalStateException("Node JS build.sh failed")
 }
 
 // Node client
@@ -246,10 +254,6 @@ buildNodeJsClient := {
   (fastOptJS in Compile in nodeClient).value
   (fullOptJS in Compile in nodeClient).value
   (npmIClient in nodeClient).value
-  val result = (Process("./scripts/build.sh",
-    new File("./als-node-client/node-package/")
-  ).!)
-  if(result != 0) throw new IllegalStateException("Node JS build.sh failed")
 }
 
 // ************** SONAR *******************************
@@ -309,7 +313,7 @@ lazy val fat = crossProject(JVMPlatform).settings(
     case PathList(ps@_*) if ps.last endsWith "JS_DEPENDENCIES" => MergeStrategy.discard
     case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
     case x => MergeStrategy.first
-  },
+  }
 )
 
 lazy val coreJVM = fat.jvm.in(file("./als-fat/jvm")).disablePlugins(SonarPlugin)
