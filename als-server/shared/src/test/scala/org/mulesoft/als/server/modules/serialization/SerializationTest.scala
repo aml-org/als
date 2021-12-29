@@ -439,12 +439,11 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
           JsonOutputBuilder(prettyPrint)
       }
     }
-    val (server, workspaceManager) =
-      buildServerWithWorkspaceManager(serializationProps, notifier, withDiagnostics = true)
+    val server = buildServer(serializationProps, notifier, withDiagnostics = true)
     withServer(server) { server =>
       for {
         _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(workspace)))
-        _ <- changeWorkspaceConfiguration(workspaceManager, initialArgs)
+        _ <- changeWorkspaceConfiguration(server)(initialArgs)
         _ <- notifier.nextCall
         r <- assertSerialization(server, profileUrl, goldenUrl)
       } yield r
@@ -461,7 +460,7 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
           JsonOutputBuilder(prettyPrint)
       }
     }
-    val (server, _) = buildServerWithWorkspaceManager(serializationProps, notifier, withDiagnostics = true)
+    val server = buildServer(serializationProps, notifier, withDiagnostics = true)
     withServer(server) { server =>
       for {
         _       <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(workspace)))
@@ -484,12 +483,11 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
           JsonOutputBuilder(prettyPrint)
       }
     }
-    val (server, workspaceManager) =
-      buildServerWithWorkspaceManager(serializationProps, notifier, withDiagnostics = true)
+    val server = buildServer(serializationProps, notifier, withDiagnostics = true)
     withServer(server) { server =>
       for {
         _       <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(workspace)))
-        _       <- changeWorkspaceConfiguration(workspaceManager, initialArgs)
+        _       <- changeWorkspaceConfiguration(server)(initialArgs)
         _       <- notifier.nextCall
         _       <- assertSerialization(server, profileUrl, goldenUrl) // Registered profile
         content <- platform.fetchContent(profileUrl, AMFGraphConfiguration.predefined()).map(_.stream.toString)
@@ -514,13 +512,8 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
     } yield r
 
   def buildServer(serializationProps: SerializationProps[StringWriter],
-                  notifier: Option[ClientNotifier] = None): LanguageServer =
-    buildServerWithWorkspaceManager(serializationProps, notifier.getOrElse(new MockDiagnosticClientNotifier))._1
-
-  def buildServerWithWorkspaceManager(serializationProps: SerializationProps[StringWriter],
-                                      notifier: ClientNotifier,
-                                      withDiagnostics: Boolean = false): (LanguageServer, WorkspaceManager) = {
-
+                  notifier: ClientNotifier = new MockDiagnosticClientNotifier,
+                  withDiagnostics: Boolean = false): LanguageServer = {
     val factoryBuilder: WorkspaceManagerFactoryBuilder =
       new WorkspaceManagerFactoryBuilder(notifier, logger, EditorConfiguration())
     val dm = factoryBuilder.buildDiagnosticManagers(Some(new DummyAmfOpaValidator))
@@ -536,7 +529,7 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
     builder.addInitializableModule(serializationManager)
     if (withDiagnostics) dm.foreach(m => builder.addInitializableModule(m))
     builder.addRequestModule(serializationManager)
-    (builder.build(), factory.workspaceManager)
+    builder.build()
   }
 
   override def rootPath: String = "serialization"
