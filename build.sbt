@@ -147,8 +147,8 @@ lazy val actions = crossProject(JSPlatform, JVMPlatform)
     scalaJSModuleKind := ModuleKind.CommonJSModule
   ).disablePlugins(SonarPlugin)
 
-lazy val actionsJVM = server.jvm.in(file("./als-actions/jvm"))
-lazy val actionsJS = server.js.in(file("./als-actions/js")).disablePlugins(SonarPlugin)
+lazy val actionsJVM = actions.jvm.in(file("./als-actions/jvm"))
+lazy val actionsJS = actions.js.in(file("./als-actions/js")).disablePlugins(SonarPlugin)
 
 /** ALS server */
 
