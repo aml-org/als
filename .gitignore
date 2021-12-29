@@ -30,7 +30,3 @@ als-server/js/node-package/dist/
 *als-server.min.js
 *als-server.min.js.map
 /lsp/*
-!als-common/js/node_modules
-!als-actions/js/node_modules
-!als-structure/js/node_modules
-!als-suggestions/js/node_modules

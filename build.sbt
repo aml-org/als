@@ -1,4 +1,5 @@
 import Dependencies.deps
+import NpmOpsPlugin.autoImport.{npmDependencies, npmPackageLoc}
 import org.scalajs.core.tools.linker.ModuleKind
 import org.scalajs.core.tools.linker.backend.OutputMode
 import org.scalajs.sbtplugin.ScalaJSPlugin.AutoImport.{fastOptJS, scalaJSOutputMode}
@@ -16,6 +17,10 @@ version := deps("version")
 jsEnv := new org.scalajs.jsenv.nodejs.NodeJSEnv()
 
 publish := {}
+
+val commonNpmDependencies = List(
+  ("ajv", "6.12.6")
+)
 
 lazy val workspaceDirectory: File =
   sys.props.get("sbt.mulesoft") match {
@@ -67,7 +72,9 @@ lazy val common = crossProject(JSPlatform, JVMPlatform).settings(
   .settings(settings: _*)
   .jsSettings(
     scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
-    scalaJSModuleKind := ModuleKind.CommonJSModule
+    scalaJSModuleKind := ModuleKind.CommonJSModule,
+    npmDependencies ++= commonNpmDependencies,
+    npmPackageLoc := "als-common/js"
     //        artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
   ).disablePlugins(SonarPlugin)
 
@@ -88,7 +95,7 @@ lazy val lsp = crossProject(JSPlatform, JVMPlatform).settings(
   )
   .jsSettings(
     scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
-    scalaJSModuleKind := ModuleKind.CommonJSModule
+    scalaJSModuleKind := ModuleKind.CommonJSModule,
     //        artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
   ).disablePlugins(SonarPlugin)
 
@@ -107,7 +114,9 @@ lazy val suggestions = crossProject(JSPlatform, JVMPlatform).settings(
   .jsSettings(
     skip in packageJSDependencies := false,
     scalaJSOutputMode := OutputMode.Defaults,
-    scalaJSModuleKind := ModuleKind.CommonJSModule
+    scalaJSModuleKind := ModuleKind.CommonJSModule,
+    npmDependencies ++= commonNpmDependencies,
+    npmPackageLoc := "als-suggestions/js"
   ).disablePlugins(SonarPlugin)
 
 lazy val suggestionsJVM = suggestions.jvm.in(file("./als-suggestions/jvm"))
@@ -126,7 +135,9 @@ lazy val structure = crossProject(JSPlatform, JVMPlatform).settings(
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
     libraryDependencies += "com.lihaoyi" %%% "upickle" % "0.5.1",
     scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
-    scalaJSModuleKind := ModuleKind.CommonJSModule
+    scalaJSModuleKind := ModuleKind.CommonJSModule,
+    npmDependencies ++= commonNpmDependencies,
+    npmPackageLoc := "als-structure/js"
     //    artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"als-suggestions.js"
   ).disablePlugins(SonarPlugin)
 
@@ -144,7 +155,9 @@ lazy val actions = crossProject(JSPlatform, JVMPlatform)
   .jsSettings(
     skip in packageJSDependencies := false,
     scalaJSOutputMode := OutputMode.Defaults,
-    scalaJSModuleKind := ModuleKind.CommonJSModule
+    scalaJSModuleKind := ModuleKind.CommonJSModule,
+    npmDependencies ++= commonNpmDependencies,
+    npmPackageLoc := "als-actions/js"
   ).disablePlugins(SonarPlugin)
 
 lazy val actionsJVM = actions.jvm.in(file("./als-actions/jvm"))
