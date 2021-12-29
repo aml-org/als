@@ -209,8 +209,7 @@ class DialectRegistryTest extends LanguageServerBaseTest {
         _ <- server.initialize(
           AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some("file:///"), hotReload = Some(true)))
         d1 <- workspaceManager.getWorkspace(url).flatMap(_.getConfigurationState).map(_.dialects)
-        _ <- changeWorkspaceConfiguration(server)(
-          changeConfigArgs(None, Some("file:///"), dialects = Set(extraDialectPath)))
+        _  <- changeWorkspaceConfiguration(server)(changeConfigArgs(None, "file:///", dialects = Set(extraDialectPath)))
         _  <- workspaceManager.getLastUnit(extraDialectPath, UUID.randomUUID().toString)
         d2 <- workspaceManager.getWorkspace(url).flatMap(_.getConfigurationState).map(_.dialects)
         _  <- openFileNotification(server)(url, content)
@@ -257,8 +256,7 @@ class DialectRegistryTest extends LanguageServerBaseTest {
       for {
         _ <- server.initialize(
           AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some("file:///"), hotReload = Some(true)))
-        _ <- changeWorkspaceConfiguration(server)(
-          changeConfigArgs(None, Some("file:///"), dialects = Set(extraDialectPath)))
+        _  <- changeWorkspaceConfiguration(server)(changeConfigArgs(None, "file:///", dialects = Set(extraDialectPath)))
         _  <- workspaceManager.getLastUnit(extraDialectPath, UUID.randomUUID().toString)
         d1 <- workspaceManager.getWorkspace(url).flatMap(_.getConfigurationState).map(_.dialects)
         _  <- openFileNotification(server)(url, content)

@@ -120,7 +120,7 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
       workspaceManager
         .initialize(List(WorkspaceFolder(filePath(rootFolder))))
         .flatMap(_ => {
-          val initialArgs = changeConfigArgs(mainFile, Some(filePath(rootFolder)))
+          val initialArgs = changeConfigArgs(mainFile, filePath(rootFolder))
           workspaceManager
             .executeCommand(ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION, List(initialArgs)))
             .map(_ => {})
