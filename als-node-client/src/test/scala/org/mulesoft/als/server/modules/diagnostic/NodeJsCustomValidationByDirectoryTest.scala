@@ -47,8 +47,7 @@ class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with Changes
 
   private def runForPrefix(workspaceFolder: String, relativeUri: String, profileUri: String, prefix: String) = {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
-    val (server, workspaceManager)                       = buildServer(diagnosticNotifier)
-    implicit val s: LanguageServer                       = server
+    implicit val server: LanguageServer                  = buildServer(diagnosticNotifier)
     for {
       _ <- server.initialize(
         AlsInitializeParams(
@@ -56,9 +55,7 @@ class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with Changes
           Some(TraceKind.Off),
           rootUri = Some(workspaceFolder)
         ))
-      _ <- changeWorkspaceConfiguration(
-        workspaceManager,
-        changeConfigArgs(None, workspaceFolder, Set.empty, Set(profileUri))) // register profile
+      _ <- changeWorkspaceConfiguration(server)(changeConfigArgs(None, workspaceFolder, Set.empty, Set(profileUri))) // register profile
       r <- runFor(relativeUri, workspaceFolder, prefix, diagnosticNotifier)
     } yield {
       r
@@ -98,7 +95,7 @@ class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with Changes
       diagnostic
     }
 
-  def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): (LanguageServer, WorkspaceManager) = {
+  def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer = {
     val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
     val dm      = builder.buildDiagnosticManagers(Some(validator))
     val factory = builder.buildWorkspaceManagerFactory()
@@ -107,7 +104,7 @@ class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with Changes
                                       factory.configurationManager,
                                       factory.resolutionTaskManager)
     dm.foreach(m => b.addInitializableModule(m))
-    (b.build(), factory.workspaceManager)
+    b.build()
   }
 
   def openFile(server: LanguageServer)(uri: String, text: String): Future[Unit] =
