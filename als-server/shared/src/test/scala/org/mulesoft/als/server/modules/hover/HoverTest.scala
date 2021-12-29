@@ -5,14 +5,14 @@ import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.{MockTelemetryParsingClientNotifier, ServerWithMarkerTest}
+import org.mulesoft.als.server.{FailedLogs, MockTelemetryParsingClientNotifier, ServerWithMarkerTest}
 import org.mulesoft.lsp.feature.common.TextDocumentIdentifier
 import org.mulesoft.lsp.feature.hover.{HoverParams, HoverRequestType}
 import org.scalatest.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class HoverTest extends ServerWithMarkerTest[PositionedHover] with BaseHoverTest {
+class HoverTest extends ServerWithMarkerTest[PositionedHover] with BaseHoverTest with FailedLogs {
   override implicit val executionContext: ExecutionContext =
     ExecutionContext.Implicits.global
 
