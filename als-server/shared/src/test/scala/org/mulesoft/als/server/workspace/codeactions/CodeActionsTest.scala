@@ -54,7 +54,7 @@ trait CodeActionsTest extends LanguageServerBaseTest {
       .initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
       .andThen { case _ => server.initialized() }
       .flatMap(_ => {
-        val initialArgs = changeConfigArgs(workspace.mainFile, Some(root))
+        val initialArgs = changeConfigArgs(workspace.mainFile, root)
         server.workspaceService.executeCommand(
           ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION, List(initialArgs)))
       })

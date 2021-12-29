@@ -31,7 +31,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
     val independent                           = s"${filePath("ws1")}/independent.raml"
     val subdir                                = s"${filePath("ws1")}/sub/type.raml"
     val notifier: MockTelemetryClientNotifier = new MockTelemetryClientNotifier()
-    val initialArgs                           = changeConfigArgs(Some("api.raml"), Some(filePath("ws1")))
+    val initialArgs                           = changeConfigArgs(Some("api.raml"), filePath("ws1"))
     withServer[Assertion](buildServer(notifier)) { server =>
       val handler = server.resolveHandler(DocumentSymbolRequestType).value
 
@@ -73,7 +73,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
   test("Workspace Manager check parsing times when reference removed from Project") {
     val main        = s"${filePath("ws1")}/api.raml"
     val subdir      = s"${filePath("ws1")}/sub/type.raml"
-    val initialArgs = changeConfigArgs(Some("api.raml"), Some(filePath("ws1")))
+    val initialArgs = changeConfigArgs(Some("api.raml"), filePath("ws1"))
     val notifier    = new MockTelemetryClientNotifier(3000)
     withServer[Assertion](buildServer(notifier)) { server =>
       val handler = server.resolveHandler(DocumentSymbolRequestType).value
@@ -146,7 +146,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
     val dialect  = s"${filePath("aml-instance-is-mf")}/dialect.yaml"
     val instance = s"${filePath("aml-instance-is-mf")}/instance.yaml"
     val initialArgs =
-      changeConfigArgs(Some("instance.yaml"), Some(filePath("aml-instance-is-mf")), dialects = Set(dialect))
+      changeConfigArgs(Some("instance.yaml"), filePath("aml-instance-is-mf"), dialects = Set(dialect))
     val notifier: MockCompleteClientNotifier = new MockCompleteClientNotifier(3000)
     withServer[Assertion](
       buildServer(notifier),

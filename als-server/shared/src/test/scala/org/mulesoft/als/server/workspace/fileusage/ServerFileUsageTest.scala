@@ -47,7 +47,7 @@ trait ServerFileUsageTest extends LanguageServerBaseTest {
                                 factory.resolutionTaskManager)
         .addRequestModule(factory.fileUsageManager)
         .build()
-    val initialArgs = changeConfigArgs(Some(mainFile), Some(root))
+    val initialArgs = changeConfigArgs(Some(mainFile), root)
     for {
       _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
       _ <- changeWorkspaceConfiguration(server)(initialArgs)

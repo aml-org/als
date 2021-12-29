@@ -308,10 +308,10 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
         // api.raml, fragment.raml
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall
-        _ <- changeWorkspaceConfiguration(server)(changeConfigArgs(Some(api2Name), Some(root)))
+        _ <- changeWorkspaceConfiguration(server)(changeConfigArgs(Some(api2Name), root))
         // api2.raml
         c1 <- diagnosticClientNotifier.nextCall
-        _  <- changeWorkspaceConfiguration(server)(changeConfigArgs(Some(apiName), Some(root)))
+        _  <- changeWorkspaceConfiguration(server)(changeConfigArgs(Some(apiName), root))
         // api.raml, fragment.raml
         d1 <- diagnosticClientNotifier.nextCall
         d2 <- diagnosticClientNotifier.nextCall
@@ -345,27 +345,26 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       for {
         _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
         _ <- server.workspaceService.executeCommand(
-          ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION, List(changeConfigArgs(Some(apiRoot), Some(root)))))
+          ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION, List(changeConfigArgs(Some(apiRoot), root))))
         // api.raml, fragment.raml
         _       <- diagnosticClientNotifier.nextCall
         _       <- diagnosticClientNotifier.nextCall
         config1 <- wm.getWorkspace(filePath("ws4")).flatMap(_.getCurrentConfiguration)
         _ <- server.workspaceService.executeCommand(
           ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION,
-                               List(changeConfigArgs(Some(api2Root), Some(root), profiles = Set(profileUri)))))
+                               List(changeConfigArgs(Some(api2Root), root, profiles = Set(profileUri)))))
         // api2.raml
         _       <- diagnosticClientNotifier.nextCall
         config2 <- wm.getWorkspace(filePath("ws4")).flatMap(_.getCurrentConfiguration)
         _ <- server.workspaceService.executeCommand(
           ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION,
-                               List(changeConfigArgs(Some(api2Root), Some(root), profiles = Set(profileUri2)))))
+                               List(changeConfigArgs(Some(api2Root), root, profiles = Set(profileUri2)))))
         // api2.raml
         _       <- diagnosticClientNotifier.nextCall
         config3 <- wm.getWorkspace(filePath("ws4")).flatMap(_.getCurrentConfiguration)
         _ <- server.workspaceService.executeCommand(
-          ExecuteCommandParams(
-            Commands.DID_CHANGE_CONFIGURATION,
-            List(changeConfigArgs(Some(api2Root), Some(root), profiles = Set(profileUri, profileUri2)))))
+          ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION,
+                               List(changeConfigArgs(Some(api2Root), root, profiles = Set(profileUri, profileUri2)))))
         // api2.raml
         _       <- diagnosticClientNotifier.nextCall
         config4 <- wm.getWorkspace(filePath("ws4")).flatMap(_.getCurrentConfiguration)

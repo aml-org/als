@@ -35,7 +35,7 @@ class FilesInProjectNotificationTest extends LanguageServerBaseTest {
 
   test("Receive simple dependency tree") {
     val alsClient: MockFilesInClientNotifier = new MockFilesInClientNotifier
-    val initialArgs                          = changeConfigArgs(Some("api.raml"), Some(filePath("ws1")))
+    val initialArgs                          = changeConfigArgs(Some("api.raml"), filePath("ws1"))
     withServer(buildServer(alsClient)) { server =>
       for {
         _              <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
@@ -51,7 +51,7 @@ class FilesInProjectNotificationTest extends LanguageServerBaseTest {
 
   test("Test empty schema in trait for visitors (NullPointerException)") {
     val alsClient: MockFilesInClientNotifier = new MockFilesInClientNotifier
-    val initialArgs                          = changeConfigArgs(Some("api.raml"), Some(filePath("empty-trait-schema")))
+    val initialArgs                          = changeConfigArgs(Some("api.raml"), filePath("empty-trait-schema"))
     withServer(buildServer(alsClient)) { server =>
       for {
         _ <- server.initialize(
@@ -66,7 +66,7 @@ class FilesInProjectNotificationTest extends LanguageServerBaseTest {
 
   test("Open isolated file") {
     val alsClient: MockFilesInClientNotifier = new MockFilesInClientNotifier
-    val initialArgs                          = changeConfigArgs(Some("api.raml"), Some(filePath("ws1")))
+    val initialArgs                          = changeConfigArgs(Some("api.raml"), filePath("ws1"))
     withServer(buildServer(alsClient)) { server =>
       for {
         _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
