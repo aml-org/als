@@ -1,7 +1,7 @@
 {
   "name": "als-suggestions",
   "version": "1.0.0",
-  "description": "",
+  "description": "ALS Suggestions",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
