@@ -3,6 +3,7 @@ package org.mulesoft.als.server.workspace
 import amf.core.internal.remote.Platform
 import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.workspace.command.Commands
 import org.mulesoft.lsp.textsync.KnownDependencyScopes.{CUSTOM_VALIDATION, DIALECT, SEMANTIC_EXTENSION}
 import org.mulesoft.lsp.workspace.ExecuteCommandParams
 
@@ -29,9 +30,6 @@ trait ChangesWorkspaceConfiguration extends PlatformSecrets {
   }
 
   def changeWorkspaceConfiguration(server: LanguageServer)(args: String): Future[AnyRef] = {
-    server.workspaceService.executeCommand(ExecuteCommandParams("didChangeConfiguration", List(args)))
+    server.workspaceService.executeCommand(ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION, List(args)))
   }
-
-  def changeWorkspaceConfiguration(workspaceManager: WorkspaceManager, args: String): Future[AnyRef] =
-    workspaceManager.executeCommand(ExecuteCommandParams("didChangeConfiguration", List(args)))
 }

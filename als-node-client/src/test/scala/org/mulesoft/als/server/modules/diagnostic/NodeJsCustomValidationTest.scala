@@ -26,7 +26,7 @@ class NodeJsCustomValidationTest
 
   override def rootPath: String = "custom-validation"
 
-  def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): (LanguageServer, WorkspaceManager) = {
+  def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer = {
     val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
     val dm      = builder.buildDiagnosticManagers(Some(JsCustomValidator(logger, AmfCustomValidatorNode)))
     val factory = builder.buildWorkspaceManagerFactory()
@@ -35,7 +35,7 @@ class NodeJsCustomValidationTest
                                       factory.configurationManager,
                                       factory.resolutionTaskManager)
     dm.foreach(m => b.addInitializableModule(m))
-    (b.build(), factory.workspaceManager)
+    b.build()
   }
 
   def buildInitArgs(workspaceFolder: String): AlsInitializeParams =
@@ -53,14 +53,14 @@ class NodeJsCustomValidationTest
     val profile                                          = filePath(platform.encodeURI("simple/profile.yaml"))
     val expected                                         = filePath(platform.encodeURI("simple/expected/simple.yaml"))
     val args                                             = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profile))
-    val (server, workspaceManager)                       = buildServer(diagnosticNotifier)
+    val server: LanguageServer                           = buildServer(diagnosticNotifier)
     withServer(server, buildInitArgs(workspacePath)) { server =>
       for {
         content     <- platform.fetchContent(mainFileUri, AMFGraphConfiguration.predefined()).map(_.stream.toString)
         _           <- openFile(server)(mainFileUri, content)
         _           <- diagnosticNotifier.nextCall
         _           <- diagnosticNotifier.nextCall
-        _           <- changeWorkspaceConfiguration(workspaceManager, args)
+        _           <- changeWorkspaceConfiguration(server)(args)
         _           <- diagnosticNotifier.nextCall // resolution diagnostics
         diagnostics <- diagnosticNotifier.nextCall // custom validation diagnostics
         tmp         <- writeTemporaryFile(expected)(diagnostics.write)
@@ -76,15 +76,15 @@ class NodeJsCustomValidationTest
     val mainFileUri                                      = filePath(platform.encodeURI("simple/api.raml"))
     val profile                                          = filePath(platform.encodeURI("simple/profile.yaml"))
     val expected                                         = filePath(platform.encodeURI("simple/expected/fixed.yaml"))
-    val (server, workspaceManager)                       = buildServer(diagnosticNotifier)
+    val server: LanguageServer                           = buildServer(diagnosticNotifier)
     withServer(server, buildInitArgs(workspacePath)) { server =>
       for {
         content <- platform.fetchContent(mainFileUri, AMFGraphConfiguration.predefined()).map(_.stream.toString)
         _       <- openFile(server)(mainFileUri, content)
         _       <- diagnosticNotifier.nextCall
         _       <- diagnosticNotifier.nextCall
-        _ <- changeWorkspaceConfiguration(workspaceManager,
-                                          changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profile)))
+        _ <- changeWorkspaceConfiguration(server)(
+          changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profile)))
         _           <- diagnosticNotifier.nextCall // resolution diagnostics
         diagnostics <- diagnosticNotifier.nextCall // custom validation diagnostics
         _           <- changeFile(server)(mainFileUri, content.replace("type: string", "type: string\n       minLength: 1"), 1)
@@ -110,14 +110,14 @@ class NodeJsCustomValidationTest
 
     val args = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profile1, profile2))
 
-    val (server, workspaceManager) = buildServer(diagnosticNotifier)
+    val server: LanguageServer = buildServer(diagnosticNotifier)
     withServer(server, buildInitArgs(workspacePath)) { server =>
       for {
         content     <- platform.fetchContent(mainFileUri, AMFGraphConfiguration.predefined()).map(_.stream.toString)
         _           <- openFile(server)(mainFileUri, content)
         _           <- diagnosticNotifier.nextCall
         _           <- diagnosticNotifier.nextCall
-        _           <- changeWorkspaceConfiguration(workspaceManager, args)
+        _           <- changeWorkspaceConfiguration(server)(args)
         _           <- diagnosticNotifier.nextCall // resolution diagnostics
         diagnostics <- diagnosticNotifier.nextCall // custom validation diagnostics
         tmp         <- writeTemporaryFile(expected)(diagnostics.write)
@@ -144,21 +144,21 @@ class NodeJsCustomValidationTest
         diagnostics.yDocument
       }
     }
-    val (server, workspaceManager) = buildServer(diagnosticNotifier)
+    val server: LanguageServer = buildServer(diagnosticNotifier)
     withServer(server, buildInitArgs(workspacePath)) { server =>
       for {
         content <- platform.fetchContent(mainFile, AMFGraphConfiguration.predefined()).map(_.stream.toString)
         _       <- openFile(server)(mainFile, content)
         _       <- run()
-        _       <- changeWorkspaceConfiguration(workspaceManager, args(Set(profile1)))
+        _       <- changeWorkspaceConfiguration(server)(args(Set(profile1)))
         a       <- run()
-        _       <- changeWorkspaceConfiguration(workspaceManager, args(Set(profile1, profile2)))
+        _       <- changeWorkspaceConfiguration(server)(args(Set(profile1, profile2)))
         b       <- run()
-        _       <- changeWorkspaceConfiguration(workspaceManager, args(Set(profile2)))
+        _       <- changeWorkspaceConfiguration(server)(args(Set(profile2)))
         c       <- run()
-        _       <- changeWorkspaceConfiguration(workspaceManager, args(Set(profile2, profile1)))
+        _       <- changeWorkspaceConfiguration(server)(args(Set(profile2, profile1)))
         d       <- run()
-        _       <- changeWorkspaceConfiguration(workspaceManager, args())
+        _       <- changeWorkspaceConfiguration(server)(args())
         e       <- run()
         result  <- Future(YamlRender.render(Seq(a, b, c, d, e)))
         tmp     <- writeTemporaryFile(expected)(result)
