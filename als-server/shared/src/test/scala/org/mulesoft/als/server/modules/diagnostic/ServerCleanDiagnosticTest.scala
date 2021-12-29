@@ -213,7 +213,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
           s =>
             val mainFilePath       = s"file:///api.raml"
             val profileUri: String = filePath(platform.encodeURI("project/profile.yaml"))
-            val args               = changeConfigArgs(None, Some("file:///"), Set.empty, Set(profileUri))
+            val args               = changeConfigArgs(None, "file:///", Set.empty, Set(profileUri))
             val mainContent =
               """#%RAML 1.0
                 |""".stripMargin
@@ -248,7 +248,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
           s =>
             val mainFilePath       = s"file:///api.raml"
             val profileUri: String = filePath(platform.encodeURI("project/profile.yaml"))
-            val args               = changeConfigArgs(None, Some("file:///"), Set.empty, Set(profileUri))
+            val args               = changeConfigArgs(None, "file:///", Set.empty, Set(profileUri))
             val mainContent =
               """#%RAML 1.0
               |""".stripMargin

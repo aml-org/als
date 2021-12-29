@@ -41,7 +41,7 @@ class RenameFileTest extends LanguageServerBaseTest {
     val workspacePath = filePath(platform.encodeURI("plain"))
     val oldPath       = filePath(platform.encodeURI("plain/resourceType.raml"))
     val newPath       = filePath(platform.encodeURI("plain/RENAMED.raml"))
-    val initialArgs   = changeConfigArgs(Some("api.raml"), Some(workspacePath))
+    val initialArgs   = changeConfigArgs(Some("api.raml"), workspacePath)
     runTest(buildServer(), initialArgs, workspacePath, oldPath, newPath).map(r => {
       r.edits.documentChanges.exists(_.exists {
         case Right(value: RenameFile) => value.oldUri == oldPath && value.newUri == newPath
@@ -65,7 +65,7 @@ class RenameFileTest extends LanguageServerBaseTest {
     val workspacePath = filePath(platform.encodeURI("encoded"))
     val oldPath       = filePath(platform.encodeURI("encoded/resource type.raml"))
     val newPath       = filePath(platform.encodeURI("encoded/RENAMED.raml"))
-    val initialArgs   = changeConfigArgs(Some("api.raml"), Some(workspacePath))
+    val initialArgs   = changeConfigArgs(Some("api.raml"), workspacePath)
     runTest(buildServer(), initialArgs, workspacePath, oldPath, newPath).map(r => {
       r.edits.documentChanges.exists(_.exists {
         case Right(value: RenameFile) => value.oldUri == oldPath && value.newUri == newPath
@@ -89,7 +89,7 @@ class RenameFileTest extends LanguageServerBaseTest {
     val workspacePath = filePath(platform.encodeURI("pointer"))
     val oldPath       = filePath(platform.encodeURI("pointer/get-endpoint.json"))
     val newPath       = filePath(platform.encodeURI("pointer/RENAMED.json"))
-    val initialArgs   = changeConfigArgs(Some("api.json"), Some(workspacePath))
+    val initialArgs   = changeConfigArgs(Some("api.json"), workspacePath)
     runTest(buildServer(), initialArgs, workspacePath, oldPath, newPath).map(r => {
       r.edits.documentChanges.exists(_.exists {
         case Right(value: RenameFile) => value.oldUri == oldPath && value.newUri == newPath
@@ -112,7 +112,7 @@ class RenameFileTest extends LanguageServerBaseTest {
     val workspacePath = filePath(platform.encodeURI("relative"))
     val oldPath       = filePath(platform.encodeURI("relative/securedTrait.raml"))
     val newPath       = filePath(platform.encodeURI("relative/RENAMED.raml"))
-    val initialArgs   = changeConfigArgs(Some("api.raml"), Some(workspacePath))
+    val initialArgs   = changeConfigArgs(Some("api.raml"), workspacePath)
     runTest(buildServer(), initialArgs, workspacePath, oldPath, newPath).map(r => {
       r.edits.documentChanges.exists(_.exists {
         case Right(value: RenameFile) => value.oldUri == oldPath && value.newUri == newPath
