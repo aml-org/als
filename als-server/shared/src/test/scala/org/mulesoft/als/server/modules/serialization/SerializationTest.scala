@@ -236,10 +236,9 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
       val url = filePath("raml-endpoint-sorting.raml")
 
       for {
-        _ <- platform.fetchContent(url, AMFGraphConfiguration.predefined()).map { c =>
-          server.textDocumentSyncConsumer.didOpen(DidOpenTextDocumentParams(
-            TextDocumentItem(url, "RAML", 0, c.stream.toString))) // why clean empty lines was necessary?
-        }
+        c <- platform.fetchContent(url, AMFGraphConfiguration.predefined())
+        _ <- server.textDocumentSyncConsumer.didOpen(DidOpenTextDocumentParams(
+          TextDocumentItem(url, "RAML", 0, c.stream.toString))) // why clean empty lines was necessary?
         s <- serialize(server, url, serializationProps)
         parsed <- {
           val rl = new ResourceLoader {
@@ -263,7 +262,7 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
 
             /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
             override def fetch(resource: String): Future[Content] =
-              Future.successful(new Content(s, url))
+              Future.successful(new Content(s2, url))
 
             /** Accepts specified resource. */
             override def accepts(resource: String): Boolean = resource == url
