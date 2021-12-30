@@ -101,7 +101,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
     val dialect  = s"${filePath("aml-workspace")}/dialect.yaml"
     val instance = s"${filePath("aml-workspace")}/instance.yaml"
 
-    val notifier: MockCompleteClientNotifier = new MockCompleteClientNotifier(3000)
+    val notifier: MockCompleteClientNotifier = new MockCompleteClientNotifier(4000)
     withServer[Assertion](buildServer(notifier)) { server =>
       // open dialect -> open invalid instance -> change dialect -> focus now valid instance
       for {
