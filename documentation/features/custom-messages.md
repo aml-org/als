@@ -168,7 +168,7 @@ Request message from client to server:
   "model": "string"
 }
 </pre>
-
+###### In JS artifact, instead of a string this will return a JS Object (for better performance)
 ### textDocument/didFocus
 
 Sent from the client to server to notice a new focus for a file, which will trigger new parse and diagnostic on isolated files (similar to [`textdocument/didOpen`](https://microsoft.github.io/language-server-protocol/specifications/specification-3-17/#textDocument_didOpen)).
