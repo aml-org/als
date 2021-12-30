@@ -176,15 +176,16 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
   .disablePlugins(SonarPlugin)
   .jvmSettings(
     // https://mvnrepository.com/artifact/org.eclipse.lsp4j/org.eclipse.lsp4j
-    packageOptions in(Compile, packageBin) += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
-    aggregate in assembly := true,
-    mainClass in assembly := Some("org.mulesoft.als.server.lsp4j.Main"),
-    mainClass in Compile := Some("org.mulesoft.als.server.lsp4j.Main"),
+    Compile / packageBin / packageOptions += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
+    assembly / aggregate := true,
+    assembly / mainClass := Some("org.mulesoft.als.server.lsp4j.Main"),
+    Compile / mainClass := Some("org.mulesoft.als.server.lsp4j.Main"),
     scalacOptions += "-Xmixin-force-forwarders:false",
-    assemblyMergeStrategy in assembly := {
+    assembly / assemblyMergeStrategy := {
       case PathList("META-INF", xs@_*) => MergeStrategy.discard
       case x => MergeStrategy.first
-    }
+    },
+    Test / packageBin / publishArtifact := true
   )
   .jsSettings(
     installJsDependencies := {
