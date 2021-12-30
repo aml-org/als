@@ -1,0 +1,39 @@
+#%Dialect 1.0
+dialect: Annotation mappings
+version: 1.0
+
+external:
+  aml: http://a.ml/vocab#
+  apicontract: http://a.ml/vocabularies/apiContract#
+
+documents:
+  root:
+    encodes: string # just necessary to avoid errors, won't really do anything
+
+annotationMappings:
+  RateLimitingAnnotationMapping:
+    domain: apicontract.WebAPI
+    propertyTerm: aml.rate-limit
+    range: integer
+    minimum: 0
+    maximum: 10000
+    mandatory: true
+
+  MaintainerAnnotationMapping:
+    domain: apicontract.API
+    propertyTerm: aml.maintainer
+    range:  PersonNodeMapping
+
+nodeMappings:
+  PersonNodeMapping:
+    mapping:
+      name:
+        range: string
+      surname:
+        range: string
+      email:
+        range: string
+
+extensions:
+  maintainer: MaintainerAnnotationMapping
+  rateLimiting: RateLimitingAnnotationMapping
