@@ -15,9 +15,10 @@ import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, M
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.common.{Location, Position, Range}
 import org.mulesoft.lsp.feature.diagnostic.{DiagnosticSeverity, PublishDiagnosticsParams}
+import org.scalatest.Ignore
 
 import scala.concurrent.{ExecutionContext, Future}
-
+@Ignore
 class CustomValidationManagerTest
     extends LanguageServerBaseTest
     with ChangesWorkspaceConfiguration
