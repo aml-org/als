@@ -27,10 +27,10 @@ class ConversionRequestTest extends LanguageServerBaseTest {
   }
 
   private val assertions: Map[Spec, SerializedDocument => Assertion] = Map(
-    OAS20   -> ((s: SerializedDocument) => s.document should include("\"swagger\": \"2.0\"")),
-    OAS30   -> ((s: SerializedDocument) => s.document should startWith("openapi: 3.0.0")),
-    RAML10  -> ((s: SerializedDocument) => s.document should startWith("#%RAML 1.0")),
-    ASYNC20 -> ((s: SerializedDocument) => s.document should startWith("asyncapi: 2.0.0"))
+    OAS20   -> ((s: SerializedDocument) => s.model should include("\"swagger\": \"2.0\"")),
+    OAS30   -> ((s: SerializedDocument) => s.model should startWith("openapi: 3.0.0")),
+    RAML10  -> ((s: SerializedDocument) => s.model should startWith("#%RAML 1.0")),
+    ASYNC20 -> ((s: SerializedDocument) => s.model should startWith("asyncapi: 2.0.0"))
   )
 
   test("RAML 0.8 to RAML 1.0 conversion test") {
@@ -54,17 +54,11 @@ class ConversionRequestTest extends LanguageServerBaseTest {
   }
 
   test("AsyncApi 2.0 yaml to json") {
-    run(ASYNC20,
-        ASYNC20,
-        Some("json"),
-        (s: SerializedDocument) => s.document should include("\"asyncapi\": \"2.0.0\""))
+    run(ASYNC20, ASYNC20, Some("json"), (s: SerializedDocument) => s.model should include("\"asyncapi\": \"2.0.0\""))
   }
 
   test("OAS 2.0 json to yaml") {
-    runTest(OAS20,
-            Some("yaml"),
-            (s: SerializedDocument) => s.document should startWith("swagger: \"2.0\""),
-            Oas20JsonApi)
+    runTest(OAS20, Some("yaml"), (s: SerializedDocument) => s.model should startWith("swagger: \"2.0\""), Oas20JsonApi)
   }
 
   test("OAS 2.0 yaml to json") {
@@ -76,7 +70,7 @@ class ConversionRequestTest extends LanguageServerBaseTest {
   }
 
   test("OAS 3.0 yaml to json") {
-    run(OAS30, OAS30, Some("json"), (s: SerializedDocument) => s.document should include("\"openapi\": \"3.0.0\""))
+    run(OAS30, OAS30, Some("json"), (s: SerializedDocument) => s.model should include("\"openapi\": \"3.0.0\""))
   }
 
   test("AsyncApi 2.0 json to yaml") {

@@ -34,7 +34,11 @@ import org.mulesoft.als.server.protocol.diagnostic.{
   ClientCustomValidationOptions,
   ClientFilesInProjectParams
 }
-import org.mulesoft.als.server.protocol.serialization.{ClientSerializationResult, ClientSerializedDocument}
+import org.mulesoft.als.server.protocol.serialization.{
+  ClientSerializationParams,
+  ClientSerializationResult,
+  ClientSerializedDocument
+}
 import org.mulesoft.als.server.protocol.textsync.{
   ClientDidFocusParams,
   ClientIndexDialectParams,
@@ -136,6 +140,11 @@ object LspConvertersSharedToClient {
   implicit class ClientSerializationMessageConverter(v: SerializationResult[js.Any]) {
     def toClient: ClientSerializationResult =
       ClientSerializationResult(v)
+  }
+
+  implicit class ClientSerializationParamsConverter(v: SerializationParams) {
+    def toClient: ClientSerializationParams =
+      ClientSerializationParams(v)
   }
 
   implicit class ClientDidFocusParamsConverter(v: DidFocusParams) {
