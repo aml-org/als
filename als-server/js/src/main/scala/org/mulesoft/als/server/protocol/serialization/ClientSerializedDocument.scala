@@ -8,8 +8,8 @@ import scala.scalajs.js
 
 @js.native
 trait ClientSerializedDocument extends js.Object {
-  def uri: String      = js.native
-  def document: String = js.native
+  def uri: String   = js.native
+  def model: String = js.native
 
 }
 
@@ -18,7 +18,7 @@ object ClientSerializedDocument {
     js.Dynamic
       .literal(
         uri = internal.uri,
-        document = internal.document
+        model = internal.model
       )
       .asInstanceOf[ClientSerializedDocument]
   }
