@@ -4,16 +4,19 @@ import amf.core.client.common.remote.Content
 import amf.core.client.platform.resource.ClientResourceLoader
 import amf.core.internal.convert.CoreClientConverters._
 import amf.core.internal.unsafe.PlatformSecrets
-import org.eclipse.lsp4j.{DidOpenTextDocumentParams, TextDocumentItem}
+import org.eclipse.lsp4j.{DidOpenTextDocumentParams, TextDocumentItem, TraceValue}
 import org.mulesoft.als.configuration.ResourceLoaderConverter
 import org.mulesoft.als.logger.EmptyLogger
 import org.mulesoft.als.server.MockDiagnosticClientNotifier
 import org.mulesoft.als.server.client.platform.AlsLanguageServerFactory
+import org.mulesoft.als.server.lsp4j.extension.AlsInitializeParams
 import org.mulesoft.als.server.modules.diagnostic.ALL_TOGETHER
 import org.scalatest.{AsyncFunSuite, Matchers}
-import scala.collection.JavaConverters._
 
+import scala.compat.java8.FutureConverters._
+import scala.collection.JavaConverters._
 import java.util.concurrent.CompletableFuture
+import scala.concurrent.Future
 class LspCustomEnvironment extends AsyncFunSuite with Matchers with PlatformSecrets {
 
   test("test custom environment") {
@@ -28,7 +31,7 @@ class LspCustomEnvironment extends AsyncFunSuite with Matchers with PlatformSecr
       override def accepts(resource: String): Boolean = true
     }
 
-    val notifier = new MockDiagnosticClientNotifier(3000)
+    val notifier = new MockDiagnosticClientNotifier(4000)
     val server = new LanguageServerImpl(
       new AlsLanguageServerFactory(notifier)
         .withNotificationKind(ALL_TOGETHER)
@@ -41,9 +44,14 @@ class LspCustomEnvironment extends AsyncFunSuite with Matchers with PlatformSecr
         |types:
         | A: !include jar:/api.raml
         |""".stripMargin
-    server.getTextDocumentService.didOpen(
-      new DidOpenTextDocumentParams(new TextDocumentItem("file://api.raml", "raml1.0", 1, api)))
+    val initParams = new AlsInitializeParams()
+    initParams.setTrace(TraceValue.Off)
     for {
+      _ <- server.initialize(initParams).toScala
+      _ <- Future {
+        server.getTextDocumentService.didOpen(
+          new DidOpenTextDocumentParams(new TextDocumentItem("file://api.raml", "raml1.0", 1, api)))
+      }
       r1 <- notifier.nextCall
       r2 <- notifier.nextCall
     } yield {
