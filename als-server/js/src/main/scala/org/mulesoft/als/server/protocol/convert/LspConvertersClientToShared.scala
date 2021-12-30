@@ -22,7 +22,11 @@ import org.mulesoft.als.server.protocol.diagnostic.{
   ClientCustomValidationClientCapabilities,
   ClientCustomValidationOptions
 }
-import org.mulesoft.als.server.protocol.serialization.{ClientConversionParams, ClientSerializationParams}
+import org.mulesoft.als.server.protocol.serialization.{
+  ClientConversionParams,
+  ClientSerializationParams,
+  ClientSerializedDocument
+}
 import org.mulesoft.als.server.protocol.textsync.{
   ClientDidFocusParams,
   ClientIndexDialectParams,
@@ -189,7 +193,8 @@ object LspConvertersClientToShared {
       v.prettyPrintSerialization.toOption.getOrElse(false)
     )
   }
-  implicit class ClientSerializationParamsConverter(v: ClientSerializationParams) {
+
+  implicit class SerializationParamsConverter(v: ClientSerializationParams) {
     def toShared: SerializationParams = SerializationParams(v.documentIdentifier.toShared)
   }
 
@@ -217,6 +222,10 @@ object LspConvertersClientToShared {
 
   implicit class ClientWorkspaceConfigurationOptionsConverter(s: ClientWorkspaceConfigurationServerOptions) {
     def toShared: WorkspaceConfigurationOptions = WorkspaceConfigurationOptions(s.supported)
+  }
+
+  implicit class SerializedDocumentConverter(s: ClientSerializedDocument) {
+    def toShared: SerializedDocument = SerializedDocument(s.uri, s.model)
   }
   // $COVERAGE-ON
 }
