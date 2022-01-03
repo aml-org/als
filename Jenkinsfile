@@ -37,6 +37,7 @@ pipeline {
                 script {
                     publish_version = "${currentVersion}".replace("\n", "")
                     echo "$publish_version"
+                    npmLogin()
                 }
             }
         }
@@ -131,7 +132,6 @@ pipeline {
                     withCredentials([string(credentialsId: 'aml-org-bot-npm-token', variable: 'NPM_TOKEN')]) {
                         script {
                             if (failedStage.isEmpty()) {
-                                npmLogin()
                                 sh 'sbt -mem 6000 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 buildNodeJsClient'
                                 def statusCode = 1
                                 dir("als-node-client/node-package") {

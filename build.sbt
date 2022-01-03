@@ -194,7 +194,7 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
     },
     test in Test := ((test in Test) dependsOn installJsDependencies).value,
     artifactPath in(Test, fastOptJS) := baseDirectory.value / "node-package" / "tmp" / "als-server.js",
-
+    Test / packageBin / publishArtifact := true,
     scalaJSModuleKind := ModuleKind.CommonJSModule,
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
 
