@@ -184,8 +184,7 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
     assembly / assemblyMergeStrategy := {
       case PathList("META-INF", xs@_*) => MergeStrategy.discard
       case x => MergeStrategy.first
-    },
-    Test / packageBin / publishArtifact := true
+    }
   )
   .jsSettings(
     installJsDependencies := {
@@ -194,7 +193,6 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
     },
     test in Test := ((test in Test) dependsOn installJsDependencies).value,
     artifactPath in(Test, fastOptJS) := baseDirectory.value / "node-package" / "tmp" / "als-server.js",
-
     scalaJSModuleKind := ModuleKind.CommonJSModule,
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
 
