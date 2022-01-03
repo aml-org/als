@@ -138,7 +138,6 @@ pipeline {
                                 echo "Publishing NPM package: ${publish_version}"
                                 statusCode = sh script:"scripts/publish.sh ${publish_version} ${env.BRANCH_NAME}", returnStatus:true
                             }
-                            sh 'rm .npmrc'
                             if(statusCode != 0) {
                                 failedStage = failedStage + " PUBLISH-NODE-JS "
                                 unstable "Failed Node client publication"
@@ -171,7 +170,6 @@ pipeline {
                                 echo "Publishing NPM package build: ${publish_version}."
                                 statusCode = sh script:"scripts/publish.sh ${publish_version} ${env.BRANCH_NAME}", returnStatus:true
                             }
-                            sh 'rm .npmrc'
                             if(statusCode != 0) {
                                 failedStage = failedStage + " PUBLISH-SERVER-JS "
                                 unstable "Failed als-server JS publication"
