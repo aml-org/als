@@ -63,7 +63,7 @@ case class ALSConfigurationState(editorState: EditorConfigurationState,
   private def predefinedWithDialects: AMLConfiguration =
     dialects.foldLeft(AMLConfiguration.predefined())((c, d) => c.withDialect(d))
 
-  val c: UnitCache = new UnitCache {
+  val cache: UnitCache = new UnitCache {
     val map: Map[String, BaseUnit] = projectState.cache.map(bu => bu.location().getOrElse(bu.id) -> bu).toMap
     override def fetch(url: String): Future[CachedReference] = map.get(url) match {
       case Some(bu) => Future.successful(CachedReference(url, bu))
@@ -79,7 +79,7 @@ case class ALSConfigurationState(editorState: EditorConfigurationState,
           .getOrElse(projectState.resourceLoaders)
           .toList ++ editorState.resourceLoader)
       .withPlugins(editorState.alsParsingPlugins ++ editorState.syntaxPlugin ++ editorState.validationPlugin)
-      .withUnitCache(c)
+      .withUnitCache(cache)
     dialects.foldLeft(configuration)((c, dialect) => c.withDialect(dialect))
   }
 

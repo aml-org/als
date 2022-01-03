@@ -17,8 +17,6 @@ trait ProjectConfigurationProvider {
   def getMainFile(folder: String): Option[Future[String]]
   def getProjectRoot(folder: String): Option[Future[String]] =
     getMainFile(folder).map(_.map(m => m.substring(0, m.lastIndexOf("/"))))
-  // TODO: analyze
-  // def getValidator:
 }
 
 object IgnoreProjectConfigurationAdapter extends ProjectConfigurationProvider {
