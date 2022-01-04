@@ -52,6 +52,18 @@ diagnostics:
         message: Error expected 3 <= actual (actual=4) at apiContract.endpoint
         location: Location(file://als-node-client/src/test/resources/custom-validation/multiple-profiles/api.raml,Range(common.Position[L:1,C:0],common.Position[L:22,C:14]))
   -
+    message: GET operations must have 2xx, 4xx and 5xx status codes but no 201
+    range: Range(common.Position[L:3,C:2],common.Position[L:7,C:0])
+    severity: Error
+    code: file://als-node-client/src/test/resources/custom-validation/multiple-profiles/profile.yaml#/encodes/validations/and-or-not-rule
+    relatedInformation: []
+  -
+    message: GET operations must have 2xx, 4xx and 5xx status codes but no 201
+    range: Range(common.Position[L:8,C:2],common.Position[L:12,C:0])
+    severity: Error
+    code: file://als-node-client/src/test/resources/custom-validation/multiple-profiles/profile.yaml#/encodes/validations/and-or-not-rule
+    relatedInformation: []
+  -
     message: |-
       Syntax error in the following text: '.
       .
@@ -59,6 +71,12 @@ diagnostics:
     range: Range(common.Position[L:17,C:0],common.Position[L:19,C:0])
     severity: Error
     code: http://a.ml/vocabularies/amf/core#syaml-error
+    relatedInformation: []
+  -
+    message: GET operations must have 2xx, 4xx and 5xx status codes but no 201
+    range: Range(common.Position[L:20,C:2],common.Position[L:22,C:14])
+    severity: Error
+    code: file://als-node-client/src/test/resources/custom-validation/multiple-profiles/profile.yaml#/encodes/validations/and-or-not-rule
     relatedInformation: []
   -
     message: Payload media type is mandatory
@@ -108,6 +126,15 @@ diagnostics:
 ...
 uri: file://als-node-client/src/test/resources/custom-validation/multiple-profiles/api.raml
 diagnostics:
+  -
+    message: maximum number of endpoints test
+    range: Range(common.Position[L:1,C:0],common.Position[L:22,C:14])
+    severity: Error
+    code: file://als-node-client/src/test/resources/custom-validation/multiple-profiles/max-endpoints.yaml#/encodes/validations/max-endpoints
+    relatedInformation:
+      -
+        message: Error expected 3 <= actual (actual=4) at apiContract.endpoint
+        location: Location(file://als-node-client/src/test/resources/custom-validation/multiple-profiles/api.raml,Range(common.Position[L:1,C:0],common.Position[L:22,C:14]))
   -
     message: GET operations must have 2xx, 4xx and 5xx status codes but no 201
     range: Range(common.Position[L:3,C:2],common.Position[L:7,C:0])
