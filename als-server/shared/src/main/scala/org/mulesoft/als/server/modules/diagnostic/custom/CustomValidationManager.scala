@@ -61,10 +61,8 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
         unit    <- resolved.resolvedUnit.map(_.baseUnit)
         results <- validate(uri, unit, resolved.alsConfigurationState.profiles.map(_.model), resolved.configuration)
       } yield {
-        results.foreach(
-          r =>
-            validationGatherer
-              .indexNewReport(ErrorsWithTree(uri, r, Some(tree(resolved.baseUnit))), managerName, uuid))
+        validationGatherer
+          .indexNewReport(ErrorsWithTree(uri, results.flatten, Some(tree(resolved.baseUnit))), managerName, uuid)
         notifyReport(uri, resolved.baseUnit, references, managerName, ProfileName("CustomValidation"))
         val endTime = System.currentTimeMillis()
         this.logger.debug(s"It took ${endTime - startTime} milliseconds to validate with Go env",
@@ -89,16 +87,18 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
         config.asJsonLD(unit, builder, RenderOptions().withCompactUris.withSourceMaps)
         builder.result.toString
       }
-      result <- Future
-        .sequence(
-          profiles
-            .map(profile => {
-              logger.debug(s"Validate with profile: ${profile.identifier}",
-                           "CustomValidationManager",
-                           "validateWithProfile")
-              validateWithProfile(profile, uri, serialized)
-            }))
-        .map(_.toSeq)
+      result <- {
+        val eventualResults: Seq[Future[Seq[AlsValidationResult]]] = profiles
+          .map(profile => {
+            logger.debug(s"Validate with profile: ${profile.identifier}",
+                         "CustomValidationManager",
+                         "validateWithProfile")
+            validateWithProfile(profile, uri, serialized)
+          })
+        Future
+          .sequence(eventualResults)
+          .map(_.toSeq)
+      }
     } yield result
 
   private def validateWithProfile(profileUnit: DialectInstance,
