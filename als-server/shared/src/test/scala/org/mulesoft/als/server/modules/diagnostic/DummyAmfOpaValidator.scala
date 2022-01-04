@@ -2,8 +2,8 @@ package org.mulesoft.als.server.modules.diagnostic
 
 import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.logger.{EmptyLogger, Logger}
-import org.mulesoft.als.server.modules.diagnostic.custom.AMFOpaValidator
-import org.scalatest.Assertion
+import org.mulesoft.als.server.modules.diagnostic.custom.{AMFOpaValidator, AMFOpaValidatorBuilder}
+import org.scalatest.{Assertion, Failed}
 import org.scalatest.Matchers.{fail, succeed}
 
 import scala.collection.mutable
@@ -50,6 +50,31 @@ class DummyAmfOpaValidator(val result: String = "{}") extends AMFOpaValidator wi
     else fail() // to many validations
   }
 
+  def executedProfiles(profiles: Set[String]): Future[Assertion] = {
+    if (callCount < profiles.size) { // still did not process N'th validation
+      val promise = Promise[Int]()
+      promises.enqueue(promise)
+      //      timeoutFuture(promise.future, 3000L)
+      promise.future
+        .flatMap(_ => calledNTimes(profiles.size))
+        .recover {
+          case _ if callCount == profiles.size => checkProfiles(profiles)
+          case _                               => fail()
+        }
+    } else if (callCount == profiles.size)
+      Future.successful(checkProfiles(profiles))
+    else fail() // to many validations
+  }
+
+  private def checkProfiles(profiles: Set[String]) = {
+    val list = calls.keys.toList
+    profiles.map(p => {
+      if (list.contains(p)) true
+      else fail(s"Profile $p does not match at called")
+    })
+    succeed
+  }
+
   def calledAtLeastNTimes(n: Int): Future[Assertion] = {
     if (callCount < n) { // still did not process N'th validation
       val promise = Promise[Int]()
@@ -63,4 +88,25 @@ class DummyAmfOpaValidator(val result: String = "{}") extends AMFOpaValidator wi
         }
     } else Future.successful(succeed)
   }
+}
+
+object DummyAmfOpaValidatorBuilder extends AMFOpaValidatorBuilder {
+  private var validator: Option[DummyAmfOpaValidator] = None
+  def init(): this.type = {
+    if (validator.isEmpty) reset()
+    this
+  }
+  def reset(): this.type = {
+    validator = Some(new DummyAmfOpaValidator())
+    this
+  }
+
+  def getValidator: DummyAmfOpaValidator = validator match {
+    case Some(v) => v
+    case _ =>
+      reset()
+      validator.get
+  }
+
+  override def build(logger: Logger): AMFOpaValidator = getValidator
 }
