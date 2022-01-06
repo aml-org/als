@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.modules.workspace
 
-sealed abstract class TaskManagerState(state: String)
+sealed abstract class TaskManagerState(val state: String)
 
 object Idle              extends TaskManagerState("IDLE")
 object ProcessingProject extends TaskManagerState("PROCESSING_PROJECT")

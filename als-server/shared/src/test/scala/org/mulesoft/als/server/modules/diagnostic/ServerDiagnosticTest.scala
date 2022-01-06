@@ -11,6 +11,7 @@ import amf.core.client.scala.vocabulary.ValueType
 import amf.core.internal.metamodel.Field
 import amf.core.internal.metamodel.document.BaseUnitModel
 import amf.core.internal.parser.domain.{Annotations, Fields}
+import org.mulesoft.als.logger.PrintLnLogger
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.ast.BaseUnitListenerParams
@@ -34,13 +35,10 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
 
   override def rootPath: String = ""
 
-  var container: Option[TextDocumentContainer] = None
-
   def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer = {
     val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
     val dm      = builder.buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
-    container = Option(factory.container)
     val b = new LanguageServerBuilder(factory.documentManager,
                                       factory.workspaceManager,
                                       factory.configurationManager,
@@ -332,7 +330,6 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
                                            EditorConfiguration.withoutPlatformLoaders(Seq(CustomResourceLoader())))
       val dm      = builder.buildDiagnosticManagers()
       val factory = builder.buildWorkspaceManagerFactory()
-      container = Option(factory.container)
       val b = new LanguageServerBuilder(factory.documentManager,
                                         factory.workspaceManager,
                                         factory.configurationManager,
