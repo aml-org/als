@@ -118,8 +118,9 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
                                  patchedContent: PatchedContent,
                                  uuid: String): Future[CompletionProvider] =
     for {
-      rootUri <- workspace.getProjectRootOf(uri)
-      builder <- workspace.getWorkspace(uri).flatMap(_.getConfigurationState)
+      wcm     <- workspace.getWorkspace(uri)
+      rootUri <- wcm.getRootFolderFor(uri)
+      builder <- wcm.getConfigurationState
       provider <- suggestions.buildProviderAsync(
         patchedParse(text, uri, position, patchedContent, builder, uuid),
         position,

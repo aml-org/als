@@ -42,7 +42,7 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
           _ <- dialectPath
             .map(p => filePath(platform.encodeURI(p)))
             .map { d =>
-              commandRegisterDialect(d, d, server)
+              commandRegisterDialect(d, "file://als-server", server)
             }
             .getOrElse(Future.successful())
           suggestions <- {
