@@ -37,10 +37,8 @@ class DefaultProjectConfigurationProviderTest extends LanguageServerBaseTest {
     val provider = buildConfigurationProvider()
     for {
       c1 <- provider.newProjectConfiguration(
-        ws1,
         ProjectConfiguration(ws1, Some("api.raml"), extensionDependency = Set(extension)))
       c2 <- provider.newProjectConfiguration(
-        ws2,
         ProjectConfiguration(ws2, Some("instance.yaml"), metadataDependency = Set(filePath("ws2/dialect.yaml"))))
       p1 <- provider.getProjectInfo(ws1).getOrElse(Future(EmptyProjectConfigurationState))
       p2 <- provider.getProjectInfo(ws2).getOrElse(Future(EmptyProjectConfigurationState))
@@ -57,9 +55,8 @@ class DefaultProjectConfigurationProviderTest extends LanguageServerBaseTest {
   test("Project configuration provider will override existing configurations") {
     val provider = buildConfigurationProvider()
     for {
-      c1 <- provider.newProjectConfiguration(ws1, ProjectConfiguration(ws1, Some("api.raml")))
+      c1 <- provider.newProjectConfiguration(ProjectConfiguration(ws1, Some("api.raml")))
       c2 <- provider.newProjectConfiguration(
-        ws1,
         ProjectConfiguration(ws1, Some("library.raml"), metadataDependency = Set(filePath("ws2/dialect.yaml"))))
     } yield {
       assert(c1 != c2)
@@ -73,10 +70,9 @@ class DefaultProjectConfigurationProviderTest extends LanguageServerBaseTest {
   test("Project configuration state should be immutable") {
     val provider = buildConfigurationProvider()
     for {
-      c1 <- provider.newProjectConfiguration(ws1, ProjectConfiguration(ws1, Some("api.raml")))
+      c1 <- provider.newProjectConfiguration(ProjectConfiguration(ws1, Some("api.raml")))
       p1 <- provider.getProjectInfo(ws1).getOrElse(Future(EmptyProjectConfigurationState))
       c2 <- provider.newProjectConfiguration(
-        ws1,
         ProjectConfiguration(
           ws1,
           Some("library.raml"),
@@ -114,7 +110,6 @@ class DefaultProjectConfigurationProviderTest extends LanguageServerBaseTest {
     val provider = buildConfigurationProvider()
     for {
       c1 <- provider.newProjectConfiguration(
-        ws1,
         ProjectConfiguration(
           ws1,
           Some("api.raml"),
@@ -142,7 +137,6 @@ class DefaultProjectConfigurationProviderTest extends LanguageServerBaseTest {
     val provider = buildConfigurationProvider()
     for {
       c1 <- provider.newProjectConfiguration(
-        ws1,
         ProjectConfiguration(
           ws1,
           Some("api.raml"),
@@ -157,7 +151,6 @@ class DefaultProjectConfigurationProviderTest extends LanguageServerBaseTest {
       tree         <- MainFileTreeBuilder.build(parseResult, new AmfElementVisitors(Seq.empty), logger)
       _            <- provider.afterNewTree(ws1, tree)
       c2 <- provider.newProjectConfiguration(
-        ws1,
         ProjectConfiguration(
           ws1,
           Some("api.raml"),

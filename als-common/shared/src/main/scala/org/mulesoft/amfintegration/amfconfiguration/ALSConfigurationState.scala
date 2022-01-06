@@ -75,9 +75,9 @@ case class ALSConfigurationState(editorState: EditorConfigurationState,
     val configuration = base
       .withResourceLoaders(
         editorResourceLoader
-          .map(_ +: projectState.resourceLoaders)
-          .getOrElse(projectState.resourceLoaders)
-          .toList ++ editorState.resourceLoader)
+          .map(_ +: editorState.resourceLoader)
+          .getOrElse(editorState.resourceLoader)
+          .toList ++ projectState.resourceLoaders)
       .withPlugins(editorState.alsParsingPlugins ++ editorState.syntaxPlugin ++ editorState.validationPlugin)
       .withUnitCache(cache)
     dialects.foldLeft(configuration)((c, dialect) => c.withDialect(dialect))

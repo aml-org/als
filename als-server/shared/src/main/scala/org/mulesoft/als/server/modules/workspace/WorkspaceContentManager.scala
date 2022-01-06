@@ -29,17 +29,14 @@ class WorkspaceContentManager private (val folderUri: String,
     extends UnitTaskManager[ParsedUnit, CompilableUnit, NotificationKind]
     with PlatformSecrets {
 
-  def getCurrentConfiguration: Future[ProjectConfiguration] =
+  def getConfigurationState: Future[ALSConfigurationState] =
     sync(
       () =>
         if (stagingArea.hasPending || state == ProcessingProject) // may be changing
-          current.flatMap(_ => getCurrentConfiguration)
+          current.flatMap(_ => getConfigurationState)
         else
-          current.flatMap(_ => projectConfigAdapter.getConfigurationState.map(s => s.projectState.config))
+          current.flatMap(_ => projectConfigAdapter.getConfigurationState)
     )
-
-  def getConfigurationState: Future[ALSConfigurationState] =
-    getCurrentConfiguration.flatMap(_ => projectConfigAdapter.getConfigurationState)
 
   override def init(): Future[Unit] =
     Future {

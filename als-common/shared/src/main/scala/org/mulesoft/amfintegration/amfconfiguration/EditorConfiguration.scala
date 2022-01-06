@@ -139,6 +139,11 @@ case class EditorConfigurationState(resourceLoader: Seq[ResourceLoader],
 
 }
 
+object EditorConfigurationState {
+  def empty: EditorConfigurationState =
+    EditorConfigurationState(Nil, Nil, Nil, syntaxPlugin = Nil, validationPlugin = Nil)
+}
+
 object EditorConfiguration extends PlatformSecrets {
   def apply(): EditorConfiguration = withPlatformLoaders(Seq.empty)
   def apply(logger: Logger): EditorConfiguration =
