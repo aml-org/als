@@ -31,11 +31,11 @@ sealed class ConfigurationMap {
     configurations.get(folder)
   }
 
-  def update(folder: String,
-             configuration: Future[DefaultProjectConfiguration],
-             projectConfiguration: ProjectConfiguration): Unit = synchronized {
-    configurations = configurations + (folder -> ConfigurationContainer(configuration, projectConfiguration))
-  }
+  def update(configuration: Future[DefaultProjectConfiguration], projectConfiguration: ProjectConfiguration): Unit =
+    synchronized {
+      configurations = configurations + (projectConfiguration.folder -> ConfigurationContainer(configuration,
+                                                                                               projectConfiguration))
+    }
 }
 
 class DefaultProjectConfigurationProvider(environmentProvider: EnvironmentProvider,
@@ -57,13 +57,10 @@ class DefaultProjectConfigurationProvider(environmentProvider: EnvironmentProvid
   override def getProjectRoot(folder: String): Option[Future[String]] =
     configurationMap.get(folder).flatMap(_.projectConfig.rootUri).map(Future.successful)
 
-  override def newProjectConfiguration(
-      folder: String,
-      projectConfiguration: ProjectConfiguration): Future[ProjectConfigurationState] = {
+  override def newProjectConfiguration(projectConfiguration: ProjectConfiguration): Future[ProjectConfigurationState] = {
     val c = for {
       (dialects, dialectParseResult) <- parseDialects(
-        projectConfiguration.metadataDependency ++ projectConfiguration.extensionDependency,
-        folder)
+        projectConfiguration.metadataDependency ++ projectConfiguration.extensionDependency)
       (profiles, profilesParseResult) <- parseValidationProfiles(projectConfiguration.validationDependency)
     } yield {
       DefaultProjectConfiguration(dialects.toSeq,
@@ -74,7 +71,7 @@ class DefaultProjectConfigurationProvider(environmentProvider: EnvironmentProvid
                                   editorConfiguration,
                                   logger)
     }
-    configurationMap.update(folder, c, projectConfiguration)
+    configurationMap.update(c, projectConfiguration)
     c
   }
 
@@ -100,7 +97,7 @@ class DefaultProjectConfigurationProvider(environmentProvider: EnvironmentProvid
   /**
     * Seeks new extensions in configuration, parses and registers
     */
-  private def parseDialects(dialects: Set[String], folder: String): Future[(Set[Dialect], Set[AMFParseResult])] = {
+  private def parseDialects(dialects: Set[String]): Future[(Set[Dialect], Set[AMFParseResult])] = {
     val newDialects = dialects
       .map(e => {
         if (e.isValidUri) e // full URI received

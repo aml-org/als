@@ -58,7 +58,7 @@ class ProjectConfigurationAdapter(val folder: String,
                  "ProjectConfigurationAdapter",
                  "newProjectConfiguration")
     projectConfigurationProvider
-      .newProjectConfiguration(folder, projectConfiguration)
+      .newProjectConfiguration(projectConfiguration)
       .flatMap(_ => notifyUnits())
   }
 

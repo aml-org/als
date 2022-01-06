@@ -129,7 +129,6 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
                                                                    container,
                                                                    logger,
                                                                    customValidationManager,
-                                                                   editorConfiguration,
                                                                    workspaceConfigurationManager)
 
   val resolutionTaskManager: ResolutionTaskManager = ResolutionTaskManager(
