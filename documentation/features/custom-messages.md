@@ -11,6 +11,7 @@ Currently the following custom methods are supported:
 - fileUsage
 - conversion
 - serialization
+- didChangeConfiguration command
 - renameFile
 
 ### serializeJSONLD
@@ -225,8 +226,6 @@ Where:
 
 Request message from client to server's [`workspace/executeCommand`](https://microsoft.github.io/language-server-protocol/specifications/specification-current/#workspace_executeCommand), to modify a workspace configuration.
 
-Command will be ignored if ALS is not configured with `COMMAND` as `projectConfigurationStyle` see [InitializeParams](features.md) for more information.
-
 #### Request
 
 <pre>
@@ -234,22 +233,29 @@ Command will be ignored if ALS is not configured with `COMMAND` as `projectConfi
   "command": "didChangeConfiguration",
   "arguments": [
     {
-      "mainUri": string,
-      "folder"?: string,
-      "dependencies": string[],
-      "customValidationProfiles": string[]
-      "semanticExtensions": string[]
+      "mainUri"?: string,
+      "folder": string,
+      "dependencies": [
+        {
+          "uri": string,
+          "scope"?: string 
+        }
+      ]
     }
   ]
 }
 </pre>
 
 Where:
-- `folder` the workspace for which this configuration change will be applied, if not present ALS will try to determine the workspace by path of the main file uri.  
-- `mainUri` sets the main file of the workspace.
-- `dependencies` set the uris of all immutable dependencies of the project.
-- `customValidationProfiles` a list of uris of custom validation profiles that should be used in the workspace.
-- `semanticExtensions` a list of uris of semantic extension dialects that should be used in the workspace. (Not yet implemented)
+- `folder` the workspace for which this configuration change will be applied
+- `mainUri` [optional] sets the main file of the workspace.
+- `dependencies` the project's dependencies.
+  - `file` the dependency URI
+  - `scope` [optional] The scope given to the dependency, can have the following values:
+    - `"custom-validation"`: Custom Validation Profile
+    - `"semantic-extension"`: AML semantic extensions
+    - `"dialect"`: AML dialects
+    - `"dependency"`: cacheable dependency
 
 #### Response
 
