@@ -52,7 +52,7 @@
 "http://schema.org/name": "scalar-parameters",
 "shacl:property": [
 {
-"@id": "#/encodes/validations/scalar-parameters/propertyConstraints/shapes.schema%2520%252F%2520shacl.minLength"
+"@id": "#/encodes/validations/scalar-parameters/propertyConstraints/shapes.schema%20%252F%20shacl.minLength"
 }
 ]
 },
@@ -77,7 +77,7 @@
 }
 },
 {
-"@id": "#/encodes/validations/scalar-parameters/propertyConstraints/shapes.schema%2520%252F%2520shacl.minLength",
+"@id": "#/encodes/validations/scalar-parameters/propertyConstraints/shapes.schema%20%252F%20shacl.minLength",
 "@type": [
 "shacl:PropertyShape",
 "file://als/dialects/memory/validation-profile.yaml#/declarations/propertyConstraintNode",

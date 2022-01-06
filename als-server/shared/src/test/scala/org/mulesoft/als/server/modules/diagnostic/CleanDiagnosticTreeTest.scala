@@ -24,7 +24,7 @@ import org.mulesoft.amfintegration.amfconfiguration.{
 }
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
-import org.scalatest.{AsyncFlatSpec, stats}
+import org.scalatest.AsyncFlatSpec
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -33,7 +33,7 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
   override implicit val executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 
-  private val mainUri = "file:///main.raml"
+  private val mainUri = "main.raml"
   private val mfRL: ResourceLoader = AmfConfigurationPatcher.resourceLoaderForFile(mainUri,
                                                                                    """#%RAML 1.0
       |title: test
@@ -68,17 +68,10 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
         |name: MyDialect
         |version: 1.0.0
         |""".stripMargin)
-    val configs =
-      Map(
-        mainUri -> new ProjectConfiguration("file:///",
-                                            Some(mainUri),
-                                            Set.empty,
-                                            Set.empty,
-                                            Set(dialectUri),
-                                            Set.empty))
+    val configuration = EditorConfiguration.withPlatformLoaders(Seq(dRL, mfRL))
 
     for {
-      state <- new DefaultProjectConfigurationProvider(DummyEnvironmentProvider, EditorConfiguration(), EmptyLogger)
+      state <- new DefaultProjectConfigurationProvider(DummyEnvironmentProvider, configuration, EmptyLogger)
         .newProjectConfiguration(
           new ProjectConfiguration("file:///", Some(mainUri), Set.empty, Set.empty, Set(dialectUri), Set.empty))
       d <- {
@@ -94,14 +87,21 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
   }
 
   it should "register configured validation profiles" in {
-
+    val configuration = EditorConfiguration.withPlatformLoaders(Seq(vRL, mfRL))
     for {
-      state <- new DefaultProjectConfigurationProvider(DummyEnvironmentProvider, EditorConfiguration(), EmptyLogger)
+      state <- new DefaultProjectConfigurationProvider(DummyEnvironmentProvider, configuration, EmptyLogger)
         .newProjectConfiguration(
           new ProjectConfiguration("file:///", Some(mainUri), Set.empty, Set(profileUri), Set.empty, Set.empty))
       d <- {
         val manager = new DummyCleanDiagnosticTreeManager(
-          Map(mainUri -> ALSConfigurationState(EditorConfigurationState.empty, state, None)))
+          Map(
+            mainUri -> ALSConfigurationState(EditorConfigurationState(configuration.resourceLoaders,
+                                                                      Nil,
+                                                                      Nil,
+                                                                      syntaxPlugin = Nil,
+                                                                      validationPlugin = Nil),
+                                             state,
+                                             None)))
         manager.getConfiguration(mainUri)
       }
     } yield {

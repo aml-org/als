@@ -134,7 +134,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
       ws            <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, EmptyLogger, Nil, configAdapter)
       _             <- ws.initialized
       _ <- ws
-        .withConfiguration(ProjectConfiguration("folder", mainApiName, cacheUris))
+        .withConfiguration(ProjectConfiguration(folderUri, mainApiName, cacheUris))
       counter1 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
         counter
       }
@@ -188,7 +188,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
       ws            <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, EmptyLogger, Nil, configAdapter)
       _             <- ws.initialized
       _ <- ws
-        .withConfiguration(ProjectConfiguration("folder", mainApiName))
+        .withConfiguration(ProjectConfiguration(folderUri, mainApiName))
       counter1 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
         counter
       }
@@ -310,7 +310,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
       ws            <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, EmptyLogger, Nil, configAdapter)
       _             <- ws.initialized
       _ <- ws
-        .withConfiguration(ProjectConfiguration("folder", mainApiName, cacheUris))
+        .withConfiguration(ProjectConfiguration(folderUri, mainApiName, cacheUris))
       counter1 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
         counter
       }
@@ -321,7 +321,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
       }
       _ <- { // remove caché
         counter = 0
-        ws.withConfiguration(ProjectConfiguration("folder", mainApiName))
+        ws.withConfiguration(ProjectConfiguration(folderUri, mainApiName))
       }
       counter3 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
         counter
@@ -333,7 +333,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
       }
       _ <- { // with cache
         counter = 0
-        ws.withConfiguration(ProjectConfiguration("folder", mainApiName, cacheUris))
+        ws.withConfiguration(ProjectConfiguration(folderUri, mainApiName, cacheUris))
       }
       _ <- ws.stage(mainApiUri, CHANGE_FILE)
       counter5 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
