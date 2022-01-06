@@ -349,25 +349,25 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
         // api.raml, fragment.raml
         _       <- diagnosticClientNotifier.nextCall
         _       <- diagnosticClientNotifier.nextCall
-        config1 <- wm.getWorkspace(filePath("ws4")).flatMap(_.getCurrentConfiguration)
+        config1 <- wm.getWorkspace(filePath("ws4")).flatMap(_.getConfigurationState)
         _ <- server.workspaceService.executeCommand(
           ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION,
                                List(changeConfigArgs(Some(api2Root), root, profiles = Set(profileUri)))))
         // api2.raml
         _       <- diagnosticClientNotifier.nextCall
-        config2 <- wm.getWorkspace(filePath("ws4")).flatMap(_.getCurrentConfiguration)
+        config2 <- wm.getWorkspace(filePath("ws4")).flatMap(_.getConfigurationState)
         _ <- server.workspaceService.executeCommand(
           ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION,
                                List(changeConfigArgs(Some(api2Root), root, profiles = Set(profileUri2)))))
         // api2.raml
         _       <- diagnosticClientNotifier.nextCall
-        config3 <- wm.getWorkspace(filePath("ws4")).flatMap(_.getCurrentConfiguration)
+        config3 <- wm.getWorkspace(filePath("ws4")).flatMap(_.getConfigurationState)
         _ <- server.workspaceService.executeCommand(
           ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION,
                                List(changeConfigArgs(Some(api2Root), root, profiles = Set(profileUri, profileUri2)))))
         // api2.raml
         _       <- diagnosticClientNotifier.nextCall
-        config4 <- wm.getWorkspace(filePath("ws4")).flatMap(_.getCurrentConfiguration)
+        config4 <- wm.getWorkspace(filePath("ws4")).flatMap(_.getConfigurationState)
 
       } yield {
         server.shutdown()
@@ -375,10 +375,10 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
           assert(config.mainFile.contains(mainFile))
           assert(profiles.forall(p => config.validationDependency.contains(p)))
         }
-        assertConfig(config1, "api.raml", Set.empty)
-        assertConfig(config2, "api2.raml", Set(profileUri))
-        assertConfig(config3, "api2.raml", Set(profileUri))
-        assertConfig(config4, "api2.raml", Set(profileUri, profileUri2))
+        assertConfig(config1.projectState.config, "api.raml", Set.empty)
+        assertConfig(config2.projectState.config, "api2.raml", Set(profileUri))
+        assertConfig(config3.projectState.config, "api2.raml", Set(profileUri))
+        assertConfig(config4.projectState.config, "api2.raml", Set(profileUri, profileUri2))
       }
     }
   }
