@@ -73,6 +73,7 @@ trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingArea
 
   protected def changeState(newState: TaskManagerState): Unit = synchronized {
     if (state == NotAvailable) throw new UnavailableTaskManagerException
+    log(s"changeState: ${newState.state}")
     state = newState
   }
 
