@@ -245,6 +245,7 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
 
   def findWorkspace(uri: String): Future[WorkspaceContentManager] =
     for {
+      _ <- defaultWorkspace.flatMap(_.initialized)
       _ <- Future.sequence(workspaces.map(_.initialized))
       wcmCandidate <- Future
         .sequence(workspaces.map(ws => ws.containsFile(uri).map((ws, _))))
