@@ -9,8 +9,7 @@ import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
 trait ProjectConfigurationProvider {
-  def newProjectConfiguration(folder: String,
-                              projectConfiguration: ProjectConfiguration): Future[ProjectConfigurationState]
+  def newProjectConfiguration(projectConfiguration: ProjectConfiguration): Future[ProjectConfigurationState]
   def afterNewTree(folder: String, tree: MainFileTree): Future[Unit]
   def getProjectInfo(folder: String): Option[Future[ProjectConfigurationState]]
   def getProfiles(folder: String): Future[Seq[ValidationProfile]]
@@ -20,8 +19,7 @@ trait ProjectConfigurationProvider {
 }
 
 object IgnoreProjectConfigurationAdapter extends ProjectConfigurationProvider {
-  override def newProjectConfiguration(folder: String,
-                                       projectConfiguration: ProjectConfiguration): Future[ProjectConfigurationState] =
+  override def newProjectConfiguration(projectConfiguration: ProjectConfiguration): Future[ProjectConfigurationState] =
     Future.successful(EmptyProjectConfigurationState)
 
   override def afterNewTree(folder: String, tree: MainFileTree): Future[Unit] = Future.successful()
