@@ -53,9 +53,7 @@ class Suggestions(configuration: AlsConfigurationReader, directoryResolver: Dire
       .fetchContent(url)
       .map(content => {
         val originalContent = content.stream.toString
-        val (patched, patchedConf) =
-          patchContentInEnvironment(url, originalContent, position, alsConfigurationState)
-        (patched, patchedConf)
+        patchContentInEnvironment(url, originalContent, position, alsConfigurationState)
       })
       .flatMap {
         case (patchedContent, patchedConf) =>

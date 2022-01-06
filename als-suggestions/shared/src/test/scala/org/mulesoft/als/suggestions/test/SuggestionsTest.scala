@@ -1,5 +1,6 @@
 package org.mulesoft.als.suggestions.test
 
+import amf.aml.client.scala.AMLConfiguration
 import amf.apicontract.client.scala.APIConfiguration
 import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.common.AmfConfigurationPatcher
@@ -89,9 +90,9 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
                         label: String = "*",
                         cut: Boolean = false,
                         labels: Array[String] = Array("*"),
-                        dialect: Option[String] = None): Future[Assertion] =
+                        dialectPath: Option[String] = None): Future[Assertion] =
     this
-      .suggest(path, label, dialect)
+      .suggest(path, label, dialectPath)
       .map(
         r =>
           assert(path,
@@ -99,19 +100,28 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
                  originalSuggestions))
 
   def withDialect(path: String, originalSuggestions: Set[String], dialectPath: String): Future[Assertion] = {
-    runSuggestionTest(filePath(path), originalSuggestions, dialect = Some(filePath(dialectPath)))
+    runSuggestionTest(filePath(path), originalSuggestions, dialectPath = Some(filePath(dialectPath)))
   }
 
   def rootPath: String
 
-  def suggest(url: String, label: String, dialect: Option[String] = None): Future[Seq[CompletionItem]] = {
-    val dialectUrl            = "file:///dialect.yaml"
-    val dialectResourceLoader = dialect.map(d => AmfConfigurationPatcher.resourceLoaderForFile(dialectUrl, d))
-    val editorConfiguration =
-      EditorConfiguration.withPlatformLoaders(dialectResourceLoader.map(Seq(_)).getOrElse(Seq.empty))
-    dialect.foreach(editorConfiguration.withDialect)
-    editorConfiguration.getState.flatMap(state =>
-      super.suggest(url, label, ALSConfigurationState(state, EmptyProjectConfigurationState, None)))
+  def suggest(url: String, label: String, dialectPath: Option[String] = None): Future[Seq[CompletionItem]] = {
+    for {
+      dialectContent <- dialectPath
+        .map(d => platform.fetchContent(d, AMLConfiguration.predefined()).map(Some(_)))
+        .getOrElse(Future(None))
+      editorConfiguration <- Future {
+        val dialectUri = "file:///dialect.yaml"
+        val dialectResourceLoader =
+          dialectContent.map(d => AmfConfigurationPatcher.resourceLoaderForFile(dialectUri, d.toString()))
+        val editorConfiguration =
+          EditorConfiguration.withPlatformLoaders(dialectResourceLoader.map(Seq(_)).getOrElse(Seq.empty))
+        dialectPath.foreach(_ => editorConfiguration.withDialect(dialectUri))
+        editorConfiguration
+      }
+      state <- editorConfiguration.getState
+      r     <- super.suggest(url, label, ALSConfigurationState(state, EmptyProjectConfigurationState, None))
+    } yield r
   }
 
   case class ModelResult(u: BaseUnit, url: String, position: Int, originalContent: Option[String])
