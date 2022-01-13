@@ -1,6 +1,5 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf.core.client.common.remote.Content
 import amf.core.client.scala.resource.ResourceLoader
 import org.mulesoft.als.common.AmfConfigurationPatcher
 import org.mulesoft.als.configuration.ProjectConfiguration
@@ -9,18 +8,12 @@ import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.modules.configuration.WorkspaceConfigurationProvider
 import org.mulesoft.als.server.modules.diagnostic.custom.CustomValidationManager
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
-import org.mulesoft.als.server.modules.workspace.{
-  DefaultProjectConfiguration,
-  DefaultProjectConfigurationProvider,
-  WorkspaceContentManager
-}
-import org.mulesoft.als.server.textsync.{EnvironmentProvider, TextDocument}
+import org.mulesoft.als.server.modules.workspace.{DefaultProjectConfigurationProvider, WorkspaceContentManager}
 import org.mulesoft.amfintegration.amfconfiguration.{
   ALSConfigurationState,
   EditorConfiguration,
   EditorConfigurationState,
-  EmptyProjectConfigurationState,
-  ProjectConfigurationState
+  EmptyProjectConfigurationState
 }
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
@@ -135,16 +128,6 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
 
     override def getConfigurationState(uri: String): Future[ALSConfigurationState] =
       fail("getConfigurationState should not be called from Dummy manager")
-  }
-
-  object DummyEnvironmentProvider extends EnvironmentProvider {
-    override def getResourceLoader: ResourceLoader = new ResourceLoader {
-      override def fetch(resource: String): Future[Content] = Future.successful(new Content("", resource))
-      override def accepts(resource: String): Boolean       = false
-    }
-    override def openedFiles: Seq[String]                 = Seq.empty
-    override def filesInMemory: Map[String, TextDocument] = Map()
-    override def initialize(): Future[Unit]               = Future.successful()
   }
 
   object DummyTelemetryProvider extends TelemetryManager(DummyClientNotifier, EmptyLogger)

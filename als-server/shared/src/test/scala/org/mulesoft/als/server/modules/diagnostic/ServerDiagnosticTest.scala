@@ -11,13 +11,12 @@ import amf.core.client.scala.vocabulary.ValueType
 import amf.core.internal.metamodel.Field
 import amf.core.internal.metamodel.document.BaseUnitModel
 import amf.core.internal.parser.domain.{Annotations, Fields}
-import org.mulesoft.als.logger.PrintLnLogger
+import org.mulesoft.als.common.AmfConfigurationPatcher
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.ast.BaseUnitListenerParams
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
-import org.mulesoft.als.server.textsync.TextDocumentContainer
 import org.mulesoft.als.server.workspace.command.Commands
 import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier}
 import org.mulesoft.amfintegration.amfconfiguration._
@@ -310,7 +309,8 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
 
   test("File not found error") {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
-    val content                                          = """#%RAML 1.0
+
+    val content = """#%RAML 1.0
                     |title: api
                     |traits:
                     |  tr: !include t.raml""".stripMargin
@@ -347,6 +347,43 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
         assert(d1.diagnostics.nonEmpty && d1.uri == apiPath)
         assert(d1.diagnostics.exists(d => d.message == "Resource not found"))
       }
+    }
+  }
+
+  test("Report project errors") {
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
+    val apiPath                                          = s"file:///api.raml"
+    val content                                          = """#%RAML 1.0
+                    |title: api""".stripMargin
+    val rl                                               = AmfConfigurationPatcher.resourceLoaderForFile(apiPath, content)
+
+    def build(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer = {
+      val editorConfig = EditorConfiguration.withoutPlatformLoaders(Seq(rl))
+      val builder =
+        new WorkspaceManagerFactoryBuilder(diagnosticNotifier,
+                                           logger,
+                                           editorConfig,
+                                           projectConfigurationProvider =
+                                             Some(new ProjectErrorConfigurationProvider(editorConfig, logger)))
+      val dm      = builder.buildDiagnosticManagers()
+      val factory = builder.buildWorkspaceManagerFactory()
+      val b = new LanguageServerBuilder(factory.documentManager,
+                                        factory.workspaceManager,
+                                        factory.configurationManager,
+                                        factory.resolutionTaskManager)
+      dm.foreach(m => b.addInitializableModule(m))
+      b.build()
+    }
+    withServer(build(diagnosticNotifier), AlsInitializeParams(None, Some(TraceKind.Off), rootPath = Some("file:///"))) {
+      server =>
+        for {
+          _  <- setMainFile(server)("file:///", "api.raml")
+          d1 <- diagnosticNotifier.nextCall
+        } yield {
+          server.shutdown()
+          assert(d1.diagnostics.nonEmpty && d1.uri == apiPath)
+          assert(d1.diagnostics.exists(d => d.message == "Error loading project"))
+        }
     }
   }
 }

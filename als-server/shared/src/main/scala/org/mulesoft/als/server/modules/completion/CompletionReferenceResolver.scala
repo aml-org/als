@@ -5,6 +5,11 @@ import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.amfconfiguration.ProjectConfigurationState
 
 case class CompletionReferenceResolver(p: ProjectConfigurationState, bu: BaseUnit)
-    extends ProjectConfigurationState(p.extensions, p.profiles, p.config, p.results, p.resourceLoaders) {
+    extends ProjectConfigurationState(p.extensions,
+                                      p.profiles,
+                                      p.config,
+                                      p.results,
+                                      p.resourceLoaders,
+                                      p.projectErrors) {
   override def cache: Seq[BaseUnit] = bu.flatRefs
 }

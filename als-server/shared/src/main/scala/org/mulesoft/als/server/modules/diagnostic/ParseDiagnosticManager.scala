@@ -31,6 +31,15 @@ class ParseDiagnosticManager(override protected val telemetryProvider: Telemetry
     val references   = tuple.diagnosticsBundle
     logger.debug("Got new AST:\n" + parsedResult.result.baseUnit.id, "ParseDiagnosticManager", "newASTAvailable")
     val uri = parsedResult.location
+    if (tuple.tree) {
+      validationGatherer.indexNewReport(
+        ErrorsWithTree(uri,
+                       tuple.parseResult.context.state.projectState.projectErrors.map(new AlsValidationResult(_)),
+                       Some(Set(uri))),
+        ProjectDiagnosticKind,
+        uuid
+      )
+    }
     telemetryProvider.timeProcess(
       "Start report",
       MessageTypes.BEGIN_DIAGNOSTIC_PARSE,
