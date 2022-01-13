@@ -5,6 +5,7 @@ import amf.apicontract.client.scala.AMFConfiguration
 import amf.core.client.scala.AMFParseResult
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.resource.ResourceLoader
+import amf.core.client.scala.validation.AMFValidationResult
 import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.amfintegration.ValidationProfile
 
@@ -12,14 +13,20 @@ abstract class ProjectConfigurationState(val extensions: Seq[Dialect],
                                          val profiles: Seq[ValidationProfile],
                                          val config: ProjectConfiguration,
                                          val results: Seq[AMFParseResult],
-                                         val resourceLoaders: Seq[ResourceLoader]) {
+                                         val resourceLoaders: Seq[ResourceLoader],
+                                         val projectErrors: Seq[AMFValidationResult]) {
 
   def customSetUp(amfConfiguration: AMFConfiguration): AMFConfiguration = amfConfiguration
   def cache: Seq[BaseUnit]
 }
 
 case class EmptyProjectConfigurationState(folder: String)
-    extends ProjectConfigurationState(Seq.empty, Seq.empty, ProjectConfiguration.empty(folder), Seq.empty, Seq.empty) {
+    extends ProjectConfigurationState(Seq.empty,
+                                      Seq.empty,
+                                      ProjectConfiguration.empty(folder),
+                                      Seq.empty,
+                                      Seq.empty,
+                                      Seq.empty) {
   override val cache: Seq[BaseUnit] = Seq.empty
 }
 
