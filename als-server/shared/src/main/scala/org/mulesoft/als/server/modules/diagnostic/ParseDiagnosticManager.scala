@@ -32,10 +32,11 @@ class ParseDiagnosticManager(override protected val telemetryProvider: Telemetry
     logger.debug("Got new AST:\n" + parsedResult.result.baseUnit.id, "ParseDiagnosticManager", "newASTAvailable")
     val uri = parsedResult.location
     if (tuple.tree) {
+      val projectErrors          = tuple.parseResult.context.state.projectState.projectErrors
+      val locations: Set[String] = projectErrors.flatMap(_.location).toSet
+
       validationGatherer.indexNewReport(
-        ErrorsWithTree(uri,
-                       tuple.parseResult.context.state.projectState.projectErrors.map(new AlsValidationResult(_)),
-                       Some(Set(uri))),
+        ErrorsWithTree(uri, projectErrors.map(new AlsValidationResult(_)), Some(locations ++ Set(uri))),
         ProjectDiagnosticKind,
         uuid
       )
