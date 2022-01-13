@@ -5,6 +5,7 @@ import amf.aml.client.scala.model.document.{Dialect, DialectInstance}
 import amf.apicontract.client.scala.{AMFConfiguration, APIConfiguration}
 import amf.core.client.common.validation.SeverityLevels
 import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.validation.AMFValidationResult
 import amf.core.client.scala.{AMFParseResult, AMFResult}
 import org.mulesoft.als.common.URIImplicits.StringUriImplicits
 import org.mulesoft.als.configuration.ProjectConfiguration
@@ -63,13 +64,16 @@ class DefaultProjectConfigurationProvider(environmentProvider: EnvironmentProvid
         projectConfiguration.metadataDependency ++ projectConfiguration.extensionDependency)
       (profiles, profilesParseResult) <- parseValidationProfiles(projectConfiguration.validationDependency)
     } yield {
-      DefaultProjectConfiguration(dialects.toSeq,
-                                  profiles.toSeq,
-                                  (dialectParseResult ++ profilesParseResult).toSeq,
-                                  projectConfiguration,
-                                  environmentProvider,
-                                  editorConfiguration,
-                                  logger)
+      DefaultProjectConfiguration(
+        dialects.toSeq,
+        profiles.toSeq,
+        (dialectParseResult ++ profilesParseResult).toSeq,
+        projectConfiguration,
+        environmentProvider,
+        Seq.empty, // todo: add projects errors such as "file.yaml" is not a profile
+        editorConfiguration,
+        logger
+      )
     }
     configurationMap.update(c, projectConfiguration)
     c
@@ -171,9 +175,10 @@ case class DefaultProjectConfiguration(override val extensions: Seq[Dialect],
                                        override val results: Seq[AMFParseResult],
                                        override val config: ProjectConfiguration,
                                        private val environmentProvider: EnvironmentProvider,
+                                       override val projectErrors: Seq[AMFValidationResult],
                                        private val editorConfiguration: EditorConfigurationProvider,
                                        private val logger: Logger)
-    extends ProjectConfigurationState(extensions, profiles, config, results, Nil) {
+    extends ProjectConfigurationState(extensions, profiles, config, results, Nil, projectErrors) {
 
   val cacheBuilder: CacheBuilder =
     new CacheBuilder(config.folder, config.designDependency, environmentProvider, editorConfiguration, logger)
