@@ -75,7 +75,7 @@ class ProjectConfigurationAdapter(val folder: String,
         .foreach(r => {
           repository.foreach(_.updateUnit(r))
           val p =
-            BaseUnitListenerParams(r, Map.empty, tree = false, isDependency = true)
+            BaseUnitListenerParams(r, Map.empty, tree = false, folder, isDependency = true)
           subs.foreach(_.onNewAst(p, UUID.randomUUID().toString))
         })
       s.projectState
