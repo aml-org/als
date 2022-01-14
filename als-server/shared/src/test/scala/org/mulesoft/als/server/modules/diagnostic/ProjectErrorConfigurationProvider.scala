@@ -1,6 +1,5 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf.core.client.common.validation.SeverityLevels.VIOLATION
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.validation.AMFValidationResult
 import org.mulesoft.als.logger.Logger
@@ -10,8 +9,14 @@ import org.mulesoft.amfintegration.amfconfiguration.{EditorConfigurationProvider
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class ProjectErrorConfigurationProvider(editorConfiguration: EditorConfigurationProvider, logger: Logger)
+class ProjectErrorConfigurationProvider(editorConfiguration: EditorConfigurationProvider,
+                                        logger: Logger,
+                                        error: AMFValidationResult)
     extends DefaultProjectConfigurationProvider(DummyEnvironmentProvider, editorConfiguration, logger) {
+  private var reportError = true
+
+  def setReportError(v: Boolean): Unit = this.reportError = v
+
   override def getProjectInfo(folder: String): Option[Future[ProjectConfigurationState]] =
     super
       .getProjectInfo(folder)
@@ -22,7 +27,7 @@ class ProjectErrorConfigurationProvider(editorConfiguration: EditorConfiguration
           state.config,
           state.results,
           state.resourceLoaders,
-          Seq(AMFValidationResult("Error loading project", VIOLATION, "", None, "2", None, None, None))
+          if (reportError) Seq(error) else Seq()
         ) {
           override def cache: Seq[BaseUnit] = Seq.empty
         }

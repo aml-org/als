@@ -23,6 +23,14 @@ trait DiagnosticManager extends BasicDiagnosticManager[DiagnosticClientCapabilit
   override def applyConfig(config: Option[DiagnosticClientCapabilities]): Unit = {
     // not used
   }
+
+  def projectReferences(uri: String, projectErrors: Seq[AMFValidationResult]): Map[String, DiagnosticsBundle] = {
+    projectErrors
+      .map(v => {
+        (v.location.getOrElse(uri) -> DiagnosticsBundle(isExternal = true, Set.empty))
+      })
+      .toMap
+  }
 }
 
 trait BasicDiagnosticManager[C, S] extends ClientNotifierModule[C, S] {

@@ -44,8 +44,8 @@ class ResolutionDiagnosticManager(override protected val telemetryProvider: Tele
                                      references: Map[String, DiagnosticsBundle],
                                      uuid: String): Future[Unit] = {
     val startTime = System.currentTimeMillis()
-
-    val profile = profileName(resolved.baseUnit)
+    val refs      = projectReferences(uri, resolved.alsConfigurationState.projectState.projectErrors) ++ references
+    val profile   = profileName(resolved.baseUnit)
     this
       .report(uri, telemetryProvider, resolved, uuid, profile)
       .map(report => {
@@ -55,7 +55,7 @@ class ResolutionDiagnosticManager(override protected val telemetryProvider: Tele
             ErrorsWithTree(uri, report.results.map(new AlsValidationResult(_)), Some(tree(resolved.baseUnit))),
             managerName,
             uuid)
-        notifyReport(uri, resolved.baseUnit, references, managerName, profile)
+        notifyReport(uri, resolved.baseUnit, refs, managerName, profile)
 
         this.logger.debug(s"It took ${endTime - startTime} milliseconds to validate",
                           "ResolutionDiagnosticManager",
