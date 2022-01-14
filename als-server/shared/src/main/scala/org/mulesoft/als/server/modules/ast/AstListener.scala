@@ -1,14 +1,9 @@
 package org.mulesoft.als.server.modules.ast
 
-import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.server.modules.workspace.CompilableUnit
 import org.mulesoft.als.server.workspace.UnitAccessor
 import org.mulesoft.amfintegration.DiagnosticsBundle
-import org.mulesoft.amfintegration.amfconfiguration.{
-  AMLSpecificConfiguration,
-  AmfParseResult,
-  ProjectConfigurationState
-}
+import org.mulesoft.amfintegration.amfconfiguration.AmfParseResult
 
 import scala.concurrent.Future
 
@@ -41,6 +36,7 @@ trait AccessUnits[T] {
 case class BaseUnitListenerParams(parseResult: AmfParseResult,
                                   diagnosticsBundle: Map[String, DiagnosticsBundle],
                                   tree: Boolean,
+                                  workspace: String,
                                   isDependency: Boolean = false)
 
 trait BaseUnitListener extends AstListener[BaseUnitListenerParams] with AccessUnits[CompilableUnit]

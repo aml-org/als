@@ -27,7 +27,6 @@ import org.mulesoft.als.server.protocol.textsync.AlsTextDocumentSyncConsumer
 import org.mulesoft.als.server.textsync.{
   DefaultTextDocumentSyncBuilder,
   TextDocumentContainer,
-  TextDocumentManager,
   TextDocumentSyncBuilder
 }
 import org.mulesoft.als.server.workspace.{ProjectConfigurationProvider, WorkspaceManager}
@@ -82,13 +81,15 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier,
     val gatherer = new ValidationGatherer(telemetryManager)
     val dm =
       new ParseDiagnosticManager(telemetryManager, clientNotifier, logger, gatherer, notificationKind)
+    val pdm = new ProjectDiagnosticManager(telemetryManager, clientNotifier, logger, gatherer, notificationKind)
     val rdm = new ResolutionDiagnosticManager(telemetryManager, clientNotifier, logger, gatherer)
     customValidationManager =
       customValidator.map(new CustomValidationManager(telemetryManager, clientNotifier, logger, gatherer, _))
     customValidationManager.foreach(resolutionDependencies += _)
     resolutionDependencies += rdm
     projectDependencies += dm
-    Seq(Some(dm), Some(rdm), customValidationManager).flatten
+    projectDependencies += pdm
+    Seq(Some(dm), Some(pdm), Some(rdm), customValidationManager).flatten
   }
 
   def filesInProjectManager(alsClientNotifier: AlsClientNotifier[_]): FilesInProjectManager = {

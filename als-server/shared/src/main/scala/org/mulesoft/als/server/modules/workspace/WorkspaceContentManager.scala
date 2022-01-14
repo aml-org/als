@@ -169,7 +169,7 @@ class WorkspaceContentManager private (val folderUri: String,
       logger.debug(s"sending new AST from $folderUri", "WorkspaceContentManager", "processIsolated")
       subscribers.foreach(s =>
         try {
-          s.onNewAst(BaseUnitListenerParams(result, Map.empty, tree = false, isDependency), uuid)
+          s.onNewAst(BaseUnitListenerParams(result, Map.empty, tree = false, folderUri, isDependency), uuid)
         } catch {
           case e: Exception =>
             logger.error(s"subscriber $s threw ${e.getMessage}", "processIsolated", "WorkspaceContentManager")
@@ -291,7 +291,7 @@ class WorkspaceContentManager private (val folderUri: String,
         logger.debug(s"Sending new AST from ${u.result.baseUnit.location().getOrElse(folderUri)}",
                      "WorkspaceContentManager",
                      "processMFChanges")
-        s.onNewAst(BaseUnitListenerParams(u, repository.references, tree = true), uuid)
+        s.onNewAst(BaseUnitListenerParams(u, repository.references, tree = true, folderUri), uuid)
       })
     }
   }
