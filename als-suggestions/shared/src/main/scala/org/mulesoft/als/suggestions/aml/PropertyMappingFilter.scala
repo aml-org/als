@@ -20,11 +20,12 @@ case class PropertyMappingFilter(objectInTree: ObjectInTree, actualDialect: Dial
       .filter(p => p.mapTermKeyProperty().option().isDefined)
 
   private def isInDeclarations(nm: NodeMapping): Boolean =
-    actualDialect
-      .documents()
-      .root()
-      .declaredNodes()
-      .exists(_.mappedNode().option().contains(nm.id)) && objectInTree.stack.last.isInstanceOf[BaseUnit]
+    Option(
+      actualDialect
+        .documents()
+        .root()).exists(root =>
+      root.declaredNodes().exists(_.mappedNode().option().contains(nm.id)) && objectInTree.stack.last
+        .isInstanceOf[BaseUnit])
 
   private val semanticNameIris: Seq[String] = Seq(NameFieldSchema.Name.value.iri(), NameFieldShacl.Name.value.iri())
 
