@@ -142,72 +142,94 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest {
     }
   }
 
+  class TestDidChangeConfigurationCommandExecutor(wsc: WorkspaceManager,
+                                                  fn: DidChangeConfigurationNotificationParams => Unit)
+      extends DidChangeConfigurationCommandExecutor(EmptyLogger, wsc) {
+    override protected def runCommand(param: DidChangeConfigurationNotificationParams): Future[Unit] = {
+      fn(param)
+      Future.unit
+    }
+  }
+
+  def wrapJson(mainUri: String, dependecies: Array[String], gson: Gson): String =
+    s"""{"mainUri": "$mainUri", "dependencies": ${gson.toJson(dependecies)}}"""
+
+  class DummyTelemetryProvider extends TelemetryManager(new DummyClientNotifier(), EmptyLogger)
+
+  class DummyClientNotifier extends ClientNotifier {
+    override def notifyDiagnostic(params: PublishDiagnosticsParams): Unit = {}
+
+    override def notifyTelemetry(params: TelemetryMessage): Unit = {}
+  }
+
+  class TestWorkspaceManager(editorConfiguration: EditorConfiguration,
+                             fn: DidChangeConfigurationNotificationParams => Unit)
+      extends WorkspaceManager(
+        new EnvironmentProvider {
+
+          override def openedFiles: Seq[String] = Seq.empty
+
+          override def initialize(): Future[Unit] = Future.unit
+
+          override def filesInMemory: Map[String, TextDocument] = ???
+
+          override def getResourceLoader: ResourceLoader = new ResourceLoader {
+            override def fetch(resource: String): Future[Content] = Future.failed(new ResourceNotFound("Failed"))
+
+            override def accepts(resource: String): Boolean = false
+          }
+        },
+        new DummyTelemetryProvider(),
+        editorConfiguration,
+        IgnoreProjectConfigurationAdapter,
+        Nil,
+        Nil,
+        EmptyLogger,
+        buildWorkspaceManager.configurationManager
+      ) {
+
+    private val commandExecutors: Map[String, CommandExecutor[_, _]] = Map(
+      Commands.DID_CHANGE_CONFIGURATION -> new TestDidChangeConfigurationCommandExecutor(this, fn)
+    )
+
+    override def executeCommand(params: SharedExecuteParams): Future[AnyRef] = Future {
+      commandExecutors.get(params.command) match {
+        case Some(exe) => exe.runCommand(params)
+        case _ =>
+          logger.error(s"Command [${params.command}] not recognized", "WorkspaceManager", "executeCommand")
+      }
+      Unit
+    }
+  }
+
   test("Lsp4j LanguageServerImpl Command - Change configuration Params Serialization") {
-
     var parsedOK = false
-
-    class TestDidChangeConfigurationCommandExecutor(wsc: WorkspaceManager)
-        extends DidChangeConfigurationCommandExecutor(EmptyLogger, wsc) {
-      override protected def runCommand(param: DidChangeConfigurationNotificationParams): Future[Unit] = {
-        parsedOK = true // If it reaches this command, it was parsed correctly
-        Future.unit
-      }
+    def parsed(p: DidChangeConfigurationNotificationParams): Unit = {
+      parsedOK = true
     }
 
-    def wrapJson(mainUri: String, dependecies: Array[String], gson: Gson): String =
-      s"""{"mainUri": "$mainUri", "dependencies": ${gson.toJson(dependecies)}}"""
-
-    class DummyTelemetryProvider extends TelemetryManager(new DummyClientNotifier(), EmptyLogger)
-
-    class DummyClientNotifier extends ClientNotifier {
-      override def notifyDiagnostic(params: PublishDiagnosticsParams): Unit = {}
-
-      override def notifyTelemetry(params: TelemetryMessage): Unit = {}
-    }
-
-    class TestWorkspaceManager(editorConfiguration: EditorConfiguration)
-        extends WorkspaceManager(
-          new EnvironmentProvider {
-
-            override def openedFiles: Seq[String] = Seq.empty
-
-            override def initialize(): Future[Unit] = Future.unit
-
-            override def filesInMemory: Map[String, TextDocument] = ???
-
-            override def getResourceLoader: ResourceLoader = new ResourceLoader {
-              override def fetch(resource: String): Future[Content] = Future.failed(new ResourceNotFound("Failed"))
-
-              override def accepts(resource: String): Boolean = false
-            }
-          },
-          new DummyTelemetryProvider(),
-          editorConfiguration,
-          IgnoreProjectConfigurationAdapter,
-          Nil,
-          Nil,
-          EmptyLogger,
-          buildWorkspaceManager.configurationManager
-        ) {
-
-      private val commandExecutors: Map[String, CommandExecutor[_, _]] = Map(
-        Commands.DID_CHANGE_CONFIGURATION -> new TestDidChangeConfigurationCommandExecutor(this)
-      )
-
-      override def executeCommand(params: SharedExecuteParams): Future[AnyRef] = Future {
-        commandExecutors.get(params.command) match {
-          case Some(exe) => exe.runCommand(params)
-          case _ =>
-            logger.error(s"Command [${params.command}] not recognized", "WorkspaceManager", "executeCommand")
-        }
-        Unit
-      }
-    }
     val args = List(wrapJson("file://uri.raml", Array("dep1", "dep2"), new GsonBuilder().create()))
 
-    new TestWorkspaceManager(EditorConfiguration())
+    new TestWorkspaceManager(EditorConfiguration(), parsed)
       .executeCommand(SharedExecuteParams(Commands.DID_CHANGE_CONFIGURATION, args))
       .map(_ => assert(parsedOK))
+  }
+
+  test("Lsp4j LanguageServerImpl Command - Change configuration Params LSP4J Serialization") {
+    val argument = """"{\n\"folder\": \"file:///full/workspace/uri/\",\n\"mainUri\": \"インターフェース.raml\"\n}""""
+    var parsedOK = false
+    def parsed(p: DidChangeConfigurationNotificationParams): Unit = {
+      parsedOK = true
+      assert(p.folder == "file:///full/workspace/uri/")
+      assert(p.mainUri.contains("インターフェース.raml"))
+    }
+
+    val args = List(argument)
+
+    new TestWorkspaceManager(EditorConfiguration(), parsed)
+      .executeCommand(SharedExecuteParams(Commands.DID_CHANGE_CONFIGURATION, args))
+      .map(_ => assert(parsedOK))
+
   }
 
   test("Language server with AMF Validator test") {
