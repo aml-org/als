@@ -14,6 +14,14 @@ import scala.concurrent.Future
 class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceManager)
     extends CommandExecutor[DidChangeConfigurationNotificationParams, Unit] {
 
+  override protected def treatParams(arguments: List[String]): List[String] =
+    arguments
+      .map(StringContext.treatEscapes)
+      .map(s =>
+        if (s.endsWith("\"") && s.endsWith("\"")) {
+          s.substring(1, s.length - 1)
+        } else s)
+
   override protected def buildParamFromMap(m: YMap): Option[DidChangeConfigurationNotificationParams] = {
     val mainUri: Option[String] = m.key("mainUri").flatMap(e => e.value.toOption[String])
     val folder: String = m
