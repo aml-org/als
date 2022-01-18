@@ -186,7 +186,7 @@ class DialectRegistryTest extends LanguageServerBaseTest {
     }
   }
 
-  ignore("Keep manually registered dialects if not modified") {
+  test("Keep manually registered dialects if not modified") {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
 
     val (server, workspaceManager) = buildServer(diagnosticNotifier)
@@ -210,13 +210,10 @@ class DialectRegistryTest extends LanguageServerBaseTest {
           AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some("file:///"), hotReload = Some(true)))
         d1 <- workspaceManager.getWorkspace(url).flatMap(_.getConfigurationState).map(_.dialects)
         _  <- changeWorkspaceConfiguration(server)(changeConfigArgs(None, "file:///", dialects = Set(extraDialectPath)))
-        _  <- workspaceManager.getLastUnit(extraDialectPath, UUID.randomUUID().toString)
         d2 <- workspaceManager.getWorkspace(url).flatMap(_.getConfigurationState).map(_.dialects)
         _  <- openFileNotification(server)(url, content)
-        _  <- workspaceManager.getLastUnit(url, UUID.randomUUID().toString)
         d3 <- workspaceManager.getWorkspace(url).flatMap(_.getConfigurationState).map(_.dialects)
         _  <- changeNotification(server)(url, content.replace("2", "3"), 2)
-        _  <- workspaceManager.getLastUnit(url, UUID.randomUUID().toString)
         d4 <- workspaceManager.getWorkspace(url).flatMap(_.getConfigurationState).map(_.dialects)
       } yield {
         server.shutdown()
@@ -234,7 +231,7 @@ class DialectRegistryTest extends LanguageServerBaseTest {
     }
   }
 
-  ignore("Override manually registered dialects if modified") {
+  test("Override manually registered dialects if modified") {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
 
     val (server, workspaceManager) = buildServer(diagnosticNotifier)
@@ -257,13 +254,10 @@ class DialectRegistryTest extends LanguageServerBaseTest {
         _ <- server.initialize(
           AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some("file:///"), hotReload = Some(true)))
         _  <- changeWorkspaceConfiguration(server)(changeConfigArgs(None, "file:///", dialects = Set(extraDialectPath)))
-        _  <- workspaceManager.getLastUnit(extraDialectPath, UUID.randomUUID().toString)
         d1 <- workspaceManager.getWorkspace(url).flatMap(_.getConfigurationState).map(_.dialects)
         _  <- openFileNotification(server)(url, content)
-        _  <- workspaceManager.getLastUnit(url, UUID.randomUUID().toString)
         d2 <- workspaceManager.getWorkspace(url).flatMap(_.getConfigurationState).map(_.dialects)
         _  <- changeNotification(server)(extraDialectPath, extraContent2, 2)
-        _  <- workspaceManager.getLastUnit(url, UUID.randomUUID().toString)
         d3 <- workspaceManager.getWorkspace(url).flatMap(_.getConfigurationState).map(_.dialects)
       } yield {
         server.shutdown()
