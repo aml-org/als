@@ -4,12 +4,16 @@ import amf.core.internal.convert.CoreClientConverters._
 import amf.core.client.platform.resource.ClientResourceLoader
 import amf.core.internal.unsafe.PlatformSecrets
 import amf.validation.client.ProfileValidatorNodeBuilder
+import amf.validation.client.platform.CustomValidator
+import amf.validation.client.validator.JsCustomValidator
+import amf.validation.internal.unsafe.AmfCustomValidatorWeb
 import io.scalajs.nodejs.process
 import org.mulesoft.als.server.client.platform.AlsLanguageServerFactory
 import org.mulesoft.als.server.{ClientNotifierFactory, JsSerializationProps, ProtocolConnectionBinder}
 import org.mulesoft.als.vscode.{ProtocolConnection, ServerSocketTransport}
-
+import scala.scalajs.js.JSConverters._
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.scalajs.js.Promise
 
 // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
@@ -45,7 +49,10 @@ object Main extends PlatformSecrets {
 
       val languageServer = new AlsLanguageServerFactory(clientConnection)
         .withSerializationProps(serializationProps)
-        .withAmfCustomValidator(ProfileValidatorNodeBuilder)
+        .withAmfCustomValidator(new CustomValidator {
+          override def validate(document: String, profile: String): Promise[String] =
+            new JsCustomValidator(AmfCustomValidatorWeb).validate(document, profile).toJSPromise
+        })
         .withDirectoryResolver(new ClientPlatformDirectoryResolver(platform))
         .withLogger(logger)
         .build()
