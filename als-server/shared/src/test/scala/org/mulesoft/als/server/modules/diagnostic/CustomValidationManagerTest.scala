@@ -1,15 +1,15 @@
 package org.mulesoft.als.server.modules.diagnostic
 
 import amf.core.client.scala.AMFGraphConfiguration
+import amf.validation.client.scala.BaseProfileValidatorBuilder
 import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.feature.diagnostic.CustomValidationClientCapabilities
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticImplicits.PublishDiagnosticsParamsWriter
-import org.mulesoft.als.server.modules.diagnostic.custom.AMFOpaValidator
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams}
-import org.mulesoft.als.server.workspace.{ChangesWorkspaceConfiguration, WorkspaceManager}
+import org.mulesoft.als.server.workspace.ChangesWorkspaceConfiguration
 import org.mulesoft.als.server.{
   LanguageServerBaseTest,
   MockAlsClientNotifier,
@@ -52,7 +52,8 @@ class CustomValidationManagerTest
       rootUri = workspacePath
     )
 
-  def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier, validator: AMFOpaValidator): LanguageServer = {
+  def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier,
+                  validator: BaseProfileValidatorBuilder): LanguageServer = {
     val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
     val dm      = builder.buildDiagnosticManagers(Some(validator))
     val factory = builder.buildWorkspaceManagerFactory()
@@ -65,7 +66,7 @@ class CustomValidationManagerTest
   }
 
   def buildServerForSerialize(diagnosticNotifier: MockDiagnosticClientNotifier,
-                              validator: AMFOpaValidator,
+                              validator: BaseProfileValidatorBuilder,
                               s: SerializationProps[_]): LanguageServer = {
     val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
     val dm      = builder.buildDiagnosticManagers(Some(validator))
@@ -90,7 +91,7 @@ class CustomValidationManagerTest
 
   ignore("Should not be called when no profile is registered") {
     implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
-    val validator                                                 = new DummyAmfOpaValidator
+    val validator                                                 = FromJsonLdValidatorProvider.empty
     val server: LanguageServer                                    = buildServer(diagnosticNotifier, validator)
     val initialArgs                                               = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set.empty)
     withServer(server, buildInitParams(workspacePath)) { server =>
@@ -100,14 +101,14 @@ class CustomValidationManagerTest
         _       <- getDiagnostics
         _       <- changeNotification(server)(mainFile, content.replace("Not found", "Not found!"), 1)
         _       <- getDiagnostics
-        _       <- validator.calledNTimes(0)
+        _       <- validator.jsonLDValidatorExecutor.calledNTimes(0)
       } yield succeed
     }
   }
 
   ignore("Shouldn't even run when disabled") {
     implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
-    val validator                                                 = new DummyAmfOpaValidator
+    val validator                                                 = FromJsonLdValidatorProvider.empty
     val server: LanguageServer                                    = buildServer(diagnosticNotifier, validator)
     val initialArgs                                               = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set.empty)
     withServer(server, AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(workspacePath))) { _ =>
@@ -117,7 +118,7 @@ class CustomValidationManagerTest
         _       <- diagnosticNotifier.nextCall // resolution diagnostics
         _       <- changeNotification(server)(mainFile, content.replace("Not found", "Not found!"), 1)
         _       <- diagnosticNotifier.nextCall // resolution diagnostics
-        _       <- validator.calledNTimes(0)
+        _       <- validator.jsonLDValidatorExecutor.calledNTimes(0)
       } yield {
         diagnosticNotifier.promises should be(empty)
       }
@@ -126,7 +127,7 @@ class CustomValidationManagerTest
 
   ignore("Should be called after a profile is registered") {
     implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
-    val validator                                                 = new DummyAmfOpaValidator
+    val validator                                                 = FromJsonLdValidatorProvider.empty
     val server: LanguageServer                                    = buildServer(diagnosticNotifier, validator)
     val initialArgs                                               = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set.empty)
     val args                                                      = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profileUri))
@@ -134,10 +135,10 @@ class CustomValidationManagerTest
     withServer(server, buildInitParams(workspacePath)) { _ =>
       for {
         _ <- changeWorkspaceConfiguration(server)(initialArgs)
-        _ <- validator.calledNTimes(0)
+        _ <- validator.jsonLDValidatorExecutor.calledNTimes(0)
         _ <- getDiagnostics
         _ <- changeWorkspaceConfiguration(server)(args) // register
-        _ <- validator.calledNTimes(1)
+        _ <- validator.jsonLDValidatorExecutor.calledNTimes(1)
         _ <- getDiagnostics
         _ <- changeWorkspaceConfiguration(server)(changeConfigArgs(Some(mainFileName), workspacePath)) // unregister
         _ <- getDiagnostics
@@ -157,7 +158,7 @@ class CustomValidationManagerTest
           JsonOutputBuilder(prettyPrint)
       }
 
-    val validator              = new DummyAmfOpaValidator
+    val validator              = FromJsonLdValidatorProvider.empty
     val server: LanguageServer = buildServerForSerialize(diagnosticNotifier, validator, serializationProps)
     val args                   = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profileUri))
 
@@ -178,7 +179,7 @@ class CustomValidationManagerTest
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
       .flatMap(negativeReport => {
         implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
-        val validator                                                 = new DummyAmfOpaValidator(negativeReport.toString)
+        val validator                                                 = FromJsonLdValidatorProvider(negativeReport.toString)
         val server: LanguageServer                                    = buildServer(diagnosticNotifier, validator)
         val args                                                      = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profileUri))
 
@@ -187,9 +188,9 @@ class CustomValidationManagerTest
             for {
               _           <- changeWorkspaceConfiguration(server)(args) // register
               profile     <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
-              _           <- validator.calledNTimes(1)
+              _           <- validator.jsonLDValidatorExecutor.calledNTimes(1)
               diagnostics <- getDiagnostics
-              _           <- validator.called(profile, serializedUri)
+              _           <- validator.jsonLDValidatorExecutor.called(profile, serializedUri)
             } yield {
               val firstDiagnostic =
                 diagnostics.diagnostics.find(d => d.range.start == Position(5, 6) && d.range.end == Position(6, 19))
@@ -214,7 +215,7 @@ class CustomValidationManagerTest
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
       .flatMap(negativeReport => {
         implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
-        val validator                                                 = new DummyAmfOpaValidator(negativeReport.toString)
+        val validator                                                 = FromJsonLdValidatorProvider(negativeReport.toString)
         val server: LanguageServer                                    = buildServer(diagnosticNotifier, validator)
         val args                                                      = changeConfigArgs(None, workspacePath, Set.empty, Set(profileUri))
 
@@ -226,9 +227,9 @@ class CustomValidationManagerTest
               _           <- getDiagnostics
               _           <- changeWorkspaceConfiguration(server)(args) // register
               profile     <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
-              _           <- validator.calledNTimes(1)
+              _           <- validator.jsonLDValidatorExecutor.calledNTimes(1)
               diagnostics <- getDiagnostics
-              _           <- validator.called(profile, serializedIsolatedUri)
+              _           <- validator.jsonLDValidatorExecutor.called(profile, serializedIsolatedUri)
             } yield {
               val firstDiagnostic =
                 diagnostics.diagnostics.find(d => d.range.start == Position(5, 6) && d.range.end == Position(6, 19))
@@ -253,7 +254,7 @@ class CustomValidationManagerTest
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
       .flatMap(negativeReport => {
         implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
-        val validator                                                 = new DummyAmfOpaValidator(negativeReport.toString)
+        val validator                                                 = FromJsonLdValidatorProvider(negativeReport.toString)
         val server: LanguageServer                                    = buildServer(diagnosticNotifier, validator)
         val args                                                      = changeConfigArgs(None, workspacePath, Set.empty, Set(profileUri))
 
@@ -265,9 +266,9 @@ class CustomValidationManagerTest
               _           <- getDiagnostics
               _           <- changeWorkspaceConfiguration(server)(args) // register
               profile     <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
-              _           <- validator.calledNTimes(1)
+              _           <- validator.jsonLDValidatorExecutor.calledNTimes(1)
               diagnostics <- getDiagnostics
-              _           <- validator.called(profile, serializedIsolatedUri)
+              _           <- validator.jsonLDValidatorExecutor.called(profile, serializedIsolatedUri)
             } yield {
               val firstDiagnostic = diagnostics.diagnostics.find(
                 _.message == "Min length must be less than max length must match in scalar")
@@ -297,7 +298,7 @@ class CustomValidationManagerTest
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
       .flatMap(negativeReport => {
         implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
-        val validator                                                 = new DummyAmfOpaValidator(negativeReport.toString)
+        val validator                                                 = FromJsonLdValidatorProvider(negativeReport.toString)
         val server: LanguageServer                                    = buildServer(diagnosticNotifier, validator)
         val initialArgs                                               = changeConfigArgs(Some(mainFileName), workspacePath)
         val args                                                      = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profileUri))
@@ -312,7 +313,7 @@ class CustomValidationManagerTest
               _       <- getDiagnostics // isolated file
               _       <- changeWorkspaceConfiguration(server)(args) // register
               _       <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
-              _       <- validator.calledNTimes(2)
+              _       <- validator.jsonLDValidatorExecutor.calledNTimes(2)
               d1      <- diagnosticNotifier.nextCall // resolution diagnostics main file
               d2      <- diagnosticNotifier.nextCall // resolution diagnostics isolated file
               d3      <- diagnosticNotifier.nextCall // custom validation diagnostics main file
@@ -334,7 +335,7 @@ class CustomValidationManagerTest
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
       .flatMap(negativeReport => {
         implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
-        val validator                                                 = new DummyAmfOpaValidator(negativeReport.toString)
+        val validator                                                 = FromJsonLdValidatorProvider(negativeReport.toString)
         val server: LanguageServer                                    = buildServer(diagnosticNotifier, validator)
         val args                                                      = changeConfigArgs(None, workspacePath, Set.empty, Set(profileUri))
 
@@ -345,9 +346,9 @@ class CustomValidationManagerTest
               content     <- platform.fetchContent(isolatedFile, AMFGraphConfiguration.predefined()).map(_.toString())
               _           <- openFile(server)(isolatedFile, content)
               profile     <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
-              _           <- validator.calledNTimes(1)
+              _           <- validator.jsonLDValidatorExecutor.calledNTimes(1)
               diagnostics <- getDiagnostics
-              _           <- validator.called(profile, serializedIsolatedUri)
+              _           <- validator.jsonLDValidatorExecutor.called(profile, serializedIsolatedUri)
             } yield {
               val firstDiagnostic =
                 diagnostics.diagnostics.find(d => d.range.start == Position(5, 6) && d.range.end == Position(6, 19))
@@ -372,7 +373,7 @@ class CustomValidationManagerTest
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
       .flatMap(negativeReport => {
         implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
-        val validator                                                 = new DummyAmfOpaValidator(negativeReport.toString)
+        val validator                                                 = FromJsonLdValidatorProvider(negativeReport.toString)
         val server: LanguageServer                                    = buildServer(diagnosticNotifier, validator)
         val args                                                      = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profileUri))
         val args2                                                     = changeConfigArgs(Some(mainFileName), workspacePath)
@@ -384,9 +385,9 @@ class CustomValidationManagerTest
               _               <- getDiagnostics // initial parse
               _               <- changeWorkspaceConfiguration(server)(args) // register
               profile         <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
-              _               <- validator.calledNTimes(1)
+              _               <- validator.jsonLDValidatorExecutor.calledNTimes(1)
               diagnostics     <- getDiagnostics
-              _               <- validator.called(profile, serializedUri)
+              _               <- validator.jsonLDValidatorExecutor.called(profile, serializedUri)
               _               <- changeWorkspaceConfiguration(server)(args2) // unregister
               cleanDiagnostic <- getDiagnostics
             } yield {
@@ -414,7 +415,7 @@ class CustomValidationManagerTest
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
       .flatMap(negativeReport => {
         implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
-        val validator                                                 = new DummyAmfOpaValidator(negativeReport.toString)
+        val validator                                                 = FromJsonLdValidatorProvider(negativeReport.toString)
         val server: LanguageServer                                    = buildServer(diagnosticNotifier, validator)
         val args                                                      = changeConfigArgs(None, workspacePath, Set.empty, Set(profileUri))
         val args2                                                     = changeConfigArgs(None, workspacePath)
@@ -426,10 +427,10 @@ class CustomValidationManagerTest
               _               <- openFile(server)(isolatedFile, content)
               _               <- getDiagnostics // Open file
               _               <- changeWorkspaceConfiguration(server)(args) // register
-              _               <- validator.calledNTimes(1)
+              _               <- validator.jsonLDValidatorExecutor.calledNTimes(1)
               diagnostics     <- getDiagnostics
               profile         <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
-              _               <- validator.called(profile, serializedIsolatedUri)
+              _               <- validator.jsonLDValidatorExecutor.called(profile, serializedIsolatedUri)
               _               <- changeWorkspaceConfiguration(server)(args2) // unregister
               cleanDiagnostic <- getDiagnostics
             } yield {
