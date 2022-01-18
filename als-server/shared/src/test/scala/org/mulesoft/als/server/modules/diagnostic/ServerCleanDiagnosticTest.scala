@@ -4,13 +4,13 @@ import amf.core.client.common.remote.Content
 import amf.core.client.common.validation.ProfileNames
 import amf.core.client.scala.AMFGraphConfiguration
 import amf.core.client.scala.resource.ResourceLoader
+import amf.validation.client.scala.BaseProfileValidatorBuilder
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.feature.diagnostic.CustomValidationClientCapabilities
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
-import org.mulesoft.als.server.modules.diagnostic.custom.AMFOpaValidator
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams}
-import org.mulesoft.als.server.workspace.{ChangesWorkspaceConfiguration, WorkspaceManager}
+import org.mulesoft.als.server.workspace.ChangesWorkspaceConfiguration
 import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier}
 import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.configuration.TraceKind
@@ -89,7 +89,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
   }
 
   def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier,
-                  validator: Option[AMFOpaValidator] = None): LanguageServer = {
+                  validator: Option[BaseProfileValidatorBuilder] = None): LanguageServer = {
     val global  = EditorConfiguration.withPlatformLoaders(Seq(rl))
     val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, global)
     val dm      = builder.buildDiagnosticManagers(validator)
@@ -204,7 +204,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
       .flatMap(negativeReport => {
         val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
-        val validator                                        = new DummyAmfOpaValidator(negativeReport.toString())
+        val validator                                        = FromJsonLdValidatorProvider(negativeReport.toString())
         val server                                           = buildServer(diagnosticNotifier, Some(validator))
         withServer(server, customValidationInitParams) {
           s =>
@@ -221,7 +221,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
               _ <- changeWorkspaceConfiguration(server)(args)
               _ <- diagnosticNotifier.nextCall
               d <- requestCleanDiagnostic(s)(mainFilePath)
-              _ <- validator.calledAtLeastNTimes(2)
+              _ <- validator.jsonLDValidatorExecutor.calledAtLeastNTimes(2)
             } yield {
               s.shutdown()
               assert(d.nonEmpty)
@@ -239,7 +239,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
       .flatMap(negativeReport => {
         val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
-        val validator                                        = new DummyAmfOpaValidator(negativeReport.toString())
+        val validator                                        = FromJsonLdValidatorProvider(negativeReport.toString())
         val server                                           = buildServer(diagnosticNotifier, Some(validator))
         withServer(server, customValidationInitParams) {
           s =>
@@ -256,7 +256,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
               _ <- changeWorkspaceConfiguration(server)(args)
               _ <- diagnosticNotifier.nextCall
               d <- requestCleanDiagnostic(s)(mainFilePath)
-              _ <- validator.calledAtLeastNTimes(2)
+              _ <- validator.jsonLDValidatorExecutor.calledAtLeastNTimes(2)
             } yield {
               s.shutdown()
               assert(d.nonEmpty)

@@ -8,7 +8,6 @@ import amf.core.internal.convert.ClientInternalMatcher
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.configuration.{ClientDirectoryResolver, DirectoryResolverAdapter, ResourceLoaderConverter}
 import org.mulesoft.als.logger.Logger
-import org.mulesoft.als.server.modules.diagnostic.custom.AMFOpaValidatorBuilder
 
 trait ALSConverters extends ApiBaseClientConverter with ClientLoggerConverter {
 
@@ -26,16 +25,11 @@ trait ALSConverters extends ApiBaseClientConverter with ClientLoggerConverter {
       ResourceLoaderConverter.internalResourceLoader(from)
   }
 
-  def toInternal(from: ClientAMFValidator): AMFOpaValidatorBuilder
   def toInternal(from: ClientAMFPlugin): AMFShapePayloadValidationPlugin
 
   implicit object ClientAMFPluginConverter
       extends ClientInternalMatcher[ClientAMFPlugin, AMFShapePayloadValidationPlugin] {
     override def asInternal(from: ClientAMFPlugin): AMFShapePayloadValidationPlugin = toInternal(from)
-  }
-
-  implicit object ClientAMFValidatorWrapper extends ClientInternalMatcher[ClientAMFValidator, AMFOpaValidatorBuilder] {
-    override def asInternal(from: ClientAMFValidator): AMFOpaValidatorBuilder = toInternal(from)
   }
 
 }

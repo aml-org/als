@@ -3,6 +3,7 @@ package org.mulesoft.als.nodeclient
 import amf.core.internal.convert.CoreClientConverters._
 import amf.core.client.platform.resource.ClientResourceLoader
 import amf.core.internal.unsafe.PlatformSecrets
+import amf.validation.client.ProfileValidatorNodeBuilder
 import io.scalajs.nodejs.process
 import org.mulesoft.als.server.client.platform.AlsLanguageServerFactory
 import org.mulesoft.als.server.{ClientNotifierFactory, JsSerializationProps, ProtocolConnectionBinder}
@@ -44,9 +45,9 @@ object Main extends PlatformSecrets {
 
       val languageServer = new AlsLanguageServerFactory(clientConnection)
         .withSerializationProps(serializationProps)
+        .withAmfCustomValidator(ProfileValidatorNodeBuilder)
         .withDirectoryResolver(new ClientPlatformDirectoryResolver(platform))
         .withLogger(logger)
-        .withAmfCustomValidator(AmfCustomValidatorNode)
         .build()
 
       val transport  = ServerSocketTransport(options.port)
