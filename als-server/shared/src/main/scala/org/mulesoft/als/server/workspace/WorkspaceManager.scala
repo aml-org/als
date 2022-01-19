@@ -2,32 +2,21 @@ package org.mulesoft.als.server.workspace
 
 import amf.core.internal.remote.Platform
 import org.mulesoft.als.common.URIImplicits._
-import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.AlsWorkspaceService
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.configuration.ConfigurationProvider
-import org.mulesoft.als.server.modules.workspace.{
-  CompilableUnit,
-  MainFileTree,
-  ProjectConfigurationAdapter,
-  WorkspaceContentManager
-}
+import org.mulesoft.als.server.modules.workspace.{CompilableUnit, ProjectConfigurationAdapter, WorkspaceContentManager}
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.command._
-import org.mulesoft.amfintegration.ValidationProfile
-import org.mulesoft.amfintegration.amfconfiguration.{
-  EditorConfiguration,
-  EmptyProjectConfigurationState,
-  ProjectConfigurationState
-}
+import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, ExecuteCommandParams}
 
-import scala.collection.{immutable, mutable}
+import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -86,7 +75,6 @@ class WorkspaceManager protected (val environmentProvider: EnvironmentProvider,
     }
 
   private val commandExecutors: Map[String, CommandExecutor[_, _]] = Map(
-    Commands.DID_FOCUS_CHANGE_COMMAND -> new DidFocusCommandExecutor(logger, this),
     Commands.DID_CHANGE_CONFIGURATION -> new DidChangeConfigurationCommandExecutor(logger, this),
     Commands.INDEX_DIALECT            -> new IndexDialectCommandExecutor(logger, this)
   )
