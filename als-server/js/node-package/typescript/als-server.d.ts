@@ -6524,7 +6524,7 @@ declare module '@aml-org/als-server' {
   export type AlsDependency = Dependency | string
 
   export type DidChangeConfigurationNotificationParams = {
-    mainUri: string,
+    mainPath: string,
     folder: string,
     dependencies: AlsDependency[]
   }
