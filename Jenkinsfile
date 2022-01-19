@@ -124,6 +124,7 @@ pipeline {
                 anyOf {
                     branch 'master'
                     branch 'develop'
+                    branch 'als-5.0.0'
                     branch 'rc/*'
                 }
             }
@@ -151,6 +152,7 @@ pipeline {
                 anyOf {
                     branch 'master'
                     branch 'develop'
+                    branch 'als-5.0.0'
                     branch 'rc/*'
                 }
             }
@@ -182,6 +184,7 @@ pipeline {
                 anyOf {
                     branch 'master'
                     branch 'develop'
+                    branch 'als-5.0.0'
                     branch 'rc/*'
                 }
             }
@@ -225,6 +228,7 @@ pipeline {
             when {
                 anyOf {
                     branch 'master'
+                    branch 'als-5.0.0'
                     branch 'support/*'
                     branch 'rc/*'
                     branch 'develop'
