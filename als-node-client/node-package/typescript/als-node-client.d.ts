@@ -1,16 +1,16 @@
 declare module '@aml-org/als-node-client' {
-    import {Logger as VsCodeLogger, NotificationType, RequestType} from 'vscode-jsonrpc'
-    import {
-        ProtocolConnection,
-        PublishDiagnosticsParams,
-        TextDocumentClientCapabilities,
-        TextDocumentIdentifier,
-        WorkspaceClientCapabilities,
-        WorkspaceEdit,
-        WorkspaceFolder
-    } from 'vscode-languageserver-protocol'
+  import {Logger as VsCodeLogger, NotificationType, RequestType} from 'vscode-jsonrpc'
+  import {
+    ProtocolConnection,
+    PublishDiagnosticsParams,
+    TextDocumentClientCapabilities,
+    TextDocumentIdentifier,
+    WorkspaceClientCapabilities,
+    WorkspaceEdit,
+    WorkspaceFolder
+  } from 'vscode-languageserver-protocol'
 
-    /* amf-client-js */
+  /* amf-client-js */
 
   export class AMFObjectResult {
     results: Array<AMFValidationResult>
@@ -6524,7 +6524,7 @@ declare module '@aml-org/als-node-client' {
   export type AlsDependency = Dependency | string
 
   export type DidChangeConfigurationNotificationParams = {
-    mainUri: string,
+    mainPath: string,
     folder: string,
     dependencies: AlsDependency[]
   }

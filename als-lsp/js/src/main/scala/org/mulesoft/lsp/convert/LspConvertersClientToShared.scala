@@ -490,7 +490,7 @@ object LspConvertersClientToShared {
   implicit class DidChangeConfigurationNotificationParamsConverter(v: ClientDidChangeConfigurationNotificationParams) {
     def toShared: DidChangeConfigurationNotificationParams =
       DidChangeConfigurationNotificationParams(
-        v.mainUri.toOption,
+        v.mainPath.toOption,
         v.folder,
         v.dependencies.map { d =>
           d.asInstanceOf[Any] match {

@@ -23,13 +23,13 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
         } else s)
 
   override protected def buildParamFromMap(m: YMap): Option[DidChangeConfigurationNotificationParams] = {
-    val mainUri: Option[String] = m.key("mainUri").flatMap(e => e.value.toOption[String])
+    val mainPath: Option[String] = m.key("mainPath").flatMap(e => e.value.toOption[String])
     val folder: String = m
       .key("folder")
       .flatMap(e => e.value.toOption[String])
-      .orElse(mainUri)
+      .orElse(mainPath)
       .getOrElse({
-        logger.error("Change configuration command with no folder value or mainUri",
+        logger.error("Change configuration command with no folder value or mainPath",
                      "DidChangeConfigurationCommandExecutor",
                      "buildParamFromMap")
         ""
@@ -37,7 +37,7 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
     val dependencies: Set[Either[String, DependencyConfiguration]] =
       m.key("dependencies").map(seqToSet).getOrElse(Set.empty)
 
-    Some(DidChangeConfigurationNotificationParams(mainUri, folder, dependencies))
+    Some(DidChangeConfigurationNotificationParams(mainPath, folder, dependencies))
   }
 
   private def extractDependencyConfiguration(m: YMap): DependencyConfiguration = {
@@ -63,13 +63,13 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
   override protected def runCommand(param: DidChangeConfigurationNotificationParams): Future[Unit] =
     wsc.getWorkspace(param.folder).flatMap { manager =>
       logger.debug(
-        s"DidChangeConfiguration for workspace @ ${manager.folderUri} (folder: ${param.folder}, mainUri:${param.mainUri})",
+        s"DidChangeConfiguration for workspace @ ${manager.folderUri} (folder: ${param.folder}, mainPath:${param.mainPath})",
         "DidChangeConfigurationCommandExecutor",
         "runCommand"
       )
       val projectConfiguration = new ProjectConfiguration(
         param.folder,
-        param.mainUri,
+        param.mainPath,
         param.dependencies
           .filterNot(d =>
             d.isRight && d.right.exists(r => Set(CUSTOM_VALIDATION, SEMANTIC_EXTENSION, DIALECT).contains(r.scope)))

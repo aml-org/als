@@ -26,8 +26,8 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
   override implicit val executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 
-  private val mainUri = "main.raml"
-  private val mfRL: ResourceLoader = AmfConfigurationPatcher.resourceLoaderForFile(mainUri,
+  private val mainPath = "main.raml"
+  private val mfRL: ResourceLoader = AmfConfigurationPatcher.resourceLoaderForFile(mainPath,
                                                                                    """#%RAML 1.0
       |title: test
       |version: 1
@@ -66,15 +66,15 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
     for {
       state <- new DefaultProjectConfigurationProvider(DummyEnvironmentProvider, configuration, EmptyLogger)
         .newProjectConfiguration(
-          new ProjectConfiguration("file:///", Some(mainUri), Set.empty, Set.empty, Set(dialectUri), Set.empty))
+          new ProjectConfiguration("file:///", Some(mainPath), Set.empty, Set.empty, Set(dialectUri), Set.empty))
       d <- {
         val manager = new DummyCleanDiagnosticTreeManager(
           Map(
-            mainUri -> ALSConfigurationState(
+            mainPath -> ALSConfigurationState(
               EditorConfigurationState(Seq(dRL, mfRL), Nil, Nil, syntaxPlugin = Nil, validationPlugin = Nil),
               state,
               None)))
-        manager.getConfiguration(mainUri)
+        manager.getConfiguration(mainPath)
       }
     } yield assert(d.dialects.exists(d => d.location().contains(dialectUri)))
   }
@@ -84,18 +84,18 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
     for {
       state <- new DefaultProjectConfigurationProvider(DummyEnvironmentProvider, configuration, EmptyLogger)
         .newProjectConfiguration(
-          new ProjectConfiguration("file:///", Some(mainUri), Set.empty, Set(profileUri), Set.empty, Set.empty))
+          new ProjectConfiguration("file:///", Some(mainPath), Set.empty, Set(profileUri), Set.empty, Set.empty))
       d <- {
         val manager = new DummyCleanDiagnosticTreeManager(
           Map(
-            mainUri -> ALSConfigurationState(EditorConfigurationState(configuration.resourceLoaders,
-                                                                      Nil,
-                                                                      Nil,
-                                                                      syntaxPlugin = Nil,
-                                                                      validationPlugin = Nil),
-                                             state,
-                                             None)))
-        manager.getConfiguration(mainUri)
+            mainPath -> ALSConfigurationState(EditorConfigurationState(configuration.resourceLoaders,
+                                                                       Nil,
+                                                                       Nil,
+                                                                       syntaxPlugin = Nil,
+                                                                       validationPlugin = Nil),
+                                              state,
+                                              None)))
+        manager.getConfiguration(mainPath)
       }
     } yield {
       assert(d.projectState.profiles.exists(_.path == profileUri))

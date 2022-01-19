@@ -12,7 +12,7 @@ import scala.concurrent.Future
 trait ChangesWorkspaceConfiguration extends PlatformSecrets {
   implicit private val Platform: Platform = platform
 
-  def changeConfigArgs(mainUri: Option[String],
+  def changeConfigArgs(mainPath: Option[String],
                        folder: String,
                        dependencies: Set[String] = Set.empty,
                        profiles: Set[String] = Set.empty,
@@ -23,7 +23,7 @@ trait ChangesWorkspaceConfiguration extends PlatformSecrets {
       semanticExtensions.map(s => s"""{"file": "$s", "scope": "$SEMANTIC_EXTENSION"}""") ++
       dialects.map(d => s"""{"file": "$d", "scope": "$DIALECT"}""")).mkString(",")
     s"""{
-        "mainUri": "${mainUri.getOrElse("")}",
+        "mainPath": "${mainPath.getOrElse("")}",
         "folder": "$folder",
         "dependencies": [$allDeps]}
       """
