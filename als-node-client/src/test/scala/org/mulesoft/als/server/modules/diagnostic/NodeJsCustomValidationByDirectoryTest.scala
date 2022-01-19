@@ -1,16 +1,17 @@
 package org.mulesoft.als.server.modules.diagnostic
 
 import amf.core.client.scala.AMFGraphConfiguration
+import amf.validation.client.ProfileValidatorNodeBuilder
+import amf.validation.client.validator.JsCustomValidator
+import amf.validation.internal.unsafe.AmfCustomValidatorNode
 import org.mulesoft.als.common.ByDirectoryTest
-import org.mulesoft.als.nodeclient.AmfCustomValidatorNode
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.feature.diagnostic.CustomValidationClientCapabilities
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticImplicits.PublishDiagnosticsParamsWriter
-import org.mulesoft.als.server.modules.diagnostic.custom.AMFOpaValidator
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams}
-import org.mulesoft.als.server.workspace.{ChangesWorkspaceConfiguration, WorkspaceManager}
+import org.mulesoft.als.server.workspace.ChangesWorkspaceConfiguration
 import org.mulesoft.als.server.{MockDiagnosticClientNotifier, TestLogger}
 import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.common.io.SyncFile
@@ -26,7 +27,6 @@ class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with Changes
   def rootPath: String = "custom-validation/byDirectory"
 
   val logger: TestLogger                   = TestLogger()
-  val validator: AMFOpaValidator           = JsCustomValidator(logger, AmfCustomValidatorNode)
   override def fileExtensions: Seq[String] = Seq(".yaml")
 
   override def testFile(content: String, file: SyncFile, parent: String): Unit = {
@@ -97,7 +97,7 @@ class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with Changes
 
   def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer = {
     val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
-    val dm      = builder.buildDiagnosticManagers(Some(validator))
+    val dm      = builder.buildDiagnosticManagers(Some(ProfileValidatorNodeBuilder))
     val factory = builder.buildWorkspaceManagerFactory()
     val b = new LanguageServerBuilder(factory.documentManager,
                                       factory.workspaceManager,

@@ -5,6 +5,7 @@ import amf.core.client.common.validation.{ProfileName, ProfileNames}
 import amf.core.client.scala.config.RenderOptions
 import amf.core.client.scala.model.document.BaseUnit
 import amf.validation.client.scala.BaseProfileValidatorBuilder
+import amf.validation.client.scala.report.model.OpaResult
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.feature.diagnostic.{
@@ -110,7 +111,14 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
     validatorBuilder
       .validator(profileUnit)
       .validate(serializedUnit, unitUri)
-      .map(_.results.map(rr => new AlsValidationResult(rr, Nil)))
+      .map(report => {
+        report.results.map(rr => {
+          rr.source match {
+            case opaResult: OpaResult => new ResultParser(opaResult, unitUri).build(report.profile.profile)
+            case _                    => new AlsValidationResult(rr, Seq())
+          }
+        })
+      })
   }
 
   class CustomValidationRunnable(var uri: String, ast: AmfResolvedUnit, uuid: String) extends Runnable[Unit] {
