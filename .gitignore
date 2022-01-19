@@ -2,7 +2,7 @@
 *.log
 *.iml
 .idea
-
+.bsp/
 target/
 *.cache
 build/

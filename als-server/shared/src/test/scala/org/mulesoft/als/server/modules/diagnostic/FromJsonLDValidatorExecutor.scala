@@ -1,29 +1,30 @@
 package org.mulesoft.als.server.modules.diagnostic
 
+import amf.aml.client.scala.model.document.DialectInstance
+import amf.core.client.common.validation.{ProfileName, UnknownProfile}
+import amf.core.client.scala.validation.AMFValidationReport
+import amf.validation.client.scala.{BaseProfileValidatorBuilder, CustomValidator, ProfileValidatorExecutor, ValidatorExecutor}
 import org.mulesoft.als.common.diff.FileAssertionTest
-import org.mulesoft.als.logger.{EmptyLogger, Logger}
-import org.mulesoft.als.server.modules.diagnostic.custom.{AMFOpaValidator, AMFOpaValidatorBuilder}
-import org.scalatest.{Assertion, Failed}
+import org.scalatest.Assertion
 import org.scalatest.Matchers.{fail, succeed}
 
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
 
-class DummyAmfOpaValidator(val result: String = "{}") extends AMFOpaValidator with FileAssertionTest {
-  override val logger: Logger = EmptyLogger
+class FromJsonLDValidatorExecutor(val result: String = "{}") extends CustomValidator with FileAssertionTest {
 
   private var calls: Map[String, String] = Map.empty
   private var callCount: Int             = 0
 
   private val promises: mutable.Queue[Promise[Int]] = mutable.Queue.empty
 
-  override def validateWithProfile(profile: String, data: String): Future[ValidationResult] = {
-    calls = calls + (profile -> data)
-    callCount = callCount + 1
-    promises.dequeueFirst(!_.isCompleted).foreach(_.success(callCount))
-    Future.successful(result)
-  }
+//  override def validateWithProfile(profile: String, data: String): Future[String] = {
+//    calls = calls + (profile -> data)
+//    callCount = callCount + 1
+//    promises.dequeueFirst(!_.isCompleted).foreach(_.success(callCount))
+//    Future.successful(result)
+//  }
 
   def called(profile: String, goldenUri: String): Future[Assertion] = {
     val v = calls.get(profile)
@@ -88,25 +89,21 @@ class DummyAmfOpaValidator(val result: String = "{}") extends AMFOpaValidator wi
         }
     } else Future.successful(succeed)
   }
+
+  override def validate(document: String, profile: String): Future[String] = {
+    calls = calls + (profile -> document)
+      callCount = callCount + 1
+      promises.dequeueFirst(!_.isCompleted).foreach(_.success(callCount))
+      Future.successful(result)
+  }
+}
+class AlsBaseProfileValidatorBuilder(val jsonLDValidatorExecutor: FromJsonLDValidatorExecutor) extends BaseProfileValidatorBuilder{
+  override def validator(profile: DialectInstance): ProfileValidatorExecutor = new ProfileValidatorExecutor(new ValidatorExecutor(jsonLDValidatorExecutor), profile)
+
 }
 
-object DummyAmfOpaValidatorBuilder extends AMFOpaValidatorBuilder {
-  private var validator: Option[DummyAmfOpaValidator] = None
-  def init(): this.type = {
-    if (validator.isEmpty) reset()
-    this
-  }
-  def reset(): this.type = {
-    validator = Some(new DummyAmfOpaValidator())
-    this
-  }
+object FromJsonLdValidatorProvider {
+  def apply(result:String) : AlsBaseProfileValidatorBuilder = new AlsBaseProfileValidatorBuilder(new FromJsonLDValidatorExecutor(result))
 
-  def getValidator: DummyAmfOpaValidator = validator match {
-    case Some(v) => v
-    case _ =>
-      reset()
-      validator.get
-  }
-
-  override def build(logger: Logger): AMFOpaValidator = getValidator
+  def empty: AlsBaseProfileValidatorBuilder = apply(AMFValidationReport.empty("", UnknownProfile).toString)
 }

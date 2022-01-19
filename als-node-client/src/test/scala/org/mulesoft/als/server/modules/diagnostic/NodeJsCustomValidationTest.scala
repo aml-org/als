@@ -1,16 +1,16 @@
 package org.mulesoft.als.server.modules.diagnostic
 
 import amf.core.client.scala.AMFGraphConfiguration
+import amf.validation.client.ProfileValidatorNodeBuilder
 import org.mulesoft.als.common.diff.FileAssertionTest
-import org.mulesoft.als.nodeclient.AmfCustomValidatorNode
+import org.mulesoft.als.server.MockDiagnosticClientNotifier
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.feature.diagnostic.CustomValidationClientCapabilities
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticImplicits.PublishDiagnosticsParamsWriter
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams}
-import org.mulesoft.als.server.workspace.{ChangesWorkspaceConfiguration, WorkspaceManager}
-import org.mulesoft.als.server.MockDiagnosticClientNotifier
-import org.mulesoft.als.server.client.scala.LanguageServerBuilder
+import org.mulesoft.als.server.workspace.ChangesWorkspaceConfiguration
 import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.configuration.TraceKind
 import org.yaml.model.YDocument
@@ -28,7 +28,7 @@ class NodeJsCustomValidationTest
 
   def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer = {
     val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
-    val dm      = builder.buildDiagnosticManagers(Some(JsCustomValidator(logger, AmfCustomValidatorNode)))
+    val dm      = builder.buildDiagnosticManagers(Some(ProfileValidatorNodeBuilder))
     val factory = builder.buildWorkspaceManagerFactory()
     val b = new LanguageServerBuilder(factory.documentManager,
                                       factory.workspaceManager,
