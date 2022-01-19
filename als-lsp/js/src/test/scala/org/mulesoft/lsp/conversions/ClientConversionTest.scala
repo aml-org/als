@@ -25,6 +25,8 @@ import org.mulesoft.lsp.feature.common.{
 }
 import org.mulesoft.lsp.feature.completion._
 import org.mulesoft.lsp.feature.diagnostic._
+import org.mulesoft.lsp.feature.documentFormatting.DocumentFormattingClientCapabilities
+import org.mulesoft.lsp.feature.documentRangeFormatting.DocumentRangeFormattingClientCapabilities
 import org.mulesoft.lsp.feature.documentsymbol._
 import org.mulesoft.lsp.feature.link._
 import org.mulesoft.lsp.feature.reference._
@@ -660,6 +662,26 @@ class ClientConversionTest extends FlatSpec with Matchers {
     JSON.stringify(ts1) should be(stringified)
 
     ts should be(ts2)
+  }
+
+  it should "Transform TextDocumentClientCapabilities with DocumentFormattingClientCapabilities" in {
+    val documentFormattingCapabilities      = DocumentFormattingClientCapabilities(Some(true))
+    val documentRangeFormattingCapabilities = DocumentRangeFormattingClientCapabilities(Some(true))
+    val textDocumentClientCapabilities =
+      TextDocumentClientCapabilities(documentFormatting = Some(documentFormattingCapabilities),
+                                     documentRangeFormatting = Some(documentRangeFormattingCapabilities))
+    val ts: ClientTextDocumentClientCapabilities = textDocumentClientCapabilities.toClient
+    val sharedConversion                         = ts.toShared
+    textDocumentClientCapabilities should be(sharedConversion)
+    textDocumentClientCapabilities should be(sharedConversion)
+  }
+
+  it should "Transform TextDocumentClientCapabilities without DocumentFormattingClientCapabilities" in {
+    val textDocumentClientCapabilities           = TextDocumentClientCapabilities()
+    val ts: ClientTextDocumentClientCapabilities = textDocumentClientCapabilities.toClient
+    val sharedConversion                         = ts.toShared
+    textDocumentClientCapabilities should be(sharedConversion)
+    textDocumentClientCapabilities should be(sharedConversion)
   }
 
   // end of textsync
