@@ -86,7 +86,7 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
     for {
       serialized <- Future {
         val builder = JsonOutputBuilder(false)
-        config.asJsonLD(unit, builder, RenderOptions().withCompactUris.withSourceMaps)
+        config.asJsonLD(unit, builder, RenderOptions().withCompactUris.withSourceMaps.withSourceInformation)
         builder.result.toString
       }
       result <- {
