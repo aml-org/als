@@ -38,7 +38,7 @@ case class EditorConfiguration(resourceLoaders: Seq[ResourceLoader],
     .withResourceLoaders(resourceLoaders.toList)
     .withPlugins(validationPlugin.toList)
 
-  // laziness is necessary because APID RL uses same socket than server for comunication, init must be done for that.
+  // laziness is necessary when communicating through socket as the initialization must be done for that.
   lazy val inMemoryDialects: Future[Seq[Dialect]] = {
     val rawClient =
       AMLConfiguration
