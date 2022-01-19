@@ -39,7 +39,7 @@ case class EditorConfiguration(resourceLoaders: Seq[ResourceLoader],
     .withPlugins(validationPlugin.toList)
 
   // laziness is necessary when communicating through socket as the initialization must be done for that.
-  lazy val inMemoryDialects: Future[Seq[Dialect]] = {
+  private lazy val inMemoryDialects: Future[Seq[Dialect]] = {
     val rawClient =
       AMLConfiguration
         .predefined()
