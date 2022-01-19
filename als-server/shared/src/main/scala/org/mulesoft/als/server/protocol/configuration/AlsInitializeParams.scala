@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.protocol.configuration
 
-import org.mulesoft.als.configuration.{AlsConfiguration, ProjectConfigurationStyle}
+import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.lsp.configuration.TraceKind.TraceKind
 import org.mulesoft.lsp.configuration.{TraceKind, WorkspaceFolder}
 
@@ -42,9 +42,6 @@ class AlsInitializeParams private (val capabilities: AlsClientCapabilities,
                                    val rootPath: Option[String] = None,
                                    val initializationOptions: Option[Any] = None,
                                    val configuration: Option[AlsConfiguration] = None,
-                                   @deprecated(
-                                     "projectConfigurationStyle will no longer be supported, using command as only option",
-                                     "4.2.1") val projectConfigurationStyle: Option[ProjectConfigurationStyle] = None,
                                    val hotReload: Option[Boolean] = None)
 
 object AlsInitializeParams {
@@ -58,7 +55,6 @@ object AlsInitializeParams {
             rootPath: Option[String] = None,
             initializationOptions: Option[Any] = None,
             configuration: Option[AlsConfiguration] = None,
-            projectConfigurationStyle: Option[ProjectConfigurationStyle] = None,
             hotReload: Option[Boolean] = None): AlsInitializeParams =
     new AlsInitializeParams(
       capabilities.getOrElse(AlsClientCapabilities()),
@@ -70,7 +66,6 @@ object AlsInitializeParams {
       rootPath,
       initializationOptions,
       configuration,
-      projectConfigurationStyle,
       hotReload
     )
 

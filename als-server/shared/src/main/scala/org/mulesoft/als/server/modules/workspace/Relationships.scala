@@ -1,6 +1,5 @@
 package org.mulesoft.als.server.modules.workspace
 
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.amfintegration.visitors.{AmfElementDefaultVisitors, AmfElementVisitors}
 import org.mulesoft.lsp.feature.link.DocumentLink
@@ -18,7 +17,7 @@ class Relationships private (private val repository: WorkspaceParserRepository, 
       fromTree()
     else {
       val visitors = AmfElementDefaultVisitors.build(cu.unit)
-      visitors.applyAmfVisitors(cu.unit, cu.amfConfiguration)
+      visitors.applyAmfVisitors(cu.unit, cu.context)
       fallBack(visitors)
     }
 

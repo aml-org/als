@@ -10,7 +10,7 @@ import org.mulesoft.als.common.YamlWrapper.YNodeImplicits
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, AmfObjectImp, BaseUnitImp}
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.yaml.model._
 import org.yaml.render.{JsonRender, JsonRenderOptions, YamlRender, YamlRenderOptions}
 
@@ -67,10 +67,10 @@ object ExtractorCommon {
     */
   def declaredElementNode(amfObject: Option[AmfObject],
                           dialect: Dialect,
-                          configWrapper: AmfConfigurationWrapper): Option[YNode] =
+                          alsConfigurationState: ALSConfigurationState): Option[YNode] =
     amfObject
       .collect {
-        case e: DomainElement => configWrapper.emit(e, dialect)
+        case e: DomainElement => alsConfigurationState.configForDialect(dialect).emit(e)
       }
 
   /**
@@ -81,8 +81,8 @@ object ExtractorCommon {
                            bu: BaseUnit,
                            uri: String,
                            newName: String,
-                           amfConfig: AmfConfigurationWrapper): Option[(YNode, Option[YMapEntry])] =
-    (declaredElementNode(amfObject, dialect, amfConfig), amfObject, dialect) match {
+                           alsConfigurationState: ALSConfigurationState): Option[(YNode, Option[YMapEntry])] =
+    (declaredElementNode(amfObject, dialect, alsConfigurationState), amfObject, dialect) match {
       case (Some(den), Some(fdp), dialect) =>
         var fullPath                = den.withKey(newName)
         val keyPath                 = declarationPath(fdp, dialect)
@@ -153,8 +153,8 @@ object ExtractorCommon {
                     configurationReader: AlsConfigurationReader,
                     jsonOptions: JsonRenderOptions,
                     yamlOptions: YamlRenderOptions,
-                    amfConfig: AmfConfigurationWrapper): Option[(String, Option[YMapEntry])] = {
-    val wrapped                        = wrappedDeclaredEntry(amfObject, dialect, bu, uri, newName, amfConfig)
+                    alsConfigurationState: ALSConfigurationState): Option[(String, Option[YMapEntry])] = {
+    val wrapped                        = wrappedDeclaredEntry(amfObject, dialect, bu, uri, newName, alsConfigurationState)
     val maybeParent: Option[YMapEntry] = wrapped.flatMap(_._2)
     wrapped
       .map(_._1)

@@ -23,7 +23,7 @@ import org.mulesoft.lsp.feature.common.{
   TextDocumentPositionParams,
   VersionedTextDocumentIdentifier
 }
-import org.mulesoft.lsp.feature.completion.{ClientCompletionContext, ClientCompletionItem, _}
+import org.mulesoft.lsp.feature.completion._
 import org.mulesoft.lsp.feature.diagnostic._
 import org.mulesoft.lsp.feature.documentsymbol._
 import org.mulesoft.lsp.feature.link._
@@ -555,8 +555,8 @@ class ClientConversionTest extends FlatSpec with Matchers {
   it should "transform DidChangeConfigurationNotificationParams" in {
     val ts: DidChangeConfigurationNotificationParams =
       DidChangeConfigurationNotificationParams(
-        "uri",
-        Some("ws"),
+        Some("uri"),
+        "ws",
         Set(Left("dep1"), Right(DependencyConfiguration("dep2", DEPENDENCY)))
           ++ Set(Right(DependencyConfiguration("p1", CUSTOM_VALIDATION)),
                  Right(DependencyConfiguration("p2", CUSTOM_VALIDATION)))
@@ -567,7 +567,7 @@ class ClientConversionTest extends FlatSpec with Matchers {
     val ts2: DidChangeConfigurationNotificationParams       = ts1.toShared
 
     val stringified =
-      """{"mainUri":"uri","folder":"ws","dependencies":[{"file":"p1","scope":"custom-validation"},{"file":"dep2","scope":"dependency"},"dep1",{"file":"p2","scope":"custom-validation"},{"file":"se2","scope":"semantic-extension"},{"file":"se1","scope":"semantic-extension"}]}"""
+      """{"mainPath":"uri","folder":"ws","dependencies":[{"file":"p1","scope":"custom-validation"},{"file":"dep2","scope":"dependency"},"dep1",{"file":"p2","scope":"custom-validation"},{"file":"se2","scope":"semantic-extension"},{"file":"se1","scope":"semantic-extension"}]}"""
     JSON.stringify(ts1) should be(stringified)
 
     ts should be(ts2)

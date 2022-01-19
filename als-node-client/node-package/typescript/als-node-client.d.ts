@@ -1,10 +1,13 @@
 declare module '@aml-org/als-node-client' {
   import {Logger as VsCodeLogger, NotificationType, RequestType} from 'vscode-jsonrpc'
   import {
-    ProtocolConnection, PublishDiagnosticsParams,
+    ProtocolConnection,
+    PublishDiagnosticsParams,
     TextDocumentClientCapabilities,
+    TextDocumentIdentifier,
     WorkspaceClientCapabilities,
-    TextDocumentIdentifier, WorkspaceFolder, WorkspaceEdit
+    WorkspaceEdit,
+    WorkspaceFolder
   } from 'vscode-languageserver-protocol'
 
   /* amf-client-js */
@@ -6486,15 +6489,15 @@ declare module '@aml-org/als-node-client' {
          serializationProps: JsSerializationProps): void
   }
 
-  export const LanguageServerFactory: {
-    fromLoaders(clientNotifier: ClientNotifier,
-                serializationProps: JsSerializationProps,
-                clientLoaders?: ResourceLoader[],
-                clientDirResolver?: ClientDirectoryResolver,
-                logger?: ClientLogger,
-                withDiagnostics?: boolean,
-                notificationKind?: DiagnosticNotificationsKind,
-                amfPlugins?: JsAMFPayloadValidationPlugin[]): LanguageServer
+  export class AlsLanguageServerFactory {
+    constructor(clientNotifier:ClientNotifier)
+    withSerializationProps(serializationProps: JsSerializationProps): AlsLanguageServerFactory
+    withResourceLoaders(rl: ResourceLoader[]):AlsLanguageServerFactory
+    withLogger(logger: ClientLogger): AlsLanguageServerFactory
+    withNotificationKind(notificationsKind: DiagnosticNotificationsKind): AlsLanguageServerFactory
+    withDirectoryResolver(dr: ClientDirectoryResolver): AlsLanguageServerFactory
+    withPlugin(plugin:JsAMFPayloadValidationPlugin): AlsLanguageServerFactory
+    build() : LanguageServer
   }
 
   export interface ClientLogger extends VsCodeLogger { }
@@ -6521,8 +6524,8 @@ declare module '@aml-org/als-node-client' {
   export type AlsDependency = Dependency | string
 
   export type DidChangeConfigurationNotificationParams = {
-    mainUri: string,
-    folder?: string,
+    mainPath: string,
+    folder: string,
     dependencies: AlsDependency[]
   }
 
@@ -6560,10 +6563,6 @@ declare module '@aml-org/als-node-client' {
     type: NotificationType<AlsConfiguration>
   }
 
-  export type ProjectConfigurationStyle = {
-    style: string
-  }
-
   export interface AlsInitializeParams {
     processId: number | null
     rootPath?: string | null
@@ -6573,7 +6572,6 @@ declare module '@aml-org/als-node-client' {
     trace?: string
     workspaceFolders: WorkspaceFolder[] | null
     configuration?: AlsConfiguration
-    projectConfigurationStyle?: ProjectConfigurationStyle
     hotReload?: boolean
   }
 

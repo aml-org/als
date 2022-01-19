@@ -59,7 +59,7 @@ class HoverManager(wm: WorkspaceManager, telemetryProvider: TelemetryProvider)
                     cu.yPartBranch,
                     dtoPosition,
                     params.textDocument.uri,
-                    cu.amfConfiguration.alsVocabularyRegistry,
+                    cu.context.state.editorState.vocabularyRegistry,
                     cu.definedBy).getHover
       // if sequence, we could show all the semantic hierarchy?
       }

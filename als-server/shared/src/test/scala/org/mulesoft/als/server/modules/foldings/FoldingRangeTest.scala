@@ -2,26 +2,29 @@ package org.mulesoft.als.server.modules.foldings
 
 import amf.core.client.common.remote.Content
 import amf.core.client.scala.resource.ResourceLoader
+import org.mulesoft.als.logger.EmptyLogger
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier}
+import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.common.{TextDocumentIdentifier, TextDocumentItem}
 import org.mulesoft.lsp.feature.folding.{FoldingRange, FoldingRangeParams, FoldingRangeRequestType}
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
+import org.scalatest.AsyncFreeSpecLike
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class FoldingRangeTest extends LanguageServerBaseTest {
+class FoldingRangeTest extends AsyncFreeSpecLike {
 
   override implicit val executionContext: ExecutionContext =
     ExecutionContext.Implicits.global
 
   private val ws1 = Map(
-    "file:///root/exchange.json" -> """{"main": "api.raml"}""",
     "file:///root/api.raml" ->
       """#%RAML 1.0
         |uses:
@@ -64,49 +67,41 @@ class FoldingRangeTest extends LanguageServerBaseTest {
     )
   )
 
-  test("Folding Range tests") {
-    for {
-      results <- Future.sequence {
-        testSets.map { test =>
-          for {
-            (server, _) <- buildServer(test.root, test.ws)
-            folds <- {
-              server.textDocumentSyncConsumer.didOpen(
-                DidOpenTextDocumentParams(
-                  TextDocumentItem(
-                    test.targetUri,
-                    "",
-                    0,
-                    test.ws(test.targetUri)
-                  )))
-              val dhHandler: RequestHandler[FoldingRangeParams, Seq[FoldingRange]] =
-                server.resolveHandler(FoldingRangeRequestType).get
-              dhHandler(FoldingRangeParams(TextDocumentIdentifier(test.targetUri)))
-            }
-          } yield {
-            (folds, test.result, test.targetUri)
+  "Folding Range tests" - {
+    testSets.toSeq.map { test =>
+      s"Folding range test (${test.targetUri})" in {
+        for {
+          (server, _) <- buildServer(test.root, test.ws)
+          _ <- server.textDocumentSyncConsumer.didOpen(
+            DidOpenTextDocumentParams(
+              TextDocumentItem(
+                test.targetUri,
+                "",
+                0,
+                test.ws(test.targetUri)
+              )))
+          result <- {
+            val dhHandler: RequestHandler[FoldingRangeParams, Seq[FoldingRange]] =
+              server.resolveHandler(FoldingRangeRequestType).get
+            dhHandler(FoldingRangeParams(TextDocumentIdentifier(test.targetUri)))
           }
+        } yield {
+          val expected    = test.result
+          val targetUri   = test.targetUri
+          val notExpected = result.toSet -- expected.toSet
+          val notFound    = expected.toSet -- result.toSet
+          if (notExpected.nonEmpty) {
+            notExpected.foreach(println)
+            fail(s"Not expected for $targetUri:\n${notExpected.mkString("\n\t")}")
+          }
+          if (notFound.nonEmpty) {
+            notFound.foreach(println)
+            fail(s"Not found for $targetUri:\n${notFound.mkString("\n\t")}")
+          }
+          assert(result == expected)
+          succeed
         }
       }
-    } yield {
-      results.foreach { t =>
-        val (result, expected, targetUri) = t
-        val notExpected                   = result.toSet -- expected.toSet
-        val notFound                      = expected.toSet -- result.toSet
-        if (notExpected.nonEmpty) {
-          notExpected.foreach(println)
-          fail(s"Not expected for $targetUri:\n${notExpected.mkString("\n\t")}")
-        }
-        if (notFound.nonEmpty) {
-          notFound.foreach(println)
-          fail(s"Not found for $targetUri:\n${notFound.mkString("\n\t")}")
-        }
-
-      }
-
-      results.foreach(t => assert(t._1.size == t._2.size))
-      results.foreach(t => assert(t._1 == t._2))
-      succeed
     }
   }
 
@@ -125,9 +120,9 @@ class FoldingRangeTest extends LanguageServerBaseTest {
       override def accepts(resource: String): Boolean =
         ws.keySet.contains(resource)
     }
-
+    val editorConfiguration = EditorConfiguration.withPlatformLoaders(Seq(rs))
     val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger, Seq(rs))
+      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, EmptyLogger, editorConfiguration)
         .buildWorkspaceManagerFactory()
     val workspaceManager: WorkspaceManager = factory.workspaceManager
     val server =
@@ -144,5 +139,4 @@ class FoldingRangeTest extends LanguageServerBaseTest {
       .map(_ => (server, workspaceManager))
   }
 
-  override def rootPath: String = ???
 }

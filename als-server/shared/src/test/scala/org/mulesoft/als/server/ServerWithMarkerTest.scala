@@ -2,7 +2,6 @@ package org.mulesoft.als.server
 
 import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.common.{MarkerFinderTest, MarkerInfo}
-import org.mulesoft.als.configuration.{ConfigurationStyle, ProjectConfigurationStyle}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.workspace.command.Commands
@@ -22,11 +21,7 @@ abstract class ServerWithMarkerTest[Out] extends LanguageServerBaseTest with Bef
     runTestMultipleMarkers(server, path, dialect).map(_.head)
 
   def runTestMultipleMarkers(server: LanguageServer, path: String, dialect: Option[String] = None): Future[Seq[Out]] =
-    withServer[Seq[Out]](server,
-                         AlsInitializeParams(None,
-                                             Some(TraceKind.Off),
-                                             projectConfigurationStyle =
-                                               Some(ProjectConfigurationStyle(ConfigurationStyle.COMMAND)))) {
+    withServer[Seq[Out]](server, AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(filePath("")))) {
       server =>
         val resolved = filePath(platform.encodeURI(path))
 
@@ -56,12 +51,7 @@ abstract class ServerWithMarkerTest[Out] extends LanguageServerBaseTest with Bef
 
   private def openDialect(path: String, server: LanguageServer): Future[Unit] = {
     val resolved = filePath(platform.encodeURI(path))
-    server.workspaceService
-      .executeCommand(
-        ExecuteCommandParams(
-          Commands.DID_CHANGE_CONFIGURATION,
-          List(s"""{"mainUri": "", "dependencies": [{"file": "$resolved", "scope": "dialect"}]}""")))
-      .flatMap(_ => Future.unit)
+    changeWorkspaceConfiguration(server)(changeConfigArgs(None, filePath(""), dialects = Set(resolved))).map(_ => {})
   }
 
   def getAction(path: String, server: LanguageServer, markerInfo: MarkerInfo): Future[Out]

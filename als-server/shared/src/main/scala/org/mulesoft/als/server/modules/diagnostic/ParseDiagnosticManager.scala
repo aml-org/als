@@ -1,19 +1,19 @@
 package org.mulesoft.als.server.modules.diagnostic
 
 import amf.core.client.common.validation.{ProfileName, ProfileNames}
-import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.logger.Logger
+import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.amfintegration.DiagnosticsBundle
-import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, AmfParseResult}
+import org.mulesoft.amfintegration.amfconfiguration.AmfParseResult
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class ParseDiagnosticManager(override protected val telemetryProvider: TelemetryProvider,
                              override protected val clientNotifier: ClientNotifier,
                              override protected val logger: Logger,
-                             override protected val amfConfiguration: AmfConfigurationWrapper,
                              override protected val validationGatherer: ValidationGatherer,
                              override protected val optimizationKind: DiagnosticNotificationsKind)
     extends BaseUnitListener
@@ -28,7 +28,12 @@ class ParseDiagnosticManager(override protected val telemetryProvider: Telemetry
     */
   override def onNewAst(tuple: BaseUnitListenerParams, uuid: String): Future[Unit] = synchronized {
     val parsedResult = tuple.parseResult
-    val references   = tuple.diagnosticsBundle
+    val references =
+      (if (tuple.tree)
+         projectReferences(tuple.parseResult.uri, tuple.parseResult.context.state.projectState.projectErrors)
+       else
+         Map.empty) ++
+        tuple.diagnosticsBundle
     logger.debug("Got new AST:\n" + parsedResult.result.baseUnit.id, "ParseDiagnosticManager", "newASTAvailable")
     val uri = parsedResult.location
     telemetryProvider.timeProcess(

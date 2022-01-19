@@ -1,13 +1,11 @@
 package org.mulesoft.als.server.modules.workspace
 
-import amf.core.client.platform.resource.ResourceNotFound
-import amf.core.client.scala.config.{CachedReference, UnitCache}
 import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.common.dtoTypes.ReferenceStack
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.DiagnosticsBundle
-import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, AmfParseResult}
+import org.mulesoft.amfintegration.amfconfiguration.AmfParseResult
 import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.amfintegration.visitors.AmfElementDefaultVisitors
 import org.mulesoft.lsp.feature.link.DocumentLink
@@ -15,19 +13,9 @@ import org.mulesoft.lsp.feature.link.DocumentLink
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class WorkspaceParserRepository(val amfConfiguration: AmfConfigurationWrapper, logger: Logger)
-    extends Repository[ParsedUnit] {
-  var cachables: Set[String]         = Set.empty
-  private def visitors(bu: BaseUnit) = AmfElementDefaultVisitors.build(bu)
+class WorkspaceParserRepository(logger: Logger) extends Repository[ParsedUnit] {
 
-  /**
-    * replaces cachable list and removes cached units which are not on the new list
-    * @param newCachables
-    */
-  def setCachables(newCachables: Set[String]): Unit = {
-    tree.cleanCache()
-    cachables = newCachables
-  }
+  private def visitors(bu: BaseUnit) = AmfElementDefaultVisitors.build(bu)
 
   private var tree: MainFileTree = EmptyFileTree
 
@@ -38,7 +26,7 @@ class WorkspaceParserRepository(val amfConfiguration: AmfConfigurationWrapper, l
   def getIsolatedUris: List[String] = units.values.map(_.parsedResult.result.baseUnit.identifier).toList
 
   override def getUnit(uri: String): Option[ParsedUnit] =
-    tree.parsedUnits.get(uri).orElse(units.get(uri))
+    tree.parsedUnits.get(uri).orElse(units.get(uri)).orElse(tree.profiles.get(uri))
 
   def references: Map[String, DiagnosticsBundle] = tree.references
 
@@ -55,25 +43,19 @@ class WorkspaceParserRepository(val amfConfiguration: AmfConfigurationWrapper, l
 
   def cleanTree(): Unit = tree = EmptyFileTree
 
-  def newTree(result: AmfParseResult): Future[Unit] = synchronized {
+  def newTree(result: AmfParseResult): Future[MainFileTree] = synchronized {
     cleanTree()
     MainFileTreeBuilder
-      .build(result, cachables, visitors(result.result.baseUnit), result.amfConfiguration, logger)
+      .build(result, visitors(result.result.baseUnit), logger)
       .map { nt =>
         tree = nt
         nt.parsedUnits.keys.foreach { removeUnit }
+        tree
       }
   }
 
   def getReferenceStack(uri: String): Seq[ReferenceStack] =
     tree.references.get(uri).map(db => db.references.toSeq).getOrElse(Nil)
-
-  def resolverCache: UnitCache = { url: String =>
-    tree.cached(url) match {
-      case Some(p) => Future.successful(CachedReference(url, p))
-      case None    => Future.failed(new ResourceNotFound("Uncached ref"))
-    }
-  }
 
   def documentLinks(): Map[String, Seq[DocumentLink]] =
     tree.documentLinks

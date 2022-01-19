@@ -52,7 +52,7 @@ class ExtractTraitCodeAction(override protected val params: CodeActionRequestPar
     val newExtends: Seq[DomainElement] = Seq(ParametrizedTrait().withName(newName))
     result.withExtends(newExtends)
 
-    val node = params.amfConfiguration.emit(result, params.dialect)
+    val node = params.alsConfigurationState.configForDialect(params.definedBy).emit(result)
     s"\n${renderNode(node, yPartBranch.flatMap(_.parentEntry))}\n"
   }
 

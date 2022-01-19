@@ -15,7 +15,7 @@ trait AbstractSemanticExtensionCompletionPlugin extends AMLCompletionPlugin {
       if (params.yPartBranch.isKey && !params.yPartBranch.isInArray && isAnnotationFlavour(params))
         params.amfObject.meta.`type`
           .map(_.iri())
-          .flatMap(params.amfConfiguration.semanticKeysFor)
+          .flatMap(params.alsConfigurationState.semanticKeysFor)
           .map { an =>
             if (an._2) RawSuggestion.forKey(formatForFlavour(an._1), "extensions", mandatory = false)
             else RawSuggestion.forObject(formatForFlavour(an._1), "extensions")

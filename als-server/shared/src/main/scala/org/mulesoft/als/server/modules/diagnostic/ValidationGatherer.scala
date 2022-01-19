@@ -1,6 +1,5 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf.core.client.scala.validation.AMFValidationResult
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
 import scala.collection.mutable
@@ -74,4 +73,8 @@ object ResolutionDiagnosticKind extends DiagnosticManagerKind {
 
 object CustomDiagnosticKind extends DiagnosticManagerKind {
   override val name: String = "custom"
+}
+
+object ProjectDiagnosticKind extends DiagnosticManagerKind {
+  override val name: String = "project"
 }

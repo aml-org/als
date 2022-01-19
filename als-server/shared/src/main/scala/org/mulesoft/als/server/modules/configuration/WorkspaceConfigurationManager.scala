@@ -1,11 +1,12 @@
 package org.mulesoft.als.server.modules.configuration
 
+import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.feature.configuration.workspace._
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.workspace.WorkspaceContentManager
 import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.als.server.workspace.extract.WorkspaceConfig
+import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
@@ -35,10 +36,15 @@ class WorkspaceConfigurationManager(val workspaceManager: WorkspaceManager,
 
   override def initialize(): Future[Unit] = Future.successful()
 
-  def getWorkspaceConfiguration(uri: String): Future[(WorkspaceContentManager, Option[WorkspaceConfig])] =
+  def getWorkspaceConfiguration(uri: String): Future[(WorkspaceContentManager, ProjectConfiguration)] =
     workspaceManager
       .getWorkspace(uri)
-      .flatMap(w => w.getCurrentConfiguration.map(c => (w, c)))
+      .flatMap(w => w.getConfigurationState.map(c => (w, c.projectState.config)))
+
+  def getConfigurationState(uri: String): Future[ALSConfigurationState] =
+    workspaceManager
+      .getWorkspace(uri)
+      .flatMap(w => w.getConfigurationState)
 }
 
 class GetWorkspaceConfigurationRequestHandler(val provider: WorkspaceConfigurationProvider,
@@ -50,20 +56,21 @@ class GetWorkspaceConfigurationRequestHandler(val provider: WorkspaceConfigurati
   override protected def task(params: GetWorkspaceConfigurationParams): Future[GetWorkspaceConfigurationResult] =
     provider
       .getWorkspaceConfiguration(params.textDocument.uri)
-      .map(t =>
+      .map(t => {
+        val manager = t._1
+        val config  = t._2
         GetWorkspaceConfigurationResult(
-          t._1.folderUri,
-          t._2
-            .map(config =>
-              DidChangeConfigurationNotificationParams(
-                config.mainFile,
-                Some(t._1.folderUri),
-                config.cachables.map(Left(_))
-                  ++ config.profiles.map(p => Right(DependencyConfiguration(p, CUSTOM_VALIDATION)))
-                  ++ config.semanticExtensions.map(p => Right(DependencyConfiguration(p, SEMANTIC_EXTENSION)))
-            ))
-            .getOrElse(new EmptyConfigurationParams(t._1.folderUri))
-      ))
+          manager.folderUri,
+          DidChangeConfigurationNotificationParams(
+            config.mainFile,
+            manager.folderUri,
+            // todo: missing dialects?
+            config.designDependency.map(Left(_))
+              ++ config.validationDependency.map(p => Right(DependencyConfiguration(p, CUSTOM_VALIDATION)))
+              ++ config.extensionDependency.map(p => Right(DependencyConfiguration(p, SEMANTIC_EXTENSION)))
+          )
+        )
+      })
 
   override protected def code(params: GetWorkspaceConfigurationParams): String = "GetWorkspaceConfigurationRequest"
 
@@ -85,4 +92,4 @@ class GetWorkspaceConfigurationRequestHandler(val provider: WorkspaceConfigurati
 }
 
 private class EmptyConfigurationParams(workspaceFolder: String)
-    extends DidChangeConfigurationNotificationParams("", Some(workspaceFolder), Set.empty)
+    extends DidChangeConfigurationNotificationParams(None, workspaceFolder, Set.empty)

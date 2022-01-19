@@ -9,7 +9,7 @@ class ObjectInTreeArraysTests extends AsyncFlatSpec {
   override val executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
 
-  private val tester = ObjectInTreeBaseTest(
+  private def tester = ObjectInTreeBaseTest(
     "instances/instance1.yaml",
     "dialects/dialect1.yaml"
   )

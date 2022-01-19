@@ -1,8 +1,10 @@
 package org.mulesoft.amfintegration
 
+import amf.aml.client.scala.AMLConfiguration
 import amf.aml.client.scala.model.document.{Dialect, DialectInstance, Vocabulary}
 import amf.aml.client.scala.model.domain._
 import amf.aml.internal.parse.common.{DeclarationKey, DeclarationKeys}
+import amf.apicontract.client.scala.AMFConfiguration
 import amf.apicontract.internal.metamodel.domain.AbstractModel
 import amf.core.client.common.position.{Range, Position => AmfPosition}
 import amf.core.client.scala.model.document._
@@ -311,9 +313,14 @@ object AmfImplicits {
     def isValidationProfile: Boolean =
       bu match {
         case instance: DialectInstance =>
-          instance.processingData.definedBy().option().contains(RawValidationProfileDialect.uri)
+          instance.isValidationProfile
         case _ => false
       }
+  }
+
+  implicit class DialectInstanceImp(instance: DialectInstance) {
+    def isValidationProfile: Boolean =
+      instance.processingData.definedBy().option().contains(RawValidationProfileDialect.uri)
   }
 
   implicit class DialectImplicits(d: Dialect) extends BaseUnitImp(d) {
@@ -374,6 +381,15 @@ object AmfImplicits {
 
     def findPropertyByTerm(term: String): Option[PropertyMapping] =
       nodeMapping.propertiesMapping().find(_.nodePropertyMapping().value() == term)
+  }
+
+  implicit class AmlConfigurationImplicit(config: AMLConfiguration) {
+    def fullResolution(unit: BaseUnit) = {
+      config match {
+        case amf: AMFConfiguration =>
+        case aml                   =>
+      }
+    }
   }
 
 }

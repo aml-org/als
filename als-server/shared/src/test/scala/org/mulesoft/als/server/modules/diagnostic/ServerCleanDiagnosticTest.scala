@@ -4,11 +4,16 @@ import amf.core.client.common.remote.Content
 import amf.core.client.common.validation.ProfileNames
 import amf.core.client.scala.AMFGraphConfiguration
 import amf.core.client.scala.resource.ResourceLoader
+import amf.validation.client.scala.BaseProfileValidatorBuilder
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
+import org.mulesoft.als.server.feature.diagnostic.CustomValidationClientCapabilities
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
-import org.mulesoft.als.server.modules.diagnostic.custom.AMFOpaValidator
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.workspace.{ChangesWorkspaceConfiguration, WorkspaceManager}
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams}
+import org.mulesoft.als.server.workspace.ChangesWorkspaceConfiguration
+import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier}
+import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
+import org.mulesoft.lsp.configuration.TraceKind
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -83,12 +88,10 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
     override def accepts(resource: String): Boolean = files.keySet.contains(resource)
   }
 
-  def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer =
-    buildServer(diagnosticNotifier, None)._1
-
   def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier,
-                  validator: Option[AMFOpaValidator]): (LanguageServer, WorkspaceManager) = {
-    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, Seq(rl))
+                  validator: Option[BaseProfileValidatorBuilder] = None): LanguageServer = {
+    val global  = EditorConfiguration.withPlatformLoaders(Seq(rl))
+    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, global)
     val dm      = builder.buildDiagnosticManagers(validator)
     val factory = builder.buildWorkspaceManagerFactory()
     val b = new LanguageServerBuilder(factory.documentManager,
@@ -97,7 +100,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
                                       factory.resolutionTaskManager)
     b.addRequestModule(factory.cleanDiagnosticManager)
     dm.foreach(m => b.addInitializableModule(m))
-    (b.build(), factory.workspaceManager)
+    b.build()
   }
 
   override def rootPath: String = "diagnostics"
@@ -189,19 +192,25 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
     }
   }
 
+  private val customValidationInitParams =
+    AlsInitializeParams(
+      Some(AlsClientCapabilities(customValidations = Some(CustomValidationClientCapabilities(true)))),
+      Some(TraceKind.Off),
+      rootUri = Some("file:///"))
+
   test("Clean diagnostic with negative custom validations") {
     val negativeReportUri = filePath(platform.encodeURI("project/negative.report.jsonld"))
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
       .flatMap(negativeReport => {
-        val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
-        val validator                                        = new DummyAmfOpaValidator(negativeReport.toString())
-        val (server, workspaceManager)                       = buildServer(diagnosticNotifier, Some(validator))
-        withServer(server, initializeParamsCommandStyle) {
+        val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
+        val validator                                        = FromJsonLdValidatorProvider(negativeReport.toString())
+        val server                                           = buildServer(diagnosticNotifier, Some(validator))
+        withServer(server, customValidationInitParams) {
           s =>
-            val mainFilePath       = s"file://api.raml"
+            val mainFilePath       = s"file:///api.raml"
             val profileUri: String = filePath(platform.encodeURI("project/profile.yaml"))
-            val args               = changeConfigArgs(None, Some("file://"), Set.empty, Set(profileUri))
+            val args               = changeConfigArgs(None, "file:///", Set.empty, Set(profileUri))
             val mainContent =
               """#%RAML 1.0
                 |""".stripMargin
@@ -209,10 +218,10 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
             for {
               _ <- openFileNotification(s)(mainFilePath, mainContent)
               _ <- diagnosticNotifier.nextCall
-              _ <- changeWorkspaceConfiguration(workspaceManager, args)
+              _ <- changeWorkspaceConfiguration(server)(args)
               _ <- diagnosticNotifier.nextCall
               d <- requestCleanDiagnostic(s)(mainFilePath)
-              _ <- validator.calledNTimes(1)
+              _ <- validator.jsonLDValidatorExecutor.calledAtLeastNTimes(2)
             } yield {
               s.shutdown()
               assert(d.nonEmpty)
@@ -229,14 +238,14 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
       .flatMap(negativeReport => {
-        val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
-        val validator                                        = new DummyAmfOpaValidator(negativeReport.toString())
-        val (server, workspaceManager)                       = buildServer(diagnosticNotifier, Some(validator))
-        withServer(server, initializeParamsCommandStyle) {
+        val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
+        val validator                                        = FromJsonLdValidatorProvider(negativeReport.toString())
+        val server                                           = buildServer(diagnosticNotifier, Some(validator))
+        withServer(server, customValidationInitParams) {
           s =>
-            val mainFilePath       = s"file://api.raml"
+            val mainFilePath       = s"file:///api.raml"
             val profileUri: String = filePath(platform.encodeURI("project/profile.yaml"))
-            val args               = changeConfigArgs(None, Some("file://"), Set.empty, Set(profileUri))
+            val args               = changeConfigArgs(None, "file:///", Set.empty, Set(profileUri))
             val mainContent =
               """#%RAML 1.0
               |""".stripMargin
@@ -244,10 +253,10 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
             for {
               _ <- openFileNotification(s)(mainFilePath, mainContent)
               _ <- diagnosticNotifier.nextCall
-              _ <- changeWorkspaceConfiguration(workspaceManager, args)
+              _ <- changeWorkspaceConfiguration(server)(args)
               _ <- diagnosticNotifier.nextCall
               d <- requestCleanDiagnostic(s)(mainFilePath)
-              _ <- validator.calledNTimes(1)
+              _ <- validator.jsonLDValidatorExecutor.calledAtLeastNTimes(2)
             } yield {
               s.shutdown()
               assert(d.nonEmpty)

@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.protocol.convert
 
-import org.mulesoft.als.configuration.{AlsConfiguration, ProjectConfigurationStyle}
+import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.als.server.feature.configuration.workspace.{
   GetWorkspaceConfigurationParams,
   GetWorkspaceConfigurationResult,
@@ -34,14 +34,18 @@ import org.mulesoft.als.server.protocol.diagnostic.{
   ClientCustomValidationOptions,
   ClientFilesInProjectParams
 }
-import org.mulesoft.als.server.protocol.serialization.{ClientSerializationResult, ClientSerializedDocument}
+import org.mulesoft.als.server.protocol.serialization.{
+  ClientSerializationParams,
+  ClientSerializationResult,
+  ClientSerializedDocument
+}
 import org.mulesoft.als.server.protocol.textsync.{
   ClientDidFocusParams,
   ClientIndexDialectParams,
   DidFocusParams,
   IndexDialectParams
 }
-import org.mulesoft.lsp.configuration.{FormattingOptions, _}
+import org.mulesoft.lsp.configuration._
 
 import scala.language.implicitConversions
 import scala.scalajs.js
@@ -81,11 +85,6 @@ object LspConvertersSharedToClient {
   implicit class ClientAlsClientConfigurationConverter(v: AlsConfiguration) {
     def toClient: ClientAlsConfiguration =
       ClientAlsConfiguration(v)
-  }
-
-  implicit class ClientProjectConfigurationConverter(v: ProjectConfigurationStyle) {
-    def toClient: ClientProjectConfigurationStyle =
-      ClientProjectConfigurationStyle(v)
   }
 
   implicit class ClientUpdateFormatOptionsParamsConverter(v: FormattingOptions) {
@@ -141,6 +140,11 @@ object LspConvertersSharedToClient {
   implicit class ClientSerializationMessageConverter(v: SerializationResult[js.Any]) {
     def toClient: ClientSerializationResult =
       ClientSerializationResult(v)
+  }
+
+  implicit class ClientSerializationParamsConverter(v: SerializationParams) {
+    def toClient: ClientSerializationParams =
+      ClientSerializationParams(v)
   }
 
   implicit class ClientDidFocusParamsConverter(v: DidFocusParams) {

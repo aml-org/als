@@ -1,15 +1,20 @@
 package org.mulesoft.als.server
 
+import amf.aml.client.scala.model.document.DialectInstance
 import amf.core.internal.unsafe.PlatformSecrets
-import org.mulesoft.als.configuration.{ConfigurationStyle, ProjectConfigurationStyle}
-import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeParams, CleanDiagnosticTreeRequestType}
+import amf.validation.client.scala.{BaseProfileValidatorBuilder, ProfileValidatorExecutor}
+import amf.validation.internal.DummyValidatorExecutor
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.logger.MessageSeverity.MessageSeverity
+import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeParams, CleanDiagnosticTreeRequestType}
+import org.mulesoft.als.server.feature.serialization.SerializationParams
 import org.mulesoft.als.server.modules.diagnostic.AlsPublishDiagnosticsParams
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.protocol.textsync.DidFocusParams
-import org.mulesoft.lsp.configuration.{TraceKind, WorkspaceFolder}
+import org.mulesoft.als.server.workspace.ChangesWorkspaceConfiguration
+import org.mulesoft.als.server.workspace.command.Commands
+import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.feature.common.{TextDocumentIdentifier, TextDocumentItem, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.feature.documentsymbol.{
   DocumentSymbol,
@@ -19,9 +24,10 @@ import org.mulesoft.lsp.feature.documentsymbol.{
 }
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 import org.mulesoft.lsp.textsync._
-import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, WorkspaceFoldersChangeEvent}
+import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, ExecuteCommandParams, WorkspaceFoldersChangeEvent}
 import org.scalatest._
 
+import java.io.StringWriter
 import scala.collection.mutable
 import scala.concurrent.Future
 import scala.util.Failure
@@ -31,13 +37,17 @@ abstract class LanguageServerBaseTest
     with PlatformSecrets
     with Matchers
     with OptionValues
-    with FailedLogs {
+    with FailedLogs
+    with ChangesWorkspaceConfiguration {
+
+  object DummyProfileValidator extends BaseProfileValidatorBuilder {
+
+    def validator(profile: DialectInstance): ProfileValidatorExecutor = {
+      new ProfileValidatorExecutor(DummyValidatorExecutor, profile)
+    }
+  }
 
   protected val initializeParams: AlsInitializeParams = AlsInitializeParams.default
-  protected val initializeParamsCommandStyle: AlsInitializeParams = AlsInitializeParams(
-    None,
-    Some(TraceKind.Off),
-    projectConfigurationStyle = Some(ProjectConfigurationStyle(ConfigurationStyle.COMMAND)))
 
   private def telemetryNotifications(mockTelemetryClientNotifier: MockTelemetryClientNotifier)(
       qty: Int,
@@ -95,6 +105,9 @@ abstract class LanguageServerBaseTest
       })
   }
 
+  def setMainFile(server: LanguageServer)(workspace: String, mainFile: String): Future[AnyRef] =
+    changeWorkspaceConfiguration(server)(changeConfigArgs(Some(mainFile), workspace))
+
   def openFile(server: LanguageServer)(uri: String, text: String): Future[Unit] =
     server.textDocumentSyncConsumer.didOpen(DidOpenTextDocumentParams(TextDocumentItem(uri, "", 0, text)))
 
@@ -137,13 +150,41 @@ abstract class LanguageServerBaseTest
       params = DidChangeWorkspaceFoldersParams(WorkspaceFoldersChangeEvent(added, removed))
     )
   }
+
+  protected def serialize(server: LanguageServer, api: String, serializationProps: SerializationProps[StringWriter]) = {
+    server
+      .resolveHandler(serializationProps.requestType)
+      .value
+      .apply(SerializationParams(TextDocumentIdentifier(api)))
+      .map(_.model.toString)
+  }
+}
+
+trait ServerIndexGlobalDialectCommand extends LanguageServerBaseTest {
+  def stringifyJson(str: String): String
+
+  def indexGlobalDialect(server: LanguageServer, file: String, content: Option[String] = None): Future[Unit] = {
+    def wrapJson(file: String, content: Option[String]): String =
+      s"""{"uri": "$file" ${content.map(c => s""", "content": ${stringifyJson(c)}""").getOrElse("")}}"""
+
+    val args = List(wrapJson(file, content))
+    server.workspaceService
+      .executeCommand(ExecuteCommandParams(Commands.INDEX_DIALECT, args))
+      .map(_ => {
+        Unit
+      })
+  }
+
+  def indexGlobalDialect(server: LanguageServer, file: String, content: String): Future[Unit] =
+    indexGlobalDialect(server, file, Some(content))
+
 }
 
 /**
   * mixin to clean logs in between tests
   */
 trait FailedLogs extends AsyncTestSuiteMixin { this: AsyncTestSuite =>
-  final val logger = TestLogger()
+  val logger = TestLogger()
 
   abstract override def withFixture(test: NoArgAsyncTest): FutureOutcome = {
     logger.logList.clear()

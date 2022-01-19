@@ -36,6 +36,7 @@ trait AccessUnits[T] {
 case class BaseUnitListenerParams(parseResult: AmfParseResult,
                                   diagnosticsBundle: Map[String, DiagnosticsBundle],
                                   tree: Boolean,
+                                  workspace: String,
                                   isDependency: Boolean = false)
 
 trait BaseUnitListener extends AstListener[BaseUnitListenerParams] with AccessUnits[CompilableUnit]

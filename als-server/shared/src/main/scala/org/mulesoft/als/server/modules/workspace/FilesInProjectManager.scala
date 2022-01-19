@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules.workspace
 
 import org.mulesoft.als.server.ClientNotifierModule
-import org.mulesoft.als.server.client.AlsClientNotifier
+import org.mulesoft.als.server.client.platform.AlsClientNotifier
 import org.mulesoft.als.server.feature.workspace.{
   FilesInProjectClientCapabilities,
   FilesInProjectConfigType,

@@ -1,6654 +1,6652 @@
 declare module '@aml-org/als-server' {
     import {Logger as VsCodeLogger, NotificationType, RequestType} from 'vscode-jsonrpc'
     import {
-        ProtocolConnection, PublishDiagnosticsParams,
+        ProtocolConnection,
+        PublishDiagnosticsParams,
         TextDocumentClientCapabilities,
+        TextDocumentIdentifier,
         WorkspaceClientCapabilities,
-        TextDocumentIdentifier, WorkspaceFolder, WorkspaceEdit
+        WorkspaceEdit,
+        WorkspaceFolder
     } from 'vscode-languageserver-protocol'
 
     /* amf-client-js */
 
-    export class AMFObjectResult {
-        results: Array<AMFValidationResult>
+  export class AMFObjectResult {
+    results: Array<AMFValidationResult>
 
-    }
+  }
 
-    export class FinishedRenderingSyntaxEvent {
-        unit: BaseUnit
+  export class FinishedRenderingSyntaxEvent {
+    unit: BaseUnit
 
-    }
+  }
 
-    export interface JsErrorHandler {
-        report(result: AMFValidationResult): void
+  export interface JsErrorHandler {
+    report(result: AMFValidationResult): void
 
-        getResults(): Array<AMFValidationResult>
+    getResults(): Array<AMFValidationResult>
 
 
-    }
+  }
 
-    export class BaseHttpResourceLoader implements ResourceLoader {
-        fetch(resource: string): Promise<Content>
+  export class BaseHttpResourceLoader implements ResourceLoader {
+    fetch(resource: string): Promise<Content>
 
-        accepts(resource: string): boolean
+    accepts(resource: string): boolean
 
 
-    }
+  }
 
-    export interface DialectInstanceUnit extends BaseUnit {
-        processingData: DialectInstanceProcessingData
+  export interface DialectInstanceUnit extends BaseUnit {
+    processingData: DialectInstanceProcessingData
 
-        withProcessingData(data: DialectInstanceProcessingData): this
+    withProcessingData(data: DialectInstanceProcessingData): this
 
-        definedBy(): StrField
+    definedBy(): StrField
 
-        graphDependencies(): Array<StrField>
+    graphDependencies(): Array<StrField>
 
-        withDefinedBy(dialectId: string): this
+    withDefinedBy(dialectId: string): this
 
-        withGraphDependencies(ids: Array<string>): this
+    withGraphDependencies(ids: Array<string>): this
 
 
-    }
+  }
 
-    export class StartingParsingEvent {
-        url: string
+  export class StartingParsingEvent {
+    url: string
 
-    }
+  }
 
-    export class JsonSchemaDraft7 implements JSONSchemaVersion {
-    }
+  export class JsonSchemaDraft7 implements JSONSchemaVersion {
+  }
 
-    export interface JsPayloadValidator {
-        validate(payload: string): Promise<AMFValidationReport>
+  export interface JsPayloadValidator {
+    validate(payload: string): Promise<AMFValidationReport>
 
-        validate(payloadFragment: PayloadFragment): Promise<AMFValidationReport>
+    validate(payloadFragment: PayloadFragment): Promise<AMFValidationReport>
 
-        syncValidate(payload: string): AMFValidationReport
+    syncValidate(payload: string): AMFValidationReport
 
 
-    }
+  }
 
-    export interface Shape extends DomainElement, Linkable {
-        name: StrField
-        displayName: StrField
-        description: StrField
-        defaultValue: DataNode
-        defaultValueStr: StrField
-        values: Array<DataNode>
-        inherits: Array<Shape>
-        customShapeProperties: Array<ShapeExtension>
-        customShapePropertyDefinitions: Array<PropertyShape>
-        or: Array<Shape>
-        and: Array<Shape>
-        xone: Array<Shape>
-        not: Shape
-        readOnly: BoolField
-        writeOnly: BoolField
-        deprecated: BoolField
-        ifShape: Shape
-        elseShape: Shape
-        thenShape: Shape
+  export interface Shape extends DomainElement, Linkable {
+    name: StrField
+    displayName: StrField
+    description: StrField
+    defaultValue: DataNode
+    defaultValueStr: StrField
+    values: Array<DataNode>
+    inherits: Array<Shape>
+    customShapeProperties: Array<ShapeExtension>
+    customShapePropertyDefinitions: Array<PropertyShape>
+    or: Array<Shape>
+    and: Array<Shape>
+    xone: Array<Shape>
+    not: Shape
+    readOnly: BoolField
+    writeOnly: BoolField
+    deprecated: BoolField
+    ifShape: Shape
+    elseShape: Shape
+    thenShape: Shape
 
-        withName(name: string): this
+    withName(name: string): this
 
-        withDisplayName(name: string): this
+    withDisplayName(name: string): this
 
-        withDescription(description: string): this
+    withDescription(description: string): this
 
-        withDefaultValue(defaultVal: DataNode): this
+    withDefaultValue(defaultVal: DataNode): this
 
-        withValues(values: Array<DataNode>): this
+    withValues(values: Array<DataNode>): this
 
-        withInherits(inherits: Array<Shape>): this
+    withInherits(inherits: Array<Shape>): this
 
-        withOr(subShapes: Array<Shape>): this
+    withOr(subShapes: Array<Shape>): this
 
-        withAnd(subShapes: Array<Shape>): this
+    withAnd(subShapes: Array<Shape>): this
 
-        withXone(subShapes: Array<Shape>): this
+    withXone(subShapes: Array<Shape>): this
 
-        withNode(shape: Shape): this
+    withNode(shape: Shape): this
 
-        withDefaultStr(value: string): this
+    withDefaultStr(value: string): this
 
-        withCustomShapeProperties(customShapeProperties: Array<ShapeExtension>): this
+    withCustomShapeProperties(customShapeProperties: Array<ShapeExtension>): this
 
-        withCustomShapePropertyDefinitions(propertyDefinitions: Array<PropertyShape>): this
+    withCustomShapePropertyDefinitions(propertyDefinitions: Array<PropertyShape>): this
 
-        withCustomShapePropertyDefinition(name: string): PropertyShape
+    withCustomShapePropertyDefinition(name: string): PropertyShape
 
-        withReadOnly(readOnly: boolean): this
+    withReadOnly(readOnly: boolean): this
 
-        withWriteOnly(writeOnly: boolean): this
+    withWriteOnly(writeOnly: boolean): this
 
-        withDeprecated(deprecated: boolean): this
+    withDeprecated(deprecated: boolean): this
 
-        withIf(ifShape: Shape): this
+    withIf(ifShape: Shape): this
 
-        withElse(elseShape: Shape): this
+    withElse(elseShape: Shape): this
 
-        withThen(thenShape: Shape): this
+    withThen(thenShape: Shape): this
 
 
-    }
+  }
 
-    export class AMFParseResult extends AMFResult {
-        sourceSpec: Spec
+  export class AMFParseResult extends AMFResult {
+    sourceSpec: Spec
 
-    }
+  }
 
-    export class ValidationProfile {
-        profileName(): ProfileName
+  export class ValidationProfile {
+    profileName(): ProfileName
 
-        baseProfile(): undefined | ProfileName
+    baseProfile(): undefined | ProfileName
 
 
-    }
+  }
 
-    export class StartingRenderToWriterEvent {
-    }
+  export class StartingRenderToWriterEvent {
+  }
 
-    export interface ChannelBinding extends DomainElement, Linkable {
-    }
+  export interface ChannelBinding extends DomainElement, Linkable {
+  }
 
-    export interface ResourceLoader {
-        fetch(resource: string): Promise<Content>
+  export interface ResourceLoader {
+    fetch(resource: string): Promise<Content>
 
-        accepts(resource: string): boolean
+    accepts(resource: string): boolean
 
 
-    }
+  }
 
-    export class AMFConfigurationState extends AMLConfigurationState {
-    }
+  export class AMFConfigurationState extends AMLConfigurationState {
+  }
 
-    export interface ClientUnitCache {
-        fetch(url: string): Promise<CachedReference>
+  export interface ClientUnitCache {
+    fetch(url: string): Promise<CachedReference>
 
 
-    }
+  }
 
-    export class ValidatePayloadRequest {
-        shape: Shape
-        mediaType: string
-        config: ShapeValidationConfiguration
+  export class ValidatePayloadRequest {
+    shape: Shape
+    mediaType: string
+    config: ShapeValidationConfiguration
 
-    }
+  }
 
-    export interface JsAMFPlugin {
-        readonly ID: string
+  export interface JsAMFPlugin {
+    readonly ID: string
 
-    }
+  }
 
-    export interface BaseFileResourceLoader extends ResourceLoader {
-        fetch(resource: string): Promise<Content>
+  export interface BaseFileResourceLoader extends ResourceLoader {
+    fetch(resource: string): Promise<Content>
 
-        fetchFile(resource: string): Promise<Content>
+    fetchFile(resource: string): Promise<Content>
 
-        accepts(resource: string): boolean
+    accepts(resource: string): boolean
 
 
-    }
+  }
 
-    export class StartedTransformationStepEvent {
-    }
+  export class StartedTransformationStepEvent {
+  }
 
-    export class BoolField implements ValueField<boolean> {
-        nonNull: boolean
-        isNull: boolean
-        readonly option: undefined | boolean
-        toString: string
+  export class BoolField implements ValueField<boolean> {
+    nonNull: boolean
+    isNull: boolean
+    readonly option: undefined | boolean
+    toString: string
 
-        annotations(): Annotations
+    annotations(): Annotations
 
-        value(): boolean
+    value(): boolean
 
-        remove(): void
+    remove(): void
 
-        is(other: boolean): boolean
+    is(other: boolean): boolean
 
-        is(accepts: undefined): boolean
+    is(accepts: undefined): boolean
 
 
-    }
+  }
 
-    export class AMLConfigurationState {
-        getDialects(): Array<Dialect>
+  export class AMLConfigurationState {
+    getDialects(): Array<Dialect>
 
-        getDialect(name: string): Array<Dialect>
+    getDialect(name: string): Array<Dialect>
 
-        getDialect(name: string, version: string): undefined | Dialect
+    getDialect(name: string, version: string): undefined | Dialect
 
-        getExtensions(): Array<SemanticExtension>
+    getExtensions(): Array<SemanticExtension>
 
-        findSemanticByPropertyTerm(dialect: Dialect, uri: string): Array<SemanticExtension>
+    findSemanticByPropertyTerm(dialect: Dialect, uri: string): Array<SemanticExtension>
 
-        findSemanticByTarget(dialect: Dialect, uri: string): Array<SemanticExtension>
+    findSemanticByTarget(dialect: Dialect, uri: string): Array<SemanticExtension>
 
-        findSemanticByName(dialect: Dialect, name: string): undefined | SemanticExtension
+    findSemanticByName(dialect: Dialect, name: string): undefined | SemanticExtension
 
 
-    }
+  }
 
-    export class SkippedValidationPluginEvent {
-    }
+  export class SkippedValidationPluginEvent {
+  }
 
-    export class AMFConfiguration extends BaseShapesConfiguration {
-        baseUnitClient(): AMFBaseUnitClient
+  export class AMFConfiguration extends BaseShapesConfiguration {
+    baseUnitClient(): AMFBaseUnitClient
 
-        elementClient(): AMFElementClient
+    elementClient(): AMFElementClient
 
-        configurationState(): AMFConfigurationState
+    configurationState(): AMFConfigurationState
 
-        withParsingOptions(parsingOptions: ParsingOptions): AMFConfiguration
+    withParsingOptions(parsingOptions: ParsingOptions): AMFConfiguration
 
-        withResourceLoader(rl: ResourceLoader): AMFConfiguration
+    withResourceLoader(rl: ResourceLoader): AMFConfiguration
 
-        withResourceLoaders(rl: Array<ResourceLoader>): AMFConfiguration
+    withResourceLoaders(rl: Array<ResourceLoader>): AMFConfiguration
 
-        withUnitCache(cache: UnitCache): AMFConfiguration
+    withUnitCache(cache: UnitCache): AMFConfiguration
 
-        withTransformationPipeline(pipeline: TransformationPipeline): AMFConfiguration
+    withTransformationPipeline(pipeline: TransformationPipeline): AMFConfiguration
 
-        withRenderOptions(renderOptions: RenderOptions): AMFConfiguration
+    withRenderOptions(renderOptions: RenderOptions): AMFConfiguration
 
-        withErrorHandlerProvider(provider: ErrorHandlerProvider): AMFConfiguration
+    withErrorHandlerProvider(provider: ErrorHandlerProvider): AMFConfiguration
 
-        withEventListener(listener: AMFEventListener): AMFConfiguration
+    withEventListener(listener: AMFEventListener): AMFConfiguration
 
-        withDialect(dialect: Dialect): AMFConfiguration
+    withDialect(dialect: Dialect): AMFConfiguration
 
-        withDialect(url: string): Promise<AMFConfiguration>
+    withDialect(url: string): Promise<AMFConfiguration>
 
-        forInstance(url: string): Promise<AMFConfiguration>
+    forInstance(url: string): Promise<AMFConfiguration>
 
-        withShapePayloadPlugin(plugin: AMFShapePayloadValidationPlugin): AMFConfiguration
+    withShapePayloadPlugin(plugin: AMFShapePayloadValidationPlugin): AMFConfiguration
 
 
-    }
+  }
 
-    export interface JsAMFEventListener {
-        notifyEvent(event: AMFEvent): void
+  export interface JsAMFEventListener {
+    notifyEvent(event: AMFEvent): void
 
 
-    }
+  }
 
-    export class FinishedValidationEvent {
-        result: AMFValidationReport
+  export class FinishedValidationEvent {
+    result: AMFValidationReport
 
-    }
+  }
 
-    export interface BaseUnit {
-        id: string
-        raw: undefined | string
-        location: string
-        usage: StrField
-        modelVersion: StrField
-        sourceSpec: undefined | Spec
-        processingData: BaseUnitProcessingData
+  export interface BaseUnit {
+    id: string
+    raw: undefined | string
+    location: string
+    usage: StrField
+    modelVersion: StrField
+    sourceSpec: undefined | Spec
+    processingData: BaseUnitProcessingData
 
-        references(): Array<BaseUnit>
+    references(): Array<BaseUnit>
 
-        pkg(): StrField
+    pkg(): StrField
 
-        withReferences(references: Array<BaseUnit>): this
+    withReferences(references: Array<BaseUnit>): this
 
-        withPkg(pkg: string): this
+    withPkg(pkg: string): this
 
-        withId(id: string): this
+    withId(id: string): this
 
-        withRaw(raw: string): this
+    withRaw(raw: string): this
 
-        withLocation(location: string): this
+    withLocation(location: string): this
 
-        withUsage(usage: string): this
+    withUsage(usage: string): this
 
-        findById(id: string): undefined | DomainElement
+    findById(id: string): undefined | DomainElement
 
-        findByType(typeId: string): Array<DomainElement>
+    findByType(typeId: string): Array<DomainElement>
 
-        cloneUnit(): BaseUnit
+    cloneUnit(): BaseUnit
 
-        withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
+    withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
 
-        withProcessingData(data: BaseUnitProcessingData): this
+    withProcessingData(data: BaseUnitProcessingData): this
 
 
-    }
+  }
 
-    export class AMLDialectInstanceResult extends AMFResult {
-        dialectInstance: DialectInstance
+  export class AMLDialectInstanceResult extends AMFResult {
+    dialectInstance: DialectInstance
 
-    }
+  }
 
-    export interface OperationBinding extends DomainElement, Linkable {
-    }
+  export interface OperationBinding extends DomainElement, Linkable {
+  }
 
-    export class FinishedParsingEvent {
-        url: string
-        unit: BaseUnit
+  export class FinishedParsingEvent {
+    url: string
+    unit: BaseUnit
 
-    }
+  }
 
-    export interface EncodesModel {
-        encodes: DomainElement
+  export interface EncodesModel {
+    encodes: DomainElement
 
-        withEncodes(encoded: DomainElement): this
+    withEncodes(encoded: DomainElement): this
 
 
-    }
+  }
 
-    export class AMLBaseUnitClient extends BaseAMLBaseUnitClient {
-        getConfiguration(): AMLConfiguration
+  export class AMLBaseUnitClient extends BaseAMLBaseUnitClient {
+    getConfiguration(): AMLConfiguration
 
 
-    }
+  }
 
-    export class JsonSchemaDraft4 implements JSONSchemaVersion {
-    }
+  export class JsonSchemaDraft4 implements JSONSchemaVersion {
+  }
 
-    export interface AMFShapePayloadValidationPlugin {
-        priority: PluginPriority
+  export interface AMFShapePayloadValidationPlugin {
+    priority: PluginPriority
 
-        applies(element: ValidatePayloadRequest): boolean
+    applies(element: ValidatePayloadRequest): boolean
 
-        validator(shape: Shape, mediaType: string, config: ShapeValidationConfiguration, validationMode: ValidationMode): AMFShapePayloadValidator
+    validator(shape: Shape, mediaType: string, config: ShapeValidationConfiguration, validationMode: ValidationMode): AMFShapePayloadValidator
 
 
-    }
+  }
 
-    export class DataArrangeShape extends AnyShape {
-        minItems: IntField
-        maxItems: IntField
-        uniqueItems: BoolField
+  export class DataArrangeShape extends AnyShape {
+    minItems: IntField
+    maxItems: IntField
+    uniqueItems: BoolField
 
-        withMinItems(minItems: number): this
+    withMinItems(minItems: number): this
 
-        withMaxItems(maxItems: number): this
+    withMaxItems(maxItems: number): this
 
-        withUniqueItems(uniqueItems: boolean): this
+    withUniqueItems(uniqueItems: boolean): this
 
 
-    }
+  }
 
-    export class BaseAMLConfiguration extends AMFGraphConfiguration {
-        withParsingOptions(parsingOptions: ParsingOptions): BaseAMLConfiguration
+  export class BaseAMLConfiguration extends AMFGraphConfiguration {
+    withParsingOptions(parsingOptions: ParsingOptions): BaseAMLConfiguration
 
-        withRenderOptions(renderOptions: RenderOptions): BaseAMLConfiguration
+    withRenderOptions(renderOptions: RenderOptions): BaseAMLConfiguration
 
-        withErrorHandlerProvider(provider: ErrorHandlerProvider): BaseAMLConfiguration
+    withErrorHandlerProvider(provider: ErrorHandlerProvider): BaseAMLConfiguration
 
-        withResourceLoader(rl: ResourceLoader): BaseAMLConfiguration
+    withResourceLoader(rl: ResourceLoader): BaseAMLConfiguration
 
-        withResourceLoaders(rl: Array<ResourceLoader>): BaseAMLConfiguration
+    withResourceLoaders(rl: Array<ResourceLoader>): BaseAMLConfiguration
 
-        withUnitCache(cache: UnitCache): BaseAMLConfiguration
+    withUnitCache(cache: UnitCache): BaseAMLConfiguration
 
-        withTransformationPipeline(pipeline: TransformationPipeline): BaseAMLConfiguration
+    withTransformationPipeline(pipeline: TransformationPipeline): BaseAMLConfiguration
 
-        withEventListener(listener: AMFEventListener): BaseAMLConfiguration
+    withEventListener(listener: AMFEventListener): BaseAMLConfiguration
 
-        withDialect(dialect: Dialect): BaseAMLConfiguration
+    withDialect(dialect: Dialect): BaseAMLConfiguration
 
 
-    }
+  }
 
-    export class AMFGraphBaseUnitClient {
-        getConfiguration(): AMFGraphConfiguration
+  export class AMFGraphBaseUnitClient {
+    getConfiguration(): AMFGraphConfiguration
 
-        parse(url: string): Promise<AMFParseResult>
+    parse(url: string): Promise<AMFParseResult>
 
-        parseContent(content: string): Promise<AMFParseResult>
+    parseContent(content: string): Promise<AMFParseResult>
 
-        parseContent(content: string, mediaType: string): Promise<AMFParseResult>
+    parseContent(content: string, mediaType: string): Promise<AMFParseResult>
 
-        transform(baseUnit: BaseUnit): AMFResult
+    transform(baseUnit: BaseUnit): AMFResult
 
-        transform(baseUnit: BaseUnit, pipeline: string): AMFResult
+    transform(baseUnit: BaseUnit, pipeline: string): AMFResult
 
-        render(baseUnit: BaseUnit): string
+    render(baseUnit: BaseUnit): string
 
-        render(baseUnit: BaseUnit, mediaType: string): string
+    render(baseUnit: BaseUnit, mediaType: string): string
 
-        renderGraphToBuilder<T>(baseUnit: BaseUnit, builder: org.yaml.builder.JsOutputBuilder): T
+    renderGraphToBuilder<T>(baseUnit: BaseUnit, builder: org.yaml.builder.JsOutputBuilder): T
 
-        validate(baseUnit: BaseUnit): Promise<AMFValidationReport>
+    validate(baseUnit: BaseUnit): Promise<AMFValidationReport>
 
-        setBaseUri(unit: BaseUnit, base: string): void
+    setBaseUri(unit: BaseUnit, base: string): void
 
 
-    }
+  }
 
-    export interface UnitCache {
-        fetch(url: string): Promise<CachedReference>
+  export interface UnitCache {
+    fetch(url: string): Promise<CachedReference>
 
 
-    }
+  }
 
-    export class IntField implements ValueField<number> {
-        nonNull: boolean
-        isNull: boolean
-        readonly option: undefined | number
-        toString: string
+  export class IntField implements ValueField<number> {
+    nonNull: boolean
+    isNull: boolean
+    readonly option: undefined | number
+    toString: string
 
-        annotations(): Annotations
+    annotations(): Annotations
 
-        value(): number
+    value(): number
 
-        remove(): void
+    remove(): void
 
-        is(other: number): boolean
+    is(other: number): boolean
 
-        is(accepts: undefined): boolean
+    is(accepts: undefined): boolean
 
 
-    }
+  }
 
-    export class AnyField implements ValueField<any> {
-        nonNull: boolean
-        isNull: boolean
-        readonly option: undefined | any
-        toString: string
+  export class AnyField implements ValueField<any> {
+    nonNull: boolean
+    isNull: boolean
+    readonly option: undefined | any
+    toString: string
 
-        annotations(): Annotations
+    annotations(): Annotations
 
-        value(): any
+    value(): any
 
-        remove(): void
+    remove(): void
 
-        is(other: any): boolean
+    is(other: any): boolean
 
-        is(accepts: undefined): boolean
+    is(accepts: undefined): boolean
 
 
-    }
+  }
 
-    export interface Annotable {
-        annotations(): Annotations
+  export interface Annotable {
+    annotations(): Annotations
 
 
-    }
+  }
 
-    export class AbstractDeclaration implements DomainElement, Linkable {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        description: StrField
-        dataNode: DataNode
-        variables: Array<StrField>
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        linkLabel: StrField
-        extendsNode: Array<DomainElement>
+  export class AbstractDeclaration implements DomainElement, Linkable {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    description: StrField
+    dataNode: DataNode
+    variables: Array<StrField>
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    linkLabel: StrField
+    extendsNode: Array<DomainElement>
 
-        link<T>(label: string): T
+    link<T>(label: string): T
 
-        linkCopy(): AbstractDeclaration
+    linkCopy(): AbstractDeclaration
 
-        withName(name: string): this
+    withName(name: string): this
 
-        withDescription(description: string): this
+    withDescription(description: string): this
 
-        withDataNode(dataNode: DataNode): this
+    withDataNode(dataNode: DataNode): this
 
-        graph(): Graph
+    graph(): Graph
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withLinkLabel(label: string): this
+    withLinkLabel(label: string): this
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        link<T>(): T
+    link<T>(): T
 
-        withLinkTarget(target: undefined): this
+    withLinkTarget(target: undefined): this
 
-        withVariables(variables: Array<string>): this
+    withVariables(variables: Array<string>): this
 
-        withId(id: string): this
+    withId(id: string): this
 
 
-    }
+  }
 
-    export class AMFLibraryResult extends AMFResult {
-        library: Module
+  export class AMFLibraryResult extends AMFResult {
+    library: Module
 
-    }
+  }
 
-    export interface ClientWriter {
-        append(s: string): this
+  export interface ClientWriter {
+    append(s: string): this
 
-        string(): string
+    string(): string
 
-        flush(): this
+    flush(): this
 
-        close(): this
+    close(): this
 
 
-    }
+  }
 
-    export class AMFElementClient extends BaseShapesElementClient {
-        getConfiguration(): AMFConfiguration
+  export class AMFElementClient extends BaseShapesElementClient {
+    getConfiguration(): AMFConfiguration
 
-        renderToBuilder<T>(element: DomainElement, builder: org.yaml.builder.JsOutputBuilder): void
+    renderToBuilder<T>(element: DomainElement, builder: org.yaml.builder.JsOutputBuilder): void
 
-        asEndpoint<T>(unit: T, rt: ResourceType, profile: ProfileName): EndPoint
+    asEndpoint<T>(unit: T, rt: ResourceType, profile: ProfileName): EndPoint
 
-        asOperation<T>(unit: T, tr: Trait, profile: ProfileName): Operation
+    asOperation<T>(unit: T, tr: Trait, profile: ProfileName): Operation
 
 
-    }
+  }
 
-    export interface JsAMFPayloadValidationPlugin extends JsAMFPlugin {
-        id: string
+  export interface JsAMFPayloadValidationPlugin extends JsAMFPlugin {
+    id: string
 
-        applies(element: ValidatePayloadRequest): boolean
+    applies(element: ValidatePayloadRequest): boolean
 
-        validator(shape: Shape, mediaType: string, config: ShapeValidationConfiguration, validationMode: ValidationMode): JsPayloadValidator
+    validator(shape: Shape, mediaType: string, config: ShapeValidationConfiguration, validationMode: ValidationMode): JsPayloadValidator
 
 
-    }
+  }
 
-    export class Unspecified implements JSONSchemaVersion {
-    }
+  export class Unspecified implements JSONSchemaVersion {
+  }
 
-    export class BaseShapesConfiguration extends BaseAMLConfiguration {
-        withParsingOptions(parsingOptions: ParsingOptions): BaseShapesConfiguration
+  export class BaseShapesConfiguration extends BaseAMLConfiguration {
+    withParsingOptions(parsingOptions: ParsingOptions): BaseShapesConfiguration
 
-        withRenderOptions(renderOptions: RenderOptions): BaseShapesConfiguration
+    withRenderOptions(renderOptions: RenderOptions): BaseShapesConfiguration
 
-        withErrorHandlerProvider(provider: ErrorHandlerProvider): BaseShapesConfiguration
+    withErrorHandlerProvider(provider: ErrorHandlerProvider): BaseShapesConfiguration
 
-        withResourceLoader(rl: ResourceLoader): BaseShapesConfiguration
+    withResourceLoader(rl: ResourceLoader): BaseShapesConfiguration
 
-        withResourceLoaders(rl: Array<ResourceLoader>): BaseShapesConfiguration
+    withResourceLoaders(rl: Array<ResourceLoader>): BaseShapesConfiguration
 
-        withUnitCache(cache: UnitCache): BaseShapesConfiguration
+    withUnitCache(cache: UnitCache): BaseShapesConfiguration
 
-        withTransformationPipeline(pipeline: TransformationPipeline): BaseShapesConfiguration
+    withTransformationPipeline(pipeline: TransformationPipeline): BaseShapesConfiguration
 
-        withEventListener(listener: AMFEventListener): BaseShapesConfiguration
+    withEventListener(listener: AMFEventListener): BaseShapesConfiguration
 
-        withDialect(dialect: Dialect): BaseShapesConfiguration
+    withDialect(dialect: Dialect): BaseShapesConfiguration
 
 
-    }
+  }
 
-    export class BaseAMLElementClient extends AMFGraphElementClient {
-        renderToBuilder<T>(element: DomainElement, builder: org.yaml.builder.JsOutputBuilder): void
+  export class BaseAMLElementClient extends AMFGraphElementClient {
+    renderToBuilder<T>(element: DomainElement, builder: org.yaml.builder.JsOutputBuilder): void
 
 
-    }
+  }
 
-    export interface TransformationStep {
-        transform(model: BaseUnit, errorHandler: ClientErrorHandler, configuration: AMFGraphConfiguration): BaseUnit
+  export interface TransformationStep {
+    transform(model: BaseUnit, errorHandler: ClientErrorHandler, configuration: AMFGraphConfiguration): BaseUnit
 
 
-    }
+  }
 
-    export class DoubleField implements ValueField<number> {
-        nonNull: boolean
-        isNull: boolean
-        readonly option: undefined | number
-        toString: string
+  export class DoubleField implements ValueField<number> {
+    nonNull: boolean
+    isNull: boolean
+    readonly option: undefined | number
+    toString: string
 
-        annotations(): Annotations
+    annotations(): Annotations
 
-        value(): number
+    value(): number
 
-        remove(): void
+    remove(): void
 
-        is(other: number): boolean
+    is(other: number): boolean
 
-        is(accepts: undefined): boolean
+    is(accepts: undefined): boolean
 
 
-    }
+  }
 
-    export class AMFResult extends AMFObjectResult {
-        conforms: boolean
-        results: Array<AMFValidationResult>
-        baseUnit: BaseUnit
-        toString: string
+  export class AMFResult extends AMFObjectResult {
+    conforms: boolean
+    results: Array<AMFValidationResult>
+    baseUnit: BaseUnit
+    toString: string
 
-        merge(report: AMFValidationReport): AMFResult
+    merge(report: AMFValidationReport): AMFResult
 
 
-    }
+  }
 
-    export interface ServerBinding extends DomainElement, Linkable {
-    }
+  export interface ServerBinding extends DomainElement, Linkable {
+  }
 
-    export interface Linkable {
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        linkLabel: StrField
+  export interface Linkable {
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    linkLabel: StrField
 
-        linkCopy(): Linkable
+    linkCopy(): Linkable
 
-        withLinkTarget(target: undefined): this
+    withLinkTarget(target: undefined): this
 
-        withLinkLabel(label: string): this
+    withLinkLabel(label: string): this
 
-        link<T>(): T
+    link<T>(): T
 
-        link<T>(label: string): T
+    link<T>(label: string): T
 
 
-    }
+  }
 
-    export class FloatField implements ValueField<number> {
-        nonNull: boolean
-        isNull: boolean
-        readonly option: undefined | number
-        toString: string
+  export class FloatField implements ValueField<number> {
+    nonNull: boolean
+    isNull: boolean
+    readonly option: undefined | number
+    toString: string
 
-        annotations(): Annotations
+    annotations(): Annotations
 
-        value(): number
+    value(): number
 
-        remove(): void
+    remove(): void
 
-        is(other: number): boolean
+    is(other: number): boolean
 
-        is(accepts: undefined): boolean
+    is(accepts: undefined): boolean
 
 
-    }
+  }
 
-    export interface ClientResourceLoader {
-        fetch(resource: string): Promise<Content>
+  export interface ClientResourceLoader {
+    fetch(resource: string): Promise<Content>
 
-        accepts(resource: string): boolean
+    accepts(resource: string): boolean
 
 
-    }
+  }
 
-    export class Path {
-        static sep: string
-        static delimiter: string
+  export class Path {
+    static sep: string
+    static delimiter: string
 
-        static normalize(p: string): string
+    static normalize(p: string): string
 
-        static join(paths: undefined): string
+    static join(paths: undefined): string
 
-        static resolve(pathSegments: undefined): string
+    static resolve(pathSegments: undefined): string
 
-        static isAbsolute(path: string): boolean
+    static isAbsolute(path: string): boolean
 
-        static relative(from: string, to: string): string
+    static relative(from: string, to: string): string
 
-        static dirname(p: string): string
+    static dirname(p: string): string
 
-        static basename(p: string, ext: string): string
+    static basename(p: string, ext: string): string
 
-        static extname(p: string): string
+    static extname(p: string): string
 
 
-    }
+  }
 
-    export interface ParametrizedDeclaration extends DomainElement {
-        name: StrField
-        target: AbstractDeclaration
-        variables: Array<VariableValue>
+  export interface ParametrizedDeclaration extends DomainElement {
+    name: StrField
+    target: AbstractDeclaration
+    variables: Array<VariableValue>
 
-        withName(name: string): this
+    withName(name: string): this
 
-        withTarget(target: AbstractDeclaration): this
+    withTarget(target: AbstractDeclaration): this
 
-        withVariables(variables: Array<VariableValue>): this
+    withVariables(variables: Array<VariableValue>): this
 
 
-    }
+  }
 
-    export class StartingContentParsingEvent {
-        url: string
-        content: Content
+  export class StartingContentParsingEvent {
+    url: string
+    content: Content
 
-    }
+  }
 
-    export interface JSONSchemaVersion {
-    }
+  export interface JSONSchemaVersion {
+  }
 
-    export interface AMFShapePayloadValidator {
-        validate(payload: string): Promise<AMFValidationReport>
+  export interface AMFShapePayloadValidator {
+    validate(payload: string): Promise<AMFValidationReport>
 
-        validate(payloadFragment: PayloadFragment): Promise<AMFValidationReport>
+    validate(payloadFragment: PayloadFragment): Promise<AMFValidationReport>
 
-        syncValidate(payload: string): AMFValidationReport
+    syncValidate(payload: string): AMFValidationReport
 
 
-    }
+  }
 
-    export class AMFBaseUnitClient extends BaseAMLBaseUnitClient {
-        getConfiguration(): AMFConfiguration
+  export class AMFBaseUnitClient extends BaseAMLBaseUnitClient {
+    getConfiguration(): AMFConfiguration
 
-        parseDocument(url: string): Promise<AMFDocumentResult>
+    parseDocument(url: string): Promise<AMFDocumentResult>
 
-        parseLibrary(url: string): Promise<AMFLibraryResult>
+    parseLibrary(url: string): Promise<AMFLibraryResult>
 
 
-    }
+  }
 
-    export class FinishedValidationPluginEvent {
-        result: AMFValidationReport
+  export class FinishedValidationPluginEvent {
+    result: AMFValidationReport
 
-    }
+  }
 
-    export interface ValidationResult {
-        readonly keyword: string
-        readonly dataPath: string
-        readonly schemaPath: string
-        readonly params: undefined
-        readonly message: string
+  export interface ValidationResult {
+    readonly keyword: string
+    readonly dataPath: string
+    readonly schemaPath: string
+    readonly params: undefined
+    readonly message: string
 
-    }
+  }
 
-    export interface AMFEvent {
-        readonly name: string
+  export interface AMFEvent {
+    readonly name: string
 
-    }
+  }
 
-    export class AMFDocumentResult extends AMFResult {
-        document: Document
+  export class AMFDocumentResult extends AMFResult {
+    document: Document
 
-    }
+  }
 
-    export class DetectedSyntaxMediaTypeEvent {
-    }
+  export class DetectedSyntaxMediaTypeEvent {
+  }
 
-    export class RecursiveShape implements Shape {
-        defaultValueStr: StrField
-        displayName: StrField
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        xone: Array<Shape>
-        readOnly: BoolField
-        description: StrField
-        fixpoint: StrField
-        deprecated: BoolField
-        customShapePropertyDefinitions: Array<PropertyShape>
-        or: Array<Shape>
-        elseShape: Shape
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        isExternalLink: BoolField
-        customShapeProperties: Array<ShapeExtension>
-        thenShape: Shape
-        id: string
-        ifShape: Shape
-        writeOnly: BoolField
-        not: Shape
-        values: Array<DataNode>
-        position: Range
-        inherits: Array<Shape>
-        linkLabel: StrField
-        defaultValue: DataNode
-        extendsNode: Array<DomainElement>
-        and: Array<Shape>
+  export class RecursiveShape implements Shape {
+    defaultValueStr: StrField
+    displayName: StrField
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    xone: Array<Shape>
+    readOnly: BoolField
+    description: StrField
+    fixpoint: StrField
+    deprecated: BoolField
+    customShapePropertyDefinitions: Array<PropertyShape>
+    or: Array<Shape>
+    elseShape: Shape
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    isExternalLink: BoolField
+    customShapeProperties: Array<ShapeExtension>
+    thenShape: Shape
+    id: string
+    ifShape: Shape
+    writeOnly: BoolField
+    not: Shape
+    values: Array<DataNode>
+    position: Range
+    inherits: Array<Shape>
+    linkLabel: StrField
+    defaultValue: DataNode
+    extendsNode: Array<DomainElement>
+    and: Array<Shape>
 
-        link<T>(label: string): T
+    link<T>(label: string): T
 
-        withValues(values: Array<DataNode>): this
+    withValues(values: Array<DataNode>): this
 
-        linkCopy(): Linkable
+    linkCopy(): Linkable
 
-        withOr(subShapes: Array<Shape>): this
+    withOr(subShapes: Array<Shape>): this
 
-        withName(name: string): this
+    withName(name: string): this
 
-        withDescription(description: string): this
+    withDescription(description: string): this
 
-        withIf(ifShape: Shape): this
+    withIf(ifShape: Shape): this
 
-        withCustomShapePropertyDefinition(name: string): PropertyShape
+    withCustomShapePropertyDefinition(name: string): PropertyShape
 
-        graph(): Graph
+    graph(): Graph
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withFixPoint(shapeId: string): this
+    withFixPoint(shapeId: string): this
 
-        withLinkLabel(label: string): this
+    withLinkLabel(label: string): this
 
-        withCustomShapePropertyDefinitions(propertyDefinitions: Array<PropertyShape>): this
+    withCustomShapePropertyDefinitions(propertyDefinitions: Array<PropertyShape>): this
 
-        withReadOnly(readOnly: boolean): this
+    withReadOnly(readOnly: boolean): this
 
-        withInherits(inherits: Array<Shape>): this
+    withInherits(inherits: Array<Shape>): this
 
-        withAnd(subShapes: Array<Shape>): this
+    withAnd(subShapes: Array<Shape>): this
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        withWriteOnly(writeOnly: boolean): this
+    withWriteOnly(writeOnly: boolean): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        link<T>(): T
+    link<T>(): T
 
-        withLinkTarget(target: undefined): this
+    withLinkTarget(target: undefined): this
 
-        withDisplayName(name: string): this
+    withDisplayName(name: string): this
 
-        withDefaultValue(defaultVal: DataNode): this
+    withDefaultValue(defaultVal: DataNode): this
 
-        withThen(thenShape: Shape): this
+    withThen(thenShape: Shape): this
 
-        withDefaultStr(value: string): this
+    withDefaultStr(value: string): this
 
-        withCustomShapeProperties(customShapeProperties: Array<ShapeExtension>): this
+    withCustomShapeProperties(customShapeProperties: Array<ShapeExtension>): this
 
-        withId(id: string): this
+    withId(id: string): this
 
-        withElse(elseShape: Shape): this
+    withElse(elseShape: Shape): this
 
-        withXone(subShapes: Array<Shape>): this
+    withXone(subShapes: Array<Shape>): this
 
-        withDeprecated(deprecated: boolean): this
+    withDeprecated(deprecated: boolean): this
 
-        withNode(shape: Shape): this
+    withNode(shape: Shape): this
 
 
-    }
+  }
 
-    export class FoundReferencesEvent {
-    }
+  export class FoundReferencesEvent {
+  }
 
-    export class AMFGraphElementClient {
-        getConfiguration(): AMFGraphConfiguration
+  export class AMFGraphElementClient {
+    getConfiguration(): AMFGraphConfiguration
 
-        payloadValidatorFor(shape: Shape, mediaType: string, mode: ValidationMode): AMFShapePayloadValidator
+    payloadValidatorFor(shape: Shape, mediaType: string, mode: ValidationMode): AMFShapePayloadValidator
 
-        payloadValidatorFor(shape: Shape, fragment: PayloadFragment): AMFShapePayloadValidator
+    payloadValidatorFor(shape: Shape, fragment: PayloadFragment): AMFShapePayloadValidator
 
 
-    }
+  }
 
-    export interface MessageBinding extends DomainElement, Linkable {
-    }
+  export interface MessageBinding extends DomainElement, Linkable {
+  }
 
-    export class Ajv {
-        readonly errors: undefined
+  export class Ajv {
+    readonly errors: undefined
 
-        validate(schema: undefined, data: undefined): boolean
+    validate(schema: undefined, data: undefined): boolean
 
-        addMetaSchema(metaSchema: undefined): Ajv
+    addMetaSchema(metaSchema: undefined): Ajv
 
-        addFormat(name: string, formatValidator: any): Ajv
+    addFormat(name: string, formatValidator: any): Ajv
 
 
-    }
+  }
 
-    export class StartingRenderingEvent {
-        unit: BaseUnit
-        mediaType: undefined | string
+  export class StartingRenderingEvent {
+    unit: BaseUnit
+    mediaType: undefined | string
 
-    }
+  }
 
-    export class JsonSchemaDraft201909 implements JSONSchemaVersion {
-    }
+  export class JsonSchemaDraft201909 implements JSONSchemaVersion {
+  }
 
-    export class AMLElementClient extends BaseAMLElementClient {
-        renderToBuilder<T>(element: DomainElement, builder: org.yaml.builder.JsOutputBuilder): void
+  export class AMLElementClient extends BaseAMLElementClient {
+    renderToBuilder<T>(element: DomainElement, builder: org.yaml.builder.JsOutputBuilder): void
 
-        getConfiguration(): AMLConfiguration
+    getConfiguration(): AMLConfiguration
 
 
-    }
+  }
 
-    export class FinishedTransformationEvent {
-        unit: BaseUnit
+  export class FinishedTransformationEvent {
+    unit: BaseUnit
 
-    }
+  }
 
-    export class StrField implements ValueField<string> {
-        isNull: boolean
-        nonNull: boolean
-        readonly option: undefined | string
-        nonEmpty: boolean
-        isNullOrEmpty: boolean
-        toString: string
+  export class StrField implements ValueField<string> {
+    isNull: boolean
+    nonNull: boolean
+    readonly option: undefined | string
+    nonEmpty: boolean
+    isNullOrEmpty: boolean
+    toString: string
 
-        annotations(): Annotations
+    annotations(): Annotations
 
-        value(): string
+    value(): string
 
-        remove(): void
+    remove(): void
 
-        is(other: string): boolean
+    is(other: string): boolean
 
-        is(accepts: undefined): boolean
+    is(accepts: undefined): boolean
 
 
-    }
+  }
 
-    export class AMLVocabularyResult extends AMFResult {
-        vocabulary: Vocabulary
+  export class AMLVocabularyResult extends AMFResult {
+    vocabulary: Vocabulary
 
-    }
+  }
 
-    export class AMLDialectResult extends AMFResult {
-        dialect: Dialect
+  export class AMLDialectResult extends AMFResult {
+    dialect: Dialect
 
-    }
+  }
 
-    export interface JsTransformationStep {
-        transform(model: BaseUnit, errorHandler: ClientErrorHandler, configuration: AMFGraphConfiguration): BaseUnit
+  export interface JsTransformationStep {
+    transform(model: BaseUnit, errorHandler: ClientErrorHandler, configuration: AMFGraphConfiguration): BaseUnit
 
 
-    }
+  }
 
-    export interface ClientErrorHandler {
-        getResults: Array<AMFValidationResult>
+  export interface ClientErrorHandler {
+    getResults: Array<AMFValidationResult>
 
-        report(result: AMFValidationResult): void
+    report(result: AMFValidationResult): void
 
 
-    }
+  }
 
-    export class ScalarRelaxedValidationMode extends ValidationMode {
-    }
+  export class ScalarRelaxedValidationMode extends ValidationMode {
+  }
 
-    export class FinishedTransformationStepEvent {
-        step: TransformationStep
-        index: number
+  export class FinishedTransformationStepEvent {
+    step: TransformationStep
+    index: number
 
-    }
+  }
 
-    export class Fragment implements BaseUnit, EncodesModel {
-        location: string
-        usage: StrField
-        id: string
-        raw: undefined | string
-        processingData: BaseUnitProcessingData
-        sourceSpec: undefined | Spec
-        modelVersion: StrField
-        encodes: DomainElement
+  export class Fragment implements BaseUnit, EncodesModel {
+    location: string
+    usage: StrField
+    id: string
+    raw: undefined | string
+    processingData: BaseUnitProcessingData
+    sourceSpec: undefined | Spec
+    modelVersion: StrField
+    encodes: DomainElement
 
-        findByType(typeId: string): Array<DomainElement>
+    findByType(typeId: string): Array<DomainElement>
 
-        cloneUnit(): BaseUnit
+    cloneUnit(): BaseUnit
 
-        withReferences(references: Array<BaseUnit>): this
+    withReferences(references: Array<BaseUnit>): this
 
-        withRaw(raw: string): this
+    withRaw(raw: string): this
 
-        withUsage(usage: string): this
+    withUsage(usage: string): this
 
-        findById(id: string): undefined | DomainElement
+    findById(id: string): undefined | DomainElement
 
-        withLocation(location: string): this
+    withLocation(location: string): this
 
-        withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
+    withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
 
-        withEncodes(encoded: DomainElement): this
+    withEncodes(encoded: DomainElement): this
 
-        pkg(): StrField
+    pkg(): StrField
 
-        withPkg(pkg: string): this
+    withPkg(pkg: string): this
 
-        references(): Array<BaseUnit>
+    references(): Array<BaseUnit>
 
-        withProcessingData(data: BaseUnitProcessingData): this
+    withProcessingData(data: BaseUnitProcessingData): this
 
-        withId(id: string): this
+    withId(id: string): this
 
 
-    }
+  }
 
-    export class BaseShapesElementClient extends BaseAMLElementClient {
-        toJsonSchema(element: AnyShape): string
+  export class BaseShapesElementClient extends BaseAMLElementClient {
+    toJsonSchema(element: AnyShape): string
 
-        buildJsonSchema(element: AnyShape): string
+    buildJsonSchema(element: AnyShape): string
 
-        toRamlDatatype(element: AnyShape): string
+    toRamlDatatype(element: AnyShape): string
 
-        renderExample(example: Example, mediaType: string): string
+    renderExample(example: Example, mediaType: string): string
 
-        renderToBuilder<T>(element: DomainElement, builder: org.yaml.builder.JsOutputBuilder): void
+    renderToBuilder<T>(element: DomainElement, builder: org.yaml.builder.JsOutputBuilder): void
 
 
-    }
+  }
 
-    export interface DomainElement extends CustomizableElement {
-        customDomainProperties: Array<DomainExtension>
-        extendsNode: Array<DomainElement>
-        id: string
-        position: Range
-        isExternalLink: BoolField
+  export interface DomainElement extends CustomizableElement {
+    customDomainProperties: Array<DomainExtension>
+    extendsNode: Array<DomainElement>
+    id: string
+    position: Range
+    isExternalLink: BoolField
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        withId(id: string): this
+    withId(id: string): this
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        graph(): Graph
+    graph(): Graph
 
 
-    }
+  }
 
-    export class StartingTransformationEvent {
-        pipeline: TransformationPipeline
+  export class StartingTransformationEvent {
+    pipeline: TransformationPipeline
 
-    }
+  }
 
-    export class PropertyTerm implements DomainElement {
-        displayName: StrField
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        description: StrField
-        subPropertyOf: Array<StrField>
-        isExternalLink: BoolField
-        id: string
-        range: StrField
-        position: Range
-        extendsNode: Array<DomainElement>
+  export class PropertyTerm implements DomainElement {
+    displayName: StrField
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    description: StrField
+    subPropertyOf: Array<StrField>
+    isExternalLink: BoolField
+    id: string
+    range: StrField
+    position: Range
+    extendsNode: Array<DomainElement>
 
-        withName(name: string): PropertyTerm
+    withName(name: string): PropertyTerm
 
-        withDescription(description: string): PropertyTerm
+    withDescription(description: string): PropertyTerm
 
-        graph(): Graph
+    graph(): Graph
 
-        withSubClasOf(superProperties: Array<string>): PropertyTerm
+    withSubClasOf(superProperties: Array<string>): PropertyTerm
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        withDisplayName(displayName: string): PropertyTerm
+    withDisplayName(displayName: string): PropertyTerm
 
-        withId(id: string): this
+    withId(id: string): this
 
-        withRange(range: string): PropertyTerm
+    withRange(range: string): PropertyTerm
 
 
-    }
+  }
 
-    export interface CustomizableElement {
-        customDomainProperties: Array<DomainExtension>
+  export interface CustomizableElement {
+    customDomainProperties: Array<DomainExtension>
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
 
-    }
+  }
 
-    export class BaseAMLBaseUnitClient extends AMFGraphBaseUnitClient {
-        parseDialect(url: string): Promise<AMLDialectResult>
+  export class BaseAMLBaseUnitClient extends AMFGraphBaseUnitClient {
+    parseDialect(url: string): Promise<AMLDialectResult>
 
-        parseDialectInstance(url: string): Promise<AMLDialectInstanceResult>
+    parseDialectInstance(url: string): Promise<AMLDialectInstanceResult>
 
-        parseVocabulary(url: string): Promise<AMLVocabularyResult>
+    parseVocabulary(url: string): Promise<AMLVocabularyResult>
 
 
-    }
+  }
 
-    export class SelectedParsePluginEvent {
-    }
+  export class SelectedParsePluginEvent {
+  }
 
-    export class Graph {
-        types(): Array<string>
+  export class Graph {
+    types(): Array<string>
 
-        properties(): Array<string>
+    properties(): Array<string>
 
-        containsProperty(uri: string): boolean
+    containsProperty(uri: string): boolean
 
-        getObjectByProperty(uri: string): Array<DomainElement>
+    getObjectByProperty(uri: string): Array<DomainElement>
 
-        scalarByProperty(uri: string): Array<any>
+    scalarByProperty(uri: string): Array<any>
 
-        removeField(uri: string): this
+    removeField(uri: string): this
 
 
-    }
+  }
 
-    export interface TransformationPipeline {
-        readonly name: string
-        steps: Array<TransformationStep>
+  export interface TransformationPipeline {
+    readonly name: string
+    steps: Array<TransformationStep>
 
-    }
+  }
 
-    export class JsPath {
-        static readonly sep: string
+  export class JsPath {
+    static readonly sep: string
 
-    }
+  }
 
-    export interface Stats {
-        dev: number
-        ino: number
-        mode: number
-        nlink: number
-        uid: number
-        gid: number
-        rdev: number
-        size: number
-        blksize: number
-        blocks: number
-        atime: undefined
-        atimeMs: number
-        mtime: undefined
-        mtimeMs: number
-        ctime: undefined
-        ctimeMs: number
-        birthtime: undefined
-        birthtimeMs: number
+  export interface Stats {
+    dev: number
+    ino: number
+    mode: number
+    nlink: number
+    uid: number
+    gid: number
+    rdev: number
+    size: number
+    blksize: number
+    blocks: number
+    atime: undefined
+    atimeMs: number
+    mtime: undefined
+    mtimeMs: number
+    ctime: undefined
+    ctimeMs: number
+    birthtime: undefined
+    birthtimeMs: number
 
-        isFile(): boolean
+    isFile(): boolean
 
-        isDirectory(): boolean
+    isDirectory(): boolean
 
-        isBlockDevice(): boolean
+    isBlockDevice(): boolean
 
-        isCharacterDevice(): boolean
+    isCharacterDevice(): boolean
 
-        isSymbolicLink(): boolean
+    isSymbolicLink(): boolean
 
-        isFIFO(): boolean
+    isFIFO(): boolean
 
-        isSocket(): boolean
+    isSocket(): boolean
 
 
-    }
+  }
 
-    export class StartingValidationEvent {
-        totalPlugins: number
+  export class StartingValidationEvent {
+    totalPlugins: number
 
-    }
+  }
 
-    export class StrictValidationMode extends ValidationMode {
-    }
+  export class StrictValidationMode extends ValidationMode {
+  }
 
-    export class ShapesElementClient extends BaseShapesElementClient {
-        getConfiguration(): ShapesConfiguration
+  export class ShapesElementClient extends BaseShapesElementClient {
+    getConfiguration(): ShapesConfiguration
 
 
-    }
+  }
 
-    export class AbstractElementTransformer {
-        static asEndpoint<T>(unit: T, rt: ResourceType, errorHandler: ClientErrorHandler, configuration: AMFGraphConfiguration, profile: ProfileName): EndPoint
+  export class AbstractElementTransformer {
+    static asEndpoint<T>(unit: T, rt: ResourceType, errorHandler: ClientErrorHandler, configuration: AMFGraphConfiguration, profile: ProfileName): EndPoint
 
-        static asOperation<T>(unit: T, tr: Trait, errorHandler: ClientErrorHandler, configuration: AMFGraphConfiguration, profile: ProfileName): Operation
+    static asOperation<T>(unit: T, tr: Trait, errorHandler: ClientErrorHandler, configuration: AMFGraphConfiguration, profile: ProfileName): Operation
 
 
-    }
+  }
 
-    export interface ValueField<T> extends Annotable {
-        readonly option: undefined | T
-        isNull: boolean
-        nonNull: boolean
-        toString: string
+  export interface ValueField<T> extends Annotable {
+    readonly option: undefined | T
+    isNull: boolean
+    nonNull: boolean
+    toString: string
 
-        value(): T
+    value(): T
 
-        is(other: T): boolean
+    is(other: T): boolean
 
-        is(accepts: undefined): boolean
+    is(accepts: undefined): boolean
 
-        remove(): void
+    remove(): void
 
 
-    }
+  }
 
-    export class ParsedModelEvent {
-        url: string
-        unit: BaseUnit
+  export class ParsedModelEvent {
+    url: string
+    unit: BaseUnit
 
-    }
+  }
 
-    export interface DataNode extends DomainElement {
-        name: StrField
+  export interface DataNode extends DomainElement {
+    name: StrField
 
-        withName(name: string): this
+    withName(name: string): this
 
 
-    }
+  }
 
-    export class Api<A> implements DomainElement {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        endPoints: Array<EndPoint>
-        provider: Organization
-        security: Array<SecurityRequirement>
-        identifier: StrField
-        description: StrField
-        documentations: Array<CreativeWork>
-        servers: Array<Server>
-        schemes: Array<StrField>
-        license: License
-        isExternalLink: BoolField
-        termsOfService: StrField
-        version: StrField
-        id: string
-        contentType: Array<StrField>
-        accepts: Array<StrField>
-        position: Range
-        extendsNode: Array<DomainElement>
+  export class Api<A> implements DomainElement {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    endPoints: Array<EndPoint>
+    provider: Organization
+    security: Array<SecurityRequirement>
+    identifier: StrField
+    description: StrField
+    documentations: Array<CreativeWork>
+    servers: Array<Server>
+    schemes: Array<StrField>
+    license: License
+    isExternalLink: BoolField
+    termsOfService: StrField
+    version: StrField
+    id: string
+    contentType: Array<StrField>
+    accepts: Array<StrField>
+    position: Range
+    extendsNode: Array<DomainElement>
 
-        withDocumentationTitle(title: string): CreativeWork
+    withDocumentationTitle(title: string): CreativeWork
 
-        withEndPoint(path: string): EndPoint
+    withEndPoint(path: string): EndPoint
 
-        withDefaultServer(url: string): Server
+    withDefaultServer(url: string): Server
 
-        withDocumentationUrl(url: string): CreativeWork
+    withDocumentationUrl(url: string): CreativeWork
 
-        graph(): Graph
+    graph(): Graph
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        withServer(url: string): Server
+    withServer(url: string): Server
 
-        withId(id: string): this
+    withId(id: string): this
 
 
-    }
+  }
 
-    export interface AMFEventListener {
-        notifyEvent(event: AMFEvent): void
+  export interface AMFEventListener {
+    notifyEvent(event: AMFEvent): void
 
 
-    }
+  }
 
-    export class ParsedSyntaxEvent {
-        url: string
-        content: Content
+  export class ParsedSyntaxEvent {
+    url: string
+    content: Content
 
-    }
+  }
 
-    export interface DeclaresModel {
-        declares: Array<DomainElement>
+  export interface DeclaresModel {
+    declares: Array<DomainElement>
 
-        withDeclaredElement(declared: DomainElement): this
+    withDeclaredElement(declared: DomainElement): this
 
-        withDeclares(declares: Array<DomainElement>): this
+    withDeclares(declares: Array<DomainElement>): this
 
 
-    }
+  }
 
-    export class FinishedRenderingASTEvent {
-        unit: BaseUnit
+  export class FinishedRenderingASTEvent {
+    unit: BaseUnit
 
-    }
+  }
 
-    export interface MessageStyle {
-        profileName: ProfileName
+  export interface MessageStyle {
+    profileName: ProfileName
 
-    }
+  }
 
-    export interface ErrorHandlerProvider {
-        errorHandler(): ClientErrorHandler
+  export interface ErrorHandlerProvider {
+    errorHandler(): ClientErrorHandler
 
 
-    }
+  }
 
-    export interface Spec {
-        readonly id: string
-        isRaml: boolean
-        isOas: boolean
-        isAsync: boolean
-        readonly mediaType: string
+  export interface Spec {
+    readonly id: string
+    isRaml: boolean
+    isOas: boolean
+    isAsync: boolean
+    readonly mediaType: string
 
-    }
+  }
 
-    export interface ValidationMode {
-    }
-    namespace org {
-        namespace mulesoft {
-            namespace common {
-                namespace io {
-                    export class LimitReachedException {
-                        constructor()
+  export interface ValidationMode {
+  }
+  namespace org {
+    namespace mulesoft {
+      namespace common {
+        namespace io {
+          export class LimitReachedException {
+            constructor()
 
-                    }
-                }
-            }
+          }
         }
-        namespace yaml {
-            namespace builder {
-                /* Not exported */
-                abstract class DocBuilder<T> {
-                    result: T
+      }
+    }
+    namespace yaml {
+      namespace builder {
+        /* Not exported */
+        abstract class DocBuilder<T> {
+          result: T
 
-                    isDefined: boolean
+          isDefined: boolean
 
-                    list(f: (p: DocBuilder.Part) => void): T
+          list(f: (p: DocBuilder.Part) => void): T
 
-                    obj(f: (e: DocBuilder.Entry) => void): T
+          obj(f: (e: DocBuilder.Entry) => void): T
 
-                    doc(f: (p: DocBuilder.Part) => void): T
-                }
-
-                namespace DocBuilder {
-                    /* Not exported */
-                    abstract class Part {
-
-                    }
-
-                    /* Not exported */
-                    abstract class Entry {
-
-                    }
-                }
-
-                export class JsOutputBuilder {
-                    isDefined: boolean
-                    result: undefined
-
-                    constructor()
-
-                    list(f: undefined): any
-
-                    obj(f: undefined): any
-
-                    doc(f: undefined): any
-
-                    static apply(): JsOutputBuilder
-
-
-                }
-            }
+          doc(f: (p: DocBuilder.Part) => void): T
         }
-    }
+
+        namespace DocBuilder {
+          /* Not exported */
+          abstract class Part {
+
+          }
+
+          /* Not exported */
+          abstract class Entry {
+
+          }
+        }
+
+        export class JsOutputBuilder {
+          isDefined: boolean
+          result: undefined
+
+          constructor()
 
-    export class AMFTransformer {
-        static transform(unit: BaseUnit, configuration: AMFGraphConfiguration): AMFResult
+          list(f: undefined): any
 
-        static transform(unit: BaseUnit, pipelineName: string, configuration: AMFGraphConfiguration): AMFResult
+          obj(f: undefined): any
 
+          doc(f: undefined): any
 
+          static apply(): JsOutputBuilder
+
+
+        }
+      }
     }
+  }
 
-    export class Message implements DomainElement, Linkable {
-        displayName: StrField
-        name: StrField
-        headerSchema: NodeShape
-        customDomainProperties: Array<DomainExtension>
-        examples: Array<Example>
-        description: StrField
-        bindings: MessageBindings
-        tags: Array<Tag>
-        documentation: CreativeWork
-        payloads: Array<Payload>
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        correlationId: CorrelationId
-        isAbstract: BoolField
-        title: StrField
-        linkLabel: StrField
-        extendsNode: Array<DomainElement>
-        headerExamples: Array<Example>
-        summary: StrField
+  export class AMFTransformer {
+    static transform(unit: BaseUnit, configuration: AMFGraphConfiguration): AMFResult
 
-        constructor()
+    static transform(unit: BaseUnit, pipelineName: string, configuration: AMFGraphConfiguration): AMFResult
 
-        link<T>(label: string): T
 
-        withHeaderSchema(schema: NodeShape): this
+  }
 
-        withPayloads(payloads: Array<Payload>): this
+  export class Message implements DomainElement, Linkable {
+    displayName: StrField
+    name: StrField
+    headerSchema: NodeShape
+    customDomainProperties: Array<DomainExtension>
+    examples: Array<Example>
+    description: StrField
+    bindings: MessageBindings
+    tags: Array<Tag>
+    documentation: CreativeWork
+    payloads: Array<Payload>
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    correlationId: CorrelationId
+    isAbstract: BoolField
+    title: StrField
+    linkLabel: StrField
+    extendsNode: Array<DomainElement>
+    headerExamples: Array<Example>
+    summary: StrField
 
-        withPayload(): Payload
+    constructor()
 
-        linkCopy(): Message
+    link<T>(label: string): T
 
-        withAbstract(isAbstract: boolean): this
+    withHeaderSchema(schema: NodeShape): this
 
-        withName(name: string): this
+    withPayloads(payloads: Array<Payload>): this
 
-        withDescription(description: string): this
+    withPayload(): Payload
 
-        withTitle(title: string): this
+    linkCopy(): Message
 
-        withBindings(bindings: MessageBindings): this
+    withAbstract(isAbstract: boolean): this
 
-        withPayload(mediaType: string): Payload
+    withName(name: string): this
 
-        withExamples(examples: Array<Example>): this
+    withDescription(description: string): this
 
-        graph(): Graph
+    withTitle(title: string): this
 
-        withHeaderExamples(examples: Array<Example>): this
+    withBindings(bindings: MessageBindings): this
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    withPayload(mediaType: string): Payload
 
-        withLinkLabel(label: string): this
+    withExamples(examples: Array<Example>): this
 
-        withTags(tags: Array<Tag>): this
+    graph(): Graph
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withHeaderExamples(examples: Array<Example>): this
 
-        withSummary(summary: string): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withLinkLabel(label: string): this
 
-        link<T>(): T
+    withTags(tags: Array<Tag>): this
 
-        withLinkTarget(target: undefined): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        withPayload(mediaType: undefined | string): Payload
+    withSummary(summary: string): this
 
-        withDisplayName(displayName: string): this
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        withCorrelationId(correlationId: CorrelationId): this
+    link<T>(): T
 
-        withId(id: string): this
+    withLinkTarget(target: undefined): this
 
-        withDocumentation(documentation: CreativeWork): this
+    withPayload(mediaType: undefined | string): Payload
 
+    withDisplayName(displayName: string): this
 
-    }
+    withCorrelationId(correlationId: CorrelationId): this
 
-    export class ApiKeySettings extends Settings {
-        name: StrField
-        in: StrField
+    withId(id: string): this
 
-        constructor()
+    withDocumentation(documentation: CreativeWork): this
 
-        withName(name: string): this
 
-        withIn(inVal: string): this
+  }
 
+  export class ApiKeySettings extends Settings {
+    name: StrField
+    in: StrField
 
-    }
+    constructor()
 
-    export class AnnotationMapping implements DomainElement {
-        customDomainProperties: Array<DomainExtension>
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        extendsNode: Array<DomainElement>
+    withName(name: string): this
 
-        constructor()
+    withIn(inVal: string): this
 
-        maximum(): DoubleField
 
-        typeDiscriminator(): Map<string, string>
+  }
 
-        withEnum(values: Array<any>): AnnotationMapping
+  export class AnnotationMapping implements DomainElement {
+    customDomainProperties: Array<DomainExtension>
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    extendsNode: Array<DomainElement>
 
-        enum(): Array<AnyField>
+    constructor()
 
-        minCount(): IntField
+    maximum(): DoubleField
 
-        withName(name: string): AnnotationMapping
+    typeDiscriminator(): Map<string, string>
 
-        literalRange(): StrField
+    withEnum(values: Array<any>): AnnotationMapping
 
-        externallyLinkable(): BoolField
+    enum(): Array<AnyField>
 
-        withTypeDiscriminatorName(name: string): AnnotationMapping
+    minCount(): IntField
 
-        sorted(): BoolField
+    withName(name: string): AnnotationMapping
 
-        withDomain(domainIri: string): AnnotationMapping
+    literalRange(): StrField
 
-        minimum(): DoubleField
+    externallyLinkable(): BoolField
 
-        pattern(): StrField
+    withTypeDiscriminatorName(name: string): AnnotationMapping
 
-        graph(): Graph
+    sorted(): BoolField
 
-        withLiteralRange(range: string): AnnotationMapping
+    withDomain(domainIri: string): AnnotationMapping
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    minimum(): DoubleField
 
-        withObjectRange(range: Array<string>): AnnotationMapping
+    pattern(): StrField
 
-        objectRange(): Array<StrField>
+    graph(): Graph
 
-        domain(): StrField
+    withLiteralRange(range: string): AnnotationMapping
 
-        withPattern(pattern: string): AnnotationMapping
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withObjectRange(range: Array<string>): AnnotationMapping
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    objectRange(): Array<StrField>
 
-        withSorted(sorted: boolean): AnnotationMapping
+    domain(): StrField
 
-        withNodePropertyMapping(propertyId: string): AnnotationMapping
+    withPattern(pattern: string): AnnotationMapping
 
-        allowMultiple(): BoolField
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        withMinimum(min: number): AnnotationMapping
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        withMaximum(max: number): AnnotationMapping
+    withSorted(sorted: boolean): AnnotationMapping
 
-        nodePropertyMapping(): StrField
+    withNodePropertyMapping(propertyId: string): AnnotationMapping
 
-        typeDiscriminatorName(): StrField
+    allowMultiple(): BoolField
 
-        name(): StrField
+    withMinimum(min: number): AnnotationMapping
 
-        withAllowMultiple(allow: boolean): AnnotationMapping
+    withMaximum(max: number): AnnotationMapping
 
-        withExternallyLinkable(linkable: boolean): this
+    nodePropertyMapping(): StrField
 
-        withId(id: string): this
+    typeDiscriminatorName(): StrField
 
-        withTypeDiscriminator(typesMapping: Map<string, string>): AnnotationMapping
+    name(): StrField
 
-        withMinCount(minCount: number): AnnotationMapping
+    withAllowMultiple(allow: boolean): AnnotationMapping
 
+    withExternallyLinkable(linkable: boolean): this
 
-    }
+    withId(id: string): this
 
-    export class DialectLibrary implements BaseUnit, DeclaresModel {
-        location: string
-        usage: StrField
-        id: string
-        raw: undefined | string
-        processingData: BaseUnitProcessingData
-        sourceSpec: undefined | Spec
-        modelVersion: StrField
-        declares: Array<DomainElement>
-        externals: Array<External>
+    withTypeDiscriminator(typesMapping: Map<string, string>): AnnotationMapping
 
-        constructor()
+    withMinCount(minCount: number): AnnotationMapping
 
-        findByType(typeId: string): Array<DomainElement>
 
-        cloneUnit(): BaseUnit
+  }
 
-        withExternals(externals: Array<External>): DialectLibrary
+  export class DialectLibrary implements BaseUnit, DeclaresModel {
+    location: string
+    usage: StrField
+    id: string
+    raw: undefined | string
+    processingData: BaseUnitProcessingData
+    sourceSpec: undefined | Spec
+    modelVersion: StrField
+    declares: Array<DomainElement>
+    externals: Array<External>
 
-        withReferences(references: Array<BaseUnit>): this
+    constructor()
 
-        withDeclaredElement(declared: DomainElement): this
+    findByType(typeId: string): Array<DomainElement>
 
-        withRaw(raw: string): this
+    cloneUnit(): BaseUnit
 
-        withUsage(usage: string): this
+    withExternals(externals: Array<External>): DialectLibrary
 
-        findById(id: string): undefined | DomainElement
+    withReferences(references: Array<BaseUnit>): this
 
-        withLocation(location: string): this
+    withDeclaredElement(declared: DomainElement): this
 
-        withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
+    withRaw(raw: string): this
 
-        withNodeMappings(nodeMappings: Array<NodeMapping>): DialectLibrary
+    withUsage(usage: string): this
 
-        pkg(): StrField
+    findById(id: string): undefined | DomainElement
 
-        withPkg(pkg: string): this
+    withLocation(location: string): this
 
-        withDeclares(declares: Array<DomainElement>): this
+    withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
 
-        nodeMappings(): Array<NodeMapping>
+    withNodeMappings(nodeMappings: Array<NodeMapping>): DialectLibrary
 
-        references(): Array<BaseUnit>
+    pkg(): StrField
 
-        withProcessingData(data: BaseUnitProcessingData): this
+    withPkg(pkg: string): this
 
-        withId(id: string): this
+    withDeclares(declares: Array<DomainElement>): this
 
+    nodeMappings(): Array<NodeMapping>
 
-    }
+    references(): Array<BaseUnit>
 
-    export class TupleShape extends DataArrangeShape {
-        items: Array<Shape>
-        closedItems: BoolField
-        additionalItemsSchema: Shape
+    withProcessingData(data: BaseUnitProcessingData): this
 
-        constructor()
+    withId(id: string): this
 
-        withItems(items: Array<Shape>): this
 
-        withClosedItems(closedItems: boolean): this
+  }
 
-        linkCopy(): TupleShape
+  export class TupleShape extends DataArrangeShape {
+    items: Array<Shape>
+    closedItems: BoolField
+    additionalItemsSchema: Shape
 
+    constructor()
 
-    }
+    withItems(items: Array<Shape>): this
 
-    export class DialectInstanceProcessingData extends BaseUnitProcessingData {
-        constructor()
+    withClosedItems(closedItems: boolean): this
 
-        definedBy(): StrField
+    linkCopy(): TupleShape
 
-        graphDependencies(): Array<StrField>
 
-        withDefinedBy(dialectId: string): DialectInstanceProcessingData
+  }
 
-        withGraphDependencies(ids: Array<string>): DialectInstanceProcessingData
+  export class DialectInstanceProcessingData extends BaseUnitProcessingData {
+    constructor()
 
+    definedBy(): StrField
 
-    }
+    graphDependencies(): Array<StrField>
 
-    export class ValidationCandidate {
-        shape: Shape
-        payload: PayloadFragment
+    withDefinedBy(dialectId: string): DialectInstanceProcessingData
 
-        constructor(shape: Shape, payload: PayloadFragment)
+    withGraphDependencies(ids: Array<string>): DialectInstanceProcessingData
 
-    }
 
-    export class DialectFragment implements BaseUnit, EncodesModel {
-        location: string
-        usage: StrField
-        id: string
-        raw: undefined | string
-        processingData: BaseUnitProcessingData
-        sourceSpec: undefined | Spec
-        modelVersion: StrField
-        encodes: NodeMapping
-        externals: Array<External>
+  }
 
-        constructor()
+  export class ValidationCandidate {
+    shape: Shape
+    payload: PayloadFragment
 
-        findByType(typeId: string): Array<DomainElement>
+    constructor(shape: Shape, payload: PayloadFragment)
 
-        cloneUnit(): BaseUnit
+  }
 
-        withExternals(externals: Array<External>): DialectFragment
+  export class DialectFragment implements BaseUnit, EncodesModel {
+    location: string
+    usage: StrField
+    id: string
+    raw: undefined | string
+    processingData: BaseUnitProcessingData
+    sourceSpec: undefined | Spec
+    modelVersion: StrField
+    encodes: NodeMapping
+    externals: Array<External>
 
-        withReferences(references: Array<BaseUnit>): this
+    constructor()
 
-        withRaw(raw: string): this
+    findByType(typeId: string): Array<DomainElement>
 
-        withUsage(usage: string): this
+    cloneUnit(): BaseUnit
 
-        findById(id: string): undefined | DomainElement
+    withExternals(externals: Array<External>): DialectFragment
 
-        withLocation(location: string): this
+    withReferences(references: Array<BaseUnit>): this
 
-        withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
+    withRaw(raw: string): this
 
-        withEncodes(encoded: DomainElement): this
+    withUsage(usage: string): this
 
-        withEncodes(nodeMapping: NodeMapping): DialectFragment
+    findById(id: string): undefined | DomainElement
 
-        pkg(): StrField
+    withLocation(location: string): this
 
-        withPkg(pkg: string): this
+    withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
 
-        references(): Array<BaseUnit>
+    withEncodes(encoded: DomainElement): this
 
-        withProcessingData(data: BaseUnitProcessingData): this
+    withEncodes(nodeMapping: NodeMapping): DialectFragment
 
-        withId(id: string): this
+    pkg(): StrField
 
+    withPkg(pkg: string): this
 
-    }
+    references(): Array<BaseUnit>
 
-    export class FileShape extends AnyShape {
-        fileTypes: Array<StrField>
-        pattern: StrField
-        minLength: IntField
-        maxLength: IntField
-        minimum: DoubleField
-        maximum: DoubleField
-        exclusiveMinimum: BoolField
-        exclusiveMaximum: BoolField
-        format: StrField
-        multipleOf: DoubleField
+    withProcessingData(data: BaseUnitProcessingData): this
 
-        constructor()
+    withId(id: string): this
 
-        withFileTypes(fileTypes: Array<string>): this
 
-        withPattern(pattern: string): this
+  }
 
-        withMinLength(min: number): this
+  export class FileShape extends AnyShape {
+    fileTypes: Array<StrField>
+    pattern: StrField
+    minLength: IntField
+    maxLength: IntField
+    minimum: DoubleField
+    maximum: DoubleField
+    exclusiveMinimum: BoolField
+    exclusiveMaximum: BoolField
+    format: StrField
+    multipleOf: DoubleField
 
-        withMaxLength(max: number): this
+    constructor()
 
-        withMinimum(min: number): this
+    withFileTypes(fileTypes: Array<string>): this
 
-        withMaximum(max: number): this
+    withPattern(pattern: string): this
 
-        withExclusiveMinimum(min: boolean): this
+    withMinLength(min: number): this
 
-        withExclusiveMaximum(max: boolean): this
+    withMaxLength(max: number): this
 
-        withFormat(format: string): this
+    withMinimum(min: number): this
 
-        withMultipleOf(multiple: number): this
+    withMaximum(max: number): this
 
-        linkCopy(): FileShape
+    withExclusiveMinimum(min: boolean): this
 
+    withExclusiveMaximum(max: boolean): this
 
-    }
+    withFormat(format: string): this
 
-    export class RamlShapeRenderer {
-        static toRamlDatatype(element: AnyShape, config: AMFGraphConfiguration): string
+    withMultipleOf(multiple: number): this
 
+    linkCopy(): FileShape
 
-    }
 
-    export class NamedExample extends Fragment {
-        constructor()
+  }
 
-    }
+  export class RamlShapeRenderer {
+    static toRamlDatatype(element: AnyShape, config: AMFGraphConfiguration): string
 
-    export class ObjectPropertyTerm extends PropertyTerm {
-        constructor()
 
-    }
+  }
 
-    export class SecurityScheme implements DomainElement, Linkable {
-        displayName: StrField
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        description: StrField
-        queryString: Shape
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        queryParameters: Array<Parameter>
-        headers: Array<Parameter>
-        type: StrField
-        linkLabel: StrField
-        extendsNode: Array<DomainElement>
-        settings: Settings
-        responses: Array<Response>
+  export class NamedExample extends Fragment {
+    constructor()
 
-        constructor()
+  }
 
-        link<T>(label: string): T
+  export class ObjectPropertyTerm extends PropertyTerm {
+    constructor()
 
-        withHeaders(headers: Array<Parameter>): this
+  }
 
-        linkCopy(): SecurityScheme
+  export class SecurityScheme implements DomainElement, Linkable {
+    displayName: StrField
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    description: StrField
+    queryString: Shape
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    queryParameters: Array<Parameter>
+    headers: Array<Parameter>
+    type: StrField
+    linkLabel: StrField
+    extendsNode: Array<DomainElement>
+    settings: Settings
+    responses: Array<Response>
 
-        withName(name: string): this
+    constructor()
 
-        withQueryParameter(name: string): Parameter
+    link<T>(label: string): T
 
-        withDescription(description: string): this
+    withHeaders(headers: Array<Parameter>): this
 
-        withHttpSettings(): HttpSettings
+    linkCopy(): SecurityScheme
 
-        withOAuth2Settings(): OAuth2Settings
+    withName(name: string): this
 
-        withQueryString(queryString: Shape): this
+    withQueryParameter(name: string): Parameter
 
-        graph(): Graph
+    withDescription(description: string): this
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    withHttpSettings(): HttpSettings
 
-        withResponses(responses: Array<Response>): this
+    withOAuth2Settings(): OAuth2Settings
 
-        withResponse(name: string): Response
+    withQueryString(queryString: Shape): this
 
-        withLinkLabel(label: string): this
+    graph(): Graph
 
-        withOpenIdConnectSettings(): OpenIdConnectSettings
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withQueryParameters(queryParameters: Array<Parameter>): this
+    withResponses(responses: Array<Response>): this
 
-        withHeader(name: string): Parameter
+    withResponse(name: string): Response
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withLinkLabel(label: string): this
 
-        withOAuth1Settings(): OAuth1Settings
+    withOpenIdConnectSettings(): OpenIdConnectSettings
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withQueryParameters(queryParameters: Array<Parameter>): this
 
-        withDefaultSettings(): Settings
+    withHeader(name: string): Parameter
 
-        link<T>(): T
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        withLinkTarget(target: undefined): this
+    withOAuth1Settings(): OAuth1Settings
 
-        withHttpApiKeySettings(): HttpApiKeySettings
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        withDisplayName(displayName: string): this
+    withDefaultSettings(): Settings
 
-        withSettings(settings: Settings): this
+    link<T>(): T
 
-        withType(type: string): this
+    withLinkTarget(target: undefined): this
 
-        withId(id: string): this
+    withHttpApiKeySettings(): HttpApiKeySettings
 
-        withApiKeySettings(): ApiKeySettings
+    withDisplayName(displayName: string): this
 
+    withSettings(settings: Settings): this
 
-    }
+    withType(type: string): this
 
-    export class UnionShape extends AnyShape {
-        anyOf: Array<Shape>
-        serializationSchema: Shape
+    withId(id: string): this
 
-        constructor()
+    withApiKeySettings(): ApiKeySettings
 
-        withAnyOf(anyOf: Array<Shape>): UnionShape
 
-        withSerializationSchema(schema: Shape): this
+  }
 
+  export class UnionShape extends AnyShape {
+    anyOf: Array<Shape>
+    serializationSchema: Shape
 
-    }
+    constructor()
 
-    export class OpenIdConnectSettings extends Settings {
-        url: StrField
-        scopes: Array<Scope>
+    withAnyOf(anyOf: Array<Shape>): UnionShape
 
-        constructor()
+    withSerializationSchema(schema: Shape): this
 
-        withUrl(url: string): this
 
-        withScopes(scopes: Array<Scope>): this
+  }
 
+  export class OpenIdConnectSettings extends Settings {
+    url: StrField
+    scopes: Array<Scope>
 
-    }
+    constructor()
 
-    export class ParsingOptions {
-        isAmfJsonLdSerialization: boolean
-        definedBaseUrl: undefined | string
-        getMaxYamlReferences: undefined | number
+    withUrl(url: string): this
 
-        constructor()
+    withScopes(scopes: Array<Scope>): this
 
-        withoutAmfJsonLdSerialization(): ParsingOptions
 
-        withAmfJsonLdSerialization(): ParsingOptions
+  }
 
-        withBaseUnitUrl(baseUnit: string): ParsingOptions
+  export class ParsingOptions {
+    isAmfJsonLdSerialization: boolean
+    definedBaseUrl: undefined | string
+    getMaxYamlReferences: undefined | number
 
-        withoutBaseUnitUrl(): ParsingOptions
+    constructor()
 
-        setMaxYamlReferences(value: number): ParsingOptions
+    withoutAmfJsonLdSerialization(): ParsingOptions
 
+    withAmfJsonLdSerialization(): ParsingOptions
 
-    }
+    withBaseUnitUrl(baseUnit: string): ParsingOptions
 
-    export class Response extends Message {
-        statusCode: StrField
-        headers: Array<Parameter>
-        links: Array<TemplatedLink>
+    withoutBaseUnitUrl(): ParsingOptions
 
-        constructor()
+    setMaxYamlReferences(value: number): ParsingOptions
 
-        withStatusCode(statusCode: string): this
 
-        withHeaders(headers: Array<Parameter>): this
+  }
 
-        withLinks(links: Array<TemplatedLink>): this
+  export class Response extends Message {
+    statusCode: StrField
+    headers: Array<Parameter>
+    links: Array<TemplatedLink>
 
-        withHeader(name: string): Parameter
+    constructor()
 
-        linkCopy(): Response
+    withStatusCode(statusCode: string): this
 
+    withHeaders(headers: Array<Parameter>): this
 
-    }
+    withLinks(links: Array<TemplatedLink>): this
 
-    export class Document implements BaseUnit, EncodesModel, DeclaresModel {
-        location: string
-        usage: StrField
-        id: string
-        raw: undefined | string
-        processingData: BaseUnitProcessingData
-        sourceSpec: undefined | Spec
-        modelVersion: StrField
-        encodes: DomainElement
-        declares: Array<DomainElement>
+    withHeader(name: string): Parameter
 
-        constructor()
-        constructor(encoding: DomainElement)
+    linkCopy(): Response
 
-        findByType(typeId: string): Array<DomainElement>
 
-        cloneUnit(): BaseUnit
+  }
 
-        withReferences(references: Array<BaseUnit>): this
+  export class Document implements BaseUnit, EncodesModel, DeclaresModel {
+    location: string
+    usage: StrField
+    id: string
+    raw: undefined | string
+    processingData: BaseUnitProcessingData
+    sourceSpec: undefined | Spec
+    modelVersion: StrField
+    encodes: DomainElement
+    declares: Array<DomainElement>
 
-        withDeclaredElement(declared: DomainElement): this
+    constructor()
+    constructor(encoding: DomainElement)
 
-        withRaw(raw: string): this
+    findByType(typeId: string): Array<DomainElement>
 
-        withUsage(usage: string): this
+    cloneUnit(): BaseUnit
 
-        findById(id: string): undefined | DomainElement
+    withReferences(references: Array<BaseUnit>): this
 
-        withLocation(location: string): this
+    withDeclaredElement(declared: DomainElement): this
 
-        withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
+    withRaw(raw: string): this
 
-        withEncodes(encoded: DomainElement): this
+    withUsage(usage: string): this
 
-        pkg(): StrField
+    findById(id: string): undefined | DomainElement
 
-        withPkg(pkg: string): this
+    withLocation(location: string): this
 
-        withDeclares(declares: Array<DomainElement>): this
+    withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
 
-        references(): Array<BaseUnit>
+    withEncodes(encoded: DomainElement): this
 
-        withProcessingData(data: BaseUnitProcessingData): this
+    pkg(): StrField
 
-        withId(id: string): this
+    withPkg(pkg: string): this
 
+    withDeclares(declares: Array<DomainElement>): this
 
-    }
+    references(): Array<BaseUnit>
 
-    export class Amqp091OperationBinding implements OperationBinding {
-        priority: IntField
-        customDomainProperties: Array<DomainExtension>
-        timestamp: BoolField
-        mandatory: BoolField
-        replyTo: StrField
-        deliveryMode: IntField
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        isExternalLink: BoolField
-        id: string
-        ack: BoolField
-        bcc: Array<StrField>
-        position: Range
-        cc: Array<StrField>
-        userId: StrField
-        linkLabel: StrField
-        expiration: IntField
-        extendsNode: Array<DomainElement>
+    withProcessingData(data: BaseUnitProcessingData): this
 
-        constructor()
+    withId(id: string): this
 
-        link<T>(label: string): T
 
-        withDeliveryMode(deliveryMode: number): this
+  }
 
-        linkCopy(): Amqp091OperationBinding
+  export class Amqp091OperationBinding implements OperationBinding {
+    priority: IntField
+    customDomainProperties: Array<DomainExtension>
+    timestamp: BoolField
+    mandatory: BoolField
+    replyTo: StrField
+    deliveryMode: IntField
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    isExternalLink: BoolField
+    id: string
+    ack: BoolField
+    bcc: Array<StrField>
+    position: Range
+    cc: Array<StrField>
+    userId: StrField
+    linkLabel: StrField
+    expiration: IntField
+    extendsNode: Array<DomainElement>
 
-        withCc(cC: Array<string>): this
+    constructor()
 
-        withTimestamp(timestamp: boolean): this
+    link<T>(label: string): T
 
-        withReplyTo(replyTo: string): this
+    withDeliveryMode(deliveryMode: number): this
 
-        graph(): Graph
+    linkCopy(): Amqp091OperationBinding
 
-        withBindingVersion(bindingVersion: string): this
+    withCc(cC: Array<string>): this
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    withTimestamp(timestamp: boolean): this
 
-        withLinkLabel(label: string): this
+    withReplyTo(replyTo: string): this
 
-        withMandatory(mandatory: boolean): this
+    graph(): Graph
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withBindingVersion(bindingVersion: string): this
 
-        withBcc(bCC: Array<string>): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withLinkLabel(label: string): this
 
-        link<T>(): T
+    withMandatory(mandatory: boolean): this
 
-        withLinkTarget(target: undefined): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        withUserId(userId: string): this
+    withBcc(bCC: Array<string>): this
 
-        withAck(ack: boolean): this
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        withPriority(priority: number): this
+    link<T>(): T
 
-        withExpiration(expiration: number): this
+    withLinkTarget(target: undefined): this
 
-        withId(id: string): this
+    withUserId(userId: string): this
 
+    withAck(ack: boolean): this
 
-    }
+    withPriority(priority: number): this
 
-    export class ObjectNode implements DataNode {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        isExternalLink: BoolField
-        id: string
-        properties: Map<string, DataNode>
-        position: Range
-        extendsNode: Array<DomainElement>
+    withExpiration(expiration: number): this
 
-        constructor()
+    withId(id: string): this
 
-        withName(name: string): this
 
-        graph(): Graph
+  }
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+  export class ObjectNode implements DataNode {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    isExternalLink: BoolField
+    id: string
+    properties: Map<string, DataNode>
+    position: Range
+    extendsNode: Array<DomainElement>
 
-        getProperty(property: string): undefined | DataNode
+    constructor()
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withName(name: string): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    graph(): Graph
 
-        withId(id: string): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        addProperty(property: string, node: DataNode): this
+    getProperty(property: string): undefined | DataNode
 
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    }
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    export class ValidationShapeSet {
-        candidates: Array<ValidationCandidate>
-        defaultSeverity: string
+    withId(id: string): this
 
-        constructor(candidates: Array<ValidationCandidate>, closure: Array<Shape>, defaultSeverity: string)
+    addProperty(property: string, node: DataNode): this
 
-    }
 
-    export class TransformationStepFactory {
-        static from(step: JsTransformationStep): TransformationStep
+  }
 
+  export class ValidationShapeSet {
+    candidates: Array<ValidationCandidate>
+    defaultSeverity: string
 
-    }
+    constructor(candidates: Array<ValidationCandidate>, closure: Array<Shape>, defaultSeverity: string)
 
-    export class PropertyShape implements Shape {
-        defaultValueStr: StrField
-        displayName: StrField
-        name: StrField
-        serializationOrder: IntField
-        customDomainProperties: Array<DomainExtension>
-        path: StrField
-        xone: Array<Shape>
-        readOnly: BoolField
-        description: StrField
-        deprecated: BoolField
-        customShapePropertyDefinitions: Array<PropertyShape>
-        or: Array<Shape>
-        elseShape: Shape
-        linkTarget: undefined | DomainElement
-        maxCount: IntField
-        isLink: boolean
-        isExternalLink: BoolField
-        customShapeProperties: Array<ShapeExtension>
-        thenShape: Shape
-        id: string
-        range: Shape
-        ifShape: Shape
-        writeOnly: BoolField
-        patternName: StrField
-        not: Shape
-        values: Array<DataNode>
-        position: Range
-        inherits: Array<Shape>
-        linkLabel: StrField
-        defaultValue: DataNode
-        extendsNode: Array<DomainElement>
-        and: Array<Shape>
-        minCount: IntField
+  }
 
-        constructor()
+  export class TransformationStepFactory {
+    static from(step: JsTransformationStep): TransformationStep
 
-        link<T>(label: string): T
 
-        withValues(values: Array<DataNode>): this
+  }
 
-        withPath(path: string): this
+  export class PropertyShape implements Shape {
+    defaultValueStr: StrField
+    displayName: StrField
+    name: StrField
+    serializationOrder: IntField
+    customDomainProperties: Array<DomainExtension>
+    path: StrField
+    xone: Array<Shape>
+    readOnly: BoolField
+    description: StrField
+    deprecated: BoolField
+    customShapePropertyDefinitions: Array<PropertyShape>
+    or: Array<Shape>
+    elseShape: Shape
+    linkTarget: undefined | DomainElement
+    maxCount: IntField
+    isLink: boolean
+    isExternalLink: BoolField
+    customShapeProperties: Array<ShapeExtension>
+    thenShape: Shape
+    id: string
+    range: Shape
+    ifShape: Shape
+    writeOnly: BoolField
+    patternName: StrField
+    not: Shape
+    values: Array<DataNode>
+    position: Range
+    inherits: Array<Shape>
+    linkLabel: StrField
+    defaultValue: DataNode
+    extendsNode: Array<DomainElement>
+    and: Array<Shape>
+    minCount: IntField
 
-        linkCopy(): PropertyShape
+    constructor()
 
-        withOr(subShapes: Array<Shape>): this
+    link<T>(label: string): T
 
-        withName(name: string): this
+    withValues(values: Array<DataNode>): this
 
-        withRange(range: Shape): this
+    withPath(path: string): this
 
-        withDescription(description: string): this
+    linkCopy(): PropertyShape
 
-        withMaxCount(max: number): this
+    withOr(subShapes: Array<Shape>): this
 
-        withIf(ifShape: Shape): this
+    withName(name: string): this
 
-        withSerializationOrder(order: number): this
+    withRange(range: Shape): this
 
-        withCustomShapePropertyDefinition(name: string): PropertyShape
+    withDescription(description: string): this
 
-        graph(): Graph
+    withMaxCount(max: number): this
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    withIf(ifShape: Shape): this
 
-        withLinkLabel(label: string): this
+    withSerializationOrder(order: number): this
 
-        withCustomShapePropertyDefinitions(propertyDefinitions: Array<PropertyShape>): this
+    withCustomShapePropertyDefinition(name: string): PropertyShape
 
-        withReadOnly(readOnly: boolean): this
+    graph(): Graph
 
-        withPatternName(pattern: string): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withInherits(inherits: Array<Shape>): this
+    withLinkLabel(label: string): this
 
-        withAnd(subShapes: Array<Shape>): this
+    withCustomShapePropertyDefinitions(propertyDefinitions: Array<PropertyShape>): this
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withReadOnly(readOnly: boolean): this
 
-        withWriteOnly(writeOnly: boolean): this
+    withPatternName(pattern: string): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withInherits(inherits: Array<Shape>): this
 
-        link<T>(): T
+    withAnd(subShapes: Array<Shape>): this
 
-        withLinkTarget(target: undefined): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        withDisplayName(name: string): this
+    withWriteOnly(writeOnly: boolean): this
 
-        withDefaultValue(defaultVal: DataNode): this
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        withThen(thenShape: Shape): this
+    link<T>(): T
 
-        withMinCount(min: number): this
+    withLinkTarget(target: undefined): this
 
-        withDefaultStr(value: string): this
+    withDisplayName(name: string): this
 
-        withCustomShapeProperties(customShapeProperties: Array<ShapeExtension>): this
+    withDefaultValue(defaultVal: DataNode): this
 
-        withId(id: string): this
+    withThen(thenShape: Shape): this
 
-        withElse(elseShape: Shape): this
+    withMinCount(min: number): this
 
-        withXone(subShapes: Array<Shape>): this
+    withDefaultStr(value: string): this
 
-        withDeprecated(deprecated: boolean): this
+    withCustomShapeProperties(customShapeProperties: Array<ShapeExtension>): this
 
-        withNode(shape: Shape): this
+    withId(id: string): this
 
+    withElse(elseShape: Shape): this
 
-    }
+    withXone(subShapes: Array<Shape>): this
 
-    export class MessageStyles {
-        static readonly RAML: MessageStyle
-        static readonly OAS: MessageStyle
-        static readonly ASYNC: MessageStyle
-        static readonly AMF: MessageStyle
+    withDeprecated(deprecated: boolean): this
 
-    }
+    withNode(shape: Shape): this
 
-    export class PublicNodeMapping implements DomainElement {
-        customDomainProperties: Array<DomainExtension>
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        extendsNode: Array<DomainElement>
 
-        constructor()
+  }
 
-        withName(name: string): PublicNodeMapping
+  export class MessageStyles {
+    static readonly RAML: MessageStyle
+    static readonly OAS: MessageStyle
+    static readonly ASYNC: MessageStyle
+    static readonly AMF: MessageStyle
 
-        mappedNode(): StrField
+  }
 
-        graph(): Graph
+  export class PublicNodeMapping implements DomainElement {
+    customDomainProperties: Array<DomainExtension>
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    extendsNode: Array<DomainElement>
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    constructor()
 
-        withMappedNode(mappedNode: string): PublicNodeMapping
+    withName(name: string): PublicNodeMapping
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    mappedNode(): StrField
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    graph(): Graph
 
-        name(): StrField
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withId(id: string): this
+    withMappedNode(mappedNode: string): PublicNodeMapping
 
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    }
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    export class Scope implements DomainElement {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        description: StrField
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        extendsNode: Array<DomainElement>
+    name(): StrField
 
-        constructor()
+    withId(id: string): this
 
-        withName(name: string): this
 
-        withDescription(description: string): this
+  }
 
-        graph(): Graph
+  export class Scope implements DomainElement {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    description: StrField
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    extendsNode: Array<DomainElement>
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    constructor()
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withName(name: string): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withDescription(description: string): this
 
-        withId(id: string): this
+    graph(): Graph
 
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-    }
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    export class HighPriority extends PluginPriority {
-    }
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    export class AMFEventListenerFactory {
-        static from(listener: JsAMFEventListener): AMFEventListener
+    withId(id: string): this
 
 
-    }
+  }
 
-    export class ShapeExtension implements DomainElement {
-        customDomainProperties: Array<DomainExtension>
-        definedBy: PropertyShape
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        extendsNode: Array<DomainElement>
-        extension: DataNode
+  export class HighPriority extends PluginPriority {
+  }
 
-        constructor()
+  export class AMFEventListenerFactory {
+    static from(listener: JsAMFEventListener): AMFEventListener
 
-        withDefinedBy(definedBy: PropertyShape): this
 
-        graph(): Graph
+  }
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+  export class ShapeExtension implements DomainElement {
+    customDomainProperties: Array<DomainExtension>
+    definedBy: PropertyShape
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    extendsNode: Array<DomainElement>
+    extension: DataNode
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    constructor()
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withDefinedBy(definedBy: PropertyShape): this
 
-        withExtension(extension: DataNode): this
+    graph(): Graph
 
-        withId(id: string): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    }
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    export class TraitFragment extends Fragment {
-        constructor()
+    withExtension(extension: DataNode): this
 
-    }
+    withId(id: string): this
 
-    export class ClassTerm implements DomainElement {
-        displayName: StrField
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        description: StrField
-        isExternalLink: BoolField
-        id: string
-        properties: Array<StrField>
-        position: Range
-        subClassOf: Array<StrField>
-        extendsNode: Array<DomainElement>
 
-        constructor()
+  }
 
-        withName(name: string): ClassTerm
+  export class TraitFragment extends Fragment {
+    constructor()
 
-        withDescription(description: string): ClassTerm
+  }
 
-        graph(): Graph
+  export class ClassTerm implements DomainElement {
+    displayName: StrField
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    description: StrField
+    isExternalLink: BoolField
+    id: string
+    properties: Array<StrField>
+    position: Range
+    subClassOf: Array<StrField>
+    extendsNode: Array<DomainElement>
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    constructor()
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withName(name: string): ClassTerm
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withDescription(description: string): ClassTerm
 
-        withProperties(properties: Array<string>): ClassTerm
+    graph(): Graph
 
-        withDisplayName(displayName: string): ClassTerm
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withId(id: string): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        withSubClassOf(superClasses: Array<string>): ClassTerm
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
+    withProperties(properties: Array<string>): ClassTerm
 
-    }
+    withDisplayName(displayName: string): ClassTerm
 
-    export class OAuth2Flow implements DomainElement {
-        customDomainProperties: Array<DomainExtension>
-        accessTokenUri: StrField
-        scopes: Array<Scope>
-        isExternalLink: BoolField
-        id: string
-        flow: StrField
-        authorizationUri: StrField
-        position: Range
-        refreshUri: StrField
-        extendsNode: Array<DomainElement>
+    withId(id: string): this
 
-        constructor()
+    withSubClassOf(superClasses: Array<string>): ClassTerm
 
-        withFlow(flow: string): this
 
-        withScopes(scopes: Array<Scope>): this
+  }
 
-        withAuthorizationUri(authorizationUri: string): this
+  export class OAuth2Flow implements DomainElement {
+    customDomainProperties: Array<DomainExtension>
+    accessTokenUri: StrField
+    scopes: Array<Scope>
+    isExternalLink: BoolField
+    id: string
+    flow: StrField
+    authorizationUri: StrField
+    position: Range
+    refreshUri: StrField
+    extendsNode: Array<DomainElement>
 
-        withAccessTokenUri(accessTokenUri: string): this
+    constructor()
 
-        graph(): Graph
+    withFlow(flow: string): this
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    withScopes(scopes: Array<Scope>): this
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withAuthorizationUri(authorizationUri: string): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withAccessTokenUri(accessTokenUri: string): this
 
-        withId(id: string): this
+    graph(): Graph
 
-        withRefreshUri(refreshUri: string): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    }
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    export class OperationBindings implements DomainElement, Linkable {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        bindings: Array<OperationBinding>
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        linkLabel: StrField
-        extendsNode: Array<DomainElement>
+    withId(id: string): this
 
-        constructor()
+    withRefreshUri(refreshUri: string): this
 
-        link<T>(label: string): T
 
-        linkCopy(): OperationBindings
+  }
 
-        withName(name: string): this
+  export class OperationBindings implements DomainElement, Linkable {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    bindings: Array<OperationBinding>
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    linkLabel: StrField
+    extendsNode: Array<DomainElement>
 
-        withBindings(bindings: Array<OperationBinding>): this
+    constructor()
 
-        graph(): Graph
+    link<T>(label: string): T
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    linkCopy(): OperationBindings
 
-        withLinkLabel(label: string): this
+    withName(name: string): this
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withBindings(bindings: Array<OperationBinding>): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    graph(): Graph
 
-        link<T>(): T
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withLinkTarget(target: undefined): this
+    withLinkLabel(label: string): this
 
-        withId(id: string): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    }
+    link<T>(): T
 
-    export class ExternalFragment extends Fragment {
-        constructor()
+    withLinkTarget(target: undefined): this
 
-    }
+    withId(id: string): this
 
-    export class AMFValidationResult {
-        message: string
-        severityLevel: string
-        targetNode: string
-        targetProperty: string
-        validationId: string
-        source: any
-        position: Range
-        location: undefined | string
-
-        constructor(message: string, level: string, targetNode: string, targetProperty: string, validationId: string, position: Range, location: string)
 
-    }
+  }
 
-    export class MqttOperationBinding implements OperationBinding {
-        customDomainProperties: Array<DomainExtension>
-        retain: BoolField
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        qos: IntField
-        linkLabel: StrField
-        extendsNode: Array<DomainElement>
+  export class ExternalFragment extends Fragment {
+    constructor()
 
-        constructor()
+  }
 
-        link<T>(label: string): T
+  export class AMFValidationResult {
+    message: string
+    severityLevel: string
+    targetNode: string
+    targetProperty: string
+    validationId: string
+    source: any
+    position: Range
+    location: undefined | string
 
-        linkCopy(): MqttOperationBinding
+    constructor(message: string, level: string, targetNode: string, targetProperty: string, validationId: string, position: Range, location: string)
 
-        withRetain(retain: boolean): this
+  }
 
-        graph(): Graph
+  export class MqttOperationBinding implements OperationBinding {
+    customDomainProperties: Array<DomainExtension>
+    retain: BoolField
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    qos: IntField
+    linkLabel: StrField
+    extendsNode: Array<DomainElement>
 
-        withBindingVersion(bindingVersion: string): this
+    constructor()
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    link<T>(label: string): T
 
-        withLinkLabel(label: string): this
+    linkCopy(): MqttOperationBinding
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withRetain(retain: boolean): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    graph(): Graph
 
-        link<T>(): T
+    withBindingVersion(bindingVersion: string): this
 
-        withLinkTarget(target: undefined): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withQos(qos: number): this
+    withLinkLabel(label: string): this
 
-        withId(id: string): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    }
+    link<T>(): T
 
-    export class SchemaDependencies implements DomainElement {
-        source: StrField
-        customDomainProperties: Array<DomainExtension>
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        target: Shape
-        extendsNode: Array<DomainElement>
+    withLinkTarget(target: undefined): this
 
-        constructor()
+    withQos(qos: number): this
 
-        withSchemaTarget(schema: Shape): this
+    withId(id: string): this
 
-        withPropertySource(propertySource: string): this
 
-        graph(): Graph
+  }
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+  export class SchemaDependencies implements DomainElement {
+    source: StrField
+    customDomainProperties: Array<DomainExtension>
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    target: Shape
+    extendsNode: Array<DomainElement>
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    constructor()
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withSchemaTarget(schema: Shape): this
 
-        withId(id: string): this
+    withPropertySource(propertySource: string): this
 
+    graph(): Graph
 
-    }
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-    export class Payload implements DomainElement {
-        mediaType: StrField
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        examples: Array<Example>
-        encoding: Array<Encoding>
-        isExternalLink: BoolField
-        id: string
-        schema: Shape
-        schemaMediaType: StrField
-        position: Range
-        encodings: Array<Encoding>
-        extendsNode: Array<DomainElement>
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        constructor()
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        withEncoding(name: string): Encoding
+    withId(id: string): this
 
-        withEncodings(encoding: Array<Encoding>): this
 
-        withName(name: string): this
+  }
 
-        withScalarSchema(name: string): ScalarShape
+  export class Payload implements DomainElement {
+    mediaType: StrField
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    examples: Array<Example>
+    encoding: Array<Encoding>
+    isExternalLink: BoolField
+    id: string
+    schema: Shape
+    schemaMediaType: StrField
+    position: Range
+    encodings: Array<Encoding>
+    extendsNode: Array<DomainElement>
 
-        withExample(name: string): Example
+    constructor()
 
-        withExamples(examples: Array<Example>): this
+    withEncoding(name: string): Encoding
 
-        withObjectSchema(name: string): NodeShape
+    withEncodings(encoding: Array<Encoding>): this
 
-        withSchema(schema: Shape): this
+    withName(name: string): this
 
-        graph(): Graph
+    withScalarSchema(name: string): ScalarShape
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    withExample(name: string): Example
 
-        withMediaType(mediaType: string): this
+    withExamples(examples: Array<Example>): this
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withObjectSchema(name: string): NodeShape
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withSchema(schema: Shape): this
 
-        withSchemaMediaType(mediaType: string): this
+    graph(): Graph
 
-        withEncoding(encoding: Array<Encoding>): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withId(id: string): this
+    withMediaType(mediaType: string): this
 
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    }
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    export class RAMLConfiguration {
-        static RAML10(): AMFConfiguration
+    withSchemaMediaType(mediaType: string): this
 
-        static RAML08(): AMFConfiguration
+    withEncoding(encoding: Array<Encoding>): this
 
-        static RAML(): AMFConfiguration
+    withId(id: string): this
 
-        static fromSpec(spec: Spec): AMFConfiguration
 
+  }
 
-    }
+  export class RAMLConfiguration {
+    static RAML10(): AMFConfiguration
 
-    export class Extension extends Document {
-        constructor()
+    static RAML08(): AMFConfiguration
 
-    }
+    static RAML(): AMFConfiguration
 
-    export class MqttServerLastWill implements DomainElement {
-        customDomainProperties: Array<DomainExtension>
-        retain: BoolField
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        message: StrField
-        topic: StrField
-        qos: IntField
-        extendsNode: Array<DomainElement>
+    static fromSpec(spec: Spec): AMFConfiguration
 
-        constructor()
 
-        withRetain(retain: boolean): this
+  }
 
-        withMessage(message: string): this
+  export class Extension extends Document {
+    constructor()
 
-        withTopic(topic: string): this
+  }
 
-        graph(): Graph
+  export class MqttServerLastWill implements DomainElement {
+    customDomainProperties: Array<DomainExtension>
+    retain: BoolField
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    message: StrField
+    topic: StrField
+    qos: IntField
+    extendsNode: Array<DomainElement>
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    constructor()
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withRetain(retain: boolean): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withMessage(message: string): this
 
-        withQos(qos: number): this
+    withTopic(topic: string): this
 
-        withId(id: string): this
+    graph(): Graph
 
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-    }
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    export class AsyncApi extends Api<AsyncApi> {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        endPoints: Array<EndPoint>
-        provider: Organization
-        security: Array<SecurityRequirement>
-        identifier: StrField
-        description: StrField
-        documentations: Array<CreativeWork>
-        servers: Array<Server>
-        schemes: Array<StrField>
-        license: License
-        isExternalLink: BoolField
-        termsOfService: StrField
-        version: StrField
-        id: string
-        contentType: Array<StrField>
-        accepts: Array<StrField>
-        position: Range
-        extendsNode: Array<DomainElement>
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        constructor()
+    withQos(qos: number): this
 
-        withDocumentationTitle(title: string): CreativeWork
+    withId(id: string): this
 
-        withSecurity(security: Array<SecurityRequirement>): this
 
-        withProvider(provider: Organization): this
+  }
 
-        withName(name: string): this
+  export class AsyncApi extends Api<AsyncApi> {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    endPoints: Array<EndPoint>
+    provider: Organization
+    security: Array<SecurityRequirement>
+    identifier: StrField
+    description: StrField
+    documentations: Array<CreativeWork>
+    servers: Array<Server>
+    schemes: Array<StrField>
+    license: License
+    isExternalLink: BoolField
+    termsOfService: StrField
+    version: StrField
+    id: string
+    contentType: Array<StrField>
+    accepts: Array<StrField>
+    position: Range
+    extendsNode: Array<DomainElement>
 
-        withEndPoint(path: string): EndPoint
+    constructor()
 
-        withDefaultServer(url: string): Server
+    withDocumentationTitle(title: string): CreativeWork
 
-        withDocumentation(documentations: Array<CreativeWork>): this
+    withSecurity(security: Array<SecurityRequirement>): this
 
-        withDescription(description: string): this
+    withProvider(provider: Organization): this
 
-        withDocumentationUrl(url: string): CreativeWork
+    withName(name: string): this
 
-        withLicense(license: License): this
+    withEndPoint(path: string): EndPoint
 
-        graph(): Graph
+    withDefaultServer(url: string): Server
 
-        withEndPoints(endPoints: Array<EndPoint>): this
+    withDocumentation(documentations: Array<CreativeWork>): this
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    withDescription(description: string): this
 
-        withTermsOfService(terms: string): this
+    withDocumentationUrl(url: string): CreativeWork
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withLicense(license: License): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    graph(): Graph
 
-        withVersion(version: string): this
+    withEndPoints(endPoints: Array<EndPoint>): this
 
-        withContentType(contentType: Array<string>): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withServer(url: string): Server
+    withTermsOfService(terms: string): this
 
-        withServers(servers: Array<Server>): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        withSchemes(schemes: Array<string>): this
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        withIdentifier(identifier: string): this
+    withVersion(version: string): this
 
-        withAccepts(accepts: Array<string>): this
+    withContentType(contentType: Array<string>): this
 
-        withId(id: string): this
+    withServer(url: string): Server
 
+    withServers(servers: Array<Server>): this
 
-    }
+    withSchemes(schemes: Array<string>): this
 
-    export class ProfileNames {
-        static readonly AMF: ProfileName
-        static readonly OAS20: ProfileName
-        static readonly OAS30: ProfileName
-        static readonly RAML10: ProfileName
-        static readonly RAML08: ProfileName
-        static readonly ASYNC: ProfileName
-        static readonly ASYNC20: ProfileName
-        static readonly AML: ProfileName
-        static readonly PAYLOAD: ProfileName
-        static readonly GRPC: ProfileName
+    withIdentifier(identifier: string): this
 
-    }
+    withAccepts(accepts: Array<string>): this
 
-    export class OAuth2Settings extends Settings {
-        flows: Array<OAuth2Flow>
-        authorizationGrants: Array<StrField>
+    withId(id: string): this
 
-        constructor()
 
-        withFlows(flows: Array<OAuth2Flow>): this
+  }
 
-        withAuthorizationGrants(grants: Array<string>): this
+  export class ProfileNames {
+    static readonly AMF: ProfileName
+    static readonly OAS20: ProfileName
+    static readonly OAS30: ProfileName
+    static readonly RAML10: ProfileName
+    static readonly RAML08: ProfileName
+    static readonly ASYNC: ProfileName
+    static readonly ASYNC20: ProfileName
+    static readonly AML: ProfileName
+    static readonly PAYLOAD: ProfileName
+    static readonly GRPC: ProfileName
 
+  }
 
-    }
+  export class OAuth2Settings extends Settings {
+    flows: Array<OAuth2Flow>
+    authorizationGrants: Array<StrField>
 
-    export class Callback implements DomainElement {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        isExternalLink: BoolField
-        id: string
-        expression: StrField
-        endpoint: EndPoint
-        position: Range
-        extendsNode: Array<DomainElement>
+    constructor()
 
-        constructor()
+    withFlows(flows: Array<OAuth2Flow>): this
 
-        withExpression(expression: string): this
+    withAuthorizationGrants(grants: Array<string>): this
 
-        withName(name: string): this
 
-        withEndpoint(endpoint: EndPoint): this
+  }
 
-        graph(): Graph
+  export class Callback implements DomainElement {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    isExternalLink: BoolField
+    id: string
+    expression: StrField
+    endpoint: EndPoint
+    position: Range
+    extendsNode: Array<DomainElement>
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    constructor()
 
-        withEndpoint(path: string): EndPoint
+    withExpression(expression: string): this
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withName(name: string): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withEndpoint(endpoint: EndPoint): this
 
-        withId(id: string): this
+    graph(): Graph
 
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-    }
+    withEndpoint(path: string): EndPoint
 
-    export class Module implements BaseUnit, DeclaresModel, CustomizableElement {
-        customDomainProperties: Array<DomainExtension>
-        location: string
-        usage: StrField
-        id: string
-        raw: undefined | string
-        processingData: BaseUnitProcessingData
-        sourceSpec: undefined | Spec
-        modelVersion: StrField
-        declares: Array<DomainElement>
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        constructor()
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        findByType(typeId: string): Array<DomainElement>
+    withId(id: string): this
 
-        cloneUnit(): BaseUnit
 
-        withReferences(references: Array<BaseUnit>): this
+  }
 
-        withDeclaredElement(declared: DomainElement): this
+  export class Module implements BaseUnit, DeclaresModel, CustomizableElement {
+    customDomainProperties: Array<DomainExtension>
+    location: string
+    usage: StrField
+    id: string
+    raw: undefined | string
+    processingData: BaseUnitProcessingData
+    sourceSpec: undefined | Spec
+    modelVersion: StrField
+    declares: Array<DomainElement>
 
-        withRaw(raw: string): this
+    constructor()
 
-        withUsage(usage: string): this
+    findByType(typeId: string): Array<DomainElement>
 
-        findById(id: string): undefined | DomainElement
+    cloneUnit(): BaseUnit
 
-        withLocation(location: string): this
+    withReferences(references: Array<BaseUnit>): this
 
-        withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
+    withDeclaredElement(declared: DomainElement): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withRaw(raw: string): this
 
-        pkg(): StrField
+    withUsage(usage: string): this
 
-        withPkg(pkg: string): this
+    findById(id: string): undefined | DomainElement
 
-        withDeclares(declares: Array<DomainElement>): this
+    withLocation(location: string): this
 
-        references(): Array<BaseUnit>
+    withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
 
-        withProcessingData(data: BaseUnitProcessingData): this
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        withId(id: string): this
+    pkg(): StrField
 
+    withPkg(pkg: string): this
 
-    }
+    withDeclares(declares: Array<DomainElement>): this
 
-    export class PropertyDependencies implements DomainElement {
-        source: StrField
-        customDomainProperties: Array<DomainExtension>
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        target: Array<StrField>
-        extendsNode: Array<DomainElement>
+    references(): Array<BaseUnit>
 
-        constructor()
+    withProcessingData(data: BaseUnitProcessingData): this
 
-        withPropertySource(propertySource: string): this
+    withId(id: string): this
 
-        graph(): Graph
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+  }
 
-        withPropertyTarget(propertyTarget: Array<string>): this
+  export class PropertyDependencies implements DomainElement {
+    source: StrField
+    customDomainProperties: Array<DomainExtension>
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    target: Array<StrField>
+    extendsNode: Array<DomainElement>
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    constructor()
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withPropertySource(propertySource: string): this
 
-        withId(id: string): this
+    graph(): Graph
 
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-    }
+    withPropertyTarget(propertyTarget: Array<string>): this
 
-    export class DialectInstance implements BaseUnit, EncodesModel, DeclaresModel, DialectInstanceUnit {
-        location: string
-        usage: StrField
-        id: string
-        raw: undefined | string
-        processingData: DialectInstanceProcessingData
-        sourceSpec: undefined | Spec
-        modelVersion: StrField
-        encodes: DialectDomainElement
-        declares: Array<DomainElement>
-        externals: Array<External>
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        constructor()
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        findByType(typeId: string): Array<DomainElement>
+    withId(id: string): this
 
-        withProcessingData(data: DialectInstanceProcessingData): this
 
-        cloneUnit(): BaseUnit
+  }
 
-        withExternals(externals: Array<External>): DialectInstance
+  export class DialectInstance implements BaseUnit, EncodesModel, DeclaresModel, DialectInstanceUnit {
+    location: string
+    usage: StrField
+    id: string
+    raw: undefined | string
+    processingData: DialectInstanceProcessingData
+    sourceSpec: undefined | Spec
+    modelVersion: StrField
+    encodes: DialectDomainElement
+    declares: Array<DomainElement>
+    externals: Array<External>
 
-        withReferences(references: Array<BaseUnit>): this
+    constructor()
 
-        withDeclaredElement(declared: DomainElement): this
+    findByType(typeId: string): Array<DomainElement>
 
-        withRaw(raw: string): this
+    withProcessingData(data: DialectInstanceProcessingData): this
 
-        withUsage(usage: string): this
+    cloneUnit(): BaseUnit
 
-        findById(id: string): undefined | DomainElement
+    withExternals(externals: Array<External>): DialectInstance
 
-        withLocation(location: string): this
+    withReferences(references: Array<BaseUnit>): this
 
-        withGraphDependencies(ids: Array<string>): this
+    withDeclaredElement(declared: DomainElement): this
 
-        withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
+    withRaw(raw: string): this
 
-        graphDependencies(): Array<StrField>
+    withUsage(usage: string): this
 
-        withDefinedBy(dialectId: string): this
+    findById(id: string): undefined | DomainElement
 
-        withEncodes(encoded: DialectDomainElement): DialectInstance
+    withLocation(location: string): this
 
-        withEncodes(encoded: DomainElement): this
+    withGraphDependencies(ids: Array<string>): this
 
-        definedBy(): StrField
+    withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
 
-        pkg(): StrField
+    graphDependencies(): Array<StrField>
 
-        withPkg(pkg: string): this
+    withDefinedBy(dialectId: string): this
 
-        withDeclares(declares: Array<DomainElement>): this
+    withEncodes(encoded: DialectDomainElement): DialectInstance
 
-        references(): Array<BaseUnit>
+    withEncodes(encoded: DomainElement): this
 
-        withProcessingData(data: BaseUnitProcessingData): this
+    definedBy(): StrField
 
-        withId(id: string): this
+    pkg(): StrField
 
+    withPkg(pkg: string): this
 
-    }
+    withDeclares(declares: Array<DomainElement>): this
 
-    export class PipelineId {
-        static readonly Default: 'default'
-        static readonly Editing: 'editing'
-        static readonly Compatibility: 'compatibility'
-        static readonly Cache: 'cache'
+    references(): Array<BaseUnit>
 
-    }
+    withProcessingData(data: BaseUnitProcessingData): this
 
-    export class SecurityRequirement implements DomainElement {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        schemes: Array<ParametrizedSecurityScheme>
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        extendsNode: Array<DomainElement>
+    withId(id: string): this
 
-        constructor()
 
-        withName(name: string): this
+  }
 
-        withScheme(): ParametrizedSecurityScheme
+  export class PipelineId {
+    static readonly Default: 'default'
+    static readonly Editing: 'editing'
+    static readonly Compatibility: 'compatibility'
+    static readonly Cache: 'cache'
 
-        withSchemes(schemes: Array<ParametrizedSecurityScheme>): this
+  }
 
-        graph(): Graph
+  export class SecurityRequirement implements DomainElement {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    schemes: Array<ParametrizedSecurityScheme>
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    extendsNode: Array<DomainElement>
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    constructor()
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withName(name: string): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withScheme(): ParametrizedSecurityScheme
 
-        withId(id: string): this
+    withSchemes(schemes: Array<ParametrizedSecurityScheme>): this
 
+    graph(): Graph
 
-    }
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-    export class MqttServerBinding implements ServerBinding {
-        customDomainProperties: Array<DomainExtension>
-        clientId: StrField
-        keepAlive: IntField
-        cleanSession: BoolField
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        linkLabel: StrField
-        lastWill: MqttServerLastWill
-        extendsNode: Array<DomainElement>
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        constructor()
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        link<T>(label: string): T
+    withId(id: string): this
 
-        withKeepAlive(keepAlive: number): this
 
-        linkCopy(): MqttServerBinding
+  }
 
-        withClientId(clientId: string): this
+  export class MqttServerBinding implements ServerBinding {
+    customDomainProperties: Array<DomainExtension>
+    clientId: StrField
+    keepAlive: IntField
+    cleanSession: BoolField
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    linkLabel: StrField
+    lastWill: MqttServerLastWill
+    extendsNode: Array<DomainElement>
 
-        withCleanSession(cleanSession: boolean): this
+    constructor()
 
-        graph(): Graph
+    link<T>(label: string): T
 
-        withBindingVersion(bindingVersion: string): this
+    withKeepAlive(keepAlive: number): this
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    linkCopy(): MqttServerBinding
 
-        withLinkLabel(label: string): this
+    withClientId(clientId: string): this
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withCleanSession(cleanSession: boolean): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    graph(): Graph
 
-        link<T>(): T
+    withBindingVersion(bindingVersion: string): this
 
-        withLinkTarget(target: undefined): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withId(id: string): this
+    withLinkLabel(label: string): this
 
-        withLastWill(lastWill: MqttServerLastWill): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    }
+    link<T>(): T
 
-    export class NilShape extends AnyShape {
-        constructor()
+    withLinkTarget(target: undefined): this
 
-        linkCopy(): NilShape
+    withId(id: string): this
 
+    withLastWill(lastWill: MqttServerLastWill): this
 
-    }
 
-    export class APIContractProcessingData extends BaseUnitProcessingData {
-        modelVersion: StrField
-        sourceSpec: StrField
+  }
 
-        constructor()
+  export class NilShape extends AnyShape {
+    constructor()
 
-        withSourceSpec(spec: string): this
+    linkCopy(): NilShape
 
-        withSourceSpec(spec: Spec): this
 
+  }
 
-    }
+  export class APIContractProcessingData extends BaseUnitProcessingData {
+    modelVersion: StrField
+    sourceSpec: StrField
 
-    export class EndPoint implements DomainElement {
-        parent: undefined | EndPoint
-        operations: Array<Operation>
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        path: StrField
-        security: Array<SecurityRequirement>
-        description: StrField
-        bindings: ChannelBindings
-        relativePath: string
-        payloads: Array<Payload>
-        servers: Array<Server>
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        extendsNode: Array<DomainElement>
-        parameters: Array<Parameter>
-        summary: StrField
+    constructor()
 
-        constructor()
+    withSourceSpec(spec: string): this
 
-        withSecurity(security: Array<SecurityRequirement>): this
+    withSourceSpec(spec: Spec): this
 
-        withPayloads(payloads: Array<Payload>): this
 
-        withPath(path: string): this
+  }
 
-        withParameter(name: string): Parameter
+  export class EndPoint implements DomainElement {
+    parent: undefined | EndPoint
+    operations: Array<Operation>
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    path: StrField
+    security: Array<SecurityRequirement>
+    description: StrField
+    bindings: ChannelBindings
+    relativePath: string
+    payloads: Array<Payload>
+    servers: Array<Server>
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    extendsNode: Array<DomainElement>
+    parameters: Array<Parameter>
+    summary: StrField
 
-        withName(name: string): this
+    constructor()
 
-        withDescription(description: string): this
+    withSecurity(security: Array<SecurityRequirement>): this
 
-        withOperation(method: string): Operation
+    withPayloads(payloads: Array<Payload>): this
 
-        graph(): Graph
+    withPath(path: string): this
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    withParameter(name: string): Parameter
 
-        withPayload(name: string): Payload
+    withName(name: string): this
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withDescription(description: string): this
 
-        withSummary(summary: string): this
+    withOperation(method: string): Operation
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    graph(): Graph
 
-        withServer(url: string): Server
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withOperations(operations: Array<Operation>): this
+    withPayload(name: string): Payload
 
-        withServers(servers: Array<Server>): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        withParameters(parameters: Array<Parameter>): this
+    withSummary(summary: string): this
 
-        withId(id: string): this
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        withBindings(bindings: ChannelBindings): this
+    withServer(url: string): Server
 
+    withOperations(operations: Array<Operation>): this
 
-    }
+    withServers(servers: Array<Server>): this
 
-    export class SeverityLevels {
-        static readonly WARNING: 'Warning'
-        static readonly INFO: 'Info'
-        static readonly VIOLATION: 'Violation'
+    withParameters(parameters: Array<Parameter>): this
 
-        static unapply(arg: string): string
+    withId(id: string): this
 
+    withBindings(bindings: ChannelBindings): this
 
-    }
 
-    export class AMFElementRenderer {
-        static renderToBuilder<T>(element: DomainElement, builder: org.yaml.builder.JsOutputBuilder, config: AMFGraphConfiguration): void
+  }
 
+  export class SeverityLevels {
+    static readonly WARNING: 'Warning'
+    static readonly INFO: 'Info'
+    static readonly VIOLATION: 'Violation'
 
-    }
+    static unapply(arg: string): string
 
-    export class WebApi extends Api<WebApi> {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        endPoints: Array<EndPoint>
-        provider: Organization
-        security: Array<SecurityRequirement>
-        identifier: StrField
-        description: StrField
-        documentations: Array<CreativeWork>
-        servers: Array<Server>
-        schemes: Array<StrField>
-        license: License
-        isExternalLink: BoolField
-        termsOfService: StrField
-        version: StrField
-        id: string
-        contentType: Array<StrField>
-        accepts: Array<StrField>
-        position: Range
-        extendsNode: Array<DomainElement>
 
-        constructor()
+  }
 
-        withDocumentationTitle(title: string): CreativeWork
+  export class AMFElementRenderer {
+    static renderToBuilder<T>(element: DomainElement, builder: org.yaml.builder.JsOutputBuilder, config: AMFGraphConfiguration): void
 
-        withSecurity(security: Array<SecurityRequirement>): this
 
-        withProvider(provider: Organization): this
+  }
 
-        withName(name: string): this
+  export class WebApi extends Api<WebApi> {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    endPoints: Array<EndPoint>
+    provider: Organization
+    security: Array<SecurityRequirement>
+    identifier: StrField
+    description: StrField
+    documentations: Array<CreativeWork>
+    servers: Array<Server>
+    schemes: Array<StrField>
+    license: License
+    isExternalLink: BoolField
+    termsOfService: StrField
+    version: StrField
+    id: string
+    contentType: Array<StrField>
+    accepts: Array<StrField>
+    position: Range
+    extendsNode: Array<DomainElement>
 
-        withEndPoint(path: string): EndPoint
+    constructor()
 
-        withDefaultServer(url: string): Server
+    withDocumentationTitle(title: string): CreativeWork
 
-        withDocumentation(documentations: Array<CreativeWork>): this
+    withSecurity(security: Array<SecurityRequirement>): this
 
-        withDescription(description: string): this
+    withProvider(provider: Organization): this
 
-        withDocumentationUrl(url: string): CreativeWork
+    withName(name: string): this
 
-        withLicense(license: License): this
+    withEndPoint(path: string): EndPoint
 
-        graph(): Graph
+    withDefaultServer(url: string): Server
 
-        withEndPoints(endPoints: Array<EndPoint>): this
+    withDocumentation(documentations: Array<CreativeWork>): this
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    withDescription(description: string): this
 
-        withTermsOfService(terms: string): this
+    withDocumentationUrl(url: string): CreativeWork
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withLicense(license: License): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    graph(): Graph
 
-        withVersion(version: string): this
+    withEndPoints(endPoints: Array<EndPoint>): this
 
-        withContentType(contentType: Array<string>): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withServer(url: string): Server
+    withTermsOfService(terms: string): this
 
-        withServers(servers: Array<Server>): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        withSchemes(schemes: Array<string>): this
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        withIdentifier(identifier: string): this
+    withVersion(version: string): this
 
-        withAccepts(accepts: Array<string>): this
+    withContentType(contentType: Array<string>): this
 
-        withId(id: string): this
+    withServer(url: string): Server
 
+    withServers(servers: Array<Server>): this
 
-    }
+    withSchemes(schemes: Array<string>): this
 
-    export class JsServerFileResourceLoader implements BaseFileResourceLoader {
-        constructor()
+    withIdentifier(identifier: string): this
 
-        fetch(resource: string): Promise<Content>
+    withAccepts(accepts: Array<string>): this
 
-        accepts(resource: string): boolean
+    withId(id: string): this
 
-        fetchFile(resource: string): any
 
-        ensureFileAuthority(str: string): string
+  }
 
+  export class JsServerFileResourceLoader implements BaseFileResourceLoader {
+    constructor()
 
-    }
+    fetch(resource: string): Promise<Content>
 
-    export class ResourceTypeFragment extends Fragment {
-        constructor()
+    accepts(resource: string): boolean
 
-    }
+    fetchFile(resource: string): any
 
-    export class JSONSchemaVersions {
-        static readonly Unspecified: JSONSchemaVersion
-        static readonly Draft04: JSONSchemaVersion
-        static readonly Draft07: JSONSchemaVersion
-        static readonly Draft201909: JSONSchemaVersion
+    ensureFileAuthority(str: string): string
 
-    }
 
-    export class ChannelBindings implements DomainElement, Linkable {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        bindings: Array<ChannelBinding>
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        linkLabel: StrField
-        extendsNode: Array<DomainElement>
+  }
 
-        constructor()
+  export class ResourceTypeFragment extends Fragment {
+    constructor()
 
-        link<T>(label: string): T
+  }
 
-        linkCopy(): ChannelBindings
+  export class JSONSchemaVersions {
+    static readonly Unspecified: JSONSchemaVersion
+    static readonly Draft04: JSONSchemaVersion
+    static readonly Draft07: JSONSchemaVersion
+    static readonly Draft201909: JSONSchemaVersion
 
-        withName(name: string): this
+  }
 
-        graph(): Graph
+  export class ChannelBindings implements DomainElement, Linkable {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    bindings: Array<ChannelBinding>
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    linkLabel: StrField
+    extendsNode: Array<DomainElement>
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    constructor()
 
-        withLinkLabel(label: string): this
+    link<T>(label: string): T
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    linkCopy(): ChannelBindings
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withName(name: string): this
 
-        link<T>(): T
+    graph(): Graph
 
-        withLinkTarget(target: undefined): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withBindings(bindings: Array<ChannelBinding>): this
+    withLinkLabel(label: string): this
 
-        withId(id: string): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    }
+    link<T>(): T
 
-    export class JsonSchemaShapeRenderer {
-        static toJsonSchema(element: AnyShape, config: AMFGraphConfiguration): string
+    withLinkTarget(target: undefined): this
 
-        static buildJsonSchema(element: AnyShape, config: AMFGraphConfiguration): string
+    withBindings(bindings: Array<ChannelBinding>): this
 
+    withId(id: string): this
 
-    }
 
-    export class DialectDomainElement implements DomainElement, Linkable {
-        customDomainProperties: Array<DomainExtension>
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        declarationName: StrField
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        linkLabel: StrField
-        extendsNode: Array<DomainElement>
+  }
 
-        constructor()
+  export class JsonSchemaShapeRenderer {
+    static toJsonSchema(element: AnyShape, config: AMFGraphConfiguration): string
 
-        link<T>(label: string): T
+    static buildJsonSchema(element: AnyShape, config: AMFGraphConfiguration): string
 
-        withObjectCollectionProperty(propertyIri: string, value: Array<DialectDomainElement>): this
 
-        linkCopy(): DialectDomainElement
+  }
 
-        isAbstract(): BoolField
+  export class DialectDomainElement implements DomainElement, Linkable {
+    customDomainProperties: Array<DomainExtension>
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    declarationName: StrField
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    linkLabel: StrField
+    extendsNode: Array<DomainElement>
 
-        withAbstract(isAbstract: boolean): DialectDomainElement
+    constructor()
 
-        withDeclarationName(name: string): DialectDomainElement
+    link<T>(label: string): T
 
-        localRefName(): string
+    withObjectCollectionProperty(propertyIri: string, value: Array<DialectDomainElement>): this
 
-        withObjectProperty(iri: string, value: DialectDomainElement): this
+    linkCopy(): DialectDomainElement
 
-        withLiteralProperty(propertyIri: string, value: boolean): this
+    isAbstract(): BoolField
 
-        graph(): Graph
+    withAbstract(isAbstract: boolean): DialectDomainElement
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    withDeclarationName(name: string): DialectDomainElement
 
-        withLinkLabel(label: string): this
+    localRefName(): string
 
-        getTypeIris(): Array<string>
+    withObjectProperty(iri: string, value: DialectDomainElement): this
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withLiteralProperty(propertyIri: string, value: boolean): this
 
-        containsProperty(property: PropertyMapping): boolean
+    graph(): Graph
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        link<T>(): T
+    withLinkLabel(label: string): this
 
-        withLinkTarget(target: undefined): this
+    getTypeIris(): Array<string>
 
-        withLiteralProperty(propertyIri: string, value: number): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        withDefinedby(nodeMapping: NodeMapping): DialectDomainElement
+    containsProperty(property: PropertyMapping): boolean
 
-        getPropertyIris(): Array<string>
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        definedBy(): NodeMapping
+    link<T>(): T
 
-        withLiteralProperty(propertyIri: string, value: Array<any>): this
+    withLinkTarget(target: undefined): this
 
-        withInstanceTypes(types: Array<string>): DialectDomainElement
+    withLiteralProperty(propertyIri: string, value: number): this
 
-        getObjectByProperty(iri: string): Array<DialectDomainElement>
+    withDefinedby(nodeMapping: NodeMapping): DialectDomainElement
 
-        includeName(): string
+    getPropertyIris(): Array<string>
 
-        withLiteralProperty(propertyIri: string, value: string): this
+    definedBy(): NodeMapping
 
-        withId(id: string): this
+    withLiteralProperty(propertyIri: string, value: Array<any>): this
 
+    withInstanceTypes(types: Array<string>): DialectDomainElement
 
-    }
+    getObjectByProperty(iri: string): Array<DialectDomainElement>
 
-    export class MessageBindings implements DomainElement, Linkable {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        bindings: Array<MessageBinding>
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        linkLabel: StrField
-        extendsNode: Array<DomainElement>
+    includeName(): string
 
-        constructor()
+    withLiteralProperty(propertyIri: string, value: string): this
 
-        link<T>(label: string): T
+    withId(id: string): this
 
-        linkCopy(): MessageBindings
 
-        withName(name: string): this
+  }
 
-        graph(): Graph
+  export class MessageBindings implements DomainElement, Linkable {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    bindings: Array<MessageBinding>
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    linkLabel: StrField
+    extendsNode: Array<DomainElement>
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    constructor()
 
-        withLinkLabel(label: string): this
+    link<T>(label: string): T
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    linkCopy(): MessageBindings
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withName(name: string): this
 
-        link<T>(): T
+    graph(): Graph
 
-        withLinkTarget(target: undefined): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withBindings(bindings: Array<MessageBinding>): this
+    withLinkLabel(label: string): this
 
-        withId(id: string): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    }
+    link<T>(): T
 
-    export class Dialect implements BaseUnit, EncodesModel, DeclaresModel {
-        name: StrField
-        location: string
-        usage: StrField
-        nameAndVersion: string
-        allHeaders: Array<string>
-        version: StrField
-        id: string
-        raw: undefined | string
-        processingData: BaseUnitProcessingData
-        fragmentHeaders: Array<string>
-        libraryHeader: undefined | string
-        header: string
-        sourceSpec: undefined | Spec
-        modelVersion: StrField
-        encodes: DomainElement
-        declares: Array<DomainElement>
-        externals: Array<External>
+    withLinkTarget(target: undefined): this
 
-        constructor()
+    withBindings(bindings: Array<MessageBinding>): this
 
-        findByType(typeId: string): Array<DomainElement>
+    withId(id: string): this
 
-        cloneUnit(): BaseUnit
 
-        withExternals(externals: Array<External>): Dialect
+  }
 
-        withName(name: string): Dialect
+  export class Dialect implements BaseUnit, EncodesModel, DeclaresModel {
+    name: StrField
+    location: string
+    usage: StrField
+    nameAndVersion: string
+    allHeaders: Array<string>
+    version: StrField
+    id: string
+    raw: undefined | string
+    processingData: BaseUnitProcessingData
+    fragmentHeaders: Array<string>
+    libraryHeader: undefined | string
+    header: string
+    sourceSpec: undefined | Spec
+    modelVersion: StrField
+    encodes: DomainElement
+    declares: Array<DomainElement>
+    externals: Array<External>
 
-        withReferences(references: Array<BaseUnit>): this
+    constructor()
 
-        withDeclaredElement(declared: DomainElement): this
+    findByType(typeId: string): Array<DomainElement>
 
-        withRaw(raw: string): this
+    cloneUnit(): BaseUnit
 
-        withUsage(usage: string): this
+    withExternals(externals: Array<External>): Dialect
 
-        isLibraryHeader(header: string): boolean
+    withName(name: string): Dialect
 
-        findById(id: string): undefined | DomainElement
+    withReferences(references: Array<BaseUnit>): this
 
-        withLocation(location: string): this
+    withDeclaredElement(declared: DomainElement): this
 
-        withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
+    withRaw(raw: string): this
 
-        extensions(): Array<SemanticExtension>
+    withUsage(usage: string): this
 
-        withDocuments(documentsMapping: DocumentsModel): Dialect
+    isLibraryHeader(header: string): boolean
 
-        withVersion(version: string): Dialect
+    findById(id: string): undefined | DomainElement
 
-        withEncodes(encoded: DomainElement): this
+    withLocation(location: string): this
 
-        pkg(): StrField
+    withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
 
-        documents(): DocumentsModel
+    extensions(): Array<SemanticExtension>
 
-        withPkg(pkg: string): this
+    withDocuments(documentsMapping: DocumentsModel): Dialect
 
-        withDeclares(declares: Array<DomainElement>): this
+    withVersion(version: string): Dialect
 
-        references(): Array<BaseUnit>
+    withEncodes(encoded: DomainElement): this
 
-        isFragmentHeader(header: string): boolean
+    pkg(): StrField
 
-        withProcessingData(data: BaseUnitProcessingData): this
+    documents(): DocumentsModel
 
-        withId(id: string): this
+    withPkg(pkg: string): this
 
+    withDeclares(declares: Array<DomainElement>): this
 
-    }
+    references(): Array<BaseUnit>
 
-    export class ScalarShape extends AnyShape {
-        dataType: StrField
-        pattern: StrField
-        minLength: IntField
-        maxLength: IntField
-        minimum: DoubleField
-        maximum: DoubleField
-        exclusiveMinimum: BoolField
-        exclusiveMaximum: BoolField
-        format: StrField
-        multipleOf: DoubleField
-        encoding: StrField
-        mediaType: StrField
-        schema: Shape
+    isFragmentHeader(header: string): boolean
 
-        constructor()
+    withProcessingData(data: BaseUnitProcessingData): this
 
-        withDataType(dataType: string): this
+    withId(id: string): this
 
-        withPattern(pattern: string): this
 
-        withMinLength(min: number): this
+  }
 
-        withMaxLength(max: number): this
+  export class ScalarShape extends AnyShape {
+    dataType: StrField
+    pattern: StrField
+    minLength: IntField
+    maxLength: IntField
+    minimum: DoubleField
+    maximum: DoubleField
+    exclusiveMinimum: BoolField
+    exclusiveMaximum: BoolField
+    format: StrField
+    multipleOf: DoubleField
+    encoding: StrField
+    mediaType: StrField
+    schema: Shape
 
-        withMinimum(min: number): this
+    constructor()
 
-        withMaximum(max: number): this
+    withDataType(dataType: string): this
 
-        withExclusiveMinimum(min: boolean): this
+    withPattern(pattern: string): this
 
-        withExclusiveMaximum(max: boolean): this
+    withMinLength(min: number): this
 
-        withFormat(format: string): this
+    withMaxLength(max: number): this
 
-        withMultipleOf(multiple: number): this
+    withMinimum(min: number): this
 
-        withEncoding(encoding: string): this
+    withMaximum(max: number): this
 
-        withMediaType(mediaType: string): this
+    withExclusiveMinimum(min: boolean): this
 
-        withSchema(schema: Shape): this
+    withExclusiveMaximum(max: boolean): this
 
-        withSerializationSchema(schema: Shape): this
+    withFormat(format: string): this
 
-        linkCopy(): ScalarShape
+    withMultipleOf(multiple: number): this
 
+    withEncoding(encoding: string): this
 
-    }
+    withMediaType(mediaType: string): this
 
-    export class Amqp091ChannelExchange implements DomainElement {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        autoDelete: BoolField
-        isExternalLink: BoolField
-        id: string
-        vHost: StrField
-        position: Range
-        type: StrField
-        extendsNode: Array<DomainElement>
-        durable: BoolField
+    withSchema(schema: Shape): this
 
-        constructor()
+    withSerializationSchema(schema: Shape): this
 
-        withName(name: string): this
+    linkCopy(): ScalarShape
 
-        withDurable(durable: boolean): this
 
-        withVHost(vHost: string): this
+  }
 
-        graph(): Graph
+  export class Amqp091ChannelExchange implements DomainElement {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    autoDelete: BoolField
+    isExternalLink: BoolField
+    id: string
+    vHost: StrField
+    position: Range
+    type: StrField
+    extendsNode: Array<DomainElement>
+    durable: BoolField
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    constructor()
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withName(name: string): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withDurable(durable: boolean): this
 
-        withAutoDelete(autoDelete: boolean): this
+    withVHost(vHost: string): this
 
-        withType(type: string): this
+    graph(): Graph
 
-        withId(id: string): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    }
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    export class ParametrizedTrait implements ParametrizedDeclaration {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        variables: Array<VariableValue>
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        target: AbstractDeclaration
-        extendsNode: Array<DomainElement>
+    withAutoDelete(autoDelete: boolean): this
 
-        constructor()
+    withType(type: string): this
 
-        withName(name: string): this
+    withId(id: string): this
 
-        graph(): Graph
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+  }
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+  export class ParametrizedTrait implements ParametrizedDeclaration {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    variables: Array<VariableValue>
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    target: AbstractDeclaration
+    extendsNode: Array<DomainElement>
 
-        withVariables(variables: Array<VariableValue>): this
+    constructor()
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withName(name: string): this
 
-        withTarget(target: AbstractDeclaration): this
+    graph(): Graph
 
-        withId(id: string): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    }
+    withVariables(variables: Array<VariableValue>): this
 
-    export class JsBrowserHttpResourceLoader extends BaseHttpResourceLoader {
-        constructor()
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        fetch(resource: string): any
+    withTarget(target: AbstractDeclaration): this
 
+    withId(id: string): this
 
-    }
 
-    export class Request extends Message {
-        required: BoolField
-        queryParameters: Array<Parameter>
-        headers: Array<Parameter>
-        queryString: Shape
-        uriParameters: Array<Parameter>
-        cookieParameters: Array<Parameter>
+  }
 
-        constructor()
+  export class JsBrowserHttpResourceLoader extends BaseHttpResourceLoader {
+    constructor()
 
-        withRequired(required: boolean): this
+    fetch(resource: string): any
 
-        withQueryParameters(parameters: Array<Parameter>): this
 
-        withHeaders(headers: Array<Parameter>): this
+  }
 
-        withQueryString(queryString: Shape): this
+  export class Request extends Message {
+    required: BoolField
+    queryParameters: Array<Parameter>
+    headers: Array<Parameter>
+    queryString: Shape
+    uriParameters: Array<Parameter>
+    cookieParameters: Array<Parameter>
 
-        withUriParameters(uriParameters: Array<Parameter>): this
+    constructor()
 
-        withCookieParameters(cookieParameters: Array<Parameter>): this
+    withRequired(required: boolean): this
 
-        withQueryParameter(name: string): Parameter
+    withQueryParameters(parameters: Array<Parameter>): this
 
-        withHeader(name: string): Parameter
+    withHeaders(headers: Array<Parameter>): this
 
-        withUriParameter(name: string): Parameter
+    withQueryString(queryString: Shape): this
 
-        withCookieParameter(name: string): Parameter
+    withUriParameters(uriParameters: Array<Parameter>): this
 
-        linkCopy(): Request
+    withCookieParameters(cookieParameters: Array<Parameter>): this
 
+    withQueryParameter(name: string): Parameter
 
-    }
+    withHeader(name: string): Parameter
 
-    export class CreativeWork implements DomainElement {
-        customDomainProperties: Array<DomainExtension>
-        url: StrField
-        description: StrField
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        title: StrField
-        extendsNode: Array<DomainElement>
+    withUriParameter(name: string): Parameter
 
-        constructor()
+    withCookieParameter(name: string): Parameter
 
-        withDescription(description: string): this
+    linkCopy(): Request
 
-        withTitle(title: string): this
 
-        graph(): Graph
+  }
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+  export class CreativeWork implements DomainElement {
+    customDomainProperties: Array<DomainExtension>
+    url: StrField
+    description: StrField
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    title: StrField
+    extendsNode: Array<DomainElement>
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    constructor()
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withDescription(description: string): this
 
-        withUrl(url: string): this
+    withTitle(title: string): this
 
-        withId(id: string): this
+    graph(): Graph
 
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-    }
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    export class LowPriority extends PluginPriority {
-    }
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    export class OASConfiguration {
-        static OAS20(): AMFConfiguration
+    withUrl(url: string): this
 
-        static OAS30(): AMFConfiguration
+    withId(id: string): this
 
-        static OAS(): AMFConfiguration
 
-        static fromSpec(spec: Spec): AMFConfiguration
+  }
 
+  export class LowPriority extends PluginPriority {
+  }
 
-    }
+  export class OASConfiguration {
+    static OAS20(): AMFConfiguration
 
-    export class Content {
-        constructor(stream: string, url: string)
-        constructor(stream: string, url: string, mime: string)
+    static OAS30(): AMFConfiguration
 
-    }
+    static OAS(): AMFConfiguration
 
-    export class DatatypePropertyTerm extends PropertyTerm {
-        constructor()
+    static fromSpec(spec: Spec): AMFConfiguration
 
-    }
 
-    export class ResourceNotFound {
-        readonly msj: string
+  }
 
-        constructor(msj: string)
+  export class Content {
+    constructor(stream: string, url: string)
+    constructor(stream: string, url: string, mime: string)
 
-    }
+  }
 
-    export class Parameter implements DomainElement {
-        name: StrField
-        binding: StrField
-        customDomainProperties: Array<DomainExtension>
-        examples: Array<Example>
-        style: StrField
-        description: StrField
-        payloads: Array<Payload>
-        deprecated: BoolField
-        allowReserved: BoolField
-        isExternalLink: BoolField
-        id: string
-        schema: Shape
-        explode: BoolField
-        parameterName: StrField
-        position: Range
-        required: BoolField
-        allowEmptyValue: BoolField
-        extendsNode: Array<DomainElement>
+  export class DatatypePropertyTerm extends PropertyTerm {
+    constructor()
 
-        constructor()
+  }
 
-        withPayloads(payloads: Array<Payload>): this
+  export class ResourceNotFound {
+    readonly msj: string
 
-        withExplode(explode: boolean): this
+    constructor(msj: string)
 
-        withName(name: string): this
+  }
 
-        withScalarSchema(name: string): ScalarShape
+  export class Parameter implements DomainElement {
+    name: StrField
+    binding: StrField
+    customDomainProperties: Array<DomainExtension>
+    examples: Array<Example>
+    style: StrField
+    description: StrField
+    payloads: Array<Payload>
+    deprecated: BoolField
+    allowReserved: BoolField
+    isExternalLink: BoolField
+    id: string
+    schema: Shape
+    explode: BoolField
+    parameterName: StrField
+    position: Range
+    required: BoolField
+    allowEmptyValue: BoolField
+    extendsNode: Array<DomainElement>
 
-        withExample(name: string): Example
+    constructor()
 
-        withDescription(description: string): this
+    withPayloads(payloads: Array<Payload>): this
 
-        withStyle(style: string): this
+    withExplode(explode: boolean): this
 
-        withAllowEmptyValue(allowEmptyValue: boolean): this
+    withName(name: string): this
 
-        withPayload(mediaType: string): Payload
+    withScalarSchema(name: string): ScalarShape
 
-        withExamples(examples: Array<Example>): this
+    withExample(name: string): Example
 
-        withObjectSchema(name: string): NodeShape
+    withDescription(description: string): this
 
-        withSchema(schema: Shape): this
+    withStyle(style: string): this
 
-        graph(): Graph
+    withAllowEmptyValue(allowEmptyValue: boolean): this
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    withPayload(mediaType: string): Payload
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withExamples(examples: Array<Example>): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withObjectSchema(name: string): NodeShape
 
-        withAllowReserved(allowReserved: boolean): this
+    withSchema(schema: Shape): this
 
-        withRequired(required: boolean): this
+    graph(): Graph
 
-        withId(id: string): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withParameterName(name: string): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        withBinding(binding: string): this
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        withDeprecated(deprecated: boolean): this
+    withAllowReserved(allowReserved: boolean): this
 
+    withRequired(required: boolean): this
 
-    }
+    withId(id: string): this
 
-    export class DocumentationItem extends Fragment {
-        constructor()
+    withParameterName(name: string): this
 
-    }
+    withBinding(binding: string): this
 
-    export class EventNames {
-        static readonly StartedParse: 'StartedParse'
-        static readonly StartedContentParse: 'StartedContentParse'
-        static readonly ParsedSyntax: 'ParsedSyntax'
-        static readonly ParsedModel: 'ParsedModel'
-        static readonly FinishedParse: 'FinishedParse'
-        static readonly StartedTransformation: 'StartedTransformation'
-        static readonly FinishedTransformationStep: 'FinishedTransformationStep'
-        static readonly StartedTransformationStep: 'StartedTransformationStep'
-        static readonly FinishedTransformation: 'FinishedTransformation'
-        static readonly StartingValidation: 'StartingValidation'
-        static readonly FinishedValidationPlugin: 'FinishedValidationPlugin'
-        static readonly FinishedValidation: 'FinishedValidation'
-        static readonly StartedRender: 'StartedRender'
-        static readonly StartedRenderToWriter: 'StartedRenderToWriter'
-        static readonly FinishedASTRender: 'FinishedASTRender'
-        static readonly FinishedSyntaxRender: 'FinishedSyntaxRender'
-        static readonly FoundReferences: 'FoundReferences'
-        static readonly SelectedParsePlugin: 'SelectedParsePlugin'
-        static readonly DetectedSyntaxMediaType: 'DetectedSyntaxMediaType'
-        static readonly SkippedValidationPlugin: 'SkippedValidationPlugin'
+    withDeprecated(deprecated: boolean): this
 
-    }
 
-    export class AnyShape implements Shape {
-        isNotExplicit: boolean
-        defaultValueStr: StrField
-        displayName: StrField
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        examples: Array<Example>
-        xone: Array<Shape>
-        readOnly: BoolField
-        description: StrField
-        documentation: CreativeWork
-        deprecated: BoolField
-        xmlSerialization: XMLSerializer
-        customShapePropertyDefinitions: Array<PropertyShape>
-        or: Array<Shape>
-        elseShape: Shape
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        isExternalLink: BoolField
-        customShapeProperties: Array<ShapeExtension>
-        thenShape: Shape
-        id: string
-        ifShape: Shape
-        writeOnly: BoolField
-        comment: StrField
-        not: Shape
-        values: Array<DataNode>
-        position: Range
-        inherits: Array<Shape>
-        linkLabel: StrField
-        defaultValue: DataNode
-        extendsNode: Array<DomainElement>
-        and: Array<Shape>
+  }
 
-        constructor()
+  export class DocumentationItem extends Fragment {
+    constructor()
 
-        link<T>(label: string): T
+  }
 
-        withValues(values: Array<DataNode>): this
+  export class EventNames {
+    static readonly StartedParse: 'StartedParse'
+    static readonly StartedContentParse: 'StartedContentParse'
+    static readonly ParsedSyntax: 'ParsedSyntax'
+    static readonly ParsedModel: 'ParsedModel'
+    static readonly FinishedParse: 'FinishedParse'
+    static readonly StartedTransformation: 'StartedTransformation'
+    static readonly FinishedTransformationStep: 'FinishedTransformationStep'
+    static readonly StartedTransformationStep: 'StartedTransformationStep'
+    static readonly FinishedTransformation: 'FinishedTransformation'
+    static readonly StartingValidation: 'StartingValidation'
+    static readonly FinishedValidationPlugin: 'FinishedValidationPlugin'
+    static readonly FinishedValidation: 'FinishedValidation'
+    static readonly StartedRender: 'StartedRender'
+    static readonly StartedRenderToWriter: 'StartedRenderToWriter'
+    static readonly FinishedASTRender: 'FinishedASTRender'
+    static readonly FinishedSyntaxRender: 'FinishedSyntaxRender'
+    static readonly FoundReferences: 'FoundReferences'
+    static readonly SelectedParsePlugin: 'SelectedParsePlugin'
+    static readonly DetectedSyntaxMediaType: 'DetectedSyntaxMediaType'
+    static readonly SkippedValidationPlugin: 'SkippedValidationPlugin'
 
-        linkCopy(): AnyShape
+  }
 
-        withOr(subShapes: Array<Shape>): this
+  export class AnyShape implements Shape {
+    isNotExplicit: boolean
+    defaultValueStr: StrField
+    displayName: StrField
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    examples: Array<Example>
+    xone: Array<Shape>
+    readOnly: BoolField
+    description: StrField
+    documentation: CreativeWork
+    deprecated: BoolField
+    xmlSerialization: XMLSerializer
+    customShapePropertyDefinitions: Array<PropertyShape>
+    or: Array<Shape>
+    elseShape: Shape
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    isExternalLink: BoolField
+    customShapeProperties: Array<ShapeExtension>
+    thenShape: Shape
+    id: string
+    ifShape: Shape
+    writeOnly: BoolField
+    comment: StrField
+    not: Shape
+    values: Array<DataNode>
+    position: Range
+    inherits: Array<Shape>
+    linkLabel: StrField
+    defaultValue: DataNode
+    extendsNode: Array<DomainElement>
+    and: Array<Shape>
 
-        withName(name: string): this
+    constructor()
 
-        withDescription(description: string): this
+    link<T>(label: string): T
 
-        trackedExample(trackId: string): undefined | Example
+    withValues(values: Array<DataNode>): this
 
-        withIf(ifShape: Shape): this
+    linkCopy(): AnyShape
 
-        withCustomShapePropertyDefinition(name: string): PropertyShape
+    withOr(subShapes: Array<Shape>): this
 
-        withExamples(examples: Array<Example>): this
+    withName(name: string): this
 
-        graph(): Graph
+    withDescription(description: string): this
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    trackedExample(trackId: string): undefined | Example
 
-        withLinkLabel(label: string): this
+    withIf(ifShape: Shape): this
 
-        withCustomShapePropertyDefinitions(propertyDefinitions: Array<PropertyShape>): this
+    withCustomShapePropertyDefinition(name: string): PropertyShape
 
-        withReadOnly(readOnly: boolean): this
+    withExamples(examples: Array<Example>): this
 
-        withInherits(inherits: Array<Shape>): this
+    graph(): Graph
 
-        withAnd(subShapes: Array<Shape>): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withComment(comment: string): this
+    withLinkLabel(label: string): this
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withCustomShapePropertyDefinitions(propertyDefinitions: Array<PropertyShape>): this
 
-        withWriteOnly(writeOnly: boolean): this
+    withReadOnly(readOnly: boolean): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withInherits(inherits: Array<Shape>): this
 
-        link<T>(): T
+    withAnd(subShapes: Array<Shape>): this
 
-        inlined(): boolean
+    withComment(comment: string): this
 
-        withLinkTarget(target: undefined): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        withDisplayName(name: string): this
+    withWriteOnly(writeOnly: boolean): this
 
-        withDefaultValue(defaultVal: DataNode): this
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        withXMLSerialization(xmlSerialization: XMLSerializer): this
+    link<T>(): T
 
-        withThen(thenShape: Shape): this
+    inlined(): boolean
 
-        withDefaultStr(value: string): this
+    withLinkTarget(target: undefined): this
 
-        withCustomShapeProperties(customShapeProperties: Array<ShapeExtension>): this
+    withDisplayName(name: string): this
 
-        withId(id: string): this
+    withDefaultValue(defaultVal: DataNode): this
 
-        withElse(elseShape: Shape): this
+    withXMLSerialization(xmlSerialization: XMLSerializer): this
 
-        withExample(mediaType: string): Example
+    withThen(thenShape: Shape): this
 
-        withXone(subShapes: Array<Shape>): this
+    withDefaultStr(value: string): this
 
-        withDocumentation(documentation: CreativeWork): this
+    withCustomShapeProperties(customShapeProperties: Array<ShapeExtension>): this
 
-        withDeprecated(deprecated: boolean): this
+    withId(id: string): this
 
-        withNode(shape: Shape): this
+    withElse(elseShape: Shape): this
 
+    withExample(mediaType: string): Example
 
-    }
+    withXone(subShapes: Array<Shape>): this
 
-    export class MatrixShape extends ArrayShape {
-        constructor()
+    withDocumentation(documentation: CreativeWork): this
 
-        withItems(items: Shape): this
+    withDeprecated(deprecated: boolean): this
 
+    withNode(shape: Shape): this
 
-    }
 
-    export class ServerBindings implements DomainElement, Linkable {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        bindings: Array<ServerBinding>
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        linkLabel: StrField
-        extendsNode: Array<DomainElement>
+  }
 
-        constructor()
+  export class MatrixShape extends ArrayShape {
+    constructor()
 
-        link<T>(label: string): T
+    withItems(items: Shape): this
 
-        withBindings(bindings: Array<ServerBinding>): this
 
-        linkCopy(): ServerBindings
+  }
 
-        withName(name: string): this
+  export class ServerBindings implements DomainElement, Linkable {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    bindings: Array<ServerBinding>
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    linkLabel: StrField
+    extendsNode: Array<DomainElement>
 
-        graph(): Graph
+    constructor()
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    link<T>(label: string): T
 
-        withLinkLabel(label: string): this
+    withBindings(bindings: Array<ServerBinding>): this
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    linkCopy(): ServerBindings
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withName(name: string): this
 
-        link<T>(): T
+    graph(): Graph
 
-        withLinkTarget(target: undefined): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withId(id: string): this
+    withLinkLabel(label: string): this
 
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    }
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    export class NodeShape extends AnyShape {
-        minProperties: IntField
-        maxProperties: IntField
-        closed: BoolField
-        discriminator: StrField
-        discriminatorValue: StrField
-        discriminatorMapping: Array<IriTemplateMapping>
-        discriminatorValueMapping: Array<DiscriminatorValueMapping>
-        properties: Array<PropertyShape>
-        additionalPropertiesSchema: Shape
-        additionalPropertiesKeySchema: Shape
-        dependencies: Array<PropertyDependencies>
-        schemaDependencies: Array<SchemaDependencies>
-        propertyNames: Shape
-        unevaluatedProperties: boolean
-        unevaluatedPropertiesSchema: Shape
+    link<T>(): T
 
-        constructor()
+    withLinkTarget(target: undefined): this
 
-        withMinProperties(min: number): this
+    withId(id: string): this
 
-        withMaxProperties(max: number): this
 
-        withClosed(closed: boolean): this
+  }
 
-        withDiscriminator(discriminator: string): this
+  export class NodeShape extends AnyShape {
+    minProperties: IntField
+    maxProperties: IntField
+    closed: BoolField
+    discriminator: StrField
+    discriminatorValue: StrField
+    discriminatorMapping: Array<IriTemplateMapping>
+    discriminatorValueMapping: Array<DiscriminatorValueMapping>
+    properties: Array<PropertyShape>
+    additionalPropertiesSchema: Shape
+    additionalPropertiesKeySchema: Shape
+    dependencies: Array<PropertyDependencies>
+    schemaDependencies: Array<SchemaDependencies>
+    propertyNames: Shape
+    unevaluatedProperties: boolean
+    unevaluatedPropertiesSchema: Shape
 
-        withDiscriminatorValue(value: string): this
+    constructor()
 
-        withDiscriminatorMapping(mappings: Array<IriTemplateMapping>): this
+    withMinProperties(min: number): this
 
-        withProperties(properties: Array<PropertyShape>): this
+    withMaxProperties(max: number): this
 
-        withAdditionalPropertiesSchema(additionalPropertiesSchema: Shape): this
+    withClosed(closed: boolean): this
 
-        withAdditionalPropertiesKeySchema(additionalPropertiesKeySchema: Shape): this
+    withDiscriminator(discriminator: string): this
 
-        withDependencies(dependencies: Array<PropertyDependencies>): this
+    withDiscriminatorValue(value: string): this
 
-        withSchemaDependencies(dependencies: Array<SchemaDependencies>): this
+    withDiscriminatorMapping(mappings: Array<IriTemplateMapping>): this
 
-        withPropertyNames(propertyNames: Shape): this
+    withProperties(properties: Array<PropertyShape>): this
 
-        withUnevaluatedProperties(value: boolean): this
+    withAdditionalPropertiesSchema(additionalPropertiesSchema: Shape): this
 
-        withUnevaluatedPropertiesSchema(schema: Shape): this
+    withAdditionalPropertiesKeySchema(additionalPropertiesKeySchema: Shape): this
 
-        withProperty(name: string): PropertyShape
+    withDependencies(dependencies: Array<PropertyDependencies>): this
 
-        withDependency(): PropertyDependencies
+    withSchemaDependencies(dependencies: Array<SchemaDependencies>): this
 
-        withInheritsObject(name: string): NodeShape
+    withPropertyNames(propertyNames: Shape): this
 
-        withInheritsScalar(name: string): ScalarShape
+    withUnevaluatedProperties(value: boolean): this
 
-        linkCopy(): NodeShape
+    withUnevaluatedPropertiesSchema(schema: Shape): this
 
+    withProperty(name: string): PropertyShape
 
-    }
+    withDependency(): PropertyDependencies
 
-    export class DialectInstancePatch implements BaseUnit, EncodesModel, DeclaresModel, DialectInstanceUnit {
-        location: string
-        usage: StrField
-        id: string
-        raw: undefined | string
-        processingData: DialectInstanceProcessingData
-        sourceSpec: undefined | Spec
-        modelVersion: StrField
-        encodes: DialectDomainElement
-        declares: Array<DomainElement>
-        externals: Array<External>
+    withInheritsObject(name: string): NodeShape
 
-        constructor()
+    withInheritsScalar(name: string): ScalarShape
 
-        findByType(typeId: string): Array<DomainElement>
+    linkCopy(): NodeShape
 
-        withProcessingData(data: DialectInstanceProcessingData): this
 
-        cloneUnit(): BaseUnit
+  }
 
-        withExternals(externals: Array<External>): DialectInstancePatch
+  export class DialectInstancePatch implements BaseUnit, EncodesModel, DeclaresModel, DialectInstanceUnit {
+    location: string
+    usage: StrField
+    id: string
+    raw: undefined | string
+    processingData: DialectInstanceProcessingData
+    sourceSpec: undefined | Spec
+    modelVersion: StrField
+    encodes: DialectDomainElement
+    declares: Array<DomainElement>
+    externals: Array<External>
 
-        withReferences(references: Array<BaseUnit>): this
+    constructor()
 
-        withDeclaredElement(declared: DomainElement): this
+    findByType(typeId: string): Array<DomainElement>
 
-        withRaw(raw: string): this
+    withProcessingData(data: DialectInstanceProcessingData): this
 
-        withUsage(usage: string): this
+    cloneUnit(): BaseUnit
 
-        findById(id: string): undefined | DomainElement
+    withExternals(externals: Array<External>): DialectInstancePatch
 
-        withLocation(location: string): this
+    withReferences(references: Array<BaseUnit>): this
 
-        withGraphDependencies(ids: Array<string>): this
+    withDeclaredElement(declared: DomainElement): this
 
-        withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
+    withRaw(raw: string): this
 
-        graphDependencies(): Array<StrField>
+    withUsage(usage: string): this
 
-        withDefinedBy(dialectId: string): this
+    findById(id: string): undefined | DomainElement
 
-        withEncodes(encoded: DialectDomainElement): DialectInstancePatch
+    withLocation(location: string): this
 
-        withEncodes(encoded: DomainElement): this
+    withGraphDependencies(ids: Array<string>): this
 
-        definedBy(): StrField
+    withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
 
-        pkg(): StrField
+    graphDependencies(): Array<StrField>
 
-        withPkg(pkg: string): this
+    withDefinedBy(dialectId: string): this
 
-        withDeclares(declares: Array<DomainElement>): this
+    withEncodes(encoded: DialectDomainElement): DialectInstancePatch
 
-        references(): Array<BaseUnit>
+    withEncodes(encoded: DomainElement): this
 
-        withProcessingData(data: BaseUnitProcessingData): this
+    definedBy(): StrField
 
-        withId(id: string): this
+    pkg(): StrField
 
+    withPkg(pkg: string): this
 
-    }
+    withDeclares(declares: Array<DomainElement>): this
 
-    export class Overlay extends Document {
-        constructor()
+    references(): Array<BaseUnit>
 
-    }
+    withProcessingData(data: BaseUnitProcessingData): this
 
-    export class License implements DomainElement {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        url: StrField
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        extendsNode: Array<DomainElement>
+    withId(id: string): this
 
-        constructor()
 
-        withName(name: string): this
+  }
 
-        graph(): Graph
+  export class Overlay extends Document {
+    constructor()
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+  }
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+  export class License implements DomainElement {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    url: StrField
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    extendsNode: Array<DomainElement>
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    constructor()
 
-        withUrl(url: string): this
+    withName(name: string): this
 
-        withId(id: string): this
+    graph(): Graph
 
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-    }
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    export class Tag implements DomainElement {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        description: StrField
-        documentation: CreativeWork
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        extendsNode: Array<DomainElement>
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        constructor()
+    withUrl(url: string): this
 
-        withName(name: string): this
+    withId(id: string): this
 
-        withDescription(description: string): this
 
-        withVariables(documentation: CreativeWork): this
+  }
 
-        graph(): Graph
+  export class Tag implements DomainElement {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    description: StrField
+    documentation: CreativeWork
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    extendsNode: Array<DomainElement>
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    constructor()
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withName(name: string): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withDescription(description: string): this
 
-        withId(id: string): this
+    withVariables(documentation: CreativeWork): this
 
+    graph(): Graph
 
-    }
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-    export class AMFValidationReport {
-        conforms: boolean
-        model: string
-        profile: ProfileName
-        results: Array<AMFValidationResult>
-        toString: string
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        constructor(model: string, profile: ProfileName, results: Array<AMFValidationResult>)
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        toStringMaxed(max: number): string
+    withId(id: string): this
 
 
-    }
+  }
 
-    export class ArrayNode implements DataNode {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        members: Array<DataNode>
-        extendsNode: Array<DomainElement>
+  export class AMFValidationReport {
+    conforms: boolean
+    model: string
+    profile: ProfileName
+    results: Array<AMFValidationResult>
+    toString: string
 
-        constructor()
+    constructor(model: string, profile: ProfileName, results: Array<AMFValidationResult>)
 
-        withName(name: string): this
+    toStringMaxed(max: number): string
 
-        graph(): Graph
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+  }
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+  export class ArrayNode implements DataNode {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    members: Array<DataNode>
+    extendsNode: Array<DomainElement>
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    constructor()
 
-        withId(id: string): this
+    withName(name: string): this
 
-        addMember(member: DataNode): this
+    graph(): Graph
 
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-    }
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    export class Organization implements DomainElement {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        email: StrField
-        url: StrField
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        extendsNode: Array<DomainElement>
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        constructor()
+    withId(id: string): this
 
-        withEmail(email: string): this
+    addMember(member: DataNode): this
 
-        withName(name: string): this
 
-        graph(): Graph
+  }
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+  export class Organization implements DomainElement {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    email: StrField
+    url: StrField
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    extendsNode: Array<DomainElement>
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    constructor()
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withEmail(email: string): this
 
-        withUrl(url: string): this
+    withName(name: string): this
 
-        withId(id: string): this
+    graph(): Graph
 
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-    }
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    export class ParametrizedResourceType implements ParametrizedDeclaration {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        variables: Array<VariableValue>
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        target: AbstractDeclaration
-        extendsNode: Array<DomainElement>
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        constructor()
+    withUrl(url: string): this
 
-        withName(name: string): this
+    withId(id: string): this
 
-        graph(): Graph
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+  }
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+  export class ParametrizedResourceType implements ParametrizedDeclaration {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    variables: Array<VariableValue>
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    target: AbstractDeclaration
+    extendsNode: Array<DomainElement>
 
-        withVariables(variables: Array<VariableValue>): this
+    constructor()
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withName(name: string): this
 
-        withTarget(target: AbstractDeclaration): this
+    graph(): Graph
 
-        withId(id: string): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    }
+    withVariables(variables: Array<VariableValue>): this
 
-    export class VocabularyReference implements DomainElement {
-        reference: StrField
-        customDomainProperties: Array<DomainExtension>
-        alias: StrField
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        extendsNode: Array<DomainElement>
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        constructor()
+    withTarget(target: AbstractDeclaration): this
 
-        withAlias(alias: string): VocabularyReference
+    withId(id: string): this
 
-        graph(): Graph
 
-        withReference(reference: string): VocabularyReference
+  }
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+  export class VocabularyReference implements DomainElement {
+    reference: StrField
+    customDomainProperties: Array<DomainExtension>
+    alias: StrField
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    extendsNode: Array<DomainElement>
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    constructor()
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withAlias(alias: string): VocabularyReference
 
-        withId(id: string): this
+    graph(): Graph
 
+    withReference(reference: string): VocabularyReference
 
-    }
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-    export class AMFRenderer {
-        static render(baseUnit: BaseUnit, configuration: AMFGraphConfiguration): string
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        static render(baseUnit: BaseUnit, mediaType: string, configuration: AMFGraphConfiguration): string
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        static renderGraphToBuilder<T>(baseUnit: BaseUnit, builder: org.yaml.builder.JsOutputBuilder, configuration: AMFGraphConfiguration): T
+    withId(id: string): this
 
 
-    }
+  }
 
-    export class AnnotationTypeDeclaration extends Fragment {
-        constructor()
+  export class AMFRenderer {
+    static render(baseUnit: BaseUnit, configuration: AMFGraphConfiguration): string
 
-    }
+    static render(baseUnit: BaseUnit, mediaType: string, configuration: AMFGraphConfiguration): string
 
-    export class DocumentsModel implements DomainElement {
-        customDomainProperties: Array<DomainExtension>
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        extendsNode: Array<DomainElement>
+    static renderGraphToBuilder<T>(baseUnit: BaseUnit, builder: org.yaml.builder.JsOutputBuilder, configuration: AMFGraphConfiguration): T
 
-        constructor()
 
-        declarationsPath(): StrField
+  }
 
-        withRoot(documentMapping: DocumentMapping): DocumentsModel
+  export class AnnotationTypeDeclaration extends Fragment {
+    constructor()
 
-        withKeyProperty(keyProperty: boolean): DocumentsModel
+  }
 
-        keyProperty(): BoolField
+  export class DocumentsModel implements DomainElement {
+    customDomainProperties: Array<DomainExtension>
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    extendsNode: Array<DomainElement>
 
-        fragments(): Array<DocumentMapping>
+    constructor()
 
-        graph(): Graph
+    declarationsPath(): StrField
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    withRoot(documentMapping: DocumentMapping): DocumentsModel
 
-        root(): DocumentMapping
+    withKeyProperty(keyProperty: boolean): DocumentsModel
 
-        selfEncoded(): BoolField
+    keyProperty(): BoolField
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    fragments(): Array<DocumentMapping>
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    graph(): Graph
 
-        withFragments(fragments: Array<DocumentMapping>): DocumentsModel
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        library(): DocumentMapping
+    root(): DocumentMapping
 
-        withLibrary(library: DocumentMapping): DocumentsModel
+    selfEncoded(): BoolField
 
-        withSelfEncoded(selfEncoded: boolean): DocumentsModel
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        withDeclarationsPath(declarationsPath: string): DocumentsModel
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        withId(id: string): this
+    withFragments(fragments: Array<DocumentMapping>): DocumentsModel
 
+    library(): DocumentMapping
 
-    }
+    withLibrary(library: DocumentMapping): DocumentsModel
 
-    export class Annotations {
-        isLocal: boolean
-        isTracked: boolean
-        resolvedLink: undefined | string
-        resolvedLinkTarget: undefined | string
-        inheritanceProvenance: undefined | string
-        inlinedElement: boolean
-        autoGeneratedName: boolean
+    withSelfEncoded(selfEncoded: boolean): DocumentsModel
 
-        constructor()
+    withDeclarationsPath(declarationsPath: string): DocumentsModel
 
-        lexical(): Range
+    withId(id: string): this
 
-        custom(): Array<DomainExtension>
 
-        fragmentName(): undefined | string
+  }
 
-        location(): undefined | string
+  export class Annotations {
+    isLocal: boolean
+    isTracked: boolean
+    resolvedLink: undefined | string
+    resolvedLinkTarget: undefined | string
+    inheritanceProvenance: undefined | string
+    inlinedElement: boolean
+    autoGeneratedName: boolean
 
-        isTrackedBy(trackId: string): boolean
+    constructor()
 
+    lexical(): Range
 
-    }
+    custom(): Array<DomainExtension>
 
-    export class KafkaMessageBinding implements MessageBinding {
-        customDomainProperties: Array<DomainExtension>
-        messageKey: Shape
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        linkLabel: StrField
-        extendsNode: Array<DomainElement>
+    fragmentName(): undefined | string
 
-        constructor()
+    location(): undefined | string
 
-        link<T>(label: string): T
+    isTrackedBy(trackId: string): boolean
 
-        withKey(key: Shape): this
 
-        linkCopy(): KafkaMessageBinding
+  }
 
-        graph(): Graph
+  export class KafkaMessageBinding implements MessageBinding {
+    customDomainProperties: Array<DomainExtension>
+    messageKey: Shape
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    linkLabel: StrField
+    extendsNode: Array<DomainElement>
 
-        withBindingVersion(bindingVersion: string): this
+    constructor()
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    link<T>(label: string): T
 
-        withLinkLabel(label: string): this
+    withKey(key: Shape): this
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    linkCopy(): KafkaMessageBinding
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    graph(): Graph
 
-        link<T>(): T
+    withBindingVersion(bindingVersion: string): this
 
-        withLinkTarget(target: undefined): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withId(id: string): this
+    withLinkLabel(label: string): this
 
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    }
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    export class DefaultExecutionEnvironment {
-        static apply(): ExecutionEnvironment
+    link<T>(): T
 
+    withLinkTarget(target: undefined): this
 
-    }
+    withId(id: string): this
 
-    export class DialectInstanceFragment implements BaseUnit, EncodesModel, DialectInstanceUnit {
-        location: string
-        usage: StrField
-        id: string
-        raw: undefined | string
-        processingData: DialectInstanceProcessingData
-        sourceSpec: undefined | Spec
-        modelVersion: StrField
-        encodes: DialectDomainElement
 
-        constructor()
+  }
 
-        findByType(typeId: string): Array<DomainElement>
+  export class DefaultExecutionEnvironment {
+    static apply(): ExecutionEnvironment
 
-        withProcessingData(data: DialectInstanceProcessingData): this
 
-        cloneUnit(): BaseUnit
+  }
 
-        withReferences(references: Array<BaseUnit>): this
+  export class DialectInstanceFragment implements BaseUnit, EncodesModel, DialectInstanceUnit {
+    location: string
+    usage: StrField
+    id: string
+    raw: undefined | string
+    processingData: DialectInstanceProcessingData
+    sourceSpec: undefined | Spec
+    modelVersion: StrField
+    encodes: DialectDomainElement
 
-        withRaw(raw: string): this
+    constructor()
 
-        withUsage(usage: string): this
+    findByType(typeId: string): Array<DomainElement>
 
-        findById(id: string): undefined | DomainElement
+    withProcessingData(data: DialectInstanceProcessingData): this
 
-        withLocation(location: string): this
+    cloneUnit(): BaseUnit
 
-        withGraphDependencies(ids: Array<string>): this
+    withReferences(references: Array<BaseUnit>): this
 
-        withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
+    withRaw(raw: string): this
 
-        graphDependencies(): Array<StrField>
+    withUsage(usage: string): this
 
-        withDefinedBy(dialectId: string): this
+    findById(id: string): undefined | DomainElement
 
-        withEncodes(encoded: DialectDomainElement): DialectInstanceFragment
+    withLocation(location: string): this
 
-        withEncodes(encoded: DomainElement): this
+    withGraphDependencies(ids: Array<string>): this
 
-        definedBy(): StrField
+    withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
 
-        pkg(): StrField
+    graphDependencies(): Array<StrField>
 
-        withPkg(pkg: string): this
+    withDefinedBy(dialectId: string): this
 
-        references(): Array<BaseUnit>
+    withEncodes(encoded: DialectDomainElement): DialectInstanceFragment
 
-        withProcessingData(data: BaseUnitProcessingData): this
+    withEncodes(encoded: DomainElement): this
 
-        withId(id: string): this
+    definedBy(): StrField
 
+    pkg(): StrField
 
-    }
+    withPkg(pkg: string): this
 
-    export class BaseUnitProcessingData {
-        transformed: BoolField
+    references(): Array<BaseUnit>
 
-        constructor()
+    withProcessingData(data: BaseUnitProcessingData): this
 
-        withTransformed(value: boolean): this
+    withId(id: string): this
 
 
-    }
+  }
 
-    export class LinkNode implements DataNode {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        alias: StrField
-        isExternalLink: BoolField
-        id: string
-        link: StrField
-        position: Range
-        extendsNode: Array<DomainElement>
+  export class BaseUnitProcessingData {
+    transformed: BoolField
 
-        constructor()
-        constructor(alias: string, value: string)
+    constructor()
 
-        withAlias(alias: string): this
+    withTransformed(value: boolean): this
 
-        withName(name: string): this
 
-        graph(): Graph
+  }
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+  export class LinkNode implements DataNode {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    alias: StrField
+    isExternalLink: BoolField
+    id: string
+    link: StrField
+    position: Range
+    extendsNode: Array<DomainElement>
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    constructor()
+    constructor(alias: string, value: string)
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withAlias(alias: string): this
 
-        withLink(link: string): this
+    withName(name: string): this
 
-        withId(id: string): this
+    graph(): Graph
 
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-    }
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    export class NodeMapping implements DomainElement, Linkable {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        idTemplate: StrField
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        isExternalLink: BoolField
-        id: string
-        mergePolicy: StrField
-        nodetypeMapping: StrField
-        position: Range
-        linkLabel: StrField
-        extendsNode: Array<DomainElement>
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        constructor()
+    withLink(link: string): this
 
-        link<T>(label: string): T
+    withId(id: string): this
 
-        withIdTemplate(idTemplate: string): NodeMapping
 
-        linkCopy(): NodeMapping
+  }
 
-        withName(name: string): NodeMapping
+  export class NodeMapping implements DomainElement, Linkable {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    idTemplate: StrField
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    isExternalLink: BoolField
+    id: string
+    mergePolicy: StrField
+    nodetypeMapping: StrField
+    position: Range
+    linkLabel: StrField
+    extendsNode: Array<DomainElement>
 
-        graph(): Graph
+    constructor()
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    link<T>(label: string): T
 
-        withLinkLabel(label: string): this
+    withIdTemplate(idTemplate: string): NodeMapping
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    linkCopy(): NodeMapping
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withName(name: string): NodeMapping
 
-        withNodeTypeMapping(nodeType: string): NodeMapping
+    graph(): Graph
 
-        link<T>(): T
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withLinkTarget(target: undefined): this
+    withLinkLabel(label: string): this
 
-        withPropertiesMapping(props: Array<PropertyMapping>): NodeMapping
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        propertiesMapping(): Array<PropertyMapping>
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        withMergePolicy(mergePolicy: string): NodeMapping
+    withNodeTypeMapping(nodeType: string): NodeMapping
 
-        withId(id: string): this
+    link<T>(): T
 
+    withLinkTarget(target: undefined): this
 
-    }
+    withPropertiesMapping(props: Array<PropertyMapping>): NodeMapping
 
-    export class HttpSettings extends Settings {
-        scheme: StrField
-        bearerFormat: StrField
+    propertiesMapping(): Array<PropertyMapping>
 
-        constructor()
+    withMergePolicy(mergePolicy: string): NodeMapping
 
-        withScheme(scheme: string): this
+    withId(id: string): this
 
-        withBearerFormat(bearerFormat: string): this
 
+  }
 
-    }
+  export class HttpSettings extends Settings {
+    scheme: StrField
+    bearerFormat: StrField
 
-    export class CustomDomainProperty implements DomainElement, Linkable {
-        displayName: StrField
-        name: StrField
-        serializationOrder: IntField
-        customDomainProperties: Array<DomainExtension>
-        description: StrField
-        domain: Array<StrField>
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        isExternalLink: BoolField
-        id: string
-        schema: Shape
-        position: Range
-        linkLabel: StrField
-        extendsNode: Array<DomainElement>
+    constructor()
 
-        constructor()
+    withScheme(scheme: string): this
 
-        link<T>(label: string): T
+    withBearerFormat(bearerFormat: string): this
 
-        linkCopy(): CustomDomainProperty
 
-        withName(name: string): this
+  }
 
-        withDescription(description: string): this
+  export class CustomDomainProperty implements DomainElement, Linkable {
+    displayName: StrField
+    name: StrField
+    serializationOrder: IntField
+    customDomainProperties: Array<DomainExtension>
+    description: StrField
+    domain: Array<StrField>
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    isExternalLink: BoolField
+    id: string
+    schema: Shape
+    position: Range
+    linkLabel: StrField
+    extendsNode: Array<DomainElement>
 
-        withDomain(domain: Array<string>): this
+    constructor()
 
-        withSerializationOrder(order: number): this
+    link<T>(label: string): T
 
-        withSchema(schema: Shape): this
+    linkCopy(): CustomDomainProperty
 
-        graph(): Graph
+    withName(name: string): this
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    withDescription(description: string): this
 
-        withLinkLabel(label: string): this
+    withDomain(domain: Array<string>): this
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withSerializationOrder(order: number): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withSchema(schema: Shape): this
 
-        link<T>(): T
+    graph(): Graph
 
-        withLinkTarget(target: undefined): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withDisplayName(displayName: string): this
+    withLinkLabel(label: string): this
 
-        withId(id: string): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    }
+    link<T>(): T
 
-    export class EmptyBinding implements ServerBinding, OperationBinding, ChannelBinding, MessageBinding {
-        customDomainProperties: Array<DomainExtension>
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        type: StrField
-        linkLabel: StrField
-        extendsNode: Array<DomainElement>
+    withLinkTarget(target: undefined): this
 
-        constructor()
+    withDisplayName(displayName: string): this
 
-        link<T>(label: string): T
+    withId(id: string): this
 
-        linkCopy(): EmptyBinding
 
-        graph(): Graph
+  }
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+  export class EmptyBinding implements ServerBinding, OperationBinding, ChannelBinding, MessageBinding {
+    customDomainProperties: Array<DomainExtension>
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    type: StrField
+    linkLabel: StrField
+    extendsNode: Array<DomainElement>
 
-        withLinkLabel(label: string): this
+    constructor()
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    link<T>(label: string): T
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    linkCopy(): EmptyBinding
 
-        link<T>(): T
+    graph(): Graph
 
-        withLinkTarget(target: undefined): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withType(type: string): this
+    withLinkLabel(label: string): this
 
-        withId(id: string): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    }
+    link<T>(): T
 
-    export class XMLSerializer implements DomainElement {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        prefix: StrField
-        wrapped: BoolField
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        attribute: BoolField
-        extendsNode: Array<DomainElement>
-        namespace: StrField
+    withLinkTarget(target: undefined): this
 
-        constructor()
+    withType(type: string): this
 
-        withName(name: string): this
+    withId(id: string): this
 
-        withWrapped(wrapped: boolean): this
 
-        withPrefix(prefix: string): this
+  }
 
-        graph(): Graph
+  export class XMLSerializer implements DomainElement {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    prefix: StrField
+    wrapped: BoolField
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    attribute: BoolField
+    extendsNode: Array<DomainElement>
+    namespace: StrField
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    constructor()
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withName(name: string): this
 
-        withAttribute(attribute: boolean): this
+    withWrapped(wrapped: boolean): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withPrefix(prefix: string): this
 
-        withNamespace(namespace: string): this
+    graph(): Graph
 
-        withId(id: string): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    }
+    withAttribute(attribute: boolean): this
 
-    export class ErrorHandler {
-        static handler(obj: JsErrorHandler): ClientErrorHandler
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        static provider(obj: JsErrorHandler): ErrorHandlerProvider
+    withNamespace(namespace: string): this
 
+    withId(id: string): this
 
-    }
 
-    export class Vocabulary implements BaseUnit, DeclaresModel {
-        name: StrField
-        location: string
-        description: StrField
-        usage: StrField
-        base: StrField
-        id: string
-        raw: undefined | string
-        processingData: BaseUnitProcessingData
-        sourceSpec: undefined | Spec
-        modelVersion: StrField
-        declares: Array<DomainElement>
-        externals: Array<External>
-        imports: Array<VocabularyReference>
+  }
 
-        constructor()
+  export class ErrorHandler {
+    static handler(obj: JsErrorHandler): ClientErrorHandler
 
-        objectPropertyTerms(): Array<ObjectPropertyTerm>
+    static provider(obj: JsErrorHandler): ErrorHandlerProvider
 
-        findByType(typeId: string): Array<DomainElement>
 
-        cloneUnit(): BaseUnit
+  }
 
-        withExternals(externals: Array<External>): Vocabulary
+  export class Vocabulary implements BaseUnit, DeclaresModel {
+    name: StrField
+    location: string
+    description: StrField
+    usage: StrField
+    base: StrField
+    id: string
+    raw: undefined | string
+    processingData: BaseUnitProcessingData
+    sourceSpec: undefined | Spec
+    modelVersion: StrField
+    declares: Array<DomainElement>
+    externals: Array<External>
+    imports: Array<VocabularyReference>
 
-        withName(name: string): Vocabulary
+    constructor()
 
-        withReferences(references: Array<BaseUnit>): this
+    objectPropertyTerms(): Array<ObjectPropertyTerm>
 
-        withDeclaredElement(declared: DomainElement): this
+    findByType(typeId: string): Array<DomainElement>
 
-        withRaw(raw: string): this
+    cloneUnit(): BaseUnit
 
-        withUsage(usage: string): this
+    withExternals(externals: Array<External>): Vocabulary
 
-        datatypePropertyTerms(): Array<DatatypePropertyTerm>
+    withName(name: string): Vocabulary
 
-        withBase(base: string): Vocabulary
+    withReferences(references: Array<BaseUnit>): this
 
-        findById(id: string): undefined | DomainElement
+    withDeclaredElement(declared: DomainElement): this
 
-        classTerms(): Array<ClassTerm>
+    withRaw(raw: string): this
 
-        withLocation(location: string): this
+    withUsage(usage: string): this
 
-        withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
+    datatypePropertyTerms(): Array<DatatypePropertyTerm>
 
-        pkg(): StrField
+    withBase(base: string): Vocabulary
 
-        withPkg(pkg: string): this
+    findById(id: string): undefined | DomainElement
 
-        withDeclares(declares: Array<DomainElement>): this
+    classTerms(): Array<ClassTerm>
 
-        references(): Array<BaseUnit>
+    withLocation(location: string): this
 
-        withImports(vocabularies: Array<VocabularyReference>): Vocabulary
+    withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
 
-        withProcessingData(data: BaseUnitProcessingData): this
+    pkg(): StrField
 
-        withId(id: string): this
+    withPkg(pkg: string): this
 
+    withDeclares(declares: Array<DomainElement>): this
 
-    }
+    references(): Array<BaseUnit>
 
-    export class KafkaOperationBinding implements OperationBinding {
-        customDomainProperties: Array<DomainExtension>
-        clientId: Shape
-        linkTarget: undefined | DomainElement
-        groupId: Shape
-        isLink: boolean
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        linkLabel: StrField
-        extendsNode: Array<DomainElement>
+    withImports(vocabularies: Array<VocabularyReference>): Vocabulary
 
-        constructor()
+    withProcessingData(data: BaseUnitProcessingData): this
 
-        link<T>(label: string): T
+    withId(id: string): this
 
-        linkCopy(): KafkaOperationBinding
 
-        withGroupId(groupId: Shape): this
+  }
 
-        withClientId(clientId: Shape): this
+  export class KafkaOperationBinding implements OperationBinding {
+    customDomainProperties: Array<DomainExtension>
+    clientId: Shape
+    linkTarget: undefined | DomainElement
+    groupId: Shape
+    isLink: boolean
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    linkLabel: StrField
+    extendsNode: Array<DomainElement>
 
-        graph(): Graph
+    constructor()
 
-        withBindingVersion(bindingVersion: string): this
+    link<T>(label: string): T
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    linkCopy(): KafkaOperationBinding
 
-        withLinkLabel(label: string): this
+    withGroupId(groupId: Shape): this
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withClientId(clientId: Shape): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    graph(): Graph
 
-        link<T>(): T
+    withBindingVersion(bindingVersion: string): this
 
-        withLinkTarget(target: undefined): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withId(id: string): this
+    withLinkLabel(label: string): this
 
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    }
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    export class VariableValue implements DomainElement {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        extendsNode: Array<DomainElement>
-        value: DataNode
+    link<T>(): T
 
-        constructor()
+    withLinkTarget(target: undefined): this
 
-        withName(name: string): this
+    withId(id: string): this
 
-        graph(): Graph
 
-        withValue(value: DataNode): this
+  }
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+  export class VariableValue implements DomainElement {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    extendsNode: Array<DomainElement>
+    value: DataNode
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    constructor()
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withName(name: string): this
 
-        withId(id: string): this
+    graph(): Graph
 
+    withValue(value: DataNode): this
 
-    }
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-    export class AMFParser {
-        static parse(url: string, configuration: AMFGraphConfiguration): Promise<AMFParseResult>
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        static parseContent(content: string, configuration: AMFGraphConfiguration): Promise<AMFParseResult>
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        static parseContent(content: string, mediaType: string, configuration: AMFGraphConfiguration): Promise<AMFParseResult>
+    withId(id: string): this
 
-        static parseStartingPoint(graphUrl: string, startingPoint: string, configuration: AMFGraphConfiguration): Promise<AMFObjectResult>
 
+  }
 
-    }
+  export class AMFParser {
+    static parse(url: string, configuration: AMFGraphConfiguration): Promise<AMFParseResult>
 
-    export class PropertyMapping implements DomainElement {
-        customDomainProperties: Array<DomainExtension>
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        extendsNode: Array<DomainElement>
+    static parseContent(content: string, configuration: AMFGraphConfiguration): Promise<AMFParseResult>
 
-        constructor()
+    static parseContent(content: string, mediaType: string, configuration: AMFGraphConfiguration): Promise<AMFParseResult>
 
-        maximum(): DoubleField
+    static parseStartingPoint(graphUrl: string, startingPoint: string, configuration: AMFGraphConfiguration): Promise<AMFObjectResult>
 
-        typeDiscriminator(): Map<string, string>
 
-        classification(): string
+  }
 
-        withEnum(values: Array<any>): PropertyMapping
+  export class PropertyMapping implements DomainElement {
+    customDomainProperties: Array<DomainExtension>
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    extendsNode: Array<DomainElement>
 
-        enum(): Array<AnyField>
+    constructor()
 
-        minCount(): IntField
+    maximum(): DoubleField
 
-        withMapKeyProperty(key: string): PropertyMapping
+    typeDiscriminator(): Map<string, string>
 
-        withName(name: string): PropertyMapping
+    classification(): string
 
-        literalRange(): StrField
+    withEnum(values: Array<any>): PropertyMapping
 
-        externallyLinkable(): BoolField
+    enum(): Array<AnyField>
 
-        withTypeDiscriminatorName(name: string): PropertyMapping
+    minCount(): IntField
 
-        sorted(): BoolField
+    withMapKeyProperty(key: string): PropertyMapping
 
-        minimum(): DoubleField
+    withName(name: string): PropertyMapping
 
-        pattern(): StrField
+    literalRange(): StrField
 
-        graph(): Graph
+    externallyLinkable(): BoolField
 
-        withLiteralRange(range: string): PropertyMapping
+    withTypeDiscriminatorName(name: string): PropertyMapping
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    sorted(): BoolField
 
-        withObjectRange(range: Array<string>): PropertyMapping
+    minimum(): DoubleField
 
-        objectRange(): Array<StrField>
+    pattern(): StrField
 
-        withPattern(pattern: string): PropertyMapping
+    graph(): Graph
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withLiteralRange(range: string): PropertyMapping
 
-        withMapValueProperty(value: string): PropertyMapping
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withObjectRange(range: Array<string>): PropertyMapping
 
-        withSorted(sorted: boolean): PropertyMapping
+    objectRange(): Array<StrField>
 
-        withNodePropertyMapping(propertyId: string): PropertyMapping
+    withPattern(pattern: string): PropertyMapping
 
-        allowMultiple(): BoolField
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        withMinimum(min: number): PropertyMapping
+    withMapValueProperty(value: string): PropertyMapping
 
-        withMaximum(max: number): PropertyMapping
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        nodePropertyMapping(): StrField
+    withSorted(sorted: boolean): PropertyMapping
 
-        typeDiscriminatorName(): StrField
+    withNodePropertyMapping(propertyId: string): PropertyMapping
 
-        name(): StrField
+    allowMultiple(): BoolField
 
-        withAllowMultiple(allow: boolean): PropertyMapping
+    withMinimum(min: number): PropertyMapping
 
-        mapValueProperty(): StrField
+    withMaximum(max: number): PropertyMapping
 
-        mapKeyProperty(): StrField
+    nodePropertyMapping(): StrField
 
-        withExternallyLinkable(linkable: boolean): PropertyMapping
+    typeDiscriminatorName(): StrField
 
-        withId(id: string): this
+    name(): StrField
 
-        withTypeDiscriminator(typesMapping: Map<string, string>): PropertyMapping
+    withAllowMultiple(allow: boolean): PropertyMapping
 
-        withMinCount(minCount: number): PropertyMapping
+    mapValueProperty(): StrField
 
+    mapKeyProperty(): StrField
 
-    }
+    withExternallyLinkable(linkable: boolean): PropertyMapping
 
-    export class Server implements DomainElement {
-        protocolVersion: StrField
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        security: Array<SecurityRequirement>
-        url: StrField
-        description: StrField
-        bindings: ServerBindings
-        variables: Array<Parameter>
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        extendsNode: Array<DomainElement>
-        protocol: StrField
+    withId(id: string): this
 
-        constructor()
+    withTypeDiscriminator(typesMapping: Map<string, string>): PropertyMapping
 
-        withSecurity(security: Array<SecurityRequirement>): this
+    withMinCount(minCount: number): PropertyMapping
 
-        withVariables(variables: Array<Parameter>): this
 
-        withDescription(description: string): this
+  }
 
-        withProtocol(protocol: string): this
+  export class Server implements DomainElement {
+    protocolVersion: StrField
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    security: Array<SecurityRequirement>
+    url: StrField
+    description: StrField
+    bindings: ServerBindings
+    variables: Array<Parameter>
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    extendsNode: Array<DomainElement>
+    protocol: StrField
 
-        graph(): Graph
+    constructor()
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    withSecurity(security: Array<SecurityRequirement>): this
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withVariables(variables: Array<Parameter>): this
 
-        withVariable(name: string): Parameter
+    withDescription(description: string): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withProtocol(protocol: string): this
 
-        withBindings(bindings: ServerBindings): this
+    graph(): Graph
 
-        withProtocolVersion(protocolVersion: string): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withUrl(url: string): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        withId(id: string): this
+    withVariable(name: string): Parameter
 
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    }
+    withBindings(bindings: ServerBindings): this
 
-    export class CorrelationId implements DomainElement, Linkable {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        description: StrField
-        idLocation: StrField
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        linkLabel: StrField
-        extendsNode: Array<DomainElement>
+    withProtocolVersion(protocolVersion: string): this
 
-        constructor()
+    withUrl(url: string): this
 
-        link<T>(label: string): T
+    withId(id: string): this
 
-        linkCopy(): CorrelationId
 
-        withName(name: string): this
+  }
 
-        withDescription(description: string): this
+  export class CorrelationId implements DomainElement, Linkable {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    description: StrField
+    idLocation: StrField
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    linkLabel: StrField
+    extendsNode: Array<DomainElement>
 
-        withIdLocation(idLocation: string): this
+    constructor()
 
-        graph(): Graph
+    link<T>(label: string): T
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    linkCopy(): CorrelationId
 
-        withLinkLabel(label: string): this
+    withName(name: string): this
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withDescription(description: string): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withIdLocation(idLocation: string): this
 
-        link<T>(): T
+    graph(): Graph
 
-        withLinkTarget(target: undefined): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withId(id: string): this
+    withLinkLabel(label: string): this
 
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    }
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    export class APIConfiguration {
-        static API(): AMFConfiguration
+    link<T>(): T
 
-        static fromSpec(spec: Spec): AMFConfiguration
+    withLinkTarget(target: undefined): this
 
+    withId(id: string): this
 
-    }
 
-    export class HttpMessageBinding implements MessageBinding {
-        customDomainProperties: Array<DomainExtension>
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        headers: Shape
-        linkLabel: StrField
-        extendsNode: Array<DomainElement>
+  }
 
-        constructor()
+  export class APIConfiguration {
+    static API(): AMFConfiguration
 
-        link<T>(label: string): T
+    static fromSpec(spec: Spec): AMFConfiguration
 
-        linkCopy(): HttpMessageBinding
 
-        withHeaders(headers: Shape): this
+  }
 
-        graph(): Graph
+  export class HttpMessageBinding implements MessageBinding {
+    customDomainProperties: Array<DomainExtension>
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    headers: Shape
+    linkLabel: StrField
+    extendsNode: Array<DomainElement>
 
-        withBindingVersion(bindingVersion: string): this
+    constructor()
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    link<T>(label: string): T
 
-        withLinkLabel(label: string): this
+    linkCopy(): HttpMessageBinding
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withHeaders(headers: Shape): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    graph(): Graph
 
-        link<T>(): T
+    withBindingVersion(bindingVersion: string): this
 
-        withLinkTarget(target: undefined): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withId(id: string): this
+    withLinkLabel(label: string): this
 
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    }
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    export class AmlDomainElementEmitter {
-        static emitToBuilder<T>(element: DomainElement, amlConfig: BaseAMLConfiguration, builder: org.yaml.builder.JsOutputBuilder): void
+    link<T>(): T
 
+    withLinkTarget(target: undefined): this
 
-    }
+    withId(id: string): this
 
-    export class Amqp091ChannelBinding implements ChannelBinding {
-        is: StrField
-        customDomainProperties: Array<DomainExtension>
-        queue: Amqp091Queue
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        exchange: Amqp091ChannelExchange
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        linkLabel: StrField
-        extendsNode: Array<DomainElement>
 
-        constructor()
+  }
 
-        link<T>(label: string): T
+  export class AmlDomainElementEmitter {
+    static emitToBuilder<T>(element: DomainElement, amlConfig: BaseAMLConfiguration, builder: org.yaml.builder.JsOutputBuilder): void
 
-        linkCopy(): Amqp091ChannelBinding
 
-        withQueue(queue: Amqp091Queue): this
+  }
 
-        graph(): Graph
+  export class Amqp091ChannelBinding implements ChannelBinding {
+    is: StrField
+    customDomainProperties: Array<DomainExtension>
+    queue: Amqp091Queue
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    exchange: Amqp091ChannelExchange
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    linkLabel: StrField
+    extendsNode: Array<DomainElement>
 
-        withBindingVersion(bindingVersion: string): this
+    constructor()
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    link<T>(label: string): T
 
-        withLinkLabel(label: string): this
+    linkCopy(): Amqp091ChannelBinding
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withQueue(queue: Amqp091Queue): this
 
-        withIs(is: string): this
+    graph(): Graph
 
-        withExchange(exchange: Amqp091ChannelExchange): this
+    withBindingVersion(bindingVersion: string): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        link<T>(): T
+    withLinkLabel(label: string): this
 
-        withLinkTarget(target: undefined): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        withId(id: string): this
+    withIs(is: string): this
 
+    withExchange(exchange: Amqp091ChannelExchange): this
 
-    }
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    export class DialectInstanceLibrary implements BaseUnit, DeclaresModel, DialectInstanceUnit {
-        location: string
-        usage: StrField
-        id: string
-        raw: undefined | string
-        processingData: DialectInstanceProcessingData
-        sourceSpec: undefined | Spec
-        modelVersion: StrField
-        declares: Array<DomainElement>
+    link<T>(): T
 
-        constructor()
+    withLinkTarget(target: undefined): this
 
-        findByType(typeId: string): Array<DomainElement>
+    withId(id: string): this
 
-        withProcessingData(data: DialectInstanceProcessingData): this
 
-        cloneUnit(): BaseUnit
+  }
 
-        withReferences(references: Array<BaseUnit>): this
+  export class DialectInstanceLibrary implements BaseUnit, DeclaresModel, DialectInstanceUnit {
+    location: string
+    usage: StrField
+    id: string
+    raw: undefined | string
+    processingData: DialectInstanceProcessingData
+    sourceSpec: undefined | Spec
+    modelVersion: StrField
+    declares: Array<DomainElement>
 
-        withDeclaredElement(declared: DomainElement): this
+    constructor()
 
-        withRaw(raw: string): this
+    findByType(typeId: string): Array<DomainElement>
 
-        withUsage(usage: string): this
+    withProcessingData(data: DialectInstanceProcessingData): this
 
-        findById(id: string): undefined | DomainElement
+    cloneUnit(): BaseUnit
 
-        withLocation(location: string): this
+    withReferences(references: Array<BaseUnit>): this
 
-        withGraphDependencies(ids: Array<string>): this
+    withDeclaredElement(declared: DomainElement): this
 
-        withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
+    withRaw(raw: string): this
 
-        graphDependencies(): Array<StrField>
+    withUsage(usage: string): this
 
-        withDefinedBy(dialectId: string): this
+    findById(id: string): undefined | DomainElement
 
-        definedBy(): StrField
+    withLocation(location: string): this
 
-        pkg(): StrField
+    withGraphDependencies(ids: Array<string>): this
 
-        withPkg(pkg: string): this
+    withReferenceAlias(alias: string, id: string, fullUrl: string, relativeUrl: string): BaseUnit
 
-        withDeclares(declares: Array<DomainElement>): this
+    graphDependencies(): Array<StrField>
 
-        references(): Array<BaseUnit>
+    withDefinedBy(dialectId: string): this
 
-        withProcessingData(data: BaseUnitProcessingData): this
+    definedBy(): StrField
 
-        withId(id: string): this
+    pkg(): StrField
 
+    withPkg(pkg: string): this
 
-    }
+    withDeclares(declares: Array<DomainElement>): this
 
-    export class JsServerHttpResourceLoader extends BaseHttpResourceLoader {
-        constructor()
+    references(): Array<BaseUnit>
 
-        fetch(resource: string): any
+    withProcessingData(data: BaseUnitProcessingData): this
 
+    withId(id: string): this
 
-    }
 
-    export class SecuritySchemeFragment extends Fragment {
-        constructor()
+  }
 
-    }
+  export class JsServerHttpResourceLoader extends BaseHttpResourceLoader {
+    constructor()
 
-    export class MqttMessageBinding implements MessageBinding {
-        customDomainProperties: Array<DomainExtension>
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        linkLabel: StrField
-        extendsNode: Array<DomainElement>
+    fetch(resource: string): any
 
-        constructor()
 
-        link<T>(label: string): T
+  }
 
-        linkCopy(): MqttMessageBinding
+  export class SecuritySchemeFragment extends Fragment {
+    constructor()
 
-        graph(): Graph
+  }
 
-        withBindingVersion(bindingVersion: string): this
+  export class MqttMessageBinding implements MessageBinding {
+    customDomainProperties: Array<DomainExtension>
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    linkLabel: StrField
+    extendsNode: Array<DomainElement>
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    constructor()
 
-        withLinkLabel(label: string): this
+    link<T>(label: string): T
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    linkCopy(): MqttMessageBinding
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    graph(): Graph
 
-        link<T>(): T
+    withBindingVersion(bindingVersion: string): this
 
-        withLinkTarget(target: undefined): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withId(id: string): this
+    withLinkLabel(label: string): this
 
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    }
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    export class AMFPayloadValidationPluginConverter {
-        static toAMF(plugin: JsAMFPayloadValidationPlugin): AMFShapePayloadValidationPlugin
+    link<T>(): T
 
+    withLinkTarget(target: undefined): this
 
-    }
+    withId(id: string): this
 
-    export class AsyncAPIConfiguration {
-        static Async20(): AMFConfiguration
 
+  }
 
-    }
+  export class AMFPayloadValidationPluginConverter {
+    static toAMF(plugin: JsAMFPayloadValidationPlugin): AMFShapePayloadValidationPlugin
 
-    export class Amqp091MessageBinding implements MessageBinding {
-        customDomainProperties: Array<DomainExtension>
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        messageType: StrField
-        isExternalLink: BoolField
-        id: string
-        contentEncoding: StrField
-        position: Range
-        linkLabel: StrField
-        extendsNode: Array<DomainElement>
 
-        constructor()
+  }
 
-        link<T>(label: string): T
+  export class AsyncAPIConfiguration {
+    static Async20(): AMFConfiguration
 
-        withMessageType(messageType: string): this
 
-        linkCopy(): Amqp091MessageBinding
+  }
 
-        withContentEncoding(contentEncoding: string): this
+  export class Amqp091MessageBinding implements MessageBinding {
+    customDomainProperties: Array<DomainExtension>
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    messageType: StrField
+    isExternalLink: BoolField
+    id: string
+    contentEncoding: StrField
+    position: Range
+    linkLabel: StrField
+    extendsNode: Array<DomainElement>
 
-        graph(): Graph
+    constructor()
 
-        withBindingVersion(bindingVersion: string): this
+    link<T>(label: string): T
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    withMessageType(messageType: string): this
 
-        withLinkLabel(label: string): this
+    linkCopy(): Amqp091MessageBinding
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withContentEncoding(contentEncoding: string): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    graph(): Graph
 
-        link<T>(): T
+    withBindingVersion(bindingVersion: string): this
 
-        withLinkTarget(target: undefined): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withId(id: string): this
+    withLinkLabel(label: string): this
 
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    }
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    export class Operation implements DomainElement, Linkable {
-        method: StrField
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        request: Request
-        security: Array<SecurityRequirement>
-        description: StrField
-        bindings: OperationBindings
-        tags: Array<Tag>
-        documentation: CreativeWork
-        deprecated: BoolField
-        linkTarget: undefined | DomainElement
-        operationId: StrField
-        servers: Array<Server>
-        schemes: Array<StrField>
-        isLink: boolean
-        isExternalLink: BoolField
-        id: string
-        contentType: Array<StrField>
-        accepts: Array<StrField>
-        position: Range
-        isAbstract: BoolField
-        linkLabel: StrField
-        callbacks: Array<Callback>
-        requests: Array<Request>
-        extendsNode: Array<DomainElement>
-        summary: StrField
-        responses: Array<Response>
+    link<T>(): T
 
-        constructor()
+    withLinkTarget(target: undefined): this
 
-        link<T>(label: string): T
+    withId(id: string): this
 
-        withSecurity(security: Array<SecurityRequirement>): this
 
-        linkCopy(): Operation
+  }
 
-        withName(name: string): this
+  export class Operation implements DomainElement, Linkable {
+    method: StrField
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    request: Request
+    security: Array<SecurityRequirement>
+    description: StrField
+    bindings: OperationBindings
+    tags: Array<Tag>
+    documentation: CreativeWork
+    deprecated: BoolField
+    linkTarget: undefined | DomainElement
+    operationId: StrField
+    servers: Array<Server>
+    schemes: Array<StrField>
+    isLink: boolean
+    isExternalLink: BoolField
+    id: string
+    contentType: Array<StrField>
+    accepts: Array<StrField>
+    position: Range
+    isAbstract: BoolField
+    linkLabel: StrField
+    callbacks: Array<Callback>
+    requests: Array<Request>
+    extendsNode: Array<DomainElement>
+    summary: StrField
+    responses: Array<Response>
 
-        withMethod(method: string): this
+    constructor()
 
-        withDescription(description: string): this
+    link<T>(label: string): T
 
-        graph(): Graph
+    withSecurity(security: Array<SecurityRequirement>): this
 
-        withBindings(bindings: OperationBindings): this
+    linkCopy(): Operation
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    withName(name: string): this
 
-        withResponses(responses: Array<Response>): this
+    withMethod(method: string): this
 
-        withResponse(name: string): Response
+    withDescription(description: string): this
 
-        withLinkLabel(label: string): this
+    graph(): Graph
 
-        withTags(tags: Array<Tag>): this
+    withBindings(bindings: OperationBindings): this
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withSummary(summary: string): this
+    withResponses(responses: Array<Response>): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withResponse(name: string): Response
 
-        link<T>(): T
+    withLinkLabel(label: string): this
 
-        withLinkTarget(target: undefined): this
+    withTags(tags: Array<Tag>): this
 
-        withContentType(contentType: Array<string>): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        withOperationId(operationId: string): this
+    withSummary(summary: string): this
 
-        withCallbacks(callbacks: Array<Callback>): this
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        withServers(servers: Array<Server>): this
+    link<T>(): T
 
-        withSchemes(schemes: Array<string>): this
+    withLinkTarget(target: undefined): this
 
-        withServer(name: string): Server
+    withContentType(contentType: Array<string>): this
 
-        withCallback(name: string): Callback
+    withOperationId(operationId: string): this
 
-        withAccepts(accepts: Array<string>): this
+    withCallbacks(callbacks: Array<Callback>): this
 
-        withAbstract(abs: boolean): this
+    withServers(servers: Array<Server>): this
 
-        withRequest(request: Request): this
+    withSchemes(schemes: Array<string>): this
 
-        withId(id: string): this
+    withServer(name: string): Server
 
-        withRequest(): Request
+    withCallback(name: string): Callback
 
-        withDocumentation(documentation: CreativeWork): this
+    withAccepts(accepts: Array<string>): this
 
-        withDeprecated(deprecated: boolean): this
+    withAbstract(abs: boolean): this
 
+    withRequest(request: Request): this
 
-    }
+    withId(id: string): this
 
-    export class ExecutionEnvironment {
-        constructor()
+    withRequest(): Request
 
-    }
+    withDocumentation(documentation: CreativeWork): this
 
-    export class External implements DomainElement {
-        customDomainProperties: Array<DomainExtension>
-        base: StrField
-        alias: StrField
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        extendsNode: Array<DomainElement>
+    withDeprecated(deprecated: boolean): this
 
-        constructor()
 
-        withAlias(alias: string): External
+  }
 
-        graph(): Graph
+  export class ExecutionEnvironment {
+    constructor()
 
-        withBase(base: string): External
+  }
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+  export class External implements DomainElement {
+    customDomainProperties: Array<DomainExtension>
+    base: StrField
+    alias: StrField
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    extendsNode: Array<DomainElement>
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    constructor()
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withAlias(alias: string): External
 
-        withId(id: string): this
+    graph(): Graph
 
+    withBase(base: string): External
 
-    }
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-    export class ResourceType extends AbstractDeclaration {
-        linkTarget: undefined | DomainElement
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        constructor()
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        linkCopy(): ResourceType
+    withId(id: string): this
 
 
-    }
+  }
 
-    export class DiscriminatorValueMapping implements DomainElement {
-        customDomainProperties: Array<DomainExtension>
-        targetShape: Shape
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        extendsNode: Array<DomainElement>
-        value: StrField
+  export class ResourceType extends AbstractDeclaration {
+    linkTarget: undefined | DomainElement
 
-        constructor()
+    constructor()
 
-        withTargetShape(shape: Shape): this
+    linkCopy(): ResourceType
 
-        graph(): Graph
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+  }
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+  export class DiscriminatorValueMapping implements DomainElement {
+    customDomainProperties: Array<DomainExtension>
+    targetShape: Shape
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    extendsNode: Array<DomainElement>
+    value: StrField
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    constructor()
 
-        withValue(value: string): this
+    withTargetShape(shape: Shape): this
 
-        withId(id: string): this
+    graph(): Graph
 
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-    }
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    export class SchemaShape extends AnyShape {
-        mediaType: StrField
-        raw: StrField
-        location: undefined | string
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        constructor()
+    withValue(value: string): this
 
-        withMediatype(mediaType: string): this
+    withId(id: string): this
 
-        withRaw(text: string): this
 
-        linkCopy(): SchemaShape
+  }
 
+  export class SchemaShape extends AnyShape {
+    mediaType: StrField
+    raw: StrField
+    location: undefined | string
 
-    }
+    constructor()
 
-    export class HttpOperationBinding implements OperationBinding {
-        method: StrField
-        customDomainProperties: Array<DomainExtension>
-        operationType: StrField
-        query: Shape
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        linkLabel: StrField
-        extendsNode: Array<DomainElement>
+    withMediatype(mediaType: string): this
 
-        constructor()
+    withRaw(text: string): this
 
-        link<T>(label: string): T
+    linkCopy(): SchemaShape
 
-        linkCopy(): HttpOperationBinding
 
-        withMethod(method: string): this
+  }
 
-        withOperationType(type: string): this
+  export class HttpOperationBinding implements OperationBinding {
+    method: StrField
+    customDomainProperties: Array<DomainExtension>
+    operationType: StrField
+    query: Shape
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    linkLabel: StrField
+    extendsNode: Array<DomainElement>
 
-        graph(): Graph
+    constructor()
 
-        withBindingVersion(bindingVersion: string): this
+    link<T>(label: string): T
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    linkCopy(): HttpOperationBinding
 
-        withLinkLabel(label: string): this
+    withMethod(method: string): this
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withOperationType(type: string): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    graph(): Graph
 
-        link<T>(): T
+    withBindingVersion(bindingVersion: string): this
 
-        withLinkTarget(target: undefined): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withId(id: string): this
+    withLinkLabel(label: string): this
 
-        withQuery(query: Shape): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    }
+    link<T>(): T
 
-    export class UnionNodeMapping implements DomainElement, Linkable {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        linkLabel: StrField
-        extendsNode: Array<DomainElement>
+    withLinkTarget(target: undefined): this
 
-        constructor()
+    withId(id: string): this
 
-        link<T>(label: string): T
+    withQuery(query: Shape): this
 
-        typeDiscriminator(): Map<string, string>
 
-        linkCopy(): UnionNodeMapping
+  }
 
-        withName(name: string): UnionNodeMapping
+  export class UnionNodeMapping implements DomainElement, Linkable {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    linkLabel: StrField
+    extendsNode: Array<DomainElement>
 
-        withTypeDiscriminatorName(name: string): UnionNodeMapping
+    constructor()
 
-        graph(): Graph
+    link<T>(label: string): T
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    typeDiscriminator(): Map<string, string>
 
-        withObjectRange(range: Array<string>): UnionNodeMapping
+    linkCopy(): UnionNodeMapping
 
-        withLinkLabel(label: string): this
+    withName(name: string): UnionNodeMapping
 
-        objectRange(): Array<StrField>
+    withTypeDiscriminatorName(name: string): UnionNodeMapping
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    graph(): Graph
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        link<T>(): T
+    withObjectRange(range: Array<string>): UnionNodeMapping
 
-        withLinkTarget(target: undefined): this
+    withLinkLabel(label: string): this
 
-        typeDiscriminatorName(): StrField
+    objectRange(): Array<StrField>
 
-        withId(id: string): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        withTypeDiscriminator(typesMapping: Map<string, string>): UnionNodeMapping
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
+    link<T>(): T
 
-    }
+    withLinkTarget(target: undefined): this
 
-    export class HttpApiKeySettings extends Settings {
-        name: StrField
-        in: StrField
+    typeDiscriminatorName(): StrField
 
-        constructor()
+    withId(id: string): this
 
-        withName(name: string): this
+    withTypeDiscriminator(typesMapping: Map<string, string>): UnionNodeMapping
 
-        withIn(inVal: string): this
 
+  }
 
-    }
+  export class HttpApiKeySettings extends Settings {
+    name: StrField
+    in: StrField
 
-    export class TemplatedLink implements DomainElement {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        server: Server
-        description: StrField
-        mapping: Array<IriTemplateMapping>
-        operationId: StrField
-        isExternalLink: BoolField
-        operationRef: StrField
-        id: string
-        requestBody: StrField
-        template: StrField
-        position: Range
-        extendsNode: Array<DomainElement>
+    constructor()
 
-        constructor()
+    withName(name: string): this
 
-        withRequestBody(requestBody: string): this
+    withIn(inVal: string): this
 
-        withServer(server: Server): this
 
-        withName(name: string): this
+  }
 
-        withMapping(mapping: Array<IriTemplateMapping>): this
+  export class TemplatedLink implements DomainElement {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    server: Server
+    description: StrField
+    mapping: Array<IriTemplateMapping>
+    operationId: StrField
+    isExternalLink: BoolField
+    operationRef: StrField
+    id: string
+    requestBody: StrField
+    template: StrField
+    position: Range
+    extendsNode: Array<DomainElement>
 
-        withDescription(description: string): this
+    constructor()
 
-        graph(): Graph
+    withRequestBody(requestBody: string): this
 
-        withTemplate(template: string): this
+    withServer(server: Server): this
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    withName(name: string): this
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withMapping(mapping: Array<IriTemplateMapping>): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withDescription(description: string): this
 
-        withOperationId(operationId: string): this
+    graph(): Graph
 
-        withId(id: string): this
+    withTemplate(template: string): this
 
-        withOperationRef(operationRef: string): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    }
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    export class Encoding implements DomainElement {
-        customDomainProperties: Array<DomainExtension>
-        style: StrField
-        allowReserved: BoolField
-        isExternalLink: BoolField
-        id: string
-        contentType: StrField
-        explode: BoolField
-        position: Range
-        propertyName: StrField
-        headers: Array<Parameter>
-        extendsNode: Array<DomainElement>
+    withOperationId(operationId: string): this
 
-        constructor()
+    withId(id: string): this
 
-        withContentType(contentType: string): this
+    withOperationRef(operationRef: string): this
 
-        withHeaders(headers: Array<Parameter>): this
 
-        withExplode(explode: boolean): this
+  }
 
-        withStyle(style: string): this
+  export class Encoding implements DomainElement {
+    customDomainProperties: Array<DomainExtension>
+    style: StrField
+    allowReserved: BoolField
+    isExternalLink: BoolField
+    id: string
+    contentType: StrField
+    explode: BoolField
+    position: Range
+    propertyName: StrField
+    headers: Array<Parameter>
+    extendsNode: Array<DomainElement>
 
-        withPropertyName(propertyName: string): this
+    constructor()
 
-        graph(): Graph
+    withContentType(contentType: string): this
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    withHeaders(headers: Array<Parameter>): this
 
-        withHeader(name: string): Parameter
+    withExplode(explode: boolean): this
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withStyle(style: string): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withPropertyName(propertyName: string): this
 
-        withAllowReserved(allowReserved: boolean): this
+    graph(): Graph
 
-        withId(id: string): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
+    withHeader(name: string): Parameter
 
-    }
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    export class Amqp091Queue implements DomainElement {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        autoDelete: BoolField
-        isExternalLink: BoolField
-        id: string
-        vHost: StrField
-        exclusive: BoolField
-        position: Range
-        extendsNode: Array<DomainElement>
-        durable: BoolField
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        constructor()
+    withAllowReserved(allowReserved: boolean): this
 
-        withName(name: string): this
+    withId(id: string): this
 
-        withDurable(durable: boolean): this
 
-        withVHost(vHost: string): this
+  }
 
-        graph(): Graph
+  export class Amqp091Queue implements DomainElement {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    autoDelete: BoolField
+    isExternalLink: BoolField
+    id: string
+    vHost: StrField
+    exclusive: BoolField
+    position: Range
+    extendsNode: Array<DomainElement>
+    durable: BoolField
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    constructor()
 
-        withExclusive(exclusive: boolean): this
+    withName(name: string): this
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withDurable(durable: boolean): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withVHost(vHost: string): this
 
-        withAutoDelete(autoDelete: boolean): this
+    graph(): Graph
 
-        withId(id: string): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
+    withExclusive(exclusive: boolean): this
 
-    }
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    export class SemanticExtension implements DomainElement {
-        customDomainProperties: Array<DomainExtension>
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        extendsNode: Array<DomainElement>
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        constructor()
+    withAutoDelete(autoDelete: boolean): this
 
-        extensionName(): StrField
+    withId(id: string): this
 
-        extensionMappingDefinition(): StrField
 
-        graph(): Graph
+  }
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+  export class SemanticExtension implements DomainElement {
+    customDomainProperties: Array<DomainExtension>
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    extendsNode: Array<DomainElement>
 
-        withExtensionMappingDefinition(annotationMapping: string): SemanticExtension
+    constructor()
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    extensionName(): StrField
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    extensionMappingDefinition(): StrField
 
-        withExtensionName(name: string): SemanticExtension
+    graph(): Graph
 
-        withId(id: string): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
+    withExtensionMappingDefinition(annotationMapping: string): SemanticExtension
 
-    }
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    export class DomainExtension implements DomainElement {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        definedBy: CustomDomainProperty
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        extendsNode: Array<DomainElement>
-        extension: DataNode
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        constructor()
+    withExtensionName(name: string): SemanticExtension
 
-        withName(name: string): this
+    withId(id: string): this
 
-        withDefinedBy(property: CustomDomainProperty): this
 
-        graph(): Graph
+  }
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+  export class DomainExtension implements DomainElement {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    definedBy: CustomDomainProperty
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    extendsNode: Array<DomainElement>
+    extension: DataNode
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    constructor()
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withName(name: string): this
 
-        withId(id: string): this
+    withDefinedBy(property: CustomDomainProperty): this
 
-        withExtension(node: DataNode): this
+    graph(): Graph
 
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-    }
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    export class IriTemplateMapping implements DomainElement {
-        customDomainProperties: Array<DomainExtension>
-        templateVariable: StrField
-        isExternalLink: BoolField
-        id: string
-        linkExpression: StrField
-        position: Range
-        extendsNode: Array<DomainElement>
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        constructor()
+    withId(id: string): this
 
-        graph(): Graph
+    withExtension(node: DataNode): this
 
-        withTemplateVariable(variable: string): this
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+  }
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+  export class IriTemplateMapping implements DomainElement {
+    customDomainProperties: Array<DomainExtension>
+    templateVariable: StrField
+    isExternalLink: BoolField
+    id: string
+    linkExpression: StrField
+    position: Range
+    extendsNode: Array<DomainElement>
 
-        withLinkExpression(expression: string): this
+    constructor()
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    graph(): Graph
 
-        withId(id: string): this
+    withTemplateVariable(variable: string): this
 
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-    }
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    export class RenderOptions {
-        isWithDocumentation: boolean
-        isWithCompactedEmission: boolean
-        schemaVersion: JSONSchemaVersion
-        isWithCompactUris: boolean
-        isWithSourceMaps: boolean
-        isAmfJsonLdSerialization: boolean
-        isPrettyPrint: boolean
-        isEmitNodeIds: boolean
+    withLinkExpression(expression: string): this
 
-        constructor()
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        withPrettyPrint(): RenderOptions
+    withId(id: string): this
 
-        withoutPrettyPrint(): RenderOptions
 
-        withSourceMaps(): RenderOptions
+  }
 
-        withoutSourceMaps(): RenderOptions
+  export class RenderOptions {
+    isWithDocumentation: boolean
+    isWithCompactedEmission: boolean
+    schemaVersion: JSONSchemaVersion
+    isWithCompactUris: boolean
+    isWithSourceMaps: boolean
+    isAmfJsonLdSerialization: boolean
+    isPrettyPrint: boolean
+    isEmitNodeIds: boolean
 
-        withCompactUris(): RenderOptions
+    constructor()
 
-        withoutCompactUris(): RenderOptions
+    withPrettyPrint(): RenderOptions
 
-        withoutAmfJsonLdSerialization(): RenderOptions
+    withoutPrettyPrint(): RenderOptions
 
-        withAmfJsonLdSerialization(): RenderOptions
+    withSourceMaps(): RenderOptions
 
-        withNodeIds(): RenderOptions
+    withoutSourceMaps(): RenderOptions
 
-        withDocumentation(): RenderOptions
+    withCompactUris(): RenderOptions
 
-        withoutDocumentation(): RenderOptions
+    withoutCompactUris(): RenderOptions
 
-        withCompactedEmission(): RenderOptions
+    withoutAmfJsonLdSerialization(): RenderOptions
 
-        withoutCompactedEmission(): RenderOptions
+    withAmfJsonLdSerialization(): RenderOptions
 
-        withSchemaVersion(version: JSONSchemaVersion): RenderOptions
+    withNodeIds(): RenderOptions
 
+    withDocumentation(): RenderOptions
 
-    }
+    withoutDocumentation(): RenderOptions
 
-    export class DocumentMapping implements DomainElement {
-        customDomainProperties: Array<DomainExtension>
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        extendsNode: Array<DomainElement>
+    withCompactedEmission(): RenderOptions
 
-        constructor()
+    withoutCompactedEmission(): RenderOptions
 
-        withDeclaredNodes(declarations: Array<PublicNodeMapping>): DocumentMapping
+    withSchemaVersion(version: JSONSchemaVersion): RenderOptions
 
-        withDocumentName(name: string): DocumentMapping
 
-        graph(): Graph
+  }
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+  export class DocumentMapping implements DomainElement {
+    customDomainProperties: Array<DomainExtension>
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    extendsNode: Array<DomainElement>
 
-        documentName(): StrField
+    constructor()
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withDeclaredNodes(declarations: Array<PublicNodeMapping>): DocumentMapping
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withDocumentName(name: string): DocumentMapping
 
-        withEncoded(encodedNode: string): DocumentMapping
+    graph(): Graph
 
-        declaredNodes(): Array<PublicNodeMapping>
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withId(id: string): this
+    documentName(): StrField
 
-        encoded(): StrField
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    }
+    withEncoded(encodedNode: string): DocumentMapping
 
-    export class PluginPriority {
-        priority: number
+    declaredNodes(): Array<PublicNodeMapping>
 
-        constructor(priority: number)
+    withId(id: string): this
 
-    }
+    encoded(): StrField
 
-    export class PayloadFragment extends Fragment {
-        mediaType: StrField
-        dataNode: DataNode
 
-        constructor(scalar: ScalarNode, mediaType: string)
-        constructor(obj: ObjectNode, mediaType: string)
-        constructor(arr: ArrayNode, mediaType: string)
+  }
 
-    }
+  export class PluginPriority {
+    priority: number
 
-    export class PipelineName {
-        static from(targetMediaType: string, pipelineId: string): string
+    constructor(priority: number)
 
+  }
 
-    }
+  export class PayloadFragment extends Fragment {
+    mediaType: StrField
+    dataNode: DataNode
 
-    export class OAuth1Settings extends Settings {
-        requestTokenUri: StrField
-        authorizationUri: StrField
-        tokenCredentialsUri: StrField
-        signatures: Array<StrField>
+    constructor(scalar: ScalarNode, mediaType: string)
+    constructor(obj: ObjectNode, mediaType: string)
+    constructor(arr: ArrayNode, mediaType: string)
 
-        constructor()
+  }
 
-        withRequestTokenUri(requestTokenUri: string): this
+  export class PipelineName {
+    static from(targetMediaType: string, pipelineId: string): string
 
-        withAuthorizationUri(authorizationUri: string): this
 
-        withTokenCredentialsUri(tokenCredentialsUri: string): this
+  }
 
-        withSignatures(signatures: Array<string>): this
+  export class OAuth1Settings extends Settings {
+    requestTokenUri: StrField
+    authorizationUri: StrField
+    tokenCredentialsUri: StrField
+    signatures: Array<StrField>
 
+    constructor()
 
-    }
+    withRequestTokenUri(requestTokenUri: string): this
 
-    export class NormalPriority extends PluginPriority {
-    }
+    withAuthorizationUri(authorizationUri: string): this
 
-    export class WebAPIConfiguration {
-        static WebAPI(): AMFConfiguration
+    withTokenCredentialsUri(tokenCredentialsUri: string): this
 
-        static fromSpec(spec: Spec): AMFConfiguration
+    withSignatures(signatures: Array<string>): this
 
 
-    }
+  }
 
-    export class ResourceLoaderFactory {
-        static create(loader: ClientResourceLoader): any
+  export class NormalPriority extends PluginPriority {
+  }
 
+  export class WebAPIConfiguration {
+    static WebAPI(): AMFConfiguration
 
-    }
+    static fromSpec(spec: Spec): AMFConfiguration
 
-    export class DataTypes {
-        static readonly String: string
-        static readonly Integer: string
-        static readonly Number: string
-        static readonly Long: string
-        static readonly Double: string
-        static readonly Float: string
-        static readonly Decimal: string
-        static readonly Boolean: string
-        static readonly Date: string
-        static readonly Time: string
-        static readonly DateTime: string
-        static readonly DateTimeOnly: string
-        static readonly File: string
-        static readonly Byte: string
-        static readonly Binary: string
-        static readonly Password: string
-        static readonly Any: string
-        static readonly AnyUri: string
-        static readonly Nil: string
 
-    }
+  }
 
-    export class Example implements DomainElement, Linkable {
-        displayName: StrField
-        mediaType: StrField
-        name: StrField
-        strict: BoolField
-        customDomainProperties: Array<DomainExtension>
-        location: undefined | string
-        description: StrField
-        structuredValue: DataNode
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        linkLabel: StrField
-        extendsNode: Array<DomainElement>
-        value: StrField
+  export class ResourceLoaderFactory {
+    static create(loader: ClientResourceLoader): any
 
-        constructor()
 
-        link<T>(label: string): T
+  }
 
-        linkCopy(): Example
+  export class DataTypes {
+    static readonly String: string
+    static readonly Integer: string
+    static readonly Number: string
+    static readonly Long: string
+    static readonly Double: string
+    static readonly Float: string
+    static readonly Decimal: string
+    static readonly Boolean: string
+    static readonly Date: string
+    static readonly Time: string
+    static readonly DateTime: string
+    static readonly DateTimeOnly: string
+    static readonly File: string
+    static readonly Byte: string
+    static readonly Binary: string
+    static readonly Password: string
+    static readonly Any: string
+    static readonly AnyUri: string
+    static readonly Nil: string
 
-        withName(name: string): this
+  }
 
-        withStructuredValue(value: DataNode): this
+  export class Example implements DomainElement, Linkable {
+    displayName: StrField
+    mediaType: StrField
+    name: StrField
+    strict: BoolField
+    customDomainProperties: Array<DomainExtension>
+    location: undefined | string
+    description: StrField
+    structuredValue: DataNode
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    linkLabel: StrField
+    extendsNode: Array<DomainElement>
+    value: StrField
 
-        withDescription(description: string): this
+    constructor()
 
-        graph(): Graph
+    link<T>(label: string): T
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    linkCopy(): Example
 
-        withMediaType(mediaType: string): this
+    withName(name: string): this
 
-        withLinkLabel(label: string): this
+    withStructuredValue(value: DataNode): this
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withDescription(description: string): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    graph(): Graph
 
-        link<T>(): T
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withValue(value: string): this
+    withMediaType(mediaType: string): this
 
-        withLinkTarget(target: undefined): this
+    withLinkLabel(label: string): this
 
-        withStrict(strict: boolean): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        withDisplayName(displayName: string): this
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        withId(id: string): this
+    link<T>(): T
 
+    withValue(value: string): this
 
-    }
+    withLinkTarget(target: undefined): this
 
-    export class WebSocketsChannelBinding implements ChannelBinding {
-        method: StrField
-        customDomainProperties: Array<DomainExtension>
-        query: Shape
-        linkTarget: undefined | DomainElement
-        isLink: boolean
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        headers: Shape
-        type: StrField
-        linkLabel: StrField
-        extendsNode: Array<DomainElement>
+    withStrict(strict: boolean): this
 
-        constructor()
+    withDisplayName(displayName: string): this
 
-        link<T>(label: string): T
+    withId(id: string): this
 
-        linkCopy(): WebSocketsChannelBinding
 
-        withMethod(method: string): this
+  }
 
-        withHeaders(headers: Shape): this
+  export class WebSocketsChannelBinding implements ChannelBinding {
+    method: StrField
+    customDomainProperties: Array<DomainExtension>
+    query: Shape
+    linkTarget: undefined | DomainElement
+    isLink: boolean
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    headers: Shape
+    type: StrField
+    linkLabel: StrField
+    extendsNode: Array<DomainElement>
 
-        graph(): Graph
+    constructor()
 
-        withBindingVersion(bindingVersion: string): this
+    link<T>(label: string): T
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    linkCopy(): WebSocketsChannelBinding
 
-        withLinkLabel(label: string): this
+    withMethod(method: string): this
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withHeaders(headers: Shape): this
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    graph(): Graph
 
-        link<T>(): T
+    withBindingVersion(bindingVersion: string): this
 
-        withLinkTarget(target: undefined): this
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withType(type: string): this
+    withLinkLabel(label: string): this
 
-        withId(id: string): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        withQuery(query: Shape): this
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
+    link<T>(): T
 
-    }
+    withLinkTarget(target: undefined): this
 
-    export class DataType extends Fragment {
-        constructor()
+    withType(type: string): this
 
-    }
+    withId(id: string): this
 
-    export class ArrayShape extends DataArrangeShape {
-        items: Shape
-        contains: Shape
-        minContains: number
-        maxContains: number
-        unevaluatedItems: boolean
-        unevaluatedItemsSchema: Shape
+    withQuery(query: Shape): this
 
-        constructor()
 
-        withItems(items: Shape): this
+  }
 
-        withContains(contains: Shape): this
+  export class DataType extends Fragment {
+    constructor()
 
-        withMinContains(amount: number): this
+  }
 
-        withMaxContains(amount: number): this
+  export class ArrayShape extends DataArrangeShape {
+    items: Shape
+    contains: Shape
+    minContains: number
+    maxContains: number
+    unevaluatedItems: boolean
+    unevaluatedItemsSchema: Shape
 
-        withUnevaluatedItemsSchema(schema: Shape): this
+    constructor()
 
-        withUnevaluatedItems(value: boolean): this
+    withItems(items: Shape): this
 
-        linkCopy(): ArrayShape
+    withContains(contains: Shape): this
 
+    withMinContains(amount: number): this
 
-    }
+    withMaxContains(amount: number): this
 
-    export class ExternalDomainElement implements DomainElement {
-        mediaType: StrField
-        customDomainProperties: Array<DomainExtension>
-        isExternalLink: BoolField
-        id: string
-        raw: StrField
-        position: Range
-        extendsNode: Array<DomainElement>
+    withUnevaluatedItemsSchema(schema: Shape): this
 
-        constructor()
+    withUnevaluatedItems(value: boolean): this
 
-        withRaw(raw: string): this
+    linkCopy(): ArrayShape
 
-        graph(): Graph
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+  }
 
-        withMediaType(mediaType: string): this
+  export class ExternalDomainElement implements DomainElement {
+    mediaType: StrField
+    customDomainProperties: Array<DomainExtension>
+    isExternalLink: BoolField
+    id: string
+    raw: StrField
+    position: Range
+    extendsNode: Array<DomainElement>
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    constructor()
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withRaw(raw: string): this
 
-        withId(id: string): this
+    graph(): Graph
 
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-    }
+    withMediaType(mediaType: string): this
 
-    export class AMFValidator {
-        static validate(baseUnit: BaseUnit, conf: AMFGraphConfiguration): Promise<AMFValidationReport>
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    }
+    withId(id: string): this
 
-    export class Trait extends AbstractDeclaration {
-        linkTarget: undefined | DomainElement
 
-        constructor()
+  }
 
-        linkCopy(): Trait
+  export class AMFValidator {
+    static validate(baseUnit: BaseUnit, conf: AMFGraphConfiguration): Promise<AMFValidationReport>
 
 
-    }
+  }
 
-    export class ParametrizedSecurityScheme implements DomainElement {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        description: StrField
-        isExternalLink: BoolField
-        id: string
-        scheme: SecurityScheme
-        position: Range
-        extendsNode: Array<DomainElement>
-        hasNullSecurityScheme: boolean
-        settings: Settings
+  export class Trait extends AbstractDeclaration {
+    linkTarget: undefined | DomainElement
 
-        constructor()
+    constructor()
 
-        withName(name: string): this
+    linkCopy(): Trait
 
-        withDescription(description: string): this
 
-        withHttpSettings(): HttpSettings
+  }
 
-        withOAuth2Settings(): OAuth2Settings
+  export class ParametrizedSecurityScheme implements DomainElement {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    description: StrField
+    isExternalLink: BoolField
+    id: string
+    scheme: SecurityScheme
+    position: Range
+    extendsNode: Array<DomainElement>
+    hasNullSecurityScheme: boolean
+    settings: Settings
 
-        graph(): Graph
+    constructor()
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+    withName(name: string): this
 
-        withOpenIdConnectSettings(): OpenIdConnectSettings
+    withDescription(description: string): this
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    withHttpSettings(): HttpSettings
 
-        withOAuth1Settings(): OAuth1Settings
+    withOAuth2Settings(): OAuth2Settings
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    graph(): Graph
 
-        withDefaultSettings(): Settings
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withScheme(scheme: SecurityScheme): this
+    withOpenIdConnectSettings(): OpenIdConnectSettings
 
-        withSettings(settings: Settings): this
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        withId(id: string): this
+    withOAuth1Settings(): OAuth1Settings
 
-        withApiKeySettings(): ApiKeySettings
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
+    withDefaultSettings(): Settings
 
-    }
+    withScheme(scheme: SecurityScheme): this
 
-    export class CachedReference {
-        url: string
-        content: BaseUnit
+    withSettings(settings: Settings): this
 
-        constructor(url: string, content: BaseUnit)
+    withId(id: string): this
 
-    }
+    withApiKeySettings(): ApiKeySettings
 
-    export class Settings implements DomainElement {
-        customDomainProperties: Array<DomainExtension>
-        isExternalLink: BoolField
-        id: string
-        additionalProperties: DataNode
-        position: Range
-        extendsNode: Array<DomainElement>
 
-        constructor()
+  }
 
-        withAdditionalProperties(properties: DataNode): this
+  export class CachedReference {
+    url: string
+    content: BaseUnit
 
-        graph(): Graph
+    constructor(url: string, content: BaseUnit)
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+  }
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+  export class Settings implements DomainElement {
+    customDomainProperties: Array<DomainExtension>
+    isExternalLink: BoolField
+    id: string
+    additionalProperties: DataNode
+    position: Range
+    extendsNode: Array<DomainElement>
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    constructor()
 
-        withId(id: string): this
+    withAdditionalProperties(properties: DataNode): this
 
+    graph(): Graph
 
-    }
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-    export class ErrorHandlerProvider {
-        static unhandled(): ErrorHandlerProvider
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-        static default(): ErrorHandlerProvider
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-        static ignoring(): ErrorHandlerProvider
+    withId(id: string): this
 
 
-    }
+  }
 
-    export class Spec {
-        static readonly RAML08: Spec
-        static readonly RAML10: Spec
-        static readonly OAS20: Spec
-        static readonly OAS30: Spec
-        static readonly ASYNC20: Spec
-        static readonly AMF: Spec
-        static readonly PAYLOAD: Spec
-        static readonly AML: Spec
-        static readonly JSONSCHEMA: Spec
-        static readonly GRPC: Spec
+  export class ErrorHandlerProvider {
+    static unhandled(): ErrorHandlerProvider
 
-        static apply(name: string): Spec
+    static default(): ErrorHandlerProvider
 
+    static ignoring(): ErrorHandlerProvider
 
-    }
 
-    export class ValidationMode {
-        static readonly StrictValidationMode: ValidationMode
-        static readonly ScalarRelaxedValidationMode: ValidationMode
+  }
 
-    }
+  export class Spec {
+    static readonly RAML08: Spec
+    static readonly RAML10: Spec
+    static readonly OAS20: Spec
+    static readonly OAS30: Spec
+    static readonly ASYNC20: Spec
+    static readonly AMF: Spec
+    static readonly PAYLOAD: Spec
+    static readonly AML: Spec
+    static readonly JSONSCHEMA: Spec
+    static readonly GRPC: Spec
 
-    export class AMFGraphConfiguration {
-        baseUnitClient(): AMFGraphBaseUnitClient
+    static apply(name: string): Spec
 
-        elementClient(): AMFGraphElementClient
 
-        withParsingOptions(parsingOptions: ParsingOptions): AMFGraphConfiguration
+  }
 
-        withRenderOptions(renderOptions: RenderOptions): AMFGraphConfiguration
+  export class ValidationMode {
+    static readonly StrictValidationMode: ValidationMode
+    static readonly ScalarRelaxedValidationMode: ValidationMode
 
-        withErrorHandlerProvider(provider: ErrorHandlerProvider): AMFGraphConfiguration
+  }
 
-        withResourceLoader(rl: ResourceLoader): AMFGraphConfiguration
+  export class AMFGraphConfiguration {
+    baseUnitClient(): AMFGraphBaseUnitClient
 
-        withResourceLoaders(rl: Array<ResourceLoader>): AMFGraphConfiguration
+    elementClient(): AMFGraphElementClient
 
-        withUnitCache(cache: UnitCache): AMFGraphConfiguration
+    withParsingOptions(parsingOptions: ParsingOptions): AMFGraphConfiguration
 
-        withTransformationPipeline(pipeline: TransformationPipeline): AMFGraphConfiguration
+    withRenderOptions(renderOptions: RenderOptions): AMFGraphConfiguration
 
-        withEventListener(listener: AMFEventListener): AMFGraphConfiguration
+    withErrorHandlerProvider(provider: ErrorHandlerProvider): AMFGraphConfiguration
 
-        withShapePayloadPlugin(plugin: AMFShapePayloadValidationPlugin): AMFGraphConfiguration
+    withResourceLoader(rl: ResourceLoader): AMFGraphConfiguration
 
-        static empty(): AMFGraphConfiguration
+    withResourceLoaders(rl: Array<ResourceLoader>): AMFGraphConfiguration
 
-        static predefined(): AMFGraphConfiguration
+    withUnitCache(cache: UnitCache): AMFGraphConfiguration
 
+    withTransformationPipeline(pipeline: TransformationPipeline): AMFGraphConfiguration
 
-    }
+    withEventListener(listener: AMFEventListener): AMFGraphConfiguration
 
-    export class ShapesConfiguration extends BaseShapesConfiguration {
-        baseUnitClient(): AMLBaseUnitClient
+    withShapePayloadPlugin(plugin: AMFShapePayloadValidationPlugin): AMFGraphConfiguration
 
-        elementClient(): ShapesElementClient
+    static empty(): AMFGraphConfiguration
 
-        configurationState(): AMLConfigurationState
+    static predefined(): AMFGraphConfiguration
 
-        withParsingOptions(parsingOptions: ParsingOptions): ShapesConfiguration
 
-        withRenderOptions(renderOptions: RenderOptions): ShapesConfiguration
+  }
 
-        withErrorHandlerProvider(provider: ErrorHandlerProvider): ShapesConfiguration
+  export class ShapesConfiguration extends BaseShapesConfiguration {
+    baseUnitClient(): AMLBaseUnitClient
 
-        withResourceLoader(rl: ResourceLoader): ShapesConfiguration
+    elementClient(): ShapesElementClient
 
-        withResourceLoaders(rl: Array<ResourceLoader>): ShapesConfiguration
+    configurationState(): AMLConfigurationState
 
-        withUnitCache(cache: UnitCache): ShapesConfiguration
+    withParsingOptions(parsingOptions: ParsingOptions): ShapesConfiguration
 
-        withTransformationPipeline(pipeline: TransformationPipeline): ShapesConfiguration
+    withRenderOptions(renderOptions: RenderOptions): ShapesConfiguration
 
-        withEventListener(listener: AMFEventListener): ShapesConfiguration
+    withErrorHandlerProvider(provider: ErrorHandlerProvider): ShapesConfiguration
 
-        withDialect(dialect: Dialect): ShapesConfiguration
+    withResourceLoader(rl: ResourceLoader): ShapesConfiguration
 
-        withDialect(url: string): Promise<ShapesConfiguration>
+    withResourceLoaders(rl: Array<ResourceLoader>): ShapesConfiguration
 
-        forInstance(url: string): Promise<ShapesConfiguration>
+    withUnitCache(cache: UnitCache): ShapesConfiguration
 
-        withShapePayloadPlugin(plugin: AMFShapePayloadValidationPlugin): ShapesConfiguration
+    withTransformationPipeline(pipeline: TransformationPipeline): ShapesConfiguration
 
-        static empty(): ShapesConfiguration
+    withEventListener(listener: AMFEventListener): ShapesConfiguration
 
-        static predefined(): ShapesConfiguration
+    withDialect(dialect: Dialect): ShapesConfiguration
 
+    withDialect(url: string): Promise<ShapesConfiguration>
 
-    }
+    forInstance(url: string): Promise<ShapesConfiguration>
 
-    export class Position {
-        isZero: boolean
-        toString: string
-        line: number
-        column: number
-        static FIRST: Position
+    withShapePayloadPlugin(plugin: AMFShapePayloadValidationPlugin): ShapesConfiguration
 
-        constructor(line: number, column: number)
+    static empty(): ShapesConfiguration
 
-        lt(o: Position): boolean
+    static predefined(): ShapesConfiguration
 
-        min(other: Position): Position
 
-        max(other: Position): Position
+  }
 
-        compareTo(o: Position): number
+  export class Position {
+    isZero: boolean
+    toString: string
+    line: number
+    column: number
+    static FIRST: Position
 
-        static compareTo(o: Position): number
+    constructor(line: number, column: number)
 
-        static apply(lc: undefined): Position
+    lt(o: Position): boolean
 
+    min(other: Position): Position
 
-    }
+    max(other: Position): Position
 
-    export class TransformationPipelineBuilder {
-        build(): TransformationPipeline
+    compareTo(o: Position): number
 
-        withName(newName: string): TransformationPipelineBuilder
+    static compareTo(o: Position): number
 
-        append(newStage: TransformationStep): TransformationPipelineBuilder
+    static apply(lc: undefined): Position
 
-        prepend(newStage: TransformationStep): TransformationPipelineBuilder
 
-        static empty(pipelineName: string): TransformationPipelineBuilder
+  }
 
-        static fromPipeline(pipeline: TransformationPipeline): TransformationPipelineBuilder
+  export class TransformationPipelineBuilder {
+    build(): TransformationPipeline
 
-        static fromPipeline(pipelineName: string, conf: AMFGraphConfiguration): undefined | TransformationPipelineBuilder
+    withName(newName: string): TransformationPipelineBuilder
 
+    append(newStage: TransformationStep): TransformationPipelineBuilder
 
-    }
+    prepend(newStage: TransformationStep): TransformationPipelineBuilder
 
-    export class Range {
-        toString: string
-        start: Position
-        end: Position
+    static empty(pipelineName: string): TransformationPipelineBuilder
 
-        constructor(start: Position, end: Position)
+    static fromPipeline(pipeline: TransformationPipeline): TransformationPipelineBuilder
 
-        extent(other: Range): Range
+    static fromPipeline(pipelineName: string, conf: AMFGraphConfiguration): undefined | TransformationPipelineBuilder
 
-        contains(other: Range): boolean
 
-        static apply(start: Position, delta: number): Range
+  }
 
-        static apply(start: undefined, end: undefined): Range
+  export class Range {
+    toString: string
+    start: Position
+    end: Position
 
-        static apply(serialized: string): Range
+    constructor(start: Position, end: Position)
 
+    extent(other: Range): Range
 
-    }
+    contains(other: Range): boolean
 
-    export class ProfileName {
-        profile: string
-        messageStyle: MessageStyle
-        toString: string
+    static apply(start: Position, delta: number): Range
 
-        constructor(profile: string)
+    static apply(start: undefined, end: undefined): Range
 
-        isOas(): boolean
+    static apply(serialized: string): Range
 
-        isRaml(): boolean
 
-        static apply(profile: string): ProfileName
+  }
 
+  export class ProfileName {
+    profile: string
+    messageStyle: MessageStyle
+    toString: string
 
-    }
+    constructor(profile: string)
 
-    export class ScalarNode implements DataNode {
-        name: StrField
-        customDomainProperties: Array<DomainExtension>
-        isExternalLink: BoolField
-        id: string
-        position: Range
-        toString: undefined
-        dataType: StrField
-        extendsNode: Array<DomainElement>
-        value: StrField
+    isOas(): boolean
 
-        constructor()
-        constructor(value: string, dataType: string)
+    isRaml(): boolean
 
-        withName(name: string): this
+    static apply(profile: string): ProfileName
 
-        graph(): Graph
 
-        withIsExternalLink(isExternalLink: boolean): DomainElement
+  }
 
-        withDataType(dataType: string): this
+  export class ScalarNode implements DataNode {
+    name: StrField
+    customDomainProperties: Array<DomainExtension>
+    isExternalLink: BoolField
+    id: string
+    position: Range
+    toString: undefined
+    dataType: StrField
+    extendsNode: Array<DomainElement>
+    value: StrField
 
-        withExtendsNode(extension: Array<ParametrizedDeclaration>): this
+    constructor()
+    constructor(value: string, dataType: string)
 
-        withCustomDomainProperties(extensions: Array<DomainExtension>): this
+    withName(name: string): this
 
-        withValue(value: string): this
+    graph(): Graph
 
-        static build(value: string, dataType: string): any
+    withIsExternalLink(isExternalLink: boolean): DomainElement
 
-        withId(id: string): this
+    withDataType(dataType: string): this
 
+    withExtendsNode(extension: Array<ParametrizedDeclaration>): this
 
-    }
+    withCustomDomainProperties(extensions: Array<DomainExtension>): this
 
-    export class AMLConfiguration extends BaseAMLConfiguration {
-        baseUnitClient(): AMLBaseUnitClient
+    withValue(value: string): this
 
-        elementClient(): AMLElementClient
+    static build(value: string, dataType: string): any
 
-        configurationState(): AMLConfigurationState
+    withId(id: string): this
 
-        withParsingOptions(parsingOptions: ParsingOptions): AMLConfiguration
 
-        withRenderOptions(renderOptions: RenderOptions): AMLConfiguration
+  }
 
-        withErrorHandlerProvider(provider: ErrorHandlerProvider): AMLConfiguration
+  export class AMLConfiguration extends BaseAMLConfiguration {
+    baseUnitClient(): AMLBaseUnitClient
 
-        withResourceLoader(rl: ResourceLoader): AMLConfiguration
+    elementClient(): AMLElementClient
 
-        withResourceLoaders(rl: Array<ResourceLoader>): AMLConfiguration
+    configurationState(): AMLConfigurationState
 
-        withUnitCache(cache: UnitCache): AMLConfiguration
+    withParsingOptions(parsingOptions: ParsingOptions): AMLConfiguration
 
-        withTransformationPipeline(pipeline: TransformationPipeline): AMLConfiguration
+    withRenderOptions(renderOptions: RenderOptions): AMLConfiguration
 
-        withEventListener(listener: AMFEventListener): AMLConfiguration
+    withErrorHandlerProvider(provider: ErrorHandlerProvider): AMLConfiguration
 
-        withDialect(dialect: Dialect): AMLConfiguration
+    withResourceLoader(rl: ResourceLoader): AMLConfiguration
 
-        withDialect(url: string): Promise<AMLConfiguration>
+    withResourceLoaders(rl: Array<ResourceLoader>): AMLConfiguration
 
-        forInstance(url: string): Promise<AMLConfiguration>
+    withUnitCache(cache: UnitCache): AMLConfiguration
 
-        withShapePayloadPlugin(plugin: AMFShapePayloadValidationPlugin): AMLConfiguration
+    withTransformationPipeline(pipeline: TransformationPipeline): AMLConfiguration
 
-        static empty(): AMLConfiguration
+    withEventListener(listener: AMFEventListener): AMLConfiguration
 
-        static predefined(): AMLConfiguration
+    withDialect(dialect: Dialect): AMLConfiguration
 
+    withDialect(url: string): Promise<AMLConfiguration>
 
-    }
+    forInstance(url: string): Promise<AMLConfiguration>
 
-    export class ShapeValidationConfiguration {
-        readonly getResults: ClientErrorHandler
-        readonly maxYamlReferences: undefined | number
+    withShapePayloadPlugin(plugin: AMFShapePayloadValidationPlugin): AMLConfiguration
 
-        report(result: AMFValidationResult): void
+    static empty(): AMLConfiguration
 
-        fetchContent(url: string): Promise<Content>
+    static predefined(): AMLConfiguration
 
-        static predefined(): ShapeValidationConfiguration
 
-        static apply(config: AMFGraphConfiguration): ShapeValidationConfiguration
+  }
 
+  export class ShapeValidationConfiguration {
+    readonly getResults: ClientErrorHandler
+    readonly maxYamlReferences: undefined | number
 
-    }
+    report(result: AMFValidationResult): void
 
-    /* als-suggestions */
-    export class AlsPosition {
-        line: number
-        character: number
-    }
+    fetchContent(url: string): Promise<Content>
 
-    export class AlsRange {
-        start: Position
-        end: Position
-    }
+    static predefined(): ShapeValidationConfiguration
 
-    export class TextEdit {
-        range: AlsRange
-        newText: string
-    }
+    static apply(config: AMFGraphConfiguration): ShapeValidationConfiguration
 
-    export class Command {
-        title: string
-        command: string
-        arguments?: any[]
-    }
 
-    export class CompletionItem {
-        label: string
-        kind?: number
-        detail?: string
-        documentation?: string
-        deprecated?: boolean
-        preselect?: boolean
-        sortText?: string
-        filterText?: string
-        insertText?: string
-        insertTextFormat?: number
-        textEdit?: TextEdit
-        additionalTextEdits?: TextEdit[]
-        commitCharacters?: string[]
-        command?: Command
-    }
+  }
 
-    export class Suggestions {
-        static init(): Promise<void>
+  /* als-suggestions */
+  export class AlsPosition {
+    line: number
+    character: number
+  }
 
-        static suggest(language: string, url: string, position: number, loaders?: ResourceLoader[], dirResolver?: ClientDirectoryResolver, snippetSupport?: boolean): Promise<CompletionItem[]>
-    }
+  export class AlsRange {
+    start: Position
+    end: Position
+  }
 
-    interface ClientDirectoryResolver {
-        exists(path: string): Promise<boolean>
+  export class TextEdit {
+    range: AlsRange
+    newText: string
+  }
 
-        readDir(path: string): Promise<string[]>
+  export class Command {
+    title: string
+    command: string
+    arguments?: any[]
+  }
 
-        isDirectory(path: string): Promise<boolean>
-    }
+  export class CompletionItem {
+    label: string
+    kind?: number
+    detail?: string
+    documentation?: string
+    deprecated?: boolean
+    preselect?: boolean
+    sortText?: string
+    filterText?: string
+    insertText?: string
+    insertTextFormat?: number
+    textEdit?: TextEdit
+    additionalTextEdits?: TextEdit[]
+    commitCharacters?: string[]
+    command?: Command
+  }
 
-    export interface LanguageServer { }
+  export class Suggestions {
+    static init(): Promise<void>
 
-    export interface LanguageClient { }
+    static suggest(language: string, url: string, position: number, loaders?: ResourceLoader[], dirResolver?: ClientDirectoryResolver, snippetSupport?: boolean): Promise<CompletionItem[]>
+  }
 
-    export interface AlsLanguageClient { }
+  interface ClientDirectoryResolver {
+    exists(path: string): Promise<boolean>
 
-    export interface ClientNotifier { }
+    readDir(path: string): Promise<string[]>
 
-    export interface LanguageClientAware {
-        connect(languageClient: LanguageClient): void
-    }
+    isDirectory(path: string): Promise<boolean>
+  }
 
-    export interface AlsLanguageClientAware {
-        connectAls(languageClient: AlsLanguageClient): void
-    }
+  export interface LanguageServer { }
 
-    export interface FilesInProjectParams {
-        uris: string[]
-    }
+  export interface LanguageClient { }
 
-    export interface SerializationResult {
-        uri: string
-        model: any
-    }
+  export interface AlsLanguageClient { }
 
-    export class DiagnosticNotificationsKind {
-        static readonly parsingBefore: 'PARSING_BEFORE'
-        static readonly allTogether: 'ALL_TOGETHER'
-    }
+  export interface ClientNotifier { }
 
-    export interface AlsClientNotifier {
-        notifyProjectFiles(params: FilesInProjectParams): void
-        notifySerialization(params: SerializationResult): void
-    }
+  export interface LanguageClientAware {
+    connect(languageClient: LanguageClient): void
+  }
 
-    export class JsSerializationProps {
-        alsClientNotifier: AlsClientNotifier;
-        newDocBuilder(): org.yaml.builder.DocBuilder<any>
-    }
+  export interface AlsLanguageClientAware {
+    connectAls(languageClient: AlsLanguageClient): void
+  }
 
-    export const ProtocolConnectionBinder: {
-        bind(protocolConnection: ProtocolConnection,
-             languageServer: LanguageServer,
-             clientAware: LanguageClientAware & AlsLanguageClientAware,
-             serializationProps: JsSerializationProps): void
-    }
+  export interface FilesInProjectParams {
+    uris: string[]
+  }
 
-    export const LanguageServerFactory: {
-        fromLoaders(clientNotifier: ClientNotifier,
-                    serializationProps: JsSerializationProps,
-                    clientLoaders?: ResourceLoader[],
-                    clientDirResolver?: ClientDirectoryResolver,
-                    logger?: ClientLogger,
-                    withDiagnostics?: boolean,
-                    notificationKind?: DiagnosticNotificationsKind,
-                    amfPlugins?: JsAMFPayloadValidationPlugin[]): LanguageServer
-    }
+  export interface SerializationResult {
+    uri: string
+    model: any
+  }
 
-    export interface ClientLogger extends VsCodeLogger { }
+  export class DiagnosticNotificationsKind {
+    static readonly parsingBefore: 'PARSING_BEFORE'
+    static readonly allTogether: 'ALL_TOGETHER'
+  }
 
-    export type SerializationEventNotification = {
-        type: NotificationType<SerializationResult>
-    }
+  export interface AlsClientNotifier {
+    notifyProjectFiles(params: FilesInProjectParams): void
+    notifySerialization(params: SerializationResult): void
+  }
 
-    export interface SerializationClientCapabilities {
-        acceptsNotification: boolean
-    }
-    export interface CleanDiagnosticTreeClientCapabilities {
-        enableCleanDiagnostic: boolean
-    }
-    export interface ConversionClientCapabilities {
-        supported: boolean
-    }
+  export class JsSerializationProps {
+    alsClientNotifier: AlsClientNotifier;
+    newDocBuilder(): org.yaml.builder.DocBuilder<any>
+  }
 
-    type Dependency = {
-        file: string,
-        scope: string
-    }
+  export const ProtocolConnectionBinder: {
+    bind(protocolConnection: ProtocolConnection,
+         languageServer: LanguageServer,
+         clientAware: LanguageClientAware & AlsLanguageClientAware,
+         serializationProps: JsSerializationProps): void
+  }
 
-    export type AlsDependency = Dependency | string
+  export class AlsLanguageServerFactory {
+    constructor(clientNotifier:ClientNotifier)
+    withSerializationProps(serializationProps: JsSerializationProps): AlsLanguageServerFactory
+    withResourceLoaders(rl: ResourceLoader[]):AlsLanguageServerFactory
+    withLogger(logger: ClientLogger): AlsLanguageServerFactory
+    withNotificationKind(notificationsKind: DiagnosticNotificationsKind): AlsLanguageServerFactory
+    withDirectoryResolver(dr: ClientDirectoryResolver): AlsLanguageServerFactory
+    withPlugin(plugin:JsAMFPayloadValidationPlugin): AlsLanguageServerFactory
+    build() : LanguageServer
+  }
 
-    export type DidChangeConfigurationNotificationParams = {
-        mainUri: string,
-        folder?: string,
-        dependencies: AlsDependency[]
-    }
+  export interface ClientLogger extends VsCodeLogger { }
 
-    export type GetWorkspaceConfigurationParams = {
-        textDocument: TextDocumentIdentifier
-    }
+  export type SerializationEventNotification = {
+    type: NotificationType<SerializationResult>
+  }
 
-    export type GetWorkspaceConfigurationResult = {
-        workspace: string,
-        configuration: DidChangeConfigurationNotificationParams
-    }
+  export interface SerializationClientCapabilities {
+    acceptsNotification: boolean
+  }
+  export interface CleanDiagnosticTreeClientCapabilities {
+    enableCleanDiagnostic: boolean
+  }
+  export interface ConversionClientCapabilities {
+    supported: boolean
+  }
 
-    export type GetWorkspaceConfigurationRequestType = {
-        type: RequestType<GetWorkspaceConfigurationParams, GetWorkspaceConfigurationResult, void>
-    }
+  type Dependency = {
+    file: string,
+    scope: string
+  }
 
-    export interface CustomValidationClientCapabilities {
-        enabled: boolean
-    }
+  export type AlsDependency = Dependency | string
 
-    export type AlsFormattingOptions = {
-        tabSize: number,
-        preferSpaces: Boolean,
-    }
+  export type DidChangeConfigurationNotificationParams = {
+    mainPath: string,
+    folder: string,
+    dependencies: AlsDependency[]
+  }
 
-    interface IMap<V> { [key: string]: V }
+  export type GetWorkspaceConfigurationParams = {
+    textDocument: TextDocumentIdentifier
+  }
 
-    export type AlsConfiguration = {
-        formattingOptions: IMap<AlsFormattingOptions>
-        templateType: String
-        prettyPrintSerialization: boolean
-    }
+  export type GetWorkspaceConfigurationResult = {
+    workspace: string,
+    configuration: DidChangeConfigurationNotificationParams
+  }
 
-    export type ConfigurationNotification = {
-        type: NotificationType<AlsConfiguration>
-    }
+  export type GetWorkspaceConfigurationRequestType = {
+    type: RequestType<GetWorkspaceConfigurationParams, GetWorkspaceConfigurationResult, void>
+  }
 
-    export type ProjectConfigurationStyle = {
-        style: string
-    }
+  export interface CustomValidationClientCapabilities {
+    enabled: boolean
+  }
 
-    export interface AlsInitializeParams {
-        processId: number | null
-        rootPath?: string | null
-        rootUri?: string | null
-        capabilities: AlsClientCapabilities
-        initializationOptions?: any
-        trace?: string
-        workspaceFolders: WorkspaceFolder[] | null
-        configuration?: AlsConfiguration
-        projectConfigurationStyle?: ProjectConfigurationStyle
-        hotReload?: boolean
-    }
+  export type AlsFormattingOptions = {
+    tabSize: number,
+    preferSpaces: Boolean,
+  }
 
-    export interface AlsClientCapabilities {
-        workspace?: WorkspaceClientCapabilities
+  interface IMap<V> { [key: string]: V }
 
-        textDocument?: TextDocumentClientCapabilities
+  export type AlsConfiguration = {
+    formattingOptions: IMap<AlsFormattingOptions>
+    templateType: String
+    prettyPrintSerialization: boolean
+  }
 
-        experimental?: any
+  export type ConfigurationNotification = {
+    type: NotificationType<AlsConfiguration>
+  }
 
-        serialization?: SerializationClientCapabilities
+  export interface AlsInitializeParams {
+    processId: number | null
+    rootPath?: string | null
+    rootUri?: string | null
+    capabilities: AlsClientCapabilities
+    initializationOptions?: any
+    trace?: string
+    workspaceFolders: WorkspaceFolder[] | null
+    configuration?: AlsConfiguration
+    hotReload?: boolean
+  }
 
-        cleanDiagnosticTree?: CleanDiagnosticTreeClientCapabilities
+  export interface AlsClientCapabilities {
+    workspace?: WorkspaceClientCapabilities
 
-        conversion?: ConversionClientCapabilities
+    textDocument?: TextDocumentClientCapabilities
 
-        customValidations?: CustomValidationClientCapabilities
-    }
+    experimental?: any
 
-    export type FilesInProjectEventNotification = {
-        type: NotificationType<FilesInProjectParams>
-    }
+    serialization?: SerializationClientCapabilities
 
-    export type AlsCapabilitiesNotification = {
-        type: NotificationType<AlsClientCapabilities>
-    }
+    cleanDiagnosticTree?: CleanDiagnosticTreeClientCapabilities
 
-    export interface CleanDiagnosticTreeParams {
-        textDocument: TextDocumentIdentifier
-    }
+    conversion?: ConversionClientCapabilities
 
-    export type CleanDiagnosticTreeRequestType = {
-        type: RequestType<CleanDiagnosticTreeParams, AlsPublishDiagnosticsParams[], any>
-    }
-    export interface AlsPublishDiagnosticsParams extends PublishDiagnosticsParams {
-        profile: string
-    }
+    customValidations?: CustomValidationClientCapabilities
+  }
 
-    export interface ConversionParams {
-        uri: string
-        target: string
-        syntax?: string
-    }
+  export type FilesInProjectEventNotification = {
+    type: NotificationType<FilesInProjectParams>
+  }
 
-    export interface SerializedDocument {
-        uri: string
-        document: string
-    }
+  export type AlsCapabilitiesNotification = {
+    type: NotificationType<AlsClientCapabilities>
+  }
 
-    export interface RenameFileActionParams {
-        oldDocument: TextDocumentIdentifier,
-        newDocument: TextDocumentIdentifier
-    }
+  export interface CleanDiagnosticTreeParams {
+    textDocument: TextDocumentIdentifier
+  }
 
-    export interface RenameFileActionResult {
-        edits: WorkspaceEdit
-    }
+  export type CleanDiagnosticTreeRequestType = {
+    type: RequestType<CleanDiagnosticTreeParams, AlsPublishDiagnosticsParams[], any>
+  }
+  export interface AlsPublishDiagnosticsParams extends PublishDiagnosticsParams {
+    profile: string
+  }
 
-    export type AlsRenameFileRequestType = {
-        type: RequestType<RenameFileActionParams, RenameFileActionResult, any>
-    }
+  export interface ConversionParams {
+    uri: string
+    target: string
+    syntax?: string
+  }
 
-    export type ConversionRequestType = {
-        type: RequestType<ConversionParams, SerializedDocument, any>
-    }
+  export interface SerializedDocument {
+    uri: string
+    document: string
+  }
 
-    export interface SerializationParams {
-        documentIdentifier: TextDocumentIdentifier
-    }
+  export interface RenameFileActionParams {
+    oldDocument: TextDocumentIdentifier,
+    newDocument: TextDocumentIdentifier
+  }
 
-    export type SerializationRequestType = {
-        type: RequestType<SerializationParams, SerializationResult, any>
-    }
+  export interface RenameFileActionResult {
+    edits: WorkspaceEdit
+  }
 
-    export const ClientNotifierFactory: {
-        createWithClientAware(logger: ClientLogger): ClientNotifier & LanguageClientAware & AlsClientNotifier & AlsLanguageClientAware
-    }
+  export type AlsRenameFileRequestType = {
+    type: RequestType<RenameFileActionParams, RenameFileActionResult, any>
+  }
+
+  export type ConversionRequestType = {
+    type: RequestType<ConversionParams, SerializedDocument, any>
+  }
+
+  export interface SerializationParams {
+    documentIdentifier: TextDocumentIdentifier
+  }
+
+  export type SerializationRequestType = {
+    type: RequestType<SerializationParams, SerializationResult, any>
+  }
+
+  export const ClientNotifierFactory: {
+    createWithClientAware(logger: ClientLogger): ClientNotifier & LanguageClientAware & AlsClientNotifier & AlsLanguageClientAware
+  }
 }

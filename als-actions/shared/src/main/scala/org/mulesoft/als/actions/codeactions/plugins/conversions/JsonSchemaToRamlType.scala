@@ -22,6 +22,7 @@ import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
+import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit}
 import org.mulesoft.lsp.feature.common.{Range, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.{
@@ -40,7 +41,7 @@ class JsonSchemaToRamlType(override protected val params: CodeActionRequestParam
     with AmfObjectResolver
     with ExtractSameFileDeclaration {
 
-  override protected val amfConfiguration = params.amfConfiguration
+  override protected val alsConfigurationState: ALSConfigurationState = params.alsConfigurationState
 
   override val isApplicable: Boolean =
     params.bu.sourceSpec.contains(Spec.RAML10) &&
@@ -95,7 +96,7 @@ class JsonSchemaToRamlType(override protected val params: CodeActionRequestParam
 
   private def renderRamlType(shape: AnyShape): Future[String] = Future {
     shape.annotations.reject(_.isInstanceOf[ParsedJSONSchema])
-    val node: Option[YNode] = declaredElementNode(Some(shape), params.dialect, amfConfiguration)
+    val node: Option[YNode] = declaredElementNode(Some(shape), params.definedBy, alsConfigurationState)
     val parent              = yPartBranch.flatMap(_.parentEntry)
     node
       .map(

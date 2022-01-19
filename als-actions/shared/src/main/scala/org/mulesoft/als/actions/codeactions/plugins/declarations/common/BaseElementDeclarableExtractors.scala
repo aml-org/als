@@ -24,7 +24,7 @@ trait BaseElementDeclarableExtractors extends TreeKnowledge {
 
   private lazy val baseName: String =
     amfObject
-      .flatMap(_.declarableKey(params.dialect))
+      .flatMap(_.declarableKey(params.definedBy))
       .map(_.singularize)
       .map(t => s"new$t")
       .getOrElse("newDeclaration")
@@ -35,7 +35,7 @@ trait BaseElementDeclarableExtractors extends TreeKnowledge {
   protected def newName: String = ExtractorCommon.nameNotInList(baseName, params.bu.declaredNames.toSet)
 
   protected lazy val amfObject: Option[AmfObject] =
-    extractAmfObject(maybeTree, params.dialect)
+    extractAmfObject(maybeTree, params.definedBy)
 
   /**
     * Selected object if there is a clean match in the range and it is a declarable, or the parents range
@@ -112,7 +112,7 @@ trait BaseElementDeclarableExtractors extends TreeKnowledge {
             _,
             JsonRender.render(rl.getOrElse(jsonRefEntry), entryIndentation, jsonOptions)
           ))
-      else if (params.dialect.isJsonStyle)
+      else if (params.definedBy.isJsonStyle)
         entryRange.map(
           TextEdit(
             _,

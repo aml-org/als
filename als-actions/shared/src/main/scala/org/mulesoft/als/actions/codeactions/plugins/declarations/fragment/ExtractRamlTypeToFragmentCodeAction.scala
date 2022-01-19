@@ -30,7 +30,8 @@ case class ExtractRamlTypeToFragmentCodeAction(params: CodeActionRequestParams)
       amfObject.exists(
         o =>
           ExtractorCommon
-            .declarationPath(o, params.amfConfiguration.definitionFor(spec).getOrElse(params.dialect)) == Seq("types"))
+            .declarationPath(o, params.alsConfigurationState.definitionFor(spec).getOrElse(params.definedBy)) == Seq(
+            "types"))
 
   override protected def telemetry: TelemetryProvider = params.telemetryProvider
 

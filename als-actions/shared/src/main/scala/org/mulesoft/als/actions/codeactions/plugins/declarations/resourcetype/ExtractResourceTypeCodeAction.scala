@@ -9,6 +9,7 @@ import amf.apicontract.internal.spec.common.emitter.{Raml10EndPointEmitter, Raml
 import amf.apicontract.internal.spec.raml.emitter.context.Raml10SpecEmitterContext
 import amf.core.client.scala.errorhandling.UnhandledErrorHandler
 import amf.core.internal.parser.domain.Annotations
+import amf.core.internal.plugins.render.RenderConfiguration
 import amf.core.internal.remote.Spec
 import amf.core.internal.render.SpecOrdering
 import org.mulesoft.als.actions.codeactions.plugins.CodeActionKindTitle
@@ -58,7 +59,8 @@ case class ExtractResourceTypeCodeAction(params: CodeActionRequestParams)
   def getEndpointChildren(endpoint: EndPoint): Seq[EndPoint] =
     webApi.map(_.endPoints.filter(_.parent.exists(_.id == endpoint.id))).getOrElse(Seq())
 
-  implicit val raml10SpecEmitterContext: Raml10SpecEmitterContext = new Raml10SpecEmitterContext(UnhandledErrorHandler)
+  implicit val raml10SpecEmitterContext: Raml10SpecEmitterContext =
+    new Raml10SpecEmitterContext(UnhandledErrorHandler, config = RenderConfiguration.empty(UnhandledErrorHandler))
 
   def emitEndpoint(endPoint: EndPoint): RamlEndPointEmitter = {
     val children = getEndpointChildren(endPoint)
