@@ -248,7 +248,7 @@ Request message from client to server's [`workspace/executeCommand`](https://mic
 
 Where:
 - `folder` uri pointing to the workspace for which this configuration change will be applied
-- `mainPath` [optional] sets the main file path of the workspace.
+- `mainPath` [optional] sets the main file path of the workspace. Path will always be relative to the workspace folder uri.
 - `dependencies` the project's dependencies.
   - `file` the dependency URI
   - `scope` [optional] The scope given to the dependency, can have the following values:
@@ -262,6 +262,33 @@ Where:
 <pre>
 {}
 </pre>
+
+### indexDialect command
+
+Request message from client to server's [`workspace/executeCommand`](https://microsoft.github.io/language-server-protocol/specifications/specification-current/#workspace_executeCommand):
+
+#### Request
+
+<pre>
+{
+  "command": "indexDialect",
+  "arguments": [
+    {
+      "uri": "<a href="https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#uri">DocumentUri</a>",
+      "content"?: "string"
+    }
+  ]
+}
+</pre>
+
+If a content is not provided, the dialect will be loaded from the provided uri.
+
+#### Response
+
+<pre>
+{}
+</pre>
+
 
 ## Deprecated
 
@@ -290,30 +317,4 @@ Request message from client to server:
 {
   "edits": "<a href="https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#workspaceEdit">WorkspaceEdit</a>"
 }
-</pre>
-
-### didFocusChange
-
-Deprecated in favor of the [`textDocument/didFocus`](#textdocumentdidfocus) notification.
-
-Request message from client to server's [`workspace/executeCommand`](https://microsoft.github.io/language-server-protocol/specifications/specification-current/#workspace_executeCommand):
-
-#### Request
-
-<pre>
-{
-  "command": "didFocusChange",
-  "arguments": [
-    {
-      "uri": "<a href="https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#uri">DocumentUri</a>",
-      "version": "integer"
-    }
-  ]
-}
-</pre>
-
-#### Response
-
-<pre>
-{}
 </pre>

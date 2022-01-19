@@ -77,7 +77,6 @@ The feature allows any LS client to receive notifications about an active docume
   + DidOpen
   + DidChange
   + DidFocus
-  + [DEPRECATED] Execute Command<DidFocus>
 + Emits:
   + [Publish Diagnostics](https://microsoft.github.io/language-server-protocol/specification#textDocument_publishDiagnostics)
 
