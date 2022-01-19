@@ -4,9 +4,10 @@ import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.server.modules.workspace.MainFileTree
 import org.mulesoft.amfintegration.ValidationProfile
 import org.mulesoft.amfintegration.amfconfiguration.{EmptyProjectConfigurationState, ProjectConfigurationState}
+import org.mulesoft.common.io.Fs
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 trait ProjectConfigurationProvider {
   def newProjectConfiguration(projectConfiguration: ProjectConfiguration): Future[ProjectConfigurationState]
@@ -15,7 +16,7 @@ trait ProjectConfigurationProvider {
   def getProfiles(folder: String): Future[Seq[ValidationProfile]]
   def getMainFile(folder: String): Option[Future[String]]
   def getProjectRoot(folder: String): Option[Future[String]] =
-    getMainFile(folder).map(_.map(m => m.substring(0, m.lastIndexOf("/"))))
+    getMainFile(folder).map(_.map(m => m.substring(0, m.lastIndexOf(Fs.separatorChar))))
 }
 
 object IgnoreProjectConfigurationAdapter extends ProjectConfigurationProvider {
