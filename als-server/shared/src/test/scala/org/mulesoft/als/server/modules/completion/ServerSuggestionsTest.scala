@@ -71,7 +71,7 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
           Commands.DID_CHANGE_CONFIGURATION,
           List(s"""{
                |  "folder": "$folder",
-               |  "mainUri": "",
+               |  "mainPath": "",
                |  "dependencies": [
                |    {
                |      "file": "$dialect",

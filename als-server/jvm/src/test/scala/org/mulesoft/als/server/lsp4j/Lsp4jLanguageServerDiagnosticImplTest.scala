@@ -88,8 +88,6 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
   }
 
   test("diagnostics test - FullValidation") {
-    def wrapJson(uri: String): String =
-      s"""{"mainUri": "$uri"}"""
 
     val diagnosticsClient: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
     withServer(buildServer(diagnosticsClient)) { s =>

@@ -5,20 +5,7 @@ import amf.core.client.platform.resource.ResourceNotFound
 import amf.core.client.scala.resource.ResourceLoader
 import com.google.gson.{Gson, GsonBuilder}
 import org.eclipse.lsp4j.ExecuteCommandParams
-import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.logger.{EmptyLogger, Logger}
-import org.mulesoft.als.server.lsp4j.extension.AlsInitializeParams
-import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
-import org.mulesoft.als.server.modules.telemetry.TelemetryManager
-import org.mulesoft.als.server.modules.workspace.MainFileTree
-import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.textsync.{EnvironmentProvider, TextDocument}
-import org.mulesoft.als.server.workspace.command.{CommandExecutor, Commands, DidChangeConfigurationCommandExecutor}
-import org.mulesoft.als.server.workspace.{
-  IgnoreProjectConfigurationAdapter,
-  ProjectConfigurationProvider,
-  WorkspaceManager
-}
 import org.mulesoft.als.server._
 import org.mulesoft.als.server.client.platform.{
   AlsClientNotifier,
@@ -27,24 +14,30 @@ import org.mulesoft.als.server.client.platform.{
   ClientNotifier
 }
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
-import org.mulesoft.amfintegration.ValidationProfile
-import org.mulesoft.amfintegration.amfconfiguration.{
-  EditorConfiguration,
-  EmptyProjectConfigurationState,
-  ProjectConfigurationState
+import org.mulesoft.als.server.lsp4j.extension.AlsInitializeParams
+import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.modules.telemetry.TelemetryManager
+import org.mulesoft.als.server.protocol.LanguageServer
+import org.mulesoft.als.server.textsync.{EnvironmentProvider, TextDocument}
+import org.mulesoft.als.server.workspace.command.{CommandExecutor, Commands, DidChangeConfigurationCommandExecutor}
+import org.mulesoft.als.server.workspace.{
+  ChangesWorkspaceConfiguration,
+  IgnoreProjectConfigurationAdapter,
+  WorkspaceManager
 }
+import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
-import org.mulesoft.lsp.textsync.DidChangeConfigurationNotificationParams
+import org.mulesoft.lsp.textsync.{DidChangeConfigurationNotificationParams, KnownDependencyScopes}
 import org.mulesoft.lsp.workspace.{ExecuteCommandParams => SharedExecuteParams}
 
 import java.io._
 import java.util
+import scala.collection.JavaConverters._
 import scala.compat.java8.FutureConverters._
 import scala.concurrent.Future
-import scala.collection.JavaConverters._
 
-class Lsp4jLanguageServerImplTest extends AMFValidatorTest {
+class Lsp4jLanguageServerImplTest extends AMFValidatorTest with ChangesWorkspaceConfiguration {
 
   test("Lsp4j LanguageServerImpl: initialize correctly") {
 
@@ -151,9 +144,6 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest {
     }
   }
 
-  def wrapJson(mainUri: String, dependecies: Array[String], gson: Gson): String =
-    s"""{"mainUri": "$mainUri", "dependencies": ${gson.toJson(dependecies)}}"""
-
   class DummyTelemetryProvider extends TelemetryManager(new DummyClientNotifier(), EmptyLogger)
 
   class DummyClientNotifier extends ClientNotifier {
@@ -205,10 +195,36 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest {
   test("Lsp4j LanguageServerImpl Command - Change configuration Params Serialization") {
     var parsedOK = false
     def parsed(p: DidChangeConfigurationNotificationParams): Unit = {
+      p.folder should equal("file://")
+      p.mainPath should be(defined)
+      p.mainPath.get should equal("path.raml")
+      p.dependencies.exists({
+        case Left(value) if value == "dep1"                                  => true
+        case Right(value) if value.scope == KnownDependencyScopes.DEPENDENCY => value.file == "dep1"
+        case _                                                               => false
+      }) should be(true)
+      p.dependencies.exists({
+        case Right(value) => value.file == "profile1" && value.scope == KnownDependencyScopes.CUSTOM_VALIDATION
+        case _            => false
+      }) should be(true)
+      p.dependencies.exists({
+        case Right(value) => value.file == "semantic" && value.scope == KnownDependencyScopes.SEMANTIC_EXTENSION
+        case _            => false
+      }) should be(true)
+      p.dependencies.exists({
+        case Right(value) => value.file == "dialect" && value.scope == KnownDependencyScopes.DIALECT
+        case _            => false
+      }) should be(true)
       parsedOK = true
     }
 
-    val args = List(wrapJson("file://uri.raml", Array("dep1", "dep2"), new GsonBuilder().create()))
+    val args = List(
+      changeConfigArgs(Some("path.raml"),
+                       "file://",
+                       Set("dep1", "dep2"),
+                       Set("profile1"),
+                       Set("semantic"),
+                       Set("dialect")))
 
     new TestWorkspaceManager(EditorConfiguration(), parsed)
       .executeCommand(SharedExecuteParams(Commands.DID_CHANGE_CONFIGURATION, args))
@@ -216,12 +232,12 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest {
   }
 
   test("Lsp4j LanguageServerImpl Command - Change configuration Params LSP4J Serialization") {
-    val argument = """"{\n\"folder\": \"file:///full/workspace/uri/\",\n\"mainUri\": \"インターフェース.raml\"\n}""""
+    val argument = """"{\n\"folder\": \"file:///full/workspace/uri/\",\n\"mainPath\": \"インターフェース.raml\"\n}""""
     var parsedOK = false
     def parsed(p: DidChangeConfigurationNotificationParams): Unit = {
       parsedOK = true
       assert(p.folder == "file:///full/workspace/uri/")
-      assert(p.mainUri.contains("インターフェース.raml"))
+      assert(p.mainPath.contains("インターフェース.raml"))
     }
 
     val args = List(argument)
