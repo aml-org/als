@@ -1,6 +1,6 @@
 {
   "name": "@aml-org/als-server",
-  "version": "5.0.0-SNAPSHOT.4",
+  "version": "5.0.0-SNAPSHOT",
   "description": "ALS Server Library",
   "main": "lib/als-server.js",
   "types": "typescript/als-server.d.ts",
