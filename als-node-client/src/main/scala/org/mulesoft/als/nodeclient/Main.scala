@@ -6,7 +6,7 @@ import amf.core.internal.unsafe.PlatformSecrets
 import amf.validation.client.ProfileValidatorNodeBuilder
 import amf.validation.client.platform.CustomValidator
 import amf.validation.client.validator.JsCustomValidator
-import amf.validation.internal.unsafe.AmfCustomValidatorWeb
+import amf.validation.internal.unsafe.AmfCustomValidatorNode
 import io.scalajs.nodejs.process
 import org.mulesoft.als.server.client.platform.AlsLanguageServerFactory
 import org.mulesoft.als.server.{ClientNotifierFactory, JsSerializationProps, ProtocolConnectionBinder}
@@ -51,7 +51,7 @@ object Main extends PlatformSecrets {
         .withSerializationProps(serializationProps)
         .withAmfCustomValidator(new CustomValidator {
           override def validate(document: String, profile: String): Promise[String] =
-            new JsCustomValidator(AmfCustomValidatorWeb).validate(document, profile).toJSPromise
+            new JsCustomValidator(AmfCustomValidatorNode).validate(document, profile).toJSPromise
         })
         .withDirectoryResolver(new ClientPlatformDirectoryResolver(platform))
         .withLogger(logger)
