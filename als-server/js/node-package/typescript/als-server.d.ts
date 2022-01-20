@@ -1,16 +1,16 @@
 declare module '@aml-org/als-server' {
-    import {Logger as VsCodeLogger, NotificationType, RequestType} from 'vscode-jsonrpc'
-    import {
-        ProtocolConnection,
-        PublishDiagnosticsParams,
-        TextDocumentClientCapabilities,
-        TextDocumentIdentifier,
-        WorkspaceClientCapabilities,
-        WorkspaceEdit,
-        WorkspaceFolder
-    } from 'vscode-languageserver-protocol'
+  import {Logger as VsCodeLogger, NotificationType, RequestType} from 'vscode-jsonrpc'
+  import {
+    ProtocolConnection,
+    PublishDiagnosticsParams,
+    TextDocumentClientCapabilities,
+    TextDocumentIdentifier,
+    WorkspaceClientCapabilities,
+    WorkspaceEdit,
+    WorkspaceFolder
+  } from 'vscode-languageserver-protocol'
 
-    /* amf-client-js */
+  /* amf-client-js */
 
   export class AMFObjectResult {
     results: Array<AMFValidationResult>
@@ -6497,7 +6497,13 @@ declare module '@aml-org/als-server' {
     withNotificationKind(notificationsKind: DiagnosticNotificationsKind): AlsLanguageServerFactory
     withDirectoryResolver(dr: ClientDirectoryResolver): AlsLanguageServerFactory
     withPlugin(plugin:JsAMFPayloadValidationPlugin): AlsLanguageServerFactory
+    withAmfPlugins(plugin:JsAMFPayloadValidationPlugin[]): AlsLanguageServerFactory
+    withAmfCustomValidator(validator: CustomValidator): AlsLanguageServerFactory
     build() : LanguageServer
+  }
+
+  export interface CustomValidator {
+    validate(profile: string, data: string): Promise<String>
   }
 
   export interface ClientLogger extends VsCodeLogger { }
@@ -6649,4 +6655,10 @@ declare module '@aml-org/als-server' {
   export const ClientNotifierFactory: {
     createWithClientAware(logger: ClientLogger): ClientNotifier & LanguageClientAware & AlsClientNotifier & AlsLanguageClientAware
   }
+}
+
+declare module '@aml-org/amf-custom-validator-web' {
+  export function validate(profile: string, data: string, debug: boolean, cb: (s: string, err: any) => void): void
+  export function initialize(cb: () => void): void
+  export function exit(): void
 }
