@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.modules
 
 import amf.core.internal.unsafe.PlatformSecrets
+import amf.validation.client.scala.BaseProfileValidatorBuilder
 import org.mulesoft.als.actions.codeactions.plugins.AllCodeActions
 import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
 import org.mulesoft.als.logger.Logger
@@ -13,7 +14,7 @@ import org.mulesoft.als.server.modules.ast.{AccessUnits, BaseUnitListener, Resol
 import org.mulesoft.als.server.modules.completion.SuggestionsManager
 import org.mulesoft.als.server.modules.configuration.{ConfigurationManager, WorkspaceConfigurationManager}
 import org.mulesoft.als.server.modules.diagnostic._
-import org.mulesoft.als.server.modules.diagnostic.custom.{AMFOpaValidator, CustomValidationManager}
+import org.mulesoft.als.server.modules.diagnostic.custom.CustomValidationManager
 import org.mulesoft.als.server.modules.serialization.{ConversionManager, SerializationManager}
 import org.mulesoft.als.server.modules.structure.StructureManager
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
@@ -77,14 +78,15 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier,
     s
   }
 
-  def buildDiagnosticManagers(customValidator: Option[AMFOpaValidator] = None): Seq[BasicDiagnosticManager[_, _]] = {
+  def buildDiagnosticManagers(
+      customValidatorBuilder: Option[BaseProfileValidatorBuilder] = None): Seq[BasicDiagnosticManager[_, _]] = {
     val gatherer = new ValidationGatherer(telemetryManager)
     val dm =
       new ParseDiagnosticManager(telemetryManager, clientNotifier, logger, gatherer, notificationKind)
     val pdm = new ProjectDiagnosticManager(telemetryManager, clientNotifier, logger, gatherer, notificationKind)
     val rdm = new ResolutionDiagnosticManager(telemetryManager, clientNotifier, logger, gatherer)
-    customValidationManager =
-      customValidator.map(new CustomValidationManager(telemetryManager, clientNotifier, logger, gatherer, _))
+    customValidationManager = customValidatorBuilder.map(validator =>
+      new CustomValidationManager(telemetryManager, clientNotifier, logger, gatherer, validator))
     customValidationManager.foreach(resolutionDependencies += _)
     resolutionDependencies += rdm
     projectDependencies += dm

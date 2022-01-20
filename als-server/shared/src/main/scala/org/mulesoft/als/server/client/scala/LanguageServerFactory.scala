@@ -1,12 +1,14 @@
 package org.mulesoft.als.server.client.scala
 
+import amf.aml.client.scala.model.document.DialectInstance
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.client.scala.validation.payload.AMFShapePayloadValidationPlugin
+import amf.validation.client.ProfileValidatorWebBuilder
+import amf.validation.client.scala.{BaseProfileValidatorBuilder, CustomValidator, ProfileValidatorExecutor}
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.logger.{Logger, PrintLnLogger}
 import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
-import org.mulesoft.als.server.modules.diagnostic.custom.AMFOpaValidatorBuilder
 import org.mulesoft.als.server.modules.diagnostic.{DiagnosticNotificationsKind, PARSING_BEFORE}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.textsync.TextDocumentSyncBuilder
@@ -23,7 +25,7 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) {
   protected var directoryResolver: Option[DirectoryResolver]                = None
   protected var rl: Seq[ResourceLoader]                                     = Seq.empty
   protected var plugins: Seq[AMFShapePayloadValidationPlugin]               = Seq.empty
-  protected var amfCustomValidatorBuilder: Option[AMFOpaValidatorBuilder]   = None
+  protected var amfCustomValidatorBuilder: BaseProfileValidatorBuilder      = ProfileValidatorWebBuilder
   protected var configurationProvider: Option[ProjectConfigurationProvider] = None
   protected var textDocumentSyncBuilder: Option[TextDocumentSyncBuilder]    = None
 
@@ -57,8 +59,13 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) {
     this
   }
 
-  def withAmfCustomValidator(validator: AMFOpaValidatorBuilder): this.type = {
-    amfCustomValidatorBuilder = Some(validator)
+  def withAmfCustomValidator(customValidator: CustomValidator): this.type = {
+    val builder = new BaseProfileValidatorBuilder {
+      override def validator(profile: DialectInstance): ProfileValidatorExecutor =
+        ProfileValidatorExecutor(customValidator, profile = profile)
+    }
+
+    amfCustomValidatorBuilder = builder
     this
   }
 
@@ -84,7 +91,7 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) {
 
     directoryResolver.foreach(cdr => factory.withDirectoryResolver(cdr))
     factory.withNotificationKind(notificationsKind) // move to initialization param
-    val dm                    = factory.buildDiagnosticManagers(amfCustomValidatorBuilder.map(_.build(logger)))
+    val dm                    = factory.buildDiagnosticManagers(Some(amfCustomValidatorBuilder))
     val sm                    = factory.serializationManager(serialization)
     val filesInProjectManager = factory.filesInProjectManager(serialization.alsClientNotifier)
     val builders              = factory.buildWorkspaceManagerFactory()

@@ -4,6 +4,7 @@ import amf.aml.client.scala.model.document.DialectInstance
 import amf.core.client.common.validation.{ProfileName, ProfileNames}
 import amf.core.client.scala.config.RenderOptions
 import amf.core.client.scala.model.document.BaseUnit
+import amf.validation.client.scala.BaseProfileValidatorBuilder
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.feature.diagnostic.{
@@ -28,7 +29,7 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
                               override protected val clientNotifier: ClientNotifier,
                               override protected val logger: Logger,
                               override protected val validationGatherer: ValidationGatherer,
-                              val platformValidator: AMFOpaValidator)
+                              val validatorBuilder: BaseProfileValidatorBuilder)
     extends BasicDiagnosticManager[CustomValidationClientCapabilities, CustomValidationOptions]
     with ResolvedUnitListener {
 
@@ -105,18 +106,11 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
                                   unitUri: String,
                                   serializedUnit: String): Future[Seq[AlsValidationResult]] = {
 
-    val profile: ValidationProfileWrapper = ValidationProfileWrapper(profileUnit)
-
-    val profileName = profile.name()
-
-    profileUnit.raw match {
-      case Some(content) =>
-        for {
-          rawResult <- platformValidator.validateWithProfile(content, serializedUnit)
-          report    <- OPAValidatorReportLoader.load(rawResult, unitUri, profileName, profile)
-        } yield report
-      case _ => Future(Seq.empty)
-    }
+    // TODO: compute validator execution could be done just once for each project configuration refreshment
+    validatorBuilder
+      .validator(profileUnit)
+      .validate(serializedUnit, unitUri)
+      .map(_.results.map(rr => new AlsValidationResult(rr, Nil)))
   }
 
   class CustomValidationRunnable(var uri: String, ast: AmfResolvedUnit, uuid: String) extends Runnable[Unit] {

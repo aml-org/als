@@ -30,11 +30,22 @@ lazy val workspaceDirectory: File =
 
 val amfVersion = deps("amf")
 val amfCustomValidatorJSVersion = deps("amf.custom-validator.js")
+val amfCustomValidatorScalaJSVersion = deps("amf.custom-validator-scalajs")
 
 lazy val amfJVMRef = ProjectRef(workspaceDirectory / "amf", "apiContractJVM")
 lazy val amfJSRef = ProjectRef(workspaceDirectory / "amf", "apiContractJS")
 lazy val amfLibJVM = "com.github.amlorg" %% "amf-api-contract" % amfVersion
 lazy val amfLibJS = "com.github.amlorg" %% "amf-api-contract_sjs0.6" % amfVersion
+
+lazy val customValidatorWebJVMRef = ProjectRef(workspaceDirectory / "amf-custom-validator-scalajs", "amfCustomValidatorWebJVM")
+lazy val customValidatorWebJSRef = ProjectRef(workspaceDirectory / "amf-custom-validator-scalajs", "amfCustomValidatorWebJS")
+lazy val customValidatorWebLibJVM = "com.github.amlorg" %% "amf-custom-validator-web" % amfCustomValidatorScalaJSVersion
+lazy val customValidatorWebLibJS = "com.github.amlorg" %% "amf-custom-validator-web_sjs0.6" % amfCustomValidatorScalaJSVersion
+
+lazy val customValidatorNodeJVMRef = ProjectRef(workspaceDirectory / "amf-custom-validator-scalajs", "amfCustomValidatorNodeJVM")
+lazy val customValidatorNodeJSRef = ProjectRef(workspaceDirectory / "amf-custom-validator-scalajs", "amfCustomValidatorNodeJS")
+lazy val customValidatorNodeLibJVM = "com.github.amlorg" %% "amf-custom-validator-node" % amfCustomValidatorScalaJSVersion
+lazy val customValidatorNodeLibJS = "com.github.amlorg" %% "amf-custom-validator-node_sjs0.6" % amfCustomValidatorScalaJSVersion
 
 val orgSettings = Seq(
   organization := "org.mule.als",
@@ -200,8 +211,8 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
     Compile / fullOptJS / artifactPath := baseDirectory.value / "node-package" / "lib" / "als-server.min.js"
   )
 
-lazy val serverJVM = server.jvm.in(file("./als-server/jvm"))
-lazy val serverJS = server.js.in(file("./als-server/js")).disablePlugins(SonarPlugin)
+lazy val serverJVM = server.jvm.in(file("./als-server/jvm")).sourceDependency(customValidatorWebJVMRef, customValidatorWebLibJVM)
+lazy val serverJS = server.js.in(file("./als-server/js")).sourceDependency(customValidatorWebJSRef, customValidatorWebLibJS).disablePlugins(SonarPlugin)
 
 /** ALS node client */
 val npmIClient = TaskKey[Unit]("npmIClient", "Install npm at node client")
@@ -234,6 +245,7 @@ lazy val nodeClient = project
     Compile / fastOptJS / artifactPath := baseDirectory.value / "node-package" / "dist" / "als-node-client.js",
     Compile / fullOptJS / artifactPath := baseDirectory.value / "node-package" / "dist" / "als-node-client.min.js"
   ))
+  .sourceDependency(customValidatorNodeJSRef, customValidatorNodeLibJS)
 /** ALS build tasks */
 
 // Server library

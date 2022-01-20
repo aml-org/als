@@ -14,7 +14,7 @@ import org.mulesoft.als.server._
 import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.feature.serialization.{SerializationClientCapabilities, SerializationParams}
-import org.mulesoft.als.server.modules.diagnostic.DummyAmfOpaValidator
+import org.mulesoft.als.server.modules.diagnostic.FromJsonLDValidatorExecutor
 import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams}
@@ -515,7 +515,7 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
                   withDiagnostics: Boolean = false): LanguageServer = {
     val factoryBuilder: WorkspaceManagerFactoryBuilder =
       new WorkspaceManagerFactoryBuilder(notifier, logger, EditorConfiguration())
-    val dm = factoryBuilder.buildDiagnosticManagers(Some(new DummyAmfOpaValidator))
+    val dm = factoryBuilder.buildDiagnosticManagers(Some(DummyProfileValidator))
     val serializationManager: SerializationManager[StringWriter] =
       factoryBuilder.serializationManager(serializationProps)
     val factory: WorkspaceManagerFactory = factoryBuilder.buildWorkspaceManagerFactory()
