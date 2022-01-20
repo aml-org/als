@@ -124,7 +124,6 @@ pipeline {
                 anyOf {
                     branch 'master'
                     branch 'develop'
-                    branch 'als-5.0.0'
                     branch 'rc/*'
                 }
             }
@@ -132,11 +131,13 @@ pipeline {
                 wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
                     script {
                         if (failedStage.isEmpty()) {
+                            publish_version_node_client = "${publish_version}-1".replace("\n", "")
+                            echo "$publish_version_node_client"
                             sh 'sbt -mem 6000 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 buildNodeJsClient'
                             def statusCode = 1
                             dir("als-node-client/node-package") {
-                                echo "Publishing NPM package: ${publish_version}"
-                                statusCode = sh script:"scripts/publish.sh ${publish_version} ${env.BRANCH_NAME}", returnStatus:true
+                                echo "Publishing NPM package: ${publish_version_node_client}"
+                                statusCode = sh script:"scripts/publish.sh ${publish_version_node_client} ${env.BRANCH_NAME}", returnStatus:true
                             }
                             if(statusCode != 0) {
                                 failedStage = failedStage + " PUBLISH-NODE-JS "
