@@ -6497,7 +6497,13 @@ declare module '@aml-org/als-node-client' {
     withNotificationKind(notificationsKind: DiagnosticNotificationsKind): AlsLanguageServerFactory
     withDirectoryResolver(dr: ClientDirectoryResolver): AlsLanguageServerFactory
     withPlugin(plugin:JsAMFPayloadValidationPlugin): AlsLanguageServerFactory
+    withAmfPlugins(plugin:JsAMFPayloadValidationPlugin[]): AlsLanguageServerFactory
+    withAmfCustomValidator(validator: CustomValidator): AlsLanguageServerFactory
     build() : LanguageServer
+  }
+
+  export interface CustomValidator {
+    validate(profile: string, data: string): Promise<String>
   }
 
   export interface ClientLogger extends VsCodeLogger { }
@@ -6649,4 +6655,10 @@ declare module '@aml-org/als-node-client' {
   export const ClientNotifierFactory: {
     createWithClientAware(logger: ClientLogger): ClientNotifier & LanguageClientAware & AlsClientNotifier & AlsLanguageClientAware
   }
+}
+
+declare module '@aml-org/amf-custom-validator-web' {
+  export function validate(profile: string, data: string, debug: boolean, cb: (s: string, err: any) => void): void
+  export function initialize(cb: () => void): void
+  export function exit(): void
 }
