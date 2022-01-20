@@ -30,6 +30,13 @@
 ]
 },
 {
+"@id": "/BaseUnitSourceInformation",
+"@type": [
+"doc:BaseUnitSourceInformation"
+],
+"doc:rootLocation": "file://als-server/shared/src/test/resources/diagnostics/project/isolated.raml"
+},
+{
 "@id": "#3",
 "@type": [
 "apiContract:EndPoint",
@@ -147,6 +154,9 @@
 "doc:root": true,
 "doc:processingData": {
 "@id": "#1"
+},
+"doc:sourceInformation": {
+"@id": "/BaseUnitSourceInformation"
 }
 }
 ],
