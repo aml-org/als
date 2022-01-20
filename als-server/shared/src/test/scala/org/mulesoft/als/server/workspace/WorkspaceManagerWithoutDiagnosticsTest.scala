@@ -1,10 +1,12 @@
 package org.mulesoft.als.server.workspace
 
+import amf.aml.client.scala.AMLConfiguration
+import amf.core.internal.unsafe.PlatformSecrets
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.common.TextDocumentIdentifier
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, DocumentSymbolRequestType}
@@ -12,7 +14,7 @@ import org.scalatest.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class WorkspaceManagerWithoutDiagnosticsTest extends LanguageServerBaseTest {
+class WorkspaceManagerWithoutDiagnosticsTest extends LanguageServerBaseTest with PlatformSecrets {
 
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
@@ -30,15 +32,17 @@ class WorkspaceManagerWithoutDiagnosticsTest extends LanguageServerBaseTest {
         |  b: string
       """.stripMargin
     val fragmentUri = s"${filePath("ws2/fragment.raml")}"
+    val config      = AMLConfiguration.predefined()
+    val initialArgs = changeConfigArgs(Some("api.raml"), filePath("ws2"))
     withServer[Assertion](buildServer(factory)) { server =>
       for {
-        amfConfiguration <- AmfConfigurationWrapper()
-        _                <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws2")}")))
-        apiContent       <- amfConfiguration.fetchContent(s"${filePath("ws2/api.raml")}")
-        fragmentContent  <- amfConfiguration.fetchContent(fragmentUri)
-        _                <- openFile(server)(s"${filePath("ws2/api.raml")}", apiContent.stream.toString)
-        _                <- openFile(server)(fragmentUri, fragmentContent.stream.toString)
-        _                <- changeFile(server)(fragmentUri, changedFragment, 1)
+        _               <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws2")}")))
+        _               <- changeWorkspaceConfiguration(server)(initialArgs)
+        apiContent      <- platform.fetchContent(s"${filePath("ws2/api.raml")}", config)
+        fragmentContent <- platform.fetchContent(fragmentUri, config)
+        _               <- openFile(server)(s"${filePath("ws2/api.raml")}", apiContent.stream.toString)
+        _               <- openFile(server)(fragmentUri, fragmentContent.stream.toString)
+        _               <- changeFile(server)(fragmentUri, changedFragment, 1)
         r1 <- {
           val handler = server.resolveHandler(DocumentSymbolRequestType).value
 

@@ -11,6 +11,7 @@ Currently the following custom methods are supported:
 - fileUsage
 - conversion
 - serialization
+- didChangeConfiguration command
 - renameFile
 
 ### serializeJSONLD
@@ -168,7 +169,7 @@ Request message from client to server:
   "model": "string"
 }
 </pre>
-
+###### In JS artifact, instead of a string this will return a JS Object (for better performance)
 ### textDocument/didFocus
 
 Sent from the client to server to notice a new focus for a file, which will trigger new parse and diagnostic on isolated files (similar to [`textdocument/didOpen`](https://microsoft.github.io/language-server-protocol/specifications/specification-3-17/#textDocument_didOpen)).
@@ -203,7 +204,7 @@ Please bear in mind that the Workspace Configuration is not the same as the glob
 {
   "workspace": string,
   "configuration": {
-    "mainUri": string,
+    "mainPath": string,
     "folder"?: string,
     "dependencies": string[],
     "customValidationProfiles": string[],
@@ -214,7 +215,7 @@ Please bear in mind that the Workspace Configuration is not the same as the glob
 
 Where:
 - `workspace` is the root folder of the workspace containing the file
-- `mainUri` is the main file uri of said `workspace`
+- `mainPath` is the main file uri of said `workspace`
 - `folder` same as `workspace` [optional]
 - `dependencies` uris of all immutable dependencies of the project
 - `customValidationProfiles` uris of all the active validation profiles on the workspace
@@ -225,8 +226,6 @@ Where:
 
 Request message from client to server's [`workspace/executeCommand`](https://microsoft.github.io/language-server-protocol/specifications/specification-current/#workspace_executeCommand), to modify a workspace configuration.
 
-Command will be ignored if ALS is not configured with `COMMAND` as `projectConfigurationStyle` see [InitializeParams](features.md) for more information.
-
 #### Request
 
 <pre>
@@ -234,28 +233,62 @@ Command will be ignored if ALS is not configured with `COMMAND` as `projectConfi
   "command": "didChangeConfiguration",
   "arguments": [
     {
-      "mainUri": string,
-      "folder"?: string,
-      "dependencies": string[],
-      "customValidationProfiles": string[]
-      "semanticExtensions": string[]
+      "mainPath"?: string,
+      "folder": string,
+      "dependencies": [
+        {
+          "uri": string,
+          "scope"?: string 
+        }
+      ]
     }
   ]
 }
 </pre>
 
 Where:
-- `folder` the workspace for which this configuration change will be applied, if not present ALS will try to determine the workspace by path of the main file uri.  
-- `mainUri` sets the main file of the workspace.
-- `dependencies` set the uris of all immutable dependencies of the project.
-- `customValidationProfiles` a list of uris of custom validation profiles that should be used in the workspace.
-- `semanticExtensions` a list of uris of semantic extension dialects that should be used in the workspace. (Not yet implemented)
+- `folder` uri pointing to the workspace for which this configuration change will be applied
+- `mainPath` [optional] sets the main file path of the workspace. Path will always be relative to the workspace folder uri.
+- `dependencies` the project's dependencies.
+  - `file` the dependency URI
+  - `scope` [optional] The scope given to the dependency, can have the following values:
+    - `"custom-validation"`: Custom Validation Profile
+    - `"semantic-extension"`: AML semantic extensions
+    - `"dialect"`: AML dialects
+    - `"dependency"`: cacheable dependency
 
 #### Response
 
 <pre>
 {}
 </pre>
+
+### indexDialect command
+
+Request message from client to server's [`workspace/executeCommand`](https://microsoft.github.io/language-server-protocol/specifications/specification-current/#workspace_executeCommand):
+
+#### Request
+
+<pre>
+{
+  "command": "indexDialect",
+  "arguments": [
+    {
+      "uri": "<a href="https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#uri">DocumentUri</a>",
+      "content"?: "string"
+    }
+  ]
+}
+</pre>
+
+If a content is not provided, the dialect will be loaded from the provided uri.
+
+#### Response
+
+<pre>
+{}
+</pre>
+
 
 ## Deprecated
 
@@ -284,30 +317,4 @@ Request message from client to server:
 {
   "edits": "<a href="https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#workspaceEdit">WorkspaceEdit</a>"
 }
-</pre>
-
-### didFocusChange
-
-Deprecated in favor of the [`textDocument/didFocus`](#textdocumentdidfocus) notification.
-
-Request message from client to server's [`workspace/executeCommand`](https://microsoft.github.io/language-server-protocol/specifications/specification-current/#workspace_executeCommand):
-
-#### Request
-
-<pre>
-{
-  "command": "didFocusChange",
-  "arguments": [
-    {
-      "uri": "<a href="https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#uri">DocumentUri</a>",
-      "version": "integer"
-    }
-  ]
-}
-</pre>
-
-#### Response
-
-<pre>
-{}
 </pre>

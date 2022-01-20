@@ -1,11 +1,18 @@
 package org.mulesoft.als.suggestions.test
 
+import amf.aml.client.scala.AMLConfiguration
+import amf.apicontract.client.scala.APIConfiguration
 import amf.core.client.scala.model.document.BaseUnit
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.als.common.AmfConfigurationPatcher
+import org.mulesoft.amfintegration.amfconfiguration.{
+  ALSConfigurationState,
+  EditorConfiguration,
+  EmptyProjectConfigurationState
+}
 import org.mulesoft.lsp.feature.completion.CompletionItem
 import org.scalatest.{Assertion, AsyncFunSuite}
 
-import scala.concurrent.{ExecutionContext, Future, future}
+import scala.concurrent.{ExecutionContext, Future}
 
 trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
 
@@ -63,9 +70,13 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
                       label: String = "*",
                       cut: Boolean = false,
                       labels: Array[String] = Array("*")): Future[Assertion] =
-    this
-      .suggest(path, label, None, defaultAmfConfiguration.map(_.branch))
-      .map(r => assertCategory(path, r.toSet))
+    EditorConfiguration().getState
+      .map(ALSConfigurationState(_, EmptyProjectConfigurationState, None))
+      .flatMap(state => {
+        this
+          .suggest(path, label, state)
+          .map(r => assertCategory(path, r.toSet))
+      })
 
   /**
     * @param path                URI for the API resource
@@ -79,9 +90,9 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
                         label: String = "*",
                         cut: Boolean = false,
                         labels: Array[String] = Array("*"),
-                        dialect: Option[String] = None): Future[Assertion] =
+                        dialectPath: Option[String] = None): Future[Assertion] =
     this
-      .suggest(path, label, dialect, defaultAmfConfiguration.map(_.branch))
+      .suggest(path, label, dialectPath)
       .map(
         r =>
           assert(path,
@@ -89,30 +100,34 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
                  originalSuggestions))
 
   def withDialect(path: String, originalSuggestions: Set[String], dialectPath: String): Future[Assertion] = {
-    runSuggestionTest(path, originalSuggestions, dialect = Some(filePath(dialectPath)))
+    runSuggestionTest(filePath(path), originalSuggestions, dialectPath = Some(filePath(dialectPath)))
   }
 
   def rootPath: String
 
-  override def suggest(url: String,
-                       label: String,
-                       dialect: Option[String] = None,
-                       futureAmfConfiguration: Future[AmfConfigurationWrapper]): Future[Seq[CompletionItem]] = {
-    futureAmfConfiguration.flatMap(amfConfiguration => {
-      dialect match {
-        case Some(d) =>
-          amfConfiguration
-            .fetchContent(d)
-            .flatMap(c => super.suggest(filePath(url), label, Some(c.stream.toString), Future(amfConfiguration)))
-        case _ => super.suggest(filePath(url), label, None, Future(amfConfiguration))
+  def suggest(url: String, label: String, dialectPath: Option[String] = None): Future[Seq[CompletionItem]] = {
+    for {
+      dialectContent <- dialectPath
+        .map(d => platform.fetchContent(d, AMLConfiguration.predefined()).map(Some(_)))
+        .getOrElse(Future(None))
+      editorConfiguration <- Future {
+        val dialectUri = "file:///dialect.yaml"
+        val dialectResourceLoader =
+          dialectContent.map(d => AmfConfigurationPatcher.resourceLoaderForFile(dialectUri, d.toString()))
+        val editorConfiguration =
+          EditorConfiguration.withPlatformLoaders(dialectResourceLoader.map(Seq(_)).getOrElse(Seq.empty))
+        dialectPath.foreach(_ => editorConfiguration.withDialect(dialectUri))
+        editorConfiguration
       }
-    })
+      state <- editorConfiguration.getState
+      r     <- super.suggest(url, label, ALSConfigurationState(state, EmptyProjectConfigurationState, None))
+    } yield r
   }
 
   case class ModelResult(u: BaseUnit, url: String, position: Int, originalContent: Option[String])
 
   def parseAMF(url: String): Future[BaseUnit] =
-    AmfConfigurationWrapper().flatMap(_.parse(url).map(_.result.baseUnit))
+    APIConfiguration.API().baseUnitClient().parse(url).map(_.baseUnit)
 
   def filePath(path: String): String = {
     var result =

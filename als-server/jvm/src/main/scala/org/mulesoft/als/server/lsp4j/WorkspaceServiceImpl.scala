@@ -1,12 +1,11 @@
 package org.mulesoft.als.server.lsp4j
 
-import java.util.concurrent.CompletableFuture
-
 import org.eclipse.lsp4j.services.WorkspaceService
 import org.eclipse.lsp4j.{DidChangeConfigurationParams, DidChangeWatchedFilesParams, ExecuteCommandParams}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.lsp.workspace.{ExecuteCommandParams => InternalCommandParams}
 
+import java.util.concurrent.CompletableFuture
 import scala.collection.JavaConverters._
 import scala.compat.java8.FutureConverters._
 

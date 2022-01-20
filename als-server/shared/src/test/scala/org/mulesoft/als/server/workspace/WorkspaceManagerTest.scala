@@ -1,22 +1,21 @@
 package org.mulesoft.als.server.workspace
 
+import amf.aml.client.scala.AMLConfiguration
 import amf.core.client.common.remote.Content
 import amf.core.client.scala.resource.ResourceLoader
-import org.mulesoft.als.configuration.ConfigurationStyle.COMMAND
-import org.mulesoft.als.configuration.ProjectConfigurationStyle
-import org.mulesoft.als.configuration.WorkspaceConfiguration
-import org.mulesoft.als.server.client.ClientNotifier
+import org.mulesoft.als.configuration.ProjectConfiguration
+import org.mulesoft.als.server.client.platform.ClientNotifier
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.workspace.command.Commands
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier}
+import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.configuration.{TraceKind, WorkspaceFolder}
 import org.mulesoft.lsp.feature.common.{Position, Range}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
-import org.mulesoft.lsp.textsync.KnownDependencyScopes.CUSTOM_VALIDATION
 import org.mulesoft.lsp.workspace.ExecuteCommandParams
 import org.scalatest.Assertion
 
@@ -37,7 +36,9 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   }
   def buildServer(diagnosticClientNotifier: ClientNotifier): LanguageServer = {
     val builder =
-      new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier, logger, Seq(fakeRl))
+      new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier,
+                                         logger,
+                                         EditorConfiguration.withPlatformLoaders(Seq(fakeRl)))
 
     val dm      = builder.buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
@@ -57,6 +58,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
       for {
         _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+        _ <- setMainFile(server)(s"${filePath("ws1")}", "api.raml")
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall
         c <- diagnosticClientNotifier.nextCall
@@ -74,6 +76,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
       for {
         _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws3")}")))
+        _ <- setMainFile(server)(s"${filePath("ws3")}", "api.raml")
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall
       } yield {
@@ -91,20 +94,19 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       val rootFolder = s"${filePath("ws-error-stack-1")}"
       for {
         _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder)))
+        _ <- setMainFile(server)(rootFolder, "api.raml")
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall
         c <- diagnosticClientNotifier.nextCall
       } yield {
         server.shutdown()
         val allDiagnostics = Seq(a, b, c)
-        verifyWS1ErrorStack(rootFolder, allDiagnostics, diagnosticClientNotifier)
+        verifyWS1ErrorStack(rootFolder, allDiagnostics)
       }
     }
   }
 
-  private def verifyWS1ErrorStack(rootFolder: String,
-                                  allDiagnostics: Seq[PublishDiagnosticsParams],
-                                  diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog) = {
+  private def verifyWS1ErrorStack(rootFolder: String, allDiagnostics: Seq[PublishDiagnosticsParams]) = {
     assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
     val main   = allDiagnostics.find(_.uri == s"$rootFolder/api.raml")
     val others = allDiagnostics.filterNot(pd => main.exists(_.uri == pd.uri))
@@ -132,6 +134,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       val rootFolder = s"${filePath("ws-error-stack-2")}"
       for {
         _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder)))
+        _ <- setMainFile(server)(rootFolder, "api.raml")
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall
       } yield {
@@ -165,6 +168,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       val rootFolder = s"${filePath("ws-error-stack-3")}"
       for {
         _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder)))
+        _ <- setMainFile(server)(rootFolder, "api.raml")
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall
       } yield {
@@ -198,6 +202,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       val rootFolder = s"${filePath("ws-error-stack-4")}"
       for {
         _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder)))
+        _ <- setMainFile(server)(rootFolder, "api.raml")
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall
         c <- diagnosticClientNotifier.nextCall
@@ -253,6 +258,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       val rootFolder = s"${filePath("ws-error-stack-5")}"
       for {
         _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(rootFolder)))
+        _ <- setMainFile(server)(rootFolder, "api.yaml")
         a <- diagnosticClientNotifier.nextCall
       } yield {
         server.shutdown()
@@ -282,71 +288,30 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     }
   }
 
-  test("Workspace Manager check change in Config [changing exchange.json] - Should notify validations of new tree") {
-    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
-      new MockDiagnosticClientNotifierWithTelemetryLog
-    withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
-      val root           = s"${filePath("ws4")}"
-      val changedConfig  = """{"main": "api2.raml"}"""
-      val originalConfig = """{"main": "api.raml"}"""
-
-      for {
-        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
-        // api.raml, fragment.raml
-        a <- diagnosticClientNotifier.nextCall
-        b <- diagnosticClientNotifier.nextCall
-        _ <- changeNotification(server)(s"$root/exchange.json", changedConfig, 2)
-        // api2.raml
-        c1 <- diagnosticClientNotifier.nextCall
-        _  <- changeNotification(server)(s"$root/exchange.json", originalConfig, 3)
-        // api.raml, fragment.raml
-        d1 <- diagnosticClientNotifier.nextCall
-        d2 <- diagnosticClientNotifier.nextCall
-
-      } yield {
-        server.shutdown()
-        val first  = Seq(a, b)
-        val second = Seq(c1)
-        val third  = Seq(d1, d2)
-
-        assert(first.exists(_.uri == s"$root/api.raml"))
-        assert(first.exists(_.uri == s"$root/fragment.raml"))
-        assert(second.exists(c => c.uri == s"$root/api2.raml" && c.diagnostics.nonEmpty))
-        assert(third.exists(_.uri == s"$root/api.raml"))
-        assert(third.exists(_.uri == s"$root/fragment.raml"))
-      }
-    }
-  }
-
   test("Workspace Manager check change in Config [using Command] - Should notify validations of new tree") {
     val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
       new MockDiagnosticClientNotifierWithTelemetryLog
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
       val root        = s"${filePath("ws4")}"
-      val apiRoot     = s"$root/api.raml"
-      val api2Root    = s"$root/api2.raml"
+      val apiName     = "api.raml"
+      val apiRoot     = s"$root/$apiName"
+      val api2Name    = s"api2.raml"
+      val api2Root    = s"$root/$api2Name"
       val apiFragment = s"$root/fragment.raml"
 
       for {
-        _ <- server.initialize(
-          AlsInitializeParams(None,
-                              Some(TraceKind.Off),
-                              rootUri = Some(root),
-                              projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
-        amfConfiguration <- AmfConfigurationWrapper()
-        content          <- amfConfiguration.fetchContent(apiRoot).map(_.stream.toString) // Open as single file
-        _                <- openFileNotification(server)(apiRoot, content)
+        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
+        content <- EditorConfiguration.platform
+          .fetchContent(apiRoot, AMLConfiguration.predefined())
+          .map(_.stream.toString) // Open as single file
+        _ <- openFileNotification(server)(apiRoot, content)
         // api.raml, fragment.raml
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall
-        _ <- server.workspaceService.executeCommand(
-          ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION,
-                               List(s"""{"mainUri": "$api2Root", "dependencies": []}""")))
+        _ <- changeWorkspaceConfiguration(server)(changeConfigArgs(Some(api2Name), root))
         // api2.raml
         c1 <- diagnosticClientNotifier.nextCall
-        _ <- server.workspaceService.executeCommand(
-          ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION,
-                               List(s"""{"mainUri": "$apiRoot", "dependencies": []}""")))
+        _  <- changeWorkspaceConfiguration(server)(changeConfigArgs(Some(apiName), root))
         // api.raml, fragment.raml
         d1 <- diagnosticClientNotifier.nextCall
         d2 <- diagnosticClientNotifier.nextCall
@@ -372,58 +337,48 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
 
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
       val root        = s"${filePath("ws4")}"
-      val apiRoot     = s"$root/api.raml"
-      val api2Root    = s"$root/api2.raml"
-      val apiFragment = s"$root/fragment.raml"
+      val apiRoot     = s"api.raml"
+      val api2Root    = s"api2.raml"
+      val apiFragment = s"fragment.raml"
       val wm          = server.workspaceService.asInstanceOf[WorkspaceManager]
+
       for {
-        _ <- server.initialize(
-          AlsInitializeParams(None,
-                              Some(TraceKind.Off),
-                              rootUri = Some(root),
-                              projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))))
+        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
         _ <- server.workspaceService.executeCommand(
-          ExecuteCommandParams(
-            Commands.DID_CHANGE_CONFIGURATION,
-            List(s"""{"mainUri": "$apiRoot", "dependencies": [], "customValidationProfiles": []}""")))
+          ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION, List(changeConfigArgs(Some(apiRoot), root))))
         // api.raml, fragment.raml
         _       <- diagnosticClientNotifier.nextCall
         _       <- diagnosticClientNotifier.nextCall
-        config1 <- wm.getWorkspace(apiRoot).flatMap(_.getCurrentConfiguration)
-        _ <- server.workspaceService.executeCommand(ExecuteCommandParams(
-          Commands.DID_CHANGE_CONFIGURATION,
-          List(
-            s"""{"mainUri": "$api2Root", "dependencies": [{"file": "$profileUri", "scope": "$CUSTOM_VALIDATION"}]}""")))
-        // api2.raml
-        _       <- diagnosticClientNotifier.nextCall
-        config2 <- wm.getWorkspace(api2Root).flatMap(_.getCurrentConfiguration)
-        _ <- server.workspaceService.executeCommand(ExecuteCommandParams(
-          Commands.DID_CHANGE_CONFIGURATION,
-          List(
-            s"""{"mainUri": "$api2Root", "dependencies": [{"file": "$profileUri2", "scope": "$CUSTOM_VALIDATION"}]}""")))
-        // api2.raml
-        _       <- diagnosticClientNotifier.nextCall
-        config3 <- wm.getWorkspace(api2Root).flatMap(_.getCurrentConfiguration)
+        config1 <- wm.getWorkspace(filePath("ws4")).flatMap(_.getConfigurationState)
         _ <- server.workspaceService.executeCommand(
-          ExecuteCommandParams(
-            Commands.DID_CHANGE_CONFIGURATION,
-            List(
-              s"""{"mainUri": "$api2Root", "dependencies": [{"file": "$profileUri", "scope": "$CUSTOM_VALIDATION"}, {"file": "$profileUri2", "scope": "$CUSTOM_VALIDATION"}]}""")
-          ))
+          ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION,
+                               List(changeConfigArgs(Some(api2Root), root, profiles = Set(profileUri)))))
         // api2.raml
         _       <- diagnosticClientNotifier.nextCall
-        config4 <- wm.getWorkspace(api2Root).flatMap(_.getCurrentConfiguration)
+        config2 <- wm.getWorkspace(filePath("ws4")).flatMap(_.getConfigurationState)
+        _ <- server.workspaceService.executeCommand(
+          ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION,
+                               List(changeConfigArgs(Some(api2Root), root, profiles = Set(profileUri2)))))
+        // api2.raml
+        _       <- diagnosticClientNotifier.nextCall
+        config3 <- wm.getWorkspace(filePath("ws4")).flatMap(_.getConfigurationState)
+        _ <- server.workspaceService.executeCommand(
+          ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION,
+                               List(changeConfigArgs(Some(api2Root), root, profiles = Set(profileUri, profileUri2)))))
+        // api2.raml
+        _       <- diagnosticClientNotifier.nextCall
+        config4 <- wm.getWorkspace(filePath("ws4")).flatMap(_.getConfigurationState)
 
       } yield {
         server.shutdown()
-        def assertConfig(config: WorkspaceConfiguration, mainFile: String, profiles: Set[String]) = {
+        def assertConfig(config: ProjectConfiguration, mainFile: String, profiles: Set[String]) = {
           assert(config.mainFile.contains(mainFile))
-          assert(profiles.forall(p => config.profiles.contains(p)))
+          assert(profiles.forall(p => config.validationDependency.contains(p)))
         }
-        config1.map(c => assertConfig(c, "api.raml", Set.empty)).get
-        config2.map(c => assertConfig(c, "api2.raml", Set(profileUri))).get
-        config3.map(c => assertConfig(c, "api2.raml", Set(profileUri))).get
-        config4.map(c => assertConfig(c, "api2.raml", Set(profileUri, profileUri2))).get
+        assertConfig(config1.projectState.config, "api.raml", Set.empty)
+        assertConfig(config2.projectState.config, "api2.raml", Set(profileUri))
+        assertConfig(config3.projectState.config, "api2.raml", Set(profileUri))
+        assertConfig(config4.projectState.config, "api2.raml", Set(profileUri, profileUri2))
       }
     }
   }
@@ -439,6 +394,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
 
       for {
         _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
+        _ <- setMainFile(server)(root, "api.raml")
         _ <- {
           openFile(server)(title, content1)
           diagnosticClientNotifier.nextCall
@@ -473,6 +429,8 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       for {
         _ <- server.initialize(
           AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(ws1path), workspaceFolders = Some(wsList)))
+        _ <- setMainFile(server)(ws1path, "api.raml")
+        _ <- setMainFile(server)(ws2path, "api.raml")
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall
         c <- diagnosticClientNotifier.nextCall
@@ -500,10 +458,12 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
 
       for {
         _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(ws1path)))
+        _ <- setMainFile(server)(ws1path, "api.raml")
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall
         c <- diagnosticClientNotifier.nextCall
         _ <- addWorkspaceFolder(server)(ws2)
+        _ <- setMainFile(server)(ws2path, "api.raml")
         d <- diagnosticClientNotifier.nextCall
         e <- diagnosticClientNotifier.nextCall
       } yield {
@@ -531,6 +491,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
 
       for {
         _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
+        _ <- setMainFile(server)(root, "api.raml")
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall
         c <- diagnosticClientNotifier.nextCall
@@ -542,7 +503,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
         server.shutdown()
         val firstDiagnostics  = Seq(a, b, c)
         val secondDiagnostics = Seq(d, e, f)
-        verifyWS1ErrorStack(root, firstDiagnostics, diagnosticClientNotifier)
+        verifyWS1ErrorStack(root, firstDiagnostics)
         assert(secondDiagnostics.forall(_.diagnostics.isEmpty))
         secondDiagnostics.map(_.uri) should contain(file1)
         secondDiagnostics.map(_.uri) should contain(file2)
@@ -570,11 +531,13 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
 
       for {
         _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root2)))
+        _ <- setMainFile(server)(root2, "api.raml")
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall
         _ <- didChangeWorkspaceFolders(server)(List(root1WSF), List())
         c <- diagnosticClientNotifier.nextCall
         d <- diagnosticClientNotifier.nextCall
+        _ <- setMainFile(server)(root1, "api.raml")
         e <- diagnosticClientNotifier.nextCall
         f <- diagnosticClientNotifier.nextCall
       } yield {
@@ -614,6 +577,8 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
                               Some(TraceKind.Off),
                               rootUri = Some(root2),
                               workspaceFolders = Some(Seq(root1WSF, root2WSF))))
+        _   <- setMainFile(server)(root1, "api.raml")
+        _   <- setMainFile(server)(root2, "api.raml")
         d11 <- diagnosticClientNotifier.nextCall
         d12 <- diagnosticClientNotifier.nextCall
         d13 <- diagnosticClientNotifier.nextCall
@@ -625,6 +590,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
         c13 <- diagnosticClientNotifier.nextCall
         c14 <- diagnosticClientNotifier.nextCall
         c15 <- diagnosticClientNotifier.nextCall
+        _   <- setMainFile(server)(globalRoot, "api.raml")
         d21 <- diagnosticClientNotifier.nextCall
       } yield {
         server.shutdown()
@@ -665,6 +631,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       for {
         _ <- server.initialize(
           AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("external-fragment-syntax")}")))
+        _  <- setMainFile(server)(filePath("external-fragment-syntax"), "api.raml")
         n1 <- diagnosticClientNotifier.nextCall
         n2 <- diagnosticClientNotifier.nextCall
       } yield {
@@ -683,6 +650,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
       for {
         _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+        _ <- setMainFile(server)(filePath("ws1"), "api.raml")
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall
         c <- diagnosticClientNotifier.nextCall // this should correspond to filesystem notifications

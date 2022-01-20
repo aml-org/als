@@ -17,7 +17,7 @@ import org.mulesoft.als.suggestions.aml.{
 import org.mulesoft.als.suggestions.interfaces.Syntax._
 import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, Syntax}
 import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
-import org.mulesoft.amfintegration.amfconfiguration.{AmfConfigurationWrapper, AmfParseResult}
+import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, AmfParseResult}
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
 import org.mulesoft.lsp.feature.completion.CompletionItem
 
@@ -47,15 +47,13 @@ class Suggestions(configuration: AlsConfigurationReader, directoryResolver: Dire
               position: Int,
               snippetsSupport: Boolean,
               rootLocation: Option[String],
-              amfConfiguration: AmfConfigurationWrapper): Future[Seq[CompletionItem]] = {
+              alsConfigurationState: ALSConfigurationState): Future[Seq[CompletionItem]] = {
 
-    amfConfiguration
+    alsConfigurationState
       .fetchContent(url)
       .map(content => {
         val originalContent = content.stream.toString
-        val (patched, patchedConf) =
-          patchContentInEnvironment(url, originalContent, position, amfConfiguration)
-        (patched, patchedConf)
+        patchContentInEnvironment(url, originalContent, position, alsConfigurationState)
       })
       .flatMap {
         case (patchedContent, patchedConf) =>
@@ -68,7 +66,8 @@ class Suggestions(configuration: AlsConfigurationReader, directoryResolver: Dire
                     url: String,
                     patchedContent: PatchedContent,
                     snippetSupport: Boolean,
-                    rootLocation: Option[String]): CompletionProvider = {
+                    rootLocation: Option[String],
+                    alsConfigurationState: ALSConfigurationState): CompletionProvider = {
     result.definedBy match {
       case ExternalFragmentDialect.dialect if isHeader(position, patchedContent.original) =>
         if (!url.toLowerCase().endsWith(".raml"))
@@ -76,7 +75,7 @@ class Suggestions(configuration: AlsConfigurationReader, directoryResolver: Dire
             .build(url,
                    patchedContent.original,
                    DtoPosition(position, patchedContent.original),
-                   result.amfConfiguration,
+                   result.context,
                    configuration)
         else
           RamlHeaderCompletionProvider
@@ -89,7 +88,7 @@ class Suggestions(configuration: AlsConfigurationReader, directoryResolver: Dire
           patchedContent,
           snippetSupport,
           rootLocation,
-          result.amfConfiguration
+          alsConfigurationState
         )
     }
   }
@@ -99,9 +98,10 @@ class Suggestions(configuration: AlsConfigurationReader, directoryResolver: Dire
                          url: String,
                          patchedContent: PatchedContent,
                          snippetSupport: Boolean,
-                         rootLocation: Option[String]): Future[CompletionProvider] = {
+                         rootLocation: Option[String],
+                         alsConfigurationState: ALSConfigurationState): Future[CompletionProvider] = {
     unitFuture
-      .map(buildProvider(_, position, url, patchedContent, snippetSupport, rootLocation))
+      .map(buildProvider(_, position, url, patchedContent, snippetSupport, rootLocation, alsConfigurationState))
   }
 
   private def isHeader(position: Int, originalContent: String): Boolean =
@@ -113,11 +113,17 @@ class Suggestions(configuration: AlsConfigurationReader, directoryResolver: Dire
   private def suggestWithPatchedEnvironment(url: String,
                                             patchedContent: PatchedContent,
                                             position: Int,
-                                            patchedConf: AmfConfigurationWrapper,
+                                            patchedAlsConfigurationState: ALSConfigurationState,
                                             snippetsSupport: Boolean,
                                             rootLocation: Option[String]): Future[Seq[CompletionItem]] = {
 
-    buildProviderAsync(patchedConf.parse(url), position, url, patchedContent, snippetsSupport, rootLocation)
+    buildProviderAsync(patchedAlsConfigurationState.parse(url),
+                       position,
+                       url,
+                       patchedContent,
+                       snippetsSupport,
+                       rootLocation,
+                       patchedAlsConfigurationState)
       .flatMap(_.suggest())
   }
 
@@ -127,7 +133,7 @@ class Suggestions(configuration: AlsConfigurationReader, directoryResolver: Dire
                                          patchedContent: PatchedContent,
                                          snippetSupport: Boolean,
                                          rootLocation: Option[String],
-                                         amfConfiguration: AmfConfigurationWrapper): CompletionProviderAST = {
+                                         alsConfiguration: ALSConfigurationState): CompletionProviderAST = {
 
     val amfPosition: AmfPosition = pos.toAmfPosition
     CompletionProviderAST(
@@ -142,7 +148,7 @@ class Suggestions(configuration: AlsConfigurationReader, directoryResolver: Dire
           rootLocation,
           configuration,
           completionsPluginHandler,
-          amfConfiguration
+          alsConfiguration
         ))
   }
 }
@@ -154,8 +160,8 @@ object Suggestions extends PlatformSecrets {
 
 trait SuggestionsHelper {
 
-  def amfParse(url: String, amfConfiguration: AmfConfigurationWrapper): Future[BaseUnit] =
-    amfConfiguration.parse(url).map(_.result.baseUnit)
+  def amfParse(url: String, alsConfiguration: ALSConfigurationState): Future[BaseUnit] =
+    alsConfiguration.parse(url).map(_.result.baseUnit)
 
   def getMediaType(originalContent: String): Syntax = {
 
@@ -164,15 +170,14 @@ trait SuggestionsHelper {
     else Syntax.YAML
   }
 
-  def patchContentInEnvironment(
-      fileUrl: String,
-      fileContentsStr: String,
-      position: Int,
-      amfConfiguration: AmfConfigurationWrapper): (PatchedContent, AmfConfigurationWrapper) = {
+  def patchContentInEnvironment(fileUrl: String,
+                                fileContentsStr: String,
+                                position: Int,
+                                alsConfiguration: ALSConfigurationState): (PatchedContent, ALSConfigurationState) = {
 
     val patchedContent = ContentPatcher(fileContentsStr, position, YAML).prepareContent()
     val patchedConf =
-      AmfConfigurationPatcher.patch(amfConfiguration.branch, fileUrl, patchedContent.content)
+      AmfConfigurationPatcher.patch(alsConfiguration, fileUrl, patchedContent.content)
 
     (patchedContent, patchedConf)
   }

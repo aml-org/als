@@ -4,14 +4,15 @@ import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.convert.LspRangeConverter
-import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.logger.Logger
+import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.modules.configuration.ConfigurationProvider
 import org.mulesoft.als.server.textsync.{TextDocument, TextDocumentContainer}
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, Syntax}
 import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
+import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.completion._
@@ -116,24 +117,27 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
                                  position: Int,
                                  patchedContent: PatchedContent,
                                  uuid: String): Future[CompletionProvider] =
-    workspace
-      .getProjectRootOf(uri)
-      .flatMap(
-        rootUri =>
-          suggestions.buildProviderAsync(
-            patchedParse(text, uri, position, patchedContent, uuid),
-            position,
-            uri,
-            patchedContent,
-            snippetSupport,
-            rootUri
-        ))
+    for {
+      wcm     <- workspace.getWorkspace(uri)
+      rootUri <- wcm.getRootFolderFor(uri)
+      builder <- wcm.getConfigurationState
+      provider <- suggestions.buildProviderAsync(
+        patchedParse(text, uri, position, patchedContent, builder, uuid),
+        position,
+        uri,
+        patchedContent,
+        snippetSupport,
+        rootUri,
+        builder
+      )
+    } yield provider
 
   private def patchedParse(text: TextDocument,
                            uri: String,
                            position: Int,
                            patchedContent: PatchedContent,
+                           state: ALSConfigurationState,
                            uuid: String) =
     new TelemeteredPatchedParse(telemetryProvider)
-      .run(PatchedParseParams(text, uri, position, patchedContent, editorEnvironment, workspace, uuid))
+      .run(PatchedParseParams(text, uri, position, patchedContent, editorEnvironment, workspace, state, uuid))
 }

@@ -1,0 +1,32 @@
+[
+  {
+    "label": "pageSize",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "pageSize",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10pageSize",
+    "filterText": "pageSize: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 12
+        },
+        "end": {
+          "line": 8,
+          "character": 12
+        }
+      },
+      "newText": "pageSize: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

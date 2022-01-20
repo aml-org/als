@@ -33,11 +33,11 @@ trait ConverterExtractor[Original <: AmfObject, Result <: AmfObject]
                     newName,
                     params.bu,
                     params.uri,
-                    params.dialect,
+                    params.definedBy,
                     params.configuration,
                     jsonOptions,
                     yamlOptions,
-                    params.amfConfiguration).map(de => TextEdit(rangeFromEntryBottom(de._2), s"\n${de._1}\n"))
+                    params.alsConfigurationState).map(de => TextEdit(rangeFromEntryBottom(de._2), s"\n${de._1}\n"))
 
   def modifyEntry(original: Original): String
 

@@ -4,13 +4,13 @@ import amf.core.client.scala.errorhandling.DefaultErrorHandler
 import amf.core.client.scala.parse.document.{ParserContext, SyamlParsedDocument}
 import amf.core.internal.parser.ParseConfig
 import org.mulesoft.als.suggestions.RawSuggestion
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.yaml.model._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-case class PathNavigation(fullUrl: String, prefix: String, amfConfiguration: AmfConfigurationWrapper)
+case class PathNavigation(fullUrl: String, prefix: String, alsConfiguration: ALSConfigurationState)
     extends PathCompletion {
 
   private val (filePath, navPath) =
@@ -56,18 +56,17 @@ case class PathNavigation(fullUrl: String, prefix: String, amfConfiguration: Amf
     }
 
   def resolveRootNode(): Future[Option[YNode]] =
-    amfConfiguration.fetchContent(filePath).map { c =>
+    alsConfiguration.fetchContent(filePath).map { c =>
       val mime = c.mime.orElse(
-        amfConfiguration.platform
+        alsConfiguration.platform
           .extension(filePath)
-          .flatMap(amfConfiguration.platform.mimeFromExtension))
+          .flatMap(alsConfiguration.platform.mimeFromExtension))
       mime.flatMap(pluginForMime) match {
         case Some(plugin) =>
           plugin
-            .parse(
-              c.stream,
-              mime.get,
-              ParserContext(config = ParseConfig(amfConfiguration.getConfiguration, DefaultErrorHandler()))) match {
+            .parse(c.stream,
+                   mime.get,
+                   ParserContext(config = ParseConfig(alsConfiguration.getAmfConfig, DefaultErrorHandler()))) match {
             case SyamlParsedDocument(document, _) => Some(document.node)
             case _                                => None
           }

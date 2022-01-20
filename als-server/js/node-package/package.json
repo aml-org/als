@@ -1,6 +1,6 @@
 {
   "name": "@aml-org/als-server",
-  "version": "4.3.0-SNAPSHOT",
+  "version": "5.0.0-SNAPSHOT",
   "description": "ALS Server Library",
   "main": "lib/als-server.js",
   "types": "typescript/als-server.d.ts",
@@ -15,8 +15,8 @@
     "build:dist": "webpack --config ./webpack.config.js"
   },
   "dependencies": {
-    "@aml-org/amf-custom-validator-web": "0.1.0-SNAPSHOT.31",
-    "ajv": "6.5.2",
+    "@aml-org/amf-custom-validator-web": "1.0.0",
+    "ajv": "6.12.6",
     "browserify-fs": "^1.0.0",
     "buffer": "^6.0.3",
     "https-browserify": "^1.0.0",

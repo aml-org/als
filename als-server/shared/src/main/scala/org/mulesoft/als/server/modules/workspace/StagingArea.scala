@@ -4,7 +4,6 @@ import org.mulesoft.als.common.SyncFunction
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.textsync.EnvironmentProvider
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 
 import scala.collection.mutable
 
@@ -58,12 +57,11 @@ class ParserStagingArea(environmentProvider: EnvironmentProvider, logger: Logger
   override def shouldDie: Boolean = pending.values.toList.contains(WORKSPACE_TERMINATED)
 
   def snapshot(): Snapshot = synchronized {
-    val environment                              = environmentProvider.amfConfigurationSnapshot()
     val actual: List[(String, NotificationKind)] = pending.toList
     pending.clear()
-    Snapshot(environment, actual)
+    Snapshot(actual)
   }
 
   def contains(uri: String): Boolean = pending.contains(uri)
 }
-case class Snapshot(environment: AmfConfigurationWrapper, files: List[(String, NotificationKind)]) {}
+case class Snapshot(files: List[(String, NotificationKind)]) {}

@@ -1,13 +1,12 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.core.internal.plugins.syntax.SyamlSyntaxParsePlugin
-import amf.core.internal.remote.Mimes
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.mulesoft.amfintegration.dialect.DialectKnowledge
 
 import scala.concurrent.Future
@@ -29,31 +28,31 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
                        params.directoryResolver,
                        params.prefix,
                        params.rootUri,
-                       params.amfConfiguration)
+                       params.alsConfigurationState)
     } else emptySuggestion
 
   def resolveInclusion(actualLocation: String,
                        directoryResolver: DirectoryResolver,
                        prefix: String,
                        rootLocation: Option[String],
-                       amfConfiguration: AmfConfigurationWrapper): Future[Seq[RawSuggestion]] = {
+                       alsConfiguration: ALSConfigurationState): Future[Seq[RawSuggestion]] = {
     val baseLocation: String =
       if (prefix.startsWith("/")) rootLocation.getOrElse(actualLocation)
       else actualLocation
-    val fullPath = baseLocation.toPath(amfConfiguration.platform)
+    val fullPath = baseLocation.toPath(alsConfiguration.platform)
     val baseDir  = extractPath(fullPath) // root path for file
 
     val relativePath = extractPath(prefix)
     val fullURI =
-      s"${baseDir.stripSuffix("/")}/${relativePath.stripPrefix("/")}".toAmfUri(amfConfiguration.platform)
+      s"${baseDir.stripSuffix("/")}/${relativePath.stripPrefix("/")}".toAmfUri(alsConfiguration.platform)
 
     if (!prefix.startsWith("#"))
       if (fullURI.contains("#") && !fullURI.startsWith("#"))
-        PathNavigation(fullURI, prefix, amfConfiguration).suggest()
+        PathNavigation(fullURI, prefix, alsConfiguration).suggest()
       else
         FilesEnumeration(directoryResolver,
-                         amfConfiguration,
-                         actualLocation.toPath(amfConfiguration.platform),
+                         alsConfiguration,
+                         actualLocation.toPath(alsConfiguration.platform),
                          relativePath)
           .filesIn(fullURI)
     else emptySuggestion
@@ -64,13 +63,13 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
 
 trait PathCompletion {
   val exceptions = Seq("xml", "xsd", "md")
-  val amfConfiguration: AmfConfigurationWrapper
+  val alsConfiguration: ALSConfigurationState
 
   def supportedExtension(file: String): Boolean = {
-    val maybeExtension = amfConfiguration.platform
+    val maybeExtension = alsConfiguration.platform
       .extension(file)
     maybeExtension
-      .flatMap(ext => amfConfiguration.platform.mimeFromExtension(ext))
+      .flatMap(ext => alsConfiguration.platform.mimeFromExtension(ext))
       .exists(pluginForMime(_).isDefined) ||
     maybeExtension.exists(exceptions.contains)
   }

@@ -1,11 +1,12 @@
 package org.mulesoft.als.server.stagingarea.parser
 
+import amf.core.client.common.remote.Content
+import amf.core.client.scala.resource.ResourceLoader
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.logger.MessageSeverity.MessageSeverity
 import org.mulesoft.als.server.modules.ast.{CHANGE_FILE, CLOSE_FILE, NotificationKind, OPEN_FILE}
 import org.mulesoft.als.server.modules.workspace.ParserStagingArea
 import org.mulesoft.als.server.textsync.{EnvironmentProvider, TextDocument}
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.scalatest.{FlatSpec, Matchers}
 
 import scala.collection.mutable.ListBuffer
@@ -14,15 +15,15 @@ import scala.concurrent.Future
 class ParserStagingAreaTests extends FlatSpec with Matchers {
   private val dummyEnvironmentProvider = new EnvironmentProvider{
 
-    override val amfConfiguration: AmfConfigurationWrapper = AmfConfigurationWrapper.buildSync(Seq.empty)
+    override def getResourceLoader: ResourceLoader = new ResourceLoader {
+      override def fetch(resource: String): Future[Content] = ???
+
+      override def accepts(resource: String): Boolean = false
+    }
 
     override def openedFiles: Seq[String] = Seq.empty
 
-    override def amfConfigurationSnapshot(): AmfConfigurationWrapper = amfConfiguration.branch
-
     override def initialize(): Future[Unit] = {Future.successful()}
-
-    override def branch: EnvironmentProvider = ???
 
     override def filesInMemory: Map[String, TextDocument] = ???
   }

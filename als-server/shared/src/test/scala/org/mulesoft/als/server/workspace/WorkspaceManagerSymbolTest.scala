@@ -1,10 +1,11 @@
 package org.mulesoft.als.server.workspace
 
+import amf.aml.client.scala.AMLConfiguration
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.common.{TextDocumentIdentifier, TextDocumentItem}
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, DocumentSymbolRequestType}
@@ -20,10 +21,11 @@ class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
 
   private def testStructureForFile(server: LanguageServer, url: String) = {
     for {
-      amfConfiguration <- AmfConfigurationWrapper()
-      _                <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+      _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+      _ <- changeWorkspaceConfiguration(server)(
+        changeConfigArgs(Some(s"${filePath("ws1")}/api.raml"), filePath("ws1")))
       _ <- {
-        amfConfiguration.fetchContent(url).map { c =>
+        platform.fetchContent(url, AMLConfiguration.predefined()).map { c =>
           server.textDocumentSyncConsumer.didOpen(DidOpenTextDocumentParams(
             TextDocumentItem(url, "RAML", 0, c.stream.toString))) // why clean empty lines was necessary?
         }
@@ -51,8 +53,7 @@ class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
     }
   }
 
-  // TODO: Why is this not returning structure??
-  ignore("Workspace Manager check Symbol - dependency") {
+  test("Workspace Manager check Symbol - dependency") {
 
     val diagnosticClientNotifier = new MockDiagnosticClientNotifier
 

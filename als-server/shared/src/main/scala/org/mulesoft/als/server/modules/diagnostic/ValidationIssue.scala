@@ -35,7 +35,7 @@ case class ValidationIssue(code: String,
   override def equals(obj: Any): Boolean = {
     obj match {
       case vi: ValidationIssue =>
-        vi.`type` == this.`type` && vi.range == this.range && vi.text == this.text
+        vi.`type` == this.`type` && vi.range == this.range && vi.text == this.text && vi.code == this.code
       case _ => false
     }
   }
