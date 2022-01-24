@@ -465,9 +465,9 @@ hovers:
   (126,10):
     - Defines a data type
   (127,12):
-    - Defines a data type
+    - Scalar range constraining this scalar shape
   (127,19):
-    - Defines a data type
+    - Scalar range constraining this scalar shape
   (128,14):
     - Defines a data type
   (128,25):

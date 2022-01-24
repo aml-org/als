@@ -35,8 +35,9 @@ object AlsAmfElement {
             amfObject.annotations.containsJsonSchemaPosition(yPartBranch).getOrElse(false)) ||
             // look inside if some value is part of the branch
             amfObject.fields.fields().exists { fe =>
-              fe.value.annotations.containsYPart(yPartBranch).getOrElse(fe.value.value.containsYPart(yPartBranch))
-            // todo: this should work to cut early, but there are cases in which a son is not contained in
+              fe.value.annotations
+                .containsYPart(yPartBranch)
+                .getOrElse(fe.value.value.containsYPart(yPartBranch)) // todo: this should work to cut early, but there are cases in which a son is not contained in
             //  the parents lexical. This should be fixed in AMF (set as Virtual)
 //            ((amfObject.annotations.isVirtual || amfObject.annotations.isSynthesized) &&
 //              amfObject.fields.fields().exists { fe =>

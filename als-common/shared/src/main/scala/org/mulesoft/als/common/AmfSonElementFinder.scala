@@ -108,7 +108,7 @@ object AmfSonElementFinder {
               if (branch.branch.contains(obj)) Some(branch)
               else find(branch.newLeaf(obj), definedBy)
             case Right(fe)
-                // todo: check this clause, I changed nonsensically "||" for "&&" and no test changed
+                // todo: check this clause, it is a weird predicate
                 if !fe.value.annotations.isInferred || fe.value.value.containsYPart(yPartBranch) =>
               Some(branch.forField(fe))
             case _ => Some(branch)
