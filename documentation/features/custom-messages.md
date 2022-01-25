@@ -318,3 +318,29 @@ Request message from client to server:
   "edits": "<a href="https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#workspaceEdit">WorkspaceEdit</a>"
 }
 </pre>
+
+### didFocusChange
+
+Deprecated in favor of the [`textDocument/didFocus`](#textdocumentdidfocus) notification.
+
+Request message from client to server's [`workspace/executeCommand`](https://microsoft.github.io/language-server-protocol/specifications/specification-current/#workspace_executeCommand):
+
+#### Request
+
+<pre>
+{
+  "command": "didFocusChange",
+  "arguments": [
+    {
+      "uri": "<a href="https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#uri">DocumentUri</a>",
+      "version": "integer"
+    }
+  ]
+}
+</pre>
+
+#### Response
+
+<pre>
+{}
+</pre>
