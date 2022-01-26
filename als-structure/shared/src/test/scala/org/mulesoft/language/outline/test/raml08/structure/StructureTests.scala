@@ -34,4 +34,8 @@ class StructureTests extends RAML08StructureTest {
     this.runTest("inlined-array/api.raml", "inlined-array/api-outline.json")
   }
 
+  test("!included example") {
+    this.runTest("included-example/api.raml", "included-example/api-outline.json")
+  }
+
 }
