@@ -41,7 +41,8 @@ object AbstractDeclarationInformation {
       case t: Trait =>
         val resolved =
           getSourceEntry(t, "trait").fold(AbstractElementTransformer.asOperation(bu, t, amfConfiguration))(e => {
-            val extendsHelper = ExtendsHelper(profile(bu), keepEditingInfo = false, UnhandledErrorHandler)
+            val extendsHelper =
+              ExtendsHelper(profile(bu), keepEditingInfo = false, UnhandledErrorHandler, amfConfiguration)
             extendsHelper.parseOperation(bu, t.name.option().getOrElse(""), "AbstractDeclarationInformation", e)
           })
         Some(ElementInfo(resolved, t, t.name.value(), t.metaURIs.head))
