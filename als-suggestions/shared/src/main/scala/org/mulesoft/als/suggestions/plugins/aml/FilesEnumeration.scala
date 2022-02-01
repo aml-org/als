@@ -1,5 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
+import amf.core.internal.utils.UriUtils
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.suggestions.RawSuggestion
@@ -15,14 +16,14 @@ case class FilesEnumeration(directoryResolver: DirectoryResolver,
     extends PathCompletion {
 
   def filesIn(fullURI: String): Future[Seq[RawSuggestion]] =
-    directoryResolver.isDirectory(alsConfiguration.platform.resolvePath(fullURI)).flatMap { isDir =>
+    directoryResolver.isDirectory(UriUtils.resolvePath(fullURI)).flatMap { isDir =>
       if (isDir) listDirectory(fullURI)
       else Future.successful(Nil)
     }
 
   private def listDirectory(fullURI: String): Future[Seq[RawSuggestion]] =
     directoryResolver
-      .readDir(alsConfiguration.platform.resolvePath(fullURI))
+      .readDir(UriUtils.resolvePath(fullURI))
       .flatMap(withIsDir(_, fullURI))
       .map(s => {
         s.filter(tuple =>
@@ -37,7 +38,7 @@ case class FilesEnumeration(directoryResolver: DirectoryResolver,
       files.map(
         file =>
           directoryResolver
-            .isDirectory(alsConfiguration.platform.resolvePath(
+            .isDirectory(UriUtils.resolvePath(
               s"${fullUri.toPath(alsConfiguration.platform)}$file".toAmfUri(alsConfiguration.platform)))
             .map(isDir => (file, isDir)))
     }

@@ -41,7 +41,7 @@ private object FileUtils {
     * @return
     */
   private def windowsPatchToAbsoluteUri(path: String, platform: Platform): String =
-    if (platform.operativeSystem() == "win")
+    if (platform.operativeSystem() == "win" && !path.startsWith("/") && hasDrive(path)) // in windows, if it has a drive letter, it should start with `/` as a URI
       s"/$path"
     else path
 
@@ -52,5 +52,13 @@ private object FileUtils {
     * @return
     */
   private def windowsPatchToPath(path: String, platform: Platform): String =
-    if (platform.operativeSystem() == "win" && path.startsWith("/")) path.drop(1) else path // need to check if drive letter is defined? (see TmpResourceLoader)
+    if (platform.operativeSystem() == "win" && hasSlashAndDrive(path))
+      path.drop(1)
+    else path
+
+  private def hasSlashAndDrive(path: String): Boolean =
+    path.startsWith("/") && hasDrive(path)
+
+  private def hasDrive(path: String): Boolean =
+    path.contains(":/")
 }
