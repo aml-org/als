@@ -92,7 +92,7 @@ abstract class LanguageServerBaseTest
   def withServer[R](server: LanguageServer, initParams: AlsInitializeParams = initializeParams)(
       fn: LanguageServer => Future[R]): Future[R] = {
     server
-      .initialize(initParams)
+      .testInitialize(initParams)
       .flatMap(_ => {
         server.initialized()
         fn(server)

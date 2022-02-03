@@ -92,7 +92,7 @@ class DialectRegistryTest extends LanguageServerBaseTest {
       val url = "file:///dialect.yaml"
 
       for {
-        _ <- server.initialize(
+        _ <- server.testInitialize(
           AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some("file:///"), hotReload = Some(true)))
         _  <- openFileNotification(server)(url, content)
         _  <- workspaceManager.getUnit(url, UUID.randomUUID().toString)
@@ -130,7 +130,7 @@ class DialectRegistryTest extends LanguageServerBaseTest {
       val url = "file:///dialect1.yaml"
 
       for {
-        _ <- server.initialize(
+        _ <- server.testInitialize(
           AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some("file:///"), hotReload = Some(true)))
         _        <- openFileNotification(server)(url, content)
         _        <- changeNotification(server)(url, content.replace("2", "3"), 2)
@@ -166,7 +166,7 @@ class DialectRegistryTest extends LanguageServerBaseTest {
       val url = "file:///dialect1.yaml"
 
       for {
-        _ <- server.initialize(
+        _ <- server.testInitialize(
           AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some("file:///"), hotReload = Some(true)))
         d1 <- workspaceManager.getWorkspace(url).flatMap(_.getConfigurationState).map(_.dialects)
         _  <- openFileNotification(server)(url, content)
@@ -206,7 +206,7 @@ class DialectRegistryTest extends LanguageServerBaseTest {
       val url = "file:///dialect1.yaml"
 
       for {
-        _ <- server.initialize(
+        _ <- server.testInitialize(
           AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some("file:///"), hotReload = Some(true)))
         d1 <- workspaceManager.getWorkspace(url).flatMap(_.getConfigurationState).map(_.dialects)
         _  <- changeWorkspaceConfiguration(server)(changeConfigArgs(None, "file:///", dialects = Set(extraDialectPath)))
@@ -251,7 +251,7 @@ class DialectRegistryTest extends LanguageServerBaseTest {
       val url           = "file:///dialect1.yaml"
 
       for {
-        _ <- server.initialize(
+        _ <- server.testInitialize(
           AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some("file:///"), hotReload = Some(true)))
         _  <- changeWorkspaceConfiguration(server)(changeConfigArgs(None, "file:///", dialects = Set(extraDialectPath)))
         d1 <- workspaceManager.getWorkspace(url).flatMap(_.getConfigurationState).map(_.dialects)
