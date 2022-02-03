@@ -27,7 +27,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     ExecutionContext.Implicits.global
 
   private val profileUri: String  = "file://profile.yaml"
-  private val profileUri2: String = "file://profile.yaml"
+  private val profileUri2: String = "file://profile.yaml" // todo: why are this two the same??
   val fakeRl: ResourceLoader = new ResourceLoader {
     override def fetch(resource: String): Future[Content] =
       Future.successful(new Content("#%Validation Profile 1.0\nprofile: MyProfile", resource))
@@ -338,11 +338,11 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       new MockDiagnosticClientNotifierWithTelemetryLog
 
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
-      val root        = s"${filePath("ws4")}"
-      val apiRoot     = s"api.raml"
-      val api2Root    = s"api2.raml"
-      val apiFragment = s"fragment.raml"
-      val wm          = server.workspaceService.asInstanceOf[WorkspaceManager]
+      val root     = s"${filePath("ws4")}"
+      val apiRoot  = s"api.raml"
+      val api2Root = s"api2.raml"
+      // val apiFragment = s"fragment.raml" todo: if not used, then delete
+      val wm = server.workspaceService.asInstanceOf[WorkspaceManager]
 
       for {
         _ <- server.testInitialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))

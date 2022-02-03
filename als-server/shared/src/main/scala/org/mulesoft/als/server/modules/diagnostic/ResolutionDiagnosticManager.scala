@@ -91,19 +91,25 @@ class ResolutionDiagnosticManager(override protected val telemetryProvider: Tele
                                   uuid: String,
                                   profile: ProfileName)() =
     try {
+      logger.debug("starting", "ResolutionDiagnosticManager", "tryValidationReport")
       resolved.getLast.flatMap { r =>
         r.resolvedUnit
           .flatMap { result =>
             r.configuration
               .report(result.baseUnit)
-              .map(rep => AMFValidationReport(rep.model, rep.profile, rep.results ++ result.results))
+              .map(rep => {
+                logger.debug("finishing", "ResolutionDiagnosticManager", "tryValidationReport")
+                AMFValidationReport(rep.model, rep.profile, rep.results ++ result.results)
+              })
           }
       } recoverWith {
         case e: Exception =>
+          logger.debug(s"recovering from: ${e.getMessage}", "ResolutionDiagnosticManager", "tryValidationReport")
           sendFailedClone(uri, telemetryProvider, resolved.baseUnit, uuid, e.getMessage)
       }
     } catch {
       case e: Exception =>
+        logger.debug(s"failed with: ${e.getMessage}", "ResolutionDiagnosticManager", "tryValidationReport")
         sendFailedClone(uri, telemetryProvider, resolved.baseUnit, uuid, e.getMessage)
     }
 
