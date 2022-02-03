@@ -38,7 +38,7 @@ class ErrorHandlingTest extends LanguageServerBaseTest {
     val servAndFactor                         = buildServer()
     withServer(servAndFactor._1) { server =>
       for {
-        _ <- server.initialize(initializeParams)
+        _ <- server.testInitialize(initializeParams)
       } yield {
         assert(servAndFactor._2.workspaceManager.getWorkspaceFolders.isEmpty)
         server.shutdown()
@@ -53,7 +53,7 @@ class ErrorHandlingTest extends LanguageServerBaseTest {
     val servAndFactor                         = buildServer()
     withServer(servAndFactor._1) { server =>
       for {
-        _ <- server.initialize(initializeParams)
+        _ <- server.testInitialize(initializeParams)
       } yield {
         assert(servAndFactor._2.workspaceManager.getWorkspaceFolders.isEmpty)
         logger.logList.exists(_.contains(s"Not recognized $undefUri as a valid Root URI"))

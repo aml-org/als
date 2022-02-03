@@ -49,7 +49,7 @@ trait ServerFileUsageTest extends LanguageServerBaseTest {
         .build()
     val initialArgs = changeConfigArgs(Some(mainFile), root)
     for {
-      _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
+      _ <- server.testInitialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
       _ <- changeWorkspaceConfiguration(server)(initialArgs)
     } yield {
       (server, workspaceManager)

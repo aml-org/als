@@ -36,7 +36,8 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
       val handler = server.resolveHandler(DocumentSymbolRequestType).value
 
       for {
-        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+        _ <- server.testInitialize(
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
         _ <- changeWorkspaceConfiguration(server)(initialArgs)
         _ <- handler(DocumentSymbolParams(TextDocumentIdentifier(main)))
         _ <- handler(DocumentSymbolParams(TextDocumentIdentifier(subdir)))
@@ -78,7 +79,8 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
     withServer[Assertion](buildServer(notifier)) { server =>
       val handler = server.resolveHandler(DocumentSymbolRequestType).value
       for {
-        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+        _ <- server.testInitialize(
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
         _ <- changeWorkspaceConfiguration(server)(initialArgs) // parse main with subdir
         _ <- fetchContent(main)
           .flatMap(c => openFile(server)(main, c.stream.toString)) // open main file (should not reparse)
@@ -105,7 +107,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
     withServer[Assertion](buildServer(notifier)) { server =>
       // open dialect -> open invalid instance -> change dialect -> focus now valid instance
       for {
-        _ <- server.initialize(
+        _ <- server.testInitialize(
           AlsInitializeParams(None,
                               Some(TraceKind.Off),
                               rootUri = Some(filePath("aml-workspace")),

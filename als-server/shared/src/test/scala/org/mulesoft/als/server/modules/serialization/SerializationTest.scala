@@ -293,7 +293,7 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
       val overlayUrl   = filePath("project/overlay.raml")
 
       for {
-        _ <- server.initialize(
+        _ <- server.testInitialize(
           AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("project")}")))
         _ <- platform
           .fetchContent(mainUrl, AMFGraphConfiguration.predefined())
@@ -345,7 +345,7 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
       val overlayUrl   = filePath("project-overlay-mf/overlay.raml")
 
       for {
-        _ <- server.initialize(
+        _ <- server.testInitialize(
           AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("project-overlay-mf")}")))
         _ <- setMainFile(server)(filePath("project-overlay-mf"), mainFile)
         _ <- platform
@@ -441,7 +441,7 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
     val server = buildServer(serializationProps, notifier, withDiagnostics = true)
     withServer(server) { server =>
       for {
-        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(workspace)))
+        _ <- server.testInitialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(workspace)))
         _ <- changeWorkspaceConfiguration(server)(initialArgs)
         _ <- notifier.nextCall
         r <- assertSerialization(server, profileUrl, goldenUrl)
@@ -462,7 +462,7 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
     val server = buildServer(serializationProps, notifier, withDiagnostics = true)
     withServer(server) { server =>
       for {
-        _       <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(workspace)))
+        _       <- server.testInitialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(workspace)))
         content <- platform.fetchContent(profileUrl, AMFGraphConfiguration.predefined())
         _       <- openFile(server)(profileUrl, content.stream.toString)
         _       <- notifier.nextCall
@@ -485,7 +485,7 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
     val server = buildServer(serializationProps, notifier, withDiagnostics = true)
     withServer(server) { server =>
       for {
-        _       <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(workspace)))
+        _       <- server.testInitialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(workspace)))
         _       <- changeWorkspaceConfiguration(server)(initialArgs)
         _       <- notifier.nextCall
         _       <- assertSerialization(server, profileUrl, goldenUrl) // Registered profile

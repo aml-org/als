@@ -71,7 +71,7 @@ class IncludeCacheTests extends RAMLSuggestionTestServer {
 
     val resolved = filePath(platform.encodeURI(path))
     for {
-      _       <- server.initialize(AlsInitializeParams.default)
+      _       <- server.testInitialize(AlsInitializeParams.default)
       content <- this.platform.fetchContent(resolved, AMFGraphConfiguration.predefined())
       (suggestions, map1) <- {
         val fileContentsStr = content.stream.toString
