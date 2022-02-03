@@ -1,9 +1,14 @@
 package org.mulesoft.als.server.modules.diagnostic
 
 import amf.aml.client.scala.model.document.DialectInstance
-import amf.core.client.common.validation.{ProfileName, UnknownProfile}
+import amf.core.client.common.validation.UnknownProfile
 import amf.core.client.scala.validation.AMFValidationReport
-import amf.validation.client.scala.{BaseProfileValidatorBuilder, CustomValidator, ProfileValidatorExecutor, ValidatorExecutor}
+import amf.validation.client.scala.{
+  BaseProfileValidatorBuilder,
+  CustomValidator,
+  ProfileValidatorExecutor,
+  ValidatorExecutor
+}
 import org.mulesoft.als.common.diff.FileAssertionTest
 import org.scalatest.Assertion
 import org.scalatest.Matchers.{fail, succeed}
@@ -92,18 +97,21 @@ class FromJsonLDValidatorExecutor(val result: String = "{}") extends CustomValid
 
   override def validate(document: String, profile: String): Future[String] = {
     calls = calls + (profile -> document)
-      callCount = callCount + 1
-      promises.dequeueFirst(!_.isCompleted).foreach(_.success(callCount))
-      Future.successful(result)
+    callCount = callCount + 1
+    promises.dequeueFirst(!_.isCompleted).foreach(_.success(callCount))
+    Future.successful(result)
   }
 }
-class AlsBaseProfileValidatorBuilder(val jsonLDValidatorExecutor: FromJsonLDValidatorExecutor) extends BaseProfileValidatorBuilder{
-  override def validator(profile: DialectInstance): ProfileValidatorExecutor = new ProfileValidatorExecutor(new ValidatorExecutor(jsonLDValidatorExecutor), profile)
+class AlsBaseProfileValidatorBuilder(val jsonLDValidatorExecutor: FromJsonLDValidatorExecutor)
+    extends BaseProfileValidatorBuilder {
+  override def validator(profile: DialectInstance): ProfileValidatorExecutor =
+    new ProfileValidatorExecutor(new ValidatorExecutor(jsonLDValidatorExecutor), profile)
 
 }
 
 object FromJsonLdValidatorProvider {
-  def apply(result:String) : AlsBaseProfileValidatorBuilder = new AlsBaseProfileValidatorBuilder(new FromJsonLDValidatorExecutor(result))
+  def apply(result: String): AlsBaseProfileValidatorBuilder =
+    new AlsBaseProfileValidatorBuilder(new FromJsonLDValidatorExecutor(result))
 
   def empty: AlsBaseProfileValidatorBuilder = apply(AMFValidationReport.empty("", UnknownProfile).toString)
 }
