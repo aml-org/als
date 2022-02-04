@@ -142,37 +142,37 @@ hovers:
   (39,17):
     - Action that can be executed using a particular HTTP invocation
   (40,12):
-    - Action that can be executed using a particular HTTP invocation
+    - Name of a parameter
   (40,18):
-    - Action that can be executed using a particular HTTP invocation
+    - Name of a parameter
   (41,11):
-    - Action that can be executed using a particular HTTP invocation
+    - Part of the Request model where the parameter can be encoded (header, path, query param, etc.)
   (41,16):
-    - Action that can be executed using a particular HTTP invocation
+    - Part of the Request model where the parameter can be encoded (header, path, query param, etc.)
   (42,15):
-    - Action that can be executed using a particular HTTP invocation
+    - Human readable description of an element
   (42,40):
-    - Action that can be executed using a particular HTTP invocation
+    - Human readable description of an element
   (43,14):
-    - Action that can be executed using a particular HTTP invocation
+    - Marks the parameter as required
   (43,22):
-    - Action that can be executed using a particular HTTP invocation
+    - Marks the parameter as required
   (44,13):
-    - Action that can be executed using a particular HTTP invocation
+    - Defines a data type
   (44,17):
     - Defines a data type
   (45,14):
-    - Defines a data type
+    - Scalar range constraining this scalar shape
   (45,21):
-    - Defines a data type
+    - Scalar range constraining this scalar shape
   (46,11):
     - Human readable name for the object
   (46,18):
-    - Request information for an operation
+    - Action that can be executed using a particular HTTP invocation
   (47,11):
-    - Request information for an operation
+    - Action that can be executed using a particular HTTP invocation
   (47,16):
-    - Request information for an operation
+    - Action that can be executed using a particular HTTP invocation
   (48,27):
     - Media types supported in the payload
   (48,46):
@@ -282,19 +282,19 @@ hovers:
   (77,14):
     - Action that can be executed using a particular HTTP invocation
   (77,17):
-    - Action that can be executed using a particular HTTP invocation
+    - EndPoint in the API holding a number of executable operations
   (78,19):
     - Human readable name for the object
   (78,26):
-    - Request information for an operation
+    - EndPoint in the API holding a number of executable operations
   (79,21):
     - Human readable description of an element
   (79,37):
     - Human readable description of an element
   (80,19):
-    - Request information for an operation
+    - EndPoint in the API holding a number of executable operations
   (80,24):
-    - Request information for an operation
+    - EndPoint in the API holding a number of executable operations
   (81,27):
     - Media types supported in the payload
   (81,37):
@@ -1011,23 +1011,24 @@ hovers:
   (270,16):
     - Top level element describing a HTTP API
   (271,9):
-    - Request information for an operation
+    - Identifies the document type
+    - Modules/Libraries are used to combine any collection of elements declarations into modular, externalized, reusable groups.
   (271,15):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (272,11):
     - Human readable description of an element
   (272,25):
     - Human readable description of an element
   (273,9):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (273,14):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (274,14):
     - Media types supported in the payload
   (274,21):
     - Encoded payload using certain media-type
   (275,14):
-    - Request information for an operation
+    - Example value for a schema inside an API
   (275,19):
     - Example value for a schema inside an API
   (276,14):
@@ -1043,13 +1044,14 @@ hovers:
   (278,50):
     - Raw text containing an unparsable example
   (279,7):
-    - Request information for an operation
+    - Identifies the document type
+    - Modules/Libraries are used to combine any collection of elements declarations into modular, externalized, reusable groups.
   (279,12):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (280,8):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (280,31):
-    - Request information for an operation
+    - Top level element describing a HTTP API
   (281,5):
     - Contains declarations for headers
   (281,10):
@@ -1273,19 +1275,19 @@ hovers:
   (341,10):
     - Action that can be executed using a particular HTTP invocation
   (341,13):
-    - Action that can be executed using a particular HTTP invocation
+    - EndPoint in the API holding a number of executable operations
   (342,15):
     - Human readable name for the object
   (342,22):
-    - Request information for an operation
+    - EndPoint in the API holding a number of executable operations
   (343,17):
     - Human readable description of an element
   (343,33):
     - Human readable description of an element
   (344,15):
-    - Request information for an operation
+    - EndPoint in the API holding a number of executable operations
   (344,20):
-    - Request information for an operation
+    - EndPoint in the API holding a number of executable operations
   (345,23):
     - Media types supported in the payload
   (345,33):
