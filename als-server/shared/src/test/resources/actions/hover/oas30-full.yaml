@@ -1,0 +1,362 @@
+openapi: 3.0.0
+info:
+  title: Sample Pet Store App
+  description: This is a sample server for a pet store.
+  termsOfService: http://example.com/terms/
+  contact:
+    name: API Support
+    url: http://www.example.com/support
+    email: support@example.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.1
+servers:
+  - url: https://development.gigantic-server.com/v1
+    description: Development server
+    variables:
+      username:
+        # note! no enum here means it is an open value
+        enum:
+          - '8443'
+          - '443'
+        default: '8443'
+        description: this value is assigned by the service provider, in this example `gigantic-server.com`
+
+paths:
+  /path:
+    summary: an endpoint
+    description: still an endpoint
+    get:
+      tags:
+        - pet
+      summary: Updates a pet in the store with form data
+      description: Updates a pet in the store with form data
+      externalDocs:
+        description: Find more info here
+        url: https://example.com
+      operationId: updatePetWithForm
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet that needs to be updated
+          required: true
+          schema:
+            ty[*]pe: string
+      requestBody:
+        content:
+          'application/x-www-form-urlencoded':
+            schema:
+              properties:
+                name:
+                  description: Updated name of the pet
+                  type: string
+                status:
+                  description: Updated status of the pet
+                  type: string
+              required:
+                - status
+      responses:
+        '200':
+          description: Pet updated.
+          content:
+            'application/json': {}
+            'application/xml': {}
+        '405':
+          description: Invalid input
+          content:
+            'application/json': {}
+            'application/xml': {}
+        default:
+          $ref: "#/components/responses/aResponse"
+      callbacks:
+        refCallback:
+          $ref: "#/components/callbacks/myWebhook"
+        callBack:
+          'http://notificationServer.com?transactionId={$request.body#/id}&email={$request.body#/email}':
+            post:
+              requestBody:
+                description: Callback payload
+                content:
+                  'application/json':
+                    schema:
+                      $ref: '#/components/schemas/objectSchema'
+              responses:
+                '200':
+                  description: webhook successfully processed and no retries will be performed
+      deprecated: false
+
+      security:
+        - oauth2:
+            - write:pets
+            - read:pets
+      servers:
+        - url: https://development.gigantic-server.com/v1
+          description: Development server
+    put:
+      description: put
+    post:
+      description: post
+    delete:
+      description: delete
+    options:
+      description: options
+    head:
+      description: head
+    patch:
+      description: patch
+    trace:
+      description: trace
+    servers:
+      - url: https://development.gigantic-server.com/v1
+        description: Development server
+    parameters:
+      - $ref: "#/components/parameters/aParam"
+      - name: token
+        in: header
+        description: token to be passed as a header
+        required: true
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int64
+        style: simple
+components:
+  schemas:
+    intFormat:
+      format:
+    common:
+      title: common schema
+      multipleOf: 2
+      maximum: 32
+      exclusiveMaximum: true
+      minimum: 0
+      exclusiveMinimum: true
+      maxLength: 100
+      minLength: 0
+      pattern: "^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$"
+      enum:
+        - a
+        - b
+      type: string
+      description: common test case
+      default: a
+      nullable: true
+      externalDocs:
+        description: Find more info here
+        url: https://example.com
+      example: a
+      deprecated: false
+    arraySchema:
+      minItems: 0
+      uniqueItems: true
+      maxItems: 100
+      items:
+        type: string
+    objectSchema:
+      maxProperties: 100
+      minProperties: 0
+      required:
+        - a
+      properties:
+        a:
+          readOnly: false
+          writeOnly: false
+          xml:
+            name: a
+            attribute: false
+            wrapped: false
+            namespace: http://example.com/schema/sample
+            prefix: sample
+      additionalProperties: false
+    refSchema:
+      $ref: '#/components/schemas/objectSchema'
+    oneOfschema:
+      oneOf:
+        - $ref: '#/components/schemas/objectSchema'
+        - $ref: '#/components/schemas/arraySchema'
+      discriminator:
+        propertyName: a
+        mapping:
+          dog: '#/components/schemas/objectSchema'
+    anyOfSchema:
+      anyOf:
+        - $ref: '#/components/schemas/objectSchema'
+        - $ref: '#/components/schemas/arraySchema'
+    allOfSchema:
+      allOf:
+        - $ref: '#/components/schemas/objectSchema'
+        - $ref: '#/components/schemas/arraySchema'
+    notSchema:
+      not:
+        type: string
+  responses:
+    aResponse:
+      description: a response
+      headers:
+        inlined:
+          description: The number of allowed requests in the current period
+          schema:
+            type: integer
+        aRef:
+          $ref: "#/components/headers/aHeader"
+      content:
+        application/json:
+          schema:
+            type: string
+          example: a
+          encoding:
+            historyMetadata:
+              # require XML Content-Type in utf-8 encoding
+              contentType: application/xml; charset=utf-8
+              style: form
+              explode: false
+              allowReserved: false
+            profileImage:
+              # only accept png/jpeg
+              contentType: image/png, image/jpeg
+              headers:
+                X-Rate-Limit-Limit:
+                  description: The number of allowed requests in the current period
+                  schema:
+                    type: integer
+      links:
+        refLink:
+          $ref: "#/components/links/address"
+
+  parameters:
+    headerP:
+      name: headerP
+      in: header
+      schema:
+        type: string
+    pathP:
+      name: pathP
+      in: path
+      required: true
+      schema:
+        type: string
+    cookieP:
+      name: cookieP
+      in: cookie
+      schema:
+        type: string
+      examples:
+        anExample:
+          value: a
+    aParam:
+      name: aParam
+      description: a description
+      in: query
+      deprecated: false
+      allowEmptyValue: true
+      style: spaceDelimited
+      explode: false
+      allowReserved: false
+      example: a
+      schema:
+        type: string
+  examples:
+    aExample:
+      summary: a summary
+      description: a description
+      value: a
+    externalValueExample:
+      externalValue: a
+    refExample:
+      $ref: '#/components/examples/aExample'
+
+  requestBodies:
+    rquestBody:
+      description: a description
+      content:
+        'text/plain':
+          examples:
+            user:
+              summary: User example in text plain format
+              externalValue: 'http://foo.bar/examples/user-example.txt'
+    refBody:
+      $ref: "#/components/requestBodies/rquestBody"
+  headers:
+    aHeader:
+      description: a description
+      deprecated: false
+      allowEmptyValue: true
+      style: spaceDelimited
+      explode: false
+      allowReserved: false
+      example: a
+      schema:
+        type: string
+  securitySchemes:
+    apikey:
+      description: a security scheme
+      type: apiKey
+      name: api_key
+      in: header
+    http:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    openIdConnect:
+      type: openIdConnect
+      openIdConnectUrl: url
+    oauth2:
+      type: oauth2
+      flows:
+        implicit:
+          refreshUrl: https://example.com/api/oauth/dialog
+          authorizationUrl: https://example.com/api/oauth/dialog
+          scopes:
+            write:pets: modify pets in your account
+            read:pets: read your pets
+        password:
+          tokenUrl: http
+        clientCredentials:
+          tokenUrl: http
+        authorizationCode:
+          tokenUrl: http
+          authorizationUrl: https://example.com/api/oauth/dialog
+
+    aRef:
+      $ref: "#/components/securitySchemes/apikey"
+  links:
+    forOpId:
+      operationId: an operation Id
+    address:
+      # the target link operationId
+      operationRef: operation reference
+      parameters:
+        # get the `id` field from the request path parameter named `id`
+        userId: $request.path.id
+      requestBody: aaa
+      description: a description
+      server:
+        url: https://development.gigantic-server.com/v1
+        description: Development server
+  callbacks:
+    myWebhook:
+      'http://notificationServer.com?transactionId={$request.body#/id}&email={$request.body#/email}':
+        post:
+          requestBody:
+            description: Callback payload
+            content:
+              'application/json':
+                schema:
+                  $ref: "#/components/schemas/objectSchema"
+          responses:
+            '200':
+              description: webhook successfully processed and no retries will be performed
+security:
+  - oauth2:
+      - read:pets
+tags:
+  - name: atag
+    description: a description
+    externalDocs:
+      description: Find more info here
+      url: https://example.com
+externalDocs:
+  description: Find more info here
+  url: https://example.com
