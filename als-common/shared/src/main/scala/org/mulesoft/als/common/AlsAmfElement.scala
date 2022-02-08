@@ -24,12 +24,9 @@ object AlsAmfElement {
         case AmfArray(values, annotations) =>
           annotations
             .containsYPart(yPartBranch)
-            .getOrElse( // look inside if some value is part of the branch
-              values.exists(_.containsYPart(yPartBranch)))
-        // todo: this should work to cut early, but there are cases in which a son is not contained in
-        //  the parents lexical. This should be fixed in AMF (set as Virtual)
-        //              (annotations.isVirtual || annotations.isSynthesized) && values.exists(_.containsYPart(yPartBranch)))
-
+            .getOrElse(
+              annotations.isVirtual &&
+                values.exists(_.containsYPart(yPartBranch)))
         case amfObject: AmfObject =>
           (amfObject.annotations.containsYPart(yPartBranch).getOrElse(false) ||
             amfObject.annotations.containsJsonSchemaPosition(yPartBranch).getOrElse(false)) ||
