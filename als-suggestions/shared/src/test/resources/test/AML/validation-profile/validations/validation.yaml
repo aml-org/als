@@ -1,0 +1,4 @@
+#%Validation Profile 1.0
+validations:
+  myValidation:
+    *
