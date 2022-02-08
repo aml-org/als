@@ -1,0 +1,13 @@
+#%RAML 1.0
+title: GitHub API
+description: a github api
+uses:
+  lib: library.raml
+version: v3
+baseUri: https://api.github.com/{v}
+baseUriParameters:
+  v:
+    description:
+      (displayNameAnnotation):
+      value: some kind of version.
+    type: *

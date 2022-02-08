@@ -11,6 +11,7 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas20.{
   Oas20TypeFacetsCompletionPlugin
 }
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30._
+import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30.structure.ResolveRequestBody
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.structure._
 import org.mulesoft.als.suggestions.plugins.aml.webapi.{
   ObjectExamplePropertiesCompletionPlugin,
@@ -73,6 +74,7 @@ object Oas30CompletionPluginRegistry extends OasBaseCompletionRegistry {
 
   private val all = common :+
     StructureCompletionPlugin(List(
+      ResolveRequestBody,
       ResolveParameterShapes,
       ResolveDeclaredResponse,
       ResolveTag,
