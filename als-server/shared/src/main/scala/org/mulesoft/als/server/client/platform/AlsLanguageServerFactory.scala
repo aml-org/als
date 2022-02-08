@@ -1,8 +1,8 @@
 package org.mulesoft.als.server.client.platform
 
 import amf.core.client.platform.resource.ClientResourceLoader
-import amf.validation.client.platform.CustomValidator
-import amf.validation.internal.convert.AmfCustomValidatorClientConverters.CustomValidatorConverter
+import amf.custom.validation.client.platform.CustomValidator
+import amf.custom.validation.internal.convert.AmfCustomValidatorClientConverters.CustomValidatorConverter
 import org.mulesoft.als.configuration.ClientDirectoryResolver
 import org.mulesoft.als.server.ALSConverters._
 import org.mulesoft.als.server.SerializationProps

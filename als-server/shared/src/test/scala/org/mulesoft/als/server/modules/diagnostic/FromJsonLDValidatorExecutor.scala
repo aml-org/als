@@ -3,7 +3,7 @@ package org.mulesoft.als.server.modules.diagnostic
 import amf.aml.client.scala.model.document.DialectInstance
 import amf.core.client.common.validation.UnknownProfile
 import amf.core.client.scala.validation.AMFValidationReport
-import amf.validation.client.scala.{
+import amf.custom.validation.client.scala.{
   BaseProfileValidatorBuilder,
   CustomValidator,
   ProfileValidatorExecutor,

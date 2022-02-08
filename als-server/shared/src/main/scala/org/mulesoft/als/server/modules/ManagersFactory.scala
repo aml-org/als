@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules
 
 import amf.core.internal.unsafe.PlatformSecrets
-import amf.validation.client.scala.BaseProfileValidatorBuilder
+import amf.custom.validation.client.scala.BaseProfileValidatorBuilder
 import org.mulesoft.als.actions.codeactions.plugins.AllCodeActions
 import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
 import org.mulesoft.als.logger.Logger
