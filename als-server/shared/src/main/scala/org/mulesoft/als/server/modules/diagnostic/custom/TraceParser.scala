@@ -3,14 +3,13 @@ package org.mulesoft.als.server.modules.diagnostic.custom
 import amf.core.client.common.position
 import amf.core.client.scala.validation.AMFValidationResult
 import amf.core.internal.annotations.LexicalInformation
-import amf.validation.client.scala.report.model.{OpaResult, OpaTrace, OpaTraceValue}
-import amf.validation.internal.report.parser.AMFValidationOpaAdapter
+import amf.custom.validation.client.scala.report.model.{OpaResult, OpaTrace, OpaTraceValue}
+import amf.custom.validation.internal.report.parser.AMFValidationOpaAdapter
 import org.mulesoft.als.convert.LspRangeConverter
-import org.mulesoft.lsp.feature.common.{Location, Range}
-import org.mulesoft.lsp.feature.diagnostic.DiagnosticRelatedInformation
-import org.yaml.model.YMap
 import org.mulesoft.als.server.modules.diagnostic.AlsValidationResult
 import org.mulesoft.amfintegration.ParserRangeImplicits._
+import org.mulesoft.lsp.feature.common.{Location, Range}
+import org.mulesoft.lsp.feature.diagnostic.DiagnosticRelatedInformation
 class TraceParser(trace: OpaTrace, rootUri: String) {
 
   lazy val range: Option[position.Range] = trace.location.flatMap(_.range.map(AMFValidationOpaAdapter.adaptRange))

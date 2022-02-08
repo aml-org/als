@@ -4,7 +4,7 @@ import amf.core.client.common.remote.Content
 import amf.core.client.common.validation.ProfileNames
 import amf.core.client.scala.AMFGraphConfiguration
 import amf.core.client.scala.resource.ResourceLoader
-import amf.validation.client.scala.BaseProfileValidatorBuilder
+import amf.custom.validation.client.scala.BaseProfileValidatorBuilder
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.feature.diagnostic.CustomValidationClientCapabilities
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder

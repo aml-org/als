@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules.diagnostic
 
 import amf.core.client.scala.AMFGraphConfiguration
-import amf.validation.client.scala.BaseProfileValidatorBuilder
+import amf.custom.validation.client.scala.BaseProfileValidatorBuilder
 import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.feature.diagnostic.CustomValidationClientCapabilities
