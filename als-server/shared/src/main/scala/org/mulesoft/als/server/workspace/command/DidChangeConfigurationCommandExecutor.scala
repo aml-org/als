@@ -18,7 +18,7 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
     arguments
       .map(StringContext.treatEscapes)
       .map(s =>
-        if (s.endsWith("\"") && s.endsWith("\"")) {
+        if (s.startsWith("\"") && s.endsWith("\"")) {
           s.substring(1, s.length - 1)
         } else s)
 

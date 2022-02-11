@@ -204,8 +204,8 @@ class RenameTest extends CodeActionsTest with FileAssertionTest with RenameTools
         Seq(
           ("file:///root/api.raml",
            Seq(
-             TextEdit(Range(Position(8, 15), Position(8, 21)), "RENAMED"),
              TextEdit(Range(Position(5, 12), Position(5, 18)), "RENAMED"),
+             TextEdit(Range(Position(8, 15), Position(8, 21)), "RENAMED"),
              TextEdit(Range(Position(2, 2), Position(2, 8)), "RENAMED")
            ))
         ))

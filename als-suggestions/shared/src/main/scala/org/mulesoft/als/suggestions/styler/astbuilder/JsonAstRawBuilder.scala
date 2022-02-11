@@ -24,4 +24,6 @@ class JsonAstRawBuilder(val raw: RawSuggestion, val isSnippet: Boolean, val yPar
   }
 
   override def onlyKey(key: String): YPart = YNode(key)
+
+  override def emptyNode(): YNode = YNode("")
 }

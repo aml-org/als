@@ -1,5 +1,6 @@
 package org.mulesoft.als.server
 
+import org.mulesoft.als.configuration.{AlsConfiguration, TemplateTypes}
 import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeClientCapabilities
 import org.mulesoft.als.server.feature.serialization.{SerializationClientCapabilities, SerializedDocument}
 import org.mulesoft.als.server.protocol.configuration._
@@ -122,5 +123,31 @@ class ClientConversionTest extends FlatSpec with Matchers {
     acp.cleanDiagnosticTree should be(acp2.cleanDiagnosticTree)
     acp.serialization.get.acceptsNotification should be(acp2.serialization.get.acceptsNotification)
     acp.cleanDiagnosticTree.get.enableCleanDiagnostic should be(acp2.cleanDiagnosticTree.get.enableCleanDiagnostic)
+  }
+
+  it should "transform ALSConfiguration with templateTypes" in {
+    val simpleTemplate = AlsConfiguration(templateType = TemplateTypes.SIMPLE)
+    val fullTemplate   = AlsConfiguration(templateType = TemplateTypes.FULL)
+    val bothTemplate   = AlsConfiguration(templateType = TemplateTypes.BOTH)
+    val noneTemplate   = AlsConfiguration(templateType = TemplateTypes.NONE)
+    val woTemplate     = AlsConfiguration()
+
+    val t1: ClientAlsConfiguration = simpleTemplate.toClient
+    val t2: ClientAlsConfiguration = fullTemplate.toClient
+    val t3: ClientAlsConfiguration = bothTemplate.toClient
+    val t4: ClientAlsConfiguration = noneTemplate.toClient
+    val t5: ClientAlsConfiguration = woTemplate.toClient
+
+    val s1 = t1.toShared
+    val s2 = t2.toShared
+    val s3 = t3.toShared
+    val s4 = t4.toShared
+    val s5 = t5.toShared
+
+    simpleTemplate should be(s1)
+    fullTemplate should be(s2)
+    bothTemplate should be(s3)
+    noneTemplate should be(s4)
+    woTemplate should be(s5)
   }
 }

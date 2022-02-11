@@ -3,7 +3,7 @@ package org.mulesoft.als.configuration
 import org.mulesoft.lsp.configuration.{DefaultFormattingOptions, FormatOptions, FormattingOptions}
 
 case class AlsConfiguration(private var formattingOptions: Map[String, FormattingOptions] = Map(),
-                            private var templateType: TemplateTypes.TemplateTypes = TemplateTypes.FULL,
+                            private var templateType: TemplateTypes.TemplateTypes = TemplateTypes.BOTH,
                             private var prettyPrintSerialization: Boolean = false)
     extends AlsConfigurationReader {
 
@@ -43,4 +43,5 @@ object TemplateTypes extends Enumeration {
   val NONE   = "NONE"
   val SIMPLE = "SIMPLE"
   val FULL   = "FULL"
+  val BOTH   = "BOTH"
 }
