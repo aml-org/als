@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.metadialect
 
 import amf.aml.client.scala.model.document.Dialect
-import amf.aml.client.scala.model.domain.{External, PropertyLikeMapping}
+import amf.aml.client.scala.model.domain.External
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.internal.annotations.Aliases
 import org.mulesoft.als.suggestions.RawSuggestion
@@ -21,15 +21,7 @@ object NamespaceForTermCompletionPlugin extends AMLCompletionPlugin {
       } else emptySuggestion
 
   private def applies(request: AmlCompletionRequest) =
-    request.amfObject match {
-      case x if isClassTermOrDomain(x, request.yPartBranch) =>
-        true
-      case _: PropertyLikeMapping[_] =>
-        request.yPartBranch.parentEntryIs("propertyTerm") ||
-          request.yPartBranch.parentEntryIs("mapTermKey") ||
-          request.yPartBranch.parentEntryIs("mapTermValue") // extract to a common method and use in VocabularyTermsValueCompletionPlugin?
-      case _ => false
-    }
+    isTerm(request.amfObject, request.yPartBranch)
 
   private def externals(bu: BaseUnit): Seq[String] =
     bu match {
