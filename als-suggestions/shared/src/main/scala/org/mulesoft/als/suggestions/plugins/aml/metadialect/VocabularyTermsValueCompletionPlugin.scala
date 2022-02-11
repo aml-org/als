@@ -18,8 +18,8 @@ object VocabularyTermsValueCompletionPlugin extends AMLCompletionPlugin {
 
   def applies(amfObject: AmfObject, yPartBranch: YPartBranch): Boolean = {
     amfObject match {
-      case _: NodeMapping if yPartBranch.isValueDescendanceOf("classTerm") && yPartBranch.stringValue.contains(".") =>
-        true
+      case _ if isClassTermOrDomain(amfObject, yPartBranch) =>
+        yPartBranch.stringValue.contains(".")
       case _: PropertyLikeMapping[_]
           if yPartBranch.isValueDescendanceOf("propertyTerm") && yPartBranch.stringValue.contains(".") =>
         true

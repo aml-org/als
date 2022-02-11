@@ -22,12 +22,12 @@ object NamespaceForTermCompletionPlugin extends AMLCompletionPlugin {
 
   private def applies(request: AmlCompletionRequest) =
     request.amfObject match {
-      case x if isNodeMappable(x) =>
-        request.yPartBranch.parentEntryIs("classTerm")
+      case x if isClassTermOrDomain(x, request.yPartBranch) =>
+        true
       case _: PropertyLikeMapping[_] =>
         request.yPartBranch.parentEntryIs("propertyTerm") ||
           request.yPartBranch.parentEntryIs("mapTermKey") ||
-          request.yPartBranch.parentEntryIs("mapTermValue")
+          request.yPartBranch.parentEntryIs("mapTermValue") // extract to a common method and use in VocabularyTermsValueCompletionPlugin?
       case _ => false
     }
 

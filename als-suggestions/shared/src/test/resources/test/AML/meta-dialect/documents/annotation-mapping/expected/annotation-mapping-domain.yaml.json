@@ -1,13 +1,13 @@
 [
   {
-    "label": "!include",
+    "label": "my-voc",
     "kind": [],
     "detail": "unknown",
-    "documentation": "inclusion tag",
+    "documentation": "my-voc",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11!include",
-    "filterText": "!include ",
+    "sortText": "11my-voc",
+    "filterText": "my-voc",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -16,28 +16,28 @@
       "range": {
         "start": {
           "line": 10,
-          "character": 13
+          "character": 12
         },
         "end": {
           "line": 10,
-          "character": 13
+          "character": 12
         }
       },
-      "newText": "!include "
+      "newText": "my-voc"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "otherMapping",
+    "label": "schema-org",
     "kind": [],
     "detail": "unknown",
-    "documentation": "otherMapping",
+    "documentation": "schema-org",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11otherMapping",
-    "filterText": "otherMapping",
+    "sortText": "11schema-org",
+    "filterText": "schema-org",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -46,14 +46,14 @@
       "range": {
         "start": {
           "line": 10,
-          "character": 13
+          "character": 12
         },
         "end": {
           "line": 10,
-          "character": 13
+          "character": 12
         }
       },
-      "newText": "otherMapping"
+      "newText": "schema-org"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
