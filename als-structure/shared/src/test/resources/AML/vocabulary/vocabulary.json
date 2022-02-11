@@ -100,7 +100,34 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          {
+            "name": "subPropertyOf",
+            "kind": 7,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 13,
+                "character": 4
+              },
+              "end": {
+                "line": 14,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 13,
+                "character": 4
+              },
+              "end": {
+                "line": 14,
+                "character": 0
+              }
+            },
+            "children": []
+          }
+        ]
       },
       {
         "name": "a",
@@ -332,6 +359,32 @@
               },
               "end": {
                 "line": 37,
+                "character": 0
+              }
+            },
+            "children": []
+          },
+          {
+            "name": "subClassOf",
+            "kind": 7,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 30,
+                "character": 4
+              },
+              "end": {
+                "line": 31,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 30,
+                "character": 4
+              },
+              "end": {
+                "line": 31,
                 "character": 0
               }
             },
