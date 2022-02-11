@@ -1,0 +1,11 @@
+#%Dialect 1.0
+
+uses:
+  my-voc: vocabulary.yaml
+external:
+  schema-org: http://schema-org.com
+
+annotationMappings:
+  myNodeMapping:
+    propertyTerm: term
+    domain: *

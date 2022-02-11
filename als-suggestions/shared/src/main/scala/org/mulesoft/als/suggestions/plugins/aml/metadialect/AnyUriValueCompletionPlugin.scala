@@ -60,9 +60,9 @@ object AnyUriValueCompletionPlugin extends AMLCompletionPlugin {
       case d: DeclaresModel =>
         d.declares
           .collect({
-            case nm: UnionNodeMapping  => nm.name.option()
-            case nm: NodeMapping       => nm.name.option()
-            case nm: AnnotationMapping => nm.name.option()
+            case nm: UnionNodeMapping => nm.name.option()
+            case nm: NodeMapping      => nm.name.option()
+//            case nm: AnnotationMapping => nm.name.option() // covered by AMLRamlStyleDeclarationsReferences
           })
           .flatten
       case _ => Nil
