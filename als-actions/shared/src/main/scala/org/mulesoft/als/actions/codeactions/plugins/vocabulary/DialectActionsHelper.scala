@@ -1,6 +1,6 @@
 package org.mulesoft.als.actions.codeactions.plugins.vocabulary
 
-import amf.aml.client.scala.model.document.{Dialect, Vocabulary}
+import amf.aml.client.scala.model.document.{Dialect, Vocabulary, kind}
 import amf.aml.client.scala.model.domain.{
   ClassTerm,
   DatatypePropertyTerm,
@@ -10,6 +10,7 @@ import amf.aml.client.scala.model.domain.{
   PropertyTerm
 }
 import amf.aml.internal.render.emitters.vocabularies.VocabularyEmitter
+import amf.aml.internal.render.plugin.SyntaxDocument
 import amf.core.client.scala.vocabulary.Namespace
 import amf.core.internal.remote.Mimes
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.CreatesFileCodeAction
@@ -85,8 +86,9 @@ trait DialectActionsHelper extends CreatesFileCodeAction {
 
   protected def createVocabularyFile(newUri: String,
                                      vocabulary: Vocabulary): Seq[Either[TextDocumentEdit, ResourceOperation]] = {
+    val doc = SyntaxDocument.getFor(Mimes.`application/yaml`, kind.Vocabulary)
     val vocabularyEdits = TextEdit(Range(Position(0, 0), Position(0, 0)),
-                                   YamlRender.render(VocabularyEmitter(vocabulary).emitVocabulary()))
+                                   YamlRender.render(VocabularyEmitter(vocabulary, doc).emitVocabulary()))
     val vocabularyContent = TextDocumentEdit(VersionedTextDocumentIdentifier(newUri, None), Seq(vocabularyEdits))
     val newFileOperation  = CreateFile(newUri, Some(NewFileOptions(Some(false), Some(false))))
     Seq(Right(newFileOperation), Left(vocabularyContent))
