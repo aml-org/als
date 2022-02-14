@@ -152,7 +152,7 @@ class RenameFileTest extends LanguageServerBaseTest {
     val workspaceService = server.workspaceService.asInstanceOf[WorkspaceManager]
 
     for {
-      _ <- server.initialize(
+      _ <- server.testInitialize(
         AlsInitializeParams(
           Some(AlsClientCapabilities(
             workspace = Some(WorkspaceClientCapabilities(

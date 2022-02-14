@@ -1,9 +1,7 @@
 package org.mulesoft.als.server.modules.diagnostic
 
 import amf.core.client.scala.AMFGraphConfiguration
-import amf.validation.client.ProfileValidatorNodeBuilder
-import amf.validation.client.validator.JsCustomValidator
-import amf.validation.internal.unsafe.AmfCustomValidatorNode
+import amf.custom.validation.client.ProfileValidatorNodeBuilder
 import org.mulesoft.als.common.ByDirectoryTest
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.feature.diagnostic.CustomValidationClientCapabilities
@@ -49,7 +47,7 @@ class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with Changes
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
     implicit val server: LanguageServer                  = buildServer(diagnosticNotifier)
     for {
-      _ <- server.initialize(
+      _ <- server.testInitialize(
         AlsInitializeParams(
           Some(AlsClientCapabilities(customValidations = Some(CustomValidationClientCapabilities(true)))),
           Some(TraceKind.Off),

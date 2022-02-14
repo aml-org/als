@@ -4,7 +4,7 @@ import amf.core.client.common.remote.Content
 import amf.core.client.common.validation.ProfileNames
 import amf.core.client.scala.AMFGraphConfiguration
 import amf.core.client.scala.resource.ResourceLoader
-import amf.validation.client.scala.BaseProfileValidatorBuilder
+import amf.custom.validation.client.scala.BaseProfileValidatorBuilder
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.feature.diagnostic.CustomValidationClientCapabilities
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
@@ -203,7 +203,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
       .flatMap(negativeReport => {
-        val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
+        val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
         val validator                                        = FromJsonLdValidatorProvider(negativeReport.toString())
         val server                                           = buildServer(diagnosticNotifier, Some(validator))
         withServer(server, customValidationInitParams) {
@@ -218,10 +218,12 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
             for {
               _ <- openFileNotification(s)(mainFilePath, mainContent)
               _ <- diagnosticNotifier.nextCall
+              _ <- validator.jsonLDValidatorExecutor.calledAtLeastNTimes(0) // no profile
               _ <- changeWorkspaceConfiguration(server)(args)
               _ <- diagnosticNotifier.nextCall
+              _ <- validator.jsonLDValidatorExecutor.calledAtLeastNTimes(1) // added profile
               d <- requestCleanDiagnostic(s)(mainFilePath)
-              _ <- validator.jsonLDValidatorExecutor.calledAtLeastNTimes(2)
+              _ <- validator.jsonLDValidatorExecutor.calledAtLeastNTimes(2) // clean diagnostic
             } yield {
               s.shutdown()
               assert(d.nonEmpty)

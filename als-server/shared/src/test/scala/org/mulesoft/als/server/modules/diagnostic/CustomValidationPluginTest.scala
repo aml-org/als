@@ -82,7 +82,7 @@ class CustomValidationPluginTest extends LanguageServerBaseTest {
   override def rootPath: String = ???
 
   test("Test resource loader invocation from custom plugin") {
-    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
     val server                                           = buildServer(diagnosticNotifier)
     withServer(server) { server =>
       val apiPath = s"file://api.raml"

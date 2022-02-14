@@ -4,8 +4,8 @@ import amf.aml.client.scala.model.document.DialectInstance
 import amf.core.client.common.validation.{ProfileName, ProfileNames}
 import amf.core.client.scala.config.RenderOptions
 import amf.core.client.scala.model.document.BaseUnit
-import amf.validation.client.scala.BaseProfileValidatorBuilder
-import amf.validation.client.scala.report.model.OpaResult
+import amf.custom.validation.client.scala.BaseProfileValidatorBuilder
+import amf.custom.validation.client.scala.report.model.OpaResult
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.feature.diagnostic.{

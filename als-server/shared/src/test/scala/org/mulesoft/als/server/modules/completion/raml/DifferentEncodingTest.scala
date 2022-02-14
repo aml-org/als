@@ -74,7 +74,7 @@ class DifferentEncodingTest extends RAMLSuggestionTestServer {
         .build()
 
     server
-      .initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
+      .testInitialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
       .andThen { case _ => server.initialized() }
       .map(_ => (server, workspaceManager))
   }

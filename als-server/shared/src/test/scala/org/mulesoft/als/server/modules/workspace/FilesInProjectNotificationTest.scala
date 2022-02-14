@@ -38,7 +38,8 @@ class FilesInProjectNotificationTest extends LanguageServerBaseTest {
     val initialArgs                          = changeConfigArgs(Some("api.raml"), filePath("ws1"))
     withServer(buildServer(alsClient)) { server =>
       for {
-        _              <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+        _ <- server.testInitialize(
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
         _              <- changeWorkspaceConfiguration(server)(initialArgs)
         filesInProject <- alsClient.nextCall
       } yield {
@@ -54,7 +55,7 @@ class FilesInProjectNotificationTest extends LanguageServerBaseTest {
     val initialArgs                          = changeConfigArgs(Some("api.raml"), filePath("empty-trait-schema"))
     withServer(buildServer(alsClient)) { server =>
       for {
-        _ <- server.initialize(
+        _ <- server.testInitialize(
           AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("empty-trait-schema")}")))
         _              <- changeWorkspaceConfiguration(server)(initialArgs)
         filesInProject <- alsClient.nextCall
@@ -69,7 +70,8 @@ class FilesInProjectNotificationTest extends LanguageServerBaseTest {
     val initialArgs                          = changeConfigArgs(Some("api.raml"), filePath("ws1"))
     withServer(buildServer(alsClient)) { server =>
       for {
-        _ <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+        _ <- server.testInitialize(
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
         _ <- changeWorkspaceConfiguration(server)(initialArgs)
         _ <- platform
           .fetchContent(s"${filePath("ws1/independent.raml")}", AMLConfiguration.predefined())

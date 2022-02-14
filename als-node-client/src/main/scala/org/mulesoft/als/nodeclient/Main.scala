@@ -1,18 +1,16 @@
 package org.mulesoft.als.nodeclient
 
-import amf.core.internal.convert.CoreClientConverters._
-import amf.core.client.platform.resource.ClientResourceLoader
 import amf.core.internal.unsafe.PlatformSecrets
-import amf.validation.client.ProfileValidatorNodeBuilder
-import amf.validation.client.platform.CustomValidator
-import amf.validation.client.validator.JsCustomValidator
-import amf.validation.internal.unsafe.AmfCustomValidatorNode
+import amf.custom.validation.client.platform.CustomValidator
+import amf.custom.validation.client.validator.JsCustomValidator
+import amf.custom.validation.internal.unsafe.AmfCustomValidatorNode
 import io.scalajs.nodejs.process
 import org.mulesoft.als.server.client.platform.AlsLanguageServerFactory
 import org.mulesoft.als.server.{ClientNotifierFactory, JsSerializationProps, ProtocolConnectionBinder}
 import org.mulesoft.als.vscode.{ProtocolConnection, ServerSocketTransport}
-import scala.scalajs.js.JSConverters._
+
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.scalajs.js.JSConverters._
 import scala.scalajs.js.Promise
 
 // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS

@@ -2,8 +2,8 @@ package org.mulesoft.als.server
 
 import amf.aml.client.scala.model.document.DialectInstance
 import amf.core.internal.unsafe.PlatformSecrets
-import amf.validation.client.scala.{BaseProfileValidatorBuilder, ProfileValidatorExecutor}
-import amf.validation.internal.DummyValidatorExecutor
+import amf.custom.validation.client.scala.{BaseProfileValidatorBuilder, ProfileValidatorExecutor}
+import amf.custom.validation.internal.DummyValidatorExecutor
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.logger.MessageSeverity.MessageSeverity
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeParams, CleanDiagnosticTreeRequestType}
@@ -92,7 +92,7 @@ abstract class LanguageServerBaseTest
   def withServer[R](server: LanguageServer, initParams: AlsInitializeParams = initializeParams)(
       fn: LanguageServer => Future[R]): Future[R] = {
     server
-      .initialize(initParams)
+      .testInitialize(initParams)
       .flatMap(_ => {
         server.initialized()
         fn(server)

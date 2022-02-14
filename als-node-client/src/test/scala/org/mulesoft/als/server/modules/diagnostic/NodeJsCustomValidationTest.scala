@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules.diagnostic
 
 import amf.core.client.scala.AMFGraphConfiguration
-import amf.validation.client.ProfileValidatorNodeBuilder
+import amf.custom.validation.client.ProfileValidatorNodeBuilder
 import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.server.MockDiagnosticClientNotifier
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder

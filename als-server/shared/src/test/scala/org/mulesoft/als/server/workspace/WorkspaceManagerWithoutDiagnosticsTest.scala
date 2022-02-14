@@ -36,7 +36,8 @@ class WorkspaceManagerWithoutDiagnosticsTest extends LanguageServerBaseTest with
     val initialArgs = changeConfigArgs(Some("api.raml"), filePath("ws2"))
     withServer[Assertion](buildServer(factory)) { server =>
       for {
-        _               <- server.initialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws2")}")))
+        _ <- server.testInitialize(
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws2")}")))
         _               <- changeWorkspaceConfiguration(server)(initialArgs)
         apiContent      <- platform.fetchContent(s"${filePath("ws2/api.raml")}", config)
         fragmentContent <- platform.fetchContent(fragmentUri, config)

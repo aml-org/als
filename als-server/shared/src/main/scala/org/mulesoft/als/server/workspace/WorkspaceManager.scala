@@ -55,6 +55,7 @@ class WorkspaceManager protected (val environmentProvider: EnvironmentProvider,
                       allSubscribers,
                       logger,
                       configurationProvider)
+  def allWorkspaces(): Seq[WorkspaceContentManager] = workspaces.allWorkspaces()
 
   def getWorkspace(uri: String): Future[WorkspaceContentManager] =
     workspaces.findWorkspace(uri)

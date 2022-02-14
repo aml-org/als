@@ -3,8 +3,8 @@ package org.mulesoft.als.server.client.scala
 import amf.aml.client.scala.model.document.DialectInstance
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.client.scala.validation.payload.AMFShapePayloadValidationPlugin
-import amf.validation.client.ProfileValidatorWebBuilder
-import amf.validation.client.scala.{BaseProfileValidatorBuilder, CustomValidator, ProfileValidatorExecutor}
+import amf.custom.validation.client.ProfileValidatorWebBuilder
+import amf.custom.validation.client.scala.{BaseProfileValidatorBuilder, CustomValidator, ProfileValidatorExecutor}
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.logger.{Logger, PrintLnLogger}
 import org.mulesoft.als.server.client.platform.ClientNotifier
