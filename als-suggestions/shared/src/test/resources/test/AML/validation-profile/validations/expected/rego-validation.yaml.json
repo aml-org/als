@@ -1,0 +1,92 @@
+[
+  {
+    "label": "libraries",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "libraries",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11libraries",
+    "filterText": "libraries:\n  - ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      },
+      "newText": "libraries:\n  - "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "message",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "message",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11message",
+    "filterText": "message: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      },
+      "newText": "message: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "targetClass",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "targetClass",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11targetClass",
+    "filterText": "targetClass:\n  - ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      },
+      "newText": "targetClass:\n  - "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

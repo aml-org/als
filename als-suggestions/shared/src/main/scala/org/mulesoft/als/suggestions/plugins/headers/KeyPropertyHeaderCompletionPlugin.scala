@@ -6,7 +6,7 @@ import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.configuration.{AlsConfigurationReader, TemplateTypes}
 import org.mulesoft.als.suggestions.interfaces.HeaderCompletionPlugin
 import org.mulesoft.als.suggestions.{HeaderCompletionParams, RawSuggestion}
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 
 import scala.concurrent.Future
 
@@ -17,22 +17,22 @@ object KeyPropertyHeaderCompletionPlugin extends HeaderCompletionPlugin {
     Future.successful(
       KeyPropertyHeaderCompletionPlugin(params.uri.endsWith(".json"),
                                         params.content.trim.startsWith("{"),
-                                        params.amfConfiguration,
+                                        params.parseContext.state,
                                         params.position,
                                         params.configuration).getSuggestions
     )
 
   def apply(isJson: Boolean,
             hasBracket: Boolean = false,
-            amfConfiguration: AmfConfigurationWrapper,
+            alsConfiguration: ALSConfigurationState,
             position: Position,
             configuration: AlsConfigurationReader) =
-    new KeyPropertyHeaderCompletionPlugin(isJson, hasBracket, amfConfiguration, position, configuration)
+    new KeyPropertyHeaderCompletionPlugin(isJson, hasBracket, alsConfiguration, position, configuration)
 }
 
 class KeyPropertyHeaderCompletionPlugin(isJson: Boolean,
                                         hasBracket: Boolean = false,
-                                        amfConfiguration: AmfConfigurationWrapper,
+                                        configurationState: ALSConfigurationState,
                                         position: Position,
                                         configuration: AlsConfigurationReader) {
 
@@ -65,7 +65,7 @@ class KeyPropertyHeaderCompletionPlugin(isJson: Boolean,
     s"{\n${text.linesIterator.map(l => s"  $l").mkString("\n")}\n}"
 
   private def getSuggestions: Seq[RawSuggestion] = {
-    amfConfiguration.dialects
+    configurationState.allDialects
       .filter(d => Option(d.documents()).exists(_.keyProperty().value()))
       .map(d => {
         val Flavour(text, label, isASnippet) =

@@ -1,13 +1,12 @@
 package org.mulesoft.als.server.modules.serialization
 
 import amf.core.internal.remote.Spec
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.feature.serialization._
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.workspace.CompilableUnit
 import org.mulesoft.als.server.workspace.UnitAccessor
 import org.mulesoft.amfintegration.AmfImplicits._
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
@@ -18,7 +17,6 @@ import scala.concurrent.Future
 
 class ConversionManager(unitAccessor: UnitAccessor[CompilableUnit],
                         telemetryProvider: TelemetryProvider,
-                        amfConfiguration: AmfConfigurationWrapper,
                         logger: Logger)
     extends RequestModule[ConversionClientCapabilities, ConversionRequestOptions] {
 
@@ -58,8 +56,9 @@ class ConversionManager(unitAccessor: UnitAccessor[CompilableUnit],
       .getLastUnit(uri, UUID.randomUUID().toString)
       .flatMap(_.getLast) map { cu => // should check the origin?
       SerializedDocument(cu.unit.identifier,
-                         amfConfiguration
-                           .convertTo(cu.unit, Spec(target), syntax))
+                         cu.context.state
+                           .configForSpec(Spec(target))
+                           .convertTo(cu.unit, syntax))
     }
   }
 

@@ -1,10 +1,13 @@
 declare module '@aml-org/als-server' {
   import {Logger as VsCodeLogger, NotificationType, RequestType} from 'vscode-jsonrpc'
   import {
-    ProtocolConnection, PublishDiagnosticsParams,
+    ProtocolConnection,
+    PublishDiagnosticsParams,
     TextDocumentClientCapabilities,
+    TextDocumentIdentifier,
     WorkspaceClientCapabilities,
-    TextDocumentIdentifier, WorkspaceFolder, WorkspaceEdit
+    WorkspaceEdit,
+    WorkspaceFolder
   } from 'vscode-languageserver-protocol'
 
   /* amf-client-js */
@@ -6486,15 +6489,21 @@ declare module '@aml-org/als-server' {
          serializationProps: JsSerializationProps): void
   }
 
-  export const LanguageServerFactory: {
-    fromLoaders(clientNotifier: ClientNotifier,
-                serializationProps: JsSerializationProps,
-                clientLoaders?: ResourceLoader[],
-                clientDirResolver?: ClientDirectoryResolver,
-                logger?: ClientLogger,
-                withDiagnostics?: boolean,
-                notificationKind?: DiagnosticNotificationsKind,
-                amfPlugins?: JsAMFPayloadValidationPlugin[]): LanguageServer
+  export class AlsLanguageServerFactory {
+    constructor(clientNotifier:ClientNotifier)
+    withSerializationProps(serializationProps: JsSerializationProps): AlsLanguageServerFactory
+    withResourceLoaders(rl: ResourceLoader[]):AlsLanguageServerFactory
+    withLogger(logger: ClientLogger): AlsLanguageServerFactory
+    withNotificationKind(notificationsKind: DiagnosticNotificationsKind): AlsLanguageServerFactory
+    withDirectoryResolver(dr: ClientDirectoryResolver): AlsLanguageServerFactory
+    withPlugin(plugin:JsAMFPayloadValidationPlugin): AlsLanguageServerFactory
+    withAmfPlugins(plugin:JsAMFPayloadValidationPlugin[]): AlsLanguageServerFactory
+    withAmfCustomValidator(validator: CustomValidator): AlsLanguageServerFactory
+    build() : LanguageServer
+  }
+
+  export interface CustomValidator {
+    validate(profile: string, data: string): Promise<String>
   }
 
   export interface ClientLogger extends VsCodeLogger { }
@@ -6521,8 +6530,8 @@ declare module '@aml-org/als-server' {
   export type AlsDependency = Dependency | string
 
   export type DidChangeConfigurationNotificationParams = {
-    mainUri: string,
-    folder?: string,
+    mainPath: string,
+    folder: string,
     dependencies: AlsDependency[]
   }
 
@@ -6560,10 +6569,6 @@ declare module '@aml-org/als-server' {
     type: NotificationType<AlsConfiguration>
   }
 
-  export type ProjectConfigurationStyle = {
-    style: string
-  }
-
   export interface AlsInitializeParams {
     processId: number | null
     rootPath?: string | null
@@ -6573,7 +6578,6 @@ declare module '@aml-org/als-server' {
     trace?: string
     workspaceFolders: WorkspaceFolder[] | null
     configuration?: AlsConfiguration
-    projectConfigurationStyle?: ProjectConfigurationStyle
     hotReload?: boolean
   }
 
@@ -6651,4 +6655,10 @@ declare module '@aml-org/als-server' {
   export const ClientNotifierFactory: {
     createWithClientAware(logger: ClientLogger): ClientNotifier & LanguageClientAware & AlsClientNotifier & AlsLanguageClientAware
   }
+}
+
+declare module '@aml-org/amf-custom-validator-web' {
+  export function validate(profile: string, data: string, debug: boolean, cb: (s: string, err: any) => void): void
+  export function initialize(cb: () => void): void
+  export function exit(): void
 }

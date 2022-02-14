@@ -1,18 +1,17 @@
 package org.mulesoft.als.nodeclient
 
-import amf.core.internal.convert.CoreClientConverters._
-import amf.core.client.platform.resource.ClientResourceLoader
 import amf.core.internal.unsafe.PlatformSecrets
+import amf.custom.validation.client.platform.CustomValidator
+import amf.custom.validation.client.validator.JsCustomValidator
+import amf.custom.validation.internal.unsafe.AmfCustomValidatorNode
 import io.scalajs.nodejs.process
-import org.mulesoft.als.server.{
-  ClientNotifierFactory,
-  JsSerializationProps,
-  LanguageServerFactory,
-  ProtocolConnectionBinder
-}
+import org.mulesoft.als.server.client.platform.AlsLanguageServerFactory
+import org.mulesoft.als.server.{ClientNotifierFactory, JsSerializationProps, ProtocolConnectionBinder}
 import org.mulesoft.als.vscode.{ProtocolConnection, ServerSocketTransport}
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.scalajs.js.JSConverters._
+import scala.scalajs.js.Promise
 
 // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
@@ -45,13 +44,16 @@ object Main extends PlatformSecrets {
 
       val clientConnection   = ClientNotifierFactory.createWithClientAware(logger)
       val serializationProps = JsSerializationProps(clientConnection)
-      val languageServer = LanguageServerFactory.fromLoaders(
-        clientConnection,
-        serializationProps,
-        clientLoaders = platform.loaders().asClient.asInstanceOf[ClientList[ClientResourceLoader]],
-        clientDirResolver = new ClientPlatformDirectoryResolver(platform),
-        amfCustomValidator = AmfCustomValidatorNode
-      )
+
+      val languageServer = new AlsLanguageServerFactory(clientConnection)
+        .withSerializationProps(serializationProps)
+        .withAmfCustomValidator(new CustomValidator {
+          override def validate(document: String, profile: String): Promise[String] =
+            new JsCustomValidator(AmfCustomValidatorNode).validate(document, profile).toJSPromise
+        })
+        .withDirectoryResolver(new ClientPlatformDirectoryResolver(platform))
+        .withLogger(logger)
+        .build()
 
       val transport  = ServerSocketTransport(options.port)
       val reader     = transport._1

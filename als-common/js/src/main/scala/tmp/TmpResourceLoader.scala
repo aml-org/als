@@ -32,7 +32,7 @@ case class JsServerFileResourceLoader() extends BaseFileResourceLoader {
                   extension(resource).flatMap(mimeFromExtension)))
       .recoverWith {
         case _: IOException => // exception for local file system where we accept resources including spaces
-          Fs.asyncFile(resource.urlDecoded)
+          Fs.asyncFile(dropSlash.urlDecoded)
             .read()
             .map(
               content =>

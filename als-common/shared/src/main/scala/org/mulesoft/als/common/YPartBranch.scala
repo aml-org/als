@@ -83,7 +83,7 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
   val parent: Option[YPart] = stack.headOption
 
   lazy val parentMap: Option[YMap] = stack.headOption match {
-    case Some(e: YMapEntry) =>
+    case Some(_: YMapEntry) =>
       stack.tail.headOption.collect({ case m: YMap => m })
     case Some(m: YMap) => Some(m)
     case _             => None
@@ -96,7 +96,7 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
     parentEntry.exists(e => e.key.asScalar.map(_.text).contains(key))
 
   def getAncestor(l: Int): Option[YPart] =
-    if (stack.length < l) None else Some(stack(l))
+    stack.lift(l)
 
   def ancestorOf[T <: YPart](clazz: Class[T]): Option[T] =
     if (isJson) ancestorOfJson(clazz) else if (stack.nonEmpty) findFirstOf(clazz, stack) else None

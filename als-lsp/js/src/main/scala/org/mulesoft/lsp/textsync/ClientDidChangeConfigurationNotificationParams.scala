@@ -9,8 +9,8 @@ import scala.scalajs.js.{UndefOr, |}
 
 @js.native
 trait ClientDidChangeConfigurationNotificationParams extends js.Object {
-  def mainUri: String                                                = js.native
-  def folder: UndefOr[String]                                        = js.native
+  def mainPath: UndefOr[String]                                      = js.native
+  def folder: String                                                 = js.native
   def dependencies: js.Array[String | ClientDependencyConfiguration] = js.native
 }
 
@@ -18,8 +18,8 @@ object ClientDidChangeConfigurationNotificationParams {
   def apply(internal: DidChangeConfigurationNotificationParams): ClientDidChangeConfigurationNotificationParams =
     js.Dynamic
       .literal(
-        mainUri = internal.mainUri,
-        folder = internal.folder.orUndefined,
+        mainPath = internal.mainPath.orUndefined,
+        folder = internal.folder,
         dependencies = internal.dependencies.map {
           case Left(value)  => value
           case Right(value) => value.toClient

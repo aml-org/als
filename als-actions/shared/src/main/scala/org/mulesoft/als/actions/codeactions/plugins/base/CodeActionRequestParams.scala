@@ -7,7 +7,7 @@ import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.cache.{ObjectInTreeCached, YPartBranchCached}
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.configuration.AlsConfigurationReader
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.mulesoft.amfintegration.relationships.RelationshipLink
 import org.mulesoft.lsp.feature.codeactions.CodeActionParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
@@ -17,15 +17,16 @@ case class CodeActionRequestParams(uri: String,
                                    bu: BaseUnit,
                                    tree: ObjectInTreeCached,
                                    yPartBranch: YPartBranchCached,
-                                   dialect: Dialect,
+                                   definedBy: Dialect,
                                    configuration: AlsConfigurationReader,
                                    allRelationships: Seq[RelationshipLink],
                                    telemetryProvider: TelemetryProvider,
+                                   alsConfigurationState: ALSConfigurationState,
                                    uuid: String,
-                                   amfConfiguration: AmfConfigurationWrapper,
                                    directoryResolver: DirectoryResolver) {
+
   val findDialectForSemantic: String => Option[(SemanticExtension, Dialect)] =
-    amfConfiguration.findSemanticByName
+    alsConfigurationState.findSemanticByName
 }
 
 object CodeActionParamsImpl {
@@ -37,8 +38,8 @@ object CodeActionParamsImpl {
                         configuration: AlsConfigurationReader,
                         allRelationships: Seq[RelationshipLink],
                         telemetryProvider: TelemetryProvider,
+                        alsConfigurationState: ALSConfigurationState,
                         uuid: String,
-                        amfConfiguration: AmfConfigurationWrapper,
                         directoryResolver: DirectoryResolver): CodeActionRequestParams =
       CodeActionRequestParams(
         param.textDocument.uri,
@@ -50,8 +51,8 @@ object CodeActionParamsImpl {
         configuration,
         allRelationships,
         telemetryProvider,
+        alsConfigurationState,
         uuid,
-        amfConfiguration,
         directoryResolver
       )
   }

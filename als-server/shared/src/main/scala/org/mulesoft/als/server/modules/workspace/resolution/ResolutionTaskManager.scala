@@ -5,11 +5,14 @@ import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.workspace._
-import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.{UnitTaskManager, UnitsManager}
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
-import org.mulesoft.amfintegration.{AmfResolvedUnit, DiagnosticsBundle}
+import org.mulesoft.amfintegration.amfconfiguration.{
+  ALSConfigurationState,
+  AMLSpecificConfiguration,
+  ProjectConfigurationState
+}
+import org.mulesoft.amfintegration.{AmfResolvedUnit, DiagnosticsBundle, ValidationProfile}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import java.util.UUID
@@ -19,7 +22,6 @@ import scala.util.Failure
 
 class ResolutionTaskManager private (telemetryProvider: TelemetryProvider,
                                      logger: Logger,
-                                     environmentProvider: EnvironmentProvider,
                                      private val allSubscribers: List[ResolvedUnitListener],
                                      override val dependencies: List[AccessUnits[AmfResolvedUnit]])
     extends UnitTaskManager[AmfResolvedUnit, AmfResolvedUnit, BaseUnitListenerParams]
@@ -50,7 +52,7 @@ class ResolutionTaskManager private (telemetryProvider: TelemetryProvider,
     val resolvedInstance =
       AmfResolvedUnitImpl(params.parseResult.result.baseUnit,
                           params.diagnosticsBundle,
-                          params.parseResult.amfConfiguration)
+                          params.parseResult.context.state)
     isInMainTree(uri).map { isMainTree =>
       if (isMainTree) {
         params.parseResult.tree.foreach { u =>
@@ -59,11 +61,20 @@ class ResolutionTaskManager private (telemetryProvider: TelemetryProvider,
             .updateUnit(u, resolvedInstance) // every dependency should be updated
         }
       }
+      addProfileIfNotPresent(params.parseResult.context.state)
       logger.debug(s"Updating $uri unit", "ResolutionTaskManager", "processTask")
       repository.updateUnit(uri, resolvedInstance)
       // prevents notifying diagnostics on dependencies
       if (!params.isDependency) subscribers.foreach(_.onNewAst(resolvedInstance, uuid))
     }
+  }
+
+  def addProfileIfNotPresent(state: ALSConfigurationState): Unit = {
+    val newProfiles = state.profiles.filterNot(p => repository.getAllFilesUris.contains(p.path))
+    newProfiles.foreach { p =>
+      repository.updateUnit(p.path, ProfileResolvedUnit(p, state))
+    }
+    // TODO: check hot reload to always override editor state profiles
   }
 
   override protected def toResult(uri: String, unit: AmfResolvedUnit): AmfResolvedUnit = unit
@@ -116,7 +127,7 @@ class ResolutionTaskManager private (telemetryProvider: TelemetryProvider,
 
   case class AmfResolvedUnitImpl(override val baseUnit: BaseUnit,
                                  override val diagnosticsBundle: Map[String, DiagnosticsBundle],
-                                 override val amfConfiguration: AmfConfigurationWrapper)
+                                 override val alsConfigurationState: ALSConfigurationState)
       extends AmfResolvedUnit {
     private val uri: String = baseUnit.identifier
 
@@ -133,11 +144,23 @@ class ResolutionTaskManager private (telemetryProvider: TelemetryProvider,
     }
 
     private def innerResolveUnit(): Future[AMFResult] =
-      Future(
-        environmentProvider.amfConfiguration
-          .fullResolution(baseUnit))
+      Future(configuration.fullResolution(baseUnit))
 
     override def next: Option[Future[T]] = getNext(uri)
+
+    override val configuration: AMLSpecificConfiguration = alsConfigurationState.configForUnit(baseUnit)
+  }
+
+  case class ProfileResolvedUnit(vp: ValidationProfile, val alsConfigurationState: ALSConfigurationState)
+      extends AmfResolvedUnit {
+
+    override protected def resolvedUnitFn(): Future[AMFResult] =
+      Future.successful(alsConfigurationState.editorState.getAmlConfig.baseUnitClient().transform(vp.model))
+
+    override val diagnosticsBundle: Map[String, DiagnosticsBundle] = Map.empty
+    override val baseUnit: BaseUnit                                = vp.model
+
+    override def next: Option[Future[AmfResolvedUnit]] = None
   }
 
   override def isInMainTree(uri: String): Future[Boolean] =
@@ -149,11 +172,10 @@ class ResolutionTaskManager private (telemetryProvider: TelemetryProvider,
 object ResolutionTaskManager {
   def apply(telemetryProvider: TelemetryProvider,
             logger: Logger,
-            environmentProvider: EnvironmentProvider,
             allSubscribers: List[ResolvedUnitListener],
             dependencies: List[AccessUnits[AmfResolvedUnit]]): ResolutionTaskManager = {
     val manager =
-      new ResolutionTaskManager(telemetryProvider, logger, environmentProvider, allSubscribers, dependencies)
+      new ResolutionTaskManager(telemetryProvider, logger, allSubscribers, dependencies)
     manager.init()
     manager
   }

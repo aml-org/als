@@ -1,20 +1,16 @@
 package org.mulesoft.als.server.errorhandler
 
 import org.mulesoft.als.common.URIImplicits.StringUriImplicits
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.workspace.UnitNotFoundException
 import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockTelemetryClientNotifier}
+import org.mulesoft.als.server.{LanguageServerBaseTest, MockTelemetryClientNotifier}
 import org.mulesoft.lsp.feature.common.{TextDocumentIdentifier, TextDocumentItem, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, SymbolInformation}
 import org.mulesoft.lsp.feature.{TelemeteredRequestHandler, documentsymbol}
-import org.mulesoft.lsp.textsync.{
-  DidChangeTextDocumentParams,
-  DidCloseTextDocumentParams,
-  DidOpenTextDocumentParams,
-  TextDocumentContentChangeEvent
-}
+import org.mulesoft.lsp.textsync.{DidChangeTextDocumentParams, DidCloseTextDocumentParams, DidOpenTextDocumentParams, TextDocumentContentChangeEvent}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -42,7 +38,7 @@ class ErrorHandlingTest extends LanguageServerBaseTest {
     val servAndFactor                         = buildServer()
     withServer(servAndFactor._1) { server =>
       for {
-        _ <- server.initialize(initializeParams)
+        _ <- server.testInitialize(initializeParams)
       } yield {
         assert(servAndFactor._2.workspaceManager.getWorkspaceFolders.isEmpty)
         server.shutdown()
@@ -57,7 +53,7 @@ class ErrorHandlingTest extends LanguageServerBaseTest {
     val servAndFactor                         = buildServer()
     withServer(servAndFactor._1) { server =>
       for {
-        _ <- server.initialize(initializeParams)
+        _ <- server.testInitialize(initializeParams)
       } yield {
         assert(servAndFactor._2.workspaceManager.getWorkspaceFolders.isEmpty)
         logger.logList.exists(_.contains(s"Not recognized $undefUri as a valid Root URI"))

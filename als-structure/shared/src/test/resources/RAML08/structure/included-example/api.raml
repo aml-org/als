@@ -1,0 +1,9 @@
+#%RAML 0.8
+/test:
+  get:
+    responses:
+        200:
+          body:
+            application/json:
+              type: string
+              example: !include ./test.json

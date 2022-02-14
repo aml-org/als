@@ -3,9 +3,10 @@ package org.mulesoft.als.server.lsp4j
 import amf.core.client.common.validation.ProfileNames
 import amf.core.internal.unsafe.PlatformSecrets
 import org.eclipse.lsp4j.ExecuteCommandParams
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.{LanguageServerBaseTest, LanguageServerBuilder, MockDiagnosticClientNotifier}
+import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier}
 
 import java.util
 import scala.concurrent.Future
@@ -25,7 +26,7 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
       Future.successful(Unit)
     }
 
-    val diagnosticsClient: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
+    val diagnosticsClient: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
     withServer(buildServer(diagnosticsClient)) { s =>
       val server       = new LanguageServerImpl(s)
       val mainFilePath = s"file://api.raml"
@@ -87,10 +88,8 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
   }
 
   test("diagnostics test - FullValidation") {
-    def wrapJson(uri: String): String =
-      s"""{"mainUri": "$uri"}"""
 
-    val diagnosticsClient: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
+    val diagnosticsClient: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
     withServer(buildServer(diagnosticsClient)) { s =>
       val mainFilePath = s"file://api.raml"
       val libFilePath  = s"file://lib1.raml"

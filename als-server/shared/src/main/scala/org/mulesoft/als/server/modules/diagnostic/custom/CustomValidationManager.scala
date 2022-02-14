@@ -4,8 +4,10 @@ import amf.aml.client.scala.model.document.DialectInstance
 import amf.core.client.common.validation.{ProfileName, ProfileNames}
 import amf.core.client.scala.config.RenderOptions
 import amf.core.client.scala.model.document.BaseUnit
+import amf.custom.validation.client.scala.BaseProfileValidatorBuilder
+import amf.custom.validation.client.scala.report.model.OpaResult
 import org.mulesoft.als.logger.Logger
-import org.mulesoft.als.server.client.ClientNotifier
+import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.feature.diagnostic.{
   CustomValidationClientCapabilities,
   CustomValidationConfigType,
@@ -15,7 +17,7 @@ import org.mulesoft.als.server.modules.ast.ResolvedUnitListener
 import org.mulesoft.als.server.modules.common.reconciler.Runnable
 import org.mulesoft.als.server.modules.diagnostic._
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.amfintegration.amfconfiguration.AMLSpecificConfiguration
 import org.mulesoft.amfintegration.{AmfResolvedUnit, DiagnosticsBundle}
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
@@ -28,8 +30,7 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
                               override protected val clientNotifier: ClientNotifier,
                               override protected val logger: Logger,
                               override protected val validationGatherer: ValidationGatherer,
-                              val platformValidator: AMFOpaValidator,
-                              val amfC: AmfConfigurationWrapper)
+                              val validatorBuilder: BaseProfileValidatorBuilder)
     extends BasicDiagnosticManager[CustomValidationClientCapabilities, CustomValidationOptions]
     with ResolvedUnitListener {
 
@@ -43,7 +44,7 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
 
   override def applyConfig(config: Option[CustomValidationClientCapabilities]): CustomValidationOptions = {
     enabled = config.exists(_.enabled)
-    logger.debug(s"Custom validation manager enabled? ${enabled}", "CustomValidationManager", "applyConfig")
+    logger.debug(s"Custom validation manager enabled? $enabled", "CustomValidationManager", "applyConfig")
     CustomValidationOptions(enabled)
   }
 
@@ -57,70 +58,67 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
                                      references: Map[String, DiagnosticsBundle],
                                      uuid: String): Future[Unit] = {
     val startTime = System.currentTimeMillis()
-    resolved.amfConfiguration.workspaceConfiguration match {
-      case Some(config) if config.profiles.nonEmpty =>
-        for {
-          unit    <- resolved.resolvedUnit.map(_.baseUnit)
-          results <- validate(uri, unit, resolved.amfConfiguration)
-        } yield {
-          results.foreach(
-            r =>
-              validationGatherer
-                .indexNewReport(ErrorsWithTree(uri, r, Some(tree(resolved.baseUnit))), managerName, uuid))
-          notifyReport(uri, resolved.baseUnit, references, managerName, ProfileName("CustomValidation"))
-          val endTime = System.currentTimeMillis()
-          this.logger.debug(s"It took ${endTime - startTime} milliseconds to validate with Go env",
-                            "CustomValidationDiagnosticManager",
-                            "gatherValidationErrors")
-        }
-      case _ =>
-        Future.successful {
-          validationGatherer.removeFile(uri, managerName)
-          notifyReport(uri, resolved.baseUnit, references, managerName, ProfileName("CustomValidation"))
-        }
+    if (resolved.alsConfigurationState.profiles.nonEmpty) {
+      for {
+        unit    <- resolved.resolvedUnit.map(_.baseUnit)
+        results <- validate(uri, unit, resolved.alsConfigurationState.profiles.map(_.model), resolved.configuration)
+      } yield {
+        validationGatherer
+          .indexNewReport(ErrorsWithTree(uri, results.flatten, Some(tree(resolved.baseUnit))), managerName, uuid)
+        notifyReport(uri, resolved.baseUnit, references, managerName, ProfileName("CustomValidation"))
+        val endTime = System.currentTimeMillis()
+        this.logger.debug(s"It took ${endTime - startTime} milliseconds to validate with Go env",
+                          "CustomValidationDiagnosticManager",
+                          "gatherValidationErrors")
+      }
+    } else {
+      Future.successful {
+        validationGatherer.removeFile(uri, managerName)
+        notifyReport(uri, resolved.baseUnit, references, managerName, ProfileName("CustomValidation"))
+      }
     }
   }
 
   def validate(uri: String,
                unit: BaseUnit,
-               amfConfiguration: AmfConfigurationWrapper): Future[Seq[Seq[AlsValidationResult]]] =
+               profiles: Seq[DialectInstance],
+               config: AMLSpecificConfiguration): Future[Seq[Seq[AlsValidationResult]]] =
     for {
       serialized <- Future {
         val builder = JsonOutputBuilder(false)
-        amfConfiguration.asJsonLD(unit, builder, RenderOptions().withCompactUris.withSourceMaps)
+        config.asJsonLD(unit, builder, RenderOptions().withCompactUris.withSourceMaps.withSourceInformation)
         builder.result.toString
       }
-      result <- Future
-        .sequence(
-          amfConfiguration
-            .profiles()
-            .map(t => {
-              val (profile, profileUnit) = t
-              logger.debug(s"Validate with profile: $profile", "CustomValidationManager", "validateWithProfile")
-              validateWithProfile(profileUnit.result.baseUnit, uri, serialized)
-            }))
-        .map(_.toSeq)
+      result <- {
+        val eventualResults: Seq[Future[Seq[AlsValidationResult]]] = profiles
+          .map(profile => {
+            logger.debug(s"Validate with profile: ${profile.identifier}",
+                         "CustomValidationManager",
+                         "validateWithProfile")
+            validateWithProfile(profile, uri, serialized)
+          })
+        Future
+          .sequence(eventualResults)
+          .map(_.toSeq)
+      }
     } yield result
 
-  private def validateWithProfile(profileUnit: BaseUnit,
+  private def validateWithProfile(profileUnit: DialectInstance,
                                   unitUri: String,
                                   serializedUnit: String): Future[Seq[AlsValidationResult]] = {
 
-    val profile: Option[ValidationProfileWrapper] = profileUnit match {
-      case instance: DialectInstance =>
-        Some(ValidationProfileWrapper(instance))
-      case _ => None
-    }
-    val profileName = profile.get.name()
-
-    profileUnit.raw match {
-      case Some(content) =>
-        for {
-          rawResult <- platformValidator.validateWithProfile(content, serializedUnit)
-          report    <- OPAValidatorReportLoader.load(rawResult, unitUri, profileName, profile)
-        } yield report
-      case _ => Future(Seq.empty)
-    }
+    // TODO: compute validator execution could be done just once for each project configuration refreshment
+    validatorBuilder
+      .validator(profileUnit)
+      .validate(serializedUnit, unitUri)
+      .map(report => {
+        report.results.map(rr => {
+          rr.source match {
+            case opaResult: OpaResult => new ResultParser(opaResult, unitUri).build(report.profile.profile)
+            case _                    => new AlsValidationResult(rr, Seq())
+          }
+        })
+      })
   }
 
   class CustomValidationRunnable(var uri: String, ast: AmfResolvedUnit, uuid: String) extends Runnable[Unit] {
@@ -161,8 +159,6 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
 
     def isCanceled(): Boolean = canceled
   }
-
-  override protected val amfConfiguration: AmfConfigurationWrapper = amfC
 
   override protected def runnable(ast: AmfResolvedUnit, uuid: String): CustomValidationRunnable =
     new CustomValidationRunnable(ast.baseUnit.identifier, ast, uuid)

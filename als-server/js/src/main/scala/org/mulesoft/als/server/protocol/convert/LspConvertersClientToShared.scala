@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.protocol.convert
 
-import org.mulesoft.als.configuration.{AlsConfiguration, ConfigurationStyle, ProjectConfigurationStyle, TemplateTypes}
+import org.mulesoft.als.configuration.{AlsConfiguration, TemplateTypes}
 import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
 import org.mulesoft.als.server.feature.configuration.workspace.{
   GetWorkspaceConfigurationParams,
@@ -8,13 +8,7 @@ import org.mulesoft.als.server.feature.configuration.workspace.{
   WorkspaceConfigurationClientCapabilities,
   WorkspaceConfigurationOptions
 }
-import org.mulesoft.als.server.feature.diagnostic.{
-  CleanDiagnosticTreeClientCapabilities,
-  CleanDiagnosticTreeOptions,
-  CleanDiagnosticTreeParams,
-  CustomValidationClientCapabilities,
-  CustomValidationOptions
-}
+import org.mulesoft.als.server.feature.diagnostic._
 import org.mulesoft.als.server.feature.fileusage.{FileUsageClientCapabilities, FileUsageOptions}
 import org.mulesoft.als.server.feature.renamefile.{RenameFileActionClientCapabilities, RenameFileActionParams}
 import org.mulesoft.als.server.feature.serialization._
@@ -28,7 +22,11 @@ import org.mulesoft.als.server.protocol.diagnostic.{
   ClientCustomValidationClientCapabilities,
   ClientCustomValidationOptions
 }
-import org.mulesoft.als.server.protocol.serialization.{ClientConversionParams, ClientSerializationParams}
+import org.mulesoft.als.server.protocol.serialization.{
+  ClientConversionParams,
+  ClientSerializationParams,
+  ClientSerializedDocument
+}
 import org.mulesoft.als.server.protocol.textsync.{
   ClientDidFocusParams,
   ClientIndexDialectParams,
@@ -111,11 +109,6 @@ object LspConvertersClientToShared {
       )
   }
 
-  implicit class ClientProjectConfigurationConverter(v: ClientProjectConfigurationStyle) {
-    def toShared: ProjectConfigurationStyle =
-      ProjectConfigurationStyle(ConfigurationStyle(v.style))
-  }
-
   implicit class InitializeParamsConverter(v: ClientAlsInitializeParams) {
     def toShared: AlsInitializeParams =
       AlsInitializeParams(
@@ -128,7 +121,6 @@ object LspConvertersClientToShared {
         rootPath = v.rootPath.toOption.flatMap(Option(_)), // (it may come as `Some(null)`)
         initializationOptions = v.initializationOptions.toOption,
         configuration = v.configuration.toOption.map(_.toShared),
-        projectConfigurationStyle = v.projectConfigurationStyle.map(_.toShared).toOption,
         hotReload = v.hotReload.toOption
       )
   }
@@ -201,7 +193,8 @@ object LspConvertersClientToShared {
       v.prettyPrintSerialization.toOption.getOrElse(false)
     )
   }
-  implicit class ClientSerializationParamsConverter(v: ClientSerializationParams) {
+
+  implicit class SerializationParamsConverter(v: ClientSerializationParams) {
     def toShared: SerializationParams = SerializationParams(v.documentIdentifier.toShared)
   }
 
@@ -229,6 +222,10 @@ object LspConvertersClientToShared {
 
   implicit class ClientWorkspaceConfigurationOptionsConverter(s: ClientWorkspaceConfigurationServerOptions) {
     def toShared: WorkspaceConfigurationOptions = WorkspaceConfigurationOptions(s.supported)
+  }
+
+  implicit class SerializedDocumentConverter(s: ClientSerializedDocument) {
+    def toShared: SerializedDocument = SerializedDocument(s.uri, s.model)
   }
   // $COVERAGE-ON
 }

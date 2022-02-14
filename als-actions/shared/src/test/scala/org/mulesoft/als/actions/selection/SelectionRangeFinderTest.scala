@@ -5,7 +5,11 @@ import amf.core.client.scala.resource.ResourceLoader
 import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.amfintegration.amfconfiguration.{
+  ALSConfigurationState,
+  EditorConfiguration,
+  EmptyProjectConfigurationState
+}
 import org.mulesoft.lsp.feature.common.{Range, Position => LspPosition}
 import org.mulesoft.lsp.feature.selectionRange.SelectionRange
 import org.scalatest.{AsyncFlatSpec, Matchers}
@@ -343,8 +347,9 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
     }
 
     for {
-      amfConfiguration <- AmfConfigurationWrapper(Seq(resourceLoader))
-      result <- amfConfiguration
+      global <- EditorConfiguration.withPlatformLoaders(Seq(resourceLoader)).getState
+      state  <- Future(ALSConfigurationState(global, EmptyProjectConfigurationState, None))
+      result <- state
         .parse(testUri)
         .map(_.result.baseUnit)
         .map(_.objWithAST.flatMap(_.annotations.ast()))

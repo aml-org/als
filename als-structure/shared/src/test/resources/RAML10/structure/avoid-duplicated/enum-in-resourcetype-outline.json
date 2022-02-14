@@ -1,0 +1,108 @@
+[
+  {
+    "name": "title",
+    "kind": 15,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 1,
+        "character": 0
+      },
+      "end": {
+        "line": 3,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 1,
+        "character": 0
+      },
+      "end": {
+        "line": 3,
+        "character": 0
+      }
+    },
+    "children": []
+  },
+  {
+    "name": "resourceTypes",
+    "kind": 11,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 3,
+        "character": 0
+      },
+      "end": {
+        "line": 7,
+        "character": 7
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 3,
+        "character": 0
+      },
+      "end": {
+        "line": 7,
+        "character": 7
+      }
+    },
+    "children": [
+      {
+        "name": "X",
+        "kind": 11,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 4,
+            "character": 2
+          },
+          "end": {
+            "line": 7,
+            "character": 7
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 4,
+            "character": 2
+          },
+          "end": {
+            "line": 7,
+            "character": 7
+          }
+        },
+        "children": [
+          {
+            "name": "enum",
+            "kind": 7,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 6,
+                "character": 4
+              },
+              "end": {
+                "line": 7,
+                "character": 7
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 6,
+                "character": 4
+              },
+              "end": {
+                "line": 7,
+                "character": 7
+              }
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+]

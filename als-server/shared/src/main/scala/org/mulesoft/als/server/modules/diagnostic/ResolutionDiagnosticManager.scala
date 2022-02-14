@@ -3,12 +3,11 @@ package org.mulesoft.als.server.modules.diagnostic
 import amf.core.client.common.validation.{ProfileName, ProfileNames}
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.validation.AMFValidationReport
-import org.mulesoft.als.server.client.ClientNotifier
 import org.mulesoft.als.logger.Logger
+import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.common.reconciler.Runnable
 import org.mulesoft.amfintegration.AmfImplicits._
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
 import org.mulesoft.amfintegration.{AmfResolvedUnit, DiagnosticsBundle}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
@@ -19,8 +18,7 @@ import scala.util.{Failure, Success}
 class ResolutionDiagnosticManager(override protected val telemetryProvider: TelemetryProvider,
                                   override protected val clientNotifier: ClientNotifier,
                                   override protected val logger: Logger,
-                                  override protected val validationGatherer: ValidationGatherer,
-                                  override protected val amfConfiguration: AmfConfigurationWrapper)
+                                  override protected val validationGatherer: ValidationGatherer)
     extends ResolvedUnitListener
     with DiagnosticManager {
   type RunType = ValidationRunnable
@@ -46,8 +44,8 @@ class ResolutionDiagnosticManager(override protected val telemetryProvider: Tele
                                      references: Map[String, DiagnosticsBundle],
                                      uuid: String): Future[Unit] = {
     val startTime = System.currentTimeMillis()
-
-    val profile = profileName(resolved.baseUnit)
+    val refs      = projectReferences(uri, resolved.alsConfigurationState.projectState.projectErrors) ++ references
+    val profile   = profileName(resolved.baseUnit)
     this
       .report(uri, telemetryProvider, resolved, uuid, profile)
       .map(report => {
@@ -57,7 +55,7 @@ class ResolutionDiagnosticManager(override protected val telemetryProvider: Tele
             ErrorsWithTree(uri, report.results.map(new AlsValidationResult(_)), Some(tree(resolved.baseUnit))),
             managerName,
             uuid)
-        notifyReport(uri, resolved.baseUnit, references, managerName, profile)
+        notifyReport(uri, resolved.baseUnit, refs, managerName, profile)
 
         this.logger.debug(s"It took ${endTime - startTime} milliseconds to validate",
                           "ResolutionDiagnosticManager",
@@ -93,19 +91,25 @@ class ResolutionDiagnosticManager(override protected val telemetryProvider: Tele
                                   uuid: String,
                                   profile: ProfileName)() =
     try {
+      logger.debug("starting", "ResolutionDiagnosticManager", "tryValidationReport")
       resolved.getLast.flatMap { r =>
         r.resolvedUnit
           .flatMap { result =>
-            r.amfConfiguration
+            r.configuration
               .report(result.baseUnit)
-              .map(rep => AMFValidationReport(rep.model, rep.profile, rep.results ++ result.results))
+              .map(rep => {
+                logger.debug("finishing", "ResolutionDiagnosticManager", "tryValidationReport")
+                AMFValidationReport(rep.model, rep.profile, rep.results ++ result.results)
+              })
           }
       } recoverWith {
         case e: Exception =>
+          logger.debug(s"recovering from: ${e.getMessage}", "ResolutionDiagnosticManager", "tryValidationReport")
           sendFailedClone(uri, telemetryProvider, resolved.baseUnit, uuid, e.getMessage)
       }
     } catch {
       case e: Exception =>
+        logger.debug(s"failed with: ${e.getMessage}", "ResolutionDiagnosticManager", "tryValidationReport")
         sendFailedClone(uri, telemetryProvider, resolved.baseUnit, uuid, e.getMessage)
     }
 

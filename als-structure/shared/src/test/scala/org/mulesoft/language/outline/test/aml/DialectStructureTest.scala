@@ -1,7 +1,10 @@
 package org.mulesoft.language.outline.test.aml
 
-import amf.aml.client.scala.model.document.Dialect
-import org.mulesoft.amfintegration.amfconfiguration.AmfConfigurationWrapper
+import org.mulesoft.amfintegration.amfconfiguration.{
+  ALSConfigurationState,
+  EditorConfiguration,
+  EmptyProjectConfigurationState
+}
 import org.mulesoft.language.outline.test.BaseStructureTest
 import org.scalatest.compatible.Assertion
 
@@ -10,18 +13,12 @@ import scala.concurrent.Future
 class DialectStructureTest extends BaseStructureTest with DialectTest {
 
   def runTest(path: String, dialectPath: String, jsonPath: String): Future[Assertion] = {
-    val fullDialectPath = filePath(dialectPath)
+    val fullDialectPath     = filePath(dialectPath)
+    val editorConfiguration = EditorConfiguration().withDialect(fullDialectPath)
     for {
-      amfConfiguration <- AmfConfigurationWrapper()
-      parsed           <- amfConfiguration.parse(fullDialectPath)
-      _ <- Future {
-        parsed.result.baseUnit match {
-          case d: Dialect =>
-            amfConfiguration.registerDialect(d)
-        }
-        parsed
-      }
-      result <- super.runTest(path, jsonPath, Some(amfConfiguration))
+      alsConfiguration <- editorConfiguration.getState.map(state =>
+        ALSConfigurationState(state, EmptyProjectConfigurationState, None))
+      result <- super.runTest(path, jsonPath, Some(alsConfiguration))
     } yield result
   }
 

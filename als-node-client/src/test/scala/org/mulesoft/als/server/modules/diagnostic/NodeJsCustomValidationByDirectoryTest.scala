@@ -1,18 +1,17 @@
 package org.mulesoft.als.server.modules.diagnostic
 
 import amf.core.client.scala.AMFGraphConfiguration
+import amf.custom.validation.client.ProfileValidatorNodeBuilder
 import org.mulesoft.als.common.ByDirectoryTest
-import org.mulesoft.als.configuration.ConfigurationStyle.COMMAND
-import org.mulesoft.als.configuration.ProjectConfigurationStyle
-import org.mulesoft.als.nodeclient.AmfCustomValidatorNode
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.feature.diagnostic.CustomValidationClientCapabilities
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticImplicits.PublishDiagnosticsParamsWriter
-import org.mulesoft.als.server.modules.diagnostic.custom.AMFOpaValidator
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams}
-import org.mulesoft.als.server.workspace.{ChangesWorkspaceConfiguration, WorkspaceManager}
-import org.mulesoft.als.server.{LanguageServerBuilder, MockDiagnosticClientNotifier, TestLogger}
+import org.mulesoft.als.server.workspace.ChangesWorkspaceConfiguration
+import org.mulesoft.als.server.{MockDiagnosticClientNotifier, TestLogger}
+import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.common.io.SyncFile
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.common.TextDocumentItem
@@ -26,7 +25,6 @@ class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with Changes
   def rootPath: String = "custom-validation/byDirectory"
 
   val logger: TestLogger                   = TestLogger()
-  val validator: AMFOpaValidator           = JsCustomValidator(logger, AmfCustomValidatorNode)
   override def fileExtensions: Seq[String] = Seq(".yaml")
 
   override def testFile(content: String, file: SyncFile, parent: String): Unit = {
@@ -46,20 +44,16 @@ class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with Changes
   }
 
   private def runForPrefix(workspaceFolder: String, relativeUri: String, profileUri: String, prefix: String) = {
-    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(12000)
-    val (server, workspaceManager)                       = buildServer(diagnosticNotifier)
-    implicit val s: LanguageServer                       = server
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
+    implicit val server: LanguageServer                  = buildServer(diagnosticNotifier)
     for {
-      _ <- server.initialize(
+      _ <- server.testInitialize(
         AlsInitializeParams(
           Some(AlsClientCapabilities(customValidations = Some(CustomValidationClientCapabilities(true)))),
           Some(TraceKind.Off),
-          rootUri = Some(workspaceFolder),
-          projectConfigurationStyle = Some(ProjectConfigurationStyle(COMMAND))
+          rootUri = Some(workspaceFolder)
         ))
-      _ <- changeWorkspaceConfiguration(
-        workspaceManager,
-        changeConfigArgs(None, Some(workspaceFolder), Set.empty, Set(profileUri))) // register profile
+      _ <- changeWorkspaceConfiguration(server)(changeConfigArgs(None, workspaceFolder, Set.empty, Set(profileUri))) // register profile
       r <- runFor(relativeUri, workspaceFolder, prefix, diagnosticNotifier)
     } yield {
       r
@@ -99,16 +93,16 @@ class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with Changes
       diagnostic
     }
 
-  def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): (LanguageServer, WorkspaceManager) = {
-    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger)
-    val dm      = builder.buildDiagnosticManagers(Some(validator))
+  def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer = {
+    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
+    val dm      = builder.buildDiagnosticManagers(Some(ProfileValidatorNodeBuilder))
     val factory = builder.buildWorkspaceManagerFactory()
     val b = new LanguageServerBuilder(factory.documentManager,
                                       factory.workspaceManager,
                                       factory.configurationManager,
                                       factory.resolutionTaskManager)
     dm.foreach(m => b.addInitializableModule(m))
-    (b.build(), factory.workspaceManager)
+    b.build()
   }
 
   def openFile(server: LanguageServer)(uri: String, text: String): Future[Unit] =

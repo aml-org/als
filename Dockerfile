@@ -6,7 +6,7 @@ USER root
 ARG USER_HOME_DIR="/root"
 
 ENV SCALA_VERSION 2.12.11
-ENV SBT_VERSION 1.3.9
+ENV SBT_VERSION 1.6.0
 
 
 # Update the repository sources list and install dependencies
@@ -35,7 +35,7 @@ RUN \
   curl -L -o sbt-$SBT_VERSION.deb https://scala.jfrog.io/artifactory/debian/sbt-$SBT_VERSION.deb && \
   dpkg -i sbt-$SBT_VERSION.deb && \
   rm sbt-$SBT_VERSION.deb && \
-  sbt sbtVersion
+  sbt -Dsbt.rootdir=true sbtVersion
 
 VOLUME "$USER_HOME_DIR/.sbt"
 
@@ -48,7 +48,7 @@ RUN \
 
 RUN export NODE_OPTIONS=--max_old_space_size=6000
 
-RUN npm install -g npm-cli-login
+RUN npm i -g npm@8
 
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en

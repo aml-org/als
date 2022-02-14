@@ -18,7 +18,7 @@ import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.relationships.RelationshipLink
 import org.mulesoft.amfintegration.visitors.DialectElementVisitorFactory
 import org.mulesoft.amfintegration.visitors.noderelationship.NodeRelationshipVisitorType
-import org.yaml.model.{YMap, YMapEntry, YNodePlain, YSequence}
+import org.yaml.model.{YMap, YMapEntry, YNodePlain, YPart, YSequence}
 class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
 
   override protected def innerVisit(element: AmfElement): Seq[RelationshipLink] =
@@ -44,15 +44,16 @@ class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
     }).getOrElse(Seq.empty)
   }
 
-  private def extractRanges(d: Dialect, nm: AmfObject) =
+  private def extractRanges(d: Dialect, nm: AmfObject) = {
+    def extractYMap: PartialFunction[YPart, YMap] = {
+      case m: YMap         => m
+      case ynp: YNodePlain => extractYMap(ynp.value)
+      case e: YMapEntry    => extractYMap(e.value)
+    }
     nm.annotations
       .ast()
       .collect {
-        case m: YMap => m
-        case ynp: YNodePlain =>
-          ynp.value match {
-            case m: YMap => m
-          }
+        extractYMap
       }
       .map(_.entries
         .filter(e => e.key.asScalar.map(_.text).contains("range")))
@@ -64,6 +65,7 @@ class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
                 .flatMap(getPositionForLink(d, _)
                   .map(t => RelationshipLink(e, t)))))
       .getOrElse(Seq.empty)
+  }
 
   private def extractUnions(d: Dialect, o: UnionNodeMapping) =
     o.fields.field[Seq[StrField]](UnionNodeMappingModel.ObjectRange) match {

@@ -223,7 +223,7 @@ object YamlWrapper {
 
     override def contains(amfPosition: AmfPosition): Boolean = selectedNode match {
       case ast: MutRef =>
-        ast.origValue.contains(amfPosition)
+        ast.origValue.contains(amfPosition) || ast.origTag.contains(amfPosition)
       case ast: YMapEntry =>
         YMapEntryOps(ast).contains(amfPosition)
       case ast: YMap =>

@@ -16,16 +16,8 @@ import scala.concurrent.Future
 object VocabularyTermsValueCompletionPlugin extends AMLCompletionPlugin {
   override def id: String = "VocabularyTermsValueCompletionPlugin"
 
-  def applies(amfObject: AmfObject, yPartBranch: YPartBranch): Boolean = {
-    amfObject match {
-      case _: NodeMapping if yPartBranch.isValueDescendanceOf("classTerm") && yPartBranch.stringValue.contains(".") =>
-        true
-      case _: PropertyLikeMapping[_]
-          if yPartBranch.isValueDescendanceOf("propertyTerm") && yPartBranch.stringValue.contains(".") =>
-        true
-      case _ => false
-    }
-  }
+  def applies(amfObject: AmfObject, yPartBranch: YPartBranch): Boolean =
+    isTerm(amfObject, yPartBranch) && yPartBranch.stringValue.contains(".")
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     if (applies(request.amfObject, request.yPartBranch))

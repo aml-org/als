@@ -8,6 +8,6 @@ import scala.concurrent.Future
 abstract class AMLSuggestionsTest extends SuggestionsTest {
 
   def runTestForCustomDialect(path: String, dialectPath: String, originalSuggestions: Set[String]): Future[Assertion] = {
-    parseAMF(filePath(dialectPath)).flatMap(_ => runSuggestionTest(path, originalSuggestions))
+    parseAMF(filePath(dialectPath)).flatMap(_ => runSuggestionTest(filePath(path), originalSuggestions))
   }
 }
