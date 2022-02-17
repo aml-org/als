@@ -3,7 +3,7 @@ package org.mulesoft.als.server.modules.diagnostic.custom
 import amf.core.client.common.position
 import amf.core.client.scala.validation.AMFValidationResult
 import amf.core.internal.annotations.LexicalInformation
-import amf.custom.validation.client.scala.report.model.{OpaResult, OpaTrace, OpaTraceValue}
+import amf.custom.validation.client.scala.report.model.{OpaLocation, OpaResult, OpaTrace, OpaTraceValue}
 import amf.custom.validation.internal.report.parser.AMFValidationOpaAdapter
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.diagnostic.AlsValidationResult
@@ -12,16 +12,15 @@ import org.mulesoft.lsp.feature.common.{Location, Range}
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticRelatedInformation
 class TraceParser(trace: OpaTrace, rootUri: String) {
 
-  lazy val range: Option[position.Range] = trace.location.flatMap(_.range.map(AMFValidationOpaAdapter.adaptRange))
-
-  lazy val location: Location =
-    range
-      .map(r => Location(uri, LspRangeConverter.toLspRange(r.toPositionRange)))
+  lazy val location: Location = {
+    trace.location
+      .flatMap(LocationParser.parse(_, rootUri))
       .getOrElse(
         traceValue.subresult.headOption
           .flatMap(_.trace.headOption.map(_.location))
           .getOrElse(unknownLocation)
       )
+  }
 
   val unknownLocation: Location =
     Location(rootUri, LspRangeConverter.toLspRange(position.Range.NONE.toPositionRange))
@@ -97,13 +96,15 @@ class ResultParser(opaResult: OpaResult, rootUri: String) {
   lazy val validationName: Option[String] = opaResult.validationName
   lazy val validationId: Option[String]   = opaResult.validationId
   lazy val level: String                  = opaResult.level
+  lazy val location: Option[Location]     = opaResult.location.flatMap(LocationParser.parse(_, rootUri))
   lazy val trace: Seq[TraceParser]        = opaResult.trace.map(new TraceParser(_, rootUri))
 
   def build(profileName: String): AlsValidationResult = {
 
     val stack: Seq[DiagnosticRelatedInformation] = buildStack().reverse // More specific at the top
-    val location = stack.headOption
+    val resultLocation = stack.headOption
       .map(_.location)
+      .orElse(location)
       .orElse(trace.map(_.location).headOption)
     val amfValidationResult = AMFValidationResult(
       message,
@@ -111,8 +112,8 @@ class ResultParser(opaResult: OpaResult, rootUri: String) {
       node,
       None,
       validationId.getOrElse(profileName + validationId.map(id => s"#$id").getOrElse(profileName)),
-      location.map(l => LexicalInformation(dtoToParserRange(l.range))),
-      location.flatMap(r => if (r.uri == "" || r.uri == "unknown") Some(rootUri) else Some(r.uri)),
+      resultLocation.map(l => LexicalInformation(dtoToParserRange(l.range))),
+      resultLocation.flatMap(r => if (r.uri == "" || r.uri == "unknown") Some(rootUri) else Some(r.uri)),
       Unit
     )
 
@@ -126,4 +127,19 @@ class ResultParser(opaResult: OpaResult, rootUri: String) {
   private def dtoToParserRange(core: Range): position.Range =
     position.Range(position.Position(core.start.line + 1, core.start.character),
                    position.Position(core.end.line + 1, core.end.character))
+}
+
+object LocationParser {
+  def parse(loc: OpaLocation, rootUri: String): Option[Location] = {
+    rangeFromLocation(loc)
+      .map(r => {
+        val locUri: String = loc.location.getOrElse("")
+        val uri            = if (locUri.isEmpty) rootUri else locUri
+        Location(uri, LspRangeConverter.toLspRange(r.toPositionRange))
+      })
+  }
+
+  def rangeFromLocation(l: OpaLocation): Option[position.Range] = {
+    l.range.map(AMFValidationOpaAdapter.adaptRange)
+  }
 }
