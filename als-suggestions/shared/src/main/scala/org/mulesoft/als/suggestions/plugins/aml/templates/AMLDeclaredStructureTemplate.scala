@@ -10,7 +10,7 @@ import org.mulesoft.amfintegration.AmfImplicits.DialectImplicits
   */
 object AMLDeclaredStructureTemplate {
   def resolve(params: AmlCompletionRequest): Seq[RawSuggestion] =
-    if (params.configurationReader.getTemplateType == TemplateTypes.FULL &&
+    if (params.configurationReader.getTemplateType != TemplateTypes.NONE &&
         params.yPartBranch.isKey &&
         TemplateTools.isInsideDeclaration(params)) {
       val decKey = params.nodeDialect.declarationsMapTerms

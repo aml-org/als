@@ -2,9 +2,7 @@ package org.mulesoft.als.server.lsp4j
 
 import org.eclipse.lsp4j
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
-import org.mulesoft.als.configuration.{AlsConfiguration,
-  TemplateTypes
-}
+import org.mulesoft.als.configuration.{AlsConfiguration, TemplateTypes}
 import org.mulesoft.als.server.feature.configuration.UpdateConfigurationParams
 import org.mulesoft.als.server.feature.configuration.workspace.{
   GetWorkspaceConfigurationParams,
@@ -92,8 +90,8 @@ object LspConversions {
     if (templateType == null) TemplateTypes.FULL
     else
       templateType.toUpperCase match {
-        case v if v == TemplateTypes.NONE || v == TemplateTypes.SIMPLE => v
-        case _                                                         => TemplateTypes.FULL
+        case v if v == TemplateTypes.NONE || v == TemplateTypes.SIMPLE || v == TemplateTypes.FULL => v
+        case _                                                                                    => TemplateTypes.BOTH
       }
 
   implicit def alsInitializeParams(params: extension.AlsInitializeParams): AlsInitializeParams =

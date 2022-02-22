@@ -51,7 +51,8 @@ Notification message from client to server:
 `templateType` values:
 - NONE: Turns templates off.
 - SIMPLE: Template will only contain the first level.
-- FULL: Template will contain the first level and the levels after that one too, building the whole structure required for the definition.
+- FULL: Template will contain the whole structure required for the definition.
+- BOTH: Template will contain both the first and second level.
 
 ### filesInProject
 

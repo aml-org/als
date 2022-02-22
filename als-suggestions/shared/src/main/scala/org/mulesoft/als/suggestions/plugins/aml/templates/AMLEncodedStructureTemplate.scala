@@ -29,12 +29,12 @@ object AMLEncodedStructureTemplate {
 
   private def templates(params: AmlCompletionRequest, pm: PropertyMapping) = {
     val templateType = params.configurationReader.getTemplateType
-    if (templateType == TemplateTypes.NONE) Seq.empty
-    else
-      TemplateTools.getFirstLevelTemplate(pm, params) ++ {
-        if (templateType == TemplateTypes.FULL)
-          TemplateTools.getFullTemplate(pm, params)
-        else Seq.empty
-      }
+    templateType match {
+      case TemplateTypes.SIMPLE => TemplateTools.getFirstLevelTemplate(pm, params)
+      case TemplateTypes.FULL   => TemplateTools.getFullTemplate(pm, params)
+      case TemplateTypes.BOTH =>
+        TemplateTools.getFirstLevelTemplate(pm, params) ++ TemplateTools.getFullTemplate(pm, params)
+      case _ => Seq.empty
+    }
   }
 }

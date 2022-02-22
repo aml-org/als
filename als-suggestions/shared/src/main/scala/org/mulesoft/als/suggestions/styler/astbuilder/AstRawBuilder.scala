@@ -22,6 +22,8 @@ abstract class AstRawBuilder(raw: RawSuggestion, isSnippet: Boolean, yPartBranch
 
   def onlyKey(key: String): YPart
 
+  def emptyNode(): YNode
+
   def emitRootKey: YPart =
     if (raw.newText.contains("$")) onlyKey(raw.newText)
     else emitKey()
@@ -53,7 +55,7 @@ abstract class AstRawBuilder(raw: RawSuggestion, isSnippet: Boolean, yPartBranch
       raw.children.zipWithIndex
         .map(t => newInstance(t._1, true).emitKey(t._2 + index))
         .toIndexedSeq
-    } else if (isSnippet) IndexedSeq(YMapEntry("$" + index.toString, ""))
+    } else if (isSnippet) IndexedSeq(YMapEntry("$" + index.toString, emptyNode()))
     else IndexedSeq.empty
 
     val n = YNode(YMap(emptyLocation, list))
@@ -62,13 +64,7 @@ abstract class AstRawBuilder(raw: RawSuggestion, isSnippet: Boolean, yPartBranch
   }
 
   protected def value(text: String, options: SuggestionStructure): YNode = {
-    val node: YNode =
-      if (!options.isObject)
-        plainValue(text)
-      else if (text.isEmpty)
-        YMap.empty
-      else YMap(emptyLocation, IndexedSeq(YMapEntry(raw.newText, "")))
-    wrapArray(options, node)
+    wrapArray(options, plainValue(text))
   }
 
   private def wrapArray(options: SuggestionStructure, node: YNode): YNode =
@@ -82,4 +78,5 @@ abstract class AstRawBuilder(raw: RawSuggestion, isSnippet: Boolean, yPartBranch
 
   private def scalar(text: String, yType: YType) =
     YNode(if (raw.options.nonPlain) YScalar.nonPlain(text) else YScalar(text), yType)
+
 }

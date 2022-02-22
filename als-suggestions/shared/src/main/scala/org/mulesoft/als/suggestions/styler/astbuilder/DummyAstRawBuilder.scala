@@ -16,4 +16,6 @@ class DummyAstRawBuilder(val raw: RawSuggestion)
   override def emitEntryValue(options: SuggestionStructure): YNode = YNode(raw.newText)
 
   override def onlyKey(key: String): YPart = YNode(key)
+
+  override def emptyNode(): YNode = YNode("")
 }
