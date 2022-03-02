@@ -76,7 +76,14 @@ class DeleteDeclaredNodeCodeAction(override val params: CodeActionRequestParams)
       .headOption
 
   private def nameLocation(obj: AmfObject): Option[Location] =
-    obj.namedField().flatMap(v => v.annotations.ast().orElse(v.value.annotations.ast()).map(p => p.yPartToLocation))
+    obj
+      .namedField()
+      .flatMap(
+        v =>
+          v.annotations
+            .ast()
+            .orElse(v.value.annotations.ast())
+            .map(p => p.yPartToLocation))
 
   private def removeReferences(nameLocation: Location, r: Seq[RelationshipLink]): Map[String, Seq[TextEdit]] =
     r.filter(re => {

@@ -106,7 +106,7 @@ hovers:
   (30,5):
     - Action that can be executed using a particular HTTP invocation
   (30,8):
-    - Action that can be executed using a particular HTTP invocation
+    - Request information for an operation
   (31,8):
     - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
   (31,11):
@@ -138,9 +138,9 @@ hovers:
   (38,27):
     - Identifier of the target operation
   (39,11):
-    - Action that can be executed using a particular HTTP invocation
+    - Request information for an operation
   (39,17):
-    - Action that can be executed using a particular HTTP invocation
+    - Request information for an operation
   (40,12):
     - Name of a parameter
   (40,18):
@@ -168,11 +168,11 @@ hovers:
   (46,11):
     - Human readable name for the object
   (46,18):
-    - Action that can be executed using a particular HTTP invocation
+    - Request information for an operation
   (47,11):
-    - Action that can be executed using a particular HTTP invocation
+    - Request information for an operation
   (47,16):
-    - Action that can be executed using a particular HTTP invocation
+    - Request information for an operation
   (48,27):
     - Media types supported in the payload
   (48,46):
@@ -286,15 +286,15 @@ hovers:
   (78,19):
     - Human readable name for the object
   (78,26):
-    - EndPoint in the API holding a number of executable operations
+    - Request information for an operation
   (79,21):
     - Human readable description of an element
   (79,37):
     - Human readable description of an element
   (80,19):
-    - EndPoint in the API holding a number of executable operations
+    - Request information for an operation
   (80,24):
-    - EndPoint in the API holding a number of executable operations
+    - Request information for an operation
   (81,27):
     - Media types supported in the payload
   (81,37):
@@ -1011,24 +1011,23 @@ hovers:
   (270,16):
     - Top level element describing a HTTP API
   (271,9):
-    - Identifies the document type
-    - Modules/Libraries are used to combine any collection of elements declarations into modular, externalized, reusable groups.
+    - Request information for an operation
   (271,15):
-    - Top level element describing a HTTP API
+    - Request information for an operation
   (272,11):
     - Human readable description of an element
   (272,25):
     - Human readable description of an element
   (273,9):
-    - Top level element describing a HTTP API
+    - Request information for an operation
   (273,14):
-    - Top level element describing a HTTP API
+    - Request information for an operation
   (274,14):
     - Media types supported in the payload
   (274,21):
     - Encoded payload using certain media-type
   (275,14):
-    - Example value for a schema inside an API
+    - Request information for an operation
   (275,19):
     - Example value for a schema inside an API
   (276,14):
@@ -1044,14 +1043,13 @@ hovers:
   (278,50):
     - Raw text containing an unparsable example
   (279,7):
-    - Identifies the document type
-    - Modules/Libraries are used to combine any collection of elements declarations into modular, externalized, reusable groups.
+    - Request information for an operation
   (279,12):
-    - Top level element describing a HTTP API
+    - Request information for an operation
   (280,8):
-    - Top level element describing a HTTP API
+    - Request information for an operation
   (280,31):
-    - Top level element describing a HTTP API
+    - Request information for an operation
   (281,5):
     - Contains declarations for headers
   (281,10):
@@ -1279,15 +1277,15 @@ hovers:
   (342,15):
     - Human readable name for the object
   (342,22):
-    - EndPoint in the API holding a number of executable operations
+    - Request information for an operation
   (343,17):
     - Human readable description of an element
   (343,33):
     - Human readable description of an element
   (344,15):
-    - EndPoint in the API holding a number of executable operations
+    - Request information for an operation
   (344,20):
-    - EndPoint in the API holding a number of executable operations
+    - Request information for an operation
   (345,23):
     - Media types supported in the payload
   (345,33):
