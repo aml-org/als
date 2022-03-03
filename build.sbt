@@ -89,8 +89,8 @@ lazy val common = crossProject(JSPlatform, JVMPlatform).settings(
     //        artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
   ).disablePlugins(SonarPlugin)
 
-lazy val commonJVM = common.jvm.in(file("./als-common/jvm")).sourceDependency(amfJVMRef, amfLibJVM)
-lazy val commonJS = common.js.in(file("./als-common/js")).sourceDependency(amfJSRef, amfLibJS).disablePlugins(SonarPlugin)
+lazy val commonJVM = common.jvm.in(file("./als-common/jvm")).sourceDependency(amfJVMRef, amfLibJVM).sourceDependency(customValidatorWebJVMRef, customValidatorWebLibJVM)
+lazy val commonJS = common.js.in(file("./als-common/js")).sourceDependency(amfJSRef, amfLibJS).sourceDependency(customValidatorWebJSRef, customValidatorWebLibJS).disablePlugins(SonarPlugin)
 
 /** ALS LSP */
 
@@ -211,8 +211,8 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
     Compile / fullOptJS / artifactPath := baseDirectory.value / "node-package" / "lib" / "als-server.min.js"
   )
 
-lazy val serverJVM = server.jvm.in(file("./als-server/jvm")).sourceDependency(customValidatorWebJVMRef, customValidatorWebLibJVM)
-lazy val serverJS = server.js.in(file("./als-server/js")).sourceDependency(customValidatorWebJSRef, customValidatorWebLibJS).disablePlugins(SonarPlugin)
+lazy val serverJVM = server.jvm.in(file("./als-server/jvm"))
+lazy val serverJS = server.js.in(file("./als-server/js")).disablePlugins(SonarPlugin)
 
 /** ALS node client */
 val npmIClient = TaskKey[Unit]("npmIClient", "Install npm at node client")
