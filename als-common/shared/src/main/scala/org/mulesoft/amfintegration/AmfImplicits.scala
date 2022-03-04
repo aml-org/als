@@ -73,7 +73,7 @@ object AmfImplicits {
 
     def ast(): Option[YPart] = pureAst() orElse baseVirtualNode()
 
-    private def pureAst(): Option[YPart] = ann.find(classOf[SourceAST]).map(_.ast)
+    def pureAst(): Option[YPart] = ann.find(classOf[SourceAST]).map(_.ast)
 
     private def baseVirtualNode(): Option[YPart] = ann.find(classOf[BaseVirtualNode]).map(_.ast)
 

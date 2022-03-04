@@ -35,10 +35,6 @@ object AlsAmfElement {
               fe.value.annotations
                 .containsYPart(yPartBranch)
                 .getOrElse(fe.value.value.containsYPart(yPartBranch)) // todo: this should work to cut early, but there are cases in which a son is not contained in
-            //  the parents lexical. This should be fixed in AMF (set as Virtual)
-//            ((amfObject.annotations.isVirtual || amfObject.annotations.isSynthesized) &&
-//              amfObject.fields.fields().exists { fe =>
-//                fe.value.annotations.containsYPart(yPartBranch).getOrElse(fe.value.value.containsYPart(yPartBranch))
             }
         case AmfScalar(_, annotations) => annotations.containsYPart(yPartBranch).getOrElse(false)
         case _                         => false
