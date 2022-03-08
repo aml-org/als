@@ -17,6 +17,7 @@ import amf.core.internal.parser.domain.{Annotations, FieldEntry, Value}
 import amf.core.internal.remote.Spec
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import amf.shapes.internal.annotations.{
+  BaseVirtualNode,
   ExternalJsonSchemaShape,
   ParsedFromTypeExpression,
   ParsedJSONSchema,
@@ -70,7 +71,11 @@ object AmfImplicits {
 
     def range(): Option[Range] = ann.lexicalInformation().map(_.range)
 
-    def ast(): Option[YPart] = ann.find(classOf[SourceAST]).map(_.ast)
+    def ast(): Option[YPart] = pureAst() orElse baseVirtualNode()
+
+    def pureAst(): Option[YPart] = ann.find(classOf[SourceAST]).map(_.ast)
+
+    private def baseVirtualNode(): Option[YPart] = ann.find(classOf[BaseVirtualNode]).map(_.ast)
 
     def jsonSchema(): Option[ParsedJSONSchema] = ann.find(classOf[ParsedJSONSchema])
 
