@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.modules.serialization
 
+import amf.aml.client.scala.AMLConfiguration
 import amf.apicontract.client.scala.model.document.{Extension, Overlay}
 import amf.core.client.scala.model.document.{BaseUnit, Document}
 import org.mulesoft.als.configuration.AlsConfigurationReader
@@ -26,19 +27,13 @@ class SerializationManager[S](telemetryProvider: TelemetryProvider,
                               configurationReader: AlsConfigurationReader,
                               props: SerializationProps[S],
                               override val logger: Logger)
-    extends ClientNotifierModule[SerializationClientCapabilities, SerializationServerOptions]
+    extends BaseSerializationNotifier[S](props, configurationReader, logger)
     with ResolvedUnitListener
     with RequestModule[SerializationClientCapabilities, SerializationServerOptions] {
   type RunType = SerializationRunnable
   private var enabled: Boolean = false
 
   override val `type`: SerializationConfigType.type = SerializationConfigType
-
-  private def resolveAndSerialize(resolved: BaseUnit): DocBuilder[S] = {
-    val value = props.newDocBuilder(configurationReader.getShouldPrettyPrintSerialization)
-    AMLSpecificConfiguration(editorConfiguration.baseConfiguration).asJsonLD(resolved, value)
-    value
-  }
 
   override protected def runnable(ast: AmfResolvedUnit, uuid: String): SerializationRunnable =
     new SerializationRunnable(ast.baseUnit.identifier, ast, uuid)
@@ -47,24 +42,14 @@ class SerializationManager[S](telemetryProvider: TelemetryProvider,
 
   override protected val timeout: Int = 500
 
-  def serialize(ast: AmfResolvedUnit, uuid: String): Future[Unit] =
-    ast.resolvedUnit
-      .map(_.baseUnit)
-      .flatMap(process)
-      .map(s => props.alsClientNotifier.notifySerialization(s))
+  private val baseConfiguration = AMLConfiguration.predefined()
+
+  def serializeAndNotifyResolved(ast: AmfResolvedUnit): Future[Unit] =
+    ast.resolvedUnit.map(_.baseUnit).map(serializeAndNotify(_, baseConfiguration))
 
   override def onRemoveFile(uri: String): Unit = {
     /* No action required */
   }
-
-  override def applyConfig(config: Option[SerializationClientCapabilities]): SerializationServerOptions = {
-    config.foreach(c => enabled = c.acceptsNotification)
-    logger.debug(s"Serialization manager enabled: $enabled", "SerializationManager", "applyConfig")
-    SerializationServerOptions(true)
-  }
-
-  private def process(ast: BaseUnit): Future[SerializationResult[S]] =
-    Future { SerializationResult(ast.identifier, resolveAndSerialize(ast).result) }
 
   private def getUnitFromResolved(unit: BaseUnit, uri: String): BaseUnit =
     if (unit.identifier == uri) unit
@@ -90,7 +75,7 @@ class SerializationManager[S](telemetryProvider: TelemetryProvider,
         logger.warning("Unit accessor not configured", "SerializationManager", "RequestSerialization")
         Future.successful(Document().withId("error"))
     }
-    bu.flatMap(process)
+    bu.map(serialize(_, baseConfiguration))
   }
 
   override def initialize(): Future[Unit] = Future.successful()
@@ -137,11 +122,12 @@ class SerializationManager[S](telemetryProvider: TelemetryProvider,
       val promise = Promise[Unit]()
 
       def innerSerialize(): Future[Unit] =
-        serialize(ast, uuid) andThen {
+        serializeAndNotifyResolved(ast) andThen {
           case Success(report) => promise.success(report)
 
           case Failure(error) => promise.failure(error)
         }
+
       telemetryProvider.timeProcess(
         "Serialize notification",
         MessageTypes.BEGIN_SERIALIZATION,

@@ -8,6 +8,7 @@ import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.ast._
+import org.mulesoft.als.server.modules.project.{NewConfigurationListener, ProfileNotificationConfigurationListener}
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.UnitTaskManager
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
@@ -22,7 +23,7 @@ class WorkspaceContentManager private (val folderUri: String,
                                        environmentProvider: EnvironmentProvider,
                                        val telemetryProvider: TelemetryProvider,
                                        logger: Logger,
-                                       allSubscribers: List[BaseUnitListener],
+                                       allSubscribers: List[AstListener[_]],
                                        override val repository: WorkspaceParserRepository,
                                        val projectConfigAdapter: ProjectConfigurationAdapter,
                                        hotReload: Boolean)
@@ -53,7 +54,13 @@ class WorkspaceContentManager private (val folderUri: String,
 
   implicit val currentPlatform: Platform = this.platform
 
-  private val subscribers: Seq[BaseUnitListener] = allSubscribers.filter(_.isActive)
+  private val subscribers: Seq[BaseUnitListener] = allSubscribers.collect({
+    case buL: BaseUnitListener if buL.isActive => buL
+  })
+
+  private val configSubscribers: Seq[NewConfigurationListener] = allSubscribers.collect({
+    case a: NewConfigurationListener if a.isActive => a
+  })
 
   private def mainFile: Future[Option[String]] = projectConfigAdapter.mainFile
 
@@ -244,13 +251,18 @@ class WorkspaceContentManager private (val folderUri: String,
 
   }
 
+  // hay que tener una nueva lista de Configlisteners o la misma lista de ast liteners y categorizarla internamente.
+
   private def processChangeConfig(config: ProjectConfigurationState,
                                   snapshot: Snapshot,
                                   mainFileUri: Option[String]): Future[Unit] = {
+    // aca vamos a llamar al new project configuration listener: Necesitamos un validation profile manager
+    val uuid = UUID.randomUUID().toString
+    configSubscribers.foreach(_.onNewAst(config, uuid))
     (mainFileUri match {
-      case Some(mainFile) if mainFile.nonEmpty => processMFChanges(mainFile, snapshot)
+      case Some(mainFile) if mainFile.nonEmpty => processMFChanges(mainFile, snapshot, uuid)
       case _                                   => Future(repository.cleanTree())
-    }).map(_ => revalidateUnits(config.profiles.map(_.path).toSet))
+    }).map(_ => revalidateUnits(config.profiles.map(_.path).toSet)) // TODO eascona: isolated profiles validation could be a config listener?
   }
 
   private def revalidateUnits(validationProfiles: Set[String]): Future[Unit] = Future {
@@ -276,10 +288,11 @@ class WorkspaceContentManager private (val folderUri: String,
       })
   }
 
-  private def processMFChanges(mainFile: String, snapshot: Snapshot): Future[Unit] = {
+  private def processMFChanges(mainFile: String,
+                               snapshot: Snapshot,
+                               uuid: String = UUID.randomUUID().toString): Future[Unit] = {
     changeState(ProcessingProject)
     logger.debug(s"Processing Tree changes", "WorkspaceContentManager", "processMFChanges")
-    val uuid = UUID.randomUUID().toString
     for {
       u <- parse(s"${if (folderUri != "" && !mainFile.contains(folderUri))
         trailSlash(folderUri)
