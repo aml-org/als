@@ -10,7 +10,7 @@ import org.mulesoft.als.actions.codeactions.plugins.declarations.common.{
   DeclaredElementKnowledge,
   ExtractorCommon
 }
-import org.mulesoft.als.common.YamlWrapper.{YMapEntryOps, YNodeImplicits}
+import org.mulesoft.als.common.ASTWrapper.{YMapEntryOps, YNodeImplicits}
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction

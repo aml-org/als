@@ -4,12 +4,13 @@ import amf.core.client.common.position.{Position => AmfPosition}
 import amf.core.internal.annotations.LexicalInformation
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
+import org.mulesoft.antlrast.ast.ASTElement
 import org.mulesoft.lexer.{AstToken, InputRange}
 import org.mulesoft.lsp.feature.common.Location
 import org.yaml.lexer.YamlToken
 import org.yaml.model.YNode.MutRef
 import org.yaml.model._
-object YamlWrapper {
+object ASTWrapper {
 
   def getIndentation(raw: String, position: Position): Int = {
     val pos  = position
@@ -45,6 +46,13 @@ object YamlWrapper {
         li.range.start.line == range.lineFrom &&
         li.range.end.column == range.columnTo &&
         li.range.end.line == range.lineTo
+  }
+
+  implicit class CommonASTOps(astElement:ASTElement) {
+    def contains(amfPosition: AmfPosition): Boolean = {
+      val range = PositionRange(Position(AmfPosition(astElement.start.line, astElement.end.column)), Position(AmfPosition(astElement.end.line, astElement.end.column)))
+      range.contains(Position(amfPosition))
+    }
   }
 
   abstract class CommonPartOps(yPart: YPart) {

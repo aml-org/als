@@ -5,7 +5,7 @@ import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.suggestions.styler.{JsonSuggestionStyler, StylerParams}
-import org.mulesoft.lexer.{InputRange, SourceLocation}
+import org.mulesoft.lexer.InputRange
 import org.mulesoft.lsp.configuration.{DefaultFormattingOptions, FormattingOptions}
 import org.scalatest.AsyncFunSuite
 import org.yaml.model._

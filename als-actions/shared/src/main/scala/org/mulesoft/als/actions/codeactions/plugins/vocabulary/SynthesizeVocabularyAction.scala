@@ -6,7 +6,7 @@ import amf.core.client.scala.vocabulary.Namespace
 import amf.core.internal.annotations.Aliases
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionRequestParams
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.ExtractorCommon
-import org.mulesoft.als.common.YamlWrapper.AlsInputRange
+import org.mulesoft.als.common.ASTWrapper.AlsInputRange
 import org.mulesoft.als.common.dtoTypes.{PositionRange, Position => DtoPosition}
 import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction

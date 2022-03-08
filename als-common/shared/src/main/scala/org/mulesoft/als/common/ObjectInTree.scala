@@ -5,23 +5,21 @@ import amf.aml.client.scala.model.domain.SemanticExtension
 import amf.core.client.scala.model.document.{BaseUnit, DeclaresModel}
 import amf.core.client.scala.model.domain.extensions.DomainExtension
 import amf.core.client.scala.model.domain.{AmfObject, DomainElement}
-import amf.core.internal.annotations.{DeclaredElement, DefinedBySpec, SourceAST}
+import amf.core.internal.annotations.{DeclaredElement, DefinedBySpec, SourceAST, SourceYPart}
 import amf.core.internal.metamodel.domain.LinkableElementModel
 import amf.core.internal.parser.domain.{Annotations, FieldEntry}
 import amf.core.internal.remote.{AmlDialectSpec, Spec}
 import org.mulesoft.als.common.AmfSonElementFinder.AlsAmfObject
-import org.mulesoft.als.common.YamlWrapper.AlsYPart
+import org.mulesoft.als.common.ASTWrapper.AlsYPart
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.amfintegration.FieldEntryOrdering
 import org.yaml.model.YMapEntry
 
-case class ObjectInTree(
-    obj: AmfObject,
-    stack: Seq[AmfObject],
-    fieldEntry: Option[FieldEntry],
-    yPartBranch: YPartBranch
-) {
+case class ObjectInTree(obj: AmfObject,
+                        stack: Seq[AmfObject],
+                        fieldEntry: Option[FieldEntry],
+                        astPartBranch: ASTPartBranch[_]) {
   def objSpec(findDialectForSemantic: String => Option[(SemanticExtension, Dialect)]): Option[Spec] = {
     def findSpecificDefinition(objects: Seq[AmfObject]): Option[Spec] =
       objects.flatMap {
@@ -65,7 +63,7 @@ case class ObjectInTree(
 
   private def inField(f: FieldEntry) =
     f.field != LinkableElementModel.Target &&
-      (f.value.annotations.ast() match {
+      (f.value.annotations.ypart() match {
         case Some(e: YMapEntry) =>
           e.contains(
             yPartBranch.position
@@ -74,12 +72,12 @@ case class ObjectInTree(
       })
 
   private def inValue(f: FieldEntry) =
-    f.value.value.annotations.ast().exists(_.contains(yPartBranch.position))
+    f.value.value.annotations.containsPosition(yPartBranch.position)
 
   private def notInKey(a: Annotations) =
-    a.find(classOf[SourceAST]) match {
-      case Some(SourceAST(e: YMapEntry)) => notInKeyAtEntry(e)
-      case _                             => false
+    a.find(classOf[SourceYPart]) match {
+      case Some(SourceYPart(e: YMapEntry)) => notInKeyAtEntry(e)
+      case _                               => false
     }
 
   /** hack for new empty line. Is a new field. This is part of the value: e: * this should not e: value *
@@ -101,10 +99,10 @@ case class ObjectInTree(
 
 object ObjectInTreeBuilder {
 
-  def fromUnit(bu: BaseUnit, location: String, definedBy: Dialect, yPartBranch: YPartBranch): ObjectInTree = {
+  def fromUnit(bu: BaseUnit, location: String, definedBy: Dialect, astBranch: ASTPartBranch[_]): ObjectInTree = {
     val branch =
-      bu.findSon(location, definedBy, yPartBranch)
-    ObjectInTree(branch.obj, branch.branch, branch.fe, yPartBranch)
+      bu.findSon(location, definedBy, astBranch)
+    ObjectInTree(branch.obj, branch.branch, branch.fe, astBranch)
   }
 
   def fromSubTree(

@@ -32,10 +32,10 @@ val amfVersion                       = deps("amf")
 val amfCustomValidatorJSVersion      = deps("amf.custom-validator.js")
 val amfCustomValidatorScalaJSVersion = deps("amf.custom-validator-scalajs")
 
-lazy val amfJVMRef = ProjectRef(workspaceDirectory / "amf", "apiContractJVM")
-lazy val amfJSRef  = ProjectRef(workspaceDirectory / "amf", "apiContractJS")
-lazy val amfLibJVM = "com.github.amlorg" %% "amf-api-contract"        % amfVersion
-lazy val amfLibJS  = "com.github.amlorg" %% "amf-api-contract_sjs0.6" % amfVersion
+lazy val amfJVMRef = ProjectRef(workspaceDirectory / "amf", "graphqlJVM")
+lazy val amfJSRef = ProjectRef(workspaceDirectory / "amf", "graphqlJS")
+lazy val amfLibJVM = "com.github.amlorg" %% "amf-graphql" % amfVersion
+lazy val amfLibJS = "com.github.amlorg" %% "amf-graphql_sjs0.6" % amfVersion
 
 lazy val customValidatorWebJVMRef =
   ProjectRef(workspaceDirectory / "amf-custom-validator-scalajs", "amfCustomValidatorWebJVM")

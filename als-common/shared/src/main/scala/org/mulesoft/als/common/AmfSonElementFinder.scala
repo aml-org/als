@@ -14,7 +14,7 @@ import amf.core.internal.metamodel.domain.{DataNodeModel, DomainElementModel, Sh
 import amf.core.internal.parser.domain.FieldEntry
 import amf.shapes.internal.domain.metamodel.AnyShapeModel
 import org.mulesoft.als.common.AlsAmfElement._
-import org.mulesoft.als.common.YamlWrapper._
+import org.mulesoft.als.common.ASTWrapper._
 import org.mulesoft.amfintegration.AmfImplicits.{
   AmfAnnotationsImp,
   AmfObjectImp,
@@ -30,14 +30,14 @@ object AmfSonElementFinder {
 
   implicit class AlsAmfObject(obj: AmfObject) {
 
-    def findSon(location: String, definedBy: Dialect, yPartBranch: YPartBranch): SonFinder#Branch =
-      SonFinder(location, definedBy, yPartBranch: YPartBranch).find(obj, definedBy)
+    def findSon(location: String, definedBy: Dialect, astBranch: ASTPartBranch[_]): SonFinder#Branch =
+      SonFinder(location, definedBy, astBranch: ASTPartBranch[_]).find(obj, definedBy)
 
-    case class SonFinder(location: String, definedBy: Dialect, yPartBranch: YPartBranch) {
+    case class SonFinder(location: String, definedBy: Dialect, astBranch: ASTPartBranch[_]) {
 
       private val fieldAstFilter: FieldEntry => Boolean = (f: FieldEntry) =>
         f.value.annotations
-          .containsYPart(yPartBranch)
+          .containsYPart(astBranch)
           .getOrElse(
             f.value.annotations.isInferred ||
               f.value.annotations.isVirtual ||

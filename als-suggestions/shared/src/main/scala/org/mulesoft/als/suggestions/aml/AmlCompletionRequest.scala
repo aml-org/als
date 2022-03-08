@@ -7,7 +7,7 @@ import amf.core.client.scala.model.document.{BaseUnit, EncodesModel}
 import amf.core.client.scala.model.domain.{AmfObject, DomainElement}
 import amf.core.internal.metamodel.document.DocumentModel
 import amf.core.internal.parser.domain.FieldEntry
-import org.mulesoft.als.common.YamlWrapper.{AlsInputRange, AlsYPart}
+import org.mulesoft.als.common.ASTWrapper.{AlsInputRange, AlsYPart}
 import org.mulesoft.als.common._
 import org.mulesoft.als.common.dtoTypes.{PositionRange, TextHelper, Position => DtoPosition}
 import org.mulesoft.als.configuration.AlsConfigurationReader
@@ -94,33 +94,26 @@ class AmlCompletionRequest(
 // todo: make instance
 object AmlCompletionRequestBuilder {
 
-  def build(
-      baseUnit: BaseUnit,
-      position: AmfPosition,
-      dialect: Dialect,
-      directoryResolver: DirectoryResolver,
-      snippetSupport: Boolean,
-      rootLocation: Option[String],
-      configuration: AlsConfigurationReader,
-      completionsPluginHandler: CompletionsPluginHandler,
-      alsConfigurationState: ALSConfigurationState
-  ): AmlCompletionRequest = {
-    val yPartBranch: YPartBranch = {
-      val ast = baseUnit.ast match {
-        case Some(d: YDocument) => d
-        case Some(p)            => YDocument(IndexedSeq(p), p.sourceName)
-        case None               => YDocument(IndexedSeq.empty, "")
-      }
+  def build(baseUnit: BaseUnit,
+            position: AmfPosition,
+            dialect: Dialect,
+            directoryResolver: DirectoryResolver,
+            snippetSupport: Boolean,
+            rootLocation: Option[String],
+            configuration: AlsConfigurationReader,
+            completionsPluginHandler: CompletionsPluginHandler,
+            alsConfigurationState: ALSConfigurationState): AmlCompletionRequest = {
+    val partBranch: ASTPartBranch = {
       NodeBranchBuilder
-        .build(ast, position, YamlUtils.isJson(baseUnit))
+        .build(baseUnit, position)
     }
 
     val dtoPosition = DtoPosition(position)
     val styler = SuggestionStylerBuilder.build(
-      !yPartBranch.isJson,
-      prefix(yPartBranch, dtoPosition, baseUnit.raw.getOrElse("")),
+      !partBranch.isJson,
+      prefix(partBranch, dtoPosition, patchedContent.original),
       dtoPosition,
-      yPartBranch,
+      partBranch,
       configuration,
       snippetSupport,
       baseUnit

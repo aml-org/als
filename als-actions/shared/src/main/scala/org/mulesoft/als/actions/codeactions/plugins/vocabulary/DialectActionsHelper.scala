@@ -7,7 +7,8 @@ import amf.aml.internal.render.plugin.SyntaxDocument
 import amf.core.client.scala.vocabulary.Namespace
 import amf.core.internal.remote.Mimes
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.CreatesFileCodeAction
-import org.mulesoft.als.common.YamlWrapper.AlsInputRange
+import org.mulesoft.als.common.ASTWrapper.AlsInputRange
+import org.mulesoft.als.common.dtoTypes.{PositionRange, Position => DtoPosition}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
 import org.mulesoft.lsp.configuration.FormatOptions

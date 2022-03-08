@@ -1,7 +1,7 @@
 package org.mulesoft.amfintegration.relationships
 
-import org.mulesoft.als.common.YamlWrapper._
-import org.mulesoft.als.common.cache.YPartBranchCached
+import org.mulesoft.als.common.ASTWrapper._
+import org.mulesoft.als.common.cache.ASTPartBranchCached
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.VirtualYPart
@@ -9,14 +9,12 @@ import org.mulesoft.lsp.feature.common.Location
 import org.yaml.model.{YMapEntry, YNodePlain, YPart, YScalar}
 object AliasRelationships {
 
-  def isAliasDeclaration(alias: Seq[AliasInfo], position: Position, yPartBranchCached: YPartBranchCached): Boolean =
+  def isAliasDeclaration(alias: Seq[AliasInfo], position: Position, yPartBranchCached: ASTPartBranchCached): Boolean =
     alias.exists(a => a.keyRange(yPartBranchCached).exists(_.contains(position)))
 
-  def getLinks(
-      alias: Seq[AliasInfo],
-      relationships: Seq[RelationshipLink],
-      yPartBranchCached: YPartBranchCached
-  ): Seq[FullLink] = {
+  def getLinks(alias: Seq[AliasInfo],
+               relationships: Seq[RelationshipLink],
+               yPartBranchCached: ASTPartBranchCached): Seq[FullLink] = {
     relationships.flatMap { r =>
       val tuples: Seq[FullLink] = alias.flatMap { a =>
         r.sourceEntry match {
@@ -50,13 +48,11 @@ object AliasRelationships {
       case _                    => yPart
     }
 
-  private def splitLocation(
-      a: AliasInfo,
-      r: RelationshipLink,
-      s: YPart,
-      text: String,
-      yPartBranchCached: YPartBranchCached
-  ): Seq[FullLink] = {
+  private def splitLocation(a: AliasInfo,
+                            r: RelationshipLink,
+                            s: YPart,
+                            text: String,
+                            astPartBranch: ASTPartBranchCached): Seq[FullLink] = {
     val positionRange = PositionRange(s.range)
     val start         = positionRange.start.moveColumn(text.indexOf(s"${a.tag}."))
     val aliasRange =
@@ -78,10 +74,8 @@ object AliasRelationships {
       ),
       FullLink(
         Location(s.location.sourceName, LspRangeConverter.toLspRange(aliasRange)),
-        Location(
-          s.location.sourceName,
-          a.keyRange(yPartBranchCached).map(LspRangeConverter.toLspRange).getOrElse(a.declaration.range)
-        ),
+        Location(s.location.sourceName,
+                 a.keyRange(astPartBranch).map(LspRangeConverter.toLspRange).getOrElse(a.declaration.range)),
         None,
         None
       )

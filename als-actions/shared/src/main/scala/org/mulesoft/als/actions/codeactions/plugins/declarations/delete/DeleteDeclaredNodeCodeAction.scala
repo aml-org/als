@@ -13,7 +13,7 @@ import org.mulesoft.als.actions.codeactions.plugins.declarations.common.{
   ExtractorCommon
 }
 import org.mulesoft.als.common.SemanticNamedElement.ElementNameExtractor
-import org.mulesoft.als.common.YamlWrapper._
+import org.mulesoft.als.common.ASTWrapper._
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction

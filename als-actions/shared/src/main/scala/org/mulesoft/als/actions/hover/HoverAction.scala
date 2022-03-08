@@ -8,7 +8,7 @@ import amf.core.client.scala.vocabulary.ValueType
 import amf.core.internal.metamodel.{Field, Obj}
 import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.als.common.ObjectInTree
-import org.mulesoft.als.common.YamlWrapper.AlsInputRange
+import org.mulesoft.als.common.ASTWrapper.AlsInputRange
 import org.mulesoft.als.common.cache.{ObjectInTreeCached, YPartBranchCached}
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter

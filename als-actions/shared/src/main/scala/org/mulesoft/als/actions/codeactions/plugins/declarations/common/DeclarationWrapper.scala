@@ -7,7 +7,7 @@ import org.mulesoft.als.actions.codeactions.plugins.declarations.common.Extracto
   declaredElementNode,
   renderNode
 }
-import org.mulesoft.als.common.YamlWrapper.YNodeImplicits
+import org.mulesoft.als.common.ASTWrapper.YNodeImplicits
 import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.yaml.model.YMapEntry

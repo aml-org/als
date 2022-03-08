@@ -1,8 +1,8 @@
 package org.mulesoft.als.actions.formatting
 
 import amf.core.client.common.position.{Range => ParserRange}
-import org.mulesoft.als.common.YamlWrapper
-import org.mulesoft.als.common.YamlWrapper.AlsInputRange
+import org.mulesoft.als.common.ASTWrapper
+import org.mulesoft.als.common.ASTWrapper.AlsInputRange
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.ErrorsCollected
 import org.mulesoft.lsp.configuration.FormattingOptions
@@ -41,7 +41,7 @@ case class RangeFormatting(
       case _              => yPart
     }
     val initialIndentation =
-      raw.map(t => YamlWrapper.getIndentation(t, renderPart.range.toPositionRange.start)).getOrElse(0)
+      raw.map(t => ASTWrapper.getIndentation(t, renderPart.range.toPositionRange.start)).getOrElse(0)
     val range = LspRangeConverter.toLspRange(renderPart.range.toPositionRange)
 
     val s: String = if (isJson) {

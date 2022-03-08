@@ -3,7 +3,7 @@ package org.mulesoft.als.actions.rename
 import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.actions.references.FindReferences
 import org.mulesoft.als.common.YamlUtils
-import org.mulesoft.als.common.YamlWrapper._
+import org.mulesoft.als.common.ASTWrapper._
 import org.mulesoft.als.common.cache.YPartBranchCached
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.common.edits.AbstractWorkspaceEdit

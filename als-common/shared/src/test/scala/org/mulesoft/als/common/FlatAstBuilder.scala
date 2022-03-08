@@ -3,7 +3,7 @@ package org.mulesoft.als.common
 import org.yaml.model.{YNode, YPart, YScalar}
 import org.yaml.parser.{JsonParser, YamlParser}
 import amf.core.client.common.position.{Position => AmfPosition}
-import org.mulesoft.als.common.YamlWrapper._
+import org.mulesoft.als.common.ASTWrapper._
 
 class FlatAstBuilder(private val node: YNode) {
 

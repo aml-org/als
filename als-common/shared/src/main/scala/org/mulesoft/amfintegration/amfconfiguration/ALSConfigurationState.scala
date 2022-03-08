@@ -8,8 +8,10 @@ import amf.core.client.scala.config.{CachedReference, RenderOptions, UnitCache}
 import amf.core.client.scala.model.document.{BaseUnit, ExternalFragment}
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.client.scala.{AMFParseResult => AMFParsingResult}
+import amf.core.internal.remote.Spec.{AMF, GRPC, GRAPHQL}
 import amf.core.internal.remote.{AmlDialectSpec, Spec}
 import amf.core.internal.unsafe.PlatformSecrets
+import amf.graphql.client.scala.GraphQLConfiguration
 import amf.shapes.client.scala.model.domain.AnyShape
 import amf.shapes.client.scala.render.JsonSchemaShapeRenderer
 import org.mulesoft.amfintegration.ValidationProfile
@@ -59,7 +61,21 @@ case class ALSConfigurationState(
       case _            => predefinedWithDialects
     }))
 
-  def getAmfConfig: AMFConfiguration = getAmfConfig(APIConfiguration.API())
+  def getAmfConfig(url: String): AMFConfiguration = {
+    val base = if (url.endsWith("graphql")) GraphQLConfiguration.GraphQL() else getAmfConfig
+    getAmfConfig(base)
+  }
+
+  def getAmfConfig = APIConfiguration.API()
+
+  def getAmfConfig(spec: Spec): AMFConfiguration = {
+    val base = spec match {
+      case GRAPHQL => GraphQLConfiguration.GraphQL()
+      //case GRPC =>
+      case _ => APIConfiguration.fromSpec(spec)
+    }
+    getAmfConfig(base)
+  }
 
   def allDialects: Seq[Dialect]        = dialects ++ BaseAlsDialectProvider.allBaseDialects
   def dialects: Seq[Dialect]           = projectState.extensions ++ editorState.dialects
@@ -90,7 +106,7 @@ case class ALSConfigurationState(
     configForSpec(Spec.AML).config.configurationState().findSemanticByName(name)
 
   def parse(url: String): Future[AmfParseResult] =
-    parse(getAmfConfig, url)
+    parse(getAmfConfig(url), url)
 
   private def parse(amfConfiguration: AMFConfiguration, uri: String) = {
     amfConfiguration.baseUnitClient().parse(uri).map { r =>
@@ -136,7 +152,7 @@ case class ALSConfigurationState(
   }
 
   def findSemanticFor(uri: String): Seq[(SemanticExtension, Dialect)] =
-    getAmfConfig
+    getAmfConfig(uri)
       .configurationState()
       .findSemanticByTarget(uri)
 
@@ -145,12 +161,10 @@ case class ALSConfigurationState(
       .configurationState()
       .findSemanticByName(name)
 
-  def asJsonLD(
-      resolved: BaseUnit,
-      builder: DocBuilder[_],
-      renderOptions: RenderOptions = RenderOptions().withCompactUris.withoutSourceMaps
-  ): Unit =
-    getAmfConfig
+  def asJsonLD(resolved: BaseUnit,
+               builder: DocBuilder[_],
+               renderOptions: RenderOptions = RenderOptions().withCompactUris.withoutSourceMaps): Unit =
+    getAmfConfig(resolved.sourceSpec.getOrElse(AMF))
       .withRenderOptions(renderOptions)
       .baseUnitClient()
       .renderGraphToBuilder(resolved.cloneUnit(), builder)

@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules.actions.rename
 
 import amf.core.client.scala.model.document.Document
-import org.mulesoft.als.common.YamlWrapper.AlsYScalarOps
+import org.mulesoft.als.common.ASTWrapper.AlsYScalarOps
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.common.{ObjectInTree, YPartBranch}
 import org.mulesoft.als.server.modules.workspace.CompilableUnit

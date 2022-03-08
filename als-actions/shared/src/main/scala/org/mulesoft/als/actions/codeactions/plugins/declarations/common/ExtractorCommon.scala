@@ -6,7 +6,7 @@ import amf.core.client.scala.model.domain.{AmfObject, DomainElement}
 import amf.core.internal.remote.Mimes
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.common.YamlUtils.isJson
-import org.mulesoft.als.common.YamlWrapper.YNodeImplicits
+import org.mulesoft.als.common.ASTWrapper.YNodeImplicits
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.als.declarations.DeclarationCreator

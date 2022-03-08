@@ -12,7 +12,7 @@ class ExternalNodeReferenceVisitor() extends NodeRelationshipVisitorType {
     element.annotations.externalJsonSchemaShape
       .flatMap { originalEntry =>
         element.annotations
-          .ast()
+          .ypart()
           .map { (originalEntry, _) }
       }
       .map { t =>

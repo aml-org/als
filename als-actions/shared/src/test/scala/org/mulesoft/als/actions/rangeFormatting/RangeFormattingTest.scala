@@ -7,8 +7,8 @@ import org.mulesoft.als.actions.formatting.RangeFormatting
 import org.mulesoft.als.common.diff.WorkspaceEditsTest
 import org.mulesoft.als.common.{ByDirectoryTest, MarkerFinderTest, NodeBranchBuilder}
 import org.mulesoft.amfintegration.ErrorsCollected
+import org.mulesoft.common.client.lexical.SourceLocation
 import org.mulesoft.common.io.{Fs, SyncFile}
-import org.mulesoft.lexer.SourceLocation
 import org.mulesoft.lsp.configuration.FormattingOptions
 import org.mulesoft.lsp.edit.{TextEdit, WorkspaceEdit}
 import org.yaml.model.{ParseErrorHandler, SyamlException, YDocument, YPart}

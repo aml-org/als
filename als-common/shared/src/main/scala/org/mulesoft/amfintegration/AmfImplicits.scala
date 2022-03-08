@@ -4,6 +4,7 @@ import amf.aml.client.scala.AMLConfiguration
 import amf.aml.client.scala.model.document.{Dialect, DialectInstance, Vocabulary}
 import amf.aml.client.scala.model.domain._
 import amf.aml.internal.parse.common.{DeclarationKey, DeclarationKeys}
+import amf.antlr.client.scala.parse.syntax.SourceASTElement
 import amf.apicontract.client.scala.AMFConfiguration
 import amf.apicontract.internal.metamodel.domain.AbstractModel
 import amf.core.client.common.position.{Range, Position => AmfPosition}
@@ -24,15 +25,27 @@ import amf.shapes.internal.annotations.{
   ParsedJSONSchema,
   SchemaIsJsonSchema
 }
-import org.mulesoft.als.common.YamlWrapper._
+import org.mulesoft.als.common.ASTWrapper._
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
-import org.mulesoft.als.common.{YPartBranch, YamlWrapper}
+import org.mulesoft.als.common.{ASTPartBranch, ASTWrapper, YPartBranch}
+import org.mulesoft.amfintegration.dialect.dialects.validations.RawValidationProfileDialect
+import org.mulesoft.antlrast.ast.ASTElement
 import org.mulesoft.lexer.InputRange
 import org.yaml.model._
 
 import scala.collection.mutable
 
 object AmfImplicits {
+
+  implicit class ASTElementImplicits(ast: ASTElement) {
+    def contains(position: AmfPosition): Boolean = {
+      ast.start.line <= position.line && ast.start.column <= position.column && ast.end.line >= position.line
+    }
+
+    def toPositionRange: PositionRange =
+      PositionRange(Position(AmfPosition(ast.start.line, ast.start.column)),
+                    Position(AmfPosition(ast.end.line, ast.end.column)))
+  }
 
   implicit class AlsLexicalInformation(li: LexicalInformation) {
 
@@ -68,13 +81,15 @@ object AmfImplicits {
     def lexicalInformation(): Option[LexicalInformation] = ann.find(classOf[LexicalInformation])
 
     def trueLocation(): Option[String] =
-      ann.find(classOf[SourceLocation]).map(_.location) orElse ast().map(_.location.sourceName)
+      ann.find(classOf[SourceLocation]).map(_.location) orElse ypart().map(_.location.sourceName)
 
     def range(): Option[Range] = ann.lexicalInformation().map(_.range)
 
-    def ast(): Option[YPart] = pureAst() orElse baseVirtualNode()
+    def ypart(): Option[YPart] = pureYpart() orElse baseVirtualNode()
 
-    def pureAst(): Option[YPart] = ann.find(classOf[SourceAST]).map(_.ast)
+    def pureYpart(): Option[YPart] = ann.find(classOf[SourceYPart]).map(_.ast)
+
+    def astElement(): Option[ASTElement] = ann.find(classOf[SourceASTElement]).map(_.ast)
 
     private def baseVirtualNode(): Option[YPart] = ann.find(classOf[BaseVirtualNode]).map(_.ast)
 
@@ -89,9 +104,10 @@ object AmfImplicits {
     def targets(): Map[String, Seq[Range]] =
       ann.find(classOf[ReferenceTargets]).map(_.targets).getOrElse(Map.empty)
 
+    def containsAstBranch(astBranch: ASTPartBranch[_])
     def containsYPart(yPartBranch: YPartBranch): Option[Boolean] =
       this
-        .ast()
+        .ypart()
         .map(y => {
           yPartBranch.node.sameContentAndLocation(y) ||
           yPartBranch.stack.contains(y) ||
@@ -113,7 +129,9 @@ object AmfImplicits {
         })
 
     def containsPosition(amfPosition: AmfPosition): Boolean =
-      this.ast().exists(_.contains(amfPosition))
+      this
+        .ypart()
+        .exists(_.contains(amfPosition)) || (this.ypart().isEmpty && this.astElement().exists(_.contains(amfPosition)))
 
     def isRamlTypeExpression: Boolean = ann.find(classOf[ParsedFromTypeExpression]).isDefined
 
@@ -130,6 +148,9 @@ object AmfImplicits {
     def declarationKeys(): List[DeclarationKey] = ann.find(classOf[DeclarationKeys]).map(_.keys).getOrElse(List.empty)
 
     def schemeIsJsonSchema: Boolean = ann.contains(classOf[SchemaIsJsonSchema])
+
+    def toPositionRange(): Option[PositionRange] =
+      this.ypart().map(a => a.range.toPositionRange).orElse(this.astElement().map(a => a.toPositionRange))
   }
 
   implicit class FieldEntryImplicit(f: FieldEntry) {
@@ -146,8 +167,8 @@ object AmfImplicits {
       *   B.containsLexically(A) returns true when and only when B.ann and A.ann are defined and A is included inside B
       */
     def containsLexically(other: FieldEntry): Boolean = {
-      val otherRange = other.value.annotations.ast().map(a => a.range.toPositionRange)
-      val localRange = f.value.annotations.ast().map(a => a.range.toPositionRange)
+      val otherRange = other.value.annotations.toPositionRange()
+      val localRange = f.value.annotations.toPositionRange()
       (localRange, otherRange) match {
         case (Some(b), Some(a)) => b.contains(a)
         case _                  => false
@@ -164,8 +185,8 @@ object AmfImplicits {
 
     def isArrayIncluded(amfPosition: AmfPosition): Boolean =
       f.value.annotations
-        .ast()
-        .orElse(f.value.value.annotations.ast()) match {
+        .ypart()
+        .orElse(f.value.value.annotations.ypart()) match {
         case Some(n: YNode) if n.tagType == YType.Seq =>
           n.value.contains(amfPosition) || n
             .as[YSequence]
@@ -183,7 +204,7 @@ object AmfImplicits {
       }
 
     def astValueArray(): Boolean =
-      f.value.annotations.ast() match {
+      f.value.annotations.ypart() match {
         case Some(e: YMapEntry) => e.value.tagType == YType.Seq
         case Some(n: YNode)     => n.tagType == YType.Seq
         case _                  => false
@@ -234,11 +255,11 @@ object AmfImplicits {
 
     def objWithAST: Option[AmfObject] =
       bu.annotations
-        .ast()
+        .ypart()
         .map(_ => bu)
         .orElse(
           bu match {
-            case e: EncodesModel if e.encodes.annotations.ast().isDefined =>
+            case e: EncodesModel if e.encodes.annotations.ypart().isDefined =>
               Some(e.encodes)
             case _ => None
           }
@@ -248,9 +269,9 @@ object AmfImplicits {
 
     def ast: Option[YPart] =
       bu match {
-        case e: Document if e.encodes.annotations.ast().isDefined         => e.encodes.annotations.ast()
-        case e: ExternalFragment if e.encodes.annotations.ast().isDefined => e.encodes.annotations.ast()
-        case _                                                            => bu.annotations.ast()
+        case e: Document if e.encodes.annotations.ypart().isDefined         => e.encodes.annotations.ypart()
+        case e: ExternalFragment if e.encodes.annotations.ypart().isDefined => e.encodes.annotations.ypart()
+        case _                                                              => bu.annotations.ypart()
       }
 
     def declaredNames: Seq[String] =
@@ -306,7 +327,7 @@ object AmfImplicits {
     def indentation(position: Position): Int =
       bu.raw
         .map(text => {
-          YamlWrapper.getIndentation(text, position)
+          ASTWrapper.getIndentation(text, position)
         })
         .getOrElse(0)
 

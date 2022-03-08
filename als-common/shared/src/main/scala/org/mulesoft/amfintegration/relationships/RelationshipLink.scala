@@ -1,6 +1,6 @@
 package org.mulesoft.amfintegration.relationships
 
-import org.mulesoft.als.common.YamlWrapper._
+import org.mulesoft.als.common.ASTWrapper._
 import org.mulesoft.amfintegration.relationships.LinkTypes.LinkTypes
 import org.mulesoft.lsp.feature.common.Location
 import org.yaml.model.{YMapEntry, YPart}
