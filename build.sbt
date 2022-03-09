@@ -66,7 +66,7 @@ val orgSettings = Seq(
 
     "org.scalatest" %%% "scalatest" % "3.0.5" % Test,
     "org.scalamock" %%% "scalamock" % "4.1.0" % Test,
-    "com.lihaoyi" %%% "upickle" % "0.5.1" % Test,
+    "com.lihaoyi" %%% "upickle" % "0.5.1" % Test
   )
 )
 
@@ -106,7 +106,7 @@ lazy val lsp = crossProject(JSPlatform, JVMPlatform).settings(
   )
   .jsSettings(
     scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
-    scalaJSModuleKind := ModuleKind.CommonJSModule,
+    scalaJSModuleKind := ModuleKind.CommonJSModule
     //        artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
   ).disablePlugins(SonarPlugin)
 
@@ -123,7 +123,7 @@ lazy val suggestions = crossProject(JSPlatform, JVMPlatform).settings(
   .in(file("./als-suggestions"))
   .settings(settings: _*)
   .jsSettings(
-    skip in packageJSDependencies := false,
+    packageJSDependencies /skip := false,
     scalaJSOutputMode := OutputMode.Defaults,
     scalaJSModuleKind := ModuleKind.CommonJSModule,
     npmDependencies ++= commonNpmDependencies,
@@ -164,7 +164,7 @@ lazy val actions = crossProject(JSPlatform, JVMPlatform)
   .in(file("./als-actions"))
   .settings(settings: _*)
   .jsSettings(
-    skip in packageJSDependencies := false,
+    packageJSDependencies /skip := false,
     scalaJSOutputMode := OutputMode.Defaults,
     scalaJSModuleKind := ModuleKind.CommonJSModule,
     npmDependencies ++= commonNpmDependencies,
@@ -202,8 +202,8 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
       Process(s"npm install -E @aml-org/amf-custom-validator-web@$amfCustomValidatorJSVersion", new File("./als-server/js/node-package")) #&&
         Process("npm install", new File("./als-server/js/node-package")) !
     },
-    test in Test := ((test in Test) dependsOn installJsDependencies).value,
-    artifactPath in(Test, fastOptJS) := baseDirectory.value / "node-package" / "tmp" / "als-server.js",
+    Test / test := ((Test / test) dependsOn installJsDependencies).value,
+    Test / fastOptJS / artifactPath := baseDirectory.value / "node-package" / "tmp" / "als-server.js",
     scalaJSModuleKind := ModuleKind.CommonJSModule,
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
 
@@ -233,15 +233,15 @@ lazy val nodeClient = project
 
     npmIClient := {
       Process(s"npm install -E @aml-org/amf-custom-validator@$amfCustomValidatorJSVersion", new File("./als-node-client/node-package/")) #&&
-        Process(s"npm install -E @aml-org/amf-custom-validator-web@$amfCustomValidatorJSVersion", new File("./als-node-client/node-package/")) #&&
-        Process(s"cp -r ../../als-server/js/node-package/typescript/als-server.d.ts ./typescript/als-node-client.d.ts", new File("./als-node-client/node-package/")) #&&
+      Process(s"npm install -E @aml-org/amf-custom-validator-web@$amfCustomValidatorJSVersion", new File("./als-node-client/node-package/")) #&&
+      Process(s"cp -r ../../als-server/js/node-package/typescript/als-server.d.ts ./typescript/als-node-client.d.ts", new File("./als-node-client/node-package/")) #&&
       Process(s"sed -i.bk s/@aml-org\\/als-server/@aml-org\\/als-node-client/ als-node-client.d.ts", new File("./als-node-client/node-package/typescript/")) #&&
       Process(s"rm als-node-client.d.ts.bk", new File("./als-node-client/node-package/typescript/")) #&&
       Process("npm i", new File("./als-node-client/node-package/")) !
     },
 
-    test in Test := ((test in Test) dependsOn npmIClient).value,
-    artifactPath in(Test, fastOptJS) := baseDirectory.value / "node-package" / "tmp" / "als-node-client.js",
+    Test / test := ((Test / test) dependsOn npmIClient).value,
+    Test / fastOptJS / artifactPath := baseDirectory.value / "node-package" / "tmp" / "als-node-client.js",
     Compile / fastOptJS / artifactPath := baseDirectory.value / "node-package" / "dist" / "als-node-client.js",
     Compile / fullOptJS / artifactPath := baseDirectory.value / "node-package" / "dist" / "als-node-client.min.js"
   ))
@@ -253,18 +253,18 @@ lazy val nodeClient = project
 val buildJsServerLibrary = TaskKey[Unit]("buildJsServerLibrary", "Build server library")
 
 buildJsServerLibrary := {
-  (fastOptJS in Compile in serverJS).value
-  (fullOptJS in Compile in serverJS).value
-  (installJsDependencies in serverJS).value
+  (serverJS / Compile / fastOptJS).value
+  (serverJS / Compile / fullOptJS).value
+  (serverJS / installJsDependencies).value
 }
 
 // Node client
 val buildNodeJsClient = TaskKey[Unit]("buildNodeJsClient", "Build node client")
 
 buildNodeJsClient := {
-  (fastOptJS in Compile in nodeClient).value
-  (fullOptJS in Compile in nodeClient).value
-  (npmIClient in nodeClient).value
+  (nodeClient / Compile / fastOptJS).value
+  (nodeClient / Compile / fullOptJS).value
+  (nodeClient / npmIClient).value
 }
 
 // ************** SONAR *******************************
@@ -298,7 +298,7 @@ addCommandAlias(
   "; serverJS/test; suggestionsJS/test; structureJS/test; commonJS/test; actionsJS/test; lspJS/test; "
 )
 
-assemblyMergeStrategy in assembly := {
+assembly / assemblyMergeStrategy := {
   case PathList("META-INF", xs@_*) => MergeStrategy.discard
   case x => MergeStrategy.first
 }
@@ -314,11 +314,11 @@ lazy val fat = crossProject(JVMPlatform).settings(
   .disablePlugins(SonarPlugin)
   .enablePlugins(AssemblyPlugin)
   .in(file("./als-fat")).settings(settings: _*).jvmSettings(
-  packageOptions in (Compile, packageBin) += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
-  aggregate in assembly := true,
-  publishArtifact in (Compile, packageBin) := false,
+  Compile / packageBin / packageOptions += Package.ManifestAttributes("Automatic-Module-Name" → "org.mule.als"),
+  assembly /aggregate := true,
+  Compile / packageBin / publishArtifact := false,
   addArtifact(Artifact("api-language-server", ""), assembly),
-  assemblyMergeStrategy in assembly := {
+  assembly / assemblyMergeStrategy := {
     case x if x.toString.contains("commons/logging") => MergeStrategy.discard
     case x if x.toString.endsWith("JS_DEPENDENCIES") => MergeStrategy.discard
     case PathList(ps@_*) if ps.last endsWith "JS_DEPENDENCIES" => MergeStrategy.discard
