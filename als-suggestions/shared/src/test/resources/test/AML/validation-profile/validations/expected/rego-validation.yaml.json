@@ -60,6 +60,36 @@
     "command": null
   },
   {
+    "label": "regoModule",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "regoModule",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10regoModule",
+    "filterText": "regoModule:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      },
+      "newText": "regoModule:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "targetClass",
     "kind": [],
     "detail": "unknown",

@@ -7,7 +7,7 @@
 ],
 "meta:definedBy": [
 {
-"@id": "file://als/dialects/memory/validation-profile.yaml"
+"@id": "http://a.ml/amf/default_document/validationprofile/1.0"
 }
 ],
 "doc:transformed": true,
@@ -17,7 +17,7 @@
 "@id": "#/encodes",
 "@type": [
 "http://a.ml/vocabularies/amf-validation#Profile",
-"file://als/dialects/memory/validation-profile.yaml#/declarations/profileNode",
+"http://a.ml/amf/default_document/validationprofile/1.0#/declarations/profileNode",
 "meta:DialectDomainElement",
 "doc:DomainElement"
 ],
@@ -41,7 +41,7 @@
 "@id": "#/encodes/validations/scalar-parameters",
 "@type": [
 "http://a.ml/vocabularies/amf-validation#ShapeValidation",
-"file://als/dialects/memory/validation-profile.yaml#/declarations/shapeValidationNode",
+"http://a.ml/amf/default_document/validationprofile/1.0#/declarations/shapeValidationNode",
 "meta:DialectDomainElement",
 "doc:DomainElement"
 ],
@@ -60,7 +60,7 @@
 "@id": "#/encodes/validations/ab",
 "@type": [
 "shacl:RegoConstraint",
-"file://als/dialects/memory/validation-profile.yaml#/declarations/conditionalNode",
+"http://a.ml/amf/default_document/validationprofile/1.0#/declarations/conditionalNode",
 "meta:DialectDomainElement",
 "doc:DomainElement"
 ],
@@ -80,7 +80,7 @@
 "@id": "#/encodes/validations/scalar-parameters/propertyConstraints/shapes.schema%20%252F%20shacl.minLength",
 "@type": [
 "shacl:PropertyShape",
-"file://als/dialects/memory/validation-profile.yaml#/declarations/propertyConstraintNode",
+"http://a.ml/amf/default_document/validationprofile/1.0#/declarations/propertyConstraintNode",
 "meta:DialectDomainElement",
 "doc:DomainElement"
 ],
@@ -91,7 +91,7 @@
 "@id": "#/encodes/validations/ab/then",
 "@type": [
 "http://a.ml/vocabularies/amf-validation#ShapeValidation",
-"file://als/dialects/memory/validation-profile.yaml#/declarations/shapeValidationNode",
+"http://a.ml/amf/default_document/validationprofile/1.0#/declarations/shapeValidationNode",
 "meta:DialectDomainElement",
 "doc:DomainElement"
 ],
@@ -105,7 +105,7 @@
 "@id": "#/encodes/validations/ab/if",
 "@type": [
 "http://a.ml/vocabularies/amf-validation#NotShapeValidation",
-"file://als/dialects/memory/validation-profile.yaml#/declarations/notShapeValidationNode",
+"http://a.ml/amf/default_document/validationprofile/1.0#/declarations/notShapeValidationNode",
 "meta:DialectDomainElement",
 "doc:DomainElement"
 ],
@@ -117,7 +117,7 @@
 "@id": "#/encodes/validations/ab/then/propertyConstraints/apiContract.returns",
 "@type": [
 "shacl:PropertyShape",
-"file://als/dialects/memory/validation-profile.yaml#/declarations/propertyConstraintNode",
+"http://a.ml/amf/default_document/validationprofile/1.0#/declarations/propertyConstraintNode",
 "meta:DialectDomainElement",
 "doc:DomainElement"
 ],
@@ -130,7 +130,7 @@
 "@id": "#/encodes/validations/ab/if/not",
 "@type": [
 "http://a.ml/vocabularies/amf-validation#ShapeValidation",
-"file://als/dialects/memory/validation-profile.yaml#/declarations/shapeValidationNode",
+"http://a.ml/amf/default_document/validationprofile/1.0#/declarations/shapeValidationNode",
 "meta:DialectDomainElement",
 "doc:DomainElement"
 ],
@@ -144,7 +144,7 @@
 "@id": "#/encodes/validations/ab/then/propertyConstraints/apiContract.returns/atLeast",
 "@type": [
 "http://a.ml/vocabularies/amf-validation#QualifiedShapevalidationNode",
-"file://als/dialects/memory/validation-profile.yaml#/declarations/qualifiedShapeValidationNode",
+"http://a.ml/amf/default_document/validationprofile/1.0#/declarations/qualifiedShapeValidationNode",
 "meta:DialectDomainElement",
 "doc:DomainElement"
 ],
@@ -157,7 +157,7 @@
 "@id": "#/encodes/validations/ab/if/not/propertyConstraints/apiContract.returns",
 "@type": [
 "shacl:PropertyShape",
-"file://als/dialects/memory/validation-profile.yaml#/declarations/propertyConstraintNode",
+"http://a.ml/amf/default_document/validationprofile/1.0#/declarations/propertyConstraintNode",
 "meta:DialectDomainElement",
 "doc:DomainElement"
 ],
@@ -170,7 +170,7 @@
 "@id": "#/encodes/validations/ab/then/propertyConstraints/apiContract.returns/atLeast/validation",
 "@type": [
 "http://a.ml/vocabularies/amf-validation#ShapeValidation",
-"file://als/dialects/memory/validation-profile.yaml#/declarations/shapeValidationNode",
+"http://a.ml/amf/default_document/validationprofile/1.0#/declarations/shapeValidationNode",
 "meta:DialectDomainElement",
 "doc:DomainElement"
 ],
@@ -184,7 +184,7 @@
 "@id": "#/encodes/validations/ab/if/not/propertyConstraints/apiContract.returns/atLeast",
 "@type": [
 "http://a.ml/vocabularies/amf-validation#QualifiedShapevalidationNode",
-"file://als/dialects/memory/validation-profile.yaml#/declarations/qualifiedShapeValidationNode",
+"http://a.ml/amf/default_document/validationprofile/1.0#/declarations/qualifiedShapeValidationNode",
 "meta:DialectDomainElement",
 "doc:DomainElement"
 ],
@@ -197,7 +197,7 @@
 "@id": "#/encodes/validations/ab/then/propertyConstraints/apiContract.returns/atLeast/validation/propertyConstraints/apiContract.statusCode",
 "@type": [
 "shacl:PropertyShape",
-"file://als/dialects/memory/validation-profile.yaml#/declarations/propertyConstraintNode",
+"http://a.ml/amf/default_document/validationprofile/1.0#/declarations/propertyConstraintNode",
 "meta:DialectDomainElement",
 "doc:DomainElement"
 ],
@@ -210,7 +210,7 @@
 "@id": "#/encodes/validations/ab/if/not/propertyConstraints/apiContract.returns/atLeast/validation",
 "@type": [
 "http://a.ml/vocabularies/amf-validation#ShapeValidation",
-"file://als/dialects/memory/validation-profile.yaml#/declarations/shapeValidationNode",
+"http://a.ml/amf/default_document/validationprofile/1.0#/declarations/shapeValidationNode",
 "meta:DialectDomainElement",
 "doc:DomainElement"
 ],
@@ -224,7 +224,7 @@
 "@id": "#/encodes/validations/ab/if/not/propertyConstraints/apiContract.returns/atLeast/validation/propertyConstraints/apiContract.statusCode",
 "@type": [
 "shacl:PropertyShape",
-"file://als/dialects/memory/validation-profile.yaml#/declarations/propertyConstraintNode",
+"http://a.ml/amf/default_document/validationprofile/1.0#/declarations/propertyConstraintNode",
 "meta:DialectDomainElement",
 "doc:DomainElement"
 ],
@@ -244,7 +244,7 @@
 ],
 "meta:definedBy": [
 {
-"@id": "file://als/dialects/memory/validation-profile.yaml"
+"@id": "http://a.ml/amf/default_document/validationprofile/1.0"
 }
 ],
 "doc:encodes": {
