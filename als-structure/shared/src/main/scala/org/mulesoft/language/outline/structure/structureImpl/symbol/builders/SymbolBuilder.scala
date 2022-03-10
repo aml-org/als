@@ -35,19 +35,17 @@ trait SymbolBuilder[T] {
     case y                                                            => Some(Range(y.range))
   }
 
-  def build(): Seq[DocumentSymbol] = {
+  def build(): Seq[DocumentSymbol] =
     optionName match {
       case Some(name) =>
         build(name).toSeq
       case _ => children
     }
-  }
 
-  def build(name: String): Option[DocumentSymbol] = {
+  def build(name: String): Option[DocumentSymbol] =
     effectiveRange.map { ef =>
       DocumentSymbol(name, kind, ef, skipLoneChild(children, name))
     }
-  }
 
   protected def skipLoneChild(children: List[DocumentSymbol], name: String): List[DocumentSymbol] =
     if (children.length == 1 && children.head.name == name)

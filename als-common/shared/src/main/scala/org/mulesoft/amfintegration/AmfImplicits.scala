@@ -67,7 +67,8 @@ object AmfImplicits {
   implicit class AmfAnnotationsImp(ann: Annotations) {
     def lexicalInformation(): Option[LexicalInformation] = ann.find(classOf[LexicalInformation])
 
-    def location(): Option[String] = ann.find(classOf[SourceLocation]).map(_.location)
+    def trueLocation(): Option[String] =
+      ann.find(classOf[SourceLocation]).map(_.location) orElse ast().map(_.location.sourceName)
 
     def range(): Option[Range] = ann.lexicalInformation().map(_.range)
 
