@@ -3,6 +3,7 @@ import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKinds.SymbolKind
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
 import amf.core.client.common.position.Range
+import org.yaml.model.{YMapEntry, YPart}
 
 /**
   * Common Symbol builder
@@ -26,6 +27,13 @@ trait SymbolBuilder[T] {
 
   private def effectiveRange: Option[PositionRange] =
     range.map(PositionRange(_)).orElse(rangeFromChildren)
+
+  def rangeFromAst(yPart: YPart): Option[Range] = yPart match {
+    case yme: YMapEntry if yme.key.sourceName.isEmpty                 => None
+    case yme: YMapEntry if yme.value.sourceName != yme.key.sourceName => Some(Range(yme.key.range))
+    case y if y.sourceName.isEmpty                                    => None
+    case y                                                            => Some(Range(y.range))
+  }
 
   def build(): Seq[DocumentSymbol] = {
     optionName match {

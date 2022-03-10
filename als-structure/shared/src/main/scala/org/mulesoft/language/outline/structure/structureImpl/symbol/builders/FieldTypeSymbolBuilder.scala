@@ -10,7 +10,16 @@ trait FieldTypeSymbolBuilder[ElementType <: AmfElement] extends FieldSymbolBuild
   val value: ElementType
 
   override protected def range: Option[Range] =
-    element.value.annotations.range().orElse(value.annotations.range())
+    element.value.annotations
+      .ast()
+      .flatMap(rangeFromAst)
+      .orElse(
+        element.value.annotations
+          .range()
+          .orElse(
+            value.annotations.range()
+          )
+      )
 }
 
 trait FieldTypeSymbolBuilderCompanion[ElementType <: AmfElement] extends FieldSymbolBuilderCompanion {
