@@ -580,8 +580,8 @@
                     "deprecated": false,
                     "range": {
                       "start": {
-                        "line": 112,
-                        "character": 14
+                        "line": 109,
+                        "character": 10
                       },
                       "end": {
                         "line": 115,
@@ -590,8 +590,8 @@
                     },
                     "selectionRange": {
                       "start": {
-                        "line": 112,
-                        "character": 14
+                        "line": 109,
+                        "character": 10
                       },
                       "end": {
                         "line": 115,
@@ -734,6 +734,193 @@
           },
           "end": {
             "line": 40,
+            "character": 0
+          }
+        },
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "requestBodies",
+    "kind": 11,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 71,
+        "character": 2
+      },
+      "end": {
+        "line": 84,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 71,
+        "character": 2
+      },
+      "end": {
+        "line": 84,
+        "character": 0
+      }
+    },
+    "children": [
+      {
+        "name": "request1",
+        "kind": 11,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 72,
+            "character": 4
+          },
+          "end": {
+            "line": 82,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 72,
+            "character": 4
+          },
+          "end": {
+            "line": 82,
+            "character": 0
+          }
+        },
+        "children": [
+          {
+            "name": "Payloads",
+            "kind": 2,
+            "deprecated": false,
+            "range": {
+              "start": {
+                "line": 75,
+                "character": 8
+              },
+              "end": {
+                "line": 82,
+                "character": 0
+              }
+            },
+            "selectionRange": {
+              "start": {
+                "line": 75,
+                "character": 8
+              },
+              "end": {
+                "line": 82,
+                "character": 0
+              }
+            },
+            "children": [
+              {
+                "name": "application/json",
+                "kind": 13,
+                "deprecated": false,
+                "range": {
+                  "start": {
+                    "line": 75,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 82,
+                    "character": 0
+                  }
+                },
+                "selectionRange": {
+                  "start": {
+                    "line": 75,
+                    "character": 8
+                  },
+                  "end": {
+                    "line": 82,
+                    "character": 0
+                  }
+                },
+                "children": [
+                  {
+                    "name": "examples",
+                    "kind": 7,
+                    "deprecated": false,
+                    "range": {
+                      "start": {
+                        "line": 78,
+                        "character": 10
+                      },
+                      "end": {
+                        "line": 82,
+                        "character": 0
+                      }
+                    },
+                    "selectionRange": {
+                      "start": {
+                        "line": 78,
+                        "character": 10
+                      },
+                      "end": {
+                        "line": 82,
+                        "character": 0
+                      }
+                    },
+                    "children": [
+                      {
+                        "name": "user",
+                        "kind": 7,
+                        "deprecated": false,
+                        "range": {
+                          "start": {
+                            "line": 79,
+                            "character": 12
+                          },
+                          "end": {
+                            "line": 82,
+                            "character": 0
+                          }
+                        },
+                        "selectionRange": {
+                          "start": {
+                            "line": 79,
+                            "character": 12
+                          },
+                          "end": {
+                            "line": 82,
+                            "character": 0
+                          }
+                        },
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "request2",
+        "kind": 11,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 82,
+            "character": 4
+          },
+          "end": {
+            "line": 84,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 82,
+            "character": 4
+          },
+          "end": {
+            "line": 84,
             "character": 0
           }
         },

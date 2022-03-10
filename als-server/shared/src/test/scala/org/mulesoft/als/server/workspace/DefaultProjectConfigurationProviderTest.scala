@@ -4,6 +4,7 @@ import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.server.LanguageServerBaseTest
 import org.mulesoft.als.server.modules.workspace.{DefaultProjectConfigurationProvider, MainFileTreeBuilder}
 import org.mulesoft.als.server.textsync.TextDocumentContainer
+import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.amfintegration.amfconfiguration.{
   ALSConfigurationState,
   EditorConfiguration,

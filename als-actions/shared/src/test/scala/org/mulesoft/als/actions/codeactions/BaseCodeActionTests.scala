@@ -8,6 +8,7 @@ import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.common.{PlatformDirectoryResolver, WorkspaceEditSerializer}
 import org.mulesoft.als.configuration.AlsConfiguration
+import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.amfintegration.amfconfiguration.{
   ALSConfigurationState,
   AmfParseResult,

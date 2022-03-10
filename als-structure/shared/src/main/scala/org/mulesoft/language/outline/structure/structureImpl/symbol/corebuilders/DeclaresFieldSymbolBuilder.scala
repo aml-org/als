@@ -26,7 +26,7 @@ class DeclaresFieldSymbolBuilder(override val value: AmfArray, override val elem
 
   private val groupedDeclarations: Map[String, Seq[AmfObject]] = value.values
     .collect({
-      case obj: AmfObject if obj.location().contains(ctx.location) => obj
+      case obj: AmfObject if obj.annotations.trueLocation().contains(ctx.location) => obj
     })
     .groupBy(declarationName)
 

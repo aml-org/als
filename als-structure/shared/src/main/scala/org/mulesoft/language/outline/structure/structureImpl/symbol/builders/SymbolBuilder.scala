@@ -3,6 +3,7 @@ import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKinds.SymbolKind
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
 import amf.core.client.common.position.Range
+import org.yaml.model.{YMapEntry, YPart}
 
 /**
   * Common Symbol builder
@@ -27,19 +28,24 @@ trait SymbolBuilder[T] {
   private def effectiveRange: Option[PositionRange] =
     range.map(PositionRange(_)).orElse(rangeFromChildren)
 
-  def build(): Seq[DocumentSymbol] = {
+  def rangeFromAst(yPart: YPart): Option[Range] = yPart match {
+    case yme: YMapEntry if yme.key.sourceName.isEmpty                 => None
+    case yme: YMapEntry if yme.value.sourceName != yme.key.sourceName => Some(Range(yme.key.range))
+    case y if y.sourceName.isEmpty                                    => None
+    case y                                                            => Some(Range(y.range))
+  }
+
+  def build(): Seq[DocumentSymbol] =
     optionName match {
       case Some(name) =>
         build(name).toSeq
       case _ => children
     }
-  }
 
-  def build(name: String): Option[DocumentSymbol] = {
+  def build(name: String): Option[DocumentSymbol] =
     effectiveRange.map { ef =>
       DocumentSymbol(name, kind, ef, skipLoneChild(children, name))
     }
-  }
 
   protected def skipLoneChild(children: List[DocumentSymbol], name: String): List[DocumentSymbol] =
     if (children.length == 1 && children.head.name == name)

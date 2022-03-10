@@ -22,7 +22,8 @@ class RequestArrayFieldSymbolBuilder(override val value: AmfArray, override val 
   override protected val children: List[DocumentSymbol] =
     first.flatMap(o => ctx.factory.builderFor(o).map(_.build())).getOrElse(Nil).toList
 
-  override protected val range: Option[AmfRange] = first.flatMap(_.annotations.range())
+  override protected val range: Option[AmfRange] =
+    first.flatMap(_.annotations.ast()).flatMap(rangeFromAst)
 }
 
 object RequestArrayFieldSymbolBuilderCompanion
