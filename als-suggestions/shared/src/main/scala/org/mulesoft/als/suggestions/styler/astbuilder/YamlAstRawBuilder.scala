@@ -1,9 +1,9 @@
 package org.mulesoft.als.suggestions.styler.astbuilder
 
+import amf.core.client.common.position.{Position => AmfPosition}
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.{RawSuggestion, SuggestionStructure}
 import org.yaml.model.{YMap, YMapEntry, YNode, YPart}
-import amf.core.client.common.position.{Position => AmfPosition}
 class YamlAstRawBuilder(val raw: RawSuggestion, val isSnippet: Boolean, val yPartBranch: YPartBranch)
     extends AstRawBuilder(raw, isSnippet, yPartBranch) {
 
@@ -22,4 +22,6 @@ class YamlAstRawBuilder(val raw: RawSuggestion, val isSnippet: Boolean, val yPar
   override def emitEntryValue(options: SuggestionStructure): YNode = value("", options)
 
   override def onlyKey(key: String): YPart = YMapEntry(key, YNode.Empty)
+
+  override def emptyNode(): YNode = YNode.Empty
 }

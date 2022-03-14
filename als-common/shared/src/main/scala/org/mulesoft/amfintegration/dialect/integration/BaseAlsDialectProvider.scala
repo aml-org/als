@@ -4,13 +4,13 @@ import amf.aml.client.scala.model.document.Dialect
 import amf.core.client.common.remote.Content
 import amf.core.client.scala.lexer.CharSequenceStream
 import amf.core.client.scala.resource.ResourceLoader
+import amf.custom.validation.internal.report.loaders.ProfileDialectLoader
 import org.mulesoft.amfintegration.dialect.dialects.InMemoryDialect
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
 import org.mulesoft.amfintegration.dialect.dialects.metadialect.MetaDialect
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.Raml08TypesDialect
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
-import org.mulesoft.amfintegration.dialect.dialects.validations.RawValidationProfileDialect
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -29,19 +29,18 @@ object BaseAlsDialectProvider {
 
   val allBaseDialects: Set[Dialect] = apiDialects + MetaDialect()
 
-  val rawDialects: Seq[InMemoryDialect] = Seq(RawValidationProfileDialect)
+  val rawDialects: Seq[Future[Dialect]] = Seq(ProfileDialectLoader.dialect)
 
   val globalDialectResourceLoader: ResourceLoader = new ResourceLoader {
     override def fetch(resource: String): Future[Content] = Future {
-      rawDialects
-        .find(_.uri == resource)
-        .orElse(indexedDialects.get(resource))
+      indexedDialects
+        .get(resource)
         .map(_.content)
         .getOrElse(Content(new CharSequenceStream(""), resource))
     }
 
     override def accepts(resource: String): Boolean =
-      rawDialects.exists(_.uri == resource) || indexedDialects.contains(resource)
+      indexedDialects.contains(resource)
   }
 
   private var indexedDialects: Map[String, InMemoryDialect] = Map()

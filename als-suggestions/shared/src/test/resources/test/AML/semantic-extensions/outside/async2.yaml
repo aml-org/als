@@ -1,0 +1,6 @@
+asyncapi: "2.0.0"
+info:
+  *
+  version: 1.0.0
+x-maintainer:
+  inner: false

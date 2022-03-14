@@ -92,7 +92,11 @@ class CompletionsPluginHandler {
 
 object AMLBaseCompletionPlugins {
   val all: Seq[AMLCompletionPlugin] = Seq(
-    StructureCompletionPlugin(List(AMLUnionCompletionPlugin, ValidationProfileTermsSuggestions, ResolveDefault)),
+    StructureCompletionPlugin(
+      List(AMLUnionNodeCompletionPlugin,
+           AMLUnionRangeCompletionPlugin,
+           ValidationProfileTermsSuggestions,
+           ResolveDefault)),
     AMLEnumCompletionPlugin,
     AMLRootDeclarationsCompletionPlugin,
     AMLRamlStyleDeclarationsReferences,

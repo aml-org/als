@@ -39,10 +39,11 @@ case class ObjectInTree(obj: AmfObject,
     */
   lazy val fieldValue: Option[FieldEntry] = getFieldEntry(justValueFn, FieldEntryOrdering, obj)
 
-  lazy val nonVirtualObj: Option[AmfObject] = obj.annotations.ast() match {
-    case Some(_) => Some(obj)
-    case None    => stack.headOption
-  }
+  lazy val nonVirtualObj: Option[AmfObject] =
+    obj.annotations
+      .containsYPart(yPartBranch)
+      .map(_ => obj)
+      .orElse(stack.headOption)
 
   private val justValueFn = (f: FieldEntry) => inField(f) && (inValue(f) || notInKey(f.value.annotations))
 

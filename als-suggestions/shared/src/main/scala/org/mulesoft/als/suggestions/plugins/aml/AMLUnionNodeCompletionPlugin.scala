@@ -12,12 +12,12 @@ import org.mulesoft.als.suggestions.interfaces.ResolveIfApplies
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object AMLUnionCompletionPlugin extends ResolveIfApplies {
+object AMLUnionNodeCompletionPlugin extends ResolveIfApplies {
   override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] =
-    new AMLUnionCompletionPlugin(request).resolve()
+    new AMLUnionNodeCompletionPlugin(request).resolve()
 }
 
-class AMLUnionCompletionPlugin(params: AmlCompletionRequest) extends UnionSuggestions {
+class AMLUnionNodeCompletionPlugin(params: AmlCompletionRequest) extends UnionSuggestions {
   override protected val amfObject: AmfObject     = params.amfObject
   override protected val dialect: Dialect         = params.actualDialect
   override protected val yPartBranch: YPartBranch = params.yPartBranch

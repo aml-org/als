@@ -72,7 +72,7 @@ object YamlUtils {
         parent
     }
 
-  def isJson(baseUnit: BaseUnit) =
+  def isJson(baseUnit: BaseUnit): Boolean =
     FileMediaType
       .extension(baseUnit.location().getOrElse(baseUnit.id)) match {
       case Some("json") => true

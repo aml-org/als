@@ -31,7 +31,7 @@ trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTes
 
   override def testFile(content: String, f: SyncFile, parent: String): Unit = {
     s"Suggest over ${f.name} at dir ${cleanDirectory(f)}" in {
-      val expected = s"${f.parent}${platform.fs.separatorChar}expected${platform.fs.separatorChar}${f.name}.json"
+      val expected = expectedFile(f)
       for {
         editorConfiguration <- Future(EditorConfiguration())
         _                   <- preload(f.path.stripSuffix(f.name), editorConfiguration)
@@ -48,6 +48,10 @@ trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTes
         r <- assertDifferences(tmp, expected)
       } yield r
     }
+  }
+
+  def expectedFile(f: SyncFile): String = {
+    s"${f.parent}${platform.fs.separatorChar}expected${platform.fs.separatorChar}${f.name}.json"
   }
 
   private def cleanDirectory(f: SyncFile) =

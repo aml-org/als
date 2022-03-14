@@ -15,19 +15,20 @@ import amf.core.internal.metamodel.document.ModuleModel
 import amf.core.internal.metamodel.{Field, Obj}
 import amf.core.internal.parser.domain.{Annotations, FieldEntry, Value}
 import amf.core.internal.remote.Spec
+import amf.custom.validation.internal.report.loaders.ProfileDialectLoader
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import amf.shapes.internal.annotations.{
+  BaseVirtualNode,
   ExternalJsonSchemaShape,
   ParsedFromTypeExpression,
   ParsedJSONSchema,
   SchemaIsJsonSchema
 }
-import org.mulesoft.als.common.{YPartBranch, YamlWrapper}
 import org.mulesoft.als.common.YamlWrapper._
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
-import org.mulesoft.amfintegration.dialect.dialects.validations.RawValidationProfileDialect
+import org.mulesoft.als.common.{YPartBranch, YamlWrapper}
 import org.mulesoft.lexer.InputRange
-import org.yaml.model.{YMapEntry, YNode, YPart, YSequence, YType, _}
+import org.yaml.model._
 
 import scala.collection.mutable
 
@@ -66,11 +67,16 @@ object AmfImplicits {
   implicit class AmfAnnotationsImp(ann: Annotations) {
     def lexicalInformation(): Option[LexicalInformation] = ann.find(classOf[LexicalInformation])
 
-    def location(): Option[String] = ann.find(classOf[SourceLocation]).map(_.location)
+    def trueLocation(): Option[String] =
+      ann.find(classOf[SourceLocation]).map(_.location) orElse ast().map(_.location.sourceName)
 
     def range(): Option[Range] = ann.lexicalInformation().map(_.range)
 
-    def ast(): Option[YPart] = ann.find(classOf[SourceAST]).map(_.ast)
+    def ast(): Option[YPart] = pureAst() orElse baseVirtualNode()
+
+    def pureAst(): Option[YPart] = ann.find(classOf[SourceAST]).map(_.ast)
+
+    private def baseVirtualNode(): Option[YPart] = ann.find(classOf[BaseVirtualNode]).map(_.ast)
 
     def jsonSchema(): Option[ParsedJSONSchema] = ann.find(classOf[ParsedJSONSchema])
 
@@ -212,10 +218,6 @@ object AmfImplicits {
       })
       .exists(_.toBool)
 
-    def containsYPart(yPartBranch: YPartBranch): Boolean =
-      amfObject.annotations.containsYPart(yPartBranch).getOrElse(false) ||
-        amfObject.annotations.containsJsonSchemaPosition(yPartBranch).getOrElse(false)
-
     def range: Option[Range] = amfObject.position().map(_.range)
   }
 
@@ -320,7 +322,7 @@ object AmfImplicits {
 
   implicit class DialectInstanceImp(instance: DialectInstance) {
     def isValidationProfile: Boolean =
-      instance.processingData.definedBy().option().contains(RawValidationProfileDialect.uri)
+      instance.processingData.definedBy().option().contains(ProfileDialectLoader.PROFILE_DIALECT_ID)
   }
 
   implicit class DialectImplicits(d: Dialect) extends BaseUnitImp(d) {

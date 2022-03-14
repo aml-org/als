@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "21New delete",
-    "filterText": "delete:\n  responses:\n    $1: \"\"",
+    "filterText": "delete:\n  responses:\n    $1: ",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -53,7 +53,7 @@
           "character": 8
         }
       },
-      "newText": "delete:\n  responses:\n    $1: \"\""
+      "newText": "delete:\n  responses:\n    $1: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -307,7 +307,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "21New get",
-    "filterText": "get:\n  responses:\n    $1: \"\"",
+    "filterText": "get:\n  responses:\n    $1: ",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -323,7 +323,7 @@
           "character": 8
         }
       },
-      "newText": "get:\n  responses:\n    $1: \"\""
+      "newText": "get:\n  responses:\n    $1: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -337,7 +337,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "21New head",
-    "filterText": "head:\n  responses:\n    $1: \"\"",
+    "filterText": "head:\n  responses:\n    $1: ",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -353,7 +353,7 @@
           "character": 8
         }
       },
-      "newText": "head:\n  responses:\n    $1: \"\""
+      "newText": "head:\n  responses:\n    $1: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -367,7 +367,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "21New options",
-    "filterText": "options:\n  responses:\n    $1: \"\"",
+    "filterText": "options:\n  responses:\n    $1: ",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -383,7 +383,7 @@
           "character": 8
         }
       },
-      "newText": "options:\n  responses:\n    $1: \"\""
+      "newText": "options:\n  responses:\n    $1: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -397,7 +397,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "21New patch",
-    "filterText": "patch:\n  responses:\n    $1: \"\"",
+    "filterText": "patch:\n  responses:\n    $1: ",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -413,7 +413,7 @@
           "character": 8
         }
       },
-      "newText": "patch:\n  responses:\n    $1: \"\""
+      "newText": "patch:\n  responses:\n    $1: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -427,7 +427,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "21New post",
-    "filterText": "post:\n  responses:\n    $1: \"\"",
+    "filterText": "post:\n  responses:\n    $1: ",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -443,7 +443,7 @@
           "character": 8
         }
       },
-      "newText": "post:\n  responses:\n    $1: \"\""
+      "newText": "post:\n  responses:\n    $1: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -457,7 +457,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "21New put",
-    "filterText": "put:\n  responses:\n    $1: \"\"",
+    "filterText": "put:\n  responses:\n    $1: ",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -473,7 +473,7 @@
           "character": 8
         }
       },
-      "newText": "put:\n  responses:\n    $1: \"\""
+      "newText": "put:\n  responses:\n    $1: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -517,7 +517,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "21New trace",
-    "filterText": "trace:\n  responses:\n    $1: \"\"",
+    "filterText": "trace:\n  responses:\n    $1: ",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -533,7 +533,7 @@
           "character": 8
         }
       },
-      "newText": "trace:\n  responses:\n    $1: \"\""
+      "newText": "trace:\n  responses:\n    $1: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

@@ -1,7 +1,6 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 
 import amf.core.client.scala.model.domain.{AmfElement, DomainElement, NamedDomainElement, ScalarNode}
-import amf.core.internal.annotations.SourceAST
 import amf.core.internal.metamodel.domain.DomainElementModel
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.language.outline.structure.structureImpl._
@@ -33,7 +32,7 @@ object DomainElementSymbolBuilder extends AmfObjectSimpleBuilderCompanion[Domain
         NamedElementSymbolBuilder.construct(n).map(_.asInstanceOf[SymbolBuilder[DomainElement]])
       case SemanticNamedDomainElementSymbolBuilder(builder) => Some(builder)
       case _ =>
-        element.annotations.find(classOf[SourceAST]).map(_.ast) match {
+        element.annotations.ast() match {
           case Some(entry: YMapEntry) =>
             Some(new DomainElementSymbolBuilder(element, entry))
           case _ => None

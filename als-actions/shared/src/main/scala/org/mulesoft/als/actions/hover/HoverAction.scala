@@ -57,7 +57,7 @@ case class HoverAction(bu: BaseUnit,
     objectInTree.stack.find(obj => !obj.isInstanceOf[DataNode]).flatMap(classTerm)
 
   def isLocal(f: FieldEntry): Boolean =
-    f.value.annotations.location().contains(location) &&
+    f.value.annotations.trueLocation().contains(location) &&
       f.value.annotations.lexicalInformation().exists(_.contains(dtoPosition.toAmfPosition))
 
   lazy val localFieldEntry: Option[FieldEntry] =

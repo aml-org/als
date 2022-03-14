@@ -1,0 +1,122 @@
+[
+  {
+    "label": "message",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "message",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11message",
+    "filterText": "message: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      },
+      "newText": "message: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "name",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "name",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11name",
+    "filterText": "name: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      },
+      "newText": "name: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "targetClass",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "targetClass",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11targetClass",
+    "filterText": "targetClass:\n  - ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      },
+      "newText": "targetClass:\n  - "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "then",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "then",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10then",
+    "filterText": "then:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      },
+      "newText": "then:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

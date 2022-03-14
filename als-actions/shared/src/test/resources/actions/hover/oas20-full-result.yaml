@@ -1,12 +1,12 @@
 hovers:
   (1,3):
-    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+    - Top level element describing a HTTP API
   (1,11):
-    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+    - Top level element describing a HTTP API
   (2,2):
-    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+    - Contains general information about the defined API, such as title and version
   (2,5):
-    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+    - Contains general information about the defined API, such as title and version
   (3,4):
     - Human readable name for the object
   (3,18):
@@ -52,13 +52,13 @@ hovers:
   (13,13):
     - Version of the API
   (14,2):
-    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+    - The domain name or IPv4 of the server that hosts the API
   (14,13):
-    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+    - The domain name or IPv4 of the server that hosts the API
   (15,4):
-    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+    - URL prefix to all API endpoints
   (15,13):
-    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+    - URL prefix to all API endpoints
   (16,3):
     - URI scheme for the API protocol
   (16,8):
@@ -80,7 +80,7 @@ hovers:
   (22,12):
     - Media types returned by a API response
   (23,2):
-    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+    - EndPoint in the API holding a number of executable operations
   (23,6):
     - EndPoint in the API holding a number of executable operations
   (24,6):
@@ -98,7 +98,7 @@ hovers:
   (27,5):
     - Action that can be executed using a particular HTTP invocation
   (27,8):
-    - Action that can be executed using a particular HTTP invocation
+    - Request information for an operation
   (28,8):
     - Request information for an operation
   (28,11):
@@ -148,9 +148,9 @@ hovers:
   (41,17):
     - Payload for a Request/Response
   (42,12):
-    - Piece of data required or returned by an Operation
+    - Payload for a Request/Response
   (42,28):
-    - Piece of data required or returned by an Operation
+    - Payload for a Request/Response
   (43,12):
     - Human readable name for the object
   (43,19):
@@ -362,7 +362,7 @@ hovers:
   (97,22):
     - Human readable description of an element
   (99,6):
-    - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
+    - Top level element describing a HTTP API
   (99,13):
     - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (100,7):
@@ -385,7 +385,7 @@ hovers:
   (105,12):
     - Top level element describing a HTTP API
   (106,5):
-    - Top level element describing a HTTP API
+    - Human readable name for the object
   (106,9):
     - Top level element describing a HTTP API
   (107,6):
@@ -469,7 +469,7 @@ hovers:
   (128,10):
     - Logical and composition of data shapes
   (129,7):
-    - Defines a data type
+    - Logical and composition of data shapes
   (130,10):
     - Documentation for a particular part of the model
   (130,17):
@@ -601,7 +601,7 @@ hovers:
   (164,6):
     - Piece of data required or returned by an Operation
   (164,12):
-    - Piece of data required or returned by an Operation
+    - Defines a data type
   (165,6):
     - Name of a parameter
   (165,12):
@@ -637,7 +637,7 @@ hovers:
   (173,7):
     - Piece of data required or returned by an Operation
   (173,14):
-    - Piece of data required or returned by an Operation
+    - Defines a data type
   (174,6):
     - Name of a parameter
   (174,15):
@@ -653,7 +653,7 @@ hovers:
   (177,6):
     - Piece of data required or returned by an Operation
   (177,12):
-    - Piece of data required or returned by an Operation
+    - Defines a data type
   (178,6):
     - Name of a parameter
   (178,14):
