@@ -17,7 +17,7 @@ import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
 import org.mulesoft.amfintegration.dialect.dialects.metadialect.{MetaDialect, VocabularyDialect}
 import org.mulesoft.amfintegration.dialect.integration.BaseAlsDialectProvider
 import org.yaml.builder.DocBuilder
-
+import org.mulesoft.amfintegration.AmfImplicits._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -110,8 +110,10 @@ case class ALSConfigurationState(editorState: EditorConfigurationState,
     * @param uri
     * @return (name, isScalar)
     */
-  def semanticKeysFor(uri: String): Seq[(String, Boolean)] =
+  def semanticKeysFor(uri: String, excludedDialects: Seq[Dialect] = Seq.empty): Seq[(String, Boolean)] = {
+    val excludedLocations = excludedDialects.map(ed => ed.identifier) // hack because final id adoption changes reference id
     findSemanticFor(uri)
+      .filterNot(t => excludedLocations.contains(t._2.location().getOrElse(t._2.id)))
       .flatMap { t =>
         for {
           name              <- t._1.extensionName().option()
@@ -120,6 +122,7 @@ case class ALSConfigurationState(editorState: EditorConfigurationState,
           (name, annotationMapping.objectRange().isEmpty)
         }
       }
+  }
 
   // this should be provided from AML because we don't want to replicate logic on our side to choose which dialect we are referring to
   def findAnnotationMappingFor(dialect: Dialect, extension: SemanticExtension): Option[AnnotationMapping] = {

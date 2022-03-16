@@ -1,0 +1,11 @@
+#%RAML 1.0
+title: aliased extension
+
+uses:
+  lib: companion.raml
+
+types:
+  MyPerson:
+    type: object
+    (lib.key):
+      *
