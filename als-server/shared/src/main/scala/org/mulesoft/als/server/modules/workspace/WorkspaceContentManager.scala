@@ -8,10 +8,10 @@ import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.ast._
-import org.mulesoft.als.server.modules.project.{NewConfigurationListener, ProfileNotificationConfigurationListener}
+import org.mulesoft.als.server.modules.project.NewConfigurationListener
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.UnitTaskManager
-import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
+import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, AmfParseResult, ProjectConfigurationState}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
@@ -23,7 +23,7 @@ class WorkspaceContentManager private (val folderUri: String,
                                        environmentProvider: EnvironmentProvider,
                                        val telemetryProvider: TelemetryProvider,
                                        logger: Logger,
-                                       allSubscribers: List[AstListener[_]],
+                                       subscribers: () => List[WorkspaceContentListener[_]],
                                        override val repository: WorkspaceParserRepository,
                                        val projectConfigAdapter: ProjectConfigurationAdapter,
                                        hotReload: Boolean)
@@ -54,13 +54,15 @@ class WorkspaceContentManager private (val folderUri: String,
 
   implicit val currentPlatform: Platform = this.platform
 
-  private val subscribers: Seq[BaseUnitListener] = allSubscribers.collect({
-    case buL: BaseUnitListener if buL.isActive => buL
-  })
+  private def baseUnitSubscribers: Seq[BaseUnitListener] =
+    subscribers().collect({
+      case buL: BaseUnitListener if buL.isActive => buL
+    })
 
-  private val configSubscribers: Seq[NewConfigurationListener] = allSubscribers.collect({
-    case a: NewConfigurationListener if a.isActive => a
-  })
+  private def configSubscribers: Seq[NewConfigurationListener] =
+    subscribers().collect({
+      case a: NewConfigurationListener if a.isActive => a
+    })
 
   private def mainFile: Future[Option[String]] = projectConfigAdapter.mainFile
 
@@ -174,7 +176,7 @@ class WorkspaceContentManager private (val folderUri: String,
     repository.updateUnit(result)
     projectConfigAdapter.getConfigurationState.map(state => {
       logger.debug(s"sending new AST from $folderUri", "WorkspaceContentManager", "processIsolated")
-      subscribers.foreach(s =>
+      baseUnitSubscribers.foreach(s =>
         try {
           s.onNewAst(BaseUnitListenerParams(result, Map.empty, tree = false, folderUri, isDependency), uuid)
         } catch {
@@ -222,7 +224,7 @@ class WorkspaceContentManager private (val folderUri: String,
                          currentConfiguration: ALSConfigurationState): Future[Unit] = {
     closedFiles.foreach { cf =>
       repository.removeUnit(cf._1)
-      subscribers.foreach(_.onRemoveFile(cf._1))
+      baseUnitSubscribers.foreach(_.onRemoveFile(cf._1))
 
     }
     val p = currentConfiguration.projectState.config
@@ -251,12 +253,9 @@ class WorkspaceContentManager private (val folderUri: String,
 
   }
 
-  // hay que tener una nueva lista de Configlisteners o la misma lista de ast liteners y categorizarla internamente.
-
   private def processChangeConfig(config: ProjectConfigurationState,
                                   snapshot: Snapshot,
                                   mainFileUri: Option[String]): Future[Unit] = {
-    // aca vamos a llamar al new project configuration listener: Necesitamos un validation profile manager
     val uuid = UUID.randomUUID().toString
     configSubscribers.foreach(_.onNewAst(config, uuid))
     (mainFileUri match {
@@ -300,7 +299,7 @@ class WorkspaceContentManager private (val folderUri: String,
       _ <- repository.newTree(u).flatMap(t => projectConfigAdapter.newTree(t))
     } yield {
       stagingArea.enqueue(snapshot.files.filterNot(_._2 == CHANGE_CONFIG).filter(t => !isInMainTree(t._1)))
-      subscribers.foreach(s => {
+      baseUnitSubscribers.foreach(s => {
         logger.debug(s"Sending new AST from ${u.result.baseUnit.location().getOrElse(folderUri)}",
                      "WorkspaceContentManager",
                      "processMFChanges")
@@ -359,7 +358,7 @@ class WorkspaceContentManager private (val folderUri: String,
     else logger.debug(msg, "WorkspaceContentManager", "Processing request")
 
   override protected def disableTasks(): Future[Unit] = Future {
-    subscribers.map(d => repository.getAllFilesUris.map(_.toAmfUri).foreach(d.onRemoveFile))
+    baseUnitSubscribers.map(d => repository.getAllFilesUris.map(_.toAmfUri).foreach(d.onRemoveFile))
   }
 }
 
@@ -368,7 +367,7 @@ object WorkspaceContentManager {
             environmentProvider: EnvironmentProvider,
             telemetryProvider: TelemetryProvider,
             logger: Logger,
-            allSubscribers: List[BaseUnitListener],
+            subscribers: () => List[WorkspaceContentListener[_]],
             projectConfigAdapter: ProjectConfigurationAdapter,
             hotReload: Boolean = false): Future[WorkspaceContentManager] = {
     val repository = new WorkspaceParserRepository(logger)
@@ -376,7 +375,7 @@ object WorkspaceContentManager {
                                           environmentProvider,
                                           telemetryProvider,
                                           logger,
-                                          allSubscribers,
+                                          subscribers,
                                           repository,
                                           projectConfigAdapter.withRepository(repository),
                                           hotReload)

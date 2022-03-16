@@ -8,14 +8,13 @@ import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.feature.serialization._
 import org.mulesoft.als.server.modules.ast.ResolvedUnitListener
 import org.mulesoft.als.server.modules.common.reconciler.Runnable
-import org.mulesoft.als.server.{ClientNotifierModule, RequestModule, SerializationProps}
+import org.mulesoft.als.server.{RequestModule, SerializationProps}
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.AmfResolvedUnit
-import org.mulesoft.amfintegration.amfconfiguration.{AMLSpecificConfiguration, EditorConfiguration}
+import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
-import org.yaml.builder.DocBuilder
 
 import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -31,7 +30,6 @@ class SerializationManager[S](telemetryProvider: TelemetryProvider,
     with ResolvedUnitListener
     with RequestModule[SerializationClientCapabilities, SerializationServerOptions] {
   type RunType = SerializationRunnable
-  private var enabled: Boolean = false
 
   override val `type`: SerializationConfigType.type = SerializationConfigType
 

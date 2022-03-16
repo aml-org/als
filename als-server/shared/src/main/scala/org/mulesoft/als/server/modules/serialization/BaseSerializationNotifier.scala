@@ -10,11 +10,8 @@ import org.mulesoft.als.server.feature.serialization.{
   SerializationServerOptions
 }
 import org.mulesoft.als.server.{ClientNotifierModule, SerializationProps}
-import org.mulesoft.amfintegration.amfconfiguration.AMLSpecificConfiguration
-import org.yaml.builder.DocBuilder
 import org.mulesoft.amfintegration.AmfImplicits._
-
-import scala.concurrent.Future
+import org.mulesoft.amfintegration.amfconfiguration.AMLSpecificConfiguration
 
 abstract class BaseSerializationNotifier[S](props: SerializationProps[S],
                                             configurationReader: AlsConfigurationReader,
@@ -26,7 +23,7 @@ abstract class BaseSerializationNotifier[S](props: SerializationProps[S],
   protected def serialize(baseUnit: BaseUnit, amlConfiguration: AMLConfiguration): SerializationResult[S] = {
     val value = props.newDocBuilder(configurationReader.getShouldPrettyPrintSerialization)
     AMLSpecificConfiguration(amlConfiguration).asJsonLD(baseUnit, value)
-    SerializationResult(baseUnit.identifier, value)
+    SerializationResult(baseUnit.identifier, value.result)
   }
 
   protected def serializeAndNotify(baseUnit: BaseUnit, amlConfiguration: AMLConfiguration): Unit =
