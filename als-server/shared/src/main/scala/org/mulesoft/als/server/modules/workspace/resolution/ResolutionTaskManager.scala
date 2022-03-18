@@ -7,11 +7,7 @@ import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.workspace._
 import org.mulesoft.als.server.workspace.{UnitTaskManager, UnitsManager}
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
-import org.mulesoft.amfintegration.amfconfiguration.{
-  ALSConfigurationState,
-  AMLSpecificConfiguration,
-  ProjectConfigurationState
-}
+import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, AMLSpecificConfiguration}
 import org.mulesoft.amfintegration.{AmfResolvedUnit, DiagnosticsBundle, ValidationProfile}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
@@ -25,7 +21,7 @@ class ResolutionTaskManager private (telemetryProvider: TelemetryProvider,
                                      private val allSubscribers: List[ResolvedUnitListener],
                                      override val dependencies: List[AccessUnits[AmfResolvedUnit]])
     extends UnitTaskManager[AmfResolvedUnit, AmfResolvedUnit, BaseUnitListenerParams]
-    with UnitsManager[AmfResolvedUnit, AmfResolvedUnit]
+    with UnitsManager[AmfResolvedUnit, AstListener[AmfResolvedUnit]]
     with BaseUnitListener {
 
   override def subscribers: List[AstListener[AmfResolvedUnit]] =

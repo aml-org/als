@@ -24,24 +24,26 @@ class WorkspaceManager protected (val environmentProvider: EnvironmentProvider,
                                   telemetryProvider: TelemetryProvider,
                                   val editorConfiguration: EditorConfiguration,
                                   projectConfigurationProvider: ProjectConfigurationProvider,
-                                  val allSubscribers: List[BaseUnitListener],
+                                  val allSubscribers: List[WorkspaceContentListener[_]],
                                   override val dependencies: List[AccessUnits[CompilableUnit]],
                                   logger: Logger,
                                   configurationProvider: ConfigurationProvider)
     extends TextListener
     with UnitWorkspaceManager
-    with UnitsManager[CompilableUnit, BaseUnitListenerParams]
+    with UnitsManager[CompilableUnit, WorkspaceContentListener[_]]
     with AlsWorkspaceService {
 
   implicit val platform: Platform = environmentProvider.platform
 
-  override def subscribers: List[BaseUnitListener] = allSubscribers.filter(_.isActive)
+  override def subscribers(): List[WorkspaceContentListener[_]] =
+    allSubscribers.filter(_.isActive)
+
   private val workspaces =
     new WorkspaceList(environmentProvider,
                       projectConfigurationProvider,
                       editorConfiguration,
                       telemetryProvider,
-                      allSubscribers,
+                      subscribers,
                       logger,
                       configurationProvider)
   def allWorkspaces(): Seq[WorkspaceContentManager] = workspaces.allWorkspaces()
@@ -142,17 +144,19 @@ class WorkspaceManager protected (val environmentProvider: EnvironmentProvider,
 
   override def isInMainTree(uri: String): Future[Boolean] =
     workspaces.findWorkspace(uri.toAmfUri).map(_.isInMainTree(uri))
+
 }
 
 class WorkspaceList(environmentProvider: EnvironmentProvider,
                     projectConfigurationProvider: ProjectConfigurationProvider,
                     editorConfiguration: EditorConfiguration,
                     telemetryProvider: TelemetryProvider,
-                    val allSubscribers: List[BaseUnitListener],
+                    subscribers: () => List[WorkspaceContentListener[_]],
                     logger: Logger,
                     configurationProvider: ConfigurationProvider) {
 
-  def subscribers: List[BaseUnitListener] = allSubscribers.filter(_.isActive)
+  private def buListenerSubscribers: List[BaseUnitListener] =
+    subscribers().collect({ case buL: BaseUnitListener => buL })
 
   private val workspaces: mutable.Set[WorkspaceContentManager] = new mutable.HashSet()
 
@@ -231,7 +235,12 @@ class WorkspaceList(environmentProvider: EnvironmentProvider,
   //TODO: move to an object
   private def buildConfigurationAdapter(folder: String,
                                         pcp: ProjectConfigurationProvider): ProjectConfigurationAdapter =
-    new ProjectConfigurationAdapter(folder, pcp, editorConfiguration, environmentProvider, subscribers, logger)
+    new ProjectConfigurationAdapter(folder,
+                                    pcp,
+                                    editorConfiguration,
+                                    environmentProvider,
+                                    buListenerSubscribers,
+                                    logger)
 
   def findWorkspace(uri: String): Future[WorkspaceContentManager] =
     for {
@@ -268,7 +277,7 @@ object WorkspaceManager {
             telemetryProvider: TelemetryProvider,
             editorConfiguration: EditorConfiguration,
             projectConfigurationProvider: ProjectConfigurationProvider,
-            allSubscribers: List[BaseUnitListener],
+            allSubscribers: List[WorkspaceContentListener[_]],
             dependencies: List[AccessUnits[CompilableUnit]],
             logger: Logger,
             configurationProvider: ConfigurationProvider): WorkspaceManager = {
