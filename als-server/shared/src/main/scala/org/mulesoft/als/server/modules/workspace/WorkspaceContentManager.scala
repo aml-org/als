@@ -261,25 +261,22 @@ class WorkspaceContentManager private (val folderUri: String,
     (mainFileUri match {
       case Some(mainFile) if mainFile.nonEmpty => processMFChanges(mainFile, snapshot, uuid)
       case _                                   => Future(repository.cleanTree())
-    }).map(_ => revalidateUnits(config.profiles.map(_.path).toSet)) // TODO eascona: isolated profiles validation could be a config listener?
+    }).map(_ => revalidateIsolatedUnits(config.profiles.map(_.path).toSet)) // TODO eascona: isolated profiles validation could be a config listener?
   }
 
-  private def revalidateUnits(validationProfiles: Set[String]): Future[Unit] = Future {
-    val revalidateUris: List[String] = repository.getIsolatedUris
-      .map(uri => (uri, repository.getUnit(uri)))
-      .filter {
-        // revalidate if previous unit wasn't validated by any of the current profiles
-        // but don't do it if it is itself a validation profile
-        case (_, Some(result)) =>
-          val requiresValidation = result.parsedResult.context.state.projectState.config.validationDependency != validationProfiles
-          val isProfile          = result.parsedResult.result.baseUnit.isValidationProfile
-          requiresValidation && !isProfile
-        case (_, _) => true
-      }
-      .map(_._1)
+  private def revalidateIsolatedUnits(validationProfiles: Set[String]): Future[Unit] = Future {
+    def shouldValidate(maybeResult: Option[ParsedUnit]): Boolean = maybeResult.forall { result =>
+      val changedProfiles = result.parsedResult.context.state.projectState.config.validationDependency != validationProfiles
+      val isProfile       = result.parsedResult.result.baseUnit.isValidationProfile
+      changedProfiles && !isProfile
+    }
 
-    if (revalidateUris.nonEmpty)
-      revalidateUris.foreach(uri => {
+    repository.getIsolatedUris
+      .flatMap(uri => {
+        if (shouldValidate(repository.getUnit(uri))) Some(uri)
+        else None
+      })
+      .foreach(uri => {
         logger.debug(s"Enqueuing isolated file ($uri) because of changes on validation profiles",
                      "WorkspaceContentManager",
                      "processNewValidationProfiles")
