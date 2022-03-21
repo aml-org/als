@@ -64,7 +64,7 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
         results <- validate(uri, unit, resolved.alsConfigurationState.profiles.map(_.model), resolved.configuration)
       } yield {
         validationGatherer
-          .indexNewReport(ErrorsWithTree(uri, results.flatten, Some(tree(resolved.baseUnit))), managerName, uuid)
+          .indexNewReport(ErrorsWithTree(uri, results, Some(tree(resolved.baseUnit))), managerName, uuid)
         notifyReport(uri, resolved.baseUnit, references, managerName, ProfileName("CustomValidation"))
         val endTime = System.currentTimeMillis()
         this.logger.debug(s"It took ${endTime - startTime} milliseconds to validate with Go env",
@@ -73,7 +73,10 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
       }
     } else {
       Future.successful {
-        validationGatherer.removeFile(uri, managerName)
+        (uri +: references.keys.toSeq)
+          .foreach(
+            validationGatherer
+              .removeFile(_, managerName)) // clean validations
         notifyReport(uri, resolved.baseUnit, references, managerName, ProfileName("CustomValidation"))
       }
     }
@@ -82,31 +85,33 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
   def validate(uri: String,
                unit: BaseUnit,
                profiles: Seq[DialectInstance],
-               config: AMLSpecificConfiguration): Future[Seq[Seq[AlsValidationResult]]] =
+               config: AMLSpecificConfiguration): Future[Seq[AlsValidationResult]] =
     for {
-      serialized <- Future {
-        val builder = JsonOutputBuilder(false)
-        config.asJsonLD(unit, builder, RenderOptions().withCompactUris.withSourceMaps.withSourceInformation)
-        builder.result.toString
-      }
+      serialized <- serializeUnit(unit, config)
       result <- {
-        val eventualResults: Seq[Future[Seq[AlsValidationResult]]] = profiles
-          .map(profile => {
-            logger.debug(s"Validate with profile: ${profile.identifier}",
-                         "CustomValidationManager",
-                         "validateWithProfile")
-            validateWithProfile(profile, uri, serialized)
-          })
         Future
-          .sequence(eventualResults)
-          .map(_.toSeq)
+          .sequence(getResults(uri, profiles, serialized))
+          .map(_.flatten)
       }
     } yield result
 
+  private def getResults(uri: String, profiles: Seq[DialectInstance], serialized: String) =
+    profiles
+      .map(profile => {
+        logger.debug(s"Validate with profile: ${profile.identifier}", "CustomValidationManager", "validateWithProfile")
+        validateWithProfile(profile, uri, serialized)
+      })
+
+  private def serializeUnit(unit: BaseUnit, config: AMLSpecificConfiguration) =
+    Future {
+      val builder = JsonOutputBuilder(false)
+      config.asJsonLD(unit, builder, RenderOptions().withCompactUris.withSourceMaps.withSourceInformation)
+      builder.result.toString
+    }
+
   private def validateWithProfile(profileUnit: DialectInstance,
                                   unitUri: String,
-                                  serializedUnit: String): Future[Seq[AlsValidationResult]] = {
-
+                                  serializedUnit: String): Future[Seq[AlsValidationResult]] =
     // TODO: compute validator execution could be done just once for each project configuration refreshment
     validatorBuilder
       .validator(profileUnit)
@@ -119,7 +124,6 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
           }
         })
       })
-  }
 
   class CustomValidationRunnable(var uri: String, ast: AmfResolvedUnit, uuid: String) extends Runnable[Unit] {
     private var canceled = false
