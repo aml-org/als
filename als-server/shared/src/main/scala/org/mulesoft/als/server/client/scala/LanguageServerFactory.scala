@@ -80,14 +80,14 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) {
   }
 
   def build(): LanguageServer = {
-    val resourceLoaders     = if (rl.isEmpty) EditorConfiguration.platform.loaders() else rl
+    /*    val resourceLoaders     = if (rl.isEmpty) EditorConfiguration.platform.loaders() else rl
     val editorConfiguration = new EditorConfiguration(resourceLoaders, Seq.empty, plugins, logger)
     val factory =
       new WorkspaceManagerFactoryBuilder(clientNotifier,
                                          logger,
                                          editorConfiguration,
                                          configurationProvider,
-                                         textDocumentSyncBuilder)
+                                         textDocumentSyncBuilder) */
 
     directoryResolver.foreach(cdr => factory.withDirectoryResolver(cdr))
     factory.withNotificationKind(notificationsKind) // move to initialization param
@@ -96,40 +96,52 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) {
     val filesInProjectManager = factory.filesInProjectManager(serialization.alsClientNotifier)
     val builders              = factory.buildWorkspaceManagerFactory()
 
-    val languageBuilder =
-      new LanguageServerBuilder(builders.documentManager,
-                                builders.workspaceManager,
-                                builders.configurationManager,
-                                builders.resolutionTaskManager,
-                                logger)
-        .addInitializableModule(sm)
-        .addInitializableModule(filesInProjectManager)
-        .addInitializable(builders.workspaceManager)
-        .addInitializable(builders.resolutionTaskManager)
-        .addInitializable(builders.configurationManager)
-        .addRequestModule(builders.cleanDiagnosticManager)
-        .addRequestModule(builders.conversionManager)
-        .addRequestModule(builders.completionManager)
-        .addRequestModule(builders.structureManager)
-        .addRequestModule(builders.definitionManager)
-        .addRequestModule(builders.implementationManager)
-        .addRequestModule(builders.typeDefinitionManager)
-        .addRequestModule(builders.hoverManager)
-        .addRequestModule(builders.referenceManager)
-        .addRequestModule(builders.fileUsageManager)
-        .addRequestModule(builders.documentLinksManager)
-        .addRequestModule(builders.renameManager)
-        .addRequestModule(builders.documentHighlightManager)
-        .addRequestModule(builders.foldingRangeManager)
-        .addRequestModule(builders.selectionRangeManager)
-        .addRequestModule(builders.renameFileActionManager)
-        .addRequestModule(builders.codeActionManager)
-        .addRequestModule(builders.documentFormattingManager)
-        .addRequestModule(builders.documentRangeFormattingManager)
-        .addRequestModule(builders.workspaceConfigurationManager)
-        .addInitializable(builders.telemetryManager)
-    dm.foreach(m => languageBuilder.addInitializableModule(m))
-    builders.serializationManager.foreach(languageBuilder.addRequestModule)
-    languageBuilder.build()
+    languageServerBuilder
+      .addInitializableModule(sm)
+      .addInitializableModule(filesInProjectManager)
+      .addInitializable(builders.workspaceManager)
+      .addInitializable(builders.resolutionTaskManager)
+      .addInitializable(builders.configurationManager)
+      .addRequestModule(builders.cleanDiagnosticManager)
+      .addRequestModule(builders.conversionManager)
+      .addRequestModule(builders.completionManager)
+      .addRequestModule(builders.structureManager)
+      .addRequestModule(builders.definitionManager)
+      .addRequestModule(builders.implementationManager)
+      .addRequestModule(builders.typeDefinitionManager)
+      .addRequestModule(builders.hoverManager)
+      .addRequestModule(builders.referenceManager)
+      .addRequestModule(builders.fileUsageManager)
+      .addRequestModule(builders.documentLinksManager)
+      .addRequestModule(builders.renameManager)
+      .addRequestModule(builders.documentHighlightManager)
+      .addRequestModule(builders.foldingRangeManager)
+      .addRequestModule(builders.selectionRangeManager)
+      .addRequestModule(builders.renameFileActionManager)
+      .addRequestModule(builders.codeActionManager)
+      .addRequestModule(builders.documentFormattingManager)
+      .addRequestModule(builders.documentRangeFormattingManager)
+      .addRequestModule(builders.workspaceConfigurationManager)
+      .addInitializable(builders.telemetryManager)
+    dm.foreach(m => languageServerBuilder.addInitializableModule(m))
+    builders.serializationManager.foreach(languageServerBuilder.addRequestModule)
+    languageServerBuilder.build()
   }
+
+  lazy val languageServerBuilder: LanguageServerBuilder =
+    new LanguageServerBuilder(builders.documentManager,
+                              builders.workspaceManager,
+                              builders.configurationManager,
+                              builders.resolutionTaskManager,
+                              logger)
+
+  private def resourceLoaders     = if (rl.isEmpty) EditorConfiguration.platform.loaders() else rl
+  private def editorConfiguration = new EditorConfiguration(resourceLoaders, Seq.empty, plugins, logger)
+  private lazy val factory =
+    new WorkspaceManagerFactoryBuilder(clientNotifier,
+                                       logger,
+                                       editorConfiguration,
+                                       configurationProvider,
+                                       textDocumentSyncBuilder)
+  private lazy val builders = factory.buildWorkspaceManagerFactory()
 }
