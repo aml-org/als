@@ -74,9 +74,13 @@ import scala.scalajs.js.JSConverters._
 import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
 import scala.scalajs.js.|
 
-case class ProtocolConnectionLanguageClient(connection: ProtocolConnection)
-    extends LspLanguageClient
-    with AlsLanguageClient[js.Any] {
+case class ProtocolConnectionLanguageClient(override protected val connection: ProtocolConnection)
+    extends AbstractProtocolConnectionLanguageClient
+
+trait AbstractProtocolConnectionLanguageClient extends LspLanguageClient with AlsLanguageClient[js.Any] {
+
+  protected val connection: ProtocolConnection
+
   override def publishDiagnostic(params: PublishDiagnosticsParams): Unit =
     connection
       .sendNotification[ClientPublishDiagnosticsParams](PublishDiagnosticsNotification.`type`, params.toClient)
@@ -92,20 +96,29 @@ case class ProtocolConnectionLanguageClient(connection: ProtocolConnection)
     connection
       .sendNotification[ClientFilesInProjectParams](FilesInProjectEventNotification.`type`, params.toClient)
 }
+
 @JSExportAll
 @JSExportTopLevel("ProtocolConnectionBinder")
-object ProtocolConnectionBinder {
+object ProtocolConnectionBinder
+    extends AbstractProtocolConnectionBinder[LspLanguageClientAware with AlsLanguageClientAware[js.Any]] {
+  override def bind(protocolConnection: ProtocolConnection,
+                    languageServer: LanguageServer,
+                    clientAware: LspLanguageClientAware with AlsLanguageClientAware[js.Any],
+                    serializationProps: JsSerializationProps): Unit =
+    super.bind(protocolConnection, languageServer, clientAware, serializationProps)
+}
+
+trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware with AlsLanguageClientAware[js.Any]] {
   def bind(protocolConnection: ProtocolConnection,
            languageServer: LanguageServer,
-           clientAware: LspLanguageClientAware with AlsLanguageClientAware[js.Any],
+           clientAware: ClientAware,
            serializationProps: JsSerializationProps): Unit = {
     def resolveHandler[P, R](`type`: org.mulesoft.lsp.feature.RequestType[P, R]): RequestHandler[P, R] =
       languageServer
         .resolveHandler(`type`)
         .getOrElse(throw new UnsupportedOperationException)
 
-    clientAware.connect(ProtocolConnectionLanguageClient(protocolConnection))
-    clientAware.connectAls(ProtocolConnectionLanguageClient(protocolConnection))
+    connectClient(protocolConnection, clientAware)
 
     val initializeHandlerJs
       : js.Function2[ClientAlsInitializeParams, CancellationToken, Thenable[ClientAlsInitializeResult]] =
@@ -554,5 +567,10 @@ object ProtocolConnectionBinder {
           ClientRequestHandler[ClientGetWorkspaceConfigurationParams, ClientGetWorkspaceConfigurationResult, js.Any]]
     )
     // End Get Workspace Configuration
+  }
+
+  protected def connectClient(protocolConnection: ProtocolConnection, clientAware: ClientAware): Unit = {
+    clientAware.connect(ProtocolConnectionLanguageClient(protocolConnection))
+    clientAware.connectAls(ProtocolConnectionLanguageClient(protocolConnection))
   }
 }
