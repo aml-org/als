@@ -28,7 +28,6 @@ import org.mulesoft.lsp.client.{LspLanguageClient, LspLanguageClientAware}
 import org.mulesoft.lsp.convert.LspConvertersClientToShared._
 import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
 import org.mulesoft.lsp.edit.{ClientTextEdit, ClientWorkspaceEdit}
-import org.mulesoft.lsp.feature
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.codeactions.{ClientCodeAction, ClientCodeActionParams, CodeActionRequestType}
 import org.mulesoft.lsp.feature.command.ClientCommand
@@ -98,13 +97,12 @@ case class ProtocolConnectionLanguageClient(connection: ProtocolConnection)
 object ProtocolConnectionBinder
     extends AbstractProtocolConnectionBinder[LspLanguageClientAware with AlsLanguageClientAware[js.Any]]
 
-@js.native
 trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware with AlsLanguageClientAware[js.Any]] {
   def bind(protocolConnection: ProtocolConnection,
            languageServer: LanguageServer,
            clientAware: ClientAware,
            serializationProps: JsSerializationProps): Unit = {
-    def resolveHandler[P, R](`type`: feature.RequestType[P, R]): RequestHandler[P, R] =
+    def resolveHandler[P, R](`type`: org.mulesoft.lsp.feature.RequestType[P, R]): RequestHandler[P, R] =
       languageServer
         .resolveHandler(`type`)
         .getOrElse(throw new UnsupportedOperationException)
