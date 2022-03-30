@@ -8,8 +8,8 @@ import amf.custom.validation.client.scala.{BaseProfileValidatorBuilder, CustomVa
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.logger.{Logger, PrintLnLogger}
 import org.mulesoft.als.server.client.platform.ClientNotifier
-import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.diagnostic.{DiagnosticNotificationsKind, PARSING_BEFORE}
+import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.textsync.TextDocumentSyncBuilder
 import org.mulesoft.als.server.workspace.ProjectConfigurationProvider
@@ -80,14 +80,14 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) {
   }
 
   def build(): LanguageServer = {
-    /*    val resourceLoaders     = if (rl.isEmpty) EditorConfiguration.platform.loaders() else rl
+    val resourceLoaders     = if (rl.isEmpty) EditorConfiguration.platform.loaders() else rl
     val editorConfiguration = new EditorConfiguration(resourceLoaders, Seq.empty, plugins, logger)
     val factory =
       new WorkspaceManagerFactoryBuilder(clientNotifier,
                                          logger,
                                          editorConfiguration,
                                          configurationProvider,
-                                         textDocumentSyncBuilder) */
+                                         textDocumentSyncBuilder)
 
     directoryResolver.foreach(cdr => factory.withDirectoryResolver(cdr))
     factory.withNotificationKind(notificationsKind) // move to initialization param
@@ -96,9 +96,22 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) {
     val filesInProjectManager = factory.filesInProjectManager(serialization.alsClientNotifier)
     val builders              = factory.buildWorkspaceManagerFactory()
 
-    languageServerBuilder
-      .addInitializableModule(sm)
-      .addInitializableModule(filesInProjectManager)
+    val languageBuilder =
+      languageServerWithBasicFeatures(builders)
+        .addInitializableModule(sm)
+        .addInitializableModule(filesInProjectManager)
+
+    dm.foreach(m => languageBuilder.addInitializableModule(m))
+    builders.serializationManager.foreach(languageBuilder.addRequestModule)
+    languageBuilder.build()
+  }
+
+  protected def languageServerWithBasicFeatures(builders: WorkspaceManagerFactory): LanguageServerBuilder =
+    new LanguageServerBuilder(builders.documentManager,
+                              builders.workspaceManager,
+                              builders.configurationManager,
+                              builders.resolutionTaskManager,
+                              logger)
       .addInitializable(builders.workspaceManager)
       .addInitializable(builders.resolutionTaskManager)
       .addInitializable(builders.configurationManager)
@@ -123,25 +136,4 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) {
       .addRequestModule(builders.documentRangeFormattingManager)
       .addRequestModule(builders.workspaceConfigurationManager)
       .addInitializable(builders.telemetryManager)
-    dm.foreach(m => languageServerBuilder.addInitializableModule(m))
-    builders.serializationManager.foreach(languageServerBuilder.addRequestModule)
-    languageServerBuilder.build()
-  }
-
-  lazy val languageServerBuilder: LanguageServerBuilder =
-    new LanguageServerBuilder(builders.documentManager,
-                              builders.workspaceManager,
-                              builders.configurationManager,
-                              builders.resolutionTaskManager,
-                              logger)
-
-  private def resourceLoaders     = if (rl.isEmpty) EditorConfiguration.platform.loaders() else rl
-  private def editorConfiguration = new EditorConfiguration(resourceLoaders, Seq.empty, plugins, logger)
-  private lazy val factory =
-    new WorkspaceManagerFactoryBuilder(clientNotifier,
-                                       logger,
-                                       editorConfiguration,
-                                       configurationProvider,
-                                       textDocumentSyncBuilder)
-  private lazy val builders = factory.buildWorkspaceManagerFactory()
 }
