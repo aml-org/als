@@ -8,6 +8,7 @@ import amf.custom.validation.client.scala.{BaseProfileValidatorBuilder, CustomVa
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.logger.{Logger, PrintLnLogger}
 import org.mulesoft.als.server.client.platform.ClientNotifier
+import org.mulesoft.als.server.modules.ast.WorkspaceContentListener
 import org.mulesoft.als.server.modules.diagnostic.{DiagnosticNotificationsKind, PARSING_BEFORE}
 import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
 import org.mulesoft.als.server.protocol.LanguageServer
@@ -28,6 +29,7 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) {
   protected var amfCustomValidatorBuilder: BaseProfileValidatorBuilder      = ProfileValidatorWebBuilder
   protected var configurationProvider: Option[ProjectConfigurationProvider] = None
   protected var textDocumentSyncBuilder: Option[TextDocumentSyncBuilder]    = None
+  protected var configurationListener: Option[WorkspaceContentListener[_]]  = None
 
   def withSerializationProps(serializationProps: SerializationProps[_]): this.type = {
     serialization = serializationProps
@@ -79,6 +81,11 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) {
     this
   }
 
+  def withWorkspaceConfigListener(workspaceContentListener: WorkspaceContentListener[_]): this.type = {
+    configurationListener = Some(workspaceContentListener)
+    this
+  }
+
   def build(): LanguageServer = {
     val resourceLoaders     = if (rl.isEmpty) EditorConfiguration.platform.loaders() else rl
     val editorConfiguration = new EditorConfiguration(resourceLoaders, Seq.empty, plugins, logger)
@@ -94,7 +101,8 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) {
     val dm                    = factory.buildDiagnosticManagers(Some(amfCustomValidatorBuilder))
     val sm                    = factory.serializationManager(serialization)
     val filesInProjectManager = factory.filesInProjectManager(serialization.alsClientNotifier)
-    val builders              = factory.buildWorkspaceManagerFactory()
+    configurationListener.foreach(factory.addNewConfigurationListener)
+    val builders = factory.buildWorkspaceManagerFactory()
 
     val languageBuilder =
       languageServerWithBasicFeatures(builders)

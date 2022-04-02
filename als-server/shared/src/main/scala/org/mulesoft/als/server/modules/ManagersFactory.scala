@@ -108,6 +108,10 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier,
     pnl
   }
 
+  def addNewConfigurationListener(workspaceContentListener: WorkspaceContentListener[_]) = {
+    projectDependencies += workspaceContentListener
+  }
+
   def buildWorkspaceManagerFactory(): WorkspaceManagerFactory =
     WorkspaceManagerFactory(
       projectDependencies.toList,
