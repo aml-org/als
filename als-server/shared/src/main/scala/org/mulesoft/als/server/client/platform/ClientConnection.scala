@@ -8,12 +8,17 @@ import org.mulesoft.lsp.client.{LspLanguageClient, LspLanguageClientAware}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 
-case class ClientConnection[S](logger: Logger)
-  extends LspLanguageClientAware
+case class ClientConnection[S](override protected val logger: Logger) extends AbstractClientConnection[S]
+
+trait AbstractClientConnection[S]
+    extends LspLanguageClientAware
     with AlsLanguageClientAware[S]
     with ClientNotifier
     with AlsClientNotifier[S] {
-  var clientProxy: Option[LspLanguageClient] = None
+
+  protected val logger: Logger
+
+  var clientProxy: Option[LspLanguageClient]       = None
   var alsClientProxy: Option[AlsLanguageClient[S]] = None
 
   override def connect(client: LspLanguageClient): Unit = clientProxy = Some(client)

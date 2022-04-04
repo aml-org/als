@@ -5,6 +5,7 @@ import amf.aml.client.scala.model.document.{Dialect, DialectInstance}
 import amf.apicontract.client.scala.{AMFConfiguration, APIConfiguration}
 import amf.core.client.common.validation.SeverityLevels
 import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.resource.ResourceLoader
 import amf.core.client.scala.validation.AMFValidationResult
 import amf.core.client.scala.{AMFParseResult, AMFResult}
 import org.mulesoft.als.common.URIImplicits.StringUriImplicits
@@ -178,11 +179,13 @@ case class DefaultProjectConfiguration(override val extensions: Seq[Dialect],
                                        override val projectErrors: Seq[AMFValidationResult],
                                        private val editorConfiguration: EditorConfigurationProvider,
                                        private val logger: Logger)
-    extends ProjectConfigurationState(extensions, profiles, config, results, Nil, projectErrors) {
+    extends ProjectConfigurationState() {
 
   val cacheBuilder: CacheBuilder =
     new CacheBuilder(config.folder, config.designDependency, environmentProvider, editorConfiguration, logger)
   override def cache: Seq[BaseUnit] = cacheBuilder.cachedUnits
+
+  override val resourceLoaders: Seq[ResourceLoader] = Nil
 }
 
 class CacheBuilder(folder: String,

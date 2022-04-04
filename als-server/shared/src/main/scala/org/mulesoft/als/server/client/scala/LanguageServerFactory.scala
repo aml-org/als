@@ -29,7 +29,7 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) {
   protected var amfCustomValidatorBuilder: BaseProfileValidatorBuilder      = ProfileValidatorWebBuilder
   protected var configurationProvider: Option[ProjectConfigurationProvider] = None
   protected var textDocumentSyncBuilder: Option[TextDocumentSyncBuilder]    = None
-  protected var configurationListener: Option[WorkspaceContentListener[_]]  = None
+  protected var workspaceContentListeners: Seq[WorkspaceContentListener[_]] = Seq.empty
 
   def withSerializationProps(serializationProps: SerializationProps[_]): this.type = {
     serialization = serializationProps
@@ -81,8 +81,9 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) {
     this
   }
 
+  // todo @eascona: too specific, this should be "withWorkspaceContentListener" or something of the sorts, and add a listener to the existing list
   def withWorkspaceConfigListener(workspaceContentListener: WorkspaceContentListener[_]): this.type = {
-    configurationListener = Some(workspaceContentListener)
+    workspaceContentListeners = workspaceContentListeners :+ workspaceContentListener
     this
   }
 
@@ -101,7 +102,7 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) {
     val dm                    = factory.buildDiagnosticManagers(Some(amfCustomValidatorBuilder))
     val sm                    = factory.serializationManager(serialization)
     val filesInProjectManager = factory.filesInProjectManager(serialization.alsClientNotifier)
-    configurationListener.foreach(factory.addNewConfigurationListener)
+    workspaceContentListeners.foreach(factory.addWorkspaceContentListener)
     val builders = factory.buildWorkspaceManagerFactory()
 
     val languageBuilder =
