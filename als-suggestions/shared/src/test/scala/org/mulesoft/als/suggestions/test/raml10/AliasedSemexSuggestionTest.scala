@@ -12,25 +12,26 @@ import org.mulesoft.amfintegration.amfconfiguration.{
   EditorConfigurationState,
   ProjectConfigurationState
 }
+import org.mulesoft.lsp.feature.completion.CompletionItem
 import org.scalatest.{AsyncFunSuite, Matchers}
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, Future}
 
 class AliasedSemexSuggestionTest extends AsyncFunSuite with BaseSuggestionsForTest with Matchers {
   def rootPath: String                                     = "file://als-suggestions/shared/src/test/resources/test/raml10/aliased-semex/"
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
-  test("test semex suggestion - empty") {
+  private def suggest(api: String): Future[Seq[CompletionItem]] = {
     for {
       d <- AMLConfiguration.predefined().baseUnitClient().parseDialect(rootPath + "dialect.yaml")
       l <- RAMLConfiguration.RAML10().baseUnitClient().parseLibrary(rootPath + "companion.raml")
-      c <- platform.fetchContent(rootPath + "empty-semex.raml", AMFGraphConfiguration.predefined())
+      c <- platform.fetchContent(rootPath + api, AMFGraphConfiguration.predefined())
       ci <- {
         l.library.withReferences(Seq(d.dialect.cloneUnit()))
         val projectState = TestProjectConfigurationState(
           d.dialect,
           new ProjectConfiguration(rootPath,
-                                   Some("empty-semex.raml"),
+                                   Some(api),
                                    Set(rootPath + "companion.raml"),
                                    Set.empty,
                                    Set(rootPath + "dialect.yaml"),
@@ -39,38 +40,39 @@ class AliasedSemexSuggestionTest extends AsyncFunSuite with BaseSuggestionsForTe
         )
         val state = ALSConfigurationState(EditorConfigurationState.empty, projectState, None)
 
-        suggestFromFile(c.stream.toString, rootPath + "empty-semex.raml", "*", state)
+        suggestFromFile(c.stream.toString, rootPath + api, "*", state)
       }
-    } yield {
+    } yield ci
+  }
+
+  test("test semex suggestion - empty") {
+    suggest("empty-semex.raml").map { ci =>
       ci.length shouldBe (1)
-      ci.head.label shouldBe ("(lib.)")
+      ci.head.label shouldBe ("(lib.")
     }
   }
 
-  // TODO: enable test when annotation types suggestion is fixed
-  ignore("test properties suggestion  of aliased semex") {
-    for {
-      d <- AMLConfiguration.predefined().baseUnitClient().parseDialect(rootPath + "dialect.yaml")
-      l <- RAMLConfiguration.RAML10().baseUnitClient().parseLibrary(rootPath + "companion.raml")
-      c <- platform.fetchContent(rootPath + "semex-content.raml", AMFGraphConfiguration.predefined())
-      ci <- {
-        l.library.withReferences(Seq(d.dialect.cloneUnit()))
-        val projectState = TestProjectConfigurationState(
-          d.dialect,
-          new ProjectConfiguration(rootPath,
-                                   Some("semex-content.raml"),
-                                   Set(rootPath + "companion.raml"),
-                                   Set.empty,
-                                   Set(rootPath + "dialect.yaml"),
-                                   Set.empty),
-          l.library
-        )
-        val state = ALSConfigurationState(EditorConfigurationState.empty, projectState, None)
+  test("test aliased value semex suggestion") {
+    suggest("aliased-value-semex.raml").map { ci =>
+      ci.length shouldBe (1)
+      ci.head.label shouldBe ("key)")
+      ci.head.detail.get shouldBe ("extensions")
+    }
+  }
 
-        suggestFromFile(c.stream.toString, rootPath + "semex-content.raml", "*", state)
-      }
-    } yield {
+  test("test properties suggestion  of aliased semex") {
+    suggest("semex-content.raml").map { ci =>
       ci.length shouldBe (2)
+      val namePro = ci.find(_.label == "name")
+      namePro.isDefined shouldBe (true)
+      val keyProp = ci.find(_.label == "key")
+      keyProp.isDefined shouldBe (true)
+    }
+  }
+
+  test("test to not suggest local annotations overridden by semex") {
+    suggest("local-annotation-other-target.raml").map { ci =>
+      ci.length shouldBe (0)
     }
   }
 }

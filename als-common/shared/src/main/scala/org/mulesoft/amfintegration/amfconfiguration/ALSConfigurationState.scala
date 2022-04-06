@@ -139,6 +139,11 @@ case class ALSConfigurationState(editorState: EditorConfigurationState,
       .configurationState()
       .findSemanticByTarget(uri)
 
+  def findSemanticForName(name: String): Option[(SemanticExtension, Dialect)] =
+    getAmfConfig
+      .configurationState()
+      .findSemanticByName(name)
+
   def asJsonLD(resolved: BaseUnit,
                builder: DocBuilder[_],
                renderOptions: RenderOptions = RenderOptions().withCompactUris.withoutSourceMaps): Unit =
