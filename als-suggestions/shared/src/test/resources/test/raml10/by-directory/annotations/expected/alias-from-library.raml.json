@@ -1,0 +1,32 @@
+[
+  {
+    "label": "(lib.",
+    "kind": [],
+    "detail": "annotations",
+    "documentation": "(lib.",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "21(lib.",
+    "filterText": "(lib.",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 0
+        },
+        "end": {
+          "line": 3,
+          "character": 1
+        }
+      },
+      "newText": "(lib."
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
