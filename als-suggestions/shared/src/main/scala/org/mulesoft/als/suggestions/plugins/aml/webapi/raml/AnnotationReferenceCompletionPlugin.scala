@@ -16,19 +16,36 @@ object AnnotationReferenceCompletionPlugin extends AMLCompletionPlugin {
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful(
       if (params.yPartBranch.isKey && !params.yPartBranch.isInArray) {
-        val annName = params.branchStack.headOption match {
+        val annName: Option[String] = params.branchStack.headOption match {
           case Some(c: CustomDomainProperty) => c.name.option()
           case _                             => None
         }
-        val annSuggestions = params.declarationProvider
-          .forNodeType(CustomDomainPropertyModel.`type`.head.iri())
-          .filter(n => !annName.contains(n))
-          .map(an => RawSuggestion.forKey(s"($an)", "annotations", mandatory = false))
-          .toSeq
+        val annSuggestions = getDeclaredAnnotations(params, annName)
         if (isScalar(params)) RawSuggestion.forKey("value", "unknown", mandatory = false) +: annSuggestions
         else annSuggestions
       } else Nil
     )
+  }
+
+  private def getDeclaredAnnotations(params: AmlCompletionRequest, annName: Option[String]): Seq[RawSuggestion] = {
+    val isFromLibrary = params.prefix.contains(".")
+    if (isFromLibrary) {
+      val alias = params.prefix.split('.').head.stripPrefix("(")
+      params.declarationProvider
+        .forNodeType(CustomDomainPropertyModel.`type`.head.iri(), alias)
+        .filterNot(annName.contains)
+        .map(an => RawSuggestion.forKey(s"($alias.$an)", "annotations", mandatory = false))
+        .toSeq
+    } else
+      params.declarationProvider
+        .forNodeType(CustomDomainPropertyModel.`type`.head.iri())
+        .filterNot(annName.contains)
+        .map(
+          an =>
+            if (!isFromLibrary && an.contains("."))
+              RawSuggestion(s"($an", isAKey = false, "annotations", mandatory = false)
+            else RawSuggestion.forKey(s"($an)", "annotations", mandatory = false))
+        .toSeq
   }
 
   private def isScalar(params: AmlCompletionRequest): Boolean =
