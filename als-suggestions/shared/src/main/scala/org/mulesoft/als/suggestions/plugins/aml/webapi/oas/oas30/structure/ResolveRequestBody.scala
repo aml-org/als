@@ -5,7 +5,6 @@ import amf.apicontract.client.scala.model.domain.api.WebApi
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.ResolveIfApplies
-import org.mulesoft.als.suggestions.plugins.NonPatchHacks
 import org.mulesoft.als.suggestions.plugins.aml.NodeMappingWrapper
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.OASRefTag.refSuggestion
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.AMLRequestBodyObject
@@ -14,17 +13,13 @@ import org.yaml.model.YMapEntry
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object ResolveRequestBody extends ResolveIfApplies with NonPatchHacks {
+object ResolveRequestBody extends ResolveIfApplies {
   override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] = {
     request.amfObject match {
-      case _: WebApi if jsonPatchHack(request.yPartBranch) =>
-        request.yPartBranch.getAncestor(6) match {
-          case Some(yme: YMapEntry) if yme.key.asScalar.map(_.text).contains("requestBodies") =>
-            Some(requestBodySuggestions(request.actualDialect))
-          case _ => notApply
-        }
       case _: WebApi =>
-        request.yPartBranch.getAncestor(3) match {
+        // due to how recovery works, json creates more entries in between
+        val idxParent = if (request.yPartBranch.isJson) 6 else 3
+        request.yPartBranch.getAncestor(idxParent) match {
           case Some(yme: YMapEntry) if yme.key.asScalar.map(_.text).contains("requestBodies") =>
             Some(requestBodySuggestions(request.actualDialect))
           case _ => notApply

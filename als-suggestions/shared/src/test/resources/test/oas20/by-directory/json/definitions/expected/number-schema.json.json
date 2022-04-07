@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"allOf\": \"$1\""
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"default\": \"$1\""
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"description\": \"$1\""
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"enum\": [\n  \"$1\"\n]"
@@ -140,7 +140,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"example\": \"$1\""
@@ -170,7 +170,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"exclusiveMaximum\": \"$1\""
@@ -200,7 +200,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"exclusiveMinimum\": \"$1\""
@@ -230,7 +230,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"externalDocs\": {\n  \"$1\"\n}"
@@ -260,7 +260,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"format\": \"$1\""
@@ -290,7 +290,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"maximum\": \"$1\""
@@ -320,7 +320,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"minimum\": \"$1\""
@@ -350,7 +350,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"multipleOf\": \"$1\""
@@ -380,7 +380,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"readOnly\": \"$1\""
@@ -410,7 +410,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"required\": \"$1\""
@@ -440,7 +440,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"title\": \"$1\""
@@ -470,7 +470,7 @@
         },
         "end": {
           "line": 5,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"xml\": {\n  \"$1\"\n}"

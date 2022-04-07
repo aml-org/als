@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 39,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"anyOf\": [\n  \"$1\"\n]"
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 39,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"default\": \"$1\""
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 39,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"deprecated\": \"$1\""
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 39,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"description\": \"$1\""
@@ -140,7 +140,7 @@
         },
         "end": {
           "line": 39,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"discriminator\": {\n  \"$1\"\n}"
@@ -170,7 +170,7 @@
         },
         "end": {
           "line": 39,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"enum\": [\n  \"$1\"\n]"
@@ -200,7 +200,7 @@
         },
         "end": {
           "line": 39,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"example\": \"$1\""
@@ -230,7 +230,7 @@
         },
         "end": {
           "line": 39,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"externalDocs\": {\n  \"$1\"\n}"
@@ -260,7 +260,7 @@
         },
         "end": {
           "line": 39,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"items\": {\n  \"$1\"\n}"
@@ -290,7 +290,7 @@
         },
         "end": {
           "line": 39,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"not\": {\n  \"$1\"\n}"
@@ -320,7 +320,7 @@
         },
         "end": {
           "line": 39,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"nullable\": \"$1\""
@@ -350,7 +350,7 @@
         },
         "end": {
           "line": 39,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"oneOf\": {\n  \"$1\"\n}"
@@ -380,7 +380,7 @@
         },
         "end": {
           "line": 39,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"properties\": {\n  \"$1\"\n}"
@@ -410,7 +410,7 @@
         },
         "end": {
           "line": 39,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"readOnly\": \"$1\""
@@ -440,7 +440,7 @@
         },
         "end": {
           "line": 39,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"required\": \"$1\""
@@ -470,7 +470,7 @@
         },
         "end": {
           "line": 39,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"title\": \"$1\""
@@ -500,7 +500,7 @@
         },
         "end": {
           "line": 39,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"type\": \"$1\""
@@ -530,7 +530,7 @@
         },
         "end": {
           "line": 39,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"writeOnly\": \"$1\""
@@ -560,7 +560,7 @@
         },
         "end": {
           "line": 39,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"xml\": {\n  \"$1\"\n}"

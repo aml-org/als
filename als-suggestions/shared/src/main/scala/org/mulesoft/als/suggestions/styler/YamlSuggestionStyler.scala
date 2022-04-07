@@ -2,9 +2,7 @@ package org.mulesoft.als.suggestions.styler
 
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.suggestions._
-import org.mulesoft.als.suggestions.patcher.QuoteToken
 import org.mulesoft.als.suggestions.styler.astbuilder.{AstRawBuilder, YamlAstRawBuilder}
-import org.yaml.model.{YMap, YMapEntry, YPart, YScalar}
 import org.yaml.render.{FlowYamlRender, YamlPartRender, YamlRender, YamlRenderOptions}
 
 case class YamlSuggestionStyler(override val params: StylerParams) extends FlowSuggestionRender {
@@ -44,8 +42,8 @@ case class YamlSuggestionStyler(override val params: StylerParams) extends FlowS
         .withStringKey
     else raw
 
-  private def hasAddedQuotes =
-    params.patchedContent.addedTokens.contains(QuoteToken)
+  private def hasAddedQuotes: Boolean =
+    params.yPartBranch.text.exists(t => t.startsWith("\"") && t.endsWith("\""))
 
   private def innerSuggestionRange(raw: RawSuggestion): PositionRange =
     if (hasAddedQuotes && raw.options.keyRange != StringScalarRange) { // it has added quotes, and was not originally a string
@@ -53,6 +51,6 @@ case class YamlSuggestionStyler(override val params: StylerParams) extends FlowS
       PositionRange(range.start.moveColumn(-1), range.end.moveColumn(1))
     } else suggestionRange(raw)
 
-  override def astBuilder: RawSuggestion => AstRawBuilder =
+  override protected def astBuilder: RawSuggestion => AstRawBuilder =
     (raw: RawSuggestion) => new YamlAstRawBuilder(raw, false, params.yPartBranch)
 }

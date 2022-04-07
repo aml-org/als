@@ -67,7 +67,7 @@ object ValidationProfileTermsSuggestions extends ResolveIfApplies {
 
   override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] = {
     if (request.actualDialect.name().value() == "Validation Profile") {
-      if (request.yPartBranch.isDescendanceOf("targetClass")) Some(suggestClasses())
+      if (request.yPartBranch.parentEntryIs("targetClass")) Some(suggestClasses())
       else if (request.yPartBranch.isKeyDescendantOf("propertyConstraints")) Some(suggestProperties(request))
       else notApply
     } else notApply

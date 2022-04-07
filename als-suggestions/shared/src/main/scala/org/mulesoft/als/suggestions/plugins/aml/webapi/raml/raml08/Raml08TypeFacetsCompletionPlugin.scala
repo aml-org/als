@@ -27,12 +27,12 @@ object Raml08TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin
     Future.successful(params.amfObject match {
       case shape: Shape
           if isWritingFacet(params.yPartBranch, shape, params.branchStack, params.actualDialect) &&
-            !isWritingKEYMediaType(params) &&
+            !isWritingKeyMediaType(params) &&
             !insideMediaType(params) =>
         resolveShape(shape, params.branchStack, params.actualDialect)
       case shape: Shape
           if isWritingFacet(params.yPartBranch, shape, params.branchStack, params.actualDialect) &&
-            !isWritingKEYMediaType(params) => {
+            !isWritingKeyMediaType(params) => {
         if (insideFormMediaType(params))
           Seq(RawSuggestion.forObject("formParameters", "schemas"))
         else Seq()

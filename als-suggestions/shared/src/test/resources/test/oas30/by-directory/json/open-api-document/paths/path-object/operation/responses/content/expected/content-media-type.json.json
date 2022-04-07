@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 15,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"application/json\": \"$1\""
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 15,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"application/vnd.github+json\": \"$1\""
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 15,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"application/vnd.github.v3+json\": \"$1\""
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 15,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"application/vnd.github.v3.full+json\": \"$1\""
@@ -140,7 +140,7 @@
         },
         "end": {
           "line": 15,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"application/vnd.github.v3.html+json\": \"$1\""
@@ -170,7 +170,7 @@
         },
         "end": {
           "line": 15,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"application/vnd.github.v3.patch\": \"$1\""
@@ -200,7 +200,7 @@
         },
         "end": {
           "line": 15,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"application/vnd.github.v3.raw+json\": \"$1\""
@@ -230,7 +230,7 @@
         },
         "end": {
           "line": 15,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"application/vnd.github.v3.text+json\": \"$1\""
@@ -260,7 +260,7 @@
         },
         "end": {
           "line": 15,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"application/xml\": \"$1\""
@@ -290,7 +290,7 @@
         },
         "end": {
           "line": 15,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"appxlication/vnd.github.v3.diff\": \"$1\""
@@ -320,7 +320,7 @@
         },
         "end": {
           "line": 15,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"text/plain; charset=utf-8\": \"$1\""

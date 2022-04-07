@@ -29,7 +29,6 @@ trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin with WritingS
   }
 
   def resolveShape(shape: Shape, branchStack: Seq[AmfObject], dialect: Dialect): Seq[RawSuggestion] = {
-
     val node = shape match {
       case scalar: ScalarShape =>
         scalar.dataType.option() match {

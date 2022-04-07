@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"$ref\""
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"description\": \"$1\""
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"examples\": {\n  \"$1\"\n}"
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"headers\": {\n  \"$1\"\n}"
@@ -140,7 +140,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"schema\": {\n  \"$1\"\n}"

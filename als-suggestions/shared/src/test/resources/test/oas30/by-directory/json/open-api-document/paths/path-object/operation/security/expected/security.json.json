@@ -7,10 +7,10 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11internalApiKey",
-    "filterText": "\"internalApiKey\"",
+    "filterText": "\"internalApiKey\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -20,10 +20,10 @@
         },
         "end": {
           "line": 15,
-          "character": 13
+          "character": 12
         }
       },
-      "newText": "\"internalApiKey\""
+      "newText": "\"internalApiKey\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

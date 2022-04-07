@@ -102,9 +102,7 @@ trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
     * res*
     */
   private def isKeyInTypeMap(yPartBranch: YPartBranch): Boolean =
-    yPartBranch.isKey && yPartBranch
-      .ancestorOf(classOf[YMapEntry])
-      .exists(_.key.asScalar.exists(_.text == entryKey))
+    yPartBranch.isKey && yPartBranch.parentEntryIs(entryKey)
 
   private def stringValue(yPart: YPartBranch) = {
     yPart.node match {

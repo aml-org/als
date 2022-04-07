@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 9,
-          "character": 19
+          "character": 18
         }
       },
       "newText": "\"schema\": {\n  \"description\": \"$1\",\n  \"type\": \"$2\"\n}"
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 9,
-          "character": 19
+          "character": 18
         }
       },
       "newText": "\"encoding\": {\n  \"$1\"\n}"
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 9,
-          "character": 19
+          "character": 18
         }
       },
       "newText": "\"example\": \"$1\""
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 9,
-          "character": 19
+          "character": 18
         }
       },
       "newText": "\"examples\": {\n  \"$1\"\n}"
@@ -140,7 +140,7 @@
         },
         "end": {
           "line": 9,
-          "character": 19
+          "character": 18
         }
       },
       "newText": "\"schema\": {\n  \"$1\"\n}"

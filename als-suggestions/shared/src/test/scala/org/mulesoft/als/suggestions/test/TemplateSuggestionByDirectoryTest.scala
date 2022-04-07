@@ -26,13 +26,12 @@ trait TemplateSuggestionByDirectoryTest extends SuggestionByDirectoryTest {
     val resourceLoader = AmfConfigurationPatcher.resourceLoaderForFile(url, markerInfo.content)
     val newAlsConfig =
       ALSConfigurationState(configurationState.editorState, configurationState.projectState, Some(resourceLoader))
-    new Suggestions(AlsConfiguration(templateType = templateType), dr)
+    new Suggestions(AlsConfiguration(templateType = templateType), dr, accessBundle(newAlsConfig))
       .initialized()
-      .suggest(url, position, snippetsSupport = true, None, newAlsConfig)
+      .suggest(url, position, snippetsSupport = true, None)
   }
 
   override def expectedFile(f: SyncFile): String = {
-    s"${f.parent}${platform.fs.separatorChar}expected${platform.fs.separatorChar}${f.name}-${templateType}.json"
+    s"${f.parent}${platform.fs.separatorChar}expected${platform.fs.separatorChar}${f.name}-$templateType.json"
   }
-
 }

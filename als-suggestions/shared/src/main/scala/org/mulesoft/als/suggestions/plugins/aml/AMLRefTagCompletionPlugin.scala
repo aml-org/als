@@ -5,14 +5,13 @@ import org.mulesoft.als.common.SemanticNamedElement._
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.NonPatchHacks
 import org.mulesoft.als.suggestions.{PlainText, RawSuggestion, SuggestionStructure}
 import org.mulesoft.amfintegration.AmfImplicits._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin with NonPatchHacks {
+trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
   override def id = "AMLRefTagCompletionPlugin"
 
   private val includeSuggestion = Seq(
@@ -65,7 +64,7 @@ trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin with NonPatchHacks {
   private def isInFacet(params: AmlCompletionRequest): Boolean = isKeyAlone(params) || isPatchedJson(params)
 
   private def isKeyAlone(params: AmlCompletionRequest): Boolean =
-    params.fieldEntry.isEmpty && notValue(params.yPartBranch)
+    params.fieldEntry.isEmpty && (params.yPartBranch.isKey || params.yPartBranch.isInArray)
 
   private def isPatchedJson(params: AmlCompletionRequest): Boolean =
     params.yPartBranch.isJson && params.yPartBranch.isInArray

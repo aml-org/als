@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 40,
-          "character": 13
+          "character": 12
         }
       },
       "newText": "\"mapping\": \"$1\""
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 40,
-          "character": 13
+          "character": 12
         }
       },
       "newText": "\"propertyName\": \"$1\""

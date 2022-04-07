@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 3,
-          "character": 7
+          "character": 6
         }
       },
       "newText": "\"application/json\""
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 3,
-          "character": 7
+          "character": 6
         }
       },
       "newText": "\"application/vnd.github+json\""
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 3,
-          "character": 7
+          "character": 6
         }
       },
       "newText": "\"application/vnd.github.v3+json\""
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 3,
-          "character": 7
+          "character": 6
         }
       },
       "newText": "\"application/vnd.github.v3.full+json\""
@@ -140,7 +140,7 @@
         },
         "end": {
           "line": 3,
-          "character": 7
+          "character": 6
         }
       },
       "newText": "\"application/vnd.github.v3.html+json\""
@@ -170,7 +170,7 @@
         },
         "end": {
           "line": 3,
-          "character": 7
+          "character": 6
         }
       },
       "newText": "\"application/vnd.github.v3.patch\""
@@ -200,7 +200,7 @@
         },
         "end": {
           "line": 3,
-          "character": 7
+          "character": 6
         }
       },
       "newText": "\"application/vnd.github.v3.raw+json\""
@@ -230,7 +230,7 @@
         },
         "end": {
           "line": 3,
-          "character": 7
+          "character": 6
         }
       },
       "newText": "\"application/vnd.github.v3.text+json\""
@@ -260,7 +260,7 @@
         },
         "end": {
           "line": 3,
-          "character": 7
+          "character": 6
         }
       },
       "newText": "\"appxlication/vnd.github.v3.diff\""
@@ -290,7 +290,7 @@
         },
         "end": {
           "line": 3,
-          "character": 7
+          "character": 6
         }
       },
       "newText": "\"text/plain; charset=utf-8\""

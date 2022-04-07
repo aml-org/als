@@ -34,9 +34,6 @@ abstract class RamlBaseUriParameterFacets(typeFacetsCompletionPlugin: WebApiType
     }
   }
 
-  private def isWritingParamName(yPart: YPartBranch) = {
-    yPart
-      .ancestorOf(classOf[YMapEntry])
-      .exists(p => p.key.asScalar.exists(s => Seq("baseUriParameters", "uriParameters").contains(s.text)))
-  }
+  private def isWritingParamName(yPart: YPartBranch) =
+    yPart.parentEntryIs("baseUriParameters") || yPart.parentEntryIs("uriParameters")
 }

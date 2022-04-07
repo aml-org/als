@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11contact",
-    "filterText": "contact: {\n  $1\n},",
+    "filterText": "contact: {\n  $1\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -23,7 +23,7 @@
           "character": 8
         }
       },
-      "newText": "contact: {\n  $1\n},"
+      "newText": "contact: {\n  $1\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,10 +37,10 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11description",
-    "filterText": "description: $1,",
+    "filterText": "description:",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -53,7 +53,7 @@
           "character": 8
         }
       },
-      "newText": "description: $1,"
+      "newText": "description:"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11license",
-    "filterText": "license: {\n  $1\n},",
+    "filterText": "license: {\n  $1\n}",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -83,7 +83,7 @@
           "character": 8
         }
       },
-      "newText": "license: {\n  $1\n},"
+      "newText": "license: {\n  $1\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,10 +97,10 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11termsOfService",
-    "filterText": "termsOfService: $1,",
+    "filterText": "termsOfService:",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -113,7 +113,7 @@
           "character": 8
         }
       },
-      "newText": "termsOfService: $1,"
+      "newText": "termsOfService:"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -127,10 +127,10 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10version",
-    "filterText": "version: $1,",
+    "filterText": "version:",
     "insertText": null,
     "insertTextFormat": [
-      2
+      1
     ],
     "textEdit": {
       "range": {
@@ -143,7 +143,7 @@
           "character": 8
         }
       },
-      "newText": "version: $1,"
+      "newText": "version:"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

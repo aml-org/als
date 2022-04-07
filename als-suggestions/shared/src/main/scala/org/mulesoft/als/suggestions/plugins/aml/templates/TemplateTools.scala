@@ -68,10 +68,9 @@ object TemplateTools {
     p.nodePropertyMapping().option().getOrElse("")
 
   def isInsideDeclaration(params: AmlCompletionRequest): Boolean =
-    params.yPartBranch.parentEntry
-      .flatMap(_.key.asScalar)
-      .map(_.text)
-      .exists(k => params.nodeDialect.declarationsMapTerms.values.to[Seq].contains(k)) &&
+    params.nodeDialect.declarationsMapTerms.values
+      .to[Seq]
+      .exists(params.yPartBranch.parentEntryIs) &&
       hasCorrectDeclarationNesting(params)
 
   private def getRecursiveChildren(p: PropertyMapping,

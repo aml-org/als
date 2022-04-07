@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"$ref\""
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"server\": {\n  \"url\": \"$1\"\n}"
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"description\": \"$1\""
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"operationId\": \"$1\""
@@ -140,7 +140,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"operationRef\": \"$1\""
@@ -170,7 +170,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"parameters\": {\n  \"$1\"\n}"
@@ -200,7 +200,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"requestBody\": \"$1\""
@@ -230,7 +230,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"server\": {\n  \"$1\"\n}"

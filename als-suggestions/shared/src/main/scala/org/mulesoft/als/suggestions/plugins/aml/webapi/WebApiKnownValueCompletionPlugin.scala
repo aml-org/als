@@ -27,7 +27,7 @@ trait WebApiKnownValueCompletionPlugin extends AbstractKnownValueCompletionPlugi
   protected def isHeader(params: AmlCompletionRequest): Boolean =
     params.amfObject match {
       case p: Parameter if p.name.option().isEmpty || (p.name.option().contains("x") && params.yPartBranch.isJson) =>
-        p.binding.option().contains("header") || params.yPartBranch.isDescendanceOf("headers")
+        p.binding.option().contains("header") || params.yPartBranch.parentEntryIs("headers")
       case _ => false
     }
 

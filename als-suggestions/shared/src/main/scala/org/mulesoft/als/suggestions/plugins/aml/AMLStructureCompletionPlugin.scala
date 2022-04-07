@@ -48,7 +48,7 @@ object ResolveDefault extends ResolveIfApplies with AmfObjectKnowledge {
       params.prefix.nonEmpty
 
   private def isWritingProperty(yPartBranch: YPartBranch): Boolean =
-    (yPartBranch.isKey || yPartBranch.isInArray) || (yPartBranch.isJson && (yPartBranch.isInArray && yPartBranch.stringValue == "x"))
+    yPartBranch.isKey || yPartBranch.isInArray
 
   protected def objInArray(params: AmlCompletionRequest): Option[DomainElementModel] = {
     params.fieldEntry match {

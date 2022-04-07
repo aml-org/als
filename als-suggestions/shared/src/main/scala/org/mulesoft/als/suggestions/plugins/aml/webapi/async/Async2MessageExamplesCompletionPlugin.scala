@@ -23,7 +23,7 @@ object Async2MessageExamplesCompletionPlugin extends AMLCompletionPlugin with As
 
 trait Async2PayloadExampleMatcher {
   private def applies(params: AmlCompletionRequest): Boolean = {
-    params.yPartBranch.isDescendanceOf("examples")
+    params.yPartBranch.parentEntryIs("examples")
   }
 
   protected def isExampleAtPayload(params: AmlCompletionRequest): Boolean = {

@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"externalDocs\": {\n  \"url\": \"$1\"\n}"
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"parameters\": [\n  {\n    \"in\": \"$1\",\n    \"required\": \"$2\",\n    \"description\": \"$3\",\n    \"name\": \"$4\"\n  }\n]"
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"responses\": {\n  \"$1\": {\n    \"description\": \"$2\"\n  }\n}"
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"security\": [\n  {\n    \"type\": \"$1\"\n  }\n]"
@@ -140,7 +140,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"servers\": [\n  {\n    \"url\": \"$1\"\n  }\n]"
@@ -170,7 +170,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"callbacks\": {\n  \"$1\"\n}"
@@ -200,7 +200,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"deprecated\": \"$1\""
@@ -230,7 +230,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"description\": \"$1\""
@@ -260,7 +260,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"externalDocs\": {\n  \"$1\"\n}"
@@ -290,7 +290,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"operationId\": \"$1\""
@@ -320,7 +320,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"parameters\": [\n  \"$1\"\n]"
@@ -350,7 +350,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"requestBody\": {\n  \"$1\"\n}"
@@ -380,7 +380,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"responses\": {\n  \"$1\"\n}"
@@ -410,7 +410,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"security\": [\n  \"$1\"\n]"
@@ -440,7 +440,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"servers\": [\n  \"$1\"\n]"
@@ -470,7 +470,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"summary\": \"$1\""
@@ -500,7 +500,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"tags\": [\n  \"$1\"\n]"

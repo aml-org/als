@@ -50,10 +50,6 @@ object AMLComponentKeyCompletionPlugin extends AMLCompletionPlugin {
       .map(RawSuggestion.forObject(_, "unknown"))
   }
 
-  private def isSonOf(keyDeclaration: String, yPartBranch: YPartBranch) = {
-    yPartBranch.ancestorOf(classOf[YMapEntry]) match {
-      case Some(e) => e.key.asScalar.exists(_.text == keyDeclaration)
-      case _       => false
-    }
-  }
+  private def isSonOf(keyDeclaration: String, yPartBranch: YPartBranch) =
+    yPartBranch.parentEntryIs(keyDeclaration)
 }
