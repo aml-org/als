@@ -13,7 +13,12 @@ case class DidChangeConfigurationNotificationParams(mainPath: Option[String],
   * @param file path relative to the root
   * @param scope type of relationship (normal dependency, custom validation, semantic extensions, etc), defaults to normal
   */
-case class DependencyConfiguration(file: String, scope: String)
+case class DependencyConfiguration(file: String, scope: String) extends DependencyConfigurationLike
+
+trait DependencyConfigurationLike {
+  val file: String
+  val scope: String
+}
 
 object KnownDependencyScopes {
   val CUSTOM_VALIDATION  = "custom-validation"

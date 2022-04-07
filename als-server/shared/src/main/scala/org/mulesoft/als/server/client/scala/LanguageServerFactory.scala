@@ -8,8 +8,9 @@ import amf.custom.validation.client.scala.{BaseProfileValidatorBuilder, CustomVa
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.logger.{Logger, PrintLnLogger}
 import org.mulesoft.als.server.client.platform.ClientNotifier
-import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.modules.ast.WorkspaceContentListener
 import org.mulesoft.als.server.modules.diagnostic.{DiagnosticNotificationsKind, PARSING_BEFORE}
+import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.textsync.TextDocumentSyncBuilder
 import org.mulesoft.als.server.workspace.ProjectConfigurationProvider
@@ -28,6 +29,7 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) {
   protected var amfCustomValidatorBuilder: BaseProfileValidatorBuilder      = ProfileValidatorWebBuilder
   protected var configurationProvider: Option[ProjectConfigurationProvider] = None
   protected var textDocumentSyncBuilder: Option[TextDocumentSyncBuilder]    = None
+  protected var workspaceContentListeners: Seq[WorkspaceContentListener[_]] = Seq.empty
 
   def withSerializationProps(serializationProps: SerializationProps[_]): this.type = {
     serialization = serializationProps
@@ -79,6 +81,12 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) {
     this
   }
 
+  // todo @eascona: too specific, this should be "withWorkspaceContentListener" or something of the sorts, and add a listener to the existing list
+  def withWorkspaceConfigListener(workspaceContentListener: WorkspaceContentListener[_]): this.type = {
+    workspaceContentListeners = workspaceContentListeners :+ workspaceContentListener
+    this
+  }
+
   def build(): LanguageServer = {
     val resourceLoaders     = if (rl.isEmpty) EditorConfiguration.platform.loaders() else rl
     val editorConfiguration = new EditorConfiguration(resourceLoaders, Seq.empty, plugins, logger)
@@ -94,42 +102,47 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) {
     val dm                    = factory.buildDiagnosticManagers(Some(amfCustomValidatorBuilder))
     val sm                    = factory.serializationManager(serialization)
     val filesInProjectManager = factory.filesInProjectManager(serialization.alsClientNotifier)
-    val builders              = factory.buildWorkspaceManagerFactory()
+    workspaceContentListeners.foreach(factory.addWorkspaceContentListener)
+    val builders = factory.buildWorkspaceManagerFactory()
 
     val languageBuilder =
-      new LanguageServerBuilder(builders.documentManager,
-                                builders.workspaceManager,
-                                builders.configurationManager,
-                                builders.resolutionTaskManager,
-                                logger)
+      languageServerWithBasicFeatures(builders)
         .addInitializableModule(sm)
         .addInitializableModule(filesInProjectManager)
-        .addInitializable(builders.workspaceManager)
-        .addInitializable(builders.resolutionTaskManager)
-        .addInitializable(builders.configurationManager)
-        .addRequestModule(builders.cleanDiagnosticManager)
-        .addRequestModule(builders.conversionManager)
-        .addRequestModule(builders.completionManager)
-        .addRequestModule(builders.structureManager)
-        .addRequestModule(builders.definitionManager)
-        .addRequestModule(builders.implementationManager)
-        .addRequestModule(builders.typeDefinitionManager)
-        .addRequestModule(builders.hoverManager)
-        .addRequestModule(builders.referenceManager)
-        .addRequestModule(builders.fileUsageManager)
-        .addRequestModule(builders.documentLinksManager)
-        .addRequestModule(builders.renameManager)
-        .addRequestModule(builders.documentHighlightManager)
-        .addRequestModule(builders.foldingRangeManager)
-        .addRequestModule(builders.selectionRangeManager)
-        .addRequestModule(builders.renameFileActionManager)
-        .addRequestModule(builders.codeActionManager)
-        .addRequestModule(builders.documentFormattingManager)
-        .addRequestModule(builders.documentRangeFormattingManager)
-        .addRequestModule(builders.workspaceConfigurationManager)
-        .addInitializable(builders.telemetryManager)
+
     dm.foreach(m => languageBuilder.addInitializableModule(m))
     builders.serializationManager.foreach(languageBuilder.addRequestModule)
     languageBuilder.build()
   }
+
+  protected def languageServerWithBasicFeatures(builders: WorkspaceManagerFactory): LanguageServerBuilder =
+    new LanguageServerBuilder(builders.documentManager,
+                              builders.workspaceManager,
+                              builders.configurationManager,
+                              builders.resolutionTaskManager,
+                              logger)
+      .addInitializable(builders.workspaceManager)
+      .addInitializable(builders.resolutionTaskManager)
+      .addInitializable(builders.configurationManager)
+      .addRequestModule(builders.cleanDiagnosticManager)
+      .addRequestModule(builders.conversionManager)
+      .addRequestModule(builders.completionManager)
+      .addRequestModule(builders.structureManager)
+      .addRequestModule(builders.definitionManager)
+      .addRequestModule(builders.implementationManager)
+      .addRequestModule(builders.typeDefinitionManager)
+      .addRequestModule(builders.hoverManager)
+      .addRequestModule(builders.referenceManager)
+      .addRequestModule(builders.fileUsageManager)
+      .addRequestModule(builders.documentLinksManager)
+      .addRequestModule(builders.renameManager)
+      .addRequestModule(builders.documentHighlightManager)
+      .addRequestModule(builders.foldingRangeManager)
+      .addRequestModule(builders.selectionRangeManager)
+      .addRequestModule(builders.renameFileActionManager)
+      .addRequestModule(builders.codeActionManager)
+      .addRequestModule(builders.documentFormattingManager)
+      .addRequestModule(builders.documentRangeFormattingManager)
+      .addRequestModule(builders.workspaceConfigurationManager)
+      .addInitializable(builders.telemetryManager)
 }
