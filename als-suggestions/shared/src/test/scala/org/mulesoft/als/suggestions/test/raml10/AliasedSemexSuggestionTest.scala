@@ -3,10 +3,13 @@ package org.mulesoft.als.suggestions.test.raml10
 import amf.aml.client.scala.AMLConfiguration
 import amf.aml.client.scala.model.document.Dialect
 import amf.apicontract.client.scala.RAMLConfiguration
-import amf.core.client.scala.AMFGraphConfiguration
+import amf.core.client.scala.{AMFGraphConfiguration, AMFParseResult}
 import amf.core.client.scala.model.document.{BaseUnit, Module}
+import amf.core.client.scala.resource.ResourceLoader
+import amf.core.client.scala.validation.AMFValidationResult
 import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.suggestions.test.{BaseSuggestionsForTest, SuggestionsTest}
+import org.mulesoft.amfintegration.ValidationProfile
 import org.mulesoft.amfintegration.amfconfiguration.{
   ALSConfigurationState,
   EditorConfigurationState,
@@ -78,6 +81,12 @@ class AliasedSemexSuggestionTest extends AsyncFunSuite with BaseSuggestionsForTe
 }
 
 case class TestProjectConfigurationState(d: Dialect, override val config: ProjectConfiguration, lib: Module)
-    extends ProjectConfigurationState(Seq(d), Nil, config, Nil, Nil, Nil) {
+    extends ProjectConfigurationState {
   override def cache: Seq[BaseUnit] = Seq(lib.cloneUnit())
+
+  override val extensions: Seq[Dialect]                = Seq(d)
+  override val profiles: Seq[ValidationProfile]        = Nil
+  override val results: Seq[AMFParseResult]            = Nil
+  override val resourceLoaders: Seq[ResourceLoader]    = Nil
+  override val projectErrors: Seq[AMFValidationResult] = Nil
 }
