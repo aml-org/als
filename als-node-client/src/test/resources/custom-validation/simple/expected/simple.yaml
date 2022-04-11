@@ -7,8 +7,8 @@ diagnostics:
     code: file://als-node-client/src/test/resources/custom-validation/simple/profile.yaml#/encodes/validations/validation1
     relatedInformation:
       -
-        message: Error expected 1 >= actual (actual=0) at shacl.minLength
+        message: Error expected 1 >= actual (actual=0) at http://www.w3.org/ns/shacl#minLength
         location: Location(file://als-node-client/src/test/resources/custom-validation/simple/api.raml,Range(common.Position[L:5,C:6],common.Position[L:6,C:19]))
       -
-        message: error in nested nodes under apiContract.parameter / shapes.schema
+        message: error in nested nodes under http://a.ml/vocabularies/apiContract#parameter / http://a.ml/vocabularies/shapes#schema
         location: Location(file://als-node-client/src/test/resources/custom-validation/simple/api.raml,Range(common.Position[L:5,C:6],common.Position[L:6,C:19]))
