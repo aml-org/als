@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11targetClass",
-    "filterText": "targetClass:\n  - ",
+    "filterText": "targetClass: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +113,7 @@
           "character": 4
         }
       },
-      "newText": "targetClass:\n  - "
+      "newText": "targetClass: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
