@@ -265,6 +265,13 @@ object AmfImplicits {
         .map(a => a.aliases.map(_._1))
         .getOrElse(Set.empty)
 
+    def aliasedModules: Map[String, Module] = {
+      def lookModule(tuple: (String, ReferencedInfo)) =
+        bu.references.collectFirst({ case m: Module if m.id == tuple._2.id => (tuple._1, m) })
+
+      bu.annotations.find(classOf[Aliases]).map(_.aliases.flatMap(t => lookModule(t))).getOrElse(Set.empty).toMap
+    }
+
     def flatRefs: Seq[BaseUnit] = {
       val set: mutable.Set[BaseUnit] = mutable.Set.empty
 
