@@ -60,6 +60,36 @@
     "command": null
   },
   {
+    "label": "else",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "else",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11else",
+    "filterText": "else:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "else:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "if",
     "kind": [],
     "detail": "unknown",
@@ -337,7 +367,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11targetClass",
-    "filterText": "targetClass:\n  - ",
+    "filterText": "targetClass: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -353,7 +383,7 @@
           "character": 4
         }
       },
-      "newText": "targetClass:\n  - "
+      "newText": "targetClass: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

@@ -14,7 +14,7 @@ validations:
     targetClass: apiContract.WebAPI
     not:
       rego: |
-        version = object.get($node, "core:version", null)
+        version = object.get($node, "http://a.ml/vocabularies/core#version", null)
         $result = (version == null)
 
   simple-rego2:
@@ -23,7 +23,7 @@ validations:
     regoModule:
       message: api without version
       code: |
-        version = object.get($node, "core:version", null)
+        version = object.get($node, "http://a.ml/vocabularies/core#version", null)
         $result = (version != null)
 
   simple-rego3:

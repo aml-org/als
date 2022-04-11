@@ -130,7 +130,11 @@ class DefaultProjectConfigurationProviderTest extends LanguageServerBaseTest {
       p1.extensions.find(d => d.nameAndVersion() == "Test 2") should not be empty
       p1.extensions.find(d => d.nameAndVersion() == "Annotation mappings 1.0") should not be empty
       p1.profiles.find(p => p.path.contains("profile.yaml")) should not be empty
-      p1.profiles.find(p => p.model.encodes.graph.scalarByProperty("http://schema.org/name").contains("ValidateGet")) should not be empty
+      p1.profiles.find(
+        p =>
+          p.model.encodes.graph
+            .scalarByProperty("http://a.ml/vocabularies/amf/core#name")
+            .contains("ValidateGet")) should not be empty
     }
   }
 

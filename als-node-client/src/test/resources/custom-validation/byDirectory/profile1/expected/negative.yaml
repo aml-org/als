@@ -7,7 +7,7 @@ diagnostics:
     code: file://als-node-client/src/test/resources/custom-validation/byDirectory/profile1/profile.yaml#/encodes/validations/scalar-parameters
     relatedInformation:
       -
-        message: Error expected 1 >= actual (actual=0) at shapes.schema / shacl.minLength
+        message: Error expected 1 >= actual (actual=0) at http://a.ml/vocabularies/shapes#schema / http://www.w3.org/ns/shacl#minLength
         location: Location(file://als-node-client/src/test/resources/custom-validation/byDirectory/profile1/negative.data,Range(common.Position[L:7,C:6],common.Position[L:8,C:0]))
   -
     message: Scalars in parameters must have minLength defined
@@ -16,5 +16,5 @@ diagnostics:
     code: file://als-node-client/src/test/resources/custom-validation/byDirectory/profile1/profile.yaml#/encodes/validations/scalar-parameters
     relatedInformation:
       -
-        message: Error expected 1 >= actual (actual=0) at shapes.schema / shacl.minLength
+        message: Error expected 1 >= actual (actual=0) at http://a.ml/vocabularies/shapes#schema / http://www.w3.org/ns/shacl#minLength
         location: Location(file://als-node-client/src/test/resources/custom-validation/byDirectory/profile1/negative.data,Range(common.Position[L:17,C:6],common.Position[L:17,C:8]))

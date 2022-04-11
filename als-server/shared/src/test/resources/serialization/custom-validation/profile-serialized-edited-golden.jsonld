@@ -21,7 +21,7 @@
 "meta:DialectDomainElement",
 "doc:DomainElement"
 ],
-"http://schema.org/name": "My Profile",
+"amf-core:name": "My Profile",
 "http://a.ml/vocabularies/amf-validation#setSeverityViolation": [
 "scalar-parameters"
 ],
@@ -43,10 +43,8 @@
 "doc:DomainElement"
 ],
 "shacl:message": "Scalars in parameters must have minLength defined",
-"http://a.ml/vocabularies/amf-validation#ramlClassId": [
-"apiContract.Parameter"
-],
-"http://schema.org/name": "scalar-parameters",
+"amf-core:name": "scalar-parameters",
+"http://a.ml/vocabularies/amf-validation#ramlClassId": "apiContract.Parameter",
 "shacl:property": [
 {
 "@id": "#/encodes/validations/scalar-parameters/propertyConstraints/shapes.schema%20%252F%20shacl.minLength"
@@ -62,10 +60,8 @@
 "doc:DomainElement"
 ],
 "shacl:message": "Ensure API can only be accessed by the specified HTTP verbs. All other HTTP verbs should be disabled (e.g. HEAD).\n",
-"http://a.ml/vocabularies/amf-validation#ramlClassId": [
-"apiContract.Operation"
-],
-"http://schema.org/name": "ab",
+"amf-core:name": "ab",
+"http://a.ml/vocabularies/amf-validation#ramlClassId": "apiContract.Operation",
 "http://a.ml/vocabularies/amf-validation#then": {
 "@id": "#/encodes/validations/ab/then"
 },
@@ -257,6 +253,7 @@
 "@base": "file://als-server/shared/src/test/resources/serialization/custom-validation/profile.yaml",
 "shacl": "http://www.w3.org/ns/shacl#",
 "doc": "http://a.ml/vocabularies/document#",
-"meta": "http://a.ml/vocabularies/meta#"
+"meta": "http://a.ml/vocabularies/meta#",
+"amf-core": "http://a.ml/vocabularies/amf/core#"
 }
 }
