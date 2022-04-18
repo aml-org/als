@@ -8,9 +8,10 @@ import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.ast._
+import org.mulesoft.als.server.modules.project.NewConfigurationListener
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.UnitTaskManager
-import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
+import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, AmfParseResult, ProjectConfigurationState}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
@@ -22,7 +23,7 @@ class WorkspaceContentManager private (val folderUri: String,
                                        environmentProvider: EnvironmentProvider,
                                        val telemetryProvider: TelemetryProvider,
                                        logger: Logger,
-                                       allSubscribers: List[BaseUnitListener],
+                                       subscribers: () => List[WorkspaceContentListener[_]],
                                        override val repository: WorkspaceParserRepository,
                                        val projectConfigAdapter: ProjectConfigurationAdapter,
                                        hotReload: Boolean)
@@ -53,7 +54,15 @@ class WorkspaceContentManager private (val folderUri: String,
 
   implicit val currentPlatform: Platform = this.platform
 
-  private val subscribers: Seq[BaseUnitListener] = allSubscribers.filter(_.isActive)
+  private def baseUnitSubscribers: Seq[BaseUnitListener] =
+    subscribers().collect({
+      case buL: BaseUnitListener if buL.isActive => buL
+    })
+
+  private def configSubscribers: Seq[NewConfigurationListener] =
+    subscribers().collect({
+      case a: NewConfigurationListener if a.isActive => a
+    })
 
   private def mainFile: Future[Option[String]] = projectConfigAdapter.mainFile
 
@@ -167,7 +176,7 @@ class WorkspaceContentManager private (val folderUri: String,
     repository.updateUnit(result)
     projectConfigAdapter.getConfigurationState.map(state => {
       logger.debug(s"sending new AST from $folderUri", "WorkspaceContentManager", "processIsolated")
-      subscribers.foreach(s =>
+      baseUnitSubscribers.foreach(s =>
         try {
           s.onNewAst(BaseUnitListenerParams(result, Map.empty, tree = false, folderUri, isDependency), uuid)
         } catch {
@@ -215,7 +224,7 @@ class WorkspaceContentManager private (val folderUri: String,
                          currentConfiguration: ALSConfigurationState): Future[Unit] = {
     closedFiles.foreach { cf =>
       repository.removeUnit(cf._1)
-      subscribers.foreach(_.onRemoveFile(cf._1))
+      baseUnitSubscribers.foreach(_.onRemoveFile(cf._1))
 
     }
     val p = currentConfiguration.projectState.config
@@ -247,28 +256,27 @@ class WorkspaceContentManager private (val folderUri: String,
   private def processChangeConfig(config: ProjectConfigurationState,
                                   snapshot: Snapshot,
                                   mainFileUri: Option[String]): Future[Unit] = {
+    val uuid = UUID.randomUUID().toString
+    configSubscribers.foreach(_.onNewAst(config, uuid))
     (mainFileUri match {
-      case Some(mainFile) if mainFile.nonEmpty => processMFChanges(mainFile, snapshot)
+      case Some(mainFile) if mainFile.nonEmpty => processMFChanges(mainFile, snapshot, uuid)
       case _                                   => Future(repository.cleanTree())
-    }).map(_ => revalidateUnits(config.profiles.map(_.path).toSet))
+    }).map(_ => revalidateIsolatedUnits(config.profiles.map(_.path).toSet)) // TODO eascona: isolated profiles validation could be a config listener?
   }
 
-  private def revalidateUnits(validationProfiles: Set[String]): Future[Unit] = Future {
-    val revalidateUris: List[String] = repository.getIsolatedUris
-      .map(uri => (uri, repository.getUnit(uri)))
-      .filter {
-        // revalidate if previous unit wasn't validated by any of the current profiles
-        // but don't do it if it is itself a validation profile
-        case (_, Some(result)) =>
-          val requiresValidation = result.parsedResult.context.state.projectState.config.validationDependency != validationProfiles
-          val isProfile          = result.parsedResult.result.baseUnit.isValidationProfile
-          requiresValidation && !isProfile
-        case (_, _) => true
-      }
-      .map(_._1)
+  private def revalidateIsolatedUnits(validationProfiles: Set[String]): Future[Unit] = Future {
+    def shouldValidate(maybeResult: Option[ParsedUnit]): Boolean = maybeResult.forall { result =>
+      val changedProfiles = result.parsedResult.context.state.projectState.config.validationDependency != validationProfiles
+      val isProfile       = result.parsedResult.result.baseUnit.isValidationProfile
+      changedProfiles && !isProfile
+    }
 
-    if (revalidateUris.nonEmpty)
-      revalidateUris.foreach(uri => {
+    repository.getIsolatedUris
+      .flatMap(uri => {
+        if (shouldValidate(repository.getUnit(uri))) Some(uri)
+        else None
+      })
+      .foreach(uri => {
         logger.debug(s"Enqueuing isolated file ($uri) because of changes on validation profiles",
                      "WorkspaceContentManager",
                      "processNewValidationProfiles")
@@ -276,10 +284,11 @@ class WorkspaceContentManager private (val folderUri: String,
       })
   }
 
-  private def processMFChanges(mainFile: String, snapshot: Snapshot): Future[Unit] = {
+  private def processMFChanges(mainFile: String,
+                               snapshot: Snapshot,
+                               uuid: String = UUID.randomUUID().toString): Future[Unit] = {
     changeState(ProcessingProject)
     logger.debug(s"Processing Tree changes", "WorkspaceContentManager", "processMFChanges")
-    val uuid = UUID.randomUUID().toString
     for {
       u <- parse(s"${if (folderUri != "" && !mainFile.contains(folderUri))
         trailSlash(folderUri)
@@ -287,7 +296,7 @@ class WorkspaceContentManager private (val folderUri: String,
       _ <- repository.newTree(u).flatMap(t => projectConfigAdapter.newTree(t))
     } yield {
       stagingArea.enqueue(snapshot.files.filterNot(_._2 == CHANGE_CONFIG).filter(t => !isInMainTree(t._1)))
-      subscribers.foreach(s => {
+      baseUnitSubscribers.foreach(s => {
         logger.debug(s"Sending new AST from ${u.result.baseUnit.location().getOrElse(folderUri)}",
                      "WorkspaceContentManager",
                      "processMFChanges")
@@ -346,7 +355,7 @@ class WorkspaceContentManager private (val folderUri: String,
     else logger.debug(msg, "WorkspaceContentManager", "Processing request")
 
   override protected def disableTasks(): Future[Unit] = Future {
-    subscribers.map(d => repository.getAllFilesUris.map(_.toAmfUri).foreach(d.onRemoveFile))
+    baseUnitSubscribers.map(d => repository.getAllFilesUris.map(_.toAmfUri).foreach(d.onRemoveFile))
   }
 }
 
@@ -355,7 +364,7 @@ object WorkspaceContentManager {
             environmentProvider: EnvironmentProvider,
             telemetryProvider: TelemetryProvider,
             logger: Logger,
-            allSubscribers: List[BaseUnitListener],
+            subscribers: () => List[WorkspaceContentListener[_]],
             projectConfigAdapter: ProjectConfigurationAdapter,
             hotReload: Boolean = false): Future[WorkspaceContentManager] = {
     val repository = new WorkspaceParserRepository(logger)
@@ -363,7 +372,7 @@ object WorkspaceContentManager {
                                           environmentProvider,
                                           telemetryProvider,
                                           logger,
-                                          allSubscribers,
+                                          subscribers,
                                           repository,
                                           projectConfigAdapter.withRepository(repository),
                                           hotReload)

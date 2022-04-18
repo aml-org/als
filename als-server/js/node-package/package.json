@@ -15,7 +15,7 @@
     "build:dist": "webpack --config ./webpack.config.js"
   },
   "dependencies": {
-    "@aml-org/amf-custom-validator-web": "1.0.0",
+    "@aml-org/amf-custom-validator-web": "1.1.0",
     "ajv": "6.12.6",
     "browserify-fs": "^1.0.0",
     "buffer": "^6.0.3",

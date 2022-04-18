@@ -49,7 +49,7 @@ diagnostics:
     code: file://als-node-client/src/test/resources/custom-validation/multiple-profiles/max-endpoints.yaml#/encodes/validations/max-endpoints
     relatedInformation:
       -
-        message: Error expected 3 <= actual (actual=4) at apiContract.endpoint
+        message: Error expected 3 <= actual (actual=4) at http://a.ml/vocabularies/apiContract#endpoint
         location: Location(file://als-node-client/src/test/resources/custom-validation/multiple-profiles/api.raml,Range(common.Position[L:1,C:0],common.Position[L:22,C:14]))
   -
     message: GET operations must have 2xx, 4xx and 5xx status codes but no 201
@@ -100,7 +100,7 @@ diagnostics:
     code: file://als-node-client/src/test/resources/custom-validation/multiple-profiles/max-endpoints.yaml#/encodes/validations/max-endpoints
     relatedInformation:
       -
-        message: Error expected 3 <= actual (actual=4) at apiContract.endpoint
+        message: Error expected 3 <= actual (actual=4) at http://a.ml/vocabularies/apiContract#endpoint
         location: Location(file://als-node-client/src/test/resources/custom-validation/multiple-profiles/api.raml,Range(common.Position[L:1,C:0],common.Position[L:22,C:14]))
   -
     message: |-
@@ -133,7 +133,7 @@ diagnostics:
     code: file://als-node-client/src/test/resources/custom-validation/multiple-profiles/max-endpoints.yaml#/encodes/validations/max-endpoints
     relatedInformation:
       -
-        message: Error expected 3 <= actual (actual=4) at apiContract.endpoint
+        message: Error expected 3 <= actual (actual=4) at http://a.ml/vocabularies/apiContract#endpoint
         location: Location(file://als-node-client/src/test/resources/custom-validation/multiple-profiles/api.raml,Range(common.Position[L:1,C:0],common.Position[L:22,C:14]))
   -
     message: GET operations must have 2xx, 4xx and 5xx status codes but no 201

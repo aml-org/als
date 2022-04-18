@@ -81,7 +81,7 @@ class MockCompleteClientNotifier(val timeoutMillis: Int = 1000)
     )
 }
 
-class MockDiagnosticClientNotifier(val timeoutMillis: Int = 1000)
+class MockDiagnosticClientNotifier(val timeoutMillis: Int = 3000)
     extends ClientNotifier
     with AbstractTestClientNotifier[PublishDiagnosticsParams]
     with TimeoutFuture {
@@ -94,13 +94,17 @@ class MockDiagnosticClientNotifier(val timeoutMillis: Int = 1000)
     notify(msg)
 }
 
-class MockAlsClientNotifier
+class MockAlsClientNotifier(val timeOutMillis: Int = 1000)
     extends AlsClientNotifier[StringWriter]
-    with AbstractTestClientNotifier[SerializationResult[StringWriter]] {
+    with AbstractTestClientNotifier[SerializationResult[StringWriter]]
+    with TimeoutFuture {
 
   override def notifySerialization(params: SerializationResult[StringWriter]): Unit = notify(params)
 
   override def notifyProjectFiles(params: FilesInProjectParams): Unit = {}
+
+  override def nextCall: Future[SerializationResult[StringWriter]] =
+    timeoutFuture(super.nextCall, timeOutMillis)
 }
 
 class MockTelemetryClientNotifier(val timeoutMillis: Int = 1000, ignoreErrors: Boolean = true)

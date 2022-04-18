@@ -1,0 +1,17 @@
+#%Validation Profile 1.0
+profile: Test Profile 2
+violation:
+  - validation2
+
+validations:
+  validation2:
+    targetClass: apiContract.EndPoint
+    message: Endpoints must have a POST method
+    propertyConstraints:
+      apiContract.supportedOperation:
+        atLeast:
+          count: 1
+          validation:
+            propertyConstraints:
+              apiContract.method:
+                in: [ get ]

@@ -13,16 +13,15 @@ import org.mulesoft.als.common.diff.{Diff, FileAssertionTest, Tests}
 import org.mulesoft.als.server._
 import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
-import org.mulesoft.als.server.feature.serialization.{SerializationClientCapabilities, SerializationParams}
-import org.mulesoft.als.server.modules.diagnostic.FromJsonLDValidatorExecutor
+import org.mulesoft.als.server.feature.serialization.SerializationClientCapabilities
 import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams}
 import org.mulesoft.als.server.protocol.textsync.DidFocusParams
-import org.mulesoft.als.server.workspace.{ChangesWorkspaceConfiguration, WorkspaceManager}
+import org.mulesoft.als.server.workspace.ChangesWorkspaceConfiguration
 import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.configuration.TraceKind
-import org.mulesoft.lsp.feature.common.{TextDocumentIdentifier, TextDocumentItem}
+import org.mulesoft.lsp.feature.common.TextDocumentItem
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
 import org.scalatest.Assertion
 import org.yaml.builder.{DocBuilder, JsonOutputBuilder}
@@ -56,9 +55,9 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
           |""".stripMargin
 
       val api = "file://api.raml"
-      openFile(server)(api, content)
 
       for {
+        _ <- openFile(server)(api, content)
         s <- alsClient.nextCall.map(_.model.toString)
         parsed <- {
           val rl = new ResourceLoader {

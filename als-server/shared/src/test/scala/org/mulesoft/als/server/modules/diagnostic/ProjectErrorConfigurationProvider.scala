@@ -1,9 +1,8 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.validation.AMFValidationResult
 import org.mulesoft.als.logger.Logger
-import org.mulesoft.als.server.modules.workspace.DefaultProjectConfigurationProvider
+import org.mulesoft.als.server.modules.workspace.{DefaultProjectConfiguration, DefaultProjectConfigurationProvider}
 import org.mulesoft.amfintegration.amfconfiguration.{EditorConfigurationProvider, ProjectConfigurationState}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -21,15 +20,15 @@ class ProjectErrorConfigurationProvider(editorConfiguration: EditorConfiguration
     super
       .getProjectInfo(folder)
       .map(_.map(state => {
-        new ProjectConfigurationState(
+        DefaultProjectConfiguration(
           state.extensions,
           state.profiles,
-          state.config,
           state.results,
-          state.resourceLoaders,
-          if (reportError) Seq(error) else Seq()
-        ) {
-          override def cache: Seq[BaseUnit] = Seq.empty
-        }
+          state.config,
+          DummyEnvironmentProvider,
+          if (reportError) Seq(error) else Seq(),
+          editorConfiguration,
+          logger
+        )
       }))
 }

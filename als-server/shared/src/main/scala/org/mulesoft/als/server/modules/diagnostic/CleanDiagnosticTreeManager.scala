@@ -128,7 +128,7 @@ class CleanDiagnosticTreeManager(telemetryProvider: TelemetryProvider,
       helper <- Future(alsConfigurationState.configForUnit(resolvedUnit))
       result <- customValidationManager match {
         case Some(cvm) if cvm.isActive && alsConfigurationState.profiles.nonEmpty =>
-          cvm.validate(uri, resolvedUnit, alsConfigurationState.profiles.map(_.model), helper).map(_.flatten)
+          cvm.validate(uri, resolvedUnit, alsConfigurationState.profiles.map(_.model), helper)
         case _ => Future(Seq.empty)
       }
     } yield {

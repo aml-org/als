@@ -10,11 +10,12 @@ import org.mulesoft.als.server.client.platform.{AlsClientNotifier, ClientNotifie
 import org.mulesoft.als.server.modules.actions._
 import org.mulesoft.als.server.modules.actions.fileusage.FindFileUsageManager
 import org.mulesoft.als.server.modules.actions.rename.RenameManager
-import org.mulesoft.als.server.modules.ast.{AccessUnits, BaseUnitListener, ResolvedUnitListener}
+import org.mulesoft.als.server.modules.ast.{AccessUnits, ResolvedUnitListener, WorkspaceContentListener}
 import org.mulesoft.als.server.modules.completion.SuggestionsManager
 import org.mulesoft.als.server.modules.configuration.{ConfigurationManager, WorkspaceConfigurationManager}
 import org.mulesoft.als.server.modules.diagnostic._
 import org.mulesoft.als.server.modules.diagnostic.custom.CustomValidationManager
+import org.mulesoft.als.server.modules.project.ProfileConfigurationChangeListener
 import org.mulesoft.als.server.modules.serialization.{ConversionManager, SerializationManager}
 import org.mulesoft.als.server.modules.structure.StructureManager
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
@@ -60,7 +61,7 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier,
     this
   }
 
-  private val projectDependencies: ListBuffer[BaseUnitListener] = ListBuffer()
+  private val projectDependencies: ListBuffer[WorkspaceContentListener[_]] = ListBuffer()
   private val resolutionDependencies: ListBuffer[ResolvedUnitListener] =
     ListBuffer()
 
@@ -100,6 +101,16 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier,
     fip
   }
 
+  def profileNotificationConfigurationListener[S](sp: SerializationProps[S]): ProfileConfigurationChangeListener[S] = {
+    val pnl =
+      new ProfileConfigurationChangeListener(sp, configurationManager.getConfiguration, logger)
+    projectDependencies += pnl
+    pnl
+  }
+
+  def addWorkspaceContentListener(workspaceContentListener: WorkspaceContentListener[_]): Unit =
+    projectDependencies += workspaceContentListener
+
   def buildWorkspaceManagerFactory(): WorkspaceManagerFactory =
     WorkspaceManagerFactory(
       projectDependencies.toList,
@@ -115,7 +126,7 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier,
     )
 }
 
-case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
+case class WorkspaceManagerFactory(projectDependencies: List[WorkspaceContentListener[_]],
                                    resolutionDependencies: List[ResolvedUnitListener],
                                    telemetryManager: TelemetryManager,
                                    directoryResolver: DirectoryResolver,
@@ -144,7 +155,7 @@ case class WorkspaceManagerFactory(projectDependencies: List[BaseUnitListener],
     }
   )
 
-  private val dependencies: List[BaseUnitListener] = projectDependencies :+ resolutionTaskManager
+  private val dependencies: List[WorkspaceContentListener[_]] = projectDependencies :+ resolutionTaskManager
 
   val workspaceManager: WorkspaceManager =
     WorkspaceManager(

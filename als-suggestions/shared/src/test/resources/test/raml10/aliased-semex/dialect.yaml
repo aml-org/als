@@ -1,0 +1,27 @@
+#%Dialect 1.0
+dialect: Extensions
+version: 1.0
+
+external:
+  shacl: http://www.w3.org/ns/shacl#
+  fed: http://fedgraph.ml/vocab#
+
+documents: {}
+
+nodeMappings:
+  FedKey:
+    classTerm: fed.fedKey
+    mapping:
+      key:
+        range: string
+      name:
+        range: string
+
+annotationMappings:
+  FedKeyMapping:
+    domain: shacl.NodeShape
+    propertyTerm: fed.Key
+    range:  FedKey
+
+extensions:
+  key: FedKeyMapping

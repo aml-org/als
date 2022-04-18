@@ -25,6 +25,8 @@ trait AstListener[T] {
   def onRemoveFile(uri: String): Unit
 }
 
+trait WorkspaceContentListener[T] extends AstListener[T] // this just works as a "marker" for both BaseUnitListener and NewConfigurationListener
+
 trait AccessUnits[T] {
   def withUnitAccessor(unitAccessor: UnitAccessor[T]): AccessUnits[T] = {
     this.unitAccessor = Some(unitAccessor)
@@ -39,7 +41,7 @@ case class BaseUnitListenerParams(parseResult: AmfParseResult,
                                   workspace: String,
                                   isDependency: Boolean = false)
 
-trait BaseUnitListener extends AstListener[BaseUnitListenerParams] with AccessUnits[CompilableUnit]
+trait BaseUnitListener extends WorkspaceContentListener[BaseUnitListenerParams] with AccessUnits[CompilableUnit]
 
 trait TextListener {
 
