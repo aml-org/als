@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.workspace
 
+import amf.core.client.scala.model.document.Document
 import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.server.LanguageServerBaseTest
 import org.mulesoft.als.server.modules.workspace.{DefaultProjectConfigurationProvider, MainFileTreeBuilder}
@@ -11,7 +12,7 @@ import org.mulesoft.amfintegration.amfconfiguration.{
   EmptyProjectConfigurationState
 }
 import org.mulesoft.amfintegration.visitors.AmfElementVisitors
-
+import org.mulesoft.amfintegration.AmfImplicits._
 import scala.concurrent.{ExecutionContext, Future}
 
 class DefaultProjectConfigurationProviderTest extends LanguageServerBaseTest {
@@ -167,13 +168,29 @@ class DefaultProjectConfigurationProviderTest extends LanguageServerBaseTest {
       )
       p2 <- provider.getProjectInfo(ws1).getOrElse(Future(EmptyProjectConfigurationState))
       _  <- provider.afterNewTree(ws1, tree)
+      assert1 <- Future {
+        assert(c1 == p1)
+        assert(c1 != c2)
+      }
+      libC1 <- c1.cache
+        .fetch(library)
+        .map(_.content)
+        .recoverWith({ case _ => Future(Document().withId("nonCacheC1")) })
+      libC2 <- c2.cache.fetch(library).map(_.content)
+      assertp1 <- p1.cache
+        .fetch(library)
+        .map(_.content)
+        .recoverWith({ case _ => Future(Document().withId("nonCacheP1")) })
+      assertp2 <- p2.cache
+        .fetch(library)
+        .map(_.content)
+        .recoverWith({ case _ => Future(Document().withId("nonCacheP2")) })
     } yield {
-      assert(c1 == p1)
-      assert(c1 != c2)
-      c1.cache should be(empty)
-      p1.cache should be(empty)
-      p2.cache should not be empty
-      p2.cache.find(_.location().contains(library)) should not be empty
+      libC1.id shouldBe "nonCacheC1"
+      libC2.identifier shouldBe library
+      assertp1.id shouldBe "nonCacheP1"
+      assertp2.identifier shouldBe library
+      assert1
     }
   }
 }

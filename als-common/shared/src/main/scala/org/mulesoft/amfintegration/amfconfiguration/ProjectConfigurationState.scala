@@ -3,16 +3,19 @@ package org.mulesoft.amfintegration.amfconfiguration
 import amf.aml.client.scala.model.document.Dialect
 import amf.apicontract.client.scala.AMFConfiguration
 import amf.core.client.scala.AMFParseResult
+import amf.core.client.scala.config.{CachedReference, UnitCache}
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.client.scala.validation.AMFValidationResult
 import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.amfintegration.ValidationProfile
 
+import scala.concurrent.Future
+
 trait ProjectConfigurationState {
 
   def customSetUp(amfConfiguration: AMFConfiguration): AMFConfiguration = amfConfiguration
-  def cache: Seq[BaseUnit]
+  def cache: UnitCache
 
   val extensions: Seq[Dialect]
   val profiles: Seq[ValidationProfile]
@@ -23,7 +26,8 @@ trait ProjectConfigurationState {
 }
 
 case class EmptyProjectConfigurationState(folder: String) extends ProjectConfigurationState() {
-  override val cache: Seq[BaseUnit]                    = Seq.empty
+  override val cache: UnitCache = (url: String) =>
+    Future.failed(new Exception("NothingUnitCache doesn't have any cached units"))
   override val extensions: Seq[Dialect]                = Seq.empty
   override val profiles: Seq[ValidationProfile]        = Seq.empty
   override val config: ProjectConfiguration            = ProjectConfiguration.empty(folder)
