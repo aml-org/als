@@ -3,6 +3,7 @@ package org.mulesoft.als.suggestions.test.raml10
 import amf.aml.client.scala.AMLConfiguration
 import amf.aml.client.scala.model.document.Dialect
 import amf.apicontract.client.scala.RAMLConfiguration
+import amf.core.client.scala.config.{CachedReference, UnitCache}
 import amf.core.client.scala.{AMFGraphConfiguration, AMFParseResult}
 import amf.core.client.scala.model.document.{BaseUnit, Module}
 import amf.core.client.scala.resource.ResourceLoader
@@ -17,7 +18,7 @@ import org.mulesoft.amfintegration.amfconfiguration.{
 }
 import org.mulesoft.lsp.feature.completion.CompletionItem
 import org.scalatest.{AsyncFunSuite, Matchers}
-
+import org.mulesoft.amfintegration.AmfImplicits._
 import scala.concurrent.{ExecutionContext, Future}
 
 class AliasedSemexSuggestionTest extends AsyncFunSuite with BaseSuggestionsForTest with Matchers {
@@ -82,7 +83,16 @@ class AliasedSemexSuggestionTest extends AsyncFunSuite with BaseSuggestionsForTe
 
 case class TestProjectConfigurationState(d: Dialect, override val config: ProjectConfiguration, lib: Module)
     extends ProjectConfigurationState {
-  override def cache: Seq[BaseUnit] = Seq(lib.cloneUnit())
+  override def cache: UnitCache = new UnitCache {
+    val map: Map[String, BaseUnit] = {
+      val clone = lib.cloneUnit()
+      Map(clone.identifier -> clone)
+    }
+    override def fetch(url: String): Future[CachedReference] = map.get(url) match {
+      case Some(bu) => Future.successful(CachedReference(url, bu))
+      case _        => throw new Exception("Unit not found")
+    }
+  }
 
   override val extensions: Seq[Dialect]                = Seq(d)
   override val profiles: Seq[ValidationProfile]        = Nil
