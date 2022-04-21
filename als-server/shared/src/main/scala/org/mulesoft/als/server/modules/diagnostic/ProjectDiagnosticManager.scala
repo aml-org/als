@@ -32,7 +32,7 @@ class ProjectDiagnosticManager(override protected val telemetryProvider: Telemet
     })
   }
 
-  override def onNewAst(ast: BaseUnitListenerParams, uuid: String): Future[Unit] = Future {
+  override def onNewAst(ast: BaseUnitListenerParams, uuid: String): Future[Unit] = {
     if (ast.tree) {
       val uri                    = ast.parseResult.location
       val projectErrors          = ast.parseResult.context.state.projectState.projectErrors
@@ -44,6 +44,7 @@ class ProjectDiagnosticManager(override protected val telemetryProvider: Telemet
         uuid
       )
     }
+    Future.unit
   }
 
   override def onRemoveFile(uri: String): Unit = {}

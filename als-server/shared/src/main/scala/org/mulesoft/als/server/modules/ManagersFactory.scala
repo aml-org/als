@@ -89,10 +89,10 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier,
     customValidationManager = customValidatorBuilder.map(validator =>
       new CustomValidationManager(telemetryManager, clientNotifier, logger, gatherer, validator))
     customValidationManager.foreach(resolutionDependencies += _)
+    projectDependencies += pdm
     resolutionDependencies += rdm
     projectDependencies += dm
-    projectDependencies += pdm
-    Seq(Some(dm), Some(pdm), Some(rdm), customValidationManager).flatten
+    Seq(pdm, dm, rdm) ++ customValidationManager
   }
 
   def filesInProjectManager(alsClientNotifier: AlsClientNotifier[_]): FilesInProjectManager = {

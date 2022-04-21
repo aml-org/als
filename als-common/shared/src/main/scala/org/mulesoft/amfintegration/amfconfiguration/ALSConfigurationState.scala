@@ -63,13 +63,7 @@ case class ALSConfigurationState(editorState: EditorConfigurationState,
   private def predefinedWithDialects: AMLConfiguration =
     dialects.foldLeft(AMLConfiguration.predefined())((c, d) => c.withDialect(d))
 
-  val cache: UnitCache = new UnitCache {
-    val map: Map[String, BaseUnit] = projectState.cache.map(bu => bu.location().getOrElse(bu.id) -> bu).toMap
-    override def fetch(url: String): Future[CachedReference] = map.get(url) match {
-      case Some(bu) => Future.successful(CachedReference(url, bu))
-      case _        => throw new Exception("Unit not found")
-    }
-  }
+  val cache: UnitCache = projectState.cache
 
   private def getAmlConfig(base: AMLConfiguration): AMLConfiguration = {
     val configuration = base
