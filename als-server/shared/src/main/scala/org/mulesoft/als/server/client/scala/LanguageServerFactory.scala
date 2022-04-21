@@ -102,13 +102,16 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) {
     val dm                    = factory.buildDiagnosticManagers(Some(amfCustomValidatorBuilder))
     val sm                    = factory.serializationManager(serialization)
     val filesInProjectManager = factory.filesInProjectManager(serialization.alsClientNotifier)
+    val profileNotification   = factory.profileNotificationConfigurationListener(serialization)
     workspaceContentListeners.foreach(factory.addWorkspaceContentListener)
+
     val builders = factory.buildWorkspaceManagerFactory()
 
     val languageBuilder =
       languageServerWithBasicFeatures(builders)
         .addInitializableModule(sm)
         .addInitializableModule(filesInProjectManager)
+        .addInitializableModule(profileNotification)
 
     dm.foreach(m => languageBuilder.addInitializableModule(m))
     builders.serializationManager.foreach(languageBuilder.addRequestModule)
