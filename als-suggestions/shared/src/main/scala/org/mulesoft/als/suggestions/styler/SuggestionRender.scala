@@ -1,9 +1,11 @@
 package org.mulesoft.als.suggestions.styler
 
 import org.mulesoft.als.common.dtoTypes.PositionRange
+import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.suggestions._
 import org.mulesoft.als.suggestions.implementation.CompletionItemBuilder
 import org.mulesoft.als.suggestions.styler.astbuilder.AstRawBuilder
+import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.completion.{CompletionItem, InsertTextFormat}
 import org.yaml.model._
 
@@ -50,15 +52,27 @@ trait SuggestionRender {
       .withText(styled.text)
   }
 
+  protected def renderYPart(part: YPart): String
+
+  private def toTextEdits(textEdits: Seq[Either[TextEdit, AdditionalSuggestion]]): Seq[TextEdit] = {
+    textEdits.map {
+      case Left(te) => te
+      case Right(AdditionalSuggestion(insert, range)) =>
+        val text = renderYPart(insert)
+        TextEdit(LspRangeConverter.toLspRange(range), text)
+    }
+  }
+
   def rawToStyledSuggestion(suggestions: RawSuggestion): CompletionItem = {
     val builder = getBuilder(suggestions)
-    builder
       .withDescription(suggestions.description)
       .withDisplayText(suggestions.displayText)
       .withCategory(suggestions.category)
       .withPrefix(params.prefix)
       .withMandatory(suggestions.options.isMandatory)
       .withIsTopLevel(suggestions.options.isTopLevel)
+    if (suggestions.textEdits.nonEmpty)
+      builder.withAdditionalTextEdits(toTextEdits(suggestions.textEdits))
 
     patchPath(builder)
 

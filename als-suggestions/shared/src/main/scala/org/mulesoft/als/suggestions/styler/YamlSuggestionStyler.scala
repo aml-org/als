@@ -3,6 +3,7 @@ package org.mulesoft.als.suggestions.styler
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.suggestions._
 import org.mulesoft.als.suggestions.styler.astbuilder.{AstRawBuilder, YamlAstRawBuilder}
+import org.yaml.model.YPart
 import org.yaml.render.{FlowYamlRender, YamlPartRender, YamlRender, YamlRenderOptions}
 
 case class YamlSuggestionStyler(override val params: StylerParams) extends FlowSuggestionRender {
@@ -21,11 +22,16 @@ case class YamlSuggestionStyler(override val params: StylerParams) extends FlowS
       ) // never will suggest object in value as is not key. Suggestions should be empty
         "\n"
       else ""
-    val ast         = builder.ast
-    val indentation = 0 // We always want to indent relative to the parent node
-    val rendered    = yamlRenderer.render(ast, indentation, buildYamlRenderOptions)
+    val rendered = renderYPart(builder.ast)
     fixPrefix(prefix, fix(builder, rendered))
   }
+
+  override protected def renderYPart(part: YPart): String =
+    yamlRenderer.render(
+      part,
+      indentation = 0,
+      buildYamlRenderOptions
+    ) // We always want to indent relative to the parent node
 
   def buildYamlRenderOptions: YamlRenderOptions =
     new YamlRenderOptions().withIndentationSize(params.formattingConfiguration.tabSize)

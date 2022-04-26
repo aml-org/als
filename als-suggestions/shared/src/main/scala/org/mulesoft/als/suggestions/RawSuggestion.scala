@@ -2,12 +2,13 @@ package org.mulesoft.als.suggestions
 
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.lsp.edit.TextEdit
+import org.yaml.model.YPart
 
 case class RawSuggestion(
     newText: String,
     displayText: String,
     description: String,
-    textEdits: Seq[TextEdit],
+    textEdits: Seq[Either[TextEdit, AdditionalSuggestion]],
     category: String = "unknown",
     range: Option[PositionRange] = None,
     options: SuggestionStructure = SuggestionStructure(),
@@ -54,6 +55,18 @@ case class RawSuggestion(
       this.range,
       this.options,
       children
+    )
+
+  def withAdditionalTextEdits(edits: Seq[Either[TextEdit, AdditionalSuggestion]]): RawSuggestion =
+    RawSuggestion(
+      this.newText,
+      this.displayText,
+      this.description,
+      edits,
+      this.category,
+      this.range,
+      this.options,
+      this.children
     )
 }
 
@@ -198,3 +211,5 @@ object RawSuggestion {
     RawSuggestion
       .forObject("", category, mandatory = true, Some(s"$prefix $name"), children)
 }
+
+case class AdditionalSuggestion(insert: YPart, range: PositionRange)
