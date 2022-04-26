@@ -4,6 +4,7 @@ import amf.aml.client.scala.AMLDialectInstanceResult
 import amf.aml.client.scala.model.document.{Dialect, DialectInstance}
 import amf.apicontract.client.scala.{AMFConfiguration, APIConfiguration}
 import amf.core.client.common.validation.SeverityLevels
+import amf.core.client.scala.config.{CachedReference, UnitCache}
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.client.scala.validation.AMFValidationResult
@@ -183,7 +184,7 @@ case class DefaultProjectConfiguration(override val extensions: Seq[Dialect],
 
   val cacheBuilder: CacheBuilder =
     new CacheBuilder(config.folder, config.designDependency, environmentProvider, editorConfiguration, logger)
-  override def cache: Seq[BaseUnit] = cacheBuilder.cachedUnits
+  override def cache: UnitCache = cacheBuilder.buildUnitCache
 
   override val resourceLoaders: Seq[ResourceLoader] = Nil
 }
@@ -196,6 +197,12 @@ class CacheBuilder(folder: String,
 
   private val cache: mutable.Map[String, BaseUnit] = mutable.Map.empty
 
+  def buildUnitCache: UnitCache =
+    (url: String) =>
+      cache.get(url) match {
+        case Some(bu) => Future.successful(CachedReference(url, bu))
+        case _        => Future.failed(new Exception("Unit not found"))
+    }
   def cachedUnits: Seq[BaseUnit] = cache.values.toSeq
 
   def updateCache(main: AMFResult, units: Map[String, ParsedUnit]): Future[Unit] = {
