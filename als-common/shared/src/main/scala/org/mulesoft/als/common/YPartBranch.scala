@@ -14,13 +14,12 @@ import scala.annotation.tailrec
 
 case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], isJson: Boolean, isInFlow: Boolean) {
 
-  // toString is used instead of `text` in order to preserve tokens such as quotation marks
-  lazy val text: Option[String] = node match {
-    case n: YNode =>
-      n.asScalar.map(_.toString())
-    case s: YScalar =>
-      Some(s.toString())
-    case _ => None
+  /** isPlainText means it is a scalar and has no quotation marks
+    */
+  lazy val isPlainText: Option[Boolean] = node match {
+    case n: YNode   => n.asScalar.map(_.plain)
+    case s: YScalar => Some(s.plain)
+    case _          => None
   }
 
   lazy val isMultiline: Boolean = node match {
