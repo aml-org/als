@@ -48,5 +48,5 @@ object Oas30ParameterStructure extends AMLCompletionPlugin {
 
   private def isWritingFacet(p: Parameter, yPartBranch: YPartBranch) =
     (p.name.option().isEmpty || p.name
-      .value() != yPartBranch.stringValue) && (yPartBranch.isKey || yPartBranch.isInArray)
+      .value() != yPartBranch.stringValue) && yPartBranch.isKeyLike
 }

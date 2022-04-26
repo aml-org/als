@@ -14,7 +14,7 @@ import scala.annotation.tailrec
 
 case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], isJson: Boolean, isInFlow: Boolean) {
 
-  // toString is used instwad of `text` in order to preserve tokens such as quotation marks
+  // toString is used instead of `text` in order to preserve tokens such as quotation marks
   lazy val text: Option[String] = node match {
     case n: YNode =>
       n.asScalar.map(_.toString())
@@ -62,7 +62,7 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
       .isInstanceOf[YSequence] || (stack.headOption match {
       case Some(entry: YMapEntry) if entry.value == node =>
         entry.value.asScalar.isDefined &&
-          node.range.columnFrom > entry.key.range.columnFrom && ((position.line == entry.key.range.lineFrom && node.range.columnTo != entry.value.range.columnTo) || position.line > entry.key.range.lineFrom)
+        node.range.columnFrom > entry.key.range.columnFrom && ((position.line == entry.key.range.lineFrom && node.range.columnTo != entry.value.range.columnTo) || position.line > entry.key.range.lineFrom)
       case Some(entry: YMapEntry) => entry.key == node
       case _                      => false
     })
@@ -79,12 +79,16 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
   val isAtRoot: Boolean = node.isInstanceOf[model.YDocument] || (stack.count(_.isInstanceOf[YMap]) == 0 && node
     .isInstanceOf[YMap]) ||
     (stack.count(_.isInstanceOf[YMap]) <= 1 &&
-      (parentEntry.exists(_.key.range.contains(position)) || // this is the case that you are in a key on root level (before colon)
+      (parentEntry.exists(
+        _.key.range.contains(position)
+      ) || // this is the case that you are in a key on root level (before colon)
         isJson))
 
   val isArray: Boolean = node.isArray
   lazy val isInArray: Boolean =
     getSequence.isDefined
+
+  lazy val isKeyLike: Boolean = isKey || isInArray
 
   val parent: Option[YPart] = stack.headOption
 
@@ -222,10 +226,12 @@ object NodeBranchBuilder {
     })
 
   @tailrec
-  private def getStack(s: YPart,
-                       amfPosition: AmfPosition,
-                       parents: Seq[YPart],
-                       isInFlow: Boolean = false): (Seq[YPart], Boolean) = {
+  private def getStack(
+      s: YPart,
+      amfPosition: AmfPosition,
+      parents: Seq[YPart],
+      isInFlow: Boolean = false
+  ): (Seq[YPart], Boolean) = {
     val inFlow = isInFlow || containsFlow(s)
     childWithPosition(s, amfPosition) match {
       case Some(n: YNode) =>
