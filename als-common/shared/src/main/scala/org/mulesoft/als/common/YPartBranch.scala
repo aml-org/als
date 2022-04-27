@@ -99,8 +99,15 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
   }
 
   // if writing a key, the current entry is ignored
+  private def skipCurrent(stack: Seq[YPart]): Seq[YPart] =
+    stack.headOption match {
+      case Some(entry: YMapEntry) if entry.key == node => stack.tail
+      case _                                           => stack
+    }
+
+  // if writing a key, the current entry is ignored
   lazy val parentEntry: Option[YMapEntry] =
-    findFirstOf(classOf[YMapEntry], stack)
+    findFirstOf(classOf[YMapEntry], skipCurrent(stack))
       .flatMap {
         case value if value.key == node && value.key.asScalar.forall(_.text.isEmpty) =>
           findFirstOf(classOf[YMapEntry], stack.filterNot(_ == value))
@@ -116,7 +123,7 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
   def isKeyDescendantOf(key: String): Boolean =
     isKey && parentEntryIs(key)
 
-  def isValueDescendanceOf(key: String): Boolean =
+  def isValueDescendantOf(key: String): Boolean =
     isValue && parentEntryIs(key)
 
   def isInBranchOf(key: String): Boolean =

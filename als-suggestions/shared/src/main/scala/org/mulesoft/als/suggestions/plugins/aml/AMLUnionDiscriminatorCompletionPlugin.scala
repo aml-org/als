@@ -30,7 +30,7 @@ class AMLUnionDiscriminatorCompletionPlugin(params: AmlCompletionRequest) extend
         .typeDiscriminatorName()
         .option()
         .map(name => {
-          if (params.yPartBranch.isValueDescendanceOf(name)) {
+          if (params.yPartBranch.isValueDescendantOf(name)) {
             unionMapping.typeDiscriminator().keys.map(key => RawSuggestion(key, isAKey = false)).toSeq
           } else Seq.empty
         })

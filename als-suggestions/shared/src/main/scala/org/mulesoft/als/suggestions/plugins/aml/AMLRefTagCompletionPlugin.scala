@@ -15,17 +15,17 @@ trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
   override def id = "AMLRefTagCompletionPlugin"
 
   private val includeSuggestion = Seq(
-    RawSuggestion("!include ",
-                  "!include",
-                  "inclusion tag",
-                  Seq(),
-                  options = SuggestionStructure(rangeKind = PlainText)))
+    RawSuggestion("!include ", "!include", "inclusion tag", Seq(), options = SuggestionStructure(rangeKind = PlainText))
+  )
   val refSuggestion = Seq(
-    RawSuggestion("$ref",
-                  "$ref",
-                  "reference tag",
-                  Seq(),
-                  options = SuggestionStructure(isKey = true, isTopLevel = true)))
+    RawSuggestion(
+      "$ref",
+      "$ref",
+      "reference tag",
+      Seq(),
+      options = SuggestionStructure(isKey = true, isTopLevel = true)
+    )
+  )
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     Future {
@@ -58,19 +58,13 @@ trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
       !isExceptionCase(params.yPartBranch)
 
   private def matchPrefixPatched(params: AmlCompletionRequest) =
-    params.yPartBranch.stringValue.isEmpty || params.yPartBranch.isArray || isPatchedKey(params.yPartBranch) || params.yPartBranch.stringValue
+    params.yPartBranch.stringValue.isEmpty || params.yPartBranch.isArray || params.yPartBranch.stringValue
       .startsWith("$")
 
-  private def isInFacet(params: AmlCompletionRequest): Boolean = isKeyAlone(params) || isPatchedJson(params)
+  private def isInFacet(params: AmlCompletionRequest): Boolean = isKeyAlone(params)
 
   private def isKeyAlone(params: AmlCompletionRequest): Boolean =
     params.fieldEntry.isEmpty && (params.yPartBranch.isKey || params.yPartBranch.isInArray)
-
-  private def isPatchedJson(params: AmlCompletionRequest): Boolean =
-    params.yPartBranch.isJson && params.yPartBranch.isInArray
-
-  private def isPatchedKey(yPartBranch: YPartBranch): Boolean =
-    yPartBranch.isJson && yPartBranch.stringValue == "x"
 
   protected def isExceptionCase(branch: YPartBranch): Boolean = false
 }

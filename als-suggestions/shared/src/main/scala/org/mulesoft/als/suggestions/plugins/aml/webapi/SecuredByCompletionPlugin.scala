@@ -8,7 +8,6 @@ import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.AMLRamlStyleDeclarationsReferences
-import org.mulesoft.als.suggestions.plugins.aml.patched.JsonExceptions
 import org.mulesoft.als.suggestions.{ArrayRange, ObjectRange, RawSuggestion}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -21,16 +20,12 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
     Future {
       if (isWritingSecuredBy(request)) {
         val original = getSecurityNames(request.prefix, request.declarationProvider)
-        val forKey =
-          if ((request.yPartBranch.isKey || request.yPartBranch.isInArray) || compatibleParametrizedSecurityScheme(
-                request))
-            original.map(r => r.copy(options = r.options.copy(isKey = true, rangeKind = ObjectRange)))
-          else original
-
-        if (!request.yPartBranch.isArray && !request.yPartBranch.isInArray)
-          forKey.map(r => r.copy(options = r.options.copy(rangeKind = ArrayRange, isKey = false)))
-        else forKey
-
+        if (request.yPartBranch.isKeyLike || compatibleParametrizedSecurityScheme(request))
+          original.map(r => r.copy(options = r.options.copy(isKey = true, rangeKind = ObjectRange)))
+        else if (!request.yPartBranch.isKeyLike)
+          original
+            .map(r => r.copy(options = r.options.copy(rangeKind = ArrayRange, isKey = false)))
+        else original
       } else Nil
     }
   }
@@ -40,10 +35,10 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
       case _: ParametrizedSecurityScheme =>
         compatibleParametrizedSecurityScheme(request)
       case _: SecurityRequirement =>
-        (request.fieldEntry.exists(_.field == SecurityRequirementModel.Name) || request.fieldEntry.isEmpty) && underSecurityKey(
-          request) && (request.yPartBranch.isInArray || request.yPartBranch.isValue || JsonExceptions.SecuredBy
-          .isJsonException(request.yPartBranch))
-      case s: Server => request.fieldEntry.exists(t => t.field == ServerModel.Security)
+        (request.fieldEntry.map(_.field).contains(SecurityRequirementModel.Name) || request.fieldEntry.isEmpty) &&
+        underSecurityKey(request) &&
+        (request.yPartBranch.isInArray || request.yPartBranch.isValue)
+      case _: Server => request.fieldEntry.map(_.field).contains(ServerModel.Security)
       case _         => false
     }
 
@@ -55,7 +50,7 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
     new AMLRamlStyleDeclarationsReferences(Seq(SecuritySchemeModel.`type`.head.iri()), prefix, dp, None)
       .resolve()
 
-  private def underSecurityKey(request: AmlCompletionRequest) = {
-    request.yPartBranch.parentEntryIs("security") || request.yPartBranch.parentEntryIs("securedBy") // use metadata (dialect) here
-  }
+  private def underSecurityKey(request: AmlCompletionRequest) =
+    request.yPartBranch.parentEntryIs("security") ||
+      request.yPartBranch.parentEntryIs("securedBy") // use metadata (dialect) here
 }
