@@ -1,5 +1,6 @@
 package org.mulesoft.als.suggestions
 
+import amf.apicontract.client.scala.APIConfiguration
 import amf.core.client.common.position.{Position => AmfPosition}
 import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
@@ -121,7 +122,7 @@ class YamlSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
     val value          = "additional:\n Text: Edit\n"
     val edit           = TextEdit(Range(LspPosition(1, 0), LspPosition(1, 0)), formattedValue)
     val additionalSuggestion =
-      AdditionalSuggestion(YamlParser(value).parse(false).head, PositionRange(Position(1, 0), Position(1, 0)))
+      AdditionalSuggestion(YamlParser(value).parse(false).head, Left(PositionRange(Position(1, 0), Position(1, 0))))
     val suggestion = RawSuggestion
       .forObject("info", "docs", mandatory = true)
       .withAdditionalTextEdits(
@@ -142,6 +143,87 @@ class YamlSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
         Position(5, 19),
         dummyYPart,
         FormattingOptions(4, insertSpaces = true)
+      )
+    )
+
+    val completionItem = styler.rawToStyledSuggestion(suggestion)
+
+    assert(completionItem.additionalTextEdits.exists(_.contains(edit)))
+  }
+
+  test("Additional Text Edits: from YPart, with ParentEntry, no uses key") {
+    val content = """#%RAML 1.0
+                    |
+                    |types:
+                    |  t:
+                    |
+                    |""".stripMargin
+
+    val value      = "uses:\n  lib: mylib.raml"
+    val edit       = TextEdit(Range(LspPosition(1, 0), LspPosition(1, 0)), value)
+    val parts      = YamlParser(content).parse(false)
+    val node       = parts.collectFirst({ case d: YDocument => d }).get.node
+    val dummyYPart = NodeBranchBuilder.build(node, AmfPosition(5, 4), isJson = false)
+
+    val additionalSuggestion =
+      AdditionalSuggestion(YNode("mylib.raml"), Seq("uses", "lib"), node)
+    val suggestion = RawSuggestion
+      .forObject("object", "unknown", mandatory = true)
+      .withAdditionalTextEdits(
+        Seq(
+          Right(
+            additionalSuggestion
+          )
+        )
+      )
+    val styler = YamlSuggestionStyler(
+      StylerParams(
+        "",
+        Position(5, 19),
+        dummyYPart,
+        FormattingOptions(2, insertSpaces = true)
+      )
+    )
+
+    val completionItem = styler.rawToStyledSuggestion(suggestion)
+
+    assert(completionItem.additionalTextEdits.exists(_.contains(edit)))
+  }
+
+  test("Additional Text Edits: from YPart, with ParentEntry, with uses key") {
+    val content = """#%RAML 1.0
+                    |
+                    |uses:
+                    |
+                    |
+                    |types:
+                    |  t:
+                    |
+                    |""".stripMargin
+
+    val value      = "\n  lib: mylib.raml"
+    val edit       = TextEdit(Range(LspPosition(3, 5), LspPosition(3, 5)), value)
+    val parts      = YamlParser(content).parse(false)
+    val node       = parts.collectFirst({ case d: YDocument => d }).get.node
+    val dummyYPart = NodeBranchBuilder.build(node, AmfPosition(9, 4), isJson = false)
+
+    val additionalSuggestion =
+      AdditionalSuggestion(YNode("mylib.raml"), Seq("uses", "lib"), node)
+    val suggestion = RawSuggestion
+      .forObject("object", "unknown", mandatory = true)
+      .withAdditionalTextEdits(
+        Seq(
+          Right(
+            additionalSuggestion
+          )
+        )
+      )
+    val styler = YamlSuggestionStyler(
+      StylerParams(
+        "",
+        Position(5, 19),
+        dummyYPart,
+        FormattingOptions(2, insertSpaces = true)
       )
     )
 

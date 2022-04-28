@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.styler
 
-import org.mulesoft.als.common.dtoTypes.PositionRange
+import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.suggestions._
 import org.mulesoft.als.suggestions.implementation.CompletionItemBuilder
@@ -14,9 +14,8 @@ trait SuggestionRender {
 
   protected def astBuilder: RawSuggestion => AstRawBuilder
 
-  lazy val stringIndentation: String   = " " * params.indentation
-  lazy val initialIndentationSize: Int = params.indentation / 2
-  lazy val tabSize: Int                = params.formattingConfiguration.tabSize
+  lazy val stringIndentation: String = " " * params.indentation
+  lazy val tabSize: Int              = params.formattingConfiguration.tabSize
 
   private def patchPath(builder: CompletionItemBuilder): Unit =
     if (!isHeaderSuggestion) {
@@ -52,16 +51,20 @@ trait SuggestionRender {
       .withText(styled.text)
   }
 
-  protected def renderYPart(part: YPart): String
+  protected def renderYPart(part: YPart, indentation: Option[Int] = None): String
 
-  private def toTextEdits(textEdits: Seq[Either[TextEdit, AdditionalSuggestion]]): Seq[TextEdit] = {
+  private def toTextEdits(textEdits: Seq[Either[TextEdit, AdditionalSuggestion]]): Seq[TextEdit] =
     textEdits.map {
       case Left(te) => te
-      case Right(AdditionalSuggestion(insert, range)) =>
+      case Right(AdditionalSuggestion(insert, Left(range))) =>
         val text = renderYPart(insert)
         TextEdit(LspRangeConverter.toLspRange(range), text)
+      case Right(AdditionalSuggestion(insert, Right(parent))) =>
+        val indentation: Int = parent.key.range.columnFrom + params.formattingConfiguration.tabSize
+        val text             = s"\n${renderYPart(insert, Some(indentation))}"
+        val position         = Position(parent.value.range.lineTo, parent.value.range.columnTo)
+        TextEdit(LspRangeConverter.toLspRange(PositionRange(position, position)), text)
     }
-  }
 
   def rawToStyledSuggestion(suggestions: RawSuggestion): CompletionItem = {
     val builder = getBuilder(suggestions)

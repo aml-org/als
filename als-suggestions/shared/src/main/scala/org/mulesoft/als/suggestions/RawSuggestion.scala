@@ -211,5 +211,3 @@ object RawSuggestion {
     RawSuggestion
       .forObject("", category, mandatory = true, Some(s"$prefix $name"), children)
 }
-
-case class AdditionalSuggestion(insert: YPart, range: PositionRange)

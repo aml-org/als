@@ -26,10 +26,10 @@ case class YamlSuggestionStyler(override val params: StylerParams) extends FlowS
     fixPrefix(prefix, fix(builder, rendered))
   }
 
-  override protected def renderYPart(part: YPart): String =
+  override protected def renderYPart(part: YPart, indentation: Option[Int] = None): String =
     yamlRenderer.render(
       part,
-      indentation = 0,
+      indentation = indentation.getOrElse(0),
       buildYamlRenderOptions
     ) // We always want to indent relative to the parent node
 

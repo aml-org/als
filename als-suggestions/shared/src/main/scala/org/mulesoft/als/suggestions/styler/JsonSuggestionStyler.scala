@@ -20,7 +20,8 @@ case class JsonSuggestionStyler(override val params: StylerParams) extends FlowS
   private def buildRenderOptions =
     JsonRenderOptions().withoutNonAsciiEncode.withPreferSpaces(useSpaces).withIndentationSize(tabSize)
 
-  override protected def renderYPart(part: YPart): String = JsonRender.render(part, indentation = 0, buildRenderOptions)
+  override protected def renderYPart(part: YPart, indentation: Option[Int] = None): String =
+    JsonRender.render(part, indentation = indentation.getOrElse(0), buildRenderOptions)
 
   override def astBuilder: RawSuggestion => AstRawBuilder =
     (raw: RawSuggestion) => new JsonAstRawBuilder(raw, false, params.yPartBranch)

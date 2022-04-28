@@ -20,5 +20,5 @@ case class DummySuggestionStyle(prefix: String, position: Position) extends Sugg
 
   override def astBuilder: RawSuggestion => AstRawBuilder = (raw: RawSuggestion) => new DummyAstRawBuilder(raw)
 
-  override protected def renderYPart(part: YPart): String = part.toString
+  override protected def renderYPart(part: YPart, indentation: Option[Int] = None): String = part.toString
 }
