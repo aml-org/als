@@ -14,7 +14,7 @@ trait WritingShapeInfo {
       actualDialect: Dialect
   ): Boolean =
     yPartBranch.isKeyLike &&
-      !yPartBranch.isKeyDescendantOf("required") && !writingShapeName(shape, yPartBranch) && !writingParamName(
+      !yPartBranch.parentEntryIs("required") && !writingShapeName(shape, yPartBranch) && !writingParamName(
         stack,
         yPartBranch
       ) && !yPartBranch.parentEntryIs("properties") &&
