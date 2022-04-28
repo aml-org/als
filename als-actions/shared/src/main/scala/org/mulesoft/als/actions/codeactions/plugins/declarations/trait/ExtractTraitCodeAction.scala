@@ -53,7 +53,7 @@ class ExtractTraitCodeAction(override protected val params: CodeActionRequestPar
     result.withExtends(newExtends)
 
     val node = params.alsConfigurationState.configForDialect(params.definedBy).emit(result)
-    s"\n${renderNode(node, yPartBranch.flatMap(_.parentEntry))}\n"
+    s"\n${renderNode(node, yPartBranch.flatMap(_.closestEntry))}\n"
   }
 
   override protected def telemetry: TelemetryProvider = params.telemetryProvider

@@ -15,12 +15,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 12,
-          "character": 22
+          "line": 13,
+          "character": 12
         },
         "end": {
-          "line": 12,
-          "character": 24
+          "line": 13,
+          "character": 13
         }
       },
       "newText": "\"array\""
@@ -45,12 +45,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 12,
-          "character": 22
+          "line": 13,
+          "character": 12
         },
         "end": {
-          "line": 12,
-          "character": 24
+          "line": 13,
+          "character": 13
         }
       },
       "newText": "\"boolean\""
@@ -75,12 +75,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 12,
-          "character": 22
+          "line": 13,
+          "character": 12
         },
         "end": {
-          "line": 12,
-          "character": 24
+          "line": 13,
+          "character": 13
         }
       },
       "newText": "\"file\""
@@ -105,12 +105,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 12,
-          "character": 22
+          "line": 13,
+          "character": 12
         },
         "end": {
-          "line": 12,
-          "character": 24
+          "line": 13,
+          "character": 13
         }
       },
       "newText": "\"integer\""
@@ -135,12 +135,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 12,
-          "character": 22
+          "line": 13,
+          "character": 12
         },
         "end": {
-          "line": 12,
-          "character": 24
+          "line": 13,
+          "character": 13
         }
       },
       "newText": "\"number\""
@@ -165,12 +165,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 12,
-          "character": 22
+          "line": 13,
+          "character": 12
         },
         "end": {
-          "line": 12,
-          "character": 24
+          "line": 13,
+          "character": 13
         }
       },
       "newText": "\"object\""
@@ -195,12 +195,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 12,
-          "character": 22
+          "line": 13,
+          "character": 12
         },
         "end": {
-          "line": 12,
-          "character": 24
+          "line": 13,
+          "character": 13
         }
       },
       "newText": "\"string\""

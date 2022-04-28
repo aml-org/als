@@ -4,18 +4,20 @@ import amf.aml.client.scala.model.document.Dialect
 import amf.apicontract.client.scala.model.domain.Parameter
 import amf.core.client.scala.model.domain.{AmfObject, Shape}
 import org.mulesoft.als.common.YPartBranch
-import org.mulesoft.als.suggestions.plugins.NonPatchHacks
 import org.mulesoft.amfintegration.dialect.DialectKnowledge
 
-trait WritingShapeInfo extends NonPatchHacks {
-  protected def isWritingFacet(yPartBranch: YPartBranch,
-                               shape: Shape,
-                               stack: Seq[AmfObject],
-                               actualDialect: Dialect): Boolean =
-    notValue(yPartBranch) &&
-      !yPartBranch.isKeyDescendantOf("required") && !writingShapeName(shape, yPartBranch) && !writingParamName(
-      stack,
-      yPartBranch) && !yPartBranch.parentEntryIs("properties") &&
+trait WritingShapeInfo {
+  protected def isWritingFacet(
+      yPartBranch: YPartBranch,
+      shape: Shape,
+      stack: Seq[AmfObject],
+      actualDialect: Dialect
+  ): Boolean =
+    yPartBranch.isKeyLike &&
+      !yPartBranch.parentEntryIs("required") && !writingShapeName(shape, yPartBranch) && !writingParamName(
+        stack,
+        yPartBranch
+      ) && !yPartBranch.parentEntryIs("properties") &&
       !DialectKnowledge.isInclusion(yPartBranch, actualDialect)
 
   protected def writingShapeName(shape: Shape, yPartBranch: YPartBranch): Boolean =

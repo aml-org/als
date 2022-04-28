@@ -15,7 +15,7 @@ object RamlPayloadMediaTypeCompletionPlugin extends AMLCompletionPlugin with Pay
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
-      if (isWritingKEYMediaType(request)) {
+      if (isWritingKeyMediaType(request)) {
         PatchedSuggestionsForDialect
           .getKnownValues(request.actualDialect.id, PayloadModel.`type`.head.iri(), PayloadModel.MediaType.value.iri())
           .map(

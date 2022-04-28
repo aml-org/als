@@ -72,11 +72,12 @@ class JsonSchemaToRamlType(override protected val params: CodeActionRequestParam
         maybeTree.flatMap(tree => {
           val range = PositionRange(node.range)
           extractShapeFromAmfObject(
-            tree.stack.find(
-              obj =>
-                isJsonSchemaShape(obj) &&
-                  containsPosition(obj, position) &&
-                  obj.annotations.lexicalInformation().exists(lex => range.contains(PositionRange(lex.range).`end`))))
+            tree.stack.find(obj =>
+              isJsonSchemaShape(obj) &&
+                containsPosition(obj, position) &&
+                obj.annotations.lexicalInformation().exists(lex => range.contains(PositionRange(lex.range).`end`))
+            )
+          )
         })
       case _ => None
     }
@@ -97,7 +98,7 @@ class JsonSchemaToRamlType(override protected val params: CodeActionRequestParam
   private def renderRamlType(shape: AnyShape): Future[String] = Future {
     shape.annotations.reject(_.isInstanceOf[ParsedJSONSchema])
     val node: Option[YNode] = declaredElementNode(Some(shape), params.definedBy, alsConfigurationState)
-    val parent              = yPartBranch.flatMap(_.parentEntry)
+    val parent              = yPartBranch.flatMap(_.closestEntry)
     node
       .map(
         renderNode(_, parent, params.bu, params.configuration, jsonOptions, yamlOptions)
@@ -109,14 +110,16 @@ class JsonSchemaToRamlType(override protected val params: CodeActionRequestParam
   override lazy val linkEntry: Future[Option[TextEdit]] =
     renderLink.map(
       RamlTypeExtractor
-        .linkEntry(entryRange, _, entryAst, yPartBranch, amfObject, params.configuration, newName, yamlOptions))
+        .linkEntry(entryRange, _, entryAst, yPartBranch, amfObject, params.configuration, newName, yamlOptions)
+    )
 
   override protected def task(params: CodeActionRequestParams): Future[Seq[AbstractCodeAction]] = {
     (yPartBranch.map(_.node), maybeAnyShape) match {
       case (Some(entry), Some(shape)) =>
         val range = LspRangeConverter.toLspRange(PositionRange(entry.range))
         inplaceRamlTypeTextEdit(shape, range).map(edits =>
-          buildEdit(edits._1, edits._2).map(JsonSchemaToRamlType.baseCodeAction))
+          buildEdit(edits._1, edits._2).map(JsonSchemaToRamlType.baseCodeAction)
+        )
       case _ => Future.successful(Seq.empty)
     }
   }
@@ -124,7 +127,9 @@ class JsonSchemaToRamlType(override protected val params: CodeActionRequestParam
   def buildEdit(editUri: String, editTextEdit: TextEdit): Seq[AbstractWorkspaceEdit] =
     Seq(
       AbstractWorkspaceEdit(
-        Seq(Left(TextDocumentEdit(VersionedTextDocumentIdentifier(editUri, None), Seq(editTextEdit))))))
+        Seq(Left(TextDocumentEdit(VersionedTextDocumentIdentifier(editUri, None), Seq(editTextEdit))))
+      )
+    )
 
   override protected val kindTitle: CodeActionKindTitle = JsonSchemaToRamlType
 

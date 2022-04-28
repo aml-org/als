@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 8,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"application/json\": {\n  \"$1\"\n}"
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 8,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"application/vnd.github+json\": {\n  \"$1\"\n}"
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 8,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"application/vnd.github.v3+json\": {\n  \"$1\"\n}"
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 8,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"application/vnd.github.v3.full+json\": {\n  \"$1\"\n}"
@@ -140,7 +140,7 @@
         },
         "end": {
           "line": 8,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"application/vnd.github.v3.html+json\": {\n  \"$1\"\n}"
@@ -170,7 +170,7 @@
         },
         "end": {
           "line": 8,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"application/vnd.github.v3.patch\": {\n  \"$1\"\n}"
@@ -200,7 +200,7 @@
         },
         "end": {
           "line": 8,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"application/vnd.github.v3.raw+json\": {\n  \"$1\"\n}"
@@ -230,7 +230,7 @@
         },
         "end": {
           "line": 8,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"application/vnd.github.v3.text+json\": {\n  \"$1\"\n}"
@@ -260,7 +260,7 @@
         },
         "end": {
           "line": 8,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"appxlication/vnd.github.v3.diff\": {\n  \"$1\"\n}"
@@ -290,7 +290,7 @@
         },
         "end": {
           "line": 8,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"text/plain; charset=utf-8\": {\n  \"$1\"\n}"

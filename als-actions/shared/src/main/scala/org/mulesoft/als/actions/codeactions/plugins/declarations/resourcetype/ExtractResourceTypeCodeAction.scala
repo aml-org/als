@@ -52,8 +52,8 @@ case class ExtractResourceTypeCodeAction(params: CodeActionRequestParams)
     case _                 => None
   }
 
-  lazy val webApi: Option[WebApi] = maybeTree.flatMap(_.stack.collectFirst {
-    case w: WebApi => w
+  lazy val webApi: Option[WebApi] = maybeTree.flatMap(_.stack.collectFirst { case w: WebApi =>
+    w
   })
 
   def getEndpointChildren(endpoint: EndPoint): Seq[EndPoint] =
@@ -86,7 +86,7 @@ case class ExtractResourceTypeCodeAction(params: CodeActionRequestParams)
       case e => e
     }
 
-    s"\n${renderNode(node, yPartBranch.flatMap(_.parentEntry))}\n"
+    s"\n${renderNode(node, yPartBranch.flatMap(_.closestEntry))}\n"
   }
 
   override protected val findDialectForSemantic: String => Option[(SemanticExtension, Dialect)] =

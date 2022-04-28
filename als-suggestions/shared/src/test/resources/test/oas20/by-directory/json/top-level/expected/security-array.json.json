@@ -7,10 +7,10 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11security",
-    "filterText": "\"security\"",
+    "filterText": "\"security\": {\n  \"$1\"\n}",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -20,10 +20,10 @@
         },
         "end": {
           "line": 8,
-          "character": 7
+          "character": 6
         }
       },
-      "newText": "\"security\""
+      "newText": "\"security\": {\n  \"$1\"\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

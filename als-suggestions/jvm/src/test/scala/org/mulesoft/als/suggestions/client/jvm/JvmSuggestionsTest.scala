@@ -7,6 +7,7 @@ import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.als.suggestions.client.Suggestions
+import org.mulesoft.als.suggestions.test.core.AccessBundle
 import org.mulesoft.amfintegration.amfconfiguration.{
   ALSConfigurationState,
   EditorConfiguration,
@@ -16,7 +17,7 @@ import org.scalatest.{AsyncFunSuite, Matchers}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class JvmSuggestionsTest extends AsyncFunSuite with Matchers with PlatformSecrets {
+class JvmSuggestionsTest extends AsyncFunSuite with Matchers with PlatformSecrets with AccessBundle {
   override implicit val executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
   // TODO: AMF is having trouble with "file:/" prefix (it transforms it in "file:///")
@@ -58,12 +59,13 @@ class JvmSuggestionsTest extends AsyncFunSuite with Matchers with PlatformSecret
   }
 
   test("Custom Resource Loader test") {
-    val s =
-      new Suggestions(AlsConfiguration(), directoryResolver)
-        .initialized()
     for {
       alsConfigurationState <- alsConfiguration
-      suggestions           <- s.suggest(url, 40, snippetsSupport = true, None, alsConfigurationState)
+      s <- Future {
+        new Suggestions(AlsConfiguration(), directoryResolver, accessBundle(alsConfigurationState))
+          .initialized()
+      }
+      suggestions <- s.suggest(url, 40, snippetsSupport = true, None)
     } yield {
       assert(suggestions.size == 15)
     }

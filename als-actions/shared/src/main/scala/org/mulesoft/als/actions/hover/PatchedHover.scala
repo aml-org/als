@@ -30,15 +30,17 @@ class PatchedHover private (provider: VocabularyProvider) {
 
   def getHover(obj: AmfObject, branch: YPartBranch, dialect: Dialect): Option[(Seq[String], Option[AmfRange])] =
     obj.metaURIs.headOption.flatMap(metaUri => {
-      branch.parentEntry match {
+      branch.closestEntry match {
         case Some(entry: YMapEntry) => getPatchedHover(metaUri, entry, dialect.id)
         case _                      => None
       }
     })
 
-  private def getPatchedHover(metaUri: String,
-                              entry: YMapEntry,
-                              dialectId: String): Option[(Seq[String], Option[AmfRange])] = {
+  private def getPatchedHover(
+      metaUri: String,
+      entry: YMapEntry,
+      dialectId: String
+  ): Option[(Seq[String], Option[AmfRange])] = {
     val dialectName = dialectNames.getOrElse(dialectId, "unknown")
     val valueType   = buildTerm(ValueType(metaUri), entry.key.toString, dialectName)
     provider

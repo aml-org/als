@@ -9,7 +9,6 @@ import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.NonPatchHacks
 import org.mulesoft.als.suggestions.plugins.aml._
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{Oas30AMLHeaderObject, Oas30ParamObject}
@@ -17,7 +16,7 @@ import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{Oas30AMLHeaderObj
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object Oas30ParameterStructure extends AMLCompletionPlugin with NonPatchHacks {
+object Oas30ParameterStructure extends AMLCompletionPlugin {
   override def id: String = "ParameterStructure"
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
@@ -48,5 +47,6 @@ object Oas30ParameterStructure extends AMLCompletionPlugin with NonPatchHacks {
   private lazy val headerProps = Oas30AMLHeaderObject.Obj.propertiesRaw(fromDialect = OAS30Dialect())
 
   private def isWritingFacet(p: Parameter, yPartBranch: YPartBranch) =
-    (p.name.option().isEmpty || p.name.value() != yPartBranch.stringValue) && notValue(yPartBranch)
+    (p.name.option().isEmpty || p.name
+      .value() != yPartBranch.stringValue) && yPartBranch.isKeyLike
 }

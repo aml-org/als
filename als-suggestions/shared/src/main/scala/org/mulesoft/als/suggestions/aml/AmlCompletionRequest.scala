@@ -14,7 +14,6 @@ import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.als.suggestions.CompletionsPluginHandler
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.als.suggestions.styler.{SuggestionRender, SuggestionStylerBuilder}
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
@@ -86,9 +85,8 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
     }
   }
 
-  lazy val declarationProvider: DeclarationProvider = {
+  lazy val declarationProvider: DeclarationProvider =
     inheritedProvider.getOrElse(DeclarationProvider(baseUnit, Some(actualDialect)))
-  }
 }
 
 // todo: make instance
@@ -98,7 +96,6 @@ object AmlCompletionRequestBuilder {
             position: AmfPosition,
             dialect: Dialect,
             directoryResolver: DirectoryResolver,
-            patchedContent: PatchedContent,
             snippetSupport: Boolean,
             rootLocation: Option[String],
             configuration: AlsConfigurationReader,
@@ -117,8 +114,7 @@ object AmlCompletionRequestBuilder {
     val dtoPosition = DtoPosition(position)
     val styler = SuggestionStylerBuilder.build(
       !yPartBranch.isJson,
-      prefix(yPartBranch, dtoPosition, patchedContent.original),
-      patchedContent,
+      prefix(yPartBranch, dtoPosition, baseUnit.raw.getOrElse("")),
       dtoPosition,
       yPartBranch,
       configuration,

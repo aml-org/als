@@ -19,8 +19,8 @@
           "character": 12
         },
         "end": {
-          "line": 50,
-          "character": 13
+          "line": 33,
+          "character": 16
         }
       },
       "newText": "\"{$method\""
@@ -49,8 +49,8 @@
           "character": 12
         },
         "end": {
-          "line": 50,
-          "character": 13
+          "line": 33,
+          "character": 16
         }
       },
       "newText": "\"{$request.\""
@@ -79,8 +79,8 @@
           "character": 12
         },
         "end": {
-          "line": 50,
-          "character": 13
+          "line": 33,
+          "character": 16
         }
       },
       "newText": "\"{$response.\""
@@ -109,8 +109,8 @@
           "character": 12
         },
         "end": {
-          "line": 50,
-          "character": 13
+          "line": 33,
+          "character": 16
         }
       },
       "newText": "\"{$statusCode\""
@@ -139,8 +139,8 @@
           "character": 12
         },
         "end": {
-          "line": 50,
-          "character": 13
+          "line": 33,
+          "character": 16
         }
       },
       "newText": "\"{$url\""

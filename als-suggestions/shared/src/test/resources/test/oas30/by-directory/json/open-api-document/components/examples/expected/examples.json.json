@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"$ref\""
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"description\": \"$1\""
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"externalValue\": \"$1\""
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"mediaType\": \"$1\""
@@ -140,7 +140,7 @@
         },
         "end": {
           "line": 5,
-          "character": 11
+          "character": 10
         }
       },
       "newText": "\"value\": \"$1\""

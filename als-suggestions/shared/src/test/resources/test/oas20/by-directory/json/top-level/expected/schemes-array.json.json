@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 3,
-          "character": 7
+          "character": 6
         }
       },
       "newText": "\"http\""
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 3,
-          "character": 7
+          "character": 6
         }
       },
       "newText": "\"https\""
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 3,
-          "character": 7
+          "character": 6
         }
       },
       "newText": "\"ws\""
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 3,
-          "character": 7
+          "character": 6
         }
       },
       "newText": "\"wss\""

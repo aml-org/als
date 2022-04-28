@@ -33,7 +33,7 @@ object AnnotationReferenceCompletionPlugin extends AMLCompletionPlugin {
   }
 
   private def isScalar(params: AmlCompletionRequest): Boolean =
-    params.yPartBranch.ancestorOf(classOf[YMapEntry]) match {
+    params.yPartBranch.parentEntry match {
       case Some(e: YMapEntry) =>
         val entryName = e.key.asScalar.map(_.text)
         params.propertyMapping

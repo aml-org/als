@@ -1,22 +1,18 @@
 package org.mulesoft.als.suggestions.test
 
-import amf.aml.client.scala.model.document.Dialect
 import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.{AmfConfigurationPatcher, MarkerFinderTest, PlatformDirectoryResolver}
 import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.als.suggestions.client.Suggestions
-import org.mulesoft.amfintegration.amfconfiguration.{
-  ALSConfigurationState,
-  EditorConfiguration,
-  EditorConfigurationState
-}
+import org.mulesoft.als.suggestions.test.core.AccessBundle
+import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.mulesoft.lsp.feature.completion.CompletionItem
 import upickle.default.write
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-trait BaseSuggestionsForTest extends PlatformSecrets with MarkerFinderTest {
+trait BaseSuggestionsForTest extends PlatformSecrets with MarkerFinderTest with AccessBundle {
 
   protected val dr = new PlatformDirectoryResolver(platform)
 
@@ -45,8 +41,8 @@ trait BaseSuggestionsForTest extends PlatformSecrets with MarkerFinderTest {
     val resourceLoader = AmfConfigurationPatcher.resourceLoaderForFile(url, markerInfo.content)
     val newAlsConfig =
       ALSConfigurationState(configurationState.editorState, configurationState.projectState, Some(resourceLoader))
-    new Suggestions(AlsConfiguration(), dr)
+    new Suggestions(AlsConfiguration(), dr, accessBundle(newAlsConfig))
       .initialized()
-      .suggest(url, position, snippetsSupport = true, None, newAlsConfig)
+      .suggest(url, position, snippetsSupport = true, None)
   }
 }

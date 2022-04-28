@@ -2,9 +2,7 @@ package org.mulesoft.als.suggestions.styler
 
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.suggestions._
-import org.mulesoft.als.suggestions.patcher.QuoteToken
 import org.mulesoft.als.suggestions.styler.astbuilder.{AstRawBuilder, YamlAstRawBuilder}
-import org.yaml.model.{YMap, YMapEntry, YPart, YScalar}
 import org.yaml.render.{FlowYamlRender, YamlPartRender, YamlRender, YamlRenderOptions}
 
 case class YamlSuggestionStyler(override val params: StylerParams) extends FlowSuggestionRender {
@@ -18,7 +16,9 @@ case class YamlSuggestionStyler(override val params: StylerParams) extends FlowS
 
   override protected def render(options: SuggestionStructure, builder: AstRawBuilder): String = {
     val prefix =
-      if (!options.isKey && ((options.isArray && !params.yPartBranch.isInArray) || options.isObject)) // never will suggest object in value as is not key. Suggestions should be empty
+      if (
+        !options.isKey && ((options.isArray && !params.yPartBranch.isInArray) || options.isObject)
+      ) // never will suggest object in value as is not key. Suggestions should be empty
         "\n"
       else ""
     val ast         = builder.ast
@@ -30,10 +30,9 @@ case class YamlSuggestionStyler(override val params: StylerParams) extends FlowS
   def buildYamlRenderOptions: YamlRenderOptions =
     new YamlRenderOptions().withIndentationSize(params.formattingConfiguration.tabSize)
 
-  def yamlRenderer: YamlPartRender = {
+  def yamlRenderer: YamlPartRender =
     if (params.yPartBranch.isInFlow) FlowYamlRender
     else YamlRender
-  }
 
   override def style(raw: RawSuggestion): Styled = super.style(fixTokens(raw))
 
@@ -44,8 +43,8 @@ case class YamlSuggestionStyler(override val params: StylerParams) extends FlowS
         .withStringKey
     else raw
 
-  private def hasAddedQuotes =
-    params.patchedContent.addedTokens.contains(QuoteToken)
+  private def hasAddedQuotes: Boolean =
+    params.yPartBranch.isPlainText.contains(false)
 
   private def innerSuggestionRange(raw: RawSuggestion): PositionRange =
     if (hasAddedQuotes && raw.options.keyRange != StringScalarRange) { // it has added quotes, and was not originally a string
@@ -53,6 +52,6 @@ case class YamlSuggestionStyler(override val params: StylerParams) extends FlowS
       PositionRange(range.start.moveColumn(-1), range.end.moveColumn(1))
     } else suggestionRange(raw)
 
-  override def astBuilder: RawSuggestion => AstRawBuilder =
+  override protected def astBuilder: RawSuggestion => AstRawBuilder =
     (raw: RawSuggestion) => new YamlAstRawBuilder(raw, false, params.yPartBranch)
 }

@@ -20,7 +20,7 @@ trait PayloadMediaTypeSeeker {
       case _ => false
     }
 
-  protected def isWritingKEYMediaType(request: AmlCompletionRequest): Boolean =
+  protected def isWritingKeyMediaType(request: AmlCompletionRequest): Boolean =
     request.yPartBranch.isKey &&
       (request.branchStack.headOption match {
         case Some(_: Shape)

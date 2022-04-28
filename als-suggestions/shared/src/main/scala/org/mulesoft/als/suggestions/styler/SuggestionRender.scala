@@ -10,13 +10,13 @@ import org.yaml.model._
 trait SuggestionRender {
   val params: StylerParams
 
-  def astBuilder: RawSuggestion => AstRawBuilder
+  protected def astBuilder: RawSuggestion => AstRawBuilder
 
   lazy val stringIndentation: String   = " " * params.indentation
   lazy val initialIndentationSize: Int = params.indentation / 2
   lazy val tabSize: Int                = params.formattingConfiguration.tabSize
 
-  def patchPath(builder: CompletionItemBuilder): Unit = {
+  private def patchPath(builder: CompletionItemBuilder): Unit =
     if (!isHeaderSuggestion) {
       val index =
         params.prefix.lastIndexOf(".").max(params.prefix.lastIndexOf("/"))
@@ -28,24 +28,13 @@ trait SuggestionRender {
           builder
             .withDisplayText(builder.getDisplayText.substring(index + 1))
     }
-  }
 
   private def isHeaderSuggestion: Boolean = params.position.line == 0 && params.prefix.startsWith("#%")
 
   private def keyRange: Option[PositionRange] =
     params.yPartBranch.node match {
       case n: YNode if n.value.isInstanceOf[YScalar] && params.yPartBranch.isJson =>
-        if (params.yPartBranch.isKey) {
-          params.yPartBranch.parentEntry
-            .map(_.range)
-            .map(
-              r =>
-                if (r.lineTo == r.lineFrom)
-                  r.copy(columnTo = r.columnTo - params.patchedContent.addedTokens.foldLeft(0)((a, t) => a + t.size))
-                else r)
-            .orElse(Some(n.range))
-            .map(PositionRange(_))
-        } else Some(PositionRange(n.range))
+        Some(PositionRange(n.range))
       case _ => None
     }
 

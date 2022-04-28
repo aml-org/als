@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"$ref\""
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"content\": {\n  \"$1\"\n}"
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"description\": \"$1\""
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"headers\": {\n  \"$1\"\n}"
@@ -140,7 +140,7 @@
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"links\": {\n  \"$1\"\n}"
