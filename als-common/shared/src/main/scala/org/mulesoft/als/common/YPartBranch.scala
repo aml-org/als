@@ -78,7 +78,7 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
   val isAtRoot: Boolean = node.isInstanceOf[model.YDocument] || (stack.count(_.isInstanceOf[YMap]) == 0 && node
     .isInstanceOf[YMap]) ||
     (stack.count(_.isInstanceOf[YMap]) <= 1 &&
-      (parentEntry.exists(
+      (closestEntry.exists(
         _.key.range.contains(position)
       ) || // this is the case that you are in a key on root level (before colon)
         isJson))
@@ -105,9 +105,20 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
       case _                                           => stack
     }
 
-  // if writing a key, the current entry is ignored
+  /** ignores current entry
+    */
   lazy val parentEntry: Option[YMapEntry] =
     findFirstOf(classOf[YMapEntry], skipCurrent(stack))
+      .flatMap {
+        case value if value.key == node && value.key.asScalar.forall(_.text.isEmpty) =>
+          findFirstOf(classOf[YMapEntry], stack.filterNot(_ == value))
+        case v => Some(v)
+      }
+
+  /** does not ignore the current entry
+    */
+  lazy val closestEntry: Option[YMapEntry] =
+    findFirstOf(classOf[YMapEntry], stack)
       .flatMap {
         case value if value.key == node && value.key.asScalar.forall(_.text.isEmpty) =>
           findFirstOf(classOf[YMapEntry], stack.filterNot(_ == value))
