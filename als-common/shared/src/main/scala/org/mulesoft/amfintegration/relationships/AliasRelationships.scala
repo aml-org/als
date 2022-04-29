@@ -12,9 +12,11 @@ object AliasRelationships {
   def isAliasDeclaration(alias: Seq[AliasInfo], position: Position, yPartBranchCached: YPartBranchCached): Boolean =
     alias.exists(a => a.keyRange(yPartBranchCached).exists(_.contains(position)))
 
-  def getLinks(alias: Seq[AliasInfo],
-               relationships: Seq[RelationshipLink],
-               yPartBranchCached: YPartBranchCached): Seq[FullLink] = {
+  def getLinks(
+      alias: Seq[AliasInfo],
+      relationships: Seq[RelationshipLink],
+      yPartBranchCached: YPartBranchCached
+  ): Seq[FullLink] = {
     relationships.flatMap { r =>
       val tuples: Seq[FullLink] = alias.flatMap { a =>
         r.sourceEntry match {
@@ -29,10 +31,8 @@ object AliasRelationships {
       }
       if (tuples.isEmpty)
         Seq(
-          FullLink(r.source,
-                   r.targetNamePart.yPartToLocation,
-                   Some(value(r.sourceEntry)),
-                   Some(key(r.sourceNameEntry))))
+          FullLink(r.source, r.targetNamePart.yPartToLocation, Some(value(r.sourceEntry)), Some(key(r.sourceNameEntry)))
+        )
       else
         tuples
     }
@@ -50,11 +50,13 @@ object AliasRelationships {
       case _                    => yPart
     }
 
-  private def splitLocation(a: AliasInfo,
-                            r: RelationshipLink,
-                            s: YPart,
-                            text: String,
-                            yPartBranchCached: YPartBranchCached): Seq[FullLink] = {
+  private def splitLocation(
+      a: AliasInfo,
+      r: RelationshipLink,
+      s: YPart,
+      text: String,
+      yPartBranchCached: YPartBranchCached
+  ): Seq[FullLink] = {
     val positionRange = PositionRange(s.range)
     val start         = positionRange.start.moveColumn(text.indexOf(s"${a.tag}."))
     val aliasRange =
@@ -68,14 +70,18 @@ object AliasRelationships {
       }
     )
     Seq(
-      FullLink(Location(s.location.sourceName, LspRangeConverter.toLspRange(notAliasRange)),
-               r.targetNamePart.yPartToLocation,
-               None,
-               None),
+      FullLink(
+        Location(s.location.sourceName, LspRangeConverter.toLspRange(notAliasRange)),
+        r.targetNamePart.yPartToLocation,
+        None,
+        None
+      ),
       FullLink(
         Location(s.location.sourceName, LspRangeConverter.toLspRange(aliasRange)),
-        Location(s.location.sourceName,
-                 a.keyRange(yPartBranchCached).map(LspRangeConverter.toLspRange).getOrElse(a.declaration.range)),
+        Location(
+          s.location.sourceName,
+          a.keyRange(yPartBranchCached).map(LspRangeConverter.toLspRange).getOrElse(a.declaration.range)
+        ),
         None,
         None
       )
@@ -83,7 +89,6 @@ object AliasRelationships {
   }
 }
 
-/**
-  * source, destination, source YPart
+/** source, destination, source YPart
   */
 case class FullLink(source: Location, destination: Location, sourceValue: Option[YPart], sourceName: Option[YPart])

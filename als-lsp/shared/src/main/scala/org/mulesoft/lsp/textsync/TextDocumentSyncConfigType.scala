@@ -4,4 +4,4 @@ import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 
 case object TextDocumentSyncConfigType
-  extends ConfigType[SynchronizationClientCapabilities, Either[TextDocumentSyncKind, TextDocumentSyncOptions]]
+    extends ConfigType[SynchronizationClientCapabilities, Either[TextDocumentSyncKind, TextDocumentSyncOptions]]

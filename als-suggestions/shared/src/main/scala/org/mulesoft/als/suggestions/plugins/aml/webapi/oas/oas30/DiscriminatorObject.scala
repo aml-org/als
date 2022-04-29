@@ -16,7 +16,8 @@ object DiscriminatorObject extends ExceptionPlugin {
   override def id: String = "DiscriminatorObject"
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
-    if (applies(request)) Future { suggestBody(request.actualDialect) } else emptySuggestion
+    if (applies(request)) Future { suggestBody(request.actualDialect) }
+    else emptySuggestion
   }
 
   private def suggestBody(d: Dialect) = AMLDiscriminatorObject.Obj.propertiesRaw(fromDialect = d)

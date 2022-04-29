@@ -20,10 +20,14 @@ object Raml08SecuritySchemeStructureCompletionPlugin extends AMLCompletionPlugin
           Raml08SecuritySchemesDialect.DescribedBy.propertiesRaw(fromDialect = request.actualDialect)
         case s: SecurityScheme if request.fieldEntry.isEmpty && request.yPartBranch.isKey =>
           val suggestions =
-            new AMLStructureCompletionsPlugin(Raml08SecuritySchemesDialect.SecurityScheme.propertiesMapping(),
-                                              request.actualDialect)
-              .resolve(Raml08SecuritySchemesDialect.SecurityScheme.meta.`type`.head
-                .iri()) :+
+            new AMLStructureCompletionsPlugin(
+              Raml08SecuritySchemesDialect.SecurityScheme.propertiesMapping(),
+              request.actualDialect
+            )
+              .resolve(
+                Raml08SecuritySchemesDialect.SecurityScheme.meta.`type`.head
+                  .iri()
+              ) :+
               RawSuggestion.forObject("settings", "security")
           suggestions
         case _ => Nil

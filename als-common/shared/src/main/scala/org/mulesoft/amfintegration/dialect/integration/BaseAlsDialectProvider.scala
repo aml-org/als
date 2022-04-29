@@ -15,8 +15,8 @@ import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDiale
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-/**
-  * @param dialects initialized with the server on startup (for example Web API dialects)
+/** @param dialects
+  *   initialized with the server on startup (for example Web API dialects)
   */
 object BaseAlsDialectProvider {
   val apiDialects: Set[Dialect] = Set(
@@ -45,8 +45,7 @@ object BaseAlsDialectProvider {
 
   private var indexedDialects: Map[String, InMemoryDialect] = Map()
 
-  /**
-    * Indexes a global dialect
+  /** Indexes a global dialect
     */
   def indexDialect(uri: String, content: String): Unit =
     indexedDialects = indexedDialects + (uri -> IndexedDialect(uri, content))

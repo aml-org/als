@@ -99,49 +99,58 @@ class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomT
   override def references(params: ReferenceParams): CompletableFuture[util.List[_ <: Location]] =
     javaFuture(resolveHandler(ReferenceRequestType)(params), lsp4JLocations)
 
-  override def definition(params: DefinitionParams)
-    : CompletableFuture[messages.Either[util.List[_ <: Location], util.List[_ <: LocationLink]]] =
+  override def definition(
+      params: DefinitionParams
+  ): CompletableFuture[messages.Either[util.List[_ <: Location], util.List[_ <: LocationLink]]] =
     javaFuture(resolveHandler(DefinitionRequestType)(params), lsp4JLocationsEither)
 
-  override def implementation(params: ImplementationParams)
-    : CompletableFuture[messages.Either[util.List[_ <: Location], util.List[_ <: LocationLink]]] =
+  override def implementation(
+      params: ImplementationParams
+  ): CompletableFuture[messages.Either[util.List[_ <: Location], util.List[_ <: LocationLink]]] =
     javaFuture(resolveHandler(ImplementationRequestType)(params), lsp4JLocationsEither)
 
-  override def typeDefinition(params: TypeDefinitionParams)
-    : CompletableFuture[messages.Either[util.List[_ <: Location], util.List[_ <: LocationLink]]] =
+  override def typeDefinition(
+      params: TypeDefinitionParams
+  ): CompletableFuture[messages.Either[util.List[_ <: Location], util.List[_ <: LocationLink]]] =
     javaFuture(resolveHandler(TypeDefinitionRequestType)(params), lsp4JLocationsEither)
 
   override def completion(
-      params: CompletionParams): CompletableFuture[messages.Either[util.List[CompletionItem], CompletionList]] =
+      params: CompletionParams
+  ): CompletableFuture[messages.Either[util.List[CompletionItem], CompletionList]] =
     javaFuture(resolveHandler(CompletionRequestType)(params), lsp4JCompletionEither)
 
   override def rename(params: RenameParams): CompletableFuture[WorkspaceEdit] =
     javaFuture(resolveHandler(RenameRequestType)(params), lsp4JWorkspaceEdit)
 
   override def prepareRename(
-      params: PrepareRenameParams): CompletableFuture[messages.Either[lsp4j.Range, lsp4j.PrepareRenameResult]] =
+      params: PrepareRenameParams
+  ): CompletableFuture[messages.Either[lsp4j.Range, lsp4j.PrepareRenameResult]] =
     javaFuture(resolveHandler(PrepareRenameRequestType)(params), lsp4JOptionEitherRangeWithPlaceholder)
 
   override def documentSymbol(
-      params: DocumentSymbolParams): CompletableFuture[util.List[messages.Either[SymbolInformation, DocumentSymbol]]] =
+      params: DocumentSymbolParams
+  ): CompletableFuture[util.List[messages.Either[SymbolInformation, DocumentSymbol]]] =
     javaFuture(resolveHandler(DocumentSymbolRequestType)(params), lsp4JDocumentSymbolsResult)
 
   override def codeAction(
-      params: CodeActionParams): CompletableFuture[util.List[messages.Either[Command, CodeAction]]] =
+      params: CodeActionParams
+  ): CompletableFuture[util.List[messages.Either[Command, CodeAction]]] =
     javaFuture(resolveHandler(CodeActionRequestType)(params), lsp4JCodeActionResult)
 
   override def documentLink(params: DocumentLinkParams): CompletableFuture[util.List[DocumentLink]] =
     javaFuture(resolveHandler(DocumentLinkRequestType)(params), lsp4JDocumentLinkRequestResult)
 
   override def documentHighlight(
-      params: DocumentHighlightParams): CompletableFuture[util.List[_ <: DocumentHighlight]] =
+      params: DocumentHighlightParams
+  ): CompletableFuture[util.List[_ <: DocumentHighlight]] =
     javaFuture(resolveHandler(DocumentHighlightRequestType)(params), lsp4JDocumentHighlights)
 
   override def conversion(params: ConversionParams): CompletableFuture[SerializedDocument] =
     javaFuture(resolveHandler(ConversionRequestType)(params), serializedDocument)
 
   override def cleanDiagnosticTree(
-      params: CleanDiagnosticTreeParams): CompletableFuture[util.List[PublishDiagnosticsParams]] = {
+      params: CleanDiagnosticTreeParams
+  ): CompletableFuture[util.List[PublishDiagnosticsParams]] = {
     javaFuture(resolveHandler(CleanDiagnosticTreeRequestType)(params), lsp4JPublishDiagnosticsParamsSeq)
   }
 
@@ -178,6 +187,7 @@ class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomT
   }
 
   override def getWorkspaceConfiguration(
-      params: GetWorkspaceConfigurationParams): CompletableFuture[GetWorkspaceConfigurationResult] =
+      params: GetWorkspaceConfigurationParams
+  ): CompletableFuture[GetWorkspaceConfigurationResult] =
     javaFuture(resolveHandler(GetWorkspaceConfigurationRequestType)(params), getWorkspaceConfigurationResult)
 }

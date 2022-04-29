@@ -30,10 +30,12 @@ class NodeJsCustomValidationTest
     val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
     val dm      = builder.buildDiagnosticManagers(Some(ProfileValidatorNodeBuilder))
     val factory = builder.buildWorkspaceManagerFactory()
-    val b = new LanguageServerBuilder(factory.documentManager,
-                                      factory.workspaceManager,
-                                      factory.configurationManager,
-                                      factory.resolutionTaskManager)
+    val b = new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
     dm.foreach(m => b.addInitializableModule(m))
     b.build()
   }
@@ -52,8 +54,8 @@ class NodeJsCustomValidationTest
     val mainFileUri                                      = filePath(platform.encodeURI("simple/api.raml"))
     val profile                                          = filePath(platform.encodeURI("simple/profile.yaml"))
     val expected                                         = filePath(platform.encodeURI("simple/expected/simple.yaml"))
-    val args                                             = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profile))
-    val server: LanguageServer                           = buildServer(diagnosticNotifier)
+    val args                   = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profile))
+    val server: LanguageServer = buildServer(diagnosticNotifier)
     withServer(server, buildInitArgs(workspacePath)) { server =>
       for {
         content     <- platform.fetchContent(mainFileUri, AMFGraphConfiguration.predefined()).map(_.stream.toString)
@@ -84,14 +86,15 @@ class NodeJsCustomValidationTest
         _       <- diagnosticNotifier.nextCall
         _       <- diagnosticNotifier.nextCall
         _ <- changeWorkspaceConfiguration(server)(
-          changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profile)))
+          changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profile))
+        )
         _           <- diagnosticNotifier.nextCall // resolution diagnostics
         diagnostics <- diagnosticNotifier.nextCall // custom validation diagnostics
-        _           <- changeFile(server)(mainFileUri, content.replace("type: string", "type: string\n       minLength: 1"), 1)
-        _           <- diagnosticNotifier.nextCall // resolution diagnostics
-        d           <- diagnosticNotifier.nextCall // custom validation diagnostics
-        tmp         <- writeTemporaryFile(expected)(d.write)
-        r           <- assertDifferences(tmp, expected)
+        _   <- changeFile(server)(mainFileUri, content.replace("type: string", "type: string\n       minLength: 1"), 1)
+        _   <- diagnosticNotifier.nextCall // resolution diagnostics
+        d   <- diagnosticNotifier.nextCall // custom validation diagnostics
+        tmp <- writeTemporaryFile(expected)(d.write)
+        r   <- assertDifferences(tmp, expected)
       } yield {
         diagnostics.diagnostics should not be empty
         r
@@ -104,9 +107,9 @@ class NodeJsCustomValidationTest
     val workspacePath                                    = filePath(platform.encodeURI("multiple-profiles"))
     val mainFileName                                     = "api.raml"
     val mainFileUri                                      = filePath(platform.encodeURI("multiple-profiles/api.raml"))
-    val profile1                                         = filePath(platform.encodeURI("multiple-profiles/profile.yaml"))
-    val profile2                                         = filePath(platform.encodeURI("multiple-profiles/max-endpoints.yaml"))
-    val expected                                         = filePath(platform.encodeURI(s"multiple-profiles/expected/result.yaml"))
+    val profile1 = filePath(platform.encodeURI("multiple-profiles/profile.yaml"))
+    val profile2 = filePath(platform.encodeURI("multiple-profiles/max-endpoints.yaml"))
+    val expected = filePath(platform.encodeURI(s"multiple-profiles/expected/result.yaml"))
 
     val args = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profile1, profile2))
 
@@ -131,10 +134,10 @@ class NodeJsCustomValidationTest
     val workspacePath                                    = filePath(platform.encodeURI("multiple-profiles"))
     val mainFileName                                     = "api.raml"
     val mainFile                                         = filePath(platform.encodeURI("multiple-profiles/api.raml"))
-    val profile1                                         = filePath(platform.encodeURI("multiple-profiles/profile.yaml"))
-    val profile2                                         = filePath(platform.encodeURI("multiple-profiles/max-endpoints.yaml"))
-    val expected                                         = filePath(platform.encodeURI(s"multiple-profiles/expected/swap.yaml"))
-    def args(p: Set[String] = Set.empty)                 = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, p)
+    val profile1                         = filePath(platform.encodeURI("multiple-profiles/profile.yaml"))
+    val profile2                         = filePath(platform.encodeURI("multiple-profiles/max-endpoints.yaml"))
+    val expected                         = filePath(platform.encodeURI(s"multiple-profiles/expected/swap.yaml"))
+    def args(p: Set[String] = Set.empty) = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, p)
 
     def run(): Future[YDocument] = {
       for {

@@ -13,9 +13,11 @@ import org.mulesoft.lsp.feature.diagnostic.DiagnosticRelatedInformation
 object DiagnosticConverters {
 
   private val UNKNOWN_LOCATION = "Unknown location for error. Could not retrieve effective location"
-  def buildIssueResults(results: Map[String, Seq[AlsValidationResult]],
-                        references: Map[String, DiagnosticsBundle],
-                        profile: ProfileName): Seq[ValidationReport] = {
+  def buildIssueResults(
+      results: Map[String, Seq[AlsValidationResult]],
+      references: Map[String, DiagnosticsBundle],
+      profile: ProfileName
+  ): Seq[ValidationReport] = {
 
     val issuesWithStack = buildIssues(results, references)
     val filtered = results
@@ -32,9 +34,11 @@ object DiagnosticConverters {
   private def isExternalAndNotSyntax(r: AMFValidationResult, t: DiagnosticsBundle) = {
     syntaxViolationIds.contains(r.validationId) || (!t.isExternal && t.references.nonEmpty)
   }
-  private def buildLocatedIssue(uri: String,
-                                results: Seq[AlsValidationResult],
-                                references: Map[String, DiagnosticsBundle]) = {
+  private def buildLocatedIssue(
+      uri: String,
+      results: Seq[AlsValidationResult],
+      references: Map[String, DiagnosticsBundle]
+  ) = {
     results.flatMap { s =>
       val r = s.result
       references.get(uri) match {
@@ -45,8 +49,11 @@ object DiagnosticConverters {
               r,
               s.stack ++ stackContainer.stack
                 .map(s =>
-                  DiagnosticRelatedInformation(Location(s.originUri, LspRangeConverter.toLspRange(s.originRange)),
-                                               s"at ${s.originUri}"))
+                  DiagnosticRelatedInformation(
+                    Location(s.originUri, LspRangeConverter.toLspRange(s.originRange)),
+                    s"at ${s.originUri}"
+                  )
+                )
             )
           }
         case Some(t) if t.references.nonEmpty && t.references.exists(_.stack.nonEmpty) =>
@@ -54,7 +61,8 @@ object DiagnosticConverters {
           val range = LspRangeConverter.toLspRange(
             r.position
               .map(position => PositionRange(position.range))
-              .getOrElse(PositionRange(Position(0, 0), Position(0, 0))))
+              .getOrElse(PositionRange(Position(0, 0), Position(0, 0)))
+          )
           val rootAsRelatedInfo: DiagnosticRelatedInformation = DiagnosticRelatedInformation(
             Location(
               r.location.getOrElse(""),
@@ -75,8 +83,11 @@ object DiagnosticConverters {
                 s.stack ++ stackContainer.stack.reverse
                   .drop(1)
                   .map(s =>
-                    DiagnosticRelatedInformation(Location(s.originUri, LspRangeConverter.toLspRange(s.originRange)),
-                                                 s"from ${s.originUri}")) :+
+                    DiagnosticRelatedInformation(
+                      Location(s.originUri, LspRangeConverter.toLspRange(s.originRange)),
+                      s"from ${s.originUri}"
+                    )
+                  ) :+
                   rootAsRelatedInfo,
                 r.validationId
               )
@@ -86,25 +97,33 @@ object DiagnosticConverters {
       }
     }
   }
-  private def buildIssues(results: Map[String, Seq[AlsValidationResult]],
-                          references: Map[String, DiagnosticsBundle]): Seq[ValidationIssue] = {
+  private def buildIssues(
+      results: Map[String, Seq[AlsValidationResult]],
+      references: Map[String, DiagnosticsBundle]
+  ): Seq[ValidationIssue] = {
     results.flatMap { case (uri, r) => buildLocatedIssue(uri, r, references) }.toSeq
   }
-  private def buildIssue(iri: String,
-                         r: AMFValidationResult,
-                         stack: Seq[DiagnosticRelatedInformation]): ValidationIssue = {
+  private def buildIssue(
+      iri: String,
+      r: AMFValidationResult,
+      stack: Seq[DiagnosticRelatedInformation]
+  ): ValidationIssue = {
     val position = lexicalToPosition(r.position)
-    ValidationIssue(r.validationId,
-                    ValidationSeverity(r.severityLevel),
-                    r.location.getOrElse(iri),
-                    r.message,
-                    position,
-                    stack ++ buildUnknowLocation(iri, r, position))
+    ValidationIssue(
+      r.validationId,
+      ValidationSeverity(r.severityLevel),
+      r.location.getOrElse(iri),
+      r.message,
+      position,
+      stack ++ buildUnknowLocation(iri, r, position)
+    )
   }
 
-  private def buildUnknowLocation(iri: String,
-                                  r: AMFValidationResult,
-                                  positionRange: PositionRange): Option[DiagnosticRelatedInformation] = {
+  private def buildUnknowLocation(
+      iri: String,
+      r: AMFValidationResult,
+      positionRange: PositionRange
+  ): Option[DiagnosticRelatedInformation] = {
     r.location match {
       case Some(_) => None
       case None    => Some(buildDiagnosticRelated(iri, LspRangeConverter.toLspRange(positionRange)))
@@ -112,12 +131,14 @@ object DiagnosticConverters {
   }
   private def buildDiagnosticRelated(iri: String, range: Range) =
     DiagnosticRelatedInformation(Location(iri, range), UNKNOWN_LOCATION)
-  private def buildIssue(path: String,
-                         range: PositionRange,
-                         message: String,
-                         level: String,
-                         stack: Seq[DiagnosticRelatedInformation],
-                         validationId: String): ValidationIssue = {
+  private def buildIssue(
+      path: String,
+      range: PositionRange,
+      message: String,
+      level: String,
+      stack: Seq[DiagnosticRelatedInformation],
+      validationId: String
+  ): ValidationIssue = {
     ValidationIssue(validationId, ValidationSeverity(level), path, message, range, stack)
   }
 

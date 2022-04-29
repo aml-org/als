@@ -12,8 +12,7 @@ import org.yaml.model.YMap
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-/**
-  * This will index at workspace level
+/** This will index at workspace level
   * @param logger
   * @param amfConfiguration
   */
@@ -35,7 +34,8 @@ class IndexDialectCommandExecutor(val logger: Logger, workspaceManager: Workspac
         APIConfiguration
           .API()
           .withResourceLoaders(
-            workspaceManager.environmentProvider.getResourceLoader +: workspaceManager.editorConfiguration.resourceLoaders.toList)
+            workspaceManager.environmentProvider.getResourceLoader +: workspaceManager.editorConfiguration.resourceLoaders.toList
+          )
       )
       .map(_.toString())
 

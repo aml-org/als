@@ -21,9 +21,11 @@ import org.mulesoft.lsp.feature.completion.CompletionItem
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class Suggestions(configuration: AlsConfigurationReader,
-                  directoryResolver: DirectoryResolver,
-                  cuProvider: String => Future[UnitBundle]) {
+class Suggestions(
+    configuration: AlsConfigurationReader,
+    directoryResolver: DirectoryResolver,
+    cuProvider: String => Future[UnitBundle]
+) {
 
   // header plugin static?
   val completionsPluginHandler = new CompletionsPluginHandler()
@@ -41,10 +43,12 @@ class Suggestions(configuration: AlsConfigurationReader,
     this
   }
 
-  def suggest(url: String,
-              position: Int,
-              snippetsSupport: Boolean,
-              rootLocation: Option[String]): Future[Seq[CompletionItem]] =
+  def suggest(
+      url: String,
+      position: Int,
+      snippetsSupport: Boolean,
+      rootLocation: Option[String]
+  ): Future[Seq[CompletionItem]] =
     for {
       bundle      <- cuProvider(url)
       suggestions <- buildProvider(bundle, position, url, snippetsSupport, rootLocation).suggest()
@@ -52,20 +56,24 @@ class Suggestions(configuration: AlsConfigurationReader,
       suggestions
     }
 
-  def buildProvider(result: UnitBundle,
-                    position: Int,
-                    url: String,
-                    snippetSupport: Boolean,
-                    rootLocation: Option[String]): CompletionProvider = {
+  def buildProvider(
+      result: UnitBundle,
+      position: Int,
+      url: String,
+      snippetSupport: Boolean,
+      rootLocation: Option[String]
+  ): CompletionProvider = {
     result.definedBy match {
       case ExternalFragmentDialect.dialect if isHeader(position, result.unit.raw.getOrElse("")) =>
         if (!url.toLowerCase().endsWith(".raml"))
           HeaderCompletionProviderBuilder
-            .build(url,
-                   result.unit.raw.getOrElse(""),
-                   DtoPosition(position, result.unit.raw.getOrElse("")),
-                   result.context,
-                   configuration)
+            .build(
+              url,
+              result.unit.raw.getOrElse(""),
+              DtoPosition(position, result.unit.raw.getOrElse("")),
+              result.context,
+              configuration
+            )
         else
           RamlHeaderCompletionProvider
             .build(url, result.unit.raw.getOrElse(""), DtoPosition(position, result.unit.raw.getOrElse("")))
@@ -87,12 +95,14 @@ class Suggestions(configuration: AlsConfigurationReader,
       .replaceAll("^\\{?\\s+", "")
       .contains('\n')
 
-  private def buildCompletionProviderAST(bu: BaseUnit,
-                                         dialect: Dialect,
-                                         pos: DtoPosition,
-                                         snippetSupport: Boolean,
-                                         rootLocation: Option[String],
-                                         alsConfiguration: ALSConfigurationState): CompletionProviderAST = {
+  private def buildCompletionProviderAST(
+      bu: BaseUnit,
+      dialect: Dialect,
+      pos: DtoPosition,
+      snippetSupport: Boolean,
+      rootLocation: Option[String],
+      alsConfiguration: ALSConfigurationState
+  ): CompletionProviderAST = {
 
     val amfPosition: AmfPosition = pos.toAmfPosition
     CompletionProviderAST(
@@ -107,7 +117,8 @@ class Suggestions(configuration: AlsConfigurationReader,
           configuration,
           completionsPluginHandler,
           alsConfiguration
-        ))
+        )
+    )
   }
 }
 

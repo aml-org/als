@@ -17,30 +17,34 @@ import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class StructureManager(val unitAccesor: UnitAccessor[CompilableUnit],
-                       private val telemetryProvider: TelemetryProvider,
-                       private val logger: Logger)
-    extends RequestModule[DocumentSymbolClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
+class StructureManager(
+    val unitAccesor: UnitAccessor[CompilableUnit],
+    private val telemetryProvider: TelemetryProvider,
+    private val logger: Logger
+) extends RequestModule[DocumentSymbolClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
 
   override val `type`: ConfigType[DocumentSymbolClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] =
     DocumentSymbolConfigType
 
   override def applyConfig(
-      config: Option[DocumentSymbolClientCapabilities]): Either[Boolean, WorkDoneProgressOptions] = {
+      config: Option[DocumentSymbolClientCapabilities]
+  ): Either[Boolean, WorkDoneProgressOptions] = {
     // todo: use DocumentSymbolClientCapabilities <- SymbolKindClientCapabilities to avoid sending unsupported symbols
     Left(true)
   }
 
-  override def getRequestHandlers
-    : Seq[TelemeteredRequestHandler[DocumentSymbolParams,
-                                    Either[Seq[SymbolInformation], Seq[documentsymbol.DocumentSymbol]]]] = Seq(
-    new TelemeteredRequestHandler[DocumentSymbolParams,
-                                  Either[Seq[SymbolInformation], Seq[documentsymbol.DocumentSymbol]]] {
+  override def getRequestHandlers: Seq[
+    TelemeteredRequestHandler[DocumentSymbolParams, Either[Seq[SymbolInformation], Seq[documentsymbol.DocumentSymbol]]]
+  ] = Seq(
+    new TelemeteredRequestHandler[DocumentSymbolParams, Either[Seq[SymbolInformation], Seq[
+      documentsymbol.DocumentSymbol
+    ]]] {
       override def `type`: DocumentSymbolRequestType.type =
         DocumentSymbolRequestType
 
       override def task(
-          params: DocumentSymbolParams): Future[Either[Seq[SymbolInformation], Seq[documentsymbol.DocumentSymbol]]] =
+          params: DocumentSymbolParams
+      ): Future[Either[Seq[SymbolInformation], Seq[documentsymbol.DocumentSymbol]]] =
         onDocumentStructure(params.textDocument.uri)
           .map(_.map(LspConverter.toLspDocumentSymbol))
           .map(Right.apply)

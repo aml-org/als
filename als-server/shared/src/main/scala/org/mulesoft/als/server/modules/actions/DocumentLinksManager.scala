@@ -11,10 +11,11 @@ import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.Future
 
-class DocumentLinksManager(val workspaceManager: UnitWorkspaceManager,
-                           private val telemetryProvider: TelemetryProvider,
-                           private val logger: Logger)
-    extends RequestModule[DocumentLinkClientCapabilities, DocumentLinkOptions] {
+class DocumentLinksManager(
+    val workspaceManager: UnitWorkspaceManager,
+    private val telemetryProvider: TelemetryProvider,
+    private val logger: Logger
+) extends RequestModule[DocumentLinkClientCapabilities, DocumentLinkOptions] {
 
   override val `type`: ConfigType[DocumentLinkClientCapabilities, DocumentLinkOptions] =
     DocumentLinkConfigType
@@ -35,8 +36,7 @@ class DocumentLinksManager(val workspaceManager: UnitWorkspaceManager,
         s"request for document links on ${params.textDocument.uri}"
       override protected def uri(params: DocumentLinkParams): String = params.textDocument.uri
 
-      /**
-        * If Some(_), this will be sent as a response as a default for a managed exception
+      /** If Some(_), this will be sent as a response as a default for a managed exception
         */
       override protected val empty: Option[Seq[DocumentLink]] = Some(Seq())
     }

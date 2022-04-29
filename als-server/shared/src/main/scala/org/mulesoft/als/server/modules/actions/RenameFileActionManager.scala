@@ -17,12 +17,13 @@ import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class RenameFileActionManager(val workspace: WorkspaceManager,
-                              private val telemetryProvider: TelemetryProvider,
-                              private val logger: Logger,
-                              private val configReader: AlsConfigurationReader,
-                              private val platform: Platform)
-    extends RequestModule[RenameFileActionClientCapabilities, RenameFileActionOptions] {
+class RenameFileActionManager(
+    val workspace: WorkspaceManager,
+    private val telemetryProvider: TelemetryProvider,
+    private val logger: Logger,
+    private val configReader: AlsConfigurationReader,
+    private val platform: Platform
+) extends RequestModule[RenameFileActionClientCapabilities, RenameFileActionOptions] {
 
   private var active = true
 
@@ -59,8 +60,10 @@ class RenameFileActionManager(val workspace: WorkspaceManager,
 
     override protected def uri(params: RenameFileActionParams): String = params.oldDocument.uri
 
-    def rename(oldDocument: TextDocumentIdentifier,
-               newDocument: TextDocumentIdentifier): Future[RenameFileActionResult] = {
+    def rename(
+        oldDocument: TextDocumentIdentifier,
+        newDocument: TextDocumentIdentifier
+    ): Future[RenameFileActionResult] = {
 
       val uuid = UUID.randomUUID().toString
       for {
@@ -81,8 +84,7 @@ class RenameFileActionManager(val workspace: WorkspaceManager,
       }
     }
 
-    /**
-      * If Some(_), this will be sent as a response as a default for a managed exception
+    /** If Some(_), this will be sent as a response as a default for a managed exception
       */
     override protected val empty: Option[RenameFileActionResult] = None
   }

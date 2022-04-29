@@ -40,24 +40,29 @@ object Oas20ResponseObject extends AMLResponseObject {
       .withObjectRange(
         Seq(
           Oas20SchemaObject.id
-        )),
+        )
+      ),
     PropertyMapping()
       .withId(OasBaseDialect.DialectLocation + "#/declarations/ResponseObject/headers")
       .withName("headers")
       .withNodePropertyMapping(ResponseModel.Headers.value.iri())
       .withMapTermKeyProperty(ParameterModel.Name.value.iri())
-      .withObjectRange(Seq(
-        Oas20AMLHeaderObject.id
-      )),
+      .withObjectRange(
+        Seq(
+          Oas20AMLHeaderObject.id
+        )
+      ),
     PropertyMapping()
       .withId(OAS20Dialect.DialectLocation + "#/declarations/ResponseObject/examples")
       .withName("examples")
       .withMapTermKeyProperty(ExampleModel.MediaType.value.iri())
       .withMapTermValueProperty(ExampleModel.Raw.value.iri())
       .withNodePropertyMapping(ResponseModel.Examples.value.iri())
-      .withObjectRange(Seq(
-        AMLExampleObject.id
-      ))
+      .withObjectRange(
+        Seq(
+          AMLExampleObject.id
+        )
+      )
   )
 }
 
@@ -69,25 +74,31 @@ object Oas30ResponseObject extends AMLResponseObject {
       .withName("headers")
       .withNodePropertyMapping(ResponseModel.Headers.value.iri())
       .withMapTermKeyProperty(ParameterModel.Name.value.iri())
-      .withObjectRange(Seq(
-        Oas30AMLHeaderObject.id
-      )),
+      .withObjectRange(
+        Seq(
+          Oas30AMLHeaderObject.id
+        )
+      ),
     PropertyMapping()
       .withId(OAS30Dialect.DialectLocation + "#/declarations/ResponseObject/content")
       .withName("content")
       .withNodePropertyMapping(ResponseModel.Payloads.value.iri())
       .withMapTermKeyProperty(PayloadModel.MediaType.value.iri())
-      .withObjectRange(Seq(
-        AMLContentObject.id
-      )),
+      .withObjectRange(
+        Seq(
+          AMLContentObject.id
+        )
+      ),
     PropertyMapping()
       .withId(OAS30Dialect.DialectLocation + "#/declarations/ResponseObject/links")
       .withName("links")
       .withNodePropertyMapping(ResponseModel.Links.value.iri())
       .withMapTermKeyProperty(TemplatedLinkModel.Name.value.iri())
-      .withObjectRange(Seq(
-        AMLLinkObject.id
-      ))
+      .withObjectRange(
+        Seq(
+          AMLLinkObject.id
+        )
+      )
   )
 
 }

@@ -26,10 +26,11 @@ import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class DocumentRangeFormattingManager(val workspace: WorkspaceManager,
-                                     private val telemetryProvider: TelemetryProvider,
-                                     private val logger: Logger)
-    extends RequestModule[DocumentRangeFormattingClientCapabilities, Either[Boolean, WorkDoneProgressOptions]]
+class DocumentRangeFormattingManager(
+    val workspace: WorkspaceManager,
+    private val telemetryProvider: TelemetryProvider,
+    private val logger: Logger
+) extends RequestModule[DocumentRangeFormattingClientCapabilities, Either[Boolean, WorkDoneProgressOptions]]
     with FormattingManager {
 
   private var active = false
@@ -56,34 +57,36 @@ class DocumentRangeFormattingManager(val workspace: WorkspaceManager,
 
       override def `type`: DocumentRangeFormattingRequestType.type = DocumentRangeFormattingRequestType
 
-      /**
-        * If Some(_), this will be sent as a response as a default for a managed exception
+      /** If Some(_), this will be sent as a response as a default for a managed exception
         */
       override protected val empty: Option[Seq[TextEdit]] = Some(Seq())
     })
 
-  override val `type`
-    : ConfigType[DocumentRangeFormattingClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] =
+  override val `type`: ConfigType[DocumentRangeFormattingClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] =
     DocumentRangeFormattingConfigType
 
   def onDocumentRangeFormatting(params: DocumentRangeFormattingParams): Future[Seq[TextEdit]] = {
     val uuid   = UUID.randomUUID().toString
     val isJson = params.textDocument.uri.endsWith(".json")
-    logger.debug("Document formatting for " + params.textDocument.uri + " range: " + params.range,
-                 "DocumentRangeFormattingManager",
-                 "onDocumentRangeFormatting")
+    logger.debug(
+      "Document formatting for " + params.textDocument.uri + " range: " + params.range,
+      "DocumentRangeFormattingManager",
+      "onDocumentRangeFormatting"
+    )
     workspace
       .getLastUnit(params.textDocument.uri, uuid)
       .map(cu => {
         getParentPart(cu.unit, params.range, isJson)
-          .map(
-            p =>
-              RangeFormatting(p,
-                              params.options,
-                              isJson,
-                              getSyntaxErrors(cu.errorsCollected, params.textDocument.uri),
-                              cu.unit.raw)
-                .format())
+          .map(p =>
+            RangeFormatting(
+              p,
+              params.options,
+              isJson,
+              getSyntaxErrors(cu.errorsCollected, params.textDocument.uri),
+              cu.unit.raw
+            )
+              .format()
+          )
           .getOrElse(Seq.empty)
       })
   }
@@ -91,16 +94,19 @@ class DocumentRangeFormattingManager(val workspace: WorkspaceManager,
   def getParentPart(unit: BaseUnit, range: Range, isJson: Boolean): Option[YPart] = {
     NodeBranchBuilder
       .astFromBaseUnit(unit)
-      .map(
-        ast =>
-          NodeBranchBuilder.getAstForRange(ast,
-                                           LspRangeConverter.toPosition(range.start).toAmfPosition,
-                                           LspRangeConverter.toPosition(range.end).toAmfPosition,
-                                           isJson))
+      .map(ast =>
+        NodeBranchBuilder.getAstForRange(
+          ast,
+          LspRangeConverter.toPosition(range.start).toAmfPosition,
+          LspRangeConverter.toPosition(range.end).toAmfPosition,
+          isJson
+        )
+      )
   }
 
   override def applyConfig(
-      config: Option[DocumentRangeFormattingClientCapabilities]): Either[Boolean, WorkDoneProgressOptions] = {
+      config: Option[DocumentRangeFormattingClientCapabilities]
+  ): Either[Boolean, WorkDoneProgressOptions] = {
     active = config.isDefined
     Left(active)
   }

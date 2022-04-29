@@ -32,8 +32,10 @@ object YamlWrapper {
 
   implicit class AlsInputRange(range: InputRange) {
     def toPositionRange: PositionRange =
-      PositionRange(Position(AmfPosition(range.lineFrom, range.columnFrom)),
-                    Position(AmfPosition(range.lineTo, range.columnTo)))
+      PositionRange(
+        Position(AmfPosition(range.lineFrom, range.columnFrom)),
+        Position(AmfPosition(range.lineTo, range.columnTo))
+      )
 
     def contains(amfPosition: AmfPosition): Boolean =
       toPositionRange.contains(Position(amfPosition))
@@ -51,8 +53,7 @@ object YamlWrapper {
     def contains(amfPosition: AmfPosition): Boolean =
       selectedPositionRange.contains(Position(amfPosition))
 
-    /**
-      * Contains both start and end positions
+    /** Contains both start and end positions
       * @param range
       * @return
       */
@@ -69,7 +70,8 @@ object YamlWrapper {
           PositionRange(
             Position(AmfPosition(yPart.range.lineFrom, yPart.range.columnFrom)),
             Position(AmfPosition(yPart.range.lineTo, yPart.range.columnTo))
-          ))
+          )
+        )
       )
 
     lazy val isJson: Boolean =
@@ -77,16 +79,17 @@ object YamlWrapper {
 
   }
 
-  abstract class FlowedStructure(beginFlowChar: String, endFlowChar: String, node: YValue)
-      extends CommonPartOps(node) {
+  abstract class FlowedStructure(beginFlowChar: String, endFlowChar: String, node: YValue) extends CommonPartOps(node) {
 
     val (flowBegin, flowEnd) = {
       val tokens = node.children.flatMap({
         case nonContent: YNonContent => nonContent.tokens
         case _                       => Nil
       })
-      (tokens.exists(t => (t.tokenType == YamlToken.Indicator || jsonIndicator(t)) && t.text == beginFlowChar),
-       tokens.exists(t => (t.tokenType == YamlToken.Indicator || jsonIndicator(t)) && t.text == endFlowChar))
+      (
+        tokens.exists(t => (t.tokenType == YamlToken.Indicator || jsonIndicator(t)) && t.text == beginFlowChar),
+        tokens.exists(t => (t.tokenType == YamlToken.Indicator || jsonIndicator(t)) && t.text == endFlowChar)
+      )
     }
 
     def jsonIndicator(t: AstToken): Boolean =
@@ -97,7 +100,8 @@ object YamlWrapper {
         node.range.copy(
           columnFrom = (if (flowBegin) node.range.columnFrom + 1 else node.range.columnFrom),
           columnTo = (if (flowEnd) node.range.columnTo - 1 else node.range.columnTo)
-        ))
+        )
+      )
     }
 
     override val selectedPositionRange: PositionRange = flowedPosition
@@ -137,7 +141,9 @@ object YamlWrapper {
       entry.value.tagType != YType.Map || (entry.value.tagType == YType.Map && entry.key.range.columnFrom < position.column)
 
     def isFirstChar(position: AmfPosition): Boolean =
-      !isQuotedKey(entry.key) && entry.key.range.lineFrom == position.line && entry.key.range.columnFrom == position.column
+      !isQuotedKey(
+        entry.key
+      ) && entry.key.range.lineFrom == position.line && entry.key.range.columnFrom == position.column
 
     def isQuotedKey(key: YNode): Boolean =
       key.asScalar match {
@@ -192,10 +198,8 @@ object YamlWrapper {
     private def isInsideNull(amfPosition: AmfPosition) =
       scalar.range.lineFrom <= amfPosition.line && scalar.value == null
 
-    /**
-      * Hack for abstract declaration variables. By some reason, last empty char is trimmed, so:
-      * <<params | *
-      * will not work
+    /** Hack for abstract declaration variables. By some reason, last empty char is trimmed, so: <<params | * will not
+      * work
       *
       * @param inputRange
       * @param amfPosition
@@ -230,7 +234,7 @@ object YamlWrapper {
         ast.contains(amfPosition)
       case ast: YNode =>
         ast.value.contains(amfPosition) ||
-          valueContains(amfPosition, ast)
+        valueContains(amfPosition, ast)
       case ast: YScalar =>
         AlsYScalarOps(ast).contains(amfPosition)
       case seq: YSequence =>

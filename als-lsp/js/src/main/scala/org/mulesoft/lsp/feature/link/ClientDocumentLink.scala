@@ -18,9 +18,13 @@ trait ClientDocumentLink extends js.Object {
 object ClientDocumentLink {
   def apply(internal: DocumentLink): ClientDocumentLink =
     js.Dynamic
-      .literal(range = internal.range.toClient, target = internal.target, data = internal.data.collect {
-        case js: js.Object => js
-      }.orUndefined)
+      .literal(
+        range = internal.range.toClient,
+        target = internal.target,
+        data = internal.data.collect { case js: js.Object =>
+          js
+        }.orUndefined
+      )
       .asInstanceOf[ClientDocumentLink]
 }
 

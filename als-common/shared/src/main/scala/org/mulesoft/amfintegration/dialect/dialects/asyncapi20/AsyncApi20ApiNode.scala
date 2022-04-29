@@ -19,9 +19,11 @@ object AsyncApi20ApiNode extends DialectNode {
       .withName("info")
       .withMinCount(1)
       .withNodePropertyMapping(OwlSameAs)
-      .withObjectRange(Seq(
-        AMLInfoObject.id
-      )),
+      .withObjectRange(
+        Seq(
+          AMLInfoObject.id
+        )
+      ),
     PropertyMapping()
       .withId(location + "#/declarations/AsyncAPIObject/id")
       .withName("id")
@@ -32,7 +34,8 @@ object AsyncApi20ApiNode extends DialectNode {
       .withObjectRange(
         Seq(
           AsyncApiServerObject.id
-        ))
+        )
+      )
       .withMapTermKeyProperty(ServerModel.Name.value.iri()),
     PropertyMapping()
       .withId(location + "#/declarations/AsyncAPIObject/externalDocs")
@@ -40,7 +43,8 @@ object AsyncApi20ApiNode extends DialectNode {
       .withObjectRange(
         Seq(
           AMLExternalDocumentationObject.id
-        )),
+        )
+      ),
     PropertyMapping()
       .withId(location + "#/declarations/AsyncAPIObject/tags")
       .withName("tags")

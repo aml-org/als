@@ -37,7 +37,8 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
 
       for {
         _ <- server.testInitialize(
-          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}"))
+        )
         _ <- changeWorkspaceConfiguration(server)(initialArgs)
         _ <- handler(DocumentSymbolParams(TextDocumentIdentifier(main)))
         _ <- handler(DocumentSymbolParams(TextDocumentIdentifier(subdir)))
@@ -48,7 +49,8 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
             .map(c => {
               val content = c.stream.toString
               server.textDocumentSyncConsumer.didOpen(
-                DidOpenTextDocumentParams(TextDocumentItem(independent, "RAML", 0, content)))
+                DidOpenTextDocumentParams(TextDocumentItem(independent, "RAML", 0, content))
+              )
             })
         }
         _ <- handler(DocumentSymbolParams(TextDocumentIdentifier(independent)))
@@ -80,7 +82,8 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
       val handler = server.resolveHandler(DocumentSymbolRequestType).value
       for {
         _ <- server.testInitialize(
-          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}"))
+        )
         _ <- changeWorkspaceConfiguration(server)(initialArgs) // parse main with subdir
         _ <- fetchContent(main)
           .flatMap(c => openFile(server)(main, c.stream.toString)) // open main file (should not reparse)
@@ -108,10 +111,13 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
       // open dialect -> open invalid instance -> change dialect -> focus now valid instance
       for {
         _ <- server.testInitialize(
-          AlsInitializeParams(None,
-                              Some(TraceKind.Off),
-                              rootUri = Some(filePath("aml-workspace")),
-                              hotReload = Some(true)))
+          AlsInitializeParams(
+            None,
+            Some(TraceKind.Off),
+            rootUri = Some(filePath("aml-workspace")),
+            hotReload = Some(true)
+          )
+        )
         dialectContent      <- fetchContent(dialect).map(_.stream.toString)
         _                   <- openFileNotification(server)(dialect, dialectContent)
         dialectDiagnostic1  <- notifier.nextCallD
@@ -120,7 +126,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
         instanceDiagnostic1 <- notifier.nextCallD
         _                   <- focusNotification(server)(dialect, 0)
         _                   <- notifier.nextCallD
-        _                   <- changeNotification(server)(dialect, dialectContent.replace("range: number", "range: string"), 1)
+        _ <- changeNotification(server)(dialect, dialectContent.replace("range: number", "range: string"), 1)
         dialectDiagnostic2  <- notifier.nextCallD
         _                   <- focusNotification(server)(instance, 0)
         instanceDiagnostic2 <- notifier.nextCallD
@@ -197,10 +203,12 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
     val builder = new WorkspaceManagerFactoryBuilder(notifier, logger)
     val dm      = builder.buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
-    val b = new LanguageServerBuilder(factory.documentManager,
-                                      factory.workspaceManager,
-                                      factory.configurationManager,
-                                      factory.resolutionTaskManager)
+    val b = new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
       .addRequestModule(factory.structureManager)
     dm.foreach(m => b.addInitializableModule(m))
     b.build()

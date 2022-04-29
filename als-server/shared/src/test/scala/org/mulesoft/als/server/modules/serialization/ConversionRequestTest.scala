@@ -22,10 +22,12 @@ class ConversionRequestTest extends LanguageServerBaseTest with ChangesWorkspace
     val factory =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
 
-    new LanguageServerBuilder(factory.documentManager,
-                              factory.workspaceManager,
-                              factory.configurationManager,
-                              factory.resolutionTaskManager)
+    new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
       .addRequestModule(factory.conversionManager)
       .build()
   }
@@ -113,10 +115,12 @@ class ConversionRequestTest extends LanguageServerBaseTest with ChangesWorkspace
     runTest(to, forcedSyntax, assertion, apiFromVendor(from))
   }
 
-  private def runTest(to: Spec,
-                      forcedSyntax: Option[String] = None,
-                      assertion: SerializedDocument => Assertion,
-                      conf: ApiConf) = {
+  private def runTest(
+      to: Spec,
+      forcedSyntax: Option[String] = None,
+      assertion: SerializedDocument => Assertion,
+      conf: ApiConf
+  ) = {
     withServer(buildServer()) { server =>
       openFile(server)(conf.name, conf.content)
         .flatMap(_ =>
@@ -141,14 +145,14 @@ class ConversionRequestTest extends LanguageServerBaseTest with ChangesWorkspace
   }
 
   object Oas20Api extends ApiConf {
-    override val name            = "file://api.yaml"
+    override val name = "file://api.yaml"
     override val content: String = """swagger: '2.0'
                              |info:
                              |  title: test""".stripMargin
   }
 
   object Oas20JsonApi extends ApiConf {
-    override val name            = "file://api.json"
+    override val name = "file://api.json"
     override val content: String = """{
                                      |  "swagger": "2.0",
                                      |  "info": {
@@ -158,14 +162,14 @@ class ConversionRequestTest extends LanguageServerBaseTest with ChangesWorkspace
   }
 
   object Oas30Api extends ApiConf {
-    override val name            = "file://api.yaml"
+    override val name = "file://api.yaml"
     override val content: String = """openapi: 3.0.0
                                      |info:
                                      |  title: test""".stripMargin
   }
 
   object Oas30JsonApi extends ApiConf {
-    override val name            = "file://api.json"
+    override val name = "file://api.json"
     override val content: String = """{
                                      |  "openapi": "3.0.0",
                                      |  "info": {
@@ -175,26 +179,26 @@ class ConversionRequestTest extends LanguageServerBaseTest with ChangesWorkspace
   }
 
   object Raml10Api extends ApiConf {
-    override val name            = "file://api.raml"
+    override val name = "file://api.raml"
     override val content: String = """#%RAML 1.0
                                      |title: test""".stripMargin
   }
 
   object Raml08Api extends ApiConf {
-    override val name            = "file://api.raml"
+    override val name = "file://api.raml"
     override val content: String = """#%RAML 0.8
                                      |title: test""".stripMargin
   }
 
   object AsyncApi20Api extends ApiConf {
-    override val name            = "file://api.yaml"
+    override val name = "file://api.yaml"
     override val content: String = """asyncapi: 2.0.0
                                      |info:
                                      |  title: test""".stripMargin
   }
 
   object AsyncApi20JsonApi extends ApiConf {
-    override val name            = "file://api.json"
+    override val name = "file://api.json"
     override val content: String = """{
                                      |  "asyncapi": "2.0.0",
                                      |  "info": {
@@ -203,10 +207,12 @@ class ConversionRequestTest extends LanguageServerBaseTest with ChangesWorkspace
                                      |}""".stripMargin
   }
 
-  private def requestConversion(server: LanguageServer,
-                                to: String,
-                                uri: String,
-                                syntax: String): Future[SerializedDocument] = {
+  private def requestConversion(
+      server: LanguageServer,
+      to: String,
+      uri: String,
+      syntax: String
+  ): Future[SerializedDocument] = {
     server
       .resolveHandler(ConversionRequestType)
       .value

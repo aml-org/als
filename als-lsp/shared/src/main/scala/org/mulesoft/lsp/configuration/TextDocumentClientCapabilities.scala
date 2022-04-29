@@ -18,24 +18,24 @@ import org.mulesoft.lsp.feature.rename.RenameClientCapabilities
 import org.mulesoft.lsp.feature.selectionRange.SelectionRangeCapabilities
 import org.mulesoft.lsp.textsync.SynchronizationClientCapabilities
 
-/**
-  * Text document specific client capabilities.
+/** Text document specific client capabilities.
   */
-case class TextDocumentClientCapabilities(synchronization: Option[SynchronizationClientCapabilities] = None,
-                                          publishDiagnostics: Option[DiagnosticClientCapabilities] = None,
-                                          completion: Option[CompletionClientCapabilities] = None,
-                                          references: Option[ReferenceClientCapabilities] = None,
-                                          documentSymbol: Option[DocumentSymbolClientCapabilities] = None,
-                                          definition: Option[DefinitionClientCapabilities] = None,
-                                          implementation: Option[ImplementationClientCapabilities] = None,
-                                          typeDefinition: Option[TypeDefinitionClientCapabilities] = None,
-                                          rename: Option[RenameClientCapabilities] = None,
-                                          codeActionCapabilities: Option[CodeActionCapabilities] = None,
-                                          documentLink: Option[DocumentLinkClientCapabilities] = None,
-                                          hover: Option[HoverClientCapabilities] = None,
-                                          documentHighlight: Option[DocumentHighlightCapabilities] = None,
-                                          foldingRange: Option[FoldingRangeCapabilities] = None,
-                                          selectionRange: Option[SelectionRangeCapabilities] = None,
-                                          documentFormatting: Option[DocumentFormattingClientCapabilities] = None,
-                                          documentRangeFormatting: Option[DocumentRangeFormattingClientCapabilities] =
-                                            None)
+case class TextDocumentClientCapabilities(
+    synchronization: Option[SynchronizationClientCapabilities] = None,
+    publishDiagnostics: Option[DiagnosticClientCapabilities] = None,
+    completion: Option[CompletionClientCapabilities] = None,
+    references: Option[ReferenceClientCapabilities] = None,
+    documentSymbol: Option[DocumentSymbolClientCapabilities] = None,
+    definition: Option[DefinitionClientCapabilities] = None,
+    implementation: Option[ImplementationClientCapabilities] = None,
+    typeDefinition: Option[TypeDefinitionClientCapabilities] = None,
+    rename: Option[RenameClientCapabilities] = None,
+    codeActionCapabilities: Option[CodeActionCapabilities] = None,
+    documentLink: Option[DocumentLinkClientCapabilities] = None,
+    hover: Option[HoverClientCapabilities] = None,
+    documentHighlight: Option[DocumentHighlightCapabilities] = None,
+    foldingRange: Option[FoldingRangeCapabilities] = None,
+    selectionRange: Option[SelectionRangeCapabilities] = None,
+    documentFormatting: Option[DocumentFormattingClientCapabilities] = None,
+    documentRangeFormatting: Option[DocumentRangeFormattingClientCapabilities] = None
+)

@@ -32,10 +32,12 @@ class CompletionPluginsRegistryAML {
 
   def suggests(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = suggest(params, pluginsSet.toSet)
 
-  private def suggest(params: AmlCompletionRequest, pluginsSet: Set[AMLCompletionPlugin]): Future[Seq[RawSuggestion]] = {
+  private def suggest(
+      params: AmlCompletionRequest,
+      pluginsSet: Set[AMLCompletionPlugin]
+  ): Future[Seq[RawSuggestion]] = {
     val seq: Seq[Future[Seq[RawSuggestion]]] = pluginsSet
-      .map(
-        p => p.resolve(params)
+      .map(p => p.resolve(params)
 //      used for debug <- to check origin plugin for suggestion
 //            .map(r => {
 //              if (r.nonEmpty) {
@@ -54,9 +56,8 @@ class CompletionsPluginHandler {
 
   def filter(ignoredPlugins: Set[AMLCompletionPlugin]): CompletionsPluginHandler = {
     val cloned = new CompletionsPluginHandler()
-    registries.foreach {
-      case (d, plugins) =>
-        cloned.registries.update(d, plugins.filter(ignoredPlugins))
+    registries.foreach { case (d, plugins) =>
+      cloned.registries.update(d, plugins.filter(ignoredPlugins))
     }
     cloned
   }
@@ -93,10 +94,13 @@ class CompletionsPluginHandler {
 object AMLBaseCompletionPlugins {
   val all: Seq[AMLCompletionPlugin] = Seq(
     StructureCompletionPlugin(
-      List(AMLUnionNodeCompletionPlugin,
-           AMLUnionRangeCompletionPlugin,
-           ValidationProfileTermsSuggestions,
-           ResolveDefault)),
+      List(
+        AMLUnionNodeCompletionPlugin,
+        AMLUnionRangeCompletionPlugin,
+        ValidationProfileTermsSuggestions,
+        ResolveDefault
+      )
+    ),
     AMLEnumCompletionPlugin,
     AMLRootDeclarationsCompletionPlugin,
     AMLRamlStyleDeclarationsReferences,

@@ -26,7 +26,8 @@ trait DummyPlugins {
 
     override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
       Future.successful(
-        Seq(RawSuggestion("dummy newText", "dummy displayText", "dummy description", Seq(), "dummy whiteSpaces")))
+        Seq(RawSuggestion("dummy newText", "dummy displayText", "dummy description", Seq(), "dummy whiteSpaces"))
+      )
   }
 
   object DummyCompletionPlugin {

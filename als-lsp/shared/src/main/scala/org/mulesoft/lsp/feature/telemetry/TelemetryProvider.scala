@@ -97,19 +97,20 @@ trait TelemetryProvider {
   protected def addTimedMessage(code: String, messageType: MessageTypes, msg: String, uri: String, uuid: String): Unit
   def addErrorMessage(code: String, msg: String, uri: String, uuid: String): Unit
 
-  final def timeProcess[T](code: String,
-                           beginType: MessageTypes,
-                           endType: MessageTypes,
-                           msg: String,
-                           uri: String,
-                           fn: () => Future[T],
-                           uuid: String = UUID.randomUUID().toString): Future[T] = {
+  final def timeProcess[T](
+      code: String,
+      beginType: MessageTypes,
+      endType: MessageTypes,
+      msg: String,
+      uri: String,
+      fn: () => Future[T],
+      uuid: String = UUID.randomUUID().toString
+  ): Future[T] = {
     val time = System.currentTimeMillis()
     addTimedMessage(code, beginType, msg, uri, uuid)
     fn()
-      .andThen {
-        case _ =>
-          addTimedMessage(code, endType, s"$msg \n\ttook ${System.currentTimeMillis() - time} millis", uri, uuid)
+      .andThen { case _ =>
+        addTimedMessage(code, endType, s"$msg \n\ttook ${System.currentTimeMillis() - time} millis", uri, uuid)
       }
   }
 }

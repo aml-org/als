@@ -15,8 +15,9 @@ object UnitDocumentationFacet extends AMLCompletionPlugin {
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
-      if (request.yPartBranch.isAtRoot && request.yPartBranch.isKey && !isInFieldValue(request) && isNotDocument(
-            request)) {
+      if (
+        request.yPartBranch.isAtRoot && request.yPartBranch.isKey && !isInFieldValue(request) && isNotDocument(request)
+      ) {
         Seq(RawSuggestion.forKey("usage", "docs", mandatory = false))
       } else Nil
     }

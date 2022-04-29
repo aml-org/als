@@ -22,7 +22,6 @@ object ResponseSymbolBuilderCompanion extends AmfObjectSimpleBuilderCompanion[Re
 
   override def getType: Class[_] = classOf[Response]
 
-  override protected def construct(element: Response)(
-      implicit ctx: StructureContext): Option[SymbolBuilder[Response]] =
+  override protected def construct(element: Response)(implicit ctx: StructureContext): Option[SymbolBuilder[Response]] =
     Some(new ResponseSymbolBuilder(element))
 }

@@ -48,6 +48,8 @@ trait FlowSuggestionRender extends SuggestionRender {
     }
 
     private def hasBrotherAfterwards(yPartBranch: YPartBranch): Boolean =
-      yPartBranch.brothers.exists(brother => PositionRange(brother.range).end > Position(yPartBranch.position)) && yPartBranch.isKey
+      yPartBranch.brothers.exists(brother =>
+        PositionRange(brother.range).end > Position(yPartBranch.position)
+      ) && yPartBranch.isKey
   }
 }

@@ -21,12 +21,13 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
 import scala.util.{Failure, Success}
 
-class SerializationManager[S](telemetryProvider: TelemetryProvider,
-                              editorConfiguration: EditorConfiguration,
-                              configurationReader: AlsConfigurationReader,
-                              props: SerializationProps[S],
-                              override val logger: Logger)
-    extends BaseSerializationNotifier[S](props, configurationReader, logger)
+class SerializationManager[S](
+    telemetryProvider: TelemetryProvider,
+    editorConfiguration: EditorConfiguration,
+    configurationReader: AlsConfigurationReader,
+    props: SerializationProps[S],
+    override val logger: Logger
+) extends BaseSerializationNotifier[S](props, configurationReader, logger)
     with ResolvedUnitListener
     with RequestModule[SerializationClientCapabilities, SerializationServerOptions] {
   type RunType = SerializationRunnable
@@ -64,10 +65,9 @@ class SerializationManager[S](telemetryProvider: TelemetryProvider,
               r.latestBU
             else r.latestBU.map(getUnitFromResolved(_, uri))
           }
-          .recoverWith {
-            case e: Exception =>
-              logger.warning(e.getMessage, "SerializationManager", "RequestSerialization")
-              Future.successful(Document().withId("error"))
+          .recoverWith { case e: Exception =>
+            logger.warning(e.getMessage, "SerializationManager", "RequestSerialization")
+            Future.successful(Document().withId("error"))
           }
       case _ =>
         logger.warning("Unit accessor not configured", "SerializationManager", "RequestSerialization")

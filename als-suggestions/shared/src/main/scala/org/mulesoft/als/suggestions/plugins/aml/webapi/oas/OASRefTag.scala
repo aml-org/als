@@ -12,7 +12,8 @@ object OASRefTag extends AMLRefTagCompletionPlugin with IsInsideRequired {
   override protected def isObjectDeclarable(params: AmlCompletionRequest): Boolean =
     super.isObjectDeclarable(params) || ((params.amfObject
       .isInstanceOf[EndPoint] || params.amfObject.isInstanceOf[Request]) && !params.yPartBranch.isKeyDescendantOf(
-      "parameters")) || params.amfObject.isInstanceOf[Settings]
+      "parameters"
+    )) || params.amfObject.isInstanceOf[Settings]
 
   override def isExceptionCase(branch: YPartBranch): Boolean = isInsideRequired(branch)
 }

@@ -5,9 +5,8 @@ import org.mulesoft.als.common.YamlWrapper.AlsInputRange
 import org.mulesoft.lexer.{InputRange, SourceLocation}
 import org.yaml.model.{YScalar, YValue}
 
-/**
-  * Virtual YParts are not really part of the AST, but group similar information
-  *   for the node (for example, a specific scalar parsed inside another scalar by AMF)
+/** Virtual YParts are not really part of the AST, but group similar information for the node (for example, a specific
+  * scalar parsed inside another scalar by AMF)
   */
 case class VirtualYPart(override val location: SourceLocation, text: String)
     extends YValue(location, IndexedSeq.empty) {
@@ -27,20 +26,28 @@ object VirtualYPart {
         VirtualYPart(buildLocation(originalPart.location.sourceName, li), partText)
       case _ =>
         val length = originalFullText.indexOf(name) + name.length
-        val lexicalInformation = LexicalInformation(originalPart.range.lineFrom,
-                                                    originalPart.range.columnFrom,
-                                                    originalPart.range.lineTo,
-                                                    originalPart.range.columnFrom + length)
-        VirtualYPart(buildLocation(originalPart.location.sourceName, lexicalInformation),
-                     originalFullText.substring(0, length))
+        val lexicalInformation = LexicalInformation(
+          originalPart.range.lineFrom,
+          originalPart.range.columnFrom,
+          originalPart.range.lineTo,
+          originalPart.range.columnFrom + length
+        )
+        VirtualYPart(
+          buildLocation(originalPart.location.sourceName, lexicalInformation),
+          originalFullText.substring(0, length)
+        )
     }
   }
 
   private def buildLocation(location: String, information: LexicalInformation) =
-    SourceLocation(location,
-                   InputRange(information.range.start.line,
-                              information.range.start.column,
-                              information.range.end.line,
-                              information.range.end.column))
+    SourceLocation(
+      location,
+      InputRange(
+        information.range.start.line,
+        information.range.start.column,
+        information.range.end.line,
+        information.range.end.column
+      )
+    )
 
 }

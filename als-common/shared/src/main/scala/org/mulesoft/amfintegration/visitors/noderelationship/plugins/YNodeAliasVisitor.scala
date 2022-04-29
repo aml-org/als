@@ -8,8 +8,8 @@ import org.mulesoft.amfintegration.visitors.AmfElementVisitorFactory
 import org.mulesoft.amfintegration.visitors.noderelationship.NodeRelationshipVisitorType
 import org.yaml.model.{YNode, YPart}
 
-/**
-  * @test: org.mulesoft.als.server.modules.definition.files.DefinitionFilesTest - yaml-alias
+/** @test:
+  *   org.mulesoft.als.server.modules.definition.files.DefinitionFilesTest - yaml-alias
   */
 class YNodeAliasVisitor extends NodeRelationshipVisitorType {
   override protected def innerVisit(element: AmfElement): Seq[RelationshipLink] =

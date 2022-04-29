@@ -22,7 +22,8 @@ object MetaDialectExtensionsCompletionPlugin extends AMLCompletionPlugin {
             .map(n => RawSuggestion(n, n, isAKey = false, "Annotation Mapping", mandatory = false))
         case _ => Seq.empty // should be inaccessible
       }
-    } else emptySuggestion
+    }
+    else emptySuggestion
 
   private def applies(request: AmlCompletionRequest): Boolean =
     request.yPartBranch.isValue &&
@@ -38,6 +39,7 @@ object MetaDialectExtensionsCompletionPlugin extends AMLCompletionPlugin {
         p match {
           case e: YMapEntry => e.key.asScalar.exists(_.text == "extensions")
           case _            => false
-      })
+        }
+      )
   }
 }

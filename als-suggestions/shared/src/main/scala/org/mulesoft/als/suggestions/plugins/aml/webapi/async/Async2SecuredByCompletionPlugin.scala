@@ -30,7 +30,7 @@ object Async2SecuredByCompletionPlugin extends AMLCompletionPlugin {
     request.amfObject match {
       case _: SecurityRequirement =>
         request.fieldEntry.exists(_.field == SecuritySchemeModel.Name) ||
-          request.fieldEntry.isEmpty && request.yPartBranch.parentEntryIs("security")
+        request.fieldEntry.isEmpty && request.yPartBranch.parentEntryIs("security")
       case _ => false
     }
   }

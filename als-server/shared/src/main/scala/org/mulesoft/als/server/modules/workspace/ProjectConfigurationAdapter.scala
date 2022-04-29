@@ -11,12 +11,14 @@ import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class ProjectConfigurationAdapter(val folder: String,
-                                  private val projectConfigurationProvider: ProjectConfigurationProvider,
-                                  editorConfiguration: EditorConfiguration,
-                                  val environmentProvider: EnvironmentProvider,
-                                  subscribers: List[BaseUnitListener],
-                                  logger: Logger) {
+class ProjectConfigurationAdapter(
+    val folder: String,
+    private val projectConfigurationProvider: ProjectConfigurationProvider,
+    editorConfiguration: EditorConfiguration,
+    val environmentProvider: EnvironmentProvider,
+    subscribers: List[BaseUnitListener],
+    logger: Logger
+) {
 
   var repository: Option[WorkspaceParserRepository] = None
 
@@ -54,9 +56,11 @@ class ProjectConfigurationAdapter(val folder: String,
       .map(_.config)
 
   def newProjectConfiguration(projectConfiguration: ProjectConfiguration): Future[ProjectConfigurationState] = {
-    logger.debug(s"New configuration for $folder: $projectConfiguration",
-                 "ProjectConfigurationAdapter",
-                 "newProjectConfiguration")
+    logger.debug(
+      s"New configuration for $folder: $projectConfiguration",
+      "ProjectConfigurationAdapter",
+      "newProjectConfiguration"
+    )
     projectConfigurationProvider
       .newProjectConfiguration(projectConfiguration)
       .flatMap(_ => notifyUnits())
@@ -66,9 +70,11 @@ class ProjectConfigurationAdapter(val folder: String,
     for {
       s <- getConfigurationState
     } yield {
-      logger.debug("Notifying subscribers of dependencies parsing results",
-                   "ProjectConfigurationAdapter",
-                   "notifyUnits")
+      logger.debug(
+        "Notifying subscribers of dependencies parsing results",
+        "ProjectConfigurationAdapter",
+        "notifyUnits"
+      )
       val subs = subscribers.filter(_.isActive)
       s.projectState.results
         .map(s.toResult("", _))
@@ -82,9 +88,9 @@ class ProjectConfigurationAdapter(val folder: String,
     }
   }
 
-  /**
-    * Notify the project configuration provider of the new tree in order to collect the cacheable units
-    * @param tree the new tree
+  /** Notify the project configuration provider of the new tree in order to collect the cacheable units
+    * @param tree
+    *   the new tree
     */
   def newTree(tree: MainFileTree): Future[Unit] =
     projectConfigurationProvider.afterNewTree(folder, tree)

@@ -5,7 +5,7 @@ import amf.aml.internal.metamodel.domain.DatatypePropertyTermModel
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
-trait TermObjectNode extends DialectNode{
+trait TermObjectNode extends DialectNode {
   override def properties: Seq[PropertyMapping] = Seq(
     PropertyMapping()
       .withId(location + s"#/declarations/$name/displayName")
@@ -21,6 +21,6 @@ trait TermObjectNode extends DialectNode{
       .withId(location + s"#/declarations/$name/extends")
       .withNodePropertyMapping(DatatypePropertyTermModel.Extends.value.iri())
       .withName("extends")
-      .withLiteralRange(xsdString.iri()),
+      .withLiteralRange(xsdString.iri())
   )
 }

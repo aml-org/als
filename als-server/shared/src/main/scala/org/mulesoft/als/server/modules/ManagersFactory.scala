@@ -26,23 +26,20 @@ import org.mulesoft.als.server.modules.workspace.{
   FilesInProjectManager
 }
 import org.mulesoft.als.server.protocol.textsync.AlsTextDocumentSyncConsumer
-import org.mulesoft.als.server.textsync.{
-  DefaultTextDocumentSyncBuilder,
-  TextDocumentContainer,
-  TextDocumentSyncBuilder
-}
+import org.mulesoft.als.server.textsync.{DefaultTextDocumentSyncBuilder, TextDocumentContainer, TextDocumentSyncBuilder}
 import org.mulesoft.als.server.workspace.{ProjectConfigurationProvider, WorkspaceManager}
 import org.mulesoft.amfintegration.AmfResolvedUnit
 import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 
 import scala.collection.mutable.ListBuffer
 
-class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier,
-                                     logger: Logger,
-                                     val editorConfiguration: EditorConfiguration = EditorConfiguration(),
-                                     projectConfigurationProvider: Option[ProjectConfigurationProvider] = None,
-                                     textDocumentSyncBuilder: Option[TextDocumentSyncBuilder] = None)
-    extends PlatformSecrets {
+class WorkspaceManagerFactoryBuilder(
+    clientNotifier: ClientNotifier,
+    logger: Logger,
+    val editorConfiguration: EditorConfiguration = EditorConfiguration(),
+    projectConfigurationProvider: Option[ProjectConfigurationProvider] = None,
+    textDocumentSyncBuilder: Option[TextDocumentSyncBuilder] = None
+) extends PlatformSecrets {
 
   private var notificationKind: DiagnosticNotificationsKind = ALL_TOGETHER
   private var directoryResolver: DirectoryResolver =
@@ -70,24 +67,22 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier,
 
   def serializationManager[S](sp: SerializationProps[S]): SerializationManager[S] = {
     val s =
-      new SerializationManager(telemetryManager,
-                               editorConfiguration,
-                               configurationManager.getConfiguration,
-                               sp,
-                               logger)
+      new SerializationManager(telemetryManager, editorConfiguration, configurationManager.getConfiguration, sp, logger)
     resolutionDependencies += s
     s
   }
 
   def buildDiagnosticManagers(
-      customValidatorBuilder: Option[BaseProfileValidatorBuilder] = None): Seq[BasicDiagnosticManager[_, _]] = {
+      customValidatorBuilder: Option[BaseProfileValidatorBuilder] = None
+  ): Seq[BasicDiagnosticManager[_, _]] = {
     val gatherer = new ValidationGatherer(telemetryManager)
     val dm =
       new ParseDiagnosticManager(telemetryManager, clientNotifier, logger, gatherer, notificationKind)
     val pdm = new ProjectDiagnosticManager(telemetryManager, clientNotifier, logger, gatherer, notificationKind)
     val rdm = new ResolutionDiagnosticManager(telemetryManager, clientNotifier, logger, gatherer)
     customValidationManager = customValidatorBuilder.map(validator =>
-      new CustomValidationManager(telemetryManager, clientNotifier, logger, gatherer, validator))
+      new CustomValidationManager(telemetryManager, clientNotifier, logger, gatherer, validator)
+    )
     customValidationManager.foreach(resolutionDependencies += _)
     projectDependencies += pdm
     resolutionDependencies += rdm
@@ -126,32 +121,35 @@ class WorkspaceManagerFactoryBuilder(clientNotifier: ClientNotifier,
     )
 }
 
-case class WorkspaceManagerFactory(projectDependencies: List[WorkspaceContentListener[_]],
-                                   resolutionDependencies: List[ResolvedUnitListener],
-                                   telemetryManager: TelemetryManager,
-                                   directoryResolver: DirectoryResolver,
-                                   logger: Logger,
-                                   configurationManager: ConfigurationManager,
-                                   editorConfiguration: EditorConfiguration,
-                                   customValidationManager: Option[CustomValidationManager],
-                                   projectConfigurationProvider: Option[ProjectConfigurationProvider],
-                                   textDocumentSyncBuilder: Option[TextDocumentSyncBuilder]) {
+case class WorkspaceManagerFactory(
+    projectDependencies: List[WorkspaceContentListener[_]],
+    resolutionDependencies: List[ResolvedUnitListener],
+    telemetryManager: TelemetryManager,
+    directoryResolver: DirectoryResolver,
+    logger: Logger,
+    configurationManager: ConfigurationManager,
+    editorConfiguration: EditorConfiguration,
+    customValidationManager: Option[CustomValidationManager],
+    projectConfigurationProvider: Option[ProjectConfigurationProvider],
+    textDocumentSyncBuilder: Option[TextDocumentSyncBuilder]
+) {
   val container: TextDocumentContainer =
     TextDocumentContainer()
 
-  lazy val cleanDiagnosticManager = new CleanDiagnosticTreeManager(telemetryManager,
-                                                                   container,
-                                                                   logger,
-                                                                   customValidationManager,
-                                                                   workspaceConfigurationManager)
+  lazy val cleanDiagnosticManager = new CleanDiagnosticTreeManager(
+    telemetryManager,
+    container,
+    logger,
+    customValidationManager,
+    workspaceConfigurationManager
+  )
 
   val resolutionTaskManager: ResolutionTaskManager = ResolutionTaskManager(
     telemetryManager,
     logger,
     resolutionDependencies,
-    resolutionDependencies.collect {
-      case t: AccessUnits[AmfResolvedUnit] =>
-        t // is this being used? is it correct to mix subscribers with this dependencies?
+    resolutionDependencies.collect { case t: AccessUnits[AmfResolvedUnit] =>
+      t // is this being used? is it correct to mix subscribers with this dependencies?
     }
   )
 
@@ -163,11 +161,11 @@ case class WorkspaceManagerFactory(projectDependencies: List[WorkspaceContentLis
       telemetryManager,
       editorConfiguration,
       projectConfigurationProvider.getOrElse(
-        new DefaultProjectConfigurationProvider(container, editorConfiguration, logger)),
+        new DefaultProjectConfigurationProvider(container, editorConfiguration, logger)
+      ),
       dependencies,
-      dependencies.collect {
-        case t: AccessUnits[CompilableUnit] =>
-          t // is this being used? is it correct to mix subscribers with this dependencies?
+      dependencies.collect { case t: AccessUnits[CompilableUnit] =>
+        t // is this being used? is it correct to mix subscribers with this dependencies?
       },
       logger,
       configurationManager
@@ -179,12 +177,14 @@ case class WorkspaceManagerFactory(projectDependencies: List[WorkspaceContentLis
       .build(container, List(workspaceManager), logger)
 
   lazy val completionManager =
-    new SuggestionsManager(container,
-                           workspaceManager,
-                           telemetryManager,
-                           directoryResolver,
-                           logger,
-                           configurationManager)
+    new SuggestionsManager(
+      container,
+      workspaceManager,
+      telemetryManager,
+      directoryResolver,
+      logger,
+      configurationManager
+    )
 
   lazy val structureManager =
     new StructureManager(workspaceManager, telemetryManager, logger)
@@ -210,11 +210,13 @@ case class WorkspaceManagerFactory(projectDependencies: List[WorkspaceContentLis
     new DocumentLinksManager(workspaceManager, telemetryManager, logger)
 
   lazy val renameManager =
-    new RenameManager(workspaceManager,
-                      telemetryManager,
-                      logger,
-                      configurationManager.getConfiguration,
-                      EditorConfiguration.platform)
+    new RenameManager(
+      workspaceManager,
+      telemetryManager,
+      logger,
+      configurationManager.getConfiguration,
+      EditorConfiguration.platform
+    )
 
   lazy val conversionManager =
     new ConversionManager(workspaceManager, telemetryManager, logger)
@@ -229,19 +231,23 @@ case class WorkspaceManagerFactory(projectDependencies: List[WorkspaceContentLis
     new SelectionRangeManager(workspaceManager, telemetryManager, logger)
 
   lazy val renameFileActionManager: RenameFileActionManager =
-    new RenameFileActionManager(workspaceManager,
-                                telemetryManager,
-                                logger,
-                                configurationManager.getConfiguration,
-                                EditorConfiguration.platform)
+    new RenameFileActionManager(
+      workspaceManager,
+      telemetryManager,
+      logger,
+      configurationManager.getConfiguration,
+      EditorConfiguration.platform
+    )
 
   lazy val codeActionManager: CodeActionManager =
-    new CodeActionManager(AllCodeActions.all,
-                          workspaceManager,
-                          configurationManager.getConfiguration,
-                          telemetryManager,
-                          logger,
-                          directoryResolver)
+    new CodeActionManager(
+      AllCodeActions.all,
+      workspaceManager,
+      configurationManager.getConfiguration,
+      telemetryManager,
+      logger,
+      directoryResolver
+    )
 
   lazy val documentFormattingManager: DocumentFormattingManager =
     new DocumentFormattingManager(workspaceManager, telemetryManager, logger)
@@ -250,10 +256,9 @@ case class WorkspaceManagerFactory(projectDependencies: List[WorkspaceContentLis
     new DocumentRangeFormattingManager(workspaceManager, telemetryManager, logger)
 
   lazy val serializationManager: Option[SerializationManager[_]] =
-    resolutionDependencies.collectFirst({
-      case s: SerializationManager[_] =>
-        s.withUnitAccessor(resolutionTaskManager) // is this redundant with the initialization of workspace manager?
-        s
+    resolutionDependencies.collectFirst({ case s: SerializationManager[_] =>
+      s.withUnitAccessor(resolutionTaskManager) // is this redundant with the initialization of workspace manager?
+      s
     })
 
   lazy val workspaceConfigurationManager: WorkspaceConfigurationManager =

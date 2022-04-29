@@ -34,10 +34,12 @@ class DocumentRangeFormattingTest
   def buildServer(): LanguageServer = {
     val factory =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(factory.documentManager,
-                              factory.workspaceManager,
-                              factory.configurationManager,
-                              factory.resolutionTaskManager)
+    new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
       .addRequestModule(factory.documentFormattingManager)
       .addRequestModule(factory.documentRangeFormattingManager)
       .build()
@@ -96,7 +98,8 @@ class DocumentRangeFormattingTest
           handler(DocumentRangeFormattingParams(fileId, range, FormattingOptions(2, insertSpaces = true)))
         }
         tmp <- writeTemporaryFile(expectedUri)(
-          applyEdits(WorkspaceEdit(Some(Map(fileUri -> formattingResult)), None), Option(markers.head.content)))
+          applyEdits(WorkspaceEdit(Some(Map(fileUri -> formattingResult)), None), Option(markers.head.content))
+        )
         _ <- assertDifferences(tmp, expectedUri)
       } yield {
         formattingResult

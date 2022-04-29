@@ -5,12 +5,12 @@ import scala.scalajs.js
 
 @js.native
 trait ClientTelemetryMessage extends js.Object {
-  def event: String = js.native
+  def event: String       = js.native
   def messageType: String = js.native
-  def message: String = js.native
-  def uri: String = js.native
-  def time: String = js.native
-  def uuid: String = js.native
+  def message: String     = js.native
+  def uri: String         = js.native
+  def time: String        = js.native
+  def uuid: String        = js.native
 }
 
 object ClientTelemetryMessage {
@@ -22,7 +22,7 @@ object ClientTelemetryMessage {
         message = internal.message,
         uri = internal.uri,
         time = internal.time.toString,
-        uuid = internal.uuid,
+        uuid = internal.uuid
       )
       .asInstanceOf[ClientTelemetryMessage]
 }

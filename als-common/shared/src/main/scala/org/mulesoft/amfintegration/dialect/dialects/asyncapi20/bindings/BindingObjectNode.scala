@@ -26,7 +26,8 @@ trait BindingObjectNode extends DialectNode {
         "sqs",
         "stomp",
         "redis"
-      ))
+      )
+    )
   override def properties: Seq[PropertyMapping] = Seq(`type`)
 }
 

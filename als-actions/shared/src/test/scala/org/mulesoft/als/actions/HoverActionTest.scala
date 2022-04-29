@@ -62,17 +62,20 @@ class HoverActionTest extends AsyncFunSuite with BaseHoverTest {
   private def getResults(r: AmfParseResult, alsConfigurationState: ALSConfigurationState): List[PositionedHover] = {
     val positions: List[Position] = r.result.baseUnit.ast.map(extract).getOrElse(List.empty)
     val yPart                     = new YPartBranchCached(r.result.baseUnit)
-    val value                     = r.definedBy // always is going to exists in this test and if not, the exception is an advice good enough.
-    val cached                    = new ObjectInTreeCached(r.result.baseUnit, value)
+    val value =
+      r.definedBy // always is going to exists in this test and if not, the exception is an advice good enough.
+    val cached = new ObjectInTreeCached(r.result.baseUnit, value)
     positions.map { p =>
       val hover =
-        HoverAction(r.result.baseUnit,
-                    cached,
-                    yPart,
-                    p,
-                    r.location,
-                    alsConfigurationState.editorState.vocabularyRegistry,
-                    value).getHover
+        HoverAction(
+          r.result.baseUnit,
+          cached,
+          yPart,
+          p,
+          r.location,
+          alsConfigurationState.editorState.vocabularyRegistry,
+          value
+        ).getHover
       PositionedHover(p, hover)
     }
   }

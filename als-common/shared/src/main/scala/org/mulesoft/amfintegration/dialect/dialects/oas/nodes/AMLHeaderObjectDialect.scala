@@ -26,7 +26,8 @@ object Oas20AMLHeaderObject extends AMLHeaderObjectDialect {
           "boolean",
           "array",
           "file"
-        ))
+        )
+      )
       .withLiteralRange(xsdString.iri())
   )
 }

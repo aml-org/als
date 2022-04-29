@@ -17,8 +17,8 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 }
 
 class ApiEncodesFieldSymbolBuilder(override val value: Api, override val element: FieldEntry)(
-    override implicit val ctx: StructureContext)
-    extends EncodesFieldSymbolBuilder(value, element) {
+    override implicit val ctx: StructureContext
+) extends EncodesFieldSymbolBuilder(value, element) {
 
   private val webApiTitle: Option[FieldEntry] = value.fields
     .fields()
@@ -41,8 +41,9 @@ object WebApiEncodesFieldSymbolBuilderCompanion
     with IriFieldSymbolBuilderCompanion {
   override val supportedIri: String = DocumentModel.Encodes.value.iri()
 
-  override def construct(element: FieldEntry, value: AmfObject)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfObject]] = value match {
+  override def construct(element: FieldEntry, value: AmfObject)(implicit
+      ctx: StructureContext
+  ): Option[FieldTypeSymbolBuilder[AmfObject]] = value match {
     case w: Api => Some(new ApiEncodesFieldSymbolBuilder(w, element))
     case _      => Some(new EncodesFieldSymbolBuilder(value, element))
   }

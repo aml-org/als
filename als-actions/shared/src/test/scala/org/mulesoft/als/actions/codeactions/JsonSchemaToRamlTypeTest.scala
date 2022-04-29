@@ -20,10 +20,12 @@ class JsonSchemaToRamlTypeTest extends BaseCodeActionTests {
     val range                            = PositionRange(Position(18, 22), Position(18, 23))
     val pluginFactory: CodeActionFactory = JsonSchemaToRamlType
 
-    runTest(elementUri,
-            range,
-            pluginFactory,
-            Some("conversions/inlined-json-schema-to-raml-type-from-properties.raml.golden.yaml"))
+    runTest(
+      elementUri,
+      range,
+      pluginFactory,
+      Some("conversions/inlined-json-schema-to-raml-type-from-properties.raml.golden.yaml")
+    )
   }
 
   it should "convert inlined json schema when selecting a range" in {
@@ -47,10 +49,12 @@ class JsonSchemaToRamlTypeTest extends BaseCodeActionTests {
     val range                            = PositionRange(Position(48, 21), Position(48, 27))
     val pluginFactory: CodeActionFactory = JsonSchemaToRamlType
 
-    runTest(elementUri,
-            range,
-            pluginFactory,
-            Some("conversions/inlined-json-schema-to-raml-type-at-payload.raml.golden.yaml"))
+    runTest(
+      elementUri,
+      range,
+      pluginFactory,
+      Some("conversions/inlined-json-schema-to-raml-type-at-payload.raml.golden.yaml")
+    )
   }
 
 }

@@ -14,7 +14,8 @@ object Oas3VariableValueParam extends VariableValueParam {
 
   private def isParamInServer(request: AmlCompletionRequest) =
     request.branchStack.headOption.exists(_.meta == ParameterModel) && request.branchStack.exists(e =>
-      e.meta == ServerModel) && !DiscriminatorObject.applies(request)
+      e.meta == ServerModel
+    ) && !DiscriminatorObject.applies(request)
 
   override protected val variableDialectNode: DialectNode = Oas30VariableObject
 }

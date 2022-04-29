@@ -17,8 +17,10 @@ trait DeclaredTypesSuggestions extends BooleanSuggestions {
 
   def typeProperty: PropertyMapping
 
-  protected def suggestAllTypes(params: AmlCompletionRequest,
-                                declaredSuggestions: Seq[RawSuggestion]): Seq[RawSuggestion] = {
+  protected def suggestAllTypes(
+      params: AmlCompletionRequest,
+      declaredSuggestions: Seq[RawSuggestion]
+  ): Seq[RawSuggestion] = {
     val name = params.amfObject.elementIdentifier()
     params.yPartBranch.parent
       .collectFirst({ case e: YMapEntry => e })
@@ -29,8 +31,8 @@ trait DeclaredTypesSuggestions extends BooleanSuggestions {
       case Some(text)
           if name.contains(text) || params.amfObject
             .isInstanceOf[UnresolvedShape] || text == "body" ||
-            (params.branchStack.headOption.exists(h =>
-              (h.isInstanceOf[Parameter] || h.isInstanceOf[Payload]) && !isBoolean(h, text)) && name
+            (params.branchStack.headOption
+              .exists(h => (h.isInstanceOf[Parameter] || h.isInstanceOf[Payload]) && !isBoolean(h, text)) && name
               .contains("schema")) =>
         declaredSuggestions ++ typeProperty
           .enum()
@@ -42,9 +44,11 @@ trait DeclaredTypesSuggestions extends BooleanSuggestions {
     }
   }
 
-  protected def getDeclaredSuggestions(params: AmlCompletionRequest,
-                                       actualName: Option[String],
-                                       iri: String): Seq[RawSuggestion] = {
+  protected def getDeclaredSuggestions(
+      params: AmlCompletionRequest,
+      actualName: Option[String],
+      iri: String
+  ): Seq[RawSuggestion] = {
     if (canUseDeclared(params))
       new AMLRamlStyleDeclarationsReferences(Seq(iri), params.prefix, params.declarationProvider, actualName).resolve()
     else Seq.empty

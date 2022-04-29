@@ -22,7 +22,7 @@ import org.mulesoft.amfintegration.AmfImplicits._
 import scala.concurrent.{ExecutionContext, Future}
 
 class AliasedSemexSuggestionTest extends AsyncFunSuite with BaseSuggestionsForTest with Matchers {
-  def rootPath: String                                     = "file://als-suggestions/shared/src/test/resources/test/raml10/aliased-semex/"
+  def rootPath: String = "file://als-suggestions/shared/src/test/resources/test/raml10/aliased-semex/"
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
   private def suggest(api: String): Future[Seq[CompletionItem]] = {
@@ -34,12 +34,14 @@ class AliasedSemexSuggestionTest extends AsyncFunSuite with BaseSuggestionsForTe
         l.library.withReferences(Seq(d.dialect.cloneUnit()))
         val projectState = TestProjectConfigurationState(
           d.dialect,
-          new ProjectConfiguration(rootPath,
-                                   Some(api),
-                                   Set(rootPath + "companion.raml"),
-                                   Set.empty,
-                                   Set(rootPath + "dialect.yaml"),
-                                   Set.empty),
+          new ProjectConfiguration(
+            rootPath,
+            Some(api),
+            Set(rootPath + "companion.raml"),
+            Set.empty,
+            Set(rootPath + "dialect.yaml"),
+            Set.empty
+          ),
           l.library
         )
         val state = ALSConfigurationState(EditorConfigurationState.empty, projectState, None)

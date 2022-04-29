@@ -25,12 +25,14 @@ object DocumentSymbolRange {
     DocumentSymbolRange(from.start, from.end)
 }
 
-case class DocumentSymbolNode(name: String,
-                              kind: Int,
-                              deprecated: Boolean,
-                              range: DocumentSymbolRange,
-                              selectionRange: DocumentSymbolRange,
-                              children: Seq[DocumentSymbolNode])
+case class DocumentSymbolNode(
+    name: String,
+    kind: Int,
+    deprecated: Boolean,
+    range: DocumentSymbolRange,
+    selectionRange: DocumentSymbolRange,
+    children: Seq[DocumentSymbolNode]
+)
 
 object DocumentSymbolNode {
 

@@ -24,10 +24,11 @@ import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class DocumentFormattingManager(val workspace: WorkspaceManager,
-                                private val telemetryProvider: TelemetryProvider,
-                                private val logger: Logger)
-    extends RequestModule[DocumentFormattingClientCapabilities, Either[Boolean, WorkDoneProgressOptions]]
+class DocumentFormattingManager(
+    val workspace: WorkspaceManager,
+    private val telemetryProvider: TelemetryProvider,
+    private val logger: Logger
+) extends RequestModule[DocumentFormattingClientCapabilities, Either[Boolean, WorkDoneProgressOptions]]
     with FormattingManager {
 
   private var active = false
@@ -54,8 +55,7 @@ class DocumentFormattingManager(val workspace: WorkspaceManager,
 
       override def `type`: DocumentFormattingRequestType.type = DocumentFormattingRequestType
 
-      /**
-        * If Some(_), this will be sent as a response as a default for a managed exception
+      /** If Some(_), this will be sent as a response as a default for a managed exception
         */
       override protected val empty: Option[Seq[TextEdit]] = Some(Seq())
     })
@@ -66,21 +66,25 @@ class DocumentFormattingManager(val workspace: WorkspaceManager,
   def onDocumentFormatting(params: DocumentFormattingParams): Future[Seq[TextEdit]] = {
     val uuid   = UUID.randomUUID().toString
     val isJson = params.textDocument.uri.endsWith(".json")
-    logger.debug("Document formatting for " + params.textDocument.uri,
-                 "DocumentFormattingManager",
-                 "onDocumentFormatting")
+    logger.debug(
+      "Document formatting for " + params.textDocument.uri,
+      "DocumentFormattingManager",
+      "onDocumentFormatting"
+    )
     workspace
       .getLastUnit(params.textDocument.uri, uuid)
       .map(cu => {
         getParts(cu.unit)
-          .map(
-            part =>
-              RangeFormatting(part,
-                              params.options,
-                              isJson,
-                              getSyntaxErrors(cu.errorsCollected, params.textDocument.uri),
-                              cu.unit.raw)
-                .format())
+          .map(part =>
+            RangeFormatting(
+              part,
+              params.options,
+              isJson,
+              getSyntaxErrors(cu.errorsCollected, params.textDocument.uri),
+              cu.unit.raw
+            )
+              .format()
+          )
           .getOrElse(Seq.empty)
       })
   }
@@ -88,7 +92,8 @@ class DocumentFormattingManager(val workspace: WorkspaceManager,
   def getParts(unit: BaseUnit): Option[YPart] = unit.ast
 
   override def applyConfig(
-      config: Option[DocumentFormattingClientCapabilities]): Either[Boolean, WorkDoneProgressOptions] = {
+      config: Option[DocumentFormattingClientCapabilities]
+  ): Either[Boolean, WorkDoneProgressOptions] = {
     active = config.isDefined
     Left(active)
   }

@@ -22,6 +22,7 @@ object AMLCallbackObject extends DialectNode {
       .withObjectRange(
         Seq(
           Oas30PathItemObject.id
-        ))
+        )
+      )
   )
 }

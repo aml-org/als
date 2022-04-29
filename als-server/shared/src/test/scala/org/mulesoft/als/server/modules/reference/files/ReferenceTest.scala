@@ -62,7 +62,8 @@ class ReferenceTest extends ServerReferencesTest {
         Location(
           "file://als-server/shared/src/test/resources/actions/reference/files/raml-trait/api.raml",
           LspRangeConverter.toLspRange(PositionRange(Position(14, 8), Position(14, 10)))
-        ))
+        )
+      )
     )
   }
 
@@ -73,7 +74,8 @@ class ReferenceTest extends ServerReferencesTest {
         Location(
           "file://als-server/shared/src/test/resources/actions/reference/files/raml-trait/api.raml",
           LspRangeConverter.toLspRange(PositionRange(Position(14, 8), Position(14, 10)))
-        ))
+        )
+      )
     )
   }
 
@@ -91,7 +93,8 @@ class ReferenceTest extends ServerReferencesTest {
         Location(
           "file://als-server/shared/src/test/resources/actions/reference/files/raml-resourceType/api.raml",
           LspRangeConverter.toLspRange(PositionRange(Position(8, 4), Position(8, 16)))
-        ))
+        )
+      )
     )
   }
 
@@ -106,14 +109,17 @@ class ReferenceTest extends ServerReferencesTest {
 
     val referenceHandler = server.resolveHandler(ReferenceRequestType).value
 
-    openFile(server)(path, markerInfo.content).flatMap(
-      _ =>
-        referenceHandler(
-          ReferenceParams(TextDocumentIdentifier(path),
-                          LspRangeConverter.toLspPosition(markerInfo.position),
-                          ReferenceContext(false)))
-          .map(references => {
-            references
-          }))
+    openFile(server)(path, markerInfo.content).flatMap(_ =>
+      referenceHandler(
+        ReferenceParams(
+          TextDocumentIdentifier(path),
+          LspRangeConverter.toLspPosition(markerInfo.position),
+          ReferenceContext(false)
+        )
+      )
+        .map(references => {
+          references
+        })
+    )
   }
 }

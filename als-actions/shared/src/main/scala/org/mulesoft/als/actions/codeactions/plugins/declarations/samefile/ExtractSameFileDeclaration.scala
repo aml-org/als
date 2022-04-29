@@ -46,15 +46,17 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with ShapeExtr
 
   protected def renderDeclaredEntry(amfObject: Option[AmfObject], name: String): Option[(String, Option[YMapEntry])] =
     ExtractorCommon
-      .declaredEntry(amfObject,
-                     params.definedBy,
-                     params.bu,
-                     params.uri,
-                     name,
-                     params.configuration,
-                     jsonOptions,
-                     yamlOptions,
-                     params.alsConfigurationState)
+      .declaredEntry(
+        amfObject,
+        params.definedBy,
+        params.bu,
+        params.uri,
+        name,
+        params.configuration,
+        jsonOptions,
+        yamlOptions,
+        params.alsConfigurationState
+      )
 
   protected lazy val homogeneousVendor: Boolean =
     maybeTree
@@ -66,21 +68,20 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with ShapeExtr
       _.flatMap(e => declaredElementTextEdit.map(Seq(e, _)))
         .map(edits => {
           kindTitle.baseCodeAction(
-            AbstractWorkspaceEdit(
-              Seq(Left(TextDocumentEdit(VersionedTextDocumentIdentifier(params.uri, None), edits)))))
+            AbstractWorkspaceEdit(Seq(Left(TextDocumentEdit(VersionedTextDocumentIdentifier(params.uri, None), edits))))
+          )
         })
         .toSeq
     }
 
   override protected lazy val renderLink: Future[Option[YNode]] = Future {
     amfObject
-      .collect {
-        case l: Linkable =>
-          if (!l.annotations.isDeclared)
-            l.annotations += DeclaredElement()
-          val linkDe: DomainElement = l.link(newName)
-          linkDe.annotations += ForceEntry() // raml explicit types
-          params.alsConfigurationState.configForDialect(params.definedBy).emit(linkDe)
+      .collect { case l: Linkable =>
+        if (!l.annotations.isDeclared)
+          l.annotations += DeclaredElement()
+        val linkDe: DomainElement = l.link(newName)
+        linkDe.annotations += ForceEntry() // raml explicit types
+        params.alsConfigurationState.configForDialect(params.definedBy).emit(linkDe)
       }
   }
 

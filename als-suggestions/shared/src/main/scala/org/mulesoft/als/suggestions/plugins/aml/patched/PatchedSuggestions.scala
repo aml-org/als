@@ -9,13 +9,15 @@ import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dial
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.Raml08TypesDialect
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDialect
 
-/**
-  * @param nonPlain nonPlain suggestions will have double quotes added to them
+/** @param nonPlain
+  *   nonPlain suggestions will have double quotes added to them
   */
-case class PatchedSuggestion(text: String,
-                             description: Option[String] = None,
-                             isObj: Boolean = false,
-                             nonPlain: Boolean = false)
+case class PatchedSuggestion(
+    text: String,
+    description: Option[String] = None,
+    isObj: Boolean = false,
+    nonPlain: Boolean = false
+)
 
 case class FieldForClass(classTerm: String, propertyTerm: String)
 
@@ -62,17 +64,24 @@ object PatchedSuggestionsForDialect {
       FieldForClass(PayloadModel.`type`.head.iri(), PayloadModel.MediaType.value.iri()) ->
         Map("KnownValues" -> Oas30CommonMediaTypes.all.map(PatchedSuggestion(_))),
       FieldForClass(ResponseModel.`type`.head.iri(), ResponseModel.StatusCode.value.iri()) ->
-        Map("KnownValues" -> Oas30ResponseCodes.all.map(v =>
-          PatchedSuggestion(v, isObj = true, nonPlain = !Oas30ResponseCodes.notQuoted.contains(v)))),
+        Map(
+          "KnownValues" -> Oas30ResponseCodes.all.map(v =>
+            PatchedSuggestion(v, isObj = true, nonPlain = !Oas30ResponseCodes.notQuoted.contains(v))
+          )
+        ),
       FieldForClass(ResponseModel.`type`.head.iri(), ResponseModel.Name.value.iri()) ->
-        Map("KnownValues" -> Oas30ResponseCodes.all.map(v =>
-          PatchedSuggestion(v, isObj = true, nonPlain = !Oas30ResponseCodes.notQuoted.contains(v))))
+        Map(
+          "KnownValues" -> Oas30ResponseCodes.all.map(v =>
+            PatchedSuggestion(v, isObj = true, nonPlain = !Oas30ResponseCodes.notQuoted.contains(v))
+          )
+        )
     ) ++ webApiClasses
 
   private val asyncApi20Classes: Map[FieldForClass, Map[String, Seq[PatchedSuggestion]]] = {
     Map(
       FieldForClass(PayloadModel.`type`.head.iri(), PayloadModel.MediaType.value.iri()) ->
-        Map("KnownValues" -> Oas20CommonMediaTypes.all.map(PatchedSuggestion(_))))
+        Map("KnownValues" -> Oas20CommonMediaTypes.all.map(PatchedSuggestion(_)))
+    )
   }
 
   private val ramlClasses: Map[FieldForClass, Map[String, Seq[PatchedSuggestion]]] =
@@ -99,10 +108,12 @@ object PatchedSuggestionsForDialect {
   def getKnownValues(dialect: String, classTerm: String, propertyTerm: String): Seq[PatchedSuggestion] =
     getPatchedValues(dialect, classTerm, propertyTerm, Some("KnownValues"))
 
-  private def getPatchedValues(dialect: String,
-                               classTerm: String,
-                               propertyTerm: String,
-                               patchType: Option[String]): Seq[PatchedSuggestion] =
+  private def getPatchedValues(
+      dialect: String,
+      classTerm: String,
+      propertyTerm: String,
+      patchType: Option[String]
+  ): Seq[PatchedSuggestion] =
     patchType match {
       case Some(t) =>
         classesByDialect

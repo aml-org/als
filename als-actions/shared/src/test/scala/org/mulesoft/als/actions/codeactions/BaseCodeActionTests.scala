@@ -43,11 +43,13 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
     } yield r
   }
 
-  protected def runTest(elementUri: String,
-                        range: PositionRange,
-                        pluginFactory: CodeActionFactory,
-                        golden: Option[String] = None,
-                        definedBy: Option[String] = None): Future[Assertion] =
+  protected def runTest(
+      elementUri: String,
+      range: PositionRange,
+      pluginFactory: CodeActionFactory,
+      golden: Option[String] = None,
+      definedBy: Option[String] = None
+  ): Future[Assertion] =
     for {
       params <- buildParameter(elementUri, range, definedBy)
       result <- {
@@ -55,20 +57,26 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
         plugin.isApplicable should be(true)
         plugin.run(params)
       }
-      r <- assertCodeActions(result.map(_.toCodeAction(true)),
-                             relativeUri(golden.getOrElse(s"$elementUri.golden.yaml")))
+      r <- assertCodeActions(
+        result.map(_.toCodeAction(true)),
+        relativeUri(golden.getOrElse(s"$elementUri.golden.yaml"))
+      )
     } yield r
 
-  protected def runTestNotApplicable(elementUri: String,
-                                     range: PositionRange,
-                                     pluginFactory: CodeActionFactory): Future[Assertion] =
+  protected def runTestNotApplicable(
+      elementUri: String,
+      range: PositionRange,
+      pluginFactory: CodeActionFactory
+  ): Future[Assertion] =
     for {
       params <- buildParameter(elementUri, range)
     } yield pluginFactory(params).isApplicable should be(false)
 
-  protected def parseElement(elementUri: String,
-                             definedBy: Option[String] = None,
-                             editorConfiguration: EditorConfiguration): Future[AmfParseResult] = {
+  protected def parseElement(
+      elementUri: String,
+      definedBy: Option[String] = None,
+      editorConfiguration: EditorConfiguration
+  ): Future[AmfParseResult] = {
     definedBy.foreach(d => editorConfiguration.withDialect(relativeUri(d)))
     for {
       editor <- editorConfiguration.getState
@@ -77,9 +85,11 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
     } yield r
   }
 
-  protected def buildParameter(elementUri: String,
-                               range: PositionRange,
-                               definedBy: Option[String] = None): Future[CodeActionRequestParams] = {
+  protected def buildParameter(
+      elementUri: String,
+      range: PositionRange,
+      definedBy: Option[String] = None
+  ): Future[CodeActionRequestParams] = {
     val configuration = EditorConfiguration()
     for {
       bu    <- parseElement(elementUri, definedBy, configuration)
@@ -91,9 +101,11 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
   }
 
   case class PreCodeActionRequestParams(amfResult: AmfParseResult, uri: String, relationShip: Seq[RelationshipLink]) {
-    def buildParam(range: PositionRange,
-                   activeFile: Option[String],
-                   alsConfigurationState: ALSConfigurationState): CodeActionRequestParams = {
+    def buildParam(
+        range: PositionRange,
+        activeFile: Option[String],
+        alsConfigurationState: ALSConfigurationState
+    ): CodeActionRequestParams = {
       val cu: DummyCompilableUnit = buildCU(activeFile)
       CodeActionRequestParams(
         cu.unit.location().getOrElse(relativeUri(uri)),
@@ -129,10 +141,12 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
     PreCodeActionRequestParams(result, uri, visitors1)
   }
 
-  protected def buildParameter(uri: String,
-                               result: AmfParseResult,
-                               range: PositionRange,
-                               alsConfigurationState: ALSConfigurationState): CodeActionRequestParams = {
+  protected def buildParameter(
+      uri: String,
+      result: AmfParseResult,
+      range: PositionRange,
+      alsConfigurationState: ALSConfigurationState
+  ): CodeActionRequestParams = {
     val cu       = DummyCompilableUnit(result.result.baseUnit, result.definedBy)
     val visitors = AmfElementDefaultVisitors.build(cu.unit)
     visitors.applyAmfVisitors(cu.unit, alsConfigurationState.amfParseContext)
@@ -154,11 +168,13 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
   }
 
   protected val dummyTelemetryProvider: TelemetryProvider = new TelemetryProvider {
-    override protected def addTimedMessage(code: String,
-                                           messageType: MessageTypes,
-                                           msg: String,
-                                           uri: String,
-                                           uuid: String): Unit = {} // do nothing
+    override protected def addTimedMessage(
+        code: String,
+        messageType: MessageTypes,
+        msg: String,
+        uri: String,
+        uuid: String
+    ): Unit = {} // do nothing
 
     override def addErrorMessage(code: String, msg: String, uri: String, uuid: String): Unit = {} // do nothing
   }

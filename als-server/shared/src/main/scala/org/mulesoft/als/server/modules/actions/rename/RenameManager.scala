@@ -12,12 +12,13 @@ import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
 import scala.concurrent.Future
 
-class RenameManager(val workspace: WorkspaceManager,
-                    private val telemetryProvider: TelemetryProvider,
-                    private val logger: Logger,
-                    private val configurationReader: AlsConfigurationReader,
-                    private val platform: Platform)
-    extends RequestModule[RenameClientCapabilities, RenameOptions] {
+class RenameManager(
+    val workspace: WorkspaceManager,
+    private val telemetryProvider: TelemetryProvider,
+    private val logger: Logger,
+    private val configurationReader: AlsConfigurationReader,
+    private val platform: Platform
+) extends RequestModule[RenameClientCapabilities, RenameOptions] {
 
   private var conf: Option[RenameClientCapabilities] = None
 

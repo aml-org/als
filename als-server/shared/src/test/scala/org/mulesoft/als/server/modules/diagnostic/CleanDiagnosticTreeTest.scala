@@ -28,11 +28,13 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
     scala.concurrent.ExecutionContext.Implicits.global
 
   private val mainPath = "main.raml"
-  private val mfRL: ResourceLoader = AmfConfigurationPatcher.resourceLoaderForFile(mainPath,
-                                                                                   """#%RAML 1.0
+  private val mfRL: ResourceLoader = AmfConfigurationPatcher.resourceLoaderForFile(
+    mainPath,
+    """#%RAML 1.0
       |title: test
       |version: 1
-      |""".stripMargin)
+      |""".stripMargin
+  )
 
   private val profileUri = "file:///profile.yaml"
   private val vRL: ResourceLoader = AmfConfigurationPatcher.resourceLoaderForFile(
@@ -57,24 +59,30 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
 
   it should "register configured dialects/semantics" in {
     val dialectUri = "file:///d1.yaml"
-    val dRL = AmfConfigurationPatcher.resourceLoaderForFile(dialectUri,
-                                                            """#%Dialect 1.0
+    val dRL = AmfConfigurationPatcher.resourceLoaderForFile(
+      dialectUri,
+      """#%Dialect 1.0
         |name: MyDialect
         |version: 1.0.0
-        |""".stripMargin)
+        |""".stripMargin
+    )
     val configuration = EditorConfiguration.withPlatformLoaders(Seq(dRL, mfRL))
 
     for {
       state <- new DefaultProjectConfigurationProvider(DummyEnvironmentProvider, configuration, EmptyLogger)
         .newProjectConfiguration(
-          new ProjectConfiguration("file:///", Some(mainPath), Set.empty, Set.empty, Set(dialectUri), Set.empty))
+          new ProjectConfiguration("file:///", Some(mainPath), Set.empty, Set.empty, Set(dialectUri), Set.empty)
+        )
       d <- {
         val manager = new DummyCleanDiagnosticTreeManager(
           Map(
             mainPath -> ALSConfigurationState(
               EditorConfigurationState(Seq(dRL, mfRL), Nil, Nil, syntaxPlugin = Nil, validationPlugin = Nil),
               state,
-              None)))
+              None
+            )
+          )
+        )
         manager.getConfiguration(mainPath)
       }
     } yield assert(d.dialects.exists(d => d.location().contains(dialectUri)))
@@ -85,17 +93,24 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
     for {
       state <- new DefaultProjectConfigurationProvider(DummyEnvironmentProvider, configuration, EmptyLogger)
         .newProjectConfiguration(
-          new ProjectConfiguration("file:///", Some(mainPath), Set.empty, Set(profileUri), Set.empty, Set.empty))
+          new ProjectConfiguration("file:///", Some(mainPath), Set.empty, Set(profileUri), Set.empty, Set.empty)
+        )
       d <- {
         val manager = new DummyCleanDiagnosticTreeManager(
           Map(
-            mainPath -> ALSConfigurationState(EditorConfigurationState(configuration.resourceLoaders,
-                                                                       Nil,
-                                                                       Nil,
-                                                                       syntaxPlugin = Nil,
-                                                                       validationPlugin = Nil),
-                                              state,
-                                              None)))
+            mainPath -> ALSConfigurationState(
+              EditorConfigurationState(
+                configuration.resourceLoaders,
+                Nil,
+                Nil,
+                syntaxPlugin = Nil,
+                validationPlugin = Nil
+              ),
+              state,
+              None
+            )
+          )
+        )
         manager.getConfiguration(mainPath)
       }
     } yield {
@@ -104,18 +119,22 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
     }
   }
 
-  class DummyCleanDiagnosticTreeManager(configs: Map[String, ALSConfigurationState],
-                                        customValidationManager: Option[CustomValidationManager] = None)
-      extends CleanDiagnosticTreeManager(DummyTelemetryProvider,
-                                         DummyEnvironmentProvider,
-                                         EmptyLogger,
-                                         customValidationManager,
-                                         DummyConfigProvider) {
+  class DummyCleanDiagnosticTreeManager(
+      configs: Map[String, ALSConfigurationState],
+      customValidationManager: Option[CustomValidationManager] = None
+  ) extends CleanDiagnosticTreeManager(
+        DummyTelemetryProvider,
+        DummyEnvironmentProvider,
+        EmptyLogger,
+        customValidationManager,
+        DummyConfigProvider
+      ) {
 
     val emptyConfig: ALSConfigurationState = ALSConfigurationState(
       EditorConfigurationState(Nil, Nil, Nil, syntaxPlugin = Nil, validationPlugin = Nil),
       EmptyProjectConfigurationState,
-      None)
+      None
+    )
 
     override protected def getWorkspaceConfig(uri: String): Future[ALSConfigurationState] =
       Future.successful(configs.getOrElse(uri, emptyConfig))

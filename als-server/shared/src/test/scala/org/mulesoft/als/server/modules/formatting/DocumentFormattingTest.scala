@@ -26,10 +26,12 @@ class DocumentFormattingTest extends LanguageServerBaseTest with FileAssertionTe
   def buildServer(): LanguageServer = {
     val factory =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(factory.documentManager,
-                              factory.workspaceManager,
-                              factory.configurationManager,
-                              factory.resolutionTaskManager)
+    new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
       .addRequestModule(factory.documentFormattingManager)
       .addRequestModule(factory.documentRangeFormattingManager)
       .build()
@@ -90,7 +92,8 @@ class DocumentFormattingTest extends LanguageServerBaseTest with FileAssertionTe
           handler(DocumentFormattingParams(fileId, FormattingOptions(2, insertSpaces = true)))
         }
         tmp <- writeTemporaryFile(expectedUri)(
-          applyEdits(WorkspaceEdit(Some(Map(fileUri -> formattingResult)), None), Option(original.stream.toString)))
+          applyEdits(WorkspaceEdit(Some(Map(fileUri -> formattingResult)), None), Option(original.stream.toString))
+        )
         _ <- assertDifferences(tmp, expectedUri)
       } yield {
         formattingResult

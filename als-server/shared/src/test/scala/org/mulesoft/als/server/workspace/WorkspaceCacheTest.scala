@@ -68,8 +68,8 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     val env = TextDocumentContainer()
     for {
       configAdapter <- newConfigurationAdapter(folderUri, env, rl)
-      ws            <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, EmptyLogger, () => Nil, configAdapter)
-      _             <- ws.initialized
+      ws <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, EmptyLogger, () => Nil, configAdapter)
+      _  <- ws.initialized
       _ <- ws
         .withConfiguration(ProjectConfiguration(folderUri, mainApiName, cacheUris))
       counter1 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
@@ -131,8 +131,8 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     val env = TextDocumentContainer()
     for {
       configAdapter <- newConfigurationAdapter(folderUri, env, rl)
-      ws            <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, EmptyLogger, () => Nil, configAdapter)
-      _             <- ws.initialized
+      ws <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, EmptyLogger, () => Nil, configAdapter)
+      _  <- ws.initialized
       _ <- ws
         .withConfiguration(ProjectConfiguration(folderUri, mainApiName, cacheUris))
       counter1 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
@@ -185,8 +185,8 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     val env = TextDocumentContainer()
     for {
       configAdapter <- newConfigurationAdapter(folderUri, env, rl)
-      ws            <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, EmptyLogger, () => Nil, configAdapter)
-      _             <- ws.initialized
+      ws <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, EmptyLogger, () => Nil, configAdapter)
+      _  <- ws.initialized
       _ <- ws
         .withConfiguration(ProjectConfiguration(folderUri, mainApiName))
       counter1 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
@@ -240,8 +240,8 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     val env = TextDocumentContainer()
     for {
       configAdapter <- newConfigurationAdapter(folderUri, env, rl)
-      ws            <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, EmptyLogger, () => Nil, configAdapter)
-      _             <- ws.initialized
+      ws <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, EmptyLogger, () => Nil, configAdapter)
+      _  <- ws.initialized
       _ <- ws
         .withConfiguration(ProjectConfiguration(folderUri, mainApiName, cacheUris))
       counter1 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
@@ -257,17 +257,21 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     }
   }
 
-  private def newConfigurationAdapter(folder: String,
-                                      env: EnvironmentProvider,
-                                      rl: ResourceLoader): Future[ProjectConfigurationAdapter] = Future {
+  private def newConfigurationAdapter(
+      folder: String,
+      env: EnvironmentProvider,
+      rl: ResourceLoader
+  ): Future[ProjectConfigurationAdapter] = Future {
     val editorConfig                        = EditorConfiguration.withPlatformLoaders(Seq(rl))
     val defaultProjectConfigurationProvider = new DefaultProjectConfigurationProvider(env, editorConfig, EmptyLogger)
-    new ProjectConfigurationAdapter(folder,
-                                    defaultProjectConfigurationProvider,
-                                    editorConfig,
-                                    env,
-                                    List.empty,
-                                    EmptyLogger)
+    new ProjectConfigurationAdapter(
+      folder,
+      defaultProjectConfigurationProvider,
+      editorConfig,
+      env,
+      List.empty,
+      EmptyLogger
+    )
   }
 
   test("test cache unit when changing configuration") {
@@ -307,15 +311,15 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     val env = TextDocumentContainer()
     for {
       configAdapter <- newConfigurationAdapter(folderUri, env, rl)
-      ws            <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, EmptyLogger, () => Nil, configAdapter)
-      _             <- ws.initialized
+      ws <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, EmptyLogger, () => Nil, configAdapter)
+      _  <- ws.initialized
       _ <- ws
         .withConfiguration(ProjectConfiguration(folderUri, mainApiName, cacheUris))
       counter1 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
         counter
       }
       _ <- // first reparse
-      ws.stage(mainApiUri, CHANGE_FILE)
+        ws.stage(mainApiUri, CHANGE_FILE)
       counter2 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
         counter
       }
@@ -327,7 +331,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
         counter
       }
       _ <- // reparse without cache
-      ws.stage(mainApiUri, CHANGE_FILE)
+        ws.stage(mainApiUri, CHANGE_FILE)
       counter4 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
         counter
       }

@@ -8,7 +8,9 @@ import org.mulesoft.als.common.DirectoryResolver
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
 
-case class JsServerSystemConf(clientLoaders: js.Array[ClientResourceLoader] = js.Array(),
-                              clientDirResolver: ClientDirectoryResolver = EmptyJsDirectoryResolver)
+case class JsServerSystemConf(
+    clientLoaders: js.Array[ClientResourceLoader] = js.Array(),
+    clientDirResolver: ClientDirectoryResolver = EmptyJsDirectoryResolver
+)
 
 object DefaultJsServerSystemConf extends JsServerSystemConf(js.Array())

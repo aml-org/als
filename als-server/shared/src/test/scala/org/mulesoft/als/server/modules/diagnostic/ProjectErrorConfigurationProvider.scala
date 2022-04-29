@@ -8,10 +8,11 @@ import org.mulesoft.amfintegration.amfconfiguration.{EditorConfigurationProvider
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class ProjectErrorConfigurationProvider(editorConfiguration: EditorConfigurationProvider,
-                                        logger: Logger,
-                                        error: AMFValidationResult)
-    extends DefaultProjectConfigurationProvider(DummyEnvironmentProvider, editorConfiguration, logger) {
+class ProjectErrorConfigurationProvider(
+    editorConfiguration: EditorConfigurationProvider,
+    logger: Logger,
+    error: AMFValidationResult
+) extends DefaultProjectConfigurationProvider(DummyEnvironmentProvider, editorConfiguration, logger) {
   private var reportError = true
 
   def setReportError(v: Boolean): Unit = this.reportError = v

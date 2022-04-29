@@ -43,11 +43,13 @@ class LanguageServerImplTest extends LanguageServerBaseTest {
         _ <- server.textDocumentSyncConsumer.didOpen(
           DidOpenTextDocumentParams(
             TextDocumentItem(apiUri, "raml", 0, "#%RAML 1.0")
-          ))
+          )
+        )
         _ <- server.textDocumentSyncConsumer.didOpen(
           DidOpenTextDocumentParams(
             TextDocumentItem(exchange, "json", 0, "{}")
-          ))
+          )
+        )
       } yield {
         val documentOption: Option[TextDocument] = editorFiles.get(apiUri)
         val exchangeOption: Option[TextDocument] = editorFiles.get(exchange)
@@ -65,7 +67,8 @@ class LanguageServerImplTest extends LanguageServerBaseTest {
       logger,
       textDocumentSyncBuilder =
         Some((container: TextDocumentContainer, dependencies: List[TextListener], logger: Logger) =>
-          new CustomTextDocumentSync(container, dependencies, logger))
+          new CustomTextDocumentSync(container, dependencies, logger)
+        )
     ).buildWorkspaceManagerFactory()
 
     val editorFiles = factory.container
@@ -74,11 +77,13 @@ class LanguageServerImplTest extends LanguageServerBaseTest {
         _ <- server.textDocumentSyncConsumer.didOpen(
           DidOpenTextDocumentParams(
             TextDocumentItem(apiUri, "raml", 0, "#%RAML 1.0")
-          ))
+          )
+        )
         _ <- server.textDocumentSyncConsumer.didOpen(
           DidOpenTextDocumentParams(
             TextDocumentItem(exchange, "json", 0, "{}")
-          ))
+          )
+        )
       } yield {
         val documentOption: Option[TextDocument] = editorFiles.get(apiUri)
         val exchangeOption: Option[TextDocument] = editorFiles.get(exchange)
@@ -91,18 +96,21 @@ class LanguageServerImplTest extends LanguageServerBaseTest {
   }
 
   def buildServer(factory: WorkspaceManagerFactory): LanguageServer =
-    new LanguageServerBuilder(factory.documentManager,
-                              factory.workspaceManager,
-                              factory.configurationManager,
-                              factory.resolutionTaskManager).build()
+    new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    ).build()
 
   override def rootPath: String = ""
 }
 
-class CustomTextDocumentSync(override val uriToEditor: TextDocumentContainer,
-                             val dependencies: List[TextListener],
-                             protected val logger: Logger)
-    extends AlsTextDocumentSyncConsumer {
+class CustomTextDocumentSync(
+    override val uriToEditor: TextDocumentContainer,
+    val dependencies: List[TextListener],
+    protected val logger: Logger
+) extends AlsTextDocumentSyncConsumer {
 
   override val `type`: TextDocumentSyncConfigType.type = TextDocumentSyncConfigType
 
@@ -118,6 +126,7 @@ class CustomTextDocumentSync(override val uriToEditor: TextDocumentContainer,
   override def didClose(params: DidCloseTextDocumentParams): Future[Unit]   = internal.didClose(params)
   override def initialize(): Future[Unit]                                   = internal.initialize()
   override def applyConfig(
-      config: Option[SynchronizationClientCapabilities]): Either[TextDocumentSyncKind, TextDocumentSyncOptions] =
+      config: Option[SynchronizationClientCapabilities]
+  ): Either[TextDocumentSyncKind, TextDocumentSyncOptions] =
     internal.applyConfig(config)
 }

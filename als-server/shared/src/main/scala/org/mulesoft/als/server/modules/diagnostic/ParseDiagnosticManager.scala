@@ -11,20 +11,22 @@ import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class ParseDiagnosticManager(override protected val telemetryProvider: TelemetryProvider,
-                             override protected val clientNotifier: ClientNotifier,
-                             override protected val logger: Logger,
-                             override protected val validationGatherer: ValidationGatherer,
-                             override protected val optimizationKind: DiagnosticNotificationsKind)
-    extends BaseUnitListener
+class ParseDiagnosticManager(
+    override protected val telemetryProvider: TelemetryProvider,
+    override protected val clientNotifier: ClientNotifier,
+    override protected val logger: Logger,
+    override protected val validationGatherer: ValidationGatherer,
+    override protected val optimizationKind: DiagnosticNotificationsKind
+) extends BaseUnitListener
     with DiagnosticManager {
   override val managerName: DiagnosticManagerKind = ParserDiagnosticKind
 
-  /**
-    * Called on new AST available
+  /** Called on new AST available
     *
-    * @param tuple - (AST, References)
-    * @param uuid  - telemetry UUID
+    * @param tuple
+    *   \- (AST, References)
+    * @param uuid
+    *   \- telemetry UUID
     */
   override def onNewAst(tuple: BaseUnitListenerParams, uuid: String): Future[Unit] = synchronized {
     val parsedResult = tuple.parseResult
@@ -47,26 +49,30 @@ class ParseDiagnosticManager(override protected val telemetryProvider: Telemetry
     )
   }
 
-  private def innerGatherValidations(uuid: String,
-                                     parsedResult: AmfParseResult,
-                                     references: Map[String, DiagnosticsBundle],
-                                     uri: String)() =
-    gatherValidationErrors(parsedResult, references, uuid) recoverWith {
-      case exception: Exception =>
-        logger.error("Error on validation: " + exception.toString, "ParseDiagnosticManager", "newASTAvailable")
-        Future {
-          clientNotifier.notifyDiagnostic(ValidationReport(uri, Set.empty, ProfileNames.AMF).publishDiagnosticsParams)
-        }
+  private def innerGatherValidations(
+      uuid: String,
+      parsedResult: AmfParseResult,
+      references: Map[String, DiagnosticsBundle],
+      uri: String
+  )() =
+    gatherValidationErrors(parsedResult, references, uuid) recoverWith { case exception: Exception =>
+      logger.error("Error on validation: " + exception.toString, "ParseDiagnosticManager", "newASTAvailable")
+      Future {
+        clientNotifier.notifyDiagnostic(ValidationReport(uri, Set.empty, ProfileNames.AMF).publishDiagnosticsParams)
+      }
     }
 
-  private def gatherValidationErrors(result: AmfParseResult,
-                                     references: Map[String, DiagnosticsBundle],
-                                     uuid: String): Future[Unit] = {
+  private def gatherValidationErrors(
+      result: AmfParseResult,
+      references: Map[String, DiagnosticsBundle],
+      uuid: String
+  ): Future[Unit] = {
     val profile: ProfileName = profileName(result.result.baseUnit)
     validationGatherer.indexNewReport(
       ErrorsWithTree(result.location, result.result.results.map(new AlsValidationResult(_)), Option(result.tree)),
       managerName,
-      uuid)
+      uuid
+    )
     if (notifyParsing) notifyReport(result.location, result.result.baseUnit, references, managerName, profile)
     Future.unit
   }

@@ -20,16 +20,19 @@ trait WebApiNode extends DialectNode {
       .withName("info")
       .withMinCount(1)
       .withNodePropertyMapping(OwlSameAs)
-      .withObjectRange(Seq(
-        AMLInfoObject.id
-      )),
+      .withObjectRange(
+        Seq(
+          AMLInfoObject.id
+        )
+      ),
     PropertyMapping()
       .withId(location + "#/declarations/WebAPIObject/externalDocs")
       .withName("externalDocs")
       .withObjectRange(
         Seq(
           AMLExternalDocumentationObject.id
-        )),
+        )
+      ),
     PropertyMapping()
       .withId(location + "#/declarations/security")
       .withName("security")
@@ -103,7 +106,8 @@ object Oas30WebApiNode extends WebApiNode {
       .withObjectRange(
         Seq(
           Oas30ServerObject.id
-        ))
+        )
+      )
       .withAllowMultiple(true)
   )
 

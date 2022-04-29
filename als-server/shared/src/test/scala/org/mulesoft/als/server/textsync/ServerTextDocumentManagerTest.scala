@@ -19,10 +19,12 @@ class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
 
     val factory =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(factory.documentManager,
-                              factory.workspaceManager,
-                              factory.configurationManager,
-                              factory.resolutionTaskManager)
+    new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
       .addRequestModule(factory.structureManager)
       .build()
   }
@@ -43,7 +45,8 @@ class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
           .map(symbols =>
             symbols
               .collectFirst { case o if o.name == "title" => succeed }
-              .getOrElse(fail("Invalid outline")))
+              .getOrElse(fail("Invalid outline"))
+          )
       } yield {
         succeed
       }
@@ -68,7 +71,8 @@ class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
           .map(symbols =>
             symbols
               .collectFirst { case o if o.name == "MyType" => fail("Should fail") }
-              .getOrElse(succeed))
+              .getOrElse(succeed)
+          )
       } yield succeed
     }
   }
@@ -92,7 +96,8 @@ class ServerTextDocumentManagerTest extends LanguageServerBaseTest {
             symbols.headOption match {
               case Some(o) => o.name should be("title")
               case _       => fail("Missing first symbol")
-          })
+            }
+          )
       } yield {
         succeed
       }

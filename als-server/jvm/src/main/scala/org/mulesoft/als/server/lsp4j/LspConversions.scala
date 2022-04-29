@@ -62,7 +62,8 @@ object LspConversions {
       Option(capabilities.getExperimental),
       Option(capabilities.getSerialization).map(s => SerializationClientCapabilities(s.getSupportsSerialization)),
       Option(capabilities.getCleanDiagnosticTree).map(s =>
-        CleanDiagnosticTreeClientCapabilities(s.getEnabledCleanDiagnostic)),
+        CleanDiagnosticTreeClientCapabilities(s.getEnabledCleanDiagnostic)
+      ),
       Option(capabilities.getFileUsage).map(s => FileUsageClientCapabilities(s.getEnabledFileUsage)),
       Option(capabilities.getConversion).map(c => conversionClientCapabilities(c)),
       Option(capabilities.getRenameFileAction).map(r => RenameFileActionClientCapabilities(r.getEnabled)),
@@ -141,7 +142,8 @@ object LspConversions {
       )
 
   private def conversionClientCapabilities(
-      result: extension.ConversionClientCapabilities): ConversionClientCapabilities = {
+      result: extension.ConversionClientCapabilities
+  ): ConversionClientCapabilities = {
     ConversionClientCapabilities(result.getSupported)
   }
 
@@ -154,9 +156,11 @@ object LspConversions {
       .getOrElse(AlsInitializeResult.empty)
 
   implicit def jvmConversionParams(result: extension.ConversionParams): ConversionParams = {
-    ConversionParams(Option(result.getUri).getOrElse(""),
-                     Option(result.getTarget).getOrElse(""),
-                     Option(result.getSyntax))
+    ConversionParams(
+      Option(result.getUri).getOrElse(""),
+      Option(result.getTarget).getOrElse(""),
+      Option(result.getSyntax)
+    )
   }
 
   implicit def jvmUpdateFormatOptionsParams(v: extension.UpdateConfigurationParams): UpdateConfigurationParams = {
@@ -169,7 +173,8 @@ object LspConversions {
   }
 
   implicit def stringFormatMapToMimeFormatMap(
-      v: Map[String, extension.AlsFormattingOptions]): Map[String, FormattingOptions] = {
+      v: Map[String, extension.AlsFormattingOptions]
+  ): Map[String, FormattingOptions] = {
     v.map(v => (v._1 -> formattingOptions(v._2)))
   }
 
@@ -185,6 +190,7 @@ object LspConversions {
     RenameFileActionParams(params.getOldDocument, params.getNewDocument)
 
   implicit def jvmGetWorkspaceConfigurationParams(
-      params: extension.GetWorkspaceConfigurationParams): GetWorkspaceConfigurationParams =
+      params: extension.GetWorkspaceConfigurationParams
+  ): GetWorkspaceConfigurationParams =
     GetWorkspaceConfigurationParams(params.getTextDocument)
 }

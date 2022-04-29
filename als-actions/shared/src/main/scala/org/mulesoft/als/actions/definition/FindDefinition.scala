@@ -11,25 +11,29 @@ import scala.concurrent.Future
 
 object FindDefinition {
 
-  def getDefinition(uri: String,
-                    position: Position,
-                    allRelationships: Future[Seq[RelationshipLink]],
-                    allAliases: Future[Seq[AliasInfo]],
-                    yPartBranchCached: YPartBranchCached): Future[Seq[LocationLink]] =
+  def getDefinition(
+      uri: String,
+      position: Position,
+      allRelationships: Future[Seq[RelationshipLink]],
+      allAliases: Future[Seq[AliasInfo]],
+      yPartBranchCached: YPartBranchCached
+  ): Future[Seq[LocationLink]] =
     for {
       relationships <- allRelationships
       aliases       <- allAliases
-    } yield
-      findByPosition(
-        uri,
-        AliasRelationships.getLinks(aliases, relationships, yPartBranchCached).map(fl => (fl.source, fl.destination)),
-        position)
-        .map(toLocationLink)
-        .sortWith(sortInner)
+    } yield findByPosition(
+      uri,
+      AliasRelationships.getLinks(aliases, relationships, yPartBranchCached).map(fl => (fl.source, fl.destination)),
+      position
+    )
+      .map(toLocationLink)
+      .sortWith(sortInner)
 
-  private def findByPosition(uri: String,
-                             allRelationships: Seq[(Location, Location)],
-                             position: Position): Seq[(Location, Location)] =
+  private def findByPosition(
+      uri: String,
+      allRelationships: Seq[(Location, Location)],
+      position: Position
+  ): Seq[(Location, Location)] =
     allRelationships.filter { s =>
       val range =
         PositionRange(LspRangeConverter.toPosition(s._1.range.start), LspRangeConverter.toPosition(s._1.range.end))

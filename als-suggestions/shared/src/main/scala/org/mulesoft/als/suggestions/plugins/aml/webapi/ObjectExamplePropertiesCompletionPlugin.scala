@@ -22,12 +22,13 @@ import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-case class ObjectExamplePropertiesCompletionPlugin(node: DataNode,
-                                                   dialect: Dialect,
-                                                   override val anyShape: AnyShape,
-                                                   example: Example,
-                                                   override protected val alsConfigurationState: ALSConfigurationState)
-    extends ShapePropertiesSuggestions {
+case class ObjectExamplePropertiesCompletionPlugin(
+    node: DataNode,
+    dialect: Dialect,
+    override val anyShape: AnyShape,
+    example: Example,
+    override protected val alsConfigurationState: ALSConfigurationState
+) extends ShapePropertiesSuggestions {
 
   override protected def shapeForObj: Option[NodeShape] = resolved.flatMap(findNode(_, example.structuredValue, node))
 
@@ -82,17 +83,21 @@ trait ShapePropertiesSuggestions {
   }
 }
 
-case class PureShapePropertiesSuggestions(override val anyShape: AnyShape,
-                                          dialect: Dialect,
-                                          override protected val alsConfigurationState: ALSConfigurationState)
-    extends ShapePropertiesSuggestions {
+case class PureShapePropertiesSuggestions(
+    override val anyShape: AnyShape,
+    dialect: Dialect,
+    override protected val alsConfigurationState: ALSConfigurationState
+) extends ShapePropertiesSuggestions {
   override protected def shapeForObj: Option[NodeShape] = resolved.collectFirst({ case n: NodeShape => n })
 }
 
 trait ExampleSuggestionPluginBuilder {
-  protected def buildPluginFromExample(e: Example, request: AmlCompletionRequest): Option[ShapePropertiesSuggestions] = {
-    findShape(e, request.branchStack).flatMap {
-      case (e: Example, s: Shape) => suggestionsForShape(e, s, request)
+  protected def buildPluginFromExample(
+      e: Example,
+      request: AmlCompletionRequest
+  ): Option[ShapePropertiesSuggestions] = {
+    findShape(e, request.branchStack).flatMap { case (e: Example, s: Shape) =>
+      suggestionsForShape(e, s, request)
     }
   }
 
@@ -100,8 +105,8 @@ trait ExampleSuggestionPluginBuilder {
     request.fieldEntry
       .filter(fe => fe.field == ExamplesField.Examples)
       .flatMap(_ => {
-        isFatherShape(Some(request.amfObject)).map(s =>
-          PureShapePropertiesSuggestions(s, request.actualDialect, request.alsConfigurationState))
+        isFatherShape(Some(request.amfObject))
+          .map(s => PureShapePropertiesSuggestions(s, request.actualDialect, request.alsConfigurationState))
       })
   }
 
@@ -109,24 +114,30 @@ trait ExampleSuggestionPluginBuilder {
     request.amfObject match {
       case e: Example
           if (request.yPartBranch.isKey || request.yPartBranch.isArray) && !e.fields.exists(
-            ExampleModel.StructuredValue) =>
+            ExampleModel.StructuredValue
+          ) =>
         findShape(e, e +: request.branchStack).map(s =>
-          PureShapePropertiesSuggestions(s._2, request.actualDialect, request.alsConfigurationState))
+          PureShapePropertiesSuggestions(s._2, request.actualDialect, request.alsConfigurationState)
+        )
       case _ => None
     }
   }
 
-  protected def suggestionsForShape(e: Example,
-                                    anyShape: AnyShape,
-                                    request: AmlCompletionRequest): Option[ObjectExamplePropertiesCompletionPlugin] = {
+  protected def suggestionsForShape(
+      e: Example,
+      anyShape: AnyShape,
+      request: AmlCompletionRequest
+  ): Option[ObjectExamplePropertiesCompletionPlugin] = {
     findNode(request)
-      .map(
-        obj =>
-          new ObjectExamplePropertiesCompletionPlugin(obj,
-                                                      request.actualDialect,
-                                                      anyShape,
-                                                      e,
-                                                      request.alsConfigurationState))
+      .map(obj =>
+        new ObjectExamplePropertiesCompletionPlugin(
+          obj,
+          request.actualDialect,
+          anyShape,
+          e,
+          request.alsConfigurationState
+        )
+      )
   }
 
   private def isScalarNodeValue(parent: AmfObject, yPart: YPartBranch, s: ScalarNode) = {
@@ -182,7 +193,8 @@ object ObjectExamplePropertiesCompletionPlugin extends AMLCompletionPlugin with 
         .orElse(
           request.branchStack
             .collectFirst({ case e: Example => e })
-            .flatMap(buildPluginFromExample(_, request)))
+            .flatMap(buildPluginFromExample(_, request))
+        )
         .orElse(buildPluginFromField(request))
         .map(_.suggest())
         .getOrElse(Nil)

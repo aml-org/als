@@ -3,7 +3,7 @@ package org.mulesoft.lsp.configuration
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 import scala.scalajs.js.|
-import  org.mulesoft.lsp.convert.LspConvertersSharedToClient.eitherToUnion
+import org.mulesoft.lsp.convert.LspConvertersSharedToClient.eitherToUnion
 // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native

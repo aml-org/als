@@ -8,10 +8,12 @@ trait EnumSuggestions {
     pm.enum()
       .flatMap(_.option().map(e => {
         val raw = pm.toRaw("unknown")
-        raw.copy(newText = e.toString,
-                 displayText = e.toString,
-                 description = e.toString,
-                 options = raw.options.copy(isKey = false))
+        raw.copy(
+          newText = e.toString,
+          displayText = e.toString,
+          description = e.toString,
+          options = raw.options.copy(isKey = false)
+        )
       }))
 
 }

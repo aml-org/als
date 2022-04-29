@@ -29,9 +29,16 @@ case class TestCodeAction(params: CodeActionRequestParams) extends CodeActionRes
       TestCodeAction.baseCodeAction(
         AbstractWorkspaceEdit(
           Seq(
-            Left(TextDocumentEdit(VersionedTextDocumentIdentifier("test://te.st", None),
-                                  Seq(TextEdit(LspRangeConverter.toLspRange(EmptyPositionRange), ""))))
-          ))))
+            Left(
+              TextDocumentEdit(
+                VersionedTextDocumentIdentifier("test://te.st", None),
+                Seq(TextEdit(LspRangeConverter.toLspRange(EmptyPositionRange), ""))
+              )
+            )
+          )
+        )
+      )
+    )
   }
 
   override protected def code(params: CodeActionRequestParams): String = "test code action"

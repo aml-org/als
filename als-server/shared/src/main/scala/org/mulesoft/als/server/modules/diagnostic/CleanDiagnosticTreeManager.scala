@@ -32,12 +32,13 @@ import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class CleanDiagnosticTreeManager(telemetryProvider: TelemetryProvider,
-                                 environmentProvider: EnvironmentProvider,
-                                 logger: Logger,
-                                 customValidationManager: Option[CustomValidationManager],
-                                 workspaceConfigProvider: WorkspaceConfigurationProvider)
-    extends RequestModule[CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeOptions] {
+class CleanDiagnosticTreeManager(
+    telemetryProvider: TelemetryProvider,
+    environmentProvider: EnvironmentProvider,
+    logger: Logger,
+    customValidationManager: Option[CustomValidationManager],
+    workspaceConfigProvider: WorkspaceConfigurationProvider
+) extends RequestModule[CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeOptions] {
 
   private var enabled: Boolean = true
 
@@ -63,8 +64,7 @@ class CleanDiagnosticTreeManager(telemetryProvider: TelemetryProvider,
 
       override protected def uri(params: CleanDiagnosticTreeParams): String = params.textDocument.uri
 
-      /**
-        * If Some(_), this will be sent as a response as a default for a managed exception
+      /** If Some(_), this will be sent as a response as a default for a managed exception
         */
       override protected val empty: Option[Seq[PublishDiagnosticsParams]] = None
     }
@@ -110,8 +110,8 @@ class CleanDiagnosticTreeManager(telemetryProvider: TelemetryProvider,
   def parseAndResolve(refinedUri: String): Future[(CleanValidationPartialResult, ALSConfigurationState)] =
     for {
       alsConfigurationState <- getWorkspaceConfig(refinedUri)
-      pr                    <- AMLSpecificConfiguration(alsConfigurationState.getAmfConfig).parse(refinedUri).map(new AmfResultWrap(_))
-      helper                <- Future(alsConfigurationState.configForUnit(pr.result.baseUnit))
+      pr     <- AMLSpecificConfiguration(alsConfigurationState.getAmfConfig).parse(refinedUri).map(new AmfResultWrap(_))
+      helper <- Future(alsConfigurationState.configForUnit(pr.result.baseUnit))
       resolved <- Future({
         logger.debug(s"About to report: $refinedUri", "CleanDiagnosticTreeManager", "validate")
         helper.fullResolution(pr.result.baseUnit)
@@ -122,7 +122,8 @@ class CleanDiagnosticTreeManager(telemetryProvider: TelemetryProvider,
   private def runCustomValidations(
       uri: String,
       resolutionResult: CleanValidationPartialResult,
-      alsConfigurationState: ALSConfigurationState): Future[CleanValidationPartialResult] = {
+      alsConfigurationState: ALSConfigurationState
+  ): Future[CleanValidationPartialResult] = {
     val resolvedUnit: BaseUnit = resolutionResult.resolvedUnit.baseUnit
     for {
       helper <- Future(alsConfigurationState.configForUnit(resolvedUnit))
@@ -132,16 +133,20 @@ class CleanDiagnosticTreeManager(telemetryProvider: TelemetryProvider,
         case _ => Future(Seq.empty)
       }
     } yield {
-      CleanValidationPartialResult(resolutionResult.parseResult,
-                                   resolutionResult.resolutionResult,
-                                   resolutionResult.resolvedUnit,
-                                   result)
+      CleanValidationPartialResult(
+        resolutionResult.parseResult,
+        resolutionResult.resolutionResult,
+        resolutionResult.resolvedUnit,
+        result
+      )
     }
 
   }
 
-  case class CleanValidationPartialResult(parseResult: AmfResultWrap,
-                                          resolutionResult: AMFValidationReport,
-                                          resolvedUnit: AMFResult,
-                                          customValidationResult: Seq[AlsValidationResult] = Seq())
+  case class CleanValidationPartialResult(
+      parseResult: AmfResultWrap,
+      resolutionResult: AMFValidationReport,
+      resolvedUnit: AMFResult,
+      customValidationResult: Seq[AlsValidationResult] = Seq()
+  )
 }

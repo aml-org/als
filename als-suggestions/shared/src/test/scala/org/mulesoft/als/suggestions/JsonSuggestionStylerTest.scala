@@ -45,7 +45,8 @@ class JsonSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
         Position(1, 2),
         dummyYPart,
         DefaultFormattingOptions
-      ))
+      )
+    )
 
     val styled = styler.style(RawSuggestion("swagger", isAKey = true))
 
@@ -76,7 +77,7 @@ class JsonSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
         |}
         |""".stripMargin
 
-    val node       = new YNodePlain(YScalar("\"x\"", ""), YType.Str.tag, None, SourceLocation("x", 2, 3, 2, 4), IndexedSeq())
+    val node = new YNodePlain(YScalar("\"x\"", ""), YType.Str.tag, None, SourceLocation("x", 2, 3, 2, 4), IndexedSeq())
     val emptyVal   = YNode("")
     val current    = YMapEntry(SourceLocation("x", 2, 3, 2, 4), IndexedSeq(node, emptyVal))
     val swagger    = YNode("\"swagger\"")

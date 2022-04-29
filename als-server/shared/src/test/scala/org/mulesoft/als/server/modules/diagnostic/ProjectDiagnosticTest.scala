@@ -23,19 +23,22 @@ class ProjectDiagnosticTest extends LanguageServerBaseTest {
 
   private val apiPath   = s"file:///api.raml"
   private val otherPath = s"file:///exchange.json"
-  private val content   = """#%RAML 1.0
+  private val content = """#%RAML 1.0
                   |title: api""".stripMargin
 
   private val rl = AmfConfigurationPatcher.resourceLoaderForFile(apiPath, content)
 
-  def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier,
-                  rls: Seq[ResourceLoader],
-                  error: Option[AMFValidationResult] = None): (LanguageServer, ProjectErrorConfigurationProvider) = {
+  def buildServer(
+      diagnosticNotifier: MockDiagnosticClientNotifier,
+      rls: Seq[ResourceLoader],
+      error: Option[AMFValidationResult] = None
+  ): (LanguageServer, ProjectErrorConfigurationProvider) = {
     val editorConfig = EditorConfiguration.withoutPlatformLoaders(rls)
     val provider = new ProjectErrorConfigurationProvider(
       editorConfig,
       logger,
-      error.getOrElse(AMFValidationResult("Error loading project", VIOLATION, "", None, "2", None, None, None)))
+      error.getOrElse(AMFValidationResult("Error loading project", VIOLATION, "", None, "2", None, None, None))
+    )
     val builder =
       new WorkspaceManagerFactoryBuilder(
         diagnosticNotifier,
@@ -45,10 +48,12 @@ class ProjectDiagnosticTest extends LanguageServerBaseTest {
       )
     val dm      = builder.buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
-    val b = new LanguageServerBuilder(factory.documentManager,
-                                      factory.workspaceManager,
-                                      factory.configurationManager,
-                                      factory.resolutionTaskManager)
+    val b = new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
     dm.foreach(m => b.addInitializableModule(m))
     (b.build(), provider)
   }
@@ -56,8 +61,10 @@ class ProjectDiagnosticTest extends LanguageServerBaseTest {
   test("Report project errors") {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
 
-    withServer(buildServer(diagnosticNotifier, Seq(rl))._1,
-               AlsInitializeParams(None, Some(TraceKind.Off), rootPath = Some("file:///"))) { server =>
+    withServer(
+      buildServer(diagnosticNotifier, Seq(rl))._1,
+      AlsInitializeParams(None, Some(TraceKind.Off), rootPath = Some("file:///"))
+    ) { server =>
       for {
         _  <- setMainFile(server)("file:///", "api.raml")
         d1 <- diagnosticNotifier.nextCall
@@ -74,8 +81,10 @@ class ProjectDiagnosticTest extends LanguageServerBaseTest {
 
     val error = AMFValidationResult("Error loading project", VIOLATION, "", None, "", None, Some(otherPath), None)
 
-    withServer(buildServer(diagnosticNotifier, Seq(rl), Some(error))._1,
-               AlsInitializeParams(None, Some(TraceKind.Off), rootPath = Some("file:///"))) { server =>
+    withServer(
+      buildServer(diagnosticNotifier, Seq(rl), Some(error))._1,
+      AlsInitializeParams(None, Some(TraceKind.Off), rootPath = Some("file:///"))
+    ) { server =>
       for {
         _  <- setMainFile(server)("file:///", "api.raml")
         d1 <- diagnosticNotifier.nextCall
@@ -113,7 +122,7 @@ class ProjectDiagnosticTest extends LanguageServerBaseTest {
   test("Clean project errors on external files") {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
 
-    val error              = AMFValidationResult("Error loading project", VIOLATION, "", None, "", None, Some(otherPath), None)
+    val error = AMFValidationResult("Error loading project", VIOLATION, "", None, "", None, Some(otherPath), None)
     val (server, provider) = buildServer(diagnosticNotifier, Seq(rl), Some(error))
     withServer(server, AlsInitializeParams(None, Some(TraceKind.Off), rootPath = Some("file:///"))) { server =>
       for {

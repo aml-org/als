@@ -24,10 +24,12 @@ trait ServerDefinitionTest extends LanguageServerBaseTest with MarkerFinderTest 
 
     val factory =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(factory.documentManager,
-                              factory.workspaceManager,
-                              factory.configurationManager,
-                              factory.resolutionTaskManager)
+    new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
       .addRequestModule(factory.definitionManager)
       .addRequestModule(factory.typeDefinitionManager)
       .build()
@@ -65,30 +67,36 @@ trait ServerDefinitionTest extends LanguageServerBaseTest with MarkerFinderTest 
       }
     }
 
-  def getServerDefinition(filePath: String,
-                          server: LanguageServer,
-                          markerInfo: MarkerInfo): Future[Seq[LocationLink]] = {
+  def getServerDefinition(
+      filePath: String,
+      server: LanguageServer,
+      markerInfo: MarkerInfo
+  ): Future[Seq[LocationLink]] = {
 
     val definitionHandler = server.resolveHandler(DefinitionRequestType).value
     openFile(server)(filePath, markerInfo.content)
-      .flatMap(
-        _ =>
-          definitionHandler(
-            DefinitionParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(markerInfo.position)))
-            .flatMap(definitions => {
-              closeFile(server)(filePath)
-                .map(_ => definitions.right.getOrElse(Nil))
-            }))
+      .flatMap(_ =>
+        definitionHandler(
+          DefinitionParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(markerInfo.position))
+        )
+          .flatMap(definitions => {
+            closeFile(server)(filePath)
+              .map(_ => definitions.right.getOrElse(Nil))
+          })
+      )
   }
 
-  def getServerTypeDefinition(filePath: String,
-                              server: LanguageServer,
-                              markerInfo: MarkerInfo): Future[Seq[LocationLink]] = {
+  def getServerTypeDefinition(
+      filePath: String,
+      server: LanguageServer,
+      markerInfo: MarkerInfo
+  ): Future[Seq[LocationLink]] = {
     val definitionHandler = server.resolveHandler(TypeDefinitionRequestType).value
     openFile(server)(filePath, markerInfo.content)
       .flatMap { _ =>
         definitionHandler(
-          TypeDefinitionParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(markerInfo.position)))
+          TypeDefinitionParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(markerInfo.position))
+        )
           .flatMap(definitions => {
             closeFile(server)(filePath).map(_ => definitions.right.getOrElse(Nil))
           })

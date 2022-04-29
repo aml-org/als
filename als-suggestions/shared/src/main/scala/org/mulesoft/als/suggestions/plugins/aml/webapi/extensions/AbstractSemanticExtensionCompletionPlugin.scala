@@ -21,7 +21,8 @@ trait AbstractSemanticExtensionCompletionPlugin extends AMLCompletionPlugin {
           .map { an =>
             if (an._2) RawSuggestion.forKey(formatForFlavour(an._1), "extensions", mandatory = false)
             else RawSuggestion.forObject(formatForFlavour(an._1), "extensions")
-          } else Nil
+          }
+      else Nil
     )
 
   protected def formatForFlavour(an: String): String

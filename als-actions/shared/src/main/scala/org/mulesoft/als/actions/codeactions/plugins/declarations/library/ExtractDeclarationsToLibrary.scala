@@ -53,15 +53,14 @@ trait ExtractDeclarationsToLibrary extends CodeActionResponsePlugin with Creates
       .configForSpec(params.bu.sourceSpec.getOrElse(Spec.AML))
       .serialize(syntax, ef)
 
-  private val syntax
-    : String = Mimes.`application/yaml` // Mimes.`APPLICATION/YAML` // if it finds declared in a RAML, I can't be JSON
+  private val syntax: String =
+    Mimes.`application/yaml` // Mimes.`APPLICATION/YAML` // if it finds declared in a RAML, I can't be JSON
 
   private def moduleTextEdit(ef: Module): Future[(String, TextEdit)] =
     wholeUri.map(uri => (uri, TextEdit(Range(Position(0, 0), Position(0, 0)), moduleRendered(ef))))
 
-  /**
-    * Entry for the import of the new library
-    * If uses is already defined, insert inside, else create root level uses on top
+  /** Entry for the import of the new library If uses is already defined, insert inside, else create root level uses on
+    * top
     * @return
     */
   private def linkEntry(ast: YPart): Future[Option[TextEdit]] = {
@@ -94,8 +93,7 @@ trait ExtractDeclarationsToLibrary extends CodeActionResponsePlugin with Creates
   protected val selectedElements: Seq[DomainElement] =
     DeclaredElementKnowledge.declaredInRange(params.range, params.bu)
 
-  /**
-    * Add ALIAS to all references for extracted elements
+  /** Add ALIAS to all references for extracted elements
     *
     * @param lde
     * @param allRelationships
@@ -110,13 +108,17 @@ trait ExtractDeclarationsToLibrary extends CodeActionResponsePlugin with Creates
         TextEdit(Range(position, position), s"$aliasName.")
       } ++ removeDeclarations(lde)
 
-  private def getLinks(element: DomainElement,
-                       links: Seq[RelationshipLink],
-                       extractedRanges: Seq[PositionRange]): Seq[PositionRange] =
+  private def getLinks(
+      element: DomainElement,
+      links: Seq[RelationshipLink],
+      extractedRanges: Seq[PositionRange]
+  ): Seq[PositionRange] =
     links
       .filter(l => element.annotations.ast().contains(l.targetEntry))
       .map(l => PositionRange(l.sourceEntry.range))
-      .filterNot(pr => extractedRanges.exists(epr => epr.intersection(pr).isDefined)) // filter out the ones being extracted
+      .filterNot(pr =>
+        extractedRanges.exists(epr => epr.intersection(pr).isDefined)
+      ) // filter out the ones being extracted
 
   private val yamlOptions: YamlRenderOptions = YamlRenderOptions().withIndentationSize(
     params.configuration
@@ -124,10 +126,9 @@ trait ExtractDeclarationsToLibrary extends CodeActionResponsePlugin with Creates
       .tabSize
   )
 
-  /**
-    *
-    * @param lde
-    * @return Text edits with empty text over extracted declarations
+  /** @param lde
+    * @return
+    *   Text edits with empty text over extracted declarations
     */
   private def removeDeclarations(lde: List[DomainElement]): Seq[TextEdit] =
     ExtractorCommon
@@ -176,7 +177,8 @@ trait ExtractDeclarationsToLibrary extends CodeActionResponsePlugin with Creates
             Left(TextDocumentEdit(VersionedTextDocumentIdentifier(newUri, None), Seq(newTextEdit)))
           )
         )
-      ))
+      )
+    )
 
   override protected def code(params: CodeActionRequestParams): String =
     "extract declared element to library code action"

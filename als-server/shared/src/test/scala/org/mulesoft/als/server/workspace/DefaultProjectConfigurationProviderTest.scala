@@ -39,9 +39,11 @@ class DefaultProjectConfigurationProviderTest extends LanguageServerBaseTest {
     val provider = buildConfigurationProvider()
     for {
       c1 <- provider.newProjectConfiguration(
-        ProjectConfiguration(ws1, Some("api.raml"), extensionDependency = Set(extension)))
+        ProjectConfiguration(ws1, Some("api.raml"), extensionDependency = Set(extension))
+      )
       c2 <- provider.newProjectConfiguration(
-        ProjectConfiguration(ws2, Some("instance.yaml"), metadataDependency = Set(filePath("ws2/dialect.yaml"))))
+        ProjectConfiguration(ws2, Some("instance.yaml"), metadataDependency = Set(filePath("ws2/dialect.yaml")))
+      )
       p1 <- provider.getProjectInfo(ws1).getOrElse(Future(EmptyProjectConfigurationState))
       p2 <- provider.getProjectInfo(ws2).getOrElse(Future(EmptyProjectConfigurationState))
     } yield {
@@ -59,7 +61,8 @@ class DefaultProjectConfigurationProviderTest extends LanguageServerBaseTest {
     for {
       c1 <- provider.newProjectConfiguration(ProjectConfiguration(ws1, Some("api.raml")))
       c2 <- provider.newProjectConfiguration(
-        ProjectConfiguration(ws1, Some("library.raml"), metadataDependency = Set(filePath("ws2/dialect.yaml"))))
+        ProjectConfiguration(ws1, Some("library.raml"), metadataDependency = Set(filePath("ws2/dialect.yaml")))
+      )
     } yield {
       assert(c1 != c2)
       c1.config.mainFile should contain("api.raml")
@@ -131,11 +134,11 @@ class DefaultProjectConfigurationProviderTest extends LanguageServerBaseTest {
       p1.extensions.find(d => d.nameAndVersion() == "Test 2") should not be empty
       p1.extensions.find(d => d.nameAndVersion() == "Annotation mappings 1.0") should not be empty
       p1.profiles.find(p => p.path.contains("profile.yaml")) should not be empty
-      p1.profiles.find(
-        p =>
-          p.model.encodes.graph
-            .scalarByProperty("http://a.ml/vocabularies/amf/core#name")
-            .contains("ValidateGet")) should not be empty
+      p1.profiles.find(p =>
+        p.model.encodes.graph
+          .scalarByProperty("http://a.ml/vocabularies/amf/core#name")
+          .contains("ValidateGet")
+      ) should not be empty
     }
   }
 

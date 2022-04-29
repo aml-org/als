@@ -55,8 +55,7 @@ class DifferentEncodingTest extends RAMLSuggestionTestServer {
       }
 
       override def isDirectory(path: String): Future[Boolean] = Future.successful {
-        allPaths.exists(p =>
-          p.startsWith(path) && (path.endsWith("/") || p.stripPrefix(path).headOption.contains('/')))
+        allPaths.exists(p => p.startsWith(path) && (path.endsWith("/") || p.stripPrefix(path).headOption.contains('/')))
       }
     }
     val global = EditorConfiguration.withPlatformLoaders(Seq(rs))
@@ -66,10 +65,12 @@ class DifferentEncodingTest extends RAMLSuggestionTestServer {
         .buildWorkspaceManagerFactory()
     val workspaceManager: WorkspaceManager = factory.workspaceManager
     val server =
-      new LanguageServerBuilder(factory.documentManager,
-                                workspaceManager,
-                                factory.configurationManager,
-                                factory.resolutionTaskManager)
+      new LanguageServerBuilder(
+        factory.documentManager,
+        workspaceManager,
+        factory.configurationManager,
+        factory.resolutionTaskManager
+      )
         .addRequestModule(factory.completionManager)
         .build()
 
@@ -178,10 +179,12 @@ class DifferentEncodingTest extends RAMLSuggestionTestServer {
     }
   }
 
-  case class TestEntry(fileUri: String,
-                       filesToOpen: Set[(String, String)],
-                       position: Position,
-                       ws: Map[String, String],
-                       result: Set[String],
-                       root: String = "file:///r")
+  case class TestEntry(
+      fileUri: String,
+      filesToOpen: Set[(String, String)],
+      position: Position,
+      ws: Map[String, String],
+      result: Set[String],
+      root: String = "file:///r"
+  )
 }

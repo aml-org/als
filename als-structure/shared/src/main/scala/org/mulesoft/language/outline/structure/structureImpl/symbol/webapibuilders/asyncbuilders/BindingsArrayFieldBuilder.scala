@@ -14,8 +14,8 @@ import amf.core.client.common.position.{Range => AmfRange}
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 
 case class BindingsArrayFieldBuilder(override val value: AmfArray, override val element: FieldEntry)(
-    override implicit val ctx: StructureContext)
-    extends DefaultWebApiArrayFieldTypeSymbolBuilder(value, element) {
+    override implicit val ctx: StructureContext
+) extends DefaultWebApiArrayFieldTypeSymbolBuilder(value, element) {
 
   override protected def range: Option[AmfRange] =
     super.range.orElse(value.values.headOption.flatMap(_.annotations.range()))
@@ -26,8 +26,9 @@ case class BindingsArrayFieldBuilder(override val value: AmfArray, override val 
 }
 
 object BindingsArrayFieldCompanion extends ArrayFieldTypeSymbolBuilderCompanion with IriFieldSymbolBuilderCompanion {
-  override def construct(element: FieldEntry, value: AmfArray)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] =
+  override def construct(element: FieldEntry, value: AmfArray)(implicit
+      ctx: StructureContext
+  ): Option[FieldTypeSymbolBuilder[AmfArray]] =
     Some(BindingsArrayFieldBuilder(value, element))
 
   override val supportedIri: String = OperationBindingsModel.Bindings.value.iri()

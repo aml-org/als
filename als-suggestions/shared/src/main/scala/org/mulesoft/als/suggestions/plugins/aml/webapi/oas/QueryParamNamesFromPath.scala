@@ -17,15 +17,16 @@ object QueryParamNamesFromPath extends AMLCompletionPlugin {
       (request.amfObject match {
         case parameter: Parameter => Some(parameter)
         case _                    => None
-      }).map(
-          parameter =>
-            if (parameter.binding
-                  .option()
-                  .contains("query") && request.yPartBranch
-                  .parentEntryIs("name") && request.yPartBranch.isValue)
-              getQueryParams(request.branchStack).map(RawSuggestion(_, isAKey = false))
-            else Nil)
-        .getOrElse(Nil)
+      }).map(parameter =>
+        if (
+          parameter.binding
+            .option()
+            .contains("query") && request.yPartBranch
+            .parentEntryIs("name") && request.yPartBranch.isValue
+        )
+          getQueryParams(request.branchStack).map(RawSuggestion(_, isAKey = false))
+        else Nil
+      ).getOrElse(Nil)
     }
   }
 

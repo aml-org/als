@@ -7,16 +7,16 @@ import org.mulesoft.amfintegration.UnitWithNextReference
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
 
-/**
-  * UnitTaskManager is a template designed to keep track of a kind of unit.
-  * Given a request (stored in StagingArea), there is a synchronized process
-  * which resolves the Unit and stores it into a caché.
-  * It provides the possibility to retrieve the current known unit from caché
+/** UnitTaskManager is a template designed to keep track of a kind of unit. Given a request (stored in StagingArea),
+  * there is a synchronized process which resolves the Unit and stores it into a caché. It provides the possibility to
+  * retrieve the current known unit from caché
   *
   * This will process just one unit at a time
   *
-  * @tparam UnitType Type of unit that is being processed and stored
-  * @tparam ResultUnit usually a wrap of UnitType with the reference for the next process [UnitWithNextReference]
+  * @tparam UnitType
+  *   Type of unit that is being processed and stored
+  * @tparam ResultUnit
+  *   usually a wrap of UnitType with the reference for the next process [UnitWithNextReference]
   * @tparam StagingAreaNotifications
   */
 trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingAreaNotifications] extends SyncFunction {
@@ -80,23 +80,21 @@ trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingArea
   private def canProcess: Boolean = state == Idle && current.isCompleted
 
   private def next(f: Future[Unit]): Future[Unit] =
-    f.recoverWith({
-        case e =>
-          log(Option(e.getMessage).getOrElse(e.toString), isError = true)
-          Future.unit
-      })
-      .map { _ =>
-        log(s"next")
-        current = process()
-      }
+    f.recoverWith({ case e =>
+      log(Option(e.getMessage).getOrElse(e.toString), isError = true)
+      Future.unit
+    }).map { _ =>
+      log(s"next")
+      current = process()
+    }
 
   private def process(): Future[Unit] =
-    sync(
-      () =>
-        if (state == NotAvailable) throw new UnavailableTaskManagerException
-        else if (stagingArea.shouldDie) disable()
-        else if (stagingArea.hasPending) next(processTask())
-        else goIdle())
+    sync(() =>
+      if (state == NotAvailable) throw new UnavailableTaskManagerException
+      else if (stagingArea.shouldDie) disable()
+      else if (stagingArea.hasPending) next(processTask())
+      else goIdle()
+    )
 
   protected def getNext(uri: String): Option[Future[ResultUnit]] =
     if (canProcess)

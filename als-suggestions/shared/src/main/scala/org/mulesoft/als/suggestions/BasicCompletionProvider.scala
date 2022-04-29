@@ -18,7 +18,8 @@ class BasicCompletionProvider(prefix: String, position: Position, suggestions: (
           .filter(_.newText startsWith prefix)
           .map(rs => {
             styler.rawToStyledSuggestion(rs)
-          }))
+          })
+      )
   }
 }
 

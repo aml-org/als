@@ -1,6 +1,13 @@
 package org.mulesoft.als.suggestions.plugins.aml.categories
 
-import amf.apicontract.internal.metamodel.domain.{EndPointModel, OperationModel, OrganizationModel, ParameterModel, PayloadModel, ResponseModel}
+import amf.apicontract.internal.metamodel.domain.{
+  EndPointModel,
+  OperationModel,
+  OrganizationModel,
+  ParameterModel,
+  PayloadModel,
+  ResponseModel
+}
 import amf.apicontract.internal.metamodel.domain.api.{AsyncApiModel, WebApiModel}
 import amf.apicontract.internal.metamodel.domain.security.{ApiKeySettingsModel, SecuritySchemeModel, SettingsModel}
 import amf.shapes.internal.domain.metamodel.{CreativeWorkModel, XMLSerializerModel}
@@ -9,9 +16,7 @@ import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDiale
 
 case class CategoryIndex(classTerm: String, property: String)
 
-case class CategoryField(classTerm: Option[String],
-                         property: String,
-                         category: String)
+case class CategoryField(classTerm: Option[String], property: String, category: String)
 
 trait BaseCategoryRegistry {
 
@@ -96,7 +101,7 @@ trait BaseCategoryRegistry {
     (None, "types"),
     (None, "type"),
     (Some(OperationModel.`type`.head.iri()), "is"),
-    (Some(EndPointModel.`type`.head.iri()), "is"),
+    (Some(EndPointModel.`type`.head.iri()), "is")
   ).map(t => CategoryField(t._1, t._2, typesAndTraitsKey))
 
   private val setCategoriesMethods: Set[CategoryField] = Set(
@@ -155,25 +160,31 @@ trait BaseCategoryRegistry {
     (Some(OperationModel.`type`.head.iri()), "body")
   ).map(t => CategoryField(t._1, t._2, bodyKey))
 
-  def allCategories: Set[CategoryField] = setCategoriesBody ++ setCategoriesRoot ++ setCategoriesDocs ++ setCategoriesParameters ++
-    setCategoriesSecurity ++ setCategoriesTypesAndTraits ++ setCategoriesMethods ++ setCategoriesResponses ++ setCategoriesSchemas
+  def allCategories: Set[CategoryField] =
+    setCategoriesBody ++ setCategoriesRoot ++ setCategoriesDocs ++ setCategoriesParameters ++
+      setCategoriesSecurity ++ setCategoriesTypesAndTraits ++ setCategoriesMethods ++ setCategoriesResponses ++ setCategoriesSchemas
 
 }
 
 object DefaultBaseCategoryRegistry extends BaseCategoryRegistry
 
-object RamlCategoryRegistry extends BaseCategoryRegistry{
+object RamlCategoryRegistry extends BaseCategoryRegistry {
   override def typesAndTraitsKey: String = "types and traits"
 }
 
-object CategoryRegistry{
-  private val index :Map[String,BaseCategoryRegistry] = Map(Raml10TypesDialect().id -> RamlCategoryRegistry,Raml08TypesDialect().id -> RamlCategoryRegistry)
-  def apply(classTerm: String, property: String, dialect:String): String = {
+object CategoryRegistry {
+  private val index: Map[String, BaseCategoryRegistry] =
+    Map(Raml10TypesDialect().id -> RamlCategoryRegistry, Raml08TypesDialect().id -> RamlCategoryRegistry)
+  def apply(classTerm: String, property: String, dialect: String): String = {
 
-    val (specific, general) = index.getOrElse(dialect, DefaultBaseCategoryRegistry).allCategories
-      .filter(p => p.property == property && (p.classTerm.contains(classTerm) || p.classTerm.isEmpty)).partition(_.classTerm.isDefined)
+    val (specific, general) = index
+      .getOrElse(dialect, DefaultBaseCategoryRegistry)
+      .allCategories
+      .filter(p => p.property == property && (p.classTerm.contains(classTerm) || p.classTerm.isEmpty))
+      .partition(_.classTerm.isDefined)
 
-    specific.headOption.orElse(general.headOption)
+    specific.headOption
+      .orElse(general.headOption)
       .map(_.category)
       .getOrElse("unknown")
   }

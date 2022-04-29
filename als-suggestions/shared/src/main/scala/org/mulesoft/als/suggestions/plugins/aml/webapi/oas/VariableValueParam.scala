@@ -25,7 +25,8 @@ trait VariableValueParam extends ExceptionPlugin {
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     if (applies(request)) Future {
       variableDialectNode.Obj.propertiesRaw(fromDialect = request.actualDialect).filter(_.displayText != "name")
-    } else
+    }
+    else
       emptySuggestion
 
   override def id: String = "VariableValueParam"

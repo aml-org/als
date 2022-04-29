@@ -34,13 +34,11 @@ trait DialectActionsHelper extends CreatesFileCodeAction {
       case nm: NodeMapping if condition(nm) => nm
     })
 
-  protected def collectPropertyMappings(dialect: Dialect,
-                                        condition: PropertyMapping => Boolean): Seq[PropertyMapping] =
+  protected def collectPropertyMappings(dialect: Dialect, condition: PropertyMapping => Boolean): Seq[PropertyMapping] =
     dialect.declares
-      .collect({
-        case nm: NodeMapping =>
-          nm.propertiesMapping()
-            .filter(condition)
+      .collect({ case nm: NodeMapping =>
+        nm.propertiesMapping()
+          .filter(condition)
       })
       .flatten
 
@@ -48,10 +46,12 @@ trait DialectActionsHelper extends CreatesFileCodeAction {
     ClassTerm().withId(name).withDisplayName(displayName.getOrElse(name)).withName(name)
   }
 
-  protected def createPropertyTerm(p: PropertyMapping,
-                                   displayName: Option[String],
-                                   name: String,
-                                   classTerms: Map[String, String]): PropertyTerm = {
+  protected def createPropertyTerm(
+      p: PropertyMapping,
+      displayName: Option[String],
+      name: String,
+      classTerms: Map[String, String]
+  ): PropertyTerm = {
     val propertyTerm = if (p.objectRange().isEmpty) {
       createDatatypePropertyTerm(p)
     } else {
@@ -75,20 +75,26 @@ trait DialectActionsHelper extends CreatesFileCodeAction {
     propertyTerm
   }
 
-  protected def buildVocabulary(base: String,
-                                name: String,
-                                classTerms: Seq[ClassTerm],
-                                propertyTerms: Seq[PropertyTerm]): Vocabulary =
+  protected def buildVocabulary(
+      base: String,
+      name: String,
+      classTerms: Seq[ClassTerm],
+      propertyTerms: Seq[PropertyTerm]
+  ): Vocabulary =
     Vocabulary()
       .withBase(base)
       .withName(name)
       .withDeclares(classTerms ++ propertyTerms)
 
-  protected def createVocabularyFile(newUri: String,
-                                     vocabulary: Vocabulary): Seq[Either[TextDocumentEdit, ResourceOperation]] = {
+  protected def createVocabularyFile(
+      newUri: String,
+      vocabulary: Vocabulary
+  ): Seq[Either[TextDocumentEdit, ResourceOperation]] = {
     val doc = SyntaxDocument.getFor(Mimes.`application/yaml`, kind.Vocabulary)
-    val vocabularyEdits = TextEdit(Range(Position(0, 0), Position(0, 0)),
-                                   YamlRender.render(VocabularyEmitter(vocabulary, doc).emitVocabulary()))
+    val vocabularyEdits = TextEdit(
+      Range(Position(0, 0), Position(0, 0)),
+      YamlRender.render(VocabularyEmitter(vocabulary, doc).emitVocabulary())
+    )
     val vocabularyContent = TextDocumentEdit(VersionedTextDocumentIdentifier(newUri, None), Seq(vocabularyEdits))
     val newFileOperation  = CreateFile(newUri, Some(NewFileOptions(Some(false), Some(false))))
     Seq(Right(newFileOperation), Left(vocabularyContent))
@@ -105,15 +111,17 @@ trait DialectActionsHelper extends CreatesFileCodeAction {
     }
     TextEdit(
       LspRangeConverter.toLspRange(
-        usesYMapEntry.map(_.range.toPositionRange).getOrElse(PositionRange(DtoPosition(1, 0), DtoPosition(1, 0)))),
-      rendered)
+        usesYMapEntry.map(_.range.toPositionRange).getOrElse(PositionRange(DtoPosition(1, 0), DtoPosition(1, 0)))
+      ),
+      rendered
+    )
   }
 
   protected def findRootKey(key: String): Option[YMapEntry] =
     params.bu.objWithAST
       .flatMap(_.annotations.ast())
-      .collectFirst({
-        case yMap: YMap => yMap.entries.find(_.key.asScalar.exists(_.text == key))
+      .collectFirst({ case yMap: YMap =>
+        yMap.entries.find(_.key.asScalar.exists(_.text == key))
       })
       .flatten
 

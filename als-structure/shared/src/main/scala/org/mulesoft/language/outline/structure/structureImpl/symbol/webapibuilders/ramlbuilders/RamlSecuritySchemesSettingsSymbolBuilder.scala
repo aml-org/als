@@ -11,8 +11,8 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
 
 class RamlSecuritySchemesSettingsSymbolBuilder(override val element: Settings)(
-    override implicit val ctx: StructureContext)
-    extends StructuredSymbolBuilder[Settings] {
+    override implicit val ctx: StructureContext
+) extends StructuredSymbolBuilder[Settings] {
 
   override protected val children: List[DocumentSymbol] = Nil
 

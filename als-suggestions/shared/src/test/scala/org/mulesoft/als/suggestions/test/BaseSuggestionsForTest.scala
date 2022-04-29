@@ -29,10 +29,12 @@ trait BaseSuggestionsForTest extends PlatformSecrets with MarkerFinderTest with 
     }
   }
 
-  def suggestFromFile(content: String,
-                      url: String,
-                      label: String,
-                      configurationState: ALSConfigurationState): Future[Seq[CompletionItem]] = {
+  def suggestFromFile(
+      content: String,
+      url: String,
+      label: String,
+      configurationState: ALSConfigurationState
+  ): Future[Seq[CompletionItem]] = {
     var position        = 0
     val fileContentsStr = content
     val markerInfo      = this.findMarker(fileContentsStr, label)

@@ -21,7 +21,8 @@ object AmlDocumentModelSymbolBuilderCompanion extends AmfObjectSimpleBuilderComp
 
   override val supportedIri: String = DocumentsModelModel.`type`.head.iri()
 
-  override def construct(element: DocumentsModel)(
-      implicit ctx: StructureContext): Option[SymbolBuilder[DocumentsModel]] =
+  override def construct(element: DocumentsModel)(implicit
+      ctx: StructureContext
+  ): Option[SymbolBuilder[DocumentsModel]] =
     Some(AmlDocumentModelSymbolBuilder(element))
 }

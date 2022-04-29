@@ -11,9 +11,11 @@ class MetaDialectStructureTest extends DialectStructureTest {
   }
 
   test("Test dialect instance") {
-    this.runTest("complex-instance-with-dialect/instance.yaml",
-                 "complex-instance-with-dialect/dialect.yaml",
-                 "complex-instance-with-dialect/instance.json")
+    this.runTest(
+      "complex-instance-with-dialect/instance.yaml",
+      "complex-instance-with-dialect/dialect.yaml",
+      "complex-instance-with-dialect/instance.json"
+    )
   }
 
 }

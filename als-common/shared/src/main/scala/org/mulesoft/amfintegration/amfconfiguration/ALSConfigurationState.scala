@@ -21,14 +21,15 @@ import org.mulesoft.amfintegration.AmfImplicits._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-/**
-  * Capable of building different AMF configurations from a frozen state
-  * @param state the frozen state
+/** Capable of building different AMF configurations from a frozen state
+  * @param state
+  *   the frozen state
   */
-case class ALSConfigurationState(editorState: EditorConfigurationState,
-                                 projectState: ProjectConfigurationState,
-                                 editorResourceLoader: Option[ResourceLoader])
-    extends PlatformSecrets {
+case class ALSConfigurationState(
+    editorState: EditorConfigurationState,
+    projectState: ProjectConfigurationState,
+    editorResourceLoader: Option[ResourceLoader]
+) extends PlatformSecrets {
 
   lazy val amfParseContext: AmfParseContext = AmfParseContext(getAmfConfig, this)
 
@@ -38,7 +39,11 @@ case class ALSConfigurationState(editorState: EditorConfigurationState,
   def configForDialect(d: Dialect): AMLSpecificConfiguration =
     ProfileMatcher.spec(d) match {
       case Some(Spec.AML)
-          if d.location().contains("file://vocabularies/dialects/metadialect.yaml") => // TODO change when Dialect name and version be spec
+          if d
+            .location()
+            .contains(
+              "file://vocabularies/dialects/metadialect.yaml"
+            ) => // TODO change when Dialect name and version be spec
         AMLSpecificConfiguration(APIConfiguration.API())
       case Some(spec) => configForSpec(spec)
       case _          => AMLSpecificConfiguration(predefinedWithDialects)
@@ -71,7 +76,8 @@ case class ALSConfigurationState(editorState: EditorConfigurationState,
         editorResourceLoader
           .map(_ +: editorState.resourceLoader)
           .getOrElse(editorState.resourceLoader)
-          .toList ++ projectState.resourceLoaders)
+          .toList ++ projectState.resourceLoaders
+      )
       .withPlugins(editorState.alsParsingPlugins ++ editorState.syntaxPlugin ++ editorState.validationPlugin)
       .withUnitCache(cache)
     dialects.foldLeft(configuration)((c, dialect) => c.withDialect(dialect))
@@ -100,12 +106,13 @@ case class ALSConfigurationState(editorState: EditorConfigurationState,
     uri
   )
 
-  /**
-    * @param uri
-    * @return (name, isScalar)
+  /** @param uri
+    * @return
+    *   (name, isScalar)
     */
   def semanticKeysFor(uri: String, excludedDialects: Seq[Dialect] = Seq.empty): Seq[(String, Boolean)] = {
-    val excludedLocations = excludedDialects.map(ed => ed.identifier) // hack because final id adoption changes reference id
+    val excludedLocations =
+      excludedDialects.map(ed => ed.identifier) // hack because final id adoption changes reference id
     findSemanticFor(uri)
       .filterNot(t => excludedLocations.contains(t._2.location().getOrElse(t._2.id)))
       .flatMap { t =>
@@ -138,9 +145,11 @@ case class ALSConfigurationState(editorState: EditorConfigurationState,
       .configurationState()
       .findSemanticByName(name)
 
-  def asJsonLD(resolved: BaseUnit,
-               builder: DocBuilder[_],
-               renderOptions: RenderOptions = RenderOptions().withCompactUris.withoutSourceMaps): Unit =
+  def asJsonLD(
+      resolved: BaseUnit,
+      builder: DocBuilder[_],
+      renderOptions: RenderOptions = RenderOptions().withCompactUris.withoutSourceMaps
+  ): Unit =
     getAmfConfig
       .withRenderOptions(renderOptions)
       .baseUnitClient()

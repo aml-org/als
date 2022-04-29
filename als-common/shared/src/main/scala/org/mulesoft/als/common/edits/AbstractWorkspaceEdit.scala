@@ -15,8 +15,8 @@ case class AbstractWorkspaceEdit(documentChanges: Seq[Either[TextDocumentEdit, R
       throw new Exception("Cannot convert to WorkspaceEdit.changes. Contains a Resource Operation")
     else
       documentChanges
-        .collect {
-          case Left(value) => value
+        .collect { case Left(value) =>
+          value
         }
         .groupBy(_.textDocument.uri)
         .map(t => t._1 -> t._2.flatMap(_.edits))

@@ -10,16 +10,19 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fie
   NamedScalarFieldTypeSymbolBuilder
 }
 
-class DefaultNamedScalarTypeSymbolBuilder(override val value: AmfScalar,
-                                          override val element: FieldEntry,
-                                          override val name: String)(override implicit val ctx: StructureContext)
+class DefaultNamedScalarTypeSymbolBuilder(
+    override val value: AmfScalar,
+    override val element: FieldEntry,
+    override val name: String
+)(override implicit val ctx: StructureContext)
     extends NamedScalarFieldTypeSymbolBuilder {}
 
 trait DefaultMappedScalarTypeSymbolBuilderCompanion extends DefaultScalarTypeSymbolBuilder {
 
   protected val mapName: Map[Field, String]
 
-  override def construct(element: FieldEntry, value: AmfScalar)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfScalar]] =
+  override def construct(element: FieldEntry, value: AmfScalar)(implicit
+      ctx: StructureContext
+  ): Option[FieldTypeSymbolBuilder[AmfScalar]] =
     mapName.get(element.field).map(name => new DefaultNamedScalarTypeSymbolBuilder(value, element, name))
 }

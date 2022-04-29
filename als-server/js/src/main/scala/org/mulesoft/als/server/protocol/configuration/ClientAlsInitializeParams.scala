@@ -11,16 +11,16 @@ import scala.scalajs.js.UndefOr
 
 @js.native
 trait ClientAlsInitializeParams extends js.Object {
-  def processId: Int                                                      = js.native // Nullable
-  def locale: UndefOr[String]                                             = js.native
-  def rootPath: UndefOr[String]                                           = js.native // Nullable
-  def rootUri: UndefOr[String]                                            = js.native // Nullable
-  def capabilities: ClientAlsClientCapabilities                           = js.native
-  def configuration: UndefOr[ClientAlsConfiguration]                      = js.native // Nullable
-  def initializationOptions: UndefOr[js.Any]                              = js.native
-  def trace: UndefOr[String]                                              = js.native
-  def workspaceFolders: js.Array[ClientWorkspaceFolder]                   = js.native // Nullable
-  def hotReload: UndefOr[Boolean]                                         = js.native
+  def processId: Int                                    = js.native // Nullable
+  def locale: UndefOr[String]                           = js.native
+  def rootPath: UndefOr[String]                         = js.native // Nullable
+  def rootUri: UndefOr[String]                          = js.native // Nullable
+  def capabilities: ClientAlsClientCapabilities         = js.native
+  def configuration: UndefOr[ClientAlsConfiguration]    = js.native // Nullable
+  def initializationOptions: UndefOr[js.Any]            = js.native
+  def trace: UndefOr[String]                            = js.native
+  def workspaceFolders: js.Array[ClientWorkspaceFolder] = js.native // Nullable
+  def hotReload: UndefOr[Boolean]                       = js.native
 }
 
 object ClientAlsInitializeParams {

@@ -43,12 +43,12 @@ object WsChannelBindingObject extends DialectNode {
       .withId(location + s"#/declarations/$name/query")
       .withName("query")
       .withNodePropertyMapping(WebSocketsChannelBindingModel.Query.value.iri())
-      .withObjectRange(Seq(BaseShapeAsync2Node.id)), //id of schemas
+      .withObjectRange(Seq(BaseShapeAsync2Node.id)), // id of schemas
     PropertyMapping()
       .withId(location + s"#/declarations/$name/headers")
       .withName("headers")
       .withNodePropertyMapping(WebSocketsChannelBindingModel.Headers.value.iri())
-      .withObjectRange(Seq(BaseShapeAsync2Node.id)), //id of schemas
+      .withObjectRange(Seq(BaseShapeAsync2Node.id)), // id of schemas
     PropertyMapping()
       .withId(location + s"#/declarations/$name/bindingVersion")
       .withName("bindingVersion")

@@ -15,26 +15,32 @@ object KeyPropertyHeaderCompletionPlugin extends HeaderCompletionPlugin {
 
   override def resolve(params: HeaderCompletionParams): Future[Seq[RawSuggestion]] =
     Future.successful(
-      KeyPropertyHeaderCompletionPlugin(params.uri.endsWith(".json"),
-                                        params.content.trim.startsWith("{"),
-                                        params.parseContext.state,
-                                        params.position,
-                                        params.configuration).getSuggestions
+      KeyPropertyHeaderCompletionPlugin(
+        params.uri.endsWith(".json"),
+        params.content.trim.startsWith("{"),
+        params.parseContext.state,
+        params.position,
+        params.configuration
+      ).getSuggestions
     )
 
-  def apply(isJson: Boolean,
-            hasBracket: Boolean = false,
-            alsConfiguration: ALSConfigurationState,
-            position: Position,
-            configuration: AlsConfigurationReader) =
+  def apply(
+      isJson: Boolean,
+      hasBracket: Boolean = false,
+      alsConfiguration: ALSConfigurationState,
+      position: Position,
+      configuration: AlsConfigurationReader
+  ) =
     new KeyPropertyHeaderCompletionPlugin(isJson, hasBracket, alsConfiguration, position, configuration)
 }
 
-class KeyPropertyHeaderCompletionPlugin(isJson: Boolean,
-                                        hasBracket: Boolean = false,
-                                        configurationState: ALSConfigurationState,
-                                        position: Position,
-                                        configuration: AlsConfigurationReader) {
+class KeyPropertyHeaderCompletionPlugin(
+    isJson: Boolean,
+    hasBracket: Boolean = false,
+    configurationState: ALSConfigurationState,
+    position: Position,
+    configuration: AlsConfigurationReader
+) {
 
   private lazy val mimeType = FileMediaType
     .mimeFromExtension(if (isJson) "json" else "yaml")

@@ -16,11 +16,12 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.Failure
 
-class ResolutionTaskManager private (telemetryProvider: TelemetryProvider,
-                                     logger: Logger,
-                                     private val allSubscribers: List[ResolvedUnitListener],
-                                     override val dependencies: List[AccessUnits[AmfResolvedUnit]])
-    extends UnitTaskManager[AmfResolvedUnit, AmfResolvedUnit, BaseUnitListenerParams]
+class ResolutionTaskManager private (
+    telemetryProvider: TelemetryProvider,
+    logger: Logger,
+    private val allSubscribers: List[ResolvedUnitListener],
+    override val dependencies: List[AccessUnits[AmfResolvedUnit]]
+) extends UnitTaskManager[AmfResolvedUnit, AmfResolvedUnit, BaseUnitListenerParams]
     with UnitsManager[AmfResolvedUnit, AstListener[AmfResolvedUnit]]
     with BaseUnitListener {
 
@@ -46,9 +47,11 @@ class ResolutionTaskManager private (telemetryProvider: TelemetryProvider,
     val (uri, params) = stagingArea.dequeue()
 
     val resolvedInstance =
-      AmfResolvedUnitImpl(params.parseResult.result.baseUnit,
-                          params.diagnosticsBundle,
-                          params.parseResult.context.state)
+      AmfResolvedUnitImpl(
+        params.parseResult.result.baseUnit,
+        params.diagnosticsBundle,
+        params.parseResult.context.state
+      )
     isInMainTree(uri).map { isMainTree =>
       if (isMainTree) {
         params.parseResult.tree.foreach { u =>
@@ -98,13 +101,15 @@ class ResolutionTaskManager private (telemetryProvider: TelemetryProvider,
       case Some(ua) =>
         ua.getLastUnit(uri, uuid)
           .flatMap(_.getLast)
-          .flatMap(_ => getUnit(uri, uuid).flatMap(_.getLast)) // double check after resolved that last is still ua's last?
-          .andThen {
-            case Failure(value) =>
-              logger.error(
-                Option(value).flatMap(v => Option(v.getMessage)).getOrElse(s"error while getting unit $uri"),
-                "ResolutionTaskManager",
-                "getLastUnit")
+          .flatMap(_ =>
+            getUnit(uri, uuid).flatMap(_.getLast)
+          ) // double check after resolved that last is still ua's last?
+          .andThen { case Failure(value) =>
+            logger.error(
+              Option(value).flatMap(v => Option(v.getMessage)).getOrElse(s"error while getting unit $uri"),
+              "ResolutionTaskManager",
+              "getLastUnit"
+            )
           }
       case None => getUnit(uri, uuid).flatMap(_.getLast)
     }
@@ -121,22 +126,25 @@ class ResolutionTaskManager private (telemetryProvider: TelemetryProvider,
     subscribers.foreach(_.onRemoveFile(uri))
   }
 
-  case class AmfResolvedUnitImpl(override val baseUnit: BaseUnit,
-                                 override val diagnosticsBundle: Map[String, DiagnosticsBundle],
-                                 override val alsConfigurationState: ALSConfigurationState)
-      extends AmfResolvedUnit {
+  case class AmfResolvedUnitImpl(
+      override val baseUnit: BaseUnit,
+      override val diagnosticsBundle: Map[String, DiagnosticsBundle],
+      override val alsConfigurationState: ALSConfigurationState
+  ) extends AmfResolvedUnit {
     private val uri: String = baseUnit.identifier
 
     override protected type T = AmfResolvedUnit
 
     override protected def resolvedUnitFn(): Future[AMFResult] = {
       telemetryProvider
-        .timeProcess("AMF RESOLVE",
-                     MessageTypes.BEGIN_RESOLUTION,
-                     MessageTypes.END_RESOLUTION,
-                     "resolving with editing pipeline",
-                     uri,
-                     innerResolveUnit)
+        .timeProcess(
+          "AMF RESOLVE",
+          MessageTypes.BEGIN_RESOLUTION,
+          MessageTypes.END_RESOLUTION,
+          "resolving with editing pipeline",
+          uri,
+          innerResolveUnit
+        )
     }
 
     private def innerResolveUnit(): Future[AMFResult] =
@@ -166,10 +174,12 @@ class ResolutionTaskManager private (telemetryProvider: TelemetryProvider,
 }
 
 object ResolutionTaskManager {
-  def apply(telemetryProvider: TelemetryProvider,
-            logger: Logger,
-            allSubscribers: List[ResolvedUnitListener],
-            dependencies: List[AccessUnits[AmfResolvedUnit]]): ResolutionTaskManager = {
+  def apply(
+      telemetryProvider: TelemetryProvider,
+      logger: Logger,
+      allSubscribers: List[ResolvedUnitListener],
+      dependencies: List[AccessUnits[AmfResolvedUnit]]
+  ): ResolutionTaskManager = {
     val manager =
       new ResolutionTaskManager(telemetryProvider, logger, allSubscribers, dependencies)
     manager.init()

@@ -18,13 +18,17 @@ object RamlPayloadMediaTypeCompletionPlugin extends AMLCompletionPlugin with Pay
       if (isWritingKeyMediaType(request)) {
         PatchedSuggestionsForDialect
           .getKnownValues(request.actualDialect.id, PayloadModel.`type`.head.iri(), PayloadModel.MediaType.value.iri())
-          .map(
-            p =>
-              RawSuggestion
-                .forObject(p.text,
-                           CategoryRegistry(PayloadModel.`type`.head.iri(),
-                                            PayloadModel.MediaType.value.name,
-                                            request.actualDialect.id)))
+          .map(p =>
+            RawSuggestion
+              .forObject(
+                p.text,
+                CategoryRegistry(
+                  PayloadModel.`type`.head.iri(),
+                  PayloadModel.MediaType.value.name,
+                  request.actualDialect.id
+                )
+              )
+          )
       } else Nil
     }
   }

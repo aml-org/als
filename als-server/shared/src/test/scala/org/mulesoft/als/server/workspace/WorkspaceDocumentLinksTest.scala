@@ -74,23 +74,24 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
       .flatMap(_ => {
         workspaceLinkHandler
           .openFile(nonWorkspaceFile)
-          .flatMap(
-            _ =>
-              workspaceLinkHandler
-                .getDocumentLinks(nonWorkspaceFile)
-                .flatMap(uninitLinks => {
-                  workspaceLinkHandler
-                    .openFile(workspaceFile)
-                    .flatMap(_ =>
-                      workspaceLinkHandler
-                        .getDocumentLinks(workspaceFile)
-                        .flatMap(links => {
-                          assert(uninitLinks.nonEmpty)
-                          assert(uninitLinks.exists(_.target.equals(nonWorkspaceNonRelativeFilePath)))
-                          assert(!uninitLinks.exists(_.target.contains(nonWorkspaceRelativeFilePath)))
-                          assert(links.isEmpty)
-                        }))
-                }))
+          .flatMap(_ =>
+            workspaceLinkHandler
+              .getDocumentLinks(nonWorkspaceFile)
+              .flatMap(uninitLinks => {
+                workspaceLinkHandler
+                  .openFile(workspaceFile)
+                  .flatMap(_ =>
+                    workspaceLinkHandler
+                      .getDocumentLinks(workspaceFile)
+                      .flatMap(links => {
+                        assert(uninitLinks.nonEmpty)
+                        assert(uninitLinks.exists(_.target.equals(nonWorkspaceNonRelativeFilePath)))
+                        assert(!uninitLinks.exists(_.target.contains(nonWorkspaceRelativeFilePath)))
+                        assert(links.isEmpty)
+                      })
+                  )
+              })
+          )
       })
   }
 
@@ -103,14 +104,16 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
       val container           = TextDocumentContainer()
       val defaultProjectConfigurationProvider =
         new DefaultProjectConfigurationProvider(container, editorConfiguration, logger)
-      WorkspaceManager(container,
-                       telemetryManager,
-                       editorConfiguration,
-                       defaultProjectConfigurationProvider,
-                       Nil,
-                       Nil,
-                       logger,
-                       factory.configurationManager)
+      WorkspaceManager(
+        container,
+        telemetryManager,
+        editorConfiguration,
+        defaultProjectConfigurationProvider,
+        Nil,
+        Nil,
+        logger,
+        factory.configurationManager
+      )
     }
 
     val documentLinksManager: DocumentLinksManager =
@@ -142,10 +145,12 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
   }
 
   def buildServer(): LanguageServer =
-    new LanguageServerBuilder(factory.documentManager,
-                              factory.workspaceManager,
-                              factory.configurationManager,
-                              factory.resolutionTaskManager)
+    new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
       .addRequestModule(factory.structureManager)
       .build()
 

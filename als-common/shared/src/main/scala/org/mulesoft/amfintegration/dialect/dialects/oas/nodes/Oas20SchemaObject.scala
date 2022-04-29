@@ -21,7 +21,8 @@ object Oas20SchemaObject extends AMLSchemaBaseObject {
           "tsv",
           "pipes",
           "multi"
-        ))
+        )
+      )
       .withLiteralRange(xsdString.iri())
 }
 

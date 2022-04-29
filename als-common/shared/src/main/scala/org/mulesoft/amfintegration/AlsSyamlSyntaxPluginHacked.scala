@@ -41,9 +41,12 @@ object AlsSyamlSyntaxPluginHacked extends AMFSyntaxParsePlugin with PlatformSecr
       val document1 = parser.document(keepTokens)
       val (document, comment) = document1 match {
         case d if d.isNull =>
-          (YDocument(Array(YNode(YMap.empty)), ctx.rootContextDocument), d.children collectFirst {
-            case c: YComment => c.metaText
-          })
+          (
+            YDocument(Array(YNode(YMap.empty)), ctx.rootContextDocument),
+            d.children collectFirst { case c: YComment =>
+              c.metaText
+            }
+          )
         case d =>
           (d, d.children collectFirst { case c: YComment => c.metaText })
       }

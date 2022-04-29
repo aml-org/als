@@ -27,11 +27,12 @@ trait EditorConfigurationProvider {
   def getState: Future[EditorConfigurationState]
 }
 
-case class EditorConfiguration(resourceLoaders: Seq[ResourceLoader],
-                               syntaxPlugins: Seq[AMFSyntaxParsePlugin],
-                               validationPlugin: Seq[AMFShapePayloadValidationPlugin],
-                               logger: Logger)
-    extends EditorConfigurationProvider { // todo: add hot reload
+case class EditorConfiguration(
+    resourceLoaders: Seq[ResourceLoader],
+    syntaxPlugins: Seq[AMFSyntaxParsePlugin],
+    validationPlugin: Seq[AMFShapePayloadValidationPlugin],
+    logger: Logger
+) extends EditorConfigurationProvider { // todo: add hot reload
 
   val baseConfiguration: AMLConfiguration = AMLConfiguration
     .predefined()
@@ -65,25 +66,28 @@ case class EditorConfiguration(resourceLoaders: Seq[ResourceLoader],
           .withResourceLoader(BaseAlsDialectProvider.globalDialectResourceLoader)
           .baseUnitClient()
           .parseDialect(_)
-          .map(_.dialect)))
+          .map(_.dialect)
+      )
+    )
 
   private def parseProfiles: Future[Seq[ValidationProfile]] =
     getRawAndLocalDialects
       .map(seq => seq.foldLeft(baseConfiguration)((c, dialect) => c.withDialect(dialect)))
       .flatMap { config =>
         Future.sequence(
-          profiles.map(
-            uri =>
-              config
-                .baseUnitClient()
-                .parseDialectInstance(uri)
-                .filter(_.dialectInstance.isValidationProfile)
-                .map(result => {
-                  ValidationProfile(uri,
-                                    result.baseUnit.raw.getOrElse(""),
-                                    result.dialectInstance,
-                                    config.configurationState().findDialectFor(result.dialectInstance).get)
-                })
+          profiles.map(uri =>
+            config
+              .baseUnitClient()
+              .parseDialectInstance(uri)
+              .filter(_.dialectInstance.isValidationProfile)
+              .map(result => {
+                ValidationProfile(
+                  uri,
+                  result.baseUnit.raw.getOrElse(""),
+                  result.dialectInstance,
+                  config.configurationState().findDialectFor(result.dialectInstance).get
+                )
+              })
           )
         )
       }
@@ -92,13 +96,14 @@ case class EditorConfiguration(resourceLoaders: Seq[ResourceLoader],
     for {
       dialects <- getRawAndLocalDialects
       profiles <- parsedProfiles
-    } yield
-      EditorConfigurationState(resourceLoaders,
-                               dialects,
-                               profiles,
-                               vocabularyRegistry,
-                               syntaxPlugins,
-                               validationPlugin)
+    } yield EditorConfigurationState(
+      resourceLoaders,
+      dialects,
+      profiles,
+      vocabularyRegistry,
+      syntaxPlugins,
+      validationPlugin
+    )
 
   def withDialect(uri: String): EditorConfiguration = synchronized {
     dialects = uri +: dialects
@@ -115,13 +120,14 @@ case class EditorConfiguration(resourceLoaders: Seq[ResourceLoader],
   }
 }
 
-case class EditorConfigurationState(resourceLoader: Seq[ResourceLoader],
-                                    dialects: Seq[Dialect],
-                                    profiles: Seq[ValidationProfile],
-                                    vocabularyRegistry: AlsVocabularyRegistry = AlsVocabularyRegistry(
-                                      DefaultVocabularies.all),
-                                    syntaxPlugin: Seq[AMFSyntaxParsePlugin],
-                                    validationPlugin: Seq[AMFShapePayloadValidationPlugin]) {
+case class EditorConfigurationState(
+    resourceLoader: Seq[ResourceLoader],
+    dialects: Seq[Dialect],
+    profiles: Seq[ValidationProfile],
+    vocabularyRegistry: AlsVocabularyRegistry = AlsVocabularyRegistry(DefaultVocabularies.all),
+    syntaxPlugin: Seq[AMFSyntaxParsePlugin],
+    validationPlugin: Seq[AMFShapePayloadValidationPlugin]
+) {
 
   def getAmlConfig: AMLConfiguration = {
     dialects

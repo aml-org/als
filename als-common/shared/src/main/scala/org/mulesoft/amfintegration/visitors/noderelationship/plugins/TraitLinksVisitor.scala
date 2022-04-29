@@ -17,8 +17,8 @@ import org.mulesoft.amfintegration.visitors.WebApiElementVisitorFactory
 import org.mulesoft.amfintegration.visitors.noderelationship.NodeRelationshipVisitorType
 import org.yaml.model.{YMapEntry, YPart}
 
-/**
-  * @test: org.mulesoft.als.server.modules.definition.files.DefinitionFilesTest - raml-test 1/2
+/** @test:
+  *   org.mulesoft.als.server.modules.definition.files.DefinitionFilesTest - raml-test 1/2
   */
 class TraitLinksVisitor extends NodeRelationshipVisitorType {
   override protected def innerVisit(element: AmfElement): Seq[RelationshipLink] =
@@ -53,7 +53,8 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
       .find(fe => fe.field.value == Namespace.Document + "definedBy")
       .flatMap(t => t.value.value.annotations.ast().map((t, _)))
       .map(target =>
-        RelationshipLink(source, target._2, getName(target._1.value.value), None, LinkTypes.TRAITRESOURCES))
+        RelationshipLink(source, target._2, getName(target._1.value.value), None, LinkTypes.TRAITRESOURCES)
+      )
 
   private def parametrizedDeclarationTargetsWithPosition(fe: FieldEntry): Seq[RelationshipLink] =
     fe.value.value match {
@@ -62,15 +63,14 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
           case p: ParametrizedDeclaration =>
             p.fields
               .entry(ParametrizedDeclarationModel.Target)
-              .flatMap(
-                fe =>
-                  fe.value.value match {
-                    case a: AbstractDeclaration =>
-                      a.fields
-                        .entry(LinkableElementModel.Target)
-                        .flatMap(fieldEntryToLocation(_, p, LinkTypes.TRAITRESOURCES))
-                        .orElse(fieldEntryToLocation(fe, p, LinkTypes.TRAITRESOURCES))
-                    case _ => None
+              .flatMap(fe =>
+                fe.value.value match {
+                  case a: AbstractDeclaration =>
+                    a.fields
+                      .entry(LinkableElementModel.Target)
+                      .flatMap(fieldEntryToLocation(_, p, LinkTypes.TRAITRESOURCES))
+                      .orElse(fieldEntryToLocation(fe, p, LinkTypes.TRAITRESOURCES))
+                  case _ => None
                 }
               )
           case _ => None
@@ -78,9 +78,11 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
       case _ => Nil
     }
 
-  private def fieldEntryToLocation(fe: FieldEntry,
-                                   p: ParametrizedDeclaration,
-                                   linkTypes: LinkTypes): Option[RelationshipLink] = {
+  private def fieldEntryToLocation(
+      fe: FieldEntry,
+      p: ParametrizedDeclaration,
+      linkTypes: LinkTypes
+  ): Option[RelationshipLink] = {
     val maybeParent = fe.value.value.annotations
       .find(classOf[SourceAST])
       .map(_.ast)

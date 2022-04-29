@@ -11,8 +11,8 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
 
 class CustomDomainPropertySymbolBuilder(override val element: CustomDomainProperty)(
-    override implicit val ctx: StructureContext)
-    extends NamedElementSymbolBuilderTrait[CustomDomainProperty] {
+    override implicit val ctx: StructureContext
+) extends NamedElementSymbolBuilderTrait[CustomDomainProperty] {
   override protected val children: List[DocumentSymbol] = Nil
 }
 
@@ -21,7 +21,8 @@ object CustomDomainPropertySymbolBuilderCompanion extends AmfObjectSimpleBuilder
 
   override val supportedIri: String = CustomDomainPropertyModel.`type`.head.iri()
 
-  override def construct(element: CustomDomainProperty)(
-      implicit ctx: StructureContext): Option[SymbolBuilder[CustomDomainProperty]] =
+  override def construct(element: CustomDomainProperty)(implicit
+      ctx: StructureContext
+  ): Option[SymbolBuilder[CustomDomainProperty]] =
     Some(new CustomDomainPropertySymbolBuilder(element))
 }

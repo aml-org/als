@@ -38,7 +38,8 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
 
   override val initializeParams: AlsInitializeParams = AlsInitializeParams(
     Some(AlsClientCapabilities(serialization = Some(SerializationClientCapabilities(true)))),
-    Some(TraceKind.Off))
+    Some(TraceKind.Off)
+  )
 
   test("Parse Model and check serialized json ld notification") {
     val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
@@ -62,7 +63,8 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
         parsed <- {
           val rl = new ResourceLoader {
 
-            /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
+            /** Fetch specified resource and return associated content. Resource should have benn previously accepted.
+              */
             override def fetch(resource: String): Future[Content] =
               Future.successful(new Content(s, api))
 
@@ -104,7 +106,8 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
         parsed <- {
           val rl = new ResourceLoader {
 
-            /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
+            /** Fetch specified resource and return associated content. Resource should have benn previously accepted.
+              */
             override def fetch(resource: String): Future[Content] =
               Future.successful(new Content(s, api))
 
@@ -198,14 +201,16 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
 
       for {
         _ <- platform.fetchContent(url, AMFGraphConfiguration.predefined()).flatMap { c =>
-          server.textDocumentSyncConsumer.didOpen(DidOpenTextDocumentParams(
-            TextDocumentItem(url, "RAML", 0, c.stream.toString))) // why clean empty lines was necessary?
+          server.textDocumentSyncConsumer.didOpen(
+            DidOpenTextDocumentParams(TextDocumentItem(url, "RAML", 0, c.stream.toString))
+          ) // why clean empty lines was necessary?
         }
         s <- serialize(server, url, serializationProps)
         parsed <- {
           val rl = new ResourceLoader {
 
-            /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
+            /** Fetch specified resource and return associated content. Resource should have benn previously accepted.
+              */
             override def fetch(resource: String): Future[Content] =
               Future.successful(new Content(s, url))
 
@@ -236,13 +241,15 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
 
       for {
         c <- platform.fetchContent(url, AMFGraphConfiguration.predefined())
-        _ <- server.textDocumentSyncConsumer.didOpen(DidOpenTextDocumentParams(
-          TextDocumentItem(url, "RAML", 0, c.stream.toString))) // why clean empty lines was necessary?
+        _ <- server.textDocumentSyncConsumer.didOpen(
+          DidOpenTextDocumentParams(TextDocumentItem(url, "RAML", 0, c.stream.toString))
+        ) // why clean empty lines was necessary?
         s <- serialize(server, url, serializationProps)
         parsed <- {
           val rl = new ResourceLoader {
 
-            /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
+            /** Fetch specified resource and return associated content. Resource should have benn previously accepted.
+              */
             override def fetch(resource: String): Future[Content] =
               Future.successful(new Content(s, url))
 
@@ -259,7 +266,8 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
         parsed2 <- {
           val rl = new ResourceLoader {
 
-            /** Fetch specified resource and return associated content. Resource should have benn previously accepted. */
+            /** Fetch specified resource and return associated content. Resource should have benn previously accepted.
+              */
             override def fetch(resource: String): Future[Content] =
               Future.successful(new Content(s2, url))
 
@@ -293,12 +301,14 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
 
       for {
         _ <- server.testInitialize(
-          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("project")}")))
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("project")}"))
+        )
         _ <- platform
           .fetchContent(mainUrl, AMFGraphConfiguration.predefined())
           .flatMap(c =>
-            server.textDocumentSyncConsumer.didOpen(
-              DidOpenTextDocumentParams(TextDocumentItem(mainUrl, "RAML", 0, c.stream.toString))))
+            server.textDocumentSyncConsumer
+              .didOpen(DidOpenTextDocumentParams(TextDocumentItem(mainUrl, "RAML", 0, c.stream.toString)))
+          )
         mainSerialized1 <- serialize(server, mainUrl, serializationProps)
         _ <- platform
           .fetchContent(extensionUrl, AMFGraphConfiguration.predefined())
@@ -345,7 +355,8 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
 
       for {
         _ <- server.testInitialize(
-          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("project-overlay-mf")}")))
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("project-overlay-mf")}"))
+        )
         _ <- setMainFile(server)(filePath("project-overlay-mf"), mainFile)
         _ <- platform
           .fetchContent(overlayUrl, AMFGraphConfiguration.predefined())
@@ -359,8 +370,9 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
         _ <- platform
           .fetchContent(mainUrl, AMFGraphConfiguration.predefined())
           .flatMap(c =>
-            server.textDocumentSyncConsumer.didOpen(
-              DidOpenTextDocumentParams(TextDocumentItem(mainUrl, "RAML", 0, c.stream.toString))))
+            server.textDocumentSyncConsumer
+              .didOpen(DidOpenTextDocumentParams(TextDocumentItem(mainUrl, "RAML", 0, c.stream.toString)))
+          )
         mainSerialized1 <- serialize(server, mainUrl, serializationProps)
         _ <- platform
           .fetchContent(extensionUrl, AMFGraphConfiguration.predefined())
@@ -384,21 +396,21 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
     }
   }
 
-  /**
-    * ALS-1378
-    * Checks if differences in the serialization result are irrelevant. This differences are generated by the fact
-    * that the API is parsed from different contexts, and in some cases adds or removes empty fields.
-    * Even though the resulting serialization are different when looked at as literal strings,
-    * the model still represents the same model if the only fields missing or being added are
-    * empty, an thus should not fail.
-    * @param diffs list of Diff.Delta containing the differences between the serializations
+  /** ALS-1378 Checks if differences in the serialization result are irrelevant. This differences are generated by the
+    * fact that the API is parsed from different contexts, and in some cases adds or removes empty fields. Even though
+    * the resulting serialization are different when looked at as literal strings, the model still represents the same
+    * model if the only fields missing or being added are empty, an thus should not fail.
+    * @param diffs
+    *   list of Diff.Delta containing the differences between the serializations
     */
   private def checkDiffsAreIrrelevant(diffs: List[Diff.Delta[String]]): Unit = {
     if (diffs.nonEmpty) {
       diffs.foreach(delta => {
-        if (delta.t == Diff.Delete && delta.aLines.forall(line => {
-              isEmptySequence(line)
-            })) {
+        if (
+          delta.t == Diff.Delete && delta.aLines.forall(line => {
+            isEmptySequence(line)
+          })
+        ) {
           // "doc:declares": [],
           logger.warning("Missing empty sequence in serialization", "SerializationTest", "overlay main file")
         } else {
@@ -487,31 +499,34 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
         _       <- server.testInitialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(workspace)))
         _       <- changeWorkspaceConfiguration(server)(initialArgs)
         _       <- notifier.nextCall
-        _       <- assertSerialization(server, profileUrl, goldenUrl) // Registered profile
+        _       <- assertSerialization(server, profileUrl, goldenUrl)       // Registered profile
         content <- platform.fetchContent(profileUrl, AMFGraphConfiguration.predefined()).map(_.stream.toString)
         _       <- openFile(server)(profileUrl, content)
         _       <- notifier.nextCall
-        _       <- assertSerialization(server, profileUrl, goldenUrl) // Opened profile
+        _       <- assertSerialization(server, profileUrl, goldenUrl)       // Opened profile
         _       <- changeFile(server)(profileUrl, content.replace("warning:\n  - ab", ""), 1)
         _       <- notifier.nextCall
         _       <- assertSerialization(server, profileUrl, editedGoldenUrl) // Edited profile
         _       <- closeFile(server)(profileUrl)
-        r       <- assertSerialization(server, profileUrl, goldenUrl) // Closed profile (back to the registered one)
+        r <- assertSerialization(server, profileUrl, goldenUrl) // Closed profile (back to the registered one)
       } yield r
     }
   }
 
-  def assertSerialization(server: LanguageServer, url: String, golden: String)(
-      implicit serializationProps: SerializationProps[StringWriter]): Future[Assertion] =
+  def assertSerialization(server: LanguageServer, url: String, golden: String)(implicit
+      serializationProps: SerializationProps[StringWriter]
+  ): Future[Assertion] =
     for {
       serialized <- serialize(server, url, serializationProps)
       tmp        <- writeTemporaryFile(golden)(serialized)
       r          <- assertDifferences(tmp, golden)
     } yield r
 
-  def buildServer(serializationProps: SerializationProps[StringWriter],
-                  notifier: ClientNotifier = new MockDiagnosticClientNotifier,
-                  withDiagnostics: Boolean = false): LanguageServer = {
+  def buildServer(
+      serializationProps: SerializationProps[StringWriter],
+      notifier: ClientNotifier = new MockDiagnosticClientNotifier,
+      withDiagnostics: Boolean = false
+  ): LanguageServer = {
     val factoryBuilder: WorkspaceManagerFactoryBuilder =
       new WorkspaceManagerFactoryBuilder(notifier, logger, EditorConfiguration())
     val dm = factoryBuilder.buildDiagnosticManagers(Some(DummyProfileValidator))
@@ -520,10 +535,12 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
     val factory: WorkspaceManagerFactory = factoryBuilder.buildWorkspaceManagerFactory()
 
     val builder =
-      new LanguageServerBuilder(factory.documentManager,
-                                factory.workspaceManager,
-                                factory.configurationManager,
-                                factory.resolutionTaskManager)
+      new LanguageServerBuilder(
+        factory.documentManager,
+        factory.workspaceManager,
+        factory.configurationManager,
+        factory.resolutionTaskManager
+      )
     builder.addInitializableModule(serializationManager)
     if (withDiagnostics) dm.foreach(m => builder.addInitializableModule(m))
     builder.addRequestModule(serializationManager)

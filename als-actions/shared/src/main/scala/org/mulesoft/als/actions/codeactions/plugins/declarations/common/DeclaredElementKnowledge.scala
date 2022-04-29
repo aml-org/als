@@ -7,10 +7,10 @@ import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 
 object DeclaredElementKnowledge {
 
-  /**
-    * @param de
+  /** @param de
     * @param range
-    * @return true if it somehow intersects with the range
+    * @return
+    *   true if it somehow intersects with the range
     */
   def domainElementWithinRange(de: DomainElement, range: PositionRange): Boolean =
     de.annotations.ast().map(_.range).map(PositionRange(_)).flatMap(range.intersection).isDefined

@@ -25,10 +25,12 @@ trait AMFValidatorTest extends LanguageServerBaseTest with PlatformSecrets {
           }
         },
         validator = new js.Function4[Shape, String, ShapeValidationConfiguration, ValidationMode, JsPayloadValidator] {
-          def apply(shape: Shape,
-                    mediaType: String,
-                    config: ShapeValidationConfiguration,
-                    validationMode: ValidationMode): JsPayloadValidator = ???
+          def apply(
+              shape: Shape,
+              mediaType: String,
+              config: ShapeValidationConfiguration,
+              validationMode: ValidationMode
+          ): JsPayloadValidator = ???
         }
       )
       .asInstanceOf[JsAMFPayloadValidationPlugin]

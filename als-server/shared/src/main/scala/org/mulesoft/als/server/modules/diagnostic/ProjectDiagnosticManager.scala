@@ -10,12 +10,13 @@ import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class ProjectDiagnosticManager(override protected val telemetryProvider: TelemetryProvider,
-                               override protected val clientNotifier: ClientNotifier,
-                               override protected val logger: Logger,
-                               override protected val validationGatherer: ValidationGatherer,
-                               override protected val optimizationKind: DiagnosticNotificationsKind)
-    extends BaseUnitListener
+class ProjectDiagnosticManager(
+    override protected val telemetryProvider: TelemetryProvider,
+    override protected val clientNotifier: ClientNotifier,
+    override protected val logger: Logger,
+    override protected val validationGatherer: ValidationGatherer,
+    override protected val optimizationKind: DiagnosticNotificationsKind
+) extends BaseUnitListener
     with DiagnosticManager {
   override protected val managerName: DiagnosticManagerKind = ProjectDiagnosticKind
 

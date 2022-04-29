@@ -21,7 +21,7 @@ object ClientCodeActionParams {
       .literal(
         textDocument = internal.textDocument.toClient,
         range = internal.range.toClient,
-        context = internal.context.toClient,
+        context = internal.context.toClient
       )
       .asInstanceOf[ClientCodeActionParams]
 }

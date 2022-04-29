@@ -13,9 +13,11 @@ object AMLLibraryPathCompletion extends AMLCompletionPlugin {
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
 
-    if ((request.amfObject
-          .isInstanceOf[BaseUnit] || isEncodes(request.amfObject, request.actualDialect)) && request.yPartBranch
-          .isInBranchOf("uses") && request.yPartBranch.isValue) {
+    if (
+      (request.amfObject
+        .isInstanceOf[BaseUnit] || isEncodes(request.amfObject, request.actualDialect)) && request.yPartBranch
+        .isInBranchOf("uses") && request.yPartBranch.isValue
+    ) {
       AMLPathCompletionPlugin.resolveInclusion(
         request.baseUnit.location().getOrElse(""),
         request.directoryResolver,

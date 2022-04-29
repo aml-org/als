@@ -10,8 +10,8 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
 
 class SecurityRequirementFieldSymbolBuilderCompanion(override val element: SecurityRequirement)(
-    override implicit val ctx: StructureContext)
-    extends StructuredSymbolBuilder[SecurityRequirement] {
+    override implicit val ctx: StructureContext
+) extends StructuredSymbolBuilder[SecurityRequirement] {
 
   override protected val optionName: Option[String] = None
 
@@ -23,7 +23,8 @@ object SecurityRequirementFieldSymbolBuilderCompanion extends AmfObjectSimpleBui
 
   override def getType: Class[_] = classOf[SecurityRequirement]
 
-  override protected def construct(element: SecurityRequirement)(
-      implicit ctx: StructureContext): Option[SymbolBuilder[SecurityRequirement]] =
+  override protected def construct(element: SecurityRequirement)(implicit
+      ctx: StructureContext
+  ): Option[SymbolBuilder[SecurityRequirement]] =
     Some(new SecurityRequirementFieldSymbolBuilderCompanion(element))
 }

@@ -79,10 +79,12 @@ class CompletionItemBuilder(r: PositionRange) {
   def getText: String         = this.text
 
   def getPriority(text: String): Int =
-    PriorityRenderer.sortValue(isMandatory = mandatory,
-                               isTemplate = template,
-                               isAnnotation = text.startsWith("("),
-                               isTopLevel = isTopLevel)
+    PriorityRenderer.sortValue(
+      isMandatory = mandatory,
+      isTemplate = template,
+      isAnnotation = text.startsWith("("),
+      isTopLevel = isTopLevel
+    )
 
   def build(): CompletionItem =
     CompletionItem(

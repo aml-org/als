@@ -41,7 +41,8 @@ class FoldingRangesTests extends AsyncFlatSpec with Matchers with PlatformSecret
         """#%RAML 1.0
           |title: test
           |description: description test
-          |""".stripMargin)
+          |""".stripMargin
+    )
     val expected: Seq[FoldingRange] =
       Seq(
         FoldingRange(1, Some(0), 2, Some(29), None)
@@ -59,7 +60,8 @@ class FoldingRangesTests extends AsyncFlatSpec with Matchers with PlatformSecret
           |protocols:
           | - HTTP
           | - HTTPS
-          |""".stripMargin)
+          |""".stripMargin
+    )
     val expected: Seq[FoldingRange] =
       Seq(
         FoldingRange(1, Some(0), 5, Some(8), None),
@@ -76,7 +78,8 @@ class FoldingRangesTests extends AsyncFlatSpec with Matchers with PlatformSecret
           |title: test
           |description: description test
           |protocols: [HTTP, HTTPS]
-          |""".stripMargin)
+          |""".stripMargin
+    )
     val expected: Seq[FoldingRange] =
       Seq(
         FoldingRange(1, Some(0), 3, Some(23), None),
@@ -166,7 +169,8 @@ class FoldingRangesTests extends AsyncFlatSpec with Matchers with PlatformSecret
           |        datePublished:
           |          propertyTerm: schema.datePublished
           |          range: date
-          |          mandatory: true""".stripMargin)
+          |          mandatory: true""".stripMargin
+    )
     val expected: Seq[FoldingRange] =
       Seq(
         FoldingRange(2, Some(0), 34, Some(25), None),
@@ -250,8 +254,10 @@ class FoldingRangesTests extends AsyncFlatSpec with Matchers with PlatformSecret
         .parse(testUri)
         .map(_.result.baseUnit)
         .map(_.objWithAST.flatMap(_.annotations.ast()))
-        .map(_.map(FileRanges.ranges)
-          .getOrElse(Seq.empty))
+        .map(
+          _.map(FileRanges.ranges)
+            .getOrElse(Seq.empty)
+        )
     } yield {
       result should be(expected)
     }

@@ -15,10 +15,11 @@ import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class DocumentHighlightManager(val workspace: WorkspaceManager,
-                               private val telemetryProvider: TelemetryProvider,
-                               private val logger: Logger)
-    extends RequestModule[DocumentHighlightCapabilities, Boolean] {
+class DocumentHighlightManager(
+    val workspace: WorkspaceManager,
+    private val telemetryProvider: TelemetryProvider,
+    private val logger: Logger
+) extends RequestModule[DocumentHighlightCapabilities, Boolean] {
 
   override val `type`: ConfigType[DocumentHighlightCapabilities, Boolean] =
     DocumentHighlightConfigType
@@ -43,8 +44,7 @@ class DocumentHighlightManager(val workspace: WorkspaceManager,
       override protected def uri(params: DocumentHighlightParams): String =
         params.textDocument.uri
 
-      /**
-        * If Some(_), this will be sent as a response as a default for a managed exception
+      /** If Some(_), this will be sent as a response as a default for a managed exception
         */
       override protected val empty: Option[Seq[DocumentHighlight]] = Some(Seq())
     }
@@ -58,16 +58,22 @@ class DocumentHighlightManager(val workspace: WorkspaceManager,
     workspace
       .getLastUnit(uri, uuid)
       .flatMap(_.getLast)
-      .flatMap(cu => {
-        FindReferences
-          .getReferences(uri,
-                         position,
-                         workspace.getAliases(uri, uuid),
-                         workspace.getRelationships(uri, uuid).map(_._2),
-                         cu.yPartBranch)
-          .map(_.map(_.source))
-      }.map(_.filter(_.uri == uri)
-        .map(toDocumentHighlight)))
+      .flatMap(cu =>
+        {
+          FindReferences
+            .getReferences(
+              uri,
+              position,
+              workspace.getAliases(uri, uuid),
+              workspace.getRelationships(uri, uuid).map(_._2),
+              cu.yPartBranch
+            )
+            .map(_.map(_.source))
+        }.map(
+          _.filter(_.uri == uri)
+            .map(toDocumentHighlight)
+        )
+      )
 
   private def toDocumentHighlight(link: Location): DocumentHighlight =
     DocumentHighlight(link.range, DocumentHighlightKind.Text)

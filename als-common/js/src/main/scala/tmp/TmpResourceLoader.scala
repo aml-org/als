@@ -25,22 +25,26 @@ case class JsServerFileResourceLoader() extends BaseFileResourceLoader {
       else resource
     Fs.asyncFile(dropSlash)
       .read()
-      .map(
-        content =>
-          Content(new CharSequenceStream(resource, content),
-                  ensureFileAuthority(resource),
-                  extension(resource).flatMap(mimeFromExtension)))
+      .map(content =>
+        Content(
+          new CharSequenceStream(resource, content),
+          ensureFileAuthority(resource),
+          extension(resource).flatMap(mimeFromExtension)
+        )
+      )
       .recoverWith {
         case _: IOException => // exception for local file system where we accept resources including spaces
           Fs.asyncFile(dropSlash.urlDecoded)
             .read()
-            .map(
-              content =>
-                Content(new CharSequenceStream(resource, content),
-                        ensureFileAuthority(resource),
-                        extension(resource).flatMap(mimeFromExtension)))
-            .recover {
-              case io: IOException => throw FileNotFound(io)
+            .map(content =>
+              Content(
+                new CharSequenceStream(resource, content),
+                ensureFileAuthority(resource),
+                extension(resource).flatMap(mimeFromExtension)
+              )
+            )
+            .recover { case io: IOException =>
+              throw FileNotFound(io)
             }
       }
       .toJSPromise

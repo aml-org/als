@@ -16,21 +16,23 @@ import scala.concurrent.Future
 trait NewConfigurationListener extends WorkspaceContentListener[ProjectConfigurationState]
 
 // TODO: analyze if task manager is required.
-class ProfileConfigurationChangeListener[S](props: SerializationProps[S],
-                                            configurationReader: AlsConfigurationReader,
-                                            logger: Logger)
-    extends BaseSerializationNotifier[S](props, configurationReader, logger)
+class ProfileConfigurationChangeListener[S](
+    props: SerializationProps[S],
+    configurationReader: AlsConfigurationReader,
+    logger: Logger
+) extends BaseSerializationNotifier[S](props, configurationReader, logger)
     with NewConfigurationListener {
 
   override val `type`: SerializationConfigType.type = SerializationConfigType
 
   private var notifiedProfiles: Seq[String] = Seq.empty
 
-  /**
-    * Called on new AST available
+  /** Called on new AST available
     *
-    * @param ast  - AST
-    * @param uuid - telemetry UUID
+    * @param ast
+    *   \- AST
+    * @param uuid
+    *   \- telemetry UUID
     */
   override def onNewAst(ast: ProjectConfigurationState, uuid: String): Future[Unit] =
     if (isActive) executeNotification(ast) else Future.successful()

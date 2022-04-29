@@ -18,17 +18,19 @@ trait MessageAbstractObjectNode extends DialectNode {
     .withName("schemaFormat")
     .withNodePropertyMapping(PayloadModel.SchemaMediaType.value.iri())
     .withLiteralRange(xsdString.iri())
-    .withEnum(Seq(
-      "application/vnd.aai.asyncapi;version=2.0.0",
-      "application/vnd.aai.asyncapi+json;version=2.0.0",
-      "application/vnd.aai.asyncapi+yaml;version=2.0.0",
-      "application/vnd.oai.openapi;version=3.0.0",
-      "application/vnd.oai.openapi+json;version=3.0.0",
-      "application/vnd.oai.openapi+yaml;version=3.0.0",
-      "application/schema+json;version=draft-07",
-      "application/schema+yaml;version=draft-07",
-      "application/raml+yaml;version=1.0"
-    ))
+    .withEnum(
+      Seq(
+        "application/vnd.aai.asyncapi;version=2.0.0",
+        "application/vnd.aai.asyncapi+json;version=2.0.0",
+        "application/vnd.aai.asyncapi+yaml;version=2.0.0",
+        "application/vnd.oai.openapi;version=3.0.0",
+        "application/vnd.oai.openapi+json;version=3.0.0",
+        "application/vnd.oai.openapi+yaml;version=3.0.0",
+        "application/schema+json;version=draft-07",
+        "application/schema+yaml;version=draft-07",
+        "application/raml+yaml;version=1.0"
+      )
+    )
   override def properties: Seq[PropertyMapping] = Seq(
     PropertyMapping()
       .withId(location + "#/declarations/Message/headers")

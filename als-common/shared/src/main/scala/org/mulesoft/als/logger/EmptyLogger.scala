@@ -1,7 +1,6 @@
 package org.mulesoft.als.logger
 
-/**
-  * Logger that logs nothing
+/** Logger that logs nothing
   */
 object EmptyLogger extends AbstractLogger {
 

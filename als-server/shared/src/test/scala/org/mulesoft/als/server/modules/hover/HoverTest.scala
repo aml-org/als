@@ -24,10 +24,12 @@ class HoverTest extends ServerWithMarkerTest[PositionedHover] with BaseHoverTest
 
     val factory =
       new WorkspaceManagerFactoryBuilder(notifier, logger).buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(factory.documentManager,
-                              factory.workspaceManager,
-                              factory.configurationManager,
-                              factory.resolutionTaskManager)
+    new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
       .addRequestModule(factory.hoverManager)
       .build()
   }
@@ -140,12 +142,12 @@ class HoverTest extends ServerWithMarkerTest[PositionedHover] with BaseHoverTest
     runFor("aml/amlVocabulary.yaml", 9)
   }
 
-  //TODO: missing annotations on basePath and host
+  // TODO: missing annotations on basePath and host
   test("OAS2 top level keys") {
     runFor("toplevel/oas2.yaml", 5)
   }
 
-  //TODO: fix paths matching as EndPoint rather than WebApi (see Oas3PathsKeyTerm.scala)
+  // TODO: fix paths matching as EndPoint rather than WebApi (see Oas3PathsKeyTerm.scala)
   test("OAS3 top level keys") {
     runFor("toplevel/oas3.yaml", 3)
   }

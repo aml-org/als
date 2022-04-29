@@ -26,12 +26,13 @@ import org.yaml.builder.JsonOutputBuilder
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
 import scala.util.{Failure, Success}
-class CustomValidationManager(override protected val telemetryProvider: TelemetryProvider,
-                              override protected val clientNotifier: ClientNotifier,
-                              override protected val logger: Logger,
-                              override protected val validationGatherer: ValidationGatherer,
-                              val validatorBuilder: BaseProfileValidatorBuilder)
-    extends BasicDiagnosticManager[CustomValidationClientCapabilities, CustomValidationOptions]
+class CustomValidationManager(
+    override protected val telemetryProvider: TelemetryProvider,
+    override protected val clientNotifier: ClientNotifier,
+    override protected val logger: Logger,
+    override protected val validationGatherer: ValidationGatherer,
+    val validatorBuilder: BaseProfileValidatorBuilder
+) extends BasicDiagnosticManager[CustomValidationClientCapabilities, CustomValidationOptions]
     with ResolvedUnitListener {
 
   private var enabled = false
@@ -53,10 +54,12 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
       .map(bu => bu.identifier)
       .toSet + baseUnit.identifier
 
-  private def gatherValidationErrors(uri: String,
-                                     resolved: AmfResolvedUnit,
-                                     references: Map[String, DiagnosticsBundle],
-                                     uuid: String): Future[Unit] = {
+  private def gatherValidationErrors(
+      uri: String,
+      resolved: AmfResolvedUnit,
+      references: Map[String, DiagnosticsBundle],
+      uuid: String
+  ): Future[Unit] = {
     val startTime = System.currentTimeMillis()
     if (resolved.alsConfigurationState.profiles.nonEmpty) {
       for {
@@ -67,25 +70,30 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
           .indexNewReport(ErrorsWithTree(uri, results, Some(tree(resolved.baseUnit))), managerName, uuid)
         notifyReport(uri, resolved.baseUnit, references, managerName, ProfileName("CustomValidation"))
         val endTime = System.currentTimeMillis()
-        this.logger.debug(s"It took ${endTime - startTime} milliseconds to validate with Go env",
-                          "CustomValidationDiagnosticManager",
-                          "gatherValidationErrors")
+        this.logger.debug(
+          s"It took ${endTime - startTime} milliseconds to validate with Go env",
+          "CustomValidationDiagnosticManager",
+          "gatherValidationErrors"
+        )
       }
     } else {
       Future.successful {
         (uri +: references.keys.toSeq)
           .foreach(
             validationGatherer
-              .removeFile(_, managerName)) // clean validations
+              .removeFile(_, managerName)
+          ) // clean validations
         notifyReport(uri, resolved.baseUnit, references, managerName, ProfileName("CustomValidation"))
       }
     }
   }
 
-  def validate(uri: String,
-               unit: BaseUnit,
-               profiles: Seq[DialectInstance],
-               config: AMLSpecificConfiguration): Future[Seq[AlsValidationResult]] =
+  def validate(
+      uri: String,
+      unit: BaseUnit,
+      profiles: Seq[DialectInstance],
+      config: AMLSpecificConfiguration
+  ): Future[Seq[AlsValidationResult]] =
     for {
       serialized <- serializeUnit(unit, config)
       result <- {
@@ -109,9 +117,11 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
       builder.result.toString
     }
 
-  private def validateWithProfile(profileUnit: DialectInstance,
-                                  unitUri: String,
-                                  serializedUnit: String): Future[Seq[AlsValidationResult]] =
+  private def validateWithProfile(
+      profileUnit: DialectInstance,
+      unitUri: String,
+      serializedUnit: String
+  ): Future[Seq[AlsValidationResult]] =
     // TODO: compute validator execution could be done just once for each project configuration refreshment
     validatorBuilder
       .validator(profileUnit)
@@ -176,16 +186,17 @@ class CustomValidationManager(override protected val telemetryProvider: Telemetr
   protected override def onSuccess(uuid: String, uri: String): Unit =
     logger.debug(s"End report: $uuid", "CustomValidationRunnable", "newASTAvailable")
 
-  /**
-    * Meant just for logging
+  /** Meant just for logging
     *
     * @param resolved
     * @param uuid
     */
   override protected def onNewAstPreprocess(resolved: AmfResolvedUnit, uuid: String): Unit =
-    logger.debug("Running custom validations on:\n" + resolved.baseUnit.id,
-                 "CustomValidationDiagnosticManager",
-                 "newASTAvailable")
+    logger.debug(
+      "Running custom validations on:\n" + resolved.baseUnit.id,
+      "CustomValidationDiagnosticManager",
+      "newASTAvailable"
+    )
 
   override def onRemoveFile(uri: String): Unit = {
     validationGatherer.removeFile(uri, managerName)

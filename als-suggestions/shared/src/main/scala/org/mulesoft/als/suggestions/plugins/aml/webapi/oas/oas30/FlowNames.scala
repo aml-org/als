@@ -14,7 +14,8 @@ object FlowNames extends AMLCompletionPlugin {
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     emptySuggestion
-    if (request.fieldEntry.exists(_.field == OAuth2FlowModel.Flow)) Future { flowsSuggestion } else emptySuggestion
+    if (request.fieldEntry.exists(_.field == OAuth2FlowModel.Flow)) Future { flowsSuggestion }
+    else emptySuggestion
   }
 
   private lazy val flowsSuggestion: Seq[RawSuggestion] =

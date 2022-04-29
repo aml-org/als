@@ -34,9 +34,7 @@ class PrepareRenameHandler(telemetryProvider: TelemetryProvider, workspace: Work
 
   override protected def uri(params: PrepareRenameParams): String = params.textDocument.uri
 
-  def prepareRename(uri: String,
-                    position: Position,
-                    uuid: String): Future[Option[Either[Range, PrepareRenameResult]]] =
+  def prepareRename(uri: String, position: Position, uuid: String): Future[Option[Either[Range, PrepareRenameResult]]] =
     workspace
       .getLastUnit(uri, uuid)
       .flatMap(_.getLast)
@@ -50,8 +48,7 @@ class PrepareRenameHandler(telemetryProvider: TelemetryProvider, workspace: Work
         }
       }
 
-  /**
-    * If Some(_), this will be sent as a response as a default for a managed exception
+  /** If Some(_), this will be sent as a response as a default for a managed exception
     */
   override protected val empty: Option[Option[Either[Range, PrepareRenameResult]]] = Some(None)
 }

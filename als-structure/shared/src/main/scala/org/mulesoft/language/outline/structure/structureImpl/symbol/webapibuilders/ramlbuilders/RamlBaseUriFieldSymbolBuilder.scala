@@ -20,8 +20,8 @@ import org.mulesoft.language.outline.structure.structureImpl.{
 }
 
 class RamlBaseUriFieldSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
-    override implicit val ctx: StructureContext)
-    extends NamedArrayFieldTypeSymbolBuilder {
+    override implicit val ctx: StructureContext
+) extends NamedArrayFieldTypeSymbolBuilder {
 
   override protected val kind: SymbolKinds.SymbolKind = KindForResultMatcher.kindForField(ServerModel.Url)
   override def build(): Seq[DocumentSymbol]           = if (value.values.nonEmpty) super.build() else Nil
@@ -33,8 +33,9 @@ class RamlBaseUriFieldSymbolBuilder(override val value: AmfArray, override val e
 object RamlBaseUriFieldSymbolBuilderCompanion
     extends ArrayFieldTypeSymbolBuilderCompanion
     with IriFieldSymbolBuilderCompanion {
-  override def construct(element: FieldEntry, value: AmfArray)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] =
+  override def construct(element: FieldEntry, value: AmfArray)(implicit
+      ctx: StructureContext
+  ): Option[FieldTypeSymbolBuilder[AmfArray]] =
     Some(new RamlBaseUriFieldSymbolBuilder(value, element))
 
   override val supportedIri: String = WebApiModel.Servers.value.iri()

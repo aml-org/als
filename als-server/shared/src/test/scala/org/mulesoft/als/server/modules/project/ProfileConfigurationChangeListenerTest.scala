@@ -28,7 +28,8 @@ class ProfileConfigurationChangeListenerTest
 
   override val initializeParams: AlsInitializeParams = AlsInitializeParams(
     Some(AlsClientCapabilities(serialization = Some(SerializationClientCapabilities(true)))),
-    Some(TraceKind.Off))
+    Some(TraceKind.Off)
+  )
 
   override def rootPath: String = "project"
 
@@ -44,16 +45,21 @@ class ProfileConfigurationChangeListenerTest
   def buildInitParams(workspacePath: Option[String] = None): AlsInitializeParams =
     AlsInitializeParams(
       Some(
-        AlsClientCapabilities(customValidations = Some(CustomValidationClientCapabilities(true)),
-                              serialization = Some(SerializationClientCapabilities(true)))),
+        AlsClientCapabilities(
+          customValidations = Some(CustomValidationClientCapabilities(true)),
+          serialization = Some(SerializationClientCapabilities(true))
+        )
+      ),
       Some(TraceKind.Off),
       rootUri = workspacePath,
       hotReload = Some(true)
     )
 
-  def buildServer(serializationProps: SerializationProps[StringWriter],
-                  notifier: ClientNotifier = new MockDiagnosticClientNotifier,
-                  withDiagnostics: Boolean = false): LanguageServer = {
+  def buildServer(
+      serializationProps: SerializationProps[StringWriter],
+      notifier: ClientNotifier = new MockDiagnosticClientNotifier,
+      withDiagnostics: Boolean = false
+  ): LanguageServer = {
     val factoryBuilder: WorkspaceManagerFactoryBuilder =
       new WorkspaceManagerFactoryBuilder(notifier, logger, EditorConfiguration())
     val dm = factoryBuilder.buildDiagnosticManagers(Some(DummyProfileValidator))
@@ -64,10 +70,12 @@ class ProfileConfigurationChangeListenerTest
     val factory: WorkspaceManagerFactory = factoryBuilder.buildWorkspaceManagerFactory()
 
     val builder =
-      new LanguageServerBuilder(factory.documentManager,
-                                factory.workspaceManager,
-                                factory.configurationManager,
-                                factory.resolutionTaskManager)
+      new LanguageServerBuilder(
+        factory.documentManager,
+        factory.workspaceManager,
+        factory.configurationManager,
+        factory.resolutionTaskManager
+      )
     builder.addInitializableModule(serializationManager)
     if (withDiagnostics) dm.foreach(m => builder.addInitializableModule(m))
     builder.addRequestModule(serializationManager)
@@ -83,7 +91,7 @@ class ProfileConfigurationChangeListenerTest
   test("Should notify when a profile is added") {
     val alsClient: MockAlsClientNotifier                     = new MockAlsClientNotifier(3000)
     val serializationProps: SerializationProps[StringWriter] = buildSerializationProps(alsClient)
-    val args                                                 = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profileUri))
+    val args = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profileUri))
 
     withServer(buildServer(serializationProps), buildInitParams(workspacePath)) { server =>
       for {
@@ -99,8 +107,8 @@ class ProfileConfigurationChangeListenerTest
   test("Should notify when a second profile is added") {
     val alsClient: MockAlsClientNotifier                     = new MockAlsClientNotifier(3000)
     val serializationProps: SerializationProps[StringWriter] = buildSerializationProps(alsClient)
-    val initialArgs                                          = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profileUri))
-    val addProfileArgs                                       = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profileUri, profile2Uri))
+    val initialArgs    = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profileUri))
+    val addProfileArgs = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profileUri, profile2Uri))
 
     withServer(buildServer(serializationProps), buildInitParams(workspacePath)) { server =>
       for {

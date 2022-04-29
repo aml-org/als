@@ -10,7 +10,12 @@ import org.mulesoft.als.server.{LanguageServerBaseTest, MockTelemetryClientNotif
 import org.mulesoft.lsp.feature.common.{TextDocumentIdentifier, TextDocumentItem, VersionedTextDocumentIdentifier}
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, SymbolInformation}
 import org.mulesoft.lsp.feature.{TelemeteredRequestHandler, documentsymbol}
-import org.mulesoft.lsp.textsync.{DidChangeTextDocumentParams, DidCloseTextDocumentParams, DidOpenTextDocumentParams, TextDocumentContentChangeEvent}
+import org.mulesoft.lsp.textsync.{
+  DidChangeTextDocumentParams,
+  DidCloseTextDocumentParams,
+  DidOpenTextDocumentParams,
+  TextDocumentContentChangeEvent
+}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -24,11 +29,15 @@ class ErrorHandlingTest extends LanguageServerBaseTest {
   def buildServer(): (LanguageServer, WorkspaceManagerFactory) = {
     val factory: WorkspaceManagerFactory =
       new WorkspaceManagerFactoryBuilder(telemetryNotifier, logger).buildWorkspaceManagerFactory()
-    (new LanguageServerBuilder(factory.documentManager,
-                               factory.workspaceManager,
-                               factory.configurationManager,
-                               factory.resolutionTaskManager).build(),
-     factory)
+    (
+      new LanguageServerBuilder(
+        factory.documentManager,
+        factory.workspaceManager,
+        factory.configurationManager,
+        factory.resolutionTaskManager
+      ).build(),
+      factory
+    )
   }
 
   private def undef(idx: Int): String = s"un:def-$idx"
@@ -83,8 +92,10 @@ class ErrorHandlingTest extends LanguageServerBaseTest {
     val undefUri: String = undef(2)
     val servAndFactor    = buildServer()
     withServer(servAndFactor._1) { server =>
-      val params = DidChangeTextDocumentParams(VersionedTextDocumentIdentifier(undefUri, None),
-                                               Seq(TextDocumentContentChangeEvent("other test")))
+      val params = DidChangeTextDocumentParams(
+        VersionedTextDocumentIdentifier(undefUri, None),
+        Seq(TextDocumentContentChangeEvent("other test"))
+      )
       server.textDocumentSyncConsumer.didChange(params)
       assert(servAndFactor._2.documentManager.uriToEditor.exists(undefUri.toAmfUri(platform)))
       assert(servAndFactor._2.documentManager.uriToEditor.uris.size == 1)
@@ -117,23 +128,27 @@ class ErrorHandlingTest extends LanguageServerBaseTest {
     val servAndFactor    = buildServer()
     withServer(servAndFactor._1) { server =>
       for {
-        lu <- try {
-          servAndFactor._2.workspaceManager
-            .getLastUnit(undefUri, "")
-            .map(cu => {
-              println(cu.uri)
-              fail("should have thrown UnitNotFoundException")
-            })
-            .recoverWith {
-              case _: UnitNotFoundException =>
-                Future.successful(assert(
-                  logger.logList.exists(_.contains(s"UnitNotFoundException for: ${undefUri.toAmfUri(platform)}"))))
-            }
-        } catch {
-          case _: UnitNotFoundException =>
-            Future.successful(
-              assert(logger.logList.exists(_.contains(s"UnitNotFoundException for: ${undefUri.toAmfUri(platform)}"))))
-        }
+        lu <-
+          try {
+            servAndFactor._2.workspaceManager
+              .getLastUnit(undefUri, "")
+              .map(cu => {
+                println(cu.uri)
+                fail("should have thrown UnitNotFoundException")
+              })
+              .recoverWith { case _: UnitNotFoundException =>
+                Future.successful(
+                  assert(
+                    logger.logList.exists(_.contains(s"UnitNotFoundException for: ${undefUri.toAmfUri(platform)}"))
+                  )
+                )
+              }
+          } catch {
+            case _: UnitNotFoundException =>
+              Future.successful(
+                assert(logger.logList.exists(_.contains(s"UnitNotFoundException for: ${undefUri.toAmfUri(platform)}")))
+              )
+          }
       } yield {
         server.shutdown()
         lu
@@ -150,17 +165,20 @@ class ErrorHandlingTest extends LanguageServerBaseTest {
       for {
         c <- servAndFactor._2.structureManager.getRequestHandlers
           .collectFirst {
-            case ch: TelemeteredRequestHandler[DocumentSymbolParams,
-                                               Either[Seq[SymbolInformation], Seq[documentsymbol.DocumentSymbol]]] =>
+            case ch: TelemeteredRequestHandler[DocumentSymbolParams, Either[Seq[SymbolInformation], Seq[
+                  documentsymbol.DocumentSymbol
+                ]]] =>
               ch.apply(params)
           }
           .getOrElse(fail("structure request handler not found"))
-        calls      <-
-          Future.sequence(Seq( // begin structure/parse, error, end parse/structure
-            telemetryNotifier.nextCall,
-            telemetryNotifier.nextCall,
-            telemetryNotifier.nextCall,
-          ))
+        calls <-
+          Future.sequence(
+            Seq( // begin structure/parse, error, end parse/structure
+              telemetryNotifier.nextCall,
+              telemetryNotifier.nextCall,
+              telemetryNotifier.nextCall
+            )
+          )
       } yield {
         c match {
           case Left(value) => assert(value.isEmpty)

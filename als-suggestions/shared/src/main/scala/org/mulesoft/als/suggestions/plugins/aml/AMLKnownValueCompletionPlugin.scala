@@ -13,12 +13,14 @@ import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect
 
 import scala.concurrent.Future
 
-sealed class AMLKnownValueCompletions(field: Field,
-                                      classTerm: String,
-                                      dialect: Dialect,
-                                      isKey: Boolean,
-                                      inArray: Boolean,
-                                      obj: Boolean) {
+sealed class AMLKnownValueCompletions(
+    field: Field,
+    classTerm: String,
+    dialect: Dialect,
+    isKey: Boolean,
+    inArray: Boolean,
+    obj: Boolean
+) {
 
   private def getSuggestions: Seq[PatchedSuggestion] =
     PatchedSuggestionsForDialect
@@ -26,27 +28,33 @@ sealed class AMLKnownValueCompletions(field: Field,
 
   def resolve(): Future[Seq[RawSuggestion]] =
     Future.successful({
-      getSuggestions.map(
-        s =>
-          if (field.`type`.isInstanceOf[ArrayLike] && !inArray)
-            RawSuggestion.valueInArray(s.text, s.description.getOrElse(s.text), "unknown", isKey)
-          else
-            RawSuggestion(
-              s.text,
-              s.text,
-              s.description.getOrElse(s.text),
-              Seq(),
-              "unknown",
-              None,
-              SuggestionStructure(rangeKind = fieldRange(s),
-                                  isKey = isKey && !inArray,
-                                  keyRange(s.text),
-                                  nonPlain = s.nonPlain)
-          ))
+      getSuggestions.map(s =>
+        if (field.`type`.isInstanceOf[ArrayLike] && !inArray)
+          RawSuggestion.valueInArray(s.text, s.description.getOrElse(s.text), "unknown", isKey)
+        else
+          RawSuggestion(
+            s.text,
+            s.text,
+            s.description.getOrElse(s.text),
+            Seq(),
+            "unknown",
+            None,
+            SuggestionStructure(
+              rangeKind = fieldRange(s),
+              isKey = isKey && !inArray,
+              keyRange(s.text),
+              nonPlain = s.nonPlain
+            )
+          )
+      )
     })
 
   def keyRange(input: String): ScalarRange = {
-    if ((field == ResponseModel.StatusCode || field == ResponseModel.Name) && input.forall(_.isDigit) && dialect.id != OAS30Dialect.dialect.id) // hack for oas 3.0 status codes
+    if (
+      (field == ResponseModel.StatusCode || field == ResponseModel.Name) && input.forall(
+        _.isDigit
+      ) && dialect.id != OAS30Dialect.dialect.id
+    ) // hack for oas 3.0 status codes
       NumberScalarRange
     else StringScalarRange
   }
@@ -76,9 +84,11 @@ trait AbstractKnownValueCompletionPlugin extends AMLCompletionPlugin {
       case _ => emptySuggestion
     }
 
-  protected final def innerResolver(params: AmlCompletionRequest,
-                                    field: Field,
-                                    classTerm: String): Future[Seq[RawSuggestion]] =
+  protected final def innerResolver(
+      params: AmlCompletionRequest,
+      field: Field,
+      classTerm: String
+  ): Future[Seq[RawSuggestion]] =
     new AMLKnownValueCompletions(
       field,
       classTerm,

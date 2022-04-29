@@ -53,35 +53,44 @@ object ClientCleanDiagnosticTreeRequestType {
   val `type`: RequestType[ClientCleanDiagnosticTreeParams, js.Array[ClientAlsPublishDiagnosticsParams], js.Any] =
     new RequestType[ClientCleanDiagnosticTreeParams, js.Array[ClientAlsPublishDiagnosticsParams], js.Any](
       "cleanDiagnosticTree",
-      ParameterStructures.auto)
+      ParameterStructures.auto
+    )
 }
 
 @JSExportTopLevel("FileUsageRequestType")
 object FileUsageRequest {
   val `type`: RequestType[ClientTextDocumentIdentifier, js.Array[ClientLocation], js.Any] =
-    new RequestType[ClientTextDocumentIdentifier, js.Array[ClientLocation], js.Any]("fileUsage",
-                                                                                    ParameterStructures.auto)
+    new RequestType[ClientTextDocumentIdentifier, js.Array[ClientLocation], js.Any](
+      "fileUsage",
+      ParameterStructures.auto
+    )
 }
 
 @JSExportTopLevel("ConversionRequestType")
 object ClientConversionRequestType {
   val `type`: RequestType[ClientConversionParams, js.Array[ClientSerializedDocument], js.Any] =
-    new RequestType[ClientConversionParams, js.Array[ClientSerializedDocument], js.Any]("conversion",
-                                                                                        ParameterStructures.auto)
+    new RequestType[ClientConversionParams, js.Array[ClientSerializedDocument], js.Any](
+      "conversion",
+      ParameterStructures.auto
+    )
 }
 
 @JSExportTopLevel("SerializationRequestType")
 object ClientSerializationRequestType {
   val `type`: RequestType[ClientSerializationParams, ClientSerializationResult, js.Any] =
-    new RequestType[ClientSerializationParams, ClientSerializationResult, js.Any]("serialization",
-                                                                                  ParameterStructures.auto)
+    new RequestType[ClientSerializationParams, ClientSerializationResult, js.Any](
+      "serialization",
+      ParameterStructures.auto
+    )
 }
 
 @JSExportTopLevel("RenameFileActionRequestType")
 object ClientCleanRenameFileActionRequestType {
   val `type`: RequestType[ClientRenameFileActionParams, ClientRenameFileActionResult, js.Any] =
-    new RequestType[ClientRenameFileActionParams, ClientRenameFileActionResult, js.Any]("renameFile",
-                                                                                        ParameterStructures.auto)
+    new RequestType[ClientRenameFileActionParams, ClientRenameFileActionResult, js.Any](
+      "renameFile",
+      ParameterStructures.auto
+    )
 }
 
 @JSExportTopLevel("GetWorkspaceConfigurationRequestType")
@@ -89,5 +98,6 @@ object ClientGetWorkspaceConfigurationRequestType {
   val `type`: RequestType[ClientGetWorkspaceConfigurationParams, ClientGetWorkspaceConfigurationResult, js.Any] =
     new RequestType[ClientGetWorkspaceConfigurationParams, ClientGetWorkspaceConfigurationResult, js.Any](
       "getWorkspaceConfiguration",
-      ParameterStructures.auto)
+      ParameterStructures.auto
+    )
 }

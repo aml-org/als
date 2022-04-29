@@ -15,8 +15,8 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
 
 class ParameterSchemaFieldBuilder(override val value: AmfObject, override val element: FieldEntry)(
-    override implicit val ctx: StructureContext)
-    extends ObjectFieldTypeSymbolBuilder {
+    override implicit val ctx: StructureContext
+) extends ObjectFieldTypeSymbolBuilder {
   private val innerCtx = ctx // prevents warning of recursive call in `inner`
   private val inner = new AmfObjectSymbolBuilder[AmfObject] {
     override val element: AmfObject             = value
@@ -35,8 +35,9 @@ object ParameterSchemaFieldBuilderCompanion
     with IriFieldSymbolBuilderCompanion {
   override val supportedIri: String = ParameterModel.Schema.value.iri()
 
-  override def construct(element: FieldEntry, value: AmfObject)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfObject]] = {
+  override def construct(element: FieldEntry, value: AmfObject)(implicit
+      ctx: StructureContext
+  ): Option[FieldTypeSymbolBuilder[AmfObject]] = {
     if (element.field == ParameterModel.Schema) Some(new ParameterSchemaFieldBuilder(value, element))
     else None
   }

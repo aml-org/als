@@ -23,9 +23,11 @@ case class PropertyMappingFilter(objectInTree: ObjectInTree, actualDialect: Dial
     Option(
       actualDialect
         .documents()
-        .root()).exists(root =>
+        .root()
+    ).exists(root =>
       root.declaredNodes().exists(_.mappedNode().option().contains(nm.id)) && objectInTree.stack.last
-        .isInstanceOf[BaseUnit])
+        .isInstanceOf[BaseUnit]
+    )
 
   private val semanticNameIris: Seq[String] = Seq(NameFieldSchema.Name.value.iri(), NameFieldShacl.Name.value.iri())
 
@@ -72,21 +74,22 @@ object DialectNodeFinder {
     fieldEntry.forall(f => {
       nodeMapping
         .propertiesMapping()
-        .find(
-          pm =>
-            pm.fields
-              .fields()
-              .exists(_.value.toString == f.field.value.iri()))
+        .find(pm =>
+          pm.fields
+            .fields()
+            .exists(_.value.toString == f.field.value.iri())
+        )
         .exists(_.mapTermKeyProperty().isNullOrEmpty)
     })
   }
 
-  /**
-    * Handles the case where the AML definition has no classTerm defined
+  /** Handles the case where the AML definition has no classTerm defined
     */
-  private def findById(amfObject: AmfObject,
-                       fieldEntry: Option[FieldEntry],
-                       actualDialect: Dialect): Option[NodeMapping] = {
+  private def findById(
+      amfObject: AmfObject,
+      fieldEntry: Option[FieldEntry],
+      actualDialect: Dialect
+  ): Option[NodeMapping] = {
     amfObject.metaURIs
       .flatMap { v =>
         actualDialect.declares.find {

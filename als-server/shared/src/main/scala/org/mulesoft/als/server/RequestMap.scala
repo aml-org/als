@@ -15,7 +15,8 @@ object RequestMap {
       new WrappedMap(m + (key -> value.asInstanceOf[RequestHandler[_, _]]))
 
     def apply[T, V](key: RequestType[T, V]): Option[RequestHandler[T, V]] = m
-      .get(key).asInstanceOf[Option[RequestHandler[T, V]]]
+      .get(key)
+      .asInstanceOf[Option[RequestHandler[T, V]]]
   }
 
   def empty: RequestMap = new WrappedMap(Map())

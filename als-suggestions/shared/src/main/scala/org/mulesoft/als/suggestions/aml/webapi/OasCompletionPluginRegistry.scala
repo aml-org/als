@@ -35,7 +35,8 @@ trait OasBaseCompletionRegistry extends WebApiCompletionPluginRegistry {
         IriTemplateMappingIgnore,
         SchemaExampleException,
         ResolveDefault
-      )) :+
+      )
+    ) :+
     ParameterReferenceCompletionPlugin :+
     OASRefTag :+
     OperationTags :+
@@ -60,7 +61,8 @@ object Oas20CompletionPluginRegistry extends OasBaseCompletionRegistry {
         ResolveInfo,
         ResponseExampleException,
         ResolveDefault
-      )) :+
+      )
+    ) :+
     OaslikeSecurityScopesCompletionPlugin :+
     Oas20TypeFacetsCompletionPlugin :+
     OasLikeSemanticExtensionsFlavour
@@ -73,17 +75,19 @@ object Oas20CompletionPluginRegistry extends OasBaseCompletionRegistry {
 object Oas30CompletionPluginRegistry extends OasBaseCompletionRegistry {
 
   private val all = common :+
-    StructureCompletionPlugin(List(
-      ResolveRequestBody,
-      ResolveParameterShapes,
-      ResolveDeclaredResponse,
-      ResolveTag,
-      ResolveInfo,
-      IriTemplateMappingIgnore,
-      SchemaExampleException,
-      ResolveParameterInRequest,
-      ResolveDefault
-    )) :+
+    StructureCompletionPlugin(
+      List(
+        ResolveRequestBody,
+        ResolveParameterShapes,
+        ResolveDeclaredResponse,
+        ResolveTag,
+        ResolveInfo,
+        IriTemplateMappingIgnore,
+        SchemaExampleException,
+        ResolveParameterInRequest,
+        ResolveDefault
+      )
+    ) :+
     Oas30ParameterStructure :+
     EncodingPropertyName :+
     Oas30TypeFacetsCompletionPlugin :+

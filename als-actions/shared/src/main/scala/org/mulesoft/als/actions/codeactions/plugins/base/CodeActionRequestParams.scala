@@ -12,18 +12,20 @@ import org.mulesoft.amfintegration.relationships.RelationshipLink
 import org.mulesoft.lsp.feature.codeactions.CodeActionParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
-case class CodeActionRequestParams(uri: String,
-                                   range: PositionRange,
-                                   bu: BaseUnit,
-                                   tree: ObjectInTreeCached,
-                                   yPartBranch: YPartBranchCached,
-                                   definedBy: Dialect,
-                                   configuration: AlsConfigurationReader,
-                                   allRelationships: Seq[RelationshipLink],
-                                   telemetryProvider: TelemetryProvider,
-                                   alsConfigurationState: ALSConfigurationState,
-                                   uuid: String,
-                                   directoryResolver: DirectoryResolver) {
+case class CodeActionRequestParams(
+    uri: String,
+    range: PositionRange,
+    bu: BaseUnit,
+    tree: ObjectInTreeCached,
+    yPartBranch: YPartBranchCached,
+    definedBy: Dialect,
+    configuration: AlsConfigurationReader,
+    allRelationships: Seq[RelationshipLink],
+    telemetryProvider: TelemetryProvider,
+    alsConfigurationState: ALSConfigurationState,
+    uuid: String,
+    directoryResolver: DirectoryResolver
+) {
 
   val findDialectForSemantic: String => Option[(SemanticExtension, Dialect)] =
     alsConfigurationState.findSemanticByName
@@ -31,16 +33,18 @@ case class CodeActionRequestParams(uri: String,
 
 object CodeActionParamsImpl {
   implicit class CodeActionParamsImpl(param: CodeActionParams) {
-    def toRequestParams(bu: BaseUnit,
-                        tree: ObjectInTreeCached,
-                        yPartBranch: YPartBranchCached,
-                        dialect: Dialect,
-                        configuration: AlsConfigurationReader,
-                        allRelationships: Seq[RelationshipLink],
-                        telemetryProvider: TelemetryProvider,
-                        alsConfigurationState: ALSConfigurationState,
-                        uuid: String,
-                        directoryResolver: DirectoryResolver): CodeActionRequestParams =
+    def toRequestParams(
+        bu: BaseUnit,
+        tree: ObjectInTreeCached,
+        yPartBranch: YPartBranchCached,
+        dialect: Dialect,
+        configuration: AlsConfigurationReader,
+        allRelationships: Seq[RelationshipLink],
+        telemetryProvider: TelemetryProvider,
+        alsConfigurationState: ALSConfigurationState,
+        uuid: String,
+        directoryResolver: DirectoryResolver
+    ): CodeActionRequestParams =
       CodeActionRequestParams(
         param.textDocument.uri,
         PositionRange(param.range),

@@ -5,9 +5,8 @@ import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, St
 import amf.core.client.common.position.Range
 import org.yaml.model.{YMapEntry, YPart}
 
-/**
-  * Common Symbol builder
-  * */
+/** Common Symbol builder
+  */
 trait SymbolBuilder[T] {
 
   def element: T

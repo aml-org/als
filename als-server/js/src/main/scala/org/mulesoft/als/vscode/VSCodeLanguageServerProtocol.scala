@@ -47,157 +47,167 @@ object ProtocolConnection extends js.Function3[MessageReader, MessageWriter, Log
 @js.native
 trait ProtocolConnection extends js.Object {
 
-  /**
-    * Sends a request and returns a promise resolving to the result of the request.
+  /** Sends a request and returns a promise resolving to the result of the request.
     *
-    * @param type  The type of request to sent.
-    * @param token An optional cancellation token.
-    * @returns A promise resolving to the request's result.
+    * @param type
+    *   The type of request to sent.
+    * @param token
+    *   An optional cancellation token.
+    * @returns
+    *   A promise resolving to the request's result.
     */
   def sendRequest[R, E](`type`: RequestType0[R, E], token: CancellationToken): Thenable[R]
 
-  /**
-    * Sends a request and returns a promise resolving to the result of the request.
+  /** Sends a request and returns a promise resolving to the result of the request.
     *
-    * @param type   The type of request to sent.
-    * @param params The request's parameter.
-    * @param token  An optional cancellation token.
-    * @returns A promise resolving to the request's result.
+    * @param type
+    *   The type of request to sent.
+    * @param params
+    *   The request's parameter.
+    * @param token
+    *   An optional cancellation token.
+    * @returns
+    *   A promise resolving to the request's result.
     */
   def sendRequest[P, R, E](`type`: RequestType[P, R, E], params: P, token: CancellationToken): Thenable[R]
 
-  /**
-    * Sends a request and returns a promise resolving to the result of the request.
+  /** Sends a request and returns a promise resolving to the result of the request.
     *
-    * @param method the request's method name.
-    * @param token  An optional cancellation token.
-    * @returns A promise resolving to the request's result.
+    * @param method
+    *   the request's method name.
+    * @param token
+    *   An optional cancellation token.
+    * @returns
+    *   A promise resolving to the request's result.
     */
   def sendRequest[R](method: String, token: CancellationToken): Thenable[R]
 
-  /**
-    * Sends a request and returns a promise resolving to the result of the request.
+  /** Sends a request and returns a promise resolving to the result of the request.
     *
-    * @param method the request's method name.
-    * @param param The request's parameter.
-    * @param token  An optional cancellation token.
-    * @returns A promise resolving to the request's result.
+    * @param method
+    *   the request's method name.
+    * @param param
+    *   The request's parameter.
+    * @param token
+    *   An optional cancellation token.
+    * @returns
+    *   A promise resolving to the request's result.
     */
   def sendRequest[R](method: String, param: js.Any, token: CancellationToken): Thenable[R]
 
-  /**
-    * Installs a request handler.
+  /** Installs a request handler.
     *
-    * @param type    The request type to install the handler for.
-    * @param handler The actual handler.
+    * @param type
+    *   The request type to install the handler for.
+    * @param handler
+    *   The actual handler.
     */
   def onRequest[R, E](`type`: RequestType0[R, E], handler: RequestHandler0[R, E]): Unit
 
-  /**
-    * Installs a request handler.
+  /** Installs a request handler.
     *
-    * @param type    The request type to install the handler for.
-    * @param handler The actual handler.
+    * @param type
+    *   The request type to install the handler for.
+    * @param handler
+    *   The actual handler.
     */
   def onRequest[P, R, E](`type`: RequestType[P, R, E], handler: RequestHandler[P, R, E]): Unit
 
-  /**
-    * Installs a request handler.
+  /** Installs a request handler.
     *
-    * @param methods The method name to install the handler for.
-    * @param handler The actual handler.
+    * @param methods
+    *   The method name to install the handler for.
+    * @param handler
+    *   The actual handler.
     */
 //  def onRequest[R, E](method: String, handler: GenericRequestHandler[R, E]): Unit
 
-  /**
-    * Sends a notification.
+  /** Sends a notification.
     *
-    * @param type the notification's type to send.
+    * @param type
+    *   the notification's type to send.
     */
 //  def sendNotification[RO](`type`: NotificationType0[RO]): Unit
 
-  /**
-    * Sends a notification.
+  /** Sends a notification.
     *
-    * @param type   the notification's type to send.
-    * @param params the notification's parameters.
+    * @param type
+    *   the notification's type to send.
+    * @param params
+    *   the notification's parameters.
     */
   def sendNotification[P](`type`: NotificationType[P], params: P): Unit
 
-  /**
-    * Sends a notification.
+  /** Sends a notification.
     *
-    * @param method the notification's method name.
+    * @param method
+    *   the notification's method name.
     */
 //  def sendNotification(method: String): Unit
 
-  /**
-    * Sends a notification.
+  /** Sends a notification.
     *
-    * @param method the notification's method name.
-    * @param params the notification's parameters.
+    * @param method
+    *   the notification's method name.
+    * @param params
+    *   the notification's parameters.
     */
 //  def sendNotification(method: String, params: js.Any): Unit
 
-  /**
-    * Installs a notification handler.
+  /** Installs a notification handler.
     *
-    * @param type    The notification type to install the handler for.
-    * @param handler The actual handler.
+    * @param type
+    *   The notification type to install the handler for.
+    * @param handler
+    *   The actual handler.
     */
   def onNotification(`type`: NotificationType0, handler: NotificationHandler0): Unit
 
-  /**
-    * Installs a notification handler.
+  /** Installs a notification handler.
     *
-    * @param type    The notification type to install the handler for.
-    * @param handler The actual handler.
+    * @param type
+    *   The notification type to install the handler for.
+    * @param handler
+    *   The actual handler.
     */
   def onNotification[P](`type`: NotificationType[P], handler: NotificationHandler[P]): Unit
 
-  /**
-    * Installs a notification handler.
+  /** Installs a notification handler.
     *
-    * @param methods The method name to install the handler for.
-    * @param handler The actual handler.
+    * @param methods
+    *   The method name to install the handler for.
+    * @param handler
+    *   The actual handler.
     */
   def onNotification(method: String, handler: GenericNotificationHandler): Unit
 
-  /**
-    * Enables tracing mode for the connection.
+  /** Enables tracing mode for the connection.
     */
   def trace(value: Trace, tracer: Tracer, sendNotification: Boolean): Unit
 
   def trace(value: Trace, tracer: Tracer, traceOptions: TraceOptions): Unit
 
-  /**
-    * An event emitter firing when an error occurs on the connection.
+  /** An event emitter firing when an error occurs on the connection.
     */
   def onError: Event[js.Tuple3[Error, js.UndefOr[Message], js.UndefOr[Int]]]
 
-  /**
-    * An event emitter firing when the connection got closed.
+  /** An event emitter firing when the connection got closed.
     */
   def onClose: Event[Unit]
 
-  /**
-    * An event emiiter firing when the connection receives a notification that ies not
-    * handled.
+  /** An event emiiter firing when the connection receives a notification that ies not handled.
     */
   def onUnhandledNotification: Event[NotificationMessage]
 
-  /**
-    * An event emitter firing when the connection got disposed.
+  /** An event emitter firing when the connection got disposed.
     */
   def onDispose: Event[Unit]
 
-  /**
-    * Actively disposes the connection.
+  /** Actively disposes the connection.
     */
   def dispose(): Unit
 
-  /**
-    * Turns the connection into listening mode
+  /** Turns the connection into listening mode
     */
   def listen(): Unit
 }
@@ -256,9 +266,9 @@ object CompletionRequest extends js.Object {
 @js.native
 @JSImport("vscode-languageserver-protocol", "DocumentSymbolRequest")
 object DocumentSymbolRequest extends js.Object {
-  val `type`: RequestType[ClientDocumentSymbolParams,
-                          js.Array[ClientDocumentSymbol] | js.Array[ClientSymbolInformation],
-                          js.Any] = js.native
+  val `type`: RequestType[ClientDocumentSymbolParams, js.Array[ClientDocumentSymbol] | js.Array[
+    ClientSymbolInformation
+  ], js.Any] = js.native
 }
 
 @js.native
@@ -276,25 +286,25 @@ object DocumentHighlightRequest extends js.Object {
 @js.native
 @JSImport("vscode-languageserver-protocol", "DefinitionRequest")
 object DefinitionRequest extends js.Object {
-  val `type`: RequestType[ClientDefinitionParams,
-                          ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
-                          js.Any] = js.native
+  val `type`: RequestType[ClientDefinitionParams, ClientLocation | js.Array[ClientLocation] | js.Array[
+    ClientLocationLink
+  ], js.Any] = js.native
 }
 
 @js.native
 @JSImport("vscode-languageserver-protocol", "ImplementationRequest")
 object ImplementationRequest extends js.Object {
-  val `type`: RequestType[ClientImplementationParams,
-                          ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
-                          js.Any] = js.native
+  val `type`: RequestType[ClientImplementationParams, ClientLocation | js.Array[ClientLocation] | js.Array[
+    ClientLocationLink
+  ], js.Any] = js.native
 }
 
 @js.native
 @JSImport("vscode-languageserver-protocol", "TypeDefinitionRequest")
 object TypeDefinitionRequest extends js.Object {
-  val `type`: RequestType[ClientTypeDefinitionParams,
-                          ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
-                          js.Any] = js.native
+  val `type`: RequestType[ClientTypeDefinitionParams, ClientLocation | js.Array[ClientLocation] | js.Array[
+    ClientLocationLink
+  ], js.Any] = js.native
 }
 
 @js.native

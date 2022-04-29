@@ -14,8 +14,8 @@ import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 
 class OasDocumentationFieldSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
-    override implicit val ctx: StructureContext)
-    extends DefaultArrayFieldTypeSymbolBuilder(value, element) {
+    override implicit val ctx: StructureContext
+) extends DefaultArrayFieldTypeSymbolBuilder(value, element) {
   override protected val optionName: Option[String] = Some("documentation")
 
   override def build(): Seq[DocumentSymbol] = super.build()
@@ -28,8 +28,9 @@ object OasDocumentationFieldSymbolBuilder
     with IriFieldSymbolBuilderCompanion {
   override val supportedIri: String = WebApiModel.Documentations.value.iri()
 
-  override def construct(element: FieldEntry, value: AmfArray)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] = {
+  override def construct(element: FieldEntry, value: AmfArray)(implicit
+      ctx: StructureContext
+  ): Option[FieldTypeSymbolBuilder[AmfArray]] = {
     Some(new OasDocumentationFieldSymbolBuilder(value, element))
   }
 }
