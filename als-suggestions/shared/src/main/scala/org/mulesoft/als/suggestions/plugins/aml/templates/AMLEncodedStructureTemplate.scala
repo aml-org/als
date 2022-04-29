@@ -32,7 +32,9 @@ object AMLEncodedStructureTemplate {
     val templateType = params.configurationReader.getTemplateType
     templateType match {
       case TemplateTypes.SIMPLE => TemplateTools.getFirstLevelTemplate(pm, params)
-      case TemplateTypes.FULL   => TemplateTools.getFullTemplate(pm, params)
+      case TemplateTypes.FULL =>
+        val full = TemplateTools.getFullTemplate(pm, params)
+        if (full.nonEmpty) full else TemplateTools.getFirstLevelTemplate(pm, params)
       case TemplateTypes.BOTH =>
         TemplateTools.getFirstLevelTemplate(pm, params) ++ TemplateTools.getFullTemplate(pm, params)
       case _ => Seq.empty
