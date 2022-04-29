@@ -20,45 +20,47 @@ object OAS30Dialect extends OasBaseDialect {
       .withVersion("3.0.0") // 3.0.1? 3.0.2?
       .withLocation(DialectLocation)
       .withId(DialectLocation)
-      .withDeclares(Seq(
-        Oas30ServerObject,
-        Oas30PathItemObject,
-        AMLLinkObject,
-        Oas30ApiKeySecuritySchemeObject,
-        Oas30ApiKeySecurityObject,
-        AMLRequestBodyObject,
-        Oas20ScopeObject,
-        AMLEncodingObject,
-        Oas30WebApiNode,
-        Oas30ResponseObject,
-        Oas30OAuth20SecurityObject,
-        Oas30SecuritySchemeObject,
-        Oas30SecuritySettingsObject,
-        AMLTagObject,
-        XmlObject,
-        Oas30FlowObject,
-        Oas30OperationObject,
-        AMLContentObject,
-        AMLExternalDocumentationObject,
-        Oauth2SecuritySchemeObject,
-        Oas30OpenIdConnectUrl,
-        AMLContactObject,
-        Oas30ExampleObject,
-        AMLInfoObject,
-        Oas30VariableObject,
-        Oas30ParamObject,
-        AMLIriTemplateMappingObject,
-        AMLCallbackObject,
-        AMLLicenseObject,
-        Oas30HttpSecurityObject,
-        JsonSchemas.SchemaObject,
-        JsonSchemas.AnySchemaObject,
-        JsonSchemas.ArraySchemaObject,
-        JsonSchemas.IntegerSchemaObject,
-        JsonSchemas.NodeShapeObject,
-        JsonSchemas.NumberSchemaObject,
-        JsonSchemas.StringSchemaObject
-      ))
+      .withDeclares(
+        Seq(
+          Oas30ServerObject,
+          Oas30PathItemObject,
+          AMLLinkObject,
+          Oas30ApiKeySecuritySchemeObject,
+          Oas30ApiKeySecurityObject,
+          AMLRequestBodyObject,
+          Oas20ScopeObject,
+          AMLEncodingObject,
+          Oas30WebApiNode,
+          Oas30ResponseObject,
+          Oas30OAuth20SecurityObject,
+          Oas30SecuritySchemeObject,
+          Oas30SecuritySettingsObject,
+          AMLTagObject,
+          XmlObject,
+          Oas30FlowObject,
+          Oas30OperationObject,
+          AMLContentObject,
+          AMLExternalDocumentationObject,
+          Oauth2SecuritySchemeObject,
+          Oas30OpenIdConnectUrl,
+          AMLContactObject,
+          Oas30ExampleObject,
+          AMLInfoObject,
+          Oas30VariableObject,
+          Oas30ParamObject,
+          AMLIriTemplateMappingObject,
+          AMLCallbackObject,
+          AMLLicenseObject,
+          Oas30HttpSecurityObject,
+          JsonSchemas.SchemaObject,
+          JsonSchemas.AnySchemaObject,
+          JsonSchemas.ArraySchemaObject,
+          JsonSchemas.IntegerSchemaObject,
+          JsonSchemas.NodeShapeObject,
+          JsonSchemas.NumberSchemaObject,
+          JsonSchemas.StringSchemaObject
+        )
+      )
       .withDocuments(
         DocumentsModel()
           .withId(DialectLocation + "#/documents")
@@ -69,44 +71,46 @@ object OAS30Dialect extends OasBaseDialect {
             DocumentMapping()
               .withId(DialectLocation + "#/documents/root")
               .withEncoded(Oas30WebApiNode.id)
-              .withDeclaredNodes(Seq(
-                PublicNodeMapping()
-                  .withId(DialectLocation + "#/documents/schemas")
-                  .withName("schemas")
-                  .withMappedNode(Oas30SchemaObject.id),
-                PublicNodeMapping()
-                  .withId(DialectLocation + "#/documents/responses")
-                  .withName("responses")
-                  .withMappedNode(Oas30ResponseObject.id),
-                PublicNodeMapping()
-                  .withId(DialectLocation + "#/documents/parameters")
-                  .withName("parameters")
-                  .withMappedNode(Oas30ParamObject.id),
-                PublicNodeMapping()
-                  .withId(DialectLocation + "#/documents/examples")
-                  .withName("examples")
-                  .withMappedNode(Oas30ExampleObject.id),
-                PublicNodeMapping()
-                  .withId(DialectLocation + "#/documents/requestBodies")
-                  .withName("requestBodies")
-                  .withMappedNode(AMLRequestBodyObject.id),
-                PublicNodeMapping()
-                  .withId(DialectLocation + "#/documents/headers")
-                  .withName("headers")
-                  .withMappedNode(Oas30AMLHeaderObject.id),
-                PublicNodeMapping()
-                  .withId(DialectLocation + "#/documents/securitySchemes")
-                  .withName("securitySchemes")
-                  .withMappedNode(Oas30SecuritySchemeObject.id),
-                PublicNodeMapping()
-                  .withId(DialectLocation + "#/documents/links")
-                  .withName("links")
-                  .withMappedNode(AMLLinkObject.id),
-                PublicNodeMapping()
-                  .withId(DialectLocation + "#/documents/callbacks")
-                  .withName("callbacks")
-                  .withMappedNode(AMLCallbackObject.id)
-              ))
+              .withDeclaredNodes(
+                Seq(
+                  PublicNodeMapping()
+                    .withId(DialectLocation + "#/documents/schemas")
+                    .withName("schemas")
+                    .withMappedNode(Oas30SchemaObject.id),
+                  PublicNodeMapping()
+                    .withId(DialectLocation + "#/documents/responses")
+                    .withName("responses")
+                    .withMappedNode(Oas30ResponseObject.id),
+                  PublicNodeMapping()
+                    .withId(DialectLocation + "#/documents/parameters")
+                    .withName("parameters")
+                    .withMappedNode(Oas30ParamObject.id),
+                  PublicNodeMapping()
+                    .withId(DialectLocation + "#/documents/examples")
+                    .withName("examples")
+                    .withMappedNode(Oas30ExampleObject.id),
+                  PublicNodeMapping()
+                    .withId(DialectLocation + "#/documents/requestBodies")
+                    .withName("requestBodies")
+                    .withMappedNode(AMLRequestBodyObject.id),
+                  PublicNodeMapping()
+                    .withId(DialectLocation + "#/documents/headers")
+                    .withName("headers")
+                    .withMappedNode(Oas30AMLHeaderObject.id),
+                  PublicNodeMapping()
+                    .withId(DialectLocation + "#/documents/securitySchemes")
+                    .withName("securitySchemes")
+                    .withMappedNode(Oas30SecuritySchemeObject.id),
+                  PublicNodeMapping()
+                    .withId(DialectLocation + "#/documents/links")
+                    .withName("links")
+                    .withMappedNode(AMLLinkObject.id),
+                  PublicNodeMapping()
+                    .withId(DialectLocation + "#/documents/callbacks")
+                    .withName("callbacks")
+                    .withMappedNode(AMLCallbackObject.id)
+                )
+              )
           )
       )
 
@@ -128,7 +132,8 @@ object OAS30Dialect extends OasBaseDialect {
           .withId(DialectLocation + "#/externals/owl")
           .withAlias("owl")
           .withBase(Namespace.Owl.base)
-      ))
+      )
+    )
 
     val vocabularies = Seq(
       ModelVocabularies.AmlDoc,

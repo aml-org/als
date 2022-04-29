@@ -33,7 +33,8 @@ class JvmSuggestionsTest extends AsyncFunSuite with Matchers with PlatformSecret
 
     override def fetch(resource: String): Future[Content] =
       Future[Content]({
-        try { new Content(textInput, resource) } catch {
+        try { new Content(textInput, resource) }
+        catch {
           case e: Exception => throw FileNotFound(e)
         }
       })
@@ -52,9 +53,11 @@ class JvmSuggestionsTest extends AsyncFunSuite with Matchers with PlatformSecret
       .withPlatformLoaders(Seq(fileLoader))
       .getState
       .map(editorState => {
-        ALSConfigurationState(editorState = editorState,
-                              projectState = EmptyProjectConfigurationState,
-                              editorResourceLoader = None)
+        ALSConfigurationState(
+          editorState = editorState,
+          projectState = EmptyProjectConfigurationState,
+          editorResourceLoader = None
+        )
       })
   }
 

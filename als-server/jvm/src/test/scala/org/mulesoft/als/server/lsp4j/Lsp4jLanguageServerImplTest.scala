@@ -54,7 +54,8 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest with ChangesWorkspace
       new AlsLanguageServerFactory(clientConnection)
         .withSerializationProps(JvmSerializationProps(notifier))
         .withLogger(logger)
-        .build())
+        .build()
+    )
 
     server.initialize(new AlsInitializeParams()).toScala.map(_ => succeed)
   }
@@ -72,7 +73,8 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest with ChangesWorkspace
       new AlsLanguageServerFactory(clientConnection)
         .withSerializationProps(JvmSerializationProps(notifier))
         .withLogger(logger)
-        .build())
+        .build()
+    )
 
     server.initialize(null).toScala.map(_ => succeed)
   }
@@ -135,9 +137,10 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest with ChangesWorkspace
     }
   }
 
-  class TestDidChangeConfigurationCommandExecutor(wsc: WorkspaceManager,
-                                                  fn: DidChangeConfigurationNotificationParams => Unit)
-      extends DidChangeConfigurationCommandExecutor(EmptyLogger, wsc) {
+  class TestDidChangeConfigurationCommandExecutor(
+      wsc: WorkspaceManager,
+      fn: DidChangeConfigurationNotificationParams => Unit
+  ) extends DidChangeConfigurationCommandExecutor(EmptyLogger, wsc) {
     override protected def runCommand(param: DidChangeConfigurationNotificationParams): Future[Unit] = {
       fn(param)
       Future.unit
@@ -152,9 +155,10 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest with ChangesWorkspace
     override def notifyTelemetry(params: TelemetryMessage): Unit = {}
   }
 
-  class TestWorkspaceManager(editorConfiguration: EditorConfiguration,
-                             fn: DidChangeConfigurationNotificationParams => Unit)
-      extends WorkspaceManager(
+  class TestWorkspaceManager(
+      editorConfiguration: EditorConfiguration,
+      fn: DidChangeConfigurationNotificationParams => Unit
+  ) extends WorkspaceManager(
         new EnvironmentProvider {
 
           override def openedFiles: Seq[String] = Seq.empty
@@ -219,12 +223,15 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest with ChangesWorkspace
     }
 
     val args = List(
-      changeConfigArgs(Some("path.raml"),
-                       "file://",
-                       Set("dep1", "dep2"),
-                       Set("profile1"),
-                       Set("semantic"),
-                       Set("dialect")))
+      changeConfigArgs(
+        Some("path.raml"),
+        "file://",
+        Set("dep1", "dep2"),
+        Set("profile1"),
+        Set("semantic"),
+        Set("dialect")
+      )
+    )
 
     new TestWorkspaceManager(EditorConfiguration(), parsed)
       .executeCommand(SharedExecuteParams(Commands.DID_CHANGE_CONFIGURATION, args))
@@ -310,10 +317,12 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest with ChangesWorkspace
     val managers = builder.buildWorkspaceManagerFactory()
 
     val b =
-      new LanguageServerBuilder(managers.documentManager,
-                                managers.workspaceManager,
-                                managers.configurationManager,
-                                managers.resolutionTaskManager)
+      new LanguageServerBuilder(
+        managers.documentManager,
+        managers.workspaceManager,
+        managers.configurationManager,
+        managers.resolutionTaskManager
+      )
     dm.foreach(m => b.addInitializableModule(m))
     (b.build(), managers.workspaceManager)
   }

@@ -28,7 +28,11 @@ trait OutlineTest[T] extends AsyncFunSuite with FileAssertionTest with PlatformS
 
   def emptyData(): T
 
-  def runTest(path: String, jsonPath: String, configuration: Option[ALSConfigurationState] = None): Future[Assertion] = {
+  def runTest(
+      path: String,
+      jsonPath: String,
+      configuration: Option[ALSConfigurationState] = None
+  ): Future[Assertion] = {
 
     val fullFilePath = filePath(platform.encodeURI(path))
     val fullJsonPath = filePath(jsonPath)

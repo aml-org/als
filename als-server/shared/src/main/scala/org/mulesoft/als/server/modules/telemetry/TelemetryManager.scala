@@ -27,11 +27,13 @@ class TelemetryManager(private val clientNotifier: ClientNotifier, private val l
   override def initialize(): Future[Unit] =
     Future.successful()
 
-  override protected def addTimedMessage(code: String,
-                                         messageType: MessageTypes,
-                                         msg: String,
-                                         uri: String,
-                                         uuid: String): Unit =
+  override protected def addTimedMessage(
+      code: String,
+      messageType: MessageTypes,
+      msg: String,
+      uri: String,
+      uuid: String
+  ): Unit =
     clientNotifier.notifyTelemetry(TelemetryMessage(code, messageType, msg, uri, System.currentTimeMillis(), uuid))
 
   override def addErrorMessage(code: String, msg: String, uri: String, uuid: String): Unit =

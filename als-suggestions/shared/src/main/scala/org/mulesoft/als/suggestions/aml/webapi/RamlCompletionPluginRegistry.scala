@@ -22,11 +22,13 @@ object RamlCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
 
   private val all: Seq[AMLCompletionPlugin] =
     AMLBaseCompletionPlugins.all :+
-      StructureCompletionPlugin(List(
-        ResolveShapeAndSecurity,
-        ResolveUriParameter,
-        ResolveDefault
-      )) :+
+      StructureCompletionPlugin(
+        List(
+          ResolveShapeAndSecurity,
+          ResolveUriParameter,
+          ResolveDefault
+        )
+      ) :+
       Raml10BooleanPropertyValue :+
       Raml10ParamsCompletionPlugin :+
       Raml10TypeFacetsCompletionPlugin :+

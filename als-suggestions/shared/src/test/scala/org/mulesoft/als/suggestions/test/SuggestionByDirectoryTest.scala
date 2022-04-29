@@ -36,7 +36,8 @@ trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTes
         editorConfiguration <- Future(EditorConfiguration())
         _                   <- preload(f.path.stripSuffix(f.name), editorConfiguration)
         alsConfigurationState <- editorConfiguration.getState.map(
-          ALSConfigurationState(_, EmptyProjectConfigurationState, None))
+          ALSConfigurationState(_, EmptyProjectConfigurationState, None)
+        )
         s <- suggestFromFile(
           content,
           "file://" + f.path.replaceAllLiterally(platform.fs.separatorChar.toString, "/"),
@@ -44,7 +45,8 @@ trait SuggestionByDirectoryTest extends AsyncFreeSpec with BaseSuggestionsForTes
           alsConfigurationState
         )
         tmp <- writeTemporaryFile(expected)(
-          writeDataToString(s.sortWith((s1, s2) => s1.label.compareTo(s2.label) < 0).toList))
+          writeDataToString(s.sortWith((s1, s2) => s1.label.compareTo(s2.label) < 0).toList)
+        )
         r <- assertDifferences(tmp, expected)
       } yield r
     }

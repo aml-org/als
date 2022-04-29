@@ -26,10 +26,12 @@ trait ServerReferencesTest extends ServerWithMarkerTest[Seq[Location]] with Mark
 
     val factory =
       new WorkspaceManagerFactoryBuilder(notifier, logger).buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(factory.documentManager,
-                              factory.workspaceManager,
-                              factory.configurationManager,
-                              factory.resolutionTaskManager)
+    new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
       .addRequestModule(factory.referenceManager)
       .addRequestModule(factory.implementationManager)
       .build()
@@ -65,21 +67,24 @@ trait ServerReferencesTest extends ServerWithMarkerTest[Seq[Location]] with Mark
       }
     }
 
-  def getServerImplementations(filePath: String,
-                               server: LanguageServer,
-                               markerInfo: MarkerInfo): Future[Seq[Location]] = {
+  def getServerImplementations(
+      filePath: String,
+      server: LanguageServer,
+      markerInfo: MarkerInfo
+  ): Future[Seq[Location]] = {
 
     val implementationsHandler = server.resolveHandler(ImplementationRequestType).value
     openFile(server)(filePath, markerInfo.content)
-      .flatMap(
-        _ =>
-          implementationsHandler(ImplementationParams(TextDocumentIdentifier(filePath),
-                                                      LspRangeConverter.toLspPosition(markerInfo.position)))
-            .flatMap(implementations => {
-              closeFile(server)(filePath)
-                .map(_ => implementations)
-            })
-            .map(_.left.getOrElse(Nil)))
+      .flatMap(_ =>
+        implementationsHandler(
+          ImplementationParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(markerInfo.position))
+        )
+          .flatMap(implementations => {
+            closeFile(server)(filePath)
+              .map(_ => implementations)
+          })
+          .map(_.left.getOrElse(Nil))
+      )
 
   }
 }

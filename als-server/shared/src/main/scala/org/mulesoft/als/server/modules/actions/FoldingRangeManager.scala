@@ -14,10 +14,11 @@ import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class FoldingRangeManager(val workspace: WorkspaceManager,
-                          private val telemetryProvider: TelemetryProvider,
-                          private val logger: Logger)
-    extends RequestModule[FoldingRangeCapabilities, Boolean] {
+class FoldingRangeManager(
+    val workspace: WorkspaceManager,
+    private val telemetryProvider: TelemetryProvider,
+    private val logger: Logger
+) extends RequestModule[FoldingRangeCapabilities, Boolean] {
 
   private var active = false
 
@@ -44,8 +45,7 @@ class FoldingRangeManager(val workspace: WorkspaceManager,
       override protected def uri(params: FoldingRangeParams): String =
         params.textDocument.uri
 
-      /**
-        * If Some(_), this will be sent as a response as a default for a managed exception
+      /** If Some(_), this will be sent as a response as a default for a managed exception
         */
       override protected val empty: Option[Seq[FoldingRange]] = Some(Seq())
     }
@@ -64,7 +64,8 @@ class FoldingRangeManager(val workspace: WorkspaceManager,
         _.unit.objWithAST
           .flatMap(_.annotations.ast())
           .map(FileRanges.ranges)
-          .getOrElse(Seq.empty))
+          .getOrElse(Seq.empty)
+      )
 
   override def initialize(): Future[Unit] = Future.successful()
 }

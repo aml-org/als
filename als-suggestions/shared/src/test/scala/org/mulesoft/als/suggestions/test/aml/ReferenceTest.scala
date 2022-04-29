@@ -20,9 +20,11 @@ class ReferenceTest extends AMLSuggestionsTest {
   }
 
   test("JsonSchemaStyle Flavour in map - suggest #ref") {
-    withDialect("instances/jsonStyleInstanceEOL.yaml",
-                Set("long: ", "range: ", "name: ", "$ref: "),
-                "dialects/jsonStyleDialect.yaml")
+    withDialect(
+      "instances/jsonStyleInstanceEOL.yaml",
+      Set("long: ", "range: ", "name: ", "$ref: "),
+      "dialects/jsonStyleDialect.yaml"
+    )
   }
 
   test("No Flavour specified in map (has facets) - does not suggest #ref") {
@@ -30,30 +32,38 @@ class ReferenceTest extends AMLSuggestionsTest {
   }
 
   test("No Flavour specified in map - suggests #ref") {
-    withDialect("instances/noStyleInstanceEOL.yaml",
-                Set("$ref: ", "long: ", "range: ", "name: "),
-                "dialects/noStyleDialect.yaml")
+    withDialect(
+      "instances/noStyleInstanceEOL.yaml",
+      Set("$ref: ", "long: ", "range: ", "name: "),
+      "dialects/noStyleDialect.yaml"
+    )
   }
 
   test("No Flavour specified in map - suggests #ref from Library") {
-    withDialect("instances/noStyleInstanceEOLLib.yaml",
-                Set("$ref: ", "long: ", "range: ", "name: "),
-                "dialects/noStyleDialectLib.yaml")
+    withDialect(
+      "instances/noStyleInstanceEOLLib.yaml",
+      Set("$ref: ", "long: ", "range: ", "name: "),
+      "dialects/noStyleDialectLib.yaml"
+    )
   }
 
   test("No Flavour specified in map - suggests #ref from Fragment") {
-    withDialect("instances/noStyleInstanceEOLFrag.yaml",
-                Set("$ref: ", "long: ", "range: ", "name: "),
-                "dialects/noStyleDialectFrag.yaml")
+    withDialect(
+      "instances/noStyleInstanceEOLFrag.yaml",
+      Set("$ref: ", "long: ", "range: ", "name: "),
+      "dialects/noStyleDialectFrag.yaml"
+    )
   }
 
   test("RamlStyle path suggestion - !include tag value") {
     withDialect(
       "instances/ramlStylePathInstanceInclude.yaml",
-      Set("test directory/test file 1.yaml",
-          "test directory/test file 2.raml",
-          "test directory/test dir/",
-          "test directory/inner dir/"),
+      Set(
+        "test directory/test file 1.yaml",
+        "test directory/test file 2.raml",
+        "test directory/test dir/",
+        "test directory/inner dir/"
+      ),
       "dialects/ramlStyleDialect.yaml"
     )
   }
@@ -61,10 +71,12 @@ class ReferenceTest extends AMLSuggestionsTest {
   test("No Style path suggestion - !include tag value") {
     withDialect(
       "instances/noStylePathInstanceInclude.yaml",
-      Set("test directory/test file 1.yaml",
-          "test directory/test file 2.raml",
-          "test directory/test dir/",
-          "test directory/inner dir/"),
+      Set(
+        "test directory/test file 1.yaml",
+        "test directory/test file 2.raml",
+        "test directory/test dir/",
+        "test directory/inner dir/"
+      ),
       "dialects/noStyleDialect.yaml"
     )
   }
@@ -80,10 +92,12 @@ class ReferenceTest extends AMLSuggestionsTest {
   test("No Style path suggestion - $ref tag value") {
     withDialect(
       "instances/noStylePathInstanceRef.yaml",
-      Set("test directory/test file 1.yaml",
-          "test directory/test file 2.raml",
-          "test directory/test dir/",
-          "test directory/inner dir/"),
+      Set(
+        "test directory/test file 1.yaml",
+        "test directory/test file 2.raml",
+        "test directory/test dir/",
+        "test directory/inner dir/"
+      ),
       "dialects/noStyleDialect.yaml"
     )
   }

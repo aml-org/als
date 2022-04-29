@@ -5,7 +5,7 @@ import amf.aml.internal.metamodel.domain.PropertyMappingModel
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdInteger, xsdString, xsdUri}
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
-object PropertyMappingObjectNode extends DialectNode{
+object PropertyMappingObjectNode extends DialectNode {
   override def name: String = "PropertyMappingObjectNode"
 
   override def nodeTypeMapping: String = PropertyMappingModel.`type`.head.iri()
@@ -28,25 +28,29 @@ object PropertyMappingObjectNode extends DialectNode{
       .withName("range")
       .withMinCount(1)
       .withLiteralRange(xsdUri.iri())
-      .withEnum(Seq("string" ,
-        "integer" ,
-        "boolean" ,
-        "float" ,
-        "decimal" ,
-        "double" ,
-        "duration" ,
-        "dateTime" ,
-        "time" ,
-        "date" ,
-        "anyType",
-        "anyUri",
-        "link",
-        "number",
-        "uri",
-        "any",
-        "anyNode")),
+      .withEnum(
+        Seq(
+          "string",
+          "integer",
+          "boolean",
+          "float",
+          "decimal",
+          "double",
+          "duration",
+          "dateTime",
+          "time",
+          "date",
+          "anyType",
+          "anyUri",
+          "link",
+          "number",
+          "uri",
+          "any",
+          "anyNode"
+        )
+      ),
     PropertyMapping()
-    .withId(location + s"#/declarations/$name/mapKey")
+      .withId(location + s"#/declarations/$name/mapKey")
       .withNodePropertyMapping(PropertyMappingModel.MapKeyProperty.value.iri())
       .withName("mapKey")
       .withLiteralRange(xsdUri.iri()),
@@ -117,7 +121,7 @@ object PropertyMappingObjectNode extends DialectNode{
       .withNodePropertyMapping(PropertyMappingModel.TypeDiscriminator.value.iri())
       .withName("typeDiscriminatorName")
       .withAllowMultiple(true)
-      .withLiteralRange(xsdString.iri()),
+      .withLiteralRange(xsdString.iri())
   )
 
 }

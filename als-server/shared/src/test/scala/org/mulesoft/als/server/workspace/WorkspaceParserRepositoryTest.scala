@@ -23,11 +23,13 @@ class WorkspaceParserRepositoryTest extends AsyncFunSuite with Matchers with Pla
 
   test("Basic repository test") {
 
-    val cachable: MockFile = MockFile("file://fakeURI/ws/cachable.raml",
-                                      """#%RAML 1.0 Library
+    val cachable: MockFile = MockFile(
+      "file://fakeURI/ws/cachable.raml",
+      """#%RAML 1.0 Library
       |types:
       |  A: string
-      """.stripMargin)
+      """.stripMargin
+    )
 
     val api: MockFile = MockFile(
       "file://fakeURI/ws/api.raml",
@@ -87,22 +89,28 @@ class WorkspaceParserRepositoryTest extends AsyncFunSuite with Matchers with Pla
     repository.map(r => {
       val apiPU: ParsedUnit = getParsedUnitOrFail(r, api.uri)
       val moddedBU: AMFResult =
-        AMFResult(apiPU.parsedResult.result.baseUnit.cloneUnit().withLocation("file://newLocation/api.raml"),
-                  apiPU.parsedResult.result.results) // this `result.result.results` looks hideous, i know
+        AMFResult(
+          apiPU.parsedResult.result.baseUnit.cloneUnit().withLocation("file://newLocation/api.raml"),
+          apiPU.parsedResult.result.results
+        ) // this `result.result.results` looks hideous, i know
 
       r.updateUnit(new AmfParseResult(moddedBU, ExternalFragmentDialect(), apiPU.parsedResult.context, api.uri))
       val moddedPU = getParsedUnitOrFail(r, "file://newLocation/api.raml")
-      assert(moddedPU.parsedResult.result.baseUnit.id == apiPU.parsedResult.result.baseUnit.id) // Same id, but different location
+      assert(
+        moddedPU.parsedResult.result.baseUnit.id == apiPU.parsedResult.result.baseUnit.id
+      ) // Same id, but different location
       assert(moddedPU.parsedResult.result.baseUnit.location() != apiPU.parsedResult.result.baseUnit.location())
     })
   }
 
   test("Correct tree keys") {
-    val cachable: MockFile = MockFile("file://fakeURI/ws/cachable.raml",
-                                      """#%RAML 1.0 Library
+    val cachable: MockFile = MockFile(
+      "file://fakeURI/ws/cachable.raml",
+      """#%RAML 1.0 Library
       |types:
       |  A: string
-      """.stripMargin)
+      """.stripMargin
+    )
 
     val api: MockFile = MockFile(
       "file://fakeURI/ws/api.raml",
@@ -123,11 +131,13 @@ class WorkspaceParserRepositoryTest extends AsyncFunSuite with Matchers with Pla
   }
 
   test("Dependencies") {
-    val cachable: MockFile = MockFile("file://fakeURI/ws/cachable.raml",
-                                      """#%RAML 1.0 Library
+    val cachable: MockFile = MockFile(
+      "file://fakeURI/ws/cachable.raml",
+      """#%RAML 1.0 Library
       |types:
       |  A: string
-      """.stripMargin)
+      """.stripMargin
+    )
 
     val api: MockFile = MockFile(
       "file://fakeURI/ws/api.raml",

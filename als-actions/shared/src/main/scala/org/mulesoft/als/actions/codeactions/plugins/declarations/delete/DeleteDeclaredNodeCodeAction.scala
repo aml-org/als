@@ -34,10 +34,10 @@ class DeleteDeclaredNodeCodeAction(override val params: CodeActionRequestParams)
     with BaseElementDeclarableExtractors {
 
   override val isApplicable: Boolean =
-    maybeTree.exists(
-      t =>
-        t.isDeclared &&
-          t.fieldEntry.exists(_.isSemanticName))
+    maybeTree.exists(t =>
+      t.isDeclared &&
+        t.fieldEntry.exists(_.isSemanticName)
+    )
 
   override protected def telemetry: TelemetryProvider = params.telemetryProvider
 
@@ -63,7 +63,8 @@ class DeleteDeclaredNodeCodeAction(override val params: CodeActionRequestParams)
 
   // todo: change along with ALS-1257
   private def editsToDocumentChanges(
-      changes: Map[String, Seq[TextEdit]]): Seq[Either[TextDocumentEdit, ResourceOperation]] =
+      changes: Map[String, Seq[TextEdit]]
+  ): Seq[Either[TextDocumentEdit, ResourceOperation]] =
     changes.map { t =>
       Left(TextDocumentEdit(VersionedTextDocumentIdentifier(t._1, None), t._2))
     }.toSeq
@@ -78,22 +79,24 @@ class DeleteDeclaredNodeCodeAction(override val params: CodeActionRequestParams)
   private def nameLocation(obj: AmfObject): Option[Location] =
     obj
       .namedField()
-      .flatMap(
-        v =>
-          v.annotations
-            .ast()
-            .orElse(v.value.annotations.ast())
-            .map(p => p.yPartToLocation))
+      .flatMap(v =>
+        v.annotations
+          .ast()
+          .orElse(v.value.annotations.ast())
+          .map(p => p.yPartToLocation)
+      )
 
   private def removeReferences(nameLocation: Location, r: Seq[RelationshipLink]): Map[String, Seq[TextEdit]] =
     r.filter(re => {
-        re.targetEntry.yPartToLocation.uri == nameLocation.uri && re.targetEntry.range.contains(
-          Position(nameLocation.range.start).toAmfPosition)
-      })
-      .map(rl =>
-        rl.sourceEntry.location.sourceName -> TextEdit(toLspRange(PositionRange(rl.sourceEntry.range)),
-                                                       eolIfApplicable(rl.sourceEntry)))
-      .groupBy(_._1)
+      re.targetEntry.yPartToLocation.uri == nameLocation.uri && re.targetEntry.range.contains(
+        Position(nameLocation.range.start).toAmfPosition
+      )
+    }).map(rl =>
+      rl.sourceEntry.location.sourceName -> TextEdit(
+        toLspRange(PositionRange(rl.sourceEntry.range)),
+        eolIfApplicable(rl.sourceEntry)
+      )
+    ).groupBy(_._1)
       .map(t => (t._1 -> t._2.map(_._2)))
 
   private def eolIfApplicable(sourceEntry: YPart): String = if (sourceEntry.range.columnTo == 0) "\n" else ""

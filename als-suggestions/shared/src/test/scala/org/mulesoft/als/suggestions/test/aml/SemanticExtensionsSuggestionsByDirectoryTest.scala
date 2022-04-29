@@ -16,8 +16,7 @@ class SemanticExtensionsSuggestionsByDirectoryTest extends SuggestionByDirectory
 
   override def origin: Hint = VocabularyYamlHint // why is origin necessary?
 
-  /**
-    * register each semantic extension
+  /** register each semantic extension
     * @param directory
     * @return
     */

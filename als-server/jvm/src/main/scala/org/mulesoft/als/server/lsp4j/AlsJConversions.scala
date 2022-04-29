@@ -30,11 +30,13 @@ object AlsJConversions {
     result.setTextDocumentSync(
       capabilities.textDocumentSync
         .map(jEither(_, lsp4JTextDocumentSyncKind, lsp4JTextDocumentSyncOptions))
-        .orNull)
+        .orNull
+    )
     result.setCompletionProvider(
       capabilities.completionProvider
         .map(lsp4JCompletionOptions)
-        .orNull)
+        .orNull
+    )
     result.setDefinitionProvider(lsp4JEitherWorkDoneProgressOptions(capabilities.definitionProvider)(opt => {
       val ret  = new DefinitionOptions()
       val bool = opt.workDoneProgress.getOrElse(false)
@@ -90,19 +92,24 @@ object AlsJConversions {
 
     capabilities.fileUsage.foreach(fu => result.setFileUsage(new extension.FileUsageServerOptions(fu.supported)))
     capabilities.cleanDiagnostics.foreach(cd =>
-      result.setCleanDiagnosticTree(new extension.CleanDiagnosticTreeServerOptions(cd.supported)))
+      result.setCleanDiagnosticTree(new extension.CleanDiagnosticTreeServerOptions(cd.supported))
+    )
     capabilities.serialization.foreach(s =>
-      result.setSerialization(new extension.SerializationServerOptions(s.supportsSerialization)))
+      result.setSerialization(new extension.SerializationServerOptions(s.supportsSerialization))
+    )
     capabilities.conversion.foreach { c =>
       result.setConversion(
         new extension.ConversionServerOptions(
           c.supported
             .map(s => new extension.ConversionConf(s.from, s.to))
-            .asJava))
+            .asJava
+        )
+      )
     }
     capabilities.foldingRangeProvider.foreach(p => result.setFoldingRangeProvider(p))
     capabilities.renameFileAction.foreach(r =>
-      result.setRenameFileAction(new extension.RenameFileActionServerOptions(r.supported)))
+      result.setRenameFileAction(new extension.RenameFileActionServerOptions(r.supported))
+    )
 
     result.setDocumentFormattingProvider(
       lsp4JEitherWorkDoneProgressOptions(capabilities.documentFormattingProvider)(opt => {
@@ -110,14 +117,16 @@ object AlsJConversions {
         val bool = opt.workDoneProgress.getOrElse(false)
         ret.setWorkDoneProgress(bool)
         ret
-      }))
+      })
+    )
     result.setDocumentRangeFormattingProvider(
       lsp4JEitherWorkDoneProgressOptions(capabilities.documentRangeFormattingProvider)(opt => {
         val ret  = new DocumentRangeFormattingOptions()
         val bool = opt.workDoneProgress.getOrElse(false)
         ret.setWorkDoneProgress(bool)
         ret
-      }))
+      })
+    )
     capabilities.customValidations.foreach(r => result.setCustomValidations(new CustomValidationOptions(r.enabled)))
     result
   }
@@ -126,30 +135,39 @@ object AlsJConversions {
     new extension.SerializedDocument(serializedDocument.uri, serializedDocument.model)
 
   implicit def serializationSerializedDocument(
-      serializationMessage: SerializationResult[StringWriter]): extension.SerializedDocument =
+      serializationMessage: SerializationResult[StringWriter]
+  ): extension.SerializedDocument =
     new extension.SerializedDocument(serializationMessage.uri, serializationMessage.model.toString)
 
   implicit def renameFileActionResult(result: RenameFileActionResult): extension.RenameFileActionResult =
     new extension.RenameFileActionResult(lsp4JWorkspaceEdit(result.edits))
 
   implicit def workspaceConfigurationParams(
-      shared: DidChangeConfigurationNotificationParams): extension.WorkspaceConfigurationParams =
-    new extension.WorkspaceConfigurationParams(shared.mainPath.getOrElse(""), shared.folder, shared.dependencies.map {
-      eitherDependencyConfigurationToJava
-    }.asJava)
+      shared: DidChangeConfigurationNotificationParams
+  ): extension.WorkspaceConfigurationParams =
+    new extension.WorkspaceConfigurationParams(
+      shared.mainPath.getOrElse(""),
+      shared.folder,
+      shared.dependencies.map {
+        eitherDependencyConfigurationToJava
+      }.asJava
+    )
 
   private def eitherDependencyConfigurationToJava(
-      e: Either[String, textsync.DependencyConfiguration]): JEither[String, extension.DependencyConfiguration] = {
+      e: Either[String, textsync.DependencyConfiguration]
+  ): JEither[String, extension.DependencyConfiguration] = {
     e match {
       case Left(str) =>
         JEither.forLeft[String, extension.DependencyConfiguration](str)
       case Right(dc) =>
         JEither.forRight[String, extension.DependencyConfiguration](
-          new extension.DependencyConfiguration(dc.file, dc.scope))
+          new extension.DependencyConfiguration(dc.file, dc.scope)
+        )
     }
   }
 
   implicit def getWorkspaceConfigurationResult(
-      result: GetWorkspaceConfigurationResult): extension.GetWorkspaceConfigurationResult =
+      result: GetWorkspaceConfigurationResult
+  ): extension.GetWorkspaceConfigurationResult =
     new extension.GetWorkspaceConfigurationResult(result.workspace, result.configuration)
 }

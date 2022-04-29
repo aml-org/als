@@ -77,10 +77,12 @@ class SynthesizeVocabularyAction(dialect: Dialect, override val params: CodeActi
     })
   }
 
-  def createName(maybeString: Option[String],
-                 knownNames: Set[String],
-                 defaultName: String,
-                 capitalize: Boolean): String = {
+  def createName(
+      maybeString: Option[String],
+      knownNames: Set[String],
+      defaultName: String,
+      capitalize: Boolean
+  ): String = {
     val c    = maybeString.getOrElse(defaultName).toCharArray
     val name = (if (capitalize) c.head.toUpper else c.head.toLower) + c.tail.mkString
     ExtractorCommon.nameNotInList(name, knownNames)
@@ -94,7 +96,10 @@ class SynthesizeVocabularyAction(dialect: Dialect, override val params: CodeActi
     firstEntryPosition.map(position => {
       val indentation = indent(dialect.indentation(position))
       val entry: String = YamlRender
-        .render(Seq(YMapEntry(YNode(key, params.uri), YNode(alias + "." + name, params.uri))), renderOptions) + "\n" + indentation
+        .render(
+          Seq(YMapEntry(YNode(key, params.uri), YNode(alias + "." + name, params.uri))),
+          renderOptions
+        ) + "\n" + indentation
       val range = LspRangeConverter.toLspRange(PositionRange(position, position))
       TextEdit(range, entry)
     })

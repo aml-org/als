@@ -11,16 +11,17 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
 
 class TagsArrayFieldSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
-    override implicit val ctx: StructureContext)
-    extends DefaultWebApiArrayFieldTypeSymbolBuilder(value, element) {
+    override implicit val ctx: StructureContext
+) extends DefaultWebApiArrayFieldTypeSymbolBuilder(value, element) {
   override protected val children: List[DocumentSymbol] = Nil
 }
 
 object TagsArrayFieldSymbolBuilderCompanion
     extends ArrayFieldTypeSymbolBuilderCompanion
     with IriFieldSymbolBuilderCompanion {
-  override def construct(element: FieldEntry, value: AmfArray)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] = {
+  override def construct(element: FieldEntry, value: AmfArray)(implicit
+      ctx: StructureContext
+  ): Option[FieldTypeSymbolBuilder[AmfArray]] = {
     Some(new TagsArrayFieldSymbolBuilder(value, element))
   }
 

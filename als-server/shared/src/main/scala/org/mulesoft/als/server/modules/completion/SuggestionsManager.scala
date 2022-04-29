@@ -21,13 +21,14 @@ import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
-                         val workspace: WorkspaceManager,
-                         private val telemetryProvider: TelemetryProvider,
-                         val directoryResolver: DirectoryResolver,
-                         private val logger: Logger,
-                         private val configurationProvider: ConfigurationProvider)
-    extends RequestModule[CompletionClientCapabilities, CompletionOptions] {
+class SuggestionsManager(
+    val editorEnvironment: TextDocumentContainer,
+    val workspace: WorkspaceManager,
+    private val telemetryProvider: TelemetryProvider,
+    val directoryResolver: DirectoryResolver,
+    private val logger: Logger,
+    private val configurationProvider: ConfigurationProvider
+) extends RequestModule[CompletionClientCapabilities, CompletionOptions] {
 
   private var conf: Option[CompletionClientCapabilities] = None
 
@@ -72,8 +73,7 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
       override protected def uri(params: CompletionParams): String =
         params.textDocument.uri
 
-      /**
-        * If Some(_), this will be sent as a response as a default for a managed exception
+      /** If Some(_), this will be sent as a response as a default for a managed exception
         */
       override protected val empty: Option[Either[Seq[CompletionItem], CompletionList]] = Some(Left(Seq()))
     }
@@ -86,12 +86,16 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
 
   override def initialize(): Future[Unit] = Future { suggestions.initialized() }
 
-  protected def onDocumentCompletion(lspUri: String,
-                                     position: Position,
-                                     telemetryUUID: String): Future[Seq[CompletionItem]] = {
-    logger.debug(s"Disable Templates: ${configurationProvider.getConfiguration.getTemplateType}",
-                 "SuggestionsManager",
-                 "onDocumentCompletion")
+  protected def onDocumentCompletion(
+      lspUri: String,
+      position: Position,
+      telemetryUUID: String
+  ): Future[Seq[CompletionItem]] = {
+    logger.debug(
+      s"Disable Templates: ${configurationProvider.getConfiguration.getTemplateType}",
+      "SuggestionsManager",
+      "onDocumentCompletion"
+    )
     val uri = lspUri.toAmfUri(editorEnvironment.platform)
     // we need to normalize the URI encoding so we can find it both on RL and memory
     editorEnvironment.get(uri) match {
@@ -112,12 +116,11 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
       wcm     <- workspace.getWorkspace(uri)
       rootUri <- wcm.getRootFolderFor(uri)
       bundle  <- accessBundle(uri)
-    } yield
-      suggestions.buildProvider(
-        bundle,
-        position,
-        uri,
-        snippetSupport,
-        rootUri
-      )
+    } yield suggestions.buildProvider(
+      bundle,
+      position,
+      uri,
+      snippetSupport,
+      rootUri
+    )
 }

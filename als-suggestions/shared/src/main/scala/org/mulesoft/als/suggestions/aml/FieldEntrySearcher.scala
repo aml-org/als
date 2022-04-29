@@ -9,10 +9,12 @@ import org.mulesoft.amfintegration.AmfImplicits.{AmfObjectImp, DialectImplicits}
 
 import scala.collection.immutable
 
-case class FieldEntrySearcher(amfObject: AmfObject,
-                              currentNode: Option[NodeMapping],
-                              yPartBranch: YPartBranch,
-                              actualDialect: Dialect) {
+case class FieldEntrySearcher(
+    amfObject: AmfObject,
+    currentNode: Option[NodeMapping],
+    yPartBranch: YPartBranch,
+    actualDialect: Dialect
+) {
   val currentIds: immutable.Seq[String] =
     amfObject.metaURIs.flatMap(uri => actualDialect.termsForId.find(_._2 == uri).map(_._1))
 

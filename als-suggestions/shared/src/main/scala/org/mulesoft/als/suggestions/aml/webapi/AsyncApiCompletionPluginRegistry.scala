@@ -33,7 +33,8 @@ object AsyncApiCompletionPluginRegistry extends WebApiCompletionPluginRegistry {
           AsyncApiVariableValueException,
           Async2HeadersSchema,
           ResolveDefault
-        )) :+
+        )
+      ) :+
       Async20PayloadCompletionPlugin :+
       Async20TypeFacetsCompletionPlugin :+
       Async20MessageOneOfCompletionPlugin :+

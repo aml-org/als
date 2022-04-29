@@ -13,8 +13,8 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.DeclaresFieldSymbolBuilder
 
 class AmlPropertyTermsFieldSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
-    override implicit val ctx: StructureContext)
-    extends DeclaresFieldSymbolBuilder(value, element) {
+    override implicit val ctx: StructureContext
+) extends DeclaresFieldSymbolBuilder(value, element) {
 
   override def declarationName(obj: AmfObject): String = obj match {
     case _: ClassTerm            => "ClassTerms"
@@ -26,8 +26,9 @@ class AmlPropertyTermsFieldSymbolBuilder(override val value: AmfArray, override 
 object AmlPropertyTermsFieldSymbolBuilder
     extends ArrayFieldTypeSymbolBuilderCompanion
     with IriFieldSymbolBuilderCompanion {
-  override def construct(element: FieldEntry, value: AmfArray)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] =
+  override def construct(element: FieldEntry, value: AmfArray)(implicit
+      ctx: StructureContext
+  ): Option[FieldTypeSymbolBuilder[AmfArray]] =
     Some(new AmlPropertyTermsFieldSymbolBuilder(value, element))
 
   override val supportedIri: String = DocumentModel.Declares.value.iri()

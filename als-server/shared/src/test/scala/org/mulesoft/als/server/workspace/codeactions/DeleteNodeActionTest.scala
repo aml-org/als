@@ -102,8 +102,8 @@ class DeleteNodeActionTest extends CodeActionsTest with WorkspaceEditsTest {
           result      <- deleteNode(server, test)
         } yield {
           assert(result.size == test.result.size)
-          result.foreach {
-            case (k, v) => assert(v == test.result.getOrElse(k, ""))
+          result.foreach { case (k, v) =>
+            assert(v == test.result.getOrElse(k, ""))
           }
         }
       })
@@ -115,23 +115,31 @@ class DeleteNodeActionTest extends CodeActionsTest with WorkspaceEditsTest {
       .resolveHandler(CodeActionRequestType)
       .map { handler =>
         handler(
-          CodeActionParams(TextDocumentIdentifier(testEntry.location.uri),
-                           testEntry.location.range,
-                           CodeActionContext(Nil, None)))
+          CodeActionParams(
+            TextDocumentIdentifier(testEntry.location.uri),
+            testEntry.location.range,
+            CodeActionContext(Nil, None)
+          )
+        )
           .map { all =>
             all
               .find(_.title == DeleteDeclaredNodeCodeAction.title)
               .map(ca =>
-                applyEdits(ca.edit.getOrElse(throw new Exception("Empty workspace edit")),
-                           testEntry.workspace.resources))
+                applyEdits(
+                  ca.edit.getOrElse(throw new Exception("Empty workspace edit")),
+                  testEntry.workspace.resources
+                )
+              )
               .getOrElse(Map.empty)
           }
       }
       .getOrElse(Future.failed(new Exception("No handler found for CodeAction")))
 
-  case class TestEntry(workspace: WorkspaceEntry,
-                       location: Location,
-                       result: Map[String, String],
-                       root: String = "file:///root/")
+  case class TestEntry(
+      workspace: WorkspaceEntry,
+      location: Location,
+      result: Map[String, String],
+      root: String = "file:///root/"
+  )
 
 }

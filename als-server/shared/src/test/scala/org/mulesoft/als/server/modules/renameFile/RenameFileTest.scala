@@ -29,10 +29,12 @@ class RenameFileTest extends LanguageServerBaseTest {
     val factory =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
     factory.configurationManager.updateDocumentChangesSupport(true)
-    new LanguageServerBuilder(factory.documentManager,
-                              factory.workspaceManager,
-                              factory.configurationManager,
-                              factory.resolutionTaskManager)
+    new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
       .addRequestModule(factory.renameFileActionManager)
       .build()
   }
@@ -51,10 +53,11 @@ class RenameFileTest extends LanguageServerBaseTest {
       r.edits.documentChanges.exists(_.exists {
         case Left(edit) =>
           edit.textDocument.uri == filePath(platform.encodeURI("plain/api.raml")) &&
-            edit.edits.size == 1 &&
-            edit.edits.exists(e =>
-              e.newText == "RENAMED.raml" &&
-                e.range == Range(Position(4, 25), Position(4, 42)))
+          edit.edits.size == 1 &&
+          edit.edits.exists(e =>
+            e.newText == "RENAMED.raml" &&
+              e.range == Range(Position(4, 25), Position(4, 42))
+          )
         case _ => false
       }) should be(true)
 
@@ -75,10 +78,11 @@ class RenameFileTest extends LanguageServerBaseTest {
       r.edits.documentChanges.exists(_.exists {
         case Left(edit) =>
           edit.textDocument.uri == filePath(platform.encodeURI("encoded/api.raml")) &&
-            edit.edits.size == 1 &&
-            edit.edits.exists(e =>
-              e.newText == "RENAMED.raml" &&
-                e.range == Range(Position(4, 25), Position(4, 43)))
+          edit.edits.size == 1 &&
+          edit.edits.exists(e =>
+            e.newText == "RENAMED.raml" &&
+              e.range == Range(Position(4, 25), Position(4, 43))
+          )
         case _ => false
       }) should be(true)
 
@@ -99,10 +103,11 @@ class RenameFileTest extends LanguageServerBaseTest {
       r.edits.documentChanges.exists(_.exists {
         case Left(edit) =>
           edit.textDocument.uri == filePath(platform.encodeURI("pointer/api.json")) &&
-            edit.edits.size == 1 &&
-            edit.edits.exists(e =>
-              e.newText == "RENAMED.json" &&
-                e.range == Range(Position(8, 15), Position(8, 32)))
+          edit.edits.size == 1 &&
+          edit.edits.exists(e =>
+            e.newText == "RENAMED.json" &&
+              e.range == Range(Position(8, 15), Position(8, 32))
+          )
         case _ => false
       }) should be(true)
     })
@@ -122,30 +127,34 @@ class RenameFileTest extends LanguageServerBaseTest {
       r.edits.documentChanges.exists(_.exists {
         case Left(edit) =>
           edit.textDocument.uri == filePath(platform.encodeURI("relative/traits/trait.raml")) &&
-            edit.edits.size == 1 &&
-            edit.edits.exists(e =>
-              e.newText == "RENAMED.raml" &&
-                e.range == Range(Position(1, 16), Position(1, 33)))
+          edit.edits.size == 1 &&
+          edit.edits.exists(e =>
+            e.newText == "RENAMED.raml" &&
+              e.range == Range(Position(1, 16), Position(1, 33))
+          )
         case Right(_) => false
       }) should be(true)
 
       r.edits.documentChanges.exists(_.exists {
         case Left(edit) =>
           edit.textDocument.uri == filePath(platform.encodeURI("relative/traits/trait2.raml")) &&
-            edit.edits.size == 1 &&
-            edit.edits.exists(e =>
-              e.newText == "RENAMED.raml" &&
-                e.range == Range(Position(1, 16), Position(1, 33)))
+          edit.edits.size == 1 &&
+          edit.edits.exists(e =>
+            e.newText == "RENAMED.raml" &&
+              e.range == Range(Position(1, 16), Position(1, 33))
+          )
         case Right(_) => false
       }) should be(true)
     })
   }
 
-  def runTest(server: LanguageServer,
-              initialArgs: String,
-              workspaceUri: String,
-              oldFilePath: String,
-              newFilePath: String): Future[RenameFileActionResult] = {
+  def runTest(
+      server: LanguageServer,
+      initialArgs: String,
+      workspaceUri: String,
+      oldFilePath: String,
+      newFilePath: String
+  ): Future[RenameFileActionResult] = {
 
     val oldFile          = TextDocumentIdentifier(oldFilePath)
     val newFile          = TextDocumentIdentifier(newFilePath)
@@ -154,14 +163,20 @@ class RenameFileTest extends LanguageServerBaseTest {
     for {
       _ <- server.testInitialize(
         AlsInitializeParams(
-          Some(AlsClientCapabilities(
-            workspace = Some(WorkspaceClientCapabilities(
-              workspaceEdit = Some(WorkspaceEditClientCapabilities(documentChanges = Some(true))))),
-            renameFileAction = Some(RenameFileActionClientCapabilities(true))
-          )),
+          Some(
+            AlsClientCapabilities(
+              workspace = Some(
+                WorkspaceClientCapabilities(
+                  workspaceEdit = Some(WorkspaceEditClientCapabilities(documentChanges = Some(true)))
+                )
+              ),
+              renameFileAction = Some(RenameFileActionClientCapabilities(true))
+            )
+          ),
           Some(TraceKind.Off),
           rootUri = Some(workspaceUri)
-        ))
+        )
+      )
       _ <- changeWorkspaceConfiguration(server)(initialArgs)
       renameFileResult <- {
         val handler: RequestHandler[RenameFileActionParams, RenameFileActionResult] =

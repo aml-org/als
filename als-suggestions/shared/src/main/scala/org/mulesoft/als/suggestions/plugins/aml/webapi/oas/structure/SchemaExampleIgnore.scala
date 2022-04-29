@@ -13,7 +13,8 @@ import scala.concurrent.Future
 trait SchemaExampleException {
   def applies(request: AmlCompletionRequest): Boolean = {
     anonymousExample(request.amfObject) && request.fieldEntry.isEmpty && request.branchStack.headOption.exists(h =>
-      h.isInstanceOf[Shape] || h.isInstanceOf[Payload])
+      h.isInstanceOf[Shape] || h.isInstanceOf[Payload]
+    )
   }
 
   private def anonymousExample(amfObject: AmfObject) = {

@@ -14,8 +14,7 @@ trait ALSConverters extends ApiBaseClientConverter with ClientLoggerConverter {
   type ClientAMFValidator
   type ClientAMFPlugin
 
-  implicit object DirectoryResolverConverter
-      extends ClientInternalMatcher[ClientDirectoryResolver, DirectoryResolver] {
+  implicit object DirectoryResolverConverter extends ClientInternalMatcher[ClientDirectoryResolver, DirectoryResolver] {
     override def asInternal(from: ClientDirectoryResolver): DirectoryResolver =
       DirectoryResolverAdapter.convert(from)
   }

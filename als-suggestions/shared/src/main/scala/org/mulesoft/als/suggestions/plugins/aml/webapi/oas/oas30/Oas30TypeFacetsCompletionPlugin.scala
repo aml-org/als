@@ -17,8 +17,9 @@ object Oas30TypeFacetsCompletionPlugin extends OasTypeFacetsCompletionPlugin {
   override def dialect: Dialect = OAS30Dialect.dialect
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
-    if (Oas30ExceptionPlugins.applyAny(params) || params.fieldEntry.exists(
-          _.field == NodeShapeModel.DiscriminatorMapping)) emptySuggestion
+    if (
+      Oas30ExceptionPlugins.applyAny(params) || params.fieldEntry.exists(_.field == NodeShapeModel.DiscriminatorMapping)
+    ) emptySuggestion
     else super.resolve(params)
   }
 

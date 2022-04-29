@@ -6,7 +6,6 @@ import amf.shapes.internal.domain.metamodel.ScalarShapeModel
 
 trait BaseNumberShapeNode extends BaseAnyShapeNode {
 
-
   override def nodeTypeMapping: String = ScalarShapeModel.`type`.head.iri()
 
   override def name: String = "NumberShape"
@@ -36,6 +35,6 @@ trait BaseNumberShapeNode extends BaseAnyShapeNode {
       .withId(location + s"#/declarations/ShapeObject/exclusiveMinimum")
       .withName("exclusiveMinimum")
       .withNodePropertyMapping(ScalarShapeModel.ExclusiveMinimum.value.iri())
-      .withLiteralRange(xsdInteger.iri()),
+      .withLiteralRange(xsdInteger.iri())
   )
 }

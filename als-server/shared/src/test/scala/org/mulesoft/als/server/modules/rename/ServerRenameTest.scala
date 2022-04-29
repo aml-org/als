@@ -22,10 +22,12 @@ abstract class ServerRenameTest extends LanguageServerBaseTest with WorkspaceEdi
   def buildServer(): LanguageServer = {
     val factory =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(factory.documentManager,
-                              factory.workspaceManager,
-                              factory.configurationManager,
-                              factory.resolutionTaskManager)
+    new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
       .addInitializable(factory.documentManager)
       .addRequestModule(factory.renameManager)
       .build()
@@ -52,7 +54,8 @@ abstract class ServerRenameTest extends LanguageServerBaseTest with WorkspaceEdi
             prepareRename(server, position, filePath).flatMap { pr =>
               assert(pr.isDefined) // check if the rename is actually valid
               doRename(newName, server, goldenPath, content, position, filePath)
-          })
+            }
+          )
       })
   }
 
@@ -74,22 +77,26 @@ abstract class ServerRenameTest extends LanguageServerBaseTest with WorkspaceEdi
           .flatMap(_ =>
             prepareRename(server, position, filePath).flatMap { pr =>
               assert(pr.isEmpty) // check if the rename is actually valid
-          })
+            }
+          )
       })
   }
 
   private def prepareRename(server: LanguageServer, position: Position, filePath: String) = {
     val prepareRenameHandler = server.resolveHandler(PrepareRenameRequestType).value
     prepareRenameHandler(
-      PrepareRenameParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(position)))
+      PrepareRenameParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(position))
+    )
   }
 
-  private def doRename(newName: String,
-                       server: LanguageServer,
-                       goldenPath: String,
-                       content: Option[String],
-                       position: Position,
-                       filePath: String) = {
+  private def doRename(
+      newName: String,
+      server: LanguageServer,
+      goldenPath: String,
+      content: Option[String],
+      position: Position,
+      filePath: String
+  ) = {
     val renameHandler = server.resolveHandler(RenameRequestType).value
     renameHandler(RenameParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(position), newName))
       .flatMap(workspaceEdit => {

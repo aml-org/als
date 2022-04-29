@@ -32,9 +32,12 @@ object Raml08DialectNodes extends RamlDialectNodes {
       .withName("baseUriParameters")
       .withNodePropertyMapping(EndPointModel.Parameters.value.iri())
       .withMapTermKeyProperty(ParameterModel.Name.value.iri())
-      .withObjectRange(Seq(
-        DataTypeNodeId
-      )))
+      .withObjectRange(
+        Seq(
+          DataTypeNodeId
+        )
+      )
+  )
   override protected def resourceNodeMappings: Seq[PropertyMapping] = extendedResourceNodeMappings
   override protected def methodNodeMappings: Seq[PropertyMapping]   = innerMethodNodeMappings
   override protected def rootMappings: Seq[PropertyMapping]         = innerRootMappings

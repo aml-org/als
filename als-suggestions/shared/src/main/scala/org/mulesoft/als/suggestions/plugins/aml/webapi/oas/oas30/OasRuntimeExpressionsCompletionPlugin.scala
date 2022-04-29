@@ -18,7 +18,7 @@ object OasRuntimeExpressionsCompletionPlugin extends AbstractRuntimeExpressionsC
     request.fieldEntry match {
       case Some(fe) =>
         (applicableFields.contains(fe.field) && !request.branchStack.headOption.exists(_.isInstanceOf[NodeShape])) ||
-          (fe.field == EndPointModel.Path && processByStack(request))
+        (fe.field == EndPointModel.Path && processByStack(request))
       case _ => processByStack(request)
 
     }
@@ -29,7 +29,8 @@ object OasRuntimeExpressionsCompletionPlugin extends AbstractRuntimeExpressionsC
         case Some(c: Callback) =>
           request.yPartBranch.stringValue == c.expression.value()
         case _ => false
-      } else request.amfObject.fields.fields().exists(fe => applicableFields.contains(fe.field))
+      }
+    else request.amfObject.fields.fields().exists(fe => applicableFields.contains(fe.field))
   }
 
   override def parserObject(value: String): RuntimeExpressionParser = OAS3RuntimeExpressionParser(value)

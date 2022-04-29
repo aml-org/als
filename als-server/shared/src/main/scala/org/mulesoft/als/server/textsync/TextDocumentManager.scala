@@ -12,10 +12,11 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.experimental.macros
 
-class TextDocumentManager(override val uriToEditor: TextDocumentContainer,
-                          val dependencies: List[TextListener],
-                          protected val logger: Logger)
-    extends AlsTextDocumentSyncConsumer {
+class TextDocumentManager(
+    override val uriToEditor: TextDocumentContainer,
+    val dependencies: List[TextListener],
+    protected val logger: Logger
+) extends AlsTextDocumentSyncConsumer {
 
   implicit private val platform: Platform = this.uriToEditor.platform
 
@@ -23,7 +24,8 @@ class TextDocumentManager(override val uriToEditor: TextDocumentContainer,
     TextDocumentSyncConfigType
 
   override def applyConfig(
-      config: Option[SynchronizationClientCapabilities]): Either[TextDocumentSyncKind, TextDocumentSyncOptions] = {
+      config: Option[SynchronizationClientCapabilities]
+  ): Either[TextDocumentSyncKind, TextDocumentSyncOptions] = {
     logger.debug("Config applied", "TextDocumentManager", "applyConfig")
 
     Right(
@@ -31,7 +33,8 @@ class TextDocumentManager(override val uriToEditor: TextDocumentContainer,
         save = None,
         openClose = Some(true),
         change = Some(TextDocumentSyncKind.Full)
-      ))
+      )
+    )
   }
 
   override def initialize(): Future[Unit] = uriToEditor.initialize()
@@ -57,9 +60,11 @@ class TextDocumentManager(override val uriToEditor: TextDocumentContainer,
         val currentText    = current.text
 
         if (currentVersion == document.version)
-          this.logger.debug(s"Version of the reported change is equal to the previous one at ${document.uri}",
-                            "EditorManager",
-                            "onChangeDocument")
+          this.logger.debug(
+            s"Version of the reported change is equal to the previous one at ${document.uri}",
+            "EditorManager",
+            "onChangeDocument"
+          )
 
         if (document.version < currentVersion && document.text.contains(currentText))
           this.logger.debug(s"No changes detected for ${document.uri}", "EditorManager", "onChangeDocument")
@@ -110,11 +115,13 @@ class TextDocumentManager(override val uriToEditor: TextDocumentContainer,
   override def didFocus(params: DidFocusParams): Future[Unit] =
     uriToEditor
       .get(params.uri.toAmfUri)
-      .map(
-        _ =>
-          Future
-            .sequence(dependencies
-              .map(_.notify(params.uri, FOCUS_FILE)))
-            .flatMap(_ => Future.unit))
+      .map(_ =>
+        Future
+          .sequence(
+            dependencies
+              .map(_.notify(params.uri, FOCUS_FILE))
+          )
+          .flatMap(_ => Future.unit)
+      )
       .getOrElse(Future.unit)
 }

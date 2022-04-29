@@ -15,11 +15,12 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
 import scala.util.{Failure, Success}
 
-class ResolutionDiagnosticManager(override protected val telemetryProvider: TelemetryProvider,
-                                  override protected val clientNotifier: ClientNotifier,
-                                  override protected val logger: Logger,
-                                  override protected val validationGatherer: ValidationGatherer)
-    extends ResolvedUnitListener
+class ResolutionDiagnosticManager(
+    override protected val telemetryProvider: TelemetryProvider,
+    override protected val clientNotifier: ClientNotifier,
+    override protected val logger: Logger,
+    override protected val validationGatherer: ValidationGatherer
+) extends ResolvedUnitListener
     with DiagnosticManager {
   type RunType = ValidationRunnable
   override val managerName: DiagnosticManagerKind = ResolutionDiagnosticKind
@@ -39,10 +40,12 @@ class ResolutionDiagnosticManager(override protected val telemetryProvider: Tele
   protected override def onSuccess(uuid: String, uri: String): Unit =
     logger.debug(s"End report: $uuid", "ResolutionDiagnosticManager", "newASTAvailable")
 
-  private def gatherValidationErrors(uri: String,
-                                     resolved: AmfResolvedUnit,
-                                     references: Map[String, DiagnosticsBundle],
-                                     uuid: String): Future[Unit] = {
+  private def gatherValidationErrors(
+      uri: String,
+      resolved: AmfResolvedUnit,
+      references: Map[String, DiagnosticsBundle],
+      uuid: String
+  ): Future[Unit] = {
     val startTime = System.currentTimeMillis()
     val refs      = projectReferences(uri, resolved.alsConfigurationState.projectState.projectErrors) ++ references
     val profile   = profileName(resolved.baseUnit)
@@ -54,12 +57,15 @@ class ResolutionDiagnosticManager(override protected val telemetryProvider: Tele
           .indexNewReport(
             ErrorsWithTree(uri, report.results.map(new AlsValidationResult(_)), Some(tree(resolved.baseUnit))),
             managerName,
-            uuid)
+            uuid
+          )
         notifyReport(uri, resolved.baseUnit, refs, managerName, profile)
 
-        this.logger.debug(s"It took ${endTime - startTime} milliseconds to validate",
-                          "ResolutionDiagnosticManager",
-                          "gatherValidationErrors")
+        this.logger.debug(
+          s"It took ${endTime - startTime} milliseconds to validate",
+          "ResolutionDiagnosticManager",
+          "gatherValidationErrors"
+        )
       })
   }
 
@@ -68,11 +74,13 @@ class ResolutionDiagnosticManager(override protected val telemetryProvider: Tele
       .map(bu => bu.identifier)
       .toSet + baseUnit.identifier
 
-  private def report(uri: String,
-                     telemetryProvider: TelemetryProvider,
-                     resolved: AmfResolvedUnit,
-                     uuid: String,
-                     profile: ProfileName): Future[AMFValidationReport] = {
+  private def report(
+      uri: String,
+      telemetryProvider: TelemetryProvider,
+      resolved: AmfResolvedUnit,
+      uuid: String,
+      profile: ProfileName
+  ): Future[AMFValidationReport] = {
     telemetryProvider.timeProcess(
       "AMF report",
       MessageTypes.BEGIN_REPORT,
@@ -85,11 +93,13 @@ class ResolutionDiagnosticManager(override protected val telemetryProvider: Tele
 
   }
 
-  private def tryValidationReport(uri: String,
-                                  telemetryProvider: TelemetryProvider,
-                                  resolved: AmfResolvedUnit,
-                                  uuid: String,
-                                  profile: ProfileName)() =
+  private def tryValidationReport(
+      uri: String,
+      telemetryProvider: TelemetryProvider,
+      resolved: AmfResolvedUnit,
+      uuid: String,
+      profile: ProfileName
+  )() =
     try {
       logger.debug("starting", "ResolutionDiagnosticManager", "tryValidationReport")
       resolved.getLast.flatMap { r =>
@@ -102,10 +112,9 @@ class ResolutionDiagnosticManager(override protected val telemetryProvider: Tele
                 AMFValidationReport(rep.model, rep.profile, rep.results ++ result.results)
               })
           }
-      } recoverWith {
-        case e: Exception =>
-          logger.debug(s"recovering from: ${e.getMessage}", "ResolutionDiagnosticManager", "tryValidationReport")
-          sendFailedClone(uri, telemetryProvider, resolved.baseUnit, uuid, e.getMessage)
+      } recoverWith { case e: Exception =>
+        logger.debug(s"recovering from: ${e.getMessage}", "ResolutionDiagnosticManager", "tryValidationReport")
+        sendFailedClone(uri, telemetryProvider, resolved.baseUnit, uuid, e.getMessage)
       }
     } catch {
       case e: Exception =>

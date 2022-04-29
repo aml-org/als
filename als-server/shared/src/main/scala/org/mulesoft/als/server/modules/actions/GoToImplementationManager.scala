@@ -23,10 +23,11 @@ import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class GoToImplementationManager(val workspace: WorkspaceManager,
-                                private val telemetryProvider: TelemetryProvider,
-                                private val logger: Logger)
-    extends RequestModule[ImplementationClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
+class GoToImplementationManager(
+    val workspace: WorkspaceManager,
+    private val telemetryProvider: TelemetryProvider,
+    private val logger: Logger
+) extends RequestModule[ImplementationClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
 
   private var conf: Option[ImplementationClientCapabilities] = None
 
@@ -54,22 +55,24 @@ class GoToImplementationManager(val workspace: WorkspaceManager,
 
       override protected def uri(params: ImplementationParams): String = params.textDocument.uri
 
-      /**
-        * If Some(_), this will be sent as a response as a default for a managed exception
+      /** If Some(_), this will be sent as a response as a default for a managed exception
         */
       override protected val empty: Option[Either[Seq[Location], Seq[LocationLink]]] = Some(Right(Seq()))
     }
   )
 
   override def applyConfig(
-      config: Option[ImplementationClientCapabilities]): Either[Boolean, WorkDoneProgressOptions] = {
+      config: Option[ImplementationClientCapabilities]
+  ): Either[Boolean, WorkDoneProgressOptions] = {
     conf = config
     Left(true)
   }
 
-  def goToImplementation(uri: String,
-                         position: Position,
-                         uuid: String): Future[Either[Seq[Location], Seq[LocationLink]]] =
+  def goToImplementation(
+      uri: String,
+      position: Position,
+      uuid: String
+  ): Future[Either[Seq[Location], Seq[LocationLink]]] =
     workspace
       .getLastUnit(uri, uuid)
       .flatMap(_.getLast)

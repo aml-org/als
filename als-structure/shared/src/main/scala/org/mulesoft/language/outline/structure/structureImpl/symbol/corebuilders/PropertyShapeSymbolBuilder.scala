@@ -31,7 +31,8 @@ object PropertyShapeSymbolBuilder extends AmfObjectSimpleBuilderCompanion[Proper
 
   override val supportedIri: String = PropertyShapeModel.`type`.head.iri()
 
-  override def construct(element: PropertyShape)(
-      implicit ctx: StructureContext): Option[StructuredSymbolBuilder[PropertyShape]] =
+  override def construct(element: PropertyShape)(implicit
+      ctx: StructureContext
+  ): Option[StructuredSymbolBuilder[PropertyShape]] =
     Some(new PropertyShapeSymbolBuilder(element))
 }

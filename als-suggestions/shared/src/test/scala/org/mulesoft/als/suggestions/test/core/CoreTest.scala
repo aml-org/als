@@ -31,16 +31,20 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets with MarkerFinderTest 
       (newConfiguration, position) <- Future.successful {
         val fileContentsStr = content.stream.toString
         val markerInfo      = this.findMarker(fileContentsStr, "*")
-        val newConfig = ALSConfigurationState(alsConfiguration.editorState,
-                                              alsConfiguration.projectState,
-                                              Some(resourceLoader(url, markerInfo.content)))
+        val newConfig = ALSConfigurationState(
+          alsConfiguration.editorState,
+          alsConfiguration.projectState,
+          Some(resourceLoader(url, markerInfo.content))
+        )
 
         (newConfig, markerInfo.offset)
       }
       suggestions <- {
-        new Suggestions(AlsConfiguration(),
-                        new PlatformDirectoryResolver(newConfiguration.platform),
-                        accessBundle(newConfiguration))
+        new Suggestions(
+          AlsConfiguration(),
+          new PlatformDirectoryResolver(newConfiguration.platform),
+          accessBundle(newConfiguration)
+        )
           .initialized()
           .suggest(url, position, snippetsSupport = true, None)
       }
@@ -59,7 +63,11 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets with MarkerFinderTest 
       Future.successful(new Content(content, fileUrl))
   }
 
-  def runTestForCustomDialect(path: String, dialectPath: String, originalSuggestions: Set[String]): Future[Assertion] = {
+  def runTestForCustomDialect(
+      path: String,
+      dialectPath: String,
+      originalSuggestions: Set[String]
+  ): Future[Assertion] = {
     EditorConfiguration()
       .withDialect(filePath(dialectPath))
       .getState

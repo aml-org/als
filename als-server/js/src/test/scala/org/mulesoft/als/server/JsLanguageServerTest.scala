@@ -17,15 +17,17 @@ import scala.scalajs.js.Promise
 
 class JsLanguageServerTest extends AMFValidatorTest {
   override implicit val executionContext: ExecutionContextExecutor = scala.concurrent.ExecutionContext.global
-  override def rootPath: String = ""
+  override def rootPath: String                                    = ""
 
-  val clientConnection: MockDiagnosticClientNotifier with AlsClientNotifier[js.Any] = new MockDiagnosticClientNotifier(3000) with AlsClientNotifier[js.Any] {
+  val clientConnection: MockDiagnosticClientNotifier with AlsClientNotifier[js.Any] = new MockDiagnosticClientNotifier(
+    3000
+  ) with AlsClientNotifier[js.Any] {
     override def notifyProjectFiles(params: FilesInProjectParams): Unit = ???
 
     override def notifySerialization(params: SerializationResult[js.Any]): Unit = ???
   }
 
-  val systemConfig: JsServerSystemConf = DefaultJsServerSystemConf
+  val systemConfig: JsServerSystemConf         = DefaultJsServerSystemConf
   val serializationProps: JsSerializationProps = JsSerializationProps(clientConnection)
 
   test("Test custom validators plugged from client") {
@@ -59,7 +61,7 @@ class JsLanguageServerTest extends AMFValidatorTest {
     val payload: String = """<Person>
                             |  <age>false</age>
                             |</Person>""".stripMargin
-    withServer(server){ s =>
+    withServer(server) { s =>
       for {
         _ <- openFile(s)("file:///person.xml", payload)
         _ <- openFile(s)("file:///uri.raml", content)
@@ -76,10 +78,10 @@ class JsLanguageServerTest extends AMFValidatorTest {
     def apply(): JsClientLogger =
       js.Dynamic
         .literal(
-          error = (message: String) => logger.error(message,"", ""),
+          error = (message: String) => logger.error(message, "", ""),
           warn = (message: String) => logger.warning(message, "", ""),
           info = (message: String) => logger.debug(message, "", ""),
-          log = (message: String) => logger.debug(message, "",""),
+          log = (message: String) => logger.debug(message, "", "")
         )
         .asInstanceOf[JsClientLogger]
   }
@@ -105,7 +107,7 @@ class JsLanguageServerTest extends AMFValidatorTest {
       .build()
       .workspaceService match {
       case ws: WorkspaceManager => ws
-      case _ => fail("Workspace Manager not found?")
+      case _                    => fail("Workspace Manager not found?")
     }).editorConfiguration.resourceLoaders
   }
 
@@ -115,13 +117,13 @@ class JsLanguageServerTest extends AMFValidatorTest {
     loaders should contain allElementsOf platfromLoaders
   }
 
-  test("Should not have default platform loaders when given list isn't empty"){
+  test("Should not have default platform loaders when given list isn't empty") {
     val loaders = getServerResourceLoaders(js.Array(fakeRL))
     loaders.size should be(1)
     loaders should contain noElementsOf platfromLoaders
   }
 
-  test("Should keep platform loaders when added"){
+  test("Should keep platform loaders when added") {
     val loaders = getServerResourceLoaders((platform.loaders().map(_.toClient) :+ fakeRL).toJSArray)
     loaders.size should be(3)
   }

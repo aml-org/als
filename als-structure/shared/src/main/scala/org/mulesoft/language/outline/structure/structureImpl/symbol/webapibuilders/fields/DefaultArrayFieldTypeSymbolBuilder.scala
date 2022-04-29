@@ -19,8 +19,8 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.ParameterBindingLabelMapper
 
 class DefaultWebApiArrayFieldTypeSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
-    override implicit val ctx: StructureContext)
-    extends DefaultArrayFieldTypeSymbolBuilder(value, element) {
+    override implicit val ctx: StructureContext
+) extends DefaultArrayFieldTypeSymbolBuilder(value, element) {
 
   private val mapNames = Map(
     WebApiModel.Security                      -> "Security",
@@ -42,7 +42,8 @@ class DefaultWebApiArrayFieldTypeSymbolBuilder(override val value: AmfArray, ove
 }
 
 object DefaultWebApiArrayFieldTypeSymbolBuilderCompanion extends DefaultArrayTypeSymbolBuilder {
-  override def construct(element: FieldEntry, value: AmfArray)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] =
+  override def construct(element: FieldEntry, value: AmfArray)(implicit
+      ctx: StructureContext
+  ): Option[FieldTypeSymbolBuilder[AmfArray]] =
     Some(new DefaultWebApiArrayFieldTypeSymbolBuilder(value, element))
 }

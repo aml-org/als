@@ -22,8 +22,10 @@ object AnnotationReferenceCompletionPlugin extends AMLCompletionPlugin {
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful(
-      if (params.yPartBranch.isKey && !params.yPartBranch.isInArray && !params.amfObject
-            .isInstanceOf[DialectDomainElement]) {
+      if (
+        params.yPartBranch.isKey && !params.yPartBranch.isInArray && !params.amfObject
+          .isInstanceOf[DialectDomainElement]
+      ) {
         val annSuggestions = AnnotationReferenceSuggester(params).suggest()
         if (isScalar(params) && annSuggestions.exists(_.category != EXTENSION_CATEGORY))
           RawSuggestion.forKey("value", "unknown", mandatory = false) +: annSuggestions
@@ -78,9 +80,11 @@ case class AnnotationReferenceSuggester(params: AmlCompletionRequest) {
     params.alsConfigurationState.findSemanticForName(name).filter(filterFn)
   }
 
-  private def searchAndBuild(name: String,
-                             filterFn: ((SemanticExtension, Dialect)) => Boolean,
-                             insertText: String): Option[RawSuggestion] = {
+  private def searchAndBuild(
+      name: String,
+      filterFn: ((SemanticExtension, Dialect)) => Boolean,
+      insertText: String
+  ): Option[RawSuggestion] = {
     searchExtension(name, filterFn) match {
       case Some((extension, d)) => checkAndBuildExtensionSuggestion(extension, d, insertText)
       case _                    => Some(RawSuggestion.forKey(insertText, "annotations", mandatory = false))
@@ -88,18 +92,22 @@ case class AnnotationReferenceSuggester(params: AmlCompletionRequest) {
   }
 
   def buildAliasedSuggestion(name: String, aliasedDialect: Option[Dialect]): Option[RawSuggestion] = {
-    searchAndBuild(name,
-                   (t: (SemanticExtension, Dialect)) => aliasedDialect.exists(_.identifier == t._2.identifier),
-                   s"(${qName.qualification}.$name)")
+    searchAndBuild(
+      name,
+      (t: (SemanticExtension, Dialect)) => aliasedDialect.exists(_.identifier == t._2.identifier),
+      s"(${qName.qualification}.$name)"
+    )
   }
 
   def buildSuggestion(name: String): Option[RawSuggestion] = {
     searchAndBuild(name, (t: (SemanticExtension, Dialect)) => !isAccompanied(t._2), s"($name)")
   }
 
-  private def checkAndBuildExtensionSuggestion(extension: SemanticExtension,
-                                               d: Dialect,
-                                               insertText: String): Option[RawSuggestion] = {
+  private def checkAndBuildExtensionSuggestion(
+      extension: SemanticExtension,
+      d: Dialect,
+      insertText: String
+  ): Option[RawSuggestion] = {
     val mapping = getAnnotationMapping(extension, d)
     if (appliesToDomain(mapping)) Some(buildExtensionSuggestion(mapping, insertText))
     else None
@@ -121,15 +129,17 @@ case class AnnotationReferenceSuggester(params: AmlCompletionRequest) {
       params.declarationProvider
         .forNodeType(CustomDomainPropertyModel.`type`.head.iri())
         .filterNot(annName.contains)
-        .flatMap(
-          an =>
-            if (an.contains("."))
-              Some(
-                RawSuggestion(s"($an",
-                              isAKey = false,
-                              if (isCompanionAlias(an.stripSuffix("."))) EXTENSION_CATEGORY else "annotations",
-                              mandatory = false))
-            else buildSuggestion(an)
+        .flatMap(an =>
+          if (an.contains("."))
+            Some(
+              RawSuggestion(
+                s"($an",
+                isAKey = false,
+                if (isCompanionAlias(an.stripSuffix("."))) EXTENSION_CATEGORY else "annotations",
+                mandatory = false
+              )
+            )
+          else buildSuggestion(an)
         )
         .toSeq
   }

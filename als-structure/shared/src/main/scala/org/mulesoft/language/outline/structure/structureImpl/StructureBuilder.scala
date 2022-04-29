@@ -47,8 +47,7 @@ class StructureBuilder(unit: BaseUnit, definedBy: Dialect) {
       case Some(Spec.OAS30)   => Oas30BuilderFactory
       case Some(Spec.OAS20)   => Oas20BuilderFactory
       case Some(Spec.ASYNC20) => Async20BuilderFactory
-      case _
-          if unit.isInstanceOf[Dialect] || unit.isInstanceOf[DialectLibrary] || unit.isInstanceOf[DialectFragment] =>
+      case _ if unit.isInstanceOf[Dialect] || unit.isInstanceOf[DialectLibrary] || unit.isInstanceOf[DialectFragment] =>
         AmlMetaDialectBuilderFactory
       case _ if unit.isInstanceOf[Vocabulary] => AmlVocabularyBuilderFactory
       case _                                  => AmlBuilderFactory
@@ -80,10 +79,10 @@ object KindForResultMatcher {
     OperationModel.Request.value.iri()                    -> SymbolKinds.Interface,
     OperationModel.Responses.value.iri()                  -> SymbolKinds.Constructor,
     DomainElementModel.CustomDomainProperties.value.iri() -> SymbolKinds.Enum,
-    new TagsModel {}.Tags.value.iri() -> SymbolKinds.Package,
-    WebApiModel.Security.value.iri() -> SymbolKinds.String,
-    ServerModel.Url.value.iri()      -> SymbolKinds.String,
-    WebApiModel.Version.value.iri()  -> SymbolKinds.String
+    new TagsModel {}.Tags.value.iri()                     -> SymbolKinds.Package,
+    WebApiModel.Security.value.iri()                      -> SymbolKinds.String,
+    ServerModel.Url.value.iri()                           -> SymbolKinds.String,
+    WebApiModel.Version.value.iri()                       -> SymbolKinds.String
   )
 
   def getKind(element: AmfElement): SymbolKind = {

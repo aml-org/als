@@ -15,9 +15,11 @@ import org.yaml.model.{YMap, YMapEntry, YNode}
 
 object AbstractDeclarationInformation {
 
-  def extractInformation(declaration: Option[AbstractDeclaration],
-                         bu: BaseUnit,
-                         amfConfiguration: AMFConfiguration): Option[ElementInfo] = {
+  def extractInformation(
+      declaration: Option[AbstractDeclaration],
+      bu: BaseUnit,
+      amfConfiguration: AMFConfiguration
+  ): Option[ElementInfo] = {
     declaration match {
       case Some(value) => extractInformation(value, bu, amfConfiguration)
       case _           => None
@@ -25,15 +27,18 @@ object AbstractDeclarationInformation {
 
   }
 
-  def extractInformation(declaration: AbstractDeclaration,
-                         bu: BaseUnit,
-                         amfConfiguration: AMFConfiguration): Option[ElementInfo] = {
+  def extractInformation(
+      declaration: AbstractDeclaration,
+      bu: BaseUnit,
+      amfConfiguration: AMFConfiguration
+  ): Option[ElementInfo] = {
     getTarget(declaration) match {
       case r: ResourceType =>
         val resolved =
           getSourceEntry(r, "resourceType").fold(
             AbstractElementTransformer
-              .asEndpoint(bu, r, amfConfiguration, errorHandler = LocalIgnoreErrorHandler))(e => {
+              .asEndpoint(bu, r, amfConfiguration, errorHandler = LocalIgnoreErrorHandler)
+          )(e => {
             AbstractElementTransformer.entryAsEndpoint(bu, r, r.dataNode, e, amfConfiguration, LocalIgnoreErrorHandler)
           })
         Some(ElementInfo(resolved, r, r.name.value(), r.metaURIs.head))

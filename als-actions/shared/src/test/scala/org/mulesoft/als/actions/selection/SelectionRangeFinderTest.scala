@@ -27,7 +27,8 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
         """#%RAML 1.0
           |title: test
           |description: description test
-          |""".stripMargin)
+          |""".stripMargin
+    )
     val expected: Seq[SelectionRange] =
       Seq(
         SelectionRangeBuilder(1, 0, 3, 0)
@@ -52,7 +53,8 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
           |        "name": "MIT"
           |      }
           |    }
-          |}""".stripMargin)
+          |}""".stripMargin
+    )
     val expected: Seq[SelectionRange] =
       Seq(
         SelectionRangeBuilder(0, 0, 9, 1)
@@ -73,7 +75,8 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
         """#%RAML 1.0
           |title: test
           |description: description test
-          |""".stripMargin)
+          |""".stripMargin
+    )
     val expected: Seq[SelectionRange] =
       Seq(
         SelectionRangeBuilder(1, 0, 3, 0)
@@ -98,7 +101,8 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
           |        "name": "MIT"
           |      }
           |    }
-          |}""".stripMargin)
+          |}""".stripMargin
+    )
     val expected: Seq[SelectionRange] =
       Seq(
         SelectionRangeBuilder(0, 0, 9, 1)
@@ -137,7 +141,8 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
           |  - wss
           |consumes:
           |  - application/json
-          |""".stripMargin)
+          |""".stripMargin
+    )
     val expected: Seq[SelectionRange] =
       Seq(
         SelectionRangeBuilder(0, 0, 21, 0)
@@ -173,7 +178,8 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
           |    "consumes": [
           |      "application/json"
           |    ]
-          |  }""".stripMargin)
+          |  }""".stripMargin
+    )
     val expected: Seq[SelectionRange] =
       Seq(
         SelectionRangeBuilder(0, 0, 19, 3)
@@ -211,7 +217,8 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
           |  - wss
           |consumes:
           |  - application/json
-          |""".stripMargin)
+          |""".stripMargin
+    )
     val expected: Seq[SelectionRange] =
       Seq(
         SelectionRangeBuilder(0, 0, 21, 0)
@@ -252,7 +259,8 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
           |    "consumes": [
           |      "application/json"
           |    ]
-          |  }""".stripMargin)
+          |  }""".stripMargin
+    )
     val expected: Seq[SelectionRange] =
       Seq(
         SelectionRangeBuilder(0, 0, 19, 3)
@@ -286,7 +294,8 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
           |        body:
           |          application/json:
           |            schema: !include combinedCustomerDownloadSchema.json
-          |            example: !include combinedCustomerDownloadExample.json""".stripMargin)
+          |            example: !include combinedCustomerDownloadExample.json""".stripMargin
+    )
     val expected: Seq[SelectionRange] =
       Seq(
         SelectionRangeBuilder(1, 0, 11, 66)
@@ -332,10 +341,12 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
 
   }
 
-  private def runTest(testUri: String,
-                      files: Map[String, String],
-                      expected: Seq[SelectionRange],
-                      positions: Seq[Position]) = {
+  private def runTest(
+      testUri: String,
+      files: Map[String, String],
+      expected: Seq[SelectionRange],
+      positions: Seq[Position]
+  ) = {
     val resourceLoader: ResourceLoader = new ResourceLoader {
       override def fetch(resource: String): Future[Content] =
         Future.successful(files.getOrElse(resource, "")).map { c =>

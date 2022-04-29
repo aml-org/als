@@ -23,9 +23,11 @@ trait ServerFileUsageTest extends LanguageServerBaseTest {
 
   override def rootPath: String = "actions/fileusage"
 
-  def buildServer(root: String,
-                  ws: Map[String, String],
-                  mainFile: String): Future[(LanguageServer, WorkspaceManager)] = {
+  def buildServer(
+      root: String,
+      ws: Map[String, String],
+      mainFile: String
+  ): Future[(LanguageServer, WorkspaceManager)] = {
     val rs = new ResourceLoader {
       override def fetch(resource: String): Future[Content] =
         ws.get(resource)
@@ -35,16 +37,20 @@ trait ServerFileUsageTest extends LanguageServerBaseTest {
       override def accepts(resource: String): Boolean = ws.keySet.contains(resource)
     }
     val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier,
-                                         logger,
-                                         EditorConfiguration.withPlatformLoaders(Seq(rs)))
+      new WorkspaceManagerFactoryBuilder(
+        new MockDiagnosticClientNotifier,
+        logger,
+        EditorConfiguration.withPlatformLoaders(Seq(rs))
+      )
         .buildWorkspaceManagerFactory()
     val workspaceManager: WorkspaceManager = factory.workspaceManager
     val server =
-      new LanguageServerBuilder(factory.documentManager,
-                                workspaceManager,
-                                factory.configurationManager,
-                                factory.resolutionTaskManager)
+      new LanguageServerBuilder(
+        factory.documentManager,
+        workspaceManager,
+        factory.configurationManager,
+        factory.resolutionTaskManager
+      )
         .addRequestModule(factory.fileUsageManager)
         .build()
     val initialArgs = changeConfigArgs(Some(mainFile), root)
@@ -56,11 +62,13 @@ trait ServerFileUsageTest extends LanguageServerBaseTest {
     }
   }
 
-  def runTest(root: String,
-              mainFile: String,
-              ws: Map[String, String],
-              searchedUri: String,
-              expectedResult: Set[Location]): Future[Assertion] =
+  def runTest(
+      root: String,
+      mainFile: String,
+      ws: Map[String, String],
+      searchedUri: String,
+      expectedResult: Set[Location]
+  ): Future[Assertion] =
     for {
       (server, _) <- buildServer(root, ws, mainFile)
       result      <- getServerFileUsage(server, searchedUri)

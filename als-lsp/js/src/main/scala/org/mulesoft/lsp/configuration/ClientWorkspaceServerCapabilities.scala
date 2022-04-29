@@ -2,7 +2,7 @@ package org.mulesoft.lsp.configuration
 
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
-import  org.mulesoft.lsp.convert.LspConvertersSharedToClient._
+import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
 // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 
 @js.native

@@ -15,7 +15,7 @@ object ClientWorkspaceClientCapabilities {
   def apply(internal: WorkspaceClientCapabilities): ClientWorkspaceClientCapabilities =
     js.Dynamic
       .literal(
-        workspaceEdit = internal.workspaceEdit.map(_.toClient).orUndefined,
+        workspaceEdit = internal.workspaceEdit.map(_.toClient).orUndefined
       )
       .asInstanceOf[ClientWorkspaceClientCapabilities]
 }

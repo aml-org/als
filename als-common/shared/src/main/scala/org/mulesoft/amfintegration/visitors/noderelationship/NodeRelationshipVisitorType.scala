@@ -43,10 +43,10 @@ trait NodeRelationshipVisitorType extends AmfElementVisitor[RelationshipLink] {
       case o: AmfObject =>
         val name = o
           .namedField()
-          .flatMap(
-            n =>
-              n.value.annotations
-                .ast())
+          .flatMap(n =>
+            n.value.annotations
+              .ast()
+          )
         lazy val oAst = o.annotations.ast()
         nameOrEntryKey(name, oAst)
       case _ => None
@@ -61,9 +61,11 @@ trait NodeRelationshipVisitorType extends AmfElementVisitor[RelationshipLink] {
         })
     } else name
 
-  protected def virtualYPart(maybePart: Option[YPart],
-                             maybeLabel: Option[String],
-                             maybeLexical: Option[LexicalInformation]): Option[YPart] =
+  protected def virtualYPart(
+      maybePart: Option[YPart],
+      maybeLabel: Option[String],
+      maybeLexical: Option[LexicalInformation]
+  ): Option[YPart] =
     (maybePart, maybeLabel) match {
       case (Some(originalPart: YScalar), Some(label)) =>
         Some(VirtualYPart(originalPart, label, maybeLexical))

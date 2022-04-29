@@ -15,10 +15,12 @@ import org.mulesoft.amfintegration.AmfImplicits._
 import org.yaml.model.{YMapEntry, YPart}
 
 import scala.concurrent.Future
-class AMLRamlStyleDeclarationsReferences(nodeTypeMappings: Seq[String],
-                                         prefix: String,
-                                         provider: DeclarationProvider,
-                                         actualName: Option[String]) {
+class AMLRamlStyleDeclarationsReferences(
+    nodeTypeMappings: Seq[String],
+    prefix: String,
+    provider: DeclarationProvider,
+    actualName: Option[String]
+) {
 
   def resolve(): Seq[RawSuggestion] = {
     val values =
@@ -46,10 +48,12 @@ object AMLRamlStyleDeclarationsReferences extends AMLDeclarationReferences {
     Future.successful({
       if (params.yPartBranch.isValue && styleOrEmpty(params.actualDialect)) {
         val actualName = params.amfObject.elementIdentifier()
-        new AMLRamlStyleDeclarationsReferences(getObjectRangeIds(params),
-                                               params.prefix,
-                                               params.declarationProvider,
-                                               actualName).resolve()
+        new AMLRamlStyleDeclarationsReferences(
+          getObjectRangeIds(params),
+          params.prefix,
+          params.declarationProvider,
+          actualName
+        ).resolve()
       } else Seq.empty
     })
 
@@ -78,8 +82,10 @@ trait AMLDeclarationReferences extends AMLCompletionPlugin {
     ResourceTypeModel.`type`.head.iri()
   )
 
-  private def getFieldIri(fieldEntry: Option[FieldEntry],
-                          propertyMapping: Seq[PropertyMapping]): Option[PropertyMapping] =
+  private def getFieldIri(
+      fieldEntry: Option[FieldEntry],
+      propertyMapping: Seq[PropertyMapping]
+  ): Option[PropertyMapping] =
     fieldEntry.flatMap(fe => propertyMapping.find(_.nodePropertyMapping().value() == fe.field.value.iri()))
 
   private def declaredFromKey(parent: Option[YPart], propertyMapping: Seq[PropertyMapping]): Option[PropertyMapping] =

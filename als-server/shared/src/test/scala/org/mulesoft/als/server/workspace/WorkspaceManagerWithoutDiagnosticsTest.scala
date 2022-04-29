@@ -37,7 +37,8 @@ class WorkspaceManagerWithoutDiagnosticsTest extends LanguageServerBaseTest with
     withServer[Assertion](buildServer(factory)) { server =>
       for {
         _ <- server.testInitialize(
-          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws2")}")))
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws2")}"))
+        )
         _               <- changeWorkspaceConfiguration(server)(initialArgs)
         apiContent      <- platform.fetchContent(s"${filePath("ws2/api.raml")}", config)
         fragmentContent <- platform.fetchContent(fragmentUri, config)
@@ -55,7 +56,8 @@ class WorkspaceManagerWithoutDiagnosticsTest extends LanguageServerBaseTest with
                   o.name should be("properties")
                   o.children.size should be(2)
                 case _ => fail("Missing first symbol")
-            })
+              }
+            )
         }
         _ <- closeFile(server)(fragmentUri)
         r2 <- {
@@ -68,7 +70,8 @@ class WorkspaceManagerWithoutDiagnosticsTest extends LanguageServerBaseTest with
                 symbols.headOption match {
                   case Some(o) => o.children.size should be(1)
                   case _       => fail("Missing first symbol")
-              })
+                }
+              )
           } else Future.successful(r1)
         }
       } yield {
@@ -78,10 +81,12 @@ class WorkspaceManagerWithoutDiagnosticsTest extends LanguageServerBaseTest with
   }
 
   def buildServer(factory: WorkspaceManagerFactory): LanguageServer =
-    new LanguageServerBuilder(factory.documentManager,
-                              factory.workspaceManager,
-                              factory.configurationManager,
-                              factory.resolutionTaskManager)
+    new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
       .addRequestModule(factory.structureManager)
       .build()
 

@@ -55,15 +55,19 @@ class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
       .collect {
         extractYMap
       }
-      .map(_.entries
-        .filter(e => e.key.asScalar.map(_.text).contains("range")))
       .map(
-        s =>
-          s.flatMap(
-            e =>
-              getLink(nm)
-                .flatMap(getPositionForLink(d, _)
-                  .map(t => RelationshipLink(e, t)))))
+        _.entries
+          .filter(e => e.key.asScalar.map(_.text).contains("range"))
+      )
+      .map(s =>
+        s.flatMap(e =>
+          getLink(nm)
+            .flatMap(
+              getPositionForLink(d, _)
+                .map(t => RelationshipLink(e, t))
+            )
+        )
+      )
       .getOrElse(Seq.empty)
   }
 
@@ -102,7 +106,8 @@ class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
             t.value.value match {
               case m: YMap => Some(m.entries.map(_.value))
               case _       => None
-          })
+            }
+          )
       case _ => None
     } match {
       case Some(a) =>
@@ -116,26 +121,29 @@ class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
     }
 
   private def extractExtends(d: Dialect, o: NodeMapping): Seq[RelationshipLink] =
-    o.extend.flatMap {
-      case e: NodeMapping =>
-        o.annotations.ast().flatMap {
-          case entry: YMapEntry =>
-            entry.value
-              .toOption[YMap]
-              .map(_.entries)
-              .getOrElse(Nil)
-              .find(_.key.value.toString == "extends")
-              .map(_.value.value)
-              .flatMap(source => e.linkTarget.map(target => (source, target)))
-              .flatMap(t =>
-                getPositionForLink(d, t._2.id)
-                  .map(RelationshipLink(t._1, _)))
-          case _ => None
-        }
+    o.extend.flatMap { case e: NodeMapping =>
+      o.annotations.ast().flatMap {
+        case entry: YMapEntry =>
+          entry.value
+            .toOption[YMap]
+            .map(_.entries)
+            .getOrElse(Nil)
+            .find(_.key.value.toString == "extends")
+            .map(_.value.value)
+            .flatMap(source => e.linkTarget.map(target => (source, target)))
+            .flatMap(t =>
+              getPositionForLink(d, t._2.id)
+                .map(RelationshipLink(t._1, _))
+            )
+        case _ => None
+      }
     }
 
   private def extractEncoded(d: Dialect, dm: DocumentsModel): Option[RelationshipLink] =
-    (Option(dm.root()).flatMap(_.encoded().annotations().ast()), Option(dm.root()).flatMap(_.encoded().option())) match {
+    (
+      Option(dm.root()).flatMap(_.encoded().annotations().ast()),
+      Option(dm.root()).flatMap(_.encoded().option())
+    ) match {
       case (Some(entry), Some(link)) =>
         getPositionForLink(d, link).map(RelationshipLink(entry, _))
       case (_, _) => None
@@ -150,7 +158,8 @@ class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
               case (Some(ast), Some(link)) =>
                 getPositionForLink(d, link).map(RelationshipLink(ast, _))
               case (_, _) => None
-          })
+            }
+          )
       }
       .getOrElse(Nil)
 

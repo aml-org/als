@@ -34,19 +34,19 @@ private object FileUtils {
   def getDecodedUri(uri: String, platform: Platform): String =
     FILE_PROTOCOL + windowsPatchToAbsoluteUri(getPath(uri, platform), platform)
 
-  /**
-    * if the path starts with drive letter in windows, add a `/` at the start
+  /** if the path starts with drive letter in windows, add a `/` at the start
     * @param path
     * @param platform
     * @return
     */
   private def windowsPatchToAbsoluteUri(path: String, platform: Platform): String =
-    if (platform.operativeSystem() == "win" && !path.startsWith("/") && hasDrive(path)) // in windows, if it has a drive letter, it should start with `/` as a URI
+    if (
+      platform.operativeSystem() == "win" && !path.startsWith("/") && hasDrive(path)
+    ) // in windows, if it has a drive letter, it should start with `/` as a URI
       s"/$path"
     else path
 
-  /**
-    * if the path starts with `/` and it is Windows, drop the slash
+  /** if the path starts with `/` and it is Windows, drop the slash
     * @param path
     * @param platform
     * @return

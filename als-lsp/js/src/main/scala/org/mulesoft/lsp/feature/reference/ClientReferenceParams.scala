@@ -1,7 +1,7 @@
 package org.mulesoft.lsp.feature.reference
 
 import org.mulesoft.lsp.feature.common.{ClientPosition, ClientTextDocumentIdentifier}
-import  org.mulesoft.lsp.convert.LspConvertersSharedToClient._
+import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
 import scala.scalajs.js
 // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS
 

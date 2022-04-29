@@ -42,7 +42,8 @@ object Oas20ParamObject extends AMLOasParamBaseObject {
         "path",
         "formData",
         "body"
-      ))
+      )
+    )
     .withNodePropertyMapping(ParameterModel.Binding.value.iri())
     .withLiteralRange(xsdString.iri())
 
@@ -75,7 +76,8 @@ trait AMLOas30BaseParamProps extends Oas30ExampleProperty {
           "spaceDelimited",
           "pipeDelimited",
           "deepObject"
-        )) // todo: handle enum values in custom plugin?
+        )
+      ) // todo: handle enum values in custom plugin?
   def specialProps: Seq[PropertyMapping] = Seq(
     PropertyMapping()
       .withId(OAS30Dialect.DialectLocation + "#/declarations/ParameterObject/required")
@@ -135,7 +137,8 @@ object Oas30ParamObject extends AMLOas30BaseParamProps with AMLOasParamBaseObjec
           "header",
           "path",
           "cookie"
-        ))
+        )
+      )
       .withNodePropertyMapping(ParameterModel.Binding.value.iri())
       .withLiteralRange(xsdString.iri())
   )

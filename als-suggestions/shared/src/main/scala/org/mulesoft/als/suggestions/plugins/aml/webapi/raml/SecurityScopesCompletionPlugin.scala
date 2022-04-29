@@ -32,11 +32,14 @@ object SecurityScopesCompletionPlugin extends AMLCompletionPlugin {
               RawSuggestion(
                 t,
                 isAKey = false,
-                category = CategoryRegistry(OAuth2FlowModel.`type`.head.iri(),
-                                            OAuth2FlowModel.Scopes.value.iri(),
-                                            request.actualDialect.id),
+                category = CategoryRegistry(
+                  OAuth2FlowModel.`type`.head.iri(),
+                  OAuth2FlowModel.Scopes.value.iri(),
+                  request.actualDialect.id
+                ),
                 mandatory = false
-            ))
+              )
+            )
         case p: ParametrizedSecurityScheme
             if request.fieldEntry.isEmpty && request.yPartBranch.isKey && p.scheme.`type`.value() == "OAuth 2.0" =>
           Seq(RawSuggestion.arrayProp("scopes", "security"))

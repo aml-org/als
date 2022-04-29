@@ -13,14 +13,15 @@ import org.mulesoft.amfintegration.amfconfiguration.ProjectConfigurationState
 
 import scala.concurrent.Future
 
-case class CompletionReferenceResolver(extensions: Seq[Dialect],
-                                       profiles: Seq[ValidationProfile],
-                                       config: ProjectConfiguration,
-                                       results: Seq[AMFParseResult],
-                                       resourceLoaders: Seq[ResourceLoader],
-                                       projectErrors: Seq[AMFValidationResult],
-                                       bu: BaseUnit)
-    extends ProjectConfigurationState {
+case class CompletionReferenceResolver(
+    extensions: Seq[Dialect],
+    profiles: Seq[ValidationProfile],
+    config: ProjectConfiguration,
+    results: Seq[AMFParseResult],
+    resourceLoaders: Seq[ResourceLoader],
+    projectErrors: Seq[AMFValidationResult],
+    bu: BaseUnit
+) extends ProjectConfigurationState {
   override def cache: UnitCache = new UnitCache {
     val map: Map[String, BaseUnit] = bu.flatRefs.map(bu => bu.location().getOrElse(bu.id) -> bu).toMap
     override def fetch(url: String): Future[CachedReference] = map.get(url) match {

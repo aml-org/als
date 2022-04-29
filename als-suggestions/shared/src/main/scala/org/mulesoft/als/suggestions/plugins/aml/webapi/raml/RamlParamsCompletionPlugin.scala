@@ -12,9 +12,10 @@ import org.mulesoft.amfintegration.dialect.dialects.raml.raml10.Raml10TypesDiale
 
 import scala.concurrent.Future
 
-abstract class RamlParamsCompletionPlugin(typeFacetsCompletionPlugin: WebApiTypeFacetsCompletionPlugin,
-                                          withOthers: Seq[RawSuggestion] = Nil)
-    extends AMLCompletionPlugin {
+abstract class RamlParamsCompletionPlugin(
+    typeFacetsCompletionPlugin: WebApiTypeFacetsCompletionPlugin,
+    withOthers: Seq[RawSuggestion] = Nil
+) extends AMLCompletionPlugin {
   override def id: String = "RamlParamsCompletionPlugin"
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
@@ -32,9 +33,11 @@ abstract class RamlParamsCompletionPlugin(typeFacetsCompletionPlugin: WebApiType
     } else Nil
   }
 
-  def computeParam(param: Parameter,
-                   branchStack: Seq[AmfObject],
-                   typeFacetsCompletionPlugin: WebApiTypeFacetsCompletionPlugin): Seq[RawSuggestion] = {
+  def computeParam(
+      param: Parameter,
+      branchStack: Seq[AmfObject],
+      typeFacetsCompletionPlugin: WebApiTypeFacetsCompletionPlugin
+  ): Seq[RawSuggestion] = {
     typeFacetsCompletionPlugin.resolveShape(param.schema, branchStack, Raml10TypesDialect()) ++ withOthers
   }
 

@@ -7,16 +7,16 @@ import org.mulesoft.amfintegration.amfconfiguration.AmfParseResult
 
 import scala.concurrent.Future
 
-/**
-  * AST listener
+/** AST listener
   */
 trait AstListener[T] {
 
-  /**
-    * Called on new AST available
+  /** Called on new AST available
     *
-    * @param ast  - AST
-    * @param uuid - telemetry UUID
+    * @param ast
+    *   \- AST
+    * @param uuid
+    *   \- telemetry UUID
     */
   def onNewAst(ast: T, uuid: String): Future[Unit]
 
@@ -25,7 +25,8 @@ trait AstListener[T] {
   def onRemoveFile(uri: String): Unit
 }
 
-trait WorkspaceContentListener[T] extends AstListener[T] // this just works as a "marker" for both BaseUnitListener and NewConfigurationListener
+trait WorkspaceContentListener[T]
+    extends AstListener[T] // this just works as a "marker" for both BaseUnitListener and NewConfigurationListener
 
 trait AccessUnits[T] {
   def withUnitAccessor(unitAccessor: UnitAccessor[T]): AccessUnits[T] = {
@@ -35,11 +36,13 @@ trait AccessUnits[T] {
   protected var unitAccessor: Option[UnitAccessor[T]] = None
 }
 
-case class BaseUnitListenerParams(parseResult: AmfParseResult,
-                                  diagnosticsBundle: Map[String, DiagnosticsBundle],
-                                  tree: Boolean,
-                                  workspace: String,
-                                  isDependency: Boolean = false)
+case class BaseUnitListenerParams(
+    parseResult: AmfParseResult,
+    diagnosticsBundle: Map[String, DiagnosticsBundle],
+    tree: Boolean,
+    workspace: String,
+    isDependency: Boolean = false
+)
 
 trait BaseUnitListener extends WorkspaceContentListener[BaseUnitListenerParams] with AccessUnits[CompilableUnit]
 

@@ -39,36 +39,39 @@ trait RamlDialect {
               .withId(dialectLocation + "#/documents/root")
               .withEncoded(rootId)
           )
-          .withFragments(Seq(
-            DocumentMapping()
-              .withId(dialectLocation + "#/documents/fragments/datatype")
-              .withDocumentName("DataType")
-              .withEncoded(AnyShapeModel.`type`.head.iri()),
-            DocumentMapping()
-              .withId(dialectLocation + "#/documents/fragments/securityScheme")
-              .withDocumentName("SecurityScheme")
-              .withEncoded(SecuritySchemeModel.`type`.head.iri()),
-            DocumentMapping()
-              .withId(dialectLocation + "#/documents/fragments/namedExample")
-              .withDocumentName("NamedExample")
-              .withEncoded(ExampleModel.`type`.head.iri()),
-            DocumentMapping()
-              .withId(dialectLocation + "#/documents/fragments/documentationItem")
-              .withDocumentName("DocumentationItem")
-              .withEncoded(CreativeWorkModel.`type`.head.iri()),
-            DocumentMapping()
-              .withId(dialectLocation + "#/documents/fragments/annotationTypeDeclaration")
-              .withDocumentName("AnnotationTypeDeclaration")
-              .withEncoded(CustomDomainPropertyModel.`type`.head.iri()),
-            DocumentMapping()
-              .withId(dialectLocation + "#/documents/fragments/trait")
-              .withDocumentName("Trait")
-              .withEncoded(TraitModel.`type`.head.iri()),
-            DocumentMapping()
-              .withId(dialectLocation + "#/documents/fragments/resourceType")
-              .withDocumentName("ResourceType")
-              .withEncoded(ResourceTypeModel.`type`.head.iri())
-          )))
+          .withFragments(
+            Seq(
+              DocumentMapping()
+                .withId(dialectLocation + "#/documents/fragments/datatype")
+                .withDocumentName("DataType")
+                .withEncoded(AnyShapeModel.`type`.head.iri()),
+              DocumentMapping()
+                .withId(dialectLocation + "#/documents/fragments/securityScheme")
+                .withDocumentName("SecurityScheme")
+                .withEncoded(SecuritySchemeModel.`type`.head.iri()),
+              DocumentMapping()
+                .withId(dialectLocation + "#/documents/fragments/namedExample")
+                .withDocumentName("NamedExample")
+                .withEncoded(ExampleModel.`type`.head.iri()),
+              DocumentMapping()
+                .withId(dialectLocation + "#/documents/fragments/documentationItem")
+                .withDocumentName("DocumentationItem")
+                .withEncoded(CreativeWorkModel.`type`.head.iri()),
+              DocumentMapping()
+                .withId(dialectLocation + "#/documents/fragments/annotationTypeDeclaration")
+                .withDocumentName("AnnotationTypeDeclaration")
+                .withEncoded(CustomDomainPropertyModel.`type`.head.iri()),
+              DocumentMapping()
+                .withId(dialectLocation + "#/documents/fragments/trait")
+                .withDocumentName("Trait")
+                .withEncoded(TraitModel.`type`.head.iri()),
+              DocumentMapping()
+                .withId(dialectLocation + "#/documents/fragments/resourceType")
+                .withDocumentName("ResourceType")
+                .withEncoded(ResourceTypeModel.`type`.head.iri())
+            )
+          )
+      )
 
     d.withExternals(
       Seq(
@@ -92,7 +95,8 @@ trait RamlDialect {
           .withId(dialectLocation + "#/externals/owl")
           .withAlias("owl")
           .withBase(Namespace.Owl.base)
-      ))
+      )
+    )
 
     val vocabularies = Seq(
       ModelVocabularies.AmlDoc,

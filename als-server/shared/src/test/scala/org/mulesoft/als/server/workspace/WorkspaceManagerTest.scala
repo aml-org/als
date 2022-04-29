@@ -36,17 +36,21 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
   }
   def buildServer(diagnosticClientNotifier: ClientNotifier): LanguageServer = {
     val builder =
-      new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier,
-                                         logger,
-                                         EditorConfiguration.withPlatformLoaders(Seq(fakeRl)))
+      new WorkspaceManagerFactoryBuilder(
+        diagnosticClientNotifier,
+        logger,
+        EditorConfiguration.withPlatformLoaders(Seq(fakeRl))
+      )
 
     val dm      = builder.buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
 
-    val b = new LanguageServerBuilder(factory.documentManager,
-                                      factory.workspaceManager,
-                                      factory.configurationManager,
-                                      factory.resolutionTaskManager)
+    val b = new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
     dm.foreach(m => b.addInitializableModule(m))
     b.addRequestModule(factory.structureManager)
     b.build()
@@ -58,7 +62,8 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
       for {
         _ <- server.testInitialize(
-          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}"))
+        )
         _ <- setMainFile(server)(s"${filePath("ws1")}", "api.raml")
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall
@@ -77,7 +82,8 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
       for {
         _ <- server.testInitialize(
-          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws3")}")))
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws3")}"))
+        )
         _ <- setMainFile(server)(s"${filePath("ws3")}", "api.raml")
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall
@@ -273,15 +279,19 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
           case Some(m) =>
             m.diagnostics.size should be(3)
 
-            if (!m.diagnostics.exists { d => // header
-                  d.range == Range(Position(0, 9), Position(0, 14)) &&
-                  d.relatedInformation.forall(_.isEmpty)
-                }) fail(s"Header is not present: ${m.diagnostics}")
+            if (
+              !m.diagnostics.exists { d => // header
+                d.range == Range(Position(0, 9), Position(0, 14)) &&
+                d.relatedInformation.forall(_.isEmpty)
+              }
+            ) fail(s"Header is not present: ${m.diagnostics}")
 
-            if (!m.diagnostics.exists { d => // wrong array
-                  d.range == Range(Position(1, 0), Position(17, 9)) &&
-                  d.relatedInformation.forall(_.isEmpty)
-                }) fail(s"Wrong array: ${m.diagnostics}")
+            if (
+              !m.diagnostics.exists { d => // wrong array
+                d.range == Range(Position(1, 0), Position(17, 9)) &&
+                d.relatedInformation.forall(_.isEmpty)
+              }
+            ) fail(s"Wrong array: ${m.diagnostics}")
 
             succeed
           case _ => fail("No Main detected")
@@ -347,26 +357,36 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       for {
         _ <- server.testInitialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(root)))
         _ <- server.workspaceService.executeCommand(
-          ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION, List(changeConfigArgs(Some(apiRoot), root))))
+          ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION, List(changeConfigArgs(Some(apiRoot), root)))
+        )
         // api.raml, fragment.raml
         _       <- diagnosticClientNotifier.nextCall
         _       <- diagnosticClientNotifier.nextCall
         config1 <- wm.getWorkspace(filePath("ws4")).flatMap(_.getConfigurationState)
         _ <- server.workspaceService.executeCommand(
-          ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION,
-                               List(changeConfigArgs(Some(api2Root), root, profiles = Set(profileUri)))))
+          ExecuteCommandParams(
+            Commands.DID_CHANGE_CONFIGURATION,
+            List(changeConfigArgs(Some(api2Root), root, profiles = Set(profileUri)))
+          )
+        )
         // api2.raml
         _       <- diagnosticClientNotifier.nextCall
         config2 <- wm.getWorkspace(filePath("ws4")).flatMap(_.getConfigurationState)
         _ <- server.workspaceService.executeCommand(
-          ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION,
-                               List(changeConfigArgs(Some(api2Root), root, profiles = Set(profileUri2)))))
+          ExecuteCommandParams(
+            Commands.DID_CHANGE_CONFIGURATION,
+            List(changeConfigArgs(Some(api2Root), root, profiles = Set(profileUri2)))
+          )
+        )
         // api2.raml
         _       <- diagnosticClientNotifier.nextCall
         config3 <- wm.getWorkspace(filePath("ws4")).flatMap(_.getConfigurationState)
         _ <- server.workspaceService.executeCommand(
-          ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION,
-                               List(changeConfigArgs(Some(api2Root), root, profiles = Set(profileUri, profileUri2)))))
+          ExecuteCommandParams(
+            Commands.DID_CHANGE_CONFIGURATION,
+            List(changeConfigArgs(Some(api2Root), root, profiles = Set(profileUri, profileUri2)))
+          )
+        )
         // api2.raml
         _       <- diagnosticClientNotifier.nextCall
         config4 <- wm.getWorkspace(filePath("ws4")).flatMap(_.getConfigurationState)
@@ -406,8 +426,10 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
           diagnosticClientNotifier.nextCall
         }
         _ <- requestDocumentSymbol(server)(title)
-        _ <- diagnosticClientNotifier.nextCall // There are a couple of diagnostics notifications not used in the test that could potentially bug proceeding tests
-        _ <- diagnosticClientNotifier.nextCall // There are a couple of diagnostics notifications not used in the test that could potentially bug proceeding tests
+        _ <-
+          diagnosticClientNotifier.nextCall // There are a couple of diagnostics notifications not used in the test that could potentially bug proceeding tests
+        _ <-
+          diagnosticClientNotifier.nextCall // There are a couple of diagnostics notifications not used in the test that could potentially bug proceeding tests
       } yield {
         server.shutdown()
         succeed // if it hasn't blown, it's OK
@@ -430,7 +452,8 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
 
       for {
         _ <- server.testInitialize(
-          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(ws1path), workspaceFolders = Some(wsList)))
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(ws1path), workspaceFolders = Some(wsList))
+        )
         _ <- setMainFile(server)(ws1path, "api.raml")
         _ <- setMainFile(server)(ws2path, "api.raml")
         a <- diagnosticClientNotifier.nextCall
@@ -513,7 +536,8 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
         assert(
           secondDiagnostics
             .map(_.uri)
-            .forall(List(file1, file2, file3).contains))
+            .forall(List(file1, file2, file3).contains)
+        )
       }
     }
   }
@@ -575,10 +599,13 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
       val globalWSF = WorkspaceFolder(Some(globalRoot), Some("global"))
       for {
         _ <- server.testInitialize(
-          AlsInitializeParams(None,
-                              Some(TraceKind.Off),
-                              rootUri = Some(root2),
-                              workspaceFolders = Some(Seq(root1WSF, root2WSF))))
+          AlsInitializeParams(
+            None,
+            Some(TraceKind.Off),
+            rootUri = Some(root2),
+            workspaceFolders = Some(Seq(root1WSF, root2WSF))
+          )
+        )
         _   <- setMainFile(server)(root1, "api.raml")
         _   <- setMainFile(server)(root2, "api.raml")
         d11 <- diagnosticClientNotifier.nextCall
@@ -616,7 +643,8 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
       for {
         _ <- server.testInitialize(
-          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("for-encode")}")))
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("for-encode")}"))
+        )
         _ <- Future(openFile(server)(s"${filePath("for-encode/api with spaces.raml")}", text))
         b <- diagnosticClientNotifier.nextCall
       } yield {
@@ -632,7 +660,8 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
       for {
         _ <- server.testInitialize(
-          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("external-fragment-syntax")}")))
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("external-fragment-syntax")}"))
+        )
         _  <- setMainFile(server)(filePath("external-fragment-syntax"), "api.raml")
         n1 <- diagnosticClientNotifier.nextCall
         n2 <- diagnosticClientNotifier.nextCall
@@ -652,7 +681,8 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
       for {
         _ <- server.testInitialize(
-          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}"))
+        )
         _ <- setMainFile(server)(filePath("ws1"), "api.raml")
         a <- diagnosticClientNotifier.nextCall
         b <- diagnosticClientNotifier.nextCall
@@ -670,9 +700,8 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     }
   }
 
-  /**
-    * Used to log cases in which timeouts occur
-    * */
+  /** Used to log cases in which timeouts occur
+    */
   class MockDiagnosticClientNotifierWithTelemetryLog extends MockDiagnosticClientNotifier(8000) {
     override def notifyTelemetry(params: TelemetryMessage): Unit = {} // println(params)
   }

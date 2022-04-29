@@ -37,10 +37,12 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
     val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
     val dm      = builder.buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
-    val b = new LanguageServerBuilder(factory.documentManager,
-                                      factory.workspaceManager,
-                                      factory.configurationManager,
-                                      factory.resolutionTaskManager)
+    val b = new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
     dm.foreach(m => b.addInitializableModule(m))
     b.build()
 
@@ -167,8 +169,10 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
           ExecuteCommandParams(
             Commands.DID_CHANGE_CONFIGURATION,
             List(
-              s"""{"folder": "file://test", "dependencies": [{"file": "$dialectPath", "scope": "${KnownDependencyScopes.DIALECT}"}]}""")
-          ))
+              s"""{"folder": "file://test", "dependencies": [{"file": "$dialectPath", "scope": "${KnownDependencyScopes.DIALECT}"}]}"""
+            )
+          )
+        )
         _             <- openFileNotification(server)(instancePath, instanceContent1)
         openInvalid   <- diagnosticNotifier.nextCall
         _             <- openFileNotification(server)(instancePath, instanceContent2)
@@ -208,7 +212,7 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
       override def location(): Option[String] = Some("location")
     }
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
-    val builder                                          = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
+    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
     builder
       .buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
@@ -218,10 +222,12 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
     val amfParseResult: Future[AmfParseResult] =
       EditorConfiguration().getState.map(editorState => {
         val alsConfig = ALSConfigurationState(editorState, EmptyProjectConfigurationState, None)
-        new AmfParseResult(AMFResult(amfBaseUnit, Seq()),
-                           ExternalFragmentDialect(),
-                           AmfParseContext(alsConfig.getAmfConfig, alsConfig),
-                           "")
+        new AmfParseResult(
+          AMFResult(amfBaseUnit, Seq()),
+          ExternalFragmentDialect(),
+          AmfParseContext(alsConfig.getAmfConfig, alsConfig),
+          ""
+        )
       })
 
     for {
@@ -242,7 +248,8 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
       assert(d.diagnostics.length == 1)
       assert(d.uri == "location")
       assert(
-        d.diagnostics.head.message == "DiagnosticManager suffered an unexpected error while validating: should fail")
+        d.diagnostics.head.message == "DiagnosticManager suffered an unexpected error while validating: should fail"
+      )
     }
   }
 
@@ -325,15 +332,19 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
 
     def build(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer = {
       val builder =
-        new WorkspaceManagerFactoryBuilder(diagnosticNotifier,
-                                           logger,
-                                           EditorConfiguration.withoutPlatformLoaders(Seq(CustomResourceLoader())))
+        new WorkspaceManagerFactoryBuilder(
+          diagnosticNotifier,
+          logger,
+          EditorConfiguration.withoutPlatformLoaders(Seq(CustomResourceLoader()))
+        )
       val dm      = builder.buildDiagnosticManagers()
       val factory = builder.buildWorkspaceManagerFactory()
-      val b = new LanguageServerBuilder(factory.documentManager,
-                                        factory.workspaceManager,
-                                        factory.configurationManager,
-                                        factory.resolutionTaskManager)
+      val b = new LanguageServerBuilder(
+        factory.documentManager,
+        factory.workspaceManager,
+        factory.configurationManager,
+        factory.resolutionTaskManager
+      )
       dm.foreach(m => b.addInitializableModule(m))
       b.build()
     }

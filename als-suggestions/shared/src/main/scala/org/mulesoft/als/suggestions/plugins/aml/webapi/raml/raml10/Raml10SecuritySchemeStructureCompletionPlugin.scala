@@ -20,12 +20,16 @@ object Raml10SecuritySchemeStructureCompletionPlugin extends AMLCompletionPlugin
           Raml10SecuritySchemesDialect.DescribedBy.propertiesRaw(fromDialect = request.actualDialect)
         case s: SecurityScheme if request.fieldEntry.isEmpty && request.yPartBranch.isKey =>
           val suggestions =
-            new AMLStructureCompletionsPlugin(Raml10SecuritySchemesDialect.SecurityScheme.propertiesMapping(),
-                                              request.actualDialect)
+            new AMLStructureCompletionsPlugin(
+              Raml10SecuritySchemesDialect.SecurityScheme.propertiesMapping(),
+              request.actualDialect
+            )
               .resolve(Raml10SecuritySchemesDialect.SecurityScheme.nodetypeMapping.value())
-          if (s.`type`
-                .option()
-                .exists(t => Seq("OAuth 1.0", "OAuth 2.0").contains(t)))
+          if (
+            s.`type`
+              .option()
+              .exists(t => Seq("OAuth 1.0", "OAuth 2.0").contains(t))
+          )
             suggestions :+ RawSuggestion.forObject("settings", "security")
           else suggestions
 

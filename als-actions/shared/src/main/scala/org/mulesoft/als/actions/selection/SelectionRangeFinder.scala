@@ -16,17 +16,21 @@ object SelectionRangeFinder {
     })
   }
 
-  private def findSelectionRange(yPart: YPart,
-                                 position: Position,
-                                 parent: Option[SelectionRange]): Option[SelectionRange] = {
+  private def findSelectionRange(
+      yPart: YPart,
+      position: Position,
+      parent: Option[SelectionRange]
+  ): Option[SelectionRange] = {
     val range              = PositionRange(yPart.range)
     val rootSelectionRange = SelectionRange(range, parent)
     findSelectionRangeFor(yPart.children, position, Some(rootSelectionRange)).orElse(parent)
   }
 
-  private def findSelectionRangeFor(yPart: Iterable[YPart],
-                                    position: Position,
-                                    parent: Option[SelectionRange]): Option[SelectionRange] = {
+  private def findSelectionRangeFor(
+      yPart: Iterable[YPart],
+      position: Position,
+      parent: Option[SelectionRange]
+  ): Option[SelectionRange] = {
     yPart
       .find(p => p.range.contains(position))
       .flatMap(yPart => {

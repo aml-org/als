@@ -21,21 +21,28 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
     else ""
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
-    if (DialectKnowledge.isRamlInclusion(params.yPartBranch, params.nodeDialect) || DialectKnowledge.isJsonInclusion(
-          params.yPartBranch,
-          params.nodeDialect)) {
-      resolveInclusion(params.baseUnit.location().getOrElse(""),
-                       params.directoryResolver,
-                       params.prefix,
-                       params.rootUri,
-                       params.alsConfigurationState)
+    if (
+      DialectKnowledge.isRamlInclusion(params.yPartBranch, params.nodeDialect) || DialectKnowledge.isJsonInclusion(
+        params.yPartBranch,
+        params.nodeDialect
+      )
+    ) {
+      resolveInclusion(
+        params.baseUnit.location().getOrElse(""),
+        params.directoryResolver,
+        params.prefix,
+        params.rootUri,
+        params.alsConfigurationState
+      )
     } else emptySuggestion
 
-  def resolveInclusion(actualLocation: String,
-                       directoryResolver: DirectoryResolver,
-                       prefix: String,
-                       rootLocation: Option[String],
-                       alsConfiguration: ALSConfigurationState): Future[Seq[RawSuggestion]] = {
+  def resolveInclusion(
+      actualLocation: String,
+      directoryResolver: DirectoryResolver,
+      prefix: String,
+      rootLocation: Option[String],
+      alsConfiguration: ALSConfigurationState
+  ): Future[Seq[RawSuggestion]] = {
     val baseLocation: String =
       if (prefix.startsWith("/")) rootLocation.getOrElse(actualLocation)
       else actualLocation
@@ -50,10 +57,12 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
       if (fullURI.contains("#") && !fullURI.startsWith("#"))
         PathNavigation(fullURI, prefix, alsConfiguration).suggest()
       else
-        FilesEnumeration(directoryResolver,
-                         alsConfiguration,
-                         actualLocation.toPath(alsConfiguration.platform),
-                         relativePath)
+        FilesEnumeration(
+          directoryResolver,
+          alsConfiguration,
+          actualLocation.toPath(alsConfiguration.platform),
+          relativePath
+        )
           .filesIn(fullURI)
     else emptySuggestion
 
@@ -75,8 +84,10 @@ trait PathCompletion {
   }
 
   def pluginForMime(mime: String): Option[SyamlSyntaxParsePlugin.type] =
-    if ((SyamlSyntaxParsePlugin.mediaTypes)
-          .contains(mime))
+    if (
+      (SyamlSyntaxParsePlugin.mediaTypes)
+        .contains(mime)
+    )
       Some(SyamlSyntaxParsePlugin)
     else None
 }

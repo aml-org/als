@@ -10,7 +10,8 @@ case class WorkspaceClientCapabilities(
     didChangeConfiguration: Option[DidChangeConfigurationClientCapabilities] = None,
     didChangeWatchedFilesClientCapabilities: Option[DidChangeWatchedFilesClientCapabilities] = None,
     symbol: Option[WorkspaceSymbolClientCapabilities] = None,
-    executeCommand: Option[ExecuteCommandClientCapabilities] = None)
+    executeCommand: Option[ExecuteCommandClientCapabilities] = None
+)
 
 case class WorkspaceEditClientCapabilities(documentChanges: Option[Boolean])
 

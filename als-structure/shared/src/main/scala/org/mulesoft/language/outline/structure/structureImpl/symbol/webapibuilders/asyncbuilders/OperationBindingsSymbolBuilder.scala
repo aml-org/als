@@ -11,8 +11,8 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
 
 class OperationBindingsSymbolBuilder(override val element: OperationBindings)(
-    override implicit val ctx: StructureContext)
-    extends StructuredSymbolBuilder[OperationBindings] {
+    override implicit val ctx: StructureContext
+) extends StructuredSymbolBuilder[OperationBindings] {
 
   override def ignoreFields: List[Field] = super.ignoreFields
   override protected val optionName: Option[String] =
@@ -26,7 +26,8 @@ object OperationBindingsSymbolBuilderCompanion extends AmfObjectSimpleBuilderCom
 
   override def getType: Class[_] = classOf[OperationBindings]
 
-  override protected def construct(element: OperationBindings)(
-      implicit ctx: StructureContext): Option[SymbolBuilder[OperationBindings]] =
+  override protected def construct(element: OperationBindings)(implicit
+      ctx: StructureContext
+  ): Option[SymbolBuilder[OperationBindings]] =
     Some(new OperationBindingsSymbolBuilder(element))
 }

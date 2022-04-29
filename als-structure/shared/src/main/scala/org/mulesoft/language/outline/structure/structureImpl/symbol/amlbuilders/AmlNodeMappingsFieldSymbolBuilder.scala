@@ -12,8 +12,8 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.DeclaresFieldSymbolBuilder
 
 class AmlNodeMappingsFieldSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
-    override implicit val ctx: StructureContext)
-    extends DeclaresFieldSymbolBuilder(value, element) {
+    override implicit val ctx: StructureContext
+) extends DeclaresFieldSymbolBuilder(value, element) {
 
   override def declarationName(obj: AmfObject): String = "NodeMappings"
 }
@@ -21,8 +21,9 @@ class AmlNodeMappingsFieldSymbolBuilder(override val value: AmfArray, override v
 object AmlNodeMappingsFieldSymbolBuilder
     extends ArrayFieldTypeSymbolBuilderCompanion
     with IriFieldSymbolBuilderCompanion {
-  override def construct(element: FieldEntry, value: AmfArray)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] =
+  override def construct(element: FieldEntry, value: AmfArray)(implicit
+      ctx: StructureContext
+  ): Option[FieldTypeSymbolBuilder[AmfArray]] =
     Some(new AmlNodeMappingsFieldSymbolBuilder(value, element))
 
   override val supportedIri: String = DocumentModel.Declares.value.iri()

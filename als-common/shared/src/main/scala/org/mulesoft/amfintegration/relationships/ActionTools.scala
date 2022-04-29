@@ -13,7 +13,8 @@ object ActionTools {
       PositionRange(
         Position(AmfPosition(targetLocation.lineFrom, targetLocation.columnFrom)),
         Position(AmfPosition(targetLocation.lineTo, targetLocation.columnTo))
-      ))
+      )
+    )
 
   def sourceLocationToLocation(targetLocation: SourceLocation): Location =
     Location(targetLocation.sourceName, sourceLocationToRange(targetLocation))

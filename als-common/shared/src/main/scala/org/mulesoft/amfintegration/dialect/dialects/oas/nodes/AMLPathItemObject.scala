@@ -72,7 +72,9 @@ object Oas20PathItemObject extends AMLPathItemObject {
           Seq(
             Oas20ParamObject.id,
             Oas20BodyParameterObject.id
-          )))
+          )
+        )
+    )
 }
 
 object Oas30PathItemObject extends AMLPathItemObject {
@@ -106,8 +108,10 @@ object Oas30PathItemObject extends AMLPathItemObject {
       .withName("parameters")
       .withNodePropertyMapping(EndPointModel.Parameters.value.iri())
       .withAllowMultiple(true)
-      .withObjectRange(Seq(
-        Oas30PathItemObject.id
-      ))
+      .withObjectRange(
+        Seq(
+          Oas30PathItemObject.id
+        )
+      )
   )
 }

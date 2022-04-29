@@ -2,8 +2,7 @@ package org.mulesoft.als.server.workspace
 
 import scala.concurrent.Future
 
-/**
-  * UnitAccessor provides the functionality to retrieve a current Unit, or the Latest known Unit
+/** UnitAccessor provides the functionality to retrieve a current Unit, or the Latest known Unit
   *
   * @tparam UnitType
   */

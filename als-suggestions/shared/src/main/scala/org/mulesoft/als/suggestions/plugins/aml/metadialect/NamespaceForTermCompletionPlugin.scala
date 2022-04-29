@@ -18,7 +18,8 @@ object NamespaceForTermCompletionPlugin extends AMLCompletionPlugin {
     if (applies(request))
       Future {
         (externals(request.baseUnit) ++ references(request.baseUnit)).map(RawSuggestion(_, isAKey = false))
-      } else emptySuggestion
+      }
+    else emptySuggestion
 
   private def applies(request: AmlCompletionRequest) =
     isTerm(request.amfObject, request.yPartBranch)

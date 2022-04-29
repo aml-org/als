@@ -24,7 +24,8 @@ object Raml08CompletionPluginRegistry extends WebApiCompletionPluginRegistry {
           ResolveUriParameter,
           ResolvePayload,
           ResolveDefault
-        )) :+
+        )
+      ) :+
       Raml08ParamsCompletionPlugin :+
       Raml08BooleanPropertyValue :+
       Raml08TypeFacetsCompletionPlugin :+

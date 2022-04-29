@@ -12,9 +12,11 @@ import scala.concurrent.Future
 
 object Async2HeadersSchema extends ResolveIfApplies {
   override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] = {
-    if (request.amfObject
-          .isInstanceOf[Parameter] && request.yPartBranch.isKeyDescendantOf("headers") && request.branchStack.headOption
-          .exists(_.isInstanceOf[Response]))
+    if (
+      request.amfObject
+        .isInstanceOf[Parameter] && request.yPartBranch.isKeyDescendantOf("headers") && request.branchStack.headOption
+        .exists(_.isInstanceOf[Response])
+    )
       Some(Future(AnyShapeAsync2Node.Obj.propertiesRaw(fromDialect = request.actualDialect)))
     else notApply
   }

@@ -23,10 +23,11 @@ import org.mulesoft.lsp.feature.typedefinition.{
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class GoToTypeDefinitionManager(val workspace: WorkspaceManager,
-                                private val telemetryProvider: TelemetryProvider,
-                                private val logger: Logger)
-    extends RequestModule[TypeDefinitionClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
+class GoToTypeDefinitionManager(
+    val workspace: WorkspaceManager,
+    private val telemetryProvider: TelemetryProvider,
+    private val logger: Logger
+) extends RequestModule[TypeDefinitionClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
 
   private var conf: Option[TypeDefinitionClientCapabilities] = None
 
@@ -58,36 +59,38 @@ class GoToTypeDefinitionManager(val workspace: WorkspaceManager,
       override protected def uri(params: TypeDefinitionParams): String =
         params.textDocument.uri
 
-      /**
-        * If Some(_), this will be sent as a response as a default for a managed exception
+      /** If Some(_), this will be sent as a response as a default for a managed exception
         */
       override protected val empty: Option[Either[Seq[Location], Seq[LocationLink]]] = Some(Right(Seq()))
     }
   )
 
   override def applyConfig(
-      config: Option[TypeDefinitionClientCapabilities]): Either[Boolean, WorkDoneProgressOptions] = {
+      config: Option[TypeDefinitionClientCapabilities]
+  ): Either[Boolean, WorkDoneProgressOptions] = {
     conf = config
     Left(true)
   }
 
-  def goToTypeDefinition(uri: String,
-                         position: Position,
-                         uuid: String): Future[Either[Seq[Location], Seq[LocationLink]]] =
+  def goToTypeDefinition(
+      uri: String,
+      position: Position,
+      uuid: String
+  ): Future[Either[Seq[Location], Seq[LocationLink]]] =
     workspace
       .getLastUnit(uri, uuid)
-      .flatMap(
-        unit =>
-          FindDefinition
-            .getDefinition(
-              uri,
-              position,
-              workspace
-                .getRelationships(uri, uuid)
-                .map(_._2.filter(_.linkType == LinkTypes.TRAITRESOURCES)),
-              workspace.getAliases(uri, uuid),
-              unit.yPartBranch
-          ))
+      .flatMap(unit =>
+        FindDefinition
+          .getDefinition(
+            uri,
+            position,
+            workspace
+              .getRelationships(uri, uuid)
+              .map(_._2.filter(_.linkType == LinkTypes.TRAITRESOURCES)),
+            workspace.getAliases(uri, uuid),
+            unit.yPartBranch
+          )
+      )
       .map(Right(_))
 
   override def initialize(): Future[Unit] = Future.successful()

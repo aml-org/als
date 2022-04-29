@@ -91,11 +91,13 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) {
     val resourceLoaders     = if (rl.isEmpty) EditorConfiguration.platform.loaders() else rl
     val editorConfiguration = new EditorConfiguration(resourceLoaders, Seq.empty, plugins, logger)
     val factory =
-      new WorkspaceManagerFactoryBuilder(clientNotifier,
-                                         logger,
-                                         editorConfiguration,
-                                         configurationProvider,
-                                         textDocumentSyncBuilder)
+      new WorkspaceManagerFactoryBuilder(
+        clientNotifier,
+        logger,
+        editorConfiguration,
+        configurationProvider,
+        textDocumentSyncBuilder
+      )
 
     directoryResolver.foreach(cdr => factory.withDirectoryResolver(cdr))
     factory.withNotificationKind(notificationsKind) // move to initialization param
@@ -119,11 +121,13 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) {
   }
 
   protected def languageServerWithBasicFeatures(builders: WorkspaceManagerFactory): LanguageServerBuilder =
-    new LanguageServerBuilder(builders.documentManager,
-                              builders.workspaceManager,
-                              builders.configurationManager,
-                              builders.resolutionTaskManager,
-                              logger)
+    new LanguageServerBuilder(
+      builders.documentManager,
+      builders.workspaceManager,
+      builders.configurationManager,
+      builders.resolutionTaskManager,
+      logger
+    )
       .addInitializable(builders.workspaceManager)
       .addInitializable(builders.resolutionTaskManager)
       .addInitializable(builders.configurationManager)

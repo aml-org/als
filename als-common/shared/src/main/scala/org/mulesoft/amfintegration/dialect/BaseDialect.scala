@@ -36,15 +36,16 @@ trait BaseDialect {
             DocumentMapping()
               .withId(DialectLocation + "#/documents/root")
               .withEncoded(encodes.id)
-              .withDeclaredNodes(declaredNodes
-                .map({
-                  case (k, v) =>
+              .withDeclaredNodes(
+                declaredNodes
+                  .map({ case (k, v) =>
                     PublicNodeMapping()
                       .withId(DialectLocation + s"#/documents/$k")
                       .withName(k)
                       .withMappedNode(v.id)
-                })
-                .toList)
+                  })
+                  .toList
+              )
           )
       )
     d.withExternals(
@@ -65,7 +66,8 @@ trait BaseDialect {
           .withId(DialectLocation + "#/externals/owl")
           .withAlias("owl")
           .withBase(Namespace.Owl.base)
-      ))
+      )
+    )
 
     val vocabularies = Seq(
       ModelVocabularies.AmlDoc,

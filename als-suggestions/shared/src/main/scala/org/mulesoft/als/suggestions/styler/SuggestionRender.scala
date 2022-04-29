@@ -67,9 +67,11 @@ trait SuggestionRender {
 
   def style(raw: RawSuggestion): Styled =
     if (raw.options.rangeKind == PlainText)
-      Styled(raw.newText,
-             plain = true,
-             raw.range.getOrElse(PositionRange(params.position.moveColumn(-params.prefix.length), params.position)))
+      Styled(
+        raw.newText,
+        plain = true,
+        raw.range.getOrElse(PositionRange(params.position.moveColumn(-params.prefix.length), params.position))
+      )
     else {
       val builder = astBuilder(raw)
       val text    = render(raw.options, builder)

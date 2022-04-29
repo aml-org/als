@@ -68,9 +68,11 @@ class BasicCoreTestsAML extends CoreTest with DummyPlugins {
           }
           suggestions <- {
             val suggestions =
-              new Suggestions(AlsConfiguration(),
-                              new PlatformDirectoryResolver(platform),
-                              accessBundle(alsConfiguration))
+              new Suggestions(
+                AlsConfiguration(),
+                new PlatformDirectoryResolver(platform),
+                accessBundle(alsConfiguration)
+              )
                 .initialized()
             suggestions.completionsPluginHandler.cleanIndex()
             suggestions.completionsPluginHandler

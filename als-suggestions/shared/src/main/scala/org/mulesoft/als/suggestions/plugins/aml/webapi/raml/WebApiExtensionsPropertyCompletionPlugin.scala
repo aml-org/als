@@ -20,27 +20,34 @@ object WebApiExtensionsPropertyCompletionPlugin extends AMLCompletionPlugin {
       case e: ExtensionLike[_]
           if params.amfObject
             .isInstanceOf[WebApi] && params.fieldEntry.isEmpty =>
-        suggestOverExtends(e,
-                           params.yPartBranch.isKey,
-                           params.directoryResolver,
-                           params.prefix,
-                           params.rootUri,
-                           params.alsConfigurationState)
+        suggestOverExtends(
+          e,
+          params.yPartBranch.isKey,
+          params.directoryResolver,
+          params.prefix,
+          params.rootUri,
+          params.alsConfigurationState
+        )
       case _ => emptySuggestion
     }
   }
 
-  private def suggestOverExtends(e: ExtensionLike[_],
-                                 isKey: Boolean,
-                                 directoryResolver: DirectoryResolver,
-                                 prefix: String,
-                                 rootLocation: Option[String],
-                                 alsConfiguration: ALSConfigurationState): Future[Seq[RawSuggestion]] = {
-    if (isKey) Future { Seq(RawSuggestion.forKey("extends", mandatory = true)) } else
-      AMLPathCompletionPlugin.resolveInclusion(e.location().getOrElse(""),
-                                               directoryResolver,
-                                               prefix,
-                                               rootLocation,
-                                               alsConfiguration)
+  private def suggestOverExtends(
+      e: ExtensionLike[_],
+      isKey: Boolean,
+      directoryResolver: DirectoryResolver,
+      prefix: String,
+      rootLocation: Option[String],
+      alsConfiguration: ALSConfigurationState
+  ): Future[Seq[RawSuggestion]] = {
+    if (isKey) Future { Seq(RawSuggestion.forKey("extends", mandatory = true)) }
+    else
+      AMLPathCompletionPlugin.resolveInclusion(
+        e.location().getOrElse(""),
+        directoryResolver,
+        prefix,
+        rootLocation,
+        alsConfiguration
+      )
   }
 }

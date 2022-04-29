@@ -31,7 +31,8 @@ trait ByDirectoryTest extends AsyncFreeSpec with FileAssertionTest {
           if (content.toString.contains("*") || !mustHaveMarker) {
             if (f.name.endsWith(".ignore")) s"Golden: ${f.name}" ignore {
               Future.successful(succeed)
-            } else {
+            }
+            else {
               testFile(content.toString, f, parent)
             }
           } else Future.successful(succeed)
@@ -43,6 +44,8 @@ trait ByDirectoryTest extends AsyncFreeSpec with FileAssertionTest {
   protected def filterValidFiles(files: Array[SyncFile]): Array[SyncFile] = {
     files.filter(f =>
       fileExtensions.exists(fileExtension =>
-        f.name.endsWith(fileExtension) || f.name.endsWith(fileExtension + ".ignore")))
+        f.name.endsWith(fileExtension) || f.name.endsWith(fileExtension + ".ignore")
+      )
+    )
   }
 }

@@ -22,10 +22,11 @@ import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class GoToDefinitionManager(val workspace: WorkspaceManager,
-                            private val telemetryProvider: TelemetryProvider,
-                            private val logger: Logger)
-    extends RequestModule[DefinitionClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
+class GoToDefinitionManager(
+    val workspace: WorkspaceManager,
+    private val telemetryProvider: TelemetryProvider,
+    private val logger: Logger
+) extends RequestModule[DefinitionClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
 
   private var conf: Option[DefinitionClientCapabilities] = None
 
@@ -52,8 +53,7 @@ class GoToDefinitionManager(val workspace: WorkspaceManager,
 
       override protected def uri(params: DefinitionParams): String = params.textDocument.uri
 
-      /**
-        * If Some(_), this will be sent as a response as a default for a managed exception
+      /** If Some(_), this will be sent as a response as a default for a managed exception
         */
       override protected val empty: Option[Either[Seq[Location], Seq[LocationLink]]] = Some(Right(Seq()))
     }
@@ -64,17 +64,21 @@ class GoToDefinitionManager(val workspace: WorkspaceManager,
     Left(true)
   }
 
-  private def goToDefinition(uri: String,
-                             position: Position,
-                             uuid: String): Future[Either[Seq[Location], Seq[LocationLink]]] =
+  private def goToDefinition(
+      uri: String,
+      position: Position,
+      uuid: String
+  ): Future[Either[Seq[Location], Seq[LocationLink]]] =
     for {
       unit <- workspace.getLastUnit(uri, uuid)
       workspaceDefinitions <- FindDefinition
-        .getDefinition(uri,
-                       position,
-                       workspace.getRelationships(uri, uuid).map(_._2),
-                       workspace.getAliases(uri, uuid),
-                       unit.yPartBranch)
+        .getDefinition(
+          uri,
+          position,
+          workspace.getRelationships(uri, uuid).map(_._2),
+          workspace.getAliases(uri, uuid),
+          unit.yPartBranch
+        )
     } yield {
       Right(workspaceDefinitions)
     }

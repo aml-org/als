@@ -19,8 +19,11 @@ object ResolveParameterInRequest extends ResolveIfApplies {
           o.request.findSon(o.location().getOrElse(""), request.actualDialect, request.yPartBranch)
         if (branch.obj.isInstanceOf[Parameter] && branch.fe.isEmpty)
           applies(
-            Future.successful(Oas30ParamObject.Obj
-              .propertiesRaw(fromDialect = request.actualDialect) ++ AMLRefTagCompletionPlugin.refSuggestion))
+            Future.successful(
+              Oas30ParamObject.Obj
+                .propertiesRaw(fromDialect = request.actualDialect) ++ AMLRefTagCompletionPlugin.refSuggestion
+            )
+          )
         else notApply
       case _ => notApply
     }

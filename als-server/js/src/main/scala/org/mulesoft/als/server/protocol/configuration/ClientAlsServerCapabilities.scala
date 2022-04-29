@@ -79,8 +79,8 @@ object ClientAlsServerCapabilities {
         codeActionProvider = internal.codeActionProvider.map(_.toClient).orUndefined,
         documentLinkProvider = internal.documentLinkProvider.map(_.toClient).orUndefined,
         workspace = internal.workspace.map(_.toClient).orUndefined,
-        experimental = internal.experimental.collect {
-          case js: js.Object => js
+        experimental = internal.experimental.collect { case js: js.Object =>
+          js
         }.orUndefined,
         serialization = internal.serialization.map(_.toClient).orUndefined,
         cleanDiagnosticTree = internal.cleanDiagnostics.map(_.toClient).orUndefined,

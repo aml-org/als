@@ -1,7 +1,6 @@
 package org.mulesoft.lsp.feature.highlight
 
-/**
-  * The kind of a document highlight.
+/** The kind of a document highlight.
   */
 case object DocumentHighlightKind extends Enumeration {
   type DocumentHighlightKind = Value

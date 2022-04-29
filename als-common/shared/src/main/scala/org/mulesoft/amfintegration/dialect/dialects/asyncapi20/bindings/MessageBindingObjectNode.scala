@@ -37,7 +37,7 @@ object HttpMessageBindingObjectNode extends DialectNode {
       .withId(location + s"#/declarations/$name/headers")
       .withName("headers")
       .withNodePropertyMapping(HttpMessageBindingModel.Headers.value.iri()) // todo: http node mappings?
-      .withObjectRange(Seq()), // todo: schema object
+      .withObjectRange(Seq()),                                              // todo: schema object
     PropertyMapping()
       .withId(location + s"#/declarations/$name/bindingVersion")
       .withName("bindingVersion")

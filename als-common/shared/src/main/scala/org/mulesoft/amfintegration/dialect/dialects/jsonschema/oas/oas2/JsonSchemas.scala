@@ -19,7 +19,8 @@ object JsonSchemas extends JsonSchemaForOasWrapper {
           "tsv",
           "pipes",
           "multi"
-        ))
+        )
+      )
       .withLiteralRange(xsdString.iri())
   )
 

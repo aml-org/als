@@ -13,7 +13,12 @@ import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.RequestHandler
 import org.mulesoft.lsp.feature.common.{Position, Range, TextDocumentIdentifier, TextDocumentItem}
-import org.mulesoft.lsp.feature.highlight.{DocumentHighlight, DocumentHighlightKind, DocumentHighlightParams, DocumentHighlightRequestType}
+import org.mulesoft.lsp.feature.highlight.{
+  DocumentHighlight,
+  DocumentHighlightKind,
+  DocumentHighlightParams,
+  DocumentHighlightRequestType
+}
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
 import org.scalatest.{AsyncFreeSpec, AsyncFreeSpecLike}
 
@@ -110,7 +115,7 @@ class DocumentHighlightTest extends AsyncFreeSpecLike {
         |        application/json:
         |          type: array
         |          items:
-        |            type: string""".stripMargin,
+        |            type: string""".stripMargin
   )
   private val ws4 = Map(
     "file:///root/api.raml" ->
@@ -147,7 +152,7 @@ class DocumentHighlightTest extends AsyncFreeSpecLike {
         |    Authorization:
         |      description: |
         |        Used to send a valid OAuth 2 access token. The token must be preceeded by the word "Bearer".
-        |      example: Bearer _token_""".stripMargin,
+        |      example: Bearer _token_""".stripMargin
   )
 
   val testSets: Set[TestEntry] = Set(
@@ -181,7 +186,7 @@ class DocumentHighlightTest extends AsyncFreeSpecLike {
     ),
     TestEntry(
       "file:///root/api.raml",
-      Position(4,5),
+      Position(4, 5),
       "ws4",
       ws4,
       Set(
@@ -190,7 +195,7 @@ class DocumentHighlightTest extends AsyncFreeSpecLike {
     ),
     TestEntry(
       "file:///root/api.raml",
-      Position(3,5),
+      Position(3, 5),
       "ws4",
       ws4,
       Set()
@@ -209,7 +214,9 @@ class DocumentHighlightTest extends AsyncFreeSpecLike {
                 "",
                 0,
                 test.ws(test.targetUri)
-              )))
+              )
+            )
+          )
           highlights <- {
             val dhHandler: RequestHandler[DocumentHighlightParams, Seq[DocumentHighlight]] =
               server.resolveHandler(DocumentHighlightRequestType).get
@@ -222,12 +229,14 @@ class DocumentHighlightTest extends AsyncFreeSpecLike {
     }
   }
 
-  case class TestEntry(targetUri: String,
-                       targetPosition: Position,
-                       wsName: String,
-                       ws: Map[String, String],
-                       result: Set[DocumentHighlight],
-                       root: String = "file:///root")
+  case class TestEntry(
+      targetUri: String,
+      targetPosition: Position,
+      wsName: String,
+      ws: Map[String, String],
+      result: Set[DocumentHighlight],
+      root: String = "file:///root"
+  )
 
   def buildServer(root: String, ws: Map[String, String]): Future[(LanguageServer, WorkspaceManager)] = {
     val rs = new ResourceLoader {
@@ -240,15 +249,21 @@ class DocumentHighlightTest extends AsyncFreeSpecLike {
         ws.keySet.contains(resource)
     }
 
-      val factory =
-        new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, EmptyLogger, EditorConfiguration.withPlatformLoaders(Seq(rs)))
-          .buildWorkspaceManagerFactory()
+    val factory =
+      new WorkspaceManagerFactoryBuilder(
+        new MockDiagnosticClientNotifier,
+        EmptyLogger,
+        EditorConfiguration.withPlatformLoaders(Seq(rs))
+      )
+        .buildWorkspaceManagerFactory()
     val workspaceManager: WorkspaceManager = factory.workspaceManager
     val server =
-      new LanguageServerBuilder(factory.documentManager,
-                                workspaceManager,
-                                factory.configurationManager,
-                                factory.resolutionTaskManager)
+      new LanguageServerBuilder(
+        factory.documentManager,
+        workspaceManager,
+        factory.configurationManager,
+        factory.resolutionTaskManager
+      )
         .addRequestModule(factory.documentHighlightManager)
         .build()
 

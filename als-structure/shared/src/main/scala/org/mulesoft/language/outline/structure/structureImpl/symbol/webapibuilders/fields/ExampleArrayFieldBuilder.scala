@@ -15,8 +15,8 @@ import amf.shapes.internal.domain.metamodel.common.ExamplesField
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 
 case class ExampleArrayFieldBuilder(override val value: AmfArray, override val element: FieldEntry)(
-    override implicit val ctx: StructureContext)
-    extends DefaultWebApiArrayFieldTypeSymbolBuilder(value, element) {
+    override implicit val ctx: StructureContext
+) extends DefaultWebApiArrayFieldTypeSymbolBuilder(value, element) {
 
   override protected val name: String = if (isSingleExample(element)) "example" else "examples"
 
@@ -33,8 +33,9 @@ case class ExampleArrayFieldBuilder(override val value: AmfArray, override val e
 }
 
 object ExampleArrayFieldCompanion extends ArrayFieldTypeSymbolBuilderCompanion with IriFieldSymbolBuilderCompanion {
-  override def construct(element: FieldEntry, value: AmfArray)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] =
+  override def construct(element: FieldEntry, value: AmfArray)(implicit
+      ctx: StructureContext
+  ): Option[FieldTypeSymbolBuilder[AmfArray]] =
     Some(ExampleArrayFieldBuilder(value, element))
 
   override val supportedIri: String = ExamplesField.Examples.value.iri()

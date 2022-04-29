@@ -40,7 +40,8 @@ object AMLInfoObject extends DialectNode {
       .withObjectRange(
         Seq(
           AMLContactObject.id
-        )),
+        )
+      ),
     PropertyMapping()
       .withId(OasBaseDialect.DialectLocation + "#/declarations/InfoObject/license")
       .withName("license")
@@ -48,6 +49,7 @@ object AMLInfoObject extends DialectNode {
       .withObjectRange(
         Seq(
           AMLLicenseObject.id
-        ))
+        )
+      )
   )
 }

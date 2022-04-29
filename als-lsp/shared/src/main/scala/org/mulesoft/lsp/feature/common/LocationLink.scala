@@ -1,9 +1,11 @@
 package org.mulesoft.lsp.feature.common
 
-case class LocationLink(targetUri: String,
-                        targetRange: Range,
-                        targetSelectionRange: Range,
-                        originSelectionRange: Option[Range] = None)
+case class LocationLink(
+    targetUri: String,
+    targetRange: Range,
+    targetSelectionRange: Range,
+    originSelectionRange: Option[Range] = None
+)
 
 object LocationLink {
   def apply(t: (Location, Location)): LocationLink =

@@ -9,11 +9,9 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
 }
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
-/**
-  * 1- Check every declared in range (just first level from root?)
-  * 2- Add each element to Module() along with new Location
-  * 3- Add "uses" key for new file
-  * 4- change each reference for each declared and add `$alias.` at the start of the label
+/** 1- Check every declared in range (just first level from root?) 2- Add each element to Module() along with new
+  * Location 3- Add "uses" key for new file 4- change each reference for each declared and add `$alias.` at the start of
+  * the label
   * @param params
   */
 case class ExtractRamlToLibraryCodeAction(params: CodeActionRequestParams) extends ExtractDeclarationsToLibrary {

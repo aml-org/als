@@ -11,11 +11,13 @@ import org.mulesoft.lsp.{Initializable, InitializableModule}
 
 import scala.collection.mutable
 
-class LanguageServerBuilder(private val textDocumentSyncConsumer: AlsTextDocumentSyncConsumer,
-                            private val workspaceManager: WorkspaceManager,
-                            private val configurationManager: ConfigurationManager,
-                            private val resolutionTaskManager: ResolutionTaskManager,
-                            logger: Logger = EmptyLogger) {
+class LanguageServerBuilder(
+    private val textDocumentSyncConsumer: AlsTextDocumentSyncConsumer,
+    private val workspaceManager: WorkspaceManager,
+    private val configurationManager: ConfigurationManager,
+    private val resolutionTaskManager: ResolutionTaskManager,
+    logger: Logger = EmptyLogger
+) {
   private val initializableModules = mutable.ListBuffer[InitializableModule[_, _]]()
   private val requestModules       = mutable.ListBuffer[RequestModule[_, _]]()
   private val initializables       = mutable.ListBuffer[Initializable]()
@@ -44,13 +46,16 @@ class LanguageServerBuilder(private val textDocumentSyncConsumer: AlsTextDocumen
       .flatMap(_.getRequestHandlers)
       .foldLeft(RequestMap.empty)((result, value) => result.put(value.`type`, value))
 
-    val allInitializables = initializables ++ requestModules ++ initializableModules :+ textDocumentSyncConsumer :+ workspaceManager :+ resolutionTaskManager
+    val allInitializables =
+      initializables ++ requestModules ++ initializableModules :+ textDocumentSyncConsumer :+ workspaceManager :+ resolutionTaskManager
 
-    new LanguageServerImpl(textDocumentSyncConsumer,
-                           workspaceManager,
-                           configurationManager,
-                           new LanguageServerInitializer(configMap, allInitializables),
-                           handlerMap,
-                           logger)
+    new LanguageServerImpl(
+      textDocumentSyncConsumer,
+      workspaceManager,
+      configurationManager,
+      new LanguageServerInitializer(configMap, allInitializables),
+      handlerMap,
+      logger
+    )
   }
 }

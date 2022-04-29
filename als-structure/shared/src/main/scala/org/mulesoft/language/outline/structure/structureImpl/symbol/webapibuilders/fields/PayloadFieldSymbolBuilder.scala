@@ -19,8 +19,8 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.ParameterBindingLabelMapper
 
 class PayloadFieldSymbolBuilder(override val element: FieldEntry, override val value: AmfArray)(
-    override implicit val ctx: StructureContext)
-    extends ArrayFieldTypeSymbolBuilder {
+    override implicit val ctx: StructureContext
+) extends ArrayFieldTypeSymbolBuilder {
 
   protected def buildForKey(key: String, sons: List[DocumentSymbol]): Option[DocumentSymbol] =
     if (sons.nonEmpty) {
@@ -31,7 +31,8 @@ class PayloadFieldSymbolBuilder(override val element: FieldEntry, override val v
           KindForResultMatcher.kindForField(ParametersFieldModel.QueryParameters),
           r,
           skipLoneChild(sons, key)
-        ))
+        )
+      )
     } else None
 
   private val payloads: Seq[Payload] = value.values.collect({ case p: Payload => p })
@@ -61,8 +62,10 @@ class PayloadFieldSymbolBuilder(override val element: FieldEntry, override val v
     )
 
   protected def bodySymbols: Option[DocumentSymbol] =
-    buildForKey(ParameterBindingLabelMapper.toLabel("body"),
-                body.flatMap(b => ctx.factory.builderFor(b)).flatMap(_.build()).toList)
+    buildForKey(
+      ParameterBindingLabelMapper.toLabel("body"),
+      body.flatMap(b => ctx.factory.builderFor(b)).flatMap(_.build()).toList
+    )
 
   protected val payloadsLabel = "Payloads"
   protected def payloadSymbols: Option[DocumentSymbol] =
@@ -74,10 +77,11 @@ class PayloadFieldSymbolBuilder(override val element: FieldEntry, override val v
 }
 
 object PayloadFieldSymbolCompanion extends ArrayFieldTypeSymbolBuilderCompanion with IriFieldSymbolBuilderCompanion {
-  override val supportedIri
-    : String = EndPointModel.Payloads.value.iri() // same than RequestModel.Payload Apicontract.Payload
+  override val supportedIri: String =
+    EndPointModel.Payloads.value.iri() // same than RequestModel.Payload Apicontract.Payload
 
-  override def construct(element: FieldEntry, value: AmfArray)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] =
+  override def construct(element: FieldEntry, value: AmfArray)(implicit
+      ctx: StructureContext
+  ): Option[FieldTypeSymbolBuilder[AmfArray]] =
     Some(new PayloadFieldSymbolBuilder(element, value))
 }

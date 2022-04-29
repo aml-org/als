@@ -12,11 +12,12 @@ import org.mulesoft.amfintegration.amfconfiguration.AmfParseContext
 
 import scala.collection.mutable
 
-class AlsElementIterator(private val bu: BaseUnit,
-                         private var buffer: Iterator[AmfElement],
-                         visited: mutable.Set[String],
-                         parseContext: AmfParseContext)
-    extends AmfIterator {
+class AlsElementIterator(
+    private val bu: BaseUnit,
+    private var buffer: Iterator[AmfElement],
+    visited: mutable.Set[String],
+    parseContext: AmfParseContext
+) extends AmfIterator {
 
   def this(bu: BaseUnit, parseContext: AmfParseContext) = {
     this(bu, Iterator(bu), mutable.Set(), parseContext)

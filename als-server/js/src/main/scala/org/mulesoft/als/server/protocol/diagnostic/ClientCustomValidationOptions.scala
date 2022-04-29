@@ -14,7 +14,7 @@ object ClientCustomValidationOptions {
   def apply(internal: CustomValidationOptions): ClientCustomValidationOptions =
     js.Dynamic
       .literal(
-        enabled = internal.enabled,
+        enabled = internal.enabled
       )
       .asInstanceOf[ClientCustomValidationOptions]
 }

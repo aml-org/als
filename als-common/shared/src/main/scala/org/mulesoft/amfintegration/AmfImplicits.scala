@@ -140,10 +140,10 @@ object AmfImplicits {
       case _              => false
     }
 
-    /**
-      * @param other the other FieldEntry to compare
-      * @return B.containsLexically(A) returns true when and only when B.ann and A.ann are defined
-      * and A is included inside B
+    /** @param other
+      *   the other FieldEntry to compare
+      * @return
+      *   B.containsLexically(A) returns true when and only when B.ann and A.ann are defined and A is included inside B
       */
     def containsLexically(other: FieldEntry): Boolean = {
       val otherRange = other.value.annotations.ast().map(a => a.range.toPositionRange)
@@ -177,7 +177,7 @@ object AmfImplicits {
         case Some(e: YMapEntry) => e.contains(amfPosition)
         case Some(n: YNode) if n.tagType == YType.Map =>
           n.contains(amfPosition) &&
-            AlsYMapOps(n.value.asInstanceOf[YMap]).contains(amfPosition)
+          AlsYMapOps(n.value.asInstanceOf[YMap]).contains(amfPosition)
         case Some(other) => other.contains(amfPosition)
         case _           => false
       }
@@ -213,8 +213,8 @@ object AmfImplicits {
 
     lazy val isAbstract: Boolean = amfObject.fields
       .getValueAsOption(AbstractModel.IsAbstract)
-      .collect({
-        case Value(scalar: AmfScalar, _) => scalar
+      .collect({ case Value(scalar: AmfScalar, _) =>
+        scalar
       })
       .exists(_.toBool)
 
@@ -373,8 +373,8 @@ object AmfImplicits {
   }
 
   implicit class VocabularyImplicit(v: Vocabulary) extends BaseUnitImp(v) {
-    val properties: Seq[PropertyTerm] = v.declares.collect {
-      case p: PropertyTerm => p
+    val properties: Seq[PropertyTerm] = v.declares.collect { case p: PropertyTerm =>
+      p
     }
     val classes: Seq[ClassTerm] = v.declares.collect { case c: ClassTerm => c }
 

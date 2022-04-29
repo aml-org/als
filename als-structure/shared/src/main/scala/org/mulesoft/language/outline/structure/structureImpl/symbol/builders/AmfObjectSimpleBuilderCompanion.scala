@@ -33,7 +33,8 @@ trait AmfObjectSymbolBuilder[DM <: AmfObject] extends SymbolBuilder[DM] {
       .toList
       .flatMap(o =>
         ctx.factory
-          .builderFor(o))
+          .builderFor(o)
+      )
       .flatMap(_.build())
 
 }

@@ -6,9 +6,8 @@ import org.mulesoft.lsp.Initializable
 
 import scala.concurrent.Future
 
-/**
-  * UnitsManager provides the functionality for Listeners to subscribe,
-  * and receive a notification with each new available Unit
+/** UnitsManager provides the functionality for Listeners to subscribe, and receive a notification with each new
+  * available Unit
   */
 trait UnitsManager[UnitType <: UnitWithNextReference, ListenerType <: AstListener[_]]
     extends UnitAccessor[UnitType]

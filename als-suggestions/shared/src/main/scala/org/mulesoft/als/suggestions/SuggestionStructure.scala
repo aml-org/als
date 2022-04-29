@@ -1,11 +1,13 @@
 package org.mulesoft.als.suggestions
 
-case class SuggestionStructure(rangeKind: RangeKind = StringScalarRange,
-                               isKey: Boolean = false,
-                               keyRange: ScalarRange = StringScalarRange,
-                               isMandatory: Boolean = false,
-                               isTopLevel: Boolean = false,
-                               nonPlain: Boolean = false) {
+case class SuggestionStructure(
+    rangeKind: RangeKind = StringScalarRange,
+    isKey: Boolean = false,
+    keyRange: ScalarRange = StringScalarRange,
+    isMandatory: Boolean = false,
+    isTopLevel: Boolean = false,
+    nonPlain: Boolean = false
+) {
 
   def scalarProperty: Boolean = rangeKind.isInstanceOf[ScalarRange]
 

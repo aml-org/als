@@ -11,8 +11,7 @@ private[workspace] object Relationships {
 
 class Relationships private (private val repository: WorkspaceParserRepository, cu: CompilableUnit) {
 
-  private def getVisitorResult[T](uri: String)(fromTree: () => Seq[T],
-                                               fallBack: AmfElementVisitors => Seq[T]): Seq[T] =
+  private def getVisitorResult[T](uri: String)(fromTree: () => Seq[T], fallBack: AmfElementVisitors => Seq[T]): Seq[T] =
     if (repository.inTree(uri))
       fromTree()
     else {
@@ -22,11 +21,12 @@ class Relationships private (private val repository: WorkspaceParserRepository, 
     }
 
   def getDocumentLinks(uri: String): Seq[DocumentLink] =
-    getVisitorResult(uri)(() => repository.documentLinks().getOrElse(uri, Nil),
-                          visitors => visitors.getDocumentLinksFromVisitors.getOrElse(uri, Nil))
+    getVisitorResult(uri)(
+      () => repository.documentLinks().getOrElse(uri, Nil),
+      visitors => visitors.getDocumentLinksFromVisitors.getOrElse(uri, Nil)
+    )
 
-  /**
-    * Provides Project links for all files
+  /** Provides Project links for all files
     * @return
     */
   def getAllDocumentLinks: Map[String, Seq[DocumentLink]] =

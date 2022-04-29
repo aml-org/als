@@ -31,7 +31,8 @@ case class ExtractRamlTypeCodeAction(params: CodeActionRequestParams)
   override lazy val linkEntry: Future[Option[TextEdit]] =
     renderLink.map(
       RamlTypeExtractor
-        .linkEntry(entryRange, _, entryAst, yPartBranch, amfObject, params.configuration, newName, yamlOptions))
+        .linkEntry(entryRange, _, entryAst, yPartBranch, amfObject, params.configuration, newName, yamlOptions)
+    )
 
   override protected val findDialectForSemantic: String => Option[(SemanticExtension, Dialect)] =
     params.findDialectForSemantic

@@ -57,19 +57,24 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
     if (diff1.isEmpty && diff2.isEmpty) succeed
     else
       fail(s"Difference for $path: got [${actualSet
-        .mkString(", ")}] while expecting [${golden.mkString(", ")}]")
+          .mkString(", ")}] while expecting [${golden.mkString(", ")}]")
   }
 
-  /**
-    * @param path   URI for the API resource
-    * @param label  Pointer placeholder
-    * @param cut    if true, cuts text after label
-    * @param labels set of every label in the file (needed for cleaning API)
+  /** @param path
+    *   URI for the API resource
+    * @param label
+    *   Pointer placeholder
+    * @param cut
+    *   if true, cuts text after label
+    * @param labels
+    *   set of every label in the file (needed for cleaning API)
     */
-  def runTestCategory(path: String,
-                      label: String = "*",
-                      cut: Boolean = false,
-                      labels: Array[String] = Array("*")): Future[Assertion] =
+  def runTestCategory(
+      path: String,
+      label: String = "*",
+      cut: Boolean = false,
+      labels: Array[String] = Array("*")
+  ): Future[Assertion] =
     EditorConfiguration().getState
       .map(ALSConfigurationState(_, EmptyProjectConfigurationState, None))
       .flatMap(state => {
@@ -78,26 +83,30 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
           .map(r => assertCategory(path, r.toSet))
       })
 
-  /**
-    * @param path                URI for the API resource
-    * @param originalSuggestions Expected result set
-    * @param label               Pointer placeholder
-    * @param cut                 if true, cuts text after label
-    * @param labels              set of every label in the file (needed for cleaning API)
+  /** @param path
+    *   URI for the API resource
+    * @param originalSuggestions
+    *   Expected result set
+    * @param label
+    *   Pointer placeholder
+    * @param cut
+    *   if true, cuts text after label
+    * @param labels
+    *   set of every label in the file (needed for cleaning API)
     */
-  def runSuggestionTest(path: String,
-                        originalSuggestions: Set[String],
-                        label: String = "*",
-                        cut: Boolean = false,
-                        labels: Array[String] = Array("*"),
-                        dialectPath: Option[String] = None): Future[Assertion] =
+  def runSuggestionTest(
+      path: String,
+      originalSuggestions: Set[String],
+      label: String = "*",
+      cut: Boolean = false,
+      labels: Array[String] = Array("*"),
+      dialectPath: Option[String] = None
+  ): Future[Assertion] =
     this
       .suggest(path, label, dialectPath)
-      .map(
-        r =>
-          assert(path,
-                 r.flatMap(s => s.textEdit.map(_.left.get.newText).orElse(s.insertText)).toSet,
-                 originalSuggestions))
+      .map(r =>
+        assert(path, r.flatMap(s => s.textEdit.map(_.left.get.newText).orElse(s.insertText)).toSet, originalSuggestions)
+      )
 
   def withDialect(path: String, originalSuggestions: Set[String], dialectPath: String): Future[Assertion] = {
     runSuggestionTest(filePath(path), originalSuggestions, dialectPath = Some(filePath(dialectPath)))

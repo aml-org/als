@@ -14,8 +14,8 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
 }
 
 class RamlSecuritySchemeSettingsFieldSymbolBuilder(override val value: AmfObject, override val element: FieldEntry)(
-    override implicit val ctx: StructureContext)
-    extends SingleObjectFieldSymbolBuilder {
+    override implicit val ctx: StructureContext
+) extends SingleObjectFieldSymbolBuilder {
   override protected val name: String = "settings"
 }
 
@@ -25,7 +25,8 @@ object RamlSecuritySchemeSettingsFieldSymbolBuilderCompanion
 
   override val supportedIri: String = SecuritySchemeModel.Settings.value.iri()
 
-  override def construct(element: FieldEntry, value: AmfObject)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfObject]] =
+  override def construct(element: FieldEntry, value: AmfObject)(implicit
+      ctx: StructureContext
+  ): Option[FieldTypeSymbolBuilder[AmfObject]] =
     Some(new RamlSecuritySchemeSettingsFieldSymbolBuilder(value, element))
 }

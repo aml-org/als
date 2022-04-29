@@ -35,20 +35,21 @@ trait FileExtractor extends BaseElementDeclarableExtractors {
   override protected lazy val renderLink: Future[Option[YNode]] =
     finalName().map { name =>
       amfObject
-        .collect {
-          case l: Linkable =>
-            val fileName              = s"$name.$extension"
-            val linkDe: DomainElement = l.link(fileName)
-            linkDe.annotations += ExternalFragmentRef(fileName)
-            linkDe.annotations ++= additionalAnnotations
-            params.alsConfigurationState.configForSpec(spec).emit(linkDe)
+        .collect { case l: Linkable =>
+          val fileName              = s"$name.$extension"
+          val linkDe: DomainElement = l.link(fileName)
+          linkDe.annotations += ExternalFragmentRef(fileName)
+          linkDe.annotations ++= additionalAnnotations
+          params.alsConfigurationState.configForSpec(spec).emit(linkDe)
         }
     }
 
-  protected def buildFileEdit(editUri: String,
-                              editTextEdit: TextEdit,
-                              newUri: String,
-                              newTextEdit: TextEdit): Seq[AbstractWorkspaceEdit] = {
+  protected def buildFileEdit(
+      editUri: String,
+      editTextEdit: TextEdit,
+      newUri: String,
+      newTextEdit: TextEdit
+  ): Seq[AbstractWorkspaceEdit] = {
     Seq(
       AbstractWorkspaceEdit(
         Seq(
@@ -56,7 +57,8 @@ trait FileExtractor extends BaseElementDeclarableExtractors {
           Left(TextDocumentEdit(VersionedTextDocumentIdentifier(editUri, None), Seq(editTextEdit))),
           Left(TextDocumentEdit(VersionedTextDocumentIdentifier(newUri, None), Seq(newTextEdit)))
         )
-      ))
+      )
+    )
   }
 
 }

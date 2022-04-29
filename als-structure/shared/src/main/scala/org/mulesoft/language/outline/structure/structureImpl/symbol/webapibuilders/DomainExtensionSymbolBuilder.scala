@@ -25,7 +25,8 @@ object DomainExtensionSymbolBuilder extends AmfObjectSimpleBuilderCompanion[Doma
 
   override val supportedIri: String = DomainExtensionModel.`type`.head.iri()
 
-  override def construct(element: DomainExtension)(
-      implicit ctx: StructureContext): Option[SymbolBuilder[DomainExtension]] =
+  override def construct(element: DomainExtension)(implicit
+      ctx: StructureContext
+  ): Option[SymbolBuilder[DomainExtension]] =
     Some(new DomainExtensionSymbolBuilder(element))
 }

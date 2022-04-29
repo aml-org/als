@@ -26,7 +26,8 @@ object SemanticNamedElement {
           element.fields
             .fields()
             .find(fe => nameIris.contains(fe.field.value.iri()))
-            .map(_.value))
+            .map(_.value)
+        )
     }
   }
   private val nameIris = Seq(

@@ -20,11 +20,11 @@ trait AsyncMediaTypePluginFinder {
 
   def findPluginForMediaType(payload: Payload): Option[WebApiTypeFacetsCompletionPlugin] = {
     payload.schemaMediaType.value() match {
-      case asyncApiRegex(_ *) => Some(Async20TypeFacetsCompletionPlugin)
-      case jsonRegex(_ *)     => Some(JsonSchemeDraft7TypeFacetsCompletionPlugin)
-      case oas3Regex(_ *)     => Some(Oas30TypeFacetsCompletionPlugin)
-      case raml10Regex(_ *)   => Some(Raml10TypeFacetsCompletionPlugin)
-      case _                  => None
+      case asyncApiRegex(_*) => Some(Async20TypeFacetsCompletionPlugin)
+      case jsonRegex(_*)     => Some(JsonSchemeDraft7TypeFacetsCompletionPlugin)
+      case oas3Regex(_*)     => Some(Oas30TypeFacetsCompletionPlugin)
+      case raml10Regex(_*)   => Some(Raml10TypeFacetsCompletionPlugin)
+      case _                 => None
     }
   }
 }

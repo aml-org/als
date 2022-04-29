@@ -73,10 +73,11 @@ object ParameterStructures extends js.Object {
 
 @js.native
 @JSImport("vscode-jsonrpc", "AbstractMessageSignature")
-abstract class AbstractMessageSignature(_method: String,
-                                        _numberOfParams: Int,
-                                        _parameterStructures: ParameterStructures)
-    extends MessageSignature {
+abstract class AbstractMessageSignature(
+    _method: String,
+    _numberOfParams: Int,
+    _parameterStructures: ParameterStructures
+) extends MessageSignature {
   val method: String
   val numberOfParams: Int                      = js.native
   val parameterStructures: ParameterStructures = js.native
@@ -94,30 +95,33 @@ class RequestType[P, R, E](override val method: String, override val parameterSt
 
 @js.native
 trait GenericRequestHandler[R, E]
-    extends js.Function1[js.Array[js.Any],
-                         R | ResponseError[E] | Thenable[R] | Thenable[ResponseError[E]] | Thenable[
-                           R | ResponseError[E]]] {
-  def apply(params: js.Any*)
-    : R | ResponseError[E] | Thenable[R] | Thenable[ResponseError[E]] | Thenable[R | ResponseError[E]]
+    extends js.Function1[js.Array[js.Any], R | ResponseError[E] | Thenable[R] | Thenable[ResponseError[E]] | Thenable[
+      R | ResponseError[E]
+    ]] {
+  def apply(
+      params: js.Any*
+  ): R | ResponseError[E] | Thenable[R] | Thenable[ResponseError[E]] | Thenable[R | ResponseError[E]]
 }
 
 @js.native
 trait RequestHandler0[R, E]
-    extends js.Function1[CancellationToken,
-                         R | ResponseError[E] | Thenable[R] | Thenable[ResponseError[E]] | Thenable[
-                           R | ResponseError[E]]] {
-  def apply(token: CancellationToken)
-    : R | ResponseError[E] | Thenable[R] | Thenable[ResponseError[E]] | Thenable[R | ResponseError[E]]
+    extends js.Function1[CancellationToken, R | ResponseError[E] | Thenable[R] | Thenable[ResponseError[E]] | Thenable[
+      R | ResponseError[E]
+    ]] {
+  def apply(
+      token: CancellationToken
+  ): R | ResponseError[E] | Thenable[R] | Thenable[ResponseError[E]] | Thenable[R | ResponseError[E]]
 }
 
 @js.native
 trait RequestHandler[P, R, E]
-    extends js.Function2[P,
-                         CancellationToken,
-                         R | ResponseError[E] | Thenable[R] | Thenable[ResponseError[E]] | Thenable[
-                           R | ResponseError[E]]] {
-  def apply(param: P, token: CancellationToken)
-    : R | ResponseError[E] | Thenable[R] | Thenable[ResponseError[E]] | Thenable[R | ResponseError[E]]
+    extends js.Function2[P, CancellationToken, R | ResponseError[E] | Thenable[R] | Thenable[
+      ResponseError[E]
+    ] | Thenable[R | ResponseError[E]]] {
+  def apply(
+      param: P,
+      token: CancellationToken
+  ): R | ResponseError[E] | Thenable[R] | Thenable[ResponseError[E]] | Thenable[R | ResponseError[E]]
 }
 
 @js.native
@@ -128,9 +132,10 @@ trait NotificationMessage extends Message {
 
 @js.native
 @JSImport("vscode-jsonrpc", "NotificationType")
-class NotificationType[P](override val method: String,
-                          override val parameterStructures: ParameterStructures = ParameterStructures.auto)
-    extends AbstractMessageSignature(js.native, js.native, js.native) {}
+class NotificationType[P](
+    override val method: String,
+    override val parameterStructures: ParameterStructures = ParameterStructures.auto
+) extends AbstractMessageSignature(js.native, js.native, js.native) {}
 
 @js.native
 @JSImport("vscode-jsonrpc", "NotificationType0")
@@ -160,13 +165,11 @@ trait NotificationHandler[P] extends js.Function2[P, CancellationToken, Unit] {
 @js.native
 trait CancellationToken extends js.Object {
 
-  /**
-    * Is `true` when the token has been cancelled, `false` otherwise.
+  /** Is `true` when the token has been cancelled, `false` otherwise.
     */
   val isCancellationRequested: Boolean
 
-  /**
-    * An [event](#Event) which fires upon cancellation.
+  /** An [event](#Event) which fires upon cancellation.
     */
   val onCancellationRequested: Event[js.Any]
 }
@@ -174,8 +177,7 @@ trait CancellationToken extends js.Object {
 @js.native
 trait Disposable extends js.Object {
 
-  /**
-    * Dispose this object.
+  /** Dispose this object.
     */
   def dispose(): Unit
 }
@@ -183,16 +185,19 @@ trait Disposable extends js.Object {
 @js.native
 trait Event[T] extends js.Function3[T => js.Any, js.Any, js.Array[Disposable], Disposable] {
 
-  /**
-    *
-    * @param listener    The listener function will be call when the event happens.
-    * @param thisArgs    The 'this' which will be used when calling the event listener.
-    * @param disposables An array to which a {{IDisposable}} will be added. The
+  /** @param listener
+    *   The listener function will be call when the event happens.
+    * @param thisArgs
+    *   The 'this' which will be used when calling the event listener.
+    * @param disposables
+    *   An array to which a {{IDisposable}} will be added. The
     * @return
     */
-  def apply(listener: T => js.Any,
-            thisArgs: js.Any = js.native,
-            disposables: js.Array[Disposable] = js.native): Disposable
+  def apply(
+      listener: T => js.Any,
+      thisArgs: js.Any = js.native,
+      disposables: js.Array[Disposable] = js.native
+  ): Disposable
 }
 
 @js.native

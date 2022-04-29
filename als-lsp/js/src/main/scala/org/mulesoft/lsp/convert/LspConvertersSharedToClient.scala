@@ -559,7 +559,9 @@ object LspConvertersSharedToClient {
       ClientDocumentRangeFormattingParams(v)
   }
 
-  implicit class ClientDocumentRangeFormattingClientCapabilitiesConverter(v: DocumentRangeFormattingClientCapabilities) {
+  implicit class ClientDocumentRangeFormattingClientCapabilitiesConverter(
+      v: DocumentRangeFormattingClientCapabilities
+  ) {
     def toClient: ClientDocumentRangeFormattingClientCapabilities =
       ClientDocumentRangeFormattingClientCapabilities(v)
   }
@@ -568,7 +570,8 @@ object LspConvertersSharedToClient {
     def toClient: ClientCompletionList | js.Array[ClientCompletionItem] = {
       if (response.isLeft)
         |.from[js.Array[ClientCompletionItem], ClientCompletionList, js.Array[ClientCompletionItem]](
-          response.left.get.map(_.toClient).toJSArray)
+          response.left.get.map(_.toClient).toJSArray
+        )
       else
         response.right.get.toClient
     }
@@ -587,10 +590,12 @@ object LspConvertersSharedToClient {
     def toClient: js.Array[ClientDocumentSymbol] | js.Array[ClientSymbolInformation] = {
       if (response.isLeft)
         |.from[js.Array[ClientSymbolInformation], js.Array[ClientDocumentSymbol], js.Array[ClientSymbolInformation]](
-          response.left.get.map(_.toClient).toJSArray)
+          response.left.get.map(_.toClient).toJSArray
+        )
       else
         |.from[js.Array[ClientDocumentSymbol], js.Array[ClientDocumentSymbol], js.Array[ClientSymbolInformation]](
-          response.right.get.map(_.toClient).toJSArray)
+          response.right.get.map(_.toClient).toJSArray
+        )
     }
   }
 
@@ -598,10 +603,12 @@ object LspConvertersSharedToClient {
     def toClient: js.Array[ClientLocation] | js.Array[ClientLocationLink] = {
       if (response.isLeft)
         |.from[js.Array[ClientLocation], js.Array[ClientLocation], js.Array[ClientLocationLink]](
-          response.left.get.map(_.toClient).toJSArray)
+          response.left.get.map(_.toClient).toJSArray
+        )
       else
         |.from[js.Array[ClientLocationLink], js.Array[ClientLocation], js.Array[ClientLocationLink]](
-          response.right.get.map(_.toClient).toJSArray)
+          response.right.get.map(_.toClient).toJSArray
+        )
     }
   }
 

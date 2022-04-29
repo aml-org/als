@@ -10,11 +10,13 @@ import org.mulesoft.lsp.edit.TextEdit
 import org.yaml.model._
 import org.yaml.render.{JsonRender, JsonRenderOptions, YamlRender, YamlRenderOptions}
 
-case class RangeFormatting(parentYPart: YPart,
-                           formattingOptions: FormattingOptions,
-                           isJson: Boolean,
-                           syntaxErrors: ErrorsCollected,
-                           raw: Option[String]) {
+case class RangeFormatting(
+    parentYPart: YPart,
+    formattingOptions: FormattingOptions,
+    isJson: Boolean,
+    syntaxErrors: ErrorsCollected,
+    raw: Option[String]
+) {
 
   def format(): Seq[TextEdit] =
     formatPart(parentYPart)

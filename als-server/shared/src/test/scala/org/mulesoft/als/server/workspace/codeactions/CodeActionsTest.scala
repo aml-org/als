@@ -36,16 +36,20 @@ trait CodeActionsTest extends LanguageServerBaseTest {
     }
 
     val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier,
-                                         logger,
-                                         EditorConfiguration.withPlatformLoaders(Seq(rs)))
+      new WorkspaceManagerFactoryBuilder(
+        new MockDiagnosticClientNotifier,
+        logger,
+        EditorConfiguration.withPlatformLoaders(Seq(rs))
+      )
         .buildWorkspaceManagerFactory()
     val workspaceManager: WorkspaceManager = factory.workspaceManager
     val server =
-      new LanguageServerBuilder(factory.documentManager,
-                                workspaceManager,
-                                factory.configurationManager,
-                                factory.resolutionTaskManager)
+      new LanguageServerBuilder(
+        factory.documentManager,
+        workspaceManager,
+        factory.configurationManager,
+        factory.resolutionTaskManager
+      )
         .addRequestModule(factory.codeActionManager)
         .addRequestModule(factory.renameManager)
         .build()
@@ -55,8 +59,8 @@ trait CodeActionsTest extends LanguageServerBaseTest {
       .andThen { case _ => server.initialized() }
       .flatMap(_ => {
         val initialArgs = changeConfigArgs(workspace.mainFile, root)
-        server.workspaceService.executeCommand(
-          ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION, List(initialArgs)))
+        server.workspaceService
+          .executeCommand(ExecuteCommandParams(Commands.DID_CHANGE_CONFIGURATION, List(initialArgs)))
       })
       .map(_ => (server, workspaceManager))
 

@@ -29,16 +29,15 @@ trait BaseArrayShapeNode extends BaseAnyShapeNode {
     PropertyMapping()
       .withId(location + s"#/declarations/SchemaObject/additionalItems")
       .withName("additionalItems")
-      .withNodePropertyMapping(
-        TupleShapeModel.AdditionalItemsSchema.value.iri())
+      .withNodePropertyMapping(TupleShapeModel.AdditionalItemsSchema.value.iri())
       .withObjectRange(Seq("ShapeObjectId")),
     PropertyMapping()
       .withId(location + s"#/declarations/SchemaObject/contains")
       .withName("contains")
       .withNodePropertyMapping(TupleShapeModel.Contains.value.iri())
-      .withObjectRange(Seq("ShapeObjectId")),
+      .withObjectRange(Seq("ShapeObjectId"))
   )
 
-  override def name: String = "ArrayShape"
+  override def name: String            = "ArrayShape"
   override def nodeTypeMapping: String = ArrayShapeModel.`type`.head.iri()
 }

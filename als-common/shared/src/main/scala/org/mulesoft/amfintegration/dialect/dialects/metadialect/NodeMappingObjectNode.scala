@@ -31,7 +31,8 @@ object NodeMappingObjectNode extends DialectNode {
             "upsert",
             "ignore",
             "fail"
-          )),
+          )
+        ),
       PropertyMapping()
         .withId(location + s"#/declarations/$name/mappings")
         .withNodePropertyMapping(NodeMappingModel.PropertiesMapping.value.iri())

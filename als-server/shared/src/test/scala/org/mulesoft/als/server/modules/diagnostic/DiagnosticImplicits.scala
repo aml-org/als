@@ -14,14 +14,20 @@ object DiagnosticImplicits {
 
     def yDocument: YDocument =
       YDocument.objFromBuilder(e => {
-        e.entry("uri", v => {
-          v += p.uri
-        })
-        e.entry("diagnostics", e => {
-          e.list(b => {
-            p.diagnostics.sortWith(sort).foreach(_.entry(b))
-          })
-        })
+        e.entry(
+          "uri",
+          v => {
+            v += p.uri
+          }
+        )
+        e.entry(
+          "diagnostics",
+          e => {
+            e.list(b => {
+              p.diagnostics.sortWith(sort).foreach(_.entry(b))
+            })
+          }
+        )
       })
 
     def sort(d1: Diagnostic, d2: Diagnostic): Boolean = {
@@ -53,11 +59,14 @@ object DiagnosticImplicits {
         d.code.foreach(c => obj.entry("code", c))
         d.codeDescription.foreach(c => obj.entry("codeDescription", c))
         d.source.foreach(c => obj.entry("source", c))
-        obj.entry("relatedInformation", e => {
-          e.list(b => {
-            d.relatedInformation.map(ri => ri.foreach(_.entry(b)))
-          })
-        })
+        obj.entry(
+          "relatedInformation",
+          e => {
+            e.list(b => {
+              d.relatedInformation.map(ri => ri.foreach(_.entry(b)))
+            })
+          }
+        )
       })
     }
   }

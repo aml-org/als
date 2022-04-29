@@ -68,7 +68,7 @@ class FileUsageTest extends ServerFileUsageTest {
         testSets.map { test =>
           for {
             (_, wsManager) <- buildServer(test.root, test.ws, test.mainFile)
-            links          <- FindFileUsages.getUsages(test.searchedUri, wsManager.getAllDocumentLinks(test.searchedUri, ""))
+            links <- FindFileUsages.getUsages(test.searchedUri, wsManager.getAllDocumentLinks(test.searchedUri, ""))
           } yield {
             (links, test.result)
           }
@@ -89,9 +89,11 @@ class FileUsageTest extends ServerFileUsageTest {
       .map(r => assert(r.forall(_ == Succeeded)))
   }
 
-  case class TestEntry(searchedUri: String,
-                       mainFile: String,
-                       ws: Map[String, String],
-                       result: Set[Location],
-                       root: String = "file:///root/")
+  case class TestEntry(
+      searchedUri: String,
+      mainFile: String,
+      ws: Map[String, String],
+      result: Set[Location],
+      root: String = "file:///root/"
+  )
 }

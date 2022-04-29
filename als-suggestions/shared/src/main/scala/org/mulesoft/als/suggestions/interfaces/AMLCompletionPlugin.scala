@@ -28,6 +28,7 @@ trait AmfObjectKnowledge {
       .exists(
         _.value.value
           .position()
-          .exists(li => li.contains(params.position.toAmfPosition)))
+          .exists(li => li.contains(params.position.toAmfPosition))
+      )
   }
 }

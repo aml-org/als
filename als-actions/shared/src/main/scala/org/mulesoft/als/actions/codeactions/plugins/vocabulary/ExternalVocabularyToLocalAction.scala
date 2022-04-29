@@ -16,10 +16,11 @@ import org.yaml.model.YMap
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class ExternalVocabularyToLocalAction(dialect: Dialect,
-                                      external: External,
-                                      override val params: CodeActionRequestParams)
-    extends DialectActionsHelper {
+class ExternalVocabularyToLocalAction(
+    dialect: Dialect,
+    external: External,
+    override val params: CodeActionRequestParams
+) extends DialectActionsHelper {
 
   val base: String                         = external.base.value()
   val alias: String                        = external.alias.value()
@@ -66,37 +67,36 @@ class ExternalVocabularyToLocalAction(dialect: Dialect,
 
   def createClassTerms(nodeMappings: Map[String, Seq[NodeMapping]]): Seq[ClassTerm] =
     nodeMappings
-      .map({
-        case (k, v) =>
-          val classTerm = createClassTerm(v.head.name.option(), k)
-          val properties: Seq[String] = v.flatMap(nm => {
-            knownClassTerms = knownClassTerms + (nm.id -> k)
-            nm.propertiesMapping()
-              .flatMap(
-                _.nodePropertyMapping()
-                  .option()
-                  .flatMap(prop => {
-                    if (prop.inVocabulary) {
-                      Some(prop.toAlias)
-                    } else {
-                      None
-                    }
-                  }))
-          })
-          classTerm.withProperties(properties.distinct)
+      .map({ case (k, v) =>
+        val classTerm = createClassTerm(v.head.name.option(), k)
+        val properties: Seq[String] = v.flatMap(nm => {
+          knownClassTerms = knownClassTerms + (nm.id -> k)
+          nm.propertiesMapping()
+            .flatMap(
+              _.nodePropertyMapping()
+                .option()
+                .flatMap(prop => {
+                  if (prop.inVocabulary) {
+                    Some(prop.toAlias)
+                  } else {
+                    None
+                  }
+                })
+            )
+        })
+        classTerm.withProperties(properties.distinct)
       })
       .toSeq
 
   def createPropertyTerms(propertyMappings: Map[String, Seq[PropertyMapping]]): Seq[PropertyTerm] =
     propertyMappings
-      .map({
-        case (k, v) =>
-          if (v.size == 1 || sameRange(v)) {
-            createPropertyTerm(v.head, v.head.name().option(), k, knownClassTerms)
-          } else {
-            createPropertyTerm(v.head, v.head.name().option(), k, knownClassTerms)
-              .withRange(null)
-          }
+      .map({ case (k, v) =>
+        if (v.size == 1 || sameRange(v)) {
+          createPropertyTerm(v.head, v.head.name().option(), k, knownClassTerms)
+        } else {
+          createPropertyTerm(v.head, v.head.name().option(), k, knownClassTerms)
+            .withRange(null)
+        }
       })
       .toSeq
 

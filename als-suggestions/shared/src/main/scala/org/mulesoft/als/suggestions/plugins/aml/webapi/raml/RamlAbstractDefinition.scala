@@ -27,16 +27,20 @@ object RamlAbstractDefinition extends AMLCompletionPlugin {
         if (params.baseUnit.isInstanceOf[Fragment])
           info.element.fields.filter(t => !(t._1 == EndPointModel.Path || t._1 == OperationModel.Method))
         val newRequest =
-          AmlCompletionRequestBuilder.forElement(info.element,
-                                                 info.original,
-                                                 params.declarationProvider.filterLocal(info.name, info.iri),
-                                                 params,
-                                                 ignoredPlugins)
+          AmlCompletionRequestBuilder.forElement(
+            info.element,
+            info.original,
+            params.declarationProvider.filterLocal(info.name, info.iri),
+            params,
+            ignoredPlugins
+          )
         newRequest.completionsPluginHandler
           .pluginSuggestions(newRequest)
           .map(seq => {
-            if (params.branchStack.headOption.exists(_.isInstanceOf[AbstractDeclaration]) && !params.baseUnit
-                  .isInstanceOf[Fragment] && params.yPartBranch.isKey)
+            if (
+              params.branchStack.headOption.exists(_.isInstanceOf[AbstractDeclaration]) && !params.baseUnit
+                .isInstanceOf[Fragment] && params.yPartBranch.isKey
+            )
               seq ++ Seq(RawSuggestion.forKey("usage", "docs", mandatory = false))
             else seq
           })
@@ -54,6 +58,7 @@ object RamlAbstractDefinition extends AMLCompletionPlugin {
   private def elementInfo(params: AmlCompletionRequest): Option[ElementInfo] =
     findAbstractDeclaration(params).flatMap(
       AbstractDeclarationInformation
-        .extractInformation(_, params.baseUnit, params.alsConfigurationState.getAmfConfig))
+        .extractInformation(_, params.baseUnit, params.alsConfigurationState.getAmfConfig)
+    )
 
 }

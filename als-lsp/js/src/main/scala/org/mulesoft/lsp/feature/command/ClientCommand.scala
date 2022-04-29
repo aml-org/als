@@ -16,9 +16,11 @@ trait ClientCommand extends js.Object {
 object ClientCommand {
   def apply(internal: Command): ClientCommand =
     js.Dynamic
-      .literal(title = internal.title,
-               command = internal.command,
-               arguments = internal.arguments.map(_.toJSArray).orUndefined)
+      .literal(
+        title = internal.title,
+        command = internal.command,
+        arguments = internal.arguments.map(_.toJSArray).orUndefined
+      )
       .asInstanceOf[ClientCommand]
 }
 

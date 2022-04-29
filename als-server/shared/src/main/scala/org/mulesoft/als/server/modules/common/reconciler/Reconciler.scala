@@ -9,13 +9,18 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Promise
 import scala.util.{Failure, Success}
 
-class Reconciler(logger: Logger,
-                 timeout: Int,
-                 setTimeout: (() => Unit, Int) => Unit = (task: () => Unit, timeout: Int) => {
-                   new Timer().schedule(new TimerTask {
-                     def run = task()
-                   }, timeout)
-                 }) {
+class Reconciler(
+    logger: Logger,
+    timeout: Int,
+    setTimeout: (() => Unit, Int) => Unit = (task: () => Unit, timeout: Int) => {
+      new Timer().schedule(
+        new TimerTask {
+          def run = task()
+        },
+        timeout
+      )
+    }
+) {
   private var waitingList: ListBuffer[Runnable[Any]] = ListBuffer[Runnable[Any]]()
   private var runningList: ListBuffer[Runnable[Any]] = ListBuffer[Runnable[Any]]()
 

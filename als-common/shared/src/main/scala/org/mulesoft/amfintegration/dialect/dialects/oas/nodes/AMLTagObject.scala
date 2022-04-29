@@ -28,6 +28,7 @@ object AMLTagObject extends DialectNode {
       .withObjectRange(
         Seq(
           AMLExternalDocumentationObject.Obj.id
-        ))
+        )
+      )
   )
 }
