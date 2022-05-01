@@ -22,7 +22,7 @@ class TelemeteredPatchedParse(telemetryProvider: TelemetryProvider)
     params.workspace.getUnit(params.uri, params.uuid).flatMap { bu =>
       ALSConfigurationState(
         params.state.editorState,
-        CompletionReferenceResolver(params.state.projectState, bu.unit),
+        params.state.projectState, //        CompletionReferenceResolver(params.state.projectState, bu.unit),
         Some(AmfConfigurationPatcher.resourceLoaderForFile(params.uri, params.text.text))
       ).parse(params.uri.toAmfDecodedUri(params.editorEnvironment.platform))
     }
