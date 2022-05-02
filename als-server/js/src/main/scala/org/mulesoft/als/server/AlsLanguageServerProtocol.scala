@@ -18,6 +18,7 @@ import org.mulesoft.als.server.protocol.serialization.{
   ClientSerializationResult,
   ClientSerializedDocument
 }
+import org.mulesoft.als.server.protocol.textsync.ClientDidFocusParams
 import org.mulesoft.als.vscode.{NotificationType, ParameterStructures, RequestType}
 import org.mulesoft.lsp.feature.common.{ClientLocation, ClientTextDocumentIdentifier}
 
@@ -46,6 +47,12 @@ object FilesInProjectEventNotification {
 object AlsClientCapabilitiesNotification {
   val `type`: NotificationType[ClientAlsClientCapabilities] =
     new NotificationType[ClientAlsClientCapabilities]("notifyAlsClientCapabilities", ParameterStructures.auto)
+}
+
+@JSExportTopLevel("DidFocusNotification")
+object DidFocusNotification {
+  val `type`: NotificationType[ClientDidFocusParams] =
+    new NotificationType[ClientDidFocusParams]("didFocus", ParameterStructures.auto)
 }
 
 @JSExportTopLevel("CleanDiagnosticTreeRequestType")

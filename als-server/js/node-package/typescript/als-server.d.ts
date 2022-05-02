@@ -6580,6 +6580,11 @@ declare module '@aml-org/als-server' {
     configuration?: AlsConfiguration
     hotReload?: boolean
   }
+  
+  export type DidFocusParams = {
+    uri: String
+    version: number
+  }
 
   export interface AlsClientCapabilities {
     workspace?: WorkspaceClientCapabilities
@@ -6603,6 +6608,10 @@ declare module '@aml-org/als-server' {
 
   export type AlsCapabilitiesNotification = {
     type: NotificationType<AlsClientCapabilities>
+  }
+  
+  export type DidFocusNotification = {
+    type: NotificationType<DidFocusParams>
   }
 
   export interface CleanDiagnosticTreeParams {
