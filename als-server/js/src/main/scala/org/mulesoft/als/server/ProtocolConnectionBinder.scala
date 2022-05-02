@@ -23,6 +23,7 @@ import org.mulesoft.als.server.protocol.serialization.{
   ClientSerializationResult,
   ClientSerializedDocument
 }
+import org.mulesoft.als.server.protocol.textsync.ClientDidFocusParams
 import org.mulesoft.als.vscode.{RequestHandler => ClientRequestHandler, RequestHandler0 => ClientRequestHandler0, _}
 import org.mulesoft.lsp.client.{LspLanguageClient, LspLanguageClientAware}
 import org.mulesoft.lsp.convert.LspConvertersClientToShared._
@@ -101,18 +102,22 @@ trait AbstractProtocolConnectionLanguageClient extends LspLanguageClient with Al
 @JSExportTopLevel("ProtocolConnectionBinder")
 object ProtocolConnectionBinder
     extends AbstractProtocolConnectionBinder[LspLanguageClientAware with AlsLanguageClientAware[js.Any]] {
-  override def bind(protocolConnection: ProtocolConnection,
-                    languageServer: LanguageServer,
-                    clientAware: LspLanguageClientAware with AlsLanguageClientAware[js.Any],
-                    serializationProps: JsSerializationProps): Unit =
+  override def bind(
+      protocolConnection: ProtocolConnection,
+      languageServer: LanguageServer,
+      clientAware: LspLanguageClientAware with AlsLanguageClientAware[js.Any],
+      serializationProps: JsSerializationProps
+  ): Unit =
     super.bind(protocolConnection, languageServer, clientAware, serializationProps)
 }
 
 trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware with AlsLanguageClientAware[js.Any]] {
-  def bind(protocolConnection: ProtocolConnection,
-           languageServer: LanguageServer,
-           clientAware: ClientAware,
-           serializationProps: JsSerializationProps): Unit = {
+  def bind(
+      protocolConnection: ProtocolConnection,
+      languageServer: LanguageServer,
+      clientAware: ClientAware,
+      serializationProps: JsSerializationProps
+  ): Unit = {
     def resolveHandler[P, R](`type`: org.mulesoft.lsp.feature.RequestType[P, R]): RequestHandler[P, R] =
       languageServer
         .resolveHandler(`type`)
@@ -121,7 +126,7 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
     connectClient(protocolConnection, clientAware)
 
     val initializeHandlerJs
-      : js.Function2[ClientAlsInitializeParams, CancellationToken, Thenable[ClientAlsInitializeResult]] =
+        : js.Function2[ClientAlsInitializeParams, CancellationToken, Thenable[ClientAlsInitializeResult]] =
       (param: ClientAlsInitializeParams, _: CancellationToken) =>
         languageServer
           .initialize(param.toShared)
@@ -132,23 +137,27 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
     protocolConnection.onRequest(
       InitializeRequest.`type`,
       initializeHandlerJs
-        .asInstanceOf[ClientRequestHandler[ClientAlsInitializeParams, ClientAlsInitializeResult, js.Any]])
+        .asInstanceOf[ClientRequestHandler[ClientAlsInitializeParams, ClientAlsInitializeResult, js.Any]]
+    )
 
     val initializedHandlerJs: js.Function2[js.Any, CancellationToken, Unit] = (_: js.Any, _: CancellationToken) =>
       languageServer.initialized()
 
-    protocolConnection.onNotification(InitializedNotification.`type`,
-                                      initializedHandlerJs.asInstanceOf[NotificationHandler[js.Any]])
+    protocolConnection.onNotification(
+      InitializedNotification.`type`,
+      initializedHandlerJs.asInstanceOf[NotificationHandler[js.Any]]
+    )
 
     val exitHandlerJs: js.Function1[CancellationToken, Unit] = (_: CancellationToken) => languageServer.exit()
 
     protocolConnection.onNotification(ExitNotification.`type`, exitHandlerJs.asInstanceOf[NotificationHandler0])
 
-    val shutdownHandlerJs: js.Function1[CancellationToken, js.Any] = (_: CancellationToken) =>
-      languageServer.shutdown()
+    val shutdownHandlerJs: js.Function1[CancellationToken, js.Any] = (_: CancellationToken) => languageServer.shutdown()
 
-    protocolConnection.onRequest(ShutdownRequest.`type`,
-                                 shutdownHandlerJs.asInstanceOf[ClientRequestHandler0[js.Any, js.Any]])
+    protocolConnection.onRequest(
+      ShutdownRequest.`type`,
+      shutdownHandlerJs.asInstanceOf[ClientRequestHandler0[js.Any, js.Any]]
+    )
 
     val onDidChangeHandlerJs: js.Function2[ClientDidChangeTextDocumentParams, CancellationToken, Unit] =
       (param: ClientDidChangeTextDocumentParams, _: CancellationToken) =>
@@ -156,7 +165,8 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
 
     protocolConnection.onNotification(
       DidChangeTextDocumentNotification.`type`,
-      onDidChangeHandlerJs.asInstanceOf[NotificationHandler[ClientDidChangeTextDocumentParams]])
+      onDidChangeHandlerJs.asInstanceOf[NotificationHandler[ClientDidChangeTextDocumentParams]]
+    )
 
     val onDidOpenHandlerJs: js.Function2[ClientDidOpenTextDocumentParams, CancellationToken, Unit] =
       (param: ClientDidOpenTextDocumentParams, _: CancellationToken) =>
@@ -164,7 +174,17 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
 
     protocolConnection.onNotification(
       DidOpenTextDocumentNotification.`type`,
-      onDidOpenHandlerJs.asInstanceOf[NotificationHandler[ClientDidOpenTextDocumentParams]])
+      onDidOpenHandlerJs.asInstanceOf[NotificationHandler[ClientDidOpenTextDocumentParams]]
+    )
+
+    val onDidFocusJs: js.Function2[ClientDidFocusParams, CancellationToken, Unit] =
+      (param: ClientDidFocusParams, _: CancellationToken) =>
+        languageServer.textDocumentSyncConsumer.didFocus(param.toShared)
+
+    protocolConnection.onNotification(
+      DidFocusNotification.`type`,
+      onDidFocusJs.asInstanceOf[NotificationHandler[ClientDidFocusParams]]
+    )
 
     val onUpdateClientConfigurationJs: js.Function2[ClientUpdateConfigurationParams, CancellationToken, Unit] =
       (param: ClientUpdateConfigurationParams, _: CancellationToken) =>
@@ -172,7 +192,8 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
 
     protocolConnection.onNotification(
       UpdateClientConfigurationNotification.`type`,
-      onUpdateClientConfigurationJs.asInstanceOf[NotificationHandler[ClientUpdateConfigurationParams]])
+      onUpdateClientConfigurationJs.asInstanceOf[NotificationHandler[ClientUpdateConfigurationParams]]
+    )
 
     val onDidCloseHandlerJs: js.Function2[ClientDidCloseTextDocumentParams, CancellationToken, Unit] =
       (param: ClientDidCloseTextDocumentParams, _: CancellationToken) =>
@@ -180,11 +201,12 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
 
     protocolConnection.onNotification(
       DidCloseTextDocumentNotification.`type`,
-      onDidCloseHandlerJs.asInstanceOf[NotificationHandler[ClientDidCloseTextDocumentParams]])
+      onDidCloseHandlerJs.asInstanceOf[NotificationHandler[ClientDidCloseTextDocumentParams]]
+    )
 
-    val onCompletionHandlerJs: js.Function2[ClientCompletionParams,
-                                            CancellationToken,
-                                            Thenable[ClientCompletionList | js.Array[ClientCompletionItem]]] =
+    val onCompletionHandlerJs: js.Function2[ClientCompletionParams, CancellationToken, Thenable[
+      ClientCompletionList | js.Array[ClientCompletionItem]
+    ]] =
       (param: ClientCompletionParams, _: CancellationToken) =>
         resolveHandler(CompletionRequestType)(param.toShared)
           .map(_.toClient)
@@ -194,11 +216,12 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
     protocolConnection.onRequest(
       CompletionRequest.`type`,
       onCompletionHandlerJs.asInstanceOf[
-        ClientRequestHandler[ClientCompletionParams, ClientCompletionList | js.Array[ClientCompletionItem], js.Any]]
+        ClientRequestHandler[ClientCompletionParams, ClientCompletionList | js.Array[ClientCompletionItem], js.Any]
+      ]
     )
 
     val onDocumentFormattingJs
-      : js.Function2[ClientDocumentFormattingParams, CancellationToken, Thenable[js.Array[ClientTextEdit]]] =
+        : js.Function2[ClientDocumentFormattingParams, CancellationToken, Thenable[js.Array[ClientTextEdit]]] =
       (param: ClientDocumentFormattingParams, _: CancellationToken) => {
         val handler = resolveHandler(DocumentFormattingRequestType)
         handler(param.toShared)
@@ -214,7 +237,7 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
     )
 
     val onDocumentRangeFormattingJs
-      : js.Function2[ClientDocumentRangeFormattingParams, CancellationToken, Thenable[js.Array[ClientTextEdit]]] =
+        : js.Function2[ClientDocumentRangeFormattingParams, CancellationToken, Thenable[js.Array[ClientTextEdit]]] =
       (param: ClientDocumentRangeFormattingParams, _: CancellationToken) =>
         resolveHandler(DocumentRangeFormattingRequestType)(param.toShared)
           .map(_.map(_.toClient).toJSArray)
@@ -227,10 +250,9 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
         .asInstanceOf[ClientRequestHandler[ClientDocumentRangeFormattingParams, js.Array[ClientTextEdit], js.Any]]
     )
 
-    val onDocumentSymbolHandlerJs
-      : js.Function2[ClientDocumentSymbolParams,
-                     CancellationToken,
-                     Thenable[js.Array[ClientDocumentSymbol] | js.Array[ClientSymbolInformation]]] =
+    val onDocumentSymbolHandlerJs: js.Function2[ClientDocumentSymbolParams, CancellationToken, Thenable[
+      js.Array[ClientDocumentSymbol] | js.Array[ClientSymbolInformation]
+    ]] =
       (param: ClientDocumentSymbolParams, _: CancellationToken) =>
         resolveHandler(DocumentSymbolRequestType)(param.toShared)
           .map(_.toClient)
@@ -240,9 +262,9 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
     protocolConnection.onRequest(
       DocumentSymbolRequest.`type`,
       onDocumentSymbolHandlerJs
-        .asInstanceOf[ClientRequestHandler[ClientDocumentSymbolParams,
-                                           js.Array[ClientDocumentSymbol] | js.Array[ClientSymbolInformation],
-                                           js.Any]]
+        .asInstanceOf[ClientRequestHandler[ClientDocumentSymbolParams, js.Array[ClientDocumentSymbol] | js.Array[
+          ClientSymbolInformation
+        ], js.Any]]
     )
 
     // COMMAND
@@ -263,7 +285,7 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
 
     // DocumentLink
     val onDocumentLinkHandlerJs
-      : js.Function2[ClientDocumentLinkParams, CancellationToken, Thenable[js.Array[ClientDocumentLink]]] =
+        : js.Function2[ClientDocumentLinkParams, CancellationToken, Thenable[js.Array[ClientDocumentLink]]] =
       (param: ClientDocumentLinkParams, _: CancellationToken) =>
         resolveHandler(DocumentLinkRequestType)(param.toShared)
           .map(_.map(_.toClient).toJSArray)
@@ -279,7 +301,7 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
 
     // DocumentHighlight
     val onDocumentHighlightHandlerJs
-      : js.Function2[ClientDocumentHighlightParams, CancellationToken, Thenable[js.Array[ClientDocumentHighlight]]] =
+        : js.Function2[ClientDocumentHighlightParams, CancellationToken, Thenable[js.Array[ClientDocumentHighlight]]] =
       (param: ClientDocumentHighlightParams, _: CancellationToken) =>
         resolveHandler(DocumentHighlightRequestType)(param.toShared)
           .map(_.map(_.toClient).toJSArray)
@@ -295,7 +317,7 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
 
     // FindFileUsage
     val onFindFileUsageHandlerJs
-      : js.Function2[ClientTextDocumentIdentifier, CancellationToken, Thenable[js.Array[ClientLocation]]] =
+        : js.Function2[ClientTextDocumentIdentifier, CancellationToken, Thenable[js.Array[ClientLocation]]] =
       (param: ClientTextDocumentIdentifier, _: CancellationToken) =>
         resolveHandler(FileUsageRequestType)(param.toShared)
           .map(_.map(_.toClient).toJSArray)
@@ -310,10 +332,9 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
     // End FindFileUsage
 
     // Definition
-    val onDefinitionHandlerJs
-      : js.Function2[ClientDefinitionParams,
-                     CancellationToken,
-                     Thenable[ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]]] =
+    val onDefinitionHandlerJs: js.Function2[ClientDefinitionParams, CancellationToken, Thenable[
+      ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]
+    ]] =
       (param: ClientDefinitionParams, _: CancellationToken) =>
         resolveHandler(DefinitionRequestType)(param.toShared)
           .map(_.toClient)
@@ -323,17 +344,16 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
     protocolConnection.onRequest(
       DefinitionRequest.`type`,
       onDefinitionHandlerJs
-        .asInstanceOf[ClientRequestHandler[ClientDefinitionParams,
-                                           ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
-                                           js.Any]]
+        .asInstanceOf[ClientRequestHandler[ClientDefinitionParams, ClientLocation | js.Array[ClientLocation] | js.Array[
+          ClientLocationLink
+        ], js.Any]]
     )
     // End Definition
 
     // Implementation
-    val onImplementationHandlerJs
-      : js.Function2[ClientImplementationParams,
-                     CancellationToken,
-                     Thenable[ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]]] =
+    val onImplementationHandlerJs: js.Function2[ClientImplementationParams, CancellationToken, Thenable[
+      ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]
+    ]] =
       (param: ClientImplementationParams, _: CancellationToken) =>
         resolveHandler(ImplementationRequestType)(param.toShared)
           .map(_.toClient)
@@ -343,17 +363,16 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
     protocolConnection.onRequest(
       ImplementationRequest.`type`,
       onImplementationHandlerJs
-        .asInstanceOf[ClientRequestHandler[ClientImplementationParams,
-                                           ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
-                                           js.Any]]
+        .asInstanceOf[ClientRequestHandler[ClientImplementationParams, ClientLocation | js.Array[
+          ClientLocation
+        ] | js.Array[ClientLocationLink], js.Any]]
     )
     // End Implementation
 
     // TypeDefinition
-    val onTypeDefinitionHandlerJs
-      : js.Function2[ClientTypeDefinitionParams,
-                     CancellationToken,
-                     Thenable[ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]]] =
+    val onTypeDefinitionHandlerJs: js.Function2[ClientTypeDefinitionParams, CancellationToken, Thenable[
+      ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink]
+    ]] =
       (param: ClientTypeDefinitionParams, _: CancellationToken) =>
         resolveHandler(TypeDefinitionRequestType)(param.toShared)
           .map(_.toClient)
@@ -363,15 +382,15 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
     protocolConnection.onRequest(
       TypeDefinitionRequest.`type`,
       onTypeDefinitionHandlerJs
-        .asInstanceOf[ClientRequestHandler[ClientTypeDefinitionParams,
-                                           ClientLocation | js.Array[ClientLocation] | js.Array[ClientLocationLink],
-                                           js.Any]]
+        .asInstanceOf[ClientRequestHandler[ClientTypeDefinitionParams, ClientLocation | js.Array[
+          ClientLocation
+        ] | js.Array[ClientLocationLink], js.Any]]
     )
     // End TypeDefinition
 
     // References
     val onReferencesHandlerJs
-      : js.Function2[ClientReferenceParams, CancellationToken, Thenable[js.Array[ClientLocation]]] =
+        : js.Function2[ClientReferenceParams, CancellationToken, Thenable[js.Array[ClientLocation]]] =
       (param: ClientReferenceParams, _: CancellationToken) =>
         resolveHandler(ReferenceRequestType)(param.toShared)
           .map(_.map(_.toClient).toJSArray)
@@ -401,8 +420,9 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
     // End Rename
 
     // PrepareRename
-    val onPrepareRenameHandlerJs
-      : js.Function2[ClientPrepareRenameParams, CancellationToken, Thenable[ClientRange | ClientPrepareRenameResult]] =
+    val onPrepareRenameHandlerJs: js.Function2[ClientPrepareRenameParams, CancellationToken, Thenable[
+      ClientRange | ClientPrepareRenameResult
+    ]] =
       (param: ClientPrepareRenameParams, _: CancellationToken) =>
         resolveHandler(PrepareRenameRequestType)(param.toShared)
           .map(_.map(_.toClient).orUndefined)
@@ -417,9 +437,9 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
     // End PrepareRename
 
     // CodeAction
-    val onCodeActionHandlerJs: js.Function2[ClientCodeActionParams,
-                                            CancellationToken,
-                                            Thenable[js.Array[ClientCommand] | js.Array[ClientCodeAction]]] =
+    val onCodeActionHandlerJs: js.Function2[ClientCodeActionParams, CancellationToken, Thenable[
+      js.Array[ClientCommand] | js.Array[ClientCodeAction]
+    ]] =
       (param: ClientCodeActionParams, _: CancellationToken) =>
         resolveHandler(CodeActionRequestType)(param.toShared)
           .map(_.map(_.toClient).toJSArray)
@@ -430,7 +450,8 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
       CodeActionRequest.`type`,
       onCodeActionHandlerJs
         .asInstanceOf[
-          ClientRequestHandler[ClientCodeActionParams, js.Array[ClientCommand] | js.Array[ClientCodeAction], js.Any]]
+          ClientRequestHandler[ClientCodeActionParams, js.Array[ClientCommand] | js.Array[ClientCodeAction], js.Any]
+        ]
     )
     // End CodeAction
 
@@ -450,8 +471,7 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
     // End Hover
 
     // FoldingRange
-    val onFoldingRangeHandler
-      : js.Function2[ClientFoldingRangeParams, CancellationToken, Thenable[ClientFoldingRange]] =
+    val onFoldingRangeHandler: js.Function2[ClientFoldingRangeParams, CancellationToken, Thenable[ClientFoldingRange]] =
       (param: ClientFoldingRangeParams, _: CancellationToken) =>
         resolveHandler(FoldingRangeRequestType)(param.toShared)
           .map(_.toClient)
@@ -467,7 +487,7 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
 
     // SelectionRange
     val onSelectionRangeHandler
-      : js.Function2[ClientSelectionRangeParams, CancellationToken, Thenable[ClientSelectionRange]] =
+        : js.Function2[ClientSelectionRangeParams, CancellationToken, Thenable[ClientSelectionRange]] =
       (param: ClientSelectionRangeParams, _: CancellationToken) =>
         resolveHandler(SelectionRangeRequestType)(param.toShared)
           .map(_.map(_.toClient).toJSArray)
@@ -482,9 +502,9 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
     // End SelectionRange
 
     // CleanDiagnosticTree
-    val onCleanDiagnosticTreeHandlerJs: js.Function2[ClientCleanDiagnosticTreeParams,
-                                                     CancellationToken,
-                                                     Thenable[js.Array[ClientAlsPublishDiagnosticsParams]]] =
+    val onCleanDiagnosticTreeHandlerJs: js.Function2[ClientCleanDiagnosticTreeParams, CancellationToken, Thenable[
+      js.Array[ClientAlsPublishDiagnosticsParams]
+    ]] =
       (param: ClientCleanDiagnosticTreeParams, _: CancellationToken) =>
         resolveHandler(CleanDiagnosticTreeRequestType)(param.toShared)
           .map(_.map(_.toClient).toJSArray)
@@ -495,14 +515,15 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
       ClientCleanDiagnosticTreeRequestType.`type`,
       onCleanDiagnosticTreeHandlerJs
         .asInstanceOf[
-          ClientRequestHandler[ClientCleanDiagnosticTreeParams, js.Array[ClientAlsPublishDiagnosticsParams], js.Any]]
+          ClientRequestHandler[ClientCleanDiagnosticTreeParams, js.Array[ClientAlsPublishDiagnosticsParams], js.Any]
+        ]
     )
     // End CleanDiagnosticTree
 
     // ConversionRequest
 
     val onConversionHandlerJs
-      : js.Function2[ClientConversionParams, CancellationToken, Thenable[js.Array[ClientSerializedDocument]]] =
+        : js.Function2[ClientConversionParams, CancellationToken, Thenable[js.Array[ClientSerializedDocument]]] =
       (param: ClientConversionParams, _: CancellationToken) =>
         resolveHandler(ConversionRequestType)(param.toShared)
           .map(_.toClient)
@@ -519,7 +540,7 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
     // SerializedJSONLD request
 
     val onSerializedHandlerJs
-      : js.Function2[ClientSerializationParams, CancellationToken, Thenable[ClientSerializationResult]] =
+        : js.Function2[ClientSerializationParams, CancellationToken, Thenable[ClientSerializationResult]] =
       (param: ClientSerializationParams, _: CancellationToken) =>
         resolveHandler(serializationProps.requestType)(param.toShared)
           .map(s => new ClientSerializationMessageConverter(s).toClient)
@@ -534,9 +555,9 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
     // End SerializedJSONLD request
 
     // RenameFileAction
-    val onRenameFileActionHandlerJs: js.Function2[ClientRenameFileActionParams,
-                                                  CancellationToken,
-                                                  Thenable[js.Array[ClientRenameFileActionResult]]] =
+    val onRenameFileActionHandlerJs: js.Function2[ClientRenameFileActionParams, CancellationToken, Thenable[
+      js.Array[ClientRenameFileActionResult]
+    ]] =
       (param: ClientRenameFileActionParams, _: CancellationToken) =>
         resolveHandler(RenameFileActionRequestType)(param.toShared)
           .map(_.toClient)
@@ -551,9 +572,10 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
     // End RenameFileAction
 
     // Get Workspace Configuration
-    val onGetWorkspaceConfigurationRequestHandler: js.Function2[ClientGetWorkspaceConfigurationParams,
-                                                                CancellationToken,
-                                                                Thenable[ClientGetWorkspaceConfigurationResult]] =
+    val onGetWorkspaceConfigurationRequestHandler
+        : js.Function2[ClientGetWorkspaceConfigurationParams, CancellationToken, Thenable[
+          ClientGetWorkspaceConfigurationResult
+        ]] =
       (param: ClientGetWorkspaceConfigurationParams, _: CancellationToken) =>
         resolveHandler(GetWorkspaceConfigurationRequestType)(param.toShared)
           .map(_.toClient)
@@ -564,7 +586,8 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
       ClientGetWorkspaceConfigurationRequestType.`type`,
       onGetWorkspaceConfigurationRequestHandler
         .asInstanceOf[
-          ClientRequestHandler[ClientGetWorkspaceConfigurationParams, ClientGetWorkspaceConfigurationResult, js.Any]]
+          ClientRequestHandler[ClientGetWorkspaceConfigurationParams, ClientGetWorkspaceConfigurationResult, js.Any]
+        ]
     )
     // End Get Workspace Configuration
   }
