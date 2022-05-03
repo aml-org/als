@@ -5,7 +5,6 @@ import amf.aml.client.scala.model.domain.SemanticExtension
 import amf.core.client.scala.model.document.Document
 import amf.core.client.scala.model.domain.AmfObject
 import amf.core.internal.remote.{Mimes, Spec}
-import amf.core.internal.utils.InflectorBase.Inflector
 import org.mulesoft.als.actions.codeactions.TreeKnowledge
 import org.mulesoft.als.common.ObjectInTree
 import org.mulesoft.als.common.YamlUtils.isJson
@@ -24,9 +23,7 @@ trait BaseElementDeclarableExtractors extends TreeKnowledge {
 
   private lazy val baseName: String =
     amfObject
-      .flatMap(_.declarableKey(params.definedBy))
-      .map(_.singularize)
-      .map(t => s"new$t")
+      .flatMap(ExtractorCommon.declarationName(_, params.definedBy))
       .getOrElse("newDeclaration")
 
   /** Placeholder for the new name (key and reference)

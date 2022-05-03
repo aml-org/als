@@ -9,14 +9,13 @@ import org.mulesoft.als.common.YamlUtils.isJson
 import org.mulesoft.als.common.YamlWrapper.YNodeImplicits
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.configuration.AlsConfigurationReader
+import org.mulesoft.als.declarations.DeclarationCreator
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, AmfObjectImp, BaseUnitImp}
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.yaml.model._
 import org.yaml.render.{JsonRender, JsonRenderOptions, YamlRender, YamlRenderOptions}
 
-import scala.annotation.tailrec
-
-object ExtractorCommon {
+object ExtractorCommon extends DeclarationCreator {
 
   def existAnyOtherDeclaration(objs: Seq[AmfObject], bu: BaseUnit): Boolean =
     !bu.declarations.forall(objs.contains)
@@ -100,53 +99,6 @@ object ExtractorCommon {
       case _ => None
     }
 
-  def findExistingKeyPart(bu: BaseUnit, uri: String, keyPath: Seq[String]): Seq[YMapEntry] = {
-    val maybePart = bu.references
-      .find(_.location().contains(uri))
-      .getOrElse(bu)
-      .objWithAST
-      .flatMap(_.annotations.ast())
-    val entries = getExistingParts(maybePart, keyPath)
-    entries
-  }
-
-  def declarationPath(fdp: AmfObject, dialect: Dialect): Seq[String] =
-    Seq(fdp.declarableKey(dialect), declarationPathForDialect(dialect)).flatten
-
-  def declarationPathForDialect(dialect: Dialect): Option[String] =
-    dialect.documents().declarationsPath().option()
-
-  /** Secuential list for each node in the AST that already exists for the destiny
-    *
-    * @param maybePart
-    * @param keys
-    * @return
-    */
-  private def getExistingParts(maybePart: Option[YPart], keys: Seq[String]): Seq[YMapEntry] =
-    maybePart match {
-      case Some(n: YMap) => getExistingParts(YNode(n), keys.reverse, Seq.empty)
-      case Some(d: YDocument) =>
-        getExistingParts(d.node, keys.reverse, Seq.empty)
-      case _ => Seq.empty
-    }
-
-  @tailrec
-  private def getExistingParts(node: YNode, keys: Seq[String], acc: Seq[YMapEntry] = Seq.empty): Seq[YMapEntry] =
-    keys match {
-      case head :: _ =>
-        node.value match {
-          case m: YMap =>
-            val maybeEntry = m.entries
-              .find(_.key.asScalar.exists(_.text == head))
-            maybeEntry match { // with match instead of map for tailrec optimization
-              case Some(v) => getExistingParts(v.value, keys.tail, acc :+ v)
-              case None    => acc
-            }
-          case _ => acc
-        }
-      case _ => acc
-    }
-
   /** Render for the new declaration, and the top entry on which it should be nested
     */
   def declaredEntry(
@@ -223,12 +175,4 @@ object ExtractorCommon {
           .tabSize
       )
       .getOrElse(0)
-
-  @tailrec
-  def nameNotInList(baseName: String, existing: Set[String], c: Option[Int] = None): String = {
-    val maybeName = s"$baseName${c.getOrElse("")}"
-    if (existing.contains(maybeName))
-      nameNotInList(baseName, existing, Some(c.getOrElse(0) + 1))
-    else maybeName
-  }
 }
