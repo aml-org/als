@@ -4,18 +4,30 @@ import amf.aml.client.scala.model.document.Dialect
 import amf.apicontract.client.scala.AMFConfiguration
 import amf.core.client.scala.AMFParseResult
 import amf.core.client.scala.config.{CachedReference, UnitCache}
-import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.model.document.Module
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.client.scala.validation.AMFValidationResult
 import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.amfintegration.ValidationProfile
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 trait ProjectConfigurationState {
 
   def customSetUp(amfConfiguration: AMFConfiguration): AMFConfiguration = amfConfiguration
   def cache: UnitCache
+  def getCompanionForDialect(d: Dialect): Future[Option[Module]] =
+    Future
+      .sequence(
+        config.designDependency.map { dd =>
+          cache.fetch(dd).map {
+            case CachedReference(_, content: Module) => Some(content, content.references.map(_.id).contains(d.id))
+            case _                                   => None
+          }
+        }
+      )
+      .map(r => r.flatten.find(_._2).map(_._1))
 
   val extensions: Seq[Dialect]
   val profiles: Seq[ValidationProfile]

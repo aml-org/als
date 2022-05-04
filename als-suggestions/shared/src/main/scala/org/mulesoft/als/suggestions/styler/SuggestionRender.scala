@@ -58,11 +58,12 @@ trait SuggestionRender {
       case Left(te) => te
       case Right(AdditionalSuggestion(insert, Left(range))) =>
         val text = renderYPart(insert)
-        TextEdit(LspRangeConverter.toLspRange(range), text)
+        TextEdit(LspRangeConverter.toLspRange(range), s"\n$text\n")
       case Right(AdditionalSuggestion(insert, Right(parent))) =>
         val indentation: Int = parent.key.range.columnFrom + params.formattingConfiguration.tabSize
-        val text             = s"\n${renderYPart(insert, Some(indentation))}"
-        val position         = Position(parent.value.range.lineTo, parent.value.range.columnTo)
+        val preLine          = if (parent.value.range.lineTo <= parent.key.range.lineTo) "\n" else ""
+        val text             = s"$preLine${renderYPart(insert, Some(indentation))}\n"
+        val position         = Position(parent.value.range.lineTo - 1, parent.value.range.columnTo)
         TextEdit(LspRangeConverter.toLspRange(PositionRange(position, position)), text)
     }
 
