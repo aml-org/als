@@ -9,6 +9,7 @@ import amf.core.internal.utils.InflectorBase.Inflector
 import org.mulesoft.als.common.NodeBranchBuilder
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, AmfObjectImp, BaseUnitImp}
+import org.mulesoft.common.client.lexical.ASTElement
 import org.yaml.model._
 
 import scala.annotation.tailrec
@@ -32,7 +33,7 @@ trait DeclarationCreator {
       .find(_.location().contains(uri))
       .getOrElse(bu)
       .objWithAST
-      .flatMap(_.annotations.ast())
+      .flatMap(_.annotations.astElement())
     val entries = getExistingParts(maybePart, keyPath)
     entries
   }
@@ -43,7 +44,7 @@ trait DeclarationCreator {
     * @param keys
     * @return
     */
-  def getExistingParts(maybePart: Option[YPart], keys: Seq[String]): Seq[YMapEntry] =
+  def getExistingParts(maybePart: Option[ASTElement], keys: Seq[String]): Seq[YMapEntry] =
     maybePart match {
       case Some(yNode: YNode) => getExistingParts(Some(yNode.value), keys)
       case Some(n: YMap)      => getExistingParts(YNode(n), keys.reverse, Seq.empty)
@@ -58,9 +59,9 @@ trait DeclarationCreator {
     */
   def afterInfoNode(baseUnit: BaseUnit, isJson: Boolean): Option[Position] =
     endOfInfo(baseUnit).map { range =>
-      val branch = NodeBranchBuilder.build(baseUnit, range.start.toAmfPosition, isJson)
-      if (branch.stack.length > 2) // the root level node
-        PositionRange(branch.stack(branch.stack.length - 2).range).end
+      val branch = NodeBranchBuilder.build(baseUnit, range.start.toAmfPosition)
+      if (branch.stack.length > 3) // the root level node
+        PositionRange(branch.stack(branch.stack.length - 3).location.range).end
       else range.end
     }
 
@@ -98,8 +99,8 @@ trait DeclarationCreator {
             case f if f.field == BaseApiModel.Version || f.field == BaseApiModel.Name => f
           }
           .map(_.value.annotations)
-          .flatMap(_.ast())
-          .map(_.range)
+          .flatMap(_.astElement())
+          .map(_.location.range)
           .map(PositionRange(_))
           .reduceOption { (a, b) =>
             if (a.end > b.end)
@@ -111,8 +112,8 @@ trait DeclarationCreator {
           .fields()
           .find(_.field == ModuleModel.Usage)
           .map(_.value.annotations)
-          .flatMap(_.ast())
-          .map(_.range)
+          .flatMap(_.astElement())
+          .map(_.location.range)
           .map(PositionRange(_))
       case _ => None
     }

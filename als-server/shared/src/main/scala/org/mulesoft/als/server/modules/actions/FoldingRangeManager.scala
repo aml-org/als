@@ -62,7 +62,7 @@ class FoldingRangeManager(
       .flatMap(_.getLast)
       .map(
         _.unit.objWithAST
-          .flatMap(_.annotations.ast())
+          .flatMap(_.annotations.astElement())
           .map(FileRanges.ranges)
           .getOrElse(Seq.empty)
       )

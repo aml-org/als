@@ -10,6 +10,7 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fie
   NamedArrayFieldTypeSymbolBuilder
 }
 import org.yaml.model.YMapEntry
+import org.mulesoft.amfintegration.AmfImplicits._
 
 class DefaultArrayFieldTypeSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
     override implicit val ctx: StructureContext
@@ -17,10 +18,8 @@ class DefaultArrayFieldTypeSymbolBuilder(override val value: AmfArray, override 
   override protected def name: String = element.field.value.name.trim match {
     case "" => // should not show empty names
       element.value.annotations
-        .ast()
-        .collectFirst { case entry: YMapEntry =>
-          entry.key.as[String]
-        }
+        .astElement()
+        .flatMap(_.key())
         .getOrElse("") // if any such case appears, an exception must be added
     case name => name
   }

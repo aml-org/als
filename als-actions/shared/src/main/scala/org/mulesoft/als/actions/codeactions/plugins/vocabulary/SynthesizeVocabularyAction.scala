@@ -6,12 +6,13 @@ import amf.core.client.scala.vocabulary.Namespace
 import amf.core.internal.annotations.Aliases
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionRequestParams
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.ExtractorCommon
-import org.mulesoft.als.common.ASTWrapper.AlsInputRange
+import org.mulesoft.als.common.ASTElementWrapper.AlsPositionRange
 import org.mulesoft.als.common.dtoTypes.{PositionRange, Position => DtoPosition}
 import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, DialectImplicits}
+import org.mulesoft.common.client.lexical.ASTElement
 import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit}
 import org.mulesoft.lsp.feature.common.VersionedTextDocumentIdentifier
 import org.yaml.model.{YMap, YMapEntry, YNode, YPart}
@@ -54,7 +55,7 @@ class SynthesizeVocabularyAction(dialect: Dialect, override val params: CodeActi
       val displayName = m.name.option()
       val name        = createName(m.name.option(), knownNames, "classTerm", capitalize = true)
       val classTerm   = createClassTerm(displayName, name)
-      val textEdit    = createTextEdit("classTerm", name, m.annotations.ast())
+      val textEdit    = createTextEdit("classTerm", name, m.annotations.astElement())
       if (textEdit.isDefined) { // if we were able to create the edit
         knownClassTerms = knownClassTerms + (m.id -> name)
         localTextEdits = localTextEdits :+ textEdit.get
@@ -68,7 +69,7 @@ class SynthesizeVocabularyAction(dialect: Dialect, override val params: CodeActi
       val displayName                = p.name().option()
       val name                       = createName(displayName, knownNames, "propertyTerm", capitalize = false)
       val propertyTerm: PropertyTerm = createPropertyTerm(p, displayName, name, knownClassTerms)
-      val textEdit                   = createTextEdit("propertyTerm", name, p.annotations.ast())
+      val textEdit                   = createTextEdit("propertyTerm", name, p.annotations.astElement())
       if (textEdit.isDefined) { // if we were able to create the edit
         knownPropertyTerms = knownPropertyTerms :+ name
         localTextEdits = localTextEdits :+ textEdit.get
@@ -91,8 +92,8 @@ class SynthesizeVocabularyAction(dialect: Dialect, override val params: CodeActi
   def missingPropertyTerm(nodePropertyTerm: String, name: String): Boolean =
     nodePropertyTerm == (Namespace.Data + name).iri()
 
-  def createTextEdit(key: String, name: String, ast: Option[YPart]): Option[TextEdit] = {
-    val firstEntryPosition = findFirstEntryPosition(ast)
+  def createTextEdit(key: String, name: String, astElement: Option[ASTElement]): Option[TextEdit] = {
+    val firstEntryPosition = findFirstEntryPosition(astElement)
     firstEntryPosition.map(position => {
       val indentation = indent(dialect.indentation(position))
       val entry: String = YamlRender
@@ -106,8 +107,8 @@ class SynthesizeVocabularyAction(dialect: Dialect, override val params: CodeActi
   }
 
   @tailrec
-  private def findFirstEntryPosition(ast: Option[YPart]): Option[DtoPosition] =
-    ast match {
+  private def findFirstEntryPosition(astElement: Option[ASTElement]): Option[DtoPosition] =
+    astElement match {
       case Some(yMapEntry: YMapEntry) => findFirstEntryPosition(Some(yMapEntry.value.value))
       case Some(yNode: YNode)         => findFirstEntryPosition(Some(yNode.value))
       case Some(map: YMap)            => map.entries.headOption.map(_.range.toPositionRange.start)

@@ -73,7 +73,7 @@ class FindReferenceManager(
             position,
             workspace.getAliases(uri, uuid),
             workspace.getRelationships(uri, uuid).map(_._2),
-            cu.yPartBranch
+            cu.astPartBranch
           )
           .map(_.map(_.source))
       })

@@ -7,7 +7,6 @@ import amf.aml.internal.parse.common.{DeclarationKey, DeclarationKeys}
 import amf.antlr.client.scala.parse.syntax.SourceASTElement
 import amf.apicontract.client.scala.AMFConfiguration
 import amf.apicontract.internal.metamodel.domain.AbstractModel
-import amf.core.client.common.position.{Range, Position => AmfPosition}
 import amf.core.client.scala.model.document._
 import amf.core.client.scala.model.domain.{AmfObject, AmfScalar, DomainElement, NamedDomainElement}
 import amf.core.internal.annotations._
@@ -18,19 +17,13 @@ import amf.core.internal.parser.domain.{Annotations, FieldEntry, Value}
 import amf.core.internal.remote.Spec
 import amf.custom.validation.internal.report.loaders.ProfileDialectLoader
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
-import amf.shapes.internal.annotations.{
-  BaseVirtualNode,
-  ExternalJsonSchemaShape,
-  ParsedFromTypeExpression,
-  ParsedJSONSchema,
-  SchemaIsJsonSchema
-}
-import org.mulesoft.als.common.ASTWrapper._
+import amf.shapes.internal.annotations._
+import org.mulesoft.als.common.ASTElementWrapper._
+import org.mulesoft.als.common.YPartASTWrapper.{AlsYMapOps, AlsYPart}
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
-import org.mulesoft.als.common.{ASTPartBranch, ASTWrapper, YPartBranch}
-import org.mulesoft.amfintegration.dialect.dialects.validations.RawValidationProfileDialect
-import org.mulesoft.antlrast.ast.ASTElement
-import org.mulesoft.lexer.InputRange
+import org.mulesoft.als.common.{ASTElementWrapper, ASTPartBranch, YPartBranch}
+import org.mulesoft.antlrast.ast.Node
+import org.mulesoft.common.client.lexical.{ASTElement, Position => AmfPosition, PositionRange => AmfPositionRange}
 import org.yaml.model._
 
 import scala.collection.mutable
@@ -39,12 +32,17 @@ object AmfImplicits {
 
   implicit class ASTElementImplicits(ast: ASTElement) {
     def contains(position: AmfPosition): Boolean = {
-      ast.start.line <= position.line && ast.start.column <= position.column && ast.end.line >= position.line
+      ast.location.lineFrom <= position.line && ast.location.columnFrom <= position.column && ast.location.lineTo >= position.line
     }
 
     def toPositionRange: PositionRange =
-      PositionRange(Position(AmfPosition(ast.start.line, ast.start.column)),
-                    Position(AmfPosition(ast.end.line, ast.end.column)))
+      PositionRange(Position(ast.location.from), Position(ast.location.to))
+
+    def key(): Option[String] = ast match {
+      case entry: YMapEntry => Option(entry.key.as[String])
+      case node: Node       => None // TODO analize first terminal with name?
+      case _                => None
+    }
   }
 
   implicit class AlsLexicalInformation(li: LexicalInformation) {
@@ -83,13 +81,13 @@ object AmfImplicits {
     def trueLocation(): Option[String] =
       ann.find(classOf[SourceLocation]).map(_.location) orElse ypart().map(_.location.sourceName)
 
-    def range(): Option[Range] = ann.lexicalInformation().map(_.range)
+    def range(): Option[AmfPositionRange] = ann.lexicalInformation().map(_.range)
 
     def ypart(): Option[YPart] = pureYpart() orElse baseVirtualNode()
 
     def pureYpart(): Option[YPart] = ann.find(classOf[SourceYPart]).map(_.ast)
 
-    def astElement(): Option[ASTElement] = ann.find(classOf[SourceASTElement]).map(_.ast)
+    def astElement(): Option[ASTElement] = ann.find(classOf[SourceAST]).map(_.ast).orElse(baseVirtualNode())
 
     private def baseVirtualNode(): Option[YPart] = ann.find(classOf[BaseVirtualNode]).map(_.ast)
 
@@ -101,27 +99,25 @@ object AmfImplicits {
     def isInferred: Boolean = ann.contains(classOf[Inferred])
     def isDeclared: Boolean = ann.contains(classOf[DeclaredElement])
 
-    def targets(): Map[String, Seq[Range]] =
+    def targets(): Map[String, Seq[AmfPositionRange]] =
       ann.find(classOf[ReferenceTargets]).map(_.targets).getOrElse(Map.empty)
 
-    def containsAstBranch(astBranch: ASTPartBranch[_])
-    def containsYPart(yPartBranch: YPartBranch): Option[Boolean] =
-      this
-        .ypart()
-        .map(y => {
-          yPartBranch.node.sameContentAndLocation(y) ||
-          yPartBranch.stack.contains(y) ||
-          (yPartBranch.node match {
-            case node: YNode => node.value.sameContentAndLocation(y)
-            case _           => false
-          })
+    def containsAstBranch(astBranch: ASTPartBranch): Option[Boolean] = {
+      this.astElement().map { ast =>
+        astBranch.node.sameContentAndLocation(ast) ||
+        astBranch.stack.contains(ast) ||
+        (astBranch.node match {
+          case node: YNode => node.value.sameContentAndLocation(ast)
+          case _           => false
         })
+      }
+    }
 
-    def containsJsonSchemaPosition(yPartBranch: YPartBranch): Option[Boolean] =
+    def containsJsonSchemaPosition(astBranch: ASTPartBranch): Option[Boolean] =
       this
         .jsonSchema()
         .map(j => {
-          yPartBranch.node match {
+          astBranch.node match {
             case node: YNode if node.value.isInstanceOf[YScalar] =>
               node.value.asInstanceOf[YScalar].text == j.value
             case _ => false
@@ -131,7 +127,7 @@ object AmfImplicits {
     def containsPosition(amfPosition: AmfPosition): Boolean =
       this
         .ypart()
-        .exists(_.contains(amfPosition)) || (this.ypart().isEmpty && this.astElement().exists(_.contains(amfPosition)))
+        .exists(_.contains(amfPosition)) || (this.ypart().isEmpty && this.range().exists(_.contains(amfPosition)))
 
     def isRamlTypeExpression: Boolean = ann.find(classOf[ParsedFromTypeExpression]).isDefined
 
@@ -198,7 +194,7 @@ object AmfImplicits {
         case Some(e: YMapEntry) => e.contains(amfPosition)
         case Some(n: YNode) if n.tagType == YType.Map =>
           n.contains(amfPosition) &&
-          AlsYMapOps(n.value.asInstanceOf[YMap]).contains(amfPosition)
+          new AlsYMapOps(n.value.asInstanceOf[YMap]).contains(amfPosition)
         case Some(other) => other.contains(amfPosition)
         case _           => false
       }
@@ -210,7 +206,7 @@ object AmfImplicits {
         case _                  => false
       }
 
-    def isEndChar(position: AmfPosition, range: InputRange): Boolean =
+    def isEndChar(position: AmfPosition, range: AmfPositionRange): Boolean =
       position.line < range.lineTo || (position.line == range.lineTo && position.column > range.columnTo) || range.lineFrom == range.lineTo
 
     def isEmptyNodeLine(n: YNode, position: AmfPosition): Boolean =
@@ -239,7 +235,7 @@ object AmfImplicits {
       })
       .exists(_.toBool)
 
-    def range: Option[Range] = amfObject.position().map(_.range)
+    def range: Option[AmfPositionRange] = amfObject.position().map(_.range)
   }
 
   implicit class DomainElementImp(d: DomainElement) extends AmfObjectImp(d) {
@@ -327,7 +323,7 @@ object AmfImplicits {
     def indentation(position: Position): Int =
       bu.raw
         .map(text => {
-          ASTWrapper.getIndentation(text, position)
+          ASTElementWrapper.getIndentation(text, position)
         })
         .getOrElse(0)
 

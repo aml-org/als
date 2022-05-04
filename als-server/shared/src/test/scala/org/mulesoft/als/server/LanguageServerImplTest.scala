@@ -98,35 +98,35 @@ class LanguageServerImplTest extends LanguageServerBaseTest {
     }
   }
 
-  test("LanguageServer graphql test") {
-
-    val graphql =
-      "\"\"\"\nschema documentation\n\"\"\" \nschema {\n    query: Query\n}\n\n\ntype Query {\n    allPersons(last: Int): [Person!]!\n}\n\n\n\"\"\"\ntype documentation\n\"\"\"\ntype Mutation {\n    createPerson(name: String!, age: Int!): Person!\n}\n\ntype Subscription {\n    newPerson: Person!\n}\n\ntype Person {\n    name: String!\n    age: Int!\n    posts: [Post!]!\n}\n\ntype Post {\n    title: String!\n    author: Person!\n}"
-    val factory = {
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
-    }
-    val filePath    = "file://api.graphql"
-    val editorFiles = factory.container
-    withServer[Assertion](buildServer(factory)) { server =>
-      for {
-        _ <- server.textDocumentSyncConsumer.didOpen(
-          DidOpenTextDocumentParams(
-            TextDocumentItem(filePath, "graphql", 0, graphql)
-          ))
-        completions <- {
-          val completionHandler = server.resolveHandler(CompletionRequestType).value
-
-          completionHandler(CompletionParams(TextDocumentIdentifier(filePath), LspPosition(6, 0)))
-            .flatMap(completions => {
-              closeFile(server)(filePath)
-                .map(_ => completions.left.get)
-            })
-        }
-      } yield {
-        completions.nonEmpty shouldBe (true)
-      }
-    }
-  }
+//  test("LanguageServer graphql test") {
+//
+//    val graphql =
+//      "\"\"\"\nschema documentation\n\"\"\" \nschema {\n    query: Query\n}\n\n\ntype Query {\n    allPersons(last: Int): [Person!]!\n}\n\n\n\"\"\"\ntype documentation\n\"\"\"\ntype Mutation {\n    createPerson(name: String!, age: Int!): Person!\n}\n\ntype Subscription {\n    newPerson: Person!\n}\n\ntype Person {\n    name: String!\n    age: Int!\n    posts: [Post!]!\n}\n\ntype Post {\n    title: String!\n    author: Person!\n}"
+//    val factory = {
+//      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
+//    }
+//    val filePath    = "file://api.graphql"
+//    val editorFiles = factory.container
+//    withServer[Assertion](buildServer(factory)) { server =>
+//      for {
+//        _ <- server.textDocumentSyncConsumer.didOpen(
+//          DidOpenTextDocumentParams(
+//            TextDocumentItem(filePath, "graphql", 0, graphql)
+//          ))
+//        completions <- {
+//          val completionHandler = server.resolveHandler(CompletionRequestType).value
+//
+//          completionHandler(CompletionParams(TextDocumentIdentifier(filePath), LspPosition(6, 0)))
+//            .flatMap(completions => {
+//              closeFile(server)(filePath)
+//                .map(_ => completions.left.get)
+//            })
+//        }
+//      } yield {
+//        completions.nonEmpty shouldBe (true)
+//      }
+//    }
+//  }
 
   def buildServer(factory: WorkspaceManagerFactory): LanguageServer =
     new LanguageServerBuilder(

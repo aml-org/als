@@ -3,7 +3,7 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas20.structure
 import amf.aml.client.scala.model.domain.NodeMapping
 import amf.apicontract.client.scala.model.domain.Request
 import amf.apicontract.internal.metamodel.domain.OperationModel
-import org.mulesoft.als.common.YPartBranch
+import org.mulesoft.als.common.{ASTPartBranch, YPartBranch}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.ResolveIfApplies
@@ -16,9 +16,9 @@ object ResolveRequest extends ResolveIfApplies with ParameterKnowledge {
   override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] =
     request.amfObject match {
       case _: Request =>
-        if (isInParameter(request.yPartBranch))
+        if (isInParameter(request.astPartBranch))
           applies(Future.successful(Seq()))
-        else if (request.fieldEntry.isEmpty && !definingParam(request.yPartBranch))
+        else if (request.fieldEntry.isEmpty && !definingParam(request.astPartBranch))
           applies(Future {
             request.actualDialect.declares
               .collect({ case n: NodeMapping => n })
@@ -30,5 +30,5 @@ object ResolveRequest extends ResolveIfApplies with ParameterKnowledge {
       case _ => notApply
     }
 
-  private def definingParam(yPart: YPartBranch): Boolean = yPart.isKeyDescendantOf("parameters")
+  private def definingParam(astPart: ASTPartBranch): Boolean = astPart.isKeyDescendantOf("parameters")
 }

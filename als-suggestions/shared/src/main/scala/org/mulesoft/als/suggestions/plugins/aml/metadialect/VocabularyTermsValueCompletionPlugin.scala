@@ -5,7 +5,7 @@ import amf.aml.client.scala.model.domain._
 import amf.core.client.scala.model.domain.AmfObject
 import amf.core.internal.annotations.Aliases.Alias
 import amf.core.internal.annotations.{Aliases, ReferencedInfo}
-import org.mulesoft.als.common.YPartBranch
+import org.mulesoft.als.common.{ASTPartBranch, YPartBranch}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -16,18 +16,18 @@ import scala.concurrent.Future
 object VocabularyTermsValueCompletionPlugin extends AMLCompletionPlugin {
   override def id: String = "VocabularyTermsValueCompletionPlugin"
 
-  def applies(amfObject: AmfObject, yPartBranch: YPartBranch): Boolean =
-    isTerm(amfObject, yPartBranch) && yPartBranch.stringValue.contains(".")
+  def applies(amfObject: AmfObject, astPart: ASTPartBranch): Boolean =
+    isTerm(amfObject, astPart) && astPart.stringValue.contains(".")
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
-    if (applies(request.amfObject, request.yPartBranch))
+    if (applies(request.amfObject, request.astPartBranch))
       Future { suggest(request) }
     else
       emptySuggestion
 
   private def suggest(request: AmlCompletionRequest): Seq[RawSuggestion] = {
     (for {
-      alias      <- request.yPartBranch.stringValue.split("\\.").headOption
+      alias      <- request.astPartBranch.stringValue.split("\\.").headOption
       dialect    <- request.branchStack.collectFirst({ case d: Dialect => d })
       base       <- resolveAlias(dialect, alias).map(_._2.fullUrl)
       vocabulary <- findVocabulary(dialect, base)

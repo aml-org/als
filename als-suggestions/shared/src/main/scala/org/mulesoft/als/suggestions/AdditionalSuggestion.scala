@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions
 
-import org.mulesoft.als.common.YamlWrapper.YNodeImplicits
+import org.mulesoft.als.common.YPartASTWrapper.YNodeImplicits
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.declarations.DeclarationCreator
 import org.yaml.model.{YMapEntry, YNode, YPart}

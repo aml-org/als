@@ -14,17 +14,23 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object NodeUnionDeclarationCompletionPlugin extends ResolveIfApplies {
-  override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] =
-    new NodeUnionDeclarationCompletionPlugin(request).resolve()
+  override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] = {
+    request.astPartBranch match {
+      case yPart: YPartBranch => new NodeUnionDeclarationCompletionPlugin(request, yPart).resolve()
+      case _                  => None
+    }
+
+  }
 }
 
-class NodeUnionDeclarationCompletionPlugin(params: AmlCompletionRequest) extends UnionSuggestions {
-  override protected val amfObject: AmfObject     = params.amfObject
-  override protected val dialect: Dialect         = params.actualDialect
-  override protected val yPartBranch: YPartBranch = params.yPartBranch
-
+class NodeUnionDeclarationCompletionPlugin(
+    params: AmlCompletionRequest,
+    override protected val yPartBranch: YPartBranch
+) extends UnionSuggestions {
+  override protected val amfObject: AmfObject = params.amfObject
+  override protected val dialect: Dialect     = params.actualDialect
   def applies(): Boolean =
-    params.yPartBranch.isKey && params.amfObject.isInstanceOf[NodeMapping]
+    params.astPartBranch.isKey && params.amfObject.isInstanceOf[NodeMapping]
 
   def resolve(): Option[Future[Seq[RawSuggestion]]] =
     if (applies())

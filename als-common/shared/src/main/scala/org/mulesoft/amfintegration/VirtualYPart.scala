@@ -1,9 +1,9 @@
 package org.mulesoft.amfintegration
 
 import amf.core.internal.annotations.LexicalInformation
-import org.mulesoft.als.common.ASTWrapper.AlsInputRange
+import org.mulesoft.als.common.ASTElementWrapper.AlsPositionRange
 import org.mulesoft.common.client.lexical.SourceLocation
-import org.mulesoft.lexer.InputRange
+import org.mulesoft.common.client.lexical.{PositionRange => AmfPositionRange}
 import org.yaml.model.{YScalar, YValue}
 
 /** Virtual YParts are not really part of the AST, but group similar information for the node (for example, a specific
@@ -43,7 +43,7 @@ object VirtualYPart {
   private def buildLocation(location: String, information: LexicalInformation) =
     SourceLocation(
       location,
-      InputRange(
+      AmfPositionRange(
         information.range.start.line,
         information.range.start.column,
         information.range.end.line,

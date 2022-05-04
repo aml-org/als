@@ -10,8 +10,7 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   AmfObjectSymbolBuilder,
   SymbolBuilder
 }
-import org.mulesoft.lexer.InputRange
-import amf.core.client.common.position.{Range => AmfRange}
+import org.mulesoft.common.client.lexical.{PositionRange => AmfPositionRange}
 import amf.core.internal.metamodel.domain.ObjectNodeModel
 import amf.core.internal.utils._
 
@@ -30,7 +29,7 @@ class ObjectNodeSymbolBuilder(override val element: ObjectNode)(override implici
         case (n, Value(v: DataNode, a)) =>
           val decodedName = n.value.name.urlComponentDecoded
           val range =
-            PositionRange(a.find(classOf[LexicalInformation]).map(l => l.range).getOrElse(AmfRange(InputRange.Zero)))
+            PositionRange(a.find(classOf[LexicalInformation]).map(l => l.range).getOrElse(AmfPositionRange.ZERO))
           ctx.factory
             .builderFor(v)
             .map(_.build())

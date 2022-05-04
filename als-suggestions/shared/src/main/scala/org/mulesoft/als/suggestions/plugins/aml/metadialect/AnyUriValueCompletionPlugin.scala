@@ -30,13 +30,13 @@ object AnyUriValueCompletionPlugin extends AMLCompletionPlugin {
 
   private def isInReferenceValueFromAst(request: AmlCompletionRequest) =
     request.amfObject match {
-      case x if isNodeMappable(x) => request.yPartBranch.parentEntryIs("extends") && request.yPartBranch.isValue
+      case x if isNodeMappable(x) => request.astPartBranch.parentEntryIs("extends") && request.astPartBranch.isValue
       case _: PropertyLikeMapping[_] =>
-        request.yPartBranch.parentEntryIs("range") && request.yPartBranch.isValue
+        request.astPartBranch.parentEntryIs("range") && request.astPartBranch.isValue
       case pn: PublicNodeMapping =>
-        request.yPartBranch.isValue && pn.mappedNode().value() == "http://amferror.com/#errorNodeMappable/"
+        request.astPartBranch.isValue && pn.mappedNode().value() == "http://amferror.com/#errorNodeMappable/"
       case dm: DocumentMapping =>
-        request.yPartBranch.isValue && dm.encoded().value() == "http://amferror.com/#errorNodeMappable/"
+        request.astPartBranch.isValue && dm.encoded().value() == "http://amferror.com/#errorNodeMappable/"
       case _ => false
     }
 

@@ -78,7 +78,7 @@ trait AbstractKnownValueCompletionPlugin extends AMLCompletionPlugin {
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     params.fieldEntry match {
       case Some(fe)
-          if params.yPartBranch.isKey || params.propertyMapping
+          if params.astPartBranch.isKey || params.propertyMapping
             .exists(_.nodePropertyMapping().value() == fe.field.value.iri()) =>
         innerResolver(params, fe.field, params.amfObject.metaURIs.head)
       case _ => emptySuggestion
@@ -93,8 +93,8 @@ trait AbstractKnownValueCompletionPlugin extends AMLCompletionPlugin {
       field,
       classTerm,
       params.actualDialect,
-      params.yPartBranch.isKey,
-      params.yPartBranch.isArray || (params.yPartBranch.isJson && params.yPartBranch.isInArray),
+      params.astPartBranch.isKey,
+      params.astPartBranch.isArray || (params.astPartBranch.isJson && params.astPartBranch.isInArray),
       params.isKeyMapping
     ).resolve()
 }

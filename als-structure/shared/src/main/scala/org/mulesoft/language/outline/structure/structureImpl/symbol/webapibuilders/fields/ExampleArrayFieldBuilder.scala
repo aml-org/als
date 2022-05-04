@@ -9,7 +9,7 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldTypeSymbolBuilder,
   IriFieldSymbolBuilderCompanion
 }
-import amf.core.client.common.position.{Range => AmfRange}
+import org.mulesoft.common.client.lexical.{PositionRange => AmfPositionRange}
 import amf.shapes.client.scala.model.domain.Example
 import amf.shapes.internal.domain.metamodel.common.ExamplesField
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
@@ -20,7 +20,7 @@ case class ExampleArrayFieldBuilder(override val value: AmfArray, override val e
 
   override protected val name: String = if (isSingleExample(element)) "example" else "examples"
 
-  override protected def range: Option[AmfRange] =
+  override protected def range: Option[AmfPositionRange] =
     super.range.orElse(value.values.headOption.flatMap(_.annotations.range()))
 
   private def isSingleExample(fe: FieldEntry) = fe.array.values.exists {

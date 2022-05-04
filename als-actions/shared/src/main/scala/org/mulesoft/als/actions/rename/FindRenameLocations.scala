@@ -3,8 +3,8 @@ package org.mulesoft.als.actions.rename
 import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.actions.references.FindReferences
 import org.mulesoft.als.common.YamlUtils
-import org.mulesoft.als.common.ASTWrapper._
-import org.mulesoft.als.common.cache.YPartBranchCached
+import org.mulesoft.als.common.YPartASTWrapper._
+import org.mulesoft.als.common.cache.ASTPartBranchCached
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
 import org.mulesoft.als.convert.LspRangeConverter
@@ -24,11 +24,11 @@ object FindRenameLocations {
       newName: String,
       allAliases: Future[Seq[AliasInfo]],
       references: Future[Seq[RelationshipLink]],
-      yPartBranchCached: YPartBranchCached,
+      astPartBranchCached: ASTPartBranchCached,
       unit: BaseUnit
   ): Future[AbstractWorkspaceEdit] =
     FindReferences
-      .getReferences(uri, position, allAliases, references, yPartBranchCached)
+      .getReferences(uri, position, allAliases, references, astPartBranchCached)
       .map { refs =>
         getOriginKey(unit, position)
           .fold(Seq[RenameLocation]())(refsToRenameLocation(newName, refs, _))
@@ -51,7 +51,7 @@ object FindRenameLocations {
 
   private def getOriginKey(unit: BaseUnit, position: Position): Option[YScalar] =
     unit.objWithAST
-      .flatMap(_.annotations.ast())
+      .flatMap(_.annotations.ypart())
       .map(YamlUtils.getNodeByPosition(_, position.toAmfPosition))
       .collect { case s: YScalar =>
         s

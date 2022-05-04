@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.styler.astbuilder
 
-import amf.core.client.common.position.{Position => AmfPosition}
+import org.mulesoft.common.client.lexical.{Position => AmfPosition}
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.{RawSuggestion, SuggestionStructure}
 import org.yaml.model.{YMap, YMapEntry, YNode, YPart}

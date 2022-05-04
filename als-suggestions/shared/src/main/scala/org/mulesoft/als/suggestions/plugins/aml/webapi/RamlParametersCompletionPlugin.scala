@@ -15,7 +15,7 @@ object RamlParametersCompletionPlugin extends AMLCompletionPlugin with DeclaredT
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
       params.amfObject match {
-        case s: Parameter if params.yPartBranch.isValue =>
+        case s: Parameter if params.astPartBranch.isValue =>
           val iri =
             extractIri(params, s)
           val declaredSuggestions =

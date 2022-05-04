@@ -10,7 +10,7 @@ import scala.concurrent.Future
 object ResolveUriParameter extends ResolveIfApplies {
   override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] = {
     request.amfObject match {
-      case _: EndPoint if request.yPartBranch.isKeyDescendantOf("uriParameters") =>
+      case _: EndPoint if request.astPartBranch.isKeyDescendantOf("uriParameters") =>
         applies(Future.successful(Seq()))
       case _ => notApply
     }

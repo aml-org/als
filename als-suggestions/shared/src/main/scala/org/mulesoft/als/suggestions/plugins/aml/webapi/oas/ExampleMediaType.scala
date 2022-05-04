@@ -16,14 +16,14 @@ object ExampleMediaType extends AMLCompletionPlugin {
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     request.fieldEntry match {
       case Some(fe)
-          if fe.field == ResponseModel.Examples && request.yPartBranch.isKey && request.amfObject
+          if fe.field == ResponseModel.Examples && request.astPartBranch.isKey && request.amfObject
             .isInstanceOf[Response] =>
         new AMLKnownValueCompletions(
           ExampleModel.MediaType,
           ExampleModel.`type`.head.iri(),
           request.actualDialect,
-          request.yPartBranch.isKey,
-          request.yPartBranch.isInArray || request.yPartBranch.isArray,
+          request.astPartBranch.isKey,
+          request.astPartBranch.isInArray || request.astPartBranch.isArray,
           true
         ).resolve()
       case _ => emptySuggestion

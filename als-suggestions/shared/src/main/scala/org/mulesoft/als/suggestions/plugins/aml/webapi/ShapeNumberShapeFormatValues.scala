@@ -17,7 +17,7 @@ trait ShapeNumberShapeFormatValues extends AMLCompletionPlugin {
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
       request.fieldEntry match {
-        case Some(FieldEntry(ScalarShapeModel.Format, _)) if request.yPartBranch.isValue =>
+        case Some(FieldEntry(ScalarShapeModel.Format, _)) if request.astPartBranch.isValue =>
           val formats: Seq[String] = dataTypeNodeMapping(getDataType(request.amfObject))
             .propertiesMapping()
             .find(_.name().option().contains("format"))

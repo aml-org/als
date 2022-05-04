@@ -2,7 +2,7 @@ package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import org.mulesoft.als.common.SemanticNamedElement._
-import org.mulesoft.als.common.YPartBranch
+import org.mulesoft.als.common.{ASTPartBranch, YPartBranch}
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.{PlainText, RawSuggestion, SuggestionStructure}
@@ -33,7 +33,7 @@ trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
     }
 
   private def isDeclarable(params: AmlCompletionRequest): Boolean =
-    isObjectDeclarable(params) && !params.amfObject.elementIdentifier().contains(params.yPartBranch.stringValue)
+    isObjectDeclarable(params) && !params.amfObject.elementIdentifier().contains(params.astPartBranch.stringValue)
 
   protected def isObjectDeclarable(params: AmlCompletionRequest): Boolean =
     params.amfObject.metaURIs
@@ -48,23 +48,26 @@ trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
     }
 
   def isRamlTag(params: AmlCompletionRequest): Boolean =
-    params.yPartBranch.isValue && params.prefix.startsWith("!")
+    params.astPartBranch.isValue && params.prefix.startsWith("!")
 
-  def isJsonKey(params: AmlCompletionRequest): Boolean =
-    (!params.yPartBranch.hasIncludeTag) && params.yPartBranch.brothers.isEmpty &&
+  def isJsonKey(params: AmlCompletionRequest): Boolean = params.astPartBranch match {
+    case yPartBranch: YPartBranch =>
+      (!yPartBranch.hasIncludeTag) && yPartBranch.brothers.isEmpty &&
       isDeclarable(params) &&
       isInFacet(params) &&
       matchPrefixPatched(params) &&
-      !isExceptionCase(params.yPartBranch)
+      !isExceptionCase(yPartBranch)
+    case _ => false
+  }
 
   private def matchPrefixPatched(params: AmlCompletionRequest) =
-    params.yPartBranch.stringValue.isEmpty || params.yPartBranch.isArray || params.yPartBranch.stringValue
+    params.astPartBranch.stringValue.isEmpty || params.astPartBranch.isArray || params.astPartBranch.stringValue
       .startsWith("$")
 
   private def isInFacet(params: AmlCompletionRequest): Boolean = isKeyAlone(params)
 
   private def isKeyAlone(params: AmlCompletionRequest): Boolean =
-    params.fieldEntry.isEmpty && (params.yPartBranch.isKey || params.yPartBranch.isInArray)
+    params.fieldEntry.isEmpty && (params.astPartBranch.isKey || params.astPartBranch.isInArray)
 
   protected def isExceptionCase(branch: YPartBranch): Boolean = false
 }

@@ -86,7 +86,7 @@ class GoToImplementationManager(
             workspace
               .getRelationships(uri, uuid)
               .map(_._2.filter(_.linkType == LinkTypes.TRAITRESOURCES)),
-            cu.yPartBranch
+            cu.astPartBranch
           )
           .map(_.map(_.source))
 

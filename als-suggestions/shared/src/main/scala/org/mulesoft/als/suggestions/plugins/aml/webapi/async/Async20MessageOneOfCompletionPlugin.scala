@@ -14,8 +14,8 @@ object Async20MessageOneOfCompletionPlugin extends AMLCompletionPlugin {
     Future {
       if (
         MessageKnowledge.isRootMessageBlock(request) &&
-        request.yPartBranch.brothers.isEmpty &&
-        request.yPartBranch.isInArray
+        request.astPartBranch.brothers.isEmpty &&
+        request.astPartBranch.isInArray
       )
         Seq(RawSuggestion.arrayProp("oneOf", "Schema"))
       else Nil

@@ -27,11 +27,11 @@ object RamlParametrizedDeclarationVariablesRef extends AMLCompletionPlugin {
 
   private def getParametrizedDeclaration(params: AmlCompletionRequest): Option[ParametrizedDeclaration] = {
     params.amfObject match {
-      case declaration: ParametrizedDeclaration if params.yPartBranch.isKey || params.yPartBranch.isArray =>
+      case declaration: ParametrizedDeclaration if params.astPartBranch.isKey || params.astPartBranch.isArray =>
         Some(declaration)
       case _ =>
         params.branchStack.headOption
-          .collectFirst({ case p: ParametrizedDeclaration if params.yPartBranch.isKey => p })
+          .collectFirst({ case p: ParametrizedDeclaration if params.astPartBranch.isKey => p })
     }
   }
 }

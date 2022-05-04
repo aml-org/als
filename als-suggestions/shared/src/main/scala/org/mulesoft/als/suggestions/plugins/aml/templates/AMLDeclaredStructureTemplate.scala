@@ -11,11 +11,11 @@ object AMLDeclaredStructureTemplate {
   def resolve(params: AmlCompletionRequest): Seq[RawSuggestion] =
     if (
       params.configurationReader.getTemplateType != TemplateTypes.NONE &&
-      params.yPartBranch.isKey &&
+      params.astPartBranch.isKey &&
       TemplateTools.isInsideDeclaration(params)
     ) {
       val decKey = params.nodeDialect.declarationsMapTerms
-        .find(t => params.yPartBranch.parentEntry.flatMap(_.key.asScalar).map(_.text).contains(t._2))
+        .find(t => params.astPartBranch.parentKey.contains(t._2))
         .map(_._1)
       val nm           = decKey.flatMap(DialectNodeFinder.find(_, params.nodeDialect))
       val usedMappings = nm.map(_.propertiesMapping()).getOrElse(Seq.empty).filter(_.minCount().value() > 0)

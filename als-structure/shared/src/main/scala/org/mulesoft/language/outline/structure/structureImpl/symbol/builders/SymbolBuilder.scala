@@ -2,7 +2,8 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.builders
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKinds.SymbolKind
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
-import amf.core.client.common.position.Range
+import org.mulesoft.common.client.lexical.{PositionRange => AmfPositionRange}
+import org.mulesoft.common.client.lexical.ASTElement
 import org.yaml.model.{YMapEntry, YPart}
 
 /** Common Symbol builder
@@ -16,7 +17,7 @@ trait SymbolBuilder[T] {
   private def sortedChildren = children.sortWith((ds1, ds2) => ds1.range.start < ds2.range.start)
 
   protected def kind: SymbolKind
-  protected def range: Option[Range]
+  protected def range: Option[AmfPositionRange]
 
   private def rangeFromChildren: Option[PositionRange] = sortedChildren match {
     case head :: Nil  => Some(head.range)
@@ -27,11 +28,11 @@ trait SymbolBuilder[T] {
   private def effectiveRange: Option[PositionRange] =
     range.map(PositionRange(_)).orElse(rangeFromChildren)
 
-  def rangeFromAst(yPart: YPart): Option[Range] = yPart match {
+  def rangeFromAst(astElement: ASTElement): Option[AmfPositionRange] = astElement match {
     case yme: YMapEntry if yme.key.sourceName.isEmpty                 => None
-    case yme: YMapEntry if yme.value.sourceName != yme.key.sourceName => Some(Range(yme.key.range))
-    case y if y.sourceName.isEmpty                                    => None
-    case y                                                            => Some(Range(y.range))
+    case yme: YMapEntry if yme.value.sourceName != yme.key.sourceName => Some(yme.key.range)
+    case y if y.location.sourceName.isEmpty                           => None
+    case y                                                            => Some(y.location.range)
   }
 
   def build(): Seq[DocumentSymbol] =

@@ -2,11 +2,11 @@ package org.mulesoft.als.actions.hover
 
 import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.ClassTerm
-import amf.core.client.common.position.{Range => AmfRange}
+import org.mulesoft.common.client.lexical.{PositionRange => AmfPositionRange}
 import amf.core.client.scala.model.domain.AmfObject
 import amf.core.client.scala.vocabulary.ValueType
 import amf.core.internal.annotations.Aliases
-import org.mulesoft.als.common.YPartBranch
+import org.mulesoft.als.common.{ASTPartBranch, YPartBranch}
 import org.mulesoft.amfintegration.AmfImplicits.AmfObjectImp
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
@@ -28,25 +28,30 @@ class PatchedHover private (provider: VocabularyProvider) {
       AsyncApi20Dialect.dialect.id  -> "asyncapi2"
     )
 
-  def getHover(obj: AmfObject, branch: YPartBranch, dialect: Dialect): Option[(Seq[String], Option[AmfRange])] =
+  def getHover(
+      obj: AmfObject,
+      branch: ASTPartBranch,
+      dialect: Dialect
+  ): Option[(Seq[String], Option[AmfPositionRange])] =
     obj.metaURIs.headOption.flatMap(metaUri => {
       branch.closestEntry match {
         case Some(entry: YMapEntry) => getPatchedHover(metaUri, entry, dialect.id)
         case _                      => None
       }
+
     })
 
   private def getPatchedHover(
       metaUri: String,
       entry: YMapEntry,
       dialectId: String
-  ): Option[(Seq[String], Option[AmfRange])] = {
+  ): Option[(Seq[String], Option[AmfPositionRange])] = {
     val dialectName = dialectNames.getOrElse(dialectId, "unknown")
     val valueType   = buildTerm(ValueType(metaUri), entry.key.toString, dialectName)
     provider
       .getDescription(valueType)
       .map(description => {
-        (Seq(description), Some(AmfRange(entry.range)))
+        (Seq(description), Some(entry.range))
       })
   }
 
@@ -86,13 +91,12 @@ object PatchedHover {
   def apply(provider: VocabularyProvider, dialectTerms: Seq[DialectTerms]): PatchedHover = {
     val ph = new PatchedHover(provider)
     provider match {
-      case _: AlsVocabularyRegistry => {
+      case _: AlsVocabularyRegistry =>
         dialectTerms.foreach(t => {
           t.bu.annotations
             .find(classOf[Aliases])
             .foreach(aliases => ph.init(t.definedBy, aliases))
         })
-      }
       case _ =>
     }
     ph

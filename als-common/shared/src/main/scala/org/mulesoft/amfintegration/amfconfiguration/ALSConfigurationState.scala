@@ -66,12 +66,12 @@ case class ALSConfigurationState(
     getAmfConfig(base)
   }
 
-  def getAmfConfig = APIConfiguration.API()
+  def getAmfConfig: AMFConfiguration = getAmfConfig(APIConfiguration.API())
 
   def getAmfConfig(spec: Spec): AMFConfiguration = {
     val base = spec match {
       case GRAPHQL => GraphQLConfiguration.GraphQL()
-      //case GRPC =>
+      // case GRPC =>
       case _ => APIConfiguration.fromSpec(spec)
     }
     getAmfConfig(base)
@@ -161,9 +161,11 @@ case class ALSConfigurationState(
       .configurationState()
       .findSemanticByName(name)
 
-  def asJsonLD(resolved: BaseUnit,
-               builder: DocBuilder[_],
-               renderOptions: RenderOptions = RenderOptions().withCompactUris.withoutSourceMaps): Unit =
+  def asJsonLD(
+      resolved: BaseUnit,
+      builder: DocBuilder[_],
+      renderOptions: RenderOptions = RenderOptions().withCompactUris.withoutSourceMaps
+  ): Unit =
     getAmfConfig(resolved.sourceSpec.getOrElse(AMF))
       .withRenderOptions(renderOptions)
       .baseUnitClient()

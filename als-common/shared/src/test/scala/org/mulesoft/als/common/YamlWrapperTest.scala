@@ -1,6 +1,6 @@
 package org.mulesoft.als.common
 
-import amf.core.client.common.position.{Position => AmfPosition}
+import org.mulesoft.common.client.lexical.{Position => AmfPosition}
 import org.scalatest.FlatSpec
 import org.yaml.model.YScalar
 

@@ -23,8 +23,8 @@ trait RamlBooleanPropertyValue extends AMLCompletionPlugin with BooleanSuggestio
           val maybeMapping: Option[PropertyMapping] = propertyShapeNode
             .flatMap(
               _.propertiesMapping().find(pm =>
-                request.yPartBranch.isValue &&
-                  request.yPartBranch.parentEntry.exists(_.key.asScalar.exists(_.text == pm.name().value()))
+                request.astPartBranch.isValue &&
+                  request.astPartBranch.parentKey.contains(pm.name().value())
               )
             )
           if (maybeMapping.exists(_.literalRange().option().contains(XsdTypes.xsdBoolean.iri())))

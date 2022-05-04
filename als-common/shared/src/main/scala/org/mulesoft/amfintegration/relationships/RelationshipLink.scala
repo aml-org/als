@@ -1,6 +1,6 @@
 package org.mulesoft.amfintegration.relationships
 
-import org.mulesoft.als.common.ASTWrapper._
+import org.mulesoft.als.common.ASTElementWrapper._
 import org.mulesoft.amfintegration.relationships.LinkTypes.LinkTypes
 import org.mulesoft.lsp.feature.common.Location
 import org.yaml.model.{YMapEntry, YPart}
@@ -15,15 +15,15 @@ case class RelationshipLink(
   def destination: Location =
     if (targetEntry.sourceName.isEmpty)
       // the map is empty, this is probably an error with the annotations but I can save it if there is a name
-      this.targetName.map(_.yPartToLocation).getOrElse(targetEntry.yPartToLocation)
-    else targetEntry.yPartToLocation
+      this.targetName.map(_.astToLocation).getOrElse(targetEntry.astToLocation)
+    else targetEntry.astToLocation
 
   def source: Location =
     sourceName
-      .map(_.yPartToLocation)
+      .map(_.astToLocation)
       .getOrElse(sourceEntry match {
-        case e: YMapEntry => e.value.yPartToLocation
-        case _            => sourceEntry.yPartToLocation
+        case e: YMapEntry => e.value.astToLocation
+        case _            => sourceEntry.astToLocation
       })
 
   def sourceNameEntry: YPart = sourceName.getOrElse(sourceEntry)

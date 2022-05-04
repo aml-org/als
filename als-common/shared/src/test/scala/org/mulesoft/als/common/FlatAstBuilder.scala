@@ -2,8 +2,8 @@ package org.mulesoft.als.common
 
 import org.yaml.model.{YNode, YPart, YScalar}
 import org.yaml.parser.{JsonParser, YamlParser}
-import amf.core.client.common.position.{Position => AmfPosition}
-import org.mulesoft.als.common.ASTWrapper._
+import org.mulesoft.common.client.lexical.{Position => AmfPosition}
+import org.mulesoft.als.common.ASTElementWrapper._
 
 class FlatAstBuilder(private val node: YNode) {
 

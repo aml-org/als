@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.client
 
 import amf.aml.client.scala.model.document.Dialect
-import amf.core.client.common.position.{Position => AmfPosition}
+import org.mulesoft.common.client.lexical.{Position => AmfPosition}
 import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.dtoTypes.{Position => DtoPosition}

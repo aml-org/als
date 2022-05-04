@@ -1,10 +1,10 @@
 package org.mulesoft.als.common
 
-import amf.core.client.common.position.{Position => AmfPosition}
+import org.mulesoft.common.client.lexical.{Position => AmfPosition, PositionRange => AmfPositionRange}
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.internal.remote.FileMediaType
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
-import org.mulesoft.lexer.InputRange
+
 import org.yaml.model.{YMap, YMapEntry, YNode, YNonContent, YPart, YScalar}
 
 import scala.annotation.tailrec
@@ -18,7 +18,7 @@ object YamlUtils {
       case _ => false
     }
 
-  def contains(range: InputRange, position: AmfPosition): Boolean =
+  def contains(range: AmfPositionRange, position: AmfPosition): Boolean =
     PositionRange(range)
       .contains(Position(position))
 

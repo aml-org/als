@@ -1,11 +1,11 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi
 
-import org.mulesoft.als.common.YPartBranch
+import org.mulesoft.als.common.ASTPartBranch
 
 trait IsInsideRequired {
-  def isInsideRequired(yPartBranch: YPartBranch): Boolean =
-    (yPartBranch.parentEntryIs(
+  def isInsideRequired(astPartBranch: ASTPartBranch): Boolean =
+    (astPartBranch.parentEntryIs(
       "required"
-    ) || ((yPartBranch.isValue || yPartBranch.isArray || yPartBranch.isInArray) && yPartBranch
-      .parentEntryIs("required"))) || yPartBranch.parentEntryIs("properties")
+    ) || ((astPartBranch.isValue || astPartBranch.isArray || astPartBranch.isInArray) && astPartBranch
+      .parentEntryIs("required"))) || astPartBranch.parentEntryIs("properties")
 }

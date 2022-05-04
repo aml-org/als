@@ -454,7 +454,7 @@ class RenameTest extends CodeActionsTest with FileAssertionTest with RenameTools
             testCase.newName,
             wsManager.getAliases(testCase.targetUri, ""),
             wsManager.getRelationships(testCase.targetUri, "").map(_._2),
-            cu.yPartBranch,
+            cu.astPartBranch,
             cu.unit
           )
         actual <- writeTemporaryFile(s"file://rename-test-$name-actual.yaml")(

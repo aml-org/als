@@ -22,7 +22,7 @@ abstract class RamlParamsCompletionPlugin(
     Future.successful(computeSuggestions(params))
 
   private def computeSuggestions(params: AmlCompletionRequest) = {
-    if (params.yPartBranch.isKey) {
+    if (params.astPartBranch.isKey) {
       params.amfObject match {
         case param: Parameter if isNotName(params) && param.fields.getValueAsOption(ParameterModel.Schema).isDefined =>
           computeParam(param, params.branchStack, typeFacetsCompletionPlugin)

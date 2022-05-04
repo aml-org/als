@@ -2,6 +2,7 @@ package org.mulesoft.als.suggestions.plugins.aml.vocabulary
 
 import amf.aml.client.scala.model.domain.{ClassTerm, ObjectPropertyTerm}
 import amf.core.client.scala.model.document.{BaseUnit, DeclaresModel}
+import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -22,8 +23,12 @@ object ClassTermUriCompletionPlugin extends AMLCompletionPlugin {
 
   private def isPropertyRange(request: AmlCompletionRequest): Boolean =
     request.amfObject match {
-      case _: ObjectPropertyTerm => request.yPartBranch.parentEntryIs("range") && request.yPartBranch.isValue
-      case _                     => false
+      case _: ObjectPropertyTerm =>
+        request.astPartBranch.isValue && (request.astPartBranch match {
+          case yPart: YPartBranch => yPart.parentEntryIs("range")
+          case _                  => false
+        })
+      case _ => false
     }
 
   private def classTerms(bu: BaseUnit): Seq[String] =

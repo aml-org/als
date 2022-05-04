@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.core.internal.plugins.syntax.SyamlSyntaxParsePlugin
-import org.mulesoft.als.common.DirectoryResolver
+import org.mulesoft.als.common.{DirectoryResolver, YPartBranch}
 import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
@@ -21,12 +21,7 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
     else ""
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
-    if (
-      DialectKnowledge.isRamlInclusion(params.yPartBranch, params.nodeDialect) || DialectKnowledge.isJsonInclusion(
-        params.yPartBranch,
-        params.nodeDialect
-      )
-    ) {
+    if (ramlOrJsonInclusion(params)) {
       resolveInclusion(
         params.baseUnit.location().getOrElse(""),
         params.directoryResolver,
@@ -36,6 +31,16 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
       )
     } else emptySuggestion
 
+  private def ramlOrJsonInclusion(params: AmlCompletionRequest) = {
+    params.astPartBranch match {
+      case yPartBranch: YPartBranch =>
+        DialectKnowledge.isRamlInclusion(yPartBranch, params.nodeDialect) || DialectKnowledge.isJsonInclusion(
+          yPartBranch,
+          params.nodeDialect
+        )
+      case _ => false
+    }
+  }
   def resolveInclusion(
       actualLocation: String,
       directoryResolver: DirectoryResolver,

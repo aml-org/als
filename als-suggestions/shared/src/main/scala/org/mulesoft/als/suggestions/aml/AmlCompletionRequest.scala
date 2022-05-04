@@ -2,12 +2,13 @@ package org.mulesoft.als.suggestions.aml
 
 import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
-import amf.core.client.common.position.{Position => AmfPosition}
+import org.mulesoft.common.client.lexical.{Position => AmfPosition}
 import amf.core.client.scala.model.document.{BaseUnit, EncodesModel}
 import amf.core.client.scala.model.domain.{AmfObject, DomainElement}
 import amf.core.internal.metamodel.document.DocumentModel
 import amf.core.internal.parser.domain.FieldEntry
-import org.mulesoft.als.common.ASTWrapper.{AlsInputRange, AlsYPart}
+import org.mulesoft.als.common.YPartASTWrapper.AlsYPart
+import org.mulesoft.als.common.ASTElementWrapper._
 import org.mulesoft.als.common._
 import org.mulesoft.als.common.dtoTypes.{PositionRange, TextHelper, Position => DtoPosition}
 import org.mulesoft.als.configuration.AlsConfigurationReader
@@ -27,7 +28,7 @@ class AmlCompletionRequest(
     val actualDialect: Dialect,
     val directoryResolver: DirectoryResolver,
     val styler: SuggestionRender,
-    val yPartBranch: YPartBranch,
+    val astPartBranch: ASTPartBranch,
     val configurationReader: AlsConfigurationReader,
     private val objectInTree: ObjectInTree,
     val inheritedProvider: Option[DeclarationProvider] = None,
@@ -52,7 +53,7 @@ class AmlCompletionRequest(
     objectInTree.fieldValue
       .map(fe => (fe, false))
       .orElse({
-        FieldEntrySearcher(objectInTree.obj, currentNode, yPartBranch, actualDialect)
+        FieldEntrySearcher(objectInTree.obj, currentNode, astPartBranch, actualDialect)
           .search(objectInTree.stack.headOption)
       })
   }
@@ -94,15 +95,17 @@ class AmlCompletionRequest(
 // todo: make instance
 object AmlCompletionRequestBuilder {
 
-  def build(baseUnit: BaseUnit,
-            position: AmfPosition,
-            dialect: Dialect,
-            directoryResolver: DirectoryResolver,
-            snippetSupport: Boolean,
-            rootLocation: Option[String],
-            configuration: AlsConfigurationReader,
-            completionsPluginHandler: CompletionsPluginHandler,
-            alsConfigurationState: ALSConfigurationState): AmlCompletionRequest = {
+  def build(
+      baseUnit: BaseUnit,
+      position: AmfPosition,
+      dialect: Dialect,
+      directoryResolver: DirectoryResolver,
+      snippetSupport: Boolean,
+      rootLocation: Option[String],
+      configuration: AlsConfigurationReader,
+      completionsPluginHandler: CompletionsPluginHandler,
+      alsConfigurationState: ALSConfigurationState
+  ): AmlCompletionRequest = {
     val partBranch: ASTPartBranch = {
       NodeBranchBuilder
         .build(baseUnit, position)
@@ -111,7 +114,7 @@ object AmlCompletionRequestBuilder {
     val dtoPosition = DtoPosition(position)
     val styler = SuggestionStylerBuilder.build(
       !partBranch.isJson,
-      prefix(partBranch, dtoPosition, patchedContent.original),
+      prefix(partBranch, dtoPosition, baseUnit.raw.getOrElse("")),
       dtoPosition,
       partBranch,
       configuration,
@@ -131,9 +134,9 @@ object AmlCompletionRequestBuilder {
       dialect,
       directoryResolver,
       styler,
-      yPartBranch,
+      partBranch,
       configuration,
-      objInTree(baseUnit, dialect, yPartBranch),
+      objInTree(baseUnit, dialect, partBranch),
       rootUri = rootLocation,
       completionsPluginHandler = completionsPluginHandler,
       alsConfigurationState = alsConfigurationState
@@ -143,11 +146,11 @@ object AmlCompletionRequestBuilder {
       objInTree knowledge could be used in other features, if we start keeping track of every branch in a Unit it could
       be a nice idea to have general cache for a `(BaseUnit, position) -> lazy objectInTree branch` (an ObjectInTreeManager)
    */
-  private def objInTree(baseUnit: BaseUnit, definedBy: Dialect, yPartBranch: YPartBranch): ObjectInTree = {
-    val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, baseUnit.identifier, definedBy, yPartBranch)
+  private def objInTree(baseUnit: BaseUnit, definedBy: Dialect, astPartBranch: ASTPartBranch): ObjectInTree = {
+    val objectInTree = ObjectInTreeBuilder.fromUnit(baseUnit, baseUnit.identifier, definedBy, astPartBranch)
     objectInTree.obj match {
       case d: EncodesModel if d.fields.exists(DocumentModel.Encodes) =>
-        ObjectInTree(d.encodes, Seq(objectInTree.obj) ++ objectInTree.stack, None, yPartBranch)
+        ObjectInTree(d.encodes, Seq(objectInTree.obj) ++ objectInTree.stack, None, astPartBranch)
       case _ => objectInTree
     }
   }
@@ -160,9 +163,9 @@ object AmlCompletionRequestBuilder {
       case non: YNonContent =>
         non.tokens
           .filterNot(_.tokenType == YamlToken.Indicator) // ignore `[]`
-          .find(t => t.range.inputRange.contains(position.toAmfPosition))
+          .find(t => t.location.range.contains(position.toAmfPosition))
           .map { t =>
-            val diff = position.column - t.range.columnFrom
+            val diff = position.column - t.location.columnFrom
             t.text.substring(0, Math.max(diff, 0)).trim
           }
           .getOrElse("")
@@ -170,8 +173,8 @@ object AmlCompletionRequestBuilder {
     }
   }
 
-  private def prefix(yPartBranch: YPartBranch, position: DtoPosition, content: String): String =
-    yPartBranch.node match {
+  private def prefix(astBranch: ASTPartBranch, position: DtoPosition, content: String): String =
+    astBranch.node match {
       case node: MutRef =>
         node.origValue.toString.substring(
           0,
@@ -207,7 +210,7 @@ object AmlCompletionRequestBuilder {
             case _ => ""
           }
       case s: YSequence =>
-        extractFromSeq(s, position, yPartBranch)
+        extractFromSeq(s, position, astBranch.asInstanceOf[YPartBranch])
       case _ =>
         val line        = TextHelper.linesWithSeparators(content)(position.line)
         val textContent = line.substring(0, position.toAmfPosition.column)
@@ -231,7 +234,7 @@ object AmlCompletionRequestBuilder {
         parent.baseUnit.identifier,
         newStack,
         parent.actualDialect,
-        parent.yPartBranch
+        parent.astPartBranch
       )
     new AmlCompletionRequest(
       parent.baseUnit,
@@ -239,7 +242,7 @@ object AmlCompletionRequestBuilder {
       parent.actualDialect,
       parent.directoryResolver,
       parent.styler,
-      parent.yPartBranch,
+      parent.astPartBranch,
       parent.configurationReader,
       objectInTree,
       Some(filterProvider),

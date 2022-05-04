@@ -1,6 +1,5 @@
 package org.mulesoft.als.actions.rangeFormatting
 
-import amf.core.client.common.position.{Range => AmfRange}
 import amf.core.client.scala.validation.AMFValidationResult
 import amf.core.internal.annotations.LexicalInformation
 import org.mulesoft.als.actions.formatting.RangeFormatting
@@ -48,6 +47,7 @@ trait RangeFormattingTest extends ByDirectoryTest with MarkerFinderTest with Wor
           val end = markers.tail.head
           NodeBranchBuilder.getAstForRange(ast, start.position.toAmfPosition, end.position.toAmfPosition, isJson)
         })
+        .collectFirst({ case yPart: YPart => yPart })
         .getOrElse(parse(content))
 
       val formattingOption = FormattingOptions(2, insertSpaces = true)
@@ -72,7 +72,7 @@ trait RangeFormattingTest extends ByDirectoryTest with MarkerFinderTest with Wor
     }
 
     private def lexical(loc: SourceLocation): Option[LexicalInformation] =
-      Some(LexicalInformation(AmfRange(loc.inputRange)))
+      Some(LexicalInformation(loc.range))
 
     def getErrors: ErrorsCollected = ErrorsCollected(errors.toList)
 

@@ -21,7 +21,7 @@ object TemplateTools {
 
   private def getName(params: AmlCompletionRequest) =
     maybeDeclarableName(params.amfObject, params.nodeDialect)
-      .orElse(params.yPartBranch.parentEntry.flatMap(_.key.asScalar).map(_.text))
+      .orElse(params.astPartBranch.parentKey)
       .map(_.singularize)
       .getOrElse(defaultName)
 
@@ -72,9 +72,8 @@ object TemplateTools {
     p.nodePropertyMapping().option().getOrElse("")
 
   def isInsideDeclaration(params: AmlCompletionRequest): Boolean =
-    params.nodeDialect.declarationsMapTerms.values
-      .to[Seq]
-      .exists(params.yPartBranch.parentEntryIs) &&
+    params.astPartBranch.parentKey
+      .exists(k => params.nodeDialect.declarationsMapTerms.values.to[Seq].contains(k)) &&
       hasCorrectDeclarationNesting(params)
 
   private def getRecursiveChildren(
@@ -171,13 +170,13 @@ object TemplateTools {
   private def hasCorrectDeclarationNesting(params: AmlCompletionRequest) =
     declarationPathForDialect(params.nodeDialect) match {
       case Some(dp) =>
-        params.yPartBranch.stack.drop(3).collectFirst { case e: YMapEntry => e } match {
+        params.astPartBranch.stack.drop(3).collectFirst { case e: YMapEntry => e } match {
           case Some(entry) =>
             entry.key.asScalar.map(_.text).contains(dp)
           case _ => false
         }
       case _ =>
-        params.yPartBranch.stack.size <= 4 // document -> map -> entry -> (node of previous declaration)
+        params.astPartBranch.stack.size <= 4 // document -> map -> entry -> (node of previous declaration)
     }
 
   private def declarationPathForDialect(dialect: Dialect): Option[String] =

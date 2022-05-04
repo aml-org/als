@@ -7,6 +7,7 @@ import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
+import org.mulesoft.common.client.lexical.ASTElement
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.configuration.WorkDoneProgressOptions
 import org.mulesoft.lsp.edit.TextEdit
@@ -76,7 +77,8 @@ class DocumentRangeFormattingManager(
     workspace
       .getLastUnit(params.textDocument.uri, uuid)
       .map(cu => {
-        getParentPart(cu.unit, params.range, isJson)
+        Some(getParentPart(cu.unit, params.range, isJson))
+          .collect({ case ypart: YPart => ypart })
           .map(p =>
             RangeFormatting(
               p,
@@ -91,17 +93,15 @@ class DocumentRangeFormattingManager(
       })
   }
 
-  def getParentPart(unit: BaseUnit, range: Range, isJson: Boolean): Option[YPart] = {
-    NodeBranchBuilder
-      .astFromBaseUnit(unit)
-      .map(ast =>
-        NodeBranchBuilder.getAstForRange(
-          ast,
-          LspRangeConverter.toPosition(range.start).toAmfPosition,
-          LspRangeConverter.toPosition(range.end).toAmfPosition,
-          isJson
-        )
-      )
+  def getParentPart(unit: BaseUnit, range: Range, isJson: Boolean): ASTElement = {
+    val ast = NodeBranchBuilder.astFromBaseUnit(unit)
+
+    NodeBranchBuilder.getAstForRange(
+      ast,
+      LspRangeConverter.toPosition(range.start).toAmfPosition,
+      LspRangeConverter.toPosition(range.end).toAmfPosition,
+      isJson
+    )
   }
 
   override def applyConfig(

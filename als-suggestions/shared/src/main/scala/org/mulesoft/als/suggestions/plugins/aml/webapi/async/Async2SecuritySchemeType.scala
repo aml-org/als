@@ -18,7 +18,7 @@ object Async2SecuritySchemeType extends AMLCompletionPlugin with EnumSuggestions
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     request.branchStack.headOption match {
       case Some(s: SecurityScheme)
-          if ObjectInTree(s, Nil, None, request.yPartBranch).fieldValue
+          if ObjectInTree(s, Nil, None, request.astPartBranch).fieldValue
             .exists(_.field == SecuritySchemeModel.Type) =>
         Future(suggestMappingWithEnum(AsyncApi20SecuritySchemeObject.`type`))
       case _ => emptySuggestion

@@ -53,7 +53,7 @@ trait BaseElementDeclarableExtractors extends TreeKnowledge with DeclarationCrea
   /** The original node with lexical info for the declared node
     */
   protected lazy val entryAst: Option[YPart] =
-    amfObject.flatMap(_.annotations.ast()) match {
+    amfObject.flatMap(_.annotations.ypart()) match {
       case Some(entry: YMapEntry) => Some(entry.value)
       case c                      => c
     }

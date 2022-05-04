@@ -11,7 +11,7 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldTypeSymbolBuilder,
   IriFieldSymbolBuilderCompanion
 }
-import amf.core.client.common.position.{Range => AmfRange}
+import org.mulesoft.common.client.lexical.{PositionRange => AmfPositionRange}
 
 case class PayloadsArrayFieldBuilder(
     firstPayload: Payload,
@@ -20,7 +20,7 @@ case class PayloadsArrayFieldBuilder(
 )(override implicit val ctx: StructureContext)
     extends DefaultWebApiArrayFieldTypeSymbolBuilder(value, element) {
 
-  override protected def range: Option[AmfRange] =
+  override protected def range: Option[AmfPositionRange] =
     firstPayload.annotations.range().orElse(super.range)
 }
 

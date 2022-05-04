@@ -1,15 +1,11 @@
 package org.mulesoft.amfintegration.visitors.links
 
-import amf.core.client.common.position
 import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.common.dtoTypes.PositionRange
-import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.convert.LspRangeConverter
+import org.mulesoft.als.logger.{EmptyLogger, Logger}
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.lsp.feature.link.DocumentLink
-import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
-import org.mulesoft.als.logger.Logger
-import org.mulesoft.als.logger.EmptyLogger
 
 object FindLinks {
   def getLinks(bu: BaseUnit, log: Logger = EmptyLogger): Seq[DocumentLink] =

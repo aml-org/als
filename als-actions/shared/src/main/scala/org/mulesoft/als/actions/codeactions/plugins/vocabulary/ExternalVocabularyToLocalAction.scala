@@ -3,7 +3,7 @@ package org.mulesoft.als.actions.codeactions.plugins.vocabulary
 import amf.aml.client.scala.model.document.{Dialect, Vocabulary}
 import amf.aml.client.scala.model.domain.{ClassTerm, External, NodeMapping, PropertyMapping, PropertyTerm}
 import org.mulesoft.als.actions.codeactions.plugins.base.CodeActionRequestParams
-import org.mulesoft.als.common.ASTWrapper.AlsInputRange
+import org.mulesoft.als.common.ASTElementWrapper.AlsPositionRange
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
@@ -111,7 +111,7 @@ class ExternalVocabularyToLocalAction(
         case yMap: YMap if yMap.entries.size == 1 => Some(yMap.range.toPositionRange)
         case _                                    => None
       })
-      .getOrElse(external.annotations.ast().map(_.range.toPositionRange).get)
+      .getOrElse(external.annotations.astElement().map(_.location.range.toPositionRange).get)
     TextEdit(LspRangeConverter.toLspRange(range), "")
   }
 

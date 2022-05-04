@@ -1,6 +1,5 @@
 package org.mulesoft.als.server.modules.diagnostic.custom
 
-import amf.core.client.common.position
 import amf.core.client.scala.validation.AMFValidationResult
 import amf.core.internal.annotations.LexicalInformation
 import amf.custom.validation.client.scala.report.model.{OpaLocation, OpaResult, OpaTrace, OpaTraceValue}
@@ -8,6 +7,7 @@ import amf.custom.validation.internal.report.parser.AMFValidationOpaAdapter
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.diagnostic.AlsValidationResult
 import org.mulesoft.amfintegration.ParserRangeImplicits._
+import org.mulesoft.common.client.lexical.{Position => AmfPosition, PositionRange}
 import org.mulesoft.lsp.feature.common.{Location, Range}
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticRelatedInformation
 class TraceParser(trace: OpaTrace, rootUri: String) {
@@ -23,7 +23,7 @@ class TraceParser(trace: OpaTrace, rootUri: String) {
   }
 
   val unknownLocation: Location =
-    Location(rootUri, LspRangeConverter.toLspRange(position.Range.NONE.toPositionRange))
+    Location(rootUri, LspRangeConverter.toLspRange(PositionRange.NONE.toPositionRange))
 
   lazy val uri: String = {
     val l: String = trace.location.flatMap(_.location).getOrElse("")
@@ -124,10 +124,10 @@ class ResultParser(opaResult: OpaResult, rootUri: String) {
     if (trace.size > 1) Seq() else trace.headOption.map(_.buildStack()).getOrElse(Seq())
   }
 
-  private def dtoToParserRange(core: Range): position.Range =
-    position.Range(
-      position.Position(core.start.line + 1, core.start.character),
-      position.Position(core.end.line + 1, core.end.character)
+  private def dtoToParserRange(core: Range): PositionRange =
+    PositionRange(
+      AmfPosition(core.start.line + 1, core.start.character),
+      AmfPosition(core.end.line + 1, core.end.character)
     )
 }
 
@@ -141,7 +141,7 @@ object LocationParser {
       })
   }
 
-  def rangeFromLocation(l: OpaLocation): Option[position.Range] = {
+  def rangeFromLocation(l: OpaLocation): Option[PositionRange] = {
     l.range.map(AMFValidationOpaAdapter.adaptRange)
   }
 }

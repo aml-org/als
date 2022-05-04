@@ -2,7 +2,7 @@ package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.aml.client.scala.model.domain.{AnnotationMapping, NodeMapping, PropertyLikeMapping, UnionNodeMapping}
 import amf.core.client.scala.model.domain.AmfObject
-import org.mulesoft.als.common.YPartBranch
+import org.mulesoft.als.common.{ASTPartBranch, YPartBranch}
 
 package object metadialect {
   def isNodeMappable(x: AmfObject): Boolean =
@@ -10,17 +10,17 @@ package object metadialect {
       x.isInstanceOf[NodeMapping] ||
       x.isInstanceOf[AnnotationMapping]
 
-  def isClassTermOrDomain(amfObject: AmfObject, yPartBranch: YPartBranch): Boolean =
+  def isClassTermOrDomain(amfObject: AmfObject, astPart: ASTPartBranch): Boolean =
     isNodeMappable(amfObject) &&
-      (yPartBranch.parentEntryIs("classTerm") ||
-        yPartBranch.parentEntryIs("domain"))
+      (astPart.parentEntryIs("classTerm") ||
+        astPart.parentEntryIs("domain"))
 
-  def isPropTerm(amfObject: AmfObject, yPartBranch: YPartBranch): Boolean =
+  def isPropTerm(amfObject: AmfObject, astPart: ASTPartBranch): Boolean =
     amfObject.isInstanceOf[PropertyLikeMapping[_]] &&
-      (yPartBranch.parentEntryIs("propertyTerm") ||
-        yPartBranch.parentEntryIs("mapTermKey") ||
-        yPartBranch.parentEntryIs("mapTermValue"))
+      (astPart.parentEntryIs("propertyTerm") ||
+        astPart.parentEntryIs("mapTermKey") ||
+        astPart.parentEntryIs("mapTermValue"))
 
-  def isTerm(amfObject: AmfObject, yPartBranch: YPartBranch): Boolean =
-    isPropTerm(amfObject, yPartBranch) || isClassTermOrDomain(amfObject, yPartBranch)
+  def isTerm(amfObject: AmfObject, astPart: ASTPartBranch): Boolean =
+    isPropTerm(amfObject, astPart) || isClassTermOrDomain(amfObject, astPart)
 }

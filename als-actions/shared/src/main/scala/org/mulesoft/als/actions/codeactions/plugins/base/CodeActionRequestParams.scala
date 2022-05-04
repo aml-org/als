@@ -4,7 +4,7 @@ import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.SemanticExtension
 import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.common.DirectoryResolver
-import org.mulesoft.als.common.cache.{ObjectInTreeCached, YPartBranchCached}
+import org.mulesoft.als.common.cache.{ASTPartBranchCached, ObjectInTreeCached}
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
@@ -17,7 +17,7 @@ case class CodeActionRequestParams(
     range: PositionRange,
     bu: BaseUnit,
     tree: ObjectInTreeCached,
-    yPartBranch: YPartBranchCached,
+    astPartBranchCached: ASTPartBranchCached,
     definedBy: Dialect,
     configuration: AlsConfigurationReader,
     allRelationships: Seq[RelationshipLink],
@@ -36,7 +36,7 @@ object CodeActionParamsImpl {
     def toRequestParams(
         bu: BaseUnit,
         tree: ObjectInTreeCached,
-        yPartBranch: YPartBranchCached,
+        astPartBranch: ASTPartBranchCached,
         dialect: Dialect,
         configuration: AlsConfigurationReader,
         allRelationships: Seq[RelationshipLink],
@@ -50,7 +50,7 @@ object CodeActionParamsImpl {
         PositionRange(param.range),
         bu,
         tree,
-        yPartBranch,
+        astPartBranch,
         dialect,
         configuration,
         allRelationships,

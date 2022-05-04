@@ -1,15 +1,15 @@
 package org.mulesoft.als.actions.hover
 
 import amf.aml.client.scala.model.document.Dialect
-import amf.core.client.common.position.{Range => AmfRange}
+import org.mulesoft.common.client.lexical.{PositionRange => AmfPositionRange}
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.model.domain.{AmfElement, AmfObject, DataNode}
 import amf.core.client.scala.vocabulary.ValueType
 import amf.core.internal.metamodel.{Field, Obj}
 import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.als.common.ObjectInTree
-import org.mulesoft.als.common.ASTWrapper.AlsInputRange
-import org.mulesoft.als.common.cache.{ObjectInTreeCached, YPartBranchCached}
+import org.mulesoft.als.common.ASTElementWrapper.AlsPositionRange
+import org.mulesoft.als.common.cache.{ASTPartBranchCached, ObjectInTreeCached}
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.AmfImplicits._
@@ -22,7 +22,7 @@ import org.yaml.model.YMapEntry
 case class HoverAction(
     bu: BaseUnit,
     tree: ObjectInTreeCached,
-    yPartBranchCached: YPartBranchCached,
+    astPartBranchCached: ASTPartBranchCached,
     dtoPosition: Position,
     location: String,
     provider: VocabularyProvider,
@@ -31,7 +31,7 @@ case class HoverAction(
 
   private val objectInTree: ObjectInTree = tree.getCachedOrNew(dtoPosition, location)
 
-  private val yPartBranch = yPartBranchCached.getCachedOrNew(dtoPosition, location)
+  private val yPartBranch = astPartBranchCached.getCachedOrNew(dtoPosition, location)
 
   def getHover: Hover =
     getSemantic
@@ -43,20 +43,20 @@ case class HoverAction(
   /** if obj is in the correct location and has a range defined, return it, if not, return more specific node from AST
     * todo: should links be already filtered out in AmfSonElementFinder?
     */
-  private def mostSpecificRangeInFile(obj: AmfElement): Option[AmfRange] =
+  private def mostSpecificRangeInFile(obj: AmfElement): Option[AmfPositionRange] =
     if (isInFileAndHasRange(obj))
       obj.annotations.range()
-    else Option(AmfRange(yPartBranch.node.range))
+    else Option(yPartBranch.node.location.range)
 
   private def isInFileAndHasRange(obj: AmfElement) =
     obj.location().contains(location) && obj.annotations.range().exists(r => PositionRange(r).contains(dtoPosition))
 
-  private def getSemantic: Option[(Seq[String], Option[AmfRange])] =
+  private def getSemantic: Option[(Seq[String], Option[AmfPositionRange])] =
     if (objectInTree.obj.isInstanceOf[DataNode]) hackFromNonDynamic()
     else if (isInDeclarationKey) fromDeclarationKey()
     else getPatchedHover.orElse(fromTree())
 
-  private def hackFromNonDynamic(): Option[(Seq[String], Option[AmfRange])] =
+  private def hackFromNonDynamic(): Option[(Seq[String], Option[AmfPositionRange])] =
     objectInTree.stack.find(obj => !obj.isInstanceOf[DataNode]).flatMap(classTerm)
 
   def isLocal(f: FieldEntry): Boolean =
@@ -68,7 +68,7 @@ case class HoverAction(
       .filter(isLocal)
       .orElse(objectInTree.obj.fields.fields().find(isLocal))
 
-  private def fromTree(): Option[(Seq[String], Option[AmfRange])] =
+  private def fromTree(): Option[(Seq[String], Option[AmfPositionRange])] =
     localFieldEntry
       .filterNot(isDeclaredName)
       .flatMap(fieldEntry)
@@ -79,7 +79,7 @@ case class HoverAction(
     objectInTree.obj.annotations.isDeclared &&
       fe.field.value.iri() == AmlCoreVocabulary().base.value() + NamePropertyTerm.name
 
-  private def fieldEntry(f: FieldEntry): Option[(Seq[String], Option[AmfRange])] =
+  private def fieldEntry(f: FieldEntry): Option[(Seq[String], Option[AmfPositionRange])] =
     propertyTerm(f.field).map(s =>
       (
         Seq(s),
@@ -106,7 +106,7 @@ case class HoverAction(
     else classSemantic
   }
 
-  private def classTerm(obj: AmfObject): Option[(Seq[String], Option[AmfRange])] = {
+  private def classTerm(obj: AmfObject): Option[(Seq[String], Option[AmfPositionRange])] = {
     val finalSemantics = getSemanticForMeta(obj.meta)
     if (finalSemantics.nonEmpty) Some((finalSemantics, obj.annotations.range()))
     else None
@@ -125,7 +125,7 @@ case class HoverAction(
   private def buildDeclarationKeyUri(name: String): ValueType =
     ValueType(s"http://als.declarationKeys/#${name}DeclarationKey")
 
-  def fromDeclarationKey(): Option[(Seq[String], Option[AmfRange])] =
+  def fromDeclarationKey(): Option[(Seq[String], Option[AmfPositionRange])] =
     bu.declarationKeys
       .find(k => k.entry.key.range.contains(dtoPosition.toAmfPosition))
       .map(key => {
@@ -140,10 +140,10 @@ case class HoverAction(
             s"Contains declarations for ${key.entry.key.value.toString}"
           })
 
-        (Seq(description), Some(AmfRange(key.entry.range)))
+        (Seq(description), Some(key.entry.range))
       })
 
-  def getPatchedHover: Option[(Seq[String], Option[AmfRange])] =
+  def getPatchedHover: Option[(Seq[String], Option[AmfPositionRange])] =
     patchedHover.getHover(objectInTree.obj, yPartBranch, definedBy)
 
   private lazy val patchedHover =

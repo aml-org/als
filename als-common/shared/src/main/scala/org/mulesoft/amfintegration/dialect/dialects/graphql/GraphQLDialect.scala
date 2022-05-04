@@ -19,7 +19,7 @@ object GraphQLDialect extends BaseDialect {
   override protected def emptyDocument: DocumentsModel =
     DocumentsModel()
       .withId(DialectLocation + "#/documents")
-      .withKeyProperty(true)
+//      .withKeyProperty(true)
       .withReferenceStyle(ReferenceStyles.JSONSCHEMA)
 
   override protected def encodes: DialectNode = TypeSchemaNode

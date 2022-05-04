@@ -2,11 +2,11 @@ package org.mulesoft.amfintegration.visitors.noderelationship.plugins
 
 import amf.apicontract.client.scala.model.domain.{EndPoint, Operation}
 import amf.core.client.scala.model.document.BaseUnit
-import amf.core.client.scala.model.domain.{AmfArray, AmfElement}
 import amf.core.client.scala.model.domain.extensions.DomainExtension
 import amf.core.client.scala.model.domain.templates.{AbstractDeclaration, ParametrizedDeclaration}
+import amf.core.client.scala.model.domain.{AmfArray, AmfElement}
 import amf.core.client.scala.vocabulary.Namespace
-import amf.core.internal.annotations.{SourceAST, SourceNode, SourceYPart}
+import amf.core.internal.annotations.{SourceNode, SourceYPart}
 import amf.core.internal.metamodel.domain.LinkableElementModel
 import amf.core.internal.metamodel.domain.templates.ParametrizedDeclarationModel
 import amf.core.internal.parser.domain.FieldEntry
@@ -34,7 +34,7 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
 
   private def extractAnnotations(e: DomainExtension) =
     e.annotations
-      .ast()
+      .ypart()
       .map {
         case entry: YMapEntry => entry.key
         case o                => o

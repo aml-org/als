@@ -12,7 +12,7 @@ object BaseUriParameterCompletionPlugin extends UrlTemplateParam {
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     request.amfObject match {
-      case webApi: WebApi if request.yPartBranch.isKeyDescendantOf("baseUriParameters") =>
+      case webApi: WebApi if request.astPartBranch.isKeyDescendantOf("baseUriParameters") =>
         resolveWebApi(webApi)
       case _ => super.resolve(request)
     }

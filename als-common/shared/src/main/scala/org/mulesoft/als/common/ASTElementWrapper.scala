@@ -1,16 +1,52 @@
 package org.mulesoft.als.common
 
-import amf.core.client.common.position.{Position => AmfPosition}
 import amf.core.internal.annotations.LexicalInformation
+import org.mulesoft.als.common.ASTElementWrapper.CommonASTOps
+import org.mulesoft.als.common.ASTNodeWrapper.ASTNodeOps
+import org.mulesoft.als.common.YPartASTWrapper.AlsYPart
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
-import org.mulesoft.antlrast.ast.ASTElement
-import org.mulesoft.lexer.{AstToken, InputRange}
+import org.mulesoft.antlrast.ast.ASTNode
+import org.mulesoft.common.client.lexical.{ASTElement, Position => AmfPosition, PositionRange => AmfPositionRange}
+import org.mulesoft.lexer.AstToken
 import org.mulesoft.lsp.feature.common.Location
 import org.yaml.lexer.YamlToken
 import org.yaml.model.YNode.MutRef
 import org.yaml.model._
-object ASTWrapper {
+object ASTElementWrapper {
+
+  implicit class CommonASTOps(astElement: ASTElement) {
+
+
+    def contains(amfPosition: AmfPosition): Boolean = {
+      astElement match {
+        case yPart: YPart => new AlsYPart(yPart).contains(amfPosition)
+//        case astNode: ASTNode => new ASTNodeOps(astNode).contains(amfPosition)
+        case _ =>
+          val range = PositionRange(
+            Position(AmfPosition(astElement.location.lineFrom, astElement.location.columnTo)),
+            Position(AmfPosition(astElement.location.lineTo, astElement.location.columnTo))
+          )
+          range.contains(Position(amfPosition))
+      }
+    }
+
+      def sameContentAndLocation(other: ASTElement): Boolean = {
+      astElement == other && astElement.location == other.location
+    }
+
+    def astToLocation: Location =
+      Location(
+        astElement.location.sourceName,
+        LspRangeConverter.toLspRange(
+          PositionRange(
+            Position(AmfPosition(astElement.location.range.lineFrom, astElement.location.range.columnFrom)),
+            Position(AmfPosition(astElement.location.range.lineTo, astElement.location.range.columnTo))
+          )
+        )
+      )
+
+  }
 
   def getIndentation(raw: String, position: Position): Int = {
     val pos  = position
@@ -31,7 +67,7 @@ object ASTWrapper {
       .length
   }
 
-  implicit class AlsInputRange(range: InputRange) {
+  implicit class AlsPositionRange(range: AmfPositionRange) {
     def toPositionRange: PositionRange =
       PositionRange(
         Position(AmfPosition(range.lineFrom, range.columnFrom)),
@@ -47,15 +83,25 @@ object ASTWrapper {
         li.range.end.column == range.columnTo &&
         li.range.end.line == range.lineTo
   }
+}
 
-  implicit class CommonASTOps(astElement:ASTElement) {
-    def contains(amfPosition: AmfPosition): Boolean = {
-      val range = PositionRange(Position(AmfPosition(astElement.start.line, astElement.end.column)), Position(AmfPosition(astElement.end.line, astElement.end.column)))
+object ASTNodeWrapper{
+  implicit class ASTNodeOps(astNode:ASTNode) extends CommonASTOps(astNode){
+
+    override def contains(amfPosition: AmfPosition): Boolean = {
+      val range = PositionRange(
+        Position(AmfPosition(astNode.location.lineFrom, astNode.location.columnTo)),
+        Position(AmfPosition(astNode.location.lineTo, astNode.location.columnTo))
+      )
       range.contains(Position(amfPosition))
     }
   }
+}
 
-  abstract class CommonPartOps(yPart: YPart) {
+object YPartASTWrapper{
+
+
+  abstract class CommonPartOps(yPart: YPart){
     protected val selectedPositionRange: PositionRange = PositionRange(yPart.range)
 
     def contains(amfPosition: AmfPosition, isInflow: Boolean = false): Boolean =
@@ -65,22 +111,11 @@ object ASTWrapper {
       * @param range
       * @return
       */
-    def contains(range: InputRange): Boolean = {
+    def contains(range: AmfPositionRange): Boolean = {
       val positionRange = PositionRange(range)
       selectedPositionRange.contains(positionRange.start) &&
       selectedPositionRange.contains(positionRange.end)
     }
-
-    def yPartToLocation: Location =
-      Location(
-        yPart.sourceName,
-        LspRangeConverter.toLspRange(
-          PositionRange(
-            Position(AmfPosition(yPart.range.lineFrom, yPart.range.columnFrom)),
-            Position(AmfPosition(yPart.range.lineTo, yPart.range.columnTo))
-          )
-        )
-      )
 
     lazy val isJson: Boolean =
       yPart.location.sourceName.toLowerCase.endsWith(".json")
@@ -106,8 +141,8 @@ object ASTWrapper {
     private def flowedPosition = {
       PositionRange(
         node.range.copy(
-          columnFrom = (if (flowBegin) node.range.columnFrom + 1 else node.range.columnFrom),
-          columnTo = (if (flowEnd) node.range.columnTo - 1 else node.range.columnTo)
+          start = node.range.start.copy(column = (if (flowBegin) node.range.columnFrom + 1 else node.range.columnFrom)),
+          end = node.range.end.copy(column = (if (flowEnd) node.range.columnTo - 1 else node.range.columnTo))
         )
       )
     }
@@ -215,13 +250,16 @@ object ASTWrapper {
       * @param amfPosition
       * @return
       */
-    private def oneCharAfterEnd(inputRange: InputRange, amfPosition: AmfPosition) = {
+    private def oneCharAfterEnd(inputRange: AmfPositionRange, amfPosition: AmfPosition) = {
       inputRange.lineTo == amfPosition.line && inputRange.columnTo == amfPosition.column - 1
     }
 
-    def unmarkedRange(): InputRange =
+    def unmarkedRange(): AmfPositionRange =
       if (scalar.mark.isInstanceOf[QuotedMark])
-        scalar.range.copy(columnFrom = scalar.range.columnFrom + 1, columnTo = scalar.range.columnTo - 1)
+        scalar.range.copy(
+          start = scalar.range.start.copy(column = scalar.range.columnFrom + 1),
+          end = scalar.range.end.copy(column = scalar.range.columnTo - 1)
+        )
       else scalar.range
   }
 
@@ -249,10 +287,6 @@ object ASTWrapper {
       case seq: YSequence =>
         seq.contains(amfPosition, isInFlow)
       case _ => super.contains(amfPosition, isInFlow)
-    }
-
-    def sameContentAndLocation(other: YPart): Boolean = {
-      selectedNode == other && selectedNode.location == other.location
     }
   }
 }

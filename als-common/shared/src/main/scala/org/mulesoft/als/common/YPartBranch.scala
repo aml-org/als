@@ -1,56 +1,43 @@
 package org.mulesoft.als.common
 
-import amf.core.client.common.position.{Position => AmfPosition}
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.internal.parser.YNodeLikeOps
-import org.mulesoft.als.common.ASTWrapper._
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
-import org.mulesoft.antlrast.ast.{ASTElement, Node, Terminal}
+import org.mulesoft.antlrast.ast.{ASTNode, Node, Terminal}
+import org.mulesoft.common.client.lexical.ASTElement
 import org.yaml.lexer.YamlCharRules
 import org.yaml.model
-import org.yaml.model._
+import org.yaml.model.{
+  MultilineMark,
+  ScalarMark,
+  YDocument,
+  YMap,
+  YMapEntry,
+  YNode,
+  YNodePlain,
+  YNonContent,
+  YPart,
+  YScalar,
+  YSequence,
+  YTag,
+  YType
+}
+import org.mulesoft.common.client.lexical.{Position => AmfPosition}
+import org.mulesoft.als.common.ASTElementWrapper._
+import org.mulesoft.als.common.YPartASTWrapper._
+import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
 
 import scala.annotation.tailrec
 
-trait ASTPartBranch[T] {
-  val stack: Seq[T]
-  lazy val isMultiline = false
-  val isEmptyNode: Boolean
-  val stringValue: String
-  def keys: Seq[String]
-  val isKey: Boolean
-  val isValue: Boolean
-  val isAtRoot: Boolean
-  val isArray: Boolean
-  lazy val isInArray: Boolean = false
-  val isJson: Boolean
-  val parent: Option[T] = stack.headOption
-}
+case class YPartBranch(
+    override val node: YPart,
+    override val position: AmfPosition,
+    stack: Seq[YPart],
+    isJson: Boolean,
+    isInFlow: Boolean
+) extends ASTPartBranch {
 
-case class ASTElementPartBranch(node: ASTElement, position: AmfPosition, stack: Seq[ASTElement])
-    extends ASTPartBranch[ASTElement] {
-  override val isEmptyNode: Boolean = node match {
-    case t: Terminal => t.value.isEmpty
-    case _           => false
-  }
-  override val stringValue: String = node.toString()
-
-  override def keys: Seq[String] = node match {
-    case n: Node => n.children.collect({ case childrenNode: Node => childrenNode.name })
-    case _       => Nil
-  }
-
-  override val isKey: Boolean = node
-    .isInstanceOf[ASTElement] && parent.collectFirst({ case n: Node if n.children.head == node => n }).isDefined
-  override val isValue: Boolean  = !isKey
-  override val isAtRoot: Boolean = stack.isEmpty
-  override val isArray: Boolean  = false
-  override val isJson: Boolean   = false
-}
-
-case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], isJson: Boolean, isInFlow: Boolean)
-    extends ASTPartBranch[YPart] {
+  override type T = YPart
 
   /** isPlainText means it is a scalar and has no quotation marks
     */
@@ -95,14 +82,14 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
   }
 
   override val isKey: Boolean =
-      node.isInstanceOf[YDocument] || node.isInstanceOf[YMap] || node
-        .isInstanceOf[YSequence] || (stack.headOption match {
-        case Some(entry: YMapEntry) if entry.value == node =>
-          entry.value.asScalar.isDefined &&
-            node.range.columnFrom > entry.key.range.columnFrom && ((position.line == entry.key.range.lineFrom && node.range.columnTo != entry.value.range.columnTo) || position.line > entry.key.range.lineFrom)
-        case Some(entry: YMapEntry) => entry.key == node
-        case _                      => false
-      })
+    node.isInstanceOf[YDocument] || node.isInstanceOf[YMap] || node
+      .isInstanceOf[YSequence] || (stack.headOption match {
+      case Some(entry: YMapEntry) if entry.value == node =>
+        entry.value.asScalar.isDefined &&
+        node.range.columnFrom > entry.key.range.columnFrom && ((position.line == entry.key.range.lineFrom && node.range.columnTo != entry.value.range.columnTo) || position.line > entry.key.range.lineFrom)
+      case Some(entry: YMapEntry) => entry.key == node
+      case _                      => false
+    })
 
   lazy val hasIncludeTag: Boolean = node match {
     case mr: YNode.MutRef => mr.origTag.tagType == YType.Include
@@ -125,8 +112,6 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
   override val isArray: Boolean = node.isArray
   override lazy val isInArray: Boolean =
     getSequence.isDefined
-
-  lazy val isKeyLike: Boolean = isKey || isInArray
 
   lazy val parentMap: Option[YMap] = stack.headOption match {
     case Some(_: YMapEntry) =>
@@ -162,33 +147,8 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
         case v => Some(v)
       }
 
-  def parentEntryIs(key: String): Boolean =
-    parentEntry.exists(e => e.key.asScalar.map(_.text).contains(key))
-
-  def getAncestor(l: Int): Option[YPart] =
-    stack.lift(l)
-
-  def isKeyDescendantOf(key: String): Boolean =
-    isKey && parentEntryIs(key)
-
   def isValueDescendantOf(key: String): Boolean =
     isValue && parentEntryIs(key)
-
-  def isInBranchOf(key: String): Boolean =
-    stack.exists({
-      case e: YMapEntry => e.key.asScalar.exists(_.text == key)
-      case _            => false
-    })
-
-  @scala.annotation.tailrec
-  private def findFirstOf[T <: YPart](clazz: Class[T], l: Seq[YPart]): Option[T] = {
-    l match {
-      case Nil                                 => None
-      case head :: _ if clazz.isInstance(head) => Some(head.asInstanceOf[T])
-      case _ :: Nil                            => None
-      case _ :: tail                           => findFirstOf(clazz, tail)
-    }
-  }
 
   // todo: check if this is still relevant, `k:` is long gone
   // content patch will add a { k: }, I need to get up the k node, the k: entry, and the {k: } map
@@ -228,30 +188,37 @@ case class YPartBranch(node: YPart, position: AmfPosition, stack: Seq[YPart], is
       .getOrElse(Nil)
   }
 
-  def brothersKeys: Set[String] =
-    brothers
-      .flatMap({
-        case yme: YMapEntry => yme.key.asScalar.map(_.text)
-        case _              => None
-      })
-      .toSet
+  override def parentKey: Option[String] = parentEntry.flatMap(_.key.asScalar.map(_.text))
 }
 
 object NodeBranchBuilder {
 
-  def getAstForRange(ast: YPart, startPosition: AmfPosition, endPosition: AmfPosition, isJson: Boolean): YPart = {
+  def getAstForRange(
+      ast: ASTElement,
+      startPosition: AmfPosition,
+      endPosition: AmfPosition,
+      isJson: Boolean
+  ): ASTElement = {
 
-    val start = build(ast, startPosition, isJson)
+    val start = buildElement(ast, startPosition, isJson)
     if (startPosition == endPosition) start.node
     else {
-      val end = build(ast, endPosition, isJson)
+      val end = buildElement(ast, endPosition, isJson)
 
       findMutualYMapParent(start, end, isJson).getOrElse(ast)
     }
 
   }
 
-  private def findMutualYMapParent(start: YPartBranch, end: YPartBranch, isJson: Boolean): Option[YPart] = {
+  def buildElement(ast: ASTElement, position: AmfPosition, isJson: Boolean): ASTPartBranch = {
+    ast match {
+      case node: ASTNode => buildAST(node, position)
+      case ypart: YPart  => build(ypart, position, isJson)
+      case _             => YPartBranch(YDocument(IndexedSeq.empty, ""), position, Nil, isJson, false)
+    }
+  }
+
+  private def findMutualYMapParent(start: ASTPartBranch, end: ASTPartBranch, isJson: Boolean): Option[ASTElement] = {
     start.stack
       .filter(_.isInstanceOf[YMapEntry])
       .find(end.stack.contains(_))
@@ -266,7 +233,7 @@ object NodeBranchBuilder {
     }
   }
 
-  def build(astElement: ASTElement, position: AmfPosition): ASTElementPartBranch = {
+  def buildAST(astElement: ASTNode, position: AmfPosition): ASTElementPartBranch = {
     val stack = getStack(astElement, position)
     stack match {
       case actual :: stack => ASTElementPartBranch(actual, position, stack)
@@ -274,7 +241,7 @@ object NodeBranchBuilder {
     }
   }
 
-  def getStack(ast: ASTElement, position: AmfPosition): Seq[ASTElement] = {
+  def getStack(ast: ASTNode, position: AmfPosition): Seq[ASTNode] = {
     ast match {
       case n: Node if n.contains(position)     => getChildren(n, position, Seq.empty)
       case t: Terminal if t.contains(position) => Seq(t)
@@ -283,7 +250,7 @@ object NodeBranchBuilder {
   }
 
   @tailrec
-  def getChildren(node: Node, position: AmfPosition, stack: Seq[ASTElement]): Seq[ASTElement] = {
+  def getChildren(node: Node, position: AmfPosition, stack: Seq[ASTNode]): Seq[ASTNode] = {
     val current = node +: stack
     node.children.find(_.contains(position)) match {
       case Some(n: Node)     => getChildren(n, position, current)
@@ -292,16 +259,22 @@ object NodeBranchBuilder {
     }
   }
 
-  def build(bu: BaseUnit, position: AmfPosition): ASTPartBranch[_] = {
+  def build(bu: BaseUnit, position: AmfPosition): ASTPartBranch = {
     astFromBaseUnit(bu) match {
-      case Some(astElement: ASTElement) => build(astElement, position)
-      case Some(ypart: YPart)           => build(ypart, position, YamlUtils.isJson(bu))
-      case _                            => build(YDocument(IndexedSeq.empty, bu.location().getOrElse("")), position, YamlUtils.isJson(bu))
+      case astElement: ASTNode => buildAST(astElement, position)
+      case ypart: YPart        => build(ypart, position, YamlUtils.isJson(bu))
+      case _ => build(YDocument(IndexedSeq.empty, bu.location().getOrElse("")), position, YamlUtils.isJson(bu))
     }
   }
 
-  def astFromBaseUnit(bu: BaseUnit): Option[YPart] =
-    bu.objWithAST.flatMap(_.annotations.ypart())
+  def astFromBaseUnit(bu: BaseUnit): ASTElement = {
+    bu.objWithAST.flatMap(_.annotations.ypart()) match {
+      case Some(d: YDocument) => d
+      case Some(n: ASTNode)   => n
+      case Some(p)            => YDocument(IndexedSeq(p), p.sourceName)
+      case None               => YDocument(IndexedSeq.empty, "")
+    }
+  }
 
   def containsFlow(s: YPart): Boolean =
     s.children.exists({

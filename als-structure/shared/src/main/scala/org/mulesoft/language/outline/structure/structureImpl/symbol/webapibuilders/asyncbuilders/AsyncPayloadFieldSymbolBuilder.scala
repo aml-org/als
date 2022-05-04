@@ -13,7 +13,7 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
 }
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields.PayloadFieldSymbolBuilder
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, KindForResultMatcher, StructureContext}
-import amf.core.client.common.position.{Range => AmfRange}
+import org.mulesoft.common.client.lexical.{PositionRange => AmfPositionRange}
 
 class AsyncPayloadFieldSymbolBuilder(override val element: FieldEntry, override val value: AmfArray)(
     override implicit val ctx: StructureContext
@@ -33,7 +33,7 @@ class AsyncPayloadFieldSymbolBuilder(override val element: FieldEntry, override 
 
   override protected val payloadsLabel      = "payload"
   override def build(): Seq[DocumentSymbol] = payloadSymbols.toSeq
-  override protected def range: Option[AmfRange] =
+  override protected def range: Option[AmfPositionRange] =
     value.values
       .collectFirst { case p: Payload => p }
       .flatMap(_.fields.entry(PayloadModel.Schema))
