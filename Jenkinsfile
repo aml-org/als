@@ -78,6 +78,7 @@ pipeline {
                 anyOf {
                     branch 'master'
                     branch 'develop'
+                    branch 'support/*'
                 }
             }
             steps {
@@ -103,6 +104,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'nexus-iq/*'
+                    branch 'support/*'
                 }
             }
             steps {
@@ -126,6 +128,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
+                    branch 'support/*'
                 }
             }
             steps {
@@ -156,6 +159,7 @@ pipeline {
                     branch 'develop'
                     branch 'als-5.0.0'
                     branch 'rc/*'
+                    branch 'support/*'
                 }
             }
             steps {
@@ -188,6 +192,7 @@ pipeline {
                     branch 'develop'
                     branch 'als-5.0.0'
                     branch 'rc/*'
+                    branch 'support/*'
                 }
             }
             steps {
@@ -209,6 +214,7 @@ pipeline {
                     branch 'develop'
                     branch 'rc/*'
                     branch 'master'
+                    branch 'support/*'
                 }
             }
             steps {
