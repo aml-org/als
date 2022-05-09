@@ -23,6 +23,7 @@ import org.mulesoft.als.server.protocol.serialization.{
   ClientSerializationResult,
   ClientSerializedDocument
 }
+import org.mulesoft.als.server.protocol.textsync.ClientDidFocusParams
 import org.mulesoft.als.vscode.{RequestHandler => ClientRequestHandler, RequestHandler0 => ClientRequestHandler0, _}
 import org.mulesoft.lsp.client.{LspLanguageClient, LspLanguageClientAware}
 import org.mulesoft.lsp.convert.LspConvertersClientToShared._
@@ -174,6 +175,15 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
     protocolConnection.onNotification(
       DidOpenTextDocumentNotification.`type`,
       onDidOpenHandlerJs.asInstanceOf[NotificationHandler[ClientDidOpenTextDocumentParams]]
+    )
+
+    val onDidFocusJs: js.Function2[ClientDidFocusParams, CancellationToken, Unit] =
+      (param: ClientDidFocusParams, _: CancellationToken) =>
+        languageServer.textDocumentSyncConsumer.didFocus(param.toShared)
+
+    protocolConnection.onNotification(
+      DidFocusNotification.`type`,
+      onDidFocusJs.asInstanceOf[NotificationHandler[ClientDidFocusParams]]
     )
 
     val onUpdateClientConfigurationJs: js.Function2[ClientUpdateConfigurationParams, CancellationToken, Unit] =
