@@ -118,8 +118,8 @@ class YamlSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
                     |
                     |""".stripMargin
 
-    val formattedValue = "additional:\n    Text: Edit\n"
-    val value          = "additional:\n Text: Edit\n"
+    val formattedValue = "\nadditional:\n    Text: Edit\n\n"
+    val value          = "additional:\n Text: Edit"
     val edit           = TextEdit(Range(LspPosition(1, 0), LspPosition(1, 0)), formattedValue)
     val additionalSuggestion =
       AdditionalSuggestion(YamlParser(value).parse(false).head, Left(PositionRange(Position(1, 0), Position(1, 0))))
@@ -159,7 +159,7 @@ class YamlSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
                     |
                     |""".stripMargin
 
-    val value      = "uses:\n  lib: mylib.raml"
+    val value      = "\nuses:\n  lib: mylib.raml\n"
     val edit       = TextEdit(Range(LspPosition(1, 0), LspPosition(1, 0)), value)
     val parts      = YamlParser(content).parse(false)
     val node       = parts.collectFirst({ case d: YDocument => d }).get.node
@@ -201,8 +201,8 @@ class YamlSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
                     |
                     |""".stripMargin
 
-    val value      = "\n  lib: mylib.raml"
-    val edit       = TextEdit(Range(LspPosition(3, 5), LspPosition(3, 5)), value)
+    val value      = "\n  lib: mylib.raml\n"
+    val edit       = TextEdit(Range(LspPosition(2, 5), LspPosition(2, 5)), value)
     val parts      = YamlParser(content).parse(false)
     val node       = parts.collectFirst({ case d: YDocument => d }).get.node
     val dummyYPart = NodeBranchBuilder.build(node, AmfPosition(9, 4), isJson = false)
