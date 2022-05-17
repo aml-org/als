@@ -51,11 +51,11 @@ case class ALSConfigurationState(
 
   def configForSpec(spec: Spec): AMLSpecificConfiguration =
     AMLSpecificConfiguration(getAmlConfig(spec match {
-      case Spec.RAML10  => RAMLConfiguration.RAML10()
-      case Spec.RAML08  => RAMLConfiguration.RAML08()
-      case Spec.OAS30   => OASConfiguration.OAS30()
-      case Spec.OAS20   => OASConfiguration.OAS20()
-      case Spec.ASYNC20 => AsyncAPIConfiguration.Async20()
+      case Spec.RAML10  => projectState.customSetUp(RAMLConfiguration.RAML10())
+      case Spec.RAML08  => projectState.customSetUp(RAMLConfiguration.RAML08())
+      case Spec.OAS30   => projectState.customSetUp(OASConfiguration.OAS30())
+      case Spec.OAS20   => projectState.customSetUp(OASConfiguration.OAS20())
+      case Spec.ASYNC20 => projectState.customSetUp(AsyncAPIConfiguration.Async20())
       case _            => predefinedWithDialects
     }))
 
