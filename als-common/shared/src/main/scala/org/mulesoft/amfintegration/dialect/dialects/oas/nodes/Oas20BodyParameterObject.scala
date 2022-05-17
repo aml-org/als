@@ -31,9 +31,11 @@ object Oas20BodyParameterObject extends DialectNode {
       .withId(DialectLocation + "#/declarations/BodyParameterObject/binding")
       .withName("in")
       .withMinCount(1)
-      .withEnum(Seq(
-        "body"
-      ))
+      .withEnum(
+        Seq(
+          "body"
+        )
+      )
       .withNodePropertyMapping(ParameterModel.Binding.value.iri())
       .withLiteralRange(xsdString.iri()),
     PropertyMapping()
@@ -41,8 +43,10 @@ object Oas20BodyParameterObject extends DialectNode {
       .withName("schema")
       .withMinCount(1)
       .withNodePropertyMapping(ParameterModel.Schema.value.iri())
-      .withObjectRange(Seq(
-        Oas20SchemaObject.id
-      ))
+      .withObjectRange(
+        Seq(
+          Oas20SchemaObject.id
+        )
+      )
   )
 }

@@ -1,7 +1,10 @@
 package org.mulesoft.lsp.textsync
 
 import org.mulesoft.lsp.feature.common.ClientVersionedTextDocumentIdentifier
-import  org.mulesoft.lsp.convert.LspConvertersSharedToClient.{ClientVersionedTextDocumentIdentifierConverter,ClientTextDocumentContentChangeEventConverter}
+import org.mulesoft.lsp.convert.LspConvertersSharedToClient.{
+  ClientVersionedTextDocumentIdentifierConverter,
+  ClientTextDocumentContentChangeEventConverter
+}
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 // $COVERAGE-OFF$ Incompatibility between scoverage and scalaJS

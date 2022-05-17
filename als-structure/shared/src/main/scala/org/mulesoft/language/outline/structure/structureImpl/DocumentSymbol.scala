@@ -3,12 +3,14 @@ package org.mulesoft.language.outline.structure.structureImpl
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.language.outline.structure.structureImpl.SymbolKinds.SymbolKind
 
-case class DocumentSymbol private (name: String,
-                                   kind: SymbolKind,
-                                   deprecated: Boolean,
-                                   range: PositionRange,
-                                   selectionRange: PositionRange,
-                                   children: List[DocumentSymbol])
+case class DocumentSymbol private (
+    name: String,
+    kind: SymbolKind,
+    deprecated: Boolean,
+    range: PositionRange,
+    selectionRange: PositionRange,
+    children: List[DocumentSymbol]
+)
 
 object DocumentSymbol {
   def apply(name: String, kind: SymbolKind, range: PositionRange, children: List[DocumentSymbol]): DocumentSymbol = {

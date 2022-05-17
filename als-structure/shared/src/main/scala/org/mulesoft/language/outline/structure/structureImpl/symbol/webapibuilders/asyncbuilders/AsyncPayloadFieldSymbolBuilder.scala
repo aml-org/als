@@ -16,20 +16,20 @@ import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, Ki
 import amf.core.client.common.position.{Range => AmfRange}
 
 class AsyncPayloadFieldSymbolBuilder(override val element: FieldEntry, override val value: AmfArray)(
-    override implicit val ctx: StructureContext)
-    extends PayloadFieldSymbolBuilder(element, value) {
+    override implicit val ctx: StructureContext
+) extends PayloadFieldSymbolBuilder(element, value) {
 
   override protected def buildForKey(key: String, sons: List[DocumentSymbol]): Option[DocumentSymbol] =
     range
       .map(PositionRange.apply)
-      .map(
-        r =>
-          DocumentSymbol(
-            key,
-            KindForResultMatcher.kindForField(ParametersFieldModel.QueryParameters),
-            r,
-            skipLoneChild(sons, key)
-        ))
+      .map(r =>
+        DocumentSymbol(
+          key,
+          KindForResultMatcher.kindForField(ParametersFieldModel.QueryParameters),
+          r,
+          skipLoneChild(sons, key)
+        )
+      )
 
   override protected val payloadsLabel      = "payload"
   override def build(): Seq[DocumentSymbol] = payloadSymbols.toSeq
@@ -43,10 +43,11 @@ class AsyncPayloadFieldSymbolBuilder(override val element: FieldEntry, override 
 object AsyncPayloadFieldSymbolCompanion
     extends ArrayFieldTypeSymbolBuilderCompanion
     with IriFieldSymbolBuilderCompanion {
-  override val supportedIri
-    : String = EndPointModel.Payloads.value.iri() // same as RequestModel.Payload APIContract.Payload
+  override val supportedIri: String =
+    EndPointModel.Payloads.value.iri() // same as RequestModel.Payload APIContract.Payload
 
-  override def construct(element: FieldEntry, value: AmfArray)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] =
+  override def construct(element: FieldEntry, value: AmfArray)(implicit
+      ctx: StructureContext
+  ): Option[FieldTypeSymbolBuilder[AmfArray]] =
     Some(new AsyncPayloadFieldSymbolBuilder(element, value))
 }

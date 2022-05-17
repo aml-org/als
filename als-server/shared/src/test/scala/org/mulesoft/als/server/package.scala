@@ -11,9 +11,8 @@ package object server {
 
   implicit class LanguageServerImplicit(ls: LanguageServer) {
 
-    /**
-      * After initializing the LanguageServer, waits for every WorkspaceContentManager to
-      * initialize in order to avoid staged merges in tests
+    /** After initializing the LanguageServer, waits for every WorkspaceContentManager to initialize in order to avoid
+      * staged merges in tests
       * @param params
       * @return
       */

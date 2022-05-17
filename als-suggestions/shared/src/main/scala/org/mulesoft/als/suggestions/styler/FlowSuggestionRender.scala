@@ -1,6 +1,7 @@
 package org.mulesoft.als.suggestions.styler
 
 import org.mulesoft.als.common.YPartBranch
+import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.suggestions.styler.astbuilder.AstRawBuilder
 
 trait FlowSuggestionRender extends SuggestionRender {
@@ -9,7 +10,7 @@ trait FlowSuggestionRender extends SuggestionRender {
   private val isFlow: Boolean      = params.yPartBranch.isInFlow
   protected val escapeChar: String = ""
 
-  def fix(builder: AstRawBuilder, rendered: String): String =
+  protected def fix(builder: AstRawBuilder, rendered: String): String =
     new SuggestionFix(builder, rendered).fix()
 
   sealed class SuggestionFix(builder: AstRawBuilder, rendered: String) {
@@ -46,9 +47,9 @@ trait FlowSuggestionRender extends SuggestionRender {
       } else s
     }
 
-    private def hasBrotherAfterwards(yPartBranch: YPartBranch): Boolean = {
-      val range = yPartBranch.node.range
-      yPartBranch.brothers.exists(brother => brother.range.compareTo(range) > 0) && yPartBranch.isKey
-    }
+    private def hasBrotherAfterwards(yPartBranch: YPartBranch): Boolean =
+      yPartBranch.brothers.exists(brother =>
+        PositionRange(brother.range).end > Position(yPartBranch.position)
+      ) && yPartBranch.isKey
   }
 }

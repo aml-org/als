@@ -5,11 +5,13 @@ import org.mulesoft.amfintegration.relationships.LinkTypes.LinkTypes
 import org.mulesoft.lsp.feature.common.Location
 import org.yaml.model.{YMapEntry, YPart}
 
-case class RelationshipLink(sourceEntry: YPart,
-                            targetEntry: YPart,
-                            private val targetName: Option[YPart] = None,
-                            private val sourceName: Option[YPart] = None,
-                            linkType: LinkTypes = LinkTypes.OTHER) {
+case class RelationshipLink(
+    sourceEntry: YPart,
+    targetEntry: YPart,
+    private val targetName: Option[YPart] = None,
+    private val sourceName: Option[YPart] = None,
+    linkType: LinkTypes = LinkTypes.OTHER
+) {
   def destination: Location =
     if (targetEntry.sourceName.isEmpty)
       // the map is empty, this is probably an error with the annotations but I can save it if there is a name

@@ -48,20 +48,22 @@ object CompletionCommand {
   }
 }
 
-case class CompletionItemNode(label: String,
-                              kind: Option[Int],
-                              detail: String,
-                              documentation: String,
-                              deprecated: Option[Boolean],
-                              preselect: Option[Boolean],
-                              sortText: String,
-                              filterText: String,
-                              insertText: String,
-                              insertTextFormat: Option[Int],
-                              textEdit: TextEditNode,
-                              additionalTextEdits: Seq[TextEditNode],
-                              commitCharacters: Seq[Char],
-                              command: CompletionCommand)
+case class CompletionItemNode(
+    label: String,
+    kind: Option[Int],
+    detail: String,
+    documentation: String,
+    deprecated: Option[Boolean],
+    preselect: Option[Boolean],
+    sortText: String,
+    filterText: String,
+    insertText: String,
+    insertTextFormat: Option[Int],
+    textEdit: TextEditNode,
+    additionalTextEdits: Seq[TextEditNode],
+    commitCharacters: Seq[Char],
+    command: CompletionCommand
+)
 
 object CompletionItemNode {
 

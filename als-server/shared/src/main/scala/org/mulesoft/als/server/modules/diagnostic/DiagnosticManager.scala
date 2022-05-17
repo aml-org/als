@@ -48,11 +48,13 @@ trait BasicDiagnosticManager[C, S] extends ClientNotifierModule[C, S] {
 
   protected val managerName: DiagnosticManagerKind
 
-  protected def sendFailedClone(uri: String,
-                                telemetryProvider: TelemetryProvider,
-                                baseUnit: BaseUnit,
-                                uuid: String,
-                                e: String): Future[AMFValidationReport] = {
+  protected def sendFailedClone(
+      uri: String,
+      telemetryProvider: TelemetryProvider,
+      baseUnit: BaseUnit,
+      uuid: String,
+      e: String
+  ): Future[AMFValidationReport] = {
     val msg =
       s"DiagnosticManager suffered an unexpected error while validating: $e"
     logger.warning(msg, "DiagnosticManager", "report")
@@ -60,15 +62,19 @@ trait BasicDiagnosticManager[C, S] extends ClientNotifierModule[C, S] {
   }
 
   private final def failedReportDiagnostic(msg: String, baseUnit: BaseUnit): AMFValidationReport =
-    AMFValidationReport("",
-                        profileName(baseUnit),
-                        Seq(AMFValidationResult(msg, VIOLATION, "", None, "", None, baseUnit.location(), None)))
+    AMFValidationReport(
+      "",
+      profileName(baseUnit),
+      Seq(AMFValidationResult(msg, VIOLATION, "", None, "", None, baseUnit.location(), None))
+    )
 
-  protected def notifyReport(uri: String,
-                             baseUnit: BaseUnit,
-                             references: Map[String, DiagnosticsBundle],
-                             step: DiagnosticManagerKind,
-                             profile: ProfileName): Unit = {
+  protected def notifyReport(
+      uri: String,
+      baseUnit: BaseUnit,
+      references: Map[String, DiagnosticsBundle],
+      step: DiagnosticManagerKind,
+      profile: ProfileName
+  ): Unit = {
     val allReferences: Set[String] = references.keySet ++ baseUnit.flatRefs.map(_.identifier) + uri
     val errors =
       DiagnosticConverters.buildIssueResults(
@@ -78,9 +84,11 @@ trait BasicDiagnosticManager[C, S] extends ClientNotifierModule[C, S] {
         references,
         profile
       )
-    logger.debug(s"Number of ${step.name} errors is:\n" + errors.flatMap(_.issues).length,
-                 "ValidationManager",
-                 "newASTAvailable")
+    logger.debug(
+      s"Number of ${step.name} errors is:\n" + errors.flatMap(_.issues).length,
+      "ValidationManager",
+      "newASTAvailable"
+    )
     errors.foreach(r => clientNotifier.notifyDiagnostic(r.publishDiagnosticsParams))
   }
 }

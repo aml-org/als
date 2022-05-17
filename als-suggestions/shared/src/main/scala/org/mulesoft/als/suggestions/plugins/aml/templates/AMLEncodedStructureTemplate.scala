@@ -5,8 +5,7 @@ import org.mulesoft.als.configuration.TemplateTypes
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 
-/**
-  * templates for basic structure, based on the dialect model, no special consideration
+/** templates for basic structure, based on the dialect model, no special consideration
   */
 object AMLEncodedStructureTemplate {
   def resolve(params: AmlCompletionRequest): Seq[RawSuggestion] = {
@@ -22,7 +21,9 @@ object AMLEncodedStructureTemplate {
       case None =>
         usedMappings.flatMap(pm => {
           templates(params, pm)
-            .filter(rs => rs.children.nonEmpty) // if there is no child, then the snippet is not adding anything to the vanilla option
+            .filter(rs =>
+              rs.children.nonEmpty
+            ) // if there is no child, then the snippet is not adding anything to the vanilla option
         })
     }
   }
@@ -31,7 +32,9 @@ object AMLEncodedStructureTemplate {
     val templateType = params.configurationReader.getTemplateType
     templateType match {
       case TemplateTypes.SIMPLE => TemplateTools.getFirstLevelTemplate(pm, params)
-      case TemplateTypes.FULL   => TemplateTools.getFullTemplate(pm, params)
+      case TemplateTypes.FULL =>
+        val full = TemplateTools.getFullTemplate(pm, params)
+        if (full.nonEmpty) full else TemplateTools.getFirstLevelTemplate(pm, params)
       case TemplateTypes.BOTH =>
         TemplateTools.getFirstLevelTemplate(pm, params) ++ TemplateTools.getFullTemplate(pm, params)
       case _ => Seq.empty

@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 21,
-          "character": 21
+          "character": 20
         }
       },
       "newText": "\"a\": \"$1\""
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 21,
-          "character": 21
+          "character": 20
         }
       },
       "newText": "\"b\": \"$1\""

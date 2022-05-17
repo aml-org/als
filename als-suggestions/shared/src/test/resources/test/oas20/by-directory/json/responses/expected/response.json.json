@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 12,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"$ref\""
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 12,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"headers\": {\n  \"$1\": {\n    \"description\": \"$2\",\n    \"type\": \"$3\"\n  }\n}"
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 12,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"schema\": {\n  \"description\": \"$1\",\n  \"type\": \"$2\"\n}"
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 12,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"description\": \"$1\""
@@ -140,7 +140,7 @@
         },
         "end": {
           "line": 12,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"examples\": {\n  \"$1\"\n}"
@@ -170,7 +170,7 @@
         },
         "end": {
           "line": 12,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"headers\": {\n  \"$1\"\n}"
@@ -200,7 +200,7 @@
         },
         "end": {
           "line": 12,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"schema\": {\n  \"$1\"\n}"

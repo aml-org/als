@@ -79,7 +79,9 @@ class FoldingRangeTest extends AsyncFreeSpecLike {
                 "",
                 0,
                 test.ws(test.targetUri)
-              )))
+              )
+            )
+          )
           result <- {
             val dhHandler: RequestHandler[FoldingRangeParams, Seq[FoldingRange]] =
               server.resolveHandler(FoldingRangeRequestType).get
@@ -105,10 +107,12 @@ class FoldingRangeTest extends AsyncFreeSpecLike {
     }
   }
 
-  case class TestEntry(targetUri: String,
-                       ws: Map[String, String],
-                       result: Seq[FoldingRange],
-                       root: String = "file:///root")
+  case class TestEntry(
+      targetUri: String,
+      ws: Map[String, String],
+      result: Seq[FoldingRange],
+      root: String = "file:///root"
+  )
 
   def buildServer(root: String, ws: Map[String, String]): Future[(LanguageServer, WorkspaceManager)] = {
     val rs = new ResourceLoader {
@@ -126,10 +130,12 @@ class FoldingRangeTest extends AsyncFreeSpecLike {
         .buildWorkspaceManagerFactory()
     val workspaceManager: WorkspaceManager = factory.workspaceManager
     val server =
-      new LanguageServerBuilder(factory.documentManager,
-                                workspaceManager,
-                                factory.configurationManager,
-                                factory.resolutionTaskManager)
+      new LanguageServerBuilder(
+        factory.documentManager,
+        workspaceManager,
+        factory.configurationManager,
+        factory.resolutionTaskManager
+      )
         .addRequestModule(factory.foldingRangeManager)
         .build()
 

@@ -13,9 +13,11 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
 }
 import amf.core.client.common.position.{Range => AmfRange}
 
-case class PayloadsArrayFieldBuilder(firstPayload: Payload,
-                                     override val value: AmfArray,
-                                     override val element: FieldEntry)(override implicit val ctx: StructureContext)
+case class PayloadsArrayFieldBuilder(
+    firstPayload: Payload,
+    override val value: AmfArray,
+    override val element: FieldEntry
+)(override implicit val ctx: StructureContext)
     extends DefaultWebApiArrayFieldTypeSymbolBuilder(value, element) {
 
   override protected def range: Option[AmfRange] =
@@ -27,8 +29,9 @@ object PayloadsArrayFieldBuilderCompanion
     with IriFieldSymbolBuilderCompanion {
   override val supportedIri: String = ResponseModel.Payloads.value.iri()
 
-  override def construct(element: FieldEntry, value: AmfArray)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] = {
+  override def construct(element: FieldEntry, value: AmfArray)(implicit
+      ctx: StructureContext
+  ): Option[FieldTypeSymbolBuilder[AmfArray]] = {
     firstPayload(value).map(PayloadsArrayFieldBuilder(_, value, element))
   }
 

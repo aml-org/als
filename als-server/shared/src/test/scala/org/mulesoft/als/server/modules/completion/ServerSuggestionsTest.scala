@@ -24,44 +24,48 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
 
     val factory =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(factory.documentManager,
-                              factory.workspaceManager,
-                              factory.configurationManager,
-                              factory.resolutionTaskManager)
+    new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
       .addRequestModule(factory.completionManager)
       .build()
   }
 
   def runTest(path: String, expectedSuggestions: Set[String], dialectPath: Option[String] = None): Future[Assertion] =
-    withServer[Assertion](buildServer(),
-                          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some("file://als-server"))) {
-      server =>
-        val resolved = filePath(platform.encodeURI(path))
-        for {
-          content <- this.platform.fetchContent(resolved, AMFGraphConfiguration.predefined())
-          _ <- dialectPath
-            .map(p => filePath(platform.encodeURI(p)))
-            .map { d =>
-              commandRegisterDialect(d, "file://als-server", server)
-            }
-            .getOrElse(Future.successful())
-          suggestions <- {
-            val fileContentsStr = content.stream.toString
-            val markerInfo      = this.findMarker(fileContentsStr, "*")
-            getServerCompletions(resolved, server, markerInfo)
+    withServer[Assertion](
+      buildServer(),
+      AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some("file://als-server"))
+    ) { server =>
+      val resolved = filePath(platform.encodeURI(path))
+      for {
+        content <- this.platform.fetchContent(resolved, AMFGraphConfiguration.predefined())
+        _ <- dialectPath
+          .map(p => filePath(platform.encodeURI(p)))
+          .map { d =>
+            commandRegisterDialect(d, "file://als-server", server)
           }
-        } yield {
-          val resultSet = suggestions
-            .map(item => item.textEdit.map(_.left.get.newText).orElse(item.insertText).value)
-            .toSet
-          val diff1 = resultSet.diff(expectedSuggestions)
-          val diff2 = expectedSuggestions.diff(resultSet)
-
-          if (diff1.isEmpty && diff2.isEmpty) succeed
-          else
-            fail(
-              s"Difference for $path: got [${resultSet.mkString(", ")}] while expecting [${expectedSuggestions.mkString(", ")}]")
+          .getOrElse(Future.successful())
+        suggestions <- {
+          val fileContentsStr = content.stream.toString
+          val markerInfo      = this.findMarker(fileContentsStr, "*")
+          getServerCompletions(resolved, server, markerInfo)
         }
+      } yield {
+        val resultSet = suggestions
+          .map(item => item.textEdit.map(_.left.get.newText).orElse(item.insertText).value)
+          .toSet
+        val diff1 = resultSet.diff(expectedSuggestions)
+        val diff2 = expectedSuggestions.diff(resultSet)
+
+        if (diff1.isEmpty && diff2.isEmpty) succeed
+        else
+          fail(
+            s"Difference for $path: got [${resultSet.mkString(", ")}] while expecting [${expectedSuggestions.mkString(", ")}]"
+          )
+      }
     }
 
   def commandRegisterDialect(dialect: String, folder: String, server: LanguageServer): Future[Unit] = {
@@ -79,20 +83,24 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
                |    }
                |  ]
                |}""".stripMargin)
-        ))
+        )
+      )
       .flatMap(_ => Future.unit)
   }
 
-  def getServerCompletions(filePath: String,
-                           server: LanguageServer,
-                           markerInfo: MarkerInfo): Future[Seq[CompletionItem]] = {
+  def getServerCompletions(
+      filePath: String,
+      server: LanguageServer,
+      markerInfo: MarkerInfo
+  ): Future[Seq[CompletionItem]] = {
 
     openFile(server)(filePath, markerInfo.content)
       .flatMap { _ =>
         val completionHandler = server.resolveHandler(CompletionRequestType).value
 
         completionHandler(
-          CompletionParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(markerInfo.position)))
+          CompletionParams(TextDocumentIdentifier(filePath), LspRangeConverter.toLspPosition(markerInfo.position))
+        )
           .flatMap(completions => {
             closeFile(server)(filePath)
               .map(_ => completions.left.value)

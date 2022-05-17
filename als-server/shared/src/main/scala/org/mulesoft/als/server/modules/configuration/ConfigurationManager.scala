@@ -31,8 +31,7 @@ class ConfigurationManager
 
   override def getHotReloadDialects: Boolean = hotReloadDialects
 
-  /**
-    * Should only be called from initialization
+  /** Should only be called from initialization
     */
   def setHotReloadDialects(p: Boolean): Unit = hotReloadDialects = p
 

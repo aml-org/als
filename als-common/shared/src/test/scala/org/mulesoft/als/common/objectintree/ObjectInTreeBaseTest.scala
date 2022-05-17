@@ -31,10 +31,12 @@ case class ObjectInTreeBaseTest(instanceFile: String, dialectFile: String) exten
     } yield result
   }
   private def fn(pos: AmfPosition, result: AmfParseResult, dialect: Dialect): ObjectInTree =
-    ObjectInTreeBuilder.fromUnit(result.result.baseUnit,
-                                 result.result.baseUnit.identifier,
-                                 dialect,
-                                 NodeBranchBuilder.build(result.result.baseUnit, pos, isJson = false))
+    ObjectInTreeBuilder.fromUnit(
+      result.result.baseUnit,
+      result.result.baseUnit.identifier,
+      dialect,
+      NodeBranchBuilder.build(result.result.baseUnit, pos, isJson = false)
+    )
 
   private def objectInTree(): Future[AmfPosition => ObjectInTree] =
     for {

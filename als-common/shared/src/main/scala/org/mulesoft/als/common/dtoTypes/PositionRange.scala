@@ -45,6 +45,8 @@ object PositionRange {
 
   def apply(range: InputRange): PositionRange =
     PositionRange(Position(range.lineFrom - 1, range.columnFrom), Position(range.lineTo - 1, range.columnTo))
+
+  def TopLine: PositionRange = PositionRange(Position(1, 0), Position(1, 0))
 }
 
 object EmptyPositionRange extends PositionRange(Position0, Position1)

@@ -14,15 +14,16 @@ trait FileAssertionTest extends PlatformSecrets {
 
   protected def writeTemporaryFile(golden: String)(content: String): Future[AsyncFile] = {
     val file = tmp(s"${golden
-      .stripPrefix("file://")
-      .replaceAllLiterally(fs.separatorChar.toString, "/")
-      .replaceAllLiterally("/", "-")}.tmp")
+        .stripPrefix("file://")
+        .replaceAllLiterally(fs.separatorChar.toString, "/")
+        .replaceAllLiterally("/", "-")}.tmp")
     val actual = fs.asyncFile(file)
     actual.write(content).map(_ => actual)
   }
 
   protected def assertDifferences(actual: AsyncFile, golden: String): Future[Assertion] = {
-    val expected = fs.asyncFile(golden.stripPrefix("file://")) // TODO: check if this works with encoded URI (f.e. spaces)
+    val expected =
+      fs.asyncFile(golden.stripPrefix("file://")) // TODO: check if this works with encoded URI (f.e. spaces)
     Tests.checkDiff(actual, expected)
   }
 

@@ -46,10 +46,12 @@ class CustomValidationPluginTest extends LanguageServerBaseTest {
 
     override def applies(element: ValidatePayloadRequest): Boolean = element.mediaType == "application/xml"
 
-    override def validator(shape: Shape,
-                           mediaType: String,
-                           config: ShapeValidationConfiguration,
-                           validationMode: ValidationMode): AMFShapePayloadValidator = {
+    override def validator(
+        shape: Shape,
+        mediaType: String,
+        config: ShapeValidationConfiguration,
+        validationMode: ValidationMode
+    ): AMFShapePayloadValidator = {
       new AMFShapePayloadValidator {
         override def validate(payload: String): Future[AMFValidationReport] =
           Future(new AMFValidationReport(payload, ProfileNames.RAML10, Nil))
@@ -70,10 +72,12 @@ class CustomValidationPluginTest extends LanguageServerBaseTest {
       new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, editorConfiguration)
     val dm      = builder.buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
-    val b = new LanguageServerBuilder(factory.documentManager,
-                                      factory.workspaceManager,
-                                      factory.configurationManager,
-                                      factory.resolutionTaskManager)
+    val b = new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
 
     dm.foreach(m => b.addInitializableModule(m))
     b.build()

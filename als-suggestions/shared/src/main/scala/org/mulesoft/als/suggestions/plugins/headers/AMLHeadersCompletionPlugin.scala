@@ -15,8 +15,10 @@ object AMLHeadersCompletionPlugin extends HeaderCompletionPlugin {
   def allHeaders(amfConfiguration: AmfParseContext): Seq[String] =
     (amfConfiguration.state.allDialects
       .filterNot(d => Configuration.internalDialects.contains(d.id))
-      .filterNot(d => Option(d.documents()).exists(_.keyProperty().value())) ++ Seq(MetaDialect.dialect,
-                                                                                    VocabularyDialect.dialect))
+      .filterNot(d => Option(d.documents()).exists(_.keyProperty().value())) ++ Seq(
+      MetaDialect.dialect,
+      VocabularyDialect.dialect
+    ))
       .flatMap(computeHeaders)
       .distinct
 

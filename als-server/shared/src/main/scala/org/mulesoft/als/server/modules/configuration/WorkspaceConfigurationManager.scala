@@ -17,10 +17,11 @@ import org.mulesoft.lsp.textsync.{DependencyConfiguration, DidChangeConfiguratio
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class WorkspaceConfigurationManager(val workspaceManager: WorkspaceManager,
-                                    private val telemetryProvider: TelemetryProvider,
-                                    private val logger: Logger)
-    extends RequestModule[WorkspaceConfigurationClientCapabilities, WorkspaceConfigurationOptions]
+class WorkspaceConfigurationManager(
+    val workspaceManager: WorkspaceManager,
+    private val telemetryProvider: TelemetryProvider,
+    private val logger: Logger
+) extends RequestModule[WorkspaceConfigurationClientCapabilities, WorkspaceConfigurationOptions]
     with WorkspaceConfigurationProvider {
 
   private var getEnabled = true
@@ -47,9 +48,10 @@ class WorkspaceConfigurationManager(val workspaceManager: WorkspaceManager,
       .flatMap(w => w.getConfigurationState)
 }
 
-class GetWorkspaceConfigurationRequestHandler(val provider: WorkspaceConfigurationProvider,
-                                              private val telemetryProvider: TelemetryProvider)
-    extends TelemeteredRequestHandler[GetWorkspaceConfigurationParams, GetWorkspaceConfigurationResult] {
+class GetWorkspaceConfigurationRequestHandler(
+    val provider: WorkspaceConfigurationProvider,
+    private val telemetryProvider: TelemetryProvider
+) extends TelemeteredRequestHandler[GetWorkspaceConfigurationParams, GetWorkspaceConfigurationResult] {
 
   override protected def telemetry: TelemetryProvider = telemetryProvider
 

@@ -48,7 +48,8 @@ object NodeShapeAsync2Node extends BaseNodeShapeNode with BaseShapeAsync2Node {
         .withId(location + "#/declarations/AnyShapeNode/discriminator")
         .withNodePropertyMapping(NodeShapeModel.Discriminator.value.iri())
         .withName("discriminator")
-        .withLiteralRange(xsdString.iri()))
+        .withLiteralRange(xsdString.iri())
+    )
 }
 
 object NumberShapeAsync2Node extends BaseNumberShapeNode with BaseShapeAsync2Node {
@@ -63,7 +64,8 @@ object NumberShapeAsync2Node extends BaseNumberShapeNode with BaseShapeAsync2Nod
           "int64",
           "float",
           "double"
-        ))
+        )
+      )
       .withLiteralRange(xsdString.iri())
 }
 
@@ -80,6 +82,7 @@ object StringShapeAsync2Node extends BaseStringShapeNode with BaseShapeAsync2Nod
           "date",
           "date-time",
           "password"
-        ))
+        )
+      )
       .withLiteralRange(xsdString.iri())
 }

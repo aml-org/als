@@ -24,7 +24,9 @@ trait RamlBooleanPropertyValue extends AMLCompletionPlugin with BooleanSuggestio
             .flatMap(
               _.propertiesMapping().find(pm =>
                 request.yPartBranch.isValue &&
-                  request.yPartBranch.parentEntry.exists(_.key.asScalar.exists(_.text == pm.name().value()))))
+                  request.yPartBranch.parentEntry.exists(_.key.asScalar.exists(_.text == pm.name().value()))
+              )
+            )
           if (maybeMapping.exists(_.literalRange().option().contains(XsdTypes.xsdBoolean.iri())))
             booleanSuggestions
           else Nil

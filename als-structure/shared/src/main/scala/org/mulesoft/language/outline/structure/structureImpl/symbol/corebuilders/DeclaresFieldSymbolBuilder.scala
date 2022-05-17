@@ -19,8 +19,8 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
 }
 
 class DeclaresFieldSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
-    override implicit val ctx: StructureContext)
-    extends ArrayFieldTypeSymbolBuilder {
+    override implicit val ctx: StructureContext
+) extends ArrayFieldTypeSymbolBuilder {
 
   private lazy val terms: Map[String, String] = ctx.dialect.declarationsMapTerms
 
@@ -41,11 +41,11 @@ class DeclaresFieldSymbolBuilder(override val value: AmfArray, override val elem
 
   private def buildSymbol(name: String, elements: Seq[AmfObject]): Option[DocumentSymbol] = {
     val children: List[DocumentSymbol] = elements
-      .flatMap(
-        o =>
-          builderFor(o)
-            .map(_.build())
-            .getOrElse(Nil))
+      .flatMap(o =>
+        builderFor(o)
+          .map(_.build())
+          .getOrElse(Nil)
+      )
       .sortWith((ds1, ds2) => ds1.range.start < ds2.range.start)
       .toList
     val range: Option[PositionRange] = getDeclarationKeyFor(name).map(key => PositionRange(key.entry.range))
@@ -53,10 +53,8 @@ class DeclaresFieldSymbolBuilder(override val value: AmfArray, override val elem
       case Nil => None
       case head :: tail =>
         Some(
-          DocumentSymbol(name,
-                         head.kind,
-                         range.getOrElse(head.range + tail.lastOption.getOrElse(head).range),
-                         children))
+          DocumentSymbol(name, head.kind, range.getOrElse(head.range + tail.lastOption.getOrElse(head).range), children)
+        )
     }
   }
 
@@ -69,8 +67,8 @@ class DeclaresFieldSymbolBuilder(override val value: AmfArray, override val elem
     terms.getOrElse(getMeta(obj), "unknown")
 
   override def build(): Seq[DocumentSymbol] =
-    groupedDeclarations.flatMap {
-      case (name, elements) => buildSymbol(name, elements)
+    groupedDeclarations.flatMap { case (name, elements) =>
+      buildSymbol(name, elements)
     }.toSeq
   override protected val optionName: Option[String] = None
 }
@@ -78,8 +76,9 @@ class DeclaresFieldSymbolBuilder(override val value: AmfArray, override val elem
 object DeclaresFieldSymbolBuilderCompanion
     extends ArrayFieldTypeSymbolBuilderCompanion
     with IriFieldSymbolBuilderCompanion {
-  override def construct(element: FieldEntry, value: AmfArray)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] =
+  override def construct(element: FieldEntry, value: AmfArray)(implicit
+      ctx: StructureContext
+  ): Option[FieldTypeSymbolBuilder[AmfArray]] =
     Some(new DeclaresFieldSymbolBuilder(value, element))
 
   override val supportedIri: String = DocumentModel.Declares.value.iri()

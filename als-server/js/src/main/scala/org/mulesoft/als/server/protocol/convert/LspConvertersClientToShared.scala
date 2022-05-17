@@ -12,10 +12,7 @@ import org.mulesoft.als.server.feature.diagnostic._
 import org.mulesoft.als.server.feature.fileusage.{FileUsageClientCapabilities, FileUsageOptions}
 import org.mulesoft.als.server.feature.renamefile.{RenameFileActionClientCapabilities, RenameFileActionParams}
 import org.mulesoft.als.server.feature.serialization._
-import org.mulesoft.als.server.protocol.actions.{
-  ClientRenameFileActionClientCapabilities,
-  ClientRenameFileActionParams
-}
+import org.mulesoft.als.server.protocol.actions.{ClientRenameFileActionClientCapabilities, ClientRenameFileActionParams}
 import org.mulesoft.als.server.protocol.configuration._
 import org.mulesoft.als.server.protocol.diagnostic.{
   ClientCleanDiagnosticTreeParams,
@@ -96,8 +93,8 @@ object LspConvertersClientToShared {
   implicit class ClientAlsConfigurationConverter(v: ClientAlsConfiguration) {
     def toShared: AlsConfiguration =
       AlsConfiguration(
-        v.formattingOptions.toMap.map({
-          case (k, value) => (k -> FormattingOptionsConverter(value).toShared)
+        v.formattingOptions.toMap.map({ case (k, value) =>
+          (k -> FormattingOptionsConverter(value).toShared)
         }),
         v.templateType match {
           case TemplateTypes.FULL   => TemplateTypes.FULL
@@ -216,7 +213,8 @@ object LspConvertersClientToShared {
   }
 
   implicit class ClientWorkspaceConfigurationClientCapabilitiesConverter(
-      s: ClientWorkspaceConfigurationClientCapabilities) {
+      s: ClientWorkspaceConfigurationClientCapabilities
+  ) {
     def toShared: WorkspaceConfigurationClientCapabilities = WorkspaceConfigurationClientCapabilities(s.get)
   }
 

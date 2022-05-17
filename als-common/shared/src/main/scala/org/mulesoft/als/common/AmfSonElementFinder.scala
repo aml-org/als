@@ -41,7 +41,8 @@ object AmfSonElementFinder {
           .getOrElse(
             f.value.annotations.isInferred ||
               f.value.annotations.isVirtual ||
-              isDeclares(f))
+              isDeclares(f)
+          )
       // why do we assume that inferred/virtual/declared would have the position? should we not look inside? what if there is more than one such case?
 
       private val fieldFilters: Seq[FieldEntry => Boolean] = Seq(
@@ -66,9 +67,11 @@ object AmfSonElementFinder {
 
       private def filterCandidates(list: Seq[Branch]) =
         list.map(br => {
-          if ((br.fe.isEmpty && ((br.obj.annotations.isInferred || br.obj.annotations.isSynthesized || br.obj.annotations.isVirtual || br.fe
-                .exists(isDeclares)) && br.obj.range.isEmpty)) || (br.fe.nonEmpty && br.fe
-                .exists(f => !appliesReduction(f))))
+          if (
+            (br.fe.isEmpty && ((br.obj.annotations.isInferred || br.obj.annotations.isSynthesized || br.obj.annotations.isVirtual || br.fe
+              .exists(isDeclares)) && br.obj.range.isEmpty)) || (br.fe.nonEmpty && br.fe
+              .exists(f => !appliesReduction(f)))
+          )
             br.unstacked()
           else br
         })
@@ -140,16 +143,17 @@ object AmfSonElementFinder {
               Seq(o)
             case _ =>
               Seq.empty
-          } else Seq.empty
+          }
+        else Seq.empty
 
       def buildFromMeta(parent: AmfObject, fe: FieldEntry, arr: AmfArray): Option[AmfObject] =
         if (explicitArray(fe, parent, definedBy)) matchInnerArrayElement(fe, arr, definedBy, parent)
         else None
 
-      /**
-        * @param amfObject
+      /** @param amfObject
         * @param definedBy
-        * @return true if this object should be filtered OUT
+        * @return
+        *   true if this object should be filtered OUT
         */
       private def exceptionCase(amfObject: AmfObject, definedBy: Dialect): Boolean =
         exceptionList.exists(_(amfObject, definedBy))
@@ -158,8 +162,7 @@ object AmfSonElementFinder {
         exceptionAsyncPayload
       )
 
-      /**
-        * TODO: Remove and fix annotation of Async Payload in AMF
+      /** TODO: Remove and fix annotation of Async Payload in AMF
         */
       private def exceptionAsyncPayload(amfObject: AmfObject, definedBy: Dialect): Boolean = amfObject match {
         case p: Payload if definedBy.nameAndVersion() == "asyncapi 2.0.0" =>

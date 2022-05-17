@@ -20,8 +20,8 @@ object ClientAlsConfiguration {
     js.Dynamic
       .literal(
         formattingOptions = internal.getFormatOptions
-          .map({
-            case (k, v) => (k -> ClientFormattingOptions(v))
+          .map({ case (k, v) =>
+            (k -> ClientFormattingOptions(v))
           })
           .toJSDictionary,
         templateType = internal.getTemplateType,

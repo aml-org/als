@@ -18,13 +18,15 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object FindRenameLocations {
-  def changeDeclaredName(uri: String,
-                         position: Position,
-                         newName: String,
-                         allAliases: Future[Seq[AliasInfo]],
-                         references: Future[Seq[RelationshipLink]],
-                         yPartBranchCached: YPartBranchCached,
-                         unit: BaseUnit): Future[AbstractWorkspaceEdit] =
+  def changeDeclaredName(
+      uri: String,
+      position: Position,
+      newName: String,
+      allAliases: Future[Seq[AliasInfo]],
+      references: Future[Seq[RelationshipLink]],
+      yPartBranchCached: YPartBranchCached,
+      unit: BaseUnit
+  ): Future[AbstractWorkspaceEdit] =
     FindReferences
       .getReferences(uri, position, allAliases, references, yPartBranchCached)
       .map { refs =>
@@ -41,14 +43,9 @@ object FindRenameLocations {
 
   private def refsToRenameLocation(newName: String, refs: Seq[FullLink], origKey: YScalar): Seq[RenameLocation] = {
     refs
-      .map(
-        t =>
-          RenameLocation(t.sourceName,
-                         t.sourceValue,
-                         t.source.uri,
-                         PositionRange(t.source.range),
-                         newName,
-                         origKey.text)) :+
+      .map(t =>
+        RenameLocation(t.sourceName, t.sourceValue, t.source.uri, PositionRange(t.source.range), newName, origKey.text)
+      ) :+
       RenameLocation(newName, origKey.location.sourceName, PositionRange(origKey.unmarkedRange()))
   }
 
@@ -56,8 +53,8 @@ object FindRenameLocations {
     unit.objWithAST
       .flatMap(_.annotations.ast())
       .map(YamlUtils.getNodeByPosition(_, position.toAmfPosition))
-      .collect {
-        case s: YScalar => s
+      .collect { case s: YScalar =>
+        s
       }
 
   private def toTextEdit(renameLocation: RenameLocation): TextEdit =
@@ -72,12 +69,14 @@ object FindRenameLocations {
 case class RenameLocation(newName: String, uri: String, replaceRange: PositionRange)
 
 object RenameLocation {
-  def apply(nameYPart: Option[YPart],
-            valueYPart: Option[YPart],
-            uri: String,
-            replaceRange: PositionRange,
-            newName: String,
-            oldName: String): RenameLocation = {
+  def apply(
+      nameYPart: Option[YPart],
+      valueYPart: Option[YPart],
+      uri: String,
+      replaceRange: PositionRange,
+      newName: String,
+      oldName: String
+  ): RenameLocation = {
     nameYPart.filter(_.toString.contains(oldName)).orElse(valueYPart) match {
       case Some(yPart) =>
         val nodeContent = yPart.toString

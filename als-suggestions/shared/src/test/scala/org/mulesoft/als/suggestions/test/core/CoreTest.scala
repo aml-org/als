@@ -5,7 +5,7 @@ import amf.core.client.scala.resource.ResourceLoader
 import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.{MarkerFinderTest, PlatformDirectoryResolver}
 import org.mulesoft.als.configuration.AlsConfiguration
-import org.mulesoft.als.suggestions.client.Suggestions
+import org.mulesoft.als.suggestions.client.{Suggestions, UnitBundle}
 import org.mulesoft.amfintegration.amfconfiguration.{
   ALSConfigurationState,
   EditorConfiguration,
@@ -16,7 +16,7 @@ import org.scalatest.{Assertion, AsyncFunSuite}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait CoreTest extends AsyncFunSuite with PlatformSecrets with MarkerFinderTest {
+trait CoreTest extends AsyncFunSuite with PlatformSecrets with MarkerFinderTest with AccessBundle {
 
   implicit override def executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global
@@ -31,16 +31,22 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets with MarkerFinderTest 
       (newConfiguration, position) <- Future.successful {
         val fileContentsStr = content.stream.toString
         val markerInfo      = this.findMarker(fileContentsStr, "*")
-        val newConfig = ALSConfigurationState(alsConfiguration.editorState,
-                                              alsConfiguration.projectState,
-                                              Some(resourceLoader(url, markerInfo.content)))
+        val newConfig = ALSConfigurationState(
+          alsConfiguration.editorState,
+          alsConfiguration.projectState,
+          Some(resourceLoader(url, markerInfo.content))
+        )
 
         (newConfig, markerInfo.offset)
       }
       suggestions <- {
-        new Suggestions(AlsConfiguration(), new PlatformDirectoryResolver(newConfiguration.platform))
+        new Suggestions(
+          AlsConfiguration(),
+          new PlatformDirectoryResolver(newConfiguration.platform),
+          accessBundle(newConfiguration)
+        )
           .initialized()
-          .suggest(url, position, snippetsSupport = true, None, newConfiguration)
+          .suggest(url, position, snippetsSupport = true, None)
       }
     } yield suggestions
   }
@@ -57,7 +63,11 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets with MarkerFinderTest 
       Future.successful(new Content(content, fileUrl))
   }
 
-  def runTestForCustomDialect(path: String, dialectPath: String, originalSuggestions: Set[String]): Future[Assertion] = {
+  def runTestForCustomDialect(
+      path: String,
+      dialectPath: String,
+      originalSuggestions: Set[String]
+  ): Future[Assertion] = {
     EditorConfiguration()
       .withDialect(filePath(dialectPath))
       .getState
@@ -70,4 +80,5 @@ trait CoreTest extends AsyncFunSuite with PlatformSecrets with MarkerFinderTest 
         })
       })
   }
+
 }

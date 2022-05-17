@@ -39,10 +39,13 @@ object TemplateTools {
 
   def getFirstLevelTemplate(p: PropertyMapping, params: AmlCompletionRequest): Seq[RawSuggestion] =
     Seq(
-      toRaw(p,
-            defaultPrefix,
-            requiredProperties(p, params)
-              .map(c => RawAndIri(c, defaultPrefix))))
+      toRaw(
+        p,
+        defaultPrefix,
+        requiredProperties(p, params)
+          .map(c => RawAndIri(c, defaultPrefix))
+      )
+    )
 
   def getFullTemplate(p: PropertyMapping, params: AmlCompletionRequest): Seq[RawSuggestion] =
     Seq(
@@ -51,32 +54,34 @@ object TemplateTools {
         fullPrefix,
         getRecursiveChildren(p, params)
           .filter(_.rawSuggestion.children.nonEmpty) // if there is no nested child, it's same as first level suggestion
-      )).filter(_.children.nonEmpty)
+      )
+    ).filter(_.children.nonEmpty)
 
   def parentTermKey(params: AmlCompletionRequest): Option[PropertyMapping] =
     params.branchStack.headOption
       .flatMap(DialectNodeFinder.find(_, None, params.actualDialect))
       .flatMap(_.propertiesMapping().find(_.mapTermKeyProperty().option().isDefined))
-      .filterNot(
-        pm =>
-          params.amfObject.fields
-            .fields()
-            .map(_.field.value.iri())
-            .exists(iri => pm.mapTermKeyProperty().option().contains(iri)))
+      .filterNot(pm =>
+        params.amfObject.fields
+          .fields()
+          .map(_.field.value.iri())
+          .exists(iri => pm.mapTermKeyProperty().option().contains(iri))
+      )
 
   def iriForMapping(p: PropertyMapping): String =
     p.nodePropertyMapping().option().getOrElse("")
 
   def isInsideDeclaration(params: AmlCompletionRequest): Boolean =
-    params.yPartBranch.parentEntry
-      .flatMap(_.key.asScalar)
-      .map(_.text)
-      .exists(k => params.nodeDialect.declarationsMapTerms.values.to[Seq].contains(k)) &&
+    params.nodeDialect.declarationsMapTerms.values
+      .to[Seq]
+      .exists(params.yPartBranch.parentEntryIs) &&
       hasCorrectDeclarationNesting(params)
 
-  private def getRecursiveChildren(p: PropertyMapping,
-                                   params: AmlCompletionRequest,
-                                   recursiveProperties: Seq[String] = Seq.empty): Seq[RawAndIri] = {
+  private def getRecursiveChildren(
+      p: PropertyMapping,
+      params: AmlCompletionRequest,
+      recursiveProperties: Seq[String] = Seq.empty
+  ): Seq[RawAndIri] = {
     if (recursiveProperties.contains(p.id)) Seq.empty
     else
       requiredProperties(p, params)
@@ -114,17 +119,21 @@ object TemplateTools {
       if (p.allowMultiple().value() && p.mapTermKeyProperty().option().isEmpty)
         RawSuggestion.keyOfArray(name, category, displayText, sortedChildren.map(_.rawSuggestion))
       else
-        RawSuggestion.forObject(name,
-                                category,
-                                p.minCount().value() > 0,
-                                displayText,
-                                sortedChildren.map(_.rawSuggestion))
+        RawSuggestion.forObject(
+          name,
+          category,
+          p.minCount().value() > 0,
+          displayText,
+          sortedChildren.map(_.rawSuggestion)
+        )
     } else
-      RawSuggestion.forKey(name,
-                           category = category,
-                           p.minCount().value() > 0,
-                           displayText,
-                           sortedChildren.map(_.rawSuggestion))
+      RawSuggestion.forKey(
+        name,
+        category = category,
+        p.minCount().value() > 0,
+        displayText,
+        sortedChildren.map(_.rawSuggestion)
+      )
   }
 
   private def namedSuggestion(p: PropertyMapping, children: Seq[RawAndIri], prefix: String) = {
@@ -137,13 +146,16 @@ object TemplateTools {
       if (childrenSuggestion.nonEmpty) // no sense in suggesting an empty name with no children
         Seq(
           RawSuggestion
-            .forObject("",
-                       category,
-                       mandatory = true,
-                       None,
-                       children
-                         .filterNot(_.iri == p.mapTermKeyProperty().value())
-                         .map(_.rawSuggestion)))
+            .forObject(
+              "",
+              category,
+              mandatory = true,
+              None,
+              children
+                .filterNot(_.iri == p.mapTermKeyProperty().value())
+                .map(_.rawSuggestion)
+            )
+        )
       else Seq.empty
 
     RawSuggestion

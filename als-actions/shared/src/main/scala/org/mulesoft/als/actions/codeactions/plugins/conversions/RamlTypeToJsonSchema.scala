@@ -75,7 +75,8 @@ class RamlTypeToJsonSchema(override protected val params: CodeActionRequestParam
         (mle, maybeAnyShape) match {
           case (Some(le), Some(shape)) =>
             jsonSchemaTextEdit(shape).map(edits =>
-              buildFileEdit(params.uri, le, edits._1, edits._2).map(RamlTypeToJsonSchema.baseCodeAction))
+              buildFileEdit(params.uri, le, edits._1, edits._2).map(RamlTypeToJsonSchema.baseCodeAction)
+            )
           case _ => Future.successful(Seq.empty)
         }
       }

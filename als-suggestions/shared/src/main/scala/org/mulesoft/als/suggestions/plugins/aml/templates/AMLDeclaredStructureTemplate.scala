@@ -5,14 +5,15 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.{AmlCompletionRequest, DialectNodeFinder}
 import org.mulesoft.amfintegration.AmfImplicits.DialectImplicits
 
-/**
-  * templates for basic structure, based on the dialect model, no special consideration
+/** templates for basic structure, based on the dialect model, no special consideration
   */
 object AMLDeclaredStructureTemplate {
   def resolve(params: AmlCompletionRequest): Seq[RawSuggestion] =
-    if (params.configurationReader.getTemplateType != TemplateTypes.NONE &&
-        params.yPartBranch.isKey &&
-        TemplateTools.isInsideDeclaration(params)) {
+    if (
+      params.configurationReader.getTemplateType != TemplateTypes.NONE &&
+      params.yPartBranch.isKey &&
+      TemplateTools.isInsideDeclaration(params)
+    ) {
       val decKey = params.nodeDialect.declarationsMapTerms
         .find(t => params.yPartBranch.parentEntry.flatMap(_.key.asScalar).map(_.text).contains(t._2))
         .map(_._1)

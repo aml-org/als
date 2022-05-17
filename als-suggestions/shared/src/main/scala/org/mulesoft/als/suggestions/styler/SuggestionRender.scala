@@ -1,22 +1,23 @@
 package org.mulesoft.als.suggestions.styler
 
-import org.mulesoft.als.common.dtoTypes.PositionRange
+import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.suggestions._
 import org.mulesoft.als.suggestions.implementation.CompletionItemBuilder
 import org.mulesoft.als.suggestions.styler.astbuilder.AstRawBuilder
+import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.completion.{CompletionItem, InsertTextFormat}
 import org.yaml.model._
 
 trait SuggestionRender {
   val params: StylerParams
 
-  def astBuilder: RawSuggestion => AstRawBuilder
+  protected def astBuilder: RawSuggestion => AstRawBuilder
 
-  lazy val stringIndentation: String   = " " * params.indentation
-  lazy val initialIndentationSize: Int = params.indentation / 2
-  lazy val tabSize: Int                = params.formattingConfiguration.tabSize
+  lazy val stringIndentation: String = " " * params.indentation
+  lazy val tabSize: Int              = params.formattingConfiguration.tabSize
 
-  def patchPath(builder: CompletionItemBuilder): Unit = {
+  private def patchPath(builder: CompletionItemBuilder): Unit =
     if (!isHeaderSuggestion) {
       val index =
         params.prefix.lastIndexOf(".").max(params.prefix.lastIndexOf("/"))
@@ -28,24 +29,13 @@ trait SuggestionRender {
           builder
             .withDisplayText(builder.getDisplayText.substring(index + 1))
     }
-  }
 
   private def isHeaderSuggestion: Boolean = params.position.line == 0 && params.prefix.startsWith("#%")
 
   private def keyRange: Option[PositionRange] =
     params.yPartBranch.node match {
       case n: YNode if n.value.isInstanceOf[YScalar] && params.yPartBranch.isJson =>
-        if (params.yPartBranch.isKey) {
-          params.yPartBranch.parentEntry
-            .map(_.range)
-            .map(
-              r =>
-                if (r.lineTo == r.lineFrom)
-                  r.copy(columnTo = r.columnTo - params.patchedContent.addedTokens.foldLeft(0)((a, t) => a + t.size))
-                else r)
-            .orElse(Some(n.range))
-            .map(PositionRange(_))
-        } else Some(PositionRange(n.range))
+        Some(PositionRange(n.range))
       case _ => None
     }
 
@@ -61,15 +51,32 @@ trait SuggestionRender {
       .withText(styled.text)
   }
 
+  protected def renderYPart(part: YPart, indentation: Option[Int] = None): String
+
+  private def toTextEdits(textEdits: Seq[Either[TextEdit, AdditionalSuggestion]]): Seq[TextEdit] =
+    textEdits.map {
+      case Left(te) => te
+      case Right(AdditionalSuggestion(insert, Left(range))) =>
+        val text = renderYPart(insert)
+        TextEdit(LspRangeConverter.toLspRange(range), s"\n$text\n")
+      case Right(AdditionalSuggestion(insert, Right(parent))) =>
+        val indentation: Int = parent.key.range.columnFrom + params.formattingConfiguration.tabSize
+        val preLine          = if (parent.value.range.lineTo <= parent.key.range.lineTo) "\n" else ""
+        val text             = s"$preLine${renderYPart(insert, Some(indentation))}\n"
+        val position         = Position(parent.value.range.lineTo - 1, parent.value.range.columnTo)
+        TextEdit(LspRangeConverter.toLspRange(PositionRange(position, position)), text)
+    }
+
   def rawToStyledSuggestion(suggestions: RawSuggestion): CompletionItem = {
     val builder = getBuilder(suggestions)
-    builder
       .withDescription(suggestions.description)
       .withDisplayText(suggestions.displayText)
       .withCategory(suggestions.category)
       .withPrefix(params.prefix)
       .withMandatory(suggestions.options.isMandatory)
       .withIsTopLevel(suggestions.options.isTopLevel)
+    if (suggestions.textEdits.nonEmpty)
+      builder.withAdditionalTextEdits(toTextEdits(suggestions.textEdits))
 
     patchPath(builder)
 
@@ -78,9 +85,11 @@ trait SuggestionRender {
 
   def style(raw: RawSuggestion): Styled =
     if (raw.options.rangeKind == PlainText)
-      Styled(raw.newText,
-             plain = true,
-             raw.range.getOrElse(PositionRange(params.position.moveColumn(-params.prefix.length), params.position)))
+      Styled(
+        raw.newText,
+        plain = true,
+        raw.range.getOrElse(PositionRange(params.position.moveColumn(-params.prefix.length), params.position))
+      )
     else {
       val builder = astBuilder(raw)
       val text    = render(raw.options, builder)

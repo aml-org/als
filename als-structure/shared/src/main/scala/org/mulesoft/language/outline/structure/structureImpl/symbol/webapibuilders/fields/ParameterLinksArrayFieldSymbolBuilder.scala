@@ -11,8 +11,8 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
 
 class ParameterLinksArrayFieldSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
-    override implicit val ctx: StructureContext)
-    extends DefaultWebApiArrayFieldTypeSymbolBuilder(value, element) {
+    override implicit val ctx: StructureContext
+) extends DefaultWebApiArrayFieldTypeSymbolBuilder(value, element) {
 
   override protected val children: List[DocumentSymbol] = Nil
 }
@@ -20,8 +20,9 @@ class ParameterLinksArrayFieldSymbolBuilder(override val value: AmfArray, overri
 object ParameterLinksArrayFieldSymbolBuilderCompanion
     extends ArrayFieldTypeSymbolBuilderCompanion
     with IriFieldSymbolBuilderCompanion {
-  override def construct(element: FieldEntry, value: AmfArray)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] = {
+  override def construct(element: FieldEntry, value: AmfArray)(implicit
+      ctx: StructureContext
+  ): Option[FieldTypeSymbolBuilder[AmfArray]] = {
     Some(new ParameterLinksArrayFieldSymbolBuilder(value, element))
   }
 

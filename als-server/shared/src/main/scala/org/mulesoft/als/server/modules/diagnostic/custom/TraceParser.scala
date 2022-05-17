@@ -125,8 +125,10 @@ class ResultParser(opaResult: OpaResult, rootUri: String) {
   }
 
   private def dtoToParserRange(core: Range): position.Range =
-    position.Range(position.Position(core.start.line + 1, core.start.character),
-                   position.Position(core.end.line + 1, core.end.character))
+    position.Range(
+      position.Position(core.start.line + 1, core.start.character),
+      position.Position(core.end.line + 1, core.end.character)
+    )
 }
 
 object LocationParser {

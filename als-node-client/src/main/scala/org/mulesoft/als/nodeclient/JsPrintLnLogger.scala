@@ -13,7 +13,7 @@ object JsPrintLnLogger {
         error = (message: String) => println(message),
         warn = (message: String) => println(message),
         info = (message: String) => println(message),
-        log = (message: String) => println(message),
+        log = (message: String) => println(message)
       )
       .asInstanceOf[JsClientLogger]
 }

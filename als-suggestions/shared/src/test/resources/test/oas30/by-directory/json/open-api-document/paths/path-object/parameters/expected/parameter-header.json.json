@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 7,
-          "character": 13
+          "character": 12
         }
       },
       "newText": "\"allowEmptyValue\": \"$1\""
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 7,
-          "character": 13
+          "character": 12
         }
       },
       "newText": "\"allowReserved\": \"$1\""
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 7,
-          "character": 13
+          "character": 12
         }
       },
       "newText": "\"content\": {\n  \"$1\"\n}"
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 7,
-          "character": 13
+          "character": 12
         }
       },
       "newText": "\"deprecated\": \"$1\""
@@ -140,7 +140,7 @@
         },
         "end": {
           "line": 7,
-          "character": 13
+          "character": 12
         }
       },
       "newText": "\"description\": \"$1\""
@@ -170,7 +170,7 @@
         },
         "end": {
           "line": 7,
-          "character": 13
+          "character": 12
         }
       },
       "newText": "\"example\": \"$1\""
@@ -200,7 +200,7 @@
         },
         "end": {
           "line": 7,
-          "character": 13
+          "character": 12
         }
       },
       "newText": "\"examples\": {\n  \"$1\"\n}"
@@ -230,7 +230,7 @@
         },
         "end": {
           "line": 7,
-          "character": 13
+          "character": 12
         }
       },
       "newText": "\"explode\": \"$1\""
@@ -260,7 +260,7 @@
         },
         "end": {
           "line": 7,
-          "character": 13
+          "character": 12
         }
       },
       "newText": "\"name\": \"$1\""
@@ -290,7 +290,7 @@
         },
         "end": {
           "line": 7,
-          "character": 13
+          "character": 12
         }
       },
       "newText": "\"required\": \"$1\""
@@ -320,7 +320,7 @@
         },
         "end": {
           "line": 7,
-          "character": 13
+          "character": 12
         }
       },
       "newText": "\"schema\": {\n  \"$1\"\n}"
@@ -350,7 +350,7 @@
         },
         "end": {
           "line": 7,
-          "character": 13
+          "character": 12
         }
       },
       "newText": "\"style\": \"$1\""

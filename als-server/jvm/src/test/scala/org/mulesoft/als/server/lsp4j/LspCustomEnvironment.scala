@@ -37,7 +37,8 @@ class LspCustomEnvironment extends AsyncFunSuite with Matchers with PlatformSecr
         .withNotificationKind(ALL_TOGETHER)
         .withLogger(EmptyLogger)
         .withResourceLoaders(Seq(cl).asJava)
-        .build())
+        .build()
+    )
     val api =
       """#%RAML 1.0
         |title: test
@@ -50,7 +51,8 @@ class LspCustomEnvironment extends AsyncFunSuite with Matchers with PlatformSecr
       _ <- server.initialize(initParams).toScala
       _ <- Future {
         server.getTextDocumentService.didOpen(
-          new DidOpenTextDocumentParams(new TextDocumentItem("file://api.raml", "raml1.0", 1, api)))
+          new DidOpenTextDocumentParams(new TextDocumentItem("file://api.raml", "raml1.0", 1, api))
+        )
       }
       r1 <- notifier.nextCall
       r2 <- notifier.nextCall

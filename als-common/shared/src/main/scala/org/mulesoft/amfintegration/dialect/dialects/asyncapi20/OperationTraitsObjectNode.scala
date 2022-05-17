@@ -5,9 +5,13 @@ import amf.apicontract.internal.metamodel.domain.OperationModel
 import amf.apicontract.internal.metamodel.domain.bindings.OperationBindingsModel
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.bindings.OperationBindingObjectNode
-import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{AMLExternalDocumentationObject, AMLTagObject, DialectNode}
+import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.{
+  AMLExternalDocumentationObject,
+  AMLTagObject,
+  DialectNode
+}
 
-trait OperationAbstractObjectNode extends DialectNode{
+trait OperationAbstractObjectNode extends DialectNode {
 
   override def nodeTypeMapping: String = OperationModel.`type`.head.iri()
 
@@ -43,11 +47,11 @@ trait OperationAbstractObjectNode extends DialectNode{
       .withId(location + "#/declarations/Operation/bindings")
       .withName("bindings")
       .withNodePropertyMapping(OperationBindingsModel.`type`.head.iri())
-      .withObjectRange(Seq(OperationBindingObjectNode.id)),
+      .withObjectRange(Seq(OperationBindingObjectNode.id))
   )
 }
 
-object OperationTraitsObjectNode extends OperationAbstractObjectNode{
+object OperationTraitsObjectNode extends OperationAbstractObjectNode {
   override def name: String = "OperationTraitsObjectNode"
 
   override def isAbstract: Boolean = true

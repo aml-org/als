@@ -23,10 +23,12 @@ class FilesInProjectNotificationTest extends LanguageServerBaseTest {
     val factory: WorkspaceManagerFactory = factoryBuilder.buildWorkspaceManagerFactory()
 
     val builder =
-      new LanguageServerBuilder(factory.documentManager,
-                                factory.workspaceManager,
-                                factory.configurationManager,
-                                factory.resolutionTaskManager)
+      new LanguageServerBuilder(
+        factory.documentManager,
+        factory.workspaceManager,
+        factory.configurationManager,
+        factory.resolutionTaskManager
+      )
     builder.addInitializableModule(filesInProjectManager)
     builder.build()
   }
@@ -39,7 +41,8 @@ class FilesInProjectNotificationTest extends LanguageServerBaseTest {
     withServer(buildServer(alsClient)) { server =>
       for {
         _ <- server.testInitialize(
-          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}"))
+        )
         _              <- changeWorkspaceConfiguration(server)(initialArgs)
         filesInProject <- alsClient.nextCall
       } yield {
@@ -56,7 +59,8 @@ class FilesInProjectNotificationTest extends LanguageServerBaseTest {
     withServer(buildServer(alsClient)) { server =>
       for {
         _ <- server.testInitialize(
-          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("empty-trait-schema")}")))
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("empty-trait-schema")}"))
+        )
         _              <- changeWorkspaceConfiguration(server)(initialArgs)
         filesInProject <- alsClient.nextCall
       } yield {
@@ -71,7 +75,8 @@ class FilesInProjectNotificationTest extends LanguageServerBaseTest {
     withServer(buildServer(alsClient)) { server =>
       for {
         _ <- server.testInitialize(
-          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}"))
+        )
         _ <- changeWorkspaceConfiguration(server)(initialArgs)
         _ <- platform
           .fetchContent(s"${filePath("ws1/independent.raml")}", AMLConfiguration.predefined())

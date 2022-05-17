@@ -12,8 +12,8 @@ trait BaseAnyShapeNode extends BaseShapeNode {
       .withNodePropertyMapping(AnyShapeModel.Examples.value.iri())
       .withName("examples")
       .withObjectRange(Seq(ExampleNode.id))
-      .withMapTermKeyProperty(ExampleModel.Name.value.iri()),
+      .withMapTermKeyProperty(ExampleModel.Name.value.iri())
   )
   override def nodeTypeMapping: String = AnyShapeModel.`type`.head.iri()
-  override def name = "AnyShape"
+  override def name                    = "AnyShape"
 }

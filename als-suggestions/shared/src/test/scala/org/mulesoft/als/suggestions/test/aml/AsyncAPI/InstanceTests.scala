@@ -7,17 +7,26 @@ class InstanceTests extends AMLAsyncApi06SuggestionTest {
   test("test001") {
     runAsyncApiTest(
       "instance/test001.yaml",
-      Set("securitySchemes:\n  ", "schemas:\n  ", "uses:\n  ", "security:\n  - ", "servers:\n  - ", "simpleMap:\n  ",
+      Set(
+        "securitySchemes:\n  ",
+        "schemas:\n  ",
+        "uses:\n  ",
+        "security:\n  - ",
+        "servers:\n  - ",
+        "simpleMap:\n  ",
         """servers:
           |  -
           |    url: $1
-          |    scheme: $2""".stripMargin,
-      ))
+          |    scheme: $2""".stripMargin
+      )
+    )
   }
 
   test("test002") {
-    runAsyncApiTest("instance/test002.yaml",
-                    Set("termsOfService: ", "contact:\n  ", "description: ", "title: ", "license:\n  "))
+    runAsyncApiTest(
+      "instance/test002.yaml",
+      Set("termsOfService: ", "contact:\n  ", "description: ", "title: ", "license:\n  ")
+    )
   }
 
   test("test003") {
@@ -36,14 +45,20 @@ class InstanceTests extends AMLAsyncApi06SuggestionTest {
   }
 
   test("test006") {
-    runAsyncApiTest("instance/test006.yaml",
-                    Set("externalDocs:\n  ", "headers:\n  ", "tags:\n  - ", "simpleMap:\n  ",
-                    """externalDocs:
+    runAsyncApiTest(
+      "instance/test006.yaml",
+      Set(
+        "externalDocs:\n  ",
+        "headers:\n  ",
+        "tags:\n  - ",
+        "simpleMap:\n  ",
+        """externalDocs:
                       |  url: $1""".stripMargin,
-                      """tags:
+        """tags:
                         |  -
                         |    name: $1""".stripMargin
-                    ))
+      )
+    )
   }
 
   test("test007") {

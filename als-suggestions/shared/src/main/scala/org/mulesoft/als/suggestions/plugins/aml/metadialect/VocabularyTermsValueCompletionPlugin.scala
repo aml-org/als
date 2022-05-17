@@ -21,7 +21,8 @@ object VocabularyTermsValueCompletionPlugin extends AMLCompletionPlugin {
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     if (applies(request.amfObject, request.yPartBranch))
-      Future { suggest(request) } else
+      Future { suggest(request) }
+    else
       emptySuggestion
 
   private def suggest(request: AmlCompletionRequest): Seq[RawSuggestion] = {
@@ -40,28 +41,31 @@ object VocabularyTermsValueCompletionPlugin extends AMLCompletionPlugin {
     }).getOrElse(Seq.empty)
   }
 
-  private def suggestPropertyTerms(branchStack: Seq[AmfObject],
-                                   vocabulary: Vocabulary,
-                                   alias: Alias): Seq[RawSuggestion] = {
+  private def suggestPropertyTerms(
+      branchStack: Seq[AmfObject],
+      vocabulary: Vocabulary,
+      alias: Alias
+  ): Seq[RawSuggestion] = {
     val usedPropertyTerms: Seq[String] = branchStack
-      .collectFirst({
-        case nm: NodeMapping => nm.propertiesMapping().flatMap(_.nodePropertyMapping().option())
+      .collectFirst({ case nm: NodeMapping =>
+        nm.propertiesMapping().flatMap(_.nodePropertyMapping().option())
       })
       .getOrElse(Seq.empty)
     vocabulary.declares.collect({
       case propertyTerm: PropertyTerm if !usedPropertyTerms.contains(propertyTerm.id) =>
         RawSuggestion.plain(
           addPrefix(propertyTerm.name.value(), alias),
-          propertyTerm.displayName.option().getOrElse(propertyTerm.description.option().getOrElse("Property term")))
+          propertyTerm.displayName.option().getOrElse(propertyTerm.description.option().getOrElse("Property term"))
+        )
     })
   }
 
   private def suggestClassTerms(vocabulary: Vocabulary, alias: Alias): Seq[RawSuggestion] = {
-    vocabulary.declares.collect({
-      case classTerm: ClassTerm =>
-        RawSuggestion.plain(
-          addPrefix(classTerm.name.value(), alias),
-          classTerm.displayName.option().getOrElse(classTerm.description.option().getOrElse("Class term")))
+    vocabulary.declares.collect({ case classTerm: ClassTerm =>
+      RawSuggestion.plain(
+        addPrefix(classTerm.name.value(), alias),
+        classTerm.displayName.option().getOrElse(classTerm.description.option().getOrElse("Class term"))
+      )
     })
   }
 

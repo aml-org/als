@@ -32,7 +32,9 @@ trait ExtractDeclarationToFragment extends CodeActionResponsePlugin with FileExt
   override protected val additionalAnnotations: Annotations = Annotations() += ForceEntry()
 
   protected def externalFragment(de: DomainElement): Future[Fragment] =
-    wholeUri.map(fragmentBundle.get.fragment.withEncodes(de).withLocation(_)) // if fragmentBundle is not defined, it shouldnt have reach this code
+    wholeUri.map(
+      fragmentBundle.get.fragment.withEncodes(de).withLocation(_)
+    ) // if fragmentBundle is not defined, it shouldnt have reach this code
 
   protected def externalFragmentRendered(ef: Fragment): String =
     params.alsConfigurationState

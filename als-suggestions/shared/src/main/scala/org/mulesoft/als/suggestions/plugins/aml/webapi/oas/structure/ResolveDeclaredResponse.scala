@@ -23,7 +23,8 @@ object ResolveDeclaredResponse extends ResolveIfApplies {
   private def declaredResponse(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = Future {
     new AMLStructureCompletionsPlugin(
       request.propertyMapping.filter(_.id != Oas20ResponseObject.statusCodeProperty.id),
-      request.actualDialect)
+      request.actualDialect
+    )
       .resolve(request.amfObject.metaURIs.head)
   }
 }

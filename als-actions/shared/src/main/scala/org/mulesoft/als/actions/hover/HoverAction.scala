@@ -19,13 +19,15 @@ import org.mulesoft.amfintegration.vocabularies.propertyterms.NamePropertyTerm
 import org.mulesoft.lsp.feature.hover.Hover
 import org.yaml.model.YMapEntry
 
-case class HoverAction(bu: BaseUnit,
-                       tree: ObjectInTreeCached,
-                       yPartBranchCached: YPartBranchCached,
-                       dtoPosition: Position,
-                       location: String,
-                       provider: VocabularyProvider,
-                       definedBy: Dialect) {
+case class HoverAction(
+    bu: BaseUnit,
+    tree: ObjectInTreeCached,
+    yPartBranchCached: YPartBranchCached,
+    dtoPosition: Position,
+    location: String,
+    provider: VocabularyProvider,
+    definedBy: Dialect
+) {
 
   private val objectInTree: ObjectInTree = tree.getCachedOrNew(dtoPosition, location)
 
@@ -33,11 +35,12 @@ case class HoverAction(bu: BaseUnit,
 
   def getHover: Hover =
     getSemantic
-      .map(s => Hover(s._1, s._2.map(r => LspRangeConverter.toLspRange(PositionRange(r))))) // if sequence, we could show all the semantic hierarchy?
+      .map(s =>
+        Hover(s._1, s._2.map(r => LspRangeConverter.toLspRange(PositionRange(r))))
+      ) // if sequence, we could show all the semantic hierarchy?
       .getOrElse(Hover.empty)
 
-  /**
-    * if obj is in the correct location and has a range defined, return it, if not, return more specific node from AST
+  /** if obj is in the correct location and has a range defined, return it, if not, return more specific node from AST
     * todo: should links be already filtered out in AmfSonElementFinder?
     */
   private def mostSpecificRangeInFile(obj: AmfElement): Option[AmfRange] =
@@ -77,14 +80,16 @@ case class HoverAction(bu: BaseUnit,
       fe.field.value.iri() == AmlCoreVocabulary().base.value() + NamePropertyTerm.name
 
   private def fieldEntry(f: FieldEntry): Option[(Seq[String], Option[AmfRange])] =
-    propertyTerm(f.field).map(
-      s =>
-        (Seq(s),
-         f.value.annotations
-           .range()
-           .orElse(
-             mostSpecificRangeInFile(f.value.value)
-           )))
+    propertyTerm(f.field).map(s =>
+      (
+        Seq(s),
+        f.value.annotations
+          .range()
+          .orElse(
+            mostSpecificRangeInFile(f.value.value)
+          )
+      )
+    )
 
   private def propertyTerm(field: Field): Option[String] =
     provider
@@ -126,11 +131,11 @@ case class HoverAction(bu: BaseUnit,
       .map(key => {
         val valueType = getDeclarationValueType(key.entry)
         val description = valueType
-          .map(
-            v =>
-              provider
-                .getDescription(buildDeclarationKeyUri(v.name))
-                .getOrElse(s"Contains declarations of reusable ${v.name} objects")) // todo: extract messages to a common place (in order to easy parametrize)
+          .map(v =>
+            provider
+              .getDescription(buildDeclarationKeyUri(v.name))
+              .getOrElse(s"Contains declarations of reusable ${v.name} objects")
+          ) // todo: extract messages to a common place (in order to easy parametrize)
           .getOrElse({
             s"Contains declarations for ${key.entry.key.value.toString}"
           })

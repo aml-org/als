@@ -25,7 +25,8 @@ object ChannelBindingsSymbolBuilderCompanion extends AmfObjectSimpleBuilderCompa
 
   override def getType: Class[_] = classOf[ChannelBindings]
 
-  override protected def construct(element: ChannelBindings)(
-      implicit ctx: StructureContext): Option[SymbolBuilder[ChannelBindings]] =
+  override protected def construct(element: ChannelBindings)(implicit
+      ctx: StructureContext
+  ): Option[SymbolBuilder[ChannelBindings]] =
     Some(new ChannelBindingsSymbolBuilder(element))
 }

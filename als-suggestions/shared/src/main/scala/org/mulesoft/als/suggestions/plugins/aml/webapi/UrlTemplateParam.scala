@@ -17,7 +17,8 @@ trait UrlTemplateParam extends AMLCompletionPlugin {
       val params = request.amfObject match {
         case p: Parameter
             if (p.binding.option().contains("path") && isName(request)) || request.yPartBranch.isKeyDescendantOf(
-              "variables") =>
+              "variables"
+            ) =>
           request.branchStack.headOption match {
             case Some(e: EndPoint) => endpointParams(e)
             case Some(s: Server)   => serverParams(s)

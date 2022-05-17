@@ -18,14 +18,15 @@ object ServerArrayFieldSymbolBuilderCompanion
     with IriFieldSymbolBuilderCompanion {
   override val supportedIri: String = WebApiModel.Servers.value.iri()
 
-  override def construct(element: FieldEntry, value: AmfArray)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] =
+  override def construct(element: FieldEntry, value: AmfArray)(implicit
+      ctx: StructureContext
+  ): Option[FieldTypeSymbolBuilder[AmfArray]] =
     Some(new ServerArrayFieldSymbolBuilder(value, element))
 }
 
 class ServerArrayFieldSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
-    override implicit val ctx: StructureContext)
-    extends DefaultArrayFieldTypeSymbolBuilder(value, element)
+    override implicit val ctx: StructureContext
+) extends DefaultArrayFieldTypeSymbolBuilder(value, element)
     with ChildrenCollector {
   override def name: String = "servers"
 

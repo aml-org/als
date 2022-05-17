@@ -53,9 +53,11 @@ case class AMLSpecificConfiguration(config: AMLConfiguration) {
     syntax.map(s => s"application/$s").fold(client.render(result.baseUnit))(s => client.render(result.baseUnit, s))
   }
 
-  def asJsonLD(resolved: BaseUnit,
-               builder: DocBuilder[_],
-               renderOptions: RenderOptions = RenderOptions().withCompactUris.withoutSourceMaps): Unit =
+  def asJsonLD(
+      resolved: BaseUnit,
+      builder: DocBuilder[_],
+      renderOptions: RenderOptions = RenderOptions().withCompactUris.withoutSourceMaps
+  ): Unit =
     config
       .withRenderOptions(renderOptions)
       .baseUnitClient()

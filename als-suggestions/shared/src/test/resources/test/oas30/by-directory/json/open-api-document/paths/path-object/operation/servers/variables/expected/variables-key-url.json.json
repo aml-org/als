@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 9,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"basePath\": {\n  \"$1\"\n}"
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 9,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"port\": {\n  \"$1\"\n}"
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 9,
-          "character": 17
+          "character": 16
         }
       },
       "newText": "\"username\": {\n  \"$1\"\n}"

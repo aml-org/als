@@ -12,8 +12,8 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
 import org.yaml.model.YMapEntry
 
 class DomainElementSymbolBuilder(override val element: DomainElement, entryAst: YMapEntry)(
-    override implicit val ctx: StructureContext)
-    extends StructuredSymbolBuilder[DomainElement] {
+    override implicit val ctx: StructureContext
+) extends StructuredSymbolBuilder[DomainElement] {
 
   override protected val optionName: Option[String] =
     entryAst.key.asScalar.map(_.text).orElse(entryAst.key.asScalar.map(_.text))
@@ -24,8 +24,7 @@ object DomainElementSymbolBuilder extends AmfObjectSimpleBuilderCompanion[Domain
 
   override def getType: Class[_ <: AmfElement] = classOf[DomainElement]
 
-  override def construct(element: DomainElement)(
-      implicit ctx: StructureContext): Option[SymbolBuilder[DomainElement]] =
+  override def construct(element: DomainElement)(implicit ctx: StructureContext): Option[SymbolBuilder[DomainElement]] =
     element match {
       case _: ScalarNode => None
       case n: NamedDomainElement if n.name.option().isDefined =>
@@ -46,8 +45,9 @@ object NamedElementSymbolBuilder extends AmfObjectSimpleBuilderCompanion[NamedDo
 
   override val supportedIri: String = DomainElementModel.`type`.head.iri()
 
-  override def construct(element: NamedDomainElement)(
-      implicit ctx: StructureContext): Option[NamedElementSymbolBuilder] =
+  override def construct(element: NamedDomainElement)(implicit
+      ctx: StructureContext
+  ): Option[NamedElementSymbolBuilder] =
     Some(new NamedElementSymbolBuilder(element))
 }
 

@@ -14,8 +14,8 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
 }
 
 class ContactFieldSymbolBuilder(override val value: AmfObject, override val element: FieldEntry)(
-    override implicit val ctx: StructureContext)
-    extends SingleObjectFieldSymbolBuilder {
+    override implicit val ctx: StructureContext
+) extends SingleObjectFieldSymbolBuilder {
   override protected val name: String = "Contact"
 }
 
@@ -25,7 +25,8 @@ object ContactFieldSymbolBuilderCompanion
 
   override val supportedIri: String = WebApiModel.Provider.value.iri()
 
-  override def construct(element: FieldEntry, value: AmfObject)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfObject]] =
+  override def construct(element: FieldEntry, value: AmfObject)(implicit
+      ctx: StructureContext
+  ): Option[FieldTypeSymbolBuilder[AmfObject]] =
     Some(new ContactFieldSymbolBuilder(value, element))
 }

@@ -16,10 +16,12 @@ object SchemaOrgVocabulary extends VocabularyObject {
     Seq(CorrelationIdClassTerm, CreativeWorkClassTerm, LicenseClassTerm, OrganizationClassTerm)
 
   override protected def properties: Seq[PropertyTermObjectNode] =
-    Seq(CommentPropertyTerm,
-        CorrelationIdPropertyTerm,
-        DeprecatedPropertyTerm,
-        DescriptionPropertyTerm,
-        DisplayNamePropertyTerm,
-        DocumentationPropertyTerm)
+    Seq(
+      CommentPropertyTerm,
+      CorrelationIdPropertyTerm,
+      DeprecatedPropertyTerm,
+      DescriptionPropertyTerm,
+      DisplayNamePropertyTerm,
+      DocumentationPropertyTerm
+    )
 }

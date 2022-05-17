@@ -40,8 +40,10 @@ trait UnionSuggestions {
       .foldLeft(Seq[PropertyMapping]())(filterProperties)
       .toSeq
 
-  protected def getProperties(nm: Option[DomainElement],
-                              typeDiscriminatorName: Option[String] = None): Seq[PropertyMapping] =
+  protected def getProperties(
+      nm: Option[DomainElement],
+      typeDiscriminatorName: Option[String] = None
+  ): Seq[PropertyMapping] =
     nm match {
       case Some(value: UnionNodeMapping) => getUnionProperties(value)
       case Some(value: NodeMapping) if hasAllDefinedProperties(value, typeDiscriminatorName) =>

@@ -17,16 +17,16 @@ import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class CodeActionManager(allActions: Seq[CodeActionFactory],
-                        workspaceManager: WorkspaceManager,
-                        configuration: AlsConfigurationReader,
-                        telemetryProvider: TelemetryProvider,
-                        private val logger: Logger,
-                        directoryResolver: DirectoryResolver)
-    extends RequestModule[CodeActionCapabilities, CodeActionOptions] {
+class CodeActionManager(
+    allActions: Seq[CodeActionFactory],
+    workspaceManager: WorkspaceManager,
+    configuration: AlsConfigurationReader,
+    telemetryProvider: TelemetryProvider,
+    private val logger: Logger,
+    directoryResolver: DirectoryResolver
+) extends RequestModule[CodeActionCapabilities, CodeActionOptions] {
 
-  /**
-    * actually used actions, filtered against client provided kinds
+  /** actually used actions, filtered against client provided kinds
     */
   private var usedActions: Seq[CodeActionFactory] = Nil
 
@@ -34,10 +34,11 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
     new TelemeteredRequestHandler[CodeActionParams, Seq[CodeAction]] {
       override def `type`: CodeActionRequestType.type = CodeActionRequestType
 
-      /**
-        * check which actions apply to the request, and respond accordingly
-        * @param params client request params
-        * @return used actions result list
+      /** check which actions apply to the request, and respond accordingly
+        * @param params
+        *   client request params
+        * @return
+        *   used actions result list
         */
       override def task(params: CodeActionParams): Future[Seq[CodeAction]] = {
         val uuid = UUID.randomUUID().toString
@@ -63,15 +64,14 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
               usedActions
                 .map(_(requestParams))
                 .filter(_.isApplicable)
-                .map(
-                  ca =>
-                    ca.run(requestParams)
-                      .recoverWith {
-                        case e: Exception =>
-                          logger.debug(s"CodeAction: ${ca.getClass}", "CodeActionManager", "task")
-                          logger.error(s"Error executing CodeAction: ${e.getMessage}", "CodeActionManager", "task")
-                          Future.successful(Seq.empty)
-                    })
+                .map(ca =>
+                  ca.run(requestParams)
+                    .recoverWith { case e: Exception =>
+                      logger.debug(s"CodeAction: ${ca.getClass}", "CodeActionManager", "task")
+                      logger.error(s"Error executing CodeAction: ${e.getMessage}", "CodeActionManager", "task")
+                      Future.successful(Seq.empty)
+                    }
+                )
             }
           }
         } yield {
@@ -103,8 +103,7 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
 
       override protected def uri(params: CodeActionParams): String = params.textDocument.uri
 
-      /**
-        * If Some(_), this will be sent as a response as a default for a managed exception
+      /** If Some(_), this will be sent as a response as a default for a managed exception
         */
       override protected val empty: Option[Seq[CodeAction]] = Some(Seq())
     }
@@ -112,13 +111,13 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
 
   override val `type`: CodeActionConfigType.type = CodeActionConfigType
 
-  /**
-    * filter actions in regards to client supported kinds
-    * if config is Some(Empty) then no action will be used
-    * if config is None, then no filter will be used (ergo, all actions enabled)
+  /** filter actions in regards to client supported kinds if config is Some(Empty) then no action will be used if config
+    * is None, then no filter will be used (ergo, all actions enabled)
     *
-    * @param config all client supported kinds
-    * @return all server supported kinds
+    * @param config
+    *   all client supported kinds
+    * @return
+    *   all server supported kinds
     */
   override def applyConfig(config: Option[CodeActionCapabilities]): CodeActionOptions = {
     config match {
@@ -127,12 +126,12 @@ class CodeActionManager(allActions: Seq[CodeActionFactory],
           .filter(a => c.codeActionLiteralSupport.forall(_.codeActionKind.valueSet.contains(a.kind)))
       case None => usedActions = allActions
     }
-    logger.debug(s"actions to be used:\n${usedActions.map(_.title).mkString("\n")}",
-                 "CodeActionManager",
-                 "applyConfig")
-    logger.debug(s"supports documentChanges: ${configuration.supportsDocumentChanges}",
-                 "CodeActionManager",
-                 "applyConfig")
+    logger.debug(s"actions to be used:\n${usedActions.map(_.title).mkString("\n")}", "CodeActionManager", "applyConfig")
+    logger.debug(
+      s"supports documentChanges: ${configuration.supportsDocumentChanges}",
+      "CodeActionManager",
+      "applyConfig"
+    )
     CodeActionRegistrationOptions(Some(allActions.map(_.kind).distinct))
   }
 

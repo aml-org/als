@@ -15,8 +15,8 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.oasbuilders.Oas20DeclaresFieldSymbolBuilder
 
 class EventedDeclaresFieldSymbolBuilder(value: AmfArray, element: FieldEntry)(
-    override implicit val ctx: StructureContext)
-    extends Oas20DeclaresFieldSymbolBuilder(value, element) {
+    override implicit val ctx: StructureContext
+) extends Oas20DeclaresFieldSymbolBuilder(value, element) {
   override protected def declarationName(obj: AmfObject): String = {
     obj match {
       case p: Parameter if p.binding.option().contains("header") => "headers"
@@ -33,8 +33,9 @@ class EventedDeclaresFieldSymbolBuilder(value: AmfArray, element: FieldEntry)(
 object EventedDeclaresFieldSymbolBuilderCompanion
     extends ArrayFieldTypeSymbolBuilderCompanion
     with IriFieldSymbolBuilderCompanion {
-  override def construct(element: FieldEntry, value: AmfArray)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] =
+  override def construct(element: FieldEntry, value: AmfArray)(implicit
+      ctx: StructureContext
+  ): Option[FieldTypeSymbolBuilder[AmfArray]] =
     Some(new EventedDeclaresFieldSymbolBuilder(value, element))
 
   override val supportedIri: String = DocumentModel.Declares.value.iri()

@@ -12,12 +12,14 @@ import scala.concurrent.Future
 trait ChangesWorkspaceConfiguration extends PlatformSecrets {
   implicit private val Platform: Platform = platform
 
-  def changeConfigArgs(mainPath: Option[String],
-                       folder: String,
-                       dependencies: Set[String] = Set.empty,
-                       profiles: Set[String] = Set.empty,
-                       semanticExtensions: Set[String] = Set.empty,
-                       dialects: Set[String] = Set.empty): String = {
+  def changeConfigArgs(
+      mainPath: Option[String],
+      folder: String,
+      dependencies: Set[String] = Set.empty,
+      profiles: Set[String] = Set.empty,
+      semanticExtensions: Set[String] = Set.empty,
+      dialects: Set[String] = Set.empty
+  ): String = {
     val allDeps = (dependencies.map(d => s""""$d"""") ++
       profiles.map(p => s"""{"file": "$p", "scope": "$CUSTOM_VALIDATION"}""") ++
       semanticExtensions.map(s => s"""{"file": "$s", "scope": "$SEMANTIC_EXTENSION"}""") ++

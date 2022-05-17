@@ -10,8 +10,7 @@ import org.mulesoft.als.server.protocol.textsync.DidFocusParams
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class DidFocusCommandExecutor(val logger: Logger, wsc: WorkspaceManager)
-    extends CommandExecutor[DidFocusParams, Unit] {
+class DidFocusCommandExecutor(val logger: Logger, wsc: WorkspaceManager) extends CommandExecutor[DidFocusParams, Unit] {
   override protected def buildParamFromMap(m: YMap): Option[DidFocusParams] = {
     val version: Int = m.key("version").flatMap(e => e.value.toOption[Int]).getOrElse(1)
     m.key("uri").map { n =>

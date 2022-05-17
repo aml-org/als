@@ -12,9 +12,11 @@ object Async20MessageOneOfCompletionPlugin extends AMLCompletionPlugin {
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     Future {
-      if (MessageKnowledge.isRootMessageBlock(request) &&
-          request.yPartBranch.brothers.isEmpty &&
-          request.yPartBranch.isInArray)
+      if (
+        MessageKnowledge.isRootMessageBlock(request) &&
+        request.yPartBranch.brothers.isEmpty &&
+        request.yPartBranch.isInArray
+      )
         Seq(RawSuggestion.arrayProp("oneOf", "Schema"))
       else Nil
     }

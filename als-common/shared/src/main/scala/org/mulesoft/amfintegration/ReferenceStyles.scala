@@ -1,7 +1,6 @@
 package amf.plugins.document.vocabularies.plugin
 
-/**
-  * delete me when AML restores me
+/** delete me when AML restores me
   */
 object ReferenceStyles {
   val RAML             = "RamlStyle"

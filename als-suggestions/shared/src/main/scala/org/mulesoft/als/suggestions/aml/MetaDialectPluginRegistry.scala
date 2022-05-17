@@ -17,7 +17,8 @@ object MetaDialectPluginRegistry extends WebApiCompletionPluginRegistry {
           MetaDialectDocumentsCompletionPlugin,
           NodeUnionDeclarationCompletionPlugin,
           ResolveDefault
-        )) :+
+        )
+      ) :+
       NamespaceForTermCompletionPlugin :+
       AnyUriValueCompletionPlugin :+
       MapLabelInPropertyMappingCompletionPlugin :+

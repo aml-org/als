@@ -47,7 +47,9 @@ class LanguageServerInitializer(private val configMap: ConfigMap, private val in
       Some(
         UpdateConfigurationClientCapabilities(
           enableUpdateFormatOptions = true,
-          supportsDocumentChanges = workspace.flatMap(_.workspaceEdit).flatMap(_.documentChanges).contains(true)))
+          supportsDocumentChanges = workspace.flatMap(_.workspaceEdit).flatMap(_.documentChanges).contains(true)
+        )
+      )
     )
     AlsServerCapabilities(
       applyConfig(TextDocumentSyncConfigType, textDocument.flatMap(_.synchronization)),

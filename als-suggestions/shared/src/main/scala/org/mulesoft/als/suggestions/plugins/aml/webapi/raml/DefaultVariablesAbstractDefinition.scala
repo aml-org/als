@@ -16,14 +16,15 @@ object DefaultVariablesAbstractDefinition extends AMLCompletionPlugin {
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
       if (request.branchStack.exists(_.isInstanceOf[AbstractDeclaration])) {
-        valSuggestions(request.amfObject, request.fieldEntry, request.position.column).map(
-          s =>
-            RawSuggestion(s._1,
-                          s._2,
-                          s._2,
-                          Nil,
-                          options =
-                            SuggestionStructure(rangeKind = StringScalarRange, isKey = request.yPartBranch.isKey)))
+        valSuggestions(request.amfObject, request.fieldEntry, request.position.column).map(s =>
+          RawSuggestion(
+            s._1,
+            s._2,
+            s._2,
+            Nil,
+            options = SuggestionStructure(rangeKind = StringScalarRange, isKey = request.yPartBranch.isKey)
+          )
+        )
       } else Nil
     }
   }

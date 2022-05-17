@@ -18,8 +18,8 @@ object DefaultWebApiScalarTypeSymbolBuilderCompanion extends DefaultMappedScalar
 }
 
 class DefaultWebApiObjectTypeSymbolBuilder(override val value: AmfObject, override val element: FieldEntry)(
-    override implicit val ctx: StructureContext)
-    extends SingleObjectFieldSymbolBuilder {
+    override implicit val ctx: StructureContext
+) extends SingleObjectFieldSymbolBuilder {
 
   // Linceese and contant are named domain eelemento, so i cannot apply this hack
   private val mapName = Map(
@@ -31,7 +31,8 @@ class DefaultWebApiObjectTypeSymbolBuilder(override val value: AmfObject, overri
 }
 
 object DefaultWebApiObjectTypeSymbolBuilderCompanion extends DefaultObjectTypeSymbolBuilder {
-  override def construct(element: FieldEntry, value: AmfObject)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfObject]] =
+  override def construct(element: FieldEntry, value: AmfObject)(implicit
+      ctx: StructureContext
+  ): Option[FieldTypeSymbolBuilder[AmfObject]] =
     Some(new DefaultWebApiObjectTypeSymbolBuilder(value, element))
 }

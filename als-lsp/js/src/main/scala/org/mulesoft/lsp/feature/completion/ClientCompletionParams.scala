@@ -1,6 +1,6 @@
 package org.mulesoft.lsp.feature.completion
 
-import  org.mulesoft.lsp.convert.LspConvertersSharedToClient._
+import org.mulesoft.lsp.convert.LspConvertersSharedToClient._
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 import org.mulesoft.lsp.feature.common.{ClientPosition, ClientTextDocumentIdentifier}

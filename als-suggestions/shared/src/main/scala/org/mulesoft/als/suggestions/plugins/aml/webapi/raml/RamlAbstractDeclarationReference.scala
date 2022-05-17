@@ -29,22 +29,29 @@ trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
-      if ((elementClass.isInstance(params.amfObject)
+      if (
+        (elementClass.isInstance(params.amfObject)
           || abstractDeclarationClass.isInstance(params.amfObject)
           || errorDeclarationClass.isInstance(params.amfObject))
-          && isTypeDef(params.yPartBranch)) {
+        && isTypeDef(params.yPartBranch)
+      ) {
 
         val siblings = getSiblings(params)
 
         val suggestions =
-          new AMLRamlStyleDeclarationsReferences(Seq(iriDeclaration),
-                                                 stringValue(params.yPartBranch),
-                                                 params.declarationProvider,
-                                                 None).resolve().filter(r => !siblings.contains(r.newText))
+          new AMLRamlStyleDeclarationsReferences(
+            Seq(iriDeclaration),
+            stringValue(params.yPartBranch),
+            params.declarationProvider,
+            None
+          ).resolve().filter(r => !siblings.contains(r.newText))
         suggestions.map { s =>
           val vars = extractChildren(params, s)
-          if (vars.nonEmpty && params.configurationReader.getTemplateType != TemplateTypes.NONE && canTemplate(
-                params.yPartBranch)) {
+          if (
+            vars.nonEmpty && params.configurationReader.getTemplateType != TemplateTypes.NONE && canTemplate(
+              params.yPartBranch
+            )
+          ) {
             s.copy(
               options = s.options.copy(isKey = true, rangeKind = ObjectRange),
               children = vars,
@@ -86,25 +93,17 @@ trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
 
   protected def isValue(yPartBranch: YPartBranch): Boolean
 
-  /**
-    * /endpoint:
-    * type: * || type: res*
-    * case type 1 is object endpoint other cases are parametrized declaration parser
+  /** /endpoint: type: * || type: res* case type 1 is object endpoint other cases are parametrized declaration parser
     */
   private def isValueInType(yPartBranch: YPartBranch) =
     isValue(yPartBranch) && yPartBranch.parentEntryIs(entryKey)
 
-  private def canTemplate(yPartBranch: YPartBranch) = yPartBranch.isKey || yPartBranch.isInArray
+  private def canTemplate(yPartBranch: YPartBranch) = yPartBranch.isKeyLike
 
-  /**
-    * /endpoint:
-    * type:
-    * res*
+  /** /endpoint: type: res*
     */
   private def isKeyInTypeMap(yPartBranch: YPartBranch): Boolean =
-    yPartBranch.isKey && yPartBranch
-      .ancestorOf(classOf[YMapEntry])
-      .exists(_.key.asScalar.exists(_.text == entryKey))
+    yPartBranch.isKey && yPartBranch.parentEntryIs(entryKey)
 
   private def stringValue(yPart: YPartBranch) = {
     yPart.node match {

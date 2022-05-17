@@ -4,8 +4,7 @@ import org.mulesoft.als.logger.MessageSeverity.MessageSeverity
 
 import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
 
-/**
-  * Logger that prints to console.
+/** Logger that prints to console.
   */
 @JSExportAll
 @JSExportTopLevel("PrintLnLogger")
@@ -27,10 +26,10 @@ class MutedLogger extends AbstractLogger {
     // muted
   }
 
-  /**
-    * Sets logger configuration, both for the server and for the client.
+  /** Sets logger configuration, both for the server and for the client.
     *
-    * @param settings - logger settings object
+    * @param settings
+    *   \- logger settings object
     */
   override def withSettings(settings: LoggerSettings): this.type = this
 }

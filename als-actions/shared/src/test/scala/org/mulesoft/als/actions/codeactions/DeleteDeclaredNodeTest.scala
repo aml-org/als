@@ -234,11 +234,13 @@ class DeleteDeclaredNodeTest extends BaseCodeActionTests {
     }
   }
 
-  private def runCase(file: String,
-                      golden: String,
-                      cases: Seq[DeleteDeclaredNodeRequestCase],
-                      activeFile: Option[String] = None,
-                      dialectUri: Option[String] = None): Future[Assertion] = {
+  private def runCase(
+      file: String,
+      golden: String,
+      cases: Seq[DeleteDeclaredNodeRequestCase],
+      activeFile: Option[String] = None,
+      dialectUri: Option[String] = None
+  ): Future[Assertion] = {
 
     for {
       content <- getNodeDeletions(file, cases, activeFile, dialectUri)
@@ -247,10 +249,12 @@ class DeleteDeclaredNodeTest extends BaseCodeActionTests {
     } yield r
   }
 
-  private def getNodeDeletions(file: String,
-                               cases: Seq[DeleteDeclaredNodeRequestCase],
-                               activeFile: Option[String],
-                               defineBy: Option[String] = None) = {
+  private def getNodeDeletions(
+      file: String,
+      cases: Seq[DeleteDeclaredNodeRequestCase],
+      activeFile: Option[String],
+      defineBy: Option[String] = None
+  ) = {
     val configuration = EditorConfiguration()
     val result = for {
       r           <- parseElement(file, defineBy, configuration)

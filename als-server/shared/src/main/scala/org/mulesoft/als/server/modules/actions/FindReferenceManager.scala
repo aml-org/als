@@ -21,10 +21,11 @@ import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class FindReferenceManager(val workspace: WorkspaceManager,
-                           private val telemetryProvider: TelemetryProvider,
-                           private val logger: Logger)
-    extends RequestModule[ReferenceClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
+class FindReferenceManager(
+    val workspace: WorkspaceManager,
+    private val telemetryProvider: TelemetryProvider,
+    private val logger: Logger
+) extends RequestModule[ReferenceClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
 
   private var conf: Option[ReferenceClientCapabilities] = None
 
@@ -51,8 +52,7 @@ class FindReferenceManager(val workspace: WorkspaceManager,
 
       override protected def uri(params: ReferenceParams): String = params.textDocument.uri
 
-      /**
-        * If Some(_), this will be sent as a response as a default for a managed exception
+      /** If Some(_), this will be sent as a response as a default for a managed exception
         */
       override protected val empty: Option[Seq[Location]] = Some(Seq())
     }
@@ -68,11 +68,13 @@ class FindReferenceManager(val workspace: WorkspaceManager,
       .getLastUnit(uri, uuid)
       .flatMap(cu => {
         FindReferences
-          .getReferences(uri,
-                         position,
-                         workspace.getAliases(uri, uuid),
-                         workspace.getRelationships(uri, uuid).map(_._2),
-                         cu.yPartBranch)
+          .getReferences(
+            uri,
+            position,
+            workspace.getAliases(uri, uuid),
+            workspace.getRelationships(uri, uuid).map(_._2),
+            cu.yPartBranch
+          )
           .map(_.map(_.source))
       })
 

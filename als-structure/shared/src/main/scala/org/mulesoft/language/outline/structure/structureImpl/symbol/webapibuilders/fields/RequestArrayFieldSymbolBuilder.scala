@@ -14,8 +14,8 @@ import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, St
 import amf.core.client.common.position.{Range => AmfRange}
 
 class RequestArrayFieldSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
-    override implicit val ctx: StructureContext)
-    extends DefaultWebApiArrayFieldTypeSymbolBuilder(value, element) {
+    override implicit val ctx: StructureContext
+) extends DefaultWebApiArrayFieldTypeSymbolBuilder(value, element) {
 
   private val first = value.values.collectFirst({ case r: Request => r })
 
@@ -29,8 +29,9 @@ class RequestArrayFieldSymbolBuilder(override val value: AmfArray, override val 
 object RequestArrayFieldSymbolBuilderCompanion
     extends ArrayFieldTypeSymbolBuilderCompanion
     with IriFieldSymbolBuilderCompanion {
-  override def construct(element: FieldEntry, value: AmfArray)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] = {
+  override def construct(element: FieldEntry, value: AmfArray)(implicit
+      ctx: StructureContext
+  ): Option[FieldTypeSymbolBuilder[AmfArray]] = {
     Some(new RequestArrayFieldSymbolBuilder(value, element))
   }
 

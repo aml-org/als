@@ -49,10 +49,12 @@ trait ClientRenameFile extends ClientResourceOperation {
 object ClientRenameFile {
   def apply(internal: RenameFile): ClientRenameFile =
     js.Dynamic
-      .literal(oldUri = internal.oldUri,
-               newUri = internal.newUri,
-               options = internal.options.map(_.toClient).orUndefined,
-               kind = "rename")
+      .literal(
+        oldUri = internal.oldUri,
+        newUri = internal.newUri,
+        options = internal.options.map(_.toClient).orUndefined,
+        kind = "rename"
+      )
       .asInstanceOf[ClientRenameFile]
 }
 

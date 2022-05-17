@@ -22,7 +22,8 @@ object AnyUriValueCompletionPlugin extends AMLCompletionPlugin {
         nodeMappings(request.baseUnit)
           .filterNot(_ == name)
           .map(RawSuggestion.apply(_, isAKey = false)) ++ includeSuggestion
-      } else emptySuggestion
+      }
+    else emptySuggestion
 
   private def isInNpReference(request: AmlCompletionRequest) =
     isInUriField(request.fieldEntry) || isInReferenceValueFromAst(request)
@@ -43,11 +44,8 @@ object AnyUriValueCompletionPlugin extends AMLCompletionPlugin {
     fieldEntry.exists(_.field.`type`.`type`.headOption.exists(_.iri() == XsdTypes.xsdUri.iri()))
 
   private val includeSuggestion = Seq(
-    RawSuggestion("!include ",
-                  "!include",
-                  "inclusion tag",
-                  Seq(),
-                  options = SuggestionStructure(rangeKind = PlainText)))
+    RawSuggestion("!include ", "!include", "inclusion tag", Seq(), options = SuggestionStructure(rangeKind = PlainText))
+  )
 
   private def currentName(current: AmfObject) =
     current.fields.fields().find(_.field.value.name.toLowerCase() == "name") match {

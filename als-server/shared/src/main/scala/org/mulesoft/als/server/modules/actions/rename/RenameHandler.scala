@@ -19,20 +19,23 @@ import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class RenameHandler(telemetryProvider: TelemetryProvider,
-                    workspace: WorkspaceManager,
-                    configurationReader: AlsConfigurationReader,
-                    logger: Logger,
-                    platform: Platform)
-    extends TelemeteredRequestHandler[RenameParams, WorkspaceEdit]
+class RenameHandler(
+    telemetryProvider: TelemetryProvider,
+    workspace: WorkspaceManager,
+    configurationReader: AlsConfigurationReader,
+    logger: Logger,
+    platform: Platform
+) extends TelemeteredRequestHandler[RenameParams, WorkspaceEdit]
     with RenameTools {
   override def `type`: RenameRequestType.type = RenameRequestType
 
   override def task(params: RenameParams): Future[WorkspaceEdit] =
-    rename(params.textDocument.uri,
-           Position(params.position.line, params.position.character),
-           params.newName,
-           uuid(params))
+    rename(
+      params.textDocument.uri,
+      Position(params.position.line, params.position.character),
+      params.newName,
+      uuid(params)
+    )
 
   override protected def telemetry: TelemetryProvider = telemetryProvider
 
@@ -55,29 +58,47 @@ class RenameHandler(telemetryProvider: TelemetryProvider,
         val (bu, isAliasDeclaration) = t
         if (isAliasDeclaration || isDeclarableKey(bu, position, uri))
           FindRenameLocations
-            .changeDeclaredName(uri,
-                                position,
-                                newName,
-                                workspace.getAliases(uri, uuid),
-                                workspace.getRelationships(uri, uuid).map(_._2),
-                                bu.yPartBranch,
-                                bu.unit)
+            .changeDeclaredName(
+              uri,
+              position,
+              newName,
+              workspace.getAliases(uri, uuid),
+              workspace.getRelationships(uri, uuid).map(_._2),
+              bu.yPartBranch,
+              bu.unit
+            )
             .map(_.toWorkspaceEdit(configurationReader.supportsDocumentChanges))
         else if (renameThroughReferenceEnabled) // enable when polished, add logic to prepare rename
           for {
-            fromLinks <- renameFromLink(uri, position, newName, uuid, bu, workspace) // if Some() then it's a link to a file
-            fromDef   <- renameFromDefinition(uri, position, newName, uuid, bu)      // if Some() then it's a reference to a declaration
+            fromLinks <- renameFromLink(
+              uri,
+              position,
+              newName,
+              uuid,
+              bu,
+              workspace
+            ) // if Some() then it's a link to a file
+            fromDef <- renameFromDefinition(
+              uri,
+              position,
+              newName,
+              uuid,
+              bu
+            ) // if Some() then it's a reference to a declaration
           } yield {
             (fromLinks orElse fromDef) getOrElse WorkspaceEdit.empty // if none of the above, return empty
-          } else Future.successful(WorkspaceEdit.empty)
+          }
+        else Future.successful(WorkspaceEdit.empty)
       })
 
-  private def renameFromLink(uri: String,
-                             position: Position,
-                             newName: String,
-                             uuid: String,
-                             bu: CompilableUnit,
-                             workspaceManager: WorkspaceManager): Future[Option[WorkspaceEdit]] = {
+  private def renameFromLink(
+      uri: String,
+      position: Position,
+      newName: String,
+      uuid: String,
+      bu: CompilableUnit,
+      workspaceManager: WorkspaceManager
+  ): Future[Option[WorkspaceEdit]] = {
     if (configurationReader.supportsDocumentChanges)
       for {
         links    <- workspaceManager.getDocumentLinks(uri, uuid)
@@ -89,14 +110,17 @@ class RenameHandler(telemetryProvider: TelemetryProvider,
         }
         links
           .find(l => PositionRange(l.range).contains(position))
-          .map(
-            l =>
-              RenameFileAction.renameFileEdits(TextDocumentIdentifier(l.target),
-                                               TextDocumentIdentifier(getUriWithNewName(l.target, newName)),
-                                               allLinks,
-                                               platform))
+          .map(l =>
+            RenameFileAction.renameFileEdits(
+              TextDocumentIdentifier(l.target),
+              TextDocumentIdentifier(getUriWithNewName(l.target, newName)),
+              allLinks,
+              platform
+            )
+          )
           .map(_.toWorkspaceEdit(configurationReader.supportsDocumentChanges))
-      } else Future.successful(None)
+      }
+    else Future.successful(None)
   }
 
   // todo: re-check when moving paths is available
@@ -106,17 +130,21 @@ class RenameHandler(telemetryProvider: TelemetryProvider,
   private def splitUriName(target: String) =
     target.splitAt(target.lastIndexOf('/') + 1)
 
-  private def renameFromDefinition(uri: String,
-                                   position: Position,
-                                   newName: String,
-                                   uuid: String,
-                                   bu: CompilableUnit): Future[Option[WorkspaceEdit]] =
+  private def renameFromDefinition(
+      uri: String,
+      position: Position,
+      newName: String,
+      uuid: String,
+      bu: CompilableUnit
+  ): Future[Option[WorkspaceEdit]] =
     FindDefinition
-      .getDefinition(uri,
-                     position,
-                     workspace.getRelationships(uri, uuid).map(_._2),
-                     workspace.getAliases(uri, uuid),
-                     bu.yPartBranch)
+      .getDefinition(
+        uri,
+        position,
+        workspace.getRelationships(uri, uuid).map(_._2),
+        workspace.getAliases(uri, uuid),
+        bu.yPartBranch
+      )
       .flatMap(_.headOption match {
         case Some(definition) =>
           FindRenameLocations
@@ -134,8 +162,7 @@ class RenameHandler(telemetryProvider: TelemetryProvider,
           Future.successful(None)
       })
 
-  /**
-    * If Some(_), this will be sent as a response as a default for a managed exception
+  /** If Some(_), this will be sent as a response as a default for a managed exception
     */
   override protected val empty: Option[WorkspaceEdit] = Some(WorkspaceEdit(None, None))
 }

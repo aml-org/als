@@ -63,7 +63,8 @@ object Raml08TypesDialect {
         "boolean",
         "file",
         "date"
-      ))
+      )
+    )
     .withLiteralRange(xsdString.iri())
 
   val schemasProperties: Seq[PropertyMapping] = Seq(shapeTypesProperty)
@@ -130,7 +131,8 @@ object Raml08TypesDialect {
           .withNodePropertyMapping(PropertyShapeModel.MinCount.value.iri())
           .withName("required")
           .withLiteralRange(xsdBoolean.iri())
-      ))
+      )
+    )
 
   val NodeShapeNode: NodeMapping = NodeMapping()
     .withId(DialectLocation + "#/declarations/NodeShapeNode")
@@ -144,7 +146,8 @@ object Raml08TypesDialect {
           .withName("properties")
           .withObjectRange(Seq(PropertyShapeNode.id))
           .withMapTermKeyProperty(PropertyShapeModel.Name.value.iri())
-      ))
+      )
+    )
 
   val UnionShapeNode: NodeMapping = NodeMapping()
     .withId(DialectLocation + "#/declarations/UnionShapeNode")
@@ -162,83 +165,90 @@ object Raml08TypesDialect {
     .withId(DialectLocation + "#/declarations/StringShapeNode")
     .withName("StringShapeNode")
     .withNodeTypeMapping((Namespace.Shapes + "StringShape").iri())
-    .withPropertiesMapping(anyShapeProperties ++ Seq(
-      PropertyMapping()
-        .withId(DialectLocation + "#/declarations/ScalarShapeNode/pattern")
-        .withNodePropertyMapping(ScalarShapeModel.Pattern.value.iri())
-        .withName("pattern")
-        .withLiteralRange(xsdString.iri()),
-      PropertyMapping()
-        .withId(DialectLocation + "#/declarations/ScalarShapeNode/minLength")
-        .withNodePropertyMapping(ScalarShapeModel.MinLength.value.iri())
-        .withName("minLength")
-        .withLiteralRange(xsdInteger.iri()),
-      PropertyMapping()
-        .withId(DialectLocation + "#/declarations/ScalarShapeNode/maxLength")
-        .withNodePropertyMapping(ScalarShapeModel.MaxLength.value.iri())
-        .withName("maxLength")
-        .withLiteralRange(xsdInteger.iri())
-    ))
+    .withPropertiesMapping(
+      anyShapeProperties ++ Seq(
+        PropertyMapping()
+          .withId(DialectLocation + "#/declarations/ScalarShapeNode/pattern")
+          .withNodePropertyMapping(ScalarShapeModel.Pattern.value.iri())
+          .withName("pattern")
+          .withLiteralRange(xsdString.iri()),
+        PropertyMapping()
+          .withId(DialectLocation + "#/declarations/ScalarShapeNode/minLength")
+          .withNodePropertyMapping(ScalarShapeModel.MinLength.value.iri())
+          .withName("minLength")
+          .withLiteralRange(xsdInteger.iri()),
+        PropertyMapping()
+          .withId(DialectLocation + "#/declarations/ScalarShapeNode/maxLength")
+          .withNodePropertyMapping(ScalarShapeModel.MaxLength.value.iri())
+          .withName("maxLength")
+          .withLiteralRange(xsdInteger.iri())
+      )
+    )
 
   val NumberShapeNode: NodeMapping = NodeMapping()
     .withId(DialectLocation + "#/declarations/NumberShapeNode")
     .withName("NumberShapeNode")
     .withNodeTypeMapping((Namespace.Shapes + "NumberShape").iri())
-    .withPropertiesMapping(anyShapeProperties ++ Seq(
-      PropertyMapping()
-        .withId(DialectLocation + "#/declarations/ScalarShapeNode/minimum")
-        .withNodePropertyMapping(ScalarShapeModel.Minimum.value.iri())
-        .withName("minimum")
-        .withLiteralRange(xsdFloat.iri()),
-      PropertyMapping()
-        .withId(DialectLocation + "#/declarations/ScalarShapeNode/maximun")
-        .withNodePropertyMapping(ScalarShapeModel.Maximum.value.iri())
-        .withName("maximum")
-        .withLiteralRange(xsdFloat.iri()),
-      PropertyMapping()
-        .withId(DialectLocation + "#/declarations/ScalarShapeNode/format")
-        .withNodePropertyMapping(ScalarShapeModel.Format.value.iri())
-        .withName("format")
-        .withEnum(
-          Seq(
-            "int8",
-            "int16",
-            "int32",
-            "int64",
-            "int",
-            "long",
-            "float",
-            "double"
-          ))
-        .withLiteralRange(xsdString.iri()),
-      PropertyMapping()
-        .withId(DialectLocation + "#/declarations/ScalarShapeNode/maximun")
-        .withNodePropertyMapping(ScalarShapeModel.MultipleOf.value.iri())
-        .withName("multipleOf")
-        .withLiteralRange(xsdFloat.iri())
-    ))
+    .withPropertiesMapping(
+      anyShapeProperties ++ Seq(
+        PropertyMapping()
+          .withId(DialectLocation + "#/declarations/ScalarShapeNode/minimum")
+          .withNodePropertyMapping(ScalarShapeModel.Minimum.value.iri())
+          .withName("minimum")
+          .withLiteralRange(xsdFloat.iri()),
+        PropertyMapping()
+          .withId(DialectLocation + "#/declarations/ScalarShapeNode/maximun")
+          .withNodePropertyMapping(ScalarShapeModel.Maximum.value.iri())
+          .withName("maximum")
+          .withLiteralRange(xsdFloat.iri()),
+        PropertyMapping()
+          .withId(DialectLocation + "#/declarations/ScalarShapeNode/format")
+          .withNodePropertyMapping(ScalarShapeModel.Format.value.iri())
+          .withName("format")
+          .withEnum(
+            Seq(
+              "int8",
+              "int16",
+              "int32",
+              "int64",
+              "int",
+              "long",
+              "float",
+              "double"
+            )
+          )
+          .withLiteralRange(xsdString.iri()),
+        PropertyMapping()
+          .withId(DialectLocation + "#/declarations/ScalarShapeNode/maximun")
+          .withNodePropertyMapping(ScalarShapeModel.MultipleOf.value.iri())
+          .withName("multipleOf")
+          .withLiteralRange(xsdFloat.iri())
+      )
+    )
 
   val FileShapeNode: NodeMapping = NodeMapping()
     .withId(DialectLocation + "#/declarations/FileShapeNode")
     .withName("FileShapeNode")
     .withNodeTypeMapping(FileShapeModel.`type`.head.iri())
-    .withPropertiesMapping(anyShapeProperties ++ Seq(
-      PropertyMapping()
-        .withId(DialectLocation + "#/declarations/ScalarShapeNode/fileTypes")
-        .withNodePropertyMapping(FileShapeModel.FileTypes.value.iri())
-        .withName("fileTypes")
-        .withLiteralRange(xsdString.iri()),
-      PropertyMapping()
-        .withId(DialectLocation + "#/declarations/ScalarShapeNode/minLength")
-        .withNodePropertyMapping(FileShapeModel.MinLength.value.iri())
-        .withName("minLength")
-        .withLiteralRange(xsdInteger.iri()),
-      PropertyMapping()
-        .withId(DialectLocation + "#/declarations/ScalarShapeNode/maxLength")
-        .withNodePropertyMapping(FileShapeModel.MaxLength.value.iri())
-        .withName("maxLength")
-        .withLiteralRange(xsdInteger.iri())
-    ))
+    .withPropertiesMapping(
+      anyShapeProperties ++ Seq(
+        PropertyMapping()
+          .withId(DialectLocation + "#/declarations/ScalarShapeNode/fileTypes")
+          .withNodePropertyMapping(FileShapeModel.FileTypes.value.iri())
+          .withName("fileTypes")
+          .withLiteralRange(xsdString.iri()),
+        PropertyMapping()
+          .withId(DialectLocation + "#/declarations/ScalarShapeNode/minLength")
+          .withNodePropertyMapping(FileShapeModel.MinLength.value.iri())
+          .withName("minLength")
+          .withLiteralRange(xsdInteger.iri()),
+        PropertyMapping()
+          .withId(DialectLocation + "#/declarations/ScalarShapeNode/maxLength")
+          .withNodePropertyMapping(FileShapeModel.MaxLength.value.iri())
+          .withName("maxLength")
+          .withLiteralRange(xsdInteger.iri())
+      )
+    )
 
   val NilShapeNode: NodeMapping = NodeMapping()
     .withId(DialectLocation + "#/declarations/NilShapeNode")
@@ -264,7 +274,8 @@ object Raml08TypesDialect {
           Raml08SecuritySchemesDialect.OAuth1Settings,
           Raml08SecuritySchemesDialect.OAuth2Settings,
           Raml08SecuritySchemesDialect.OAuth2Flows
-        ))
+        )
+    )
 
     val declaredNodes = Seq(
       PublicNodeMapping()

@@ -7,34 +7,38 @@ import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.modules.configuration.ConfigurationProvider
-import org.mulesoft.als.server.textsync.{TextDocument, TextDocumentContainer}
+import org.mulesoft.als.server.textsync.TextDocumentContainer
 import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.als.suggestions.client.Suggestions
-import org.mulesoft.als.suggestions.interfaces.{CompletionProvider, Syntax}
-import org.mulesoft.als.suggestions.patcher.{ContentPatcher, PatchedContent}
-import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
+import org.mulesoft.als.suggestions.client.{Suggestions, UnitBundle}
+import org.mulesoft.als.suggestions.interfaces.CompletionProvider
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.completion._
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
+import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
-                         val workspace: WorkspaceManager,
-                         private val telemetryProvider: TelemetryProvider,
-                         val directoryResolver: DirectoryResolver,
-                         private val logger: Logger,
-                         private val configurationProvider: ConfigurationProvider)
-    extends RequestModule[CompletionClientCapabilities, CompletionOptions] {
+class SuggestionsManager(
+    val editorEnvironment: TextDocumentContainer,
+    val workspace: WorkspaceManager,
+    private val telemetryProvider: TelemetryProvider,
+    val directoryResolver: DirectoryResolver,
+    private val logger: Logger,
+    private val configurationProvider: ConfigurationProvider
+) extends RequestModule[CompletionClientCapabilities, CompletionOptions] {
 
   private var conf: Option[CompletionClientCapabilities] = None
 
   private val suggestions =
-    new Suggestions(configurationProvider.getConfiguration, directoryResolver)
-  private def snippetSupport =
+    new Suggestions(configurationProvider.getConfiguration, directoryResolver, accessBundle)
+
+  private def accessBundle: String => Future[UnitBundle] =
+    workspace.getLastUnit(_, UUID.randomUUID().toString).map(r => UnitBundle(r.unit, r.definedBy, r.context))
+
+  private def snippetSupport: Boolean =
     conf
       .getOrElse(CompletionClientCapabilities(contextSupport = None))
       .completionItem
@@ -69,8 +73,7 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
       override protected def uri(params: CompletionParams): String =
         params.textDocument.uri
 
-      /**
-        * If Some(_), this will be sent as a response as a default for a managed exception
+      /** If Some(_), this will be sent as a response as a default for a managed exception
         */
       override protected val empty: Option[Either[Seq[CompletionItem], CompletionList]] = Some(Left(Seq()))
     }
@@ -83,61 +86,41 @@ class SuggestionsManager(val editorEnvironment: TextDocumentContainer,
 
   override def initialize(): Future[Unit] = Future { suggestions.initialized() }
 
-  protected def onDocumentCompletion(lspUri: String,
-                                     position: Position,
-                                     telemetryUUID: String): Future[Seq[CompletionItem]] = {
-    logger.debug(s"Disable Templates: ${configurationProvider.getConfiguration.getTemplateType}",
-                 "SuggestionsManager",
-                 "onDocumentCompletion")
+  protected def onDocumentCompletion(
+      lspUri: String,
+      position: Position,
+      telemetryUUID: String
+  ): Future[Seq[CompletionItem]] = {
+    logger.debug(
+      s"Disable Templates: ${configurationProvider.getConfiguration.getTemplateType}",
+      "SuggestionsManager",
+      "onDocumentCompletion"
+    )
     val uri = lspUri.toAmfUri(editorEnvironment.platform)
     // we need to normalize the URI encoding so we can find it both on RL and memory
     editorEnvironment.get(uri) match {
       case Some(textDocument) =>
-        val syntax       = Syntax(textDocument.syntax)
         val originalText = textDocument.text
         val offset       = position.offset(originalText)
-        val patchedContent =
-          ContentPatcher(originalText, offset, syntax).prepareContent()
-        buildCompletionProviderAST(
-          TextDocument(uri, textDocument.version, patchedContent.content, syntax.toString),
-          uri,
-          offset,
-          patchedContent,
-          telemetryUUID
-        ).flatMap(provider => {
-          provider
-            .suggest()
-        })
+        buildCompletionProviderAST(uri, offset)
+          .flatMap(provider => {
+            provider
+              .suggest()
+          })
       case _ => Future.successful(Seq.empty)
     }
   }
 
-  def buildCompletionProviderAST(text: TextDocument,
-                                 uri: String,
-                                 position: Int,
-                                 patchedContent: PatchedContent,
-                                 uuid: String): Future[CompletionProvider] =
+  def buildCompletionProviderAST(uri: String, position: Int): Future[CompletionProvider] =
     for {
       wcm     <- workspace.getWorkspace(uri)
       rootUri <- wcm.getRootFolderFor(uri)
-      builder <- wcm.getConfigurationState
-      provider <- suggestions.buildProviderAsync(
-        patchedParse(text, uri, position, patchedContent, builder, uuid),
-        position,
-        uri,
-        patchedContent,
-        snippetSupport,
-        rootUri,
-        builder
-      )
-    } yield provider
-
-  private def patchedParse(text: TextDocument,
-                           uri: String,
-                           position: Int,
-                           patchedContent: PatchedContent,
-                           state: ALSConfigurationState,
-                           uuid: String) =
-    new TelemeteredPatchedParse(telemetryProvider)
-      .run(PatchedParseParams(text, uri, position, patchedContent, editorEnvironment, workspace, state, uuid))
+      bundle  <- accessBundle(uri)
+    } yield suggestions.buildProvider(
+      bundle,
+      position,
+      uri,
+      snippetSupport,
+      rootUri
+    )
 }

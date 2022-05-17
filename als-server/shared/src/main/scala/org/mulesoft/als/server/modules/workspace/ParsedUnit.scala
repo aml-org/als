@@ -9,11 +9,13 @@ import org.mulesoft.amfintegration.amfconfiguration.{AmfParseContext, AmfParseRe
 import scala.concurrent.Future
 
 case class ParsedUnit(parsedResult: AmfParseResult, inTree: Boolean, definedBy: Dialect) {
-  def toCU(next: Option[Future[CompilableUnit]],
-           mf: Option[String],
-           stack: Seq[ReferenceStack],
-           isDirty: Boolean = false,
-           amfContext: AmfParseContext): CompilableUnit =
+  def toCU(
+      next: Option[Future[CompilableUnit]],
+      mf: Option[String],
+      stack: Seq[ReferenceStack],
+      isDirty: Boolean = false,
+      amfContext: AmfParseContext
+  ): CompilableUnit =
     CompilableUnit(
       parsedResult.result.baseUnit.identifier,
       parsedResult.result.baseUnit,

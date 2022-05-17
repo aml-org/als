@@ -7,5 +7,6 @@ trait FormattingManager {
   private val syntaxValidationId: String = CoreValidations.SyamlError.id
   def getSyntaxErrors(ec: ErrorsCollected, uri: String): ErrorsCollected =
     ErrorsCollected(
-      ec.errors.filter(v => v.location.exists(_.equals(uri)) && v.validationId.equals(syntaxValidationId)))
+      ec.errors.filter(v => v.location.exists(_.equals(uri)) && v.validationId.equals(syntaxValidationId))
+    )
 }

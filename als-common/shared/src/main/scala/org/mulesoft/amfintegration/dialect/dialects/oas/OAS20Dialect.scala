@@ -21,36 +21,38 @@ object OAS20Dialect extends OasBaseDialect {
       .withVersion("2.0")
       .withLocation(DialectLocation)
       .withId(DialectLocation)
-      .withDeclares(Seq(
-        Oas20WebApiNode,
-        AMLInfoObject,
-        Oas20PathItemObject,
-        Oas20BodyParameterObject,
-        Oas20SecuritySchemeObject,
-        Oas20SecuritySettingsNode,
-        AMLLicenseObject,
-        Oas20ParamObject,
-        Oas20ResponseObject,
-        Oas20ParamObject,
-        Oauth2SecuritySchemeObject,
-        Oas2Oauth2FlowSchemeObject,
-        Oas20ScopeObject,
-        Oas20ApiKeySecuritySchemeObject,
-        AMLContactObject,
-        AMLExampleObject,
-        AMLExternalDocumentationObject,
-        Oas20AMLOperationObject,
-        AMLTagObject,
-        XmlObject,
-        Oas20AMLHeaderObject,
-        JsonSchemas.SchemaObject,
-        JsonSchemas.AnySchemaObject,
-        JsonSchemas.ArraySchemaObject,
-        JsonSchemas.IntegerSchemaObject,
-        JsonSchemas.NodeShapeObject,
-        JsonSchemas.NumberSchemaObject,
-        JsonSchemas.StringSchemaObject,
-      ))
+      .withDeclares(
+        Seq(
+          Oas20WebApiNode,
+          AMLInfoObject,
+          Oas20PathItemObject,
+          Oas20BodyParameterObject,
+          Oas20SecuritySchemeObject,
+          Oas20SecuritySettingsNode,
+          AMLLicenseObject,
+          Oas20ParamObject,
+          Oas20ResponseObject,
+          Oas20ParamObject,
+          Oauth2SecuritySchemeObject,
+          Oas2Oauth2FlowSchemeObject,
+          Oas20ScopeObject,
+          Oas20ApiKeySecuritySchemeObject,
+          AMLContactObject,
+          AMLExampleObject,
+          AMLExternalDocumentationObject,
+          Oas20AMLOperationObject,
+          AMLTagObject,
+          XmlObject,
+          Oas20AMLHeaderObject,
+          JsonSchemas.SchemaObject,
+          JsonSchemas.AnySchemaObject,
+          JsonSchemas.ArraySchemaObject,
+          JsonSchemas.IntegerSchemaObject,
+          JsonSchemas.NodeShapeObject,
+          JsonSchemas.NumberSchemaObject,
+          JsonSchemas.StringSchemaObject
+        )
+      )
       .withDocuments(
         DocumentsModel()
           .withId(DialectLocation + "#/documents")
@@ -60,24 +62,26 @@ object OAS20Dialect extends OasBaseDialect {
             DocumentMapping()
               .withId(DialectLocation + "#/documents/root")
               .withEncoded(Oas20WebApiNode.id)
-              .withDeclaredNodes(Seq(
-                PublicNodeMapping()
-                  .withId(DialectLocation + "#/documents/definitions")
-                  .withName("definitions")
-                  .withMappedNode(Oas20SchemaObject.id),
-                PublicNodeMapping()
-                  .withId(DialectLocation + "#/documents/parameters")
-                  .withName("parameters")
-                  .withMappedNode(Oas20ParamObject.id),
-                PublicNodeMapping()
-                  .withId(DialectLocation + "#/documents/responses")
-                  .withName("responses")
-                  .withMappedNode(Oas20ResponseObject.id),
-                PublicNodeMapping()
-                  .withId(DialectLocation + "#/documents/securityDefinitions")
-                  .withName("securityDefinitions")
-                  .withMappedNode(Oas20SecuritySchemeObject.id)
-              ))
+              .withDeclaredNodes(
+                Seq(
+                  PublicNodeMapping()
+                    .withId(DialectLocation + "#/documents/definitions")
+                    .withName("definitions")
+                    .withMappedNode(Oas20SchemaObject.id),
+                  PublicNodeMapping()
+                    .withId(DialectLocation + "#/documents/parameters")
+                    .withName("parameters")
+                    .withMappedNode(Oas20ParamObject.id),
+                  PublicNodeMapping()
+                    .withId(DialectLocation + "#/documents/responses")
+                    .withName("responses")
+                    .withMappedNode(Oas20ResponseObject.id),
+                  PublicNodeMapping()
+                    .withId(DialectLocation + "#/documents/securityDefinitions")
+                    .withName("securityDefinitions")
+                    .withMappedNode(Oas20SecuritySchemeObject.id)
+                )
+              )
           )
       )
 
@@ -99,7 +103,8 @@ object OAS20Dialect extends OasBaseDialect {
           .withId(DialectLocation + "#/externals/owl")
           .withAlias("owl")
           .withBase(Namespace.Owl.base)
-      ))
+      )
+    )
 
     val vocabularies = Seq(
       ModelVocabularies.AmlDoc,

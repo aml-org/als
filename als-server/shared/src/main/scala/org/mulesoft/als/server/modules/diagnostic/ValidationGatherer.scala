@@ -10,10 +10,12 @@ class ValidationGatherer(telemetryProvider: TelemetryProvider) {
   private val resultsByUnit: mutable.Map[DiagnosticManagerKind, mutable.Map[String, Seq[AlsValidationResult]]] =
     mutable.Map.empty
 
-  private def merge(left: Map[String, Seq[AlsValidationResult]],
-                    right: Map[String, Seq[AlsValidationResult]]): Map[String, Seq[AlsValidationResult]] =
-    left.map {
-      case (k, v) => k -> (v ++ right.getOrElse(k, Nil))
+  private def merge(
+      left: Map[String, Seq[AlsValidationResult]],
+      right: Map[String, Seq[AlsValidationResult]]
+  ): Map[String, Seq[AlsValidationResult]] =
+    left.map { case (k, v) =>
+      k -> (v ++ right.getOrElse(k, Nil))
     } ++ right.filter(t => !left.keys.exists(_ == t._1))
 
   def merged(): Map[String, Seq[AlsValidationResult]] =

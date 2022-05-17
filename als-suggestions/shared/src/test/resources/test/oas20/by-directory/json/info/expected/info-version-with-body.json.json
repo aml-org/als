@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10version",
-    "filterText": "\"version\": \"$1\",",
+    "filterText": "\"version\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -20,10 +20,10 @@
         },
         "end": {
           "line": 3,
-          "character": 9
+          "character": 10
         }
       },
-      "newText": "\"version\": \"$1\","
+      "newText": "\"version\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 21,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"$ref\""
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 21,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"allowEmptyValue\": \"$1\""
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 21,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"allowReserved\": \"$1\""
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 21,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"content\": {\n  \"$1\"\n}"
@@ -140,7 +140,7 @@
         },
         "end": {
           "line": 21,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"deprecated\": \"$1\""
@@ -170,7 +170,7 @@
         },
         "end": {
           "line": 21,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"description\": \"$1\""
@@ -200,7 +200,7 @@
         },
         "end": {
           "line": 21,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"example\": \"$1\""
@@ -230,7 +230,7 @@
         },
         "end": {
           "line": 21,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"examples\": {\n  \"$1\"\n}"
@@ -260,7 +260,7 @@
         },
         "end": {
           "line": 21,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"explode\": \"$1\""
@@ -290,7 +290,7 @@
         },
         "end": {
           "line": 21,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"in\": \"$1\""
@@ -320,7 +320,7 @@
         },
         "end": {
           "line": 21,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"name\": \"$1\""
@@ -350,7 +350,7 @@
         },
         "end": {
           "line": 21,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"required\": \"$1\""
@@ -380,7 +380,7 @@
         },
         "end": {
           "line": 21,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"schema\": {\n  \"$1\"\n}"
@@ -410,7 +410,7 @@
         },
         "end": {
           "line": 21,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"style\": \"$1\""

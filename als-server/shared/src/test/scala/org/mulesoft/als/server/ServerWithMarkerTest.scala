@@ -42,7 +42,8 @@ abstract class ServerWithMarkerTest[Out] extends LanguageServerBaseTest with Bef
                       result
                         .flatMap(_ => closeFile(server)(path))
                         .flatMap(_ => result)
-                    }))
+                    })
+                  )
               })
               .getOrElse(Future.successful(Seq.empty))
           }

@@ -34,11 +34,13 @@ trait RenameTools {
       case o          => PositionRange(o.range)
     }
 
-  protected def withIsAliases(bu: CompilableUnit,
-                              uri: String,
-                              uuid: String,
-                              position: Position,
-                              workspace: UnitWorkspaceManager): Future[(CompilableUnit, Boolean)] =
+  protected def withIsAliases(
+      bu: CompilableUnit,
+      uri: String,
+      uuid: String,
+      position: Position,
+      workspace: UnitWorkspaceManager
+  ): Future[(CompilableUnit, Boolean)] =
     workspace
       .getAliases(uri, uuid)
       .map(AliasRelationships.isAliasDeclaration(_, position, bu.yPartBranch))

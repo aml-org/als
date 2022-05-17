@@ -91,10 +91,12 @@ class ClientConversionTest extends FlatSpec with Matchers {
   }
 
   it should "transform InitializeParams" in {
-    val ip: AlsInitializeParams = AlsInitializeParams(capabilities = None,
-                                                      trace = Some(TraceKind.Off),
-                                                      rootUri = Some("uri"),
-                                                      workspaceFolders = Some(Seq(wf)))
+    val ip: AlsInitializeParams = AlsInitializeParams(
+      capabilities = None,
+      trace = Some(TraceKind.Off),
+      rootUri = Some("uri"),
+      workspaceFolders = Some(Seq(wf))
+    )
     val ip1: ClientAlsInitializeParams = ip.toClient
     val ip2: AlsInitializeParams       = ip1.toShared
 
@@ -111,11 +113,13 @@ class ClientConversionTest extends FlatSpec with Matchers {
   }
 
   it should "transform AlsClientCapabilities" in {
-    val acp: AlsClientCapabilities = AlsClientCapabilities(None,
-                                                           None,
-                                                           None,
-                                                           Some(SerializationClientCapabilities(true)),
-                                                           Some(CleanDiagnosticTreeClientCapabilities(true)))
+    val acp: AlsClientCapabilities = AlsClientCapabilities(
+      None,
+      None,
+      None,
+      Some(SerializationClientCapabilities(true)),
+      Some(CleanDiagnosticTreeClientCapabilities(true))
+    )
     val acp1: ClientAlsClientCapabilities = acp.toClient
     val acp2: AlsClientCapabilities       = acp1.toShared
 

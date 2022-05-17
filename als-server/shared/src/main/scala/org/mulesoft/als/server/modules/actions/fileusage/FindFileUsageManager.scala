@@ -10,10 +10,11 @@ import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
 import scala.concurrent.Future
 
-class FindFileUsageManager(val workspace: WorkspaceManager,
-                           private val telemetryProvider: TelemetryProvider,
-                           private val logger: Logger)
-    extends RequestModule[FileUsageClientCapabilities, FileUsageOptions] {
+class FindFileUsageManager(
+    val workspace: WorkspaceManager,
+    private val telemetryProvider: TelemetryProvider,
+    private val logger: Logger
+) extends RequestModule[FileUsageClientCapabilities, FileUsageOptions] {
   private var enabled: Boolean = true
 
   private var conf: Option[FileUsageClientCapabilities] = None

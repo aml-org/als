@@ -11,11 +11,12 @@ class MockParseListener(val timeoutMillis: Int = 1000)
     with TimeoutFuture
     with BaseUnitListener {
 
-  /**
-    * Called on new AST available
+  /** Called on new AST available
     *
-    * @param ast  - AST
-    * @param uuid - telemetry UUID
+    * @param ast
+    *   \- AST
+    * @param uuid
+    *   \- telemetry UUID
     */
   override def onNewAst(ast: BaseUnitListenerParams, uuid: String): Future[Unit] = Future.successful(this.notify(ast))
 

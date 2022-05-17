@@ -35,9 +35,11 @@ trait AMLOperationObject extends DialectNode {
       .withId(DialectLocation + "#/declarations/OperationObject/externalDocs")
       .withName("externalDocs")
       .withNodePropertyMapping(OperationModel.Documentation.value.iri())
-      .withObjectRange(Seq(
-        AMLExternalDocumentationObject.id
-      )),
+      .withObjectRange(
+        Seq(
+          AMLExternalDocumentationObject.id
+        )
+      ),
     PropertyMapping()
       .withId(DialectLocation + "#/declarations/OperationObject/operationId")
       .withName("operationId")
@@ -58,7 +60,8 @@ trait AMLOperationObject extends DialectNode {
           Oas20SecuritySchemeObject.id,
           Oas20ApiKeySecuritySchemeObject.id,
           Oauth2SecuritySchemeObject.id
-        ))
+        )
+      )
   )
 }
 
@@ -90,18 +93,22 @@ object Oas20AMLOperationObject extends AMLOperationObject {
       .withName("parameters")
       .withNodePropertyMapping(RequestModel.UriParameters.value.iri())
       .withAllowMultiple(true)
-      .withObjectRange(Seq(
-        Oas20ParamObject.id
-      )),
+      .withObjectRange(
+        Seq(
+          Oas20ParamObject.id
+        )
+      ),
     PropertyMapping()
       .withId(DialectLocation + "#/declarations/OperationObject/responses")
       .withName("responses")
       .withNodePropertyMapping(OperationModel.Responses.value.iri())
       .withMinCount(1)
       .withMapTermKeyProperty(ResponseModel.StatusCode.value.iri())
-      .withObjectRange(Seq(
-        Oas20ResponseObject.id
-      ))
+      .withObjectRange(
+        Seq(
+          Oas20ResponseObject.id
+        )
+      )
   )
 }
 
@@ -121,32 +128,40 @@ object Oas30OperationObject extends AMLOperationObject {
       .withNodePropertyMapping(OperationModel.Responses.value.iri())
       .withMinCount(1)
       .withMapTermKeyProperty(ResponseModel.StatusCode.value.iri())
-      .withObjectRange(Seq(
-        Oas30ResponseObject.id
-      )),
+      .withObjectRange(
+        Seq(
+          Oas30ResponseObject.id
+        )
+      ),
     PropertyMapping()
       .withId(DialectLocation + "#/declarations/OperationObject/Request/parameters")
       .withName("parameters")
       .withNodePropertyMapping(RequestModel.UriParameters.value.iri())
       .withAllowMultiple(true)
-      .withObjectRange(Seq(
-        Oas30ParamObject.id
-      )),
+      .withObjectRange(
+        Seq(
+          Oas30ParamObject.id
+        )
+      ),
     PropertyMapping()
       .withId(DialectLocation + "#/declarations/OperationObject/Request/callbacks")
       .withName("callbacks")
       .withNodePropertyMapping(OperationModel.Callbacks.value.iri())
       .withMapTermKeyProperty(CallbackModel.Name.value.iri())
-      .withObjectRange(Seq(
-        AMLCallbackObject.id
-      )),
+      .withObjectRange(
+        Seq(
+          AMLCallbackObject.id
+        )
+      ),
     PropertyMapping()
       .withId(DialectLocation + "#/declarations/OperationObject/servers")
       .withName("servers")
       .withNodePropertyMapping(OperationModel.Servers.value.iri())
       .withAllowMultiple(true)
-      .withObjectRange(Seq(
-        Oas30ServerObject.id
-      ))
+      .withObjectRange(
+        Seq(
+          Oas30ServerObject.id
+        )
+      )
   )
 }

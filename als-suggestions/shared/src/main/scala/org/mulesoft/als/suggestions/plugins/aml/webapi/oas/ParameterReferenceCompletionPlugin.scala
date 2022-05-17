@@ -20,11 +20,13 @@ object ParameterReferenceCompletionPlugin extends AMLCompletionPlugin {
       if (AMLJsonSchemaStyleDeclarationReferences.applies(request)) {
         request.amfObject match {
           case _: Parameter =>
-            new AMLJsonSchemaStyleDeclarationReferences(request.actualDialect,
-                                                        paramIriMaps.keys.toSeq,
-                                                        request.amfObject.elementIdentifier(),
-                                                        request.yPartBranch,
-                                                        paramIriMaps)
+            new AMLJsonSchemaStyleDeclarationReferences(
+              request.actualDialect,
+              paramIriMaps.keys.toSeq,
+              request.amfObject.elementIdentifier(),
+              request.yPartBranch,
+              paramIriMaps
+            )
               .resolve(request.declarationProvider)
           case _ => AMLJsonSchemaStyleDeclarationReferences.suggest(request)
         }

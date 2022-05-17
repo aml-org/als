@@ -6,8 +6,8 @@
     "documentation": "description",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11description",
-    "filterText": "\"description\": \"$1\",",
+    "sortText": "10description",
+    "filterText": "\"description\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -20,10 +20,10 @@
         },
         "end": {
           "line": 8,
-          "character": 15
+          "character": 16
         }
       },
-      "newText": "\"description\": \"$1\","
+      "newText": "\"description\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

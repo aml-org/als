@@ -8,15 +8,14 @@ import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.StructuredSymbolBuilder
 
 case class SemanticNamedDomainElementSymbolBuilder(name: String, element: DomainElement)(
-    override implicit val ctx: StructureContext)
-    extends StructuredSymbolBuilder[DomainElement] {
+    override implicit val ctx: StructureContext
+) extends StructuredSymbolBuilder[DomainElement] {
 
   override protected val optionName: Option[String] = Some(name)
 }
 
 object SemanticNamedDomainElementSymbolBuilder {
-  def unapply(element: DomainElement)(
-      implicit ctx: StructureContext): Option[SemanticNamedDomainElementSymbolBuilder] =
+  def unapply(element: DomainElement)(implicit ctx: StructureContext): Option[SemanticNamedDomainElementSymbolBuilder] =
     element match {
       case _: NodeMapping | _: PropertyMapping =>
         element

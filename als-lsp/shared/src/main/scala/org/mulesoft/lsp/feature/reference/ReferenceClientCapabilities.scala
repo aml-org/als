@@ -1,9 +1,9 @@
 package org.mulesoft.lsp.feature.reference
 
-/**
-  * Capabilities specific to the `textDocument/references`
+/** Capabilities specific to the `textDocument/references`
   *
-  * @param dynamicRegistration Whether references supports dynamic registration.
+  * @param dynamicRegistration
+  *   Whether references supports dynamic registration.
   */
 
 case class ReferenceClientCapabilities(dynamicRegistration: Option[Boolean])

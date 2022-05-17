@@ -29,15 +29,17 @@ trait ConverterExtractor[Original <: AmfObject, Result <: AmfObject]
   def transform(original: Original): Result
 
   override protected lazy val declaredElementTextEdit: Option[TextEdit] =
-    wrapDeclaration(declarationResult,
-                    newName,
-                    params.bu,
-                    params.uri,
-                    params.definedBy,
-                    params.configuration,
-                    jsonOptions,
-                    yamlOptions,
-                    params.alsConfigurationState).map(de => TextEdit(rangeFromEntryBottom(de._2), s"\n${de._1}\n"))
+    wrapDeclaration(
+      declarationResult,
+      newName,
+      params.bu,
+      params.uri,
+      params.definedBy,
+      params.configuration,
+      jsonOptions,
+      yamlOptions,
+      params.alsConfigurationState
+    ).map(de => TextEdit(rangeFromEntryBottom(de._2), s"\n${de._1}\n"))
 
   def modifyEntry(original: Original): String
 
@@ -50,14 +52,17 @@ trait ConverterExtractor[Original <: AmfObject, Result <: AmfObject]
   override protected def task(params: CodeActionRequestParams): Future[Seq[AbstractCodeAction]] = {
     Future {
       targetTextEdit(original.map(modifyEntry))
-        .flatMap(
-          editOriginalEntry =>
-            declaredElementTextEdit
-              .map(Seq(editOriginalEntry, _))
-              .map(edits => {
-                kindTitle.baseCodeAction(AbstractWorkspaceEdit(
-                  Seq(Left(TextDocumentEdit(VersionedTextDocumentIdentifier(params.uri, None), edits)))))
-              }))
+        .flatMap(editOriginalEntry =>
+          declaredElementTextEdit
+            .map(Seq(editOriginalEntry, _))
+            .map(edits => {
+              kindTitle.baseCodeAction(
+                AbstractWorkspaceEdit(
+                  Seq(Left(TextDocumentEdit(VersionedTextDocumentIdentifier(params.uri, None), edits)))
+                )
+              )
+            })
+        )
         .toSeq
     }
   }

@@ -3,14 +3,12 @@ package org.mulesoft.als.common.diff
 import java.io._
 import java.util.regex.Pattern
 
-/**
-  * Common utility classes to deal with Files and IO in general.
+/** Common utility classes to deal with Files and IO in general.
   */
 object Files {
 
-  /**
-    * Get the content of a <code>Reader</code> as a list of Strings, one entry per line. Returns an
-    * empty List if an IOException is raised during reading
+  /** Get the content of a <code>Reader</code> as a list of Strings, one entry per line. Returns an empty List if an
+    * IOException is raised during reading
     */
   def readLines(input: Reader): List[String] =
     Option(input)
@@ -30,9 +28,8 @@ object Files {
       })
       .getOrElse(Nil)
 
-  /**
-    * Get the content of a <code>File</code> as a list of Strings, one entry per line. Returns an
-    * empty List if an IOException is raised during reading
+  /** Get the content of a <code>File</code> as a list of Strings, one entry per line. Returns an empty List if an
+    * IOException is raised during reading
     */
   def readLines(file: File): List[String] = {
     try {

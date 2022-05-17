@@ -245,7 +245,7 @@ class YNodeBranchBuilderTest extends FunSuite with Matchers {
   }
 
   test("Json Range for empty key with brothers") {
-    val text     = """{"a":"b"
+    val text = """{"a":"b"
                      |}""".stripMargin
     val root     = JsonParser(text).documents(true).head.node
     val position = AmfPosition(2, 1)

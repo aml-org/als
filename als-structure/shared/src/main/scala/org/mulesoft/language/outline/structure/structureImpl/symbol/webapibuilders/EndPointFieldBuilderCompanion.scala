@@ -19,14 +19,15 @@ object EndPointFieldBuilderCompanion extends IriFieldSymbolBuilderCompanion with
 
   override val supportedIri: String = WebApiModel.EndPoints.value.iri()
 
-  override def construct(element: FieldEntry, value: AmfArray)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] =
+  override def construct(element: FieldEntry, value: AmfArray)(implicit
+      ctx: StructureContext
+  ): Option[FieldTypeSymbolBuilder[AmfArray]] =
     Some(new EndPointFieldSymbolBuilder(value, element))
 }
 
 class EndPointFieldSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
-    override implicit val ctx: StructureContext)
-    extends ArrayFieldTypeSymbolBuilder {
+    override implicit val ctx: StructureContext
+) extends ArrayFieldTypeSymbolBuilder {
 
   override def build(): Seq[DocumentSymbol] = {
 

@@ -63,9 +63,11 @@ class PathTest extends AsyncFunSuite with PlatformSecrets {
       .withPlatformLoaders(Seq(fileLoader))
       .getState
       .map(editorState => {
-        ALSConfigurationState(editorState = editorState,
-                              projectState = EmptyProjectConfigurationState,
-                              editorResourceLoader = None)
+        ALSConfigurationState(
+          editorState = editorState,
+          projectState = EmptyProjectConfigurationState,
+          editorResourceLoader = None
+        )
       })
   }
 
@@ -91,7 +93,7 @@ class PathTest extends AsyncFunSuite with PlatformSecrets {
   test("Should list files from root route, having '/' prefix") {
     for {
       alsConfiguration <- futureAlsConfiguration
-      result           <- AMLPathCompletionPlugin.resolveInclusion(url, directoryResolver, "/", Some(urlDir), alsConfiguration)
+      result <- AMLPathCompletionPlugin.resolveInclusion(url, directoryResolver, "/", Some(urlDir), alsConfiguration)
     } yield {
       assert(result.forall(r => Seq("/api.raml", "/directory/").contains(r.newText)))
     }

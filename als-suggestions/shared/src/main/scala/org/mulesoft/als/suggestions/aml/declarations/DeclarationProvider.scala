@@ -13,13 +13,12 @@ import scala.collection.mutable
 
 class DeclarationProvider(componentId: Option[String] = None) {
 
-  def findElement(newText: String, iriDeclaration: String): Option[DomainElement] = {
+  def findElement(newText: String, iriDeclaration: String): Option[DomainElement] =
     newText.split(".").toList match {
       case head :: tail if tail.nonEmpty => findLib(head, tail.head, iriDeclaration)
       case _ =>
         declarations.get(iriDeclaration).flatMap(d => d.find(_._1 == newText).map(_._2))
     }
-  }
 
   def findLib(libName: String, elementName: String, iriDeclaration: String): Option[DomainElement] = {
     libraries.get(libName).flatMap(l => l.findElement(elementName, iriDeclaration))
@@ -101,11 +100,11 @@ object DeclarationProvider {
 
     bu.annotations.find(classOf[Aliases]).foreach { a =>
       a.aliases
-        .flatMap(
-          l =>
-            bu.references
-              .find(_.location().contains(l._2.fullUrl))
-              .map(r => l._1 -> r))
+        .flatMap(l =>
+          bu.references
+            .find(_.location().contains(l._2.fullUrl))
+            .map(r => l._1 -> r)
+        )
         .foreach { t =>
           provider.put(t._1, DeclarationProvider(t._2, None))
         }

@@ -15,11 +15,10 @@ object FindLinks {
   def getLinks(bu: BaseUnit, log: Logger = EmptyLogger): Seq[DocumentLink] =
     bu.annotations
       .targets()
-      .flatMap {
-        case (targetLocation, originRange) =>
-          // todo: check when this method is called, seems a bit excessive to me
-          originRange.foreach(or => log.debug(s"FIND LINKS $targetLocation => $or", "FindLinks", "getLinks"))
-          originRange.map(r => DocumentLink(LspRangeConverter.toLspRange(PositionRange(r)), targetLocation, None))
+      .flatMap { case (targetLocation, originRange) =>
+        // todo: check when this method is called, seems a bit excessive to me
+        originRange.foreach(or => log.debug(s"FIND LINKS $targetLocation => $or", "FindLinks", "getLinks"))
+        originRange.map(r => DocumentLink(LspRangeConverter.toLspRange(PositionRange(r)), targetLocation, None))
       }
       .toSeq
 }

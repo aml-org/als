@@ -14,8 +14,9 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext, SymbolKinds}
 
 trait IgnoreFieldSymbolBuilderCompanion extends IriFieldSymbolBuilderCompanion {
-  override protected def construct(element: FieldEntry)(
-      implicit ctx: StructureContext): Option[SymbolBuilder[FieldEntry]] = Some(IgnoreFieldSymbolBuilder)
+  override protected def construct(element: FieldEntry)(implicit
+      ctx: StructureContext
+  ): Option[SymbolBuilder[FieldEntry]] = Some(IgnoreFieldSymbolBuilder)
 
 }
 

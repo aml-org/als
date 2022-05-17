@@ -49,20 +49,21 @@ abstract class LanguageServerBaseTest
 
   protected val initializeParams: AlsInitializeParams = AlsInitializeParams.default
 
-  private def telemetryNotifications(mockTelemetryClientNotifier: MockTelemetryClientNotifier)(
-      qty: Int,
-      previous: Seq[TelemetryMessage]): Future[Seq[TelemetryMessage]] = {
+  private def telemetryNotifications(
+      mockTelemetryClientNotifier: MockTelemetryClientNotifier
+  )(qty: Int, previous: Seq[TelemetryMessage]): Future[Seq[TelemetryMessage]] = {
     if (qty < 0) Future(previous)
     else if (qty > 0)
       mockTelemetryClientNotifier.nextCall.flatMap(nc =>
-        telemetryNotifications(mockTelemetryClientNotifier)(qty - 1, previous :+ nc))
+        telemetryNotifications(mockTelemetryClientNotifier)(qty - 1, previous :+ nc)
+      )
     else
       mockTelemetryClientNotifier.nextCall.map(nc => previous :+ nc)
   }
 
-  def withTelemetry(mockTelemetryClientNotifier: MockTelemetryClientNotifier)(
-      qty: Int,
-      fn: () => Unit): Future[Seq[TelemetryMessage]] = {
+  def withTelemetry(
+      mockTelemetryClientNotifier: MockTelemetryClientNotifier
+  )(qty: Int, fn: () => Unit): Future[Seq[TelemetryMessage]] = {
     fn()
     telemetryNotifications(mockTelemetryClientNotifier)(qty - 1, Nil)
   }
@@ -76,8 +77,9 @@ abstract class LanguageServerBaseTest
       .value
       .apply(CleanDiagnosticTreeParams(TextDocumentIdentifier(uri)))
 
-  def requestDocumentSymbol(server: LanguageServer)(
-      uri: String): Future[Either[Seq[SymbolInformation], Seq[DocumentSymbol]]] =
+  def requestDocumentSymbol(
+      server: LanguageServer
+  )(uri: String): Future[Either[Seq[SymbolInformation], Seq[DocumentSymbol]]] =
     server
       .resolveHandler(DocumentSymbolRequestType)
       .value
@@ -90,17 +92,17 @@ abstract class LanguageServerBaseTest
     changeFile(server)(file, content, version)
 
   def withServer[R](server: LanguageServer, initParams: AlsInitializeParams = initializeParams)(
-      fn: LanguageServer => Future[R]): Future[R] = {
+      fn: LanguageServer => Future[R]
+  ): Future[R] = {
     server
       .testInitialize(initParams)
       .flatMap(_ => {
         server.initialized()
         fn(server)
-          .andThen {
-            case Failure(exception) =>
-              // if there was an error, then print out all the logs for this test
-              while (logger.logList.nonEmpty) println(logger.logList.dequeue())
-              fail(exception)
+          .andThen { case Failure(exception) =>
+            // if there was an error, then print out all the logs for this test
+            while (logger.logList.nonEmpty) println(logger.logList.dequeue())
+            fail(exception)
           }
       })
   }
@@ -122,7 +124,8 @@ abstract class LanguageServerBaseTest
       DidChangeTextDocumentParams(
         VersionedTextDocumentIdentifier(uri, Some(version)),
         Seq(TextDocumentContentChangeEvent(text))
-      ))
+      )
+    )
 
   def rootPath: String
 
@@ -144,8 +147,9 @@ abstract class LanguageServerBaseTest
     )
   }
 
-  def didChangeWorkspaceFolders(server: LanguageServer)(added: List[WorkspaceFolder],
-                                                        removed: List[WorkspaceFolder]): Future[Unit] = {
+  def didChangeWorkspaceFolders(
+      server: LanguageServer
+  )(added: List[WorkspaceFolder], removed: List[WorkspaceFolder]): Future[Unit] = {
     server.workspaceService.didChangeWorkspaceFolders(
       params = DidChangeWorkspaceFoldersParams(WorkspaceFoldersChangeEvent(added, removed))
     )
@@ -180,8 +184,7 @@ trait ServerIndexGlobalDialectCommand extends LanguageServerBaseTest {
 
 }
 
-/**
-  * mixin to clean logs in between tests
+/** mixin to clean logs in between tests
   */
 trait FailedLogs extends AsyncTestSuiteMixin { this: AsyncTestSuite =>
   val logger = TestLogger()
@@ -201,43 +204,52 @@ case class TestLogger() extends Logger {
 
   val logList: mutable.Queue[String] = mutable.Queue[String]()
 
-  /**
-    * Logs a message
+  /** Logs a message
     *
-    * @param message      - message text
-    * @param severity     - message severity
-    * @param component    - component name
-    * @param subComponent - sub-component name
+    * @param message
+    *   \- message text
+    * @param severity
+    *   \- message severity
+    * @param component
+    *   \- component name
+    * @param subComponent
+    *   \- sub-component name
     */
   override def log(message: String, severity: MessageSeverity, component: String, subComponent: String): Unit =
     synchronized(logList += s"log\n\t$message\n\t$severity\n\t$component\n\t$subComponent")
 
-  /**
-    * Logs a DEBUG severity message.
+  /** Logs a DEBUG severity message.
     *
-    * @param message      - message text
-    * @param component    - component name
-    * @param subComponent - sub-component name
+    * @param message
+    *   \- message text
+    * @param component
+    *   \- component name
+    * @param subComponent
+    *   \- sub-component name
     */
   override def debug(message: String, component: String, subComponent: String): Unit =
     synchronized(logList += s"debug\n\t$message\n\t$component\n\t$subComponent")
 
-  /**
-    * Logs a WARNING severity message.
+  /** Logs a WARNING severity message.
     *
-    * @param message      - message text
-    * @param component    - component name
-    * @param subComponent - sub-component name
+    * @param message
+    *   \- message text
+    * @param component
+    *   \- component name
+    * @param subComponent
+    *   \- sub-component name
     */
   override def warning(message: String, component: String, subComponent: String): Unit =
     synchronized(logList += s"warning\n\t$message\n\t$component\n\t$subComponent")
 
-  /**
-    * Logs an ERROR severity message.
+  /** Logs an ERROR severity message.
     *
-    * @param message      - message text
-    * @param component    - component name
-    * @param subComponent - sub-component name
+    * @param message
+    *   \- message text
+    * @param component
+    *   \- component name
+    * @param subComponent
+    *   \- sub-component name
     */
   override def error(message: String, component: String, subComponent: String): Unit =
     synchronized(logList += s"error\n\t$message\n\t$component\n\t$subComponent")

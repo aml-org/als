@@ -13,10 +13,11 @@ import org.mulesoft.als.server.{ClientNotifierModule, SerializationProps}
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.amfconfiguration.AMLSpecificConfiguration
 
-abstract class BaseSerializationNotifier[S](props: SerializationProps[S],
-                                            configurationReader: AlsConfigurationReader,
-                                            logger: Logger)
-    extends ClientNotifierModule[SerializationClientCapabilities, SerializationServerOptions] {
+abstract class BaseSerializationNotifier[S](
+    props: SerializationProps[S],
+    configurationReader: AlsConfigurationReader,
+    logger: Logger
+) extends ClientNotifierModule[SerializationClientCapabilities, SerializationServerOptions] {
 
   protected var enabled = false
 

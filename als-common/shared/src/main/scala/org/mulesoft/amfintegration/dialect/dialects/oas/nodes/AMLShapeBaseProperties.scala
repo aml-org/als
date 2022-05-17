@@ -83,7 +83,8 @@ trait AMLShapeBaseProperties {
       .withObjectRange(
         Seq(
           AMLSchemaBaseObject.id
-        )),
+        )
+      ),
     PropertyMapping()
       .withId(DialectLocation + s"#/declarations/ShapeObject/format")
       .withName("format")
@@ -121,7 +122,8 @@ trait AMLShapeBaseProperties {
           "boolean",
           "array",
           "file"
-        ))
+        )
+      )
       .withNodePropertyMapping(ImplicitField)
       .withLiteralRange(xsdString.iri()),
     PropertyMapping()
@@ -129,9 +131,11 @@ trait AMLShapeBaseProperties {
       .withName("properties")
       .withNodePropertyMapping(NodeShapeModel.Properties.value.iri())
       .withMapTermKeyProperty(PropertyShapeModel.Name.value.iri())
-      .withObjectRange(Seq(
-        AMLSchemaBaseObject.id
-      )),
+      .withObjectRange(
+        Seq(
+          AMLSchemaBaseObject.id
+        )
+      ),
     PropertyMapping()
       .withId(DialectLocation + s"#/declarations/SchemaObject/additionalProperties")
       .withName("additionalProperties")
@@ -157,16 +161,20 @@ trait AMLShapeBaseProperties {
       .withId(DialectLocation + "#/declarations/SchemaObject/xml")
       .withName("xml")
       .withNodePropertyMapping(AnyShapeModel.XMLSerialization.value.iri())
-      .withObjectRange(Seq(
-        XmlObject.id
-      )),
+      .withObjectRange(
+        Seq(
+          XmlObject.id
+        )
+      ),
     PropertyMapping()
       .withId(DialectLocation + "#/declarations/SchemaObject/externalDocs")
       .withName("externalDocs")
       .withNodePropertyMapping(AnyShapeModel.Documentation.value.iri())
-      .withObjectRange(Seq(
-        AMLExternalDocumentationObject.id
-      )),
+      .withObjectRange(
+        Seq(
+          AMLExternalDocumentationObject.id
+        )
+      ),
     PropertyMapping()
       .withId(DialectLocation + "#/declarations/SchemaObject/example")
       .withName("example")

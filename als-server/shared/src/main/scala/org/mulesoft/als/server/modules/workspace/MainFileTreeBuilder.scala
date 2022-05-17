@@ -16,13 +16,14 @@ import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class ParsedMainFileTree(val main: AMFResult,
-                         private val innerNodeRelationships: Seq[RelationshipLink],
-                         private val innerDocumentLinks: Map[String, Seq[DocumentLink]],
-                         private val innerAliases: Seq[AliasInfo],
-                         definedBy: Dialect,
-                         private val parseContext: AmfParseContext)
-    extends MainFileTree {
+class ParsedMainFileTree(
+    val main: AMFResult,
+    private val innerNodeRelationships: Seq[RelationshipLink],
+    private val innerDocumentLinks: Map[String, Seq[DocumentLink]],
+    private val innerAliases: Seq[AliasInfo],
+    definedBy: Dialect,
+    private val parseContext: AmfParseContext
+) extends MainFileTree {
 
   private val units: mutable.Map[String, AMFResult] = mutable.Map.empty
   private val innerRefs: mutable.Map[String, DiagnosticsBundle] =
@@ -40,15 +41,15 @@ class ParsedMainFileTree(val main: AMFResult,
       intoInners(result.baseUnit, stack)
       val targets = result.baseUnit.annotations.targets()
       targets
-        .flatMap {
-          case (targetLocation, ranges) =>
-            result.baseUnit.references.find(_.identifier == targetLocation).map { r =>
-              index(
-                AMFResult(r, result.results),
-                stack.through(
-                  ranges.map(originRange => ReferenceOrigins(result.baseUnit.identifier, PositionRange(originRange))))
+        .flatMap { case (targetLocation, ranges) =>
+          result.baseUnit.references.find(_.identifier == targetLocation).map { r =>
+            index(
+              AMFResult(r, result.results),
+              stack.through(
+                ranges.map(originRange => ReferenceOrigins(result.baseUnit.identifier, PositionRange(originRange)))
               )
-            }
+            )
+          }
         }
     }.toSeq
     else Nil
@@ -82,26 +83,34 @@ class ParsedMainFileTree(val main: AMFResult,
   override def aliases: Seq[AliasInfo] = innerAliases
 
   override val profiles: Map[String, ParsedUnit] = parseContext.state.profiles
-    .map(
-      p =>
-        p.path -> ParsedUnit(new AmfParseResult(AMFResult(p.model, Nil), p.definedBy, parseContext, p.path),
-                             false,
-                             p.definedBy))
+    .map(p =>
+      p.path -> ParsedUnit(
+        new AmfParseResult(AMFResult(p.model, Nil), p.definedBy, parseContext, p.path),
+        false,
+        p.definedBy
+      )
+    )
     .toMap
 }
 
 object ParsedMainFileTree {
-  def apply(main: AMFResult,
-            nodeRelationships: Seq[RelationshipLink],
-            documentLinks: Map[String, Seq[DocumentLink]],
-            aliases: Seq[AliasInfo],
-            definedBy: Dialect,
-            parseContext: AmfParseContext): ParsedMainFileTree =
+  def apply(
+      main: AMFResult,
+      nodeRelationships: Seq[RelationshipLink],
+      documentLinks: Map[String, Seq[DocumentLink]],
+      aliases: Seq[AliasInfo],
+      definedBy: Dialect,
+      parseContext: AmfParseContext
+  ): ParsedMainFileTree =
     new ParsedMainFileTree(main, nodeRelationships, documentLinks, aliases, definedBy, parseContext)
 }
 
 object MainFileTreeBuilder {
-  def build(amfParseResult: AmfParseResult, visitors: AmfElementVisitors, logger: Logger): Future[ParsedMainFileTree] = {
+  def build(
+      amfParseResult: AmfParseResult,
+      visitors: AmfElementVisitors,
+      logger: Logger
+  ): Future[ParsedMainFileTree] = {
 
     handleVisit(visitors, logger, amfParseResult.result.baseUnit, amfParseResult.context)
     val tree = ParsedMainFileTree(
@@ -115,10 +124,12 @@ object MainFileTreeBuilder {
     tree.index().map(_ => tree)
   }
 
-  private def handleVisit(visitors: AmfElementVisitors,
-                          logger: Logger,
-                          unit: BaseUnit,
-                          context: AmfParseContext): Unit = {
+  private def handleVisit(
+      visitors: AmfElementVisitors,
+      logger: Logger,
+      unit: BaseUnit,
+      context: AmfParseContext
+  ): Unit = {
     try {
       visitors.applyAmfVisitors(unit, context)
     } catch {

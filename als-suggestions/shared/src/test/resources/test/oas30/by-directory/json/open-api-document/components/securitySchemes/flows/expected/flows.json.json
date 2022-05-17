@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"authorizationCode\": \"$1\""
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"clientCredentials\": \"$1\""
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"implicit\": \"$1\""
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 7,
-          "character": 15
+          "character": 14
         }
       },
       "newText": "\"password\": \"$1\""

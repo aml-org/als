@@ -60,13 +60,16 @@ case class PathNavigation(fullUrl: String, prefix: String, alsConfiguration: ALS
       val mime = c.mime.orElse(
         alsConfiguration.platform
           .extension(filePath)
-          .flatMap(alsConfiguration.platform.mimeFromExtension))
+          .flatMap(alsConfiguration.platform.mimeFromExtension)
+      )
       mime.flatMap(pluginForMime) match {
         case Some(plugin) =>
           plugin
-            .parse(c.stream,
-                   mime.get,
-                   ParserContext(config = ParseConfig(alsConfiguration.getAmfConfig, DefaultErrorHandler()))) match {
+            .parse(
+              c.stream,
+              mime.get,
+              ParserContext(config = ParseConfig(alsConfiguration.getAmfConfig, DefaultErrorHandler()))
+            ) match {
             case SyamlParsedDocument(document, _) => Some(document.node)
             case _                                => None
           }

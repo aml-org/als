@@ -21,10 +21,12 @@ class SelectionRangeTest extends LanguageServerBaseTest {
   def buildServer(): LanguageServer = {
     val factory =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
-    new LanguageServerBuilder(factory.documentManager,
-                              factory.workspaceManager,
-                              factory.configurationManager,
-                              factory.resolutionTaskManager)
+    new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
       .addRequestModule(factory.selectionRangeManager)
       .build()
   }
@@ -35,7 +37,8 @@ class SelectionRangeTest extends LanguageServerBaseTest {
         SelectionRangeBuilder(1, 0, 3, 0)
           .andThen(1, 0, 2, 0)
           .andThen(1, 7, 1, 11)
-          .build())
+          .build()
+      )
 
     runTest(buildServer(), "basic.raml", Seq(LspPosition(1, 8))).map { result =>
       result should be(expected)
@@ -194,7 +197,9 @@ class SelectionRangeTest extends LanguageServerBaseTest {
             "",
             0,
             content.stream.toString
-          )))
+          )
+        )
+      )
       selectionRange <- {
         val dhHandler: RequestHandler[SelectionRangeParams, Seq[SelectionRange]] =
           server.resolveHandler(SelectionRangeRequestType).get

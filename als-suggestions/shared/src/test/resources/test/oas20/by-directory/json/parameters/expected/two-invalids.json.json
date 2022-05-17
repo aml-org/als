@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 9,
-          "character": 20
+          "character": 15
         }
       },
       "newText": "\"name\": \"$1\","

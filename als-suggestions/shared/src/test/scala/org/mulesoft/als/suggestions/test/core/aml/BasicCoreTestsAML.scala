@@ -3,7 +3,7 @@ package org.mulesoft.als.suggestions.test.core.aml
 import amf.core.internal.remote.Spec
 import org.mulesoft.als.common.PlatformDirectoryResolver
 import org.mulesoft.als.configuration.AlsConfiguration
-import org.mulesoft.als.suggestions.client.Suggestions
+import org.mulesoft.als.suggestions.client.{Suggestions, UnitBundle}
 import org.mulesoft.als.suggestions.test.core.{CoreTest, DummyPlugins}
 import org.mulesoft.amfintegration.amfconfiguration.{
   ALSConfigurationState,
@@ -68,13 +68,17 @@ class BasicCoreTestsAML extends CoreTest with DummyPlugins {
           }
           suggestions <- {
             val suggestions =
-              new Suggestions(AlsConfiguration(), new PlatformDirectoryResolver(platform))
+              new Suggestions(
+                AlsConfiguration(),
+                new PlatformDirectoryResolver(platform),
+                accessBundle(alsConfiguration)
+              )
                 .initialized()
             suggestions.completionsPluginHandler.cleanIndex()
             suggestions.completionsPluginHandler
               .registerPlugins(Seq(DummyCompletionPlugin(), DummyInvalidCompletionPlugin()), dialect.dialect.id)
 
-            suggestions.suggest(url, offset, snippetsSupport = true, None, alsConfiguration)
+            suggestions.suggest(url, offset, snippetsSupport = true, None)
           }
         } yield suggestions
       }

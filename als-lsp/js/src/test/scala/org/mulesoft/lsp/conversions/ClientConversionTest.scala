@@ -116,7 +116,7 @@ class ClientConversionTest extends FlatSpec with Matchers {
   }
 
   it should "transform TextDocumentPositionParams" in {
-    val tdiStringified                          = "{\"textDocument\":{\"uri\":\"uri\"},\"position\":{\"line\":10,\"character\":10}}"
+    val tdiStringified = "{\"textDocument\":{\"uri\":\"uri\"},\"position\":{\"line\":10,\"character\":10}}"
     val tdpp: TextDocumentPositionParams        = TextDocumentPositionParams(tdi, p)
     val tdpp1: ClientTextDocumentPositionParams = tdpp.toClient
     val tdpp2: TextDocumentPositionParams       = tdpp1.toShared
@@ -214,7 +214,7 @@ class ClientConversionTest extends FlatSpec with Matchers {
     tde should be(tde2)
   }
 
-  //end of edit
+  // end of edit
 
   behavior of "DocumentSymbol transformations"
   val s: SymbolKindClientCapabilities = SymbolKindClientCapabilities(Set(SymbolKind.File))
@@ -244,13 +244,15 @@ class ClientConversionTest extends FlatSpec with Matchers {
 
   it should "transform DocumentSymbol" in {
     val ds: DocumentSymbol =
-      DocumentSymbol("name",
-                     SymbolKind(1),
-                     r,
-                     r,
-                     Seq(DocumentSymbol("name", SymbolKind(2), r, r)),
-                     Some("detail"),
-                     Some(false))
+      DocumentSymbol(
+        "name",
+        SymbolKind(1),
+        r,
+        r,
+        Seq(DocumentSymbol("name", SymbolKind(2), r, r)),
+        Some("detail"),
+        Some(false)
+      )
     val ds1: ClientDocumentSymbol = ds.toClient
     val ds2: DocumentSymbol       = ds1.toShared
 
@@ -360,20 +362,22 @@ class ClientConversionTest extends FlatSpec with Matchers {
   }
 
   it should "transform CompletionItem" in {
-    val cc: CompletionItem = CompletionItem("label",
-                                            Some(CompletionItemKind(1)),
-                                            None,
-                                            None,
-                                            None,
-                                            None,
-                                            None,
-                                            None,
-                                            None,
-                                            Some(InsertTextFormat(1)),
-                                            Some(Left(te)),
-                                            Some(Seq(te)),
-                                            Some(Seq('/')),
-                                            None)
+    val cc: CompletionItem = CompletionItem(
+      "label",
+      Some(CompletionItemKind(1)),
+      None,
+      None,
+      None,
+      None,
+      None,
+      None,
+      None,
+      Some(InsertTextFormat(1)),
+      Some(Left(te)),
+      Some(Seq(te)),
+      Some(Seq('/')),
+      None
+    )
     val cc1: ClientCompletionItem = cc.toClient
     // completion item should not be converted to shared as it is a server to client dto
 //    val cc2: CompletionItem       = cc1.toShared
@@ -560,10 +564,14 @@ class ClientConversionTest extends FlatSpec with Matchers {
         Some("uri"),
         "ws",
         Set(Left("dep1"), Right(DependencyConfiguration("dep2", DEPENDENCY)))
-          ++ Set(Right(DependencyConfiguration("p1", CUSTOM_VALIDATION)),
-                 Right(DependencyConfiguration("p2", CUSTOM_VALIDATION)))
-          ++ Set(Right(DependencyConfiguration("se1", SEMANTIC_EXTENSION)),
-                 Right(DependencyConfiguration("se2", SEMANTIC_EXTENSION)))
+          ++ Set(
+            Right(DependencyConfiguration("p1", CUSTOM_VALIDATION)),
+            Right(DependencyConfiguration("p2", CUSTOM_VALIDATION))
+          )
+          ++ Set(
+            Right(DependencyConfiguration("se1", SEMANTIC_EXTENSION)),
+            Right(DependencyConfiguration("se2", SEMANTIC_EXTENSION))
+          )
       )
     val ts1: ClientDidChangeConfigurationNotificationParams = ts.toClient
     val ts2: DidChangeConfigurationNotificationParams       = ts1.toShared
@@ -668,8 +676,10 @@ class ClientConversionTest extends FlatSpec with Matchers {
     val documentFormattingCapabilities      = DocumentFormattingClientCapabilities(Some(true))
     val documentRangeFormattingCapabilities = DocumentRangeFormattingClientCapabilities(Some(true))
     val textDocumentClientCapabilities =
-      TextDocumentClientCapabilities(documentFormatting = Some(documentFormattingCapabilities),
-                                     documentRangeFormatting = Some(documentRangeFormattingCapabilities))
+      TextDocumentClientCapabilities(
+        documentFormatting = Some(documentFormattingCapabilities),
+        documentRangeFormatting = Some(documentRangeFormattingCapabilities)
+      )
     val ts: ClientTextDocumentClientCapabilities = textDocumentClientCapabilities.toClient
     val sharedConversion                         = ts.toShared
     textDocumentClientCapabilities should be(sharedConversion)
@@ -691,7 +701,8 @@ class ClientConversionTest extends FlatSpec with Matchers {
   val fe: FileEvent                     = FileEvent("uri", FileChangeType(1))
 
   it should "transform DidChangeConfigurationParams" in {
-    val w: DidChangeConfigurationParams        = DidChangeConfigurationParams(fe.toClient) // todo: check how this should work (similar to ClientCommand?)
+    val w: DidChangeConfigurationParams =
+      DidChangeConfigurationParams(fe.toClient) // todo: check how this should work (similar to ClientCommand?)
     val w1: ClientDidChangeConfigurationParams = w.toClient
     val w2                                     = w1.toShared
 

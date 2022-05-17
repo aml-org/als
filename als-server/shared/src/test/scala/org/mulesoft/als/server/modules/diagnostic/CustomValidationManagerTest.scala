@@ -52,30 +52,38 @@ class CustomValidationManagerTest
       rootUri = workspacePath
     )
 
-  def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier,
-                  validator: BaseProfileValidatorBuilder): LanguageServer = {
+  def buildServer(
+      diagnosticNotifier: MockDiagnosticClientNotifier,
+      validator: BaseProfileValidatorBuilder
+  ): LanguageServer = {
     val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
     val dm      = builder.buildDiagnosticManagers(Some(validator))
     val factory = builder.buildWorkspaceManagerFactory()
-    val b = new LanguageServerBuilder(factory.documentManager,
-                                      factory.workspaceManager,
-                                      factory.configurationManager,
-                                      factory.resolutionTaskManager)
+    val b = new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
     dm.foreach(m => b.addInitializableModule(m))
     b.build()
   }
 
-  def buildServerForSerialize(diagnosticNotifier: MockDiagnosticClientNotifier,
-                              validator: BaseProfileValidatorBuilder,
-                              s: SerializationProps[_]): LanguageServer = {
+  def buildServerForSerialize(
+      diagnosticNotifier: MockDiagnosticClientNotifier,
+      validator: BaseProfileValidatorBuilder,
+      s: SerializationProps[_]
+  ): LanguageServer = {
     val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
     val dm      = builder.buildDiagnosticManagers(Some(validator))
     val sm      = builder.serializationManager(s)
     val factory = builder.buildWorkspaceManagerFactory()
-    val b = new LanguageServerBuilder(factory.documentManager,
-                                      factory.workspaceManager,
-                                      factory.configurationManager,
-                                      factory.resolutionTaskManager)
+    val b = new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
     b.addInitializableModule(sm)
     b.addRequestModule(sm)
     dm.foreach(m => b.addInitializableModule(m))
@@ -93,7 +101,7 @@ class CustomValidationManagerTest
     implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
     val validator                                                 = FromJsonLdValidatorProvider.empty
     val server: LanguageServer                                    = buildServer(diagnosticNotifier, validator)
-    val initialArgs                                               = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set.empty)
+    val initialArgs = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set.empty)
     withServer(server, buildInitParams(workspacePath)) { server =>
       for {
         content <- platform.fetchContent(mainFile, AMFGraphConfiguration.predefined()).map(_.stream.toString)
@@ -110,7 +118,7 @@ class CustomValidationManagerTest
     implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
     val validator                                                 = FromJsonLdValidatorProvider.empty
     val server: LanguageServer                                    = buildServer(diagnosticNotifier, validator)
-    val initialArgs                                               = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set.empty)
+    val initialArgs = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set.empty)
     withServer(server, AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(workspacePath))) { _ =>
       for {
         _       <- changeWorkspaceConfiguration(server)(initialArgs)
@@ -129,15 +137,15 @@ class CustomValidationManagerTest
     implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
     val validator                                                 = FromJsonLdValidatorProvider.empty
     val server: LanguageServer                                    = buildServer(diagnosticNotifier, validator)
-    val initialArgs                                               = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set.empty)
-    val args                                                      = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profileUri))
+    val initialArgs = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set.empty)
+    val args        = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profileUri))
 
     withServer(server, buildInitParams(workspacePath)) { _ =>
       for {
         _ <- changeWorkspaceConfiguration(server)(initialArgs)
         _ <- validator.jsonLDValidatorExecutor.calledNTimes(0)
         _ <- getDiagnostics
-        _ <- changeWorkspaceConfiguration(server)(args) // register
+        _ <- changeWorkspaceConfiguration(server)(args)                                                // register
         _ <- validator.jsonLDValidatorExecutor.calledNTimes(1)
         _ <- getDiagnostics
         _ <- changeWorkspaceConfiguration(server)(changeConfigArgs(Some(mainFileName), workspacePath)) // unregister
@@ -179,32 +187,33 @@ class CustomValidationManagerTest
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
       .flatMap(negativeReport => {
         implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
-        val validator                                                 = FromJsonLdValidatorProvider(negativeReport.toString)
-        val server: LanguageServer                                    = buildServer(diagnosticNotifier, validator)
-        val args                                                      = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profileUri))
+        val validator              = FromJsonLdValidatorProvider(negativeReport.toString)
+        val server: LanguageServer = buildServer(diagnosticNotifier, validator)
+        val args                   = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profileUri))
 
-        withServer(server, buildInitParams(workspacePath)) {
-          _ =>
-            for {
-              _           <- changeWorkspaceConfiguration(server)(args) // register
-              profile     <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
-              _           <- validator.jsonLDValidatorExecutor.calledNTimes(1)
-              diagnostics <- getDiagnostics
-              _           <- validator.jsonLDValidatorExecutor.called(profile, serializedUri)
-            } yield {
-              val firstDiagnostic =
-                diagnostics.diagnostics.find(d => d.range.start == Position(5, 6) && d.range.end == Position(6, 19))
-              if (firstDiagnostic.isEmpty) {
-                logger.error(s"Couldn't find first diagnostic:\n ${diagnostics.write}",
-                             "CustomValidationManagerTest",
-                             "Should notify errors")
-                fail("Couldn't find first diagnostic")
-              }
-              val diagnostic = firstDiagnostic.get
-              diagnostic.message should be("Scalars in parameters must have minLength defined")
-              diagnostic.range should be(Range(Position(5, 6), Position(6, 19)))
-              diagnostic.severity should equal(Some(DiagnosticSeverity.Error))
+        withServer(server, buildInitParams(workspacePath)) { _ =>
+          for {
+            _           <- changeWorkspaceConfiguration(server)(args) // register
+            profile     <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
+            _           <- validator.jsonLDValidatorExecutor.calledNTimes(1)
+            diagnostics <- getDiagnostics
+            _           <- validator.jsonLDValidatorExecutor.called(profile, serializedUri)
+          } yield {
+            val firstDiagnostic =
+              diagnostics.diagnostics.find(d => d.range.start == Position(5, 6) && d.range.end == Position(6, 19))
+            if (firstDiagnostic.isEmpty) {
+              logger.error(
+                s"Couldn't find first diagnostic:\n ${diagnostics.write}",
+                "CustomValidationManagerTest",
+                "Should notify errors"
+              )
+              fail("Couldn't find first diagnostic")
             }
+            val diagnostic = firstDiagnostic.get
+            diagnostic.message should be("Scalars in parameters must have minLength defined")
+            diagnostic.range should be(Range(Position(5, 6), Position(6, 19)))
+            diagnostic.severity should equal(Some(DiagnosticSeverity.Error))
+          }
         }
       })
   }
@@ -215,35 +224,36 @@ class CustomValidationManagerTest
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
       .flatMap(negativeReport => {
         implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
-        val validator                                                 = FromJsonLdValidatorProvider(negativeReport.toString)
-        val server: LanguageServer                                    = buildServer(diagnosticNotifier, validator)
-        val args                                                      = changeConfigArgs(None, workspacePath, Set.empty, Set(profileUri))
+        val validator              = FromJsonLdValidatorProvider(negativeReport.toString)
+        val server: LanguageServer = buildServer(diagnosticNotifier, validator)
+        val args                   = changeConfigArgs(None, workspacePath, Set.empty, Set(profileUri))
 
-        withServer(server, buildInitParams(workspacePath)) {
-          server =>
-            for {
-              content     <- platform.fetchContent(isolatedFile, AMFGraphConfiguration.predefined()).map(_.toString())
-              _           <- openFile(server)(isolatedFile, content)
-              _           <- getDiagnostics
-              _           <- changeWorkspaceConfiguration(server)(args) // register
-              profile     <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
-              _           <- validator.jsonLDValidatorExecutor.calledNTimes(1)
-              diagnostics <- getDiagnostics
-              _           <- validator.jsonLDValidatorExecutor.called(profile, serializedIsolatedUri)
-            } yield {
-              val firstDiagnostic =
-                diagnostics.diagnostics.find(d => d.range.start == Position(5, 6) && d.range.end == Position(6, 19))
-              if (firstDiagnostic.isEmpty) {
-                logger.error(s"Couldn't find first diagnostic:\n ${diagnostics.write}",
-                             "CustomValidationManagerTest",
-                             "Should notify errors")
-                fail("Couldn't find first diagnostic")
-              }
-              val diagnostic = firstDiagnostic.get
-              diagnostic.message should be("Scalars in parameters must have minLength defined")
-              diagnostic.range should be(Range(Position(5, 6), Position(6, 19)))
-              diagnostic.severity should equal(Some(DiagnosticSeverity.Error))
+        withServer(server, buildInitParams(workspacePath)) { server =>
+          for {
+            content     <- platform.fetchContent(isolatedFile, AMFGraphConfiguration.predefined()).map(_.toString())
+            _           <- openFile(server)(isolatedFile, content)
+            _           <- getDiagnostics
+            _           <- changeWorkspaceConfiguration(server)(args) // register
+            profile     <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
+            _           <- validator.jsonLDValidatorExecutor.calledNTimes(1)
+            diagnostics <- getDiagnostics
+            _           <- validator.jsonLDValidatorExecutor.called(profile, serializedIsolatedUri)
+          } yield {
+            val firstDiagnostic =
+              diagnostics.diagnostics.find(d => d.range.start == Position(5, 6) && d.range.end == Position(6, 19))
+            if (firstDiagnostic.isEmpty) {
+              logger.error(
+                s"Couldn't find first diagnostic:\n ${diagnostics.write}",
+                "CustomValidationManagerTest",
+                "Should notify errors"
+              )
+              fail("Couldn't find first diagnostic")
             }
+            val diagnostic = firstDiagnostic.get
+            diagnostic.message should be("Scalars in parameters must have minLength defined")
+            diagnostic.range should be(Range(Position(5, 6), Position(6, 19)))
+            diagnostic.severity should equal(Some(DiagnosticSeverity.Error))
+          }
         }
       })
   }
@@ -254,40 +264,44 @@ class CustomValidationManagerTest
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
       .flatMap(negativeReport => {
         implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
-        val validator                                                 = FromJsonLdValidatorProvider(negativeReport.toString)
-        val server: LanguageServer                                    = buildServer(diagnosticNotifier, validator)
-        val args                                                      = changeConfigArgs(None, workspacePath, Set.empty, Set(profileUri))
+        val validator              = FromJsonLdValidatorProvider(negativeReport.toString)
+        val server: LanguageServer = buildServer(diagnosticNotifier, validator)
+        val args                   = changeConfigArgs(None, workspacePath, Set.empty, Set(profileUri))
 
-        withServer(server, buildInitParams(workspacePath)) {
-          server =>
-            for {
-              content     <- platform.fetchContent(isolatedFile, AMFGraphConfiguration.predefined()).map(_.toString())
-              _           <- openFile(server)(isolatedFile, content)
-              _           <- getDiagnostics
-              _           <- changeWorkspaceConfiguration(server)(args) // register
-              profile     <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
-              _           <- validator.jsonLDValidatorExecutor.calledNTimes(1)
-              diagnostics <- getDiagnostics
-              _           <- validator.jsonLDValidatorExecutor.called(profile, serializedIsolatedUri)
-            } yield {
-              val firstDiagnostic = diagnostics.diagnostics.find(
-                _.message == "Min length must be less than max length must match in scalar")
-              if (firstDiagnostic.isEmpty) {
-                logger.error(s"Couldn't find first diagnostic:\n ${diagnostics.write}",
-                             "CustomValidationManagerTest",
-                             "Should notify errors")
-                fail("Couldn't find first diagnostic")
-              }
-              val diagnostic = firstDiagnostic.get
-              diagnostic.range should be(Range(Position(7, 4), Position(12, 0)))
-              diagnostic.severity should equal(Some(DiagnosticSeverity.Error))
-
-              val related = diagnostic.relatedInformation.get.headOption.get
-              related.location should equal(
-                Location("file://als-server/shared/src/test/resources/diagnostics/project/isolated.raml",
-                         Range(Position(7, 4), Position(12, 0))))
-              related.message should equal("Error expected 500 < actual (actual=100) at shacl.minLength")
+        withServer(server, buildInitParams(workspacePath)) { server =>
+          for {
+            content     <- platform.fetchContent(isolatedFile, AMFGraphConfiguration.predefined()).map(_.toString())
+            _           <- openFile(server)(isolatedFile, content)
+            _           <- getDiagnostics
+            _           <- changeWorkspaceConfiguration(server)(args) // register
+            profile     <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
+            _           <- validator.jsonLDValidatorExecutor.calledNTimes(1)
+            diagnostics <- getDiagnostics
+            _           <- validator.jsonLDValidatorExecutor.called(profile, serializedIsolatedUri)
+          } yield {
+            val firstDiagnostic =
+              diagnostics.diagnostics.find(_.message == "Min length must be less than max length must match in scalar")
+            if (firstDiagnostic.isEmpty) {
+              logger.error(
+                s"Couldn't find first diagnostic:\n ${diagnostics.write}",
+                "CustomValidationManagerTest",
+                "Should notify errors"
+              )
+              fail("Couldn't find first diagnostic")
             }
+            val diagnostic = firstDiagnostic.get
+            diagnostic.range should be(Range(Position(7, 4), Position(12, 0)))
+            diagnostic.severity should equal(Some(DiagnosticSeverity.Error))
+
+            val related = diagnostic.relatedInformation.get.headOption.get
+            related.location should equal(
+              Location(
+                "file://als-server/shared/src/test/resources/diagnostics/project/isolated.raml",
+                Range(Position(7, 4), Position(12, 0))
+              )
+            )
+            related.message should equal("Error expected 500 < actual (actual=100) at shacl.minLength")
+          }
         }
       })
   }
@@ -298,33 +312,32 @@ class CustomValidationManagerTest
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
       .flatMap(negativeReport => {
         implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
-        val validator                                                 = FromJsonLdValidatorProvider(negativeReport.toString)
-        val server: LanguageServer                                    = buildServer(diagnosticNotifier, validator)
-        val initialArgs                                               = changeConfigArgs(Some(mainFileName), workspacePath)
-        val args                                                      = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profileUri))
+        val validator              = FromJsonLdValidatorProvider(negativeReport.toString)
+        val server: LanguageServer = buildServer(diagnosticNotifier, validator)
+        val initialArgs            = changeConfigArgs(Some(mainFileName), workspacePath)
+        val args                   = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profileUri))
 
-        withServer(server, buildInitParams(workspacePath)) {
-          server =>
-            for {
-              _       <- changeWorkspaceConfiguration(server)(initialArgs) // Set main file
-              content <- platform.fetchContent(isolatedFile, AMFGraphConfiguration.predefined()).map(_.toString())
-              _       <- openFile(server)(isolatedFile, content)
-              _       <- getDiagnostics // main file
-              _       <- getDiagnostics // isolated file
-              _       <- changeWorkspaceConfiguration(server)(args) // register
-              _       <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
-              _       <- validator.jsonLDValidatorExecutor.calledNTimes(2)
-              d1      <- diagnosticNotifier.nextCall // resolution diagnostics main file
-              d2      <- diagnosticNotifier.nextCall // resolution diagnostics isolated file
-              d3      <- diagnosticNotifier.nextCall // custom validation diagnostics main file
-              d4      <- diagnosticNotifier.nextCall // custom validation diagnostics isolated file
-            } yield {
-              val validatedUris = Seq(d1, d2, d3, d4).map(_.uri)
-              validatedUris should contain(isolatedFile)
-              validatedUris should contain(mainFile)
-              validatedUris.count(_ == isolatedFile) should equal(2)
-              validatedUris.count(_ == mainFile) should equal(2)
-            }
+        withServer(server, buildInitParams(workspacePath)) { server =>
+          for {
+            _       <- changeWorkspaceConfiguration(server)(initialArgs) // Set main file
+            content <- platform.fetchContent(isolatedFile, AMFGraphConfiguration.predefined()).map(_.toString())
+            _       <- openFile(server)(isolatedFile, content)
+            _       <- getDiagnostics                                    // main file
+            _       <- getDiagnostics                                    // isolated file
+            _       <- changeWorkspaceConfiguration(server)(args)        // register
+            _       <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
+            _       <- validator.jsonLDValidatorExecutor.calledNTimes(2)
+            d1      <- diagnosticNotifier.nextCall                       // resolution diagnostics main file
+            d2      <- diagnosticNotifier.nextCall                       // resolution diagnostics isolated file
+            d3      <- diagnosticNotifier.nextCall                       // custom validation diagnostics main file
+            d4      <- diagnosticNotifier.nextCall                       // custom validation diagnostics isolated file
+          } yield {
+            val validatedUris = Seq(d1, d2, d3, d4).map(_.uri)
+            validatedUris should contain(isolatedFile)
+            validatedUris should contain(mainFile)
+            validatedUris.count(_ == isolatedFile) should equal(2)
+            validatedUris.count(_ == mainFile) should equal(2)
+          }
         }
       })
   }
@@ -335,34 +348,35 @@ class CustomValidationManagerTest
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
       .flatMap(negativeReport => {
         implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
-        val validator                                                 = FromJsonLdValidatorProvider(negativeReport.toString)
-        val server: LanguageServer                                    = buildServer(diagnosticNotifier, validator)
-        val args                                                      = changeConfigArgs(None, workspacePath, Set.empty, Set(profileUri))
+        val validator              = FromJsonLdValidatorProvider(negativeReport.toString)
+        val server: LanguageServer = buildServer(diagnosticNotifier, validator)
+        val args                   = changeConfigArgs(None, workspacePath, Set.empty, Set(profileUri))
 
-        withServer(server, buildInitParams(workspacePath)) {
-          server =>
-            for {
-              _           <- changeWorkspaceConfiguration(server)(args) // register
-              content     <- platform.fetchContent(isolatedFile, AMFGraphConfiguration.predefined()).map(_.toString())
-              _           <- openFile(server)(isolatedFile, content)
-              profile     <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
-              _           <- validator.jsonLDValidatorExecutor.calledNTimes(1)
-              diagnostics <- getDiagnostics
-              _           <- validator.jsonLDValidatorExecutor.called(profile, serializedIsolatedUri)
-            } yield {
-              val firstDiagnostic =
-                diagnostics.diagnostics.find(d => d.range.start == Position(5, 6) && d.range.end == Position(6, 19))
-              if (firstDiagnostic.isEmpty) {
-                logger.error(s"Couldn't find first diagnostic:\n ${diagnostics.write}",
-                             "CustomValidationManagerTest",
-                             "Should notify errors")
-                fail("Couldn't find first diagnostic")
-              }
-              val diagnostic = firstDiagnostic.get
-              diagnostic.message should be("Scalars in parameters must have minLength defined")
-              diagnostic.range should be(Range(Position(5, 6), Position(6, 19)))
-              diagnostic.severity should equal(Some(DiagnosticSeverity.Error))
+        withServer(server, buildInitParams(workspacePath)) { server =>
+          for {
+            _           <- changeWorkspaceConfiguration(server)(args) // register
+            content     <- platform.fetchContent(isolatedFile, AMFGraphConfiguration.predefined()).map(_.toString())
+            _           <- openFile(server)(isolatedFile, content)
+            profile     <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
+            _           <- validator.jsonLDValidatorExecutor.calledNTimes(1)
+            diagnostics <- getDiagnostics
+            _           <- validator.jsonLDValidatorExecutor.called(profile, serializedIsolatedUri)
+          } yield {
+            val firstDiagnostic =
+              diagnostics.diagnostics.find(d => d.range.start == Position(5, 6) && d.range.end == Position(6, 19))
+            if (firstDiagnostic.isEmpty) {
+              logger.error(
+                s"Couldn't find first diagnostic:\n ${diagnostics.write}",
+                "CustomValidationManagerTest",
+                "Should notify errors"
+              )
+              fail("Couldn't find first diagnostic")
             }
+            val diagnostic = firstDiagnostic.get
+            diagnostic.message should be("Scalars in parameters must have minLength defined")
+            diagnostic.range should be(Range(Position(5, 6), Position(6, 19)))
+            diagnostic.severity should equal(Some(DiagnosticSeverity.Error))
+          }
         }
       })
   }
@@ -373,38 +387,39 @@ class CustomValidationManagerTest
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
       .flatMap(negativeReport => {
         implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
-        val validator                                                 = FromJsonLdValidatorProvider(negativeReport.toString)
-        val server: LanguageServer                                    = buildServer(diagnosticNotifier, validator)
-        val args                                                      = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profileUri))
-        val args2                                                     = changeConfigArgs(Some(mainFileName), workspacePath)
+        val validator              = FromJsonLdValidatorProvider(negativeReport.toString)
+        val server: LanguageServer = buildServer(diagnosticNotifier, validator)
+        val args                   = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profileUri))
+        val args2                  = changeConfigArgs(Some(mainFileName), workspacePath)
 
-        withServer(server, buildInitParams(workspacePath)) {
-          _ =>
-            for {
-              _               <- changeWorkspaceConfiguration(server)(args2) // set mainFile
-              _               <- getDiagnostics // initial parse
-              _               <- changeWorkspaceConfiguration(server)(args) // register
-              profile         <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
-              _               <- validator.jsonLDValidatorExecutor.calledNTimes(1)
-              diagnostics     <- getDiagnostics
-              _               <- validator.jsonLDValidatorExecutor.called(profile, serializedUri)
-              _               <- changeWorkspaceConfiguration(server)(args2) // unregister
-              cleanDiagnostic <- getDiagnostics
-            } yield {
-              val firstDiagnostic =
-                diagnostics.diagnostics.find(d => d.range.start == Position(5, 6) && d.range.end == Position(6, 19))
-              if (firstDiagnostic.isEmpty) {
-                logger.error(s"Couldn't find first diagnostic:\n ${diagnostics.write}",
-                             "CustomValidationManagerTest",
-                             "Should notify errors")
-                fail("Couldn't find first diagnostic")
-              }
-              val diagnostic = firstDiagnostic.get
-              diagnostic.message should be("Scalars in parameters must have minLength defined")
-              diagnostic.range should be(Range(Position(5, 6), Position(6, 19)))
-              cleanDiagnostic.diagnostics
-                .filter(_.message == "Scalars in parameters must have minLength defined") should be(empty)
+        withServer(server, buildInitParams(workspacePath)) { _ =>
+          for {
+            _               <- changeWorkspaceConfiguration(server)(args2) // set mainFile
+            _               <- getDiagnostics                              // initial parse
+            _               <- changeWorkspaceConfiguration(server)(args)  // register
+            profile         <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
+            _               <- validator.jsonLDValidatorExecutor.calledNTimes(1)
+            diagnostics     <- getDiagnostics
+            _               <- validator.jsonLDValidatorExecutor.called(profile, serializedUri)
+            _               <- changeWorkspaceConfiguration(server)(args2) // unregister
+            cleanDiagnostic <- getDiagnostics
+          } yield {
+            val firstDiagnostic =
+              diagnostics.diagnostics.find(d => d.range.start == Position(5, 6) && d.range.end == Position(6, 19))
+            if (firstDiagnostic.isEmpty) {
+              logger.error(
+                s"Couldn't find first diagnostic:\n ${diagnostics.write}",
+                "CustomValidationManagerTest",
+                "Should notify errors"
+              )
+              fail("Couldn't find first diagnostic")
             }
+            val diagnostic = firstDiagnostic.get
+            diagnostic.message should be("Scalars in parameters must have minLength defined")
+            diagnostic.range should be(Range(Position(5, 6), Position(6, 19)))
+            cleanDiagnostic.diagnostics
+              .filter(_.message == "Scalars in parameters must have minLength defined") should be(empty)
+          }
         }
       })
   }
@@ -415,39 +430,40 @@ class CustomValidationManagerTest
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
       .flatMap(negativeReport => {
         implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
-        val validator                                                 = FromJsonLdValidatorProvider(negativeReport.toString)
-        val server: LanguageServer                                    = buildServer(diagnosticNotifier, validator)
-        val args                                                      = changeConfigArgs(None, workspacePath, Set.empty, Set(profileUri))
-        val args2                                                     = changeConfigArgs(None, workspacePath)
+        val validator              = FromJsonLdValidatorProvider(negativeReport.toString)
+        val server: LanguageServer = buildServer(diagnosticNotifier, validator)
+        val args                   = changeConfigArgs(None, workspacePath, Set.empty, Set(profileUri))
+        val args2                  = changeConfigArgs(None, workspacePath)
 
-        withServer(server, buildInitParams(workspacePath)) {
-          server =>
-            for {
-              content         <- platform.fetchContent(isolatedFile, AMFGraphConfiguration.predefined()).map(_.toString())
-              _               <- openFile(server)(isolatedFile, content)
-              _               <- getDiagnostics // Open file
-              _               <- changeWorkspaceConfiguration(server)(args) // register
-              _               <- validator.jsonLDValidatorExecutor.calledNTimes(1)
-              diagnostics     <- getDiagnostics
-              profile         <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
-              _               <- validator.jsonLDValidatorExecutor.called(profile, serializedIsolatedUri)
-              _               <- changeWorkspaceConfiguration(server)(args2) // unregister
-              cleanDiagnostic <- getDiagnostics
-            } yield {
-              val firstDiagnostic =
-                diagnostics.diagnostics.find(d => d.range.start == Position(5, 6) && d.range.end == Position(6, 19))
-              if (firstDiagnostic.isEmpty) {
-                logger.error(s"Couldn't find first diagnostic:\n ${diagnostics.write}",
-                             "CustomValidationManagerTest",
-                             "Should notify errors")
-                fail("Couldn't find first diagnostic")
-              }
-              val diagnostic = firstDiagnostic.get
-              diagnostic.message should be("Scalars in parameters must have minLength defined")
-              diagnostic.range should be(Range(Position(5, 6), Position(6, 19)))
-              cleanDiagnostic.diagnostics
-                .filter(_.message == "Scalars in parameters must have minLength defined") should be(empty)
+        withServer(server, buildInitParams(workspacePath)) { server =>
+          for {
+            content         <- platform.fetchContent(isolatedFile, AMFGraphConfiguration.predefined()).map(_.toString())
+            _               <- openFile(server)(isolatedFile, content)
+            _               <- getDiagnostics                              // Open file
+            _               <- changeWorkspaceConfiguration(server)(args)  // register
+            _               <- validator.jsonLDValidatorExecutor.calledNTimes(1)
+            diagnostics     <- getDiagnostics
+            profile         <- platform.fetchContent(profileUri, AMFGraphConfiguration.predefined()).map(_.toString())
+            _               <- validator.jsonLDValidatorExecutor.called(profile, serializedIsolatedUri)
+            _               <- changeWorkspaceConfiguration(server)(args2) // unregister
+            cleanDiagnostic <- getDiagnostics
+          } yield {
+            val firstDiagnostic =
+              diagnostics.diagnostics.find(d => d.range.start == Position(5, 6) && d.range.end == Position(6, 19))
+            if (firstDiagnostic.isEmpty) {
+              logger.error(
+                s"Couldn't find first diagnostic:\n ${diagnostics.write}",
+                "CustomValidationManagerTest",
+                "Should notify errors"
+              )
+              fail("Couldn't find first diagnostic")
             }
+            val diagnostic = firstDiagnostic.get
+            diagnostic.message should be("Scalars in parameters must have minLength defined")
+            diagnostic.range should be(Range(Position(5, 6), Position(6, 19)))
+            cleanDiagnostic.diagnostics
+              .filter(_.message == "Scalars in parameters must have minLength defined") should be(empty)
+          }
         }
       })
   }

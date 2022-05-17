@@ -52,8 +52,11 @@ class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with Changes
           Some(AlsClientCapabilities(customValidations = Some(CustomValidationClientCapabilities(true)))),
           Some(TraceKind.Off),
           rootUri = Some(workspaceFolder)
-        ))
-      _ <- changeWorkspaceConfiguration(server)(changeConfigArgs(None, workspaceFolder, Set.empty, Set(profileUri))) // register profile
+        )
+      )
+      _ <- changeWorkspaceConfiguration(server)(
+        changeConfigArgs(None, workspaceFolder, Set.empty, Set(profileUri))
+      ) // register profile
       r <- runFor(relativeUri, workspaceFolder, prefix, diagnosticNotifier)
     } yield {
       r
@@ -62,10 +65,12 @@ class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with Changes
 
   private val extensions = Seq("data", "yaml", "json")
 
-  def runFor(relativeUri: String,
-             workspaceFolder: String,
-             prefix: String,
-             diagnosticNotifier: MockDiagnosticClientNotifier)(implicit server: LanguageServer): Future[Assertion] = {
+  def runFor(
+      relativeUri: String,
+      workspaceFolder: String,
+      prefix: String,
+      diagnosticNotifier: MockDiagnosticClientNotifier
+  )(implicit server: LanguageServer): Future[Assertion] = {
     val apiUri: String = extensions
       .map(e => s"$prefix.$e")
       .find(file => fs.syncFile(s"$relativeUri$file").exists)
@@ -81,9 +86,11 @@ class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with Changes
     }
   }
 
-  def validateUri(server: LanguageServer,
-                  notifier: MockDiagnosticClientNotifier,
-                  uri: String): Future[PublishDiagnosticsParams] =
+  def validateUri(
+      server: LanguageServer,
+      notifier: MockDiagnosticClientNotifier,
+      uri: String
+  ): Future[PublishDiagnosticsParams] =
     for {
       p          <- platform.fetchContent(uri, AMFGraphConfiguration.predefined())
       _          <- openFile(server)(uri, p.toString())
@@ -97,10 +104,12 @@ class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with Changes
     val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
     val dm      = builder.buildDiagnosticManagers(Some(ProfileValidatorNodeBuilder))
     val factory = builder.buildWorkspaceManagerFactory()
-    val b = new LanguageServerBuilder(factory.documentManager,
-                                      factory.workspaceManager,
-                                      factory.configurationManager,
-                                      factory.resolutionTaskManager)
+    val b = new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
     dm.foreach(m => b.addInitializableModule(m))
     b.build()
   }

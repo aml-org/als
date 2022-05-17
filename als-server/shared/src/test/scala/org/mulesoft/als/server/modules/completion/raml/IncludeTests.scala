@@ -7,13 +7,17 @@ class IncludeTests extends RAMLSuggestionTestServer {
   override implicit val executionContext = ExecutionContext.Implicits.global
 
   test("test01") {
-    runTest("includes/testGroup01/test01.raml",
-            Set("fragments/test Fragment.raml", "fragments/testFragment.raml", "fragments/testFragment2.raml"))
+    runTest(
+      "includes/testGroup01/test01.raml",
+      Set("fragments/test Fragment.raml", "fragments/testFragment.raml", "fragments/testFragment2.raml")
+    )
   }
 
   test("test02") {
-    runTest("includes/testGroup01/test02.raml",
-            Set("fragments/testFragment.raml", "fragments/test Fragment.raml", "fragments/testFragment2.raml"))
+    runTest(
+      "includes/testGroup01/test02.raml",
+      Set("fragments/testFragment.raml", "fragments/test Fragment.raml", "fragments/testFragment2.raml")
+    )
   }
 
   test("test03") {
@@ -25,8 +29,10 @@ class IncludeTests extends RAMLSuggestionTestServer {
   }
 
   test("test05") {
-    runTest("includes/testGroup01/test 05.raml",
-            Set("fragments/test Fragment.raml", "fragments/testFragment.raml", "fragments/testFragment2.raml"))
+    runTest(
+      "includes/testGroup01/test 05.raml",
+      Set("fragments/test Fragment.raml", "fragments/testFragment.raml", "fragments/testFragment2.raml")
+    )
   }
 
   test("test06") {

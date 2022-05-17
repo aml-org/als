@@ -22,14 +22,15 @@ object OasBaseUrlFieldSymbolBuilderCompanion
     with IriFieldSymbolBuilderCompanion {
   override val supportedIri: String = WebApiModel.Servers.value.iri()
 
-  override def construct(element: FieldEntry, value: AmfArray)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] =
+  override def construct(element: FieldEntry, value: AmfArray)(implicit
+      ctx: StructureContext
+  ): Option[FieldTypeSymbolBuilder[AmfArray]] =
     Some(new OasBaseUrlFieldSymbolBuilder(value, element))
 }
 
 class OasBaseUrlFieldSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
-    override implicit val ctx: StructureContext)
-    extends ArrayFieldTypeSymbolBuilder {
+    override implicit val ctx: StructureContext
+) extends ArrayFieldTypeSymbolBuilder {
   private val default = value.values.collectFirst({ case s: Server => s })
   override def build(): Seq[DocumentSymbol] = {
     default

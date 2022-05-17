@@ -22,11 +22,12 @@ class FilesInProjectManager(clientNotifier: AlsClientNotifier[_])
 
   override def initialize(): Future[Unit] = Future.unit
 
-  /**
-    * Called on new AST available
+  /** Called on new AST available
     *
-    * @param ast  - AST
-    * @param uuid - telemetry UUID
+    * @param ast
+    *   \- AST
+    * @param uuid
+    *   \- telemetry UUID
     */
   override def onNewAst(ast: BaseUnitListenerParams, uuid: String): Future[Unit] = synchronized {
     Future.successful {

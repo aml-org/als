@@ -30,7 +30,8 @@ abstract class AbstractRuntimeExpressionsCompletionPlugin extends AMLCompletionP
       case None        => parser.possibleApplications
     }).map { s =>
       val pre = v.stripSuffix(
-        parser.completeStack.collectFirst { case i: InvalidExpressionToken => i }.map(_.value).getOrElse(""))
+        parser.completeStack.collectFirst { case i: InvalidExpressionToken => i }.map(_.value).getOrElse("")
+      )
       val displayText = pre.concat(s).stripPrefix(nonExpressionPrefix)
       RawSuggestion(s"$pre$s", displayText, isAKey = false, "RuntimeExpression", mandatory = false)
     }

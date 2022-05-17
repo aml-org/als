@@ -18,7 +18,7 @@ trait IndexGlobalDialectTest extends ServerIndexGlobalDialectCommand {
 
   override def rootPath: String = "config-provider"
 
-  val dialect: String       = """#%Dialect 1.0
+  val dialect: String = """#%Dialect 1.0
                   |dialect: Test
                   |version: 2
                   |external:
@@ -56,10 +56,11 @@ trait IndexGlobalDialectTest extends ServerIndexGlobalDialectCommand {
     val (server, wm) = buildServer(notifier)
     withServer(
       server,
-      AlsInitializeParams(Some(AlsClientCapabilities()),
-                          Some(TraceKind.Off),
-                          workspaceFolders =
-                            Some(Seq(WorkspaceFolder(filePath("ws1")), WorkspaceFolder(filePath("ws2")))))
+      AlsInitializeParams(
+        Some(AlsClientCapabilities()),
+        Some(TraceKind.Off),
+        workspaceFolders = Some(Seq(WorkspaceFolder(filePath("ws1")), WorkspaceFolder(filePath("ws2"))))
+      )
     )(s => {
       for {
         _  <- openFile(s)(instance1Path, instance1)
@@ -89,10 +90,14 @@ trait IndexGlobalDialectTest extends ServerIndexGlobalDialectCommand {
   test("Global dialect is immutable") {
     val notifier     = new MockDiagnosticClientNotifier(3000)
     val (server, wm) = buildServer(notifier)
-    withServer(server,
-               AlsInitializeParams(Some(AlsClientCapabilities()),
-                                   Some(TraceKind.Off),
-                                   workspaceFolders = Some(Seq(WorkspaceFolder(filePath("ws1"))))))(s => {
+    withServer(
+      server,
+      AlsInitializeParams(
+        Some(AlsClientCapabilities()),
+        Some(TraceKind.Off),
+        workspaceFolders = Some(Seq(WorkspaceFolder(filePath("ws1"))))
+      )
+    )(s => {
       for {
         _  <- openFile(s)(dialectPath, dialect)
         _  <- indexGlobalDialect(s, dialectPath, dialect)
@@ -117,10 +122,14 @@ trait IndexGlobalDialectTest extends ServerIndexGlobalDialectCommand {
   test("Index global dialect will update when registering again") {
     val notifier     = new MockDiagnosticClientNotifier(3000)
     val (server, wm) = buildServer(notifier)
-    withServer(server,
-               AlsInitializeParams(Some(AlsClientCapabilities()),
-                                   Some(TraceKind.Off),
-                                   workspaceFolders = Some(Seq(WorkspaceFolder(filePath("ws1"))))))(s => {
+    withServer(
+      server,
+      AlsInitializeParams(
+        Some(AlsClientCapabilities()),
+        Some(TraceKind.Off),
+        workspaceFolders = Some(Seq(WorkspaceFolder(filePath("ws1"))))
+      )
+    )(s => {
       for {
         _  <- indexGlobalDialect(s, dialectPath, dialect)
         _  <- openFile(s)(instance1Path, instance1)
@@ -146,10 +155,14 @@ trait IndexGlobalDialectTest extends ServerIndexGlobalDialectCommand {
   test("Index global dialect will read from fs") {
     val notifier     = new MockDiagnosticClientNotifier(3000)
     val (server, wm) = buildServer(notifier)
-    withServer(server,
-               AlsInitializeParams(Some(AlsClientCapabilities()),
-                                   Some(TraceKind.Off),
-                                   workspaceFolders = Some(Seq(WorkspaceFolder(filePath("ws1"))))))(s => {
+    withServer(
+      server,
+      AlsInitializeParams(
+        Some(AlsClientCapabilities()),
+        Some(TraceKind.Off),
+        workspaceFolders = Some(Seq(WorkspaceFolder(filePath("ws1"))))
+      )
+    )(s => {
       for {
         _  <- indexGlobalDialect(s, dialectPath)
         _  <- openFile(s)(instance1Path, instance1)
@@ -166,10 +179,14 @@ trait IndexGlobalDialectTest extends ServerIndexGlobalDialectCommand {
   test("Index global dialect will read from environment provider") {
     val notifier     = new MockDiagnosticClientNotifier(3000)
     val (server, wm) = buildServer(notifier)
-    withServer(server,
-               AlsInitializeParams(Some(AlsClientCapabilities()),
-                                   Some(TraceKind.Off),
-                                   workspaceFolders = Some(Seq(WorkspaceFolder(filePath("ws1"))))))(s => {
+    withServer(
+      server,
+      AlsInitializeParams(
+        Some(AlsClientCapabilities()),
+        Some(TraceKind.Off),
+        workspaceFolders = Some(Seq(WorkspaceFolder(filePath("ws1"))))
+      )
+    )(s => {
       for {
         _  <- indexGlobalDialect(s, dialectPath)
         _  <- openFile(s)(instance1Path, instance1)
@@ -195,10 +212,12 @@ trait IndexGlobalDialectTest extends ServerIndexGlobalDialectCommand {
     val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
     val dm      = builder.buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
-    val b = new LanguageServerBuilder(factory.documentManager,
-                                      factory.workspaceManager,
-                                      factory.configurationManager,
-                                      factory.resolutionTaskManager)
+    val b = new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
     dm.foreach(m => b.addInitializableModule(m))
     (b.build(), factory.workspaceManager)
   }

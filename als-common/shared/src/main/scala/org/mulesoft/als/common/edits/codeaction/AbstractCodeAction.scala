@@ -4,10 +4,12 @@ import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
 import org.mulesoft.lsp.feature.codeactions.CodeAction
 import org.mulesoft.lsp.feature.codeactions.CodeActionKind.CodeActionKind
 
-case class AbstractCodeAction(title: String,
-                              kind: Option[CodeActionKind],
-                              isPreferred: Option[Boolean],
-                              edit: Option[AbstractWorkspaceEdit]) {
+case class AbstractCodeAction(
+    title: String,
+    kind: Option[CodeActionKind],
+    isPreferred: Option[Boolean],
+    edit: Option[AbstractWorkspaceEdit]
+) {
   def needsWorkspaceEdit: Boolean = edit.exists(_.needsDocumentChanges)
 
   def toCodeAction(supportsDC: Boolean): CodeAction =

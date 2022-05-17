@@ -14,8 +14,8 @@ object BaseUnitSymbolBuilderCompanion extends AmfObjectSimpleBuilderCompanion[Ba
 
   override def getType: Class[_] = classOf[BaseUnit]
 
-  override protected def construct(element: BaseUnit)(
-      implicit ctx: StructureContext): Option[SymbolBuilder[BaseUnit]] = Some(new BaseUnitSymbolBuilder(element))
+  override protected def construct(element: BaseUnit)(implicit ctx: StructureContext): Option[SymbolBuilder[BaseUnit]] =
+    Some(new BaseUnitSymbolBuilder(element))
 }
 
 class BaseUnitSymbolBuilder(override val element: BaseUnit)(override implicit val ctx: StructureContext)

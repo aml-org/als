@@ -15,12 +15,16 @@ trait BaseHoverTest extends FileAssertionTest {
   protected val printRange: Boolean = false
   protected def renderHoverResult(hovers: Seq[PositionedHover]): String = {
     val doc = YDocument.objFromBuilder(e => {
-      e.entry("hovers", p => {
-        p.obj(eb =>
-          hovers.foreach { hp =>
-            if (printRange) hp.addEntryWithRange(eb) else hp.addEntry(eb)
-        })
-      })
+      e.entry(
+        "hovers",
+        p => {
+          p.obj(eb =>
+            hovers.foreach { hp =>
+              if (printRange) hp.addEntryWithRange(eb) else hp.addEntry(eb)
+            }
+          )
+        }
+      )
     })
     YamlRender.render(doc)
   }
@@ -36,9 +40,12 @@ trait BaseHoverTest extends FileAssertionTest {
 
 case class PositionedHover(position: Position, h: Hover) {
   def addEntry(b: EntryBuilder): Unit = {
-    b.entry(position.toAmfPosition.toString, pb => {
-      pb.list(inner => h.contents.foreach(c => inner += c))
-    })
+    b.entry(
+      position.toAmfPosition.toString,
+      pb => {
+        pb.list(inner => h.contents.foreach(c => inner += c))
+      }
+    )
   }
 
   def addEntryWithRange(b: EntryBuilder): Unit = {
@@ -47,9 +54,12 @@ case class PositionedHover(position: Position, h: Hover) {
       pb => {
         pb.obj(eb => {
           h.range.foreach(r => eb.entry("range", r.toString))
-          eb.entry("contents", lb => {
-            lb.list(inner => h.contents.foreach(c => inner += c))
-          })
+          eb.entry(
+            "contents",
+            lb => {
+              lb.list(inner => h.contents.foreach(c => inner += c))
+            }
+          )
         })
       }
     )

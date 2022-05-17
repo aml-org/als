@@ -18,12 +18,12 @@ import scala.concurrent.Future
 
 object MetaDialectDocumentsCompletionPlugin extends ResolveIfApplies with BooleanSuggestions with EnumSuggestions {
 
-  lazy val documents: Map[String, NodeMapping] = DocumentsObjectNode.properties.foldLeft(Map[String, NodeMapping]())({
-    case (acc, pm) =>
+  lazy val documents: Map[String, NodeMapping] =
+    DocumentsObjectNode.properties.foldLeft(Map[String, NodeMapping]())({ case (acc, pm) =>
       getDeclaredNode(MetaDialect(), pm.objectRange().head.value())
         .map(nm => acc + (pm.name().value() -> nm))
         .getOrElse(acc)
-  })
+    })
 
   override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] = {
     request.amfObject match {
@@ -49,15 +49,18 @@ object MetaDialectDocumentsCompletionPlugin extends ResolveIfApplies with Boolea
       case declaration: NodeMapping if declaration.id == id => declaration
     })
 
-  def suggestDocumentKeys(amfObject: AmfObject,
-                          yPartBranch: YPartBranch,
-                          dialect: Dialect): Option[Future[Seq[RawSuggestion]]] = {
+  def suggestDocumentKeys(
+      amfObject: AmfObject,
+      yPartBranch: YPartBranch,
+      dialect: Dialect
+  ): Option[Future[Seq[RawSuggestion]]] = {
     documents
       .collectFirst { case (key, mapping) if yPartBranch.parentEntryIs(key) => mapping }
       .map(a =>
         Future {
           new AMLStructureCompletionsPlugin(a.propertiesMapping(), dialect).resolve(amfObject.metaURIs.head)
-      })
+        }
+      )
   }
 
   def suggestValuesForDocumentKey(yPartBranch: YPartBranch, fieldEntry: FieldEntry): Future[Seq[RawSuggestion]] = {
@@ -70,10 +73,11 @@ object MetaDialectDocumentsCompletionPlugin extends ResolveIfApplies with Boolea
             nm.flatMap(_.propertiesMapping().find(_.nodePropertyMapping().value() == fieldEntry.field.value.iri()))
           optionalMapping match {
             case Some(pm) if pm.literalRange().option().contains(XsdTypes.xsdBoolean.iri()) => booleanSuggestions
-            case Some(pm) if pm.enum().nonEmpty                                             => suggestMappingWithEnum(pm)
-            case _                                                                          => Seq.empty
+            case Some(pm) if pm.enum().nonEmpty => suggestMappingWithEnum(pm)
+            case _                              => Seq.empty
           }
-      })
+        }
+      )
       .getOrElse(Future.successful(Seq.empty))
   }
 }

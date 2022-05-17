@@ -25,7 +25,8 @@ object ServerBindingsSymbolBuilderCompanion extends AmfObjectSimpleBuilderCompan
 
   override def getType: Class[_] = classOf[ServerBindings]
 
-  override protected def construct(element: ServerBindings)(
-      implicit ctx: StructureContext): Option[SymbolBuilder[ServerBindings]] =
+  override protected def construct(element: ServerBindings)(implicit
+      ctx: StructureContext
+  ): Option[SymbolBuilder[ServerBindings]] =
     Some(new ServerBindingsSymbolBuilder(element))
 }

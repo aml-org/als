@@ -34,10 +34,12 @@ class CodeActionsWithPositionMarkerTest extends ServerWithMarkerTest[Seq[CodeAct
         logger,
         factory.directoryResolver
       )
-    new LanguageServerBuilder(factory.documentManager,
-                              factory.workspaceManager,
-                              factory.configurationManager,
-                              factory.resolutionTaskManager)
+    new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
       .addRequestModule(codeActionManager)
       .build()
   }
@@ -71,8 +73,8 @@ class CodeActionsWithPositionMarkerTest extends ServerWithMarkerTest[Seq[CodeAct
     val position = LspRangeConverter.toLspPosition(markerInfo.position)
 
     handler(CodeActionParams(TextDocumentIdentifier(path), Range(position, position), CodeActionContext(Nil, None)))
-      .andThen({
-        case _ => closeFile(server)(path)
+      .andThen({ case _ =>
+        closeFile(server)(path)
       })
   }
 }

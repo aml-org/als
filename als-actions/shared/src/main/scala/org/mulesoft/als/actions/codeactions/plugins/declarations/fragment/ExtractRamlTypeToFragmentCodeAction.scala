@@ -27,18 +27,20 @@ case class ExtractRamlTypeToFragmentCodeAction(params: CodeActionRequestParams)
 
   override lazy val isApplicable: Boolean =
     spec.isRaml && positionIsExtracted &&
-      amfObject.exists(
-        o =>
-          ExtractorCommon
-            .declarationPath(o, params.alsConfigurationState.definitionFor(spec).getOrElse(params.definedBy)) == Seq(
-            "types"))
+      amfObject.exists(o =>
+        ExtractorCommon
+          .declarationPath(o, params.alsConfigurationState.definitionFor(spec).getOrElse(params.definedBy)) == Seq(
+          "types"
+        )
+      )
 
   override protected def telemetry: TelemetryProvider = params.telemetryProvider
 
   override lazy val linkEntry: Future[Option[TextEdit]] =
     renderLink.map(
       RamlTypeExtractor
-        .linkEntry(entryRange, _, entryAst, yPartBranch, amfObject, params.configuration, newName, yamlOptions))
+        .linkEntry(entryRange, _, entryAst, yPartBranch, amfObject, params.configuration, newName, yamlOptions)
+    )
 
   override protected val findDialectForSemantic: String => Option[(SemanticExtension, Dialect)] =
     params.findDialectForSemantic

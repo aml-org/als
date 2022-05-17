@@ -20,7 +20,8 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
       .map(s =>
         if (s.startsWith("\"") && s.endsWith("\"")) {
           s.substring(1, s.length - 1)
-        } else s)
+        } else s
+      )
 
   override protected def buildParamFromMap(m: YMap): Option[DidChangeConfigurationNotificationParams] = {
     val mainPath: Option[String] = m.key("mainPath").flatMap(e => e.value.toOption[String])
@@ -29,9 +30,11 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
       .flatMap(e => e.value.toOption[String])
       .orElse(mainPath)
       .getOrElse({
-        logger.error("Change configuration command with no folder value or mainPath",
-                     "DidChangeConfigurationCommandExecutor",
-                     "buildParamFromMap")
+        logger.error(
+          "Change configuration command with no folder value or mainPath",
+          "DidChangeConfigurationCommandExecutor",
+          "buildParamFromMap"
+        )
         ""
       })
     val dependencies: Set[Either[String, DependencyConfiguration]] =
@@ -41,8 +44,10 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
   }
 
   private def extractDependencyConfiguration(m: YMap): DependencyConfiguration = {
-    DependencyConfiguration(m.key("file").flatMap(_.value.toOption[String]).getOrElse(""),
-                            m.key("scope").flatMap(_.value.toOption[String]).getOrElse(""))
+    DependencyConfiguration(
+      m.key("file").flatMap(_.value.toOption[String]).getOrElse(""),
+      m.key("scope").flatMap(_.value.toOption[String]).getOrElse("")
+    )
 
   }
 
@@ -72,7 +77,8 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
         param.mainPath,
         param.dependencies
           .filterNot(d =>
-            d.isRight && d.right.exists(r => Set(CUSTOM_VALIDATION, SEMANTIC_EXTENSION, DIALECT).contains(r.scope)))
+            d.isRight && d.right.exists(r => Set(CUSTOM_VALIDATION, SEMANTIC_EXTENSION, DIALECT).contains(r.scope))
+          )
           .map {
             case Left(v)  => v
             case Right(v) => v.file

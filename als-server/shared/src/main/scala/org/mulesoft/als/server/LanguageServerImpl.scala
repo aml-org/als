@@ -13,13 +13,14 @@ import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class LanguageServerImpl(val textDocumentSyncConsumer: AlsTextDocumentSyncConsumer,
-                         val workspaceService: AlsWorkspaceService,
-                         protected val configuration: ConfigurationManager,
-                         protected val languageServerInitializer: LanguageServerInitializer,
-                         protected val requestHandlerMap: RequestMap,
-                         logger: Logger)
-    extends LanguageServer {
+class LanguageServerImpl(
+    val textDocumentSyncConsumer: AlsTextDocumentSyncConsumer,
+    val workspaceService: AlsWorkspaceService,
+    protected val configuration: ConfigurationManager,
+    protected val languageServerInitializer: LanguageServerInitializer,
+    protected val requestHandlerMap: RequestMap,
+    logger: Logger
+) extends LanguageServer {
 
   override def initialize(params: AlsInitializeParams): Future[AlsInitializeResult] = {
     logParams(params)
@@ -31,13 +32,15 @@ class LanguageServerImpl(val textDocumentSyncConsumer: AlsTextDocumentSyncConsum
           Map(),
           c.getTemplateType,
           c.getShouldPrettyPrintSerialization
-        ))
+        )
+      )
     })
     configuration.updateDocumentChangesSupport(
-      params.capabilities.workspace.flatMap(_.workspaceEdit).flatMap(_.documentChanges).contains(true))
+      params.capabilities.workspace.flatMap(_.workspaceEdit).flatMap(_.documentChanges).contains(true)
+    )
 
     languageServerInitializer.initialize(params).flatMap { p =>
-      val root: Option[String]                   = params.rootUri.flatMap(Option(_)).flatMap(rootUriIfValid).orElse(params.rootPath)
+      val root: Option[String] = params.rootUri.flatMap(Option(_)).flatMap(rootUriIfValid).orElse(params.rootPath)
       val workspaceFolders: Seq[WorkspaceFolder] = params.workspaceFolders.getOrElse(List())
       workspaceService
         .initialize((workspaceFolders :+ WorkspaceFolder(root, None)).toList)
@@ -53,15 +56,16 @@ class LanguageServerImpl(val textDocumentSyncConsumer: AlsTextDocumentSyncConsum
     logger.debug(s"rootUri: ${params.rootUri}", "LanguageServerImpl", "logParams")
     logger.debug(s"rootPath: ${params.rootPath}", "LanguageServerImpl", "logParams")
     logger.debug(s"workspaceFolders: ${params.workspaceFolders.getOrElse(Seq())}", "LanguageServerImpl", "logParams")
-    logger.debug(s"configuration: ${params.configuration.map(_.toString).getOrElse("")}",
-                 "LanguageServerImpl",
-                 "logParams")
+    logger.debug(
+      s"configuration: ${params.configuration.map(_.toString).getOrElse("")}",
+      "LanguageServerImpl",
+      "logParams"
+    )
     logger.debug(s"capabilities: ${params.capabilities.toString}", "LanguageServerImpl", "logParams")
     logger.debug(s"hotReload: ${params.hotReload}", "LanguageServerImpl", "logParams")
   }
 
-  /**
-    * if it is not a valid URI and a local file which we and AMF understand (file:), ignore it
+  /** if it is not a valid URI and a local file which we and AMF understand (file:), ignore it
     * @param rootUri
     * @return
     */

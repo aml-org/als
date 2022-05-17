@@ -16,10 +16,10 @@ trait AbstractTestClientNotifier[T] extends SyncFunction {
   val promises: mutable.Queue[Promise[T]] = mutable.Queue.empty
 
   def notify(msg: T): Unit =
-    sync(
-      () =>
-        if (promises.forall(_.isCompleted)) promises.enqueue(Promise[T].success(msg))
-        else promises.dequeueFirst(!_.isCompleted).map(_.success(msg)))
+    sync(() =>
+      if (promises.forall(_.isCompleted)) promises.enqueue(Promise[T].success(msg))
+      else promises.dequeueFirst(!_.isCompleted).map(_.success(msg))
+    )
 
   def nextCall: Future[T] =
     sync(() =>
@@ -27,7 +27,8 @@ trait AbstractTestClientNotifier[T] extends SyncFunction {
         val promise = Promise[T]()
         promises.enqueue(promise)
         promise.future
-      } else promises.dequeue().future) match {
+      } else promises.dequeue().future
+    ) match {
       case r: Future[T] => r
       case _            => Future.failed(new Exception("Wrong notification"))
     }
@@ -41,16 +42,16 @@ class MockCompleteClientNotifier(val timeoutMillis: Int = 1000)
   val promisesD: mutable.Queue[Promise[PublishDiagnosticsParams]] = mutable.Queue.empty
 
   override def notifyDiagnostic(params: PublishDiagnosticsParams): Unit =
-    sync(
-      () =>
-        if (promisesD.forall(_.isCompleted)) promisesD.enqueue(Promise[PublishDiagnosticsParams].success(params))
-        else promisesD.dequeueFirst(!_.isCompleted).map(_.success(params)))
+    sync(() =>
+      if (promisesD.forall(_.isCompleted)) promisesD.enqueue(Promise[PublishDiagnosticsParams].success(params))
+      else promisesD.dequeueFirst(!_.isCompleted).map(_.success(params))
+    )
 
   override def notifyTelemetry(params: TelemetryMessage): Unit =
-    sync(
-      () =>
-        if (promisesT.forall(_.isCompleted)) promisesT.enqueue(Promise[TelemetryMessage].success(params))
-        else promisesT.dequeueFirst(!_.isCompleted).map(_.success(params)))
+    sync(() =>
+      if (promisesT.forall(_.isCompleted)) promisesT.enqueue(Promise[TelemetryMessage].success(params))
+      else promisesT.dequeueFirst(!_.isCompleted).map(_.success(params))
+    )
 
   def nextCallT: Future[TelemetryMessage] =
     timeoutFuture(
@@ -59,7 +60,8 @@ class MockCompleteClientNotifier(val timeoutMillis: Int = 1000)
           val promise = Promise[TelemetryMessage]()
           promisesT.enqueue(promise)
           promise.future
-        } else promisesT.dequeue().future) match {
+        } else promisesT.dequeue().future
+      ) match {
         case r: Future[TelemetryMessage] => r
         case _                           => Future.failed(new Exception("Wrong notification"))
       },
@@ -73,7 +75,8 @@ class MockCompleteClientNotifier(val timeoutMillis: Int = 1000)
           val promise = Promise[PublishDiagnosticsParams]()
           promisesD.enqueue(promise)
           promise.future
-        } else promisesD.dequeue().future) match {
+        } else promisesD.dequeue().future
+      ) match {
         case r: Future[PublishDiagnosticsParams] => r
         case _                                   => Future.failed(new Exception("Wrong notification"))
       },

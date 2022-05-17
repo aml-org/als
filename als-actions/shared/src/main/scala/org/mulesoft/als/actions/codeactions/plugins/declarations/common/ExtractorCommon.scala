@@ -9,22 +9,23 @@ import org.mulesoft.als.common.YamlUtils.isJson
 import org.mulesoft.als.common.YamlWrapper.YNodeImplicits
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.configuration.AlsConfigurationReader
+import org.mulesoft.als.declarations.DeclarationCreator
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, AmfObjectImp, BaseUnitImp}
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.yaml.model._
 import org.yaml.render.{JsonRender, JsonRenderOptions, YamlRender, YamlRenderOptions}
 
-import scala.annotation.tailrec
-
-object ExtractorCommon {
+object ExtractorCommon extends DeclarationCreator {
 
   def existAnyOtherDeclaration(objs: Seq[AmfObject], bu: BaseUnit): Boolean =
     !bu.declarations.forall(objs.contains)
 
-  def existAnyDeclaration(objs: Seq[AmfObject],
-                          yPartBranch: Option[YPartBranch],
-                          bu: BaseUnit,
-                          dialect: Dialect): Seq[PositionRange] =
+  def existAnyDeclaration(
+      objs: Seq[AmfObject],
+      yPartBranch: Option[YPartBranch],
+      bu: BaseUnit,
+      dialect: Dialect
+  ): Seq[PositionRange] =
     if (!existAnyOtherDeclaration(objs, bu))
       deleteAll(objs, yPartBranch, bu, dialect)
     else deleteDeclarationGroup(objs, bu, dialect)
@@ -55,33 +56,37 @@ object ExtractorCommon {
               else None
             }
             .getOrElse(objsInDk.flatMap(_.annotations.ast().map(_.range)))
-        } else objs.flatMap(_.annotations.ast().map(_.range))
+        }
+      else objs.flatMap(_.annotations.ast().map(_.range))
 
     allRanges.map(PositionRange(_)).toSeq
   }
 
-  /**
-    * Emit declared element
+  /** Emit declared element
     * @param amfObject
-    * @return Element as YNode
+    * @return
+    *   Element as YNode
     */
-  def declaredElementNode(amfObject: Option[AmfObject],
-                          dialect: Dialect,
-                          alsConfigurationState: ALSConfigurationState): Option[YNode] =
+  def declaredElementNode(
+      amfObject: Option[AmfObject],
+      dialect: Dialect,
+      alsConfigurationState: ALSConfigurationState
+  ): Option[YNode] =
     amfObject
-      .collect {
-        case e: DomainElement => alsConfigurationState.configForDialect(dialect).emit(e)
+      .collect { case e: DomainElement =>
+        alsConfigurationState.configForDialect(dialect).emit(e)
       }
 
-  /**
-    * The complete node and the entry where it belongs, contemplating the path for the declaration and existing AST
+  /** The complete node and the entry where it belongs, contemplating the path for the declaration and existing AST
     */
-  def wrappedDeclaredEntry(amfObject: Option[AmfObject],
-                           dialect: Dialect,
-                           bu: BaseUnit,
-                           uri: String,
-                           newName: String,
-                           alsConfigurationState: ALSConfigurationState): Option[(YNode, Option[YMapEntry])] =
+  def wrappedDeclaredEntry(
+      amfObject: Option[AmfObject],
+      dialect: Dialect,
+      bu: BaseUnit,
+      uri: String,
+      newName: String,
+      alsConfigurationState: ALSConfigurationState
+  ): Option[(YNode, Option[YMapEntry])] =
     (declaredElementNode(amfObject, dialect, alsConfigurationState), amfObject, dialect) match {
       case (Some(den), Some(fdp), dialect) =>
         var fullPath                = den.withKey(newName)
@@ -94,67 +99,20 @@ object ExtractorCommon {
       case _ => None
     }
 
-  def findExistingKeyPart(bu: BaseUnit, uri: String, keyPath: Seq[String]): Seq[YMapEntry] = {
-    val maybePart = bu.references
-      .find(_.location().contains(uri))
-      .getOrElse(bu)
-      .objWithAST
-      .flatMap(_.annotations.ast())
-    val entries = getExistingParts(maybePart, keyPath)
-    entries
-  }
-
-  def declarationPath(fdp: AmfObject, dialect: Dialect): Seq[String] =
-    Seq(fdp.declarableKey(dialect), declarationPathForDialect(dialect)).flatten
-
-  def declarationPathForDialect(dialect: Dialect): Option[String] =
-    dialect.documents().declarationsPath().option()
-
-  /**
-    * Secuential list for each node in the AST that already exists for the destiny
-    *
-    * @param maybePart
-    * @param keys
-    * @return
+  /** Render for the new declaration, and the top entry on which it should be nested
     */
-  private def getExistingParts(maybePart: Option[YPart], keys: Seq[String]): Seq[YMapEntry] =
-    maybePart match {
-      case Some(n: YMap) => getExistingParts(YNode(n), keys.reverse, Seq.empty)
-      case Some(d: YDocument) =>
-        getExistingParts(d.node, keys.reverse, Seq.empty)
-      case _ => Seq.empty
-    }
-
-  @tailrec
-  private def getExistingParts(node: YNode, keys: Seq[String], acc: Seq[YMapEntry] = Seq.empty): Seq[YMapEntry] =
-    keys match {
-      case head :: _ =>
-        node.value match {
-          case m: YMap =>
-            val maybeEntry = m.entries
-              .find(_.key.asScalar.exists(_.text == head))
-            maybeEntry match { // with match instead of map for tailrec optimization
-              case Some(v) => getExistingParts(v.value, keys.tail, acc :+ v)
-              case None    => acc
-            }
-          case _ => acc
-        }
-      case _ => acc
-    }
-
-  /**
-    * Render for the new declaration, and the top entry on which it should be nested
-    */
-  def declaredEntry(amfObject: Option[AmfObject],
-                    dialect: Dialect,
-                    bu: BaseUnit,
-                    uri: String,
-                    newName: String,
-                    configurationReader: AlsConfigurationReader,
-                    jsonOptions: JsonRenderOptions,
-                    yamlOptions: YamlRenderOptions,
-                    alsConfigurationState: ALSConfigurationState): Option[(String, Option[YMapEntry])] = {
-    val wrapped                        = wrappedDeclaredEntry(amfObject, dialect, bu, uri, newName, alsConfigurationState)
+  def declaredEntry(
+      amfObject: Option[AmfObject],
+      dialect: Dialect,
+      bu: BaseUnit,
+      uri: String,
+      newName: String,
+      configurationReader: AlsConfigurationReader,
+      jsonOptions: JsonRenderOptions,
+      yamlOptions: YamlRenderOptions,
+      alsConfigurationState: ALSConfigurationState
+  ): Option[(String, Option[YMapEntry])] = {
+    val wrapped = wrappedDeclaredEntry(amfObject, dialect, bu, uri, newName, alsConfigurationState)
     val maybeParent: Option[YMapEntry] = wrapped.flatMap(_._2)
     wrapped
       .map(_._1)
@@ -163,12 +121,14 @@ object ExtractorCommon {
       }
   }
 
-  def renderNode(node: YNode,
-                 maybeParent: Option[YMapEntry],
-                 bu: BaseUnit,
-                 configurationReader: AlsConfigurationReader,
-                 jsonOptions: JsonRenderOptions,
-                 yamlOptions: YamlRenderOptions): (String, Option[YMapEntry]) = {
+  def renderNode(
+      node: YNode,
+      maybeParent: Option[YMapEntry],
+      bu: BaseUnit,
+      configurationReader: AlsConfigurationReader,
+      jsonOptions: JsonRenderOptions,
+      yamlOptions: YamlRenderOptions
+  ): (String, Option[YMapEntry]) = {
     if (isJson(bu)) {
       renderJson(configurationReader, jsonOptions, maybeParent, node)
     } else {
@@ -178,10 +138,12 @@ object ExtractorCommon {
     }
   }
 
-  private def renderJson(configurationReader: AlsConfigurationReader,
-                         jsonOptions: JsonRenderOptions,
-                         maybeParent: Option[YMapEntry],
-                         node: YNode) = {
+  private def renderJson(
+      configurationReader: AlsConfigurationReader,
+      jsonOptions: JsonRenderOptions,
+      maybeParent: Option[YMapEntry],
+      node: YNode
+  ) = {
     val toRender = node.value match {
       case m: YMap => m.entries.headOption.getOrElse(node)
       case _       => node
@@ -199,28 +161,18 @@ object ExtractorCommon {
     (renderedChild, maybeParent)
   }
 
-  /**
-    * Current indentation
+  /** Current indentation
     *
     * @param mime
     * @param maybeParent
     * @return
     */
-  private def getIndentation(mime: String,
-                             maybeParent: Option[YMapEntry],
-                             configuration: AlsConfigurationReader): Int =
+  private def getIndentation(mime: String, maybeParent: Option[YMapEntry], configuration: AlsConfigurationReader): Int =
     maybeParent
       .map(
         _.key.range.columnFrom + configuration
           .getFormatOptionForMime(mime)
-          .tabSize)
+          .tabSize
+      )
       .getOrElse(0)
-
-  @tailrec
-  def nameNotInList(baseName: String, existing: Set[String], c: Option[Int] = None): String = {
-    val maybeName = s"$baseName${c.getOrElse("")}"
-    if (existing.contains(maybeName))
-      nameNotInList(baseName, existing, Some(c.getOrElse(0) + 1))
-    else maybeName
-  }
 }

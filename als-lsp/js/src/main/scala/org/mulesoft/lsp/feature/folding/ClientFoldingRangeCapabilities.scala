@@ -8,8 +8,8 @@ import scala.scalajs.js.JSConverters._
 @js.native
 trait ClientFoldingRangeCapabilities extends js.Object {
   def dynamicRegistration: js.UndefOr[Boolean] = js.native
-  def rangeLimit: js.UndefOr[Int] = js.native
-  def lineFoldingOnly: js.UndefOr[Boolean] = js.native
+  def rangeLimit: js.UndefOr[Int]              = js.native
+  def lineFoldingOnly: js.UndefOr[Boolean]     = js.native
 }
 
 object ClientFoldingRangeCapabilities {
@@ -18,10 +18,9 @@ object ClientFoldingRangeCapabilities {
       .literal(
         dynamicRegistration = internal.dynamicRegistration.orUndefined,
         rangeLimit = internal.rangeLimit.orUndefined,
-        lineFoldingOnly = internal.lineFoldingOnly.orUndefined,
+        lineFoldingOnly = internal.lineFoldingOnly.orUndefined
       )
       .asInstanceOf[ClientFoldingRangeCapabilities]
 }
-
 
 // $COVERAGE-ON$

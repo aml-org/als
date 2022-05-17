@@ -17,15 +17,17 @@ trait DeclarationWrapper {
 
   val declarationKey: String
 
-  def wrapDeclaration(amfObject: Option[AmfObject],
-                      newName: String,
-                      bu: BaseUnit,
-                      uri: String,
-                      dialect: Dialect,
-                      configurationReader: AlsConfigurationReader,
-                      jsonOptions: JsonRenderOptions,
-                      yamlOptions: YamlRenderOptions,
-                      alsConfigurationState: ALSConfigurationState): Option[(String, Option[YMapEntry])] = {
+  def wrapDeclaration(
+      amfObject: Option[AmfObject],
+      newName: String,
+      bu: BaseUnit,
+      uri: String,
+      dialect: Dialect,
+      configurationReader: AlsConfigurationReader,
+      jsonOptions: JsonRenderOptions,
+      yamlOptions: YamlRenderOptions,
+      alsConfigurationState: ALSConfigurationState
+  ): Option[(String, Option[YMapEntry])] = {
     val existingDeclaration = ExtractorCommon.findExistingKeyPart(bu, uri, Seq(declarationKey))
     declaredElementNode(amfObject, dialect, alsConfigurationState)
       .map(node => {

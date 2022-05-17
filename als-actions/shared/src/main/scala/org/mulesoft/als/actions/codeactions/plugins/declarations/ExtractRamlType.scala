@@ -13,14 +13,12 @@ trait ExtractRamlType extends BaseElementDeclarableExtractors {
   protected def extractRamlType: Option[AmfObject] =
     extractJsonSchema(maybeTree, params.definedBy) orElse extractAmfObject(maybeTree, params.definedBy)
 
-  /**
-    * Get the RAML type definition that encapsulates the Json schema, not the Json schema shape
+  /** Get the RAML type definition that encapsulates the Json schema, not the Json schema shape
     */
   protected override def extractable(maybeObject: Option[AmfObject], dialect: Dialect): Option[AmfObject] =
     super.extractable(maybeObject, dialect).filterNot(_.annotations.schemeIsJsonSchema)
 
-  /**
-    * Extract Json schema as a whole, do not allow to extract individual properties
+  /** Extract Json schema as a whole, do not allow to extract individual properties
     */
   private def extractJsonSchema(maybeTree: Option[ObjectInTree], dialect: Dialect): Option[AmfObject] =
     extractable(maybeTree.flatMap(_.stack.dropWhile(!_.annotations.schemeIsJsonSchema).drop(1).headOption), dialect)

@@ -2,10 +2,11 @@ package org.mulesoft.als.configuration
 
 import org.mulesoft.lsp.configuration.{DefaultFormattingOptions, FormatOptions, FormattingOptions}
 
-case class AlsConfiguration(private var formattingOptions: Map[String, FormattingOptions] = Map(),
-                            private var templateType: TemplateTypes.TemplateTypes = TemplateTypes.BOTH,
-                            private var prettyPrintSerialization: Boolean = false)
-    extends AlsConfigurationReader {
+case class AlsConfiguration(
+    private var formattingOptions: Map[String, FormattingOptions] = Map(),
+    private var templateType: TemplateTypes.TemplateTypes = TemplateTypes.BOTH,
+    private var prettyPrintSerialization: Boolean = false
+) extends AlsConfigurationReader {
 
   private var enableUpdateFormatOptions = true
   private var sDocumentChanges: Boolean = false

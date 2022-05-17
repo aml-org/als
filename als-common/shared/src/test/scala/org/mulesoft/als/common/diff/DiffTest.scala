@@ -3,9 +3,7 @@ package org.mulesoft.als.common.diff
 import org.scalatest.FunSuite
 import org.scalatest.Matchers._
 
-/**
-  *
-  */
+/** */
 class DiffTest extends FunSuite with ListAssertions {
 
   test("Case Insensitive Diff") {
@@ -61,7 +59,7 @@ class DiffTest extends FunSuite with ListAssertions {
     deltas.head.toString shouldEqual "Diff.Delta(0, d, 0, (Hello, World), ())"
   }
 
-  //~ Static Fields ................................................................................................................................
+  // ~ Static Fields ................................................................................................................................
 
   val first = List(
     "  The Way that can be told of is not the eternal Way;",

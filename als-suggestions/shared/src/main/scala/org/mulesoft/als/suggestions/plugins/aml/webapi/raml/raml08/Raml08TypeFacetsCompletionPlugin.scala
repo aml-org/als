@@ -27,20 +27,23 @@ object Raml08TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin
     Future.successful(params.amfObject match {
       case shape: Shape
           if isWritingFacet(params.yPartBranch, shape, params.branchStack, params.actualDialect) &&
-            !isWritingKEYMediaType(params) &&
+            !isWritingKeyMediaType(params) &&
             !insideMediaType(params) =>
         resolveShape(shape, params.branchStack, params.actualDialect)
       case shape: Shape
           if isWritingFacet(params.yPartBranch, shape, params.branchStack, params.actualDialect) &&
-            !isWritingKEYMediaType(params) => {
-        if (insideFormMediaType(params))
-          Seq(RawSuggestion.forObject("formParameters", "schemas"))
-        else Seq()
-      } :+ RawSuggestion("schema", isAKey = true, "schemas", mandatory = false)
+            !isWritingKeyMediaType(params) =>
+        {
+          if (insideFormMediaType(params))
+            Seq(RawSuggestion.forObject("formParameters", "schemas"))
+          else Seq()
+        } :+ RawSuggestion("schema", isAKey = true, "schemas", mandatory = false)
       case p: Payload if params.yPartBranch.isKey && p.mediaType.option().isDefined =>
         if (formMediaTypes.contains(p.mediaType.value()))
-          Seq(RawSuggestion.forObject("formParameters", "schemas"),
-              RawSuggestion("schema", isAKey = true, "schemas", mandatory = false))
+          Seq(
+            RawSuggestion.forObject("formParameters", "schemas"),
+            RawSuggestion("schema", isAKey = true, "schemas", mandatory = false)
+          )
         else
           Seq(RawSuggestion("schema", isAKey = true, "schemas", mandatory = false))
       case _ => Nil
@@ -85,7 +88,8 @@ object Raml08TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin
           .option()
           .exists(mt =>
             formMediaTypes
-              .contains(mt))
+              .contains(mt)
+          )
       case _ => false
     }
 }

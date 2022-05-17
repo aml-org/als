@@ -54,19 +54,20 @@ class HoverManager(wm: WorkspaceManager, telemetryProvider: TelemetryProvider)
       val uuid = UUID.randomUUID().toString
       wm.getLastUnit(params.textDocument.uri, uuid).map { cu =>
         val dtoPosition: Position = LspRangeConverter.toPosition(params.position)
-        HoverAction(cu.unit,
-                    cu.tree,
-                    cu.yPartBranch,
-                    dtoPosition,
-                    params.textDocument.uri,
-                    cu.context.state.editorState.vocabularyRegistry,
-                    cu.definedBy).getHover
+        HoverAction(
+          cu.unit,
+          cu.tree,
+          cu.yPartBranch,
+          dtoPosition,
+          params.textDocument.uri,
+          cu.context.state.editorState.vocabularyRegistry,
+          cu.definedBy
+        ).getHover
       // if sequence, we could show all the semantic hierarchy?
       }
     }
 
-    /**
-      * If Some(_), this will be sent as a response as a default for a managed exception
+    /** If Some(_), this will be sent as a response as a default for a managed exception
       */
     override protected val empty: Option[Hover] = Some(Hover(Seq(), None))
   }

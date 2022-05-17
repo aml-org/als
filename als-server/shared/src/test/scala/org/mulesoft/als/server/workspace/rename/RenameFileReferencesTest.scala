@@ -50,11 +50,20 @@ class RenameFileReferencesTest extends LanguageServerBaseTest {
         Some(
           List(
             Right(RenameFile("file:///root/ref.txt", "file:///root/reference.txt", None)),
-            Left(TextDocumentEdit(VersionedTextDocumentIdentifier("file:///root/api.raml", None),
-                                  List(TextEdit(Range(Position(1, 16), Position(1, 23)), "reference.txt")))),
-            Left(TextDocumentEdit(VersionedTextDocumentIdentifier("file:///root/lib.raml", None),
-                                  List(TextEdit(Range(Position(4, 22), Position(4, 29)), "reference.txt"))))
-          ))
+            Left(
+              TextDocumentEdit(
+                VersionedTextDocumentIdentifier("file:///root/api.raml", None),
+                List(TextEdit(Range(Position(1, 16), Position(1, 23)), "reference.txt"))
+              )
+            ),
+            Left(
+              TextDocumentEdit(
+                VersionedTextDocumentIdentifier("file:///root/lib.raml", None),
+                List(TextEdit(Range(Position(4, 22), Position(4, 29)), "reference.txt"))
+              )
+            )
+          )
+        )
       )
     )
   )
@@ -69,12 +78,14 @@ class RenameFileReferencesTest extends LanguageServerBaseTest {
       .map(r => assert(r.forall(_ == Succeeded)))
   }
 
-  def runTest(root: String,
-              ws: Map[String, String],
-              searchedUri: String,
-              position: Position,
-              newName: String,
-              expectedResult: WorkspaceEdit): Future[Assertion] =
+  def runTest(
+      root: String,
+      ws: Map[String, String],
+      searchedUri: String,
+      position: Position,
+      newName: String,
+      expectedResult: WorkspaceEdit
+  ): Future[Assertion] =
     for {
       (server, _) <- buildServer(root, ws)
       result      <- getServerRename(server, searchedUri, position, newName)
@@ -85,10 +96,7 @@ class RenameFileReferencesTest extends LanguageServerBaseTest {
       assertion should be(true)
     }
 
-  def getServerRename(server: LanguageServer,
-                      uri: String,
-                      position: Position,
-                      newName: String): Future[WorkspaceEdit] =
+  def getServerRename(server: LanguageServer, uri: String, position: Position, newName: String): Future[WorkspaceEdit] =
     server
       .resolveHandler(RenameRequestType)
       .map { _(RenameParams(TextDocumentIdentifier(uri), position, newName)) }
@@ -98,12 +106,14 @@ class RenameFileReferencesTest extends LanguageServerBaseTest {
     a.changes.getOrElse(Map.empty).mapValues(_.toSet) == b.changes.getOrElse(Map.empty).mapValues(_.toSet) &&
       a.documentChanges.getOrElse(Seq.empty).map(_.left) == b.documentChanges.getOrElse(Seq.empty).map(_.left)
 
-  case class TestEntry(targetUri: String,
-                       targetPosition: Position,
-                       newName: String,
-                       ws: Map[String, String],
-                       result: WorkspaceEdit,
-                       root: String = "file:///root")
+  case class TestEntry(
+      targetUri: String,
+      targetPosition: Position,
+      newName: String,
+      ws: Map[String, String],
+      result: WorkspaceEdit,
+      root: String = "file:///root"
+  )
 
   def buildServer(root: String, ws: Map[String, String]): Future[(LanguageServer, WorkspaceManager)] = {
     val rl = new ResourceLoader {
@@ -117,17 +127,21 @@ class RenameFileReferencesTest extends LanguageServerBaseTest {
     }
 
     val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier,
-                                         logger,
-                                         EditorConfiguration.withPlatformLoaders(Seq(rl)))
+      new WorkspaceManagerFactoryBuilder(
+        new MockDiagnosticClientNotifier,
+        logger,
+        EditorConfiguration.withPlatformLoaders(Seq(rl))
+      )
         .buildWorkspaceManagerFactory()
 
     val workspaceManager: WorkspaceManager = factory.workspaceManager
     val server =
-      new LanguageServerBuilder(factory.documentManager,
-                                workspaceManager,
-                                factory.configurationManager,
-                                factory.resolutionTaskManager)
+      new LanguageServerBuilder(
+        factory.documentManager,
+        workspaceManager,
+        factory.configurationManager,
+        factory.resolutionTaskManager
+      )
         .addRequestModule(factory.renameManager)
         .build()
 

@@ -12,8 +12,7 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
 }
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.DeclaresFieldSymbolBuilder
 
-class Oas20DeclaresFieldSymbolBuilder(value: AmfArray, element: FieldEntry)(
-    override implicit val ctx: StructureContext)
+class Oas20DeclaresFieldSymbolBuilder(value: AmfArray, element: FieldEntry)(override implicit val ctx: StructureContext)
     extends DeclaresFieldSymbolBuilder(value, element) {
   override protected def declarationName(obj: AmfObject): String = {
     obj match {
@@ -26,8 +25,9 @@ class Oas20DeclaresFieldSymbolBuilder(value: AmfArray, element: FieldEntry)(
 object Oas20DeclaresFieldSymbolBuilderCompanion
     extends ArrayFieldTypeSymbolBuilderCompanion
     with IriFieldSymbolBuilderCompanion {
-  override def construct(element: FieldEntry, value: AmfArray)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[AmfArray]] =
+  override def construct(element: FieldEntry, value: AmfArray)(implicit
+      ctx: StructureContext
+  ): Option[FieldTypeSymbolBuilder[AmfArray]] =
     Some(new Oas20DeclaresFieldSymbolBuilder(value, element))
 
   override val supportedIri: String = DocumentModel.Declares.value.iri()

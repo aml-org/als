@@ -19,24 +19,24 @@ import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class WorkspaceContentManager private (val folderUri: String,
-                                       environmentProvider: EnvironmentProvider,
-                                       val telemetryProvider: TelemetryProvider,
-                                       logger: Logger,
-                                       subscribers: () => List[WorkspaceContentListener[_]],
-                                       override val repository: WorkspaceParserRepository,
-                                       val projectConfigAdapter: ProjectConfigurationAdapter,
-                                       hotReload: Boolean)
-    extends UnitTaskManager[ParsedUnit, CompilableUnit, NotificationKind]
+class WorkspaceContentManager private (
+    val folderUri: String,
+    environmentProvider: EnvironmentProvider,
+    val telemetryProvider: TelemetryProvider,
+    logger: Logger,
+    subscribers: () => List[WorkspaceContentListener[_]],
+    override val repository: WorkspaceParserRepository,
+    val projectConfigAdapter: ProjectConfigurationAdapter,
+    hotReload: Boolean
+) extends UnitTaskManager[ParsedUnit, CompilableUnit, NotificationKind]
     with PlatformSecrets {
 
   def getConfigurationState: Future[ALSConfigurationState] =
-    sync(
-      () =>
-        if (stagingArea.hasPending || state == ProcessingProject) // may be changing
-          current.flatMap(_ => getConfigurationState)
-        else
-          current.flatMap(_ => projectConfigAdapter.getConfigurationState)
+    sync(() =>
+      if (stagingArea.hasPending || state == ProcessingProject) // may be changing
+        current.flatMap(_ => getConfigurationState)
+      else
+        current.flatMap(_ => projectConfigAdapter.getConfigurationState)
     )
 
   override def init(): Future[Unit] =
@@ -46,7 +46,8 @@ class WorkspaceContentManager private (val folderUri: String,
       super
         .init()
         .map(_ =>
-          logger.debug(s"Finished initialization for workspace at '$folderUri'", "WorkspaceContentManager", "init"))
+          logger.debug(s"Finished initialization for workspace at '$folderUri'", "WorkspaceContentManager", "init")
+        )
     })
 
   def containsFile(uri: String): Future[Boolean] =
@@ -122,8 +123,10 @@ class WorkspaceContentManager private (val folderUri: String,
   }
 
   override protected def processTask(): Future[Unit] = {
-    val snapshot: Snapshot    = stagingArea.snapshot()
-    val (treeUnits, isolated) = snapshot.files.partition(u => u._2 == CHANGE_CONFIG || isInMainTree(u._1.toAmfUri)) // what if a new file is added between the partition and the override down
+    val snapshot: Snapshot = stagingArea.snapshot()
+    val (treeUnits, isolated) = snapshot.files.partition(u =>
+      u._2 == CHANGE_CONFIG || isInMainTree(u._1.toAmfUri)
+    ) // what if a new file is added between the partition and the override down
     treeUnits.map(_._1).foreach(tu => logger.debug(s"Tree unit: $tu", "WorkspaceContentManager", "processTask"))
     isolated.map(_._1).foreach(iu => logger.debug(s"Isolated unit: $iu", "WorkspaceContentManager", "processTask"))
     val future: Future[Future[Unit]] = for {
@@ -131,20 +134,22 @@ class WorkspaceContentManager private (val folderUri: String,
       currentConfigurationState <- projectConfigAdapter.getConfigurationState
     } yield {
       val changedTreeUnits =
-        treeUnits.filter(
-          tu =>
-            ((tu._2 == CHANGE_FILE ||
-              tu._2 == OPEN_FILE) && isChanged(tu._1)) || // OPEN_FILE is used in case the IDE restarts and it reopens what was being edited
-              tu._2 == CLOSE_FILE ||
-              (tu._2 == FOCUS_FILE && shouldParseOnFocus(tu._1, mf, currentConfigurationState)))
+        treeUnits.filter(tu =>
+          ((tu._2 == CHANGE_FILE ||
+            tu._2 == OPEN_FILE) && isChanged(
+            tu._1
+          )) || // OPEN_FILE is used in case the IDE restarts and it reopens what was being edited
+            tu._2 == CLOSE_FILE ||
+            (tu._2 == FOCUS_FILE && shouldParseOnFocus(tu._1, mf, currentConfigurationState))
+        )
       logger.debug(s"units for main file: ${mf.getOrElse("[no main file]")}", "WorkspaceContentManager", "processTask")
       if (hasChangedConfigFile(snapshot)) processChangeConfigChanges(snapshot)
       else if (changedTreeUnits.nonEmpty)
-        processMFChanges(mf.get, snapshot).recoverWith {
-          case e: Exception =>
-            logger.error(s"Error on parse: ${e.getMessage}", "WorkspaceContentManager", "processMFChanges")
-            Future.unit
-        } else
+        processMFChanges(mf.get, snapshot).recoverWith { case e: Exception =>
+          logger.error(s"Error on parse: ${e.getMessage}", "WorkspaceContentManager", "processMFChanges")
+          Future.unit
+        }
+      else
         processIsolatedChanges(isolated, currentConfigurationState)
     }
     future.flatten
@@ -153,15 +158,17 @@ class WorkspaceContentManager private (val folderUri: String,
   private def hasChangedConfigFile(snapshot: Snapshot) =
     snapshot.files.map(_._2).contains(CHANGE_CONFIG)
 
-  private def processIsolatedChanges(files: List[(String, NotificationKind)],
-                                     currentConfiguration: ALSConfigurationState): Future[Unit] = {
+  private def processIsolatedChanges(
+      files: List[(String, NotificationKind)],
+      currentConfiguration: ALSConfigurationState
+  ): Future[Unit] = {
     val (closedFiles, changedFiles) = files.partition(_._2 == CLOSE_FILE)
     cleanFiles(closedFiles, currentConfiguration).flatMap(_ => {
       if (changedFiles.nonEmpty) {
         changeState(ProcessingFile)
         Future
           .sequence(changedFiles.map(t => processIsolated(t._1, UUID.randomUUID().toString)))
-          .map(_ => Unit) //flatten the list to comply with signature
+          .map(_ => Unit) // flatten the list to comply with signature
       } else Future.unit
     })
   }
@@ -182,34 +189,36 @@ class WorkspaceContentManager private (val folderUri: String,
         } catch {
           case e: Exception =>
             logger.error(s"subscriber $s threw ${e.getMessage}", "processIsolated", "WorkspaceContentManager")
-      })
+        }
+      )
     })
   }
 
-  /**
-    * Called only for file that are part of the tree as isolated files are always parsed
-    * We should parse if:
-    * - Unit is dialect instance
-    * - Unit is external fragment and is the main file
-    * - Unit is external fragment and main file is external fragment too
-    * - Workspace configuration has changed since las parse
-    * - New dialect/extension registered
+  /** Called only for file that are part of the tree as isolated files are always parsed We should parse if:
+    *   - Unit is dialect instance
+    *   - Unit is external fragment and is the main file
+    *   - Unit is external fragment and main file is external fragment too
+    *   - Workspace configuration has changed since las parse
+    *   - New dialect/extension registered
     */
-  private def shouldParseOnFocus(uri: String,
-                                 mainFileUri: Option[String],
-                                 configurationState: ALSConfigurationState): Boolean = {
+  private def shouldParseOnFocus(
+      uri: String,
+      mainFileUri: Option[String],
+      configurationState: ALSConfigurationState
+  ): Boolean = {
     repository.getUnit(uri) match {
       case Some(s) =>
         s.parsedResult.result.baseUnit match {
           case _: DialectInstance => true
           case _: ExternalFragment
               if mainFileUri.exists(_.equals(uri)) ||
-                mainFileUri.exists(
-                  u => repository.getUnit(u).exists(_.parsedResult.result.baseUnit.isInstanceOf[ExternalFragment])) =>
+                mainFileUri.exists(u =>
+                  repository.getUnit(u).exists(_.parsedResult.result.baseUnit.isInstanceOf[ExternalFragment])
+                ) =>
             true
           case _ =>
             configurationState.projectState.config != s.parsedResult.context.state.projectState.config ||
-              configurationState != s.parsedResult.context.state
+            configurationState != s.parsedResult.context.state
         }
       case None => true
     }
@@ -220,8 +229,10 @@ class WorkspaceContentManager private (val folderUri: String,
     super.shutdown()
   }
 
-  private def cleanFiles(closedFiles: List[(String, NotificationKind)],
-                         currentConfiguration: ALSConfigurationState): Future[Unit] = {
+  private def cleanFiles(
+      closedFiles: List[(String, NotificationKind)],
+      currentConfiguration: ALSConfigurationState
+  ): Future[Unit] = {
     closedFiles.foreach { cf =>
       repository.removeUnit(cf._1)
       baseUnitSubscribers.foreach(_.onRemoveFile(cf._1))
@@ -229,13 +240,15 @@ class WorkspaceContentManager private (val folderUri: String,
     }
     val p = currentConfiguration.projectState.config
     // restore registered profile/dialect/extension
-    if (closedFiles
-          .map(_._1)
-          .exists(
-            cf =>
-              p.validationDependency.contains(cf) ||
-                p.extensionDependency.contains(cf) ||
-                p.metadataDependency.contains(cf)))
+    if (
+      closedFiles
+        .map(_._1)
+        .exists(cf =>
+          p.validationDependency.contains(cf) ||
+            p.extensionDependency.contains(cf) ||
+            p.metadataDependency.contains(cf)
+        )
+    )
       projectConfigAdapter.notifyUnits().map(_ => {})
     else Future.successful()
   }
@@ -253,21 +266,26 @@ class WorkspaceContentManager private (val folderUri: String,
 
   }
 
-  private def processChangeConfig(config: ProjectConfigurationState,
-                                  snapshot: Snapshot,
-                                  mainFileUri: Option[String]): Future[Unit] = {
+  private def processChangeConfig(
+      config: ProjectConfigurationState,
+      snapshot: Snapshot,
+      mainFileUri: Option[String]
+  ): Future[Unit] = {
     val uuid = UUID.randomUUID().toString
     configSubscribers.foreach(_.onNewAst(config, uuid))
     (mainFileUri match {
       case Some(mainFile) if mainFile.nonEmpty => processMFChanges(mainFile, snapshot, uuid)
       case _                                   => Future(repository.cleanTree())
-    }).map(_ => revalidateIsolatedUnits(config.profiles.map(_.path).toSet)) // TODO eascona: isolated profiles validation could be a config listener?
+    }).map(_ =>
+      revalidateIsolatedUnits(config.profiles.map(_.path).toSet)
+    ) // TODO eascona: isolated profiles validation could be a config listener?
   }
 
   private def revalidateIsolatedUnits(validationProfiles: Set[String]): Future[Unit] = Future {
     def shouldValidate(maybeResult: Option[ParsedUnit]): Boolean = maybeResult.forall { result =>
-      val changedProfiles = result.parsedResult.context.state.projectState.config.validationDependency != validationProfiles
-      val isProfile       = result.parsedResult.result.baseUnit.isValidationProfile
+      val changedProfiles =
+        result.parsedResult.context.state.projectState.config.validationDependency != validationProfiles
+      val isProfile = result.parsedResult.result.baseUnit.isValidationProfile
       changedProfiles && !isProfile
     }
 
@@ -277,42 +295,53 @@ class WorkspaceContentManager private (val folderUri: String,
         else None
       })
       .foreach(uri => {
-        logger.debug(s"Enqueuing isolated file ($uri) because of changes on validation profiles",
-                     "WorkspaceContentManager",
-                     "processNewValidationProfiles")
+        logger.debug(
+          s"Enqueuing isolated file ($uri) because of changes on validation profiles",
+          "WorkspaceContentManager",
+          "processNewValidationProfiles"
+        )
         stage(uri, CHANGE_FILE)
       })
   }
 
-  private def processMFChanges(mainFile: String,
-                               snapshot: Snapshot,
-                               uuid: String = UUID.randomUUID().toString): Future[Unit] = {
+  private def processMFChanges(
+      mainFile: String,
+      snapshot: Snapshot,
+      uuid: String = UUID.randomUUID().toString
+  ): Future[Unit] = {
     changeState(ProcessingProject)
     logger.debug(s"Processing Tree changes", "WorkspaceContentManager", "processMFChanges")
     for {
-      u <- parse(s"${if (folderUri != "" && !mainFile.contains(folderUri))
-        trailSlash(folderUri)
-      else folderUri}$mainFile", uuid)
+      u <- parse(
+        s"${if (folderUri != "" && !mainFile.contains(folderUri))
+            trailSlash(folderUri)
+          else folderUri}$mainFile",
+        uuid
+      )
       _ <- repository.newTree(u).flatMap(t => projectConfigAdapter.newTree(t))
     } yield {
       stagingArea.enqueue(snapshot.files.filterNot(_._2 == CHANGE_CONFIG).filter(t => !isInMainTree(t._1)))
       baseUnitSubscribers.foreach(s => {
-        logger.debug(s"Sending new AST from ${u.result.baseUnit.location().getOrElse(folderUri)}",
-                     "WorkspaceContentManager",
-                     "processMFChanges")
+        logger.debug(
+          s"Sending new AST from ${u.result.baseUnit.location().getOrElse(folderUri)}",
+          "WorkspaceContentManager",
+          "processMFChanges"
+        )
         s.onNewAst(BaseUnitListenerParams(u, repository.references, tree = true, folderUri), uuid)
       })
     }
   }
 
   private def parse(uri: String, uuid: String): Future[AmfParseResult] = {
-    telemetryProvider.timeProcess("AMF Parse",
-                                  MessageTypes.BEGIN_PARSE,
-                                  MessageTypes.END_PARSE,
-                                  "WorkspaceContentManager : parse",
-                                  uri,
-                                  innerParse(uri),
-                                  uuid)
+    telemetryProvider.timeProcess(
+      "AMF Parse",
+      MessageTypes.BEGIN_PARSE,
+      MessageTypes.END_PARSE,
+      "WorkspaceContentManager : parse",
+      uri,
+      innerParse(uri),
+      uuid
+    )
   }
 
   private def innerParse(uri: String)(): Future[AmfParseResult] = {
@@ -322,12 +351,14 @@ class WorkspaceContentManager private (val folderUri: String,
       state <- projectConfigAdapter.getConfigurationState
       r     <- state.parse(decodedUri)
       newConfig <- projectConfigAdapter.getProjectConfiguration.map(config => {
-        new ProjectConfiguration(config.folder,
-                                 config.mainFile,
-                                 config.designDependency,
-                                 config.validationDependency,
-                                 config.extensionDependency,
-                                 config.metadataDependency + uri)
+        new ProjectConfiguration(
+          config.folder,
+          config.mainFile,
+          config.designDependency,
+          config.validationDependency,
+          config.extensionDependency,
+          config.metadataDependency + uri
+        )
       })
     } yield {
       r.result.baseUnit match {
@@ -360,22 +391,26 @@ class WorkspaceContentManager private (val folderUri: String,
 }
 
 object WorkspaceContentManager {
-  def apply(folderUri: String,
-            environmentProvider: EnvironmentProvider,
-            telemetryProvider: TelemetryProvider,
-            logger: Logger,
-            subscribers: () => List[WorkspaceContentListener[_]],
-            projectConfigAdapter: ProjectConfigurationAdapter,
-            hotReload: Boolean = false): Future[WorkspaceContentManager] = {
+  def apply(
+      folderUri: String,
+      environmentProvider: EnvironmentProvider,
+      telemetryProvider: TelemetryProvider,
+      logger: Logger,
+      subscribers: () => List[WorkspaceContentListener[_]],
+      projectConfigAdapter: ProjectConfigurationAdapter,
+      hotReload: Boolean = false
+  ): Future[WorkspaceContentManager] = {
     val repository = new WorkspaceParserRepository(logger)
-    val wcm = new WorkspaceContentManager(folderUri,
-                                          environmentProvider,
-                                          telemetryProvider,
-                                          logger,
-                                          subscribers,
-                                          repository,
-                                          projectConfigAdapter.withRepository(repository),
-                                          hotReload)
+    val wcm = new WorkspaceContentManager(
+      folderUri,
+      environmentProvider,
+      telemetryProvider,
+      logger,
+      subscribers,
+      repository,
+      projectConfigAdapter.withRepository(repository),
+      hotReload
+    )
     wcm.init()
     Future.successful(wcm) // TODO: ????
   }

@@ -20,8 +20,7 @@ trait ResolvedUnitListener extends AstListener[AmfResolvedUnit] with AccessUnits
   protected def onSuccess(uuid: String, uri: String): Unit
   protected def onFailure(uuid: String, uri: String, t: Throwable): Unit
 
-  /**
-    * Meant just for logging
+  /** Meant just for logging
     * @param resolved
     * @param uuid
     */

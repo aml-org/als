@@ -17,7 +17,9 @@ object AsyncApi20RefTag extends AMLRefTagCompletionPlugin with IsInsideRequired 
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     if (Async2ExceptionPlugins.applyAny(request)) emptySuggestion
-    else if (isPayloadRef(request) || isExampleAtPayload(request)) // hack for payload and header examples at response that are virtuals
+    else if (
+      isPayloadRef(request) || isExampleAtPayload(request)
+    )                                  // hack for payload and header examples at response that are virtuals
       Future.successful(refSuggestion) // hack for RAML types which would result in $ref not showing
     else super.resolve(request)
 

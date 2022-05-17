@@ -14,19 +14,20 @@ import org.mulesoft.lsp.feature.link.DocumentLink
 
 object RenameFileAction {
 
-  def renameFileEdits(oldDocument: TextDocumentIdentifier,
-                      newDocument: TextDocumentIdentifier,
-                      links: Map[String, Seq[DocumentLink]],
-                      platform: Platform): AbstractWorkspaceEdit = {
+  def renameFileEdits(
+      oldDocument: TextDocumentIdentifier,
+      newDocument: TextDocumentIdentifier,
+      links: Map[String, Seq[DocumentLink]],
+      platform: Platform
+  ): AbstractWorkspaceEdit = {
 
     val oldFileName = oldDocument.uri.toAmfDecodedUri(platform).split("/").last
     val newFileName = newDocument.uri.toAmfDecodedUri(platform).split("/").last
     val documentChanges: Seq[Either[TextDocumentEdit, ResourceOperation]] =
       Seq(Right(RenameFile(oldDocument.uri, newDocument.uri, None))) ++
         links
-          .map {
-            case (file, links) =>
-              getTextDocumentsEdits(oldDocument.uri, file, oldFileName, newFileName, links)
+          .map { case (file, links) =>
+            getTextDocumentsEdits(oldDocument.uri, file, oldFileName, newFileName, links)
           }
           .filterNot(_.edits.isEmpty)
           .map(Left(_))
@@ -34,11 +35,13 @@ object RenameFileAction {
     AbstractWorkspaceEdit(documentChanges)
   }
 
-  private def getTextDocumentsEdits(renamedUri: String,
-                                    file: String,
-                                    oldFileName: String,
-                                    newFileName: String,
-                                    links: Seq[DocumentLink]): TextDocumentEdit =
+  private def getTextDocumentsEdits(
+      renamedUri: String,
+      file: String,
+      oldFileName: String,
+      newFileName: String,
+      links: Seq[DocumentLink]
+  ): TextDocumentEdit =
     TextDocumentEdit(
       VersionedTextDocumentIdentifier(file, None),
       links

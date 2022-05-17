@@ -16,10 +16,11 @@ import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-class SelectionRangeManager(val workspace: WorkspaceManager,
-                            private val telemetryProvider: TelemetryProvider,
-                            private val logger: Logger)
-    extends RequestModule[SelectionRangeCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
+class SelectionRangeManager(
+    val workspace: WorkspaceManager,
+    private val telemetryProvider: TelemetryProvider,
+    private val logger: Logger
+) extends RequestModule[SelectionRangeCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
 
   override val `type`: ConfigType[SelectionRangeCapabilities, Either[Boolean, WorkDoneProgressOptions]] =
     SelectionRangeConfigType
@@ -29,9 +30,11 @@ class SelectionRangeManager(val workspace: WorkspaceManager,
       override def `type`: SelectionRangeRequestType.type = SelectionRangeRequestType
 
       override protected def task(params: SelectionRangeParams): Future[Seq[SelectionRange]] =
-        selectionRange(params.textDocument.uri,
-                       params.positions.map(p => LspRangeConverter.toPosition(p)),
-                       uuid(params))
+        selectionRange(
+          params.textDocument.uri,
+          params.positions.map(p => LspRangeConverter.toPosition(p)),
+          uuid(params)
+        )
 
       override protected def telemetry: TelemetryProvider = telemetryProvider
 
@@ -48,8 +51,7 @@ class SelectionRangeManager(val workspace: WorkspaceManager,
 
       override protected def uri(params: SelectionRangeParams): String = params.textDocument.uri
 
-      /**
-        * If Some(_), this will be sent as a response as a default for a managed exception
+      /** If Some(_), this will be sent as a response as a default for a managed exception
         */
       override protected val empty: Option[Seq[SelectionRange]] = Some(Seq())
     })

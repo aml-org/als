@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 17,
-          "character": 13
+          "character": 12
         }
       },
       "newText": "\"anotherPro\""
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 17,
-          "character": 13
+          "character": 12
         }
       },
       "newText": "\"name\""
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 17,
-          "character": 13
+          "character": 12
         }
       },
       "newText": "\"tag\""

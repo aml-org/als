@@ -10,14 +10,12 @@ trait TreeKnowledge {
   protected val maybeTree: Option[ObjectInTree] =
     params.tree.treeWithUpperElement(params.range, params.uri)
 
-  /**
-    * Based on the chosen position from the range
+  /** Based on the chosen position from the range
     */
   protected lazy val position: Option[Position] =
     maybeTree.map(_.yPartBranch.position).map(Position(_))
 
-  /**
-    * Information about the AST for the chosen position
+  /** Information about the AST for the chosen position
     */
   protected lazy val yPartBranch: Option[YPartBranch] =
     position.map(params.yPartBranch.getCachedOrNew(_, params.uri))

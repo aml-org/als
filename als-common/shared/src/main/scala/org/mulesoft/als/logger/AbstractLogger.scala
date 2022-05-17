@@ -2,8 +2,7 @@ package org.mulesoft.als.logger
 
 import org.mulesoft.als.logger.MessageSeverity.MessageSeverity
 
-/**
-  * Abstract implementation of logger that only needs internalLog method to be implemented.
+/** Abstract implementation of logger that only needs internalLog method to be implemented.
   */
 trait AbstractLogger extends Logger {
   private val MaxLength = 400
@@ -12,13 +11,16 @@ trait AbstractLogger extends Logger {
 
   protected def executeLogging(message: String, severity: MessageSeverity): Unit
 
-  /**
-    * Logs a message
+  /** Logs a message
     *
-    * @param message      - message text
-    * @param severity     - message severity
-    * @param component    - component name
-    * @param subComponent - sub-component name
+    * @param message
+    *   \- message text
+    * @param severity
+    *   \- message severity
+    * @param component
+    *   \- component name
+    * @param subComponent
+    *   \- sub-component name
     */
   override def log(message: String, severity: MessageSeverity, component: String, subComponent: String): Unit = {
     val filtered = this.filterLogMessage(LogMessage(Option(message).getOrElse(""), severity, component, subComponent))
@@ -30,43 +32,49 @@ trait AbstractLogger extends Logger {
     })
   }
 
-  /**
-    * Logs a DEBUG severity message.
+  /** Logs a DEBUG severity message.
     *
-    * @param message      - message text
-    * @param component    - component name
-    * @param subComponent - sub-component name
+    * @param message
+    *   \- message text
+    * @param component
+    *   \- component name
+    * @param subComponent
+    *   \- sub-component name
     */
   override def debug(message: String, component: String, subComponent: String): Unit = {
     log(message, MessageSeverity.DEBUG, component, subComponent)
   }
 
-  /**
-    * Logs a WARNING severity message.
+  /** Logs a WARNING severity message.
     *
-    * @param message      - message text
-    * @param component    - component name
-    * @param subComponent - sub-component name
+    * @param message
+    *   \- message text
+    * @param component
+    *   \- component name
+    * @param subComponent
+    *   \- sub-component name
     */
   override def warning(message: String, component: String, subComponent: String): Unit = {
     log(message, MessageSeverity.WARNING, component, subComponent)
   }
 
-  /**
-    * Logs an ERROR severity message.
+  /** Logs an ERROR severity message.
     *
-    * @param message      - message text
-    * @param component    - component name
-    * @param subComponent - sub-component name
+    * @param message
+    *   \- message text
+    * @param component
+    *   \- component name
+    * @param subComponent
+    *   \- sub-component name
     */
   override def error(message: String, component: String, subComponent: String): Unit = {
     log(message, MessageSeverity.ERROR, component, subComponent)
   }
 
-  /**
-    * Sets logger configuration, both for the server and for the client.
+  /** Sets logger configuration, both for the server and for the client.
     *
-    * @param settings - logger settings object
+    * @param settings
+    *   \- logger settings object
     */
   def withSettings(settings: LoggerSettings): this.type
 
@@ -88,7 +96,7 @@ trait AbstractLogger extends Logger {
       case Some(settingsValue) if passesLogFilter(message, settingsValue) =>
         settingsValue.maxMessageLength
       case None => Some(MaxLength) // default
-      case _    => None // there are settings, but the message is not compliant with the restrictions
+      case _    => None            // there are settings, but the message is not compliant with the restrictions
 
     }
     maxLength.map { ml =>
@@ -100,7 +108,8 @@ trait AbstractLogger extends Logger {
   private def passesLogFilter(message: LogMessage, settingsValue: LoggerSettings) = {
     !settingsValue.disabled.contains(true) && allowedComponent(settingsValue, message.component) && !belowSeverity(
       settingsValue,
-      message.severity)
+      message.severity
+    )
   }
 
   private def cropMessage(message: LogMessage, ml: Int) =

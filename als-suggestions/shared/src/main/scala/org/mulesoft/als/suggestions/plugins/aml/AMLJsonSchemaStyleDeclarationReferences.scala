@@ -14,11 +14,13 @@ import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class AMLJsonSchemaStyleDeclarationReferences(dialect: Dialect,
-                                              ids: Seq[String],
-                                              actualName: Option[String],
-                                              yPart: YPartBranch,
-                                              iriToPath: Map[String, String]) {
+class AMLJsonSchemaStyleDeclarationReferences(
+    dialect: Dialect,
+    ids: Seq[String],
+    actualName: Option[String],
+    yPart: YPartBranch,
+    iriToPath: Map[String, String]
+) {
 
   def resolve(dp: DeclarationProvider): Seq[RawSuggestion] = {
     val declarationsPath = dialect.documents().declarationsPath().option().map(_ + "/").getOrElse("")
@@ -73,12 +75,12 @@ object AMLJsonSchemaStyleDeclarationReferences extends AMLDeclarationReferences 
       .documents()
       .root()
       .declaredNodes()
-      .flatMap(
-        dn =>
-          mappings
-            .find(_.id == dn.mappedNode().value())
-            .map(_.nodetypeMapping.value())
-            .map(iri => iri -> dn.name().value()))
+      .flatMap(dn =>
+        mappings
+          .find(_.id == dn.mappedNode().value())
+          .map(_.nodetypeMapping.value())
+          .map(iri => iri -> dn.name().value())
+      )
       .toMap
 
     new AMLJsonSchemaStyleDeclarationReferences(request.actualDialect, ids, actualName, request.yPartBranch, iriToPath)

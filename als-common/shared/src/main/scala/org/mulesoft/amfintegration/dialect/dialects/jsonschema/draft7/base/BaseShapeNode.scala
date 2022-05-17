@@ -6,10 +6,10 @@ import amf.core.internal.metamodel.domain.ShapeModel
 import amf.core.internal.metamodel.domain.extensions.PropertyShapeModel
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
-trait BaseShapeNode extends DialectNode{
+trait BaseShapeNode extends DialectNode {
 
   override def name = "Shape"
-  override def properties:Seq[PropertyMapping] = Seq(
+  override def properties: Seq[PropertyMapping] = Seq(
     PropertyMapping()
       .withId(location + "#/declarations/ShapeNode/in")
       .withNodePropertyMapping(ShapeModel.Values.value.iri())
@@ -34,7 +34,8 @@ trait BaseShapeNode extends DialectNode{
           "array",
           "object",
           "null"
-        ))
+        )
+      )
       .withLiteralRange(xsdString.iri()),
     PropertyMapping()
       .withId(location + "#/declarations/SchemaObject/description")
@@ -96,8 +97,7 @@ trait BaseShapeNode extends DialectNode{
       .withId(location + "#/declarations/SchemaObject/required")
       .withName("required")
       .withNodePropertyMapping(PropertyShapeModel.MinCount.value.iri())
-      .withLiteralRange(xsdBoolean.iri()),
-
+      .withLiteralRange(xsdBoolean.iri())
   )
 
   override def nodeTypeMapping: String = ShapeModel.`type`.head.iri()

@@ -30,23 +30,27 @@ object AnnotationMappingObjectNode extends DialectNode {
         .withName("range")
         .withMinCount(1)
         .withLiteralRange(xsdUri.iri())
-        .withEnum(Seq("string" ,
-          "integer" ,
-          "boolean" ,
-          "float" ,
-          "decimal" ,
-          "double" ,
-          "duration" ,
-          "dateTime" ,
-          "time" ,
-          "date" ,
-          "anyType",
-          "anyUri",
-          "link",
-          "number",
-          "uri",
-          "any",
-          "anyNode")),
+        .withEnum(
+          Seq(
+            "string",
+            "integer",
+            "boolean",
+            "float",
+            "decimal",
+            "double",
+            "duration",
+            "dateTime",
+            "time",
+            "date",
+            "anyType",
+            "anyUri",
+            "link",
+            "number",
+            "uri",
+            "any",
+            "anyNode"
+          )
+        ),
       PropertyMapping()
         .withId(location + s"#/declarations/$name/mandatory")
         .withNodePropertyMapping(AnnotationMappingModel.MinCount.value.iri())
@@ -99,6 +103,6 @@ object AnnotationMappingObjectNode extends DialectNode {
         .withNodePropertyMapping(AnnotationMappingModel.TypeDiscriminator.value.iri())
         .withName("typeDiscriminatorName")
         .withAllowMultiple(true)
-        .withLiteralRange(xsdString.iri()),
-      )
+        .withLiteralRange(xsdString.iri())
+    )
 }

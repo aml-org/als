@@ -41,9 +41,11 @@ object RefToParameters extends AMLCompletionPlugin {
   private val headersFilter = (p: DomainElement) => p.annotations.contains(classOf[DeclaredHeader])
   private val paramsFilter  = (p: DomainElement) => !headersFilter(p)
 
-  private def composeSuggestion(request: AmlCompletionRequest,
-                                path: String,
-                                fn: DomainElement => Boolean): Seq[RawSuggestion] = {
+  private def composeSuggestion(
+      request: AmlCompletionRequest,
+      path: String,
+      fn: DomainElement => Boolean
+  ): Seq[RawSuggestion] = {
     val dcl     = declarationPath(request.actualDialect)
     val strings = declarations(request, fn).map(d => s"#/$dcl$path/$d")
 

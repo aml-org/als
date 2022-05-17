@@ -25,11 +25,13 @@ trait FieldTypeSymbolBuilder[ElementType <: AmfElement] extends FieldSymbolBuild
 trait FieldTypeSymbolBuilderCompanion[ElementType <: AmfElement] extends FieldSymbolBuilderCompanion {
 
   def getElementType: Class[_ <: AmfElement]
-  def construct(element: FieldEntry, value: ElementType)(
-      implicit ctx: StructureContext): Option[FieldTypeSymbolBuilder[ElementType]]
+  def construct(element: FieldEntry, value: ElementType)(implicit
+      ctx: StructureContext
+  ): Option[FieldTypeSymbolBuilder[ElementType]]
 
-  final override def construct(element: FieldEntry)(
-      implicit ctx: StructureContext): Option[SymbolBuilder[FieldEntry]] = {
+  final override def construct(
+      element: FieldEntry
+  )(implicit ctx: StructureContext): Option[SymbolBuilder[FieldEntry]] = {
     if (getElementType.isInstance(element.value.value)) {
       construct(element, element.value.value.asInstanceOf[ElementType])
     } else None

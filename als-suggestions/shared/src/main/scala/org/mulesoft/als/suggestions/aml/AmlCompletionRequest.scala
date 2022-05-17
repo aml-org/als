@@ -14,7 +14,6 @@ import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.als.suggestions.CompletionsPluginHandler
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.als.suggestions.patcher.PatchedContent
 import org.mulesoft.als.suggestions.styler.{SuggestionRender, SuggestionStylerBuilder}
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
@@ -22,18 +21,20 @@ import org.yaml.lexer.YamlToken
 import org.yaml.model.YNode.MutRef
 import org.yaml.model._
 
-class AmlCompletionRequest(val baseUnit: BaseUnit,
-                           val position: DtoPosition,
-                           val actualDialect: Dialect,
-                           val directoryResolver: DirectoryResolver,
-                           val styler: SuggestionRender,
-                           val yPartBranch: YPartBranch,
-                           val configurationReader: AlsConfigurationReader,
-                           private val objectInTree: ObjectInTree,
-                           val inheritedProvider: Option[DeclarationProvider] = None,
-                           val rootUri: Option[String],
-                           val completionsPluginHandler: CompletionsPluginHandler,
-                           val alsConfigurationState: ALSConfigurationState) {
+class AmlCompletionRequest(
+    val baseUnit: BaseUnit,
+    val position: DtoPosition,
+    val actualDialect: Dialect,
+    val directoryResolver: DirectoryResolver,
+    val styler: SuggestionRender,
+    val yPartBranch: YPartBranch,
+    val configurationReader: AlsConfigurationReader,
+    private val objectInTree: ObjectInTree,
+    val inheritedProvider: Option[DeclarationProvider] = None,
+    val rootUri: Option[String],
+    val completionsPluginHandler: CompletionsPluginHandler,
+    val alsConfigurationState: ALSConfigurationState
+) {
 
   lazy val branchStack: Seq[AmfObject] = objectInTree.stack
 
@@ -74,11 +75,11 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
     fieldEntry match {
       case Some(e) =>
         val maybeMappings = mappings
-          .find(
-            pm =>
-              pm.fields
-                .fields()
-                .exists(f => f.value.toString == e.field.value.iri()))
+          .find(pm =>
+            pm.fields
+              .fields()
+              .exists(f => f.value.toString == e.field.value.iri())
+          )
           .map(List(_))
         maybeMappings
           .getOrElse(mappings)
@@ -86,24 +87,24 @@ class AmlCompletionRequest(val baseUnit: BaseUnit,
     }
   }
 
-  lazy val declarationProvider: DeclarationProvider = {
+  lazy val declarationProvider: DeclarationProvider =
     inheritedProvider.getOrElse(DeclarationProvider(baseUnit, Some(actualDialect)))
-  }
 }
 
 // todo: make instance
 object AmlCompletionRequestBuilder {
 
-  def build(baseUnit: BaseUnit,
-            position: AmfPosition,
-            dialect: Dialect,
-            directoryResolver: DirectoryResolver,
-            patchedContent: PatchedContent,
-            snippetSupport: Boolean,
-            rootLocation: Option[String],
-            configuration: AlsConfigurationReader,
-            completionsPluginHandler: CompletionsPluginHandler,
-            alsConfigurationState: ALSConfigurationState): AmlCompletionRequest = {
+  def build(
+      baseUnit: BaseUnit,
+      position: AmfPosition,
+      dialect: Dialect,
+      directoryResolver: DirectoryResolver,
+      snippetSupport: Boolean,
+      rootLocation: Option[String],
+      configuration: AlsConfigurationReader,
+      completionsPluginHandler: CompletionsPluginHandler,
+      alsConfigurationState: ALSConfigurationState
+  ): AmlCompletionRequest = {
     val yPartBranch: YPartBranch = {
       val ast = baseUnit.ast match {
         case Some(d: YDocument) => d
@@ -117,8 +118,7 @@ object AmlCompletionRequestBuilder {
     val dtoPosition = DtoPosition(position)
     val styler = SuggestionStylerBuilder.build(
       !yPartBranch.isJson,
-      prefix(yPartBranch, dtoPosition, patchedContent.original),
-      patchedContent,
+      prefix(yPartBranch, dtoPosition, baseUnit.raw.getOrElse("")),
       dtoPosition,
       yPartBranch,
       configuration,
@@ -126,7 +126,9 @@ object AmlCompletionRequestBuilder {
       baseUnit
         .location()
         .flatMap(alsConfigurationState.platform.extension)
-        .flatMap(alsConfigurationState.platform.mimeFromExtension), // should we use `yaml` as default? maybe check header for RAML?
+        .flatMap(
+          alsConfigurationState.platform.mimeFromExtension
+        ), // should we use `yaml` as default? maybe check header for RAML?
       baseUnit.indentation(dtoPosition)
     )
 
@@ -222,20 +224,24 @@ object AmlCompletionRequestBuilder {
         s"$textContent ".split(Array('{', '[', ''', '"')).lastOption.getOrElse("").trim
     }
 
-  def forElement(element: DomainElement,
-                 current: DomainElement,
-                 filterProvider: DeclarationProvider,
-                 parent: AmlCompletionRequest,
-                 ignoredPlugins: Set[AMLCompletionPlugin]): AmlCompletionRequest = {
+  def forElement(
+      element: DomainElement,
+      current: DomainElement,
+      filterProvider: DeclarationProvider,
+      parent: AmlCompletionRequest,
+      ignoredPlugins: Set[AMLCompletionPlugin]
+  ): AmlCompletionRequest = {
     val currentIndex = parent.branchStack.indexOf(current) + 1
     val newStack: Seq[AmfObject] =
       if (currentIndex < parent.branchStack.length) parent.branchStack.splitAt(currentIndex)._2 else parent.branchStack
     val objectInTree =
-      ObjectInTreeBuilder.fromSubTree(element,
-                                      parent.baseUnit.identifier,
-                                      newStack,
-                                      parent.actualDialect,
-                                      parent.yPartBranch)
+      ObjectInTreeBuilder.fromSubTree(
+        element,
+        parent.baseUnit.identifier,
+        newStack,
+        parent.actualDialect,
+        parent.yPartBranch
+      )
     new AmlCompletionRequest(
       parent.baseUnit,
       parent.position,

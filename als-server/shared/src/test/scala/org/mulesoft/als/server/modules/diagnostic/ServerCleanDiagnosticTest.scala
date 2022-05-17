@@ -27,7 +27,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
       "file://file%20with%20spaces.raml" ->
         """#%RAML 1.0
         |description: this is a RAML without title""".stripMargin,
-      "file://api.raml"        -> """#%RAML 0.8
+      "file://api.raml" -> """#%RAML 0.8
                              |title: GitHub API
                              |resourceTypes:
                              |   - collection: !include collection.raml
@@ -58,7 +58,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
                                     |  description: Get all <<resourcePathName>>, optionally filtered
                                     |post:
                                     |  description: Create a new <<resourcePathName | !singularize>>""".stripMargin,
-      "file://oauth_2_0.raml"  -> """#%RAML 1.0 SecurityScheme
+      "file://oauth_2_0.raml" -> """#%RAML 1.0 SecurityScheme
                                    |description: |
                                    |  This API supports OAuth 2.0 for authenticating all API requests.
                                    |type: OAuth 2.0
@@ -66,11 +66,11 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
                                    |  accessTokenUri:   https://esboam-dev.hhq.hud.dev/openam/oauth2/access_token
                                    |  authorizationGrants: [ client_credentials ]
                                    |  scopes: [ ADMIN ]""".stripMargin,
-      "file://paged.raml"      -> """#%RAML 1.0 Trait
+      "file://paged.raml" -> """#%RAML 1.0 Trait
                                |queryParameters:
                                |  start:
                                |    type: number""".stripMargin,
-      "file://user.raml"       -> """#%RAML 1.0 DataType
+      "file://user.raml" -> """#%RAML 1.0 DataType
                               |properties:
                               |  name: string
                               |  age?: number""".stripMargin
@@ -88,16 +88,20 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
     override def accepts(resource: String): Boolean = files.keySet.contains(resource)
   }
 
-  def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier,
-                  validator: Option[BaseProfileValidatorBuilder] = None): LanguageServer = {
+  def buildServer(
+      diagnosticNotifier: MockDiagnosticClientNotifier,
+      validator: Option[BaseProfileValidatorBuilder] = None
+  ): LanguageServer = {
     val global  = EditorConfiguration.withPlatformLoaders(Seq(rl))
     val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, global)
     val dm      = builder.buildDiagnosticManagers(validator)
     val factory = builder.buildWorkspaceManagerFactory()
-    val b = new LanguageServerBuilder(factory.documentManager,
-                                      factory.workspaceManager,
-                                      factory.configurationManager,
-                                      factory.resolutionTaskManager)
+    val b = new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
     b.addRequestModule(factory.cleanDiagnosticManager)
     dm.foreach(m => b.addInitializableModule(m))
     b.build()
@@ -196,7 +200,8 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
     AlsInitializeParams(
       Some(AlsClientCapabilities(customValidations = Some(CustomValidationClientCapabilities(true)))),
       Some(TraceKind.Off),
-      rootUri = Some("file:///"))
+      rootUri = Some("file:///")
+    )
 
   test("Clean diagnostic with negative custom validations") {
     val negativeReportUri = filePath(platform.encodeURI("project/negative.report.jsonld"))
@@ -206,32 +211,32 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
         val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(10000)
         val validator                                        = FromJsonLdValidatorProvider(negativeReport.toString())
         val server                                           = buildServer(diagnosticNotifier, Some(validator))
-        withServer(server, customValidationInitParams) {
-          s =>
-            val mainFilePath       = s"file:///api.raml"
-            val profileUri: String = filePath(platform.encodeURI("project/profile.yaml"))
-            val args               = changeConfigArgs(None, "file:///", Set.empty, Set(profileUri))
-            val mainContent =
-              """#%RAML 1.0
+        withServer(server, customValidationInitParams) { s =>
+          val mainFilePath       = s"file:///api.raml"
+          val profileUri: String = filePath(platform.encodeURI("project/profile.yaml"))
+          val args               = changeConfigArgs(None, "file:///", Set.empty, Set(profileUri))
+          val mainContent =
+            """#%RAML 1.0
                 |""".stripMargin
 
-            for {
-              _ <- openFileNotification(s)(mainFilePath, mainContent)
-              _ <- diagnosticNotifier.nextCall
-              _ <- validator.jsonLDValidatorExecutor.calledAtLeastNTimes(0) // no profile
-              _ <- changeWorkspaceConfiguration(server)(args)
-              _ <- diagnosticNotifier.nextCall
-              _ <- validator.jsonLDValidatorExecutor.calledAtLeastNTimes(1) // added profile
-              d <- requestCleanDiagnostic(s)(mainFilePath)
-              _ <- validator.jsonLDValidatorExecutor.calledAtLeastNTimes(2) // clean diagnostic
-            } yield {
-              s.shutdown()
-              assert(d.nonEmpty)
-              assert(d.forall(_.diagnostics.nonEmpty))
-              assert(
-                d.head.diagnostics.head.code
-                  .exists(_.endsWith("project/profile.yaml#/encodes/validations/validation1")))
-            }
+          for {
+            _ <- openFileNotification(s)(mainFilePath, mainContent)
+            _ <- diagnosticNotifier.nextCall
+            _ <- validator.jsonLDValidatorExecutor.calledAtLeastNTimes(0) // no profile
+            _ <- changeWorkspaceConfiguration(server)(args)
+            _ <- diagnosticNotifier.nextCall
+            _ <- validator.jsonLDValidatorExecutor.calledAtLeastNTimes(1) // added profile
+            d <- requestCleanDiagnostic(s)(mainFilePath)
+            _ <- validator.jsonLDValidatorExecutor.calledAtLeastNTimes(2) // clean diagnostic
+          } yield {
+            s.shutdown()
+            assert(d.nonEmpty)
+            assert(d.forall(_.diagnostics.nonEmpty))
+            assert(
+              d.head.diagnostics.head.code
+                .exists(_.endsWith("project/profile.yaml#/encodes/validations/validation1"))
+            )
+          }
         }
       })
   }
@@ -243,27 +248,26 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
         val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
         val validator                                        = FromJsonLdValidatorProvider(negativeReport.toString())
         val server                                           = buildServer(diagnosticNotifier, Some(validator))
-        withServer(server, customValidationInitParams) {
-          s =>
-            val mainFilePath       = s"file:///api.raml"
-            val profileUri: String = filePath(platform.encodeURI("project/profile.yaml"))
-            val args               = changeConfigArgs(None, "file:///", Set.empty, Set(profileUri))
-            val mainContent =
-              """#%RAML 1.0
+        withServer(server, customValidationInitParams) { s =>
+          val mainFilePath       = s"file:///api.raml"
+          val profileUri: String = filePath(platform.encodeURI("project/profile.yaml"))
+          val args               = changeConfigArgs(None, "file:///", Set.empty, Set(profileUri))
+          val mainContent =
+            """#%RAML 1.0
               |""".stripMargin
 
-            for {
-              _ <- openFileNotification(s)(mainFilePath, mainContent)
-              _ <- diagnosticNotifier.nextCall
-              _ <- changeWorkspaceConfiguration(server)(args)
-              _ <- diagnosticNotifier.nextCall
-              d <- requestCleanDiagnostic(s)(mainFilePath)
-              _ <- validator.jsonLDValidatorExecutor.calledAtLeastNTimes(2)
-            } yield {
-              s.shutdown()
-              assert(d.nonEmpty)
-              assert(d.forall(_.diagnostics.isEmpty))
-            }
+          for {
+            _ <- openFileNotification(s)(mainFilePath, mainContent)
+            _ <- diagnosticNotifier.nextCall
+            _ <- changeWorkspaceConfiguration(server)(args)
+            _ <- diagnosticNotifier.nextCall
+            d <- requestCleanDiagnostic(s)(mainFilePath)
+            _ <- validator.jsonLDValidatorExecutor.calledAtLeastNTimes(2)
+          } yield {
+            s.shutdown()
+            assert(d.nonEmpty)
+            assert(d.forall(_.diagnostics.isEmpty))
+          }
         }
       })
   }

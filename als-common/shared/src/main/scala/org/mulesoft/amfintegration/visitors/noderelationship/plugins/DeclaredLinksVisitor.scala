@@ -12,8 +12,8 @@ import org.mulesoft.amfintegration.visitors.AmfElementVisitorFactory
 import org.mulesoft.amfintegration.visitors.noderelationship.NodeRelationshipVisitorType
 import org.yaml.model._
 
-/**
-  * @test: org.mulesoft.als.server.modules.definition.files.DefinitionFilesTest - oas-anchor
+/** @test:
+  *   org.mulesoft.als.server.modules.definition.files.DefinitionFilesTest - oas-anchor
   */
 class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
 
@@ -41,7 +41,8 @@ class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
       .flatMap(triple =>
         triple._1.annotations
           .ast()
-          .map(sourceAST => RelationshipLink(sourceAST, triple._3, getName(triple._2), getName(triple._1))))
+          .map(sourceAST => RelationshipLink(sourceAST, triple._3, getName(triple._2), getName(triple._1)))
+      )
 
   private def extractInherits(obj: AmfObject): Seq[RelationshipLink] =
     obj.fields
@@ -63,7 +64,8 @@ class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
                 if (o.annotations.contains(classOf[DeclaredElement]))
                   o.annotations.ast().toSeq.map((o, _))
                 else Seq.empty
-            }).map(t => RelationshipLink(source, t._2, getName(t._1))))
+            }).map(t => RelationshipLink(source, t._2, getName(t._1)))
+          )
       }
       .getOrElse(Nil)
 
@@ -72,8 +74,7 @@ class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
       .ast()
       .map(checkYNodePlain)
 
-  /**
-    * checks for {$ref: '#declared'} style references and extracts YMapEntry of such
+  /** checks for {$ref: '#declared'} style references and extracts YMapEntry of such
     *
     * @param sourceEntry
     * @return

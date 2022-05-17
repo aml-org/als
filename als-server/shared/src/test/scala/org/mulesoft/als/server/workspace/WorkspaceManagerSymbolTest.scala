@@ -22,12 +22,12 @@ class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
   private def testStructureForFile(server: LanguageServer, url: String) = {
     for {
       _ <- server.testInitialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
-      _ <- changeWorkspaceConfiguration(server)(
-        changeConfigArgs(Some(s"${filePath("ws1")}/api.raml"), filePath("ws1")))
+      _ <- changeWorkspaceConfiguration(server)(changeConfigArgs(Some(s"${filePath("ws1")}/api.raml"), filePath("ws1")))
       _ <- {
         platform.fetchContent(url, AMLConfiguration.predefined()).map { c =>
-          server.textDocumentSyncConsumer.didOpen(DidOpenTextDocumentParams(
-            TextDocumentItem(url, "RAML", 0, c.stream.toString))) // why clean empty lines was necessary?
+          server.textDocumentSyncConsumer.didOpen(
+            DidOpenTextDocumentParams(TextDocumentItem(url, "RAML", 0, c.stream.toString))
+          ) // why clean empty lines was necessary?
         }
       }
       s <- {
@@ -78,10 +78,12 @@ class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
   }
 
   def buildServer(factory: WorkspaceManagerFactory): LanguageServer =
-    new LanguageServerBuilder(factory.documentManager,
-                              factory.workspaceManager,
-                              factory.configurationManager,
-                              factory.resolutionTaskManager)
+    new LanguageServerBuilder(
+      factory.documentManager,
+      factory.workspaceManager,
+      factory.configurationManager,
+      factory.resolutionTaskManager
+    )
       .addRequestModule(factory.structureManager)
       .build()
 

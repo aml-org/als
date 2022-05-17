@@ -20,7 +20,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"$ref\""
@@ -50,7 +50,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"allOf\": \"$1\""
@@ -80,7 +80,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"default\": \"$1\""
@@ -110,7 +110,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"description\": \"$1\""
@@ -140,7 +140,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"enum\": [\n  \"$1\"\n]"
@@ -170,7 +170,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"example\": \"$1\""
@@ -200,7 +200,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"externalDocs\": {\n  \"$1\"\n}"
@@ -230,7 +230,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"items\": {\n  \"$1\"\n}"
@@ -260,7 +260,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"properties\": {\n  \"$1\"\n}"
@@ -290,7 +290,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"readOnly\": \"$1\""
@@ -320,7 +320,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"required\": \"$1\""
@@ -350,7 +350,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"title\": \"$1\""
@@ -380,7 +380,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"type\": \"$1\""
@@ -410,7 +410,7 @@
         },
         "end": {
           "line": 4,
-          "character": 9
+          "character": 8
         }
       },
       "newText": "\"xml\": {\n  \"$1\"\n}"

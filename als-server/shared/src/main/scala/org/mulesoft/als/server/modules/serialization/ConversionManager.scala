@@ -15,10 +15,11 @@ import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class ConversionManager(unitAccessor: UnitAccessor[CompilableUnit],
-                        telemetryProvider: TelemetryProvider,
-                        logger: Logger)
-    extends RequestModule[ConversionClientCapabilities, ConversionRequestOptions] {
+class ConversionManager(
+    unitAccessor: UnitAccessor[CompilableUnit],
+    telemetryProvider: TelemetryProvider,
+    logger: Logger
+) extends RequestModule[ConversionClientCapabilities, ConversionRequestOptions] {
 
   private var enabled = false
 
@@ -44,21 +45,26 @@ class ConversionManager(unitAccessor: UnitAccessor[CompilableUnit],
 
       override protected def uri(params: ConversionParams): String = params.uri
 
-      /**
-        * If Some(_), this will be sent as a response as a default for a managed exception
+      /** If Some(_), this will be sent as a response as a default for a managed exception
         */
       override protected val empty: Option[SerializedDocument] = None
     }
   )
 
-  private def onSerializationRequest(uri: String, target: String, syntax: Option[String]): Future[SerializedDocument] = {
+  private def onSerializationRequest(
+      uri: String,
+      target: String,
+      syntax: Option[String]
+  ): Future[SerializedDocument] = {
     unitAccessor
       .getLastUnit(uri, UUID.randomUUID().toString)
       .flatMap(_.getLast) map { cu => // should check the origin?
-      SerializedDocument(cu.unit.identifier,
-                         cu.context.state
-                           .configForSpec(Spec(target))
-                           .convertTo(cu.unit, syntax))
+      SerializedDocument(
+        cu.unit.identifier,
+        cu.context.state
+          .configForSpec(Spec(target))
+          .convertTo(cu.unit, syntax)
+      )
     }
   }
 

@@ -25,11 +25,14 @@ object OaslikeSecurityScopesCompletionPlugin extends AMLCompletionPlugin {
               RawSuggestion(
                 t,
                 isAKey = false,
-                category = CategoryRegistry(OAuth2FlowModel.`type`.head.iri(),
-                                            OAuth2FlowModel.Scopes.value.iri(),
-                                            request.actualDialect.id),
+                category = CategoryRegistry(
+                  OAuth2FlowModel.`type`.head.iri(),
+                  OAuth2FlowModel.Scopes.value.iri(),
+                  request.actualDialect.id
+                ),
                 mandatory = false
-            ))
+              )
+            )
         case _ => Nil
       }
     }
