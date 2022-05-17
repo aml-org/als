@@ -4,6 +4,7 @@ import amf.aml.client.scala.AMLConfiguration
 import amf.aml.client.scala.model.document.Dialect
 import amf.apicontract.client.scala.RAMLConfiguration
 import amf.core.client.scala.config.{CachedReference, UnitCache}
+import amf.core.client.scala.config.{CachedReference, UnitCache}
 import amf.core.client.scala.model.document.{BaseUnit, Module}
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.client.scala.validation.AMFValidationResult
@@ -21,7 +22,7 @@ import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.common.{Range, Position}
 import org.mulesoft.lsp.feature.completion.CompletionItem
 import org.scalatest.{AsyncFunSuite, Matchers}
-
+import org.mulesoft.amfintegration.AmfImplicits._
 import scala.concurrent.{ExecutionContext, Future}
 
 class AliasedSemexSuggestionTest extends AsyncFunSuite with BaseSuggestionsForTest with Matchers {
