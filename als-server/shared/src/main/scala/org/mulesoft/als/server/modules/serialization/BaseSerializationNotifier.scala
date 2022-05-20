@@ -19,7 +19,7 @@ abstract class BaseSerializationNotifier[S](
     logger: Logger
 ) extends ClientNotifierModule[SerializationClientCapabilities, SerializationServerOptions] {
 
-  protected var enabled = false
+  protected def enabled: Boolean = BaseSerializationNotifierState.enabled
 
   protected def serialize(baseUnit: BaseUnit, amlConfiguration: AMLConfiguration): SerializationResult[S] = {
     val value = props.newDocBuilder(configurationReader.getShouldPrettyPrintSerialization)
@@ -31,8 +31,12 @@ abstract class BaseSerializationNotifier[S](
     props.alsClientNotifier.notifySerialization(serialize(baseUnit, amlConfiguration))
 
   override def applyConfig(config: Option[SerializationClientCapabilities]): SerializationServerOptions = {
-    config.foreach(c => enabled = c.acceptsNotification)
+    config.foreach(c => BaseSerializationNotifierState.enabled = c.acceptsNotification)
     logger.debug(s"Serialization manager enabled: $enabled", "SerializationManager", "applyConfig")
     SerializationServerOptions(true)
   }
+}
+
+private object BaseSerializationNotifierState {
+  var enabled = false
 }
