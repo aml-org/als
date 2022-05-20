@@ -22,10 +22,10 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     if (
-      DialectKnowledge.isRamlInclusion(params.yPartBranch, params.nodeDialect) || DialectKnowledge.isJsonInclusion(
+      (DialectKnowledge.isRamlInclusion(params.yPartBranch, params.nodeDialect) || DialectKnowledge.isJsonInclusion(
         params.yPartBranch,
         params.nodeDialect
-      )
+      )) && DialectKnowledge.isPathFacetSupportedByVersion(params.baseUnit.sourceSpec.getOrElse(""))
     ) {
       resolveInclusion(
         params.baseUnit.location().getOrElse(""),
