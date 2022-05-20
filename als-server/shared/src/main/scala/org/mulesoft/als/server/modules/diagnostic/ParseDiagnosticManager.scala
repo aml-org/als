@@ -23,19 +23,19 @@ class ParseDiagnosticManager(
 
   /** Called on new AST available
     *
-    * @param tuple
+    * @param params
     *   \- (AST, References)
     * @param uuid
     *   \- telemetry UUID
     */
-  override def onNewAst(tuple: BaseUnitListenerParams, uuid: String): Future[Unit] = synchronized {
-    val parsedResult = tuple.parseResult
+  override def onNewAst(params: BaseUnitListenerParams, uuid: String): Future[Unit] = synchronized {
+    val parsedResult = params.parseResult
     val references =
-      (if (tuple.tree)
-         projectReferences(tuple.parseResult.uri, tuple.parseResult.context.state.projectState.projectErrors)
+      (if (params.tree)
+         projectReferences(params.parseResult.uri, params.parseResult.context.state.projectState.projectErrors)
        else
          Map.empty) ++
-        tuple.diagnosticsBundle
+        params.diagnosticsBundle
     logger.debug("Got new AST:\n" + parsedResult.result.baseUnit.id, "ParseDiagnosticManager", "newASTAvailable")
     val uri = parsedResult.location
     telemetryProvider.timeProcess(
