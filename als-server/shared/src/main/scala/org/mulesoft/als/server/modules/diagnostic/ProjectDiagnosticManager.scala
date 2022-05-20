@@ -1,9 +1,12 @@
 package org.mulesoft.als.server.modules.diagnostic
 
 import amf.core.client.common.validation.ProfileNames
+import amf.core.internal.unsafe.PlatformSecrets
+import org.mulesoft.als.common.URIImplicits.StringUriImplicits
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.client.platform.ClientNotifier
-import org.mulesoft.als.server.modules.ast.{BaseUnitListener, BaseUnitListenerParams}
+import org.mulesoft.als.server.modules.project.NewConfigurationListener
+import org.mulesoft.amfintegration.amfconfiguration.ProjectConfigurationState
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
 import scala.collection.mutable
@@ -16,8 +19,9 @@ class ProjectDiagnosticManager(
     override protected val logger: Logger,
     override protected val validationGatherer: ValidationGatherer,
     override protected val optimizationKind: DiagnosticNotificationsKind
-) extends BaseUnitListener
-    with DiagnosticManager {
+) extends NewConfigurationListener
+    with DiagnosticManager
+    with PlatformSecrets {
   override protected val managerName: DiagnosticManagerKind = ProjectDiagnosticKind
 
   private val filesByWorkspace: mutable.Map[String, Set[String]] = mutable.Map.empty
@@ -33,20 +37,24 @@ class ProjectDiagnosticManager(
     })
   }
 
-  override def onNewAst(ast: BaseUnitListenerParams, uuid: String): Future[Unit] = {
-    if (ast.tree) {
-      val uri                    = ast.parseResult.location
-      val projectErrors          = ast.parseResult.context.state.projectState.projectErrors
-      val locations: Set[String] = projectErrors.flatMap(_.location).toSet
-      updateWorkspaceFiles(ast.workspace, locations)
-      validationGatherer.indexNewReport(
-        ErrorsWithTree(uri, projectErrors.map(new AlsValidationResult(_)), Some(locations ++ Set(uri))),
-        managerName,
-        uuid
-      )
-    }
-    Future.unit
-  }
+  override def onNewAst(ast: ProjectConfigurationState, uuid: String): Future[Unit] = Future(for {
+    mainFile <- ast.config.mainFile // todo: apb returning full uri would be nice
+  } yield {
+    val locations       = ast.projectErrors.flatMap(_.location).toSet
+    val folder          = ast.config.folder.toAmfDecodedUri(platform)
+    val correctedFolder = if (folder.endsWith("/")) folder else s"$folder/"
+    val mainFileUri     = s"$correctedFolder$mainFile".toAmfUri(platform)
+    validationGatherer.indexNewReport(
+      ErrorsWithTree(
+        mainFileUri,
+        ast.projectErrors.map(new AlsValidationResult(_)),
+        Some(locations ++ Set(mainFileUri))
+      ),
+      managerName,
+      uuid
+    )
+    updateWorkspaceFiles(ast.config.folder, locations)
+  })
 
   override def onRemoveFile(uri: String): Unit = {}
 }
