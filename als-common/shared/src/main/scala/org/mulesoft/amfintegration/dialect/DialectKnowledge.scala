@@ -20,6 +20,6 @@ object DialectKnowledge {
   def isInclusion(yPartBranch: YPartBranch, dialect: Dialect): Boolean =
     isRamlInclusion(yPartBranch, dialect) || isJsonInclusion(yPartBranch, dialect)
 
-  def isPathFacetSupportedByVersion(spec: Spec): Boolean =
-    !Spec.RAML08.equals(spec)
+  def isPathFacetSupportedByVersion(spec: Option[Spec]): Boolean =
+    spec.exists(s => !Spec.RAML08.equals(s))
 }

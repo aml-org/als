@@ -25,7 +25,7 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
       (DialectKnowledge.isRamlInclusion(params.yPartBranch, params.nodeDialect) || DialectKnowledge.isJsonInclusion(
         params.yPartBranch,
         params.nodeDialect
-      )) && DialectKnowledge.isPathFacetSupportedByVersion(params.baseUnit.sourceSpec.getOrElse(""))
+      )) && DialectKnowledge.isPathFacetSupportedByVersion(params.baseUnit.sourceSpec)
     ) {
       resolveInclusion(
         params.baseUnit.location().getOrElse(""),
