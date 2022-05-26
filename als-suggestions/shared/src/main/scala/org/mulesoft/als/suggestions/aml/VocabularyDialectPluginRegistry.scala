@@ -8,6 +8,7 @@ import org.mulesoft.als.suggestions.plugins.aml.vocabulary.{
   ClassTermUriCompletionPlugin,
   PropertyTermUriCompletionPlugin
 }
+import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.AMLLibraryPathCompletion
 import org.mulesoft.amfintegration.dialect.dialects.metadialect.VocabularyDialect
 
 object VocabularyDialectPluginRegistry extends WebApiCompletionPluginRegistry {
@@ -15,7 +16,8 @@ object VocabularyDialectPluginRegistry extends WebApiCompletionPluginRegistry {
   private val all: Seq[AMLCompletionPlugin] =
     AMLBaseCompletionPlugins.all :+
       PropertyTermUriCompletionPlugin :+
-      ClassTermUriCompletionPlugin
+      ClassTermUriCompletionPlugin :+
+      AMLLibraryPathCompletion
 
   override def plugins: Seq[AMLCompletionPlugin] = all
 
