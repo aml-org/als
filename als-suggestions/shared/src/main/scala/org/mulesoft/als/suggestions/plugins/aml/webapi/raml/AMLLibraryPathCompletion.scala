@@ -1,7 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
 import amf.core.client.scala.model.document.BaseUnit
-import amf.core.internal.remote.Spec
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -17,8 +16,7 @@ object AMLLibraryPathCompletion extends AMLCompletionPlugin {
     if (
       (request.amfObject
         .isInstanceOf[BaseUnit] || isEncodes(request.amfObject, request.actualDialect)) &&
-        request.yPartBranch.isInBranchOf("uses") && request.yPartBranch.isValue &&
-        isPathFacetSupportedByVersion(request.baseUnit.sourceSpec)
+        request.yPartBranch.isInBranchOf("uses") && request.yPartBranch.isValue
     ) {
       AMLPathCompletionPlugin.resolveInclusion(
         request.baseUnit.location().getOrElse(""),
@@ -29,7 +27,4 @@ object AMLLibraryPathCompletion extends AMLCompletionPlugin {
       )
     } else emptySuggestion
   }
-
-  def isPathFacetSupportedByVersion(spec: Option[Spec]): Boolean =
-    spec.exists(s => !Spec.RAML08.equals(s))
 }
