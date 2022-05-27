@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
-import amf.apicontract.client.scala.model.domain.{Operation, Payload}
+import amf.apicontract.client.scala.model.domain.{Operation, Payload, Request}
 import amf.core.client.scala.model.domain.Shape
 import amf.core.internal.metamodel.domain.ShapeModel
 import org.mulesoft.als.common.YPartBranch
@@ -31,6 +31,7 @@ trait PayloadMediaTypeSeeker {
             .option()
             .isEmpty && inMediaType(request.yPartBranch)
         case Some(_: Operation) => inMediaType(request.yPartBranch)
+        case Some(_: Request)   => inMediaType(request.yPartBranch)
         case _                  => false
       })
 
