@@ -1,13 +1,13 @@
 [
   {
-    "label": "application/xml",
+    "label": "application/json",
     "kind": [],
     "detail": "unknown",
-    "documentation": "application/xml",
+    "documentation": "application/json",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11application/xml",
-    "filterText": "application/xml:\n  ",
+    "sortText": "11application/json",
+    "filterText": "application/json:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,15 +15,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 8,
+          "line": 9,
           "character": 6
         },
         "end": {
-          "line": 8,
-          "character": 6
+          "line": 9,
+          "character": 7
         }
       },
-      "newText": "application/xml:\n  "
+      "newText": "application/json:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
