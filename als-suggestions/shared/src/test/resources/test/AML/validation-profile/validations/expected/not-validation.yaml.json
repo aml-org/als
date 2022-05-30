@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11targetClass",
-    "filterText": "targetClass: ",
+    "filterText": "targetClass:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -53,7 +53,7 @@
           "character": 4
         }
       },
-      "newText": "targetClass: "
+      "newText": "targetClass:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

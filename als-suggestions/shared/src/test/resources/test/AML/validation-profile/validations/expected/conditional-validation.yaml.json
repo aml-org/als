@@ -1,35 +1,5 @@
 [
   {
-    "label": "else",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "else",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11else",
-    "filterText": "else:\n  ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 4,
-          "character": 4
-        },
-        "end": {
-          "line": 4,
-          "character": 4
-        }
-      },
-      "newText": "else:\n  "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "message",
     "kind": [],
     "detail": "unknown",
@@ -97,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11targetClass",
-    "filterText": "targetClass: ",
+    "filterText": "targetClass:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +83,7 @@
           "character": 4
         }
       },
-      "newText": "targetClass: "
+      "newText": "targetClass:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

@@ -5,14 +5,14 @@ import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.server.LanguageServerBaseTest
 import org.mulesoft.als.server.modules.workspace.{DefaultProjectConfigurationProvider, MainFileTreeBuilder}
 import org.mulesoft.als.server.textsync.TextDocumentContainer
-import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
+import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.amfconfiguration.{
   ALSConfigurationState,
   EditorConfiguration,
   EmptyProjectConfigurationState
 }
 import org.mulesoft.amfintegration.visitors.AmfElementVisitors
-import org.mulesoft.amfintegration.AmfImplicits._
+
 import scala.concurrent.{ExecutionContext, Future}
 
 class DefaultProjectConfigurationProviderTest extends LanguageServerBaseTest {
@@ -136,7 +136,7 @@ class DefaultProjectConfigurationProviderTest extends LanguageServerBaseTest {
       p1.profiles.find(p => p.path.contains("profile.yaml")) should not be empty
       p1.profiles.find(p =>
         p.model.encodes.graph
-          .scalarByProperty("http://a.ml/vocabularies/amf/core#name")
+          .scalarByProperty("http://schema.org/name")
           .contains("ValidateGet")
       ) should not be empty
     }

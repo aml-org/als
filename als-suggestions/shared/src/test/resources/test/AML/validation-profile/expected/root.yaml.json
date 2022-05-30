@@ -240,36 +240,6 @@
     "command": null
   },
   {
-    "label": "tags",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "tags",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11tags",
-    "filterText": "tags:\n  - ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 1,
-          "character": 0
-        },
-        "end": {
-          "line": 1,
-          "character": 0
-        }
-      },
-      "newText": "tags:\n  - "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "uses",
     "kind": [],
     "detail": "unknown",
