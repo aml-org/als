@@ -6580,6 +6580,11 @@ declare module '@aml-org/als-node-client' {
     configuration?: AlsConfiguration
     hotReload?: boolean
   }
+  
+  export type DidFocusParams = {
+    uri: String
+    version: number
+  }
 
   export interface AlsClientCapabilities {
     workspace?: WorkspaceClientCapabilities
@@ -6603,6 +6608,10 @@ declare module '@aml-org/als-node-client' {
 
   export type AlsCapabilitiesNotification = {
     type: NotificationType<AlsClientCapabilities>
+  }
+  
+  export type DidFocusNotification = {
+    type: NotificationType<DidFocusParams>
   }
 
   export interface CleanDiagnosticTreeParams {
@@ -6654,15 +6663,6 @@ declare module '@aml-org/als-node-client' {
 
   export const ClientNotifierFactory: {
     createWithClientAware(logger: ClientLogger): ClientNotifier & LanguageClientAware & AlsClientNotifier & AlsLanguageClientAware
-  }
-
-  export type DidFocusParams = {
-    uri: String
-    version: number
-  }
-
-  export type DidFocusNotification = {
-    type: NotificationType<DidFocusParams>
   }
 }
 
