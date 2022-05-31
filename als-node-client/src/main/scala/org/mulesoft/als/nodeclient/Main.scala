@@ -2,7 +2,7 @@ package org.mulesoft.als.nodeclient
 
 import amf.core.internal.unsafe.PlatformSecrets
 import amf.custom.validation.client.platform.CustomValidator
-import amf.custom.validation.client.validator.JsCustomValidator
+import amf.custom.validation.client.scala.validator.JsCustomValidator
 import amf.custom.validation.internal.unsafe.AmfCustomValidatorNode
 import io.scalajs.nodejs.process
 import org.mulesoft.als.server.client.platform.AlsLanguageServerFactory
