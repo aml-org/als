@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi
 
-import amf.apicontract.client.scala.model.domain.{Parameter, Payload}
-import amf.apicontract.internal.metamodel.domain.{ParameterModel, PayloadModel}
+import amf.apicontract.client.scala.model.domain.Parameter
+import amf.apicontract.internal.metamodel.domain.ParameterModel
 import amf.core.internal.parser.domain.FieldEntry
 import amf.shapes.internal.domain.metamodel.ScalarShapeModel
 import org.mulesoft.als.suggestions.RawSuggestion
@@ -16,8 +16,6 @@ trait WebApiKnownValueCompletionPlugin extends AbstractKnownValueCompletionPlugi
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     params.fieldEntry match {
       case None if isHeader(params) => innerResolver(params, ParameterModel.Name, ParameterModel.`type`.head.iri())
-      case None if isPayloadName(params) =>
-        innerResolver(params, PayloadModel.MediaType, PayloadModel.`type`.head.iri())
       case Some(fe) if isParamName(params, fe) =>
         if (isHeader(params)) innerResolver(params, ParameterModel.Name, ParameterModel.`type`.head.iri())
         else emptySuggestion
@@ -30,10 +28,6 @@ trait WebApiKnownValueCompletionPlugin extends AbstractKnownValueCompletionPlugi
         p.binding.option().contains("header") || params.yPartBranch.parentEntryIs("headers")
       case _ => false
     }
-
-  protected def isPayloadName(request: AmlCompletionRequest): Boolean =
-    request.amfObject.isInstanceOf[Payload] && request.amfObject.fields.fields().isEmpty && request.yPartBranch
-      .isKeyDescendantOf("body")
 
   private def isParamName(params: AmlCompletionRequest, fe: FieldEntry): Boolean = isParam(params) && isName(fe)
 

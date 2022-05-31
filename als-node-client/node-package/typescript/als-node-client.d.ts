@@ -6655,6 +6655,15 @@ declare module '@aml-org/als-node-client' {
   export const ClientNotifierFactory: {
     createWithClientAware(logger: ClientLogger): ClientNotifier & LanguageClientAware & AlsClientNotifier & AlsLanguageClientAware
   }
+
+  export type DidFocusParams = {
+    uri: String
+    version: number
+  }
+
+  export type DidFocusNotification = {
+    type: NotificationType<DidFocusParams>
+  }
 }
 
 declare module '@aml-org/amf-custom-validator-web' {

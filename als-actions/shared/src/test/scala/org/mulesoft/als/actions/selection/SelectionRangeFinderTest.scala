@@ -5,11 +5,7 @@ import amf.core.client.scala.resource.ResourceLoader
 import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
-import org.mulesoft.amfintegration.amfconfiguration.{
-  ALSConfigurationState,
-  EditorConfiguration,
-  EmptyProjectConfigurationState
-}
+import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, EditorConfiguration, EmptyProjectConfigurationState}
 import org.mulesoft.lsp.feature.common.{Range, Position => LspPosition}
 import org.mulesoft.lsp.feature.selectionRange.SelectionRange
 import org.scalatest.{AsyncFlatSpec, Matchers}
@@ -288,7 +284,7 @@ class SelectionRangeFinderTest extends AsyncFlatSpec with Matchers with Platform
           |  displayName: driver ID download
           |  get:
           |    is: [client-id-required]
-          |    description: get mobile ordering master by driver ID
+          |    description: get mobile ordering main by driver ID
           |    responses:
           |      200:
           |        body:
