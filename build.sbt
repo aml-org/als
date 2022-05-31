@@ -68,6 +68,7 @@ val orgSettings = Seq(
   credentials ++= Common.credentials(),
   libraryDependencies ++= Seq(
     "com.chuusai"    %% "shapeless"     % "2.3.3",
+    "org.scalaj" %% "scalaj-http" % "2.4.2",
     "org.scala-js"   %% "scalajs-stubs" % scalaJSVersion % "provided",
     "org.scalatest" %%% "scalatest"     % "3.0.5"        % Test,
     "org.scalamock" %%% "scalamock"     % "4.1.0"        % Test,
