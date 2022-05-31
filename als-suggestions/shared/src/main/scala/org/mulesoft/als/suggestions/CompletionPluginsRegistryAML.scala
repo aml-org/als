@@ -3,6 +3,7 @@ package org.mulesoft.als.suggestions
 import amf.aml.client.scala.model.document.Dialect
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.hackathon.AIGeneratedSuggestion
 import org.mulesoft.als.suggestions.plugins.aml.validationprofiles.ValidationProfileTermsSuggestions
 import org.mulesoft.als.suggestions.plugins.aml.webapi.extensions.OasLikeSemanticExtensionsFlavour
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.AMLLibraryPathCompletion
@@ -101,6 +102,7 @@ object AMLBaseCompletionPlugins {
         ResolveDefault
       )
     ),
+    AIGeneratedSuggestion,
     AMLEnumCompletionPlugin,
     AMLRootDeclarationsCompletionPlugin,
     AMLRamlStyleDeclarationsReferences,

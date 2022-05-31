@@ -4,6 +4,7 @@ import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.{AmfConfigurationPatcher, MarkerFinderTest, PlatformDirectoryResolver}
 import org.mulesoft.als.configuration.AlsConfiguration
 import org.mulesoft.als.suggestions.client.Suggestions
+import org.mulesoft.als.suggestions.plugins.aml.hackathon.{AIGeneratedSuggestion, AIGenerator}
 import org.mulesoft.als.suggestions.test.core.AccessBundle
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.mulesoft.lsp.feature.completion.CompletionItem
@@ -43,8 +44,41 @@ trait BaseSuggestionsForTest extends PlatformSecrets with MarkerFinderTest with 
     val resourceLoader = AmfConfigurationPatcher.resourceLoaderForFile(url, markerInfo.content)
     val newAlsConfig =
       ALSConfigurationState(configurationState.editorState, configurationState.projectState, Some(resourceLoader))
+
+    AIGeneratedSuggestion.withAIGenerator(DummyGenerator)
+
     new Suggestions(AlsConfiguration(), dr, accessBundle(newAlsConfig))
       .initialized()
       .suggest(url, position, snippetsSupport = true, None)
+  }
+}
+
+object DummyGenerator extends AIGenerator {
+  override def generate(input: String): Future[String] = Future {
+    """type: object
+      |     properties:
+      |       name:
+      |         type: string
+      |       age:
+      |         type: number
+      |       gender:
+      |         type: string
+      |       pets:
+      |         type: array
+      |         items:
+      |           type: string
+      |
+      |/people:
+      |  get:
+      |    responses:
+      |      200:
+      |        body:
+      |          application/json:
+      |            type: array
+      |            items:
+      |              type: person
+      |```
+      |
+      |## Usage""".stripMargin
   }
 }
