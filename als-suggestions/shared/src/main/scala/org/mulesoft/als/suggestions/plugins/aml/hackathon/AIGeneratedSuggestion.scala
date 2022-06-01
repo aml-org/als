@@ -11,7 +11,7 @@ import org.yaml.model.{ParseErrorHandler, SyamlException, YMap, YMapEntry, YNode
 import org.yaml.parser.{JsonParser, YamlParser}
 import org.yaml.render.JsonRender
 import org.yaml.render.YamlRender.render
-import scalaj.http.{Http, HttpResponse}
+import scalaj.http.{Http, HttpOptions, HttpResponse}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -83,9 +83,16 @@ object RestAIGenerator extends AIGenerator {
       .postData(data)
       .header("Content-Type", "application/json")
       .header("Authorization", s"Bearer $superSecretKey")
+      .option(HttpOptions.readTimeout(10000))
       .asString
 
-    extractText(result)
+    if (result.is2xx)
+      extractText(result)
+    else {
+      println("**** ERROR ****")
+      println(result.toString)
+      ""
+    }
   }
   // this is not the method you are looking for
   private def extractText(result: HttpResponse[String]) = {

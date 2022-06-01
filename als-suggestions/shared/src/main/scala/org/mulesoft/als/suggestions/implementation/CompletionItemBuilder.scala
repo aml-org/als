@@ -17,6 +17,7 @@ class CompletionItemBuilder(r: PositionRange) {
   private var template                                   = false
   private var filterText: Option[String]                 = None
   private var mandatory: Boolean                         = false
+  private var hackathon: Boolean                         = false
   private var isTopLevel: Boolean                        = false
   private var additionalTextEdits: Option[Seq[TextEdit]] = None
 
@@ -70,6 +71,11 @@ class CompletionItemBuilder(r: PositionRange) {
     this
   }
 
+  def withHackathon(hackathon: Boolean): this.type = {
+    this.hackathon = hackathon
+    this
+  }
+
   def withIsTopLevel(isTopLevel: Boolean): this.type = {
     this.isTopLevel = isTopLevel
     this
@@ -86,6 +92,7 @@ class CompletionItemBuilder(r: PositionRange) {
 
   def getPriority(text: String): Int =
     PriorityRenderer.sortValue(
+      isHackathon = hackathon,
       isMandatory = mandatory,
       isTemplate = template,
       isAnnotation = text.startsWith("("),

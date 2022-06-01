@@ -42,7 +42,7 @@ trait SuggestionRender {
   private def getBuilder(suggestions: RawSuggestion): CompletionItemBuilder = {
     val styled  = style(suggestions)
     val builder = new CompletionItemBuilder(styled.replacementRange)
-    if (styled.plain)
+    if (styled.plain && suggestions.yPart.isEmpty)
       builder.withInsertTextFormat(InsertTextFormat.PlainText)
     else builder.withInsertTextFormat(InsertTextFormat.Snippet)
     if (suggestions.children.nonEmpty) builder.withTemplate()
@@ -74,6 +74,7 @@ trait SuggestionRender {
       .withCategory(suggestions.category)
       .withPrefix(params.prefix)
       .withMandatory(suggestions.options.isMandatory)
+      .withHackathon(suggestions.yPart.isDefined)
       .withIsTopLevel(suggestions.options.isTopLevel)
     if (suggestions.textEdits.nonEmpty)
       builder.withAdditionalTextEdits(toTextEdits(suggestions.textEdits))
