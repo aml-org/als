@@ -9,6 +9,7 @@ import org.mulesoft.amfintegration.LocalIgnoreErrorHandler
 import org.mulesoft.lexer.SourceLocation
 import org.yaml.model.{ParseErrorHandler, SyamlException, YMap, YMapEntry, YNode, YPart, YSequence}
 import org.yaml.parser.{JsonParser, YamlParser}
+import org.yaml.render.JsonRender
 import org.yaml.render.YamlRender.render
 import scalaj.http.{Http, HttpResponse}
 
@@ -30,16 +31,18 @@ object AIGeneratedSuggestion extends AMLCompletionPlugin {
     aIGenerator
       .generate(raw)
       .map(generated => extractNode(raw + generated, request))
-      .map { yPartBranch =>
-        // ugly, always use 2 spaces for indentation!!
-        // don't try to do inflow or anything of the sorts
-        // just yaml!!
-        val string = render(yPartBranch.node, yPartBranch.stack.count(_.isInstanceOf[YMap]) * 2)
-        Seq(
-          RawSuggestion(string, isAKey = false, "generated", mandatory = false, Some("Generate"), Nil)
-            .withYPart(yPartBranch.node)
-        )
-      }
+      .map(createSuggestion)
+
+  private def createSuggestion(yPartBranch: YPartBranch): Seq[RawSuggestion] = {
+    // ugly, always use 2 spaces for indentation!!
+    // don't try to do inflow or anything of the sorts
+    // just yaml!!
+    val string = render(yPartBranch.node, yPartBranch.stack.count(_.isInstanceOf[YMap]) * 2)
+    Seq(
+      RawSuggestion(string, isAKey = false, "generated", mandatory = false, Some("Generate"), Nil)
+        .withYPart(yPartBranch.node)
+    )
+  }
 
   private var aIGenerator: AIGenerator = RestAIGenerator // mutable in order to test easy
 
@@ -65,9 +68,16 @@ trait AIGenerator {
 object RestAIGenerator extends AIGenerator {
   private val superSecretKey: String = "" // TODO: fillme
 
-  override def generate(input: String): Future[String] = {
-    // TODO: make me a valid json
-    val data = s"""{"prompt": "$input", "temperature": 0, "max_tokens": 100}""" // dont stress me
+  override def generate(input: String): Future[String] = Future {
+    val params = YMap(
+      SourceLocation(""),
+      IndexedSeq(
+        YMapEntry(YNode("prompt"), YNode(input)),
+        YMapEntry(YNode("temperature"), YNode(0)),
+        YMapEntry(YNode("max_tokens"), YNode(100))
+      )
+    )
+    val data = JsonRender.render(params, 0)
 
     val result = Http("https://api.openai.com/v1/engines/text-davinci-002/completions")
       .postData(data)
@@ -76,7 +86,7 @@ object RestAIGenerator extends AIGenerator {
       .asString
 
     assert(result.code == 200)
-    Future.successful(extractText(result))
+    extractText(result)
   }
   // this is not the method you are looking for
   private def extractText(result: HttpResponse[String]) = {
