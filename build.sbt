@@ -68,12 +68,18 @@ val orgSettings = Seq(
   credentials ++= Common.credentials(),
   libraryDependencies ++= Seq(
     "com.chuusai"    %% "shapeless"     % "2.3.3",
-    "org.scalaj" %% "scalaj-http" % "2.4.2",
+    "com.softwaremill.sttp.client3" %% "core" % "3.6.2",
     "org.scala-js"   %% "scalajs-stubs" % scalaJSVersion % "provided",
     "org.scalatest" %%% "scalatest"     % "3.0.5"        % Test,
     "org.scalamock" %%% "scalamock"     % "4.1.0"        % Test,
-    "com.lihaoyi"   %%% "upickle"       % "0.5.1"        % Test
-  )
+    "com.lihaoyi"   %%% "upickle"       % "0.5.1"        % Test,
+    "com.softwaremill.sttp.client3" %% "circe" % "3.6.2"
+
+  ) ++ Seq(
+    "io.circe" %% "circe-core",
+    "io.circe" %% "circe-generic",
+    "io.circe" %% "circe-parser"
+    ).map(_ % "0.14.1")
 )
 
 val settings = Common.settings ++ Common.publish ++ orgSettings

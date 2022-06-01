@@ -1,20 +1,25 @@
 package org.mulesoft.als.suggestions.plugins.aml.hackathon
 
+import io.circe
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.common.{NodeBranchBuilder, YPartBranch}
-import org.mulesoft.als.suggestions.{RawSuggestion, SuggestionStructure}
+import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.mulesoft.amfintegration.LocalIgnoreErrorHandler
+import org.mulesoft.als.suggestions.plugins.aml.hackathon.RestAIGenerator.OpenGptResponse
 import org.mulesoft.lexer.SourceLocation
-import org.yaml.model.{ParseErrorHandler, SyamlException, YMap, YMapEntry, YNode, YPart, YSequence}
+import org.yaml.model._
 import org.yaml.parser.{JsonParser, YamlParser}
 import org.yaml.render.JsonRender
 import org.yaml.render.YamlRender.render
-import scalaj.http.{Http, HttpOptions, HttpResponse}
+import sttp.client3.circe._
+import sttp.client3.{Identity, Response, ResponseException, UriContext, basicRequest}
+import io.circe.generic.auto._
+import sttp.client3.quick.backend
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.concurrent.duration.{Duration, MILLISECONDS}
 
 object AIGeneratedSuggestion extends AMLCompletionPlugin {
   override def id: String = "AIGeneratedSuggestion"
@@ -65,11 +70,38 @@ trait AIGenerator {
   def generate(input: String): Future[String]
 }
 
+object OpenGptCompletionRequest {
+
+  def apply(data: String, secretKey: String, timeout: Int) = {
+    basicRequest
+      .post(uri"https://api.openai.com/v1/engines/text-davinci-002/completions")
+      .body(data)
+      .header("Content-Type", "application/json", replaceExisting = true)
+      .auth
+      .bearer(secretKey)
+      .readTimeout(Duration(timeout, MILLISECONDS))
+      .response(asJson[OpenGptResponse])
+  }
+}
+
 object RestAIGenerator extends AIGenerator {
-  private val superSecretKey: String = "" // TODO: fillme
+  private val superSecretKey: String = "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" // TODO: fillme
 
   override def generate(input: String): Future[String] = Future {
-    val params = YMap(
+    val params = buildRequestData(input)
+    val data   = JsonRender.render(params, 0)
+    val result = OpenGptCompletionRequest(data, superSecretKey, 10000).send(backend)
+    result.body match {
+      case Right(response) => extractText(response)
+      case Left(exception) =>
+        println("**** ERROR ****")
+        println(exception.getMessage)
+        ""
+    }
+  }
+
+  private def buildRequestData(input: String) = {
+    YMap(
       SourceLocation(""),
       IndexedSeq(
         YMapEntry(YNode("prompt"), YNode(input)),
@@ -77,46 +109,17 @@ object RestAIGenerator extends AIGenerator {
         YMapEntry(YNode("max_tokens"), YNode(100))
       )
     )
-    val data = JsonRender.render(params, 0)
-
-    val result = Http("https://api.openai.com/v1/engines/text-davinci-002/completions")
-      .postData(data)
-      .header("Content-Type", "application/json")
-      .header("Authorization", s"Bearer $superSecretKey")
-      .option(HttpOptions.readTimeout(10000))
-      .asString
-
-    if (result.is2xx)
-      extractText(result)
-    else {
-      println("**** ERROR ****")
-      println(result.toString)
-      ""
-    }
   }
+
   // this is not the method you are looking for
-  private def extractText(result: HttpResponse[String]) = {
-    JsonParser(result.body)
-      .parse(false)
-      .head
-      .children
-      .last
-      .children
-      .last
-      .children
-      .last
-      .children
-      .last
-      .children
-      .last
-      .children
-      .last
-      .children
-      .last
-      .children
-      .head
-      .children
-      .last
-      .toString
-  }
+  private def extractText(result: OpenGptResponse) = result.choices.head.text
+
+  case class OpenGptResponse(
+      id: String,
+      `object`: String,
+      created: Long,
+      model: String,
+      choices: List[OpenGptResponseChoice]
+  )
+  case class OpenGptResponseChoice(text: String, index: Int, logprobs: Option[String], finish_reason: String)
 }
