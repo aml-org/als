@@ -85,7 +85,6 @@ object RestAIGenerator extends AIGenerator {
       .header("Authorization", s"Bearer $superSecretKey")
       .asString
 
-    assert(result.code == 200)
     extractText(result)
   }
   // this is not the method you are looking for
