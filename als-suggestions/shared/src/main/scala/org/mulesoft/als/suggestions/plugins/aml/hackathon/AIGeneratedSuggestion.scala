@@ -2,11 +2,14 @@ package org.mulesoft.als.suggestions.plugins.aml.hackathon
 
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.common.{NodeBranchBuilder, YPartBranch}
-import org.mulesoft.als.suggestions.RawSuggestion
+import org.mulesoft.als.suggestions.{RawSuggestion, SuggestionStructure}
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
-import org.yaml.model.{YNode, YPart}
-import org.yaml.parser.JsonParser
+import org.mulesoft.amfintegration.LocalIgnoreErrorHandler
+import org.mulesoft.lexer.SourceLocation
+import org.yaml.model.{ParseErrorHandler, SyamlException, YMap, YMapEntry, YNode, YPart, YSequence}
+import org.yaml.parser.{JsonParser, YamlParser}
+import org.yaml.render.YamlRender.render
 import scalaj.http.{Http, HttpResponse}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -26,26 +29,31 @@ object AIGeneratedSuggestion extends AMLCompletionPlugin {
   private def generateSuggestion(raw: String, request: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     aIGenerator
       .generate(raw)
-      .map { generated =>
-        val wholeText = raw + generated
-        extractNode(wholeText, request)
-      }
-      .map(generated =>
+      .map(generated => extractNode(raw + generated, request))
+      .map { yPartBranch =>
+        // ugly, always use 2 spaces for indentation!!
+        // don't try to do inflow or anything of the sorts
+        // just yaml!!
+        val string = render(yPartBranch.node, yPartBranch.stack.count(_.isInstanceOf[YMap]) * 2)
         Seq(
-          RawSuggestion(generated, isAKey = false, "generated", mandatory = false, Some("Generate"), Nil)
+          RawSuggestion(string, isAKey = false, "generated", mandatory = false, Some("Generate"), Nil)
+            .withYPart(yPartBranch.node)
         )
-      )
+      }
 
   private var aIGenerator: AIGenerator = RestAIGenerator // mutable in order to test easy
 
   def withAIGenerator(aIGenerator: AIGenerator): Unit =
     this.aIGenerator = aIGenerator
 
-  private def extractNode(whole: String, request: AmlCompletionRequest): String = {
-    val part: YPart = YNode.Null // TODO: parsear whole
-    val yPartBranch: YPartBranch =
-      NodeBranchBuilder.build(part, request.yPartBranch.position, request.yPartBranch.isJson)
-    yPartBranch.node.toString
+  private def extractNode(whole: String, request: AmlCompletionRequest): YPartBranch = {
+    val handler = new ParseErrorHandler {
+      override def handle(location: SourceLocation, e: SyamlException): Unit = {
+        // ignore
+      }
+    }
+    val part: YPart = YSequence(YamlParser(whole)(handler).parse(false))
+    NodeBranchBuilder.build(part, request.yPartBranch.position, request.yPartBranch.isJson)
   }
 
 }

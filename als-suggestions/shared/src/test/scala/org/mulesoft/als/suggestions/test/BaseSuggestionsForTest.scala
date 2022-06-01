@@ -55,18 +55,19 @@ trait BaseSuggestionsForTest extends PlatformSecrets with MarkerFinderTest with 
 
 object DummyGenerator extends AIGenerator {
   override def generate(input: String): Future[String] = Future {
-    """type: object
-      |     properties:
-      |       name:
-      |         type: string
-      |       age:
-      |         type: number
-      |       gender:
-      |         type: string
-      |       pets:
-      |         type: array
-      |         items:
-      |           type: string
+    """
+      |    type: object
+      |    properties:
+      |      name:
+      |        type: string
+      |      age:
+      |        type: number
+      |      gender:
+      |        type: string
+      |      pets:
+      |        type: array
+      |        items:
+      |          type: string
       |
       |/people:
       |  get:

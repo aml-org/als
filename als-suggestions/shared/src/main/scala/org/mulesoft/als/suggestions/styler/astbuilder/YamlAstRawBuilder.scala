@@ -8,10 +8,14 @@ class YamlAstRawBuilder(val raw: RawSuggestion, val isSnippet: Boolean, val yPar
     extends AstRawBuilder(raw, isSnippet, yPartBranch) {
 
   def ast: YPart =
-    if (raw.options.isKey)
-      if (yPartBranch.isInFlow) emitRootKey
-      else YNode(YMap(IndexedSeq(emitRootKey), ""))
-    else value(raw.newText, raw.options)
+    raw.yPart match {
+      case Some(value) => value
+      case None =>
+        if (raw.options.isKey)
+          if (yPartBranch.isInFlow) emitRootKey
+          else YNode(YMap(IndexedSeq(emitRootKey), ""))
+        else value(raw.newText, raw.options)
+    }
 
   override protected def newInstance: (RawSuggestion, Boolean) => AstRawBuilder =
     (raw: RawSuggestion, isSnippet: Boolean) =>

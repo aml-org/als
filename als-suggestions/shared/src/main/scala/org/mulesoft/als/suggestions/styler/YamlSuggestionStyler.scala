@@ -15,6 +15,9 @@ case class YamlSuggestionStyler(override val params: StylerParams) extends FlowS
       text.stripPrefix(stringIndentation)
     else prefix + text
 
+  private def getIndentation: Option[Int] =
+    params.yPartBranch.closestEntry.map(_.key.range.columnFrom + params.formattingConfiguration.tabSize)
+
   override protected def render(options: SuggestionStructure, builder: AstRawBuilder): String = {
     val prefix =
       if (
@@ -22,7 +25,7 @@ case class YamlSuggestionStyler(override val params: StylerParams) extends FlowS
       ) // never will suggest object in value as is not key. Suggestions should be empty
         "\n"
       else ""
-    val rendered = renderYPart(builder.ast)
+    val rendered = renderYPart(builder.ast, getIndentation)
     fixPrefix(prefix, fix(builder, rendered))
   }
 

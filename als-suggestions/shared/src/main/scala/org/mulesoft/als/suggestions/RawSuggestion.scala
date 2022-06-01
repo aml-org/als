@@ -12,8 +12,14 @@ case class RawSuggestion(
     category: String = "unknown",
     range: Option[PositionRange] = None,
     options: SuggestionStructure = SuggestionStructure(),
-    children: Seq[RawSuggestion] = Seq.empty
+    children: Seq[RawSuggestion] = Seq.empty,
+    var yPart: Option[YPart] = None
 ) {
+
+  def withYPart(part: YPart): RawSuggestion = {
+    this.yPart = Some(part)
+    this
+  }
 
   def withStringKey: RawSuggestion =
     RawSuggestion(
