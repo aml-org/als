@@ -62,6 +62,12 @@ pipeline {
             }
         }
         stage('Test') {
+            when {
+                anyOf {
+                    branch 'master'
+                    branch 'develop'
+                }
+            }
             steps {
                 wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
                     script {
@@ -256,7 +262,7 @@ pipeline {
                     } else if (currentBuild.getPreviousBuild() != null && currentBuild.getPreviousBuild().result != null && currentBuild.getPreviousBuild().result.toString() != 'SUCCESS') {
                         slackSend color: '#00FF00', channel: "${slackChannel}", message: ":ok_hand: ${projectName} Back to Green!! :ok_hand:\n\tBranch: ${env.BRANCH_NAME}\n(See ${env.BUILD_URL})\n"
                     } else {
-                        slackSend color: '#00FF00', channel: "${slackChannel}", message: ":ok_hand: ${projectName} ${currentBuild.result} !!! :ok_hand:\n\tBranch: ${env.BRANCH_NAME}\n(See ${env.BUILD_URL})\n"
+                        slackSend color: '#00FF00', channel: "${slackChannel}", message: ":ok_hand: ${projectName} ${currentBuild.currentResult} !!! :ok_hand:\n\tBranch: ${env.BRANCH_NAME}\n(See ${env.BUILD_URL})\n"
                     }
                 }
             }
