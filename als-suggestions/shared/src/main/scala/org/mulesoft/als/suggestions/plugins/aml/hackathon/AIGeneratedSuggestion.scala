@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml.hackathon
 
-import io.circe
+import io.circe.generic.auto._
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.common.{NodeBranchBuilder, YPartBranch}
 import org.mulesoft.als.suggestions.RawSuggestion
@@ -9,13 +9,13 @@ import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.hackathon.RestAIGenerator.OpenGptResponse
 import org.mulesoft.lexer.SourceLocation
 import org.yaml.model._
-import org.yaml.parser.{JsonParser, YamlParser}
+import org.yaml.parser.YamlParser
 import org.yaml.render.JsonRender
 import org.yaml.render.YamlRender.render
+import scalaj.http.{Http, HttpOptions, HttpResponse}
 import sttp.client3.circe._
-import sttp.client3.{Identity, Response, ResponseException, UriContext, basicRequest}
-import io.circe.generic.auto._
-import sttp.client3.quick.backend
+import sttp.client3.{UriContext, basicRequest}
+import io.circe._, io.circe.generic.auto._, io.circe.parser._, io.circe.syntax._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -43,10 +43,12 @@ object AIGeneratedSuggestion extends AMLCompletionPlugin {
     // don't try to do inflow or anything of the sorts
     // just yaml!!
     val string = render(yPartBranch.node, yPartBranch.stack.count(_.isInstanceOf[YMap]) * 2)
-    Seq(
-      RawSuggestion(string, isAKey = false, "generated", mandatory = false, Some("Generate"), Nil)
-        .withYPart(yPartBranch.node)
-    )
+    if (string.isEmpty) Nil
+    else
+      Seq(
+        RawSuggestion(string, isAKey = false, "generated", mandatory = false, Some("Generate"), Nil)
+          .withYPart(yPartBranch.node)
+      )
   }
 
   private var aIGenerator: AIGenerator = RestAIGenerator // mutable in order to test easy
@@ -70,37 +72,34 @@ trait AIGenerator {
   def generate(input: String): Future[String]
 }
 
-object OpenGptCompletionRequest {
-
-  def apply(data: String, secretKey: String, timeout: Int) = {
-    basicRequest
-      .post(uri"https://api.openai.com/v1/engines/text-davinci-002/completions")
-      .body(data)
-      .header("Content-Type", "application/json", replaceExisting = true)
-      .auth
-      .bearer(secretKey)
-      .readTimeout(Duration(timeout, MILLISECONDS))
-      .response(asJson[OpenGptResponse])
-  }
-}
-
 object RestAIGenerator extends AIGenerator {
-  private val superSecretKey: String = "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" // TODO: fillme
+  private val superSecretKey: String = "" // TODO: fillme
 
   override def generate(input: String): Future[String] = Future {
     val params = buildRequestData(input)
     val data   = JsonRender.render(params, 0)
-    val result = OpenGptCompletionRequest(data, superSecretKey, 10000).send(backend)
-    result.body match {
-      case Right(response) => extractText(response)
-      case Left(exception) =>
-        println("**** ERROR ****")
-        println(exception.getMessage)
-        ""
+    val result: HttpResponse[String] = Http("https://api.openai.com/v1/engines/text-davinci-002/completions")
+      .postData(data)
+      .header("Content-Type", "application/json")
+      .header("Authorization", s"Bearer $superSecretKey")
+      .option(HttpOptions.readTimeout(10000))
+      .asString
+    if (result.is2xx) {
+      decode[OpenGptResponse](result.body) match {
+        case Left(error) =>
+          println("**** ERROR ****")
+          println(error)
+          ""
+        case Right(value) => extractText(value)
+      }
+    } else {
+      println("**** ERROR ****")
+      println(result)
+      ""
     }
   }
 
-  private def buildRequestData(input: String) = {
+  private def buildRequestData(input: String) =
     YMap(
       SourceLocation(""),
       IndexedSeq(
@@ -109,7 +108,6 @@ object RestAIGenerator extends AIGenerator {
         YMapEntry(YNode("max_tokens"), YNode(100))
       )
     )
-  }
 
   // this is not the method you are looking for
   private def extractText(result: OpenGptResponse) = result.choices.head.text

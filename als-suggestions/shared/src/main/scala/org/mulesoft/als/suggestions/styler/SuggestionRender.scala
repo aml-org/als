@@ -95,7 +95,9 @@ trait SuggestionRender {
       val builder = astBuilder(raw)
       val text    = render(raw.options, builder)
 
-      Styled(text, plain = !builder.asSnippet, suggestionRange(raw))
+      if (raw.yPart.isDefined)
+        Styled(s"\n$text", plain = !builder.asSnippet, suggestionRange(raw))
+      else Styled(text, plain = !builder.asSnippet, suggestionRange(raw))
     }
 
   protected def suggestionRange(raw: RawSuggestion): PositionRange =
