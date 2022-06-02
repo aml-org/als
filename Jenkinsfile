@@ -5,8 +5,7 @@ def color = '#FF8C00'
 def headerFlavour = "WARNING"
 def publish_version
 def projectName = "ALS"
-// TODO: Replace this branch name after tests
-def BRANCH_SUPPORT = "W-11238723v4"
+def BRANCH_SUPPORT = "support"
 
 node {
     // Login to dockerhub to prevent rate-limiting. See https://salesforce.quip.com/aqcaAObOcXpF
@@ -66,7 +65,7 @@ pipeline {
                 wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
                     script {
                         try {
-//                             sh 'sbt -mem 6000 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 clean coverage test coverageReport'
+                            sh 'sbt -mem 6000 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 clean coverage test coverageReport'
                         } catch (e) {
                             failedStage = failedStage + " TEST "
                             unstable "Failed tests"
@@ -232,8 +231,7 @@ pipeline {
             when {
                 anyOf {
                     branch 'master'
-                    branch BRANCH_SUPPORT
-//                     branch BRANCH_SUPPORT + '/*'
+                    branch BRANCH_SUPPORT + '/*'
                     branch 'rc/*'
                     branch 'develop'
                 }
