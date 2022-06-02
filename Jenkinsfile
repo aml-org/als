@@ -5,6 +5,8 @@ def color = '#FF8C00'
 def headerFlavour = "WARNING"
 def publish_version
 def projectName = "ALS"
+// TODO: Replace this branch name after tests
+def BRANCH_SUPPORT = "W-11238723"
 
 node {
     // Login to dockerhub to prevent rate-limiting. See https://salesforce.quip.com/aqcaAObOcXpF
@@ -230,7 +232,7 @@ pipeline {
             when {
                 anyOf {
                     branch 'master'
-                    branch 'support/*'
+                    branch BRANCH_SUPPORT + '/*'
                     branch 'rc/*'
                     branch 'develop'
                 }
@@ -250,6 +252,8 @@ pipeline {
                         slackSend color: '#00FF00', channel: "${slackChannel}", message: "${projectName} Published RC ${publish_version}"
                     } else if (env.BRANCH_NAME == 'master') {
                         slackSend color: '#00FF00', channel: "${slackChannel}", message: ":ok_hand: ${projectName} Master Publish ${publish_version} OK! :ok_hand:"
+                    } else if (env.BRANCH_NAME.startsWith(BRANCH_SUPPORT)) {
+                        slackSend color: '#00FF00', channel: "${slackChannel}", message: "${projectName} Published " + BRANCH_SUPPORT + " ${publish_version}"
                     } else if (currentBuild.getPreviousBuild().result != null && currentBuild.getPreviousBuild().result.toString() != 'SUCCESS') {
                         slackSend color: '#00FF00', channel: "${slackChannel}", message: ":ok_hand: ${projectName} Back to Green!! :ok_hand:\n\tBranch: ${env.BRANCH_NAME}\n(See ${env.BUILD_URL})\n"
                     }
