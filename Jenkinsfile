@@ -232,7 +232,8 @@ pipeline {
             when {
                 anyOf {
                     branch 'master'
-                    branch BRANCH_SUPPORT + '/*'
+                    branch BRANCH_SUPPORT
+//                     branch BRANCH_SUPPORT + '/*'
                     branch 'rc/*'
                     branch 'develop'
                 }
