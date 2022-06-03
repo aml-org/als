@@ -36,7 +36,7 @@ object ResolveDefault extends ResolveIfApplies with AmfObjectKnowledge {
         val isEncoded =
           isEncodes(params.amfObject, params.actualDialect) && isEmptyFieldOrPrefix(
             params
-          ) // params.fieldEntry.isEmpty does nothing here?
+          )
         if (((isEncoded && params.yPartBranch.isAtRoot) || !isEncoded) && isEmptyFieldOrPrefix(params))
           new AMLStructureCompletionsPlugin(params.propertyMapping, params.actualDialect)
             .resolve(params.amfObject.metaURIs.head) ++

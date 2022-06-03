@@ -367,7 +367,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "21New parameters",
-    "filterText": "parameters:\n  -\n    in: $1\n    required: $2\n    description: $3\n    name: $4",
+    "filterText": "parameters:\n  -\n    in: $1\n    required: $2\n    description: $3\n    name: $4\n    type: $5",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -383,7 +383,7 @@
           "character": 4
         }
       },
-      "newText": "parameters:\n  -\n    in: $1\n    required: $2\n    description: $3\n    name: $4"
+      "newText": "parameters:\n  -\n    in: $1\n    required: $2\n    description: $3\n    name: $4\n    type: $5"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

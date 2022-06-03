@@ -3,6 +3,8 @@ package org.mulesoft.amfintegration.dialect.dialects.oas.nodes
 import amf.aml.client.scala.model.domain.PropertyMapping
 import amf.apicontract.internal.metamodel.domain.{ParameterModel, PayloadModel, RequestModel}
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdString}
+import amf.shapes.internal.domain.metamodel.ArrayShapeModel
+import org.mulesoft.amfintegration.dialect.dialects.oas.OAS20Dialect.DialectLocation
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
 
 trait AMLOasParamBaseObject extends AMLSchemaBaseObject {
@@ -47,15 +49,36 @@ object Oas20ParamObject extends AMLOasParamBaseObject {
     .withNodePropertyMapping(ParameterModel.Binding.value.iri())
     .withLiteralRange(xsdString.iri())
 
-  override def properties: Seq[PropertyMapping] = paramProperties ++ Seq(
-    PropertyMapping()
-      .withId(OAS20Dialect.DialectLocation + "#/declarations/ParameterObject/required")
-      .withName("required")
-      .withMinCount(1)
-      .withNodePropertyMapping(ParameterModel.Required.value.iri())
-      .withLiteralRange(xsdBoolean.iri()),
-    paramBinding
-  )
+  val allowEmptyValue: PropertyMapping = PropertyMapping()
+    .withId(OAS30Dialect.DialectLocation + "#/declarations/ParameterObject/allowEmptyValue")
+    .withName("allowEmptyValue")
+    .withNodePropertyMapping(ParameterModel.AllowEmptyValue.value.iri())
+    .withLiteralRange(xsdBoolean.iri())
+
+  override def properties: Seq[PropertyMapping] =
+    Seq(typeMapping) ++ commonShapeFields ++ paramProperties ++ Seq(
+      PropertyMapping()
+        .withId(OAS20Dialect.DialectLocation + "#/declarations/ParameterObject/required")
+        .withName("required")
+        .withMinCount(1)
+        .withNodePropertyMapping(ParameterModel.Required.value.iri())
+        .withLiteralRange(xsdBoolean.iri()),
+      paramBinding,
+      PropertyMapping()
+        .withId(DialectLocation + s"#/declarations/ShapeObject/collectionFormat")
+        .withName("collectionFormat")
+        .withNodePropertyMapping(ArrayShapeModel.CollectionFormat.value.iri())
+        .withEnum(
+          Seq(
+            "csv",
+            "ssv",
+            "tsv",
+            "pipes",
+            "multi"
+          )
+        )
+        .withLiteralRange(xsdString.iri())
+    )
 
   override def location: String = OAS20Dialect.DialectLocation
 }
