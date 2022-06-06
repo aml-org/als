@@ -1,0 +1,62 @@
+[
+  {
+    "label": "New schema",
+    "kind": [],
+    "detail": "template",
+    "documentation": "schema",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "20New schema",
+    "filterText": "schema:\n  description: $1\n  type: $2",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 8
+        },
+        "end": {
+          "line": 7,
+          "character": 9
+        }
+      },
+      "newText": "schema:\n  description: $1\n  type: $2"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "schema",
+    "kind": [],
+    "detail": "schemas",
+    "documentation": "schema",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10schema",
+    "filterText": "schema:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 8
+        },
+        "end": {
+          "line": 7,
+          "character": 9
+        }
+      },
+      "newText": "schema:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
