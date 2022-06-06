@@ -108,7 +108,6 @@ object AMLBaseCompletionPlugins {
     AMLComponentKeyCompletionPlugin,
     AMLRefTagCompletionPlugin,
     AMLPathCompletionPlugin,
-    AMLLibraryPathCompletion,
     AMLBooleanPropertyValue,
     AMLJsonSchemaStyleDeclarationReferences,
     AMLUnionDiscriminatorCompletionPlugin,

@@ -60,6 +60,36 @@
     "command": null
   },
   {
+    "label": "data-type-properties.raml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11data-type-properties.raml",
+    "filterText": "data-type-properties.raml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 9
+        },
+        "end": {
+          "line": 2,
+          "character": 9
+        }
+      },
+      "newText": "data-type-properties.raml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "data-type.raml",
     "kind": [],
     "detail": "unknown",

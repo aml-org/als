@@ -23,7 +23,8 @@ case class ProjectConfiguration(
   /** @return
     *   main file computed uri. Folder plus main file.
     */
-  def rootUri: Option[String] = mainFile.map(m => m.substring(0, m.lastIndexOf(Fs.separatorChar)))
+  def rootUri: Option[String] =
+    mainFile.map(m => m.substring(0, m.lastIndexOf(Fs.separatorChar))) // todo: not sure what this is supposed to do
 
   def containsInDependencies(uri: String): Boolean =
     (validationDependency ++ extensionDependency ++ metadataDependency).contains(uri)
