@@ -65,7 +65,7 @@ pipeline {
                 wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
                     script {
                         try {
-                            sh 'sbt -mem 6000 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 clean coverage test coverageReport'
+                            sh 'sbt -mem 6000 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 clean coverage test coverageAggregate'
                         } catch (e) {
                             failedStage = failedStage + " TEST "
                             unstable "Failed tests"

@@ -316,9 +316,8 @@ sonarProperties ++= Map(
   "sonar.projectName"       -> "ALS",
   "sonar.projectVersion"    -> "1.0.0",
   "sonar.sourceEncoding"    -> "UTF-8",
-  "sonar.github.repository" -> "mulesoft/als",
+  "sonar.github.repository" -> "aml-org/als",
   "sonar.branch.name"       -> branch,
-  "sonar.scala.coverage.reportPaths" -> "als-server/jvm/target/scala-2.12/scoverage-report/scoverage.xml,als-structure/jvm/target/scala-2.12/scoverage-report/scoverage.xml,als-suggestions/jvm/target/scala-2.12/scoverage-report/scoverage.xml,als-common/jvm/target/scala-2.12/scoverage-report/scoverage.xml",
   "sonar.sources" -> "als-server/shared/src/main/scala,als-structure/shared/src/main/scala,als-suggestions/shared/src/main/scala",
   "sonar.tests" -> "als-server/shared/src/test/scala,als-structure/shared/src/test/scala,als-suggestions/shared/src/test/scala"
 )
