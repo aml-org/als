@@ -6633,7 +6633,7 @@ declare module '@aml-org/als-node-client' {
 
   export interface SerializedDocument {
     uri: string
-    document: string
+    model: string
   }
 
   export interface RenameFileActionParams {
