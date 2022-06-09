@@ -1,35 +1,5 @@
 [
   {
-    "label": "allowEmptyValue",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "allowEmptyValue",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11allowEmptyValue",
-    "filterText": "allowEmptyValue: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 4,
-          "character": 4
-        },
-        "end": {
-          "line": 4,
-          "character": 4
-        }
-      },
-      "newText": "allowEmptyValue: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "collectionFormat",
     "kind": [],
     "detail": "unknown",
@@ -482,7 +452,7 @@
   {
     "label": "name",
     "kind": [],
-    "detail": "parameters",
+    "detail": "docs",
     "documentation": "name",
     "deprecated": [],
     "preselect": [],
@@ -564,36 +534,6 @@
         }
       },
       "newText": "required: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "type",
-    "kind": [],
-    "detail": "schemas",
-    "documentation": "type",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "10type",
-    "filterText": "type: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 4,
-          "character": 4
-        },
-        "end": {
-          "line": 4,
-          "character": 4
-        }
-      },
-      "newText": "type: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

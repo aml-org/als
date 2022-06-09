@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "21New parameters",
-    "filterText": "\"parameters\": [\n  {\n    \"in\": \"$1\",\n    \"required\": \"$2\",\n    \"description\": \"$3\",\n    \"name\": \"$4\"\n  }\n]",
+    "filterText": "\"parameters\": [\n  {\n    \"in\": \"$1\",\n    \"required\": \"$2\",\n    \"description\": \"$3\",\n    \"name\": \"$4\",\n    \"type\": \"$5\"\n  }\n]",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -53,7 +53,7 @@
           "character": 10
         }
       },
-      "newText": "\"parameters\": [\n  {\n    \"in\": \"$1\",\n    \"required\": \"$2\",\n    \"description\": \"$3\",\n    \"name\": \"$4\"\n  }\n]"
+      "newText": "\"parameters\": [\n  {\n    \"in\": \"$1\",\n    \"required\": \"$2\",\n    \"description\": \"$3\",\n    \"name\": \"$4\",\n    \"type\": \"$5\"\n  }\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

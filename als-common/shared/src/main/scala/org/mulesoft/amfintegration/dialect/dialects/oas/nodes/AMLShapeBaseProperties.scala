@@ -22,7 +22,7 @@ trait AMLShapeBaseProperties {
       .withNodePropertyMapping(ScalarShapeModel.MultipleOf.value.iri())
       .withLiteralRange(amlNumber.iri()),
     PropertyMapping()
-      .withId(DialectLocation + s"#/declarations/ShapeObject/maximume")
+      .withId(DialectLocation + s"#/declarations/ShapeObject/maximum")
       .withName("maximum")
       .withNodePropertyMapping(ScalarShapeModel.Maximum.value.iri())
       .withLiteralRange(amlNumber.iri()),
@@ -97,6 +97,23 @@ trait AMLShapeBaseProperties {
       .withLiteralRange(xsdAnyType.iri())
   )
 
+  val typeMapping: PropertyMapping = PropertyMapping()
+    .withId(DialectLocation + "#/declarations/SchemaObject/Shape/type")
+    .withName("type")
+    .withMinCount(1)
+    .withEnum(
+      Seq(
+        "object",
+        "string",
+        "number",
+        "integer",
+        "boolean",
+        "array",
+        "file"
+      )
+    )
+    .withNodePropertyMapping(ImplicitField)
+    .withLiteralRange(xsdString.iri())
   val shapeOnly: Seq[PropertyMapping] = commonShapeFields ++ Seq(
     PropertyMapping()
       .withId(DialectLocation + "#/declarations/SchemaObject/title")
@@ -109,23 +126,7 @@ trait AMLShapeBaseProperties {
       .withName("required")
       .withNodePropertyMapping(PropertyShapeModel.MinCount.value.iri())
       .withLiteralRange(xsdBoolean.iri()),
-    PropertyMapping()
-      .withId(DialectLocation + "#/declarations/SchemaObject/Shape/type")
-      .withName("type")
-      .withMinCount(1)
-      .withEnum(
-        Seq(
-          "object",
-          "string",
-          "number",
-          "integer",
-          "boolean",
-          "array",
-          "file"
-        )
-      )
-      .withNodePropertyMapping(ImplicitField)
-      .withLiteralRange(xsdString.iri()),
+    typeMapping,
     PropertyMapping()
       .withId(DialectLocation + s"#/declarations/SchemaObject/properties")
       .withName("properties")
