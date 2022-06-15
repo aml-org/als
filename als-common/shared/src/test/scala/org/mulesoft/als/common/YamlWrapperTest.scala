@@ -50,7 +50,7 @@ class YamlWrapperTest extends FlatSpec {
     assert(nodes.getNodeForPosition(AmfPosition(3, 4)).size == 10)
     assert(nodes.getNodeForPosition(AmfPosition(8, 8)).size == 17)
     assert(nodes.getNodeForPosition(AmfPosition(9, 20)).size == 17)
-    assert(nodes.getNodeForPosition(AmfPosition(12, 25)).size == 13)
+    assert(nodes.getNodeForPosition(AmfPosition(12, 25)).size == 15)
   }
 
   ignore should "Find empty entry in array" in {

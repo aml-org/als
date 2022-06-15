@@ -250,9 +250,9 @@ object NodeBranchBuilder {
       isInFlow: Boolean = false
   ): (Seq[YPart], Boolean) = {
     val inFlow = isInFlow || containsFlow(s)
-    childWithPosition(s, amfPosition) match {
+    childWithPosition(s, amfPosition, inFlow) match {
       case Some(n: YNode) =>
-        childWithPosition(n, amfPosition) match {
+        childWithPosition(n, amfPosition, inFlow) match {
           case None
               if !n.isNull && n.value.range.lineFrom == amfPosition.line && n.value.range.columnFrom > amfPosition.column =>
             (n +: s +: parents, inFlow) // case for tag (!include)
@@ -274,11 +274,11 @@ object NodeBranchBuilder {
   private def isNullOrEmptyTag(node: YNode) =
     node.isNull || (node.tagType.toString == "!include")
 
-  def childWithPosition(ast: YPart, amfPosition: AmfPosition): Option[YPart] = {
+  def childWithPosition(ast: YPart, amfPosition: AmfPosition, isInFlow: Boolean): Option[YPart] = {
     val parts = ast.children
       .filterNot(_.isInstanceOf[YNonContent])
       .filter { yp =>
-        yp.contains(amfPosition)
+        yp.contains(amfPosition, isInFlow)
       }
     if (parts.length > 1) {
       ast match {
@@ -287,8 +287,7 @@ object NodeBranchBuilder {
           if (range.end <= Position(amfPosition) && e.value.value.range.toPositionRange.end.line == range.start.line)
             Some(e.value)
           else Some(e.key)
-        // The first match will always be the node we're looking for (because of of how the respectIndentation works)
-        case _: YSequence => parts.headOption
+        case _: YSequence => parts.find(p => p.range.lineFrom == amfPosition.line).orElse(parts.headOption)
         case _ =>
           parts.lastOption
       }

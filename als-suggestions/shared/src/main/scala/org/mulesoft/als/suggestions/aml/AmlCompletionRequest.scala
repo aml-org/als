@@ -159,9 +159,9 @@ object AmlCompletionRequestBuilder {
     }
   }
 
-  private def extractFromSeq(seq: YSequence, position: DtoPosition): String = {
+  private def extractFromSeq(seq: YSequence, position: DtoPosition, yPartBranch: YPartBranch): String = {
     def findInner(yPart: YPart): YPart =
-      yPart.children.find(p => p.contains(position.toAmfPosition)).getOrElse(yPart)
+      yPart.children.find(p => p.contains(position.toAmfPosition, yPartBranch.isInFlow)).getOrElse(yPart)
     val p = findInner(seq)
     p match {
       case non: YNonContent =>
@@ -214,9 +214,7 @@ object AmlCompletionRequestBuilder {
             case _ => ""
           }
       case s: YSequence =>
-        // children may contain a `YNonContent` with some invalid text (for example writing a new key inside a map)
-        // in this cases there will be a token with an `Error`
-        extractFromSeq(s, position)
+        extractFromSeq(s, position, yPartBranch)
       case _ =>
         val line        = TextHelper.linesWithSeparators(content)(position.line)
         val textContent = line.substring(0, position.toAmfPosition.column)
