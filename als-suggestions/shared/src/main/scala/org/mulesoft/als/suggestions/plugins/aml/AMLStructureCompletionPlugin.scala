@@ -34,7 +34,7 @@ object ResolveDefault extends ResolveIfApplies with AmfObjectKnowledge {
     if (isWritingProperty(params.yPartBranch))
       if (!isInFieldValue(params)) {
         val isEncoded =
-          isEncodes(params.amfObject, params.actualDialect) && isEmptyFieldOrPrefix(
+          isEncodes(params.amfObject, params.actualDialect, params.branchStack) && isEmptyFieldOrPrefix(
             params
           )
         if (((isEncoded && params.yPartBranch.isAtRoot) || !isEncoded) && isEmptyFieldOrPrefix(params))

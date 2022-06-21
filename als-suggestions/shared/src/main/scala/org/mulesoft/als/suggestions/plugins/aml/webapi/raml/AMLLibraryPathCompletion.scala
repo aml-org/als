@@ -15,8 +15,8 @@ object AMLLibraryPathCompletion extends AMLCompletionPlugin {
 
     if (
       (request.amfObject
-        .isInstanceOf[BaseUnit] || isEncodes(request.amfObject, request.actualDialect)) && request.yPartBranch
-        .isInBranchOf("uses") && request.yPartBranch.isValue
+        .isInstanceOf[BaseUnit] ||
+        isEncodes(request.amfObject, request.actualDialect, request.branchStack)) && matchesAST(request)
     ) {
       AMLPathCompletionPlugin.resolveInclusion(
         request.baseUnit.location().getOrElse(""),
@@ -26,5 +26,10 @@ object AMLLibraryPathCompletion extends AMLCompletionPlugin {
         request.alsConfigurationState
       )
     } else emptySuggestion
+  }
+
+  private def matchesAST(request: AmlCompletionRequest) = {
+    request.yPartBranch
+      .isInBranchOf("uses") && request.yPartBranch.isValue
   }
 }
