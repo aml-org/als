@@ -15,12 +15,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         }
       },
       "newText": "annotation.raml"
@@ -45,12 +45,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         }
       },
       "newText": "api.raml"
@@ -75,12 +75,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         }
       },
       "newText": "data-type-properties.raml"
@@ -105,12 +105,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         }
       },
       "newText": "data-type-uses.raml"
@@ -135,45 +135,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         }
       },
       "newText": "data-type.raml"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "documentation-item-uses.raml",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11documentation-item-uses.raml",
-    "filterText": "documentation-item-uses.raml",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 4,
-          "character": 23
-        },
-        "end": {
-          "line": 4,
-          "character": 23
-        }
-      },
-      "newText": "documentation-item-uses.raml"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -195,12 +165,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         }
       },
       "newText": "documentation-item.raml"
@@ -225,12 +195,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         }
       },
       "newText": "expected/"
@@ -255,12 +225,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         }
       },
       "newText": "extension-extends.raml"
@@ -285,12 +255,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         }
       },
       "newText": "extension.raml"
@@ -315,12 +285,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         }
       },
       "newText": "include-annotation.raml"
@@ -345,15 +315,45 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         }
       },
       "newText": "include-data-type.raml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "include-named-example.raml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11include-named-example.raml",
+    "filterText": "include-named-example.raml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 7
+        },
+        "end": {
+          "line": 3,
+          "character": 7
+        }
+      },
+      "newText": "include-named-example.raml"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -375,12 +375,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         }
       },
       "newText": "include-resource-type.raml"
@@ -405,12 +405,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         }
       },
       "newText": "include-security-scheme.raml"
@@ -435,12 +435,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         }
       },
       "newText": "include-trait.raml"
@@ -465,12 +465,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         }
       },
       "newText": "named-example-uses.raml"
@@ -495,12 +495,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         }
       },
       "newText": "named-example.raml"
@@ -525,12 +525,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         }
       },
       "newText": "overlay-extends.raml"
@@ -555,12 +555,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         }
       },
       "newText": "overlay.raml"
@@ -585,12 +585,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         }
       },
       "newText": "resource-type-uses.raml"
@@ -615,12 +615,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         }
       },
       "newText": "resource-type.raml"
@@ -645,12 +645,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         }
       },
       "newText": "security-scheme-uses.raml"
@@ -675,12 +675,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         }
       },
       "newText": "security-scheme.raml"
@@ -705,12 +705,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         },
         "end": {
-          "line": 4,
-          "character": 23
+          "line": 3,
+          "character": 7
         }
       },
       "newText": "trait.raml"

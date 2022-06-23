@@ -17,7 +17,7 @@ object RamlAbstractDefinition extends AMLCompletionPlugin {
   override def id: String = "RamlAbstractDefinition"
 
   private val ignoredPlugins: Set[AMLCompletionPlugin] =
-    Set(AMLRefTagCompletionPlugin, AMLRootDeclarationsCompletionPlugin)
+    Set(AMLRefTagCompletionPlugin, AMLRootDeclarationsCompletionPlugin, AMLLibraryPathCompletion)
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     val info = if (params.yPartBranch.isIncludeTagValue) None else elementInfo(params)
