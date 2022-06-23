@@ -6508,7 +6508,7 @@ declare module '@aml-org/als-server' {
 
 
   export interface WasmOpaValidator {
-    validate(profile: string, data: string): Promise<String>
+    validate(profile: string, data: string, debug: boolean, callback: (report: string | undefined, error: any) => void): Promise<String>
     initialize(callback: (error: any) => void)
     exit(): void
   }

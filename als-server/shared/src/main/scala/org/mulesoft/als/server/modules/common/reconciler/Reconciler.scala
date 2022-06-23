@@ -31,13 +31,18 @@ class Reconciler(
 
     setTimeout(
       () => {
-        if (runnable.isCanceled())
-          removeFromWaitingList(runnable)
+        removeFromWaitingList(runnable)
+        if (runnable.isCanceled)
+          result.failure(CancelledException())
         else
           findConflictingInRunningList(runnable) match {
-            case Some(_) => schedule(runnable)
+            case Some(_) =>
+              logger.debug("conflicting task running, rescheduled", "Reconciler", "schedule")
+              schedule(runnable).future.andThen {
+                case Success(value) => result.success(value)
+                case Failure(error) => result.failure(error)
+              }
             case _ =>
-              removeFromWaitingList(runnable)
               addToRunningList(runnable)
               run(runnable).future.andThen {
                 case Success(value) => result.success(value)
@@ -54,42 +59,45 @@ class Reconciler(
   private def run[ResultType](runnable: Runnable[ResultType]): Promise[ResultType] = {
     val result = Promise[ResultType]()
     runnable.run().future.andThen {
-      case Success(success) => {
+      case Success(success) =>
         removeFromRunningList(runnable)
         result.success(success)
-      }
-      case Failure(error) => {
+      case Failure(error) =>
         removeFromRunningList(runnable)
         result.failure(error)
-      }
     }
     result
   }
 
-  private def addToWaitingList[ResultType](runnable: Runnable[ResultType]) {
-    if (!waitingList.contains(runnable)) {
-      waitingList = waitingList.filterNot(current => {
-        val conflicts = runnable.conflicts(current)
-        if (conflicts) current.cancel()
-        conflicts
-      })
+  private def addToWaitingList[ResultType](runnable: Runnable[ResultType]): Unit =
+    if (!waitingList.filterNot(_.isCanceled).contains(runnable)) {
+      waitingList = waitingList
+        .filterNot(_.eq(runnable))
+        .filterNot(_.isCanceled)
+        .filterNot(current => {
+          val conflicts = runnable.conflicts(current)
+          if (conflicts) current.cancel()
+          conflicts
+        })
       waitingList += runnable.asInstanceOf[Runnable[Any]]
     } else
       logger.debug("Adding to waiting list element that's already there", "Reconciler", "addToWaitingList")
-  }
 
-  private def addToRunningList[ResultType](runnable: Runnable[ResultType]) {
+  private def addToRunningList[ResultType](runnable: Runnable[ResultType]): Unit =
     synchronized(runningList += runnable.asInstanceOf[Runnable[Any]])
-  }
 
-  private def removeFromWaitingList[ResultType](runnable: Runnable[ResultType]) {
-    synchronized(waitingList = waitingList.filterNot(_.eq(runnable)))
-  }
+  private def removeFromWaitingList[ResultType](runnable: Runnable[ResultType]): Unit =
+    synchronized(waitingList = waitingList.filterNot(_.eq(runnable)).filterNot(_.isCanceled))
 
-  private def removeFromRunningList[ResultType](runnable: Runnable[ResultType]) {
-    synchronized(runningList = runningList.filterNot(_.eq(runnable)))
-  }
+  private def removeFromRunningList[ResultType](runnable: Runnable[ResultType]): Unit =
+    synchronized(runningList = runningList.filterNot(_.eq(runnable)).filterNot(_.isCanceled))
 
   private def findConflictingInRunningList[ResultType](runnable: Runnable[ResultType]): Option[Runnable[ResultType]] =
-    runningList.find(runnable.conflicts).asInstanceOf[Option[Runnable[ResultType]]]
+    runningList
+      .filterNot(_.eq(runnable))
+      .filterNot(_.isCanceled)
+      .find(runnable.conflicts)
+      .asInstanceOf[Option[Runnable[ResultType]]]
 }
+
+case class CancelledException() extends Exception("Cancelled execution")
