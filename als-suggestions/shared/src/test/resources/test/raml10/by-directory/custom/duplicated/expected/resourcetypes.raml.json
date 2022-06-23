@@ -1,29 +1,29 @@
 [
   {
-    "label": "resourceType1",
+    "label": "New resourceType1",
     "kind": [],
-    "detail": "unknown",
+    "detail": "template",
     "documentation": "resourceType1",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11resourceType1",
-    "filterText": "resourceType1",
+    "sortText": "21New resourceType1",
+    "filterText": "resourceType1:\n  param1: $1\n  param2: $2",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
         "start": {
-          "line": 14,
-          "character": 8
+          "line": 15,
+          "character": 4
         },
         "end": {
-          "line": 14,
-          "character": 11
+          "line": 15,
+          "character": 7
         }
       },
-      "newText": "resourceType1"
+      "newText": "resourceType1:\n  param1: $1\n  param2: $2"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -45,12 +45,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 14,
-          "character": 8
+          "line": 15,
+          "character": 4
         },
         "end": {
-          "line": 14,
-          "character": 11
+          "line": 15,
+          "character": 7
         }
       },
       "newText": "resourceType2"
