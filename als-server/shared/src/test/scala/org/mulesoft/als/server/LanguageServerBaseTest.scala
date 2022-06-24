@@ -6,6 +6,7 @@ import amf.custom.validation.client.scala.{BaseProfileValidatorBuilder, ProfileV
 import amf.custom.validation.internal.DummyValidatorExecutor
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.logger.MessageSeverity.MessageSeverity
+import org.mulesoft.als.server.Flaky.flakyFixture
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeParams, CleanDiagnosticTreeRequestType}
 import org.mulesoft.als.server.feature.serialization.SerializationParams
 import org.mulesoft.als.server.modules.diagnostic.AlsPublishDiagnosticsParams
@@ -39,6 +40,9 @@ abstract class LanguageServerBaseTest
     with OptionValues
     with FailedLogs
     with ChangesWorkspaceConfiguration {
+
+  override def withFixture(test: NoArgAsyncTest): FutureOutcome =
+    flakyFixture[NoArgAsyncTest](test)(super.withFixture)(logger)
 
   object DummyProfileValidator extends BaseProfileValidatorBuilder {
 
