@@ -6506,6 +6506,18 @@ declare module '@aml-org/als-server' {
     validate(profile: string, data: string): Promise<String>
   }
 
+
+  export interface WasmOpaValidator {
+    validate(profile: string, data: string, debug: boolean, callback: (report: string | undefined, error: any) => void): Promise<String>
+    initialize(callback: (error: any) => void)
+    exit(): void
+  }
+
+  export class JsCustomValidator implements CustomValidator {
+    constructor(validator: WasmOpaValidator)
+    validate(profile: string, data: string): Promise<String>
+  }
+
   export interface ClientLogger extends VsCodeLogger { }
 
   export type SerializationEventNotification = {

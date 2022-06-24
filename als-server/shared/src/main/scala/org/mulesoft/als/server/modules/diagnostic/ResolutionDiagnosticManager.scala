@@ -140,8 +140,7 @@ class ResolutionDiagnosticManager(
       def innerRunGather(): Future[Unit] =
         gatherValidationErrors(ast.baseUnit.identifier, ast, ast.diagnosticsBundle, uuid) andThen {
           case Success(report) => promise.success(report)
-
-          case Failure(error) => promise.failure(error)
+          case Failure(error)  => promise.failure(error)
         }
 
       telemetryProvider.timeProcess(
@@ -166,7 +165,7 @@ class ResolutionDiagnosticManager(
       canceled = true
     }
 
-    def isCanceled(): Boolean = canceled
+    def isCanceled: Boolean = canceled
   }
 
 }

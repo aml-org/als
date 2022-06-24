@@ -10,7 +10,7 @@ trait Runnable[ResultType] {
 
   def cancel(): Unit
 
-  def isCanceled(): Boolean
+  def isCanceled: Boolean
 }
 
 class TestRunnable(var message: String, var kind: String) extends Runnable[String] {
@@ -24,7 +24,7 @@ class TestRunnable(var message: String, var kind: String) extends Runnable[Strin
     canceled = true
   }
 
-  def isCanceled(): Boolean = canceled
+  def isCanceled: Boolean = canceled
 }
 
 // $COVERAGE-ON$

@@ -72,7 +72,7 @@ class CustomValidationManager(
         val endTime = System.currentTimeMillis()
         this.logger.debug(
           s"It took ${endTime - startTime} milliseconds to validate with Go env",
-          "CustomValidationDiagnosticManager",
+          "CustomValidationManager",
           "gatherValidationErrors"
         )
       }
@@ -97,6 +97,7 @@ class CustomValidationManager(
     for {
       serialized <- serializeUnit(unit, config)
       result <- {
+        logger.debug("about to get results", "CustomValidationManager", "validate")
         Future
           .sequence(getResults(uri, profiles, serialized))
           .map(_.flatten)
@@ -134,6 +135,10 @@ class CustomValidationManager(
           }
         })
       })
+      .recoverWith { case e =>
+        logger.error(e.getMessage, "CustomValidationManager", "validateWithProfile")
+        throw e
+      }
 
   class CustomValidationRunnable(var uri: String, ast: AmfResolvedUnit, uuid: String) extends Runnable[Unit] {
     private var canceled = false
@@ -171,14 +176,14 @@ class CustomValidationManager(
       canceled = true
     }
 
-    def isCanceled(): Boolean = canceled
+    def isCanceled: Boolean = canceled
   }
 
   override protected def runnable(ast: AmfResolvedUnit, uuid: String): CustomValidationRunnable =
     new CustomValidationRunnable(ast.baseUnit.identifier, ast, uuid)
 
   protected override def onFailure(uuid: String, uri: String, exception: Throwable): Unit = {
-    logger.error(s"Error on validation: ${exception.toString}", "CustomValidationDiagnosticManager", "newASTAvailable")
+    logger.error(s"Error on validation: ${exception.toString}", "CustomValidationManager", "newASTAvailable")
     exception.printStackTrace()
     clientNotifier.notifyDiagnostic(ValidationReport(uri, Set.empty, ProfileNames.AMF).publishDiagnosticsParams)
   }
@@ -194,7 +199,7 @@ class CustomValidationManager(
   override protected def onNewAstPreprocess(resolved: AmfResolvedUnit, uuid: String): Unit =
     logger.debug(
       "Running custom validations on:\n" + resolved.baseUnit.id,
-      "CustomValidationDiagnosticManager",
+      "CustomValidationManager",
       "newASTAvailable"
     )
 
