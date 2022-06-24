@@ -11,6 +11,7 @@ import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams}
 import org.mulesoft.als.server.workspace.ChangesWorkspaceConfiguration
 import org.mulesoft.als.server.{
+  Flaky,
   LanguageServerBaseTest,
   MockAlsClientNotifier,
   MockDiagnosticClientNotifier,
@@ -101,7 +102,7 @@ class CustomValidationManagerTest
     } yield diagnostics
   }
 
-  test("Should not be called when no profile is registered") {
+  test("Should not be called when no profile is registered", Flaky) {
     implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
     val validator                                                 = FromJsonLdValidatorProvider.empty
     val server: LanguageServer                                    = buildServer(diagnosticNotifier, validator)
@@ -118,7 +119,7 @@ class CustomValidationManagerTest
     }
   }
 
-  test("Shouldn't even run when disabled") {
+  test("Shouldn't even run when disabled", Flaky) {
     implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
     val validator                                                 = FromJsonLdValidatorProvider.empty
     val server: LanguageServer                                    = buildServer(diagnosticNotifier, validator)
@@ -137,7 +138,7 @@ class CustomValidationManagerTest
     }
   }
 
-  test("Should be called after a profile is registered") {
+  test("Should be called after a profile is registered", Flaky) {
     implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
     val validator                                                 = FromJsonLdValidatorProvider.empty
     val server: LanguageServer                                    = buildServer(diagnosticNotifier, validator)
@@ -160,7 +161,7 @@ class CustomValidationManagerTest
     }
   }
 
-  test("Should be overwritten when using `withAmfCustomValidator`") {
+  test("Should be overwritten when using `withAmfCustomValidator`", Flaky) {
     implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
 
     val languageServerFactory: LanguageServerFactory = new LanguageServerFactory(diagnosticNotifier)
@@ -221,7 +222,7 @@ class CustomValidationManagerTest
     }
   }
 
-  test("Request serialization profile") {
+  test("Request serialization profile", Flaky) {
     implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
     val alsClient: MockAlsClientNotifier                          = new MockAlsClientNotifier
 
@@ -246,7 +247,7 @@ class CustomValidationManagerTest
     }
   }
 
-  test("Should notify errors on main tree") {
+  test("Should notify errors on main tree", Flaky) {
     val negativeReportUri = filePath(platform.encodeURI("project/negative.report.jsonld"))
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
@@ -283,7 +284,7 @@ class CustomValidationManagerTest
       })
   }
 
-  test("Should notify errors on isolated files") {
+  test("Should notify errors on isolated files", Flaky) {
     val negativeReportUri = filePath(platform.encodeURI("project/negative.report.jsonld"))
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
@@ -323,7 +324,7 @@ class CustomValidationManagerTest
       })
   }
 
-  ignore("Should build traces") { // todo: check how to rebuild traces.report.jsonld
+  ignore("Should build traces", Flaky) { // todo: check how to rebuild traces.report.jsonld
     val negativeReportUri = filePath(platform.encodeURI("traces.report.jsonld"))
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
@@ -371,7 +372,7 @@ class CustomValidationManagerTest
       })
   }
 
-  test("Should notify errors on both the main tree and isolated files") {
+  test("Should notify errors on both the main tree and isolated files", Flaky) {
     val negativeReportUri = filePath(platform.encodeURI("project/negative.report.jsonld"))
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
@@ -407,7 +408,7 @@ class CustomValidationManagerTest
       })
   }
 
-  test("Should notify errors on isolated files if opened after profile is added") {
+  test("Should notify errors on isolated files if opened after profile is added", Flaky) {
     val negativeReportUri = filePath(platform.encodeURI("project/negative.report.jsonld"))
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
@@ -446,7 +447,7 @@ class CustomValidationManagerTest
       })
   }
 
-  test("Should clean custom-validation errors if profile is removed") {
+  test("Should clean custom-validation errors if profile is removed", Flaky) {
     val negativeReportUri = filePath(platform.encodeURI("project/negative.report.jsonld"))
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
@@ -489,7 +490,7 @@ class CustomValidationManagerTest
       })
   }
 
-  test("Should clean custom-validation errors if profile is removed [Isolated files]") {
+  test("Should clean custom-validation errors if profile is removed [Isolated files]", Flaky) {
     val negativeReportUri = filePath(platform.encodeURI("project/negative.report.jsonld"))
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
