@@ -4,8 +4,7 @@ import amf.aml.client.scala.model.document.DialectInstance
 import amf.core.internal.unsafe.PlatformSecrets
 import amf.custom.validation.client.scala.{BaseProfileValidatorBuilder, ProfileValidatorExecutor}
 import amf.custom.validation.internal.DummyValidatorExecutor
-import org.mulesoft.als.logger.Logger
-import org.mulesoft.als.logger.MessageSeverity.MessageSeverity
+import org.mulesoft.als.server.FailedLogs.loggerFixture
 import org.mulesoft.als.server.Flaky.flakyFixture
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeParams, CleanDiagnosticTreeRequestType}
 import org.mulesoft.als.server.feature.serialization.SerializationParams
@@ -29,7 +28,6 @@ import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, ExecuteComma
 import org.scalatest._
 
 import java.io.StringWriter
-import scala.collection.mutable
 import scala.concurrent.Future
 import scala.util.Failure
 
@@ -38,11 +36,12 @@ abstract class LanguageServerBaseTest
     with PlatformSecrets
     with Matchers
     with OptionValues
-    with FailedLogs
     with ChangesWorkspaceConfiguration {
 
+  implicit val logger: TestLogger = TestLogger()
+
   override def withFixture(test: NoArgAsyncTest): FutureOutcome =
-    flakyFixture[NoArgAsyncTest](test)(super.withFixture)(logger)
+    loggerFixture(test)(flakyFixture(_)(super.withFixture))
 
   object DummyProfileValidator extends BaseProfileValidatorBuilder {
 
@@ -159,13 +158,16 @@ abstract class LanguageServerBaseTest
     )
   }
 
-  protected def serialize(server: LanguageServer, api: String, serializationProps: SerializationProps[StringWriter]) = {
+  protected def serialize(
+      server: LanguageServer,
+      api: String,
+      serializationProps: SerializationProps[StringWriter]
+  ): Future[String] =
     server
       .resolveHandler(serializationProps.requestType)
       .value
       .apply(SerializationParams(TextDocumentIdentifier(api)))
       .map(_.model.toString)
-  }
 }
 
 trait ServerIndexGlobalDialectCommand extends LanguageServerBaseTest {
@@ -186,75 +188,4 @@ trait ServerIndexGlobalDialectCommand extends LanguageServerBaseTest {
   def indexGlobalDialect(server: LanguageServer, file: String, content: String): Future[Unit] =
     indexGlobalDialect(server, file, Some(content))
 
-}
-
-/** mixin to clean logs in between tests
-  */
-trait FailedLogs extends AsyncTestSuiteMixin { this: AsyncTestSuite =>
-  val logger = TestLogger()
-
-  abstract override def withFixture(test: NoArgAsyncTest): FutureOutcome = {
-    logger.logList.clear()
-    logger.logList.enqueue(s"Starting test: ${test.name}")
-    complete {
-      super.withFixture(test) // To be stackable, must call super.withFixture
-    } lastly {
-      logger.logList.clear()
-    }
-  }
-}
-
-case class TestLogger() extends Logger {
-
-  val logList: mutable.Queue[String] = mutable.Queue[String]()
-
-  /** Logs a message
-    *
-    * @param message
-    *   \- message text
-    * @param severity
-    *   \- message severity
-    * @param component
-    *   \- component name
-    * @param subComponent
-    *   \- sub-component name
-    */
-  override def log(message: String, severity: MessageSeverity, component: String, subComponent: String): Unit =
-    synchronized(logList += s"log\n\t$message\n\t$severity\n\t$component\n\t$subComponent")
-
-  /** Logs a DEBUG severity message.
-    *
-    * @param message
-    *   \- message text
-    * @param component
-    *   \- component name
-    * @param subComponent
-    *   \- sub-component name
-    */
-  override def debug(message: String, component: String, subComponent: String): Unit =
-    synchronized(logList += s"debug\n\t$message\n\t$component\n\t$subComponent")
-
-  /** Logs a WARNING severity message.
-    *
-    * @param message
-    *   \- message text
-    * @param component
-    *   \- component name
-    * @param subComponent
-    *   \- sub-component name
-    */
-  override def warning(message: String, component: String, subComponent: String): Unit =
-    synchronized(logList += s"warning\n\t$message\n\t$component\n\t$subComponent")
-
-  /** Logs an ERROR severity message.
-    *
-    * @param message
-    *   \- message text
-    * @param component
-    *   \- component name
-    * @param subComponent
-    *   \- sub-component name
-    */
-  override def error(message: String, component: String, subComponent: String): Unit =
-    synchronized(logList += s"error\n\t$message\n\t$component\n\t$subComponent")
 }

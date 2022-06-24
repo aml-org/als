@@ -189,7 +189,7 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
 
   }
 
-  test("basic test") {
+  test("basic test", Flaky) {
     val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
     val serializationProps: SerializationProps[StringWriter] =
       new SerializationProps[StringWriter](alsClient) {
@@ -439,7 +439,7 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
   val profileUrl: String      = filePath("custom-validation/profile.yaml")
   val workspace               = s"${filePath("custom-validation")}"
 
-  test("Serialize registered validation profile") {
+  test("Serialize registered validation profile", Flaky) {
     val alsClient: MockAlsClientNotifier       = new MockAlsClientNotifier
     val notifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
     val initialArgs: String                    = changeConfigArgs(Some(main), workspace, Set.empty, Set(profileUrl))
