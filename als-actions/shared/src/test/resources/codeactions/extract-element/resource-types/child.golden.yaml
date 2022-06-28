@@ -22,10 +22,10 @@ documentChanges:
             type: resourceType
     -
       from:
-        line: 1
+        line: 2
         column: 0
       to:
-        line: 1
+        line: 2
         column: 0
       content: |
         +

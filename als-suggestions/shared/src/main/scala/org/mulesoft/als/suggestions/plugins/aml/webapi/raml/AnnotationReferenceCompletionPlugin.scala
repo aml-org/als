@@ -8,6 +8,7 @@ import amf.core.client.scala.model.domain.extensions.CustomDomainProperty
 import amf.core.internal.metamodel.domain.extensions.CustomDomainPropertyModel
 import amf.core.internal.utils.QName
 import org.mulesoft.als.common.URIImplicits.StringUriImplicits
+import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.AnnotationReferenceCompletionPlugin.EXTENSION_CATEGORY
@@ -144,8 +145,12 @@ case class AnnotationReferenceSuggester(params: AmlCompletionRequest) {
       mandatory = false
     )
     params.baseUnit.ast.fold(suggestion) { ast =>
+      val defaultRange = AdditionalSuggestion
+        .afterInfoNode(params.baseUnit, params.yPartBranch.isJson)
+        .map(p => PositionRange(p, p))
+        .getOrElse(PositionRange.TopLine)
       suggestion.withAdditionalTextEdits(
-        Seq(Right(AdditionalSuggestion(YNode(relative), Seq("uses", libName), ast)))
+        Seq(Right(AdditionalSuggestion(YNode(relative), Seq("uses", libName), ast, defaultRange)))
       )
     }
   }
