@@ -10,8 +10,8 @@ documentChanges:
       content: |-
         +
         {
-                  "$ref": "#/components/parameters/newparameter"
-                }
+                    "$ref": "#/components/parameters/newparameter"
+                  }
     -
       from:
         line: 10

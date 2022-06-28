@@ -27,13 +27,15 @@ import scala.concurrent.Future
 trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with ShapeExtractor {
   protected val kindTitle: CodeActionKindTitle
 
-  protected def rangeFromEntryBottom(maybeEntry: Option[YMapEntry]): Range =
-    maybeEntry.map(_.value.value).collect { case m: YMap => m }.flatMap(_.entries.lastOption) match {
-      case Some(e) =>
+  protected def rangeFromEntryBottom(maybeEntry: Option[YMapEntry]): Option[Range] =
+    maybeEntry
+      .map(_.value.value)
+      .collect { case m: YMap => m }
+      .flatMap(_.entries.lastOption)
+      .map { e =>
         val pos = PositionRange(e.range).`end`
         LspRangeConverter.toLspRange(PositionRange(pos, pos))
-      case None => Range(Position(1, 0), Position(1, 0))
-    }
+      }
 
   protected def appliesToDocument(): Boolean =
     !params.bu.isFragment || params.bu
@@ -42,7 +44,9 @@ trait ExtractSameFileDeclaration extends CodeActionResponsePlugin with ShapeExtr
 
   protected lazy val declaredElementTextEdit: Option[TextEdit] =
     renderDeclaredEntry(amfObject, newName)
-      .map(de => TextEdit(rangeFromEntryBottom(de._2), s"\n${de._1}\n"))
+      .map(de =>
+        TextEdit(rangeFromEntryBottom(de._2).getOrElse(LspRangeConverter.toLspRange(afterInfoRange)), s"\n${de._1}\n")
+      )
 
   protected def renderDeclaredEntry(amfObject: Option[AmfObject], name: String): Option[(String, Option[YMapEntry])] =
     ExtractorCommon

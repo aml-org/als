@@ -63,7 +63,6 @@ class ExtractTraitCodeAction(override protected val params: CodeActionRequestPar
 
   override protected val findDialectForSemantic: String => Option[(SemanticExtension, Dialect)] =
     params.findDialectForSemantic
-
 }
 
 object ExtractTraitCodeAction extends CodeActionFactory with ExtractTraitKind {

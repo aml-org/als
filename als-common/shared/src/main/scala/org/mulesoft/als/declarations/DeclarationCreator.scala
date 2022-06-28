@@ -1,11 +1,15 @@
 package org.mulesoft.als.declarations
 
 import amf.aml.client.scala.model.document.Dialect
-import amf.core.client.scala.model.document.BaseUnit
+import amf.apicontract.internal.metamodel.domain.api.BaseApiModel
+import amf.core.client.scala.model.document.{BaseUnit, EncodesModel, Module}
 import amf.core.client.scala.model.domain.AmfObject
-import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, AmfObjectImp, BaseUnitImp}
+import amf.core.internal.metamodel.document.ModuleModel
 import amf.core.internal.utils.InflectorBase.Inflector
-import org.yaml.model.{YDocument, YMap, YMapEntry, YNode, YPart}
+import org.mulesoft.als.common.NodeBranchBuilder
+import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, AmfObjectImp, BaseUnitImp}
+import org.yaml.model._
 
 import scala.annotation.tailrec
 
@@ -48,6 +52,18 @@ trait DeclarationCreator {
       case _ => Seq.empty
     }
 
+  /** End position for relevant information elements (Name, Version or Usage)
+    * @param baseUnit
+    * @return
+    */
+  def afterInfoNode(baseUnit: BaseUnit, isJson: Boolean): Option[Position] =
+    endOfInfo(baseUnit).map { range =>
+      val branch = NodeBranchBuilder.build(baseUnit, range.start.toAmfPosition, isJson)
+      if (branch.stack.length > 2) // the root level node
+        PositionRange(branch.stack(branch.stack.length - 2).range).end
+      else range.end
+    }
+
   @tailrec
   private def getExistingParts(node: YNode, keys: Seq[String], acc: Seq[YMapEntry] = Seq.empty): Seq[YMapEntry] =
     keys match {
@@ -72,4 +88,32 @@ trait DeclarationCreator {
       nameNotInList(baseName, existing, Some(c.getOrElse(0) + 1))
     else maybeName
   }
+
+  private def endOfInfo(baseUnit: BaseUnit): Option[PositionRange] =
+    baseUnit match {
+      case encodesModel: EncodesModel if Option(encodesModel.encodes).isDefined =>
+        encodesModel.encodes.fields
+          .fields()
+          .collect {
+            case f if f.field == BaseApiModel.Version || f.field == BaseApiModel.Name => f
+          }
+          .map(_.value.annotations)
+          .flatMap(_.ast())
+          .map(_.range)
+          .map(PositionRange(_))
+          .reduceOption { (a, b) =>
+            if (a.end > b.end)
+              a
+            else b
+          }
+      case module: Module =>
+        module.fields
+          .fields()
+          .find(_.field == ModuleModel.Usage)
+          .map(_.value.annotations)
+          .flatMap(_.ast())
+          .map(_.range)
+          .map(PositionRange(_))
+      case _ => None
+    }
 }

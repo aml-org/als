@@ -6,7 +6,7 @@ import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams}
-import org.mulesoft.als.server.{MockDiagnosticClientNotifier, ServerIndexGlobalDialectCommand}
+import org.mulesoft.als.server.{Flaky, MockDiagnosticClientNotifier, ServerIndexGlobalDialectCommand}
 import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.configuration.{TraceKind, WorkspaceFolder}
 
@@ -119,7 +119,7 @@ trait IndexGlobalDialectTest extends ServerIndexGlobalDialectCommand {
     })
   }
 
-  test("Index global dialect will update when registering again") {
+  test("Index global dialect will update when registering again", Flaky) {
     val notifier     = new MockDiagnosticClientNotifier(3000)
     val (server, wm) = buildServer(notifier)
     withServer(

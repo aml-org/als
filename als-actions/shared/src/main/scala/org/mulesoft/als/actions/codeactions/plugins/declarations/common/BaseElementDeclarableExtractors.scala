@@ -10,6 +10,7 @@ import org.mulesoft.als.common.ObjectInTree
 import org.mulesoft.als.common.YamlUtils.isJson
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.convert.LspRangeConverter
+import org.mulesoft.als.declarations.DeclarationCreator
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, AmfObjectImp, BaseUnitImp, DialectImplicits}
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.common.Range
@@ -19,7 +20,12 @@ import org.yaml.render.{JsonRender, JsonRenderOptions, YamlRender, YamlRenderOpt
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-trait BaseElementDeclarableExtractors extends TreeKnowledge {
+trait BaseElementDeclarableExtractors extends TreeKnowledge with DeclarationCreator {
+
+  protected val afterInfoRange: PositionRange =
+    afterInfoNode(params.bu, yPartBranch.map(_.isJson).getOrElse(params.bu.location().exists(_.endsWith(".json"))))
+      .map(p => PositionRange(p, p))
+      .getOrElse(PositionRange.TopLine)
 
   private lazy val baseName: String =
     amfObject
@@ -64,7 +70,7 @@ trait BaseElementDeclarableExtractors extends TreeKnowledge {
     * indentation
     */
   protected lazy val entryIndentation: Int =
-    yPartBranch.flatMap(_.closestEntry).map(_.range.columnFrom).getOrElse(0)
+    yPartBranch.flatMap(_.parentEntry.map(_.key)).map(_.range.columnFrom).getOrElse(0)
 
   protected def positionIsExtracted: Boolean =
     entryRange
@@ -101,14 +107,14 @@ trait BaseElementDeclarableExtractors extends TreeKnowledge {
         entryRange.map(
           TextEdit(
             _,
-            JsonRender.render(rl.getOrElse(jsonRefEntry), entryIndentation, jsonOptions)
+            JsonRender.render(rl.getOrElse(jsonRefEntry), entryIndentation + jsonOptions.indentationSize, jsonOptions)
           )
         )
       else if (params.definedBy.isJsonStyle)
         entryRange.map(
           TextEdit(
             _,
-            s"\n${YamlRender.render(rl.getOrElse(jsonRefEntry), entryIndentation, yamlOptions)}\n"
+            s"\n${YamlRender.render(rl.getOrElse(jsonRefEntry), entryIndentation + yamlOptions.indentationSize, yamlOptions)}\n"
           )
         )
       else // default as raml style if none defined

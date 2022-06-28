@@ -1,11 +1,5 @@
 #%RAML 1.0
-
-types:
-  newtype:
-    type: object
-    properties:
-      name:
-        type: string
+title: test
 /test:
   get:
     responses:
@@ -13,3 +7,10 @@ types:
         body:
           application/json:
             type: newtype
+version: 1
+types:
+  newtype:
+    type: object
+    properties:
+      name:
+        type: string

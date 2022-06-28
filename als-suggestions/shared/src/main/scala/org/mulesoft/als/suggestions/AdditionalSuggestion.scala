@@ -15,10 +15,10 @@ object AdditionalSuggestion extends DeclarationCreator {
     *   navigates through existing keys
     * @return
     */
-  def apply(insert: YNode, into: Seq[String], ast: YPart): AdditionalSuggestion =
+  def apply(insert: YNode, into: Seq[String], ast: YPart, defaultRange: PositionRange): AdditionalSuggestion =
     findPositionRange(insert, into.reverse, ast) match {
       case (part, Some(parent)) => new AdditionalSuggestion(part, Right(parent))
-      case (part, None)         => new AdditionalSuggestion(part, Left(PositionRange.TopLine))
+      case (part, None)         => new AdditionalSuggestion(part, Left(defaultRange))
     }
 
   private def findPositionRange(insert: YNode, into: Seq[String], ast: YPart): (YPart, Option[YMapEntry]) = {

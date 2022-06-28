@@ -69,7 +69,7 @@ class AliasedSemexSuggestionTest extends AsyncFunSuite with BaseSuggestionsForTe
       maybeItem
         .exists(ci =>
           ci.additionalTextEdits.contains(
-            Seq(TextEdit(Range(Position(1, 0), Position(1, 0)), "\nuses:\n  Extensions: companion.raml\n"))
+            Seq(TextEdit(Range(Position(5, 0), Position(5, 0)), "\nuses:\n  Extensions: companion.raml\n"))
           )
         ) shouldBe true
     }

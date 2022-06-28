@@ -35,8 +35,16 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
       }
   }
 
-  ignore("OAS 3 example should respond with the extract element to a declaration") {
+  test("OAS 3 example should respond with the extract element to a declaration") {
     val path = "refactorextract/extract-example-oas3.yaml"
+    runTest(buildServer(), path, None)
+      .flatMap { result =>
+        checkExtractGolden(path, result)
+      }
+  }
+
+  test("OAS 3 example should respond with the extract element to a declaration and insert into a new components") {
+    val path = "refactorextract/extract-example-oas3-no-components.yaml"
     runTest(buildServer(), path, None)
       .flatMap { result =>
         checkExtractGolden(path, result)

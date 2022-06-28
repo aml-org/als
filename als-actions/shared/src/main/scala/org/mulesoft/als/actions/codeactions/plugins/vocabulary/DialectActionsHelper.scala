@@ -1,21 +1,13 @@
 package org.mulesoft.als.actions.codeactions.plugins.vocabulary
 
 import amf.aml.client.scala.model.document.{Dialect, Vocabulary, kind}
-import amf.aml.client.scala.model.domain.{
-  ClassTerm,
-  DatatypePropertyTerm,
-  NodeMapping,
-  ObjectPropertyTerm,
-  PropertyMapping,
-  PropertyTerm
-}
+import amf.aml.client.scala.model.domain._
 import amf.aml.internal.render.emitters.vocabularies.VocabularyEmitter
 import amf.aml.internal.render.plugin.SyntaxDocument
 import amf.core.client.scala.vocabulary.Namespace
 import amf.core.internal.remote.Mimes
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.CreatesFileCodeAction
 import org.mulesoft.als.common.YamlWrapper.AlsInputRange
-import org.mulesoft.als.common.dtoTypes.{PositionRange, Position => DtoPosition}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
 import org.mulesoft.lsp.configuration.FormatOptions
@@ -111,7 +103,7 @@ trait DialectActionsHelper extends CreatesFileCodeAction {
     }
     TextEdit(
       LspRangeConverter.toLspRange(
-        usesYMapEntry.map(_.range.toPositionRange).getOrElse(PositionRange(DtoPosition(1, 0), DtoPosition(1, 0)))
+        usesYMapEntry.map(_.range.toPositionRange).getOrElse(afterInfoRange)
       ),
       rendered
     )
