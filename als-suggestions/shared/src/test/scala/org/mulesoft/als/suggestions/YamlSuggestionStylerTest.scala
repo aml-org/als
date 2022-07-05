@@ -166,7 +166,7 @@ class YamlSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
     val dummyYPart = NodeBranchBuilder.build(node, AmfPosition(5, 4), isJson = false)
 
     val additionalSuggestion =
-      AdditionalSuggestion(YNode("mylib.raml"), Seq("uses", "lib"), node)
+      AdditionalSuggestion(YNode("mylib.raml"), Seq("uses", "lib"), node, PositionRange.TopLine)
     val suggestion = RawSuggestion
       .forObject("object", "unknown", mandatory = true)
       .withAdditionalTextEdits(
@@ -208,7 +208,7 @@ class YamlSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
     val dummyYPart = NodeBranchBuilder.build(node, AmfPosition(9, 4), isJson = false)
 
     val additionalSuggestion =
-      AdditionalSuggestion(YNode("mylib.raml"), Seq("uses", "lib"), node)
+      AdditionalSuggestion(YNode("mylib.raml"), Seq("uses", "lib"), node, PositionRange.TopLine)
     val suggestion = RawSuggestion
       .forObject("object", "unknown", mandatory = true)
       .withAdditionalTextEdits(

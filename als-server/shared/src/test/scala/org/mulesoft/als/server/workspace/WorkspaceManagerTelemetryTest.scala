@@ -26,7 +26,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
   def fetchContent(uri: String): Future[Content] =
     platform.fetchContent(uri, amfConfiguration)
 
-  test("Workspace Manager check parsing times (project should have 1, independent file 1)") {
+  test("Workspace Manager check parsing times (project should have 1, independent file 1)", Flaky) {
     val main                                  = s"${filePath("ws1")}/api.raml"
     val independent                           = s"${filePath("ws1")}/independent.raml"
     val subdir                                = s"${filePath("ws1")}/sub/type.raml"
@@ -73,7 +73,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
       case _ => waitFor(notifier, message)
     }
 
-  test("Workspace Manager check parsing times when reference removed from Project") {
+  test("Workspace Manager check parsing times when reference removed from Project", Flaky) {
     val main        = s"${filePath("ws1")}/api.raml"
     val subdir      = s"${filePath("ws1")}/sub/type.raml"
     val initialArgs = changeConfigArgs(Some("api.raml"), filePath("ws1"))
@@ -102,7 +102,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
     }
   }
 
-  test("Workspace Manager check parsing times (parse instance after modifying dialect)") {
+  test("Workspace Manager check parsing times (parse instance after modifying dialect)", Flaky) {
     val dialect  = s"${filePath("aml-workspace")}/dialect.yaml"
     val instance = s"${filePath("aml-workspace")}/instance.yaml"
 
@@ -150,7 +150,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
     }
   }
 
-  test("Workspace Manager check parsing times (will parse instance even if no change has been done)") {
+  test("Workspace Manager check parsing times (will parse instance even if no change has been done)", Flaky) {
     val dialect  = s"${filePath("aml-instance-is-mf")}/dialect.yaml"
     val instance = s"${filePath("aml-instance-is-mf")}/instance.yaml"
     val initialArgs =

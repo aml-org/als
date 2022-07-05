@@ -90,6 +90,36 @@
     "command": null
   },
   {
+    "label": "data-type-uses.raml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11data-type-uses.raml",
+    "filterText": "data-type-uses.raml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 9
+        },
+        "end": {
+          "line": 2,
+          "character": 9
+        }
+      },
+      "newText": "data-type-uses.raml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "data-type.raml",
     "kind": [],
     "detail": "unknown",
@@ -114,6 +144,36 @@
         }
       },
       "newText": "data-type.raml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "documentation-item-uses.raml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11documentation-item-uses.raml",
+    "filterText": "documentation-item-uses.raml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 9
+        },
+        "end": {
+          "line": 2,
+          "character": 9
+        }
+      },
+      "newText": "documentation-item-uses.raml"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -390,6 +450,36 @@
     "command": null
   },
   {
+    "label": "named-example-uses.raml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11named-example-uses.raml",
+    "filterText": "named-example-uses.raml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 9
+        },
+        "end": {
+          "line": 2,
+          "character": 9
+        }
+      },
+      "newText": "named-example-uses.raml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "named-example.raml",
     "kind": [],
     "detail": "unknown",
@@ -480,6 +570,36 @@
     "command": null
   },
   {
+    "label": "resource-type-uses.raml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11resource-type-uses.raml",
+    "filterText": "resource-type-uses.raml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 9
+        },
+        "end": {
+          "line": 2,
+          "character": 9
+        }
+      },
+      "newText": "resource-type-uses.raml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "resource-type.raml",
     "kind": [],
     "detail": "unknown",
@@ -504,6 +624,36 @@
         }
       },
       "newText": "resource-type.raml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "security-scheme-uses.raml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11security-scheme-uses.raml",
+    "filterText": "security-scheme-uses.raml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 2,
+          "character": 9
+        },
+        "end": {
+          "line": 2,
+          "character": 9
+        }
+      },
+      "newText": "security-scheme-uses.raml"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

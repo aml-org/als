@@ -10,7 +10,7 @@ import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.AMLRamlStyleDeclarationsReferences
 import org.mulesoft.als.suggestions.plugins.aml.templates.TemplateTools
 import org.mulesoft.als.suggestions.{ObjectRange, RawSuggestion}
-import org.yaml.model.{YMapEntry, YNode}
+import org.yaml.model.YNode
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -45,20 +45,20 @@ trait RamlAbstractDeclarationReference extends AMLCompletionPlugin {
             params.declarationProvider,
             None
           ).resolve().filter(r => !siblings.contains(r.newText))
-        suggestions.map { s =>
+        suggestions.flatMap { s =>
           val vars = extractChildren(params, s)
-          if (
-            vars.nonEmpty && params.configurationReader.getTemplateType != TemplateTypes.NONE && canTemplate(
-              params.yPartBranch
-            )
-          ) {
-            s.copy(
-              options = s.options.copy(isKey = true, rangeKind = ObjectRange),
-              children = vars,
-              displayText = s"${TemplateTools.defaultPrefix} ${s.displayText}",
-              category = TemplateTools.category
-            )
-          } else s
+          if(vars.nonEmpty) {
+            if (params.configurationReader.getTemplateType != TemplateTypes.NONE &&
+              canTemplate(params.yPartBranch))
+              Some(s.copy(
+                options = s.options.copy(isKey = true, rangeKind = ObjectRange),
+                children = vars,
+                displayText = s"${TemplateTools.defaultPrefix} ${s.displayText}",
+                category = TemplateTools.category
+              ))
+            else None
+          }
+          else Some(s)
         }
       } else Nil
     }

@@ -1,0 +1,6 @@
+swagger: '2.0'
+parameters:
+  named:
+    in: header
+    *
+    type: string

@@ -65,7 +65,7 @@ pipeline {
                 wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
                     script {
                         try {
-                            sh 'sbt -mem 6000 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 clean coverage test coverageReport'
+                            sh 'sbt -mem 6000 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 clean coverage test coverageAggregate'
                         } catch (e) {
                             failedStage = failedStage + " TEST "
                             unstable "Failed tests"
@@ -251,10 +251,10 @@ pipeline {
                         slackSend color: '#00FF00', channel: "${slackChannel}", message: "${projectName} Published RC ${publish_version}"
                     } else if (env.BRANCH_NAME == 'master') {
                         slackSend color: '#00FF00', channel: "${slackChannel}", message: ":ok_hand: ${projectName} Master Publish ${publish_version} OK! :ok_hand:"
-                    } else if (currentBuild.getPreviousBuild() != null && currentBuild.getPreviousBuild().result != null && currentBuild.getPreviousBuild().result.toString() != 'SUCCESS') {
-                        slackSend color: '#00FF00', channel: "${slackChannel}", message: ":ok_hand: ${projectName} Back to Green!! :ok_hand:\n\tBranch: ${env.BRANCH_NAME}\n(See ${env.BUILD_URL})\n"
-                    } else {
+                    } else if (currentBuild.getPreviousBuild() == null || currentBuild.getPreviousBuild().result == null) {
                         slackSend color: '#00FF00', channel: "${slackChannel}", message: ":ok_hand: ${projectName} build ${currentBuild.currentResult} !!! :ok_hand:\n\tBranch: ${env.BRANCH_NAME}\n(See ${env.BUILD_URL})\n"
+                    } else if (currentBuild.getPreviousBuild().result.toString() != 'SUCCESS') {
+                            slackSend color: '#00FF00', channel: "${slackChannel}", message: ":ok_hand: ${projectName} Back to Green!! :ok_hand:\n\tBranch: ${env.BRANCH_NAME}\n(See ${env.BUILD_URL})\n"
                     }
                 }
             }

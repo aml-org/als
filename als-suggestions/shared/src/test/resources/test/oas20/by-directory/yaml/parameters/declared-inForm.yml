@@ -1,5 +1,5 @@
 swagger: '2.0'
 parameters:
   named:
-    in: form
+    in: formData
     *

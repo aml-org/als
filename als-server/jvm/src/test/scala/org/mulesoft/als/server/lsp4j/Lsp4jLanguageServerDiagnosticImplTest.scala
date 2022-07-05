@@ -6,7 +6,7 @@ import org.eclipse.lsp4j.ExecuteCommandParams
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
-import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier}
+import org.mulesoft.als.server.{Flaky, LanguageServerBaseTest, MockDiagnosticClientNotifier}
 
 import java.util
 import scala.concurrent.Future
@@ -15,7 +15,7 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
 
   // TODO: check if the caché on WorkspaceContentManager is used (if it can be used)
   // TODO: check if a new validation should be sent from WorkspaceContentCollection when "onFocus" (when the BU is already parsed)
-  test("Lsp4j LanguageServerImpl Command - Did Focus: Command should notify DidFocus") {
+  test("Lsp4j LanguageServerImpl Command - Did Focus: Command should notify DidFocus", Flaky) {
     def wrapJson(uri: String, version: String): String =
       s"""{"uri": "$uri", "version": "$version"}"""
 
@@ -87,7 +87,7 @@ class Lsp4jLanguageServerDiagnosticImplTest extends LanguageServerBaseTest with 
     }
   }
 
-  test("diagnostics test - FullValidation") {
+  test("diagnostics test - FullValidation", Flaky) {
 
     val diagnosticsClient: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
     withServer(buildServer(diagnosticsClient)) { s =>

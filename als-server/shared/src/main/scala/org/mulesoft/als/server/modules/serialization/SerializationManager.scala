@@ -148,6 +148,6 @@ class SerializationManager[S](
       canceled = true
     }
 
-    def isCanceled(): Boolean = canceled
+    def isCanceled: Boolean = canceled
   }
 }

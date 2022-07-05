@@ -12,7 +12,7 @@ import org.scalatest.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class HoverTest extends ServerWithMarkerTest[PositionedHover] with BaseHoverTest with FailedLogs {
+class HoverTest extends ServerWithMarkerTest[PositionedHover] with BaseHoverTest {
   override implicit val executionContext: ExecutionContext =
     ExecutionContext.Implicits.global
 

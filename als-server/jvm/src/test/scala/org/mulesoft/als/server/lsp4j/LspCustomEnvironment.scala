@@ -7,7 +7,7 @@ import amf.core.internal.unsafe.PlatformSecrets
 import org.eclipse.lsp4j.{DidOpenTextDocumentParams, TextDocumentItem, TraceValue}
 import org.mulesoft.als.configuration.ResourceLoaderConverter
 import org.mulesoft.als.logger.EmptyLogger
-import org.mulesoft.als.server.MockDiagnosticClientNotifier
+import org.mulesoft.als.server.{Flaky, MockDiagnosticClientNotifier}
 import org.mulesoft.als.server.client.platform.AlsLanguageServerFactory
 import org.mulesoft.als.server.lsp4j.extension.AlsInitializeParams
 import org.mulesoft.als.server.modules.diagnostic.ALL_TOGETHER
@@ -19,7 +19,7 @@ import java.util.concurrent.CompletableFuture
 import scala.concurrent.Future
 class LspCustomEnvironment extends AsyncFunSuite with Matchers with PlatformSecrets {
 
-  test("test custom environment") {
+  test("test custom environment", Flaky) {
 
     var calledRL = false
     val cl = new ClientResourceLoader {

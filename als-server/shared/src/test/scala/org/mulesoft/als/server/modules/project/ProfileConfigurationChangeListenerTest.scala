@@ -82,13 +82,13 @@ class ProfileConfigurationChangeListenerTest
     builder.build()
   }
 
-  def buildSerializationProps(alsClient: AlsClientNotifier[StringWriter]) =
+  def buildSerializationProps(alsClient: AlsClientNotifier[StringWriter]): SerializationProps[StringWriter] =
     new SerializationProps[StringWriter](alsClient) {
       override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
         JsonOutputBuilder(prettyPrint)
     }
 
-  test("Should notify when a profile is added") {
+  test("Should notify when a profile is added", Flaky) {
     val alsClient: MockAlsClientNotifier                     = new MockAlsClientNotifier(3000)
     val serializationProps: SerializationProps[StringWriter] = buildSerializationProps(alsClient)
     val args = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profileUri))
@@ -104,7 +104,7 @@ class ProfileConfigurationChangeListenerTest
     }
   }
 
-  test("Should notify when a second profile is added") {
+  test("Should notify when a second profile is added", Flaky) {
     val alsClient: MockAlsClientNotifier                     = new MockAlsClientNotifier(3000)
     val serializationProps: SerializationProps[StringWriter] = buildSerializationProps(alsClient)
     val initialArgs    = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profileUri))

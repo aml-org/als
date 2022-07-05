@@ -5,3 +5,5 @@ paths:
       - name: idHeader
         d*
         in: body
+      - name: id
+        in: path

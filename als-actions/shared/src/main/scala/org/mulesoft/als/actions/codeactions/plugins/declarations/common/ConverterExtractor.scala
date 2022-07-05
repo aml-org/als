@@ -6,6 +6,7 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{CodeActionRequestParam
 import org.mulesoft.als.actions.codeactions.plugins.declarations.samefile.ExtractSameFileDeclaration
 import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
+import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit}
 import org.mulesoft.lsp.feature.common.VersionedTextDocumentIdentifier
 import org.yaml.model.{YMapEntry, YNode}
@@ -39,7 +40,9 @@ trait ConverterExtractor[Original <: AmfObject, Result <: AmfObject]
       jsonOptions,
       yamlOptions,
       params.alsConfigurationState
-    ).map(de => TextEdit(rangeFromEntryBottom(de._2), s"\n${de._1}\n"))
+    ).map(de =>
+      TextEdit(rangeFromEntryBottom(de._2).getOrElse(LspRangeConverter.toLspRange(afterInfoRange)), s"\n${de._1}\n")
+    )
 
   def modifyEntry(original: Original): String
 

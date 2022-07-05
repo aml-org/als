@@ -87,7 +87,7 @@ trait ExtractDeclarationsToLibrary extends CodeActionResponsePlugin with Creates
     finalName(plainName)
       .map(name => YNode(s"$name.raml").asEntry(aliasName).inMap.withKey("uses"))
       .map(n => YamlRender.render(n, 0, options))
-      .map(t => Some(TextEdit(Range(common.Position(1, 0), common.Position(1, 0)), s"$t\n")))
+      .map(t => Some(TextEdit(LspRangeConverter.toLspRange(afterInfoRange), s"$t\n")))
   }
 
   protected val selectedElements: Seq[DomainElement] =
