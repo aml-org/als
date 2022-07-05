@@ -11,7 +11,7 @@ import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams}
 import org.mulesoft.als.server.workspace.ChangesWorkspaceConfiguration
-import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier}
+import org.mulesoft.als.server.{Flaky, LanguageServerBaseTest, MockDiagnosticClientNotifier}
 import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.configuration.TraceKind
 
@@ -136,7 +136,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
     }
   }
 
-  test("Clean diagnostic test, compare notification against clean") {
+  test("Clean diagnostic test, compare notification against clean", Flaky) {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(5000)
     withServer(buildServer(diagnosticNotifier)) { s =>
       val mainFilePath = s"file://api.raml"
