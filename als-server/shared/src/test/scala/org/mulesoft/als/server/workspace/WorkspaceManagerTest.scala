@@ -10,7 +10,7 @@ import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.workspace.command.Commands
-import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier}
+import org.mulesoft.als.server.{Flaky, LanguageServerBaseTest, MockDiagnosticClientNotifier}
 import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.configuration.{TraceKind, WorkspaceFolder}
 import org.mulesoft.lsp.feature.common.{Position, Range}
@@ -343,7 +343,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     }
   }
 
-  test("Workspace Manager change custom validation profiles [using Command]") {
+  test("Workspace Manager change custom validation profiles [using Command]", Flaky) {
     val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
       new MockDiagnosticClientNotifierWithTelemetryLog
 
