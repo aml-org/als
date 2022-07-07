@@ -69,10 +69,11 @@ const baseConfig = {
     minimize: false,
   },
 }
-const vscodeConfig = {
+const dependenciesConfig = {
   entry: {
     'vscode-jsonrpc': ['@babel/polyfill', 'vscode-jsonrpc'],
-    'vscode-languageserver-protocol': ['@babel/polyfill', 'vscode-languageserver-protocol']
+    'vscode-languageserver-protocol': ['@babel/polyfill', 'vscode-languageserver-protocol'],
+    'amf-custom-validator': ['@babel/polyfill', '@aml-org/amf-custom-validator-web']
   },
   optimization: {
     splitChunks: {
@@ -88,7 +89,8 @@ const fastOptConfig = {
   },
   externals: {
     "vscode-jsonrpc": "AlsServer['vscode-jsonrpc']",
-    "vscode-languageserver-protocol": "AlsServer['vscode-languageserver-protocol']"
+    "vscode-languageserver-protocol": "AlsServer['vscode-languageserver-protocol']",
+    "amf-custom-validator": "AlsServer['@aml-org/amf-custom-validator-web']"
   },
   optimization: {
     splitChunks: {
@@ -109,7 +111,8 @@ const fullOptConfig = {
   },
   externals: {
     "vscode-jsonrpc": "AlsServer['vscode-jsonrpc']",
-    "vscode-languageserver-protocol": "AlsServer['vscode-languageserver-protocol']"
+    "vscode-languageserver-protocol": "AlsServer['vscode-languageserver-protocol']",
+    "amf-custom-validator": "AlsServer['@aml-org/amf-custom-validator-web']"
   },
   optimization: {
     minimize: true,
@@ -129,7 +132,7 @@ const fullOptConfig = {
   }
 }
 module.exports = [
-  merge(baseConfig, vscodeConfig),
+  merge(baseConfig, dependenciesConfig),
   merge(baseConfig, fastOptConfig),
   merge(baseConfig, fullOptConfig),
 ]
