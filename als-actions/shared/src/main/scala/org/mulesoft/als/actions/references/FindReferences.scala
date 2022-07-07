@@ -1,6 +1,6 @@
 package org.mulesoft.als.actions.references
 
-import org.mulesoft.als.common.cache.{ASTPartBranchCached, YPartBranchCached}
+import org.mulesoft.als.common.cache.ASTPartBranchCached
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.amfintegration.relationships.{AliasInfo, AliasRelationships, FullLink, RelationshipLink}
 
