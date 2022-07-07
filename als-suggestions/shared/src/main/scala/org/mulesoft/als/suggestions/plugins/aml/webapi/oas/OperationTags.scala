@@ -17,7 +17,7 @@ object OperationTags extends AMLCompletionPlugin {
     request.amfObject match {
       case _: Tag
           if request.branchStack.headOption
-            .exists(_.isInstanceOf[Operation]) && request.yPartBranch.isArray || request.yPartBranch.isInArray =>
+            .exists(_.isInstanceOf[Operation]) && request.astPartBranch.isArray || request.astPartBranch.isInArray =>
         tags(request)
       case _ => Nil
     }

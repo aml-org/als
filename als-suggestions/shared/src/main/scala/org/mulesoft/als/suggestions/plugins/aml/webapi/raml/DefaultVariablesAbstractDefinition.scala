@@ -22,7 +22,7 @@ object DefaultVariablesAbstractDefinition extends AMLCompletionPlugin {
             s._2,
             s._2,
             Nil,
-            options = SuggestionStructure(rangeKind = StringScalarRange, isKey = request.yPartBranch.isKey)
+            options = SuggestionStructure(rangeKind = StringScalarRange, isKey = request.astPartBranch.isKey)
           )
         )
       } else Nil

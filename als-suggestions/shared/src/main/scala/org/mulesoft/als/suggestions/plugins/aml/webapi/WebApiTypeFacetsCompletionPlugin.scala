@@ -23,7 +23,7 @@ trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin with WritingS
     Future.successful(params.amfObject match {
       case shape: Shape
           if isWritingFacet(
-            params.yPartBranch,
+            params.astPartBranch,
             shape,
             params.branchStack,
             params.actualDialect

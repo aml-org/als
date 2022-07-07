@@ -24,10 +24,10 @@ object OasRuntimeExpressionsCompletionPlugin extends AbstractRuntimeExpressionsC
     }
   }
   private def processByStack(request: AmlCompletionRequest) = {
-    if (request.yPartBranch.isKey)
+    if (request.astPartBranch.isKey)
       request.branchStack.headOption match {
         case Some(c: Callback) =>
-          request.yPartBranch.stringValue == c.expression.value()
+          request.astPartBranch.stringValue == c.expression.value()
         case _ => false
       }
     else request.amfObject.fields.fields().exists(fe => applicableFields.contains(fe.field))

@@ -20,7 +20,7 @@ object DiscriminatorMappingValue extends ExceptionPlugin {
     request.amfObject match {
       case obj: NodeShape
           if request.fieldEntry
-            .exists(_.field == NodeShapeModel.DiscriminatorMapping) && request.yPartBranch.isValue =>
+            .exists(_.field == NodeShapeModel.DiscriminatorMapping) && request.astPartBranch.isValue =>
         suggest(obj)
       case _: IriTemplateMapping if request.fieldEntry.exists(_.field == IriTemplateMappingModel.LinkExpression) =>
         request.branchStack.collectFirst({ case n: NodeShape => suggest(n) }).getOrElse(Nil)
@@ -44,7 +44,7 @@ object DiscriminatorMappingValue extends ExceptionPlugin {
   override def applies(request: AmlCompletionRequest): Boolean = {
     request.amfObject match {
       case _: NodeShape =>
-        request.fieldEntry.exists(_.field == NodeShapeModel.DiscriminatorMapping) && request.yPartBranch.isValue
+        request.fieldEntry.exists(_.field == NodeShapeModel.DiscriminatorMapping) && request.astPartBranch.isValue
       case _: IriTemplateMapping => true
       case _                     => false
     }

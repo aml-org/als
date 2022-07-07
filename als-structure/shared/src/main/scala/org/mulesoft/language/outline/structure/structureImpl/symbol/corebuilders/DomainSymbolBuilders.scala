@@ -31,7 +31,7 @@ object DomainElementSymbolBuilder extends AmfObjectSimpleBuilderCompanion[Domain
         NamedElementSymbolBuilder.construct(n).map(_.asInstanceOf[SymbolBuilder[DomainElement]])
       case SemanticNamedDomainElementSymbolBuilder(builder) => Some(builder)
       case _ =>
-        element.annotations.ast() match {
+        element.annotations.astElement() match {
           case Some(entry: YMapEntry) =>
             Some(new DomainElementSymbolBuilder(element, entry))
           case _ => None

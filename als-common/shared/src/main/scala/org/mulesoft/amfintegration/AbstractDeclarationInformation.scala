@@ -8,7 +8,7 @@ import amf.core.client.scala.errorhandling.UnhandledErrorHandler
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.model.domain.DomainElement
 import amf.core.client.scala.model.domain.templates.AbstractDeclaration
-import amf.core.internal.annotations.SourceAST
+import amf.core.internal.annotations.{SourceAST, SourceYPart}
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.amfconfiguration.ProfileMatcher.profile
 import org.yaml.model.{YMap, YMapEntry, YNode}
@@ -56,7 +56,7 @@ object AbstractDeclarationInformation {
   }
 
   private def getSourceEntry(a: AbstractDeclaration, defaultName: String) =
-    a.annotations.find(classOf[SourceAST]).map(_.ast) match {
+    a.annotations.find(classOf[SourceYPart]).map(_.ast) match {
       case Some(m: YMap) =>
         Some(YMapEntry(YNode(a.name.option().getOrElse(defaultName)), m))
       case Some(entry: YMapEntry) => Some(entry)

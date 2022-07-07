@@ -26,14 +26,14 @@ object MetaDialectExtensionsCompletionPlugin extends AMLCompletionPlugin {
     else emptySuggestion
 
   private def applies(request: AmlCompletionRequest): Boolean =
-    request.yPartBranch.isValue &&
+    request.astPartBranch.isValue &&
       (isOnlyExtensionHack(request) || request.amfObject.isInstanceOf[SemanticExtension])
 
   // TODO: remove when APIMF-3588 is done
   private def isOnlyExtensionHack(request: AmlCompletionRequest) = {
     request.amfObject.isInstanceOf[Dialect] &&
-    request.yPartBranch.stack.size == 6 &&
-    request.yPartBranch
+    request.astPartBranch.stack.size == 6 &&
+    request.astPartBranch
       .getAncestor(3)
       .exists(p =>
         p match {

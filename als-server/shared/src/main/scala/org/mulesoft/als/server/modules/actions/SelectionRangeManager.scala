@@ -60,7 +60,7 @@ class SelectionRangeManager(
     workspace
       .getLastUnit(uri, uuid)
       .flatMap(_.getLast)
-      .map(_.unit.objWithAST.flatMap(_.annotations.ast()))
+      .map(_.unit.objWithAST.flatMap(_.annotations.astElement()))
       .flatMap(ast => {
         Future {
           ast.map(ypart => SelectionRangeFinder.findSelectionRange(ypart, positions)).getOrElse(Seq.empty)

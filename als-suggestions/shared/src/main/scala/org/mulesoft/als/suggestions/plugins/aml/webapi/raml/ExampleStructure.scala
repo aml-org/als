@@ -18,9 +18,9 @@ object ExampleStructure extends AMLCompletionPlugin {
     Future {
       request.amfObject match {
         case e: Example
-            if request.fieldEntry.exists(_.field == ExampleModel.Name) && request.yPartBranch.stringValue != e.name
+            if request.fieldEntry.exists(_.field == ExampleModel.Name) && request.astPartBranch.stringValue != e.name
               .option()
-              .getOrElse("") && request.yPartBranch.isKey =>
+              .getOrElse("") && request.astPartBranch.isKey =>
           Raml10DialectNodes.ExampleNode.propertiesRaw(fromDialect = request.actualDialect)
         case _ => Nil
       }

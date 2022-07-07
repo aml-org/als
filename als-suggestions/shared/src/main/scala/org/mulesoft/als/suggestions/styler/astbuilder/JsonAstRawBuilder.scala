@@ -3,7 +3,7 @@ package org.mulesoft.als.suggestions.styler.astbuilder
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.{RawSuggestion, SuggestionStructure}
 import org.yaml.model.{YMap, YNode, YPart}
-import amf.core.client.common.position.{Position => AmfPosition}
+import org.mulesoft.common.client.lexical.{Position => AmfPosition}
 
 class JsonAstRawBuilder(val raw: RawSuggestion, val isSnippet: Boolean, val yPartBranch: YPartBranch)
     extends AstRawBuilder(raw, isSnippet, yPartBranch) {

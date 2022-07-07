@@ -4,7 +4,7 @@ import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
 import amf.core.client.scala.model.domain.{AmfObject, AmfScalar}
 import amf.core.internal.parser.domain.{FieldEntry, Value}
-import org.mulesoft.als.common.YPartBranch
+import org.mulesoft.als.common.{ASTPartBranch, YPartBranch}
 import org.mulesoft.amfintegration.AmfImplicits.{AmfObjectImp, DialectImplicits}
 
 import scala.collection.immutable
@@ -12,7 +12,7 @@ import scala.collection.immutable
 case class FieldEntrySearcher(
     amfObject: AmfObject,
     currentNode: Option[NodeMapping],
-    yPartBranch: YPartBranch,
+    astPartBranch: ASTPartBranch,
     actualDialect: Dialect
 ) {
   val currentIds: immutable.Seq[String] =
@@ -26,7 +26,7 @@ case class FieldEntrySearcher(
     }
 
   private def filterByName(mappings: Seq[PropertyMapping]) =
-    mappings.find(_.name().value() == yPartBranch.parentEntry.flatMap(_.key.asScalar.map(_.text)).getOrElse(""))
+    mappings.find(_.name().value() == astPartBranch.parentKey.getOrElse(""))
 
   private def findValueFromTerm(referringProperty: PropertyMapping) =
     referringProperty.mapTermKeyProperty().option().flatMap(currentFieldFromTerm)

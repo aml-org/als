@@ -5,8 +5,8 @@ import amf.aml.client.scala.model.domain.NodeMapping
 import amf.core.internal.annotations.ErrorDeclaration
 import amf.core.internal.metamodel.domain.ShapeModel
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
+import org.mulesoft.als.common.ASTPartBranch
 import org.mulesoft.als.common.SemanticNamedElement._
-import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
@@ -18,7 +18,7 @@ class AMLJsonSchemaStyleDeclarationReferences(
     dialect: Dialect,
     ids: Seq[String],
     actualName: Option[String],
-    yPart: YPartBranch,
+    astPartBranch: ASTPartBranch,
     iriToPath: Map[String, String]
 ) {
 
@@ -29,7 +29,7 @@ class AMLJsonSchemaStyleDeclarationReferences(
         nameForIri(id).fold(s"#/$name")(n => s"#/$declarationsPath$n/$name")
       }
     }
-    AMLJsonSchemaStyleDeclarationReferences.resolveRoutes(routes, yPart)
+    AMLJsonSchemaStyleDeclarationReferences.resolveRoutes(routes, astPartBranch)
   }
 
   def nameForIri(iri: String): Option[String] = {
@@ -45,11 +45,11 @@ object AMLJsonSchemaStyleDeclarationReferences extends AMLDeclarationReferences 
   override def id: String = "AMLJsonSchemaStyleDeclarationReferences"
 
   def applies(request: AmlCompletionRequest): Boolean = {
-    request.yPartBranch.isValue && request.yPartBranch.parentEntryIs("$ref") && request.actualDialect
+    request.astPartBranch.isValue && request.astPartBranch.parentEntryIs("$ref") && request.actualDialect
       .documents()
       .referenceStyle()
       .option()
-      .forall(_ == ReferenceStyles.JSONSCHEMA) && isLocal(request.yPartBranch)
+      .forall(_ == ReferenceStyles.JSONSCHEMA) && isLocal(request.astPartBranch)
   }
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
@@ -83,14 +83,22 @@ object AMLJsonSchemaStyleDeclarationReferences extends AMLDeclarationReferences 
       )
       .toMap
 
-    new AMLJsonSchemaStyleDeclarationReferences(request.actualDialect, ids, actualName, request.yPartBranch, iriToPath)
+    new AMLJsonSchemaStyleDeclarationReferences(
+      request.actualDialect,
+      ids,
+      actualName,
+      request.astPartBranch,
+      iriToPath
+    )
       .resolve(request.declarationProvider)
   }
 
-  private def isLocal(yPart: YPartBranch) = yPart.stringValue.isEmpty || yPart.stringValue.startsWith("#")
+  private def isLocal(astPartBranch: ASTPartBranch) =
+    astPartBranch.stringValue.isEmpty || astPartBranch.stringValue.startsWith("#")
 
-  def resolveRoutes(routes: Seq[String], yPart: YPartBranch): Seq[RawSuggestion] = {
-    val filtered = if (yPart.stringValue.isEmpty) routes else routes.filter(_.startsWith(yPart.stringValue))
+  def resolveRoutes(routes: Seq[String], astPartBranch: ASTPartBranch): Seq[RawSuggestion] = {
+    val filtered =
+      if (astPartBranch.stringValue.isEmpty) routes else routes.filter(_.startsWith(astPartBranch.stringValue))
     filtered
       .map(route => RawSuggestion(route, route, s"Reference to $route", Nil))
   }

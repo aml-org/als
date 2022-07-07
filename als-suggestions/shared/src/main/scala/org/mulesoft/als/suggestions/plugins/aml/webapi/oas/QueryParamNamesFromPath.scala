@@ -21,8 +21,8 @@ object QueryParamNamesFromPath extends AMLCompletionPlugin {
         if (
           parameter.binding
             .option()
-            .contains("query") && request.yPartBranch
-            .parentEntryIs("name") && request.yPartBranch.isValue
+            .contains("query") && request.astPartBranch
+            .parentEntryIs("name") && request.astPartBranch.isValue
         )
           getQueryParams(request.branchStack).map(RawSuggestion(_, isAKey = false))
         else Nil

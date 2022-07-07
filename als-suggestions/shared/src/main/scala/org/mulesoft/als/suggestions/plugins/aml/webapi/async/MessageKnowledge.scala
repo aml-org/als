@@ -6,5 +6,5 @@ import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 object MessageKnowledge {
   def isRootMessageBlock(request: AmlCompletionRequest): Boolean =
     request.amfObject
-      .isInstanceOf[Response] && request.yPartBranch.isKeyDescendantOf("message")
+      .isInstanceOf[Response] && request.astPartBranch.isKeyDescendantOf("message")
 }

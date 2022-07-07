@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
 import amf.aml.client.scala.model.document.Dialect
-import amf.aml.client.scala.model.domain.{AnnotationMapping, DialectDomainElement, SemanticExtension}
+import amf.aml.client.scala.model.domain.{AnnotationMapping, DialectDomainElement, PropertyMapping, SemanticExtension}
 import amf.aml.internal.semantic.SemanticExtensionHelper
 import amf.core.client.scala.model.document.Module
 import amf.core.client.scala.model.domain.extensions.CustomDomainProperty
@@ -14,7 +14,7 @@ import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.AnnotationReferenceCompletionPlugin.EXTENSION_CATEGORY
 import org.mulesoft.als.suggestions.{AdditionalSuggestion, RawSuggestion}
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
-import org.yaml.model.{YMapEntry, YNode}
+import org.yaml.model.YNode
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -25,7 +25,7 @@ object AnnotationReferenceCompletionPlugin extends AMLCompletionPlugin {
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     if (
-      params.yPartBranch.isKey && !params.yPartBranch.isInArray && !params.amfObject
+      params.astPartBranch.isKey && !params.astPartBranch.isInArray && !params.amfObject
         .isInstanceOf[DialectDomainElement]
     ) {
       AnnotationReferenceSuggester(params)
@@ -37,15 +37,15 @@ object AnnotationReferenceCompletionPlugin extends AMLCompletionPlugin {
         )
     } else Future.successful(Nil)
 
-  private def isScalar(params: AmlCompletionRequest): Boolean =
-    params.yPartBranch.parentEntry match {
-      case Some(e: YMapEntry) =>
-        val entryName = e.key.asScalar.map(_.text)
-        params.propertyMapping
-          .find(_.name().option().exists(name => entryName.contains(name)))
-          .exists(p => p.literalRange().option().isDefined && !p.allowMultiple().value())
-      case _ => false
-    }
+  private def isScalar(params: AmlCompletionRequest): Boolean = {
+    params.astPartBranch.parentKey.exists(parentKey =>
+      params.propertyMapping
+        .find(_.name().option().contains(parentKey))
+        .exists(isLiteralRange)
+    )
+  }
+
+  private def isLiteralRange(p: PropertyMapping) = p.literalRange().option().isDefined && !p.allowMultiple().value()
 
   val EXTENSION_CATEGORY = "extensions"
 }
@@ -146,7 +146,7 @@ case class AnnotationReferenceSuggester(params: AmlCompletionRequest) {
     )
     params.baseUnit.ast.fold(suggestion) { ast =>
       val defaultRange = AdditionalSuggestion
-        .afterInfoNode(params.baseUnit, params.yPartBranch.isJson)
+        .afterInfoNode(params.baseUnit, params.astPartBranch.isJson)
         .map(p => PositionRange(p, p))
         .getOrElse(PositionRange.TopLine)
       suggestion.withAdditionalTextEdits(

@@ -1,6 +1,6 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.builders
 
-import amf.core.client.common.position.Range
+import org.mulesoft.common.client.lexical.PositionRange
 import amf.core.client.scala.model.domain.AmfElement
 import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
@@ -9,9 +9,9 @@ import org.mulesoft.language.outline.structure.structureImpl.StructureContext
 trait FieldTypeSymbolBuilder[ElementType <: AmfElement] extends FieldSymbolBuilder {
   val value: ElementType
 
-  override protected def range: Option[Range] =
+  override protected def range: Option[PositionRange] =
     element.value.annotations
-      .ast()
+      .astElement()
       .flatMap(rangeFromAst)
       .orElse(
         element.value.annotations

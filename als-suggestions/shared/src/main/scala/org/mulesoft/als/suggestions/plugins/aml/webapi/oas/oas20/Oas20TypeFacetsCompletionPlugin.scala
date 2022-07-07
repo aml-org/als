@@ -18,7 +18,7 @@ object Oas20TypeFacetsCompletionPlugin extends OasTypeFacetsCompletionPlugin {
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     val parameterSuggestions = params.branchStack.headOption
-      .map(o => resolveParameterStructure(params.yPartBranch, o, None))
+      .map(o => resolveParameterStructure(params.astPartBranch, o, None))
       .getOrElse(Nil)
     if (parameterSuggestions.isEmpty) super.resolve(params)
     else Future.successful(parameterSuggestions)

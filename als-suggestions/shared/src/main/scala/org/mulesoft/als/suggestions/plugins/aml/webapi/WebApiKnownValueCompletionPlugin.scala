@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi
 
-import amf.apicontract.client.scala.model.domain.Parameter
+import amf.apicontract.client.scala.model.domain.{Parameter, Payload}
 import amf.apicontract.internal.metamodel.domain.ParameterModel
 import amf.core.internal.parser.domain.FieldEntry
 import amf.shapes.internal.domain.metamodel.ScalarShapeModel
@@ -25,9 +25,14 @@ trait WebApiKnownValueCompletionPlugin extends AbstractKnownValueCompletionPlugi
   protected def isHeader(params: AmlCompletionRequest): Boolean =
     params.amfObject match {
       case p: Parameter if p.name.option().forall(_.isEmpty) =>
-        p.binding.option().contains("header") || params.yPartBranch.parentEntryIs("headers")
+        p.binding.option().contains("header") || params.astPartBranch.parentEntryIs("headers")
       case _ => false
     }
+
+  protected def isPayloadName(request: AmlCompletionRequest) = {
+    request.amfObject.isInstanceOf[Payload] && request.amfObject.fields.fields().isEmpty && request.astPartBranch
+      .isKeyDescendantOf("body")
+  }
 
   private def isParamName(params: AmlCompletionRequest, fe: FieldEntry): Boolean = isParam(params) && isName(fe)
 

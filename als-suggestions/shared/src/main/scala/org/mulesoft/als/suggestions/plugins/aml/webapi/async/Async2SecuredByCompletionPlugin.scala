@@ -18,7 +18,7 @@ object Async2SecuredByCompletionPlugin extends AMLCompletionPlugin {
     Future {
       if (isWritingSecuredBy(request)) {
         val original = getSecurityNames(request.prefix, request.declarationProvider)
-        if (request.yPartBranch.isKey || request.yPartBranch.isInArray)
+        if (request.astPartBranch.isKey || request.astPartBranch.isInArray)
           original.map(r => r.copy(options = r.options.copy(isKey = true, rangeKind = ArrayRange)))
         else original.map(r => r.copy(options = r.options.copy(isKey = false, rangeKind = ArrayRange)))
 
@@ -30,7 +30,7 @@ object Async2SecuredByCompletionPlugin extends AMLCompletionPlugin {
     request.amfObject match {
       case _: SecurityRequirement =>
         request.fieldEntry.exists(_.field == SecuritySchemeModel.Name) ||
-        request.fieldEntry.isEmpty && request.yPartBranch.parentEntryIs("security")
+        request.fieldEntry.isEmpty && request.astPartBranch.parentEntryIs("security")
       case _ => false
     }
   }

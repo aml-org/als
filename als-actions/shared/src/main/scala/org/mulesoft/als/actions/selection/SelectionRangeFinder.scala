@@ -1,38 +1,48 @@
 package org.mulesoft.als.actions.selection
 
+import org.mulesoft.als.common.ASTElementWrapper._
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter._
-import org.mulesoft.lexer.InputRange
-import org.mulesoft.lsp.feature.common
+import org.mulesoft.antlrast.ast.Node
+import org.mulesoft.common.client.lexical.ASTElement
 import org.mulesoft.lsp.feature.selectionRange.SelectionRange
 import org.yaml.model.YNode.MutRef
-import org.yaml.model.{YMapEntry, YNode, YPart, YScalar, YSequence, YTag}
+import org.yaml.model._
 
 object SelectionRangeFinder {
 
-  def findSelectionRange(yPart: YPart, positions: Seq[Position]): Seq[SelectionRange] = {
+  def findSelectionRange(astElement: ASTElement, positions: Seq[Position]): Seq[SelectionRange] = {
     positions.flatMap(p => {
-      findSelectionRange(yPart, p, None)
+      findSelectionRange(astElement, p, None)
     })
   }
 
   private def findSelectionRange(
-      yPart: YPart,
+      astElement: ASTElement,
       position: Position,
       parent: Option[SelectionRange]
   ): Option[SelectionRange] = {
-    val range              = PositionRange(yPart.range)
-    val rootSelectionRange = SelectionRange(range, parent)
-    findSelectionRangeFor(yPart.children, position, Some(rootSelectionRange)).orElse(parent)
+    val range              = PositionRange(astElement.location.range)
+    val rootSelectionRange = SelectionRange(toLspRange(range), parent)
+
+    findSelectionRangeFor(getChildren(astElement), position, Some(rootSelectionRange)).orElse(parent)
+  }
+
+  private def getChildren(astElement: ASTElement) = {
+    astElement match {
+      case yPart: YPart => yPart.children
+      case n: Node      => n.children
+      case _            => Nil
+    }
   }
 
   private def findSelectionRangeFor(
-      yPart: Iterable[YPart],
+      astElements: Iterable[ASTElement],
       position: Position,
       parent: Option[SelectionRange]
   ): Option[SelectionRange] = {
-    yPart
-      .find(p => p.range.contains(position))
+    astElements
+      .find(p => p.location.range.toPositionRange.contains(position))
       .flatMap(yPart => {
         yPart match {
           case ref: MutRef =>
@@ -42,14 +52,12 @@ object SelectionRangeFinder {
           case _: YTag =>
             parent
           case _ @(_: YScalar) =>
-            Some(SelectionRange(PositionRange(yPart.range), parent))
+            Some(SelectionRange(toLspRange(PositionRange(yPart.location.range)), parent))
           case _ =>
             // We skip this node
-            findSelectionRangeFor(yPart.children, position, parent)
+            findSelectionRangeFor(getChildren(yPart), position, parent)
         }
       })
   }
 
-  implicit def lspRange(p: PositionRange): common.Range          = toLspRange(p)
-  implicit def inputRangeConverter(p: InputRange): PositionRange = PositionRange(p)
 }

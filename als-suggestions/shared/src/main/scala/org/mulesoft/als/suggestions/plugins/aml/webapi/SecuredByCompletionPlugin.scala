@@ -20,9 +20,9 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
     Future {
       if (isWritingSecuredBy(request)) {
         val original = getSecurityNames(request.prefix, request.declarationProvider)
-        if (request.yPartBranch.isKeyLike || compatibleParametrizedSecurityScheme(request))
+        if (request.astPartBranch.isKeyLike || compatibleParametrizedSecurityScheme(request))
           original.map(r => r.copy(options = r.options.copy(isKey = true, rangeKind = ObjectRange)))
-        else if (!request.yPartBranch.isKeyLike)
+        else if (!request.astPartBranch.isKeyLike)
           original
             .map(r => r.copy(options = r.options.copy(rangeKind = ArrayRange, isKey = false)))
         else original
@@ -37,13 +37,13 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
       case _: SecurityRequirement =>
         (request.fieldEntry.map(_.field).contains(SecurityRequirementModel.Name) || request.fieldEntry.isEmpty) &&
         underSecurityKey(request) &&
-        (request.yPartBranch.isInArray || request.yPartBranch.isValue)
+        (request.astPartBranch.isInArray || request.astPartBranch.isValue)
       case _: Server => request.fieldEntry.map(_.field).contains(ServerModel.Security)
       case _         => false
     }
 
   private def compatibleParametrizedSecurityScheme(request: AmlCompletionRequest) =
-    request.yPartBranch.isInArray && underSecurityKey(request) && request.fieldEntry.isEmpty && request.amfObject
+    request.astPartBranch.isInArray && underSecurityKey(request) && request.fieldEntry.isEmpty && request.amfObject
       .isInstanceOf[ParametrizedSecurityScheme]
 
   private def getSecurityNames(prefix: String, dp: DeclarationProvider): Seq[RawSuggestion] =
@@ -51,6 +51,6 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
       .resolve()
 
   private def underSecurityKey(request: AmlCompletionRequest) =
-    request.yPartBranch.parentEntryIs("security") ||
-      request.yPartBranch.parentEntryIs("securedBy") // use metadata (dialect) here
+    request.astPartBranch.parentEntryIs("security") ||
+      request.astPartBranch.parentEntryIs("securedBy") // use metadata (dialect) here
 }

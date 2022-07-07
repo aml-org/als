@@ -22,7 +22,7 @@ object NamespaceForTermCompletionPlugin extends AMLCompletionPlugin {
     else emptySuggestion
 
   private def applies(request: AmlCompletionRequest) =
-    isTerm(request.amfObject, request.yPartBranch)
+    isTerm(request.amfObject, request.astPartBranch)
 
   private def externals(bu: BaseUnit): Seq[String] =
     bu match {

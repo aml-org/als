@@ -5,7 +5,7 @@ import amf.aml.client.scala.model.domain.{DocumentsModel, NodeMapping}
 import amf.core.client.scala.model.domain.AmfObject
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes
 import amf.core.internal.parser.domain.FieldEntry
-import org.mulesoft.als.common.YPartBranch
+import org.mulesoft.als.common.ASTPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.ResolveIfApplies
@@ -33,14 +33,14 @@ object MetaDialectDocumentsCompletionPlugin extends ResolveIfApplies with Boolea
   }
 
   def applies(request: AmlCompletionRequest): Boolean =
-    request.yPartBranch.isInBranchOf("documents") &&
-      (request.yPartBranch.isKey || request.fieldEntry.isDefined)
+    request.astPartBranch.isInBranchOf("documents") &&
+      (request.astPartBranch.isKey || request.fieldEntry.isDefined)
 
   def getSuggestion(params: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] = {
-    if (params.yPartBranch.isKey) {
-      suggestDocumentKeys(params.amfObject, params.yPartBranch, params.actualDialect)
+    if (params.astPartBranch.isKey) {
+      suggestDocumentKeys(params.amfObject, params.astPartBranch, params.actualDialect)
     } else {
-      params.fieldEntry.map(suggestValuesForDocumentKey(params.yPartBranch, _))
+      params.fieldEntry.map(suggestValuesForDocumentKey(params.astPartBranch, _))
     }
   }
 
@@ -51,11 +51,11 @@ object MetaDialectDocumentsCompletionPlugin extends ResolveIfApplies with Boolea
 
   def suggestDocumentKeys(
       amfObject: AmfObject,
-      yPartBranch: YPartBranch,
+      astPart: ASTPartBranch,
       dialect: Dialect
   ): Option[Future[Seq[RawSuggestion]]] = {
     documents
-      .collectFirst { case (key, mapping) if yPartBranch.parentEntryIs(key) => mapping }
+      .collectFirst { case (key, mapping) if astPart.parentEntryIs(key) => mapping }
       .map(a =>
         Future {
           new AMLStructureCompletionsPlugin(a.propertiesMapping(), dialect).resolve(amfObject.metaURIs.head)
@@ -63,9 +63,9 @@ object MetaDialectDocumentsCompletionPlugin extends ResolveIfApplies with Boolea
       )
   }
 
-  def suggestValuesForDocumentKey(yPartBranch: YPartBranch, fieldEntry: FieldEntry): Future[Seq[RawSuggestion]] = {
+  def suggestValuesForDocumentKey(astElement: ASTPartBranch, fieldEntry: FieldEntry): Future[Seq[RawSuggestion]] = {
     documents.keys
-      .find(k => yPartBranch.isInBranchOf(k))
+      .find(k => astElement.isInBranchOf(k))
       .map(key =>
         Future {
           val nm = documents.get(key)

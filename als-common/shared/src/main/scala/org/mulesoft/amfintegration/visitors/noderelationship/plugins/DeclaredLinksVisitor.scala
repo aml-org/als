@@ -36,20 +36,19 @@ class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
     sr.schemes
       .flatMap(source => {
         val optionTarget = Option(source.scheme)
-        optionTarget.flatMap(t => t.annotations.ast().map(targetAST => (source, t, targetAST)))
+        optionTarget.flatMap(t => t.annotations.ypart().map(targetAST => (source, t, targetAST)))
       })
       .flatMap(triple =>
         triple._1.annotations
-          .ast()
-          .map(sourceAST => RelationshipLink(sourceAST, triple._3, getName(triple._2), getName(triple._1)))
-      )
+          .ypart()
+          .map(sourceAST => RelationshipLink(sourceAST, triple._3, getName(triple._2), getName(triple._1))))
 
   private def extractInherits(obj: AmfObject): Seq[RelationshipLink] =
     obj.fields
       .entry(ShapeModel.Inherits)
       .flatMap { fe =>
         fe.value.annotations
-          .ast()
+          .ypart()
           .map {
             case e: YMapEntry => e.value
             case o            => o
@@ -59,10 +58,10 @@ class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
               case array: AmfArray =>
                 array.values
                   .filter(e => e.annotations.contains(classOf[DeclaredElement]))
-                  .flatMap(v => v.annotations.ast().map((v, _)))
+                  .flatMap(v => v.annotations.ypart().map((v, _)))
               case o =>
                 if (o.annotations.contains(classOf[DeclaredElement]))
-                  o.annotations.ast().toSeq.map((o, _))
+                  o.annotations.ypart().toSeq.map((o, _))
                 else Seq.empty
             }).map(t => RelationshipLink(source, t._2, getName(t._1)))
           )
@@ -71,7 +70,7 @@ class DeclaredLinksVisitor extends NodeRelationshipVisitorType {
 
   private def extractOrigin(obj: AmfObject): Option[YPart] =
     obj.annotations
-      .ast()
+      .ypart()
       .map(checkYNodePlain)
 
   /** checks for {$ref: '#declared'} style references and extracts YMapEntry of such

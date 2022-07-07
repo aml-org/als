@@ -22,7 +22,7 @@ trait DeclaredTypesSuggestions extends BooleanSuggestions {
       declaredSuggestions: Seq[RawSuggestion]
   ): Seq[RawSuggestion] = {
     val name = params.amfObject.elementIdentifier()
-    params.yPartBranch.parent
+    params.astPartBranch.parent
       .collectFirst({ case e: YMapEntry => e })
       .flatMap(_.key.asScalar.map(_.text)) match {
       case Some("type") => declaredSuggestions
@@ -54,7 +54,7 @@ trait DeclaredTypesSuggestions extends BooleanSuggestions {
     else Seq.empty
   }
   protected def extractIri(params: AmlCompletionRequest, a: AmfObject): String =
-    if (isUnresolved(a) || params.yPartBranch.isEmptyNode)
+    if (isUnresolved(a) || params.astPartBranch.isEmptyNode)
       ShapeModel.`type`.head.iri()
     else a.metaURIs.head
 

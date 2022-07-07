@@ -1,8 +1,8 @@
 package org.mulesoft.als.actions
 
 import org.mulesoft.als.actions.hover.HoverAction
-import org.mulesoft.als.common.YamlWrapper._
-import org.mulesoft.als.common.cache.{ObjectInTreeCached, YPartBranchCached}
+import org.mulesoft.als.common.ASTElementWrapper._
+import org.mulesoft.als.common.cache.{ASTPartBranchCached, ObjectInTreeCached}
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.common.{BaseHoverTest, PositionedHover}
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
@@ -61,7 +61,7 @@ class HoverActionTest extends AsyncFunSuite with BaseHoverTest {
 
   private def getResults(r: AmfParseResult, alsConfigurationState: ALSConfigurationState): List[PositionedHover] = {
     val positions: List[Position] = r.result.baseUnit.ast.map(extract).getOrElse(List.empty)
-    val yPart                     = new YPartBranchCached(r.result.baseUnit)
+    val yPart                     = new ASTPartBranchCached(r.result.baseUnit)
     val value =
       r.definedBy // always is going to exists in this test and if not, the exception is an advice good enough.
     val cached = new ObjectInTreeCached(r.result.baseUnit, value)

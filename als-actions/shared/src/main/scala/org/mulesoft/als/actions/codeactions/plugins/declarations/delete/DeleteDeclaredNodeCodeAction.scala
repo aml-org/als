@@ -13,7 +13,7 @@ import org.mulesoft.als.actions.codeactions.plugins.declarations.common.{
   ExtractorCommon
 }
 import org.mulesoft.als.common.SemanticNamedElement.ElementNameExtractor
-import org.mulesoft.als.common.YamlWrapper._
+import org.mulesoft.als.common.ASTElementWrapper._
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
@@ -81,14 +81,14 @@ class DeleteDeclaredNodeCodeAction(override val params: CodeActionRequestParams)
       .namedField()
       .flatMap(v =>
         v.annotations
-          .ast()
-          .orElse(v.value.annotations.ast())
-          .map(p => p.yPartToLocation)
+          .astElement()
+          .orElse(v.value.annotations.astElement())
+          .map(p => p.astToLocation)
       )
 
   private def removeReferences(nameLocation: Location, r: Seq[RelationshipLink]): Map[String, Seq[TextEdit]] =
     r.filter(re => {
-      re.targetEntry.yPartToLocation.uri == nameLocation.uri && re.targetEntry.range.contains(
+      re.targetEntry.astToLocation.uri == nameLocation.uri && re.targetEntry.range.contains(
         Position(nameLocation.range.start).toAmfPosition
       )
     }).map(rl =>

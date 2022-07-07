@@ -41,7 +41,7 @@ object SecurityScopesCompletionPlugin extends AMLCompletionPlugin {
               )
             )
         case p: ParametrizedSecurityScheme
-            if request.fieldEntry.isEmpty && request.yPartBranch.isKey && p.scheme.`type`.value() == "OAuth 2.0" =>
+            if request.fieldEntry.isEmpty && request.astPartBranch.isKey && p.scheme.`type`.value() == "OAuth 2.0" =>
           Seq(RawSuggestion.arrayProp("scopes", "security"))
 
         case _ => Nil

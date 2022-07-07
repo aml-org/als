@@ -13,20 +13,24 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object AMLUnionNodeCompletionPlugin extends ResolveIfApplies {
-  override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] =
-    new AMLUnionNodeCompletionPlugin(request).resolve()
+  override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] = {
+    request.astPartBranch match {
+      case yPartBranch: YPartBranch => new AMLUnionNodeCompletionPlugin(request, yPartBranch).resolve()
+      case _                        => None
+    }
+  }
 }
 
-class AMLUnionNodeCompletionPlugin(params: AmlCompletionRequest) extends UnionSuggestions {
-  override protected val amfObject: AmfObject     = params.amfObject
-  override protected val dialect: Dialect         = params.actualDialect
-  override protected val yPartBranch: YPartBranch = params.yPartBranch
+class AMLUnionNodeCompletionPlugin(params: AmlCompletionRequest, override protected val yPartBranch: YPartBranch)
+    extends UnionSuggestions {
+  override protected val amfObject: AmfObject = params.amfObject
+  override protected val dialect: Dialect     = params.actualDialect
 
   lazy val unionType: Option[UnionNodeMapping] = getUnionType
 
   // this plugin applies when we are on a union with no type discriminator or the type discriminator is not set
   def resolve(): Option[Future[Seq[RawSuggestion]]] =
-    if (params.yPartBranch.isKey && !hasDefinedDiscriminator(amfObject)) {
+    if (params.astPartBranch.isKey && !hasDefinedDiscriminator(amfObject)) {
       unionType.map(getSuggestions)
     } else None
 

@@ -24,7 +24,7 @@ object AnnotationFacets extends AMLCompletionPlugin {
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
       request.amfObject match {
-        case _: CustomDomainProperty if request.yPartBranch.isKey && request.fieldEntry.isEmpty => typeFacets(request)
+        case _: CustomDomainProperty if request.astPartBranch.isKey && request.fieldEntry.isEmpty => typeFacets(request)
         case s: Shape
             if request.branchStack.headOption
               .exists(_.isInstanceOf[CustomDomainProperty]) && isWrittingFacet(request) =>
@@ -35,8 +35,8 @@ object AnnotationFacets extends AMLCompletionPlugin {
   }
 
   private def isWrittingFacet(request: AmlCompletionRequest): Boolean =
-    request.yPartBranch.isKey && (request.amfObject match {
-      case s: Shape => s.name.value() != request.yPartBranch.stringValue
+    request.astPartBranch.isKey && (request.amfObject match {
+      case s: Shape => s.name.value() != request.astPartBranch.stringValue
       case _        => false
     })
 

@@ -51,7 +51,7 @@ class CodeActionManager(
             val requestParams = params.toRequestParams(
               bu.unit,
               bu.tree,
-              bu.yPartBranch,
+              bu.astPartBranch,
               bu.definedBy,
               configuration,
               allr,

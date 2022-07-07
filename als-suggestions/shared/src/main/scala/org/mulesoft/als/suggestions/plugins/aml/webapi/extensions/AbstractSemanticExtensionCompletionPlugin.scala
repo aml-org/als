@@ -14,7 +14,7 @@ trait AbstractSemanticExtensionCompletionPlugin extends AMLCompletionPlugin {
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     Future.successful(
-      if (params.yPartBranch.isKey && !params.yPartBranch.isInArray && isAnnotationFlavour(params))
+      if (params.astPartBranch.isKey && !params.astPartBranch.isInArray && isAnnotationFlavour(params))
         params.amfObject.meta.`type`
           .map(_.iri())
           .flatMap(params.alsConfigurationState.semanticKeysFor(_, getCompanionsDialect(params)))

@@ -5,12 +5,12 @@ import amf.aml.client.scala.model.domain.SemanticExtension
 import amf.core.client.scala.model.document.{BaseUnit, DeclaresModel}
 import amf.core.client.scala.model.domain.extensions.DomainExtension
 import amf.core.client.scala.model.domain.{AmfObject, DomainElement}
-import amf.core.internal.annotations.{DeclaredElement, DefinedBySpec, SourceAST}
+import amf.core.internal.annotations.{DeclaredElement, DefinedBySpec, SourceYPart}
 import amf.core.internal.metamodel.domain.LinkableElementModel
 import amf.core.internal.parser.domain.{Annotations, FieldEntry}
 import amf.core.internal.remote.{AmlDialectSpec, Spec}
+import org.mulesoft.als.common.YPartASTWrapper.AlsYPart
 import org.mulesoft.als.common.AmfSonElementFinder.AlsAmfObject
-import org.mulesoft.als.common.YamlWrapper.AlsYPart
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.amfintegration.FieldEntryOrdering
@@ -20,7 +20,7 @@ case class ObjectInTree(
     obj: AmfObject,
     stack: Seq[AmfObject],
     fieldEntry: Option[FieldEntry],
-    yPartBranch: YPartBranch
+    astPartBranch: ASTPartBranch
 ) {
   def objSpec(findDialectForSemantic: String => Option[(SemanticExtension, Dialect)]): Option[Spec] = {
     def findSpecificDefinition(objects: Seq[AmfObject]): Option[Spec] =
@@ -41,7 +41,7 @@ case class ObjectInTree(
 
   lazy val nonVirtualObj: Option[AmfObject] =
     obj.annotations
-      .containsYPart(yPartBranch)
+      .containsAstBranch(astPartBranch)
       .map(_ => obj)
       .orElse(stack.headOption)
 
@@ -65,21 +65,21 @@ case class ObjectInTree(
 
   private def inField(f: FieldEntry) =
     f.field != LinkableElementModel.Target &&
-      (f.value.annotations.ast() match {
+      (f.value.annotations.ypart() match {
         case Some(e: YMapEntry) =>
           e.contains(
-            yPartBranch.position
-          ) && !(e.key.range.lineTo == yPartBranch.position.line && e.key.range.columnFrom == yPartBranch.position.column) // start of the entry
-        case _ => f.value.annotations.containsYPart(yPartBranch).getOrElse(f.value.annotations.isInferred)
+            astPartBranch.position
+          ) && !(e.key.range.lineTo == astPartBranch.position.line && e.key.range.columnFrom == astPartBranch.position.column) // start of the entry
+        case _ => f.value.annotations.containsAstBranch(astPartBranch).getOrElse(f.value.annotations.isInferred)
       })
 
   private def inValue(f: FieldEntry) =
-    f.value.value.annotations.ast().exists(_.contains(yPartBranch.position))
+    f.value.value.annotations.containsPosition(astPartBranch.position)
 
   private def notInKey(a: Annotations) =
-    a.find(classOf[SourceAST]) match {
-      case Some(SourceAST(e: YMapEntry)) => notInKeyAtEntry(e)
-      case _                             => false
+    a.find(classOf[SourceYPart]) match {
+      case Some(SourceYPart(e: YMapEntry)) => notInKeyAtEntry(e)
+      case _                               => false
     }
 
   /** hack for new empty line. Is a new field. This is part of the value: e: * this should not e: value *
@@ -87,7 +87,7 @@ case class ObjectInTree(
   private def notInKeyAtEntry(e: YMapEntry) =
     !PositionRange(e.key.range)
       .contains(
-        Position(yPartBranch.position)
+        Position(astPartBranch.position)
       ) && (e.range.columnTo > e.range.columnFrom || e.range.columnTo == 0) && e.value.isNull
 
   def isDeclared: Boolean = {
@@ -101,10 +101,10 @@ case class ObjectInTree(
 
 object ObjectInTreeBuilder {
 
-  def fromUnit(bu: BaseUnit, location: String, definedBy: Dialect, yPartBranch: YPartBranch): ObjectInTree = {
+  def fromUnit(bu: BaseUnit, location: String, definedBy: Dialect, astBranch: ASTPartBranch): ObjectInTree = {
     val branch =
-      bu.findSon(location, definedBy, yPartBranch)
-    ObjectInTree(branch.obj, branch.branch, branch.fe, yPartBranch)
+      bu.findSon(location, definedBy, astBranch)
+    ObjectInTree(branch.obj, branch.branch, branch.fe, astBranch)
   }
 
   def fromSubTree(
@@ -112,9 +112,9 @@ object ObjectInTreeBuilder {
       location: String,
       previousStack: Seq[AmfObject],
       definedBy: Dialect,
-      yPartBranch: YPartBranch
+      astPartBranch: ASTPartBranch
   ): ObjectInTree = {
-    val branch = element.findSon(location, definedBy, yPartBranch)
-    ObjectInTree(branch.obj, branch.branch ++ previousStack, branch.fe, yPartBranch)
+    val branch = element.findSon(location, definedBy, astPartBranch)
+    ObjectInTree(branch.obj, branch.branch ++ previousStack, branch.fe, astPartBranch)
   }
 }

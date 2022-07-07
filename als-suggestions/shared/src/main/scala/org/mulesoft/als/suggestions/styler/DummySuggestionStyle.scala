@@ -8,8 +8,8 @@ import org.mulesoft.als.suggestions.{RawSuggestion, SuggestionStructure}
 import org.yaml.model.{YMap, YPart}
 
 case class DummySuggestionStyle(prefix: String, position: Position) extends SuggestionRender {
-  override val params: StylerParams =
-    StylerParams(
+  override val params: SyamlStylerParams =
+    SyamlStylerParams(
       prefix,
       position,
       YPartBranch(YMap.empty, position.toAmfPosition, Nil, isJson = false, isInFlow = false),

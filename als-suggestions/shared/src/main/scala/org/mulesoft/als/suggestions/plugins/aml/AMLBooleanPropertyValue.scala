@@ -15,7 +15,7 @@ object AMLBooleanPropertyValue extends AMLCompletionPlugin with BooleanSuggestio
     Future {
       request.propertyMapping match {
         case head :: Nil
-            if !request.yPartBranch.isKey && head.literalRange().option().contains(XsdTypes.xsdBoolean.iri()) =>
+            if !request.astPartBranch.isKey && head.literalRange().option().contains(XsdTypes.xsdBoolean.iri()) =>
           booleanSuggestions
         case _ => Nil
       }

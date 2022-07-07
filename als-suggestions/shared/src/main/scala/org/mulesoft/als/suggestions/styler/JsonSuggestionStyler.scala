@@ -5,7 +5,7 @@ import org.mulesoft.als.suggestions.{RawSuggestion, SuggestionStructure}
 import org.yaml.model.YPart
 import org.yaml.render.{JsonRender, JsonRenderOptions}
 
-case class JsonSuggestionStyler(override val params: StylerParams) extends FlowSuggestionRender {
+case class JsonSuggestionStyler(override val params: SyamlStylerParams) extends FlowSuggestionRender {
 
   override protected val escapeChar: String = "\""
 

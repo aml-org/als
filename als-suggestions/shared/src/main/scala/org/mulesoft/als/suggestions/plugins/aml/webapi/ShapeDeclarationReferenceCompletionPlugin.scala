@@ -13,7 +13,7 @@ trait ShapeDeclarationReferenceCompletionPlugin extends AMLCompletionPlugin with
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
       params.amfObject match {
-        case s: Shape if params.yPartBranch.isValue =>
+        case s: Shape if params.astPartBranch.isValue =>
           val iri = extractIri(params, s)
           val declaredSuggestions =
             getDeclaredSuggestions(params, s.name.option(), iri)

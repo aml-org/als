@@ -1,11 +1,10 @@
 package org.mulesoft.als.suggestions
 
-import amf.core.client.common.position.{Position => AmfPosition}
+import org.mulesoft.common.client.lexical.{PositionRange, SourceLocation, Position => AmfPosition}
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.als.suggestions.styler.{JsonSuggestionStyler, StylerParams}
-import org.mulesoft.lexer.{InputRange, SourceLocation}
+import org.mulesoft.als.suggestions.styler.{JsonSuggestionStyler, SyamlStylerParams}
 import org.mulesoft.lsp.configuration.{DefaultFormattingOptions, FormattingOptions}
 import org.scalatest.AsyncFunSuite
 import org.yaml.model._
@@ -25,7 +24,7 @@ class JsonSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
         |}
         |""".stripMargin
 
-    val styler = JsonSuggestionStyler(StylerParams("sw", Position(1, 5), dummyYPart, DefaultFormattingOptions))
+    val styler = JsonSuggestionStyler(SyamlStylerParams("sw", Position(1, 5), dummyYPart, DefaultFormattingOptions))
 
     val styled = styler.style(RawSuggestion("swagger", isAKey = true))
 
@@ -40,7 +39,7 @@ class JsonSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
         |""".stripMargin
 
     val styler = JsonSuggestionStyler(
-      StylerParams(
+      SyamlStylerParams(
         "",
         Position(1, 2),
         dummyYPart,
@@ -61,7 +60,7 @@ class JsonSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
         |}
         |""".stripMargin
 
-    val styler = JsonSuggestionStyler(StylerParams("", Position(1, 3), dummyYPart, DefaultFormattingOptions))
+    val styler = JsonSuggestionStyler(SyamlStylerParams("", Position(1, 3), dummyYPart, DefaultFormattingOptions))
 
     val styled = styler.style(RawSuggestion("swagger", isAKey = true))
 
@@ -82,12 +81,12 @@ class JsonSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
     val current    = YMapEntry(SourceLocation("x", 2, 3, 2, 4), IndexedSeq(node, emptyVal))
     val swagger    = YNode("\"swagger\"")
     val swaggerVal = YNode("\"2.0\"")
-    val swaggerMap = YMapEntry(SourceLocation("swagger", InputRange(3, 3, 3, 19)), IndexedSeq(swagger, swaggerVal))
+    val swaggerMap = YMapEntry(SourceLocation("swagger", PositionRange(3, 3, 3, 19)), IndexedSeq(swagger, swaggerVal))
     val stack      = Seq(current, YMap(IndexedSeq(current, swaggerMap), "noname"))
 
     val dummyYPart = YPartBranch(node, AmfPosition(2, 3), stack, isJson = true, isInFlow = true)
 
-    val styler = JsonSuggestionStyler(StylerParams("", Position(2, 3), dummyYPart, DefaultFormattingOptions))
+    val styler = JsonSuggestionStyler(SyamlStylerParams("", Position(2, 3), dummyYPart, DefaultFormattingOptions))
 
     val styled = styler.style(RawSuggestion.forObject("info", "none"))
 
@@ -101,7 +100,7 @@ class JsonSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
                     |}""".stripMargin
 
     val styler =
-      JsonSuggestionStyler(StylerParams("", Position(1, 3), dummyYPart, FormattingOptions(4, insertSpaces = true)))
+      JsonSuggestionStyler(SyamlStylerParams("", Position(1, 3), dummyYPart, FormattingOptions(4, insertSpaces = true)))
 
     val styled = styler.style(RawSuggestion.forObject("info", "docs"))
 
@@ -120,7 +119,7 @@ class JsonSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
                     |}""".stripMargin
 
     val styler =
-      JsonSuggestionStyler(StylerParams("", Position(4, 9), dummyYPart, FormattingOptions(3, insertSpaces = true)))
+      JsonSuggestionStyler(SyamlStylerParams("", Position(4, 9), dummyYPart, FormattingOptions(3, insertSpaces = true)))
 
     val styled = styler.style(RawSuggestion.forObject("get", "operation"))
 
@@ -136,7 +135,9 @@ class JsonSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
     RawSuggestion.forObject("info", "docs", mandatory = true)
 
     val styler =
-      JsonSuggestionStyler(StylerParams("", Position(1, 3), dummyYPart, FormattingOptions(2, insertSpaces = false)))
+      JsonSuggestionStyler(
+        SyamlStylerParams("", Position(1, 3), dummyYPart, FormattingOptions(2, insertSpaces = false))
+      )
 
     val styled = styler.style(RawSuggestion.forObject("info", "docs"))
 

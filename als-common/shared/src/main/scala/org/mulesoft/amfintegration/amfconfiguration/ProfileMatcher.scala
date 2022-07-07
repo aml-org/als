@@ -6,6 +6,7 @@ import amf.core.client.scala.model.document.BaseUnit
 import amf.core.internal.remote.Spec
 import org.mulesoft.amfintegration.DialectWithVendor
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
+import org.mulesoft.amfintegration.dialect.dialects.graphql.GraphQLDialect
 import org.mulesoft.amfintegration.dialect.dialects.metadialect.MetaDialect
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.Raml08TypesDialect
@@ -22,6 +23,7 @@ object ProfileMatcher {
       case Spec.OAS30   => ProfileNames.OAS30
       case Spec.ASYNC20 => ProfileNames.ASYNC20
       case Spec.AML     => ProfileNames.AML
+      case Spec.GRAPHQL => ProfileNames.GRPC
       case _            => ProfileNames.AMF
     }
 
@@ -31,6 +33,7 @@ object ProfileMatcher {
     DialectWithVendor(OAS20Dialect(), Spec.OAS20),
     DialectWithVendor(OAS30Dialect(), Spec.OAS30),
     DialectWithVendor(AsyncApi20Dialect(), Spec.ASYNC20),
+    DialectWithVendor(GraphQLDialect(), Spec.GRAPHQL),
     DialectWithVendor(MetaDialect(), Spec.AML)
   )
 

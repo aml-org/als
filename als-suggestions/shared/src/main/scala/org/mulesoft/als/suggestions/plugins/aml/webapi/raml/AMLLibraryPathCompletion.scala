@@ -29,7 +29,7 @@ object AMLLibraryPathCompletion extends AMLCompletionPlugin {
   }
 
   private def matchesAST(request: AmlCompletionRequest) = {
-    request.yPartBranch
-      .isInBranchOf("uses") && request.yPartBranch.isValue
+    request.astPartBranch
+      .isInBranchOf("uses") && request.astPartBranch.isValue
   }
 }

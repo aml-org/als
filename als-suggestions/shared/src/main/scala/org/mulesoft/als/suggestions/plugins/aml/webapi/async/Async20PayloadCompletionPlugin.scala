@@ -18,7 +18,7 @@ object Async20PayloadCompletionPlugin extends AMLCompletionPlugin with AsyncMedi
       val branchStack = request.branchStack
       branchStack.headOption match {
         case Some(p: Payload)
-            if request.yPartBranch.isKeyDescendantOf("payload") &&
+            if request.astPartBranch.isKeyDescendantOf("payload") &&
               !branchStack.exists(_.isInstanceOf[Server]) =>
           request.amfObject match {
             case s: Shape =>

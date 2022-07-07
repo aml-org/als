@@ -24,7 +24,7 @@ object ParameterReferenceCompletionPlugin extends AMLCompletionPlugin {
               request.actualDialect,
               paramIriMaps.keys.toSeq,
               request.amfObject.elementIdentifier(),
-              request.yPartBranch,
+              request.astPartBranch,
               paramIriMaps
             )
               .resolve(request.declarationProvider)

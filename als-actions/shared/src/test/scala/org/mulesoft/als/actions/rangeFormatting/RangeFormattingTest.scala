@@ -1,14 +1,13 @@
 package org.mulesoft.als.actions.rangeFormatting
 
-import amf.core.client.common.position.{Range => AmfRange}
 import amf.core.client.scala.validation.AMFValidationResult
 import amf.core.internal.annotations.LexicalInformation
 import org.mulesoft.als.actions.formatting.RangeFormatting
 import org.mulesoft.als.common.diff.WorkspaceEditsTest
 import org.mulesoft.als.common.{ByDirectoryTest, MarkerFinderTest, NodeBranchBuilder}
 import org.mulesoft.amfintegration.ErrorsCollected
+import org.mulesoft.common.client.lexical.SourceLocation
 import org.mulesoft.common.io.{Fs, SyncFile}
-import org.mulesoft.lexer.SourceLocation
 import org.mulesoft.lsp.configuration.FormattingOptions
 import org.mulesoft.lsp.edit.{TextEdit, WorkspaceEdit}
 import org.yaml.model.{ParseErrorHandler, SyamlException, YDocument, YPart}
@@ -48,6 +47,7 @@ trait RangeFormattingTest extends ByDirectoryTest with MarkerFinderTest with Wor
           val end = markers.tail.head
           NodeBranchBuilder.getAstForRange(ast, start.position.toAmfPosition, end.position.toAmfPosition, isJson)
         })
+        .collectFirst({ case yPart: YPart => yPart })
         .getOrElse(parse(content))
 
       val formattingOption = FormattingOptions(2, insertSpaces = true)
@@ -72,7 +72,7 @@ trait RangeFormattingTest extends ByDirectoryTest with MarkerFinderTest with Wor
     }
 
     private def lexical(loc: SourceLocation): Option[LexicalInformation] =
-      Some(LexicalInformation(AmfRange(loc.inputRange)))
+      Some(LexicalInformation(loc.range))
 
     def getErrors: ErrorsCollected = ErrorsCollected(errors.toList)
 

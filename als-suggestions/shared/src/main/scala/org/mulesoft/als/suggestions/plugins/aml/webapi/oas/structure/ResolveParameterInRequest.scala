@@ -16,7 +16,7 @@ object ResolveParameterInRequest extends ResolveIfApplies {
     request.amfObject match {
       case o: Operation if o.graph.containsProperty(OperationModel.Request.value.iri()) =>
         val branch =
-          o.request.findSon(o.location().getOrElse(""), request.actualDialect, request.yPartBranch)
+          o.request.findSon(o.location().getOrElse(""), request.actualDialect, request.astPartBranch)
         if (branch.obj.isInstanceOf[Parameter] && branch.fe.isEmpty)
           applies(
             Future.successful(

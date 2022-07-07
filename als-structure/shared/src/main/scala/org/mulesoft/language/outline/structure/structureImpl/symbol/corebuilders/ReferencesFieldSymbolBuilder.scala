@@ -2,7 +2,7 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilder
 
 import amf.apicontract.internal.metamodel.domain.api.WebApiModel
 import amf.apicontract.internal.metamodel.domain.templates.ResourceTypeModel
-import amf.core.client.common.position.{Range => AmfRange}
+import org.mulesoft.common.client.lexical.{PositionRange => AmfPositionRange}
 import amf.core.internal.metamodel.document.DocumentModel
 import amf.core.internal.metamodel.domain.ShapeModel
 import amf.core.internal.parser.domain.FieldEntry
@@ -25,10 +25,10 @@ object IgnoreFieldSymbolBuilder extends FieldSymbolBuilder {
   override val ctx: StructureContext        = null
   override def build(): Seq[DocumentSymbol] = Nil
 
-  override protected val optionName: Option[String]     = None
-  override protected val children: List[DocumentSymbol] = Nil
-  override protected val kind: SymbolKinds.SymbolKind   = SymbolKinds.Property
-  override protected val range: Option[AmfRange]        = None
+  override protected val optionName: Option[String]      = None
+  override protected val children: List[DocumentSymbol]  = Nil
+  override protected val kind: SymbolKinds.SymbolKind    = SymbolKinds.Property
+  override protected val range: Option[AmfPositionRange] = None
 }
 
 object VariableFieldSymbolBuilderCompanion extends IgnoreFieldSymbolBuilderCompanion {

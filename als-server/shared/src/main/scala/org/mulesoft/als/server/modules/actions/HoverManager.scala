@@ -57,7 +57,7 @@ class HoverManager(wm: WorkspaceManager, telemetryProvider: TelemetryProvider)
         HoverAction(
           cu.unit,
           cu.tree,
-          cu.yPartBranch,
+          cu.astPartBranch,
           dtoPosition,
           params.textDocument.uri,
           cu.context.state.editorState.vocabularyRegistry,

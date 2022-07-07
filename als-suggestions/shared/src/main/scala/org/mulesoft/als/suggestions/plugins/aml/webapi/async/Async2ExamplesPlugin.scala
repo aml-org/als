@@ -16,11 +16,11 @@ object Async2ExamplesPlugin extends AMLCompletionPlugin with ExampleSuggestionPl
   def extractShape(request: AmlCompletionRequest): Option[AnyShape] = {
     request.branchStack
       .collectFirst({ case m: Message =>
-        if (request.yPartBranch.isInBranchOf("payload")) {
+        if (request.astPartBranch.isInBranchOf("payload")) {
           m.payloads.headOption
             .map(_.schema)
             .collect({ case s: AnyShape => s })
-        } else if (request.yPartBranch.isInBranchOf("headers")) {
+        } else if (request.astPartBranch.isInBranchOf("headers")) {
           Some(m.headerSchema)
         } else {
           None

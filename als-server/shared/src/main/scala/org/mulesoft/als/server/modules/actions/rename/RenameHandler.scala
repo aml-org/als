@@ -64,7 +64,7 @@ class RenameHandler(
               newName,
               workspace.getAliases(uri, uuid),
               workspace.getRelationships(uri, uuid).map(_._2),
-              bu.yPartBranch,
+              bu.astPartBranch,
               bu.unit
             )
             .map(_.toWorkspaceEdit(configurationReader.supportsDocumentChanges))
@@ -143,7 +143,7 @@ class RenameHandler(
         position,
         workspace.getRelationships(uri, uuid).map(_._2),
         workspace.getAliases(uri, uuid),
-        bu.yPartBranch
+        bu.astPartBranch
       )
       .flatMap(_.headOption match {
         case Some(definition) =>
@@ -154,7 +154,7 @@ class RenameHandler(
               newName,
               workspace.getAliases(uri, uuid),
               workspace.getRelationships(uri, uuid).map(_._2),
-              bu.yPartBranch,
+              bu.astPartBranch,
               bu.unit
             )
             .map(a => Some(a.toWorkspaceEdit(configurationReader.supportsDocumentChanges)))

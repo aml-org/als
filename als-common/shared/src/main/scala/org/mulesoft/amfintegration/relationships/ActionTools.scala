@@ -1,10 +1,10 @@
 package org.mulesoft.amfintegration.relationships
 
-import amf.core.client.common.position.{Position => AmfPosition}
+import org.mulesoft.common.client.lexical.{Position => AmfPosition}
 import amf.core.internal.remote.Platform
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
-import org.mulesoft.lexer.SourceLocation
+import org.mulesoft.common.client.lexical.SourceLocation
 import org.mulesoft.lsp.feature.common.{Location, LocationLink, Range}
 
 object ActionTools {

@@ -13,21 +13,25 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object AMLUnionRangeCompletionPlugin extends ResolveIfApplies {
-  override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] =
-    new AMLUnionRangeCompletionPlugin(request).resolve()
+  override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] = {
+    request.astPartBranch match {
+      case yPart: YPartBranch => new AMLUnionRangeCompletionPlugin(request, yPart).resolve()
+      case _                  => None
+    }
+  }
 }
 
-class AMLUnionRangeCompletionPlugin(params: AmlCompletionRequest) extends UnionSuggestions {
-  override protected val amfObject: AmfObject     = params.amfObject
-  override protected val dialect: Dialect         = params.actualDialect
-  override protected val yPartBranch: YPartBranch = params.yPartBranch
+class AMLUnionRangeCompletionPlugin(params: AmlCompletionRequest, override protected val yPartBranch: YPartBranch)
+    extends UnionSuggestions {
+  override protected val amfObject: AmfObject = params.amfObject
+  override protected val dialect: Dialect     = params.actualDialect
 
   lazy val possibleMappings: Seq[String] = fromUnionRangeMapping(amfObject)
 
   // this plugin applies when we are on a union range
   // and xone shape regoModule or
   def resolve(): Option[Future[Seq[RawSuggestion]]] =
-    if (params.yPartBranch.isKey && possibleMappings.nonEmpty) {
+    if (params.astPartBranch.isKey && possibleMappings.nonEmpty) {
       Some(getSuggestions(possibleMappings))
     } else None
 
