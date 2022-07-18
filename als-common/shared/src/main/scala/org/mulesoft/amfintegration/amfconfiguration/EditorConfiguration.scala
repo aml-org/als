@@ -178,5 +178,5 @@ case class EditorConfigurationStateWrapper(state: EditorConfigurationState) {
   }
 
   def parse(url: String): Future[AMFParseResult] =
-    configure(APIConfiguration.API()).baseUnitClient().parse(url)
+    configure(APIConfiguration.APIWithJsonSchema()).baseUnitClient().parse(url)
 }

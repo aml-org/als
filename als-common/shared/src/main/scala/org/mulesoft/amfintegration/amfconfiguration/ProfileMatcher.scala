@@ -7,6 +7,7 @@ import amf.core.internal.remote.Spec
 import org.mulesoft.amfintegration.DialectWithVendor
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
 import org.mulesoft.amfintegration.dialect.dialects.graphql.GraphQLDialect
+import org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft7.JsonSchemaDraft7Dialect
 import org.mulesoft.amfintegration.dialect.dialects.metadialect.MetaDialect
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
 import org.mulesoft.amfintegration.dialect.dialects.raml.raml08.Raml08TypesDialect
@@ -17,14 +18,15 @@ object ProfileMatcher {
 
   def profile(spec: Spec): ProfileName =
     spec match {
-      case Spec.RAML10  => ProfileNames.RAML10
-      case Spec.RAML08  => ProfileNames.RAML08
-      case Spec.OAS20   => ProfileNames.OAS20
-      case Spec.OAS30   => ProfileNames.OAS30
-      case Spec.ASYNC20 => ProfileNames.ASYNC20
-      case Spec.AML     => ProfileNames.AML
-      case Spec.GRAPHQL => ProfileNames.GRPC
-      case _            => ProfileNames.AMF
+      case Spec.RAML10     => ProfileNames.RAML10
+      case Spec.RAML08     => ProfileNames.RAML08
+      case Spec.OAS20      => ProfileNames.OAS20
+      case Spec.OAS30      => ProfileNames.OAS30
+      case Spec.ASYNC20    => ProfileNames.ASYNC20
+      case Spec.AML        => ProfileNames.AML
+      case Spec.GRAPHQL    => ProfileNames.GRPC
+      case Spec.JSONSCHEMA => ProfileNames.JSONSCHEMA
+      case _               => ProfileNames.AMF
     }
 
   private val webApiDialects: Set[DialectWithVendor] = Set(
@@ -34,6 +36,7 @@ object ProfileMatcher {
     DialectWithVendor(OAS30Dialect(), Spec.OAS30),
     DialectWithVendor(AsyncApi20Dialect(), Spec.ASYNC20),
     DialectWithVendor(GraphQLDialect(), Spec.GRAPHQL),
+    DialectWithVendor(JsonSchemaDraft7Dialect(), Spec.JSONSCHEMA),
     DialectWithVendor(MetaDialect(), Spec.AML)
   )
 
