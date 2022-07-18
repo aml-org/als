@@ -175,7 +175,7 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
     }
   }
 
-  test("Clean diagnostic test - ASYNC20 vendor") {
+  test("Clean diagnostic test - ASYNC20 vendor", Flaky) {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(5000)
     withServer(buildServer(diagnosticNotifier)) { s =>
       val mainFilePath = s"file://async.yaml"
@@ -192,6 +192,56 @@ class ServerCleanDiagnosticTest extends LanguageServerBaseTest with ChangesWorks
         s.shutdown()
         assert(d.nonEmpty)
         assert(d.forall(_.profile.profile == ProfileNames.ASYNC20.profile))
+      }
+    }
+  }
+
+  test("Clean diagnostic test - JSON Schema with errors") {
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(5000)
+    withServer(buildServer(diagnosticNotifier)) { s =>
+      val mainFilePath = s"file://basic-schema-with-error.json"
+
+      val mainContent =
+        """{
+          |  "$schema": "http://json-schema.org/draft/2019-09/schema#",
+          |  "title": "My Schemas",
+          |  "definitions": {
+          |    "Person": {
+          |      "properties": {
+          |        "name": {
+          |          "type": "string"
+          |        },
+          |        "age": {
+          |          "type": "integer"
+          |        }
+          |      }
+          |    }
+          |  },
+          |  "$defs": {
+          |    "Animal": {
+          |      "properties": {
+          |        "breed": {
+          |          "type": "string"
+          |        },
+          |        "age": {
+          |          "type": "integer"
+          |        }
+          |      }
+          |    }
+          |  }
+          |}
+          |
+          |""".stripMargin
+
+      for {
+        _ <- openFileNotification(s)(mainFilePath, mainContent)
+        n <- diagnosticNotifier.nextCall
+        r <- requestCleanDiagnostic(s)(mainFilePath)
+      } yield {
+        s.shutdown()
+        assert(r.size == 1)
+        assert(r.head.diagnostics.size == 1)
+        assert(r.headOption.map(_.diagnostics).contains(n.diagnostics))
       }
     }
   }

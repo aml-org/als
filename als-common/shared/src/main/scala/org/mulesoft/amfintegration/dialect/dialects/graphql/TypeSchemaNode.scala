@@ -15,33 +15,31 @@ object TypeSchemaNode extends DialectNode {
       .withName("schema")
       .withMinCount(1)
       .withNodePropertyMapping(SchemaNode.id)
-      .withObjectRange(Seq(
-        SchemaNode.id
-      )),
+      .withObjectRange(
+        Seq(
+          SchemaNode.id
+        )
+      ),
     PropertyMapping()
       .withId(location + "#/declarations/GraphQLObject/type")
       .withName("type")
       .withMinCount(1)
       .withNodePropertyMapping(TypeNode.id)
-      .withObjectRange(Seq(
-        TypeNode.id
-      )),
+      .withObjectRange(
+        Seq(
+          TypeNode.id
+        )
+      ),
     PropertyMapping()
       .withId(location + "#/declarations/GraphQLObject/input")
       .withName("input")
       .withMinCount(1)
       .withNodePropertyMapping(TypeNode.id)
-      .withObjectRange(Seq(
-        TypeNode.id
-      )),
-    PropertyMapping()
-      .withId(location + "#/declarations/GraphQLObject/input")
-      .withName("input")
-      .withMinCount(1)
-      .withNodePropertyMapping(TypeNode.id)
-      .withObjectRange(Seq(
-        TypeNode.id
-      ))
+      .withObjectRange(
+        Seq(
+          TypeNode.id
+        )
+      )
   )
 }
 

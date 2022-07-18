@@ -4,22 +4,24 @@ import amf.aml.client.scala.model.domain.{AnnotationMapping, SemanticExtension}
 import amf.aml.client.scala.{AMLConfiguration, AMLConfigurationState}
 import amf.apicontract.client.scala._
 import amf.core.client.common.remote.Content
-import amf.core.client.scala.config.{CachedReference, RenderOptions, UnitCache}
+import amf.core.client.scala.config.{RenderOptions, UnitCache}
 import amf.core.client.scala.model.document.{BaseUnit, ExternalFragment}
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.client.scala.{AMFParseResult => AMFParsingResult}
-import amf.core.internal.remote.Spec.{AMF, GRPC, GRAPHQL}
+import amf.core.internal.remote.Spec.{AMF, GRAPHQL}
 import amf.core.internal.remote.{AmlDialectSpec, Spec}
 import amf.core.internal.unsafe.PlatformSecrets
 import amf.graphql.client.scala.GraphQLConfiguration
+import amf.shapes.client.scala.config.JsonSchemaConfiguration
 import amf.shapes.client.scala.model.domain.AnyShape
 import amf.shapes.client.scala.render.JsonSchemaShapeRenderer
+import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.ValidationProfile
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
 import org.mulesoft.amfintegration.dialect.dialects.metadialect.{MetaDialect, VocabularyDialect}
 import org.mulesoft.amfintegration.dialect.integration.BaseAlsDialectProvider
 import org.yaml.builder.DocBuilder
-import org.mulesoft.amfintegration.AmfImplicits._
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -46,27 +48,30 @@ case class ALSConfigurationState(
             .contains(
               "file://vocabularies/dialects/metadialect.yaml"
             ) => // TODO change when Dialect name and version be spec
-        AMLSpecificConfiguration(APIConfiguration.API())
+        AMLSpecificConfiguration(APIConfiguration.APIWithJsonSchema())
       case Some(spec) => configForSpec(spec)
       case _          => AMLSpecificConfiguration(predefinedWithDialects)
     }
 
   def configForSpec(spec: Spec): AMLSpecificConfiguration =
     AMLSpecificConfiguration(getAmlConfig(spec match {
-      case Spec.RAML10  => projectState.customSetUp(RAMLConfiguration.RAML10())
-      case Spec.RAML08  => projectState.customSetUp(RAMLConfiguration.RAML08())
-      case Spec.OAS30   => projectState.customSetUp(OASConfiguration.OAS30())
-      case Spec.OAS20   => projectState.customSetUp(OASConfiguration.OAS20())
-      case Spec.ASYNC20 => projectState.customSetUp(AsyncAPIConfiguration.Async20())
-      case _            => predefinedWithDialects
+      case Spec.RAML10     => projectState.customSetUp(RAMLConfiguration.RAML10())
+      case Spec.RAML08     => projectState.customSetUp(RAMLConfiguration.RAML08())
+      case Spec.OAS30      => projectState.customSetUp(OASConfiguration.OAS30())
+      case Spec.OAS20      => projectState.customSetUp(OASConfiguration.OAS20())
+      case Spec.ASYNC20    => projectState.customSetUp(AsyncAPIConfiguration.Async20())
+      case Spec.JSONSCHEMA => projectState.customSetUp(ConfigurationAdapter.adapt(JsonSchemaConfiguration.JsonSchema()))
+      case _               => predefinedWithDialects
     }))
 
   def getAmfConfig(url: String): AMFConfiguration = {
-    val base = if (url.endsWith("graphql")) GraphQLConfiguration.GraphQL() else getAmfConfig
+    val base =
+      if (url.endsWith("graphql")) GraphQLConfiguration.GraphQL()
+      else getAmfConfig
     getAmfConfig(base)
   }
 
-  def getAmfConfig: AMFConfiguration = getAmfConfig(APIConfiguration.API())
+  def getAmfConfig: AMFConfiguration = getAmfConfig(APIConfiguration.APIWithJsonSchema())
 
   def getAmfConfig(spec: Spec): AMFConfiguration = {
     val base = spec match {
@@ -108,11 +113,10 @@ case class ALSConfigurationState(
   def parse(url: String): Future[AmfParseResult] =
     parse(getAmfConfig(url), url)
 
-  private def parse(amfConfiguration: AMFConfiguration, uri: String) = {
+  private def parse(amfConfiguration: AMFConfiguration, uri: String) =
     amfConfiguration.baseUnitClient().parse(uri).map { r =>
       toResult(uri, r)
     }
-  }
 
   def toResult(uri: String, r: AMFParsingResult): AmfParseResult = new AmfParseResult(
     r,

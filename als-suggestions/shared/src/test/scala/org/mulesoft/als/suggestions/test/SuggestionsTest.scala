@@ -136,7 +136,7 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
   case class ModelResult(u: BaseUnit, url: String, position: Int, originalContent: Option[String])
 
   def parseAMF(url: String): Future[BaseUnit] =
-    APIConfiguration.API().baseUnitClient().parse(url).map(_.baseUnit)
+    APIConfiguration.APIWithJsonSchema().baseUnitClient().parse(url).map(_.baseUnit)
 
   def filePath(path: String): String = {
     var result =
