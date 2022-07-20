@@ -39,8 +39,6 @@ class SerializationManager[S](
 
   override def isActive: Boolean = enabled
 
-  override protected val timeout: Int = 500
-
   private val baseConfiguration = AMLConfiguration.predefined()
 
   def serializeAndNotifyResolved(ast: AmfResolvedUnit): Future[Unit] =
