@@ -460,7 +460,7 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
     }
   }
 
-  test("Serialize unregistered validation profile") {
+  test("Serialize unregistered validation profile", Flaky) {
     val workspace                              = s"${filePath("custom-validation")}"
     val alsClient: MockAlsClientNotifier       = new MockAlsClientNotifier
     val notifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
