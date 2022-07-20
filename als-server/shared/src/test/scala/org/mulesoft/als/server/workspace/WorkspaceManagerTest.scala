@@ -56,7 +56,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     b.build()
   }
 
-  test("Workspace Manager check validations (initializing a tree should validate instantly)") {
+  test("Workspace Manager check validations (initializing a tree should validate instantly)", Flaky) {
     val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
       new MockDiagnosticClientNotifierWithTelemetryLog
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
