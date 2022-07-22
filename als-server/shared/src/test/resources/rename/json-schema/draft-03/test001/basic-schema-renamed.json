@@ -1,0 +1,16 @@
+{
+  "$id": "/schemas/address",
+  "$schema": "http://json-schema.org/draft-03/schema#",
+
+  "type": "object",
+  "properties": {
+    "street_address": { "type": "string" },
+    "city": { "type": "string" },
+    "state": { "$ref": "#/definitions/RENAMED" }
+  },
+  "required": ["street_address", "city", "state"],
+
+  "definitions": {
+    "RENAMED": { "enum": ["CA", "NY", "... etc ..."] }
+  }
+}
