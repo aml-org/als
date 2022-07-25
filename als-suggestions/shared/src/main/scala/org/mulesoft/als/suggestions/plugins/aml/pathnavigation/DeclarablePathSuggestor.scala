@@ -26,6 +26,10 @@ sealed class DeclarablePathSuggestor(schema: DeclaresModel, prefix: String) exte
     Future.successful(buildSuggestions(names.map(buildText), prefix))
   }
 
+  override protected def prevFromPrefix(prefix: String): String =
+    if (prefix.contains("#")) prefix.substring(0, prefix.lastIndexOf("#") + 1)
+    else super.prevFromPrefix(prefix)
+
   def buildText(name: String): String = name
 }
 
@@ -33,6 +37,6 @@ sealed case class JsonSchemaSuggestor(schema: JsonSchemaDocument, prefix: String
     extends DeclarablePathSuggestor(schema, prefix) {
   override def buildText(name: String): String = {
     val defKey = schema.annotations.find(classOf[DocumentDeclarationKey]).map(_.value).getOrElse("definitions")
-    s"$defKey/$name"
+    s"/$defKey/$name"
   }
 }

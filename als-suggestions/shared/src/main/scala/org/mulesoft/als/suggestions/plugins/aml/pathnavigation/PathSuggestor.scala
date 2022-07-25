@@ -10,13 +10,13 @@ import scala.concurrent.Future
 trait PathSuggestor {
   def suggest(): Future[Seq[RawSuggestion]]
 
-  protected def buildSuggestions(names: Seq[String], prefix: String): Seq[RawSuggestion] = {
-    val prev =
-      if (prefix.endsWith("/")) prefix
-      else if (prefix.contains("/")) prefix.substring(0, prefix.lastIndexOf("/") + 1)
-      else prefix + "/"
-    names.map(n => RawSuggestion(s"$prev$n", isAKey = false))
-  }
+  protected def buildSuggestions(names: Seq[String], prefix: String): Seq[RawSuggestion] =
+    names.map(n => RawSuggestion(s"${prevFromPrefix(prefix)}$n", isAKey = false))
+
+  protected def prevFromPrefix(prefix: String): String =
+    if (prefix.endsWith("/")) prefix
+    else if (prefix.contains("/")) prefix.substring(0, prefix.lastIndexOf("/") + 1)
+    else prefix + "/"
 }
 
 object PathSuggestor {
