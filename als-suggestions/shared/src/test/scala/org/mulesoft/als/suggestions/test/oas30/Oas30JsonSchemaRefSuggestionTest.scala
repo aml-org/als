@@ -17,14 +17,28 @@ class Oas30JsonSchemaRefSuggestionTest extends AsyncFunSuite with BaseSuggestion
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
   test("test oas3 including cached json schema should only suggest definitions") {
-    suggest("api.yaml").map { ci =>
+    suggest("api.yaml", "schema.json").map { ci =>
       ci.length shouldBe 2
     }
   }
 
-  private def suggest(api: String): Future[Seq[CompletionItem]] = {
+  test("test oas3 including cached json schema draft 2019 should only suggest definitions") {
+    suggest("api-2019.yaml", "schema-2019.json").map { ci =>
+      ci.length shouldBe 2
+      assert(ci.flatMap(_.textEdit).map(_.left.get).map(_.newText).forall(_.contains("/definitions/")))
+    }
+  }
+
+  test("test oas3 including cached json schema draft 2019 should only suggest defs") {
+    suggest("api-2019-defs.yaml", "schema-2019-defs.json").map { ci =>
+      ci.length shouldBe 2
+      assert(ci.flatMap(_.textEdit).map(_.left.get).map(_.newText).forall(_.contains("/$defs/")))
+    }
+  }
+
+  private def suggest(api: String, schemaName: String): Future[Seq[CompletionItem]] = {
     for {
-      schema <- APIConfiguration.APIWithJsonSchema().baseUnitClient().parse(rootPath + "schema.json").map(_.baseUnit)
+      schema <- APIConfiguration.APIWithJsonSchema().baseUnitClient().parse(rootPath + schemaName).map(_.baseUnit)
       c      <- platform.fetchContent(rootPath + api, AMFGraphConfiguration.predefined())
       ci <- {
         val projectState = TestProjectConfigurationState(
@@ -32,7 +46,7 @@ class Oas30JsonSchemaRefSuggestionTest extends AsyncFunSuite with BaseSuggestion
           new ProjectConfiguration(
             rootPath,
             Some(api),
-            Set(rootPath + "schema.json"),
+            Set(rootPath + schemaName),
             Set.empty,
             Set.empty,
             Set.empty

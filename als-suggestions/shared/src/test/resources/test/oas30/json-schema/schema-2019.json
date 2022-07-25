@@ -1,0 +1,19 @@
+{
+  "$id": "/schemas/address",
+  "$schema": "http://json-schema.org/draft/2019-09/schema#",
+
+  "type": "object",
+  "properties": {
+    "street_address": { "type": "string" },
+    "city": { "type": "string" },
+    "state": { "$ref": "#/$def/state" }
+  },
+  "required": ["street_address", "city", "state"],
+
+  "definitions": {
+    "state": { "enum": ["CA", "NY", "... etc ..."] },
+    "city": {
+      "type": "string"
+    }
+  }
+}

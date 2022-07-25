@@ -3,6 +3,7 @@ package org.mulesoft.als.suggestions.plugins.aml.pathnavigation
 import amf.core.client.scala.model.document.DeclaresModel
 import amf.core.client.scala.model.domain.NamedDomainElement
 import amf.shapes.client.scala.model.document.JsonSchemaDocument
+import amf.shapes.internal.annotations.DocumentDeclarationKey
 import org.mulesoft.als.suggestions.RawSuggestion
 
 import scala.concurrent.Future
@@ -30,6 +31,8 @@ sealed class DeclarablePathSuggestor(schema: DeclaresModel, prefix: String) exte
 
 sealed case class JsonSchemaSuggestor(schema: JsonSchemaDocument, prefix: String)
     extends DeclarablePathSuggestor(schema, prefix) {
-  override def buildText(name: String): String =
-    s"definitions/$name"
+  override def buildText(name: String): String = {
+    val defKey = schema.annotations.find(classOf[DocumentDeclarationKey]).map(_.value).getOrElse("definitions")
+    s"$defKey/$name"
+  }
 }
