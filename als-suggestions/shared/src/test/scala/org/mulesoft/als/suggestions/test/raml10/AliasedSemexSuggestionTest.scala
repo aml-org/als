@@ -10,7 +10,7 @@ import amf.core.client.scala.resource.ResourceLoader
 import amf.core.client.scala.validation.AMFValidationResult
 import amf.core.client.scala.{AMFGraphConfiguration, AMFParseResult}
 import org.mulesoft.als.configuration.ProjectConfiguration
-import org.mulesoft.als.suggestions.test.BaseSuggestionsForTest
+import org.mulesoft.als.suggestions.test.{BaseSuggestionsForTest, TestProjectConfigurationState}
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.ValidationProfile
 import org.mulesoft.amfintegration.amfconfiguration.{
@@ -19,10 +19,11 @@ import org.mulesoft.amfintegration.amfconfiguration.{
   ProjectConfigurationState
 }
 import org.mulesoft.lsp.edit.TextEdit
-import org.mulesoft.lsp.feature.common.{Range, Position}
+import org.mulesoft.lsp.feature.common.{Position, Range}
 import org.mulesoft.lsp.feature.completion.CompletionItem
 import org.scalatest.{AsyncFunSuite, Matchers}
 import org.mulesoft.amfintegration.AmfImplicits._
+
 import scala.concurrent.{ExecutionContext, Future}
 
 class AliasedSemexSuggestionTest extends AsyncFunSuite with BaseSuggestionsForTest with Matchers {
@@ -37,7 +38,7 @@ class AliasedSemexSuggestionTest extends AsyncFunSuite with BaseSuggestionsForTe
       ci <- {
         l.library.withReferences(Seq(d.dialect.cloneUnit()))
         val projectState = TestProjectConfigurationState(
-          d.dialect,
+          Seq(d.dialect),
           new ProjectConfiguration(
             rootPath,
             Some(api),
@@ -111,24 +112,4 @@ class AliasedSemexSuggestionTest extends AsyncFunSuite with BaseSuggestionsForTe
       ci.isEmpty shouldBe true
     }
   }
-}
-
-case class TestProjectConfigurationState(d: Dialect, override val config: ProjectConfiguration, lib: Module)
-    extends ProjectConfigurationState {
-  override def cache: UnitCache = new UnitCache {
-    val map: Map[String, BaseUnit] = {
-      val clone = lib.cloneUnit()
-      Map(clone.identifier -> clone)
-    }
-    override def fetch(url: String): Future[CachedReference] = map.get(url) match {
-      case Some(bu) => Future.successful(CachedReference(url, bu))
-      case _        => throw new Exception("Unit not found")
-    }
-  }
-
-  override val extensions: Seq[Dialect]                = Seq(d)
-  override val profiles: Seq[ValidationProfile]        = Nil
-  override val results: Seq[AMFParseResult]            = Nil
-  override val resourceLoaders: Seq[ResourceLoader]    = Nil
-  override val projectErrors: Seq[AMFValidationResult] = Nil
 }

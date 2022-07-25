@@ -6,9 +6,11 @@ import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.pathnavigation.PathSuggestor
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.mulesoft.amfintegration.dialect.DialectKnowledge
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object AMLPathCompletionPlugin extends AMLCompletionPlugin {
@@ -60,7 +62,7 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
 
     if (!prefix.startsWith("#"))
       if (fullURI.contains("#") && !fullURI.startsWith("#"))
-        PathNavigation(fullURI, prefix, alsConfiguration).suggest()
+        PathSuggestor(fullURI, prefix, alsConfiguration).flatMap(_.suggest())
       else
         FilesEnumeration(
           directoryResolver,
@@ -73,26 +75,4 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
 
   }
 
-}
-
-trait PathCompletion {
-  val exceptions = Seq("xml", "xsd", "md")
-  val alsConfiguration: ALSConfigurationState
-
-  def supportedExtension(file: String): Boolean = {
-    val maybeExtension = alsConfiguration.platform
-      .extension(file)
-    maybeExtension
-      .flatMap(ext => alsConfiguration.platform.mimeFromExtension(ext))
-      .exists(pluginForMime(_).isDefined) ||
-    maybeExtension.exists(exceptions.contains)
-  }
-
-  def pluginForMime(mime: String): Option[SyamlSyntaxParsePlugin.type] =
-    if (
-      (SyamlSyntaxParsePlugin.mediaTypes)
-        .contains(mime)
-    )
-      Some(SyamlSyntaxParsePlugin)
-    else None
 }
