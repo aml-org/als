@@ -165,7 +165,7 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
     }
   }
 
-  test("Request serialized model in json schema en draft-04") {
+  ignore("Request serialized model in json schema en draft-04") {
     val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
     val serializationProps: SerializationProps[StringWriter] =
       new SerializationProps[StringWriter](alsClient) {
@@ -201,11 +201,11 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
       openFile(server)(api, content)
 
       for {
-        _                    <- alsClient.nextCall.map(_.model.toString)
-        s                    <- serialize(server, api, serializationProps)
-        parsed               <- parsedApi(api, s)
-        s2                   <- serialize(server, api, serializationProps)
-        fromSerialization    <- parsedApi(api, s2)
+        _                 <- alsClient.nextCall.map(_.model.toString)
+        s                 <- serialize(server, api, serializationProps)
+        parsed            <- parsedApi(api, s)
+        s2                <- serialize(server, api, serializationProps)
+        fromSerialization <- parsedApi(api, s2)
       } yield {
         assertSimpleApi(parsed.baseUnit)
         assertSimpleApi(fromSerialization.baseUnit)
