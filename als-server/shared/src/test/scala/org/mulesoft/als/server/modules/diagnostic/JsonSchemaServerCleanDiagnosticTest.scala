@@ -2,7 +2,12 @@ package org.mulesoft.als.server.modules.diagnostic
 
 import org.mulesoft.als.server.MockDiagnosticClientNotifier
 
+import scala.concurrent.ExecutionContext
+
 class JsonSchemaServerCleanDiagnosticTest extends DiagnosticServerImpl {
+
+  override implicit val executionContext: ExecutionContext =
+    ExecutionContext.Implicits.global
 
   test("Clean diagnostic test - JSON Schema draft-03 with errors") {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(5000)

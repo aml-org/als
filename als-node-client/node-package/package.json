@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@aml-org/amf-custom-validator": "1.2.1",
-    "@aml-org/amf-custom-validator-web": "1.2.0",
+    "@aml-org/amf-custom-validator-web": "1.2.1",
     "ajv": "6.12.6",
     "vscode-jsonrpc": "6.0.0",
     "vscode-languageserver-protocol": "3.16.0"
