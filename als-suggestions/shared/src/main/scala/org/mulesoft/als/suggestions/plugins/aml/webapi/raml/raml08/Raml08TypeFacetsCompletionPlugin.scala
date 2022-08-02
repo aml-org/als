@@ -26,19 +26,19 @@ object Raml08TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future.successful(params.amfObject match {
       case shape: Shape
-          if isWritingFacet(params.yPartBranch, shape, params.branchStack, params.actualDialect) &&
+          if isWritingFacet(params.astPartBranch, shape, params.branchStack, params.actualDialect) &&
             !isWritingKeyMediaType(params) &&
             !insideMediaType(params) =>
         resolveShape(shape, params.branchStack, params.actualDialect)
       case shape: Shape
-          if isWritingFacet(params.yPartBranch, shape, params.branchStack, params.actualDialect) &&
+          if isWritingFacet(params.astPartBranch, shape, params.branchStack, params.actualDialect) &&
             !isWritingKeyMediaType(params) =>
         {
           if (insideFormMediaType(params))
             Seq(RawSuggestion.forObject("formParameters", "schemas"))
           else Seq()
         } :+ RawSuggestion("schema", isAKey = true, "schemas", mandatory = false)
-      case p: Payload if params.yPartBranch.isKey && p.mediaType.option().isDefined =>
+      case p: Payload if params.astPartBranch.isKey && p.mediaType.option().isDefined =>
         if (formMediaTypes.contains(p.mediaType.value()))
           Seq(
             RawSuggestion.forObject("formParameters", "schemas"),

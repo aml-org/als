@@ -4,14 +4,15 @@ import amf.aml.client.scala.model.document.Dialect
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.model.domain.{AmfObject, DomainElement}
 import amf.core.internal.remote.Mimes
-import org.mulesoft.als.common.YPartBranch
+import org.mulesoft.als.common.ASTPartBranch
+import org.mulesoft.als.common.YPartASTWrapper.YNodeImplicits
 import org.mulesoft.als.common.YamlUtils.isJson
-import org.mulesoft.als.common.YamlWrapper.YNodeImplicits
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.als.declarations.DeclarationCreator
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, AmfObjectImp, BaseUnitImp}
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
+import org.mulesoft.common.client.lexical.ASTElement
 import org.yaml.model._
 import org.yaml.render.{JsonRender, JsonRenderOptions, YamlRender, YamlRenderOptions}
 
@@ -22,18 +23,18 @@ object ExtractorCommon extends DeclarationCreator {
 
   def existAnyDeclaration(
       objs: Seq[AmfObject],
-      yPartBranch: Option[YPartBranch],
+      astPartBranch: Option[ASTPartBranch],
       bu: BaseUnit,
       dialect: Dialect
   ): Seq[PositionRange] =
     if (!existAnyOtherDeclaration(objs, bu))
-      deleteAll(objs, yPartBranch, bu, dialect)
+      deleteAll(objs, astPartBranch, bu, dialect)
     else deleteDeclarationGroup(objs, bu, dialect)
 
-  private def deleteAll(objs: Seq[AmfObject], yPartBranch: Option[YPartBranch], bu: BaseUnit, dialect: Dialect) =
+  private def deleteAll(objs: Seq[AmfObject], astPartBranch: Option[ASTPartBranch], bu: BaseUnit, dialect: Dialect) =
     declarationPathForDialect(dialect) match {
       case Some(d) =>
-        val flatten: Option[YMapEntry] = yPartBranch
+        val flatten: Option[YMapEntry] = astPartBranch
           .map(_.stack)
           .getOrElse(Nil)
           .reverse
@@ -55,9 +56,9 @@ object ExtractorCommon extends DeclarationCreator {
               if (dk.entry.value.as[YMap].entries.size <= objsInDk.size) Some(Seq(dk.entry.range))
               else None
             }
-            .getOrElse(objsInDk.flatMap(_.annotations.ast().map(_.range)))
+            .getOrElse(objsInDk.flatMap(_.annotations.astElement().map(_.location.range)))
         }
-      else objs.flatMap(_.annotations.ast().map(_.range))
+      else objs.flatMap(_.annotations.astElement().map(_.location.range))
 
     allRanges.map(PositionRange(_)).toSeq
   }

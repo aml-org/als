@@ -50,7 +50,7 @@ object RefToParameters extends AMLCompletionPlugin {
     val strings = declarations(request, fn).map(d => s"#/$dcl$path/$d")
 
     AMLJsonSchemaStyleDeclarationReferences
-      .resolveRoutes(strings, request.yPartBranch)
+      .resolveRoutes(strings, request.astPartBranch)
   }
 
   private def declarationPath(dialect: Dialect) = {

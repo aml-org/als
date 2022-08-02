@@ -8,7 +8,7 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
 }
 import org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilders.DefaultArrayFieldTypeSymbolBuilder
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
-import amf.core.client.common.position.{Range => AmfRange}
+import org.mulesoft.common.client.lexical.{PositionRange => AmfPositionRange}
 import amf.core.client.scala.model.domain.AmfArray
 import amf.core.internal.parser.domain.FieldEntry
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
@@ -20,7 +20,7 @@ class OasDocumentationFieldSymbolBuilder(override val value: AmfArray, override 
 
   override def build(): Seq[DocumentSymbol] = super.build()
 
-  override protected def range: Option[AmfRange] = value.values.headOption.flatMap(_.annotations.range())
+  override protected def range: Option[AmfPositionRange] = value.values.headOption.flatMap(_.annotations.range())
 }
 
 object OasDocumentationFieldSymbolBuilder

@@ -28,6 +28,6 @@ object Raml08KnownValueCompletionPlugin extends WebApiKnownValueCompletionPlugin
   }
 
   override protected def isHeader(params: AmlCompletionRequest): Boolean =
-    params.yPartBranch.isKeyDescendantOf("headers")
+    params.astPartBranch.isKeyDescendantOf("headers")
 
 }

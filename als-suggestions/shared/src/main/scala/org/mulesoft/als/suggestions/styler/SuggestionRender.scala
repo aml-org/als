@@ -10,7 +10,7 @@ import org.mulesoft.lsp.feature.completion.{CompletionItem, InsertTextFormat}
 import org.yaml.model._
 
 trait SuggestionRender {
-  val params: StylerParams
+  val params: SyamlStylerParams
 
   protected def astBuilder: RawSuggestion => AstRawBuilder
 

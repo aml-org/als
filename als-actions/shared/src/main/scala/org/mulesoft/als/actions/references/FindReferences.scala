@@ -1,6 +1,6 @@
 package org.mulesoft.als.actions.references
 
-import org.mulesoft.als.common.cache.YPartBranchCached
+import org.mulesoft.als.common.cache.ASTPartBranchCached
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.amfintegration.relationships.{AliasInfo, AliasRelationships, FullLink, RelationshipLink}
 
@@ -13,13 +13,13 @@ object FindReferences {
       position: Position,
       allAliases: Future[Seq[AliasInfo]],
       allRelationships: Future[Seq[RelationshipLink]],
-      yPartBranchCached: YPartBranchCached
+      astPartBranchCached: ASTPartBranchCached
   ): Future[Seq[FullLink]] =
     for {
       refs  <- allRelationships
       alias <- allAliases
     } yield AliasRelationships
-      .getLinks(alias, refs, yPartBranchCached)
+      .getLinks(alias, refs, astPartBranchCached)
       .filter(r => containsPosition(uri, position, r.destination.uri, PositionRange(r.destination.range)))
 
   private def containsPosition(

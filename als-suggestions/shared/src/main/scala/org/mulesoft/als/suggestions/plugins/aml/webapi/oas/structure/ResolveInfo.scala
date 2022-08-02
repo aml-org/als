@@ -15,9 +15,9 @@ import scala.concurrent.Future
 object ResolveInfo extends ResolveIfApplies {
   override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] =
     request.amfObject match {
-      case _: WebApi if request.yPartBranch.isKeyDescendantOf("info") =>
+      case _: WebApi if request.astPartBranch.isKeyDescendantOf("info") =>
         applies(webApiInfoSuggestions(request.actualDialect))
-      case _: AsyncApi if request.yPartBranch.isKeyDescendantOf("info") =>
+      case _: AsyncApi if request.astPartBranch.isKeyDescendantOf("info") =>
         applies(asyncInfoSuggestions(request.actualDialect))
       case _ => notApply
     }

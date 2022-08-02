@@ -2,11 +2,11 @@ package org.mulesoft.amfintegration.visitors.noderelationship.plugins
 
 import amf.apicontract.client.scala.model.domain.{EndPoint, Operation}
 import amf.core.client.scala.model.document.BaseUnit
-import amf.core.client.scala.model.domain.{AmfArray, AmfElement}
 import amf.core.client.scala.model.domain.extensions.DomainExtension
 import amf.core.client.scala.model.domain.templates.{AbstractDeclaration, ParametrizedDeclaration}
+import amf.core.client.scala.model.domain.{AmfArray, AmfElement}
 import amf.core.client.scala.vocabulary.Namespace
-import amf.core.internal.annotations.{SourceAST, SourceNode}
+import amf.core.internal.annotations.{SourceNode, SourceYPart}
 import amf.core.internal.metamodel.domain.LinkableElementModel
 import amf.core.internal.metamodel.domain.templates.ParametrizedDeclarationModel
 import amf.core.internal.parser.domain.FieldEntry
@@ -34,7 +34,7 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
 
   private def extractAnnotations(e: DomainExtension) =
     e.annotations
-      .ast()
+      .ypart()
       .map {
         case entry: YMapEntry => entry.key
         case o                => o
@@ -51,7 +51,7 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
   private def extractFromEntriesDefinedBy(entries: Iterable[FieldEntry], source: YPart): Option[RelationshipLink] =
     entries
       .find(fe => fe.field.value == Namespace.Document + "definedBy")
-      .flatMap(t => t.value.value.annotations.ast().map((t, _)))
+      .flatMap(t => t.value.value.annotations.ypart().map((t, _)))
       .map(target =>
         RelationshipLink(source, target._2, getName(target._1.value.value), None, LinkTypes.TRAITRESOURCES)
       )
@@ -84,7 +84,7 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
       linkTypes: LinkTypes
   ): Option[RelationshipLink] = {
     val maybeParent = fe.value.value.annotations
-      .find(classOf[SourceAST])
+      .find(classOf[SourceYPart])
       .map(_.ast)
       .collect { case entry: YMapEntry => entry }
     fe.value.value.annotations
@@ -92,7 +92,7 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
       .flatMap { sn =>
         p.name
           .annotations()
-          .ast()
+          .ypart()
           .map { sourceEntry =>
             RelationshipLink(
               sourceEntry,

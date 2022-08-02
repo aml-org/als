@@ -1,6 +1,6 @@
 package org.mulesoft.als.common.dtoTypes
 
-import amf.core.client.common.position.{Position => AmfPosition}
+import org.mulesoft.common.client.lexical.{Position => AmfPosition}
 import org.mulesoft.lsp.feature.common.{Position => LspPosition}
 
 import scala.collection.mutable.ListBuffer

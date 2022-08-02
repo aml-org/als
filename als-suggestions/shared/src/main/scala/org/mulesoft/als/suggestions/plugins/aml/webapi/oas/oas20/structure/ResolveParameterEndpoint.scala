@@ -10,7 +10,7 @@ import scala.concurrent.Future
 object ResolveParameterEndpoint extends ResolveIfApplies with ParameterKnowledge {
   override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] =
     request.amfObject match {
-      case _: EndPoint if isInParameter(request.yPartBranch) =>
+      case _: EndPoint if isInParameter(request.astPartBranch) =>
         applies(Future.successful(Seq()))
       case _ => notApply
     }

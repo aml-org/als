@@ -73,7 +73,6 @@ class RenameTest extends CodeActionsTest with FileAssertionTest with RenameTools
     ),
     Some("api.raml")
   )
-
   private val ws4 = WorkspaceEntry(
     Map(
       "file:///root/api.raml" ->
@@ -139,7 +138,6 @@ class RenameTest extends CodeActionsTest with FileAssertionTest with RenameTools
     ),
     Some("api.raml")
   )
-
   private val ws6 = WorkspaceEntry(
     Map(
       "file:///root/api.raml" -> """#%RAML 1.0
@@ -163,6 +161,33 @@ class RenameTest extends CodeActionsTest with FileAssertionTest with RenameTools
     ),
     Some("api.raml")
   )
+  private val ws7 = WorkspaceEntry(
+    Map(
+      "file:///root/basic-schema.json" ->
+        """{
+          |  "$schema": "http://json-schema.org/draft-03/schema#",
+          |
+          |  "type": "object",
+          |  "properties": {
+          |    "street_address": { "type": "string" },
+          |    "city": { "type": "string" },
+          |    "state": { "$ref": "basic-schema2.json#/definitions/state" }
+          |  },
+          |  "required": ["street_address", "city", "state"]
+          |}""".stripMargin,
+      "file:///root/basic-schema2.json" ->
+        """{
+          |  "$schema": "http://json-schema.org/draft-03/schema#",
+          |
+          |  "type": "object",
+          |  "definitions": {
+          |    "state": { "enum": ["CA", "NY", "... etc ..."] }
+          |  }
+          |}""".stripMargin
+    ),
+    Some("basic-schema.json")
+  )
+
   val testSets: Map[String, TestEntry] = Map(
     "Test1" ->
       TestEntry(
@@ -434,6 +459,30 @@ class RenameTest extends CodeActionsTest with FileAssertionTest with RenameTools
         )
       )
     )
+    // This test should be commented until amf adds links instead of inlined references (W-11461036)
+//    "Json Schema reference" ->
+//      TestEntry(
+//        "file:///root/basic-schema2.json",
+//        Position(5, 7),
+//        "RENAMED",
+//        ws7,
+//        createWSE(
+//          Seq(
+//            (
+//              "file:///root/basic-schema.json",
+//              Seq(
+//                TextEdit(Range(Position(7, 56), Position(7, 61)), "RENAMED")
+//              )
+//            ),
+//            (
+//              "file:///root/basic-schema2.json",
+//              Seq(
+//                TextEdit(Range(Position(5, 5), Position(5, 10)), "RENAMED")
+//              )
+//            )
+//          )
+//        )
+//      )
   )
 
   private def createWSE(edits: Seq[(String, Seq[TextEdit])]): WorkspaceEdit =
@@ -454,7 +503,7 @@ class RenameTest extends CodeActionsTest with FileAssertionTest with RenameTools
             testCase.newName,
             wsManager.getAliases(testCase.targetUri, ""),
             wsManager.getRelationships(testCase.targetUri, "").map(_._2),
-            cu.yPartBranch,
+            cu.astPartBranch,
             cu.unit
           )
         actual <- writeTemporaryFile(s"file://rename-test-$name-actual.yaml")(

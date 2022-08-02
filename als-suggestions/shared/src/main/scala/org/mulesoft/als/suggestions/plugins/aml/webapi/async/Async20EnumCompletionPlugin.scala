@@ -17,7 +17,7 @@ case object Async20EnumCompletionPlugin extends AMLCompletionPlugin with EnumSug
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     params.fieldEntry match {
-      case Some(FieldEntry(ScalarShapeModel.Format, _)) if params.yPartBranch.isValue => emptySuggestion
+      case Some(FieldEntry(ScalarShapeModel.Format, _)) if params.astPartBranch.isValue => emptySuggestion
       case Some(FieldEntry(PayloadModel.SchemaMediaType, _)) =>
         Future(suggestMappingWithEnum(MessageObjectNode.schemaFormatProp))
       case _ => AMLEnumCompletionPlugin.resolve(params)

@@ -5,7 +5,6 @@ import amf.aml.client.scala.model.domain.DialectDomainElement
 import amf.aml.internal.metamodel.domain.DialectDomainElementModel
 import amf.apicontract.client.scala.model.domain.Payload
 import amf.apicontract.internal.metamodel.domain.bindings._
-import amf.core.client.common.position.Range
 import amf.core.client.scala.model.domain.{AmfArray, AmfObject, DataNode}
 import amf.core.internal.metamodel.ModelDefaultBuilder
 import amf.core.internal.metamodel.Type.ArrayLike
@@ -13,8 +12,8 @@ import amf.core.internal.metamodel.document.{BaseUnitModel, DocumentModel}
 import amf.core.internal.metamodel.domain.{DataNodeModel, DomainElementModel, ShapeModel}
 import amf.core.internal.parser.domain.FieldEntry
 import amf.shapes.internal.domain.metamodel.AnyShapeModel
+import org.mulesoft.als.common.ASTElementWrapper._
 import org.mulesoft.als.common.AlsAmfElement._
-import org.mulesoft.als.common.YamlWrapper._
 import org.mulesoft.amfintegration.AmfImplicits.{
   AmfAnnotationsImp,
   AmfObjectImp,
@@ -22,6 +21,7 @@ import org.mulesoft.amfintegration.AmfImplicits.{
   FieldEntryImplicit,
   NodeMappingImplicit
 }
+import org.mulesoft.common.client.lexical.PositionRange
 import org.yaml.model.{YMap, YMapEntry}
 
 import scala.language.implicitConversions
@@ -30,14 +30,14 @@ object AmfSonElementFinder {
 
   implicit class AlsAmfObject(obj: AmfObject) {
 
-    def findSon(location: String, definedBy: Dialect, yPartBranch: YPartBranch): SonFinder#Branch =
-      SonFinder(location, definedBy, yPartBranch: YPartBranch).find(obj, definedBy)
+    def findSon(location: String, definedBy: Dialect, astBranch: ASTPartBranch): SonFinder#Branch =
+      SonFinder(location, definedBy, astBranch: ASTPartBranch).find(obj, definedBy)
 
-    case class SonFinder(location: String, definedBy: Dialect, yPartBranch: YPartBranch) {
+    case class SonFinder(location: String, definedBy: Dialect, astBranch: ASTPartBranch) {
 
       private val fieldAstFilter: FieldEntry => Boolean = (f: FieldEntry) =>
         f.value.annotations
-          .containsYPart(yPartBranch)
+          .containsAstBranch(astBranch)
           .getOrElse(
             f.value.annotations.isInferred ||
               f.value.annotations.isVirtual ||
@@ -50,11 +50,11 @@ object AmfSonElementFinder {
         fieldAstFilter
       )
 
-      private def rangeFor(a: Branch): Option[Range] =
+      private def rangeFor(a: Branch): Option[PositionRange] =
         a.obj.range.orElse(a.branch.headOption.flatMap(_.range))
 
       private def appliesReduction(fe: FieldEntry) =
-        (!fe.value.annotations.isInferred) || fe.value.value.annotations.containsYPart(yPartBranch).getOrElse(false)
+        (!fe.value.annotations.isInferred) || fe.value.value.annotations.containsAstBranch(astBranch).getOrElse(false)
 
       def find(obj: AmfObject, definedBy: Dialect): Branch = {
         val entryPoint = Branch(obj, Nil, None)
@@ -89,7 +89,7 @@ object AmfSonElementFinder {
             (rangeFor(a), rangeFor(b)) match {
               case (Some(ra), Some(rb)) if ra.contains(rb) => b // most specific
               case (Some(_), Some(_)) =>
-                if (!a.obj.containsYPart(yPartBranch) && b.obj.containsYPart(yPartBranch)) b else a // most specific
+                if (!a.obj.containsYPart(astBranch) && b.obj.containsYPart(astBranch)) b else a // most specific
               //                  case (Some(_), None) => a (same as default)
               case (None, Some(_)) => b
               case _               => a
@@ -112,7 +112,7 @@ object AmfSonElementFinder {
               else find(branch.newLeaf(obj), definedBy)
             case Right(fe)
                 // todo: check this clause, it is a weird predicate
-                if !fe.value.annotations.isInferred || fe.value.value.containsYPart(yPartBranch) =>
+                if !fe.value.annotations.isInferred || fe.value.value.containsYPart(astBranch) =>
               Some(branch.forField(fe))
             case _ => Some(branch)
           }
@@ -139,7 +139,7 @@ object AmfSonElementFinder {
               val objects = nextObject(e, definedBy)
               if (objects.isEmpty) buildFromMeta(parent, fe, e).toSeq
               else objects
-            case o: AmfObject if o.containsYPart(yPartBranch) || o.annotations.isVirtual =>
+            case o: AmfObject if o.containsYPart(astBranch) || o.annotations.isVirtual =>
               Seq(o)
             case _ =>
               Seq.empty
@@ -167,14 +167,14 @@ object AmfSonElementFinder {
       private def exceptionAsyncPayload(amfObject: AmfObject, definedBy: Dialect): Boolean = amfObject match {
         case p: Payload if definedBy.nameAndVersion() == "asyncapi 2.0.0" =>
           val correctAstContains = p.annotations
-            .ast()
+            .astElement()
             .flatMap {
               case m: YMap => m.entries.find(_.key.asScalar.exists(_.text == "payload"))
               case _       => None
             }
-            .exists(_.contains(yPartBranch.position))
+            .exists(_.contains(astBranch.position))
           val childContains =
-            p.fields.fields().flatMap(_.element.annotations.ast()).exists(_.contains(yPartBranch.position))
+            p.fields.fields().flatMap(_.element.annotations.astElement()).exists(_.contains(astBranch.position))
           !(correctAstContains || childContains) // if any other node matches, return true. If the entry with `payload` as  key matches, return false
         case _ => false
       }
@@ -186,7 +186,7 @@ object AmfSonElementFinder {
         if (isInArray(array)) {
           val objects = array.values.collect({ case o: AmfObject => o })
           val candidates = objects
-            .filter(_.containsYPart(yPartBranch))
+            .filter(_.containsYPart(astBranch))
             .filterNot(exceptionCase(_, definedBy))
           if (candidates.isEmpty) objects.filter(v => v.annotations.isVirtual || v.annotations.isSynthesized)
           else candidates
@@ -194,10 +194,10 @@ object AmfSonElementFinder {
 
       private def isInArray(array: AmfArray): Boolean =
         array.annotations
-          .ast()
+          .astElement()
           .forall { s =>
             // todo: should this contemplate `containsYPart`? if so, check also  what to do withVirtual/Inferred
-            s.contains(yPartBranch.position)
+            s.contains(astBranch.position)
           }
 
       def filterFields(amfObject: AmfObject): Seq[FieldEntry] =
@@ -205,7 +205,7 @@ object AmfSonElementFinder {
 
       private def explicitArray(entry: FieldEntry, parent: AmfObject, definedBy: Dialect) =
         (entry.astValueArray() && isExplicitArray(entry, parent, definedBy) || !entry
-          .astValueArray()) && yPartBranch.position.column > 0 // TODO: Check why this hack (pos > 0) is necessary
+          .astValueArray()) && astBranch.position.column > 0 // TODO: Check why this hack (pos > 0) is necessary
 
       private def isExplicitArray(entry: FieldEntry, parent: AmfObject, definedBy: Dialect) =
         definedBy
@@ -240,7 +240,7 @@ object AmfSonElementFinder {
             e.values.collectFirst({ case o: AmfObject => o }) match {
               case Some(_: DialectDomainElement) if isDeclares(entry)  => None
               case Some(_) if isDeclares(entry) && isInDeclarationName => None
-              case Some(other) if other.containsYPart(yPartBranch)     => Some(other)
+              case Some(other) if other.containsYPart(astBranch)       => Some(other)
               case _                                                   => None
             }
           case s: ShapeModel if s.`type`.headOption.exists(_.iri() == ShapeModel.`type`.head.iri()) =>
@@ -261,7 +261,7 @@ object AmfSonElementFinder {
           .find(_.field == DocumentModel.Declares)
           .exists(_.value.annotations.declarationKeys().map(_.entry).exists {
             case entry: YMapEntry =>
-              entry.value.range.contains(yPartBranch.position) && yPartBranch.position.column > entry.range.columnFrom
+              entry.value.range.contains(astBranch.position) && astBranch.position.column > entry.range.columnFrom
             case _ => false
           })
     }

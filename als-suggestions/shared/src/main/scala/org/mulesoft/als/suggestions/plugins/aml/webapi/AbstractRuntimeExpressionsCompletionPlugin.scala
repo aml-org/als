@@ -1,6 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi
 
 import amf.apicontract.internal.validation.runtimeexpression.{InvalidExpressionToken, RuntimeExpressionParser}
+import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -14,10 +15,15 @@ abstract class AbstractRuntimeExpressionsCompletionPlugin extends AMLCompletionP
 
   protected def parserObject(value: String): RuntimeExpressionParser
 
-  protected def isApplicable(request: AmlCompletionRequest): Boolean =
-    !(DialectKnowledge.isRamlInclusion(request.yPartBranch, request.actualDialect) ||
-      DialectKnowledge.isJsonInclusion(request.yPartBranch, request.actualDialect)) &&
-      appliesToField(request)
+  protected def isApplicable(request: AmlCompletionRequest): Boolean = {
+    request.astPartBranch match {
+      case yPartBranch: YPartBranch =>
+        !(DialectKnowledge.isRamlInclusion(yPartBranch, request.actualDialect) ||
+          DialectKnowledge.isJsonInclusion(yPartBranch, request.actualDialect)) &&
+        appliesToField(request)
+      case _ => false
+    }
+  }
 
   protected def appliesToField(request: AmlCompletionRequest): Boolean
 

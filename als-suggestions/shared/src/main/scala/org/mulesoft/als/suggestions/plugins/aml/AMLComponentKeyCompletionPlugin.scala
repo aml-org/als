@@ -3,7 +3,7 @@ package org.mulesoft.als.suggestions.plugins.aml
 import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.NodeMapping
 import amf.core.client.scala.model.domain.AmfObject
-import org.mulesoft.als.common.YPartBranch
+import org.mulesoft.als.common.{ASTPartBranch, YPartBranch}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -19,13 +19,13 @@ object AMLComponentKeyCompletionPlugin extends AMLCompletionPlugin {
     Future.successful(resolvedSeq(params))
 
   private def resolvedSeq(params: AmlCompletionRequest): Seq[RawSuggestion] = {
-    if (inRoot(params.amfObject, params.actualDialect) && params.yPartBranch.isKey) {
+    if (inRoot(params.amfObject, params.actualDialect) && params.astPartBranch.isKey) {
       params.actualDialect
         .documents()
         .declarationsPath()
         .option()
         .map(_.split('/').last) match {
-        case Some(keyDeclarations) if isSonOf(keyDeclarations, params.yPartBranch) =>
+        case Some(keyDeclarations) if isSonOf(keyDeclarations, params.astPartBranch) =>
           buildDeclaredKeys(params.actualDialect)
         case _ => Seq()
       }
@@ -50,6 +50,7 @@ object AMLComponentKeyCompletionPlugin extends AMLCompletionPlugin {
       .map(RawSuggestion.forObject(_, "unknown"))
   }
 
-  private def isSonOf(keyDeclaration: String, yPartBranch: YPartBranch) =
-    yPartBranch.parentEntryIs(keyDeclaration)
+  private def isSonOf(keyDeclaration: String, astPartBranch: ASTPartBranch) = {
+    astPartBranch.parentKey.contains(keyDeclaration)
+  }
 }

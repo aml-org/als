@@ -2,16 +2,15 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi
 
 import amf.aml.client.scala.model.document.Dialect
 import amf.apicontract.internal.metamodel.domain.PayloadModel
-import amf.core.client.common.position.{Range => AmfRange}
 import amf.core.client.common.validation.{ProfileName, ProfileNames}
-import amf.core.client.scala.model.domain.extensions.PropertyShape
 import amf.core.client.scala.model.domain._
+import amf.core.client.scala.model.domain.extensions.PropertyShape
 import amf.core.internal.parser.domain.Value
 import amf.shapes.client.scala.model.domain.{AnyShape, ArrayShape, Example, NodeShape}
 import amf.shapes.internal.domain.metamodel.ExampleModel
 import amf.shapes.internal.domain.metamodel.common.ExamplesField
 import amf.shapes.internal.domain.resolution.elements.CompleteShapeTransformationPipeline
-import org.mulesoft.als.common.YPartBranch
+import org.mulesoft.als.common.ASTPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -113,7 +112,7 @@ trait ExampleSuggestionPluginBuilder {
   protected def buildPluginFromExampleObj(request: AmlCompletionRequest): Option[ShapePropertiesSuggestions] = {
     request.amfObject match {
       case e: Example
-          if (request.yPartBranch.isKey || request.yPartBranch.isArray) && !e.fields.exists(
+          if (request.astPartBranch.isKey || request.astPartBranch.isArray) && !e.fields.exists(
             ExampleModel.StructuredValue
           ) =>
         findShape(e, e +: request.branchStack).map(s =>
@@ -140,22 +139,23 @@ trait ExampleSuggestionPluginBuilder {
       )
   }
 
-  private def isScalarNodeValue(parent: AmfObject, yPart: YPartBranch, s: ScalarNode) = {
+  private def isScalarNodeValue(parent: AmfObject, astPart: ASTPartBranch, s: ScalarNode) = {
     parent match {
       case o: ObjectNode if o.allProperties().toList.contains(s) =>
-        s.position().exists(li => li.range == AmfRange(yPart.node.range))
+        s.position().exists(li => li.range == astPart.node.location.range)
       case _ => false
     }
   }
 
   private def findNode(request: AmlCompletionRequest): Option[DataNode] = {
     request.amfObject match {
-      case o: ObjectNode if request.yPartBranch.isKey => Some(o)
-      case a: ArrayNode                               => Some(a)
-      case s: ScalarNode if request.branchStack.headOption.exists(p => isScalarNodeValue(p, request.yPartBranch, s)) =>
+      case o: ObjectNode if request.astPartBranch.isKey => Some(o)
+      case a: ArrayNode                                 => Some(a)
+      case s: ScalarNode
+          if request.branchStack.headOption.exists(p => isScalarNodeValue(p, request.astPartBranch, s)) =>
         Some(s)
       case _: ScalarNode
-          if request.branchStack.headOption.exists(_.isInstanceOf[ObjectNode]) && request.yPartBranch.isKey =>
+          if request.branchStack.headOption.exists(_.isInstanceOf[ObjectNode]) && request.astPartBranch.isKey =>
         request.branchStack.headOption.collectFirst({ case o: ObjectNode => o })
       case s: ScalarNode =>
         val o = ObjectNode(s.annotations)

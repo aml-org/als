@@ -77,7 +77,7 @@ class GoToDefinitionManager(
           position,
           workspace.getRelationships(uri, uuid).map(_._2),
           workspace.getAliases(uri, uuid),
-          unit.yPartBranch
+          unit.astPartBranch
         )
     } yield {
       Right(workspaceDefinitions)

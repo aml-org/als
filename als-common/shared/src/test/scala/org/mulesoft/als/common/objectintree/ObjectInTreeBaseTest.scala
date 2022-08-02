@@ -2,7 +2,7 @@ package org.mulesoft.als.common.objectintree
 
 import amf.aml.client.scala.model.document.Dialect
 import amf.aml.internal.metamodel.domain.DialectDomainElementModel
-import amf.core.client.common.position.{Position => AmfPosition}
+import org.mulesoft.common.client.lexical.{Position => AmfPosition}
 import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.common.{NodeBranchBuilder, ObjectInTree, ObjectInTreeBuilder}
@@ -35,7 +35,7 @@ case class ObjectInTreeBaseTest(instanceFile: String, dialectFile: String) exten
       result.result.baseUnit,
       result.result.baseUnit.identifier,
       dialect,
-      NodeBranchBuilder.build(result.result.baseUnit, pos, isJson = false)
+      NodeBranchBuilder.build(result.result.baseUnit, pos)
     )
 
   private def objectInTree(): Future[AmfPosition => ObjectInTree] =

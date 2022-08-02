@@ -16,9 +16,9 @@ object Raml08SecuritySchemeStructureCompletionPlugin extends AMLCompletionPlugin
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
     Future {
       request.amfObject match {
-        case s: SecurityScheme if request.yPartBranch.isKeyDescendantOf("describedBy") =>
+        case s: SecurityScheme if request.astPartBranch.isKeyDescendantOf("describedBy") =>
           Raml08SecuritySchemesDialect.DescribedBy.propertiesRaw(fromDialect = request.actualDialect)
-        case s: SecurityScheme if request.fieldEntry.isEmpty && request.yPartBranch.isKey =>
+        case s: SecurityScheme if request.fieldEntry.isEmpty && request.astPartBranch.isKey =>
           val suggestions =
             new AMLStructureCompletionsPlugin(
               Raml08SecuritySchemesDialect.SecurityScheme.propertiesMapping(),

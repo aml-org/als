@@ -12,6 +12,7 @@ import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.amfintegration.AmfImplicits._
+import org.mulesoft.common.client.lexical.ASTElement
 import org.yaml.model.{YMapEntry, YPart}
 
 import scala.concurrent.Future
@@ -46,7 +47,7 @@ object AMLRamlStyleDeclarationsReferences extends AMLDeclarationReferences {
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     Future.successful({
-      if (params.yPartBranch.isValue && styleOrEmpty(params.actualDialect)) {
+      if (params.astPartBranch.isValue && styleOrEmpty(params.actualDialect)) {
         val actualName = params.amfObject.elementIdentifier()
         new AMLRamlStyleDeclarationsReferences(
           getObjectRangeIds(params),
@@ -66,7 +67,7 @@ trait AMLDeclarationReferences extends AMLCompletionPlugin {
 
   protected def getObjectRangeIds(params: AmlCompletionRequest): Seq[String] = {
     val candidates = getFieldIri(params.fieldEntry, params.propertyMapping)
-      .orElse(declaredFromKey(params.yPartBranch.parent, params.propertyMapping))
+      .orElse(declaredFromKey(params.astPartBranch.parent, params.propertyMapping))
       .map(_.objectRange().flatMap(_.option())) match {
       case Some(seq) => seq
       case _ =>
@@ -88,7 +89,10 @@ trait AMLDeclarationReferences extends AMLCompletionPlugin {
   ): Option[PropertyMapping] =
     fieldEntry.flatMap(fe => propertyMapping.find(_.nodePropertyMapping().value() == fe.field.value.iri()))
 
-  private def declaredFromKey(parent: Option[YPart], propertyMapping: Seq[PropertyMapping]): Option[PropertyMapping] =
+  private def declaredFromKey(
+      parent: Option[ASTElement],
+      propertyMapping: Seq[PropertyMapping]
+  ): Option[PropertyMapping] =
     parent
       .collect({ case entry: YMapEntry => entry.key.toString })
       .flatMap(k => propertyMapping.find(p => p.name().option().contains(k)))

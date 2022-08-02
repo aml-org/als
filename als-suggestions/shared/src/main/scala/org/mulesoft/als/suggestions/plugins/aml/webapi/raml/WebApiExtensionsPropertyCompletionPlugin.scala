@@ -22,7 +22,7 @@ object WebApiExtensionsPropertyCompletionPlugin extends AMLCompletionPlugin {
             .isInstanceOf[WebApi] && params.fieldEntry.isEmpty =>
         suggestOverExtends(
           e,
-          params.yPartBranch.isKey,
+          params.astPartBranch.isKey,
           params.directoryResolver,
           params.prefix,
           params.rootUri,

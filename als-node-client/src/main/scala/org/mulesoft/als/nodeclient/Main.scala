@@ -2,11 +2,12 @@ package org.mulesoft.als.nodeclient
 
 import amf.core.internal.unsafe.PlatformSecrets
 import amf.custom.validation.client.platform.CustomValidator
-import amf.custom.validation.client.scala.validator.JsCustomValidator
+import amf.custom.validation.client.platform.validator.JsCustomValidator
+import amf.custom.validation.internal.convert.AmfCustomValidatorClientConverters.ClientFuture
 import amf.custom.validation.internal.unsafe.AmfCustomValidatorNode
 import io.scalajs.nodejs.process
 import org.mulesoft.als.server.client.platform.AlsLanguageServerFactory
-import org.mulesoft.als.server.{ClientNotifierFactory, JsSerializationProps, ProtocolConnectionBinder}
+import org.mulesoft.als.server.{ALSConverters, ClientNotifierFactory, JsSerializationProps, ProtocolConnectionBinder}
 import org.mulesoft.als.vscode.{ProtocolConnection, ServerSocketTransport}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -48,8 +49,8 @@ object Main extends PlatformSecrets {
       val languageServer = new AlsLanguageServerFactory(clientConnection)
         .withSerializationProps(serializationProps)
         .withAmfCustomValidator(new CustomValidator {
-          override def validate(document: String, profile: String): Promise[String] =
-            new JsCustomValidator(AmfCustomValidatorNode).validate(document, profile).toJSPromise
+          override def validate(document: String, profile: String): ClientFuture[String] =
+            new JsCustomValidator(AmfCustomValidatorNode).validate(document, profile)
         })
         .withDirectoryResolver(new ClientPlatformDirectoryResolver(platform))
         .withLogger(logger)

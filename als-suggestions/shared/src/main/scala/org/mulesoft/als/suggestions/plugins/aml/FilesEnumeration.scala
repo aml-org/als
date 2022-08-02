@@ -4,6 +4,7 @@ import amf.core.internal.utils.UriUtils
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.suggestions.RawSuggestion
+import org.mulesoft.als.suggestions.plugins.aml.pathnavigation.PathCompletion
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 
 import scala.concurrent.ExecutionContext.Implicits.global

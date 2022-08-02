@@ -3,29 +3,29 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi
 import amf.aml.client.scala.model.document.Dialect
 import amf.apicontract.client.scala.model.domain.Parameter
 import amf.core.client.scala.model.domain.{AmfObject, Shape}
-import org.mulesoft.als.common.YPartBranch
+import org.mulesoft.als.common.ASTPartBranch
 import org.mulesoft.amfintegration.dialect.DialectKnowledge
 
 trait WritingShapeInfo {
   protected def isWritingFacet(
-      yPartBranch: YPartBranch,
+      astPartBranch: ASTPartBranch,
       shape: Shape,
       stack: Seq[AmfObject],
       actualDialect: Dialect
   ): Boolean =
-    yPartBranch.isKeyLike &&
-      !yPartBranch.parentEntryIs("required") && !writingShapeName(shape, yPartBranch) && !writingParamName(
+    astPartBranch.isKeyLike &&
+      !astPartBranch.parentEntryIs("required") && !writingShapeName(shape, astPartBranch) && !writingParamName(
         stack,
-        yPartBranch
-      ) && !yPartBranch.parentEntryIs("properties") &&
-      !DialectKnowledge.isInclusion(yPartBranch, actualDialect)
+        astPartBranch
+      ) && !astPartBranch.parentEntryIs("properties") &&
+      !DialectKnowledge.isInclusion(astPartBranch, actualDialect)
 
-  protected def writingShapeName(shape: Shape, yPartBranch: YPartBranch): Boolean =
-    shape.name.value() == yPartBranch.stringValue
+  protected def writingShapeName(shape: Shape, astPartBranch: ASTPartBranch): Boolean =
+    shape.name.value() == astPartBranch.stringValue
 
-  protected def writingParamName(stack: Seq[AmfObject], yPartBranch: YPartBranch): Boolean =
+  protected def writingParamName(stack: Seq[AmfObject], astPartBranch: ASTPartBranch): Boolean =
     stack.headOption.exists {
-      case p: Parameter => p.name.value() == yPartBranch.stringValue
+      case p: Parameter => p.name.value() == astPartBranch.stringValue
       case _            => false
     }
 }

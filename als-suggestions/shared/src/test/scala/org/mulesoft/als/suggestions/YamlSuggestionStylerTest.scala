@@ -1,14 +1,13 @@
 package org.mulesoft.als.suggestions
 
-import amf.apicontract.client.scala.APIConfiguration
-import amf.core.client.common.position.{Position => AmfPosition}
 import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.common.{NodeBranchBuilder, YPartBranch}
-import org.mulesoft.als.suggestions.styler.{StylerParams, YamlSuggestionStyler}
+import org.mulesoft.als.suggestions.styler.{SyamlStylerParams, YamlSuggestionStyler}
 import org.mulesoft.lsp.configuration.FormattingOptions
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.common.{Range, Position => LspPosition}
+import org.mulesoft.common.client.lexical.{Position => AmfPosition}
 import org.scalatest.AsyncFunSuite
 import org.yaml.model.{YDocument, YNode}
 import org.yaml.parser.YamlParser
@@ -28,7 +27,7 @@ class YamlSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
 
     val styler =
       YamlSuggestionStyler(
-        StylerParams(
+        SyamlStylerParams(
           "",
           Position(1, 3),
           dummyYPart,
@@ -58,7 +57,7 @@ class YamlSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
 
     val styler =
       YamlSuggestionStyler(
-        StylerParams(
+        SyamlStylerParams(
           "",
           Position(5, 19),
           dummyYPart,
@@ -96,7 +95,7 @@ class YamlSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
     val dummyYPart = NodeBranchBuilder.build(node, AmfPosition(5, 19), isJson = false)
 
     val styler = YamlSuggestionStyler(
-      StylerParams(
+      SyamlStylerParams(
         "",
         Position(5, 19),
         dummyYPart,
@@ -138,7 +137,7 @@ class YamlSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
     val dummyYPart = NodeBranchBuilder.build(node, AmfPosition(5, 19), isJson = false)
 
     val styler = YamlSuggestionStyler(
-      StylerParams(
+      SyamlStylerParams(
         "",
         Position(5, 19),
         dummyYPart,
@@ -177,7 +176,7 @@ class YamlSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
         )
       )
     val styler = YamlSuggestionStyler(
-      StylerParams(
+      SyamlStylerParams(
         "",
         Position(5, 19),
         dummyYPart,
@@ -219,7 +218,7 @@ class YamlSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
         )
       )
     val styler = YamlSuggestionStyler(
-      StylerParams(
+      SyamlStylerParams(
         "",
         Position(5, 19),
         dummyYPart,

@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.styler
 
-import org.mulesoft.als.common.YPartBranch
+import org.mulesoft.als.common.{ASTPartBranch, YPartBranch}
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.lsp.configuration.FormatOptions
@@ -10,7 +10,7 @@ object SuggestionStylerBuilder {
       isYAML: Boolean,
       prefix: String,
       position: Position,
-      yPartBranch: YPartBranch,
+      astBranch: ASTPartBranch,
       configuration: AlsConfigurationReader,
       snippetsSupport: Boolean = true,
       mimeType: Option[String] = None,
@@ -20,11 +20,21 @@ object SuggestionStylerBuilder {
     val formatOptions: FormatOptions = configuration.getFormatOptionForMime(
       mimeType.getOrElse("default")
     )
+    astBranch match {
+      case yPartBranch: YPartBranch =>
+        val params =
+          SyamlStylerParams.apply(
+            prefix: String,
+            position: Position,
+            yPartBranch,
+            formatOptions,
+            indentation,
+            snippetsSupport
+          )
 
-    val params =
-      StylerParams.apply(prefix: String, position: Position, yPartBranch, formatOptions, indentation, snippetsSupport)
-
-    if (isYAML) YamlSuggestionStyler(params)
-    else JsonSuggestionStyler(params)
+        if (isYAML) YamlSuggestionStyler(params)
+        else JsonSuggestionStyler(params)
+      case _ => DummySuggestionStyle(prefix, position)
+    }
   }
 }

@@ -1,0 +1,9 @@
+{
+  "$id": "/schemas/address",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+
+  "type": "object",
+  "definitions": {
+    "state": { "enum": ["CA", "NY", "... etc ..."] }
+  }
+}

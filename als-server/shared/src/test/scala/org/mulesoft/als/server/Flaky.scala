@@ -3,6 +3,7 @@ package org.mulesoft.als.server
 import org.mulesoft.als.logger.{Logger, MessageSeverity}
 import org.scalatest._
 
+import java.lang.System.getProperty
 import scala.concurrent.ExecutionContext.Implicits.global
 
 /** Tag flaky tests in order to ignore failed outcomes
@@ -10,7 +11,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 object Flaky extends Tag("org.mulesoft.als.server.Flaky") {
   def isFlaky(testData: TestData): Boolean = testData.tags.contains("org.mulesoft.als.server.Flaky")
   def flakyFixture[T <: TestData](test: T)(superFixture: T => FutureOutcome)(implicit logger: Logger): FutureOutcome =
-    if (isFlaky(test))
+    if (isFlaky(test) && ignoreFlaky)
       superFixture(test)
         .change {
           case failed: Failed =>
@@ -27,4 +28,7 @@ object Flaky extends Tag("org.mulesoft.als.server.Flaky") {
         }
     else
       superFixture(test)
+
+  def ignoreFlaky: Boolean =
+    Option(getProperty("flaky.ignore")).contains("true")
 }

@@ -165,6 +165,54 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
     }
   }
 
+  ignore("Request serialized model in json schema en draft-04") {
+    val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
+    val serializationProps: SerializationProps[StringWriter] =
+      new SerializationProps[StringWriter](alsClient) {
+        override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
+          JsonOutputBuilder(prettyPrint)
+      }
+    withServer(buildServer(serializationProps)) { server =>
+      val content =
+        """{
+          |  "type":"object",
+          |  "$schema": "http://json-schema.org/draft-04/schema",
+          |  "required": ["string"],
+          |  "properties":{
+          |    "object": {
+          |      "type":"object",
+          |      "required": ["a", "c"],
+          |      "properties":{
+          |        "a": {
+          |          "type":"string"
+          |        },
+          |        "c": {
+          |          "type":"string"
+          |        }
+          |      }
+          |    },
+          |    "string": {
+          |      "type":"string"
+          |    }
+          |  }
+          |}""".stripMargin
+
+      val api = "file://api.json"
+      openFile(server)(api, content)
+
+      for {
+        _                 <- alsClient.nextCall.map(_.model.toString)
+        s                 <- serialize(server, api, serializationProps)
+        parsed            <- parsedApi(api, s)
+        s2                <- serialize(server, api, serializationProps)
+        fromSerialization <- parsedApi(api, s2)
+      } yield {
+        assertSimpleApi(parsed.baseUnit)
+        assertSimpleApi(fromSerialization.baseUnit)
+      }
+    }
+  }
+
   private def assertSimpleApi(bu: BaseUnit): Assertion = {
     bu.isInstanceOf[Document] shouldBe true
     bu.asInstanceOf[Document].encodes.asInstanceOf[WebApi].name.value() shouldBe "test"
@@ -460,7 +508,7 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
     }
   }
 
-  test("Serialize unregistered validation profile") {
+  test("Serialize unregistered validation profile", Flaky) {
     val workspace                              = s"${filePath("custom-validation")}"
     val alsClient: MockAlsClientNotifier       = new MockAlsClientNotifier
     val notifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)

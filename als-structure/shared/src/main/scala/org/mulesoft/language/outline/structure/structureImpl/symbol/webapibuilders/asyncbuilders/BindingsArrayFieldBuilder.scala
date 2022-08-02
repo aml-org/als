@@ -10,14 +10,14 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
 }
 import org.mulesoft.language.outline.structure.structureImpl.symbol.webapibuilders.fields.DefaultWebApiArrayFieldTypeSymbolBuilder
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
-import amf.core.client.common.position.{Range => AmfRange}
+import org.mulesoft.common.client.lexical.{PositionRange => AmfPositionRange}
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 
 case class BindingsArrayFieldBuilder(override val value: AmfArray, override val element: FieldEntry)(
     override implicit val ctx: StructureContext
 ) extends DefaultWebApiArrayFieldTypeSymbolBuilder(value, element) {
 
-  override protected def range: Option[AmfRange] =
+  override protected def range: Option[AmfPositionRange] =
     super.range.orElse(value.values.headOption.flatMap(_.annotations.range()))
 
   override protected val children: List[DocumentSymbol] = Nil

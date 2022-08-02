@@ -6,7 +6,7 @@ import amf.core.internal.metamodel.Field
 import amf.core.internal.metamodel.Type.ArrayLike
 import amf.core.internal.metamodel.domain.DomainElementModel
 import amf.core.internal.parser.domain.FieldEntry
-import org.mulesoft.als.common.YPartBranch
+import org.mulesoft.als.common.{ASTPartBranch, YPartBranch}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.{AmfObjectKnowledge, DisjointCompletionPlugins, ResolveIfApplies}
@@ -31,13 +31,13 @@ object ResolveDefault extends ResolveIfApplies with AmfObjectKnowledge {
     applies(defaultStructure(params))
 
   protected final def defaultStructure(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = Future {
-    if (isWritingProperty(params.yPartBranch))
+    if (isWritingProperty(params.astPartBranch))
       if (!isInFieldValue(params)) {
         val isEncoded =
           isEncodes(params.amfObject, params.actualDialect, params.branchStack) && isEmptyFieldOrPrefix(
             params
           )
-        if (((isEncoded && params.yPartBranch.isAtRoot) || !isEncoded) && isEmptyFieldOrPrefix(params))
+        if (((isEncoded && params.astPartBranch.isAtRoot) || !isEncoded) && isEmptyFieldOrPrefix(params))
           new AMLStructureCompletionsPlugin(params.propertyMapping, params.actualDialect)
             .resolve(params.amfObject.metaURIs.head) ++
             AMLEncodedStructureTemplate.resolve(params)
@@ -50,14 +50,14 @@ object ResolveDefault extends ResolveIfApplies with AmfObjectKnowledge {
     (params.prefix.isEmpty && params.fieldEntry.isEmpty) ||
       params.prefix.nonEmpty
 
-  private def isWritingProperty(yPartBranch: YPartBranch): Boolean =
-    yPartBranch.isKeyLike
+  private def isWritingProperty(astPartBranch: ASTPartBranch): Boolean =
+    astPartBranch.isKeyLike
 
   protected def objInArray(params: AmlCompletionRequest): Option[DomainElementModel] = {
     params.fieldEntry match {
       case Some(FieldEntry(Field(t: ArrayLike, _, _, _, false), _))
           if t.element
-            .isInstanceOf[DomainElementModel] && params.yPartBranch.isInArray =>
+            .isInstanceOf[DomainElementModel] && params.astPartBranch.isInArray =>
         Some(t.element.asInstanceOf[DomainElementModel])
       case _ => None
     }

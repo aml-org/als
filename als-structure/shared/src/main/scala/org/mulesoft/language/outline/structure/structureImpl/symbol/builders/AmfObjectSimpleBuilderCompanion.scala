@@ -1,11 +1,11 @@
 package org.mulesoft.language.outline.structure.structureImpl.symbol.builders
 
 import amf.aml.internal.metamodel.domain.PropertyMappingModel
-import amf.core.client.common.position.Range
 import amf.core.client.scala.model.domain.AmfObject
 import amf.core.internal.metamodel.domain.{DomainElementModel, LinkableElementModel}
 import amf.shapes.internal.annotations.InlineDefinition
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
+import org.mulesoft.common.client.lexical.{PositionRange => AmfPositionRange}
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, KindForResultMatcher, SymbolKinds}
 
 trait AmfObjectSimpleBuilderCompanion[DM <: AmfObject]
@@ -18,9 +18,9 @@ trait AmfObjectSymbolBuilder[DM <: AmfObject] extends SymbolBuilder[DM] {
 
   override protected val kind: SymbolKinds.SymbolKind = KindForResultMatcher.getKind(element)
 
-  protected val range: Option[Range] =
+  protected val range: Option[AmfPositionRange] =
     element.annotations
-      .ast()
+      .astElement()
       .flatMap(rangeFromAst)
 
   override protected def children: List[DocumentSymbol] =

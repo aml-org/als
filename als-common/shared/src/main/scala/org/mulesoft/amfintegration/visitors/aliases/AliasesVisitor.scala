@@ -7,10 +7,10 @@ import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.amfintegration.relationships.AliasInfo
 import org.mulesoft.amfintegration.visitors.AmfElementVisitorFactory
 import org.mulesoft.lsp.feature.common.{Location, Position, Range}
-import amf.core.client.common.position.{Range => AmfRange}
+import org.mulesoft.common.client.lexical.{PositionRange => AmfPositionRange}
 
 class AliasesVisitor extends AliasesVisitorType {
-  private def parserToDtoRange(core: AmfRange): Range =
+  private def parserToDtoRange(core: AmfPositionRange): Range =
     Range(Position(core.start.line - 1, core.start.column), Position(core.end.line - 1, core.end.column))
 
   override protected def innerVisit(element: AmfElement): Seq[AliasInfo] = {

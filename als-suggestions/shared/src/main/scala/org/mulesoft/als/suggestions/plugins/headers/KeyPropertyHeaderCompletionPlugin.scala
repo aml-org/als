@@ -3,7 +3,7 @@ package org.mulesoft.als.suggestions.plugins.headers
 import amf.aml.client.scala.model.document.Dialect
 import amf.core.internal.remote.FileMediaType
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.als.configuration.{AlsConfigurationReader, TemplateTypes}
+import org.mulesoft.als.configuration.{AlsConfigurationReader, Configuration, TemplateTypes}
 import org.mulesoft.als.suggestions.interfaces.HeaderCompletionPlugin
 import org.mulesoft.als.suggestions.{HeaderCompletionParams, RawSuggestion}
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState

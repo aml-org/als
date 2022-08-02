@@ -6,7 +6,7 @@ import org.mulesoft.als.suggestions.styler.astbuilder.{AstRawBuilder, YamlAstRaw
 import org.yaml.model.YPart
 import org.yaml.render.{FlowYamlRender, YamlPartRender, YamlRender, YamlRenderOptions}
 
-case class YamlSuggestionStyler(override val params: StylerParams) extends FlowSuggestionRender {
+case class YamlSuggestionStyler(override val params: SyamlStylerParams) extends FlowSuggestionRender {
 
   override protected val useSpaces: Boolean = true
 

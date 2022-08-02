@@ -51,7 +51,7 @@ trait IndexGlobalDialectTest extends ServerIndexGlobalDialectCommand {
 
   private val dialectPath = filePath("ws1/dialect.yaml")
 
-  test("Global dialect will apply to all workspaces") {
+  test("Global dialect will apply to all workspaces", Flaky) {
     val notifier     = new MockDiagnosticClientNotifier(3000)
     val (server, wm) = buildServer(notifier)
     withServer(
@@ -176,7 +176,7 @@ trait IndexGlobalDialectTest extends ServerIndexGlobalDialectCommand {
     })
   }
 
-  test("Index global dialect will read from environment provider") {
+  test("Index global dialect will read from environment provider", Flaky) {
     val notifier     = new MockDiagnosticClientNotifier(3000)
     val (server, wm) = buildServer(notifier)
     withServer(

@@ -3,6 +3,7 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 import amf.apicontract.internal.metamodel.domain.{EndPointModel, OperationModel}
 import amf.core.client.scala.model.document.Fragment
 import amf.core.client.scala.model.domain.templates.AbstractDeclaration
+import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.{AmlCompletionRequest, AmlCompletionRequestBuilder}
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -19,8 +20,15 @@ object RamlAbstractDefinition extends AMLCompletionPlugin {
   private val ignoredPlugins: Set[AMLCompletionPlugin] =
     Set(AMLRefTagCompletionPlugin, AMLRootDeclarationsCompletionPlugin, AMLLibraryPathCompletion)
 
+  private def isIncludeTag(params: AmlCompletionRequest) = {
+    params.astPartBranch match {
+      case yPartBranch: YPartBranch => yPartBranch.isIncludeTagValue
+      case _                        => false
+    }
+  }
+
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
-    val info = if (params.yPartBranch.isIncludeTagValue) None else elementInfo(params)
+    val info = if (isIncludeTag(params)) None else elementInfo(params)
 
     info
       .map { info =>
@@ -39,7 +47,7 @@ object RamlAbstractDefinition extends AMLCompletionPlugin {
           .map(seq => {
             if (
               params.branchStack.headOption.exists(_.isInstanceOf[AbstractDeclaration]) && !params.baseUnit
-                .isInstanceOf[Fragment] && params.yPartBranch.isKey
+                .isInstanceOf[Fragment] && params.astPartBranch.isKey
             )
               seq ++ Seq(RawSuggestion.forKey("usage", "docs", mandatory = false))
             else seq

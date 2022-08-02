@@ -34,5 +34,5 @@ object AsyncApiBindingsCompletionPlugin extends ExceptionPlugin with EnumSuggest
   }
 
   override def applies(request: AmlCompletionRequest): Boolean =
-    isBinding(request.amfObject) && request.fieldEntry.isEmpty && request.yPartBranch.isKey
+    isBinding(request.amfObject) && request.fieldEntry.isEmpty && request.astPartBranch.isKey
 }

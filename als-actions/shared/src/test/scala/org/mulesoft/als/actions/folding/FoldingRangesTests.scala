@@ -253,7 +253,7 @@ class FoldingRangesTests extends AsyncFlatSpec with Matchers with PlatformSecret
       result <- state
         .parse(testUri)
         .map(_.result.baseUnit)
-        .map(_.objWithAST.flatMap(_.annotations.ast()))
+        .map(_.objWithAST.flatMap(_.annotations.astElement()))
         .map(
           _.map(FileRanges.ranges)
             .getOrElse(Seq.empty)

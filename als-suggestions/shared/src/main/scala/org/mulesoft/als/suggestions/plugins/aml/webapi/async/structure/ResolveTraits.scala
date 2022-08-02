@@ -15,13 +15,13 @@ object ResolveTraits extends ResolveIfApplies {
   override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] =
     request.amfObject match {
       case o: Operation if o.isAbstract.option().contains(true) =>
-        if (!request.yPartBranch.isInArray)
+        if (!request.astPartBranch.isInArray)
           ResolveDefault
             .resolve(request)
             .map(_.map(_.filterNot(rs => rs.newText == "traits" || rs.newText == "message")))
         else applies(Future.successful(Seq()))
       case m: Message if m.isAbstract.option().contains(true) =>
-        if (!request.yPartBranch.isInArray)
+        if (!request.astPartBranch.isInArray)
           ResolveDefault
             .resolve(request)
             .map(_.map(_.filterNot(rs => rs.newText == "traits" || rs.newText == "payload")))

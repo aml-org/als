@@ -64,7 +64,7 @@ object RamlTypeExtractor {
     */
   private def indentIfNecessary(amfObject: Option[AmfObject], configurationReader: AlsConfigurationReader): Int =
     amfObject
-      .map(_.annotations.ast() match {
+      .map(_.annotations.astElement() match {
         case Some(e: YMapEntry) if e.value.tagType != YType.Map => indentationSize(configurationReader)
         case _                                                  => 0
       })

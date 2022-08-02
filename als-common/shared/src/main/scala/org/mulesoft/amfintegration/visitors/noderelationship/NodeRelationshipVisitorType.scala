@@ -9,7 +9,7 @@ import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.amfintegration.VirtualYPart
 import org.mulesoft.amfintegration.relationships.RelationshipLink
 import org.mulesoft.amfintegration.visitors.AmfElementVisitor
-import org.mulesoft.lexer.SourceLocation
+import org.mulesoft.common.client.lexical.SourceLocation
 import org.yaml.model.{YMapEntry, YNode, YPart, YScalar}
 
 trait NodeRelationshipVisitorType extends AmfElementVisitor[RelationshipLink] {
@@ -20,34 +20,31 @@ trait NodeRelationshipVisitorType extends AmfElementVisitor[RelationshipLink] {
 
   protected def createRelationship(origin: YPart, target: AmfElement): Seq[RelationshipLink] =
     target.annotations
-      .ast()
+      .ypart()
       .map(targetEntry => (origin, targetEntry))
       .map(t => RelationshipLink(t._1, t._2, getName(target)))
       .toSeq
 
-  protected def locationFromObj(obj: AmfElement): Option[YPart] =
-    obj.annotations.find(classOf[SourceAST]).map(_.ast)
-
   protected def getName(a: AmfElement): Option[YPart] =
     a match {
       case ns: NodeShape =>
-        lazy val name  = ns.name.annotations.ast()
-        lazy val nsAst = ns.annotations.ast()
+        lazy val name  = ns.name.annotations.ypart()
+        lazy val nsAst = ns.annotations.ypart()
         nameOrEntryKey(name, nsAst)
       case n: NamedDomainElement =>
         lazy val name = n.name
           .annotations()
-          .ast()
-        lazy val nAst = n.annotations.ast()
+          .ypart()
+        lazy val nAst = n.annotations.ypart()
         nameOrEntryKey(name, nAst) // security schemes in RAML 0.8 are bringing faulty name AST (unknown location)
       case o: AmfObject =>
         val name = o
           .namedField()
-          .flatMap(n =>
-            n.value.annotations
-              .ast()
-          )
-        lazy val oAst = o.annotations.ast()
+          .flatMap(
+            n =>
+              n.value.annotations
+                .ypart())
+        lazy val oAst = o.annotations.ypart()
         nameOrEntryKey(name, oAst)
       case _ => None
     }

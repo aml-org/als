@@ -13,13 +13,13 @@ object ResponsesDeclarationCodes extends AMLCompletionPlugin {
   override def id: String = "ResponsesDeclarationCodes"
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
-    if (request.amfObject.isInstanceOf[WebApi] && request.yPartBranch.isKeyDescendantOf("responses"))
+    if (request.amfObject.isInstanceOf[WebApi] && request.astPartBranch.isKeyDescendantOf("responses"))
       new AMLKnownValueCompletions(
         ResponseModel.StatusCode,
         ResponseModel.`type`.head.iri(),
         request.actualDialect,
-        request.yPartBranch.isKey,
-        request.yPartBranch.isInArray || request.yPartBranch.isArray,
+        request.astPartBranch.isKey,
+        request.astPartBranch.isInArray || request.astPartBranch.isArray,
         true
       ).resolve()
     else emptySuggestion

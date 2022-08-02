@@ -13,7 +13,7 @@ object ResolveResponses extends ResolveIfApplies {
   override def resolve(request: AmlCompletionRequest): Option[Future[Seq[RawSuggestion]]] =
     request.amfObject match {
       case _: Response
-          if !MessageKnowledge.isRootMessageBlock(request) && !request.yPartBranch.isKeyDescendantOf("headers") =>
+          if !MessageKnowledge.isRootMessageBlock(request) && !request.astPartBranch.isKeyDescendantOf("headers") =>
         applies(Future(Seq()))
       case _ => notApply
     }

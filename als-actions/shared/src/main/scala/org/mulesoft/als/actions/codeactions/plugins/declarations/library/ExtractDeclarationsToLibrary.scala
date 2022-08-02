@@ -10,7 +10,7 @@ import org.mulesoft.als.actions.codeactions.plugins.declarations.common.{
   DeclaredElementKnowledge,
   ExtractorCommon
 }
-import org.mulesoft.als.common.YamlWrapper.{YMapEntryOps, YNodeImplicits}
+import org.mulesoft.als.common.YPartASTWrapper.{YMapEntryOps, YNodeImplicits}
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
@@ -101,7 +101,13 @@ trait ExtractDeclarationsToLibrary extends CodeActionResponsePlugin with Creates
     */
   private def modifiedLinks(lde: List[DomainElement], allRelationships: Seq[RelationshipLink]): Seq[TextEdit] =
     lde
-      .flatMap(getLinks(_, allRelationships, lde.flatMap(de => de.annotations.ast()).map(a => PositionRange(a.range))))
+      .flatMap(
+        getLinks(
+          _,
+          allRelationships,
+          lde.flatMap(de => de.annotations.astElement()).map(a => PositionRange(a.location.range))
+        )
+      )
       .map(LspRangeConverter.toLspRange)
       .map(_.start)
       .map { position =>
@@ -114,7 +120,7 @@ trait ExtractDeclarationsToLibrary extends CodeActionResponsePlugin with Creates
       extractedRanges: Seq[PositionRange]
   ): Seq[PositionRange] =
     links
-      .filter(l => element.annotations.ast().contains(l.targetEntry))
+      .filter(l => element.annotations.astElement().contains(l.targetEntry))
       .map(l => PositionRange(l.sourceEntry.range))
       .filterNot(pr =>
         extractedRanges.exists(epr => epr.intersection(pr).isDefined)
@@ -135,10 +141,10 @@ trait ExtractDeclarationsToLibrary extends CodeActionResponsePlugin with Creates
       .existAnyDeclaration(
         lde,
         lde.headOption
-          .flatMap(_.annotations.ast())
-          .map(a => PositionRange(a.range))
+          .flatMap(_.annotations.astElement())
+          .map(a => PositionRange(a.location.range))
           .map(_.start)
-          .map(params.yPartBranch.getCachedOrNew(_, params.uri)),
+          .map(p => params.astPartBranchCached.getCachedOrNew(p, params.uri)),
         params.bu,
         params.definedBy
       )

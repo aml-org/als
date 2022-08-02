@@ -5,7 +5,7 @@ import amf.apicontract.internal.metamodel.domain.ParameterModel
 import amf.core.client.scala.model.domain.AmfScalar
 import amf.core.internal.annotations.SynthesizedField
 import amf.core.internal.parser.domain.Value
-import org.mulesoft.als.common.YPartBranch
+import org.mulesoft.als.common.{ASTPartBranch, YPartBranch}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -23,7 +23,7 @@ object Oas30ParameterStructure extends AMLCompletionPlugin {
     Future {
       request.amfObject match {
         case p: Parameter
-            if isWritingFacet(p, request.yPartBranch) && !request.branchStack.exists(_.isInstanceOf[Server]) =>
+            if isWritingFacet(p, request.astPartBranch) && !request.branchStack.exists(_.isInstanceOf[Server]) =>
           plainParam(p)
         case _ => Nil
       }
@@ -46,7 +46,7 @@ object Oas30ParameterStructure extends AMLCompletionPlugin {
 
   private lazy val headerProps = Oas30AMLHeaderObject.Obj.propertiesRaw(fromDialect = OAS30Dialect())
 
-  private def isWritingFacet(p: Parameter, yPartBranch: YPartBranch) =
+  private def isWritingFacet(p: Parameter, astPartBranch: ASTPartBranch) =
     (p.name.option().isEmpty || p.name
-      .value() != yPartBranch.stringValue) && yPartBranch.isKeyLike
+      .value() != astPartBranch.stringValue) && astPartBranch.isKeyLike
 }

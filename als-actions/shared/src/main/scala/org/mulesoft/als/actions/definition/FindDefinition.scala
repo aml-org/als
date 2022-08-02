@@ -1,6 +1,6 @@
 package org.mulesoft.als.actions.definition
 
-import org.mulesoft.als.common.cache.YPartBranchCached
+import org.mulesoft.als.common.cache.ASTPartBranchCached
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.relationships.{AliasInfo, AliasRelationships, RelationshipLink}
@@ -16,14 +16,14 @@ object FindDefinition {
       position: Position,
       allRelationships: Future[Seq[RelationshipLink]],
       allAliases: Future[Seq[AliasInfo]],
-      yPartBranchCached: YPartBranchCached
+      astPartBranchCached: ASTPartBranchCached
   ): Future[Seq[LocationLink]] =
     for {
       relationships <- allRelationships
       aliases       <- allAliases
     } yield findByPosition(
       uri,
-      AliasRelationships.getLinks(aliases, relationships, yPartBranchCached).map(fl => (fl.source, fl.destination)),
+      AliasRelationships.getLinks(aliases, relationships, astPartBranchCached).map(fl => (fl.source, fl.destination)),
       position
     )
       .map(toLocationLink)

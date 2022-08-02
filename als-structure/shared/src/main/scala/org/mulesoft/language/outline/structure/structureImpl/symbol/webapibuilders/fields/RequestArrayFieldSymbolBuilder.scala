@@ -11,7 +11,7 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   IriFieldSymbolBuilderCompanion
 }
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, StructureContext}
-import amf.core.client.common.position.{Range => AmfRange}
+import org.mulesoft.common.client.lexical.{PositionRange => AmfPositionRange}
 
 class RequestArrayFieldSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
     override implicit val ctx: StructureContext
@@ -22,8 +22,8 @@ class RequestArrayFieldSymbolBuilder(override val value: AmfArray, override val 
   override protected val children: List[DocumentSymbol] =
     first.flatMap(o => ctx.factory.builderFor(o).map(_.build())).getOrElse(Nil).toList
 
-  override protected val range: Option[AmfRange] =
-    first.flatMap(_.annotations.ast()).flatMap(rangeFromAst)
+  override protected val range: Option[AmfPositionRange] =
+    first.flatMap(_.annotations.astElement()).flatMap(rangeFromAst)
 }
 
 object RequestArrayFieldSymbolBuilderCompanion

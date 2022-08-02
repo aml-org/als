@@ -13,7 +13,7 @@ object DeclaredElementKnowledge {
     *   true if it somehow intersects with the range
     */
   def domainElementWithinRange(de: DomainElement, range: PositionRange): Boolean =
-    de.annotations.ast().map(_.range).map(PositionRange(_)).flatMap(range.intersection).isDefined
+    de.annotations.astElement().map(_.location.range).map(PositionRange(_)).flatMap(range.intersection).isDefined
 
   def declaredInRange(range: PositionRange, bu: BaseUnit): Seq[DomainElement] = bu match {
     case d: Document =>
