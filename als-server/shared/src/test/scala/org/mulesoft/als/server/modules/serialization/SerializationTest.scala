@@ -6,6 +6,7 @@ import amf.core.client.common.remote.Content
 import amf.core.client.scala.AMFGraphConfiguration
 import amf.core.client.scala.errorhandling.IgnoringErrorHandler
 import amf.core.client.scala.model.document.{BaseUnit, Document}
+import amf.core.client.scala.model.domain.Shape
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.internal.plugins.syntax.SyamlAMFErrorHandler
 import org.mulesoft.als.common.diff.Diff.makeString
@@ -165,7 +166,7 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
     }
   }
 
-  ignore("Request serialized model in json schema en draft-04") {
+  test("Request serialized model in json schema en draft-04") {
     val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
     val serializationProps: SerializationProps[StringWriter] =
       new SerializationProps[StringWriter](alsClient) {
@@ -173,32 +174,27 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
           JsonOutputBuilder(prettyPrint)
       }
     withServer(buildServer(serializationProps)) { server =>
-      val content =
-        """{
-          |  "type":"object",
-          |  "$schema": "http://json-schema.org/draft-04/schema",
-          |  "required": ["string"],
-          |  "properties":{
-          |    "object": {
-          |      "type":"object",
-          |      "required": ["a", "c"],
-          |      "properties":{
-          |        "a": {
-          |          "type":"string"
-          |        },
-          |        "c": {
-          |          "type":"string"
-          |        }
-          |      }
-          |    },
-          |    "string": {
-          |      "type":"string"
-          |    }
-          |  }
-          |}""".stripMargin
+      val api: String = mockJsonSchemaContent(server)
 
-      val api = "file://api.json"
-      openFile(server)(api, content)
+      for {
+        _                 <- alsClient.nextCall.map(_.model.toString)
+        s                 <- serialize(server, api, serializationProps)
+        parsed            <- parsedApi(api, s)
+      } yield {
+        assertSimpleJsonSchema(parsed.baseUnit)
+      }
+    }
+  }
+
+  test("Request serialized, parsed and re-serialized model in json schema en draft-04") {
+    val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
+    val serializationProps: SerializationProps[StringWriter] =
+      new SerializationProps[StringWriter](alsClient) {
+        override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
+          JsonOutputBuilder(prettyPrint)
+      }
+    withServer(buildServer(serializationProps)) { server =>
+      val api: String = mockJsonSchemaContent(server)
 
       for {
         _                 <- alsClient.nextCall.map(_.model.toString)
@@ -207,8 +203,8 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
         s2                <- serialize(server, api, serializationProps)
         fromSerialization <- parsedApi(api, s2)
       } yield {
-        assertSimpleApi(parsed.baseUnit)
-        assertSimpleApi(fromSerialization.baseUnit)
+        assertSimpleJsonSchema(parsed.baseUnit)
+        assertSimpleJsonSchema(fromSerialization.baseUnit)
       }
     }
   }
@@ -216,6 +212,41 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
   private def assertSimpleApi(bu: BaseUnit): Assertion = {
     bu.isInstanceOf[Document] shouldBe true
     bu.asInstanceOf[Document].encodes.asInstanceOf[WebApi].name.value() shouldBe "test"
+  }
+
+  private def assertSimpleJsonSchema(bu: BaseUnit): Assertion = {
+    bu.isInstanceOf[Document] shouldBe true
+    bu.asInstanceOf[Document].encodes.asInstanceOf[Shape].name.value() shouldBe "schema"
+  }
+
+  private def mockJsonSchemaContent(server: LanguageServer) = {
+    val content =
+      """{
+        |  "type" : "object",
+        |  "$schema" : "http://json-schema.org/draft-04/schema",
+        |  "required" : ["object2"],
+        |  "properties" : {
+        |    "object" : {
+        |      "type" : "object",
+        |      "required" : ["a", "c"],
+        |      "properties" : {
+        |        "a" : {
+        |          "type" : "string"
+        |        },
+        |        "c" : {
+        |          "type" : "string"
+        |        }
+        |      }
+        |    },
+        |    "object2" : {
+        |      "type" : "string"
+        |    }
+        |  }
+        |}""".stripMargin
+
+    val api = "file://api.json"
+    openFile(server)(api, content)
+    api
   }
 
   private def parsedApi(api: String, s: String) = {
