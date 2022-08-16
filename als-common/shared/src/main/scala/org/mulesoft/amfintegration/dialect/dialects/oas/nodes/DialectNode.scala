@@ -5,7 +5,7 @@ import org.mulesoft.amfintegration.dialect.dialects.oas.OasBaseDialect
 
 trait DialectNode {
 
-  def location: String = OasBaseDialect.DialectLocation
+  implicit def location: String = OasBaseDialect.DialectLocation
 
   def name: String
   def id: String = location + "/#declarations/" + name

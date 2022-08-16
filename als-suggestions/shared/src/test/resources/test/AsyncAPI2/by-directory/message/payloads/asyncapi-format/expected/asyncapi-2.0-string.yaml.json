@@ -180,36 +180,6 @@
     "command": null
   },
   {
-    "label": "else",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "else",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11else",
-    "filterText": "else:\n  ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 8,
-          "character": 10
-        },
-        "end": {
-          "line": 8,
-          "character": 10
-        }
-      },
-      "newText": "else:\n  "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "enum",
     "kind": [],
     "detail": "parameters",
@@ -330,14 +300,14 @@
     "command": null
   },
   {
-    "label": "if",
+    "label": "format",
     "kind": [],
-    "detail": "unknown",
-    "documentation": "if",
+    "detail": "parameters",
+    "documentation": "format",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11if",
-    "filterText": "if:\n  ",
+    "sortText": "11format",
+    "filterText": "format: ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -353,7 +323,7 @@
           "character": 10
         }
       },
-      "newText": "if:\n  "
+      "newText": "format: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -564,36 +534,6 @@
         }
       },
       "newText": "required: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "then",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "then",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11then",
-    "filterText": "then:\n  ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 8,
-          "character": 10
-        },
-        "end": {
-          "line": 8,
-          "character": 10
-        }
-      },
-      "newText": "then:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

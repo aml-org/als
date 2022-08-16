@@ -300,36 +300,6 @@
     "command": null
   },
   {
-    "label": "else",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "else",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11else",
-    "filterText": "else:\n  ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 6,
-          "character": 10
-        },
-        "end": {
-          "line": 6,
-          "character": 10
-        }
-      },
-      "newText": "else:\n  "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "enum",
     "kind": [],
     "detail": "parameters",
@@ -450,36 +420,6 @@
     "command": null
   },
   {
-    "label": "if",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "if",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11if",
-    "filterText": "if:\n  ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 6,
-          "character": 10
-        },
-        "end": {
-          "line": 6,
-          "character": 10
-        }
-      },
-      "newText": "if:\n  "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "maxProperties",
     "kind": [],
     "detail": "unknown",
@@ -534,6 +474,36 @@
         }
       },
       "newText": "minProperties: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "name",
+    "kind": [],
+    "detail": "docs",
+    "documentation": "name",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11name",
+    "filterText": "name: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 6,
+          "character": 10
+        },
+        "end": {
+          "line": 6,
+          "character": 10
+        }
+      },
+      "newText": "name: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -660,36 +630,6 @@
     "command": null
   },
   {
-    "label": "propertyNames",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "propertyNames",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11propertyNames",
-    "filterText": "propertyNames:\n  ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 6,
-          "character": 10
-        },
-        "end": {
-          "line": 6,
-          "character": 10
-        }
-      },
-      "newText": "propertyNames:\n  "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "readOnly",
     "kind": [],
     "detail": "schemas",
@@ -744,36 +684,6 @@
         }
       },
       "newText": "required: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "then",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "then",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11then",
-    "filterText": "then:\n  ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 6,
-          "character": 10
-        },
-        "end": {
-          "line": 6,
-          "character": 10
-        }
-      },
-      "newText": "then:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

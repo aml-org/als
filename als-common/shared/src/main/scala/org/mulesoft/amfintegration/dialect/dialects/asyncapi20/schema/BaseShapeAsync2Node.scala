@@ -5,7 +5,14 @@ import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdStrin
 import amf.core.internal.metamodel.domain.ShapeModel
 import amf.shapes.internal.domain.metamodel.{AnyShapeModel, NodeShapeModel, ScalarShapeModel}
 import org.mulesoft.amfintegration.dialect.dialects.dialects.dialectLocation
-import org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft7.base._
+import org.mulesoft.amfintegration.dialect.dialects.jsonschema.base.{
+  BaseAnyShapeNode,
+  BaseArrayShapeNode,
+  BaseNodeShapeNode,
+  BaseNumberShapeNode,
+  BaseShapeNode,
+  BaseStringShapeNode
+}
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.AMLExternalDocumentationObject
 
 trait BaseShapeAsync2Node extends BaseShapeNode {
