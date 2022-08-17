@@ -58,6 +58,18 @@ class DeclarationProvider(componentId: Option[String] = None) {
 
   private var declarableTerms: Seq[String] = Seq.empty
 
+  //TODO: refactor `Name` por `NodeTypeMapping`
+  def getElementByName(name: String): Set[_ <: (Name, DomainElement)] =
+    declarations
+      .getOrElse(name, Set.empty)
+
+  //TODO: refactor `Name` por `NodeTypeMapping`
+  def getElementByName(name: String, alias: String): Set[_ <: (Name, DomainElement)] =
+    libraries
+      .get(alias)
+      .map(d => d.getElementByName(name))
+      .getOrElse(Set.empty)
+
   def putDeclarable(str: String): Unit =
     declarableTerms = str +: declarableTerms
 
