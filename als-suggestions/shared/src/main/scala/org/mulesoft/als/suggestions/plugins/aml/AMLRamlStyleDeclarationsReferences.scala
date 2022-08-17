@@ -3,6 +3,7 @@ package org.mulesoft.als.suggestions.plugins.aml
 import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.PropertyMapping
 import amf.apicontract.internal.metamodel.domain.templates.{ResourceTypeModel, TraitModel}
+import amf.core.client.scala.model.domain.DomainElement
 import amf.core.internal.metamodel.domain.DomainElementModel
 import amf.core.internal.parser.domain.FieldEntry
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
@@ -13,7 +14,7 @@ import org.mulesoft.als.suggestions.aml.declarations.DeclarationProvider
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.common.client.lexical.ASTElement
-import org.yaml.model.{YMapEntry, YPart}
+import org.yaml.model.YMapEntry
 
 import scala.concurrent.Future
 class AMLRamlStyleDeclarationsReferences(
@@ -23,22 +24,27 @@ class AMLRamlStyleDeclarationsReferences(
     actualName: Option[String]
 ) {
 
-  def resolve(): Seq[RawSuggestion] = {
-    val values =
+  def resolve(builder: (String, DomainElement) => RawSuggestion =
+                (name: String, _: DomainElement) => RawSuggestion(name, isAKey = false)  // todo: proba sin el parametro default a ver cuales plugins llaman y hacen un copy
+              // en principio ninguno deberia hacer copy, y en su lugar directamente armar bien el raw suggestion en el builder
+             ): Seq[RawSuggestion] = {
+    val values: Seq[(String, DomainElement)] =
       if (prefix.contains(".")) prefix.split('.').headOption.map(resolveAliased).getOrElse(Nil)
       else resolveLocal(actualName)
 
-    values.map(RawSuggestion.apply(_, isAKey = false))
+    values.map(t => builder(t._1, t._2))
   }
 
-  private def resolveAliased(alias: String) =
+  private def resolveAliased(alias: String): Seq[(String, DomainElement)] =
     nodeTypeMappings
-      .flatMap(provider.forNodeType(_, alias))
-      .map(n => alias + "." + n)
+      .flatMap(provider.getElementByName(_, alias))
+      .map(n => (alias + "." + n._1, n._2))
 
-  private def resolveLocal(actualName: Option[String]) = {
-    val names = nodeTypeMappings.flatMap(np => provider.forNodeType(np))
-    actualName.fold(names)(n => names.filter(_ != n))
+  private def resolveLocal(actualName: Option[String]): Seq[(String, DomainElement)] = {
+    val names =
+      nodeTypeMappings
+        .map(np => provider.getElementByName(np, _))
+    actualName.fold(names)(n => names.filter(_._1 != n))
   }
 }
 
