@@ -6,7 +6,7 @@ import amf.core.internal.metamodel.Field
 import amf.core.internal.metamodel.Type.ArrayLike
 import amf.core.internal.metamodel.domain.DomainElementModel
 import amf.core.internal.parser.domain.FieldEntry
-import org.mulesoft.als.common.{ASTPartBranch, YPartBranch}
+import org.mulesoft.als.common.ASTPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.{AmfObjectKnowledge, DisjointCompletionPlugins, ResolveIfApplies}
@@ -55,7 +55,7 @@ object ResolveDefault extends ResolveIfApplies with AmfObjectKnowledge {
 
   protected def objInArray(params: AmlCompletionRequest): Option[DomainElementModel] = {
     params.fieldEntry match {
-      case Some(FieldEntry(Field(t: ArrayLike, _, _, _, false), _))
+      case Some(FieldEntry(Field(t: ArrayLike, _, _, _, false, _), _))
           if t.element
             .isInstanceOf[DomainElementModel] && params.astPartBranch.isInArray =>
         Some(t.element.asInstanceOf[DomainElementModel])
