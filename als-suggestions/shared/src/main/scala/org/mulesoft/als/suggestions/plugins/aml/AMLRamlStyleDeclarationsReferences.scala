@@ -25,9 +25,8 @@ class AMLRamlStyleDeclarationsReferences(
 ) {
 
   def resolve(builder: (String, DomainElement) => RawSuggestion =
-                (name: String, _: DomainElement) => RawSuggestion(name, isAKey = false)  // todo: proba sin el parametro default a ver cuales plugins llaman y hacen un copy
-              // en principio ninguno deberia hacer copy, y en su lugar directamente armar bien el raw suggestion en el builder
-             ): Seq[RawSuggestion] = {
+                (name: String, _: DomainElement) => RawSuggestion(name, isAKey = false)
+              ): Seq[RawSuggestion] = {
     val values: Seq[(String, DomainElement)] =
       if (prefix.contains(".")) prefix.split('.').headOption.map(resolveAliased).getOrElse(Nil)
       else resolveLocal(actualName)
@@ -37,14 +36,14 @@ class AMLRamlStyleDeclarationsReferences(
 
   private def resolveAliased(alias: String): Seq[(String, DomainElement)] =
     nodeTypeMappings
-      .flatMap(provider.getElementByName(_, alias))
+      .flatMap(provider.getElementByName(_, alias).toSeq)
       .map(n => (alias + "." + n._1, n._2))
 
   private def resolveLocal(actualName: Option[String]): Seq[(String, DomainElement)] = {
     val names =
       nodeTypeMappings
-        .map(np => provider.getElementByName(np, _))
-    actualName.fold(names)(n => names.filter(_._1 != n))
+        .flatMap(np => provider.getElementByName(np).toSeq)
+      actualName.fold(names)(n => names.filter(_._1 != n))
   }
 }
 
