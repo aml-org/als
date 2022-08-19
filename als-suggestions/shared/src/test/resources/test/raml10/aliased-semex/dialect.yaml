@@ -22,6 +22,11 @@ annotationMappings:
     domain: shacl.NodeShape
     propertyTerm: fed.Key
     range:  FedKey
+  ScalarMapping:
+    domain: shacl.NodeShape
+    propertyTerm: fed.Key
+    range: string
 
 extensions:
   key: FedKeyMapping
+  scalar: ScalarMapping

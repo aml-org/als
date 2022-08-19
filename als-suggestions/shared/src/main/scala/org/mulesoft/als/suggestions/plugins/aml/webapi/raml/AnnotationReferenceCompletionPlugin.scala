@@ -138,12 +138,8 @@ case class AnnotationReferenceSuggester(params: AmlCompletionRequest) {
   private def suggestWithImport(semex: SemanticExtension, d: Dialect, companion: Module): RawSuggestion = {
     val libName          = AdditionalSuggestion.nameNotInList(d.name().value(), params.baseUnit.definedAliases)
     val relative: String = companion.identifier.relativize(params.baseUnit.identifier)
-    val suggestion = RawSuggestion(
-      s"($libName.${semex.extensionName().value()})",
-      isAKey = true,
-      EXTENSION_CATEGORY,
-      mandatory = false
-    )
+    val mapping          = getAnnotationMapping(semex, d)
+    val suggestion       = buildCompanionSuggestion(semex, libName, mapping)
     params.baseUnit.ast.fold(suggestion) { ast =>
       val defaultRange = AdditionalSuggestion
         .afterInfoNode(params.baseUnit, params.astPartBranch.isJson)
@@ -153,6 +149,22 @@ case class AnnotationReferenceSuggester(params: AmlCompletionRequest) {
         Seq(Right(AdditionalSuggestion(YNode(relative), Seq("uses", libName), ast, defaultRange)))
       )
     }
+  }
+
+  private def buildCompanionSuggestion(
+      semex: SemanticExtension,
+      libName: String,
+      mapping: AnnotationMapping
+  ): RawSuggestion = {
+    if (rangeIsObject(mapping))
+      RawSuggestion.forObject(s"($libName.${semex.extensionName().value()})", EXTENSION_CATEGORY)
+    else
+      RawSuggestion(
+        s"($libName.${semex.extensionName().value()})",
+        isAKey = true,
+        EXTENSION_CATEGORY,
+        mandatory = false
+      )
   }
 
   private def notImportedCompanions: Future[Seq[RawSuggestion]] =
