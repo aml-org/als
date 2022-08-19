@@ -8,7 +8,7 @@ import amf.core.client.scala.model.domain.DomainElement
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.AMLRamlStyleDeclarationsReferences
-import org.mulesoft.als.suggestions.{ArrayRange, ObjectRange, RawSuggestion, SuggestionStructure}
+import org.mulesoft.als.suggestions.{ArrayRange, BoolScalarRange, RawSuggestion, SuggestionStructure}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -62,7 +62,7 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
       if (hasScopes(de))
         RawSuggestion.apply(name, SuggestionStructure(isKey = true, rangeKind = ArrayRange))
       else
-        RawSuggestion.apply(name, SuggestionStructure(isKey = true, rangeKind = ObjectRange)) // En este caso debería autocompletar con corchetes '[]'
+        RawSuggestion.apply(name, SuggestionStructure(isKey = true, rangeKind = BoolScalarRange)) // En este caso debería autocompletar con corchetes '[]'
     } else if (!isAKey(request) && !isSecurityScalarValue(request))
       RawSuggestion.apply(name, SuggestionStructure(rangeKind = ArrayRange))
     else RawSuggestion.apply(name, SuggestionStructure())
