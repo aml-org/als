@@ -2,8 +2,10 @@
   "openapi": "3.0.0",
   "components": {
     "securitySchemes": {
-      "security": {
-        "type": "apiKey"
+      "aScheme": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key"
       }
     }
   },

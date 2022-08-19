@@ -1,13 +1,13 @@
 [
   {
-    "label": "security",
+    "label": "aScheme",
     "kind": [],
     "detail": "unknown",
-    "documentation": "security",
+    "documentation": "aScheme",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11security",
-    "filterText": "\"security\": $1",
+    "sortText": "11aScheme",
+    "filterText": "\"aScheme\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -15,15 +15,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 10,
+          "line": 12,
           "character": 4
         },
         "end": {
-          "line": 10,
+          "line": 12,
           "character": 6
         }
       },
-      "newText": "\"security\": $1"
+      "newText": "\"aScheme\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
