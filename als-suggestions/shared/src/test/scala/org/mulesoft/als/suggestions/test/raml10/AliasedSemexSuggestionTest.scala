@@ -1,28 +1,16 @@
 package org.mulesoft.als.suggestions.test.raml10
 
 import amf.aml.client.scala.AMLConfiguration
-import amf.aml.client.scala.model.document.Dialect
 import amf.apicontract.client.scala.RAMLConfiguration
-import amf.core.client.scala.config.{CachedReference, UnitCache}
-import amf.core.client.scala.config.{CachedReference, UnitCache}
-import amf.core.client.scala.model.document.{BaseUnit, Module}
-import amf.core.client.scala.resource.ResourceLoader
-import amf.core.client.scala.validation.AMFValidationResult
-import amf.core.client.scala.{AMFGraphConfiguration, AMFParseResult}
+import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.suggestions.test.{BaseSuggestionsForTest, TestProjectConfigurationState}
 import org.mulesoft.amfintegration.AmfImplicits._
-import org.mulesoft.amfintegration.ValidationProfile
-import org.mulesoft.amfintegration.amfconfiguration.{
-  ALSConfigurationState,
-  EditorConfigurationState,
-  ProjectConfigurationState
-}
+import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, EditorConfigurationState}
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.common.{Position, Range}
 import org.mulesoft.lsp.feature.completion.CompletionItem
 import org.scalatest.{AsyncFunSuite, Matchers}
-import org.mulesoft.amfintegration.AmfImplicits._
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -71,8 +59,15 @@ class AliasedSemexSuggestionTest extends AsyncFunSuite with BaseSuggestionsForTe
         .exists(ci =>
           ci.additionalTextEdits.contains(
             Seq(TextEdit(Range(Position(5, 0), Position(5, 0)), "\nuses:\n  Extensions: companion.raml\n"))
-          )
+          ) &&
+            ci.textEdit.contains(Left(TextEdit(Range(Position(8, 4), Position(8, 4)), "(Extensions.key):\n  ")))
         ) shouldBe true
+
+      val scalarItem = ci.find(_.label == "(Extensions.scalar)")
+      scalarItem.nonEmpty shouldBe true
+      scalarItem.exists(ci =>
+        ci.textEdit.contains(Left(TextEdit(Range(Position(8, 4), Position(8, 4)), "(Extensions.scalar): ")))
+      ) shouldBe true
     }
   }
 
@@ -91,7 +86,7 @@ class AliasedSemexSuggestionTest extends AsyncFunSuite with BaseSuggestionsForTe
 
   test("test aliased value semex suggestion") {
     suggest("aliased-value-semex.raml").map { ci =>
-      ci.length shouldBe 1
+      ci.length shouldBe 2
       ci.head.label shouldBe "key)"
       ci.head.detail.get shouldBe "extensions"
     }
