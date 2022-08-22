@@ -135,7 +135,7 @@ object RawSuggestion {
       value,
       Seq.empty,
       "unknown",
-      Option.empty,
+      None,
       opt
     )
 
