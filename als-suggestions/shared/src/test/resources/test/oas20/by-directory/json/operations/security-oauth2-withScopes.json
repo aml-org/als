@@ -1,0 +1,17 @@
+{
+  "swagger": "2.0",
+  "components": {
+    "securitySchemes": {
+      "sc": {
+        "type": "oauth2",
+        "scopes": {
+          "read:security": "something",
+          "write:security": "something"
+        }
+      }
+    }
+  },
+  "security": [
+    "*"
+  ]
+}

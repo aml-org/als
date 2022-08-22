@@ -1,13 +1,13 @@
 [
   {
-    "label": "mySecurity",
+    "label": "sc",
     "kind": [],
     "detail": "unknown",
-    "documentation": "mySecurity",
+    "documentation": "sc",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11mySecurity",
-    "filterText": "\"mySecurity\": [\n  \"$1\"\n]",
+    "sortText": "11sc",
+    "filterText": "\"sc\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -15,15 +15,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 13,
-          "character": 15
+          "line": 14,
+          "character": 4
         },
         "end": {
-          "line": 13,
-          "character": 17
+          "line": 14,
+          "character": 6
         }
       },
-      "newText": "\"mySecurity\": [\n  \"$1\"\n]"
+      "newText": "\"sc\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

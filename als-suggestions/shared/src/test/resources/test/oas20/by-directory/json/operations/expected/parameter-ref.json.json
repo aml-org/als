@@ -510,6 +510,36 @@
     "command": null
   },
   {
+    "label": "security-oauth2-withScopes.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11security-oauth2-withScopes.json",
+    "filterText": "\"security-oauth2-withScopes.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 12,
+          "character": 20
+        },
+        "end": {
+          "line": 12,
+          "character": 22
+        }
+      },
+      "newText": "\"security-oauth2-withScopes.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "security.json",
     "kind": [],
     "detail": "unknown",
