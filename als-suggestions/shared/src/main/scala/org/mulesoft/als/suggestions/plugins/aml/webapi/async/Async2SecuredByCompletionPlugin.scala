@@ -38,7 +38,6 @@ object Async2SecuredByCompletionPlugin extends AMLCompletionPlugin {
     ).resolve(rawSuggestionBuilder(request))
 
   private def rawSuggestionBuilder(request: AmlCompletionRequest)(name: String, de: DomainElement): RawSuggestion = {
-    // todo: aca revisar el DE para la logica de que si tiene scopes es array y sino scalar
     val options =
       if (request.astPartBranch.isKey || request.astPartBranch.isInArray)
         SuggestionStructure(isKey = true, rangeKind = ArrayRange)
