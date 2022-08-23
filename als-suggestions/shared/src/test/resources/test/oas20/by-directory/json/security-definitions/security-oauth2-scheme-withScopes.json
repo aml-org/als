@@ -1,0 +1,30 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "t",
+    "version": "1"
+  },
+  "securityDefinitions": {
+    "internalApiKey": {
+      "type": "oauth2",
+      "scopes": {
+        "read:request": "something",
+        "write:request": "something else"
+      }
+    }
+  },
+  "paths": {
+    "/path": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Something"
+          }
+        },
+        "security": [
+          "*"
+        ]
+      }
+    }
+  }
+}

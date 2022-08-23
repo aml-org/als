@@ -24,27 +24,44 @@ class AMLRamlStyleDeclarationsReferences(
     actualName: Option[String]
 ) {
 
-  def resolve(builder: (String, DomainElement) => RawSuggestion =
-                (name: String, _: DomainElement) => RawSuggestion(name, isAKey = false)
-              ): Seq[RawSuggestion] = {
+  def resolve(builder: (String, DomainElement) => RawSuggestion): Seq[RawSuggestion] = {
     val values: Seq[(String, DomainElement)] =
-      if (prefix.contains(".")) prefix.split('.').headOption.map(resolveAliased).getOrElse(Nil)
-      else resolveLocal(actualName)
+      if (prefix.contains(".")) prefix.split('.').headOption.map(resolveDomainElementAliased).getOrElse(Nil)
+      else resolveDomainElementLocal(actualName)
 
     values.map(t => builder(t._1, t._2))
   }
 
-  private def resolveAliased(alias: String): Seq[(String, DomainElement)] =
+  def resolveRefs(): Seq[RawSuggestion] = {
+    val values =
+      if (prefix.contains(".")) prefix.split('.').headOption.map(resolveRefAliased).getOrElse(Nil)
+      else resolveRefLocal(actualName)
+
+    values.map(RawSuggestion.apply(_, isAKey = false))
+  }
+
+  private def resolveDomainElementAliased(alias: String): Seq[(String, DomainElement)] =
     nodeTypeMappings
       .flatMap(provider.getElementByName(_, alias).toSeq)
       .map(n => (alias + "." + n._1, n._2))
 
-  private def resolveLocal(actualName: Option[String]): Seq[(String, DomainElement)] = {
+  private def resolveDomainElementLocal(actualName: Option[String]): Seq[(String, DomainElement)] = {
     val names =
       nodeTypeMappings
         .flatMap(np => provider.getElementByName(np).toSeq)
       actualName.fold(names)(n => names.filter(_._1 != n))
   }
+
+  private def resolveRefAliased(alias: String): Seq[String] =
+    nodeTypeMappings
+      .flatMap(provider.forNodeType(_, alias).toSeq)
+      .map(n => alias + "." + n)
+
+  private def resolveRefLocal(actualName: Option[String]): Seq[String] = {
+    val names =
+      nodeTypeMappings
+        .flatMap(np => provider.forNodeType(np).toSeq)
+    actualName.fold(names)(n => names.filter(_ != n))  }
 }
 
 object AMLRamlStyleDeclarationsReferences extends AMLDeclarationReferences {
@@ -59,7 +76,7 @@ object AMLRamlStyleDeclarationsReferences extends AMLDeclarationReferences {
           params.prefix,
           params.declarationProvider,
           actualName
-        ).resolve()
+        ).resolveRefs()
       } else Seq.empty
     })
 
