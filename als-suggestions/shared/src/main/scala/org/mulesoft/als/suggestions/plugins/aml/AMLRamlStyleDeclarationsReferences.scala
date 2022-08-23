@@ -24,21 +24,26 @@ class AMLRamlStyleDeclarationsReferences(
     actualName: Option[String]
 ) {
 
-  def resolve(builder: (String, DomainElement) => RawSuggestion): Seq[RawSuggestion] = {
-    val values: Seq[(String, DomainElement)] =
-      if (prefix.contains(".")) prefix.split('.').headOption.map(resolveDomainElementAliased).getOrElse(Nil)
-      else resolveDomainElementLocal(actualName)
+  private def defaultBuilder(name: String, de: DomainElement): RawSuggestion =
+    defaultBuilder(name)
 
-    values.map(t => builder(t._1, t._2))
-  }
+  private def defaultBuilder(name: String): RawSuggestion =
+    RawSuggestion.apply(name, isAKey = false)
 
-  def resolveRefs(): Seq[RawSuggestion] = {
-    val values =
-      if (prefix.contains(".")) prefix.split('.').headOption.map(resolveRefAliased).getOrElse(Nil)
-      else resolveRefLocal(actualName)
-
-    values.map(RawSuggestion.apply(_, isAKey = false))
-  }
+  def resolve(builder: (String, DomainElement) => RawSuggestion = defaultBuilder): Seq[RawSuggestion] =
+    if (prefix.contains("."))
+      prefix
+        .split('.')
+        .headOption
+        .map(resolveDomainElementAliased)
+        .getOrElse(Nil)
+        .map(t => builder(t._1, t._2))
+    else
+      resolveDomainElementLocal(actualName)
+        .map(t => builder(t._1, t._2)) ++
+        nodeTypeMappings
+          .flatMap(provider.getLocalAliases)
+          .map(defaultBuilder)
 
   private def resolveDomainElementAliased(alias: String): Seq[(String, DomainElement)] =
     nodeTypeMappings
@@ -49,19 +54,8 @@ class AMLRamlStyleDeclarationsReferences(
     val names =
       nodeTypeMappings
         .flatMap(np => provider.getElementByName(np).toSeq)
-      actualName.fold(names)(n => names.filter(_._1 != n))
+    actualName.fold(names)(n => names.filter(_._1 != n))
   }
-
-  private def resolveRefAliased(alias: String): Seq[String] =
-    nodeTypeMappings
-      .flatMap(provider.forNodeType(_, alias).toSeq)
-      .map(n => alias + "." + n)
-
-  private def resolveRefLocal(actualName: Option[String]): Seq[String] = {
-    val names =
-      nodeTypeMappings
-        .flatMap(np => provider.forNodeType(np).toSeq)
-    actualName.fold(names)(n => names.filter(_ != n))  }
 }
 
 object AMLRamlStyleDeclarationsReferences extends AMLDeclarationReferences {
@@ -76,7 +70,7 @@ object AMLRamlStyleDeclarationsReferences extends AMLDeclarationReferences {
           params.prefix,
           params.declarationProvider,
           actualName
-        ).resolveRefs()
+        ).resolve()
       } else Seq.empty
     })
 
