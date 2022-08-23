@@ -7,6 +7,11 @@ import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.dtoTypes.{Position => DtoPosition}
 import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.als.suggestions._
+import org.mulesoft.als.suggestions.aml.jsonschema.{
+  JsonSchema2019CompletionPluginRegistry,
+  JsonSchema4CompletionPluginRegistry,
+  JsonSchema7CompletionPluginRegistry
+}
 import org.mulesoft.als.suggestions.aml.webapi._
 import org.mulesoft.als.suggestions.aml.{
   AmlCompletionRequestBuilder,
@@ -38,6 +43,9 @@ class Suggestions(
     RamlCompletionPluginRegistry.init(completionsPluginHandler)
     Raml08CompletionPluginRegistry.init(completionsPluginHandler)
     AsyncApiCompletionPluginRegistry.init(completionsPluginHandler)
+    JsonSchema4CompletionPluginRegistry.init(completionsPluginHandler)
+    JsonSchema7CompletionPluginRegistry.init(completionsPluginHandler)
+    JsonSchema2019CompletionPluginRegistry.init(completionsPluginHandler)
     MetaDialectPluginRegistry.init(completionsPluginHandler)
     VocabularyDialectPluginRegistry.init(completionsPluginHandler)
     this

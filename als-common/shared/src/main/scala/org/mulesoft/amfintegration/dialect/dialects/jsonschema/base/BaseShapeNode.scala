@@ -1,9 +1,10 @@
-package org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft7.base
+package org.mulesoft.amfintegration.dialect.dialects.jsonschema.base
 
 import amf.aml.client.scala.model.domain.PropertyMapping
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{amlAnyNode, xsdAnyType, xsdBoolean, xsdString}
 import amf.core.internal.metamodel.domain.ShapeModel
 import amf.core.internal.metamodel.domain.extensions.PropertyShapeModel
+import amf.shapes.internal.domain.metamodel.ArrayShapeModel
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 trait BaseShapeNode extends DialectNode {
@@ -58,21 +59,6 @@ trait BaseShapeNode extends DialectNode {
       .withName("writeOnly")
       .withNodePropertyMapping(PropertyShapeModel.WriteOnly.value.iri())
       .withLiteralRange(xsdBoolean.iri()),
-    PropertyMapping()
-      .withId(location + "#/declarations/SchemaObject/if")
-      .withNodePropertyMapping(ShapeModel.If.value.iri())
-      .withName("if")
-      .withObjectRange(Seq(amlAnyNode.iri())),
-    PropertyMapping()
-      .withId(location + "#/declarations/SchemaObject/then")
-      .withNodePropertyMapping(ShapeModel.Then.value.iri())
-      .withName("then")
-      .withObjectRange(Seq(amlAnyNode.iri())),
-    PropertyMapping()
-      .withId(location + "#/declarations/SchemaObject/else")
-      .withNodePropertyMapping(ShapeModel.Else.value.iri())
-      .withName("else")
-      .withObjectRange(Seq(amlAnyNode.iri())),
     PropertyMapping()
       .withId(location + "#/declarations/SchemaObject/allOf")
       .withName("allOf")
