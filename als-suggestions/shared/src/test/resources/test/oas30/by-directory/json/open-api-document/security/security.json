@@ -3,7 +3,7 @@
   "components": {
     "securitySchemes": {
       "security": {
-        "type": "oauth2"
+        "type": "apiKey"
       }
     }
   },

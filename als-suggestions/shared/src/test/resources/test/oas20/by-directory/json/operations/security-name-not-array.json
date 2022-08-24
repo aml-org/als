@@ -2,9 +2,12 @@
   "swagger": "2.0",
   "securityDefinitions": {
     "internalApiKey": {
-      "type": "apiKey",
+      "type": "oauth2",
       "in": "header",
-      "name": "api_key"
+      "name": "api_key",
+      "scopes": {
+        "read:api": "something"
+      }
     }
   },
   "paths": {

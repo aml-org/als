@@ -1,0 +1,32 @@
+[
+  {
+    "label": "aScheme",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "aScheme",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11aScheme",
+    "filterText": "aScheme: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 8,
+          "character": 4
+        },
+        "end": {
+          "line": 8,
+          "character": 4
+        }
+      },
+      "newText": "aScheme: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

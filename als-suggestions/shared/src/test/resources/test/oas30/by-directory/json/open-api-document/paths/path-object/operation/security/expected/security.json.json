@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11internalApiKey",
-    "filterText": "\"internalApiKey\": {\n  \"$1\"\n}",
+    "filterText": "\"internalApiKey\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -23,7 +23,7 @@
           "character": 12
         }
       },
-      "newText": "\"internalApiKey\": {\n  \"$1\"\n}"
+      "newText": "\"internalApiKey\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

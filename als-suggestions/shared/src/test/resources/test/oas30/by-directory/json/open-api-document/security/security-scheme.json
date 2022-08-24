@@ -1,0 +1,13 @@
+{
+  "openapi": "3.0.0",
+  "components": {
+    "securitySchemes": {
+      "sc": {
+        "type": "apiKey"
+      }
+    }
+  },
+  "security": {
+    "sc": "*"
+  }
+}
