@@ -165,7 +165,7 @@ class RenameTest extends CodeActionsTest with FileAssertionTest with RenameTools
     Map(
       "file:///root/basic-schema.json" ->
         """{
-          |  "$schema": "http://json-schema.org/draft-03/schema#",
+          |  "$schema": "http://json-schema.org/draft-07/schema#",
           |
           |  "type": "object",
           |  "properties": {
@@ -177,7 +177,7 @@ class RenameTest extends CodeActionsTest with FileAssertionTest with RenameTools
           |}""".stripMargin,
       "file:///root/basic-schema2.json" ->
         """{
-          |  "$schema": "http://json-schema.org/draft-03/schema#",
+          |  "$schema": "http://json-schema.org/draft-07/schema#",
           |
           |  "type": "object",
           |  "definitions": {

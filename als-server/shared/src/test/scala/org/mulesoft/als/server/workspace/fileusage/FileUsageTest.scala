@@ -1,6 +1,5 @@
 package org.mulesoft.als.server.workspace.fileusage
 
-import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.actions.fileusage.FindFileUsages
 import org.mulesoft.lsp.feature.common.{Location, Position, Range}
 import org.scalatest.Succeeded
@@ -61,6 +60,34 @@ class FileUsageTest extends ServerFileUsageTest {
       ),
       Set(Location("file:///root/api.yaml", Range(Position(5, 13), Position(5, 19))))
     )
+//    TestEntry(
+//      "file:///root/t.json",
+//      "api.json",
+//      Map(
+//        "file:///root/api.json" ->
+//          """{
+//            |  "$schema": "http://json-schema.org/draft-04/schema#",
+//            |
+//            |  "type": "object",
+//            |  "properties": {
+//            |    "street_address": { "type": "string" },
+//            |    "city": { "type": "string" },
+//            |    "state": { "$ref": "t.json#/definitions/state" }
+//            |  },
+//            |  "required": ["street_address", "city", "state"]
+//            |}"""".stripMargin,
+//        "file:///root/t.json" ->
+//          """{
+//            |  "$schema": "http://json-schema.org/draft-04/schema#",
+//            |
+//            |  "type": "object",
+//            |  "definitions": {
+//            |    "state": { "enum": ["CA", "NY", "... etc ..."] }
+//            |  }
+//            |}""".stripMargin
+//      ),
+//      Set(Location("file:///root/api.json", Range(Position(7, 23), Position(7, 50))))
+//    )
   )
 
   test("No handler") {
@@ -89,33 +116,6 @@ class FileUsageTest extends ServerFileUsageTest {
       }
       .map(r => assert(r.forall(_ == Succeeded)))
   }
-
-  // ignored until amf adds links instead of inlined references (W-11461036)
-  ignore("Json Schema reference") {
-    val path1 = "file:///root/json-schema.json"
-    val path2 = "file:///root/json-schema2.json"
-
-    for {
-      cont1 <- platform
-        .fetchContent(filePath("json-schema/basic-schema.json"), AMFGraphConfiguration.predefined())
-        .map(_.stream.toString)
-      cont2 <- platform
-        .fetchContent(filePath("json-schema/basic-schema2.json"), AMFGraphConfiguration.predefined())
-        .map(_.stream.toString)
-      (_, wsManager) <- {
-        val ws = Map(
-          path1 -> cont1,
-          path2 -> cont2
-        )
-        buildServer(path1, ws, path1)
-      }
-      links <- FindFileUsages.getUsages(path2, wsManager.getAllDocumentLinks(path2, ""))
-    } yield {
-      val goldenLink = Seq(Location(path1, Range(Position(7, 24), Position(7, 42))))
-      assert(links == goldenLink)
-    }
-  }
-
   case class TestEntry(
       searchedUri: String,
       mainFile: String,
