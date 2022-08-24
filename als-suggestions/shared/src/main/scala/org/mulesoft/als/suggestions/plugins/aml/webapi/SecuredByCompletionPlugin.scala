@@ -62,7 +62,7 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
       if (hasScopes(de))
         RawSuggestion.apply(name, SuggestionStructure(isKey = true, rangeKind = ArrayRange))
       else
-        RawSuggestion.apply(name, SuggestionStructure(isKey = true, rangeKind = BoolScalarRange)) // En este caso debería autocompletar con corchetes '[]'
+        RawSuggestion.apply(name, SuggestionStructure(isKey = true, rangeKind = BoolScalarRange))
     } else if (!isAKey(request) && !isSecurityScalarValue(request))
       RawSuggestion.apply(name, SuggestionStructure(rangeKind = ArrayRange))
     else RawSuggestion.apply(name, SuggestionStructure())
