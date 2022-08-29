@@ -5,15 +5,15 @@ import amf.apicontract.client.scala.model.domain.security._
 import amf.apicontract.internal.metamodel.domain.ServerModel
 import amf.apicontract.internal.metamodel.domain.security.{SecurityRequirementModel, SecuritySchemeModel}
 import amf.core.client.scala.model.domain.DomainElement
+import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.AMLRamlStyleDeclarationsReferences
-import org.mulesoft.als.suggestions.{ArrayRange, BoolScalarRange, RawSuggestion, SuggestionStructure}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object SecuredByCompletionPlugin extends AMLCompletionPlugin {
+trait SecuredByCompletionPlugin extends AMLCompletionPlugin {
   override def id: String = "SecuredByCompletionPlugin"
 
   override def resolve(request: AmlCompletionRequest): Future[Seq[RawSuggestion]] = {
@@ -24,10 +24,10 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
     }
   }
 
-  private def isSecurityScalarValue(request: AmlCompletionRequest): Boolean =
+  protected def isSecurityScalarValue(request: AmlCompletionRequest): Boolean =
     !isAKey(request) && request.astPartBranch.parentEntryIs("security")
 
-  private def isAKey(request: AmlCompletionRequest): Boolean =
+  protected def isAKey(request: AmlCompletionRequest): Boolean =
     request.astPartBranch.isKeyLike
 
   private def isWritingSecuredBy(request: AmlCompletionRequest): Boolean =
@@ -44,7 +44,7 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
         case _         => false
       })
 
-  private def compatibleParametrizedSecurityScheme(request: AmlCompletionRequest) =
+  protected def compatibleParametrizedSecurityScheme(request: AmlCompletionRequest) =
     request.astPartBranch.isInArray && underSecurityKey(request) && request.fieldEntry.isEmpty && request.amfObject
       .isInstanceOf[ParametrizedSecurityScheme]
 
@@ -57,18 +57,13 @@ object SecuredByCompletionPlugin extends AMLCompletionPlugin {
     request.astPartBranch.parentEntryIs("security") ||
       request.astPartBranch.parentEntryIs("securedBy") // use metadata (dialect) here
 
-  private def rawSuggestionBuilder(request: AmlCompletionRequest)(name: String, de: DomainElement): RawSuggestion = {
-    if (isAKey(request) || compatibleParametrizedSecurityScheme(request)) {
-      if (hasScopes(de))
-        RawSuggestion.apply(name, SuggestionStructure(isKey = true, rangeKind = ArrayRange))
-      else
-        RawSuggestion.apply(name, SuggestionStructure(isKey = true, rangeKind = BoolScalarRange))
-    } else if (!isAKey(request) && !isSecurityScalarValue(request))
-      RawSuggestion.apply(name, SuggestionStructure(rangeKind = ArrayRange))
-    else RawSuggestion.apply(name, SuggestionStructure())
+  def isRAMLspec(de: DomainElement): Boolean = {
+    de.typeIris.nonEmpty
   }
 
-  private def hasScopes(de: DomainElement): Boolean = {
+  protected def rawSuggestionBuilder(request: AmlCompletionRequest)(name: String, de: DomainElement): RawSuggestion
+
+  protected def hasScopes(de: DomainElement): Boolean = {
     de match {
       case s: SecurityScheme =>
         s.settings match {

@@ -1,0 +1,17 @@
+#%RAML 1.0
+
+uses:
+  lib: lib.raml
+securitySchemes:
+  oauth2:
+    type: OAuth 2.0
+    settings:
+      scopes:
+        - read:scope
+        - write:scope
+
+title: a
+
+/endpoint:
+  securedBy:
+    - *

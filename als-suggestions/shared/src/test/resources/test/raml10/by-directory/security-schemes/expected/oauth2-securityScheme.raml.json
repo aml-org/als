@@ -1,0 +1,92 @@
+[
+  {
+    "label": "lib.",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "lib.",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11lib.",
+    "filterText": "lib.",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 16,
+          "character": 6
+        },
+        "end": {
+          "line": 16,
+          "character": 6
+        }
+      },
+      "newText": "lib."
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "null",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "null",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11null",
+    "filterText": "null",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 16,
+          "character": 6
+        },
+        "end": {
+          "line": 16,
+          "character": 6
+        }
+      },
+      "newText": "null"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "oauth2",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "oauth2",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11oauth2",
+    "filterText": "oauth2:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 16,
+          "character": 6
+        },
+        "end": {
+          "line": 16,
+          "character": 6
+        }
+      },
+      "newText": "oauth2:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

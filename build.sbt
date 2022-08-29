@@ -1,5 +1,5 @@
 import Dependencies.deps
-import NpmOpsPlugin.autoImport.{npmDependencies, npmPackageLoc}
+import NpmOpsPlugin.autoImport.npmDependencies
 import org.scalajs.core.tools.linker.ModuleKind
 import org.scalajs.core.tools.linker.backend.OutputMode
 import org.scalajs.sbtplugin.ScalaJSPlugin.AutoImport.{fastOptJS, scalaJSOutputMode}
