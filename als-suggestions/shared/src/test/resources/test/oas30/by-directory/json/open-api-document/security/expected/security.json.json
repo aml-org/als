@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11security",
-    "filterText": "\"security\": {\n  \"$1\"\n}",
+    "filterText": "\"security\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -23,7 +23,7 @@
           "character": 6
         }
       },
-      "newText": "\"security\": {\n  \"$1\"\n}"
+      "newText": "\"security\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

@@ -1,0 +1,62 @@
+[
+  {
+    "label": "read:scope",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "read:scope",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11read:scope",
+    "filterText": "read:scope",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 18,
+          "character": 12
+        },
+        "end": {
+          "line": 18,
+          "character": 12
+        }
+      },
+      "newText": "read:scope"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "write:scope",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "write:scope",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11write:scope",
+    "filterText": "write:scope",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 18,
+          "character": 12
+        },
+        "end": {
+          "line": 18,
+          "character": 12
+        }
+      },
+      "newText": "write:scope"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

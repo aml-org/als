@@ -1,0 +1,32 @@
+[
+  {
+    "label": "sc",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "sc",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11sc",
+    "filterText": "\"sc\": $1",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 14,
+          "character": 4
+        },
+        "end": {
+          "line": 14,
+          "character": 6
+        }
+      },
+      "newText": "\"sc\": $1"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

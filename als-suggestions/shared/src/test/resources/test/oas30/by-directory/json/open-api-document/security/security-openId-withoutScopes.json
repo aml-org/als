@@ -1,0 +1,14 @@
+{
+  "openapi": "3.0.0",
+  "components": {
+    "securitySchemes": {
+      "aScheme": {
+        "type": "openIdConnect",
+        "openIdConnectUrl": "https://example.com/.well-known/openid-configuration"
+      }
+    }
+  },
+  "security": [
+    "*"
+  ]
+}

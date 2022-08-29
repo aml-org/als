@@ -2,7 +2,6 @@ package org.mulesoft.als.suggestions
 
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.lsp.edit.TextEdit
-import org.yaml.model.YPart
 
 case class RawSuggestion(
     newText: String,
@@ -128,6 +127,17 @@ object RawSuggestion {
 
   def apply(value: String, isAKey: Boolean): RawSuggestion =
     apply(value, isAKey, "unknown", mandatory = false)
+
+  def apply(value: String, opt: SuggestionStructure): RawSuggestion =
+    new RawSuggestion(
+      value,
+      value,
+      value,
+      Seq.empty,
+      "unknown",
+      None,
+      opt
+    )
 
   def apply(
       value: String,
