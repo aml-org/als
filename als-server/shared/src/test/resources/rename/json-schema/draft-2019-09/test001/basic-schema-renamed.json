@@ -6,7 +6,7 @@
   "properties": {
     "street_address": { "type": "string" },
     "city": { "type": "string" },
-    "state": { "$ref": "#/definitions/RENAMED" }
+    "state": { "$ref": "#/definitions/state" }
   },
   "required": ["street_address", "city", "state"],
 
