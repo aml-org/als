@@ -118,7 +118,7 @@ class ServerParsingBeforeDiagnosticTest extends LanguageServerBaseTest {
     }
   }
 
-  test("Break model") {
+  test("Break model", Flaky) {
     val api =
       """#%RAML 1.0
         |title: test
