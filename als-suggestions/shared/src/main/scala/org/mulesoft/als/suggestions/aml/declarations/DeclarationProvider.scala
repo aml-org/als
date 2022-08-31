@@ -32,11 +32,7 @@ class DeclarationProvider(componentId: Option[String] = None) {
 
   def forNodeType(nodeTypeMapping: String): Set[Name] =
     declarations.getOrElse(nodeTypeMapping, Set.empty).map(_._1) ++
-      libraries
-        .filter(t => t._2.isLocallyDeclared(nodeTypeMapping))
-        .keys
-        .map(_ + ".")
-        .toSet
+      getLocalAliases(nodeTypeMapping)
 
   def filterLocalByType(nodeTypeMapping: String): Set[DomainElement] =
     declarations.getOrElse(nodeTypeMapping, Set.empty).map(_._2)
@@ -57,6 +53,23 @@ class DeclarationProvider(componentId: Option[String] = None) {
     mutable.Map.empty
 
   private var declarableTerms: Seq[String] = Seq.empty
+
+  def getLocalAliases(nodeTypeMapping: String): Set[Alias] =
+    libraries
+      .filter(t => t._2.isLocallyDeclared(nodeTypeMapping))
+      .keys
+      .map(_ + ".")
+      .toSet
+
+  def getElementByName(nodeTypeMapping: String): Set[_ <: (Name, DomainElement)] =
+    declarations
+      .getOrElse(nodeTypeMapping, Set.empty)
+
+  def getElementByName(nodeTypeMapping: String, alias: String): Set[_ <: (Name, DomainElement)] =
+    libraries
+      .get(alias)
+      .map(d => d.getElementByName(nodeTypeMapping))
+      .getOrElse(Set.empty)
 
   def putDeclarable(str: String): Unit =
     declarableTerms = str +: declarableTerms

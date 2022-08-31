@@ -1,6 +1,6 @@
 import org.scalajs.sbtplugin.ScalaJSPlugin
 import org.scalajs.sbtplugin.ScalaJSPlugin.AutoImport.{fastOptJS, fullOptJS}
-import sbt.Keys.sLog
+import sbt.Keys.{baseDirectory, sLog}
 import sbt.util.Logger
 import sbt.{AutoPlugin, Compile, Def, Test, settingKey, taskKey}
 
@@ -15,7 +15,7 @@ object NpmOpsPlugin extends AutoPlugin {
   object autoImport {
     val npmDependencies = settingKey[List[(String, String)]]("List of npm dependencies name and version")
     val npmInstallDeps  = taskKey[Unit]("Install NPM dependencies if not installed")
-    val npmPackageLoc   = settingKey[String]("Path to the location of the packages' 'package.json'")
+    val npmPackageLoc   = settingKey[File]("Path to the location of the packages' 'package.json'")
   }
 
   import autoImport._
@@ -27,19 +27,19 @@ object NpmOpsPlugin extends AutoPlugin {
 
   private def installDepsIfNotAlreadyInstalled(
       deps: List[(String, String)],
-      packageLoc: String,
+      packageLoc: File,
       logger: Logger
   ): Unit = {
     val npmDeps = filterOutInstalledPackages(computeNpmFullPackages(deps), packageLoc)
     if (npmDeps.nonEmpty) {
       val npmDepsAsString = npmDeps.mkString(" ")
       logger.info(s"Installing NPM dependencies: $npmDepsAsString")
-      Process(s"npm install --save-exact $npmDepsAsString", new File(packageLoc)) !!
+      Process(s"npm install --save-exact $npmDepsAsString", packageLoc) !!
     } else logger.info("Skipping as NPM dependencies are already installed.")
   }
 
-  private def filterOutInstalledPackages(deps: List[String], packageLoc: String): List[String] = {
-    deps.map(dep => (dep, Process(s"npm list $dep", new File(packageLoc)) !)).collect {
+  private def filterOutInstalledPackages(deps: List[String], packageLoc: File): List[String] = {
+    deps.map(dep => (dep, Process(s"npm list $dep", packageLoc) !)).collect {
       case (dep, exitCode) if exitCode != 0 => dep
     }
   }
@@ -50,7 +50,7 @@ object NpmOpsPlugin extends AutoPlugin {
   override def projectSettings: Seq[Def.Setting[_]] = Seq(
     npmInstallDeps      := npmInstallDepsTask.value,
     npmDependencies     := Nil,
-    npmPackageLoc       := "",
+    npmPackageLoc       := baseDirectory.value,
     Compile / fastOptJS := (Compile / fastOptJS).dependsOn(npmInstallDepsTask).value,
     Compile / fullOptJS := (Compile / fullOptJS).dependsOn(npmInstallDepsTask).value,
     Test / fastOptJS    := (Test / fastOptJS).dependsOn(npmInstallDepsTask).value,

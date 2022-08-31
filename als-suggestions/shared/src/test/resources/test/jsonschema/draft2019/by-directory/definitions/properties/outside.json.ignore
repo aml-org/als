@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/draft/2019-09/schema",
+  "definitions": {
+    "x": {
+      "type": "object",
+      "properties": {
+        *
+      }
+    }
+  }
+}

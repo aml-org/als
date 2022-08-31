@@ -13,6 +13,7 @@ import amf.core.internal.remote.{AmlDialectSpec, Spec}
 import amf.core.internal.unsafe.PlatformSecrets
 import amf.graphql.client.scala.GraphQLConfiguration
 import amf.shapes.client.scala.config.JsonSchemaConfiguration
+import amf.shapes.client.scala.model.document.JsonSchemaDocument
 import amf.shapes.client.scala.model.domain.AnyShape
 import amf.shapes.client.scala.render.JsonSchemaShapeRenderer
 import org.mulesoft.amfintegration.AmfImplicits._
@@ -180,6 +181,11 @@ case class ALSConfigurationState(
 
   def definitionFor(bu: BaseUnit): Option[Dialect] = {
     val configurationState = predefinedWithDialects.configurationState()
+
+    def defaultDefinitionSearch = {
+      allDialects(configurationState).find(d => ProfileMatcher.spec(d).contains(bu.sourceSpec.getOrElse(Spec.AMF)))
+    }
+
     bu match {
       case di: DialectInstanceUnit =>
         allDialects(configurationState).find(d => di.definedBy().option().contains(d.id))
@@ -189,8 +195,13 @@ case class ALSConfigurationState(
         Some(VocabularyDialect.dialect)
       case _: ExternalFragment =>
         Some(ExternalFragmentDialect.dialect)
+      case jsonSchema: JsonSchemaDocument if jsonSchema.schemaVersion.nonEmpty =>
+        // all drafts use same Spec, so we must differentiate with version
+        allDialects(configurationState)
+          .find(d => d.version().option().contains(jsonSchema.schemaVersion.value()))
+          .orElse(defaultDefinitionSearch)
       case _ =>
-        allDialects(configurationState).find(d => ProfileMatcher.spec(d).contains(bu.sourceSpec.getOrElse(Spec.AMF)))
+        defaultDefinitionSearch
     }
   }
 

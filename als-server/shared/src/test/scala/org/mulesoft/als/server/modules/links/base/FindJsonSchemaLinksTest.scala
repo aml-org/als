@@ -7,13 +7,12 @@ import org.mulesoft.lsp.feature.link.DocumentLink
 
 class FindJsonSchemaLinksTest extends FindLinksTest {
 
-  // ignored until amf adds links instead of inlined references (W-11461036)
-  ignore("Json Schema draft-03") {
+  test("Json Schema draft-03") {
     runTest(
       "files/simple-ref/json-schema/draft-03/basic-schema.json",
       Set(
         DocumentLink(
-          LspRangeConverter.toLspRange(PositionRange(Position(7, 24), Position(7, 61))),
+          LspRangeConverter.toLspRange(PositionRange(Position(7, 23), Position(7, 62))),
           "file://als-server/shared/src/test/resources/actions/links/files/simple-ref/json-schema/draft-03/basic-schema2.json",
           None
         )
@@ -21,12 +20,12 @@ class FindJsonSchemaLinksTest extends FindLinksTest {
     )
   }
 
-  ignore("Json Schema draft-04") {
+  test("Json Schema draft-04") {
     runTest(
       "files/simple-ref/json-schema/draft-04/basic-schema.json",
       Set(
         DocumentLink(
-          LspRangeConverter.toLspRange(PositionRange(Position(7, 24), Position(7, 61))),
+          LspRangeConverter.toLspRange(PositionRange(Position(7, 23), Position(7, 62))),
           "file://als-server/shared/src/test/resources/actions/links/files/simple-ref/json-schema/draft-04/basic-schema2.json",
           None
         )
@@ -34,12 +33,12 @@ class FindJsonSchemaLinksTest extends FindLinksTest {
     )
   }
 
-  ignore("Json Schema draft-07") {
+  test("Json Schema draft-07") {
     runTest(
       "files/simple-ref/json-schema/draft-07/basic-schema.json",
       Set(
         DocumentLink(
-          LspRangeConverter.toLspRange(PositionRange(Position(7, 24), Position(7, 61))),
+          LspRangeConverter.toLspRange(PositionRange(Position(7, 23), Position(7, 62))),
           "file://als-server/shared/src/test/resources/actions/links/files/simple-ref/json-schema/draft-07/basic-schema2.json",
           None
         )
@@ -47,12 +46,12 @@ class FindJsonSchemaLinksTest extends FindLinksTest {
     )
   }
 
-  ignore("Json Schema draft-2019-09") {
+  test("Json Schema draft-2019-09") {
     runTest(
       "files/simple-ref/json-schema/draft-2019-09/basic-schema.json",
       Set(
         DocumentLink(
-          LspRangeConverter.toLspRange(PositionRange(Position(7, 24), Position(7, 61))),
+          LspRangeConverter.toLspRange(PositionRange(Position(7, 23), Position(7, 62))),
           "file://als-server/shared/src/test/resources/actions/links/files/simple-ref/json-schema/draft-2019-09/basic-schema2.json",
           None
         )

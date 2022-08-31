@@ -1,5 +1,5 @@
 import Dependencies.deps
-import NpmOpsPlugin.autoImport.{npmDependencies, npmPackageLoc}
+import NpmOpsPlugin.autoImport.npmDependencies
 import org.scalajs.core.tools.linker.ModuleKind
 import org.scalajs.core.tools.linker.backend.OutputMode
 import org.scalajs.sbtplugin.ScalaJSPlugin.AutoImport.{fastOptJS, scalaJSOutputMode}
@@ -92,7 +92,6 @@ lazy val common = crossProject(JSPlatform, JVMPlatform)
     scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
     scalaJSModuleKind := ModuleKind.CommonJSModule,
     npmDependencies ++= commonNpmDependencies,
-    npmPackageLoc := "als-common/js"
     //        artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
   )
   .disablePlugins(SonarPlugin)
@@ -147,7 +146,6 @@ lazy val suggestions = crossProject(JSPlatform, JVMPlatform)
     scalaJSOutputMode            := OutputMode.Defaults,
     scalaJSModuleKind            := ModuleKind.CommonJSModule,
     npmDependencies ++= commonNpmDependencies,
-    npmPackageLoc := "als-suggestions/js"
   )
   .disablePlugins(SonarPlugin)
 
@@ -171,7 +169,6 @@ lazy val structure = crossProject(JSPlatform, JVMPlatform)
     scalaJSOutputMode                      := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
     scalaJSModuleKind                      := ModuleKind.CommonJSModule,
     npmDependencies ++= commonNpmDependencies,
-    npmPackageLoc := "als-structure/js"
     //    artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"als-suggestions.js"
   )
   .disablePlugins(SonarPlugin)
@@ -192,7 +189,6 @@ lazy val actions = crossProject(JSPlatform, JVMPlatform)
     scalaJSOutputMode            := OutputMode.Defaults,
     scalaJSModuleKind            := ModuleKind.CommonJSModule,
     npmDependencies ++= commonNpmDependencies,
-    npmPackageLoc := "als-actions/js"
   )
   .disablePlugins(SonarPlugin)
 

@@ -6,14 +6,15 @@ import amf.core.client.scala.model.domain.Shape
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiTypeFacetsCompletionPlugin
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.NumberShapeAsync2Node
-import org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft7.{JsonSchemaDraft7Dialect, StringShapeDraft7Node}
+import org.mulesoft.amfintegration.dialect.dialects.jsonschema.base.StringShapeJsonSchemaNode
+import org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft7.JsonSchemaDraft7Dialect
 
 object JsonSchemeDraft7TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin {
   override def id: String = "Async20JsonSchemeDraft7TypeFacetsCompletionPlugin"
 
   val dialect: Dialect = JsonSchemaDraft7Dialect.dialect
 
-  override def stringShapeNode: NodeMapping = StringShapeDraft7Node.Obj
+  override def stringShapeNode: NodeMapping = new StringShapeJsonSchemaNode().Obj
 
   override def numberShapeNode: NodeMapping = NumberShapeAsync2Node.Obj
 

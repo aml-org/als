@@ -1,0 +1,19 @@
+{
+  "openapi": "3.0.0",
+  "components": {
+    "securitySchemes": {
+      "aScheme": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://example.com/oauth/authorize",
+            "tokenUrl": "https://example.com/oauth/token"
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    "*"
+  ]
+}

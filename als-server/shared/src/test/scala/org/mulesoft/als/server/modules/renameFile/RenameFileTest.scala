@@ -1,7 +1,12 @@
 package org.mulesoft.als.server.modules.renameFile
 
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
-import org.mulesoft.als.server.feature.renamefile.{RenameFileActionClientCapabilities, RenameFileActionParams, RenameFileActionRequestType, RenameFileActionResult}
+import org.mulesoft.als.server.feature.renamefile.{
+  RenameFileActionClientCapabilities,
+  RenameFileActionParams,
+  RenameFileActionRequestType,
+  RenameFileActionResult
+}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.{AlsClientCapabilities, AlsInitializeParams}
@@ -108,26 +113,26 @@ class RenameFileTest extends LanguageServerBaseTest {
     })
   }
 
-  // ignored until amf adds links instead of inlined references (W-11461036)
   ignore("Should work on Json Schema document link") {
     val workspacePath = filePath(platform.encodeURI("json-schema"))
-    val oldPath       = filePath(platform.encodeURI("json-schema/basic-schema-2.json"))
+    val oldPath       = filePath(platform.encodeURI("json-schema/basic-schema2.json"))
     val newPath       = filePath(platform.encodeURI("json-schema/RENAMED.json"))
     val initialArgs   = changeConfigArgs(Some("basic-schema.json"), workspacePath)
     runTest(buildServer(), initialArgs, workspacePath, oldPath, newPath).map(r => {
       r.edits.documentChanges.exists(_.exists {
-        case Right(value: RenameFile) => value.oldUri == oldPath && value.newUri == newPath
-        case _                        => false
+        case Right(value: RenameFile) =>
+          value.oldUri == oldPath && value.newUri == newPath
+        case _ => false
       }) should be(true)
 
       r.edits.documentChanges.exists(_.exists {
         case Left(edit) =>
           edit.textDocument.uri == filePath(platform.encodeURI("json-schema/basic-schema.json")) &&
-            edit.edits.size == 1 &&
-            edit.edits.exists(e =>
-              e.newText == "RENAMED.json" &&
-                e.range == Range(Position(8, 24), Position(8, 43))
-            )
+          edit.edits.size == 1 &&
+          edit.edits.exists(e =>
+            e.newText == "RENAMED.json" &&
+              e.range == Range(Position(8, 24), Position(8, 43))
+          )
         case _ => false
       }) should be(true)
     })
