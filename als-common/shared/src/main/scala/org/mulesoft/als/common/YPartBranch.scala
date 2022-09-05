@@ -104,10 +104,13 @@ case class YPartBranch(
     .isInstanceOf[model.YDocument] || (stack.count(_.isInstanceOf[YMap]) == 0 && node
     .isInstanceOf[YMap]) ||
     (stack.count(_.isInstanceOf[YMap]) <= 1 &&
-      (closestEntry.exists(
-        _.key.range.contains(position)
-      ) || // this is the case that you are in a key on root level (before colon)
-        isJson))
+      isYMapEntryKey)
+
+  private def isYMapEntryKey =
+    stack.headOption.exists {
+      case entry: YMapEntry => entry.key == node
+      case _                => false
+    }
 
   override val isArray: Boolean = node.isArray
   override lazy val isInArray: Boolean =

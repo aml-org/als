@@ -7,6 +7,7 @@ import amf.core.client.scala.model.document.{BaseUnit, EncodesModel}
 import amf.core.client.scala.model.domain.{AmfObject, DomainElement}
 import amf.core.internal.metamodel.document.DocumentModel
 import amf.core.internal.parser.domain.FieldEntry
+import amf.shapes.internal.domain.metamodel.NodeShapeModel
 import org.mulesoft.als.common.YPartASTWrapper.AlsYPart
 import org.mulesoft.als.common.ASTElementWrapper._
 import org.mulesoft.als.common._
@@ -49,14 +50,13 @@ class AmlCompletionRequest(
 
   val currentNode: Option[NodeMapping] = DialectNodeFinder.find(objectInTree.obj, None, nodeDialect)
 
-  private def entryAndMapping: Option[(FieldEntry, Boolean)] = {
+  private def entryAndMapping: Option[(FieldEntry, Boolean)] =
     objectInTree.fieldValue
       .map(fe => (fe, false))
       .orElse({
         FieldEntrySearcher(objectInTree.obj, currentNode, astPartBranch, actualDialect)
           .search(objectInTree.stack.headOption)
       })
-  }
 
   lazy val (fieldEntry: Option[FieldEntry], isKeyMapping: Boolean) = entryAndMapping match {
     case Some(value) => (Some(value._1), value._2)
@@ -66,12 +66,11 @@ class AmlCompletionRequest(
   def prefix: String = styler.params.prefix
 
   val propertyMapping: List[PropertyMapping] = {
-
-    val mappings: List[PropertyMapping] = currentNode match {
+    val mappings: List[PropertyMapping] = (currentNode match {
       case Some(nm: NodeMapping) =>
         PropertyMappingFilter(objectInTree, nodeDialect, nm).filter().toList
       case _ => Nil
-    }
+    })
 
     fieldEntry match {
       case Some(e) =>

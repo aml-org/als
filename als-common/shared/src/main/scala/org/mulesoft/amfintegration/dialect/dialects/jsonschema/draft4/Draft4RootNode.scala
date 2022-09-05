@@ -11,11 +11,11 @@ trait Draft4RootNode extends BaseJsonSchemaDocumentNode {
 
   override def properties: Seq[PropertyMapping] =
     super.properties ++
-      BaseAnyShapeNode.anyShapeFacets ++
-      BaseArrayShapeNode.arrayShapeFacets ++
-      BaseNodeShapeNode.nodeShapeFacets ++
-      BaseNumberShapeNode.numberShapeFacets ++
-      BaseStringShapeNode.stringShapeFacets :+
+      BaseAnyShapeNode.anyShapeFacets(location) ++
+      BaseArrayShapeNode.arrayShapeFacets(location) ++
+      BaseNodeShapeNode.nodeShapeFacets(location) ++
+      BaseNumberShapeNode.numberShapeFacets(location) ++
+      BaseStringShapeNode.stringShapeFacets(location) :+
       identifierMapping(location)
 
   def identifierMapping(location: String): PropertyMapping =

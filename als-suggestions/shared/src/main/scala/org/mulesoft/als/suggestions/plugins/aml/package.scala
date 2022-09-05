@@ -22,11 +22,14 @@ package object aml {
   implicit class NodeMappingWrapper(nodeMapping: NodeMapping) {
 
     def propertiesRaw(category: Option[String] = None, fromDialect: Dialect): Seq[RawSuggestion] =
-      nodeMapping.propertiesMapping().map { p =>
-        val c =
-          category.getOrElse(CategoryRegistry(nodeMapping.nodetypeMapping.value(), p.name().value(), fromDialect.id))
-        p.toRaw(c)
-      }
+      nodeMapping
+        .propertiesMapping()
+        .filterNot(_.name().isNullOrEmpty) // todo: should centralize PropertyMappingFilter logic
+        .map { p =>
+          val c =
+            category.getOrElse(CategoryRegistry(nodeMapping.nodetypeMapping.value(), p.name().value(), fromDialect.id))
+          p.toRaw(c)
+        }
 
   }
 }

@@ -31,7 +31,7 @@ object ResolveDefault extends ResolveIfApplies with AmfObjectKnowledge {
     applies(defaultStructure(params))
 
   protected final def defaultStructure(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] = Future {
-    if (isWritingProperty(params.astPartBranch))
+    if (params.astPartBranch.isKeyLike)
       if (!isInFieldValue(params)) {
         val isEncoded =
           isEncodes(params.amfObject, params.actualDialect, params.branchStack) && isEmptyFieldOrPrefix(
@@ -41,17 +41,16 @@ object ResolveDefault extends ResolveIfApplies with AmfObjectKnowledge {
           new AMLStructureCompletionsPlugin(params.propertyMapping, params.actualDialect)
             .resolve(params.amfObject.metaURIs.head) ++
             AMLEncodedStructureTemplate.resolve(params)
-        else AMLDeclaredStructureTemplate.resolve(params)
-      } else resolveObjInArray(params)
+        else
+          AMLDeclaredStructureTemplate.resolve(params)
+      } else
+        resolveObjInArray(params)
     else Nil
   }
 
   private def isEmptyFieldOrPrefix(params: AmlCompletionRequest) =
     (params.prefix.isEmpty && params.fieldEntry.isEmpty) ||
       params.prefix.nonEmpty
-
-  private def isWritingProperty(astPartBranch: ASTPartBranch): Boolean =
-    astPartBranch.isKeyLike
 
   protected def objInArray(params: AmlCompletionRequest): Option[DomainElementModel] = {
     params.fieldEntry match {

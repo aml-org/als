@@ -1,16 +1,20 @@
 package org.mulesoft.amfintegration.dialect.dialects.jsonschema.base
 
 import amf.aml.client.scala.model.domain.PropertyMapping
-import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{amlAnyNode, xsdAnyType, xsdBoolean, xsdString}
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdAnyType, xsdBoolean, xsdString}
 import amf.core.internal.metamodel.domain.ShapeModel
 import amf.core.internal.metamodel.domain.extensions.PropertyShapeModel
-import amf.shapes.internal.domain.metamodel.ArrayShapeModel
+import amf.shapes.internal.domain.metamodel.NodeShapeModel
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 trait BaseShapeNode extends DialectNode {
 
   override def name = "Shape"
   override def properties: Seq[PropertyMapping] = Seq(
+    PropertyMapping()
+      .withId(location + s"#declarations/NodeShapeNode/name")
+      .withNodePropertyMapping(NodeShapeModel.Name.value.iri())
+      .withLiteralRange(xsdString.iri()),
     PropertyMapping()
       .withId(location + "#/declarations/ShapeNode/in")
       .withNodePropertyMapping(ShapeModel.Values.value.iri())

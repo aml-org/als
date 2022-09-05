@@ -6,14 +6,14 @@ import amf.shapes.internal.domain.metamodel.{ArrayShapeModel, TupleShapeModel}
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.base.BaseArrayShapeNode.arrayShapeFacets
 
 trait BaseArrayShapeNode extends BaseAnyShapeNode {
-  override def properties: Seq[PropertyMapping] = super.properties ++ arrayShapeFacets
+  override def properties: Seq[PropertyMapping] = super.properties ++ arrayShapeFacets(location)
 
   override def name: String            = "ArrayShape"
   override def nodeTypeMapping: String = ArrayShapeModel.`type`.head.iri()
 }
 
 object BaseArrayShapeNode {
-  def arrayShapeFacets(implicit location: String): Seq[PropertyMapping] =
+  def arrayShapeFacets(location: String): Seq[PropertyMapping] =
     Seq(
       PropertyMapping()
         .withId(location + "#/declarations/ArrayShapeNode/items")

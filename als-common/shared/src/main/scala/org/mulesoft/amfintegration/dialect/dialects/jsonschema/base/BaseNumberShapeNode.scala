@@ -3,7 +3,6 @@ package org.mulesoft.amfintegration.dialect.dialects.jsonschema.base
 import amf.aml.client.scala.model.domain.PropertyMapping
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdFloat, xsdInteger, xsdString}
 import amf.shapes.internal.domain.metamodel.ScalarShapeModel
-import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.NumberShapeAsync2Node.location
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.base.BaseNumberShapeNode.numberShapeFacets
 
 trait BaseNumberShapeNode extends BaseAnyShapeNode {
@@ -12,11 +11,11 @@ trait BaseNumberShapeNode extends BaseAnyShapeNode {
 
   override def name: String = "NumberShape"
 
-  override def properties: Seq[PropertyMapping] = super.properties ++ numberShapeFacets
+  override def properties: Seq[PropertyMapping] = super.properties ++ numberShapeFacets(location)
 }
 
 object BaseNumberShapeNode {
-  def numberShapeFacets(implicit location: String): Seq[PropertyMapping] =
+  def numberShapeFacets(location: String): Seq[PropertyMapping] =
     Seq(
       PropertyMapping()
         .withId(location + "#/declarations/ScalarShapeNode/minimum")

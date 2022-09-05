@@ -570,36 +570,6 @@
     "command": null
   },
   {
-    "label": "name",
-    "kind": [],
-    "detail": "docs",
-    "documentation": "name",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11name",
-    "filterText": "name: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 6,
-          "character": 10
-        },
-        "end": {
-          "line": 6,
-          "character": 10
-        }
-      },
-      "newText": "name: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "not",
     "kind": [],
     "detail": "unknown",

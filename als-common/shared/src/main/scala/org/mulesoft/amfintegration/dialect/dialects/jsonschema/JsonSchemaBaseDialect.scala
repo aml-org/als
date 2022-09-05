@@ -9,7 +9,7 @@ import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 abstract class JsonSchemaBaseDialect extends BaseDialect {
 
-  override val DialectLocation: String
+  override def DialectLocation: String
 
   override protected val name: String = Spec.JSONSCHEMA.toString
   override protected val version: String
@@ -20,13 +20,13 @@ abstract class JsonSchemaBaseDialect extends BaseDialect {
 
   protected def baseProps(location: String): Seq[PropertyMapping] = Nil
 
-  protected val nilShape: DialectNode   = new NilShapeJsonSchemaNode(baseProps)
-  protected val shapeNode: DialectNode  = new ShapeJsonSchemaNode(baseProps)
-  protected val anyShape: DialectNode   = new AnyShapeJsonSchemaNode(baseProps)
-  protected val arrayShape: DialectNode = new ArrayShapeJsonSchemaNode(baseProps)
-  protected val nodeShape: DialectNode  = new NodeShapeJsonSchemaNode(baseProps)
-  protected val numberNode: DialectNode = new NumberShapeJsonSchemaNode(baseProps)
-  protected val stringNode: DialectNode = new StringShapeJsonSchemaNode(baseProps)
+  protected val nilShape: DialectNode   = new NilShapeJsonSchemaNode(DialectLocation, baseProps)
+  protected val shapeNode: DialectNode  = new ShapeJsonSchemaNode(DialectLocation, baseProps)
+  protected val anyShape: DialectNode   = new AnyShapeJsonSchemaNode(DialectLocation, baseProps)
+  protected val arrayShape: DialectNode = new ArrayShapeJsonSchemaNode(DialectLocation, baseProps)
+  protected val nodeShape: DialectNode  = new NodeShapeJsonSchemaNode(DialectLocation, baseProps)
+  protected val numberNode: DialectNode = new NumberShapeJsonSchemaNode(DialectLocation, baseProps)
+  protected val stringNode: DialectNode = new StringShapeJsonSchemaNode(DialectLocation, baseProps)
 
   override val declares: Seq[DialectNode] = Seq(
     nilShape,
