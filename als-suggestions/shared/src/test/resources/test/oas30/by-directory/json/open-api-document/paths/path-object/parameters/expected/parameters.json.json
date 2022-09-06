@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11allowEmptyValue",
-    "filterText": "\"allowEmptyValue\": \"$1\"",
+    "filterText": "\"allowEmptyValue\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -53,7 +53,7 @@
           "character": 12
         }
       },
-      "newText": "\"allowEmptyValue\": \"$1\""
+      "newText": "\"allowEmptyValue\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11allowReserved",
-    "filterText": "\"allowReserved\": \"$1\"",
+    "filterText": "\"allowReserved\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -83,7 +83,7 @@
           "character": 12
         }
       },
-      "newText": "\"allowReserved\": \"$1\""
+      "newText": "\"allowReserved\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11deprecated",
-    "filterText": "\"deprecated\": \"$1\"",
+    "filterText": "\"deprecated\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -143,7 +143,7 @@
           "character": 12
         }
       },
-      "newText": "\"deprecated\": \"$1\""
+      "newText": "\"deprecated\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -247,7 +247,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11explode",
-    "filterText": "\"explode\": \"$1\"",
+    "filterText": "\"explode\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -263,7 +263,7 @@
           "character": 12
         }
       },
-      "newText": "\"explode\": \"$1\""
+      "newText": "\"explode\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -337,7 +337,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10required",
-    "filterText": "\"required\": \"$1\"",
+    "filterText": "\"required\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -353,7 +353,7 @@
           "character": 12
         }
       },
-      "newText": "\"required\": \"$1\""
+      "newText": "\"required\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

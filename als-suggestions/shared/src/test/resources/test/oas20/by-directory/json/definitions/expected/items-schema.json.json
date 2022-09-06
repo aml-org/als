@@ -277,7 +277,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11readOnly",
-    "filterText": "\"readOnly\": \"$1\"",
+    "filterText": "\"readOnly\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -293,7 +293,7 @@
           "character": 10
         }
       },
-      "newText": "\"readOnly\": \"$1\""
+      "newText": "\"readOnly\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -307,7 +307,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11required",
-    "filterText": "\"required\": \"$1\"",
+    "filterText": "\"required\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -323,7 +323,7 @@
           "character": 10
         }
       },
-      "newText": "\"required\": \"$1\""
+      "newText": "\"required\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
