@@ -1,16 +1,15 @@
 package org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft2019
 
 import amf.aml.client.scala.model.domain.PropertyMapping
-import amf.shapes.internal.spec.common.{JSONSchemaDraft201909SchemaVersion, JSONSchemaDraft7SchemaVersion}
+import amf.shapes.internal.spec.common.JSONSchemaDraft201909SchemaVersion
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.JsonSchemaBaseDialect
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.base.BaseJsonSchemaDocumentNode
-import org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft4.Draft4RootNode
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft7.Draft7RootNode
 import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 object JsonSchemaDraft2019Dialect extends JsonSchemaBaseDialect {
 
-  override val DialectLocation: String = dialectLocation
+  override def DialectLocation: String = dialectLocation
 
   override protected val version: String = JSONSchemaDraft201909SchemaVersion.url
 

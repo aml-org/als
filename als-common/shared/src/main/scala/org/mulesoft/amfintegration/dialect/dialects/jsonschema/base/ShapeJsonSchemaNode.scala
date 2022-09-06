@@ -1,44 +1,41 @@
 package org.mulesoft.amfintegration.dialect.dialects.jsonschema.base
 
 import amf.aml.client.scala.model.domain.PropertyMapping
-import org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft7.dialectLocation
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdAnyType
+import amf.core.internal.metamodel.domain.ShapeModel
 
-trait BaseShapeJsonSchemaNode extends BaseShapeNode {
-  override implicit def location: String = dialectLocation
-}
-
-class ShapeJsonSchemaNode(baseProps: String => Seq[PropertyMapping] = _ => Nil)
-    extends BaseShapeNode
-    with BaseShapeJsonSchemaNode {
+class ShapeJsonSchemaNode(dialectLocation: String, baseProps: String => Seq[PropertyMapping] = _ => Nil)
+    extends BaseShapeNode {
+  override def location: String                 = dialectLocation
   override def properties: Seq[PropertyMapping] = super.properties ++ baseProps(location)
 }
 
-class AnyShapeJsonSchemaNode(baseProps: String => Seq[PropertyMapping] = _ => Nil)
-    extends BaseAnyShapeNode
-    with BaseShapeJsonSchemaNode {
+class AnyShapeJsonSchemaNode(dialectLocation: String, baseProps: String => Seq[PropertyMapping] = _ => Nil)
+    extends BaseAnyShapeNode {
+  override def location: String                 = dialectLocation
   override def properties: Seq[PropertyMapping] = super.properties ++ baseProps(location)
 }
 
-class ArrayShapeJsonSchemaNode(baseProps: String => Seq[PropertyMapping] = _ => Nil)
-    extends BaseArrayShapeNode
-    with BaseShapeJsonSchemaNode {
+class ArrayShapeJsonSchemaNode(dialectLocation: String, baseProps: String => Seq[PropertyMapping] = _ => Nil)
+    extends BaseArrayShapeNode {
+  override def location: String                 = dialectLocation
   override def properties: Seq[PropertyMapping] = super.properties ++ baseProps(location)
 }
 
-class NodeShapeJsonSchemaNode(baseProps: String => Seq[PropertyMapping] = _ => Nil)
-    extends BaseNodeShapeNode
-    with BaseShapeJsonSchemaNode {
+class NodeShapeJsonSchemaNode(dialectLocation: String, baseProps: String => Seq[PropertyMapping] = _ => Nil)
+    extends BaseNodeShapeNode {
+  override def location: String                 = dialectLocation
   override def properties: Seq[PropertyMapping] = super.properties ++ baseProps(location)
 }
 
-class NumberShapeJsonSchemaNode(baseProps: String => Seq[PropertyMapping] = _ => Nil)
-    extends BaseNumberShapeNode
-    with BaseShapeJsonSchemaNode {
+class NumberShapeJsonSchemaNode(dialectLocation: String, baseProps: String => Seq[PropertyMapping] = _ => Nil)
+    extends BaseNumberShapeNode {
+  override def location: String                 = dialectLocation
   override def properties: Seq[PropertyMapping] = super.properties ++ baseProps(location)
 }
 
-class StringShapeJsonSchemaNode(baseProps: String => Seq[PropertyMapping] = _ => Nil)
-    extends BaseStringShapeNode
-    with BaseShapeJsonSchemaNode {
+class StringShapeJsonSchemaNode(dialectLocation: String, baseProps: String => Seq[PropertyMapping] = _ => Nil)
+    extends BaseStringShapeNode {
+  override def location: String                 = dialectLocation
   override def properties: Seq[PropertyMapping] = super.properties ++ baseProps(location)
 }

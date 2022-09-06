@@ -48,7 +48,7 @@ trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin with WritingS
         s
     }
 
-    val classSuggestions =
+    val classSuggestions: Seq[RawSuggestion] =
       node.map(n => n.propertiesRaw(fromDialect = dialect)).getOrElse(Nil)
 
     // corner case, property shape should suggest facets of the range PLUS required

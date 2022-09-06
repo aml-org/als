@@ -8,7 +8,7 @@ import org.mulesoft.amfintegration.dialect.dialects.oas.nodes.DialectNode
 
 object JsonSchemaDraft4Dialect extends JsonSchemaBaseDialect {
 
-  override val DialectLocation: String = dialectLocation
+  override def DialectLocation: String = dialectLocation
 
   override protected val version: String = JSONSchemaDraft4SchemaVersion.url
 

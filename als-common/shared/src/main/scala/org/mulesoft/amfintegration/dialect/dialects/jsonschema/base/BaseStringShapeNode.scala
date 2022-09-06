@@ -7,7 +7,7 @@ import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.StringShap
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.base.BaseStringShapeNode.stringShapeFacets
 
 trait BaseStringShapeNode extends BaseAnyShapeNode {
-  override def properties: Seq[PropertyMapping] = super.properties ++ stringShapeFacets
+  override def properties: Seq[PropertyMapping] = super.properties ++ stringShapeFacets(location)
 
   override def name = "StringShape"
 
@@ -15,7 +15,7 @@ trait BaseStringShapeNode extends BaseAnyShapeNode {
 }
 
 object BaseStringShapeNode {
-  def stringShapeFacets(implicit location: String): Seq[PropertyMapping] =
+  def stringShapeFacets(location: String): Seq[PropertyMapping] =
     Seq(
       PropertyMapping()
         .withId(location + "#/declarations/ScalarShapeNode/pattern")
