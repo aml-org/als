@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11exclusiveMaximum",
-    "filterText": "\"exclusiveMaximum\": \"$1\"",
+    "filterText": "\"exclusiveMaximum\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -173,7 +173,7 @@
           "character": 8
         }
       },
-      "newText": "\"exclusiveMaximum\": \"$1\""
+      "newText": "\"exclusiveMaximum\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -187,7 +187,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11exclusiveMinimum",
-    "filterText": "\"exclusiveMinimum\": \"$1\"",
+    "filterText": "\"exclusiveMinimum\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -203,7 +203,7 @@
           "character": 8
         }
       },
-      "newText": "\"exclusiveMinimum\": \"$1\""
+      "newText": "\"exclusiveMinimum\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -277,7 +277,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11maximum",
-    "filterText": "\"maximum\": \"$1\"",
+    "filterText": "\"maximum\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -293,7 +293,7 @@
           "character": 8
         }
       },
-      "newText": "\"maximum\": \"$1\""
+      "newText": "\"maximum\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -307,7 +307,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11minimum",
-    "filterText": "\"minimum\": \"$1\"",
+    "filterText": "\"minimum\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -323,7 +323,7 @@
           "character": 8
         }
       },
-      "newText": "\"minimum\": \"$1\""
+      "newText": "\"minimum\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -337,7 +337,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11multipleOf",
-    "filterText": "\"multipleOf\": \"$1\"",
+    "filterText": "\"multipleOf\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -353,7 +353,7 @@
           "character": 8
         }
       },
-      "newText": "\"multipleOf\": \"$1\""
+      "newText": "\"multipleOf\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -367,7 +367,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11readOnly",
-    "filterText": "\"readOnly\": \"$1\"",
+    "filterText": "\"readOnly\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -383,7 +383,7 @@
           "character": 8
         }
       },
-      "newText": "\"readOnly\": \"$1\""
+      "newText": "\"readOnly\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -397,7 +397,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11required",
-    "filterText": "\"required\": \"$1\"",
+    "filterText": "\"required\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -413,7 +413,7 @@
           "character": 8
         }
       },
-      "newText": "\"required\": \"$1\""
+      "newText": "\"required\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

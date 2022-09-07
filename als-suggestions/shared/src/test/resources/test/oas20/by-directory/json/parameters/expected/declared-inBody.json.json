@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "10required",
-    "filterText": "\"required\": \"$1\"",
+    "filterText": "\"required\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -113,7 +113,7 @@
           "character": 8
         }
       },
-      "newText": "\"required\": \"$1\""
+      "newText": "\"required\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

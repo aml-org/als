@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11additionalProperties",
-    "filterText": "\"additionalProperties\": \"$1\"",
+    "filterText": "\"additionalProperties\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -23,7 +23,7 @@
           "character": 8
         }
       },
-      "newText": "\"additionalProperties\": \"$1\""
+      "newText": "\"additionalProperties\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -247,7 +247,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11maxProperties",
-    "filterText": "\"maxProperties\": \"$1\"",
+    "filterText": "\"maxProperties\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -263,7 +263,7 @@
           "character": 8
         }
       },
-      "newText": "\"maxProperties\": \"$1\""
+      "newText": "\"maxProperties\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -277,7 +277,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11minProperties",
-    "filterText": "\"minProperties\": \"$1\"",
+    "filterText": "\"minProperties\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -293,7 +293,7 @@
           "character": 8
         }
       },
-      "newText": "\"minProperties\": \"$1\""
+      "newText": "\"minProperties\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -337,7 +337,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11readOnly",
-    "filterText": "\"readOnly\": \"$1\"",
+    "filterText": "\"readOnly\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -353,7 +353,7 @@
           "character": 8
         }
       },
-      "newText": "\"readOnly\": \"$1\""
+      "newText": "\"readOnly\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -367,7 +367,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11required",
-    "filterText": "\"required\": \"$1\"",
+    "filterText": "\"required\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -383,7 +383,7 @@
           "character": 8
         }
       },
-      "newText": "\"required\": \"$1\""
+      "newText": "\"required\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

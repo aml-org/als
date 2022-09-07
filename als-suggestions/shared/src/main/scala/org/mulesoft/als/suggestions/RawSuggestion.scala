@@ -121,9 +121,18 @@ object RawSuggestion {
       category: String,
       mandatory: Boolean,
       displayText: Option[String] = None,
-      children: Seq[RawSuggestion] = Seq.empty
+      children: Seq[RawSuggestion] = Seq.empty,
+      rangeKind: RangeKind = StringScalarRange
   ): RawSuggestion =
-    apply(value, isAKey = true, category = category, mandatory = mandatory, displayText, children)
+    new RawSuggestion(
+      value,
+      displayText.getOrElse(value),
+      value,
+      Seq.empty,
+      category,
+      options = SuggestionStructure(rangeKind = rangeKind, isKey = true, isMandatory = mandatory),
+      children = children
+    )
 
   def apply(value: String, isAKey: Boolean): RawSuggestion =
     apply(value, isAKey, "unknown", mandatory = false)

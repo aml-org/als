@@ -1,13 +1,13 @@
 [
   {
-    "label": "maxItems",
+    "label": "deprecated",
     "kind": [],
     "detail": "unknown",
-    "documentation": "maxItems",
+    "documentation": "deprecated",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11maxItems",
-    "filterText": "\"maxItems\": $1,",
+    "sortText": "11deprecated",
+    "filterText": "\"deprecated\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -15,15 +15,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 15,
-          "character": 10
+          "line": 19,
+          "character": 8
         },
         "end": {
-          "line": 15,
-          "character": 18
+          "line": 19,
+          "character": 19
         }
       },
-      "newText": "\"maxItems\": $1,"
+      "newText": "\"deprecated\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

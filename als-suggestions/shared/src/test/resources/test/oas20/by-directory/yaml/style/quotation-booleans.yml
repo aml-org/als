@@ -1,0 +1,22 @@
+swagger: '2.0'
+info:
+  title: t
+  version: '1'
+paths:
+  /path:
+    get:
+      security:
+        - internalApiKey:
+            - 'write:pets'
+      responses:
+        '200':
+          description: Something
+      deprecat*
+securityDefinitions:
+  internalApiKey:
+    type: oauth2
+    flow: password
+    tokenUrl: something
+    scopes:
+      'write:pets': something
+      'read:pets': something

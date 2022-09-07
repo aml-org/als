@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11deprecated",
-    "filterText": "\"deprecated\": \"$1\"",
+    "filterText": "\"deprecated\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -83,7 +83,7 @@
           "character": 10
         }
       },
-      "newText": "\"deprecated\": \"$1\""
+      "newText": "\"deprecated\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -307,7 +307,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11nullable",
-    "filterText": "\"nullable\": \"$1\"",
+    "filterText": "\"nullable\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -323,7 +323,7 @@
           "character": 10
         }
       },
-      "newText": "\"nullable\": \"$1\""
+      "newText": "\"nullable\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -397,7 +397,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11readOnly",
-    "filterText": "\"readOnly\": \"$1\"",
+    "filterText": "\"readOnly\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -413,7 +413,7 @@
           "character": 10
         }
       },
-      "newText": "\"readOnly\": \"$1\""
+      "newText": "\"readOnly\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -427,7 +427,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11required",
-    "filterText": "\"required\": \"$1\"",
+    "filterText": "\"required\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -443,7 +443,7 @@
           "character": 10
         }
       },
-      "newText": "\"required\": \"$1\""
+      "newText": "\"required\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -517,7 +517,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11writeOnly",
-    "filterText": "\"writeOnly\": \"$1\"",
+    "filterText": "\"writeOnly\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -533,7 +533,7 @@
           "character": 10
         }
       },
-      "newText": "\"writeOnly\": \"$1\""
+      "newText": "\"writeOnly\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
