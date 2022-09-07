@@ -457,7 +457,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11required",
-    "filterText": "required: ",
+    "filterText": "required:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -473,7 +473,7 @@
           "character": 10
         }
       },
-      "newText": "required: "
+      "newText": "required:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

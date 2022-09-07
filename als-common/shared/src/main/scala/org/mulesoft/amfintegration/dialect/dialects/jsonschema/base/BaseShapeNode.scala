@@ -87,7 +87,8 @@ trait BaseShapeNode extends DialectNode {
       .withId(location + "#/declarations/SchemaObject/required")
       .withName("required")
       .withNodePropertyMapping(PropertyShapeModel.MinCount.value.iri())
-      .withLiteralRange(xsdBoolean.iri())
+      .withLiteralRange(xsdString.iri())
+      .withAllowMultiple(true)
   )
 
   override def nodeTypeMapping: String = ShapeModel.`type`.head.iri()

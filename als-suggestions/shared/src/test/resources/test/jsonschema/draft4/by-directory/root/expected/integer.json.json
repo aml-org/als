@@ -547,7 +547,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11required",
-    "filterText": "\"required\": $1",
+    "filterText": "\"required\": [\n  \"$1\"\n]",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -563,7 +563,7 @@
           "character": 2
         }
       },
-      "newText": "\"required\": $1"
+      "newText": "\"required\": [\n  \"$1\"\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
