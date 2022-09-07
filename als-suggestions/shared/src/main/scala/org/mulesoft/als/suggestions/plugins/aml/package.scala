@@ -3,8 +3,8 @@ package org.mulesoft.als.suggestions.plugins
 import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdDouble, xsdFloat, xsdInteger}
-import org.mulesoft.als.suggestions.plugins.aml.categories.CategoryRegistry
 import org.mulesoft.als.suggestions._
+import org.mulesoft.als.suggestions.plugins.aml.categories.CategoryRegistry
 
 package object aml {
 
@@ -15,14 +15,9 @@ package object aml {
           RawSuggestion.keyOfArray(p.name().value(), category)
         else
           RawSuggestion.forObject(p.name().value(), category, p.minCount().value() > 0)
-      else {
-        val range: RangeKind = p.literalRange().option() match {
-          case Some(value) if value == xsdBoolean.iri() => BoolScalarRange
-          case Some(value) if (value == xsdDouble.iri() || value == xsdFloat.iri() || value == xsdInteger.iri()) => NumberScalarRange
-          case _ => StringScalarRange
-        }
-        RawSuggestion.forKey(p.name().value(), category = category, p.minCount().value() > 0, rangeKind = range)
-      }
+      else
+        RawSuggestion
+          .forKey(p.name().value(), category = category, p.minCount().value() > 0, rangeKind = getRangeKind(p))
     }
   }
 
@@ -38,5 +33,15 @@ package object aml {
           p.toRaw(c)
         }
 
+  }
+
+  private def getRangeKind(p: PropertyMapping): RangeKind = p.literalRange().option() match {
+    case Some(value) if value == xsdBoolean.iri() => BoolScalarRange
+    case Some(value) if isXsdNumber(value) => NumberScalarRange
+    case _ => StringScalarRange
+  }
+
+  private def isXsdNumber(value: String) = {
+    value == xsdDouble.iri() || value == xsdFloat.iri() || value == xsdInteger.iri()
   }
 }
