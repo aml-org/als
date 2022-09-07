@@ -1,0 +1,5 @@
+package org.mulesoft.als.suggestions.plugins.aml.webapi.jsonSchema
+
+import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.OASLikeRequiredObjectCompletionPlugin
+
+object JsonSchemaRequiredObjectCompletionPlugin extends OASLikeRequiredObjectCompletionPlugin

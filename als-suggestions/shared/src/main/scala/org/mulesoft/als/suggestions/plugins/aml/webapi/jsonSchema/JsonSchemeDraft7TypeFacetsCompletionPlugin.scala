@@ -1,4 +1,4 @@
-package org.mulesoft.als.suggestions.plugins.aml.webapi.jsonSchema.draft7
+package org.mulesoft.als.suggestions.plugins.aml.webapi.jsonSchema
 
 import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.NodeMapping
