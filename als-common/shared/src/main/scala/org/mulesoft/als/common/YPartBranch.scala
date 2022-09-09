@@ -213,13 +213,12 @@ object NodeBranchBuilder {
 
   }
 
-  def buildElement(ast: ASTElement, position: AmfPosition, isJson: Boolean): ASTPartBranch = {
+  def buildElement(ast: ASTElement, position: AmfPosition, isJson: Boolean): ASTPartBranch =
     ast match {
       case node: ASTNode => buildAST(node, position)
       case ypart: YPart  => build(ypart, position, isJson)
       case _             => YPartBranch(YDocument(IndexedSeq.empty, ""), position, Nil, isJson, false)
     }
-  }
 
   private def findMutualYMapParent(start: ASTPartBranch, end: ASTPartBranch, isJson: Boolean): Option[ASTElement] = {
     start.stack

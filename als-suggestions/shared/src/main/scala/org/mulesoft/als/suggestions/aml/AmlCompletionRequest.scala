@@ -66,11 +66,11 @@ class AmlCompletionRequest(
   def prefix: String = styler.params.prefix
 
   val propertyMapping: List[PropertyMapping] = {
-    val mappings: List[PropertyMapping] = (currentNode match {
+    val mappings: List[PropertyMapping] = currentNode match {
       case Some(nm: NodeMapping) =>
         PropertyMappingFilter(objectInTree, nodeDialect, nm).filter().toList
       case _ => Nil
-    })
+    }
 
     fieldEntry match {
       case Some(e) =>

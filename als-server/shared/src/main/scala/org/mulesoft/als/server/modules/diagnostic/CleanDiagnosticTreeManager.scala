@@ -1,26 +1,18 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf.aml.client.scala.model.document.{Dialect, DialectInstance}
 import amf.core.client.scala.AMFResult
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.validation.AMFValidationReport
 import org.mulesoft.als.common.URIImplicits._
-import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.feature.diagnostic._
 import org.mulesoft.als.server.modules.configuration.WorkspaceConfigurationProvider
 import org.mulesoft.als.server.modules.diagnostic.custom.CustomValidationManager
-import org.mulesoft.als.server.modules.workspace.DefaultProjectConfiguration
 import org.mulesoft.als.server.textsync.EnvironmentProvider
-import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
-import org.mulesoft.amfintegration.ValidationProfile
 import org.mulesoft.amfintegration.amfconfiguration.{
   ALSConfigurationState,
   AMLSpecificConfiguration,
-  EditorConfiguration,
-  EditorConfigurationState,
-  EmptyProjectConfigurationState,
   AmfResult => AmfResultWrap
 }
 import org.mulesoft.lsp.ConfigType

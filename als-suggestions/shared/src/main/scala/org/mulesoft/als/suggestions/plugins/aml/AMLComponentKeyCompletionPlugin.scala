@@ -2,13 +2,13 @@ package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.NodeMapping
+import amf.core.client.scala.model.document.Module
 import amf.core.client.scala.model.domain.AmfObject
-import org.mulesoft.als.common.{ASTPartBranch, YPartBranch}
+import org.mulesoft.als.common.ASTPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.amfintegration.AmfImplicits.AmfObjectImp
-import org.yaml.model.YMapEntry
 
 import scala.concurrent.Future
 
@@ -32,14 +32,16 @@ object AMLComponentKeyCompletionPlugin extends AMLCompletionPlugin {
     } else Seq()
   }
 
-  private def inRoot(amfObject: AmfObject, dialect: Dialect): Boolean =
+  private def inRoot(amfObject: AmfObject, dialect: Dialect): Boolean = {
     dialect
       .documents()
       .root()
       .encoded()
       .option()
       .flatMap(id => dialect.declares.collectFirst({ case n: NodeMapping if id == n.id => n }))
-      .exists(i => amfObject.metaURIs.contains(i.nodetypeMapping.value()))
+      .exists(i => amfObject.metaURIs.contains(i.nodetypeMapping.value())) ||
+    amfObject.isInstanceOf[Module]
+  }
 
   private def buildDeclaredKeys(dialect: Dialect) = {
     dialect

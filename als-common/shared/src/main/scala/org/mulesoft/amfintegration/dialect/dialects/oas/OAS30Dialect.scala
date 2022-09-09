@@ -31,6 +31,7 @@ object OAS30Dialect extends OasBaseDialect {
           Oas20ScopeObject,
           AMLEncodingObject,
           Oas30WebApiNode,
+          Oas30ComponentNode,
           Oas30ResponseObject,
           Oas30OAuth20SecurityObject,
           Oas30SecuritySchemeObject,

@@ -2,11 +2,11 @@ package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
+import amf.core.client.scala.model.document.Module
 import amf.core.internal.metamodel.Field
 import amf.core.internal.metamodel.Type.ArrayLike
 import amf.core.internal.metamodel.domain.DomainElementModel
 import amf.core.internal.parser.domain.FieldEntry
-import org.mulesoft.als.common.ASTPartBranch
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.{AmfObjectKnowledge, DisjointCompletionPlugins, ResolveIfApplies}
@@ -37,7 +37,10 @@ object ResolveDefault extends ResolveIfApplies with AmfObjectKnowledge {
           isEncodes(params.amfObject, params.actualDialect, params.branchStack) && isEmptyFieldOrPrefix(
             params
           )
-        if (((isEncoded && params.astPartBranch.isAtRoot) || !isEncoded) && isEmptyFieldOrPrefix(params))
+        val isEncodedOrModule = isEncoded || params.amfObject.isInstanceOf[Module]
+        if (
+          ((isEncodedOrModule && params.astPartBranch.isAtRoot) || !isEncodedOrModule) && isEmptyFieldOrPrefix(params)
+        )
           new AMLStructureCompletionsPlugin(params.propertyMapping, params.actualDialect)
             .resolve(params.amfObject.metaURIs.head) ++
             AMLEncodedStructureTemplate.resolve(params)

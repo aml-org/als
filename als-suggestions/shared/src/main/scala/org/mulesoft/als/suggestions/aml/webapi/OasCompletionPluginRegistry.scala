@@ -5,12 +5,22 @@ import org.mulesoft.als.suggestions.AMLBaseCompletionPlugins
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.extensions.OasLikeSemanticExtensionsFlavour
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas._
-import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas20.structure.{ResolveParameterEndpoint, ResolveParameterPayload, ResolveRequest}
-import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas20.{Oas20ParameterStructure, Oas20TypeFacetsCompletionPlugin}
+import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas20.structure.{
+  ResolveParameterEndpoint,
+  ResolveParameterPayload,
+  ResolveRequest
+}
+import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas20.{
+  Oas20ParameterStructure,
+  Oas20TypeFacetsCompletionPlugin
+}
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30._
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30.structure.ResolveRequestBody
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.structure._
-import org.mulesoft.als.suggestions.plugins.aml.webapi.{ObjectExamplePropertiesCompletionPlugin, WebApiKnownValueCompletionPlugin}
+import org.mulesoft.als.suggestions.plugins.aml.webapi.{
+  ObjectExamplePropertiesCompletionPlugin,
+  WebApiKnownValueCompletionPlugin
+}
 import org.mulesoft.als.suggestions.plugins.aml.{ResolveDefault, StructureCompletionPlugin}
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
 

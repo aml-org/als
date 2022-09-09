@@ -3,6 +3,7 @@ import amf.aml.client.scala.model.document.{Dialect, DialectInstanceUnit, Vocabu
 import amf.aml.client.scala.model.domain.{AnnotationMapping, SemanticExtension}
 import amf.aml.client.scala.{AMLConfiguration, AMLConfigurationState}
 import amf.apicontract.client.scala._
+import amf.apicontract.client.scala.configuration.OasComponentConfiguration
 import amf.core.client.common.remote.Content
 import amf.core.client.scala.config.{RenderOptions, UnitCache}
 import amf.core.client.scala.model.document.{BaseUnit, ExternalFragment}

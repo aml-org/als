@@ -8,7 +8,6 @@ import amf.shapes.internal.annotations.DocumentDeclarationKey
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.amfintegration.AmfImplicits.AmfObjectImp
 import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect
-import org.mulesoft.amfintegration._
 
 import scala.concurrent.Future
 
