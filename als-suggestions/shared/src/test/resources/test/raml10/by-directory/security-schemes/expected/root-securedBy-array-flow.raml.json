@@ -7,10 +7,10 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11oauth2",
-    "filterText": "oauth2:",
+    "filterText": "oauth2: {\n  $1\n}",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -23,7 +23,7 @@
           "character": 13
         }
       },
-      "newText": "oauth2:"
+      "newText": "oauth2: {\n  $1\n}"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
