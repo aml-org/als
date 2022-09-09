@@ -1,0 +1,16 @@
+#%RAML 1.0
+
+title: testAutoCompleteOnResource
+
+securitySchemes:
+  oauth2:
+    type: OAuth 2.0
+    settings:
+      scopes:
+        - scope1
+        - scope2
+
+traits:
+  trait1:
+    securedBy:
+      - *
