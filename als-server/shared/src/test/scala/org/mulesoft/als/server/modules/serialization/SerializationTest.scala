@@ -177,9 +177,9 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
       val api: String = mockJsonSchemaContent(server)
 
       for {
-        _                 <- alsClient.nextCall.map(_.model.toString)
-        s                 <- serialize(server, api, serializationProps)
-        parsed            <- parsedApi(api, s)
+        _      <- alsClient.nextCall.map(_.model.toString)
+        s      <- serialize(server, api, serializationProps)
+        parsed <- parsedApi(api, s)
       } yield {
         assertSimpleJsonSchema(parsed.baseUnit)
       }
@@ -415,6 +415,39 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
         (extensionSerialized != mainSerialized1) should be(true)
         (extensionSerialized != overlaySerialized) should be(true)
         (overlaySerialized != mainSerialized1) should be(true)
+      }
+    }
+  }
+
+  test("Files inside tree should respond subset") {
+    val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
+    val serializationProps: SerializationProps[StringWriter] =
+      new SerializationProps[StringWriter](alsClient) {
+        override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
+          JsonOutputBuilder(prettyPrint)
+      }
+    val mainUrl     = filePath("tree/main.raml")
+    val library     = filePath("tree/library.raml")
+    val datatype    = filePath("tree/type.raml")
+    val folder      = filePath("tree")
+    val initialArgs = changeConfigArgs(Some("main.raml"), folder)
+    withServer(
+      buildServer(serializationProps),
+      AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(folder))
+    ) { server =>
+      for {
+        _                  <- changeWorkspaceConfiguration(server)(initialArgs)
+        mainSerialized     <- serialize(server, mainUrl, serializationProps)
+        librarySerialized  <- serialize(server, library, serializationProps)
+        datatypeSerialized <- serialize(server, datatype, serializationProps)
+      } yield {
+        assert(mainSerialized.contains("\"Main API\""))
+        assert(datatypeSerialized.contains("\"doc:Fragment\""))
+        assert(!datatypeSerialized.contains("doc:declares"))
+        assert(!datatypeSerialized.contains("\"Main API\""))
+        assert(librarySerialized.contains("\"doc:Fragment\""))
+        assert(librarySerialized.contains("doc:declares"))
+        assert(!librarySerialized.contains("\"Main API\""))
       }
     }
   }
