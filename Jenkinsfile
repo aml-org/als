@@ -49,6 +49,7 @@ pipeline {
                 not {
                     anyOf {
                         branch 'master'
+                        branch 'support/v*'
                         branch 'rc/*'
                     }
                 }
@@ -126,6 +127,7 @@ pipeline {
                 anyOf {
                     branch 'master'
                     branch 'develop'
+                    branch 'support/v*'
                     branch 'rc/*'
                 }
             }
@@ -155,6 +157,7 @@ pipeline {
                 anyOf {
                     branch 'master'
                     branch 'develop'
+                    branch 'support/v*'
                     branch 'rc/*'
                 }
             }
@@ -186,6 +189,7 @@ pipeline {
                 anyOf {
                     branch 'master'
                     branch 'develop'
+                    branch 'support/v*'
                     branch 'rc/*'
                 }
             }
@@ -207,6 +211,7 @@ pipeline {
                 anyOf {
                     branch 'develop'
                     branch 'rc/*'
+                    branch 'support/v*'
                     branch 'master'
                 }
             }
