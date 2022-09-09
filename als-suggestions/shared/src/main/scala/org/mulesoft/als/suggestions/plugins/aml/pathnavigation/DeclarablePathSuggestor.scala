@@ -1,25 +1,30 @@
 package org.mulesoft.als.suggestions.plugins.aml.pathnavigation
 
+import amf.apicontract.client.scala.model.document.ComponentModule
 import amf.core.client.scala.model.document.DeclaresModel
 import amf.core.client.scala.model.domain.NamedDomainElement
 import amf.shapes.client.scala.model.document.JsonSchemaDocument
 import amf.shapes.internal.annotations.DocumentDeclarationKey
 import org.mulesoft.als.suggestions.RawSuggestion
+import org.mulesoft.amfintegration.AmfImplicits.AmfObjectImp
+import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect
+import org.mulesoft.amfintegration._
 
 import scala.concurrent.Future
 
 object DeclarablePathSuggestor {
-  def apply(schema: DeclaresModel, prefix: String): DeclarablePathSuggestor =
-    schema match {
-      case json: JsonSchemaDocument => JsonSchemaSuggestor(json, prefix)
-      case _                        => new DeclarablePathSuggestor(schema, prefix)
+  def apply(declared: DeclaresModel, prefix: String): DeclarablePathSuggestor =
+    declared match {
+      case json: JsonSchemaDocument   => JsonSchemaSuggestor(json, prefix)
+      case component: ComponentModule => ComponentSuggestor(component, prefix)
+      case _                          => new DeclarablePathSuggestor(declared, prefix)
     }
 
 }
 
-sealed class DeclarablePathSuggestor(schema: DeclaresModel, prefix: String) extends PathSuggestor {
+sealed class DeclarablePathSuggestor(declarations: DeclaresModel, prefix: String) extends PathSuggestor {
   override def suggest(): Future[Seq[RawSuggestion]] = {
-    val names = schema.declares.flatMap {
+    val names = declarations.declares.flatMap {
       case named: NamedDomainElement => named.name.option()
       case _                         => None
     }
@@ -38,5 +43,24 @@ sealed case class JsonSchemaSuggestor(schema: JsonSchemaDocument, prefix: String
   override def buildText(name: String): String = {
     val defKey = schema.annotations.find(classOf[DocumentDeclarationKey]).map(_.value).getOrElse("definitions")
     s"/$defKey/$name"
+  }
+}
+
+sealed case class ComponentSuggestor(component: ComponentModule, prefix: String)
+    extends DeclarablePathSuggestor(component, prefix) {
+
+  override def suggest(): Future[Seq[RawSuggestion]] = {
+    val names = component.declares.flatMap {
+      case named: NamedDomainElement =>
+        for {
+          componentsKey <- OAS30Dialect.dialect.documents().declarationsPath().option()
+          declaredKey   <- named.declarableKey(OAS30Dialect.dialect)
+          name          <- named.name.option()
+        } yield {
+          s"/$componentsKey/$declaredKey/$name"
+        }
+      case _ => None
+    }
+    Future.successful(buildSuggestions(names.map(buildText), prefix))
   }
 }

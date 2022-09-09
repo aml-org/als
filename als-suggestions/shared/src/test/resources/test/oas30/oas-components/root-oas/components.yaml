@@ -1,0 +1,15 @@
+openapi: 3.0.0
+info:
+  title: My OAS 3 Library
+  version: 1.0.0
+paths: {}
+
+components:
+  schemas:
+    mySchema1:
+      type:  string
+    mySchema2:
+      type: boolean
+  examples:
+    myExample:
+      description: this is my example
