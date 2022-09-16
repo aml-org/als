@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.test.oas30
 
 import amf.apicontract.client.scala.AMFConfiguration
-import amf.apicontract.client.scala.configuration.OasComponentConfiguration
+import amf.apicontract.client.scala.OASConfiguration
 import amf.core.client.scala.AMFGraphConfiguration
 import amf.core.client.scala.resource.ResourceLoader
 import org.mulesoft.als.configuration.ProjectConfiguration
@@ -63,7 +63,7 @@ class Oas30ComponentSuggestionTest extends AsyncFunSuite with BaseSuggestionsFor
 
   private def suggest(componentName: String): Future[Seq[CompletionItem]] = {
     for {
-      schema <- OasComponentConfiguration
+      schema <- OASConfiguration
         .OAS30Component()
         .baseUnitClient()
         .parse(rootPath + componentName)
@@ -95,6 +95,6 @@ class Oas30ComponentSuggestionTest extends AsyncFunSuite with BaseSuggestionsFor
   ): ALSConfigurationState =
     new ALSConfigurationState(configurationState.editorState, configurationState.projectState, Some(resourceLoader)) {
       override def getAmfConfig: AMFConfiguration =
-        getAmfConfig(OasComponentConfiguration.OAS30Component())
+        getAmfConfig(OASConfiguration.OAS30Component())
     }
 }

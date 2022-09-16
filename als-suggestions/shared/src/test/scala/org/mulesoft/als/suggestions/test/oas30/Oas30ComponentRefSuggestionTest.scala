@@ -1,6 +1,6 @@
 package org.mulesoft.als.suggestions.test.oas30
 
-import amf.apicontract.client.scala.configuration.OasComponentConfiguration
+import amf.apicontract.client.scala.OASConfiguration
 import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.suggestions.test.{BaseSuggestionsForTest, TestProjectConfigurationState}
@@ -11,7 +11,7 @@ import org.scalatest.Matchers.convertToAnyShouldWrapper
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class Oas30OasComponentRefSuggestionTest extends AsyncFunSuite with BaseSuggestionsForTest {
+class Oas30ComponentRefSuggestionTest extends AsyncFunSuite with BaseSuggestionsForTest {
 
   def rootPath: String = "file://als-suggestions/shared/src/test/resources/test/oas30/oas-components/root-oas/"
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
@@ -50,7 +50,7 @@ class Oas30OasComponentRefSuggestionTest extends AsyncFunSuite with BaseSuggesti
 
   private def suggest(api: String, componentName: String): Future[Seq[CompletionItem]] = {
     for {
-      schema <- OasComponentConfiguration
+      schema <- OASConfiguration
         .OAS30Component()
         .baseUnitClient()
         .parse(rootPath + componentName)

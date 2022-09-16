@@ -3,7 +3,7 @@ package org.mulesoft.amfintegration.vocabularies.integration
 import amf.aml.client.scala.model.document.Vocabulary
 import amf.core.client.scala.model.domain.DomainElement
 import amf.core.client.scala.vocabulary.ValueType
-import amf.core.internal.metamodel.domain.common.{DescriptionField, NameFieldSchema}
+import amf.core.internal.metamodel.domain.common.{DescribedElementModel, NameFieldSchema}
 import org.mulesoft.amfintegration.AMLRegistry
 import org.mulesoft.amfintegration.AmfImplicits.DomainElementImp
 
@@ -53,7 +53,7 @@ sealed case class TermsDescription() {
 
   def index(name: String, element: DomainElement): Unit = {
     element
-      .getLiteralProperty(DescriptionField.Description)
+      .getLiteralProperty(DescribedElementModel.Description)
       .map(_.toString)
       .foreach(d => termsDescription.update(name, d))
   }
