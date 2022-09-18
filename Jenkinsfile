@@ -187,6 +187,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
+                    branch 'W-11741227/allow-apb-plug-config'
                 }
             }
             steps {
