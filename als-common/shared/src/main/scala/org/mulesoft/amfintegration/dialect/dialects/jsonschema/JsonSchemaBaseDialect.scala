@@ -16,6 +16,7 @@ abstract class JsonSchemaBaseDialect extends BaseDialect {
 
   override protected def emptyDocument: DocumentsModel =
     DocumentsModel()
+      .withKeyProperty(true)
       .withReferenceStyle(ReferenceStyles.JSONSCHEMA)
 
   protected def baseProps(location: String): Seq[PropertyMapping] = Nil

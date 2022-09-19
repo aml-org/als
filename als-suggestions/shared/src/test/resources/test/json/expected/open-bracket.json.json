@@ -1,5 +1,95 @@
 [
   {
+    "label": "\"$schema\": \"http://json-schema.org/draft-04/schema#\"",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define a JSON Schema http://json-schema.org/draft-04/schema# file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11\"$schema\": \"http://json-schema.org/draft-04/schema#\"",
+    "filterText": "\"$schema\": \"http://json-schema.org/draft-04/schema#\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 1,
+          "character": 2
+        },
+        "end": {
+          "line": 1,
+          "character": 2
+        }
+      },
+      "newText": "\"$schema\": \"http://json-schema.org/draft-04/schema#\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "\"$schema\": \"http://json-schema.org/draft-07/schema#\"",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define a JSON Schema http://json-schema.org/draft-07/schema# file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11\"$schema\": \"http://json-schema.org/draft-07/schema#\"",
+    "filterText": "\"$schema\": \"http://json-schema.org/draft-07/schema#\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 1,
+          "character": 2
+        },
+        "end": {
+          "line": 1,
+          "character": 2
+        }
+      },
+      "newText": "\"$schema\": \"http://json-schema.org/draft-07/schema#\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "\"$schema\": \"http://json-schema.org/draft/2019-09/schema#\"",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Define a JSON Schema http://json-schema.org/draft/2019-09/schema# file",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11\"$schema\": \"http://json-schema.org/draft/2019-09/schema#\"",
+    "filterText": "\"$schema\": \"http://json-schema.org/draft/2019-09/schema#\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 1,
+          "character": 2
+        },
+        "end": {
+          "line": 1,
+          "character": 2
+        }
+      },
+      "newText": "\"$schema\": \"http://json-schema.org/draft/2019-09/schema#\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "\"asyncapi\": \"2.0.0\"",
     "kind": [],
     "detail": "unknown",
