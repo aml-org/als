@@ -41,6 +41,8 @@ case class ALSConfigurationState(
   def configForUnit(unit: BaseUnit): AMLSpecificConfiguration =
     configForSpec(unit.sourceSpec.getOrElse(Spec.AML))
 
+  private val rootConfiguration: AMFConfiguration = projectState.rootProjectConfiguration
+
   def configForDialect(d: Dialect): AMLSpecificConfiguration =
     ProfileMatcher.spec(d) match {
       case Some(Spec.AML)
@@ -49,7 +51,7 @@ case class ALSConfigurationState(
             .contains(
               "file://vocabularies/dialects/metadialect.yaml"
             ) => // TODO change when Dialect name and version be spec
-        AMLSpecificConfiguration(APIConfiguration.APIWithJsonSchema())
+        AMLSpecificConfiguration(rootConfiguration)
       case Some(spec) => configForSpec(spec)
       case _          => AMLSpecificConfiguration(predefinedWithDialects)
     }
@@ -72,7 +74,7 @@ case class ALSConfigurationState(
     getAmfConfig(base)
   }
 
-  def getAmfConfig: AMFConfiguration = getAmfConfig(APIConfiguration.APIWithJsonSchema())
+  def getAmfConfig: AMFConfiguration = getAmfConfig(rootConfiguration)
 
   def getAmfConfig(spec: Spec): AMFConfiguration = {
     val base = spec match {
