@@ -21,11 +21,6 @@ trait BaseShapeNode extends DialectNode {
       .withName("enum")
       .withObjectRange(Seq(xsdAnyType.iri())),
     PropertyMapping()
-      .withId(location + s"#/declarations/ShapeNode/const")
-      .withName("const")
-      .withNodePropertyMapping(ShapeModel.Values.value.iri())
-      .withLiteralRange(xsdAnyType.iri()),
-    PropertyMapping()
       .withId(location + "#/declarations/ShapeNode/inherits")
       .withNodePropertyMapping(ShapeModel.Inherits.value.iri())
       .withName("type")

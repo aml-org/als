@@ -97,19 +97,19 @@ trait JsonSchemaForOasWrapper {
       .withLiteralRange(xsdAnyType.iri())
   )
 
-  val SchemaObject = NodeMapping()
+  val SchemaObject: NodeMapping = NodeMapping()
     .withId(Oas20SchemaObject.id)
     .withName("SchemaObject")
     .withNodeTypeMapping(ShapeModel.`type`.head.iri())
     .withPropertiesMapping(common)
 
-  val AnySchemaObject = NodeMapping()
+  val AnySchemaObject: NodeMapping = NodeMapping()
     .withId("#/declarations/AnySchemaObject")
     .withName("AnySchemaObject")
     .withNodeTypeMapping(AnyShapeModel.`type`.head.iri())
     .withPropertiesMapping(common)
 
-  val StringSchemaObject = NodeMapping()
+  val StringSchemaObject: NodeMapping = NodeMapping()
     .withId("#/declarations/StringSchemaObject")
     .withName("StringSchemaObject")
     .withNodeTypeMapping("StringSchemaObject.id")
@@ -162,7 +162,7 @@ trait JsonSchemaForOasWrapper {
       .withId(DialectLocation + "#/declarations/SchemaObject/exclusiveMaximum")
       .withName("exclusiveMaximum")
       .withNodePropertyMapping(ScalarShapeModel.ExclusiveMaximum.value.iri())
-      .withLiteralRange(xsdDouble.iri()),
+      .withLiteralRange(xsdBoolean.iri()),
     PropertyMapping()
       .withId(DialectLocation + "#/declarations/SchemaObject/minimum")
       .withName("minimum")
@@ -172,7 +172,7 @@ trait JsonSchemaForOasWrapper {
       .withId(DialectLocation + "#/declarations/SchemaObject/exclusiveMinimum")
       .withName("exclusiveMinimum")
       .withNodePropertyMapping(ScalarShapeModel.ExclusiveMinimum.value.iri())
-      .withLiteralRange(xsdDouble.iri())
+      .withLiteralRange(xsdBoolean.iri())
   )
   val IntegerSchemaObject: NodeMapping = NodeMapping()
     .withId("#/declarations/IntegerSchemaObject")
