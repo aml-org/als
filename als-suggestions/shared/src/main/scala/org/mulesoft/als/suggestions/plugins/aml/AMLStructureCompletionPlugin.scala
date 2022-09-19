@@ -2,6 +2,7 @@ package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
+import amf.apicontract.internal.metamodel.domain.ParameterModel
 import amf.core.client.scala.model.document.Module
 import amf.core.internal.metamodel.Field
 import amf.core.internal.metamodel.Type.ArrayLike
@@ -39,7 +40,9 @@ object ResolveDefault extends ResolveIfApplies with AmfObjectKnowledge {
           )
         val isEncodedOrModule = isEncoded || params.amfObject.isInstanceOf[Module]
         if (
-          ((isEncodedOrModule && params.astPartBranch.isAtRoot) || !isEncodedOrModule) && isEmptyFieldOrPrefix(params)
+          ((isEncodedOrModule && params.astPartBranch.isAtRoot) || !isEncodedOrModule)
+            && isEmptyFieldOrPrefix(params)
+            && !params.astPartBranch.parentEntryIs(ParameterModel.Required.value.name)
         )
           new AMLStructureCompletionsPlugin(params.propertyMapping, params.actualDialect)
             .resolve(params.amfObject.metaURIs.head) ++

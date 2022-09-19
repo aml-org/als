@@ -1,8 +1,9 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
+import amf.apicontract.internal.metamodel.domain.ParameterModel
 import amf.plugins.document.vocabularies.plugin.ReferenceStyles
 import org.mulesoft.als.common.SemanticNamedElement._
-import org.mulesoft.als.common.{ASTPartBranch, YPartBranch}
+import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.{PlainText, RawSuggestion, SuggestionStructure}
@@ -56,7 +57,8 @@ trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
       isDeclarable(params) &&
       isInFacet(params) &&
       matchPrefixPatched(params) &&
-      !isExceptionCase(yPartBranch)
+      !isExceptionCase(yPartBranch) &&
+      !isInsideRequired(params)
     case _ => false
   }
 
@@ -65,6 +67,9 @@ trait AMLRefTagCompletionPlugin extends AMLCompletionPlugin {
       .startsWith("$")
 
   private def isInFacet(params: AmlCompletionRequest): Boolean = isKeyAlone(params)
+
+  private def isInsideRequired(params: AmlCompletionRequest): Boolean =
+    params.astPartBranch.parentEntryIs(ParameterModel.Required.value.name)
 
   private def isKeyAlone(params: AmlCompletionRequest): Boolean =
     params.fieldEntry.isEmpty && (params.astPartBranch.isKey || params.astPartBranch.isInArray)
