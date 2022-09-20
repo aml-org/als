@@ -1,7 +1,7 @@
 package org.mulesoft.amfintegration.dialect.dialects.jsonschema.base
 
 import amf.aml.client.scala.model.domain.PropertyMapping
-import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdFloat, xsdInteger, xsdString}
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdFloat, xsdInteger, xsdString}
 import amf.shapes.internal.domain.metamodel.ScalarShapeModel
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.base.BaseNumberShapeNode.numberShapeFacets
 
@@ -36,12 +36,12 @@ object BaseNumberShapeNode {
         .withId(location + s"#/declarations/ShapeObject/exclusiveMaximum")
         .withName("exclusiveMaximum")
         .withNodePropertyMapping(ScalarShapeModel.ExclusiveMaximum.value.iri())
-        .withLiteralRange(xsdInteger.iri()),
+        .withLiteralRange(xsdBoolean.iri()),
       PropertyMapping()
         .withId(location + s"#/declarations/ShapeObject/exclusiveMinimum")
         .withName("exclusiveMinimum")
         .withNodePropertyMapping(ScalarShapeModel.ExclusiveMinimum.value.iri())
-        .withLiteralRange(xsdInteger.iri()),
+        .withLiteralRange(xsdBoolean.iri()),
       PropertyMapping()
         .withId(location + "#/declarations/ShapeObject/format")
         .withNodePropertyMapping(ScalarShapeModel.Format.value.iri())

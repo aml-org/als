@@ -117,9 +117,17 @@ case class ALSConfigurationState(
     parse(getAmfConfig(url), url)
 
   private def parse(amfConfiguration: AMFConfiguration, uri: String) =
-    amfConfiguration.baseUnitClient().parse(uri).map { r =>
-      toResult(uri, r)
-    }
+    amfConfiguration
+      .baseUnitClient()
+      .parse(uri)
+      .map { r =>
+        toResult(uri, r)
+      }
+  // todo: just for debugging purposes, but maybe we should have some sort of recovery or at least logging
+//      .recover { case t: Throwable =>
+//        println(t)
+//        new AmfParseResult(null, null, null, null)
+//      }
 
   def toResult(uri: String, r: AMFParsingResult): AmfParseResult = new AmfParseResult(
     r,
