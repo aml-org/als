@@ -2,8 +2,11 @@
   "$schema": "http://json-schema.org/draft-04/schema",
   "type": "object",
   "properties": {
-    "x": {
+    "prop1": {
         "type": "string"
+    },
+    "prop2": {
+      "type": "boolean"
     }
   },
   "required": [
