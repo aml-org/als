@@ -4,11 +4,15 @@ import amf.aml.client.scala.model.domain.PropertyMapping
 import amf.apicontract.internal.metamodel.domain.api.WebApiModel
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{amlAnyNode, xsdString}
 import amf.core.internal.metamodel.domain.ShapeModel
+import org.mulesoft.amfintegration.dialect.dialects.jsonschema.base.BaseNumberShapeNode
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft4.Draft4RootNode
 
 object Draft7RootNode extends Draft7RootNode
 
 trait Draft7RootNode extends Draft4RootNode {
+  override protected def numberMappings: Seq[PropertyMapping] =
+    BaseNumberShapeNode.numberShapeFacets(location) ++ BaseNumberShapeNode.draft4Exclusives(location)
+
   override def identifierMapping(location: String): PropertyMapping =
     PropertyMapping()
       .withId(location + "#/declarations/BaseJsonSchemaDocumentNode/id")

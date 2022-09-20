@@ -2,7 +2,14 @@ package org.mulesoft.amfintegration.dialect.dialects.jsonschema
 
 import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
 import amf.apicontract.internal.metamodel.domain.ParameterModel
-import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdAnyType, xsdBoolean, xsdDouble, xsdInteger, xsdString}
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{
+  amlNumber,
+  xsdAnyType,
+  xsdBoolean,
+  xsdDouble,
+  xsdInteger,
+  xsdString
+}
 import amf.core.internal.metamodel.domain.ShapeModel
 import amf.core.internal.metamodel.domain.extensions.PropertyShapeModel
 import amf.shapes.internal.domain.metamodel.{AnyShapeModel, ArrayShapeModel, NodeShapeModel, ScalarShapeModel}
@@ -162,7 +169,7 @@ trait JsonSchemaForOasWrapper {
       .withId(DialectLocation + "#/declarations/SchemaObject/exclusiveMaximum")
       .withName("exclusiveMaximum")
       .withNodePropertyMapping(ScalarShapeModel.ExclusiveMaximum.value.iri())
-      .withLiteralRange(xsdBoolean.iri()),
+      .withLiteralRange(amlNumber.iri()),
     PropertyMapping()
       .withId(DialectLocation + "#/declarations/SchemaObject/minimum")
       .withName("minimum")
