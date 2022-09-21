@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11allOf",
-    "filterText": "allOf: ",
+    "filterText": "allOf:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 19
         }
       },
-      "newText": "allOf: "
+      "newText": "allOf:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

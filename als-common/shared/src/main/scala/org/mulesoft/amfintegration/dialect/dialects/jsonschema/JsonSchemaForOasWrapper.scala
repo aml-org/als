@@ -101,6 +101,7 @@ trait JsonSchemaForOasWrapper {
       .withId(DialectLocation + s"#/declarations/Schema/allOf")
       .withName("allOf")
       .withNodePropertyMapping(ShapeModel.Inherits.value.iri())
+      .withAllowMultiple(true)
       .withLiteralRange(xsdAnyType.iri())
   )
 

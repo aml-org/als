@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11allOf",
-    "filterText": "\"allOf\": \"$1\"",
+    "filterText": "\"allOf\": [\n  \"$1\"\n]",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -53,7 +53,7 @@
           "character": 12
         }
       },
-      "newText": "\"allOf\": \"$1\""
+      "newText": "\"allOf\": [\n  \"$1\"\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

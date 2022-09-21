@@ -62,16 +62,19 @@ trait BaseShapeNode extends DialectNode {
       .withId(location + "#/declarations/SchemaObject/allOf")
       .withName("allOf")
       .withNodePropertyMapping(ShapeModel.And.value.iri())
+      .withAllowMultiple(true)
       .withObjectRange(Seq("ShapeObjectId")),
     PropertyMapping()
       .withId(location + "#/declarations/SchemaObject/oneOf")
       .withName("oneOf")
       .withNodePropertyMapping(ShapeModel.Xone.value.iri())
+      .withAllowMultiple(true)
       .withObjectRange(Seq("ShapeObjectId")),
     PropertyMapping()
       .withId(location + "#/declarations/SchemaObject/anyOf")
       .withName("anyOf")
       .withNodePropertyMapping(ShapeModel.Or.value.iri())
+      .withAllowMultiple(true)
       .withObjectRange(Seq("ShapeObjectId")),
     PropertyMapping()
       .withId(location + "#/declarations/SchemaObject/not")
