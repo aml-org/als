@@ -26,7 +26,7 @@ abstract class JsonSchemaBaseDialect extends BaseDialect {
   protected val anyShape: DialectNode   = new AnyShapeJsonSchemaNode(DialectLocation, baseProps)
   protected val arrayShape: DialectNode = new ArrayShapeJsonSchemaNode(DialectLocation, baseProps)
   protected val nodeShape: DialectNode  = new NodeShapeJsonSchemaNode(DialectLocation, baseProps)
-  protected val numberNode: DialectNode = new NumberShapeJsonSchemaNode(DialectLocation, baseProps)
+  protected def numberNode: DialectNode = new NumberShapeJsonSchemaNode(DialectLocation, baseProps)
   protected val stringNode: DialectNode = new StringShapeJsonSchemaNode(DialectLocation, baseProps)
 
   override val declares: Seq[DialectNode] = Seq(

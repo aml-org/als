@@ -5,6 +5,10 @@ import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdStrin
 import amf.core.internal.metamodel.domain.ShapeModel
 import amf.shapes.internal.domain.metamodel.{AnyShapeModel, NodeShapeModel, ScalarShapeModel}
 import org.mulesoft.amfintegration.dialect.dialects.dialects.dialectLocation
+import org.mulesoft.amfintegration.dialect.dialects.jsonschema.base.BaseNumberShapeNode.{
+  draft7Exclusives,
+  numberShapeFacets
+}
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.base.{
   BaseAnyShapeNode,
   BaseArrayShapeNode,
@@ -55,6 +59,8 @@ object NodeShapeAsync2Node extends BaseNodeShapeNode with BaseShapeAsync2Node {
     )
 }
 
-object NumberShapeAsync2Node extends BaseNumberShapeNode with BaseShapeAsync2Node
+object NumberShapeAsync2Node extends BaseNumberShapeNode with BaseShapeAsync2Node {
+  override def properties: Seq[PropertyMapping] = super.properties ++ draft7Exclusives(location)
+}
 
 object StringShapeAsync2Node extends BaseStringShapeNode with BaseShapeAsync2Node
