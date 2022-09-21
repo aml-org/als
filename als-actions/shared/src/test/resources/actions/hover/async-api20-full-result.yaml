@@ -533,33 +533,33 @@ hovers:
   (143,16):
     - Defines a data type
   (144,8):
-    - Logical and composition of data shapes
+    - Defines a data type
   (144,12):
-    - Logical and composition of data shapes
+    - Defines a data type
   (145,12):
-    - Logical and composition of data shapes
+    - Defines a data type
   (145,33):
-    - Logical and composition of data shapes
+    - Defines a data type
   (146,12):
-    - Logical and composition of data shapes
+    - Defines a data type
   (146,33):
-    - Logical and composition of data shapes
+    - Defines a data type
   (147,9):
     - Human readable name for the object
   (147,16):
     - Defines a data type
   (148,8):
-    - Each element should match against at least one of the elements provided
+    - Defines a data type
   (148,12):
-    - Each element should match against at least one of the elements provided
+    - Defines a data type
   (149,12):
-    - Each element should match against at least one of the elements provided
+    - Defines a data type
   (149,33):
-    - Each element should match against at least one of the elements provided
+    - Defines a data type
   (150,12):
-    - Each element should match against at least one of the elements provided
+    - Defines a data type
   (150,33):
-    - Each element should match against at least one of the elements provided
+    - Defines a data type
   (151,12):
     - An object name that is used to differentiate between ambiguous types/schemas
   (151,21):
@@ -569,17 +569,17 @@ hovers:
   (152,16):
     - Defines a data type
   (153,8):
-    - Logical exclusive or composition of data shapes
+    - Defines a data type
   (153,12):
-    - Logical exclusive or composition of data shapes
+    - Defines a data type
   (154,12):
-    - Logical exclusive or composition of data shapes
+    - Defines a data type
   (154,33):
-    - Logical exclusive or composition of data shapes
+    - Defines a data type
   (155,12):
-    - Logical exclusive or composition of data shapes
+    - Defines a data type
   (155,33):
-    - Logical exclusive or composition of data shapes
+    - Defines a data type
   (156,8):
     - Human readable name for the object
   (156,14):
