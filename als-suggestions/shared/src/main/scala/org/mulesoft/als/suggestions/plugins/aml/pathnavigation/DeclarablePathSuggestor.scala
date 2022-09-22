@@ -1,5 +1,6 @@
 package org.mulesoft.als.suggestions.plugins.aml.pathnavigation
 
+import amf.apicontract.client.scala.model.document.ComponentModule
 import amf.core.client.scala.model.document.DeclaresModel
 import amf.core.client.scala.model.domain.NamedDomainElement
 import amf.shapes.client.scala.model.document.JsonSchemaDocument
