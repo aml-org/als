@@ -654,7 +654,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     }
   }
 
-  test("Workspace Manager test syntax error in external fragment") {
+  test("Workspace Manager test syntax error in external fragment", Flaky) {
     val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
       new MockDiagnosticClientNotifierWithTelemetryLog
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>

@@ -23,13 +23,10 @@ class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
     for {
       _ <- server.testInitialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}")))
       _ <- changeWorkspaceConfiguration(server)(changeConfigArgs(Some(s"${filePath("ws1")}/api.raml"), filePath("ws1")))
-      _ <- {
-        platform.fetchContent(url, AMLConfiguration.predefined()).map { c =>
-          server.textDocumentSyncConsumer.didOpen(
-            DidOpenTextDocumentParams(TextDocumentItem(url, "RAML", 0, c.stream.toString))
-          ) // why clean empty lines was necessary?
-        }
-      }
+      content <- platform.fetchContent(url, AMLConfiguration.predefined())
+      _ <- server.textDocumentSyncConsumer.didOpen(
+        DidOpenTextDocumentParams(TextDocumentItem(url, "RAML", 0, content.stream.toString))
+      )
       s <- {
         val handler = server.resolveHandler(DocumentSymbolRequestType).value
 
