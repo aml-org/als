@@ -9,6 +9,7 @@ import amf.core.client.scala.model.document.{BaseUnit, Document}
 import amf.core.client.scala.model.domain.Shape
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.internal.plugins.syntax.SyamlAMFErrorHandler
+import amf.graphql.client.scala.GraphQLConfiguration
 import org.mulesoft.als.common.diff.Diff.makeString
 import org.mulesoft.als.common.diff.{Diff, FileAssertionTest, Tests}
 import org.mulesoft.als.server._
@@ -304,6 +305,47 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
         }
       } yield {
         parsed.baseUnit.asInstanceOf[Document].encodes.id should be("amf://id#2")
+      }
+    }
+  }
+
+  test("GraphQL test", Flaky) {
+    val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
+    val serializationProps: SerializationProps[StringWriter] =
+      new SerializationProps[StringWriter](alsClient) {
+        override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
+          JsonOutputBuilder(prettyPrint)
+      }
+    withServer(buildServer(serializationProps)) { server =>
+      val url = filePath("api.graphql")
+
+      for {
+        _ <- platform.fetchContent(url, AMFGraphConfiguration.predefined()).flatMap { c =>
+          server.textDocumentSyncConsumer.didOpen(
+            DidOpenTextDocumentParams(TextDocumentItem(url, "GraphQL", 0, c.stream.toString))
+          ) // why clean empty lines was necessary?
+        }
+        s <- serialize(server, url, serializationProps)
+        parsed <- {
+          val rl = new ResourceLoader {
+
+            /** Fetch specified resource and return associated content. Resource should have benn previously accepted.
+              */
+            override def fetch(resource: String): Future[Content] =
+              Future.successful(new Content(s, url))
+
+            /** Accepts specified resource. */
+            override def accepts(resource: String): Boolean = resource == url
+          }
+          GraphQLConfiguration
+            .GraphQL()
+            .withResourceLoader(rl)
+            .baseUnitClient()
+            .parse(url)
+        }
+      } yield {
+        parsed.baseUnit.asInstanceOf[Document].encodes.id should be("amf://id#18")
+        assert(s.contains("\"http://a.ml/vocabularies/core#name\": \"Query.allPersons\""))
       }
     }
   }

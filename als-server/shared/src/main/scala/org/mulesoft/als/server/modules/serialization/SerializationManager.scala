@@ -39,10 +39,8 @@ class SerializationManager[S](
 
   override def isActive: Boolean = enabled
 
-  private val baseConfiguration = AMLConfiguration.predefined()
-
   def serializeAndNotifyResolved(ast: AmfResolvedUnit): Future[Unit] =
-    ast.resolvedUnit.map(_.baseUnit).map(serializeAndNotify(_, baseConfiguration))
+    ast.resolvedUnit.map(_.baseUnit).map(serializeAndNotify(_, ast.configuration.config))
 
   override def onRemoveFile(uri: String): Unit = {
     /* No action required */
@@ -56,25 +54,25 @@ class SerializationManager[S](
         .getOrElse(throw new Exception(s"Unreachable code - getUnitFromResolved $uri in BaseUnit ${unit.id}"))
 
   private def processRequest(uri: String): Future[SerializationResult[S]] = {
-    val bu: Future[BaseUnit] = unitAccessor match {
+    val result: Future[(BaseUnit, AMLConfiguration)] = unitAccessor match {
       case Some(ua) =>
         ua.getLastUnit(uri, UUID.randomUUID().toString)
           .flatMap { r =>
             logger.debug(s"Serialization uri: $uri", "SerializationManager", "processRequest")
             if (r.baseUnit.isInstanceOf[Extension] || r.baseUnit.isInstanceOf[Overlay])
-              r.latestBU
+              r.latestBU.map(bu => (bu, r.configuration.config))
             else
-              r.latestBU.map(getUnitFromResolved(_, uri))
+              r.latestBU.map(bu => (getUnitFromResolved(bu, uri), r.configuration.config))
           }
           .recoverWith { case e: Exception =>
             logger.warning(e.getMessage, "SerializationManager", "RequestSerialization")
-            Future.successful(Document().withId("error"))
+            Future.successful((Document().withId("error"), AMLConfiguration.predefined()))
           }
       case _ =>
         logger.warning("Unit accessor not configured", "SerializationManager", "RequestSerialization")
-        Future.successful(Document().withId("error"))
+        Future.successful((Document().withId("error"), AMLConfiguration.predefined()))
     }
-    bu.map(serialize(_, baseConfiguration))
+    result.map(r => serialize(r._1, r._2))
   }
 
   override def initialize(): Future[Unit] = Future.successful()

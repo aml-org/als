@@ -2,7 +2,13 @@ package org.mulesoft.amfintegration.amfconfiguration
 
 import amf.aml.client.scala.AMLConfiguration
 import amf.aml.client.scala.model.document.Dialect
-import amf.apicontract.client.scala.{APIConfiguration, AsyncAPIConfiguration, OASConfiguration, RAMLConfiguration}
+import amf.apicontract.client.scala.{
+  AMFConfiguration,
+  APIConfiguration,
+  AsyncAPIConfiguration,
+  OASConfiguration,
+  RAMLConfiguration
+}
 import amf.core.client.scala.AMFParseResult
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.parse.AMFSyntaxParsePlugin
@@ -10,6 +16,8 @@ import amf.core.client.scala.resource.ResourceLoader
 import amf.core.client.scala.validation.payload.AMFShapePayloadValidationPlugin
 import amf.core.internal.remote.Spec
 import amf.core.internal.unsafe.PlatformSecrets
+import amf.graphql.client.scala.GraphQLConfiguration
+import amf.shapes.client.scala.config.JsonSchemaConfiguration
 import org.mulesoft.als.logger.{EmptyLogger, Logger}
 import org.mulesoft.amfintegration.AmfImplicits.DialectInstanceImp
 import org.mulesoft.amfintegration.dialect.integration.BaseAlsDialectProvider
@@ -168,15 +176,14 @@ case class EditorConfigurationStateWrapper(state: EditorConfigurationState) {
 
   def configForUnit(bu: BaseUnit): AMLConfiguration = {
     configure(bu.sourceSpec.getOrElse(Spec.AML) match {
-      case Spec.RAML10  => RAMLConfiguration.RAML10()
-      case Spec.RAML08  => RAMLConfiguration.RAML08()
-      case Spec.OAS30   => OASConfiguration.OAS30()
-      case Spec.OAS20   => OASConfiguration.OAS20()
-      case Spec.ASYNC20 => AsyncAPIConfiguration.Async20()
-      case _            => AMLConfiguration.predefined()
+      case Spec.RAML10     => RAMLConfiguration.RAML10()
+      case Spec.RAML08     => RAMLConfiguration.RAML08()
+      case Spec.OAS30      => OASConfiguration.OAS30()
+      case Spec.OAS20      => OASConfiguration.OAS20()
+      case Spec.ASYNC20    => AsyncAPIConfiguration.Async20()
+      case Spec.GRAPHQL    => GraphQLConfiguration.GraphQL()
+      case Spec.JSONSCHEMA => JsonSchemaConfiguration.JsonSchema()
+      case _               => AMLConfiguration.predefined()
     })
   }
-
-  def parse(url: String): Future[AMFParseResult] =
-    configure(APIConfiguration.APIWithJsonSchema()).baseUnitClient().parse(url)
 }

@@ -1,0 +1,32 @@
+"""
+schema documentation
+"""
+schema {
+    query: Query
+}
+
+type Query {
+    allPersons(last: Int): [Person!]!
+}
+
+"""
+type documentation
+"""
+type Mutation {
+    createPerson(name: String!, age: Int!): Person!
+}
+
+type Subscription {
+    newPerson: Person!
+}
+
+type Person {
+    name: String!
+    age: Int!
+    posts: [Post!]!
+}
+
+type Post {
+    title: String!
+    author: Person!
+}
