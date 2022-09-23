@@ -86,6 +86,7 @@ class DefaultProjectConfigurationProvider(
     c
   }
 
+  // todo: seems to only be used for profiles/dialects, but still check if it is correct to use a separate `base` amfConfig
   private def amfConfiguration: Future[AMFConfiguration] =
     editorConfiguration.getState.map(state => {
       val base = APIConfiguration

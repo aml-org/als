@@ -63,14 +63,16 @@ case class ALSConfigurationState(
       case Spec.OAS30      => projectState.customSetUp(OASConfiguration.OAS30())
       case Spec.OAS20      => projectState.customSetUp(OASConfiguration.OAS20())
       case Spec.ASYNC20    => projectState.customSetUp(AsyncAPIConfiguration.Async20())
+      case Spec.GRAPHQL    => projectState.customSetUp(ConfigurationAdapter.adapt(GraphQLConfiguration.GraphQL()))
       case Spec.JSONSCHEMA => projectState.customSetUp(ConfigurationAdapter.adapt(JsonSchemaConfiguration.JsonSchema()))
       case _               => predefinedWithDialects
     }))
 
   def getAmfConfig(url: String): AMFConfiguration = {
     val base =
-      if (url.endsWith("graphql")) GraphQLConfiguration.GraphQL()
-      else getAmfConfig
+      if (url.endsWith("graphql"))
+        GraphQLConfiguration.GraphQL()
+      else getAmfConfig.withPlugins(editorState.alsParsingPlugins)
     getAmfConfig(base)
   }
 
@@ -102,7 +104,7 @@ case class ALSConfigurationState(
           .getOrElse(editorState.resourceLoader)
           .toList ++ projectState.resourceLoaders
       )
-      .withPlugins(editorState.alsParsingPlugins ++ editorState.syntaxPlugin ++ editorState.validationPlugin)
+      .withPlugins((editorState.syntaxPlugin ++ editorState.validationPlugin).toList)
       .withUnitCache(cache)
     dialects.foldLeft(configuration)((c, dialect) => c.withDialect(dialect))
   }
