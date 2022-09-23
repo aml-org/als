@@ -20,7 +20,7 @@ trait PathSuggestor {
 }
 
 object PathSuggestor {
-  def apply(fullUrl: String, prefix: String, alsConfiguration: ALSConfigurationState): Future[PathSuggestor] = {
+  def apply(fullUrl: String, prefix: String, alsConfiguration: ALSConfigurationState, targetClass: Option[String]): Future[PathSuggestor] = {
     val (fileUri, navPath) =
       fullUrl.split("#").toList match {
         case head :: tail => (head, tail.headOption.getOrElse(""))
@@ -42,7 +42,7 @@ object PathSuggestor {
         }
     } yield {
       cached match {
-        case Some(schema: DeclaresModel) => DeclarablePathSuggestor(schema, prefix)
+        case Some(schema: DeclaresModel) => DeclarablePathSuggestor(schema, prefix, targetClass)
         case None                        => PathNavigation(fileUri, navPath, prefix, alsConfiguration)
       }
     }

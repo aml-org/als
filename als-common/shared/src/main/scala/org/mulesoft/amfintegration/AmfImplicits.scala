@@ -3,6 +3,7 @@ package org.mulesoft.amfintegration
 import amf.aml.client.scala.AMLConfiguration
 import amf.aml.client.scala.model.document.{Dialect, DialectInstance, Vocabulary}
 import amf.aml.client.scala.model.domain._
+import amf.aml.internal.metamodel.domain.NodeMappingModel
 import amf.aml.internal.parse.common.{DeclarationKey, DeclarationKeys}
 import amf.apicontract.client.scala.AMFConfiguration
 import amf.apicontract.internal.metamodel.domain.AbstractModel
@@ -403,6 +404,13 @@ object AmfImplicits {
 
   // we have another in suggestions.aml oriented to suggestions. Could be unified?
   implicit class NodeMappingImplicit(nodeMapping: NodeMapping) {
+
+    def getTargetClass(): Option[String] =
+      nodeMapping.fields.getValueAsOption(NodeMappingModel.NodeTypeMapping)
+        .map(_.value).flatMap{
+          case s: AmfScalar => Option(s.toString())
+          case _ => None
+        }
 
     def findPropertyByTerm(term: String): Option[PropertyMapping] =
       nodeMapping.propertiesMapping().find(_.nodePropertyMapping().value() == term)

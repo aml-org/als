@@ -30,21 +30,19 @@ class Oas30ComponentRefSuggestionTest extends AsyncFunSuite with BaseSuggestions
     }
   }
 
-  // todo: ideally this should filter out `example` as it is not correct within this context
-  ignore("test oas3 including cached oas components should only suggest declared names (outside specific key)") {
+  test("test oas3 including cached oas components should only suggest declared names (outside specific key)") {
     suggest("api-ref-level2.yaml", "components.yaml").map { ci =>
       ci.length shouldBe 2
-      assert(ci.map(_.label).contains("mySchema1"))
-      assert(ci.map(_.label).contains("mySchema2"))
+      assert(ci.map(_.label).contains("schemas/mySchema1"))
+      assert(ci.map(_.label).contains("schemas/mySchema2"))
     }
   }
 
-  // todo: ideally this should filter out `example` as it is not correct within this context
-  ignore("test oas3 including cached oas components should only suggest declared names inside a given file") {
+  test("test oas3 including cached oas components should only suggest declared names inside a given file") {
     suggest("api-ref-level1.yaml", "components.yaml").map { ci =>
       ci.length shouldBe 2
-      assert(ci.map(_.label).contains("mySchema1"))
-      assert(ci.map(_.label).contains("mySchema2"))
+      assert(ci.map(_.label).contains("components/schemas/mySchema1"))
+      assert(ci.map(_.label).contains("components/schemas/mySchema2"))
     }
   }
 

@@ -5,6 +5,7 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.AMLPathCompletionPlugin
+import org.mulesoft.amfintegration.AmfImplicits.NodeMappingImplicit
 
 import scala.concurrent.Future
 
@@ -23,7 +24,8 @@ object AMLLibraryPathCompletion extends AMLCompletionPlugin {
         request.directoryResolver,
         request.prefix,
         request.rootUri,
-        request.alsConfigurationState
+        request.alsConfigurationState,
+        request.currentNode.flatMap(_.getTargetClass())
       )
     } else emptySuggestion
   }

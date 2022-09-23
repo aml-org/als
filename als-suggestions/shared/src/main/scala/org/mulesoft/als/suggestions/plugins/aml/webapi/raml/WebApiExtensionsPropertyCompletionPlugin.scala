@@ -1,12 +1,14 @@
 package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
+import amf.aml.client.scala.model.domain.NodeMapping
 import amf.apicontract.client.scala.model.domain.api.WebApi
-import amf.core.client.scala.model.document.{BaseUnit, ExtensionLike}
+import amf.core.client.scala.model.document.ExtensionLike
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.AMLPathCompletionPlugin
+import org.mulesoft.amfintegration.AmfImplicits.NodeMappingImplicit
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -26,7 +28,8 @@ object WebApiExtensionsPropertyCompletionPlugin extends AMLCompletionPlugin {
           params.directoryResolver,
           params.prefix,
           params.rootUri,
-          params.alsConfigurationState
+          params.alsConfigurationState,
+          params.currentNode
         )
       case _ => emptySuggestion
     }
@@ -38,7 +41,8 @@ object WebApiExtensionsPropertyCompletionPlugin extends AMLCompletionPlugin {
       directoryResolver: DirectoryResolver,
       prefix: String,
       rootLocation: Option[String],
-      alsConfiguration: ALSConfigurationState
+      alsConfiguration: ALSConfigurationState,
+      currentNode: Option[NodeMapping]
   ): Future[Seq[RawSuggestion]] = {
     if (isKey) Future { Seq(RawSuggestion.forKey("extends", mandatory = true)) }
     else
@@ -47,7 +51,8 @@ object WebApiExtensionsPropertyCompletionPlugin extends AMLCompletionPlugin {
         directoryResolver,
         prefix,
         rootLocation,
-        alsConfiguration
+        alsConfiguration,
+        currentNode.flatMap(_.getTargetClass())
       )
   }
 }

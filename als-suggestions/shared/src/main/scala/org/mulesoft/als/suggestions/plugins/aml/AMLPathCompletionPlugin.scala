@@ -1,12 +1,12 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
-import amf.core.internal.plugins.syntax.SyamlSyntaxParsePlugin
-import org.mulesoft.als.common.{DirectoryResolver, YPartBranch}
 import org.mulesoft.als.common.URIImplicits._
+import org.mulesoft.als.common.{DirectoryResolver, YPartBranch}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.pathnavigation.PathSuggestor
+import org.mulesoft.amfintegration.AmfImplicits.NodeMappingImplicit
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.mulesoft.amfintegration.dialect.DialectKnowledge
 
@@ -29,7 +29,8 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
         params.directoryResolver,
         params.prefix,
         params.rootUri,
-        params.alsConfigurationState
+        params.alsConfigurationState,
+        params.currentNode.flatMap(_.getTargetClass())
       )
     } else emptySuggestion
 
@@ -48,7 +49,8 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
       directoryResolver: DirectoryResolver,
       prefix: String,
       rootLocation: Option[String],
-      alsConfiguration: ALSConfigurationState
+      alsConfiguration: ALSConfigurationState,
+      targetClass: Option[String]
   ): Future[Seq[RawSuggestion]] = {
     val baseLocation: String =
       if (prefix.startsWith("/")) rootLocation.getOrElse(actualLocation)
@@ -62,7 +64,7 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
 
     if (!prefix.startsWith("#"))
       if (fullURI.contains("#") && !fullURI.startsWith("#"))
-        PathSuggestor(fullURI, prefix, alsConfiguration).flatMap(_.suggest())
+        PathSuggestor(fullURI, prefix, alsConfiguration, targetClass).flatMap(_.suggest())
       else
         FilesEnumeration(
           directoryResolver,

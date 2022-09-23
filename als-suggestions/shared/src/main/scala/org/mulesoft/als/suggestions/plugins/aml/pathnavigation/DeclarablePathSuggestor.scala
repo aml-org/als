@@ -12,10 +12,10 @@ import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect
 import scala.concurrent.Future
 
 object DeclarablePathSuggestor {
-  def apply(declared: DeclaresModel, prefix: String): DeclarablePathSuggestor =
+  def apply(declared: DeclaresModel, prefix: String, targetClass: Option[String]): DeclarablePathSuggestor =
     declared match {
       case json: JsonSchemaDocument   => JsonSchemaSuggestor(json, prefix)
-      case component: ComponentModule => ComponentSuggestor(component, prefix)
+      case component: ComponentModule => ComponentSuggestor(component, prefix, targetClass)
       case _                          => new DeclarablePathSuggestor(declared, prefix)
     }
 
@@ -45,12 +45,12 @@ sealed case class JsonSchemaSuggestor(schema: JsonSchemaDocument, prefix: String
   }
 }
 
-sealed case class ComponentSuggestor(component: ComponentModule, prefix: String)
+sealed case class ComponentSuggestor(component: ComponentModule, prefix: String, targetClass: Option[String])
     extends DeclarablePathSuggestor(component, prefix) {
 
   override def suggest(): Future[Seq[RawSuggestion]] = {
     val names = component.declares.flatMap {
-      case named: NamedDomainElement =>
+      case named: NamedDomainElement if targetClass.forall(tc => named.metaURIs.contains(tc)) =>
         for {
           componentsKey <- OAS30Dialect.dialect.documents().declarationsPath().option()
           declaredKey   <- named.declarableKey(OAS30Dialect.dialect)
