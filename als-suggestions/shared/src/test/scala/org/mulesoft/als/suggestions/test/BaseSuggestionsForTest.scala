@@ -1,5 +1,6 @@
 package org.mulesoft.als.suggestions.test
 
+import amf.core.client.scala.resource.ResourceLoader
 import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.{AmfConfigurationPatcher, MarkerFinderTest, PlatformDirectoryResolver}
 import org.mulesoft.als.configuration.AlsConfiguration
@@ -41,10 +42,15 @@ trait BaseSuggestionsForTest extends PlatformSecrets with MarkerFinderTest with 
 
     position = markerInfo.offset
     val resourceLoader = AmfConfigurationPatcher.resourceLoaderForFile(url, markerInfo.content)
-    val newAlsConfig =
-      ALSConfigurationState(configurationState.editorState, configurationState.projectState, Some(resourceLoader))
+    val newAlsConfig   = createNewStateWithLoaders(configurationState, resourceLoader)
     new Suggestions(AlsConfiguration(), dr, accessBundle(newAlsConfig))
       .initialized()
       .suggest(url, position, snippetsSupport = true, None)
   }
+
+  protected def createNewStateWithLoaders(
+      configurationState: ALSConfigurationState,
+      resourceLoader: ResourceLoader
+  ): ALSConfigurationState =
+    ALSConfigurationState(configurationState.editorState, configurationState.projectState, Some(resourceLoader))
 }

@@ -104,10 +104,13 @@ case class YPartBranch(
     .isInstanceOf[model.YDocument] || (stack.count(_.isInstanceOf[YMap]) == 0 && node
     .isInstanceOf[YMap]) ||
     (stack.count(_.isInstanceOf[YMap]) <= 1 &&
-      (closestEntry.exists(
-        _.key.range.contains(position)
-      ) || // this is the case that you are in a key on root level (before colon)
-        isJson))
+      isYMapEntryKey)
+
+  private def isYMapEntryKey =
+    stack.headOption.exists {
+      case entry: YMapEntry => entry.key == node
+      case _                => false
+    }
 
   override val isArray: Boolean = node.isArray
   override lazy val isInArray: Boolean =
@@ -210,13 +213,12 @@ object NodeBranchBuilder {
 
   }
 
-  def buildElement(ast: ASTElement, position: AmfPosition, isJson: Boolean): ASTPartBranch = {
+  def buildElement(ast: ASTElement, position: AmfPosition, isJson: Boolean): ASTPartBranch =
     ast match {
       case node: ASTNode => buildAST(node, position)
       case ypart: YPart  => build(ypart, position, isJson)
       case _             => YPartBranch(YDocument(IndexedSeq.empty, ""), position, Nil, isJson, false)
     }
-  }
 
   private def findMutualYMapParent(start: ASTPartBranch, end: ASTPartBranch, isJson: Boolean): Option[ASTElement] = {
     start.stack

@@ -3,7 +3,6 @@ package org.mulesoft.amfintegration.dialect.dialects.jsonschema.base
 import amf.aml.client.scala.model.domain.PropertyMapping
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes.xsdString
 import amf.core.internal.metamodel.domain.ObjectNodeModel
-import amf.shapes.internal.document.metamodel.JsonSchemaDocumentModel
 import amf.shapes.internal.domain.metamodel.CreativeWorkModel
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.base.BaseJsonSchemaDocumentNode.jsonSchemaDocumentFacets
 

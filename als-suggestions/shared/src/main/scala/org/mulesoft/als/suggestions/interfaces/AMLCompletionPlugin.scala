@@ -24,14 +24,13 @@ trait AmfObjectKnowledge {
       .isDefined || hasFragmentParent(branchStack)
   }
 
-  protected def isInFieldValue(params: AmlCompletionRequest): Boolean = {
+  protected def isInFieldValue(params: AmlCompletionRequest): Boolean =
     params.fieldEntry
       .exists(
         _.value.value
           .position()
           .exists(li => li.contains(params.position.toAmfPosition))
       )
-  }
 
   // check if this is still necessary once the fix on fragment lexicals  is done W-11338054
   private def hasFragmentParent(branchStack: Seq[AmfObject]): Boolean =

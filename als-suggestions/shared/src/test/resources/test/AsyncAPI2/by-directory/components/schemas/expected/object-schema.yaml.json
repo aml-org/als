@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11allOf",
-    "filterText": "allOf:\n  ",
+    "filterText": "allOf:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +113,7 @@
           "character": 6
         }
       },
-      "newText": "allOf:\n  "
+      "newText": "allOf:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11anyOf",
-    "filterText": "anyOf:\n  ",
+    "filterText": "anyOf:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -143,37 +143,7 @@
           "character": 6
         }
       },
-      "newText": "anyOf:\n  "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "const",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "const",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11const",
-    "filterText": "const: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      },
-      "newText": "const: "
+      "newText": "anyOf:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -540,36 +510,6 @@
     "command": null
   },
   {
-    "label": "name",
-    "kind": [],
-    "detail": "docs",
-    "documentation": "name",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11name",
-    "filterText": "name: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 5,
-          "character": 6
-        },
-        "end": {
-          "line": 5,
-          "character": 6
-        }
-      },
-      "newText": "name: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "not",
     "kind": [],
     "detail": "unknown",
@@ -607,7 +547,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11oneOf",
-    "filterText": "oneOf:\n  ",
+    "filterText": "oneOf:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -623,7 +563,7 @@
           "character": 6
         }
       },
-      "newText": "oneOf:\n  "
+      "newText": "oneOf:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -727,7 +667,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11required",
-    "filterText": "required: ",
+    "filterText": "required:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -743,7 +683,7 @@
           "character": 6
         }
       },
-      "newText": "required: "
+      "newText": "required:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

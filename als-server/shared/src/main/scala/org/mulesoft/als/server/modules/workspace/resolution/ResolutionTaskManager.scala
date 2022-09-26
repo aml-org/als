@@ -111,7 +111,8 @@ class ResolutionTaskManager private (
               "getLastUnit"
             )
           }
-      case None => getUnit(uri, uuid).flatMap(_.getLast)
+      case None =>
+        getUnit(uri, uuid).flatMap(_.getLast)
     }
 
   override def onNewAst(ast: BaseUnitListenerParams, uuid: String): Future[Unit] = synchronized {

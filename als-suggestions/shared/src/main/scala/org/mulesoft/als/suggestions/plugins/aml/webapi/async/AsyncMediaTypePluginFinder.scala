@@ -2,7 +2,7 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.async
 
 import amf.apicontract.client.scala.model.domain.Payload
 import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiTypeFacetsCompletionPlugin
-import org.mulesoft.als.suggestions.plugins.aml.webapi.jsonSchema.draft7.JsonSchemeDraft7TypeFacetsCompletionPlugin
+import org.mulesoft.als.suggestions.plugins.aml.webapi.jsonSchema.JsonSchemeDraft7TypeFacetsCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.oas.oas30.Oas30TypeFacetsCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.raml10.Raml10TypeFacetsCompletionPlugin
 

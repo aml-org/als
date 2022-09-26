@@ -3,8 +3,8 @@ package org.mulesoft.amfintegration
 import amf.aml.client.scala.AMLConfiguration
 import amf.aml.client.scala.model.document.{Dialect, DialectInstance, Vocabulary}
 import amf.aml.client.scala.model.domain._
+import amf.aml.internal.metamodel.domain.NodeMappingModel
 import amf.aml.internal.parse.common.{DeclarationKey, DeclarationKeys}
-import amf.antlr.client.scala.parse.syntax.SourceASTElement
 import amf.apicontract.client.scala.AMFConfiguration
 import amf.apicontract.internal.metamodel.domain.AbstractModel
 import amf.core.client.scala.model.document._
@@ -21,7 +21,7 @@ import amf.shapes.internal.annotations._
 import org.mulesoft.als.common.ASTElementWrapper._
 import org.mulesoft.als.common.YPartASTWrapper.{AlsYMapOps, AlsYPart}
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
-import org.mulesoft.als.common.{ASTElementWrapper, ASTPartBranch, YPartBranch}
+import org.mulesoft.als.common.{ASTElementWrapper, ASTPartBranch}
 import org.mulesoft.antlrast.ast.Node
 import org.mulesoft.common.client.lexical.{ASTElement, Position => AmfPosition, PositionRange => AmfPositionRange}
 import org.yaml.model._
@@ -404,6 +404,13 @@ object AmfImplicits {
 
   // we have another in suggestions.aml oriented to suggestions. Could be unified?
   implicit class NodeMappingImplicit(nodeMapping: NodeMapping) {
+
+    def getTargetClass(): Option[String] =
+      nodeMapping.fields.getValueAsOption(NodeMappingModel.NodeTypeMapping)
+        .map(_.value).flatMap{
+          case s: AmfScalar => Option(s.toString())
+          case _ => None
+        }
 
     def findPropertyByTerm(term: String): Option[PropertyMapping] =
       nodeMapping.propertiesMapping().find(_.nodePropertyMapping().value() == term)

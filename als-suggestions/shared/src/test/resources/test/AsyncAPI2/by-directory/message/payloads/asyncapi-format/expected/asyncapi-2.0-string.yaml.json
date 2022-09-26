@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11allOf",
-    "filterText": "allOf:\n  ",
+    "filterText": "allOf:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -83,7 +83,7 @@
           "character": 10
         }
       },
-      "newText": "allOf:\n  "
+      "newText": "allOf:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11anyOf",
-    "filterText": "anyOf:\n  ",
+    "filterText": "anyOf:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,37 +113,7 @@
           "character": 10
         }
       },
-      "newText": "anyOf:\n  "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "const",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "const",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11const",
-    "filterText": "const: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 8,
-          "character": 10
-        },
-        "end": {
-          "line": 8,
-          "character": 10
-        }
-      },
-      "newText": "const: "
+      "newText": "anyOf:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -517,7 +487,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11oneOf",
-    "filterText": "oneOf:\n  ",
+    "filterText": "oneOf:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -533,7 +503,7 @@
           "character": 10
         }
       },
-      "newText": "oneOf:\n  "
+      "newText": "oneOf:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -607,7 +577,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11required",
-    "filterText": "required: ",
+    "filterText": "required:\n  - ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -623,7 +593,7 @@
           "character": 10
         }
       },
-      "newText": "required: "
+      "newText": "required:\n  - "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

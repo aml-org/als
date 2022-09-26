@@ -2,7 +2,14 @@ package org.mulesoft.amfintegration.dialect.dialects.jsonschema
 
 import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping}
 import amf.apicontract.internal.metamodel.domain.ParameterModel
-import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdAnyType, xsdBoolean, xsdDouble, xsdInteger, xsdString}
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{
+  amlNumber,
+  xsdAnyType,
+  xsdBoolean,
+  xsdDouble,
+  xsdInteger,
+  xsdString
+}
 import amf.core.internal.metamodel.domain.ShapeModel
 import amf.core.internal.metamodel.domain.extensions.PropertyShapeModel
 import amf.shapes.internal.domain.metamodel.{AnyShapeModel, ArrayShapeModel, NodeShapeModel, ScalarShapeModel}
@@ -94,22 +101,23 @@ trait JsonSchemaForOasWrapper {
       .withId(DialectLocation + s"#/declarations/Schema/allOf")
       .withName("allOf")
       .withNodePropertyMapping(ShapeModel.Inherits.value.iri())
+      .withAllowMultiple(true)
       .withLiteralRange(xsdAnyType.iri())
   )
 
-  val SchemaObject = NodeMapping()
+  val SchemaObject: NodeMapping = NodeMapping()
     .withId(Oas20SchemaObject.id)
     .withName("SchemaObject")
     .withNodeTypeMapping(ShapeModel.`type`.head.iri())
     .withPropertiesMapping(common)
 
-  val AnySchemaObject = NodeMapping()
+  val AnySchemaObject: NodeMapping = NodeMapping()
     .withId("#/declarations/AnySchemaObject")
     .withName("AnySchemaObject")
     .withNodeTypeMapping(AnyShapeModel.`type`.head.iri())
     .withPropertiesMapping(common)
 
-  val StringSchemaObject = NodeMapping()
+  val StringSchemaObject: NodeMapping = NodeMapping()
     .withId("#/declarations/StringSchemaObject")
     .withName("StringSchemaObject")
     .withNodeTypeMapping("StringSchemaObject.id")
@@ -162,7 +170,7 @@ trait JsonSchemaForOasWrapper {
       .withId(DialectLocation + "#/declarations/SchemaObject/exclusiveMaximum")
       .withName("exclusiveMaximum")
       .withNodePropertyMapping(ScalarShapeModel.ExclusiveMaximum.value.iri())
-      .withLiteralRange(xsdDouble.iri()),
+      .withLiteralRange(amlNumber.iri()),
     PropertyMapping()
       .withId(DialectLocation + "#/declarations/SchemaObject/minimum")
       .withName("minimum")
@@ -172,7 +180,7 @@ trait JsonSchemaForOasWrapper {
       .withId(DialectLocation + "#/declarations/SchemaObject/exclusiveMinimum")
       .withName("exclusiveMinimum")
       .withNodePropertyMapping(ScalarShapeModel.ExclusiveMinimum.value.iri())
-      .withLiteralRange(xsdDouble.iri())
+      .withLiteralRange(xsdBoolean.iri())
   )
   val IntegerSchemaObject: NodeMapping = NodeMapping()
     .withId("#/declarations/IntegerSchemaObject")

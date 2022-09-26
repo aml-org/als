@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11allOf",
-    "filterText": "\"allOf\": \"$1\"",
+    "filterText": "\"allOf\": [\n  \"$1\"\n]",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -23,7 +23,7 @@
           "character": 10
         }
       },
-      "newText": "\"allOf\": \"$1\""
+      "newText": "\"allOf\": [\n  \"$1\"\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -97,7 +97,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11deprecated",
-    "filterText": "\"deprecated\": \"$1\"",
+    "filterText": "\"deprecated\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -113,7 +113,7 @@
           "character": 10
         }
       },
-      "newText": "\"deprecated\": \"$1\""
+      "newText": "\"deprecated\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -247,7 +247,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11exclusiveMinimum",
-    "filterText": "\"exclusiveMinimum\": \"$1\"",
+    "filterText": "\"exclusiveMinimum\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -263,7 +263,7 @@
           "character": 10
         }
       },
-      "newText": "\"exclusiveMinimum\": \"$1\""
+      "newText": "\"exclusiveMinimum\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -337,7 +337,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11maximum",
-    "filterText": "\"maximum\": \"$1\"",
+    "filterText": "\"maximum\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -353,7 +353,7 @@
           "character": 10
         }
       },
-      "newText": "\"maximum\": \"$1\""
+      "newText": "\"maximum\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -367,7 +367,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11minimum",
-    "filterText": "\"minimum\": \"$1\"",
+    "filterText": "\"minimum\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -383,7 +383,7 @@
           "character": 10
         }
       },
-      "newText": "\"minimum\": \"$1\""
+      "newText": "\"minimum\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -397,7 +397,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11multipleOf",
-    "filterText": "\"multipleOf\": \"$1\"",
+    "filterText": "\"multipleOf\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -413,7 +413,7 @@
           "character": 10
         }
       },
-      "newText": "\"multipleOf\": \"$1\""
+      "newText": "\"multipleOf\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -457,7 +457,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11nullable",
-    "filterText": "\"nullable\": \"$1\"",
+    "filterText": "\"nullable\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -473,7 +473,7 @@
           "character": 10
         }
       },
-      "newText": "\"nullable\": \"$1\""
+      "newText": "\"nullable\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -517,7 +517,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11readOnly",
-    "filterText": "\"readOnly\": \"$1\"",
+    "filterText": "\"readOnly\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -533,7 +533,7 @@
           "character": 10
         }
       },
-      "newText": "\"readOnly\": \"$1\""
+      "newText": "\"readOnly\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -547,7 +547,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11required",
-    "filterText": "\"required\": \"$1\"",
+    "filterText": "\"required\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -563,7 +563,7 @@
           "character": 10
         }
       },
-      "newText": "\"required\": \"$1\""
+      "newText": "\"required\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -607,7 +607,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11writeOnly",
-    "filterText": "\"writeOnly\": \"$1\"",
+    "filterText": "\"writeOnly\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -623,7 +623,7 @@
           "character": 10
         }
       },
-      "newText": "\"writeOnly\": \"$1\""
+      "newText": "\"writeOnly\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

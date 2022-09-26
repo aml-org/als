@@ -32,16 +32,19 @@ object Oas30SchemaObject extends AMLSchemaBaseObject {
       .withId(OAS30Dialect.DialectLocation + "#/declarations/SchemaObject/allOf")
       .withName("allOf")
       .withNodePropertyMapping(ShapeModel.And.value.iri())
+      .withAllowMultiple(true)
       .withObjectRange(Seq(Oas30SchemaObject.id)),
     PropertyMapping()
       .withId(OAS30Dialect.DialectLocation + "#/declarations/SchemaObject/oneOf")
       .withName("oneOf")
       .withNodePropertyMapping(ShapeModel.Xone.value.iri())
+      .withAllowMultiple(true)
       .withObjectRange(Seq(Oas30SchemaObject.id)),
     PropertyMapping()
       .withId(OAS30Dialect.DialectLocation + "#/declarations/SchemaObject/anyOf")
       .withName("anyOf")
       .withNodePropertyMapping(ShapeModel.Or.value.iri())
+      .withAllowMultiple(true)
       .withObjectRange(Seq(Oas30SchemaObject.id)),
     PropertyMapping()
       .withId(OAS30Dialect.DialectLocation + "#/declarations/SchemaObject/not")

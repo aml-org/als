@@ -32,16 +32,15 @@ case class FieldEntrySearcher(
     referringProperty.mapTermKeyProperty().option().flatMap(currentFieldFromTerm)
 
   private def currentFieldFromTerm(term: String) =
-    if (amfObject.fields.fields().exists(_.field.value.iri() == term) && amfObject.fields.fields().nonEmpty)
+    if (amfObject.fields.fields().exists(_.field.value.iri() == term))
       None // if value ==null anyway should be in objectInTree.FieldEntry
     else currentNode.flatMap(cn => cn.propertiesMapping().find(_.nodePropertyMapping().value() == term))
 
-  def search(father: Option[AmfObject]): Option[(FieldEntry, Boolean)] = {
+  def search(father: Option[AmfObject]): Option[(FieldEntry, Boolean)] =
     for {
       parent <- father
       nm     <- DialectNodeFinder.find(parent, None, actualDialect)
       rp     <- findReferringProperty(nm.propertiesMapping())
       mm     <- findValueFromTerm(rp)
     } yield (FieldEntry(mm.toField, Value(AmfScalar(""), amfObject.annotations)), true)
-  }
 }

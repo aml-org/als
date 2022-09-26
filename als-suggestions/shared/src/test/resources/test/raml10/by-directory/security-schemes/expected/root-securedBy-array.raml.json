@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11name",
-    "filterText": "name: ",
+    "filterText": "name:\n  ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 4
         }
       },
-      "newText": "name: "
+      "newText": "name:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

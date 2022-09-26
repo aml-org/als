@@ -51,7 +51,9 @@ class SerializationManager[S](
   private def getUnitFromResolved(unit: BaseUnit, uri: String): BaseUnit =
     if (unit.identifier == uri) unit
     else
-      throw new Exception(s"Unreachable code - getUnitFromResolved $uri in BaseUnit ${unit.location}")
+      unit.flatRefs
+        .find(_.identifier == uri)
+        .getOrElse(throw new Exception(s"Unreachable code - getUnitFromResolved $uri in BaseUnit ${unit.id}"))
 
   private def processRequest(uri: String): Future[SerializationResult[S]] = {
     val bu: Future[BaseUnit] = unitAccessor match {
@@ -61,7 +63,8 @@ class SerializationManager[S](
             logger.debug(s"Serialization uri: $uri", "SerializationManager", "processRequest")
             if (r.baseUnit.isInstanceOf[Extension] || r.baseUnit.isInstanceOf[Overlay])
               r.latestBU
-            else r.latestBU.map(getUnitFromResolved(_, uri))
+            else
+              r.latestBU.map(getUnitFromResolved(_, uri))
           }
           .recoverWith { case e: Exception =>
             logger.warning(e.getMessage, "SerializationManager", "RequestSerialization")

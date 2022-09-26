@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.plugins.headers
 
 import amf.aml.client.scala.model.document.Dialect
-import amf.core.internal.remote.FileMediaType
+import amf.core.internal.remote.{FileMediaType, Spec}
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.configuration.{AlsConfigurationReader, Configuration, TemplateTypes}
 import org.mulesoft.als.suggestions.interfaces.HeaderCompletionPlugin
@@ -73,16 +73,33 @@ class KeyPropertyHeaderCompletionPlugin(
   private def getSuggestions: Seq[RawSuggestion] = {
     configurationState.allDialects
       .filter(d => Option(d.documents()).exists(_.keyProperty().value()))
+      .filter(compliesFormat)
       .map(d => {
         val Flavour(text, label, isASnippet) =
           if (isJson)
-            jsonFlavour(d.name().value(), d.version().value(), hasBracket, position)
-          else yamlFlavour(d.name().value(), d.version().value())
+            jsonFlavour(purgeName(d), d.version().value(), hasBracket, position)
+          else yamlFlavour(purgeName(d), d.version().value())
 
         new RawSuggestion(text, label.trim, s"Define a ${purgedNameAndVersion(d)} file", Seq(), children = Nil)
       })
       .toSeq // TODO: remove when OAS is added as a Dialect
   }
+
+  /** only suggest $schema for json documents
+    * @param dialect
+    * @return
+    */
+  private def compliesFormat(dialect: Dialect): Boolean =
+    if (!isJson)
+      !isJsonSchema(dialect)
+    else true
+
+  private def isJsonSchema(dialect: Dialect) =
+    dialect.name().option().contains(Spec.JSONSCHEMA.toString)
+
+  private def purgeName(d: Dialect) =
+    if (isJsonSchema(d)) "$schema"
+    else d.name().value()
 
   private def purgedNameAndVersion(d: Dialect) = {
     val nameAndVersion = d.nameAndVersion()

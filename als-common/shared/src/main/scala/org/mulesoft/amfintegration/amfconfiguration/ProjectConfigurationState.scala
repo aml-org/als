@@ -1,7 +1,7 @@
 package org.mulesoft.amfintegration.amfconfiguration
 
 import amf.aml.client.scala.model.document.Dialect
-import amf.apicontract.client.scala.AMFConfiguration
+import amf.apicontract.client.scala.{AMFConfiguration, APIConfiguration}
 import amf.core.client.scala.AMFParseResult
 import amf.core.client.scala.config.{CachedReference, UnitCache}
 import amf.core.client.scala.model.document.Module
@@ -35,6 +35,7 @@ trait ProjectConfigurationState {
   val results: Seq[AMFParseResult]
   val resourceLoaders: Seq[ResourceLoader]
   val projectErrors: Seq[AMFValidationResult]
+  val rootProjectConfiguration: AMFConfiguration = APIConfiguration.APIWithJsonSchema()
 }
 
 case class EmptyProjectConfigurationState(folder: String) extends ProjectConfigurationState() {

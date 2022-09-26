@@ -9,14 +9,18 @@ object Draft4RootNode extends Draft4RootNode
 
 trait Draft4RootNode extends BaseJsonSchemaDocumentNode {
 
-  override def properties: Seq[PropertyMapping] =
+  protected def numberMappings: Seq[PropertyMapping] =
+    BaseNumberShapeNode.numberShapeFacets(location) ++ BaseNumberShapeNode.draft4Exclusives(location)
+
+  override def properties: Seq[PropertyMapping] = {
     super.properties ++
-      BaseAnyShapeNode.anyShapeFacets ++
-      BaseArrayShapeNode.arrayShapeFacets ++
-      BaseNodeShapeNode.nodeShapeFacets ++
-      BaseNumberShapeNode.numberShapeFacets ++
-      BaseStringShapeNode.stringShapeFacets :+
+      BaseAnyShapeNode.anyShapeFacets(location) ++
+      BaseArrayShapeNode.arrayShapeFacets(location) ++
+      BaseNodeShapeNode.nodeShapeFacets(location) ++
+      numberMappings ++
+      BaseStringShapeNode.stringShapeFacets(location) :+
       identifierMapping(location)
+  }
 
   def identifierMapping(location: String): PropertyMapping =
     PropertyMapping()

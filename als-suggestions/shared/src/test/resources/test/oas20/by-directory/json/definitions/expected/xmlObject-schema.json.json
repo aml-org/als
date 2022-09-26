@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11attribute",
-    "filterText": "\"attribute\": \"$1\"",
+    "filterText": "\"attribute\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -23,7 +23,7 @@
           "character": 14
         }
       },
-      "newText": "\"attribute\": \"$1\""
+      "newText": "\"attribute\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11wrapped",
-    "filterText": "\"wrapped\": \"$1\"",
+    "filterText": "\"wrapped\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -143,7 +143,7 @@
           "character": 14
         }
       },
-      "newText": "\"wrapped\": \"$1\""
+      "newText": "\"wrapped\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
