@@ -1,0 +1,4 @@
+#%InDeclaresDisc 1
+declaration:
+  test:
+    kind: *

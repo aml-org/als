@@ -26,8 +26,6 @@ class AMLUnionNodeCompletionPlugin(params: AmlCompletionRequest, override protec
   override protected val amfObject: AmfObject = params.amfObject
   override protected val dialect: Dialect     = params.actualDialect
 
-  lazy val unionType: Option[UnionNodeMapping] = getUnionType
-
   // this plugin applies when we are on a union with no type discriminator or the type discriminator is not set
   def resolve(): Option[Future[Seq[RawSuggestion]]] =
     if (params.astPartBranch.isKey && !hasDefinedDiscriminator(amfObject)) {
@@ -36,7 +34,7 @@ class AMLUnionNodeCompletionPlugin(params: AmlCompletionRequest, override protec
 
   def hasDefinedDiscriminator(amfObject: AmfObject): Boolean = amfObject match {
     // We have a discriminator name and it's set
-    case d: DialectDomainElement =>
+    case _: DialectDomainElement =>
       unionType.exists(_.typeDiscriminatorName().nonEmpty) && amfObject.annotations
         .find(classOf[DiscriminatorField])
         .exists(_.value != "")

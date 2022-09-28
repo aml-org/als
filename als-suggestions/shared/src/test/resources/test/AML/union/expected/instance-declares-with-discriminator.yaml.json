@@ -1,0 +1,62 @@
+[
+  {
+    "label": "propertyA",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "propertyA",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10propertyA",
+    "filterText": "propertyA: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      },
+      "newText": "propertyA: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "propertyX",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "propertyX",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "10propertyX",
+    "filterText": "propertyX: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 4,
+          "character": 4
+        },
+        "end": {
+          "line": 4,
+          "character": 4
+        }
+      },
+      "newText": "propertyX: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

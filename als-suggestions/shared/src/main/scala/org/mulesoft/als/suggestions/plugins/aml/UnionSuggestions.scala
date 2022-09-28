@@ -5,13 +5,24 @@ import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping, UnionNod
 import amf.aml.internal.annotations.FromUnionNodeMapping
 import amf.core.client.scala.model.domain.{AmfObject, DomainElement}
 import org.mulesoft.als.common.YPartBranch
+import org.mulesoft.amfintegration.AmfImplicits.AmfObjectImp
 
 trait UnionSuggestions {
   protected val amfObject: AmfObject
   protected val dialect: Dialect
   protected val yPartBranch: YPartBranch
 
-  protected def getUnionType: Option[UnionNodeMapping] =
+  private def getUnionTypeFromMeta: Option[UnionNodeMapping] =
+    amfObject.metaURIs.flatMap { v =>
+      dialect.declares.collectFirst({
+        case d: UnionNodeMapping if d.id == v => d
+      })
+    }.headOption
+
+  protected lazy val unionType: Option[UnionNodeMapping] =
+    getUnionTypeFromAnnotation orElse getUnionTypeFromMeta
+
+  private def getUnionTypeFromAnnotation: Option[UnionNodeMapping] =
     amfObject.annotations.find(classOf[FromUnionNodeMapping]).flatMap { ann: FromUnionNodeMapping =>
       dialect.declares.collectFirst({
         case d: UnionNodeMapping if d.id == ann.id => d
@@ -38,7 +49,6 @@ trait UnionSuggestions {
       .flatMap(getProperties(_, unionMapping.typeDiscriminatorName().option()))
       // filter duplicates (same property defined in multiple ranges of the union)
       .foldLeft(Seq[PropertyMapping]())(filterProperties)
-      .toSeq
 
   protected def getProperties(
       nm: Option[DomainElement],

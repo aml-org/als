@@ -1,0 +1,5 @@
+#%InDeclares 1
+declaration:
+  test:
+    propertyA: a
+    *

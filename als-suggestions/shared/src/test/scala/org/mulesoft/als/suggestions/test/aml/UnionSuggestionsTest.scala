@@ -43,4 +43,19 @@ class UnionSuggestionsTest extends SuggestionsWithDialectTest {
     runTest("non-explicit-not-mandatory-prop.yaml", "dialect-no-explicit-discriminator.yaml")
   }
 
+  test("Suggestions in declaration node") {
+    runTest("instance-declares.yaml", "dialect-declares.yaml")
+  }
+
+  test("Suggestions in declaration node - distinct") {
+    runTest("instance-declares-distinct.yaml", "dialect-declares.yaml")
+  }
+
+  test("Suggestions in declaration node - discriminator") {
+    runTest("instance-declares-with-discriminator.yaml", "dialect-declares-with-discriminator.yaml")
+  }
+
+  test("Suggestions in declaration node - in discriminator value") {
+    runTest("instance-declares-with-discriminator-value.yaml", "dialect-declares-with-discriminator.yaml")
+  }
 }

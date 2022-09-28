@@ -33,7 +33,7 @@ class AMLUnionDiscriminatorCompletionPlugin(
   override protected val dialect: Dialect     = params.actualDialect
 
   def resolve(): Seq[RawSuggestion] = {
-    getUnionType.flatMap(unionMapping => {
+    unionType.flatMap(unionMapping => {
       unionMapping
         .typeDiscriminatorName()
         .option()

@@ -1,0 +1,32 @@
+#%Dialect 1.0
+dialect: InDeclares
+version: 1
+external:
+  v: http://voc.com/#
+documents:
+  root:
+    encodes: RootNode
+    declares:
+      declaration: RootNode
+nodeMappings:
+  A:
+    mapping:
+      propertyA:
+        range: string
+        mandatory: true
+      propertyX:
+        range: string
+        mandatory: true
+  B:
+    mapping:
+      propertyB:
+        range: string
+        mandatory: false
+      propertyX:
+        range: string
+        mandatory: true
+  RootNode:
+    classTerm: v.root
+    union:
+      - A
+      - B
