@@ -277,7 +277,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11items",
-    "filterText": "items:\n  ",
+    "filterText": "items:\n    ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -293,7 +293,7 @@
           "character": 8
         }
       },
-      "newText": "items:\n  "
+      "newText": "items:\n    "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

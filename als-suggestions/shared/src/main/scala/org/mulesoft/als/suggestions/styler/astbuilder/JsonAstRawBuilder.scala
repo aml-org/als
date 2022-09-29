@@ -2,10 +2,10 @@ package org.mulesoft.als.suggestions.styler.astbuilder
 
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.{RawSuggestion, SuggestionStructure}
-import org.yaml.model.{YMap, YNode, YPart}
 import org.mulesoft.common.client.lexical.{Position => AmfPosition}
+import org.yaml.model.{YMap, YNode, YPart}
 
-class JsonAstRawBuilder(val raw: RawSuggestion, val isSnippet: Boolean, val yPartBranch: YPartBranch)
+class JsonAstRawBuilder(raw: RawSuggestion, val isSnippet: Boolean, val yPartBranch: YPartBranch)
     extends AstRawBuilder(raw, isSnippet, yPartBranch) {
   override protected def newInstance: (RawSuggestion, Boolean) => AstRawBuilder =
     (raw: RawSuggestion, isSnippet: Boolean) =>

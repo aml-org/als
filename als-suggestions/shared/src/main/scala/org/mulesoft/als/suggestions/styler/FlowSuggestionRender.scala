@@ -2,6 +2,7 @@ package org.mulesoft.als.suggestions.styler
 
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.styler.astbuilder.AstRawBuilder
 
 trait FlowSuggestionRender extends SuggestionRender {
@@ -21,6 +22,25 @@ trait FlowSuggestionRender extends SuggestionRender {
 
     def fix(): String = collectionSeparator(fixFlow())
 
+    /**
+      * This method fix the indentation when the object is inside of an Array
+      * @param raw the [[RawSuggestion]]
+      * @return the final indent
+      */
+    def fixIndent(raw: RawSuggestion): String =
+      if (raw.options.isObject && params.yPartBranch.isInArray && isInSameLine())
+        indent * 2
+      else indent
+
+    /**
+      * This method is post condition when the suggestion is an object and is inside an Array and
+      * it evaluate if the suggestion is asked in the same line of beginning node.
+      *
+      * @return true if line position is same as lineFrom of the [[org.mulesoft.common.client.lexical.PositionRange]] of the node
+      */
+    def isInSameLine(): Boolean =
+      params.yPartBranch.position.line == params.yPartBranch.node.range.lineFrom
+
     private def fixFlow(): String = {
       val result = rendered.stripSuffix("\n")
       if (result.endsWith("{}")) {
@@ -28,7 +48,7 @@ trait FlowSuggestionRender extends SuggestionRender {
           builder.forSnippet()
           result.replace("{}", "{\n" + indent + cursorPosition + "\n}")
         } else {
-          result.stripSuffix(" {}") + "\n" + indent
+          result.stripSuffix(" {}") + "\n" + fixIndent(builder.raw)
         }
       } else if (result.endsWith("[\n \n]") && isFlow) {
         builder.forSnippet()

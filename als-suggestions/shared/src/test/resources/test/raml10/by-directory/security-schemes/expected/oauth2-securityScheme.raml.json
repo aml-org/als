@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11oauth2",
-    "filterText": "oauth2:\n  ",
+    "filterText": "oauth2:\n    ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -83,7 +83,7 @@
           "character": 6
         }
       },
-      "newText": "oauth2:\n  "
+      "newText": "oauth2:\n    "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

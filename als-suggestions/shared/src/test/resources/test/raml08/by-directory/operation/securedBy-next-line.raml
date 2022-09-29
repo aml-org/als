@@ -1,0 +1,16 @@
+#%RAML 0.8
+
+securitySchemes:
+  oauth2:
+    type: OAuth 2.0
+    settings:
+      scopes:
+        - read:scope
+        - write:scope
+
+title: a
+
+/a:
+  securedBy:
+    -
+      *

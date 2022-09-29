@@ -67,7 +67,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11variables",
-    "filterText": "variables:\n  ",
+    "filterText": "variables:\n    ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -83,7 +83,7 @@
           "character": 4
         }
       },
-      "newText": "variables:\n  "
+      "newText": "variables:\n    "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

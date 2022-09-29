@@ -1,10 +1,10 @@
 package org.mulesoft.als.suggestions.styler.astbuilder
 
-import org.mulesoft.common.client.lexical.{Position => AmfPosition}
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.{RawSuggestion, SuggestionStructure}
+import org.mulesoft.common.client.lexical.{Position => AmfPosition}
 import org.yaml.model.{YMap, YMapEntry, YNode, YPart}
-class YamlAstRawBuilder(val raw: RawSuggestion, val isSnippet: Boolean, val yPartBranch: YPartBranch)
+class YamlAstRawBuilder(raw: RawSuggestion, val isSnippet: Boolean, val yPartBranch: YPartBranch)
     extends AstRawBuilder(raw, isSnippet, yPartBranch) {
 
   def ast: YPart =
