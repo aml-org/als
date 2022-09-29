@@ -656,8 +656,6 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
         _       <- assertSerialization(server, profileUrl, goldenUrl)       // Registered profile
         content <- platform.fetchContent(profileUrl, AMFGraphConfiguration.predefined()).map(_.stream.toString)
         _       <- openFile(server)(profileUrl, content)
-        _       <- notifier.nextCall
-        _       <- assertSerialization(server, profileUrl, goldenUrl)       // Opened profile
         _       <- changeFile(server)(profileUrl, content.replace("warning:\n  - ab", ""), 1)
         _       <- notifier.nextCall
         _       <- assertSerialization(server, profileUrl, editedGoldenUrl) // Edited profile

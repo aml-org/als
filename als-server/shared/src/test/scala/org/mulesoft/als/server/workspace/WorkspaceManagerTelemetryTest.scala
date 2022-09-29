@@ -154,7 +154,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
     val dialect  = s"${filePath("aml-instance-is-mf")}/dialect.yaml"
     val instance = s"${filePath("aml-instance-is-mf")}/instance.yaml"
     val initialArgs =
-      changeConfigArgs(Some("instance.yaml"), filePath("aml-instance-is-mf"), dialects = Set(dialect))
+      changeConfigArgs(Some("instance.yaml"), filePath("aml-instance-is-mf"))
     val notifier: MockCompleteClientNotifier = new MockCompleteClientNotifier(3000)
     withServer[Assertion](
       buildServer(notifier),
@@ -187,8 +187,8 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
 
         rootDiagnostic.uri should be(instance)
         instanceDiagnostic2.uri should be(instance)
-        rootDiagnostic.diagnostics.size should be(0)
-        instanceDiagnostic2.diagnostics.size should be(0)
+        rootDiagnostic.diagnostics.size should be(1)
+        instanceDiagnostic2.diagnostics.size should be(1)
         // 1. initial main file (instance) parse
         // 2. initial dialect parse
         // No parse on open instance (not modified)
