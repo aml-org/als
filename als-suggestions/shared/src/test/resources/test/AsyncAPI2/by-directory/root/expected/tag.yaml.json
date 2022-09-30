@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11externalDocs",
-    "filterText": "externalDocs:\n  ",
+    "filterText": "externalDocs:\n    ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -53,7 +53,7 @@
           "character": 4
         }
       },
-      "newText": "externalDocs:\n  "
+      "newText": "externalDocs:\n    "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

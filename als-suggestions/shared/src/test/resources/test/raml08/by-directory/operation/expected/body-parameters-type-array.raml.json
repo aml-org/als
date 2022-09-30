@@ -127,7 +127,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11example",
-    "filterText": "example:\n  ",
+    "filterText": "example:\n    ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -143,7 +143,7 @@
           "character": 14
         }
       },
-      "newText": "example:\n  "
+      "newText": "example:\n    "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -157,7 +157,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11properties",
-    "filterText": "properties:\n  ",
+    "filterText": "properties:\n    ",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -173,7 +173,7 @@
           "character": 14
         }
       },
-      "newText": "properties:\n  "
+      "newText": "properties:\n    "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

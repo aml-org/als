@@ -5,7 +5,7 @@ import org.mulesoft.als.suggestions.{BoolScalarRange, NumberScalarRange, RawSugg
 import org.mulesoft.common.client.lexical.SourceLocation
 import org.yaml.model._
 
-abstract class AstRawBuilder(raw: RawSuggestion, isSnippet: Boolean, yPartBranch: YPartBranch) {
+abstract class AstRawBuilder(val raw: RawSuggestion, isSnippet: Boolean, yPartBranch: YPartBranch) {
 
   protected def newInstance: (RawSuggestion, Boolean) => AstRawBuilder
   protected var snippet: Boolean    = false
