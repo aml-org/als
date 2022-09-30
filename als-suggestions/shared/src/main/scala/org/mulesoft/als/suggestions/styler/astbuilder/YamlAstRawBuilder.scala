@@ -4,7 +4,7 @@ import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.suggestions.{RawSuggestion, SuggestionStructure}
 import org.mulesoft.common.client.lexical.{Position => AmfPosition}
 import org.yaml.model.{YMap, YMapEntry, YNode, YPart}
-class YamlAstRawBuilder(raw: RawSuggestion, val isSnippet: Boolean, val yPartBranch: YPartBranch)
+class YamlAstRawBuilder(override val raw: RawSuggestion, val isSnippet: Boolean, val yPartBranch: YPartBranch)
     extends AstRawBuilder(raw, isSnippet, yPartBranch) {
 
   def ast: YPart =

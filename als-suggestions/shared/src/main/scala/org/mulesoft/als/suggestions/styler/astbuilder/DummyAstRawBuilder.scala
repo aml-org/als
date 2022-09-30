@@ -5,7 +5,7 @@ import org.mulesoft.als.suggestions.{RawSuggestion, SuggestionStructure}
 import org.mulesoft.common.client.lexical.{Position => AmfPosition}
 import org.yaml.model._
 
-class DummyAstRawBuilder(raw: RawSuggestion)
+class DummyAstRawBuilder(override val raw: RawSuggestion)
     extends AstRawBuilder(
       raw,
       false,
