@@ -1,7 +1,6 @@
 package org.mulesoft.als.server.modules.workspace
 
-import amf.aml.client.scala.model.document.Dialect
-import org.mulesoft.amfintegration.{DiagnosticsBundle, ValidationProfile}
+import org.mulesoft.amfintegration.DiagnosticsBundle
 import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.lsp.feature.link.DocumentLink
 
@@ -12,6 +11,8 @@ trait MainFileTree extends FileTree {
   def contains(uri: String): Boolean
 
   def profiles: Map[String, ParsedUnit]
+
+  def dialects: Map[String, ParsedUnit]
 }
 
 object EmptyFileTree extends MainFileTree {
@@ -29,4 +30,6 @@ object EmptyFileTree extends MainFileTree {
   override def contains(uri: String): Boolean = false
 
   override def profiles: Map[String, ParsedUnit] = Map.empty
+
+  override def dialects: Map[String, ParsedUnit] = Map.empty
 }

@@ -61,6 +61,7 @@ class ResolutionTaskManager private (
         }
       }
       addProfileIfNotPresent(params.parseResult.context.state)
+      addDialectIfNotPresent(params.parseResult.context.state)
       logger.debug(s"Updating $uri unit", "ResolutionTaskManager", "processTask")
       repository.updateUnit(uri, resolvedInstance)
       // prevents notifying diagnostics on dependencies
@@ -69,11 +70,16 @@ class ResolutionTaskManager private (
   }
 
   def addProfileIfNotPresent(state: ALSConfigurationState): Unit = {
-    val newProfiles = state.profiles.filterNot(p => repository.getAllFilesUris.contains(p.path))
-    newProfiles.foreach { p =>
+    state.profiles.foreach { p =>
       repository.updateUnit(p.path, ProfileResolvedUnit(p, state))
     }
     // TODO: check hot reload to always override editor state profiles
+  }
+
+  def addDialectIfNotPresent(state: ALSConfigurationState): Unit = {
+    state.dialects.foreach { d =>
+      repository.updateUnit(d.identifier, AmfResolvedUnitImpl(d, Map.empty, state))
+    }
   }
 
   override protected def toResult(uri: String, unit: AmfResolvedUnit): AmfResolvedUnit = unit

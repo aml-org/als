@@ -6,7 +6,7 @@ import amf.core.client.scala.model.document.{BaseUnit, ExternalFragment}
 import org.mulesoft.als.common.dtoTypes.{PositionRange, ReferenceOrigins, ReferenceStack}
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
-import org.mulesoft.amfintegration.{DiagnosticsBundle, ValidationProfile}
+import org.mulesoft.amfintegration.DiagnosticsBundle
 import org.mulesoft.amfintegration.amfconfiguration.{AmfParseContext, AmfParseResult}
 import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.amfintegration.visitors.AmfElementVisitors
@@ -74,7 +74,7 @@ class ParsedMainFileTree(
 
   def index(): Future[Unit] = index(main, ReferenceStack(Nil))
 
-  override def contains(uri: String): Boolean = parsedUnits.contains(uri)
+  override def contains(uri: String): Boolean = (parsedUnits.keys ++ profiles.keys ++ dialects.keys).exists(_ == uri)
 
   override def nodeRelationships: Seq[RelationshipLink] = innerNodeRelationships
 
@@ -88,6 +88,16 @@ class ParsedMainFileTree(
         new AmfParseResult(AMFResult(p.model, Nil), p.definedBy, parseContext, p.path),
         false,
         p.definedBy
+      )
+    )
+    .toMap
+
+  override val dialects: Map[String, ParsedUnit] = parseContext.state.dialects
+    .map(d =>
+      d.identifier -> ParsedUnit(
+        new AmfParseResult(AMFResult(d, Nil), d, parseContext, d.identifier),
+        false,
+        d
       )
     )
     .toMap

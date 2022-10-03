@@ -22,6 +22,9 @@
 "doc:DomainElement"
 ],
 "amf-core:name": "My Profile",
+"validation:setSeverityWarning": [
+"ab"
+],
 "validation:setSeverityViolation": [
 "scalar-parameters"
 ],
