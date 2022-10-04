@@ -9,6 +9,7 @@ import amf.core.client.scala.config.RenderOptions
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.model.domain.DomainElement
 import amf.core.client.scala.validation.AMFValidationReport
+import amf.core.internal.metamodel.document.DocumentModel
 import amf.core.internal.remote.Spec
 import org.yaml.builder.DocBuilder
 import org.yaml.model.YNode
@@ -61,7 +62,12 @@ case class AMLSpecificConfiguration(config: AMLConfiguration) {
     config
       .withRenderOptions(renderOptions)
       .baseUnitClient()
-      .renderGraphToBuilder(resolved.cloneUnit(), builder)
+      .renderGraphToBuilder(orderEncodes(resolved).cloneUnit(), builder)
 
+  private def orderEncodes(unit: BaseUnit) = {
+    val value = unit.fields.getValue(DocumentModel.Declares)
+    unit.fields.removeField(DocumentModel.Declares).setWithoutId(DocumentModel.Declares, value.value, value.annotations)
+    unit
+  }
   def parse(uri: String): Future[AMFParseResult] = config.baseUnitClient().parse(uri)
 }
