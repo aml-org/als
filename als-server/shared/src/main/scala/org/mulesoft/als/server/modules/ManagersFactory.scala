@@ -15,7 +15,7 @@ import org.mulesoft.als.server.modules.completion.SuggestionsManager
 import org.mulesoft.als.server.modules.configuration.{ConfigurationManager, WorkspaceConfigurationManager}
 import org.mulesoft.als.server.modules.diagnostic._
 import org.mulesoft.als.server.modules.diagnostic.custom.CustomValidationManager
-import org.mulesoft.als.server.modules.project.ProfileConfigurationChangeListener
+import org.mulesoft.als.server.modules.project.{DialectChangeListener, ProfileChangeListener}
 import org.mulesoft.als.server.modules.serialization.{ConversionManager, SerializationManager}
 import org.mulesoft.als.server.modules.structure.StructureManager
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
@@ -96,11 +96,18 @@ class WorkspaceManagerFactoryBuilder(
     fip
   }
 
-  def profileNotificationConfigurationListener[S](sp: SerializationProps[S]): ProfileConfigurationChangeListener[S] = {
+  def profileNotificationConfigurationListener[S](sp: SerializationProps[S]): ProfileChangeListener[S] = {
     val pnl =
-      new ProfileConfigurationChangeListener(sp, configurationManager.getConfiguration, logger)
+      new ProfileChangeListener(sp, configurationManager.getConfiguration, logger)
     projectDependencies += pnl
     pnl
+  }
+
+  def dialectNotificationListener[S](sp: SerializationProps[S]): DialectChangeListener[S] = {
+    val dcl =
+      new DialectChangeListener(sp, configurationManager.getConfiguration, logger)
+    projectDependencies += dcl
+    dcl
   }
 
   def addWorkspaceContentListener(workspaceContentListener: WorkspaceContentListener[_]): Unit =

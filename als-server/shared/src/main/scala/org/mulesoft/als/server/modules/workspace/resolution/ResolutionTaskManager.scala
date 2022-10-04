@@ -70,14 +70,16 @@ class ResolutionTaskManager private (
   }
 
   def addProfileIfNotPresent(state: ALSConfigurationState): Unit = {
-    state.profiles.foreach { p =>
+    val newProfiles = state.profiles.filterNot(p => repository.getAllFilesUris.contains(p.path))
+    newProfiles.foreach { p =>
       repository.updateUnit(p.path, ProfileResolvedUnit(p, state))
     }
     // TODO: check hot reload to always override editor state profiles
   }
 
   def addDialectIfNotPresent(state: ALSConfigurationState): Unit = {
-    state.dialects.foreach { d =>
+    val newDialects = state.dialects.filterNot(p => repository.getAllFilesUris.contains(p.identifier))
+    newDialects.foreach { d =>
       repository.updateUnit(d.identifier, AmfResolvedUnitImpl(d, Map.empty, state))
     }
   }

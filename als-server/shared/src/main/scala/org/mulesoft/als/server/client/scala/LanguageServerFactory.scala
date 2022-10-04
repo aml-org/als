@@ -105,6 +105,7 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) {
     val sm                    = factory.serializationManager(serialization)
     val filesInProjectManager = factory.filesInProjectManager(serialization.alsClientNotifier)
     val profileNotification   = factory.profileNotificationConfigurationListener(serialization)
+    val dialectNotification   = factory.dialectNotificationListener(serialization)
     workspaceContentListeners.foreach(factory.addWorkspaceContentListener)
 
     val builders = factory.buildWorkspaceManagerFactory()
@@ -114,6 +115,7 @@ class LanguageServerFactory(clientNotifier: ClientNotifier) {
         .addInitializableModule(sm)
         .addInitializableModule(filesInProjectManager)
         .addInitializableModule(profileNotification)
+        .addInitializableModule(dialectNotification)
 
     dm.foreach(m => languageBuilder.addInitializableModule(m))
     builders.serializationManager.foreach(languageBuilder.addRequestModule)
