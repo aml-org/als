@@ -18,7 +18,7 @@ import org.yaml.builder.{DocBuilder, JsonOutputBuilder}
 import java.io.StringWriter
 import scala.concurrent.ExecutionContext
 
-class ProfileConfigurationChangeListenerTest
+class ProfileChangeListenerTest
     extends LanguageServerBaseTest
     with ChangesWorkspaceConfiguration
     with FileAssertionTest {
