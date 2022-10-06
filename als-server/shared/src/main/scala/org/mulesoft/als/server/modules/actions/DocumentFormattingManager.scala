@@ -74,7 +74,7 @@ class DocumentFormattingManager(
     workspace
       .getLastUnit(params.textDocument.uri, uuid)
       .map(cu => {
-        getParts(cu.unit)
+        cu.unit.ast
           .map(part =>
             RangeFormatting(
               part,
@@ -88,8 +88,6 @@ class DocumentFormattingManager(
           .getOrElse(Seq.empty)
       })
   }
-
-  def getParts(unit: BaseUnit): Option[YPart] = unit.ast
 
   override def applyConfig(
       config: Option[DocumentFormattingClientCapabilities]

@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
 
-if[ -z "$AMF_VERSION" ]
-then
+if [[ -z "$AMF_VERSION" ]]; then
   echo "AMF_VERSION EMPTY"
   exit $status
 fi
 
-if[ -z "$VALIDATOR_VERSION" ]
-then
+if [[ -z "$VALIDATOR_VERSION" ]]; then
   echo "VALIDATOR_VERSION EMPTY"
   exit $status
 fi

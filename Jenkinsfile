@@ -229,16 +229,19 @@ pipeline {
                     branch 'develop'
                     branch 'rc/*'
                     branch 'master'
+                    branch 'jenkinsfile/accept-als-versions-params'
                 }
             }
             steps {
                 script {
                     if (failedStage.isEmpty()) {
                         try {
-                            echo "Trigger als-client ($publish_version) and als-extension ($publish_version)"
-                            build job: "ALS/als-client/master", parameters: [string(name: 'ALS_VERSION', value: "$publish_version")], wait: false
-                            build job: "ALS/als-extension/master", parameters: [string(name: 'ALS_VERSION', value: "$publish_version")], wait: false
+                            def javaVersion = "${currentVersion}".replace("\n", "")
+                            echo "Trigger anypoint-als ($javaVersion) and als-extension ($publish_version)"
+                            build job: "ALS/anypoint-als/jenkinsfile%2Faccept-als-versions-params", parameters: [string(name: 'ALS_VERSION', value: "$javaVersion")], wait: false
+//                             build job: "ALS/als-extension/master", parameters: [string(name: 'ALS_VERSION', value: "$publish_version")], wait: false
                         } catch (e) {
+                            echo e.getMessage()
                             failedStage = failedStage + " DEPENDENCIES "
                             unstable "Failed dependencies"
                         }
