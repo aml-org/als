@@ -23,7 +23,13 @@ pipeline {
             registryCredentialsId 'dockerhub-pro-credentials'
         }
     }
+    parameters {
+        string(name: 'AMF_VERSION', defaultValue: '', description: 'AMF version')
+        string(name: 'VALIDATOR_VERSION', defaultValue: '', description: 'AMF Custom Validator version')
+    }
     environment {
+        AMF_VERSION = "$AMF_VERSION"
+        VALIDATOR_VERSION = "$VALIDATOR_VERSION"
         NEXUS = credentials('exchange-nexus')
         NEXUSIQ = credentials('nexus-iq')
         NPM = credentials('aml-org-bot')
@@ -57,6 +63,21 @@ pipeline {
                 script {
                     publish_version = "${currentVersion}.${BUILD_NUMBER}".replace("\n", "")
                     echo "$publish_version"
+                }
+            }
+        }
+        stage('Prepare Dependency versions') {
+            when {
+                expression { env.AMF_VERSION?.trim() && env.VALIDATOR_VERSION?.trim() }
+            }
+            steps {
+                script {
+                    def statusCode = 0
+                    statusCode = sh script:"scripts/dependency-versions.sh", returnStatus:true
+                    if(statusCode != 0) {
+                        failedStage = failedStage + " Prepare Dependency versions "
+                        unstable "Failed to Prepare Dependency versions"
+                    }
                 }
             }
         }
@@ -121,6 +142,27 @@ pipeline {
                 }
             }
         }
+        stage('Publish') {
+            when {
+                anyOf {
+                    branch 'master'
+                    branch 'develop'
+                    branch 'rc/*'
+                }
+            }
+            steps {
+                script {
+                    try {
+                        if (failedStage.isEmpty()) {
+                            sh 'sbt publish'
+                        }
+                    } catch (e) {
+                        failedStage = failedStage + " PUBLISH "
+                        unstable "Failed publication"
+                    }
+                }
+            }
+        }
         stage('Publish node client') {
             when {
                 anyOf {
@@ -177,27 +219,6 @@ pipeline {
                                 unstable "Failed als-server JS publication"
                             }
                         }
-                    }
-                }
-            }
-        }
-        stage('Publish') {
-            when {
-                anyOf {
-                    branch 'master'
-                    branch 'develop'
-                    branch 'rc/*'
-                }
-            }
-            steps {
-                script {
-                    try {
-                        if (failedStage.isEmpty()) {
-                            sh 'sbt publish'
-                        }
-                    } catch (e) {
-                        failedStage = failedStage + " PUBLISH "
-                        unstable "Failed publication"
                     }
                 }
             }
@@ -259,6 +280,7 @@ pipeline {
         }
     }
 }
+
 
 void npmLogin() {
     sh "echo //registry.npmjs.org/:_authToken=${env.NPM_TOKEN} > .npmrc"

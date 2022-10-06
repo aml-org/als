@@ -2,7 +2,7 @@ import java.io.{File, PrintWriter}
 import java.nio.file.Files
 import scala.collection.mutable
 
-val alsPath = "/Users/llibarona/mulesoft/als"
+val alsPath = s"${System.getProperty("user.home")}/mulesoft/als"
 
 def recursiveListFiles(f: File): Seq[File] = {
   val these = f.listFiles
