@@ -17,6 +17,7 @@ import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{
   amlNumber,
   xsdAnyType,
   xsdBoolean,
+  xsdDouble,
   xsdInteger,
   xsdString
 }
@@ -173,12 +174,12 @@ trait RamlDialectNodes {
         .withId(dialectLocation + s"#/declarations/$nodeId/ScalarTypeNode/minimum")
         .withName("minimum")
         .withNodePropertyMapping(ScalarShapeModel.Minimum.value.iri())
-        .withLiteralRange(amlNumber.iri()),
+        .withLiteralRange(xsdDouble.iri()),
       PropertyMapping()
         .withId(dialectLocation + s"#/declarations/$nodeId/ScalarTypeNode/maximum")
         .withName("maximum")
         .withNodePropertyMapping(ScalarShapeModel.Maximum.value.iri())
-        .withLiteralRange(amlNumber.iri()),
+        .withLiteralRange(xsdDouble.iri()),
       PropertyMapping()
         .withId(dialectLocation + s"#/declarations/$nodeId/ScalarTypeNode/format")
         .withName("format")
@@ -200,13 +201,13 @@ trait RamlDialectNodes {
         .withId(dialectLocation + s"#/declarations/$nodeId/ScalarTypeNode/multipleOf")
         .withName("multipleOf")
         .withNodePropertyMapping(ScalarShapeModel.MultipleOf.value.iri())
-        .withLiteralRange(amlNumber.iri()),
+        .withLiteralRange(xsdDouble.iri()),
       // file types
       PropertyMapping()
         .withId(dialectLocation + s"#/declarations/$nodeId/FileTypeNode/fileTypes")
         .withName("fileTypes")
         .withNodePropertyMapping(FileShapeModel.FileTypes.value.iri())
-        .withLiteralRange(amlNumber.iri())
+        .withLiteralRange(xsdDouble.iri())
     )
   }
 

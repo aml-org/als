@@ -1,7 +1,7 @@
 package org.mulesoft.amfintegration.dialect.dialects.jsonschema.base
 
 import amf.aml.client.scala.model.domain.PropertyMapping
-import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{amlNumber, xsdBoolean, xsdFloat, xsdInteger, xsdString}
+import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{xsdBoolean, xsdFloat, xsdString}
 import amf.shapes.internal.domain.metamodel.ScalarShapeModel
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.base.BaseNumberShapeNode.numberShapeFacets
 
