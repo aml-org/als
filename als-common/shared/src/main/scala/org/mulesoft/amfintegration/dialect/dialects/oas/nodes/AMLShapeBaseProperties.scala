@@ -3,9 +3,9 @@ package org.mulesoft.amfintegration.dialect.dialects.oas.nodes
 import amf.aml.client.scala.model.domain.PropertyMapping
 import amf.core.client.scala.vocabulary.Namespace.XsdTypes.{
   amlAnyNode,
-  amlNumber,
   xsdAnyType,
   xsdBoolean,
+  xsdDouble,
   xsdInteger,
   xsdString
 }
@@ -20,27 +20,27 @@ trait AMLShapeBaseProperties {
       .withId(DialectLocation + s"#/declarations/ShapeObject/multipleOf")
       .withName("multipleOf")
       .withNodePropertyMapping(ScalarShapeModel.MultipleOf.value.iri())
-      .withLiteralRange(amlNumber.iri()),
+      .withLiteralRange(xsdDouble.iri()),
     PropertyMapping()
       .withId(DialectLocation + s"#/declarations/ShapeObject/maximum")
       .withName("maximum")
       .withNodePropertyMapping(ScalarShapeModel.Maximum.value.iri())
-      .withLiteralRange(amlNumber.iri()),
+      .withLiteralRange(xsdDouble.iri()),
     PropertyMapping()
       .withId(DialectLocation + s"#/declarations/ShapeObject/exclusiveMaximum")
       .withName("exclusiveMaximum")
       .withNodePropertyMapping(ScalarShapeModel.ExclusiveMaximum.value.iri())
-      .withLiteralRange(amlNumber.iri()),
+      .withLiteralRange(xsdDouble.iri()),
     PropertyMapping()
       .withId(DialectLocation + s"#/declarations/ShapeObject/minimum")
       .withName("minimum")
       .withNodePropertyMapping(ScalarShapeModel.Minimum.value.iri())
-      .withLiteralRange(amlNumber.iri()),
+      .withLiteralRange(xsdDouble.iri()),
     PropertyMapping()
       .withId(DialectLocation + s"#/declarations/ShapeObject/exclusiveMinimum")
       .withName("exclusiveMinimum")
       .withNodePropertyMapping(ScalarShapeModel.ExclusiveMinimum.value.iri())
-      .withLiteralRange(amlNumber.iri()),
+      .withLiteralRange(xsdDouble.iri()),
     PropertyMapping()
       .withId(DialectLocation + s"#/declarations/ShapeObject/maxLength")
       .withName("maxLength")

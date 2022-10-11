@@ -217,7 +217,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11exclusiveMaximum",
-    "filterText": "\"exclusiveMaximum\": \"$1\"",
+    "filterText": "\"exclusiveMaximum\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -233,7 +233,7 @@
           "character": 10
         }
       },
-      "newText": "\"exclusiveMaximum\": \"$1\""
+      "newText": "\"exclusiveMaximum\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
