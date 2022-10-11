@@ -24,9 +24,9 @@ case class RangeFormatting(
     syntaxErrors.errors.exists(_.position.exists(err => ypart.range.contains(err.range)))
 
   private def formatPart(ypart: YPart): Seq[TextEdit] =
-    if (containsSyntaxError(ypart)) {
+    if (containsSyntaxError(ypart))
       ypart.children.filterNot(_.isInstanceOf[YNonContent]).flatMap(formatPart)
-    } else {
+    else {
       ypart match {
         // todo: initial indentation for the value might be ignored if we emit an YMapEntry in YAML
         case map: YMapEntry if !isJson => format(YMap(ypart.location, IndexedSeq(map)))
