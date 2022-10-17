@@ -101,7 +101,6 @@ class ServerCleanDiagnosticTest extends DiagnosticServerImpl with ChangesWorkspa
     }
   }
 
-
   private val customValidationInitParams =
     AlsInitializeParams(
       Some(AlsClientCapabilities(customValidations = Some(CustomValidationClientCapabilities(true)))),
@@ -176,5 +175,35 @@ class ServerCleanDiagnosticTest extends DiagnosticServerImpl with ChangesWorkspa
           }
         }
       })
+  }
+
+  test("Clean diagnostic test for graphql") {
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(5000)
+    withServer(buildServer(diagnosticNotifier)) { s =>
+      val mainFilePath = s"file://api.graphql"
+
+      val mainContent =
+        """type Dog {
+          |    name: String!
+          |    breed: String!
+          |}
+          |
+        """.stripMargin
+
+      for {
+        _  <- openFileNotification(s)(mainFilePath, mainContent)
+        d  <- diagnosticNotifier.nextCall
+        v1 <- requestCleanDiagnostic(s)(mainFilePath)
+
+      } yield {
+        s.shutdown()
+
+        d.diagnostics.size should be(1)
+        v1.length should be(1)
+        val fileDiagnostic = v1.head
+        fileDiagnostic.diagnostics.size should be(1)
+        v1.head.diagnostics.head shouldBe (fileDiagnostic.diagnostics.head) // should be the same for req and notification
+      }
+    }
   }
 }

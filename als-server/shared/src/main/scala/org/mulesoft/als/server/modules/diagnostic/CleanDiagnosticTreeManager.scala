@@ -102,7 +102,9 @@ class CleanDiagnosticTreeManager(
   def parseAndResolve(refinedUri: String): Future[(CleanValidationPartialResult, ALSConfigurationState)] =
     for {
       alsConfigurationState <- getWorkspaceConfig(refinedUri)
-      pr     <- AMLSpecificConfiguration(alsConfigurationState.getAmfConfig).parse(refinedUri).map(new AmfResultWrap(_))
+      pr <- AMLSpecificConfiguration(alsConfigurationState.getAmfConfig(refinedUri))
+        .parse(refinedUri)
+        .map(new AmfResultWrap(_))
       helper <- Future(alsConfigurationState.configForUnit(pr.result.baseUnit))
       resolved <- Future({
         logger.debug(s"About to report: $refinedUri", "CleanDiagnosticTreeManager", "validate")
