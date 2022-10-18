@@ -2,10 +2,11 @@ root: |
   this is a
   multi line string
 key: 
-  seq:
+  seq: 
     - a
     - b
     - value
+
   parent: 
     son: 
       grandchild: v

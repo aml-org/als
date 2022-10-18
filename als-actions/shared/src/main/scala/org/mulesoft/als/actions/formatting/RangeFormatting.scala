@@ -1,5 +1,6 @@
 package org.mulesoft.als.actions.formatting
 
+import org.mulesoft.als.actions.formatting.SyamlImpl.YPartImpl
 import org.mulesoft.als.common.ASTElementWrapper
 import org.mulesoft.als.common.ASTElementWrapper.AlsPositionRange
 import org.mulesoft.als.convert.LspRangeConverter
@@ -24,21 +25,13 @@ case class RangeFormatting(
     syntaxErrors.errors.exists(_.position.exists(err => ypart.range.contains(err.range)))
 
   private def formatPart(ypart: YPart): Seq[TextEdit] =
-    if (containsSyntaxError(ypart))
+    if (isJson && containsSyntaxError(ypart))
       ypart.children.filterNot(_.isInstanceOf[YNonContent]).flatMap(formatPart)
-    else {
-      ypart match {
-        // todo: initial indentation for the value might be ignored if we emit an YMapEntry in YAML
-        case map: YMapEntry if !isJson => format(YMap(ypart.location, IndexedSeq(map)))
-        case e                         => format(e)
-      }
-    }
+    else format(ypart)
 
   private def format(yPart: YPart): Seq[TextEdit] = {
-    val renderPart: YPart = yPart match {
-      case doc: YDocument => doc.node // do not format head comment
-      case _              => yPart
-    }
+    val renderPart: YPart = yPart.format(formattingOptions.tabSize)
+
     val initialIndentation =
       raw.map(t => ASTElementWrapper.getIndentation(t, renderPart.range.toPositionRange.start)).getOrElse(0)
     val range = LspRangeConverter.toLspRange(renderPart.range.toPositionRange)
@@ -49,14 +42,11 @@ case class RangeFormatting(
       JsonRender.render(renderPart, initialIndentation, renderOptions)
     } else {
       val renderOptions: YamlRenderOptions =
-        YamlRenderOptions(formattingOptions.tabSize, applyFormatting = true)
+        YamlRenderOptions(formattingOptions.tabSize, applyFormatting = false)
       YamlRender
         .render(Seq(renderPart), expandReferences = false, renderOptions, initialIndentation)
-        .dropWhile(_ == ' ')
-
     }
 
     Seq(TextEdit(range, s))
-
   }
 }

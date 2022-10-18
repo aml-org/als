@@ -5,16 +5,17 @@ root:
 
   brother 2: 
     k: v
-    seq:
+    seq: 
       - 1
       - 2
       - 3
+
 
   # Comment
   brother3: 
     k: 
       key: |
-        multiline string
+          multiline string
     antoherK: 
       - my
       - enum
