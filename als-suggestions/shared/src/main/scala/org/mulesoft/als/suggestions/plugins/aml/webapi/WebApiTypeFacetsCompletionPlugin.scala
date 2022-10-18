@@ -6,7 +6,7 @@ import amf.core.client.scala.model.DataType
 import amf.core.client.scala.model.domain.extensions.PropertyShape
 import amf.core.client.scala.model.domain.{AmfObject, Shape}
 import amf.core.internal.parser.domain.Value
-import amf.shapes.client.scala.model.domain.{AnyShape, ScalarShape}
+import amf.shapes.client.scala.model.domain.{AnyShape, NodeShape, ScalarShape, UnresolvedShape}
 import amf.shapes.internal.annotations.TypePropertyLexicalInfo
 import amf.shapes.internal.domain.metamodel.ScalarShapeModel
 import org.mulesoft.als.suggestions.RawSuggestion
