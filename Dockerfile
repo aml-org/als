@@ -41,7 +41,7 @@ VOLUME "$USER_HOME_DIR/.sbt"
 
 # Install nodejs
 RUN \
-  curl -sL https://deb.nodesource.com/setup_14.x | bash -
+  curl -sL https://deb.nodesource.com/setup_16.x | bash -
 
 RUN \
   apt-get install nodejs --assume-yes

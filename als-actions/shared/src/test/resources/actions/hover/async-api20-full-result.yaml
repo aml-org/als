@@ -343,21 +343,21 @@ hovers:
   (94,18):
     - Multiple of constraint
   (95,9):
-    - Defines a data type
+    - Maximum inclusive constraint
   (95,16):
-    - Defines a data type
+    - Maximum inclusive constraint
   (96,14):
-    - Maximum inclusive constraint
+    - Maximum exclusive constraint
   (96,25):
-    - Maximum inclusive constraint
+    - Maximum exclusive constraint
   (97,9):
-    - Defines a data type
+    - Minimum inclusive constraint
   (97,15):
-    - Defines a data type
+    - Minimum inclusive constraint
   (98,14):
-    - Minimum inclusive constraint
+    - Minimum exclusive constraint
   (98,24):
-    - Minimum inclusive constraint
+    - Minimum exclusive constraint
   (99,10):
     - Defines a data type
   (99,18):
