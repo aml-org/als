@@ -2,7 +2,7 @@ package org.mulesoft.als.actions.formatting
 
 import org.mulesoft.common.client.lexical.SourceLocation
 import org.mulesoft.lexer.AstToken
-import org.yaml.lexer.YamlToken.{Indent, Indicator, LineBreak, WhiteSpace}
+import org.yaml.lexer.YamlToken.{Indent, Indicator, LineBreak, MetaText, WhiteSpace}
 import org.yaml.model._
 
 object SyamlImpl {
@@ -10,17 +10,19 @@ object SyamlImpl {
   implicit class YPartImpl[T <: YPart](part: T) {
     def format(indentSize: Int, currentIndentation: Int): T = {
       (part match {
-        case c: YComment if c.metaText.trim.startsWith("%") => YComment(s"${c.metaText.trim}", c.location, c.tokens)
-        case c: YComment   => new YComment(s" ${c.metaText.trim}", c.location, insertSpaceComment(c.tokens))
+        case c: YComment if c.metaText.trim.startsWith("%") =>
+          YComment(c.metaText.trim, c.location, commentSpace(c.tokens, shouldHaveSpace = false))
+        case c: YComment =>
+          new YComment(c.metaText, c.location, commentSpace(c.tokens, shouldHaveSpace = true))
         case d: YDirective => d
-        case s: YScalar    => s
-        case t: YTag       => new YTag(t.text, t.tagType, t.location, t.tokens :+ whiteSpace(t.location))
-        case a: YAnchor    => a
-        case nc: YNonContent =>
-          YNonContent(nc.range, addWhitespaceToEntries(nc), nc.sourceName)
-        case d: YDocument => YDocument(cleanChildren(d, indentSize, currentIndentation), d.sourceName)
-        case s: YSequence => buildSequence(indentSize, currentIndentation, s)
-        case m: YMap      => YMap(m.location, indentChildren(indentSize, currentIndentation, m))
+        case s: YScalar =>
+          s // maybe it's possible to trim when needed, with the constructor as private I don't know how
+        case t: YTag         => new YTag(t.text, t.tagType, t.location, t.tokens :+ whiteSpace(t.location))
+        case a: YAnchor      => a
+        case nc: YNonContent => YNonContent(nc.range, addWhitespaceToEntries(nc), nc.sourceName)
+        case d: YDocument    => YDocument(cleanChildren(d, indentSize, currentIndentation), d.sourceName)
+        case s: YSequence    => buildSequence(indentSize, currentIndentation, s)
+        case m: YMap         => YMap(m.location, indentChildren(indentSize, currentIndentation, m))
         case e: YMapEntry =>
           YMapEntry(e.location, cleanChildren(e, indentSize, currentIndentation))
         case n: YNode =>
@@ -37,18 +39,26 @@ object SyamlImpl {
 
     /** mantains tokens until the comment char '#', then trims spaces and adds just 1 space after
       */
-    private def insertSpaceComment(tokens: IndexedSeq[AstToken]): IndexedSeq[AstToken] = {
-      val preTokens = tokens.takeWhile(t => !isCommentToken(t))
-      val postTokens = tokens
-        .splitAt(preTokens.size)
-        ._2
-        .flatMap {
-          case t if t.tokenType == WhiteSpace => Seq.empty
-          case t if isCommentToken(t) =>
-            Seq(t, whiteSpace(t.location))
-          case t => Seq(t)
-        }
-      preTokens ++ postTokens
+    private def commentSpace(tokens: IndexedSeq[AstToken], shouldHaveSpace: Boolean): IndexedSeq[AstToken] = {
+      tokens.map {
+        case t if t.tokenType == MetaText =>
+          if (shouldHaveSpace && !t.text.startsWith(" ")) AstToken(MetaText, s" ${t.text}", t.location)
+          else if (!shouldHaveSpace) AstToken(MetaText, t.text.trim, t.location)
+          else AstToken(MetaText, t.text.stripTrailing(), t.location)
+        case o => o
+      }
+//      val preTokens = tokens.takeWhile(t => !isCommentToken(t))
+//      val postTokens = tokens
+//        .splitAt(preTokens.size)
+//        ._2
+//        .flatMap {
+//          case t if isCommentToken(t) =>
+//            Seq(t, whiteSpace(t.location))
+//          case t if t.tokenType == MetaText =>
+//            Seq(AstToken(MetaText, t.text.trim, t.location))
+//          case t => Seq(t)
+//        }
+//      preTokens ++ postTokens
     }
 
     private def cleanChildren(c: YPart, indentSize: Int, indent: Int): IndexedSeq[YPart] =
@@ -57,9 +67,6 @@ object SyamlImpl {
     /** no matter the Sequence, build an indented blocked sequence
       */
     private def buildSequence(indentSize: Int, indent: Int, s: YSequence) = {
-
-      // if entry is map, set EOL
-
       val seq = cleanChildren(s, indentSize, indent + 1)
       val insertIndicators = seq.flatMap {
         case nc: YNonContent if nc.tokens.exists(_.tokenType == Indicator) =>

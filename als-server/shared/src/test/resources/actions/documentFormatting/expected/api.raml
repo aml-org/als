@@ -132,28 +132,28 @@ traits:
                 type: Files
             409: 
               description: Could not save changes
-      #  /logs:
-      #    get:
-      #      queryParameters:
-      #        from:
-      #          description: from commit, default 1.
-      #        size:
-      #          description: count of commits to be returned, default 10.
-      #      description: list logs of project
-      #      responses:
-      #        201:
-      #          body:
-      #            type: Logs
-      #            example: !include examples/logs.json
-        #  /{commitId}:
-        #    get:
-        #      description: it returns the list of files involved in given commit
-        #      is: [ commonHeaders ]
-        #      responses:
-        #        200:
-        #          body:
-        #            type: files
-        #            example: !include examples/files.json
+      # /logs:
+      #   get:
+      #     queryParameters:
+      #       from:
+      #         description: from commit, default 1.
+      #       size:
+      #         description: count of commits to be returned, default 10.
+      #     description: list logs of project
+      #     responses:
+      #       201:
+      #         body:
+      #           type: Logs
+      #           example: !include examples/logs.json
+        # /{commitId}:
+        #   get:
+        #     description: it returns the list of files involved in given commit
+        #     is: [ commonHeaders ]
+        #     responses:
+        #       200:
+        #         body:
+        #           type: files
+        #           example: !include examples/files.json
       /files: 
         get: 
           description: Gets a list of the structure of the file system (open project)
@@ -198,26 +198,26 @@ traits:
                   description: File not found
                 409: 
                   description: The file or folder already exists
-          #  /logs:
-          #    get:
-          #      queryParameters:
-          #        from:
-          #          description: from commit, default 1.
-          #        size:
-          #          description: count of commits, default 10.
-          #      description: list logs of the file
-          #      responses:
-          #        201:
-          #          body:
-          #            type: Logs
-          #            example: !include examples/logs.json
-          #    /{commitId}:
-          #      get:
-          #        description: it returns the file in the given commit
-          #        responses:
-          #          200:
-          #            body:
-          #              "*/*":
+          # /logs:
+          #   get:
+          #     queryParameters:
+          #       from:
+          #         description: from commit, default 1.
+          #       size:
+          #         description: count of commits, default 10.
+          #     description: list logs of the file
+          #     responses:
+          #       201:
+          #         body:
+          #           type: Logs
+          #           example: !include examples/logs.json
+          #   /{commitId}:
+          #     get:
+          #       description: it returns the file in the given commit
+          #       responses:
+          #         200:
+          #           body:
+          #             "*/*":
       /acquireLock: 
         post: 
           description: Acquire lock for given project
