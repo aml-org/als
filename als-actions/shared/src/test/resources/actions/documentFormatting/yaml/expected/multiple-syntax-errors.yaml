@@ -1,8 +1,6 @@
 
 array: 
   - valid
-
--/-invalid
 - still invalid
 
 key: 

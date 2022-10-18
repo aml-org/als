@@ -1,14 +1,14 @@
 package org.mulesoft.als.actions.formatting
 
 import org.mulesoft.als.actions.formatting.SyamlImpl.YPartImpl
-import org.mulesoft.als.common.ASTElementWrapper
 import org.mulesoft.als.common.ASTElementWrapper.AlsPositionRange
+import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.ErrorsCollected
 import org.mulesoft.lsp.configuration.FormattingOptions
 import org.mulesoft.lsp.edit.TextEdit
 import org.yaml.model._
-import org.yaml.render.{JsonRender, JsonRenderOptions, YamlRender, YamlRenderOptions}
+import org.yaml.render.{JsonRender, JsonRenderOptions, YamlRender}
 
 case class RangeFormatting(
     parentYPart: YPart,
@@ -30,22 +30,27 @@ case class RangeFormatting(
     else format(ypart)
 
   private def format(yPart: YPart): Seq[TextEdit] = {
-    val renderPart: YPart = yPart.format(formattingOptions.tabSize)
-
-    val initialIndentation =
-      raw.map(t => ASTElementWrapper.getIndentation(t, renderPart.range.toPositionRange.start)).getOrElse(0)
-    val range = LspRangeConverter.toLspRange(renderPart.range.toPositionRange)
+    val initialIndentation: Int = yPart.range.start.column / formattingOptions.tabSize
+    val renderPart: YPart       = yPart.format(formattingOptions.tabSize, initialIndentation)
+    val range =
+      if (isJson) LspRangeConverter.toLspRange(yPart.range.toPositionRange)
+      else {
+        val positionRange: PositionRange = yPart.range.toPositionRange
+        LspRangeConverter.toLspRange(
+          PositionRange(
+            positionRange.start.moveColumn(-initialIndentation * formattingOptions.tabSize),
+            positionRange.end
+          )
+        )
+      }
 
     val s: String = if (isJson) {
       val renderOptions: JsonRenderOptions =
         JsonRenderOptions(formattingOptions.tabSize, formattingOptions.insertSpaces, applyFormatting = true)
-      JsonRender.render(renderPart, initialIndentation, renderOptions)
-    } else {
-      val renderOptions: YamlRenderOptions =
-        YamlRenderOptions(formattingOptions.tabSize, applyFormatting = false)
+      JsonRender.render(renderPart, 0, renderOptions) // todo: add some logic to guess desired indentation
+    } else
       YamlRender
-        .render(Seq(renderPart), expandReferences = false, renderOptions, initialIndentation)
-    }
+        .render(Seq(renderPart), expandReferences = false)
 
     Seq(TextEdit(range, s))
   }

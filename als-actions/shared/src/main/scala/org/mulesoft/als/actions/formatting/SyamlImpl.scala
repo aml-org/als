@@ -8,7 +8,7 @@ import org.yaml.model._
 object SyamlImpl {
 
   implicit class YPartImpl[T <: YPart](part: T) {
-    def format(indentSize: Int, indent: Int = 0): T =
+    def format(indentSize: Int, currentIndentation: Int): T = {
       (part match {
         case c: YComment if c.metaText.trim.startsWith("%") => YComment(s"${c.metaText.trim}", c.location, c.tokens)
         case c: YComment   => new YComment(s" ${c.metaText.trim}", c.location, insertSpaceComment(c.tokens))
@@ -18,15 +18,22 @@ object SyamlImpl {
         case a: YAnchor    => a
         case nc: YNonContent =>
           YNonContent(nc.range, addWhitespaceToEntries(nc), nc.sourceName)
-        case d: YDocument => YDocument(cleanChildren(d, indentSize, indent), d.sourceName)
-        case s: YSequence => buildSequence(indentSize, indent, s)
-        case m: YMap      => YMap(m.location, indentChildren(indentSize, indent, m))
+        case d: YDocument => YDocument(cleanChildren(d, indentSize, currentIndentation), d.sourceName)
+        case s: YSequence => buildSequence(indentSize, currentIndentation, s)
+        case m: YMap      => YMap(m.location, indentChildren(indentSize, currentIndentation, m))
         case e: YMapEntry =>
-          YMapEntry(e.location, cleanChildren(e, indentSize, indent))
+          YMapEntry(e.location, cleanChildren(e, indentSize, currentIndentation))
         case n: YNode =>
-          YNode(n.value.format(indentSize, indent), n.tag, n.anchor, cleanChildren(n, indentSize, indent), n.sourceName)
+          YNode(
+            n.value.format(indentSize, currentIndentation),
+            n.tag,
+            n.anchor,
+            cleanChildren(n, indentSize, currentIndentation),
+            n.sourceName
+          )
         case _ => part
       }).asInstanceOf[T]
+    }
 
     /** mantains tokens until the comment char '#', then trims spaces and adds just 1 space after
       */
@@ -67,7 +74,7 @@ object SyamlImpl {
         case p =>
           Seq(startSeqVal(p.location, indentSize * indent, containsMap = false), p, lineBreak(p.location))
       }
-      YSequence(s.location, insertIndicators)
+      YSequence(s.location, removeLastEOL(insertIndicators))
     }
 
     /** indent, mark sequence entry and add space after
@@ -84,6 +91,15 @@ object SyamlImpl {
           AstToken(Indicator, "-", location)
         ) :+ valueTokens
       )
+    }
+
+    private def removeLastEOL[T <: YPart](insertIndicators: IndexedSeq[YPart]): IndexedSeq[YPart] = {
+      val lastLineBreak: Int = insertIndicators.lastIndexWhere {
+        case p: YNonContent if p.tokens.map(_.tokenType).contains(LineBreak) => true
+        case _                                                               => false
+      }
+      val tuple = insertIndicators.splitAt(Math.max(lastLineBreak, 0))
+      tuple._1 ++ tuple._2.tail
     }
 
     /** add whitespace after `:` in entries, clean excess whitespaces
@@ -115,7 +131,7 @@ object SyamlImpl {
       AstToken(WhiteSpace, " ", location)
 
     private def isWhiteSpace(a: AstToken) =
-      a.tokenType == WhiteSpace && a.text.trim.isBlank
+      a.tokenType == WhiteSpace && a.text.trim.isEmpty
 
     private def isCommentToken[T <: YPart](t: AstToken) =
       t.tokenType == Indicator && t.text == "#"

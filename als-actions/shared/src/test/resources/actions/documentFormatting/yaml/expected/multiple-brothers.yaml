@@ -10,7 +10,6 @@ root:
       - 2
       - 3
 
-
   # Comment
   brother3: 
     k: 
@@ -19,6 +18,5 @@ root:
     antoherK: 
       - my
       - enum
-
   brother4: 
     tabulated: a lot

@@ -3,7 +3,7 @@ ref:
       innerMap:
           k:     v
           #comment
-          seq:
+          seq: 
             - a
             - b
             - c
