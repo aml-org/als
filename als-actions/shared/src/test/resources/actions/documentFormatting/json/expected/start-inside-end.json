@@ -1,17 +1,17 @@
 {
   "key": {
-    "iternal": {
-      "seq": [
-        "a",
-        "b",
-        "c"
-      ]
-    },
-    "higher": [
+  "iternal": {
+    "seq": [
       "a",
-      "b"
+      "b",
+      "c"
     ]
   },
+  "higher": [
+    "a",
+    "b"
+  ]
+},
 
 
   "should" : {"stay":  "the same"}

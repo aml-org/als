@@ -1,7 +1,7 @@
 #%RAML 1.0
 uses: 
   lib: library.raml
-baseUri: https://mocksvc.mulesoft.com/mocks/b1da040a-7cbe-45fb-bdd5-826240cf2cf8 # 
+baseUri: https://mocksvc.mulesoft.com/mocks/b1da040a-7cbe-45fb-bdd5-826240cf2cf8# 
 # baseUri: https://anypoint.mulesoft.com/designcenter/api-designer/
 title: Api Designer Xapi
 version: 1.0
@@ -32,7 +32,7 @@ traits:
 /projects: 
   post: 
     description: Creates a new project
-    is:
+    is: 
       - commonHeaders
       - secured
     body: 
@@ -44,7 +44,7 @@ traits:
         description: Project {type}-{name} already exists
   get: 
     description: Gets all the projects that the user has access
-    is:
+    is: 
       - commonHeaders
       - secured
     responses: 
@@ -53,7 +53,7 @@ traits:
   /{projectId}: 
     get: 
       description: Get project data
-      is:
+      is: 
         - commonHeaders
         - secured
       responses: 
@@ -62,7 +62,7 @@ traits:
             type: Project
     delete: 
       description: Deletes the given project
-      is:
+      is: 
         - commonHeaders
         - secured
       responses: 
@@ -70,7 +70,7 @@ traits:
     /branches: 
       post: 
         description: Creates new branch
-        is:
+        is: 
           - commonHeaders
           - secured
         body: 
@@ -79,7 +79,7 @@ traits:
           201: 
       get: 
         description: List branches
-        is:
+        is: 
           - commonHeaders
           - secured
         responses: 
@@ -87,7 +87,7 @@ traits:
     /branches/{branch}: 
       delete: 
         description: Deletes a branch
-        is:
+        is: 
           - commonHeaders
           - secured
         responses: 
@@ -95,7 +95,7 @@ traits:
       /open: 
         post: 
           description: List project files. If user's workingDir does not exists, it creates one.
-          is:
+          is: 
             - commonHeaders
             - secured
           responses: 
@@ -105,7 +105,7 @@ traits:
       /clean: 
         post: 
           description: cleans uncommited files from users workingDir
-          is:
+          is: 
             - commonHeaders
             - secured
           responses: 
@@ -113,7 +113,7 @@ traits:
       /status: 
         get: 
           description: list WorkingDir status
-          is:
+          is: 
             - commonHeaders
             - secured
           responses: 
@@ -121,7 +121,7 @@ traits:
       /save: 
         post: 
           description: save listed files (save and save All)
-          is:
+          is: 
             - commonHeaders
             - secured
           body: 
@@ -132,32 +132,32 @@ traits:
                 type: Files
             409: 
               description: Could not save changes
-      # /logs:
-      #   get:
-      #     queryParameters:
-      #       from:
-      #         description: from commit, default 1.
-      #       size:
-      #         description: count of commits to be returned, default 10.
-      #     description: list logs of project
-      #     responses:
-      #       201:
-      #         body:
-      #           type: Logs
-      #           example: !include examples/logs.json
-        # /{commitId}:
-        #   get:
-        #     description: it returns the list of files involved in given commit
-        #     is: [ commonHeaders ]
-        #     responses:
-        #       200:
-        #         body:
-        #           type: files
-        #           example: !include examples/files.json
+      #  /logs:
+      #    get:
+      #      queryParameters:
+      #        from:
+      #          description: from commit, default 1.
+      #        size:
+      #          description: count of commits to be returned, default 10.
+      #      description: list logs of project
+      #      responses:
+      #        201:
+      #          body:
+      #            type: Logs
+      #            example: !include examples/logs.json
+        #  /{commitId}:
+        #    get:
+        #      description: it returns the list of files involved in given commit
+        #      is: [ commonHeaders ]
+        #      responses:
+        #        200:
+        #          body:
+        #            type: files
+        #            example: !include examples/files.json
       /files: 
         get: 
           description: Gets a list of the structure of the file system (open project)
-          is:
+          is: 
             - commonHeaders
             - secured
           responses: 
@@ -168,7 +168,7 @@ traits:
           description: filePath must be uri complain. / in filePath must be escaped
           get: 
             description: Returns the given file (getFile)
-            is:
+            is: 
               - commonHeaders
               - secured
             responses: 
@@ -177,7 +177,7 @@ traits:
                   "*/*": 
           delete: 
             description: Deletes the given file or folder and commit changes (deleteFile)
-            is:
+            is: 
               - commonHeaders
               - secured
             responses: 
@@ -185,7 +185,7 @@ traits:
           /move: 
             post: 
               description: renames the file or folder (move or rename)
-              is:
+              is: 
                 - commonHeaders
                 - secured
               body: 
@@ -198,30 +198,30 @@ traits:
                   description: File not found
                 409: 
                   description: The file or folder already exists
-          # /logs:
-          #   get:
-          #     queryParameters:
-          #       from:
-          #         description: from commit, default 1.
-          #       size:
-          #         description: count of commits, default 10.
-          #     description: list logs of the file
-          #     responses:
-          #       201:
-          #         body:
-          #           type: Logs
-          #           example: !include examples/logs.json
-          #   /{commitId}:
-          #     get:
-          #       description: it returns the file in the given commit
-          #       responses:
-          #         200:
-          #           body:
-          #             "*/*":
+          #  /logs:
+          #    get:
+          #      queryParameters:
+          #        from:
+          #          description: from commit, default 1.
+          #        size:
+          #          description: count of commits, default 10.
+          #      description: list logs of the file
+          #      responses:
+          #        201:
+          #          body:
+          #            type: Logs
+          #            example: !include examples/logs.json
+          #    /{commitId}:
+          #      get:
+          #        description: it returns the file in the given commit
+          #        responses:
+          #          200:
+          #            body:
+          #              "*/*":
       /acquireLock: 
         post: 
           description: Acquire lock for given project
-          is:
+          is: 
             - commonHeaders
             - secured
           body: 
@@ -230,7 +230,7 @@ traits:
       /releaseLock: 
         post: 
           description: Release lock for given project
-          is:
+          is: 
             - commonHeaders
             - secured
           body: 
@@ -238,7 +238,7 @@ traits:
             200: 
       /publish/platform: 
         post: 
-          is:
+          is: 
             - commonHeaders
             - secured
           description: Publish project to Api Platform
@@ -248,7 +248,7 @@ traits:
       /publish/exchange: 
         post: 
           description: Publish project to Exchange
-          is:
+          is: 
             - commonHeaders
             - secured
           body: 
@@ -257,49 +257,55 @@ traits:
       /exchange/dependencies: 
         put: 
           description: Add new dependencies in exchange.json
-          is:
+          is: 
             - commonHeaders
             - secured
           body: 
-            example:
+            example: 
+
               -
-                "groupId": "gid"
-                "assetId": "aid"
+{                "groupId": "gid",
+                "assetId": "aid",
                 "version": "1.0.0"
+}
           responses: 
             200: 
               body: 
                 type: Files
         post: 
           description: Updates exchange.json file, with given dependencies
-          is:
+          is: 
             - commonHeaders
             - secured
           body: 
-            example:
-              "add":
+            example: 
+{              "add": 
                 -
-                  "groupId": "gid"
-                  "assetId": "aid"
+{                  "groupId": "gid",
+                  "assetId": "aid",
                   "version": "1.0.1"
-              "remove":
+},
+              "remove": 
                 -
-                  "groupId": "gid"
-                  "assetId": "aid"
+{                  "groupId": "gid",
+                  "assetId": "aid",
                   "version": "1.0.0"
+}}
           responses: 
             200: 
         delete: 
           description: Removes dependencies in exchange.json
-          is:
+          is: 
             - commonHeaders
             - secured
           body: 
-            example:
+            example: 
+
               -
-                "groupId": "gid"
-                "assetId": "aid"
+{                "groupId": "gid",
+                "assetId": "aid",
                 "version": "1.0.1"
+}
           responses: 
             204: 
     /api/{name}: 
@@ -312,12 +318,12 @@ traits:
           description: Publish project to Api Platform (Deprecated)
           responses: 
             200: 
-/exchange/graphql:
-  post:
+/exchange/graphql: 
+  post: 
     description: Searchs raml fragments in exchange graphql
-    is:
+    is: 
       - secured
-    body:
+    body: 
       example: |
         {
           "{  assets(query: {type: 'raml'}) {groupId    assetId    version    name    type    organizationId  }}"

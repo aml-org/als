@@ -6,7 +6,6 @@ key:
     - a
     - b
     - value
-
   parent: 
     son: 
       grandchild: v
