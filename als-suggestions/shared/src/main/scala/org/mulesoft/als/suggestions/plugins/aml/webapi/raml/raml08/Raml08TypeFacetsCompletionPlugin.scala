@@ -7,7 +7,6 @@ import amf.core.internal.annotations.Inferred
 import amf.core.internal.metamodel.domain.ShapeModel
 import amf.core.internal.parser.domain.Value
 import amf.shapes.client.scala.model.domain.{AnyShape, ScalarShape}
-import amf.shapes.internal.annotations.TypePropertyLexicalInfo
 import amf.shapes.internal.domain.metamodel.ScalarShapeModel
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
@@ -71,6 +70,8 @@ object Raml08TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin
 
   override def integerShapeNode: NodeMapping =
     Raml08TypesDialect.NumberShapeNode
+
+  def anyShapeNode: NodeMapping = Raml08TypesDialect.AnyShapeNode
 
   override def declarations: Seq[NodeMapping] =
     Raml08TypesDialect.dialect.declares.collect({ case n: NodeMapping => n })
