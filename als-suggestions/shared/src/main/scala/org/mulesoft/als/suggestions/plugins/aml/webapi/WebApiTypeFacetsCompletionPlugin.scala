@@ -6,7 +6,7 @@ import amf.core.client.scala.model.DataType
 import amf.core.client.scala.model.domain.extensions.PropertyShape
 import amf.core.client.scala.model.domain.{AmfObject, Shape}
 import amf.core.internal.parser.domain.Value
-import amf.shapes.client.scala.model.domain.{AnyShape, ScalarShape}
+import amf.shapes.client.scala.model.domain.{AnyShape, NodeShape, ScalarShape, UnresolvedShape}
 import amf.shapes.internal.annotations.TypePropertyLexicalInfo
 import amf.shapes.internal.domain.metamodel.ScalarShapeModel
 import org.mulesoft.als.suggestions.RawSuggestion
@@ -42,6 +42,8 @@ trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin with WritingS
           case Some(DataType.Integer) => Some(integerShapeNode)
           case _                      => Some(stringShapeNode)
         }
+      case _: NodeShape if shape.fields.fields().exists(_.value.value.isInstanceOf[UnresolvedShape]) =>
+        Some(stringShapeNode)
       case _ =>
         // check inherits field to suggest specific.
         val s = findMoreSpecific(shape.metaURIs, declarations)
