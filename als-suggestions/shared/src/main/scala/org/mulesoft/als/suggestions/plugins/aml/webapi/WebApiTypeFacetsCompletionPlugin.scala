@@ -6,14 +6,14 @@ import amf.core.client.scala.model.DataType
 import amf.core.client.scala.model.domain.extensions.PropertyShape
 import amf.core.client.scala.model.domain.{AmfObject, Shape}
 import amf.core.internal.parser.domain.Value
-import amf.shapes.client.scala.model.domain.{AnyShape, ScalarShape}
+import amf.shapes.client.scala.model.domain.{AnyShape, NodeShape, ScalarShape, UnresolvedShape}
 import amf.shapes.internal.annotations.TypePropertyLexicalInfo
 import amf.shapes.internal.domain.metamodel.ScalarShapeModel
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.NodeMappingWrapper
-import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, AmfObjectImp}
+import org.mulesoft.amfintegration.AmfImplicits.AmfObjectImp
 
 import scala.concurrent.Future
 
@@ -40,8 +40,11 @@ trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin with WritingS
           case Some(DataType.Decimal | DataType.Double | DataType.Float | DataType.Long | DataType.Number) =>
             Some(numberShapeNode)
           case Some(DataType.Integer) => Some(integerShapeNode)
+          case _ if scalar.annotations.isSynthesized => getSuggestionsForAnyShapeNode
           case _                      => Some(stringShapeNode)
         }
+      case _: NodeShape if shape.fields.fields().exists(_.value.value.isInstanceOf[UnresolvedShape]) =>
+        getSuggestionsForAnyShapeNode
       case _ =>
         // check inherits field to suggest specific.
         val s = findMoreSpecific(shape.metaURIs, declarations)
@@ -61,6 +64,10 @@ trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin with WritingS
     }) ++ defaults(shape)
 
     finalSuggestions.toSeq
+  }
+
+  private val getSuggestionsForAnyShapeNode: Option[NodeMapping] = {
+    Some(anyShapeNode)
   }
 
   private def findMoreSpecific(iris: List[String], declarations: Seq[NodeMapping]): Option[NodeMapping] = {
@@ -92,6 +99,8 @@ trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin with WritingS
   def stringShapeNode: NodeMapping
   def numberShapeNode: NodeMapping
   def integerShapeNode: NodeMapping
+
+  def anyShapeNode: NodeMapping
 
   def declarations: Seq[NodeMapping]
   def propertyShapeNode: Option[NodeMapping]

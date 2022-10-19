@@ -9,7 +9,7 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiTypeFacetsCompletionPlugin
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.AsyncApi20Dialect
-import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.{NumberShapeAsync2Node, StringShapeAsync2Node}
+import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.{AnyShapeAsync2Node, NumberShapeAsync2Node, StringShapeAsync2Node}
 
 import scala.concurrent.Future
 
@@ -24,6 +24,8 @@ object Async20TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugi
   override def numberShapeNode: NodeMapping = NumberShapeAsync2Node.Obj
 
   override def integerShapeNode: NodeMapping = NumberShapeAsync2Node.Obj
+
+  override def anyShapeNode: NodeMapping = AnyShapeAsync2Node.Obj
 
   def propertyShapeNode: Option[NodeMapping] = None
 

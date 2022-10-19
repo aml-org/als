@@ -14,6 +14,8 @@ object Raml10TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin
   override def integerShapeNode: NodeMapping =
     Raml10TypesDialect.NumberShapeNode
 
+  override def anyShapeNode: NodeMapping = Raml10TypesDialect.AnyShapeNode
+
   override def declarations: Seq[NodeMapping] =
     Raml10TypesDialect.dialect.declares.collect({ case n: NodeMapping => n })
 

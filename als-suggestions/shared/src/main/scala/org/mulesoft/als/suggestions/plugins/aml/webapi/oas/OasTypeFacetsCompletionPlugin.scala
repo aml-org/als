@@ -15,6 +15,8 @@ trait OasTypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin {
 
   override def integerShapeNode: NodeMapping = jsonSchemaObj.IntegerSchemaObject
 
+  override def anyShapeNode: NodeMapping = jsonSchemaObj.AnySchemaObject
+
   override def declarations: Seq[NodeMapping] = dialect.declares.collect({ case n: NodeMapping => n })
 
   override def propertyShapeNode: Option[NodeMapping] = None

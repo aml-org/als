@@ -7,8 +7,7 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.plugins.aml.webapi.WebApiTypeFacetsCompletionPlugin
 import org.mulesoft.amfintegration.dialect.dialects.asyncapi20.schema.NumberShapeAsync2Node
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema
-import org.mulesoft.amfintegration.dialect.dialects.jsonschema.base.StringShapeJsonSchemaNode
-import org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft7
+import org.mulesoft.amfintegration.dialect.dialects.jsonschema.base.{AnyShapeJsonSchemaNode, StringShapeJsonSchemaNode}
 import org.mulesoft.amfintegration.dialect.dialects.jsonschema.draft7.JsonSchemaDraft7Dialect
 
 object JsonSchemeDraft7TypeFacetsCompletionPlugin extends WebApiTypeFacetsCompletionPlugin {
@@ -21,6 +20,8 @@ object JsonSchemeDraft7TypeFacetsCompletionPlugin extends WebApiTypeFacetsComple
   override def numberShapeNode: NodeMapping = NumberShapeAsync2Node.Obj
 
   override def integerShapeNode: NodeMapping = NumberShapeAsync2Node.Obj
+
+  override def anyShapeNode: NodeMapping = new AnyShapeJsonSchemaNode(jsonschema.draft7.dialectLocation).Obj
 
   def propertyShapeNode: Option[NodeMapping] = None
 
