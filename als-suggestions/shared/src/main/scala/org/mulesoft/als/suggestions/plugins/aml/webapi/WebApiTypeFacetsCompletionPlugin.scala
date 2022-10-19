@@ -40,7 +40,7 @@ trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin with WritingS
           case Some(DataType.Decimal | DataType.Double | DataType.Float | DataType.Long | DataType.Number) =>
             Some(numberShapeNode)
           case Some(DataType.Integer) => Some(integerShapeNode)
-          case _ if scalar.dataType.annotations().isSynthesized => getSuggestionsForAnyShapeNode
+          case _ if scalar.annotations.isSynthesized => getSuggestionsForAnyShapeNode
           case _                      => Some(stringShapeNode)
         }
       case _: NodeShape if shape.fields.fields().exists(_.value.value.isInstanceOf[UnresolvedShape]) =>
