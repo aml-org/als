@@ -39,27 +39,15 @@ object SyamlImpl {
 
     /** mantains tokens until the comment char '#', then trims spaces and adds just 1 space after
       */
-    private def commentSpace(tokens: IndexedSeq[AstToken], shouldHaveSpace: Boolean): IndexedSeq[AstToken] = {
+    private def commentSpace(tokens: IndexedSeq[AstToken], shouldHaveSpace: Boolean): IndexedSeq[AstToken] =
       tokens.map {
         case t if t.tokenType == MetaText =>
           if (shouldHaveSpace && !t.text.startsWith(" ")) AstToken(MetaText, s" ${t.text}", t.location)
           else if (!shouldHaveSpace) AstToken(MetaText, t.text.trim, t.location)
-          else AstToken(MetaText, t.text.stripTrailing(), t.location)
+          else AstToken(MetaText, t.text, t.location)
+        // .stripTrailing()
         case o => o
       }
-//      val preTokens = tokens.takeWhile(t => !isCommentToken(t))
-//      val postTokens = tokens
-//        .splitAt(preTokens.size)
-//        ._2
-//        .flatMap {
-//          case t if isCommentToken(t) =>
-//            Seq(t, whiteSpace(t.location))
-//          case t if t.tokenType == MetaText =>
-//            Seq(AstToken(MetaText, t.text.trim, t.location))
-//          case t => Seq(t)
-//        }
-//      preTokens ++ postTokens
-    }
 
     private def cleanChildren(c: YPart, indentSize: Int, indent: Int): IndexedSeq[YPart] =
       c.children.map(_.format(indentSize, indent))
@@ -111,15 +99,30 @@ object SyamlImpl {
 
     /** add whitespace after `:` in entries, clean excess whitespaces
       */
-    private def addWhitespaceToEntries(nc: YNonContent): IndexedSeq[AstToken] =
+    private def addWhitespaceToEntries(nc: YNonContent): IndexedSeq[AstToken] = {
+//      val colonIdx = nc.tokens.indexWhere(t => t.tokenType == Indicator && t.text == ":") + 1
+//      val otherIdx = nc.tokens.indexWhere(t => t.tokenType == Indicator && t.text != ":")
+//
+//      if(otherIdx >= 0) nc.tokens
+//      else if(colonIdx > 0) {
+//        val s = nc.tokens.filterNot(t => t.tokenType == Indent || t.tokenType == WhiteSpace).splitAt(colonIdx)
+//        (s._1 :+ whiteSpace(nc.location)) ++ s._2
+//      }
+//      else nc.tokens.filterNot(t => t.tokenType == Indent || t.tokenType == WhiteSpace)
+
+      val colonIdx = nc.tokens.indexWhere(t => t.tokenType == Indicator && t.text == ":")
+      val hasWhitespace =
+        if (colonIdx >= 0) nc.tokens.splitAt(colonIdx)._2.headOption.exists(_.tokenType == WhiteSpace) else false
+
       if (nc.tokens.exists(_.tokenType == Indicator))
         nc.tokens.filterNot(t => isWhiteSpace(t) || t.tokenType == Indent).flatMap {
-          case t if t.tokenType == Indicator && t.text == ":" =>
+          case t if t.tokenType == Indicator && t.text == ":" && !hasWhitespace =>
             IndexedSeq(t, whiteSpace(nc.location))
           case t => IndexedSeq(t)
         }
       else
-        nc.tokens.filterNot(t => t.tokenType == Indent || t.tokenType == WhiteSpace && t.text == " ")
+        nc.tokens.filterNot(t => t.tokenType == Indent || t.tokenType == WhiteSpace)
+    }
 
     private def indentChildren[T <: YPart](indentSize: Int, indent: Int, p: T): IndexedSeq[YPart] =
       cleanChildren(p, indentSize, indent + 1)
@@ -140,11 +143,7 @@ object SyamlImpl {
     private def isWhiteSpace(a: AstToken) =
       a.tokenType == WhiteSpace && a.text.trim.isEmpty
 
-    private def isCommentToken[T <: YPart](t: AstToken) =
-      t.tokenType == Indicator && t.text == "#"
-  }
-
-  private def lineBreakToken[T <: YPart](location: SourceLocation) = {
-    AstToken(LineBreak, "\n", location)
+    private def lineBreakToken[T <: YPart](location: SourceLocation) =
+      AstToken(LineBreak, "\n", location)
   }
 }
