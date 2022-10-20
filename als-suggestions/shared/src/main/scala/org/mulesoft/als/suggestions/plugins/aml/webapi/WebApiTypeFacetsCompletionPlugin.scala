@@ -33,24 +33,30 @@ trait WebApiTypeFacetsCompletionPlugin extends AMLCompletionPlugin with WritingS
     })
   }
 
-  def resolveShape(shape: Shape, branchStack: Seq[AmfObject], dialect: Dialect): Seq[RawSuggestion] = {
+  def resolveShape(shape: Shape, branchStack: Seq[AmfObject], dialect: Dialect, default: Option[NodeMapping] = getSuggestionsForAnyShapeNode): Seq[RawSuggestion] = {
     val node = shape match {
       case scalar: ScalarShape =>
         scalar.dataType.option() match {
           case Some(DataType.Decimal | DataType.Double | DataType.Float | DataType.Long | DataType.Number) =>
             Some(numberShapeNode)
           case Some(DataType.Integer) => Some(integerShapeNode)
-          case _ if scalar.annotations.isSynthesized => getSuggestionsForAnyShapeNode
+          case _ if scalar.annotations.isSynthesized => default
           case _                      => Some(stringShapeNode)
         }
+      case _: UnresolvedShape => default
       case _: NodeShape if shape.fields.fields().exists(_.value.value.isInstanceOf[UnresolvedShape]) =>
-        getSuggestionsForAnyShapeNode
+        default
       case _ =>
         // check inherits field to suggest specific.
         val s = findMoreSpecific(shape.metaURIs, declarations)
         s
     }
 
+    resolveSuggestionForShape(node, shape, branchStack, dialect)
+  }
+
+  private def resolveSuggestionForShape(node: Option[NodeMapping], shape: Shape, branchStack: Seq[AmfObject], dialect: Dialect)
+  : Seq[RawSuggestion] = {
     val classSuggestions: Seq[RawSuggestion] =
       node.map(n => n.propertiesRaw(fromDialect = dialect)).getOrElse(Nil)
 

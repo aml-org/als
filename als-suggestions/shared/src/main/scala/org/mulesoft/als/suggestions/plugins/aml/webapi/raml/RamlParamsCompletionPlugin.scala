@@ -38,7 +38,7 @@ abstract class RamlParamsCompletionPlugin(
       branchStack: Seq[AmfObject],
       typeFacetsCompletionPlugin: WebApiTypeFacetsCompletionPlugin
   ): Seq[RawSuggestion] = {
-    typeFacetsCompletionPlugin.resolveShape(param.schema, branchStack, Raml10TypesDialect()) ++ withOthers
+    typeFacetsCompletionPlugin.resolveShape(param.schema, branchStack, Raml10TypesDialect(), Some(typeFacetsCompletionPlugin.stringShapeNode)) ++ withOthers
   }
 
   private def isNotName(params: AmlCompletionRequest): Boolean = {
