@@ -264,10 +264,13 @@ traits:
             example:
 
               -
-{                "groupId": "gid",
-                "assetId": "aid",
-                "version": "1.0.0"
-}
+
+                {
+                        "groupId": "gid",
+                        "assetId": "aid",
+                        "version": "1.0.0"
+                }
+
           responses:
             200:
               body:
@@ -279,18 +282,28 @@ traits:
             - secured
           body:
             example:
-{              "add":
+
+              {
+                     "add":
                 -
-{                  "groupId": "gid",
-                  "assetId": "aid",
-                  "version": "1.0.1"
-},
-              "remove":
+
+                  {
+                           "groupId": "gid",
+                           "assetId": "aid",
+                           "version": "1.0.1"
+                  }
+,
+                     "remove":
                 -
-{                  "groupId": "gid",
-                  "assetId": "aid",
-                  "version": "1.0.0"
-}}
+
+                  {
+                           "groupId": "gid",
+                           "assetId": "aid",
+                           "version": "1.0.0"
+                  }
+
+              }
+
           responses:
             200:
         delete:
@@ -302,10 +315,13 @@ traits:
             example:
 
               -
-{                "groupId": "gid",
-                "assetId": "aid",
-                "version": "1.0.1"
-}
+
+                {
+                        "groupId": "gid",
+                        "assetId": "aid",
+                        "version": "1.0.1"
+                }
+
           responses:
             204:
     /api/{name}:
