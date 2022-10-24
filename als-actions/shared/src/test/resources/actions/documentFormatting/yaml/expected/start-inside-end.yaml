@@ -1,9 +1,9 @@
 key:
-  son: 
-    brother: 
-      k: 
+  son:
+    brother:
+      k:
         v: k
-    sister: 
+    sister:
       - 1
       - 2
       - 3

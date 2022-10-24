@@ -18,8 +18,7 @@ case class RangeFormatting(
     raw: Option[String]
 ) {
 
-  def format(): Seq[TextEdit] =
-    formatPart(parentYPart)
+  def format(): Seq[TextEdit] = formatPart(parentYPart)
 
   private def containsSyntaxError(ypart: YPart): Boolean =
     syntaxErrors.errors.exists(_.position.exists(err => ypart.range.contains(err.range)))
@@ -28,6 +27,17 @@ case class RangeFormatting(
     if (isJson && containsSyntaxError(ypart))
       ypart.children.filterNot(_.isInstanceOf[YNonContent]).flatMap(formatPart)
     else format(ypart)
+
+  def applyOptions(s: String): String = {
+    var formatted = s
+    if (formattingOptions.getTrimTrailingWhitespace)
+      formatted = formatted.replaceAll("""(?m)[^\S\r\n]+$""", "") // strip spaces end of line except after colon
+    if (formattingOptions.getTrimFinalNewlines)
+      formatted = formatted.replaceAll("""\n+$""", "\n") // reduce trailing EOL
+    if (formattingOptions.getInsertFinalNewline && !formatted.endsWith("\n"))
+      formatted += "\n" // if no final EOL, add one
+    formatted
+  }
 
   private def format(yPart: YPart): Seq[TextEdit] = {
     val initialIndentation: Int = yPart.range.start.column / formattingOptions.tabSize
@@ -52,6 +62,6 @@ case class RangeFormatting(
       YamlRender
         .render(Seq(renderPart), expandReferences = false)
 
-    Seq(TextEdit(range, s))
+    Seq(TextEdit(range, applyOptions(s)))
   }
 }

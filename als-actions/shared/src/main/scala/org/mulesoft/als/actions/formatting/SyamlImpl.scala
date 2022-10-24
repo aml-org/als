@@ -17,12 +17,13 @@ object SyamlImpl {
         case d: YDirective => d
         case s: YScalar =>
           s // maybe it's possible to trim when needed, with the constructor as private I don't know how
-        case t: YTag         => new YTag(t.text, t.tagType, t.location, t.tokens :+ whiteSpace(t.location))
-        case a: YAnchor      => a
-        case nc: YNonContent => YNonContent(nc.range, addWhitespaceToEntries(nc), nc.sourceName)
-        case d: YDocument    => YDocument(cleanChildren(d, indentSize, currentIndentation), d.sourceName)
-        case s: YSequence    => buildSequence(indentSize, currentIndentation, s)
-        case m: YMap         => YMap(m.location, indentChildren(indentSize, currentIndentation, m))
+        case t: YTag    => new YTag(t.text, t.tagType, t.location, t.tokens :+ whiteSpace(t.location))
+        case a: YAnchor => a
+        case nc: YNonContent =>
+          YNonContent(nc.range, addWhitespaceToEntries(nc), nc.sourceName)
+        case d: YDocument => YDocument(cleanChildren(d, indentSize, currentIndentation), d.sourceName)
+        case s: YSequence => buildSequence(indentSize, currentIndentation, s)
+        case m: YMap      => YMap(m.location, indentChildren(indentSize, currentIndentation, m))
         case e: YMapEntry =>
           YMapEntry(e.location, cleanChildren(e, indentSize, currentIndentation))
         case n: YNode =>
@@ -45,12 +46,18 @@ object SyamlImpl {
           if (shouldHaveSpace && !t.text.startsWith(" ")) AstToken(MetaText, s" ${t.text}", t.location)
           else if (!shouldHaveSpace) AstToken(MetaText, t.text.trim, t.location)
           else AstToken(MetaText, t.text, t.location)
-        // .stripTrailing()
         case o => o
       }
 
-    private def cleanChildren(c: YPart, indentSize: Int, indent: Int): IndexedSeq[YPart] =
-      c.children.map(_.format(indentSize, indent))
+    private def cleanChildren(c: YPart, indentSize: Int, indent: Int): IndexedSeq[YPart] = {
+      val parts = c.children.sliding(2, 2).flatMap {
+        case Seq(a: YNonContent, b: YComment) => // don't trim spaces before a comment
+          Seq(a, b.format(indentSize, indent))
+        case a =>
+          a.map(_.format(indentSize, indent))
+      }
+      parts.toIndexedSeq
+    }
 
     /** no matter the Sequence, build an indented blocked sequence
       */

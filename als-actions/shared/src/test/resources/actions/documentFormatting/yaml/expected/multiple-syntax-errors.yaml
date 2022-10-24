@@ -1,11 +1,10 @@
 
-array: 
+array:
   - valid
 - still invalid
 
-key: 
+key:
   val1: val
   val2: val
 syntax error
   val22: 22
-

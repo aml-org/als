@@ -1,22 +1,22 @@
-root: 
-  brother1: 
+root:
+  brother1:
     k: value
 
 
-  brother 2: 
+  brother 2:
     k: v
-    seq: 
+    seq:
       - 1
       - 2
       - 3
 
-# Comment
-  brother3: 
-    k: 
+  # Comment
+  brother3:
+    k:
       key: |
           multiline string
-    antoherK: 
+    antoherK:
       - my
       - enum
-  brother4: 
+  brother4:
     tabulated: a lot

@@ -1,13 +1,13 @@
 root: |
   this is a
   multi line string
-key: 
-  seq: 
+key:
+  seq:
     - a
     - b
     - value
-  parent: 
-    son: 
+  parent:
+    son:
       grandchild: v
-    anotherSon: 
+    anotherSon:
       grandchild: 2

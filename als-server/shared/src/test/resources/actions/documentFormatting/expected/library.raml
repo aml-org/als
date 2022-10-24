@@ -1,28 +1,28 @@
 #%RAML 1.0 Library
-types: 
-  FilePath: 
+types:
+  FilePath:
     type: object
-    properties: 
+    properties:
       path: string
-      type?: 
-        enum: 
+      type?:
+        enum:
           - "FOLDER"
           - "FILE"
         default: "FILE"
     example: !include ../examples/file.json
-  FileContents: 
+  FileContents:
     type: array
     items: FileContent
-  FileContent: 
+  FileContent:
     type: object
-    properties: 
-      path: 
+    properties:
+      path:
         type: string
-      content: 
+      content:
         type: string
-securitySchemes: 
-  myScheme: 
+securitySchemes:
+  myScheme:
     type: OAuth 2.0
     description: basic scheme
-    settings: 
+    settings:
       accessTokenUri: /token
