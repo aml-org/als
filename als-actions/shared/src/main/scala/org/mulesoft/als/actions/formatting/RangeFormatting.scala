@@ -41,7 +41,7 @@ case class RangeFormatting(
 
   private def format(yPart: YPart): Seq[TextEdit] = {
     val initialIndentation: Int = yPart.range.start.column / formattingOptions.tabSize
-    val renderPart: YPart       = yPart.format(formattingOptions.tabSize, initialIndentation)
+    val renderPart: YPart       = yPart.format(formattingOptions.tabSize, initialIndentation, false)
     val range =
       if (isJson) LspRangeConverter.toLspRange(yPart.range.toPositionRange)
       else {
