@@ -10,6 +10,7 @@ import amf.custom.validation.client.scala.{
   ValidatorExecutor
 }
 import org.mulesoft.als.common.diff.FileAssertionTest
+import org.mulesoft.als.server.TimeoutFuture
 import org.scalatest.Assertion
 import org.scalatest.Matchers.{fail, succeed}
 
@@ -17,7 +18,10 @@ import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
 
-class FromJsonLDValidatorExecutor(val result: String = "{}") extends CustomValidator with FileAssertionTest {
+class FromJsonLDValidatorExecutor(val result: String = "{}")
+    extends CustomValidator
+    with FileAssertionTest
+    with TimeoutFuture {
 
   private var calls: Map[String, String] = Map.empty
   private var callCount: Int             = 0
@@ -44,13 +48,15 @@ class FromJsonLDValidatorExecutor(val result: String = "{}") extends CustomValid
     if (callCount < n) { // still did not process N'th validation
       val promise = Promise[Int]()
       promises.enqueue(promise)
-//      timeoutFuture(promise.future, 3000L)
-      promise.future
-        .flatMap(_ => calledNTimes(n))
-        .recover {
-          case _ if callCount == n => succeed
-          case _                   => fail()
-        }
+      timeoutFuture(
+        promise.future
+          .flatMap(_ => calledNTimes(n))
+          .recover {
+            case _ if callCount == n => succeed
+            case _                   => fail()
+          },
+        3000
+      )
     } else if (callCount == n)
       Future.successful(succeed)
     else fail() // to many validations
@@ -85,13 +91,15 @@ class FromJsonLDValidatorExecutor(val result: String = "{}") extends CustomValid
     if (callCount < n) { // still did not process N'th validation
       val promise = Promise[Int]()
       promises.enqueue(promise)
-      //      timeoutFuture(promise.future, 3000L)
-      promise.future
-        .flatMap(_ => calledNTimes(n))
-        .recover {
-          case _ if callCount == n => succeed
-          case _                   => fail()
-        }
+      timeoutFuture(
+        promise.future
+          .flatMap(_ => calledNTimes(n))
+          .recover {
+            case _ if callCount == n => succeed
+            case _                   => fail()
+          },
+        3000
+      )
     } else Future.successful(succeed)
   }
 
