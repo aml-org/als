@@ -1,0 +1,12 @@
+#%RAML 1.0
+title: Serialization API
+
+/users:
+  description: All users
+  /{userIds}:
+    description: A specific user
+    uriParameters:
+      userIds:
+        description: A list of userIds
+        type: array
+        m*
