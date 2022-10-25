@@ -15,45 +15,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 4
+          "line": 12,
+          "character": 8
         },
         "end": {
-          "line": 5,
-          "character": 4
+          "line": 12,
+          "character": 8
         }
       },
       "newText": "default: "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "description",
-    "kind": [],
-    "detail": "docs",
-    "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11description",
-    "filterText": "description: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 5,
-          "character": 4
-        },
-        "end": {
-          "line": 5,
-          "character": 4
-        }
-      },
-      "newText": "description: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -75,12 +45,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 4
+          "line": 12,
+          "character": 8
         },
         "end": {
-          "line": 5,
-          "character": 4
+          "line": 12,
+          "character": 8
         }
       },
       "newText": "displayName: "
@@ -105,45 +75,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 4
+          "line": 12,
+          "character": 8
         },
         "end": {
-          "line": 5,
-          "character": 4
+          "line": 12,
+          "character": 8
         }
       },
       "newText": "enum:\n  - "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "example",
-    "kind": [],
-    "detail": "docs",
-    "documentation": "example",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11example",
-    "filterText": "example:\n  ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 5,
-          "character": 4
-        },
-        "end": {
-          "line": 5,
-          "character": 4
-        }
-      },
-      "newText": "example:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -165,12 +105,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 4
+          "line": 12,
+          "character": 8
         },
         "end": {
-          "line": 5,
-          "character": 4
+          "line": 12,
+          "character": 8
         }
       },
       "newText": "examples:\n  "
@@ -195,12 +135,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 4
+          "line": 12,
+          "character": 8
         },
         "end": {
-          "line": 5,
-          "character": 4
+          "line": 12,
+          "character": 8
         }
       },
       "newText": "facets:\n  "
@@ -225,12 +165,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 4
+          "line": 12,
+          "character": 8
         },
         "end": {
-          "line": 5,
-          "character": 4
+          "line": 12,
+          "character": 8
         }
       },
       "newText": "items:\n  "
@@ -255,12 +195,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 4
+          "line": 12,
+          "character": 8
         },
         "end": {
-          "line": 5,
-          "character": 4
+          "line": 12,
+          "character": 8
         }
       },
       "newText": "maxLength: "
@@ -285,12 +225,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 4
+          "line": 12,
+          "character": 8
         },
         "end": {
-          "line": 5,
-          "character": 4
+          "line": 12,
+          "character": 8
         }
       },
       "newText": "minLength: "
@@ -315,12 +255,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 4
+          "line": 12,
+          "character": 8
         },
         "end": {
-          "line": 5,
-          "character": 4
+          "line": 12,
+          "character": 8
         }
       },
       "newText": "pattern: "
@@ -345,45 +285,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 4
+          "line": 12,
+          "character": 8
         },
         "end": {
-          "line": 5,
-          "character": 4
+          "line": 12,
+          "character": 8
         }
       },
       "newText": "properties:\n  "
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "required",
-    "kind": [],
-    "detail": "parameters",
-    "documentation": "required",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11required",
-    "filterText": "required: ",
-    "insertText": null,
-    "insertTextFormat": [
-      1
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 5,
-          "character": 4
-        },
-        "end": {
-          "line": 5,
-          "character": 4
-        }
-      },
-      "newText": "required: "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -405,12 +315,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 4
+          "line": 12,
+          "character": 8
         },
         "end": {
-          "line": 5,
-          "character": 4
+          "line": 12,
+          "character": 8
         }
       },
       "newText": "type: "
@@ -435,12 +345,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 5,
-          "character": 4
+          "line": 12,
+          "character": 8
         },
         "end": {
-          "line": 5,
-          "character": 4
+          "line": 12,
+          "character": 8
         }
       },
       "newText": "xml:\n  "
