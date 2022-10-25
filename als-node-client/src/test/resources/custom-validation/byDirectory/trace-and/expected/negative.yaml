@@ -7,7 +7,7 @@ diagnostics:
     code: file://als-node-client/src/test/resources/custom-validation/byDirectory/trace-and/profile.yaml#/encodes/validations/trace-and
     relatedInformation:
       -
-        message: Error 201 unexpected at http://a.ml/vocabularies/apiContract#statusCode
+        message: Error expected ^200$ but got actual (actual=201) at http://a.ml/vocabularies/apiContract#statusCode
         location: Location(file://als-node-client/src/test/resources/custom-validation/byDirectory/trace-and/negative.data,Range(common.Position[L:7,C:6],common.Position[L:8,C:0]))
       -
         message: error in nested nodes under http://a.ml/vocabularies/apiContract#returns
