@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "ajv": "6.12.6",
-    "@aml-org/amf-antlr-parsers": "0.5.11"
+    "@aml-org/amf-antlr-parsers": "0.5.17"
   },
   "author": "",
   "license": "ISC"
