@@ -97,6 +97,20 @@ object SyamlImpl {
         ) :+ valueTokens
       )
     }
+
+    private def removeLastEOL[T <: YPart](insertIndicators: IndexedSeq[YPart]): IndexedSeq[YPart] = {
+      val lastLineBreak: Int = insertIndicators.lastIndexWhere {
+        case p: YNonContent if p.tokens.map(_.tokenType).contains(LineBreak) => true
+        case _                                                               => false
+      }
+
+      if (lastLineBreak > 0) {
+        val tuple = insertIndicators.splitAt(lastLineBreak)
+        tuple._1 ++ tuple._2.tail
+      } else
+        insertIndicators
+    }
+
   }
 
   sealed implicit class YCommImpl(c: YComment) {
@@ -118,7 +132,7 @@ object SyamlImpl {
   }
 
   sealed implicit class YNonContImpl(nc: YNonContent) {
-    def format(): YNonContent = YNonContent(nc.range, addWhitespaceToEntries, nc.sourceName)
+    def format(): YNonContent = YNonContent(nc.range, addWhitespaceToEntries(), nc.sourceName)
 
     /** add whitespace after `:` in entries, clean excess whitespaces
       */
@@ -152,19 +166,6 @@ object SyamlImpl {
           a.map(_.format(indentSize, indent, flowStyle))
       }
       .toIndexedSeq
-
-  private def removeLastEOL[T <: YPart](insertIndicators: IndexedSeq[YPart]): IndexedSeq[YPart] = {
-    val lastLineBreak: Int = insertIndicators.lastIndexWhere {
-      case p: YNonContent if p.tokens.map(_.tokenType).contains(LineBreak) => true
-      case _                                                               => false
-    }
-
-    if (lastLineBreak > 0) {
-      val tuple = insertIndicators.splitAt(lastLineBreak)
-      tuple._1 ++ tuple._2.tail
-    } else
-      insertIndicators
-  }
 
   private def indentChildren[T <: YPart](indentSize: Int, indent: Int, p: T, flowStyle: Boolean): IndexedSeq[YPart] =
     cleanChildren(p, indentSize, indent + 1, flowStyle)
