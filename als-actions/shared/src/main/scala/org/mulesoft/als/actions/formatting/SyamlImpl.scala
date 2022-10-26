@@ -6,65 +6,63 @@ import org.yaml.lexer.YamlToken._
 import org.yaml.model._
 
 object SyamlImpl {
-
   implicit class YPartImpl[T <: YPart](part: T) {
     def format(indentSize: Int, currentIndentation: Int, flowStyle: Boolean): T = {
       (part match {
-        case c: YComment if c.metaText.trim.startsWith("%") =>
-          YComment(c.metaText.trim, c.location, commentSpace(c.tokens, shouldHaveSpace = false))
-        case c: YComment =>
-          new YComment(c.metaText, c.location, commentSpace(c.tokens, shouldHaveSpace = true))
-        case d: YDirective => d
+        case c: YComment if c.metaText.trim.startsWith("%") => c.format(false)
+        case c: YComment                                    => c.format(true)
+        case d: YDirective                                  => d
         case s: YScalar =>
           s // maybe it's possible to trim when needed, with the constructor as private I don't know how
-        case t: YTag    => new YTag(t.text, t.tagType, t.location, t.tokens :+ whiteSpace(t.location))
-        case a: YAnchor => a
-        case nc: YNonContent =>
-          YNonContent(nc.range, addWhitespaceToEntries(nc), nc.sourceName)
-        case d: YDocument => YDocument(cleanChildren(d, indentSize, currentIndentation, flowStyle), d.sourceName)
-        case s: YSequence => buildSequence(indentSize, currentIndentation, s, flowStyle)
-        case m: YMap      =>
-//          buildMap(indentSize, currentIndentation, m, flowStyle)
-          YMap(m.location, indentChildren(indentSize, currentIndentation, m, flowStyle))
-        case e: YMapEntry =>
-          YMapEntry(e.location, cleanChildren(e, indentSize, currentIndentation, flowStyle))
-        case n: YNode =>
-          YNode(
-            n.value.format(indentSize, currentIndentation, flowStyle),
-            n.tag,
-            n.anchor,
-            cleanChildren(n, indentSize, currentIndentation, flowStyle),
-            n.sourceName
-          )
-        case _ => part
+        case t: YTag         => new YTag(t.text, t.tagType, t.location, t.tokens :+ whiteSpace(t.location))
+        case a: YAnchor      => a
+        case nc: YNonContent => nc.format()
+        case d: YDocument    => YDocument(cleanChildren(d, indentSize, currentIndentation, flowStyle), d.sourceName)
+        case s: YSequence    => s.format(indentSize, currentIndentation, flowStyle)
+        case m: YMap         => m.format(indentSize, currentIndentation, flowStyle)
+        case e: YMapEntry    => YMapEntry(e.location, cleanChildren(e, indentSize, currentIndentation, flowStyle))
+        case n: YNode        => n.format(indentSize, currentIndentation, flowStyle)
+        case _               => part
       }).asInstanceOf[T]
     }
+  }
 
-    /** mantains tokens until the comment char '#', then trims spaces and adds just 1 space after
-      */
-    private def commentSpace(tokens: IndexedSeq[AstToken], shouldHaveSpace: Boolean): IndexedSeq[AstToken] =
-      tokens.map {
-        case t if t.tokenType == MetaText =>
-          if (shouldHaveSpace && !t.text.startsWith(" ")) AstToken(MetaText, s" ${t.text}", t.location)
-          else if (!shouldHaveSpace) AstToken(MetaText, t.text.trim, t.location)
-          else AstToken(MetaText, t.text, t.location)
-        case o => o
-      }
+  sealed implicit class YMapImpl(m: YMap) {
+    def format(indentSize: Int, currentIndentation: Int, flowStyle: Boolean): YMap =
+      if (m.entries.isEmpty)
+        YMap(
+          m.location,
+          openMapFlow(m.location) +:
+            indentChildren(indentSize, currentIndentation, m, flowStyle) :+
+            closeMapFlow(m.location)
+        )
+      else YMap(m.location, indentChildren(indentSize, currentIndentation, m, flowStyle))
 
-    private def cleanChildren(c: YPart, indentSize: Int, indent: Int, flowStyle: Boolean): IndexedSeq[YPart] = {
-      val parts = c.children.sliding(2, 2).flatMap {
-        case Seq(a: YNonContent, b: YComment) => // don't trim spaces before a comment
-          Seq(a, b.format(indentSize, indent, flowStyle))
-        case a =>
-          a.map(_.format(indentSize, indent, flowStyle))
-      }
-      parts.toIndexedSeq
-    }
+    private def openMapFlow(location: SourceLocation)  = YNonContent(IndexedSeq(AstToken(Indicator, "{", location)))
+    private def closeMapFlow(location: SourceLocation) = YNonContent(IndexedSeq(AstToken(Indicator, "}", location)))
+  }
+
+  sealed implicit class YNodeImpl(n: YNode) {
+    def format(indentSize: Int, currentIndentation: Int, flowStyle: Boolean): YNode = YNode(
+      n.value.format(indentSize, currentIndentation, flowStyle),
+      n.tag,
+      n.anchor,
+      cleanChildren(n, indentSize, currentIndentation, flowStyle),
+      n.sourceName
+    )
+  }
+
+  sealed implicit class YSeqImpl(s: YSequence) {
 
     /** no matter the Sequence, build an indented blocked sequence
       */
-    private def buildSequence(indentSize: Int, indent: Int, s: YSequence, flowStyle: Boolean) = {
+    def format(indentSize: Int, indent: Int, flowStyle: Boolean): YSequence = {
       val seq = cleanChildren(s, indentSize, indent + 1, flowStyle)
+      if (s.isEmpty) emptySequence(seq)
+      else sequenceBlock(seq, indentSize, indent)
+    }
+
+    private def sequenceBlock(seq: IndexedSeq[YPart], indentSize: Int, indent: Int) = {
       val insertIndicators = seq.flatMap {
         case nc: YNonContent if nc.tokens.exists(_.tokenType == Indicator) =>
           nc.tokens.collect {
@@ -81,16 +79,8 @@ object SyamlImpl {
       YSequence(s.location, removeLastEOL(insertIndicators))
     }
 
-    /** no matter the Map, build an indented blocked map
-      */
-    private def buildMap(indentSize: Int, indent: Int, s: YMap, flowStyle: Boolean) = {
-      val entries = indentChildren(indentSize, indent + 1, s, flowStyle)
-      val insertIndicators = entries.map {
-        case nc: YNonContent => nc
-        case p               => p
-      }
-      YMap(s.location, removeLastEOL(insertIndicators))
-    }
+    private def emptySequence(seq: IndexedSeq[YPart]) =
+      YSequence(s.location, seq)
 
     /** indent, mark sequence entry and add space after
       */
@@ -107,23 +97,35 @@ object SyamlImpl {
         ) :+ valueTokens
       )
     }
+  }
 
-    private def removeLastEOL[T <: YPart](insertIndicators: IndexedSeq[YPart]): IndexedSeq[YPart] = {
-      val lastLineBreak: Int = insertIndicators.lastIndexWhere {
-        case p: YNonContent if p.tokens.map(_.tokenType).contains(LineBreak) => true
-        case _                                                               => false
+  sealed implicit class YCommImpl(c: YComment) {
+    def format(shouldHaveSpace: Boolean): YComment =
+      if (shouldHaveSpace)
+        YComment(c.metaText, c.location, commentSpace(c.tokens, true))
+      else YComment(c.metaText.trim, c.location, commentSpace(c.tokens, false))
+
+    /** mantains tokens until the comment char '#', then trims spaces and adds just 1 space after
+      */
+    private def commentSpace(tokens: IndexedSeq[AstToken], shouldHaveSpace: Boolean): IndexedSeq[AstToken] =
+      tokens.map {
+        case t if t.tokenType == MetaText =>
+          if (shouldHaveSpace && !t.text.startsWith(" ")) AstToken(MetaText, s" ${t.text}", t.location)
+          else if (!shouldHaveSpace) AstToken(MetaText, t.text.trim, t.location)
+          else AstToken(MetaText, t.text, t.location)
+        case o => o
       }
-      val tuple = insertIndicators.splitAt(Math.max(lastLineBreak, 0))
-      tuple._1 ++ tuple._2.tail
-    }
+  }
+
+  sealed implicit class YNonContImpl(nc: YNonContent) {
+    def format(): YNonContent = YNonContent(nc.range, addWhitespaceToEntries, nc.sourceName)
 
     /** add whitespace after `:` in entries, clean excess whitespaces
       */
-    private def addWhitespaceToEntries(nc: YNonContent): IndexedSeq[AstToken] = {
+    private def addWhitespaceToEntries(): IndexedSeq[AstToken] = {
       val colonIdx = nc.tokens.indexWhere(t => t.tokenType == Indicator && t.text == ":")
       val hasWhitespace =
         if (colonIdx >= 0) nc.tokens.splitAt(colonIdx)._2.headOption.exists(_.tokenType == WhiteSpace) else false
-
       if (nc.tokens.exists(_.tokenType == Indicator))
         nc.tokens
           .filterNot(t =>
@@ -138,47 +140,51 @@ object SyamlImpl {
       else
         nc.tokens.filterNot(t => t.tokenType == Indent || t.tokenType == WhiteSpace)
     }
-
-    private def indentChildren[T <: YPart](indentSize: Int, indent: Int, p: T, flowStyle: Boolean): IndexedSeq[YPart] =
-      cleanChildren(p, indentSize, indent + 1, flowStyle)
-        .flatMap {
-          case c: YNonContent => Seq(c)
-          case c              => Seq(indentation(indentSize * indent, p.location), c)
-        }
-
-    private def lineBreak(location: SourceLocation): YNonContent =
-      YNonContent(IndexedSeq(lineBreakToken(location)))
-
-    private def flowDelimitator(flowChar: String, location: SourceLocation): YNonContent =
-      YNonContent(IndexedSeq(indicatorToken(flowChar, location)))
-
-    private def indentation(indentSize: Int, location: SourceLocation): YNonContent =
-      YNonContent(IndexedSeq(AstToken(Indent, " " * indentSize, location)))
-
-    private def whiteSpace(location: SourceLocation): AstToken =
-      AstToken(WhiteSpace, " ", location)
-
-    private def isWhiteSpace(a: AstToken) =
-      a.tokenType == WhiteSpace && a.text.trim.isEmpty
-
-    private def lineBreakToken[T <: YPart](location: SourceLocation) =
-      AstToken(LineBreak, "\n", location)
-
-    private def indicatorToken[T <: YPart](text: String, location: SourceLocation) =
-      AstToken(Indicator, text, location)
   }
 
-  private def isBeginFlow(c: YNonContent): Option[String] = {
-    val tokens = c.tokens.map(_.tokenType)
-    if (tokens.exists(t => t == BeginMapping || t == BeginSequence))
-      c.tokens.find(_.tokenType == Indicator).map(_.text)
-    else None
+  private def cleanChildren(c: YPart, indentSize: Int, indent: Int, flowStyle: Boolean): IndexedSeq[YPart] =
+    c.children
+      .sliding(2, 2)
+      .flatMap {
+        case Seq(a: YNonContent, b: YComment) => // don't trim spaces before a comment
+          Seq(a, b.format(true))
+        case a =>
+          a.map(_.format(indentSize, indent, flowStyle))
+      }
+      .toIndexedSeq
+
+  private def removeLastEOL[T <: YPart](insertIndicators: IndexedSeq[YPart]): IndexedSeq[YPart] = {
+    val lastLineBreak: Int = insertIndicators.lastIndexWhere {
+      case p: YNonContent if p.tokens.map(_.tokenType).contains(LineBreak) => true
+      case _                                                               => false
+    }
+
+    if (lastLineBreak > 0) {
+      val tuple = insertIndicators.splitAt(lastLineBreak)
+      tuple._1 ++ tuple._2.tail
+    } else
+      insertIndicators
   }
 
-  private def isEndFlow(c: YNonContent): Option[String] = {
-    val tokens = c.tokens.map(_.tokenType)
-    if (tokens.exists(t => t == EndMapping || t == EndSequence))
-      c.tokens.find(_.tokenType == Indicator).map(_.text)
-    else None
-  }
+  private def indentChildren[T <: YPart](indentSize: Int, indent: Int, p: T, flowStyle: Boolean): IndexedSeq[YPart] =
+    cleanChildren(p, indentSize, indent + 1, flowStyle)
+      .flatMap {
+        case c: YNonContent => Seq(c)
+        case c              => Seq(indentation(indentSize * indent, p.location), c)
+      }
+
+  private def indentation(indentSize: Int, location: SourceLocation): YNonContent =
+    YNonContent(IndexedSeq(AstToken(Indent, " " * indentSize, location)))
+
+  private def whiteSpace(location: SourceLocation): AstToken =
+    AstToken(WhiteSpace, " ", location)
+
+  private def isWhiteSpace(a: AstToken) =
+    a.tokenType == WhiteSpace && a.text.trim.isEmpty
+
+  private def lineBreak(location: SourceLocation): YNonContent =
+    YNonContent(IndexedSeq(lineBreakToken(location)))
+
+  private def lineBreakToken[T <: YPart](location: SourceLocation) =
+    AstToken(LineBreak, "\n", location)
 }
