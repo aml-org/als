@@ -199,7 +199,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
-//                     branch 'W-11855274/syaml-render-clone-format'
+                    branch 'W-11855274/syaml-render-clone-format'
                 }
             }
             steps {
