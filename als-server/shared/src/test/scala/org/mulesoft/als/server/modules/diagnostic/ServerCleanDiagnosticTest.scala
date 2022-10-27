@@ -248,8 +248,8 @@ class ServerCleanDiagnosticTest extends DiagnosticServerImpl with ChangesWorkspa
 
       } yield {
         s.shutdown()
-        d.diagnostics.size should be(0)
-        v1.length should be(0)
+        d.diagnostics.size should be(1)
+        v1.length should be(1)
       }
     }
   }
