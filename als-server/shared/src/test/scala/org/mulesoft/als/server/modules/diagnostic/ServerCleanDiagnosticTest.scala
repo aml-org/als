@@ -206,4 +206,51 @@ class ServerCleanDiagnosticTest extends DiagnosticServerImpl with ChangesWorkspa
       }
     }
   }
+
+  test("Clean diagnostic test for graphql with invalid token") {
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(5000)
+    withServer(buildServer(diagnosticNotifier)) { s =>
+      val mainFilePath = s"file://api.graphql"
+
+      val mainContent =
+        """nonsense
+          |
+          |type Dog {
+          |    name: String!
+          |    breed: String!
+          |}
+          |
+        """.stripMargin
+
+      for {
+        _ <- openFileNotification(s)(mainFilePath, mainContent)
+        d <- diagnosticNotifier.nextCall
+
+      } yield {
+        s.shutdown()
+        d.diagnostics.size should be(2)
+      }
+    }
+  }
+
+  test("Clean diagnostic test for graphql with empty api") {
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(5000)
+    withServer(buildServer(diagnosticNotifier)) { s =>
+      val mainFilePath = s"file://api.graphql"
+
+      val mainContent =
+        """ """.stripMargin
+
+      for {
+        _  <- openFileNotification(s)(mainFilePath, mainContent)
+        d  <- diagnosticNotifier.nextCall
+        v1 <- requestCleanDiagnostic(s)(mainFilePath)
+
+      } yield {
+        s.shutdown()
+        d.diagnostics.size should be(0)
+        v1.length should be(0)
+      }
+    }
+  }
 }
