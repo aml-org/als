@@ -36,7 +36,17 @@ object SyamlImpl {
             indentChildren(indentSize, currentIndentation, m, flowStyle) :+
             closeMapFlow(m.location)
         )
-      else YMap(m.location, indentChildren(indentSize, currentIndentation, m, flowStyle))
+      else {
+        val parts = indentChildren(indentSize, currentIndentation, m, flowStyle)
+//        if(parts.exists{
+//          case nc: YNonContent =>
+//            nc.tokens.exists(_.tokenType == LineBreak)
+//          case _ => false
+//        })
+        YMap(m.location, parts)
+//        else
+//          YMap(m.location, lineBreak(m.location) +: parts) // if no endOfLine, add one
+      }
 
     private def openMapFlow(location: SourceLocation)  = YNonContent(IndexedSeq(AstToken(Indicator, "{", location)))
     private def closeMapFlow(location: SourceLocation) = YNonContent(IndexedSeq(AstToken(Indicator, "}", location)))
@@ -79,8 +89,7 @@ object SyamlImpl {
       YSequence(s.location, removeLastEOL(insertIndicators))
     }
 
-    private def emptySequence(seq: IndexedSeq[YPart]) =
-      YSequence(s.location, seq)
+    private def emptySequence(seq: IndexedSeq[YPart]) = YSequence(s.location, seq)
 
     /** indent, mark sequence entry and add space after
       */
