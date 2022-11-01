@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "definitions": {
+    "defA": {
+      "type": "object",
+      "properties": {
+        "bestTeam": {
+          "type": "string"
+        },
+        "champion": {
+          "default": "Argentina",
+          "enum": [ "Argentina", "Brasil", "Belgica", "Alemania" ]
+        }
+      },
+      "if": {
+        "properties": { "champion": { * }}
+    }
+  }
+}
