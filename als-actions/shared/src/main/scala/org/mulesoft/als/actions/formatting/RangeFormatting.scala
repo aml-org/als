@@ -20,13 +20,13 @@ case class RangeFormatting(
 
   def format(): Seq[TextEdit] = formatPart(parentYPart)
 
-  private def containsSyntaxError(ypart: YPart): Boolean =
-    syntaxErrors.errors.exists(_.position.exists(err => ypart.range.contains(err.range)))
+  private def containsSyntaxError(part: YPart): Boolean =
+    syntaxErrors.errors.exists(_.position.exists(err => part.range.contains(err.range)))
 
-  private def formatPart(ypart: YPart): Seq[TextEdit] =
-    if (isJson && containsSyntaxError(ypart))
-      ypart.children.filterNot(_.isInstanceOf[YNonContent]).flatMap(formatPart)
-    else format(ypart)
+  private def formatPart(part: YPart): Seq[TextEdit] =
+    if (isJson && containsSyntaxError(part))
+      part.children.filterNot(_.isInstanceOf[YNonContent]).flatMap(formatPart)
+    else format(part)
 
   def applyOptions(s: String): String = {
     var formatted = s
@@ -39,13 +39,13 @@ case class RangeFormatting(
     formatted
   }
 
-  private def format(yPart: YPart): Seq[TextEdit] = {
-    val initialIndentation: Int = yPart.range.start.column / formattingOptions.tabSize
-    val renderPart: YPart       = yPart.format(formattingOptions.tabSize, initialIndentation)
+  private def format(part: YPart): Seq[TextEdit] = {
+    val initialIndentation: Int = part.range.start.column / formattingOptions.tabSize
+    val renderPart: YPart       = part.format(formattingOptions.tabSize, initialIndentation)
     val range =
-      if (isJson) LspRangeConverter.toLspRange(yPart.range.toPositionRange)
+      if (isJson) LspRangeConverter.toLspRange(part.range.toPositionRange)
       else {
-        val positionRange: PositionRange = yPart.range.toPositionRange
+        val positionRange: PositionRange = part.range.toPositionRange
         LspRangeConverter.toLspRange(
           PositionRange(
             positionRange.start.moveColumn(-initialIndentation * formattingOptions.tabSize),
