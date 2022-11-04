@@ -18,9 +18,6 @@ jsEnv := new org.scalajs.jsenv.nodejs.NodeJSEnv()
 
 publish := {}
 
-val commonNpmDependencies = List(
-  ("ajv", "6.12.6")
-)
 
 lazy val workspaceDirectory: File =
   sys.props.get("sbt.mulesoft") match {
@@ -32,6 +29,11 @@ val amfVersion                       = deps("amf")
 val amfCustomValidatorJSVersion      = deps("amf.custom-validator.js")
 val amfCustomValidatorScalaJSVersion = deps("amf.custom-validator-scalajs")
 val amfAntlrParsersVersion           = deps("amf-antlr-parsers")
+
+val commonNpmDependencies = List(
+  ("ajv", "6.12.6"),
+  ("@aml-org/amf-antlr-parsers", amfAntlrParsersVersion)
+)
 
 lazy val amfJVMRef = ProjectRef(workspaceDirectory / "amf", "graphqlJVM")
 lazy val amfJSRef = ProjectRef(workspaceDirectory / "amf", "graphqlJS")
@@ -45,11 +47,6 @@ lazy val customValidatorWebJSRef =
 lazy val customValidatorWebLibJVM = "com.github.amlorg" %% "amf-custom-validator-web" % amfCustomValidatorScalaJSVersion
 lazy val customValidatorWebLibJS =
   "com.github.amlorg" %% "amf-custom-validator-web_sjs0.6" % amfCustomValidatorScalaJSVersion
-
-lazy val npmDependencyAmfCustomValidatorWeb = s"@aml-org/amf-custom-validator-web@$amfCustomValidatorJSVersion"
-lazy val npmDependencyAmfCustomValidator = s"@aml-org/amf-custom-validator@$amfCustomValidatorJSVersion"
-lazy val npmDependencyAmfAntlr = s"@aml-org/amf-antlr-parsers@$amfAntlrParsersVersion"
-
 lazy val customValidatorNodeJVMRef =
   ProjectRef(workspaceDirectory / "amf-custom-validator-scalajs", "amfCustomValidatorNodeJVM")
 lazy val customValidatorNodeJSRef =
@@ -58,6 +55,10 @@ lazy val customValidatorNodeLibJVM =
   "com.github.amlorg" %% "amf-custom-validator-node" % amfCustomValidatorScalaJSVersion
 lazy val customValidatorNodeLibJS =
   "com.github.amlorg" %% "amf-custom-validator-node_sjs0.6" % amfCustomValidatorScalaJSVersion
+
+lazy val npmDependencyAmfCustomValidatorWeb = s"@aml-org/amf-custom-validator-web@$amfCustomValidatorJSVersion"
+lazy val npmDependencyAmfCustomValidator = s"@aml-org/amf-custom-validator@$amfCustomValidatorJSVersion"
+lazy val npmDependencyAmfAntlr = s"@aml-org/amf-antlr-parsers@$amfAntlrParsersVersion"
 
 val orgSettings = Seq(
   organization := "org.mule.als",
@@ -85,16 +86,23 @@ val settings = Common.settings ++ Common.publish ++ orgSettings
 ////region ALS-COMMON
 /** ALS common */
 
+lazy val pathAlsCommon = "./als-common"
 lazy val common = crossProject(JSPlatform, JVMPlatform)
   .settings(
     Seq(
       name := "als-common"
     )
   )
-  .in(file("./als-common"))
+  .in(file(s"$pathAlsCommon"))
   .dependsOn(lsp)
   .settings(settings: _*)
-  .jsSettings(
+    .jsSettings(installJsDependencies := {
+      Process(
+        s"npm install -E $npmDependencyAmfAntlr",
+        new File(s"$pathAlsCommon/js/")
+      ) #&&
+        Process("npm install", new File(s"$pathAlsCommon/js/")) !
+    },
     scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
     scalaJSModuleKind := ModuleKind.CommonJSModule,
     npmDependencies ++= commonNpmDependencies
@@ -103,11 +111,11 @@ lazy val common = crossProject(JSPlatform, JVMPlatform)
   .disablePlugins(SonarPlugin)
 
 lazy val commonJVM = common.jvm
-  .in(file("./als-common/jvm"))
+  .in(file(s"$pathAlsCommon/jvm"))
   .sourceDependency(amfJVMRef, amfLibJVM)
   .sourceDependency(customValidatorWebJVMRef, customValidatorWebLibJVM)
 lazy val commonJS = common.js
-  .in(file("./als-common/js"))
+  .in(file(s"$pathAlsCommon/js"))
   .sourceDependency(amfJSRef, amfLibJS)
   .sourceDependency(customValidatorWebJSRef, customValidatorWebLibJS)
   .disablePlugins(SonarPlugin)
