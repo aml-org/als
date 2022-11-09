@@ -1,0 +1,21 @@
+swagger: '2.0'
+info:
+  title: OpenApi Sample API
+  version: '1'
+definitions:
+  Pet:
+    properties:
+      name:
+        type: string
+      tag:
+        type: string
+      anotherPro:
+        type: string
+        readOnly: false
+paths:
+  "/a":
+    get:
+      responses:
+        200:
+          description: ok
+      deprecated: *

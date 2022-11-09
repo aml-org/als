@@ -1,0 +1,14 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "asd",
+    "version": 2
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "deprecated": "*"
+      }
+    }
+  }
+}
