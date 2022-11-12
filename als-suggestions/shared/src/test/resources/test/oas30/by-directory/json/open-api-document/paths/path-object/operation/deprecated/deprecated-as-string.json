@@ -7,6 +7,11 @@
   "paths": {
     "/": {
       "get": {
+        "responses": {
+          "102": {
+            "description": "some desc"
+          }
+        },
         "deprecated": "*"
       }
     }
