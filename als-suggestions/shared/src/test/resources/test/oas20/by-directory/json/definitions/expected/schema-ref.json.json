@@ -510,6 +510,36 @@
     "command": null
   },
   {
+    "label": "readOnly-properties.json",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11readOnly-properties.json",
+    "filterText": "\"readOnly-properties.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 7,
+          "character": 14
+        },
+        "end": {
+          "line": 7,
+          "character": 16
+        }
+      },
+      "newText": "\"readOnly-properties.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "required-properties-name-existing.json",
     "kind": [],
     "detail": "unknown",

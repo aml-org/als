@@ -2,8 +2,9 @@ package org.mulesoft.als.suggestions.styler
 
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
-import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.styler.astbuilder.AstRawBuilder
+import org.mulesoft.als.suggestions.{RawSuggestion, SuggestionStructure}
+import org.yaml.model.{YNode, YType}
 
 trait FlowSuggestionRender extends SuggestionRender {
 
@@ -71,5 +72,19 @@ trait FlowSuggestionRender extends SuggestionRender {
       yPartBranch.brothers.exists(brother =>
         PositionRange(brother.range).end > Position(yPartBranch.position)
       ) && yPartBranch.isKey
+  }
+
+  private def isRecoveredValue(): Boolean = {
+    params.yPartBranch.node match {
+      case n: YNode => n.tagType == YType.Null
+      case _ => false
+    }
+  }
+
+  override def adaptRangeToPositionValue(r: PositionRange, option: SuggestionStructure): PositionRange = {
+    if (!option.isKey && isFlow && isRecoveredValue()){
+      r.copy(start = params.position)
+    } else
+      r
   }
 }
