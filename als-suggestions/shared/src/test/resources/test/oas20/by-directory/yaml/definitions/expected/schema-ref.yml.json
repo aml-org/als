@@ -510,14 +510,14 @@
     "command": null
   },
   {
-    "label": "readOnly-properties.yaml",
+    "label": "readOnly-properties.yml",
     "kind": [],
     "detail": "unknown",
     "documentation": "Path suggestion",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11readOnly-properties.yaml",
-    "filterText": "readOnly-properties.yaml",
+    "sortText": "11readOnly-properties.yml",
+    "filterText": "readOnly-properties.yml",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -533,7 +533,7 @@
           "character": 10
         }
       },
-      "newText": "readOnly-properties.yaml"
+      "newText": "readOnly-properties.yml"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
