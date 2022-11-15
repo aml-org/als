@@ -7,6 +7,7 @@ import amf.core.client.scala.config.{CachedReference, UnitCache}
 import amf.core.client.scala.model.document.Module
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.client.scala.validation.AMFValidationResult
+import amf.graphql.client.scala.GraphQLConfiguration
 import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.amfintegration.ValidationProfile
 
@@ -28,6 +29,10 @@ trait ProjectConfigurationState {
         }
       )
       .map(r => r.flatten.find(_._2).map(_._1))
+
+  def getProjectConfig: AMFConfiguration = {
+    GraphQLConfiguration.GraphQL()
+  }
 
   val extensions: Seq[Dialect]
   val profiles: Seq[ValidationProfile]
