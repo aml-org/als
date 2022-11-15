@@ -2,6 +2,7 @@ package org.mulesoft.als.actions.formatting
 
 import org.mulesoft.common.client.lexical.SourceLocation
 import org.mulesoft.lexer.AstToken
+import org.yaml.lexer.YamlToken
 import org.yaml.lexer.YamlToken._
 import org.yaml.model._
 
@@ -21,11 +22,12 @@ object SyamlImpl {
         case a: YAnchor      => a
         case nc: YNonContent => nc.format()
         case d: YDocument    => YDocument(cleanChildren(d, indentSize, currentIndentation), d.sourceName)
-        case s: YSequence    => s.format(indentSize, currentIndentation)
-        case m: YMap         => m.format(indentSize, currentIndentation)
-        case e: YMapEntry    => YMapEntry(e.location, cleanChildren(e, indentSize, currentIndentation))
-        case n: YNode        => n.format(indentSize, currentIndentation)
-        case _               => part
+        case s: YSequence =>
+          s.format(indentSize, currentIndentation)
+        case m: YMap      => m.format(indentSize, currentIndentation)
+        case e: YMapEntry => YMapEntry(e.location, cleanChildren(e, indentSize, currentIndentation))
+        case n: YNode     => n.format(indentSize, currentIndentation)
+        case _            => part
       }).asInstanceOf[T]
     }
   }
@@ -88,7 +90,7 @@ object SyamlImpl {
 
     private def sequenceBlock(seq: IndexedSeq[YPart], indentSize: Int, indent: Int) = {
       val insertIndicators = seq.flatMap {
-        case nc: YNonContent if nc.tokens.exists(_.tokenType == Indicator) =>
+        case nc: YNonContent if nc.containsToken(Indicator) =>
           nc.tokens.collect {
             case t if t.tokenType == Indicator && t.text == "[" => lineBreak(t.location)
           }
@@ -123,15 +125,14 @@ object SyamlImpl {
 
     private def removeLastEOL[T <: YPart](insertIndicators: IndexedSeq[YPart]): IndexedSeq[YPart] = {
       val lastLineBreak: Int = insertIndicators.lastIndexWhere {
-        case p: YNonContent if p.tokens.map(_.tokenType).contains(LineBreak) => true
-        case _                                                               => false
+        case p: YNonContent if p.containsToken(LineBreak) => !p.containsToken(Error)
+        case _                                            => false
       }
 
       if (lastLineBreak > 0) {
         val tuple = insertIndicators.splitAt(lastLineBreak)
         tuple._1 ++ tuple._2.tail
-      } else
-        insertIndicators
+      } else insertIndicators
     }
 
   }
@@ -155,7 +156,12 @@ object SyamlImpl {
   }
 
   sealed implicit class YNonContImpl(nc: YNonContent) {
-    def format(): YNonContent = YNonContent(nc.range, addWhitespaceToEntries(), nc.sourceName)
+    def format(): YNonContent =
+      if (nc.containsToken(Error)) nc
+      else YNonContent(nc.range, addWhitespaceToEntries(), nc.sourceName)
+
+    def containsToken(token: YamlToken): Boolean =
+      nc.tokens.map(_.tokenType).contains(token)
 
     /** add whitespace after `:` in entries, clean excess whitespaces
       */
