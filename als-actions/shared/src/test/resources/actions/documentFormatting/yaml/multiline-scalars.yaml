@@ -1,0 +1,9 @@
+a: # comment
+  map:
+    - a:
+              b
+b: # comment
+  map:
+    - a: |
+        bw;kgm
+        wlrkgnlwkg

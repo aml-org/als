@@ -24,10 +24,11 @@ object SyamlImpl {
         case d: YDocument    => YDocument(cleanChildren(d, indentSize, currentIndentation), d.sourceName)
         case s: YSequence =>
           s.format(indentSize, currentIndentation)
-        case m: YMap      => m.format(indentSize, currentIndentation)
-        case e: YMapEntry => YMapEntry(e.location, cleanChildren(e, indentSize, currentIndentation))
-        case n: YNode     => n.format(indentSize, currentIndentation)
-        case _            => part
+        case m: YMap => m.format(indentSize, currentIndentation)
+        case e: YMapEntry =>
+          YMapEntry(e.location, cleanChildren(e, indentSize, currentIndentation))
+        case n: YNode => n.format(indentSize, currentIndentation)
+        case _        => part
       }).asInstanceOf[T]
     }
   }
@@ -191,6 +192,11 @@ object SyamlImpl {
       .flatMap {
         case Seq(a: YNonContent, b: YComment) => // don't trim spaces before a comment
           Seq(a, b.format(true))
+        case Seq(a: YNonContent, b: YNodePlain) if b.tag.tagType != YType.Map =>
+          if (a.tokens.exists(t => t.tokenType == Indicator && t.text == ":") && a.tokens.exists(_.tokenType == Indent))
+            Seq(a.format(), indentation(indentSize * indent, a.location), b.format(indentSize, indent))
+          else
+            Seq(a.format(), b.format(indentSize, indent))
         case a =>
           a.map(_.format(indentSize, indent))
       }
