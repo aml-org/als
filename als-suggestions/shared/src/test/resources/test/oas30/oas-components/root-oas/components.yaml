@@ -13,3 +13,37 @@ components:
   examples:
     myExample:
       description: this is my example
+  headers:
+    myHeader:
+      schema:
+        $ref: "#/components/schemas/mySchema1"
+      description: this is my example
+  callbacks:
+    myCallback:
+      {}
+  responses:
+    myResponse:
+      description: my response
+  links:
+    myLink:
+      description: my link
+  requestBodies:
+    myReqBod:
+      content:
+        {}
+  securitySchemes:
+    mySec:
+      type: openIdConnect
+      openIdConnectUrl: x
+  parameters:
+    myParam:
+      schema:
+        $ref: "#/components/schemas/mySchema1"
+      in: header
+      name: param
+      description: this is my example
+    myOtherParam:
+      schema:
+        $ref: "#/components/schemas/mySchema1"
+      name: param2
+      description: this is my example
