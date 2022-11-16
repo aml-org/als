@@ -22,6 +22,43 @@ class Oas30ComponentRefSuggestionTest extends AsyncFunSuite with BaseSuggestions
     }
   }
 
+  test("test oas3 including cached oas components should suggest the correct headers component (not parameters)") {
+    suggest("api-ref-header.yaml", "components.yaml").map { ci =>
+      assert(ci.size == 3)
+      assert(ci.map(_.label).exists(_.contains("headers")))
+      assert(ci.map(_.label).exists(_.contains("parameters")))
+    }
+  }
+
+  test("test oas3 including cached oas components should suggest the correct parameters component") {
+    suggest("api-ref-parameter.yaml", "components.yaml").map { ci =>
+      assert(ci.size == 3)
+      assert(ci.map(_.label).exists(_.contains("headers")))
+      assert(ci.map(_.label).exists(_.contains("parameters")))
+    }
+  }
+
+  test("test oas3 including cached oas components should suggest the correct links component") {
+    suggest("api-ref-links.yaml", "components.yaml").map { ci =>
+      assert(ci.size == 1)
+      assert(ci.map(_.label).forall(_.contains("links")))
+    }
+  }
+
+  test("test oas3 including cached oas components should suggest the correct responses component") {
+    suggest("api-ref-responses.yaml", "components.yaml").map { ci =>
+      assert(ci.size == 1)
+      assert(ci.map(_.label).forall(_.contains("responses")))
+    }
+  }
+
+  test("test oas3 including cached oas components should suggest the correct security component") {
+    suggest("api-ref-security.yaml", "components.yaml").map { ci =>
+      assert(ci.size == 1)
+      assert(ci.map(_.label).forall(_.contains("security")))
+    }
+  }
+
   test("test oas3 including cached oas components should only suggest declared within specific declared key") {
     suggest("api-ref-level3.yaml", "components.yaml").map { ci =>
       ci.length shouldBe 2
