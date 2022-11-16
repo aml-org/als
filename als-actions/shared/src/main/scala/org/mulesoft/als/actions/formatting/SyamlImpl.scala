@@ -16,6 +16,8 @@ object SyamlImpl {
         case c: YComment if c.metaText.trim.startsWith("%") => c.format(false)
         case c: YComment                                    => c.format(true)
         case d: YDirective                                  => d
+        case s: YScalar if s.mark == MultilineMark =>
+          s.format(indentSize, currentIndentation)
         case s: YScalar =>
           s // maybe it's possible to trim when needed, with the constructor as private I don't know how
         case t: YTag         => new YTag(t.text, t.tagType, t.location, t.tokens :+ whiteSpace(t.location))
@@ -31,6 +33,24 @@ object SyamlImpl {
         case _        => part
       }).asInstanceOf[T]
     }
+  }
+
+  sealed implicit class YScalarImpl(s: YScalar) {
+    def format(indentSize: Int, currentIndentation: Int): YScalar =
+      // TODO: this constructor is private in SYAML, uncomment once it is exposed
+//      if(s.mark == MultilineMark || s.mark == FoldedMark) {
+//        val tokens: Seq[AstToken] = s.children.headOption match {
+//          case Some(nc: YNonContent) =>
+//            nc.tokens.map {
+//              case t if t.tokenType == Indent =>
+//                AstToken(Indent, " " * indentSize * currentIndentation, s.location)
+//              case t => t
+//            }
+//          case _ => Seq.empty
+//        }
+//         new YScalar(s.value, s.text, s.mark, s.location, IndexedSeq(YNonContent(tokens.toIndexedSeq)))
+//      }  else
+      s
   }
 
   sealed implicit class YMapImpl(m: YMap) {
@@ -173,8 +193,8 @@ object SyamlImpl {
       if (nc.tokens.exists(_.tokenType == Indicator))
         nc.tokens
           .filterNot(t =>
-            isWhiteSpace(t) || t.tokenType == Indent ||
-              (t.tokenType == Indicator && Seq("{", "}").contains(t.text))
+            isWhiteSpace(t) || t.tokenType == Indent
+              || (t.tokenType == Indicator && Seq("{", "}").contains(t.text))
           )
           .flatMap {
             case t if t.tokenType == Indicator && t.text == ":" && !hasWhitespace =>

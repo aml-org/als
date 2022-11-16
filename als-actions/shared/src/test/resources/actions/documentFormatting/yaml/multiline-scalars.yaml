@@ -4,6 +4,6 @@ a: # comment
               b
 b: # comment
   map:
-    - a: |
-        bw;kgm
-        wlrkgnlwkg
+  - a: |
+      bw;kgm
+      wlrkgnlwkg
