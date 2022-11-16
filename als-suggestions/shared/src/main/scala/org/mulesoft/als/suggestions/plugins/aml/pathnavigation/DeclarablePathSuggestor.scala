@@ -1,8 +1,11 @@
 package org.mulesoft.als.suggestions.plugins.aml.pathnavigation
 
 import amf.apicontract.client.scala.model.document.ComponentModule
+import amf.apicontract.client.scala.model.domain.Parameter
+import amf.apicontract.internal.metamodel.domain.ParameterModel
 import amf.core.client.scala.model.document.DeclaresModel
-import amf.core.client.scala.model.domain.NamedDomainElement
+import amf.core.client.scala.model.domain.{AmfObject, NamedDomainElement}
+import amf.core.internal.parser.domain.Fields
 import amf.shapes.client.scala.model.document.JsonSchemaDocument
 import amf.shapes.internal.annotations.DocumentDeclarationKey
 import org.mulesoft.als.suggestions.RawSuggestion
@@ -50,6 +53,15 @@ sealed case class ComponentSuggestor(component: ComponentModule, prefix: String,
 
   override def suggest(): Future[Seq[RawSuggestion]] = {
     val names = component.declares.flatMap {
+      case param: Parameter
+          if targetClass.forall(tc => param.metaURIs.contains(tc)) &&
+            isSynthetizedBinding(param) => // is not inside parameters
+        for {
+          componentsKey <- OAS30Dialect.dialect.documents().declarationsPath().option()
+          name          <- param.name.option()
+        } yield {
+          s"/$componentsKey/headers/$name"
+        }
       case named: NamedDomainElement if targetClass.forall(tc => named.metaURIs.contains(tc)) =>
         for {
           componentsKey <- OAS30Dialect.dialect.documents().declarationsPath().option()
@@ -62,4 +74,9 @@ sealed case class ComponentSuggestor(component: ComponentModule, prefix: String,
     }
     Future.successful(buildSuggestions(names.map(buildText), prefix))
   }
+
+  private def isSynthetizedBinding(param: Parameter) =
+    Option(param.fields.getValue(ParameterModel.Binding))
+//    param.fields.fields().find(_.field.value.iri() == ParameterModel.Binding.value.iri())
+      .exists(_.annotations.isSynthesized)
 }
