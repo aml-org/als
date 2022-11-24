@@ -510,6 +510,36 @@
     "command": null
   },
   {
+    "label": "readOnly-properties.yml",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11readOnly-properties.yml",
+    "filterText": "readOnly-properties.yml",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 5,
+          "character": 10
+        },
+        "end": {
+          "line": 5,
+          "character": 10
+        }
+      },
+      "newText": "readOnly-properties.yml"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "required-properties-name-existing.yml",
     "kind": [],
     "detail": "unknown",

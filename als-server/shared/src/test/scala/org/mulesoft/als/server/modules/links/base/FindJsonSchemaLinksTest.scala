@@ -12,7 +12,7 @@ class FindJsonSchemaLinksTest extends FindLinksTest {
       "files/simple-ref/json-schema/draft-03/basic-schema.json",
       Set(
         DocumentLink(
-          LspRangeConverter.toLspRange(PositionRange(Position(7, 23), Position(7, 62))),
+          LspRangeConverter.toLspRange(PositionRange(Position(7, 24), Position(7, 42))),
           "file://als-server/shared/src/test/resources/actions/links/files/simple-ref/json-schema/draft-03/basic-schema2.json",
           None
         )
@@ -25,7 +25,7 @@ class FindJsonSchemaLinksTest extends FindLinksTest {
       "files/simple-ref/json-schema/draft-04/basic-schema.json",
       Set(
         DocumentLink(
-          LspRangeConverter.toLspRange(PositionRange(Position(7, 23), Position(7, 62))),
+          LspRangeConverter.toLspRange(PositionRange(Position(7, 24), Position(7, 42))),
           "file://als-server/shared/src/test/resources/actions/links/files/simple-ref/json-schema/draft-04/basic-schema2.json",
           None
         )
@@ -38,7 +38,7 @@ class FindJsonSchemaLinksTest extends FindLinksTest {
       "files/simple-ref/json-schema/draft-07/basic-schema.json",
       Set(
         DocumentLink(
-          LspRangeConverter.toLspRange(PositionRange(Position(7, 23), Position(7, 62))),
+          LspRangeConverter.toLspRange(PositionRange(Position(7, 24), Position(7, 42))),
           "file://als-server/shared/src/test/resources/actions/links/files/simple-ref/json-schema/draft-07/basic-schema2.json",
           None
         )
@@ -51,7 +51,7 @@ class FindJsonSchemaLinksTest extends FindLinksTest {
       "files/simple-ref/json-schema/draft-2019-09/basic-schema.json",
       Set(
         DocumentLink(
-          LspRangeConverter.toLspRange(PositionRange(Position(7, 23), Position(7, 62))),
+          LspRangeConverter.toLspRange(PositionRange(Position(7, 24), Position(7, 42))),
           "file://als-server/shared/src/test/resources/actions/links/files/simple-ref/json-schema/draft-2019-09/basic-schema2.json",
           None
         )

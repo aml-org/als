@@ -71,7 +71,7 @@ case class ALSConfigurationState(
   def getAmfConfig(url: String): AMFConfiguration = {
     val base =
       if (url.endsWith("graphql"))
-        GraphQLConfiguration.GraphQL()
+        projectState.getProjectConfig
       else getAmfConfig.withPlugins(editorState.alsParsingPlugins)
     getAmfConfig(base)
   }

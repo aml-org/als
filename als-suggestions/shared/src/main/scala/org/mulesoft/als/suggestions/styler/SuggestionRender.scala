@@ -32,7 +32,7 @@ trait SuggestionRender {
 
   private def isHeaderSuggestion: Boolean = params.position.line == 0 && params.prefix.startsWith("#%")
 
-  private def keyRange: Option[PositionRange] =
+  private def jsonScalarRange: Option[PositionRange] =
     params.yPartBranch.node match {
       case n: YNode if n.value.isInstanceOf[YScalar] && params.yPartBranch.isJson =>
         Some(PositionRange(n.range))
@@ -83,12 +83,15 @@ trait SuggestionRender {
     builder.build()
   }
 
+  def adaptRangeToPositionValue(r: PositionRange, options: SuggestionStructure): PositionRange
+
   def style(raw: RawSuggestion): Styled =
     if (raw.options.rangeKind == PlainText)
       Styled(
         raw.newText,
         plain = true,
-        raw.range.getOrElse(PositionRange(params.position.moveColumn(-params.prefix.length), params.position))
+        raw.range.map(r => adaptRangeToPositionValue(r, raw.options))
+          .getOrElse(PositionRange(params.position.moveColumn(-params.prefix.length), params.position))
       )
     else {
       val builder = astBuilder(raw)
@@ -99,7 +102,8 @@ trait SuggestionRender {
 
   protected def suggestionRange(raw: RawSuggestion): PositionRange =
     raw.range
-      .orElse(keyRange)
+      .orElse(jsonScalarRange)
+      .map(r => adaptRangeToPositionValue(r, raw.options))
       .getOrElse(PositionRange(params.position.moveColumn(-params.prefix.length), params.position))
 
   protected def render(options: SuggestionStructure, builder: AstRawBuilder): String

@@ -15,12 +15,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 6
+          "line": 5,
+          "character": 16
         },
         "end": {
           "line": 6,
-          "character": 7
+          "character": 6
         }
       },
       "newText": "\"apiKey\""
@@ -45,12 +45,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 6
+          "line": 5,
+          "character": 16
         },
         "end": {
           "line": 6,
-          "character": 7
+          "character": 6
         }
       },
       "newText": "\"http\""
@@ -75,12 +75,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 6
+          "line": 5,
+          "character": 16
         },
         "end": {
           "line": 6,
-          "character": 7
+          "character": 6
         }
       },
       "newText": "\"oauth2\""
@@ -105,12 +105,12 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 6,
-          "character": 6
+          "line": 5,
+          "character": 16
         },
         "end": {
           "line": 6,
-          "character": 7
+          "character": 6
         }
       },
       "newText": "\"openIdConnect\""

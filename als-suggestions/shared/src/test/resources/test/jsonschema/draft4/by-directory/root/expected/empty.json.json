@@ -7,7 +7,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11allOf",
-    "filterText": "\"allOf\": {\n  \"$1\"\n}",
+    "filterText": "\"allOf\": [\n  \"$1\"\n]",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -23,7 +23,7 @@
           "character": 2
         }
       },
-      "newText": "\"allOf\": {\n  \"$1\"\n}"
+      "newText": "\"allOf\": [\n  \"$1\"\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,7 +37,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11anyOf",
-    "filterText": "\"anyOf\": {\n  \"$1\"\n}",
+    "filterText": "\"anyOf\": [\n  \"$1\"\n]",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -53,37 +53,7 @@
           "character": 2
         }
       },
-      "newText": "\"anyOf\": {\n  \"$1\"\n}"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "const",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "const",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11const",
-    "filterText": "\"const\": \"$1\"",
-    "insertText": null,
-    "insertTextFormat": [
-      2
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 2,
-          "character": 2
-        },
-        "end": {
-          "line": 2,
-          "character": 2
-        }
-      },
-      "newText": "\"const\": \"$1\""
+      "newText": "\"anyOf\": [\n  \"$1\"\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -180,36 +150,6 @@
     "command": null
   },
   {
-    "label": "else",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "else",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11else",
-    "filterText": "\"else\": {\n  \"$1\"\n}",
-    "insertText": null,
-    "insertTextFormat": [
-      2
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 2,
-          "character": 2
-        },
-        "end": {
-          "line": 2,
-          "character": 2
-        }
-      },
-      "newText": "\"else\": {\n  \"$1\"\n}"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "enum",
     "kind": [],
     "detail": "parameters",
@@ -300,36 +240,6 @@
     "command": null
   },
   {
-    "label": "if",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "if",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11if",
-    "filterText": "\"if\": {\n  \"$1\"\n}",
-    "insertText": null,
-    "insertTextFormat": [
-      2
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 2,
-          "character": 2
-        },
-        "end": {
-          "line": 2,
-          "character": 2
-        }
-      },
-      "newText": "\"if\": {\n  \"$1\"\n}"
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
     "label": "not",
     "kind": [],
     "detail": "unknown",
@@ -367,7 +277,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11oneOf",
-    "filterText": "\"oneOf\": {\n  \"$1\"\n}",
+    "filterText": "\"oneOf\": [\n  \"$1\"\n]",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -383,7 +293,7 @@
           "character": 2
         }
       },
-      "newText": "\"oneOf\": {\n  \"$1\"\n}"
+      "newText": "\"oneOf\": [\n  \"$1\"\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -397,7 +307,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11readOnly",
-    "filterText": "\"readOnly\": \"$1\"",
+    "filterText": "\"readOnly\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -413,7 +323,7 @@
           "character": 2
         }
       },
-      "newText": "\"readOnly\": \"$1\""
+      "newText": "\"readOnly\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -427,7 +337,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11required",
-    "filterText": "\"required\": \"$1\"",
+    "filterText": "\"required\": [\n  \"$1\"\n]",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -443,37 +353,7 @@
           "character": 2
         }
       },
-      "newText": "\"required\": \"$1\""
-    },
-    "additionalTextEdits": null,
-    "commitCharacters": null,
-    "command": null
-  },
-  {
-    "label": "then",
-    "kind": [],
-    "detail": "unknown",
-    "documentation": "then",
-    "deprecated": [],
-    "preselect": [],
-    "sortText": "11then",
-    "filterText": "\"then\": {\n  \"$1\"\n}",
-    "insertText": null,
-    "insertTextFormat": [
-      2
-    ],
-    "textEdit": {
-      "range": {
-        "start": {
-          "line": 2,
-          "character": 2
-        },
-        "end": {
-          "line": 2,
-          "character": 2
-        }
-      },
-      "newText": "\"then\": {\n  \"$1\"\n}"
+      "newText": "\"required\": [\n  \"$1\"\n]"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -547,7 +427,7 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11writeOnly",
-    "filterText": "\"writeOnly\": \"$1\"",
+    "filterText": "\"writeOnly\": $1",
     "insertText": null,
     "insertTextFormat": [
       2
@@ -563,7 +443,7 @@
           "character": 2
         }
       },
-      "newText": "\"writeOnly\": \"$1\""
+      "newText": "\"writeOnly\": $1"
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
