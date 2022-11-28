@@ -5,6 +5,8 @@ import org.mulesoft.als.suggestions.{RawSuggestion, SuggestionStructure}
 import org.yaml.model.YPart
 import org.yaml.render.{JsonRender, JsonRenderOptions}
 
+import java.util.regex.Matcher
+
 case class JsonSuggestionStyler(override val params: SyamlStylerParams) extends FlowSuggestionRender {
 
   override protected val escapeChar: String = "\""
@@ -17,7 +19,7 @@ case class JsonSuggestionStyler(override val params: SyamlStylerParams) extends 
     if (!builder.raw.newText.contains('$'))
       fixedJson
     else
-      escapeNonSnippets(fixedJson, builder.raw.newText)
+      escapeNonSnippets(fixedJson)
   }
 
   private def buildRenderOptions =
@@ -32,8 +34,8 @@ case class JsonSuggestionStyler(override val params: SyamlStylerParams) extends 
     * @param newText the original suggestion
     * @return the suggestion escaped
     */
-  private def escapeNonSnippets(fixedJson: String, newText: String): String =
-    fixedJson.replace(newText, "\\".concat(newText))
+  private def escapeNonSnippets(newtext: String): String =
+    newtext.replaceAll("(?<!\\{)(\\$)(?=\\D\\w+)", Matcher.quoteReplacement("\\$"))
 
   override def astBuilder: RawSuggestion => AstRawBuilder =
     (raw: RawSuggestion) => new JsonAstRawBuilder(raw, false, params.yPartBranch)
