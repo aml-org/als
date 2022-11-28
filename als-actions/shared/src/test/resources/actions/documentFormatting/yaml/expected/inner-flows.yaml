@@ -1,3 +1,1 @@
-nestedFlows:
-  -
-    k:       k: v
+nestedFlows: [ s, {k: {k: v } } ]

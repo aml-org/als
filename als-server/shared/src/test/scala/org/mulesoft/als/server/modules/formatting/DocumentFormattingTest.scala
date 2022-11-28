@@ -80,6 +80,15 @@ class DocumentFormattingTest extends LanguageServerBaseTest with FileAssertionTe
     })
   }
 
+  // This is ignored because AMF does not provide AST for the whole document,
+  //  just starting from the first significant part
+  ignore("Should format RAML header") {
+    val (original, expected) = files("header.raml")
+    runTest(buildServer(), original, expected).map(result => {
+      assert(result.nonEmpty)
+    })
+  }
+
   def runTest(server: LanguageServer, fileUri: String, expectedUri: String): Future[Seq[TextEdit]] = {
     val fileId = TextDocumentIdentifier(fileUri)
     withServer(server)(server => {

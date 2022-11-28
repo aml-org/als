@@ -1,0 +1,4 @@
+map:
+        - yaml
+        - m: #comment
+              s: x
