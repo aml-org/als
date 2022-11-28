@@ -1,0 +1,32 @@
+[
+  {
+    "label": "$comment",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "$comment",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11$comment",
+    "filterText": "\"\\$comment\": \"$1\",",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 2
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "\"\\$comment\": \"$1\","
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]

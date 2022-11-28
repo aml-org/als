@@ -7,10 +7,10 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11$comment",
-    "filterText": "\"$comment\"",
+    "filterText": "\"\\$comment\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -23,7 +23,7 @@
           "character": 10
         }
       },
-      "newText": "\"$comment\""
+      "newText": "\"\\$comment\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -37,10 +37,10 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "11$id",
-    "filterText": "\"$id\"",
+    "filterText": "\"\\$id\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -53,7 +53,7 @@
           "character": 10
         }
       },
-      "newText": "\"$id\""
+      "newText": "\"\\$id\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

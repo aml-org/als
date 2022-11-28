@@ -7,10 +7,10 @@
     "deprecated": [],
     "preselect": [],
     "sortText": "0$ref",
-    "filterText": "\"$ref\"",
+    "filterText": "\"\\$ref\": \"$1\"",
     "insertText": null,
     "insertTextFormat": [
-      1
+      2
     ],
     "textEdit": {
       "range": {
@@ -23,7 +23,7 @@
           "character": 8
         }
       },
-      "newText": "\"$ref\""
+      "newText": "\"\\$ref\": \"$1\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

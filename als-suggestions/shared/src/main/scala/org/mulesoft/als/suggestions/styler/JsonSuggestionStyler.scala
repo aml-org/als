@@ -13,8 +13,11 @@ case class JsonSuggestionStyler(override val params: SyamlStylerParams) extends 
     rawRender(builder)
 
   private def rawRender(builder: AstRawBuilder) = {
-    val renderedJson = renderYPart(builder.ast)
-    fix(builder, renderedJson)
+    val fixedJson = fix(builder, renderYPart(builder.ast))
+    if (!builder.raw.newText.contains('$'))
+      fixedJson
+    else
+      escapeNonSnippets(fixedJson, builder.raw.newText)
   }
 
   private def buildRenderOptions =
@@ -22,6 +25,15 @@ case class JsonSuggestionStyler(override val params: SyamlStylerParams) extends 
 
   override protected def renderYPart(part: YPart, indentation: Option[Int] = None): String =
     JsonRender.render(part, indentation = indentation.getOrElse(0), buildRenderOptions)
+
+  /**
+    * This method is used to escape the backslash character for non snippets.
+    * @param fixedJson rendered and fixed suggestion
+    * @param newText the original suggestion
+    * @return the suggestion escaped
+    */
+  private def escapeNonSnippets(fixedJson: String, newText: String): String =
+    fixedJson.replace(newText, "\\".concat(newText))
 
   override def astBuilder: RawSuggestion => AstRawBuilder =
     (raw: RawSuggestion) => new JsonAstRawBuilder(raw, false, params.yPartBranch)

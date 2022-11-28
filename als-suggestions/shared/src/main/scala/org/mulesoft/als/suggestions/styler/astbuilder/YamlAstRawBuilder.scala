@@ -9,8 +9,8 @@ class YamlAstRawBuilder(override val raw: RawSuggestion, val isSnippet: Boolean,
 
   def ast: YPart =
     if (raw.options.isKey)
-      if (yPartBranch.isInFlow) emitRootKey
-      else YNode(YMap(IndexedSeq(emitRootKey), ""))
+      if (yPartBranch.isInFlow) emitKey()
+      else YNode(YMap(IndexedSeq(emitKey()), ""))
     else value(raw.newText, raw.options)
 
   override protected def newInstance: (RawSuggestion, Boolean) => AstRawBuilder =
