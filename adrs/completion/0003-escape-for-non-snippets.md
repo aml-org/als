@@ -12,5 +12,17 @@ Reported bug in [this ticket](https://gus.lightning.force.com/lightning/r/ADM_Wo
 ## Decision
 Fix the suggestions starting with dollar sign ($) using this regex to capture groups: ```(?<!\{)(\$)(?=\D\w+)```
 
-## Consequences
+#### Escenario
+```
+"http://notificationServer.com?transactionId={$request.body#/id}&email={$request.body}": {
+$id= $1 
+"$comment": "$1", 
+"\"notificationServer.com?transactionId={$method\"", 
+```
 
+#### Regex playgrounds:
+* [RegexR](https://regexr.com/)
+* [Regex 101](https://regex101.com/)
+
+## Consequences
+Avoid suggestion starting with dollar sign as plain text and use normal string scalar and snippet instead.
