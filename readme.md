@@ -13,21 +13,10 @@ The supported types of documents include:
 + [AsyncAPI](https://github.com/asyncapi/asyncapi/blob/master/versions/2.0.0/asyncapi.md) (2.0)
 + [Any other type of documents via AML dialect](https://aml-org.github.io/aml-spec/dialects/) (1.0)
     - [How to register a dialect](./documentation/register-dialect.md)
-+ [BETA] [JsonSchema](https://json-schema.org/specification.html) (Draft03/Draft04/Draft07/Draft2019)
-  - Limited support:
-    - **Schemas referenced in other Specs will be treated as before** (using the default draft per spec to interpret the content)
-    - Diagnostics: as provided by AMF
-    - Suggestions: very basic, WIP
-    - DocumentSymbol: basic outline, WIP
-    - Formatting: Not properly tested
-    - Folding: Not properly tested
-    - Selection Range: Not properly tested
-    - No support (in order of priority for development):
-    - Navigation
-    - Rename
-    - Highlighting
-    - Hover
-    - CodeActions
++ [JsonSchema](https://json-schema.org/specification.html)
+  - [Draft-04](https://json-schema.org/specification-links.html#draft-4)
+  - [Draft-07](https://json-schema.org/specification-links.html#draft-7)
+  - [Draft-2019-09](https://json-schema.org/specification-links.html#draft-2019-09-formerly-known-as-draft-8)
 
 ### What does ALS do?
 The ALS relies on the [Anything Modeling Language (AML)](https://a.ml/docbook/overview_aml.html), more specifically on AML's [dialect](https://aml-org.github.io/aml-spec/dialects/) functionality. The ALS uses the AML to provide language server functionalities, such as validation, for the documents (also referred to as "instances" or "instance documents"). The ALS can also deduce possible contextual values at any given position of an instance document.
