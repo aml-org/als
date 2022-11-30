@@ -21,8 +21,7 @@ object SyamlImpl {
         case nc: YNonContent => nc.format(shouldCleanSpaces, indentSize, currentIndentation)
         case d: YDocument =>
           YDocument(cleanChildren(d, indentSize, currentIndentation, shouldCleanSpaces), d.sourceName)
-        case s: YSequence =>
-          s.format(indentSize, currentIndentation, shouldCleanSpaces)
+        case s: YSequence => s.format(indentSize, currentIndentation, shouldCleanSpaces)
         case m: YMap      => m.format(indentSize, currentIndentation, shouldCleanSpaces)
         case e: YMapEntry => e.format(indentSize, currentIndentation, shouldCleanSpaces)
         case n: YNode     => n.format(indentSize, currentIndentation, shouldCleanSpaces)

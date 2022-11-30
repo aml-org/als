@@ -1,14 +1,12 @@
 {
-  "array": [
-
+  "array" : [
     {
-      "syntax ": "error"
+      "syntax " "error"
     },
-
     {
-      "somewhat": "valid",
-      "valid": true
-    },
+  "somewhat": "valid",
+  "valid": true
+},
     "entry"
   ]
 }

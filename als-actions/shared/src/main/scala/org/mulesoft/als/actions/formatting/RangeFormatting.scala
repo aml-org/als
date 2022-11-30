@@ -24,10 +24,10 @@ case class RangeFormatting(
     syntaxErrors.errors.exists(_.position.exists(err => part.range.contains(err.range)))
 
   private def formatPart(part: YPart): Seq[TextEdit] =
-//    if (isJson && containsSyntaxError(part))
-//      part.children.filterNot(_.isInstanceOf[YNonContent]).flatMap(formatPart)
-//    else
-    format(part)
+    if (isJson && containsSyntaxError(part))
+      part.children.filterNot(_.isInstanceOf[YNonContent]).flatMap(formatPart)
+    else
+      format(part)
 
   def applyOptions(s: String): String = {
     var formatted = s

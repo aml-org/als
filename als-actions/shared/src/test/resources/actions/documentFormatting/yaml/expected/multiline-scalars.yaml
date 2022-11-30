@@ -2,7 +2,7 @@ a: # comment
   map:
     -
       a:
-        b
+          b
 b: # comment
   map:
     -
