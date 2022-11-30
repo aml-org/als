@@ -5,18 +5,16 @@ root:
 
   brother 2:
     k: v
-    seq:
-      - 1
-      - 2
-      - 3
+    seq: [ 1, 2, 3 ]
 
-  # Comment
+      # Comment
   brother3:
     k:
       key: |
           multiline string
-    antoherK:
-      - my
-      - enum
+    antoherK: [
+         my,
+         enum
+        ]
   brother4:
     tabulated: a lot

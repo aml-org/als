@@ -7,11 +7,10 @@ import org.yaml.lexer.YamlToken._
 import org.yaml.model._
 
 import scala.annotation.tailrec
-import scala.collection.immutable
 
 object SyamlImpl {
   implicit class YPartImpl[T <: YPart](part: T) {
-    def format(indentSize: Int, currentIndentation: Int): T = {
+    def format(indentSize: Int, currentIndentation: Int, shouldCleanSpaces: Boolean = true): T = {
       (part match {
         case c: YComment if c.metaText.trim.startsWith("%") => c.format(false)
         case c: YComment                                    => c.format(true)
@@ -19,13 +18,14 @@ object SyamlImpl {
         case s: YScalar                                     => s.format(indentSize, currentIndentation)
         case t: YTag         => new YTag(t.text, t.tagType, t.location, t.tokens :+ whiteSpace(t.location))
         case a: YAnchor      => a
-        case nc: YNonContent => nc.format()
-        case d: YDocument    => YDocument(cleanChildren(d, indentSize, currentIndentation), d.sourceName)
+        case nc: YNonContent => nc.format(shouldCleanSpaces, indentSize, currentIndentation)
+        case d: YDocument =>
+          YDocument(cleanChildren(d, indentSize, currentIndentation, shouldCleanSpaces), d.sourceName)
         case s: YSequence =>
-          s.format(indentSize, currentIndentation)
-        case m: YMap      => m.format(indentSize, currentIndentation)
-        case e: YMapEntry => e.format(indentSize, currentIndentation)
-        case n: YNode     => n.format(indentSize, currentIndentation)
+          s.format(indentSize, currentIndentation, shouldCleanSpaces)
+        case m: YMap      => m.format(indentSize, currentIndentation, shouldCleanSpaces)
+        case e: YMapEntry => e.format(indentSize, currentIndentation, shouldCleanSpaces)
+        case n: YNode     => n.format(indentSize, currentIndentation, shouldCleanSpaces)
         case _            => part
       }).asInstanceOf[T]
     }
@@ -38,14 +38,20 @@ object SyamlImpl {
       s
   }
 
+  /** We decided to leave YAML Flows as untouched as possible because we are not sure how to best format (mantain single
+    * line if user wrote so, expand as with yaml with indentation?) When JSON styler is unified (remove from SYAML), we
+    * should revisit this topic
+    * @tparam T
+    */
   sealed trait FlowableFormat[T <: YPart] {
     val part: T
     val isEmpty: Boolean
     def emptyPart(children: IndexedSeq[YPart]): T
     def nonEmptyPart(children: IndexedSeq[YPart], indentSize: Int, indent: Int): T
 
-    def format(indentSize: Int, indent: Int): T = {
-      val children = cleanChildren(part, indentSize, indent + 1)
+    def format(indentSize: Int, indent: Int, shouldCleanSpaces: Boolean): T = {
+      val cleanSpaces: Boolean = !(!shouldCleanSpaces || isFlow(part.children))
+      val children             = cleanChildren(part, indentSize, indent + 1, cleanSpaces)
       if (isEmpty) emptyPart(children)
       else nonEmptyPart(children, indentSize, indent)
     }
@@ -64,7 +70,7 @@ object SyamlImpl {
       seq.map {
         case nc: YNonContent if !isFlow && nc.tokens.exists(hasSeparator) =>
           val tuple = nc.tokens.splitAt(nc.tokens.indexWhere(hasSeparator))
-          YNonContent(tuple._1 ++ IndexedSeq(AstToken(Indent, " " * indentSize, part.location)) ++ tuple._2)
+          YNonContent(tuple._1 ++ IndexedSeq(indentToken(indentSize, part.location)) ++ tuple._2)
         case x => x
       }
   }
@@ -103,9 +109,10 @@ object SyamlImpl {
         case p               => IndexedSeq(p)
       }
   }
+
   sealed implicit class YMapEntryImpl(e: YMapEntry) {
-    def format(indentSize: Int, currentIndentation: Int): YMapEntry = {
-      val cChildren = cleanChildren(e, indentSize, currentIndentation)
+    def format(indentSize: Int, currentIndentation: Int, shouldCleanSpaces: Boolean): YMapEntry = {
+      val cChildren = cleanChildren(e, indentSize, currentIndentation, shouldCleanSpaces)
       val iChildren =
         addIndentation(cChildren, currentIndentation * indentSize)
       if (shouldAddSpace(e.value))
@@ -125,7 +132,7 @@ object SyamlImpl {
       children.flatMap {
         case nc: YNonContent if nc.tokens.exists(colonToken) && nc.tokens.exists(_.tokenType == LineBreak) =>
           val tuple = nc.tokens.splitAt(nc.tokens.indexWhere(_.tokenType == LineBreak) + 1)
-          IndexedSeq(YNonContent((tuple._1 :+ AstToken(Indent, " " * indent, nc.location)) ++ tuple._2))
+          IndexedSeq(YNonContent((tuple._1 :+ indentToken(indent, nc.location)) ++ tuple._2))
         case x => IndexedSeq(x)
       }
 
@@ -134,13 +141,13 @@ object SyamlImpl {
   }
 
   sealed implicit class YNodeImpl(n: YNode) {
-    def format(indentSize: Int, currentIndentation: Int): YNode = {
-      val formatted = n.value.format(indentSize, currentIndentation)
+    def format(indentSize: Int, currentIndentation: Int, shouldCleanSpaces: Boolean): YNode = {
+      val formatted = n.value.format(indentSize, currentIndentation, shouldCleanSpaces)
       YNode(
         formatted,
         n.tag,
         n.anchor,
-        buildChildren(n, formatted, indentSize, currentIndentation),
+        buildChildren(n, formatted, indentSize, currentIndentation, shouldCleanSpaces),
         n.sourceName
       )
     }
@@ -150,7 +157,8 @@ object SyamlImpl {
         n: YNode,
         formatted: YValue,
         indentSize: Int,
-        currentIndentation: Int
+        currentIndentation: Int,
+        shouldCleanSpaces: Boolean
     ): IndexedSeq[YPart] = {
       val seq = n.children
         .sliding(2) // look ahead for comments
@@ -159,13 +167,13 @@ object SyamlImpl {
             Seq(a)
           case a if a.headOption.contains(n.value) => Seq(formatted)
           case a =>
-            a.headOption.map(_.format(indentSize, currentIndentation))
+            a.headOption.map(_.format(indentSize, currentIndentation, shouldCleanSpaces))
         }
         .toIndexedSeq
       if (n.children.size > 1) // last element was not mapped
         seq :+ {
           if (n.children.lastOption.contains(n.value)) formatted
-          else n.children.last.format(indentSize, currentIndentation)
+          else n.children.last.format(indentSize, currentIndentation, shouldCleanSpaces)
         }
       else seq
     }
@@ -190,9 +198,24 @@ object SyamlImpl {
   }
 
   sealed implicit class YNonContImpl(nc: YNonContent) {
-    def format(): YNonContent =
+
+    private def addIndentations(
+        tokens: IndexedSeq[AstToken],
+        indentSize: Int,
+        currentIndentation: Int
+    ): IndexedSeq[AstToken] =
+      tokens.flatMap {
+        case t: AstToken if t.tokenType == LineBreak => Seq(t, indentToken(indentSize * currentIndentation, t.location))
+        case t                                       => Seq(t)
+      }
+
+    def format(shouldCleanSpaces: Boolean, indentSize: Int, currentIndentation: Int): YNonContent = {
       if (nc.containsToken(Error)) nc
-      else YNonContent(nc.range, cleanSpaces(), nc.sourceName)
+      else if (shouldCleanSpaces) YNonContent(nc.range, cleanSpaces(), nc.sourceName)
+      else {
+        YNonContent(nc.range, addIndentations(cleanSpaces(), indentSize, currentIndentation), nc.sourceName)
+      }
+    }
 
     def containsToken(token: YamlToken): Boolean =
       nc.tokens.map(_.tokenType).contains(token)
@@ -203,23 +226,27 @@ object SyamlImpl {
       nc.tokens.filterNot(t => t.tokenType == Indent || t.tokenType == WhiteSpace)
   }
 
-  private def cleanChildren(c: YPart, indentSize: Int, indent: Int): IndexedSeq[YPart] = {
+  private def cleanChildren(c: YPart, indentSize: Int, indent: Int, shouldCleanSpaces: Boolean): IndexedSeq[YPart] = {
     val seq = c.children
       .sliding(2) // look ahead for comments
       .flatMap {
         case Seq(a: YNonContent, _: YComment) => // don't trim spaces before a comment
-          Seq(a)
+          Seq(a.format(shouldCleanSpaces = false, indentSize, indent))
         case a =>
-          a.headOption.map(_.format(indentSize, indent))
+          a.headOption.map(_.format(indentSize, indent, shouldCleanSpaces))
       }
       .toIndexedSeq
     if (c.children.size > 1) // last element was not mapped
-      seq :+ c.children.last.format(indentSize, indent)
+      seq :+ c.children.last.format(indentSize, indent, shouldCleanSpaces)
     else seq
   }
 
   private def indentation(indentSize: Int, location: SourceLocation): YNonContent =
-    YNonContent(IndexedSeq(AstToken(Indent, " " * indentSize, location)))
+    YNonContent(IndexedSeq(indentToken(indentSize, location)))
+
+  private def indentToken(indentSize: Int, location: SourceLocation) = {
+    AstToken(Indent, " " * indentSize, location)
+  }
 
   private def whiteSpace(location: SourceLocation): AstToken = AstToken(WhiteSpace, " ", location)
 

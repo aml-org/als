@@ -264,10 +264,11 @@ object AmfImplicits {
     lazy val isFragment: Boolean = bu.isInstanceOf[Fragment]
 
     def ast: Option[YPart] =
-      bu match {
-        case e: Document if e.encodes.annotations.ypart().isDefined         => e.encodes.annotations.ypart()
-        case e: ExternalFragment if e.encodes.annotations.ypart().isDefined => e.encodes.annotations.ypart()
-        case _                                                              => bu.annotations.ypart()
+      bu.annotations.ypart().orElse {
+        bu match {
+          case e: EncodesModel => e.encodes.annotations.ypart()
+          case _               => None
+        }
       }
 
     def declaredNames: Seq[String] =
@@ -406,10 +407,12 @@ object AmfImplicits {
   implicit class NodeMappingImplicit(nodeMapping: NodeMapping) {
 
     def getTargetClass(): Option[String] =
-      nodeMapping.fields.getValueAsOption(NodeMappingModel.NodeTypeMapping)
-        .map(_.value).flatMap{
+      nodeMapping.fields
+        .getValueAsOption(NodeMappingModel.NodeTypeMapping)
+        .map(_.value)
+        .flatMap {
           case s: AmfScalar => Option(s.toString())
-          case _ => None
+          case _            => None
         }
 
     def findPropertyByTerm(term: String): Option[PropertyMapping] =
