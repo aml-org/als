@@ -32,7 +32,7 @@ traits:
 /projects:
   post:
     description: Creates a new project
-    is: [ commonHeaders,  secured ]
+    is: [ commonHeaders, secured ]
     body:
       type: ProjectCreate
     responses:
@@ -42,46 +42,46 @@ traits:
         description: Project {type}-{name} already exists
   get:
     description: Gets all the projects that the user has access
-    is: [ commonHeaders,  secured ]
+    is: [ commonHeaders, secured ]
     responses:
       200:
         body: Project[]
   /{projectId}:
     get:
       description: Get project data
-      is: [ commonHeaders,  secured ]
+      is: [ commonHeaders, secured ]
       responses:
         200:
           body:
             type: Project
     delete:
       description: Deletes the given project
-      is: [ commonHeaders,  secured ]
+      is: [ commonHeaders, secured ]
       responses:
         204:
     /branches:
       post:
         description: Creates new branch
-        is: [ commonHeaders,  secured ]
+        is: [ commonHeaders, secured ]
         body:
           type: Branch
         responses:
           201:
       get:
         description: List branches
-        is: [ commonHeaders,  secured ]
+        is: [ commonHeaders, secured ]
         responses:
           200:
     /branches/{branch}:
       delete:
         description: Deletes a branch
-        is: [ commonHeaders,  secured ]
+        is: [ commonHeaders, secured ]
         responses:
           204:
       /open:
         post:
           description: List project files. If user's workingDir does not exists, it creates one.
-          is: [ commonHeaders,  secured ]
+          is: [ commonHeaders, secured ]
           responses:
             200:
               body:
@@ -89,19 +89,19 @@ traits:
       /clean:
         post:
           description: cleans uncommited files from users workingDir
-          is: [  commonHeaders,  secured  ]
+          is: [ commonHeaders, secured ]
           responses:
             200:
       /status:
         get:
           description: list WorkingDir status
-          is: [  commonHeaders,  secured  ]
+          is: [ commonHeaders, secured ]
           responses:
             200:
       /save:
         post:
           description: save listed files (save and save All)
-          is: [  commonHeaders,  secured  ]
+          is: [ commonHeaders, secured ]
           body:
             type: lib.FileContents
           responses:
@@ -135,7 +135,7 @@ traits:
       /files:
         get:
           description: Gets a list of the structure of the file system (open project)
-          is: [  commonHeaders,  secured  ]
+          is: [ commonHeaders, secured ]
           responses:
             200:
               body:
@@ -144,20 +144,20 @@ traits:
           description: filePath must be uri complain. / in filePath must be escaped
           get:
             description: Returns the given file (getFile)
-            is: [  commonHeaders,  secured  ]
+            is: [ commonHeaders, secured ]
             responses:
               200:
                 body:
                   "*/*":
           delete:
             description: Deletes the given file or folder and commit changes (deleteFile)
-            is: [  commonHeaders,  secured  ]
+            is: [ commonHeaders, secured ]
             responses:
               204:
           /move:
             post:
               description: renames the file or folder (move or rename)
-              is: [  commonHeaders,  secured  ]
+              is: [ commonHeaders, secured ]
               body:
                 schema: lib.FilePath
               responses:
@@ -191,20 +191,20 @@ traits:
       /acquireLock:
         post:
           description: Acquire lock for given project
-          is: [  commonHeaders,  secured  ]
+          is: [ commonHeaders, secured ]
           body:
           responses:
             200:
       /releaseLock:
         post:
           description: Release lock for given project
-          is: [  commonHeaders,  secured  ]
+          is: [ commonHeaders, secured ]
           body:
           responses:
             200:
       /publish/platform:
         post:
-          is: [  commonHeaders,  secured  ]
+          is: [ commonHeaders, secured ]
           description: Publish project to Api Platform
           body:
           responses:
@@ -212,48 +212,48 @@ traits:
       /publish/exchange:
         post:
           description: Publish project to Exchange
-          is: [  commonHeaders,  secured  ]
+          is: [ commonHeaders, secured ]
           body:
           responses:
             200:
       /exchange/dependencies:
         put:
           description: Add new dependencies in exchange.json
-          is: [  commonHeaders,  secured   ]
+          is: [ commonHeaders, secured ]
           body:
             example:
-               [ { "groupId":  "gid",
-                "assetId":  "aid",
-                "version":  "1.0.0"
-              } ]
+               [ {"groupId": "gid",
+                  "assetId": "aid",
+                  "version": "1.0.0"
+                  } ]
           responses:
             200:
               body:
                 type: Files
         post:
           description: Updates exchange.json file, with given dependencies
-          is: [  commonHeaders,  secured   ]
+          is: [ commonHeaders, secured ]
           body:
             example:
-               {"add": [ { "groupId":  "gid",
-                "assetId":  "aid",
-                "version":  "1.0.1"
-              } ],
-              "remove": [ { "groupId":  "gid",
-                "assetId":  "aid",
-                "version":  "1.0.0"
-              } ] }
+               {"add": [ {"groupId": "gid",
+                    "assetId": "aid",
+                    "version": "1.0.1"
+                    } ],
+                "remove": [ {"groupId": "gid",
+                    "assetId": "aid",
+                    "version": "1.0.0"
+                    } ] }
           responses:
             200:
         delete:
           description: Removes dependencies in exchange.json
-          is: [  commonHeaders,  secured   ]
+          is: [ commonHeaders, secured ]
           body:
             example:
-               [ { "groupId":  "gid",
-                "assetId":  "aid",
-                "version":  "1.0.1"
-              } ]
+               [ {"groupId": "gid",
+                  "assetId": "aid",
+                  "version": "1.0.1"
+                  } ]
           responses:
             204:
     /api/{name}:
@@ -269,7 +269,7 @@ traits:
 /exchange/graphql:
   post:
     description: Searchs raml fragments in exchange graphql
-    is: [  secured   ]
+    is: [ secured ]
     body:
       example: |
         {

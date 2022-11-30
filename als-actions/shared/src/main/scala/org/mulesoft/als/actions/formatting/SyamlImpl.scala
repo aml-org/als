@@ -38,9 +38,9 @@ object SyamlImpl {
       s
   }
 
-  /** We decided to leave YAML Flows as untouched as possible because we are not sure how to best format (mantain single
-    * line if user wrote so, expand as with yaml with indentation?) When JSON styler is unified (remove from SYAML), we
-    * should revisit this topic
+  /** We decided to leave YAML Flows as untouched as possible because we are not sure how to best format (maintain
+    * single line if user wrote so, expand as with yaml with indentation?) When JSON styler is unified (remove from
+    * SYAML), we should revisit this topic
     * @tparam T
     */
   sealed trait FlowableFormat[T <: YPart] {
@@ -231,7 +231,7 @@ object SyamlImpl {
       .sliding(2) // look ahead for comments
       .flatMap {
         case Seq(a: YNonContent, _: YComment) => // don't trim spaces before a comment
-          Seq(a.format(shouldCleanSpaces = false, indentSize, indent))
+          Seq(a)
         case a =>
           a.headOption.map(_.format(indentSize, indent, shouldCleanSpaces))
       }
@@ -244,9 +244,8 @@ object SyamlImpl {
   private def indentation(indentSize: Int, location: SourceLocation): YNonContent =
     YNonContent(IndexedSeq(indentToken(indentSize, location)))
 
-  private def indentToken(indentSize: Int, location: SourceLocation) = {
+  private def indentToken(indentSize: Int, location: SourceLocation) =
     AstToken(Indent, " " * indentSize, location)
-  }
 
   private def whiteSpace(location: SourceLocation): AstToken = AstToken(WhiteSpace, " ", location)
 

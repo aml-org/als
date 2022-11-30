@@ -7,7 +7,7 @@ root:
     k: v
     seq: [ 1, 2, 3 ]
 
-      # Comment
+  # Comment
   brother3:
     k:
       key: |
