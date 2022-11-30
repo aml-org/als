@@ -58,7 +58,11 @@ case class RangeFormatting(
     val s: String = if (isJson) {
       val renderOptions: JsonRenderOptions =
         JsonRenderOptions(formattingOptions.tabSize, formattingOptions.insertSpaces, applyFormatting = true)
-      JsonRender.render(renderPart, 0, renderOptions) // todo: add some logic to guess desired indentation
+      JsonRender.render(
+        renderPart,
+        initialIndentation * formattingOptions.tabSize,
+        renderOptions
+      ) // todo: add some logic to guess desired indentation
     } else
       YamlRender
         .render(Seq(renderPart), expandReferences = false)

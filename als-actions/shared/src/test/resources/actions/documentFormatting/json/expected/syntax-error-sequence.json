@@ -4,9 +4,9 @@
       "syntax " "error"
     },
     {
-  "somewhat": "valid",
-  "valid": true
-},
+      "somewhat": "valid",
+      "valid": true
+    },
     "entry"
   ]
 }

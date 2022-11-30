@@ -198,16 +198,6 @@ object SyamlImpl {
 
   sealed implicit class YNonContImpl(nc: YNonContent) {
 
-    private def addIndentations(
-        tokens: IndexedSeq[AstToken],
-        indentSize: Int,
-        currentIndentation: Int
-    ): IndexedSeq[AstToken] =
-      tokens.flatMap {
-        case t: AstToken if t.tokenType == LineBreak => Seq(t, indentToken(indentSize * currentIndentation, t.location))
-        case t                                       => Seq(t)
-      }
-
     def format(shouldCleanSpaces: Boolean, indentSize: Int, currentIndentation: Int): YNonContent = {
       if (nc.containsToken(Error)) nc
       else if (shouldCleanSpaces) YNonContent(nc.range, cleanSpaces(), nc.sourceName)
@@ -223,6 +213,18 @@ object SyamlImpl {
       */
     private def cleanSpaces(): IndexedSeq[AstToken] =
       nc.tokens.filterNot(t => t.tokenType == Indent || t.tokenType == WhiteSpace)
+
+    private def addIndentations(
+        tokens: IndexedSeq[AstToken],
+        indentSize: Int,
+        currentIndentation: Int
+    ): IndexedSeq[AstToken] =
+      tokens.flatMap {
+        case t: AstToken if t.tokenType == LineBreak =>
+          Seq(t, indentToken(indentSize * currentIndentation, t.location))
+        case t => Seq(t)
+      }
+
   }
 
   private def cleanChildren(c: YPart, indentSize: Int, indent: Int, shouldCleanSpaces: Boolean): IndexedSeq[YPart] = {
