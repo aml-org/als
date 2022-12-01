@@ -14,4 +14,8 @@ class DialectInstanceSuggestionsTest extends SuggestionsWithDialectTest {
   test("Suggest for node without classTerm at root level") {
     runTest("test003.yaml", "dialect01.yaml")
   }
+
+  test("Suggest for node with snnipets") {
+    runTest("test004-snnipet.yaml", "dialect02.yaml")
+  }
 }
