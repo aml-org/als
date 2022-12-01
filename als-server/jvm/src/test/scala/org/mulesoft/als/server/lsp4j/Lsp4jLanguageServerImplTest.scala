@@ -255,7 +255,7 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest with ChangesWorkspace
 
   }
 
-  test("Language server with AMF Validator test") {
+  test("Language server with AMF Validator test", Flaky) {
 
     val logger: Logger                            = EmptyLogger
     val clientConnection                          = new MockDiagnosticClientNotifier(3000)

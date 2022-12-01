@@ -1,6 +1,6 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import org.mulesoft.als.server.MockDiagnosticClientNotifier
+import org.mulesoft.als.server.{Flaky, MockDiagnosticClientNotifier}
 
 import scala.concurrent.ExecutionContext
 
@@ -45,7 +45,7 @@ class JsonSchemaServerCleanDiagnosticTest extends DiagnosticServerImpl {
     }
   }
 
-  test("Clean diagnostic test - JSON Schema draft-04 with errors") {
+  test("Clean diagnostic test - JSON Schema draft-04 with errors", Flaky) {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(5000)
     withServer(buildServer(diagnosticNotifier)) { s =>
       val mainFilePath = s"file://basic-schema-with-error.json"
@@ -81,7 +81,7 @@ class JsonSchemaServerCleanDiagnosticTest extends DiagnosticServerImpl {
     }
   }
 
-  test("Clean diagnostic test - JSON Schema draft-2019 with errors") {
+  test("Clean diagnostic test - JSON Schema draft-2019 with errors", Flaky) {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(5000)
     withServer(buildServer(diagnosticNotifier)) { s =>
       val mainFilePath = s"file://basic-schema-with-error.json"
