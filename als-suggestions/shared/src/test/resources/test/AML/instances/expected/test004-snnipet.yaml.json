@@ -1,1 +1,62 @@
-[]
+[
+  {
+    "label": "New declaresA",
+    "kind": [],
+    "detail": "template",
+    "documentation": "declaresA",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "21New declaresA",
+    "filterText": "declaresA:\n  \\$name: $1",
+    "insertText": null,
+    "insertTextFormat": [
+      2
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      },
+      "newText": "declaresA:\n  \\$name: $1"
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "declaresA",
+    "kind": [],
+    "detail": "unknown",
+    "documentation": "declaresA",
+    "deprecated": [],
+    "preselect": [],
+    "sortText": "11declaresA",
+    "filterText": "declaresA:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 1,
+          "character": 0
+        },
+        "end": {
+          "line": 1,
+          "character": 0
+        }
+      },
+      "newText": "declaresA:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  }
+]
