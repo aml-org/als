@@ -24,10 +24,6 @@ abstract class AstRawBuilder(val raw: RawSuggestion, isSnippet: Boolean, yPartBr
 
   def emptyNode(): YNode
 
-  def emitRootKey: YPart =
-    if (raw.newText.contains("$")) onlyKey(raw.newText)
-    else emitKey()
-
   lazy val keyTag: YType = if (raw.options.keyRange == NumberScalarRange) YType.Int else YType.Str
 
   lazy val valueTag: YType = raw.options.rangeKind match {
@@ -43,7 +39,7 @@ abstract class AstRawBuilder(val raw: RawSuggestion, isSnippet: Boolean, yPartBr
       else emitEntryValue(raw.options)
     }
 
-  private def emitKey(index: Int = 1): YMapEntry =
+  protected def emitKey(index: Int = 1): YMapEntry =
     if (raw.children.nonEmpty && raw.newText.isEmpty) { // if entry has value but key is empty, user will need to fill out
       snippet = true
       YMapEntry("$" + index.toString, valueNode(index + 1))

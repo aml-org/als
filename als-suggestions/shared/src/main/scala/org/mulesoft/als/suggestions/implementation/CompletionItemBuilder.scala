@@ -6,6 +6,8 @@ import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.completion.InsertTextFormat.InsertTextFormat
 import org.mulesoft.lsp.feature.completion.{CompletionItem, InsertTextFormat}
 
+import java.util.regex.Matcher
+
 class CompletionItemBuilder(r: PositionRange) {
   private var text: String                               = ""
   private var description: String                        = ""
@@ -82,7 +84,11 @@ class CompletionItemBuilder(r: PositionRange) {
 
   def getRange: PositionRange = this.range
   def getDisplayText: String  = this.displayText
-  def getText: String         = this.text
+  def getText: String         = {
+    if(insertTextFormat == InsertTextFormat.Snippet)
+      escapeNonSnippetText(text)
+    else text
+  }
 
   def getPriority(text: String): Int =
     PriorityRenderer.sortValue(
@@ -95,14 +101,18 @@ class CompletionItemBuilder(r: PositionRange) {
   def build(): CompletionItem =
     CompletionItem(
       displayText,
-      textEdit = textEdit(text, range).map(Left(_)),
+      textEdit = textEdit(getText, range).map(Left(_)),
       detail = Some(category),
       documentation = Some(description),
       insertTextFormat = Some(insertTextFormat),
-      sortText = Some(s"${getPriority(text)}$displayText"),
-      filterText = filterText.orElse(Some(text)),
+      sortText = Some(s"${getPriority(getText)}$displayText"),
+      filterText = filterText.orElse(Some(getText)),
       additionalTextEdits = this.additionalTextEdits
     )
+
+  private def escapeNonSnippetText(text: String): String = {
+    text.replaceAll("(\\$)(?=\\D)", Matcher.quoteReplacement("\\$"))
+  }
 
   private def textEdit(text: String, range: PositionRange): Option[TextEdit] = {
     if (text == null || text.isEmpty) None

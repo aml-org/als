@@ -16,7 +16,7 @@ class JsonAstRawBuilder(override val raw: RawSuggestion, val isSnippet: Boolean,
       )
 
   override def ast: YPart = {
-    if (raw.options.isKey) emitRootKey
+    if (raw.options.isKey) emitKey()
     else value(raw.newText, raw.options)
   }
 

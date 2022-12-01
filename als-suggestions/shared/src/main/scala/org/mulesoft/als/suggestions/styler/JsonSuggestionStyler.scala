@@ -12,16 +12,15 @@ case class JsonSuggestionStyler(override val params: SyamlStylerParams) extends 
   override protected def render(options: SuggestionStructure, builder: AstRawBuilder): String =
     rawRender(builder)
 
-  private def rawRender(builder: AstRawBuilder) = {
-    val renderedJson = renderYPart(builder.ast)
-    fix(builder, renderedJson)
-  }
+  private def rawRender(builder: AstRawBuilder) =
+    fix(builder, renderYPart(builder.ast))
 
   private def buildRenderOptions =
     JsonRenderOptions().withoutNonAsciiEncode.withPreferSpaces(useSpaces).withIndentationSize(tabSize)
 
   override protected def renderYPart(part: YPart, indentation: Option[Int] = None): String =
     JsonRender.render(part, indentation = indentation.getOrElse(0), buildRenderOptions)
+
 
   override def astBuilder: RawSuggestion => AstRawBuilder =
     (raw: RawSuggestion) => new JsonAstRawBuilder(raw, false, params.yPartBranch)
