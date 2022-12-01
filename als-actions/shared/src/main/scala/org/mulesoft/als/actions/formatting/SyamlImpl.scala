@@ -55,8 +55,8 @@ object SyamlImpl {
       else nonEmptyPart(children, indentSize, indent)
     }
 
-    protected def lineBreakBlocks(seq: IndexedSeq[YPart]): IndexedSeq[YPart] =
-      seq.flatMap {
+    protected def lineBreakBlocks(children: IndexedSeq[YPart]): IndexedSeq[YPart] =
+      children.flatMap {
         case p if shouldBreakLine(p) =>
           IndexedSeq(lineBreak(part.location), p)
         case p if shouldAddSpace(p) =>
@@ -224,7 +224,6 @@ object SyamlImpl {
           Seq(t, indentToken(indentSize * currentIndentation, t.location))
         case t => Seq(t)
       }
-
   }
 
   private def cleanChildren(c: YPart, indentSize: Int, indent: Int, shouldCleanSpaces: Boolean): IndexedSeq[YPart] = {
