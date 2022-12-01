@@ -1,0 +1,27 @@
+#%Dialect 1.0
+
+dialect: DialectInstance
+version: 1
+
+external:
+  schema-voc: http://schema.voc#
+nodeMappings:
+  Declared:
+    classTerm: schema-voc.Declared
+    mapping:
+      $name:
+        range: string
+        mandatory: true
+      prop2:
+        range: Declared
+
+  Root:
+    classTerm: schema-voc.Root
+    mapping:
+      declaresA:
+        range: Declared
+
+
+documents:
+  root:
+    encodes: Root
