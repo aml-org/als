@@ -7,6 +7,7 @@ import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.workspace.WorkspaceManager
+import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.configuration.WorkDoneProgressOptions
 import org.mulesoft.lsp.edit.TextEdit
@@ -76,7 +77,7 @@ class DocumentRangeFormattingManager(
     workspace
       .getLastUnit(params.textDocument.uri, uuid)
       .map(cu => {
-        (getParentPart(cu.unit, params.range, isJson) match {
+        (getParentPart(cu.unit, params.range, strict = true) match {
           case ElementWithIndentation(yPart: YPart, Some(indentation)) =>
             Some((yPart, indentation / params.options.tabSize + 1))
           case ElementWithIndentation(yPart: YPart, None) => Some((yPart, 0))
@@ -95,16 +96,13 @@ class DocumentRangeFormattingManager(
       })
   }
 
-  def getParentPart(unit: BaseUnit, range: Range, strict: Boolean): ElementWithIndentation = {
-    val ast = NodeBranchBuilder.astFromBaseUnit(unit)
-
+  def getParentPart(unit: BaseUnit, range: Range, strict: Boolean): ElementWithIndentation =
     NodeBranchBuilder.getAstForRange(
-      ast,
+      unit.ast.getOrElse(NodeBranchBuilder.astFromBaseUnit(unit)),
       LspRangeConverter.toPosition(range.start).toAmfPosition,
       LspRangeConverter.toPosition(range.end).toAmfPosition,
       strict
     )
-  }
 
   override def applyConfig(
       config: Option[DocumentRangeFormattingClientCapabilities]
