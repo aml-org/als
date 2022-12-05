@@ -23,7 +23,7 @@ case class ASTElementPartBranch(override val node: ASTNode, override val positio
   override val isValue: Boolean  = !isKey
   override val isAtRoot: Boolean = stack.isEmpty
   override val isArray: Boolean  = false
-  override val isJson: Boolean   = false
+  override val strict: Boolean   = false
 
   override def parentKey: Option[String] = None // TODO: analize parent Node and look for first terminal with name?
 

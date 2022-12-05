@@ -6,7 +6,7 @@ import amf.core.client.scala.model.document.Document
 import amf.core.client.scala.model.domain.AmfObject
 import amf.core.internal.remote.{Mimes, Spec}
 import org.mulesoft.als.actions.codeactions.TreeKnowledge
-import org.mulesoft.als.common.ObjectInTree
+import org.mulesoft.als.common.{ObjectInTree, YamlUtils}
 import org.mulesoft.als.common.YamlUtils.isJson
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.convert.LspRangeConverter
@@ -23,7 +23,7 @@ import scala.concurrent.Future
 trait BaseElementDeclarableExtractors extends TreeKnowledge with DeclarationCreator {
 
   protected val afterInfoRange: PositionRange =
-    afterInfoNode(params.bu, yPartBranch.map(_.isJson).getOrElse(params.bu.location().exists(_.endsWith(".json"))))
+    afterInfoNode(params.bu, yPartBranch.map(_.strict).getOrElse(YamlUtils.isJson(params.bu)))
       .map(p => PositionRange(p, p))
       .getOrElse(PositionRange.TopLine)
 

@@ -15,7 +15,8 @@ case class RangeFormatting(
     formattingOptions: FormattingOptions,
     isJson: Boolean,
     syntaxErrors: ErrorsCollected,
-    raw: Option[String]
+    raw: Option[String],
+    initialIndentation: Int
 ) {
 
   def format(): Seq[TextEdit] = formatPart(parentYPart)
@@ -41,26 +42,15 @@ case class RangeFormatting(
   }
 
   private def format(part: YPart): Seq[TextEdit] = {
-    val initialIndentation: Int = part.range.start.column / formattingOptions.tabSize
-    val renderPart: YPart       = part.format(formattingOptions.tabSize, initialIndentation)
-    val range =
-      if (isJson) LspRangeConverter.toLspRange(part.range.toPositionRange)
-      else {
-        val positionRange: PositionRange = part.range.toPositionRange
-        LspRangeConverter.toLspRange(
-          PositionRange(
-            positionRange.start.moveColumn(-initialIndentation * formattingOptions.tabSize),
-            positionRange.end
-          )
-        )
-      }
+    val renderPart: YPart = part.format(formattingOptions.tabSize, initialIndentation)
+    val range             = LspRangeConverter.toLspRange(part.range.toPositionRange)
 
     val s: String = if (isJson) {
       val renderOptions: JsonRenderOptions =
         JsonRenderOptions(formattingOptions.tabSize, formattingOptions.insertSpaces, applyFormatting = true)
       JsonRender.render(
         renderPart,
-        initialIndentation * formattingOptions.tabSize,
+        initialIndentation,
         renderOptions
       ) // todo: add some logic to guess desired indentation
     } else

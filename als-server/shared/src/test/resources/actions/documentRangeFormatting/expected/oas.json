@@ -6,14 +6,14 @@
   },
   "paths": {
     "/path": {"get": {"description": "my description", "parameters": [
-                                                        {
-                                                          "in": "header",
-                                                          "schema": {
-                                                            "description": "Schema",
-                                                            "type": "string"
-                                                          },
-                                                          "name": "param"
-                                                        }
-                                                      ], "responses": {"200": {"description": "OK", "content": {"application/json": {"schema": {"properties": {"myProp": {"type": "string"}}}}}}}}}
+             {
+               "in": "header",
+               "schema": {
+                 "description": "Schema",
+                 "type": "string"
+               },
+               "name": "param"
+             }
+           ], "responses": {"200": {"description": "OK", "content": {"application/json": {"schema": {"properties": {"myProp": {"type": "string"}}}}}}}}}
   }
 }

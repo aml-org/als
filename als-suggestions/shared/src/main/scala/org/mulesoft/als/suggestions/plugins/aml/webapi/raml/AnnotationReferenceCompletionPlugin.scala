@@ -8,6 +8,7 @@ import amf.core.client.scala.model.domain.extensions.CustomDomainProperty
 import amf.core.internal.metamodel.domain.extensions.CustomDomainPropertyModel
 import amf.core.internal.utils.QName
 import org.mulesoft.als.common.URIImplicits.StringUriImplicits
+import org.mulesoft.als.common.YamlUtils
 import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
@@ -142,7 +143,7 @@ case class AnnotationReferenceSuggester(params: AmlCompletionRequest) {
     val suggestion       = buildCompanionSuggestion(semex, libName, mapping)
     params.baseUnit.ast.fold(suggestion) { ast =>
       val defaultRange = AdditionalSuggestion
-        .afterInfoNode(params.baseUnit, params.astPartBranch.isJson)
+        .afterInfoNode(params.baseUnit, YamlUtils.isJson(params.baseUnit))
         .map(p => PositionRange(p, p))
         .getOrElse(PositionRange.TopLine)
       suggestion.withAdditionalTextEdits(

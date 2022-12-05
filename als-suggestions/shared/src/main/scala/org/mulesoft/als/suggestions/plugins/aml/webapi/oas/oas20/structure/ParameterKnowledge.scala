@@ -6,7 +6,8 @@ import org.mulesoft.als.common.ASTPartBranch
 
 trait ParameterKnowledge {
   def isInParameter(astPartBranch: ASTPartBranch): Boolean =
-    astPartBranch.isKeyDescendantOf("parameters") || (astPartBranch.isJson && astPartBranch.isInArray && astPartBranch
+    // todo: check if the alternative "if strict" is still necessary or just a leftover from json patcher
+    astPartBranch.isKeyDescendantOf("parameters") || (astPartBranch.strict && astPartBranch.isInArray && astPartBranch
       .parentEntryIs("parameters"))
 
   def isInParameter(amfObject: AmfObject): Boolean =

@@ -16,7 +16,7 @@ trait ASTPartBranch {
   val isAtRoot: Boolean
   val isArray: Boolean
   lazy val isInArray: Boolean = false
-  val isJson: Boolean
+  val strict: Boolean
   val parent: Option[T] = stack.headOption
   val position: AmfPosition
   def parentKey: Option[String]

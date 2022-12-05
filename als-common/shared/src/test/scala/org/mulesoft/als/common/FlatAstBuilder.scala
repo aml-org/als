@@ -11,22 +11,22 @@ class FlatAstBuilder(private val node: YNode) {
 
   private val flatCase = flatMapChildren(node)
 
-  def getNodeForPosition(position: AmfPosition): Seq[YPart] =
+  def getNodeForPosition(position: AmfPosition, strict: Boolean = false): Seq[YPart] =
     flatCase.filter(y => {
-      y.contains(position)
+      y.contains(position, strict)
     })
 
   def size(): Int = flatCase.size
 
-  def getLastNode(position: AmfPosition): YPart = getNodeForPosition(position).last
+  def getLastNode(position: AmfPosition, strict: Boolean = false): YPart = getNodeForPosition(position, strict).last
 
-  def assertScalarValue(position: AmfPosition, value: String): Boolean = {
-    val node = getNodeForPosition(position).last
+  def assertScalarValue(position: AmfPosition, value: String, strict: Boolean = false): Boolean = {
+    val node = getNodeForPosition(position, strict).last
     node.isInstanceOf[YScalar] && node.asInstanceOf[YScalar].value == value
   }
 
-  def assertLastNode(position: AmfPosition)(condition: YPart => Boolean): Boolean = {
-    val node = getNodeForPosition(position).last
+  def assertLastNode(position: AmfPosition, strict: Boolean = false)(condition: YPart => Boolean): Boolean = {
+    val node = getNodeForPosition(position, strict).last
     condition(node)
   }
 }

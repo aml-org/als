@@ -15,7 +15,7 @@ import org.yaml.parser.YamlParser
 class YamlSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
 
   private val dummyYPart: YPartBranch =
-    YPartBranch(YNode.Null, AmfPosition(0, 0), Nil, isJson = false, isInFlow = false)
+    YPartBranch(YNode.Null, AmfPosition(0, 0), Nil, strict = false)
 
   test("Formatting options - indent") {
     val content =
@@ -53,7 +53,7 @@ class YamlSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
 
     val parts      = YamlParser(content).parse(false)
     val node       = parts.collectFirst({ case d: YDocument => d }).get.node
-    val dummyYPart = NodeBranchBuilder.build(node, AmfPosition(5, 11), isJson = false)
+    val dummyYPart = NodeBranchBuilder.build(node, AmfPosition(5, 11), strict = false)
 
     val styler =
       YamlSuggestionStyler(
@@ -92,7 +92,7 @@ class YamlSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
 
     val parts      = YamlParser(content).parse(false)
     val node       = parts.collectFirst({ case d: YDocument => d }).get.node
-    val dummyYPart = NodeBranchBuilder.build(node, AmfPosition(5, 19), isJson = false)
+    val dummyYPart = NodeBranchBuilder.build(node, AmfPosition(5, 19), strict = false)
 
     val styler = YamlSuggestionStyler(
       SyamlStylerParams(
@@ -134,7 +134,7 @@ class YamlSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
 
     val parts      = YamlParser(content).parse(false)
     val node       = parts.collectFirst({ case d: YDocument => d }).get.node
-    val dummyYPart = NodeBranchBuilder.build(node, AmfPosition(5, 19), isJson = false)
+    val dummyYPart = NodeBranchBuilder.build(node, AmfPosition(5, 19), strict = false)
 
     val styler = YamlSuggestionStyler(
       SyamlStylerParams(
@@ -162,7 +162,7 @@ class YamlSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
     val edit       = TextEdit(Range(LspPosition(1, 0), LspPosition(1, 0)), value)
     val parts      = YamlParser(content).parse(false)
     val node       = parts.collectFirst({ case d: YDocument => d }).get.node
-    val dummyYPart = NodeBranchBuilder.build(node, AmfPosition(5, 4), isJson = false)
+    val dummyYPart = NodeBranchBuilder.build(node, AmfPosition(5, 4), strict = false)
 
     val additionalSuggestion =
       AdditionalSuggestion(YNode("mylib.raml"), Seq("uses", "lib"), node, PositionRange.TopLine)
@@ -204,7 +204,7 @@ class YamlSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
     val edit       = TextEdit(Range(LspPosition(2, 5), LspPosition(2, 5)), value)
     val parts      = YamlParser(content).parse(false)
     val node       = parts.collectFirst({ case d: YDocument => d }).get.node
-    val dummyYPart = NodeBranchBuilder.build(node, AmfPosition(9, 4), isJson = false)
+    val dummyYPart = NodeBranchBuilder.build(node, AmfPosition(9, 4), strict = false)
 
     val additionalSuggestion =
       AdditionalSuggestion(YNode("mylib.raml"), Seq("uses", "lib"), node, PositionRange.TopLine)

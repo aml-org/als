@@ -10,6 +10,7 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{CodeActionRequestParam
 import org.mulesoft.als.actions.codeactions.plugins.conversions.ShapeExtractor
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.FileExtractor
 import org.mulesoft.als.actions.codeactions.plugins.declarations.fragment.webapi.raml.FragmentBundle
+import org.mulesoft.als.common.YamlUtils
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.common.{Position, Range}
@@ -42,7 +43,7 @@ trait ExtractDeclarationToFragment extends CodeActionResponsePlugin with FileExt
       .serialize(getSyntax, ef)
 
   private def getSyntax: String =
-    if (yPartBranch.exists(_.isJson)) Mimes.`application/json`
+    if (YamlUtils.isJson(params.bu)) Mimes.`application/json`
     else Mimes.`application/yaml`
 
   private def externalFragmentTextEdit(ef: Fragment): Future[(String, TextEdit)] =

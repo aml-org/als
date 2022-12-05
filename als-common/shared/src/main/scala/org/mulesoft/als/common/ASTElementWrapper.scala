@@ -2,7 +2,6 @@ package org.mulesoft.als.common
 
 import amf.core.internal.annotations.LexicalInformation
 import org.mulesoft.als.common.ASTElementWrapper.CommonASTOps
-import org.mulesoft.als.common.ASTNodeWrapper.ASTNodeOps
 import org.mulesoft.als.common.YPartASTWrapper.AlsYPart
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
@@ -13,14 +12,14 @@ import org.mulesoft.lsp.feature.common.Location
 import org.yaml.lexer.YamlToken
 import org.yaml.model.YNode.MutRef
 import org.yaml.model._
+
 object ASTElementWrapper {
 
   implicit class CommonASTOps(astElement: ASTElement) {
 
-
-    def contains(amfPosition: AmfPosition): Boolean = {
+    def contains(amfPosition: AmfPosition, strict: Boolean): Boolean = {
       astElement match {
-        case yPart: YPart => new AlsYPart(yPart).contains(amfPosition)
+        case yPart: YPart => new AlsYPart(yPart).contains(amfPosition, strict)
 //        case astNode: ASTNode => new ASTNodeOps(astNode).contains(amfPosition)
         case _ =>
           val range = PositionRange(
@@ -31,7 +30,7 @@ object ASTElementWrapper {
       }
     }
 
-      def sameContentAndLocation(other: ASTElement): Boolean = {
+    def sameContentAndLocation(other: ASTElement): Boolean = {
       astElement == other && astElement.location == other.location
     }
 
@@ -85,26 +84,20 @@ object ASTElementWrapper {
   }
 }
 
-object ASTNodeWrapper{
-  implicit class ASTNodeOps(astNode:ASTNode) extends CommonASTOps(astNode){
+object ASTNodeWrapper {
+  implicit class ASTNodeOps(astNode: ASTNode) extends CommonASTOps(astNode) {
 
-    override def contains(amfPosition: AmfPosition): Boolean = {
-      val range = PositionRange(
-        Position(AmfPosition(astNode.location.lineFrom, astNode.location.columnTo)),
-        Position(AmfPosition(astNode.location.lineTo, astNode.location.columnTo))
-      )
-      range.contains(Position(amfPosition))
-    }
+    override def contains(amfPosition: AmfPosition, strict: Boolean): Boolean =
+      PositionRange(astNode.location).contains(Position(amfPosition))
   }
 }
 
-object YPartASTWrapper{
+object YPartASTWrapper {
 
-
-  abstract class CommonPartOps(yPart: YPart){
+  abstract class CommonPartOps(yPart: YPart) {
     protected val selectedPositionRange: PositionRange = PositionRange(yPart.range)
 
-    def contains(amfPosition: AmfPosition, isInflow: Boolean = false): Boolean =
+    def contains(amfPosition: AmfPosition, strict: Boolean): Boolean =
       selectedPositionRange.contains(Position(amfPosition))
 
     /** Contains both start and end positions
@@ -151,9 +144,9 @@ object YPartASTWrapper{
   }
 
   implicit class YSequenceOps(seq: YSequence) extends FlowedStructure("[", "]", seq) {
-    override def contains(amfPosition: AmfPosition, isInflow: Boolean): Boolean =
-      if (isJson || isInflow) super.contains(amfPosition, isInflow)
-      else super.contains(amfPosition, isInflow) && respectsIndentation(seq, amfPosition)
+    override def contains(amfPosition: AmfPosition, strict: Boolean): Boolean =
+      if (strict) super.contains(amfPosition, strict)
+      else super.contains(amfPosition, strict) && respectsIndentation(seq, amfPosition)
   }
 
   private def respectsIndentation(seq: YSequence, amfPosition: AmfPosition) =
@@ -164,10 +157,10 @@ object YPartASTWrapper{
 
     def isArray: Boolean = false
 
-    override def contains(position: AmfPosition, isInflow: Boolean): Boolean = {
-      if (isJson || isInflow) super.contains(position, isInflow)
+    override def contains(position: AmfPosition, strict: Boolean): Boolean = {
+      if (strict) super.contains(position, strict)
       else
-        super.contains(position, isInflow) &&
+        super.contains(position, strict) &&
         !isFirstChar(position) &&
         respectIndentation(position)
     }
@@ -176,9 +169,9 @@ object YPartASTWrapper{
       !(outScalarValue(position) || outIndentation(position)) &&
         mapValueRespectsEntryKey(position)
 
-    def inJsonValue(position: AmfPosition, isInflow: Boolean): Boolean = {
-      entry.key.contains(position, isInflow) || (entry.value.value match {
-        case map: YMap if isJson => AlsYMapOps(map).contains(position, isInflow)
+    def inJsonValue(position: AmfPosition, strict: Boolean): Boolean = {
+      entry.key.contains(position, strict) || (entry.value.value match {
+        case map: YMap if isJson => AlsYMapOps(map).contains(position, strict)
         case _                   => isJson
       })
     }
@@ -219,8 +212,8 @@ object YPartASTWrapper{
   implicit class AlsYMapOps(map: YMap) extends FlowedStructure("{", "}", map) {
     def isArray: Boolean = false
 
-    override def contains(amfPosition: AmfPosition, isInflow: Boolean): Boolean =
-      if (isJson || isInflow) super.contains(amfPosition, isInflow)
+    override def contains(amfPosition: AmfPosition, strict: Boolean): Boolean =
+      if (strict) super.contains(amfPosition, strict)
       else respectIndentation(amfPosition)
 
     def respectIndentation(amfPosition: AmfPosition): Boolean =
@@ -235,8 +228,8 @@ object YPartASTWrapper{
   }
 
   implicit class AlsYScalarOps(scalar: YScalar) extends CommonPartOps(scalar) {
-    override def contains(amfPosition: AmfPosition, isInflow: Boolean): Boolean =
-      super.contains(amfPosition, isInflow) ||
+    override def contains(amfPosition: AmfPosition, strict: Boolean): Boolean =
+      super.contains(amfPosition, strict) ||
         isInsideNull(amfPosition) ||
         oneCharAfterEnd(scalar.range, amfPosition)
 
@@ -273,20 +266,23 @@ object YPartASTWrapper{
         case _                => false
       }
 
-    override def contains(amfPosition: AmfPosition, isInFlow: Boolean): Boolean = selectedNode match {
-      case ast: MutRef =>
-        ast.origValue.contains(amfPosition) || ast.origTag.contains(amfPosition)
-      case ast: YMapEntry =>
-        YMapEntryOps(ast).contains(amfPosition, isInFlow)
-      case ast: YMap =>
-        ast.contains(amfPosition, isInFlow)
-      case ast: YNode =>
-        ast.value.contains(amfPosition, isInFlow)
-      case ast: YScalar =>
-        AlsYScalarOps(ast).contains(amfPosition, isInFlow)
-      case seq: YSequence =>
-        seq.contains(amfPosition, isInFlow)
-      case _ => super.contains(amfPosition, isInFlow)
-    }
+    override def contains(amfPosition: AmfPosition, strict: Boolean): Boolean =
+      if (strict) PositionRange(selectedNode.range).contains(Position(amfPosition))
+      else
+        selectedNode match {
+          case ast: MutRef =>
+            ast.origValue.contains(amfPosition, strict) || ast.origTag.contains(amfPosition, strict)
+          case ast: YMapEntry =>
+            YMapEntryOps(ast).contains(amfPosition, strict)
+          case ast: YMap =>
+            ast.contains(amfPosition, strict)
+          case ast: YNode =>
+            ast.value.contains(amfPosition, strict)
+          case ast: YScalar =>
+            AlsYScalarOps(ast).contains(amfPosition, strict)
+          case seq: YSequence =>
+            seq.contains(amfPosition, strict)
+          case _ => super.contains(amfPosition, strict)
+        }
   }
 }

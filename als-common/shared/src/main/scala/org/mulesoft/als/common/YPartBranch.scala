@@ -33,8 +33,7 @@ case class YPartBranch(
     override val node: YPart,
     override val position: AmfPosition,
     stack: Seq[YPart],
-    isJson: Boolean,
-    isInFlow: Boolean
+    strict: Boolean
 ) extends ASTPartBranch {
 
   override type T = YPart
@@ -194,78 +193,83 @@ case class YPartBranch(
   override def parentKey: Option[String] = parentEntry.flatMap(_.key.asScalar.map(_.text))
 }
 
+case class ElementWithIndentation(ast: ASTElement, indentation: Option[Int])
+
 object NodeBranchBuilder {
 
   def getAstForRange(
       ast: ASTElement,
       startPosition: AmfPosition,
       endPosition: AmfPosition,
-      isJson: Boolean
-  ): ASTElement = {
+      strict: Boolean
+  ): ElementWithIndentation = {
 
-    val start = buildElement(ast, startPosition, isJson)
-    if (startPosition == endPosition) start.node
+    val start = buildElement(ast, startPosition, strict)
+    if (startPosition == endPosition)
+      ElementWithIndentation(start.node, findIndentation(start.stack, start.node))
     else {
-      val end = buildElement(ast, endPosition, isJson)
-
-      findMutualYMapParent(start, end, isJson).getOrElse(ast)
+      val end = buildElement(ast, endPosition, strict)
+      findMutualYMapParent(start, end)
+        .map(e => ElementWithIndentation(e, findIndentation(start.stack, e)))
+        .getOrElse(ElementWithIndentation(ast, None))
     }
 
   }
 
-  def buildElement(ast: ASTElement, position: AmfPosition, isJson: Boolean): ASTPartBranch =
+  def buildElement(ast: ASTElement, position: AmfPosition, strict: Boolean): ASTPartBranch =
     ast match {
-      case node: ASTNode => buildAST(node, position)
-      case ypart: YPart  => build(ypart, position, isJson)
-      case _             => YPartBranch(YDocument(IndexedSeq.empty, ""), position, Nil, isJson, false)
+      case node: ASTNode => buildAST(node, position, strict)
+      case ypart: YPart  => build(ypart, position, strict)
+      case _             => YPartBranch(YDocument(IndexedSeq.empty, ""), position, Nil, strict)
     }
 
-  private def findMutualYMapParent(start: ASTPartBranch, end: ASTPartBranch, isJson: Boolean): Option[ASTElement] = {
-    start.stack
-      .filter(_.isInstanceOf[YMapEntry])
-      .find(end.stack.contains(_))
-      .map(m => if (isJson) m else m.asInstanceOf[YMapEntry].inMap)
-  }
+  private def findMutualYMapParent(start: ASTPartBranch, end: ASTPartBranch): Option[ASTElement] =
+    start.stack.find(end.stack.contains(_))
 
-  def build(ast: YPart, position: AmfPosition, isJson: Boolean): YPartBranch = {
-    val (stack, inFlow) = getStack(ast, position, Seq(), isJson)
+  private def findIndentation(stack: Seq[ASTElement], element: ASTElement): Option[Int] =
+    stack.splitAt(stack.indexOf(element))._2.collectFirst { case entry: YMapEntry =>
+      entry.range.columnFrom
+    }
+
+  def build(ast: YPart, position: AmfPosition, strict: Boolean): YPartBranch = {
+    val (stack, innerStrict) = getStack(ast, position, Seq(), strict)
     stack match {
-      case actual :: stack => YPartBranch(actual, position, stack, isJson, inFlow)
-      case Nil             => YPartBranch(ast, position, Nil, isJson, inFlow)
+      case actual :: stack => YPartBranch(actual, position, stack, innerStrict)
+      case Nil             => YPartBranch(ast, position, Nil, innerStrict)
     }
   }
 
-  def buildAST(astElement: ASTNode, position: AmfPosition): ASTElementPartBranch = {
-    val stack = getStack(astElement, position)
+  def buildAST(astElement: ASTNode, position: AmfPosition, strict: Boolean): ASTElementPartBranch = {
+    val stack = getStack(astElement, position, strict)
     stack match {
       case actual :: stack => ASTElementPartBranch(actual, position, stack)
       case Nil             => ASTElementPartBranch(astElement, position, Nil)
     }
   }
 
-  def getStack(ast: ASTNode, position: AmfPosition): Seq[ASTNode] = {
+  def getStack(ast: ASTNode, position: AmfPosition, strict: Boolean): Seq[ASTNode] = {
     ast match {
-      case n: Node if n.contains(position)     => getChildren(n, position, Seq.empty)
-      case t: Terminal if t.contains(position) => Seq(t)
-      case _                                   => Seq.empty
+      case n: Node if n.contains(position, strict)     => getChildren(n, position, Seq.empty, strict)
+      case t: Terminal if t.contains(position, strict) => Seq(t)
+      case _                                           => Seq.empty
     }
   }
 
   @tailrec
-  def getChildren(node: Node, position: AmfPosition, stack: Seq[ASTNode]): Seq[ASTNode] = {
+  def getChildren(node: Node, position: AmfPosition, stack: Seq[ASTNode], strict: Boolean): Seq[ASTNode] = {
     val current = node +: stack
-    node.children.find(_.contains(position)) match {
-      case Some(n: Node)     => getChildren(n, position, current)
+    node.children.find(_.contains(position, strict)) match {
+      case Some(n: Node)     => getChildren(n, position, current, strict)
       case Some(t: Terminal) => t +: current
       case _                 => current
     }
   }
 
-  def build(bu: BaseUnit, position: AmfPosition): ASTPartBranch = {
+  def build(bu: BaseUnit, position: AmfPosition, strict: Boolean): ASTPartBranch = {
     astFromBaseUnit(bu) match {
-      case astElement: ASTNode => buildAST(astElement, position)
-      case ypart: YPart        => build(ypart, position, YamlUtils.isJson(bu))
-      case _ => build(YDocument(IndexedSeq.empty, bu.location().getOrElse("")), position, YamlUtils.isJson(bu))
+      case astElement: ASTNode => buildAST(astElement, position, strict)
+      case ypart: YPart        => build(ypart, position, strict)
+      case _                   => build(YDocument(IndexedSeq.empty, bu.location().getOrElse("")), position, strict)
     }
   }
 
@@ -289,42 +293,42 @@ object NodeBranchBuilder {
       s: YPart,
       amfPosition: AmfPosition,
       parents: Seq[YPart],
-      isInFlow: Boolean = false
+      strict: Boolean
   ): (Seq[YPart], Boolean) = {
-    val inFlow = isInFlow || containsFlow(s)
-    childWithPosition(s, amfPosition, inFlow) match {
+    val innerStrict = strict || containsFlow(s)
+    childWithPosition(s, amfPosition, innerStrict) match {
       case Some(n: YNode) =>
-        childWithPosition(n, amfPosition, inFlow) match {
+        childWithPosition(n, amfPosition, innerStrict) match {
           case None
               if !n.isNull && n.value.range.lineFrom == amfPosition.line && n.value.range.columnFrom > amfPosition.column =>
-            (n +: s +: parents, inFlow) // case for tag (!include)
-          case None    => (parents, inFlow)
-          case Some(c) => getStack(c, amfPosition, n +: s +: parents, inFlow)
+            (n +: s +: parents, innerStrict) // case for tag (!include)
+          case None    => (parents, innerStrict)
+          case Some(c) => getStack(c, amfPosition, n +: s +: parents, innerStrict)
         }
       case Some(c) =>
-        getStack(c, amfPosition, s +: parents, inFlow)
+        getStack(c, amfPosition, s +: parents, innerStrict)
       case None if Some(s).collectFirst({ case e: YMapEntry if !isNullOrEmptyTag(e.value) => e }).isDefined =>
-        (parents, inFlow)
+        (parents, innerStrict)
       case None if s.isInstanceOf[YMapEntry] =>
-        getStack(s.asInstanceOf[YMapEntry].value, amfPosition, s +: parents, inFlow)
+        getStack(s.asInstanceOf[YMapEntry].value, amfPosition, s +: parents, innerStrict)
       case None if s.isInstanceOf[YScalar] =>
-        (parents, inFlow)
-      case _ => (s +: parents, inFlow)
+        (parents, innerStrict)
+      case _ => (s +: parents, innerStrict)
     }
   }
 
   private def isNullOrEmptyTag(node: YNode) =
     node.isNull || (node.tagType.toString == "!include")
 
-  def childWithPosition(ast: YPart, amfPosition: AmfPosition, isInFlow: Boolean): Option[YPart] = {
+  def childWithPosition(ast: YPart, amfPosition: AmfPosition, strict: Boolean): Option[YPart] = {
     val parts = ast.children
       .filterNot(_.isInstanceOf[YNonContent])
       .filter { yp =>
-        yp.contains(amfPosition, isInFlow)
+        yp.contains(amfPosition, strict)
       }
     if (parts.length > 1) {
       ast match {
-        case e: YMapEntry if inKey(e, amfPosition) =>
+        case e: YMapEntry if inKey(e, amfPosition, strict) =>
           val range = e.value.range.toPositionRange
           if (range.end <= Position(amfPosition) && e.value.value.range.toPositionRange.end.line == range.start.line)
             Some(e.value)
@@ -337,7 +341,6 @@ object NodeBranchBuilder {
       parts.lastOption
   }
 
-  private def inKey(e: YMapEntry, amfPosition: AmfPosition) = {
-    e.value.isNull || e.key.contains(amfPosition)
-  }
+  private def inKey(e: YMapEntry, amfPosition: AmfPosition, strict: Boolean) =
+    e.value.isNull || e.key.contains(amfPosition, strict)
 }

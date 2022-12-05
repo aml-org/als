@@ -2,12 +2,11 @@ package org.mulesoft.als.server.modules.actions
 
 import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.actions.formatting.RangeFormatting
-import org.mulesoft.als.common.NodeBranchBuilder
+import org.mulesoft.als.common.{ElementWithIndentation, NodeBranchBuilder}
 import org.mulesoft.als.convert.LspRangeConverter
-import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.logger.Logger
+import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.common.client.lexical.ASTElement
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.configuration.WorkDoneProgressOptions
 import org.mulesoft.lsp.edit.TextEdit
@@ -77,30 +76,33 @@ class DocumentRangeFormattingManager(
     workspace
       .getLastUnit(params.textDocument.uri, uuid)
       .map(cu => {
-        Some(getParentPart(cu.unit, params.range, isJson))
-          .collect({ case ypart: YPart => ypart })
-          .map(p =>
-            RangeFormatting(
-              p,
-              params.options,
-              isJson,
-              getSyntaxErrors(cu.errorsCollected, params.textDocument.uri),
-              cu.unit.raw
-            )
-              .format()
+        (getParentPart(cu.unit, params.range, isJson) match {
+          case ElementWithIndentation(yPart: YPart, Some(indentation)) =>
+            Some((yPart, indentation / params.options.tabSize + 1))
+          case ElementWithIndentation(yPart: YPart, None) => Some((yPart, 0))
+          case _                                          => None
+        }).map(t =>
+          RangeFormatting(
+            t._1,
+            params.options,
+            isJson,
+            getSyntaxErrors(cu.errorsCollected, params.textDocument.uri),
+            cu.unit.raw,
+            t._2
           )
-          .getOrElse(Seq.empty)
+            .format()
+        ).getOrElse(Seq.empty)
       })
   }
 
-  def getParentPart(unit: BaseUnit, range: Range, isJson: Boolean): ASTElement = {
+  def getParentPart(unit: BaseUnit, range: Range, strict: Boolean): ElementWithIndentation = {
     val ast = NodeBranchBuilder.astFromBaseUnit(unit)
 
     NodeBranchBuilder.getAstForRange(
       ast,
       LspRangeConverter.toPosition(range.start).toAmfPosition,
       LspRangeConverter.toPosition(range.end).toAmfPosition,
-      isJson
+      strict
     )
   }
 

@@ -107,12 +107,12 @@ object AmlCompletionRequestBuilder {
   ): AmlCompletionRequest = {
     val partBranch: ASTPartBranch = {
       NodeBranchBuilder
-        .build(baseUnit, position)
+        .build(baseUnit, position, strict = false)
     }
 
     val dtoPosition = DtoPosition(position)
     val styler = SuggestionStylerBuilder.build(
-      !partBranch.isJson,
+      !YamlUtils.isJson(baseUnit),
       prefix(partBranch, dtoPosition, baseUnit.raw.getOrElse("")),
       dtoPosition,
       partBranch,
@@ -156,7 +156,7 @@ object AmlCompletionRequestBuilder {
 
   private def extractFromSeq(seq: YSequence, position: DtoPosition, yPartBranch: YPartBranch): String = {
     def findInner(yPart: YPart): YPart =
-      yPart.children.find(p => p.contains(position.toAmfPosition, yPartBranch.isInFlow)).getOrElse(yPart)
+      yPart.children.find(p => p.contains(position.toAmfPosition, yPartBranch.strict)).getOrElse(yPart)
     val p = findInner(seq)
     p match {
       case non: YNonContent =>

@@ -17,10 +17,11 @@ class FormattingOptionsTest extends FlatSpec with Matchers with PlatformSecrets 
 
     val result = RangeFormatting(
       YMap.empty,
-      FormattingOptions(0, true, Some(true), Some(false), Some(false)),
-      false,
+      FormattingOptions(0, insertSpaces = true, Some(true), Some(false), Some(false)),
+      isJson = false,
       ErrorsCollected(Nil),
-      Some("")
+      Some(""),
+      0
     )
       .applyOptions(baseTest)
     result should be(expected)
@@ -31,10 +32,11 @@ class FormattingOptionsTest extends FlatSpec with Matchers with PlatformSecrets 
 
     val result = RangeFormatting(
       YMap.empty,
-      FormattingOptions(0, true, Some(false), Some(false), Some(true)),
-      false,
+      FormattingOptions(0, insertSpaces = true, Some(false), Some(false), Some(true)),
+      isJson = false,
       ErrorsCollected(Nil),
-      Some("")
+      Some(""),
+      0
     )
       .applyOptions(baseTest)
     result should be(expected)
@@ -43,10 +45,11 @@ class FormattingOptionsTest extends FlatSpec with Matchers with PlatformSecrets 
   it should "don't add final new line if it already has" in {
     val result = RangeFormatting(
       YMap.empty,
-      FormattingOptions(0, true, Some(false), Some(true), Some(false)),
-      false,
+      FormattingOptions(0, insertSpaces = true, Some(false), Some(true), Some(false)),
+      isJson = false,
       ErrorsCollected(Nil),
-      Some("")
+      Some(""),
+      0
     )
       .applyOptions(baseTest)
     result should be(baseTest)
@@ -58,10 +61,11 @@ class FormattingOptionsTest extends FlatSpec with Matchers with PlatformSecrets 
 
     val result = RangeFormatting(
       YMap.empty,
-      FormattingOptions(0, true, Some(false), Some(true), Some(false)),
-      false,
+      FormattingOptions(0, insertSpaces = true, Some(false), Some(true), Some(false)),
+      isJson = false,
       ErrorsCollected(Nil),
-      Some("")
+      Some(""),
+      0
     )
       .applyOptions(baseNoEOL)
     result should be(expected)
@@ -72,10 +76,11 @@ class FormattingOptionsTest extends FlatSpec with Matchers with PlatformSecrets 
 
     val result = RangeFormatting(
       YMap.empty,
-      FormattingOptions(0, true, Some(true), Some(true), Some(true)),
-      false,
+      FormattingOptions(0, insertSpaces = true, Some(true), Some(true), Some(true)),
+      isJson = false,
       ErrorsCollected(Nil),
-      Some("")
+      Some(""),
+      0
     )
       .applyOptions(baseTest)
     result should be(expected)
