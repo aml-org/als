@@ -143,6 +143,13 @@ pipeline {
             }
         }
         stage('Publish') {
+            when {
+                anyOf {
+                    branch 'master'
+                    branch 'develop'
+                    branch 'rc/*'
+                }
+            }
             steps {
                 script {
                     try {
