@@ -3,5 +3,5 @@ root:
     fu:
       [ amb, g ]
   upper:
-  key: v
-  k: v
+    key: v
+    k: v

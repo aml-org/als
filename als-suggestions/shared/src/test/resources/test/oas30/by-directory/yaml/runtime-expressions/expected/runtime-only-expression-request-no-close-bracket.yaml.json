@@ -1,13 +1,13 @@
 [
   {
-    "label": "$method",
+    "label": "$request.body",
     "kind": [],
     "detail": "RuntimeExpression",
-    "documentation": "{$method}",
+    "documentation": "{$request.body}",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11$method",
-    "filterText": "\"{$method}\"",
+    "sortText": "11$request.body",
+    "filterText": "\"{$request.body}\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -15,29 +15,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 33,
-          "character": 12
+          "line": 35,
+          "character": 10
         },
         "end": {
-          "line": 33,
-          "character": 16
+          "line": 35,
+          "character": 22
         }
       },
-      "newText": "\"{$method}\""
+      "newText": "\"{$request.body}\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "$request.",
+    "label": "$request.body#",
     "kind": [],
     "detail": "RuntimeExpression",
-    "documentation": "{$request.}",
+    "documentation": "{$request.body#}",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11$request.",
-    "filterText": "\"{$request.}\"",
+    "sortText": "11$request.body#",
+    "filterText": "\"{$request.body#}\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -45,29 +45,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 33,
-          "character": 12
+          "line": 35,
+          "character": 10
         },
         "end": {
-          "line": 33,
-          "character": 16
+          "line": 35,
+          "character": 22
         }
       },
-      "newText": "\"{$request.}\""
+      "newText": "\"{$request.body#}\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "$response.",
+    "label": "$request.header.",
     "kind": [],
     "detail": "RuntimeExpression",
-    "documentation": "{$response.}",
+    "documentation": "{$request.header.}",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11$response.",
-    "filterText": "\"{$response.}\"",
+    "sortText": "11$request.header.",
+    "filterText": "\"{$request.header.}\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -75,29 +75,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 33,
-          "character": 12
+          "line": 35,
+          "character": 10
         },
         "end": {
-          "line": 33,
-          "character": 16
+          "line": 35,
+          "character": 22
         }
       },
-      "newText": "\"{$response.}\""
+      "newText": "\"{$request.header.}\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "$statusCode",
+    "label": "$request.path.",
     "kind": [],
     "detail": "RuntimeExpression",
-    "documentation": "{$statusCode}",
+    "documentation": "{$request.path.}",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11$statusCode",
-    "filterText": "\"{$statusCode}\"",
+    "sortText": "11$request.path.",
+    "filterText": "\"{$request.path.}\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -105,29 +105,29 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 33,
-          "character": 12
+          "line": 35,
+          "character": 10
         },
         "end": {
-          "line": 33,
-          "character": 16
+          "line": 35,
+          "character": 22
         }
       },
-      "newText": "\"{$statusCode}\""
+      "newText": "\"{$request.path.}\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
     "command": null
   },
   {
-    "label": "$url",
+    "label": "$request.query.",
     "kind": [],
     "detail": "RuntimeExpression",
-    "documentation": "{$url}",
+    "documentation": "{$request.query.}",
     "deprecated": [],
     "preselect": [],
-    "sortText": "11$url",
-    "filterText": "\"{$url}\"",
+    "sortText": "11$request.query.",
+    "filterText": "\"{$request.query.}\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -135,15 +135,15 @@
     "textEdit": {
       "range": {
         "start": {
-          "line": 33,
-          "character": 12
+          "line": 35,
+          "character": 10
         },
         "end": {
-          "line": 33,
-          "character": 16
+          "line": 35,
+          "character": 22
         }
       },
-      "newText": "\"{$url}\""
+      "newText": "\"{$request.query.}\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

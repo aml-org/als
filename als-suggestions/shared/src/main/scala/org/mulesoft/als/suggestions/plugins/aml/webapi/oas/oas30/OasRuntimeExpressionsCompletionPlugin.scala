@@ -11,6 +11,12 @@ import org.mulesoft.als.suggestions.plugins.aml.webapi.AbstractRuntimeExpression
 
 object OasRuntimeExpressionsCompletionPlugin extends AbstractRuntimeExpressionsCompletionPlugin {
 
+  override protected def isApplicable(request: AmlCompletionRequest): Boolean =
+    super.isApplicable(request) && request.prefix.contains("{")
+
+  override protected def getSuffixForExpression(v: String, nonExpressionPrefix: String): String =
+    if (!v.stripPrefix(nonExpressionPrefix).contains("}")) "}" else ""
+
   protected val applicableFields: Seq[Field] =
     Seq(CallbackModel.Expression, TemplatedLinkModel.RequestBody, IriTemplateMappingModel.LinkExpression)
 

@@ -32,9 +32,7 @@ object SyamlImpl {
 
   sealed implicit class YScalarImpl(s: YScalar) {
     def format(indentSize: Int, currentIndentation: Int): YScalar =
-//      YScalar.withIndentation(s, indentSize * currentIndentation)
-//       TODO: this withIndentation is added in SYAML, uncomment once it is adopted
-      s
+      YScalar.withIndentation(s, indentSize * currentIndentation)
   }
 
   /** We decided to leave YAML Flows as untouched as possible because we are not sure how to best format (maintain

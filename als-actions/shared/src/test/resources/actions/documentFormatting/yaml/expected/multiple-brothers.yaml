@@ -11,7 +11,7 @@ root:
   brother3:
     k:
       key: |
-          multiline string
+        multiline string
     antoherK: [
          my,
          enum
