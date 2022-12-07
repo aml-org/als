@@ -172,9 +172,12 @@ object AmfSonElementFinder {
               case m: YMap => m.entries.find(_.key.asScalar.exists(_.text == "payload"))
               case _       => None
             }
-            .exists(_.contains(astBranch.position))
+            .exists(_.contains(astBranch.position, strict = false))
           val childContains =
-            p.fields.fields().flatMap(_.element.annotations.astElement()).exists(_.contains(astBranch.position))
+            p.fields
+              .fields()
+              .flatMap(_.element.annotations.astElement())
+              .exists(_.contains(astBranch.position, strict = false))
           !(correctAstContains || childContains) // if any other node matches, return true. If the entry with `payload` as  key matches, return false
         case _ => false
       }
@@ -197,7 +200,7 @@ object AmfSonElementFinder {
           .astElement()
           .forall { s =>
             // todo: should this contemplate `containsYPart`? if so, check also  what to do withVirtual/Inferred
-            s.contains(astBranch.position)
+            s.contains(astBranch.position, strict = false)
           }
 
       def filterFields(amfObject: AmfObject): Seq[FieldEntry] =

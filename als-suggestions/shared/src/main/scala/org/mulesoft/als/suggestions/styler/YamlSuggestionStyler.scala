@@ -37,7 +37,7 @@ case class YamlSuggestionStyler(override val params: SyamlStylerParams) extends 
     new YamlRenderOptions().withIndentationSize(params.formattingConfiguration.tabSize)
 
   def yamlRenderer: YamlPartRender =
-    if (params.yPartBranch.isInFlow) FlowYamlRender
+    if (params.yPartBranch.strict) FlowYamlRender
     else YamlRender
 
   override def style(raw: RawSuggestion): Styled = super.style(fixTokens(raw))

@@ -4,7 +4,7 @@ import amf.core.client.scala.validation.AMFValidationResult
 import amf.core.internal.annotations.LexicalInformation
 import org.mulesoft.als.actions.formatting.RangeFormatting
 import org.mulesoft.als.common.diff.WorkspaceEditsTest
-import org.mulesoft.als.common.{ByDirectoryTest, MarkerFinderTest, NodeBranchBuilder}
+import org.mulesoft.als.common.{ByDirectoryTest, ElementWithIndentation, MarkerFinderTest, NodeBranchBuilder}
 import org.mulesoft.amfintegration.ErrorsCollected
 import org.mulesoft.common.client.lexical.SourceLocation
 import org.mulesoft.common.io.{Fs, SyncFile}
@@ -40,19 +40,21 @@ trait RangeFormattingTest extends ByDirectoryTest with MarkerFinderTest with Wor
       val markers                                           = findMarkers(rawContent)
       val content                                           = markers.headOption.map(_.content).getOrElse(rawContent)
 
-      val ypart: YPart = markers.headOption
+      val formattingOption = FormattingOptions(2, insertSpaces = true)
+      val (yPart: YPart, indentation: Int) = markers.headOption
         .map(start => {
           assert(markers.length == 2)
           val ast = parse(start.content)
           val end = markers.tail.head
-          NodeBranchBuilder.getAstForRange(ast, start.position.toAmfPosition, end.position.toAmfPosition, isJson)
+          NodeBranchBuilder.getAstForRange(ast, start.position.toAmfPosition, end.position.toAmfPosition, strict = true)
         })
-        .collectFirst({ case yPart: YPart => yPart })
-        .getOrElse(parse(content))
+        .collectFirst({ case ElementWithIndentation(yPart: YPart, indentation) =>
+          (yPart, indentation.map(i => i / formattingOption.tabSize + 1).getOrElse(0))
+        })
+        .getOrElse((parse(content), 0))
 
-      val formattingOption = FormattingOptions(2, insertSpaces = true)
       val edits: Seq[TextEdit] =
-        RangeFormatting(ypart, formattingOption, isJson, errorHandler.getErrors, Some(content)).format()
+        RangeFormatting(yPart, formattingOption, isJson, errorHandler.getErrors, Some(content), indentation).format()
 
       writeTemporaryFile(expectedUri)(applyEdits(WorkspaceEdit(Some(Map(file.name -> edits)), None), Option(content)))
         .flatMap(tmp => assertDifferences(tmp, expectedUri))

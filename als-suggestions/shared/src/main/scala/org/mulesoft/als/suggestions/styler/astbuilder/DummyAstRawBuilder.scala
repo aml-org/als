@@ -8,8 +8,8 @@ import org.yaml.model._
 class DummyAstRawBuilder(override val raw: RawSuggestion)
     extends AstRawBuilder(
       raw,
-      false,
-      YPartBranch(YMap.empty, AmfPosition.ZERO, Nil, isJson = false, isInFlow = false)
+      isSnippet = false,
+      yPartBranch = YPartBranch(YMap.empty, AmfPosition.ZERO, Nil, strict = false)
     ) {
 
   override protected def newInstance: (RawSuggestion, Boolean) => AstRawBuilder =

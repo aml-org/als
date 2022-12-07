@@ -1,11 +1,8 @@
 key:
-  son: 
-    brother: 
-      k: 
+  son:
+    brother:
+      k:
         v: k
-    sister:
-      - 1
-      - 2
-      - 3
+    sister: [ 1, 2, 3 ]
 root:
         preserve

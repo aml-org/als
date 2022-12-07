@@ -15,7 +15,7 @@ class JsonSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
 
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
-  val dummyYPart: YPartBranch = YPartBranch(YNode.Null, AmfPosition(0, 0), Nil, isJson = true, isInFlow = true)
+  val dummyYPart: YPartBranch = YPartBranch(YNode.Null, AmfPosition(0, 0), Nil, strict = true)
 
   test("should not have quotes if key and inside quotes") {
     val content =
@@ -84,7 +84,7 @@ class JsonSuggestionStylerTest extends AsyncFunSuite with FileAssertionTest {
     val swaggerMap = YMapEntry(SourceLocation("swagger", PositionRange(3, 3, 3, 19)), IndexedSeq(swagger, swaggerVal))
     val stack      = Seq(current, YMap(IndexedSeq(current, swaggerMap), "noname"))
 
-    val dummyYPart = YPartBranch(node, AmfPosition(2, 3), stack, isJson = true, isInFlow = true)
+    val dummyYPart = YPartBranch(node, AmfPosition(2, 3), stack, strict = true)
 
     val styler = JsonSuggestionStyler(SyamlStylerParams("", Position(2, 3), dummyYPart, DefaultFormattingOptions))
 

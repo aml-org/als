@@ -80,6 +80,13 @@ class DocumentRangeFormattingTest
     })
   }
 
+  test("Should format just a node in YAML") {
+    val (original, expected) = files("basic-zero-range-selected.yaml")
+    runTest(buildServer(), original, expected).map(result => {
+      assert(result.nonEmpty)
+    })
+  }
+
   def runTest(server: LanguageServer, fileUri: String, expectedUri: String): Future[Seq[TextEdit]] = {
     val fileId = TextDocumentIdentifier(fileUri)
     withServer(server)(server => {

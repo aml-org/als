@@ -46,7 +46,7 @@ class ObjectInTreeCached(override val unit: BaseUnit, val definedBy: Dialect)
       unit,
       location.uri,
       definedBy,
-      NodeBranchBuilder.build(unit, location.position.toAmfPosition)
+      NodeBranchBuilder.build(unit, location.position.toAmfPosition, strict = false)
     )
 
   def treeWithUpperElement(range: PositionRange, uri: String): Option[ObjectInTree] = {
@@ -61,7 +61,7 @@ class ObjectInTreeCached(override val unit: BaseUnit, val definedBy: Dialect)
 
 class ASTPartBranchCached(override val unit: BaseUnit) extends BaseUnitCachedElement[ASTPartBranch] {
   override protected def createElement(location: Location): ASTPartBranch = // todo: check if location._2 is not root
-    NodeBranchBuilder.build(unit, location.position.toAmfPosition)
+    NodeBranchBuilder.build(unit, location.position.toAmfPosition, strict = false)
 }
 
 trait UnitWithCaches {

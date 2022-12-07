@@ -1,6 +1,6 @@
 {
   "key" : {
-    "iternal" : { "seq":  [[*]"a", "b", "c"]},
+    "internal" : { "seq":  [[*]"a", "b", "c"]},
     "higher": ["a",
       "b"[*]]
   },

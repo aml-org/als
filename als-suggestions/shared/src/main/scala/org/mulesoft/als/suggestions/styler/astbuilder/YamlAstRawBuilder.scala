@@ -9,7 +9,7 @@ class YamlAstRawBuilder(override val raw: RawSuggestion, val isSnippet: Boolean,
 
   def ast: YPart =
     if (raw.options.isKey)
-      if (yPartBranch.isInFlow) emitKey()
+      if (yPartBranch.strict) emitKey()
       else YNode(YMap(IndexedSeq(emitKey()), ""))
     else value(raw.newText, raw.options)
 
@@ -18,7 +18,7 @@ class YamlAstRawBuilder(override val raw: RawSuggestion, val isSnippet: Boolean,
       new YamlAstRawBuilder(
         raw,
         isSnippet,
-        YPartBranch(YMap.empty, AmfPosition.ZERO, Nil, isJson = false, isInFlow = false)
+        YPartBranch(YMap.empty, AmfPosition.ZERO, Nil, strict = false)
       )
 
   override def emitEntryValue(options: SuggestionStructure): YNode = value("", options)

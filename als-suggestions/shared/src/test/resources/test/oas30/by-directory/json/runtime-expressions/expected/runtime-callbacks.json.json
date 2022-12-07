@@ -3,11 +3,11 @@
     "label": "$method",
     "kind": [],
     "detail": "RuntimeExpression",
-    "documentation": "{$method",
+    "documentation": "{$method}",
     "deprecated": [],
     "preselect": [],
     "sortText": "11$method",
-    "filterText": "\"{$method\"",
+    "filterText": "\"{$method}\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -23,7 +23,7 @@
           "character": 16
         }
       },
-      "newText": "\"{$method\""
+      "newText": "\"{$method}\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -33,11 +33,11 @@
     "label": "$request.",
     "kind": [],
     "detail": "RuntimeExpression",
-    "documentation": "{$request.",
+    "documentation": "{$request.}",
     "deprecated": [],
     "preselect": [],
     "sortText": "11$request.",
-    "filterText": "\"{$request.\"",
+    "filterText": "\"{$request.}\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -53,7 +53,7 @@
           "character": 16
         }
       },
-      "newText": "\"{$request.\""
+      "newText": "\"{$request.}\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -63,11 +63,11 @@
     "label": "$response.",
     "kind": [],
     "detail": "RuntimeExpression",
-    "documentation": "{$response.",
+    "documentation": "{$response.}",
     "deprecated": [],
     "preselect": [],
     "sortText": "11$response.",
-    "filterText": "\"{$response.\"",
+    "filterText": "\"{$response.}\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -83,7 +83,7 @@
           "character": 16
         }
       },
-      "newText": "\"{$response.\""
+      "newText": "\"{$response.}\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -93,11 +93,11 @@
     "label": "$statusCode",
     "kind": [],
     "detail": "RuntimeExpression",
-    "documentation": "{$statusCode",
+    "documentation": "{$statusCode}",
     "deprecated": [],
     "preselect": [],
     "sortText": "11$statusCode",
-    "filterText": "\"{$statusCode\"",
+    "filterText": "\"{$statusCode}\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -113,7 +113,7 @@
           "character": 16
         }
       },
-      "newText": "\"{$statusCode\""
+      "newText": "\"{$statusCode}\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,
@@ -123,11 +123,11 @@
     "label": "$url",
     "kind": [],
     "detail": "RuntimeExpression",
-    "documentation": "{$url",
+    "documentation": "{$url}",
     "deprecated": [],
     "preselect": [],
     "sortText": "11$url",
-    "filterText": "\"{$url\"",
+    "filterText": "\"{$url}\"",
     "insertText": null,
     "insertTextFormat": [
       1
@@ -143,7 +143,7 @@
           "character": 16
         }
       },
-      "newText": "\"{$url\""
+      "newText": "\"{$url}\""
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

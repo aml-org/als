@@ -1,0 +1,58 @@
+openapi: 3.0.0
+info:
+  title: Basic Callbacks
+  version: '0.1'
+paths:
+  "/test":
+    get:
+      summary: this is a test
+      operationId: test
+      callbacks:
+        expressionWithStaticText:
+          http://notificationServer.com?transactionId={$request.body#/id}&email={$request.body}:
+            post:
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      type: string
+              responses:
+                '200':
+                  description: webhook successfully processed and no retries will
+                    be performed
+        expressionWithCurlyBraces:
+          "{$request.body#/callbackUrl}":
+            post:
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      type: number
+              responses:
+                '200':
+                  description: webhook 2 successfully processed and no retries will
+                    be performed
+        onlyExpression:
+          "{$request.*":
+            post:
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      type: number
+              responses:
+                '200':
+                  description: webhook 2 successfully processed and no retries will
+                    be performed
+        invalidExpression:
+          "{$request.payload.name}":
+            post:
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      type: number
+              responses:
+                '200':
+                  description: webhook 2 successfully processed and no retries will
+                    be performed

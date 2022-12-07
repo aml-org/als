@@ -555,9 +555,9 @@ hovers:
   (148,22):
     - The most generic kind of creative work, including books, movies, photographs, software programs, etc.
   (149,9):
-    - Top level element describing a HTTP API
+    - Example value for a schema inside an API
   (149,15):
-    - Top level element describing a HTTP API
+    - Example value for a schema inside an API
   (150,11):
     - Top level element describing a HTTP API
   (150,20):

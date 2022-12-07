@@ -59,7 +59,7 @@ trait DeclarationCreator {
     */
   def afterInfoNode(baseUnit: BaseUnit, isJson: Boolean): Option[Position] =
     endOfInfo(baseUnit).map { range =>
-      val branch = NodeBranchBuilder.build(baseUnit, range.start.toAmfPosition)
+      val branch = NodeBranchBuilder.build(baseUnit, range.start.toAmfPosition, isJson)
       if (branch.stack.length > 3) // the root level node
         PositionRange(branch.stack(branch.stack.length - 3).location.range).end
       else range.end

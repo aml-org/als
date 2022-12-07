@@ -16,9 +16,9 @@ case class Position(line: Int, column: Int) {
   def offset(text: String): Int = {
     def innerOffset(lines: List[String], currentLine: Int, currentOffset: Int): Int = lines match {
       case Nil => currentOffset
-      case current :: Nil =>
-        Math.min(currentOffset + column, currentOffset + current.length)
       case current :: _ if currentLine == line =>
+        Math.min(currentOffset + column, currentOffset + current.length)
+      case current :: Nil =>
         Math.min(currentOffset + column, currentOffset + current.length)
       case current :: rest =>
         innerOffset(rest, currentLine + 1, currentOffset + current.length)

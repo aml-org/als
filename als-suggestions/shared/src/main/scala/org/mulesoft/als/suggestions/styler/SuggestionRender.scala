@@ -34,7 +34,7 @@ trait SuggestionRender {
 
   private def jsonScalarRange: Option[PositionRange] =
     params.yPartBranch.node match {
-      case n: YNode if n.value.isInstanceOf[YScalar] && params.yPartBranch.isJson =>
+      case n: YNode if n.value.isInstanceOf[YScalar] && params.yPartBranch.strict =>
         Some(PositionRange(n.range))
       case _ => None
     }
@@ -90,7 +90,8 @@ trait SuggestionRender {
       Styled(
         raw.newText,
         plain = true,
-        raw.range.map(r => adaptRangeToPositionValue(r, raw.options))
+        raw.range
+          .map(r => adaptRangeToPositionValue(r, raw.options))
           .getOrElse(PositionRange(params.position.moveColumn(-params.prefix.length), params.position))
       )
     else {

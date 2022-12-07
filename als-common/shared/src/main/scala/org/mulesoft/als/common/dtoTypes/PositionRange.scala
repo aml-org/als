@@ -1,7 +1,6 @@
 package org.mulesoft.als.common.dtoTypes
 
-import org.mulesoft.common.client.lexical.{PositionRange => AmfPositionRange}
-
+import org.mulesoft.common.client.lexical.{SourceLocation, PositionRange => AmfPositionRange, Position => AmfPosition}
 import org.mulesoft.lsp.feature.common.{Range => LspRange}
 
 case class PositionRange(start: Position, end: Position) {
@@ -42,6 +41,10 @@ case class PositionRange(start: Position, end: Position) {
 object PositionRange {
   def apply(range: AmfPositionRange): PositionRange = PositionRange(Position(range.start), Position(range.end))
   def apply(range: LspRange): PositionRange         = PositionRange(Position(range.start), Position(range.end))
+  def apply(location: SourceLocation): PositionRange = PositionRange(
+    Position(AmfPosition(location.lineFrom, location.columnTo)),
+    Position(AmfPosition(location.lineTo, location.columnTo))
+  )
 
   val TopLine: PositionRange = PositionRange(Position(1, 0), Position(1, 0))
 

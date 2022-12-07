@@ -12,7 +12,7 @@ class JsonAstRawBuilder(override val raw: RawSuggestion, val isSnippet: Boolean,
       new JsonAstRawBuilder(
         raw,
         isSnippet,
-        YPartBranch(YMap.empty, AmfPosition.ZERO, Nil, isJson = true, isInFlow = true)
+        YPartBranch(YMap.empty, AmfPosition.ZERO, Nil, strict = true)
       )
 
   override def ast: YPart = {
