@@ -26,6 +26,7 @@ import org.mulesoft.common.client.lexical.{Position => AmfPosition}
 import org.mulesoft.als.common.ASTElementWrapper._
 import org.mulesoft.als.common.YPartASTWrapper._
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
+import org.yaml.lexer.YamlToken.Indicator
 
 import scala.annotation.tailrec
 
@@ -227,8 +228,15 @@ object NodeBranchBuilder {
     start.stack.find(end.stack.contains(_))
 
   private def findIndentation(stack: Seq[ASTElement], element: ASTElement): Option[Int] =
-    stack.splitAt(stack.indexOf(element))._2.collectFirst { case entry: YMapEntry =>
-      entry.range.columnFrom
+    stack.splitAt(stack.indexOf(element))._2.collectFirst {
+      case entry: YMapEntry => entry.range.columnFrom
+      case seq: YSequence =>
+        seq.children
+          .collectFirst { case nc: YNonContent =>
+            nc.tokens.find(t => t.tokenType == Indicator && (t.text == "-" || t.text == "[")).map(_.location.columnFrom)
+          }
+          .flatten
+          .getOrElse(seq.range.columnFrom)
     }
 
   def build(ast: YPart, position: AmfPosition, strict: Boolean): YPartBranch = {
