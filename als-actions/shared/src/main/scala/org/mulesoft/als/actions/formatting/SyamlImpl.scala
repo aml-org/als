@@ -251,11 +251,18 @@ object SyamlImpl {
 
   private def lineBreakToken[T <: YPart](location: SourceLocation) = AstToken(LineBreak, "\n", location)
 
+  private def startsWithEol(n: YNode): Boolean =
+    n.children.splitAt(n.children.indexOf(n.value))._1.exists {
+      case nc: YNonContent => nc.tokens.map(_.tokenType).contains(LineBreak)
+      case _               => false
+    }
+
   @tailrec
   private def shouldBreakLine(p: YPart): Boolean = p match {
     case _ @(_: YMap | _: YSequence) => !isFlow(p.children)
-    case n: YNode                    => shouldBreakLine(n.value)
-    case _                           => false
+    case n: YNode =>
+      !startsWithEol(n) && shouldBreakLine(n.value)
+    case _ => false
   }
 
   @tailrec
