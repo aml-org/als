@@ -145,7 +145,7 @@ class ServerCleanDiagnosticTest extends DiagnosticServerImpl with ChangesWorkspa
         }
       })
   }
-  test("Clean diagnostic with positive custom validations") {
+  test("Clean diagnostic with positive custom validations", Flaky) {
     val negativeReportUri = filePath(platform.encodeURI("project/positive.report.jsonld"))
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
