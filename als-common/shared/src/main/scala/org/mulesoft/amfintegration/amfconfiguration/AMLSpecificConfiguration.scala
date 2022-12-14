@@ -1,15 +1,13 @@
 package org.mulesoft.amfintegration.amfconfiguration
 
 import amf.aml.client.scala.AMLConfiguration
-import amf.aml.client.scala.model.document.Dialect
 import amf.apicontract.client.scala.AMFBaseUnitClient
 import amf.core.client.common.transform.PipelineId
-import amf.core.client.scala.{AMFParseResult, AMFResult}
 import amf.core.client.scala.config.RenderOptions
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.model.domain.DomainElement
 import amf.core.client.scala.validation.AMFValidationReport
-import amf.core.internal.remote.Spec
+import amf.core.client.scala.{AMFParseResult, AMFResult}
 import org.yaml.builder.DocBuilder
 import org.yaml.model.YNode
 
