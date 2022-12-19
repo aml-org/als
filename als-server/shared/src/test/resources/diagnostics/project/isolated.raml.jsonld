@@ -5,7 +5,7 @@
 "@type": [
 "doc:APIContractProcessingData"
 ],
-"apiContract:modelVersion": "3.8.0",
+"apiContract:modelVersion": "3.8.1",
 "doc:transformed": true,
 "doc:sourceSpec": "RAML 1.0"
 },
