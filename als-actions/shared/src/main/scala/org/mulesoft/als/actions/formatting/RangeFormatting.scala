@@ -2,7 +2,6 @@ package org.mulesoft.als.actions.formatting
 
 import org.mulesoft.als.actions.formatting.SyamlImpl.YPartImpl
 import org.mulesoft.als.common.ASTElementWrapper.AlsPositionRange
-import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.ErrorsCollected
 import org.mulesoft.lsp.configuration.FormattingOptions
@@ -19,16 +18,18 @@ case class RangeFormatting(
     initialIndentation: Int
 ) {
 
-  def format(): Seq[TextEdit] = formatPart(parentYPart)
+  def format(applyOptions: Boolean = true): Seq[TextEdit] = formatPart(parentYPart, applyOptions)
 
   private def containsSyntaxError(part: YPart): Boolean =
     syntaxErrors.errors.exists(_.position.exists(err => part.range.contains(err.range)))
 
-  private def formatPart(part: YPart): Seq[TextEdit] =
+  private def formatPart(part: YPart, applyOptions: Boolean = true): Seq[TextEdit] =
     if (isJson && containsSyntaxError(part))
-      part.children.filterNot(_.isInstanceOf[YNonContent]).flatMap(formatPart)
+      part.children
+        .filterNot(_.isInstanceOf[YNonContent])
+        .flatMap(formatPart(_, applyOptions))
     else
-      format(part)
+      format(part, applyOptions)
 
   def applyOptions(s: String): String = {
     var formatted = s
@@ -41,7 +42,7 @@ case class RangeFormatting(
     formatted
   }
 
-  private def format(part: YPart): Seq[TextEdit] = {
+  private def format(part: YPart, mustApplyOptions: Boolean): Seq[TextEdit] = {
     val renderPart: YPart = part.format(formattingOptions.tabSize, initialIndentation)
     val range             = LspRangeConverter.toLspRange(part.range.toPositionRange)
 
@@ -57,6 +58,9 @@ case class RangeFormatting(
       YamlRender
         .render(Seq(renderPart), expandReferences = false)
 
-    Seq(TextEdit(range, applyOptions(s)))
+    if (mustApplyOptions)
+      Seq(TextEdit(range, applyOptions(s)))
+    else
+      Seq(TextEdit(range, s))
   }
 }
