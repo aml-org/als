@@ -345,7 +345,7 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
         }
       } yield {
         parsed.baseUnit.asInstanceOf[Document].encodes.id should be("amf://id#18")
-        assert(s.contains("\"http://a.ml/vocabularies/core#name\": \"Query.allPersons\""))
+        assert(s.contains("\"core:name\": \"Query.allPersons\""))
       }
     }
   }

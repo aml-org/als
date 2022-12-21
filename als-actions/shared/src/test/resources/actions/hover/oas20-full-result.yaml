@@ -164,9 +164,9 @@ hovers:
   (45,27):
     - Human readable description of an element
   (46,14):
-    - Parameters associated to the communication model
+    - Marks the payload as required
   (46,22):
-    - Parameters associated to the communication model
+    - Marks the payload as required
   (47,13):
     - Parameters associated to the communication model
   (47,17):

@@ -35,7 +35,7 @@ case class ObjectInTreeBaseTest(instanceFile: String, dialectFile: String) exten
       result.result.baseUnit,
       result.result.baseUnit.identifier,
       dialect,
-      NodeBranchBuilder.build(result.result.baseUnit, pos)
+      NodeBranchBuilder.build(result.result.baseUnit, pos, strict = false)
     )
 
   private def objectInTree(): Future[AmfPosition => ObjectInTree] =

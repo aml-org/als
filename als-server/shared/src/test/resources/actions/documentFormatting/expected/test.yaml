@@ -1,9 +1,6 @@
-#This is a test
-ref: 
-  innerMap: 
+# This is a test
+ref:
+  innerMap:
     k: v
           # comment
-    seq:
-      - a
-      - b
-      - c
+    seq: [ a, b, c ]

@@ -1,62 +1,62 @@
 package org.mulesoft.als.actions.formatting
 
-import org.mulesoft.als.common.ASTElementWrapper
+import org.mulesoft.als.actions.formatting.SyamlImpl.YPartImpl
 import org.mulesoft.als.common.ASTElementWrapper.AlsPositionRange
+import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.ErrorsCollected
 import org.mulesoft.lsp.configuration.FormattingOptions
 import org.mulesoft.lsp.edit.TextEdit
 import org.yaml.model._
-import org.yaml.render.{JsonRender, JsonRenderOptions, YamlRender, YamlRenderOptions}
+import org.yaml.render.{JsonRender, JsonRenderOptions, YamlRender}
 
 case class RangeFormatting(
     parentYPart: YPart,
     formattingOptions: FormattingOptions,
     isJson: Boolean,
     syntaxErrors: ErrorsCollected,
-    raw: Option[String]
+    raw: Option[String],
+    initialIndentation: Int
 ) {
 
-  def format(): Seq[TextEdit] =
-    formatPart(parentYPart)
+  def format(): Seq[TextEdit] = formatPart(parentYPart)
 
-  private def containsSyntaxError(ypart: YPart): Boolean =
-    syntaxErrors.errors.exists(_.position.exists(err => ypart.range.contains(err.range)))
+  private def containsSyntaxError(part: YPart): Boolean =
+    syntaxErrors.errors.exists(_.position.exists(err => part.range.contains(err.range)))
 
-  private def formatPart(ypart: YPart): Seq[TextEdit] =
-    if (containsSyntaxError(ypart))
-      ypart.children.filterNot(_.isInstanceOf[YNonContent]).flatMap(formatPart)
-    else {
-      ypart match {
-        // todo: initial indentation for the value might be ignored if we emit an YMapEntry in YAML
-        case map: YMapEntry if !isJson => format(YMap(ypart.location, IndexedSeq(map)))
-        case e                         => format(e)
-      }
-    }
+  private def formatPart(part: YPart): Seq[TextEdit] =
+    if (isJson && containsSyntaxError(part))
+      part.children.filterNot(_.isInstanceOf[YNonContent]).flatMap(formatPart)
+    else
+      format(part)
 
-  private def format(yPart: YPart): Seq[TextEdit] = {
-    val renderPart: YPart = yPart match {
-      case doc: YDocument => doc.node // do not format head comment
-      case _              => yPart
-    }
-    val initialIndentation =
-      raw.map(t => ASTElementWrapper.getIndentation(t, renderPart.range.toPositionRange.start)).getOrElse(0)
-    val range = LspRangeConverter.toLspRange(renderPart.range.toPositionRange)
+  def applyOptions(s: String): String = {
+    var formatted = s
+    if (formattingOptions.getTrimTrailingWhitespace)
+      formatted = formatted.replaceAll("""(?m)[^\S\r\n]+$""", "") // strip spaces end of line except after colon
+    if (formattingOptions.getTrimFinalNewlines)
+      formatted = formatted.replaceAll("""\n+$""", "\n") // reduce trailing EOL
+    if (formattingOptions.getInsertFinalNewline && !formatted.endsWith("\n"))
+      formatted += "\n" // if no final EOL, add one
+    formatted
+  }
+
+  private def format(part: YPart): Seq[TextEdit] = {
+    val renderPart: YPart = part.format(formattingOptions.tabSize, initialIndentation)
+    val range             = LspRangeConverter.toLspRange(part.range.toPositionRange)
 
     val s: String = if (isJson) {
       val renderOptions: JsonRenderOptions =
         JsonRenderOptions(formattingOptions.tabSize, formattingOptions.insertSpaces, applyFormatting = true)
-      JsonRender.render(renderPart, initialIndentation, renderOptions)
-    } else {
-      val renderOptions: YamlRenderOptions =
-        YamlRenderOptions(formattingOptions.tabSize, applyFormatting = true)
+      JsonRender.render(
+        renderPart,
+        initialIndentation,
+        renderOptions
+      ) // todo: add some logic to guess desired indentation
+    } else
       YamlRender
-        .render(Seq(renderPart), expandReferences = false, renderOptions, initialIndentation)
-        .dropWhile(_ == ' ')
+        .render(Seq(renderPart), expandReferences = false)
 
-    }
-
-    Seq(TextEdit(range, s))
-
+    Seq(TextEdit(range, applyOptions(s)))
   }
 }

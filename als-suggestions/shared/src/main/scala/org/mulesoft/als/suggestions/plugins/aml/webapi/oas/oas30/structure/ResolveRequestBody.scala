@@ -18,7 +18,7 @@ object ResolveRequestBody extends ResolveIfApplies {
     request.amfObject match {
       case _: WebApi =>
         // due to how recovery works, json creates more entries in between
-        val idxParent = if (request.astPartBranch.isJson) 6 else 3
+        val idxParent = if (request.astPartBranch.strict) 6 else 3
         request.astPartBranch.getAncestor(idxParent) match {
           case Some(yme: YMapEntry) if yme.key.asScalar.map(_.text).contains("requestBodies") =>
             Some(requestBodySuggestions(request.actualDialect))

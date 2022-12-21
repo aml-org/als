@@ -1,9 +1,8 @@
 package org.mulesoft.als.server.modules.actions
 
-import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.actions.formatting.RangeFormatting
-import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.logger.Logger
+import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.lsp.ConfigType
@@ -18,7 +17,6 @@ import org.mulesoft.lsp.feature.documentFormatting.{
 }
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
-import org.yaml.model.YPart
 
 import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -81,7 +79,8 @@ class DocumentFormattingManager(
               params.options,
               isJson,
               getSyntaxErrors(cu.errorsCollected, params.textDocument.uri),
-              cu.unit.raw
+              cu.unit.raw,
+              0
             )
               .format()
           )

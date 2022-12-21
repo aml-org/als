@@ -145,7 +145,7 @@ class ServerCleanDiagnosticTest extends DiagnosticServerImpl with ChangesWorkspa
         }
       })
   }
-  test("Clean diagnostic with positive custom validations") {
+  test("Clean diagnostic with positive custom validations", Flaky) {
     val negativeReportUri = filePath(platform.encodeURI("project/positive.report.jsonld"))
     platform
       .fetchContent(negativeReportUri, AMFGraphConfiguration.predefined())
@@ -233,7 +233,7 @@ class ServerCleanDiagnosticTest extends DiagnosticServerImpl with ChangesWorkspa
     }
   }
 
-  test("Clean diagnostic test for graphql with empty api") {
+  test("Clean diagnostic test for graphql with empty api", Flaky) {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(5000)
     withServer(buildServer(diagnosticNotifier)) { s =>
       val mainFilePath = s"file://api.graphql"

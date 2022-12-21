@@ -76,7 +76,7 @@ class YamlWrapperTest extends FlatSpec {
       |  sk:
       |    - a: b
       |      c: d
-      |      
+      |
       |    - e
       |    - f
       |  sk2: value
@@ -89,7 +89,7 @@ class YamlWrapperTest extends FlatSpec {
       |  - b
       |    c
       |  d
-      |  
+      |
       |  - g
       |""".stripMargin
 
@@ -97,7 +97,7 @@ class YamlWrapperTest extends FlatSpec {
     """{
       |"a": {
       |  "b": "c",
-      |  "d": ["e", 
+      |  "d": ["e",
       |  "f"]
       |  }
       |}""".stripMargin
@@ -116,8 +116,8 @@ class YamlWrapperTest extends FlatSpec {
   }
 
   it should "Check Json array" in {
-    val nodes = FlatAstBuilder(arrayCaseJson, false)
-    assert(nodes.assertScalarValue(AmfPosition(2, 2), "a"))
+    val nodes = FlatAstBuilder(arrayCaseJson, isYaml = false)
+    assert(nodes.assertScalarValue(AmfPosition(2, 2), "a", strict = true))
   }
 
   behavior of "Primitive cases"

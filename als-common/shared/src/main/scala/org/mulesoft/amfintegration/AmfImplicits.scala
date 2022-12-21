@@ -124,10 +124,12 @@ object AmfImplicits {
           }
         })
 
-    def containsPosition(amfPosition: AmfPosition): Boolean =
+    def containsPosition(amfPosition: AmfPosition, strict: Boolean): Boolean =
       this
         .ypart()
-        .exists(_.contains(amfPosition)) || (this.ypart().isEmpty && this.range().exists(_.contains(amfPosition)))
+        .exists(_.contains(amfPosition, strict)) || (this
+        .ypart()
+        .isEmpty && this.range().exists(_.contains(amfPosition)))
 
     def isRamlTypeExpression: Boolean = ann.find(classOf[ParsedFromTypeExpression]).isDefined
 
@@ -179,23 +181,23 @@ object AmfImplicits {
 
     def isInferred: Boolean = f.value.annotations.isInferred
 
-    def isArrayIncluded(amfPosition: AmfPosition): Boolean =
+    def isArrayIncluded(amfPosition: AmfPosition, strict: Boolean): Boolean =
       f.value.annotations
         .ypart()
         .orElse(f.value.value.annotations.ypart()) match {
         case Some(n: YNode) if n.tagType == YType.Seq =>
-          n.value.contains(amfPosition) || n
+          n.value.contains(amfPosition, strict) || n
             .as[YSequence]
             .nodes
             .lastOption
             .exists(isEmptyNodeLine(_, amfPosition))
         case Some(arr: YSequence) =>
           PositionRange(arr.range).contains(Position(amfPosition)) && isEndChar(amfPosition, arr.range)
-        case Some(e: YMapEntry) => e.contains(amfPosition)
+        case Some(e: YMapEntry) => e.contains(amfPosition, strict)
         case Some(n: YNode) if n.tagType == YType.Map =>
-          n.contains(amfPosition) &&
-          new AlsYMapOps(n.value.asInstanceOf[YMap]).contains(amfPosition)
-        case Some(other) => other.contains(amfPosition)
+          n.contains(amfPosition, strict) &&
+          new AlsYMapOps(n.value.asInstanceOf[YMap]).contains(amfPosition, strict)
+        case Some(other) => other.contains(amfPosition, strict)
         case _           => false
       }
 
@@ -264,10 +266,11 @@ object AmfImplicits {
     lazy val isFragment: Boolean = bu.isInstanceOf[Fragment]
 
     def ast: Option[YPart] =
-      bu match {
-        case e: Document if e.encodes.annotations.ypart().isDefined         => e.encodes.annotations.ypart()
-        case e: ExternalFragment if e.encodes.annotations.ypart().isDefined => e.encodes.annotations.ypart()
-        case _                                                              => bu.annotations.ypart()
+      bu.annotations.ypart().orElse {
+        bu match {
+          case e: EncodesModel => e.encodes.annotations.ypart()
+          case _               => None
+        }
       }
 
     def declaredNames: Seq[String] =
@@ -406,10 +409,12 @@ object AmfImplicits {
   implicit class NodeMappingImplicit(nodeMapping: NodeMapping) {
 
     def getTargetClass(): Option[String] =
-      nodeMapping.fields.getValueAsOption(NodeMappingModel.NodeTypeMapping)
-        .map(_.value).flatMap{
+      nodeMapping.fields
+        .getValueAsOption(NodeMappingModel.NodeTypeMapping)
+        .map(_.value)
+        .flatMap {
           case s: AmfScalar => Option(s.toString())
-          case _ => None
+          case _            => None
         }
 
     def findPropertyByTerm(term: String): Option[PropertyMapping] =
@@ -417,12 +422,11 @@ object AmfImplicits {
   }
 
   implicit class AmlConfigurationImplicit(config: AMLConfiguration) {
-    def fullResolution(unit: BaseUnit) = {
+    def fullResolution(unit: BaseUnit): Unit =
       config match {
         case amf: AMFConfiguration =>
         case aml                   =>
       }
-    }
   }
 
 }

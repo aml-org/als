@@ -68,13 +68,14 @@ case class ObjectInTree(
       (f.value.annotations.ypart() match {
         case Some(e: YMapEntry) =>
           e.contains(
-            astPartBranch.position
+            astPartBranch.position,
+            strict = false
           ) && !(e.key.range.lineTo == astPartBranch.position.line && e.key.range.columnFrom == astPartBranch.position.column) // start of the entry
         case _ => f.value.annotations.containsAstBranch(astPartBranch).getOrElse(f.value.annotations.isInferred)
       })
 
   private def inValue(f: FieldEntry) =
-    f.value.value.annotations.containsPosition(astPartBranch.position)
+    f.value.value.annotations.containsPosition(astPartBranch.position, strict = false)
 
   private def notInKey(a: Annotations) =
     a.find(classOf[SourceYPart]) match {

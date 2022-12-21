@@ -1,6 +1,6 @@
 
 array:
-  -     valid
+  - valid
   -/-invalid
 - still invalid
 
@@ -8,5 +8,4 @@ key:
   val1: val
   val2: val
   syntax error
-  val22: 22
-
+    val22: 22

@@ -5,7 +5,7 @@
 "@type": [
 "doc:APIContractProcessingData"
 ],
-"apiContract:modelVersion": "3.8.0",
+"apiContract:modelVersion": "3.8.1",
 "doc:transformed": true,
 "doc:sourceSpec": "RAML 1.0"
 },
@@ -17,7 +17,7 @@
 "doc:RootDomainElement",
 "doc:DomainElement"
 ],
-"http://a.ml/vocabularies/core#name": "API",
+"core:name": "API",
 "apiContract:endpoint": [
 {
 "@id": "#3"
@@ -72,11 +72,11 @@
 "@id": "#4",
 "@type": [
 "apiContract:Operation",
-"http://a.ml/vocabularies/core#Operation",
+"core:Operation",
 "doc:DomainElement"
 ],
 "apiContract:method": "get",
-"http://a.ml/vocabularies/core#description": "",
+"core:description": "",
 "sourcemaps:sources": [
 {
 "@id": "#4/source-map"
@@ -104,7 +104,7 @@
 },
 {
 "@id": "#2/source-map/lexical/element_0",
-"sourcemaps:element": "http://a.ml/vocabularies/core#name",
+"sourcemaps:element": "core:name",
 "sourcemaps:value": "[(2,0)-(3,0)]"
 },
 {
@@ -138,7 +138,7 @@
 },
 {
 "@id": "#4/source-map/lexical/element_0",
-"sourcemaps:element": "http://a.ml/vocabularies/core#description",
+"sourcemaps:element": "core:description",
 "sourcemaps:value": "[(5,4)-(6,0)]"
 },
 {
@@ -165,6 +165,7 @@
 "@base": "amf://id",
 "doc": "http://a.ml/vocabularies/document#",
 "apiContract": "http://a.ml/vocabularies/apiContract#",
+"core": "http://a.ml/vocabularies/core#",
 "sourcemaps": "http://a.ml/vocabularies/document-source-maps#"
 }
 }

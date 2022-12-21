@@ -33,11 +33,10 @@ trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
     }
   }
 
-  def assertCategory(path: String, suggestions: Set[CompletionItem]): Assertion = {
+  def assertCategory(path: String, suggestions: Set[CompletionItem]): Assertion =
     if (suggestions.forall(matchCategory))
       succeed
     else fail(s"Difference in categories for $path")
-  }
 
   def assert(path: String, actualSet: Set[String], golden: Set[String]): Assertion = {
     def replaceEOL(s: String): String = {

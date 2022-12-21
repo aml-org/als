@@ -94,7 +94,8 @@ trait AbstractKnownValueCompletionPlugin extends AMLCompletionPlugin {
       classTerm,
       params.actualDialect,
       params.astPartBranch.isKey,
-      params.astPartBranch.isArray || (params.astPartBranch.isJson && params.astPartBranch.isInArray),
+      // todo: check if the alternative "if strict" is still necessary or just a leftover from json patcher
+      params.astPartBranch.isArray || (params.astPartBranch.strict && params.astPartBranch.isInArray),
       params.isKeyMapping
     ).resolve()
 }

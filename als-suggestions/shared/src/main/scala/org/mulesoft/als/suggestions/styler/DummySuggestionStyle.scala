@@ -12,7 +12,7 @@ case class DummySuggestionStyle(prefix: String, position: Position) extends Sugg
     SyamlStylerParams(
       prefix,
       position,
-      YPartBranch(YMap.empty, position.toAmfPosition, Nil, isJson = false, isInFlow = false),
+      YPartBranch(YMap.empty, position.toAmfPosition, Nil, strict = false),
       AlsConfiguration().getFormatOptionForMime("")
     )
 
