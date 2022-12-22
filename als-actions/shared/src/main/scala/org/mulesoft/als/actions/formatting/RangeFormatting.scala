@@ -18,18 +18,18 @@ case class RangeFormatting(
     initialIndentation: Int
 ) {
 
-  def format(applyOptions: Boolean = true): Seq[TextEdit] = formatPart(parentYPart, applyOptions)
+  def format(): Seq[TextEdit] = formatPart(parentYPart)
 
   private def containsSyntaxError(part: YPart): Boolean =
     syntaxErrors.errors.exists(_.position.exists(err => part.range.contains(err.range)))
 
-  private def formatPart(part: YPart, applyOptions: Boolean = true): Seq[TextEdit] =
+  private def formatPart(part: YPart): Seq[TextEdit] =
     if (isJson && containsSyntaxError(part))
       part.children
         .filterNot(_.isInstanceOf[YNonContent])
-        .flatMap(formatPart(_, applyOptions))
+        .flatMap(formatPart)
     else
-      format(part, applyOptions)
+      format(part)
 
   def applyOptions(s: String): String = {
     var formatted = s
@@ -42,7 +42,7 @@ case class RangeFormatting(
     formatted
   }
 
-  private def format(part: YPart, mustApplyOptions: Boolean): Seq[TextEdit] = {
+  private def format(part: YPart): Seq[TextEdit] = {
     val renderPart: YPart = part.format(formattingOptions.tabSize, initialIndentation)
     val range             = LspRangeConverter.toLspRange(part.range.toPositionRange)
 
@@ -58,9 +58,6 @@ case class RangeFormatting(
       YamlRender
         .render(Seq(renderPart), expandReferences = false)
 
-    if (mustApplyOptions)
-      Seq(TextEdit(range, applyOptions(s)))
-    else
-      Seq(TextEdit(range, s))
+    Seq(TextEdit(range, applyOptions(s)))
   }
 }
