@@ -2,31 +2,16 @@ package org.mulesoft.als.common
 
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.internal.parser.YNodeLikeOps
-import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.antlrast.ast.{ASTNode, Node, Terminal}
-import org.mulesoft.common.client.lexical.ASTElement
-import org.yaml.lexer.YamlCharRules
-import org.yaml.model
-import org.yaml.model.{
-  MultilineMark,
-  ScalarMark,
-  YDocument,
-  YMap,
-  YMapEntry,
-  YNode,
-  YNodePlain,
-  YNonContent,
-  YPart,
-  YScalar,
-  YSequence,
-  YTag,
-  YType
-}
-import org.mulesoft.common.client.lexical.{Position => AmfPosition}
 import org.mulesoft.als.common.ASTElementWrapper._
 import org.mulesoft.als.common.YPartASTWrapper._
+import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
+import org.mulesoft.antlrast.ast.{ASTNode, Node, Terminal}
+import org.mulesoft.common.client.lexical.{ASTElement, Position => AmfPosition}
+import org.yaml.lexer.YamlCharRules
 import org.yaml.lexer.YamlToken.Indicator
+import org.yaml.model
+import org.yaml.model._
 
 import scala.annotation.tailrec
 
@@ -308,7 +293,7 @@ object NodeBranchBuilder {
       case Some(n: YNode) =>
         childWithPosition(n, amfPosition, innerStrict) match {
           case None
-              if !n.isNull && n.value.range.lineFrom == amfPosition.line && n.value.range.columnFrom > amfPosition.column =>
+              if innerStrict || (!n.isNull && n.value.range.lineFrom == amfPosition.line && n.value.range.columnFrom > amfPosition.column) =>
             (n +: s +: parents, innerStrict) // case for tag (!include)
           case None    => (parents, innerStrict)
           case Some(c) => getStack(c, amfPosition, n +: s +: parents, innerStrict)
