@@ -28,6 +28,8 @@ case class FormattingOptions(
 
   override def getTrimFinalNewlines: Boolean =
     this.trimFinalNewlines.getOrElse(DefaultFormattingOptions.getTrimFinalNewlines)
+
+  def maskForRange: FormattingOptions = this.copy(insertFinalNewline = Some(false), trimFinalNewlines = Some(false))
 }
 
 trait FormatOptions {

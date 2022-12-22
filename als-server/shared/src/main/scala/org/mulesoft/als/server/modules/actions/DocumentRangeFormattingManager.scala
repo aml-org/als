@@ -85,7 +85,7 @@ class DocumentRangeFormattingManager(
         }).map(t =>
           RangeFormatting(
             t._1,
-            params.options,
+            params.options.maskForRange,
             isJson,
             getSyntaxErrors(cu.errorsCollected, params.textDocument.uri),
             cu.unit.raw,
