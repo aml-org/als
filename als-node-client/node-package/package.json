@@ -15,7 +15,7 @@
     "als": "./dist/als-node-client.min.js"
   },
   "dependencies": {
-    "@aml-org/amf-antlr-parsers": "0.5.18",
+    "@aml-org/amf-antlr-parsers": "0.6.21",
     "@aml-org/amf-custom-validator": "1.2.3",
     "@aml-org/amf-custom-validator-web": "1.2.3",
     "ajv": "6.12.6",

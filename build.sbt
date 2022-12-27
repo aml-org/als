@@ -12,12 +12,13 @@ import scala.sys.process.Process
 
 name := "api-language-server"
 
+ThisBuild / scalaVersion := "2.12.13"
+
 version := deps("version")
 
 jsEnv := new org.scalajs.jsenv.nodejs.NodeJSEnv()
 
 publish := {}
-
 
 lazy val workspaceDirectory: File =
   sys.props.get("sbt.mulesoft") match {
@@ -36,9 +37,9 @@ val commonNpmDependencies = List(
 )
 
 lazy val amfJVMRef = ProjectRef(workspaceDirectory / "amf", "graphqlJVM")
-lazy val amfJSRef = ProjectRef(workspaceDirectory / "amf", "graphqlJS")
-lazy val amfLibJVM = "com.github.amlorg" %% "amf-graphql" % amfVersion
-lazy val amfLibJS = "com.github.amlorg" %% "amf-graphql_sjs0.6" % amfVersion
+lazy val amfJSRef  = ProjectRef(workspaceDirectory / "amf", "graphqlJS")
+lazy val amfLibJVM = "com.github.amlorg" %% "amf-graphql"        % amfVersion
+lazy val amfLibJS  = "com.github.amlorg" %% "amf-graphql_sjs0.6" % amfVersion
 
 lazy val customValidatorWebJVMRef =
   ProjectRef(workspaceDirectory / "amf-custom-validator-scalajs", "amfCustomValidatorWebJVM")
@@ -57,8 +58,8 @@ lazy val customValidatorNodeLibJS =
   "com.github.amlorg" %% "amf-custom-validator-node_sjs0.6" % amfCustomValidatorScalaJSVersion
 
 lazy val npmDependencyAmfCustomValidatorWeb = s"@aml-org/amf-custom-validator-web@$amfCustomValidatorJSVersion"
-lazy val npmDependencyAmfCustomValidator = s"@aml-org/amf-custom-validator@$amfCustomValidatorJSVersion"
-lazy val npmDependencyAmfAntlr = s"@aml-org/amf-antlr-parsers@$amfAntlrParsersVersion"
+lazy val npmDependencyAmfCustomValidator    = s"@aml-org/amf-custom-validator@$amfCustomValidatorJSVersion"
+lazy val npmDependencyAmfAntlr              = s"@aml-org/amf-antlr-parsers@$amfAntlrParsersVersion"
 
 val orgSettings = Seq(
   organization := "org.mule.als",
@@ -96,7 +97,8 @@ lazy val common = crossProject(JSPlatform, JVMPlatform)
   .in(file(s"$pathAlsCommon"))
   .dependsOn(lsp)
   .settings(settings: _*)
-    .jsSettings(installJsDependencies := {
+  .jsSettings(
+    installJsDependencies := {
       Process(
         s"npm install -E $npmDependencyAmfAntlr",
         new File(s"$pathAlsCommon/js/")
