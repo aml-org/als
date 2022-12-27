@@ -146,7 +146,7 @@ lazy val lsp = crossProject(JSPlatform, JVMPlatform)
   .disablePlugins(SonarPlugin)
 
 lazy val lspJVM = lsp.jvm.in(file("./als-lsp/jvm"))
-lazy val lspJS  = lsp.js.in(file("./als-lsp/js"))
+lazy val lspJS  = lsp.js.in(file("./als-lsp/js")).disablePlugins(ScoverageSbtPlugin)
 ////endregion
 
 ////region ALS-SUGGESTIONS
