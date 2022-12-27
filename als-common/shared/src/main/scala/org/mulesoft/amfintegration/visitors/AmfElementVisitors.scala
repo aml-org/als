@@ -7,6 +7,7 @@ import org.mulesoft.amfintegration.visitors.aliases.{AliasesVisitor, AliasesVisi
 import org.mulesoft.amfintegration.visitors.documentlink.{DocumentLinkVisitor, DocumentLinkVisitorType}
 import org.mulesoft.amfintegration.visitors.noderelationship.NodeRelationshipVisitorType
 import org.mulesoft.amfintegration.visitors.noderelationship.plugins._
+import org.mulesoft.common.collections._
 import org.mulesoft.lsp.feature.link.DocumentLink
 
 import scala.reflect.ClassTag
@@ -54,6 +55,6 @@ class AmfElementVisitors(allVisitors: Seq[AmfElementVisitor[_]]) {
 
   final def getDocumentLinksFromVisitors: Map[String, Seq[DocumentLink]] =
     collectVisitors[(String, Seq[DocumentLink]), DocumentLinkVisitorType]
-      .groupBy(_._1)
+      .legacyGroupBy(_._1)
       .mapValues(_.flatMap(_._2))
 }

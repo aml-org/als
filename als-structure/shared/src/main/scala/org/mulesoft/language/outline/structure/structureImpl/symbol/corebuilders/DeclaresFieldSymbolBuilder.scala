@@ -17,6 +17,7 @@ import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   IriFieldSymbolBuilderCompanion,
   SymbolBuilder
 }
+import org.mulesoft.common.collections._
 
 class DeclaresFieldSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
     override implicit val ctx: StructureContext
@@ -28,7 +29,7 @@ class DeclaresFieldSymbolBuilder(override val value: AmfArray, override val elem
     .collect({
       case obj: AmfObject if obj.annotations.trueLocation().contains(ctx.location) => obj
     })
-    .groupBy(declarationName)
+    .legacyGroupBy(declarationName)
 
   private def getMeta(obj: AmfObject): String =
     obj match {
