@@ -12,12 +12,13 @@ import scala.sys.process.Process
 
 name := "api-language-server"
 
+ThisBuild / scalaVersion := "2.12.13"
+
 version := deps("version")
 
 jsEnv := new org.scalajs.jsenv.nodejs.NodeJSEnv()
 
 publish := {}
-
 
 lazy val workspaceDirectory: File =
   sys.props.get("sbt.mulesoft") match {
@@ -36,9 +37,9 @@ val commonNpmDependencies = List(
 )
 
 lazy val amfJVMRef = ProjectRef(workspaceDirectory / "amf", "graphqlJVM")
-lazy val amfJSRef = ProjectRef(workspaceDirectory / "amf", "graphqlJS")
-lazy val amfLibJVM = "com.github.amlorg" %% "amf-graphql" % amfVersion
-lazy val amfLibJS = "com.github.amlorg" %% "amf-graphql_sjs0.6" % amfVersion
+lazy val amfJSRef  = ProjectRef(workspaceDirectory / "amf", "graphqlJS")
+lazy val amfLibJVM = "com.github.amlorg" %% "amf-graphql"        % amfVersion
+lazy val amfLibJS  = "com.github.amlorg" %% "amf-graphql_sjs0.6" % amfVersion
 
 lazy val customValidatorWebJVMRef =
   ProjectRef(workspaceDirectory / "amf-custom-validator-scalajs", "amfCustomValidatorWebJVM")
@@ -57,8 +58,8 @@ lazy val customValidatorNodeLibJS =
   "com.github.amlorg" %% "amf-custom-validator-node_sjs0.6" % amfCustomValidatorScalaJSVersion
 
 lazy val npmDependencyAmfCustomValidatorWeb = s"@aml-org/amf-custom-validator-web@$amfCustomValidatorJSVersion"
-lazy val npmDependencyAmfCustomValidator = s"@aml-org/amf-custom-validator@$amfCustomValidatorJSVersion"
-lazy val npmDependencyAmfAntlr = s"@aml-org/amf-antlr-parsers@$amfAntlrParsersVersion"
+lazy val npmDependencyAmfCustomValidator    = s"@aml-org/amf-custom-validator@$amfCustomValidatorJSVersion"
+lazy val npmDependencyAmfAntlr              = s"@aml-org/amf-antlr-parsers@$amfAntlrParsersVersion"
 
 val orgSettings = Seq(
   organization := "org.mule.als",
@@ -96,7 +97,8 @@ lazy val common = crossProject(JSPlatform, JVMPlatform)
   .in(file(s"$pathAlsCommon"))
   .dependsOn(lsp)
   .settings(settings: _*)
-    .jsSettings(installJsDependencies := {
+  .jsSettings(
+    installJsDependencies := {
       Process(
         s"npm install -E $npmDependencyAmfAntlr",
         new File(s"$pathAlsCommon/js/")
@@ -118,7 +120,7 @@ lazy val commonJS = common.js
   .in(file(s"$pathAlsCommon/js"))
   .sourceDependency(amfJSRef, amfLibJS)
   .sourceDependency(customValidatorWebJSRef, customValidatorWebLibJS)
-  .disablePlugins(SonarPlugin)
+  .disablePlugins(SonarPlugin, ScoverageSbtPlugin)
 ////endregion
 
 ////region ALS-LSP
@@ -144,7 +146,7 @@ lazy val lsp = crossProject(JSPlatform, JVMPlatform)
   .disablePlugins(SonarPlugin)
 
 lazy val lspJVM = lsp.jvm.in(file("./als-lsp/jvm"))
-lazy val lspJS  = lsp.js.in(file("./als-lsp/js"))
+lazy val lspJS  = lsp.js.in(file("./als-lsp/js")).disablePlugins(ScoverageSbtPlugin)
 ////endregion
 
 ////region ALS-SUGGESTIONS
@@ -168,7 +170,7 @@ lazy val suggestions = crossProject(JSPlatform, JVMPlatform)
   .disablePlugins(SonarPlugin)
 
 lazy val suggestionsJVM = suggestions.jvm.in(file("./als-suggestions/jvm"))
-lazy val suggestionsJS  = suggestions.js.in(file("./als-suggestions/js")).disablePlugins(SonarPlugin)
+lazy val suggestionsJS = suggestions.js.in(file("./als-suggestions/js")).disablePlugins(SonarPlugin, ScoverageSbtPlugin)
 ////endregion
 
 ////region ALS-STRUCTURE
@@ -195,7 +197,7 @@ lazy val structure = crossProject(JSPlatform, JVMPlatform)
   .disablePlugins(SonarPlugin)
 
 lazy val structureJVM = structure.jvm.in(file(s"$pathAlsStructure/jvm"))
-lazy val structureJS  = structure.js.in(file(s"$pathAlsStructure/js")).disablePlugins(SonarPlugin)
+lazy val structureJS  = structure.js.in(file(s"$pathAlsStructure/js")).disablePlugins(SonarPlugin, ScoverageSbtPlugin)
 ////endregion
 
 ////region ALS-ACTIONS
@@ -217,7 +219,7 @@ lazy val actions = crossProject(JSPlatform, JVMPlatform)
   .disablePlugins(SonarPlugin)
 
 lazy val actionsJVM = actions.jvm.in(file(s"$pathAlsActions/jvm"))
-lazy val actionsJS  = actions.js.in(file(s"$pathAlsActions/js")).disablePlugins(SonarPlugin)
+lazy val actionsJS  = actions.js.in(file(s"$pathAlsActions/js")).disablePlugins(SonarPlugin, ScoverageSbtPlugin)
 
 ////endregion
 
@@ -262,7 +264,7 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
   )
 
 lazy val serverJVM = server.jvm.in(file("./als-server/jvm"))
-lazy val serverJS  = server.js.in(file("./als-server/js")).disablePlugins(SonarPlugin)
+lazy val serverJS  = server.js.in(file("./als-server/js")).disablePlugins(SonarPlugin, ScoverageSbtPlugin)
 ////endregion
 
 ////region ALS-NODE-CLIENT
@@ -274,7 +276,7 @@ lazy val nodeClient = project
   .in(file("./als-node-client"))
   .enablePlugins(ScalaJSPlugin)
   .settings(settings: _*)
-  .disablePlugins(SonarPlugin)
+  .disablePlugins(SonarPlugin, ScoverageSbtPlugin)
   .settings(
     settings ++ Seq(
       name                                 := "als-node-client",

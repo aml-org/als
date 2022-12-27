@@ -1,6 +1,6 @@
 language: scala
 scala:
-  - 2.12.11
+  - 2.12.13
 
 before_script:
   # default $SBT_OPTS is irrelevant to sbt launcher

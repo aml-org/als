@@ -1,6 +1,7 @@
 package org.mulesoft.als.common.edits
 
 import org.mulesoft.lsp.edit.{ResourceOperation, TextDocumentEdit, TextEdit, WorkspaceEdit}
+import org.mulesoft.common.collections._
 
 case class AbstractWorkspaceEdit(documentChanges: Seq[Either[TextDocumentEdit, ResourceOperation]]) {
 
@@ -18,7 +19,7 @@ case class AbstractWorkspaceEdit(documentChanges: Seq[Either[TextDocumentEdit, R
         .collect { case Left(value) =>
           value
         }
-        .groupBy(_.textDocument.uri)
+        .legacyGroupBy(_.textDocument.uri)
         .map(t => t._1 -> t._2.flatMap(_.edits))
   }
 

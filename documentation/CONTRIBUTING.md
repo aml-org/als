@@ -17,7 +17,7 @@ First of all, thanks for taking the time to contribute! Review the following tip
 ## Development setup
 
 **Requirements:**
-* Scala 2.12.11
+* Scala 2.12.13
 * sbt 1.3.8
 * NodeJS
 

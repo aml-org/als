@@ -5,6 +5,7 @@ import amf.apicontract.internal.metamodel.domain.{ParametersFieldModel, RequestM
 import amf.core.internal.metamodel.Field
 import org.mulesoft.als.common.dtoTypes.{EmptyPositionRange, PositionRange}
 import org.mulesoft.language.outline.structure.structureImpl.{DocumentSymbol, KindForResultMatcher, StructureContext}
+import org.mulesoft.common.collections._
 
 /** Creates an structure for the parameters category and each parameter. All parameters must be off the same binding
   */
@@ -13,7 +14,7 @@ class ParametersSymbolBuilder(parameters: Seq[Parameter], range: Option[Position
 ) {
   def build(): List[DocumentSymbol] = {
     parameters
-      .groupBy(_.binding.value())
+      .legacyGroupBy(_.binding.value())
       .map { case (k, parameters) =>
         val children = parameters.flatMap(e => ctx.factory.builderFor(e).map(_.build()).getOrElse(Nil))
         val r        = range.orElse(children.headOption.map(_.range)).getOrElse(EmptyPositionRange)
