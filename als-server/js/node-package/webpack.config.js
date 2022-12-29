@@ -29,7 +29,6 @@ const baseConfig = {
       url: "url",
       http: "stream-http",
       stream: "stream-http",
-      fs: require.resolve("browserify-fs"),
       util: require.resolve("util/")
     },
     symlinks: false,
