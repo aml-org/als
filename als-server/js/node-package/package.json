@@ -27,7 +27,8 @@
     "url": "^0.11.0",
     "util": "^0.12.4",
     "vscode-jsonrpc": "6.0.0",
-    "vscode-languageserver-protocol": "3.16.0"
+    "vscode-languageserver-protocol": "3.16.0",
+    "semver": "2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
