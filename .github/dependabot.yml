@@ -9,5 +9,4 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
-    # to pip against the `develop` branch
     target-branch: "W-11867460"
