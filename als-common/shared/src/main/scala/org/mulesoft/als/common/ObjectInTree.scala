@@ -65,7 +65,7 @@ case class ObjectInTree(
 
   private def inField(f: FieldEntry) =
     f.field != LinkableElementModel.Target &&
-      (f.value.annotations.ypart() match {
+      (f.value.annotations.yPart() match {
         case Some(e: YMapEntry) =>
           e.contains(
             astPartBranch.position,

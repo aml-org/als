@@ -10,7 +10,9 @@ import org.mulesoft.amfintegration.VirtualYPart
 import org.mulesoft.amfintegration.relationships.RelationshipLink
 import org.mulesoft.amfintegration.visitors.AmfElementVisitor
 import org.mulesoft.common.client.lexical.SourceLocation
-import org.yaml.model.{YMapEntry, YNode, YPart, YScalar}
+import org.mulesoft.lexer.AstToken
+import org.yaml.lexer.YamlToken.Text
+import org.yaml.model.{YMapEntry, YNode, YNonContent, YPart, YScalar, YTag, YType}
 
 trait NodeRelationshipVisitorType extends AmfElementVisitor[RelationshipLink] {
   protected def extractTarget(obj: AmfObject): Option[AmfElement] =
@@ -20,31 +22,45 @@ trait NodeRelationshipVisitorType extends AmfElementVisitor[RelationshipLink] {
 
   protected def createRelationship(origin: YPart, target: AmfElement): Seq[RelationshipLink] =
     target.annotations
-      .ypart()
+      .yPart()
       .map(targetEntry => (origin, targetEntry))
       .map(t => RelationshipLink(t._1, t._2, getName(target)))
       .toSeq
 
   protected def getName(a: AmfElement): Option[YPart] =
     a match {
+      case a if a.annotations.targetName().isDefined =>
+        a.annotations
+          .targetName()
+          .map(_.name match {
+            case n: YNode if n.tagType == YType.Str =>
+              n.value.children
+                .collectFirst {
+                  case yNon: YNonContent if yNon.tokens.exists(_.tokenType == Text) =>
+                    yNon.tokens.find(_.tokenType == Text).get
+                }
+                .map(textToken => VirtualYPart(textToken.location, textToken.text))
+                .getOrElse(n.value)
+            case p => p
+          })
       case ns: NodeShape =>
-        lazy val name  = ns.name.annotations.ypart()
-        lazy val nsAst = ns.annotations.ypart()
+        lazy val name  = ns.name.annotations.yPart()
+        lazy val nsAst = ns.annotations.yPart()
         nameOrEntryKey(name, nsAst)
       case n: NamedDomainElement =>
         lazy val name = n.name
           .annotations()
-          .ypart()
-        lazy val nAst = n.annotations.ypart()
+          .yPart()
+        lazy val nAst = n.annotations.yPart()
         nameOrEntryKey(name, nAst) // security schemes in RAML 0.8 are bringing faulty name AST (unknown location)
       case o: AmfObject =>
         val name = o
           .namedField()
-          .flatMap(
-            n =>
-              n.value.annotations
-                .ypart())
-        lazy val oAst = o.annotations.ypart()
+          .flatMap(n =>
+            n.value.annotations
+              .yPart()
+          )
+        lazy val oAst = o.annotations.yPart()
         nameOrEntryKey(name, oAst)
       case _ => None
     }
