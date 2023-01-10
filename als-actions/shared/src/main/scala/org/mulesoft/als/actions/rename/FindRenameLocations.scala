@@ -52,7 +52,7 @@ object FindRenameLocations {
 
   private def getOriginKey(unit: BaseUnit, position: Position): Option[YScalar] =
     unit.objWithAST
-      .flatMap(_.annotations.ypart())
+      .flatMap(_.annotations.yPart())
       .map(YamlUtils.getNodeByPosition(_, position.toAmfPosition))
       .collect { case s: YScalar =>
         s
