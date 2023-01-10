@@ -106,8 +106,8 @@ object AMLJsonSchemaStyleDeclarationReferences extends AMLDeclarationReferences 
 
   private def sameAst(a: AmfElement, b: AmfElement) =
     (for {
-      aAst <- a.annotations.ypart()
-      bAst <- b.annotations.ypart()
+      aAst <- a.annotations.yPart()
+      bAst <- b.annotations.yPart()
     } yield bAst == aAst).getOrElse(false)
 
   private def isLocal(astPartBranch: ASTPartBranch) =

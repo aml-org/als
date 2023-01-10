@@ -267,7 +267,7 @@ object NodeBranchBuilder {
   }
 
   def astFromBaseUnit(bu: BaseUnit): ASTElement = {
-    bu.objWithAST.flatMap(_.annotations.ypart()) match {
+    bu.objWithAST.flatMap(_.annotations.yPart()) match {
       case Some(d: YDocument) => d
       case Some(n: ASTNode)   => n
       case Some(p)            => YDocument(IndexedSeq(p), p.sourceName)
