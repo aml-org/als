@@ -261,12 +261,8 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
         Process("npm install", new File("./als-server/js/node-package")) !
     },
     installJsDependencies := {
-      Process(
-        s"npm uninstall @aml-org/amf-custom-validator-web",
-        new File("./als-server/js/node-package")
-      ) #&&
         Process(
-          s"npm install -E $npmDependencyAmfCustomValidator $npmDependencyAmfAntlr",
+          s"npm install -E $npmDependencyAmfCustomValidator $npmDependencyAmfCustomValidatorWeb $npmDependencyAmfAntlr",
           new File("./als-server/js/node-package")
         ) #&&
         Process("npm install", new File("./als-server/js/node-package")) !
@@ -280,7 +276,9 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
   )
 
 lazy val serverJVM = server.jvm.in(file("./als-server/jvm"))
-lazy val serverJS  = server.js.in(file("./als-server/js")).disablePlugins(SonarPlugin, ScoverageSbtPlugin)
+lazy val serverJS  = server.js.in(file("./als-server/js"))
+  .disablePlugins(SonarPlugin, ScoverageSbtPlugin)
+  .sourceDependency(customValidatorNodeJSRef, customValidatorNodeLibJS)
 ////endregion
 
 ////region ALS-NODE-CLIENT
