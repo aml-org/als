@@ -98,7 +98,7 @@ lazy val common = crossProject(JSPlatform, JVMPlatform)
   .dependsOn(lsp)
   .settings(settings: _*)
   .jsSettings(
-    installJsDependencies := {
+    installJsDependenciesWeb := {
       Process(
         s"npm install -E $npmDependencyAmfAntlr",
         new File(s"$pathAlsCommon/js/")
@@ -226,7 +226,8 @@ lazy val actionsJS  = actions.js.in(file(s"$pathAlsActions/js")).disablePlugins(
 ////region ALS-SERVER
 /** ALS server */
 
-val installJsDependencies = TaskKey[Unit]("installJsDependencies", "Runs npm i")
+val installJsDependenciesWeb = TaskKey[Unit]("installJsDependenciesWeb", "Runs npm i")
+val installJsDependencies = TaskKey[Unit]("installJsDependencies", "Runs npm i but switches web for node dependency (tests only)")
 
 lazy val server = crossProject(JSPlatform, JVMPlatform)
   .settings(name := "als-server")
@@ -248,11 +249,22 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
     }
   )
   .jsSettings(
-    installJsDependencies := {
+    installJsDependenciesWeb := {
+      Process(
+        s"npm uninstall @aml-org/amf-custom-validator",
+        new File("./als-server/js/node-package")
+      ) #&&
       Process(
         s"npm install -E $npmDependencyAmfCustomValidatorWeb $npmDependencyAmfAntlr",
         new File("./als-server/js/node-package")
       ) #&&
+        Process("npm install", new File("./als-server/js/node-package")) !
+    },
+    installJsDependencies := {
+        Process(
+          s"npm install -E $npmDependencyAmfCustomValidator $npmDependencyAmfCustomValidatorWeb $npmDependencyAmfAntlr",
+          new File("./als-server/js/node-package")
+        ) #&&
         Process("npm install", new File("./als-server/js/node-package")) !
     },
     Test / test                            := ((Test / test) dependsOn installJsDependencies).value,
@@ -264,7 +276,9 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
   )
 
 lazy val serverJVM = server.jvm.in(file("./als-server/jvm"))
-lazy val serverJS  = server.js.in(file("./als-server/js")).disablePlugins(SonarPlugin, ScoverageSbtPlugin)
+lazy val serverJS  = server.js.in(file("./als-server/js"))
+  .disablePlugins(SonarPlugin, ScoverageSbtPlugin)
+  .sourceDependency(customValidatorNodeJSRef, customValidatorNodeLibJS)
 ////endregion
 
 ////region ALS-NODE-CLIENT
@@ -313,12 +327,16 @@ lazy val nodeClient = project
 
 // Server library
 
+
+// in order to test using sbt (which runs on jsEnv node) we need to install the node package of custom-validator
+// building the server library we package the -web version because it is meant to run in browser
+// beware that this means the -web version is not tested and if there is any bug in this asset, it will be passed on runtime
 val buildJsServerLibrary = TaskKey[Unit]("buildJsServerLibrary", "Build server library")
 
 buildJsServerLibrary := {
   (serverJS / Compile / fastOptJS).value
   (serverJS / Compile / fullOptJS).value
-  (serverJS / installJsDependencies).value
+  (serverJS / installJsDependenciesWeb).value
 }
 
 // Node client
