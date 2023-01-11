@@ -1,10 +1,9 @@
 package org.mulesoft.language.outline.test.raml10.structure
 
-import org.mulesoft.language.outline.test.raml10.RAML10StructureTest
+import org.mulesoft.language.outline.test.BaseStructureTest
+import org.mulesoft.language.outline.test.raml10.RAML10Test
 
-class RAML10StructureTests extends RAML10StructureTest {
-
-  override def rootPath: String = "RAML10/structure"
+class RAML10StructureTests extends BaseStructureTest with RAML10Test {
 
   test("test 001") {
     this.runTest("test001/api.raml", "test001/api-outline.json")

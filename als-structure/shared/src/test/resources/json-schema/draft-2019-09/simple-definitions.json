@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft/2019-09/schema#",
+  "definitions": {
+    "nc:Test": {
+      "type": "string"
+    },
+    "nc:Test1": {
+      "$ref": "#/definitions/Test"
+    },
+    "nc:Test2": {
+      "properties": {
+        "t": {
+          "$ref": "#/definitions/Test"
+        }
+      }
+    }
+  }
+}
