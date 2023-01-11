@@ -2,7 +2,7 @@ package org.mulesoft.language.outline.test.oas30
 
 import org.mulesoft.language.outline.test.BaseStructureTest
 
-class JsonStructureTest extends BaseStructureTest {
+class Oas30YamlStructureTest extends BaseStructureTest {
 
   override def rootPath: String = "OAS30"
 
@@ -66,5 +66,5 @@ class JsonStructureTest extends BaseStructureTest {
     forDir("inner-security")
   }
 
-  private def forDir(dir: String) = runTest(s"$dir/api.json", s"$dir/api-json-outline.json")
+  private def forDir(dir: String) = runTest(s"$dir/api.yml", s"$dir/api-yaml-outline.json")
 }
