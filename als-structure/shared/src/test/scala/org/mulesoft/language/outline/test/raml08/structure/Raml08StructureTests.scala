@@ -1,8 +1,9 @@
 package org.mulesoft.language.outline.test.raml08.structure
 
-import org.mulesoft.language.outline.test.raml08.RAML08StructureTest
+import org.mulesoft.language.outline.test.BaseStructureTest
+import org.mulesoft.language.outline.test.raml08.RAML08Test
 
-class StructureTests extends RAML08StructureTest {
+class Raml08StructureTests extends BaseStructureTest with RAML08Test {
 
   override def rootPath: String = "RAML08/structure"
 

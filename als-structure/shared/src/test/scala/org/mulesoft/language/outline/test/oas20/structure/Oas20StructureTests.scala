@@ -1,10 +1,9 @@
 package org.mulesoft.language.outline.test.oas20.structure
 
-import org.mulesoft.language.outline.test.oas20.OAS20StructureTest
+import org.mulesoft.language.outline.test.BaseStructureTest
+import org.mulesoft.language.outline.test.oas20.OAS20Test
 
-class StructureTests extends OAS20StructureTest {
-
-  override def rootPath: String = "OAS20/structure"
+class Oas20StructureTests extends BaseStructureTest with OAS20Test {
 
   test("test 001 YAML") {
     this.runTest("test001/api.yml", "test001/api-yaml-outline.json")
@@ -124,5 +123,13 @@ class StructureTests extends OAS20StructureTest {
 
   test("test security json") {
     this.runTest("inner-security/api.json", "inner-security/api.json.json")
+  }
+
+  test("test definitions local references") {
+    this.runTest("definitions/definitions.json", "definitions/definitions-json-outline.json")
+  }
+
+  test("test allof with inlined types") {
+    this.runTest("allof/allof.yml", "allof/allof.yml.json")
   }
 }

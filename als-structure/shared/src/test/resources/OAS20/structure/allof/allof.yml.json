@@ -1,0 +1,55 @@
+[
+  {
+    "name": "definitions",
+    "kind": 5,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 1,
+        "character": 0
+      },
+      "end": {
+        "line": 9,
+        "character": 0
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 1,
+        "character": 0
+      },
+      "end": {
+        "line": 9,
+        "character": 0
+      }
+    },
+    "children": [
+      {
+        "name": "Test",
+        "kind": 5,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 2,
+            "character": 2
+          },
+          "end": {
+            "line": 9,
+            "character": 0
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 2,
+            "character": 2
+          },
+          "end": {
+            "line": 9,
+            "character": 0
+          }
+        },
+        "children": []
+      }
+    ]
+  }
+]
