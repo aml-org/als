@@ -19,14 +19,17 @@ import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class LanguageServerFactory(clientNotifier: ClientNotifier) {
+class LanguageServerFactory(
+    clientNotifier: ClientNotifier,
+    profileValidatorBuilder: BaseProfileValidatorBuilder = ProfileValidatorWebBuilder
+) {
   protected var serialization: SerializationProps[_]                        = new EmptySerializationProps
   protected var logger: Logger                                              = PrintLnLogger
   protected var notificationsKind: DiagnosticNotificationsKind              = PARSING_BEFORE
   protected var directoryResolver: Option[DirectoryResolver]                = None
   protected var rl: Seq[ResourceLoader]                                     = Seq.empty
   protected var plugins: Seq[AMFShapePayloadValidationPlugin]               = Seq.empty
-  protected var amfCustomValidatorBuilder: BaseProfileValidatorBuilder      = ProfileValidatorWebBuilder
+  protected var amfCustomValidatorBuilder: BaseProfileValidatorBuilder      = profileValidatorBuilder
   protected var configurationProvider: Option[ProjectConfigurationProvider] = None
   protected var textDocumentSyncBuilder: Option[TextDocumentSyncBuilder]    = None
   protected var workspaceContentListeners: Seq[WorkspaceContentListener[_]] = Seq.empty

@@ -2,15 +2,13 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilder
 
 import amf.core.client.scala.model.domain.AmfArray
 import amf.core.internal.parser.domain.FieldEntry
-import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
+import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, _}
 import org.mulesoft.language.outline.structure.structureImpl._
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.FieldTypeSymbolBuilder
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.fieldbuilders.{
   DefaultArrayTypeSymbolBuilder,
   NamedArrayFieldTypeSymbolBuilder
 }
-import org.yaml.model.YMapEntry
-import org.mulesoft.amfintegration.AmfImplicits._
 
 class DefaultArrayFieldTypeSymbolBuilder(override val value: AmfArray, override val element: FieldEntry)(
     override implicit val ctx: StructureContext

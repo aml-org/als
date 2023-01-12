@@ -36,9 +36,9 @@ class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
   // TODO: Check with APIMF-3585 if this is correct or inverted
   private def extractExtension(d: Dialect, o: SemanticExtension): Seq[RelationshipLink] = {
     (for {
-      extensionPart     <- o.extensionMappingDefinition().annotations().ypart()
+      extensionPart     <- o.extensionMappingDefinition().annotations().yPart()
       referencedMapping <- d.annotationMappings().find(_.id == o.extensionMappingDefinition().value())
-      referencePart     <- referencedMapping.annotations.ypart()
+      referencePart     <- referencedMapping.annotations.yPart()
     } yield {
       Seq(RelationshipLink(extensionPart, referencePart))
     }).getOrElse(Seq.empty)
@@ -51,7 +51,7 @@ class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
       case e: YMapEntry    => extractYMap(e.value)
     }
     nm.annotations
-      .ypart()
+      .yPart()
       .collect {
         extractYMap
       }
@@ -81,7 +81,7 @@ class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
     }
 
   private def extractUnionArray(d: Dialect, o: UnionNodeMapping, linkName: Seq[(String, String)]) =
-    o.annotations.ypart().flatMap {
+    o.annotations.yPart().flatMap {
       case a: YSequence => Some(a)
       case a: YMap =>
         a.entries.find(_.key.value.toString == "union").map(_.value.value)
@@ -98,7 +98,7 @@ class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
     }
 
   private def extractDiscriminatorTypes(d: Dialect, o: UnionNodeMapping, linkName: Seq[(String, String)]) =
-    o.annotations.ypart().flatMap {
+    o.annotations.yPart().flatMap {
       case a: YMap =>
         a.entries
           .find(_.key.value.toString == "typeDiscriminator")
@@ -121,26 +121,29 @@ class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
     }
 
   private def extractExtends(d: Dialect, o: NodeMapping): Seq[RelationshipLink] =
-    o.extend.flatMap {
-      case e: NodeMapping =>
-        o.annotations.ypart().flatMap {
-          case entry: YMapEntry =>
-            entry.value
-              .toOption[YMap]
-              .map(_.entries)
-              .getOrElse(Nil)
-              .find(_.key.value.toString == "extends")
-              .map(_.value.value)
-              .flatMap(source => e.linkTarget.map(target => (source, target)))
-              .flatMap(t =>
-                getPositionForLink(d, t._2.id)
-                  .map(RelationshipLink(t._1, _)))
-          case _ => None
-        }
+    o.extend.flatMap { case e: NodeMapping =>
+      o.annotations.yPart().flatMap {
+        case entry: YMapEntry =>
+          entry.value
+            .toOption[YMap]
+            .map(_.entries)
+            .getOrElse(Nil)
+            .find(_.key.value.toString == "extends")
+            .map(_.value.value)
+            .flatMap(source => e.linkTarget.map(target => (source, target)))
+            .flatMap(t =>
+              getPositionForLink(d, t._2.id)
+                .map(RelationshipLink(t._1, _))
+            )
+        case _ => None
+      }
     }
 
   private def extractEncoded(d: Dialect, dm: DocumentsModel): Option[RelationshipLink] =
-    (Option(dm.root()).flatMap(_.encoded().annotations().ypart()), Option(dm.root()).flatMap(_.encoded().option())) match {
+    (
+      Option(dm.root()).flatMap(_.encoded().annotations().yPart()),
+      Option(dm.root()).flatMap(_.encoded().option())
+    ) match {
       case (Some(entry), Some(link)) =>
         getPositionForLink(d, link).map(RelationshipLink(entry, _))
       case (_, _) => None
@@ -151,7 +154,7 @@ class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
       .map { r =>
         r.declaredNodes()
           .map(pnm =>
-            (pnm.mappedNode().annotations().ypart(), pnm.mappedNode().option()) match {
+            (pnm.mappedNode().annotations().yPart(), pnm.mappedNode().option()) match {
               case (Some(ast), Some(link)) =>
                 getPositionForLink(d, link).map(RelationshipLink(ast, _))
               case (_, _) => None
@@ -181,7 +184,7 @@ class AMLDialectVisitor(d: Dialect) extends NodeRelationshipVisitorType {
       .find(_.id == link)
       .flatMap(e => {
         e.annotations
-          .ypart()
+          .yPart()
           .collectFirst({ case e: YMapEntry => e })
       })
 

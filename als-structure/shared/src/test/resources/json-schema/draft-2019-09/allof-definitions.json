@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft/2019-09/schema#",
+  "definitions": {
+    "Test": {
+      "type": "string"
+    },
+    "Test2": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Test"
+        },
+        {
+          "properties": {}
+        }
+      ]
+    },
+    "Test3": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/Test"
+        },
+        {
+          "properties": {}
+        }
+      ]
+    },
+    "Test4": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/Test"
+        },
+        {
+          "properties": {}
+        }
+      ]
+    }
+  }
+}

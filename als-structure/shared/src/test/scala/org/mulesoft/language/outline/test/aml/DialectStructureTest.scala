@@ -10,7 +10,7 @@ import org.scalatest.compatible.Assertion
 
 import scala.concurrent.Future
 
-class DialectStructureTest extends BaseStructureTest with DialectTest {
+trait DialectStructureTest extends BaseStructureTest with DialectTest {
 
   def runTest(path: String, dialectPath: String, jsonPath: String): Future[Assertion] = {
     val fullDialectPath     = filePath(dialectPath)

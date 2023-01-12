@@ -30,7 +30,8 @@ import scala.concurrent.{ExecutionContext, Future, Promise}
 class CustomValidationManagerTest
     extends LanguageServerBaseTest
     with ChangesWorkspaceConfiguration
-    with FileAssertionTest {
+    with FileAssertionTest
+    with PlatformTestCustomValidator {
   override implicit val executionContext: ExecutionContext =
     ExecutionContext.Implicits.global
 
@@ -164,7 +165,8 @@ class CustomValidationManagerTest
   test("Should be overwritten when using `withAmfCustomValidator`", Flaky) {
     implicit val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
 
-    val languageServerFactory: LanguageServerFactory = new LanguageServerFactory(diagnosticNotifier)
+    val languageServerFactory: LanguageServerFactory =
+      new LanguageServerFactory(diagnosticNotifier, builder)
 
     object FlaggedCustomValidator extends CustomValidator {
       var flag: Boolean           = false
