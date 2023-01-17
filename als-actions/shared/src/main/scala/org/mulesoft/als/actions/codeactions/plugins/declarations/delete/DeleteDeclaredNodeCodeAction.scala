@@ -25,7 +25,7 @@ import org.mulesoft.lsp.feature.common.{Location, VersionedTextDocumentIdentifie
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.{BEGIN_DELETE_NODE_ACTION, END_DELETE_NODE_ACTION, MessageTypes}
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import org.yaml.model.YPart
-
+import org.mulesoft.common.collections._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -96,7 +96,7 @@ class DeleteDeclaredNodeCodeAction(override val params: CodeActionRequestParams)
         toLspRange(PositionRange(rl.sourceEntry.range)),
         eolIfApplicable(rl.sourceEntry)
       )
-    ).groupBy(_._1)
+    ).legacyGroupBy(_._1)
       .map(t => (t._1 -> t._2.map(_._2)))
 
   private def eolIfApplicable(sourceEntry: YPart): String = if (sourceEntry.range.columnTo == 0) "\n" else ""

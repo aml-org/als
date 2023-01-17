@@ -20,7 +20,7 @@ import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
-
+import org.mulesoft.common.collections._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -85,7 +85,7 @@ class CleanDiagnosticTreeManager(
       val report = partialResult.resolutionResult
       val grouped: Map[String, Seq[AlsValidationResult]] =
         (report.results ++ partialResult.resolvedUnit.results ++ partialResult.customValidationResult.map(_.result))
-          .groupBy(r => r.location.getOrElse(uri))
+          .legacyGroupBy(r => r.location.getOrElse(uri))
           .map(t => (t._1, t._2.map(new AlsValidationResult(_))))
 
       val merged = list.map(uri => uri -> (ge.getOrElse(uri, Nil) ++ grouped.getOrElse(uri, Nil))).toMap

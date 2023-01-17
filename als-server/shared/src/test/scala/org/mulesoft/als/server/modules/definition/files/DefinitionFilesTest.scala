@@ -1,9 +1,9 @@
 package org.mulesoft.als.server.modules.definition.files
 
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
+import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.modules.definition.ServerDefinitionTest
 import org.mulesoft.lsp.feature.common.LocationLink
-import org.mulesoft.als.convert.LspRangeConverter
 
 import scala.concurrent.ExecutionContext
 
@@ -299,6 +299,20 @@ class DefinitionFilesTest extends ServerDefinitionTest {
           LspRangeConverter.toLspRange(PositionRange(Position(3, 2), Position(3, 3))),
           LspRangeConverter.toLspRange(PositionRange(Position(3, 2), Position(3, 3))),
           Some(LspRangeConverter.toLspRange(PositionRange(Position(9, 17), Position(9, 18))))
+        )
+      )
+    )
+  }
+
+  test("inlined-ref") {
+    runTest(
+      "files/yaml-inlined/api.yaml",
+      Set(
+        LocationLink(
+          "file://als-server/shared/src/test/resources/actions/definition/files/yaml-inlined/schema.json",
+          LspRangeConverter.toLspRange(PositionRange(Position(2, 5), Position(2, 11))),
+          LspRangeConverter.toLspRange(PositionRange(Position(2, 5), Position(2, 11))),
+          Some(LspRangeConverter.toLspRange(PositionRange(Position(8, 12), Position(8, 34))))
         )
       )
     )

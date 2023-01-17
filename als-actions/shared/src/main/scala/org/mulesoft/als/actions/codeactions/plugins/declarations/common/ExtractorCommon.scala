@@ -12,7 +12,7 @@ import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.als.declarations.DeclarationCreator
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, AmfObjectImp, BaseUnitImp}
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
-import org.mulesoft.common.client.lexical.ASTElement
+import org.mulesoft.common.collections._
 import org.yaml.model._
 import org.yaml.render.{JsonRender, JsonRenderOptions, YamlRender, YamlRenderOptions}
 
@@ -45,7 +45,7 @@ object ExtractorCommon extends DeclarationCreator {
     }
 
   private def deleteDeclarationGroup(objs: Seq[AmfObject], bu: BaseUnit, dialect: Dialect): Seq[PositionRange] = {
-    val objsByKey: Map[Option[String], Seq[AmfObject]] = objs.groupBy(_.declarableKey(dialect))
+    val objsByKey: Map[Option[String], Seq[AmfObject]] = objs.legacyGroupBy(_.declarableKey(dialect))
     val allRanges =
       if (!objsByKey.keySet.contains(None))
         objsByKey.iterator.flatMap { t =>

@@ -79,13 +79,15 @@ object AmfImplicits {
     def lexicalInformation(): Option[LexicalInformation] = ann.find(classOf[LexicalInformation])
 
     def trueLocation(): Option[String] =
-      ann.find(classOf[SourceLocation]).map(_.location) orElse ypart().map(_.location.sourceName)
+      ann.find(classOf[SourceLocation]).map(_.location) orElse yPart().map(_.location.sourceName)
 
     def range(): Option[AmfPositionRange] = ann.lexicalInformation().map(_.range)
 
-    def ypart(): Option[YPart] = pureYpart() orElse baseVirtualNode()
+    def yPart(): Option[YPart] = pureYPart() orElse baseVirtualNode()
 
-    def pureYpart(): Option[YPart] = ann.find(classOf[SourceYPart]).map(_.ast)
+    def targetName(): Option[TargetName] = ann.find(classOf[TargetName])
+
+    def pureYPart(): Option[YPart] = ann.find(classOf[SourceYPart]).map(_.ast)
 
     def astElement(): Option[ASTElement] = ann.find(classOf[SourceAST]).map(_.ast).orElse(baseVirtualNode())
 
@@ -126,9 +128,9 @@ object AmfImplicits {
 
     def containsPosition(amfPosition: AmfPosition, strict: Boolean): Boolean =
       this
-        .ypart()
+        .yPart()
         .exists(_.contains(amfPosition, strict)) || (this
-        .ypart()
+        .yPart()
         .isEmpty && this.range().exists(_.contains(amfPosition)))
 
     def isRamlTypeExpression: Boolean = ann.find(classOf[ParsedFromTypeExpression]).isDefined
@@ -148,7 +150,7 @@ object AmfImplicits {
     def schemeIsJsonSchema: Boolean = ann.contains(classOf[SchemaIsJsonSchema])
 
     def toPositionRange(): Option[PositionRange] =
-      this.ypart().map(a => a.range.toPositionRange).orElse(this.astElement().map(a => a.toPositionRange))
+      this.yPart().map(a => a.range.toPositionRange).orElse(this.astElement().map(a => a.toPositionRange))
   }
 
   implicit class FieldEntryImplicit(f: FieldEntry) {
@@ -183,8 +185,8 @@ object AmfImplicits {
 
     def isArrayIncluded(amfPosition: AmfPosition, strict: Boolean): Boolean =
       f.value.annotations
-        .ypart()
-        .orElse(f.value.value.annotations.ypart()) match {
+        .yPart()
+        .orElse(f.value.value.annotations.yPart()) match {
         case Some(n: YNode) if n.tagType == YType.Seq =>
           n.value.contains(amfPosition, strict) || n
             .as[YSequence]
@@ -202,7 +204,7 @@ object AmfImplicits {
       }
 
     def astValueArray(): Boolean =
-      f.value.annotations.ypart() match {
+      f.value.annotations.yPart() match {
         case Some(e: YMapEntry) => e.value.tagType == YType.Seq
         case Some(n: YNode)     => n.tagType == YType.Seq
         case _                  => false
@@ -253,11 +255,11 @@ object AmfImplicits {
 
     def objWithAST: Option[AmfObject] =
       bu.annotations
-        .ypart()
+        .yPart()
         .map(_ => bu)
         .orElse(
           bu match {
-            case e: EncodesModel if e.encodes.annotations.ypart().isDefined =>
+            case e: EncodesModel if e.encodes.annotations.yPart().isDefined =>
               Some(e.encodes)
             case _ => None
           }
@@ -266,9 +268,9 @@ object AmfImplicits {
     lazy val isFragment: Boolean = bu.isInstanceOf[Fragment]
 
     def ast: Option[YPart] =
-      bu.annotations.ypart().orElse {
+      bu.annotations.yPart().orElse {
         bu match {
-          case e: EncodesModel => e.encodes.annotations.ypart()
+          case e: EncodesModel => e.encodes.annotations.yPart()
           case _               => None
         }
       }
@@ -421,6 +423,7 @@ object AmfImplicits {
       nodeMapping.propertiesMapping().find(_.nodePropertyMapping().value() == term)
   }
 
+  // todo: what is my purpose? delete?
   implicit class AmlConfigurationImplicit(config: AMLConfiguration) {
     def fullResolution(unit: BaseUnit): Unit =
       config match {

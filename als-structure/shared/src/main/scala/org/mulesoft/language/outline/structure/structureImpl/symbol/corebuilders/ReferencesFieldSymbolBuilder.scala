@@ -2,10 +2,10 @@ package org.mulesoft.language.outline.structure.structureImpl.symbol.corebuilder
 
 import amf.apicontract.internal.metamodel.domain.api.WebApiModel
 import amf.apicontract.internal.metamodel.domain.templates.ResourceTypeModel
-import org.mulesoft.common.client.lexical.{PositionRange => AmfPositionRange}
 import amf.core.internal.metamodel.document.DocumentModel
 import amf.core.internal.metamodel.domain.ShapeModel
 import amf.core.internal.parser.domain.FieldEntry
+import org.mulesoft.common.client.lexical.{PositionRange => AmfPositionRange}
 import org.mulesoft.language.outline.structure.structureImpl.symbol.builders.{
   FieldSymbolBuilder,
   IriFieldSymbolBuilderCompanion,

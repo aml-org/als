@@ -4,6 +4,7 @@ import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
 import scala.collection.mutable
 import scala.scalajs.js.annotation.JSExport
+import org.mulesoft.common.collections._
 
 class ValidationGatherer(telemetryProvider: TelemetryProvider) {
 
@@ -28,7 +29,7 @@ class ValidationGatherer(telemetryProvider: TelemetryProvider) {
     if (!resultsByUnit.contains(manager))
       resultsByUnit.update(manager, mutable.Map.empty)
     val results: Map[String, Seq[AlsValidationResult]] =
-      result.errors.groupBy(r => r.result.location.getOrElse(result.location))
+      result.errors.legacyGroupBy(r => r.result.location.getOrElse(result.location))
 
     result.tree.getOrElse(Set.empty).foreach { t =>
       results.get(t) match {

@@ -1,0 +1,133 @@
+[
+  {
+    "name": "definitions",
+    "kind": 5,
+    "deprecated": false,
+    "range": {
+      "start": {
+        "line": 3,
+        "character": 4
+      },
+      "end": {
+        "line": 35,
+        "character": 5
+      }
+    },
+    "selectionRange": {
+      "start": {
+        "line": 3,
+        "character": 4
+      },
+      "end": {
+        "line": 35,
+        "character": 5
+      }
+    },
+    "children": [
+      {
+        "name": "Test",
+        "kind": 5,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 3,
+            "character": 4
+          },
+          "end": {
+            "line": 5,
+            "character": 5
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 3,
+            "character": 4
+          },
+          "end": {
+            "line": 5,
+            "character": 5
+          }
+        },
+        "children": []
+      },
+      {
+        "name": "Test2",
+        "kind": 5,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 6,
+            "character": 4
+          },
+          "end": {
+            "line": 15,
+            "character": 5
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 6,
+            "character": 4
+          },
+          "end": {
+            "line": 15,
+            "character": 5
+          }
+        },
+        "children": []
+      },
+      {
+        "name": "Test3",
+        "kind": 5,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 16,
+            "character": 4
+          },
+          "end": {
+            "line": 25,
+            "character": 5
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 16,
+            "character": 4
+          },
+          "end": {
+            "line": 25,
+            "character": 5
+          }
+        },
+        "children": []
+      },
+      {
+        "name": "Test4",
+        "kind": 5,
+        "deprecated": false,
+        "range": {
+          "start": {
+            "line": 26,
+            "character": 4
+          },
+          "end": {
+            "line": 35,
+            "character": 5
+          }
+        },
+        "selectionRange": {
+          "start": {
+            "line": 26,
+            "character": 4
+          },
+          "end": {
+            "line": 35,
+            "character": 5
+          }
+        },
+        "children": []
+      }
+    ]
+  }
+]

@@ -2,7 +2,7 @@ package org.mulesoft.language.outline.test.async20
 
 import org.mulesoft.language.outline.test.BaseStructureTest
 
-class YamlStructureTest extends BaseStructureTest {
+class Async20YamlStructureTest extends BaseStructureTest {
 
   override def rootPath: String = "Async20"
 

@@ -1,0 +1,22 @@
+{
+  "swagger": "2.0",
+  "definitions": {
+    "Test1": {
+      "properties": {
+        "t": {
+          "type": "string"
+        }
+      }
+    },
+    "Test2": {
+      "$ref": "#/definitions/Test1"
+    },
+    "Test3": {
+      "properties": {
+        "t": {
+          "$ref": "#/definitions/Test1"
+        }
+      }
+    }
+  }
+}

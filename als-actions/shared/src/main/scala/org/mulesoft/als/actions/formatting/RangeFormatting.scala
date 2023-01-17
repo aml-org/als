@@ -2,7 +2,6 @@ package org.mulesoft.als.actions.formatting
 
 import org.mulesoft.als.actions.formatting.SyamlImpl.YPartImpl
 import org.mulesoft.als.common.ASTElementWrapper.AlsPositionRange
-import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.amfintegration.ErrorsCollected
 import org.mulesoft.lsp.configuration.FormattingOptions
@@ -26,7 +25,9 @@ case class RangeFormatting(
 
   private def formatPart(part: YPart): Seq[TextEdit] =
     if (isJson && containsSyntaxError(part))
-      part.children.filterNot(_.isInstanceOf[YNonContent]).flatMap(formatPart)
+      part.children
+        .filterNot(_.isInstanceOf[YNonContent])
+        .flatMap(formatPart)
     else
       format(part)
 

@@ -40,12 +40,13 @@ trait RangeFormattingTest extends ByDirectoryTest with MarkerFinderTest with Wor
       val markers                                           = findMarkers(rawContent)
       val content                                           = markers.headOption.map(_.content).getOrElse(rawContent)
 
-      val formattingOption = FormattingOptions(2, insertSpaces = true)
+      var formattingOption = FormattingOptions(2, insertSpaces = true)
       val (yPart: YPart, indentation: Int) = markers.headOption
         .map(start => {
           assert(markers.length == 2)
           val ast = parse(start.content)
           val end = markers.tail.head
+          formattingOption = formattingOption.maskForRange
           NodeBranchBuilder.getAstForRange(ast, start.position.toAmfPosition, end.position.toAmfPosition, strict = true)
         })
         .collectFirst({ case ElementWithIndentation(yPart: YPart, indentation) =>

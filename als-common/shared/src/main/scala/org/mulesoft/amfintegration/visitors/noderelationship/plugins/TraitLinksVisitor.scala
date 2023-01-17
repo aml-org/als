@@ -34,7 +34,7 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
 
   private def extractAnnotations(e: DomainExtension) =
     e.annotations
-      .ypart()
+      .yPart()
       .map {
         case entry: YMapEntry => entry.key
         case o                => o
@@ -51,7 +51,7 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
   private def extractFromEntriesDefinedBy(entries: Iterable[FieldEntry], source: YPart): Option[RelationshipLink] =
     entries
       .find(fe => fe.field.value == Namespace.Document + "definedBy")
-      .flatMap(t => t.value.value.annotations.ypart().map((t, _)))
+      .flatMap(t => t.value.value.annotations.yPart().map((t, _)))
       .map(target =>
         RelationshipLink(source, target._2, getName(target._1.value.value), None, LinkTypes.TRAITRESOURCES)
       )
@@ -92,7 +92,7 @@ class TraitLinksVisitor extends NodeRelationshipVisitorType {
       .flatMap { sn =>
         p.name
           .annotations()
-          .ypart()
+          .yPart()
           .map { sourceEntry =>
             RelationshipLink(
               sourceEntry,

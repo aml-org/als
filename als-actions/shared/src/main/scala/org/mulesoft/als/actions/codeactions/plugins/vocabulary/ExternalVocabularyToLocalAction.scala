@@ -12,7 +12,7 @@ import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit}
 import org.mulesoft.lsp.feature.common.VersionedTextDocumentIdentifier
 import org.yaml.model.YMap
-
+import org.mulesoft.common.collections._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -123,6 +123,6 @@ class ExternalVocabularyToLocalAction(
   }
 
   implicit class Mapper[A](seq: Seq[(String, A)]) {
-    def joinMap: Map[String, Seq[A]] = seq.groupBy(_._1).map { case (k, v) => (k, v.map(_._2)) }
+    def joinMap: Map[String, Seq[A]] = seq.legacyGroupBy(_._1).map { case (k, v) => (k, v.map(_._2)) }
   }
 }

@@ -13,6 +13,7 @@ import org.mulesoft.amfintegration.relationships.{AliasInfo, FullLink, Relations
 import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit}
 import org.mulesoft.lsp.feature.common.VersionedTextDocumentIdentifier
 import org.yaml.model.{YPart, YScalar}
+import org.mulesoft.common.collections._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -33,7 +34,7 @@ object FindRenameLocations {
         getOriginKey(unit, position)
           .fold(Seq[RenameLocation]())(refsToRenameLocation(newName, refs, _))
       }
-      .map(_.groupBy(_.uri))
+      .map(_.legacyGroupBy(_.uri))
       .map { uriToLocation =>
         val stringToEdits = uriToLocation.mapValues(_.map(toTextEdit))
         AbstractWorkspaceEdit(
@@ -51,7 +52,7 @@ object FindRenameLocations {
 
   private def getOriginKey(unit: BaseUnit, position: Position): Option[YScalar] =
     unit.objWithAST
-      .flatMap(_.annotations.ypart())
+      .flatMap(_.annotations.yPart())
       .map(YamlUtils.getNodeByPosition(_, position.toAmfPosition))
       .collect { case s: YScalar =>
         s
