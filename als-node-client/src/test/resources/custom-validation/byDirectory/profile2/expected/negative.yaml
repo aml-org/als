@@ -14,4 +14,4 @@ diagnostics:
         location: Location(file://als-node-client/src/test/resources/custom-validation/byDirectory/profile2/negative.data,Range(common.Position[L:7,C:6],common.Position[L:8,C:0]))
       -
         message: error in nested nodes under http://a.ml/vocabularies/apiContract#parameter
-        location: Location(file://als-node-client/src/test/resources/custom-validation/byDirectory/profile2/negative.data,Range(common.Position[L:7,C:6],common.Position[L:8,C:0]))
+        location: Location(file://als-node-client/src/test/resources/custom-validation/byDirectory/profile2/negative.data,Range(common.Position[L:7,C:0],common.Position[L:11,C:12]))
