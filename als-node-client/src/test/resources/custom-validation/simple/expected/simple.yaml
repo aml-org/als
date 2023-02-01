@@ -11,4 +11,4 @@ diagnostics:
         location: Location(file://als-node-client/src/test/resources/custom-validation/simple/api.raml,Range(common.Position[L:5,C:6],common.Position[L:6,C:19]))
       -
         message: error in nested nodes under http://a.ml/vocabularies/apiContract#parameter / http://a.ml/vocabularies/shapes#schema
-        location: Location(file://als-node-client/src/test/resources/custom-validation/simple/api.raml,Range(common.Position[L:5,C:6],common.Position[L:6,C:19]))
+        location: Location(file://als-node-client/src/test/resources/custom-validation/simple/api.raml,Range(common.Position[L:5,C:0],common.Position[L:6,C:19]))
