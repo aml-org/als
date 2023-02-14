@@ -62,24 +62,42 @@ class Oas30ComponentRefSuggestionTest extends AsyncFunSuite with BaseSuggestions
   test("test oas3 including cached oas components should only suggest declared within specific declared key") {
     suggest("api-ref-level3.yaml", "components.yaml").map { ci =>
       ci.length shouldBe 2
-      assert(ci.map(_.label).contains("mySchema1"))
-      assert(ci.map(_.label).contains("mySchema2"))
+      assert(ci.map(_.label) == Vector("#/components/schemas/mySchema1", "#/components/schemas/mySchema2"))
     }
   }
 
   test("test oas3 including cached oas components should only suggest declared names (outside specific key)") {
     suggest("api-ref-level2.yaml", "components.yaml").map { ci =>
       ci.length shouldBe 2
-      assert(ci.map(_.label).contains("schemas/mySchema1"))
-      assert(ci.map(_.label).contains("schemas/mySchema2"))
+      assert(ci.map(_.label) == Vector("#/components/schemas/mySchema1", "#/components/schemas/mySchema2"))
     }
   }
 
   test("test oas3 including cached oas components should only suggest declared names inside a given file") {
     suggest("api-ref-level1.yaml", "components.yaml").map { ci =>
       ci.length shouldBe 2
-      assert(ci.map(_.label).contains("components/schemas/mySchema1"))
-      assert(ci.map(_.label).contains("components/schemas/mySchema2"))
+      assert(ci.map(_.label) == Vector("#/components/schemas/mySchema1", "#/components/schemas/mySchema2"))
+    }
+  }
+
+  // TODO check why we're returning components.yaml
+  test("test oas3 should only suggest #/") {
+    suggest("api-ref-schema.yaml", "components.yaml").map { ci =>
+      ci.length shouldBe 3
+      assert(ci.map(_.label) == Vector("#/components/schemas/mySchema1", "#/components/schemas/mySchema2", "yaml"))
+      assert(
+        ci.flatMap(_.textEdit).map(_.left.get).map(_.newText) == Vector(
+          "components.yaml#/components/schemas/mySchema1",
+          "components.yaml#/components/schemas/mySchema2",
+          "components.yaml"
+        )
+      )
+    }
+  }
+
+  test("test oas3 should not suggest anything on non") {
+    suggest("api-wrong-ref.yaml", "components.yaml").map { ci =>
+      ci.length shouldBe 0
     }
   }
 

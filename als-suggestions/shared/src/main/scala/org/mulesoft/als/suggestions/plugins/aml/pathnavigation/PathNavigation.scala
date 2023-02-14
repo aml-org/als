@@ -49,25 +49,38 @@ private[pathnavigation] case class PathNavigation(
       case _         => Map.empty
     }
 
-  private def resolveRootNode(): Future[Option[YNode]] =
-    alsConfiguration.fetchContent(fileUri).map { c =>
-      val mime = c.mime.orElse(
-        alsConfiguration.platform
-          .extension(fileUri)
-          .flatMap(alsConfiguration.platform.mimeFromExtension)
-      )
-      mime.flatMap(pluginForMime) match {
-        case Some(plugin) =>
-          plugin
-            .parse(
-              c.stream,
-              mime.get,
-              ParserContext(config = ParseConfig(alsConfiguration.getAmfConfig, DefaultErrorHandler()))
-            ) match {
-            case SyamlParsedDocument(document, _) => Some(document.node)
-            case _                                => None
+  private def resolveRootNode(): Future[Option[YNode]] = {
+    try {
+      alsConfiguration
+        .fetchContent(fileUri)
+        .map { c =>
+          val mime = c.mime.orElse(
+            alsConfiguration.platform
+              .extension(fileUri)
+              .flatMap(alsConfiguration.platform.mimeFromExtension)
+          )
+          mime.flatMap(pluginForMime) match {
+            case Some(plugin) =>
+              plugin
+                .parse(
+                  c.stream,
+                  mime.get,
+                  ParserContext(config = ParseConfig(alsConfiguration.getAmfConfig, DefaultErrorHandler()))
+                ) match {
+                case SyamlParsedDocument(document, _) => Some(document.node)
+                case _                                => None
+              }
+            case _ => None
           }
-        case _ => None
-      }
+        }
+        .recoverWith { case _ =>
+          Future.successful(None)
+        }
+    } catch {
+      case e: Exception =>
+        // TODO add logger
+        // logger.warning(e.getMessage, "PathCompletion", "resolveRootNode")
+        Future.successful(None)
     }
+  }
 }
