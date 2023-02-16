@@ -677,8 +677,8 @@ class ClientConversionTest extends FlatSpec with Matchers {
     val documentRangeFormattingCapabilities = DocumentRangeFormattingClientCapabilities(Some(true))
     val textDocumentClientCapabilities =
       TextDocumentClientCapabilities(
-        documentFormatting = Some(documentFormattingCapabilities),
-        documentRangeFormatting = Some(documentRangeFormattingCapabilities)
+        formatting = Some(documentFormattingCapabilities),
+        rangeFormatting = Some(documentRangeFormattingCapabilities)
       )
     val ts: ClientTextDocumentClientCapabilities = textDocumentClientCapabilities.toClient
     val sharedConversion                         = ts.toShared

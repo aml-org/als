@@ -8,14 +8,14 @@ import org.mulesoft.lsp.feature.documentFormatting.DocumentFormattingClientCapab
 import org.mulesoft.lsp.feature.documentRangeFormatting.DocumentRangeFormattingClientCapabilities
 import org.mulesoft.lsp.feature.documentsymbol.DocumentSymbolClientCapabilities
 import org.mulesoft.lsp.feature.folding.FoldingRangeCapabilities
-import org.mulesoft.lsp.feature.hover.HoverClientCapabilities
 import org.mulesoft.lsp.feature.highlight.DocumentHighlightCapabilities
+import org.mulesoft.lsp.feature.hover.HoverClientCapabilities
 import org.mulesoft.lsp.feature.implementation.ImplementationClientCapabilities
-import org.mulesoft.lsp.feature.typedefinition.TypeDefinitionClientCapabilities
 import org.mulesoft.lsp.feature.link.DocumentLinkClientCapabilities
 import org.mulesoft.lsp.feature.reference.ReferenceClientCapabilities
 import org.mulesoft.lsp.feature.rename.RenameClientCapabilities
 import org.mulesoft.lsp.feature.selectionRange.SelectionRangeCapabilities
+import org.mulesoft.lsp.feature.typedefinition.TypeDefinitionClientCapabilities
 import org.mulesoft.lsp.textsync.SynchronizationClientCapabilities
 
 /** Text document specific client capabilities.
@@ -36,6 +36,6 @@ case class TextDocumentClientCapabilities(
     documentHighlight: Option[DocumentHighlightCapabilities] = None,
     foldingRange: Option[FoldingRangeCapabilities] = None,
     selectionRange: Option[SelectionRangeCapabilities] = None,
-    documentFormatting: Option[DocumentFormattingClientCapabilities] = None,
-    documentRangeFormatting: Option[DocumentRangeFormattingClientCapabilities] = None
+    formatting: Option[DocumentFormattingClientCapabilities] = None,
+    rangeFormatting: Option[DocumentRangeFormattingClientCapabilities] = None
 )

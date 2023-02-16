@@ -74,8 +74,8 @@ class LanguageServerInitializer(private val configMap: ConfigMap, private val in
       applyConfig(SelectionRangeConfigType, textDocument.flatMap(_.selectionRange)),
       applyConfig(RenameFileConfigType, clientCapabilities.renameFileAction),
       configOptions,
-      applyConfig(DocumentFormattingConfigType, textDocument.flatMap(_.documentFormatting)),
-      applyConfig(DocumentRangeFormattingConfigType, textDocument.flatMap(_.documentRangeFormatting)),
+      applyConfig(DocumentFormattingConfigType, textDocument.flatMap(_.formatting)),
+      applyConfig(DocumentRangeFormattingConfigType, textDocument.flatMap(_.rangeFormatting)),
       applyConfig(WorkspaceConfigurationConfigType, clientCapabilities.workspaceConfiguration),
       applyConfig(CustomValidationConfigType, clientCapabilities.customValidations)
     )

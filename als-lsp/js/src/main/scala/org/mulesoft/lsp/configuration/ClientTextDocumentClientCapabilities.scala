@@ -59,9 +59,9 @@ trait ClientTextDocumentClientCapabilities extends js.Object {
 
   def selectionRange: js.UndefOr[ClientSelectionRangeCapabilities] = js.native
 
-  def documentFormatting: js.UndefOr[ClientDocumentFormattingClientCapabilities] = js.native
+  def formatting: js.UndefOr[ClientDocumentFormattingClientCapabilities] = js.native
 
-  def documentRangeFormatting: js.UndefOr[ClientDocumentRangeFormattingClientCapabilities] = js.native
+  def rangeFormatting: js.UndefOr[ClientDocumentRangeFormattingClientCapabilities] = js.native
 }
 
 object ClientTextDocumentClientCapabilities {
@@ -83,8 +83,8 @@ object ClientTextDocumentClientCapabilities {
         hover = internal.hover.map(_.toClient).orUndefined,
         foldingRange = internal.foldingRange.map(_.toClient).orUndefined,
         selectionRange = internal.selectionRange.map(_.toClient).orUndefined,
-        documentFormatting = internal.documentFormatting.map(_.toClient).orUndefined,
-        documentRangeFormatting = internal.documentRangeFormatting.map(_.toClient).orUndefined
+        formatting = internal.formatting.map(_.toClient).orUndefined,
+        rangeFormatting = internal.rangeFormatting.map(_.toClient).orUndefined
       )
       .asInstanceOf[ClientTextDocumentClientCapabilities]
 }
