@@ -1,9 +1,5 @@
 package org.mulesoft.als.suggestions.test.aml
 
-import org.scalatest.Assertion
-
-import scala.concurrent.Future
-
 class UnionSuggestionsTest extends SuggestionsWithDialectTest {
   override def rootPath: String = "AML/union"
 

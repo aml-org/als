@@ -9,7 +9,6 @@ import org.mulesoft.als.server.modules.configuration.WorkspaceConfigurationProvi
 import org.mulesoft.als.server.modules.diagnostic.custom.CustomValidationManager
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.modules.workspace.{DefaultProjectConfigurationProvider, WorkspaceContentManager}
-import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.amfintegration.amfconfiguration.{
   ALSConfigurationState,
   EditorConfiguration,
@@ -18,7 +17,7 @@ import org.mulesoft.amfintegration.amfconfiguration.{
 }
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
-import org.scalatest.AsyncFlatSpec
+import org.scalatest.flatspec.AsyncFlatSpec
 
 import scala.concurrent.{ExecutionContext, Future}
 

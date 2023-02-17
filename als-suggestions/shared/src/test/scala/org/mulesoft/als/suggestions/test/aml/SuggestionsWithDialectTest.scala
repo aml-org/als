@@ -7,7 +7,7 @@ import org.mulesoft.amfintegration.amfconfiguration.{
   EditorConfiguration,
   EmptyProjectConfigurationState
 }
-import org.scalatest.Assertion
+import org.scalatest.compatible.Assertion
 
 import scala.concurrent.Future
 

@@ -8,9 +8,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters._
 import scala.scalajs.js.Promise
-import scala.scalajs.js.annotation.ScalaJSDefined
 
-@ScalaJSDefined
 class ClientPlatformDirectoryResolver(platform: Platform) extends ClientDirectoryResolver {
   private val internalResolver = new PlatformDirectoryResolver(platform)
 

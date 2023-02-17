@@ -2,8 +2,8 @@ package org.mulesoft.als.common.diff
 
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.lsp.edit.WorkspaceEdit
-import org.scalatest.Assertion
-import org.scalatest.Matchers.{fail, succeed}
+import org.scalatest.compatible.Assertion
+
 import scala.concurrent.{ExecutionContext, Future}
 
 trait WorkspaceEditsTest extends FileAssertionTest {

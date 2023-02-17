@@ -3,12 +3,12 @@ package org.mulesoft.als.server.workspace.highlights
 import amf.core.client.common.remote.Content
 import amf.core.client.scala.resource.ResourceLoader
 import org.mulesoft.als.logger.EmptyLogger
+import org.mulesoft.als.server.MockDiagnosticClientNotifier
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier}
 import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.RequestHandler
@@ -20,7 +20,7 @@ import org.mulesoft.lsp.feature.highlight.{
   DocumentHighlightRequestType
 }
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
-import org.scalatest.{AsyncFreeSpec, AsyncFreeSpecLike}
+import org.scalatest.freespec.AsyncFreeSpecLike
 
 import scala.concurrent.{ExecutionContext, Future}
 

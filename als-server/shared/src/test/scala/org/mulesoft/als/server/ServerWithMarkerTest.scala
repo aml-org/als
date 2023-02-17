@@ -4,9 +4,7 @@ import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.common.{MarkerFinderTest, MarkerInfo}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
-import org.mulesoft.als.server.workspace.command.Commands
 import org.mulesoft.lsp.configuration.TraceKind
-import org.mulesoft.lsp.workspace.ExecuteCommandParams
 import org.scalatest.BeforeAndAfterEach
 
 import scala.concurrent.Future

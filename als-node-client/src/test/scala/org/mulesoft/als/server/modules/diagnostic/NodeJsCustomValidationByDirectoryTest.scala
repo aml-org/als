@@ -17,7 +17,7 @@ import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.common.TextDocumentItem
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
-import org.scalatest.Assertion
+import org.scalatest.compatible.Assertion
 
 import scala.concurrent.Future
 

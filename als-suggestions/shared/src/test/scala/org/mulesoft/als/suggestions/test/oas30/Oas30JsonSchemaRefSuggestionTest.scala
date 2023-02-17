@@ -6,8 +6,6 @@ import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.suggestions.test.{BaseSuggestionsForTest, TestProjectConfigurationState}
 import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, EditorConfigurationState}
 import org.mulesoft.lsp.feature.completion.CompletionItem
-import org.scalatest.AsyncFunSuite
-import org.scalatest.Matchers.convertToAnyShouldWrapper
 
 import scala.concurrent.{ExecutionContext, Future}
 

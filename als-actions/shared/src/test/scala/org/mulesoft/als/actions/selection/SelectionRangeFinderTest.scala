@@ -12,7 +12,6 @@ import org.mulesoft.amfintegration.amfconfiguration.{
 }
 import org.mulesoft.lsp.feature.common.{Range, Position => LspPosition}
 import org.mulesoft.lsp.feature.selectionRange.SelectionRange
-import org.scalatest.{AsyncFlatSpec, Matchers}
 
 import scala.concurrent.{ExecutionContext, Future}
 
