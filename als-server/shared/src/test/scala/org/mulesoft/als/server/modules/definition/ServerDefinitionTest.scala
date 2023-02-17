@@ -10,7 +10,7 @@ import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNoti
 import org.mulesoft.lsp.feature.common.{LocationLink, TextDocumentIdentifier}
 import org.mulesoft.lsp.feature.definition.{DefinitionParams, DefinitionRequestType}
 import org.mulesoft.lsp.feature.typedefinition.{TypeDefinitionParams, TypeDefinitionRequestType}
-import org.scalatest.Assertion
+import org.scalatest.compatible.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
 

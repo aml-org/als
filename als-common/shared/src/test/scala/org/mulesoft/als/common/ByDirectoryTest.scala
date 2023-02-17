@@ -2,7 +2,7 @@ package org.mulesoft.als.common
 
 import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.common.io.{Fs, SyncFile}
-import org.scalatest.AsyncFreeSpec
+import org.scalatest.freespec.AsyncFreeSpec
 
 import scala.concurrent.{ExecutionContext, Future}
 

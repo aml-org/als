@@ -13,7 +13,7 @@ import org.mulesoft.lsp.feature.common.{TextDocumentIdentifier, TextDocumentItem
 import org.mulesoft.lsp.feature.documentsymbol.{DocumentSymbolParams, DocumentSymbolRequestType}
 import org.mulesoft.lsp.feature.telemetry.MessageTypes
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
-import org.scalatest.Assertion
+import org.scalatest.compatible.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
 

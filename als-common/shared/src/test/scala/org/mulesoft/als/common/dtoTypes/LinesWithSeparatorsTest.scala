@@ -1,8 +1,9 @@
 package org.mulesoft.als.common.dtoTypes
 
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 
-class LinesWithSeparatorsTest extends FunSuite with Matchers {
+class LinesWithSeparatorsTest extends AnyFunSuite with Matchers {
 
   test("Test end with whitespaces line") {
 

@@ -9,7 +9,7 @@ import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.{MockTelemetryParsingClientNotifier, ServerWithMarkerTest}
 import org.mulesoft.lsp.feature.common.{Location, TextDocumentIdentifier}
 import org.mulesoft.lsp.feature.implementation.{ImplementationParams, ImplementationRequestType}
-import org.scalatest.Assertion
+import org.scalatest.compatible.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
 

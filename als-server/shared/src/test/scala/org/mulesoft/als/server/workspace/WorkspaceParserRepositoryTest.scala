@@ -5,7 +5,6 @@ import amf.core.client.scala.model.document.BaseUnit
 import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.logger.EmptyLogger
 import org.mulesoft.als.server.modules.workspace.{ParsedUnit, WorkspaceParserRepository}
-import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.amfintegration.amfconfiguration.{
   ALSConfigurationState,
   AmfParseResult,
@@ -13,7 +12,8 @@ import org.mulesoft.amfintegration.amfconfiguration.{
   EmptyProjectConfigurationState
 }
 import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
-import org.scalatest.{AsyncFunSuite, Matchers}
+import org.scalatest.funsuite.AsyncFunSuite
+import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}

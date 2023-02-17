@@ -1,7 +1,9 @@
 package org.mulesoft.als.server
 
 import org.mulesoft.lsp.feature.{RequestHandler, RequestType}
-import org.scalatest.{AsyncFlatSpec, Matchers, OptionValues}
+import org.scalatest.OptionValues
+import org.scalatest.flatspec.AsyncFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent.Future
 

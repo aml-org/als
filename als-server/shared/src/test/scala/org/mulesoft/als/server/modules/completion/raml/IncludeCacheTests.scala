@@ -3,13 +3,13 @@ package org.mulesoft.als.server.modules.completion.raml
 import amf.core.client.common.remote.Content
 import amf.core.client.scala.AMFGraphConfiguration
 import amf.core.client.scala.resource.ResourceLoader
+import org.mulesoft.als.server.MockDiagnosticClientNotifier
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
-import org.mulesoft.als.server.MockDiagnosticClientNotifier
-import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
-import org.scalatest.Assertion
+import org.scalatest.compatible.Assertion
 
 import scala.collection.mutable
 import scala.concurrent.{ExecutionContext, Future}

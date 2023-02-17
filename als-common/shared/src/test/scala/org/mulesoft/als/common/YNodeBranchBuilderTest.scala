@@ -1,11 +1,12 @@
 package org.mulesoft.als.common
 
 import org.mulesoft.common.client.lexical.{Position => AmfPosition}
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 import org.yaml.model.{YMap, YNodePlain, YScalar}
 import org.yaml.parser.{JsonParser, YamlParser}
 
-class YNodeBranchBuilderTest extends FunSuite with Matchers {
+class YNodeBranchBuilderTest extends AnyFunSuite with Matchers {
 
   test("Range for empty key with brothers") {
     val text     = "a: b\n"

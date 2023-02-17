@@ -6,7 +6,7 @@ import org.mulesoft.amfintegration.amfconfiguration.{
   EmptyProjectConfigurationState
 }
 import org.mulesoft.language.outline.test.BaseStructureTest
-import org.scalatest.compatible.Assertion
+import org.scalatest.Assertion
 
 import scala.concurrent.Future
 

@@ -40,11 +40,10 @@ import org.mulesoft.lsp.feature.telemetry.{
 import org.mulesoft.lsp.textsync.KnownDependencyScopes._
 import org.mulesoft.lsp.textsync._
 import org.mulesoft.lsp.workspace._
-import org.scalatest.{FlatSpec, Matchers}
 
 import scala.scalajs.js.JSON
 
-class ClientConversionTest extends FlatSpec with Matchers {
+class ClientConversionTest extends AnyFlatSpec with Matchers {
 
   behavior of "Common transformations"
   val p: Position = Position(10, 10)

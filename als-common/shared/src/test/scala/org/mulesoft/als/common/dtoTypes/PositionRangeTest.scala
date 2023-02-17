@@ -1,8 +1,8 @@
 package org.mulesoft.als.common.dtoTypes
 
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
-class PositionRangeTest extends FunSuite {
+class PositionRangeTest extends AnyFunSuite {
 
   test("Includes in one line range") {
     val range = PositionRange(Position(2, 2), Position(2, 3))

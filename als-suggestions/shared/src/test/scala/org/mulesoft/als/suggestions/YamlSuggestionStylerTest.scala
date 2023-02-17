@@ -4,11 +4,10 @@ import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.common.{NodeBranchBuilder, YPartBranch}
 import org.mulesoft.als.suggestions.styler.{SyamlStylerParams, YamlSuggestionStyler}
+import org.mulesoft.common.client.lexical.{Position => AmfPosition}
 import org.mulesoft.lsp.configuration.FormattingOptions
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.common.{Range, Position => LspPosition}
-import org.mulesoft.common.client.lexical.{Position => AmfPosition}
-import org.scalatest.AsyncFunSuite
 import org.yaml.model.{YDocument, YNode}
 import org.yaml.parser.YamlParser
 

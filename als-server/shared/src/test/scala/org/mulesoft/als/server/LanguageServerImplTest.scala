@@ -1,32 +1,16 @@
 package org.mulesoft.als.server
 
-import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.ast.TextListener
-import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
+import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.textsync.{AlsTextDocumentSyncConsumer, DidFocusParams}
-import org.mulesoft.als.server.textsync.{
-  TextDocument,
-  TextDocumentContainer,
-  TextDocumentManager,
-  TextDocumentSyncBuilder
-}
-import org.mulesoft.lsp.feature.common.{TextDocumentIdentifier, TextDocumentItem}
-import org.mulesoft.lsp.feature.completion.{CompletionParams, CompletionRequestType}
+import org.mulesoft.als.server.textsync.{TextDocument, TextDocumentContainer, TextDocumentManager}
+import org.mulesoft.lsp.feature.common.TextDocumentItem
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
-import org.mulesoft.lsp.textsync.{
-  DidChangeTextDocumentParams,
-  DidCloseTextDocumentParams,
-  DidOpenTextDocumentParams,
-  SynchronizationClientCapabilities,
-  TextDocumentSyncConfigType,
-  TextDocumentSyncKind,
-  TextDocumentSyncOptions
-}
-import org.scalatest.Assertion
-import org.mulesoft.lsp.feature.common.{Position => LspPosition, Range => LspRange}
+import org.mulesoft.lsp.textsync._
+import org.scalatest.compatible.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
 

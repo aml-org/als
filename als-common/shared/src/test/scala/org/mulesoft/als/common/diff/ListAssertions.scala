@@ -1,6 +1,7 @@
 package org.mulesoft.als.common.diff
 
-import org.scalatest.{Assertion, Assertions}
+import org.scalatest.Assertions
+import org.scalatest.compatible.Assertion
 
 /** */
 trait ListAssertions extends Assertions {

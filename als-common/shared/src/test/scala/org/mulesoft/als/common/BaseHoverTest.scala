@@ -3,7 +3,7 @@ package org.mulesoft.als.common
 import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.lsp.feature.hover.Hover
-import org.scalatest.Assertion
+import org.scalatest.compatible.Assertion
 import org.yaml.model.YDocument
 import org.yaml.model.YDocument.EntryBuilder
 import org.yaml.render.YamlRender

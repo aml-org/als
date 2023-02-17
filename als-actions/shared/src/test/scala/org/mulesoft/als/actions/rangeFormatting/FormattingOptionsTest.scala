@@ -4,10 +4,9 @@ import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.actions.formatting.RangeFormatting
 import org.mulesoft.amfintegration.ErrorsCollected
 import org.mulesoft.lsp.configuration.FormattingOptions
-import org.scalatest.{FlatSpec, Matchers}
 import org.yaml.model.YMap
 
-class FormattingOptionsTest extends FlatSpec with Matchers with PlatformSecrets {
+class FormattingOptionsTest extends AnyFlatSpec with Matchers with PlatformSecrets {
   behavior of "Formatting Options"
 
   private val baseTest = "my:    \n  test: lorem ipsum       \n\n\n\n\n"

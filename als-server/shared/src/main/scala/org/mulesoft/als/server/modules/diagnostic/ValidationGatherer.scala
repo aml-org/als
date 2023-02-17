@@ -1,10 +1,10 @@
 package org.mulesoft.als.server.modules.diagnostic
 
+import org.mulesoft.common.collections._
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
 import scala.collection.mutable
-import scala.scalajs.js.annotation.JSExport
-import org.mulesoft.common.collections._
+import scala.scalajs.js.annotation.JSExportTopLevel
 
 class ValidationGatherer(telemetryProvider: TelemetryProvider) {
 
@@ -56,7 +56,7 @@ object ErrorsWithTree {
 object PARSING_BEFORE extends DiagnosticNotificationsKind("PARSING_BEFORE")
 object ALL_TOGETHER   extends DiagnosticNotificationsKind("ALL_TOGETHER")
 
-@JSExport
+@JSExportTopLevel("DiagnosticNotificationsKind")
 object DiagnosticNotificationsKind {
   val parsingBefore: DiagnosticNotificationsKind = PARSING_BEFORE
   val allTogether: DiagnosticNotificationsKind   = ALL_TOGETHER
