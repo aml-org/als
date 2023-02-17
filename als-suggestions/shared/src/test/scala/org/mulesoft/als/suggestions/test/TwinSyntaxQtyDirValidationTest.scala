@@ -1,9 +1,9 @@
 package org.mulesoft.als.suggestions.test
 
 import org.mulesoft.common.io.{Fs, SyncFile}
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
-class TwinSyntaxQtyDirValidationTest extends FunSuite {
+class TwinSyntaxQtyDirValidationTest extends AnyFunSuite {
 
   test("test that Oas 2.0 yaml has same files than json resources") {
     val jsonPath = "als-suggestions/shared/src/test/resources/test/oas20/by-directory/json"

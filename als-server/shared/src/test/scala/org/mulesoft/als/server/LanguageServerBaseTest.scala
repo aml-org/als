@@ -25,7 +25,9 @@ import org.mulesoft.lsp.feature.documentsymbol.{
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 import org.mulesoft.lsp.textsync._
 import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, ExecuteCommandParams, WorkspaceFoldersChangeEvent}
-import org.scalatest._
+import org.scalatest.funsuite.AsyncFunSuite
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.{FutureOutcome, OptionValues}
 
 import java.io.StringWriter
 import scala.concurrent.Future

@@ -2,9 +2,7 @@ package org.mulesoft.als.server
 
 import amf.core.client.platform.resource.ClientResourceLoader
 import amf.core.client.scala.resource.ResourceLoader
-import amf.core.internal.convert.CoreClientConverters.ClientList
-import org.mulesoft.als.configuration.{DefaultJsServerSystemConf, JsServerSystemConf, ResourceLoaderConverter}
-import org.mulesoft.als.logger.EmptyLogger
+import org.mulesoft.als.configuration.{DefaultJsServerSystemConf, JsServerSystemConf}
 import org.mulesoft.als.server.client.platform.{AlsClientNotifier, AlsLanguageServerFactory}
 import org.mulesoft.als.server.feature.serialization.SerializationResult
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams

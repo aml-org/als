@@ -1,9 +1,10 @@
 package org.mulesoft.als.common
 
 import org.mulesoft.als.common.URIImplicits.StringUriImplicits
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
-class RelativizeTests extends FlatSpec with Matchers {
+class RelativizeTests extends AnyFlatSpec with Matchers {
   behavior of "path relativization"
 
   it should "relativize on same level folder" in {

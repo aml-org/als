@@ -3,7 +3,7 @@ package org.mulesoft.als.server
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.logger.MessageSeverity.MessageSeverity
 import org.scalatest.CompleteLastly.complete
-import org.scalatest._
+import org.scalatest.{FutureOutcome, TestData}
 
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global

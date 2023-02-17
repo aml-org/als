@@ -8,7 +8,7 @@ import org.mulesoft.amfintegration.amfconfiguration.{
   EmptyProjectConfigurationState
 }
 import org.mulesoft.common.io.{Fs, SyncFile}
-import org.scalatest.AsyncFreeSpec
+import org.scalatest.freespec.AsyncFreeSpec
 
 import scala.concurrent.{ExecutionContext, Future}
 

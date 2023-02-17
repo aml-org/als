@@ -1,5 +1,5 @@
 import org.scalajs.sbtplugin.ScalaJSPlugin
-import org.scalajs.sbtplugin.ScalaJSPlugin.AutoImport.{fastOptJS, fullOptJS}
+import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport.{fastOptJS, fullOptJS}
 import sbt.Keys.{baseDirectory, sLog}
 import sbt.util.Logger
 import sbt.{AutoPlugin, Compile, Def, Test, settingKey, taskKey}

@@ -1,10 +1,10 @@
 package org.mulesoft.als.common
 
 import org.mulesoft.common.client.lexical.{Position => AmfPosition}
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 import org.yaml.model.YScalar
 
-class YamlWrapperTest extends FlatSpec {
+class YamlWrapperTest extends AnyFlatSpec {
 
   behavior of "Flow cases"
   private val regularFlowCase =

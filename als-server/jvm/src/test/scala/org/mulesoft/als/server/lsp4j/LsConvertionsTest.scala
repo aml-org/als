@@ -7,11 +7,11 @@ import org.mulesoft.als.server.protocol.configuration
 import org.mulesoft.lsp.LspConversions._
 import org.mulesoft.lsp.configuration.{TextDocumentClientCapabilities => InternalDocumentClient}
 import org.mulesoft.lsp.feature.diagnostic.{Diagnostic => InternalDiagnostic}
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 import java.util
 import scala.collection.JavaConverters._
-class LsConvertionsTest extends FunSuite {
+class LsConvertionsTest extends AnyFunSuite {
 
   test("Empty InitializeParams Conversions") {
     val internalParams: configuration.AlsInitializeParams = new AlsInitializeParams()

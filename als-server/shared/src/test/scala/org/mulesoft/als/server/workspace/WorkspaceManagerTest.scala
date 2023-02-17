@@ -17,7 +17,7 @@ import org.mulesoft.lsp.feature.common.{Position, Range}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 import org.mulesoft.lsp.workspace.ExecuteCommandParams
-import org.scalatest.Assertion
+import org.scalatest.compatible.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
 

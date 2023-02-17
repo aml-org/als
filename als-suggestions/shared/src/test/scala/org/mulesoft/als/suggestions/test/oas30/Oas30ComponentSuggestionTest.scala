@@ -1,15 +1,12 @@
 package org.mulesoft.als.suggestions.test.oas30
 
-import amf.apicontract.client.scala.AMFConfiguration
-import amf.apicontract.client.scala.OASConfiguration
+import amf.apicontract.client.scala.{AMFConfiguration, OASConfiguration}
 import amf.core.client.scala.AMFGraphConfiguration
 import amf.core.client.scala.resource.ResourceLoader
 import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.suggestions.test.{BaseSuggestionsForTest, TestProjectConfigurationState}
 import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, EditorConfigurationState}
 import org.mulesoft.lsp.feature.completion.CompletionItem
-import org.scalatest.AsyncFunSuite
-import org.scalatest.Matchers.convertToAnyShouldWrapper
 
 import scala.concurrent.{ExecutionContext, Future}
 

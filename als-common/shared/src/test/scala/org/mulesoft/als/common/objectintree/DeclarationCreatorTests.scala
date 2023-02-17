@@ -8,7 +8,8 @@ import org.mulesoft.amfintegration.amfconfiguration.{
   EditorConfiguration,
   EmptyProjectConfigurationState
 }
-import org.scalatest.{Assertion, AsyncFlatSpec}
+import org.scalatest.compatible.Assertion
+import org.scalatest.flatspec.AsyncFlatSpec
 
 import scala.concurrent.{ExecutionContext, Future}
 

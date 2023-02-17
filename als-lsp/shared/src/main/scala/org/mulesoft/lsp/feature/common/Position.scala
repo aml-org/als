@@ -15,7 +15,7 @@ import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
   * If the character value is greater than the line length it defaults back to the line length
   */
 @JSExportAll
-@JSExportTopLevel("lsp.Position")
+@JSExportTopLevel("Position")
 case class Position(line: Int, character: Int) {
   override def toString: String = s"common.Position[L:$line,C:$character]"
 }
