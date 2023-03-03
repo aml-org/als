@@ -9,6 +9,8 @@ import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, Edit
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.common.{Position, Range}
 import org.mulesoft.lsp.feature.completion.CompletionItem
+import org.scalatest.funsuite.AsyncFunSuite
+import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent.{ExecutionContext, Future}
 

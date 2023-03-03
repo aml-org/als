@@ -11,6 +11,8 @@ import org.mulesoft.amfintegration.amfconfiguration.{
   EditorConfiguration,
   EmptyProjectConfigurationState
 }
+import org.scalatest.Assertion
+import org.scalatest.funsuite.AsyncFunSuite
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}

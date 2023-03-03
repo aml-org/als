@@ -10,6 +10,8 @@ import org.mulesoft.amfintegration.amfconfiguration.{
   EmptyProjectConfigurationState
 }
 import org.mulesoft.lsp.feature.folding.FoldingRange
+import org.scalatest.flatspec.AsyncFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}
@@ -20,16 +22,7 @@ class FoldingRangesTests extends AsyncFlatSpec with Matchers with PlatformSecret
 
   val fragmentUri = "file://fragment.json"
   val fragment: String =
-    """{
-      |	"Person": {
-      |		"type": "object",
-      |		"properties": {
-      |			"a": {
-      |				"type": "string"
-      |			}
-      |		}
-      |	}
-      |}""".stripMargin
+    """De""".stripMargin
 
   behavior of "Folding Ranges"
 
