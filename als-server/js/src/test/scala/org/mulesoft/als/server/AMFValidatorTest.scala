@@ -17,21 +17,33 @@ trait AMFValidatorTest extends LanguageServerBaseTest with PlatformSecrets {
     js.Dynamic
       .literal(
         id = "test-plugin",
-        applies = new js.Function1[ValidatePayloadRequest, Boolean] {
-          def apply(element: ValidatePayloadRequest): Boolean = {
-            fn()
-            logger.debug("Validator called", "AMFValidatorTest", "testValidator:applies")
-            false
-          }
+        applies = new AppliesFunction {
+          override def applies(element: ValidatePayloadRequest): Boolean = {
+            def apply(element: ValidatePayloadRequest): Boolean = {
+              fn()
+              logger.debug("Validator called", "AMFValidatorTest", "testValidator:applies")
+              false
+            }
+          }.asInstanceOf[Boolean]
         },
-        validator = new js.Function4[Shape, String, ShapeValidationConfiguration, ValidationMode, JsPayloadValidator] {
-          def apply(
-              shape: Shape,
-              mediaType: String,
-              config: ShapeValidationConfiguration,
-              validationMode: ValidationMode
-          ): JsPayloadValidator = ???
+        validator = new ValidatorFunction {
+          override def validator(): JsPayloadValidator = {
+            def apply(
+                shape: Shape,
+                mediaType: String,
+                config: ShapeValidationConfiguration,
+                validationMode: ValidationMode
+            ): JsPayloadValidator = ???
+          }.asInstanceOf[JsPayloadValidator]
         }
       )
       .asInstanceOf[JsAMFPayloadValidationPlugin]
+}
+
+trait AppliesFunction extends js.Object {
+  def applies(element: ValidatePayloadRequest): Boolean
+}
+
+trait ValidatorFunction extends js.Object {
+  def validator(): JsPayloadValidator
 }
