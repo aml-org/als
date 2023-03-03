@@ -3,7 +3,8 @@ import NpmOpsPlugin.autoImport.npmDependencies
 import sbt.File
 import sbt.Keys.{libraryDependencies, mainClass, packageOptions}
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
-import org.scalajs.linker.interface.{ ESVersion, StandardConfig, ESFeatures }
+import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport.fastLinkJS
+import org.scalajs.linker.interface.ESVersion
 
 import scala.language.postfixOps
 import scala.sys.process.Process
@@ -108,7 +109,7 @@ lazy val common = crossProject(JSPlatform, JVMPlatform)
       .withESFeatures(_.withESVersion(ESVersion.ES2016))
     },
     npmDependencies      ++= commonNpmDependencies
-    //        artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
+    //        scalaJSLinkerOutputDirectory in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
   )
   .disablePlugins(SonarPlugin)
 
@@ -139,12 +140,11 @@ lazy val lsp = crossProject(JSPlatform, JVMPlatform)
     libraryDependencies += "org.scala-lang.modules" % "scala-java8-compat_2.12" % "0.8.0"
   )
   .jsSettings(
-//    scalaJSOutputMode   := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
     scalaJSLinkerConfig ~= { _
       .withModuleKind(ModuleKind.ESModule)
       .withESFeatures(_.withESVersion(ESVersion.ES2016))
     }
-    //        artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
+    //        scalaJSLinkerOutputDirectory in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
   )
   .disablePlugins(SonarPlugin)
 
@@ -199,7 +199,6 @@ lazy val structure = crossProject(JSPlatform, JVMPlatform)
       .withESFeatures(_.withESVersion(ESVersion.ES2016))
     },
     npmDependencies ++= commonNpmDependencies
-    //    artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"als-suggestions.js"
   )
   .disablePlugins(SonarPlugin)
 
@@ -218,8 +217,7 @@ lazy val actions = crossProject(JSPlatform, JVMPlatform)
   .in(file(s"$pathAlsActions"))
   .settings(settings: _*)
   .jsSettings(
-//    packageJSDependencies / skip := false,
-    scalaJSLinkerConfig          ~= { _
+    scalaJSLinkerConfig ~= { _
       .withModuleKind(ModuleKind.ESModule)
       .withESFeatures(_.withESVersion(ESVersion.ES2016))
     },
@@ -276,16 +274,16 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
         ) #&&
         Process("npm install", new File("./als-server/js/node-package")) !
     },
-    Test / test                            := ((Test / test) dependsOn installJsDependencies).value,
-    Test / fastOptJS / artifactPath        := baseDirectory.value / "node-package" / "tmp" / "als-server.js",
+    Test / test                                       := ((Test / test) dependsOn installJsDependencies).value,
+    Test / fastLinkJS / scalaJSLinkerOutputDirectory  := baseDirectory.value / "node-package" / "tmp" / "als-server.js",
     scalaJSLinkerConfig                    ~= { _
       .withModuleKind(ModuleKind.ESModule)
       .withESFeatures(_.withESVersion(ESVersion.ES2016))
     },
     libraryDependencies += "net.exoego"   %%% "scala-js-nodejs-v16" % "0.14.0",
     libraryDependencies += "org.scala-js" %%% "scalajs-dom"         % "1.1.0",
-    Compile / fastOptJS / artifactPath     := baseDirectory.value / "node-package" / "lib" / "als-server.js",
-    Compile / fullOptJS / artifactPath     := baseDirectory.value / "node-package" / "lib" / "als-server.min.js"
+    Compile / fastLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "node-package" / "lib" / "als-server.js",
+    Compile / fullLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "node-package" / "lib" / "als-server.min.js"
   )
 
 lazy val serverJVM = server.jvm.in(file("./als-server/jvm"))
@@ -331,9 +329,9 @@ lazy val nodeClient = project
           Process("npm i", new File("./als-node-client/node-package/")) !
       },
       Test / test                        := ((Test / test) dependsOn npmIClient).value,
-      Test / fastOptJS / artifactPath    := baseDirectory.value / "node-package" / "tmp" / "als-node-client.js",
-      Compile / fastOptJS / artifactPath := baseDirectory.value / "node-package" / "dist" / "als-node-client.js",
-      Compile / fullOptJS / artifactPath := baseDirectory.value / "node-package" / "dist" / "als-node-client.min.js"
+      Test / fastLinkJS / scalaJSLinkerOutputDirectory    := baseDirectory.value / "node-package" / "tmp" / "als-node-client.js",
+      Compile / fastLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "node-package" / "dist" / "als-node-client.js",
+      Compile / fullLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "node-package" / "dist" / "als-node-client.min.js"
     )
   )
   .sourceDependency(customValidatorNodeJSRef, customValidatorNodeLibJS)
@@ -350,8 +348,8 @@ lazy val nodeClient = project
 val buildJsServerLibrary = TaskKey[Unit]("buildJsServerLibrary", "Build server library")
 
 buildJsServerLibrary := {
-  (serverJS / Compile / fastOptJS).value
-  (serverJS / Compile / fullOptJS).value
+  (serverJS / Compile / fastLinkJS).value
+  (serverJS / Compile / fullLinkJS).value
   (serverJS / installJsDependenciesWeb).value
 }
 
@@ -359,8 +357,8 @@ buildJsServerLibrary := {
 val buildNodeJsClient = TaskKey[Unit]("buildNodeJsClient", "Build node client")
 
 buildNodeJsClient := {
-  (nodeClient / Compile / fastOptJS).value
-  (nodeClient / Compile / fullOptJS).value
+  (nodeClient / Compile / fastLinkJS).value
+  (nodeClient / Compile / fullLinkJS).value
   (nodeClient / npmIClient).value
 }
 
