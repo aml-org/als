@@ -8,6 +8,7 @@ import org.mulesoft.common.client.lexical.{Position => AmfPosition}
 import org.mulesoft.lsp.configuration.FormattingOptions
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.common.{Range, Position => LspPosition}
+import org.scalatest.funsuite.AsyncFunSuite
 import org.yaml.model.{YDocument, YNode}
 import org.yaml.parser.YamlParser
 

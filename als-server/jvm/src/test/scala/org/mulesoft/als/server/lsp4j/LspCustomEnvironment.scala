@@ -11,6 +11,8 @@ import org.mulesoft.als.server.client.platform.AlsLanguageServerFactory
 import org.mulesoft.als.server.lsp4j.extension.AlsInitializeParams
 import org.mulesoft.als.server.modules.diagnostic.ALL_TOGETHER
 import org.mulesoft.als.server.{Flaky, MockDiagnosticClientNotifier}
+import org.scalatest.funsuite.AsyncFunSuite
+import org.scalatest.matchers.should.Matchers
 
 import java.util.concurrent.CompletableFuture
 import scala.collection.JavaConverters._

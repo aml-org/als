@@ -4,6 +4,8 @@ import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.actions.formatting.RangeFormatting
 import org.mulesoft.amfintegration.ErrorsCollected
 import org.mulesoft.lsp.configuration.FormattingOptions
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 import org.yaml.model.YMap
 
 class FormattingOptionsTest extends AnyFlatSpec with Matchers with PlatformSecrets {
