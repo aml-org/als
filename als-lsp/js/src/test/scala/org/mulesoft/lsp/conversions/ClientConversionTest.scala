@@ -40,6 +40,8 @@ import org.mulesoft.lsp.feature.telemetry.{
 import org.mulesoft.lsp.textsync.KnownDependencyScopes._
 import org.mulesoft.lsp.textsync._
 import org.mulesoft.lsp.workspace._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 import scala.scalajs.js.JSON
 

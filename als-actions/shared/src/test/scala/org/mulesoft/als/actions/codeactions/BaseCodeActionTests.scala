@@ -20,6 +20,9 @@ import org.mulesoft.lsp.edit.WorkspaceEdit
 import org.mulesoft.lsp.feature.codeactions.CodeAction
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
+import org.scalatest.Assertion
+import org.scalatest.flatspec.AsyncFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}

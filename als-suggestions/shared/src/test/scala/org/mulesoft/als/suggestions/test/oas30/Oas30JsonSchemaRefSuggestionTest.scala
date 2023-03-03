@@ -6,10 +6,12 @@ import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.suggestions.test.{BaseSuggestionsForTest, TestProjectConfigurationState}
 import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, EditorConfigurationState}
 import org.mulesoft.lsp.feature.completion.CompletionItem
+import org.scalatest.funsuite.AsyncFunSuite
+import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class Oas30JsonSchemaRefSuggestionTest extends AsyncFunSuite with BaseSuggestionsForTest {
+class Oas30JsonSchemaRefSuggestionTest extends AsyncFunSuite with BaseSuggestionsForTest with Matchers {
 
   def rootPath: String = "file://als-suggestions/shared/src/test/resources/test/oas30/json-schema/"
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global

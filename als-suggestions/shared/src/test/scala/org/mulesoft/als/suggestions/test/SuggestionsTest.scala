@@ -10,6 +10,8 @@ import org.mulesoft.amfintegration.amfconfiguration.{
   EmptyProjectConfigurationState
 }
 import org.mulesoft.lsp.feature.completion.CompletionItem
+import org.scalatest.compatible.Assertion
+import org.scalatest.funsuite.AsyncFunSuite
 
 import scala.concurrent.{ExecutionContext, Future}
 

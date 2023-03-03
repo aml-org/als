@@ -6,6 +6,7 @@ import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.suggestions.styler.{JsonSuggestionStyler, SyamlStylerParams}
 import org.mulesoft.common.client.lexical.{PositionRange, SourceLocation, Position => AmfPosition}
 import org.mulesoft.lsp.configuration.{DefaultFormattingOptions, FormattingOptions}
+import org.scalatest.funsuite.AsyncFunSuite
 import org.yaml.model._
 
 import scala.concurrent.ExecutionContext
