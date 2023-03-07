@@ -76,8 +76,8 @@ val orgSettings = Seq(
   libraryDependencies ++= Seq(
     "com.chuusai"    %% "shapeless"     % "2.3.3",
     "org.scala-js"   %% "scalajs-stubs" % scalaJSVersion % "provided",
-    "org.scalatest" %%% "scalatest"     % "3.2.13"        % Test,
-    "com.lihaoyi"   %%% "upickle"       % "1.3.13"        % Test
+    "org.scalatest" %%% "scalatest"     % "3.2.0"        % Test,
+    "com.lihaoyi"   %%% "upickle"       % "1.3.13"       % Test
   )
 )
 
@@ -105,7 +105,7 @@ lazy val common = crossProject(JSPlatform, JVMPlatform)
         Process("npm install", new File(s"$pathAlsCommon/js/")) !
     },
     scalaJSLinkerConfig  ~= { _
-      .withModuleKind(ModuleKind.ESModule)
+      .withModuleKind(ModuleKind.CommonJSModule)
       .withESFeatures(_.withESVersion(ESVersion.ES2016))
     },
     npmDependencies      ++= commonNpmDependencies
@@ -141,7 +141,7 @@ lazy val lsp = crossProject(JSPlatform, JVMPlatform)
   )
   .jsSettings(
     scalaJSLinkerConfig ~= { _
-      .withModuleKind(ModuleKind.ESModule)
+      .withModuleKind(ModuleKind.CommonJSModule)
       .withESFeatures(_.withESVersion(ESVersion.ES2016))
     }
     //        scalaJSLinkerOutputDirectory in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
@@ -167,7 +167,7 @@ lazy val suggestions = crossProject(JSPlatform, JVMPlatform)
   .jsSettings(
 //    packageJSDependencies / skip := false,
     scalaJSLinkerConfig          ~= { _
-      .withModuleKind(ModuleKind.ESModule)
+      .withModuleKind(ModuleKind.CommonJSModule)
       .withESFeatures(_.withESVersion(ESVersion.ES2016))
     },
     npmDependencies ++= commonNpmDependencies
@@ -195,7 +195,7 @@ lazy val structure = crossProject(JSPlatform, JVMPlatform)
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "1.1.0",
     libraryDependencies += "com.lihaoyi"  %%% "upickle"     % "1.3.13",
     scalaJSLinkerConfig                    ~= { _
-      .withModuleKind(ModuleKind.ESModule)
+      .withModuleKind(ModuleKind.CommonJSModule)
       .withESFeatures(_.withESVersion(ESVersion.ES2016))
     },
     npmDependencies ++= commonNpmDependencies
@@ -218,7 +218,7 @@ lazy val actions = crossProject(JSPlatform, JVMPlatform)
   .settings(settings: _*)
   .jsSettings(
     scalaJSLinkerConfig ~= { _
-      .withModuleKind(ModuleKind.ESModule)
+      .withModuleKind(ModuleKind.CommonJSModule)
       .withESFeatures(_.withESVersion(ESVersion.ES2016))
     },
     npmDependencies ++= commonNpmDependencies
@@ -229,6 +229,9 @@ lazy val actionsJVM = actions.jvm.in(file(s"$pathAlsActions/jvm"))
 lazy val actionsJS  = actions.js.in(file(s"$pathAlsActions/js")).disablePlugins(SonarPlugin, ScoverageSbtPlugin)
 
 ////endregion
+
+lazy val scalaJS_NodeDependency =
+  ModuleID.apply("net.exoego", "scala-js-nodejs-v14_sjs1_2.12", "0.13.0")
 
 ////region ALS-SERVER
 /** ALS server */
@@ -277,10 +280,10 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
     Test / test                                       := ((Test / test) dependsOn installJsDependencies).value,
     Test / fastLinkJS / scalaJSLinkerOutputDirectory  := baseDirectory.value / "node-package" / "tmp" / "als-server.js",
     scalaJSLinkerConfig                    ~= { _
-      .withModuleKind(ModuleKind.ESModule)
+      .withModuleKind(ModuleKind.CommonJSModule)
       .withESFeatures(_.withESVersion(ESVersion.ES2016))
     },
-    libraryDependencies += "net.exoego"   %%% "scala-js-nodejs-v16" % "0.14.0",
+    libraryDependencies += scalaJS_NodeDependency,
     libraryDependencies += "org.scala-js" %%% "scalajs-dom"         % "1.1.0",
     Compile / fastLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "node-package" / "lib" / "als-server.js",
     Compile / fullLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "node-package" / "lib" / "als-server.min.js"
@@ -307,10 +310,10 @@ lazy val nodeClient = project
       name                                 := "als-node-client",
       scalaJSUseMainModuleInitializer      := true,
       scalaJSLinkerConfig                  ~= { _
-        .withModuleKind(ModuleKind.ESModule)
+        .withModuleKind(ModuleKind.CommonJSModule)
         .withESFeatures(_.withESVersion(ESVersion.ES2016))
       },
-      libraryDependencies += "net.exoego" %%% "scala-js-nodejs-v16" % "0.14.0",
+      libraryDependencies += scalaJS_NodeDependency,
       Compile / mainClass                  := Some("org.mulesoft.als.nodeclient.Main"),
       npmIClient := {
         Process(
