@@ -148,6 +148,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
+                    branch 'studio-adoption'
                 }
             }
             steps {
