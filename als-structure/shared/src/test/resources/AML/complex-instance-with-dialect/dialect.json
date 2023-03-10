@@ -23,7 +23,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "version",
@@ -49,7 +51,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "externals",
@@ -100,7 +104,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       }
     ]
   },
@@ -203,7 +209,9 @@
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               },
               {
                 "name": "n1",
@@ -254,7 +262,9 @@
                         "character": 0
                       }
                     },
-                    "children": []
+                    "children": [
+                      
+                    ]
                   }
                 ]
               }
@@ -336,7 +346,9 @@
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               },
               {
                 "name": "obj",
@@ -362,7 +374,9 @@
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               },
               {
                 "name": "arrobj",
@@ -388,7 +402,9 @@
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               },
               {
                 "name": "sca",
@@ -414,7 +430,9 @@
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               },
               {
                 "name": "arr",
@@ -440,7 +458,9 @@
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               }
             ]
           }
@@ -472,6 +492,8 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   }
 ]

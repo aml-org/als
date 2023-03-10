@@ -1,11 +1,17 @@
 [
   {
     "label": "prop2",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "prop2",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11prop2",
     "filterText": "prop2",
     "insertText": null,

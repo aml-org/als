@@ -1,11 +1,17 @@
 [
   {
     "label": "declares",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "declares",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11declares",
     "filterText": "declares:\n  ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "encodes",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "encodes",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11encodes",
     "filterText": "encodes: ",
     "insertText": null,

@@ -1,11 +1,17 @@
 [
   {
     "label": "HMAC-SHA1",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "HMAC-SHA1",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11HMAC-SHA1",
     "filterText": "HMAC-SHA1",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "PLAINTEXT",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "PLAINTEXT",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11PLAINTEXT",
     "filterText": "PLAINTEXT",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "RSA-SHA1",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "RSA-SHA1",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11RSA-SHA1",
     "filterText": "RSA-SHA1",
     "insertText": null,

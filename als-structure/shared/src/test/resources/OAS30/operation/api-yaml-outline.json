@@ -23,7 +23,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "version",
@@ -49,7 +51,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "/endpoint1",
@@ -125,7 +129,9 @@
                 "character": 0
               }
             },
-            "children": []
+            "children": [
+              
+            ]
           },
           {
             "name": "Security",
@@ -151,7 +157,9 @@
                 "character": 0
               }
             },
-            "children": []
+            "children": [
+              
+            ]
           },
           {
             "name": "responses",
@@ -202,7 +210,9 @@
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               }
             ]
           },
@@ -280,7 +290,9 @@
                         "character": 0
                       }
                     },
-                    "children": []
+                    "children": [
+                      
+                    ]
                   }
                 ]
               },
@@ -333,7 +345,9 @@
                         "character": 0
                       }
                     },
-                    "children": []
+                    "children": [
+                      
+                    ]
                   }
                 ]
               }
@@ -363,7 +377,9 @@
                 "character": 0
               }
             },
-            "children": []
+            "children": [
+              
+            ]
           },
           {
             "name": "servers",
@@ -389,7 +405,9 @@
                 "character": 40
               }
             },
-            "children": []
+            "children": [
+              
+            ]
           }
         ]
       }

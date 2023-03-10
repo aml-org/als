@@ -1,11 +1,17 @@
 [
   {
     "label": "#/responses/Found",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Reference to #/responses/Found",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#/responses/Found",
     "filterText": "\"#/responses/Found\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "expected/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11expected/",
     "filterText": "expected/",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "response-declaration-named.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11response-declaration-named.yml",
     "filterText": "response-declaration-named.yml",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "response-declaration.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11response-declaration.yml",
     "filterText": "response-declaration.yml",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "response-example.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11response-example.yml",
     "filterText": "response-example.yml",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "response-examples.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11response-examples.yml",
     "filterText": "response-examples.yml",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "response-header.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11response-header.yml",
     "filterText": "response-header.yml",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "response-headers.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11response-headers.yml",
     "filterText": "response-headers.yml",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "response-schema-ref.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11response-schema-ref.yml",
     "filterText": "response-schema-ref.yml",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "response-schema.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11response-schema.yml",
     "filterText": "response-schema.yml",
     "insertText": null,
@@ -301,11 +361,17 @@
   },
   {
     "label": "response.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11response.yml",
     "filterText": "response.yml",
     "insertText": null,

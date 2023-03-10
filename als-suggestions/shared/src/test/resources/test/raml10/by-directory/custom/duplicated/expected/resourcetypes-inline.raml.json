@@ -1,11 +1,17 @@
 [
   {
     "label": "resourceType2",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "resourceType2",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11resourceType2",
     "filterText": "resourceType2",
     "insertText": null,

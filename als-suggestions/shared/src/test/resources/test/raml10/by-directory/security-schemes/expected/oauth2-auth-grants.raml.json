@@ -1,11 +1,17 @@
 [
   {
     "label": "authorization_code",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "authorization_code",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11authorization_code",
     "filterText": "authorization_code",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "client_credentials",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "client_credentials",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11client_credentials",
     "filterText": "client_credentials",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "implicit",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "implicit",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11implicit",
     "filterText": "implicit",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "password",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "password",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11password",
     "filterText": "password",
     "insertText": null,

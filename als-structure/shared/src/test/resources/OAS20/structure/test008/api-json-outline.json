@@ -23,7 +23,9 @@
         "character": 33
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "version",
@@ -49,7 +51,9 @@
         "character": 27
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "/pets/{id}",
@@ -175,7 +179,9 @@
                         "character": 15
                       }
                     },
-                    "children": []
+                    "children": [
+                      
+                    ]
                   },
                   {
                     "name": "tag",
@@ -201,7 +207,9 @@
                         "character": 15
                       }
                     },
-                    "children": []
+                    "children": [
+                      
+                    ]
                   }
                 ]
               }

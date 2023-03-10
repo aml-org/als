@@ -1,11 +1,17 @@
 [
   {
     "label": "base",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "base",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10base",
     "filterText": "base: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "classTerms",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "classTerms",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11classTerms",
     "filterText": "classTerms:\n  ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "external",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "external",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11external",
     "filterText": "external:\n  ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "propertyTerms",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "propertyTerms",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11propertyTerms",
     "filterText": "propertyTerms:\n  ",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "usage",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "usage",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11usage",
     "filterText": "usage: ",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "uses",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "uses",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11uses",
     "filterText": "uses:\n  ",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "vocabulary",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "vocabulary",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10vocabulary",
     "filterText": "vocabulary: ",
     "insertText": null,

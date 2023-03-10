@@ -1,11 +1,17 @@
 [
   {
     "label": "contact",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "contact",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11contact",
     "filterText": "contact:\n  ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11description",
     "filterText": "description: ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "license",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "license",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11license",
     "filterText": "license:\n  ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "termsOfService",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "termsOfService",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11termsOfService",
     "filterText": "termsOfService: ",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "title",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "title",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10title",
     "filterText": "title: ",
     "insertText": null,

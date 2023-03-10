@@ -1,11 +1,17 @@
 [
   {
     "label": "scopes",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "security",
     "documentation": "scopes",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11scopes",
     "filterText": "scopes:\n  - ",
     "insertText": null,

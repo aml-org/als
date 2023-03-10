@@ -1,11 +1,17 @@
 [
   {
     "label": "New documentation",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "documentation",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New documentation",
     "filterText": "documentation:\n  -\n    content: $1\n    title: $2",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "annotationTypes",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "types and traits",
     "documentation": "annotationTypes",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11annotationTypes",
     "filterText": "annotationTypes:\n  ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "baseUri",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "root",
     "documentation": "baseUri",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11baseUri",
     "filterText": "baseUri: ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "baseUriParameters",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "baseUriParameters",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11baseUriParameters",
     "filterText": "baseUriParameters:\n  ",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11description",
     "filterText": "description: ",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "documentation",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "documentation",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11documentation",
     "filterText": "documentation:\n  - ",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "mediaType",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "root",
     "documentation": "mediaType",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11mediaType",
     "filterText": "mediaType: ",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "protocols",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "root",
     "documentation": "protocols",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11protocols",
     "filterText": "protocols:\n  - ",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "resourceTypes",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "types and traits",
     "documentation": "resourceTypes",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11resourceTypes",
     "filterText": "resourceTypes:\n  ",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "securedBy",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "security",
     "documentation": "securedBy",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11securedBy",
     "filterText": "securedBy:\n  - ",
     "insertText": null,
@@ -301,11 +361,17 @@
   },
   {
     "label": "securitySchemes",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "security",
     "documentation": "securitySchemes",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11securitySchemes",
     "filterText": "securitySchemes:\n  ",
     "insertText": null,
@@ -331,11 +397,17 @@
   },
   {
     "label": "title",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "root",
     "documentation": "title",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10title",
     "filterText": "title: ",
     "insertText": null,
@@ -361,11 +433,17 @@
   },
   {
     "label": "traits",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "types and traits",
     "documentation": "traits",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11traits",
     "filterText": "traits:\n  ",
     "insertText": null,
@@ -391,11 +469,17 @@
   },
   {
     "label": "types",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "types and traits",
     "documentation": "types",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11types",
     "filterText": "types:\n  ",
     "insertText": null,
@@ -421,11 +505,17 @@
   },
   {
     "label": "uses",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "uses",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11uses",
     "filterText": "uses:\n  ",
     "insertText": null,

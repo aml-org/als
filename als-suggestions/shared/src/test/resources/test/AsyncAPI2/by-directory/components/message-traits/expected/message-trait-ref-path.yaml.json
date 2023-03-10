@@ -1,11 +1,17 @@
 [
   {
     "label": "#/components/messageTraits/mTr",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Reference to #/components/messageTraits/mTr",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#/components/messageTraits/mTr",
     "filterText": "\"#/components/messageTraits/mTr\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "expected/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11expected/",
     "filterText": "expected/",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "message-trait-name.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11message-trait-name.yaml",
     "filterText": "message-trait-name.yaml",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "message-trait-ref.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11message-trait-ref.yaml",
     "filterText": "message-trait-ref.yaml",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "message-trait.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11message-trait.yaml",
     "filterText": "message-trait.yaml",
     "insertText": null,

@@ -1,11 +1,17 @@
 [
   {
     "label": "#/components/schemas/Cat",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "#/components/schemas/Cat",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#/components/schemas/Cat",
     "filterText": "\"#/components/schemas/Cat\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "#/components/schemas/Dog",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "#/components/schemas/Dog",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#/components/schemas/Dog",
     "filterText": "\"#/components/schemas/Dog\"",
     "insertText": null,

@@ -1,11 +1,17 @@
 [
   {
     "label": "application/json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "application/json",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11application/json",
     "filterText": "application/json",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "application/xml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "application/xml",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11application/xml",
     "filterText": "application/xml",
     "insertText": null,

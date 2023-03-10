@@ -1,11 +1,17 @@
 [
   {
     "label": "First",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "First",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11First",
     "filterText": "First",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "Fourth",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Fourth",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Fourth",
     "filterText": "Fourth",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "Second",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Second",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Second",
     "filterText": "Second",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "Third",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Third",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Third",
     "filterText": "Third",
     "insertText": null,

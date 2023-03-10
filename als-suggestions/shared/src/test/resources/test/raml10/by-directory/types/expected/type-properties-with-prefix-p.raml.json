@@ -1,11 +1,17 @@
 [
   {
     "label": "properties",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "properties",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11properties",
     "filterText": "properties:\n  ",
     "insertText": null,

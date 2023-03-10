@@ -1,11 +1,17 @@
 [
   {
     "label": "New full delete",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "delete",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New full delete",
     "filterText": "delete:\n  responses:\n    $1:\n      description: $2",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "delete",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "methods",
     "documentation": "delete",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11delete",
     "filterText": "delete:\n  ",
     "insertText": null,

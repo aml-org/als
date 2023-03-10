@@ -1,11 +1,17 @@
 [
   {
     "label": "100",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "100",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11100",
     "filterText": "\"100\":\n  ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "101",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "101",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11101",
     "filterText": "\"101\":\n  ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "102",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "102",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11102",
     "filterText": "\"102\":\n  ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "1XX",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "1XX",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "111XX",
     "filterText": "\"1XX\":\n  ",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "200",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "200",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11200",
     "filterText": "\"200\":\n  ",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "201",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "201",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11201",
     "filterText": "\"201\":\n  ",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "202",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "202",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11202",
     "filterText": "\"202\":\n  ",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "203",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "203",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11203",
     "filterText": "\"203\":\n  ",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "204",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "204",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11204",
     "filterText": "\"204\":\n  ",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "205",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "205",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11205",
     "filterText": "\"205\":\n  ",
     "insertText": null,
@@ -301,11 +361,17 @@
   },
   {
     "label": "206",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "206",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11206",
     "filterText": "\"206\":\n  ",
     "insertText": null,
@@ -331,11 +397,17 @@
   },
   {
     "label": "207",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "207",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11207",
     "filterText": "\"207\":\n  ",
     "insertText": null,
@@ -361,11 +433,17 @@
   },
   {
     "label": "208",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "208",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11208",
     "filterText": "\"208\":\n  ",
     "insertText": null,
@@ -391,11 +469,17 @@
   },
   {
     "label": "226",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "226",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11226",
     "filterText": "\"226\":\n  ",
     "insertText": null,
@@ -421,11 +505,17 @@
   },
   {
     "label": "2XX",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "2XX",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "112XX",
     "filterText": "\"2XX\":\n  ",
     "insertText": null,
@@ -451,11 +541,17 @@
   },
   {
     "label": "300",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "300",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11300",
     "filterText": "\"300\":\n  ",
     "insertText": null,
@@ -481,11 +577,17 @@
   },
   {
     "label": "301",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "301",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11301",
     "filterText": "\"301\":\n  ",
     "insertText": null,
@@ -511,11 +613,17 @@
   },
   {
     "label": "302",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "302",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11302",
     "filterText": "\"302\":\n  ",
     "insertText": null,
@@ -541,11 +649,17 @@
   },
   {
     "label": "303",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "303",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11303",
     "filterText": "\"303\":\n  ",
     "insertText": null,
@@ -571,11 +685,17 @@
   },
   {
     "label": "304",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "304",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11304",
     "filterText": "\"304\":\n  ",
     "insertText": null,
@@ -601,11 +721,17 @@
   },
   {
     "label": "305",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "305",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11305",
     "filterText": "\"305\":\n  ",
     "insertText": null,
@@ -631,11 +757,17 @@
   },
   {
     "label": "306",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "306",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11306",
     "filterText": "\"306\":\n  ",
     "insertText": null,
@@ -661,11 +793,17 @@
   },
   {
     "label": "307",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "307",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11307",
     "filterText": "\"307\":\n  ",
     "insertText": null,
@@ -691,11 +829,17 @@
   },
   {
     "label": "308",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "308",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11308",
     "filterText": "\"308\":\n  ",
     "insertText": null,
@@ -721,11 +865,17 @@
   },
   {
     "label": "3XX",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "3XX",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "113XX",
     "filterText": "\"3XX\":\n  ",
     "insertText": null,
@@ -751,11 +901,17 @@
   },
   {
     "label": "400",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "400",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11400",
     "filterText": "\"400\":\n  ",
     "insertText": null,
@@ -781,11 +937,17 @@
   },
   {
     "label": "401",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "401",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11401",
     "filterText": "\"401\":\n  ",
     "insertText": null,
@@ -811,11 +973,17 @@
   },
   {
     "label": "402",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "402",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11402",
     "filterText": "\"402\":\n  ",
     "insertText": null,
@@ -841,11 +1009,17 @@
   },
   {
     "label": "403",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "403",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11403",
     "filterText": "\"403\":\n  ",
     "insertText": null,
@@ -871,11 +1045,17 @@
   },
   {
     "label": "404",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "404",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11404",
     "filterText": "\"404\":\n  ",
     "insertText": null,
@@ -901,11 +1081,17 @@
   },
   {
     "label": "405",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "405",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11405",
     "filterText": "\"405\":\n  ",
     "insertText": null,
@@ -931,11 +1117,17 @@
   },
   {
     "label": "406",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "406",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11406",
     "filterText": "\"406\":\n  ",
     "insertText": null,
@@ -961,11 +1153,17 @@
   },
   {
     "label": "407",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "407",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11407",
     "filterText": "\"407\":\n  ",
     "insertText": null,
@@ -991,11 +1189,17 @@
   },
   {
     "label": "408",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "408",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11408",
     "filterText": "\"408\":\n  ",
     "insertText": null,
@@ -1021,11 +1225,17 @@
   },
   {
     "label": "409",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "409",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11409",
     "filterText": "\"409\":\n  ",
     "insertText": null,
@@ -1051,11 +1261,17 @@
   },
   {
     "label": "410",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "410",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11410",
     "filterText": "\"410\":\n  ",
     "insertText": null,
@@ -1081,11 +1297,17 @@
   },
   {
     "label": "411",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "411",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11411",
     "filterText": "\"411\":\n  ",
     "insertText": null,
@@ -1111,11 +1333,17 @@
   },
   {
     "label": "412",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "412",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11412",
     "filterText": "\"412\":\n  ",
     "insertText": null,
@@ -1141,11 +1369,17 @@
   },
   {
     "label": "413",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "413",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11413",
     "filterText": "\"413\":\n  ",
     "insertText": null,
@@ -1171,11 +1405,17 @@
   },
   {
     "label": "414",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "414",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11414",
     "filterText": "\"414\":\n  ",
     "insertText": null,
@@ -1201,11 +1441,17 @@
   },
   {
     "label": "415",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "415",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11415",
     "filterText": "\"415\":\n  ",
     "insertText": null,
@@ -1231,11 +1477,17 @@
   },
   {
     "label": "416",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "416",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11416",
     "filterText": "\"416\":\n  ",
     "insertText": null,
@@ -1261,11 +1513,17 @@
   },
   {
     "label": "417",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "417",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11417",
     "filterText": "\"417\":\n  ",
     "insertText": null,
@@ -1291,11 +1549,17 @@
   },
   {
     "label": "418",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "418",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11418",
     "filterText": "\"418\":\n  ",
     "insertText": null,
@@ -1321,11 +1585,17 @@
   },
   {
     "label": "420",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "420",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11420",
     "filterText": "\"420\":\n  ",
     "insertText": null,
@@ -1351,11 +1621,17 @@
   },
   {
     "label": "422",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "422",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11422",
     "filterText": "\"422\":\n  ",
     "insertText": null,
@@ -1381,11 +1657,17 @@
   },
   {
     "label": "423",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "423",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11423",
     "filterText": "\"423\":\n  ",
     "insertText": null,
@@ -1411,11 +1693,17 @@
   },
   {
     "label": "424",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "424",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11424",
     "filterText": "\"424\":\n  ",
     "insertText": null,
@@ -1441,11 +1729,17 @@
   },
   {
     "label": "425",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "425",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11425",
     "filterText": "\"425\":\n  ",
     "insertText": null,
@@ -1471,11 +1765,17 @@
   },
   {
     "label": "426",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "426",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11426",
     "filterText": "\"426\":\n  ",
     "insertText": null,
@@ -1501,11 +1801,17 @@
   },
   {
     "label": "428",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "428",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11428",
     "filterText": "\"428\":\n  ",
     "insertText": null,
@@ -1531,11 +1837,17 @@
   },
   {
     "label": "429",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "429",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11429",
     "filterText": "\"429\":\n  ",
     "insertText": null,
@@ -1561,11 +1873,17 @@
   },
   {
     "label": "431",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "431",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11431",
     "filterText": "\"431\":\n  ",
     "insertText": null,
@@ -1591,11 +1909,17 @@
   },
   {
     "label": "444",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "444",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11444",
     "filterText": "\"444\":\n  ",
     "insertText": null,
@@ -1621,11 +1945,17 @@
   },
   {
     "label": "449",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "449",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11449",
     "filterText": "\"449\":\n  ",
     "insertText": null,
@@ -1651,11 +1981,17 @@
   },
   {
     "label": "450",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "450",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11450",
     "filterText": "\"450\":\n  ",
     "insertText": null,
@@ -1681,11 +2017,17 @@
   },
   {
     "label": "451",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "451",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11451",
     "filterText": "\"451\":\n  ",
     "insertText": null,
@@ -1711,11 +2053,17 @@
   },
   {
     "label": "499",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "499",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11499",
     "filterText": "\"499\":\n  ",
     "insertText": null,
@@ -1741,11 +2089,17 @@
   },
   {
     "label": "4XX",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "4XX",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "114XX",
     "filterText": "\"4XX\":\n  ",
     "insertText": null,
@@ -1771,11 +2125,17 @@
   },
   {
     "label": "500",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "500",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11500",
     "filterText": "\"500\":\n  ",
     "insertText": null,
@@ -1801,11 +2161,17 @@
   },
   {
     "label": "501",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "501",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11501",
     "filterText": "\"501\":\n  ",
     "insertText": null,
@@ -1831,11 +2197,17 @@
   },
   {
     "label": "502",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "502",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11502",
     "filterText": "\"502\":\n  ",
     "insertText": null,
@@ -1861,11 +2233,17 @@
   },
   {
     "label": "503",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "503",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11503",
     "filterText": "\"503\":\n  ",
     "insertText": null,
@@ -1891,11 +2269,17 @@
   },
   {
     "label": "504",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "504",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11504",
     "filterText": "\"504\":\n  ",
     "insertText": null,
@@ -1921,11 +2305,17 @@
   },
   {
     "label": "505",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "505",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11505",
     "filterText": "\"505\":\n  ",
     "insertText": null,
@@ -1951,11 +2341,17 @@
   },
   {
     "label": "506",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "506",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11506",
     "filterText": "\"506\":\n  ",
     "insertText": null,
@@ -1981,11 +2377,17 @@
   },
   {
     "label": "507",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "507",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11507",
     "filterText": "\"507\":\n  ",
     "insertText": null,
@@ -2011,11 +2413,17 @@
   },
   {
     "label": "508",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "508",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11508",
     "filterText": "\"508\":\n  ",
     "insertText": null,
@@ -2041,11 +2449,17 @@
   },
   {
     "label": "509",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "509",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11509",
     "filterText": "\"509\":\n  ",
     "insertText": null,
@@ -2071,11 +2485,17 @@
   },
   {
     "label": "510",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "510",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11510",
     "filterText": "\"510\":\n  ",
     "insertText": null,
@@ -2101,11 +2521,17 @@
   },
   {
     "label": "511",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "511",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11511",
     "filterText": "\"511\":\n  ",
     "insertText": null,
@@ -2131,11 +2557,17 @@
   },
   {
     "label": "598",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "598",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11598",
     "filterText": "\"598\":\n  ",
     "insertText": null,
@@ -2161,11 +2593,17 @@
   },
   {
     "label": "599",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "599",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11599",
     "filterText": "\"599\":\n  ",
     "insertText": null,
@@ -2191,11 +2629,17 @@
   },
   {
     "label": "5XX",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "5XX",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "115XX",
     "filterText": "\"5XX\":\n  ",
     "insertText": null,
@@ -2221,11 +2665,17 @@
   },
   {
     "label": "default",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "default",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11default",
     "filterText": "default:\n  ",
     "insertText": null,

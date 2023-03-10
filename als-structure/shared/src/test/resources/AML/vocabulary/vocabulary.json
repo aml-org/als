@@ -48,7 +48,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "int",
@@ -74,7 +76,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "full",
@@ -125,7 +129,9 @@
                 "character": 0
               }
             },
-            "children": []
+            "children": [
+              
+            ]
           }
         ]
       },
@@ -153,7 +159,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "uri",
@@ -179,7 +187,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "empty-prop",
@@ -205,7 +215,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "any",
@@ -231,7 +243,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       }
     ]
   },
@@ -309,7 +323,9 @@
                 "character": 0
               }
             },
-            "children": []
+            "children": [
+              
+            ]
           }
         ]
       },
@@ -362,7 +378,9 @@
                 "character": 0
               }
             },
-            "children": []
+            "children": [
+              
+            ]
           },
           {
             "name": "subClassOf",
@@ -388,7 +406,9 @@
                 "character": 0
               }
             },
-            "children": []
+            "children": [
+              
+            ]
           }
         ]
       },
@@ -416,7 +436,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "displayName",
@@ -442,7 +464,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       }
     ]
   }

@@ -1,11 +1,17 @@
 [
   {
     "label": "propertyA",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "propertyA",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10propertyA",
     "filterText": "propertyA: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "propertyX",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "propertyX",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10propertyX",
     "filterText": "propertyX: ",
     "insertText": null,

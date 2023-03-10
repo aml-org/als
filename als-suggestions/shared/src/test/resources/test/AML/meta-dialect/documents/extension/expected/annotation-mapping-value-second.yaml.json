@@ -1,11 +1,17 @@
 [
   {
     "label": "myNodeMapping",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "Annotation Mapping",
     "documentation": "myNodeMapping",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11myNodeMapping",
     "filterText": "myNodeMapping",
     "insertText": null,

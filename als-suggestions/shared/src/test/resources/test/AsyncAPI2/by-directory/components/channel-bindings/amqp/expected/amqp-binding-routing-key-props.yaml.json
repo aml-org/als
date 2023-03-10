@@ -1,11 +1,17 @@
 [
   {
     "label": "autoDelete",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "autoDelete",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11autoDelete",
     "filterText": "autoDelete: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "durable",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "durable",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11durable",
     "filterText": "durable: ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "name\t",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "name\t",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11name\t",
     "filterText": "\"name\\t\": ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "type",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "type",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11type",
     "filterText": "type: ",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "vhost",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "vhost",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11vhost",
     "filterText": "vhost: ",
     "insertText": null,

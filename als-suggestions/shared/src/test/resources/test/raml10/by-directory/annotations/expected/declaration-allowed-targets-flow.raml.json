@@ -1,11 +1,17 @@
 [
   {
     "label": "API",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "API",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11API",
     "filterText": "API",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "AnnotationType",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "AnnotationType",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11AnnotationType",
     "filterText": "AnnotationType",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "DocumentationItem",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "DocumentationItem",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11DocumentationItem",
     "filterText": "DocumentationItem",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "Example",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Example",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Example",
     "filterText": "Example",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "Extension",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Extension",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Extension",
     "filterText": "Extension",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "Library",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Library",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Library",
     "filterText": "Library",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "Method",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Method",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Method",
     "filterText": "Method",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "Overlay",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Overlay",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Overlay",
     "filterText": "Overlay",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "RequestBody",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "RequestBody",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11RequestBody",
     "filterText": "RequestBody",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "Resource",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Resource",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Resource",
     "filterText": "Resource",
     "insertText": null,
@@ -301,11 +361,17 @@
   },
   {
     "label": "ResourceType",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "ResourceType",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11ResourceType",
     "filterText": "ResourceType",
     "insertText": null,
@@ -331,11 +397,17 @@
   },
   {
     "label": "Response",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Response",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Response",
     "filterText": "Response",
     "insertText": null,
@@ -361,11 +433,17 @@
   },
   {
     "label": "ResponseBody",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "ResponseBody",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11ResponseBody",
     "filterText": "ResponseBody",
     "insertText": null,
@@ -391,11 +469,17 @@
   },
   {
     "label": "SecurityScheme",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "SecurityScheme",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11SecurityScheme",
     "filterText": "SecurityScheme",
     "insertText": null,
@@ -421,11 +505,17 @@
   },
   {
     "label": "SecuritySchemeSettings",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "SecuritySchemeSettings",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11SecuritySchemeSettings",
     "filterText": "SecuritySchemeSettings",
     "insertText": null,
@@ -451,11 +541,17 @@
   },
   {
     "label": "Trait",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Trait",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Trait",
     "filterText": "Trait",
     "insertText": null,
@@ -481,11 +577,17 @@
   },
   {
     "label": "TypeDeclaration",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "TypeDeclaration",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11TypeDeclaration",
     "filterText": "TypeDeclaration",
     "insertText": null,

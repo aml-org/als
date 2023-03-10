@@ -1,11 +1,17 @@
 [
   {
     "label": "myAnnotation)",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "annotations",
     "documentation": "(lib.myAnnotation)",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21myAnnotation)",
     "filterText": "(lib.myAnnotation): ",
     "insertText": null,

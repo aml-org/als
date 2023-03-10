@@ -1,11 +1,17 @@
 [
   {
     "label": "maxItems",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "maxItems",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11maxItems",
     "filterText": "maxItems: ",
     "insertText": null,

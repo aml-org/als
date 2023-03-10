@@ -1,11 +1,17 @@
 [
   {
     "label": "New definition",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "20New definition",
     "filterText": "$1:\n  type: $2\n  description: $3",
     "insertText": null,

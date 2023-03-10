@@ -1,11 +1,17 @@
 [
   {
     "label": "allowMultiple",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "allowMultiple",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11allowMultiple",
     "filterText": "allowMultiple: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "domain",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "domain",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10domain",
     "filterText": "domain: ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "enum",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "enum",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11enum",
     "filterText": "enum:\n  - ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "mandatory",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "mandatory",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11mandatory",
     "filterText": "mandatory: ",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "maximum",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "maximum",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11maximum",
     "filterText": "maximum: ",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "minimum",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "minimum",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11minimum",
     "filterText": "minimum: ",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "pattern",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "pattern",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11pattern",
     "filterText": "pattern: ",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "range",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "range",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10range",
     "filterText": "range: ",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "sorted",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "sorted",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11sorted",
     "filterText": "sorted: ",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "typeDiscriminator",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "typeDiscriminator",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11typeDiscriminator",
     "filterText": "typeDiscriminator:\n  - ",
     "insertText": null,
@@ -301,11 +361,17 @@
   },
   {
     "label": "typeDiscriminatorName",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "typeDiscriminatorName",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11typeDiscriminatorName",
     "filterText": "typeDiscriminatorName:\n  - ",
     "insertText": null,
@@ -331,11 +397,17 @@
   },
   {
     "label": "unique",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "unique",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11unique",
     "filterText": "unique: ",
     "insertText": null,

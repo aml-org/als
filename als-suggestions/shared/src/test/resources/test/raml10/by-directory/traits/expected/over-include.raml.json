@@ -1,11 +1,17 @@
 [
   {
     "label": "definition-link.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11definition-link.raml",
     "filterText": "definition-link.raml",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "definition-name-after-declaration.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11definition-name-after-declaration.raml",
     "filterText": "definition-name-after-declaration.raml",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "definition-name.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11definition-name.raml",
     "filterText": "definition-name.raml",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "definition-operation-level.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11definition-operation-level.raml",
     "filterText": "definition-operation-level.raml",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "definition.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11definition.raml",
     "filterText": "definition.raml",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "expected/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11expected/",
     "filterText": "expected/",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "fragment-last-line.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11fragment-last-line.raml",
     "filterText": "fragment-last-line.raml",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "fragment/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11fragment/",
     "filterText": "fragment/",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "in-trait-complex-value.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11in-trait-complex-value.raml",
     "filterText": "in-trait-complex-value.raml",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "include.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11include.raml",
     "filterText": "include.raml",
     "insertText": null,
@@ -301,11 +361,17 @@
   },
   {
     "label": "known-variables-single-char.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11known-variables-single-char.raml",
     "filterText": "known-variables-single-char.raml",
     "insertText": null,
@@ -331,11 +397,17 @@
   },
   {
     "label": "known-variables.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11known-variables.raml",
     "filterText": "known-variables.raml",
     "insertText": null,
@@ -361,11 +433,17 @@
   },
   {
     "label": "protocols.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11protocols.raml",
     "filterText": "protocols.raml",
     "insertText": null,
@@ -391,11 +469,17 @@
   },
   {
     "label": "reference-array-variables.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11reference-array-variables.raml",
     "filterText": "reference-array-variables.raml",
     "insertText": null,
@@ -421,11 +505,17 @@
   },
   {
     "label": "reference-array-with-params.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11reference-array-with-params.raml",
     "filterText": "reference-array-with-params.raml",
     "insertText": null,
@@ -451,11 +541,17 @@
   },
   {
     "label": "reference-array.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11reference-array.raml",
     "filterText": "reference-array.raml",
     "insertText": null,
@@ -481,11 +577,17 @@
   },
   {
     "label": "reference-endpoint.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11reference-endpoint.raml",
     "filterText": "reference-endpoint.raml",
     "insertText": null,
@@ -511,11 +613,17 @@
   },
   {
     "label": "reference-inside-flow-array.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11reference-inside-flow-array.raml",
     "filterText": "reference-inside-flow-array.raml",
     "insertText": null,
@@ -541,11 +649,17 @@
   },
   {
     "label": "reference.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11reference.raml",
     "filterText": "reference.raml",
     "insertText": null,
@@ -571,11 +685,17 @@
   },
   {
     "label": "required-in-trait.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11required-in-trait.raml",
     "filterText": "required-in-trait.raml",
     "insertText": null,
@@ -601,11 +721,17 @@
   },
   {
     "label": "securedBy-array.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11securedBy-array.raml",
     "filterText": "securedBy-array.raml",
     "insertText": null,
@@ -631,11 +757,17 @@
   },
   {
     "label": "variables-reference-array.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11variables-reference-array.raml",
     "filterText": "variables-reference-array.raml",
     "insertText": null,
@@ -661,11 +793,17 @@
   },
   {
     "label": "variables-reference-filter.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11variables-reference-filter.raml",
     "filterText": "variables-reference-filter.raml",
     "insertText": null,
@@ -691,11 +829,17 @@
   },
   {
     "label": "variables-reference-value.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11variables-reference-value.raml",
     "filterText": "variables-reference-value.raml",
     "insertText": null,
@@ -721,11 +865,17 @@
   },
   {
     "label": "variables-reference.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11variables-reference.raml",
     "filterText": "variables-reference.raml",
     "insertText": null,

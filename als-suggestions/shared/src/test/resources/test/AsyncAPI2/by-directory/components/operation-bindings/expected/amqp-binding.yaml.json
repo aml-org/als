@@ -1,11 +1,17 @@
 [
   {
     "label": "ack",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "ack",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11ack",
     "filterText": "ack: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "bcc",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "bcc",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11bcc",
     "filterText": "bcc:\n  - ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "bindingVersion",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "bindingVersion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11bindingVersion",
     "filterText": "bindingVersion: ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "cc",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "cc",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11cc",
     "filterText": "cc:\n  - ",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "deliveryMode",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "deliveryMode",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11deliveryMode",
     "filterText": "deliveryMode: ",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "expiration",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "expiration",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11expiration",
     "filterText": "expiration: ",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "mandatory",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "mandatory",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11mandatory",
     "filterText": "mandatory:\n  - ",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "priority",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "priority",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11priority",
     "filterText": "priority: ",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "replyTo",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "replyTo",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11replyTo",
     "filterText": "replyTo: ",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "timestamp",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "timestamp",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11timestamp",
     "filterText": "timestamp: ",
     "insertText": null,
@@ -301,11 +361,17 @@
   },
   {
     "label": "userId",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "userId",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11userId",
     "filterText": "userId: ",
     "insertText": null,

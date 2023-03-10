@@ -1,11 +1,17 @@
 [
   {
     "label": "(myAnnotation)",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "annotations",
     "documentation": "(myAnnotation)",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21(myAnnotation)",
     "filterText": "(myAnnotation): ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "value",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "value",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11value",
     "filterText": "value: ",
     "insertText": null,

@@ -1,11 +1,17 @@
 [
   {
     "label": "New headers",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "headers",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New headers",
     "filterText": "headers:\n  description: $1\n  type: $2",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "New query",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "query",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New query",
     "filterText": "query:\n  description: $1\n  type: $2",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "bindingVersion",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "bindingVersion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11bindingVersion",
     "filterText": "bindingVersion: ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "headers",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "headers",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11headers",
     "filterText": "headers:\n  ",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "method",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "method",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11method",
     "filterText": "method: ",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "query",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "query",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11query",
     "filterText": "query:\n  ",
     "insertText": null,

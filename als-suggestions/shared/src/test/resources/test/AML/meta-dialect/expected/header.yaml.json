@@ -1,11 +1,17 @@
 [
   {
     "label": "#%Dialect 1.0",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Define a %Dialect 1.0 file",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#%Dialect 1.0",
     "filterText": "#%Dialect 1.0",
     "insertText": null,

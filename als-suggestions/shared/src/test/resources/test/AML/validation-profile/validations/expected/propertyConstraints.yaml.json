@@ -1,11 +1,17 @@
 [
   {
     "label": "http://vocabularies/aml_doc.yaml#design-link-target",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "http://vocabularies/aml_doc.yaml#design-link-target",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11http://vocabularies/aml_doc.yaml#design-link-target",
     "filterText": "http://vocabularies/aml_doc.yaml#design-link-target: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "http://vocabularies/aml_doc.yaml#designAnnotation",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "http://vocabularies/aml_doc.yaml#designAnnotation",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11http://vocabularies/aml_doc.yaml#designAnnotation",
     "filterText": "http://vocabularies/aml_doc.yaml#designAnnotation: ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "http://vocabularies/aml_doc.yaml#extends",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "http://vocabularies/aml_doc.yaml#extends",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11http://vocabularies/aml_doc.yaml#extends",
     "filterText": "http://vocabularies/aml_doc.yaml#extends: ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "http://vocabularies/api_binding.yaml#binding",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "http://vocabularies/api_binding.yaml#binding",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11http://vocabularies/api_binding.yaml#binding",
     "filterText": "http://vocabularies/api_binding.yaml#binding: ",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "http://vocabularies/api_contract.yaml#accepts",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "http://vocabularies/api_contract.yaml#accepts",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11http://vocabularies/api_contract.yaml#accepts",
     "filterText": "http://vocabularies/api_contract.yaml#accepts: ",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "http://vocabularies/api_contract.yaml#callback",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "http://vocabularies/api_contract.yaml#callback",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11http://vocabularies/api_contract.yaml#callback",
     "filterText": "http://vocabularies/api_contract.yaml#callback: ",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "http://vocabularies/api_contract.yaml#expects",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "http://vocabularies/api_contract.yaml#expects",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11http://vocabularies/api_contract.yaml#expects",
     "filterText": "http://vocabularies/api_contract.yaml#expects: ",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "http://vocabularies/api_contract.yaml#guiSummary",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "http://vocabularies/api_contract.yaml#guiSummary",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11http://vocabularies/api_contract.yaml#guiSummary",
     "filterText": "http://vocabularies/api_contract.yaml#guiSummary: ",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "http://vocabularies/api_contract.yaml#isAbstract",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "http://vocabularies/api_contract.yaml#isAbstract",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11http://vocabularies/api_contract.yaml#isAbstract",
     "filterText": "http://vocabularies/api_contract.yaml#isAbstract: ",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "http://vocabularies/api_contract.yaml#method",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "http://vocabularies/api_contract.yaml#method",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11http://vocabularies/api_contract.yaml#method",
     "filterText": "http://vocabularies/api_contract.yaml#method: ",
     "insertText": null,
@@ -301,11 +361,17 @@
   },
   {
     "label": "http://vocabularies/api_contract.yaml#operationId",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "http://vocabularies/api_contract.yaml#operationId",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11http://vocabularies/api_contract.yaml#operationId",
     "filterText": "http://vocabularies/api_contract.yaml#operationId: ",
     "insertText": null,
@@ -331,11 +397,17 @@
   },
   {
     "label": "http://vocabularies/api_contract.yaml#returns",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "http://vocabularies/api_contract.yaml#returns",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11http://vocabularies/api_contract.yaml#returns",
     "filterText": "http://vocabularies/api_contract.yaml#returns: ",
     "insertText": null,
@@ -361,11 +433,17 @@
   },
   {
     "label": "http://vocabularies/api_contract.yaml#scheme",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "http://vocabularies/api_contract.yaml#scheme",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11http://vocabularies/api_contract.yaml#scheme",
     "filterText": "http://vocabularies/api_contract.yaml#scheme: ",
     "insertText": null,
@@ -391,11 +469,17 @@
   },
   {
     "label": "http://vocabularies/api_contract.yaml#server",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "http://vocabularies/api_contract.yaml#server",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11http://vocabularies/api_contract.yaml#server",
     "filterText": "http://vocabularies/api_contract.yaml#server: ",
     "insertText": null,
@@ -421,11 +505,17 @@
   },
   {
     "label": "http://vocabularies/api_contract.yaml#tag",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "http://vocabularies/api_contract.yaml#tag",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11http://vocabularies/api_contract.yaml#tag",
     "filterText": "http://vocabularies/api_contract.yaml#tag: ",
     "insertText": null,
@@ -451,11 +541,17 @@
   },
   {
     "label": "http://vocabularies/core.yaml#deprecated",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "http://vocabularies/core.yaml#deprecated",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11http://vocabularies/core.yaml#deprecated",
     "filterText": "http://vocabularies/core.yaml#deprecated: ",
     "insertText": null,
@@ -481,11 +577,17 @@
   },
   {
     "label": "http://vocabularies/core.yaml#description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "http://vocabularies/core.yaml#description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11http://vocabularies/core.yaml#description",
     "filterText": "http://vocabularies/core.yaml#description: ",
     "insertText": null,
@@ -511,11 +613,17 @@
   },
   {
     "label": "http://vocabularies/core.yaml#documentation",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "http://vocabularies/core.yaml#documentation",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11http://vocabularies/core.yaml#documentation",
     "filterText": "http://vocabularies/core.yaml#documentation: ",
     "insertText": null,
@@ -541,11 +649,17 @@
   },
   {
     "label": "http://vocabularies/core.yaml#mediaType",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "http://vocabularies/core.yaml#mediaType",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11http://vocabularies/core.yaml#mediaType",
     "filterText": "http://vocabularies/core.yaml#mediaType: ",
     "insertText": null,
@@ -571,11 +685,17 @@
   },
   {
     "label": "http://vocabularies/core.yaml#name",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "http://vocabularies/core.yaml#name",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11http://vocabularies/core.yaml#name",
     "filterText": "http://vocabularies/core.yaml#name: ",
     "insertText": null,
@@ -601,11 +721,17 @@
   },
   {
     "label": "http://vocabularies/security.yaml#security",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "http://vocabularies/security.yaml#security",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11http://vocabularies/security.yaml#security",
     "filterText": "http://vocabularies/security.yaml#security: ",
     "insertText": null,

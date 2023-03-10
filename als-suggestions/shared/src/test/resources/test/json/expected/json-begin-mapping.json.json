@@ -1,11 +1,17 @@
 [
   {
     "label": "New headers",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "headers",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New headers",
     "filterText": "\"headers\": {\n  \"$1\": {\n    \"description\": \"$2\",\n    \"type\": \"$3\"\n  }\n},",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "examples",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "examples",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11examples",
     "filterText": "\"examples\": {\n  \"$1\"\n},",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "headers",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "headers",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11headers",
     "filterText": "\"headers\": {\n  \"$1\"\n},",
     "insertText": null,

@@ -1,11 +1,17 @@
 [
   {
     "label": "basePath",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "basePath",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11basePath",
     "filterText": "basePath:\n  ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "port",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "port",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11port",
     "filterText": "port:\n  ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "username",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "username",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11username",
     "filterText": "username:\n  ",
     "insertText": null,

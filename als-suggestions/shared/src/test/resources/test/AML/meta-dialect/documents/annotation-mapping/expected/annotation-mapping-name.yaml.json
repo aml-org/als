@@ -1,11 +1,17 @@
 [
   {
     "label": "New annotationMapping",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "20New annotationMapping",
     "filterText": "$1:\n  domain: $2\n  propertyTerm: $3\n  range: $4",
     "insertText": null,

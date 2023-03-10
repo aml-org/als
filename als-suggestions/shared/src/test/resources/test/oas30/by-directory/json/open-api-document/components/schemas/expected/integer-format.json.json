@@ -1,11 +1,17 @@
 [
   {
     "label": "int32",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "int32",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11int32",
     "filterText": "\"int32\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "int64",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "int64",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11int64",
     "filterText": "\"int64\"",
     "insertText": null,
