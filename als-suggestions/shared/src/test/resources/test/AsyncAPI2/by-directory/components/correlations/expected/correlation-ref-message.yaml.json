@@ -1,11 +1,17 @@
 [
   {
     "label": "components/correlationIds/correlationName",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Reference to #/components/correlationIds/correlationName",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11components/correlationIds/correlationName",
     "filterText": "\"#/components/correlationIds/correlationName\"",
     "insertText": null,

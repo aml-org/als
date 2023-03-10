@@ -1,11 +1,17 @@
 [
   {
     "label": "application/json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "application/json",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11application/json",
     "filterText": "application/json:\n  ",
     "insertText": null,

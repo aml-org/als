@@ -1,11 +1,17 @@
 [
   {
     "label": "#/components/operationBindings/operationBinding",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Reference to #/components/operationBindings/operationBinding",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#/components/operationBindings/operationBinding",
     "filterText": "\"#/components/operationBindings/operationBinding\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "channel-binding-ref.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11channel-binding-ref.yaml",
     "filterText": "channel-binding-ref.yaml",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "expected/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11expected/",
     "filterText": "expected/",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "message-binding-ref.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11message-binding-ref.yaml",
     "filterText": "message-binding-ref.yaml",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "server-binding-ref.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11server-binding-ref.yaml",
     "filterText": "server-binding-ref.yaml",
     "insertText": null,

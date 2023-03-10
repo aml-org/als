@@ -1,11 +1,17 @@
 [
   {
     "label": "New schema",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "schema",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "20New schema",
     "filterText": "\"schema\": {\n  \"description\": \"$1\",\n  \"type\": \"$2\"\n}",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "schema",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "schema",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10schema",
     "filterText": "\"schema\": {\n  \"$1\"\n}",
     "insertText": null,

@@ -1,11 +1,17 @@
 [
   {
     "label": "sc",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "sc",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11sc",
     "filterText": "\"sc\": $1",
     "insertText": null,

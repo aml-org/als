@@ -1,11 +1,17 @@
 [
   {
     "label": "position",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "example",
     "documentation": "position",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10position",
     "filterText": "position: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "specializedIn",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "example",
     "documentation": "specializedIn",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10specializedIn",
     "filterText": "specializedIn: ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "wageRequested",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "example",
     "documentation": "wageRequested",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10wageRequested",
     "filterText": "wageRequested: ",
     "insertText": null,

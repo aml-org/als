@@ -1,11 +1,17 @@
 [
   {
     "label": "http",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "http",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11http",
     "filterText": "\n- http",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "https",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "https",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11https",
     "filterText": "\n- https",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "ws",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "ws",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11ws",
     "filterText": "\n- ws",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "wss",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "wss",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11wss",
     "filterText": "\n- wss",
     "insertText": null,

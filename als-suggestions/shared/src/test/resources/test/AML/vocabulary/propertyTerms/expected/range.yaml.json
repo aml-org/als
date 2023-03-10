@@ -1,11 +1,17 @@
 [
   {
     "label": "any",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "any",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11any",
     "filterText": "any",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "boolean",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "boolean",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11boolean",
     "filterText": "boolean",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "double",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "double",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11double",
     "filterText": "double",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "float",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "float",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11float",
     "filterText": "float",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "integer",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "integer",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11integer",
     "filterText": "integer",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "string",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "string",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11string",
     "filterText": "string",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "uri",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "uri",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11uri",
     "filterText": "uri",
     "insertText": null,

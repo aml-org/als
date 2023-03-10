@@ -1,11 +1,17 @@
 [
   {
     "label": "#%RAML 1.0",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "#%RAML 1.0",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#%RAML 1.0",
     "filterText": "#%RAML 1.0",
     "insertText": null,

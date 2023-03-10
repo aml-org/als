@@ -1,11 +1,17 @@
 [
   {
     "label": "New delete",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "delete",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New delete",
     "filterText": "\"delete\": {\n  \"responses\": {\n    \"$1\": \"\"\n  }\n}",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "New full delete",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "delete",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New full delete",
     "filterText": "\"delete\": {\n  \"responses\": {\n    \"$1\": {\n      \"description\": \"$2\"\n    }\n  }\n}",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "New full get",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "get",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New full get",
     "filterText": "\"get\": {\n  \"responses\": {\n    \"$1\": {\n      \"description\": \"$2\"\n    }\n  }\n}",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "New full head",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "head",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New full head",
     "filterText": "\"head\": {\n  \"responses\": {\n    \"$1\": {\n      \"description\": \"$2\"\n    }\n  }\n}",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "New full options",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "options",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New full options",
     "filterText": "\"options\": {\n  \"responses\": {\n    \"$1\": {\n      \"description\": \"$2\"\n    }\n  }\n}",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "New full patch",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "patch",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New full patch",
     "filterText": "\"patch\": {\n  \"responses\": {\n    \"$1\": {\n      \"description\": \"$2\"\n    }\n  }\n}",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "New full put",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "put",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New full put",
     "filterText": "\"put\": {\n  \"responses\": {\n    \"$1\": {\n      \"description\": \"$2\"\n    }\n  }\n}",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "New full trace",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "trace",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New full trace",
     "filterText": "\"trace\": {\n  \"responses\": {\n    \"$1\": {\n      \"description\": \"$2\"\n    }\n  }\n}",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "New get",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "get",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New get",
     "filterText": "\"get\": {\n  \"responses\": {\n    \"$1\": \"\"\n  }\n}",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "New head",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "head",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New head",
     "filterText": "\"head\": {\n  \"responses\": {\n    \"$1\": \"\"\n  }\n}",
     "insertText": null,
@@ -301,11 +361,17 @@
   },
   {
     "label": "New options",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "options",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New options",
     "filterText": "\"options\": {\n  \"responses\": {\n    \"$1\": \"\"\n  }\n}",
     "insertText": null,
@@ -331,11 +397,17 @@
   },
   {
     "label": "New patch",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "patch",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New patch",
     "filterText": "\"patch\": {\n  \"responses\": {\n    \"$1\": \"\"\n  }\n}",
     "insertText": null,
@@ -361,11 +433,17 @@
   },
   {
     "label": "New put",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "put",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New put",
     "filterText": "\"put\": {\n  \"responses\": {\n    \"$1\": \"\"\n  }\n}",
     "insertText": null,
@@ -391,11 +469,17 @@
   },
   {
     "label": "New servers",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "servers",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New servers",
     "filterText": "\"servers\": [\n  {\n    \"url\": \"$1\"\n  }\n]",
     "insertText": null,
@@ -421,11 +505,17 @@
   },
   {
     "label": "New trace",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "trace",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New trace",
     "filterText": "\"trace\": {\n  \"responses\": {\n    \"$1\": \"\"\n  }\n}",
     "insertText": null,
@@ -451,11 +541,17 @@
   },
   {
     "label": "delete",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "methods",
     "documentation": "delete",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11delete",
     "filterText": "\"delete\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -481,11 +577,17 @@
   },
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11description",
     "filterText": "\"description\": \"$1\"",
     "insertText": null,
@@ -511,11 +613,17 @@
   },
   {
     "label": "get",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "methods",
     "documentation": "get",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11get",
     "filterText": "\"get\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -541,11 +649,17 @@
   },
   {
     "label": "head",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "methods",
     "documentation": "head",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11head",
     "filterText": "\"head\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -571,11 +685,17 @@
   },
   {
     "label": "options",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "methods",
     "documentation": "options",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11options",
     "filterText": "\"options\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -601,11 +721,17 @@
   },
   {
     "label": "parameters",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "parameters",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11parameters",
     "filterText": "\"parameters\": [\n  \"$1\"\n]",
     "insertText": null,
@@ -631,11 +757,17 @@
   },
   {
     "label": "patch",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "methods",
     "documentation": "patch",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11patch",
     "filterText": "\"patch\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -661,11 +793,17 @@
   },
   {
     "label": "put",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "methods",
     "documentation": "put",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11put",
     "filterText": "\"put\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -691,11 +829,17 @@
   },
   {
     "label": "servers",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "servers",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11servers",
     "filterText": "\"servers\": [\n  \"$1\"\n]",
     "insertText": null,
@@ -721,11 +865,17 @@
   },
   {
     "label": "summary",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "summary",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11summary",
     "filterText": "\"summary\": \"$1\"",
     "insertText": null,
@@ -751,11 +901,17 @@
   },
   {
     "label": "trace",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "trace",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11trace",
     "filterText": "\"trace\": {\n  \"$1\"\n}",
     "insertText": null,

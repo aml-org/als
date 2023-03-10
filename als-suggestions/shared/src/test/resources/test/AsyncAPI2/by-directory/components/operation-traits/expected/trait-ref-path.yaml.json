@@ -1,11 +1,17 @@
 [
   {
     "label": "#/components/operationTraits/tr",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Reference to #/components/operationTraits/tr",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#/components/operationTraits/tr",
     "filterText": "\"#/components/operationTraits/tr\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "expected/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11expected/",
     "filterText": "expected/",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "trait-bindings.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11trait-bindings.yaml",
     "filterText": "trait-bindings.yaml",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "trait-external-doc.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11trait-external-doc.yaml",
     "filterText": "trait-external-doc.yaml",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "trait-name-after-declaration.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11trait-name-after-declaration.yaml",
     "filterText": "trait-name-after-declaration.yaml",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "trait-name.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11trait-name.yaml",
     "filterText": "trait-name.yaml",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "trait-ref.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11trait-ref.yaml",
     "filterText": "trait-ref.yaml",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "trait-tags.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11trait-tags.yaml",
     "filterText": "trait-tags.yaml",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "trait.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11trait.yaml",
     "filterText": "trait.yaml",
     "insertText": null,

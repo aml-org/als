@@ -1,11 +1,17 @@
 [
   {
     "label": "extends",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "extends",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11extends",
     "filterText": "extends: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "idTemplate",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "idTemplate",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11idTemplate",
     "filterText": "idTemplate: ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "mapping",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "mapping",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11mapping",
     "filterText": "mapping:\n  ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "patch",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "patch",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11patch",
     "filterText": "patch: ",
     "insertText": null,

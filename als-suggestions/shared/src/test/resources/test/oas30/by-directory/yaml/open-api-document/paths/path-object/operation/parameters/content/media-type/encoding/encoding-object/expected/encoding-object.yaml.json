@@ -1,11 +1,17 @@
 [
   {
     "label": "allowReserved",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "allowReserved",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11allowReserved",
     "filterText": "allowReserved: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "contentType",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "contentType",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11contentType",
     "filterText": "contentType: ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "explode",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "explode",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11explode",
     "filterText": "explode: ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "headers",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "headers",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11headers",
     "filterText": "headers:\n  ",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "style",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "style",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11style",
     "filterText": "style: ",
     "insertText": null,

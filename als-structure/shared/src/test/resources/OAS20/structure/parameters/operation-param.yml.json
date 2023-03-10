@@ -23,7 +23,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "version",
@@ -49,7 +51,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "/aPath",
@@ -150,7 +154,9 @@
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               }
             ]
           },
@@ -228,7 +234,9 @@
                         "character": 0
                       }
                     },
-                    "children": []
+                    "children": [
+                      
+                    ]
                   }
                 ]
               },
@@ -281,7 +289,9 @@
                         "character": 0
                       }
                     },
-                    "children": []
+                    "children": [
+                      
+                    ]
                   }
                 ]
               },
@@ -334,7 +344,9 @@
                         "character": 0
                       }
                     },
-                    "children": []
+                    "children": [
+                      
+                    ]
                   }
                 ]
               },
@@ -387,7 +399,9 @@
                         "character": 0
                       }
                     },
-                    "children": []
+                    "children": [
+                      
+                    ]
                   }
                 ]
               }

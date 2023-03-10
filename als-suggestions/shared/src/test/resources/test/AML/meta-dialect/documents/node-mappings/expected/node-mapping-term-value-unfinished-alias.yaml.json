@@ -1,11 +1,17 @@
 [
   {
     "label": "my-voc",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "my-voc",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11my-voc",
     "filterText": "my-voc",
     "insertText": null,

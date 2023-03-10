@@ -1,11 +1,17 @@
 [
   {
     "label": "dot-prefix-01.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11dot-prefix-01.raml",
     "filterText": "./dot-prefix-01.raml",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "dot-prefix-02.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11dot-prefix-02.raml",
     "filterText": "./dot-prefix-02.raml",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "dot-prefix-03.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11dot-prefix-03.raml",
     "filterText": "./dot-prefix-03.raml",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "dot-prefix-04.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11dot-prefix-04.raml",
     "filterText": "./dot-prefix-04.raml",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "expected/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11expected/",
     "filterText": "./expected/",
     "insertText": null,

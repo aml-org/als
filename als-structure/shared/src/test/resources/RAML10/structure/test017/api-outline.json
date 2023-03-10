@@ -23,7 +23,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "securitySchemes",
@@ -99,7 +101,9 @@
                 "character": 46
               }
             },
-            "children": []
+            "children": [
+              
+            ]
           }
         ]
       }

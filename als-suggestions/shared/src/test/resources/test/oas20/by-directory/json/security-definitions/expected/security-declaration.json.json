@@ -1,11 +1,17 @@
 [
   {
     "label": "$ref",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "reference tag",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "0$ref",
     "filterText": "\"\\$ref\": \"$1\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11description",
     "filterText": "\"description\": \"$1\"",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "type",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "security",
     "documentation": "type",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10type",
     "filterText": "\"type\": \"$1\"",
     "insertText": null,

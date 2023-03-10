@@ -23,7 +23,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "test/first",
@@ -99,7 +101,9 @@
                 "character": 0
               }
             },
-            "children": []
+            "children": [
+              
+            ]
           }
         ]
       }
@@ -179,7 +183,9 @@
                 "character": 36
               }
             },
-            "children": []
+            "children": [
+              
+            ]
           }
         ]
       }

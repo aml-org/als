@@ -1,11 +1,17 @@
 [
   {
     "label": "(lib.",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "annotations",
     "documentation": "(lib.",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21(lib.",
     "filterText": "(lib.",
     "insertText": null,

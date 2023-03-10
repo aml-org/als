@@ -23,7 +23,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "annotationTypes",
@@ -74,7 +76,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "experimental",
@@ -100,7 +104,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "feedbackRequested",
@@ -126,7 +132,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "testHarness",
@@ -152,7 +160,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "badge",
@@ -178,7 +188,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "clearanceLevel",
@@ -204,7 +216,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       }
     ]
   }

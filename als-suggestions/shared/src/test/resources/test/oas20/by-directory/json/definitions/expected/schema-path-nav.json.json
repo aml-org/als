@@ -1,11 +1,17 @@
 [
   {
     "label": "definitions",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "jsonschema.json#/definitions",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11definitions",
     "filterText": "\"jsonschema.json#/definitions\"",
     "insertText": null,

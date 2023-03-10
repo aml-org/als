@@ -23,7 +23,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "/someChildUri",
@@ -174,7 +176,9 @@
                             "character": 0
                           }
                         },
-                        "children": []
+                        "children": [
+                          
+                        ]
                       }
                     ]
                   }
@@ -308,7 +312,9 @@
                             "character": 0
                           }
                         },
-                        "children": []
+                        "children": [
+                          
+                        ]
                       }
                     ]
                   }
@@ -344,7 +350,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "traits",
@@ -420,7 +428,9 @@
                 "character": 0
               }
             },
-            "children": []
+            "children": [
+              
+            ]
           }
         ]
       }

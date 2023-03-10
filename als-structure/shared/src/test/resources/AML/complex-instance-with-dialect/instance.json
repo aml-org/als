@@ -23,7 +23,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "arrobj",
@@ -49,7 +51,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "arr",
@@ -75,7 +79,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "nested",
@@ -126,7 +132,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "otherNested",
@@ -152,7 +160,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       }
     ]
   }

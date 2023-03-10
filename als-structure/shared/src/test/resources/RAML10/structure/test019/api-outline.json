@@ -23,7 +23,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "version",
@@ -49,7 +51,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "baseUri",
@@ -75,7 +79,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "securitySchemes",
@@ -126,7 +132,9 @@
             "character": 30
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       }
     ]
   }

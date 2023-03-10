@@ -1,11 +1,17 @@
 [
   {
     "label": "bindings",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "bindings",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11bindings",
     "filterText": "bindings:\n  ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11description",
     "filterText": "description: ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "parameters",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "parameters",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11parameters",
     "filterText": "parameters:\n  ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "publish",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "publish",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11publish",
     "filterText": "publish:\n  ",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "subscribe",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "subscribe",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11subscribe",
     "filterText": "subscribe:\n  ",
     "insertText": null,

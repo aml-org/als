@@ -1,11 +1,17 @@
 [
   {
     "label": "X509",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "X509",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10X509",
     "filterText": "X509",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "apiKey",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "apiKey",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10apiKey",
     "filterText": "apiKey",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "asymmetricEncryption",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "asymmetricEncryption",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10asymmetricEncryption",
     "filterText": "asymmetricEncryption",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "http",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "http",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10http",
     "filterText": "http",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "httpApiKey",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "httpApiKey",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10httpApiKey",
     "filterText": "httpApiKey",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "oauth2",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "oauth2",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10oauth2",
     "filterText": "oauth2",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "openIdConnect",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "openIdConnect",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10openIdConnect",
     "filterText": "openIdConnect",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "symmetricEncryption",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "symmetricEncryption",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10symmetricEncryption",
     "filterText": "symmetricEncryption",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "userPassword",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "userPassword",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10userPassword",
     "filterText": "userPassword",
     "insertText": null,

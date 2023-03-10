@@ -1,11 +1,17 @@
 [
   {
     "label": "New nodeMapping",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "20New nodeMapping",
     "filterText": "$1:\n  classTerm: $2",
     "insertText": null,

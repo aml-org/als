@@ -23,7 +23,9 @@
         "character": 35
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "version",
@@ -49,7 +51,9 @@
         "character": 22
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "/endpoint1",
@@ -125,7 +129,9 @@
                 "character": 9
               }
             },
-            "children": []
+            "children": [
+              
+            ]
           }
         ]
       }

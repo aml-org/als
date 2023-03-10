@@ -48,7 +48,9 @@
             "character": 5
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "Test2",
@@ -74,7 +76,9 @@
             "character": 5
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "Test3",
@@ -100,7 +104,9 @@
             "character": 5
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "Test4",
@@ -126,7 +132,9 @@
             "character": 5
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       }
     ]
   }

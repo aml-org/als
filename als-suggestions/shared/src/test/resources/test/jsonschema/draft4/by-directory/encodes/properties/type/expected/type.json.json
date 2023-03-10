@@ -1,11 +1,17 @@
 [
   {
     "label": "array",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "array",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10array",
     "filterText": "\"array\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "boolean",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "boolean",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10boolean",
     "filterText": "\"boolean\"",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "integer",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "integer",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10integer",
     "filterText": "\"integer\"",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "null",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "null",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10null",
     "filterText": "\"null\"",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "number",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "number",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10number",
     "filterText": "\"number\"",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "object",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "object",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10object",
     "filterText": "\"object\"",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "string",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "string",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10string",
     "filterText": "\"string\"",
     "insertText": null,

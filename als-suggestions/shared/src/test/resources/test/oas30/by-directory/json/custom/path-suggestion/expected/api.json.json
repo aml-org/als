@@ -1,11 +1,17 @@
 [
   {
     "label": "/expected/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11/expected/",
     "filterText": "\"/expected/\"",
     "insertText": null,

@@ -1,11 +1,17 @@
 [
   {
     "label": "(myAnnotation)",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "annotations",
     "documentation": "(myAnnotation)",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21(myAnnotation)",
     "filterText": "(myAnnotation): ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "body",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "responses",
     "documentation": "body",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11body",
     "filterText": "body:\n  ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11description",
     "filterText": "description: ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "headers",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "headers",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11headers",
     "filterText": "headers:\n  ",
     "insertText": null,

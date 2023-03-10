@@ -1,11 +1,17 @@
 [
   {
     "label": "New flows",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "flows",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "20New flows",
     "filterText": "flows:\n  $1:\n    authorizationUrl: $2\n    tokenUrl: $3",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11description",
     "filterText": "description: ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "flows",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "flows",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10flows",
     "filterText": "flows:\n  ",
     "insertText": null,

@@ -1,11 +1,17 @@
 [
   {
     "label": "attribute",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "attribute",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11attribute",
     "filterText": "attribute: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "name",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "name",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11name",
     "filterText": "name: ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "namespace",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "namespace",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11namespace",
     "filterText": "namespace: ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "prefix",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "prefix",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11prefix",
     "filterText": "prefix: ",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "wrapped",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "wrapped",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11wrapped",
     "filterText": "wrapped: ",
     "insertText": null,

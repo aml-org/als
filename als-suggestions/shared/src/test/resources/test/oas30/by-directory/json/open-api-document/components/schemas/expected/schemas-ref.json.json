@@ -1,11 +1,17 @@
 [
   {
     "label": "#/components/schemas/test",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Reference to #/components/schemas/test",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#/components/schemas/test",
     "filterText": "\"#/components/schemas/test\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "array-schema.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11array-schema.json",
     "filterText": "\"array-schema.json\"",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "boolean-format.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11boolean-format.json",
     "filterText": "\"boolean-format.json\"",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "discriminator/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11discriminator/",
     "filterText": "\"discriminator/\"",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "expected/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11expected/",
     "filterText": "\"expected/\"",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "external-docs-schema.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11external-docs-schema.json",
     "filterText": "\"external-docs-schema.json\"",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "integer-format.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11integer-format.json",
     "filterText": "\"integer-format.json\"",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "items-schema.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11items-schema.json",
     "filterText": "\"items-schema.json\"",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "jsonschema.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11jsonschema.json",
     "filterText": "\"jsonschema.json\"",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "number-format.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11number-format.json",
     "filterText": "\"number-format.json\"",
     "insertText": null,
@@ -301,11 +361,17 @@
   },
   {
     "label": "number-schema.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11number-schema.json",
     "filterText": "\"number-schema.json\"",
     "insertText": null,
@@ -331,11 +397,17 @@
   },
   {
     "label": "object-schema.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11object-schema.json",
     "filterText": "\"object-schema.json\"",
     "insertText": null,
@@ -361,11 +433,17 @@
   },
   {
     "label": "properties-schema.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11properties-schema.json",
     "filterText": "\"properties-schema.json\"",
     "insertText": null,
@@ -391,11 +469,17 @@
   },
   {
     "label": "property-schema.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11property-schema.json",
     "filterText": "\"property-schema.json\"",
     "insertText": null,
@@ -421,11 +505,17 @@
   },
   {
     "label": "required-properties-name-existing.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11required-properties-name-existing.json",
     "filterText": "\"required-properties-name-existing.json\"",
     "insertText": null,
@@ -451,11 +541,17 @@
   },
   {
     "label": "required-properties-name.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11required-properties-name.json",
     "filterText": "\"required-properties-name.json\"",
     "insertText": null,
@@ -481,11 +577,17 @@
   },
   {
     "label": "schema-name-after-declaration.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schema-name-after-declaration.json",
     "filterText": "\"schema-name-after-declaration.json\"",
     "insertText": null,
@@ -511,11 +613,17 @@
   },
   {
     "label": "schema-name.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schema-name.json",
     "filterText": "\"schema-name.json\"",
     "insertText": null,
@@ -541,11 +649,17 @@
   },
   {
     "label": "schema-path-nav-two.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schema-path-nav-two.json",
     "filterText": "\"schema-path-nav-two.json\"",
     "insertText": null,
@@ -571,11 +685,17 @@
   },
   {
     "label": "schema-path-nav-withoutbar.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schema-path-nav-withoutbar.json",
     "filterText": "\"schema-path-nav-withoutbar.json\"",
     "insertText": null,
@@ -601,11 +721,17 @@
   },
   {
     "label": "schema-path-nav.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schema-path-nav.json",
     "filterText": "\"schema-path-nav.json\"",
     "insertText": null,
@@ -631,11 +757,17 @@
   },
   {
     "label": "schema-ref-comment.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schema-ref-comment.json",
     "filterText": "\"schema-ref-comment.json\"",
     "insertText": null,
@@ -661,11 +793,17 @@
   },
   {
     "label": "schema-ref-separator-two.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schema-ref-separator-two.json",
     "filterText": "\"schema-ref-separator-two.json\"",
     "insertText": null,
@@ -691,11 +829,17 @@
   },
   {
     "label": "schema-ref-separator.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schema-ref-separator.json",
     "filterText": "\"schema-ref-separator.json\"",
     "insertText": null,
@@ -721,11 +865,17 @@
   },
   {
     "label": "schemas.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schemas.json",
     "filterText": "\"schemas.json\"",
     "insertText": null,
@@ -751,11 +901,17 @@
   },
   {
     "label": "string-format.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11string-format.json",
     "filterText": "\"string-format.json\"",
     "insertText": null,
@@ -781,11 +937,17 @@
   },
   {
     "label": "string-schema.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11string-schema.json",
     "filterText": "\"string-schema.json\"",
     "insertText": null,
@@ -811,11 +973,17 @@
   },
   {
     "label": "types-schema.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11types-schema.json",
     "filterText": "\"types-schema.json\"",
     "insertText": null,
@@ -841,11 +1009,17 @@
   },
   {
     "label": "xml-object-schema.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11xml-object-schema.json",
     "filterText": "\"xml-object-schema.json\"",
     "insertText": null,

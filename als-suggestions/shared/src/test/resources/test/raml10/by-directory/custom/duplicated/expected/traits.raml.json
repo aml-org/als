@@ -1,11 +1,17 @@
 [
   {
     "label": "trait1",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "trait1",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11trait1",
     "filterText": "trait1",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "trait2",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "trait2",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11trait2",
     "filterText": "trait2",
     "insertText": null,

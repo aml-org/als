@@ -1,11 +1,17 @@
 [
   {
     "label": "Member",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Member",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Member",
     "filterText": "Member",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "Plane",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Plane",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Plane",
     "filterText": "Plane",
     "insertText": null,

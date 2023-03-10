@@ -1,11 +1,17 @@
 [
   {
     "label": "New externalDocs",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "externalDocs",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New externalDocs",
     "filterText": "externalDocs:\n  url: $1",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "New parameters",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "parameters",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New parameters",
     "filterText": "parameters:\n  -\n    in: $1\n    required: $2\n    description: $3\n    name: $4",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "New responses",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "responses",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "20New responses",
     "filterText": "responses:\n  $1:\n    description: $2",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "New security",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "security",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New security",
     "filterText": "security:\n  -\n    type: $1",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "New servers",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "servers",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New servers",
     "filterText": "servers:\n  -\n    url: $1",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "callbacks",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "callbacks",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11callbacks",
     "filterText": "callbacks:\n  ",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "deprecated",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "deprecated",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11deprecated",
     "filterText": "deprecated: ",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11description",
     "filterText": "description: ",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "externalDocs",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "externalDocs",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11externalDocs",
     "filterText": "externalDocs:\n  ",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "operationId",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "operationId",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11operationId",
     "filterText": "operationId: ",
     "insertText": null,
@@ -301,11 +361,17 @@
   },
   {
     "label": "parameters",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "parameters",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11parameters",
     "filterText": "parameters:\n  - ",
     "insertText": null,
@@ -331,11 +397,17 @@
   },
   {
     "label": "requestBody",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "requestBody",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11requestBody",
     "filterText": "requestBody:\n  ",
     "insertText": null,
@@ -361,11 +433,17 @@
   },
   {
     "label": "responses",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "responses",
     "documentation": "responses",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10responses",
     "filterText": "responses:\n  ",
     "insertText": null,
@@ -391,11 +469,17 @@
   },
   {
     "label": "security",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "security",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11security",
     "filterText": "security:\n  - ",
     "insertText": null,
@@ -421,11 +505,17 @@
   },
   {
     "label": "servers",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "servers",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11servers",
     "filterText": "servers:\n  - ",
     "insertText": null,
@@ -451,11 +541,17 @@
   },
   {
     "label": "summary",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "summary",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11summary",
     "filterText": "summary: ",
     "insertText": null,
@@ -481,11 +577,17 @@
   },
   {
     "label": "tags",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "tags",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11tags",
     "filterText": "tags:\n  - ",
     "insertText": null,
