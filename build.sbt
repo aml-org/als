@@ -61,6 +61,12 @@ lazy val npmDependencyAmfCustomValidatorWeb = s"@aml-org/amf-custom-validator-we
 lazy val npmDependencyAmfCustomValidator    = s"@aml-org/amf-custom-validator@$amfCustomValidatorJSVersion"
 lazy val npmDependencyAmfAntlr              = s"@aml-org/amf-antlr-parsers@$amfAntlrParsersVersion"
 
+////region SBT-Dependencies
+lazy val scalaJS_DomDependency = ModuleID("org.scala-js", "scalajs-dom_sjs1_2.12" , "1.1.0")
+lazy val upickle_Dependency = ModuleID("com.lihaoyi", "upickle_sjs1_2.12", "0.9.9")
+lazy val scalaJS_NodeDependency = ModuleID("net.exoego", "scala-js-nodejs-v14_sjs1_2.12", "0.13.0")
+////endregion
+
 val orgSettings = Seq(
   organization := "org.mule.als",
   version      := deps("version"),
@@ -77,7 +83,7 @@ val orgSettings = Seq(
     "com.chuusai"    %% "shapeless"     % "2.3.3",
     "org.scala-js"   %% "scalajs-stubs" % scalaJSVersion % "provided",
     "org.scalatest" %%% "scalatest"     % "3.2.0"        % Test,
-    "com.lihaoyi"   %%% "upickle"       % "1.3.13"       % Test
+    upickle_Dependency
   )
 )
 
@@ -165,6 +171,7 @@ lazy val suggestions = crossProject(JSPlatform, JVMPlatform)
   .in(file("./als-suggestions"))
   .settings(settings: _*)
   .jsSettings(
+    libraryDependencies += upickle_Dependency,
 //    packageJSDependencies / skip := false,
     scalaJSLinkerConfig          ~= { _
       .withModuleKind(ModuleKind.CommonJSModule)
@@ -192,9 +199,11 @@ lazy val structure = crossProject(JSPlatform, JVMPlatform)
   .in(file(s"$pathAlsStructure"))
   .settings(settings: _*)
   .jsSettings(
-    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "1.1.0",
-    libraryDependencies += "com.lihaoyi"  %%% "upickle"     % "1.3.13",
-    scalaJSLinkerConfig                    ~= { _
+    libraryDependencies ++= Seq(
+      scalaJS_DomDependency,
+      upickle_Dependency
+    ),
+    scalaJSLinkerConfig ~= { _
       .withModuleKind(ModuleKind.CommonJSModule)
       .withESFeatures(_.withESVersion(ESVersion.ES2016))
     },
@@ -229,9 +238,6 @@ lazy val actionsJVM = actions.jvm.in(file(s"$pathAlsActions/jvm"))
 lazy val actionsJS  = actions.js.in(file(s"$pathAlsActions/js")).disablePlugins(SonarPlugin, ScoverageSbtPlugin)
 
 ////endregion
-
-lazy val scalaJS_NodeDependency =
-  ModuleID.apply("net.exoego", "scala-js-nodejs-v14_sjs1_2.12", "0.13.0")
 
 ////region ALS-SERVER
 /** ALS server */
@@ -283,8 +289,10 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
       .withModuleKind(ModuleKind.CommonJSModule)
       .withESFeatures(_.withESVersion(ESVersion.ES2016))
     },
-    libraryDependencies += scalaJS_NodeDependency,
-    libraryDependencies += "org.scala-js" %%% "scalajs-dom"         % "1.1.0",
+    libraryDependencies ++= Seq(
+      scalaJS_NodeDependency,
+      scalaJS_DomDependency
+    ),
     Compile / fastLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "node-package" / "lib" / "als-server.js",
     Compile / fullLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "node-package" / "lib" / "als-server.min.js"
   )
