@@ -1,11 +1,17 @@
 [
   {
     "label": "read:scope",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "read:scope",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11read:scope",
     "filterText": "read:scope",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "write:scope",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "write:scope",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11write:scope",
     "filterText": "write:scope",
     "insertText": null,

@@ -1,11 +1,17 @@
 [
   {
     "label": "param2",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "param2",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10param2",
     "filterText": "param2: ",
     "insertText": null,

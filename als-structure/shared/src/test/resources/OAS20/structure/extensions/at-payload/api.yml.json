@@ -23,7 +23,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "version",
@@ -49,7 +51,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "Contact",
@@ -75,7 +79,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "License",
@@ -101,7 +107,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "basePath",
@@ -127,7 +135,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "host",
@@ -153,7 +163,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "tags",
@@ -179,7 +191,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "documentation",
@@ -205,7 +219,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "/v3/groups",
@@ -381,7 +397,9 @@
                                 "character": 0
                               }
                             },
-                            "children": []
+                            "children": [
+                              
+                            ]
                           }
                         ]
                       },
@@ -409,7 +427,9 @@
                             "character": 0
                           }
                         },
-                        "children": []
+                        "children": [
+                          
+                        ]
                       },
                       {
                         "name": "properties",
@@ -460,7 +480,9 @@
                                 "character": 0
                               }
                             },
-                            "children": []
+                            "children": [
+                              
+                            ]
                           },
                           {
                             "name": "name",
@@ -486,7 +508,9 @@
                                 "character": 0
                               }
                             },
-                            "children": []
+                            "children": [
+                              
+                            ]
                           },
                           {
                             "name": "image",
@@ -562,7 +586,9 @@
                                         "character": 0
                                       }
                                     },
-                                    "children": []
+                                    "children": [
+                                      
+                                    ]
                                   },
                                   {
                                     "name": "width",
@@ -588,7 +614,9 @@
                                         "character": 0
                                       }
                                     },
-                                    "children": []
+                                    "children": [
+                                      
+                                    ]
                                   },
                                   {
                                     "name": "height",
@@ -614,7 +642,9 @@
                                         "character": 0
                                       }
                                     },
-                                    "children": []
+                                    "children": [
+                                      
+                                    ]
                                   }
                                 ]
                               }
@@ -681,7 +711,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "something",
@@ -707,7 +739,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       }
     ]
   }

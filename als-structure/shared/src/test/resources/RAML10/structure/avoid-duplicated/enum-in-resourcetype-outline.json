@@ -23,7 +23,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "resourceTypes",
@@ -99,7 +101,9 @@
                 "character": 7
               }
             },
-            "children": []
+            "children": [
+              
+            ]
           }
         ]
       }

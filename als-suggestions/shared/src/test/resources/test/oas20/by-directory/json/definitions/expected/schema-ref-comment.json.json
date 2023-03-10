@@ -1,11 +1,17 @@
 [
   {
     "label": "#/definitions/a",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Reference to #/definitions/a",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#/definitions/a",
     "filterText": "\"#/definitions/a\"",
     "insertText": null,

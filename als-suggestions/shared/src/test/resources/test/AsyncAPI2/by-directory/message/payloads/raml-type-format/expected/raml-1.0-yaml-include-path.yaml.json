@@ -1,11 +1,17 @@
 [
   {
     "label": "expected/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11expected/",
     "filterText": "expected/",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "raml-1.0-yaml-any.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11raml-1.0-yaml-any.yaml",
     "filterText": "raml-1.0-yaml-any.yaml",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "raml-1.0-yaml-array.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11raml-1.0-yaml-array.yaml",
     "filterText": "raml-1.0-yaml-array.yaml",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "raml-1.0-yaml-boolean.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11raml-1.0-yaml-boolean.yaml",
     "filterText": "raml-1.0-yaml-boolean.yaml",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "raml-1.0-yaml-date.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11raml-1.0-yaml-date.yaml",
     "filterText": "raml-1.0-yaml-date.yaml",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "raml-1.0-yaml-datetime-only.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11raml-1.0-yaml-datetime-only.yaml",
     "filterText": "raml-1.0-yaml-datetime-only.yaml",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "raml-1.0-yaml-datetime.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11raml-1.0-yaml-datetime.yaml",
     "filterText": "raml-1.0-yaml-datetime.yaml",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "raml-1.0-yaml-file.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11raml-1.0-yaml-file.yaml",
     "filterText": "raml-1.0-yaml-file.yaml",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "raml-1.0-yaml-include-tag.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11raml-1.0-yaml-include-tag.yaml",
     "filterText": "raml-1.0-yaml-include-tag.yaml",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "raml-1.0-yaml-integer.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11raml-1.0-yaml-integer.yaml",
     "filterText": "raml-1.0-yaml-integer.yaml",
     "insertText": null,
@@ -301,11 +361,17 @@
   },
   {
     "label": "raml-1.0-yaml-nil.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11raml-1.0-yaml-nil.yaml",
     "filterText": "raml-1.0-yaml-nil.yaml",
     "insertText": null,
@@ -331,11 +397,17 @@
   },
   {
     "label": "raml-1.0-yaml-number.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11raml-1.0-yaml-number.yaml",
     "filterText": "raml-1.0-yaml-number.yaml",
     "insertText": null,
@@ -361,11 +433,17 @@
   },
   {
     "label": "raml-1.0-yaml-object.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11raml-1.0-yaml-object.yaml",
     "filterText": "raml-1.0-yaml-object.yaml",
     "insertText": null,
@@ -391,11 +469,17 @@
   },
   {
     "label": "raml-1.0-yaml-properties.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11raml-1.0-yaml-properties.yaml",
     "filterText": "raml-1.0-yaml-properties.yaml",
     "insertText": null,
@@ -421,11 +505,17 @@
   },
   {
     "label": "raml-1.0-yaml-property-include-path.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11raml-1.0-yaml-property-include-path.yaml",
     "filterText": "raml-1.0-yaml-property-include-path.yaml",
     "insertText": null,
@@ -451,11 +541,17 @@
   },
   {
     "label": "raml-1.0-yaml-string.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11raml-1.0-yaml-string.yaml",
     "filterText": "raml-1.0-yaml-string.yaml",
     "insertText": null,
@@ -481,11 +577,17 @@
   },
   {
     "label": "raml-1.0-yaml-time.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11raml-1.0-yaml-time.yaml",
     "filterText": "raml-1.0-yaml-time.yaml",
     "insertText": null,
@@ -511,11 +613,17 @@
   },
   {
     "label": "raml-1.0-yaml-types.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11raml-1.0-yaml-types.yaml",
     "filterText": "raml-1.0-yaml-types.yaml",
     "insertText": null,
@@ -541,11 +649,17 @@
   },
   {
     "label": "raml-1.0-yaml-union.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11raml-1.0-yaml-union.yaml",
     "filterText": "raml-1.0-yaml-union.yaml",
     "insertText": null,
@@ -571,11 +685,17 @@
   },
   {
     "label": "raml-1.0-yaml-with-declared.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11raml-1.0-yaml-with-declared.yaml",
     "filterText": "raml-1.0-yaml-with-declared.yaml",
     "insertText": null,

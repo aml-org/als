@@ -1,11 +1,17 @@
 [
   {
     "label": "internalApiKey",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "internalApiKey",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11internalApiKey",
     "filterText": "internalApiKey:\n  - ",
     "insertText": null,

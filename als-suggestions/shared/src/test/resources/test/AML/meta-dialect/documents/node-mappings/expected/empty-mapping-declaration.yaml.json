@@ -1,11 +1,17 @@
 [
   {
     "label": "$ref",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "reference tag",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "0$ref",
     "filterText": "$ref: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "classTerm",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "classTerm",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10classTerm",
     "filterText": "classTerm: ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "extends",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "extends",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11extends",
     "filterText": "extends: ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "idTemplate",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "idTemplate",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11idTemplate",
     "filterText": "idTemplate: ",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "mapping",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "mapping",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11mapping",
     "filterText": "mapping:\n  ",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "patch",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "patch",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11patch",
     "filterText": "patch: ",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "typeDiscriminator",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "typeDiscriminator",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11typeDiscriminator",
     "filterText": "typeDiscriminator: ",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "typeDiscriminatorName",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "typeDiscriminatorName",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11typeDiscriminatorName",
     "filterText": "typeDiscriminatorName: ",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "union",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "union",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11union",
     "filterText": "union:\n  - ",
     "insertText": null,

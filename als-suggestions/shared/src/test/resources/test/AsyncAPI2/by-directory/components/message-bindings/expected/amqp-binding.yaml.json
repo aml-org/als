@@ -1,11 +1,17 @@
 [
   {
     "label": "bindingVersion",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "bindingVersion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11bindingVersion",
     "filterText": "bindingVersion: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "contentEncoding",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "contentEncoding",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11contentEncoding",
     "filterText": "contentEncoding: ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "messageType",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "messageType",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11messageType",
     "filterText": "messageType: ",
     "insertText": null,

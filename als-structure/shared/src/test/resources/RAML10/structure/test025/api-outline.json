@@ -23,7 +23,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "/resource",
@@ -174,7 +176,9 @@
                             "character": 0
                           }
                         },
-                        "children": []
+                        "children": [
+                          
+                        ]
                       }
                     ]
                   }

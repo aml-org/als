@@ -1,11 +1,17 @@
 [
   {
     "label": "declarationsPath",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "declarationsPath",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11declarationsPath",
     "filterText": "declarationsPath: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "keyProperty",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "keyProperty",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11keyProperty",
     "filterText": "keyProperty: ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "referenceStyle",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "referenceStyle",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11referenceStyle",
     "filterText": "referenceStyle: ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "selfEncoded",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "selfEncoded",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11selfEncoded",
     "filterText": "selfEncoded: ",
     "insertText": null,

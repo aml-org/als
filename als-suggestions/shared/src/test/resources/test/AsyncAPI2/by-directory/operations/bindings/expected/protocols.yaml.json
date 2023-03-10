@@ -1,11 +1,17 @@
 [
   {
     "label": "amqp",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "amqp",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11amqp",
     "filterText": "amqp:\n  ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "amqp1",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "amqp1",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11amqp1",
     "filterText": "amqp1:\n  ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "http",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "http",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11http",
     "filterText": "http:\n  ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "jms",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "jms",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11jms",
     "filterText": "jms:\n  ",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "kafka",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "kafka",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11kafka",
     "filterText": "kafka:\n  ",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "mqtt",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "mqtt",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11mqtt",
     "filterText": "mqtt:\n  ",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "mqtt5",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "mqtt5",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11mqtt5",
     "filterText": "mqtt5:\n  ",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "nats",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "nats",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11nats",
     "filterText": "nats:\n  ",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "redis",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "redis",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11redis",
     "filterText": "redis:\n  ",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "sns",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "sns",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11sns",
     "filterText": "sns:\n  ",
     "insertText": null,
@@ -301,11 +361,17 @@
   },
   {
     "label": "sqs",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "sqs",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11sqs",
     "filterText": "sqs:\n  ",
     "insertText": null,
@@ -331,11 +397,17 @@
   },
   {
     "label": "stomp",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "stomp",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11stomp",
     "filterText": "stomp:\n  ",
     "insertText": null,
@@ -361,11 +433,17 @@
   },
   {
     "label": "ws",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "ws",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11ws",
     "filterText": "ws:\n  ",
     "insertText": null,

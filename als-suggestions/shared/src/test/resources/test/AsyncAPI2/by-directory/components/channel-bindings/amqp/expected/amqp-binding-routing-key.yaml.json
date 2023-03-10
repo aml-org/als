@@ -1,11 +1,17 @@
 [
   {
     "label": "exchange",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "AMQP",
     "documentation": "exchange",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10exchange",
     "filterText": "exchange:\n  ",
     "insertText": null,

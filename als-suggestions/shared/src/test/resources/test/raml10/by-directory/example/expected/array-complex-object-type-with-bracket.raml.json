@@ -1,11 +1,17 @@
 [
   {
     "label": "c",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "example",
     "documentation": "c",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10c",
     "filterText": "c:",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "d",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "example",
     "documentation": "d",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10d",
     "filterText": "d:",
     "insertText": null,

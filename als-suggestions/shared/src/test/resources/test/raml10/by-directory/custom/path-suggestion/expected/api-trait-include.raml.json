@@ -1,11 +1,17 @@
 [
   {
     "label": "/api-trait-inlined.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11/api-trait-inlined.raml",
     "filterText": "/api-trait-inlined.raml",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "/api.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11/api.raml",
     "filterText": "/api.raml",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "/double-slash.raml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11/double-slash.raml",
     "filterText": "/double-slash.raml",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "/expected/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11/expected/",
     "filterText": "/expected/",
     "insertText": null,

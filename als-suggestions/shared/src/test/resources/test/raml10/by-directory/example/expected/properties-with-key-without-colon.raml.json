@@ -1,11 +1,17 @@
 [
   {
     "label": "valueEight",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "example",
     "documentation": "valueEight",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10valueEight",
     "filterText": "valueEight: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "valueSeven",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "example",
     "documentation": "valueSeven",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10valueSeven",
     "filterText": "valueSeven: ",
     "insertText": null,

@@ -1,11 +1,17 @@
 [
   {
     "label": "version",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "version",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10version",
     "filterText": "version: ",
     "insertText": null,

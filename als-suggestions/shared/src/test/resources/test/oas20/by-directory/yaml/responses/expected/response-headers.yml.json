@@ -1,11 +1,17 @@
 [
   {
     "label": "A-IM",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "A-IM",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11A-IM",
     "filterText": "A-IM:\n  ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "ALPN",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "ALPN",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11ALPN",
     "filterText": "ALPN:\n  ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "Accept",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Accept",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Accept",
     "filterText": "Accept:\n  ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "Accept-CH",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Accept-CH",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Accept-CH",
     "filterText": "Accept-CH:\n  ",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "Accept-Charset",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Accept-Charset",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Accept-Charset",
     "filterText": "Accept-Charset:\n  ",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "Accept-Encoding",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Accept-Encoding",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Accept-Encoding",
     "filterText": "Accept-Encoding:\n  ",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "Accept-Features",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Accept-Features",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Accept-Features",
     "filterText": "Accept-Features:\n  ",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "Accept-Language",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Accept-Language",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Accept-Language",
     "filterText": "Accept-Language:\n  ",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "Accept-Patch",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Accept-Patch",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Accept-Patch",
     "filterText": "Accept-Patch:\n  ",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "Accept-Post",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Accept-Post",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Accept-Post",
     "filterText": "Accept-Post:\n  ",
     "insertText": null,
@@ -301,11 +361,17 @@
   },
   {
     "label": "Accept-Ranges",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Accept-Ranges",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Accept-Ranges",
     "filterText": "Accept-Ranges:\n  ",
     "insertText": null,
@@ -331,11 +397,17 @@
   },
   {
     "label": "Access-Control-Allow-Credentials",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Access-Control-Allow-Credentials",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Access-Control-Allow-Credentials",
     "filterText": "Access-Control-Allow-Credentials:\n  ",
     "insertText": null,
@@ -361,11 +433,17 @@
   },
   {
     "label": "Access-Control-Allow-Headers",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Access-Control-Allow-Headers",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Access-Control-Allow-Headers",
     "filterText": "Access-Control-Allow-Headers:\n  ",
     "insertText": null,
@@ -391,11 +469,17 @@
   },
   {
     "label": "Access-Control-Allow-Methods",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Access-Control-Allow-Methods",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Access-Control-Allow-Methods",
     "filterText": "Access-Control-Allow-Methods:\n  ",
     "insertText": null,
@@ -421,11 +505,17 @@
   },
   {
     "label": "Access-Control-Allow-Origin",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Access-Control-Allow-Origin",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Access-Control-Allow-Origin",
     "filterText": "Access-Control-Allow-Origin:\n  ",
     "insertText": null,
@@ -451,11 +541,17 @@
   },
   {
     "label": "Access-Control-Expose-Headers",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Access-Control-Expose-Headers",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Access-Control-Expose-Headers",
     "filterText": "Access-Control-Expose-Headers:\n  ",
     "insertText": null,
@@ -481,11 +577,17 @@
   },
   {
     "label": "Access-Control-Max-Age",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Access-Control-Max-Age",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Access-Control-Max-Age",
     "filterText": "Access-Control-Max-Age:\n  ",
     "insertText": null,
@@ -511,11 +613,17 @@
   },
   {
     "label": "Access-Control-Request-Headers",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Access-Control-Request-Headers",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Access-Control-Request-Headers",
     "filterText": "Access-Control-Request-Headers:\n  ",
     "insertText": null,
@@ -541,11 +649,17 @@
   },
   {
     "label": "Access-Control-Request-Method",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Access-Control-Request-Method",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Access-Control-Request-Method",
     "filterText": "Access-Control-Request-Method:\n  ",
     "insertText": null,
@@ -571,11 +685,17 @@
   },
   {
     "label": "Age",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Age",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Age",
     "filterText": "Age:\n  ",
     "insertText": null,
@@ -601,11 +721,17 @@
   },
   {
     "label": "Allow",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Allow",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Allow",
     "filterText": "Allow:\n  ",
     "insertText": null,
@@ -631,11 +757,17 @@
   },
   {
     "label": "Alt-Svc",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Alt-Svc",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Alt-Svc",
     "filterText": "Alt-Svc:\n  ",
     "insertText": null,
@@ -661,11 +793,17 @@
   },
   {
     "label": "Alternates",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Alternates",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Alternates",
     "filterText": "Alternates:\n  ",
     "insertText": null,
@@ -691,11 +829,17 @@
   },
   {
     "label": "Apply-To-Redirect-Ref",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Apply-To-Redirect-Ref",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Apply-To-Redirect-Ref",
     "filterText": "Apply-To-Redirect-Ref:\n  ",
     "insertText": null,
@@ -721,11 +865,17 @@
   },
   {
     "label": "Authorization",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Authorization",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Authorization",
     "filterText": "Authorization:\n  ",
     "insertText": null,
@@ -751,11 +901,17 @@
   },
   {
     "label": "CH",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "CH",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11CH",
     "filterText": "CH:\n  ",
     "insertText": null,
@@ -781,11 +937,17 @@
   },
   {
     "label": "Cache-Control",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Cache-Control",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Cache-Control",
     "filterText": "Cache-Control:\n  ",
     "insertText": null,
@@ -811,11 +973,17 @@
   },
   {
     "label": "Content-Base",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Content-Base",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Content-Base",
     "filterText": "Content-Base:\n  ",
     "insertText": null,
@@ -841,11 +1009,17 @@
   },
   {
     "label": "Content-DPR",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Content-DPR",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Content-DPR",
     "filterText": "Content-DPR:\n  ",
     "insertText": null,
@@ -871,11 +1045,17 @@
   },
   {
     "label": "Content-Disposition",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Content-Disposition",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Content-Disposition",
     "filterText": "Content-Disposition:\n  ",
     "insertText": null,
@@ -901,11 +1081,17 @@
   },
   {
     "label": "Content-Encoding",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Content-Encoding",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Content-Encoding",
     "filterText": "Content-Encoding:\n  ",
     "insertText": null,
@@ -931,11 +1117,17 @@
   },
   {
     "label": "Content-Language",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Content-Language",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Content-Language",
     "filterText": "Content-Language:\n  ",
     "insertText": null,
@@ -961,11 +1153,17 @@
   },
   {
     "label": "Content-Length",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Content-Length",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Content-Length",
     "filterText": "Content-Length:\n  ",
     "insertText": null,
@@ -991,11 +1189,17 @@
   },
   {
     "label": "Content-Location",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Content-Location",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Content-Location",
     "filterText": "Content-Location:\n  ",
     "insertText": null,
@@ -1021,11 +1225,17 @@
   },
   {
     "label": "Content-Range",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Content-Range",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Content-Range",
     "filterText": "Content-Range:\n  ",
     "insertText": null,
@@ -1051,11 +1261,17 @@
   },
   {
     "label": "Content-Security-Policy",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Content-Security-Policy",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Content-Security-Policy",
     "filterText": "Content-Security-Policy:\n  ",
     "insertText": null,
@@ -1081,11 +1297,17 @@
   },
   {
     "label": "Content-Security-Policy-Report-Only",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Content-Security-Policy-Report-Only",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Content-Security-Policy-Report-Only",
     "filterText": "Content-Security-Policy-Report-Only:\n  ",
     "insertText": null,
@@ -1111,11 +1333,17 @@
   },
   {
     "label": "Content-Type",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Content-Type",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Content-Type",
     "filterText": "Content-Type:\n  ",
     "insertText": null,
@@ -1141,11 +1369,17 @@
   },
   {
     "label": "Cookie",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Cookie",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Cookie",
     "filterText": "Cookie:\n  ",
     "insertText": null,
@@ -1171,11 +1405,17 @@
   },
   {
     "label": "Cookie2",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Cookie2",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Cookie2",
     "filterText": "Cookie2:\n  ",
     "insertText": null,
@@ -1201,11 +1441,17 @@
   },
   {
     "label": "DASL",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "DASL",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11DASL",
     "filterText": "DASL:\n  ",
     "insertText": null,
@@ -1231,11 +1477,17 @@
   },
   {
     "label": "DAV",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "DAV",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11DAV",
     "filterText": "DAV:\n  ",
     "insertText": null,
@@ -1261,11 +1513,17 @@
   },
   {
     "label": "DNT",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "DNT",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11DNT",
     "filterText": "DNT:\n  ",
     "insertText": null,
@@ -1291,11 +1549,17 @@
   },
   {
     "label": "DPR",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "DPR",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11DPR",
     "filterText": "DPR:\n  ",
     "insertText": null,
@@ -1321,11 +1585,17 @@
   },
   {
     "label": "Date",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Date",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Date",
     "filterText": "Date:\n  ",
     "insertText": null,
@@ -1351,11 +1621,17 @@
   },
   {
     "label": "Delta-Base",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Delta-Base",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Delta-Base",
     "filterText": "Delta-Base:\n  ",
     "insertText": null,
@@ -1381,11 +1657,17 @@
   },
   {
     "label": "Depth",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Depth",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Depth",
     "filterText": "Depth:\n  ",
     "insertText": null,
@@ -1411,11 +1693,17 @@
   },
   {
     "label": "Destination",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Destination",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Destination",
     "filterText": "Destination:\n  ",
     "insertText": null,
@@ -1441,11 +1729,17 @@
   },
   {
     "label": "ETag",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "ETag",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11ETag",
     "filterText": "ETag:\n  ",
     "insertText": null,
@@ -1471,11 +1765,17 @@
   },
   {
     "label": "Encryption",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Encryption",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Encryption",
     "filterText": "Encryption:\n  ",
     "insertText": null,
@@ -1501,11 +1801,17 @@
   },
   {
     "label": "Encryption-Key",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Encryption-Key",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Encryption-Key",
     "filterText": "Encryption-Key:\n  ",
     "insertText": null,
@@ -1531,11 +1837,17 @@
   },
   {
     "label": "Expect",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Expect",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Expect",
     "filterText": "Expect:\n  ",
     "insertText": null,
@@ -1561,11 +1873,17 @@
   },
   {
     "label": "Expires",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Expires",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Expires",
     "filterText": "Expires:\n  ",
     "insertText": null,
@@ -1591,11 +1909,17 @@
   },
   {
     "label": "Forwarded",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Forwarded",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Forwarded",
     "filterText": "Forwarded:\n  ",
     "insertText": null,
@@ -1621,11 +1945,17 @@
   },
   {
     "label": "From",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "From",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11From",
     "filterText": "From:\n  ",
     "insertText": null,
@@ -1651,11 +1981,17 @@
   },
   {
     "label": "HTTP2-Settings",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "HTTP2-Settings",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11HTTP2-Settings",
     "filterText": "HTTP2-Settings:\n  ",
     "insertText": null,
@@ -1681,11 +2017,17 @@
   },
   {
     "label": "Host",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Host",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Host",
     "filterText": "Host:\n  ",
     "insertText": null,
@@ -1711,11 +2053,17 @@
   },
   {
     "label": "IM",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "IM",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11IM",
     "filterText": "IM:\n  ",
     "insertText": null,
@@ -1741,11 +2089,17 @@
   },
   {
     "label": "If",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "If",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11If",
     "filterText": "If:\n  ",
     "insertText": null,
@@ -1771,11 +2125,17 @@
   },
   {
     "label": "If-Match",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "If-Match",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11If-Match",
     "filterText": "If-Match:\n  ",
     "insertText": null,
@@ -1801,11 +2161,17 @@
   },
   {
     "label": "If-Modified-Since",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "If-Modified-Since",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11If-Modified-Since",
     "filterText": "If-Modified-Since:\n  ",
     "insertText": null,
@@ -1831,11 +2197,17 @@
   },
   {
     "label": "If-None-Match",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "If-None-Match",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11If-None-Match",
     "filterText": "If-None-Match:\n  ",
     "insertText": null,
@@ -1861,11 +2233,17 @@
   },
   {
     "label": "If-Range",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "If-Range",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11If-Range",
     "filterText": "If-Range:\n  ",
     "insertText": null,
@@ -1891,11 +2269,17 @@
   },
   {
     "label": "If-Schedule-Tag-Match",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "If-Schedule-Tag-Match",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11If-Schedule-Tag-Match",
     "filterText": "If-Schedule-Tag-Match:\n  ",
     "insertText": null,
@@ -1921,11 +2305,17 @@
   },
   {
     "label": "If-Unmodified-Since",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "If-Unmodified-Since",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11If-Unmodified-Since",
     "filterText": "If-Unmodified-Since:\n  ",
     "insertText": null,
@@ -1951,11 +2341,17 @@
   },
   {
     "label": "Key",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Key",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Key",
     "filterText": "Key:\n  ",
     "insertText": null,
@@ -1981,11 +2377,17 @@
   },
   {
     "label": "Last-Event-ID",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Last-Event-ID",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Last-Event-ID",
     "filterText": "Last-Event-ID:\n  ",
     "insertText": null,
@@ -2011,11 +2413,17 @@
   },
   {
     "label": "Last-Modified",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Last-Modified",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Last-Modified",
     "filterText": "Last-Modified:\n  ",
     "insertText": null,
@@ -2041,11 +2449,17 @@
   },
   {
     "label": "Link",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Link",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Link",
     "filterText": "Link:\n  ",
     "insertText": null,
@@ -2071,11 +2485,17 @@
   },
   {
     "label": "Link-Template",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Link-Template",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Link-Template",
     "filterText": "Link-Template:\n  ",
     "insertText": null,
@@ -2101,11 +2521,17 @@
   },
   {
     "label": "Location",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Location",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Location",
     "filterText": "Location:\n  ",
     "insertText": null,
@@ -2131,11 +2557,17 @@
   },
   {
     "label": "Lock-Token",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Lock-Token",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Lock-Token",
     "filterText": "Lock-Token:\n  ",
     "insertText": null,
@@ -2161,11 +2593,17 @@
   },
   {
     "label": "MD",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "MD",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11MD",
     "filterText": "MD:\n  ",
     "insertText": null,
@@ -2191,11 +2629,17 @@
   },
   {
     "label": "Max-Forwards",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Max-Forwards",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Max-Forwards",
     "filterText": "Max-Forwards:\n  ",
     "insertText": null,
@@ -2221,11 +2665,17 @@
   },
   {
     "label": "Negotiate",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Negotiate",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Negotiate",
     "filterText": "Negotiate:\n  ",
     "insertText": null,
@@ -2251,11 +2701,17 @@
   },
   {
     "label": "Nice",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Nice",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Nice",
     "filterText": "Nice:\n  ",
     "insertText": null,
@@ -2281,11 +2737,17 @@
   },
   {
     "label": "Origin",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Origin",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Origin",
     "filterText": "Origin:\n  ",
     "insertText": null,
@@ -2311,11 +2773,17 @@
   },
   {
     "label": "Overwrite",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Overwrite",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Overwrite",
     "filterText": "Overwrite:\n  ",
     "insertText": null,
@@ -2341,11 +2809,17 @@
   },
   {
     "label": "POE",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "POE",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11POE",
     "filterText": "POE:\n  ",
     "insertText": null,
@@ -2371,11 +2845,17 @@
   },
   {
     "label": "POE-Links",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "POE-Links",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11POE-Links",
     "filterText": "POE-Links:\n  ",
     "insertText": null,
@@ -2401,11 +2881,17 @@
   },
   {
     "label": "Pragma",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Pragma",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Pragma",
     "filterText": "Pragma:\n  ",
     "insertText": null,
@@ -2431,11 +2917,17 @@
   },
   {
     "label": "Prefer",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Prefer",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Prefer",
     "filterText": "Prefer:\n  ",
     "insertText": null,
@@ -2461,11 +2953,17 @@
   },
   {
     "label": "Preference-Applied",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Preference-Applied",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Preference-Applied",
     "filterText": "Preference-Applied:\n  ",
     "insertText": null,
@@ -2491,11 +2989,17 @@
   },
   {
     "label": "Proxy-Authenticate",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Proxy-Authenticate",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Proxy-Authenticate",
     "filterText": "Proxy-Authenticate:\n  ",
     "insertText": null,
@@ -2521,11 +3025,17 @@
   },
   {
     "label": "Proxy-Authorization",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Proxy-Authorization",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Proxy-Authorization",
     "filterText": "Proxy-Authorization:\n  ",
     "insertText": null,
@@ -2551,11 +3061,17 @@
   },
   {
     "label": "RW",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "RW",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11RW",
     "filterText": "RW:\n  ",
     "insertText": null,
@@ -2581,11 +3097,17 @@
   },
   {
     "label": "Range",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Range",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Range",
     "filterText": "Range:\n  ",
     "insertText": null,
@@ -2611,11 +3133,17 @@
   },
   {
     "label": "Redirect-Ref",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Redirect-Ref",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Redirect-Ref",
     "filterText": "Redirect-Ref:\n  ",
     "insertText": null,
@@ -2641,11 +3169,17 @@
   },
   {
     "label": "Referer",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Referer",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Referer",
     "filterText": "Referer:\n  ",
     "insertText": null,
@@ -2671,11 +3205,17 @@
   },
   {
     "label": "Retry-After",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Retry-After",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Retry-After",
     "filterText": "Retry-After:\n  ",
     "insertText": null,
@@ -2701,11 +3241,17 @@
   },
   {
     "label": "SLUG",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "SLUG",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11SLUG",
     "filterText": "SLUG:\n  ",
     "insertText": null,
@@ -2731,11 +3277,17 @@
   },
   {
     "label": "Schedule-Reply",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Schedule-Reply",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Schedule-Reply",
     "filterText": "Schedule-Reply:\n  ",
     "insertText": null,
@@ -2761,11 +3313,17 @@
   },
   {
     "label": "Schedule-Tag",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Schedule-Tag",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Schedule-Tag",
     "filterText": "Schedule-Tag:\n  ",
     "insertText": null,
@@ -2791,11 +3349,17 @@
   },
   {
     "label": "Sec-WebSocket-Accept",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Sec-WebSocket-Accept",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Sec-WebSocket-Accept",
     "filterText": "Sec-WebSocket-Accept:\n  ",
     "insertText": null,
@@ -2821,11 +3385,17 @@
   },
   {
     "label": "Sec-WebSocket-Extensions",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Sec-WebSocket-Extensions",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Sec-WebSocket-Extensions",
     "filterText": "Sec-WebSocket-Extensions:\n  ",
     "insertText": null,
@@ -2851,11 +3421,17 @@
   },
   {
     "label": "Sec-WebSocket-Key",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Sec-WebSocket-Key",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Sec-WebSocket-Key",
     "filterText": "Sec-WebSocket-Key:\n  ",
     "insertText": null,
@@ -2881,11 +3457,17 @@
   },
   {
     "label": "Sec-WebSocket-Protocol",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Sec-WebSocket-Protocol",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Sec-WebSocket-Protocol",
     "filterText": "Sec-WebSocket-Protocol:\n  ",
     "insertText": null,
@@ -2911,11 +3493,17 @@
   },
   {
     "label": "Sec-WebSocket-Version",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Sec-WebSocket-Version",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Sec-WebSocket-Version",
     "filterText": "Sec-WebSocket-Version:\n  ",
     "insertText": null,
@@ -2941,11 +3529,17 @@
   },
   {
     "label": "Server",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Server",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Server",
     "filterText": "Server:\n  ",
     "insertText": null,
@@ -2971,11 +3565,17 @@
   },
   {
     "label": "Set-Cookie",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Set-Cookie",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Set-Cookie",
     "filterText": "Set-Cookie:\n  ",
     "insertText": null,
@@ -3001,11 +3601,17 @@
   },
   {
     "label": "Set-Cookie2",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Set-Cookie2",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Set-Cookie2",
     "filterText": "Set-Cookie2:\n  ",
     "insertText": null,
@@ -3031,11 +3637,17 @@
   },
   {
     "label": "Status-URI",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Status-URI",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Status-URI",
     "filterText": "Status-URI:\n  ",
     "insertText": null,
@@ -3061,11 +3673,17 @@
   },
   {
     "label": "Strict-Transport-Security",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Strict-Transport-Security",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Strict-Transport-Security",
     "filterText": "Strict-Transport-Security:\n  ",
     "insertText": null,
@@ -3091,11 +3709,17 @@
   },
   {
     "label": "Sunset",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Sunset",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Sunset",
     "filterText": "Sunset:\n  ",
     "insertText": null,
@@ -3121,11 +3745,17 @@
   },
   {
     "label": "Surrogate-Capability",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Surrogate-Capability",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Surrogate-Capability",
     "filterText": "Surrogate-Capability:\n  ",
     "insertText": null,
@@ -3151,11 +3781,17 @@
   },
   {
     "label": "Surrogate-Control",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Surrogate-Control",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Surrogate-Control",
     "filterText": "Surrogate-Control:\n  ",
     "insertText": null,
@@ -3181,11 +3817,17 @@
   },
   {
     "label": "TCN",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "TCN",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11TCN",
     "filterText": "TCN:\n  ",
     "insertText": null,
@@ -3211,11 +3853,17 @@
   },
   {
     "label": "TE",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "TE",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11TE",
     "filterText": "TE:\n  ",
     "insertText": null,
@@ -3241,11 +3889,17 @@
   },
   {
     "label": "Timeout",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Timeout",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Timeout",
     "filterText": "Timeout:\n  ",
     "insertText": null,
@@ -3271,11 +3925,17 @@
   },
   {
     "label": "Tk",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Tk",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Tk",
     "filterText": "Tk:\n  ",
     "insertText": null,
@@ -3301,11 +3961,17 @@
   },
   {
     "label": "Transfer-Encoding",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Transfer-Encoding",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Transfer-Encoding",
     "filterText": "Transfer-Encoding:\n  ",
     "insertText": null,
@@ -3331,11 +3997,17 @@
   },
   {
     "label": "User-Agent",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "User-Agent",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11User-Agent",
     "filterText": "User-Agent:\n  ",
     "insertText": null,
@@ -3361,11 +4033,17 @@
   },
   {
     "label": "Variant-Vary",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Variant-Vary",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Variant-Vary",
     "filterText": "Variant-Vary:\n  ",
     "insertText": null,
@@ -3391,11 +4069,17 @@
   },
   {
     "label": "Vary",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Vary",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Vary",
     "filterText": "Vary:\n  ",
     "insertText": null,
@@ -3421,11 +4105,17 @@
   },
   {
     "label": "Via",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Via",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Via",
     "filterText": "Via:\n  ",
     "insertText": null,
@@ -3451,11 +4141,17 @@
   },
   {
     "label": "WWW-Authenticate",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "WWW-Authenticate",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11WWW-Authenticate",
     "filterText": "WWW-Authenticate:\n  ",
     "insertText": null,
@@ -3481,11 +4177,17 @@
   },
   {
     "label": "Warning",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Warning",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Warning",
     "filterText": "Warning:\n  ",
     "insertText": null,
@@ -3511,11 +4213,17 @@
   },
   {
     "label": "X-Frame-Options",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "X-Frame-Options",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11X-Frame-Options",
     "filterText": "X-Frame-Options:\n  ",
     "insertText": null,

@@ -1,11 +1,17 @@
 [
   {
     "label": "New securityScheme",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "20New securityScheme",
     "filterText": "$1:\n  type: $2",
     "insertText": null,

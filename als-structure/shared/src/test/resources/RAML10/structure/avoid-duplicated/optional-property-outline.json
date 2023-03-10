@@ -23,7 +23,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "types",
@@ -124,7 +126,9 @@
                     "character": 25
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               }
             ]
           }

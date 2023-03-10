@@ -1,11 +1,17 @@
 [
   {
     "label": "!include",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "inclusion tag",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11!include",
     "filterText": "!include ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "otherMapping",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "otherMapping",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11otherMapping",
     "filterText": "otherMapping",
     "insertText": null,

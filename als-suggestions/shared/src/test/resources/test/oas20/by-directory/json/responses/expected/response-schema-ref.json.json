@@ -1,11 +1,17 @@
 [
   {
     "label": "#/definitions/A",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Reference to #/definitions/A",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#/definitions/A",
     "filterText": "\"#/definitions/A\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "expected/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11expected/",
     "filterText": "\"expected/\"",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "response-declaration-named.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11response-declaration-named.json",
     "filterText": "\"response-declaration-named.json\"",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "response-declaration.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11response-declaration.json",
     "filterText": "\"response-declaration.json\"",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "response-example.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11response-example.json",
     "filterText": "\"response-example.json\"",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "response-examples.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11response-examples.json",
     "filterText": "\"response-examples.json\"",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "response-header.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11response-header.json",
     "filterText": "\"response-header.json\"",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "response-headers.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11response-headers.json",
     "filterText": "\"response-headers.json\"",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "response-ref.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11response-ref.json",
     "filterText": "\"response-ref.json\"",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "response-schema.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11response-schema.json",
     "filterText": "\"response-schema.json\"",
     "insertText": null,
@@ -301,11 +361,17 @@
   },
   {
     "label": "response.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11response.json",
     "filterText": "\"response.json\"",
     "insertText": null,

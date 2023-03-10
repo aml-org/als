@@ -1,11 +1,17 @@
 [
   {
     "label": "anotherUri",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "anotherUri",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11anotherUri",
     "filterText": "anotherUri:\n  ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "uri",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "uri",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11uri",
     "filterText": "uri:\n  ",
     "insertText": null,

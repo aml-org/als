@@ -1,11 +1,17 @@
 [
   {
     "label": "New info",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "info",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "20New info",
     "filterText": "\"info\": {\n  \"title\": \"$1\",\n  \"version\": \"$2\"\n},",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "info",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "info",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10info",
     "filterText": "\"info\": {\n  \"$1\"\n},",
     "insertText": null,

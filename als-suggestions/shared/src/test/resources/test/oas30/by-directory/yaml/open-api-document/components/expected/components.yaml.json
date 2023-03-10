@@ -1,11 +1,17 @@
 [
   {
     "label": "callbacks",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "callbacks",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11callbacks",
     "filterText": "callbacks:\n  ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "examples",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "examples",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11examples",
     "filterText": "examples:\n  ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "headers",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "headers",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11headers",
     "filterText": "headers:\n  ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "links",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "links",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11links",
     "filterText": "links:\n  ",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "parameters",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "parameters",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11parameters",
     "filterText": "parameters:\n  ",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "requestBodies",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "requestBodies",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11requestBodies",
     "filterText": "requestBodies:\n  ",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "responses",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "responses",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11responses",
     "filterText": "responses:\n  ",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "schemas",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "schemas",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schemas",
     "filterText": "schemas:\n  ",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "securitySchemes",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "securitySchemes",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11securitySchemes",
     "filterText": "securitySchemes:\n  ",
     "insertText": null,

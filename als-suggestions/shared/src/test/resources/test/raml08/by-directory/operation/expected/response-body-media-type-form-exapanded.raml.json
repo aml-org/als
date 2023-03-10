@@ -1,11 +1,17 @@
 [
   {
     "label": "formParameters",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "formParameters",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11formParameters",
     "filterText": "formParameters:\n  ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "schema",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "schema",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schema",
     "filterText": "schema: ",
     "insertText": null,

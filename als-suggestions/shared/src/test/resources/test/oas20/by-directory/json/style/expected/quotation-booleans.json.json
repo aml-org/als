@@ -1,11 +1,17 @@
 [
   {
     "label": "deprecated",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "deprecated",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11deprecated",
     "filterText": "\"deprecated\": $1",
     "insertText": null,

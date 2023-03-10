@@ -1,11 +1,17 @@
 [
   {
     "label": "queue",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "AMQP",
     "documentation": "queue",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10queue",
     "filterText": "queue:\n  ",
     "insertText": null,

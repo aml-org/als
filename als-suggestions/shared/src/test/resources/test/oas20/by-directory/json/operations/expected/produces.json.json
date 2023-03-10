@@ -1,11 +1,17 @@
 [
   {
     "label": "application/json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "application/json",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11application/json",
     "filterText": "[\n  \"application/json\"\n]",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "application/vnd.github+json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "application/vnd.github+json",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11application/vnd.github+json",
     "filterText": "[\n  \"application/vnd.github+json\"\n]",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "application/vnd.github.v3+json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "application/vnd.github.v3+json",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11application/vnd.github.v3+json",
     "filterText": "[\n  \"application/vnd.github.v3+json\"\n]",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "application/vnd.github.v3.full+json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "application/vnd.github.v3.full+json",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11application/vnd.github.v3.full+json",
     "filterText": "[\n  \"application/vnd.github.v3.full+json\"\n]",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "application/vnd.github.v3.html+json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "application/vnd.github.v3.html+json",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11application/vnd.github.v3.html+json",
     "filterText": "[\n  \"application/vnd.github.v3.html+json\"\n]",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "application/vnd.github.v3.patch",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "application/vnd.github.v3.patch",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11application/vnd.github.v3.patch",
     "filterText": "[\n  \"application/vnd.github.v3.patch\"\n]",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "application/vnd.github.v3.raw+json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "application/vnd.github.v3.raw+json",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11application/vnd.github.v3.raw+json",
     "filterText": "[\n  \"application/vnd.github.v3.raw+json\"\n]",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "application/vnd.github.v3.text+json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "application/vnd.github.v3.text+json",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11application/vnd.github.v3.text+json",
     "filterText": "[\n  \"application/vnd.github.v3.text+json\"\n]",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "appxlication/vnd.github.v3.diff",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "appxlication/vnd.github.v3.diff",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11appxlication/vnd.github.v3.diff",
     "filterText": "[\n  \"appxlication/vnd.github.v3.diff\"\n]",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "text/plain; charset=utf-8",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "text/plain; charset=utf-8",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11text/plain; charset=utf-8",
     "filterText": "[\n  \"text/plain; charset=utf-8\"\n]",
     "insertText": null,

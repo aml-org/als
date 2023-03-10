@@ -1,11 +1,17 @@
 [
   {
     "label": "New externalDocs",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "externalDocs",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New externalDocs",
     "filterText": "externalDocs:\n  url: $1",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "New headers",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "headers",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New headers",
     "filterText": "headers:\n  description: $1\n  type: $2",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "New tags",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "tags",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New tags",
     "filterText": "tags:\n  -\n    name: $1",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "bindings",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "bindings",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11bindings",
     "filterText": "bindings:\n  ",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "contentType",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "contentType",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11contentType",
     "filterText": "contentType: ",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "correlationId",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "correlationId",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11correlationId",
     "filterText": "correlationId:\n  ",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11description",
     "filterText": "description: ",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "examples",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "examples",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11examples",
     "filterText": "examples:\n  ",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "externalDocs",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "externalDocs",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11externalDocs",
     "filterText": "externalDocs:\n  ",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "headers",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "headers",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11headers",
     "filterText": "headers:\n  ",
     "insertText": null,
@@ -301,11 +361,17 @@
   },
   {
     "label": "name",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "name",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11name",
     "filterText": "name: ",
     "insertText": null,
@@ -331,11 +397,17 @@
   },
   {
     "label": "schemaFormat",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "schemaFormat",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schemaFormat",
     "filterText": "schemaFormat: ",
     "insertText": null,
@@ -361,11 +433,17 @@
   },
   {
     "label": "tags",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "tags",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11tags",
     "filterText": "tags:\n  - ",
     "insertText": null,
@@ -391,11 +469,17 @@
   },
   {
     "label": "title",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "title",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11title",
     "filterText": "title: ",
     "insertText": null,
@@ -421,11 +505,17 @@
   },
   {
     "label": "traits",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "traits",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11traits",
     "filterText": "traits:\n  - ",
     "insertText": null,

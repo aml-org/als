@@ -1,11 +1,17 @@
 [
   {
     "label": "scope2",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "scope2",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11scope2",
     "filterText": "scope2",
     "insertText": null,

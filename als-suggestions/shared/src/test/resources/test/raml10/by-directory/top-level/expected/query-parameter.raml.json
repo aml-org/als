@@ -1,11 +1,17 @@
 [
   {
     "label": "default",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "default",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11default",
     "filterText": "default: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "displayName",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "displayName",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11displayName",
     "filterText": "displayName: ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "enum",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "enum",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11enum",
     "filterText": "enum:\n  - ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "examples",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "examples",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11examples",
     "filterText": "examples:\n  ",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "facets",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "facets",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11facets",
     "filterText": "facets:\n  ",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "items",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "items",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11items",
     "filterText": "items:\n  ",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "maxLength",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "maxLength",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11maxLength",
     "filterText": "maxLength: ",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "minLength",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "minLength",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11minLength",
     "filterText": "minLength: ",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "pattern",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "pattern",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11pattern",
     "filterText": "pattern: ",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "properties",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "properties",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11properties",
     "filterText": "properties:\n  ",
     "insertText": null,
@@ -301,11 +361,17 @@
   },
   {
     "label": "type",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "types and traits",
     "documentation": "type",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10type",
     "filterText": "type: ",
     "insertText": null,
@@ -331,11 +397,17 @@
   },
   {
     "label": "xml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "xml",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11xml",
     "filterText": "xml:\n  ",
     "insertText": null,

@@ -1,11 +1,17 @@
 [
   {
     "label": "p2",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "example",
     "documentation": "p2",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10p2",
     "filterText": "p2: ",
     "insertText": null,

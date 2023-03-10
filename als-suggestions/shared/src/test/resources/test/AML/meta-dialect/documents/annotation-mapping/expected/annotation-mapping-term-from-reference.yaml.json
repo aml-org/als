@@ -1,11 +1,17 @@
 [
   {
     "label": "schema-org",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "schema-org",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schema-org",
     "filterText": "schema-org",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "test",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "test",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11test",
     "filterText": "test",
     "insertText": null,

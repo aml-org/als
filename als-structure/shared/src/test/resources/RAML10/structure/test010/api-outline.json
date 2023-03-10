@@ -23,7 +23,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "/users/{id}",
@@ -224,7 +226,9 @@
                                     "character": 0
                                   }
                                 },
-                                "children": []
+                                "children": [
+                                  
+                                ]
                               },
                               {
                                 "name": "lastname",
@@ -250,7 +254,9 @@
                                     "character": 0
                                   }
                                 },
-                                "children": []
+                                "children": [
+                                  
+                                ]
                               },
                               {
                                 "name": "age",
@@ -276,7 +282,9 @@
                                     "character": 28
                                   }
                                 },
-                                "children": []
+                                "children": [
+                                  
+                                ]
                               }
                             ]
                           }
@@ -314,7 +322,9 @@
             "character": 1
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       }
     ]
   }

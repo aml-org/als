@@ -1,11 +1,17 @@
 [
   {
     "label": "bindingVersion",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "bindingVersion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11bindingVersion",
     "filterText": "bindingVersion: ",
     "insertText": null,

@@ -1,11 +1,17 @@
 [
   {
     "label": "aScheme",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "aScheme",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11aScheme",
     "filterText": "\"aScheme\": $1",
     "insertText": null,

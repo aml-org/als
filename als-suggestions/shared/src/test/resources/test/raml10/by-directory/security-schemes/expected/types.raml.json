@@ -1,11 +1,17 @@
 [
   {
     "label": "Basic Authentication",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Basic Authentication",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10Basic Authentication",
     "filterText": "Basic Authentication",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "Digest Authentication",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Digest Authentication",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10Digest Authentication",
     "filterText": "Digest Authentication",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "OAuth 1.0",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "OAuth 1.0",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10OAuth 1.0",
     "filterText": "OAuth 1.0",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "OAuth 2.0",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "OAuth 2.0",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10OAuth 2.0",
     "filterText": "OAuth 2.0",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "Pass Through",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Pass Through",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10Pass Through",
     "filterText": "Pass Through",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "x-",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "x-",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10x-",
     "filterText": "x-",
     "insertText": null,

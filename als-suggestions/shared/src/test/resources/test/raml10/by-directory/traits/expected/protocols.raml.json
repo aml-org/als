@@ -1,11 +1,17 @@
 [
   {
     "label": "HTTP",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "HTTP",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11HTTP",
     "filterText": "HTTP",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "HTTPS",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "HTTPS",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11HTTPS",
     "filterText": "HTTPS",
     "insertText": null,

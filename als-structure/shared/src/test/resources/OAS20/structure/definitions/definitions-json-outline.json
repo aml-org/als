@@ -98,7 +98,9 @@
                     "character": 9
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               }
             ]
           }
@@ -128,7 +130,9 @@
             "character": 5
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "Test3",
@@ -204,7 +208,9 @@
                     "character": 9
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               }
             ]
           }
