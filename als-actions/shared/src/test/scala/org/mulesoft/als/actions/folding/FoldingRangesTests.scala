@@ -22,7 +22,16 @@ class FoldingRangesTests extends AsyncFlatSpec with Matchers with PlatformSecret
 
   val fragmentUri = "file://fragment.json"
   val fragment: String =
-    """De""".stripMargin
+    """{
+      |	"Person": {
+      |		"type": "object",
+      |		"properties": {
+      |			"a": {
+      |				"type": "string"
+      |			}
+      |		}
+      |	}
+      |}""".stripMargin
 
   behavior of "Folding Ranges"
 
