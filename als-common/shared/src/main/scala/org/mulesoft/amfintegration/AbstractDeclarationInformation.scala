@@ -4,7 +4,7 @@ import amf.apicontract.client.scala.AMFConfiguration
 import amf.apicontract.client.scala.model.domain.templates.{ResourceType, Trait}
 import amf.apicontract.client.scala.transform.AbstractElementTransformer
 import amf.apicontract.internal.spec.common.transformation.ExtendsHelper
-import amf.apicontract.internal.transformation.BaseUnitSourceLocationIndex
+//import amf.apicontract.internal.transformation.BaseUnitSourceLocationIndex
 import amf.core.client.scala.errorhandling.UnhandledErrorHandler
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.model.domain.DomainElement
@@ -52,8 +52,8 @@ object AbstractDeclarationInformation {
                 profile(bu),
                 keepEditingInfo = false,
                 UnhandledErrorHandler,
-                amfConfiguration,
-                BaseUnitSourceLocationIndex.build(bu)
+                amfConfiguration
+//                BaseUnitSourceLocationIndex.build(bu) // This line should be uncommented when AMF sacalaJS is released
               )
             extendsHelper.parseOperation(bu, t.name.option().getOrElse(""), "AbstractDeclarationInformation", e)
           })
