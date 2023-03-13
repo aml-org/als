@@ -86,7 +86,7 @@ pipeline {
                 wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
                     script {
                         try {
-                            sh 'sbt -mem 6000 -Dflaky.ignore=true -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 clean coverage test coverageAggregate'
+                            sh 'sbt -mem 6000 -Dflaky.ignore=true -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 -Djava.io.tmpdir=$HOME clean coverage test coverageAggregate'
                         } catch (e) {
                             failedStage = failedStage + " TEST "
                             unstable "Failed tests"
@@ -205,7 +205,7 @@ pipeline {
                     script {
                         if (failedStage.isEmpty()) {
                             def statusCode = 1
-                            statusCode = sh script:'sbt -mem 6000 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 buildJsServerLibrary', returnStatus: true
+                            statusCode = sh script:'sbt -mem 6000 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 -Djava.io.tmpdir=$HOME buildJsServerLibrary', returnStatus: true
                             if(statusCode != 0) {
                                 failedStage = failedStage + " PUBLISH-SERVER-JS "
                                 unstable "Failed als-server JS publication"
