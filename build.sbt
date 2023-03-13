@@ -88,6 +88,7 @@ val orgSettings = Seq(
 )
 
 val settings = Common.settings ++ Common.publish ++ orgSettings
+concurrentRestrictions in Global := Seq(Tags.limitAll(2))
 
 ////region ALS-COMMON
 /** ALS common */
