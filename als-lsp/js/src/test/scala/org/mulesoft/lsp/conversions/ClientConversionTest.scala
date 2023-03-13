@@ -564,21 +564,22 @@ class ClientConversionTest extends AnyFlatSpec with Matchers {
       DidChangeConfigurationNotificationParams(
         Some("uri"),
         "ws",
-        Set(Left("dep1"), Right(DependencyConfiguration("dep2", DEPENDENCY)))
-          ++ Set(
-            Right(DependencyConfiguration("p1", CUSTOM_VALIDATION)),
-            Right(DependencyConfiguration("p2", CUSTOM_VALIDATION))
-          )
-          ++ Set(
-            Right(DependencyConfiguration("se1", SEMANTIC_EXTENSION)),
-            Right(DependencyConfiguration("se2", SEMANTIC_EXTENSION))
-          )
+        Set(
+          Left("dep1"),
+          Right(DependencyConfiguration("dep2", DEPENDENCY))
+        ) ++ Set(
+          Right(DependencyConfiguration("p1", CUSTOM_VALIDATION)),
+          Right(DependencyConfiguration("p2", CUSTOM_VALIDATION))
+        ) ++ Set(
+          Right(DependencyConfiguration("se1", SEMANTIC_EXTENSION)),
+          Right(DependencyConfiguration("se2", SEMANTIC_EXTENSION))
+        )
       )
     val ts1: ClientDidChangeConfigurationNotificationParams = ts.toClient
     val ts2: DidChangeConfigurationNotificationParams       = ts1.toShared
 
     val stringified =
-      """{"mainPath":"uri","folder":"ws","dependencies":[{"file":"p1","scope":"custom-validation"},{"file":"dep2","scope":"dependency"},"dep1",{"file":"p2","scope":"custom-validation"},{"file":"se2","scope":"semantic-extension"},{"file":"se1","scope":"semantic-extension"}]}"""
+      """{"mainPath":"uri","folder":"ws","dependencies":[{"file":"dep2","scope":"dependency"},{"file":"p1","scope":"custom-validation"},{"file":"se1","scope":"semantic-extension"},"dep1",{"file":"se2","scope":"semantic-extension"},{"file":"p2","scope":"custom-validation"}]}"""
     JSON.stringify(ts1) should be(stringified)
 
     ts should be(ts2)
