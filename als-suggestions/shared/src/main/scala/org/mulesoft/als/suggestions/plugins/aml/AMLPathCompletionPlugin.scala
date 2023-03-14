@@ -20,7 +20,7 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
   def extractPath(parts: String): String =
     if (parts.lastIndexOf('/') >= 0)
       parts.substring(0, parts.lastIndexOf('/') + 1)
-    else ""
+    else parts
 
   override def resolve(params: AmlCompletionRequest): Future[Seq[RawSuggestion]] =
     if (ramlOrJsonInclusion(params)) {
@@ -44,6 +44,7 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
       case _ => false
     }
   }
+
   def resolveInclusion(
       actualLocation: String,
       directoryResolver: DirectoryResolver,
@@ -62,19 +63,49 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
     val fullURI =
       s"${baseDir.stripSuffix("/")}/${relativePath.stripPrefix("/")}".toAmfUri(alsConfiguration.platform)
 
-    if (!prefix.startsWith("#"))
-      if (fullURI.contains("#") && !fullURI.startsWith("#"))
-        PathSuggestor(fullURI, prefix, alsConfiguration, targetClass).flatMap(_.suggest())
-      else
-        FilesEnumeration(
+    val (fileUri, navPath) =
+      fullURI.split("#").toList match {
+        case head :: tail => (head, tail.headOption.getOrElse(""))
+        case _            => ("", "")
+      }
+
+    if (!prefix.startsWith("#")) {
+      for {
+        path <- isInCache(alsConfiguration, fileUri).flatMap(bu =>
+          PathSuggestor(fileUri, prefix, alsConfiguration, targetClass, bu, navPath).flatMap(_.suggest())
+        )
+        files <- FilesEnumeration(
           directoryResolver,
           alsConfiguration,
           actualLocation.toPath(alsConfiguration.platform),
           relativePath
         )
-          .filesIn(fullURI)
-    else emptySuggestion
+          .filesIn(fullURI, prefix)
+      } yield {
+        path ++ files
+      }
+    } else emptySuggestion
 
   }
 
+  private def isInCache(alsConfiguration: ALSConfigurationState, fileUri: String) = {
+
+    for {
+      cached <-
+        try {
+          alsConfiguration.cache
+            .fetch(fileUri)
+            .map(f => Some(f.content))
+            .recoverWith { case _ =>
+              Future.successful(None)
+            }
+        } catch {
+          case _: Exception =>
+            Future.successful(None)
+        }
+    } yield {
+      cached
+    }
+
+  }
 }

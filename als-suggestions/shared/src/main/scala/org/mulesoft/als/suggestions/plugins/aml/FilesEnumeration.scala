@@ -17,11 +17,18 @@ case class FilesEnumeration(
     relativePath: String
 ) extends PathCompletion {
 
-  def filesIn(fullURI: String): Future[Seq[RawSuggestion]] =
-    directoryResolver.isDirectory(UriUtils.resolvePath(fullURI)).flatMap { isDir =>
-      if (isDir) listDirectory(fullURI)
+  def filesIn(fullURI: String, prefix: String): Future[Seq[RawSuggestion]] = {
+    val fixedURI = removePrefixIfNeeded(fullURI, prefix)
+    directoryResolver.isDirectory(UriUtils.resolvePath(fixedURI)).flatMap { isDir =>
+      if (isDir) listDirectory(fixedURI)
       else Future.successful(Nil)
     }
+  }
+
+  private def removePrefixIfNeeded(fullURI: String, prefix: String): String =
+    if (!(prefix.isEmpty || prefix.contains("/")))
+      fullURI.substring(0, fullURI.lastIndexOf(prefix))
+    else fullURI
 
   private def listDirectory(fullURI: String): Future[Seq[RawSuggestion]] =
     directoryResolver
@@ -49,6 +56,10 @@ case class FilesEnumeration(
       )
     }
 
-  private def toRawSuggestion(file: String) =
-    RawSuggestion(s"$relativePath$file", s"$relativePath$file", "Path suggestion", Nil)
+  private def toRawSuggestion(file: String) = {
+    if (relativePath.endsWith("/"))
+      RawSuggestion(s"$relativePath$file", s"$relativePath$file", "Path suggestion", Nil)
+    else
+      RawSuggestion(s"$file", s"$file", "Path suggestion", Nil)
+  }
 }

@@ -19,14 +19,26 @@ class Oas30JsonSchemaRefSuggestionTest extends AsyncFunSuite with BaseSuggestion
   test("test oas3 including cached json schema should only suggest definitions") {
     suggest("api.yaml", "schema.json").map { ci =>
       ci.length shouldBe 2
-      assert(ci.map(_.label).contains("definitions/state"))
+      assert(ci.map(_.label) == Vector("#/definitions/state", "#/definitions/city"))
+      assert(
+        ci.flatMap(_.textEdit).map(_.left.get).map(_.newText) == Vector(
+          "schema.json#/definitions/state",
+          "schema.json#/definitions/city"
+        )
+      )
     }
   }
 
   test("test oas3 including cached json schema should only suggest definitions without the declaration key") {
     suggest("api-definitions.yaml", "schema.json").map { ci =>
       ci.length shouldBe 2
-      assert(ci.map(_.label).contains("state"))
+      assert(ci.map(_.label) == Vector("#/definitions/state", "#/definitions/city"))
+      assert(
+        ci.flatMap(_.textEdit).map(_.left.get).map(_.newText) == Vector(
+          "schema.json#/definitions/state",
+          "schema.json#/definitions/city"
+        )
+      )
     }
   }
 

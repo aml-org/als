@@ -4,8 +4,7 @@ import amf.apicontract.client.scala.model.document.ComponentModule
 import amf.apicontract.client.scala.model.domain.Parameter
 import amf.apicontract.internal.metamodel.domain.ParameterModel
 import amf.core.client.scala.model.document.DeclaresModel
-import amf.core.client.scala.model.domain.{AmfObject, NamedDomainElement}
-import amf.core.internal.parser.domain.Fields
+import amf.core.client.scala.model.domain.NamedDomainElement
 import amf.shapes.client.scala.model.document.JsonSchemaDocument
 import amf.shapes.internal.annotations.DocumentDeclarationKey
 import org.mulesoft.als.suggestions.RawSuggestion
@@ -44,7 +43,7 @@ sealed case class JsonSchemaSuggestor(schema: JsonSchemaDocument, prefix: String
     extends DeclarablePathSuggestor(schema, prefix) {
   override def buildText(name: String): String = {
     val defKey = schema.annotations.find(classOf[DocumentDeclarationKey]).map(_.value).getOrElse("definitions")
-    s"/$defKey/$name"
+    s"#/$defKey/$name"
   }
 }
 
@@ -60,7 +59,7 @@ sealed case class ComponentSuggestor(component: ComponentModule, prefix: String,
           componentsKey <- OAS30Dialect.dialect.documents().declarationsPath().option()
           name          <- param.name.option()
         } yield {
-          s"/$componentsKey/headers/$name"
+          s"#/$componentsKey/headers/$name"
         }
       case named: NamedDomainElement if targetClass.forall(tc => named.metaURIs.contains(tc)) =>
         for {
@@ -68,7 +67,7 @@ sealed case class ComponentSuggestor(component: ComponentModule, prefix: String,
           declaredKey   <- named.declarableKey(OAS30Dialect.dialect)
           name          <- named.name.option()
         } yield {
-          s"/$componentsKey/$declaredKey/$name"
+          s"#/$componentsKey/$declaredKey/$name"
         }
       case _ => None
     }
