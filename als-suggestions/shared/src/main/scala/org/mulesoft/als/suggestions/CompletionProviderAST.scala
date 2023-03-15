@@ -11,8 +11,6 @@ import scala.language.postfixOps
 
 class CompletionProviderAST(request: AmlCompletionRequest) extends CompletionProvider {
 
-  val fragmentIdentifier: String = "#/"
-
   private def brothersAndPrefix(prefix: String)(s: RawSuggestion): Boolean =
     !(request.astPartBranch.isKey && (request.astPartBranch.brothersKeys contains s.newText)) &&
       s.newText.startsWith(prefix)
