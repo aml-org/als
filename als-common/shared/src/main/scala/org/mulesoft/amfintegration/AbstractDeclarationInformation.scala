@@ -4,6 +4,7 @@ import amf.apicontract.client.scala.AMFConfiguration
 import amf.apicontract.client.scala.model.domain.templates.{ResourceType, Trait}
 import amf.apicontract.client.scala.transform.AbstractElementTransformer
 import amf.apicontract.internal.spec.common.transformation.ExtendsHelper
+import amf.apicontract.internal.transformation.BaseUnitSourceLocationIndex
 import amf.core.client.scala.errorhandling.UnhandledErrorHandler
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.model.domain.DomainElement
@@ -47,7 +48,13 @@ object AbstractDeclarationInformation {
         val resolved =
           getSourceEntry(t, "trait").fold(AbstractElementTransformer.asOperation(bu, t, amfConfiguration))(e => {
             val extendsHelper =
-              ExtendsHelper(profile(bu), keepEditingInfo = false, UnhandledErrorHandler, amfConfiguration)
+              ExtendsHelper(
+                profile(bu),
+                keepEditingInfo = false,
+                UnhandledErrorHandler,
+                amfConfiguration,
+                BaseUnitSourceLocationIndex.build(bu)
+              )
             extendsHelper.parseOperation(bu, t.name.option().getOrElse(""), "AbstractDeclarationInformation", e)
           })
         Some(ElementInfo(resolved, t, t.name.value(), t.metaURIs.head))
