@@ -518,7 +518,7 @@ hovers:
   (154,23):
     - An object name that is used to differentiate between ambiguous types/schemas
   (155,13):
-    - Values for the discriminator property
+    - Value for the discriminator property represented as a DataNode
   (155,26):
     - Values for the discriminator property
   (156,8):
