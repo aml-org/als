@@ -27,7 +27,7 @@ class LanguageServerFactory(
   protected var logger: Logger                                              = PrintLnLogger
   protected var notificationsKind: DiagnosticNotificationsKind              = PARSING_BEFORE
   protected var directoryResolver: Option[DirectoryResolver]                = None
-  protected var rl: Seq[ResourceLoader]                                     = Seq.empty
+  protected var rl: Seq[ResourceLoader]                                     = EditorConfiguration.platform.loaders()
   protected var plugins: Seq[AMFShapePayloadValidationPlugin]               = Seq.empty
   protected var amfCustomValidatorBuilder: BaseProfileValidatorBuilder      = profileValidatorBuilder
   protected var configurationProvider: Option[ProjectConfigurationProvider] = None
@@ -41,6 +41,11 @@ class LanguageServerFactory(
 
   def withResourceLoaders(rl: Seq[ResourceLoader]): this.type = {
     this.rl = rl
+    this
+  }
+
+  def withAdditionalResourceLoaders(r: ResourceLoader): this.type = {
+    this.rl = r +: rl
     this
   }
 

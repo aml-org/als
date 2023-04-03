@@ -27,6 +27,11 @@ class AlsLanguageServerFactory(clientNotifier: ClientNotifier) {
     this
   }
 
+  def withAdditionalResourceLoaders(rl: ClientResourceLoader): this.type = {
+    _internal.withAdditionalResourceLoaders(rl)
+    this
+  }
+
   def withLogger(logger: ClientLogger): this.type = {
     _internal.withLogger(asInternal(logger))
     this
