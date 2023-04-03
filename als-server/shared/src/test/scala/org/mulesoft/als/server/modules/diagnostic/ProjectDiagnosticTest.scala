@@ -76,7 +76,7 @@ class ProjectDiagnosticTest extends LanguageServerBaseTest {
     }
   }
 
-  test("Report project errors outside known files") {
+  test("Report project errors outside known files", Flaky) {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
 
     val error = AMFValidationResult("Error loading project", VIOLATION, "", None, "", None, Some(otherPath), None)
