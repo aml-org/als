@@ -96,49 +96,6 @@ public class AlsInitializeParamsTypeAdapter extends InitializeParamsTypeAdapter 
         return gson.fromJson(in, Boolean.class);
     }
 
-//
-//    @Override
-//    public void write(final JsonWriter out, final InitializeParams value) throws IOException {
-//        if (value == null) {
-//            out.nullValue();
-//            return;
-//        }
-//
-//        out.beginObject();
-//        out.name("workDoneToken");
-//        writeWorkDoneToken(out, value.getWorkDoneToken());
-//        out.name("processId");
-//        writeProcessId(out, value.getProcessId());
-//        out.name("rootPath");
-//        writeRootPath(out, value.getRootPath());
-//        out.name("rootUri");
-//        writeRootUri(out, value.getRootUri());
-//        out.name("initializationOptions");
-//        writeInitializationOptions(out, value.getInitializationOptions());
-//
-//        // capabilities are overwritten because of `alsCapabilities` we use
-//        out.name("capabilities");
-////        writeCapabilities(out, value.getCapabilities());
-//        writeCapabilities(out, (AlsClientCapabilities) value.getCapabilities());
-//
-//        out.name("clientName");
-//        writeClientName(out, value.getClientName());
-//        out.name("clientInfo");
-//        writeClientInfo(out, value.getClientInfo());
-//        out.name("locale");
-//        writeLocale(out, value.getLocale());
-//        out.name("trace");
-//        writeTrace(out, value.getTrace());
-//        out.name("workspaceFolders");
-//        writeWorkspaceFolders(out, value.getWorkspaceFolders());
-//        out.endObject();
-//    }
-
-
-    //    protected void writeCapabilities(final JsonWriter out, final AlsClientCapabilities value) throws IOException {
-//        gson.toJson(value, AlsClientCapabilities.class, out);
-//    }
-
     @Override
     protected void writeCapabilities(final JsonWriter out, final ClientCapabilities value) throws IOException {
         gson.toJson(value,  AlsClientCapabilities.class, out);
