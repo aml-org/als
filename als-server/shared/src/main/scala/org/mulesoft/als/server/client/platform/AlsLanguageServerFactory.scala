@@ -27,8 +27,13 @@ class AlsLanguageServerFactory(clientNotifier: ClientNotifier) {
     this
   }
 
-  def withAdditionalResourceLoaders(rl: ClientResourceLoader): this.type = {
-    _internal.withAdditionalResourceLoaders(rl)
+  def withAdditionalResourceLoader(rl: ClientResourceLoader): this.type = {
+    _internal.withAdditionalResourceLoader(rl)
+    this
+  }
+
+  def withAdditionalResourceLoaders(rl: ClientList[ClientResourceLoader]): this.type = {
+    _internal.withAdditionalResourceLoaders(rl.asInternal)
     this
   }
 

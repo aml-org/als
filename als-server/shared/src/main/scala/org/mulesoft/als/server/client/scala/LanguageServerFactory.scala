@@ -44,7 +44,12 @@ class LanguageServerFactory(
     this
   }
 
-  def withAdditionalResourceLoaders(r: ResourceLoader): this.type = {
+  def withAdditionalResourceLoaders(r: Seq[ResourceLoader]): this.type = {
+    this.rl = r ++ rl
+    this
+  }
+
+  def withAdditionalResourceLoader(r: ResourceLoader): this.type = {
     this.rl = r +: rl
     this
   }
