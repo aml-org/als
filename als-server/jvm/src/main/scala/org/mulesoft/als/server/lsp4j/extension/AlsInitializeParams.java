@@ -5,17 +5,17 @@ import org.eclipse.lsp4j.InitializeParams;
 
 public class AlsInitializeParams extends InitializeParams {
 
-    private AlsClientCapabilities capabilities;
+    private AlsClientCapabilities alsClientCapabilities;
     private AlsConfiguration configuration;
     private Boolean hotReload;
 
     @Override
     public AlsClientCapabilities getCapabilities() {
-        return capabilities;
+        return alsClientCapabilities;
     }
 
     public void setCapabilities(AlsClientCapabilities capabilities) {
-        this.capabilities = capabilities;
+        this.alsClientCapabilities = capabilities;
     }
 
     @Override
@@ -24,9 +24,9 @@ public class AlsInitializeParams extends InitializeParams {
         acp.setTextDocument(capabilities.getTextDocument());
         acp.setWorkspace(capabilities.getWorkspace());
         acp.setExperimental(capabilities.getExperimental());
-        this.capabilities = acp;
+        this.alsClientCapabilities = acp;
     }
-    
+
     public AlsConfiguration getConfiguration() {
         return configuration;
     }

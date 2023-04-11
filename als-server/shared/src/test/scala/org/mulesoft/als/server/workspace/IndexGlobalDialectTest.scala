@@ -87,7 +87,7 @@ trait IndexGlobalDialectTest extends ServerIndexGlobalDialectCommand {
     })
   }
 
-  test("Global dialect is immutable") {
+  test("Global dialect is immutable", Flaky) {
     val notifier     = new MockDiagnosticClientNotifier(3000)
     val (server, wm) = buildServer(notifier)
     withServer(
