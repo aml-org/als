@@ -4,12 +4,9 @@ import org.eclipse.lsp4j.jsonrpc.Launcher
 import org.eclipse.lsp4j.services.LanguageClient
 import org.mulesoft.als.logger.{Logger, PrintLnLogger}
 import org.mulesoft.als.server.JvmSerializationProps
-import org.mulesoft.als.server.client.platform
-import org.mulesoft.als.server.client.platform.{ClientConnection, AlsLanguageServerFactory}
-import org.mulesoft.als.server.feature.serialization.SerializationResult
-import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
+import org.mulesoft.als.server.client.{AlsLanguageClientExtensions, AlsLanguageClientWrapper, platform}
+import org.mulesoft.als.server.client.platform.AlsLanguageServerFactory
 import org.mulesoft.als.server.lsp4j.internal.GsonConsumerBuilder
-import org.mulesoft.als.server.protocol.client.AlsLanguageClient
 
 import java.io.StringWriter
 import java.net.{ServerSocket, Socket}
@@ -70,24 +67,20 @@ object Main {
       )
 
       logger.debug("Launching services", "Main", "main")
-      val launcher = new Launcher.Builder[LanguageClient]()
+      val launcher = new Launcher.Builder[AlsLanguageClientExtensions]()
         .configureGson(new GsonConsumerBuilder())
         .setLocalService(server)
-        .setRemoteInterface(classOf[LanguageClient])
+        .setRemoteInterface(classOf[AlsLanguageClientExtensions])
         .setInput(in)
         .setOutput(out)
         .create()
 
       val client = launcher.getRemoteProxy
-      clientConnection.connect(LanguageClientWrapper(client))
+      clientConnection.connect(AlsLanguageClientWrapper(client))
 
       logger.debug("Connecting Client", "Main", "main")
 
-      clientConnection.connectAls(new AlsLanguageClient[StringWriter] {
-        override def notifySerialization(params: SerializationResult[StringWriter]): Unit = {}
-
-        override def notifyProjectFiles(params: FilesInProjectParams): Unit = {}
-      }) // example
+      clientConnection.connectAls(AlsLanguageClientWrapper(client))
 
       launcher.startListening
     } catch {

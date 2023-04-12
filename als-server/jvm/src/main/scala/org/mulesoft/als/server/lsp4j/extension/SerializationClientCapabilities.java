@@ -1,13 +1,13 @@
 package org.mulesoft.als.server.lsp4j.extension;
 
 public class SerializationClientCapabilities {
-    private Boolean supportsSerialization;
+    private Boolean acceptsNotification;
 
-    public SerializationClientCapabilities(Boolean supportsSerialization){
-        this.supportsSerialization = supportsSerialization;
+    public SerializationClientCapabilities(Boolean acceptsNotification){
+        this.acceptsNotification = acceptsNotification;
     }
 
-    public Boolean getSupportsSerialization() {
-        return supportsSerialization;
+    public Boolean getAcceptsNotification() {
+        return acceptsNotification;
     }
 }
