@@ -14,12 +14,13 @@ private[pathnavigation] case class PathNavigation(
     fileUri: String,
     navPath: String,
     prefix: String,
-    alsConfiguration: ALSConfigurationState
+    alsConfiguration: ALSConfigurationState,
+    flagFromExternalFragment: Boolean = false
 ) extends PathCompletion
     with PathSuggestor {
 
   override def suggest(): Future[Seq[RawSuggestion]] = {
-    nodes().map(nodes => buildSuggestions(nodes, prefix))
+    nodes().map(nodes => buildSuggestions(nodes, prefix, flagFromExternalFragment))
   }
 
   private def nodes(): Future[Seq[String]] = {
