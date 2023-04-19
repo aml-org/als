@@ -15,22 +15,30 @@ import org.mulesoft.amfintegration.dialect.dialects.oas.OAS30Dialect
 import scala.concurrent.Future
 
 object DeclarablePathSuggestor {
-  def apply(declared: DeclaresModel, prefix: String, targetClass: Option[String]): DeclarablePathSuggestor =
-    declared match {
-      case json: JsonSchemaDocument   => JsonSchemaSuggestor(json, prefix)
-      case component: ComponentModule => ComponentSuggestor(component, prefix, targetClass)
-      case _                          => new DeclarablePathSuggestor(declared, prefix)
-    }
+  def apply(
+      declared: DeclaresModel,
+      prefix: String,
+      targetClass: Option[String],
+      flagFromComponent: Boolean = false
+  ): DeclarablePathSuggestor = declared match {
+    case json: JsonSchemaDocument   => JsonSchemaSuggestor(json, prefix, flagFromComponent)
+    case component: ComponentModule => ComponentSuggestor(component, prefix, targetClass, flagFromComponent)
+    case _                          => new DeclarablePathSuggestor(declared, prefix, flagFromComponent)
+  }
 
 }
 
-sealed class DeclarablePathSuggestor(declarations: DeclaresModel, prefix: String) extends PathSuggestor {
+sealed class DeclarablePathSuggestor(
+    declarations: DeclaresModel,
+    prefix: String,
+    flagFromExternalFragment: Boolean = false
+) extends PathSuggestor {
   override def suggest(): Future[Seq[RawSuggestion]] = {
     val names = declarations.declares.flatMap {
       case named: NamedDomainElement => named.name.option()
       case _                         => None
     }
-    Future.successful(buildSuggestions(names.map(buildText), prefix))
+    Future.successful(buildSuggestions(names.map(buildText), prefix, flagFromExternalFragment))
   }
 
   override protected def prevFromPrefix(prefix: String): String =
@@ -40,16 +48,23 @@ sealed class DeclarablePathSuggestor(declarations: DeclaresModel, prefix: String
   def buildText(name: String): String = name
 }
 
-sealed case class JsonSchemaSuggestor(schema: JsonSchemaDocument, prefix: String)
-    extends DeclarablePathSuggestor(schema, prefix) {
+sealed case class JsonSchemaSuggestor(
+    schema: JsonSchemaDocument,
+    prefix: String,
+    flagFromExternalFragment: Boolean = false
+) extends DeclarablePathSuggestor(schema, prefix) {
   override def buildText(name: String): String = {
     val defKey = schema.annotations.find(classOf[DocumentDeclarationKey]).map(_.value).getOrElse("definitions")
     s"/$defKey/$name"
   }
 }
 
-sealed case class ComponentSuggestor(component: ComponentModule, prefix: String, targetClass: Option[String])
-    extends DeclarablePathSuggestor(component, prefix) {
+sealed case class ComponentSuggestor(
+    component: ComponentModule,
+    prefix: String,
+    targetClass: Option[String],
+    flagFromExternalFragment: Boolean = false
+) extends DeclarablePathSuggestor(component, prefix) {
 
   override def suggest(): Future[Seq[RawSuggestion]] = {
     val names = component.declares.flatMap {
@@ -72,7 +87,7 @@ sealed case class ComponentSuggestor(component: ComponentModule, prefix: String,
         }
       case _ => None
     }
-    Future.successful(buildSuggestions(names.map(buildText), prefix))
+    Future.successful(buildSuggestions(names.map(buildText), prefix, flagFromExternalFragment))
   }
 
   private def isSynthetizedBinding(param: Parameter) =

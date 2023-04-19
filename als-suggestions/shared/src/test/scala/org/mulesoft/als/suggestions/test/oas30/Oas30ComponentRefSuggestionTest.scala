@@ -83,6 +83,16 @@ class Oas30ComponentRefSuggestionTest extends AsyncFunSuite with BaseSuggestions
     }
   }
 
+  test("test oas3 including cached oas components should suggest the hashtag-slash wildcard (#/) with declared names") {
+    suggest("api-ref-level1-without-hashtag-slash.yaml", "components.yaml").map { ci =>
+      ci.length shouldBe 2
+      assert(ci.map(_.label).contains("components/schemas/mySchema1"))
+      assert(ci.map(_.filterText.get).contains("components.yaml#/components/schemas/mySchema1"))
+      assert(ci.map(_.label).contains("components/schemas/mySchema2"))
+      assert(ci.map(_.filterText.get).contains("components.yaml#/components/schemas/mySchema2"))
+    }
+  }
+
   private def suggest(api: String, componentName: String): Future[Seq[CompletionItem]] = {
     for {
       schema <- OASConfiguration

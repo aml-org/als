@@ -9,6 +9,7 @@ import org.mulesoft.als.suggestions.plugins.aml.pathnavigation.PathSuggestor
 import org.mulesoft.amfintegration.AmfImplicits.NodeMappingImplicit
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.mulesoft.amfintegration.dialect.DialectKnowledge
+import org.mulesoft.amfintegration.dialect.extensions.ApiExtensions
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -17,7 +18,7 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
   override def id = "AMLPathCompletionPlugin"
 
   // exclude file name
-  def extractPath(parts: String): String =
+  private def extractPath(parts: String): String =
     if (parts.lastIndexOf('/') >= 0)
       parts.substring(0, parts.lastIndexOf('/') + 1)
     else ""
@@ -50,7 +51,8 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
       prefix: String,
       rootLocation: Option[String],
       alsConfiguration: ALSConfigurationState,
-      targetClass: Option[String]
+      targetClass: Option[String],
+      flagExternalFragment: Boolean = false
   ): Future[Seq[RawSuggestion]] = {
     val baseLocation: String =
       if (prefix.startsWith("/")) rootLocation.getOrElse(actualLocation)
@@ -62,9 +64,21 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
     val fullURI =
       s"${baseDir.stripSuffix("/")}/${relativePath.stripPrefix("/")}".toAmfUri(alsConfiguration.platform)
 
-    if (!prefix.startsWith("#"))
-      if (fullURI.contains("#") && !fullURI.startsWith("#"))
-        PathSuggestor(fullURI, prefix, alsConfiguration, targetClass).flatMap(_.suggest())
+    if (referenceToItself(prefix))
+      emptySuggestion
+    else {
+      if (referenceToAnExternalFragment(fullURI))
+        PathSuggestor(fullURI, prefix, alsConfiguration, targetClass, flagExternalFragment).flatMap(_.suggest())
+      else if (isAExternalFragment(prefix))
+        resolveInclusion(
+          actualLocation,
+          directoryResolver,
+          prefix.concat("#/"),
+          rootLocation,
+          alsConfiguration,
+          targetClass,
+          true
+        )
       else
         FilesEnumeration(
           directoryResolver,
@@ -73,8 +87,14 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
           relativePath
         )
           .filesIn(fullURI)
-    else emptySuggestion
+    }
 
   }
 
+  private def referenceToItself(prefix: String): Boolean = prefix.startsWith("#")
+  private def referenceToAnExternalFragment(fullUri: String): Boolean =
+    fullUri.contains("#") && !fullUri.startsWith("#")
+
+  private def isAExternalFragment(prefix: String): Boolean =
+    !ApiExtensions.getValidExtensions.filter(prefix.toLowerCase().endsWith(_)).isEmpty
 }
