@@ -665,13 +665,13 @@ hovers:
   (176,12):
     - Logical exclusive or composition of data shapes
   (177,12):
-    - Logical exclusive or composition of data shapes
+    - Defines a data type
   (177,33):
-    - Logical exclusive or composition of data shapes
+    - Defines a data type
   (178,12):
-    - Logical exclusive or composition of data shapes
+    - Defines a data type
   (178,33):
-    - Logical exclusive or composition of data shapes
+    - Defines a data type
   (179,12):
     - Defines a data type
   (179,20):
@@ -713,13 +713,13 @@ hovers:
   (188,12):
     - Logical and composition of data shapes
   (189,12):
-    - Logical and composition of data shapes
+    - Defines a data type
   (189,33):
-    - Logical and composition of data shapes
+    - Defines a data type
   (190,12):
-    - Logical and composition of data shapes
+    - Defines a data type
   (190,33):
-    - Logical and composition of data shapes
+    - Defines a data type
   (191,8):
     - Human readable name for the object
   (191,14):

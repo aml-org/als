@@ -3,11 +3,11 @@ package org.mulesoft.als.server.lsp4j
 import com.google.gson.Gson
 import com.google.gson.stream.JsonReader
 import org.mulesoft.als.server.lsp4j.extension.AlsInitializeParamsTypeAdapter
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 import java.io.{ByteArrayInputStream, InputStreamReader}
 
-class GsonTypeAdapters extends FunSuite {
+class GsonTypeAdapters extends AnyFunSuite {
 
   private val gson = new Gson()
 
