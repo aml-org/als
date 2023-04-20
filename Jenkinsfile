@@ -86,7 +86,7 @@ pipeline {
                 wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
                     script {
                         try {
-                            sh 'sbt -mem 6000 -Dflaky.ignore=true -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 -Djava.io.tmpdir=$HOME clean coverage test coverageAggregate --warn'
+                            sh 'sbt -mem 12000 -Dflaky.ignore=true -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 -Djava.io.tmpdir=$HOME clean coverage test coverageAggregate --warn'
                         } catch (e) {
                             failedStage = failedStage + " TEST "
                             unstable "Failed tests"
@@ -177,7 +177,7 @@ pipeline {
                         if (failedStage.isEmpty()) {
                             publish_version_node_client = "${publish_version}".replace("\n", "")
                             echo "$publish_version_node_client"
-                            sh 'sbt -mem 6000 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 buildNodeJsClient -Djava.io.tmpdir=$HOME'
+                            sh 'sbt -mem 10000 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 buildNodeJsClient -Djava.io.tmpdir=$HOME'
                             def statusCode = 1
                             dir("als-node-client/node-package") {
                                 echo "Publishing NPM package: ${publish_version_node_client}"
@@ -205,7 +205,7 @@ pipeline {
                     script {
                         if (failedStage.isEmpty()) {
                             def statusCode = 1
-                            statusCode = sh script:'sbt -mem 6000 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 -Djava.io.tmpdir=$HOME buildJsServerLibrary', returnStatus: true
+                            statusCode = sh script:'sbt -mem 10000 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 -Djava.io.tmpdir=$HOME buildJsServerLibrary', returnStatus: true
                             if(statusCode != 0) {
                                 failedStage = failedStage + " PUBLISH-SERVER-JS "
                                 unstable "Failed als-server JS publication"
