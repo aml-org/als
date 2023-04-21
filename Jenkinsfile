@@ -148,7 +148,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
-                    branch 'develops-SCALAJS1'
+                    branch 'develop-SCALAJS1'
                 }
             }
             steps {
@@ -199,7 +199,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
-                    branch 'develops-SCALAJS1'
+                    branch 'develop-SCALAJS1'
                 }
             }
             steps {
