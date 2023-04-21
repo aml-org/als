@@ -293,8 +293,8 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
       scalaJS_NodeDependency,
       scalaJS_DomDependency
     ),
-    Compile / fastOptJS / artifactPath := baseDirectory.value / "node-package" / "lib" / "als-server.js",
-    Compile / fullOptJS / artifactPath := baseDirectory.value / "node-package" / "lib" / "als-server.min.js"
+    Compile / fastLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "node-package" / "tmp" / "als-server.js",
+    Compile / fullLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "node-package" / "tmp" / "als-server.min.js"
   )
 
 lazy val serverJVM = server.jvm.in(file("./als-server/jvm"))
@@ -341,8 +341,8 @@ lazy val nodeClient = project
       },
       Test / test                        := ((Test / test) dependsOn npmIClient).value,
       Test / fastLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "node-package" / "tmp" / "als-node-client.js",
-      Compile / fastOptJS / artifactPath := baseDirectory.value / "node-package" / "dist" / "als-node-client.js",
-      Compile / fullOptJS / artifactPath := baseDirectory.value / "node-package" / "dist" / "als-node-client.min.js"
+      Compile / fullLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "node-package" / "tmp" / "als-node-client.min.js",
+      Compile / fastLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "node-package" / "tmp" / "als-node-client.js"
     )
   )
   .sourceDependency(customValidatorNodeJSRef, customValidatorNodeLibJS)
@@ -359,18 +359,28 @@ lazy val nodeClient = project
 val buildJsServerLibrary = TaskKey[Unit]("buildJsServerLibrary", "Build server library")
 
 buildJsServerLibrary := {
-  (serverJS / Compile / fastOptJS).value
-  (serverJS / Compile / fullOptJS).value
   (serverJS / installJsDependenciesWeb).value
+  (serverJS / Compile / fastLinkJS).value
+  (serverJS / Compile / fullLinkJS).value
+  val result = (Process(
+    "./scripts/build.sh",
+    new File("./als-server/js/node-package")
+  ).!)
+  if (result != 0) throw new IllegalStateException("Node JS build.sh failed")
 }
 
 // Node client
 val buildNodeJsClient = TaskKey[Unit]("buildNodeJsClient", "Build node client")
 
 buildNodeJsClient := {
-  (nodeClient / Compile / fastOptJS).value
-  (nodeClient / Compile / fullOptJS).value
+  (nodeClient / Compile / fastLinkJS).value
+  (nodeClient / Compile / fullLinkJS).value
   (nodeClient / npmIClient).value
+  val result = (Process(
+    "./scripts/build.sh",
+    new File("./als-node-client/node-package")
+  ).!)
+  if (result != 0) throw new IllegalStateException("Node JS build.sh failed")
 }
 
 // ************** SONAR *******************************
