@@ -37,7 +37,7 @@ RUN \
   curl -L -o sbt-$SBT_VERSION.deb https://scala.jfrog.io/artifactory/debian/sbt-$SBT_VERSION.deb && \
   dpkg -i sbt-$SBT_VERSION.deb && \
   rm sbt-$SBT_VERSION.deb && \
-  sbt -Dsbt.rootdir=true sbtVersion
+  sbt -Dsbt.rootdir=true -Djava.io.tmpdir=$HOME sbtVersion
 
 VOLUME "$USER_HOME_DIR/.sbt"
 
