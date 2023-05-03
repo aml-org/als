@@ -30,7 +30,6 @@ documentChanges:
                 "$ref": "aux/example.json"
               },
               "type": "object",
-              "additionalProperties": true,
               "required": [
                 "aString",
                 "myObject"
@@ -49,7 +48,6 @@ documentChanges:
               "example": {
                 "prop": "this is an example"
               },
-              "additionalProperties": true,
               "required": [
                 "prop"
               ],

@@ -11,19 +11,13 @@ documentChanges:
         +
 
                     description: A representation of a person, company, organization, or place
-                    type: object
-                    additionalProperties: true
                     properties:
                       fruits:
-                        type: array
                         items:
                           type: string
                         required: false
                       vegetables:
-                        type: array
                         items:
-                          type: object
-                          additionalProperties: true
                           properties:
                             veggieName:
                               type: string

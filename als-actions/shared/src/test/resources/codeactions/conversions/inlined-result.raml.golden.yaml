@@ -27,14 +27,12 @@ documentChanges:
           "definitions": {
             "schema": {
               "type": "object",
-              "additionalProperties": true,
               "required": [
                 "numberHolder"
               ],
               "properties": {
                 "numberHolder": {
                   "type": "object",
-                  "additionalProperties": true,
                   "required": [
                     "min",
                     "max"

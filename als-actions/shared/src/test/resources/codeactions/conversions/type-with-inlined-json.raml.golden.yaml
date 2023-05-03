@@ -28,7 +28,6 @@ documentChanges:
             "A": {
               "description": "inlined json schema",
               "type": "object",
-              "additionalProperties": true,
               "properties": {
                 "input": {
                   "type": "string"
