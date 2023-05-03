@@ -25,7 +25,8 @@ object AMLLibraryPathCompletion extends AMLCompletionPlugin {
         request.prefix,
         request.rootUri,
         request.alsConfigurationState,
-        request.currentNode.flatMap(_.getTargetClass())
+        request.currentNode.flatMap(_.getTargetClass()),
+        request.baseUnit
       )
     } else emptySuggestion
   }

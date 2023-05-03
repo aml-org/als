@@ -50,25 +50,32 @@ private[pathnavigation] case class PathNavigation(
       case _         => Map.empty
     }
 
-  private def resolveRootNode(): Future[Option[YNode]] =
-    alsConfiguration.fetchContent(fileUri).map { c =>
-      val mime = c.mime.orElse(
-        alsConfiguration.platform
-          .extension(fileUri)
-          .flatMap(alsConfiguration.platform.mimeFromExtension)
-      )
-      mime.flatMap(pluginForMime) match {
-        case Some(plugin) =>
-          plugin
-            .parse(
-              c.stream,
-              mime.get,
-              ParserContext(config = ParseConfig(alsConfiguration.getAmfConfig, DefaultErrorHandler()))
-            ) match {
-            case SyamlParsedDocument(document, _) => Some(document.node)
-            case _                                => None
+  private def resolveRootNode(): Future[Option[YNode]] = for {
+    cached <- PathSuggestor.cacheFile(alsConfiguration, fileUri)
+    result <-
+      if (cached.isDefined) {
+        alsConfiguration.fetchContent(fileUri).map { c =>
+          val mime = c.mime.orElse(
+            alsConfiguration.platform
+              .extension(fileUri)
+              .flatMap(alsConfiguration.platform.mimeFromExtension)
+          )
+          mime.flatMap(pluginForMime) match {
+            case Some(plugin) =>
+              plugin
+                .parse(
+                  c.stream,
+                  mime.get,
+                  ParserContext(config = ParseConfig(alsConfiguration.getAmfConfig, DefaultErrorHandler()))
+                ) match {
+                case SyamlParsedDocument(document, _) => Some(document.node)
+                case _                                => None
+              }
+            case _ => None
           }
-        case _ => None
-      }
-    }
+        }
+      } else Future.successful(None)
+  } yield {
+    result
+  }
 }

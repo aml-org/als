@@ -45,14 +45,16 @@ object PathSuggestor {
       targetClass: Option[String],
       hackForComponent: Boolean = false
   ): Future[PathSuggestor] = {
-    var (fileUri, navPath) =
+    var (fileUri, navPath, newHackForComponent) =
       fullUrl.split("#").toList match {
-        case head :: tail => (head, tail.headOption.getOrElse(""))
-        case _            => ("", "")
+        case head :: Nil =>
+          (head.concat(prefix), "#/", true)
+        case head :: tail => (head, tail.head, hackForComponent)
+        case _            => ("", "", hackForComponent)
       }
 
     var newFileUri = fileUri
-    if (hackForComponent && navPath.isEmpty) {
+    if (newHackForComponent && navPath.isEmpty) {
       newFileUri = fullUrl.concat(prefix)
       navPath = "/"
     }
@@ -62,13 +64,15 @@ object PathSuggestor {
         cacheFile(alsConfiguration, newFileUri)
     } yield {
       cached match {
-        case Some(schema: DeclaresModel) => DeclarablePathSuggestor(schema, prefix, targetClass, hackForComponent)
-        case None                        => PathNavigation(fileUri, navPath, prefix, alsConfiguration, hackForComponent)
+        case Some(schema: DeclaresModel) =>
+          DeclarablePathSuggestor(schema, navPath, targetClass, newHackForComponent)
+        case _ =>
+          PathNavigation(fileUri, navPath, prefix, alsConfiguration, newHackForComponent)
       }
     }
   }
 
-  private def cacheFile(alsConfig: ALSConfigurationState, fileUri: String): Future[Option[BaseUnit]] = {
+  def cacheFile(alsConfig: ALSConfigurationState, fileUri: String): Future[Option[BaseUnit]] = {
     try {
       alsConfig.cache
         .fetch(fileUri)
