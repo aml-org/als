@@ -95,4 +95,6 @@ class LanguageServerImpl(
   override def updateConfiguration(params: UpdateConfigurationParams): Unit = {
     configuration.update(params)
   }
+
+  override def workspaceFolders(): Seq[String] = workspaceService.getWorkspaceFolders
 }

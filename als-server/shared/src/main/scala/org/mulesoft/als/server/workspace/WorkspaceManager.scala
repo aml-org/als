@@ -118,7 +118,7 @@ class WorkspaceManager protected (
   def changeWorkspaceFolders(params: DidChangeWorkspaceFoldersParams): Future[Unit] =
     workspaces.changeWorkspaces(params.event.added.flatMap(_.uri), params.event.deleted.flatMap(_.uri))
 
-  def getWorkspaceFolders: Seq[String] = workspaces.allWorkspaces().map(_.folderUri)
+  override def getWorkspaceFolders: Seq[String] = workspaces.allWorkspaces().map(_.folderUri)
 
   override def getDocumentLinks(uri: String, uuid: String): Future[Seq[DocumentLink]] =
     getWorkspace(uri.toAmfUri).flatMap(_.getRelationships(uri.toAmfUri)).map(_.getDocumentLinks(uri.toAmfUri))
