@@ -15,8 +15,6 @@ RUN apt-get update
 RUN apt-get install -y software-properties-common unzip htop rsync openssh-client jq git
 
 # install Java
-USER root
-
 RUN java -version
 
 RUN mkdir -p /usr/share/man/man1 && \
@@ -40,8 +38,6 @@ RUN \
   dpkg -i sbt-$SBT_VERSION.deb && \
   rm sbt-$SBT_VERSION.deb && \
   sbt -Dsbt.rootdir=true sbtVersion
-
-RUN sbt --version
 
 VOLUME "$USER_HOME_DIR/.sbt"
 
