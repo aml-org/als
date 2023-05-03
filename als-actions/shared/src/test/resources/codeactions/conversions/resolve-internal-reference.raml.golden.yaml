@@ -28,7 +28,6 @@ documentChanges:
             "Board": {
               "description": "board of directors",
               "type": "object",
-              "additionalProperties": true,
               "required": [
                 "members"
               ],
@@ -44,7 +43,6 @@ documentChanges:
             "Person": {
               "description": "my schema",
               "type": "object",
-              "additionalProperties": true,
               "required": [
                 "name",
                 "age"
