@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM eclipse-temurin:17-focal
 
 # hadolint ignore=DL3002
 USER root
@@ -6,7 +6,7 @@ USER root
 ARG USER_HOME_DIR="/root"
 
 ENV SCALA_VERSION 2.12.13
-ENV SBT_VERSION 1.6.0
+ENV SBT_VERSION 1.7.1
 
 
 # Update the repository sources list and install dependencies
@@ -15,12 +15,14 @@ RUN apt-get update
 RUN apt-get install -y software-properties-common unzip htop rsync openssh-client jq git
 
 # install Java
+RUN java -version
+
 RUN mkdir -p /usr/share/man/man1 && \
-    apt-get update -y && \
-    apt-get install -y openjdk-8-jdk
+    apt-get update -y
 
 RUN apt-get install unzip -y && \
-    apt-get autoremove -y
+    apt-get autoremove -y && \
+    apt-get install git -y
 
 # Install Scala
 ## Piping curl directly in tar
@@ -35,7 +37,7 @@ RUN \
   curl -L -o sbt-$SBT_VERSION.deb https://scala.jfrog.io/artifactory/debian/sbt-$SBT_VERSION.deb && \
   dpkg -i sbt-$SBT_VERSION.deb && \
   rm sbt-$SBT_VERSION.deb && \
-  sbt -Dsbt.rootdir=true sbtVersion
+  sbt -Dsbt.rootdir=true -Djava.io.tmpdir=$HOME sbtVersion
 
 VOLUME "$USER_HOME_DIR/.sbt"
 
