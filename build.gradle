@@ -11,8 +11,9 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.mulesoft:gradle-tools:0.2.6"
-        classpath files('lib//nexus-iq-cli-1.40.0-02.jar')
+        classpath "com.mulesoft:gradle-tools:0.3.24"
+        classpath files('lib//nexus-iq-cli-1.159.0-01.jar')
+//        classpath files('lib//nexus-iq-cli-1.40.0-02.jar')
     }
 }
 
@@ -52,15 +53,15 @@ repositories {
 }
 
 dependencies {
-    compile "com.github.amlorg:amf-api-contract_2.12:${deps.amf}"
-    compile "com.chuusai:shapeless_2.12:2.3.3"
+    implementation "com.github.amlorg:amf-api-contract_2.12:${deps.amf}"
+    implementation "com.chuusai:shapeless_2.12:2.3.3"
 }
 
 mainClassName = 'org.mulesoft.language.client.jvm.ServerProcess'
 
 distributions {
     custom {
-        baseName = "${name}"
+        distributionBaseName = "${name}"
     }
 }
 
