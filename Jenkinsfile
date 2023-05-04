@@ -125,6 +125,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'nexus-iq/*'
+                    branch 'bump_gradle'
                 }
             }
             steps {
