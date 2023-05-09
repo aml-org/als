@@ -6,7 +6,11 @@ import amf.core.internal.remote.FileNotFound
 import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.suggestions.plugins.aml.AMLPathCompletionPlugin
-import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, EditorConfiguration, EmptyProjectConfigurationState}
+import org.mulesoft.amfintegration.amfconfiguration.{
+  ALSConfigurationState,
+  EditorConfiguration,
+  EmptyProjectConfigurationState
+}
 import org.scalatest.AsyncFunSuite
 import org.scalatest.compatible.Assertion
 
@@ -70,7 +74,16 @@ class PathTest extends AsyncFunSuite with PlatformSecrets {
   test("Should list files from absolute route, having '/' prefix") {
     val eventualAssertion: Future[Assertion] = for {
       alsConfiguration <- futureAlsConfiguration
-      result           <- AMLPathCompletionPlugin.resolveInclusion(url, directoryResolver, "/", None, alsConfiguration, None)
+      baseUnit         <- alsConfiguration.parse(url).map(_.result.baseUnit)
+      result <- AMLPathCompletionPlugin.resolveInclusion(
+        url,
+        directoryResolver,
+        "/",
+        None,
+        alsConfiguration,
+        None,
+        baseUnit
+      )
     } yield {
       assert(result.size == 1)
     }
@@ -80,7 +93,16 @@ class PathTest extends AsyncFunSuite with PlatformSecrets {
   test("Should list files from absolute route, NOT having '/' prefix") {
     for {
       alsConfiguration <- futureAlsConfiguration
-      result           <- AMLPathCompletionPlugin.resolveInclusion(url, directoryResolver, "", None, alsConfiguration, None)
+      baseUnit         <- alsConfiguration.parse(url).map(_.result.baseUnit)
+      result <- AMLPathCompletionPlugin.resolveInclusion(
+        url,
+        directoryResolver,
+        "",
+        None,
+        alsConfiguration,
+        None,
+        baseUnit
+      )
     } yield {
       assert(result.size == 1)
     }
@@ -89,7 +111,16 @@ class PathTest extends AsyncFunSuite with PlatformSecrets {
   test("Should list files from root route, having '/' prefix") {
     for {
       alsConfiguration <- futureAlsConfiguration
-      result <- AMLPathCompletionPlugin.resolveInclusion(url, directoryResolver, "/", Some(urlDir), alsConfiguration, None)
+      baseUnit         <- alsConfiguration.parse(url).map(_.result.baseUnit)
+      result <- AMLPathCompletionPlugin.resolveInclusion(
+        url,
+        directoryResolver,
+        "/",
+        Some(urlDir),
+        alsConfiguration,
+        None,
+        baseUnit
+      )
     } yield {
       assert(result.forall(r => Seq("/api.raml", "/directory/").contains(r.newText)))
     }

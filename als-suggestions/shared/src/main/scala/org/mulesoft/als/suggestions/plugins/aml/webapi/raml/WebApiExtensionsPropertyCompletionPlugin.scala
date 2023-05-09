@@ -2,7 +2,7 @@ package org.mulesoft.als.suggestions.plugins.aml.webapi.raml
 
 import amf.aml.client.scala.model.domain.NodeMapping
 import amf.apicontract.client.scala.model.domain.api.WebApi
-import amf.core.client.scala.model.document.ExtensionLike
+import amf.core.client.scala.model.document.{BaseUnit, ExtensionLike}
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
@@ -29,7 +29,8 @@ object WebApiExtensionsPropertyCompletionPlugin extends AMLCompletionPlugin {
           params.prefix,
           params.rootUri,
           params.alsConfigurationState,
-          params.currentNode
+          params.currentNode,
+          params.baseUnit
         )
       case _ => emptySuggestion
     }
@@ -42,7 +43,8 @@ object WebApiExtensionsPropertyCompletionPlugin extends AMLCompletionPlugin {
       prefix: String,
       rootLocation: Option[String],
       alsConfiguration: ALSConfigurationState,
-      currentNode: Option[NodeMapping]
+      currentNode: Option[NodeMapping],
+      baseUnit: BaseUnit
   ): Future[Seq[RawSuggestion]] = {
     if (isKey) Future { Seq(RawSuggestion.forKey("extends", mandatory = true)) }
     else
@@ -52,7 +54,8 @@ object WebApiExtensionsPropertyCompletionPlugin extends AMLCompletionPlugin {
         prefix,
         rootLocation,
         alsConfiguration,
-        currentNode.flatMap(_.getTargetClass())
+        currentNode.flatMap(_.getTargetClass()),
+        baseUnit
       )
   }
 }

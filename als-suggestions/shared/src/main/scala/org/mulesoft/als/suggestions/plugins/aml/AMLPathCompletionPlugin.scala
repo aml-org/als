@@ -1,5 +1,8 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
+import amf.apicontract.client.scala.model.document.ComponentModule
+import amf.core.client.scala.model.document.ExternalFragment
+import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.common.URIImplicits._
 import org.mulesoft.als.common.{DirectoryResolver, YPartBranch}
 import org.mulesoft.als.suggestions.RawSuggestion
@@ -9,7 +12,6 @@ import org.mulesoft.als.suggestions.plugins.aml.pathnavigation.PathSuggestor
 import org.mulesoft.amfintegration.AmfImplicits.NodeMappingImplicit
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.mulesoft.amfintegration.dialect.DialectKnowledge
-import org.mulesoft.amfintegration.dialect.extensions.ApiExtensions
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -31,7 +33,8 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
         params.prefix,
         params.rootUri,
         params.alsConfigurationState,
-        params.currentNode.flatMap(_.getTargetClass())
+        params.currentNode.flatMap(_.getTargetClass()),
+        params.baseUnit
       )
     } else emptySuggestion
 
@@ -52,6 +55,7 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
       rootLocation: Option[String],
       alsConfiguration: ALSConfigurationState,
       targetClass: Option[String],
+      baseUnit: BaseUnit,
       flagExternalFragment: Boolean = false
   ): Future[Seq[RawSuggestion]] = {
     val baseLocation: String =
@@ -69,7 +73,7 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
     else {
       if (referenceToAnExternalFragment(fullURI))
         PathSuggestor(fullURI, prefix, alsConfiguration, targetClass, flagExternalFragment).flatMap(_.suggest())
-      else if (isAExternalFragment(prefix))
+      else if (isAExternalFragment(fullURI.concat(prefix), baseUnit))
         resolveInclusion(
           actualLocation,
           directoryResolver,
@@ -77,6 +81,7 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
           rootLocation,
           alsConfiguration,
           targetClass,
+          baseUnit,
           true
         )
       else
@@ -95,6 +100,10 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
   private def referenceToAnExternalFragment(fullUri: String): Boolean =
     fullUri.contains("#") && !fullUri.startsWith("#")
 
-  private def isAExternalFragment(prefix: String): Boolean =
-    !ApiExtensions.getValidExtensions.filter(prefix.toLowerCase().endsWith(_)).isEmpty
+  private def isAExternalFragment(uri: String, baseUnit: BaseUnit): Boolean =
+    baseUnit.references.find(_.location().contains(uri)) match {
+      case Some(_: ExternalFragment) => true
+      case Some(_: ComponentModule)  => true
+      case _                         => false
+    }
 }
