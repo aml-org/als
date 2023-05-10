@@ -27,7 +27,6 @@ documentChanges:
           "definitions": {
             "schema": {
               "type": "object",
-              "additionalProperties": true,
               "required": [
                 "numberHolder"
               ],
@@ -38,14 +37,13 @@ documentChanges:
                     "max": 9,
                     "min": "test"
                   },
-                  "additionalProperties": true,
                   "required": [
                     "min",
                     "max"
                   ],
                   "properties": {
                     "min": {
-                      "$ref": "#/definitions/schema_1"
+                      "type": "string"
                     },
                     "max": {
                       "type": "number"
@@ -53,9 +51,6 @@ documentChanges:
                   }
                 }
               }
-            },
-            "schema_1": {
-              "type": "string"
             }
           }
         }

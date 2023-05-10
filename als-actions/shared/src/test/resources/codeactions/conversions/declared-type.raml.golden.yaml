@@ -30,7 +30,6 @@ documentChanges:
               "example": {
                 "prop": "this is an example"
               },
-              "additionalProperties": true,
               "required": [
                 "prop"
               ],

@@ -55,12 +55,12 @@ object LspConversions {
   def booleanOrFalse(value: java.lang.Boolean): Boolean =
     !(value == null) && value
 
-  implicit def clientCapabilities(capabilities: extension.AlsClientCapabilities): AlsClientCapabilities =
+  implicit def clientCapabilities(capabilities: extension.AlsClientCapabilities): AlsClientCapabilities = {
     AlsClientCapabilities(
       Option(capabilities.getWorkspace).map(workspaceClientCapabilities),
       Option(capabilities.getTextDocument).map(textDocumentClientCapabilities),
       Option(capabilities.getExperimental),
-      Option(capabilities.getSerialization).map(s => SerializationClientCapabilities(s.getSupportsSerialization)),
+      Option(capabilities.getSerialization).map(s => SerializationClientCapabilities(s.getAcceptsNotification)),
       Option(capabilities.getCleanDiagnosticTree).map(s =>
         CleanDiagnosticTreeClientCapabilities(s.getEnabledCleanDiagnostic)
       ),
@@ -70,7 +70,7 @@ object LspConversions {
       Option(capabilities.getWorkspaceConfiguration).map(r => WorkspaceConfigurationClientCapabilities(r.canGet)),
       Option(capabilities.getCustomValidations).map(r => CustomValidationClientCapabilities(r.isEnabled))
     )
-
+  }
   implicit def formattingOptions(formattingOptions: extension.AlsFormattingOptions): FormattingOptions = {
     FormattingOptions(
       formattingOptions.getTabSize,
