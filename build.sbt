@@ -60,6 +60,9 @@ lazy val customValidatorNodeLibJS =
 lazy val npmDependencyAmfCustomValidatorWeb = s"@aml-org/amf-custom-validator-web@$amfCustomValidatorJSVersion"
 lazy val npmDependencyAmfCustomValidator    = s"@aml-org/amf-custom-validator@$amfCustomValidatorJSVersion"
 lazy val npmDependencyAmfAntlr              = s"@aml-org/amf-antlr-parsers@$amfAntlrParsersVersion"
+lazy val airframeDependency = "org.wvlet.airframe" %% "airframe" % "23.5.3"
+lazy val guavaDependency = "com.google.guava" % "guava" % "31.1-jre"
+lazy val eclipseLsp4jDependency = "org.eclipse.lsp4j" % "org.eclipse.lsp4j" % "0.12.0"
 
 val orgSettings = Seq(
   organization := "org.mule.als",
@@ -135,7 +138,8 @@ lazy val lsp = crossProject(JSPlatform, JVMPlatform)
   .in(file("./als-lsp"))
   .settings(settings: _*)
   .jvmSettings(
-    libraryDependencies += "org.eclipse.lsp4j"      % "org.eclipse.lsp4j"       % "0.12.0",
+    libraryDependencies += guavaDependency,
+    libraryDependencies += eclipseLsp4jDependency,
     libraryDependencies += "org.scala-lang.modules" % "scala-java8-compat_2.12" % "0.8.0"
   )
   .jsSettings(
@@ -202,11 +206,10 @@ lazy val structureJS  = structure.js.in(file(s"$pathAlsStructure/js")).disablePl
 
 ////region ALS-ACTIONS
 /** ALS actions */
-
 lazy val pathAlsActions = "./als-actions"
 lazy val actions = crossProject(JSPlatform, JVMPlatform)
   .settings(name := "als-actions")
-  .settings(libraryDependencies += "org.wvlet.airframe" %% "airframe" % "19.3.7")
+  .settings(libraryDependencies += airframeDependency)
   .dependsOn(common % "compile->compile;test->test")
   .in(file(s"$pathAlsActions"))
   .settings(settings: _*)
@@ -231,7 +234,7 @@ val installJsDependencies = TaskKey[Unit]("installJsDependencies", "Runs npm i b
 
 lazy val server = crossProject(JSPlatform, JVMPlatform)
   .settings(name := "als-server")
-  .settings(libraryDependencies += "org.wvlet.airframe" %% "airframe" % "19.3.7")
+  .settings(libraryDependencies += airframeDependency)
   .dependsOn(actions, suggestions, structure % "compile->compile;test->test")
   .in(file("./als-server"))
   .settings(settings: _*)
