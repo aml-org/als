@@ -9,6 +9,8 @@ import org.mulesoft.lsp.workspace.WorkspaceService
 import scala.concurrent.Future
 
 trait LanguageServer {
+  def workspaceFolders(): Seq[String]
+
   def initialize(params: AlsInitializeParams): Future[AlsInitializeResult]
 
   def initialized(): Unit
