@@ -41,6 +41,7 @@ import org.mulesoft.als.server.custom.CustomTextDocumentService
 import org.mulesoft.als.server.feature.configuration.workspace.GetWorkspaceConfigurationRequestType
 import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeRequestType
 import org.mulesoft.als.server.feature.fileusage.FileUsageRequestType
+import org.mulesoft.als.server.feature.fileusage.filecontents.FileContentsRequestType
 import org.mulesoft.als.server.feature.renamefile.RenameFileActionRequestType
 import org.mulesoft.als.server.feature.serialization.ConversionRequestType
 import org.mulesoft.als.server.lsp4j.AlsJConversions._
@@ -156,6 +157,10 @@ class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomT
 
   override def fileUsage(params: lsp4j.TextDocumentIdentifier): CompletableFuture[util.List[Location]] = {
     javaFuture(resolveHandler(FileUsageRequestType)(params), lsp4JLocations)
+  }
+
+  override def fileContents(params: lsp4j.TextDocumentIdentifier): CompletableFuture[FileContentsResponse] = {
+    javaFuture(resolveHandler(FileContentsRequestType)(params), fileContentsResponse)
   }
 
   override def serialization(params: SerializationParams): CompletableFuture[SerializedDocument] = {

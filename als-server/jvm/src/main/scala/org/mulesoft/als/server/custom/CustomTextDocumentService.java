@@ -30,6 +30,11 @@ public interface CustomTextDocumentService extends TextDocumentService{
     }
 
     @JsonRequest
+    default CompletableFuture<FileContentsResponse> fileContents(TextDocumentIdentifier params) {
+        throw new UnsupportedOperationException();
+    }
+
+    @JsonRequest
     default CompletableFuture<SerializedDocument> serialization(SerializationParams params) {
         throw new UnsupportedOperationException();
     }

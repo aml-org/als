@@ -11,6 +11,7 @@ import org.mulesoft.als.server.protocol.configuration.{AlsInitializeResult, AlsS
 import org.mulesoft.lsp.Lsp4JConversions._
 import org.mulesoft.lsp.textsync
 import org.mulesoft.lsp.textsync.DidChangeConfigurationNotificationParams
+import org.mulesoft.als.server.feature.fileusage.filecontents.FileContentsResponse
 
 import java.io.StringWriter
 import scala.collection.JavaConverters._
@@ -133,6 +134,9 @@ object AlsJConversions {
 
   implicit def serializedDocument(serializedDocument: SerializedDocument): extension.SerializedDocument =
     new extension.SerializedDocument(serializedDocument.uri, serializedDocument.model)
+
+  implicit def fileContentsResponse(fileContentsResponse: FileContentsResponse): extension.FileContentsResponse =
+    new extension.FileContentsResponse(fileContentsResponse.fs.asJava)
 
   implicit def serializationSerializedDocument(
       serializationMessage: SerializationResult[StringWriter]

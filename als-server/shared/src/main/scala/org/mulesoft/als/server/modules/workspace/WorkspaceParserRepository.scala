@@ -21,6 +21,13 @@ class WorkspaceParserRepository(logger: Logger) extends Repository[ParsedUnit] {
 
   override def getAllFilesUris: List[String] = getIsolatedUris ++ getTreeUris // profiles not added on purpose?
 
+  def getAllFilesUrisWithContents: Map[String, String] =
+    ((units ++ tree.parsedUnits).map(t => (t._1, t._2.parsedResult.result.baseUnit)) ++ units.flatMap(
+      _._2.parsedResult.result.baseUnit.flatRefs.map(bu => (bu.identifier, bu))
+    ))
+      .map(t => (t._1, t._2.raw.getOrElse("")))
+      .toMap
+
   def getTreeUris: List[String] = treeUnits().map(_.parsedResult.result.baseUnit.identifier).toList
 
   def getIsolatedUris: List[String] = units.values.map(_.parsedResult.result.baseUnit.identifier).toList
