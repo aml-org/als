@@ -13,6 +13,7 @@ import org.mulesoft.als.server.feature.diagnostic.{
   CustomValidationClientCapabilities,
   CustomValidationOptions
 }
+import org.mulesoft.als.server.feature.fileusage.filecontents.FileContentsResponse
 import org.mulesoft.als.server.feature.fileusage.{FileUsageClientCapabilities, FileUsageOptions}
 import org.mulesoft.als.server.feature.renamefile.{
   RenameFileActionClientCapabilities,
@@ -34,6 +35,7 @@ import org.mulesoft.als.server.protocol.diagnostic.{
   ClientCustomValidationOptions,
   ClientFilesInProjectParams
 }
+import org.mulesoft.als.server.protocol.filecontents.ClientFileContentsResponse
 import org.mulesoft.als.server.protocol.serialization.{
   ClientSerializationParams,
   ClientSerializationResult,
@@ -200,5 +202,9 @@ object LspConvertersSharedToClient {
 
   implicit class ClientCustomValidationOptionsConverter(i: CustomValidationOptions) {
     def toClient: ClientCustomValidationOptions = ClientCustomValidationOptions(i)
+  }
+
+  implicit class ClientFileContentsResponseConverter(i: FileContentsResponse) {
+    def toClient: ClientFileContentsResponse = ClientFileContentsResponse(i)
   }
 }

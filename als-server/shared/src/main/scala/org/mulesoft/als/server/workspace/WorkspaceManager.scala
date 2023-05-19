@@ -15,6 +15,7 @@ import org.mulesoft.als.server.modules.workspace.{
 }
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.command._
+import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.ValidationProfile
 import org.mulesoft.amfintegration.amfconfiguration.{
   EditorConfiguration,
@@ -27,6 +28,7 @@ import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, ExecuteCommandParams}
 
+import java.util.UUID
 import scala.collection.{immutable, mutable}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

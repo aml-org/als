@@ -12,6 +12,7 @@ import org.mulesoft.als.server.protocol.diagnostic.{
   ClientCleanDiagnosticTreeParams,
   ClientFilesInProjectParams
 }
+import org.mulesoft.als.server.protocol.filecontents.ClientFileContentsResponse
 import org.mulesoft.als.server.protocol.serialization.{
   ClientConversionParams,
   ClientSerializationParams,
@@ -69,6 +70,15 @@ object FileUsageRequest {
   val `type`: RequestType[ClientTextDocumentIdentifier, js.Array[ClientLocation], js.Any] =
     new RequestType[ClientTextDocumentIdentifier, js.Array[ClientLocation], js.Any](
       "fileUsage",
+      ParameterStructures.auto
+    )
+}
+
+@JSExportTopLevel("FileContentsRequestType")
+object FileContentsRequest {
+  val `type`: RequestType[ClientTextDocumentIdentifier, ClientFileContentsResponse, js.Any] =
+    new RequestType[ClientTextDocumentIdentifier, ClientFileContentsResponse, js.Any](
+      "fileContents",
       ParameterStructures.auto
     )
 }
