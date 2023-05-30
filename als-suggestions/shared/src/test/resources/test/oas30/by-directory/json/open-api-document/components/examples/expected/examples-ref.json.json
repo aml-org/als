@@ -1,11 +1,17 @@
 [
   {
     "label": "#/components/examples/test",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Reference to #/components/examples/test",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#/components/examples/test",
     "filterText": "\"#/components/examples/test\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "examples.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11examples.json",
     "filterText": "\"examples.json\"",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "expected/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11expected/",
     "filterText": "\"expected/\"",
     "insertText": null,

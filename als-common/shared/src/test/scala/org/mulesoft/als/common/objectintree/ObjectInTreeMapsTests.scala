@@ -1,7 +1,7 @@
 package org.mulesoft.als.common.objectintree
 
 import org.mulesoft.als.common.dtoTypes.Position
-import org.scalatest.AsyncFlatSpec
+import org.scalatest.flatspec.AsyncFlatSpec
 
 import scala.concurrent.ExecutionContext
 

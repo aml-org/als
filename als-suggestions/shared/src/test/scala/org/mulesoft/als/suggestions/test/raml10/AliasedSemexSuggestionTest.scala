@@ -5,12 +5,12 @@ import amf.apicontract.client.scala.RAMLConfiguration
 import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.suggestions.test.{BaseSuggestionsForTest, TestProjectConfigurationState}
-import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, EditorConfigurationState}
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.common.{Position, Range}
 import org.mulesoft.lsp.feature.completion.CompletionItem
-import org.scalatest.{AsyncFunSuite, Matchers}
+import org.scalatest.funsuite.AsyncFunSuite
+import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent.{ExecutionContext, Future}
 

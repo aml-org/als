@@ -1,11 +1,17 @@
 [
   {
     "label": "age",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Age",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11age",
     "filterText": "my-voc.age",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "model",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Model",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11model",
     "filterText": "my-voc.model",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "name",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Name",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11name",
     "filterText": "my-voc.name",
     "insertText": null,

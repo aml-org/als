@@ -1,11 +1,17 @@
 [
   {
     "label": "password",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "password",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10password",
     "filterText": "password",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "user",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "user",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10user",
     "filterText": "user",
     "insertText": null,

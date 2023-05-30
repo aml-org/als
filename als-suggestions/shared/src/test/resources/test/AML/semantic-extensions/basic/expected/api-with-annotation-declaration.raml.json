@@ -1,11 +1,17 @@
 [
   {
     "label": "(maintainer)",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "extensions",
     "documentation": "(maintainer)",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21(maintainer)",
     "filterText": "(maintainer):\n  ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "(rateLimiting)",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "extensions",
     "documentation": "(rateLimiting)",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21(rateLimiting)",
     "filterText": "(rateLimiting): ",
     "insertText": null,

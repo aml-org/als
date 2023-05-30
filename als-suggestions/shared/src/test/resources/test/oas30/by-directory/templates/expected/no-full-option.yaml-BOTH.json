@@ -1,11 +1,17 @@
 [
   {
     "label": "New responses",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "responses",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "20New responses",
     "filterText": "responses:\n  $1:\n    description: $2",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "responses",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "responses",
     "documentation": "responses",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10responses",
     "filterText": "responses:\n  ",
     "insertText": null,

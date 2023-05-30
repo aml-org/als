@@ -1,11 +1,17 @@
 [
   {
     "label": "New a",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "a",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New a",
     "filterText": "a:\n  str: $1",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "New b",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "b",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New b",
     "filterText": "b:\n  str: $1",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "a",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "a",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11a",
     "filterText": "a:\n  ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "b",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "b",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11b",
     "filterText": "b:\n  ",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "string",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "string",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10string",
     "filterText": "string: ",
     "insertText": null,

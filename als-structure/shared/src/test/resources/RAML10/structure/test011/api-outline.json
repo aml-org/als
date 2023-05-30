@@ -23,7 +23,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "types",
@@ -124,7 +126,9 @@
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               },
               {
                 "name": "addresses",
@@ -150,7 +154,9 @@
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               }
             ]
           }
@@ -230,7 +236,9 @@
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               },
               {
                 "name": "city",
@@ -256,7 +264,9 @@
                     "character": 0
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               }
             ]
           }

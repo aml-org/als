@@ -1,11 +1,17 @@
 [
   {
     "label": "code",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "code",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11code",
     "filterText": "\n- code",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "credentials",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "credentials",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11credentials",
     "filterText": "\n- credentials",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "owner",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "owner",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11owner",
     "filterText": "\n- owner",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "token",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "token",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11token",
     "filterText": "\n- token",
     "insertText": null,

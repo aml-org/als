@@ -1,11 +1,17 @@
 [
   {
     "label": "fragments",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "fragments",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11fragments",
     "filterText": "fragments:\n  ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "library",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "library",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11library",
     "filterText": "library:\n  ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "options",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "options",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11options",
     "filterText": "options:\n  ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "root",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "root",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11root",
     "filterText": "root:\n  ",
     "insertText": null,

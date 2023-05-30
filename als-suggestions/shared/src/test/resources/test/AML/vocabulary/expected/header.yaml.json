@@ -1,11 +1,17 @@
 [
   {
     "label": "#%Dialect 1.0",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Define a %Dialect 1.0 file",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#%Dialect 1.0",
     "filterText": "#%Dialect 1.0",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "#%Library / Dialect 1.0",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Define a %Library / Dialect 1.0 file",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#%Library / Dialect 1.0",
     "filterText": "#%Library / Dialect 1.0",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "#%Library / Validation Profile 1.0",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Define a %Library / Validation Profile 1.0 file",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#%Library / Validation Profile 1.0",
     "filterText": "#%Library / Validation Profile 1.0",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "#%Library / Vocabulary 1.0",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Define a %Library / Vocabulary 1.0 file",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#%Library / Vocabulary 1.0",
     "filterText": "#%Library / Vocabulary 1.0",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "#%Patch / Dialect 1.0",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Define a %Patch / Dialect 1.0 file",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#%Patch / Dialect 1.0",
     "filterText": "#%Patch / Dialect 1.0",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "#%Patch / Validation Profile 1.0",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Define a %Patch / Validation Profile 1.0 file",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#%Patch / Validation Profile 1.0",
     "filterText": "#%Patch / Validation Profile 1.0",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "#%Patch / Vocabulary 1.0",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Define a %Patch / Vocabulary 1.0 file",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#%Patch / Vocabulary 1.0",
     "filterText": "#%Patch / Vocabulary 1.0",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "#%RegoValidation / Validation Profile 1.0",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Define a %RegoValidation / Validation Profile 1.0 file",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#%RegoValidation / Validation Profile 1.0",
     "filterText": "#%RegoValidation / Validation Profile 1.0",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "#%Validation Profile 1.0",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Define a %Validation Profile 1.0 file",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#%Validation Profile 1.0",
     "filterText": "#%Validation Profile 1.0",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "#%Vocabulary 1.0",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Define a %Vocabulary 1.0 file",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#%Vocabulary 1.0",
     "filterText": "#%Vocabulary 1.0",
     "insertText": null,

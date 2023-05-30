@@ -1,11 +1,17 @@
 [
   {
     "label": "New externalDocs",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "externalDocs",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New externalDocs",
     "filterText": "externalDocs:\n  url: $1",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "New info",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "info",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "20New info",
     "filterText": "info:\n  title: $1\n  version: $2",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "New servers",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "servers",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New servers",
     "filterText": "servers:\n  $1:\n    url: $2\n    protocol: $3\n    protocolVersion: $4",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "New tags",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "tags",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New tags",
     "filterText": "tags:\n  -\n    name: $1",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "channels",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "channels",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11channels",
     "filterText": "channels:\n  ",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "components",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "components",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11components",
     "filterText": "components:\n  ",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "externalDocs",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "externalDocs",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11externalDocs",
     "filterText": "externalDocs:\n  ",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "id",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "id",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11id",
     "filterText": "id: ",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "info",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "info",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10info",
     "filterText": "info:\n  ",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "servers",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "servers",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11servers",
     "filterText": "servers:\n  ",
     "insertText": null,
@@ -301,11 +361,17 @@
   },
   {
     "label": "tags",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "tags",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11tags",
     "filterText": "tags:\n  - ",
     "insertText": null,

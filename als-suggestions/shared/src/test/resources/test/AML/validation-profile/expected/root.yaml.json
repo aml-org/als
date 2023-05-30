@@ -1,11 +1,17 @@
 [
   {
     "label": "New full validations",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "validations",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New full validations",
     "filterText": "validations:\n  $1:\n    then:\n      if:\n        if:\n          $2:\n        then:\n          $3:\n      then:\n        $3:\n    if:\n      if:\n        $3:\n      then:\n        if:\n          $4:\n        then:\n          $5: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "New validations",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "validations",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New validations",
     "filterText": "validations:\n  $1:\n    then:\n      $2:\n    if:\n      $3: ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11description",
     "filterText": "description: ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "disabled",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "disabled",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11disabled",
     "filterText": "disabled:\n  - ",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "extends",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "extends",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11extends",
     "filterText": "extends: ",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "info",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "info",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11info",
     "filterText": "info:\n  - ",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "prefixes",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "prefixes",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11prefixes",
     "filterText": "prefixes:\n  ",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "profile",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "profile",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10profile",
     "filterText": "profile: ",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "tags",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "tags",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11tags",
     "filterText": "tags:\n  - ",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "uses",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "uses",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11uses",
     "filterText": "uses:\n  ",
     "insertText": null,
@@ -301,11 +361,17 @@
   },
   {
     "label": "validations",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "validations",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11validations",
     "filterText": "validations:\n  ",
     "insertText": null,
@@ -331,11 +397,17 @@
   },
   {
     "label": "violation",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "violation",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11violation",
     "filterText": "violation:\n  - ",
     "insertText": null,
@@ -361,11 +433,17 @@
   },
   {
     "label": "warning",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "warning",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11warning",
     "filterText": "warning:\n  - ",
     "insertText": null,

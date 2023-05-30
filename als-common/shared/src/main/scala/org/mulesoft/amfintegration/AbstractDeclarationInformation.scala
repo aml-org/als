@@ -5,6 +5,7 @@ import amf.apicontract.client.scala.model.domain.templates.{ResourceType, Trait}
 import amf.apicontract.client.scala.transform.AbstractElementTransformer
 import amf.apicontract.internal.spec.common.transformation.ExtendsHelper
 import amf.apicontract.internal.transformation.BaseUnitSourceLocationIndex
+//import amf.apicontract.internal.transformation.BaseUnitSourceLocationIndex
 import amf.core.client.scala.errorhandling.UnhandledErrorHandler
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.model.domain.DomainElement

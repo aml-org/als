@@ -11,7 +11,7 @@ import org.mulesoft.als.server.{MockTelemetryParsingClientNotifier, ServerWithMa
 import org.mulesoft.lsp.feature.codeactions.CodeActionKind.CodeActionKind
 import org.mulesoft.lsp.feature.codeactions._
 import org.mulesoft.lsp.feature.common.{Range, TextDocumentIdentifier}
-import org.scalatest.Assertion
+import org.scalatest.compatible.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
 

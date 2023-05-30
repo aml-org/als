@@ -10,7 +10,8 @@ import org.mulesoft.amfintegration.amfconfiguration.{
   EmptyProjectConfigurationState
 }
 import org.mulesoft.lsp.feature.folding.FoldingRange
-import org.scalatest.{AsyncFlatSpec, Matchers}
+import org.scalatest.flatspec.AsyncFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{ExecutionContext, Future}

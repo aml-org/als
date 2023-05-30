@@ -1,11 +1,17 @@
 [
   {
     "label": "$ref",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "reference tag",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "0$ref",
     "filterText": "$ref: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11description",
     "filterText": "description: ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "displayName",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "displayName",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11displayName",
     "filterText": "displayName: ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "extends",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "extends",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11extends",
     "filterText": "extends: ",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "properties",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "properties",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11properties",
     "filterText": "properties:\n  - ",
     "insertText": null,

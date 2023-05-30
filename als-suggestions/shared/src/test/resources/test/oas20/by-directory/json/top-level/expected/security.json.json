@@ -1,11 +1,17 @@
 [
   {
     "label": "mySecurity",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "mySecurity",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11mySecurity",
     "filterText": "\"mySecurity\": [\n  \"$1\"\n]",
     "insertText": null,

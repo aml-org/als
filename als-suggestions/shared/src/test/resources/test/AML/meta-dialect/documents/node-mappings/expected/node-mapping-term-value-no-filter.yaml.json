@@ -1,11 +1,17 @@
 [
   {
     "label": "Person",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Person",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Person",
     "filterText": "my-voc.Person",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "Plane",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Airplane",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Plane",
     "filterText": "my-voc.Plane",
     "insertText": null,

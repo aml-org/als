@@ -1,11 +1,17 @@
 [
   {
     "label": "$method",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "RuntimeExpression",
     "documentation": "{$method}",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11$method",
     "filterText": "\"{$method}\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "$request.",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "RuntimeExpression",
     "documentation": "{$request.}",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11$request.",
     "filterText": "\"{$request.}\"",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "$response.",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "RuntimeExpression",
     "documentation": "{$response.}",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11$response.",
     "filterText": "\"{$response.}\"",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "$statusCode",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "RuntimeExpression",
     "documentation": "{$statusCode}",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11$statusCode",
     "filterText": "\"{$statusCode}\"",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "$url",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "RuntimeExpression",
     "documentation": "{$url}",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11$url",
     "filterText": "\"{$url}\"",
     "insertText": null,

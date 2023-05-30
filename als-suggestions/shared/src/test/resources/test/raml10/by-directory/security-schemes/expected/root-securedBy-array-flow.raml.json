@@ -1,11 +1,17 @@
 [
   {
     "label": "oauth2",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "oauth2",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11oauth2",
     "filterText": "oauth2: {\n  $1\n}",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "obasic",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "obasic",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11obasic",
     "filterText": "obasic:",
     "insertText": null,

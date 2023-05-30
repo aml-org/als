@@ -1,11 +1,17 @@
 [
   {
     "label": "double",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "double",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11double",
     "filterText": "double",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "float",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "float",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11float",
     "filterText": "float",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "int",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "int",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11int",
     "filterText": "int",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "int16",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "int16",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11int16",
     "filterText": "int16",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "int32",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "int32",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11int32",
     "filterText": "int32",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "int64",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "int64",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11int64",
     "filterText": "int64",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "int8",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "int8",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11int8",
     "filterText": "int8",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "long",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "long",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11long",
     "filterText": "long",
     "insertText": null,

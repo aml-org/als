@@ -1,11 +1,17 @@
 [
   {
     "label": "innerProp",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "example",
     "documentation": "innerProp",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11innerProp",
     "filterText": "innerProp: ",
     "insertText": null,

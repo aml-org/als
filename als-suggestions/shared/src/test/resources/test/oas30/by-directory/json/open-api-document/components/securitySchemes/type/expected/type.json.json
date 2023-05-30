@@ -1,11 +1,17 @@
 [
   {
     "label": "apiKey",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "apiKey",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10apiKey",
     "filterText": "\"apiKey\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "http",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "http",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10http",
     "filterText": "\"http\"",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "oauth2",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "oauth2",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10oauth2",
     "filterText": "\"oauth2\"",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "openIdConnect",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "openIdConnect",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10openIdConnect",
     "filterText": "\"openIdConnect\"",
     "insertText": null,

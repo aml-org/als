@@ -23,7 +23,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "/someChildUri",
@@ -174,7 +176,9 @@
                             "character": 0
                           }
                         },
-                        "children": []
+                        "children": [
+                          
+                        ]
                       }
                     ]
                   }
@@ -208,7 +212,9 @@
             "character": 0
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "/anotherChild",
@@ -334,7 +340,9 @@
                             "character": 0
                           }
                         },
-                        "children": []
+                        "children": [
+                          
+                        ]
                       }
                     ]
                   }
@@ -370,7 +378,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "resourceTypes",
@@ -546,7 +556,9 @@
                                 "character": 0
                               }
                             },
-                            "children": []
+                            "children": [
+                              
+                            ]
                           }
                         ]
                       }

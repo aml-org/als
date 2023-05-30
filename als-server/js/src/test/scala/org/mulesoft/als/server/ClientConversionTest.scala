@@ -21,11 +21,12 @@ import org.mulesoft.lsp.configuration.{
 }
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.common.{Position, Range, VersionedTextDocumentIdentifier}
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 import scala.scalajs.js.JSON
 
-class ClientConversionTest extends FlatSpec with Matchers {
+class ClientConversionTest extends AnyFlatSpec with Matchers {
 
   behavior of "Server Classes"
   private val p: Position                           = Position(10, 10)

@@ -1,11 +1,17 @@
 [
   {
     "label": "double",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "double",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11double",
     "filterText": "\"double\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "float",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "float",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11float",
     "filterText": "\"float\"",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "int32",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "int32",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11int32",
     "filterText": "\"int32\"",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "int64",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "int64",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11int64",
     "filterText": "\"int64\"",
     "insertText": null,

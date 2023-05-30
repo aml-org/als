@@ -1,11 +1,17 @@
 [
   {
     "label": "$comment",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "$comment",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11$comment",
     "filterText": "\"\\$comment\": \"$1\",",
     "insertText": null,

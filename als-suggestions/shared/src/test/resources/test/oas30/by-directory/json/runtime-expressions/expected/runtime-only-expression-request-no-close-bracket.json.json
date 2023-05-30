@@ -1,11 +1,17 @@
 [
   {
     "label": "$request.body",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "RuntimeExpression",
     "documentation": "{$request.body}",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11$request.body",
     "filterText": "\"{$request.body}\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "$request.body#",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "RuntimeExpression",
     "documentation": "{$request.body#}",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11$request.body#",
     "filterText": "\"{$request.body#}\"",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "$request.header.",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "RuntimeExpression",
     "documentation": "{$request.header.}",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11$request.header.",
     "filterText": "\"{$request.header.}\"",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "$request.path.",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "RuntimeExpression",
     "documentation": "{$request.path.}",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11$request.path.",
     "filterText": "\"{$request.path.}\"",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "$request.query.",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "RuntimeExpression",
     "documentation": "{$request.query.}",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11$request.query.",
     "filterText": "\"{$request.query.}\"",
     "insertText": null,

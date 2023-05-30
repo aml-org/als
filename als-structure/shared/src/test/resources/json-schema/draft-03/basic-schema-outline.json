@@ -48,7 +48,9 @@
             "character": 5
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "nc:ConveyanceType",
@@ -74,7 +76,9 @@
             "character": 5
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "nc:ItemType",
@@ -100,7 +104,9 @@
             "character": 5
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "nc:AmountType",
@@ -176,7 +182,9 @@
                     "character": 9
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               },
               {
                 "name": "nc:Currency",
@@ -202,7 +210,9 @@
                     "character": 9
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               }
             ]
           }
@@ -232,7 +242,9 @@
             "character": 5
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "iso_4217:CurrencyCodeSimpleType",
@@ -258,7 +270,9 @@
             "character": 5
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "nc:IdentificationType",
@@ -334,7 +348,9 @@
                     "character": 9
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               }
             ]
           }
@@ -364,7 +380,9 @@
             "character": 5
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "niem-xs:nonNegativeInteger",
@@ -390,7 +408,9 @@
             "character": 5
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "niem-xs:string",
@@ -416,7 +436,9 @@
             "character": 5
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "_base",
@@ -492,7 +514,9 @@
                     "character": 9
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               },
               {
                 "name": "@base",
@@ -518,7 +542,9 @@
                     "character": 9
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               },
               {
                 "name": "^ism:.*",
@@ -544,7 +570,9 @@
                     "character": 9
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               },
               {
                 "name": "^ntk:.*",
@@ -570,7 +598,9 @@
                     "character": 9
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               }
             ]
           }
@@ -627,7 +657,9 @@
             "character": 5
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "nc:VehicleAxleQuantity",
@@ -653,7 +685,9 @@
             "character": 5
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "nc:VehicleMSRPAmount",
@@ -679,7 +713,9 @@
             "character": 5
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "nc:Amount",
@@ -705,7 +741,9 @@
             "character": 5
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "nc:Currency",
@@ -731,7 +769,9 @@
             "character": 5
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "nc:CurrencyCode",
@@ -757,7 +797,9 @@
             "character": 5
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "nc:VehicleIdentification",
@@ -783,7 +825,9 @@
             "character": 5
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "nc:IdentificationID",
@@ -809,7 +853,9 @@
             "character": 5
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       }
     ]
   }

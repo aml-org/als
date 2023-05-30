@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.test.aml.AsyncAPI
 
 import org.mulesoft.als.suggestions.test.aml.AMLSuggestionsTest
-import org.scalatest.Assertion
+import org.scalatest.compatible.Assertion
 
 import scala.concurrent.Future
 

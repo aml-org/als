@@ -1,11 +1,17 @@
 [
   {
     "label": "$ref",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "reference tag",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "0$ref",
     "filterText": "\"\\$ref\": \"$1\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "content",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "content",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11content",
     "filterText": "\"content\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10description",
     "filterText": "\"description\": \"$1\"",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "headers",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "headers",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11headers",
     "filterText": "\"headers\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "links",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "links",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11links",
     "filterText": "\"links\": {\n  \"$1\"\n}",
     "insertText": null,

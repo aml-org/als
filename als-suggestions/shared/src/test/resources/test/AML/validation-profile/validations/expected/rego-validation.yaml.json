@@ -1,11 +1,17 @@
 [
   {
     "label": "libraries",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "libraries",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11libraries",
     "filterText": "libraries:\n  - ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "message",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "message",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11message",
     "filterText": "message: ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "regoModule",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "regoModule",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10regoModule",
     "filterText": "regoModule:\n  ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "targetClass",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "targetClass",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11targetClass",
     "filterText": "targetClass: ",
     "insertText": null,

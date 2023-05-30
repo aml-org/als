@@ -11,7 +11,7 @@ import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.workspace.ChangesWorkspaceConfiguration
 import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNotifier}
 import org.mulesoft.lsp.workspace.ExecuteCommandParams
-import org.scalatest.Assertion
+import org.scalatest.compatible.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
 

@@ -23,7 +23,9 @@
         "character": 19
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "version",
@@ -49,7 +51,9 @@
         "character": 16
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "examples",
@@ -100,7 +104,9 @@
             "character": 7
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "bar",
@@ -126,7 +132,9 @@
             "character": 7
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       }
     ]
   },
@@ -179,7 +187,9 @@
             "character": 7
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "petstore_auth",
@@ -205,7 +215,9 @@
             "character": 7
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       }
     ]
   },
@@ -283,7 +295,9 @@
                 "character": 9
               }
             },
-            "children": []
+            "children": [
+              
+            ]
           }
         ]
       },
@@ -336,7 +350,9 @@
                 "character": 9
               }
             },
-            "children": []
+            "children": [
+              
+            ]
           }
         ]
       }
@@ -391,7 +407,9 @@
             "character": 7
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "header2",
@@ -417,7 +435,9 @@
             "character": 7
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       }
     ]
   },
@@ -570,7 +590,9 @@
                             "character": 15
                           }
                         },
-                        "children": []
+                        "children": [
+                          
+                        ]
                       }
                     ]
                   },
@@ -648,7 +670,9 @@
                                 "character": 17
                               }
                             },
-                            "children": []
+                            "children": [
+                              
+                            ]
                           }
                         ]
                       }
@@ -711,7 +735,9 @@
             "character": 7
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "limitParam",
@@ -737,7 +763,9 @@
             "character": 7
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       }
     ]
   },
@@ -890,7 +918,9 @@
                             "character": 15
                           }
                         },
-                        "children": []
+                        "children": [
+                          
+                        ]
                       }
                     ]
                   }
@@ -924,7 +954,9 @@
             "character": 7
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       }
     ]
   },
@@ -1027,7 +1059,9 @@
                     "character": 11
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               },
               {
                 "name": "name",
@@ -1053,7 +1087,9 @@
                     "character": 11
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               }
             ]
           }
@@ -1133,7 +1169,9 @@
                     "character": 11
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               },
               {
                 "name": "name",
@@ -1159,7 +1197,9 @@
                     "character": 11
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               }
             ]
           }
@@ -1216,7 +1256,9 @@
             "character": 7
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "IllegalInput",
@@ -1242,7 +1284,9 @@
             "character": 7
           }
         },
-        "children": []
+        "children": [
+          
+        ]
       },
       {
         "name": "GeneralError",
@@ -1318,7 +1362,9 @@
                     "character": 11
                   }
                 },
-                "children": []
+                "children": [
+                  
+                ]
               }
             ]
           }

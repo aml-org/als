@@ -13,7 +13,7 @@ import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNoti
 import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.common.{Location, TextDocumentIdentifier}
-import org.scalatest.Assertion
+import org.scalatest.compatible.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
 

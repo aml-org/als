@@ -1,11 +1,17 @@
 [
   {
     "label": "name",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "example",
     "documentation": "name",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11name",
     "filterText": "name: ",
     "insertText": null,

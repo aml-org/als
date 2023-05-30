@@ -1,11 +1,17 @@
 [
   {
     "label": "header1",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "example",
     "documentation": "header1",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11header1",
     "filterText": "header1: ",
     "insertText": null,

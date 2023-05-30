@@ -13,7 +13,8 @@ import org.mulesoft.amfintegration.amfconfiguration.{
   EditorConfiguration,
   EmptyProjectConfigurationState
 }
-import org.scalatest.{Assertion, AsyncFunSuite}
+import org.scalatest.compatible.Assertion
+import org.scalatest.funsuite.AsyncFunSuite
 
 import scala.concurrent.{ExecutionContext, Future}
 

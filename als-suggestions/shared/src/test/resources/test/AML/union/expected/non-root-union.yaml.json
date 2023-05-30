@@ -1,11 +1,17 @@
 [
   {
     "label": "discriminator",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "",
     "documentation": "discriminator",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10discriminator",
     "filterText": "discriminator: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "newProp",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "newProp",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11newProp",
     "filterText": "newProp: ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "text",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "text",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11text",
     "filterText": "text:\n  ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "text",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "text",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11text",
     "filterText": "text: ",
     "insertText": null,

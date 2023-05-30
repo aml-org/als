@@ -1,11 +1,17 @@
 [
   {
     "label": "const",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "const",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11const",
     "filterText": "\"const\": \"$1\"",
     "insertText": null,

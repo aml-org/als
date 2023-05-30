@@ -1,11 +1,17 @@
 [
   {
     "label": "maxLength",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "maxLength",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11maxLength",
     "filterText": "maxLength: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "minLength",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "minLength",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11minLength",
     "filterText": "minLength: ",
     "insertText": null,

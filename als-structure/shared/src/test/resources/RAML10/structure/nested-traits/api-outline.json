@@ -23,7 +23,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "version",
@@ -49,6 +51,8 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   }
 ]

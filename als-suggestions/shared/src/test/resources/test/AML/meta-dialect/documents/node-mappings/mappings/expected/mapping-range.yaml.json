@@ -1,11 +1,17 @@
 [
   {
     "label": "!include",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "inclusion tag",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11!include",
     "filterText": "!include ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "any",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "any",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10any",
     "filterText": "any",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "anyNode",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "anyNode",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10anyNode",
     "filterText": "anyNode",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "anyType",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "anyType",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10anyType",
     "filterText": "anyType",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "anyUri",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "anyUri",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10anyUri",
     "filterText": "anyUri",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "boolean",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "boolean",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10boolean",
     "filterText": "boolean",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "date",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "date",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10date",
     "filterText": "date",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "dateTime",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "dateTime",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10dateTime",
     "filterText": "dateTime",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "decimal",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "decimal",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10decimal",
     "filterText": "decimal",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "double",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "double",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10double",
     "filterText": "double",
     "insertText": null,
@@ -301,11 +361,17 @@
   },
   {
     "label": "duration",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "duration",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10duration",
     "filterText": "duration",
     "insertText": null,
@@ -331,11 +397,17 @@
   },
   {
     "label": "float",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "float",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10float",
     "filterText": "float",
     "insertText": null,
@@ -361,11 +433,17 @@
   },
   {
     "label": "integer",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "integer",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10integer",
     "filterText": "integer",
     "insertText": null,
@@ -391,11 +469,17 @@
   },
   {
     "label": "link",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "link",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10link",
     "filterText": "link",
     "insertText": null,
@@ -421,11 +505,17 @@
   },
   {
     "label": "myNodeMapping",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "myNodeMapping",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11myNodeMapping",
     "filterText": "myNodeMapping",
     "insertText": null,
@@ -451,11 +541,17 @@
   },
   {
     "label": "number",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "number",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10number",
     "filterText": "number",
     "insertText": null,
@@ -481,11 +577,17 @@
   },
   {
     "label": "otherMapping",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "otherMapping",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11otherMapping",
     "filterText": "otherMapping",
     "insertText": null,
@@ -511,11 +613,17 @@
   },
   {
     "label": "string",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "string",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10string",
     "filterText": "string",
     "insertText": null,
@@ -541,11 +649,17 @@
   },
   {
     "label": "time",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "time",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10time",
     "filterText": "time",
     "insertText": null,
@@ -571,11 +685,17 @@
   },
   {
     "label": "uri",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "uri",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10uri",
     "filterText": "uri",
     "insertText": null,

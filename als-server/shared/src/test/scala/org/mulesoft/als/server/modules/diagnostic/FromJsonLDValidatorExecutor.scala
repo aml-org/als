@@ -12,7 +12,7 @@ import amf.custom.validation.client.scala.{
 import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.server.TimeoutFuture
 import org.scalatest.Assertion
-import org.scalatest.Matchers.{fail, succeed}
+import org.scalatest.Assertions.{fail, succeed}
 
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global

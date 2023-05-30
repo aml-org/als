@@ -1,11 +1,17 @@
 [
   {
     "label": "typeDiscriminator",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "typeDiscriminator",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11typeDiscriminator",
     "filterText": "typeDiscriminator: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "typeDiscriminatorName",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "typeDiscriminatorName",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11typeDiscriminatorName",
     "filterText": "typeDiscriminatorName: ",
     "insertText": null,
