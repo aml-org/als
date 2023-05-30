@@ -54,7 +54,7 @@ object AbstractDeclarationInformation {
                 keepEditingInfo = false,
                 UnhandledErrorHandler,
                 amfConfiguration,
-                BaseUnitSourceLocationIndex.build(bu) // This line should be uncommented when AMF sacalaJS is released
+                BaseUnitSourceLocationIndex.build(bu)
               )
             extendsHelper.parseOperation(bu, t.name.option().getOrElse(""), "AbstractDeclarationInformation", e)
           })
