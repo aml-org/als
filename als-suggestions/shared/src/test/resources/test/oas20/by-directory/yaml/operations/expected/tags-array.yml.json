@@ -1,11 +1,17 @@
 [
   {
     "label": "myTag",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "myTag",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11myTag",
     "filterText": "myTag",
     "insertText": null,

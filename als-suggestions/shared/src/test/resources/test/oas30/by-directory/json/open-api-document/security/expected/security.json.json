@@ -1,11 +1,17 @@
 [
   {
     "label": "security",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "security",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11security",
     "filterText": "\"security\": $1",
     "insertText": null,

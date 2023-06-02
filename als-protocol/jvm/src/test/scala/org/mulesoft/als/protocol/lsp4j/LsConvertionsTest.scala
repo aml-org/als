@@ -1,11 +1,11 @@
 package org.mulesoft.als.protocol.lsp4j
 
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 import org.mulesoft.als.common._
 import scala.collection.JavaConverters._
 
-class LsConvertionsTest extends FunSuite {
+class LsConvertionsTest extends AnyFunSuite {
 
   test("Empty InitializeParams Conversions") {
     val internalParams: InternalParams = new InitializeParams()

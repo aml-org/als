@@ -25,7 +25,7 @@ import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.common.TextDocumentItem
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
-import org.scalatest.Assertion
+import org.scalatest.compatible.Assertion
 import org.yaml.builder.{DocBuilder, JsonOutputBuilder}
 import org.yaml.model.{YDocument, YMap, YSequence}
 import org.yaml.parser.YamlParser

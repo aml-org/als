@@ -7,12 +7,13 @@ import org.mulesoft.als.logger.MessageSeverity.MessageSeverity
 import org.mulesoft.als.server.modules.ast.{CHANGE_FILE, CLOSE_FILE, NotificationKind, OPEN_FILE}
 import org.mulesoft.als.server.modules.workspace.ParserStagingArea
 import org.mulesoft.als.server.textsync.{EnvironmentProvider, TextDocument}
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.Future
 
-class ParserStagingAreaTests extends FlatSpec with Matchers {
+class ParserStagingAreaTests extends AnyFlatSpec with Matchers {
   private val dummyEnvironmentProvider = new EnvironmentProvider {
 
     override def getResourceLoader: ResourceLoader = new ResourceLoader {

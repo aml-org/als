@@ -1,11 +1,17 @@
 [
   {
     "label": "base.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11base.yaml",
     "filterText": "base.yaml",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "classTerms/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11classTerms/",
     "filterText": "classTerms/",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "expected/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11expected/",
     "filterText": "expected/",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "external-value.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11external-value.yaml",
     "filterText": "external-value.yaml",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "external.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11external.yaml",
     "filterText": "external.yaml",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "header.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11header.yaml",
     "filterText": "header.yaml",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "propertyTerms/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11propertyTerms/",
     "filterText": "propertyTerms/",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "root.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11root.yaml",
     "filterText": "root.yaml",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "usage.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11usage.yaml",
     "filterText": "usage.yaml",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "uses.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11uses.yaml",
     "filterText": "uses.yaml",
     "insertText": null,
@@ -301,11 +361,17 @@
   },
   {
     "label": "vocabulary.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11vocabulary.yaml",
     "filterText": "vocabulary.yaml",
     "insertText": null,

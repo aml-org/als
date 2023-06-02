@@ -1,11 +1,17 @@
 [
   {
     "label": "anotherPro",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "anotherPro",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11anotherPro",
     "filterText": "\"anotherPro\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "name",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "name",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11name",
     "filterText": "\"name\"",
     "insertText": null,

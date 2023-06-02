@@ -1,11 +1,17 @@
 [
   {
     "label": "typeDiscriminator",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "typeDiscriminator",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11typeDiscriminator",
     "filterText": "typeDiscriminator: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "union",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "union",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11union",
     "filterText": "union:\n  - ",
     "insertText": null,

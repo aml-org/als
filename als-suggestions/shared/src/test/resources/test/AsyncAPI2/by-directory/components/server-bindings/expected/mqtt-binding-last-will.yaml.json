@@ -1,11 +1,17 @@
 [
   {
     "label": "qos",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "qos",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11qos",
     "filterText": "qos: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "retain",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "retain",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11retain",
     "filterText": "retain: ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "topic",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "topic",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11topic",
     "filterText": "topic: ",
     "insertText": null,

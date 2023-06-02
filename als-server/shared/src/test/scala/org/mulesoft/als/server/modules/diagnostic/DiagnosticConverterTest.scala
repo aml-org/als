@@ -2,9 +2,10 @@ package org.mulesoft.als.server.modules.diagnostic
 
 import amf.core.client.common.validation.{ProfileNames, SeverityLevels}
 import amf.core.client.scala.validation.AMFValidationResult
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 
-class DiagnosticConverterTest extends FunSuite with Matchers {
+class DiagnosticConverterTest extends AnyFunSuite with Matchers {
 
   private val withoutLocation =
     new AlsValidationResult(

@@ -1,11 +1,17 @@
 [
   {
     "label": "#/parameters/named",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Reference to #/parameters/named",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#/parameters/named",
     "filterText": "\"#/parameters/named\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "expected/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11expected/",
     "filterText": "\"expected/\"",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "parameter-array.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11parameter-array.json",
     "filterText": "\"parameter-array.json\"",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "parameter.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11parameter.json",
     "filterText": "\"parameter.json\"",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "path-ref.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11path-ref.json",
     "filterText": "\"path-ref.json\"",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "path.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11path.json",
     "filterText": "\"path.json\"",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "paths.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11paths.json",
     "filterText": "\"paths.json\"",
     "insertText": null,

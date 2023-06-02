@@ -1,11 +1,17 @@
 [
   {
     "label": "maxItems",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "maxItems",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11maxItems",
     "filterText": "maxItems: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "minItems",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "minItems",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11minItems",
     "filterText": "minItems: ",
     "insertText": null,

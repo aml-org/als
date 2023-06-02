@@ -33,6 +33,8 @@ const baseConfig = {
     },
     symlinks: false,
     fallback: {
+      fs: false,
+      xtend: false,
       net: false,
       child_process: false,
       crypto: false

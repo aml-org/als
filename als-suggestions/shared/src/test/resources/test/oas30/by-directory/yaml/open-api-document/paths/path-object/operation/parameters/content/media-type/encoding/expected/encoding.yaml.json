@@ -1,11 +1,17 @@
 [
   {
     "label": "age",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "age",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11age",
     "filterText": "age: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "name",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "name",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11name",
     "filterText": "name: ",
     "insertText": null,

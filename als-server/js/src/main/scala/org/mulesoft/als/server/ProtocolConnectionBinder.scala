@@ -3,6 +3,7 @@ package org.mulesoft.als.server
 import org.mulesoft.als.server.feature.configuration.workspace.GetWorkspaceConfigurationRequestType
 import org.mulesoft.als.server.feature.diagnostic.CleanDiagnosticTreeRequestType
 import org.mulesoft.als.server.feature.fileusage.FileUsageRequestType
+import org.mulesoft.als.server.feature.fileusage.filecontents.FileContentsRequestType
 import org.mulesoft.als.server.feature.renamefile.RenameFileActionRequestType
 import org.mulesoft.als.server.feature.serialization.{ConversionRequestType, SerializationResult}
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
@@ -17,6 +18,7 @@ import org.mulesoft.als.server.protocol.diagnostic.{
   ClientCleanDiagnosticTreeParams,
   ClientFilesInProjectParams
 }
+import org.mulesoft.als.server.protocol.filecontents.ClientFileContentsResponse
 import org.mulesoft.als.server.protocol.serialization.{
   ClientConversionParams,
   ClientSerializationParams,
@@ -330,6 +332,22 @@ trait AbstractProtocolConnectionBinder[ClientAware <: LspLanguageClientAware wit
         .asInstanceOf[ClientRequestHandler[ClientTextDocumentIdentifier, js.Array[ClientLocation], js.Any]]
     )
     // End FindFileUsage
+
+    // FindFileContents
+    val onFindFileContentsHandlerJs
+        : js.Function2[ClientTextDocumentIdentifier, CancellationToken, Thenable[ClientFileContentsResponse]] =
+      (param: ClientTextDocumentIdentifier, _: CancellationToken) =>
+        resolveHandler(FileContentsRequestType)(param.toShared)
+          .map(_.toClient)
+          .toJSPromise
+          .asInstanceOf[Thenable[ClientFileContentsResponse]]
+
+    protocolConnection.onRequest(
+      FileContentsRequest.`type`,
+      onFindFileContentsHandlerJs
+        .asInstanceOf[ClientRequestHandler[ClientTextDocumentIdentifier, ClientFileContentsResponse, js.Any]]
+    )
+    // End FindFileContents
 
     // Definition
     val onDefinitionHandlerJs: js.Function2[ClientDefinitionParams, CancellationToken, Thenable[

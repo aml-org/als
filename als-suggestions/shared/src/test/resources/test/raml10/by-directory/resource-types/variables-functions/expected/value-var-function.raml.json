@@ -1,11 +1,17 @@
 [
   {
     "label": "!lowercamelcase",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "!lowercamelcase",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11!lowercamelcase",
     "filterText": "description for <<param | !lowercamelcase>>",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "!lowercase",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "!lowercase",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11!lowercase",
     "filterText": "description for <<param | !lowercase>>",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "!pluralize",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "!pluralize",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11!pluralize",
     "filterText": "description for <<param | !pluralize>>",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "!singularize",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "!singularize",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11!singularize",
     "filterText": "description for <<param | !singularize>>",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "!uppercamelcase",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "!uppercamelcase",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11!uppercamelcase",
     "filterText": "description for <<param | !uppercamelcase>>",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "!uppercase",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "!uppercase",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11!uppercase",
     "filterText": "description for <<param | !uppercase>>",
     "insertText": null,

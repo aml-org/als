@@ -4,6 +4,7 @@ import amf.core.client.common.remote.Content
 import amf.core.client.scala.resource.ResourceLoader
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.feature.fileusage.FileUsageRequestType
+import org.mulesoft.als.server.feature.fileusage.filecontents.{FileContentsRequestType, FileContentsResponse}
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
@@ -12,7 +13,7 @@ import org.mulesoft.als.server.{LanguageServerBaseTest, MockDiagnosticClientNoti
 import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.common.{Location, TextDocumentIdentifier}
-import org.scalatest.Assertion
+import org.scalatest.compatible.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -62,7 +63,7 @@ trait ServerFileUsageTest extends LanguageServerBaseTest {
     }
   }
 
-  def runTest(
+  def runFileUsageTest(
       root: String,
       mainFile: String,
       ws: Map[String, String],
@@ -81,4 +82,24 @@ trait ServerFileUsageTest extends LanguageServerBaseTest {
       .resolveHandler(FileUsageRequestType)
       .map { _(TextDocumentIdentifier(searchedUri)) }
       .getOrElse(Future.failed(new Exception("No handler found for FileUsage")))
+
+  def runFileContentsTest(
+      root: String,
+      mainFile: String,
+      ws: Map[String, String],
+      searchedUri: String,
+      expectedResult: Map[String, String]
+  ): Future[Assertion] =
+    for {
+      (server, _) <- buildServer(root, ws, mainFile)
+      result      <- getServerFileContents(server, searchedUri)
+    } yield {
+      assert(result.fs == expectedResult)
+    }
+
+  def getServerFileContents(server: LanguageServer, searchedUri: String): Future[FileContentsResponse] =
+    server
+      .resolveHandler(FileContentsRequestType)
+      .map { _(TextDocumentIdentifier(searchedUri)) }
+      .getOrElse(Future.failed(new Exception("No handler found for FileContents")))
 }

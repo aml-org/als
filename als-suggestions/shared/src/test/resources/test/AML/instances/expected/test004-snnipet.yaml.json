@@ -1,11 +1,17 @@
 [
   {
     "label": "New declaresA",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "declaresA",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New declaresA",
     "filterText": "declaresA:\n  \\$name: $1",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "declaresA",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "declaresA",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11declaresA",
     "filterText": "declaresA:\n  ",
     "insertText": null,

@@ -1,12 +1,12 @@
 package org.mulesoft.als.suggestions
 
-import org.mulesoft.common.client.lexical.{PositionRange, SourceLocation, Position => AmfPosition}
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.suggestions.styler.{JsonSuggestionStyler, SyamlStylerParams}
+import org.mulesoft.common.client.lexical.{PositionRange, SourceLocation, Position => AmfPosition}
 import org.mulesoft.lsp.configuration.{DefaultFormattingOptions, FormattingOptions}
-import org.scalatest.AsyncFunSuite
+import org.scalatest.funsuite.AsyncFunSuite
 import org.yaml.model._
 
 import scala.concurrent.ExecutionContext

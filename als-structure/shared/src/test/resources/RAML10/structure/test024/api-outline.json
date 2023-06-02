@@ -23,7 +23,9 @@
         "character": 0
       }
     },
-    "children": []
+    "children": [
+      
+    ]
   },
   {
     "name": "/resource",
@@ -174,7 +176,9 @@
                             "character": 0
                           }
                         },
-                        "children": []
+                        "children": [
+                          
+                        ]
                       },
                       {
                         "name": "text/yaml",
@@ -200,7 +204,9 @@
                             "character": 0
                           }
                         },
-                        "children": []
+                        "children": [
+                          
+                        ]
                       },
                       {
                         "name": "text/x-yaml",
@@ -226,7 +232,9 @@
                             "character": 0
                           }
                         },
-                        "children": []
+                        "children": [
+                          
+                        ]
                       },
                       {
                         "name": "application/yaml",
@@ -252,7 +260,9 @@
                             "character": 0
                           }
                         },
-                        "children": []
+                        "children": [
+                          
+                        ]
                       },
                       {
                         "name": "application/x-yaml",
@@ -278,7 +288,9 @@
                             "character": 0
                           }
                         },
-                        "children": []
+                        "children": [
+                          
+                        ]
                       }
                     ]
                   }

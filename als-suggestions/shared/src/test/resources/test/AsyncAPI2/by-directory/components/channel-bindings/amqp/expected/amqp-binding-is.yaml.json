@@ -1,11 +1,17 @@
 [
   {
     "label": "queue",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "queue",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11queue",
     "filterText": "queue",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "routingKey",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "routingKey",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11routingKey",
     "filterText": "routingKey",
     "insertText": null,

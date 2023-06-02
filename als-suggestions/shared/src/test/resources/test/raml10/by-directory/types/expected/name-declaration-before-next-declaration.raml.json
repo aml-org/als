@@ -1,11 +1,17 @@
 [
   {
     "label": "New type",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "20New type",
     "filterText": "$1:\n  type: $2",
     "insertText": null,

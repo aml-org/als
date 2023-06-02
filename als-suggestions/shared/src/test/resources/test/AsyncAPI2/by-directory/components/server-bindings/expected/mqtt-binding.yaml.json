@@ -1,11 +1,17 @@
 [
   {
     "label": "bindingVersion",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "bindingVersion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11bindingVersion",
     "filterText": "bindingVersion: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "cleanSession",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "cleanSession",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11cleanSession",
     "filterText": "cleanSession: ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "clientId",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "clientId",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11clientId",
     "filterText": "clientId: ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "keepAlive",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "keepAlive",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11keepAlive",
     "filterText": "keepAlive: ",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "lastWill",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "lastWill",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11lastWill",
     "filterText": "lastWill:\n  ",
     "insertText": null,

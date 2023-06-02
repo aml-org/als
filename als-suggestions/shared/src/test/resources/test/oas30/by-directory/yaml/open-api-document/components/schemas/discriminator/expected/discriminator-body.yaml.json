@@ -1,11 +1,17 @@
 [
   {
     "label": "mapping",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "mapping",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11mapping",
     "filterText": "mapping: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "propertyName",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "propertyName",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11propertyName",
     "filterText": "propertyName: ",
     "insertText": null,

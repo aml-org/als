@@ -1,11 +1,17 @@
 [
   {
     "label": "asyncapi: \"2.0.0\"",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Define a asyncapi 2.0.0 file",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11asyncapi: \"2.0.0\"",
     "filterText": "asyncapi: \"2.0.0\"",
     "insertText": null,

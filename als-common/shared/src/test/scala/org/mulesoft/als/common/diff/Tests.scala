@@ -1,16 +1,15 @@
 package org.mulesoft.als.common.diff
 
+import org.mulesoft.als.common.diff.Diff.makeString
+import org.mulesoft.common.io.{AsyncFile, Utf8}
+import org.scalatest.matchers.should.Matchers._
+import org.scalatest.{Assertion, Succeeded}
+
 import java.io.{File, FileNotFoundException, FileReader, Reader}
 import java.lang.System.getProperty
 import java.net.{InetAddress, UnknownHostException}
-
-import org.mulesoft.common.io.{AsyncFile, Utf8}
-import org.scalatest.Matchers._
-import org.scalatest.{Assertion, Succeeded}
-
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Random
-import Diff.makeString
 
 /** */
 object Tests {

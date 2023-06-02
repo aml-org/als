@@ -1,11 +1,17 @@
 [
   {
     "label": "allowEmptyValue",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "allowEmptyValue",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11allowEmptyValue",
     "filterText": "\"allowEmptyValue\": $1",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "collectionFormat",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "collectionFormat",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11collectionFormat",
     "filterText": "\"collectionFormat\": \"$1\"",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "default",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "default",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11default",
     "filterText": "\"default\": \"$1\"",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10description",
     "filterText": "\"description\": \"$1\"",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "enum",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "enum",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11enum",
     "filterText": "\"enum\": \"$1\"",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "exclusiveMaximum",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "exclusiveMaximum",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11exclusiveMaximum",
     "filterText": "\"exclusiveMaximum\": $1",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "exclusiveMinimum",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "exclusiveMinimum",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11exclusiveMinimum",
     "filterText": "\"exclusiveMinimum\": $1",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "format",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "format",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11format",
     "filterText": "\"format\": \"$1\"",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "items",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "items",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11items",
     "filterText": "\"items\": {\n  \"$1\"\n}",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "maxItems",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "maxItems",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11maxItems",
     "filterText": "\"maxItems\": $1",
     "insertText": null,
@@ -301,11 +361,17 @@
   },
   {
     "label": "maxLength",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "maxLength",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11maxLength",
     "filterText": "\"maxLength\": $1",
     "insertText": null,
@@ -331,11 +397,17 @@
   },
   {
     "label": "maximum",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "maximum",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11maximum",
     "filterText": "\"maximum\": $1",
     "insertText": null,
@@ -361,11 +433,17 @@
   },
   {
     "label": "minItems",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "minItems",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11minItems",
     "filterText": "\"minItems\": $1",
     "insertText": null,
@@ -391,11 +469,17 @@
   },
   {
     "label": "minLength",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "minLength",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11minLength",
     "filterText": "\"minLength\": $1",
     "insertText": null,
@@ -421,11 +505,17 @@
   },
   {
     "label": "minimum",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "minimum",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11minimum",
     "filterText": "\"minimum\": $1",
     "insertText": null,
@@ -451,11 +541,17 @@
   },
   {
     "label": "multipleOf",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "multipleOf",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11multipleOf",
     "filterText": "\"multipleOf\": $1",
     "insertText": null,
@@ -481,11 +577,17 @@
   },
   {
     "label": "name",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "name",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10name",
     "filterText": "\"name\": \"$1\"",
     "insertText": null,
@@ -511,11 +613,17 @@
   },
   {
     "label": "pattern",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "pattern",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11pattern",
     "filterText": "\"pattern\": \"$1\"",
     "insertText": null,
@@ -541,11 +649,17 @@
   },
   {
     "label": "required",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "parameters",
     "documentation": "required",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10required",
     "filterText": "\"required\": $1",
     "insertText": null,
@@ -571,11 +685,17 @@
   },
   {
     "label": "type",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "schemas",
     "documentation": "type",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10type",
     "filterText": "\"type\": \"$1\"",
     "insertText": null,
@@ -601,11 +721,17 @@
   },
   {
     "label": "uniqueItems",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "uniqueItems",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11uniqueItems",
     "filterText": "\"uniqueItems\": $1",
     "insertText": null,

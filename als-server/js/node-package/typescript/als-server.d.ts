@@ -6462,6 +6462,10 @@ declare module '@aml-org/als-server' {
     uris: string[]
   }
 
+  export interface FileContentsResponse {
+    fs: Map<string, string>
+  }
+
   export interface SerializationResult {
     uri: string
     model: any
@@ -6592,7 +6596,7 @@ declare module '@aml-org/als-server' {
     configuration?: AlsConfiguration
     hotReload?: boolean
   }
-  
+
   export type DidFocusParams = {
     uri: String
     version: number
@@ -6621,7 +6625,7 @@ declare module '@aml-org/als-server' {
   export type AlsCapabilitiesNotification = {
     type: NotificationType<AlsClientCapabilities>
   }
-  
+
   export type DidFocusNotification = {
     type: NotificationType<DidFocusParams>
   }
@@ -6671,6 +6675,10 @@ declare module '@aml-org/als-server' {
 
   export type SerializationRequestType = {
     type: RequestType<SerializationParams, SerializationResult, any>
+  }
+
+  export type FileContentsRequestType = {
+    type: RequestType<TextDocumentIdentifier, FileContentsResponse, any>
   }
 
   export const ClientNotifierFactory: {

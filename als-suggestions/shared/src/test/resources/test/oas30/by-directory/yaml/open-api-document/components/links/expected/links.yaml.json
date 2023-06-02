@@ -1,11 +1,17 @@
 [
   {
     "label": "$ref",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "reference tag",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "0$ref",
     "filterText": "$ref: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "New server",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "server",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New server",
     "filterText": "server:\n  url: $1",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11description",
     "filterText": "description: ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "operationId",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "operationId",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11operationId",
     "filterText": "operationId: ",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "operationRef",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "operationRef",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11operationRef",
     "filterText": "operationRef: ",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "parameters",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "parameters",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11parameters",
     "filterText": "parameters:\n  ",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "requestBody",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "requestBody",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11requestBody",
     "filterText": "requestBody: ",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "server",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "server",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11server",
     "filterText": "server:\n  ",
     "insertText": null,

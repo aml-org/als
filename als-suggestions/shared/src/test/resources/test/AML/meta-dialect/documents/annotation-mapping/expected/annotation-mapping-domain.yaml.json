@@ -1,11 +1,17 @@
 [
   {
     "label": "my-voc",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "my-voc",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11my-voc",
     "filterText": "my-voc",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "schema-org",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "schema-org",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schema-org",
     "filterText": "schema-org",
     "insertText": null,

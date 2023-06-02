@@ -1,11 +1,17 @@
 [
   {
     "label": "rt2",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "rt2",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11rt2",
     "filterText": "rt2",
     "insertText": null,

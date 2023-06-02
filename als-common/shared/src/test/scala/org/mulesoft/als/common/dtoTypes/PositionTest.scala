@@ -1,8 +1,8 @@
 package org.mulesoft.als.common.dtoTypes
 
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
-class PositionTest extends FunSuite {
+class PositionTest extends AnyFunSuite {
 
   test("Greater than") {
     val reference = Position(2, 2)

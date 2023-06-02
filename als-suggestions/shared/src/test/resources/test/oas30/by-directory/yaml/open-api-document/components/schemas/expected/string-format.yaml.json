@@ -1,11 +1,17 @@
 [
   {
     "label": "binary",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "binary",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11binary",
     "filterText": "binary",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "byte",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "byte",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11byte",
     "filterText": "byte",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "date",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "date",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11date",
     "filterText": "date",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "date-time",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "date-time",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11date-time",
     "filterText": "date-time",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "password",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "password",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11password",
     "filterText": "password",
     "insertText": null,

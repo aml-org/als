@@ -7,4 +7,5 @@ import scala.concurrent.Future
 
 trait AlsWorkspaceService extends WorkspaceService {
   def initialize(workspaceFolders: List[WorkspaceFolder]): Future[Unit]
+  def getWorkspaceFolders: Seq[String]
 }

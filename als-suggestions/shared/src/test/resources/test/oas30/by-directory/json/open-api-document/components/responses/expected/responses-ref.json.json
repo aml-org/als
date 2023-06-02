@@ -1,11 +1,17 @@
 [
   {
     "label": "#/components/responses/test",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Reference to #/components/responses/test",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#/components/responses/test",
     "filterText": "\"#/components/responses/test\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "expected/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11expected/",
     "filterText": "\"expected/\"",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "response-name-after-declaration.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11response-name-after-declaration.json",
     "filterText": "\"response-name-after-declaration.json\"",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "response-name.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11response-name.json",
     "filterText": "\"response-name.json\"",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "responses.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11responses.json",
     "filterText": "\"responses.json\"",
     "insertText": null,

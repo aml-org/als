@@ -15,6 +15,7 @@ import org.mulesoft.als.server.modules.workspace.{
 }
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.command._
+import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.ValidationProfile
 import org.mulesoft.amfintegration.amfconfiguration.{
   EditorConfiguration,
@@ -27,6 +28,7 @@ import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, ExecuteCommandParams}
 
+import java.util.UUID
 import scala.collection.{immutable, mutable}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -118,7 +120,7 @@ class WorkspaceManager protected (
   def changeWorkspaceFolders(params: DidChangeWorkspaceFoldersParams): Future[Unit] =
     workspaces.changeWorkspaces(params.event.added.flatMap(_.uri), params.event.deleted.flatMap(_.uri))
 
-  def getWorkspaceFolders: Seq[String] = workspaces.allWorkspaces().map(_.folderUri)
+  override def getWorkspaceFolders: Seq[String] = workspaces.allWorkspaces().map(_.folderUri)
 
   override def getDocumentLinks(uri: String, uuid: String): Future[Seq[DocumentLink]] =
     getWorkspace(uri.toAmfUri).flatMap(_.getRelationships(uri.toAmfUri)).map(_.getDocumentLinks(uri.toAmfUri))

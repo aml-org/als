@@ -1,11 +1,17 @@
 [
   {
     "label": "pageSize",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "pageSize",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10pageSize",
     "filterText": "pageSize: ",
     "insertText": null,

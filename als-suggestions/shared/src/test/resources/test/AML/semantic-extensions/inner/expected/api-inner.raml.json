@@ -1,11 +1,17 @@
 [
   {
     "label": "inner",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "inner",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11inner",
     "filterText": "inner: ",
     "insertText": null,

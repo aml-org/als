@@ -1,11 +1,17 @@
 [
   {
     "label": "and",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "and",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11and",
     "filterText": "and:\n  - ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "classConstraints",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "classConstraints",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11classConstraints",
     "filterText": "classConstraints:\n  - ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "else",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "else",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11else",
     "filterText": "else:\n  ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "if",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "if",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10if",
     "filterText": "if:\n  ",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "libraries",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "libraries",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11libraries",
     "filterText": "libraries:\n  - ",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "name",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "name",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11name",
     "filterText": "name: ",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "not",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "not",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10not",
     "filterText": "not:\n  ",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "or",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "or",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11or",
     "filterText": "or:\n  - ",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "propertyConstraints",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "propertyConstraints",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10propertyConstraints",
     "filterText": "propertyConstraints:\n  ",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "rego",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "rego",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10rego",
     "filterText": "rego: ",
     "insertText": null,
@@ -301,11 +361,17 @@
   },
   {
     "label": "regoModule",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "regoModule",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10regoModule",
     "filterText": "regoModule:\n  ",
     "insertText": null,
@@ -331,11 +397,17 @@
   },
   {
     "label": "targetClass",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "targetClass",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11targetClass",
     "filterText": "targetClass: ",
     "insertText": null,
@@ -361,11 +433,17 @@
   },
   {
     "label": "then",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "then",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10then",
     "filterText": "then:\n  ",
     "insertText": null,
@@ -391,11 +469,17 @@
   },
   {
     "label": "xone",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "xone",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11xone",
     "filterText": "xone:\n  - ",
     "insertText": null,

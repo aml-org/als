@@ -1,11 +1,17 @@
 [
   {
     "label": "Adef",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "jsonschema.json#/definitions/Adef",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11Adef",
     "filterText": "jsonschema.json#/definitions/Adef",
     "insertText": null,

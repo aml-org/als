@@ -1,11 +1,9 @@
 import Dependencies.deps
 import NpmOpsPlugin.autoImport.npmDependencies
-import org.scalajs.core.tools.linker.ModuleKind
-import org.scalajs.core.tools.linker.backend.OutputMode
-import org.scalajs.sbtplugin.ScalaJSPlugin.AutoImport.{fastOptJS, scalaJSOutputMode}
 import sbt.File
 import sbt.Keys.{libraryDependencies, mainClass, packageOptions}
 import sbtcrossproject.CrossPlugin.autoImport.crossProject
+import org.scalajs.linker.interface.ESVersion
 
 import scala.language.postfixOps
 import scala.sys.process.Process
@@ -30,6 +28,7 @@ val amfVersion                       = deps("amf")
 val amfCustomValidatorJSVersion      = deps("amf.custom-validator.js")
 val amfCustomValidatorScalaJSVersion = deps("amf.custom-validator-scalajs")
 val amfAntlrParsersVersion           = deps("amf-antlr-parsers")
+val scalaJSVersion                   = "1.1.0"
 
 val commonNpmDependencies = List(
   ("ajv", "6.12.6"),
@@ -39,7 +38,7 @@ val commonNpmDependencies = List(
 lazy val amfJVMRef = ProjectRef(workspaceDirectory / "amf", "graphqlJVM")
 lazy val amfJSRef  = ProjectRef(workspaceDirectory / "amf", "graphqlJS")
 lazy val amfLibJVM = "com.github.amlorg" %% "amf-graphql"        % amfVersion
-lazy val amfLibJS  = "com.github.amlorg" %% "amf-graphql_sjs0.6" % amfVersion
+lazy val amfLibJS  = "com.github.amlorg" %% "amf-graphql_sjs1" % amfVersion
 
 lazy val customValidatorWebJVMRef =
   ProjectRef(workspaceDirectory / "amf-custom-validator-scalajs", "amfCustomValidatorWebJVM")
@@ -47,7 +46,7 @@ lazy val customValidatorWebJSRef =
   ProjectRef(workspaceDirectory / "amf-custom-validator-scalajs", "amfCustomValidatorWebJS")
 lazy val customValidatorWebLibJVM = "com.github.amlorg" %% "amf-custom-validator-web" % amfCustomValidatorScalaJSVersion
 lazy val customValidatorWebLibJS =
-  "com.github.amlorg" %% "amf-custom-validator-web_sjs0.6" % amfCustomValidatorScalaJSVersion
+  "com.github.amlorg" %% "amf-custom-validator-web_sjs1" % amfCustomValidatorScalaJSVersion
 lazy val customValidatorNodeJVMRef =
   ProjectRef(workspaceDirectory / "amf-custom-validator-scalajs", "amfCustomValidatorNodeJVM")
 lazy val customValidatorNodeJSRef =
@@ -55,7 +54,7 @@ lazy val customValidatorNodeJSRef =
 lazy val customValidatorNodeLibJVM =
   "com.github.amlorg" %% "amf-custom-validator-node" % amfCustomValidatorScalaJSVersion
 lazy val customValidatorNodeLibJS =
-  "com.github.amlorg" %% "amf-custom-validator-node_sjs0.6" % amfCustomValidatorScalaJSVersion
+  "com.github.amlorg" %% "amf-custom-validator-node_sjs1" % amfCustomValidatorScalaJSVersion
 
 lazy val npmDependencyAmfCustomValidatorWeb = s"@aml-org/amf-custom-validator-web@$amfCustomValidatorJSVersion"
 lazy val npmDependencyAmfCustomValidator    = s"@aml-org/amf-custom-validator@$amfCustomValidatorJSVersion"
@@ -63,6 +62,12 @@ lazy val npmDependencyAmfAntlr              = s"@aml-org/amf-antlr-parsers@$amfA
 lazy val airframeDependency = "org.wvlet.airframe" %% "airframe" % "23.5.3"
 lazy val guavaDependency = "com.google.guava" % "guava" % "31.1-jre"
 lazy val eclipseLsp4jDependency = "org.eclipse.lsp4j" % "org.eclipse.lsp4j" % "0.12.0"
+
+////region SBT-Dependencies
+lazy val scalaJS_DomDependency = ModuleID("org.scala-js", "scalajs-dom_sjs1_2.12" , "1.1.0")
+lazy val upickle_Dependency = ModuleID("com.lihaoyi", "upickle_sjs1_2.12", "0.9.9")
+lazy val scalaJS_NodeDependency = ModuleID("net.exoego", "scala-js-nodejs-v14_sjs1_2.12", "0.13.0")
+////endregion
 
 val orgSettings = Seq(
   organization := "org.mule.als",
@@ -79,13 +84,13 @@ val orgSettings = Seq(
   libraryDependencies ++= Seq(
     "com.chuusai"    %% "shapeless"     % "2.3.3",
     "org.scala-js"   %% "scalajs-stubs" % scalaJSVersion % "provided",
-    "org.scalatest" %%% "scalatest"     % "3.0.5"        % Test,
-    "org.scalamock" %%% "scalamock"     % "4.1.0"        % Test,
-    "com.lihaoyi"   %%% "upickle"       % "0.5.1"        % Test
+    "org.scalatest" %%% "scalatest"     % "3.2.0"        % Test,
+    upickle_Dependency
   )
 )
 
 val settings = Common.settings ++ Common.publish ++ orgSettings
+concurrentRestrictions in Global := Seq(Tags.limitAll(2))
 
 ////region ALS-COMMON
 /** ALS common */
@@ -108,10 +113,12 @@ lazy val common = crossProject(JSPlatform, JVMPlatform)
       ) #&&
         Process("npm install", new File(s"$pathAlsCommon/js/")) !
     },
-    scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
-    scalaJSModuleKind := ModuleKind.CommonJSModule,
-    npmDependencies ++= commonNpmDependencies
-    //        artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
+    scalaJSLinkerConfig  ~= { _
+      .withModuleKind(ModuleKind.CommonJSModule)
+      .withESFeatures(_.withESVersion(ESVersion.ES2016))
+    },
+    npmDependencies      ++= commonNpmDependencies
+//    ,scalaJSLinkerOutputDirectory in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
   )
   .disablePlugins(SonarPlugin)
 
@@ -143,9 +150,11 @@ lazy val lsp = crossProject(JSPlatform, JVMPlatform)
     libraryDependencies += "org.scala-lang.modules" % "scala-java8-compat_2.12" % "0.8.0"
   )
   .jsSettings(
-    scalaJSOutputMode := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
-    scalaJSModuleKind := ModuleKind.CommonJSModule
-    //        artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
+    scalaJSLinkerConfig ~= { _
+      .withModuleKind(ModuleKind.CommonJSModule)
+      .withESFeatures(_.withESVersion(ESVersion.ES2016))
+    }
+    //        scalaJSLinkerOutputDirectory in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"high-level.js"
   )
   .disablePlugins(SonarPlugin)
 
@@ -166,9 +175,12 @@ lazy val suggestions = crossProject(JSPlatform, JVMPlatform)
   .in(file("./als-suggestions"))
   .settings(settings: _*)
   .jsSettings(
-    packageJSDependencies / skip := false,
-    scalaJSOutputMode            := OutputMode.Defaults,
-    scalaJSModuleKind            := ModuleKind.CommonJSModule,
+    libraryDependencies += upickle_Dependency,
+//    packageJSDependencies / skip := false,
+    scalaJSLinkerConfig          ~= { _
+      .withModuleKind(ModuleKind.CommonJSModule)
+      .withESFeatures(_.withESVersion(ESVersion.ES2016))
+    },
     npmDependencies ++= commonNpmDependencies
   )
   .disablePlugins(SonarPlugin)
@@ -191,12 +203,15 @@ lazy val structure = crossProject(JSPlatform, JVMPlatform)
   .in(file(s"$pathAlsStructure"))
   .settings(settings: _*)
   .jsSettings(
-    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
-    libraryDependencies += "com.lihaoyi"  %%% "upickle"     % "0.5.1",
-    scalaJSOutputMode                      := org.scalajs.core.tools.linker.backend.OutputMode.ECMAScript6,
-    scalaJSModuleKind                      := ModuleKind.CommonJSModule,
+    libraryDependencies ++= Seq(
+      scalaJS_DomDependency,
+      upickle_Dependency
+    ),
+    scalaJSLinkerConfig ~= { _
+      .withModuleKind(ModuleKind.CommonJSModule)
+      .withESFeatures(_.withESVersion(ESVersion.ES2016))
+    },
     npmDependencies ++= commonNpmDependencies
-    //    artifactPath in (Compile, fastOptJS) := baseDirectory.value / "target" / "artifact" /"als-suggestions.js"
   )
   .disablePlugins(SonarPlugin)
 
@@ -214,9 +229,10 @@ lazy val actions = crossProject(JSPlatform, JVMPlatform)
   .in(file(s"$pathAlsActions"))
   .settings(settings: _*)
   .jsSettings(
-    packageJSDependencies / skip := false,
-    scalaJSOutputMode            := OutputMode.Defaults,
-    scalaJSModuleKind            := ModuleKind.CommonJSModule,
+    scalaJSLinkerConfig ~= { _
+      .withModuleKind(ModuleKind.CommonJSModule)
+      .withESFeatures(_.withESVersion(ESVersion.ES2016))
+    },
     npmDependencies ++= commonNpmDependencies
   )
   .disablePlugins(SonarPlugin)
@@ -270,12 +286,18 @@ lazy val server = crossProject(JSPlatform, JVMPlatform)
         ) #&&
         Process("npm install", new File("./als-server/js/node-package")) !
     },
-    Test / test                            := ((Test / test) dependsOn installJsDependencies).value,
-    Test / fastOptJS / artifactPath        := baseDirectory.value / "node-package" / "tmp" / "als-server.js",
-    scalaJSModuleKind                      := ModuleKind.CommonJSModule,
-    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.2",
-    Compile / fastOptJS / artifactPath     := baseDirectory.value / "node-package" / "lib" / "als-server.js",
-    Compile / fullOptJS / artifactPath     := baseDirectory.value / "node-package" / "lib" / "als-server.min.js"
+    Test / test                                       := ((Test / test) dependsOn installJsDependencies).value,
+    Test / fastLinkJS / scalaJSLinkerOutputDirectory  := baseDirectory.value / "node-package" / "tmp" / "als-server.js",
+    scalaJSLinkerConfig                    ~= { _
+      .withModuleKind(ModuleKind.CommonJSModule)
+      .withESFeatures(_.withESVersion(ESVersion.ES2016))
+    },
+    libraryDependencies ++= Seq(
+      scalaJS_NodeDependency,
+      scalaJS_DomDependency
+    ),
+    Compile / fastLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "node-package" / "tmp" / "als-server.js",
+    Compile / fullLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "node-package" / "tmp" / "als-server.min.js"
   )
 
 lazy val serverJVM = server.jvm.in(file("./als-server/jvm"))
@@ -298,8 +320,11 @@ lazy val nodeClient = project
     settings ++ Seq(
       name                                 := "als-node-client",
       scalaJSUseMainModuleInitializer      := true,
-      scalaJSModuleKind                    := ModuleKind.CommonJSModule,
-      libraryDependencies += "io.scalajs" %%% "nodejs-core" % "0.4.2",
+      scalaJSLinkerConfig                  ~= { _
+        .withModuleKind(ModuleKind.CommonJSModule)
+        .withESFeatures(_.withESVersion(ESVersion.ES2016))
+      },
+      libraryDependencies += scalaJS_NodeDependency,
       Compile / mainClass                  := Some("org.mulesoft.als.nodeclient.Main"),
       npmIClient := {
         Process(
@@ -318,9 +343,9 @@ lazy val nodeClient = project
           Process("npm i", new File("./als-node-client/node-package/")) !
       },
       Test / test                        := ((Test / test) dependsOn npmIClient).value,
-      Test / fastOptJS / artifactPath    := baseDirectory.value / "node-package" / "tmp" / "als-node-client.js",
-      Compile / fastOptJS / artifactPath := baseDirectory.value / "node-package" / "dist" / "als-node-client.js",
-      Compile / fullOptJS / artifactPath := baseDirectory.value / "node-package" / "dist" / "als-node-client.min.js"
+      Test / fastLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "node-package" / "tmp" / "als-node-client.js",
+      Compile / fullLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "node-package" / "tmp" / "als-node-client.min.js",
+      Compile / fastLinkJS / scalaJSLinkerOutputDirectory := baseDirectory.value / "node-package" / "tmp" / "als-node-client.js"
     )
   )
   .sourceDependency(customValidatorNodeJSRef, customValidatorNodeLibJS)
@@ -337,18 +362,28 @@ lazy val nodeClient = project
 val buildJsServerLibrary = TaskKey[Unit]("buildJsServerLibrary", "Build server library")
 
 buildJsServerLibrary := {
-  (serverJS / Compile / fastOptJS).value
-  (serverJS / Compile / fullOptJS).value
   (serverJS / installJsDependenciesWeb).value
+  (serverJS / Compile / fastLinkJS).value
+  (serverJS / Compile / fullLinkJS).value
+  val result = (Process(
+    "./scripts/build.sh",
+    new File("./als-server/js/node-package")
+  ).!)
+  if (result != 0) throw new IllegalStateException("Node JS build.sh failed")
 }
 
 // Node client
 val buildNodeJsClient = TaskKey[Unit]("buildNodeJsClient", "Build node client")
 
 buildNodeJsClient := {
-  (nodeClient / Compile / fastOptJS).value
-  (nodeClient / Compile / fullOptJS).value
+  (nodeClient / Compile / fastLinkJS).value
+  (nodeClient / Compile / fullLinkJS).value
   (nodeClient / npmIClient).value
+  val result = (Process(
+    "./scripts/build.sh",
+    new File("./als-node-client/node-package")
+  ).!)
+  if (result != 0) throw new IllegalStateException("Node JS build.sh failed")
 }
 
 // ************** SONAR *******************************

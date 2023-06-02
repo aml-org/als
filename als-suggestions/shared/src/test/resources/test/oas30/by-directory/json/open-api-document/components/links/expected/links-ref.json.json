@@ -1,11 +1,17 @@
 [
   {
     "label": "#/components/links/test",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Reference to #/components/links/test",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#/components/links/test",
     "filterText": "\"#/components/links/test\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "expected/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11expected/",
     "filterText": "\"expected/\"",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "links.json",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11links.json",
     "filterText": "\"links.json\"",
     "insertText": null,

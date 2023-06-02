@@ -1,11 +1,17 @@
 [
   {
     "label": "#/components/schemas/schema1",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Reference to #/components/schemas/schema1",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#/components/schemas/schema1",
     "filterText": "\"#/components/schemas/schema1\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "array-schema.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11array-schema.yaml",
     "filterText": "array-schema.yaml",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "boolean-format.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11boolean-format.yaml",
     "filterText": "boolean-format.yaml",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "expected/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11expected/",
     "filterText": "expected/",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "external-docs-schema.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11external-docs-schema.yaml",
     "filterText": "external-docs-schema.yaml",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "integer-format.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11integer-format.yaml",
     "filterText": "integer-format.yaml",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "items-schema.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11items-schema.yaml",
     "filterText": "items-schema.yaml",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "nested-format-applies.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11nested-format-applies.yaml",
     "filterText": "nested-format-applies.yaml",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "number-format.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11number-format.yaml",
     "filterText": "number-format.yaml",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "number-schema.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11number-schema.yaml",
     "filterText": "number-schema.yaml",
     "insertText": null,
@@ -301,11 +361,17 @@
   },
   {
     "label": "object-schema.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11object-schema.yaml",
     "filterText": "object-schema.yaml",
     "insertText": null,
@@ -331,11 +397,17 @@
   },
   {
     "label": "properties-schema.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11properties-schema.yaml",
     "filterText": "properties-schema.yaml",
     "insertText": null,
@@ -361,11 +433,17 @@
   },
   {
     "label": "property-schema.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11property-schema.yaml",
     "filterText": "property-schema.yaml",
     "insertText": null,
@@ -391,11 +469,17 @@
   },
   {
     "label": "required.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11required.yaml",
     "filterText": "required.yaml",
     "insertText": null,
@@ -421,11 +505,17 @@
   },
   {
     "label": "schema-name-after-declaration.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schema-name-after-declaration.yaml",
     "filterText": "schema-name-after-declaration.yaml",
     "insertText": null,
@@ -451,11 +541,17 @@
   },
   {
     "label": "schema-name.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schema-name.yaml",
     "filterText": "schema-name.yaml",
     "insertText": null,
@@ -481,11 +577,17 @@
   },
   {
     "label": "schema.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schema.yaml",
     "filterText": "schema.yaml",
     "insertText": null,
@@ -511,11 +613,17 @@
   },
   {
     "label": "string-format.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11string-format.yaml",
     "filterText": "string-format.yaml",
     "insertText": null,
@@ -541,11 +649,17 @@
   },
   {
     "label": "string-schema.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11string-schema.yaml",
     "filterText": "string-schema.yaml",
     "insertText": null,
@@ -571,11 +685,17 @@
   },
   {
     "label": "types-schema.yaml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11types-schema.yaml",
     "filterText": "types-schema.yaml",
     "insertText": null,

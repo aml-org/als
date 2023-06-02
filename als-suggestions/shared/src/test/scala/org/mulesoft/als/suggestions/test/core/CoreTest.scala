@@ -5,14 +5,15 @@ import amf.core.client.scala.resource.ResourceLoader
 import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.{MarkerFinderTest, PlatformDirectoryResolver}
 import org.mulesoft.als.configuration.AlsConfiguration
-import org.mulesoft.als.suggestions.client.{Suggestions, UnitBundle}
+import org.mulesoft.als.suggestions.client.Suggestions
 import org.mulesoft.amfintegration.amfconfiguration.{
   ALSConfigurationState,
   EditorConfiguration,
   EmptyProjectConfigurationState
 }
 import org.mulesoft.lsp.feature.completion.CompletionItem
-import org.scalatest.{Assertion, AsyncFunSuite}
+import org.scalatest.Assertion
+import org.scalatest.funsuite.AsyncFunSuite
 
 import scala.concurrent.{ExecutionContext, Future}
 

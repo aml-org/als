@@ -1,11 +1,17 @@
 [
   {
     "label": "New secured",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "secured",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "21New secured",
     "filterText": "secured: {\n  tokenName: $1\n}",
     "insertText": null,

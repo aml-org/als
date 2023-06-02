@@ -1,7 +1,7 @@
 package org.mulesoft.als.suggestions.test.aml
 
 import org.mulesoft.als.suggestions.test.SuggestionsTest
-import org.scalatest.Assertion
+import org.scalatest.compatible.Assertion
 
 import scala.concurrent.Future
 

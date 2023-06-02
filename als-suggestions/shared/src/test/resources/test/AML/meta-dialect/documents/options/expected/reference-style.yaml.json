@@ -1,11 +1,17 @@
 [
   {
     "label": "JsonSchemaStyle",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "JsonSchemaStyle",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11JsonSchemaStyle",
     "filterText": "JsonSchemaStyle",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "RamlStyle",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "RamlStyle",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11RamlStyle",
     "filterText": "RamlStyle",
     "insertText": null,

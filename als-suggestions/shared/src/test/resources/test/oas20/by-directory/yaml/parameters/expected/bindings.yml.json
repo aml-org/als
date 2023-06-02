@@ -1,11 +1,17 @@
 [
   {
     "label": "body",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "body",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10body",
     "filterText": "body",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "formData",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "formData",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10formData",
     "filterText": "formData",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "header",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "header",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10header",
     "filterText": "header",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "path",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "path",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10path",
     "filterText": "path",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "query",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "query",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10query",
     "filterText": "query",
     "insertText": null,

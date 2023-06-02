@@ -2,9 +2,7 @@ package org.mulesoft.als.server
 
 import amf.core.client.platform.resource.ClientResourceLoader
 import amf.core.client.scala.resource.ResourceLoader
-import amf.core.internal.convert.CoreClientConverters.ClientList
-import org.mulesoft.als.configuration.{DefaultJsServerSystemConf, JsServerSystemConf, ResourceLoaderConverter}
-import org.mulesoft.als.logger.EmptyLogger
+import org.mulesoft.als.configuration.{DefaultJsServerSystemConf, JsServerSystemConf}
 import org.mulesoft.als.server.client.platform.{AlsClientNotifier, AlsLanguageServerFactory}
 import org.mulesoft.als.server.feature.serialization.SerializationResult
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams
@@ -14,6 +12,7 @@ import scala.concurrent.ExecutionContextExecutor
 import scala.scalajs.js
 import scala.scalajs.js.JSConverters.{JSRichFutureNonThenable, JSRichGenTraversableOnce}
 import scala.scalajs.js.Promise
+import scala.scalajs.js.annotation.JSName
 
 class JsLanguageServerTest extends AMFValidatorTest {
   override implicit val executionContext: ExecutionContextExecutor = scala.concurrent.ExecutionContext.global
@@ -86,13 +85,21 @@ class JsLanguageServerTest extends AMFValidatorTest {
         .asInstanceOf[JsClientLogger]
   }
 
+  trait AcceptsFunction extends js.Object {
+    def accepts(): Boolean
+  }
+
+  trait FetchFunction extends js.Object {
+    def fetch(): Promise[_]
+  }
+
   val fakeRL: ClientResourceLoader = js.Dynamic
     .literal(
-      accepts = new js.Function1[String, Boolean] {
-        override def apply(arg1: String): Boolean = false
+      accepts = new AcceptsFunction {
+        override def accepts: Boolean = false
       },
-      fetch = new js.Function1[String, js.Promise[_]] {
-        override def apply(arg1: String): Promise[_] = js.Promise.resolve[String]("")
+      fetch = new FetchFunction {
+        override def fetch: Promise[_] = js.Promise.resolve[String]("")
       }
     )
     .asInstanceOf[ClientResourceLoader]
@@ -132,11 +139,15 @@ class JsLanguageServerTest extends AMFValidatorTest {
     def toClient: ClientResourceLoader =
       js.Dynamic
         .literal(
-          accepts = new js.Function1[String, Boolean] {
-            override def apply(arg1: String): Boolean = rl.accepts(arg1)
+          accepts = new AcceptsFunction {
+            override def accepts: Boolean = {
+              def apply(arg1: String): Boolean = rl.accepts(arg1)
+            }.asInstanceOf[Boolean]
           },
-          fetch = new js.Function1[String, js.Promise[_]] {
-            override def apply(arg1: String): Promise[_] = rl.fetch(arg1).toJSPromise
+          fetch = new FetchFunction {
+            override def fetch: Promise[_] = {
+              def apply(arg1: String): Promise[_] = rl.fetch(arg1).toJSPromise
+            }.asInstanceOf[Promise[_]]
           }
         )
         .asInstanceOf[ClientResourceLoader]

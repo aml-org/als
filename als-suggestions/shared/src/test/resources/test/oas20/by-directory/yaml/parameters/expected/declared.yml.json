@@ -1,11 +1,17 @@
 [
   {
     "label": "New parameter",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "template",
     "documentation": "",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "20New parameter",
     "filterText": "$1:\n  type: $2\n  name: $3\n  description: $4\n  required: $5\n  in: $6",
     "insertText": null,

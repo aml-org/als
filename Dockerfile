@@ -5,8 +5,8 @@ USER root
 
 ARG USER_HOME_DIR="/root"
 
-ENV SCALA_VERSION 2.12.13
-ENV SBT_VERSION 1.7.1
+ENV SCALA_VERSION="2.12.13"
+ENV SBT_VERSION="1.7.1"
 
 
 # Update the repository sources list and install dependencies
@@ -28,7 +28,7 @@ RUN apt-get install unzip -y && \
 ## Piping curl directly in tar
 RUN \
   apt-get install curl --assume-yes && \
-  curl -fsL http://downloads.typesafe.com/scala/$SCALA_VERSION/scala-$SCALA_VERSION.tgz | tar xfz - -C /root/ && \
+  curl -fsL http://www.scala-lang.org/files/archive/scala-$SCALA_VERSION.tgz | tar xfz - -C /root/ && \
   echo >> /root/.bashrc && \
   echo 'export PATH=~/scala-$SCALA_VERSION/bin:$PATH' >> /root/.bashrc
 

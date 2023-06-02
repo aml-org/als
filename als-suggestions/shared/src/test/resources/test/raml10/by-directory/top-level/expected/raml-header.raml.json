@@ -1,11 +1,17 @@
 [
   {
     "label": "#%RAML 1.0 AnnotationTypeDeclaration",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "#%RAML 1.0 AnnotationTypeDeclaration",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#%RAML 1.0 AnnotationTypeDeclaration",
     "filterText": "#%RAML 1.0 AnnotationTypeDeclaration",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "#%RAML 1.0 DataType",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "#%RAML 1.0 DataType",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#%RAML 1.0 DataType",
     "filterText": "#%RAML 1.0 DataType",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "#%RAML 1.0 DocumentationItem",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "#%RAML 1.0 DocumentationItem",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#%RAML 1.0 DocumentationItem",
     "filterText": "#%RAML 1.0 DocumentationItem",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "#%RAML 1.0 Extension",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "#%RAML 1.0 Extension",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#%RAML 1.0 Extension",
     "filterText": "#%RAML 1.0 Extension",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "#%RAML 1.0 Library",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "#%RAML 1.0 Library",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#%RAML 1.0 Library",
     "filterText": "#%RAML 1.0 Library",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "#%RAML 1.0 NamedExample",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "#%RAML 1.0 NamedExample",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#%RAML 1.0 NamedExample",
     "filterText": "#%RAML 1.0 NamedExample",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "#%RAML 1.0 Overlay",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "#%RAML 1.0 Overlay",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#%RAML 1.0 Overlay",
     "filterText": "#%RAML 1.0 Overlay",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "#%RAML 1.0 ResourceType",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "#%RAML 1.0 ResourceType",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#%RAML 1.0 ResourceType",
     "filterText": "#%RAML 1.0 ResourceType",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "#%RAML 1.0 SecurityScheme",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "#%RAML 1.0 SecurityScheme",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#%RAML 1.0 SecurityScheme",
     "filterText": "#%RAML 1.0 SecurityScheme",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "#%RAML 1.0 Trait",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "#%RAML 1.0 Trait",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#%RAML 1.0 Trait",
     "filterText": "#%RAML 1.0 Trait",
     "insertText": null,

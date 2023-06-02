@@ -1,11 +1,17 @@
 [
   {
     "label": "$method",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "RuntimeExpression",
     "documentation": "notificationServer.com?transactionId={$method}",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11$method",
     "filterText": "\"notificationServer.com?transactionId={$method}\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "$request.",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "RuntimeExpression",
     "documentation": "notificationServer.com?transactionId={$request.}",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11$request.",
     "filterText": "\"notificationServer.com?transactionId={$request.}\"",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "$response.",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "RuntimeExpression",
     "documentation": "notificationServer.com?transactionId={$response.}",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11$response.",
     "filterText": "\"notificationServer.com?transactionId={$response.}\"",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "$statusCode",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "RuntimeExpression",
     "documentation": "notificationServer.com?transactionId={$statusCode}",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11$statusCode",
     "filterText": "\"notificationServer.com?transactionId={$statusCode}\"",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "$url",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "RuntimeExpression",
     "documentation": "notificationServer.com?transactionId={$url}",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11$url",
     "filterText": "\"notificationServer.com?transactionId={$url}\"",
     "insertText": null,

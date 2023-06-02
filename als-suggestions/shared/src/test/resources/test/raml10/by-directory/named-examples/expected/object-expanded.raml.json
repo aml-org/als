@@ -1,11 +1,17 @@
 [
   {
     "label": "description",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "description",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11description",
     "filterText": "description: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "displayName",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "displayName",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11displayName",
     "filterText": "displayName: ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "p1",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "example",
     "documentation": "p1",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10p1",
     "filterText": "p1: ",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "p2",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "example",
     "documentation": "p2",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10p2",
     "filterText": "p2: ",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "strict",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "strict",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11strict",
     "filterText": "strict: ",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "value",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "value",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11value",
     "filterText": "value: ",
     "insertText": null,

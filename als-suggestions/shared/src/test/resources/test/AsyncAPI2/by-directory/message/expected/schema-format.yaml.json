@@ -1,11 +1,17 @@
 [
   {
     "label": "application/raml+yaml;version=1.0",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "application/raml+yaml;version=1.0",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11application/raml+yaml;version=1.0",
     "filterText": "application/raml+yaml;version=1.0",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "application/schema+json;version=draft-07",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "application/schema+json;version=draft-07",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11application/schema+json;version=draft-07",
     "filterText": "application/schema+json;version=draft-07",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "application/schema+yaml;version=draft-07",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "application/schema+yaml;version=draft-07",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11application/schema+yaml;version=draft-07",
     "filterText": "application/schema+yaml;version=draft-07",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "application/vnd.aai.asyncapi+json;version=2.0.0",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "application/vnd.aai.asyncapi+json;version=2.0.0",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11application/vnd.aai.asyncapi+json;version=2.0.0",
     "filterText": "application/vnd.aai.asyncapi+json;version=2.0.0",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "application/vnd.aai.asyncapi+yaml;version=2.0.0",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "application/vnd.aai.asyncapi+yaml;version=2.0.0",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11application/vnd.aai.asyncapi+yaml;version=2.0.0",
     "filterText": "application/vnd.aai.asyncapi+yaml;version=2.0.0",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "application/vnd.aai.asyncapi;version=2.0.0",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "application/vnd.aai.asyncapi;version=2.0.0",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11application/vnd.aai.asyncapi;version=2.0.0",
     "filterText": "application/vnd.aai.asyncapi;version=2.0.0",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "application/vnd.oai.openapi+json;version=3.0.0",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "application/vnd.oai.openapi+json;version=3.0.0",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11application/vnd.oai.openapi+json;version=3.0.0",
     "filterText": "application/vnd.oai.openapi+json;version=3.0.0",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "application/vnd.oai.openapi+yaml;version=3.0.0",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "application/vnd.oai.openapi+yaml;version=3.0.0",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11application/vnd.oai.openapi+yaml;version=3.0.0",
     "filterText": "application/vnd.oai.openapi+yaml;version=3.0.0",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "application/vnd.oai.openapi;version=3.0.0",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "application/vnd.oai.openapi;version=3.0.0",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11application/vnd.oai.openapi;version=3.0.0",
     "filterText": "application/vnd.oai.openapi;version=3.0.0",
     "insertText": null,

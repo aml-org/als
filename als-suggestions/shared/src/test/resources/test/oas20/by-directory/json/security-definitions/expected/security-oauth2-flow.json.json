@@ -1,11 +1,17 @@
 [
   {
     "label": "accessCode",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "accessCode",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10accessCode",
     "filterText": "\"accessCode\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "application",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "application",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10application",
     "filterText": "\"application\"",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "implicit",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "implicit",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10implicit",
     "filterText": "\"implicit\"",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "password",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "password",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "10password",
     "filterText": "\"password\"",
     "insertText": null,

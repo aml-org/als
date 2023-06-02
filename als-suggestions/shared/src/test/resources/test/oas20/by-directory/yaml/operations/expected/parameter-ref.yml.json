@@ -1,11 +1,17 @@
 [
   {
     "label": "#/parameters/named",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Reference to #/parameters/named",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11#/parameters/named",
     "filterText": "\"#/parameters/named\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "bymethod/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11bymethod/",
     "filterText": "bymethod/",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "consumes-array.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11consumes-array.yml",
     "filterText": "consumes-array.yml",
     "insertText": null,
@@ -91,11 +109,17 @@
   },
   {
     "label": "consumes.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11consumes.yml",
     "filterText": "consumes.yml",
     "insertText": null,
@@ -121,11 +145,17 @@
   },
   {
     "label": "deprecated.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11deprecated.yml",
     "filterText": "deprecated.yml",
     "insertText": null,
@@ -151,11 +181,17 @@
   },
   {
     "label": "expected/",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11expected/",
     "filterText": "expected/",
     "insertText": null,
@@ -181,11 +217,17 @@
   },
   {
     "label": "external-docs.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11external-docs.yml",
     "filterText": "external-docs.yml",
     "insertText": null,
@@ -211,11 +253,17 @@
   },
   {
     "label": "parameter-array.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11parameter-array.yml",
     "filterText": "parameter-array.yml",
     "insertText": null,
@@ -241,11 +289,17 @@
   },
   {
     "label": "parameter.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11parameter.yml",
     "filterText": "parameter.yml",
     "insertText": null,
@@ -271,11 +325,17 @@
   },
   {
     "label": "produces-array.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11produces-array.yml",
     "filterText": "produces-array.yml",
     "insertText": null,
@@ -301,11 +361,17 @@
   },
   {
     "label": "produces.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11produces.yml",
     "filterText": "produces.yml",
     "insertText": null,
@@ -331,11 +397,17 @@
   },
   {
     "label": "reponses-quoted.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11reponses-quoted.yml",
     "filterText": "reponses-quoted.yml",
     "insertText": null,
@@ -361,11 +433,17 @@
   },
   {
     "label": "reponses.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11reponses.yml",
     "filterText": "reponses.yml",
     "insertText": null,
@@ -391,11 +469,17 @@
   },
   {
     "label": "schemes-array.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schemes-array.yml",
     "filterText": "schemes-array.yml",
     "insertText": null,
@@ -421,11 +505,17 @@
   },
   {
     "label": "schemes.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11schemes.yml",
     "filterText": "schemes.yml",
     "insertText": null,
@@ -451,11 +541,17 @@
   },
   {
     "label": "security-array-named.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11security-array-named.yml",
     "filterText": "security-array-named.yml",
     "insertText": null,
@@ -481,11 +577,17 @@
   },
   {
     "label": "security-array.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11security-array.yml",
     "filterText": "security-array.yml",
     "insertText": null,
@@ -511,11 +613,17 @@
   },
   {
     "label": "security-name-not-array.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11security-name-not-array.yml",
     "filterText": "security-name-not-array.yml",
     "insertText": null,
@@ -541,11 +649,17 @@
   },
   {
     "label": "security.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11security.yml",
     "filterText": "security.yml",
     "insertText": null,
@@ -571,11 +685,17 @@
   },
   {
     "label": "tags-array.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11tags-array.yml",
     "filterText": "tags-array.yml",
     "insertText": null,
@@ -601,11 +721,17 @@
   },
   {
     "label": "tags.yml",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "Path suggestion",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11tags.yml",
     "filterText": "tags.yml",
     "insertText": null,

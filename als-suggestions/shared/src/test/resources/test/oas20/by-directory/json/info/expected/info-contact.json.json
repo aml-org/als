@@ -1,11 +1,17 @@
 [
   {
     "label": "email",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "email",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11email",
     "filterText": "\"email\": \"$1\"",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "name",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "name",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11name",
     "filterText": "\"name\": \"$1\"",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "url",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "docs",
     "documentation": "url",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11url",
     "filterText": "\"url\": \"$1\"",
     "insertText": null,

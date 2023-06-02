@@ -1,11 +1,17 @@
 [
   {
     "label": "methodName",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "methodName",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11methodName",
     "filterText": "<<methodName>>: ",
     "insertText": null,
@@ -31,11 +37,17 @@
   },
   {
     "label": "resourcePath",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "resourcePath",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11resourcePath",
     "filterText": "<<resourcePath>>: ",
     "insertText": null,
@@ -61,11 +73,17 @@
   },
   {
     "label": "resourcePathName",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "unknown",
     "documentation": "resourcePathName",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11resourcePathName",
     "filterText": "<<resourcePathName>>: ",
     "insertText": null,

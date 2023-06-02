@@ -9,7 +9,7 @@ import org.mulesoft.amfintegration.amfconfiguration.{
   EditorConfiguration,
   EmptyProjectConfigurationState
 }
-import org.scalatest.Assertion
+import org.scalatest.compatible.Assertion
 import org.yaml.model.YDocument
 import org.yaml.model.YDocument.{EntryBuilder, PartBuilder}
 import org.yaml.render.YamlRender

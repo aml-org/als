@@ -1,10 +1,8 @@
 package org.mulesoft.als.server.lsp4j
 
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.CompletableFuture.completedFuture
-
 import org.eclipse.lsp4j
 import org.eclipse.lsp4j.jsonrpc.services.JsonDelegate
+import org.mulesoft.als.server.ALSConverters.ClientList
 import org.mulesoft.als.server.custom.CustomTextDocumentService
 import org.mulesoft.als.server.lsp4j.AlsJConversions._
 import org.mulesoft.als.server.lsp4j.LspConversions._
@@ -17,8 +15,17 @@ import org.mulesoft.als.server.lsp4j.extension.{
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.lsp.Lsp4JConversions._
 
+import java.util
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.CompletableFuture.completedFuture
 import scala.concurrent.ExecutionContext.Implicits.global
 class LanguageServerImpl(private val inner: LanguageServer) extends ExtendedLanguageServer {
+
+  def workspaceFolders(): ClientList[String] = {
+    val workspaces = new util.ArrayList[String]()
+    inner.workspaceFolders().foreach(workspaces.add)
+    workspaces
+  }
 
   private val textDocumentService = new TextDocumentServiceImpl(inner)
 

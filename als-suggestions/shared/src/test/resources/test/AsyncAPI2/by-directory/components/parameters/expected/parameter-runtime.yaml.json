@@ -1,11 +1,17 @@
 [
   {
     "label": "$message.",
-    "kind": [],
+    "kind": [
+      
+    ],
     "detail": "RuntimeExpression",
     "documentation": "$message.",
-    "deprecated": [],
-    "preselect": [],
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
     "sortText": "11$message.",
     "filterText": "$message.",
     "insertText": null,
