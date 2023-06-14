@@ -2,11 +2,9 @@ package org.mulesoft.als.server.modules.workspace
 
 import amf.aml.client.scala.model.document.Dialect
 import amf.core.client.scala.AMFResult
-import amf.core.client.scala.model.document.{BaseUnit, ExternalFragment}
-import org.mulesoft.als.common.dtoTypes.{PositionRange, ReferenceOrigins, ReferenceStack}
+import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.logger.Logger
-import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
-import org.mulesoft.amfintegration.DiagnosticsBundle
+import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.amfconfiguration.{AmfParseContext, AmfParseResult}
 import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.amfintegration.visitors.AmfElementVisitors
@@ -22,69 +20,22 @@ class ParsedMainFileTree(
     private val innerDocumentLinks: Map[String, Seq[DocumentLink]],
     private val innerAliases: Seq[AliasInfo],
     definedBy: Dialect,
-    private val parseContext: AmfParseContext,
-    private val disableValidationAllTraces: Boolean
+    private val parseContext: AmfParseContext
 ) extends MainFileTree {
-  var indexCalls                                        = 0
-  val cacherefs: mutable.Map[String, Seq[Future[Unit]]] = mutable.Map.empty[String, Seq[Future[Unit]]]
 
   private val units: mutable.Map[String, AMFResult] = mutable.Map.empty
-  private val innerRefs: mutable.Map[String, DiagnosticsBundle] =
-    mutable.Map.empty
-
-  private def index(result: AMFResult, stack: ReferenceStack): Future[Unit] = {
-    indexCalls = indexCalls + 1
-    if (disableValidationAllTraces) {
-      if (!cacherefs.contains(result.baseUnit.identifier)) {
-        val refs: Seq[Future[Unit]] = extractRefs(result, stack)
-        cacherefs += result.baseUnit.identifier -> refs
-        Future.sequence(refs).map(_ => Unit)
-      } else
-        Future.sequence(cacherefs.getOrElse(result.baseUnit.identifier, Nil)).map(_ => Unit)
-    } else {
-      val refs: Seq[Future[Unit]] = extractRefs(result, stack)
-      Future.sequence(refs).map(_ => Unit)
-    }
-  }
-
-  private def extractRefs(result: AMFResult, stack: ReferenceStack): Seq[Future[Unit]] =
-    if (!isRecursive(stack, result.baseUnit)) { // stop: recursion
-      units.put(result.baseUnit.identifier, result)
-      intoInners(result.baseUnit, stack)
-      val targets = result.baseUnit.annotations.targets()
-      targets
-        .flatMap { case (targetLocation, ranges) =>
-          result.baseUnit.references.find(_.identifier == targetLocation).map { r =>
-            index(
-              AMFResult(r, result.results),
-              stack.through(
-                ranges.map(originRange => ReferenceOrigins(result.baseUnit.identifier, PositionRange(originRange)))
-              )
-            )
-          }
-        }
-    }.toSeq
-    else Nil
-
-  private def intoInners(bu: BaseUnit, stack: ReferenceStack) = {
-    innerRefs.get(bu.identifier) match {
-      case Some(db) => innerRefs.update(bu.identifier, db.and(stack))
-      case _ =>
-        innerRefs.put(bu.identifier, DiagnosticsBundle(bu.isInstanceOf[ExternalFragment], Set(stack)))
-    }
-  }
-
-  private def isRecursive(stack: ReferenceStack, unit: BaseUnit): Boolean =
-    stack.stack.exists(_.originUri == unit.identifier)
 
   override def parsedUnits: Map[String, ParsedUnit] =
     units
       .map(t => t._1 -> ParsedUnit(new AmfParseResult(t._2, definedBy, parseContext, t._1), inTree = true, definedBy))
       .toMap
 
-  override def references: Map[String, DiagnosticsBundle] = innerRefs.toMap
+  override def references: Map[String, Seq[DocumentLink]] = documentLinks
 
-  def index(): Future[Unit] = index(main, ReferenceStack(Nil))
+  def index(): Unit =
+    (main.baseUnit +: main.baseUnit.flatRefs)
+      .map(AMFResult(_, main.results))
+      .foreach(r => units.put(r.baseUnit.identifier, r))
 
   override def contains(uri: String): Boolean = (parsedUnits.keys ++ profiles.keys ++ dialects.keys).exists(_ == uri)
 
@@ -122,28 +73,17 @@ object ParsedMainFileTree {
       documentLinks: Map[String, Seq[DocumentLink]],
       aliases: Seq[AliasInfo],
       definedBy: Dialect,
-      parseContext: AmfParseContext,
-      disableValidationAllTraces: Boolean
+      parseContext: AmfParseContext
   ): ParsedMainFileTree =
-    new ParsedMainFileTree(
-      main,
-      nodeRelationships,
-      documentLinks,
-      aliases,
-      definedBy,
-      parseContext,
-      disableValidationAllTraces
-    )
+    new ParsedMainFileTree(main, nodeRelationships, documentLinks, aliases, definedBy, parseContext)
 }
 
 object MainFileTreeBuilder {
   def build(
       amfParseResult: AmfParseResult,
       visitors: AmfElementVisitors,
-      logger: Logger,
-      disableValidationAllTraces: Boolean
-  ): Future[ParsedMainFileTree] = {
-
+      logger: Logger
+  ): Future[ParsedMainFileTree] = Future {
     handleVisit(visitors, logger, amfParseResult.result.baseUnit, amfParseResult.context)
     val tree = ParsedMainFileTree(
       amfParseResult.result,
@@ -151,20 +91,10 @@ object MainFileTreeBuilder {
       visitors.getDocumentLinksFromVisitors,
       visitors.getAliasesFromVisitors,
       amfParseResult.definedBy,
-      amfParseResult.context,
-      disableValidationAllTraces
+      amfParseResult.context
     )
-    logger.debug(s"ValidationAllTraces - about to call root index for ${tree.main.baseUnit.id}", "", "")
-    val startTime     = System.currentTimeMillis()
-    val mainTreeIndex = tree.index()
-    val endTime       = System.currentTimeMillis()
-    logger.debug(
-      s"ValidationAllTraces - disableValidationAllTraces = $disableValidationAllTraces - indexCalls ${tree.indexCalls}, took ${endTime - startTime} milliseconds to index for ${tree.main.baseUnit.id}",
-      "",
-      ""
-    )
-    val endResult = mainTreeIndex.map(_ => tree)
-    endResult
+    tree.index()
+    tree
   }
 
   private def handleVisit(

@@ -8,7 +8,8 @@ import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.common.reconciler.Runnable
 import org.mulesoft.amfintegration.AmfImplicits._
-import org.mulesoft.amfintegration.{AmfResolvedUnit, DiagnosticsBundle}
+import org.mulesoft.amfintegration.AmfResolvedUnit
+import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -43,7 +44,7 @@ class ResolutionDiagnosticManager(
   private def gatherValidationErrors(
       uri: String,
       resolved: AmfResolvedUnit,
-      references: Map[String, DiagnosticsBundle],
+      references: Map[String, Seq[DocumentLink]],
       uuid: String
   ): Future[Unit] = {
     val startTime = System.currentTimeMillis()
@@ -138,7 +139,7 @@ class ResolutionDiagnosticManager(
       logger.debug("Running", "ResolutionDiagnosticManager", "run")
 
       def innerRunGather(): Future[Unit] =
-        gatherValidationErrors(ast.baseUnit.identifier, ast, ast.diagnosticsBundle, uuid) andThen {
+        gatherValidationErrors(ast.baseUnit.identifier, ast, ast.documentLinks, uuid) andThen {
           case Success(report) => promise.success(report)
           case Failure(error)  => promise.failure(error)
         }

@@ -1,7 +1,6 @@
 package org.mulesoft.als.server.modules.workspace
 
 import amf.aml.client.scala.model.document.Dialect
-import org.mulesoft.als.common.dtoTypes.ReferenceStack
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.ErrorsCollected
 import org.mulesoft.amfintegration.amfconfiguration.{AmfParseContext, AmfParseResult}
@@ -12,7 +11,6 @@ case class ParsedUnit(parsedResult: AmfParseResult, inTree: Boolean, definedBy: 
   def toCU(
       next: Option[Future[CompilableUnit]],
       mf: Option[String],
-      stack: Seq[ReferenceStack],
       isDirty: Boolean = false,
       amfContext: AmfParseContext
   ): CompilableUnit =
@@ -20,7 +18,6 @@ case class ParsedUnit(parsedResult: AmfParseResult, inTree: Boolean, definedBy: 
       parsedResult.result.baseUnit.identifier,
       parsedResult.result.baseUnit,
       if (inTree) mf else None,
-      stack,
       isDirty,
       next,
       definedBy,

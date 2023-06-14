@@ -8,6 +8,8 @@ import org.mulesoft.amfintegration.amfconfiguration.{
   AMLSpecificConfiguration,
   ProjectConfigurationState
 }
+import org.mulesoft.lsp.feature.common.LocationLink
+import org.mulesoft.lsp.feature.link.DocumentLink
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -19,7 +21,7 @@ trait AmfResolvedUnit extends UnitWithNextReference {
 
   protected def resolvedUnitFn(): Future[AMFResult]
 
-  val diagnosticsBundle: Map[String, DiagnosticsBundle]
+  val documentLinks: Map[String, Seq[DocumentLink]]
 
   val eh: AMFErrorHandler = DefaultErrorHandler()
   val baseUnit: BaseUnit

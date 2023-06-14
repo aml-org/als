@@ -4,7 +4,7 @@ import amf.core.client.common.validation.{ProfileName, ProfileNames}
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.modules.ast._
-import org.mulesoft.amfintegration.DiagnosticsBundle
+import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.amfintegration.amfconfiguration.AmfParseResult
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
@@ -35,7 +35,7 @@ class ParseDiagnosticManager(
          projectReferences(params.parseResult.uri, params.parseResult.context.state.projectState.projectErrors)
        else
          Map.empty) ++
-        params.diagnosticsBundle
+        params.locationLinks
     logger.debug("Got new AST:\n" + parsedResult.result.baseUnit.id, "ParseDiagnosticManager", "newASTAvailable")
     val uri = parsedResult.location
     telemetryProvider.timeProcess(
@@ -52,7 +52,7 @@ class ParseDiagnosticManager(
   private def innerGatherValidations(
       uuid: String,
       parsedResult: AmfParseResult,
-      references: Map[String, DiagnosticsBundle],
+      references: Map[String, Seq[DocumentLink]],
       uri: String
   )() =
     gatherValidationErrors(parsedResult, references, uuid) recoverWith { case exception: Exception =>
@@ -64,7 +64,7 @@ class ParseDiagnosticManager(
 
   private def gatherValidationErrors(
       result: AmfParseResult,
-      references: Map[String, DiagnosticsBundle],
+      references: Map[String, Seq[DocumentLink]],
       uuid: String
   ): Future[Unit] = {
     val profile: ProfileName = profileName(result.result.baseUnit)

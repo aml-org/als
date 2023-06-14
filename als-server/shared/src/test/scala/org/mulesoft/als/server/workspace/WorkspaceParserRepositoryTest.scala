@@ -130,42 +130,42 @@ class WorkspaceParserRepositoryTest extends AsyncFunSuite with Matchers with Pla
     })
   }
 
-  test("Dependencies") {
-    val cachable: MockFile = MockFile(
-      "file://fakeURI/ws/cachable.raml",
-      """#%RAML 1.0 Library
-      |types:
-      |  A: string
-      """.stripMargin
-    )
-
-    val api: MockFile = MockFile(
-      "file://fakeURI/ws/api.raml",
-      """#%RAML 1.0
-      |title: test
-      |uses:
-      |  lib: cachable.raml
-      |types:
-      |  B: lib.A
-      """.stripMargin
-    )
-
-    val repository: Future[WorkspaceParserRepository] = makeRepositoryTree(Set(api, cachable), api)
-    repository.flatMap(r => {
-      r.references.get(cachable.uri) match {
-        case Some(result) =>
-          assert(result.references.size == 1)
-          assert(result.references.head.stack.size == 1)
-          assert(result.references.head.stack.head.originUri == api.uri)
-        case None => fail(s"No references for ${cachable.uri}")
-      }
-
-      r.references.get(api.uri) match {
-        case Some(result) => assert(result.references.head.stack.isEmpty)
-        case None         => fail(s"No references for ${api.uri}")
-      }
-    })
-  }
+//  test("Dependencies") {
+//    val cachable: MockFile = MockFile(
+//      "file://fakeURI/ws/cachable.raml",
+//      """#%RAML 1.0 Library
+//      |types:
+//      |  A: string
+//      """.stripMargin
+//    )
+//
+//    val api: MockFile = MockFile(
+//      "file://fakeURI/ws/api.raml",
+//      """#%RAML 1.0
+//      |title: test
+//      |uses:
+//      |  lib: cachable.raml
+//      |types:
+//      |  B: lib.A
+//      """.stripMargin
+//    )
+//
+//    val repository: Future[WorkspaceParserRepository] = makeRepositoryTree(Set(api, cachable), api)
+//    repository.flatMap(r => {
+//      r.references.get(cachable.uri) match {
+//        case Some(result) =>
+//          assert(result.references.size == 1)
+//          assert(result.references.head.stack.size == 1)
+//          assert(result.references.head.stack.head.originUri == api.uri)
+//        case None => fail(s"No references for ${cachable.uri}")
+//      }
+//
+//      r.references.get(api.uri) match {
+//        case Some(result) => assert(result.references.head.stack.isEmpty)
+//        case None         => fail(s"No references for ${api.uri}")
+//      }
+//    })
+//  }
 
   def makeRepository(files: Set[MockFile]): Future[WorkspaceParserRepository] = {
     for {
