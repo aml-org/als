@@ -1,12 +1,11 @@
 package org.mulesoft.als.server.modules.workspace
 
-import org.mulesoft.amfintegration.DiagnosticsBundle
 import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.lsp.feature.link.DocumentLink
 
 trait MainFileTree extends FileTree {
 
-  def references: Map[String, DiagnosticsBundle]
+  def references: Map[String, Seq[DocumentLink]]
 
   def contains(uri: String): Boolean
 
@@ -25,7 +24,7 @@ object EmptyFileTree extends MainFileTree {
 
   override def aliases: Seq[AliasInfo] = Nil
 
-  override def references: Map[String, DiagnosticsBundle] = Map.empty
+  override def references: Map[String, Seq[DocumentLink]] = Map.empty
 
   override def contains(uri: String): Boolean = false
 
