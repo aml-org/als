@@ -1,10 +1,8 @@
 package org.mulesoft.als.server.modules.workspace
 
 import amf.core.client.scala.model.document.BaseUnit
-import org.mulesoft.als.common.dtoTypes.ReferenceStack
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
-import org.mulesoft.amfintegration.DiagnosticsBundle
 import org.mulesoft.amfintegration.amfconfiguration.AmfParseResult
 import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.amfintegration.visitors.AmfElementDefaultVisitors
@@ -35,7 +33,7 @@ class WorkspaceParserRepository(logger: Logger) extends Repository[ParsedUnit] {
   override def getUnit(uri: String): Option[ParsedUnit] =
     tree.parsedUnits.get(uri).orElse(units.get(uri)).orElse(tree.profiles.get(uri)).orElse(tree.dialects.get(uri))
 
-  def references: Map[String, DiagnosticsBundle] = tree.references
+  def references: Map[String, Seq[DocumentLink]] = tree.references
 
   def inTree(uri: String): Boolean = tree.contains(uri)
 
@@ -60,9 +58,6 @@ class WorkspaceParserRepository(logger: Logger) extends Repository[ParsedUnit] {
         tree
       }
   }
-
-  def getReferenceStack(uri: String): Seq[ReferenceStack] =
-    tree.references.get(uri).map(db => db.references.toSeq).getOrElse(Nil)
 
   def documentLinks(): Map[String, Seq[DocumentLink]] =
     tree.documentLinks

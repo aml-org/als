@@ -7,11 +7,11 @@ import amf.core.client.scala.validation.{AMFValidationReport, AMFValidationResul
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.ClientNotifierModule
 import org.mulesoft.als.server.client.platform.ClientNotifier
-import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
-import org.mulesoft.amfintegration.DiagnosticsBundle
+import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.amfconfiguration.ProfileMatcher
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.diagnostic.{DiagnosticClientCapabilities, DiagnosticConfigType}
+import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
 import scala.concurrent.Future
@@ -24,10 +24,10 @@ trait DiagnosticManager extends BasicDiagnosticManager[DiagnosticClientCapabilit
     // not used
   }
 
-  def projectReferences(uri: String, projectErrors: Seq[AMFValidationResult]): Map[String, DiagnosticsBundle] =
+  def projectReferences(uri: String, projectErrors: Seq[AMFValidationResult]): Map[String, Seq[DocumentLink]] =
     projectErrors
       .map(v => {
-        v.location.getOrElse(uri) -> DiagnosticsBundle(isExternal = true, Set.empty)
+        v.location.getOrElse(uri) -> Seq.empty //  DiagnosticsBundle(isExternal = true, Set.empty)
       })
       .toMap
 }
@@ -71,7 +71,7 @@ trait BasicDiagnosticManager[C, S] extends ClientNotifierModule[C, S] {
   protected def notifyReport(
       uri: String,
       baseUnit: BaseUnit,
-      references: Map[String, DiagnosticsBundle],
+      references: Map[String, Seq[DocumentLink]],
       step: DiagnosticManagerKind,
       profile: ProfileName
   ): Unit = {

@@ -99,7 +99,6 @@ class WorkspaceContentManager private (
     pu.toCU(
       getNext(uri),
       pu.parsedResult.context.state.projectState.config.mainFile.map(mf => s"${trailSlash(folderUri)}$mf".toAmfUri),
-      repository.getReferenceStack(uri),
       isDirty(uri),
       pu.parsedResult.context
     )
