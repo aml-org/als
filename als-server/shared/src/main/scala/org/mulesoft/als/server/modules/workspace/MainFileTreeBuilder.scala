@@ -22,17 +22,29 @@ class ParsedMainFileTree(
     private val innerDocumentLinks: Map[String, Seq[DocumentLink]],
     private val innerAliases: Seq[AliasInfo],
     definedBy: Dialect,
-    private val parseContext: AmfParseContext
+    private val parseContext: AmfParseContext,
+    private val disableValidationAllTraces: Boolean
 ) extends MainFileTree {
+  var indexCalls                                        = 0
+  val cacherefs: mutable.Map[String, Seq[Future[Unit]]] = mutable.Map.empty[String, Seq[Future[Unit]]]
 
   private val units: mutable.Map[String, AMFResult] = mutable.Map.empty
   private val innerRefs: mutable.Map[String, DiagnosticsBundle] =
     mutable.Map.empty
 
   private def index(result: AMFResult, stack: ReferenceStack): Future[Unit] = {
-    val refs: Seq[Future[Unit]] = extractRefs(result, stack)
-
-    Future.sequence(refs).map(_ => Unit)
+    indexCalls = indexCalls + 1
+    if (disableValidationAllTraces) {
+      if (!cacherefs.contains(result.baseUnit.identifier)) {
+        val refs: Seq[Future[Unit]] = extractRefs(result, stack)
+        cacherefs += result.baseUnit.identifier -> refs
+        Future.sequence(refs).map(_ => Unit)
+      } else
+        Future.sequence(cacherefs.getOrElse(result.baseUnit.identifier, Nil)).map(_ => Unit)
+    } else {
+      val refs: Seq[Future[Unit]] = extractRefs(result, stack)
+      Future.sequence(refs).map(_ => Unit)
+    }
   }
 
   private def extractRefs(result: AMFResult, stack: ReferenceStack): Seq[Future[Unit]] =
@@ -110,16 +122,26 @@ object ParsedMainFileTree {
       documentLinks: Map[String, Seq[DocumentLink]],
       aliases: Seq[AliasInfo],
       definedBy: Dialect,
-      parseContext: AmfParseContext
+      parseContext: AmfParseContext,
+      disableValidationAllTraces: Boolean
   ): ParsedMainFileTree =
-    new ParsedMainFileTree(main, nodeRelationships, documentLinks, aliases, definedBy, parseContext)
+    new ParsedMainFileTree(
+      main,
+      nodeRelationships,
+      documentLinks,
+      aliases,
+      definedBy,
+      parseContext,
+      disableValidationAllTraces
+    )
 }
 
 object MainFileTreeBuilder {
   def build(
       amfParseResult: AmfParseResult,
       visitors: AmfElementVisitors,
-      logger: Logger
+      logger: Logger,
+      disableValidationAllTraces: Boolean
   ): Future[ParsedMainFileTree] = {
 
     handleVisit(visitors, logger, amfParseResult.result.baseUnit, amfParseResult.context)
@@ -129,9 +151,20 @@ object MainFileTreeBuilder {
       visitors.getDocumentLinksFromVisitors,
       visitors.getAliasesFromVisitors,
       amfParseResult.definedBy,
-      amfParseResult.context
+      amfParseResult.context,
+      disableValidationAllTraces
     )
-    tree.index().map(_ => tree)
+    logger.debug(s"ValidationAllTraces - about to call root index for ${tree.main.baseUnit.id}", "", "")
+    val startTime     = System.currentTimeMillis()
+    val mainTreeIndex = tree.index()
+    val endTime       = System.currentTimeMillis()
+    logger.debug(
+      s"ValidationAllTraces - disableValidationAllTraces = $disableValidationAllTraces - indexCalls ${tree.indexCalls}, took ${endTime - startTime} milliseconds to index for ${tree.main.baseUnit.id}",
+      "",
+      ""
+    )
+    val endResult = mainTreeIndex.map(_ => tree)
+    endResult
   }
 
   private def handleVisit(

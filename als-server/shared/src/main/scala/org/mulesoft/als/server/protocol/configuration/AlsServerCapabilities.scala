@@ -64,7 +64,8 @@ case class AlsServerCapabilities(
     documentRangeFormattingProvider: Option[Either[Boolean, WorkDoneProgressOptions]] = None,
     workspaceConfiguration: Option[WorkspaceConfigurationOptions] = None,
     customValidations: Option[CustomValidationOptions] = None,
-    hotReload: Option[Boolean] = None
+    hotReload: Option[Boolean] = None,
+    disableValidationAllTraces: Option[Boolean] = None
 )
 
 object AlsServerCapabilities {

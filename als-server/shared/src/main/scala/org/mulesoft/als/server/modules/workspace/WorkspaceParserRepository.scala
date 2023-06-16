@@ -13,7 +13,7 @@ import org.mulesoft.lsp.feature.link.DocumentLink
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class WorkspaceParserRepository(logger: Logger) extends Repository[ParsedUnit] {
+class WorkspaceParserRepository(logger: Logger, disableValidationAllTraces: Boolean) extends Repository[ParsedUnit] {
 
   private def visitors(bu: BaseUnit) = AmfElementDefaultVisitors.build(bu)
 
@@ -53,7 +53,7 @@ class WorkspaceParserRepository(logger: Logger) extends Repository[ParsedUnit] {
   def newTree(result: AmfParseResult): Future[MainFileTree] = synchronized {
     cleanTree()
     MainFileTreeBuilder
-      .build(result, visitors(result.result.baseUnit), logger)
+      .build(result, visitors(result.result.baseUnit), logger, disableValidationAllTraces)
       .map { nt =>
         tree = nt
         nt.parsedUnits.keys.foreach { removeUnit }
