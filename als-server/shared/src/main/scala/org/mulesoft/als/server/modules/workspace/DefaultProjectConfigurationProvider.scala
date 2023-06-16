@@ -45,7 +45,8 @@ sealed class ConfigurationMap {
 class DefaultProjectConfigurationProvider(
     environmentProvider: EnvironmentProvider,
     editorConfiguration: EditorConfigurationProvider,
-    logger: Logger
+    logger: Logger,
+    disableValidationAllTraces: Boolean
 ) extends ProjectConfigurationProvider {
 
   val configurationMap = new ConfigurationMap

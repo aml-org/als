@@ -263,8 +263,9 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
       env: EnvironmentProvider,
       rl: ResourceLoader
   ): Future[ProjectConfigurationAdapter] = Future {
-    val editorConfig                        = EditorConfiguration.withPlatformLoaders(Seq(rl))
-    val defaultProjectConfigurationProvider = new DefaultProjectConfigurationProvider(env, editorConfig, EmptyLogger)
+    val editorConfig = EditorConfiguration.withPlatformLoaders(Seq(rl))
+    val defaultProjectConfigurationProvider =
+      new DefaultProjectConfigurationProvider(env, editorConfig, EmptyLogger, disableValidationAllTraces = false)
     new ProjectConfigurationAdapter(
       folder,
       defaultProjectConfigurationProvider,
