@@ -103,7 +103,12 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
       val editorConfiguration = EditorConfiguration()
       val container           = TextDocumentContainer()
       val defaultProjectConfigurationProvider =
-        new DefaultProjectConfigurationProvider(container, editorConfiguration, logger)
+        new DefaultProjectConfigurationProvider(
+          container,
+          editorConfiguration,
+          logger,
+          disableValidationAllTraces = false
+        )
       WorkspaceManager(
         container,
         telemetryManager,

@@ -27,7 +27,8 @@ class WorkspaceContentManager private (
     subscribers: () => List[WorkspaceContentListener[_]],
     override val repository: WorkspaceParserRepository,
     val projectConfigAdapter: ProjectConfigurationAdapter,
-    hotReload: Boolean
+    hotReload: Boolean,
+    disableValidationAllTraces: Boolean
 ) extends UnitTaskManager[ParsedUnit, CompilableUnit, NotificationKind]
     with PlatformSecrets {
 
@@ -398,9 +399,10 @@ object WorkspaceContentManager {
       logger: Logger,
       subscribers: () => List[WorkspaceContentListener[_]],
       projectConfigAdapter: ProjectConfigurationAdapter,
-      hotReload: Boolean = false
+      hotReload: Boolean = false,
+      disableValidationAllTraces: Boolean = false
   ): Future[WorkspaceContentManager] = {
-    val repository = new WorkspaceParserRepository(logger)
+    val repository = new WorkspaceParserRepository(logger, disableValidationAllTraces)
     val wcm = new WorkspaceContentManager(
       folderUri,
       environmentProvider,
@@ -409,7 +411,8 @@ object WorkspaceContentManager {
       subscribers,
       repository,
       projectConfigAdapter.withRepository(repository),
-      hotReload
+      hotReload,
+      disableValidationAllTraces
     )
     wcm.init()
     Future.successful(wcm) // TODO: ????

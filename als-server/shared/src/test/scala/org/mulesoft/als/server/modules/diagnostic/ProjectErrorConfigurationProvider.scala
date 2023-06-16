@@ -12,7 +12,12 @@ class ProjectErrorConfigurationProvider(
     editorConfiguration: EditorConfigurationProvider,
     logger: Logger,
     error: AMFValidationResult
-) extends DefaultProjectConfigurationProvider(DummyEnvironmentProvider, editorConfiguration, logger) {
+) extends DefaultProjectConfigurationProvider(
+      DummyEnvironmentProvider,
+      editorConfiguration,
+      logger,
+      disableValidationAllTraces = false
+    ) {
   private var reportError = true
 
   def setReportError(v: Boolean): Unit = this.reportError = v

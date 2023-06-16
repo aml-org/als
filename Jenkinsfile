@@ -148,6 +148,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
+                    branch 'w-13214532-disable-all-traces'
                 }
             }
             steps {

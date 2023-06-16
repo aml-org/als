@@ -1,6 +1,6 @@
 {
   "name": "@aml-org/als-server",
-  "version": "5.2.0-SNAPSHOT",
+  "version": "5.2.0-SNAPSHOT-TRACE-FF",
   "description": "ALS Server Library",
   "main": "lib/als-server.js",
   "types": "typescript/als-server.d.ts",
@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "@aml-org/amf-antlr-parsers": "0.7.24",
-    "@aml-org/amf-custom-validator": "1.4.0",
     "@aml-org/amf-custom-validator-web": "1.4.0",
     "ajv": "6.12.6",
     "buffer": "^6.0.3",
