@@ -91,8 +91,12 @@ class CompletionsPluginHandler {
   def cleanIndex(): Unit = registries.clear()
 }
 
+object CustomBaseCompletionPlugins {
+  val custom: Seq[AMLCompletionPlugin] = Seq.empty
+}
+
 object AMLBaseCompletionPlugins {
-  val all: Seq[AMLCompletionPlugin] = Seq(
+  val all: Seq[AMLCompletionPlugin] = CustomBaseCompletionPlugins.custom ++ Seq(
     StructureCompletionPlugin(
       List(
         AMLUnionNodeCompletionPlugin,
