@@ -1,7 +1,6 @@
 package org.mulesoft.als.server.client;
 
 import org.eclipse.lsp4j.jsonrpc.services.JsonNotification;
-import org.eclipse.lsp4j.jsonrpc.services.JsonRequest;
 import org.eclipse.lsp4j.services.LanguageClientExtensions;
 import org.mulesoft.als.server.feature.serialization.SerializationResult;
 import org.mulesoft.als.server.feature.workspace.FilesInProjectParams;
