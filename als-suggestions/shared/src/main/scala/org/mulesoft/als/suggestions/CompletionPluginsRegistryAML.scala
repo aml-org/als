@@ -5,7 +5,6 @@ import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 import org.mulesoft.als.suggestions.interfaces.AMLCompletionPlugin
 import org.mulesoft.als.suggestions.plugins.aml.validationprofiles.ValidationProfileTermsSuggestions
 import org.mulesoft.als.suggestions.plugins.aml.webapi.extensions.OasLikeSemanticExtensionsFlavour
-import org.mulesoft.als.suggestions.plugins.aml.webapi.raml.AMLLibraryPathCompletion
 import org.mulesoft.als.suggestions.plugins.aml.{StructureCompletionPlugin, _}
 
 import scala.collection.mutable
@@ -91,8 +90,12 @@ class CompletionsPluginHandler {
   def cleanIndex(): Unit = registries.clear()
 }
 
+object CustomBaseCompletionPlugins {
+  val custom: Seq[AMLCompletionPlugin] = Seq.empty
+}
+
 object AMLBaseCompletionPlugins {
-  val all: Seq[AMLCompletionPlugin] = Seq(
+  val all: Seq[AMLCompletionPlugin] = CustomBaseCompletionPlugins.custom ++ Seq(
     StructureCompletionPlugin(
       List(
         AMLUnionNodeCompletionPlugin,
