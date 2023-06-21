@@ -1,5 +1,6 @@
 package org.mulesoft.lsp.feature.link
 
+import org.mulesoft.exceptions.PathTweaks
 import org.mulesoft.lsp.feature.common.Range
 
 /** A document link is a range in a text document that links to an internal or external resource, like another text
@@ -14,3 +15,8 @@ import org.mulesoft.lsp.feature.common.Range
   *   DocumentLinkResolveRequest.
   */
 case class DocumentLink(range: Range, target: String, data: Option[Any] = None)
+
+object DocumentLink {
+  def apply(range: Range, target: String, data: Option[Any]): DocumentLink =
+    new DocumentLink(range, PathTweaks.tweak(target), data)
+}
