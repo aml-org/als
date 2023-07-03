@@ -10,7 +10,7 @@ import scala.sys.process.Process
 
 name := "api-language-server"
 
-ThisBuild / scalaVersion := "2.12.13"
+ThisBuild / scalaVersion := "2.12.15"
 
 version := deps("version")
 

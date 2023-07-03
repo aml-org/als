@@ -5,8 +5,8 @@ USER root
 
 ARG USER_HOME_DIR="/root"
 
-ENV SCALA_VERSION="2.12.13"
-ENV SBT_VERSION="1.7.1"
+ENV SCALA_VERSION="2.12.15"
+ENV SBT_VERSION="1.7.3"
 
 
 # Update the repository sources list and install dependencies
