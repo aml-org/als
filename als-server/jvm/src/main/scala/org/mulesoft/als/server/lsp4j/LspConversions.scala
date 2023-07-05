@@ -107,8 +107,7 @@ object LspConversions {
         rootPath = Option(p.getRootPath),
         initializationOptions = Option(p.getInitializationOptions),
         configuration = Option(p.getConfiguration),
-        hotReload = Option(p.getHotReload),
-        disableValidationAllTraces = Option(p.getDisableValidationAllTraces)
+        hotReload = Option(p.getHotReload)
       )
     } getOrElse AlsInitializeParams.default
 

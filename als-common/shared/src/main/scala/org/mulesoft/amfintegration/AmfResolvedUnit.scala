@@ -8,7 +8,6 @@ import org.mulesoft.amfintegration.amfconfiguration.{
   AMLSpecificConfiguration,
   ProjectConfigurationState
 }
-import org.mulesoft.lsp.feature.common.LocationLink
 import org.mulesoft.lsp.feature.link.DocumentLink
 
 import scala.concurrent.ExecutionContext.Implicits.global

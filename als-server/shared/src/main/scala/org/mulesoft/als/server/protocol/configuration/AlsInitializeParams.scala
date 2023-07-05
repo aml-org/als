@@ -51,8 +51,7 @@ class AlsInitializeParams private (
     val rootPath: Option[String] = None,
     val initializationOptions: Option[Any] = None,
     val configuration: Option[AlsConfiguration] = None,
-    val hotReload: Option[Boolean] = None,
-    val disableValidationAllTraces: Option[Boolean] = None
+    val hotReload: Option[Boolean] = None
 )
 
 object AlsInitializeParams {
@@ -67,8 +66,7 @@ object AlsInitializeParams {
       rootPath: Option[String] = None,
       initializationOptions: Option[Any] = None,
       configuration: Option[AlsConfiguration] = None,
-      hotReload: Option[Boolean] = None,
-      disableValidationAllTraces: Option[Boolean] = None
+      hotReload: Option[Boolean] = None
   ): AlsInitializeParams =
     new AlsInitializeParams(
       capabilities.getOrElse(AlsClientCapabilities()),
@@ -80,8 +78,7 @@ object AlsInitializeParams {
       rootPath,
       initializationOptions,
       configuration,
-      hotReload,
-      disableValidationAllTraces
+      hotReload
     )
 
   def default: AlsInitializeParams = apply(None, Some(TraceKind.Off))

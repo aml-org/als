@@ -27,7 +27,7 @@ trait DiagnosticManager extends BasicDiagnosticManager[DiagnosticClientCapabilit
   def projectReferences(uri: String, projectErrors: Seq[AMFValidationResult]): Map[String, Seq[DocumentLink]] =
     projectErrors
       .map(v => {
-        v.location.getOrElse(uri) -> Seq.empty //  DiagnosticsBundle(isExternal = true, Set.empty)
+        v.location.getOrElse(uri) -> Seq.empty
       })
       .toMap
 }

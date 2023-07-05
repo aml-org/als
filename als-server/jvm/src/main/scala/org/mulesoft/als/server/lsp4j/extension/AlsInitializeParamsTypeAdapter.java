@@ -96,9 +96,6 @@ public class AlsInitializeParamsTypeAdapter extends InitializeParamsTypeAdapter 
                 case "hotReload":
                     result.setHotReload(readHotReload(in));
                     break;
-                case "disableValidationAllTraces":
-                    result.setDisableValidationAllTraces(readDisableValidationAllTraces(in));
-                    break;
                 default:
                     in.skipValue();
             }
@@ -108,10 +105,6 @@ public class AlsInitializeParamsTypeAdapter extends InitializeParamsTypeAdapter 
     }
 
     private Boolean readHotReload(JsonReader in) {
-        return gson.fromJson(in, Boolean.class);
-    }
-
-    private Boolean readDisableValidationAllTraces(JsonReader in) {
         return gson.fromJson(in, Boolean.class);
     }
 

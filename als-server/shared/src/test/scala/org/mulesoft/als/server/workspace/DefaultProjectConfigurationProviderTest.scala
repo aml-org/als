@@ -30,10 +30,9 @@ class DefaultProjectConfigurationProviderTest extends LanguageServerBaseTest {
   val dialect: String   = filePath("ws1/dialect.yaml")
 
   def buildConfigurationProvider(): ProjectConfigurationProvider = {
-    val container                  = TextDocumentContainer()
-    val editorConfiguration        = EditorConfiguration()
-    val disableValidationAllTraces = false
-    new DefaultProjectConfigurationProvider(container, editorConfiguration, logger, disableValidationAllTraces)
+    val container           = TextDocumentContainer()
+    val editorConfiguration = EditorConfiguration()
+    new DefaultProjectConfigurationProvider(container, editorConfiguration, logger)
   }
 
   test("Project configuration provider will hold multiple configurations") {
@@ -161,8 +160,7 @@ class DefaultProjectConfigurationProviderTest extends LanguageServerBaseTest {
       tree <- MainFileTreeBuilder.build(
         parseResult,
         new AmfElementVisitors(Seq.empty),
-        logger,
-        disableValidationAllTraces = false
+        logger
       )
       _ <- provider.afterNewTree(ws1, tree)
       c2 <- provider.newProjectConfiguration(

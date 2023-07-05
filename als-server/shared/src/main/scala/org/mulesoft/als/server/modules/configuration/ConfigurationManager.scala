@@ -29,17 +29,11 @@ class ConfigurationManager
 
   private var hotReloadDialects: Boolean = false
 
-  private var disableValidationAllTraces: Boolean = false
-
   override def getHotReloadDialects: Boolean = hotReloadDialects
-
-  override def getDisableValidationAllTraces: Boolean = disableValidationAllTraces
 
   /** Should only be called from initialization
     */
   def setHotReloadDialects(p: Boolean): Unit = hotReloadDialects = p
-
-  def setDisableValidationAllTraces(b: Boolean): Unit = disableValidationAllTraces = b
 
   def updateDocumentChangesSupport(support: Boolean): Unit = configuration.supportsDocumentChanges(support)
 

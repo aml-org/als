@@ -6,17 +6,18 @@ import amf.core.internal.annotations.LexicalInformation
 import amf.core.internal.validation.CoreValidations
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
+import org.mulesoft.als.logger.{Logger, PrintLnLogger}
 import org.mulesoft.lsp.feature.common.{Location, Range}
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticRelatedInformation
 import org.mulesoft.lsp.feature.link.DocumentLink
 
-import scala.collection.generic.SeqForwarder
 import scala.collection.mutable.ListBuffer
 import scala.collection.{AbstractSeq, LinearSeq, SeqProxy, SeqViewLike, immutable, mutable}
 
 object DiagnosticConverters {
 
   private val UNKNOWN_LOCATION = "Unknown location for error. Could not retrieve effective location"
+  protected val logger: Logger = PrintLnLogger
 
   def buildIssueResults(
       results: Map[String, Seq[AlsValidationResult]],
@@ -24,7 +25,6 @@ object DiagnosticConverters {
       profile: ProfileName,
       externalMaps: Map[String, Boolean] = Map()
   ): Seq[ValidationReport] = {
-
     val issuesWithStack = buildIssues(results, references, externalMaps)
     val r = results
       .map(t => ValidationReport(t._1, issuesWithStack.filter(_.filePath == t._1).toSet, profile))
@@ -43,33 +43,36 @@ object DiagnosticConverters {
     syntaxViolationIds.contains(r.validationId) || (!isExternal && references.nonEmpty)
   }
 
-  private def relatedFor(uri: String, references: Seq[(DocumentLink, String)]): Seq[DiagnosticRelatedInformation] = {
-    val calls = references.filter { case (DocumentLink(_, target, _), _) =>
-      target == uri
-    }
-    calls.flatMap { case (DocumentLink(range, _, _), origin) =>
-      DiagnosticRelatedInformation(Location(origin, range), s"at $uri") +: relatedFor(origin, references)
-    }
-  }
-
-  private def relatedForOrigin(
+  private def relatedFor(
       uri: String,
       references: Seq[(DocumentLink, String)],
       informationBranches: mutable.ListBuffer[mutable.ListBuffer[DiagnosticRelatedInformation]],
-      branch: mutable.ListBuffer[DiagnosticRelatedInformation]
+      branch: mutable.ListBuffer[DiagnosticRelatedInformation],
+      branchLimit: Int,
+      originFlag: Boolean
   ): Unit = {
     filterReferences(uri, references) match {
       case head :: tail =>
-        tail.foreach { case (DocumentLink(range, _, _), origin) =>
-          val newBranch: mutable.ListBuffer[DiagnosticRelatedInformation] = branch.clone()
-          newBranch.prepend(newDiagnostic(uri, range, origin))
-          informationBranches.append(newBranch)
-          relatedForOrigin(origin, references, informationBranches, newBranch)
+        if (informationBranches.size < branchLimit) {
+          tail.foreach {
+            case (DocumentLink(range, _, _), origin) if informationBranches.size < branchLimit =>
+              val newBranch: mutable.ListBuffer[DiagnosticRelatedInformation] = branch.clone()
+              if (originFlag)
+                newBranch.prepend(newDiagnostic(uri, range, origin))
+              else
+                newBranch.append(newDiagnostic(uri, range, origin))
+              informationBranches.append(newBranch)
+              relatedFor(origin, references, informationBranches, newBranch, branchLimit, originFlag)
+            case _ => // do nothing
+          }
         }
         head match {
           case (DocumentLink(range, _, _), origin) =>
-            branch.prepend(newDiagnostic(uri, range, origin))
-            relatedForOrigin(origin, references, informationBranches, branch)
+            if (originFlag)
+              branch.prepend(newDiagnostic(uri, range, origin))
+            else
+              branch.append(newDiagnostic(uri, range, origin))
+            relatedFor(origin, references, informationBranches, branch, branchLimit, originFlag)
         }
       case _ => // over
     }
@@ -95,10 +98,13 @@ object DiagnosticConverters {
         references.toSeq.flatMap { case (uri, links) =>
           links.map(l => (l, uri))
         }
-      if (notExternalOrSyntax(r, isExternal, references.getOrElse(uri, Seq()))) {
-        Seq(buildIssue(uri, r, relatedFor(uri, reversedReferences)))
-      } else {
-        getInformationStackBranches(uri, reversedReferences).map { informationStack =>
+      val reference = reversedReferences.filter(_._1.target.equals(uri)).map(_._1)
+      if (notExternalOrSyntax(r, isExternal, reference)) {
+        getInformationStackBranches(uri, reversedReferences, originFlag = false).map { informationStack =>
+          buildIssue(uri, r, informationStack)
+        }
+      } else if (reversedReferences.exists(_._1.target.equals(uri))) {
+        getInformationStackBranches(uri, reversedReferences, originFlag = true).map { informationStack =>
           val range = LspRangeConverter.toLspRange(
             r.position
               .map(position => PositionRange(position.range))
@@ -116,18 +122,23 @@ object DiagnosticConverters {
           )
           issue
         }
+      } else {
+        Seq(buildIssue(uri, r, s.stack))
       }
     }
   }
 
   private def getInformationStackBranches(
       uri: String,
-      reversedReferences: Seq[(DocumentLink, String)]
+      reversedReferences: Seq[(DocumentLink, String)],
+      originFlag: Boolean
   ): Seq[Seq[DiagnosticRelatedInformation]] = {
     val informationBranches: ListBuffer[ListBuffer[DiagnosticRelatedInformation]] = mutable.ListBuffer()
     val mainBranch: ListBuffer[DiagnosticRelatedInformation]                      = mutable.ListBuffer()
+    val branchLimit                                                               = 1000
     informationBranches.append(mainBranch)
-    relatedForOrigin(uri, reversedReferences, informationBranches, mainBranch)
+    relatedFor(uri, reversedReferences, informationBranches, mainBranch, branchLimit, originFlag)
+    informationBranches.size
     informationBranches.map(_.toSeq)
   }
 
