@@ -60,16 +60,16 @@ object DiagnosticConverters {
   ): Unit = {
     filterReferences(uri, references) match {
       case head :: tail =>
-        head match {
-          case (DocumentLink(range, _, _), origin) =>
-            branch.append(newDiagnostic(uri, range, origin))
-            relatedForOrigin(origin, references, informationBranches, branch)
-        }
         tail.foreach { case (DocumentLink(range, _, _), origin) =>
           val newBranch: mutable.ListBuffer[DiagnosticRelatedInformation] = branch.clone()
-          newBranch.append(newDiagnostic(uri, range, origin))
+          newBranch.prepend(newDiagnostic(uri, range, origin))
           informationBranches.append(newBranch)
           relatedForOrigin(origin, references, informationBranches, newBranch)
+        }
+        head match {
+          case (DocumentLink(range, _, _), origin) =>
+            branch.prepend(newDiagnostic(uri, range, origin))
+            relatedForOrigin(origin, references, informationBranches, branch)
         }
       case _ => // over
     }
@@ -105,13 +105,7 @@ object DiagnosticConverters {
               .getOrElse(PositionRange(Position(0, 0), Position(0, 0)))
           )
 
-          val newDiag = newDiagnostic(
-            {
-              informationStack.last.location.uri
-            },
-            range,
-            r.location.getOrElse(uri)
-          )
+          val newDiag = newDiagnostic(informationStack.last.location.uri, range, r.location.getOrElse(uri))
           val issue = buildIssue(
             informationStack.head.location.uri,
             PositionRange(informationStack.head.location.range),
@@ -157,11 +151,11 @@ object DiagnosticConverters {
       r.location.getOrElse(iri),
       r.message,
       position,
-      stack ++ buildUnknowLocation(iri, r, position)
+      stack ++ buildUnknownLocation(iri, r, position)
     )
   }
 
-  private def buildUnknowLocation(
+  private def buildUnknownLocation(
       iri: String,
       r: AMFValidationResult,
       positionRange: PositionRange
