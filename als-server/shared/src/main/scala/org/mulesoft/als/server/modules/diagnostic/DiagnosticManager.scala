@@ -2,7 +2,7 @@ package org.mulesoft.als.server.modules.diagnostic
 
 import amf.core.client.common.validation.ProfileName
 import amf.core.client.common.validation.SeverityLevels.VIOLATION
-import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.model.document.{BaseUnit, ExternalFragment}
 import amf.core.client.scala.validation.{AMFValidationReport, AMFValidationResult}
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.ClientNotifierModule
@@ -82,7 +82,10 @@ trait BasicDiagnosticManager[C, S] extends ClientNotifierModule[C, S] {
           .merged()
           .filter(v => allReferences.contains(v._1)),
         references,
-        profile
+        profile,
+        (
+          baseUnit +: baseUnit.flatRefs
+        ).map(bu => bu.identifier -> bu.isInstanceOf[ExternalFragment]).toMap
       )
     logger.debug(
       s"Number of ${step.name} errors is:\n" + errors.flatMap(_.issues).length,

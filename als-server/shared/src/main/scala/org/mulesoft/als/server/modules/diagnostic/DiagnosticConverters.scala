@@ -10,16 +10,21 @@ import org.mulesoft.lsp.feature.common.{Location, Range}
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticRelatedInformation
 import org.mulesoft.lsp.feature.link.DocumentLink
 
+import scala.collection.generic.SeqForwarder
+import scala.collection.{AbstractSeq, LinearSeq, SeqProxy, SeqViewLike, immutable, mutable}
+
 object DiagnosticConverters {
 
   private val UNKNOWN_LOCATION = "Unknown location for error. Could not retrieve effective location"
+
   def buildIssueResults(
       results: Map[String, Seq[AlsValidationResult]],
       references: Map[String, Seq[DocumentLink]],
-      profile: ProfileName
+      profile: ProfileName,
+      externalMaps: Map[String, Boolean] = Map()
   ): Seq[ValidationReport] = {
 
-    val issuesWithStack = buildIssues(results, references)
+    val issuesWithStack = buildIssues(results, references, externalMaps)
     val r = results
       .map(t => ValidationReport(t._1, issuesWithStack.filter(_.filePath == t._1).toSet, profile))
       .toSeq
@@ -28,9 +33,13 @@ object DiagnosticConverters {
   }
 
   private val syntaxViolationIds = Seq(CoreValidations.SyamlError.id, CoreValidations.SyamlWarning.id)
-  // need to search with path because location of result could be empty?
-  private def isExternalAndNotSyntax(r: AMFValidationResult) = {
-    syntaxViolationIds.contains(r.validationId) // &&  is external fragment?
+
+  private def notExternalOrSyntax(
+      r: AMFValidationResult,
+      isExternal: Boolean,
+      references: Seq[DocumentLink]
+  ): Boolean = {
+    syntaxViolationIds.contains(r.validationId) || (!isExternal && references.nonEmpty)
   }
 
   private def relatedFor(uri: String, references: Seq[(DocumentLink, String)]): Seq[DiagnosticRelatedInformation] = {
@@ -42,82 +51,70 @@ object DiagnosticConverters {
     }
   }
 
+  private def relatedForOrigin(
+      uri: String,
+      references: Seq[(DocumentLink, String)]
+  ): Seq[Seq[DiagnosticRelatedInformation]] = {
+    val calls = filterReferences(uri, references)
+    calls.map { case (DocumentLink(range, _, _), origin) =>
+      relatedForOrigin(origin, references) :+ DiagnosticRelatedInformation(Location(origin, range), s"from $uri")
+    }
+  }
+
+  private def filterReferences(uri: String, references: Seq[(DocumentLink, String)]) = {
+    references.filter { case (DocumentLink(_, target, _), _) =>
+      target == uri
+    }
+  }
+
   private def buildLocatedIssue(
       uri: String,
       results: Seq[AlsValidationResult],
-      references: Map[String, Seq[DocumentLink]]
+      references: Map[String, Seq[DocumentLink]],
+      isExternal: Boolean
   ): Seq[ValidationIssue] = {
-    results.map { s =>
+    results.flatMap { s =>
       val r = s.result
       val reversedReferences: Seq[(DocumentLink, String)] =
         references.toSeq.flatMap { case (uri, links) =>
           links.map(l => (l, uri))
         }
-      buildIssue(uri, r, relatedFor(uri, reversedReferences))
-//      references.get(uri) match {
-//        case Some(DocumentLink(range, target, _)) if isExternalAndNotSyntax(r) =>
-//          DiagnosticRelatedInformation(Location(uri, range), s"at $uri") +:
-//
-//          t.references.map { stackContainer =>
-//            buildIssue(
-//              uri,
-//              r,
-//              s.stack ++ stackContainer.stack
-//                .map(s =>
-//                  DiagnosticRelatedInformation(
-//                    Location(s.originUri, LspRangeConverter.toLspRange(s.originRange)),
-//                    s"at ${s.originUri}"
-//                  )
-//                )
-//            )
-//          }
-//        case Some(t) if t.references.nonEmpty && t.references.exists(_.stack.nonEmpty) =>
-//          // invert order of stack, put root as last element of the trace
-//          val range = LspRangeConverter.toLspRange(
-//            r.position
-//              .map(position => PositionRange(position.range))
-//              .getOrElse(PositionRange(Position(0, 0), Position(0, 0)))
-//          )
-//          val rootAsRelatedInfo: DiagnosticRelatedInformation = DiagnosticRelatedInformation(
-//            Location(
-//              r.location.getOrElse(""),
-//              range
-//            ),
-//            s"from ${r.location.getOrElse("")}"
-//          )
-//
-//          t.references
-//            .flatMap(stackContainer => stackContainer.stack.lastOption.map(newHead => (newHead, stackContainer)))
-//            .map { x =>
-//              val (newHead, stackContainer) = x
-//              buildIssue(
-//                newHead.originUri,
-//                newHead.originRange,
-//                r.message,
-//                r.severityLevel,
-//                s.stack ++ stackContainer.stack.reverse
-//                  .drop(1)
-//                  .map(s =>
-//                    DiagnosticRelatedInformation(
-//                      Location(s.originUri, LspRangeConverter.toLspRange(s.originRange)),
-//                      s"from ${s.originUri}"
-//                    )
-//                  ) :+
-//                  rootAsRelatedInfo,
-//                r.validationId
-//              )
-//            }
-//        case _ =>
-//          Seq(buildIssue(uri, r, s.stack))
-//      }
+      if (notExternalOrSyntax(r, isExternal, references.getOrElse(uri, Seq()))) {
+        Seq(buildIssue(uri, r, relatedFor(uri, reversedReferences)))
+      } else {
+        relatedForOrigin(uri, reversedReferences).map { informations =>
+          val range = LspRangeConverter.toLspRange(
+            r.position
+              .map(position => PositionRange(position.range))
+              .getOrElse(PositionRange(Position(0, 0), Position(0, 0)))
+          )
+
+          val newDiag = DiagnosticRelatedInformation(
+            Location(r.location.getOrElse(uri), range),
+            s"from ${informations.last.location.uri}"
+          )
+          val issue = buildIssue(
+            informations.head.location.uri,
+            PositionRange(informations.head.location.range),
+            r.message,
+            r.severityLevel,
+            informations.tail :+ newDiag,
+            r.validationId
+          )
+          issue
+        }
+      }
     }
   }
+
   private def buildIssues(
       results: Map[String, Seq[AlsValidationResult]],
-      references: Map[String, Seq[DocumentLink]]
+      references: Map[String, Seq[DocumentLink]],
+      externalMaps: Map[String, Boolean]
   ): Seq[ValidationIssue] = {
-    results.flatMap { case (uri, r) => buildLocatedIssue(uri, r, references) }.toSeq
+    results.flatMap { case (uri, r) => buildLocatedIssue(uri, r, references, externalMaps.getOrElse(uri, false)) }.toSeq
   }
+
   private def buildIssue(
       iri: String,
       r: AMFValidationResult,
@@ -144,8 +141,10 @@ object DiagnosticConverters {
       case None    => Some(buildDiagnosticRelated(iri, LspRangeConverter.toLspRange(positionRange)))
     }
   }
+
   private def buildDiagnosticRelated(iri: String, range: Range) =
     DiagnosticRelatedInformation(Location(iri, range), UNKNOWN_LOCATION)
+
   private def buildIssue(
       path: String,
       range: PositionRange,

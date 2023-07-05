@@ -700,6 +700,55 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     }
   }
 
+  test("Workspace Manager check validation Stack - Performance case - wait") {
+    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
+      new MockDiagnosticClientNotifierWithTelemetryLog
+    withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
+      val rootFolder = s"${filePath("performance-stack")}"
+      for {
+        _ <- server.testInitialize(
+          AlsInitializeParams(
+            None,
+            Some(TraceKind.Off),
+            rootUri = Some(rootFolder)
+//            disableValidationAllTraces = Option(true)
+          )
+        )
+        _ <- setMainFile(server)(rootFolder, "references.raml")
+        a <- diagnosticClientNotifier.nextCall
+        b <- diagnosticClientNotifier.nextCall
+        c <- diagnosticClientNotifier.nextCall
+        d <- diagnosticClientNotifier.nextCall
+        e <- diagnosticClientNotifier.nextCall
+        f <- diagnosticClientNotifier.nextCall
+        g <- diagnosticClientNotifier.nextCall
+        h <- diagnosticClientNotifier.nextCall
+        i <- diagnosticClientNotifier.nextCall
+        j <- diagnosticClientNotifier.nextCall
+        k <- diagnosticClientNotifier.nextCall
+        m <- diagnosticClientNotifier.nextCall
+        n <- diagnosticClientNotifier.nextCall
+      } yield {
+        server.shutdown()
+        val allDiagnostics = Seq(a, b, c, d, e, f, g, h, i, j, k, m, n)
+        assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
+        val root = allDiagnostics.find(_.uri == s"$rootFolder/references.raml")
+        val others =
+          allDiagnostics.filterNot(pd => root.exists(_.uri == pd.uri))
+        //        assert(root.isDefined)
+        others.size should be(13)
+        //        assert(others.forall(p => p.diagnostics.isEmpty))
+
+        //        root match {
+        //          case Some(m) =>
+        //            m.diagnostics.size should be(2)
+        //            succeed
+        //          case _ => fail("No Main detected")
+        //        }
+      }
+    }
+  }
+
   /** Used to log cases in which timeouts occur
     */
   class MockDiagnosticClientNotifierWithTelemetryLog extends MockDiagnosticClientNotifier(8000) {
