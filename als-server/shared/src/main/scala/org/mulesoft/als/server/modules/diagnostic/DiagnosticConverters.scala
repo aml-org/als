@@ -11,6 +11,7 @@ import org.mulesoft.lsp.feature.diagnostic.DiagnosticRelatedInformation
 import org.mulesoft.lsp.feature.link.DocumentLink
 
 import scala.collection.generic.SeqForwarder
+import scala.collection.mutable.ListBuffer
 import scala.collection.{AbstractSeq, LinearSeq, SeqProxy, SeqViewLike, immutable, mutable}
 
 object DiagnosticConverters {
@@ -53,19 +54,34 @@ object DiagnosticConverters {
 
   private def relatedForOrigin(
       uri: String,
-      references: Seq[(DocumentLink, String)]
-  ): Seq[Seq[DiagnosticRelatedInformation]] = {
-    val calls = filterReferences(uri, references)
-    calls.map { case (DocumentLink(range, _, _), origin) =>
-      relatedForOrigin(origin, references) :+ DiagnosticRelatedInformation(Location(origin, range), s"from $uri")
+      references: Seq[(DocumentLink, String)],
+      informationBranches: mutable.ListBuffer[mutable.ListBuffer[DiagnosticRelatedInformation]],
+      branch: mutable.ListBuffer[DiagnosticRelatedInformation]
+  ): Unit = {
+    filterReferences(uri, references) match {
+      case head :: tail =>
+        head match {
+          case (DocumentLink(range, _, _), origin) =>
+            branch.append(newDiagnostic(uri, range, origin))
+            relatedForOrigin(origin, references, informationBranches, branch)
+        }
+        tail.foreach { case (DocumentLink(range, _, _), origin) =>
+          val newBranch: mutable.ListBuffer[DiagnosticRelatedInformation] = branch.clone()
+          newBranch.append(newDiagnostic(uri, range, origin))
+          informationBranches.append(newBranch)
+          relatedForOrigin(origin, references, informationBranches, newBranch)
+        }
+      case _ => // over
     }
   }
 
-  private def filterReferences(uri: String, references: Seq[(DocumentLink, String)]) = {
+  private def newDiagnostic(uri: String, range: Range, origin: String) =
+    DiagnosticRelatedInformation(Location(origin, range), s"from $uri")
+
+  private def filterReferences(uri: String, references: Seq[(DocumentLink, String)]): List[(DocumentLink, String)] =
     references.filter { case (DocumentLink(_, target, _), _) =>
       target == uri
-    }
-  }
+    }.toList
 
   private def buildLocatedIssue(
       uri: String,
@@ -82,29 +98,43 @@ object DiagnosticConverters {
       if (notExternalOrSyntax(r, isExternal, references.getOrElse(uri, Seq()))) {
         Seq(buildIssue(uri, r, relatedFor(uri, reversedReferences)))
       } else {
-        relatedForOrigin(uri, reversedReferences).map { informations =>
+        getInformationStackBranches(uri, reversedReferences).map { informationStack =>
           val range = LspRangeConverter.toLspRange(
             r.position
               .map(position => PositionRange(position.range))
               .getOrElse(PositionRange(Position(0, 0), Position(0, 0)))
           )
 
-          val newDiag = DiagnosticRelatedInformation(
-            Location(r.location.getOrElse(uri), range),
-            s"from ${informations.last.location.uri}"
+          val newDiag = newDiagnostic(
+            {
+              informationStack.last.location.uri
+            },
+            range,
+            r.location.getOrElse(uri)
           )
           val issue = buildIssue(
-            informations.head.location.uri,
-            PositionRange(informations.head.location.range),
+            informationStack.head.location.uri,
+            PositionRange(informationStack.head.location.range),
             r.message,
             r.severityLevel,
-            informations.tail :+ newDiag,
+            informationStack.tail :+ newDiag,
             r.validationId
           )
           issue
         }
       }
     }
+  }
+
+  private def getInformationStackBranches(
+      uri: String,
+      reversedReferences: Seq[(DocumentLink, String)]
+  ): Seq[Seq[DiagnosticRelatedInformation]] = {
+    val informationBranches: ListBuffer[ListBuffer[DiagnosticRelatedInformation]] = mutable.ListBuffer()
+    val mainBranch: ListBuffer[DiagnosticRelatedInformation]                      = mutable.ListBuffer()
+    informationBranches.append(mainBranch)
+    relatedForOrigin(uri, reversedReferences, informationBranches, mainBranch)
+    informationBranches.map(_.toSeq)
   }
 
   private def buildIssues(
