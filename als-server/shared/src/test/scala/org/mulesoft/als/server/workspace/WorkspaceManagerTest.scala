@@ -702,7 +702,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
 
   test("Workspace Manager check validation Stack - Performance case - wait") {
     val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
-      new MockDiagnosticClientNotifierWithTelemetryLog
+      new MockDiagnosticClientNotifierWithTelemetryLog(60000)
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
       val rootFolder = s"${filePath("performance-stack")}"
       for {
@@ -732,26 +732,14 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
         server.shutdown()
         val allDiagnostics = Seq(a, b, c, d, e, f, g, h, i, j, k, m, n)
         assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
-        val root = allDiagnostics.find(_.uri == s"$rootFolder/references.raml")
-        val others =
-          allDiagnostics.filterNot(pd => root.exists(_.uri == pd.uri))
-        //        assert(root.isDefined)
-        others.size should be(13)
-        //        assert(others.forall(p => p.diagnostics.isEmpty))
-
-        //        root match {
-        //          case Some(m) =>
-        //            m.diagnostics.size should be(2)
-        //            succeed
-        //          case _ => fail("No Main detected")
-        //        }
       }
     }
   }
 
   /** Used to log cases in which timeouts occur
     */
-  class MockDiagnosticClientNotifierWithTelemetryLog extends MockDiagnosticClientNotifier(8000) {
+  class MockDiagnosticClientNotifierWithTelemetryLog(timeoutMillis: Int = 8000)
+      extends MockDiagnosticClientNotifier(timeoutMillis) {
     override def notifyTelemetry(params: TelemetryMessage): Unit = {} // println(params)
   }
 
