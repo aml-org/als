@@ -68,7 +68,12 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
     val configuration = EditorConfiguration.withPlatformLoaders(Seq(dRL, mfRL))
 
     for {
-      state <- new DefaultProjectConfigurationProvider(DummyEnvironmentProvider, configuration, EmptyLogger)
+      state <- new DefaultProjectConfigurationProvider(
+        DummyEnvironmentProvider,
+        configuration,
+        EmptyLogger,
+        disableValidationAllTraces = false
+      )
         .newProjectConfiguration(
           new ProjectConfiguration("file:///", Some(mainPath), Set.empty, Set.empty, Set(dialectUri), Set.empty)
         )
@@ -90,7 +95,12 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
   it should "register configured validation profiles" in {
     val configuration = EditorConfiguration.withPlatformLoaders(Seq(vRL, mfRL))
     for {
-      state <- new DefaultProjectConfigurationProvider(DummyEnvironmentProvider, configuration, EmptyLogger)
+      state <- new DefaultProjectConfigurationProvider(
+        DummyEnvironmentProvider,
+        configuration,
+        EmptyLogger,
+        disableValidationAllTraces = false
+      )
         .newProjectConfiguration(
           new ProjectConfiguration("file:///", Some(mainPath), Set.empty, Set(profileUri), Set.empty, Set.empty)
         )

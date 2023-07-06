@@ -36,17 +36,36 @@ This section explains how to use the ALS as a language server.
 ### Using ALS as a language server
 The ALS can run as a standalone language server that you can use with any IDE. Most modern IDEs either natively support the LSP or provide a way to support the LSP using a plugin.
 
-You can download the ALS server JAR using curl:
+#### JVM
+You can build the ALS server JAR:
 
 ```shell
-$ curl https://repository-master.mulesoft.org/nexus/content/repositories/releases/org/mule/als/als-server_2.12/3.x.x/als-server_2.12-3.x.x.jar -o als-server.jar
+sbt serverJVM/assembly
 ```
 
 and then ran independently like so:
 
 ```shell
-$ java -jar als-server.jar --port <port name>
+java -jar als/als-server/jvm/target/scala-2.12/als-server-assembly-%VERSION%.jar --port <port name>
 ```
+
+#### JS (node-client)
+You can build the targz to run it in a lsp-client for example:
+```shell
+sbt buildNodeJsClient 
+cd als-server/js/node-package/
+npm pack
+```
+
+#### JS (library)
+You can build the targz to run it in monaco for example:
+```shell
+sbt buildJsServerLibrary 
+cd als-server/js/node-package/
+npm pack
+```
+
+You'll find the tgz at: als-server/js/node-package/aml-org-als-server-%VERSION%.tgz
 
 ### Adapting Microsoft LSP example for VSCode
 You can adapt the [Microsoft VSCode LSP example](https://github.com/microsoft/vscode-extension-samples/tree/master/lsp-sample/client) by following [these instructions](./documentation/vscode-client-example/vscode-howto.md), which guides you to successfully run an ALS client in VSCode.

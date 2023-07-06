@@ -8,6 +8,7 @@ public class AlsInitializeParams extends InitializeParams {
     private AlsClientCapabilities alsClientCapabilities;
     private AlsConfiguration configuration;
     private Boolean hotReload;
+    private Boolean disableValidationAllTraces;
 
     @Override
     public AlsClientCapabilities getCapabilities() {
@@ -41,5 +42,13 @@ public class AlsInitializeParams extends InitializeParams {
 
     public void setHotReload(Boolean hotReload) {
         this.hotReload = hotReload;
+    }
+
+    public Boolean getDisableValidationAllTraces() {
+        return disableValidationAllTraces;
+    }
+
+    public void setDisableValidationAllTraces(Boolean disableValidationAllTraces) {
+        this.disableValidationAllTraces = disableValidationAllTraces;
     }
 }

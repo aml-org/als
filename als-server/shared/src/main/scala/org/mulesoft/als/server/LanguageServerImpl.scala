@@ -25,6 +25,7 @@ class LanguageServerImpl(
   override def initialize(params: AlsInitializeParams): Future[AlsInitializeResult] = {
     logParams(params)
     params.hotReload.foreach(configuration.setHotReloadDialects)
+    params.disableValidationAllTraces.foreach(configuration.setDisableValidationAllTraces)
     params.configuration.foreach(c => {
       updateConfiguration(
         UpdateConfigurationParams(
@@ -63,6 +64,7 @@ class LanguageServerImpl(
     )
     logger.debug(s"capabilities: ${params.capabilities.toString}", "LanguageServerImpl", "logParams")
     logger.debug(s"hotReload: ${params.hotReload}", "LanguageServerImpl", "logParams")
+    logger.debug(s"disableValidationAllTraces: ${params.disableValidationAllTraces}", "LanguageServerImpl", "logParams")
   }
 
   /** if it is not a valid URI and a local file which we and AMF understand (file:), ignore it
