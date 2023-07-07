@@ -168,7 +168,12 @@ case class WorkspaceManagerFactory(
       telemetryManager,
       editorConfiguration,
       projectConfigurationProvider.getOrElse(
-        new DefaultProjectConfigurationProvider(container, editorConfiguration, logger)
+        new DefaultProjectConfigurationProvider(
+          container,
+          editorConfiguration,
+          logger,
+          configurationManager.getDisableValidationAllTraces
+        )
       ),
       dependencies,
       dependencies.collect { case t: AccessUnits[CompilableUnit] =>

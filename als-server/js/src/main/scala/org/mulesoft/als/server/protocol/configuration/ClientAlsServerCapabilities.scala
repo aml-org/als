@@ -44,6 +44,7 @@ trait ClientAlsServerCapabilities extends js.Object {
   def workspaceConfiguration: UndefOr[ClientWorkspaceConfigurationServerOptions] = js.native
   def customValidations: UndefOr[ClientCustomValidationOptions]                  = js.native
   def hotReload: UndefOr[Boolean]                                                = js.native
+  def disableValidationAllTraces: UndefOr[Boolean]                               = js.native
 }
 
 object ClientAlsServerCapabilities {
@@ -104,7 +105,8 @@ object ClientAlsServerCapabilities {
           .asInstanceOf[js.Any],
         workspaceConfiguration = internal.workspaceConfiguration.map(_.toClient).orUndefined,
         customValidations = internal.customValidations.map(_.toClient).orUndefined,
-        hotReload = internal.hotReload.orUndefined
+        hotReload = internal.hotReload.orUndefined,
+        disableValidationAllTraces = internal.disableValidationAllTraces.orUndefined
       )
       .asInstanceOf[ClientAlsServerCapabilities]
 }

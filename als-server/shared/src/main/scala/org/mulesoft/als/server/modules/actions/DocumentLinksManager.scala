@@ -45,8 +45,6 @@ class DocumentLinksManager(
   override def applyConfig(config: Option[DocumentLinkClientCapabilities]): DocumentLinkOptions =
     DocumentLinkOptions(config.flatMap(_.dynamicRegistration))
 
-  val onDocumentLinks: (String, String) => Future[Seq[DocumentLink]] = documentLinks
-
   def documentLinks(uri: String, uuid: String): Future[Seq[DocumentLink]] =
     workspaceManager.getDocumentLinks(uri, uuid)
 
