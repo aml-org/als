@@ -16,7 +16,7 @@ import org.mulesoft.lsp.configuration.{TraceKind, WorkspaceFolder}
 import org.mulesoft.lsp.feature.common.{Position, Range}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
-import org.mulesoft.lsp.workspace.ExecuteCommandParams
+import org.mulesoft.lsp.workspace.{ExecuteCommandParams, FileChangeType}
 import org.scalatest.compatible.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -766,6 +766,31 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
         assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
         assert(d.uri == main)
         assert(d.diagnostics.nonEmpty)
+      }
+    }
+  }
+
+  test("Trigger reparse when changed watched file") {
+    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
+      new MockDiagnosticClientNotifierWithTelemetryLog
+    withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
+      for {
+        _ <- server.testInitialize(
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}"))
+        )
+        _ <- setMainFile(server)(filePath("ws1"), "api.raml")
+        a <- diagnosticClientNotifier.nextCall
+        b <- diagnosticClientNotifier.nextCall
+        c <- diagnosticClientNotifier.nextCall // this should correspond to filesystem notifications
+        _ <- changeWatchedFiles(server)(filePath("ws1/type.json"), FileChangeType.Changed)
+        d <- diagnosticClientNotifier.nextCall
+        e <- diagnosticClientNotifier.nextCall
+        f <- diagnosticClientNotifier.nextCall
+      } yield {
+        server.shutdown()
+        val firstDiagnostics  = Set(a, b, c)
+        val secondDiagnostics = Set(d, e, f)
+        assert(firstDiagnostics == secondDiagnostics)
       }
     }
   }

@@ -278,6 +278,28 @@ object LspConvertersSharedToClient {
     def toClient: ClientWorkspaceFolderServerCapabilities =
       ClientWorkspaceFolderServerCapabilities(v)
   }
+  implicit class ClientFileOperationsServerCapabilitiesConverter(v: FileOperationsServerCapabilities) {
+    def toClient: ClientFileOperationsServerCapabilities =
+      ClientFileOperationsServerCapabilities(v)
+  }
+
+  implicit class ClientFileOperationRegistrationOptionsConverter(v: FileOperationRegistrationOptions) {
+    def toClient: ClientFileOperationRegistrationOptions =
+      ClientFileOperationRegistrationOptions(v)
+  }
+
+  implicit class ClientFileOperationFilterConverter(v: FileOperationFilter) {
+    def toClient: ClientFileOperationFilter =
+      ClientFileOperationFilter(v)
+  }
+  implicit class ClientFileOperationPatternConverter(v: FileOperationPattern) {
+    def toClient: ClientFileOperationPattern =
+      ClientFileOperationPattern(v)
+  }
+  implicit class ClientFileOperationPatternOptionsConverter(v: FileOperationPatternOptions) {
+    def toClient: ClientFileOperationPatternOptions =
+      ClientFileOperationPatternOptions(v)
+  }
 
   implicit class ClientCodeActionConverter(v: CodeAction) {
     def toClient: ClientCodeAction =

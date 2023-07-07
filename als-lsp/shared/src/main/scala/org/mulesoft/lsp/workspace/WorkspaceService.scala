@@ -30,7 +30,7 @@ trait WorkspaceService {
   /** The watched files notification is sent from the client to the server when the client detects changes to file
     * watched by the language client.
     */
-  def didChangeWatchedFiles(params: DidChangeWatchedFilesParams) = {}
+  def didChangeWatchedFiles(params: DidChangeWatchedFilesParams): Future[Unit] = Future.unit
 
   /** The workspace/didChangeWorkspaceFolders notification is sent from the client to the server to inform the server
     * about workspace folder configuration changes. The notification is sent by default if both

@@ -6,6 +6,7 @@ import org.eclipse.lsp4j.{
   DidChangeConfigurationCapabilities,
   DidChangeWatchedFilesCapabilities,
   ExecuteCommandCapabilities,
+  FileOperationOptions,
   SymbolCapabilities,
   WorkspaceEditCapabilities
 }
@@ -288,10 +289,43 @@ object LspConversions {
       Option(either(options.getChangeNotifications, (a: String) => a, (a: java.lang.Boolean) => a))
     )
 
+  implicit def fileOperationPatternOptions(options: lsp4j.FileOperationPatternOptions): FileOperationPatternOptions =
+    FileOperationPatternOptions(
+      Option(options.getIgnoreCase)
+    )
+
+  implicit def pattern(getPattern: lsp4j.FileOperationPattern): FileOperationPattern =
+    FileOperationPattern(
+      getPattern.getGlob,
+      Option(getPattern.getMatches),
+      Option(getPattern.getOptions).map(fileOperationPatternOptions)
+    )
+
+  implicit def fileOperationFilter(filter: lsp4j.FileOperationFilter): FileOperationFilter =
+    FileOperationFilter(Option(filter.getScheme), pattern(filter.getPattern))
+
+  implicit def fileOperationOptions(options: FileOperationOptions): FileOperationRegistrationOptions =
+    FileOperationRegistrationOptions(options.getFilters.asScala.map(fileOperationFilter))
+
+  implicit def fileOperationsServerCapabilities(
+      f: lsp4j.FileOperationsServerCapabilities
+  ): FileOperationsServerCapabilities =
+    FileOperationsServerCapabilities(
+      Option(f.getDidCreate).map(fileOperationOptions),
+      Option(f.getWillCreate).map(fileOperationOptions),
+      Option(f.getDidRename).map(fileOperationOptions),
+      Option(f.getWillRename).map(fileOperationOptions),
+      Option(f.getDidDelete).map(fileOperationOptions),
+      Option(f.getWillDelete).map(fileOperationOptions)
+    )
+
   implicit def workspaceServerCapabilities(
       capabilities: lsp4j.WorkspaceServerCapabilities
   ): WorkspaceServerCapabilities =
-    WorkspaceServerCapabilities(Option(capabilities.getWorkspaceFolders))
+    WorkspaceServerCapabilities(
+      Option(capabilities.getWorkspaceFolders),
+      Option(capabilities.getFileOperations).map(f => fileOperationsServerCapabilities(f))
+    )
 
   implicit def textDocumentIdentifier(identifier: lsp4j.TextDocumentIdentifier): TextDocumentIdentifier =
     TextDocumentIdentifier(identifier.getUri)
