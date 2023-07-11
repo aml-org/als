@@ -24,7 +24,14 @@ import org.mulesoft.lsp.feature.documentsymbol.{
 }
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 import org.mulesoft.lsp.textsync._
-import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, ExecuteCommandParams, WorkspaceFoldersChangeEvent}
+import org.mulesoft.lsp.workspace.FileChangeType.FileChangeType
+import org.mulesoft.lsp.workspace.{
+  DidChangeWatchedFilesParams,
+  DidChangeWorkspaceFoldersParams,
+  ExecuteCommandParams,
+  FileEvent,
+  WorkspaceFoldersChangeEvent
+}
 import org.scalatest.funsuite.AsyncFunSuite
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.{FutureOutcome, OptionValues}
@@ -130,6 +137,11 @@ abstract class LanguageServerBaseTest
         VersionedTextDocumentIdentifier(uri, Some(version)),
         Seq(TextDocumentContentChangeEvent(text))
       )
+    )
+
+  def changeWatchedFiles(server: LanguageServer)(uri: String, changeType: FileChangeType): Future[Unit] =
+    server.workspaceService.didChangeWatchedFiles(
+      DidChangeWatchedFilesParams(List(FileEvent(uri, changeType)))
     )
 
   def rootPath: String

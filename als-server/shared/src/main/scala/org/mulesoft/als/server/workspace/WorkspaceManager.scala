@@ -2,34 +2,21 @@ package org.mulesoft.als.server.workspace
 
 import amf.core.internal.remote.Platform
 import org.mulesoft.als.common.URIImplicits._
-import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.AlsWorkspaceService
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.als.server.modules.configuration.ConfigurationProvider
-import org.mulesoft.als.server.modules.workspace.{
-  CompilableUnit,
-  MainFileTree,
-  ProjectConfigurationAdapter,
-  WorkspaceContentManager
-}
+import org.mulesoft.als.server.modules.workspace.{CompilableUnit, ProjectConfigurationAdapter, WorkspaceContentManager}
 import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.command._
-import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
-import org.mulesoft.amfintegration.ValidationProfile
-import org.mulesoft.amfintegration.amfconfiguration.{
-  EditorConfiguration,
-  EmptyProjectConfigurationState,
-  ProjectConfigurationState
-}
+import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
-import org.mulesoft.lsp.workspace.{DidChangeWorkspaceFoldersParams, ExecuteCommandParams}
+import org.mulesoft.lsp.workspace.{DidChangeWatchedFilesParams, DidChangeWorkspaceFoldersParams, ExecuteCommandParams}
 
-import java.util.UUID
-import scala.collection.{immutable, mutable}
+import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -82,6 +69,21 @@ class WorkspaceManager protected (
   override def notify(uri: String, kind: NotificationKind): Future[Unit] = getWorkspace(uri.toAmfUri).flatMap {
     manager =>
       manager.stage(uri.toAmfUri, kind)
+  }
+
+  override def didChangeWatchedFiles(params: DidChangeWatchedFilesParams): Future[Unit] = {
+    params.changes.foreach { f =>
+      logger.debug(s"${f.`type`} : ${f.uri}", "WorkspaceManager", "didChangeWatchedFiles")
+      f.`type` match {
+        case org.mulesoft.lsp.workspace.FileChangeType.Created => // nothing
+        case org.mulesoft.lsp.workspace.FileChangeType.Changed => environmentProvider.filesInMemory
+        case org.mulesoft.lsp.workspace.FileChangeType.Deleted => ???
+      }
+    }
+    Future
+      .sequence(params.changes.map(c => getWorkspace(c.uri)))
+      .map(l => l.distinct)
+      .map(l => l.foreach(wcm => wcm.stage(wcm.folderUri, CHANGE_CONFIG)))
   }
 
   override def executeCommand(params: ExecuteCommandParams): Future[AnyRef] =
