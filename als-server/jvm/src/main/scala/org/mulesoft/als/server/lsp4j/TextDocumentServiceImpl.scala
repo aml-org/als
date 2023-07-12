@@ -27,6 +27,7 @@ import org.eclipse.lsp4j.{
   ImplementationParams,
   Location,
   LocationLink,
+  PrepareRenameDefaultBehavior,
   PrepareRenameParams,
   PublishDiagnosticsParams,
   ReferenceParams,
@@ -125,7 +126,7 @@ class TextDocumentServiceImpl(private val inner: LanguageServer) extends CustomT
 
   override def prepareRename(
       params: PrepareRenameParams
-  ): CompletableFuture[messages.Either[lsp4j.Range, lsp4j.PrepareRenameResult]] =
+  ): CompletableFuture[messages.Either3[lsp4j.Range, lsp4j.PrepareRenameResult, lsp4j.PrepareRenameDefaultBehavior]] =
     javaFuture(resolveHandler(PrepareRenameRequestType)(params), lsp4JOptionEitherRangeWithPlaceholder)
 
   override def documentSymbol(

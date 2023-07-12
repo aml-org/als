@@ -61,7 +61,8 @@ lazy val npmDependencyAmfCustomValidator    = s"@aml-org/amf-custom-validator@$a
 lazy val npmDependencyAmfAntlr              = s"@aml-org/amf-antlr-parsers@$amfAntlrParsersVersion"
 lazy val airframeDependency = "org.wvlet.airframe" %% "airframe" % "23.5.3"
 lazy val guavaDependency = "com.google.guava" % "guava" % "31.1-jre"
-lazy val eclipseLsp4jDependency = "org.eclipse.lsp4j" % "org.eclipse.lsp4j" % "0.12.0"
+lazy val eclipseLsp4jDependency = "org.eclipse.lsp4j" % "org.eclipse.lsp4j" % "0.21.0"
+lazy val eclipseXbaseRuntimeLibrary = "org.eclipse.xtext" % "org.eclipse.xtext.xbase.lib" % "2.32.0.M0"
 
 ////region SBT-Dependencies
 lazy val scalaJS_DomDependency = ModuleID("org.scala-js", "scalajs-dom_sjs1_2.12" , "1.1.0")
@@ -147,6 +148,7 @@ lazy val lsp = crossProject(JSPlatform, JVMPlatform)
   .jvmSettings(
     libraryDependencies += guavaDependency,
     libraryDependencies += eclipseLsp4jDependency,
+    libraryDependencies += eclipseXbaseRuntimeLibrary,
     libraryDependencies += "org.scala-lang.modules" % "scala-java8-compat_2.12" % "0.8.0"
   )
   .jsSettings(
