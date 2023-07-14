@@ -2,7 +2,7 @@ package org.mulesoft.lsp
 
 import org.eclipse.lsp4j
 import org.mulesoft.lsp.converter.{Middle => Middle3, SEither3, Left => Left3, Right => Right3}
-import org.eclipse.lsp4j.{MarkedString, PrepareRenameDefaultBehavior}
+import org.eclipse.lsp4j.{MarkedString, PrepareRenameDefaultBehavior => EPrepareRenameDefaultBehavior}
 import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither, Either3 => JEither3}
 import org.mulesoft.lsp.configuration.{StaticRegistrationOptions, WorkDoneProgressOptions}
 import org.mulesoft.lsp.edit._
@@ -290,7 +290,7 @@ object Lsp4JConversions {
           lsp4j.PrepareRenameDefaultBehavior
         ]
       case Right3(r: PrepareRenameDefaultBehavior) =>
-        JEither3.forThird(new PrepareRenameDefaultBehavior(r.isDefaultBehavior)): JEither3[
+        JEither3.forThird(new lsp4j.PrepareRenameDefaultBehavior(r.defaultBehavior)): JEither3[
           lsp4j.Range,
           lsp4j.PrepareRenameResult,
           lsp4j.PrepareRenameDefaultBehavior

@@ -8,11 +8,13 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import org.eclipse.lsp4j.ClientCapabilities;
+import org.eclipse.lsp4j.ClientInfo;
 import org.eclipse.lsp4j.InitializeParams;
 import org.eclipse.lsp4j.adapters.InitializeParamsTypeAdapter;
 import org.eclipse.lsp4j.generator.TypeAdapterImpl;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @TypeAdapterImpl(AlsInitializeParams.class)
 public class AlsInitializeParamsTypeAdapter extends InitializeParamsTypeAdapter {
@@ -69,8 +71,18 @@ public class AlsInitializeParamsTypeAdapter extends InitializeParamsTypeAdapter 
                 case "capabilities":
                     result.setCapabilities(readCapabilities(in));
                     break;
+                case "clientInfo":
+                    result.setClientInfo(readClientInfo(in));
+                    break;
                 case "clientName":
-                    result.setClientName(readClientName(in));
+                    Optional.ofNullable(result.getClientInfo())
+                            .ifPresent(clientInfo -> {
+                                try {
+                                    result.setClientInfo(new ClientInfo(readClientInfo(in).getName(), clientInfo.getVersion()));
+                                } catch (IOException e) {
+                                    // Do nothing, maybe log the exception
+                                }
+                            });
                     break;
                 case "trace":
                     result.setTrace(readTrace(in));

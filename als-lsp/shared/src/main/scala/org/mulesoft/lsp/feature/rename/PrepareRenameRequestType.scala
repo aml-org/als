@@ -8,4 +8,4 @@ case object PrepareRenameRequestType
     extends RequestType[PrepareRenameParams, Option[SEither3[Range, PrepareRenameResult, PrepareRenameDefaultBehavior]]]
 
 case class PrepareRenameResult(range: Range, placeholder: String)
-case class PrepareRenameDefaultBehavior(defaultBehavior: Boolean)
+case class PrepareRenameDefaultBehavior(range: Range, placeholder: String, defaultBehavior: Boolean)
