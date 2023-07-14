@@ -148,6 +148,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
+                    branch 'references-overhaul-snapshot'
                 }
             }
             steps {
@@ -169,6 +170,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
+                    branch 'references-overhaul-snapshot'
                 }
             }
             steps {
@@ -198,6 +200,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
+                    branch 'references-overhaul-snapshot'
                 }
             }
             steps {
