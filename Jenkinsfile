@@ -148,7 +148,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
-                    branch 'references-overhaul-snapshot'
+                    branch 'references-overhaul-snapshot-rebased'
                 }
             }
             steps {
@@ -170,7 +170,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
-                    branch 'references-overhaul-snapshot'
+                    branch 'references-overhaul-snapshot-rebased'
                 }
             }
             steps {
@@ -200,7 +200,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
-                    branch 'references-overhaul-snapshot'
+                    branch 'references-overhaul-snapshot-rebased'
                 }
             }
             steps {
