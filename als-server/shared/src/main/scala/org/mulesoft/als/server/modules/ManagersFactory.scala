@@ -171,8 +171,7 @@ case class WorkspaceManagerFactory(
         new DefaultProjectConfigurationProvider(
           container,
           editorConfiguration,
-          logger,
-          configurationManager.getDisableValidationAllTraces
+          logger
         )
       ),
       dependencies,

@@ -171,7 +171,7 @@ class WorkspaceParserRepositoryTest extends AsyncFunSuite with Matchers with Pla
     for {
       aLSConfigurationState <- configWithRL(files)
       repository <- Future {
-        val r = new WorkspaceParserRepository(EmptyLogger, disableValidationAllTraces = false)
+        val r = new WorkspaceParserRepository(EmptyLogger)
         r
       }
       r <- Future
@@ -191,7 +191,7 @@ class WorkspaceParserRepositoryTest extends AsyncFunSuite with Matchers with Pla
   def makeRepositoryTree(files: Set[MockFile], mainFile: MockFile): Future[WorkspaceParserRepository] = {
     for {
       globalConfiguration <- configWithRL(files)
-      repository          <- Future { new WorkspaceParserRepository(EmptyLogger, disableValidationAllTraces = false) }
+      repository          <- Future { new WorkspaceParserRepository(EmptyLogger) }
       _ <- globalConfiguration
         .parse(mainFile.uri)
         .flatMap(bu => repository.newTree(bu))
