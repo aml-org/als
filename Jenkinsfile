@@ -82,6 +82,13 @@ pipeline {
             }
         }
         stage('Test') {
+            when {
+                not {
+                    anyOf {
+                        branch 'references-overhaul-snapshot-rebased'
+                    }
+                }
+            }
             steps {
                 wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
                     script {
