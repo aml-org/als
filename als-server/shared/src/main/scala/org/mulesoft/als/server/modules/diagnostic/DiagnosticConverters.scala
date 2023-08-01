@@ -33,6 +33,7 @@ object DiagnosticConverters {
       .map(t => ValidationReport(t._1, issuesWithStack.filter(_.filePath == t._1).toSet, profile))
       .toSeq
       .sortBy(_.pointOfViewUri)
+    //
     logger.debug(
       s"buildIssueResults took ${System.currentTimeMillis() - time} to process",
       "DiagnosticConverters",
@@ -143,8 +144,9 @@ object DiagnosticConverters {
   ): Seq[Seq[DiagnosticRelatedInformation]] = {
     val informationBranches: ListBuffer[ListBuffer[DiagnosticRelatedInformation]] = mutable.ListBuffer()
     val mainBranch: ListBuffer[DiagnosticRelatedInformation]                      = mutable.ListBuffer()
+    val branchLimit                                                               = 10
     informationBranches.append(mainBranch)
-    relatedFor(uri, reversedReferences, informationBranches, mainBranch, branchLimit = 10, originFlag)
+    relatedFor(uri, reversedReferences, informationBranches, mainBranch, branchLimit, originFlag)
     informationBranches.size
     informationBranches.map(_.toSeq)
   }
