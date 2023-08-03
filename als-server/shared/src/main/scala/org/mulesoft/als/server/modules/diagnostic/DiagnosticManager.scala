@@ -2,16 +2,16 @@ package org.mulesoft.als.server.modules.diagnostic
 
 import amf.core.client.common.validation.ProfileName
 import amf.core.client.common.validation.SeverityLevels.VIOLATION
-import amf.core.client.scala.model.document.BaseUnit
+import amf.core.client.scala.model.document.{BaseUnit, ExternalFragment}
 import amf.core.client.scala.validation.{AMFValidationReport, AMFValidationResult}
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.ClientNotifierModule
 import org.mulesoft.als.server.client.platform.ClientNotifier
-import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, BaseUnitImp}
-import org.mulesoft.amfintegration.DiagnosticsBundle
+import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.amfconfiguration.ProfileMatcher
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.diagnostic.{DiagnosticClientCapabilities, DiagnosticConfigType}
+import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
 import scala.concurrent.Future
@@ -24,10 +24,10 @@ trait DiagnosticManager extends BasicDiagnosticManager[DiagnosticClientCapabilit
     // not used
   }
 
-  def projectReferences(uri: String, projectErrors: Seq[AMFValidationResult]): Map[String, DiagnosticsBundle] =
+  def projectReferences(uri: String, projectErrors: Seq[AMFValidationResult]): Map[String, Seq[DocumentLink]] =
     projectErrors
       .map(v => {
-        v.location.getOrElse(uri) -> DiagnosticsBundle(isExternal = true, Set.empty)
+        v.location.getOrElse(uri) -> Seq.empty
       })
       .toMap
 }
@@ -71,7 +71,7 @@ trait BasicDiagnosticManager[C, S] extends ClientNotifierModule[C, S] {
   protected def notifyReport(
       uri: String,
       baseUnit: BaseUnit,
-      references: Map[String, DiagnosticsBundle],
+      references: Map[String, Seq[DocumentLink]],
       step: DiagnosticManagerKind,
       profile: ProfileName
   ): Unit = {
@@ -82,7 +82,10 @@ trait BasicDiagnosticManager[C, S] extends ClientNotifierModule[C, S] {
           .merged()
           .filter(v => allReferences.contains(v._1)),
         references,
-        profile
+        profile,
+        (
+          baseUnit +: baseUnit.flatRefs
+        ).map(bu => bu.identifier -> bu.isInstanceOf[ExternalFragment]).toMap
       )
     logger.debug(
       s"Number of ${step.name} errors is:\n" + errors.flatMap(_.issues).length,

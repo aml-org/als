@@ -106,8 +106,7 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
         new DefaultProjectConfigurationProvider(
           container,
           editorConfiguration,
-          logger,
-          disableValidationAllTraces = false
+          logger
         )
       WorkspaceManager(
         container,

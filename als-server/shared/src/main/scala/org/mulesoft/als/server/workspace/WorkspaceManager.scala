@@ -192,8 +192,7 @@ class WorkspaceList(
       logger,
       subscribers,
       buildConfigurationAdapter("", IgnoreProjectConfigurationAdapter),
-      configurationProvider.getHotReloadDialects,
-      configurationProvider.getDisableValidationAllTraces
+      configurationProvider.getHotReloadDialects
     )
   }
 
@@ -244,8 +243,7 @@ class WorkspaceList(
         logger,
         subscribers,
         buildConfigurationAdapter(uri, projectConfigurationProvider),
-        configurationProvider.getHotReloadDialects,
-        configurationProvider.getDisableValidationAllTraces
+        configurationProvider.getHotReloadDialects
       )
       _ <- Future.sequence(applicableFiles.map(wcm.stage(_, OPEN_FILE)))
     } yield {

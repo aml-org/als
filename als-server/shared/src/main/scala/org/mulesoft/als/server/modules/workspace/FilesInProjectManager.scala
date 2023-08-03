@@ -31,7 +31,7 @@ class FilesInProjectManager(clientNotifier: AlsClientNotifier[_])
     */
   override def onNewAst(ast: BaseUnitListenerParams, uuid: String): Future[Unit] = synchronized {
     Future.successful {
-      if (ast.tree) clientNotifier.notifyProjectFiles(FilesInProjectParams(ast.diagnosticsBundle.keySet))
+      if (ast.tree) clientNotifier.notifyProjectFiles(FilesInProjectParams(ast.locationLinks.keySet))
     }
   }
 

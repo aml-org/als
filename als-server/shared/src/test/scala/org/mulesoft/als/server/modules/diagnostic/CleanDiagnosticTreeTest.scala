@@ -71,8 +71,7 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
       state <- new DefaultProjectConfigurationProvider(
         DummyEnvironmentProvider,
         configuration,
-        EmptyLogger,
-        disableValidationAllTraces = false
+        EmptyLogger
       )
         .newProjectConfiguration(
           new ProjectConfiguration("file:///", Some(mainPath), Set.empty, Set.empty, Set(dialectUri), Set.empty)
@@ -98,8 +97,7 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
       state <- new DefaultProjectConfigurationProvider(
         DummyEnvironmentProvider,
         configuration,
-        EmptyLogger,
-        disableValidationAllTraces = false
+        EmptyLogger
       )
         .newProjectConfiguration(
           new ProjectConfiguration("file:///", Some(mainPath), Set.empty, Set(profileUri), Set.empty, Set.empty)
