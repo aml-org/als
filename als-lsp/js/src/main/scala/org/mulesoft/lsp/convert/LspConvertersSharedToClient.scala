@@ -1,6 +1,7 @@
 package org.mulesoft.lsp.convert
 
 import org.mulesoft.lsp.configuration._
+import org.mulesoft.lsp.converter.{Middle, Left => Left3, Right => Right3, SEither3}
 import org.mulesoft.lsp.edit._
 import org.mulesoft.lsp.feature.codeactions._
 import org.mulesoft.lsp.feature.command.{ClientCommand, Command}
@@ -278,6 +279,28 @@ object LspConvertersSharedToClient {
     def toClient: ClientWorkspaceFolderServerCapabilities =
       ClientWorkspaceFolderServerCapabilities(v)
   }
+  implicit class ClientFileOperationsServerCapabilitiesConverter(v: FileOperationsServerCapabilities) {
+    def toClient: ClientFileOperationsServerCapabilities =
+      ClientFileOperationsServerCapabilities(v)
+  }
+
+  implicit class ClientFileOperationRegistrationOptionsConverter(v: FileOperationRegistrationOptions) {
+    def toClient: ClientFileOperationRegistrationOptions =
+      ClientFileOperationRegistrationOptions(v)
+  }
+
+  implicit class ClientFileOperationFilterConverter(v: FileOperationFilter) {
+    def toClient: ClientFileOperationFilter =
+      ClientFileOperationFilter(v)
+  }
+  implicit class ClientFileOperationPatternConverter(v: FileOperationPattern) {
+    def toClient: ClientFileOperationPattern =
+      ClientFileOperationPattern(v)
+  }
+  implicit class ClientFileOperationPatternOptionsConverter(v: FileOperationPatternOptions) {
+    def toClient: ClientFileOperationPatternOptions =
+      ClientFileOperationPatternOptions(v)
+  }
 
   implicit class ClientCodeActionConverter(v: CodeAction) {
     def toClient: ClientCodeAction =
@@ -431,12 +454,20 @@ object LspConvertersSharedToClient {
       ClientRenameOptions(v)
   }
 
-  implicit class ClientPrepareRenameCompleteResultConverter(v: Either[Range, PrepareRenameResult]) {
-    def toClient: ClientRange | ClientPrepareRenameResult =
+  implicit class ClientPrepareRenameCompleteResultConverter(
+      v: SEither3[Range, PrepareRenameResult, PrepareRenameDefaultBehavior]
+  ) {
+    def toClient: ClientRange | ClientPrepareRenameResult | ClientPrepareRenameDefaultBehavior =
       v match {
-        case Right(r) => r.toClient
-        case Left(l)  => l.toClient
+        case Right3(m) => m.toClient
+        case Middle(r) => r.toClient
+        case Left3(l)  => l.toClient
       }
+  }
+
+  implicit class ClientPrepareRenameDefaultBehaviorConverter(v: PrepareRenameDefaultBehavior) {
+    def toClient: ClientPrepareRenameDefaultBehavior =
+      ClientPrepareRenameDefaultBehavior(v)
   }
 
   implicit class ClientPrepareRenameResultConverter(v: PrepareRenameResult) {

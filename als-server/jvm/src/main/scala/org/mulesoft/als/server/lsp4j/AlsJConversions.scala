@@ -9,9 +9,10 @@ import org.mulesoft.als.server.feature.serialization.{SerializationResult, Seria
 import org.mulesoft.als.server.lsp4j.extension.CustomValidationOptions
 import org.mulesoft.als.server.protocol.configuration.{AlsInitializeResult, AlsServerCapabilities}
 import org.mulesoft.lsp.Lsp4JConversions._
-import org.mulesoft.lsp.textsync
+import org.mulesoft.lsp.{configuration, textsync}
 import org.mulesoft.lsp.textsync.DidChangeConfigurationNotificationParams
 import org.mulesoft.als.server.feature.fileusage.filecontents.FileContentsResponse
+import org.mulesoft.lsp.configuration.FileOperationRegistrationOptions
 
 import java.io.StringWriter
 import scala.collection.JavaConverters._
@@ -129,7 +130,71 @@ object AlsJConversions {
       })
     )
     capabilities.customValidations.foreach(r => result.setCustomValidations(new CustomValidationOptions(r.enabled)))
+    capabilities.workspace.foreach(w => {
+      val wsc: WorkspaceServerCapabilities = ClientWorkspaceServerCapabilities(w)
+      result.setWorkspace(wsc)
+    })
     result
+  }
+
+  private def toClient(o: configuration.FileOperationPatternOptions): FileOperationPatternOptions = {
+    val options = new FileOperationPatternOptions()
+    o.ignoreCase.foreach(options.setIgnoreCase(_))
+    options
+  }
+
+  private def toClient(pattern: configuration.FileOperationPattern): FileOperationPattern = {
+    val pattern1 = new FileOperationPattern(pattern.glob)
+    pattern.matches.foreach(pattern1.setMatches)
+    pattern.options.foreach(o => pattern1.setOptions(toClient(o)))
+    pattern1
+  }
+
+  private def toClient(filter: configuration.FileOperationFilter): FileOperationFilter = {
+    val filter1 = new FileOperationFilter()
+    filter.scheme.foreach(filter1.setScheme)
+    filter1.setPattern(toClient(filter.pattern))
+    filter1
+  }
+
+  private def toClient(d: FileOperationRegistrationOptions): FileOperationOptions = {
+    val options = new FileOperationOptions(
+      d.filters.map(toClient).asJava
+    )
+    options
+  }
+
+  private def toClient(fo: configuration.FileOperationsServerCapabilities): FileOperationsServerCapabilities = {
+    val capabilities = new FileOperationsServerCapabilities()
+    fo.didCreate.foreach(d => { capabilities.setDidCreate(toClient(d)) })
+    fo.willCreate.foreach(d => { capabilities.setWillCreate(toClient(d)) })
+    fo.didRename.foreach(d => { capabilities.setDidRename(toClient(d)) })
+    fo.willRename.foreach(d => { capabilities.setWillRename(toClient(d)) })
+    fo.didDelete.foreach(d => { capabilities.setDidDelete(toClient(d)) })
+    fo.willDelete.foreach(d => { capabilities.setWillDelete(toClient(d)) })
+    capabilities
+  }
+
+  private def ClientWorkspaceServerCapabilities(
+      w: configuration.WorkspaceServerCapabilities
+  ): WorkspaceServerCapabilities = {
+    val workspaceFolders: WorkspaceFoldersOptions = w.workspaceFolders
+      .map(wfsc => {
+        val options = new WorkspaceFoldersOptions()
+        wfsc.supported.foreach(options.setSupported(_))
+        wfsc.changeNotifications.foreach {
+          case Left(value)  => options.setChangeNotifications(value)
+          case Right(value) => options.setChangeNotifications(value)
+        }
+        options
+      })
+      .orNull
+    val capabilities = new WorkspaceServerCapabilities(workspaceFolders)
+
+    w.fileOperations.foreach(fo => {
+      capabilities.setFileOperations(toClient(fo))
+    })
+    capabilities
   }
 
   implicit def serializedDocument(serializedDocument: SerializedDocument): extension.SerializedDocument =

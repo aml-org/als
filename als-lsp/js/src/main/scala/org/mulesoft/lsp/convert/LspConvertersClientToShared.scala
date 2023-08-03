@@ -230,10 +230,51 @@ object LspConvertersClientToShared {
         )
       )
   }
+  implicit class ClientFileOperationsServerCapabilitiesConverter(v: ClientFileOperationsServerCapabilities) {
+    def toShared: FileOperationsServerCapabilities =
+      FileOperationsServerCapabilities(
+        v.didCreate.toOption.map(_.toShared),
+        v.willCreate.toOption.map(_.toShared),
+        v.didRename.toOption.map(_.toShared),
+        v.willRename.toOption.map(_.toShared),
+        v.didDelete.toOption.map(_.toShared),
+        v.willDelete.toOption.map(_.toShared)
+      )
+  }
+  implicit class ClientFileOperationRegistrationOptionsConverter(v: ClientFileOperationRegistrationOptions) {
+    def toShared: FileOperationRegistrationOptions =
+      FileOperationRegistrationOptions(
+        v.filters.toSeq.map(_.toShared)
+      )
+  }
+  implicit class ClientFileOperationFilterConverter(v: ClientFileOperationFilter) {
+    def toShared: FileOperationFilter =
+      FileOperationFilter(
+        v.scheme.toOption,
+        v.pattern.toShared
+      )
+  }
+  implicit class ClientFileOperationPatternConverter(v: ClientFileOperationPattern) {
+    def toShared: FileOperationPattern =
+      FileOperationPattern(
+        v.glob,
+        v.matches.toOption,
+        v.options.toOption.map(_.toShared)
+      )
+  }
+  implicit class ClientFileOperationPatternOptionsConverter(v: ClientFileOperationPatternOptions) {
+    def toShared: FileOperationPatternOptions =
+      FileOperationPatternOptions(
+        v.ignoreCase.toOption
+      )
+  }
 
   implicit class ClientWorkspaceServerCapabilitiesConverter(v: ClientWorkspaceServerCapabilities) {
     def toShared: WorkspaceServerCapabilities =
-      WorkspaceServerCapabilities(v.workspaceFolders.toOption.map(_.toShared))
+      WorkspaceServerCapabilities(
+        v.workspaceFolders.toOption.map(_.toShared),
+        v.fileOperations.toOption.map(_.toShared)
+      )
   }
 
   implicit class StaticRegistrationOptionsConverter(v: ClientStaticRegistrationOptions) {

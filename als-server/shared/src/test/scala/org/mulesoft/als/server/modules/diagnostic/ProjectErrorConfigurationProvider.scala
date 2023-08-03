@@ -15,8 +15,7 @@ class ProjectErrorConfigurationProvider(
 ) extends DefaultProjectConfigurationProvider(
       DummyEnvironmentProvider,
       editorConfiguration,
-      logger,
-      disableValidationAllTraces = false
+      logger
     ) {
   private var reportError = true
 

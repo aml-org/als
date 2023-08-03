@@ -8,7 +8,8 @@ import org.mulesoft.als.server.modules.workspace._
 import org.mulesoft.als.server.workspace.{UnitTaskManager, UnitsManager}
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, AMLSpecificConfiguration}
-import org.mulesoft.amfintegration.{AmfResolvedUnit, DiagnosticsBundle, ValidationProfile}
+import org.mulesoft.amfintegration.{AmfResolvedUnit, ValidationProfile}
+import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import java.util.UUID
@@ -49,7 +50,7 @@ class ResolutionTaskManager private (
     val resolvedInstance =
       AmfResolvedUnitImpl(
         params.parseResult.result.baseUnit,
-        params.diagnosticsBundle,
+        params.locationLinks,
         params.parseResult.context.state
       )
     isInMainTree(uri).map { isMainTree =>
@@ -137,7 +138,7 @@ class ResolutionTaskManager private (
 
   case class AmfResolvedUnitImpl(
       override val baseUnit: BaseUnit,
-      override val diagnosticsBundle: Map[String, DiagnosticsBundle],
+      override val documentLinks: Map[String, Seq[DocumentLink]],
       override val alsConfigurationState: ALSConfigurationState
   ) extends AmfResolvedUnit {
     private val uri: String = baseUnit.identifier
@@ -170,8 +171,8 @@ class ResolutionTaskManager private (
     override protected def resolvedUnitFn(): Future[AMFResult] =
       Future.successful(alsConfigurationState.editorState.getAmlConfig.baseUnitClient().transform(vp.model))
 
-    override val diagnosticsBundle: Map[String, DiagnosticsBundle] = Map.empty
-    override val baseUnit: BaseUnit                                = vp.model
+    override val documentLinks: Map[String, Seq[DocumentLink]] = Map.empty
+    override val baseUnit: BaseUnit                            = vp.model
 
     override def next: Option[Future[AmfResolvedUnit]] = None
   }

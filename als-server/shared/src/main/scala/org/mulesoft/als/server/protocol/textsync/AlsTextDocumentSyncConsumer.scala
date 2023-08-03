@@ -9,4 +9,14 @@ trait AlsTextDocumentSyncConsumer extends TextDocumentSyncConsumer {
 
   def didFocus(params: DidFocusParams): Future[Unit]
 
+  def deleteFile(uri: String): Unit =
+    uriToEditor.remove(uri)
+  def changeFile(oldUri: String, newUri: String): Unit = {
+    val maybeDocument = uriToEditor.get(oldUri)
+    uriToEditor.remove(oldUri)
+    maybeDocument.foreach { td =>
+      uriToEditor + (newUri, td)
+    }
+  }
+
 }

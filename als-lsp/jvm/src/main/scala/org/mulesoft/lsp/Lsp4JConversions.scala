@@ -1,8 +1,9 @@
 package org.mulesoft.lsp
 
 import org.eclipse.lsp4j
-import org.eclipse.lsp4j.MarkedString
-import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither}
+import org.mulesoft.lsp.converter.{Middle => Middle3, SEither3, Left => Left3, Right => Right3}
+import org.eclipse.lsp4j.{MarkedString, PrepareRenameDefaultBehavior => EPrepareRenameDefaultBehavior}
+import org.eclipse.lsp4j.jsonrpc.messages.{Either => JEither, Either3 => JEither3}
 import org.mulesoft.lsp.configuration.{StaticRegistrationOptions, WorkDoneProgressOptions}
 import org.mulesoft.lsp.edit._
 import org.mulesoft.lsp.feature.codeactions.CodeActionKind.CodeActionKind
@@ -21,7 +22,7 @@ import org.mulesoft.lsp.feature.highlight.DocumentHighlight
 import org.mulesoft.lsp.feature.highlight.DocumentHighlightKind.DocumentHighlightKind
 import org.mulesoft.lsp.feature.hover.Hover
 import org.mulesoft.lsp.feature.link.{DocumentLink, DocumentLinkOptions, DocumentLinkParams}
-import org.mulesoft.lsp.feature.rename.{PrepareRenameResult, RenameOptions}
+import org.mulesoft.lsp.feature.rename.{PrepareRenameResult, RenameOptions, PrepareRenameDefaultBehavior}
 import org.mulesoft.lsp.feature.selectionRange.SelectionRange
 import org.mulesoft.lsp.textsync.TextDocumentSyncKind.TextDocumentSyncKind
 import org.mulesoft.lsp.textsync.{SaveOptions, TextDocumentSyncKind, TextDocumentSyncOptions}
@@ -276,15 +277,23 @@ object Lsp4JConversions {
   }
 
   implicit def lsp4JOptionEitherRangeWithPlaceholder(
-      p: Option[Either[Range, PrepareRenameResult]]
-  ): JEither[lsp4j.Range, lsp4j.PrepareRenameResult] =
+      p: Option[SEither3[Range, PrepareRenameResult, PrepareRenameDefaultBehavior]]
+  ): JEither3[lsp4j.Range, lsp4j.PrepareRenameResult, lsp4j.PrepareRenameDefaultBehavior] =
     p.map {
-      case Left(r) =>
-        JEither.forLeft(lsp4JRange(r)): JEither[lsp4j.Range, lsp4j.PrepareRenameResult]
-      case Right(r) =>
-        JEither.forRight(new lsp4j.PrepareRenameResult(lsp4JRange(r.range), r.placeholder)): JEither[
+      case Left3(r: Range) =>
+        JEither3
+          .forFirst(lsp4JRange(r)): JEither3[lsp4j.Range, lsp4j.PrepareRenameResult, lsp4j.PrepareRenameDefaultBehavior]
+      case Middle3(r: PrepareRenameResult) =>
+        JEither3.forSecond(new lsp4j.PrepareRenameResult(lsp4JRange(r.range), r.placeholder)): JEither3[
           lsp4j.Range,
-          lsp4j.PrepareRenameResult
+          lsp4j.PrepareRenameResult,
+          lsp4j.PrepareRenameDefaultBehavior
+        ]
+      case Right3(r: PrepareRenameDefaultBehavior) =>
+        JEither3.forThird(new lsp4j.PrepareRenameDefaultBehavior(r.defaultBehavior)): JEither3[
+          lsp4j.Range,
+          lsp4j.PrepareRenameResult,
+          lsp4j.PrepareRenameDefaultBehavior
         ]
     }.orNull
 

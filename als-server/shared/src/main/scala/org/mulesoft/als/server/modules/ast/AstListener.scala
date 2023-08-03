@@ -2,8 +2,8 @@ package org.mulesoft.als.server.modules.ast
 
 import org.mulesoft.als.server.modules.workspace.CompilableUnit
 import org.mulesoft.als.server.workspace.UnitAccessor
-import org.mulesoft.amfintegration.DiagnosticsBundle
 import org.mulesoft.amfintegration.amfconfiguration.AmfParseResult
+import org.mulesoft.lsp.feature.link.DocumentLink
 
 import scala.concurrent.Future
 
@@ -38,7 +38,7 @@ trait AccessUnits[T] {
 
 case class BaseUnitListenerParams(
     parseResult: AmfParseResult,
-    diagnosticsBundle: Map[String, DiagnosticsBundle],
+    locationLinks: Map[String, Seq[DocumentLink]],
     tree: Boolean,
     workspace: String,
     isDependency: Boolean = false

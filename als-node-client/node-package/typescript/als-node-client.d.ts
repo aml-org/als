@@ -6595,7 +6595,6 @@ declare module '@aml-org/als-node-client' {
     workspaceFolders: WorkspaceFolder[] | null
     configuration?: AlsConfiguration
     hotReload?: boolean
-    disableValidationAllTraces?: boolean
   }
 
   export type DidFocusParams = {

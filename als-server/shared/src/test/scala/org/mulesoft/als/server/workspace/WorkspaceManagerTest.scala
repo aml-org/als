@@ -16,7 +16,7 @@ import org.mulesoft.lsp.configuration.{TraceKind, WorkspaceFolder}
 import org.mulesoft.lsp.feature.common.{Position, Range}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
-import org.mulesoft.lsp.workspace.ExecuteCommandParams
+import org.mulesoft.lsp.workspace.{ExecuteCommandParams, FileChangeType}
 import org.scalatest.compatible.Assertion
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -213,8 +213,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
           AlsInitializeParams(
             None,
             Some(TraceKind.Off),
-            rootUri = Some(rootFolder),
-            disableValidationAllTraces = Option(false)
+            rootUri = Some(rootFolder)
           )
         )
         _ <- setMainFile(server)(rootFolder, "api.raml")
@@ -246,69 +245,6 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
               information.tail.head.location.uri == s"$rootFolder/external-2.yaml" &&
               information.tail.head.location.range == Range(Position(1, 3), Position(1, 13))
             } should be(true)
-
-            m.diagnostics.exists { d =>
-              d.range == Range(Position(4, 7), Position(4, 19))
-              val information = d.relatedInformation.getOrElse(Seq())
-              information.size == 3
-              information.head.location.uri == s"$rootFolder/library.raml" &&
-              information.head.location.range == Range(Position(3, 14), Position(3, 27)) &&
-              information.tail.head.location.uri == s"$rootFolder/external.yaml" &&
-              information.tail.head.location.range == Range(Position(1, 21), Position(1, 36)) &&
-              information.tail.tail.head.location.uri == s"$rootFolder/external-2.yaml" &&
-              information.tail.tail.head.location.range == Range(Position(1, 3), Position(1, 13))
-            } should be(true)
-
-            succeed
-          case _ => fail("No Main detected")
-        }
-      }
-    }
-  }
-
-  test("Workspace Manager check validation Stack - Error on External with two stacks - all traces disabled") {
-    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
-      new MockDiagnosticClientNotifierWithTelemetryLog
-    withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
-      val rootFolder = s"${filePath("ws-error-stack-4")}"
-      for {
-        _ <- server.testInitialize(
-          AlsInitializeParams(
-            None,
-            Some(TraceKind.Off),
-            rootUri = Some(rootFolder),
-            disableValidationAllTraces = Option(true)
-          )
-        )
-        _ <- setMainFile(server)(rootFolder, "api.raml")
-        a <- diagnosticClientNotifier.nextCall
-        b <- diagnosticClientNotifier.nextCall
-        c <- diagnosticClientNotifier.nextCall
-        d <- diagnosticClientNotifier.nextCall
-      } yield {
-        server.shutdown()
-        val allDiagnostics = Seq(a, b, c, d)
-        assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
-        val root = allDiagnostics.find(_.uri == s"$rootFolder/api.raml")
-        val others =
-          allDiagnostics.filterNot(pd => root.exists(_.uri == pd.uri))
-        assert(root.isDefined)
-        others.size should be(3)
-        assert(others.forall(p => p.diagnostics.isEmpty))
-
-        root match {
-          case Some(m) =>
-            m.diagnostics.size should be(1)
-
-//            m.diagnostics.exists { d =>
-//              val information = d.relatedInformation.getOrElse(Seq())
-//              d.range == Range(Position(7, 14), Position(7, 27)) &&
-//                information.size == 2 &&
-//                information.head.location.uri == s"$rootFolder/external.yaml" &&
-//                information.head.location.range == Range(Position(1, 21), Position(1, 36)) &&
-//                information.tail.head.location.uri == s"$rootFolder/external-2.yaml" &&
-//                information.tail.head.location.range == Range(Position(1, 3), Position(1, 13))
-//            } should be(true)
 
             m.diagnostics.exists { d =>
               d.range == Range(Position(4, 7), Position(4, 19))
@@ -770,9 +706,70 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     }
   }
 
+  test("Trigger reparse when changed watched file") {
+    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
+      new MockDiagnosticClientNotifierWithTelemetryLog
+    withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
+      for {
+        _ <- server.testInitialize(
+          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(s"${filePath("ws1")}"))
+        )
+        _ <- setMainFile(server)(filePath("ws1"), "api.raml")
+        a <- diagnosticClientNotifier.nextCall
+        b <- diagnosticClientNotifier.nextCall
+        c <- diagnosticClientNotifier.nextCall // this should correspond to filesystem notifications
+        _ <- changeWatchedFiles(server)(filePath("ws1/type.json"), FileChangeType.Changed)
+        d <- diagnosticClientNotifier.nextCall
+        e <- diagnosticClientNotifier.nextCall
+        f <- diagnosticClientNotifier.nextCall
+      } yield {
+        server.shutdown()
+        val firstDiagnostics  = Set(a, b, c)
+        val secondDiagnostics = Set(d, e, f)
+        assert(firstDiagnostics == secondDiagnostics)
+      }
+    }
+  }
+
+  test("Workspace Manager check validation Stack - Performance case - wait") {
+    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
+      new MockDiagnosticClientNotifierWithTelemetryLog(60000)
+    withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
+      val rootFolder = s"${filePath("performance-stack")}"
+      for {
+        _ <- server.testInitialize(
+          AlsInitializeParams(
+            None,
+            Some(TraceKind.Off),
+            rootUri = Some(rootFolder)
+          )
+        )
+        _ <- setMainFile(server)(rootFolder, "references.raml")
+        a <- diagnosticClientNotifier.nextCall
+        b <- diagnosticClientNotifier.nextCall
+        c <- diagnosticClientNotifier.nextCall
+        d <- diagnosticClientNotifier.nextCall
+        e <- diagnosticClientNotifier.nextCall
+        f <- diagnosticClientNotifier.nextCall
+        g <- diagnosticClientNotifier.nextCall
+        h <- diagnosticClientNotifier.nextCall
+        i <- diagnosticClientNotifier.nextCall
+        j <- diagnosticClientNotifier.nextCall
+        k <- diagnosticClientNotifier.nextCall
+        m <- diagnosticClientNotifier.nextCall
+        n <- diagnosticClientNotifier.nextCall
+      } yield {
+        server.shutdown()
+        val allDiagnostics = Seq(a, b, c, d, e, f, g, h, i, j, k, m, n)
+        assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
+      }
+    }
+  }
+
   /** Used to log cases in which timeouts occur
     */
-  class MockDiagnosticClientNotifierWithTelemetryLog extends MockDiagnosticClientNotifier(8000) {
+  class MockDiagnosticClientNotifierWithTelemetryLog(timeoutMillis: Int = 8000)
+      extends MockDiagnosticClientNotifier(timeoutMillis) {
     override def notifyTelemetry(params: TelemetryMessage): Unit = {} // println(params)
   }
 
