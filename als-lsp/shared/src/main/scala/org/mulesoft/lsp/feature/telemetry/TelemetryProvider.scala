@@ -94,6 +94,12 @@ object MessageTypes extends Enumeration {
   val END_GET_WORKSPACE_CONFIGURATION           = "END_GET_WORKSPACE_CONFIGURATION"
   val BEGIN_EXCHANGE_CLIENT                     = "BEGIN_EXCHANGE_CLIENT"
   val END_EXCHANGE_CLIENT                       = "END_EXCHANGE_CLIENT"
+  val BEGIN_GET_DEPENDENCY_MODEL                = "BEGIN_GET_DEPENDENCY_MODEL"
+  val END_GET_DEPENDENCY_MODEL                  = "END_GET_DEPENDENCY_MODEL"
+  val BEGIN_GET_DESCRIPTOR                      = "BEGIN_GET_DESCRIPTOR"
+  val END_GET_DESCRIPTOR                        = "END_GET_DESCRIPTOR"
+  val BEGIN_SET_DESCRIPTOR                      = "BEGIN_SET_DESCRIPTOR"
+  val END_SET_DESCRIPTOR                        = "END_SET_DESCRIPTOR"
 }
 
 trait TelemetryProvider {
