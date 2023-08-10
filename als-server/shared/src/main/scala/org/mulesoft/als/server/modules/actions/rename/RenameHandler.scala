@@ -23,7 +23,6 @@ class RenameHandler(
     telemetryProvider: TelemetryProvider,
     workspace: WorkspaceManager,
     configurationReader: AlsConfigurationReader,
-    logger: Logger,
     platform: Platform
 ) extends TelemeteredRequestHandler[RenameParams, WorkspaceEdit]
     with RenameTools {
@@ -104,9 +103,9 @@ class RenameHandler(
         links    <- workspaceManager.getDocumentLinks(uri, uuid)
         allLinks <- workspaceManager.getAllDocumentLinks(uri, uuid)
       } yield {
-        logger.debug("got the following document links", "RenameFileActionManager", "rename")
+        Logger.debug("got the following document links", "RenameFileActionManager", "rename")
         links.foreach { l =>
-          logger.debug(s"${l.target}", "RenameFileActionManager", "rename")
+          Logger.debug(s"${l.target}", "RenameFileActionManager", "rename")
         }
         links
           .find(l => PositionRange(l.range).contains(position))

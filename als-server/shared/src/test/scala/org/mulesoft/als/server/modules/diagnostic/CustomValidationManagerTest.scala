@@ -62,7 +62,7 @@ class CustomValidationManagerTest
       diagnosticNotifier: MockDiagnosticClientNotifier,
       validator: BaseProfileValidatorBuilder
   ): LanguageServer = {
-    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
+    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, EditorConfiguration())
     val dm      = builder.buildDiagnosticManagers(Some(validator))
     val factory = builder.buildWorkspaceManagerFactory()
     val b = new LanguageServerBuilder(
@@ -80,7 +80,7 @@ class CustomValidationManagerTest
       validator: BaseProfileValidatorBuilder,
       s: SerializationProps[_]
   ): LanguageServer = {
-    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
+    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, EditorConfiguration())
     val dm      = builder.buildDiagnosticManagers(Some(validator))
     val sm      = builder.serializationManager(s)
     val factory = builder.buildWorkspaceManagerFactory()

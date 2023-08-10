@@ -22,7 +22,6 @@ class CodeActionManager(
     workspaceManager: WorkspaceManager,
     configuration: AlsConfigurationReader,
     telemetryProvider: TelemetryProvider,
-    private val logger: Logger,
     directoryResolver: DirectoryResolver
 ) extends RequestModule[CodeActionCapabilities, CodeActionOptions] {
 
@@ -67,8 +66,8 @@ class CodeActionManager(
                 .map(ca =>
                   ca.run(requestParams)
                     .recoverWith { case e: Exception =>
-                      logger.debug(s"CodeAction: ${ca.getClass}", "CodeActionManager", "task")
-                      logger.error(s"Error executing CodeAction: ${e.getMessage}", "CodeActionManager", "task")
+                      Logger.debug(s"CodeAction: ${ca.getClass}", "CodeActionManager", "task")
+                      Logger.error(s"Error executing CodeAction: ${e.getMessage}", "CodeActionManager", "task")
                       Future.successful(Seq.empty)
                     }
                 )
@@ -126,8 +125,8 @@ class CodeActionManager(
           .filter(a => c.codeActionLiteralSupport.forall(_.codeActionKind.valueSet.contains(a.kind)))
       case None => usedActions = allActions
     }
-    logger.debug(s"actions to be used:\n${usedActions.map(_.title).mkString("\n")}", "CodeActionManager", "applyConfig")
-    logger.debug(
+    Logger.debug(s"actions to be used:\n${usedActions.map(_.title).mkString("\n")}", "CodeActionManager", "applyConfig")
+    Logger.debug(
       s"supports documentChanges: ${configuration.supportsDocumentChanges}",
       "CodeActionManager",
       "applyConfig"

@@ -82,11 +82,11 @@ class DiagnosticServerImpl extends LanguageServerBaseTest with DiagnosticServer 
   }
 
   def buildServer(
-                   diagnosticNotifier: MockDiagnosticClientNotifier,
-                   validator: Option[BaseProfileValidatorBuilder] = None
-                 ): LanguageServer = {
+      diagnosticNotifier: MockDiagnosticClientNotifier,
+      validator: Option[BaseProfileValidatorBuilder] = None
+  ): LanguageServer = {
     val global  = EditorConfiguration.withPlatformLoaders(Seq(rl))
-    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, global)
+    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, global)
     val dm      = builder.buildDiagnosticManagers(validator)
     val factory = builder.buildWorkspaceManagerFactory()
     val b = new LanguageServerBuilder(

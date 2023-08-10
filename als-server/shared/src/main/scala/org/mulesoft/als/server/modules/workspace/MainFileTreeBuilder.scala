@@ -81,10 +81,9 @@ object ParsedMainFileTree {
 object MainFileTreeBuilder {
   def build(
       amfParseResult: AmfParseResult,
-      visitors: AmfElementVisitors,
-      logger: Logger
+      visitors: AmfElementVisitors
   ): Future[ParsedMainFileTree] = Future {
-    handleVisit(visitors, logger, amfParseResult.result.baseUnit, amfParseResult.context)
+    handleVisit(visitors, amfParseResult.result.baseUnit, amfParseResult.context)
     val tree = ParsedMainFileTree(
       amfParseResult.result,
       visitors.getRelationshipsFromVisitors,
@@ -99,7 +98,6 @@ object MainFileTreeBuilder {
 
   private def handleVisit(
       visitors: AmfElementVisitors,
-      logger: Logger,
       unit: BaseUnit,
       context: AmfParseContext
   ): Unit = {
@@ -107,7 +105,7 @@ object MainFileTreeBuilder {
       visitors.applyAmfVisitors(unit, context)
     } catch {
       case e: Throwable =>
-        logger.error(e.getMessage, "MainFileTreeBuilder", "Handle Visitors")
+        Logger.error(e.getMessage, "MainFileTreeBuilder", "Handle Visitors")
     }
   }
 }

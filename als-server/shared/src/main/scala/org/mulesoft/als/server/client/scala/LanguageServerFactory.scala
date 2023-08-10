@@ -6,7 +6,7 @@ import amf.core.client.scala.validation.payload.AMFShapePayloadValidationPlugin
 import amf.custom.validation.client.ProfileValidatorWebBuilder
 import amf.custom.validation.client.scala.{BaseProfileValidatorBuilder, CustomValidator, ProfileValidatorExecutor}
 import org.mulesoft.als.common.DirectoryResolver
-import org.mulesoft.als.logger.{Logger, PrintLnLogger}
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.modules.ast.WorkspaceContentListener
 import org.mulesoft.als.server.modules.diagnostic.{DiagnosticNotificationsKind, PARSING_BEFORE}
@@ -24,7 +24,6 @@ class LanguageServerFactory(
     profileValidatorBuilder: BaseProfileValidatorBuilder = ProfileValidatorWebBuilder
 ) {
   protected var serialization: SerializationProps[_]                        = new EmptySerializationProps
-  protected var logger: Logger                                              = PrintLnLogger
   protected var notificationsKind: DiagnosticNotificationsKind              = PARSING_BEFORE
   protected var directoryResolver: Option[DirectoryResolver]                = None
   protected var rl: Seq[ResourceLoader]                                     = EditorConfiguration.platform.loaders()
@@ -55,7 +54,7 @@ class LanguageServerFactory(
   }
 
   def withLogger(logger: Logger): this.type = {
-    this.logger = logger
+    Logger.withLogger(logger)
     this
   }
 
@@ -102,11 +101,10 @@ class LanguageServerFactory(
 
   def build(): LanguageServer = {
     val resourceLoaders     = if (rl.isEmpty) EditorConfiguration.platform.loaders() else rl
-    val editorConfiguration = new EditorConfiguration(resourceLoaders, Seq.empty, plugins, logger)
+    val editorConfiguration = new EditorConfiguration(resourceLoaders, Seq.empty, plugins)
     val factory =
       new WorkspaceManagerFactoryBuilder(
         clientNotifier,
-        logger,
         editorConfiguration,
         configurationProvider,
         textDocumentSyncBuilder
@@ -140,8 +138,7 @@ class LanguageServerFactory(
       builders.documentManager,
       builders.workspaceManager,
       builders.configurationManager,
-      builders.resolutionTaskManager,
-      logger
+      builders.resolutionTaskManager
     )
       .addInitializable(builders.workspaceManager)
       .addInitializable(builders.resolutionTaskManager)

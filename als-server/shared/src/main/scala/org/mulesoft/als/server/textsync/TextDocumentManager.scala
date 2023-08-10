@@ -14,8 +14,7 @@ import scala.language.experimental.macros
 
 class TextDocumentManager(
     override val uriToEditor: TextDocumentContainer,
-    val dependencies: List[TextListener],
-    protected val logger: Logger
+    val dependencies: List[TextListener]
 ) extends AlsTextDocumentSyncConsumer {
 
   implicit private val platform: Platform = this.uriToEditor.platform
@@ -26,7 +25,7 @@ class TextDocumentManager(
   override def applyConfig(
       config: Option[SynchronizationClientCapabilities]
   ): Either[TextDocumentSyncKind, TextDocumentSyncOptions] = {
-    logger.debug("Config applied", "TextDocumentManager", "applyConfig")
+    Logger.debug("Config applied", "TextDocumentManager", "applyConfig")
 
     Right(
       TextDocumentSyncOptions(
@@ -41,7 +40,7 @@ class TextDocumentManager(
 
   def onOpenDocument(document: OpenedDocument): Future[Unit] = {
 
-    logger.debug(s"Document is opened ${document.uri}", "EditorManager", "onOpenDocument")
+    Logger.debug(s"Document is opened ${document.uri}", "EditorManager", "onOpenDocument")
 
     val syntax = determineSyntax(document.uri, document.text)
 
@@ -51,7 +50,7 @@ class TextDocumentManager(
   }
 
   def documentWasChanged(document: ChangedDocument): Future[Unit] = {
-    logger.debug(s"Document is changed ${document.uri}", "EditorManager", "onChangeDocument")
+    Logger.debug(s"Document is changed ${document.uri}", "EditorManager", "onChangeDocument")
 
     uriToEditor
       .get(document.uri)
@@ -60,14 +59,14 @@ class TextDocumentManager(
         val currentText    = current.text
 
         if (currentVersion == document.version)
-          this.logger.debug(
+          Logger.debug(
             s"Version of the reported change is equal to the previous one at ${document.uri}",
             "EditorManager",
             "onChangeDocument"
           )
 
         if (document.version < currentVersion && document.text.contains(currentText))
-          this.logger.debug(s"No changes detected for ${document.uri}", "EditorManager", "onChangeDocument")
+          Logger.debug(s"No changes detected for ${document.uri}", "EditorManager", "onChangeDocument")
 
       })
 
@@ -79,7 +78,7 @@ class TextDocumentManager(
   }
 
   def onCloseDocument(uri: String): Future[Unit] = {
-    logger.debug(s"Document closed $uri", "EditorManager", "onCloseDocument")
+    Logger.debug(s"Document closed $uri", "EditorManager", "onCloseDocument")
     uriToEditor.remove(uri)
     Future.sequence(this.dependencies.map(_.notify(uri, CLOSE_FILE))).flatMap(_ => Future.unit)
   }
@@ -90,7 +89,7 @@ class TextDocumentManager(
   override def didOpen(params: DidOpenTextDocumentParams): Future[Unit] = {
     val uri = params.textDocument.uri
     if (!uri.isValidFileUri)
-      logger.warning(s"Adding invalid URI file to manager: $uri", "TextDocumentManager", "didOpen")
+      Logger.warning(s"Adding invalid URI file to manager: $uri", "TextDocumentManager", "didOpen")
     onOpenDocument(OpenedDocument(uri.toAmfUri, params.textDocument.version, params.textDocument.text))
   }
 
@@ -100,7 +99,7 @@ class TextDocumentManager(
     val text     = params.contentChanges.headOption.map(_.text)
     val uri      = document.uri
     if (!uri.isValidFileUri)
-      logger.warning(s"Editing invalid URI file to manager: $uri", "TextDocumentManager", "didChange")
+      Logger.warning(s"Editing invalid URI file to manager: $uri", "TextDocumentManager", "didChange")
 
     documentWasChanged(ChangedDocument(uri.toAmfUri, version, text, None))
   }
@@ -108,7 +107,7 @@ class TextDocumentManager(
   override def didClose(params: DidCloseTextDocumentParams): Future[Unit] = {
     val uri = params.textDocument.uri
     if (!uri.isValidFileUri)
-      logger.warning(s"Removing invalid URI file to manager: $uri", "TextDocumentManager", "didClose")
+      Logger.warning(s"Removing invalid URI file to manager: $uri", "TextDocumentManager", "didClose")
     onCloseDocument(uri.toAmfUri)
   }
 

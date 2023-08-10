@@ -19,27 +19,26 @@ import scala.util.{Failure, Success}
 class ResolutionDiagnosticManager(
     override protected val telemetryProvider: TelemetryProvider,
     override protected val clientNotifier: ClientNotifier,
-    override protected val logger: Logger,
     override protected val validationGatherer: ValidationGatherer
 ) extends ResolvedUnitListener
     with DiagnosticManager {
   type RunType = ValidationRunnable
   override val managerName: DiagnosticManagerKind = ResolutionDiagnosticKind
   protected override def runnable(ast: AmfResolvedUnit, uuid: String): ValidationRunnable = {
-    logger.debug(s"Add runnable ${ast.baseUnit.identifier}", "ResolutionDiagnosticManager", "runnable")
+    Logger.debug(s"Add runnable ${ast.baseUnit.identifier}", "ResolutionDiagnosticManager", "runnable")
     new ValidationRunnable(ast.baseUnit.identifier, ast, uuid)
   }
 
   protected override def onNewAstPreprocess(resolved: AmfResolvedUnit, uuid: String): Unit =
-    logger.debug("Got new AST:\n" + resolved.baseUnit.id, "ResolutionDiagnosticManager", "newASTAvailable")
+    Logger.debug("Got new AST:\n" + resolved.baseUnit.id, "ResolutionDiagnosticManager", "newASTAvailable")
 
   protected override def onFailure(uuid: String, uri: String, exception: Throwable): Unit = {
-    logger.error(s"Error on validation: ${exception.toString}", "ResolutionDiagnosticManager", "newASTAvailable")
+    Logger.error(s"Error on validation: ${exception.toString}", "ResolutionDiagnosticManager", "newASTAvailable")
     clientNotifier.notifyDiagnostic(ValidationReport(uri, Set.empty, ProfileNames.AMF).publishDiagnosticsParams)
   }
 
   protected override def onSuccess(uuid: String, uri: String): Unit =
-    logger.debug(s"End report: $uuid", "ResolutionDiagnosticManager", "newASTAvailable")
+    Logger.debug(s"End report: $uuid", "ResolutionDiagnosticManager", "newASTAvailable")
 
   private def gatherValidationErrors(
       uri: String,
@@ -62,7 +61,7 @@ class ResolutionDiagnosticManager(
           )
         notifyReport(uri, resolved.baseUnit, refs, managerName, profile)
 
-        this.logger.debug(
+        Logger.debug(
           s"It took ${endTime - startTime} milliseconds to validate",
           "ResolutionDiagnosticManager",
           "gatherValidationErrors"
@@ -102,24 +101,24 @@ class ResolutionDiagnosticManager(
       profile: ProfileName
   )() =
     try {
-      logger.debug("starting", "ResolutionDiagnosticManager", "tryValidationReport")
+      Logger.debug("starting", "ResolutionDiagnosticManager", "tryValidationReport")
       resolved.getLast.flatMap { r =>
         r.resolvedUnit
           .flatMap { result =>
             r.configuration
               .report(result.baseUnit)
               .map(rep => {
-                logger.debug("finishing", "ResolutionDiagnosticManager", "tryValidationReport")
+                Logger.debug("finishing", "ResolutionDiagnosticManager", "tryValidationReport")
                 AMFValidationReport(rep.model, rep.profile, rep.results ++ result.results)
               })
           }
       } recoverWith { case e: Exception =>
-        logger.debug(s"recovering from: ${e.getMessage}", "ResolutionDiagnosticManager", "tryValidationReport")
+        Logger.debug(s"recovering from: ${e.getMessage}", "ResolutionDiagnosticManager", "tryValidationReport")
         sendFailedClone(uri, telemetryProvider, resolved.baseUnit, uuid, e.getMessage)
       }
     } catch {
       case e: Exception =>
-        logger.debug(s"failed with: ${e.getMessage}", "ResolutionDiagnosticManager", "tryValidationReport")
+        Logger.debug(s"failed with: ${e.getMessage}", "ResolutionDiagnosticManager", "tryValidationReport")
         sendFailedClone(uri, telemetryProvider, resolved.baseUnit, uuid, e.getMessage)
     }
 
@@ -136,7 +135,7 @@ class ResolutionDiagnosticManager(
     def run(): Promise[Unit] = {
       val promise = Promise[Unit]()
 
-      logger.debug("Running", "ResolutionDiagnosticManager", "run")
+      Logger.debug("Running", "ResolutionDiagnosticManager", "run")
 
       def innerRunGather(): Future[Unit] =
         gatherValidationErrors(ast.baseUnit.identifier, ast, ast.documentLinks, uuid) andThen {

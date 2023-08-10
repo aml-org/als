@@ -14,7 +14,6 @@ import scala.concurrent.Future
 class ParseDiagnosticManager(
     override protected val telemetryProvider: TelemetryProvider,
     override protected val clientNotifier: ClientNotifier,
-    override protected val logger: Logger,
     override protected val validationGatherer: ValidationGatherer,
     override protected val optimizationKind: DiagnosticNotificationsKind
 ) extends BaseUnitListener
@@ -36,7 +35,7 @@ class ParseDiagnosticManager(
        else
          Map.empty) ++
         params.locationLinks
-    logger.debug("Got new AST:\n" + parsedResult.result.baseUnit.id, "ParseDiagnosticManager", "newASTAvailable")
+    Logger.debug("Got new AST:\n" + parsedResult.result.baseUnit.id, "ParseDiagnosticManager", "newASTAvailable")
     val uri = parsedResult.location
     telemetryProvider.timeProcess(
       "Start report",
@@ -56,7 +55,7 @@ class ParseDiagnosticManager(
       uri: String
   )() =
     gatherValidationErrors(parsedResult, references, uuid) recoverWith { case exception: Exception =>
-      logger.error("Error on validation: " + exception.toString, "ParseDiagnosticManager", "newASTAvailable")
+      Logger.error("Error on validation: " + exception.toString, "ParseDiagnosticManager", "newASTAvailable")
       Future {
         clientNotifier.notifyDiagnostic(ValidationReport(uri, Set.empty, ProfileNames.AMF).publishDiagnosticsParams)
       }

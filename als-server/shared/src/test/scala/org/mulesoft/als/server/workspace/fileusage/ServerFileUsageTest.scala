@@ -40,7 +40,6 @@ trait ServerFileUsageTest extends LanguageServerBaseTest {
     val factory =
       new WorkspaceManagerFactoryBuilder(
         new MockDiagnosticClientNotifier,
-        logger,
         EditorConfiguration.withPlatformLoaders(Seq(rs))
       )
         .buildWorkspaceManagerFactory()

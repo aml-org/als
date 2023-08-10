@@ -22,7 +22,7 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
   private val factory =
-    new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier(), logger, EditorConfiguration())
+    new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier(), EditorConfiguration())
       .buildWorkspaceManagerFactory()
   private val workspaceFile                   = "ws/sub/type.raml"
   private val workspaceIncludedFilePath       = filePath("ws/includes/type.json")
@@ -97,7 +97,7 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
 
   class WorkspaceLinkHandler(rootFolder: String, mainFile: Option[String]) {
     val clientNotifier                     = new MockDiagnosticClientNotifier()
-    val telemetryManager: TelemetryManager = new TelemetryManager(clientNotifier, logger)
+    val telemetryManager: TelemetryManager = new TelemetryManager(clientNotifier)
 
     val workspaceManager: WorkspaceManager = {
       val editorConfiguration = EditorConfiguration()
@@ -105,8 +105,7 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
       val defaultProjectConfigurationProvider =
         new DefaultProjectConfigurationProvider(
           container,
-          editorConfiguration,
-          logger
+          editorConfiguration
         )
       WorkspaceManager(
         container,
@@ -115,13 +114,12 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
         defaultProjectConfigurationProvider,
         Nil,
         Nil,
-        logger,
         factory.configurationManager
       )
     }
 
     val documentLinksManager: DocumentLinksManager =
-      new DocumentLinksManager(workspaceManager, telemetryManager, logger)
+      new DocumentLinksManager(workspaceManager, telemetryManager)
 
     def init(): Future[Unit] =
       workspaceManager

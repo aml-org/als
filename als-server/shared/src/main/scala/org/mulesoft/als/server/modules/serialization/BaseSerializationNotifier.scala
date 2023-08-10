@@ -15,8 +15,7 @@ import org.mulesoft.amfintegration.amfconfiguration.AMLSpecificConfiguration
 
 abstract class BaseSerializationNotifier[S](
     props: SerializationProps[S],
-    configurationReader: AlsConfigurationReader,
-    logger: Logger
+    configurationReader: AlsConfigurationReader
 ) extends ClientNotifierModule[SerializationClientCapabilities, SerializationServerOptions] {
 
   protected def enabled: Boolean = BaseSerializationNotifierState.enabled
@@ -32,7 +31,7 @@ abstract class BaseSerializationNotifier[S](
 
   override def applyConfig(config: Option[SerializationClientCapabilities]): SerializationServerOptions = {
     config.foreach(c => BaseSerializationNotifierState.enabled = c.acceptsNotification)
-    logger.debug(s"Serialization manager enabled: $enabled", "SerializationManager", "applyConfig")
+    Logger.debug(s"Serialization manager enabled: $enabled", "SerializationManager", "applyConfig")
     SerializationServerOptions(true)
   }
 }

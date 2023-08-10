@@ -11,7 +11,7 @@ import org.yaml.model.{YMap, YMapEntry, YScalar, YSequence}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceManager)
+class DidChangeConfigurationCommandExecutor(wsc: WorkspaceManager)
     extends CommandExecutor[DidChangeConfigurationNotificationParams, Unit] {
 
   override protected def treatParams(arguments: List[String]): List[String] =
@@ -30,7 +30,7 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
       .flatMap(e => e.value.toOption[String])
       .orElse(mainPath)
       .getOrElse({
-        logger.error(
+        Logger.error(
           "Change configuration command with no folder value or mainPath",
           "DidChangeConfigurationCommandExecutor",
           "buildParamFromMap"
@@ -67,7 +67,7 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
 
   override protected def runCommand(param: DidChangeConfigurationNotificationParams): Future[Unit] =
     wsc.getWorkspace(param.folder).flatMap { manager =>
-      logger.debug(
+      Logger.debug(
         s"DidChangeConfiguration for workspace @ ${manager.folderUri} (folder: ${param.folder}, mainPath:${param.mainPath})",
         "DidChangeConfigurationCommandExecutor",
         "runCommand"
@@ -87,7 +87,7 @@ class DidChangeConfigurationCommandExecutor(val logger: Logger, wsc: WorkspaceMa
         extractPerScope(param, SEMANTIC_EXTENSION),
         extractPerScope(param, DIALECT)
       )
-      logger.debug(
+      Logger.debug(
         s"Workspace '${projectConfiguration.folder}' new configuration { mainFile: ${projectConfiguration.mainFile}, dependencies: ${projectConfiguration.designDependency}, profiles: ${projectConfiguration.validationDependency} }",
         "WorkspaceManager",
         "contentManagerConfiguration"

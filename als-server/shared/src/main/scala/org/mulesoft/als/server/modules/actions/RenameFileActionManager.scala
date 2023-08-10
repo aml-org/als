@@ -20,7 +20,6 @@ import scala.concurrent.Future
 class RenameFileActionManager(
     val workspace: WorkspaceManager,
     private val telemetryProvider: TelemetryProvider,
-    private val logger: Logger,
     private val configReader: AlsConfigurationReader,
     private val platform: Platform
 ) extends RequestModule[RenameFileActionClientCapabilities, RenameFileActionOptions] {
@@ -69,10 +68,10 @@ class RenameFileActionManager(
       for {
         links <- workspace.getAllDocumentLinks(oldDocument.uri, uuid)
       } yield {
-        logger.debug("got the following document links", "RenameFileActionManager", "rename")
+        Logger.debug("got the following document links", "RenameFileActionManager", "rename")
         links.toSeq.foreach { tuple =>
           tuple._2.map(_.target).foreach { target =>
-            logger.debug(s"${tuple._1} - $target", "RenameFileActionManager", "rename")
+            Logger.debug(s"${tuple._1} - $target", "RenameFileActionManager", "rename")
           }
         }
 

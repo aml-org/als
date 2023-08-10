@@ -38,8 +38,7 @@ trait EditorConfigurationProvider {
 case class EditorConfiguration(
     resourceLoaders: Seq[ResourceLoader],
     syntaxPlugins: Seq[AMFSyntaxParsePlugin],
-    validationPlugin: Seq[AMFShapePayloadValidationPlugin],
-    logger: Logger
+    validationPlugin: Seq[AMFShapePayloadValidationPlugin]
 ) extends EditorConfigurationProvider { // todo: add hot reload
 
   val baseConfiguration: AMLConfiguration = AMLConfiguration
@@ -116,14 +115,14 @@ case class EditorConfiguration(
   def withDialect(uri: String): EditorConfiguration = synchronized {
     dialects = uri +: dialects
     parsedDialects = parseDialects
-    logger.debug(s"New editor dialect: $uri", "EditorConfiguration", "indexDialect")
+    Logger.debug(s"New editor dialect: $uri", "EditorConfiguration", "indexDialect")
     this
   }
 
   def withProfile(uri: String): EditorConfiguration = synchronized {
     profiles = uri +: profiles
     parsedProfiles = parseProfiles
-    logger.debug(s"New editor validation profile: $uri", "EditorConfiguration", "indexProfile")
+    Logger.debug(s"New editor validation profile: $uri", "EditorConfiguration", "indexProfile")
     this
   }
 }
@@ -154,14 +153,12 @@ object EditorConfigurationState {
 
 object EditorConfiguration extends PlatformSecrets {
   def apply(): EditorConfiguration = withPlatformLoaders(Seq.empty)
-  def apply(logger: Logger): EditorConfiguration =
-    EditorConfiguration(platform.loaders(), Seq.empty, Seq.empty, logger)
 
   def withPlatformLoaders(rls: Seq[ResourceLoader]): EditorConfiguration =
-    EditorConfiguration(rls ++ platform.loaders(), Seq.empty, Seq.empty, EmptyLogger)
+    EditorConfiguration(rls ++ platform.loaders(), Seq.empty, Seq.empty)
 
   def withoutPlatformLoaders(rls: Seq[ResourceLoader]): EditorConfiguration =
-    EditorConfiguration(rls, Seq.empty, Seq.empty, EmptyLogger)
+    EditorConfiguration(rls, Seq.empty, Seq.empty)
 
 }
 

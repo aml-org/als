@@ -3,18 +3,18 @@ package org.mulesoft.als.server.modules.completion.raml
 import amf.core.client.common.remote.Content
 import amf.core.client.scala.resource.ResourceLoader
 import org.mulesoft.als.common.DirectoryResolver
+import org.mulesoft.als.common.URIImplicits._
+import org.mulesoft.als.server.MockDiagnosticClientNotifier
+import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.protocol.configuration.AlsInitializeParams
 import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.als.server.MockDiagnosticClientNotifier
+import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.configuration.TraceKind
 import org.mulesoft.lsp.feature.common.{Position, TextDocumentIdentifier, TextDocumentItem}
 import org.mulesoft.lsp.feature.completion.{CompletionParams, CompletionRequestType}
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
-import org.mulesoft.als.common.URIImplicits._
-import org.mulesoft.als.server.client.scala.LanguageServerBuilder
-import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -60,7 +60,7 @@ class DifferentEncodingTest extends RAMLSuggestionTestServer {
     }
     val global = EditorConfiguration.withPlatformLoaders(Seq(rs))
     val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger, global)
+      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, global)
         .withDirectoryResolver(dr)
         .buildWorkspaceManagerFactory()
     val workspaceManager: WorkspaceManager = factory.workspaceManager

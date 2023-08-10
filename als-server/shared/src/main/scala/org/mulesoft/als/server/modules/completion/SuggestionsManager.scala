@@ -26,7 +26,6 @@ class SuggestionsManager(
     val workspace: WorkspaceManager,
     private val telemetryProvider: TelemetryProvider,
     val directoryResolver: DirectoryResolver,
-    private val logger: Logger,
     private val configurationProvider: ConfigurationProvider
 ) extends RequestModule[CompletionClientCapabilities, CompletionOptions] {
 
@@ -91,7 +90,7 @@ class SuggestionsManager(
       position: Position,
       telemetryUUID: String
   ): Future[Seq[CompletionItem]] = {
-    logger.debug(
+    Logger.debug(
       s"Disable Templates: ${configurationProvider.getConfiguration.getTemplateType}",
       "SuggestionsManager",
       "onDocumentCompletion"

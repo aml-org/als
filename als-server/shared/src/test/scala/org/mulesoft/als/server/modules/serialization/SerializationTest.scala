@@ -680,7 +680,7 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
       withDiagnostics: Boolean = false
   ): LanguageServer = {
     val factoryBuilder: WorkspaceManagerFactoryBuilder =
-      new WorkspaceManagerFactoryBuilder(notifier, logger, EditorConfiguration())
+      new WorkspaceManagerFactoryBuilder(notifier, EditorConfiguration())
     val dm = factoryBuilder.buildDiagnosticManagers(Some(DummyProfileValidator))
     val serializationManager: SerializationManager[StringWriter] =
       factoryBuilder.serializationManager(serializationProps)

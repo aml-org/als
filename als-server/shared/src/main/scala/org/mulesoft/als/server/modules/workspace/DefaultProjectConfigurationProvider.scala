@@ -44,8 +44,7 @@ sealed class ConfigurationMap {
 
 class DefaultProjectConfigurationProvider(
     environmentProvider: EnvironmentProvider,
-    editorConfiguration: EditorConfigurationProvider,
-    logger: Logger
+    editorConfiguration: EditorConfigurationProvider
 ) extends ProjectConfigurationProvider {
 
   val configurationMap = new ConfigurationMap
@@ -78,8 +77,7 @@ class DefaultProjectConfigurationProvider(
         projectConfiguration,
         environmentProvider,
         Seq.empty, // todo: add projects errors such as "file.yaml" is not a profile
-        editorConfiguration,
-        logger
+        editorConfiguration
       )
     }
     configurationMap.update(c, projectConfiguration)
@@ -113,12 +111,12 @@ class DefaultProjectConfigurationProvider(
       .map(e => {
         if (e.isValidUri) e // full URI received
         else {
-          logger.warning(s"Invalid dialect uri: $e", "DefaultProjectConfigurationProvider", "parseDialects")
+          Logger.warning(s"Invalid dialect uri: $e", "DefaultProjectConfigurationProvider", "parseDialects")
           e
         }
       })
     newDialects.foreach(e =>
-      logger
+      Logger
         .debug(s"Parsing & registering $e as dialect", "DefaultProjectConfigurationProvider", "registerNewDialects")
     )
     Future
@@ -131,7 +129,7 @@ class DefaultProjectConfigurationProvider(
                 case d: Dialect =>
                   Some((d, r))
                 case b =>
-                  logger.error(
+                  Logger.error(
                     s"The following dialect: ${b.identifier} is not valid",
                     "DefaultProjectConfigurationProvider",
                     "registerNewDialects"
@@ -157,7 +155,7 @@ class DefaultProjectConfigurationProvider(
 //          updateUnit(uuid, r, isDependency = true) //todo: cache
           r._1.dialectInstance match {
             case instance: DialectInstance =>
-              logger.debug(
+              Logger.debug(
                 "Adding validation profile: " + instance.identifier,
                 "DefaultProjectConfigurationProvider",
                 "registerNewValidationProfiles"
@@ -166,7 +164,7 @@ class DefaultProjectConfigurationProvider(
             case _ => None
           }
         } else {
-          logger.error(
+          Logger.error(
             s"The following validation profile: ${r._1.baseUnit.identifier} is not valid",
             "DefaultProjectConfigurationProvider",
             "registerNewValidationProfiles"
@@ -195,12 +193,11 @@ case class DefaultProjectConfiguration(
     override val config: ProjectConfiguration,
     private val environmentProvider: EnvironmentProvider,
     override val projectErrors: Seq[AMFValidationResult],
-    private val editorConfiguration: EditorConfigurationProvider,
-    private val logger: Logger
+    private val editorConfiguration: EditorConfigurationProvider
 ) extends ProjectConfigurationState {
 
   val cacheBuilder: CacheBuilder =
-    new CacheBuilder(config.folder, config.designDependency, environmentProvider, editorConfiguration, logger)
+    new CacheBuilder(config.folder, config.designDependency, environmentProvider, editorConfiguration)
   override def cache: UnitCache = cacheBuilder.buildUnitCache
 
   override val resourceLoaders: Seq[ResourceLoader] = Nil
@@ -210,8 +207,7 @@ class CacheBuilder(
     folder: String,
     cacheables: Set[String],
     private val environmentProvider: EnvironmentProvider,
-    private val editorConfiguration: EditorConfigurationProvider,
-    logger: Logger
+    private val editorConfiguration: EditorConfigurationProvider
 ) {
 
   private val cache: mutable.Map[String, BaseUnit] = mutable.Map.empty
@@ -263,10 +259,10 @@ class CacheBuilder(
             .report(resolved.baseUnit)
             .map { r =>
               if (r.conforms) {
-                logger.debug(s"Caching ${bu.identifier}", "CacheBuilder", "cache")
+                Logger.debug(s"Caching ${bu.identifier}", "CacheBuilder", "cache")
                 cache.put(bu.identifier, resolved.baseUnit)
               } else {
-                logger.debug(s"Skipping ${bu.identifier} from cache as it does not conform", "CacheBuilder", "cache")
+                Logger.debug(s"Skipping ${bu.identifier} from cache as it does not conform", "CacheBuilder", "cache")
               }
               Unit
             }
@@ -274,7 +270,7 @@ class CacheBuilder(
       })
     eventualUnit
       .recoverWith { case e: Throwable => // ignore
-        logger.error(
+        Logger.error(
           s"Error while resolving cachable unit: ${bu.identifier}. Message ${e.getMessage} at $folder",
           "CacheBuilder",
           "Cache unit"

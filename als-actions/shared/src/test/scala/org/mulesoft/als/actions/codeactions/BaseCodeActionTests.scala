@@ -169,7 +169,7 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
   }
 
   protected val dummyTelemetryProvider: TelemetryProvider = new TelemetryProvider {
-    override protected def addTimedMessage(
+    override def addTimedMessage(
         code: String,
         messageType: MessageTypes,
         msg: String,

@@ -13,8 +13,7 @@ import scala.concurrent.Future
 
 class DocumentLinksManager(
     val workspaceManager: UnitWorkspaceManager,
-    private val telemetryProvider: TelemetryProvider,
-    private val logger: Logger
+    private val telemetryProvider: TelemetryProvider
 ) extends RequestModule[DocumentLinkClientCapabilities, DocumentLinkOptions] {
 
   override val `type`: ConfigType[DocumentLinkClientCapabilities, DocumentLinkOptions] =

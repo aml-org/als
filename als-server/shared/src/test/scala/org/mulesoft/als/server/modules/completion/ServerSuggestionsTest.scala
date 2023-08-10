@@ -23,7 +23,7 @@ abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherV
   def buildServer(): LanguageServer = {
 
     val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
+      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier).buildWorkspaceManagerFactory()
     new LanguageServerBuilder(
       factory.documentManager,
       factory.workspaceManager,

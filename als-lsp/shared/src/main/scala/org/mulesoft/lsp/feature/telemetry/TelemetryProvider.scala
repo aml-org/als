@@ -104,7 +104,7 @@ object MessageTypes extends Enumeration {
 
 trait TelemetryProvider {
 
-  protected def addTimedMessage(code: String, messageType: MessageTypes, msg: String, uri: String, uuid: String): Unit
+  def addTimedMessage(code: String, messageType: MessageTypes, msg: String, uri: String, uuid: String): Unit
   def addErrorMessage(code: String, msg: String, uri: String, uuid: String): Unit
 
   final def timeProcess[T](

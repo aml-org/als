@@ -10,8 +10,7 @@ import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
 @JSExportAll
 @JSExportTopLevel("ClientNotifierFactory")
 object ClientNotifierFactory {
-  def createWithClientAware(
-      logger: JsClientLogger
-  ): ClientNotifier with LspLanguageClientAware with AlsClientNotifier[js.Any] with AlsLanguageClientAware[js.Any] =
-    ClientConnection[js.Any](ClientLoggerAdapter(logger))
+  def createWithClientAware
+      : ClientNotifier with LspLanguageClientAware with AlsClientNotifier[js.Any] with AlsLanguageClientAware[js.Any] =
+    ClientConnection[js.Any]()
 }

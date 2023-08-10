@@ -38,7 +38,6 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     val builder =
       new WorkspaceManagerFactoryBuilder(
         diagnosticClientNotifier,
-        logger,
         EditorConfiguration.withPlatformLoaders(Seq(fakeRl))
       )
 

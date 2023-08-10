@@ -2,7 +2,6 @@ package org.mulesoft.als.server.modules.foldings
 
 import amf.core.client.common.remote.Content
 import amf.core.client.scala.resource.ResourceLoader
-import org.mulesoft.als.logger.EmptyLogger
 import org.mulesoft.als.server.MockDiagnosticClientNotifier
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
@@ -126,7 +125,7 @@ class FoldingRangeTest extends AsyncFreeSpecLike {
     }
     val editorConfiguration = EditorConfiguration.withPlatformLoaders(Seq(rs))
     val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, EmptyLogger, editorConfiguration)
+      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, editorConfiguration)
         .buildWorkspaceManagerFactory()
     val workspaceManager: WorkspaceManager = factory.workspaceManager
     val server =

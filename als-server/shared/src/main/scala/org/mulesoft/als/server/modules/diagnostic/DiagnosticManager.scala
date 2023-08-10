@@ -38,7 +38,7 @@ trait BasicDiagnosticManager[C, S] extends ClientNotifierModule[C, S] {
   protected val telemetryProvider: TelemetryProvider
   protected val optimizationKind: DiagnosticNotificationsKind = ALL_TOGETHER
   protected val notifyParsing: Boolean                        = optimizationKind == PARSING_BEFORE
-  protected val logger: Logger
+
   override def initialize(): Future[Unit] = Future.successful()
 
   protected def profileName(baseUnit: BaseUnit): ProfileName =
@@ -57,7 +57,7 @@ trait BasicDiagnosticManager[C, S] extends ClientNotifierModule[C, S] {
   ): Future[AMFValidationReport] = {
     val msg =
       s"DiagnosticManager suffered an unexpected error while validating: $e"
-    logger.warning(msg, "DiagnosticManager", "report")
+    Logger.warning(msg, "DiagnosticManager", "report")
     Future.successful(failedReportDiagnostic(msg, baseUnit))
   }
 
@@ -87,7 +87,7 @@ trait BasicDiagnosticManager[C, S] extends ClientNotifierModule[C, S] {
           baseUnit +: baseUnit.flatRefs
         ).map(bu => bu.identifier -> bu.isInstanceOf[ExternalFragment]).toMap
       )
-    logger.debug(
+    Logger.debug(
       s"Number of ${step.name} errors is:\n" + errors.flatMap(_.issues).length,
       "ValidationManager",
       "newASTAvailable"

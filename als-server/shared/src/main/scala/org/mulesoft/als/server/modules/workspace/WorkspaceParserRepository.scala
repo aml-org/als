@@ -11,7 +11,7 @@ import org.mulesoft.lsp.feature.link.DocumentLink
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class WorkspaceParserRepository(logger: Logger) extends Repository[ParsedUnit] {
+class WorkspaceParserRepository() extends Repository[ParsedUnit] {
 
   private def visitors(bu: BaseUnit) = AmfElementDefaultVisitors.build(bu)
 
@@ -40,7 +40,7 @@ class WorkspaceParserRepository(logger: Logger) extends Repository[ParsedUnit] {
   def treeUnits(): Iterable[ParsedUnit] = tree.parsedUnits.values
 
   def updateUnit(result: AmfParseResult): Unit = {
-    logger.debug(s"updating ${result.result.baseUnit.location()}", "WorkspaceParserRepository", "updateUnit")
+    Logger.debug(s"updating ${result.result.baseUnit.location()}", "WorkspaceParserRepository", "updateUnit")
     if (tree.contains(result.result.baseUnit.identifier)) throw new Exception("Cannot update an unit from the tree")
     val unit = ParsedUnit(result, inTree = false, result.definedBy)
     updateUnit(result.result.baseUnit.identifier, unit)
@@ -51,7 +51,7 @@ class WorkspaceParserRepository(logger: Logger) extends Repository[ParsedUnit] {
   def newTree(result: AmfParseResult): Future[MainFileTree] = synchronized {
     cleanTree()
     MainFileTreeBuilder
-      .build(result, visitors(result.result.baseUnit), logger)
+      .build(result, visitors(result.result.baseUnit))
       .map { nt =>
         tree = nt
         nt.parsedUnits.keys.foreach { removeUnit }

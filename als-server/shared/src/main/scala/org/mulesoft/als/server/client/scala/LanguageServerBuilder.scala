@@ -15,8 +15,7 @@ class LanguageServerBuilder(
     private val textDocumentSyncConsumer: AlsTextDocumentSyncConsumer,
     private val workspaceManager: WorkspaceManager,
     private val configurationManager: ConfigurationManager,
-    private val resolutionTaskManager: ResolutionTaskManager,
-    logger: Logger = EmptyLogger
+    private val resolutionTaskManager: ResolutionTaskManager
 ) {
   private val initializableModules = mutable.ListBuffer[InitializableModule[_, _]]()
   private val requestModules       = mutable.ListBuffer[RequestModule[_, _]]()
@@ -54,8 +53,7 @@ class LanguageServerBuilder(
       workspaceManager,
       configurationManager,
       new LanguageServerInitializer(configMap, allInitializables),
-      handlerMap,
-      logger
+      handlerMap
     )
   }
 }

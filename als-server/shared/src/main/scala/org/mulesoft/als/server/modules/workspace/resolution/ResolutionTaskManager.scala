@@ -19,7 +19,6 @@ import scala.util.Failure
 
 class ResolutionTaskManager private (
     telemetryProvider: TelemetryProvider,
-    logger: Logger,
     private val allSubscribers: List[ResolvedUnitListener],
     override val dependencies: List[AccessUnits[AmfResolvedUnit]]
 ) extends UnitTaskManager[AmfResolvedUnit, AmfResolvedUnit, BaseUnitListenerParams]
@@ -37,8 +36,8 @@ class ResolutionTaskManager private (
 
   override protected def log(msg: String, isError: Boolean = false): Unit =
     if (isError)
-      logger.error(msg, "ResolutionTaskManager", "Processing request")
-    else logger.debug(msg, "ResolutionTaskManager", "Processing request")
+      Logger.error(msg, "ResolutionTaskManager", "Processing request")
+    else Logger.debug(msg, "ResolutionTaskManager", "Processing request")
 
   override protected def disableTasks(): Future[Unit] = Future.unit
 
@@ -56,14 +55,14 @@ class ResolutionTaskManager private (
     isInMainTree(uri).map { isMainTree =>
       if (isMainTree) {
         params.parseResult.tree.foreach { u =>
-          logger.debug(s"Replacing $u with unit resolved from $uri", "ResolutionTaskManager", "processTask")
+          Logger.debug(s"Replacing $u with unit resolved from $uri", "ResolutionTaskManager", "processTask")
           repository
             .updateUnit(u, resolvedInstance) // every dependency should be updated
         }
       }
       addProfileIfNotPresent(params.parseResult.context.state)
       addDialectIfNotPresent(params.parseResult.context.state)
-      logger.debug(s"Updating $uri unit", "ResolutionTaskManager", "processTask")
+      Logger.debug(s"Updating $uri unit", "ResolutionTaskManager", "processTask")
       repository.updateUnit(uri, resolvedInstance)
       // prevents notifying diagnostics on dependencies
       if (!params.isDependency) subscribers.foreach(_.onNewAst(resolvedInstance, uuid))
@@ -114,7 +113,7 @@ class ResolutionTaskManager private (
             getUnit(uri, uuid).flatMap(_.getLast)
           ) // double check after resolved that last is still ua's last?
           .andThen { case Failure(value) =>
-            logger.error(
+            Logger.error(
               Option(value).flatMap(v => Option(v.getMessage)).getOrElse(s"error while getting unit $uri"),
               "ResolutionTaskManager",
               "getLastUnit"
@@ -125,9 +124,9 @@ class ResolutionTaskManager private (
     }
 
   override def onNewAst(ast: BaseUnitListenerParams, uuid: String): Future[Unit] = synchronized {
-    logger.debug(s"Got new AST: ${ast.parseResult.result.baseUnit.identifier}", "ResolutionTaskManager", "onNewAst")
-    logger.debug(s"state: $state", "ResolutionTaskManager", "onNewAst")
-    logger.debug(s"pending: ${stagingArea.hasPending}", "ResolutionTaskManager", "onNewAst")
+    Logger.debug(s"Got new AST: ${ast.parseResult.result.baseUnit.identifier}", "ResolutionTaskManager", "onNewAst")
+    Logger.debug(s"state: $state", "ResolutionTaskManager", "onNewAst")
+    Logger.debug(s"pending: ${stagingArea.hasPending}", "ResolutionTaskManager", "onNewAst")
     stage(ast.parseResult.location, ast)
   }
 
@@ -186,12 +185,11 @@ class ResolutionTaskManager private (
 object ResolutionTaskManager {
   def apply(
       telemetryProvider: TelemetryProvider,
-      logger: Logger,
       allSubscribers: List[ResolvedUnitListener],
       dependencies: List[AccessUnits[AmfResolvedUnit]]
   ): ResolutionTaskManager = {
     val manager =
-      new ResolutionTaskManager(telemetryProvider, logger, allSubscribers, dependencies)
+      new ResolutionTaskManager(telemetryProvider, allSubscribers, dependencies)
     manager.init()
     manager
   }

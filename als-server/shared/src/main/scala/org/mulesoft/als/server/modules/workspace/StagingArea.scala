@@ -35,18 +35,17 @@ trait StagingArea[Parameter] extends SyncFunction {
 
 class ResolverStagingArea extends StagingArea[BaseUnitListenerParams]
 
-class ParserStagingArea(environmentProvider: EnvironmentProvider, logger: Logger)
-    extends StagingArea[NotificationKind] {
+class ParserStagingArea(environmentProvider: EnvironmentProvider) extends StagingArea[NotificationKind] {
 
   override def enqueue(file: String, kind: NotificationKind): Unit =
     sync(() => {
-      logger.debug(s"enqueueing [${kind.kind} - $file]", "ParserStagingArea", "enqueue")
+      Logger.debug(s"enqueueing [${kind.kind} - $file]", "ParserStagingArea", "enqueue")
       pending.get(file) match {
         case Some(CHANGE_FILE) if kind == OPEN_FILE =>
-          logger.warning(s"file opened without closing $file", "ParserStagingArea", "enqueue")
+          Logger.warning(s"file opened without closing $file", "ParserStagingArea", "enqueue")
           super.enqueue(file, kind)
         case Some(CLOSE_FILE) if kind == CHANGE_FILE =>
-          logger.warning(s"file changed after closing $file", "ParserStagingArea", "enqueue")
+          Logger.warning(s"file changed after closing $file", "ParserStagingArea", "enqueue")
           super.enqueue(file, kind)
         case Some(CLOSE_FILE) if kind == OPEN_FILE =>
           super.enqueue(file, CHANGE_FILE)

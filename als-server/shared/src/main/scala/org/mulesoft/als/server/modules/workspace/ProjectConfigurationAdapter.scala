@@ -16,8 +16,7 @@ class ProjectConfigurationAdapter(
     private val projectConfigurationProvider: ProjectConfigurationProvider,
     editorConfiguration: EditorConfiguration,
     val environmentProvider: EnvironmentProvider,
-    subscribers: List[BaseUnitListener],
-    logger: Logger
+    subscribers: List[BaseUnitListener]
 ) {
 
   var repository: Option[WorkspaceParserRepository] = None
@@ -56,7 +55,7 @@ class ProjectConfigurationAdapter(
       .map(_.config)
 
   def newProjectConfiguration(projectConfiguration: ProjectConfiguration): Future[ProjectConfigurationState] = {
-    logger.debug(
+    Logger.debug(
       s"New configuration for $folder: $projectConfiguration",
       "ProjectConfigurationAdapter",
       "newProjectConfiguration"
@@ -70,7 +69,7 @@ class ProjectConfigurationAdapter(
     for {
       s <- getConfigurationState
     } yield {
-      logger.debug(
+      Logger.debug(
         "Notifying subscribers of dependencies parsing results",
         "ProjectConfigurationAdapter",
         "notifyUnits"

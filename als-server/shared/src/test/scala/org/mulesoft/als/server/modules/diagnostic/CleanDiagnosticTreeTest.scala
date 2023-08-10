@@ -3,7 +3,6 @@ package org.mulesoft.als.server.modules.diagnostic
 import amf.core.client.scala.resource.ResourceLoader
 import org.mulesoft.als.common.AmfConfigurationPatcher
 import org.mulesoft.als.configuration.ProjectConfiguration
-import org.mulesoft.als.logger.EmptyLogger
 import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.modules.configuration.WorkspaceConfigurationProvider
 import org.mulesoft.als.server.modules.diagnostic.custom.CustomValidationManager
@@ -70,8 +69,7 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
     for {
       state <- new DefaultProjectConfigurationProvider(
         DummyEnvironmentProvider,
-        configuration,
-        EmptyLogger
+        configuration
       )
         .newProjectConfiguration(
           new ProjectConfiguration("file:///", Some(mainPath), Set.empty, Set.empty, Set(dialectUri), Set.empty)
@@ -96,8 +94,7 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
     for {
       state <- new DefaultProjectConfigurationProvider(
         DummyEnvironmentProvider,
-        configuration,
-        EmptyLogger
+        configuration
       )
         .newProjectConfiguration(
           new ProjectConfiguration("file:///", Some(mainPath), Set.empty, Set(profileUri), Set.empty, Set.empty)
@@ -132,7 +129,6 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
   ) extends CleanDiagnosticTreeManager(
         DummyTelemetryProvider,
         DummyEnvironmentProvider,
-        EmptyLogger,
         customValidationManager,
         DummyConfigProvider
       ) {
@@ -157,7 +153,7 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
       fail("getConfigurationState should not be called from Dummy manager")
   }
 
-  object DummyTelemetryProvider extends TelemetryManager(DummyClientNotifier, EmptyLogger)
+  object DummyTelemetryProvider extends TelemetryManager(DummyClientNotifier)
   object DummyClientNotifier extends ClientNotifier {
     override def notifyDiagnostic(params: PublishDiagnosticsParams): Unit = {}
 
