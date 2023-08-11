@@ -3,6 +3,7 @@ package org.mulesoft.als.server.modules.completion
 import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.common.{MarkerFinderTest, MarkerInfo}
 import org.mulesoft.als.convert.LspRangeConverter
+import org.mulesoft.als.logger.{EmptyLogger, Logger}
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
@@ -21,7 +22,7 @@ import scala.concurrent.Future
 abstract class ServerSuggestionsTest extends LanguageServerBaseTest with EitherValues with MarkerFinderTest {
 
   def buildServer(): LanguageServer = {
-
+    Logger.withLogger(EmptyLogger)
     val factory =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier).buildWorkspaceManagerFactory()
     new LanguageServerBuilder(

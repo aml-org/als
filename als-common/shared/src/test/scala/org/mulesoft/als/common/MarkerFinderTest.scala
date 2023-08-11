@@ -1,6 +1,7 @@
 package org.mulesoft.als.common
 
 import org.mulesoft.als.common.dtoTypes.Position
+import org.mulesoft.als.logger.{EmptyLogger, Logger}
 
 trait MarkerFinderTest {
   def findMarker(str: String, label: String = "[*]", cut: Boolean = true): MarkerInfo = {
@@ -9,6 +10,7 @@ trait MarkerFinderTest {
   }
 
   def findMarkers(str: String, label: String = "[*]", cut: Boolean = true): Seq[MarkerInfo] = {
+    Logger.withLogger(EmptyLogger)
     var markers    = Seq[Int]()
     var offset     = 0
     var rawContent = str

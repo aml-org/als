@@ -4,6 +4,7 @@ import amf.core.client.scala.AMFGraphConfiguration
 import org.mulesoft.als.common.MarkerInfo
 import org.mulesoft.als.common.diff.WorkspaceEditsTest
 import org.mulesoft.als.convert.LspRangeConverter
+import org.mulesoft.als.logger.{EmptyLogger, Logger}
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
@@ -138,6 +139,7 @@ class CodeActionsWithGoldenTest extends ServerWithMarkerTest[Seq[CodeAction]] wi
   override def rootPath: String = "actions/codeactions"
 
   def buildServer(): LanguageServer = {
+    Logger.withLogger(EmptyLogger)
     val factory =
       new WorkspaceManagerFactoryBuilder(notifier).buildWorkspaceManagerFactory()
     new LanguageServerBuilder(

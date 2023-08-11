@@ -3,6 +3,7 @@ package org.mulesoft.als.server.modules.diagnostic
 import amf.core.client.scala.AMFGraphConfiguration
 import amf.custom.validation.client.scala.{BaseProfileValidatorBuilder, CustomValidator}
 import org.mulesoft.als.common.diff.FileAssertionTest
+import org.mulesoft.als.logger.{EmptyLogger, Logger}
 import org.mulesoft.als.server.client.scala.{LanguageServerBuilder, LanguageServerFactory}
 import org.mulesoft.als.server.feature.diagnostic.CustomValidationClientCapabilities
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
@@ -62,6 +63,7 @@ class CustomValidationManagerTest
       diagnosticNotifier: MockDiagnosticClientNotifier,
       validator: BaseProfileValidatorBuilder
   ): LanguageServer = {
+    Logger.withLogger(EmptyLogger)
     val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, EditorConfiguration())
     val dm      = builder.buildDiagnosticManagers(Some(validator))
     val factory = builder.buildWorkspaceManagerFactory()
@@ -80,6 +82,7 @@ class CustomValidationManagerTest
       validator: BaseProfileValidatorBuilder,
       s: SerializationProps[_]
   ): LanguageServer = {
+    Logger.withLogger(EmptyLogger)
     val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, EditorConfiguration())
     val dm      = builder.buildDiagnosticManagers(Some(validator))
     val sm      = builder.serializationManager(s)

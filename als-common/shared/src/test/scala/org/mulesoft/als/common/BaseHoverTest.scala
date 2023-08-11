@@ -2,6 +2,7 @@ package org.mulesoft.als.common
 
 import org.mulesoft.als.common.diff.FileAssertionTest
 import org.mulesoft.als.common.dtoTypes.Position
+import org.mulesoft.als.logger.{EmptyLogger, Logger}
 import org.mulesoft.lsp.feature.hover.Hover
 import org.scalatest.compatible.Assertion
 import org.yaml.model.YDocument
@@ -14,6 +15,7 @@ import scala.concurrent.Future
 trait BaseHoverTest extends FileAssertionTest {
   protected val printRange: Boolean = false
   protected def renderHoverResult(hovers: Seq[PositionedHover]): String = {
+    Logger.withLogger(EmptyLogger)
     val doc = YDocument.objFromBuilder(e => {
       e.entry(
         "hovers",

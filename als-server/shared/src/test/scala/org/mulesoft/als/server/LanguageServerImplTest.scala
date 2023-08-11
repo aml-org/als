@@ -1,5 +1,6 @@
 package org.mulesoft.als.server
 
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.ast.TextListener
 import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
@@ -109,13 +110,15 @@ class LanguageServerImplTest extends LanguageServerBaseTest {
 //    }
 //  }
 
-  def buildServer(factory: WorkspaceManagerFactory): LanguageServer =
+  def buildServer(factory: WorkspaceManagerFactory): LanguageServer = {
+    Logger.withLogger(logger)
     new LanguageServerBuilder(
       factory.documentManager,
       factory.workspaceManager,
       factory.configurationManager,
       factory.resolutionTaskManager
     ).build()
+  }
 
   override def rootPath: String = ""
 }

@@ -1,6 +1,7 @@
 package org.mulesoft.als.common
 
 import org.mulesoft.als.common.diff.FileAssertionTest
+import org.mulesoft.als.logger.{EmptyLogger, Logger}
 import org.mulesoft.common.io.{Fs, SyncFile}
 import org.scalatest.freespec.AsyncFreeSpec
 
@@ -17,6 +18,7 @@ trait ByDirectoryTest extends AsyncFreeSpec with FileAssertionTest {
   def testFile(content: String, file: SyncFile, parent: String): Unit
 
   def forDirectory(dir: SyncFile, parent: String, mustHaveMarker: Boolean = true): Unit = {
+    Logger.withLogger(EmptyLogger)
     val (subDirs, files) =
       dir.list
         .filterNot(_ == "expected")

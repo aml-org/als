@@ -39,6 +39,8 @@ import scala.concurrent.Future
 
 class Lsp4jLanguageServerImplTest extends AMFValidatorTest with ChangesWorkspaceConfiguration {
 
+  Logger.withLogger(EmptyLogger)
+
   test("Lsp4j LanguageServerImpl: initialize correctly") {
 
     val myString = "#%RAML 1.0\ntitle:test"

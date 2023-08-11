@@ -3,6 +3,7 @@ package org.mulesoft.als.server.textsync
 import amf.aml.client.scala.model.document.Dialect
 import amf.aml.client.scala.model.domain.NodeMapping
 import org.mulesoft.als.common.AmfConfigurationPatcher
+import org.mulesoft.als.logger.{EmptyLogger, Logger}
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
@@ -36,6 +37,7 @@ class DialectRegistryTest extends LanguageServerBaseTest {
       |        range: string""".stripMargin
 
   def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): (LanguageServer, WorkspaceManager) = {
+    Logger.withLogger(EmptyLogger)
 
     val factory =
       new WorkspaceManagerFactoryBuilder(

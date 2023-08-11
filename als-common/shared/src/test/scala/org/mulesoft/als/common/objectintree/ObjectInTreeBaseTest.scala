@@ -5,6 +5,7 @@ import amf.aml.internal.metamodel.domain.DialectDomainElementModel
 import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.common.{NodeBranchBuilder, ObjectInTree, ObjectInTreeBuilder}
+import org.mulesoft.als.logger.{EmptyLogger, Logger}
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.amfconfiguration.{
   ALSConfigurationState,
@@ -63,6 +64,7 @@ case class ObjectInTreeBaseTest(instanceFile: String, dialectFile: String) exten
     }
 
   def runTest(pos: Position, expectedTypeIri: String, expectedPropertyTerm: Option[String]): Future[Assertion] = {
+    Logger.withLogger(EmptyLogger)
     objectInTree().map { fn =>
       val tree = fn(pos.toAmfPosition)
       assertPropertyTerm(expectedPropertyTerm, tree)

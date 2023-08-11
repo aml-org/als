@@ -3,6 +3,7 @@ package org.mulesoft.als.server.modules.diagnostic
 import amf.core.client.scala.resource.ResourceLoader
 import org.mulesoft.als.common.AmfConfigurationPatcher
 import org.mulesoft.als.configuration.ProjectConfiguration
+import org.mulesoft.als.logger.{EmptyLogger, Logger}
 import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.modules.configuration.WorkspaceConfigurationProvider
 import org.mulesoft.als.server.modules.diagnostic.custom.CustomValidationManager
@@ -21,6 +22,8 @@ import org.scalatest.flatspec.AsyncFlatSpec
 import scala.concurrent.{ExecutionContext, Future}
 
 class CleanDiagnosticTreeTest extends AsyncFlatSpec {
+
+  Logger.withLogger(EmptyLogger)
 
   override implicit val executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global

@@ -4,6 +4,7 @@ import amf.core.client.common.remote.Content
 import amf.core.client.scala.resource.ResourceLoader
 import org.mulesoft.als.common.DirectoryResolver
 import org.mulesoft.als.common.URIImplicits._
+import org.mulesoft.als.logger.{EmptyLogger, Logger}
 import org.mulesoft.als.server.MockDiagnosticClientNotifier
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
@@ -19,6 +20,8 @@ import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
 import scala.concurrent.{ExecutionContext, Future}
 
 class DifferentEncodingTest extends RAMLSuggestionTestServer {
+
+  Logger.withLogger(EmptyLogger)
 
   def buildServer(root: String, ws: Map[String, String]): Future[(LanguageServer, WorkspaceManager)] = {
     val rs: ResourceLoader = new ResourceLoader {
