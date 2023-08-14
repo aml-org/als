@@ -181,7 +181,7 @@ class WorkspaceList(
     buildDefaultWorkspaceManager()
 
   def buildDefaultWorkspaceManager(): Future[WorkspaceContentManager] = {
-    Logger.debug(s"created default WorkspaceContentManager", "WorkspaceList", "buildWorkspaceAt")
+    Logger.debug(s"Default WorkspaceContentManager created", "WorkspaceList", "buildWorkspaceAt")
     WorkspaceContentManager(
       "",
       environmentProvider,
@@ -242,7 +242,7 @@ class WorkspaceList(
       )
       _ <- Future.sequence(applicableFiles.map(wcm.stage(_, OPEN_FILE)))
     } yield {
-      Logger.debug(s"created WorkspaceContentManager for $uri", "WorkspaceList", "buildWorkspaceAt")
+      Logger.debug(s"WorkspaceContentManager created for $uri", "WorkspaceList", "buildWorkspaceAt")
       wcm
     }
   }

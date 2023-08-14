@@ -103,9 +103,9 @@ class RenameHandler(
         links    <- workspaceManager.getDocumentLinks(uri, uuid)
         allLinks <- workspaceManager.getAllDocumentLinks(uri, uuid)
       } yield {
-        Logger.debug("got the following document links", "RenameFileActionManager", "rename")
+        Logger.debug("Got the following document links", "RenameFileActionManager", "rename")
         links.foreach { l =>
-          Logger.debug(s"${l.target}", "RenameFileActionManager", "rename")
+          Logger.debug(s"-> link: ${l.target}", "RenameFileActionManager", "rename")
         }
         links
           .find(l => PositionRange(l.range).contains(position))

@@ -271,7 +271,7 @@ class CacheBuilder(
     eventualUnit
       .recoverWith { case e: Throwable => // ignore
         Logger.error(
-          s"Error while resolving cachable unit: ${bu.identifier}. Message ${e.getMessage} at $folder",
+          s"Error while resolving cacheable unit: ${bu.identifier}. Message ${e.getMessage} at $folder",
           "CacheBuilder",
           "Cache unit"
         )

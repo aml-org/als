@@ -180,13 +180,13 @@ class WorkspaceContentManager private (
   private def updateUnit(uuid: String, result: AmfParseResult, isDependency: Boolean): Future[Unit] = {
     repository.updateUnit(result)
     projectConfigAdapter.getConfigurationState.map(state => {
-      Logger.debug(s"sending new AST from $folderUri", "WorkspaceContentManager", "processIsolated")
+      Logger.debug(s"Sending new AST from $folderUri", "WorkspaceContentManager", "processIsolated")
       baseUnitSubscribers.foreach(s =>
         try {
           s.onNewAst(BaseUnitListenerParams(result, Map.empty, tree = false, folderUri, isDependency), uuid)
         } catch {
           case e: Exception =>
-            Logger.error(s"subscriber $s threw ${e.getMessage}", "processIsolated", "WorkspaceContentManager")
+            Logger.error(s"Subscriber $s threw ${e.getMessage}", "processIsolated", "WorkspaceContentManager")
         }
       )
     })
@@ -344,7 +344,7 @@ class WorkspaceContentManager private (
 
   private def innerParse(uri: String)(): Future[AmfParseResult] = {
     val decodedUri = uri.toAmfDecodedUri
-    Logger.debug(s"sent uri: $decodedUri", "WorkspaceContentManager", "innerParse")
+    Logger.debug(s"Sent uri: $decodedUri", "WorkspaceContentManager", "innerParse")
     (for {
       state <- projectConfigAdapter.getConfigurationState
       r     <- state.parse(decodedUri)
@@ -364,7 +364,7 @@ class WorkspaceContentManager private (
           Logger.debug(s"Hot registering as dialect uri: $decodedUri", "WorkspaceContentManager", "innerParse")
           withConfiguration(newConfig).map(_ => r)
         case _ =>
-          Logger.debug(s"done with uri: $decodedUri", "WorkspaceContentManager", "innerParse")
+          Logger.debug(s"Done with uri: $decodedUri", "WorkspaceContentManager", "innerParse")
           Future(r)
       }
     }).flatten
@@ -374,7 +374,7 @@ class WorkspaceContentManager private (
     getUnit(uri)
       .flatMap(_.getLast)
       .map(u => {
-        Logger.debug(s"getting relationships for ${u.uri}", "WorkspaceContentManager", "getRelationships")
+        Logger.debug(s"Getting relationships for ${u.uri}", "WorkspaceContentManager", "getRelationships")
         Relationships(repository, u)
       })
 

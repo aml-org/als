@@ -125,9 +125,9 @@ class CodeActionManager(
           .filter(a => c.codeActionLiteralSupport.forall(_.codeActionKind.valueSet.contains(a.kind)))
       case None => usedActions = allActions
     }
-    Logger.debug(s"actions to be used:\n${usedActions.map(_.title).mkString("\n")}", "CodeActionManager", "applyConfig")
+    Logger.debug(s"Actions to be used: ${usedActions.map(_.title).mkString("\n")}", "CodeActionManager", "applyConfig")
     Logger.debug(
-      s"supports documentChanges: ${configuration.supportsDocumentChanges}",
+      s"Supports documentChanges: ${configuration.supportsDocumentChanges}",
       "CodeActionManager",
       "applyConfig"
     )

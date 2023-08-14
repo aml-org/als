@@ -274,7 +274,7 @@ class CustomValidationManagerTest
               diagnostics.diagnostics.find(d => d.range == range)
             if (firstDiagnostic.isEmpty) {
               logger.error(
-                s"Couldn't find first diagnostic:\n ${diagnostics.write}",
+                s"Couldn't find first diagnostic: ${diagnostics.write}",
                 "CustomValidationManagerTest",
                 "Should notify errors"
               )
@@ -314,7 +314,7 @@ class CustomValidationManagerTest
               diagnostics.diagnostics.find(d => d.range == range)
             if (firstDiagnostic.isEmpty) {
               logger.error(
-                s"Couldn't find first diagnostic:\n ${diagnostics.write}",
+                s"Couldn't find first diagnostic: ${diagnostics.write}",
                 "CustomValidationManagerTest",
                 "Should notify errors"
               )
@@ -354,7 +354,7 @@ class CustomValidationManagerTest
               diagnostics.diagnostics.find(_.message == "Min length must be less than max length must match in scalar")
             if (firstDiagnostic.isEmpty) {
               logger.error(
-                s"Couldn't find first diagnostic:\n ${diagnostics.write}",
+                s"Couldn't find first diagnostic: ${diagnostics.write}",
                 "CustomValidationManagerTest",
                 "Should notify errors"
               )
@@ -437,7 +437,7 @@ class CustomValidationManagerTest
               diagnostics.diagnostics.find(d => d.range == range)
             if (firstDiagnostic.isEmpty) {
               logger.error(
-                s"Couldn't find first diagnostic:\n ${diagnostics.write}",
+                s"Couldn't find first diagnostic: ${diagnostics.write}",
                 "CustomValidationManagerTest",
                 "Should notify errors"
               )
@@ -479,7 +479,7 @@ class CustomValidationManagerTest
               diagnostics.diagnostics.find(d => d.range == range)
             if (firstDiagnostic.isEmpty) {
               logger.error(
-                s"Couldn't find first diagnostic:\n ${diagnostics.write}",
+                s"Couldn't find first diagnostic: ${diagnostics.write}",
                 "CustomValidationManagerTest",
                 "Should notify errors"
               )
@@ -523,7 +523,7 @@ class CustomValidationManagerTest
               diagnostics.diagnostics.find(d => d.range == range)
             if (firstDiagnostic.isEmpty) {
               logger.error(
-                s"Couldn't find first diagnostic:\n ${diagnostics.write}",
+                s"Couldn't find first diagnostic: ${diagnostics.write}",
                 "CustomValidationManagerTest",
                 "Should notify errors"
               )

@@ -114,7 +114,7 @@ class ResolutionTaskManager private (
           ) // double check after resolved that last is still ua's last?
           .andThen { case Failure(value) =>
             Logger.error(
-              Option(value).flatMap(v => Option(v.getMessage)).getOrElse(s"error while getting unit $uri"),
+              Option(value).flatMap(v => Option(v.getMessage)).getOrElse(s"Error while getting unit $uri"),
               "ResolutionTaskManager",
               "getLastUnit"
             )

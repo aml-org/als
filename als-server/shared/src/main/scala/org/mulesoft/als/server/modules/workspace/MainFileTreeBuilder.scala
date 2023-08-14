@@ -105,7 +105,7 @@ object MainFileTreeBuilder {
       visitors.applyAmfVisitors(unit, context)
     } catch {
       case e: Throwable =>
-        Logger.error(e.getMessage, "MainFileTreeBuilder", "Handle Visitors")
+        Logger.error(s"Exception: ${e.getMessage}", "MainFileTreeBuilder", "Handle Visitors")
     }
   }
 }

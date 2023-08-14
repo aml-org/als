@@ -17,8 +17,8 @@ import org.mulesoft.als.server.modules.ast.ResolvedUnitListener
 import org.mulesoft.als.server.modules.common.reconciler.Runnable
 import org.mulesoft.als.server.modules.diagnostic._
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
-import org.mulesoft.amfintegration.amfconfiguration.AMLSpecificConfiguration
 import org.mulesoft.amfintegration.AmfResolvedUnit
+import org.mulesoft.amfintegration.amfconfiguration.AMLSpecificConfiguration
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
@@ -97,7 +97,7 @@ class CustomValidationManager(
     for {
       serialized <- serializeUnit(unit, config)
       result <- {
-        Logger.debug("about to get results", "CustomValidationManager", "validate")
+        Logger.debug("About to get results", "CustomValidationManager", "validate")
         Future
           .sequence(getResults(uri, profiles, serialized))
           .map(_.flatten)
@@ -183,7 +183,7 @@ class CustomValidationManager(
     new CustomValidationRunnable(ast.baseUnit.identifier, ast, uuid)
 
   protected override def onFailure(uuid: String, uri: String, exception: Throwable): Unit = {
-    Logger.error(s"Error on validation: ${exception.toString}", "CustomValidationManager", "newASTAvailable")
+    Logger.error(s"Error on validation: ${exception.getMessage}", "CustomValidationManager", "newASTAvailable")
     exception.printStackTrace()
     clientNotifier.notifyDiagnostic(ValidationReport(uri, Set.empty, ProfileNames.AMF).publishDiagnosticsParams)
   }
@@ -198,7 +198,7 @@ class CustomValidationManager(
     */
   override protected def onNewAstPreprocess(resolved: AmfResolvedUnit, uuid: String): Unit =
     Logger.debug(
-      "Running custom validations on:\n" + resolved.baseUnit.id,
+      "Running custom validations on: " + resolved.baseUnit.id,
       "CustomValidationManager",
       "newASTAvailable"
     )

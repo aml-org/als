@@ -88,7 +88,7 @@ trait BasicDiagnosticManager[C, S] extends ClientNotifierModule[C, S] {
         ).map(bu => bu.identifier -> bu.isInstanceOf[ExternalFragment]).toMap
       )
     Logger.debug(
-      s"Number of ${step.name} errors is:\n" + errors.flatMap(_.issues).length,
+      s"Number of ${step.name} errors is: $errors.flatMap(_.issues).length",
       "ValidationManager",
       "newASTAvailable"
     )

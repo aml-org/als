@@ -30,10 +30,10 @@ class ResolutionDiagnosticManager(
   }
 
   protected override def onNewAstPreprocess(resolved: AmfResolvedUnit, uuid: String): Unit =
-    Logger.debug("Got new AST:\n" + resolved.baseUnit.id, "ResolutionDiagnosticManager", "newASTAvailable")
+    Logger.debug("Got new AST: " + resolved.baseUnit.id, "ResolutionDiagnosticManager", "newASTAvailable")
 
   protected override def onFailure(uuid: String, uri: String, exception: Throwable): Unit = {
-    Logger.error(s"Error on validation: ${exception.toString}", "ResolutionDiagnosticManager", "newASTAvailable")
+    Logger.error(s"Error on validation: ${exception.getMessage}", "ResolutionDiagnosticManager", "newASTAvailable")
     clientNotifier.notifyDiagnostic(ValidationReport(uri, Set.empty, ProfileNames.AMF).publishDiagnosticsParams)
   }
 
@@ -101,24 +101,24 @@ class ResolutionDiagnosticManager(
       profile: ProfileName
   )() =
     try {
-      Logger.debug("starting", "ResolutionDiagnosticManager", "tryValidationReport")
+      Logger.debug("Starting...", "ResolutionDiagnosticManager", "tryValidationReport")
       resolved.getLast.flatMap { r =>
         r.resolvedUnit
           .flatMap { result =>
             r.configuration
               .report(result.baseUnit)
               .map(rep => {
-                Logger.debug("finishing", "ResolutionDiagnosticManager", "tryValidationReport")
+                Logger.debug("...finishing.", "ResolutionDiagnosticManager", "tryValidationReport")
                 AMFValidationReport(rep.model, rep.profile, rep.results ++ result.results)
               })
           }
       } recoverWith { case e: Exception =>
-        Logger.debug(s"recovering from: ${e.getMessage}", "ResolutionDiagnosticManager", "tryValidationReport")
+        Logger.debug(s"Recovering from: ${e.getMessage}", "ResolutionDiagnosticManager", "tryValidationReport")
         sendFailedClone(uri, telemetryProvider, resolved.baseUnit, uuid, e.getMessage)
       }
     } catch {
       case e: Exception =>
-        Logger.debug(s"failed with: ${e.getMessage}", "ResolutionDiagnosticManager", "tryValidationReport")
+        Logger.debug(s"Failed with: ${e.getMessage}", "ResolutionDiagnosticManager", "tryValidationReport")
         sendFailedClone(uri, telemetryProvider, resolved.baseUnit, uuid, e.getMessage)
     }
 

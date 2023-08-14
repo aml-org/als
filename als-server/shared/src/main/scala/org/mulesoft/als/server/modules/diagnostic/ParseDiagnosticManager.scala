@@ -4,8 +4,8 @@ import amf.core.client.common.validation.{ProfileName, ProfileNames}
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.modules.ast._
-import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.amfintegration.amfconfiguration.AmfParseResult
+import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -35,7 +35,7 @@ class ParseDiagnosticManager(
        else
          Map.empty) ++
         params.locationLinks
-    Logger.debug("Got new AST:\n" + parsedResult.result.baseUnit.id, "ParseDiagnosticManager", "newASTAvailable")
+    Logger.debug(s"Got new AST: ${parsedResult.result.baseUnit.id}", "ParseDiagnosticManager", "newASTAvailable")
     val uri = parsedResult.location
     telemetryProvider.timeProcess(
       "Start report",
@@ -55,7 +55,7 @@ class ParseDiagnosticManager(
       uri: String
   )() =
     gatherValidationErrors(parsedResult, references, uuid) recoverWith { case exception: Exception =>
-      Logger.error("Error on validation: " + exception.toString, "ParseDiagnosticManager", "newASTAvailable")
+      Logger.error("Error on validation: " + exception.getMessage, "ParseDiagnosticManager", "newASTAvailable")
       Future {
         clientNotifier.notifyDiagnostic(ValidationReport(uri, Set.empty, ProfileNames.AMF).publishDiagnosticsParams)
       }
