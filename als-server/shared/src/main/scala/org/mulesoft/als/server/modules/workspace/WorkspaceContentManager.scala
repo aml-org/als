@@ -269,6 +269,11 @@ class WorkspaceContentManager private (
       snapshot: Snapshot,
       mainFileUri: Option[String]
   ): Future[Unit] = {
+    Logger.debug(
+      s"\'MainFileUri\' received is: ${mainFileUri.getOrElse("Empty")}",
+      "WorkspaceContentManager",
+      "processChangeConfig"
+    )
     val uuid = UUID.randomUUID().toString
     configSubscribers.foreach(_.onNewAst(config, uuid))
     (mainFileUri match {
@@ -308,7 +313,11 @@ class WorkspaceContentManager private (
       uuid: String = UUID.randomUUID().toString
   ): Future[Unit] = {
     changeState(ProcessingProject)
-    Logger.debug(s"Processing Tree changes", "WorkspaceContentManager", "processMFChanges")
+    Logger.debug(
+      s"Processing Tree changes with new \'mainFile\': $mainFile",
+      "WorkspaceContentManager",
+      "processMFChanges"
+    )
     for {
       u <- parse(
         s"${if (folderUri != "" && !mainFile.contains(folderUri))

@@ -46,7 +46,12 @@ class WorkspaceParserRepository() extends Repository[ParsedUnit] {
     updateUnit(result.result.baseUnit.identifier, unit)
   }
 
-  def cleanTree(): Unit = tree = EmptyFileTree
+  def cleanTree(): Unit = tree = {
+    Logger.debug("Start cleaning Tree...", "WorkspaceParserRepository", "cleanTree")
+    val emptyFileTree = EmptyFileTree
+    Logger.debug("... cleaning Tree Finish", "WorkspaceParserRepository", "cleanTree")
+    emptyFileTree
+  }
 
   def newTree(result: AmfParseResult): Future[MainFileTree] = synchronized {
     cleanTree()
