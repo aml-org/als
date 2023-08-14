@@ -125,7 +125,7 @@ class ResolutionTaskManager private (
 
   override def onNewAst(ast: BaseUnitListenerParams, uuid: String): Future[Unit] = synchronized {
     Logger.debug(s"Got new AST: ${ast.parseResult.result.baseUnit.identifier}", "ResolutionTaskManager", "onNewAst")
-    Logger.debug(s"state: $state", "ResolutionTaskManager", "onNewAst")
+    Logger.debug(s"state: ${state.toString}", "ResolutionTaskManager", "onNewAst")
     Logger.debug(s"pending: ${stagingArea.hasPending}", "ResolutionTaskManager", "onNewAst")
     stage(ast.parseResult.location, ast)
   }
