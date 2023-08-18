@@ -5,7 +5,6 @@ import org.mulesoft.als.common.MarkerFinderTest
 import org.mulesoft.als.common.diff.WorkspaceEditsTest
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.convert.LspRangeConverter
-import org.mulesoft.als.logger.{EmptyLogger, Logger}
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.protocol.LanguageServer
@@ -21,7 +20,6 @@ abstract class ServerRenameTest extends LanguageServerBaseTest with WorkspaceEdi
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
   def buildServer(): LanguageServer = {
-    Logger.withLogger(EmptyLogger)
     val factory =
       new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier).buildWorkspaceManagerFactory()
     new LanguageServerBuilder(

@@ -98,6 +98,5 @@ object Logger extends Logger with TelemetryProvider {
 
   override def addErrorMessage(code: String, msg: String, uri: String, uuid: String): Unit = {
     delegateTelemetryProvider.foreach(_.addErrorMessage(code, msg, uri, uuid))
-
   }
 }

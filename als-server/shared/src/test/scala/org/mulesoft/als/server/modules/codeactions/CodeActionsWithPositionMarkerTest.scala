@@ -4,7 +4,6 @@ import org.mulesoft.als.actions.codeactions.plugins.AllCodeActions
 import org.mulesoft.als.actions.codeactions.plugins.testaction.TestCodeAction
 import org.mulesoft.als.common.MarkerInfo
 import org.mulesoft.als.convert.LspRangeConverter
-import org.mulesoft.als.logger.{EmptyLogger, Logger}
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.actions.CodeActionManager
@@ -24,7 +23,6 @@ class CodeActionsWithPositionMarkerTest extends ServerWithMarkerTest[Seq[CodeAct
   override val notifier: MockTelemetryParsingClientNotifier = new MockTelemetryParsingClientNotifier()
 
   def buildServer(): LanguageServer = {
-    Logger.withLogger(EmptyLogger)
     val factory =
       new WorkspaceManagerFactoryBuilder(notifier).buildWorkspaceManagerFactory()
     val codeActionManager =
