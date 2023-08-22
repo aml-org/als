@@ -100,11 +100,15 @@ object MessageTypes extends Enumeration {
   val END_GET_DESCRIPTOR                        = "END_GET_DESCRIPTOR"
   val BEGIN_SET_DESCRIPTOR                      = "BEGIN_SET_DESCRIPTOR"
   val END_SET_DESCRIPTOR                        = "END_SET_DESCRIPTOR"
+  val BEGIN_GET_METADATA                        = "BEGIN_GET_METADATA"
+  val END_GET_METADATA                          = "END_GET_METADATA"
+  val BEGIN_GET_ASSET                           = "BEGIN_GET_ASSET"
+  val END_GET_ASSET                             = "END_GET_ASSET"
 }
 
 trait TelemetryProvider {
 
-  protected def addTimedMessage(code: String, messageType: MessageTypes, msg: String, uri: String, uuid: String): Unit
+  def addTimedMessage(code: String, messageType: MessageTypes, msg: String, uri: String, uuid: String): Unit
   def addErrorMessage(code: String, msg: String, uri: String, uuid: String): Unit
 
   final def timeProcess[T](

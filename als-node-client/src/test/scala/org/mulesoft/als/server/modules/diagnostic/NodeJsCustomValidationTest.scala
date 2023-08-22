@@ -27,7 +27,7 @@ class NodeJsCustomValidationTest
   override def rootPath: String = "custom-validation"
 
   def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer = {
-    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
+    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, EditorConfiguration())
     val dm      = builder.buildDiagnosticManagers(Some(ProfileValidatorNodeBuilder))
     val factory = builder.buildWorkspaceManagerFactory()
     val b = new LanguageServerBuilder(

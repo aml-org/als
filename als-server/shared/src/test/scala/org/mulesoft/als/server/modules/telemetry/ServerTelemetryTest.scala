@@ -1,8 +1,8 @@
 package org.mulesoft.als.server.modules.telemetry
 
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
-import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
+import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.{LanguageServerBaseTest, MockTelemetryClientNotifier}
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryMessage}
 
@@ -16,7 +16,7 @@ class ServerTelemetryTest extends LanguageServerBaseTest {
   private val mockTelemetryClientNotifier = new MockTelemetryClientNotifier
 
   def buildServer(): LanguageServer = {
-    val builder = new WorkspaceManagerFactoryBuilder(mockTelemetryClientNotifier, logger)
+    val builder = new WorkspaceManagerFactoryBuilder(mockTelemetryClientNotifier)
     val dm      = builder.buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
 

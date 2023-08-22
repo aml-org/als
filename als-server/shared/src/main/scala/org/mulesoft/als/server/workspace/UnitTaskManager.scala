@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.workspace
 
 import org.mulesoft.als.common.SyncFunction
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.workspace._
 import org.mulesoft.amfintegration.UnitWithNextReference
 
@@ -72,8 +73,11 @@ trait UnitTaskManager[UnitType, ResultUnit <: UnitWithNextReference, StagingArea
   def shutdown(): Future[Unit] = isDisabled.future
 
   protected def changeState(newState: TaskManagerState): Unit = synchronized {
-    if (state == NotAvailable) throw new UnavailableTaskManagerException
-    log(s"changeState: ${newState.state}")
+    if (state == NotAvailable) {
+      Logger.error(s"Couldn't change because state is: ${NotAvailable.toString}", "UnitTaskManager", "changeState")
+      throw new UnavailableTaskManagerException
+    }
+    log(s"ChangeState to: ${newState.state}")
     state = newState
   }
 

@@ -24,14 +24,13 @@ class CodeActionsWithPositionMarkerTest extends ServerWithMarkerTest[Seq[CodeAct
 
   def buildServer(): LanguageServer = {
     val factory =
-      new WorkspaceManagerFactoryBuilder(notifier, logger).buildWorkspaceManagerFactory()
+      new WorkspaceManagerFactoryBuilder(notifier).buildWorkspaceManagerFactory()
     val codeActionManager =
       new CodeActionManager(
         AllCodeActions.all :+ TestCodeAction,
         factory.workspaceManager,
         factory.configurationManager.getConfiguration,
         factory.telemetryManager,
-        logger,
         factory.directoryResolver
       )
     new LanguageServerBuilder(

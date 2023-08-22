@@ -13,10 +13,10 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 /** This will index at workspace level
-  * @param logger
+  * @param Logger
   * @param amfConfiguration
   */
-class IndexDialectCommandExecutor(val logger: Logger, workspaceManager: WorkspaceManager)
+class IndexDialectCommandExecutor(workspaceManager: WorkspaceManager)
     extends CommandExecutor[IndexDialectParams, Unit]
     with PlatformSecrets {
   override protected def buildParamFromMap(ast: YMap): Option[IndexDialectParams] = {

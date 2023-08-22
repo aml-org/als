@@ -43,7 +43,7 @@ class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
     val diagnosticClientNotifier = new MockDiagnosticClientNotifier
 
     val factory: WorkspaceManagerFactory =
-      new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier, logger)
+      new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier)
         .buildWorkspaceManagerFactory()
     withServer[Assertion](buildServer(factory)) { server =>
       testStructureForFile(server, s"${filePath("ws1")}/api.raml")
@@ -55,7 +55,7 @@ class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
     val diagnosticClientNotifier = new MockDiagnosticClientNotifier
 
     val factory: WorkspaceManagerFactory =
-      new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier, logger)
+      new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier)
         .buildWorkspaceManagerFactory()
     withServer[Assertion](buildServer(factory)) { server =>
       testStructureForFile(server, s"${filePath("ws1")}/sub/type.raml")
@@ -67,7 +67,7 @@ class WorkspaceManagerSymbolTest extends LanguageServerBaseTest {
     val diagnosticClientNotifier = new MockDiagnosticClientNotifier
 
     val factory: WorkspaceManagerFactory =
-      new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier, logger)
+      new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier)
         .buildWorkspaceManagerFactory()
     withServer[Assertion](buildServer(factory)) { server =>
       testStructureForFile(server, s"${filePath("ws1")}/independent.raml")

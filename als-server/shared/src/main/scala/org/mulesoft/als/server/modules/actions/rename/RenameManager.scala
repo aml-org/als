@@ -15,7 +15,6 @@ import scala.concurrent.Future
 class RenameManager(
     val workspace: WorkspaceManager,
     private val telemetryProvider: TelemetryProvider,
-    private val logger: Logger,
     private val configurationReader: AlsConfigurationReader,
     private val platform: Platform
 ) extends RequestModule[RenameClientCapabilities, RenameOptions] {
@@ -26,7 +25,7 @@ class RenameManager(
     RenameConfigType
 
   override val getRequestHandlers: Seq[TelemeteredRequestHandler[_, _]] = Seq(
-    new RenameHandler(telemetryProvider, workspace, configurationReader, logger, platform),
+    new RenameHandler(telemetryProvider, workspace, configurationReader, platform),
     new PrepareRenameHandler(telemetryProvider, workspace)
   )
 

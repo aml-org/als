@@ -2,7 +2,6 @@ package org.mulesoft.als.server.workspace.highlights
 
 import amf.core.client.common.remote.Content
 import amf.core.client.scala.resource.ResourceLoader
-import org.mulesoft.als.logger.EmptyLogger
 import org.mulesoft.als.server.MockDiagnosticClientNotifier
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
@@ -252,7 +251,6 @@ class DocumentHighlightTest extends AsyncFreeSpecLike {
     val factory =
       new WorkspaceManagerFactoryBuilder(
         new MockDiagnosticClientNotifier,
-        EmptyLogger,
         EditorConfiguration.withPlatformLoaders(Seq(rs))
       )
         .buildWorkspaceManagerFactory()

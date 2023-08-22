@@ -34,7 +34,7 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
   override def rootPath: String = ""
 
   def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer = {
-    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
+    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, EditorConfiguration())
     val dm      = builder.buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
     val b = new LanguageServerBuilder(
@@ -211,7 +211,7 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
       override def location(): Option[String] = Some("location")
     }
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
-    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
+    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, EditorConfiguration())
     builder
       .buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
@@ -333,7 +333,6 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
       val builder =
         new WorkspaceManagerFactoryBuilder(
           diagnosticNotifier,
-          logger,
           EditorConfiguration.withoutPlatformLoaders(Seq(CustomResourceLoader()))
         )
       val dm      = builder.buildDiagnosticManagers()

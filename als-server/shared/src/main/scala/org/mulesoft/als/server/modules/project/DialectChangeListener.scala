@@ -14,9 +14,8 @@ import scala.concurrent.Future
 
 class DialectChangeListener[S](
     props: SerializationProps[S],
-    configurationReader: AlsConfigurationReader,
-    logger: Logger
-) extends BaseSerializationNotifier[S](props, configurationReader, logger)
+    configurationReader: AlsConfigurationReader
+) extends BaseSerializationNotifier[S](props, configurationReader)
     with NewConfigurationListener {
 
   override val `type`: SerializationConfigType.type = SerializationConfigType

@@ -25,7 +25,7 @@ trait ServerReferencesTest extends ServerWithMarkerTest[Seq[Location]] with Mark
   def buildServer(): LanguageServer = {
 
     val factory =
-      new WorkspaceManagerFactoryBuilder(notifier, logger).buildWorkspaceManagerFactory()
+      new WorkspaceManagerFactoryBuilder(notifier).buildWorkspaceManagerFactory()
     new LanguageServerBuilder(
       factory.documentManager,
       factory.workspaceManager,

@@ -24,8 +24,7 @@ import scala.concurrent.Future
 
 class DocumentFormattingManager(
     val workspace: WorkspaceManager,
-    private val telemetryProvider: TelemetryProvider,
-    private val logger: Logger
+    private val telemetryProvider: TelemetryProvider
 ) extends RequestModule[DocumentFormattingClientCapabilities, Either[Boolean, WorkDoneProgressOptions]]
     with FormattingManager {
 
@@ -64,7 +63,7 @@ class DocumentFormattingManager(
   def onDocumentFormatting(params: DocumentFormattingParams): Future[Seq[TextEdit]] = {
     val uuid   = UUID.randomUUID().toString
     val isJson = params.textDocument.uri.endsWith(".json")
-    logger.debug(
+    Logger.debug(
       "Document formatting for " + params.textDocument.uri,
       "DocumentFormattingManager",
       "onDocumentFormatting"

@@ -25,8 +25,7 @@ import scala.concurrent.Future
 
 class GoToImplementationManager(
     val workspace: WorkspaceManager,
-    private val telemetryProvider: TelemetryProvider,
-    private val logger: Logger
+    private val telemetryProvider: TelemetryProvider
 ) extends RequestModule[ImplementationClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
 
   private var conf: Option[ImplementationClientCapabilities] = None

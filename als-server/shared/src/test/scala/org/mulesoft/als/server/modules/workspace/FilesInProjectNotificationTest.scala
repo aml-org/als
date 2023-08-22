@@ -17,7 +17,7 @@ class FilesInProjectNotificationTest extends LanguageServerBaseTest {
   def buildServer(alsClient: MockFilesInClientNotifier): LanguageServer = {
 
     val factoryBuilder: WorkspaceManagerFactoryBuilder =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
+      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier)
     val filesInProjectManager = factoryBuilder.filesInProjectManager(alsClient)
 
     val factory: WorkspaceManagerFactory = factoryBuilder.buildWorkspaceManagerFactory()

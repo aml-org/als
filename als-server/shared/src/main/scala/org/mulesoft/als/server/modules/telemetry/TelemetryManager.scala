@@ -14,7 +14,7 @@ import org.mulesoft.lsp.feature.telemetry.{
 
 import scala.concurrent.Future
 
-class TelemetryManager(private val clientNotifier: ClientNotifier, private val logger: Logger)
+class TelemetryManager(private val clientNotifier: ClientNotifier)
     extends ClientNotifierModule[TelemetryClientCapabilities, Unit]
     with TelemetryProvider {
 
@@ -27,7 +27,7 @@ class TelemetryManager(private val clientNotifier: ClientNotifier, private val l
   override def initialize(): Future[Unit] =
     Future.successful()
 
-  override protected def addTimedMessage(
+  override def addTimedMessage(
       code: String,
       messageType: MessageTypes,
       msg: String,

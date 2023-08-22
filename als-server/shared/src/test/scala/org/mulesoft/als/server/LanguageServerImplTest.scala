@@ -1,6 +1,5 @@
 package org.mulesoft.als.server
 
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.ast.TextListener
 import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
@@ -23,7 +22,7 @@ class LanguageServerImplTest extends LanguageServerBaseTest {
 
   test("LanguageServer will open files") {
     val factory =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
+      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier).buildWorkspaceManagerFactory()
     val editorFiles = factory.container
     withServer[Assertion](buildServer(factory)) { server =>
       for {
@@ -51,11 +50,9 @@ class LanguageServerImplTest extends LanguageServerBaseTest {
   test("LanguageServer with custom document sync open file") {
     val factory = new WorkspaceManagerFactoryBuilder(
       new MockDiagnosticClientNotifier,
-      logger,
-      textDocumentSyncBuilder =
-        Some((container: TextDocumentContainer, dependencies: List[TextListener], logger: Logger) =>
-          new CustomTextDocumentSync(container, dependencies, logger)
-        )
+      textDocumentSyncBuilder = Some((container: TextDocumentContainer, dependencies: List[TextListener]) =>
+        new CustomTextDocumentSync(container, dependencies)
+      )
     ).buildWorkspaceManagerFactory()
 
     val editorFiles = factory.container
@@ -112,26 +109,26 @@ class LanguageServerImplTest extends LanguageServerBaseTest {
 //    }
 //  }
 
-  def buildServer(factory: WorkspaceManagerFactory): LanguageServer =
+  def buildServer(factory: WorkspaceManagerFactory): LanguageServer = {
     new LanguageServerBuilder(
       factory.documentManager,
       factory.workspaceManager,
       factory.configurationManager,
       factory.resolutionTaskManager
     ).build()
+  }
 
   override def rootPath: String = ""
 }
 
 class CustomTextDocumentSync(
     override val uriToEditor: TextDocumentContainer,
-    val dependencies: List[TextListener],
-    protected val logger: Logger
+    val dependencies: List[TextListener]
 ) extends AlsTextDocumentSyncConsumer {
 
   override val `type`: TextDocumentSyncConfigType.type = TextDocumentSyncConfigType
 
-  val internal = new TextDocumentManager(uriToEditor, dependencies, logger)
+  val internal = new TextDocumentManager(uriToEditor, dependencies)
   override def didOpen(params: DidOpenTextDocumentParams): Future[Unit] =
     if (params.textDocument.uri.contains("exchange.json")) {
       Future.successful()

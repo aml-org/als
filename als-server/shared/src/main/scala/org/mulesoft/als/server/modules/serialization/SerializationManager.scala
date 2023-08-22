@@ -25,9 +25,8 @@ class SerializationManager[S](
     telemetryProvider: TelemetryProvider,
     editorConfiguration: EditorConfiguration,
     configurationReader: AlsConfigurationReader,
-    props: SerializationProps[S],
-    override val logger: Logger
-) extends BaseSerializationNotifier[S](props, configurationReader, logger)
+    props: SerializationProps[S]
+) extends BaseSerializationNotifier[S](props, configurationReader)
     with ResolvedUnitListener
     with RequestModule[SerializationClientCapabilities, SerializationServerOptions] {
   type RunType = SerializationRunnable
@@ -58,18 +57,18 @@ class SerializationManager[S](
       case Some(ua) =>
         ua.getLastUnit(uri, UUID.randomUUID().toString)
           .flatMap { r =>
-            logger.debug(s"Serialization uri: $uri", "SerializationManager", "processRequest")
+            Logger.debug(s"Serialization uri: $uri", "SerializationManager", "processRequest")
             if (r.baseUnit.isInstanceOf[Extension] || r.baseUnit.isInstanceOf[Overlay])
               r.latestBU.map(bu => (bu, r.configuration.config))
             else
               r.latestBU.map(bu => (getUnitFromResolved(bu, uri), r.configuration.config))
           }
           .recoverWith { case e: Exception =>
-            logger.warning(e.getMessage, "SerializationManager", "RequestSerialization")
+            Logger.warning(e.getMessage, "SerializationManager", "RequestSerialization")
             Future.successful((Document().withId("error"), AMLConfiguration.predefined()))
           }
       case _ =>
-        logger.warning("Unit accessor not configured", "SerializationManager", "RequestSerialization")
+        Logger.warning("Unit accessor not configured", "SerializationManager", "RequestSerialization")
         Future.successful((Document().withId("error"), AMLConfiguration.predefined()))
     }
     result.map(r => serialize(r._1, r._2))
@@ -102,13 +101,13 @@ class SerializationManager[S](
   )
 
   override protected def onSuccess(uuid: String, uri: String): Unit =
-    logger.debug(s"Scheduled success $uuid", "SerializationManager", "onSuccess")
+    Logger.debug(s"Scheduled success $uuid", "SerializationManager", "onSuccess")
 
   override protected def onFailure(uuid: String, uri: String, t: Throwable): Unit =
-    logger.warning(s"${t.getMessage} - uuid: $uuid", "SerializationManager", "onFailure")
+    Logger.warning(s"${t.getMessage} - uuid: $uuid", "SerializationManager", "onFailure")
 
   override protected def onNewAstPreprocess(resolved: AmfResolvedUnit, uuid: String): Unit =
-    logger.debug(s"onNewAst serialization manager $uuid", "SerializationManager", "onNewAstPreprocess")
+    Logger.debug(s"onNewAst serialization manager $uuid", "SerializationManager", "onNewAstPreprocess")
 
   class SerializationRunnable(var uri: String, ast: AmfResolvedUnit, uuid: String) extends Runnable[Unit] {
     private var canceled = false

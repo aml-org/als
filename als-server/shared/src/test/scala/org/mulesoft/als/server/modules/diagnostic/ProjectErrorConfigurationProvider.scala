@@ -14,8 +14,7 @@ class ProjectErrorConfigurationProvider(
     error: AMFValidationResult
 ) extends DefaultProjectConfigurationProvider(
       DummyEnvironmentProvider,
-      editorConfiguration,
-      logger
+      editorConfiguration
     ) {
   private var reportError = true
 
@@ -32,8 +31,7 @@ class ProjectErrorConfigurationProvider(
           state.config,
           DummyEnvironmentProvider,
           if (reportError) Seq(error) else Seq(),
-          editorConfiguration,
-          logger
+          editorConfiguration
         )
       }))
 }

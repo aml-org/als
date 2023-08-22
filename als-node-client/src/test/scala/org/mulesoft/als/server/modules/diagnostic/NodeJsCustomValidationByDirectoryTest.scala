@@ -3,6 +3,7 @@ package org.mulesoft.als.server.modules.diagnostic
 import amf.core.client.scala.AMFGraphConfiguration
 import amf.custom.validation.client.ProfileValidatorNodeBuilder
 import org.mulesoft.als.common.ByDirectoryTest
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.feature.diagnostic.CustomValidationClientCapabilities
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
@@ -24,7 +25,7 @@ import scala.concurrent.Future
 class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with ChangesWorkspaceConfiguration {
   def rootPath: String = "custom-validation/byDirectory"
 
-  val logger: TestLogger                   = TestLogger()
+  Logger.withLogger(TestLogger())
   override def fileExtensions: Seq[String] = Seq(".yaml")
 
   override def testFile(content: String, file: SyncFile, parent: String): Unit = {
@@ -101,7 +102,7 @@ class NodeJsCustomValidationByDirectoryTest extends ByDirectoryTest with Changes
     }
 
   def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer = {
-    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
+    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, EditorConfiguration())
     val dm      = builder.buildDiagnosticManagers(Some(ProfileValidatorNodeBuilder))
     val factory = builder.buildWorkspaceManagerFactory()
     val b = new LanguageServerBuilder(

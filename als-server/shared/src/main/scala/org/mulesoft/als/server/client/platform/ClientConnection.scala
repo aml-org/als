@@ -8,15 +8,13 @@ import org.mulesoft.lsp.client.{LspLanguageClient, LspLanguageClientAware}
 import org.mulesoft.lsp.feature.diagnostic.PublishDiagnosticsParams
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 
-case class ClientConnection[S](override protected val logger: Logger) extends AbstractClientConnection[S]
+case class ClientConnection[S]() extends AbstractClientConnection[S]
 
 trait AbstractClientConnection[S]
     extends LspLanguageClientAware
     with AlsLanguageClientAware[S]
     with ClientNotifier
     with AlsClientNotifier[S] {
-
-  protected val logger: Logger
 
   var clientProxy: Option[LspLanguageClient]       = None
   var alsClientProxy: Option[AlsLanguageClient[S]] = None
@@ -35,13 +33,13 @@ trait AbstractClientConnection[S]
 
   private def applyToClient(fn: LspLanguageClient => Unit): Unit =
     if (clientProxy.isEmpty)
-      logger.warning("Client not connect", "ClientConnection", "applyToClient")
+      Logger.warning("Client not connect", "ClientConnection", "applyToClient")
     else
       fn(clientProxy.get)
 
   private def applyToAlsClient(fn: AlsLanguageClient[S] => Unit): Unit =
     if (alsClientProxy.isEmpty)
-      logger.warning("Als Client not connect", "ClientConnection", "applyToAlsClient")
+      Logger.warning("Als Client not connect", "ClientConnection", "applyToAlsClient")
     else
       fn(alsClientProxy.get)
 

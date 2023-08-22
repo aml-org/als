@@ -62,7 +62,7 @@ class CustomValidationManagerTest
       diagnosticNotifier: MockDiagnosticClientNotifier,
       validator: BaseProfileValidatorBuilder
   ): LanguageServer = {
-    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
+    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, EditorConfiguration())
     val dm      = builder.buildDiagnosticManagers(Some(validator))
     val factory = builder.buildWorkspaceManagerFactory()
     val b = new LanguageServerBuilder(
@@ -80,7 +80,7 @@ class CustomValidationManagerTest
       validator: BaseProfileValidatorBuilder,
       s: SerializationProps[_]
   ): LanguageServer = {
-    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, EditorConfiguration())
+    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, EditorConfiguration())
     val dm      = builder.buildDiagnosticManagers(Some(validator))
     val sm      = builder.serializationManager(s)
     val factory = builder.buildWorkspaceManagerFactory()
@@ -271,7 +271,7 @@ class CustomValidationManagerTest
               diagnostics.diagnostics.find(d => d.range == range)
             if (firstDiagnostic.isEmpty) {
               logger.error(
-                s"Couldn't find first diagnostic:\n ${diagnostics.write}",
+                s"Couldn't find first diagnostic: ${diagnostics.write}",
                 "CustomValidationManagerTest",
                 "Should notify errors"
               )
@@ -311,7 +311,7 @@ class CustomValidationManagerTest
               diagnostics.diagnostics.find(d => d.range == range)
             if (firstDiagnostic.isEmpty) {
               logger.error(
-                s"Couldn't find first diagnostic:\n ${diagnostics.write}",
+                s"Couldn't find first diagnostic: ${diagnostics.write}",
                 "CustomValidationManagerTest",
                 "Should notify errors"
               )
@@ -351,7 +351,7 @@ class CustomValidationManagerTest
               diagnostics.diagnostics.find(_.message == "Min length must be less than max length must match in scalar")
             if (firstDiagnostic.isEmpty) {
               logger.error(
-                s"Couldn't find first diagnostic:\n ${diagnostics.write}",
+                s"Couldn't find first diagnostic: ${diagnostics.write}",
                 "CustomValidationManagerTest",
                 "Should notify errors"
               )
@@ -434,7 +434,7 @@ class CustomValidationManagerTest
               diagnostics.diagnostics.find(d => d.range == range)
             if (firstDiagnostic.isEmpty) {
               logger.error(
-                s"Couldn't find first diagnostic:\n ${diagnostics.write}",
+                s"Couldn't find first diagnostic: ${diagnostics.write}",
                 "CustomValidationManagerTest",
                 "Should notify errors"
               )
@@ -476,7 +476,7 @@ class CustomValidationManagerTest
               diagnostics.diagnostics.find(d => d.range == range)
             if (firstDiagnostic.isEmpty) {
               logger.error(
-                s"Couldn't find first diagnostic:\n ${diagnostics.write}",
+                s"Couldn't find first diagnostic: ${diagnostics.write}",
                 "CustomValidationManagerTest",
                 "Should notify errors"
               )
@@ -520,7 +520,7 @@ class CustomValidationManagerTest
               diagnostics.diagnostics.find(d => d.range == range)
             if (firstDiagnostic.isEmpty) {
               logger.error(
-                s"Couldn't find first diagnostic:\n ${diagnostics.write}",
+                s"Couldn't find first diagnostic: ${diagnostics.write}",
                 "CustomValidationManagerTest",
                 "Should notify errors"
               )

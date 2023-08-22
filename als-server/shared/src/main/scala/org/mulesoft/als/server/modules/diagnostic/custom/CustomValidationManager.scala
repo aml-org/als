@@ -17,8 +17,8 @@ import org.mulesoft.als.server.modules.ast.ResolvedUnitListener
 import org.mulesoft.als.server.modules.common.reconciler.Runnable
 import org.mulesoft.als.server.modules.diagnostic._
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
-import org.mulesoft.amfintegration.amfconfiguration.AMLSpecificConfiguration
 import org.mulesoft.amfintegration.AmfResolvedUnit
+import org.mulesoft.amfintegration.amfconfiguration.AMLSpecificConfiguration
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.link.DocumentLink
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
@@ -30,7 +30,6 @@ import scala.util.{Failure, Success}
 class CustomValidationManager(
     override protected val telemetryProvider: TelemetryProvider,
     override protected val clientNotifier: ClientNotifier,
-    override protected val logger: Logger,
     override protected val validationGatherer: ValidationGatherer,
     val validatorBuilder: BaseProfileValidatorBuilder
 ) extends BasicDiagnosticManager[CustomValidationClientCapabilities, CustomValidationOptions]
@@ -46,7 +45,7 @@ class CustomValidationManager(
 
   override def applyConfig(config: Option[CustomValidationClientCapabilities]): CustomValidationOptions = {
     enabled = config.exists(_.enabled)
-    logger.debug(s"Custom validation manager enabled? $enabled", "CustomValidationManager", "applyConfig")
+    Logger.debug(s"Custom validation manager enabled? $enabled", "CustomValidationManager", "applyConfig")
     CustomValidationOptions(enabled)
   }
 
@@ -71,7 +70,7 @@ class CustomValidationManager(
           .indexNewReport(ErrorsWithTree(uri, results, Some(tree(resolved.baseUnit))), managerName, uuid)
         notifyReport(uri, resolved.baseUnit, references, managerName, ProfileName("CustomValidation"))
         val endTime = System.currentTimeMillis()
-        this.logger.debug(
+        Logger.debug(
           s"It took ${endTime - startTime} milliseconds to validate with Go env",
           "CustomValidationManager",
           "gatherValidationErrors"
@@ -98,7 +97,7 @@ class CustomValidationManager(
     for {
       serialized <- serializeUnit(unit, config)
       result <- {
-        logger.debug("about to get results", "CustomValidationManager", "validate")
+        Logger.debug("About to get results", "CustomValidationManager", "validate")
         Future
           .sequence(getResults(uri, profiles, serialized))
           .map(_.flatten)
@@ -108,7 +107,7 @@ class CustomValidationManager(
   private def getResults(uri: String, profiles: Seq[DialectInstance], serialized: String) =
     profiles
       .map(profile => {
-        logger.debug(s"Validate with profile: ${profile.identifier}", "CustomValidationManager", "validateWithProfile")
+        Logger.debug(s"Validate with profile: ${profile.identifier}", "CustomValidationManager", "validateWithProfile")
         validateWithProfile(profile, uri, serialized)
       })
 
@@ -137,7 +136,7 @@ class CustomValidationManager(
         })
       })
       .recoverWith { case e =>
-        logger.error(e.getMessage, "CustomValidationManager", "validateWithProfile")
+        Logger.error(e.getMessage, "CustomValidationManager", "validateWithProfile")
         throw e
       }
 
@@ -184,13 +183,13 @@ class CustomValidationManager(
     new CustomValidationRunnable(ast.baseUnit.identifier, ast, uuid)
 
   protected override def onFailure(uuid: String, uri: String, exception: Throwable): Unit = {
-    logger.error(s"Error on validation: ${exception.toString}", "CustomValidationManager", "newASTAvailable")
+    Logger.error(s"Error on validation: ${exception.getMessage}", "CustomValidationManager", "newASTAvailable")
     exception.printStackTrace()
     clientNotifier.notifyDiagnostic(ValidationReport(uri, Set.empty, ProfileNames.AMF).publishDiagnosticsParams)
   }
 
   protected override def onSuccess(uuid: String, uri: String): Unit =
-    logger.debug(s"End report: $uuid", "CustomValidationRunnable", "newASTAvailable")
+    Logger.debug(s"End report: $uuid", "CustomValidationRunnable", "newASTAvailable")
 
   /** Meant just for logging
     *
@@ -198,8 +197,8 @@ class CustomValidationManager(
     * @param uuid
     */
   override protected def onNewAstPreprocess(resolved: AmfResolvedUnit, uuid: String): Unit =
-    logger.debug(
-      "Running custom validations on:\n" + resolved.baseUnit.id,
+    Logger.debug(
+      "Running custom validations on: " + resolved.baseUnit.id,
       "CustomValidationManager",
       "newASTAvailable"
     )

@@ -20,7 +20,7 @@ trait FindLinksTest extends LanguageServerBaseTest with MarkerFinderTest {
 
   def buildServer(): LanguageServer = {
     val managers =
-      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
+      new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier).buildWorkspaceManagerFactory()
     new LanguageServerBuilder(
       managers.documentManager,
       managers.workspaceManager,

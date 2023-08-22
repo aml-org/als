@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.errorhandler
 
 import org.mulesoft.als.common.URIImplicits.StringUriImplicits
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.workspace.UnitNotFoundException
 import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
@@ -16,19 +17,29 @@ import org.mulesoft.lsp.textsync.{
   DidOpenTextDocumentParams,
   TextDocumentContentChangeEvent
 }
+import org.scalatest.BeforeAndAfterEach
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class ErrorHandlingTest extends LanguageServerBaseTest {
+class ErrorHandlingTest extends LanguageServerBaseTest with BeforeAndAfterEach {
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
   override def rootPath: String = "" // apis or golden files should not be necessary
 
   private val telemetryNotifier = new MockTelemetryClientNotifier(5000, false)
 
+  override def beforeEach(): Unit = {
+    Logger.withLogger(logger)
+    super.beforeEach()
+  }
+  override def afterEach(): Unit = {
+    super.afterEach()
+    logger.cleanLogList()
+  }
+
   def buildServer(): (LanguageServer, WorkspaceManagerFactory) = {
     val factory: WorkspaceManagerFactory =
-      new WorkspaceManagerFactoryBuilder(telemetryNotifier, logger).buildWorkspaceManagerFactory()
+      new WorkspaceManagerFactoryBuilder(telemetryNotifier).buildWorkspaceManagerFactory()
     (
       new LanguageServerBuilder(
         factory.documentManager,

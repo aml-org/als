@@ -17,8 +17,7 @@ import scala.concurrent.Future
 
 class ConversionManager(
     unitAccessor: UnitAccessor[CompilableUnit],
-    telemetryProvider: TelemetryProvider,
-    logger: Logger
+    telemetryProvider: TelemetryProvider
 ) extends RequestModule[ConversionClientCapabilities, ConversionRequestOptions] {
 
   private var enabled = false
@@ -28,7 +27,7 @@ class ConversionManager(
       override def `type`: ConversionRequestType.type = ConversionRequestType
 
       override def task(params: ConversionParams): Future[SerializedDocument] = {
-        if (!enabled) logger.warning("Request conversion with manager disabled", "ConversionManager", "convert")
+        if (!enabled) Logger.warning("Request conversion with manager disabled", "ConversionManager", "convert")
         onSerializationRequest(params.uri, params.target, params.syntax)
       }
 

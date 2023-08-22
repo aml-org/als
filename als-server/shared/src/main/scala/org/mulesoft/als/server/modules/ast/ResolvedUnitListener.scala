@@ -11,7 +11,6 @@ import scala.util.{Failure, Success}
 
 trait ResolvedUnitListener extends AstListener[AmfResolvedUnit] with AccessUnits[AmfResolvedUnit] {
   type RunType <: Runnable[Unit]
-  protected val logger: Logger
 
   protected def runnable(ast: AmfResolvedUnit, uuid: String): RunType
 

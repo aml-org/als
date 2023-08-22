@@ -16,7 +16,6 @@ import scala.concurrent.Future
 class ProjectDiagnosticManager(
     override protected val telemetryProvider: TelemetryProvider,
     override protected val clientNotifier: ClientNotifier,
-    override protected val logger: Logger,
     override protected val validationGatherer: ValidationGatherer,
     override protected val optimizationKind: DiagnosticNotificationsKind
 ) extends NewConfigurationListener
