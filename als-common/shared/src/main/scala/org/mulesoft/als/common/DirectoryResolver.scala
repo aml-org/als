@@ -1,11 +1,11 @@
 package org.mulesoft.als.common
 
-import amf.core.internal.remote.File
+import amf.core.internal.unsafe.PlatformSecrets
+import org.mulesoft.als.common.URIImplicits._
 
 import scala.concurrent.Future
 
-trait DirectoryResolver {
-  val FilePrefix = "file://"
+trait DirectoryResolver extends PlatformSecrets {
   def exists(path: String): Future[Boolean]
 
   def readDir(path: String): Future[Seq[String]]
@@ -13,6 +13,6 @@ trait DirectoryResolver {
   def isDirectory(path: String): Future[Boolean]
 
   def toPath(uri: String): String =
-    File.unapply(uri).getOrElse(uri)
+    uri.toPath(platform)
 
 }
