@@ -12,7 +12,7 @@ class ServerParsingBeforeDiagnosticTest extends LanguageServerBaseTest {
   override implicit val executionContext: ExecutionContext = ExecutionContext.Implicits.global
 
   def buildServer(clientNotifier: MockDiagnosticClientNotifier): LanguageServer = {
-    val builder = new WorkspaceManagerFactoryBuilder(clientNotifier, logger)
+    val builder = new WorkspaceManagerFactoryBuilder(clientNotifier)
       .withNotificationKind(PARSING_BEFORE)
 
     val dm      = builder.buildDiagnosticManagers()

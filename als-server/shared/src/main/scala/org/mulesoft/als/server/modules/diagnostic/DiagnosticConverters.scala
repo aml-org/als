@@ -11,8 +11,8 @@ import org.mulesoft.lsp.feature.common.{Location, Range}
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticRelatedInformation
 import org.mulesoft.lsp.feature.link.DocumentLink
 
+import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
-import scala.collection.{AbstractSeq, LinearSeq, SeqProxy, SeqViewLike, immutable, mutable}
 
 object DiagnosticConverters {
 

@@ -14,7 +14,7 @@ trait AMFValidatorTest extends LanguageServerBaseTest with PlatformSecrets {
   case class TestValidator(fn: () => Unit) extends AMFShapePayloadValidationPlugin {
     override def applies(element: ValidatePayloadRequest): Boolean = {
       fn()
-      logger.debug(s"Test validator called", "TestValidator", "applies")
+      logger.debug("Test validator called", "TestValidator", "applies")
       false
     }
 

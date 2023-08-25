@@ -2,6 +2,7 @@ package org.mulesoft.als.server
 
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.logger.MessageSeverity.MessageSeverity
+import org.mulesoft.als.server.TestLogger.newLine
 import org.scalatest.CompleteLastly.complete
 import org.scalatest.{FutureOutcome, TestData}
 
@@ -28,6 +29,8 @@ case class TestLogger() extends Logger {
 
   val logList: mutable.Queue[String] = mutable.Queue[String]()
 
+  def cleanLogList(): Unit = logList.clear()
+
   /** Logs a message
     *
     * @param message
@@ -40,7 +43,7 @@ case class TestLogger() extends Logger {
     *   \- sub-component name
     */
   override def log(message: String, severity: MessageSeverity, component: String, subComponent: String): Unit =
-    synchronized(logList += s"log\n\t$message\n\t$severity\n\t$component\n\t$subComponent")
+    synchronized(logList += s"log$newLine$message$newLine$severity$newLine$component$newLine$subComponent")
 
   /** Logs a DEBUG severity message.
     *
@@ -52,7 +55,7 @@ case class TestLogger() extends Logger {
     *   \- sub-component name
     */
   override def debug(message: String, component: String, subComponent: String): Unit =
-    synchronized(logList += s"debug\n\t$message\n\t$component\n\t$subComponent")
+    synchronized(logList += s"debug$newLine$message$newLine$component$newLine$subComponent")
 
   /** Logs a WARNING severity message.
     *
@@ -64,7 +67,7 @@ case class TestLogger() extends Logger {
     *   \- sub-component name
     */
   override def warning(message: String, component: String, subComponent: String): Unit =
-    synchronized(logList += s"warning\n\t$message\n\t$component\n\t$subComponent")
+    synchronized(logList += s"warning$newLine$message$newLine$component$newLine$subComponent")
 
   /** Logs an ERROR severity message.
     *
@@ -76,5 +79,9 @@ case class TestLogger() extends Logger {
     *   \- sub-component name
     */
   override def error(message: String, component: String, subComponent: String): Unit =
-    synchronized(logList += s"error\n\t$message\n\t$component\n\t$subComponent")
+    synchronized(logList += s"error$newLine$message$newLine$component$newLine$subComponent")
+}
+
+object TestLogger {
+  val newLine: String = "\n\t"
 }

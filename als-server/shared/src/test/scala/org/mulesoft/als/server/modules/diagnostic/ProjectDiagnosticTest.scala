@@ -42,7 +42,6 @@ class ProjectDiagnosticTest extends LanguageServerBaseTest {
     val builder =
       new WorkspaceManagerFactoryBuilder(
         diagnosticNotifier,
-        logger,
         editorConfig,
         projectConfigurationProvider = Some(provider)
       )

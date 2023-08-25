@@ -22,7 +22,7 @@ class WorkspaceManagerWithoutDiagnosticsTest extends LanguageServerBaseTest with
     val diagnosticClientNotifier = new MockDiagnosticClientNotifier
 
     val factory: WorkspaceManagerFactory =
-      new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier, logger).buildWorkspaceManagerFactory()
+      new WorkspaceManagerFactoryBuilder(diagnosticClientNotifier).buildWorkspaceManagerFactory()
 
     val changedFragment =
       """#%RAML 1.0 DataType

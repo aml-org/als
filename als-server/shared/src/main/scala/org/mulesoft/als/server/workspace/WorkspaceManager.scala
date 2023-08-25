@@ -27,7 +27,6 @@ class WorkspaceManager protected (
     projectConfigurationProvider: ProjectConfigurationProvider,
     val allSubscribers: List[WorkspaceContentListener[_]],
     override val dependencies: List[AccessUnits[CompilableUnit]],
-    logger: Logger,
     configurationProvider: ConfigurationProvider
 ) extends TextListener
     with UnitWorkspaceManager
@@ -46,7 +45,6 @@ class WorkspaceManager protected (
       editorConfiguration,
       telemetryProvider,
       subscribers,
-      logger,
       configurationProvider
     )
   def allWorkspaces(): Seq[WorkspaceContentManager] = workspaces.allWorkspaces()
@@ -73,7 +71,7 @@ class WorkspaceManager protected (
 
   override def didChangeWatchedFiles(params: DidChangeWatchedFilesParams): Future[Unit] = {
     params.changes.foreach { f =>
-      logger.debug(s"${f.`type`} : ${f.uri}", "WorkspaceManager", "didChangeWatchedFiles")
+      Logger.debug(s"${f.`type`} : ${f.uri}", "WorkspaceManager", "didChangeWatchedFiles")
       f.`type` match {
         case org.mulesoft.lsp.workspace.FileChangeType.Created => // nothing
         case org.mulesoft.lsp.workspace.FileChangeType.Changed => environmentProvider.filesInMemory
@@ -91,14 +89,14 @@ class WorkspaceManager protected (
       case Some(exe) =>
         exe.runCommand(params)
       case _ =>
-        logger.error(s"Command [${params.command}] not recognized", "WorkspaceManager", "executeCommand")
+        Logger.error(s"Command [${params.command}] not recognized", "WorkspaceManager", "executeCommand")
         Future.successful(Unit) // future failed?
     }
 
   private val commandExecutors: Map[String, CommandExecutor[_, _]] = Map(
-    Commands.DID_FOCUS_CHANGE_COMMAND -> new DidFocusCommandExecutor(logger, this),
-    Commands.DID_CHANGE_CONFIGURATION -> new DidChangeConfigurationCommandExecutor(logger, this),
-    Commands.INDEX_DIALECT            -> new IndexDialectCommandExecutor(logger, this)
+    Commands.DID_FOCUS_CHANGE_COMMAND -> new DidFocusCommandExecutor(this),
+    Commands.DID_CHANGE_CONFIGURATION -> new DidChangeConfigurationCommandExecutor(this),
+    Commands.INDEX_DIALECT            -> new IndexDialectCommandExecutor(this)
   )
 
   override def getProjectRootOf(uri: String): Future[Option[String]] =
@@ -171,7 +169,6 @@ class WorkspaceList(
     editorConfiguration: EditorConfiguration,
     telemetryProvider: TelemetryProvider,
     subscribers: () => List[WorkspaceContentListener[_]],
-    logger: Logger,
     configurationProvider: ConfigurationProvider
 ) {
 
@@ -184,12 +181,11 @@ class WorkspaceList(
     buildDefaultWorkspaceManager()
 
   def buildDefaultWorkspaceManager(): Future[WorkspaceContentManager] = {
-    logger.debug(s"created default WorkspaceContentManager", "WorkspaceList", "buildWorkspaceAt")
+    Logger.debug(s"Default WorkspaceContentManager created", "WorkspaceList", "buildWorkspaceAt")
     WorkspaceContentManager(
       "",
       environmentProvider,
       telemetryProvider,
-      logger,
       subscribers,
       buildConfigurationAdapter("", IgnoreProjectConfigurationAdapter),
       configurationProvider.getHotReloadDialects
@@ -203,7 +199,7 @@ class WorkspaceList(
 
   def changeWorkspaces(added: List[String], deleted: List[String]): Future[Unit] = synchronized {
     Future.sequence(workspaces.map(_.initialized)).flatMap { _ =>
-      logger.debug(s"Changing workspaces, added: $added, deleted: $deleted", "WorkspaceList", "changeWorkspace")
+      Logger.debug(s"Changing workspaces, added: $added, deleted: $deleted", "WorkspaceList", "changeWorkspace")
       val newWorkspaces = added.filterNot(uri => workspaces.exists(_.folderUri == uri)).map(getOrCreateWorkspaceAt)
       val oldWorkspaces = workspaces.filter(wcm => deleted.contains(wcm.folderUri)) ++
         workspaces.collect({
@@ -240,14 +236,13 @@ class WorkspaceList(
         uri,
         environmentProvider,
         telemetryProvider,
-        logger,
         subscribers,
         buildConfigurationAdapter(uri, projectConfigurationProvider),
         configurationProvider.getHotReloadDialects
       )
       _ <- Future.sequence(applicableFiles.map(wcm.stage(_, OPEN_FILE)))
     } yield {
-      logger.debug(s"created WorkspaceContentManager for $uri", "WorkspaceList", "buildWorkspaceAt")
+      Logger.debug(s"WorkspaceContentManager created for $uri", "WorkspaceList", "buildWorkspaceAt")
       wcm
     }
   }
@@ -262,8 +257,7 @@ class WorkspaceList(
       pcp,
       editorConfiguration,
       environmentProvider,
-      buListenerSubscribers,
-      logger
+      buListenerSubscribers
     )
 
   def findWorkspace(uri: String): Future[WorkspaceContentManager] =
@@ -274,7 +268,7 @@ class WorkspaceList(
         .sequence(workspaces.map(ws => ws.containsFile(uri).map((ws, _))))
         .map(set => set.find(t => t._2).map(_._1))
       wcm <- wcmCandidate.map(Future(_)).getOrElse {
-        logger.debug(s"Getting default workspace ($uri)", "WorkspaceList", "findWorkspace")
+        Logger.debug(s"Getting default workspace ($uri)", "WorkspaceList", "findWorkspace")
         defaultWorkspace
       }
     } yield wcm
@@ -304,7 +298,6 @@ object WorkspaceManager {
       projectConfigurationProvider: ProjectConfigurationProvider,
       allSubscribers: List[WorkspaceContentListener[_]],
       dependencies: List[AccessUnits[CompilableUnit]],
-      logger: Logger,
       configurationProvider: ConfigurationProvider
   ): WorkspaceManager = {
     val wm = new WorkspaceManager(
@@ -314,7 +307,6 @@ object WorkspaceManager {
       projectConfigurationProvider,
       allSubscribers,
       dependencies,
-      logger,
       configurationProvider
     )
     wm.dependencies.foreach(d => d.withUnitAccessor(wm))

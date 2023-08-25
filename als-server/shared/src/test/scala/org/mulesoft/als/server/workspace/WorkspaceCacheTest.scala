@@ -5,7 +5,6 @@ import amf.core.client.platform.resource.ResourceNotFound
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.configuration.ProjectConfiguration
-import org.mulesoft.als.logger.EmptyLogger
 import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.modules.ast.CHANGE_FILE
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
@@ -69,8 +68,8 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     val env = TextDocumentContainer()
     for {
       configAdapter <- newConfigurationAdapter(folderUri, env, rl)
-      ws <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, EmptyLogger, () => Nil, configAdapter)
-      _  <- ws.initialized
+      ws            <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, () => Nil, configAdapter)
+      _             <- ws.initialized
       _ <- ws
         .withConfiguration(ProjectConfiguration(folderUri, mainApiName, cacheUris))
       counter1 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
@@ -132,8 +131,8 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     val env = TextDocumentContainer()
     for {
       configAdapter <- newConfigurationAdapter(folderUri, env, rl)
-      ws <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, EmptyLogger, () => Nil, configAdapter)
-      _  <- ws.initialized
+      ws            <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, () => Nil, configAdapter)
+      _             <- ws.initialized
       _ <- ws
         .withConfiguration(ProjectConfiguration(folderUri, mainApiName, cacheUris))
       counter1 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
@@ -186,8 +185,8 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     val env = TextDocumentContainer()
     for {
       configAdapter <- newConfigurationAdapter(folderUri, env, rl)
-      ws <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, EmptyLogger, () => Nil, configAdapter)
-      _  <- ws.initialized
+      ws            <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, () => Nil, configAdapter)
+      _             <- ws.initialized
       _ <- ws
         .withConfiguration(ProjectConfiguration(folderUri, mainApiName))
       counter1 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
@@ -241,8 +240,8 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     val env = TextDocumentContainer()
     for {
       configAdapter <- newConfigurationAdapter(folderUri, env, rl)
-      ws <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, EmptyLogger, () => Nil, configAdapter)
-      _  <- ws.initialized
+      ws            <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, () => Nil, configAdapter)
+      _             <- ws.initialized
       _ <- ws
         .withConfiguration(ProjectConfiguration(folderUri, mainApiName, cacheUris))
       counter1 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
@@ -265,14 +264,13 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
   ): Future[ProjectConfigurationAdapter] = Future {
     val editorConfig = EditorConfiguration.withPlatformLoaders(Seq(rl))
     val defaultProjectConfigurationProvider =
-      new DefaultProjectConfigurationProvider(env, editorConfig, EmptyLogger)
+      new DefaultProjectConfigurationProvider(env, editorConfig)
     new ProjectConfigurationAdapter(
       folder,
       defaultProjectConfigurationProvider,
       editorConfig,
       env,
-      List.empty,
-      EmptyLogger
+      List.empty
     )
   }
 
@@ -313,8 +311,8 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     val env = TextDocumentContainer()
     for {
       configAdapter <- newConfigurationAdapter(folderUri, env, rl)
-      ws <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, EmptyLogger, () => Nil, configAdapter)
-      _  <- ws.initialized
+      ws            <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, () => Nil, configAdapter)
+      _             <- ws.initialized
       _ <- ws
         .withConfiguration(ProjectConfiguration(folderUri, mainApiName, cacheUris))
       counter1 <- ws.getUnit(mainApiUri).flatMap(l => l.getLast).map { _ =>
@@ -354,7 +352,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     }
   }
 
-  object DummyTelemetryProvider extends TelemetryManager(DummyClientNotifier, EmptyLogger)
+  object DummyTelemetryProvider extends TelemetryManager(DummyClientNotifier)
 
   object DummyClientNotifier extends ClientNotifier {
     override def notifyDiagnostic(params: PublishDiagnosticsParams): Unit = {}

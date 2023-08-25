@@ -1,7 +1,6 @@
 package org.mulesoft.als.server.lsp4j
 
 import org.eclipse.lsp4j.jsonrpc.Launcher
-import org.eclipse.lsp4j.services.LanguageClient
 import org.mulesoft.als.logger.{Logger, PrintLnLogger}
 import org.mulesoft.als.server.JvmSerializationProps
 import org.mulesoft.als.server.client.{AlsLanguageClientExtensions, AlsLanguageClientWrapper, platform}
@@ -57,11 +56,12 @@ object Main {
         }
 
       val logger: Logger   = PrintLnLogger
-      val clientConnection = platform.ClientConnection[StringWriter](logger)
+      val clientConnection = platform.ClientConnection[StringWriter]()
 
       logger.debug("Building LanguageServerImpl", "Main", "main")
       val server = new LanguageServerImpl(
         new AlsLanguageServerFactory(clientConnection)
+          .withLogger(logger)
           .withSerializationProps(JvmSerializationProps(clientConnection))
           .build()
       )

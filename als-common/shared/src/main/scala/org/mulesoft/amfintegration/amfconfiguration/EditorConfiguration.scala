@@ -2,14 +2,7 @@ package org.mulesoft.amfintegration.amfconfiguration
 
 import amf.aml.client.scala.AMLConfiguration
 import amf.aml.client.scala.model.document.Dialect
-import amf.apicontract.client.scala.{
-  AMFConfiguration,
-  APIConfiguration,
-  AsyncAPIConfiguration,
-  OASConfiguration,
-  RAMLConfiguration
-}
-import amf.core.client.scala.AMFParseResult
+import amf.apicontract.client.scala.{AsyncAPIConfiguration, OASConfiguration, RAMLConfiguration}
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.client.scala.parse.AMFSyntaxParsePlugin
 import amf.core.client.scala.resource.ResourceLoader
@@ -18,7 +11,7 @@ import amf.core.internal.remote.Spec
 import amf.core.internal.unsafe.PlatformSecrets
 import amf.graphql.client.scala.GraphQLConfiguration
 import amf.shapes.client.scala.config.JsonSchemaConfiguration
-import org.mulesoft.als.logger.{EmptyLogger, Logger}
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.amfintegration.AmfImplicits.DialectInstanceImp
 import org.mulesoft.amfintegration.dialect.integration.BaseAlsDialectProvider
 import org.mulesoft.amfintegration.vocabularies.integration.{
@@ -38,8 +31,7 @@ trait EditorConfigurationProvider {
 case class EditorConfiguration(
     resourceLoaders: Seq[ResourceLoader],
     syntaxPlugins: Seq[AMFSyntaxParsePlugin],
-    validationPlugin: Seq[AMFShapePayloadValidationPlugin],
-    logger: Logger
+    validationPlugin: Seq[AMFShapePayloadValidationPlugin]
 ) extends EditorConfigurationProvider { // todo: add hot reload
 
   val baseConfiguration: AMLConfiguration = AMLConfiguration
@@ -116,14 +108,14 @@ case class EditorConfiguration(
   def withDialect(uri: String): EditorConfiguration = synchronized {
     dialects = uri +: dialects
     parsedDialects = parseDialects
-    logger.debug(s"New editor dialect: $uri", "EditorConfiguration", "indexDialect")
+    Logger.debug(s"New editor dialect: $uri", "EditorConfiguration", "indexDialect")
     this
   }
 
   def withProfile(uri: String): EditorConfiguration = synchronized {
     profiles = uri +: profiles
     parsedProfiles = parseProfiles
-    logger.debug(s"New editor validation profile: $uri", "EditorConfiguration", "indexProfile")
+    Logger.debug(s"New editor validation profile: $uri", "EditorConfiguration", "indexProfile")
     this
   }
 }
@@ -154,14 +146,12 @@ object EditorConfigurationState {
 
 object EditorConfiguration extends PlatformSecrets {
   def apply(): EditorConfiguration = withPlatformLoaders(Seq.empty)
-  def apply(logger: Logger): EditorConfiguration =
-    EditorConfiguration(platform.loaders(), Seq.empty, Seq.empty, logger)
 
   def withPlatformLoaders(rls: Seq[ResourceLoader]): EditorConfiguration =
-    EditorConfiguration(rls ++ platform.loaders(), Seq.empty, Seq.empty, EmptyLogger)
+    EditorConfiguration(rls ++ platform.loaders(), Seq.empty, Seq.empty)
 
   def withoutPlatformLoaders(rls: Seq[ResourceLoader]): EditorConfiguration =
-    EditorConfiguration(rls, Seq.empty, Seq.empty, EmptyLogger)
+    EditorConfiguration(rls, Seq.empty, Seq.empty)
 
 }
 

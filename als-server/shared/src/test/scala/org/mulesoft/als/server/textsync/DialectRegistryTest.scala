@@ -40,7 +40,6 @@ class DialectRegistryTest extends LanguageServerBaseTest {
     val factory =
       new WorkspaceManagerFactoryBuilder(
         diagnosticNotifier,
-        logger,
         EditorConfiguration.withPlatformLoaders(
           Seq(AmfConfigurationPatcher.resourceLoaderForFile(extraDialectPath, extraDialectContent))
         )

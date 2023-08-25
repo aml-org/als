@@ -19,8 +19,7 @@ import scala.concurrent.Future
 
 class StructureManager(
     val unitAccesor: UnitAccessor[CompilableUnit],
-    private val telemetryProvider: TelemetryProvider,
-    private val logger: Logger
+    private val telemetryProvider: TelemetryProvider
 ) extends RequestModule[DocumentSymbolClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
 
   override val `type`: ConfigType[DocumentSymbolClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] =
@@ -77,7 +76,7 @@ class StructureManager(
       .flatMap(_.getLast)
       .map(cu => {
         val r = getStructureFromAST(cu, telemetryUUID) // todo: if isn't resolved yet map future
-        logger
+        Logger
           .debug(s"Got result for url $uri of size ${r.size}", "StructureManager", "onDocumentStructure")
         r
       })

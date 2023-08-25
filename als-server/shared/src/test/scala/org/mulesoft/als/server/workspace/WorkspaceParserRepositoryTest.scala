@@ -3,7 +3,6 @@ package org.mulesoft.als.server.workspace
 import amf.core.client.scala.AMFResult
 import amf.core.client.scala.model.document.BaseUnit
 import amf.core.internal.unsafe.PlatformSecrets
-import org.mulesoft.als.logger.EmptyLogger
 import org.mulesoft.als.server.modules.workspace.{ParsedUnit, WorkspaceParserRepository}
 import org.mulesoft.amfintegration.amfconfiguration.{
   ALSConfigurationState,
@@ -134,7 +133,7 @@ class WorkspaceParserRepositoryTest extends AsyncFunSuite with Matchers with Pla
     for {
       aLSConfigurationState <- configWithRL(files)
       repository <- Future {
-        val r = new WorkspaceParserRepository(EmptyLogger)
+        val r = new WorkspaceParserRepository()
         r
       }
       r <- Future
@@ -154,7 +153,7 @@ class WorkspaceParserRepositoryTest extends AsyncFunSuite with Matchers with Pla
   def makeRepositoryTree(files: Set[MockFile], mainFile: MockFile): Future[WorkspaceParserRepository] = {
     for {
       globalConfiguration <- configWithRL(files)
-      repository          <- Future { new WorkspaceParserRepository(EmptyLogger) }
+      repository          <- Future { new WorkspaceParserRepository() }
       _ <- globalConfiguration
         .parse(mainFile.uri)
         .flatMap(bu => repository.newTree(bu))

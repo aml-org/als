@@ -4,6 +4,7 @@ import amf.aml.client.scala.model.document.DialectInstance
 import amf.core.internal.unsafe.PlatformSecrets
 import amf.custom.validation.client.scala.{BaseProfileValidatorBuilder, ProfileValidatorExecutor}
 import amf.custom.validation.internal.DummyValidatorExecutor
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.FailedLogs.loggerFixture
 import org.mulesoft.als.server.Flaky.flakyFixture
 import org.mulesoft.als.server.feature.diagnostic.{CleanDiagnosticTreeParams, CleanDiagnosticTreeRequestType}
@@ -25,13 +26,7 @@ import org.mulesoft.lsp.feature.documentsymbol.{
 import org.mulesoft.lsp.feature.telemetry.TelemetryMessage
 import org.mulesoft.lsp.textsync._
 import org.mulesoft.lsp.workspace.FileChangeType.FileChangeType
-import org.mulesoft.lsp.workspace.{
-  DidChangeWatchedFilesParams,
-  DidChangeWorkspaceFoldersParams,
-  ExecuteCommandParams,
-  FileEvent,
-  WorkspaceFoldersChangeEvent
-}
+import org.mulesoft.lsp.workspace._
 import org.scalatest.funsuite.AsyncFunSuite
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.{FutureOutcome, OptionValues}
@@ -48,9 +43,12 @@ abstract class LanguageServerBaseTest
     with ChangesWorkspaceConfiguration {
 
   implicit val logger: TestLogger = TestLogger()
+  Logger.withLogger(logger)
 
   override def withFixture(test: NoArgAsyncTest): FutureOutcome =
-    loggerFixture(test)(flakyFixture(_)(super.withFixture))
+    loggerFixture(test) {
+      flakyFixture(_)(super.withFixture)
+    }
 
   object DummyProfileValidator extends BaseProfileValidatorBuilder {
 

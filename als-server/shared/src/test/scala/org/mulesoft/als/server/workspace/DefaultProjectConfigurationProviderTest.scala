@@ -5,14 +5,14 @@ import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.server.LanguageServerBaseTest
 import org.mulesoft.als.server.modules.workspace.{DefaultProjectConfigurationProvider, MainFileTreeBuilder}
 import org.mulesoft.als.server.textsync.TextDocumentContainer
-import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
+import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.amfconfiguration.{
   ALSConfigurationState,
   EditorConfiguration,
   EmptyProjectConfigurationState
 }
 import org.mulesoft.amfintegration.visitors.AmfElementVisitors
-import org.mulesoft.amfintegration.AmfImplicits._
+
 import scala.concurrent.{ExecutionContext, Future}
 
 class DefaultProjectConfigurationProviderTest extends LanguageServerBaseTest {
@@ -32,7 +32,7 @@ class DefaultProjectConfigurationProviderTest extends LanguageServerBaseTest {
   def buildConfigurationProvider(): ProjectConfigurationProvider = {
     val container           = TextDocumentContainer()
     val editorConfiguration = EditorConfiguration()
-    new DefaultProjectConfigurationProvider(container, editorConfiguration, logger)
+    new DefaultProjectConfigurationProvider(container, editorConfiguration)
   }
 
   test("Project configuration provider will hold multiple configurations") {
@@ -159,8 +159,7 @@ class DefaultProjectConfigurationProviderTest extends LanguageServerBaseTest {
       parseResult  <- ALSConfigurationState(editorConfig, p1, None).parse(api)
       tree <- MainFileTreeBuilder.build(
         parseResult,
-        new AmfElementVisitors(Seq.empty),
-        logger
+        new AmfElementVisitors(Seq.empty)
       )
       _ <- provider.afterNewTree(ws1, tree)
       c2 <- provider.newProjectConfiguration(

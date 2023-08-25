@@ -27,7 +27,6 @@ import scala.concurrent.Future
 class CleanDiagnosticTreeManager(
     telemetryProvider: TelemetryProvider,
     environmentProvider: EnvironmentProvider,
-    logger: Logger,
     customValidationManager: Option[CustomValidationManager],
     workspaceConfigProvider: WorkspaceConfigurationProvider
 ) extends RequestModule[CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeOptions] {
@@ -89,7 +88,7 @@ class CleanDiagnosticTreeManager(
           .map(t => (t._1, t._2.map(new AlsValidationResult(_))))
 
       val merged = list.map(uri => uri -> (ge.getOrElse(uri, Nil) ++ grouped.getOrElse(uri, Nil))).toMap
-      logger.debug(s"Report conforms: ${report.conforms}", "CleanDiagnosticTreeManager", "validate")
+      Logger.debug(s"Report conforms: ${report.conforms}", "CleanDiagnosticTreeManager", "validate")
 
       DiagnosticConverters.buildIssueResults(merged, Map.empty, profile).map(_.publishDiagnosticsParams)
 
@@ -107,7 +106,7 @@ class CleanDiagnosticTreeManager(
         .map(new AmfResultWrap(_))
       helper <- Future(alsConfigurationState.configForUnit(pr.result.baseUnit))
       resolved <- Future({
-        logger.debug(s"About to report: $refinedUri", "CleanDiagnosticTreeManager", "validate")
+        Logger.debug(s"About to report: $refinedUri", "CleanDiagnosticTreeManager", "validate")
         helper.fullResolution(pr.result.baseUnit)
       })
       result <- helper.report(resolved.baseUnit).map(r => CleanValidationPartialResult(pr, r, resolved))

@@ -18,8 +18,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 class SelectionRangeManager(
     val workspace: WorkspaceManager,
-    private val telemetryProvider: TelemetryProvider,
-    private val logger: Logger
+    private val telemetryProvider: TelemetryProvider
 ) extends RequestModule[SelectionRangeCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
 
   override val `type`: ConfigType[SelectionRangeCapabilities, Either[Boolean, WorkDoneProgressOptions]] =

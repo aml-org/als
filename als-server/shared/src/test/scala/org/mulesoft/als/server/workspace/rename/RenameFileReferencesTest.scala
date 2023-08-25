@@ -129,7 +129,6 @@ class RenameFileReferencesTest extends LanguageServerBaseTest {
     val factory =
       new WorkspaceManagerFactoryBuilder(
         new MockDiagnosticClientNotifier,
-        logger,
         EditorConfiguration.withPlatformLoaders(Seq(rl))
       )
         .buildWorkspaceManagerFactory()

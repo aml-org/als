@@ -19,8 +19,7 @@ import scala.concurrent.Future
 
 class WorkspaceConfigurationManager(
     val workspaceManager: WorkspaceManager,
-    private val telemetryProvider: TelemetryProvider,
-    private val logger: Logger
+    private val telemetryProvider: TelemetryProvider
 ) extends RequestModule[WorkspaceConfigurationClientCapabilities, WorkspaceConfigurationOptions]
     with WorkspaceConfigurationProvider {
 

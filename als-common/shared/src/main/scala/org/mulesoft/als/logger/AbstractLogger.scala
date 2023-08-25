@@ -27,7 +27,7 @@ trait AbstractLogger extends Logger {
 
     filtered.foreach(logMessage => {
       val toLog =
-        f" ${logMessage.severity} ${logMessage.component}:${logMessage.subComponent}    ${logMessage.content}"
+        f"[${logMessage.severity}] - ${logMessage.component}:${logMessage.subComponent} - ${logMessage.content}"
       this.executeLogging(toLog, logMessage.severity)
     })
   }

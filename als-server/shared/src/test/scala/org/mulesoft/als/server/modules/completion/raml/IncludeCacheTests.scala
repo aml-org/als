@@ -44,7 +44,6 @@ class IncludeCacheTests extends RAMLSuggestionTestServer {
   def buildServer(rl: ResourceLoader): LanguageServer = {
     val factory = new WorkspaceManagerFactoryBuilder(
       new MockDiagnosticClientNotifier,
-      logger,
       EditorConfiguration.withPlatformLoaders(Seq(rl))
     )
       .buildWorkspaceManagerFactory()

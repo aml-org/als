@@ -200,7 +200,7 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
   }
 
   def buildServer(notifier: ClientNotifier): LanguageServer = {
-    val builder = new WorkspaceManagerFactoryBuilder(notifier, logger)
+    val builder = new WorkspaceManagerFactoryBuilder(notifier)
     val dm      = builder.buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
     val b = new LanguageServerBuilder(

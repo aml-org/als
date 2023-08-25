@@ -1,8 +1,8 @@
 package org.mulesoft.als.server.modules.diagnostic
 
-import amf.core.client.common.{NormalPriority, PluginPriority}
 import amf.core.client.common.remote.Content
 import amf.core.client.common.validation.{ProfileNames, ValidationMode}
+import amf.core.client.common.{NormalPriority, PluginPriority}
 import amf.core.client.scala.model.document.PayloadFragment
 import amf.core.client.scala.model.domain.Shape
 import amf.core.client.scala.resource.ResourceLoader
@@ -67,9 +67,9 @@ class CustomValidationPluginTest extends LanguageServerBaseTest {
   }
 
   def buildServer(diagnosticNotifier: MockDiagnosticClientNotifier): LanguageServer = {
-    val editorConfiguration = EditorConfiguration(rl +: platform.loaders(), Seq.empty, Seq(plugin), logger)
+    val editorConfiguration = EditorConfiguration(rl +: platform.loaders(), Seq.empty, Seq(plugin))
     val builder =
-      new WorkspaceManagerFactoryBuilder(diagnosticNotifier, logger, editorConfiguration)
+      new WorkspaceManagerFactoryBuilder(diagnosticNotifier, editorConfiguration)
     val dm      = builder.buildDiagnosticManagers()
     val factory = builder.buildWorkspaceManagerFactory()
     val b = new LanguageServerBuilder(

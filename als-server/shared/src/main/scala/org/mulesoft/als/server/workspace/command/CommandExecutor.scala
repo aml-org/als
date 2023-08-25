@@ -14,8 +14,6 @@ trait CommandExecutor[P, R] {
 
   protected def runCommand(param: P): Future[R]
 
-  protected val logger: Logger
-
   private def buildParam(arguments: List[String]): Option[P] = {
     val maybeNode: Option[YNode] = arguments.headOption
       .map(c => JsonParser(c).parse(false))
@@ -28,13 +26,13 @@ trait CommandExecutor[P, R] {
 
   def runCommand(params: ExecuteCommandParams): Future[Option[R]] = {
     val className = "org.mulesoft.als.server.workspace.command.CommandExecutor"
-    logger.debug(params.toString, className, "executeCommand")
+    Logger.debug(params.toString, className, "executeCommand")
     buildParam(treatParams(params.arguments)) match {
       case Some(parsedParam) =>
-        logger.debug(parsedParam.toString, className, "executeCommand")
+        Logger.debug(parsedParam.toString, className, "executeCommand")
         runCommand(parsedParam).map(c => Some(c))
       case _ =>
-        logger.error(
+        Logger.error(
           s"Cannot build params for ${params.command}: ${params.arguments.toString()}",
           className,
           "executeCommand"

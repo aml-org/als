@@ -47,7 +47,7 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest with ChangesWorkspace
     val out      = new ObjectOutputStream(baos)
 
     val logger: Logger   = EmptyLogger
-    val clientConnection = ClientConnection(logger)
+    val clientConnection = ClientConnection()
 
     val notifier: AlsClientNotifier[StringWriter] = new MockAlsClientNotifier
     val server = new LanguageServerImpl(
@@ -67,7 +67,7 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest with ChangesWorkspace
     val out      = new ObjectOutputStream(baos)
 
     val logger: Logger                            = EmptyLogger
-    val clientConnection                          = ClientConnection(logger)
+    val clientConnection                          = ClientConnection()
     val notifier: AlsClientNotifier[StringWriter] = new MockAlsClientNotifier
     val server = new LanguageServerImpl(
       new AlsLanguageServerFactory(clientConnection)
@@ -140,14 +140,14 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest with ChangesWorkspace
   class TestDidChangeConfigurationCommandExecutor(
       wsc: WorkspaceManager,
       fn: DidChangeConfigurationNotificationParams => Unit
-  ) extends DidChangeConfigurationCommandExecutor(EmptyLogger, wsc) {
+  ) extends DidChangeConfigurationCommandExecutor(wsc) {
     override protected def runCommand(param: DidChangeConfigurationNotificationParams): Future[Unit] = {
       fn(param)
       Future.unit
     }
   }
 
-  class DummyTelemetryProvider extends TelemetryManager(new DummyClientNotifier(), EmptyLogger)
+  class DummyTelemetryProvider extends TelemetryManager(new DummyClientNotifier())
 
   class DummyClientNotifier extends ClientNotifier {
     override def notifyDiagnostic(params: PublishDiagnosticsParams): Unit = {}
@@ -178,7 +178,6 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest with ChangesWorkspace
         IgnoreProjectConfigurationAdapter,
         Nil,
         Nil,
-        EmptyLogger,
         buildWorkspaceManager.configurationManager
       ) {
 
@@ -309,7 +308,7 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest with ChangesWorkspace
     })
   }
 
-  def buildWorkspaceManager = new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier, logger)
+  def buildWorkspaceManager = new WorkspaceManagerFactoryBuilder(new MockDiagnosticClientNotifier)
 
   def buildServer(builder: WorkspaceManagerFactoryBuilder): (LanguageServer, WorkspaceManager) = {
 

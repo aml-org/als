@@ -24,8 +24,7 @@ import scala.concurrent.Future
 
 class GoToDefinitionManager(
     val workspace: WorkspaceManager,
-    private val telemetryProvider: TelemetryProvider,
-    private val logger: Logger
+    private val telemetryProvider: TelemetryProvider
 ) extends RequestModule[DefinitionClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
 
   private var conf: Option[DefinitionClientCapabilities] = None
