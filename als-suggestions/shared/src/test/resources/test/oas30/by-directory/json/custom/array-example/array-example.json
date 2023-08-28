@@ -1,0 +1,48 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "API OAS"
+  },
+  "components": {
+    "schemas": {
+      "Organization": {
+        "type": "object",
+        "description": "Org",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "departments": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "example": {
+          "id": 333,
+          "departments": [*]
+        }
+      }
+    }
+  },
+  "paths": {
+    "/orgs": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "get org",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Organization"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
