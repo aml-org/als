@@ -16,5 +16,5 @@ import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
 case class Location(uri: String, range: Range)
 
 object Location {
-  def apply(uri: String, range: Range): Location = new Location(PathTweaks.tweak(uri), range)
+  def apply(uri: String, range: Range): Location = new Location(PathTweaks.apply(uri), range)
 }

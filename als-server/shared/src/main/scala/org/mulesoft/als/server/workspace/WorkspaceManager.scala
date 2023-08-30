@@ -72,11 +72,6 @@ class WorkspaceManager protected (
   override def didChangeWatchedFiles(params: DidChangeWatchedFilesParams): Future[Unit] = {
     params.changes.foreach { f =>
       Logger.debug(s"${f.`type`} : ${f.uri}", "WorkspaceManager", "didChangeWatchedFiles")
-      f.`type` match {
-        case org.mulesoft.lsp.workspace.FileChangeType.Created => // nothing
-        case org.mulesoft.lsp.workspace.FileChangeType.Changed => environmentProvider.filesInMemory
-        case org.mulesoft.lsp.workspace.FileChangeType.Deleted => ???
-      }
     }
     Future
       .sequence(params.changes.map(c => getWorkspace(c.uri)))
@@ -147,7 +142,7 @@ class WorkspaceManager protected (
     res
   }
 
-  // tepm until have class for all relationships from visitors result associated to CU.
+  // temp until have class for all relationships from visitors result associated to CU.
   override def getRelationships(uri: String, uuid: String): Future[(CompilableUnit, Seq[RelationshipLink])] =
     for {
       cu        <- getLastUnit(uri, uuid)
