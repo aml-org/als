@@ -18,5 +18,5 @@ case class DocumentLink(range: Range, target: String, data: Option[Any] = None)
 
 object DocumentLink {
   def apply(range: Range, target: String, data: Option[Any]): DocumentLink =
-    new DocumentLink(range, PathTweaks.tweak(target), data)
+    new DocumentLink(range, PathTweaks.apply(target), data)
 }

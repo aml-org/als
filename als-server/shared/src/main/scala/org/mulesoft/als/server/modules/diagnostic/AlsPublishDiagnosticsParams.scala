@@ -9,5 +9,5 @@ case class AlsPublishDiagnosticsParams(uri: String, diagnostics: Seq[Diagnostic]
 
 object AlsPublishDiagnosticsParams {
   def apply(uri: String, diagnostics: Seq[Diagnostic], profile: ProfileName): AlsPublishDiagnosticsParams =
-    new AlsPublishDiagnosticsParams(PathTweaks.tweak(uri), diagnostics, profile)
+    new AlsPublishDiagnosticsParams(PathTweaks.apply(uri), diagnostics, profile)
 }
