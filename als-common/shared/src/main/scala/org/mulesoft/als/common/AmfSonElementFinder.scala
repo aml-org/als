@@ -191,7 +191,13 @@ object AmfSonElementFinder {
           val candidates = objects
             .filter(_.containsYPart(astBranch))
             .filterNot(exceptionCase(_, definedBy))
-          if (candidates.isEmpty) objects.filter(v => v.annotations.isVirtual || v.annotations.isSynthesized)
+          if (candidates.isEmpty)
+            objects.filter(v =>
+              (v.annotations.isVirtual && v.annotations
+                .baseVirtualNode()
+                .isEmpty) || // if there is a baseVirtualNode and it matches, it would have matched with `containsYPart`
+                v.annotations.isSynthesized
+            )
           else candidates
         } else Seq.empty
 

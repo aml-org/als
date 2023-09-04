@@ -106,7 +106,7 @@ hovers:
   (30,5):
     - Action that can be executed using a particular HTTP invocation
   (30,8):
-    - Request information for an operation
+    - Action that can be executed using a particular HTTP invocation
   (31,8):
     - Categorical information provided by some API spec format. Tags are extensions to the model supported directly in the input API spec format.
   (31,11):
@@ -282,7 +282,7 @@ hovers:
   (77,14):
     - Action that can be executed using a particular HTTP invocation
   (77,17):
-    - EndPoint in the API holding a number of executable operations
+    - Action that can be executed using a particular HTTP invocation
   (78,19):
     - Human readable name for the object
   (78,26):
@@ -1273,7 +1273,7 @@ hovers:
   (341,10):
     - Action that can be executed using a particular HTTP invocation
   (341,13):
-    - EndPoint in the API holding a number of executable operations
+    - Action that can be executed using a particular HTTP invocation
   (342,15):
     - Human readable name for the object
   (342,22):
