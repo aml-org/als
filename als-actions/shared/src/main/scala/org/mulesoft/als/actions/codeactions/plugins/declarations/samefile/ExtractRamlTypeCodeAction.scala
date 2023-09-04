@@ -11,6 +11,7 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
 import org.mulesoft.als.actions.codeactions.plugins.declarations.ExtractRamlType
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.ExtractorCommon
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.webapi.raml.RamlTypeExtractor
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
@@ -26,7 +27,7 @@ case class ExtractRamlTypeCodeAction(params: CodeActionRequestParams)
     homogeneousVendor && spec.isRaml && positionIsExtracted &&
       amfObject.exists(o => ExtractorCommon.declarationPath(o, params.definedBy) == Seq("types")) && appliesToDocument()
 
-  override protected def telemetry: TelemetryProvider = params.telemetryProvider
+  override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
   override lazy val linkEntry: Future[Option[TextEdit]] =
     renderLink.map(

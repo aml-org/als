@@ -13,7 +13,6 @@ import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.amfintegration.relationships.{AliasInfo, RelationshipLink}
 import org.mulesoft.lsp.configuration.WorkspaceFolder
 import org.mulesoft.lsp.feature.link.DocumentLink
-import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import org.mulesoft.lsp.workspace.{DidChangeWatchedFilesParams, DidChangeWorkspaceFoldersParams, ExecuteCommandParams}
 
 import scala.collection.mutable
@@ -22,7 +21,6 @@ import scala.concurrent.Future
 
 class WorkspaceManager protected (
     val environmentProvider: EnvironmentProvider,
-    telemetryProvider: TelemetryProvider,
     val editorConfiguration: EditorConfiguration,
     projectConfigurationProvider: ProjectConfigurationProvider,
     val allSubscribers: List[WorkspaceContentListener[_]],
@@ -43,7 +41,6 @@ class WorkspaceManager protected (
       environmentProvider,
       projectConfigurationProvider,
       editorConfiguration,
-      telemetryProvider,
       subscribers,
       configurationProvider
     )
@@ -162,7 +159,6 @@ class WorkspaceList(
     environmentProvider: EnvironmentProvider,
     projectConfigurationProvider: ProjectConfigurationProvider,
     editorConfiguration: EditorConfiguration,
-    telemetryProvider: TelemetryProvider,
     subscribers: () => List[WorkspaceContentListener[_]],
     configurationProvider: ConfigurationProvider
 ) {
@@ -180,7 +176,6 @@ class WorkspaceList(
     WorkspaceContentManager(
       "",
       environmentProvider,
-      telemetryProvider,
       subscribers,
       buildConfigurationAdapter("", IgnoreProjectConfigurationAdapter),
       configurationProvider.getHotReloadDialects
@@ -230,7 +225,6 @@ class WorkspaceList(
       wcm <- WorkspaceContentManager(
         uri,
         environmentProvider,
-        telemetryProvider,
         subscribers,
         buildConfigurationAdapter(uri, projectConfigurationProvider),
         configurationProvider.getHotReloadDialects
@@ -288,7 +282,6 @@ class WorkspaceList(
 object WorkspaceManager {
   def apply(
       environmentProvider: EnvironmentProvider,
-      telemetryProvider: TelemetryProvider,
       editorConfiguration: EditorConfiguration,
       projectConfigurationProvider: ProjectConfigurationProvider,
       allSubscribers: List[WorkspaceContentListener[_]],
@@ -297,7 +290,6 @@ object WorkspaceManager {
   ): WorkspaceManager = {
     val wm = new WorkspaceManager(
       environmentProvider,
-      telemetryProvider,
       editorConfiguration,
       projectConfigurationProvider,
       allSubscribers,

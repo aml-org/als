@@ -24,7 +24,6 @@ import scala.concurrent.Future
 class SuggestionsManager(
     val editorEnvironment: TextDocumentContainer,
     val workspace: WorkspaceManager,
-    private val telemetryProvider: TelemetryProvider,
     val directoryResolver: DirectoryResolver,
     private val configurationProvider: ConfigurationProvider
 ) extends RequestModule[CompletionClientCapabilities, CompletionOptions] {
@@ -55,7 +54,7 @@ class SuggestionsManager(
         onDocumentCompletion(params.textDocument.uri, LspRangeConverter.toPosition(params.position), uuid(params))
           .map(Left.apply)
 
-      override protected def telemetry: TelemetryProvider = telemetryProvider
+      override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
       override protected def code(params: CompletionParams): String =
         "SuggestionsManager"

@@ -7,6 +7,7 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionResponsePlugin
 }
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.{
   BEGIN_EXTERNAL_VOCABULARY_TO_LOCAL,
@@ -21,7 +22,7 @@ import scala.concurrent.Future
 class ExternalVocabularyToLocal(protected override val params: CodeActionRequestParams)
     extends DialectCodeActionResponsePlugin {
 
-  override protected def telemetry: TelemetryProvider = params.telemetryProvider
+  override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
   val external: Option[External] =
     dialect.flatMap(_.externals.find(_.annotations.range().map(_.toPositionRange).exists(_.contains(params.range))))

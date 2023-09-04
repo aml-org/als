@@ -18,8 +18,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class StructureManager(
-    val unitAccesor: UnitAccessor[CompilableUnit],
-    private val telemetryProvider: TelemetryProvider
+    val unitAccesor: UnitAccessor[CompilableUnit]
 ) extends RequestModule[DocumentSymbolClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
 
   override val `type`: ConfigType[DocumentSymbolClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] =
@@ -48,7 +47,7 @@ class StructureManager(
           .map(_.map(LspConverter.toLspDocumentSymbol))
           .map(Right.apply)
 
-      override protected def telemetry: TelemetryProvider = telemetryProvider
+      override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
       override protected def code(params: DocumentSymbolParams): String = "StructureManager"
 

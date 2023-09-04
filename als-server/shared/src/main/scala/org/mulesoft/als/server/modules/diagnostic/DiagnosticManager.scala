@@ -12,7 +12,6 @@ import org.mulesoft.amfintegration.amfconfiguration.ProfileMatcher
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.diagnostic.{DiagnosticClientCapabilities, DiagnosticConfigType}
 import org.mulesoft.lsp.feature.link.DocumentLink
-import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
 import scala.concurrent.Future
 
@@ -35,7 +34,6 @@ trait DiagnosticManager extends BasicDiagnosticManager[DiagnosticClientCapabilit
 trait BasicDiagnosticManager[C, S] extends ClientNotifierModule[C, S] {
 
   protected val validationGatherer: ValidationGatherer
-  protected val telemetryProvider: TelemetryProvider
   protected val optimizationKind: DiagnosticNotificationsKind = ALL_TOGETHER
   protected val notifyParsing: Boolean                        = optimizationKind == PARSING_BEFORE
 
@@ -50,7 +48,6 @@ trait BasicDiagnosticManager[C, S] extends ClientNotifierModule[C, S] {
 
   protected def sendFailedClone(
       uri: String,
-      telemetryProvider: TelemetryProvider,
       baseUnit: BaseUnit,
       uuid: String,
       e: String
@@ -88,7 +85,7 @@ trait BasicDiagnosticManager[C, S] extends ClientNotifierModule[C, S] {
         ).map(bu => bu.identifier -> bu.isInstanceOf[ExternalFragment]).toMap
       )
     Logger.debug(
-      s"Number of ${step.name} errors is: $errors.flatMap(_.issues).length",
+      s"Number of ${step.name} errors is: ${errors.flatMap(_.issues).length}",
       "ValidationManager",
       "newASTAvailable"
     )

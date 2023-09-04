@@ -1,8 +1,8 @@
 package org.mulesoft.als.server.modules.actions.fileusage.filecontents
 
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.feature.fileusage.filecontents.{FileContentsRequestType, FileContentsResponse}
 import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.common.TextDocumentIdentifier
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
@@ -11,7 +11,7 @@ import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class FileContentsHandler(telemetryProvider: TelemetryProvider, workspace: WorkspaceManager)
+class FileContentsHandler(workspace: WorkspaceManager)
     extends TelemeteredRequestHandler[TextDocumentIdentifier, FileContentsResponse] {
   override def `type`: FileContentsRequestType.type = FileContentsRequestType
 
@@ -23,7 +23,7 @@ class FileContentsHandler(telemetryProvider: TelemetryProvider, workspace: Works
         .map(fs => FileContentsResponse(fs))
     }
 
-  override protected def telemetry: TelemetryProvider = telemetryProvider
+  override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
   override protected def code(params: TextDocumentIdentifier): String = "FileContentsHandler"
 

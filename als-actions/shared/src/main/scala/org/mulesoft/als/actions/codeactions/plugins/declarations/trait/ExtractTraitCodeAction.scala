@@ -15,6 +15,7 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionResponsePlugin
 }
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.{ConverterExtractor, ExtractorCommon}
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
@@ -56,7 +57,7 @@ class ExtractTraitCodeAction(override protected val params: CodeActionRequestPar
     s"\n${renderNode(node, yPartBranch.flatMap(_.closestEntry))}\n"
   }
 
-  override protected def telemetry: TelemetryProvider = params.telemetryProvider
+  override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
   override protected def msg(params: CodeActionRequestParams): String =
     s"Extract trait: \n\t${params.uri}\t${params.range}"

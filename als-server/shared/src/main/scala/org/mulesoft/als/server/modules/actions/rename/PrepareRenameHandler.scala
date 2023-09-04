@@ -2,8 +2,9 @@ package org.mulesoft.als.server.modules.actions.rename
 
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
-import org.mulesoft.lsp.converter.{Left => Left3, SEither3}
+import org.mulesoft.lsp.converter.{SEither3, Left => Left3}
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
 import org.mulesoft.lsp.feature.common.Range
 import org.mulesoft.lsp.feature.rename.{
@@ -18,7 +19,7 @@ import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class PrepareRenameHandler(telemetryProvider: TelemetryProvider, workspace: WorkspaceManager)
+class PrepareRenameHandler(workspace: WorkspaceManager)
     extends TelemeteredRequestHandler[PrepareRenameParams, Option[
       SEither3[Range, PrepareRenameResult, PrepareRenameDefaultBehavior]
     ]]
@@ -31,7 +32,7 @@ class PrepareRenameHandler(telemetryProvider: TelemetryProvider, workspace: Work
     // check if enabled?
     prepareRename(params.textDocument.uri, Position(params.position.line, params.position.character), uuid(params))
 
-  override protected def telemetry: TelemetryProvider = telemetryProvider
+  override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
   override protected def code(params: PrepareRenameParams): String = "PrepareRename"
 

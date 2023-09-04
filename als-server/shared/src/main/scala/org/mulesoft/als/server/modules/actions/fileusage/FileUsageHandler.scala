@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.modules.actions.fileusage
 
 import org.mulesoft.als.actions.fileusage.FindFileUsages
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.feature.fileusage.FileUsageRequestType
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
@@ -10,14 +11,14 @@ import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.Future
 
-class FileUsageHandler(telemetryProvider: TelemetryProvider, workspace: WorkspaceManager)
+class FileUsageHandler(workspace: WorkspaceManager)
     extends TelemeteredRequestHandler[TextDocumentIdentifier, Seq[Location]] {
   override def `type`: FileUsageRequestType.type = FileUsageRequestType
 
   override def task(params: TextDocumentIdentifier): Future[Seq[Location]] =
     FindFileUsages.getUsages(params.uri, workspace.getAllDocumentLinks(params.uri, uuid(params)))
 
-  override protected def telemetry: TelemetryProvider = telemetryProvider
+  override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
   override protected def code(params: TextDocumentIdentifier): String = "FileUsageHandler"
 

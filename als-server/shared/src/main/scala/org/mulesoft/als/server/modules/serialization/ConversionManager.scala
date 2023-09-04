@@ -16,8 +16,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class ConversionManager(
-    unitAccessor: UnitAccessor[CompilableUnit],
-    telemetryProvider: TelemetryProvider
+    unitAccessor: UnitAccessor[CompilableUnit]
 ) extends RequestModule[ConversionClientCapabilities, ConversionRequestOptions] {
 
   private var enabled = false
@@ -31,7 +30,7 @@ class ConversionManager(
         onSerializationRequest(params.uri, params.target, params.syntax)
       }
 
-      override protected def telemetry: TelemetryProvider = telemetryProvider
+      override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
       override protected def code(params: ConversionParams): String = "ConversionManager"
 

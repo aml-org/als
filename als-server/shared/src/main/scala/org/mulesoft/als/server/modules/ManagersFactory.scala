@@ -65,7 +65,7 @@ class WorkspaceManagerFactoryBuilder(
 
   def serializationManager[S](sp: SerializationProps[S]): SerializationManager[S] = {
     val s =
-      new SerializationManager(telemetryManager, editorConfiguration, configurationManager.getConfiguration, sp)
+      new SerializationManager(editorConfiguration, configurationManager.getConfiguration, sp)
     resolutionDependencies += s
     s
   }
@@ -73,14 +73,13 @@ class WorkspaceManagerFactoryBuilder(
   def buildDiagnosticManagers(
       customValidatorBuilder: Option[BaseProfileValidatorBuilder] = None
   ): Seq[BasicDiagnosticManager[_, _]] = {
-    val gatherer = new ValidationGatherer(telemetryManager)
+    val gatherer = new ValidationGatherer
     val dm =
-      new ParseDiagnosticManager(telemetryManager, clientNotifier, gatherer, notificationKind)
-    val pdm = new ProjectDiagnosticManager(telemetryManager, clientNotifier, gatherer, notificationKind)
-    val rdm = new ResolutionDiagnosticManager(telemetryManager, clientNotifier, gatherer)
-    customValidationManager = customValidatorBuilder.map(validator =>
-      new CustomValidationManager(telemetryManager, clientNotifier, gatherer, validator)
-    )
+      new ParseDiagnosticManager(clientNotifier, gatherer, notificationKind)
+    val pdm = new ProjectDiagnosticManager(clientNotifier, gatherer, notificationKind)
+    val rdm = new ResolutionDiagnosticManager(clientNotifier, gatherer)
+    customValidationManager =
+      customValidatorBuilder.map(validator => new CustomValidationManager(clientNotifier, gatherer, validator))
     customValidationManager.foreach(resolutionDependencies += _)
     projectDependencies += pdm
     resolutionDependencies += rdm
@@ -115,7 +114,6 @@ class WorkspaceManagerFactoryBuilder(
     WorkspaceManagerFactory(
       projectDependencies.toList,
       resolutionDependencies.toList,
-      telemetryManager,
       directoryResolver,
       configurationManager,
       editorConfiguration,
@@ -128,7 +126,6 @@ class WorkspaceManagerFactoryBuilder(
 case class WorkspaceManagerFactory(
     projectDependencies: List[WorkspaceContentListener[_]],
     resolutionDependencies: List[ResolvedUnitListener],
-    telemetryManager: TelemetryManager,
     directoryResolver: DirectoryResolver,
     configurationManager: ConfigurationManager,
     editorConfiguration: EditorConfiguration,
@@ -140,14 +137,12 @@ case class WorkspaceManagerFactory(
     TextDocumentContainer()
 
   lazy val cleanDiagnosticManager = new CleanDiagnosticTreeManager(
-    telemetryManager,
     container,
     customValidationManager,
     workspaceConfigurationManager
   )
 
   val resolutionTaskManager: ResolutionTaskManager = ResolutionTaskManager(
-    telemetryManager,
     resolutionDependencies,
     resolutionDependencies.collect { case t: AccessUnits[AmfResolvedUnit] =>
       t // is this being used? is it correct to mix subscribers with this dependencies?
@@ -159,7 +154,6 @@ case class WorkspaceManagerFactory(
   val workspaceManager: WorkspaceManager =
     WorkspaceManager(
       container,
-      telemetryManager,
       editorConfiguration,
       projectConfigurationProvider.getOrElse(
         new DefaultProjectConfigurationProvider(
@@ -183,58 +177,55 @@ case class WorkspaceManagerFactory(
     new SuggestionsManager(
       container,
       workspaceManager,
-      telemetryManager,
       directoryResolver,
       configurationManager
     )
 
   lazy val structureManager =
-    new StructureManager(workspaceManager, telemetryManager)
+    new StructureManager(workspaceManager)
 
   lazy val definitionManager =
-    new GoToDefinitionManager(workspaceManager, telemetryManager)
+    new GoToDefinitionManager(workspaceManager)
 
   lazy val implementationManager =
-    new GoToImplementationManager(workspaceManager, telemetryManager)
+    new GoToImplementationManager(workspaceManager)
 
   lazy val typeDefinitionManager =
-    new GoToTypeDefinitionManager(workspaceManager, telemetryManager)
+    new GoToTypeDefinitionManager(workspaceManager)
 
-  lazy val hoverManager = new HoverManager(workspaceManager, telemetryManager)
+  lazy val hoverManager = new HoverManager(workspaceManager)
 
   lazy val referenceManager =
-    new FindReferenceManager(workspaceManager, telemetryManager)
+    new FindReferenceManager(workspaceManager)
 
   lazy val fileUsageManager =
-    new FindFileUsageManager(workspaceManager, telemetryManager)
+    new FindFileUsageManager(workspaceManager)
 
   lazy val documentLinksManager =
-    new DocumentLinksManager(workspaceManager, telemetryManager)
+    new DocumentLinksManager(workspaceManager)
 
   lazy val renameManager =
     new RenameManager(
       workspaceManager,
-      telemetryManager,
       configurationManager.getConfiguration,
       EditorConfiguration.platform
     )
 
   lazy val conversionManager =
-    new ConversionManager(workspaceManager, telemetryManager)
+    new ConversionManager(workspaceManager)
 
   lazy val documentHighlightManager =
-    new DocumentHighlightManager(workspaceManager, telemetryManager)
+    new DocumentHighlightManager(workspaceManager)
 
   lazy val foldingRangeManager =
-    new FoldingRangeManager(workspaceManager, telemetryManager)
+    new FoldingRangeManager(workspaceManager)
 
   lazy val selectionRangeManager =
-    new SelectionRangeManager(workspaceManager, telemetryManager)
+    new SelectionRangeManager(workspaceManager)
 
   lazy val renameFileActionManager: RenameFileActionManager =
     new RenameFileActionManager(
       workspaceManager,
-      telemetryManager,
       configurationManager.getConfiguration,
       EditorConfiguration.platform
     )
@@ -244,15 +235,14 @@ case class WorkspaceManagerFactory(
       AllCodeActions.all,
       workspaceManager,
       configurationManager.getConfiguration,
-      telemetryManager,
       directoryResolver
     )
 
   lazy val documentFormattingManager: DocumentFormattingManager =
-    new DocumentFormattingManager(workspaceManager, telemetryManager)
+    new DocumentFormattingManager(workspaceManager)
 
   lazy val documentRangeFormattingManager: DocumentRangeFormattingManager =
-    new DocumentRangeFormattingManager(workspaceManager, telemetryManager)
+    new DocumentRangeFormattingManager(workspaceManager)
 
   lazy val serializationManager: Option[SerializationManager[_]] =
     resolutionDependencies.collectFirst({ case s: SerializationManager[_] =>
@@ -261,6 +251,6 @@ case class WorkspaceManagerFactory(
     })
 
   lazy val workspaceConfigurationManager: WorkspaceConfigurationManager =
-    new WorkspaceConfigurationManager(workspaceManager, telemetryManager)
+    new WorkspaceConfigurationManager(workspaceManager)
 
 }

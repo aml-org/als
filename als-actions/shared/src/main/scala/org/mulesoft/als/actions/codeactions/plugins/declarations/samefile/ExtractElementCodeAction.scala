@@ -8,6 +8,7 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionResponsePlugin
 }
 import org.mulesoft.als.actions.codeactions.plugins.CodeActionKindTitle
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.amfintegration.dialect.dialects.metadialect.MetaDialect
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
@@ -20,7 +21,7 @@ case class ExtractElementCodeAction(params: CodeActionRequestParams) extends Ext
     homogeneousVendor && !spec.isRaml && amfObject.isDefined && positionIsExtracted &&
       params.definedBy != MetaDialect.dialect && appliesToDocument()
 
-  override protected def telemetry: TelemetryProvider = params.telemetryProvider
+  override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
   override protected def msg(params: CodeActionRequestParams): String =
     s"Extract element to declaration: \n\t${params.uri}\t${params.range}"

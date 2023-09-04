@@ -10,7 +10,7 @@ import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, AMLSpecificConfiguration}
 import org.mulesoft.amfintegration.{AmfResolvedUnit, ValidationProfile}
 import org.mulesoft.lsp.feature.link.DocumentLink
-import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
+import org.mulesoft.lsp.feature.telemetry.MessageTypes
 
 import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -18,7 +18,6 @@ import scala.concurrent.Future
 import scala.util.Failure
 
 class ResolutionTaskManager private (
-    telemetryProvider: TelemetryProvider,
     private val allSubscribers: List[ResolvedUnitListener],
     override val dependencies: List[AccessUnits[AmfResolvedUnit]]
 ) extends UnitTaskManager[AmfResolvedUnit, AmfResolvedUnit, BaseUnitListenerParams]
@@ -145,15 +144,14 @@ class ResolutionTaskManager private (
     override protected type T = AmfResolvedUnit
 
     override protected def resolvedUnitFn(): Future[AMFResult] = {
-      telemetryProvider
-        .timeProcess(
-          "AMF RESOLVE",
-          MessageTypes.BEGIN_RESOLUTION,
-          MessageTypes.END_RESOLUTION,
-          "resolving with editing pipeline",
-          uri,
-          innerResolveUnit
-        )
+      Logger.timeProcess(
+        "AMF RESOLVE",
+        MessageTypes.BEGIN_RESOLUTION,
+        MessageTypes.END_RESOLUTION,
+        "resolving with editing pipeline",
+        uri,
+        innerResolveUnit
+      )
     }
 
     private def innerResolveUnit(): Future[AMFResult] =
@@ -184,12 +182,11 @@ class ResolutionTaskManager private (
 
 object ResolutionTaskManager {
   def apply(
-      telemetryProvider: TelemetryProvider,
       allSubscribers: List[ResolvedUnitListener],
       dependencies: List[AccessUnits[AmfResolvedUnit]]
   ): ResolutionTaskManager = {
     val manager =
-      new ResolutionTaskManager(telemetryProvider, allSubscribers, dependencies)
+      new ResolutionTaskManager(allSubscribers, dependencies)
     manager.init()
     manager
   }
