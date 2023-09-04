@@ -87,7 +87,7 @@ object AmfSonElementFinder {
           else {
             // check also head in case that is a built in array element
             (rangeFor(a), rangeFor(b)) match {
-              case (Some(ra), Some(rb)) if ra.contains(rb) && isValidVirtualNode(astBranch, b) => b // most specific
+              case (Some(ra), Some(rb)) if ra.contains(rb) => b // most specific
               case (Some(_), Some(_)) =>
                 if (!a.obj.containsYPart(astBranch) && b.obj.containsYPart(astBranch)) b else a // most specific
               //                  case (Some(_), None) => a (same as default)
@@ -96,10 +96,6 @@ object AmfSonElementFinder {
             }
           }
         })
-
-      private def isValidVirtualNode(astBranch: ASTPartBranch, b: Branch) =
-        !b.obj.annotations.isVirtual ||
-          b.obj.annotations.containsAstBranch(astBranch).getOrElse(false)
 
       private def find(branch: Branch, definedBy: Dialect): Seq[Branch] = {
         val children: Seq[Either[AmfObject, FieldEntry]] =
@@ -195,7 +191,13 @@ object AmfSonElementFinder {
           val candidates = objects
             .filter(_.containsYPart(astBranch))
             .filterNot(exceptionCase(_, definedBy))
-          if (candidates.isEmpty) objects.filter(v => v.annotations.isVirtual || v.annotations.isSynthesized)
+          if (candidates.isEmpty)
+            objects.filter(v =>
+              (v.annotations.isVirtual && v.annotations
+                .baseVirtualNode()
+                .isEmpty) || // if there is a baseVirtualNode and it matches, it would have matched with `containsYPart`
+                v.annotations.isSynthesized
+            )
           else candidates
         } else Seq.empty
 
