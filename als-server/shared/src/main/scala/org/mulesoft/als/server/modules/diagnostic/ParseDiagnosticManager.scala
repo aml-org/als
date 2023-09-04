@@ -6,13 +6,12 @@ import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.modules.ast._
 import org.mulesoft.amfintegration.amfconfiguration.AmfParseResult
 import org.mulesoft.lsp.feature.link.DocumentLink
-import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
+import org.mulesoft.lsp.feature.telemetry.MessageTypes
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class ParseDiagnosticManager(
-    override protected val telemetryProvider: TelemetryProvider,
     override protected val clientNotifier: ClientNotifier,
     override protected val validationGatherer: ValidationGatherer,
     override protected val optimizationKind: DiagnosticNotificationsKind
@@ -37,7 +36,7 @@ class ParseDiagnosticManager(
         params.locationLinks
     Logger.debug(s"Got new AST: ${parsedResult.result.baseUnit.id}", "ParseDiagnosticManager", "newASTAvailable")
     val uri = parsedResult.location
-    telemetryProvider.timeProcess(
+    Logger.timeProcess(
       "Start report",
       MessageTypes.BEGIN_DIAGNOSTIC_PARSE,
       MessageTypes.END_DIAGNOSTIC_PARSE,

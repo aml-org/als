@@ -24,8 +24,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class GoToTypeDefinitionManager(
-    val workspace: WorkspaceManager,
-    private val telemetryProvider: TelemetryProvider
+    val workspace: WorkspaceManager
 ) extends RequestModule[TypeDefinitionClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
 
   private var conf: Option[TypeDefinitionClientCapabilities] = None
@@ -41,7 +40,7 @@ class GoToTypeDefinitionManager(
       override def task(params: TypeDefinitionParams): Future[Either[Seq[Location], Seq[LocationLink]]] =
         goToTypeDefinition(params.textDocument.uri, LspRangeConverter.toPosition(params.position), uuid(params))
 
-      override protected def telemetry: TelemetryProvider = telemetryProvider
+      override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
       override protected def code(params: TypeDefinitionParams): String =
         "GotoTypeDefinitionManager"

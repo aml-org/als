@@ -13,6 +13,7 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
 }
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.FileExtractor
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.common.{Position, Range}
@@ -52,7 +53,7 @@ class RamlTypeToJsonSchema(override protected val params: CodeActionRequestParam
     params.bu.sourceSpec.contains(Spec.RAML10) && !inProperty &&
       maybeAnyShape.isDefined && (positionIsExtracted || maybeAnyShape.exists(isInlinedJsonSchema))
 
-  protected def telemetry: TelemetryProvider = params.telemetryProvider
+  protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
   override protected def code(params: CodeActionRequestParams): String =
     "Raml type to json schema code action"

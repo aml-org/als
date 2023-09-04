@@ -12,6 +12,7 @@ import org.mulesoft.als.actions.codeactions.plugins.declarations.ExtractRamlType
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.ExtractorCommon
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.webapi.raml.RamlTypeExtractor
 import org.mulesoft.als.actions.codeactions.plugins.declarations.fragment.webapi.raml.{FragmentBundle, FragmentBundles}
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.lsp.edit.TextEdit
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
@@ -34,7 +35,7 @@ case class ExtractRamlTypeToFragmentCodeAction(params: CodeActionRequestParams)
         )
       )
 
-  override protected def telemetry: TelemetryProvider = params.telemetryProvider
+  override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
   override lazy val linkEntry: Future[Option[TextEdit]] =
     renderLink.map(

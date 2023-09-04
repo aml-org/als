@@ -25,7 +25,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class CleanDiagnosticTreeManager(
-    telemetryProvider: TelemetryProvider,
     environmentProvider: EnvironmentProvider,
     customValidationManager: Option[CustomValidationManager],
     workspaceConfigProvider: WorkspaceConfigurationProvider
@@ -40,7 +39,7 @@ class CleanDiagnosticTreeManager(
       override def task(params: CleanDiagnosticTreeParams): Future[Seq[AlsPublishDiagnosticsParams]] =
         validate(params.textDocument.uri)
 
-      override protected def telemetry: TelemetryProvider = telemetryProvider
+      override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
       override protected def code(params: CleanDiagnosticTreeParams): String = "CleanDiagnosticTreeManager"
 

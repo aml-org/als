@@ -28,8 +28,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class DocumentRangeFormattingManager(
-    val workspace: WorkspaceManager,
-    private val telemetryProvider: TelemetryProvider
+    val workspace: WorkspaceManager
 ) extends RequestModule[DocumentRangeFormattingClientCapabilities, Either[Boolean, WorkDoneProgressOptions]]
     with FormattingManager {
 
@@ -37,7 +36,7 @@ class DocumentRangeFormattingManager(
 
   override def getRequestHandlers: Seq[TelemeteredRequestHandler[_, _]] =
     Seq(new TelemeteredRequestHandler[DocumentRangeFormattingParams, Seq[TextEdit]] {
-      override protected def telemetry: TelemetryProvider = telemetryProvider
+      override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
       override protected def task(params: DocumentRangeFormattingParams): Future[Seq[TextEdit]] =
         onDocumentRangeFormatting(params)

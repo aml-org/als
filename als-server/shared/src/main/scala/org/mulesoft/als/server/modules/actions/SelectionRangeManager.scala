@@ -17,8 +17,7 @@ import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 class SelectionRangeManager(
-    val workspace: WorkspaceManager,
-    private val telemetryProvider: TelemetryProvider
+    val workspace: WorkspaceManager
 ) extends RequestModule[SelectionRangeCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
 
   override val `type`: ConfigType[SelectionRangeCapabilities, Either[Boolean, WorkDoneProgressOptions]] =
@@ -35,7 +34,7 @@ class SelectionRangeManager(
           uuid(params)
         )
 
-      override protected def telemetry: TelemetryProvider = telemetryProvider
+      override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
       override protected def code(params: SelectionRangeParams): String = "SelectionRange"
 

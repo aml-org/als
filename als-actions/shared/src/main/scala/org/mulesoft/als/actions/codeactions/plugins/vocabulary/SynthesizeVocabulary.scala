@@ -6,6 +6,7 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionResponsePlugin
 }
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.{
   BEGIN_SYNTHESIZE_VOCABULARY,
@@ -20,7 +21,7 @@ import scala.concurrent.Future
 class SynthesizeVocabulary(protected override val params: CodeActionRequestParams)
     extends DialectCodeActionResponsePlugin {
 
-  override protected def telemetry: TelemetryProvider = params.telemetryProvider
+  override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
   override val isApplicable: Boolean = dialect.isDefined &&
     dialect.exists(_.name().annotations().range().map(_.toPositionRange).exists(_.contains(params.range)))

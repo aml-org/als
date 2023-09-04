@@ -18,6 +18,7 @@ import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
 import org.mulesoft.als.convert.LspRangeConverter
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, FieldEntryImplicit}
 import org.mulesoft.amfintegration.relationships.RelationshipLink
 import org.mulesoft.lsp.edit.{ResourceOperation, TextDocumentEdit, TextEdit}
@@ -26,6 +27,7 @@ import org.mulesoft.lsp.feature.telemetry.MessageTypes.{BEGIN_DELETE_NODE_ACTION
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import org.yaml.model.YPart
 import org.mulesoft.common.collections._
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -39,7 +41,7 @@ class DeleteDeclaredNodeCodeAction(override val params: CodeActionRequestParams)
         t.fieldEntry.exists(_.isSemanticName)
     )
 
-  override protected def telemetry: TelemetryProvider = params.telemetryProvider
+  override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
   override protected def task(params: CodeActionRequestParams): Future[Seq[AbstractCodeAction]] =
     Future {

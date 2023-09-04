@@ -10,14 +10,13 @@ import org.mulesoft.als.server.modules.common.reconciler.Runnable
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.AmfResolvedUnit
 import org.mulesoft.lsp.feature.link.DocumentLink
-import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
+import org.mulesoft.lsp.feature.telemetry.MessageTypes
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
 import scala.util.{Failure, Success}
 
 class ResolutionDiagnosticManager(
-    override protected val telemetryProvider: TelemetryProvider,
     override protected val clientNotifier: ClientNotifier,
     override protected val validationGatherer: ValidationGatherer
 ) extends ResolvedUnitListener
@@ -50,7 +49,7 @@ class ResolutionDiagnosticManager(
     val refs      = projectReferences(uri, resolved.alsConfigurationState.projectState.projectErrors) ++ references
     val profile   = profileName(resolved.baseUnit)
     this
-      .report(uri, telemetryProvider, resolved, uuid, profile)
+      .report(uri, resolved, uuid, profile)
       .map(report => {
         val endTime = System.currentTimeMillis()
         validationGatherer
@@ -76,18 +75,17 @@ class ResolutionDiagnosticManager(
 
   private def report(
       uri: String,
-      telemetryProvider: TelemetryProvider,
       resolved: AmfResolvedUnit,
       uuid: String,
       profile: ProfileName
   ): Future[AMFValidationReport] = {
-    telemetryProvider.timeProcess(
+    Logger.timeProcess(
       "AMF report",
       MessageTypes.BEGIN_REPORT,
       MessageTypes.END_REPORT,
       "ResolutionDiagnosticManager - resolution diagnostics",
       uri,
-      tryValidationReport(uri, telemetryProvider, resolved, uuid, profile),
+      tryValidationReport(uri, resolved, uuid, profile),
       uuid
     )
 
@@ -95,7 +93,6 @@ class ResolutionDiagnosticManager(
 
   private def tryValidationReport(
       uri: String,
-      telemetryProvider: TelemetryProvider,
       resolved: AmfResolvedUnit,
       uuid: String,
       profile: ProfileName
@@ -114,12 +111,12 @@ class ResolutionDiagnosticManager(
           }
       } recoverWith { case e: Exception =>
         Logger.debug(s"Recovering from: ${e.getMessage}", "ResolutionDiagnosticManager", "tryValidationReport")
-        sendFailedClone(uri, telemetryProvider, resolved.baseUnit, uuid, e.getMessage)
+        sendFailedClone(uri, resolved.baseUnit, uuid, e.getMessage)
       }
     } catch {
       case e: Exception =>
         Logger.debug(s"Failed with: ${e.getMessage}", "ResolutionDiagnosticManager", "tryValidationReport")
-        sendFailedClone(uri, telemetryProvider, resolved.baseUnit, uuid, e.getMessage)
+        sendFailedClone(uri, resolved.baseUnit, uuid, e.getMessage)
     }
 
   override def onRemoveFile(uri: String): Unit = {
@@ -143,7 +140,7 @@ class ResolutionDiagnosticManager(
           case Failure(error)  => promise.failure(error)
         }
 
-      telemetryProvider.timeProcess(
+      Logger.timeProcess(
         "End report",
         MessageTypes.BEGIN_DIAGNOSTIC_RESOLVED,
         MessageTypes.END_DIAGNOSTIC_RESOLVED,

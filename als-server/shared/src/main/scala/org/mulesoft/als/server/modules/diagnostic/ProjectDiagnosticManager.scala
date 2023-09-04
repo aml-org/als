@@ -3,18 +3,15 @@ package org.mulesoft.als.server.modules.diagnostic
 import amf.core.client.common.validation.ProfileNames
 import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.common.URIImplicits.StringUriImplicits
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.modules.project.NewConfigurationListener
 import org.mulesoft.amfintegration.amfconfiguration.ProjectConfigurationState
-import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class ProjectDiagnosticManager(
-    override protected val telemetryProvider: TelemetryProvider,
     override protected val clientNotifier: ClientNotifier,
     override protected val validationGatherer: ValidationGatherer,
     override protected val optimizationKind: DiagnosticNotificationsKind
