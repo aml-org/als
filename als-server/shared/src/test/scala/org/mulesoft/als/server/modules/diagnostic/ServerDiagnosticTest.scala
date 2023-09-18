@@ -358,4 +358,71 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
       }
     }
   }
+
+  test("should not notify Couldn't guess spec for root file for isolated files") {
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
+    val workspaceUri                                     = "file:///"
+    withServer(
+      buildServer(diagnosticNotifier),
+      AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(workspaceUri))
+    ) { server =>
+      val apiPath = s"${workspaceUri}api.json"
+
+      val apiContent = ""
+
+      for {
+        _  <- setMainFile(server)(workspaceUri, s"main.json")
+        _  <- openFileNotification(server)(apiPath, apiContent)
+        d1 <- diagnosticNotifier.nextCall
+      } yield {
+        server.shutdown()
+        assert(d1.diagnostics.isEmpty && d1.uri == apiPath)
+      }
+    }
+  }
+
+  test("should notify Couldn't guess spec for root file for isolated files if there is no main file defined") {
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
+    val workspaceUri                                     = "file:///"
+    withServer(
+      buildServer(diagnosticNotifier),
+      AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(workspaceUri))
+    ) { server =>
+      val apiPath = s"${workspaceUri}api.json"
+
+      val apiContent = ""
+
+      for {
+        _  <- openFileNotification(server)(apiPath, apiContent)
+        d1 <- diagnosticNotifier.nextCall
+      } yield {
+        server.shutdown()
+        assert(d1.diagnostics.nonEmpty && d1.uri == apiPath)
+        assert(d1.diagnostics.head.code.contains(DiagnosticConstants.specNotFoundCode))
+      }
+    }
+  }
+
+  test("should notify Couldn't guess spec for root file for project files") {
+    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
+    val workspaceUri                                     = "file:///"
+    withServer(
+      buildServer(diagnosticNotifier),
+      AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(workspaceUri))
+    ) { server =>
+      val apiPath = s"${workspaceUri}api.json"
+
+      val apiContent = ""
+
+      for {
+        _  <- setMainFile(server)(workspaceUri, "api.json")
+        _  <- openFileNotification(server)(apiPath, apiContent)
+        d1 <- diagnosticNotifier.nextCall
+      } yield {
+        server.shutdown()
+        assert(d1.diagnostics.nonEmpty && d1.uri == apiPath)
+        assert(d1.diagnostics.head.code.contains(DiagnosticConstants.specNotFoundCode))
+      }
+    }
+  }
 }

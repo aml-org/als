@@ -1,6 +1,7 @@
 package org.mulesoft.als.configuration
 
 import org.mulesoft.common.io.Fs
+import org.mulesoft.exceptions.PathTweaks
 
 /** @param folder
   *   workspace folder that contains the project
@@ -26,8 +27,10 @@ case class ProjectConfiguration(
   def rootUri: Option[String] =
     mainFile.map(m => m.substring(0, m.lastIndexOf(Fs.separatorChar))) // todo: not sure what this is supposed to do
 
-  def containsInDependencies(uri: String): Boolean =
-    (validationDependency ++ extensionDependency ++ metadataDependency).contains(uri)
+  def containsInDependencies(uri: String): Boolean = {
+    val dependencies = designDependency ++ validationDependency ++ extensionDependency ++ metadataDependency
+    dependencies.contains(uri) || dependencies.contains(PathTweaks.unapply(uri))
+  }
 }
 
 object ProjectConfiguration {

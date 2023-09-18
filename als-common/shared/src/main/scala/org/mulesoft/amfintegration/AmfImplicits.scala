@@ -91,7 +91,7 @@ object AmfImplicits {
 
     def astElement(): Option[ASTElement] = ann.find(classOf[SourceAST]).map(_.ast).orElse(baseVirtualNode())
 
-    private def baseVirtualNode(): Option[YPart] = ann.find(classOf[BaseVirtualNode]).map(_.ast)
+    def baseVirtualNode(): Option[YPart] = ann.find(classOf[BaseVirtualNode]).map(_.ast)
 
     def jsonSchema(): Option[ParsedJSONSchema] = ann.find(classOf[ParsedJSONSchema])
 
@@ -239,7 +239,10 @@ object AmfImplicits {
       })
       .exists(_.toBool)
 
-    def range: Option[AmfPositionRange] = amfObject.position().map(_.range)
+    def range: Option[AmfPositionRange] = amfObject
+      .position()
+      .map(_.range)
+      .orElse(amfObject.annotations.baseVirtualNode().map(_.range))
   }
 
   implicit class DomainElementImp(d: DomainElement) extends AmfObjectImp(d) {

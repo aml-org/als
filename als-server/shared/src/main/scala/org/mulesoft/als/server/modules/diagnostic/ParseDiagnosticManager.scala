@@ -1,6 +1,7 @@
 package org.mulesoft.als.server.modules.diagnostic
 
 import amf.core.client.common.validation.{ProfileName, ProfileNames}
+import amf.core.client.scala.validation.AMFValidationResult
 import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.modules.ast._
@@ -68,7 +69,7 @@ class ParseDiagnosticManager(
   ): Future[Unit] = {
     val profile: ProfileName = profileName(result.result.baseUnit)
     validationGatherer.indexNewReport(
-      ErrorsWithTree(result.location, result.result.results.map(new AlsValidationResult(_)), Option(result.tree)),
+      ErrorsWithTree(result.location, filteredResults(result).map(new AlsValidationResult(_)), Option(result.tree)),
       managerName,
       uuid
     )
@@ -76,8 +77,36 @@ class ParseDiagnosticManager(
     Future.unit
   }
 
+  private def filteredResults(parseResult: AmfParseResult): Seq[AMFValidationResult] =
+    parseResult.result.results
+      .filterNot(specNotFoundForIsolated(_, parseResult))
+
+  private def specNotFoundForIsolated(r: AMFValidationResult, parseResult: AmfParseResult): Boolean =
+    isSpecNotFound(r) && !isMainFile(r, parseResult)
+
+  // if there is a location and there is a main file defined, assert they are the same, it there is no main file, return true
+  private def isMainFile(r: AMFValidationResult, parseResult: AmfParseResult) =
+    r.location
+      .exists(location =>
+        parseResult.context.state.projectState.config.mainFile
+          .map(mf => concatUri(parseResult.context.state.projectState.config.folder, mf))
+          .forall(_ == location)
+      )
+
+  private def concatUri(workspaceFolder: String, mainFile: String): String = {
+    if (workspaceFolder.endsWith("/")) workspaceFolder.concat(mainFile)
+    else s"$workspaceFolder/$mainFile"
+  }
+
+  private def isSpecNotFound(r: AMFValidationResult) =
+    r.validationId == DiagnosticConstants.specNotFoundCode
+
   override def onRemoveFile(uri: String): Unit = {
     validationGatherer.removeFile(uri, managerName)
     if (notifyParsing) clientNotifier.notifyDiagnostic(AlsPublishDiagnosticsParams(uri, Nil, ProfileNames.AMF))
   }
+}
+
+object DiagnosticConstants {
+  final val specNotFoundCode = "http://a.ml/vocabularies/amf/parser#couldnt-guess-root"
 }
