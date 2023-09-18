@@ -84,8 +84,19 @@ class ParseDiagnosticManager(
   private def specNotFoundForIsolated(r: AMFValidationResult, parseResult: AmfParseResult): Boolean =
     isSpecNotFound(r) && !isMainFile(r, parseResult)
 
+  // if there is a location and there is a main file defined, assert they are the same, it there is no main file, return true
   private def isMainFile(r: AMFValidationResult, parseResult: AmfParseResult) =
-    r.location.exists(location => parseResult.context.state.projectState.config.mainFile.contains(location))
+    r.location
+      .exists(location =>
+        parseResult.context.state.projectState.config.mainFile
+          .map(mf => concatUri(parseResult.context.state.projectState.config.folder, mf))
+          .forall(_ == location)
+      )
+
+  private def concatUri(workspaceFolder: String, mainFile: String): String = {
+    if (workspaceFolder.endsWith("/")) workspaceFolder.concat(mainFile)
+    else s"$workspaceFolder/$mainFile"
+  }
 
   private def isSpecNotFound(r: AMFValidationResult) =
     r.validationId == DiagnosticConstants.specNotFoundCode
