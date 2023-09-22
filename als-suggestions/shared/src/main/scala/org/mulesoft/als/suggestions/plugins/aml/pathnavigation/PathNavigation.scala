@@ -3,6 +3,7 @@ package org.mulesoft.als.suggestions.plugins.aml.pathnavigation
 import amf.core.client.scala.errorhandling.DefaultErrorHandler
 import amf.core.client.scala.parse.document.{ParserContext, SyamlParsedDocument}
 import amf.core.internal.parser.ParseConfig
+import amf.core.internal.remote.{FileNotFound, UnsupportedUrlScheme}
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.yaml.model.{YMap, YNode, YSequence, YType}
@@ -14,16 +15,21 @@ private[pathnavigation] case class PathNavigation(
     fileUri: String,
     navPath: String,
     prefix: String,
-    alsConfiguration: ALSConfigurationState
+    alsConfiguration: ALSConfigurationState,
+    containsHashtag: Boolean
 ) extends PathCompletion
     with PathSuggestor {
 
   override def suggest(): Future[Seq[RawSuggestion]] = {
-    nodes().map(nodes => buildSuggestions(nodes, prefix))
+    if (!containsHashtag)
+      nodes().flatMap(nodes => PathSuggestorHashtag(nodes, prefix).suggest())
+    else nodes().map(nodes => buildSuggestions(nodes, prefix))
   }
 
   private def nodes(): Future[Seq[String]] = {
-    val keys = navPath.split('/').filterNot(_.isEmpty)
+    val lastSegment         = navPath.lastIndexOf("/")
+    val allSegmentsTillLast = if (lastSegment > 0) navPath.substring(0, lastSegment) else ""
+    val keys                = allSegmentsTillLast.split('/').filterNot(_.isEmpty)
     resolveRootNode().map { n =>
       n.map(r => matchNode(keys.toList, r))
         .getOrElse(Nil)
@@ -50,24 +56,29 @@ private[pathnavigation] case class PathNavigation(
     }
 
   private def resolveRootNode(): Future[Option[YNode]] =
-    alsConfiguration.fetchContent(fileUri).map { c =>
-      val mime = c.mime.orElse(
-        alsConfiguration.platform
-          .extension(fileUri)
-          .flatMap(alsConfiguration.platform.mimeFromExtension)
-      )
-      mime.flatMap(pluginForMime) match {
-        case Some(plugin) =>
-          plugin
-            .parse(
-              c.stream,
-              mime.get,
-              ParserContext(config = ParseConfig(alsConfiguration.getAmfConfig, DefaultErrorHandler()))
-            ) match {
-            case SyamlParsedDocument(document, _) => Some(document.node)
-            case _                                => None
-          }
-        case _ => None
+    alsConfiguration
+      .fetchContent(fileUri)
+      .map { c =>
+        val mime = c.mime.orElse(
+          alsConfiguration.platform
+            .extension(fileUri)
+            .flatMap(alsConfiguration.platform.mimeFromExtension)
+        )
+        mime.flatMap(pluginForMime) match {
+          case Some(plugin) =>
+            plugin
+              .parse(
+                c.stream,
+                mime.get,
+                ParserContext(config = ParseConfig(alsConfiguration.getAmfConfig, DefaultErrorHandler()))
+              ) match {
+              case SyamlParsedDocument(document, _) => Some(document.node)
+              case _                                => None
+            }
+          case _ => None
+        }
       }
-    }
+      .recoverWith { case _ @(_: UnsupportedUrlScheme | _: FileNotFound) =>
+        Future.successful(None)
+      }
 }

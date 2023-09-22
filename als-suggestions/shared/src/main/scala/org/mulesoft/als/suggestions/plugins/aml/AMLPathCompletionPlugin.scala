@@ -44,6 +44,7 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
       case _ => false
     }
   }
+
   def resolveInclusion(
       actualLocation: String,
       directoryResolver: DirectoryResolver,
@@ -62,10 +63,10 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
     val fullURI =
       s"${baseDir.stripSuffix("/")}/${relativePath.stripPrefix("/")}".toAmfUri(alsConfiguration.platform)
 
-    if (!prefix.startsWith("#"))
-      if (fullURI.contains("#") && !fullURI.startsWith("#"))
-        PathSuggestor(fullURI, prefix, alsConfiguration, targetClass).flatMap(_.suggest())
-      else
+    val (_, path, _) = PathSuggestor.splitFullUrl(fullURI, prefix)
+
+    val filesSuggestions =
+      if (path.isEmpty)
         FilesEnumeration(
           directoryResolver,
           alsConfiguration,
@@ -73,8 +74,17 @@ object AMLPathCompletionPlugin extends AMLCompletionPlugin {
           relativePath
         )
           .filesIn(fullURI)
-    else emptySuggestion
+      else
+        Future.successful(Seq.empty)
 
+    val pathNodesSuggestions =
+      PathSuggestor(fullURI, prefix, alsConfiguration, targetClass).flatMap(_.suggest())
+    for {
+      files <- filesSuggestions
+      paths <- pathNodesSuggestions
+    } yield {
+      files ++ paths
+    }
   }
 
 }
