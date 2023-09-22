@@ -7,6 +7,7 @@ import amf.core.internal.validation.CoreValidations
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.lsp.feature.common.{Location, Range}
+import org.mulesoft.exceptions.PathTweaks
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticRelatedInformation
 import org.mulesoft.lsp.feature.link.DocumentLink
 
@@ -91,25 +92,26 @@ object DiagnosticConverters {
       isExternal: Boolean
   ): Seq[ValidationIssue] = {
     results.flatMap { s =>
-      val r = s.result
+      val tweakedUri: String = PathTweaks(uri)
+      val r                  = s.result
       val reversedReferences: Seq[(DocumentLink, String)] =
         references.toSeq.flatMap { case (uri, links) =>
           links.map(l => (l, uri))
         }
-      val reference = reversedReferences.filter(_._1.target.equals(uri)).map(_._1)
+      val reference = reversedReferences.filter(_._1.target.equals(tweakedUri)).map(_._1)
       if (notExternalOrSyntax(r, isExternal, reference)) {
-        getInformationStackBranches(uri, reversedReferences, originFlag = false).map { informationStack =>
-          buildIssue(uri, r, informationStack)
+        getInformationStackBranches(tweakedUri, reversedReferences, originFlag = false).map { informationStack =>
+          buildIssue(tweakedUri, r, informationStack)
         }
-      } else if (reversedReferences.exists(_._1.target.equals(uri))) {
-        getInformationStackBranches(uri, reversedReferences, originFlag = true).map { informationStack =>
+      } else if (reversedReferences.exists(_._1.target.equals(tweakedUri))) {
+        getInformationStackBranches(tweakedUri, reversedReferences, originFlag = true).map { informationStack =>
           val range = LspRangeConverter.toLspRange(
             r.position
               .map(position => PositionRange(position.range))
               .getOrElse(PositionRange(Position(0, 0), Position(0, 0)))
           )
 
-          val newDiag = newDiagnostic(informationStack.last.location.uri, range, r.location.getOrElse(uri))
+          val newDiag = newDiagnostic(informationStack.last.location.uri, range, r.location.getOrElse(tweakedUri))
           val issue = buildIssue(
             informationStack.head.location.uri,
             PositionRange(informationStack.head.location.range),
@@ -121,7 +123,7 @@ object DiagnosticConverters {
           issue
         }
       } else {
-        Seq(buildIssue(uri, r, s.stack))
+        Seq(buildIssue(tweakedUri, r, s.stack))
       }
     }
   }
