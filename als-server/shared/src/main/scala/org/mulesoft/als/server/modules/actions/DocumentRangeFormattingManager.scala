@@ -36,7 +36,6 @@ class DocumentRangeFormattingManager(
 
   override def getRequestHandlers: Seq[TelemeteredRequestHandler[_, _]] =
     Seq(new TelemeteredRequestHandler[DocumentRangeFormattingParams, Seq[TextEdit]] {
-      override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
       override protected def task(params: DocumentRangeFormattingParams): Future[Seq[TextEdit]] =
         onDocumentRangeFormatting(params)
@@ -68,7 +67,7 @@ class DocumentRangeFormattingManager(
     val uuid   = UUID.randomUUID().toString
     val isJson = params.textDocument.uri.endsWith(".json")
     Logger.debug(
-      "Document formatting for " + params.textDocument.uri + " range: " + params.range,
+      s"Document formatting for ${params.textDocument.uri} range: ${params.range}",
       "DocumentRangeFormattingManager",
       "onDocumentRangeFormatting"
     )

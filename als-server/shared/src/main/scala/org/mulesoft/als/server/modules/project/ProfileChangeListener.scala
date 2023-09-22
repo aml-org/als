@@ -2,7 +2,6 @@ package org.mulesoft.als.server.modules.project
 
 import amf.aml.client.scala.AMLConfiguration
 import org.mulesoft.als.configuration.AlsConfigurationReader
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.SerializationProps
 import org.mulesoft.als.server.feature.serialization.SerializationConfigType
 import org.mulesoft.als.server.modules.serialization.BaseSerializationNotifier

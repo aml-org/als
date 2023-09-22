@@ -4,7 +4,6 @@ import org.mulesoft.als.actions.definition.FindDefinition
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.RequestModule
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.configuration.WorkDoneProgressOptions
@@ -37,8 +36,6 @@ class GoToDefinitionManager(
 
       override def task(params: DefinitionParams): Future[Either[Seq[Location], Seq[LocationLink]]] =
         goToDefinition(params.textDocument.uri, LspRangeConverter.toPosition(params.position), uuid(params))
-
-      override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
       override protected def code(params: DefinitionParams): String = "GotoDefinitionManager"
 

@@ -19,7 +19,6 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionResponsePlugin
 }
 import org.mulesoft.als.actions.codeactions.plugins.declarations.common.{ConverterExtractor, ExtractorCommon}
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import org.yaml.model.{YDocument, YMap, YNodePlain}
@@ -36,8 +35,6 @@ case class ExtractResourceTypeCodeAction(params: CodeActionRequestParams)
     params.bu.sourceSpec.contains(Spec.RAML10) && original.isDefined
 
   override protected def newName: String = ExtractorCommon.nameNotInList("resourceType", params.bu.declaredNames.toSet)
-
-  override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
   override protected def msg(params: CodeActionRequestParams): String =
     s"Extract resource type: \n\t${params.uri}\t${params.range}"

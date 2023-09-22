@@ -41,8 +41,6 @@ class RenameFileActionManager(
       extends TelemeteredRequestHandler[RenameFileActionParams, RenameFileActionResult] {
     override def `type`: RequestType[RenameFileActionParams, RenameFileActionResult] = RenameFileActionRequestType
 
-    override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
-
     override protected def task(params: RenameFileActionParams): Future[RenameFileActionResult] =
       rename(params.oldDocument, params.newDocument)
 

@@ -1,6 +1,5 @@
 package org.mulesoft.als.server.textsync
 
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.ast.TextListener
 import org.mulesoft.als.server.protocol.textsync.AlsTextDocumentSyncConsumer
 

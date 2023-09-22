@@ -2,7 +2,6 @@ package org.mulesoft.als.server.modules.actions
 
 import org.mulesoft.als.actions.folding.FileRanges
 import org.mulesoft.als.server.RequestModule
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.lsp.ConfigType
@@ -31,7 +30,6 @@ class FoldingRangeManager(
       override def task(params: FoldingRangeParams): Future[Seq[FoldingRange]] =
         foldingRange(params.textDocument.uri, uuid(params))
 
-      override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
       override protected def code(params: FoldingRangeParams): String =
         "FoldingRange"
       override protected def beginType(params: FoldingRangeParams): MessageTypes =

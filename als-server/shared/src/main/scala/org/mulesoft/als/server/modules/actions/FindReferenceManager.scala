@@ -3,7 +3,6 @@ package org.mulesoft.als.server.modules.actions
 import org.mulesoft.als.actions.references.FindReferences
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.RequestModule
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.configuration.WorkDoneProgressOptions
@@ -36,8 +35,6 @@ class FindReferenceManager(
 
       override def task(params: ReferenceParams): Future[Seq[Location]] =
         findReference(params.textDocument.uri, Position(params.position), uuid(params))
-
-      override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
       override protected def code(params: ReferenceParams): String = "FindReferenceManager"
 

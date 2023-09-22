@@ -1,6 +1,6 @@
 package org.mulesoft.als.server
 
-import org.mulesoft.als.logger._
+import org.mulesoft.als.logger.{AbstractLogger, LoggerSettings, MessageSeverity}
 import org.mulesoft.als.vscode.{Logger => VsCodeLogger}
 
 import scala.scalajs.js

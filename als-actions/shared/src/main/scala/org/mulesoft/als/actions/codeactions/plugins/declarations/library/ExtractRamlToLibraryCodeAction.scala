@@ -7,7 +7,6 @@ import org.mulesoft.als.actions.codeactions.plugins.base.{
   CodeActionRequestParams,
   CodeActionResponsePlugin
 }
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
 /** 1- Check every declared in range (just first level from root?) 2- Add each element to Module() along with new
@@ -19,8 +18,6 @@ case class ExtractRamlToLibraryCodeAction(params: CodeActionRequestParams) exten
 
   override lazy val isApplicable: Boolean =
     params.bu.sourceSpec.contains(Spec.RAML10) && selectedElements.nonEmpty
-
-  override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
   override protected val kindTitle: CodeActionKindTitle = ExtractRamlToLibraryCodeAction
 }

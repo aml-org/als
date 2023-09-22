@@ -1,5 +1,6 @@
 package org.mulesoft.lsp.feature
 
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.exceptions.AlsException
 import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemeteredTask}
 
@@ -23,7 +24,7 @@ trait TelemeteredRequestHandler[P, R] extends RequestHandler[P, R] with Telemete
     }
 
   private def manageException(e: AlsException) = {
-    telemetry.addErrorMessage("TelemeteredException", e.getMessage, e.getUri, e.getUuid)
+    Logger.addErrorMessage("TelemeteredException", e.getMessage, e.getUri, e.getUuid)
     empty match {
       case Some(emptyResponse) =>
         Future(emptyResponse)

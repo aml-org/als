@@ -34,9 +34,6 @@ class RenameHandler(
       params.newName,
       uuid(params)
     )
-
-  override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
-
   override protected def code(params: RenameParams): String = "RenameManager"
 
   override protected def beginType(params: RenameParams): MessageTypes = MessageTypes.BEGIN_RENAME

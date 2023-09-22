@@ -4,6 +4,7 @@ import amf.core.internal.unsafe.PlatformSecrets
 import amf.custom.validation.client.scala.BaseProfileValidatorBuilder
 import org.mulesoft.als.actions.codeactions.plugins.AllCodeActions
 import org.mulesoft.als.common.{DirectoryResolver, PlatformDirectoryResolver}
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.SerializationProps
 import org.mulesoft.als.server.client.platform.{AlsClientNotifier, ClientNotifier}
 import org.mulesoft.als.server.modules.actions._
@@ -39,6 +40,8 @@ class WorkspaceManagerFactoryBuilder(
     textDocumentSyncBuilder: Option[TextDocumentSyncBuilder] = None
 ) extends PlatformSecrets {
 
+  Logger.withTelemetry(new TelemetryManager(clientNotifier))
+
   private var notificationKind: DiagnosticNotificationsKind = ALL_TOGETHER
   private var directoryResolver: DirectoryResolver =
     new PlatformDirectoryResolver(platform)
@@ -59,9 +62,6 @@ class WorkspaceManagerFactoryBuilder(
   private val projectDependencies: ListBuffer[WorkspaceContentListener[_]] = ListBuffer()
   private val resolutionDependencies: ListBuffer[ResolvedUnitListener] =
     ListBuffer()
-
-  val telemetryManager: TelemetryManager =
-    new TelemetryManager(clientNotifier)
 
   def serializationManager[S](sp: SerializationProps[S]): SerializationManager[S] = {
     val s =

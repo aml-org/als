@@ -21,7 +21,6 @@ import org.mulesoft.als.common.dtoTypes.PositionRange
 import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
 import org.mulesoft.als.convert.LspRangeConverter
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.amfintegration.AmfImplicits.AmfAnnotationsImp
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.mulesoft.lsp.edit.{TextDocumentEdit, TextEdit}
@@ -47,8 +46,6 @@ class JsonSchemaToRamlType(override protected val params: CodeActionRequestParam
   override val isApplicable: Boolean =
     params.bu.sourceSpec.contains(Spec.RAML10) &&
       maybeAnyShape.isDefined && positionIsExtracted
-
-  protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
   override protected def code(params: CodeActionRequestParams): String =
     "Json Schema to Raml Type code action"

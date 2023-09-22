@@ -2,7 +2,6 @@ package org.mulesoft.als.server.modules.actions
 
 import org.mulesoft.als.actions.references.FindReferences
 import org.mulesoft.als.common.dtoTypes.Position
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.ConfigType
@@ -30,7 +29,6 @@ class DocumentHighlightManager(
       override def task(params: DocumentHighlightParams): Future[Seq[DocumentHighlight]] =
         documentHighlights(params.textDocument.uri, Position(params.position), uuid(params))
 
-      override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
       override protected def code(params: DocumentHighlightParams): String =
         "DocumentHighlight"
       override protected def beginType(params: DocumentHighlightParams): MessageTypes =

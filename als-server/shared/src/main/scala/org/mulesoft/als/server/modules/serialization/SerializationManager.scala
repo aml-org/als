@@ -82,8 +82,6 @@ class SerializationManager[S](
       override def task(params: SerializationParams): Future[SerializationResult[S]] =
         processRequest(params.documentIdentifier.uri)
 
-      override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
-
       override protected def code(params: SerializationParams): String = "SerializationManager"
 
       override protected def beginType(params: SerializationParams): MessageTypes = MessageTypes.BEGIN_SERIALIZATION

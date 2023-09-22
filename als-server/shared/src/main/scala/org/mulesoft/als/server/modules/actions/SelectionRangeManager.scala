@@ -4,7 +4,6 @@ import org.mulesoft.als.actions.selection.SelectionRangeFinder
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.RequestModule
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.lsp.ConfigType
@@ -33,8 +32,6 @@ class SelectionRangeManager(
           params.positions.map(p => LspRangeConverter.toPosition(p)),
           uuid(params)
         )
-
-      override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
       override protected def code(params: SelectionRangeParams): String = "SelectionRange"
 

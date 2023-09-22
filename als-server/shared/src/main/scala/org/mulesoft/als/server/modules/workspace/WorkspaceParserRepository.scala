@@ -47,9 +47,8 @@ class WorkspaceParserRepository() extends Repository[ParsedUnit] {
   }
 
   def cleanTree(): Unit = tree = {
-    Logger.debug("Start cleaning Tree...", "WorkspaceParserRepository", "cleanTree")
+    Logger.debug("set EmptyFileTree", "WorkspaceParserRepository", "cleanTree")
     val emptyFileTree = EmptyFileTree
-    Logger.debug("... cleaning Tree Finish", "WorkspaceParserRepository", "cleanTree")
     emptyFileTree
   }
 

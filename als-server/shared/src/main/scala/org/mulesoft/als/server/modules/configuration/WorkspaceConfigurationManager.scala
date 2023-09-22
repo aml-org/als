@@ -3,7 +3,6 @@ package org.mulesoft.als.server.modules.configuration
 import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.feature.configuration.workspace._
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.workspace.WorkspaceContentManager
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
@@ -49,9 +48,6 @@ class WorkspaceConfigurationManager(
 class GetWorkspaceConfigurationRequestHandler(
     val provider: WorkspaceConfigurationProvider
 ) extends TelemeteredRequestHandler[GetWorkspaceConfigurationParams, GetWorkspaceConfigurationResult] {
-
-  override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
-
   override protected def task(params: GetWorkspaceConfigurationParams): Future[GetWorkspaceConfigurationResult] =
     provider
       .getWorkspaceConfiguration(params.textDocument.uri)

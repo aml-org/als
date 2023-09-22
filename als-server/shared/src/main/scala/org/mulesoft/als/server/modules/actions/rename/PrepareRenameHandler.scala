@@ -2,7 +2,6 @@ package org.mulesoft.als.server.modules.actions.rename
 
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.converter.{SEither3, Left => Left3}
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
@@ -31,8 +30,6 @@ class PrepareRenameHandler(workspace: WorkspaceManager)
   ): Future[Option[SEither3[Range, PrepareRenameResult, PrepareRenameDefaultBehavior]]] =
     // check if enabled?
     prepareRename(params.textDocument.uri, Position(params.position.line, params.position.character), uuid(params))
-
-  override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
   override protected def code(params: PrepareRenameParams): String = "PrepareRename"
 

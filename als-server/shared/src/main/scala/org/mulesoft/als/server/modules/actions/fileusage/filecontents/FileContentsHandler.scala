@@ -1,6 +1,5 @@
 package org.mulesoft.als.server.modules.actions.fileusage.filecontents
 
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.feature.fileusage.filecontents.{FileContentsRequestType, FileContentsResponse}
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
@@ -22,8 +21,6 @@ class FileContentsHandler(workspace: WorkspaceManager)
         .map(wcm => wcm.repository.getAllFilesUrisWithContents)
         .map(fs => FileContentsResponse(fs))
     }
-
-  override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
   override protected def code(params: TextDocumentIdentifier): String = "FileContentsHandler"
 

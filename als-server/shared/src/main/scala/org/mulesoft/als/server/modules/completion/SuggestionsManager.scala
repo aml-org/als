@@ -54,8 +54,6 @@ class SuggestionsManager(
         onDocumentCompletion(params.textDocument.uri, LspRangeConverter.toPosition(params.position), uuid(params))
           .map(Left.apply)
 
-      override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
-
       override protected def code(params: CompletionParams): String =
         "SuggestionsManager"
 

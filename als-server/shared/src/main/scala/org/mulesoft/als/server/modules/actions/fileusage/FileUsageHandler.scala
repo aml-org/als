@@ -1,7 +1,6 @@
 package org.mulesoft.als.server.modules.actions.fileusage
 
 import org.mulesoft.als.actions.fileusage.FindFileUsages
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.feature.fileusage.FileUsageRequestType
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
@@ -17,8 +16,6 @@ class FileUsageHandler(workspace: WorkspaceManager)
 
   override def task(params: TextDocumentIdentifier): Future[Seq[Location]] =
     FindFileUsages.getUsages(params.uri, workspace.getAllDocumentLinks(params.uri, uuid(params)))
-
-  override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
   override protected def code(params: TextDocumentIdentifier): String = "FileUsageHandler"
 

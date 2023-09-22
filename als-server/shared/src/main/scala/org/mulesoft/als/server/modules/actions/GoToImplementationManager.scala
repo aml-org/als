@@ -4,7 +4,6 @@ import org.mulesoft.als.actions.references.FindReferences
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.RequestModule
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.amfintegration.relationships.LinkTypes
 import org.mulesoft.lsp.ConfigType
@@ -39,8 +38,6 @@ class GoToImplementationManager(
 
       override def task(params: ImplementationParams): Future[Either[Seq[Location], Seq[LocationLink]]] =
         goToImplementation(params.textDocument.uri, LspRangeConverter.toPosition(params.position), uuid(params))
-
-      override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
       override protected def code(params: ImplementationParams): String = "GotoImplementationManager"
 

@@ -4,7 +4,7 @@ import amf.aml.client.scala.AMLConfiguration
 import amf.apicontract.client.scala.APIConfiguration
 import amf.core.client.scala.model.document.BaseUnit
 import org.mulesoft.als.common.AmfConfigurationPatcher
-import org.mulesoft.als.logger.{EmptyLogger, Logger, PrintLnLogger}
+import org.mulesoft.als.logger.{EmptyLogger, Logger}
 import org.mulesoft.amfintegration.amfconfiguration.{
   ALSConfigurationState,
   EditorConfiguration,
@@ -14,18 +14,11 @@ import org.mulesoft.lsp.feature.completion.CompletionItem
 import org.scalatest.compatible.Assertion
 import org.scalatest.funsuite.AsyncFunSuite
 
-import java.lang.System.getProperty
 import scala.concurrent.{ExecutionContext, Future}
 
 trait SuggestionsTest extends AsyncFunSuite with BaseSuggestionsForTest {
 
-  def getLogger: Logger = {
-    if (Option(getProperty("logger.enable")).exists("true".equalsIgnoreCase))
-      return PrintLnLogger
-    EmptyLogger
-  }
-
-  Logger.withLogger(getLogger)
+  Logger.withLogger(EmptyLogger)
 
   implicit override def executionContext: ExecutionContext =
     scala.concurrent.ExecutionContext.Implicits.global

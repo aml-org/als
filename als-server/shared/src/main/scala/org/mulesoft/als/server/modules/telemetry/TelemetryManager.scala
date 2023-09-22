@@ -1,7 +1,6 @@
 package org.mulesoft.als.server.modules.telemetry
 
 import org.mulesoft.als.server.ClientNotifierModule
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.lsp.feature.telemetry.MessageTypes.{ERROR_MESSAGE, MessageTypes}
 import org.mulesoft.lsp.ConfigType

@@ -18,7 +18,6 @@ import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.common.edits.AbstractWorkspaceEdit
 import org.mulesoft.als.common.edits.codeaction.AbstractCodeAction
 import org.mulesoft.als.convert.LspRangeConverter
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.amfintegration.AmfImplicits.{AmfAnnotationsImp, FieldEntryImplicit}
 import org.mulesoft.amfintegration.relationships.RelationshipLink
 import org.mulesoft.lsp.edit.{ResourceOperation, TextDocumentEdit, TextEdit}
@@ -40,8 +39,6 @@ class DeleteDeclaredNodeCodeAction(override val params: CodeActionRequestParams)
       t.isDeclared &&
         t.fieldEntry.exists(_.isSemanticName)
     )
-
-  override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
 
   override protected def task(params: CodeActionRequestParams): Future[Seq[AbstractCodeAction]] =
     Future {

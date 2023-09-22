@@ -31,8 +31,6 @@ class DocumentFormattingManager(
 
   override def getRequestHandlers: Seq[TelemeteredRequestHandler[_, _]] =
     Seq(new TelemeteredRequestHandler[DocumentFormattingParams, Seq[TextEdit]] {
-      override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
-
       override protected def task(params: DocumentFormattingParams): Future[Seq[TextEdit]] =
         onDocumentFormatting(params)
 

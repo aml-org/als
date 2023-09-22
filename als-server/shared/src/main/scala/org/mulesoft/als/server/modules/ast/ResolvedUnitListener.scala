@@ -1,6 +1,5 @@
 package org.mulesoft.als.server.modules.ast
 
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.common.reconciler.Runnable
 import org.mulesoft.amfintegration.AmfImplicits._
 import org.mulesoft.amfintegration.AmfResolvedUnit

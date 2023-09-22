@@ -30,7 +30,6 @@ class CodeActionsWithPositionMarkerTest extends ServerWithMarkerTest[Seq[CodeAct
         AllCodeActions.all :+ TestCodeAction,
         factory.workspaceManager,
         factory.configurationManager.getConfiguration,
-        factory.telemetryManager,
         factory.directoryResolver
       )
     new LanguageServerBuilder(

@@ -6,7 +6,6 @@ import amf.core.internal.annotations.LexicalInformation
 import amf.core.internal.validation.CoreValidations
 import org.mulesoft.als.common.dtoTypes.{Position, PositionRange}
 import org.mulesoft.als.convert.LspRangeConverter
-import org.mulesoft.als.logger.{Logger, PrintLnLogger}
 import org.mulesoft.lsp.feature.common.{Location, Range}
 import org.mulesoft.lsp.feature.diagnostic.DiagnosticRelatedInformation
 import org.mulesoft.lsp.feature.link.DocumentLink
@@ -17,7 +16,6 @@ import scala.collection.mutable.ListBuffer
 object DiagnosticConverters {
 
   private val UNKNOWN_LOCATION = "Unknown location for error. Could not retrieve effective location"
-  protected val logger: Logger = PrintLnLogger
 
   def buildIssueResults(
       results: Map[String, Seq[AlsValidationResult]],

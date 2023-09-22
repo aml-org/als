@@ -30,8 +30,6 @@ class ConversionManager(
         onSerializationRequest(params.uri, params.target, params.syntax)
       }
 
-      override protected def telemetry: TelemetryProvider = Logger.delegateTelemetryProvider.get
-
       override protected def code(params: ConversionParams): String = "ConversionManager"
 
       override protected def beginType(params: ConversionParams): MessageTypes = MessageTypes.BEGIN_CONVERSION
