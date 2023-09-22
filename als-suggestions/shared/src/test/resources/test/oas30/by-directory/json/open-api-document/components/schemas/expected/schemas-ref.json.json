@@ -648,6 +648,42 @@
     "command": null
   },
   {
+    "label": "schema-path-nav-no-hashtag.json",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "Path suggestion",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11schema-path-nav-no-hashtag.json",
+    "filterText": "\"schema-path-nav-no-hashtag.json\"",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 15,
+          "character": 22
+        },
+        "end": {
+          "line": 15,
+          "character": 24
+        }
+      },
+      "newText": "\"schema-path-nav-no-hashtag.json\""
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "schema-path-nav-two.json",
     "kind": [
       
