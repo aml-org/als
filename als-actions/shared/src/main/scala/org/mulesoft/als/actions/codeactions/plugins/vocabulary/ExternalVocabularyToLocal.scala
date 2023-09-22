@@ -21,8 +21,6 @@ import scala.concurrent.Future
 class ExternalVocabularyToLocal(protected override val params: CodeActionRequestParams)
     extends DialectCodeActionResponsePlugin {
 
-  override protected def telemetry: TelemetryProvider = params.telemetryProvider
-
   val external: Option[External] =
     dialect.flatMap(_.externals.find(_.annotations.range().map(_.toPositionRange).exists(_.contains(params.range))))
 

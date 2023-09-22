@@ -23,8 +23,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class DocumentFormattingManager(
-    val workspace: WorkspaceManager,
-    private val telemetryProvider: TelemetryProvider
+    val workspace: WorkspaceManager
 ) extends RequestModule[DocumentFormattingClientCapabilities, Either[Boolean, WorkDoneProgressOptions]]
     with FormattingManager {
 
@@ -32,8 +31,6 @@ class DocumentFormattingManager(
 
   override def getRequestHandlers: Seq[TelemeteredRequestHandler[_, _]] =
     Seq(new TelemeteredRequestHandler[DocumentFormattingParams, Seq[TextEdit]] {
-      override protected def telemetry: TelemetryProvider = telemetryProvider
-
       override protected def task(params: DocumentFormattingParams): Future[Seq[TextEdit]] =
         onDocumentFormatting(params)
 

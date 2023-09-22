@@ -1,6 +1,5 @@
 package org.mulesoft.als.server.workspace.command
 
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.ast.FOCUS_FILE
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.yaml.model.YMap

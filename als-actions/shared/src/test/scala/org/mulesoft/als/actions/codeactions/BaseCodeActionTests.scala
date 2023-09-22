@@ -18,8 +18,6 @@ import org.mulesoft.amfintegration.relationships.RelationshipLink
 import org.mulesoft.amfintegration.visitors.AmfElementDefaultVisitors
 import org.mulesoft.lsp.edit.WorkspaceEdit
 import org.mulesoft.lsp.feature.codeactions.CodeAction
-import org.mulesoft.lsp.feature.telemetry.MessageTypes.MessageTypes
-import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import org.scalatest.Assertion
 import org.scalatest.flatspec.AsyncFlatSpec
 import org.scalatest.matchers.should.Matchers
@@ -117,7 +115,6 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
         amfResult.definedBy,
         AlsConfiguration(),
         relationShip,
-        dummyTelemetryProvider,
         alsConfigurationState,
         "",
         new PlatformDirectoryResolver(platform)
@@ -161,23 +158,10 @@ trait BaseCodeActionTests extends AsyncFlatSpec with Matchers with FileAssertion
       result.definedBy,
       AlsConfiguration(),
       visitors1,
-      dummyTelemetryProvider,
       alsConfigurationState,
       "",
       new PlatformDirectoryResolver(platform)
     )
-  }
-
-  protected val dummyTelemetryProvider: TelemetryProvider = new TelemetryProvider {
-    override def addTimedMessage(
-        code: String,
-        messageType: MessageTypes,
-        msg: String,
-        uri: String,
-        uuid: String
-    ): Unit = {} // do nothing
-
-    override def addErrorMessage(code: String, msg: String, uri: String, uuid: String): Unit = {} // do nothing
   }
 }
 

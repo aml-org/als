@@ -1,7 +1,6 @@
 package org.mulesoft.als.server.modules.actions
 
 import org.mulesoft.als.server.RequestModule
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.workspace.UnitWorkspaceManager
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.TelemeteredRequestHandler
@@ -12,8 +11,7 @@ import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 import scala.concurrent.Future
 
 class DocumentLinksManager(
-    val workspaceManager: UnitWorkspaceManager,
-    private val telemetryProvider: TelemetryProvider
+    val workspaceManager: UnitWorkspaceManager
 ) extends RequestModule[DocumentLinkClientCapabilities, DocumentLinkOptions] {
 
   override val `type`: ConfigType[DocumentLinkClientCapabilities, DocumentLinkOptions] =
@@ -26,8 +24,6 @@ class DocumentLinksManager(
 
       override def task(params: DocumentLinkParams): Future[Seq[DocumentLink]] =
         documentLinks(params.textDocument.uri, uuid(params))
-
-      override protected def telemetry: TelemetryProvider                        = telemetryProvider
       override protected def code(params: DocumentLinkParams): String            = "DocumentLink"
       override protected def beginType(params: DocumentLinkParams): MessageTypes = MessageTypes.BEGIN_DOCUMENT_LINK
       override protected def endType(params: DocumentLinkParams): MessageTypes   = MessageTypes.END_DOCUMENT_LINK

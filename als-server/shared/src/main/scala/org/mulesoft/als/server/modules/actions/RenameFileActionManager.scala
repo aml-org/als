@@ -19,7 +19,6 @@ import scala.concurrent.Future
 
 class RenameFileActionManager(
     val workspace: WorkspaceManager,
-    private val telemetryProvider: TelemetryProvider,
     private val configReader: AlsConfigurationReader,
     private val platform: Platform
 ) extends RequestModule[RenameFileActionClientCapabilities, RenameFileActionOptions] {
@@ -41,8 +40,6 @@ class RenameFileActionManager(
   class RenameFileActionRequestHandler
       extends TelemeteredRequestHandler[RenameFileActionParams, RenameFileActionResult] {
     override def `type`: RequestType[RenameFileActionParams, RenameFileActionResult] = RenameFileActionRequestType
-
-    override protected def telemetry: TelemetryProvider = telemetryProvider
 
     override protected def task(params: RenameFileActionParams): Future[RenameFileActionResult] =
       rename(params.oldDocument, params.newDocument)

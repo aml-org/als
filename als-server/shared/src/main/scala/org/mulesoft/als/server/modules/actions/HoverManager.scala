@@ -15,8 +15,7 @@ import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class HoverManager(wm: WorkspaceManager, telemetryProvider: TelemetryProvider)
-    extends RequestModule[HoverClientCapabilities, Boolean] {
+class HoverManager(wm: WorkspaceManager) extends RequestModule[HoverClientCapabilities, Boolean] {
   private var active = true
 
   override val `type`: ConfigType[HoverClientCapabilities, Boolean] =
@@ -34,8 +33,6 @@ class HoverManager(wm: WorkspaceManager, telemetryProvider: TelemetryProvider)
 
   class HoverTelemeteredRequestHandler() extends TelemeteredRequestHandler[HoverParams, Hover] {
     override def `type`: RequestType[HoverParams, Hover] = HoverRequestType
-
-    override protected def telemetry: TelemetryProvider = telemetryProvider
 
     override protected def task(params: HoverParams): Future[Hover] = hover(params)
 

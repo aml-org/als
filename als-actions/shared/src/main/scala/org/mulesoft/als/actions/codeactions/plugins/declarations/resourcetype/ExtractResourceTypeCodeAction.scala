@@ -36,8 +36,6 @@ case class ExtractResourceTypeCodeAction(params: CodeActionRequestParams)
 
   override protected def newName: String = ExtractorCommon.nameNotInList("resourceType", params.bu.declaredNames.toSet)
 
-  override protected def telemetry: TelemetryProvider = params.telemetryProvider
-
   override protected def msg(params: CodeActionRequestParams): String =
     s"Extract resource type: \n\t${params.uri}\t${params.range}"
 

@@ -21,7 +21,6 @@ class CodeActionManager(
     allActions: Seq[CodeActionFactory],
     workspaceManager: WorkspaceManager,
     configuration: AlsConfigurationReader,
-    telemetryProvider: TelemetryProvider,
     directoryResolver: DirectoryResolver
 ) extends RequestModule[CodeActionCapabilities, CodeActionOptions] {
 
@@ -54,7 +53,6 @@ class CodeActionManager(
               bu.definedBy,
               configuration,
               allr,
-              telemetryProvider,
               configurationBuilder,
               uuid,
               directoryResolver
@@ -86,8 +84,6 @@ class CodeActionManager(
             .map(_.toCodeAction(configuration.supportsDocumentChanges))
         }
       }
-
-      override protected def telemetry: TelemetryProvider = telemetryProvider
 
       override protected def code(params: CodeActionParams): String = "CodeActionsManager"
 

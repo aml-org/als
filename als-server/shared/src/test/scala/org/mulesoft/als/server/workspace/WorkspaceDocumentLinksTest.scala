@@ -1,5 +1,6 @@
 package org.mulesoft.als.server.workspace
 
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.client.scala.LanguageServerBuilder
 import org.mulesoft.als.server.modules.WorkspaceManagerFactoryBuilder
 import org.mulesoft.als.server.modules.actions.DocumentLinksManager
@@ -98,6 +99,7 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
   class WorkspaceLinkHandler(rootFolder: String, mainFile: Option[String]) {
     val clientNotifier                     = new MockDiagnosticClientNotifier()
     val telemetryManager: TelemetryManager = new TelemetryManager(clientNotifier)
+    Logger.withTelemetry(telemetryManager)
 
     val workspaceManager: WorkspaceManager = {
       val editorConfiguration = EditorConfiguration()
@@ -109,7 +111,6 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
         )
       WorkspaceManager(
         container,
-        telemetryManager,
         editorConfiguration,
         defaultProjectConfigurationProvider,
         Nil,
@@ -119,7 +120,7 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
     }
 
     val documentLinksManager: DocumentLinksManager =
-      new DocumentLinksManager(workspaceManager, telemetryManager)
+      new DocumentLinksManager(workspaceManager)
 
     def init(): Future[Unit] =
       workspaceManager

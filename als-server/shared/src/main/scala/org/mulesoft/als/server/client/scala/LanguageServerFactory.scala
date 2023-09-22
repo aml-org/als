@@ -163,5 +163,4 @@ class LanguageServerFactory(
       .addRequestModule(builders.documentFormattingManager)
       .addRequestModule(builders.documentRangeFormattingManager)
       .addRequestModule(builders.workspaceConfigurationManager)
-      .addInitializable(builders.telemetryManager)
 }

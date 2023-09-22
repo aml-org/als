@@ -19,8 +19,6 @@ case class ExtractRamlToLibraryCodeAction(params: CodeActionRequestParams) exten
   override lazy val isApplicable: Boolean =
     params.bu.sourceSpec.contains(Spec.RAML10) && selectedElements.nonEmpty
 
-  override protected def telemetry: TelemetryProvider = params.telemetryProvider
-
   override protected val kindTitle: CodeActionKindTitle = ExtractRamlToLibraryCodeAction
 }
 

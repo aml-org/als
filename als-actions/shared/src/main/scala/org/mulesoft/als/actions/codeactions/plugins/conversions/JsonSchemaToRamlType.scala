@@ -47,8 +47,6 @@ class JsonSchemaToRamlType(override protected val params: CodeActionRequestParam
     params.bu.sourceSpec.contains(Spec.RAML10) &&
       maybeAnyShape.isDefined && positionIsExtracted
 
-  protected def telemetry: TelemetryProvider = params.telemetryProvider
-
   override protected def code(params: CodeActionRequestParams): String =
     "Json Schema to Raml Type code action"
 

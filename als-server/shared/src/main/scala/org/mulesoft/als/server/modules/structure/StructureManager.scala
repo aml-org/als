@@ -1,7 +1,7 @@
 package org.mulesoft.als.server.modules.structure
 
-import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.logger.Logger
+import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.modules.common.LspConverter
 import org.mulesoft.als.server.modules.workspace.CompilableUnit
 import org.mulesoft.als.server.workspace.UnitAccessor
@@ -18,8 +18,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class StructureManager(
-    val unitAccesor: UnitAccessor[CompilableUnit],
-    private val telemetryProvider: TelemetryProvider
+    val unitAccesor: UnitAccessor[CompilableUnit]
 ) extends RequestModule[DocumentSymbolClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
 
   override val `type`: ConfigType[DocumentSymbolClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] =
@@ -47,8 +46,6 @@ class StructureManager(
         onDocumentStructure(params.textDocument.uri)
           .map(_.map(LspConverter.toLspDocumentSymbol))
           .map(Right.apply)
-
-      override protected def telemetry: TelemetryProvider = telemetryProvider
 
       override protected def code(params: DocumentSymbolParams): String = "StructureManager"
 

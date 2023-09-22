@@ -3,7 +3,6 @@ package org.mulesoft.als.server.workspace.command
 import amf.apicontract.client.scala.APIConfiguration
 import amf.core.internal.parser.YMapOps
 import amf.core.internal.unsafe.PlatformSecrets
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.protocol.textsync.IndexDialectParams
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.amfintegration.dialect.integration.BaseAlsDialectProvider

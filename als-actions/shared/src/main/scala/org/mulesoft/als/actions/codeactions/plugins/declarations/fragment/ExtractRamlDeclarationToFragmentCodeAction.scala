@@ -39,8 +39,6 @@ case class ExtractRamlDeclarationToFragmentCodeAction(params: CodeActionRequestP
     params.bu.sourceSpec.contains(Spec.RAML10) && positionIsExtracted &&
       fragmentBundle.isDefined
 
-  override protected def telemetry: TelemetryProvider = params.telemetryProvider
-
   override lazy val linkEntry: Future[Option[TextEdit]] =
     renderLink.map(
       RamlTypeExtractor

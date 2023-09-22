@@ -21,9 +21,6 @@ import scala.concurrent.Future
 case class TestCodeAction(params: CodeActionRequestParams) extends CodeActionResponsePlugin {
   val isApplicable: Boolean =
     params.range.start == params.range.`end` && params.range.start == Position(0, 0)
-
-  override protected def telemetry: TelemetryProvider = params.telemetryProvider
-
   override protected def task(params: CodeActionRequestParams): Future[Seq[AbstractCodeAction]] = Future.successful {
     Seq(
       TestCodeAction.baseCodeAction(

@@ -10,14 +10,12 @@ import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
 
 import scala.concurrent.Future
 
-class FileUsageHandler(telemetryProvider: TelemetryProvider, workspace: WorkspaceManager)
+class FileUsageHandler(workspace: WorkspaceManager)
     extends TelemeteredRequestHandler[TextDocumentIdentifier, Seq[Location]] {
   override def `type`: FileUsageRequestType.type = FileUsageRequestType
 
   override def task(params: TextDocumentIdentifier): Future[Seq[Location]] =
     FindFileUsages.getUsages(params.uri, workspace.getAllDocumentLinks(params.uri, uuid(params)))
-
-  override protected def telemetry: TelemetryProvider = telemetryProvider
 
   override protected def code(params: TextDocumentIdentifier): String = "FileUsageHandler"
 

@@ -26,6 +26,7 @@ import org.mulesoft.lsp.feature.telemetry.MessageTypes.{BEGIN_DELETE_NODE_ACTION
 import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 import org.yaml.model.YPart
 import org.mulesoft.common.collections._
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -38,8 +39,6 @@ class DeleteDeclaredNodeCodeAction(override val params: CodeActionRequestParams)
       t.isDeclared &&
         t.fieldEntry.exists(_.isSemanticName)
     )
-
-  override protected def telemetry: TelemetryProvider = params.telemetryProvider
 
   override protected def task(params: CodeActionRequestParams): Future[Seq[AbstractCodeAction]] =
     Future {

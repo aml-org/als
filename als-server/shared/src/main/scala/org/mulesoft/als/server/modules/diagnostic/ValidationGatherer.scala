@@ -1,12 +1,11 @@
 package org.mulesoft.als.server.modules.diagnostic
 
 import org.mulesoft.common.collections._
-import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
 import scala.collection.mutable
 import scala.scalajs.js.annotation.JSExportTopLevel
 
-class ValidationGatherer(telemetryProvider: TelemetryProvider) {
+class ValidationGatherer {
 
   private val resultsByUnit: mutable.Map[DiagnosticManagerKind, mutable.Map[String, Seq[AlsValidationResult]]] =
     mutable.Map.empty
