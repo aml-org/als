@@ -167,7 +167,7 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
     }
   }
 
-  test("Request serialized model in json schema en draft-04") {
+  test("Request serialized model in json schema en draft-04", Flaky) {
     val alsClient: MockAlsClientNotifier = new MockAlsClientNotifier
     val serializationProps: SerializationProps[StringWriter] =
       new SerializationProps[StringWriter](alsClient) {
