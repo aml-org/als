@@ -4,7 +4,6 @@ import org.mulesoft.als.actions.definition.FindDefinition
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.convert.LspRangeConverter
 import org.mulesoft.als.server.RequestModule
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.configuration.WorkDoneProgressOptions
@@ -23,8 +22,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class GoToDefinitionManager(
-    val workspace: WorkspaceManager,
-    private val telemetryProvider: TelemetryProvider
+    val workspace: WorkspaceManager
 ) extends RequestModule[DefinitionClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
 
   private var conf: Option[DefinitionClientCapabilities] = None
@@ -38,8 +36,6 @@ class GoToDefinitionManager(
 
       override def task(params: DefinitionParams): Future[Either[Seq[Location], Seq[LocationLink]]] =
         goToDefinition(params.textDocument.uri, LspRangeConverter.toPosition(params.position), uuid(params))
-
-      override protected def telemetry: TelemetryProvider = telemetryProvider
 
       override protected def code(params: DefinitionParams): String = "GotoDefinitionManager"
 

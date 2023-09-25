@@ -3,7 +3,6 @@ package org.mulesoft.als.server.modules.actions
 import org.mulesoft.als.actions.references.FindReferences
 import org.mulesoft.als.common.dtoTypes.Position
 import org.mulesoft.als.server.RequestModule
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.configuration.WorkDoneProgressOptions
@@ -22,8 +21,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class FindReferenceManager(
-    val workspace: WorkspaceManager,
-    private val telemetryProvider: TelemetryProvider
+    val workspace: WorkspaceManager
 ) extends RequestModule[ReferenceClientCapabilities, Either[Boolean, WorkDoneProgressOptions]] {
 
   private var conf: Option[ReferenceClientCapabilities] = None
@@ -37,8 +35,6 @@ class FindReferenceManager(
 
       override def task(params: ReferenceParams): Future[Seq[Location]] =
         findReference(params.textDocument.uri, Position(params.position), uuid(params))
-
-      override protected def telemetry: TelemetryProvider = telemetryProvider
 
       override protected def code(params: ReferenceParams): String = "FindReferenceManager"
 

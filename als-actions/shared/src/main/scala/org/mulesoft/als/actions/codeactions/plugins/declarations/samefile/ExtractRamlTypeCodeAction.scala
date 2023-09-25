@@ -26,8 +26,6 @@ case class ExtractRamlTypeCodeAction(params: CodeActionRequestParams)
     homogeneousVendor && spec.isRaml && positionIsExtracted &&
       amfObject.exists(o => ExtractorCommon.declarationPath(o, params.definedBy) == Seq("types")) && appliesToDocument()
 
-  override protected def telemetry: TelemetryProvider = params.telemetryProvider
-
   override lazy val linkEntry: Future[Option[TextEdit]] =
     renderLink.map(
       RamlTypeExtractor

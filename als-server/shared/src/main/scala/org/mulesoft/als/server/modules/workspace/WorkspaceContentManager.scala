@@ -13,7 +13,7 @@ import org.mulesoft.als.server.textsync.EnvironmentProvider
 import org.mulesoft.als.server.workspace.UnitTaskManager
 import org.mulesoft.amfintegration.AmfImplicits.BaseUnitImp
 import org.mulesoft.amfintegration.amfconfiguration.{ALSConfigurationState, AmfParseResult, ProjectConfigurationState}
-import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
+import org.mulesoft.lsp.feature.telemetry.MessageTypes
 
 import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -22,7 +22,6 @@ import scala.concurrent.Future
 class WorkspaceContentManager private (
     val folderUri: String,
     environmentProvider: EnvironmentProvider,
-    val telemetryProvider: TelemetryProvider,
     subscribers: () => List[WorkspaceContentListener[_]],
     override val repository: WorkspaceParserRepository,
     val projectConfigAdapter: ProjectConfigurationAdapter,
@@ -340,7 +339,7 @@ class WorkspaceContentManager private (
   }
 
   private def parse(uri: String, uuid: String): Future[AmfParseResult] = {
-    telemetryProvider.timeProcess(
+    Logger.timeProcess(
       "AMF Parse",
       MessageTypes.BEGIN_PARSE,
       MessageTypes.END_PARSE,
@@ -401,7 +400,6 @@ object WorkspaceContentManager {
   def apply(
       folderUri: String,
       environmentProvider: EnvironmentProvider,
-      telemetryProvider: TelemetryProvider,
       subscribers: () => List[WorkspaceContentListener[_]],
       projectConfigAdapter: ProjectConfigurationAdapter,
       hotReload: Boolean = false
@@ -410,7 +408,6 @@ object WorkspaceContentManager {
     val wcm = new WorkspaceContentManager(
       folderUri,
       environmentProvider,
-      telemetryProvider,
       subscribers,
       repository,
       projectConfigAdapter.withRepository(repository),

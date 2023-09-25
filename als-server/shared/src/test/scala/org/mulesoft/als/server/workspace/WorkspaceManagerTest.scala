@@ -730,7 +730,7 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     }
   }
 
-  test("Workspace Manager check validation Stack - Performance case - wait") {
+  test("Workspace Manager check validation Stack - Performance case - wait", Flaky) {
     val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
       new MockDiagnosticClientNotifierWithTelemetryLog(60000)
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>

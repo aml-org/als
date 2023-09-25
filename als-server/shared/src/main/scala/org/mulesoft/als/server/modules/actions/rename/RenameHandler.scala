@@ -20,7 +20,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class RenameHandler(
-    telemetryProvider: TelemetryProvider,
     workspace: WorkspaceManager,
     configurationReader: AlsConfigurationReader,
     platform: Platform
@@ -35,9 +34,6 @@ class RenameHandler(
       params.newName,
       uuid(params)
     )
-
-  override protected def telemetry: TelemetryProvider = telemetryProvider
-
   override protected def code(params: RenameParams): String = "RenameManager"
 
   override protected def beginType(params: RenameParams): MessageTypes = MessageTypes.BEGIN_RENAME

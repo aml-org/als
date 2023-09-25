@@ -20,8 +20,6 @@ case class ExtractElementCodeAction(params: CodeActionRequestParams) extends Ext
     homogeneousVendor && !spec.isRaml && amfObject.isDefined && positionIsExtracted &&
       params.definedBy != MetaDialect.dialect && appliesToDocument()
 
-  override protected def telemetry: TelemetryProvider = params.telemetryProvider
-
   override protected def msg(params: CodeActionRequestParams): String =
     s"Extract element to declaration: \n\t${params.uri}\t${params.range}"
 

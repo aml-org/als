@@ -21,14 +21,13 @@ import org.mulesoft.amfintegration.AmfResolvedUnit
 import org.mulesoft.amfintegration.amfconfiguration.AMLSpecificConfiguration
 import org.mulesoft.lsp.ConfigType
 import org.mulesoft.lsp.feature.link.DocumentLink
-import org.mulesoft.lsp.feature.telemetry.{MessageTypes, TelemetryProvider}
+import org.mulesoft.lsp.feature.telemetry.MessageTypes
 import org.yaml.builder.JsonOutputBuilder
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.{Future, Promise}
 import scala.util.{Failure, Success}
 class CustomValidationManager(
-    override protected val telemetryProvider: TelemetryProvider,
     override protected val clientNotifier: ClientNotifier,
     override protected val validationGatherer: ValidationGatherer,
     val validatorBuilder: BaseProfileValidatorBuilder
@@ -154,7 +153,7 @@ class CustomValidationManager(
           case Failure(error)  => promise.failure(error)
         }
 
-      telemetryProvider.timeProcess(
+      Logger.timeProcess(
         "End report",
         MessageTypes.BEGIN_CUSTOM_DIAGNOSTIC,
         MessageTypes.END_CUSTOM_DIAGNOSTIC,

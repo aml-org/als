@@ -3,7 +3,6 @@ package org.mulesoft.als.server.modules.configuration
 import org.mulesoft.als.configuration.ProjectConfiguration
 import org.mulesoft.als.server.RequestModule
 import org.mulesoft.als.server.feature.configuration.workspace._
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.modules.workspace.WorkspaceContentManager
 import org.mulesoft.als.server.workspace.WorkspaceManager
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
@@ -18,14 +17,13 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class WorkspaceConfigurationManager(
-    val workspaceManager: WorkspaceManager,
-    private val telemetryProvider: TelemetryProvider
+    val workspaceManager: WorkspaceManager
 ) extends RequestModule[WorkspaceConfigurationClientCapabilities, WorkspaceConfigurationOptions]
     with WorkspaceConfigurationProvider {
 
   private var getEnabled = true
   override def getRequestHandlers: Seq[TelemeteredRequestHandler[_, _]] =
-    Seq(new GetWorkspaceConfigurationRequestHandler(this, telemetryProvider))
+    Seq(new GetWorkspaceConfigurationRequestHandler(this))
 
   override def applyConfig(config: Option[WorkspaceConfigurationClientCapabilities]): WorkspaceConfigurationOptions = {
     getEnabled = config.forall(_.get)
@@ -48,12 +46,8 @@ class WorkspaceConfigurationManager(
 }
 
 class GetWorkspaceConfigurationRequestHandler(
-    val provider: WorkspaceConfigurationProvider,
-    private val telemetryProvider: TelemetryProvider
+    val provider: WorkspaceConfigurationProvider
 ) extends TelemeteredRequestHandler[GetWorkspaceConfigurationParams, GetWorkspaceConfigurationResult] {
-
-  override protected def telemetry: TelemetryProvider = telemetryProvider
-
   override protected def task(params: GetWorkspaceConfigurationParams): Future[GetWorkspaceConfigurationResult] =
     provider
       .getWorkspaceConfiguration(params.textDocument.uri)

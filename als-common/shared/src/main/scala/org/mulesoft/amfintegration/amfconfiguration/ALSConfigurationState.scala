@@ -229,8 +229,12 @@ case class ALSConfigurationState(
   def definitionFor(nameAndVersion: String): Option[Dialect] =
     predefinedWithDialects.configurationState().getDialects().find(_.nameAndVersion() == nameAndVersion)
 
-  def fetchContent(uri: String): Future[Content] =
+  def fetchContent(uri: String): Future[Content] = try {
     platform.fetchContent(uri, getAmfConfig)
+  } catch {
+    case e: Exception =>
+      Future.failed(e)
+  }
 
   def buildJsonSchema(shape: AnyShape): String =
     JsonSchemaShapeRenderer.buildJsonSchema(shape, getAmfConfig)

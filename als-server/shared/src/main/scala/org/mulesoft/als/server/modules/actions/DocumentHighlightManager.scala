@@ -15,8 +15,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class DocumentHighlightManager(
-    val workspace: WorkspaceManager,
-    private val telemetryProvider: TelemetryProvider
+    val workspace: WorkspaceManager
 ) extends RequestModule[DocumentHighlightCapabilities, Boolean] {
 
   override val `type`: ConfigType[DocumentHighlightCapabilities, Boolean] =
@@ -30,7 +29,6 @@ class DocumentHighlightManager(
       override def task(params: DocumentHighlightParams): Future[Seq[DocumentHighlight]] =
         documentHighlights(params.textDocument.uri, Position(params.position), uuid(params))
 
-      override protected def telemetry: TelemetryProvider = telemetryProvider
       override protected def code(params: DocumentHighlightParams): String =
         "DocumentHighlight"
       override protected def beginType(params: DocumentHighlightParams): MessageTypes =

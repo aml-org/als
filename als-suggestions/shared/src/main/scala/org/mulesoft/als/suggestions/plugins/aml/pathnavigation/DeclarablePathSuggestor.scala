@@ -4,8 +4,7 @@ import amf.apicontract.client.scala.model.document.ComponentModule
 import amf.apicontract.client.scala.model.domain.Parameter
 import amf.apicontract.internal.metamodel.domain.ParameterModel
 import amf.core.client.scala.model.document.DeclaresModel
-import amf.core.client.scala.model.domain.{AmfObject, NamedDomainElement}
-import amf.core.internal.parser.domain.Fields
+import amf.core.client.scala.model.domain.NamedDomainElement
 import amf.shapes.client.scala.model.document.JsonSchemaDocument
 import amf.shapes.internal.annotations.DocumentDeclarationKey
 import org.mulesoft.als.suggestions.RawSuggestion
@@ -25,6 +24,7 @@ object DeclarablePathSuggestor {
 }
 
 sealed class DeclarablePathSuggestor(declarations: DeclaresModel, prefix: String) extends PathSuggestor {
+
   override def suggest(): Future[Seq[RawSuggestion]] = {
     val names = declarations.declares.flatMap {
       case named: NamedDomainElement => named.name.option()
@@ -35,7 +35,7 @@ sealed class DeclarablePathSuggestor(declarations: DeclaresModel, prefix: String
 
   override protected def prevFromPrefix(prefix: String): String =
     if (prefix.contains("#")) prefix.substring(0, prefix.lastIndexOf("#") + 1)
-    else super.prevFromPrefix(prefix)
+    else s"$prefix#"
 
   def buildText(name: String): String = name
 }

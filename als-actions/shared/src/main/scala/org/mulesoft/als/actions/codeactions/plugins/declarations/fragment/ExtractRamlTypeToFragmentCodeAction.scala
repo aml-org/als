@@ -34,8 +34,6 @@ case class ExtractRamlTypeToFragmentCodeAction(params: CodeActionRequestParams)
         )
       )
 
-  override protected def telemetry: TelemetryProvider = params.telemetryProvider
-
   override lazy val linkEntry: Future[Option[TextEdit]] =
     renderLink.map(
       RamlTypeExtractor

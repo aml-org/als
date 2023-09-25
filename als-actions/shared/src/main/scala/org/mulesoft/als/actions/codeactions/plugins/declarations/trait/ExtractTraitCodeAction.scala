@@ -56,8 +56,6 @@ class ExtractTraitCodeAction(override protected val params: CodeActionRequestPar
     s"\n${renderNode(node, yPartBranch.flatMap(_.closestEntry))}\n"
   }
 
-  override protected def telemetry: TelemetryProvider = params.telemetryProvider
-
   override protected def msg(params: CodeActionRequestParams): String =
     s"Extract trait: \n\t${params.uri}\t${params.range}"
 

@@ -3,6 +3,7 @@ package org.mulesoft.als.server.modules.diagnostic
 import amf.core.client.scala.resource.ResourceLoader
 import org.mulesoft.als.common.AmfConfigurationPatcher
 import org.mulesoft.als.configuration.ProjectConfiguration
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.modules.configuration.WorkspaceConfigurationProvider
 import org.mulesoft.als.server.modules.diagnostic.custom.CustomValidationManager
@@ -127,11 +128,11 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
       configs: Map[String, ALSConfigurationState],
       customValidationManager: Option[CustomValidationManager] = None
   ) extends CleanDiagnosticTreeManager(
-        DummyTelemetryProvider,
         DummyEnvironmentProvider,
         customValidationManager,
         DummyConfigProvider
       ) {
+    Logger.withTelemetry(DummyTelemetryProvider)
 
     val emptyConfig: ALSConfigurationState = ALSConfigurationState(
       EditorConfigurationState(Nil, Nil, Nil, syntaxPlugin = Nil, validationPlugin = Nil),

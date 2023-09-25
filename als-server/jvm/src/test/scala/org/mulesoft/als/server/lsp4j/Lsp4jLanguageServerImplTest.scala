@@ -173,13 +173,13 @@ class Lsp4jLanguageServerImplTest extends AMFValidatorTest with ChangesWorkspace
             override def accepts(resource: String): Boolean = false
           }
         },
-        new DummyTelemetryProvider(),
         editorConfiguration,
         IgnoreProjectConfigurationAdapter,
         Nil,
         Nil,
         buildWorkspaceManager.configurationManager
       ) {
+    Logger.withTelemetry(new DummyTelemetryProvider())
 
     private val commandExecutors: Map[String, CommandExecutor[_, _]] = Map(
       Commands.DID_CHANGE_CONFIGURATION -> new TestDidChangeConfigurationCommandExecutor(this, fn)

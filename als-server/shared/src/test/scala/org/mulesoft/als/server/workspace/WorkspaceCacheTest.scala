@@ -5,6 +5,7 @@ import amf.core.client.platform.resource.ResourceNotFound
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.internal.unsafe.PlatformSecrets
 import org.mulesoft.als.configuration.ProjectConfiguration
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.modules.ast.CHANGE_FILE
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
@@ -65,10 +66,11 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
       override def accepts(resource: String): Boolean =
         resource == cachableUri || resource == mainApiUri
     }
+    Logger.withTelemetry(DummyTelemetryProvider)
     val env = TextDocumentContainer()
     for {
       configAdapter <- newConfigurationAdapter(folderUri, env, rl)
-      ws            <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, () => Nil, configAdapter)
+      ws            <- WorkspaceContentManager(folderUri, env, () => Nil, configAdapter)
       _             <- ws.initialized
       _ <- ws
         .withConfiguration(ProjectConfiguration(folderUri, mainApiName, cacheUris))
@@ -129,9 +131,10 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     }
 
     val env = TextDocumentContainer()
+    Logger.withTelemetry(DummyTelemetryProvider)
     for {
       configAdapter <- newConfigurationAdapter(folderUri, env, rl)
-      ws            <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, () => Nil, configAdapter)
+      ws            <- WorkspaceContentManager(folderUri, env, () => Nil, configAdapter)
       _             <- ws.initialized
       _ <- ws
         .withConfiguration(ProjectConfiguration(folderUri, mainApiName, cacheUris))
@@ -183,9 +186,10 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     }
 
     val env = TextDocumentContainer()
+    Logger.withTelemetry(DummyTelemetryProvider)
     for {
       configAdapter <- newConfigurationAdapter(folderUri, env, rl)
-      ws            <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, () => Nil, configAdapter)
+      ws            <- WorkspaceContentManager(folderUri, env, () => Nil, configAdapter)
       _             <- ws.initialized
       _ <- ws
         .withConfiguration(ProjectConfiguration(folderUri, mainApiName))
@@ -238,9 +242,10 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     }
 
     val env = TextDocumentContainer()
+    Logger.withTelemetry(DummyTelemetryProvider)
     for {
       configAdapter <- newConfigurationAdapter(folderUri, env, rl)
-      ws            <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, () => Nil, configAdapter)
+      ws            <- WorkspaceContentManager(folderUri, env, () => Nil, configAdapter)
       _             <- ws.initialized
       _ <- ws
         .withConfiguration(ProjectConfiguration(folderUri, mainApiName, cacheUris))
@@ -309,9 +314,10 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     }
 
     val env = TextDocumentContainer()
+    Logger.withTelemetry(DummyTelemetryProvider)
     for {
       configAdapter <- newConfigurationAdapter(folderUri, env, rl)
-      ws            <- WorkspaceContentManager(folderUri, env, DummyTelemetryProvider, () => Nil, configAdapter)
+      ws            <- WorkspaceContentManager(folderUri, env, () => Nil, configAdapter)
       _             <- ws.initialized
       _ <- ws
         .withConfiguration(ProjectConfiguration(folderUri, mainApiName, cacheUris))

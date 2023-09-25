@@ -10,7 +10,6 @@ import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.mulesoft.amfintegration.relationships.RelationshipLink
 import org.mulesoft.lsp.feature.codeactions.CodeActionParams
-import org.mulesoft.lsp.feature.telemetry.TelemetryProvider
 
 case class CodeActionRequestParams(
     uri: String,
@@ -21,7 +20,6 @@ case class CodeActionRequestParams(
     definedBy: Dialect,
     configuration: AlsConfigurationReader,
     allRelationships: Seq[RelationshipLink],
-    telemetryProvider: TelemetryProvider,
     alsConfigurationState: ALSConfigurationState,
     uuid: String,
     directoryResolver: DirectoryResolver
@@ -40,7 +38,6 @@ object CodeActionParamsImpl {
         dialect: Dialect,
         configuration: AlsConfigurationReader,
         allRelationships: Seq[RelationshipLink],
-        telemetryProvider: TelemetryProvider,
         alsConfigurationState: ALSConfigurationState,
         uuid: String,
         directoryResolver: DirectoryResolver
@@ -54,7 +51,6 @@ object CodeActionParamsImpl {
         dialect,
         configuration,
         allRelationships,
-        telemetryProvider,
         alsConfigurationState,
         uuid,
         directoryResolver

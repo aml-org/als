@@ -58,8 +58,8 @@ trait Logger {
 
 object Logger extends Logger with TelemetryProvider {
 
-  var delegateLogger: Logger                               = PrintLnLogger
-  var delegateTelemetryProvider: Option[TelemetryProvider] = None
+  private var delegateLogger: Logger                               = EmptyLogger
+  private var delegateTelemetryProvider: Option[TelemetryProvider] = None
 
   def withLogger(logger: Logger): this.type = {
     delegateLogger = logger
@@ -70,21 +70,17 @@ object Logger extends Logger with TelemetryProvider {
     this
   }
 
-  override def log(message: String, severity: MessageSeverity, component: String, subComponent: String): Unit = {
+  override def log(message: String, severity: MessageSeverity, component: String, subComponent: String): Unit =
     delegateLogger.log(message, severity, component, subComponent)
-  }
 
-  override def debug(message: String, component: String, subComponent: String): Unit = {
+  override def debug(message: String, component: String, subComponent: String): Unit =
     delegateLogger.debug(message, component, subComponent)
-  }
 
-  override def warning(message: String, component: String, subComponent: String): Unit = {
+  override def warning(message: String, component: String, subComponent: String): Unit =
     delegateLogger.warning(message, component, subComponent)
-  }
 
-  override def error(message: String, component: String, subComponent: String): Unit = {
+  override def error(message: String, component: String, subComponent: String): Unit =
     delegateLogger.error(message, component, subComponent)
-  }
 
   override def addTimedMessage(
       code: String,
@@ -92,11 +88,9 @@ object Logger extends Logger with TelemetryProvider {
       msg: String,
       uri: String,
       uuid: String
-  ): Unit = {
+  ): Unit =
     delegateTelemetryProvider.foreach(_.addTimedMessage(code, messageType, msg, uri, uuid))
-  }
 
-  override def addErrorMessage(code: String, msg: String, uri: String, uuid: String): Unit = {
+  override def addErrorMessage(code: String, msg: String, uri: String, uuid: String): Unit =
     delegateTelemetryProvider.foreach(_.addErrorMessage(code, msg, uri, uuid))
-  }
 }

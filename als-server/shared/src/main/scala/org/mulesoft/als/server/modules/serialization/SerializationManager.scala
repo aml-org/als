@@ -22,7 +22,6 @@ import scala.concurrent.{Future, Promise}
 import scala.util.{Failure, Success}
 
 class SerializationManager[S](
-    telemetryProvider: TelemetryProvider,
     editorConfiguration: EditorConfiguration,
     configurationReader: AlsConfigurationReader,
     props: SerializationProps[S]
@@ -83,8 +82,6 @@ class SerializationManager[S](
       override def task(params: SerializationParams): Future[SerializationResult[S]] =
         processRequest(params.documentIdentifier.uri)
 
-      override protected def telemetry: TelemetryProvider = telemetryProvider
-
       override protected def code(params: SerializationParams): String = "SerializationManager"
 
       override protected def beginType(params: SerializationParams): MessageTypes = MessageTypes.BEGIN_SERIALIZATION
@@ -124,7 +121,7 @@ class SerializationManager[S](
           case Failure(error) => promise.failure(error)
         }
 
-      telemetryProvider.timeProcess(
+      Logger.timeProcess(
         "Serialize notification",
         MessageTypes.BEGIN_SERIALIZATION,
         MessageTypes.END_SERIALIZATION,
