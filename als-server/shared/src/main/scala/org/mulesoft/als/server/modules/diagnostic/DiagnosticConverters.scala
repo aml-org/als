@@ -98,12 +98,12 @@ object DiagnosticConverters {
         references.toSeq.flatMap { case (uri, links) =>
           links.map(l => (l, uri))
         }
-      val reference = reversedReferences.filter(_._1.target.equals(tweakedUri)).map(_._1)
+      val reference = reversedReferences.filter(_._1.target.equalsIgnoreCase(tweakedUri)).map(_._1)
       if (notExternalOrSyntax(r, isExternal, reference)) {
         getInformationStackBranches(tweakedUri, reversedReferences, originFlag = false).map { informationStack =>
           buildIssue(tweakedUri, r, informationStack)
         }
-      } else if (reversedReferences.exists(_._1.target.equals(tweakedUri))) {
+      } else if (reversedReferences.exists(_._1.target.equalsIgnoreCase(tweakedUri))) {
         getInformationStackBranches(tweakedUri, reversedReferences, originFlag = true).map { informationStack =>
           val range = LspRangeConverter.toLspRange(
             r.position
