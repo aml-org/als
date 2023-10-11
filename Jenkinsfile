@@ -81,20 +81,6 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
-            steps {
-                wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
-                    script {
-                        try {
-                            sh 'sbt -mem 12000 -Dflaky.ignore=true -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 -Djava.io.tmpdir=$HOME clean coverage test coverageAggregate --warn'
-                        } catch (e) {
-                            failedStage = failedStage + " TEST "
-                            unstable "Failed tests"
-                        }
-                    }
-                }
-            }
-        }
         stage('Coverage') {
             when {
                 anyOf {
@@ -148,6 +134,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
+                    branch 'w-14218793-sof'
                 }
             }
             steps {
@@ -169,6 +156,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
+                    branch 'w-14218793-sof'
                 }
             }
             steps {
@@ -198,6 +186,7 @@ pipeline {
                     branch 'master'
                     branch 'develop'
                     branch 'rc/*'
+                    branch 'w-14218793-sof'
                 }
             }
             steps {

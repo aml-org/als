@@ -135,7 +135,7 @@ object DiagnosticConverters {
   ): Seq[Seq[DiagnosticRelatedInformation]] = {
     val informationBranches: ListBuffer[ListBuffer[DiagnosticRelatedInformation]] = mutable.ListBuffer()
     val mainBranch: ListBuffer[DiagnosticRelatedInformation]                      = mutable.ListBuffer()
-    val branchLimit                                                               = 1000
+    val branchLimit                                                               = 500
     informationBranches.append(mainBranch)
     relatedFor(uri, reversedReferences, informationBranches, mainBranch, branchLimit, originFlag)
     informationBranches.size
