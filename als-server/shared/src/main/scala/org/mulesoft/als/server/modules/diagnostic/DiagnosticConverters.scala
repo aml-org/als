@@ -71,9 +71,9 @@ object DiagnosticConverters {
             // avoid timeout by checking if we already added it, not using set as order is needed
             if (!branch.contains(newD)) {
               if (originFlag)
-                branch.prepend(newDiagnostic(uri, range, origin))
+                branch.prepend(newD)
               else
-                branch.append(newDiagnostic(uri, range, origin))
+                branch.append(newD)
               relatedFor(origin, references, informationBranches, branch, branchLimit, originFlag)
             }
         }
