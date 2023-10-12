@@ -1,0 +1,44 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: as-endpoint
+paths: {}
+
+components:
+  schemas:
+    asso:
+      type: object
+      properties:
+        app-name:
+          type: string
+          example: Sample sd API
+        api-id:
+          type: string
+          example: "181149"
+        api-name:
+          type: string
+          example: sample-sdf-api
+        version:
+          type: string
+          example: v1
+        environment:
+          type: string
+          example: dev
+        status:
+          type: string
+          enum: [pass,fail,warn]
+          example: fail
+        details:
+          type: string
+          example: Cannot create connection to back-end system XYZ
+        timestamp:
+          type: string
+          format: date-time
+          example: 2021-10-04T00:00:00Z
+  responses:
+    ar-200:
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/asso"

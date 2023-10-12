@@ -1,0 +1,195 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: t-endpoint
+paths: {}
+
+components:
+  parameters:
+    qitp:
+      in: query
+      name: typePanel
+      schema:
+        description: 
+        type: string
+        enum: [csadc, cscadc, csdc]
+      example: cscadc
+      required: true
+  schemas:
+    tbsObject:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            properties:
+              jksndo:
+                description: g
+                type: string
+              hbqweo:
+                description: sd
+                type: string
+              htve:
+                description: a
+                type: integer
+                enum: [1]
+                example: 1
+              cxvpoipo:
+                type: integer
+                example: 1
+              asdfkbwi:
+                type: string
+                example: "drofspt"
+              lhvkaklw:
+                description: f
+                type: integer
+                enum: [0,1,2,3,4,5,6]
+                example: 2
+              ljnvenbmw:
+                description: jvjh
+                type: integer
+                enum: [1,2,3,4,5,6,7,8,9,10,11,12]
+                example: 8
+              kjbs:
+                type: integer
+                example: 2022
+              hvjhasoilw:
+                type: integer
+                example: 123
+              m:
+                type: string
+              bnmsdiu:
+                type: boolean
+                example: true
+              asdvrt:
+                type: boolean
+                example: true
+              powie:
+                type: boolean
+                example: true
+              oixuv:
+                type: boolean
+                example: true
+              kbjdfkl:
+                type: boolean
+                example: true
+              hrwger:
+                type: boolean
+                example: true
+              bwrtv5e:
+                type: boolean
+                example: true
+              k6jtehre:
+                description: jhgk
+                type: integer
+                enum: [1,2,3,4]
+                example: 2
+              k87ktrj:
+                type: integer
+                example: 10
+              shdfv4:
+                type: boolean
+                example: true
+              seizeNeuvieme:
+                type: boolean
+                example: true
+              combineZZZZZ:
+                description: jhvbnlk
+                type: integer
+                enum: [0,1,2]
+                example: 1
+              brwtcerc:
+                type: boolean
+                example: true
+              qweqergth:
+                type: boolean
+                example: true
+              fqwewex:
+                type: boolean
+                example: true
+              htyehjet:
+                type: boolean
+                example: true
+              qvercqw5g:
+                type: boolean
+                example: true
+              jtyjg5g:
+                type: integer
+        gqercwq:
+          type: integer
+          example: 0
+        totalPages: 
+          type: integer
+          example: 0
+        last:
+          type: boolean
+          example: true
+        size:
+          type: integer
+          example: 50
+        page:
+          type: integer
+          example: 0
+    patchtbsObject:
+      type: array
+      items:
+        type: object
+        properties:
+              idfs:
+                type: string
+                example: "0013X00003QhBtZZZZ"
+              ucjknlwe:
+                type: string
+                example: "0013X00003QhBtZZZZ"
+              combineZZZZZ:
+                type: boolean
+                example: true
+              idZF:
+                type: integer
+                example: 3
+              viubjkrewn:
+                type: boolean
+                example: true
+              jaslndkfckew:
+                type: boolean
+                example: true
+              clnwec:
+                type: boolean
+                example: false
+              vnlkre:
+                type: boolean
+                example: true
+              jkvdfn9:
+                type: boolean
+                example: false
+              dffwewe:
+                type: integer
+                example: 4
+              idmmConsole:
+                type: integer
+                example: 2
+              asgeecw:
+                type: boolean
+                example: true
+              hregfwed:
+                type: boolean
+                example: true
+              ksjbndclkw:
+                type: boolean
+                example: false
+      
+  responses:
+    tbs-response-200:
+      description: Success
+      headers:
+            request-token:
+              schema:
+                type: string
+              description: pagination token.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/tbsObject"

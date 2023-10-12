@@ -1,0 +1,95 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: a-endpoint
+paths: {}
+
+components:
+  parameters:
+    qitp:
+      in: query
+      name: typePanel
+      schema:
+        type: string
+        enum: [asdf, gwe, fwe]
+      example: asdf
+      required: true
+    qiis:
+      in: query
+      name: qiis
+      schema:
+        description: verv
+        type: string
+        enum: [fasd, cew, asdc]
+      example: fasd
+      required: false
+
+    qifd:
+      in: query
+      name: csdc
+      schema:
+        description: afva
+        type: string
+        format: date-time
+      example: 2012-08-21T07:30:00Z
+      required: true
+    qitd:
+      in: query
+      name: sdcsa
+      schema:
+        description: Vasfg
+        type: string
+        format: date-time
+      example: 2012-08-22T07:30:00Z
+      required: true
+
+  schemas:
+    aObject:
+      type: object
+      properties:
+        idSF:
+          description: a
+          type: string
+          example: "1014H00000KxOqqQAF"
+        id:
+          description: a
+          type: integer
+          example: 7046495
+        typePanel:
+          description: b
+          type: string
+          enum: [FDS, FSDF, ASDF]
+          example: FDS
+        dtd:
+          description: C
+          type: string
+          format: date-time
+          example: 2024-02-02T09:10:00Z
+        df:
+          description: asdfv4v
+          type: string
+          format: date-time | nil
+          example: 2024-02-02T11:00:00Z
+        type:
+          description: Z
+          type: integer
+          example: 3
+        asdcce:
+          description: D
+          type: string
+          enum: [SDFA, GDAFG, ASDFJBK]
+          example: ASDFJBK
+  responses:
+    a-response-200:
+      description: Success
+      headers:
+            request-token:
+              schema:
+                type: string
+              description: pagination token.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/aObject"

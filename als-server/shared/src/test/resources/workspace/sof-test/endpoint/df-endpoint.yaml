@@ -1,0 +1,159 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: df-endpoint
+paths: {}
+
+components:
+  parameters:
+    qihi:
+      in: query
+      name: hidi
+      schema:
+        type: string
+      example: "604105"
+      required: false
+    qitp:
+      in: query
+      name: typePanel
+      schema:
+        type: string
+        enum: [MMsdfT, fsadc, asdc]
+      example: MMsdfT
+      required: false
+    qif:
+      in: query
+      name: flow
+      schema:
+        type: string
+      example: "sdfc"
+      required: false
+    qip:
+      in: query
+      name: pilote
+      schema:
+        type: string
+      example: "SXA3"
+      required: false
+
+  schemas:
+    vasdce:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            properties:
+              vecwe:
+                description: as
+                type: string
+                example: "02i3H000004o3dvZZZ"
+              idf:
+                description: ver
+                type: string
+                example: "a155r010000oor5AAA"
+              idfc:
+                description: ver
+                type: integer
+                example: 7129515
+              typePanel:
+                description: vre
+                  
+                type: string
+                enum: [csdc, cdxc, csdcs]
+                example: csdc
+              nom:
+                description: vfas
+                type: string
+                example: "ZFV4 253BD619"
+              fsadc:
+                description: erv
+                type: string
+                example: "243BD620"
+              asdcsd:
+                type: integer
+                description: vafvcs
+                example: 81083262
+              type:
+                description: fre
+                type: integer
+                example: 22
+              vfvdce:
+                description: vafs
+                type: string
+                enum: [cds, sda, scsd, avsd]
+                example: cds
+              vasdcweg:
+                description: sasd
+                type: string
+                example: "a115r000001mf9TZZ"
+              vracedsc:
+                type: string
+                example: "cdsc2"
+              oivnlrk:
+                type: string
+                example: "1.0"
+              viorekl:
+                type: string
+                example: "123456"
+              ouvhr:
+                description: fsdc
+
+                type: integer
+                example: 2
+              asdcce:
+                type: integer
+                example: 2
+              numPoste: 
+                description: sbj
+                type: integer
+                example: 2
+              postePrincipal: 
+                description: bjkvsd
+                type: boolean
+                example: true
+              deconnecte:
+                description: ajsdn
+                type: boolean
+                example: true
+              suspendu:
+                description: sjnd
+                type: boolean
+                example: false
+        gqercwq:
+          type: integer
+          example: 0
+        totalPages: 
+          type: integer
+          example: 0
+        last:
+          type: boolean
+          example: true
+        size:
+          type: integer
+          example: 50
+        page:
+          type: integer
+          example: 0
+              
+  
+  responses:
+    mr-202:
+      description: Success
+      content:
+        application/json:
+          example: "Your request accepted for update"
+    mr-200:
+      description: Success
+      headers:
+            request-token:
+              schema:
+                type: string
+              description: pagination token.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/vasdce"

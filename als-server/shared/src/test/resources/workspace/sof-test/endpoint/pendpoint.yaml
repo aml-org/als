@@ -1,0 +1,162 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: d-endpoint
+paths: {}
+
+components:
+  parameters:
+    qitp:
+      in: query
+      name: typePanel
+      schema:
+        type: string
+        enum: [MMT, PAME, AIP]
+      example: MMT
+      required: false
+  schemas:
+    fasd:
+      description: ver
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                description: kjbsd
+                type: string
+              idf:
+                description: kjsdnf
+                type: string
+              sadf:
+                description: djs
+                type: string
+              type:
+                description: vsad
+                type: integer
+                enum: [2,3,4,5,6]
+                example: 2
+              verv:
+                type: string
+                example: "nom"
+              jaslndkfckew:
+                type: boolean
+                example: true
+              clnwec:
+                type: boolean
+                example: true
+              asdfcs:
+                type: boolean
+                example: true
+              vnlkre:
+                type: boolean
+                example: true
+              sdfw:
+                type: integer
+                example: 1
+              berfw:
+                type: boolean
+                example: true
+              asgeecw:
+                type: boolean
+                example: true
+              dftjnr:
+                type: boolean
+                example: true
+              hregfwed:
+                type: boolean
+                example: true
+              dffwewe:
+                type: integer
+                example: 1
+              fgbs:
+                type: string
+                format: date
+                example: 2022-02-02
+              jrthfer:
+                type: boolean
+                example: true
+              oihlskndf:
+                type: boolean
+                example: true
+              xopcuv:
+                type: boolean
+                example: true
+              mqbwe:
+                type: boolean
+                example: true
+              acoivu:
+                type: boolean
+                example: true
+              ksjbndclkw:
+                type: boolean
+                example: true
+              akjsbdfo:
+                type: integer
+                example: 1
+              sdoihv:
+                description: ifsd
+                type: string
+              kjsdfpo:
+                type: integer
+                example: 2
+              jkbweoi:
+                type: boolean
+                example: true
+              ibjascnp:
+                type: integer
+                example: 1
+              sdjnco:
+                type: boolean
+                example: true
+              thrwfwe:
+                type: boolean
+                example: true
+              asvrger:
+                type: integer
+                example: 1
+              fgsjadf:
+                type: boolean
+                example: true
+              cqerfh:
+                type: integer
+                example: 1
+              dfgwg:
+                type: array
+                items:
+                  type: integer
+                example: [1, 2, 3]
+              
+                  
+        gqercwq:
+          type: integer
+          example: 0
+        totalPages: 
+          type: integer
+          example: 0
+        last:
+          type: boolean
+          example: true
+        size:
+          type: integer
+          example: 50
+        page:
+          type: integer
+          example: 0
+        
+  responses:
+    p-response-200:
+      description: Success
+      headers:
+            request-token:
+              schema:
+                type: string
+              description: pagination token.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/fasd"
