@@ -68,7 +68,7 @@ object DiagnosticConverters {
         head match {
           case (DocumentLink(range, _, _), origin) =>
             val newD = newDiagnostic(uri, range, origin)
-            // avoid SOF by checking if we already added it, not using set as order is needed
+            // avoid timeout by checking if we already added it, not using set as order is needed
             if (!branch.contains(newD)) {
               if (originFlag)
                 branch.prepend(newDiagnostic(uri, range, origin))

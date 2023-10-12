@@ -730,11 +730,8 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     }
   }
 
-  // This test evades a SOF in AALS, here it throws timeout if it is not working
-  // SOF is fixed by making uniques the stored branches
-  // timeout is fixed by lowering the branch limit that affects the relatedInformation in relatedFor
-  // After fixing this 2 things, performance in APID is fixed
-  test("Workspace Manager OAS 3 SOF relatedFor branches case", Flaky) {
+  // This test throws timeout if not working
+  test("Workspace Manager OAS 3 SOF relatedFor branches case") {
     val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
       new MockDiagnosticClientNotifierWithTelemetryLog(60000)
     withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
