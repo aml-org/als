@@ -1,0 +1,75 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: lkj
+paths: {}
+
+components:
+  schemas:
+    pfasd:
+      type: array
+      items:
+        type: object
+        properties:
+              idSF:
+                type: string
+                required: true
+              ucjknlwe:
+                type: string
+                required: true
+              combineZZZZZ:
+                type: integer
+                enum: [0, 1, 2]
+                example: 0
+                nullable: true
+              idZF:
+                type: integer
+                example: 3
+                nullable: true
+              viubjkrewn:
+                type: boolean
+                example: true
+                nullable: true
+              jaslndkfckew:
+                type: boolean
+                example: true
+                nullable: true
+              clnwec:
+                type: boolean
+                example: false
+                nullable: true
+              vnlkre:
+                type: boolean
+                example: true
+                nullable: true
+              lecteurDvdTnt:
+                type: boolean
+                example: false
+                nullable: true
+              dffwewe:
+                type: integer
+                example: 4
+                nullable: true               
+              idmConsole:
+                type: integer
+                example: 2
+                nullable: true
+              asgeecw:
+                type: boolean
+                example: true
+                nullable: true
+              hregfwed:
+                type: boolean
+                example: true
+                nullable: true
+              ksjbndclkw:
+                type: boolean
+                example: false
+                nullable: true
+      
+  responses:
+    t-response-200:
+      description: Success
+      content:
+        application/json:
+          example: "Sample"

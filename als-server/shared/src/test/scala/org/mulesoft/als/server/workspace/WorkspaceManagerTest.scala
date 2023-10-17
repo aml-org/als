@@ -730,6 +730,30 @@ class WorkspaceManagerTest extends LanguageServerBaseTest {
     }
   }
 
+  // This test throws timeout if not working
+  test("Workspace Manager OAS 3 SOF relatedFor branches case") {
+    val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
+      new MockDiagnosticClientNotifierWithTelemetryLog(60000)
+    withServer[Assertion](buildServer(diagnosticClientNotifier)) { server =>
+      val rootFolder = s"${filePath("sof-test")}"
+      for {
+        _ <- server.testInitialize(
+          AlsInitializeParams(
+            None,
+            Some(TraceKind.Off),
+            rootUri = Some(rootFolder)
+          )
+        )
+        _ <- setMainFile(server)(rootFolder, "api.yaml")
+        a <- diagnosticClientNotifier.nextCall
+      } yield {
+        server.shutdown()
+        val allDiagnostics = Seq(a)
+        assert(allDiagnostics.size == allDiagnostics.map(_.uri).distinct.size)
+      }
+    }
+  }
+
   test("Workspace Manager check validation Stack - Performance case - wait", Flaky) {
     val diagnosticClientNotifier: MockDiagnosticClientNotifierWithTelemetryLog =
       new MockDiagnosticClientNotifierWithTelemetryLog(60000)
