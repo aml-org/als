@@ -62,7 +62,6 @@
 "meta:DialectDomainElement",
 "doc:DomainElement"
 ],
-"sh:message": "Ensure API can only be accessed by the specified HTTP verbs. All other HTTP verbs should be disabled (e.g. HEAD).\n",
 "amf-core:name": "ab",
 "validation:ramlClassId": "apiContract.Operation",
 "validation:then": {
@@ -70,7 +69,8 @@
 },
 "validation:if": {
 "@id": "#/encodes/validations/ab/if"
-}
+},
+"sh:message": "Ensure API can only be accessed by the specified HTTP verbs. All other HTTP verbs should be disabled (e.g. HEAD).\n"
 },
 {
 "@id": "#/encodes/validations/scalar-parameters/propertyConstraints/shapes.schema%20%252F%20shacl.minLength",
