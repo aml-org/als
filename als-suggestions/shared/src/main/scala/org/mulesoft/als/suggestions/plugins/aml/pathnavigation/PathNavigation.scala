@@ -4,6 +4,7 @@ import amf.core.client.scala.errorhandling.DefaultErrorHandler
 import amf.core.client.scala.parse.document.{ParserContext, SyamlParsedDocument}
 import amf.core.internal.parser.ParseConfig
 import amf.core.internal.remote.{FileNotFound, UnsupportedUrlScheme}
+import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.yaml.model.{YMap, YNode, YSequence, YType}
@@ -78,7 +79,11 @@ private[pathnavigation] case class PathNavigation(
           case _ => None
         }
       }
-      .recoverWith { case _ @(_: UnsupportedUrlScheme | _: FileNotFound) =>
+      .recoverWith { case e =>
+        Logger.error("Include Error Debug", "PathNavigation", "resolveRootNode")
+        Logger.error("Include Error Debug toString " + e.toString, "PathNavigation", "resolveRootNode")
+        Logger.error("Include Error Debug getMessage " + e.getMessage, "PathNavigation", "resolveRootNode")
+        Logger.error("Include Error Debug fileUri " + fileUri, "PathNavigation", "resolveRootNode")
         Future.successful(None)
       }
 }
