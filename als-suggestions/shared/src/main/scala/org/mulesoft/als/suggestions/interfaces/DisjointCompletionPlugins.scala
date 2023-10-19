@@ -4,7 +4,6 @@ import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.als.suggestions.aml.AmlCompletionRequest
 
 import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits.global
 trait DisjointCompletionPlugins extends AMLCompletionPlugin {
   protected val resolvers: List[ResolveIfApplies]
 
@@ -18,7 +17,8 @@ trait DisjointCompletionPlugins extends AMLCompletionPlugin {
         head.resolve(request) match {
           case Some(rs) =>
             rs
-          case _ => lookForResolver(tail, request)
+          case _ =>
+            lookForResolver(tail, request)
         }
       case Nil =>
         emptySuggestion

@@ -10,7 +10,7 @@ diagnostics:
     message: GET operations must have 2xx, 4xx and 5xx status codes but no 201
     range: Range(common.Position[L:2,C:0],common.Position[L:5,C:10])
     severity: Error
-    code: file://als-node-client/src/test/resources/custom-validation/byDirectory/profile8/profile.yaml#/encodes/validations/simple-rego2
+    code: file://als-node-client/src/test/resources/custom-validation/byDirectory/profile8/profile.yaml#/encodes/validations/simple-rego
     relatedInformation:
       -
         message: "Error at "
@@ -19,7 +19,7 @@ diagnostics:
     message: GET operations must have 2xx, 4xx and 5xx status codes but no 201
     range: Range(common.Position[L:2,C:0],common.Position[L:5,C:10])
     severity: Error
-    code: file://als-node-client/src/test/resources/custom-validation/byDirectory/profile8/profile.yaml#/encodes/validations/simple-rego
+    code: file://als-node-client/src/test/resources/custom-validation/byDirectory/profile8/profile.yaml#/encodes/validations/simple-rego2
     relatedInformation:
       -
         message: "Error at "

@@ -36,6 +36,42 @@
     "command": null
   },
   {
+    "label": "aspect",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "aspect",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11aspect",
+    "filterText": "aspect:\n  - ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "aspect:\n  - "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "classConstraints",
     "kind": [
       
@@ -72,6 +108,42 @@
     "command": null
   },
   {
+    "label": "documentation",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "documentation",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11documentation",
+    "filterText": "documentation: ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "documentation: "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
     "label": "else",
     "kind": [
       
@@ -102,6 +174,42 @@
         }
       },
       "newText": "else:\n  "
+    },
+    "additionalTextEdits": null,
+    "commitCharacters": null,
+    "command": null
+  },
+  {
+    "label": "examples",
+    "kind": [
+      
+    ],
+    "detail": "unknown",
+    "documentation": "examples",
+    "deprecated": [
+      
+    ],
+    "preselect": [
+      
+    ],
+    "sortText": "11examples",
+    "filterText": "examples:\n  ",
+    "insertText": null,
+    "insertTextFormat": [
+      1
+    ],
+    "textEdit": {
+      "range": {
+        "start": {
+          "line": 3,
+          "character": 4
+        },
+        "end": {
+          "line": 3,
+          "character": 4
+        }
+      },
+      "newText": "examples:\n  "
     },
     "additionalTextEdits": null,
     "commitCharacters": null,

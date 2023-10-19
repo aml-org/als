@@ -1,8 +1,9 @@
 package org.mulesoft.als.suggestions.plugins.aml
 
 import amf.aml.client.scala.model.document.Dialect
-import amf.aml.client.scala.model.domain.{NodeMapping, PropertyMapping, UnionNodeMapping}
+import amf.aml.client.scala.model.domain._
 import amf.aml.internal.annotations.FromUnionNodeMapping
+import amf.core.client.scala.model.StrField
 import amf.core.client.scala.model.domain.{AmfObject, DomainElement}
 import org.mulesoft.als.common.YPartBranch
 import org.mulesoft.amfintegration.AmfImplicits.AmfObjectImp
@@ -66,6 +67,19 @@ trait UnionSuggestions {
 
   private def isDuplicateOf(p: PropertyMapping, that: PropertyMapping): Boolean =
     p.name().value() == that.name().value() &&
-      p.objectRange().headOption == that.objectRange().headOption &&
+      comparesObjectRange(p, that) &&
       p.allowMultiple().value() == that.allowMultiple().value()
+
+  private def comparesObjectRange(p: PropertyMapping, t: PropertyMapping): Boolean = t.classification() match {
+    case ObjectPairProperty =>
+      comparesObjectProperty(p.objectRange().headOption, t.objectRange().headOption)
+    case _ => p.objectRange().headOption == t.objectRange().headOption
+  }
+
+  private def comparesObjectProperty(p: Option[StrField], t: Option[StrField]): Boolean = (p, t) match {
+    case (Some(p), Some(t)) =>
+      p.annotations() == t.annotations() &&
+      p.value() == t.value()
+    case _ => false
+  }
 }
