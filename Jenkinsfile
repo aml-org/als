@@ -223,31 +223,6 @@ pipeline {
                 }
             }
         }
-        stage('Trigger Dependencies') {
-            when {
-                anyOf {
-                    branch 'develop'
-                    branch 'rc/*'
-                    branch 'master'
-                }
-            }
-            steps {
-                script {
-                    if (failedStage.isEmpty()) {
-                        try {
-                            def javaVersion = "${currentVersion}".replace("\n", "")
-                            echo "Trigger anypoint-als ($javaVersion) and als-extension ($publish_version)"
-                            build job: "ALS/anypoint-als/develop", parameters: [string(name: 'ALS_VERSION', value: "$javaVersion")], wait: false
-                            build job: "ALS/als-extension/master", parameters: [string(name: 'ALS_VERSION', value: "$publish_version")], wait: false
-                        } catch (e) {
-                            echo e.getMessage()
-                            failedStage = failedStage + " DEPENDENCIES "
-                            unstable "Failed dependencies"
-                        }
-                    }
-                }
-            }
-        }
         stage("Report to Slack") {
             when {
                 anyOf {
