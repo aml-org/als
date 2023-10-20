@@ -81,6 +81,42 @@ pipeline {
                 }
             }
         }
+        stage('Publish') {
+            steps {
+                script {
+                    try {
+                        if (failedStage.isEmpty()) {
+                            sh 'sbt --mem 10000 publish -Djava.io.tmpdir=$HOME'
+                        }
+                    } catch (e) {
+                        failedStage = failedStage + " PUBLISH "
+                        unstable "Failed publication"
+                    }
+                }
+            }
+        }
+        stage('Publish node client') {
+            steps {
+                wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
+                    script {
+                        if (failedStage.isEmpty()) {
+                            publish_version_node_client = "${publish_version}".replace("\n", "")
+                            echo "$publish_version_node_client"
+                            sh 'sbt -mem 10000 -Dsbt.global.base=.sbt -Dsbt.boot.directory=.sbt -Dsbt.ivy.home=.ivy2 buildNodeJsClient -Djava.io.tmpdir=$HOME'
+                            def statusCode = 1
+                            dir("als-node-client/node-package") {
+                                echo "Publishing NPM package: ${publish_version_node_client}"
+                                statusCode = sh script:"scripts/publish.sh ${publish_version_node_client} ${env.BRANCH_NAME}", returnStatus:true
+                            }
+                            if(statusCode != 0) {
+                                failedStage = failedStage + " PUBLISH-NODE-JS "
+                                unstable "Failed Node client publication"
+                            }
+                        }
+                    }
+                }
+            }
+        }
         stage('Publish als-server JS') {
             steps {
                 wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
