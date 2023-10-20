@@ -3,8 +3,6 @@ package org.mulesoft.als.suggestions.plugins.aml.pathnavigation
 import amf.core.client.scala.errorhandling.DefaultErrorHandler
 import amf.core.client.scala.parse.document.{ParserContext, SyamlParsedDocument}
 import amf.core.internal.parser.ParseConfig
-import amf.core.internal.remote.{FileNotFound, UnsupportedUrlScheme}
-import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.suggestions.RawSuggestion
 import org.mulesoft.amfintegration.amfconfiguration.ALSConfigurationState
 import org.yaml.model.{YMap, YNode, YSequence, YType}
@@ -79,12 +77,7 @@ private[pathnavigation] case class PathNavigation(
           case _ => None
         }
       }
-      .recoverWith { case e =>
-        Logger.error("Include Error Debug", "PathNavigation", "resolveRootNode")
-        Logger.error("Include Error Debug toString " + e.toString, "PathNavigation", "resolveRootNode")
-        Logger.error("Include Error Debug getMessage " + e.getMessage, "PathNavigation", "resolveRootNode")
-        Logger.error("Include Error Debug fileUri " + fileUri, "PathNavigation", "resolveRootNode")
-        Logger.error("Include Error Debug prefix " + prefix, "PathNavigation", "resolveRootNode")
+      .recoverWith { case _ => // wildcard to avoid unnecessary errors in suggestions - W-14277188/W-14279644
         Future.successful(None)
       }
 }
