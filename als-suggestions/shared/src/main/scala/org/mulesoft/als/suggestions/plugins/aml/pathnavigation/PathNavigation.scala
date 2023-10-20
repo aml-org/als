@@ -84,6 +84,7 @@ private[pathnavigation] case class PathNavigation(
         Logger.error("Include Error Debug toString " + e.toString, "PathNavigation", "resolveRootNode")
         Logger.error("Include Error Debug getMessage " + e.getMessage, "PathNavigation", "resolveRootNode")
         Logger.error("Include Error Debug fileUri " + fileUri, "PathNavigation", "resolveRootNode")
+        Logger.error("Include Error Debug prefix " + prefix, "PathNavigation", "resolveRootNode")
         Future.successful(None)
       }
 }
