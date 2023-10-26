@@ -1,0 +1,41 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: p-endpoint
+paths: {}
+
+components:
+  schemas:
+    aObject:
+      type: object
+      properties:
+        idSF:
+          type: string
+          example: "3142X00103Zh74IQAY"
+        dtd:
+          type: string
+          format: date
+          example: 2021-02-02
+        df:
+          type: string
+          format: date | nil
+        type:
+          type: integer
+          example: 2
+        horsFce:
+          type: boolean
+          example: true
+  responses:
+    a-response-200:
+      description: Success
+      headers:
+            request-token:
+              schema:
+                type: string
+              description: pagination token.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/aObject"

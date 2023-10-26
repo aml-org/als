@@ -1,0 +1,166 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: mi-endpoint
+paths: {}
+
+components:
+  parameters:
+    path-id:
+      in: path
+      name: id
+      schema:
+        type: string
+      example: "ABC"
+      required: true
+    flow:
+      in: query
+      name: flow
+      schema:
+        type: string
+        example: "dfs-fsdf-sip"
+      required: false
+    uid:
+      description: dfge
+      in: query
+      name: uid
+      schema:
+        type: string
+      required: false
+      
+  schemas:
+    updatemObject:
+      type: object
+    uro:
+      type: object
+      properties:
+        description:
+          type: string
+          example: "Your request accepted for update"
+    
+    vdfklsnd:
+      description: gasdf
+      type: object
+      additionalProperties: false
+      required:
+        - type
+        - dateSignature
+      properties:
+        type:
+          description: gasdf
+          type: string
+          enum: 
+          - asdc
+          - c
+          - csdc
+          example: "asdc"
+        dateSignature: 
+          description: sibdn
+          type: string
+          format: date
+          nullable: false
+          minLength: 8
+          maxLength: 10
+          pattern: ^\d{2,4}-\d{2}-\d{2}$
+          example: 2017-10-04
+
+    vfdcsd:
+      type: object
+      additionalProperties: false
+      required:
+        - uuid
+        - jnlwed
+        - voieryh
+        - cuiherio
+        - bterqc
+      properties:
+        sdfvdvcd:
+          description: sbjkfd
+          type: string
+          nullable: true
+          minLength: 15
+          maxLength: 18
+          pattern: ^\w+$ 
+        uuid:
+          description: kbsjadf
+          type: string
+          format: uuid
+          nullable: false
+          minLength: 36
+          maxLength: 36
+        ii:
+          description : TOBECHECKED
+          type: integer
+          nullable: true
+          minimum: 1
+          example: 123
+        prenom:
+          description: uksjnd
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 80
+        nom:
+          description: iushdf
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 80
+        jnlwed:
+          description: saf
+          type: string
+          format: date
+          nullable: false
+          minLength: 8
+          maxLength: 10
+          pattern: ^\d{2,4}-\d{2}-\d{2}$
+          example: 2017-10-04
+        bterqc:
+          description: asdf
+          type: integer
+          enum: [1, 2]
+          nullable: false
+          example: 1
+        voieryh:
+          description: vqer
+          type: boolean
+          nullable: false
+          default: false
+          example: false
+        cuiherio:
+          description: veq
+          type: boolean
+          nullable: false
+          default: true
+          example: true
+        jkvsankje:
+          description: veq
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 1
+          pattern: ^[A-H]$
+          example: A
+        sdfwecw:
+          description: vre
+          type: array
+          minItems: 0
+          maxItems: 10
+          nullable: true
+          uniqueItems: true
+          items:
+            $ref: "mi-endpoint.yaml#/components/schemas/vdfklsnd"
+          
+  responses: 
+    m-response-201:
+      description: Successful put
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/uro"
+    m-response-202:
+      description: Successful put
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/uro"

@@ -6682,7 +6682,7 @@ declare module '@aml-org/als-server' {
   }
 
   export const ClientNotifierFactory: {
-    createWithClientAware(logger: ClientLogger): ClientNotifier & LanguageClientAware & AlsClientNotifier & AlsLanguageClientAware
+    createWithClientAware(): ClientNotifier & LanguageClientAware & AlsClientNotifier & AlsLanguageClientAware
   }
 }
 

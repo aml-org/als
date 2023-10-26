@@ -1,0 +1,81 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: d-endpoint
+paths: {}
+
+components:
+  parameters:
+    qitp:
+      in: query
+      name: typePanel
+      schema:
+        type: string
+        enum: [MMT, PAME, AIP]
+      example: MMT
+      required: false
+  schemas:
+    dObject:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: "0254X00003QhAJvSGH"
+              idf:
+                type: string
+                example: "0198X00006StAJvNFE"
+              idPoste:
+                type: string
+                example: "32fdf26ffdf8596"
+              nom:
+                type: string
+                example: "d1"
+              type:
+                description: fsadf
+                type: integer
+                enum: [7,8,9,10]
+                example: 9
+              emplacement:
+                type: integer
+                example: 1
+              sdfvdvcd:
+                type: string
+                example: "0098X00006StAJvZZZ"
+              usagePrincipal:
+                type: boolean
+                example: true
+        gqercwq:
+          type: integer
+          example: 0
+        totalPages: 
+          type: integer
+          example: 0
+        last:
+          type: boolean
+          example: true
+        size:
+          type: integer
+          example: 50
+        page:
+          type: integer
+          example: 0
+        
+  responses:
+    d-200:
+      description: Success
+      headers:
+            request-token:
+              schema:
+                type: string
+              description: pagination token.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/dObject"

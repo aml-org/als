@@ -67,11 +67,15 @@ object DiagnosticConverters {
         }
         head match {
           case (DocumentLink(range, _, _), origin) =>
-            if (originFlag)
-              branch.prepend(newDiagnostic(uri, range, origin))
-            else
-              branch.append(newDiagnostic(uri, range, origin))
-            relatedFor(origin, references, informationBranches, branch, branchLimit, originFlag)
+            val newD = newDiagnostic(uri, range, origin)
+            // avoid timeout by checking if we already added it, not using set as order is needed
+            if (!branch.contains(newD)) {
+              if (originFlag)
+                branch.prepend(newD)
+              else
+                branch.append(newD)
+              relatedFor(origin, references, informationBranches, branch, branchLimit, originFlag)
+            }
         }
       case _ => // over
     }
@@ -98,12 +102,12 @@ object DiagnosticConverters {
         references.toSeq.flatMap { case (uri, links) =>
           links.map(l => (l, uri))
         }
-      val reference = reversedReferences.filter(_._1.target.equals(tweakedUri)).map(_._1)
+      val reference = reversedReferences.filter(_._1.target.equalsIgnoreCase(tweakedUri)).map(_._1)
       if (notExternalOrSyntax(r, isExternal, reference)) {
         getInformationStackBranches(tweakedUri, reversedReferences, originFlag = false).map { informationStack =>
           buildIssue(tweakedUri, r, informationStack)
         }
-      } else if (reversedReferences.exists(_._1.target.equals(tweakedUri))) {
+      } else if (reversedReferences.exists(_._1.target.equalsIgnoreCase(tweakedUri))) {
         getInformationStackBranches(tweakedUri, reversedReferences, originFlag = true).map { informationStack =>
           val range = LspRangeConverter.toLspRange(
             r.position
@@ -135,7 +139,7 @@ object DiagnosticConverters {
   ): Seq[Seq[DiagnosticRelatedInformation]] = {
     val informationBranches: ListBuffer[ListBuffer[DiagnosticRelatedInformation]] = mutable.ListBuffer()
     val mainBranch: ListBuffer[DiagnosticRelatedInformation]                      = mutable.ListBuffer()
-    val branchLimit                                                               = 1000
+    val branchLimit                                                               = 100 // reduced to avoid sof
     informationBranches.append(mainBranch)
     relatedFor(uri, reversedReferences, informationBranches, mainBranch, branchLimit, originFlag)
     informationBranches.size

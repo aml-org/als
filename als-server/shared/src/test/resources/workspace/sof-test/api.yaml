@@ -1,0 +1,325 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: api
+  description: sdf
+
+servers:
+  - url: https://{platform}-{env}-test.com:443/api/api-{env}/{version}
+    description: a
+    variables:
+      platform:
+        enum: [asdf, fets]
+        default: asdf
+        description: name.
+      env:
+        enum: [dev, qa, stg, prod]
+        default: dev
+        description: Environment name.
+      version:
+        enum: [v1]
+        default: v1
+        description: API version.
+
+paths:
+
+  /a:
+    parameters:
+      - $ref: common.yaml#/components/parameters/header-client-id  
+      - $ref: common.yaml#/components/parameters/header-client-secret
+      - $ref: common.yaml#/components/parameters/request-token
+    get:
+      description: Get a
+      parameters:
+        - $ref: common.yaml#/components/parameters/qip
+        - $ref: common.yaml#/components/parameters/qis
+        - $ref: endpoint/a-endpoint.yaml#/components/parameters/qifd
+        - $ref: endpoint/a-endpoint.yaml#/components/parameters/qitd
+        - $ref: endpoint/a-endpoint.yaml#/components/parameters/qitp
+        - $ref: endpoint/a-endpoint.yaml#/components/parameters/qiis
+      responses:
+        "200":
+          $ref: endpoint/a-endpoint.yaml#/components/responses/a-response-200
+        "400":
+          $ref: common.yaml#/components/responses/error-response-400
+        "401":
+          $ref: common.yaml#/components/responses/error-response-401
+        "500":
+           $ref: common.yaml#/components/responses/error-response-500
+
+  /b/c:
+    parameters:
+      - $ref: common.yaml#/components/parameters/header-client-id  
+      - $ref: common.yaml#/components/parameters/header-client-secret
+      - $ref: common.yaml#/components/parameters/request-token
+    get:
+      description: Get ha
+      parameters:
+        - name: csdc
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: sdcsa
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - $ref: common.yaml#/components/parameters/qip
+        - $ref: common.yaml#/components/parameters/qis
+      responses:
+        "200":
+          $ref: endpoint/a.yaml#/components/responses/a-response-200
+        "400":
+          $ref: common.yaml#/components/responses/error-response-400
+        "401":
+          $ref: common.yaml#/components/responses/error-response-401
+        "500":
+           $ref: common.yaml#/components/responses/error-response-500
+
+  /d/{idSF}/f:
+    parameters:
+      - $ref: common.yaml#/components/parameters/header-client-id  
+      - $ref: common.yaml#/components/parameters/header-client-secret
+    
+    patch:
+      description: s
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                  $ref: 'endpoint/t-endpoint.yaml#/components/schemas/pfasd'
+      responses:
+        "200":
+          $ref: endpoint/t-endpoint.yaml#/components/responses/t-response-200
+        "400":
+          $ref: common.yaml#/components/responses/error-response-400
+        "401":
+          $ref: common.yaml#/components/responses/error-response-401
+        "500":
+           $ref: common.yaml#/components/responses/error-response-500
+
+  /tbs:
+    parameters:
+      - $ref: common.yaml#/components/parameters/header-client-id  
+      - $ref: common.yaml#/components/parameters/header-client-secret
+      - $ref: common.yaml#/components/parameters/request-token
+    get:
+      description: bsf
+      parameters:
+        - $ref: endpoint/lkj.yaml#/components/parameters/qitp
+        - $ref: common.yaml#/components/parameters/qip
+        - $ref: common.yaml#/components/parameters/qis
+      responses:
+        "200":
+          $ref: endpoint/lkj.yaml#/components/responses/tbs-response-200
+        "400":
+          $ref: common.yaml#/components/responses/error-response-400
+        "401":
+          $ref: common.yaml#/components/responses/error-response-401
+        "500":
+           $ref: common.yaml#/components/responses/error-response-500
+
+  /h/{idSF}/tbs:
+    parameters:
+      - $ref: common.yaml#/components/parameters/header-client-id  
+      - $ref: common.yaml#/components/parameters/header-client-secret
+    get:
+      description: dfg
+      responses:
+        "200":
+          $ref: endpoint/lkj.yaml#/components/responses/tbs-response-200
+        "400":
+          $ref: common.yaml#/components/responses/error-response-400
+        "404":
+          $ref: common.yaml#/components/responses/error-response-404
+        "401":
+          $ref: common.yaml#/components/responses/error-response-401
+        "500":
+           $ref: common.yaml#/components/responses/error-response-500
+
+  /m/absences:
+    parameters:
+      - $ref: common.yaml#/components/parameters/header-client-id  
+      - $ref: common.yaml#/components/parameters/header-client-secret
+      - $ref: common.yaml#/components/parameters/request-token
+    get:
+      description: sfb
+      parameters:
+        - name: csdc
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: sdcsa
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - $ref: common.yaml#/components/parameters/qip
+        - $ref: common.yaml#/components/parameters/qis
+      responses:
+        "200":
+          $ref: endpoint/a.yaml#/components/responses/a-response-200
+        "400":
+          $ref: common.yaml#/components/responses/error-response-400
+        "401":
+          $ref: common.yaml#/components/responses/error-response-401
+        "500":
+           $ref: common.yaml#/components/responses/error-response-500
+
+
+  /c:
+    parameters:
+      - $ref: common.yaml#/components/parameters/header-client-id  
+      - $ref: common.yaml#/components/parameters/header-client-secret
+    get:
+      description: fsv
+      parameters:
+        - $ref: endpoint/c-endpoint.yaml#/components/parameters/query-item-uid
+      responses:
+        "200":
+          $ref: endpoint/c-endpoint.yaml#/components/responses/c-response-200
+        "400":
+          $ref: common.yaml#/components/responses/error-response-400
+        "401":
+          $ref: common.yaml#/components/responses/error-response-401
+        "500":
+          $ref: common.yaml#/components/responses/error-response-500
+    post:
+      description: nrnb
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                  $ref: 'endpoint/c-endpoint.yaml#/components/schemas/pco'
+      responses:
+        '201':
+          $ref: endpoint/c-endpoint.yaml#/components/responses/c-response-201
+        "400":
+          $ref: common.yaml#/components/responses/error-response-400
+        "401":
+          $ref: common.yaml#/components/responses/error-response-401
+        "500":
+           $ref: common.yaml#/components/responses/error-response-500
+
+  /m:
+    parameters:
+      - $ref: common.yaml#/components/parameters/header-client-id  
+      - $ref: common.yaml#/components/parameters/header-client-secret
+      - $ref: common.yaml#/components/parameters/request-token
+    get:
+      description: dfvs
+      parameters:
+        - $ref: endpoint/df-endpoint.yaml#/components/parameters/qitp
+        - $ref: endpoint/df-endpoint.yaml#/components/parameters/qihi
+        - $ref: endpoint/df-endpoint.yaml#/components/parameters/qip
+        - $ref: common.yaml#/components/parameters/qip
+        - $ref: common.yaml#/components/parameters/qis
+      responses:
+        "200":
+          $ref: endpoint/df-endpoint.yaml#/components/responses/mr-200
+        "400":
+          $ref: common.yaml#/components/responses/error-response-400
+        "401":
+          $ref: common.yaml#/components/responses/error-response-401
+        "500":
+           $ref: common.yaml#/components/responses/error-response-500
+
+  /d:
+    parameters:
+      - $ref: common.yaml#/components/parameters/header-client-id
+      - $ref: common.yaml#/components/parameters/header-client-secret
+      - $ref: common.yaml#/components/parameters/request-token
+    get:
+      description: vsdvt
+      parameters:
+        - $ref: endpoint/d-endpoint.yaml#/components/parameters/qitp
+        - $ref: common.yaml#/components/parameters/qip
+        - $ref: common.yaml#/components/parameters/qis
+      responses:
+        "200":
+          $ref: endpoint/d-endpoint.yaml#/components/responses/d-200
+        "400":
+          $ref: common.yaml#/components/responses/error-response-400
+        "401":
+          $ref: common.yaml#/components/responses/error-response-401
+        "500":
+           $ref: common.yaml#/components/responses/error-response-500
+
+  /fasd:
+    parameters:
+      - $ref: common.yaml#/components/parameters/header-client-id
+      - $ref: common.yaml#/components/parameters/header-client-secret
+      - $ref: common.yaml#/components/parameters/request-token
+    get:
+      description: s
+      parameters:
+        - $ref: endpoint/pendpoint.yaml#/components/parameters/qitp
+        - $ref: common.yaml#/components/parameters/qip
+        - $ref: common.yaml#/components/parameters/qis
+      responses:
+        "200":
+          $ref: endpoint/pendpoint.yaml#/components/responses/p-response-200
+        "400":
+          $ref: common.yaml#/components/responses/error-response-400
+        "401":
+          $ref: common.yaml#/components/responses/error-response-401
+        "500":
+           $ref: common.yaml#/components/responses/error-response-500
+    
+  /h/{idSF}/fasd:
+    parameters:
+      - $ref: common.yaml#/components/parameters/header-client-id  
+      - $ref: common.yaml#/components/parameters/header-client-secret
+    get:
+      description: nrbdf
+      responses:
+        "200":
+          $ref: endpoint/pendpoint.yaml#/components/responses/p-response-200
+        "400":
+          $ref: common.yaml#/components/responses/error-response-400
+        "404":
+          $ref: common.yaml#/components/responses/error-response-404
+        "401":
+          $ref: common.yaml#/components/responses/error-response-401
+        "500":
+           $ref: common.yaml#/components/responses/error-response-500
+
+  /h:
+    parameters:
+      - $ref: "common.yaml#/components/parameters/header-client-id"
+      - $ref: "common.yaml#/components/parameters/header-client-secret"
+     
+    post:
+      tags: [h]
+      operationId: post-h
+      summary: aksjdbf
+      description: brtbw
+      requestBody:
+        $ref: "endpoint/h-endpoint.yaml#/components/requestBodies/rbh"
+      responses:
+        '201':
+          $ref: "endpoint/h-endpoint.yaml#/components/responses/hr-201"
+        "400":
+          $ref: common.yaml#/components/responses/error-response-400
+        "401":
+          $ref: common.yaml#/components/responses/error-response-401
+        "500":
+           $ref: common.yaml#/components/responses/error-response-500
+
+  /as:
+    parameters:
+      - $ref: common.yaml#/components/parameters/header-client-id
+      - $ref: common.yaml#/components/parameters/header-client-secret
+    get:
+      description: trdfv
+      responses:
+        "200":
+          $ref: endpoint/as-endpoint.yaml#/components/responses/ar-200
