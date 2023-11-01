@@ -1,0 +1,11 @@
+#%RAML 1.0 Trait
+responses:
+  403:
+    headers:
+        content-type:
+          description: Access to the requested resource has error.
+    body:
+      application/json:
+        type: any
+        example:
+            error: myError
