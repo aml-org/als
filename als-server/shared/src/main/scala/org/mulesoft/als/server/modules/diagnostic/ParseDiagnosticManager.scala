@@ -89,7 +89,7 @@ class ParseDiagnosticManager(
       .exists(location =>
         parseResult.context.state.projectState.config.mainFile
           .map(mf => concatUri(parseResult.context.state.projectState.config.folder, mf))
-          .forall(_ == location)
+          .contains(location)
       )
 
   private def concatUri(workspaceFolder: String, mainFile: String): String = {

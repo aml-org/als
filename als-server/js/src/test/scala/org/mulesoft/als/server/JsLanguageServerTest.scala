@@ -66,7 +66,6 @@ class JsLanguageServerTest extends AMFValidatorTest {
         _ <- openFile(s)("file:///uri.raml", content)
         _ <- clientConnection.nextCall
         _ <- clientConnection.nextCall
-        _ <- clientConnection.nextCall
       } yield {
         assert(flag)
       }

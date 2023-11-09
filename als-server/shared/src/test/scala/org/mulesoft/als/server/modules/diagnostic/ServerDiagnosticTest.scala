@@ -189,69 +189,6 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
     }
   }
 
-  test("DiagnosticManager with invalid clone", Flaky) {
-    class MockDialectDomainElementModel extends BaseUnitModel {
-      override def modelInstance: AmfObject = throw new Exception("should fail")
-
-      override val `type`: List[ValueType] = List(DocumentNamespace + "MockUnit")
-
-      override def fields: List[Field] = List(ModelVersion, References, Usage, DescribedBy, Root)
-    }
-
-    class MockDialectInstance(override val fields: Fields) extends BaseUnit {
-
-      override def meta: BaseUnitModel = new MockDialectDomainElementModel()
-
-      override def references: Seq[BaseUnit] = Nil
-
-      override def componentId: String = ""
-
-      override val annotations: Annotations = Annotations()
-
-      override def location(): Option[String] = Some("location")
-    }
-    val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
-    val builder = new WorkspaceManagerFactoryBuilder(diagnosticNotifier, EditorConfiguration())
-    builder
-      .buildDiagnosticManagers()
-    val factory = builder.buildWorkspaceManagerFactory()
-
-    val amfBaseUnit: BaseUnit = new MockDialectInstance(new Fields())
-
-    val amfParseResult: Future[AmfParseResult] =
-      EditorConfiguration().getState.map(editorState => {
-        val alsConfig = ALSConfigurationState(editorState, EmptyProjectConfigurationState, None)
-        new AmfParseResult(
-          AMFResult(amfBaseUnit, Seq()),
-          ExternalFragmentDialect(),
-          AmfParseContext(alsConfig.getAmfConfig, alsConfig),
-          ""
-        )
-      })
-
-    for {
-      result <- amfParseResult
-      _ <- Future {
-        factory.resolutionTaskManager.onNewAst(
-          BaseUnitListenerParams(
-            result,
-            Map.empty,
-            tree = false,
-            ""
-          ),
-          ""
-        )
-      }
-      d <- diagnosticNotifier.nextCall
-    } yield {
-      assert(d.diagnostics.length == 1)
-      assert(d.uri == "location")
-      assert(
-        d.diagnostics.head.message == "DiagnosticManager suffered an unexpected error while validating: should fail"
-      )
-    }
-  }
-
   test("Trait resolution with error( test resolution error handler)", Flaky) {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
     withServer(buildServer(diagnosticNotifier)) { server =>
@@ -381,7 +318,7 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
     }
   }
 
-  test("should notify Couldn't guess spec for root file for isolated files if there is no main file defined") {
+  test("should not notify Couldn't guess spec for root file for isolated files if there is no main file defined") {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
     val workspaceUri                                     = "file:///"
     withServer(
@@ -397,8 +334,7 @@ class ServerDiagnosticTest extends LanguageServerBaseTest {
         d1 <- diagnosticNotifier.nextCall
       } yield {
         server.shutdown()
-        assert(d1.diagnostics.nonEmpty && d1.uri == apiPath)
-        assert(d1.diagnostics.head.code.contains(DiagnosticConstants.specNotFoundCode))
+        assert(d1.diagnostics.isEmpty && d1.uri == apiPath)
       }
     }
   }
