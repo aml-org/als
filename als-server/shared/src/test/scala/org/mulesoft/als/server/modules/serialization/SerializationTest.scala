@@ -23,7 +23,8 @@ import org.mulesoft.als.server.protocol.textsync.DidFocusParams
 import org.mulesoft.als.server.workspace.ChangesWorkspaceConfiguration
 import org.mulesoft.amfintegration.amfconfiguration.EditorConfiguration
 import org.mulesoft.lsp.configuration.TraceKind
-import org.mulesoft.lsp.feature.common.TextDocumentItem
+import org.mulesoft.lsp.feature.common._
+import org.mulesoft.lsp.feature.link.{DocumentLinkParams, DocumentLinkRequestType}
 import org.mulesoft.lsp.textsync.DidOpenTextDocumentParams
 import org.scalatest.compatible.Assertion
 import org.yaml.builder.{DocBuilder, JsonOutputBuilder}
@@ -665,6 +666,44 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
     }
   }
 
+  test("Serialize library with abstract declaration", Flaky) {
+    val workspace                              = s"${filePath("abstract-declaration")}"
+    val alsClient: MockAlsClientNotifier       = new MockAlsClientNotifier
+    val notifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(3000)
+    implicit val serializationProps: SerializationProps[StringWriter] = {
+      new SerializationProps[StringWriter](alsClient) {
+        override def newDocBuilder(prettyPrint: Boolean): DocBuilder[StringWriter] =
+          JsonOutputBuilder(prettyPrint)
+      }
+    }
+
+    val server = buildServerWithNavigation(serializationProps, notifier, withDiagnostics = true)
+
+    val mainUrl   = s"$workspace/main.raml"
+    val goldenUrl = s"$workspace/main.jsonld"
+    withServer(server) { server =>
+      for {
+        _       <- server.testInitialize(AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some(workspace)))
+        content <- platform.fetchContent(mainUrl, AMFGraphConfiguration.predefined())
+        _       <- openFile(server)(mainUrl, content.stream.toString)
+        _ <- { // there was a case in which the element iterator changed the serialized
+          val documentLinkHandler = server.resolveHandler(DocumentLinkRequestType).value
+
+          documentLinkHandler(
+            DocumentLinkParams(TextDocumentIdentifier(mainUrl))
+          )
+        }
+        _      <- notifier.nextCall
+        s      <- alsClient.nextCall
+        golden <- platform.fetchContent(goldenUrl, AMFGraphConfiguration.predefined())
+        r      <- assertSerialization(server, mainUrl, goldenUrl)
+      } yield {
+        assert(s.model.toString == golden.stream.toString)
+        r
+      }
+    }
+  }
+
   def assertSerialization(server: LanguageServer, url: String, golden: String)(implicit
       serializationProps: SerializationProps[StringWriter]
   ): Future[Assertion] =
@@ -694,6 +733,34 @@ class SerializationTest extends LanguageServerBaseTest with ChangesWorkspaceConf
         factory.resolutionTaskManager
       )
     builder.addInitializableModule(serializationManager)
+    if (withDiagnostics) dm.foreach(m => builder.addInitializableModule(m))
+    builder.addRequestModule(serializationManager)
+    builder.build()
+  }
+
+  /** there was a case in which the element iterator changed the serialized */
+  def buildServerWithNavigation(
+      serializationProps: SerializationProps[StringWriter],
+      notifier: ClientNotifier = new MockDiagnosticClientNotifier,
+      withDiagnostics: Boolean = false
+  ): LanguageServer = {
+    val factoryBuilder: WorkspaceManagerFactoryBuilder =
+      new WorkspaceManagerFactoryBuilder(notifier, EditorConfiguration())
+    val dm = factoryBuilder.buildDiagnosticManagers(Some(DummyProfileValidator))
+    val serializationManager: SerializationManager[StringWriter] =
+      factoryBuilder.serializationManager(serializationProps)
+    val factory: WorkspaceManagerFactory = factoryBuilder.buildWorkspaceManagerFactory()
+
+    val builder =
+      new LanguageServerBuilder(
+        factory.documentManager,
+        factory.workspaceManager,
+        factory.configurationManager,
+        factory.resolutionTaskManager
+      )
+
+    builder.addInitializableModule(serializationManager)
+    builder.addRequestModule(factory.documentLinksManager)
     if (withDiagnostics) dm.foreach(m => builder.addInitializableModule(m))
     builder.addRequestModule(serializationManager)
     builder.build()

@@ -5,6 +5,9 @@ import amf.apicontract.client.scala.model.domain.templates.{ResourceType, Trait}
 import amf.apicontract.client.scala.transform.AbstractElementTransformer
 import amf.apicontract.internal.spec.common.transformation.ExtendsHelper
 import amf.apicontract.internal.transformation.BaseUnitSourceLocationIndex
+import org.mulesoft.als.logger.Logger
+
+import scala.collection.mutable
 //import amf.apicontract.internal.transformation.BaseUnitSourceLocationIndex
 import amf.core.client.scala.errorhandling.UnhandledErrorHandler
 import amf.core.client.scala.model.document.BaseUnit
@@ -71,10 +74,18 @@ object AbstractDeclarationInformation {
       case _                      => None
     }
 
-  private def getTarget(original: AbstractDeclaration) =
-    original.effectiveLinkTarget().asInstanceOf[AbstractDeclaration] match {
-      case d if d.name.isNull => d.withName("AbstractDeclaration")
-      case other              => other
+  private def getTarget(original: AbstractDeclaration): AbstractDeclaration =
+    original.effectiveLinkTarget() match {
+      case d: AbstractDeclaration if d.name.isNull =>
+        d.cloneElement(mutable.Map.empty).asInstanceOf[AbstractDeclaration].withName("AbstractDeclaration")
+      case other: AbstractDeclaration => other
+      case e =>
+        Logger.error(
+          "Unexpected element, should receive an AbstractDeclaration",
+          "AbstractDeclarationInformation",
+          "getTarget"
+        )
+        throw new RuntimeException(s"Expected AbstractDeclaration for ${e.id}")
     }
 
   case class ElementInfo(element: DomainElement, original: DomainElement, name: String, iri: String)
