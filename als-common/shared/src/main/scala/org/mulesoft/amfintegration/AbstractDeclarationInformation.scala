@@ -46,7 +46,7 @@ object AbstractDeclarationInformation {
           )(e => {
             AbstractElementTransformer.entryAsEndpoint(bu, r, r.dataNode, e, amfConfiguration, LocalIgnoreErrorHandler)
           })
-        Some(ElementInfo(resolved, r, r.name.value(), r.metaURIs.head))
+        Some(ElementInfo(resolved, declaration, r.name.value(), r.metaURIs.head))
 
       case t: Trait =>
         val resolved =
@@ -61,7 +61,7 @@ object AbstractDeclarationInformation {
               )
             extendsHelper.parseOperation(bu, t.name.option().getOrElse(""), "AbstractDeclarationInformation", e)
           })
-        Some(ElementInfo(resolved, t, t.name.value(), t.metaURIs.head))
+        Some(ElementInfo(resolved, declaration, t.name.value(), t.metaURIs.head))
       case _ => None
     }
   }
