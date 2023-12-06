@@ -93,7 +93,7 @@ class ResolutionDiagnosticManager(
         r.resolvedUnit
           .flatMap { result =>
             r.configuration
-              .report(result.baseUnit)
+              .report(resolved.alsConfigurationState.getLocalClone(result.baseUnit))
               .map(rep => {
                 Logger.debug("...finishing.", "ResolutionDiagnosticManager", "tryValidationReport")
                 Some(AMFValidationReport(rep.model, rep.profile, rep.results ++ result.results))

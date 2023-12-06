@@ -155,7 +155,7 @@ class ResolutionTaskManager private (
     }
 
     private def innerResolveUnit(): Future[AMFResult] =
-      Future(configuration.fullResolution(baseUnit))
+      Future(configuration.fullResolution(alsConfigurationState.getLocalClone(baseUnit)))
 
     override def next: Option[Future[T]] = getNext(uri)
 

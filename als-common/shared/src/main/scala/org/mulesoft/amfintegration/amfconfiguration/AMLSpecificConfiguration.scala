@@ -23,19 +23,19 @@ case class AMLSpecificConfiguration(config: AMLConfiguration) {
   def report(baseUnit: BaseUnit): Future[AMFValidationReport] =
     config
       .baseUnitClient()
-      .validate(baseUnit.cloneUnit())
+      .validate(baseUnit)
 
   def resolve(baseUnit: BaseUnit): AMFResult =
     config
       .baseUnitClient()
-      .transform(baseUnit.cloneUnit(), PipelineId.Cache)
+      .transform(baseUnit, PipelineId.Cache)
 
   def fullResolution(unit: BaseUnit): AMFResult = {
     config.baseUnitClient() match {
       case amf: AMFBaseUnitClient =>
-        amf.transform(unit.cloneUnit(), PipelineId.Editing)
+        amf.transform(unit, PipelineId.Editing)
       case aml =>
-        aml.transform(unit.cloneUnit(), PipelineId.Default)
+        aml.transform(unit, PipelineId.Default)
     }
   }
 
@@ -59,7 +59,7 @@ case class AMLSpecificConfiguration(config: AMLConfiguration) {
     config
       .withRenderOptions(renderOptions)
       .baseUnitClient()
-      .renderGraphToBuilder(resolved.cloneUnit(), builder)
+      .renderGraphToBuilder(resolved, builder)
 
   def parse(uri: String): Future[AMFParseResult] = config.baseUnitClient().parse(uri)
 }

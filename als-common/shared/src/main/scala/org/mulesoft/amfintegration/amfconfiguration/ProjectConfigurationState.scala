@@ -17,7 +17,9 @@ import scala.concurrent.Future
 trait ProjectConfigurationState {
 
   def customSetUp(amfConfiguration: AMFConfiguration): AMFConfiguration = amfConfiguration
+
   def cache: UnitCache
+
   def getCompanionForDialect(d: Dialect): Future[Option[Module]] =
     Future
       .sequence(

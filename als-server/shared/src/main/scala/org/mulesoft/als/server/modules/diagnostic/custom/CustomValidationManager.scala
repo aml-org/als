@@ -62,8 +62,13 @@ class CustomValidationManager(
     val startTime = System.currentTimeMillis()
     if (resolved.alsConfigurationState.profiles.nonEmpty) {
       for {
-        unit    <- resolved.resolvedUnit.map(_.baseUnit)
-        results <- validate(uri, unit, resolved.alsConfigurationState.profiles.map(_.model), resolved.configuration)
+        unit <- resolved.resolvedUnit.map(_.baseUnit)
+        results <- validate(
+          uri,
+          resolved.alsConfigurationState.getLocalClone(unit),
+          resolved.alsConfigurationState.profiles.map(_.model),
+          resolved.configuration
+        )
       } yield {
         validationGatherer
           .indexNewReport(ErrorsWithTree(uri, results, Some(tree(resolved.baseUnit))), managerName, uuid)

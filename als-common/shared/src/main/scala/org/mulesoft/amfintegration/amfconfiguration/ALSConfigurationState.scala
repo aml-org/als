@@ -6,6 +6,7 @@ import amf.apicontract.client.scala._
 import amf.core.client.common.remote.Content
 import amf.core.client.scala.config.{RenderOptions, UnitCache}
 import amf.core.client.scala.model.document.{BaseUnit, ExternalFragment}
+import amf.core.client.scala.model.domain.AmfObject
 import amf.core.client.scala.resource.ResourceLoader
 import amf.core.client.scala.{AMFParseResult => AMFParsingResult}
 import amf.core.internal.remote.Spec.{AMF, GRAPHQL}
@@ -22,9 +23,12 @@ import org.mulesoft.amfintegration.dialect.dialects.ExternalFragmentDialect
 import org.mulesoft.amfintegration.dialect.dialects.metadialect.{MetaDialect, VocabularyDialect}
 import org.mulesoft.amfintegration.dialect.integration.BaseAlsDialectProvider
 import org.yaml.builder.DocBuilder
+import org.mulesoft.amfintegration.AmfImplicits._
 
+import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.language.postfixOps
 
 /** Capable of building different AMF configurations from a frozen state
   * @param state
@@ -35,6 +39,17 @@ case class ALSConfigurationState(
     projectState: ProjectConfigurationState,
     editorResourceLoader: Option[ResourceLoader]
 ) extends PlatformSecrets {
+
+  implicit private class UnitCloner(bu: BaseUnit) {
+    def cloneLocal(): BaseUnit = {
+      val dependencies                           = projectState.config.designDependency
+      val map: mutable.Map[AmfObject, AmfObject] = mutable.Map()
+      bu.flatRefs.foreach { ref =>
+        if (ref.location().exists(dependencies.contains)) map.put(ref, ref)
+      }
+      bu.cloneElement(map).asInstanceOf[BaseUnit]
+    }
+  }
 
   lazy val amfParseContext: AmfParseContext = AmfParseContext(getAmfConfig, this)
 
@@ -186,7 +201,7 @@ case class ALSConfigurationState(
     getAmfConfig(resolved.sourceSpec.getOrElse(AMF))
       .withRenderOptions(renderOptions)
       .baseUnitClient()
-      .renderGraphToBuilder(resolved.cloneUnit(), builder)
+      .renderGraphToBuilder(resolved.cloneLocal(), builder)
 
   private def allDialects(configurationState: AMLConfigurationState) =
     configurationState.getDialects().toSet ++ BaseAlsDialectProvider.allBaseDialects
@@ -238,4 +253,6 @@ case class ALSConfigurationState(
 
   def buildJsonSchema(shape: AnyShape): String =
     JsonSchemaShapeRenderer.buildJsonSchema(shape, getAmfConfig)
+
+  def getLocalClone(bu: BaseUnit): BaseUnit = bu.cloneLocal()
 }

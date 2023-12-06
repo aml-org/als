@@ -38,7 +38,9 @@ class SerializationManager[S](
   override def isActive: Boolean = enabled
 
   def serializeAndNotifyResolved(ast: AmfResolvedUnit): Future[Unit] =
-    ast.resolvedUnit.map(_.baseUnit).map(serializeAndNotify(_, ast.configuration.config))
+    ast.resolvedUnit
+      .map(ru => ast.alsConfigurationState.getLocalClone(ru.baseUnit))
+      .map(serializeAndNotify(_, ast.configuration.config))
 
   override def onRemoveFile(uri: String): Unit = {
     /* No action required */
@@ -58,9 +60,11 @@ class SerializationManager[S](
           .flatMap { r =>
             Logger.debug(s"Serialization uri: $uri", "SerializationManager", "processRequest")
             if (r.baseUnit.isInstanceOf[Extension] || r.baseUnit.isInstanceOf[Overlay])
-              r.latestBU.map(bu => (bu, r.configuration.config))
+              r.latestBU.map(bu => (r.alsConfigurationState.getLocalClone(bu), r.configuration.config))
             else
-              r.latestBU.map(bu => (getUnitFromResolved(bu, uri), r.configuration.config))
+              r.latestBU.map(bu =>
+                (r.alsConfigurationState.getLocalClone(getUnitFromResolved(bu, uri)), r.configuration.config)
+              )
           }
           .recoverWith { case e: Exception =>
             Logger.warning(e.getMessage, "SerializationManager", "RequestSerialization")

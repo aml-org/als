@@ -215,7 +215,7 @@ class CacheBuilder(
   def buildUnitCache: UnitCache =
     (url: String) =>
       cache.get(url) match {
-        case Some(bu) => Future.successful(CachedReference(url, bu))
+        case Some(bu) => Future.successful(CachedReference(url, bu.cloneUnit()))
         case _        => Future.failed(new Exception("Unit not found"))
       }
   def cachedUnits: Seq[BaseUnit] = cache.values.toSeq
