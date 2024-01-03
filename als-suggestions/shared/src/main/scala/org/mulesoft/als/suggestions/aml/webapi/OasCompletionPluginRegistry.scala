@@ -25,7 +25,7 @@ import org.mulesoft.als.suggestions.plugins.aml.{ResolveDefault, StructureComple
 import org.mulesoft.amfintegration.dialect.dialects.oas.{OAS20Dialect, OAS30Dialect}
 
 trait OasBaseCompletionRegistry extends WebApiCompletionPluginRegistry {
-  val common: Seq[AMLCompletionPlugin] = AMLBaseCompletionPlugins.all :+
+  lazy val common: Seq[AMLCompletionPlugin] = AMLBaseCompletionPlugins.all :+
     OASRequiredObjectCompletionPlugin :+
     OasSecuredByCompletionPlugin :+
     ExampleMediaType :+
