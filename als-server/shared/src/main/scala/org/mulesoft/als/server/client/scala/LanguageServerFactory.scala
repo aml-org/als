@@ -10,6 +10,7 @@ import org.mulesoft.als.logger.Logger
 import org.mulesoft.als.server.client.platform.ClientNotifier
 import org.mulesoft.als.server.modules.ast.WorkspaceContentListener
 import org.mulesoft.als.server.modules.diagnostic.{DiagnosticNotificationsKind, PARSING_BEFORE}
+import org.mulesoft.als.server.modules.serialization.RenderProps
 import org.mulesoft.als.server.modules.{WorkspaceManagerFactory, WorkspaceManagerFactoryBuilder}
 import org.mulesoft.als.server.protocol.LanguageServer
 import org.mulesoft.als.server.textsync.TextDocumentSyncBuilder
@@ -24,6 +25,7 @@ class LanguageServerFactory(
     profileValidatorBuilder: BaseProfileValidatorBuilder = ProfileValidatorWebBuilder
 ) {
   protected var serialization: SerializationProps[_]                        = new EmptySerializationProps
+  protected var renderProps: RenderProps                                    = RenderProps()
   protected var notificationsKind: DiagnosticNotificationsKind              = PARSING_BEFORE
   protected var directoryResolver: Option[DirectoryResolver]                = None
   protected var rl: Seq[ResourceLoader]                                     = EditorConfiguration.platform.loaders()
@@ -35,6 +37,11 @@ class LanguageServerFactory(
 
   def withSerializationProps(serializationProps: SerializationProps[_]): this.type = {
     serialization = serializationProps
+    this
+  }
+
+  def withRenderProps(renderProps: RenderProps): this.type = {
+    this.renderProps = renderProps
     this
   }
 
@@ -93,7 +100,6 @@ class LanguageServerFactory(
     this
   }
 
-  // todo @eascona: too specific, this should be "withWorkspaceContentListener" or something of the sorts, and add a listener to the existing list
   def withWorkspaceConfigListener(workspaceContentListener: WorkspaceContentListener[_]): this.type = {
     workspaceContentListeners = workspaceContentListeners :+ workspaceContentListener
     this
@@ -112,6 +118,7 @@ class LanguageServerFactory(
 
     directoryResolver.foreach(cdr => factory.withDirectoryResolver(cdr))
     factory.withNotificationKind(notificationsKind) // move to initialization param
+    factory.withRenderProps(renderProps)
     val dm                    = factory.buildDiagnosticManagers(Some(amfCustomValidatorBuilder))
     val sm                    = factory.serializationManager(serialization)
     val filesInProjectManager = factory.filesInProjectManager(serialization.alsClientNotifier)

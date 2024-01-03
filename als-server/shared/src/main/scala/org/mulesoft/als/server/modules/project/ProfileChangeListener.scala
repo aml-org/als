@@ -4,7 +4,7 @@ import amf.aml.client.scala.AMLConfiguration
 import org.mulesoft.als.configuration.AlsConfigurationReader
 import org.mulesoft.als.server.SerializationProps
 import org.mulesoft.als.server.feature.serialization.SerializationConfigType
-import org.mulesoft.als.server.modules.serialization.BaseSerializationNotifier
+import org.mulesoft.als.server.modules.serialization.{BaseSerializationNotifier, RenderProps}
 import org.mulesoft.amfintegration.ValidationProfile
 import org.mulesoft.amfintegration.amfconfiguration.ProjectConfigurationState
 
@@ -13,8 +13,9 @@ import scala.concurrent.Future
 
 class ProfileChangeListener[S](
     props: SerializationProps[S],
-    configurationReader: AlsConfigurationReader
-) extends BaseSerializationNotifier[S](props, configurationReader)
+    configurationReader: AlsConfigurationReader,
+    renderProps: RenderProps
+) extends BaseSerializationNotifier[S](props, configurationReader, renderProps)
     with NewConfigurationListener {
 
   override val `type`: SerializationConfigType.type = SerializationConfigType

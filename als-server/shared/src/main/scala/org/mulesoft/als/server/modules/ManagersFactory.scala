@@ -16,7 +16,7 @@ import org.mulesoft.als.server.modules.configuration.{ConfigurationManager, Work
 import org.mulesoft.als.server.modules.diagnostic._
 import org.mulesoft.als.server.modules.diagnostic.custom.CustomValidationManager
 import org.mulesoft.als.server.modules.project.{DialectChangeListener, ProfileChangeListener}
-import org.mulesoft.als.server.modules.serialization.{ConversionManager, SerializationManager}
+import org.mulesoft.als.server.modules.serialization.{ConversionManager, RenderProps, SerializationManager}
 import org.mulesoft.als.server.modules.structure.StructureManager
 import org.mulesoft.als.server.modules.telemetry.TelemetryManager
 import org.mulesoft.als.server.modules.workspace.resolution.ResolutionTaskManager
@@ -43,6 +43,8 @@ class WorkspaceManagerFactoryBuilder(
   Logger.withTelemetry(new TelemetryManager(clientNotifier))
 
   private var notificationKind: DiagnosticNotificationsKind = ALL_TOGETHER
+  protected var renderProps: RenderProps                    = RenderProps()
+
   private var directoryResolver: DirectoryResolver =
     new PlatformDirectoryResolver(platform)
   private var customValidationManager: Option[CustomValidationManager] = None
@@ -51,6 +53,10 @@ class WorkspaceManagerFactoryBuilder(
 
   def withNotificationKind(nk: DiagnosticNotificationsKind): WorkspaceManagerFactoryBuilder = {
     notificationKind = nk
+    this
+  }
+  def withRenderProps(renderProps: RenderProps): this.type = {
+    this.renderProps = renderProps
     this
   }
 
@@ -65,7 +71,7 @@ class WorkspaceManagerFactoryBuilder(
 
   def serializationManager[S](sp: SerializationProps[S]): SerializationManager[S] = {
     val s =
-      new SerializationManager(editorConfiguration, configurationManager.getConfiguration, sp)
+      new SerializationManager(editorConfiguration, configurationManager.getConfiguration, sp, renderProps)
     resolutionDependencies += s
     s
   }
@@ -95,14 +101,14 @@ class WorkspaceManagerFactoryBuilder(
 
   def profileNotificationConfigurationListener[S](sp: SerializationProps[S]): ProfileChangeListener[S] = {
     val pnl =
-      new ProfileChangeListener(sp, configurationManager.getConfiguration)
+      new ProfileChangeListener(sp, configurationManager.getConfiguration, renderProps)
     projectDependencies += pnl
     pnl
   }
 
   def dialectNotificationListener[S](sp: SerializationProps[S]): DialectChangeListener[S] = {
     val dcl =
-      new DialectChangeListener(sp, configurationManager.getConfiguration)
+      new DialectChangeListener(sp, configurationManager.getConfiguration, renderProps)
     projectDependencies += dcl
     dcl
   }

@@ -8,6 +8,7 @@ import org.mulesoft.als.server.ALSConverters._
 import org.mulesoft.als.server.SerializationProps
 import org.mulesoft.als.server.client.scala.LanguageServerFactory
 import org.mulesoft.als.server.modules.diagnostic.DiagnosticNotificationsKind
+import org.mulesoft.als.server.modules.serialization.RenderProps
 import org.mulesoft.als.server.protocol.LanguageServer
 
 import scala.scalajs.js.annotation.{JSExportAll, JSExportTopLevel}
@@ -19,6 +20,11 @@ class AlsLanguageServerFactory(clientNotifier: ClientNotifier) {
 
   def withSerializationProps(serializationProps: SerializationProps[_]): this.type = {
     _internal.withSerializationProps(serializationProps)
+    this
+  }
+
+  def withRenderProps(renderProps: RenderProps): this.type = {
+    _internal.withRenderProps(renderProps)
     this
   }
 

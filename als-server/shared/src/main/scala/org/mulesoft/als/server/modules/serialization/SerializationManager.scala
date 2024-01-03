@@ -24,8 +24,9 @@ import scala.util.{Failure, Success}
 class SerializationManager[S](
     editorConfiguration: EditorConfiguration,
     configurationReader: AlsConfigurationReader,
-    props: SerializationProps[S]
-) extends BaseSerializationNotifier[S](props, configurationReader)
+    props: SerializationProps[S],
+    renderProps: RenderProps
+) extends BaseSerializationNotifier[S](props, configurationReader, renderProps)
     with ResolvedUnitListener
     with RequestModule[SerializationClientCapabilities, SerializationServerOptions] {
   type RunType = SerializationRunnable
