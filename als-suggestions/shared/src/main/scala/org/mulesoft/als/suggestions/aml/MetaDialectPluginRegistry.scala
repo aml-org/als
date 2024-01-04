@@ -10,7 +10,7 @@ import org.mulesoft.amfintegration.dialect.dialects.metadialect.MetaDialect
 
 object MetaDialectPluginRegistry extends WebApiCompletionPluginRegistry {
 
-  private val all: Seq[AMLCompletionPlugin] =
+  private lazy val all: Seq[AMLCompletionPlugin] =
     AMLBaseCompletionPlugins.all :+
       StructureCompletionPlugin(
         List(
