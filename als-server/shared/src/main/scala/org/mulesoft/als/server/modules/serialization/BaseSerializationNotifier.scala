@@ -34,6 +34,7 @@ abstract class BaseSerializationNotifier[S](
       options = options.withCompactUris
     if (!renderProps.sourceMaps)
       options = options.withoutSourceMaps
+    else options = options.withSourceMaps
     options
   }
 
