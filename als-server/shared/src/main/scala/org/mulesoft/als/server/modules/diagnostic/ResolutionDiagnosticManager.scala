@@ -45,27 +45,21 @@ class ResolutionDiagnosticManager(
       references: Map[String, Seq[DocumentLink]],
       uuid: String
   ): Future[Unit] = {
-    val startTime = System.currentTimeMillis()
-    val refs      = projectReferences(uri, resolved.alsConfigurationState.projectState.projectErrors) ++ references
-    val profile   = profileName(resolved.baseUnit)
+    val refs    = projectReferences(uri, resolved.alsConfigurationState.projectState.projectErrors) ++ references
+    val profile = profileName(resolved.baseUnit)
     this
-      .report(uri, resolved, uuid, profile)
-      .map(report => {
-        val endTime = System.currentTimeMillis()
-        validationGatherer
-          .indexNewReport(
-            ErrorsWithTree(uri, report.results.map(new AlsValidationResult(_)), Some(tree(resolved.baseUnit))),
-            managerName,
-            uuid
-          )
-        notifyReport(uri, resolved.baseUnit, refs, managerName, profile)
-
-        Logger.debug(
-          s"It took ${endTime - startTime} milliseconds to validate",
-          "ResolutionDiagnosticManager",
-          "gatherValidationErrors"
-        )
-      })
+      .report(uri, resolved, uuid)
+      .map {
+        case Some(report) =>
+          validationGatherer
+            .indexNewReport(
+              ErrorsWithTree(uri, report.results.map(new AlsValidationResult(_)), Some(tree(resolved.baseUnit))),
+              managerName,
+              uuid
+            )
+          notifyReport(uri, resolved.baseUnit, refs, managerName, profile)
+        case _ => Logger.debug(s"Empty report for - $uri", "ResolutionDiagnosticManager", "gatherValidationErrors")
+      }
   }
 
   private def tree(baseUnit: BaseUnit): Set[String] =
@@ -76,26 +70,22 @@ class ResolutionDiagnosticManager(
   private def report(
       uri: String,
       resolved: AmfResolvedUnit,
-      uuid: String,
-      profile: ProfileName
-  ): Future[AMFValidationReport] = {
+      uuid: String
+  ): Future[Option[AMFValidationReport]] = {
     Logger.timeProcess(
       "AMF report",
       MessageTypes.BEGIN_REPORT,
       MessageTypes.END_REPORT,
-      "ResolutionDiagnosticManager - resolution diagnostics",
+      s"ResolutionDiagnosticManager - resolution diagnostics - ${uri}",
       uri,
-      tryValidationReport(uri, resolved, uuid, profile),
+      tryValidationReport(resolved),
       uuid
     )
 
   }
 
   private def tryValidationReport(
-      uri: String,
-      resolved: AmfResolvedUnit,
-      uuid: String,
-      profile: ProfileName
+      resolved: AmfResolvedUnit
   )() =
     try {
       Logger.debug("Starting...", "ResolutionDiagnosticManager", "tryValidationReport")
@@ -106,17 +96,17 @@ class ResolutionDiagnosticManager(
               .report(result.baseUnit)
               .map(rep => {
                 Logger.debug("...finishing.", "ResolutionDiagnosticManager", "tryValidationReport")
-                AMFValidationReport(rep.model, rep.profile, rep.results ++ result.results)
+                Some(AMFValidationReport(rep.model, rep.profile, rep.results ++ result.results))
               })
           }
       } recoverWith { case e: Exception =>
         Logger.debug(s"Recovering from: ${e.getMessage}", "ResolutionDiagnosticManager", "tryValidationReport")
-        sendFailedClone(uri, resolved.baseUnit, uuid, e.getMessage)
+        sendFailedClone(e.getMessage)
       }
     } catch {
       case e: Exception =>
         Logger.debug(s"Failed with: ${e.getMessage}", "ResolutionDiagnosticManager", "tryValidationReport")
-        sendFailedClone(uri, resolved.baseUnit, uuid, e.getMessage)
+        sendFailedClone(e.getMessage)
     }
 
   override def onRemoveFile(uri: String): Unit = {
