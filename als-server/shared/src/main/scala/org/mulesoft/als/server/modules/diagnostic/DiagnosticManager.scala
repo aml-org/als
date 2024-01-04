@@ -47,23 +47,13 @@ trait BasicDiagnosticManager[C, S] extends ClientNotifierModule[C, S] {
   protected val managerName: DiagnosticManagerKind
 
   protected def sendFailedClone(
-      uri: String,
-      baseUnit: BaseUnit,
-      uuid: String,
       e: String
-  ): Future[AMFValidationReport] = {
+  ) = {
     val msg =
       s"DiagnosticManager suffered an unexpected error while validating: $e"
     Logger.warning(msg, "DiagnosticManager", "report")
-    Future.successful(failedReportDiagnostic(msg, baseUnit))
+    Future.successful(None)
   }
-
-  private final def failedReportDiagnostic(msg: String, baseUnit: BaseUnit): AMFValidationReport =
-    AMFValidationReport(
-      "",
-      profileName(baseUnit),
-      Seq(AMFValidationResult(msg, VIOLATION, "", None, "", None, baseUnit.location(), None))
-    )
 
   protected def notifyReport(
       uri: String,
