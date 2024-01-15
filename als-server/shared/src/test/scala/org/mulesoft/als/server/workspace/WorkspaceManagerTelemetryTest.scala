@@ -115,7 +115,8 @@ class WorkspaceManagerTelemetryTest extends LanguageServerBaseTest {
             None,
             Some(TraceKind.Off),
             rootUri = Some(filePath("aml-workspace")),
-            hotReload = Some(true)
+            hotReload = Some(true),
+            newCachingLogic = Some(true)
           )
         )
         dialectContent      <- fetchContent(dialect).map(_.stream.toString)

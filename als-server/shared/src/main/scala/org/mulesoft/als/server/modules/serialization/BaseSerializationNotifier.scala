@@ -20,14 +20,22 @@ abstract class BaseSerializationNotifier[S](
 
   protected def enabled: Boolean = BaseSerializationNotifierState.enabled
 
-  protected def serialize(baseUnit: BaseUnit, amlConfiguration: AMLConfiguration): SerializationResult[S] = {
+  protected def serialize(
+      baseUnit: BaseUnit,
+      amlConfiguration: AMLConfiguration,
+      newCachingLogic: Boolean
+  ): SerializationResult[S] = {
     val value = props.newDocBuilder(configurationReader.getShouldPrettyPrintSerialization)
-    AMLSpecificConfiguration(amlConfiguration).asJsonLD(baseUnit, value)
+    AMLSpecificConfiguration(amlConfiguration, newCachingLogic).asJsonLD(baseUnit, value)
     SerializationResult(baseUnit.identifier, value.result)
   }
 
-  protected def serializeAndNotify(baseUnit: BaseUnit, amlConfiguration: AMLConfiguration): Unit =
-    props.alsClientNotifier.notifySerialization(serialize(baseUnit, amlConfiguration))
+  protected def serializeAndNotify(
+      baseUnit: BaseUnit,
+      amlConfiguration: AMLConfiguration,
+      newCachingLogic: Boolean
+  ): Unit =
+    props.alsClientNotifier.notifySerialization(serialize(baseUnit, amlConfiguration, newCachingLogic))
 
   override def applyConfig(config: Option[SerializationClientCapabilities]): SerializationServerOptions = {
     config.foreach(c => BaseSerializationNotifierState.enabled = c.acceptsNotification)

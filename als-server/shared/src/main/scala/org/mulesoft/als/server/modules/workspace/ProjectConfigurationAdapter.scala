@@ -16,7 +16,8 @@ class ProjectConfigurationAdapter(
     private val projectConfigurationProvider: ProjectConfigurationProvider,
     editorConfiguration: EditorConfiguration,
     val environmentProvider: EnvironmentProvider,
-    subscribers: List[BaseUnitListener]
+    subscribers: List[BaseUnitListener],
+    newCachingLogic: Boolean
 ) {
 
   var repository: Option[WorkspaceParserRepository] = None
@@ -35,7 +36,12 @@ class ProjectConfigurationAdapter(
     for {
       editorState  <- editorConfiguration.getState
       projectState <- projectConfigurationState
-    } yield ALSConfigurationState(editorState, projectState, Some(environmentProvider.getResourceLoader))
+    } yield ALSConfigurationState(
+      editorState,
+      projectState,
+      Some(environmentProvider.getResourceLoader),
+      newCachingLogic
+    )
   }
 
   def mainFile: Future[Option[String]] = projectConfigurationProvider.getMainFile(folder) match {

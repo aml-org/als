@@ -246,7 +246,8 @@ class WorkspaceList(
       pcp,
       editorConfiguration,
       environmentProvider,
-      buListenerSubscribers
+      buListenerSubscribers,
+      configurationProvider.getNewCachingLogic
     )
 
   def findWorkspace(uri: String): Future[WorkspaceContentManager] =

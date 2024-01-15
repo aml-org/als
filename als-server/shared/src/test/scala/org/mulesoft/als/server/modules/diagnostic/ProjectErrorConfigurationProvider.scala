@@ -11,10 +11,12 @@ import scala.concurrent.Future
 class ProjectErrorConfigurationProvider(
     editorConfiguration: EditorConfigurationProvider,
     logger: Logger,
-    error: AMFValidationResult
+    error: AMFValidationResult,
+    newCachingLogic: Boolean
 ) extends DefaultProjectConfigurationProvider(
       DummyEnvironmentProvider,
-      editorConfiguration
+      editorConfiguration,
+      newCachingLogic
     ) {
   private var reportError = true
 
@@ -31,7 +33,8 @@ class ProjectErrorConfigurationProvider(
           state.config,
           DummyEnvironmentProvider,
           if (reportError) Seq(error) else Seq(),
-          editorConfiguration
+          editorConfiguration,
+          newCachingLogic
         )
       }))
 }

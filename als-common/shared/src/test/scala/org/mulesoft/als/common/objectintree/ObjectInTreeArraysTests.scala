@@ -11,7 +11,8 @@ class ObjectInTreeArraysTests extends AsyncFlatSpec {
 
   private def tester = ObjectInTreeBaseTest(
     "instances/instance1.yaml",
-    "dialects/dialect1.yaml"
+    "dialects/dialect1.yaml",
+    newCachingLogic = true
   )
 
   behavior of "Object in Tree finder (dialect with Arrays)"

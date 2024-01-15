@@ -19,7 +19,8 @@ import scala.util.Failure
 
 class ResolutionTaskManager private (
     private val allSubscribers: List[ResolvedUnitListener],
-    override val dependencies: List[AccessUnits[AmfResolvedUnit]]
+    override val dependencies: List[AccessUnits[AmfResolvedUnit]],
+    newCachingLogic: Boolean
 ) extends UnitTaskManager[AmfResolvedUnit, AmfResolvedUnit, BaseUnitListenerParams]
     with UnitsManager[AmfResolvedUnit, AstListener[AmfResolvedUnit]]
     with BaseUnitListener {
@@ -154,8 +155,13 @@ class ResolutionTaskManager private (
       )
     }
 
-    private def innerResolveUnit(): Future[AMFResult] =
-      Future(configuration.fullResolution(alsConfigurationState.getLocalClone(baseUnit)))
+    private def innerResolveUnit(): Future[AMFResult] = {
+      Logger.debug(s"NewCachingLogic = $newCachingLogic", "ResolutionTaskManager", "innerResolveUnit")
+      val finalBaseUnit =
+        if (newCachingLogic) configuration.fullResolution(alsConfigurationState.getLocalClone(baseUnit))
+        else configuration.fullResolution(baseUnit)
+      Future(finalBaseUnit)
+    }
 
     override def next: Option[Future[T]] = getNext(uri)
 
@@ -183,10 +189,12 @@ class ResolutionTaskManager private (
 object ResolutionTaskManager {
   def apply(
       allSubscribers: List[ResolvedUnitListener],
-      dependencies: List[AccessUnits[AmfResolvedUnit]]
+      dependencies: List[AccessUnits[AmfResolvedUnit]],
+      newCachingLogic: Boolean
   ): ResolutionTaskManager = {
+    Logger.debug(s"NewCachingLogic = $newCachingLogic", "ResolutionTaskManager", "apply")
     val manager =
-      new ResolutionTaskManager(allSubscribers, dependencies)
+      new ResolutionTaskManager(allSubscribers, dependencies, newCachingLogic)
     manager.init()
     manager
   }

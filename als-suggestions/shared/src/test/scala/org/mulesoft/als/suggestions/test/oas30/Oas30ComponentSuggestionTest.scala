@@ -92,7 +92,12 @@ class Oas30ComponentSuggestionTest extends AsyncFunSuite with BaseSuggestionsFor
       configurationState: ALSConfigurationState,
       resourceLoader: ResourceLoader
   ): ALSConfigurationState =
-    new ALSConfigurationState(configurationState.editorState, configurationState.projectState, Some(resourceLoader)) {
+    new ALSConfigurationState(
+      configurationState.editorState,
+      configurationState.projectState,
+      Some(resourceLoader),
+      configurationState.newCachingLogic
+    ) {
       override def getAmfConfig: AMFConfiguration =
         getAmfConfig(OASConfiguration.OAS30Component())
     }

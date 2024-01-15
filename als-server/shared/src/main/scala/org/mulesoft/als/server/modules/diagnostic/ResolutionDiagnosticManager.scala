@@ -18,7 +18,8 @@ import scala.util.{Failure, Success}
 
 class ResolutionDiagnosticManager(
     override protected val clientNotifier: ClientNotifier,
-    override protected val validationGatherer: ValidationGatherer
+    override protected val validationGatherer: ValidationGatherer,
+    newCachingLogic: Boolean
 ) extends ResolvedUnitListener
     with DiagnosticManager {
   type RunType = ValidationRunnable
@@ -89,11 +90,14 @@ class ResolutionDiagnosticManager(
   )() =
     try {
       Logger.debug("Starting...", "ResolutionDiagnosticManager", "tryValidationReport")
+      Logger.debug(s"NewCachingLogic = $newCachingLogic", "ResolutionDiagnosticManager", "tryValidationReport")
       resolved.getLast.flatMap { r =>
         r.resolvedUnit
           .flatMap { result =>
+            val finalBaseUnit =
+              if (newCachingLogic) resolved.alsConfigurationState.getLocalClone(result.baseUnit) else result.baseUnit
             r.configuration
-              .report(resolved.alsConfigurationState.getLocalClone(result.baseUnit))
+              .report(finalBaseUnit)
               .map(rep => {
                 Logger.debug("...finishing.", "ResolutionDiagnosticManager", "tryValidationReport")
                 Some(AMFValidationReport(rep.model, rep.profile, rep.results ++ result.results))

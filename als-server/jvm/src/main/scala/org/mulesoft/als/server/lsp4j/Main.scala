@@ -13,7 +13,7 @@ import scala.annotation.tailrec
 
 object Main {
 
-  case class Options(port: Int, listen: Boolean, systemStream: Boolean = false)
+  case class Options(port: Int, listen: Boolean, systemStream: Boolean = false, newCachingLogic: Boolean = false)
 
   val DefaultOptions: Options =
     Options(4000, listen = false)
@@ -29,6 +29,8 @@ object Main {
           innerReadOptions(options.copy(systemStream = true), tail)
         case "--listen" :: tail =>
           innerReadOptions(options.copy(listen = true), tail)
+        case "--newCachingLogic" :: tail =>
+          innerReadOptions(options.copy(newCachingLogic = true), tail)
         case _ =>
           throw new IllegalArgumentException()
       }
@@ -37,9 +39,9 @@ object Main {
   }
 
   def createSocket(options: Options): Socket = options match {
-    case Options(port, true, _) =>
+    case Options(port, true, _, _) =>
       new ServerSocket(port).accept()
-    case Options(port, false, _) =>
+    case Options(port, false, _, _) =>
       new Socket("localhost", port)
   }
 
@@ -59,10 +61,12 @@ object Main {
       val clientConnection = platform.ClientConnection[StringWriter]()
 
       logger.debug("Building LanguageServerImpl", "Main", "main")
+      Logger.debug(s"NewCachingLogic? =  ${options.newCachingLogic}", "Main", "main")
       val server = new LanguageServerImpl(
         new AlsLanguageServerFactory(clientConnection)
           .withLogger(logger)
           .withSerializationProps(JvmSerializationProps(clientConnection))
+          .withNewCachingLogic(options.newCachingLogic)
           .build()
       )
 

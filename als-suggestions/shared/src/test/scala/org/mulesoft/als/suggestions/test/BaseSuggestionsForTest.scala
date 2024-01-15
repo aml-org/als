@@ -52,5 +52,10 @@ trait BaseSuggestionsForTest extends PlatformSecrets with MarkerFinderTest with 
       configurationState: ALSConfigurationState,
       resourceLoader: ResourceLoader
   ): ALSConfigurationState =
-    ALSConfigurationState(configurationState.editorState, configurationState.projectState, Some(resourceLoader))
+    ALSConfigurationState(
+      configurationState.editorState,
+      configurationState.projectState,
+      Some(resourceLoader),
+      configurationState.newCachingLogic
+    )
 }

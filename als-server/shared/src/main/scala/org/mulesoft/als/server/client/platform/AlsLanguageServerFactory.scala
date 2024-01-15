@@ -67,5 +67,10 @@ class AlsLanguageServerFactory(clientNotifier: ClientNotifier) {
     this
   }
 
+  def withNewCachingLogic(p: Boolean): this.type = {
+    _internal.withNewCachingLogic(p)
+    this
+  }
+
   def build(): LanguageServer = _internal.build()
 }

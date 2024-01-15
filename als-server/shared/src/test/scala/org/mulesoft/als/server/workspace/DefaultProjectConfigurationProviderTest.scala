@@ -29,14 +29,14 @@ class DefaultProjectConfigurationProviderTest extends LanguageServerBaseTest {
   val library: String   = filePath("ws1/library.raml")
   val dialect: String   = filePath("ws1/dialect.yaml")
 
-  def buildConfigurationProvider(): ProjectConfigurationProvider = {
+  def buildConfigurationProvider(newCachingLogic: Boolean): ProjectConfigurationProvider = {
     val container           = TextDocumentContainer()
     val editorConfiguration = EditorConfiguration()
-    new DefaultProjectConfigurationProvider(container, editorConfiguration)
+    new DefaultProjectConfigurationProvider(container, editorConfiguration, newCachingLogic)
   }
 
   test("Project configuration provider will hold multiple configurations") {
-    val provider = buildConfigurationProvider()
+    val provider = buildConfigurationProvider(newCachingLogic = true)
     for {
       c1 <- provider.newProjectConfiguration(
         ProjectConfiguration(ws1, Some("api.raml"), extensionDependency = Set(extension))
@@ -57,7 +57,7 @@ class DefaultProjectConfigurationProviderTest extends LanguageServerBaseTest {
   }
 
   test("Project configuration provider will override existing configurations") {
-    val provider = buildConfigurationProvider()
+    val provider = buildConfigurationProvider(newCachingLogic = true)
     for {
       c1 <- provider.newProjectConfiguration(ProjectConfiguration(ws1, Some("api.raml")))
       c2 <- provider.newProjectConfiguration(
@@ -73,7 +73,7 @@ class DefaultProjectConfigurationProviderTest extends LanguageServerBaseTest {
   }
 
   test("Project configuration state should be immutable") {
-    val provider = buildConfigurationProvider()
+    val provider = buildConfigurationProvider(newCachingLogic = true)
     for {
       c1 <- provider.newProjectConfiguration(ProjectConfiguration(ws1, Some("api.raml")))
       p1 <- provider.getProjectInfo(ws1).getOrElse(Future(EmptyProjectConfigurationState))
@@ -112,7 +112,7 @@ class DefaultProjectConfigurationProviderTest extends LanguageServerBaseTest {
   }
 
   test("Project configuration state should contain parsed instances") {
-    val provider = buildConfigurationProvider()
+    val provider = buildConfigurationProvider(newCachingLogic = true)
     for {
       c1 <- provider.newProjectConfiguration(
         ProjectConfiguration(
@@ -143,7 +143,7 @@ class DefaultProjectConfigurationProviderTest extends LanguageServerBaseTest {
   }
 
   test("Default project configuration will cache units") {
-    val provider = buildConfigurationProvider()
+    val provider = buildConfigurationProvider(newCachingLogic = true)
     for {
       c1 <- provider.newProjectConfiguration(
         ProjectConfiguration(

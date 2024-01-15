@@ -27,7 +27,12 @@ trait TemplateSuggestionByDirectoryTest extends SuggestionByDirectoryTest {
     position = markerInfo.offset
     val resourceLoader = AmfConfigurationPatcher.resourceLoaderForFile(url, markerInfo.content)
     val newAlsConfig =
-      ALSConfigurationState(configurationState.editorState, configurationState.projectState, Some(resourceLoader))
+      ALSConfigurationState(
+        configurationState.editorState,
+        configurationState.projectState,
+        Some(resourceLoader),
+        configurationState.newCachingLogic
+      )
     new Suggestions(AlsConfiguration(templateType = templateType), dr, accessBundle(newAlsConfig))
       .initialized()
       .suggest(url, position, snippetsSupport = true, None)

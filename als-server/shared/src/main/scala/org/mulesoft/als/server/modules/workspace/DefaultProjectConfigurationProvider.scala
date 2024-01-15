@@ -44,7 +44,8 @@ sealed class ConfigurationMap {
 
 class DefaultProjectConfigurationProvider(
     environmentProvider: EnvironmentProvider,
-    editorConfiguration: EditorConfigurationProvider
+    editorConfiguration: EditorConfigurationProvider,
+    newCachingLogic: Boolean
 ) extends ProjectConfigurationProvider {
 
   val configurationMap = new ConfigurationMap
@@ -64,6 +65,11 @@ class DefaultProjectConfigurationProvider(
   override def newProjectConfiguration(
       projectConfiguration: ProjectConfiguration
   ): Future[ProjectConfigurationState] = {
+    Logger.debug(
+      s"NewCachingLogic = $newCachingLogic",
+      "DefaultProjectConfigurationProvider",
+      "newProjectConfiguration"
+    )
     val c = for {
       (dialects, dialectParseResult) <- parseDialects(
         projectConfiguration.metadataDependency ++ projectConfiguration.extensionDependency
@@ -77,7 +83,8 @@ class DefaultProjectConfigurationProvider(
         projectConfiguration,
         environmentProvider,
         Seq.empty, // todo: add projects errors such as "file.yaml" is not a profile
-        editorConfiguration
+        editorConfiguration,
+        newCachingLogic
       )
     }
     configurationMap.update(c, projectConfiguration)
@@ -193,11 +200,12 @@ case class DefaultProjectConfiguration(
     override val config: ProjectConfiguration,
     private val environmentProvider: EnvironmentProvider,
     override val projectErrors: Seq[AMFValidationResult],
-    private val editorConfiguration: EditorConfigurationProvider
+    private val editorConfiguration: EditorConfigurationProvider,
+    newCachingLogic: Boolean
 ) extends ProjectConfigurationState {
 
   val cacheBuilder: CacheBuilder =
-    new CacheBuilder(config.folder, config.designDependency, environmentProvider, editorConfiguration)
+    new CacheBuilder(config.folder, config.designDependency, environmentProvider, editorConfiguration, newCachingLogic)
   override def cache: UnitCache = cacheBuilder.buildUnitCache
 
   override val resourceLoaders: Seq[ResourceLoader] = Nil
@@ -207,7 +215,8 @@ class CacheBuilder(
     folder: String,
     cacheables: Set[String],
     private val environmentProvider: EnvironmentProvider,
-    private val editorConfiguration: EditorConfigurationProvider
+    private val editorConfiguration: EditorConfigurationProvider,
+    newCachingLogic: Boolean
 ) {
 
   private val cache: mutable.Map[String, BaseUnit] = mutable.Map.empty
@@ -215,8 +224,12 @@ class CacheBuilder(
   def buildUnitCache: UnitCache =
     (url: String) =>
       cache.get(url) match {
-        case Some(bu) => Future.successful(CachedReference(url, bu.cloneUnit()))
-        case _        => Future.failed(new Exception("Unit not found"))
+        case Some(bu) => {
+          Logger.debug(s"NewCachingLogic = $newCachingLogic", "DefaultProjectConfigurationProvider", "buildUnitCache")
+          val finalBaseUnit = if (newCachingLogic) bu.cloneUnit() else bu
+          Future.successful(CachedReference(url, finalBaseUnit))
+        }
+        case _ => Future.failed(new Exception("Unit not found"))
       }
   def cachedUnits: Seq[BaseUnit] = cache.values.toSeq
 
@@ -240,10 +253,12 @@ class CacheBuilder(
     )
 
   private def configForUnit(unit: BaseUnit, state: EditorConfigurationState): AMLSpecificConfiguration = {
+    Logger.debug(s"NewCachingLogic = $newCachingLogic", "DefaultProjectConfigurationProvider", "configForUnit")
     AMLSpecificConfiguration(
       EditorConfigurationStateWrapper(state)
         .configForUnit(unit)
-        .withResourceLoader(environmentProvider.getResourceLoader)
+        .withResourceLoader(environmentProvider.getResourceLoader),
+      newCachingLogic
     )
   }
 

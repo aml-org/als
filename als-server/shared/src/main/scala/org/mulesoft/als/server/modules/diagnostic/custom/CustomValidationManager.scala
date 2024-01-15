@@ -30,7 +30,8 @@ import scala.util.{Failure, Success}
 class CustomValidationManager(
     override protected val clientNotifier: ClientNotifier,
     override protected val validationGatherer: ValidationGatherer,
-    val validatorBuilder: BaseProfileValidatorBuilder
+    val validatorBuilder: BaseProfileValidatorBuilder,
+    newCachingLogic: Boolean
 ) extends BasicDiagnosticManager[CustomValidationClientCapabilities, CustomValidationOptions]
     with ResolvedUnitListener {
 
@@ -60,12 +61,18 @@ class CustomValidationManager(
       uuid: String
   ): Future[Unit] = {
     val startTime = System.currentTimeMillis()
+    Logger.debug(
+      s"NewCachingLogic? = ${resolved.alsConfigurationState.newCachingLogic}",
+      "CustomValidationManager",
+      "gatherValidationErrors"
+    )
     if (resolved.alsConfigurationState.profiles.nonEmpty) {
       for {
         unit <- resolved.resolvedUnit.map(_.baseUnit)
+        finalUnit = if (newCachingLogic) resolved.alsConfigurationState.getLocalClone(unit) else unit
         results <- validate(
           uri,
-          resolved.alsConfigurationState.getLocalClone(unit),
+          finalUnit,
           resolved.alsConfigurationState.profiles.map(_.model),
           resolved.configuration
         )

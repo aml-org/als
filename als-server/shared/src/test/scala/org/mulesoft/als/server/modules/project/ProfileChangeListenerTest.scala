@@ -52,7 +52,8 @@ class ProfileChangeListenerTest
       ),
       Some(TraceKind.Off),
       rootUri = workspacePath,
-      hotReload = Some(true)
+      hotReload = Some(true),
+      newCachingLogic = Some(true)
     )
 
   def buildServer(

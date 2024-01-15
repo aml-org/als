@@ -25,6 +25,7 @@ class LsConvertionsTest extends AnyFunSuite {
     clientParams.setWorkspaceFolders(List(folder).asJava)
     clientParams.setInitializationOptions(new Object())
     clientParams.setHotReload(true)
+    clientParams.setNewCachingLogic(true)
     val internalParams: configuration.AlsInitializeParams = clientParams
     succeed
   }

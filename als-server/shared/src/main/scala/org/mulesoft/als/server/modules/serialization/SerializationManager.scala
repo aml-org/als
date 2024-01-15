@@ -24,7 +24,8 @@ import scala.util.{Failure, Success}
 class SerializationManager[S](
     editorConfiguration: EditorConfiguration,
     configurationReader: AlsConfigurationReader,
-    props: SerializationProps[S]
+    props: SerializationProps[S],
+    newCachingLogic: Boolean
 ) extends BaseSerializationNotifier[S](props, configurationReader)
     with ResolvedUnitListener
     with RequestModule[SerializationClientCapabilities, SerializationServerOptions] {
@@ -39,8 +40,12 @@ class SerializationManager[S](
 
   def serializeAndNotifyResolved(ast: AmfResolvedUnit): Future[Unit] =
     ast.resolvedUnit
-      .map(ru => ast.alsConfigurationState.getLocalClone(ru.baseUnit))
-      .map(serializeAndNotify(_, ast.configuration.config))
+      .map(ru => {
+        Logger.debug(s"NewCachingLogic = $newCachingLogic", "SerializationManager", "serializeAndNotifyResolve")
+        val finalBaseUnit = if (newCachingLogic) ast.alsConfigurationState.getLocalClone(ru.baseUnit) else ru.baseUnit
+        finalBaseUnit
+      })
+      .map(serializeAndNotify(_, ast.configuration.config, newCachingLogic))
 
   override def onRemoveFile(uri: String): Unit = {
     /* No action required */
@@ -56,15 +61,22 @@ class SerializationManager[S](
   private def processRequest(uri: String): Future[SerializationResult[S]] = {
     val result: Future[(BaseUnit, AMLConfiguration)] = unitAccessor match {
       case Some(ua) =>
+        Logger.debug(s"NewCachingLogic = $newCachingLogic", "SerializationManager", "processRequest")
         ua.getLastUnit(uri, UUID.randomUUID().toString)
           .flatMap { r =>
             Logger.debug(s"Serialization uri: $uri", "SerializationManager", "processRequest")
             if (r.baseUnit.isInstanceOf[Extension] || r.baseUnit.isInstanceOf[Overlay])
-              r.latestBU.map(bu => (r.alsConfigurationState.getLocalClone(bu), r.configuration.config))
+              r.latestBU.map(bu => {
+                val finalBaseUnit = if (newCachingLogic) r.alsConfigurationState.getLocalClone(bu) else bu
+                (finalBaseUnit, r.configuration.config)
+              })
             else
-              r.latestBU.map(bu =>
-                (r.alsConfigurationState.getLocalClone(getUnitFromResolved(bu, uri)), r.configuration.config)
-              )
+              r.latestBU.map(bu => {
+                val finalBaseUnit =
+                  if (newCachingLogic) r.alsConfigurationState.getLocalClone(getUnitFromResolved(bu, uri))
+                  else getUnitFromResolved(bu, uri)
+                (finalBaseUnit, r.configuration.config)
+              })
           }
           .recoverWith { case e: Exception =>
             Logger.warning(e.getMessage, "SerializationManager", "RequestSerialization")
@@ -74,7 +86,7 @@ class SerializationManager[S](
         Logger.warning("Unit accessor not configured", "SerializationManager", "RequestSerialization")
         Future.successful((Document().withId("error"), AMLConfiguration.predefined()))
     }
-    result.map(r => serialize(r._1, r._2))
+    result.map(r => serialize(r._1, r._2, newCachingLogic))
   }
 
   override def initialize(): Future[Unit] = Future.successful()

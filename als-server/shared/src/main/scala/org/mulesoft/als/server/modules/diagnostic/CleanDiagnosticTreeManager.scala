@@ -28,7 +28,8 @@ import scala.concurrent.Future
 class CleanDiagnosticTreeManager(
     environmentProvider: EnvironmentProvider,
     customValidationManager: Option[CustomValidationManager],
-    workspaceConfigProvider: WorkspaceConfigurationProvider
+    workspaceConfigProvider: WorkspaceConfigurationProvider,
+    newCachingLogic: Boolean
 ) extends RequestModule[CleanDiagnosticTreeClientCapabilities, CleanDiagnosticTreeOptions] {
 
   private var enabled: Boolean = true
@@ -99,12 +100,13 @@ class CleanDiagnosticTreeManager(
   def parseAndResolve(refinedUri: String): Future[(CleanValidationPartialResult, ALSConfigurationState)] =
     for {
       alsConfigurationState <- getWorkspaceConfig(refinedUri)
-      pr <- AMLSpecificConfiguration(alsConfigurationState.getAmfConfig(refinedUri))
+      pr <- AMLSpecificConfiguration(alsConfigurationState.getAmfConfig(refinedUri), newCachingLogic)
         .parse(refinedUri)
         .map(new AmfResultWrap(_))
       helper <- Future(alsConfigurationState.configForUnit(pr.result.baseUnit))
       resolved <- Future({
-        Logger.debug(s"About to report: $refinedUri", "CleanDiagnosticTreeManager", "validate")
+        Logger.debug(s"About to report: $refinedUri", "CleanDiagnosticTreeManager", "parseAndResolve")
+        Logger.debug(s"NewCachingLogic? =  $newCachingLogic", "CleanDiagnosticTreeManager", "parseAndResolve")
         helper.fullResolution(pr.result.baseUnit)
       })
       result <- helper.report(resolved.baseUnit).map(r => CleanValidationPartialResult(pr, r, resolved))

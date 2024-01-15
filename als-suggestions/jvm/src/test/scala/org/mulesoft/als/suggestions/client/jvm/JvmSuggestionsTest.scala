@@ -57,7 +57,8 @@ class JvmSuggestionsTest extends AsyncFunSuite with Matchers with PlatformSecret
         ALSConfigurationState(
           editorState = editorState,
           projectState = EmptyProjectConfigurationState,
-          editorResourceLoader = None
+          editorResourceLoader = None,
+          newCachingLogic = true
         )
       })
   }

@@ -13,7 +13,8 @@ import scala.concurrent.Future
 
 class ProfileChangeListener[S](
     props: SerializationProps[S],
-    configurationReader: AlsConfigurationReader
+    configurationReader: AlsConfigurationReader,
+    newCachingLogic: Boolean
 ) extends BaseSerializationNotifier[S](props, configurationReader)
     with NewConfigurationListener {
 
@@ -42,7 +43,7 @@ class ProfileChangeListener[S](
   }
 
   private def notifyProfile(vp: ValidationProfile): Unit =
-    serializeAndNotify(vp.model, AMLConfiguration.predefined().withDialect(vp.definedBy))
+    serializeAndNotify(vp.model, AMLConfiguration.predefined().withDialect(vp.definedBy), newCachingLogic)
 
   override def onRemoveFile(uri: String): Unit = {}
 

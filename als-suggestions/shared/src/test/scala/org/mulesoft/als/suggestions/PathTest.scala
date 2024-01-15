@@ -66,7 +66,8 @@ class PathTest extends AsyncFunSuite with PlatformSecrets {
         ALSConfigurationState(
           editorState = editorState,
           projectState = EmptyProjectConfigurationState,
-          editorResourceLoader = None
+          editorResourceLoader = None,
+          newCachingLogic = true
         )
       })
   }

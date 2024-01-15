@@ -10,7 +10,12 @@ object AmfConfigurationPatcher {
 
   def patch(configuration: ALSConfigurationState, uri: String, content: String): ALSConfigurationState = {
     val patchLoader = resourceLoaderForFile(uri, content)
-    ALSConfigurationState(configuration.editorState, configuration.projectState, Some(patchLoader))
+    ALSConfigurationState(
+      configuration.editorState,
+      configuration.projectState,
+      Some(patchLoader),
+      newCachingLogic = configuration.newCachingLogic
+    )
   }
 
   def resourceLoaderForFile(fileUrl: String, content: String): ResourceLoader = new ResourceLoader {

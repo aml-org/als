@@ -32,6 +32,7 @@ class LanguageServerFactory(
   protected var configurationProvider: Option[ProjectConfigurationProvider] = None
   protected var textDocumentSyncBuilder: Option[TextDocumentSyncBuilder]    = None
   protected var workspaceContentListeners: Seq[WorkspaceContentListener[_]] = Seq.empty
+  protected var newCachingLogic: Boolean                                    = true
 
   def withSerializationProps(serializationProps: SerializationProps[_]): this.type = {
     serialization = serializationProps
@@ -99,15 +100,22 @@ class LanguageServerFactory(
     this
   }
 
+  def withNewCachingLogic(p: Boolean): this.type = {
+    newCachingLogic = p
+    this
+  }
+
   def build(): LanguageServer = {
     val resourceLoaders     = if (rl.isEmpty) EditorConfiguration.platform.loaders() else rl
     val editorConfiguration = new EditorConfiguration(resourceLoaders, Seq.empty, plugins)
+    Logger.debug(s"NewCachingLogic? =  $newCachingLogic", "LanguageServerFactory", "build")
     val factory =
       new WorkspaceManagerFactoryBuilder(
         clientNotifier,
         editorConfiguration,
         configurationProvider,
-        textDocumentSyncBuilder
+        textDocumentSyncBuilder,
+        newCachingLogic
       )
 
     directoryResolver.foreach(cdr => factory.withDirectoryResolver(cdr))

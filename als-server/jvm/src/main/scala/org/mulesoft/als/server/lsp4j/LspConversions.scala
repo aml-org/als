@@ -107,7 +107,8 @@ object LspConversions {
         rootPath = Option(p.getRootPath),
         initializationOptions = Option(p.getInitializationOptions),
         configuration = Option(p.getConfiguration),
-        hotReload = Option(p.getHotReload)
+        hotReload = Option(p.getHotReload),
+        newCachingLogic = Option(p.getNewCachingLogic)
       )
     } getOrElse AlsInitializeParams.default
 

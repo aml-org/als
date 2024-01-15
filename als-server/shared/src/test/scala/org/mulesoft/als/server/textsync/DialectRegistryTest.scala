@@ -98,7 +98,13 @@ class DialectRegistryTest extends LanguageServerBaseTest {
 
       for {
         _ <- server.testInitialize(
-          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some("file:///"), hotReload = Some(true))
+          AlsInitializeParams(
+            None,
+            Some(TraceKind.Off),
+            rootUri = Some("file:///"),
+            hotReload = Some(true),
+            newCachingLogic = Some(true)
+          )
         )
         _  <- openFileNotification(server)(url, content)
         _  <- workspaceManager.getUnit(url, UUID.randomUUID().toString)
@@ -137,7 +143,13 @@ class DialectRegistryTest extends LanguageServerBaseTest {
 
       for {
         _ <- server.testInitialize(
-          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some("file:///"), hotReload = Some(true))
+          AlsInitializeParams(
+            None,
+            Some(TraceKind.Off),
+            rootUri = Some("file:///"),
+            hotReload = Some(true),
+            newCachingLogic = Some(true)
+          )
         )
         _        <- openFileNotification(server)(url, content)
         _        <- changeNotification(server)(url, content.replace("2", "3"), 2)
@@ -174,7 +186,13 @@ class DialectRegistryTest extends LanguageServerBaseTest {
 
       for {
         _ <- server.testInitialize(
-          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some("file:///"), hotReload = Some(true))
+          AlsInitializeParams(
+            None,
+            Some(TraceKind.Off),
+            rootUri = Some("file:///"),
+            hotReload = Some(true),
+            newCachingLogic = Some(true)
+          )
         )
         d1 <- workspaceManager.getWorkspace(url).flatMap(_.getConfigurationState).map(_.dialects)
         _  <- openFileNotification(server)(url, content)
@@ -215,7 +233,13 @@ class DialectRegistryTest extends LanguageServerBaseTest {
 
       for {
         _ <- server.testInitialize(
-          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some("file:///"), hotReload = Some(true))
+          AlsInitializeParams(
+            None,
+            Some(TraceKind.Off),
+            rootUri = Some("file:///"),
+            hotReload = Some(true),
+            newCachingLogic = Some(true)
+          )
         )
         d1 <- workspaceManager.getWorkspace(url).flatMap(_.getConfigurationState).map(_.dialects)
         _  <- changeWorkspaceConfiguration(server)(changeConfigArgs(None, "file:///", dialects = Set(extraDialectPath)))
@@ -261,7 +285,13 @@ class DialectRegistryTest extends LanguageServerBaseTest {
 
       for {
         _ <- server.testInitialize(
-          AlsInitializeParams(None, Some(TraceKind.Off), rootUri = Some("file:///"), hotReload = Some(true))
+          AlsInitializeParams(
+            None,
+            Some(TraceKind.Off),
+            rootUri = Some("file:///"),
+            hotReload = Some(true),
+            newCachingLogic = Some(true)
+          )
         )
         _  <- changeWorkspaceConfiguration(server)(changeConfigArgs(None, "file:///", dialects = Set(extraDialectPath)))
         d1 <- workspaceManager.getWorkspace(url).flatMap(_.getConfigurationState).map(_.dialects)

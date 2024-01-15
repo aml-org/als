@@ -29,11 +29,17 @@ class ConfigurationManager
 
   private var hotReloadDialects: Boolean = false
 
+  private var newCachingLogic: Boolean = true
+
   override def getHotReloadDialects: Boolean = hotReloadDialects
+
+  override def getNewCachingLogic: Boolean = hotReloadDialects
 
   /** Should only be called from initialization
     */
   def setHotReloadDialects(p: Boolean): Unit = hotReloadDialects = p
+
+  def setNewCachingLogic(p: Boolean): Unit = newCachingLogic = p
 
   def updateDocumentChangesSupport(support: Boolean): Unit = configuration.supportsDocumentChanges(support)
 

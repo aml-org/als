@@ -13,7 +13,8 @@ import scala.concurrent.Future
 
 class DialectChangeListener[S](
     props: SerializationProps[S],
-    configurationReader: AlsConfigurationReader
+    configurationReader: AlsConfigurationReader,
+    newCachingLogic: Boolean
 ) extends BaseSerializationNotifier[S](props, configurationReader)
     with NewConfigurationListener {
 
@@ -42,7 +43,7 @@ class DialectChangeListener[S](
   }
 
   private def notifyDialect(d: Dialect): Unit =
-    serializeAndNotify(d, AMLConfiguration.predefined().withDialect(d))
+    serializeAndNotify(d, AMLConfiguration.predefined().withDialect(d), newCachingLogic)
 
   override def onRemoveFile(uri: String): Unit = {}
 

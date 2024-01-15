@@ -37,7 +37,8 @@ class WorkspaceManagerFactoryBuilder(
     clientNotifier: ClientNotifier,
     val editorConfiguration: EditorConfiguration = EditorConfiguration(),
     projectConfigurationProvider: Option[ProjectConfigurationProvider] = None,
-    textDocumentSyncBuilder: Option[TextDocumentSyncBuilder] = None
+    textDocumentSyncBuilder: Option[TextDocumentSyncBuilder] = None,
+    newCachingLogic: Boolean = true
 ) extends PlatformSecrets {
 
   Logger.withTelemetry(new TelemetryManager(clientNotifier))
@@ -65,7 +66,7 @@ class WorkspaceManagerFactoryBuilder(
 
   def serializationManager[S](sp: SerializationProps[S]): SerializationManager[S] = {
     val s =
-      new SerializationManager(editorConfiguration, configurationManager.getConfiguration, sp)
+      new SerializationManager(editorConfiguration, configurationManager.getConfiguration, sp, newCachingLogic)
     resolutionDependencies += s
     s
   }
@@ -77,9 +78,10 @@ class WorkspaceManagerFactoryBuilder(
     val dm =
       new ParseDiagnosticManager(clientNotifier, gatherer, notificationKind)
     val pdm = new ProjectDiagnosticManager(clientNotifier, gatherer, notificationKind)
-    val rdm = new ResolutionDiagnosticManager(clientNotifier, gatherer)
-    customValidationManager =
-      customValidatorBuilder.map(validator => new CustomValidationManager(clientNotifier, gatherer, validator))
+    val rdm = new ResolutionDiagnosticManager(clientNotifier, gatherer, newCachingLogic)
+    customValidationManager = customValidatorBuilder.map(validator =>
+      new CustomValidationManager(clientNotifier, gatherer, validator, newCachingLogic)
+    )
     customValidationManager.foreach(resolutionDependencies += _)
     projectDependencies += pdm
     resolutionDependencies += rdm
@@ -95,14 +97,14 @@ class WorkspaceManagerFactoryBuilder(
 
   def profileNotificationConfigurationListener[S](sp: SerializationProps[S]): ProfileChangeListener[S] = {
     val pnl =
-      new ProfileChangeListener(sp, configurationManager.getConfiguration)
+      new ProfileChangeListener(sp, configurationManager.getConfiguration, newCachingLogic)
     projectDependencies += pnl
     pnl
   }
 
   def dialectNotificationListener[S](sp: SerializationProps[S]): DialectChangeListener[S] = {
     val dcl =
-      new DialectChangeListener(sp, configurationManager.getConfiguration)
+      new DialectChangeListener(sp, configurationManager.getConfiguration, newCachingLogic)
     projectDependencies += dcl
     dcl
   }
@@ -119,7 +121,8 @@ class WorkspaceManagerFactoryBuilder(
       editorConfiguration,
       customValidationManager,
       projectConfigurationProvider,
-      textDocumentSyncBuilder
+      textDocumentSyncBuilder,
+      newCachingLogic
     )
 }
 
@@ -131,7 +134,8 @@ case class WorkspaceManagerFactory(
     editorConfiguration: EditorConfiguration,
     customValidationManager: Option[CustomValidationManager],
     projectConfigurationProvider: Option[ProjectConfigurationProvider],
-    textDocumentSyncBuilder: Option[TextDocumentSyncBuilder]
+    textDocumentSyncBuilder: Option[TextDocumentSyncBuilder],
+    newCachingLogic: Boolean
 ) {
   val container: TextDocumentContainer =
     TextDocumentContainer()
@@ -139,14 +143,16 @@ case class WorkspaceManagerFactory(
   lazy val cleanDiagnosticManager = new CleanDiagnosticTreeManager(
     container,
     customValidationManager,
-    workspaceConfigurationManager
+    workspaceConfigurationManager,
+    newCachingLogic
   )
 
   val resolutionTaskManager: ResolutionTaskManager = ResolutionTaskManager(
     resolutionDependencies,
     resolutionDependencies.collect { case t: AccessUnits[AmfResolvedUnit] =>
       t // is this being used? is it correct to mix subscribers with this dependencies?
-    }
+    },
+    newCachingLogic
   )
 
   private val dependencies: List[WorkspaceContentListener[_]] = projectDependencies :+ resolutionTaskManager
@@ -158,7 +164,8 @@ case class WorkspaceManagerFactory(
       projectConfigurationProvider.getOrElse(
         new DefaultProjectConfigurationProvider(
           container,
-          editorConfiguration
+          editorConfiguration,
+          newCachingLogic
         )
       ),
       dependencies,

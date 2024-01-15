@@ -70,7 +70,8 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
     for {
       state <- new DefaultProjectConfigurationProvider(
         DummyEnvironmentProvider,
-        configuration
+        configuration,
+        newCachingLogic = true
       )
         .newProjectConfiguration(
           new ProjectConfiguration("file:///", Some(mainPath), Set.empty, Set.empty, Set(dialectUri), Set.empty)
@@ -81,9 +82,11 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
             mainPath -> ALSConfigurationState(
               EditorConfigurationState(Seq(dRL, mfRL), Nil, Nil, syntaxPlugin = Nil, validationPlugin = Nil),
               state,
-              None
+              None,
+              newCachingLogic = true
             )
-          )
+          ),
+          newCachingLogic = true
         )
         manager.getConfiguration(mainPath)
       }
@@ -95,7 +98,8 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
     for {
       state <- new DefaultProjectConfigurationProvider(
         DummyEnvironmentProvider,
-        configuration
+        configuration,
+        newCachingLogic = true
       )
         .newProjectConfiguration(
           new ProjectConfiguration("file:///", Some(mainPath), Set.empty, Set(profileUri), Set.empty, Set.empty)
@@ -112,9 +116,11 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
                 validationPlugin = Nil
               ),
               state,
-              None
+              None,
+              newCachingLogic = true
             )
-          )
+          ),
+          newCachingLogic = true
         )
         manager.getConfiguration(mainPath)
       }
@@ -126,18 +132,21 @@ class CleanDiagnosticTreeTest extends AsyncFlatSpec {
 
   class DummyCleanDiagnosticTreeManager(
       configs: Map[String, ALSConfigurationState],
-      customValidationManager: Option[CustomValidationManager] = None
+      customValidationManager: Option[CustomValidationManager] = None,
+      newCachingLogic: Boolean
   ) extends CleanDiagnosticTreeManager(
         DummyEnvironmentProvider,
         customValidationManager,
-        DummyConfigProvider
+        DummyConfigProvider,
+        newCachingLogic
       ) {
     Logger.withTelemetry(DummyTelemetryProvider)
 
     val emptyConfig: ALSConfigurationState = ALSConfigurationState(
       EditorConfigurationState(Nil, Nil, Nil, syntaxPlugin = Nil, validationPlugin = Nil),
       EmptyProjectConfigurationState,
-      None
+      None,
+      newCachingLogic = true
     )
 
     override protected def getWorkspaceConfig(uri: String): Future[ALSConfigurationState] =

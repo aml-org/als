@@ -31,13 +31,15 @@ class ProjectDiagnosticTest extends LanguageServerBaseTest {
   def buildServer(
       diagnosticNotifier: MockDiagnosticClientNotifier,
       rls: Seq[ResourceLoader],
-      error: Option[AMFValidationResult] = None
+      error: Option[AMFValidationResult] = None,
+      newCachingLogic: Boolean
   ): (LanguageServer, ProjectErrorConfigurationProvider) = {
     val editorConfig = EditorConfiguration.withoutPlatformLoaders(rls)
     val provider = new ProjectErrorConfigurationProvider(
       editorConfig,
       logger,
-      error.getOrElse(AMFValidationResult("Error loading project", VIOLATION, "", None, "2", None, None, None))
+      error.getOrElse(AMFValidationResult("Error loading project", VIOLATION, "", None, "2", None, None, None)),
+      newCachingLogic
     )
     val builder =
       new WorkspaceManagerFactoryBuilder(
@@ -61,7 +63,7 @@ class ProjectDiagnosticTest extends LanguageServerBaseTest {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
 
     withServer(
-      buildServer(diagnosticNotifier, Seq(rl))._1,
+      buildServer(diagnosticNotifier, Seq(rl), newCachingLogic = true)._1,
       AlsInitializeParams(None, Some(TraceKind.Off), rootPath = Some("file:///"))
     ) { server =>
       for {
@@ -81,7 +83,7 @@ class ProjectDiagnosticTest extends LanguageServerBaseTest {
     val error = AMFValidationResult("Error loading project", VIOLATION, "", None, "", None, Some(otherPath), None)
 
     withServer(
-      buildServer(diagnosticNotifier, Seq(rl), Some(error))._1,
+      buildServer(diagnosticNotifier, Seq(rl), Some(error), newCachingLogic = true)._1,
       AlsInitializeParams(None, Some(TraceKind.Off), rootPath = Some("file:///"))
     ) { server =>
       for {
@@ -100,7 +102,7 @@ class ProjectDiagnosticTest extends LanguageServerBaseTest {
   test("Clean project errors", Flaky) {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
 
-    val (server, provider) = buildServer(diagnosticNotifier, Seq(rl))
+    val (server, provider) = buildServer(diagnosticNotifier, Seq(rl), newCachingLogic = true)
     withServer(server, AlsInitializeParams(None, Some(TraceKind.Off), rootPath = Some("file:///"))) { server =>
       for {
         _  <- setMainFile(server)("file:///", "api.raml")
@@ -122,7 +124,7 @@ class ProjectDiagnosticTest extends LanguageServerBaseTest {
     val diagnosticNotifier: MockDiagnosticClientNotifier = new MockDiagnosticClientNotifier(7000)
 
     val error = AMFValidationResult("Error loading project", VIOLATION, "", None, "", None, Some(otherPath), None)
-    val (server, provider) = buildServer(diagnosticNotifier, Seq(rl), Some(error))
+    val (server, provider) = buildServer(diagnosticNotifier, Seq(rl), Some(error), newCachingLogic = true)
     withServer(server, AlsInitializeParams(None, Some(TraceKind.Off), rootPath = Some("file:///"))) { server =>
       for {
         _  <- setMainFile(server)("file:///", "api.raml")

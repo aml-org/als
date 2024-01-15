@@ -69,7 +69,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     Logger.withTelemetry(DummyTelemetryProvider)
     val env = TextDocumentContainer()
     for {
-      configAdapter <- newConfigurationAdapter(folderUri, env, rl)
+      configAdapter <- newConfigurationAdapter(folderUri, env, rl, newCachingLogic = true)
       ws            <- WorkspaceContentManager(folderUri, env, () => Nil, configAdapter)
       _             <- ws.initialized
       _ <- ws
@@ -133,7 +133,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     val env = TextDocumentContainer()
     Logger.withTelemetry(DummyTelemetryProvider)
     for {
-      configAdapter <- newConfigurationAdapter(folderUri, env, rl)
+      configAdapter <- newConfigurationAdapter(folderUri, env, rl, newCachingLogic = true)
       ws            <- WorkspaceContentManager(folderUri, env, () => Nil, configAdapter)
       _             <- ws.initialized
       _ <- ws
@@ -188,7 +188,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     val env = TextDocumentContainer()
     Logger.withTelemetry(DummyTelemetryProvider)
     for {
-      configAdapter <- newConfigurationAdapter(folderUri, env, rl)
+      configAdapter <- newConfigurationAdapter(folderUri, env, rl, newCachingLogic = true)
       ws            <- WorkspaceContentManager(folderUri, env, () => Nil, configAdapter)
       _             <- ws.initialized
       _ <- ws
@@ -244,7 +244,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     val env = TextDocumentContainer()
     Logger.withTelemetry(DummyTelemetryProvider)
     for {
-      configAdapter <- newConfigurationAdapter(folderUri, env, rl)
+      configAdapter <- newConfigurationAdapter(folderUri, env, rl, newCachingLogic = true)
       ws            <- WorkspaceContentManager(folderUri, env, () => Nil, configAdapter)
       _             <- ws.initialized
       _ <- ws
@@ -265,17 +265,19 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
   private def newConfigurationAdapter(
       folder: String,
       env: EnvironmentProvider,
-      rl: ResourceLoader
+      rl: ResourceLoader,
+      newCachingLogic: Boolean
   ): Future[ProjectConfigurationAdapter] = Future {
     val editorConfig = EditorConfiguration.withPlatformLoaders(Seq(rl))
     val defaultProjectConfigurationProvider =
-      new DefaultProjectConfigurationProvider(env, editorConfig)
+      new DefaultProjectConfigurationProvider(env, editorConfig, newCachingLogic)
     new ProjectConfigurationAdapter(
       folder,
       defaultProjectConfigurationProvider,
       editorConfig,
       env,
-      List.empty
+      List.empty,
+      newCachingLogic
     )
   }
 
@@ -316,7 +318,7 @@ class WorkspaceCacheTest extends AsyncFunSuite with Matchers with PlatformSecret
     val env = TextDocumentContainer()
     Logger.withTelemetry(DummyTelemetryProvider)
     for {
-      configAdapter <- newConfigurationAdapter(folderUri, env, rl)
+      configAdapter <- newConfigurationAdapter(folderUri, env, rl, newCachingLogic = true)
       ws            <- WorkspaceContentManager(folderUri, env, () => Nil, configAdapter)
       _             <- ws.initialized
       _ <- ws

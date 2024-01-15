@@ -15,27 +15,33 @@ import scala.concurrent.Future
 /*
  * A defined AML Configuration capable of resolution and emission
  * */
-case class AMLSpecificConfiguration(config: AMLConfiguration) {
+case class AMLSpecificConfiguration(config: AMLConfiguration, newCachingLogic: Boolean) {
 
   def emit(de: DomainElement): YNode =
     config.elementClient().renderElement(de)
 
-  def report(baseUnit: BaseUnit): Future[AMFValidationReport] =
-    config
-      .baseUnitClient()
-      .validate(baseUnit)
+  def report(baseUnit: BaseUnit): Future[AMFValidationReport] = {
+    val finalBaseUnit = if (newCachingLogic) baseUnit else baseUnit.cloneUnit()
 
-  def resolve(baseUnit: BaseUnit): AMFResult =
     config
       .baseUnitClient()
-      .transform(baseUnit, PipelineId.Cache)
+      .validate(finalBaseUnit)
+  }
+
+  def resolve(baseUnit: BaseUnit): AMFResult = {
+    val finalBaseUnit = if (newCachingLogic) baseUnit else baseUnit.cloneUnit()
+    config
+      .baseUnitClient()
+      .transform(finalBaseUnit, PipelineId.Cache)
+  }
 
   def fullResolution(unit: BaseUnit): AMFResult = {
+    val finalUnit = if (newCachingLogic) unit else unit.cloneUnit()
     config.baseUnitClient() match {
       case amf: AMFBaseUnitClient =>
-        amf.transform(unit, PipelineId.Editing)
+        amf.transform(finalUnit, PipelineId.Editing)
       case aml =>
-        aml.transform(unit, PipelineId.Default)
+        aml.transform(finalUnit, PipelineId.Default)
     }
   }
 
@@ -55,11 +61,13 @@ case class AMLSpecificConfiguration(config: AMLConfiguration) {
       resolved: BaseUnit,
       builder: DocBuilder[_],
       renderOptions: RenderOptions = RenderOptions().withCompactUris.withoutSourceMaps
-  ): Unit =
+  ): Unit = {
+    val finalResolved = if (newCachingLogic) resolved else resolved.cloneUnit()
     config
       .withRenderOptions(renderOptions)
       .baseUnitClient()
-      .renderGraphToBuilder(resolved, builder)
+      .renderGraphToBuilder(finalResolved, builder)
+  }
 
   def parse(uri: String): Future[AMFParseResult] = config.baseUnitClient().parse(uri)
 }

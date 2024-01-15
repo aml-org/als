@@ -37,7 +37,8 @@ import scala.language.postfixOps
 case class ALSConfigurationState(
     editorState: EditorConfigurationState,
     projectState: ProjectConfigurationState,
-    editorResourceLoader: Option[ResourceLoader]
+    editorResourceLoader: Option[ResourceLoader],
+    newCachingLogic: Boolean = true
 ) extends PlatformSecrets {
 
   implicit private class UnitCloner(bu: BaseUnit) {
@@ -66,22 +67,26 @@ case class ALSConfigurationState(
             .contains(
               "file://vocabularies/dialects/metadialect.yaml"
             ) => // TODO change when Dialect name and version be spec
-        AMLSpecificConfiguration(rootConfiguration)
+        AMLSpecificConfiguration(rootConfiguration, newCachingLogic)
       case Some(spec) => configForSpec(spec)
-      case _          => AMLSpecificConfiguration(predefinedWithDialects)
+      case _          => AMLSpecificConfiguration(predefinedWithDialects, newCachingLogic)
     }
 
   def configForSpec(spec: Spec): AMLSpecificConfiguration =
-    AMLSpecificConfiguration(getAmlConfig(spec match {
-      case Spec.RAML10     => projectState.customSetUp(RAMLConfiguration.RAML10())
-      case Spec.RAML08     => projectState.customSetUp(RAMLConfiguration.RAML08())
-      case Spec.OAS30      => projectState.customSetUp(OASConfiguration.OAS30())
-      case Spec.OAS20      => projectState.customSetUp(OASConfiguration.OAS20())
-      case Spec.ASYNC20    => projectState.customSetUp(AsyncAPIConfiguration.Async20())
-      case Spec.GRAPHQL    => projectState.customSetUp(ConfigurationAdapter.adapt(GraphQLConfiguration.GraphQL()))
-      case Spec.JSONSCHEMA => projectState.customSetUp(ConfigurationAdapter.adapt(JsonSchemaConfiguration.JsonSchema()))
-      case _               => predefinedWithDialects
-    }))
+    AMLSpecificConfiguration(
+      getAmlConfig(spec match {
+        case Spec.RAML10  => projectState.customSetUp(RAMLConfiguration.RAML10())
+        case Spec.RAML08  => projectState.customSetUp(RAMLConfiguration.RAML08())
+        case Spec.OAS30   => projectState.customSetUp(OASConfiguration.OAS30())
+        case Spec.OAS20   => projectState.customSetUp(OASConfiguration.OAS20())
+        case Spec.ASYNC20 => projectState.customSetUp(AsyncAPIConfiguration.Async20())
+        case Spec.GRAPHQL => projectState.customSetUp(ConfigurationAdapter.adapt(GraphQLConfiguration.GraphQL()))
+        case Spec.JSONSCHEMA =>
+          projectState.customSetUp(ConfigurationAdapter.adapt(JsonSchemaConfiguration.JsonSchema()))
+        case _ => predefinedWithDialects
+      }),
+      newCachingLogic
+    )
 
   def getAmfConfig(url: String): AMFConfiguration = {
     val base =
@@ -197,11 +202,13 @@ case class ALSConfigurationState(
       resolved: BaseUnit,
       builder: DocBuilder[_],
       renderOptions: RenderOptions = RenderOptions().withCompactUris.withoutSourceMaps
-  ): Unit =
+  ): Unit = {
+    val cloned = if (newCachingLogic) resolved.cloneLocal() else resolved.cloneUnit()
     getAmfConfig(resolved.sourceSpec.getOrElse(AMF))
       .withRenderOptions(renderOptions)
       .baseUnitClient()
-      .renderGraphToBuilder(resolved.cloneLocal(), builder)
+      .renderGraphToBuilder(cloned, builder)
+  }
 
   private def allDialects(configurationState: AMLConfigurationState) =
     configurationState.getDialects().toSet ++ BaseAlsDialectProvider.allBaseDialects

@@ -11,7 +11,8 @@ class ObjectInTreeMapsTests extends AsyncFlatSpec {
 
   private val tester = ObjectInTreeBaseTest(
     "instances/instance2.yaml",
-    "dialects/dialect2.yaml"
+    "dialects/dialect2.yaml",
+    newCachingLogic = true
   )
   behavior of "Object in Tree finder (dialect with Maps)"
   // 0 based position!

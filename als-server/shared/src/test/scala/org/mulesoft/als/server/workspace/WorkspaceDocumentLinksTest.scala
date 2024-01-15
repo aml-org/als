@@ -32,7 +32,8 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
   private val nonWorkspaceRelativeFilePath    = filePath("fragment.raml")
 
   test("Initialized workspace links relative to main file should work") {
-    val workspaceLinkHandler: WorkspaceLinkHandler = new WorkspaceLinkHandler("ws", Some("api.raml"))
+    val workspaceLinkHandler: WorkspaceLinkHandler =
+      new WorkspaceLinkHandler("ws", Some("api.raml"), newCachingLogic = true)
 
     for {
       _   <- workspaceLinkHandler.init()
@@ -41,7 +42,8 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
   }
 
   test("Uninitialized workspace links relative to main file shouldn't work") {
-    val workspaceLinkHandler: WorkspaceLinkHandler = new WorkspaceLinkHandler("ws", Some("api.raml"))
+    val workspaceLinkHandler: WorkspaceLinkHandler =
+      new WorkspaceLinkHandler("ws", Some("api.raml"), newCachingLogic = true)
     for {
       _         <- workspaceLinkHandler.init()
       links     <- workspaceLinkHandler.openFileAndGetLinks(nonWorkspaceFile)
@@ -54,7 +56,8 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
   }
 
   test("Returning to initialized workspace from an uninitialized and relative links still work") {
-    val workspaceLinkHandler: WorkspaceLinkHandler = new WorkspaceLinkHandler("ws", Some("api.raml"))
+    val workspaceLinkHandler: WorkspaceLinkHandler =
+      new WorkspaceLinkHandler("ws", Some("api.raml"), newCachingLogic = true)
     for {
       _         <- workspaceLinkHandler.init()
       links     <- workspaceLinkHandler.openFileAndGetLinks(nonWorkspaceFile)
@@ -69,7 +72,7 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
   }
 
   test("Starting a global workspace non-relative links should work") {
-    val workspaceLinkHandler: WorkspaceLinkHandler = new WorkspaceLinkHandler("file://", None)
+    val workspaceLinkHandler: WorkspaceLinkHandler = new WorkspaceLinkHandler("file://", None, newCachingLogic = true)
     workspaceLinkHandler
       .init()
       .flatMap(_ => {
@@ -96,7 +99,7 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
       })
   }
 
-  class WorkspaceLinkHandler(rootFolder: String, mainFile: Option[String]) {
+  class WorkspaceLinkHandler(rootFolder: String, mainFile: Option[String], newCachingLogic: Boolean) {
     val clientNotifier                     = new MockDiagnosticClientNotifier()
     val telemetryManager: TelemetryManager = new TelemetryManager(clientNotifier)
     Logger.withTelemetry(telemetryManager)
@@ -107,7 +110,8 @@ class WorkspaceDocumentLinksTest extends LanguageServerBaseTest {
       val defaultProjectConfigurationProvider =
         new DefaultProjectConfigurationProvider(
           container,
-          editorConfiguration
+          editorConfiguration,
+          newCachingLogic
         )
       WorkspaceManager(
         container,

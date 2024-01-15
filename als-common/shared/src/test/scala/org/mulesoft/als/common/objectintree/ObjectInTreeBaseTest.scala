@@ -18,7 +18,9 @@ import org.scalatest.matchers.should.Matchers
 
 import scala.concurrent.{ExecutionContext, Future}
 
-case class ObjectInTreeBaseTest(instanceFile: String, dialectFile: String) extends PlatformSecrets with Matchers {
+case class ObjectInTreeBaseTest(instanceFile: String, dialectFile: String, newCachingLogic: Boolean)
+    extends PlatformSecrets
+    with Matchers {
   protected def uriTemplate(part: String) = s"file://als-common/shared/src/test/resources/aml/$part"
 
   implicit val ec: ExecutionContext = ExecutionContext.global
@@ -27,8 +29,10 @@ case class ObjectInTreeBaseTest(instanceFile: String, dialectFile: String) exten
 
   private val eventualResult: Future[AmfParseResult] = {
     for {
-      s      <- global.getState
-      result <- ALSConfigurationState(s, EmptyProjectConfigurationState, None).parse(uriTemplate(instanceFile))
+      s <- global.getState
+      result <- ALSConfigurationState(s, EmptyProjectConfigurationState, None, newCachingLogic = newCachingLogic).parse(
+        uriTemplate(instanceFile)
+      )
     } yield result
   }
   private def fn(pos: AmfPosition, result: AmfParseResult, dialect: Dialect): ObjectInTree =

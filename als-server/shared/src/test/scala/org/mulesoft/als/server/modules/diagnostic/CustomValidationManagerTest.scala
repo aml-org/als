@@ -195,6 +195,7 @@ class CustomValidationManagerTest
 
     val server: LanguageServer = languageServerFactory
       .withAmfCustomValidator(FlaggedCustomValidator)
+      .withNewCachingLogic(true)
       .build()
     val initialArgs = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set.empty)
     val args        = changeConfigArgs(Some(mainFileName), workspacePath, Set.empty, Set(profileUri))
