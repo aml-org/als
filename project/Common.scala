@@ -17,9 +17,9 @@ object Common {
   val settings: Seq[Def.Setting[_]] = Seq(
     parallelExecution in Test := false,
     fork in Test              := false,
-    scalacOptions ++= Seq("-unchecked", "-target:jvm-1.8" /* , "-deprecation", "-Xfatal-warnings" */ ),
+//    scalacOptions ++= Seq("-unchecked", "-target:jvm-17" /* , "-deprecation", "-Xfatal-warnings" */ ),
     scalacOptions ++= Seq("-encoding", "utf-8"),
-    javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
+    javacOptions ++= Seq("-source", "17", "-target", "17")
   )
 
   val publish: Seq[Def.Setting[_]] = Seq(
