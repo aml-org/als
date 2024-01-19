@@ -1,6 +1,6 @@
 {
   "name": "@aml-org/als-node-client",
-  "version": "5.3.6",
+  "version": "5.1.0-SNAPSHOT",
   "description": "ALS Node Client",
   "main": "./dist/als-node-client.min.js",
   "types": "typescript/als-node-client.d.ts",
@@ -16,8 +16,8 @@
   },
   "dependencies": {
     "@aml-org/amf-antlr-parsers": "0.7.25",
-    "@aml-org/amf-custom-validator": "1.6.0",
-    "@aml-org/amf-custom-validator-web": "1.6.0",
+    "@aml-org/amf-custom-validator": "1.5.0",
+    "@aml-org/amf-custom-validator-web": "1.5.0",
     "ajv": "6.12.6",
     "vscode-jsonrpc": "6.0.0",
     "vscode-languageserver-protocol": "3.16.0"

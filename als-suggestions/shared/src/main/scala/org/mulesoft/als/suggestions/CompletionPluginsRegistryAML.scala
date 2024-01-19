@@ -91,11 +91,11 @@ class CompletionsPluginHandler {
 }
 
 object CustomBaseCompletionPlugins {
-  val custom: Seq[AMLCompletionPlugin] = Seq.empty
+  var custom: Seq[AMLCompletionPlugin] = Seq.empty
 }
 
 object AMLBaseCompletionPlugins {
-  val all: Seq[AMLCompletionPlugin] = CustomBaseCompletionPlugins.custom ++ Seq(
+  lazy val all: Seq[AMLCompletionPlugin] = CustomBaseCompletionPlugins.custom ++ Seq(
     StructureCompletionPlugin(
       List(
         AMLUnionNodeCompletionPlugin,
